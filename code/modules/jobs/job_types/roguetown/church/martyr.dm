@@ -370,15 +370,15 @@
 	var/obj/item/I = parent
 	if(!tonormal)
 		if(current_state == STATE_MARTYR || current_state == STATE_MARTYRULT)
-			I.toggle_state = "[initial(I.icon_state)]_ulton"
+			I.override_state = "[initial(I.icon_state)]_ulton"
 		else
-			I.toggle_state = "[initial(I.icon_state)]_on"
-		I.item_state = "[I.toggle_state][I.wielded ? "1" : ""]"
-		I.icon_state = "[I.toggle_state][I.wielded ? "1" : ""]"
+			I.override_state = "[initial(I.icon_state)]_on"
+		I.item_state = "[I.override_state][I.wielded ? "1" : ""]"
+		I.icon_state = "[I.override_state][I.wielded ? "1" : ""]"
 	else
 		I.icon_state = initial(I.icon_state)
 		I.item_state = initial(I.item_state)
-		I.toggle_state = null
+		I.override_state = null
 
 	current_holder.regenerate_icons()
 
@@ -622,7 +622,7 @@
 	dropshrink = 1
 	smeltresult = null
 	is_silver = TRUE
-	toggle_state = null
+	override_state = null
 	is_important = TRUE
 	special = /datum/special_intent/martyr_blazing_sweep_sword
 
@@ -720,7 +720,7 @@
 	associated_skill = /datum/skill/combat/axes
 	smeltresult = null
 	is_silver = TRUE
-	toggle_state = null
+	override_state = null
 	is_important = TRUE
 	special = /datum/special_intent/martyr_blazing_sweep
 
@@ -813,7 +813,7 @@
 	associated_skill = /datum/skill/combat/maces
 	smeltresult = null
 	is_silver = TRUE
-	toggle_state = null
+	override_state = null
 	is_important = TRUE
 	special = /datum/special_intent/martyr_volcano_slam
 
@@ -903,7 +903,7 @@
 	associated_skill = /datum/skill/combat/polearms
 	smeltresult = null
 	is_silver = TRUE
-	toggle_state = null
+	override_state = null
 	is_important = TRUE
 	throwforce = 40
 	special = /datum/special_intent/martyr_blazing_trident

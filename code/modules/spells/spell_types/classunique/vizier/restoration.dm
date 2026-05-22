@@ -5,7 +5,7 @@
 	releasedrain = 50
 	chargedrain = 0
 	chargetime = 0
-	range = 3
+	range = 4
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = list('sound/magic/regression1.ogg','sound/magic/regression2.ogg','sound/magic/regression3.ogg','sound/magic/regression4.ogg')

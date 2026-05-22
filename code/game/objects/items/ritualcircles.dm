@@ -1212,9 +1212,14 @@
 		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
 		return
 	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
-		target.visible_message(span_danger("[target] is unmade by divine magic! The Toll is accepted, and [target] is dragged to ever-death!"), span_userdanger("I'm unmade by divine magic!"))
-		target.gib()
-		return
+		if(alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", "PURGE THE UNCLEAN!", "Stop") != "PURGE THE UNCLEAN!")
+			to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
+			return FALSE
+		target.visible_message(span_danger("[target] is unmade by divine magic!"), span_userdanger("Holy power tears my undead form apart!"))
+		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
+		target.dust()
+		return TRUE
+
 	if(alert(target, "A Toll is being offered for your soul, BREAK FREE?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 		target.visible_message(span_notice("Nothing happens. They are not being let go."))
 		return
@@ -1588,15 +1593,16 @@
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	pants = /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo/heavy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo/heavy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo/heavy
 	head = selected_helm_path
-	neck = /obj/item/clothing/neck/roguetown/bevor/zizo/heavy
+	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	r_hand = /obj/item/rogueweapon/sword/long/zizo
 
+	H.mind.RemoveSpell(/datum/action/cooldown/spell/mending) // brute forcing this one, hope this works ryon!
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 /datum/outfit/job/roguetown/darksteelrite/medium/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
@@ -1996,14 +2002,14 @@
 /datum/outfit/job/roguetown/viciousrite/heavy/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/graggar
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/heavy
-	pants = /obj/item/clothing/under/roguetown/platelegs/graggar/heavy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar/heavy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
+	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar/heavy
 	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar/heavy
 	head = selected_helm_path
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar/heavy
 	r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
 	l_hand = /obj/item/rogueweapon/shield/iron/graggar

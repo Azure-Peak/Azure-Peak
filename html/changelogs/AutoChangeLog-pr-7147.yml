@@ -1,0 +1,4 @@
+author: "SpadesNeil"
+delete-after: True
+changes:
+  - rscadd: "Ashes can now be scattered by using them in hand."

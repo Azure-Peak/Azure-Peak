@@ -40,7 +40,6 @@
 	H.verbs |= /mob/living/carbon/human/proc/demand_submission
 	H.maxbloodpool += 3000
 	H.adjust_bloodpool(3000)
-	H.cmode_music = 'sound/music/cmode/combat_ready_to_die.ogg' //LISTEN TO ME WHETHER YOU WANT TO HEAR IT OR NOT, YOU WEREN'T EVEN BORN WHEN THIS HAPPENED
 	for(var/S in MOBSTATS)
 		H.change_stat(S, 2)
 	H.forceMove(pick(GLOB.vlord_starts))
@@ -302,6 +301,7 @@
 	body_parts_inherent = FULL_BODY
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+	throw_on_break = FALSE //We only get one set
 
 /obj/item/clothing/gloves/roguetown/chain/vampire/Initialize()
   ..()
@@ -315,6 +315,7 @@
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+	throw_on_break = FALSE //We only get one set
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire/Initialize()
   ..()
@@ -328,6 +329,7 @@
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+	throw_on_break = FALSE //We only get one set
 
 /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire/Initialize()
   ..()
@@ -346,6 +348,7 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	var/active_item = FALSE
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+	throw_on_break = FALSE //We only get one set
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire/Initialize()
   ..()

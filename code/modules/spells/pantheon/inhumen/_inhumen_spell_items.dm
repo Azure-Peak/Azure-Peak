@@ -1511,7 +1511,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		if(do_after(user, 2 SECONDS, target = target))
 			if(is_vampire)
 				to_chat(target, span_notice("It tastes like very old wine... Rich, deep, and impossibly satisfying~"))
-				target.bloodpool += 75
+				target.adjust_bloodpool(75)
 				target.apply_status_effect(/datum/status_effect/buff/vitae)
 			else
 				to_chat(target, span_notice("It tastes like old wine... Strange, but not entirely unpleasant."))

@@ -20,7 +20,14 @@
 	return ..()
 
 /datum/round_event/migrant_wave/banditsorgnolls/start()
-	var/evilmode = is_storyteller_villain_blocked() ? "gnolls" : pick("gnolls", "bandits")
+	var/gnolls_disabled = (SSgamemode.current_storyteller?.preferred_gnoll_mode == GNOLL_SCALING_NONE)
+	var/evilmode
+	if(gnolls_disabled)
+		evilmode = "bandits"
+	else if(is_storyteller_villain_blocked())
+		evilmode = "gnolls"
+	else
+		evilmode = pick("gnolls", "bandits")
 	if(evilmode == "bandits")
 		var/datum/job/bandit_job = SSjob.GetJob("Bandit")
 		var/bandit_maxcap = max(SSgamemode.story_antag_slot_cap(/datum/antagonist/bandit), bandit_job.total_positions)

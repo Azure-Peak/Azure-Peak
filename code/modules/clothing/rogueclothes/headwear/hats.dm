@@ -471,6 +471,9 @@
 	color = CLOTHING_BLACK
 	detail_color = CLOTHING_BROWN
 
+/obj/item/clothing/head/roguetown/witchhat/mageblue
+	color = CLOTHING_MAGE_BLUE
+
 /obj/item/clothing/head/roguetown/witchhat/old
 	name = "decrepit witch hat"
 	desc = "When shall we three meet again; in thunder lightning or in rain."

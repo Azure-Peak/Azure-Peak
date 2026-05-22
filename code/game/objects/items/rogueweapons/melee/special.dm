@@ -610,8 +610,8 @@
 /obj/item/rogueweapon/spear/militia/proc/load_hay()
 	var/datum/component/ignitable/CI = GetComponent(/datum/component/ignitable)
 	is_loaded = TRUE
-	toggle_state = "peasantwarspear_hay"
-	icon_state = "[toggle_state][wielded ? "1" : ""]"
+	override_state = "peasantwarspear_hay"
+	icon_state = "[override_state][wielded ? "1" : ""]"
 	CI.make_ignitable()
 
 /datum/component/ignitable/warspear
@@ -627,7 +627,7 @@
 		P.is_loaded = FALSE
 
 //Component used to make any item gain the ability to be lit afire and turned into a light source / usable for single-use fire attack.
-//Uses toggle_state for the 'on-fire' sprites.
+//Uses override_state for the 'on-fire' sprites.
 //By default, all it does is become ignited when you click a fire / light source with it, and spread it to anything else, then extinguish.
 /datum/component/ignitable
 	var/is_ignitable = TRUE	//This var makes it actually ignitable, so you want to handle it on a per-item-with-component basis.
@@ -695,11 +695,11 @@
 /datum/component/ignitable/proc/update_icon()
 	var/obj/item/I = parent
 	if(is_active)
-		I.toggle_state = "[icon_state_ignited]"
+		I.override_state = "[icon_state_ignited]"
 		I.icon_state = "[icon_state_ignited][I.wielded ? "1" : ""]"
 	else
 		I.icon_state = "[initial(I.icon_state)][I.wielded ? "1" : ""]"
-		I.toggle_state = null
+		I.override_state = null
 		I.update_icon()
 
 
@@ -811,13 +811,13 @@
 	wdefense = 2
 	wdefense_wbonus = 4
 	wbalance = WBALANCE_NORMAL
+
 /obj/item/rogueweapon/pick/militia/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
 			if("gen")
 				return list("shrink" = 0.6,"sx" = -11,"sy" = -10,"nx" = 13,"ny" = -9,"wx" = -7,"wy" = -9,"ex" = 7,"ey" = -11,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-
 
 /obj/item/rogueweapon/pick/militia/steel
 	force = 25
@@ -833,6 +833,7 @@
 	wdefense = 3
 	wdefense_wbonus = 5
 	wbalance = WBALANCE_HEAVY
+
 /obj/item/rogueweapon/pick/militia/steel/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -840,6 +841,15 @@
 			if("gen")
 				return list("shrink" = 0.6,"sx" = -11,"sy" = -10,"nx" = 13,"ny" = -9,"wx" = -7,"wy" = -9,"ex" = 7,"ey" = -11,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 
+//Dwarvish warpick. Unobtanium outside of Grudgebearer. Do not change that.
+/obj/item/rogueweapon/pick/militia/steel/warpick
+	name = "dwarven warpick"
+	desc = "A hardy repurposed dwarven mining warpick. Made to handle the dwellers above and below, both clad in rock and forged rock."
+	icon_state = "dwarpick"
+	possible_item_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike)
+	gripped_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike, /datum/intent/stab/militia)	
+	max_blade_int = 200 //10% increase over the steel pick
+	max_integrity = 660 
 
 /obj/item/rogueweapon/sword/falchion/militia
 	name = "maciejowski"

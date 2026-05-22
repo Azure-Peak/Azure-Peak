@@ -729,6 +729,11 @@
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/lich_start/lich_lair)
+"dd" = (
+/obj/structure/bed/rogue/shit,
+/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/bog_hag)
 "do" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -965,6 +970,10 @@
 /obj/effect/decal/remains/crow,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/underworld/dream)
+"iB" = (
+/obj/structure/flora/roguegrass/herb/random,
+/turf/open/floor/rogue/grass,
+/area/rogue/indoors/shelter/bog_hag)
 "iC" = (
 /obj/structure/mineral_door/wood/fancywood,
 /turf/open/floor/rogue/concrete,
@@ -1251,6 +1260,7 @@
 /area/rogue/indoors/lich_start/lich_lair)
 "mF" = (
 /obj/machinery/light/rogue/oven/south,
+/obj/item/flint,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/bog_hag)
 "mN" = (
@@ -1662,6 +1672,10 @@
 /area/rogue/indoors/lich_start)
 "tC" = (
 /turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/shelter/bog_hag)
+"tK" = (
+/obj/structure/flora/roguegrass/herb/random,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/shelter/bog_hag)
 "tN" = (
 /turf/closed,
@@ -2433,6 +2447,10 @@
 "Gt" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5
+	},
+/obj/item/storage/roguebag/leechbait{
+	pixel_x = 10;
+	pixel_y = -4
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/shelter/bog_hag)
@@ -7263,10 +7281,10 @@ OI
 OI
 gJ
 gJ
-gJ
+iB
 OI
 OI
-jL
+tK
 RQ
 RQ
 MY
@@ -7390,13 +7408,13 @@ RQ
 RQ
 OI
 OI
-gJ
+iB
 yT
 yT
 yT
 yT
-jL
-jL
+tK
+tK
 uy
 RQ
 RQ
@@ -7526,8 +7544,8 @@ yT
 yT
 yT
 yT
-jL
-jL
+tK
+tK
 OI
 RQ
 MY
@@ -7657,7 +7675,7 @@ VE
 yT
 yT
 yT
-jL
+tK
 OI
 RQ
 RQ
@@ -7777,7 +7795,7 @@ bC
 VC
 bC
 RQ
-gJ
+iB
 rV
 yT
 yT
@@ -7896,7 +7914,7 @@ An
 Gj
 RQ
 Ct
-An
+dd
 RQ
 rQ
 rQ
@@ -7910,11 +7928,11 @@ RQ
 OI
 gJ
 gJ
-gJ
+iB
 lG
 OI
 OI
-gJ
+iB
 gJ
 yT
 yT
@@ -8049,7 +8067,7 @@ De
 yT
 yT
 gJ
-gJ
+iB
 RQ
 rQ
 MY
@@ -8436,7 +8454,7 @@ sI
 SI
 Nm
 Af
-gJ
+iB
 yT
 yT
 OI
@@ -8569,7 +8587,7 @@ Af
 yT
 yT
 yT
-jL
+tK
 RQ
 MY
 MY
@@ -8956,9 +8974,9 @@ ql
 ur
 gd
 Af
+tK
 jL
-jL
-jL
+tK
 xq
 xq
 RQ

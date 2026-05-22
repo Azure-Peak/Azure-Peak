@@ -15,6 +15,8 @@
 	var/accept_toggle_enabled = TRUE
 	var/automatic_price = TRUE
 	var/automatic_limit = TRUE
+	var/cached_market_deposit_price = 0
+	var/cached_market_withdraw_price = 0
 
 /datum/roguestock/New()
 	..()
@@ -22,6 +24,7 @@
 		var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 		if(tg)
 			compute_auto_prices(tg)
+			recompute_market_reference_prices(tg)
 	return
 
 /datum/roguestock/proc/get_payout_price(obj/item/I)
@@ -70,19 +73,22 @@
 /datum/roguestock/proc/get_market_deposit_price()
 	if(!trade_good_id)
 		return payout_price
-	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
-	if(!tg)
-		return payout_price
-	var/export_ref = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
-	return max(1, min(round(export_ref * (1 - IMPORT_EXPORT_SPREAD)), export_ref - 1))
+	return cached_market_deposit_price || payout_price
 
 /datum/roguestock/proc/get_market_withdraw_price()
 	if(!trade_good_id)
 		return withdraw_price
-	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
+	return cached_market_withdraw_price || withdraw_price
+/datum/roguestock/proc/recompute_market_reference_prices(datum/trade_good/tg)
+	if(!trade_good_id)
+		return
 	if(!tg)
-		return withdraw_price
-	return max(1, round(tg.base_price * tg.global_price_mod))
+		tg = GLOB.trade_goods[trade_good_id]
+	if(!tg)
+		return
+	var/export_ref = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+	cached_market_deposit_price = max(1, min(round(export_ref * (1 - IMPORT_EXPORT_SPREAD)), export_ref - 1))
+	cached_market_withdraw_price = max(1, round(tg.base_price * tg.global_price_mod))
 
 /datum/roguestock/proc/get_market_price()
 	return get_market_deposit_price()

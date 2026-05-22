@@ -157,6 +157,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["buttons_locked"]		>> buttons_locked
 	S["windowflash"]		>> windowflashing
 	S["be_special"] 		>> be_special
+	S["no_storyteller_events"] >> no_storyteller_events
 	S["triumphs"]			>> triumphs
 	S["musicvol"]			>> musicvol
 	S["lobbymusicvol"]		>> lobbymusicvol
@@ -318,6 +319,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["buttons_locked"], buttons_locked)
 	WRITE_FILE(S["windowflash"], windowflashing)
 	WRITE_FILE(S["be_special"], be_special)
+	WRITE_FILE(S["no_storyteller_events"], no_storyteller_events)
 	WRITE_FILE(S["default_slot"], default_slot)
 	WRITE_FILE(S["toggles"], toggles)
 	WRITE_FILE(S["chat_toggles"], chat_toggles)
@@ -725,6 +727,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["preset_bounty_poster_key"] >> preset_bounty_poster_key
 	S["preset_bounty_severity_key"] >> preset_bounty_severity_key
 	S["preset_bounty_severity_b_key"] >> preset_bounty_severity_b_key
+	S["preset_bounty_severity_v_key"] >> preset_bounty_severity_v_key
 	S["preset_bounty_crime"] >> preset_bounty_crime
 
 	S["img_gallery"]	>> img_gallery
@@ -945,6 +948,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["preset_bounty_poster_key"] , preset_bounty_poster_key)
 	WRITE_FILE(S["preset_bounty_severity_key"] , preset_bounty_severity_key)
 	WRITE_FILE(S["preset_bounty_severity_b_key"] , preset_bounty_severity_b_key)
+	WRITE_FILE(S["preset_bounty_severity_v_key"] , preset_bounty_severity_v_key)
 	WRITE_FILE(S["preset_bounty_crime"] , preset_bounty_crime)
 	WRITE_FILE(S["flavortext"] , html_decode(flavortext))
 	WRITE_FILE(S["ooc_notes"] , html_decode(ooc_notes))

@@ -108,6 +108,8 @@
 		/obj/item/paper/inqslip/arrival/inq = 1,
 		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 		)
+	
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 
 /datum/outfit/job/roguetown/inquisitor/inspector/choose_loadout(mob/living/carbon/human/H)
@@ -198,10 +200,11 @@
 		/obj/item/storage/keyring/inquisitor = 1,
 		/obj/item/paper/inqslip/arrival/inq = 1
 		)
+	
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 /datum/outfit/job/roguetown/inquisitor/ordinator/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 	var/weapons = list("Psydonic Broadsword + Dagger", "Psydonic Poleaxe + Dagger", "Apocrypha (Greatsword) + Dagger", "Covenant And Creed (Broadsword + Shield)", "Covenant and Consecratia (Flail + Shield)")
 	var/weapon_choice = input(H,"CHOOSE YOUR RELIQUARY PIECE.", "WIELD THEM IN HIS NAME.") as anything in weapons
 	switch(weapon_choice)

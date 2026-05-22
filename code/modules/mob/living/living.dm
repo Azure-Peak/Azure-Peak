@@ -1115,11 +1115,14 @@
 				if(!blood_exists)
 					new /obj/effect/decal/cleanable/trail_holder(start)
 
+				var/source_color = get_blood_color() || BLOOD_COLOR_RED
 				for(var/obj/effect/decal/cleanable/trail_holder/TH in start)
 					if((!(newdir in TH.existing_dirs) || trail_type == "trails_1" || trail_type == "trails_2") && TH.existing_dirs.len <= 16) //maximum amount of overlays is 16 (all light & heavy directions filled)
 						TH.existing_dirs += newdir
 						TH.add_overlay(image('icons/effects/blood.dmi', trail_type, dir = newdir))
 						TH.transfer_mob_blood_dna(src)
+						TH.blood_color = source_color
+						TH.color = source_color
 
 /mob/living/carbon/human/makeTrail(turf/T)
 	if((NOBLOOD in dna.species.species_traits) || !bleed_rate || bleedsuppress)
@@ -2227,6 +2230,66 @@
 					dist_text = "in the distance"
 			to_chat(src, span_notice("You spot a faint trail [dist_text] to the [dir_text]."))
 
+		var/trackskill = get_skill_level(/datum/skill/misc/tracking)
+		var/has_sleuth = HAS_TRAIT(src, TRAIT_SLEUTH)
+
+		if(trackskill >= SKILL_LEVEL_EXPERT || has_sleuth)
+			var/search_range = has_sleuth ? 7 : (trackskill + 1) // Up to 7 (full screen) w/ Legendary
+			var/turf_origin = get_turf(src)
+			var/turf_up_one	= get_step_multiz(turf_origin, UP)
+			var/turf_up_two
+			if(turf_up_one && (trackskill >= SKILL_LEVEL_MASTER || has_sleuth))
+				turf_up_two = get_step_multiz(turf_up_one, UP)
+			var/turf_up_three
+			if(turf_up_two && (trackskill >= SKILL_LEVEL_LEGENDARY || has_sleuth))
+				turf_up_three = get_step_multiz(turf_up_two, UP)	// We physically cannot go higher on dun world, so we don't. This is very niche already.
+
+			var/list/z_highlights
+			if(turf_up_one)
+				z_highlights = list()
+
+			#define ZTAG_ONE 1
+			#define ZTAG_TWO 2
+			#define ZTAG_THREE 3
+
+			if(turf_up_one)
+				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_one, RECURSIVE_CONTENTS_CLIENT_MOBS))
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_sleuth)
+						continue
+					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
+					var/val = "[ZTAG_ONE]"
+					if(current_mark && current_mark == L)
+						val += "m"	// "1m" appended to icon state later on.
+					z_highlights[T] = val
+			
+			if(turf_up_two)
+				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_two, RECURSIVE_CONTENTS_CLIENT_MOBS))
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_sleuth)
+						continue
+					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
+					var/val = "[ZTAG_TWO]"
+					if(current_mark && current_mark == L)
+						val += "m"	// "2m" appended to icon state later on.
+					z_highlights[T] = val
+
+			if(turf_up_three)
+				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_three, RECURSIVE_CONTENTS_CLIENT_MOBS))
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_sleuth)
+						continue
+					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
+					var/val = "[ZTAG_THREE]"
+					if(current_mark && current_mark == L)
+						val += "m"	// "3m" appended to icon state later on.
+					z_highlights[T] = val
+			
+			if(length(z_highlights))
+				for(var/turf/T in z_highlights)
+					if(!T.density)
+						found_ping_someone_above(T, client, z_highlights[T])
+			
+			#undef ZTAG_ONE
+			#undef ZTAG_TWO
+			#undef ZTAG_THREE
 
 /proc/found_ping(atom/A, client/C, state)
 	if(!A || !C || !state)
@@ -2254,6 +2317,21 @@
 	IAtom.layer = 18
 	IAtom.plane = 18
 	flick_overlay(IAtom, list(C), 30)
+
+/proc/found_ping_someone_above(turf/tloc, client/C, tag)
+	if(!C || !tloc || !tag)
+		return
+	var/image/I = image(icon = 'icons/effects/effects.dmi', loc = tloc, icon_state = "found_above[tag]", layer = 18)
+	if(!I)
+		return
+	I.alpha = 155
+	I.layer = 19
+	I.plane = 19
+	if(!I)
+		return
+	I.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	flick_overlay(I, list(C), 30)
+
 
 /mob/proc/look_up()
 	return

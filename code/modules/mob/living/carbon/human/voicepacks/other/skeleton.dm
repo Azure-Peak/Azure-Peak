@@ -17,6 +17,19 @@
 			used = pick('sound/vo/mobs/skel/skeleton_scream (1).ogg','sound/vo/mobs/skel/skeleton_scream (2).ogg','sound/vo/mobs/skel/skeleton_scream (3).ogg','sound/vo/mobs/skel/skeleton_scream (4).ogg','sound/vo/mobs/skel/skeleton_scream (5).ogg')
 		if("scream")
 			used = pick('sound/vo/mobs/skel/skeleton_scream (1).ogg','sound/vo/mobs/skel/skeleton_scream (2).ogg','sound/vo/mobs/skel/skeleton_scream (3).ogg','sound/vo/mobs/skel/skeleton_scream (4).ogg','sound/vo/mobs/skel/skeleton_scream (5).ogg')
-
+		if("agony") //Close enough
+			used = list('sound/vo/mobs/skel/skeleton_pain (1).ogg','sound/vo/mobs/skel/skeleton_pain (2).ogg','sound/vo/mobs/skel/skeleton_pain (3).ogg','sound/vo/mobs/skel/skeleton_pain (4).ogg','sound/vo/mobs/skel/skeleton_pain (5).ogg')
+		if("snap")
+			used = list('sound/vo/fsnap1.ogg')
+		if("snap2")
+			used = list('sound/vo/fsnap2.ogg')
+		if("snap3")
+			used = list('sound/vo/fsnap3.ogg')
+		if("clap")
+			used = list('sound/vo/clap (1).ogg','sound/vo/clap (2).ogg','sound/vo/clap (3).ogg','sound/vo/clap (4).ogg')
+		if("blink")
+			used = list('sound/vo/blink.ogg')
+		if("stomp")
+			used = list('sound/foley/brickdrop.ogg')
 
 	return used

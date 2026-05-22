@@ -147,3 +147,9 @@
 	icon_state = "crusader_bucket"//Edit of a Stonekeep sprite
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
+	unenchantable = TRUE
+	smeltresult = null
+
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#79d5ff", "alpha" = 120, "size" = 1)) //Enchanted look.

@@ -1,3 +1,8 @@
+#define TIER_1_TRESHOLD 1
+#define TIER_2_TRESHOLD 33
+#define TIER_3_TRESHOLD 66
+#define TIER_4_TRESHOLD 94
+
 /datum/status_effect/black_rot
 	id = "black_rot"
 	alert_type = /atom/movable/screen/alert/status_effect/black_rot
@@ -136,13 +141,13 @@
 
 /datum/status_effect/black_rot/proc/check_thresholds()
 	var/new_tier = 0
-	if(stacks >= 100)
+	if(stacks >= TIER_4_TRESHOLD)
 		new_tier = 4
-	else if(stacks >= 66)
+	else if(stacks >= TIER_3_TRESHOLD)
 		new_tier = 3
-	else if(stacks >= 33)
+	else if(stacks >= TIER_2_TRESHOLD)
 		new_tier = 2
-	else if(stacks >= 1)
+	else if(stacks >= TIER_1_TRESHOLD)
 		new_tier = 1
 
 	// If their tier hasn't changed, do nothing.
@@ -234,3 +239,8 @@
 	if(possible_turfs.len)
 		return pick(possible_turfs)
 	return owner_turf
+
+#undef TIER_1_TRESHOLD
+#undef TIER_2_TRESHOLD
+#undef TIER_3_TRESHOLD
+#undef TIER_4_TRESHOLD
