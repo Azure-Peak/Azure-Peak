@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Woodwalker no longer grants double harvests from plants. Alchemy Expert gives a boost to it instead."

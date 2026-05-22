@@ -1,0 +1,5 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - bugfix: "Makes it so Legendary classes are able to use the houses they would normally get if they were their regular counterpart. Ie, the Legendary Chef getting the Cheesemaker house."
+  - bugfix: "Gives the Legendary classes the skills,stats,traits they would normally had gotten from their base class, as well as what they normally would get from the bank, ie, legendary fisher gets the unique fishing trait, the skills from regular fisher, any stat they didnt had already."
