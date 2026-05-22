@@ -136,6 +136,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/list/personal_objectives = list()
 
 	var/has_bomb = FALSE
+	var/has_drug_delivery = FALSE
 
 /datum/mind/New(key)
 	key = key

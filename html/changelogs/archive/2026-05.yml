@@ -748,3 +748,37 @@
       choosing eastern weapons.
   zeroisthebiggay:
   - rscadd: makes arcyne potential grant a level of literacy
+2026-05-21:
+  FreeStylaLT:
+  - rscadd: Standing on a tree as it gets chopped will now carry a (very) high risk
+      of getting thrown off. Risk scales with worn armor.
+  Ketrai:
+  - balance: Black rot cures are now gradual.
+  - balance: Black rot cures can be interrupted by rotfang attacks.
+  - balance: T4 black rot slightly easier to achieve/maintain.
+  Ryan180602:
+  - rscadd: winter dress for -3 triumphs in loadout.
+  - rscdel: heavy leather armour from triumphstore.
+  WeNeedMorePhoron:
+  - rscadd: Ported Qdel / Delete logs improvements. At roundend, qdel.log extra details
+      and other things to help us better track down hard deletes.
+  borneblood:
+  - bugfix: fixed a few wrong variable values
+  - rscadd: T3 - Bone Cataclysm
+  - rscdel: T2 - Summon (Carbon) Deadite
+  - balance: Adjusted Rituos paths to be more distinctive from each other.
+  - qol: Various tweaks to Zizo, better detailed in the PR.
+  - bugfix: Made it so Gravemark is more responsive. Made it so qdel-ing skeleton
+      mobs do not cause runtimes.
+  kbitykbitykbity:
+  - rscadd: Added a new mage adventurer subclass, Arcyne Trickster.
+  - rscadd: Added a new minor utility spell, Water Bolt.
+  radarseas:
+  - rscadd: pre-settable vagabond bounties
+  - rscadd: wanted vagabonds can pick more wanted poster options than just Azuria,
+      be a branded heretic or be a branded outlaw!
+  - balance: max vagabond bounty RNG roll 200 -> 250
+  - bugfix: fixed vagabond bounties
+  - code_imp: added a wanted vagabond bounty proc in vagabond, use this in case you
+      want other wanted vagabond classes
+  - code_imp: added global values like wretch/bandit for vagabond bounties

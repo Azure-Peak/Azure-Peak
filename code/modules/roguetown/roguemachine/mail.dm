@@ -85,7 +85,26 @@
 			bomb_type = pick(bomb_type_list)
 			var/obj/item/B = new bomb_type(get_turf(H))
 			H.put_in_hands(B)
-	if(HAS_TRAIT(user, TRAIT_INQUISITION))	
+	if(user.mind?.has_drug_delivery) //for TRAIT_DRUG_SUPPLY. One delivery per day.
+		var/mob/living/carbon/human/H = user
+		H.mind.has_drug_delivery = FALSE
+		var/static/list/common_drug_list = list(
+			/obj/item/reagent_containers/powder/spice,
+			/obj/item/reagent_containers/powder/moondust,
+			/obj/item/reagent_containers/powder/starsugar
+		)
+		var/static/list/rare_drug_list = list(
+			/obj/item/reagent_containers/powder/moondust_purest,
+			/obj/item/reagent_containers/powder/herozium
+		)
+		var/drug_type
+		if(prob(20))
+			drug_type = pick(rare_drug_list)
+		else
+			drug_type = pick(common_drug_list)
+		var/obj/item/D = new drug_type(get_turf(H))
+		H.put_in_hands(D)
+	if(HAS_TRAIT(user, TRAIT_INQUISITION))
 		if(!coin_loaded && !inqcoins)
 			to_chat(user, span_notice("It needs a Marque."))
 			return

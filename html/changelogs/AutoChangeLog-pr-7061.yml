@@ -1,8 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - rscadd: "T3 - Bone Cataclysm"
-  - rscdel: "T2 - Summon (Carbon) Deadite"
-  - balance: "Adjusted Rituos paths to be more distinctive from each other."
-  - qol: "Various tweaks to Zizo, better detailed in the PR."
-  - bugfix: "Made it so Gravemark is more responsive. Made it so qdel-ing skeleton mobs do not cause runtimes."

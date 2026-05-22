@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Ported Qdel / Delete logs improvements. At roundend, qdel.log extra details and other things to help us better track down hard deletes."

@@ -51,6 +51,11 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph
+	name = "thin winter dress"
+	desc = "A thinner, well-frilled and cozy winter dress for the nobles."
+	armor = ARMOR_CLOTHING
+
 /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch //For the consort and apparently one migrant wave
 	desc = "A thick, padded, and comfortable dress to maintain both temperature and safety when leaving the keep."
 	armor = ARMOR_PADDED

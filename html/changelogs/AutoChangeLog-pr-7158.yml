@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - rscadd: "Standing on a tree as it gets chopped will now carry a (very) high risk of getting thrown off. Risk scales with worn armor."
