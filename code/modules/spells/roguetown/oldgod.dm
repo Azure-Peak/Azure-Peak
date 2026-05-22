@@ -707,8 +707,7 @@
 	user.visible_message(span_danger("[user] purifies [H]'s wounds!"))
 
 	// ENDURE
-	target.apply_status_effect(/datum/status_effect/buff/psyhealing, 10)
-
+	H.apply_status_effect(/datum/status_effect/buff/psyhealing, 10)
 	playsound(get_turf(user), 'sound/magic/psydonbleeds.ogg', 50, TRUE)
 
 	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97")
