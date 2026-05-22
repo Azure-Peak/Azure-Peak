@@ -297,7 +297,9 @@
 		var/used_time = 90 
 
 		if(user.mind)
-			used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 10)
+			used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 7)
+			used_time -= (user.get_skill_level(/datum/skill/craft/armorsmithing) * 2)
+			used_time -= (user.get_skill_level(/datum/skill/craft/blacksmithing) * 2)
 
 		if(has_tongs)
 			used_time *= 0.75

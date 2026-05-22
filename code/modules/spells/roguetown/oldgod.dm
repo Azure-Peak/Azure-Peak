@@ -160,6 +160,7 @@
 
 		if(H.cmode)
 			if(H != target)
+				H.visible_message(span_blue("[H] fervently recites an orison, invoking the warmth of a dying light."))
 				H.say(pick("ENDURE!!","COME ON!!","HANG ON!!")) // because I miss this! :(
 			else
 				H.visible_message(span_blue("[H] quietly recites an orison, invoking the warmth of a dying light."))
@@ -574,13 +575,11 @@
 	releasedrain = 33
 	chargedrain = 0
 	chargetime = 0
-	range = 2
+	range = 3
 	warnie = "sydwarning"
 	desc = "Lesser lux-magicka. Endure the wounds of another, for their sake. </br>‎  </br>Siphons away lesser injuries, such as gashes and fractures, from the target. In exchange, any siphoned injuries are subsequently imposed onto you. If the target has lost any blood, they will be fully replenished through your own veins."
 	movement_interrupt = FALSE
 	sound = 'sound/magic/psydonbleeds.ogg'
-	invocations = list("I BLEED, SO THAT YOU MIGHT ENDURE!","PERSIST AGAINST THE PAIN!","LET YOUR WOUNDS WEEP NO MORE!")
-	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	recharge_time = 30 SECONDS
@@ -626,6 +625,12 @@
 		return FALSE
 
 	var/list/BPs_to_check = list()
+
+	H.visible_message(span_blue("[H] connects their Lux with [H]'s own."))
+	if(user.cmode)
+		user.say(pick("RESPITE FOR THY WOUNDS!", "BLEED STANDING!", "I BLEED SO YOU MAY ENDURE!", "PERSIST AGAINST THE PAIN!","LET YOUR WOUNDS WEEP NO MORE!"))
+	else
+		user.say(pick("Psydon endures, so we must!","May your wounds weep no more!","Psydon provides respite for thy wounds!","I shall endure for you!","Allfather, let me bleed in their stead!"))
 
 	// WOUND TRANSFER
 	for(var/datum/wound/targetwound in tw_List)
@@ -701,6 +706,9 @@
 	// VISUALS
 	user.visible_message(span_danger("[user] purifies [H]'s wounds!"))
 
+	// ENDURE
+	target.apply_status_effect(/datum/status_effect/buff/psyhealing, 10)
+
 	playsound(get_turf(user), 'sound/magic/psydonbleeds.ogg', 50, TRUE)
 
 	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97")
@@ -727,12 +735,10 @@
 	releasedrain = 50
 	chargedrain = 0
 	chargetime = 0
-	range = 3 // i got a request to up this. tbh it could be 4.
+	range = 3
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/psyabsolution.ogg'
-	invocations = list("BE ABSOLVED!","BREATHE ONCE MORE!","YOUR TIME IS NOT NOW!")
-	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	recharge_time = 30 SECONDS // 60 seconds cooldown
@@ -757,6 +763,12 @@
 		to_chat(C, span_warning("You cannot ABSOLVE yourself!"))
 		revert_cast()
 		return FALSE
+
+	H.visible_message(span_red("[H] <i>dangerously</i> connects their Lux with [H]'s own."))
+	if(user.cmode)
+		user.say(pick("BE ABSOLVED!","I'LL BLEED IN YOUR STEAD!","YOUR TIME IS NOT NOW!","I SHALL WEEP IN YOUR STEAD!","ENDURE, AS HE DOES!","PERSIST, AS HE DOES!"))
+	else
+		user.say(pick("Live, as he does!","Be healed in His name!","May your injuries be mine to bear!","I absolve you of your wounds!","Be absolved!"))
 
 	// REVIVE PATH
 	if(H.stat >= DEAD)
