@@ -136,7 +136,7 @@ const ShipSection = (props: {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
             gap: '0 12px',
           }}
         >

@@ -47,21 +47,21 @@
 	ship_qty_max = 4
 
 /datum/supply_pack/rogue/kazengun/mask_full
-	name = "Kazengun Steel Mask"
+	name = "Steel Mengu"
 	cost = 120
 	contains = list(/obj/item/clothing/mask/rogue/facemask/steel/kazengun/full)
 	ship_qty_min = 1
 	ship_qty_max = 2
 
 /datum/supply_pack/rogue/kazengun/mask_half
-	name = "Kazengun Half-Mask"
+	name = "Hanbo Half-Mask"
 	cost = 90
 	contains = list(/obj/item/clothing/mask/rogue/facemask/steel/kazengun)
 	ship_qty_min = 1
 	ship_qty_max = 2
 
 /datum/supply_pack/rogue/kazengun/cloak
-	name = "Kazengun Silk Cloak"
+	name = "Silk Cloak"
 	cost = 80
 	contains = list(/obj/item/clothing/cloak/kazengun)
 	ship_qty_min = 2
@@ -89,28 +89,28 @@
 	ship_qty_max = 3
 
 /datum/supply_pack/rogue/kazengun/gorget
-	name = "Kazengunite Gorget"
+	name = "Nodowa Gorget"
 	cost = 35
 	contains = list(/obj/item/clothing/neck/roguetown/gorget/steel/kazengun)
 	ship_qty_min = 1
 	ship_qty_max = 3
 
 /datum/supply_pack/rogue/kazengun/kote
-	name = "Jjajeungna Gauntlets"
+	name = "Jjajeungna Kote"
 	cost = 90
 	contains = list(/obj/item/clothing/gloves/roguetown/plate/kote)
 	ship_qty_min = 1
 	ship_qty_max = 2
 
 /datum/supply_pack/rogue/kazengun/boots
-	name = "Kazengun Reinforced Boots"
+	name = "Reinforced Tabi"
 	cost = 35
 	contains = list(/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/kazengun)
 	ship_qty_min = 2
 	ship_qty_max = 4
 
 /datum/supply_pack/rogue/kazengun/trousers
-	name = "Kazengunite Gambeson Trousers"
+	name = "Gambeson Hakama"
 	cost = 30
 	contains = list(/obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun)
 	ship_qty_min = 2
