@@ -6,6 +6,7 @@
 #define BROWSER_STAT_PANEL_LARGE_ROUNDINFO_LABEL(label) ((label) == "MAP" || (label) == "ROUND ID" || (label) == "ROUND TIME" || (label) == "ROUND TrueTime")
 
 /client/proc/refresh_browserpanel(force = FALSE, update_tabs)
+	set waitfor = FALSE
 	// Cheap bail-out checks first - avoid winexists() IPC and markup work on the common path.
 	if(!force && browserpanel_init && browserpanel_tabshtml)
 		if(world.time < browserpanel_nextrefresh)

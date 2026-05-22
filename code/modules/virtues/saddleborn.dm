@@ -153,7 +153,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	// give us all the saddleborn summon/send-away spells and all that jazz
 	user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/sendaway)
 	user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/whistle)
-	qdel(src)
+	QDEL_IN(src, 0)
 
 // dirty subtype for saddleborn spells that handles checking if we can actually do fucking anything at all
 /obj/effect/proc_holder/spell/self/saddleborn/proc/check_mount(mob/living/carbon/human/user)
@@ -162,7 +162,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 
 	if (!user.saddleborn_mount)
 		to_chat(user, span_warning("You have no treasured mount to send away..."))
-		qdel(src)
+		QDEL_IN(src, 0)
 		return FALSE
 
 	var/mob/living/simple_animal/honse = user.saddleborn_mount.resolve()
