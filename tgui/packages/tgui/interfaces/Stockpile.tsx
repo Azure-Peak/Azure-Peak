@@ -62,6 +62,9 @@ type Data = {
   charter_threshold: number;
   stocks: StockRow[];
   bounties: Bounty[];
+  no_deposit: BooleanLike;
+  title: string;
+  subtitle: string;
 };
 
 type ActFn = (action: string, params?: Record<string, unknown>) => void;
@@ -102,6 +105,7 @@ const StockRowView = (props: {
   compact: boolean;
 }) => {
   const { row, data, act, compact } = props;
+  const noDeposit = !!data.no_deposit;
   const canWithdraw =
     !row.withdraw_disabled &&
     row.amount > 0 &&
@@ -153,7 +157,7 @@ const StockRowView = (props: {
             )}
           </span>
         )}
-        {!row.accept_enabled && (
+        {!row.accept_enabled && !noDeposit && (
           <span
             style={{
               color: INK_FAINT,
@@ -179,36 +183,38 @@ const StockRowView = (props: {
       </div>
       <div
         style={{
-          flex: '0 0 304px',
+          flex: noDeposit ? '0 0 210px' : '0 0 304px',
           display: 'flex',
           gap: '4px',
           justifyContent: 'flex-end',
           alignItems: 'center',
         }}
       >
-        <span
-          style={{
-            display: 'inline-block',
-            fontFamily: SERIF,
-            fontSize: '12px',
-            fontWeight: 'bold',
-            padding: '1px 8px',
-            color: SEAL_AMBER,
-            background: 'transparent',
-            border: `1px dashed ${SEAL_AMBER}`,
-            borderRadius: '2px',
-            width: '90px',
-            textAlign: 'center',
-            boxSizing: 'border-box',
-          }}
-          title={
-            row.export_price > 0
-              ? `Deposit price ${row.deposit_price}m. When the stockpile is full, the Crown exports your deposit to local regions (export rate ${row.export_price}m per unit, kept by the Crown).`
-              : 'Deposit price - drop matching goods at the machine to sell.'
-          }
-        >
-          Sell {row.deposit_price}m
-        </span>
+        {!noDeposit && (
+          <span
+            style={{
+              display: 'inline-block',
+              fontFamily: SERIF,
+              fontSize: '12px',
+              fontWeight: 'bold',
+              padding: '1px 8px',
+              color: SEAL_AMBER,
+              background: 'transparent',
+              border: `1px dashed ${SEAL_AMBER}`,
+              borderRadius: '2px',
+              width: '90px',
+              textAlign: 'center',
+              boxSizing: 'border-box',
+            }}
+            title={
+              row.export_price > 0
+                ? `Deposit price ${row.deposit_price}m. When the stockpile is full, the Crown exports your deposit to local regions (export rate ${row.export_price}m per unit, kept by the Crown).`
+                : 'Deposit price - drop matching goods at the machine to sell.'
+            }
+          >
+            Sell {row.deposit_price}m
+          </span>
+        )}
         <button
           type="button"
           style={{
@@ -257,14 +263,15 @@ export const Stockpile = () => {
   const filtered = isConditionsTab
     ? data.stocks.filter((r) => !!r.event_tag)
     : data.stocks.filter((r) => r.category === data.category);
+  const noDeposit = !!data.no_deposit;
   return (
     <Window width={780} height={720} theme="parchment">
       <Window.Content scrollable>
         <div style={pageStyle}>
-          <div style={titleStyle}>Town Stockpile</div>
+          <div style={titleStyle}>{data.title || 'Town Stockpile'}</div>
           <div style={subtitleStyle}>
-            The Town Stockpile. Deposit goods at the machine,
-            coins here fund withdrawals and import.
+            {data.subtitle ||
+              'The Town Stockpile. Deposit goods at the machine, coins here fund withdrawals and import.'}
           </div>
           <div style={rulerStyle} />
 
@@ -368,7 +375,7 @@ export const Stockpile = () => {
             ))
           )}
 
-          {data.bounties.length > 0 && (
+          {!noDeposit && data.bounties.length > 0 && (
             <>
               <div style={{ ...sectionHeaderStyle, marginTop: '16px' }}>
                 Standing Bounties
