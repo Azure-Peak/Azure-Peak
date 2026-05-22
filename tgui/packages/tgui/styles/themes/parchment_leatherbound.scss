@@ -116,4 +116,24 @@
     color: #d4c090;
     font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
   }
+
+  .Input {
+    background-color: #1a1410;
+    border: 2px solid rgba(200, 170, 100, 0.55);
+    outline: 1px solid rgba(0, 0, 0, 0.6);
+    color: #f0dca8;
+
+    &:focus-within {
+      border-color: #e6c270;
+      box-shadow:
+        inset 2px 2px 4px rgba(0, 0, 0, 0.5),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.05),
+        0 0 5px rgba(230, 194, 112, 0.45);
+    }
+  }
+
+  .Input__input::placeholder,
+  .Input input::placeholder {
+    color: rgba(212, 192, 144, 0.45);
+  }
 }
