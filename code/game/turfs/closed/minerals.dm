@@ -99,7 +99,7 @@
 		return
 	lastminer = user
 	..()
-	if(istype(I, /obj/item/rogueweapon/pick)||istype(I, /obj/item/contraption/pick/drill))
+	if(istype(I, /obj/item/rogueweapon/pick)||istype(I, /obj/item/contraption/pick/drill)||istype(I, /obj/item/rogueweapon/mace/maul/grand/psy))
 		if(!isliving(user))
 			return
 

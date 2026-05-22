@@ -18,6 +18,7 @@
 	zizo_spell = TRUE
 
 /datum/action/cooldown/spell/lacrima/zizo
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = 100
 	secondary_resource_type = SPELL_COST_ENERGY
