@@ -354,7 +354,7 @@
 				holder.remove_reagent(R.type, 0.2 * REAGENTS_EFFECT_MULTIPLIER)
 		var/list/wCount = M.get_wounds()
 		if(wCount.len > 0)
-			M.heal_wounds(2 * REAGENTS_EFFECT_MULTIPLIER)
+			M.heal_wounds(2)
 		..()
 
 /datum/action/cooldown/spell/touch/orison/proc/create_water(obj/item/melee/new_touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
