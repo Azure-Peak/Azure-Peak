@@ -104,7 +104,6 @@
 	name = "Profane"
 	desc = "Launch a cursed bone shard that can lodge into victims, slowly poisoning them while embedded. More embedded shards increase the damage (max. 7 DMG over time, 2x vs NPCs). Four bones in your hand (or around) may be consumed to empower the projectile, causing it to fracture into nearby non-Gravemarked enemies and embed regardless."
 	fluff_desc = "An early Cabal sacrament: bone, profaned through Zizo's teachings, proved a willing conduit for Avantyne's anti-life qualities. Splinters touched by Her grace 'bless' the living with lingering agony. Fed exactly 'four' fresh bones, the rite grows unstable, scattering its sacred cruelty to ones who do not bear your mark. Why this occurs is still never fully understood."
-	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "profane"
 	projectile_type = /obj/projectile/magic/profane
 	cast_range = SPELL_RANGE_PROJECTILE
@@ -396,10 +395,12 @@
 
 // RAISE LESSER SKELETON (T2) - The new 'main' Zizo undeath-raising skill. Summon's durability scales from Miracle skill.
 /datum/action/cooldown/spell/raise_undead_formation/zizo
-	button_icon_state = "skeleton"
 	name = "Raise Lesser Skeleton"
 	desc = "Invoke raw Enochian magicka to bind loose bones into a simple skeletal thrall. Its crude physiology is held together purely by magic; unable to be incapacitated, it shall stand until it crumbles into spare bones. It is also simpler to control, so you can order it to move, guard or attack manually."
 	fluff_desc = "The faithful of Zizo do not raise the dead, they mock life by proving how little of it is truly required. Flesh decays, thought falters, and souls flee screaming into the arms of Necra, yet bone remains obedient. Through the language of ancient Enochian words of power, scattered remains are lashed together into a parody of mortal form, animated not by purpose or memory, but by the simple joy of defying the natural order."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon_state = "skeleton"
 	spell_color = GLOW_COLOR_ZIZO
 	primary_resource_cost = 60
 	secondary_resource_cost = 40
@@ -430,8 +431,7 @@
 /datum/action/cooldown/spell/zizo/rituos
 	name = "Rituos"
 	desc = "Enact one of the Lesser Work of Zizo - a single, agonizing ritual that tears open a path to power. Choose Progress to gain arcyne knowledge, or Unlife to embrace undeath."
-	fluff_desc = "The holiest of Zizo's Lesser Works among the Cabal. A rite of surrendering weakness and mortality to embrace your purpose in Her design. Through agony, the faithful offer either mind or flesh, allowing Zizo to strip away mortal frailty and shape them into reflections of her ascension. Some surrender thought for forbidden understanding. Others surrender flesh for the stillness of unlife. Few endure enough to become what She envisioned. When the gifts fade, the faithful are taught only one truth: they have not sacrificed enough."	
-	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	fluff_desc = "The holiest of Zizo's Lesser Works among the Cabal. A rite of surrendering weakness and mortality to embrace your purpose in Her design. Through agony, the faithful offer either mind or flesh, allowing Zizo to strip away mortal frailty and shape them into reflections of her ascension. Some surrender thought for forbidden understanding. Others surrender flesh for the stillness of unlife. Few endure enough to become what She envisioned. When the gifts fade, the faithful are taught only one truth: they have not sacrificed enough."
 	button_icon_state = "rituos"
 	charge_sound = 'sound/magic/chargingold.ogg'
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_NO_MOVE
@@ -572,8 +572,7 @@
 	name = "Bone Cataclysm"
 	desc = "Detonate all of your nearby skeletons in a wave of profane bone shrapnel. You and Gravemarked allies will not be harmed by it.<br><br>If used outside Combat Mode, you will disintegrate them and restore your energy."
 	fluff_desc = "Zizo taught her faithful that the dead must always serve twice: once in unlife, and once more when their bones are shattered in her name."	
-	button_icon = 'icons/mob/actions/actions_clockcult.dmi'
-	button_icon_state = "Kindle"
+	button_icon_state = "cataclysm"
 	click_to_activate = FALSE
 	self_cast_possible = TRUE
 	charge_required = TRUE
