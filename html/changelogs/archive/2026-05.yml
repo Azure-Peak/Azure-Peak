@@ -782,3 +782,39 @@
   - code_imp: added a wanted vagabond bounty proc in vagabond, use this in case you
       want other wanted vagabond classes
   - code_imp: added global values like wretch/bandit for vagabond bounties
+2026-05-22:
+  FreeStylaLT:
+  - bugfix: Fixed donator items acting oddly when altgripped.
+  HeroWithYay:
+  - bugfix: Fossilized Oysters are now obtainable
+  Kelshark:
+  - rscadd: Gives Lance and Shield option to Knight-Errant
+  Ketrai:
+  - rscadd: Chance to receive two herbs when picking herbs based on farming or alchemy
+      skill, whichever is better.
+  - qol: shucking wheat by hand now scans nearby tiles for more wheat to shuck.
+  - balance: woodwalker no longer guarantees two herbs per plant, it is random now.
+  Ryan180602:
+  - bugfix: boot blood colour
+  - bugfix: uncoloured blood overlay on hands
+  - code_imp: overhaul our verbpanel UI
+  - bugfix: bandit/assassin spawns.
+  - bugfix: remove waitfor sleeps for UI
+  SciDragon:
+  - rscadd: slurbow to engineering, swaps 1 plank for 1 small log in the recipe
+  SpringSkipper:
+  - bugfix: giltsilk belt now covers privates
+  WeNeedMorePhoron:
+  - balance: Reduced Stygian damage by 20%
+  - balance: Reduced Cryo damage across the board by 10%, shatter damage by 50% due
+      to it consistently showing up as overtuned.
+  - bugfix: Fixed hard deletes on heart blood containers. Report any oddity.
+  - bugfix: Tried to fix saddleborn hard delete
+  changelingonberry:
+  - bugfix: Fix chat tab sorting for emotes, OOC, LOOC, and admin log messages
+  - rscadd: Dust runner examine for fellow thieves, Matthiosites, and bathhouse workers
+  - rscadd: Thieves cant for dust runner virtue
+  kbitykbitykbity:
+  - rscadd: Added Zizo's Bane mushrooms and sleep poison made using them.
+  saltprjak:
+  - rscadd: Added bandolier option to loadout, under Miscellaneous.
