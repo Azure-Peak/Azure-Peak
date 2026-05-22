@@ -90,7 +90,7 @@ export const capitalize = (s: string) =>
   s.length > 0 ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 
 export const parchment: CSSProperties = {
-  color: 'hsl(28, 42%, 18%)',
+  color: 'var(--p-ink)',
   fontFamily: "Georgia, 'Palatino Linotype', Palatino, serif",
   padding: '24px 28px',
   minHeight: '100%',
@@ -121,7 +121,7 @@ export const indictmentItem: CSSProperties = {
 export const sacralPlea: CSSProperties = {
   fontStyle: 'italic',
   marginBottom: '12px',
-  color: 'hsl(28, 50%, 25%)',
+  color: 'var(--p-ink-soft)',
 };
 
 export const caputLupinum: CSSProperties = {
@@ -131,20 +131,20 @@ export const caputLupinum: CSSProperties = {
 export const sealLine: CSSProperties = {
   fontStyle: 'italic',
   fontSize: '0.92em',
-  color: 'hsl(28, 50%, 25%)',
+  color: 'var(--p-ink-soft)',
   marginTop: '14px',
   marginBottom: '8px',
 };
 
 export const divider: CSSProperties = {
   border: 'none',
-  borderTop: '1px solid hsl(30, 30%, 50%)',
+  borderTop: '1px solid var(--p-ink-faint)',
   margin: '14px 0',
 };
 
 export const marginalia: CSSProperties = {
-  background: 'hsla(46, 40%, 76%, 0.4)',
-  border: '1px solid hsl(30, 30%, 60%)',
+  background: 'var(--p-card-bg)',
+  border: '1px solid var(--p-ink-faint)',
   borderRadius: '2px',
   padding: '8px 12px',
   marginTop: '12px',
@@ -157,14 +157,14 @@ export const marginaliaLine: CSSProperties = {
 
 export const marginaliaLabel: CSSProperties = {
   fontStyle: 'italic',
-  color: 'hsl(30, 38%, 35%)',
+  color: 'var(--p-ink-soft)',
   marginRight: '6px',
 };
 
 export const completionStamp: CSSProperties = {
   textAlign: 'center',
   fontWeight: 'bold',
-  color: 'hsl(130, 45%, 28%)',
+  color: 'var(--p-seal-green)',
   fontSize: '1.08em',
   marginTop: '14px',
 };
@@ -172,7 +172,7 @@ export const completionStamp: CSSProperties = {
 export const failedStamp: CSSProperties = {
   textAlign: 'center',
   fontWeight: 'bold',
-  color: 'hsl(0, 55%, 32%)',
+  color: 'var(--p-seal-red)',
   fontSize: '1.08em',
   marginTop: '14px',
 };
@@ -180,7 +180,7 @@ export const failedStamp: CSSProperties = {
 export const titleHint: CSSProperties = {
   fontSize: '0.78em',
   textAlign: 'center',
-  color: 'hsl(28, 52%, 30%)',
+  color: 'var(--p-ink-soft)',
   marginBottom: '18px',
   fontVariant: 'small-caps',
 };
