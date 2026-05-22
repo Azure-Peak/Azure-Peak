@@ -18,7 +18,7 @@
 	Some turn to gods as they are susceptible to faith to fill the gaps their spawning pools left, and others reject them entirely. \
 	Yet all carry the memory of the deep: the silent, all-encompassing love and will from which they were born.<br> \
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | +1 INT<br> \
-	Easy Dismember | Limb Regrowth | No Bones </span><br><br>"
+	Easy Dismember | Limb Regrowth | Inhumen Digestion</span><br><br>"
 	blood_color = "#00FFFF" //Defaults to blue, but we recolor this later to match the slime person's body color.
 	origin_default = /datum/virtue/origin/racial/underdark
 	base_name = "Ooze"
