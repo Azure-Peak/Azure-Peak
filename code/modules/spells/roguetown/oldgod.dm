@@ -629,8 +629,12 @@
 	H.visible_message(span_blue("[H] connects their Lux with [H]'s own."))
 	if(user.cmode)
 		user.say(pick("RESPITE FOR THY WOUNDS!", "BLEED STANDING!", "I BLEED SO YOU MAY ENDURE!", "PERSIST AGAINST THE PAIN!","LET YOUR WOUNDS WEEP NO MORE!"))
+		if(HAS_TRAIT(user, TRAIT_IRONMAN))
+			user.electrocute_act(10, user)
 	else
 		user.say(pick("Psydon endures, so we must!","May your wounds weep no more!","Psydon provides respite for thy wounds!","I shall endure for you!","Allfather, let me bleed in their stead!"))
+		if(HAS_TRAIT(user, TRAIT_IRONMAN))
+			user.adjustFireLoss(25)
 
 	// WOUND TRANSFER
 	for(var/datum/wound/targetwound in tw_List)
@@ -766,8 +770,12 @@
 	H.visible_message(span_red("[H] <i>dangerously</i> connects their Lux with [H]'s own."))
 	if(user.cmode)
 		user.say(pick("BE ABSOLVED!","I'LL BLEED IN YOUR STEAD!","YOUR TIME IS NOT NOW!","I SHALL WEEP IN YOUR STEAD!","ENDURE, AS HE DOES!","PERSIST, AS HE DOES!"))
+		if(HAS_TRAIT(user, TRAIT_IRONMAN))
+			user.electrocute_act(10, user)
 	else
 		user.say(pick("Live, as he does!","Be healed in His name!","May your injuries be mine to bear!","I absolve you of your wounds!","Be absolved!"))
+		if(HAS_TRAIT(user, TRAIT_IRONMAN))
+			user.adjustFireLoss(25)
 
 	// REVIVE PATH
 	if(H.stat >= DEAD)
