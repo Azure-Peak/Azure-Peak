@@ -23,6 +23,7 @@
 	liked_food = NONE
 	inherent_traits = list(
 		TRAIT_IRONMAN,
+		TRAIT_LIMBATTACHMENT, // this interacts with trait_ironman, making this take a while to reattach
 		TRAIT_NOPAINSTUN, // look into this later, just remembered Ryan merged NoPainSlow (cur. TRAIT_IGNOREDAMAGESLOWDOWN) into NoPainStun, might be good to separate them again for situations where I want my character to collapse from total pain, but not flinch when being hit
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH, 

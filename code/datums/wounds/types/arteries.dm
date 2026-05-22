@@ -188,6 +188,7 @@
 	woundpain = 100
 	sewn_woundpain = 50
 	mortal = TRUE
+	var/zappy = 0
 
 /datum/wound/integrity/chest/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -209,7 +210,8 @@
 		return
 	var/mob/living/carbon/carbon_owner = owner
 	if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig))
-		if(prob(20))
+		if(world.time >= zappy)
+			zappy = world.time + rand(5 SECONDS, 20 SECONDS)
 			carbon_owner.electrocute_act(50, carbon_owner)
 
 /datum/wound/integrity/reattachment
