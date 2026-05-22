@@ -20,10 +20,12 @@ type Props = Partial<{
   BoxProps;
 
 const PARCHMENT_VARIANTS: Record<string, (cfg: any) => string> = {
-  parchment: (cfg) =>
-    cfg?.window?.parchment_skin === 'leatherbound'
-      ? 'parchment-leatherbound'
-      : 'parchment',
+  parchment: (cfg) => {
+    const skin = cfg?.window?.parchment_skin;
+    if (skin === 'leatherbound') return 'parchment-leatherbound';
+    if (skin === 'vellum') return 'parchment-vellum';
+    return 'parchment';
+  },
 };
 
 export function Layout(props: Props) {

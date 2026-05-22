@@ -83,19 +83,40 @@ const RosterView = ({
   return (
     <>
       <div style={sectionHeaderStyle}>{rosterStatic.label}</div>
-      {!!rosterStatic.explanation && (
-        <div
-          style={{
-            color: INK_SOFT,
-            fontStyle: 'italic',
-            whiteSpace: 'pre-wrap',
-            marginBottom: 10,
-            lineHeight: 1.4,
-          }}
-        >
-          {rosterStatic.explanation}
-        </div>
-      )}
+      {!!rosterStatic.explanation && (() => {
+        const sigSplit = rosterStatic.explanation.lastIndexOf(' - ');
+        const body =
+          sigSplit >= 0
+            ? rosterStatic.explanation.slice(0, sigSplit).trimEnd()
+            : rosterStatic.explanation;
+        const signature =
+          sigSplit >= 0
+            ? rosterStatic.explanation.slice(sigSplit + 3).trim()
+            : '';
+        return (
+          <div
+            style={{
+              color: INK_SOFT,
+              whiteSpace: 'pre-wrap',
+              marginBottom: 10,
+              lineHeight: 1.4,
+            }}
+          >
+            {body}
+            {!!signature && (
+              <div
+                style={{
+                  fontStyle: 'italic',
+                  textAlign: 'right',
+                  marginTop: 6,
+                }}
+              >
+                - {signature}
+              </div>
+            )}
+          </div>
+        );
+      })()}
       <div style={fieldRowStyle}>
         <div style={fieldLabelStyle}>Roster</div>
         <div style={fieldValueStyle}>

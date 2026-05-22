@@ -14,6 +14,7 @@
 
 /proc/get_parchment_skins()
 	var/static/list/skins = list(
+		"vellum" = "Vellum",
 		"parchment" = "Parchment",
 		"leatherbound" = "Leatherbound",
 	)
