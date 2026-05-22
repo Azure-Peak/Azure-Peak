@@ -734,6 +734,32 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				spawned++
 			admin_log_fiscal("spawned [spawned] subtypes of [parent_path]", "Spawn All Subtypes")
 			return TRUE
+		if("dump_chronicle_stats")
+			var/path = dump_chronicle_stats()
+			admin_log_fiscal("dumped chronicle stats to [path]", "Dump Chronicle Stats")
+			to_chat(usr, span_notice("Chronicle stats written to [path]."))
+			return TRUE
+		if("download_chronicle_this_week")
+			chronicle_download_for_admin(usr, chronicle_stats_current_path())
+			return TRUE
+		if("download_chronicle_last_week")
+			chronicle_download_for_admin(usr, chronicle_stats_previous_week_path())
+			return TRUE
+
+/proc/chronicle_download_for_admin(mob/admin, path)
+	if(!admin || !admin.client)
+		return
+	if(!fexists(path))
+		to_chat(admin, span_warning("No chronicle file at [path] yet."))
+		return
+	var/size = length(file2text(file(path)))
+	if(size > CHRONICLE_STATS_DOWNLOAD_LIMIT_BYTES)
+		to_chat(admin, span_warning("Chronicle file [path] is [size] bytes - over the [CHRONICLE_STATS_DOWNLOAD_LIMIT_BYTES]-byte limit. Trim or fetch directly from the server."))
+		return
+	message_admins("[key_name_admin(admin)] is downloading chronicle stats: [path]")
+	log_admin("[key_name(admin)] downloaded chronicle stats: [path]")
+	admin.client << ftp(file(path))
+	to_chat(admin, span_notice("Sending [path] - this may take a moment for large files."))
 
 /proc/admin_log_fiscal(detail, tally_label)
 	log_admin("[key_name(usr)] [detail]")

@@ -33,6 +33,9 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/favor_ledger = list()
 	var/gnome_automation_unlocked = FALSE
 	var/extra_pier_rented = FALSE
+	var/list/hails_by_realm = list()
+	var/list/dock_durations_by_realm = list()
+	var/list/favor_earned_by_realm = list()
 
 /datum/controller/subsystem/merchant_trade/proc/set_merchant_levy(new_percent)
 	new_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
@@ -312,6 +315,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	hails_remaining--
 	ship.dock()
 	announce_dock(ship)
+	hails_by_realm[ship.realm_id] = (hails_by_realm[ship.realm_id] || 0) + 1
 	var/datum/foreign_realm/realm = realms[ship.realm_id]
 	var/first_of_realm = realm && !is_discovered(realm.id)
 	if(first_of_realm)
@@ -328,6 +332,11 @@ SUBSYSTEM_DEF(merchant_trade)
 	if(!honored && world.time < ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE)
 		return "early"
 	var/datum/foreign_realm/realm = realms[ship.realm_id]
+	var/list/durations = dock_durations_by_realm[ship.realm_id]
+	if(!durations)
+		durations = list()
+		dock_durations_by_realm[ship.realm_id] = durations
+	durations += (world.time - ship.docked_at)
 	resolve_ship_favor(ship, realm)
 	remove_ship_demand_for_realm(realm)
 	all_ships -= ship
@@ -337,6 +346,7 @@ SUBSYSTEM_DEF(merchant_trade)
 /datum/controller/subsystem/merchant_trade/proc/resolve_ship_favor(datum/trade_ship/ship, datum/foreign_realm/realm)
 	if(!ship)
 		return
+	favor_earned_by_realm[ship.realm_id] = (favor_earned_by_realm[ship.realm_id] || 0) + ship.favor_earned
 	var/expected = max(1, ship.expected_favor)
 	var/ratio = ship.favor_earned / expected
 	var/outcome

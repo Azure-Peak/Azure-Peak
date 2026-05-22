@@ -12,24 +12,18 @@
 	max_integrity = 0
 	anchored = TRUE
 	w_class = WEIGHT_CLASS_GIGANTIC
-	/// A fixed tax on all items sold through the balloon that overrides queens tax. Used for blackmarket
+	/// A fixed tax on all items sold ballon lost to the void. Used for blackmarket
 	var/fixed_tax = 0
 	var/grants_passive_favor = TRUE
 	var/accepts_unmintable = FALSE
-	/// Motto displayed at the top of the vendor interface
 	var/motto = "NAVIGATOR - Your goods, airborne."
-	/// When TRUE, Crown export duty is collected on seller gross AND on the Merchant's levy.
 	var/pay_taxes = TRUE
-	/// When TRUE, the Merchant's levy is collected from seller gross.
 	var/pay_merchant_share = TRUE
-	/// Jobs whose members may right-click to inspect dodge tallies.
 	var/list/profit_id = list("Merchant", "Shophand")
-	/// Running tally of Crown export duty actually collected via this specific navigator.
 	var/duty_collected_here = 0
-	/// Running tally of duty owed but dodged. Only shown to Merchant/Shophand.
-	var/duty_evaded_here = 0
-	/// Running tally of Merchant levy actually collected via this specific navigator.
+	var/duty_evaded_here = 0.
 	var/levy_collected_here = 0
+	var/is_bm_export = FALSE
 
 /obj/item/roguemachine/navigator/examine()
 	. = ..()
@@ -61,6 +55,7 @@
 	pay_merchant_share = FALSE
 	grants_passive_favor = FALSE
 	accepts_unmintable = TRUE
+	is_bm_export = TRUE
 
 /obj/item/roguemachine/navigator/private
 	name = "private navigator"
@@ -361,7 +356,7 @@
 						refused_announced = TRUE
 						I.visible_message(span_warning("[I] is refused by the balloon - the market is choked."))
 			budgie = round(budgie)
-			record_round_statistic(STATS_TRADE_VALUE_EXPORTED, budgie)
+			record_round_statistic(is_bm_export ? STATS_TRADE_VALUE_EXPORTED_BM : STATS_TRADE_VALUE_EXPORTED, budgie)
 			if(budgie > 0)
 				play_sound = TRUE
 				settle_export(budgie)

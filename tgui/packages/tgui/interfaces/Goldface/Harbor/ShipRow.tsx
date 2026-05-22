@@ -198,7 +198,7 @@ const SupplyLineRow = (props: {
               fontFamily: SERIF,
               fontSize: FONT_BODY,
               color: INK,
-              background: 'rgba(255,248,220,0.6)',
+              background: 'var(--p-button-bg)',
               border: `1px solid ${INK_FAINT}`,
               borderRadius: '2px',
               padding: '1px 3px',
