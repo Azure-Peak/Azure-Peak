@@ -58,6 +58,7 @@
 				return
 			target = HL
 	if(!target)
+		to_chat(user, span_warning("They are not within the gaze of the mirror; either they've travelled afar, or they've fallen victim to the fog."))
 		return
 
 	target.throw_alert("hagscry", /atom/movable/screen/alert/hagscry, override = TRUE)
@@ -117,10 +118,11 @@
 	for(var/mob/living/carbon/human/HL in GLOB.player_list) 
 		if(HL.real_name == input)
 			if(HAS_TRAIT(HL, TRAIT_ANTISCRYING))
-				to_chat(user, span_warning("They are not within the gaze of the mirror."))
+				to_chat(user, span_warning("The gaze of the roots is rebuffed by a ward!"))
 				return
 			target = HL
 	if(!target)
+		to_chat(user, span_warning("They are not within the gaze of the mirror; either they've travelled afar, or they've fallen victim to the fog."))
 		return
 
 	target.throw_alert("hagscry", /atom/movable/screen/alert/hagscry, override = TRUE)
