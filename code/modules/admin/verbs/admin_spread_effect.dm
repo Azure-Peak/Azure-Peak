@@ -1,6 +1,6 @@
 /client/proc/admin_spread_effect()
 	set name = "Spread Effect"
-	set category = "-GameMaster-"
+	set category = "GAME MASTER"
 
 	if(!check_rights(R_ADMIN))
 		return

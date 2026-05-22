@@ -1,8 +1,11 @@
-/mob/living/Moved()
+/mob/living/Moved(atom/OldLoc, Dir)
+	var/was_on_diveable_water = istype(get_turf(OldLoc), /turf/open/water/transparent)
 	. = ..()
 	stop_looking()
 	update_turf_movespeed(loc)
 	update_pixel_shifting(TRUE)
+	if(client && was_on_diveable_water != istype(get_turf(src), /turf/open/water/transparent))
+		client.refresh_browserpanel(TRUE)
 //	if(m_intent == MOVE_INTENT_RUN)
 //		consider_ambush()
 

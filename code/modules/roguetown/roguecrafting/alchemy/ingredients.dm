@@ -71,6 +71,20 @@
 	med_pot = /datum/alch_cauldron_recipe/health_potion
 	minor_pot = /datum/alch_cauldron_recipe/antidote
 
+/obj/item/alch/sleep_powder
+	name = "sleeping powder"
+	icon_state = "zizodust"
+	major_pot = /datum/alch_cauldron_recipe/sleeping_poison
+	med_pot = /datum/alch_cauldron_recipe/lck_potion
+	minor_pot = /datum/alch_cauldron_recipe/mana_potion
+
+/obj/item/alch/briar_essence
+	name = "essence of briar"
+	icon_state = "redpowder"
+	major_pot = /datum/alch_cauldron_recipe/sleeping_poison
+	med_pot = /datum/alch_cauldron_recipe/antidote
+	minor_pot = /datum/alch_cauldron_recipe/lck_potion
+
 /obj/item/alch/viscera/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Viscera is chiefly obtained by butchering most animals. To butcher an animal, middle-click it with a knife without any miracles, spells, or special intents selected. The higher your Butchering skill, the more you'll carve.")

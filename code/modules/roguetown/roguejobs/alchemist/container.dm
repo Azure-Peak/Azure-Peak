@@ -13,6 +13,9 @@
 /obj/item/reagent_containers/glass/bottle/rogue/poison
 	list_reagents = list(/datum/reagent/toxin/killersice = 1)
 
+/obj/item/reagent_containers/glass/bottle/rogue/sleep
+	list_reagents = list(/datum/reagent/sleep_powder = 50)
+
 /obj/item/reagent_containers/glass/bottle/rogue/water
 	list_reagents = list(/datum/reagent/water = 50)
 

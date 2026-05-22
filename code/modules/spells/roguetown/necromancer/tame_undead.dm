@@ -2,6 +2,7 @@
 /datum/action/cooldown/spell/tame_undead
 	name = "Tame Undead"
 	desc = "Oftentymes, husks and shamblers walk aimlessly - uncertain of their future. They need not look further, any longer.\nRequires the target to be within four tiles. Works on undead animals, too."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "deadite_tame"
 	cast_range = 4

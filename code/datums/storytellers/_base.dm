@@ -88,6 +88,8 @@
 	var/ascendant = FALSE
 	/// Which kind of gnoll scaling this storyteller prefers, default is 1 gnoll spawn.
 	var/preferred_gnoll_mode = GNOLL_SCALING_SINGLE
+	/// Hard cap on wretch job slots this storyteller will ever open. Defualt 10 = T1 max - lower = clamps T1 ad skips T2
+	var/wretch_slot_cap = 10
 
 /datum/storyteller/New()
 	. = ..()

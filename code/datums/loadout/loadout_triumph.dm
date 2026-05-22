@@ -19,15 +19,9 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_heavygloves
-	name = "Heavy Leather Gloves"
-	path = /obj/item/clothing/gloves/roguetown/angle
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_heavyboots
-	name = "Heavy Leather Boots"
-	path = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+/datum/loadout_item/triumph_winterdress
+	name = "Winter Dress"
+	path = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 

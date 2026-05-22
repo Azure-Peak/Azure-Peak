@@ -37,6 +37,7 @@ GLOBAL_LIST_INIT(mockery_insults, list(
 
 	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
+	weapon_cast_penalized = FALSE
 	charge_time = CHARGETIME_POKE
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	cooldown_time = MOCKERY_COOLDOWN
