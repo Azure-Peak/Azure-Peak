@@ -192,6 +192,7 @@
 
 		if(tracker && !tracker.hag_teleport_check())
 			to_chat(user, span_warning("Your soul is still too frayed from your last return to walk the deep roots. Wait a bit longer..."))
+			to_chat(user, span_warning("You will be sufficiently recovered in [round((tracker.last_revive_time + 5 MINUTES - world.time) / 10)] seconds."))
 			return
 
 		var/dat = "<center>THE DEEP ROOTS<BR>--------------<BR>"
