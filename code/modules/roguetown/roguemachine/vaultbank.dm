@@ -731,7 +731,7 @@
 	return PATRON_CAP_MERCHANT
 
 /obj/structure/roguemachine/vaultbank/merchant/get_patron_explanation()
-	return "Granting a person the status of Agent of the Azurian Trading Company confers Burgher standing upon them, lowering their tax class and shielding them from the worst abuses of the Crown's taxmen. They may also read the names of those who owe debt to the Company. Go forth, in Malum's name, and let them collect what is rightfully owed. - Ser Yohan d'Azur"
+	return "Granting a person the status of Agent of the Azurian Trading Company confers Burgher standing upon them, lowering their tax class and shielding them from the worst abuses of the Crown's taxmen. They may also read the names of those who owe debt to the Company. It enables them to call upon their kins from their realms for benefits, and hail ships and manage purchase on your behalf. Go forth, in Malum's name, and let them collect what is rightfully owed. - Ser Yohan d'Azur"
 
 /obj/structure/roguemachine/vaultbank/merchant/enforce_placement()
 	return
