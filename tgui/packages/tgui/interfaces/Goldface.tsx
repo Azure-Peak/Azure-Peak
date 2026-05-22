@@ -42,7 +42,7 @@ export const Goldface = () => {
 
   if (!isCommand) {
     return (
-      <Window width={1100} height={800} theme="parchment">
+      <Window width={880} height={800} theme="parchment">
         <Window.Content scrollable>
           {mammonBar}
           <VendingPanel data={data} act={act} />
@@ -64,7 +64,7 @@ export const Goldface = () => {
   ) activeTab = 'goods';
 
   return (
-    <Window width={1100} height={800} theme="parchment">
+    <Window width={880} height={800} theme="parchment">
       <Window.Content scrollable>
         <div style={tabBarStyle}>
           <div
