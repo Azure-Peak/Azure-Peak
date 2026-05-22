@@ -117,6 +117,12 @@ const DemandGroupDivider = (props: { label: string }) => (
 const DemandLineRow = (props: { line: BulkLine }) => {
   const { line } = props;
   const done = line.qty_fulfilled >= line.qty_target;
+  const hasKin =
+    line.kin_offered_price !== undefined &&
+    line.kin_offered_price > line.offered_price;
+  const displayedPrice = hasKin
+    ? (line.kin_offered_price as number)
+    : line.offered_price;
   return (
     <div
       style={{
@@ -127,20 +133,36 @@ const DemandLineRow = (props: { line: BulkLine }) => {
         fontSize: FONT_BODY,
         color: SEAL_GREEN,
       }}
-      title={`Buying ${line.qty_target} ${titleCase(line.good_name)} at ${line.offered_price}m each (${line.qty_fulfilled} delivered so far)`}
+      title={
+        hasKin
+          ? `Buying ${line.qty_target} ${titleCase(line.good_name)} at ${displayedPrice}m each (Kinship +${displayedPrice - line.offered_price}m over base ${line.offered_price}m). ${line.qty_fulfilled} delivered so far.`
+          : `Buying ${line.qty_target} ${titleCase(line.good_name)} at ${line.offered_price}m each (${line.qty_fulfilled} delivered so far)`
+      }
     >
       <span style={ellipsisCellStyle}>{titleCase(line.good_name)}</span>
       <span style={{ flex: '0 0 auto', color: INK_SOFT }}>
         {line.qty_fulfilled}/{line.qty_target}
       </span>
-      <span
-        style={{
-          flex: '0 0 auto',
-          color: done ? INK_FAINT : SEAL_AMBER,
-          fontWeight: 'bold',
-        }}
-      >
-        {line.offered_price}m
+      <span style={{ flex: '0 0 auto', fontWeight: 'bold' }}>
+        {hasKin && (
+          <span
+            style={{
+              color: INK_FAINT,
+              textDecoration: 'line-through',
+              marginRight: '4px',
+              fontWeight: 'normal',
+            }}
+          >
+            {line.offered_price}m
+          </span>
+        )}
+        <span
+          style={{
+            color: done ? INK_FAINT : hasKin ? SEAL_GREEN : SEAL_AMBER,
+          }}
+        >
+          {displayedPrice}m
+        </span>
       </span>
     </div>
   );
@@ -157,7 +179,11 @@ const SupplyLineRow = (props: {
   const initial = Math.min(remaining, 1);
   const [qty, setQty] = useState(initial);
   const safeQty = Math.min(Math.max(1, qty), remaining || 1);
-  const totalCost = line.offered_price * safeQty;
+  const hasKin =
+    line.kin_offered_price !== undefined &&
+    line.kin_offered_price < line.offered_price;
+  const unitPrice = hasKin ? (line.kin_offered_price as number) : line.offered_price;
+  const totalCost = unitPrice * safeQty;
   const cantAfford = budget < totalCost;
   const soldOut = remaining <= 0;
   return (
@@ -170,15 +196,35 @@ const SupplyLineRow = (props: {
         fontSize: FONT_BODY,
         color: SEAL_RED,
       }}
-      title={`Selling ${titleCase(line.good_name)} at ${line.offered_price}m each (${line.qty_fulfilled} of ${line.qty_target} sold)`}
+      title={
+        hasKin
+          ? `Selling ${titleCase(line.good_name)} at ${unitPrice}m each (Kinship -${line.offered_price - unitPrice}m off ${line.offered_price}m). ${line.qty_fulfilled} of ${line.qty_target} sold.`
+          : `Selling ${titleCase(line.good_name)} at ${line.offered_price}m each (${line.qty_fulfilled} of ${line.qty_target} sold)`
+      }
     >
       <span style={ellipsisCellStyle}>{titleCase(line.good_name)}</span>
       <span style={{ flex: '0 0 auto', color: INK_SOFT }}>
         {line.qty_fulfilled}/{line.qty_target}
       </span>
-      <span style={{ flex: '0 0 auto', color: SEAL_AMBER, fontWeight: 'bold' }}>
-        {line.offered_price}m
-      </span>
+      {hasKin ? (
+        <span style={{ flex: '0 0 auto', fontWeight: 'bold' }}>
+          <span
+            style={{
+              color: INK_FAINT,
+              textDecoration: 'line-through',
+              marginRight: '4px',
+              fontWeight: 'normal',
+            }}
+          >
+            {line.offered_price}m
+          </span>
+          <span style={{ color: SEAL_GREEN }}>{unitPrice}m</span>
+        </span>
+      ) : (
+        <span style={{ flex: '0 0 auto', color: SEAL_AMBER, fontWeight: 'bold' }}>
+          {line.offered_price}m
+        </span>
+      )}
       {soldOut ? (
         <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>sold</span>
       ) : (
@@ -307,6 +353,24 @@ export const ShipRow = (props: Props) => {
               style={{ color: SEAL_AMBER }}
               title={`Send-off favor: Honored at 100% of target gives you the full delivered value as favor plus a refunded hail. Partial at 50% gives you half delivered value as favor. Below 50% is Dishonored and costs ${Math.round(250 * ship.tonnage_mult)}m favor for this vessel.`}
             >
+              {!!ship.is_kin && (
+                <span
+                  title="Kin ship - Kinship Bonus applies"
+                  style={{
+                    marginRight: '6px',
+                    padding: '0 4px',
+                    border: `1px solid ${SEAL_GREEN}`,
+                    borderRadius: '6px',
+                    color: SEAL_GREEN,
+                    fontSize: '9px',
+                    fontWeight: 'bold',
+                    letterSpacing: '0.5px',
+                    verticalAlign: 'middle',
+                  }}
+                >
+                  KIN
+                </span>
+              )}
               Favor: {ship.favor_earned}m / {ship.expected_favor}m
             </div>
           )}

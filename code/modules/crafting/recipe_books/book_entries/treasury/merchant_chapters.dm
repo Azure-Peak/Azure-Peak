@@ -125,7 +125,7 @@
 		<h3>The Harbor tab (GOLDFACE only)</h3>
 		<ul>
 			<li>GOLDFACE is the command center for foreign trade. The Harbor tab shows docked ships, the wider ship pool, and discovered realms.</li>
-			<li><b>Hails:</b> Merchant/Shophand may spend hails (one per ship invited to port) up to [TRADE_SHIPS_HAIL_PER_DAY] per day. First hail of the week from a given realm reveals that realm's market info. Grenzelhoft, Otava and Aavnr starts with their market conditions discovered.</li>
+			<li><b>Hails:</b> Merchant/Shophand, or anyone bearing the Merchant's Writ of Charter, may spend hails (one per ship invited to port) up to [TRADE_SHIPS_HAIL_PER_DAY] per day. First hail of the week from a given realm reveals that realm's market info. Grenzelhoft, Otava and Aavnr starts with their market conditions discovered.</li>
 			<li><b>Dock spots:</b> 2, upgradable to 3. Vessels can be sent away after a [TRADE_SHIP_SEND_AWAY_GRACE / 600]-minute grace period.</li>
 			<li><b>Cultural stocks:</b> Docked ships carry cultural-goods packs at a [TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT]% discount off base cost. Import tariff still applies unless dodged.</li>
 			<li><b>Bulk buy:</b> Docked ships offer bulk cargoes for sale, in small quantities but enough to help supplement market shortage or local shortfall.</li>
@@ -196,8 +196,59 @@
 	"}
 
 
+/datum/book_entry/treasury_merchant/kinship
+	name = "05. The Kinship Bonus"
+
+/datum/book_entry/treasury_merchant/kinship/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p><b>KINSHIP BONUS:</b> A modifier tied to the active Merchant's chosen origin. While a Merchant from a foreign realm sits the role, ships of that realm show up more often, buy higher, and sell lower.</p>
+
+		<h3>What it does</h3>
+		<ul>
+			<li><b>-[round((1 - KINSHIP_BUY_MULT) * 100)]% on buys</b> from kin ships - bulk cargo at Goldface and cultural-stock packs both pay [round((1 - KINSHIP_BUY_MULT) * 100)]% less.</li>
+			<li><b>+[round((KINSHIP_SELL_MULT - 1) * 100)]% on sells</b> when fulfilling kin realm ships' bulk demands at the Ship Fulfillment Crate, before Crown duty and Merchant's levy.</li>
+			<li><b>Guaranteed daily ship</b> - one of the day's [TRADE_SHIPS_PER_DAY_ROLL] ship rolls is reserved for a kin realm vessel. The remaining rolls use the normal weighted draw. If the Merchant latejoins after the daily roll, the kin slot is backfilled immediately by swapping a random undocked ship in the available pool for a kin one (docked ships are never touched).</li>
+			<li>The bonus is <b>global</b> - any producer fulfilling a kin ship's demand gets the +[round((KINSHIP_SELL_MULT - 1) * 100)]%, not just the Merchant. The Navigator's flat exports are not affected.</li>
+		</ul>
+
+		<h3>How it gets set</h3>
+		<ul>
+			<li>The bonus follows the active Merchant's character origin (Lirvan, Gronnic, Otavan, etc.). Azurian and Elsewhere Merchants confer no Kinship.</li>
+			<li>It <b>persists</b> through Merchant death or FT until a new Merchant of a different realm takes the role. If no Merchant has joined yet this round, there is no Kinship.</li>
+			<li>A Merchant of the same realm replacing the previous one does not flip the bonus.</li>
+			<li>When a new kin realm is claimed mid-round, the available ship pool is checked - if no kin ship is already waiting, one is swapped in immediately so the Merchant has a kin vessel to hail without waiting for tomorrow's roll.</li>
+		</ul>
+
+		<h3>Shophand and Agent variant</h3>
+		<ul>
+			<li>A <b>Shophand</b> or holder of the Azurian Trading Company's Writ of Charter gets a personal <b>-[round((1 - KINSHIP_BUY_MULT) * 100)]% on Goldface buys</b> from ships of <b>their own</b> origin.</li>
+			<li>This does <b>not stack</b> with the global Kinship. If the global Kinship already covers the same ship, the agent's personal discount does not add - the buy is -[round((1 - KINSHIP_BUY_MULT) * 100)]%, never -[round((1 - (KINSHIP_BUY_MULT * KINSHIP_BUY_MULT)) * 100)]%.</li>
+			<li>It only fires on Goldface purchase actions; the Shophand doesn't extend the +[round((KINSHIP_SELL_MULT - 1) * 100)]% sell side.</li>
+		</ul>
+
+		<h3>Chartered Agent access at the Goldface</h3>
+		<p>A character bearing the Writ of Charter from the Merchant is recognised by the Goldface itself, even if their day job is something else (Mercenary, Adventurer, etc).</p>
+		<ul>
+			<li><b>Cultural Stock tab</b> - the agent may browse and buy cultural-stock packs from any docked vessel. Their personal kinship discount (if any) applies the same way it would for the Shophand.</li>
+			<li><b>Harbor tab</b> - the agent may view the docked ships, the wider ship pool, market conditions, and may <b>hail</b> ships and <b>send them away</b> on the Factor's behalf. Bulk supply purchases are also open to them.</li>
+			<li><b>Locked out</b> - the agent cannot touch the Market, Management, or Ledger tabs. Levy rate, gnome margin, gnome unlock, pier rental, auto-hailer, and the fund log remain Merchant/Shophand only.</li>
+			<li>Hails count against the Merchant's daily allotment regardless of who spent them. The Merchant trusts the agent at their own risk - the Writ of Charter is revocable.</li>
+		</ul>
+
+		<h3>Where it shows</h3>
+		<ul>
+			<li>Goldface examine names the current Kinship realm.</li>
+			<li>Goldface's Harbor tab marks kin ships with a "Kin" badge.</li>
+			<li>Fulfillment crate examine flags kin payouts.</li>
+			<li>The Navigator does not show it - Kinship is a ship-side bonus, not a balloon-side bonus.</li>
+		</ul>
+		</div>
+	"}
+
+
 /datum/book_entry/treasury_merchant/avisa_market
-	name = "05. The Avisa Market Tab"
+	name = "06. The Avisa Market Tab"
 
 /datum/book_entry/treasury_merchant/avisa_market/inner_book_html(mob/user)
 	return {"
@@ -213,7 +264,7 @@
 
 
 /datum/book_entry/treasury_merchant/escrow
-	name = "06. COMMISSIONER"
+	name = "07. COMMISSIONER"
 
 /datum/book_entry/treasury_merchant/escrow/inner_book_html(mob/user)
 	return {"
@@ -262,7 +313,7 @@
 
 
 /datum/book_entry/treasury_merchant/rag_picker
-	name = "07. The Scrapper / Rag Picker"
+	name = "08. The Scrapper / Rag Picker"
 
 /datum/book_entry/treasury_merchant/rag_picker/inner_book_html(mob/user)
 	return {"

@@ -8,6 +8,7 @@ export type BulkLine = {
   qty_target: number;
   qty_fulfilled: number;
   offered_price: number;
+  kin_offered_price?: number;
   tag?: string;
 };
 
@@ -17,6 +18,7 @@ export type HarborShip = {
   captain_name: string | null;
   port_of_origin?: string;
   realm_id: string;
+  is_kin?: BooleanLike;
   ship_type: string;
   tonnage: number;
   tonnage_mult: number;
@@ -35,8 +37,10 @@ export type CulturalStockEntry = {
   pack_qty: number;
   base_cost: number;
   price_base: number;
+  price_base_pre_kin?: number;
   price_tariff: number;
   price: number;
+  is_kin?: BooleanLike;
   ship_id: string;
   ship_name: string;
 };
@@ -50,6 +54,7 @@ export type MarketCondition = {
 export type HarborRealm = {
   id: string;
   name: string;
+  is_kin?: BooleanLike;
   cultural_goods: string[];
   cultural_pack_names: string[];
   basic_buys: string[];
@@ -58,6 +63,16 @@ export type HarborRealm = {
   rare_sells: string[];
   demanded_categories: string[];
   market_conditions?: MarketCondition[];
+};
+
+export type KinshipData = {
+  realm_id: string | null;
+  realm_name: string | null;
+  origin_name: string | null;
+  buy_pct: number;
+  sell_pct: number;
+  agent_realm_id?: string | null;
+  agent_realm_name?: string | null;
 };
 
 export type HarborData = {
@@ -76,6 +91,7 @@ export type HarborData = {
   favor: FavorData;
   ledger: LedgerData;
   market_data: MarketData;
+  kinship: KinshipData;
 };
 
 export type FundLogEntry = {
@@ -114,6 +130,9 @@ export type FavorData = {
   gnome_unlocked: BooleanLike;
   pier_cost: number;
   pier_rented: BooleanLike;
+  auto_hailer_cost: number;
+  auto_hailer_unlocked: BooleanLike;
+  auto_hailer_on: BooleanLike;
   brackets: number[];
   from_sendoffs: number;
   from_navigator: number;
@@ -138,6 +157,7 @@ export type VendingData = {
   locked: BooleanLike;
   is_public: BooleanLike;
   is_proprietor: BooleanLike;
+  is_agent: BooleanLike;
   can_read: BooleanLike;
   tariff_rate_pct: number;
   tariff_paid: number;

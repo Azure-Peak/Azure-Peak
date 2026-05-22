@@ -124,7 +124,7 @@
 #define NAVIGATOR_BUCKET_POOL_GARMENT_FINELUX 600
 #define NAVIGATOR_BUCKET_POOL_ENGINEERING 300
 #define NAVIGATOR_BUCKET_POOL_VALUABLES_CRAFTED 800
-#define NAVIGATOR_BUCKET_POOL_VALUABLES_LOOTED 1200
+#define NAVIGATOR_BUCKET_POOL_VALUABLES_LOOTED 1400
 #define NAVIGATOR_BUCKET_POOL_CARVED 400
 #define NAVIGATOR_BUCKET_POOL_POTTERY 300
 #define NAVIGATOR_BUCKET_POOL_TROPHIES 800
@@ -143,8 +143,11 @@
 
 #define MARKET_POOL_POP_REFERENCE 15 // Base number before scaling starts
 #define MARKET_POOL_POP_SCALE 0.005 // I set this to be 0.5% per player, which means that
-// for lowpop server / crafter heavy server there's generous pools, whereas highpop 
+// for lowpop server / crafter heavy server there's generous pools, whereas highpop
 // must relies on merchant active management
+
+// Per-bucket scale overrides. Looted Valuables scales faster (0.75%/player) so highpop has more headroom before complaints
+#define MARKET_POOL_POP_SCALE_VALUABLES_LOOTED 0.0075
 
 #define MARKET_POOL_RESNAPSHOT_INTERVAL (15 MINUTES)
 

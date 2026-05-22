@@ -38,6 +38,10 @@
 		. += span_info("[n_ships] vessels at the pier seek goods. Click to inspect the manifest.")
 	else
 		. += span_info("No vessels currently buying. Click to inspect anyway.")
+	if(SSmerchant_trade.current_kinship_realm)
+		var/datum/foreign_realm/KR = SSmerchant_trade.realms[SSmerchant_trade.current_kinship_realm]
+		if(KR)
+			. += span_info("Bulk demand payouts from <b>[KR.name]</b> ships are +[round((KINSHIP_SELL_MULT - 1) * 100)]% due to Kinship.")
 
 /obj/structure/roguemachine/ship_fulfillment/ui_state(mob/user)
 	return GLOB.human_adjacent_state
@@ -70,18 +74,23 @@
 /obj/structure/roguemachine/ship_fulfillment/ui_data(mob/user)
 	var/list/data = list()
 	var/list/manifests = list()
+	var/kin_realm = SSmerchant_trade ? SSmerchant_trade.current_kinship_realm : null
+	var/kin_sell_mult = SSmerchant_trade ? SSmerchant_trade.get_kinship_sell_mult(kin_realm) : 1
 	if(SSmerchant_trade)
 		for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
 			if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
 				continue
+			var/is_kin = (kin_realm && ship.realm_id == kin_realm) ? TRUE : FALSE
 			var/list/lines = list()
 			for(var/list/line in ship.bulk_demands)
+				var/op = line["offered_price"]
 				lines += list(list(
 					"good" = line["good"] || line["typepath"] || "",
 					"good_name" = line["good_name"],
 					"qty_target" = line["qty_target"],
 					"qty_fulfilled" = line["qty_fulfilled"],
-					"offered_price" = line["offered_price"],
+					"offered_price" = op,
+					"kin_offered_price" = is_kin ? round(op * kin_sell_mult) : op,
 					"tag" = line["tag"] || "",
 				))
 			if(length(lines))
@@ -90,11 +99,13 @@
 					"ship_id" = ship.ship_id,
 					"ship_name" = ship.ship_name,
 					"realm_id" = ship.realm_id,
+					"is_kin" = is_kin,
 					"typical_provisions" = realm ? realm.typical_provisions() : "",
 					"lines" = lines,
 				))
 	data["manifests"] = manifests
 	data["middleman_cut_percent"] = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
+	data["kinship_sell_pct"] = round((KINSHIP_SELL_MULT - 1) * 100)
 	return data
 
 /obj/structure/roguemachine/ship_fulfillment/attackby(obj/item/P, mob/user, params)
@@ -110,7 +121,7 @@
 	if(!SStreasury.has_account(user))
 		say("No account found for [user]. Submit your fingers to a Meister for inspection.")
 		return
-	var/list/tally = list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "lines" = list())
+	var/list/tally = list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "lines" = list())
 	for(var/obj/item/I in get_turf(user))
 		attempt_deposit(I, user, FALSE, FALSE, tally)
 	flush_tally(tally, user)
@@ -125,7 +136,8 @@
 	for(var/key in tally["lines"])
 		var/list/info = tally["lines"][key]
 		line_summaries += "[info["qty"]] [info["good_name"]] -> [info["ship_name"]]"
-	var/breakdown = "[english_list(line_summaries)]: gross [tally["total_gross"]]m, Crown [tally["total_duty"]]m, Merchant [tally["total_cut"]]m"
+	var/kin_total = tally["total_kin_bonus"] || 0
+	var/breakdown = "[english_list(line_summaries)]: gross [tally["total_gross"]]m, Crown [tally["total_duty"]]m, Merchant [tally["total_cut"]]m[kin_total > 0 ? ", Kinship +[kin_total]m" : ""]"
 	SStreasury.give_money_account(tally["total_producer"], user, breakdown)
 
 /obj/structure/roguemachine/ship_fulfillment/proc/attempt_deposit(obj/item/I, mob/user, message = TRUE, sound = TRUE, list/tally)
@@ -239,6 +251,13 @@
 /obj/structure/roguemachine/ship_fulfillment/proc/settle_payout(gross, mob/user, datum/trade_ship/ship, good_name, qty, message, sound, list/tally)
 	if(gross <= 0)
 		return
+	var/kin_bonus = 0
+	if(ship && SSmerchant_trade)
+		var/kin_mult = SSmerchant_trade.get_kinship_sell_mult(ship.realm_id)
+		if(kin_mult > 1)
+			var/pre_kin = gross
+			gross = round(gross * kin_mult)
+			kin_bonus = gross - pre_kin
 	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
 	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
 	var/levy_float = gross * levy_pct / 100
@@ -277,6 +296,7 @@
 		tally["total_gross"] += gross
 		tally["total_duty"] += total_duty
 		tally["total_cut"] += levy_remitted
+		tally["total_kin_bonus"] = (tally["total_kin_bonus"] || 0) + kin_bonus
 		var/key = "[ship.ship_id]|[good_name]"
 		var/list/info = tally["lines"][key]
 		if(info)
@@ -284,7 +304,7 @@
 		else
 			tally["lines"][key] = list("qty" = qty, "good_name" = good_name, "ship_name" = ship.ship_name)
 		return
-	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m"
+	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""]"
 	if(producer_payout > 0)
 		SStreasury.give_money_account(producer_payout, user, breakdown)
 

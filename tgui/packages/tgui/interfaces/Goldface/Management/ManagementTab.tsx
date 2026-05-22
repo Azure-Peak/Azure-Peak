@@ -476,6 +476,71 @@ const FavorCard = (props: { favor: FavorData; act: ActFn }) => {
         action="unlock_gnomes"
         act={act}
       />
+      {!favor.auto_hailer_unlocked ? (
+        <SinkButton
+          label="Retain the Harbor Crew"
+          flavor="Put the Captain of Stevedores on a permanent retainer. Once paid up, you may set them at the docks at any time, hailing ships randomly and dismissing those that have lingered too long. Useful when the wharf must run without you - but beware: Ships that fail to meet their trade obligations will still drag your favor down with the Company, even into the red."
+          cost={favor.auto_hailer_cost}
+          current={favor.current}
+          done={false}
+          doneLabel="ON RETAINER"
+          action="unlock_auto_hailer"
+          act={act}
+        />
+      ) : (
+        <AutoHailerToggle
+          on={!!favor.auto_hailer_on}
+          act={act}
+        />
+      )}
+    </div>
+  );
+};
+
+const AutoHailerToggle = (props: {
+  on: boolean;
+  act: ActFn;
+}) => {
+  const { on, act } = props;
+  return (
+    <div
+      style={{
+        padding: '8px 10px',
+        border: `1px solid ${INK_FAINT}`,
+        background: on ? 'rgba(180,200,160,0.18)' : 'var(--p-card-bg)',
+        borderRadius: '2px',
+        marginTop: '6px',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          justifyContent: 'space-between',
+          marginBottom: '4px',
+        }}
+      >
+        <span style={{ ...labelStyle, color: INK, fontSize: '12px' }}>
+          Auto-Hailer (Harbor Crew)
+        </span>
+        <span style={{ ...valueStyle, fontWeight: 'bold' }}>
+          {on ? (
+            <span style={{ color: SEAL_GREEN }}>WORKING</span>
+          ) : (
+            <span style={{ color: INK_SOFT }}>STANDING DOWN</span>
+          )}
+        </span>
+      </div>
+      <div style={{ ...noteStyle, marginBottom: '6px' }}>
+        While the crew works, ships are hailed up to the daily cap and dismissed once they have honored their tonnage or sat in port a full day. <b>Dishonored dismissals will sink your favor into the red</b> - leave it on, and you may return to a debt.
+      </div>
+      <button
+        type="button"
+        style={inkButtonStyle({})}
+        onClick={() => act('toggle_auto_hailer')}
+      >
+        {on ? 'Stand down' : 'Set the crew to work'}
+      </button>
     </div>
   );
 };

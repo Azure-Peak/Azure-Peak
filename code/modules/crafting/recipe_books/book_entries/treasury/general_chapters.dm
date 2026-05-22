@@ -104,6 +104,14 @@
 		</ul>
 
 		<p>Protection lapses if the backing Charter is suspended, but the status persists and resumes if the Charter is restored.</p>
+
+		<h3>Faction Patronage Writs</h3>
+		<p>Three factions print their own patronage writs at their MEISTER's institutional panel. Each writ is a one use item: hand it to someone for them to claim it by using it in hand. Roster slots are limited per faction and prune when an enrolled member dies or is gone.</p>
+		<ul>
+			<li><b>Writ of Charter</b> (Merchant, up to [PATRON_CAP_MERCHANT]) - the bearer becomes an Agent of the Azurian Trading Company. They are recognized as a Burgher for tax purposes (Golden Bull cap) and will recognize the Company's debtors. Also confers Residency, so they are treated as a towner for round purposes including the towner contract gate.</li>
+			<li><b>Token of the Bathhouse</b> (Bathmaster, up to [PATRON_CAP_BATHHOUSE]) - the bearer becomes an Agent of the Bathhouse. They may pass through the secret tunnel and the northeastern coast smugglers will offer them better prices on Black Market sales. They may also will recognize Bathhouse's debtors. Use discretion when granting to outlaws or wretches - the mark of the Bathhouse is visible, and being seen with it on a fugitive may invite Church or Crown reprisal against the Bathmaster.</li>
+			<li><b>Letter of Benefaction</b> (Bishop / Martyr, up to [PATRON_CAP_CHURCH]) - the bearer becomes a Benefactor of the Church and inherits the Concordat's tax exemption (no direct taxation while the Concordat stands). They may also see the Church's debtors. This is one of the way for the Church main channel to gain lay allies say, in preparation for conflicts.</li>
+		</ul>
 		</div>
 	"}
 

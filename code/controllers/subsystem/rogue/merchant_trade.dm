@@ -32,10 +32,15 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/favor_ledger = list()
 	var/gnome_automation_unlocked = FALSE
 	var/extra_pier_rented = FALSE
+	var/auto_hailer_unlocked = FALSE
+	var/auto_hailer_on = FALSE
+	var/auto_hailer_timer_id
 	var/list/hails_by_realm = list()
 	var/list/dock_durations_by_realm = list()
 	var/list/favor_earned_by_realm = list()
 	var/list/market_watchers = list()
+	var/current_kinship_realm = null
+	var/current_kinship_origin_name = null
 
 /datum/controller/subsystem/merchant_trade/proc/set_merchant_levy(new_percent)
 	new_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
@@ -286,7 +291,11 @@ SUBSYSTEM_DEF(merchant_trade)
 		weighted[realm_id] = max(1, R.roll_weight)
 	if(!length(weighted))
 		return
-	for(var/i in 1 to TRADE_SHIPS_PER_DAY_ROLL)
+	var/rolls_left = TRADE_SHIPS_PER_DAY_ROLL
+	if(current_kinship_realm && (current_kinship_realm in realms) && rolls_left > 0)
+		generate_ship(current_kinship_realm)
+		rolls_left--
+	for(var/i in 1 to rolls_left)
 		var/picked = pickweight(weighted)
 		generate_ship(picked)
 
@@ -359,20 +368,25 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/honored = ship.expected_favor > 0 && ship.favor_earned >= ship.expected_favor
 	if(!honored && world.time < ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE)
 		return "early"
+	finalize_ship_departure(ship, auto = FALSE)
+	broadcast_market_change()
+	return "ok"
+
+/datum/controller/subsystem/merchant_trade/proc/finalize_ship_departure(datum/trade_ship/ship, auto = FALSE)
+	if(!ship)
+		return
 	var/datum/foreign_realm/realm = realms[ship.realm_id]
 	var/list/durations = dock_durations_by_realm[ship.realm_id]
 	if(!durations)
 		durations = list()
 		dock_durations_by_realm[ship.realm_id] = durations
 	durations += (world.time - ship.docked_at)
-	resolve_ship_favor(ship, realm)
+	resolve_ship_favor(ship, realm, auto = auto)
 	remove_ship_demand_for_realm(realm)
 	all_ships -= ship
 	qdel(ship)
-	broadcast_market_change()
-	return "ok"
 
-/datum/controller/subsystem/merchant_trade/proc/resolve_ship_favor(datum/trade_ship/ship, datum/foreign_realm/realm)
+/datum/controller/subsystem/merchant_trade/proc/resolve_ship_favor(datum/trade_ship/ship, datum/foreign_realm/realm, auto = FALSE)
 	if(!ship)
 		return
 	favor_earned_by_realm[ship.realm_id] = (favor_earned_by_realm[ship.realm_id] || 0) + ship.favor_earned
@@ -393,7 +407,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	else
 		outcome = FAVOR_OUTCOME_DISHONORED
 		awarded = -round(FAVOR_SEND_FAILURE_PENALTY * ship.tonnage_scale_mult())
-	adjust_merchant_favor(awarded)
+	adjust_merchant_favor(awarded, allow_negative = auto)
 	if(awarded >= 0)
 		favor_from_sendoffs += awarded
 	else
@@ -406,12 +420,15 @@ SUBSYSTEM_DEF(merchant_trade)
 		"expected" = ship.expected_favor,
 		"awarded" = awarded,
 		"refunded_hail" = refunded,
+		"auto" = auto,
 	)))
 	if(length(favor_ledger) > 8)
 		favor_ledger.Cut(9)
 
-/datum/controller/subsystem/merchant_trade/proc/adjust_merchant_favor(amt)
-	merchant_favor = max(0, merchant_favor + amt)
+/datum/controller/subsystem/merchant_trade/proc/adjust_merchant_favor(amt, allow_negative = FALSE)
+	merchant_favor = merchant_favor + amt
+	if(!allow_negative)
+		merchant_favor = max(0, merchant_favor)
 	if(merchant_favor > merchant_favor_high)
 		merchant_favor_high = merchant_favor
 	return merchant_favor
@@ -437,6 +454,73 @@ SUBSYSTEM_DEF(merchant_trade)
 		return FALSE
 	extra_pier_rented = TRUE
 	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/unlock_auto_hailer()
+	if(auto_hailer_unlocked)
+		return FALSE
+	if(!spend_merchant_favor(AUTO_HAILER_FAVOR))
+		return FALSE
+	auto_hailer_unlocked = TRUE
+	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/toggle_auto_hailer()
+	if(!auto_hailer_unlocked)
+		return FALSE
+	auto_hailer_on = !auto_hailer_on
+	if(auto_hailer_on)
+		schedule_auto_hailer_tick()
+	else if(auto_hailer_timer_id)
+		deltimer(auto_hailer_timer_id)
+		auto_hailer_timer_id = null
+	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/schedule_auto_hailer_tick()
+	if(auto_hailer_timer_id)
+		deltimer(auto_hailer_timer_id)
+	auto_hailer_timer_id = addtimer(CALLBACK(src, PROC_REF(auto_hailer_tick)), AUTO_HAILER_TICK_INTERVAL, TIMER_STOPPABLE)
+
+/datum/controller/subsystem/merchant_trade/proc/auto_hailer_tick()
+	if(!auto_hailer_on || !auto_hailer_unlocked)
+		auto_hailer_timer_id = null
+		return
+	var/list/to_dismiss = list()
+	for(var/datum/trade_ship/ship in all_ships)
+		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+			continue
+		var/honored = ship.expected_favor > 0 && ship.favor_earned >= ship.expected_favor
+		var/timed_out = world.time >= ship.docked_at + AUTO_HAILER_DOCK_TIMEOUT
+		if(honored || timed_out)
+			to_dismiss += ship
+	for(var/datum/trade_ship/ship as anything in to_dismiss)
+		auto_dismiss_ship(ship)
+	var/spots_free = get_dock_spots_max() - length(get_docked_ships())
+	while(spots_free > 0 && hails_remaining > 0)
+		var/datum/trade_ship/picked = pick_available_ship_weighted()
+		if(!picked)
+			break
+		hails_remaining--
+		picked.dock()
+		announce_dock(picked)
+		hails_by_realm[picked.realm_id] = (hails_by_realm[picked.realm_id] || 0) + 1
+		spots_free--
+	broadcast_market_change()
+	schedule_auto_hailer_tick()
+
+/datum/controller/subsystem/merchant_trade/proc/pick_available_ship_weighted()
+	var/list/weighted = list()
+	for(var/datum/trade_ship/ship in all_ships)
+		if(ship.dock_state != TRADE_SHIP_STATE_AVAILABLE)
+			continue
+		var/datum/foreign_realm/R = realms[ship.realm_id]
+		weighted[ship] = R ? max(1, R.roll_weight) : 1
+	if(!length(weighted))
+		return null
+	return pickweight(weighted)
+
+/datum/controller/subsystem/merchant_trade/proc/auto_dismiss_ship(datum/trade_ship/ship)
+	if(!ship || ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+		return
+	finalize_ship_departure(ship, auto = TRUE)
 
 /datum/controller/subsystem/merchant_trade/proc/favor_triumph_bonus()
 	var/high = merchant_favor_high

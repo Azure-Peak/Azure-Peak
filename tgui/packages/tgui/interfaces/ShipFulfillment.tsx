@@ -1,3 +1,5 @@
+import type { BooleanLike } from 'tgui-core/react';
+
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
@@ -23,6 +25,7 @@ type DemandLine = {
   qty_target: number;
   qty_fulfilled: number;
   offered_price: number;
+  kin_offered_price?: number;
   tag?: string;
 };
 
@@ -30,6 +33,7 @@ type Manifest = {
   ship_id: string;
   ship_name: string;
   realm_id: string;
+  is_kin?: BooleanLike;
   typical_provisions?: string;
   lines: DemandLine[];
 };
@@ -37,6 +41,7 @@ type Manifest = {
 type Data = {
   manifests: Manifest[];
   middleman_cut_percent: number;
+  kinship_sell_pct?: number;
 };
 
 const TAG_VICTUALLING_FRESH = 'victualling_fresh';
@@ -110,9 +115,13 @@ const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
   const { line, cutPercent } = props;
   const remaining = Math.max(0, line.qty_target - line.qty_fulfilled);
   const done = remaining === 0;
-  const producerPayout = Math.round(
-    line.offered_price * (1 - cutPercent / 100),
-  );
+  const hasKin =
+    line.kin_offered_price !== undefined &&
+    line.kin_offered_price > line.offered_price;
+  const effectivePrice = hasKin
+    ? (line.kin_offered_price as number)
+    : line.offered_price;
+  const producerPayout = Math.round(effectivePrice * (1 - cutPercent / 100));
   return (
     <div
       style={{
@@ -125,6 +134,11 @@ const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
         fontSize: '12px',
         opacity: done ? 0.55 : 1,
       }}
+      title={
+        hasKin
+          ? `${effectivePrice}m each (Kinship +${effectivePrice - line.offered_price}m over base ${line.offered_price}m)`
+          : undefined
+      }
     >
       <span style={{ flex: 1, color: INK, fontWeight: 'bold' }}>
         {line.good_name}
@@ -136,11 +150,24 @@ const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
         style={{
           flex: '0 0 110px',
           textAlign: 'right',
-          color: done ? INK_FAINT : SEAL_AMBER,
           fontWeight: 'bold',
         }}
       >
-        {line.offered_price}m each
+        {hasKin && (
+          <span
+            style={{
+              color: INK_FAINT,
+              textDecoration: 'line-through',
+              marginRight: '4px',
+              fontWeight: 'normal',
+            }}
+          >
+            {line.offered_price}m
+          </span>
+        )}
+        <span style={{ color: done ? INK_FAINT : hasKin ? SEAL_GREEN : SEAL_AMBER }}>
+          {effectivePrice}m each
+        </span>
       </span>
       <span
         style={{
@@ -220,6 +247,24 @@ const ManifestSection = (props: {
         >
           {manifest.realm_id}
         </span>
+        {!!manifest.is_kin && (
+          <span
+            title="Kin ship - bulk demand payouts get the Kinship bonus"
+            style={{
+              marginLeft: '6px',
+              padding: '0 6px',
+              border: `1px solid ${SEAL_GREEN}`,
+              borderRadius: '8px',
+              color: SEAL_GREEN,
+              fontSize: '10px',
+              fontWeight: 'bold',
+              letterSpacing: '0.5px',
+              verticalAlign: 'middle',
+            }}
+          >
+            KIN
+          </span>
+        )}
       </div>
       {!!manifest.typical_provisions && (
         <div

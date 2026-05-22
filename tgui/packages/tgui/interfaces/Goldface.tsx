@@ -27,6 +27,7 @@ export const Goldface = () => {
   const canRead = !!data.can_read;
   const isPublic = !!data.is_public;
   const isProprietor = !!data.is_proprietor;
+  const isAgent = !!data.is_agent;
 
   const helpButton = (
     <button
@@ -72,16 +73,22 @@ export const Goldface = () => {
   }
 
   const canSeeMerchantTabs = isProprietor;
+  const canSeeHarborTabs = isProprietor || isAgent;
   const culturalStock = data.harbor?.cultural_stock ?? [];
   let activeTab = tab;
   if (
-    (activeTab === 'harbor' ||
-      activeTab === 'cultural' ||
-      activeTab === 'market' ||
+    (activeTab === 'harbor' || activeTab === 'cultural') &&
+    !canSeeHarborTabs
+  ) {
+    activeTab = 'goods';
+  } else if (
+    (activeTab === 'market' ||
       activeTab === 'management' ||
       activeTab === 'ledger') &&
     !canSeeMerchantTabs
-  ) activeTab = 'goods';
+  ) {
+    activeTab = 'goods';
+  }
 
   return (
     <Window width={880} height={800} theme="parchment">
@@ -94,7 +101,7 @@ export const Goldface = () => {
           >
             Goods
           </div>
-          {canSeeMerchantTabs && (
+          {canSeeHarborTabs && (
             <div
               style={tabStyle(activeTab === 'cultural')}
               onClick={() => setTab('cultural')}
@@ -102,7 +109,7 @@ export const Goldface = () => {
               Cultural Stock
             </div>
           )}
-          {canSeeMerchantTabs && (
+          {canSeeHarborTabs && (
             <div
               style={tabStyle(activeTab === 'harbor')}
               onClick={() => setTab('harbor')}
@@ -141,15 +148,22 @@ export const Goldface = () => {
         </div>
         {mammonBar}
         {activeTab === 'goods' && <VendingPanel data={data} act={act} />}
-        {activeTab === 'cultural' && canSeeMerchantTabs && (
+        {activeTab === 'cultural' && canSeeHarborTabs && (
           <CulturalStockTab
             stock={culturalStock}
+            kinship={data.harbor?.kinship}
             budget={data.budget}
+            isAgent={isAgent}
             act={act}
           />
         )}
-        {activeTab === 'harbor' && canSeeMerchantTabs && (
-          <HarborTab harbor={data.harbor} budget={data.budget} act={act} />
+        {activeTab === 'harbor' && canSeeHarborTabs && (
+          <HarborTab
+            harbor={data.harbor}
+            budget={data.budget}
+            isAgent={isAgent}
+            act={act}
+          />
         )}
         {activeTab === 'market' && canSeeMerchantTabs && (
           <MarketTab harbor={data.harbor} />

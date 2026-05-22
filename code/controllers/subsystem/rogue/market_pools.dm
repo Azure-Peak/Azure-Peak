@@ -177,11 +177,18 @@
 			return MARKET_THEME_ENGINEERING
 	return MARKET_THEME_MISC
 
+/proc/get_navigator_bucket_pop_scale(bucket)
+	switch(bucket)
+		if(NAVIGATOR_BUCKET_VALUABLES_LOOTED)
+			return MARKET_POOL_POP_SCALE_VALUABLES_LOOTED
+	return MARKET_POOL_POP_SCALE
+
 /proc/compute_navigator_bucket_capacity(bucket, pop_count, list/theme_jitters)
 	var/baseline = get_navigator_bucket_pool_baseline(bucket)
 	if(baseline <= 0)
 		return 0
-	var/pop_mult = 1 + MARKET_POOL_POP_SCALE * max(0, pop_count - MARKET_POOL_POP_REFERENCE)
+	var/scale = get_navigator_bucket_pop_scale(bucket)
+	var/pop_mult = 1 + scale * max(0, pop_count - MARKET_POOL_POP_REFERENCE)
 	var/theme = get_navigator_bucket_theme(bucket)
 	var/jitter = theme_jitters ? (theme_jitters[theme] || 1.0) : (MARKET_POOL_JITTER_LOW + rand() * (MARKET_POOL_JITTER_HIGH - MARKET_POOL_JITTER_LOW))
 	return round(baseline * pop_mult * jitter)

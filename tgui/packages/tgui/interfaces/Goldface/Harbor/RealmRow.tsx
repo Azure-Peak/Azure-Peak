@@ -156,6 +156,23 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
             }}
           >
             {realm.name}
+            {!!realm.is_kin && (
+              <span
+                title="Kinship Bonus active"
+                style={{
+                  marginLeft: '6px',
+                  padding: '0 6px',
+                  border: `1px solid ${SEAL_GREEN}`,
+                  borderRadius: '8px',
+                  color: SEAL_GREEN,
+                  fontSize: '10px',
+                  fontWeight: 'bold',
+                  letterSpacing: '0.5px',
+                }}
+              >
+                KIN
+              </span>
+            )}
           </div>
           <div style={{ lineHeight: '1.5' }}>
             {conditions.length === 0 ? (

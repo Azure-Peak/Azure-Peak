@@ -21,8 +21,7 @@
 	ship_types = list(
 		list("name" = "Junk", "tonnage" = 80, "weight" = 20),
 		list("name" = "War Junk", "tonnage" = 200, "weight" = 30),
-		list("name" = "Treasure Ship", "tonnage" = 500, "weight" = 30),
-		list("name" = "Imperial Treasure Ship", "tonnage" = 800, "weight" = 20),
+		list("name" = "Treasure Ship", "tonnage" = 800, "weight" = 30),
 	)
 	city_tags = list()
 	city_tag_chance = 0
@@ -35,7 +34,6 @@
 		list("good" = TRADE_GOOD_CINNABAR, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT),
 		list("good" = TRADE_GOOD_SUGAR, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_FAIR),
 		list("good" = TRADE_GOOD_PLUM, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
-		list("good" = TRADE_GOOD_GOLD_ORE, "qty_min" = BULK_QTY_TINY_MIN, "qty_max" = BULK_QTY_TINY_MAX, "price_mod" = BULK_PRICE_FAIR),
 	)
 	bulk_demand_pool = list(
 		list("good" = TRADE_GOOD_GOLD_INGOT, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_DESPERATE, "always" = TRUE),

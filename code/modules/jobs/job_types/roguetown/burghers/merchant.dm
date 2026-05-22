@@ -31,6 +31,11 @@ The priests will whisper that you follow the Sun-Thief. Frown, shake your head, 
 		/datum/advclass/merchant
 	)
 
+/datum/job/roguetown/merchant/after_spawn(mob/living/H, mob/M, latejoin)
+	. = ..()
+	if(ishuman(H) && SSmerchant_trade)
+		SSmerchant_trade.try_claim_kinship_for(H)
+
 /datum/advclass/merchant
 	name = "Merchant"
 	tutorial = "TODO: Merchant advclass flavor rewrite - Ansari to fill" //TODO: Merchant advclass FT rewrite (M8)

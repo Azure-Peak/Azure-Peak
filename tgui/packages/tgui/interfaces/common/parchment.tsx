@@ -246,9 +246,11 @@ export const PriceTag = (props: {
   tariff?: number;
   cantAfford?: boolean;
   title?: string;
+  strikethrough?: number;
 }) => {
-  const { price, tariff, cantAfford, title } = props;
+  const { price, tariff, cantAfford, title, strikethrough } = props;
   const hasTariff = !!tariff && tariff > 0;
+  const hasStrike = !!strikethrough && strikethrough > price;
   return (
     <div
       style={{
@@ -259,7 +261,19 @@ export const PriceTag = (props: {
       }}
       title={title}
     >
-      {price}
+      {hasStrike && (
+        <span
+          style={{
+            color: INK_FAINT,
+            textDecoration: 'line-through',
+            marginRight: '4px',
+            fontSize: FONT_BODY,
+          }}
+        >
+          {strikethrough}m
+        </span>
+      )}
+      <span style={{ color: hasStrike ? SEAL_GREEN : 'inherit' }}>{price}</span>
       {hasTariff && (
         <span
           style={{

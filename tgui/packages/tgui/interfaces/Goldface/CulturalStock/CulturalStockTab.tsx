@@ -12,14 +12,18 @@ import {
   INK_SOFT,
   pageStyle,
   PriceTag,
+  SEAL_GREEN,
   sectionHeaderStyle,
+  SERIF,
   titleStyle,
 } from '../../common/parchment';
-import type { ActFn, CulturalStockEntry } from '../types';
+import type { ActFn, CulturalStockEntry, KinshipData } from '../types';
 
 type Props = {
   stock: CulturalStockEntry[];
+  kinship?: KinshipData;
   budget: number;
+  isAgent?: boolean;
   act: ActFn;
 };
 
@@ -31,9 +35,21 @@ const StockCard = (props: {
   const { entry, budget, act } = props;
   const cantAfford = budget < entry.price;
   const hasTariff = entry.price_tariff > 0;
-  const priceTitle = hasTariff
-    ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty = ${entry.price}m (was ${entry.base_cost}m)`
-    : `${entry.price}m (was ${entry.base_cost}m)`;
+  const hasKin =
+    !!entry.is_kin &&
+    entry.price_base_pre_kin !== undefined &&
+    entry.price_base_pre_kin > entry.price_base;
+  const kinSaving = hasKin
+    ? (entry.price_base_pre_kin as number) - entry.price_base
+    : 0;
+  const preKinPrice = hasKin
+    ? (entry.price_base_pre_kin as number) + entry.price_tariff
+    : 0;
+  const priceTitle = hasKin
+    ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty = ${entry.price}m (Kinship -${kinSaving}m off base cost ${entry.base_cost}m)`
+    : hasTariff
+      ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty = ${entry.price}m (was ${entry.base_cost}m)`
+      : `${entry.price}m (was ${entry.base_cost}m)`;
   return (
     <div style={denseRowStyle}>
       <div
@@ -71,6 +87,7 @@ const StockCard = (props: {
         tariff={entry.price_tariff}
         cantAfford={cantAfford}
         title={priceTitle}
+        strikethrough={hasKin ? preKinPrice : undefined}
       />
       <div style={{ flexShrink: 0 }}>
         <button
@@ -154,13 +171,90 @@ const ShipSection = (props: {
   );
 };
 
+const KinshipBanner = (props: { children: React.ReactNode }) => (
+  <div
+    style={{
+      margin: '6px 0 8px',
+      padding: '6px 10px',
+      border: `1px dashed ${SEAL_GREEN}`,
+      color: INK,
+      fontFamily: SERIF,
+      fontSize: '12px',
+      lineHeight: 1.4,
+    }}
+  >
+    {props.children}
+  </div>
+);
+
 export const CulturalStockTab = (props: Props) => {
-  const { stock, budget, act } = props;
+  const { stock, kinship, budget, isAgent, act } = props;
+
+  const banners = (
+    <>
+      {!!isAgent && (
+        <KinshipBanner>
+          <span
+            style={{
+              color: SEAL_GREEN,
+              fontVariant: 'small-caps',
+              fontWeight: 'bold',
+              marginRight: '6px',
+            }}
+          >
+            Chartered Agent
+          </span>
+          <span style={{ color: INK_SOFT }}>
+            As an agent of the Azurian Trading Company, you are allowed to
+            access, view, and purchase the Cultural Stock of any docked ships,
+            and view and hail ships on behalf of the Factor.
+          </span>
+        </KinshipBanner>
+      )}
+      {kinship?.realm_name && (
+        <KinshipBanner>
+          <span
+            style={{
+              color: SEAL_GREEN,
+              fontVariant: 'small-caps',
+              fontWeight: 'bold',
+              marginRight: '6px',
+            }}
+          >
+            Kinship: {kinship.realm_name}
+          </span>
+          <span style={{ color: INK_SOFT }}>
+            Cultural stock from {kinship.realm_name} ships costs{' '}
+            {kinship.buy_pct}% less.
+          </span>
+        </KinshipBanner>
+      )}
+      {kinship?.agent_realm_name && (
+        <KinshipBanner>
+          <span
+            style={{
+              color: SEAL_GREEN,
+              fontVariant: 'small-caps',
+              fontWeight: 'bold',
+              marginRight: '6px',
+            }}
+          >
+            Agent Kinship: {kinship.agent_realm_name}
+          </span>
+          <span style={{ color: INK_SOFT }}>
+            As an Agent, your buys from {kinship.agent_realm_name} ships cost{' '}
+            {kinship.buy_pct}% less.
+          </span>
+        </KinshipBanner>
+      )}
+    </>
+  );
 
   if (!stock.length) {
     return (
       <div style={pageStyle}>
         <div style={titleStyle}>Cultural Stock</div>
+        {banners}
         <div
           style={{
             ...cardStyle,
@@ -193,6 +287,7 @@ export const CulturalStockTab = (props: Props) => {
   return (
     <div style={pageStyle}>
       <div style={titleStyle}>Cultural Stock</div>
+      {banners}
       <div
         style={{
           textAlign: 'center',

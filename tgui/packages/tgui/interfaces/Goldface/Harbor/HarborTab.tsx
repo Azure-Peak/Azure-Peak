@@ -7,6 +7,7 @@ import {
   INK_SOFT,
   pageStyle,
   SEAL_AMBER,
+  SEAL_GREEN,
   SERIF,
   subTabBarStyle,
   subTabStyle,
@@ -76,14 +77,46 @@ const BudgetStrip = (props: { harbor: HarborData }) => {
 export const HarborTab = (props: {
   harbor?: HarborData;
   budget: number;
+  isAgent?: boolean;
   act: ActFn;
 }) => {
-  const { harbor, budget, act } = props;
+  const { harbor, budget, isAgent, act } = props;
   const [tab, setTab] = useState<HarborSubTab>('ships');
+
+  const agentBanner = isAgent ? (
+    <div
+      style={{
+        margin: '6px 0 8px',
+        padding: '6px 10px',
+        border: `1px dashed ${SEAL_GREEN}`,
+        color: INK,
+        fontFamily: SERIF,
+        fontSize: '12px',
+        lineHeight: 1.4,
+      }}
+    >
+      <span
+        style={{
+          color: SEAL_GREEN,
+          fontVariant: 'small-caps',
+          fontWeight: 'bold',
+          marginRight: '6px',
+        }}
+      >
+        Chartered Agent
+      </span>
+      <span style={{ color: INK_SOFT }}>
+        As an agent of the Azurian Trading Company, you are allowed to access,
+        view, and purchase the Cultural Stock of any docked ships, and view and
+        hail ships on behalf of the Factor.
+      </span>
+    </div>
+  ) : null;
 
   if (!harbor) {
     return (
       <div style={pageStyle}>
+        {agentBanner}
         <div
           style={{
             ...cardStyle,
@@ -99,7 +132,65 @@ export const HarborTab = (props: {
 
   return (
     <div style={pageStyle}>
+      {agentBanner}
       <BudgetStrip harbor={harbor} />
+      {harbor.kinship?.realm_name && (
+        <div
+          style={{
+            margin: '6px 0 8px',
+            padding: '6px 10px',
+            border: `1px dashed ${SEAL_GREEN}`,
+            color: INK,
+            fontFamily: SERIF,
+            fontSize: '12px',
+            lineHeight: 1.4,
+          }}
+        >
+          <span
+            style={{
+              color: SEAL_GREEN,
+              fontVariant: 'small-caps',
+              fontWeight: 'bold',
+              marginRight: '6px',
+            }}
+          >
+            Kinship: {harbor.kinship.realm_name}
+          </span>
+          <span style={{ color: INK_SOFT }}>
+            At least one ship from {harbor.kinship.realm_name} will dock per dae, sell{' '}
+            {harbor.kinship.buy_pct}% cheaper, and pay {harbor.kinship.sell_pct}
+            % more on bulk demand.
+          </span>
+        </div>
+      )}
+      {harbor.kinship?.agent_realm_name && (
+        <div
+          style={{
+            margin: '6px 0 8px',
+            padding: '6px 10px',
+            border: `1px dashed ${SEAL_GREEN}`,
+            color: INK,
+            fontFamily: SERIF,
+            fontSize: '12px',
+            lineHeight: 1.4,
+          }}
+        >
+          <span
+            style={{
+              color: SEAL_GREEN,
+              fontVariant: 'small-caps',
+              fontWeight: 'bold',
+              marginRight: '6px',
+            }}
+          >
+            Agent Kinship: {harbor.kinship.agent_realm_name}
+          </span>
+          <span style={{ color: INK_SOFT }}>
+            As an Agent, your buys from {harbor.kinship.agent_realm_name} ships
+            cost {harbor.kinship.buy_pct}% less.
+          </span>
+        </div>
+      )}
       <div style={subTabBarStyle}>
         <button
           type="button"
