@@ -154,6 +154,17 @@ export const inkButtonStyle = (opts: {
   };
 };
 
+export const inkInputStyle: CSSProperties = {
+  fontFamily: SERIF,
+  fontSize: '13px',
+  color: INK,
+  background: BUTTON_BG,
+  border: `1px solid ${INK_FAINT}`,
+  borderRadius: '2px',
+  padding: '2px 6px',
+  outline: 'none',
+};
+
 export const fieldRowStyle: CSSProperties = {
   display: 'flex',
   padding: '5px 0',

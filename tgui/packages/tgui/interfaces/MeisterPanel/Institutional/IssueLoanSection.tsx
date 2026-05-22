@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
 import {
+  BUTTON_BG,
   fieldLabelStyle,
   fieldRowStyle,
   fieldValueStyle,
   INK_FAINT,
   inkButtonStyle,
+  inkInputStyle,
   SEAL_AMBER,
   sectionHeaderStyle,
   tabBarStyle,
@@ -90,8 +92,8 @@ export const IssueLoanSection = ({
                       fontWeight: target === t.id ? 'bold' : 'normal',
                       background:
                         target === t.id
-                          ? 'rgba(200,170,100,0.4)'
-                          : 'rgba(255,248,220,0.6)',
+                          ? 'var(--p-tab-active-bg)'
+                          : BUTTON_BG,
                     }}
                     onClick={() => setTarget(t.id)}
                   >
@@ -117,7 +119,7 @@ export const IssueLoanSection = ({
             max={tier === 'personal' ? 500 : 2000}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            style={{ width: 110 }}
+            style={{ ...inkInputStyle, width: 110 }}
           />
           <span style={{ marginLeft: 6, color: INK_FAINT }}>
             {tier === 'personal' ? '(50 - 500m)' : '(501 - 2000m)'}
@@ -137,8 +139,8 @@ export const IssueLoanSection = ({
                 fontWeight: term === t ? 'bold' : 'normal',
                 background:
                   term === t
-                    ? 'rgba(200,170,100,0.4)'
-                    : 'rgba(255,248,220,0.6)',
+                    ? 'var(--p-tab-active-bg)'
+                    : BUTTON_BG,
               }}
               onClick={() => setTerm(t)}
             >
@@ -160,8 +162,8 @@ export const IssueLoanSection = ({
                 fontWeight: rate === r ? 'bold' : 'normal',
                 background:
                   rate === r
-                    ? 'rgba(200,170,100,0.4)'
-                    : 'rgba(255,248,220,0.6)',
+                    ? 'var(--p-tab-active-bg)'
+                    : BUTTON_BG,
               }}
               onClick={() => setRate(r)}
             >

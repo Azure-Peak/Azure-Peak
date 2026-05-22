@@ -80,7 +80,7 @@ const LevyControl = (props: {
             fontFamily: SERIF,
             fontSize: '13px',
             color: INK,
-            background: 'rgba(255,248,220,0.6)',
+            background: 'var(--p-button-bg)',
             border: `1px solid ${INK_FAINT}`,
             borderRadius: '2px',
             padding: '2px 6px',
@@ -143,7 +143,7 @@ const GnomeMarginControl = (props: {
             fontFamily: SERIF,
             fontSize: '13px',
             color: INK,
-            background: 'rgba(255,248,220,0.6)',
+            background: 'var(--p-button-bg)',
             border: `1px solid ${INK_FAINT}`,
             borderRadius: '2px',
             padding: '2px 6px',
@@ -215,7 +215,7 @@ const TriumphLever = (props: { favor: FavorData }) => {
               style={{
                 position: 'relative',
                 height: '12px',
-                background: 'rgba(255,248,220,0.4)',
+                background: 'var(--p-card-bg)',
                 border: `1px solid ${earned ? SEAL_GREEN : PARCHMENT_SHADOW}`,
                 borderRadius: '2px',
                 overflow: 'hidden',
@@ -309,7 +309,7 @@ const SinkButton = (props: {
       style={{
         padding: '8px 10px',
         border: `1px solid ${INK_FAINT}`,
-        background: done ? 'rgba(180,200,160,0.18)' : 'rgba(255,248,220,0.3)',
+        background: done ? 'rgba(180,200,160,0.18)' : 'var(--p-card-bg)',
         borderRadius: '2px',
         marginTop: '6px',
       }}

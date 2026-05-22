@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import {
+  BUTTON_BG,
   cardStyle,
   INK,
   INK_FAINT,
@@ -124,7 +125,7 @@ const PostingCard = ({
         marginBottom: 0,
         background: isListing
           ? 'rgba(200,170,100,0.18)'
-          : 'rgba(255,248,220,0.45)',
+          : 'var(--p-card-bg)',
         borderColor: isListing ? INK_SOFT : INK_FAINT,
       }}
     >
@@ -280,7 +281,7 @@ const PostingForm = ({
     <div
       style={{
         ...cardStyle,
-        background: 'rgba(255,248,220,0.65)',
+        background: BUTTON_BG,
         borderColor: INK_SOFT,
       }}
     >
@@ -297,8 +298,8 @@ const PostingForm = ({
                 fontWeight: tier === POSTING_TIER_NOTICE ? 'bold' : 'normal',
                 background:
                   tier === POSTING_TIER_NOTICE
-                    ? 'rgba(200,170,100,0.4)'
-                    : 'rgba(255,248,220,0.6)',
+                    ? 'var(--p-tab-active-bg)'
+                    : BUTTON_BG,
               }}
               onClick={() => setTier(POSTING_TIER_NOTICE)}
             >
@@ -311,8 +312,8 @@ const PostingForm = ({
                 fontWeight: tier === POSTING_TIER_LISTING ? 'bold' : 'normal',
                 background:
                   tier === POSTING_TIER_LISTING
-                    ? 'rgba(200,170,100,0.4)'
-                    : 'rgba(255,248,220,0.6)',
+                    ? 'var(--p-tab-active-bg)'
+                    : BUTTON_BG,
               }}
               onClick={() => setTier(POSTING_TIER_LISTING)}
             >
@@ -446,7 +447,7 @@ const FormField = ({
             width: '100%',
             fontFamily: SERIF,
             fontSize: '13px',
-            background: 'rgba(255,248,220,0.7)',
+            background: BUTTON_BG,
             border: `1px solid ${INK_FAINT}`,
             color: INK,
             padding: '4px 6px',
@@ -462,7 +463,7 @@ const FormField = ({
             width: '100%',
             fontFamily: SERIF,
             fontSize: '13px',
-            background: 'rgba(255,248,220,0.7)',
+            background: BUTTON_BG,
             border: `1px solid ${INK_FAINT}`,
             color: INK,
             padding: '3px 6px',

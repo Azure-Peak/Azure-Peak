@@ -5,6 +5,7 @@ import { groupByCategory } from './helpers';
 import type { Data, MarketRegionOption, MarketRow } from './types';
 import {
   badgeStyle,
+  BUTTON_BG,
   cardStyle,
   INK,
   INK_FAINT,
@@ -570,7 +571,7 @@ const chevronStyle = {
   padding: '1px 6px',
   marginLeft: '6px',
   border: `1px solid ${INK_FAINT}`,
-  background: 'rgba(255,248,220,0.5)',
+  background: BUTTON_BG,
   color: INK_SOFT,
   cursor: 'pointer',
   borderRadius: '2px',

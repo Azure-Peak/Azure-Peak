@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import {
+  BUTTON_BG,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -61,7 +62,7 @@ const CategoryPill = (props: { name: string }) => (
       border: `1px solid ${INK_FAINT}`,
       borderRadius: '3px',
       color: INK,
-      background: 'rgba(255,248,220,0.5)',
+      background: BUTTON_BG,
       fontSize: '10px',
       whiteSpace: 'nowrap',
     }}
@@ -83,7 +84,7 @@ const GoodPill = (props: { name: string; rare: boolean; color: string }) => {
         border: `1px ${rare ? 'dashed' : 'solid'} ${color}`,
         borderRadius: '3px',
         color: color,
-        background: rare ? 'transparent' : 'rgba(255,248,220,0.5)',
+        background: rare ? 'transparent' : BUTTON_BG,
         fontSize: '10px',
         whiteSpace: 'nowrap',
         opacity: rare ? 0.85 : 1,
@@ -251,7 +252,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
             padding: '6px 8px 10px 36px',
             fontSize: '12px',
             color: INK,
-            background: 'rgba(255,248,220,0.3)',
+            background: 'var(--p-card-bg)',
           }}
         >
           {realm.cultural_pack_names.length > 0 && (

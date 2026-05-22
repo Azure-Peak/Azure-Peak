@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import {
+  BUTTON_BG,
   cardStyle,
   fieldLabelStyle,
   fieldRowStyle,
@@ -8,6 +9,7 @@ import {
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
+  inkInputStyle,
   SEAL_AMBER,
   SEAL_RED,
   sectionHeaderStyle,
@@ -66,8 +68,8 @@ export const PersonalTab = ({ data, act }: TabProps) => {
                 fontWeight: denom === d.id ? 'bold' : 'normal',
                 background:
                   denom === d.id
-                    ? 'rgba(200,170,100,0.4)'
-                    : 'rgba(255,248,220,0.6)',
+                    ? 'var(--p-tab-active-bg)'
+                    : BUTTON_BG,
               }}
               onClick={() => setDenom(d.id)}
             >
@@ -85,7 +87,7 @@ export const PersonalTab = ({ data, act }: TabProps) => {
             max={20}
             value={coinAmount}
             onChange={(e) => setCoinAmount(e.target.value)}
-            style={{ width: 90 }}
+            style={{ ...inkInputStyle, width: 90 }}
           />
           <span style={{ marginLeft: 6, color: INK_FAINT }}>
             (max 20; total {totalDraw}m)
@@ -152,7 +154,7 @@ export const PersonalTab = ({ data, act }: TabProps) => {
                 max={Math.min(loan.remaining, data.account_balance)}
                 value={repayAmount}
                 onChange={(e) => setRepayAmount(e.target.value)}
-                style={{ width: 110 }}
+                style={{ ...inkInputStyle, width: 110 }}
               />
               <span style={{ marginLeft: 6, color: INK_FAINT }}>mammon</span>
             </div>

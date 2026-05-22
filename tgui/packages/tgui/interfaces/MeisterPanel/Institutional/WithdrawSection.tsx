@@ -6,6 +6,7 @@ import {
   fieldValueStyle,
   INK_FAINT,
   inkButtonStyle,
+  inkInputStyle,
   SEAL_AMBER,
   sectionHeaderStyle,
 } from '../../common/parchment';
@@ -48,7 +49,7 @@ export const WithdrawSection = ({
             max={balance}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            style={{ width: 110 }}
+            style={{ ...inkInputStyle, width: 110 }}
           />
           <span style={{ marginLeft: 6, color: INK_FAINT }}>mammon</span>
         </div>

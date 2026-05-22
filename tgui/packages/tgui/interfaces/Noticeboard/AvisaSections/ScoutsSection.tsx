@@ -179,7 +179,7 @@ const HelpPanel = () => (
     style={{
       marginTop: 8,
       padding: '8px 12px',
-      background: 'rgba(255,248,220,0.45)',
+      background: 'var(--p-card-bg)',
       border: `1px solid ${INK_FAINT}`,
       color: INK_SOFT,
       fontSize: '12px',

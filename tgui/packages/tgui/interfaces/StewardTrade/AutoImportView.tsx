@@ -4,6 +4,7 @@ import { useBackend } from '../../backend';
 import { groupByCategory } from './helpers';
 import {
   badgeStyle,
+  BUTTON_BG,
   cardStyle,
   INK,
   INK_FAINT,
@@ -92,7 +93,7 @@ export const AutoImportView = (props: { data: Data }) => {
                 fontSize: '12px',
                 padding: '2px 4px',
                 border: `1px solid ${INK_FAINT}`,
-                background: 'rgba(255,248,220,0.55)',
+                background: BUTTON_BG,
                 color: INK,
                 opacity: aldermanActing ? 0.55 : 1,
               }}

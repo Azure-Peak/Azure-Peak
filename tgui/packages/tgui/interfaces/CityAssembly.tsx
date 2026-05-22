@@ -6,6 +6,7 @@ import { BooleanLike } from 'tgui-core/react';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
+  BUTTON_BG,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -555,7 +556,7 @@ const ElectionRow = (props: ElectionRowProps) => {
               onChange={(v) => props.setPledgeDraft(v)}
               placeholder="Your pledge (max 300 characters)..."
               style={{
-                background: 'rgba(255,248,220,0.6)',
+                background: BUTTON_BG,
                 border: `1px solid ${INK_FAINT}`,
                 padding: '4px 6px',
                 fontFamily: SERIF,

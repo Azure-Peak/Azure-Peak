@@ -8,6 +8,7 @@ import {
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
+  inkInputStyle,
   sectionHeaderStyle,
 } from '../common/parchment';
 import { type TabProps } from './types';
@@ -82,7 +83,7 @@ export const PollTaxTab = ({ data, act }: TabProps) => {
                 max={maxDays}
                 value={days}
                 onChange={(e) => setDays(e.target.value)}
-                style={{ width: 90 }}
+                style={{ ...inkInputStyle, width: 90 }}
               />
               <span style={{ marginLeft: 6, color: INK_FAINT }}>
                 (max {maxDays}; {numericDays * effectiveRate}m
