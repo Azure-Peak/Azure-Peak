@@ -392,6 +392,9 @@
 			SStgui.close_uis(src)
 			open_assembly_tgui(H)
 			return TRUE
+		if("help_market")
+			open_economy_guidebook(H, "Merchant", /datum/book_entry/treasury_merchant/avisa_market)
+			return TRUE
 
 /obj/structure/roguemachine/noticeboard/proc/handle_make_post(mob/living/carbon/human/H, list/params)
 	var/tier = "[params["tier"]]"

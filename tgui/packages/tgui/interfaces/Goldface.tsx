@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
-import { tabBarStyle, tabStyle } from './common/parchment';
+import { inkButtonStyle, tabBarStyle, tabStyle } from './common/parchment';
 import { CulturalStockTab } from './Goldface/CulturalStock/CulturalStockTab';
 import { HarborTab } from './Goldface/Harbor/HarborTab';
 import { LedgerTab } from './Goldface/Ledger/LedgerTab';
@@ -28,6 +28,17 @@ export const Goldface = () => {
   const isPublic = !!data.is_public;
   const isProprietor = !!data.is_proprietor;
 
+  const helpButton = (
+    <button
+      type="button"
+      title="Open the economy guidebook"
+      style={{ ...inkButtonStyle({}), marginLeft: 'auto' }}
+      onClick={() => act('help')}
+    >
+      ?
+    </button>
+  );
+
   const mammonBar = (
     <div style={{ padding: '6px 28px 0 28px' }}>
       <MammonRow
@@ -44,6 +55,15 @@ export const Goldface = () => {
     return (
       <Window width={1100} height={800} theme="parchment">
         <Window.Content scrollable>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              padding: '6px 28px 0 28px',
+            }}
+          >
+            {helpButton}
+          </div>
           {mammonBar}
           <VendingPanel data={data} act={act} />
         </Window.Content>
@@ -113,6 +133,7 @@ export const Goldface = () => {
               Ledger
             </div>
           )}
+          {helpButton}
         </div>
         {mammonBar}
         {activeTab === 'goods' && <VendingPanel data={data} act={act} />}

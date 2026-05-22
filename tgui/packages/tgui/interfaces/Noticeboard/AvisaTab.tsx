@@ -105,6 +105,16 @@ export const AvisaTab = ({ data, act }: TabProps) => {
             {s.label}
           </div>
         ))}
+        {section === 'market' && (
+          <button
+            type="button"
+            title="Open the economy guidebook"
+            style={{ ...inkButtonStyle({}), marginLeft: 'auto' }}
+            onClick={() => act('help_market')}
+          >
+            ?
+          </button>
+        )}
       </div>
 
       <div

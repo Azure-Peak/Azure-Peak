@@ -224,7 +224,7 @@
 	return TRUE
 
 /obj/item/recipe_book/treasury_primer
-	name = "Of Laws, Taxation and the Keeping of the Treasury"
+	name = "The Comprehensive Guide to the Azvrian Economy"
 	desc = "A plain-bound ledger-book, issued to Crown officers on appointment."
 	wiki_name = "Economy"
 	wiki_section = "Guides"

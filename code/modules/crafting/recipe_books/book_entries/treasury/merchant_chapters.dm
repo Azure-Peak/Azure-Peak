@@ -2,14 +2,25 @@
 	abstract_type = /datum/book_entry/treasury_merchant
 	category = "Merchant"
 
+/proc/open_economy_guidebook(mob/user, category = "Merchant", entry)
+	var/datum/recipe_wiki/wiki = get_recipe_wiki()
+	wiki.show_to_user(
+		user,
+		list(/datum/book_entry/treasury_general, /datum/book_entry/treasury_realm, /datum/book_entry/treasury_merchant, /datum/book_entry/treasury_underground),
+		"The Comprehensive Guide to the Azvrian Economy",
+		/obj/item/recipe_book/treasury_primer,
+		category,
+		entry,
+	)
+
 /datum/book_entry/treasury_merchant/navigator
 	name = "01. The Navigator"
 
 /datum/book_entry/treasury_merchant/navigator/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p><b>NAVIGATOR:</b> The heart of commerce of Azuria. This ancient machine lifts goods up by balloons to ships at the dock and the ATC's warehouse. The mechanisms are a trade secret of 
-		Azurian trade company. There's three variants: Public Navigator, Navigator and Smuggler's Navigator</p>
+		<p><b>NAVIGATOR:</b> The heart of commerce of Azuria. This ancient machine lifts goods up by balloons to ships at the dock and the ATC's warehouse. The mechanisms are a trade secret of
+		Azurian Trading Company. There's three variants: Public Navigator, Navigator and Smuggler's Navigator</p>
 
 		<h3>How it works</h3>
 		<ul>
@@ -49,8 +60,53 @@
 		</div>
 	"}
 
+
+/datum/book_entry/treasury_merchant/fulfillment_crate
+	name = "02. The Ship Fulfillment Crate"
+
+/datum/book_entry/treasury_merchant/fulfillment_crate/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p><b>SHIP FULFILLMENT CRATE:</b> A crate used to fill the bulk demands of docked foreign vessels. The crate pays out at the per-line price the docked ship is offering, less Crown export duty and the Merchant's middleman cut.</p>
+
+		<h3>How it works</h3>
+		<ul>
+			<li>You need a MEISTER account. The crate refuses goods from anyone without one.</li>
+			<li><b>Left-click with an item:</b> deposit that one item.</li>
+			<li><b>Right-click the crate:</b> dump everything on your tile into it at once.</li>
+			<li>Handcarts and bins on your tile are unpacked automatically - the crate matches their contents one item at a time.</li>
+			<li>Each accepted item is matched against an open demand line on a docked ship and you are paid into your account directly.</li>
+		</ul>
+
+		<h3>What the crate accepts</h3>
+		<ul>
+			<li><b>Bulk goods:</b> Tradeable raw or finished goods (cloth, ore, smelted ingots, leather, cured fish, and so on) matched to open bulk demand lines.</li>
+			<li><b>Victualling - Fresh:</b> Readied meals matching the docked ship's victualling dish list.</li>
+			<li><b>Victualling - Preserved:</b> hardtack, salted stores, dried provisions. Also capped per line.</li>
+			<li><b>Victualling - Drinks:</b> sealed brewer bottles only. Uncorked or partially-drunk bottles are refused.</li>
+			<li>Bundles (raw stack items like fibers and hides) are accepted up to the remaining demand on the line, any leftover stays in your bundle.</li>
+		</ul>
+
+		<h3>What the crate refuses</h3>
+		<ul>
+			<li>ATC-sealed items (anything bought from Goldface or Silverface, or otherwise spawned with the Company seal).</li>
+			<li>Rotten food.</li>
+			<li>Items priced below the demand line's offered price are still accepted - the ship pays the line price, not the item base price.</li>
+			<li>Goods not on any docked vessel's open manifest.</li>
+		</ul>
+
+		<h3>How it relates to the Navigator</h3>
+		<ul>
+			<li>The Navigator is the right tool for anything you want to sell at the prevailing market rate - it'll take anything sellable.</li>
+			<li>The Fulfillment Crate is the right tool for goods the docked ships specifically want, paid at the ship's offered (usually better) price.</li>
+			<li>Favor toward docked vessels accrues on bulk and victualling fulfillment alike. The Merchant's reputation depends on sellers showing up at the crate.</li>
+		</ul>
+		</div>
+	"}
+
+
 /datum/book_entry/treasury_merchant/goldface
-	name = "02. Goldface and Silverface"
+	name = "03. Goldface and Silverface"
 
 /datum/book_entry/treasury_merchant/goldface/inner_book_html(mob/user)
 	return {"
@@ -74,7 +130,7 @@
 			<li><b>Cultural stocks:</b> Docked ships carry cultural-goods packs at a [TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT]% discount off base cost. Import tariff still applies unless dodged.</li>
 			<li><b>Bulk buy:</b> Docked ships offer bulk cargoes for sale, in small quantities but enough to help supplement market shortage or local shortfall.</li>
 			<li><b>Bulk demands:</b> Docked ships purchase a large amount of goods at a decent markup, generally more than the town can produce reasonably.</li>
-			<li><b>Victualling demands:</b> Docked ships demands delicious readied meals and preserved foods at a significant markup, providing an opportunity for profit for the Merchant and Innkeeper, 
+			<li><b>Victualling demands:</b> Docked ships demands delicious readied meals and preserved foods at a significant markup, providing an opportunity for profit for the Merchant and Innkeeper,
 			Soilson or Cooks that can fulfill these orders.</li>
 			<li><b>Merchant's levy:</b> Merchant/Shophand can set the levy percentage (0 to [TRADE_MERCHANT_LEVY_CAP_PERCENT]%). This is the same levy collected by the Navigator on producer exports.</li>
 		</ul>
@@ -88,81 +144,8 @@
 	"}
 
 
-/datum/book_entry/treasury_merchant/escrow
-	name = "03. COMMISSIONER"
-
-/datum/book_entry/treasury_merchant/escrow/inner_book_html(mob/user)
-	return {"
-		<div>
-		<p><b>COMMISSIONER:</b>The COMMISSIONER lets anyone post a smithing or engineering commission with coin held in trust until a guildmember delivers the finished items. Posted orders can be partially settled or rejected.</p>
-
-		<h3>Posting an order (commissioner side)</h3>
-		<ul>
-			<li>Deposit coin into the machine - the deposit is held under your name.</li>
-			<li>Browse the catalogue.</li>
-			<li>Each recipe has a unit price: material cost times (1 + percent_margin/100) plus flat_margin. Defaults are [20]% percent margin, [0] flat margin.</li>
-			<li>You can refund your unposted deposit at any time. Posted but unclaimed orders can be cancelled (full refund).</li>
-			<li>Open orders expire after [ESCROW_OPEN_EXPIRY_DAYS] days if unclaimed; deposit returns to your reservation and can be withdrawn.</li>
-		</ul>
-
-		<h3>Claiming and fulfilling (smith side)</h3>
-		<ul>
-			<li>Only guild keyholders may claim.</li>
-			<li>Once claimed, the commissioner cannot cancel.</li>
-			<li>Deliver finished items by striking the machine with them. Items must be at least [ESCROW_DURABILITY_FLOOR * 100]% integrity, the correct type (exact), and within the wanted quantity.</li>
-			<li>Smith may voluntarily <code>release</code> the claim back to open status; delivered items return to the floor.</li>
-			<li>Claimed orders expire after [ESCROW_CLAIM_EXPIRY_DAYS] day if not completed; the order auto-reverts to open and delivered items dump to the floor.</li>
-		</ul>
-
-		<h3>Partial fulfillment</h3>
-		<ul>
-			<li>If the smith has delivered some but not all of the required items, they may settle partially.</li>
-			<li>Payout: (100 - [ESCROW_PARTIAL_HAIRCUT_PERCENT]) / 100. The haircut penalises partial work.</li>
-			<li>The unspent escrow is returned to the commissioner's deposit reservation.</li>
-		</ul>
-
-		<h3>Guildmaster controls</h3>
-		<ul>
-			<li>Unlocked with a guild key. Unlocked panel exposes per-material price editing, percent margin (clamped 0-500), flat margin, and force-release of stalled claimed orders.</li>
-			<li>Guildmaster may also reject any open or claimed order with a stated reason (200 char limit); delivered items dump to the floor, escrowed coin returns to the commissioner's deposit.</li>
-		</ul>
-
-		<h3>Other notes</h3>
-		<ul>
-			<li>Breaking the machine spills budget + all deposits to the floor and dumps every delivered item.</li>
-			<li>Damaged-item rejection messages tell the smith to mend before delivering.</li>
-			<li>Commissioners get notifications on claim, rejection, partial settle, completion, and expiry.</li>
-		</ul>
-		</div>
-	"}
-
-
-/datum/book_entry/treasury_merchant/avisa_market
-	name = "04. The Avisa Market Tab"
-
-/datum/book_entry/treasury_merchant/avisa_market/inner_book_html(mob/user)
-	return {"
-		<div>
-		<p><b>AVISA:</b>The Avisa, Azuria's longest running newspaper, for the discerning and intellectual!</p>
-
-		<h3>What it shows</h3>
-		<p>
-			Honestly, just click on it in the noticeboard. It will shows you multiple relevant information about the markets. Several producer places have a mini wall mounted noticeboard for this purpose.
-		</p>
-	"}
-
-
-/datum/book_entry/treasury_merchant/rag_picker
-	name = "05. The Scrapper / Rag Picker"
-
-/datum/book_entry/treasury_merchant/rag_picker/inner_book_html(mob/user)
-	return {"
-		<div>
-		<p><b>SCRAPPER / RAG PICKER:</b> A convenient machine that starts off with a 50m budget. To be salvager can dump in items that is demanded by the rag picker or scrapper and then receive mammons for their efforts immediately. After the initial budget is depleted, new mammons must be deposited for it to keep paying out. The associated roles can set prices, enable materials, and dump out the materials for them to salvage or resell manually.</p>
-	"}
-
 /datum/book_entry/treasury_merchant/harbor_mechanics
-	name = "06. Ships, Hails, and the Warehouses"
+	name = "04. Ships, Hails, and the Warehouses"
 
 /datum/book_entry/treasury_merchant/harbor_mechanics/inner_book_html(mob/user)
 	return {"
@@ -210,4 +193,79 @@
 			<li>Producers can fill the bulk demand crates. Your Favor income depends on whether they show up.</li>
 		</ul>
 		</div>
+	"}
+
+
+/datum/book_entry/treasury_merchant/avisa_market
+	name = "05. The Avisa Market Tab"
+
+/datum/book_entry/treasury_merchant/avisa_market/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p><b>AVISA:</b>The Avisa, Azuria's longest running newspaper, for the discerning and intellectual!</p>
+
+		<h3>What it shows</h3>
+		<p>
+			Honestly, just click on it in the noticeboard. It will shows you multiple relevant information about the markets. Several producer places have a mini wall mounted noticeboard for this purpose.
+		</p>
+		</div>
+	"}
+
+
+/datum/book_entry/treasury_merchant/escrow
+	name = "06. COMMISSIONER"
+
+/datum/book_entry/treasury_merchant/escrow/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p><b>COMMISSIONER:</b>The COMMISSIONER lets anyone post a smithing or tailoring commission with coin held in trust until a guildmember delivers the finished items. Posted orders can be partially settled or rejected.</p>
+
+		<h3>Posting an order (commissioner side)</h3>
+		<ul>
+			<li>Deposit coin into the machine - the deposit is held under your name.</li>
+			<li>Browse the catalogue.</li>
+			<li>Each recipe has a unit price: material cost times (1 + percent_margin/100) plus flat_margin. Defaults are [20]% percent margin, [0] flat margin.</li>
+			<li>You can refund your unposted deposit at any time. Posted but unclaimed orders can be cancelled (full refund).</li>
+			<li>Open orders expire after [ESCROW_OPEN_EXPIRY_DAYS] days if unclaimed; deposit returns to your reservation and can be withdrawn.</li>
+		</ul>
+
+		<h3>Claiming and fulfilling (smith side)</h3>
+		<ul>
+			<li>Only guild keyholders may claim.</li>
+			<li>Once claimed, the commissioner cannot cancel.</li>
+			<li>Deliver finished items by striking the machine with them. Items must be at least [ESCROW_DURABILITY_FLOOR * 100]% integrity, the correct type (exact), and within the wanted quantity.</li>
+			<li>Smith may voluntarily <code>release</code> the claim back to open status; delivered items return to the floor.</li>
+			<li>Claimed orders expire after [ESCROW_CLAIM_EXPIRY_DAYS] day if not completed; the order auto-reverts to open and delivered items dump to the floor.</li>
+		</ul>
+
+		<h3>Partial fulfillment</h3>
+		<ul>
+			<li>If the smith has delivered some but not all of the required items, they may settle partially.</li>
+			<li>Payout: (100 - [ESCROW_PARTIAL_HAIRCUT_PERCENT]) / 100. The haircut penalises partial work.</li>
+			<li>The unspent escrow is returned to the commissioner's deposit reservation.</li>
+		</ul>
+
+		<h3>Guildmaster controls</h3>
+		<ul>
+			<li>Unlocked with a guild key. Unlocked panel exposes per-material price editing, percent margin (clamped 0-500), flat margin, and force-release of stalled claimed orders.</li>
+			<li>Guildmaster may also reject any open or claimed order with a stated reason (200 char limit); delivered items dump to the floor, escrowed coin returns to the commissioner's deposit.</li>
+		</ul>
+
+		<h3>Other notes</h3>
+		<ul>
+			<li>Breaking the machine spills budget + all deposits to the floor and dumps every delivered item.</li>
+			<li>Damaged-item rejection messages tell the smith to mend before delivering.</li>
+			<li>Commissioners get notifications on claim, rejection, partial settle, completion, and expiry.</li>
+		</ul>
+		</div>
+	"}
+
+
+/datum/book_entry/treasury_merchant/rag_picker
+	name = "07. The Scrapper / Rag Picker"
+
+/datum/book_entry/treasury_merchant/rag_picker/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p><b>SCRAPPER / RAG PICKER:</b> A convenient machine that starts off with a 50m budget. To be salvager can dump in items that is demanded by the rag picker or scrapper and then receive mammons for their efforts immediately. After the initial budget is depleted, new mammons must be deposited for it to keep paying out. The associated roles can set prices, enable materials, and dump out the materials for them to salvage or resell manually.</p>
 	"}

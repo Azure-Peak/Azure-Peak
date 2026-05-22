@@ -261,6 +261,9 @@
 		return TRUE
 	if(!H.canUseTopic(src, BE_CLOSE))
 		return TRUE
+	if(action == "help")
+		open_economy_guidebook(H, "Merchant", /datum/book_entry/treasury_merchant/navigator)
+		return TRUE
 	if(!(H.job in profit_id))
 		to_chat(H, span_warning("Only a Merchant may tamper with the Navigator's toll."))
 		return TRUE

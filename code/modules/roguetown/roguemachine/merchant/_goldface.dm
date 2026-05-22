@@ -529,6 +529,9 @@
 		return
 	if(!ishuman(usr))
 		return
+	if(action == "help")
+		open_economy_guidebook(usr, "Merchant", /datum/book_entry/treasury_merchant/goldface)
+		return TRUE
 	if(locked && !is_public)
 		return
 	var/mob/living/carbon/human/H = usr

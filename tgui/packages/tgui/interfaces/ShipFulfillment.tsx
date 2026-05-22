@@ -5,6 +5,7 @@ import {
   INK,
   INK_FAINT,
   INK_SOFT,
+  inkButtonStyle,
   pageStyle,
   PARCHMENT_SHADOW,
   rulerStyle,
@@ -50,13 +51,13 @@ const SUBSECTION_LABELS: Record<string, string> = {
 };
 
 const SUBSECTION_HINT: Record<string, string> = {
-  bulk: 'Realm bulk demand. Larger payouts, ship-specific.',
+  bulk: 'Bulk demand for the ship to carry back home.',
   [TAG_VICTUALLING_FRESH]:
-    'Crew shore-leave provisions. Each line caps low - no dumping.',
+    'Fresh provisions for the crew.',
   [TAG_VICTUALLING_PRESERVED]:
-    'Voyage hardtack and salted stores. Each line caps low - no dumping.',
+    'Preserved foods for the voyage.',
   [TAG_VICTUALLING_DRINKS]:
-    'Sealed brewer bottles only. Uncorked stock is refused.',
+    'Drinks for the crews and to resell back home. Sealed brewer bottles only. Uncorked stock is refused.',
 };
 
 const SUBSECTION_ORDER = [
@@ -262,13 +263,21 @@ const ManifestSection = (props: {
 };
 
 export const ShipFulfillment = () => {
-  const { data } = useBackend<Data>();
+  const { data, act } = useBackend<Data>();
   const { manifests, middleman_cut_percent } = data;
 
   return (
     <Window width={620} height={680} theme="parchment">
       <Window.Content scrollable>
-        <div style={pageStyle}>
+        <div style={{ ...pageStyle, position: 'relative' }}>
+          <button
+            type="button"
+            title="Open the economy guidebook"
+            style={{ ...inkButtonStyle({}), position: 'absolute', top: 8, right: 8 }}
+            onClick={() => act('help')}
+          >
+            ?
+          </button>
           <div style={titleStyle}>Manifest of Bulk Demands</div>
           <div style={subtitleStyle}>
             Drop matching goods at the crate to fulfill. The Merchant takes{' '}

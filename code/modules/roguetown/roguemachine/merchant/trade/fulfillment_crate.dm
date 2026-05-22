@@ -56,6 +56,17 @@
 		ui = new(user, src, "ShipFulfillment", name)
 		ui.open()
 
+/obj/structure/roguemachine/ship_fulfillment/ui_act(action, list/params)
+	. = ..()
+	if(.)
+		return
+	if(!ishuman(usr))
+		return
+	switch(action)
+		if("help")
+			open_economy_guidebook(usr, "Merchant", /datum/book_entry/treasury_merchant/fulfillment_crate)
+			return TRUE
+
 /obj/structure/roguemachine/ship_fulfillment/ui_data(mob/user)
 	var/list/data = list()
 	var/list/manifests = list()

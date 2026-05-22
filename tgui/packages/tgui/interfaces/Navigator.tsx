@@ -58,7 +58,15 @@ export const Navigator = () => {
   return (
     <Window title="Navigator" width={720} height={760} theme="parchment">
       <Window.Content scrollable>
-        <div style={pageStyle}>
+        <div style={{ ...pageStyle, position: 'relative' }}>
+          <button
+            type="button"
+            title="Open the economy guidebook"
+            style={{ ...inkButtonStyle({}), position: 'absolute', top: 8, right: 8 }}
+            onClick={() => act('help')}
+          >
+            ?
+          </button>
           <div style={titleStyle}>{motto}</div>
           <div style={subtitleStyle}>
             Next balloon in {formatCountdown(data.next_airlift_seconds)}
