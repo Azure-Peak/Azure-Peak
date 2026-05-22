@@ -109,7 +109,7 @@
 
 
 /datum/book_entry/treasury/budgets
-	name = "06. The Crown's Budgets & Authorisation"
+	name = "06. Budgets, Warrants & Authority"
 
 /datum/book_entry/treasury/budgets/inner_book_html(mob/user)
 	return {"
@@ -127,6 +127,13 @@
 			<li><b>Defense Warrant</b> - a daily Pledge ceiling. Defense commissions issued by the Alderman burn Pledge authority up to this cap, just as the Steward's do. The Alderman may not draw the Crown's Purse for defense, and may not issue Requests.</li>
 		</ul>
 		<p>Both ceilings refresh at each session's resolution. Unspent authorisation does not carry over.</p>
+
+		<h3>Crown Authority</h3>
+		<p>The following titles share full Crown authority - they may petition the trade hall, draw emergency loans, commission defense and blockade writs, and stamp contracts levy-exempt with the signet:</p>
+		<ul>
+			<li>Steward, Clerk, Grand Duke, Hand, Marshal, Councillor, Prince/Princess.</li>
+		</ul>
+		<p>The Steward is the primary officer; the rest substitute when the Steward is absent, dead, or otherwise occupied. A Regent crowned at the Throne inherits the same authority for the duration of their regency.</p>
 		</div>
 	"}
 
@@ -146,10 +153,10 @@
 		</ul>
 
 		<h3>Issue Authority</h3>
-		<p>In addition to the Steward, the Hand, Councillor, Grand Duke / Regent, Marshal and Clerk may also put out commissions and contracts.</p>
+		<p>See <i>Budgets, Warrants & Authority</i> for the full list of titles that may issue commissions.</p>
 
 		<h3>Direct Commission vs Board:</h3>
-		<p>A commission can be posted to the Grand Contract Ledger, or given directly to a bearer. Posting to the board allows anyone to take it, and follow the Fellowship limit for any party taking it. Handing it directly to a bearer is faster and more certain, but risks it being ignored or wasted on someone who can't complete it. The Steward may not take and claim a scroll they have issued themselves.</p>
+		<p>A commission can be posted to the Grand Contract Ledger, or given directly to a bearer. Handing it directly to a bearer is faster and more certain, but risks it being ignored or wasted on someone who can't complete it. The Steward may not take and claim a scroll they have issued themselves. See <i>The Grand Contract Ledger</i> for shared mechanics including expiry windows, the take cooldown, and abandonment forfeit.</p>
 
 		<h3>Bonus Pay</h3>
 		<p>Either a Defense Commission or a Blockade Writ may be issued with <b>Bonus Pay</b> at one of three levels: <b>None</b> (x1.0), <b>Light</b> (x[COMMISSION_BONUS_PAY_LIGHT_MULT]), or <b>Full</b> (x[COMMISSION_BONUS_PAY_MULT]). The chosen multiplier applies to both the draft cost and the bearer's reward. Not available on Requests.</p>
@@ -157,7 +164,7 @@
 		<h3>Levy Exemption</h3>
 		<p>When the Steward issues a contract, they may mark it Levy Exempt - the bearer pays no Contract Levy on the reward. This costs the Crown only the foregone levy and is useful for sweetening offers to mercenaries or adventurers.</p>
 
-		<p>The Steward also starts with an infinite-use signet ring. The Steward, Grand Duke, Clerk, and Regent can stamp a contract (click it) to make it Levy Exempt after the fact - useful for retroactive bribes.</p>
+		<p>The Steward also starts with an infinite-use signet ring. Any holder of Crown authority (see <i>Budgets, Warrants & Authority</i>) can stamp a contract (click it) to make it Levy Exempt after the fact - useful for retroactive bribes.</p>
 
 		<h3>Region and Reward</h3>
 		<p>Defense commissions pay out in proportion to the threat they spawn. Each threat region carries a <b>reward multiplier</b> (surfaced in the commission UI beside the region name): Azure Basin at x0.75, Azure Grove at x1.0, Azurean Coast at x1.2, Terrorbog / Mount Decapitation / Underdark at x1.5. A Bounty in Terrorbog costs the same draft as a Bounty in Azure Basin - but the Terrorbog commission pays the bearer roughly twice as much. The Steward can use this to steer adventurers toward regions the realm most needs cleared.</p>
@@ -265,9 +272,16 @@
 		<p>Economic events last [ECON_EVENT_DURATION] day(s) and are posted on the noticeboard under <b>Economic Events</b>.</p>
 
 		<ul>
-			<li><b>Shortage</b> - affected goods spike in price. One urgent standing order is posted against the afflicted region, <b>provided fewer than [STANDING_ORDERS_MAX_URGENT] urgent orders are already standing</b>. Past that cap, the shortage's price spike still happen, but no urgent order is spawned - regular standing orders keep their pool slots.</li>
+			<li><b>Shortage</b> - affected goods spike in price. One urgent standing order is posted against the afflicted region, <b>provided fewer than [STANDING_ORDERS_MAX_URGENT] urgent orders are already standing</b>. Past that cap, the shortage's price spike still happens, but no urgent order is spawned - regular standing orders keep their pool slots.</li>
 			<li><b>Oversupply</b> - affected goods drop in price.</li>
 		</ul>
+
+		<h3>Ending a Shortage Early</h3>
+		<p>A shortage does not have to run its full [ECON_EVENT_DURATION]-day course. The realm can <b>end it</b> by saturating the market. Every unit of an affected good that the Crown <b>exports</b> to a region that demands it - whether - counts toward relief.</p>
+
+		<p>The associated urgent order is unaffected by a shortage ending</p>
+
+		<p>Once cumulative deliveries cross <b>[round(ECON_EVENT_SATURATION_THRESHOLD * 100)]% of the affected goods' realm-wide daily demand</b>, the shortage ends immediately: prices snap back to normal, the urgent order (if still standing) is recalled, and SCOM announces the relief. The threshold is realm-wide and aggregate - the Crown may meet it via any mix of the affected goods, through any channel.</p>
 
 		<p>The <b>Market Scroll</b> at the Nerve Master shows live buy/sell prices for every good in every region.</p>
 		</div>
@@ -496,7 +510,7 @@
 			<li><b>Lucrative</b> - a [round((RUMOR_LUCRATIVE_MULT - 1) * 100)]% premium on both point cost and bearer payout. Costs [RUMOR_LUCRATIVE_MULT]x the base points but pays [RUMOR_LUCRATIVE_MULT]x the base reward. Use it to sweeten the pot for a job that needs takers or earn more profit when there is a lack of takers.</li>
 		</ul>
 
-		<p>One rumor of a given type, region, and destination may be composed per day, to prevent farming the most optimal route. Combat rumors require the target region to carry at least [round(RUMOR_THREAT_GATE_MIN * 100)]% of its threat ceiling.</p>
+		<p>One rumor of a given type, region, and destination may be composed per day, to prevent farming the most optimal route. Combat rumors require the target region to carry at least [round(RUMOR_THREAT_GATE_MIN * 100)]% of its threat ceiling. See <i>The Grand Contract Ledger</i> for shared mechanics including expiry windows.</p>
 
 		<h3>Recovery Rumors</h3>
 		<p>Recovery rumors are <b>unique</b> to the Innkeeper and roll only rarely on the contract board. The bearer slays a group of bandits and retrieves a package containing more goods than a normal courier contract carries. The Innkeeper can use this to redirect adventurers toward shortages or specific town needs.</p>
@@ -505,5 +519,60 @@
 		<p>Whenever an adventurer turns in any contract from the Grand Contract Ledger, the Guild takes <b>[round(GUILD_REFERRAL_FEE_PCT * 100)]% of the gross reward</b> and remits it to the active Innkeeper's account. If no Innkeeper sits the role, the fee is taken anyway and discarded - this avoids creating IC/OOC tension where the Innkeeper appears to be skimming from adventurers.</p>
 
 		<p>On top of the referral fee, a <b>Rumor</b> contract pays the Innkeeper an additional <b>[round(RUMOR_CONTACT_FEE_PCT * 100)]% Contact Referral Fee</b> on completion. The bearer's coin is untouched - this represents fees paid by the contractor. Rumors are therefore the Innkeeper's most profitable product: every completed rumor pays the Innkeeper twice.</p>
+		</div>
+	"}
+
+
+/datum/book_entry/treasury/contract_ledger
+	name = "18. The Grand Contract Ledger"
+
+/datum/book_entry/treasury/contract_ledger/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>The Grand Contract Ledger is where contracts are posted and turned in. Contracts are sourced from three streams: the Guild contracft pool, the Steward's defense commissions, and Innkeeper's rumors.
+		</p>
+
+		<h3>Guild Contracts</h3>
+		<p>Guild contracts regenerate every [QUEST_POOL_REGEN_INTERVAL / 600] minutes, with each tick generating up to [QUEST_KILL_REGEN_PER_TICK] new kill contracts across the regions that need them most. Evergreen contracts (Retrieval, Courier) top up independently to a flat per-region target. The pool front-loads at roundstart so there is always a healthy spread of work available.</p>
+
+		<p>Each region has its own kill target scaled to the active player count. The pool routes new kill contracts to whichever region is furthest below its target, so blockaded or threat-heavy regions naturally accumulate more work to clear them.</p>
+
+		<p>All guild contracts must pay the Guild referral fee and contract levy. A Steward can retroactively stamp a contract with their Signet ring, allowing it to become levy-exempt, but this will not skip the referral fee.
+		</p>
+
+		<h3>Expiry</h3>
+		<p>Untaken board postings reroll on a timer:</p>
+		<ul>
+			<li><b>Guild contracts</b> - [QUEST_POOL_STALE_THRESHOLD / 600] minutes.</li>
+			<li><b>Steward commissions and Innkeeper rumors</b> - [QUEST_PLAYER_STALE_THRESHOLD / 600] minutes. Player-paid postings get a longer window to find a taker.</li>
+			<li><b>Direct-handed scrolls</b> - do not expire on the board timer. Kill writs still carry a hunt timer once active; other types stay valid until completed or abandoned.</li>
+		</ul>
+
+		<h3>Signing and Active Cap</h3>
+		<p>Each player may hold up to [QUEST_MAX_ACTIVE_PER_PLAYER] active contracts at a time. Some jobs override this cap upward. A fellowship leader gains <b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR]</b> with one fellow in the band and <b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND]</b> with two or more, so a led fellowship of three can run [QUEST_MAX_ACTIVE_PER_PLAYER + QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND] simultaneous contracts.</p>
+
+		<p>Beyond the active cap, a per-ckey <b>take cooldown</b> kicks in once you have signed your cap worth of contracts in a [QUEST_TAKE_COOLDOWN / 600]-minute window.</p>
+
+		<h3>Towner Gate Gate</h3>
+		<p>Town members cannot sign Guild contracts during the first [CONTRACT_TOWNIE_GATE_TIME / 600] minutes of the round. Adventuring jobs (Mercenary, Adventurer, and similar) are exempt and may sign immediately. The Ledger UI show how long the gate remains and the exempt job list. Contracts handed to you directly by Steward or Innkeeper are not affected by this, or fellowship requirement.</p>
+
+		<h3>Deposits</h3>
+		<p>Most contracts require a small deposit on signing, scaled by difficulty: <b>[QUEST_DEPOSIT_EASY]m</b> (Easy), <b>[QUEST_DEPOSIT_MEDIUM]m</b> (Medium), <b>[QUEST_DEPOSIT_HARD]m</b> (Hard). The deposit is returned on completion and forfeit on abandonment. It is not taxed.</p>
+
+		<h3>Abandonment</h3>
+		<p>A held contract may be abandoned at the Ledger. The deposit is forfeit to the void.</p>
+
+		<h3>Turn-In and the Guild Cut</h3>
+		<p>Completed contracts are turned in by clicking the Ledger while holding the quest scroll. Retrieval items must be dropped on the marked tile in front of the Ledger. On payout:</p>
+		<ul>
+			<li>The Crown's <b>Contract Levy</b> takes its tax cut (Levy Exempt contracts skip this).</li>
+			<li>The Guild takes a <b>[round(GUILD_REFERRAL_FEE_PCT * 100)]% referral fee</b> off the gross, remitted to the active Innkeeper.</li>
+			<li>The remainder is paid to the bearer's account.</li>
+		</ul>
+
+		<p>Rumor contracts pay the Innkeeper an additional Contact Referral Fee on top of the standard cut - see <i>The Innkeeper and the Guild</i>.</p>
+
+		<h3>Hunt Timer</h3>
+		<p>Active kill contracts carry a [QUEST_KILL_HUNT_TIMER / 600]-minute hunt timer, with warnings at the 2-minute and 30-second marks. If the timer runs out, the writ crumbles and any live wave mobs despawn. This starts when the mobs in question spawn at the target location. Blockade Writs use a longer per-wave timer - see <i>Defense and Blockades</i>.</p>
 		</div>
 	"}

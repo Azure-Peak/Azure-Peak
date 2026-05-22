@@ -5,7 +5,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	category_tags = list(CTAG_TRADER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
 	class_select_category = CLASS_CAT_TRADER
-	allowed_races = RACES_ALL_KINDS
+	
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_KEENEARS)
 	subclass_stats = list(
 		STATKEY_INT = 2,

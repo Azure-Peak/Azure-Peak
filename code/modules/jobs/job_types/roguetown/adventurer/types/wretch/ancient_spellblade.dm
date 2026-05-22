@@ -2,13 +2,13 @@
 	name = "Unbound Ancient Azurcaephan"
 	tutorial = "You were once an Azurcaephan - a Spellblade from aeons past, perhaps from even the day of Tarichea. You remember your chant, your oath, every move of your blade and the flow of the arcyne. Intellect and will, unlike most other skeletons. Yet, you are without a purpose, without a master. Why do you fight? You do not know. But fight you shall. The world sees you as an abomination. Seek your own path."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/wretch/ancient_spellblade
 	class_select_category = CLASS_CAT_ACCURSED
 	category_tags = list(CTAG_WRETCH)
 	maximum_possible_slots = 2 // Two so that the gimmick isn't overdone
 	applies_post_equipment = TRUE
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE, TRAIT_DUSTABLE, TRAIT_BLOODLOSS_IMMUNE)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_WIL = 2,
@@ -111,7 +111,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonemend)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
 
 	H.adjust_blindness(-3)
 	var/helmets = list(

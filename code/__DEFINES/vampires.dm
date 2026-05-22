@@ -23,16 +23,16 @@
 #define COVENS_PER_WRETCH_CLAN 2
 
 #define VAMP_CONVERT_TIMEOUT 4 MINUTES
-#define VAMP_CONVERT_POST_STUN    1 MINUTES
-#define VAMP_CONVERT_BLOOD_GAIN   500
+#define VAMP_CONVERT_POST_STUN    40 SECONDS
+#define VAMP_CONVERT_BLOOD_GAIN   1000
 
 /// Mandatory mofe_after() before a vampire can batform. (SHAPESHIFT_MOVEAFTER - vampire.generation) SECONDS
 #define SHAPESHIFT_MOVEAFTER 5
 
 /// Vitae drained from mobs **with client** is multiplied by this define
-#define CLIENT_VITAE_MULTIPLIER 3
+#define CLIENT_VITAE_MULTIPLIER 5 //5000 vitae per-player, intended to be high to incentivise not-grinding NPCs.
 /// Given to the vampire in case their victim refuses to be converted. Given only once per unique vamp victim.
-#define VITAE_PER_UNIQUE_CONVERSION_REJECT 500
+#define VITAE_PER_UNIQUE_CONVERSION_REJECT 1000
 
 GLOBAL_LIST_INIT(vamp_generation_to_text, list(
 	"Thin Blood",

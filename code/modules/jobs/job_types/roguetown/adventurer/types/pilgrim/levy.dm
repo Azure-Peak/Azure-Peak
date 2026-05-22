@@ -2,7 +2,7 @@
 	name = "Levy"
 	tutorial = "When the bailiff came to your household it was the worst dae of your lyfe, dragging you away into service to the Crown with nothing more but whatever household object you managed to piece together into a weapon. Safeguard your home from the terrors beyond the walls and those lurking in the bog."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/levy
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'

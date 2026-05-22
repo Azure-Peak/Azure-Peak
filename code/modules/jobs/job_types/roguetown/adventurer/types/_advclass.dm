@@ -8,7 +8,7 @@
 	/// Subclass-specific tutorial shown via to_chat on spawn, separate from the class-picker tutorial.
 	var/subclass_tutorial
 	var/list/allowed_sexes
-	var/list/allowed_races = RACES_ALL_KINDS
+	var/list/forbidden_races
 	var/list/allowed_patrons
 	var/list/allowed_ages
 	var/pickprob = 100
@@ -68,6 +68,8 @@
 	var/list/vice_limits = list()
 
 	var/datum/class_age_mod/age_mod = null
+
+	var/class_tempo_faction = null
 
 /datum/advclass/New()
 	if(ispath(age_mod) && !istype(age_mod))
@@ -152,6 +154,8 @@
 	addtimer(CALLBACK(H,TYPE_PROC_REF(/mob/living/carbon/human, add_credit), TRUE), 20)
 	if(cmode_music)
 		H.cmode_music = cmode_music
+	if(class_tempo_faction)
+		H.tempo_faction_flag = class_tempo_faction
 
 /*
 	Whoa! we are checking requirements here!
@@ -173,7 +177,7 @@
 	if(length(local_allowed_sexes) && !(H.gender in local_allowed_sexes))
 		return FALSE
 
-	if(length(allowed_races) && !(H.dna.species.type in allowed_races))
+	if(length(forbidden_races) && (H.dna.species.type in forbidden_races))
 		return FALSE
 
 	if(length(allowed_ages) && !(H.age in allowed_ages))

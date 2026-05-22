@@ -1,4 +1,5 @@
 import { RecoveryAddendum } from './HumanoidWrit';
+import { RewardClause } from './RewardClause';
 import { SealLine } from './Seals';
 import { caputLupinum, writParagraph } from './shared';
 
@@ -10,6 +11,7 @@ export const GoblinoidWrit = (props: {
   reward: number;
   levyRate: number;
   levyExempt: boolean;
+  guildCutRate: number;
   issuedBy?: string;
   issuedOn?: string | null;
   bearer?: string;
@@ -26,6 +28,7 @@ export const GoblinoidWrit = (props: {
     reward,
     levyRate,
     levyExempt,
+    guildCutRate,
     issuedBy,
     issuedOn,
     bearer,
@@ -34,8 +37,6 @@ export const GoblinoidWrit = (props: {
     recoveryDestination,
     recoveryCircumstance,
   } = props;
-  const showLevy = !levyExempt && levyRate > 0;
-  const net = showLevy ? Math.round(reward * (1 - levyRate)) : reward;
   const folk = namePlural || 'spawn';
   const band = groupWord || 'warband';
   return (
@@ -56,12 +57,12 @@ export const GoblinoidWrit = (props: {
       </p>
       <p style={writParagraph}>
         Return the writ to the Contract Ledger and the bounty of{' '}
-        <b>{reward} mammon</b>
-        {showLevy ? (
-          <>
-            , <b>{net} mammon</b> after the Crown&apos;s Levy
-          </>
-        ) : null}{' '}
+        <RewardClause
+          reward={reward}
+          levyRate={levyRate}
+          levyExempt={levyExempt}
+          guildCutRate={guildCutRate}
+        />{' '}
         shall be paid.
       </p>
       {hasRecoveryAddendum && (

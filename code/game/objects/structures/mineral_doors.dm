@@ -55,6 +55,7 @@
 	/// Whether to grant a resident_key
 	var/grant_resident_key = FALSE
 	var/resident_key_amount = 1
+	var/require_noble_trait = FALSE
 	/// The type of a key the resident will get
 	var/resident_key_type
 	/// The required role of the resident
@@ -164,6 +165,9 @@
 		return FALSE
 	if(!ishuman(user))
 		return FALSE
+	if(require_noble_trait && !HAS_TRAIT(user, TRAIT_NOBLE))
+		to_chat(user, span_boldnotice("Only those of noble blood can inherit this house."))
+		return FALSE
 	var/mob/living/carbon/human/human = user
 	if(human.received_resident_key)
 		return FALSE
@@ -171,6 +175,7 @@
 		var/datum/job/job = SSjob.name_occupations[human.job]
 		if(job.type != resident_role)
 			if(!HAS_TRAIT(human, TRAIT_RESIDENT))
+				to_chat(user, span_boldnotice("Only town residents can claim this house."))
 				return FALSE
 	if(resident_advclass)
 		if(!human.advjob)
@@ -1030,6 +1035,9 @@
 
 /obj/structure/mineral_door/wood/towner/generic/two_keys
 	resident_key_amount = 2
+
+/obj/structure/mineral_door/wood/towner/generic/two_keys/noble
+	require_noble_trait = TRUE
 
 /obj/structure/mineral_door/wood/towner/blacksmith
 	resident_advclass = list(/datum/advclass/blacksmith)

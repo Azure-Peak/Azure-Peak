@@ -3,16 +3,13 @@
 	name = "Grudgebearer Smith"
 	tutorial = "Bound by eternal grudges of eons past that have not been forgotten, the Grudgebearers are left to wander the surface, as every other clan has a grudge against you, and you against them. This putrid swampland of a Duchy has also wronged you and your people, you care little for it. Coins are a means to an end -- something you can mine and forge yourself. Trinkets -- made by true smiths, now that will carry respect among your clan. However, such artifacts might not buy you food, or a roof."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list(
-		/datum/species/dwarf,
-		/datum/species/dwarf/mountain
-	)
+	forbidden_races = list(RACES_GRUDGE)
 	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_dwarf.ogg'
 	extra_context = "This subclass is race-limited to: Dwarves."
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_TRAINED_SMITH, TRAIT_SMITHING_EXPERT) // Another one off exception for a combat role
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_TRAINED_SMITH, TRAIT_SMITHING_EXPERT) //Another one off exception for a combat role
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_WIL = 3,
@@ -23,26 +20,26 @@
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/armorsmithing = SKILL_LEVEL_EXPERT,	//Shouldn't be better than the smith (though the stats are already)
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/smelting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
-//Because the armor is race-exclusive for repairs, these guys *should* be able to repair their own guys armor layers. A Dwarf smith isn't guaranteed, after all.
 /datum/outfit/job/roguetown/mercenary/grudgebearer/pre_equip(mob/living/carbon/human/H)
 	..()
+	has_loadout = TRUE
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/dwarven
 	cloak = /obj/item/clothing/cloak/forrestercloak/snow
-	belt = /obj/item/storage/belt/rogue/leather/black
-	beltr = /obj/item/rogueweapon/mace
-	beltl = /obj/item/flashlight/flare/torch
+	belt = /obj/item/storage/belt/rogue/leather
+	beltr = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/backpack
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/plate/dwarven
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/smith
@@ -53,27 +50,26 @@
 		/obj/item/rogueweapon/hammer/iron,
 		/obj/item/paper/scroll/grudge,
 		/obj/item/natural/feather,
-		/obj/item/rogueweapon/tongs = 1,
+		/obj/item/rogueweapon/tongs,
 		)
-	if(H.mind)
-		var/weapons = list("Grand Mace", "Spiked Maul")
-		var/wepchoice = input("Choose your weapon", "Available weapons") as anything in weapons
-		switch(wepchoice)
-			if("Grand Mace")
-				backr = /obj/item/rogueweapon/mace/goden/steel
-			if("Spiked Maul")
-				r_hand = /obj/item/rogueweapon/mace/maul/spiked
-				backr = /obj/item/rogueweapon/scabbard/gwstrap
 	H.merctype = 8
+
+/datum/outfit/job/roguetown/mercenary/grudgebearer/choose_loadout(mob/living/carbon/human/H)
+    . = ..()
+    var/weapons = list("Spiked Maul", "Grand Mace")
+    var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE ANVIL AND THE CLAN.") as anything in weapons
+    switch(weapon_choice)
+        if("Spiked Maul")
+            H.put_in_hands(new /obj/item/rogueweapon/mace/maul/spiked)
+            H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
+        if("Grand Mace")
+            H.equip_to_slot_or_del(new /obj/item/rogueweapon/mace/goden/steel, SLOT_BACK_R, TRUE)
 
 /datum/advclass/mercenary/grudgebearer_soldier
 	name = "Grudgebearer Soldier"
 	tutorial = "Bound by eternal grudges of eons past that have not been forgotten, the Grudgebearers are left to wander the surface, as every other clan has a grudge against you, and you against them. This putrid swampland of a Duchy has also wronged you and your people, you care little for it. Coins are a means to an end -- something you can mine and forge yourself. Trinkets -- made by true smiths, now that will carry respect among your clan. However, such artifacts might not buy you food, or a roof."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list(
-		/datum/species/dwarf,
-		/datum/species/dwarf/mountain
-	)
+	forbidden_races = list(RACES_GRUDGE)
 	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer_soldier
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
@@ -87,22 +83,24 @@
 		STATKEY_SPD = -2
 	)
 	subclass_skills = list(
-		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE,	//Only here so they'd be able to repair their own armor integrity
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/mercenary/grudgebearer_soldier/pre_equip(mob/living/carbon/human/H)
 	..()
+	has_loadout = TRUE
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/dwarven
 	cloak = /obj/item/clothing/cloak/forrestercloak/snow
-	belt = /obj/item/storage/belt/rogue/leather/black
+	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/flashlight/flare/torch
 	backl = /obj/item/storage/backpack/rogue/satchel
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
@@ -117,84 +115,33 @@
 		/obj/item/paper/scroll/grudge,
 		/obj/item/natural/feather,
 		)
-	if(H.mind)
-		var/weapons = list("Axe", "Grand Mace", "Maul")
-		var/wepchoice = input("Choose your weapon", "Available weapons") as anything in weapons
-		switch(wepchoice)
-			if("Axe")
-				backr = /obj/item/rogueweapon/stoneaxe/battle
-			if("Grand Mace")
-				backr = /obj/item/rogueweapon/mace/goden/steel
-			if("Maul")
-				r_hand = /obj/item/rogueweapon/mace/maul/steel
-				backr = /obj/item/rogueweapon/scabbard/gwstrap
 	H.merctype = 8
 
-// Soldier: Full plate equivalent — ARMOR_PLATE with steel-tier integrity
-/obj/item/clothing/suit/roguetown/armor/plate/full/dwarven
-	name = "grudgebearer dwarven plate"
-	desc = "A sturdy set of dwarven plate armor, forged in the old ways. It cannot be worked on without intrinsic dwarven knowledge."
-	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
-	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
-	icon_state = "dwarfchest"
-	item_state = "dwarfchest"
-	armor = ARMOR_PLATE
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
-	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
-	smelt_bar_num = 4
-
-// Smith: Maille-tier protection, medium armor class
-/obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/smith
-	name = "grudgebearer splint apron"
-	desc = "A mixture of plate and maille, worn by dwarven smiths. It cannot be worked on without intrinsic dwarven knowledge."
-	icon_state = "dsmithchest"
-	item_state = "dsmithchest"
-	armor = ARMOR_PLATE
-	armor_class = ARMOR_CLASS_MEDIUM
-	body_parts_covered = CHEST|GROIN|VITALS|LEGS
-	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
-	smelt_bar_num = 3
-/obj/item/clothing/head/roguetown/helmet/heavy/dwarven
-	name = "grudgebearer dwarven helm"
-	desc = "A hardy dwarven helmet. It lets one's dwarvenly beard to poke out."
-	body_parts_covered = (HEAD | MOUTH | NOSE | EYES | EARS | NECK)	//This specifically omits hair so you could hang your beard out of the helm
-	armor = ARMOR_PLATE
-	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
-	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
-	icon_state = "dwarfhead"
-	item_state = "dwarfhead"
-	block2add = FOV_BEHIND
-	stack_fovs = TRUE
-	bloody_icon = 'icons/effects/blood64.dmi'
-	smeltresult = /obj/item/ingot/steel
-	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL
-	experimental_inhand = FALSE
-	experimental_onhip = FALSE
-/obj/item/clothing/head/roguetown/helmet/heavy/dwarven/smith
-	name = "grudgebearer smith helm"
-	desc = "A hardy dwarven helmet. It lets one's dwarvenly beard to poke out. \
-	This one is intended for the smiths of the clan. No less protective. All the more stylish."
-	icon_state = "dsmithhead"
-	item_state = "dsmithhead"
-/obj/item/clothing/gloves/roguetown/plate/dwarven
-	name = "grudgebearer dwarven gauntlets"
-	desc = "Forged to fit the stubbiest of fingers."
-	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
-	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
-	icon_state = "dwarfhand"
-	item_state = "dwarfhand"
-	armor = ARMOR_PLATE
-	max_integrity = ARMOR_INT_SIDE_STEEL
-/obj/item/clothing/shoes/roguetown/boots/armor/dwarven
-	name = "grudgebearer dwarven boots"
-	desc = "Clatters mightily."
-	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
-	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
-	icon_state = "dwarfshoe"
-	item_state = "dwarfshoe"
-	armor = ARMOR_PLATE
-	max_integrity = ARMOR_INT_SIDE_STEEL
+/datum/outfit/job/roguetown/mercenary/grudgebearer_soldier/choose_loadout(mob/living/carbon/human/H)
+    . = ..()
+    var/weapons = list("Dwarven Warpick + Dwarven Shield", "Battle Axe + Dwarven Shield", "Flanged Mace + Dwarven Shield", "Dwarven Maul", "Grand Mace", "Great Axe")
+    var/weapon_choice = input(H, "Choose your WEAPON.", "REPAY THE GRUDGE.") as anything in weapons
+    switch(weapon_choice)
+        if("Dwarven Warpick + Dwarven Shield")
+            H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal/dwarf, SLOT_BACK_R, TRUE)
+            H.put_in_hands(new /obj/item/rogueweapon/pick/militia/steel/warpick)
+            H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+        if("Battle Axe + Dwarven Shield")
+            H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal/dwarf, SLOT_BACK_R, TRUE)
+            H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle)
+            H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+        if("Flanged Mace + Dwarven Shield")
+            H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal/dwarf, SLOT_BACK_R, TRUE)
+            H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/flanged)
+            H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+        if("Dwarven Maul")
+            H.put_in_hands(new /obj/item/rogueweapon/mace/maul/steel)
+            H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
+            H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+        if("Grand Mace")
+            H.equip_to_slot_or_del(new /obj/item/rogueweapon/mace/goden/steel, SLOT_BACK_R, TRUE)
+            H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+        if("Great Axe")
+            H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel)
+            H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
+            H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)

@@ -383,25 +383,27 @@
 			daily_payments -= job_to_remove
 			say("Daily payment for [job_to_remove] removed.")
 	if(href_list["togglewages"])
-		var/X = locate(href_list["togglewages"])
-		if(!X)
+		var/mob/living/carbon/human/A = locate(href_list["togglewages"])
+		if(!istype(A))
 			return
-		for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
-			if(A == X)
-				if(!has_fiscal_authority(usr))
-					say("Only the Steward, Clerk, or Ruler may suspend wages.")
-					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-					return
-
-				if(HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED))
-					REMOVE_TRAIT(A, TRAIT_WAGES_SUSPENDED, TRAIT_GENERIC)
-					say("[A.real_name]'s wages have been reinstated.")
-					to_chat(A, span_notice("My wages have been reinstated by the Stewardry."))
-				else
-					ADD_TRAIT(A, TRAIT_WAGES_SUSPENDED, TRAIT_GENERIC)
-					say("[A.real_name]'s wages have been suspended.")
-					to_chat(A, span_danger("My wages have been suspended by the Stewardry!"))
-				break
+		if(!has_fiscal_authority(usr))
+			say("Only the Steward, Clerk, or Ruler may suspend wages.")
+			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			return
+		var/datum/fund/account = SStreasury.bank_accounts[A]
+		if(!account)
+			return
+		var/has_wage = (daily_payments[A.job] > 0)
+		if(account.wages_suspended)
+			account.wages_suspended = FALSE
+			say("[A.real_name]'s wages have been reinstated.")
+			if(has_wage)
+				to_chat(A, span_notice("My wages have been reinstated by the Stewardry."))
+		else
+			account.wages_suspended = TRUE
+			say("[A.real_name]'s wages have been suspended.")
+			if(has_wage)
+				to_chat(A, span_danger("My wages have been suspended by the Stewardry!"))
 	if(href_list["compact"])
 		compact = !compact
 	if(href_list["setbounty"])
@@ -502,6 +504,8 @@
 	if(is_alderman_acting && SScity_assembly?.current_warrant)
 		warrant_remaining = SScity_assembly.current_warrant.trade_remaining
 		warrant_ok = SScity_assembly.can_consume_trade(total)
+	var/datum/roguestock/stockpile_entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+	var/stockpile_amount = stockpile_entry?.stockpile_amount || 0
 	. = list(
 		"ok" = TRUE,
 		"reason" = "",
@@ -525,6 +529,8 @@
 		"warrant_remaining" = warrant_remaining,
 		"warrant_ok" = warrant_ok ? 1 : 0,
 		"can_afford" = can_afford ? 1 : 0,
+		"stockpile_amount" = stockpile_amount,
+		"stockpile_after" = side == "import" ? stockpile_amount + quantity : max(0, stockpile_amount - quantity),
 	)
 
 /obj/structure/roguemachine/steward/proc/handle_trade_import(mob/user, region_id, good_id, quantity)
@@ -730,8 +736,10 @@
 			for(var/mob/living/carbon/human/A in priority_accounts + normal_accounts)
 				var/balance = SStreasury.get_balance(A)
 				var/max_fine = SStreasury.get_max_fine_for(A)
-				var/wage_status_short = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "UNSUSPEND" : "SUSPEND"
-				var/wage_status_long = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "Unsuspend Wages" : "Suspend Wages"
+				var/datum/fund/A_account = SStreasury.bank_accounts[A]
+				var/A_suspended = A_account?.wages_suspended ? TRUE : FALSE
+				var/wage_status_short = A_suspended ? "UNSUSPEND" : "SUSPEND"
+				var/wage_status_long = A_suspended ? "Unsuspend Wages" : "Suspend Wages"
 				var/fine_label = max_fine > 0 ? "FINE (Max [max_fine]m)" : "FINE (exempt)"
 				var/fine_long_label = max_fine > 0 ? "Fine Account (Max [max_fine]m)" : "Fine Account (exempt)"
 				var/poll_owed = SStreasury.poll_tax_owed[A] || 0
@@ -1021,13 +1029,18 @@
 			contents += "<center>Daily Payments<BR>"
 			contents += "--------------<BR>"
 			contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
+			var/list/headcount_by_job = list()
+			for(var/mob/living/o as anything in SStreasury.bank_accounts)
+				if(!o || !daily_payments[o.job])
+					continue
+				var/datum/fund/acct = SStreasury.bank_accounts[o]
+				if(!acct || acct.wages_suspended)
+					continue
+				headcount_by_job[o.job] = (headcount_by_job[o.job] || 0) + 1
 			var/total_payroll = 0
 			for(var/job_name in daily_payments)
 				var/amt = daily_payments[job_name]
-				var/count = 0
-				for(var/mob/living/carbon/human/H in GLOB.human_list)
-					if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-						count++
+				var/count = headcount_by_job[job_name] || 0
 				total_payroll += amt * count
 			contents += "Projected Daily Payroll: [total_payroll]m</center><BR>"
 			contents += "<a href='?src=\ref[src];setdailypay=1'>\[Add/Modify Job Payment\]</a><BR><BR>"
@@ -1035,10 +1048,7 @@
 				contents += "<center>Configured Payments:</center><BR>"
 				for(var/job_name in daily_payments)
 					var/amt = daily_payments[job_name]
-					var/count = 0
-					for(var/mob/living/carbon/human/H in GLOB.human_list)
-						if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-							count++
+					var/count = headcount_by_job[job_name] || 0
 					var/job_floor = SStreasury.get_wage_floor(job_name)
 					contents += "<b>[job_name]:</b> [amt]m/day"
 					if(job_floor > 0)

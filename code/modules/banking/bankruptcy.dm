@@ -52,9 +52,9 @@
 	GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] = treasury_debt
 	treasury_state = TREASURY_BANKRUPTCY
 
-	suspend_all_salaries_for_bankruptcy()
 	suspend_charters_for_bankruptcy()
 	override_trade_for_bankruptcy()
+	suspend_wages_for_bankruptcy()
 
 	priority_announce(
 		"Following seizure of [atc_seizure_blurb()] against the Crown's outstanding obligations, the Azurian Trading Company - most blessed, most devout servant of Malum the Worker and Abyssor the Dreamer - has graciously advanced an interest-free reserve of [BANKRUPTCY_OPERATING_FLOOR]m in exchange for a debt of [new_debt]m to the Company. Until the debt is repaid in full, the Company holds the sequestered revenues of the realm and farms the customs and salt tolls in perpetuity; the stockpile and trade-engine pass to its hand, that the orderly operation of commerce may be assured for the common weal. Salaries stand suspended; all Charters but the Golden Bull are dissolved.",
@@ -64,9 +64,31 @@
 	)
 	return TRUE
 
-/// Called by skim_for_treasury_debt the moment treasury_debt reaches zero.
-/// In NORMAL state the only thing to do is reset the loan flag - an ATC emergency loan
-/// has been repaid in full and the arrears safety net is restored.
+/datum/controller/subsystem/treasury/proc/suspend_wages_for_bankruptcy()
+	if(!steward_machine || !steward_machine.daily_payments)
+		return
+	var/list/payments = steward_machine.daily_payments
+	for(var/mob/living/owner as anything in bank_accounts)
+		if(!owner || !(payments[owner.job] > 0))
+			continue
+		var/datum/fund/account = bank_accounts[owner]
+		if(!account || account.wages_suspended)
+			continue
+		account.wages_suspended = TRUE
+		to_chat(owner, span_danger("My wages have been suspended after the Crown's sequestration. They will resume when the realm recovers."))
+
+/datum/controller/subsystem/treasury/proc/resume_wages_after_bankruptcy()
+	var/list/payments = steward_machine?.daily_payments
+	for(var/mob/living/owner as anything in bank_accounts)
+		if(!owner)
+			continue
+		var/datum/fund/account = bank_accounts[owner]
+		if(!account || !account.wages_suspended)
+			continue
+		account.wages_suspended = FALSE
+		if(payments && payments[owner.job] > 0)
+			to_chat(owner, span_notice("My wages have been reinstated as the Crown's sequestration lifts."))
+
 /datum/controller/subsystem/treasury/proc/clear_treasury_debt_state()
 	switch(treasury_state)
 		if(TREASURY_NORMAL)
@@ -107,7 +129,7 @@
 		discretionary_fund.balance = BANKRUPTCY_RECOVERY_RESET
 		log_fund_entry(new /datum/treasury_entry("mint", null, discretionary_fund, topup, "Sequestration lifted: working capital"))
 
-	resume_all_salaries_after_bankruptcy()
+	resume_wages_after_bankruptcy()
 	// Trade configuration intentionally NOT restored - re-tuning it is part of the cost of failure.
 	bankruptcy_concession_picks = BANKRUPTCY_CONCESSION_PICKS
 	atc_loan_arrears_consumed = FALSE
@@ -119,23 +141,6 @@
 		'sound/misc/royal_decree.ogg',
 		"Captain",
 	)
-
-/// Blanket-apply TRAIT_WAGES_SUSPENDED via "bankruptcy" source so we only lift it on recovery,
-/// leaving any prior Steward-applied (TRAIT_GENERIC) suspensions in place.
-/datum/controller/subsystem/treasury/proc/suspend_all_salaries_for_bankruptcy()
-	if(!steward_machine || !steward_machine.daily_payments)
-		return
-	var/list/job_names = steward_machine.daily_payments
-	for(var/mob/living/carbon/human/H as anything in GLOB.human_list)
-		if(!H.job || !(H.job in job_names))
-			continue
-		if(HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-			continue
-		ADD_TRAIT(H, TRAIT_WAGES_SUSPENDED, "bankruptcy")
-
-/datum/controller/subsystem/treasury/proc/resume_all_salaries_after_bankruptcy()
-	for(var/mob/living/carbon/human/H as anything in GLOB.human_list)
-		REMOVE_TRAIT(H, TRAIT_WAGES_SUSPENDED, "bankruptcy")
 
 /// Force-suspend bankruptcy-listed Charters, bypassing cooldown and the daily revoke gate -
 /// these aren't policy decisions, they're mechanical consequences of default.
@@ -162,6 +167,8 @@
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(tg && tg.importable)
 			auto_import_standing[good_id] = TRUE
+	dirty_auto_import_view()
+	dirty_market_view()
 
 /// Cooldown-free restore of a bankruptcy-suspended charter. Returns TRUE on success.
 /datum/controller/subsystem/treasury/proc/restore_charter_via_concession(decree_id)

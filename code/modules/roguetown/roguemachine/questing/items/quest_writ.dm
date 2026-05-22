@@ -95,16 +95,29 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	if(istype(P, /obj/item/paper))
 		to_chat(user, span_warning("The magical energies prevent you from combining this with other scrolls."))
 		return
-	if(istype(P, /obj/item/clothing/ring/signet))
-		stamp_with_signet(P, user)
+	if(istype(P, /obj/item/clothing/ring/signet/psy))
+		to_chat(user, span_warning("The scroll can only be stamped with a signet ring bearing the Lord's symbol."))
 		return
+	if(istype(P, /obj/item/clothing/ring/signet))
+		var/obj/item/clothing/ring/signet/S = P
+		if(S.tallowed && S.tallow_color == "black")
+			S.tallowed = FALSE
+			S.update_icon()
+			stamp_with_signet(P, user)
+			return
+		else if(S.tallowed && S.tallow_color != "black")
+			to_chat(user, span_warning("I need to use blacktallow to seal this properly."))
+			return
+		else
+			to_chat(user, span_warning("The ring hasn't been waxed."))
+			return
 	..()
 
 /obj/item/quest_writ/proc/stamp_with_signet(obj/item/clothing/ring/signet/ring, mob/living/carbon/human/user)
 	if(!assigned_quest)
 		to_chat(user, span_warning("The scroll bears no active contract to stamp."))
 		return
-	if(!(user.job in list("Steward", "Clerk", "Grand Duke")))
+	if(!(user.job in GLOB.crown_authority_roles))
 		to_chat(user, span_warning("Only a Steward, Clerk, or the Grand Duke may stamp a writ in the Crown's name."))
 		return
 	if(assigned_quest.levy_exempt)
@@ -206,6 +219,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["recovery_shipment"] = Q.get_recovery_shipment_name()
 	data["reward"] = Q.reward_amount
 	data["levy_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
+	data["guild_cut_rate"] = (Q.source == QUEST_SOURCE_DEFENSE) ? 0 : GUILD_REFERRAL_FEE_PCT
 	data["progress_required"] = Q.progress_required
 	data["is_rumor"] = Q.source == QUEST_SOURCE_RUMOR
 	data["is_defense"] = Q.source == QUEST_SOURCE_DEFENSE
@@ -262,12 +276,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 
 	var/dx = target_turf.x - user_turf.x
 	var/dy = target_turf.y - user_turf.y
-	var/distance = sqrt(dx*dx + dy*dy)
-
-	if(distance <= 7)
-		last_compass_direction = " is nearby"
-		last_z_level_hint = ""
-		return
+	var/distance = round(sqrt(dx*dx + dy*dy))
 
 	var/direction_text = get_precise_direction_between(user_turf, target_turf)
 	if(!direction_text)
@@ -275,7 +284,9 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 
 	var/distance_text
 	switch(distance)
-		if(0 to 14)
+		if(0 to 7)
+			distance_text = " nearby"
+		if(8 to 14)
 			distance_text = " very close"
 		if(15 to 40)
 			distance_text = " close"
@@ -284,7 +295,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		if(101 to INFINITY)
 			distance_text = " far away"
 
-	last_compass_direction = "[distance_text] to the [direction_text]"
+	last_compass_direction = "[distance_text] ([distance] paces) to the [direction_text]"
 	if(!last_z_level_hint)
 		last_z_level_hint = "on this level"
 

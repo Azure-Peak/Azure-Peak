@@ -67,6 +67,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	cooked_smell = /datum/pollutant/food/rotten_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked
 	name = "putrid venison ribs"
@@ -81,6 +82,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	cooked_smell = /datum/pollutant/food/rotten_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked
 	name = "decomposing venison loins"
@@ -96,6 +98,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	cooked_smell = /datum/pollutant/food/rotten_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked
 	name = "odorous venison prime steak"
@@ -111,6 +114,7 @@
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
+	cooked_smell = /datum/pollutant/food/rotten_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w/cooked
 	name = "royal venison steak"

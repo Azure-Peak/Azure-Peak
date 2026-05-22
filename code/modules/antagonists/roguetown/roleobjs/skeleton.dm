@@ -14,6 +14,8 @@
 		return span_boldnotice("Another deadite.")
 	if(istype(examined_datum, /datum/antagonist/skeleton))
 		return span_boldnotice("Another deadite. My ally.")
+	if(istype(examined_datum, /datum/antagonist/lich))
+		return span_boldnotice("Another deadite. My ally")
 
 /datum/antagonist/skeleton/on_gain()
 //	if(!(locate(/datum/objective/escape) in objectives))

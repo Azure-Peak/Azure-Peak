@@ -1,5 +1,32 @@
-// Lesser miracle
-/obj/effect/proc_holder/spell/invoked/lesser_heal
+/datum/action/cooldown/spell/miracle
+	background_icon = 'icons/mob/actions/genericmiracles.dmi'
+	button_icon = 'icons/mob/actions/genericmiracles.dmi'
+//Spell color doesn't matter, these don't come with any visual effects
+	glow_intensity = 0
+
+	attunement_school = null
+
+	primary_resource_type = SPELL_COST_DEVOTION
+
+	secondary_resource_type = SPELL_COST_STAMINA
+
+	ignore_armor_penalty = TRUE
+
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+
+	point_cost = 0
+
+	//required_items = list(/obj/item/clothing/neck/roguetown/psicross)//Any cross will do it's generic
+
+////////////////////
+// MIRACLE - HEAL //
+////////////////////
+
+/datum/action/cooldown/spell/miracle/heal
 	name = "Miracle"
 	desc = "Blesses the target with minor health regeneration. If casted in conjunction with the 'Fortify' blessing, its healing power is greatly \
 	increased. Most healing Miracles cannot affect devoted Psydonians.\
@@ -21,49 +48,53 @@
 	<li><b>Matthios:</b> +100% if the target has the Freeman trait.</li>\
 	<li><b>Zizo:</b> Up to +200% scaling with nearby bones and bone bundles.</li>\
 	</ul>"
-	overlay_state = "lesserheal"
-	releasedrain = 3 SECONDS
-	chargedrain = 0
-	chargetime = 0
-	range = 4
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
+	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
+	button_icon_state = "heal"
 	sound = 'sound/magic/heal.ogg'
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 10 SECONDS
-	miracle = TRUE
-	devotion_cost = 10
-	ignore_los = FALSE
 
-/obj/effect/proc_holder/spell/invoked/lesser_heal/cast(list/targets, mob/living/user)
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_AURA
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
+
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	invocation_type = INVOCATION_NONE
+
+	charge_required = FALSE
+	cooldown_time = 15 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/miracle/heal/cast(atom/cast_on)
 	. = ..()
-
-	if(!isliving(targets[1]))
-		revert_cast()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
 		return FALSE
 
-	var/mob/living/target = targets[1]
+	var/mob/living/spelltarget = cast_on
 
-	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-		target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-		user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+	if(!isliving(spelltarget))
 		return FALSE
 
-	if(target.has_status_effect(/datum/status_effect/buff/healing))
-		to_chat(user, span_warning("They are already under the effects of a healing aura!"))
-		revert_cast()
+	if(HAS_TRAIT(spelltarget, TRAIT_PSYDONITE))
+		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
 
-	user.Beam(target,icon_state="lichbeam",time=1 SECONDS)
+	if(spelltarget.has_status_effect(/datum/status_effect/buff/healing))
+		to_chat(owner, span_warning("They are already under the effects of a healing aura!"))
+		return FALSE
 
-	if(user.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD))
+	owner.Beam(spelltarget,icon_state="lichbeam",time=1 SECONDS)
+
+	if(H.patron?.undead_hater && (spelltarget.mob_biotypes & MOB_UNDEAD))
 		// We simply do nothing to avoid healing being used to vamp/skelly check!
-		var/message_out_undead = span_info("Healing energies envelop [target]!")
+		var/message_out_undead = span_info("Healing energies envelop [spelltarget]!")
 		var/message_self_undead = span_notice("I am bathed in healing choral hymns!")
-		target.visible_message(message_out_undead, message_self_undead)
+		spelltarget.visible_message(message_out_undead, message_self_undead)
 		return TRUE
 
 	var/conditional_buff = FALSE
@@ -73,22 +104,21 @@
 	// Edit - This is overwritten near the end of the proc to prevent metagaming.
 	var/message_out = span_info("A choral sound comes from above and [target] is healed!")
 	var/message_self = span_notice("I am bathed in healing choral hymns!")
-		
-	user.patron.on_lesser_heal(user, target, &message_out, &message_self, &conditional_buff, &situational_bonus, &is_inhumen)
+
+	H.patron.on_lesser_heal(owner, spelltarget, &message_out, &message_self, &conditional_buff, &situational_bonus, &is_inhumen)
 
 	var/healing = 2.5
 
 	if(conditional_buff)
-		to_chat(user, "Channeling my patron's power is easier in these conditions!")
+		to_chat(owner, "Channeling my patron's power is easier in these conditions!")
 		healing += situational_bonus
 
-	if(!ishuman(target))
-		target.apply_status_effect(/datum/status_effect/buff/healing, healing, is_inhumen)
+	if(!ishuman(spelltarget))
+		spelltarget.apply_status_effect(/datum/status_effect/buff/healing, healing, is_inhumen)
 		return TRUE
 
-	var/mob/living/carbon/human/human = target
 	var/no_embeds = TRUE
-	var/list/embeds = human.get_embedded_objects()
+	var/list/embeds = spelltarget.get_embedded_objects()
 
 	for(var/object in embeds)
 		if(istype(object, /obj/item/natural/worms/leech)) // Leeches and surgical cheeles are made an exception.
@@ -98,127 +128,136 @@
 		break
 
 	if(!no_embeds)
-		target.visible_message("The wounds tear and rip around the embedded objects!", "Agonising pain shoots through your body as magycks try to sew around the embedded objects!")
-		human.adjustBruteLoss(20)
-		playsound(target, 'sound/combat/dismemberment/dismem (2).ogg', 100)
-		human.emote("agony")
+		spelltarget.visible_message("The wounds tear and rip around the embedded objects!", "Agonising pain shoots through your body as magycks try to sew around the embedded objects!")
+		spelltarget.adjustBruteLoss(20)
+		playsound(spelltarget, 'sound/combat/dismemberment/dismem (2).ogg', 100)
+		spelltarget.emote("agony")
 		return FALSE
 
-	target.apply_status_effect(/datum/status_effect/buff/healing, healing)
+	spelltarget.apply_status_effect(/datum/status_effect/buff/healing, healing)
 
 	// Edit - Overwriting the outgoing message here to prevent metagaming faith via message.
 	// Not getting rid of the messages in the code, we might want them for something else later.
-	message_out = span_info("Healing energies envelop [target]!")
-	if(HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS))
+	message_out = span_info("Healing energies envelop [spelltarget]!")
+	if(HAS_TRAIT(owner, TRAIT_DECEIVING_MEEKNESS))
 		message_self = "Healing energies envelop me!"
-	target.visible_message(message_out, message_self)
-
+	spelltarget.visible_message(message_out, message_self)
 	return TRUE
 
-// Miracle
-/obj/effect/proc_holder/spell/invoked/heal
+///////////////////////
+// MIRACLE - FORTIFY //
+///////////////////////
+
+/datum/action/cooldown/spell/miracle/fortify
 	name = "Fortify"
 	desc = "Amplifies all incoming sources of healing for the chosen target. Combining this with the 'Miracle' blessing allows for the mending \
 	of more extreme injuries. </br>Most healing Miracles cannot affect devoted Psydonians."
-	overlay_state = "astrata"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 4
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-//	chargedloop = /datum/looping_sound/invokeholy
-	chargedloop = null
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
+	button_icon_state = "fortify"
 	sound = 'sound/magic/heal.ogg'
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 20 SECONDS
-	miracle = TRUE
-	devotion_cost = 20
-	ignore_los = FALSE
 
-/obj/effect/proc_holder/spell/invoked/heal/cast(list/targets, mob/living/user)
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_AURA
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	invocation_type = INVOCATION_NONE
+
+	charge_required = FALSE
+	cooldown_time = 30 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/miracle/fortify/cast(atom/cast_on)
 	. = ..()
-	if(!isliving(targets[1]))
-		revert_cast()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
 		return FALSE
 
-	var/mob/living/target = targets[1]
+	var/mob/living/spelltarget = cast_on
 
-	if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-		target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-		user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+	if(!isliving(spelltarget))
 		return FALSE
 
-	user.Beam(target,icon_state="lichbeam",time=1 SECONDS)
+	if(HAS_TRAIT(spelltarget, TRAIT_PSYDONITE))
+		spelltarget.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return FALSE
 
-	if(user.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD)) //positive energy harms the undead
-		target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I'm burned by holy light!"))
-		target.adjustFireLoss(25)
-		target.fire_act(1,10)
+	owner.Beam(spelltarget,icon_state="lichbeam",time=1 SECONDS)
+
+	if(H.patron?.undead_hater && (spelltarget.mob_biotypes & MOB_UNDEAD)) //positive energy harms the undead
+		spelltarget.visible_message(span_danger("[spelltarget] is burned by holy light!"), span_userdanger("I'm burned by holy light!"))
+		spelltarget.adjustFireLoss(25)
+		spelltarget.fire_act(1,10)
 		return TRUE
 
-	target.visible_message(span_info("A wreath of gentle light passes over [target]!"), span_notice("I'm bathed in holy light!"))
-	if(iscarbon(target))
-		var/mob/living/carbon/C = target
-		C.apply_status_effect(/datum/status_effect/buff/fortify)
+	spelltarget.visible_message(span_info("A wreath of gentle light passes over [spelltarget]!"), span_notice("I'm bathed in holy light!"))
+	if(iscarbon(spelltarget) && !spelltarget.has_status_effect(/datum/status_effect/buff/fortify))
+		spelltarget.apply_status_effect(/datum/status_effect/buff/fortify)
 	else
-		target.adjustBruteLoss(-50)
-		target.adjustFireLoss(-50)
+		spelltarget.adjustBruteLoss(-50)
+		spelltarget.adjustFireLoss(-50)
 
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/heal/astrata
-	base_icon_state = "regalyscroll"
+////////////////////////////
+// MIRACLE - INTERVENTION //
+////////////////////////////
 
-// Bishop only miracle - This used to be T3 only but is too powerful and ate into apothecary's niche.
-// Instantly heals all wounds & damage on a selected limb.
-// Long CD (so a Medical class would still outpace this if there's more than one patient to heal)
-/obj/effect/proc_holder/spell/invoked/wound_heal
-	name = "Wound Miracle"
-	desc = "Blesses the chosen target's limb, healing all damages and wounds present on it. This can fix ruptured arteries, broken bones, and \
+/datum/action/cooldown/spell/miracle/intervention
+	name = "Intervention"
+	desc = "Blesses the chosen target's limb, healing all damage and wounds present on it. This can fix ruptured arteries, broken bones, and \
 	anything short of complete dismemberment. </br>Most healing Miracles cannot affect devoted Psydonians."
-	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
-	overlay_state = "woundheal"
-	action_icon_state = "woundheal"
-	action_icon = 'icons/mob/actions/genericmiracles.dmi'
-	releasedrain = 15
-	chargedrain = 0
-	chargetime = 3
-	range = 1
-	ignore_los = FALSE
-	warnie = "sydwarning"
-	movement_interrupt = TRUE
-	chargedloop = /datum/looping_sound/invokeholy
+	fluff_desc = "The most devout of Priests are taught in the old ways, able to reverse mortal wounds in blink of an eye where others would fail."
+	button_icon_state = "woundheal"
 	sound = 'sound/magic/woundheal.ogg'
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	recharge_time = 2 MINUTES
-	miracle = TRUE
-	is_cdr_exempt = TRUE
-	var/delay = 4.5 SECONDS	//Reduced to 1.5 seconds with Legendary
-	devotion_cost = 100
 
-/obj/effect/proc_holder/spell/invoked/wound_heal/cast(list/targets, mob/user = usr)
-	if(ishuman(targets[1]))
-	
-		var/mob/living/carbon/human/target = targets[1]
-		var/mob/living/carbon/human/HU = user
-		var/def_zone = check_zone(user.zone_selected)
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_LEGENDARY
+
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	invocation_type = INVOCATION_NONE
+
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	cooldown_time = 2 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/delay = 4.5 SECONDS	//Reduced to 1.5 seconds with Legendary
+
+/datum/action/cooldown/spell/miracle/intervention/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/HU = owner
+	if(!istype(HU))
+		return FALSE
+
+	var/mob/living/spelltarget = cast_on
+
+	if(ishuman(spelltarget))
+
+		var/mob/living/carbon/human/target = spelltarget
+		var/def_zone = check_zone(owner.zone_selected)
 		var/obj/item/bodypart/affecting = target.get_bodypart(def_zone)
 
 		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
 
 		if(!affecting)
-			revert_cast()
 			return FALSE
 		if(length(affecting.embedded_objects))
 			var/no_embeds = TRUE
@@ -226,12 +265,10 @@
 				if(!istype(object, /obj/item/natural/worms/leech))	//Leeches and surgical cheeles are made an exception.
 					no_embeds = FALSE
 			if(!no_embeds)
-				to_chat(user, span_warning("We cannot seal wounds with objects inside this limb!"))
-				revert_cast()
+				to_chat(owner, span_warning("We cannot seal wounds with objects inside this limb!"))
 				return FALSE
-		if(!do_after(user, (delay - (0.5 SECONDS * HU.get_skill_level(associated_skill)))))
-			revert_cast()
-			to_chat(user, span_warning("We were interrupted!"))
+		if(!do_after(owner, (delay - (0.5 SECONDS * HU.get_skill_level(associated_skill)))))
+			to_chat(owner, span_warning("We were interrupted!"))
 			return FALSE
 		var/foundwound = FALSE
 		if(length(affecting.wounds))
@@ -239,7 +276,7 @@
 				if(!isnull(wound) && wound.healable_by_miracles)
 					wound.heal_wound(wound.whp)
 					foundwound = TRUE
-					user.visible_message(("<font color = '#488f33'>[capitalize(wound.name)] oozes a clear fluid and closes shut, forming into a sore bruise!</font>"))
+					owner.visible_message(("<font color = '#488f33'>[capitalize(wound.name)] oozes a clear fluid and closes shut, forming into a sore bruise!</font>"))
 					affecting.add_wound(/datum/wound/bruise/woundheal)
 			if(foundwound)
 				playsound(target, 'sound/magic/woundheal_crunch.ogg', 100, TRUE)
@@ -247,56 +284,63 @@
 			affecting.update_disabled()
 			return TRUE
 		else
-			to_chat(user, span_warning("The limb is free of wounds."))
-			revert_cast()
+			to_chat(owner, span_warning("The limb is free of wounds."))
 			return FALSE
-	revert_cast()
 	return FALSE
 
-/obj/effect/proc_holder/spell/invoked/blood_heal
-	name = "Blood Boon"
+//////////////////////////////////
+// MIRACLE - LYFEBLOOD TRANSFER //
+//////////////////////////////////
+
+/datum/action/cooldown/spell/miracle/bloodmiracle
+	name = "Lyfeblood Transfer"
 	desc = "Transfers blood from the caster to the chosen target at a steady rate, staving off the lethal effects of blood loss. The amount of \
 	blood transfered with each heartbeat scales with the caster's Holy skill. </br>Most healing Miracles cannot affect devoted Psydonians."
-	overlay_icon = 'icons/mob/actions/genericmiracles.dmi'
-	overlay_state = "bloodheal"
-	action_icon_state = "bloodheal"
-	action_icon = 'icons/mob/actions/genericmiracles.dmi'
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 7
-	ignore_los = FALSE
-	warnie = "sydwarning"
-	movement_interrupt = TRUE
+	fluff_desc = "Manipulation of lyfeblood is often seen as heretical and taboo thanks to its association with Lyckers & Liches. Due to its usefulness however this technique is one of the few sanctioned to be taught across Psydonia."
+	button_icon_state = "bloodheal"
 	sound = 'sound/magic/bloodheal.ogg'
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	recharge_time = 45 SECONDS
-	miracle = TRUE
-	devotion_cost = 50
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND - 2
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	invocation_type = INVOCATION_NONE
+
+	charge_required = FALSE
+	cooldown_time = 1 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
+
 	var/blood_price = 5
 	var/blood_vol_restore = 7.5 //30 every 2 seconds.
 	var/vol_per_skill = 1	//54 with legendary
 	var/delay = 0.5 SECONDS
 
-/obj/effect/proc_holder/spell/invoked/blood_heal/cast(list/targets, mob/user = usr)
-	if(ishuman(targets[1]))
-		var/mob/living/carbon/human/target = targets[1]
-		var/mob/living/carbon/human/UH = user
+/datum/action/cooldown/spell/miracle/bloodmiracle/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/UH = owner
+	if(!istype(UH))
+		return FALSE
+
+	var/mob/living/spelltarget = cast_on
+	var/mob/living/carbon/human/target = spelltarget//This is awful but it's what you get
+
+	if(ishuman(spelltarget))
 		if(NOBLOOD in UH.dna?.species?.species_traits)
 			to_chat(UH, span_warning("I have no blood to provide."))
-			revert_cast()
 			return FALSE
 
 		if(target.blood_volume >= BLOOD_VOLUME_NORMAL)
 			to_chat(UH, span_warning("Their lyfeblood is at capacity. There is no need."))
-			revert_cast()
 			return FALSE
 			
 		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
 
@@ -318,7 +362,7 @@
 		if(user_skill > SKILL_LEVEL_NOVICE)
 			blood_vol_restore += vol_per_skill * user_skill
 		var/max_loops = round(UH.blood_volume / blood_price, 1) * 2	// x2 just in case the user is trying to fill themselves up while using it.
-		var/datum/beam/bloodbeam = user.Beam(target,icon_state="blood",time=(max_loops * 5))
+		var/datum/beam/bloodbeam = owner.Beam(target,icon_state="blood",time=(max_loops * 5))
 		for(var/i in 1 to max_loops)
 			if(UH.blood_volume > (BLOOD_VOLUME_SURVIVE / 2))
 				if(do_after(UH, delay))
@@ -337,5 +381,4 @@
 				return TRUE
 		bloodbeam.End()
 		return TRUE
-	revert_cast()
 	return FALSE

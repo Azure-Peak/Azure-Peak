@@ -14,12 +14,12 @@
 		"I AM THE LAND. YOU SHOULD BE THANKING ME FOR THREADING IT.",
 	)
 
-/datum/patron/godless/can_pray(mob/living/follower)
+/datum/patron/mossmother/can_pray(mob/living/follower)
 	. = ..()
 	to_chat(follower, span_danger("I do not need to pray to the Mossmother, she is with me always."))
 	return FALSE	//heathen
 
-/datum/patron/godless/on_lesser_heal(
+/datum/patron/mossmother/on_lesser_heal(
     mob/living/user,
     mob/living/target,
     message_out,

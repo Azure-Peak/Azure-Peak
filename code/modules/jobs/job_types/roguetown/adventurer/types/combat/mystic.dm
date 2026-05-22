@@ -2,7 +2,7 @@
 	name = "Mystic"
 	tutorial = "I have spent my youth deepening my faith, only to be lured by the way of the magi, to the great regret of my family"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/mystic
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -26,7 +26,6 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN, // average weapon skill for an adventurer role
 	)
 
 /datum/outfit/job/roguetown/adventurer/mystic/pre_equip(mob/living/carbon/human/H)
@@ -41,8 +40,6 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/backpack
-	r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
-	l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
@@ -56,6 +53,22 @@
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
+	
+	if(H.mind)
+		var/weapons = list("lesser staff", "lesser wand", "Quarterstaff")
+		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		switch(weapon_choice)
+			if("lesser staff")
+				r_hand = /obj/item/rogueweapon/woodstaff/implement
+				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE)
+			if("lesser wand")
+				r_hand = /obj/item/rogueweapon/wand
+				l_hand = /obj/item/rogueweapon/shield/wood
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE)
+			if("quarterstaff")
+				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
+				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE)
+
 
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
@@ -86,15 +99,19 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
 		if(/datum/patron/inhumen/zizo)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/matthios)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/baotha)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)
@@ -105,7 +122,7 @@
 	name = "Sage"
 	tutorial = "I have spent my youth studying both the Arcyne and Miraculous ways, and developed my mastery of shielding and preserving lyfe under my care."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/resilient
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -127,7 +144,6 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 	)
 
 /datum/outfit/job/roguetown/adventurer/resilient/pre_equip(mob/living/carbon/human/H)
@@ -142,7 +158,6 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
@@ -154,7 +169,7 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/stoneskin)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 	var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 	switch(poke_choice)
 		if("Spitfire")
@@ -171,11 +186,25 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 		if("Lesser Gravel Blast")
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
-			
+		if("Lesser Soulshot")
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
-		H.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/blood_heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
+
+	if(H.mind)
+		var/weapons = list("lesser staff", "lesser wand")
+		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		switch(weapon_choice)
+			if("lesser staff")
+				r_hand = /obj/item/rogueweapon/woodstaff/implement
+				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE)
+			if("lesser wand")
+				r_hand = /obj/item/rogueweapon/wand
+				l_hand = /obj/item/rogueweapon/shield/wood
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE)
+
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross
@@ -205,15 +234,19 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
 		if(/datum/patron/inhumen/zizo)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/matthios)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/baotha)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)
@@ -224,7 +257,7 @@
 	name = "Luminary"
 	tutorial = "I have spent my youth deepening my faith and one day an azurcaephan was under my care at the church, ever since their recovery i became the pupil of the noccite priests and templars"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/holyblade
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -275,6 +308,7 @@
 			if("Shortsword + shield")
 				r_hand = /obj/item/rogueweapon/sword/short
 				beltr = /obj/item/rogueweapon/scabbard/sword
+				backr = /obj/item/rogueweapon/shield/wood
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 3, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
 			if("Quarterstaff")
@@ -297,7 +331,7 @@
 		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 		)
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 	var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 	switch(poke_choice)
 		if("Spitfire")
@@ -314,10 +348,12 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 		if("Lesser Gravel Blast")
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
+		if("Lesser Soulshot")
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
-		H.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/blood_heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			id = /obj/item/clothing/neck/roguetown/psicross
@@ -347,15 +383,19 @@
 			id = /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
 		if(/datum/patron/inhumen/zizo)
+			id = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/matthios)
+			id = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
+			id = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/baotha)
+			id = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)

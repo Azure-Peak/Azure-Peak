@@ -98,6 +98,17 @@
 	blade_dulling = DULLING_CUT
 	max_integrity = 300
 
+/obj/structure/roguemachine/chimeric_calyx/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Cures black rot partially. Cures a large amount of black rot.")
+	. += span_info("Black rot can be cured surgically with a knife, by touching calyxes, or by drinking heartblood.")
+	. += span_info("Can be interacted with to heal. Part of the heal is long lasting.")
+	. += span_info("Can be interacted with once per person.")
+	. += span_info("Provides heartbeast research to echo slabs in the world when used. Research is capped at tier 1 out of 4 tiers")
+	. += span_info("Provides a heartblood vial and some zennies when used.")
+	. += span_info("Holy skill and medicine skill increase the amount of research, zennies, and heartblood generated.")
+	. += span_info("Heartblood can be applied to self or others to restore some blue, or to purify impure lux to make it useable for revival surgery and crafts.")
+
 /obj/structure/roguemachine/chimeric_calyx/attack_hand(mob/user)
 	if(!ishuman(user))
 		return
@@ -139,8 +150,15 @@
 	H.apply_status_effect(/datum/status_effect/buff/pestra_care)
 
 	if(H.has_status_effect(/datum/status_effect/black_rot))
-		var/datum/status_effect/black_rot/rot = H.has_status_effect(/datum/status_effect/black_rot)
-		rot.remove_stack(2)
+		var/new_total = 80
+		var/new_per_tick = 5
+		var/datum/status_effect/buff/rot_cleansing/existing_cleanse = H.has_status_effect(/datum/status_effect/buff/rot_cleansing)
+		if(existing_cleanse)
+			if(existing_cleanse.can_override(new_total, new_per_tick))
+				H.remove_status_effect(existing_cleanse)
+				H.apply_status_effect(/datum/status_effect/buff/rot_cleansing, new_total, new_per_tick)
+		else
+			H.apply_status_effect(/datum/status_effect/buff/rot_cleansing, new_total, new_per_tick)
 		to_chat(H, span_good("The calyx's purifying blood flows through you, cleansing the black rot!"))
 
 	to_chat(H, span_boldnotice("The calyx shudders as tendrils extend to feel up your arms, affectionately carressing your head. You have contributed [points_granted] Echoes."))

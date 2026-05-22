@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Increased kill quest timer to 15 minutes"
-  - rscadd: "Graggarspawns -> Graggarites after being informed that orcs are actually not graggarspawns"
-  - rscdel: "MEISTER no longer tell everyone exactly how much money is left in the treasury, that is not relevant."

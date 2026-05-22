@@ -136,15 +136,22 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	var/list/daily_payroll = list()
 	var/payroll_total = 0
 	if(SStreasury.steward_machine && SStreasury.steward_machine.daily_payments)
-		for(var/job_name in SStreasury.steward_machine.daily_payments)
-			var/amount = SStreasury.steward_machine.daily_payments[job_name]
-			var/headcount = 0
-			var/suspended_count = 0
-			for(var/mob/living/carbon/human/H in GLOB.human_list)
-				if(H.job == job_name)
-					headcount++
-					if(HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-						suspended_count++
+		var/list/payments = SStreasury.steward_machine.daily_payments
+		var/list/head_by_job = list()
+		var/list/suspended_by_job = list()
+		for(var/mob/living/o as anything in SStreasury.bank_accounts)
+			if(!o || !payments[o.job])
+				continue
+			var/datum/fund/acct = SStreasury.bank_accounts[o]
+			if(!acct)
+				continue
+			head_by_job[o.job] = (head_by_job[o.job] || 0) + 1
+			if(acct.wages_suspended)
+				suspended_by_job[o.job] = (suspended_by_job[o.job] || 0) + 1
+		for(var/job_name in payments)
+			var/amount = payments[job_name]
+			var/headcount = head_by_job[job_name] || 0
+			var/suspended_count = suspended_by_job[job_name] || 0
 			daily_payroll += list(list(
 				"job" = job_name,
 				"amount" = amount,
@@ -465,13 +472,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			if(SStreasury.treasury_state != TREASURY_NORMAL)
 				to_chat(usr, span_warning("Treasury is not currently solvent."))
 				return TRUE
-			var/projected = 0
-			if(SStreasury.steward_machine)
-				for(var/job_name in SStreasury.steward_machine.daily_payments)
-					var/payment = SStreasury.steward_machine.daily_payments[job_name]
-					for(var/mob/living/carbon/human/H in GLOB.human_list)
-						if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-							projected += payment
+			var/projected = SStreasury.get_expected_wage_outlay()
 			SStreasury.enter_arrears(projected)
 			admin_log_fiscal("force-triggered Crown arrears", "Force Arrears")
 			return TRUE

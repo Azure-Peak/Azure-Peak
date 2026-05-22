@@ -2,7 +2,7 @@
 	name = "Witch"
 	tutorial = "You are a witch, seen as wisefolk to some and a demon to many. Ostracized and sequestered for wrongthinks or outright heresy, your potions are what the commonfolk turn to when all else fails, and for this they tolerate you — at an arm's length. Take care not to end 'pon a pyre, for the church condemns your left handed arts."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/witch
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	traits_applied = list(TRAIT_DEATHSIGHT, TRAIT_WITCH, TRAIT_ALCHEMY_EXPERT)
@@ -105,7 +105,7 @@
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cabbit)
 		switch (classchoice)
 			if("Mystagogue")
-				var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
+				var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 				var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 				switch(poke_choice)
 					if("Spitfire")
@@ -122,6 +122,8 @@
 						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 					if("Lesser Gravel Blast")
 						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
+					if("Lesser Soulshot")
+						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 	if(H.gender == FEMALE)
 		armor = /obj/item/clothing/suit/roguetown/armor/corset
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut

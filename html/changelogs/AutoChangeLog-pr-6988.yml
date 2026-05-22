@@ -1,6 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - rscadd: "Brooms are now more useful for cleaning garbage."
-  - bugfix: "Added some missing gear to where they should be, notably,  greatweapon straps for spears."
-  - spellcheck: "Fixed a few naming disparities between the new and old and eldest maid dresses we have."

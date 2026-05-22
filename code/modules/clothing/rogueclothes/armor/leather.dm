@@ -5,7 +5,6 @@
 	body_parts_covered = COVERAGE_TORSO
 	armor = ARMOR_LEATHER_NPC
 	blocksound = SOFTHIT
-	blade_dulling = DULLING_BASHCHOP
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
@@ -279,14 +278,13 @@
 	armor = ARMOR_CLOTHING
 	blocksound = SOFTHIT
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	blade_dulling = DULLING_BASHCHOP
 	body_parts_covered = COVERAGE_TORSO
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
 	sleevetype = null
 	sleeved = null
-	armor_class = ARMOR_CLASS_LIGHT
+	armor_class = ARMOR_CLASS_NONE
 
 /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 	name = "sea jacket"

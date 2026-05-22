@@ -6,7 +6,7 @@
 	Where your fists fall short, your wits prevail. Where your magyck falters, your fists answer. \
 	His will be done."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/sojourner
 	subclass_languages = list(/datum/language/otavan, /datum/language/celestial)
 	category_tags = list(CTAG_ORTHODOXIST)
@@ -88,7 +88,7 @@
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	neck = /obj/item/clothing/neck/roguetown/psicross/g
-	id = /obj/item/clothing/ring/signet
+	id = /obj/item/clothing/ring/signet/psy
 	belt = /obj/item/storage/belt/rogue/leather/rope/dark
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backl = /obj/item/storage/backpack/rogue/satchel/black

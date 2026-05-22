@@ -16,6 +16,7 @@
 	var/hidesnoutADJ = FALSE
 	/// Tracks if we're currently over or under the armor layer. Mainly used for the feedback message.
 	var/overarmor = TRUE
+	throw_on_break = TRUE
 
 /obj/item/clothing/head/roguetown/equipped(mob/user, slot)
 	. = ..()

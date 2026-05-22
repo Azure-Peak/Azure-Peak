@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Lunatics can be played by any race and creed, once more!"

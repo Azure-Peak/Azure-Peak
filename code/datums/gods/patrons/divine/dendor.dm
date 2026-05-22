@@ -4,11 +4,11 @@
 	desc = "The God of Wilds, born from Abyssor's feverish dreams. Spilt forth life from the oceans to land in a wild craze. The Father of Ground-Lyfe. Treefather."
 	worshippers = "Druids, Beasts, Madmen"
 	mob_traits = list(TRAIT_KNEESTINGER_IMMUNITY, TRAIT_LEECHIMMUNE)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
+	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/spiderspeak 			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/targeted/blesscrop			= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/wildshape				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/targeted/conjure_glowshroom	= CLERIC_T3,
 					/obj/effect/proc_holder/spell/targeted/conjure_vines		= CLERIC_T3,
@@ -22,6 +22,10 @@
 		"I ANSWER THE CALL OF THE WILD!",
 	)
 	storyteller = /datum/storyteller/dendor
+	titles = list(
+		"Treefather",
+		"Tree-Father"
+	)
 
 // In grove, bog, cross, or ritual chalk 
 // Yes, he is NOT calling the master cus he's unique. Whole bog is his prayer zone. Druids exist for a reason instead of in the church.

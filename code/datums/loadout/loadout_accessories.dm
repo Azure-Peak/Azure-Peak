@@ -29,6 +29,11 @@
 	path = /obj/item/clothing/gloves/roguetown/bandages
 	sort_category = "Accessories"
 
+/datum/loadout_item/leathergloves
+	name = "Leather Gloves"
+	path = /obj/item/clothing/gloves/roguetown/leather
+	sort_category = "Accessories"
+
 /datum/loadout_item/silkbelt
 	name = "Giltsilk Belt"
 	path = /obj/item/storage/belt/rogue/leather/silkbelt
@@ -149,6 +154,11 @@
 /datum/loadout_item/doublebelt
 	name = "Paired slim belts"
 	path = /obj/item/storage/belt/rogue/leather/double
+	sort_category = "Accessories"
+
+/datum/loadout_item/knifebelt // comes empty
+	name = "Tossblade Belt"
+	path = /obj/item/storage/belt/rogue/leather/knifebelt/black
 	sort_category = "Accessories"
 
 /datum/loadout_item/psicross

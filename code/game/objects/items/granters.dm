@@ -220,7 +220,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 
 /obj/item/book/granter/spell/bonechill
 	name = "Scroll of Bone Chill"
-	spell = /obj/effect/proc_holder/spell/invoked/bonechill
+	spell = /datum/action/cooldown/spell/bonechill
 	spellname = "Bone Chill"
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "scrolldarkred"
@@ -237,3 +237,128 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		icon_state = "scroll"
 		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
 
+/obj/item/book/granter/spell/noc
+	name = "Scroll of if you see this you report it as a bug and not try to activate it because it calls gib() on you."
+	desc = "Spelltext: read"
+	spell = /datum/action/cooldown/spell/dummyspellforscrolls
+	spellname = "This kills you"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Mediolanum ventis..", "Sana damnatorum..", "Frigidus ossa mortuorum..")
+
+/obj/item/book/granter/spell/noc/attack_self(mob/living/user)
+	if(reading)
+		to_chat(user, span_warning("I'm already reading this!"))
+		return FALSE
+	if(!user.can_read(src))
+		return FALSE
+	if(already_known(user))
+		return FALSE
+	if(!user.get_skill_level(/datum/skill/magic/holy) >= SKILL_LEVEL_EXPERT)
+		to_chat(user, span_warning("The scrolls is blank to your unfaithful eyes!"))
+		return FALSE
+	if(!user.get_skill_level(/datum/skill/misc/reading) > SKILL_LEVEL_EXPERT)
+		to_chat(user, span_warning("You can't make sense of the sprawling runes!"))
+		return FALSE
+	if(used && oneuse)
+		to_chat(user, span_warning("This fount of knowledge was not meant to be sipped from twice!"))
+		recoil(user)
+		return FALSE
+	on_reading_start(user)
+	reading = TRUE
+	for(var/i=1, i<=pages_to_mastery, i++)
+		if(!turn_page(user))
+			reading = FALSE
+			on_reading_stopped()
+			return FALSE
+	if(do_after(user, 50, user))
+		reading = FALSE
+		on_reading_finished(user)
+		return TRUE
+	reading = FALSE //failsafe
+	return FALSE
+
+/obj/item/book/granter/spell/noc/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+		qdel(src)
+
+/datum/action/cooldown/spell/dummyspellforscrolls
+	background_icon = 'icons/mob/actions/genericmiracles.dmi'
+	name = "Gib"
+	desc = "What do you think this possibly does?"
+	sound = 'sound/magic/clang.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = TRUE
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Trey Liam.") 
+
+	charge_required = FALSE
+	cooldown_time = 3 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/dummyspellforscrolls/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+	H.gib()
+	return TRUE
+
+//Gonna be real these are placeholders until I figure out a normal way to make single - cast spells
+/obj/item/book/granter/spell/noc/fireball
+	name = "Scroll of Fireball"
+	desc = "Teaches you how to cast Fireball."
+	spell = /datum/action/cooldown/spell/projectile/fireball
+	spellname = "Fireball"
+
+/obj/item/book/granter/spell/noc/lbolt
+	name = "Scroll of Lighting Bolt"
+	desc = "Teaches you how to cast Lighting Bolt."
+	spell = /datum/action/cooldown/spell/projectile/lightning_bolt
+	spellname = "Lightning Bolt"
+
+/obj/item/book/granter/spell/noc/boulderstrike
+	name = "Scroll of Boulder Strike"
+	desc = "Teaches you how to cast Boulder Strike."
+	spell = /datum/action/cooldown/spell/projectile/boulder_strike
+	spellname = "Boulder Strike"
+
+/obj/item/book/granter/spell/noc/message
+	name = "Scroll of Message"
+	desc = "Teaches you how to cast Message."
+	spell = /datum/action/cooldown/spell/message
+	spellname = "Message"
+
+/obj/item/book/granter/spell/noc/mindlink
+	name = "Scroll of Mindlink"
+	desc = "Teaches you how to cast Mindlink."
+	spell = /datum/action/cooldown/spell/mindlink
+	spellname = "Mindlink"
+
+/obj/item/book/granter/spell/noc/mending
+	name = "Scroll of Mending"
+	desc = "Teaches you how to cast Mending."
+	spell = /datum/action/cooldown/spell/mending
+	spellname = "Mending"
+
+/obj/item/book/granter/spell/noc/blink
+	name = "Scroll of Blink"
+	desc = "Teaches you how to cast Blink."
+	spell = /datum/action/cooldown/spell/blink
+	spellname = "Blink"
+
+/obj/item/book/granter/spell/noc/repulse
+	name = "Scroll of Repulse"
+	desc = "Teaches you how to cast Repulse."
+	spell = /datum/action/cooldown/spell/repulse
+	spellname = "Repulse"

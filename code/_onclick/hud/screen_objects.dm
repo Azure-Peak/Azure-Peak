@@ -1874,7 +1874,7 @@
 				state2use = "stress"
 			if(5 to 14)
 				state2use = "stress2"
-			if(5 to 24)
+			if(15 to 24)
 				state2use = "stress3"
 			if(25 to 999)
 				state2use = "stress4"
@@ -1898,7 +1898,7 @@
 			state2use = "mood_ult"
 
 		//We go down a janky list of exceptions for total overrides
-		if(HAS_TRAIT(H, TRAIT_NOMOOD))
+		if(HAS_TRAIT(H, TRAIT_DETACHED))
 			state2use = "mood_hopeless"
 		else if(H.stat == DEAD)
 			state2use = "mood_dead"

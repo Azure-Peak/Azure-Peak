@@ -1,44 +1,283 @@
-//These are all Vanderlin ports, simply redone values and additions to fit Azure. Credit for the code and idea goes to them!
+/datum/action/cooldown/spell/ravox
+	background_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	button_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	spell_color = GLOW_COLOR_RAVOX
 
-//Divine Strike - Enhance your held weapon to have the next strike ~~do extra damage~~ and slow the target. Undead debuffed more.
-//03/21/2026: Spell does not add extra damage. Leaving comment bc maybe it's supposed to, but, uhhh. IDK I'm fixing the description for now. -- MUMBLEMANCER
-/obj/effect/proc_holder/spell/self/divine_strike
-	name = "Divine Strike"
-	desc = "Bless your next strike to slow the target."
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_state = "divine_strike"
-	recharge_time = 1 MINUTES
-	movement_interrupt = FALSE
-	chargedrain = 0
-	chargetime = 1 SECONDS
-	charging_slowdown = 2
-	chargedloop = null
+	ignore_armor_penalty = TRUE
+
+	attunement_school = null
+
+	primary_resource_type = SPELL_COST_DEVOTION
+
+	secondary_resource_type = SPELL_COST_STAMINA
+
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/battletrance.ogg'
-	invocations = list("By Ravox, stand and fight!")
-	invocation_type = "shout"
-	antimagic_allowed = TRUE
-	miracle = TRUE
-	devotion_cost = 30
-	range = 0
+	spell_tier = 0
 
-/obj/effect/proc_holder/spell/self/divine_strike/cast(mob/living/user)
+	point_cost = 0
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/ravox, , /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// T0 - Tug of War- Chain a target to yourself and pull them in, prevents them from leaving your vicinity. //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/datum/action/cooldown/spell/ravox/tug
+	name = "Tug of War"
+	desc = "Casts out a chain that tries to pull the target closer."
+	fluff_desc = "One's worth is determined by weight of their soul in the afterlyfe, chains of sin pushing the scale downwards to inevitable pits of damnation."
+	button_icon_state = "ravox_tug"
+	sound = 'sound/magic/battletrance.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = FALSE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_CANTRIP
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Feel the weight of your sins!")
+
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 1 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/pull_distance = 1
+	var/slowdown = 1
+
+/datum/action/cooldown/spell/ravox/tug/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/user = owner
+	var/mob/living/target = cast_on
+
+	if(isliving(cast_on))
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] holds firm against the pull!"))
+			return TRUE
+		var/chance = 0
+		if(target.mob_biotypes & MOB_UNDEAD)
+			pull_distance++
+			chance += 20
+		if(ishuman(target))
+			var/strdiff = user.STASTR - target.STASTR
+			var/enddiff = user.STAWIL - target.STAWIL
+			var/condiff = user.STACON - target.STACON
+			var/spddiff = user.STASPD - target.STASPD
+			var/fordiff = user.STALUC - target.STALUC
+
+			var/list/statdiffs = list(strdiff, enddiff, condiff, spddiff, fordiff)
+			var/count = 0
+			for(var/diff in statdiffs)
+				if(diff > 0)
+					chance += 10
+					count++
+				else if(diff < 0)
+					chance -= 10
+			var/holymod = owner.get_skill_level(/datum/skill/magic/holy) * 10
+			pull_distance += floor((owner.get_skill_level(/datum/skill/magic/holy) - 1) / 2)	//+1 pull dist at Jman and Master Holy skill
+			chance += holymod
+			owner.visible_message(span_boldwarning("[owner] yanks on a transluscent chain sticking out of [target]!"))
+			if(count > 3)	//More than half of the stats are in our favor.
+				pull_distance++
+				slowdown++
+			if(prob(chance))
+				target.throw_at(owner, pull_distance, 1, target, FALSE)
+				target.visible_message(span_warning("[target]'s body moves on its own!"))
+				owner.Beam(target,icon_state="chain",time=5)
+			else
+				target.visible_message(span_warning("[target] holds firm!"))
+			target.Slowdown(slowdown)
+			return TRUE
+		return FALSE
+	return FALSE
+
+///////////////////////////////////////////////////////////////////////////////////
+// T0 - Provocation - Taunt nearby enemies into focusing you with their attacks. //
+///////////////////////////////////////////////////////////////////////////////////
+
+/datum/action/cooldown/spell/ravox/provocation
+	name = "Provocation"
+	desc = "Forces hostile creatures around to target you. Grants you CON and WIL based on your holy skill."
+	button_icon_state = "provocation"
+	sound = 'sound/magic/battletrance.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_CANTRIP
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("By Ravox, stand and face me!")
+
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 1 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/ravox/provocation/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/user = owner
 	if(!isliving(user))
 		return FALSE
-	user.apply_status_effect(/datum/status_effect/divine_strike, user.get_active_held_item())
+	var/checkgate = FALSE
+	var/skill = user.get_skill_level(/datum/skill/magic/holy)
+	var/dist = (3 + skill)
+	for(var/mob/living/mob in view(dist, get_turf(user)))
+		if(!mob.mind && mob.ai_controller)
+			mob.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, user)
+			mob.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, user)
+			var/datum/component/ai_aggro_system/aggro = mob.GetComponent(/datum/component/ai_aggro_system)
+			if(aggro)
+				aggro.add_threat_to_mob(user, 50)
+			checkgate = TRUE
+	if(checkgate == TRUE)
+		user.apply_status_effect(/datum/status_effect/buff/ravox_provocation, skill)
 	return TRUE
 
-/datum/status_effect/divine_strike
-	id = "divine_strike"
+/atom/movable/screen/alert/status_effect/buff/ravox_provocation
+	name = "Provocation"
+	desc = "All hostile creatures are targeting me! For Ravox!"
+	icon_state = "provocation"
+
+/datum/status_effect/buff/ravox_provocation
+	id = "ravox_provocation"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/ravox_provocation
+	duration = 15 SECONDS
+
+/datum/status_effect/buff/ravox_provocation/on_creation(mob/living/new_owner, assocskill)
+	var/con_bonus = 0
+	if(assocskill)
+		if(assocskill == 1)
+			duration = duration
+		else
+			duration *= assocskill-1
+		con_bonus = assocskill-1
+	if(con_bonus > 0)
+		effectedstats = list(STATKEY_CON = con_bonus, STATKEY_WIL = con_bonus)
+	. = ..()
+
+/datum/status_effect/buff/ravox_prv/on_apply(assocskill)
+	to_chat(owner, span_info("For Ravox!"))
+	. = ..()
+
+
+/////////////////////////////////////////////////////
+// T1 - Divine Strike - Slow down an enemy on hit. //
+/////////////////////////////////////////////////////
+
+/datum/action/cooldown/spell/ravox/strikeoraegis
+	name = "Tools of Justice"
+	desc = "Choose between Justicar's Judgement (Divine Strike) or Justicar's Aegis (Shield)."
+	fluff_desc = "The first gift to men, a sliver of Her radiance at fingertips of those devoted to Her wae of lyfe. Some sae it was Matthios who forced Astrata's hand in relinquishing such force to lowly mortals."
+	button_icon_state = "judgement_aegis"
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_ADJACENT
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
+
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	invocation_type = INVOCATION_NONE //It has seperate message ON USE
+
+	charge_required = FALSE
+	cooldown_time = 10 SECONDS//Does not matter it's single use
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/chosen_spell
+	var/ravox_strike = /datum/action/cooldown/spell/ravox/judgement
+	var/ravox_aegis = /datum/action/cooldown/spell/ravox/aegis
+	var/choosingspell = FALSE
+
+/datum/action/cooldown/spell/ravox/strikeoraegis/cast(atom/cast_on)
+	. = ..()
+	if(choosingspell == TRUE)
+		to_chat(owner, span_warning("I'm already choosing a spell!"))
+	else
+		var/choice = chosen_spell
+		choosingspell = TRUE
+		if(!chosen_spell)
+			choice = alert(owner, "Offense or Defense", "CHOOSE YOUR TOOL", "Judgement - Strike", "Aegis - Shield")
+			chosen_spell = choice
+		switch(choice)
+			if("Judgement - Strike")
+				owner.mind?.AddSpell(new ravox_strike, owner)
+				owner.mind?.RemoveSpell(src.type)
+			if("Aegis - Shield")
+				owner.mind?.AddSpell(new ravox_aegis, owner)
+				owner.mind?.RemoveSpell(src.type)
+			else
+				return FALSE
+
+/////////////////////////////////////////////////
+// T1 - Judgement - Slow down an enemy on hit. //
+/////////////////////////////////////////////////
+
+/datum/action/cooldown/spell/ravox/judgement
+	name = "Judgement"
+	desc = "Bless your next strike to slow the target."
+	button_icon_state = "judgement"
+	sound = 'sound/magic/battletrance.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_CANTRIP
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("By Ravox, face judgement!")
+
+	charge_required = FALSE
+	cooldown_time = 1 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/ravox/judgement/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/user = owner
+	if(!isliving(user))
+		return FALSE
+	user.apply_status_effect(/datum/status_effect/judgement, user.get_active_held_item())
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/judgement
+	name = "Judgement"
+	desc = "Your next attack slows your target and SPD."
+	icon_state = "judgement"
+
+/datum/status_effect/judgement
+	id = "judgement"
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = 15 SECONDS
-	alert_type = /atom/movable/screen/alert/status_effect/buff/divine_strike
+	alert_type = /atom/movable/screen/alert/status_effect/buff/judgement
 	on_remove_on_mob_delete = TRUE
 	var/datum/weakref/buffed_item
 
-/datum/status_effect/divine_strike/on_creation(mob/living/new_owner, obj/item/I)
+/datum/status_effect/judgement/on_creation(mob/living/new_owner, obj/item/I)
 	. = ..()
 	if(!.)
 		return
@@ -50,7 +289,7 @@
 	else
 		RegisterSignal(owner, COMSIG_MOB_ATTACK_HAND, PROC_REF(hand_attack))
 
-/datum/status_effect/divine_strike/on_remove()
+/datum/status_effect/judgement/on_remove()
 	. = ..()
 	UnregisterSignal(owner, COMSIG_MOB_ATTACK_HAND)
 	if(buffed_item)
@@ -59,256 +298,294 @@
 			I.set_light(0)
 		UnregisterSignal(I, COMSIG_ITEM_AFTERATTACK)
 
-/datum/status_effect/divine_strike/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+/datum/status_effect/judgement/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	if(!proximity_flag)
 		return
 	if(!isliving(target))
 		return
 	var/mob/living/living_target = target
-	living_target.apply_status_effect(/datum/status_effect/debuff/ravox_burden)
+	living_target.apply_status_effect(/datum/status_effect/debuff/judgement)
 	living_target.visible_message(span_warning("The strike from [user]'s weapon causes [living_target] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
 	qdel(src)
 
-/datum/status_effect/divine_strike/proc/hand_attack(datum/source, mob/living/carbon/human/M, mob/living/carbon/human/H, datum/martial_art/attacker_style)
+/datum/status_effect/judgement/proc/hand_attack(datum/source, mob/living/carbon/human/M, mob/living/carbon/human/H, datum/martial_art/attacker_style)
 	if(!istype(M))
 		return
 	if(!istype(H))
 		return
 	if(!istype(M.used_intent, INTENT_HARM))
 		return
-	H.apply_status_effect(/datum/status_effect/debuff/ravox_burden)
+	H.apply_status_effect(/datum/status_effect/debuff/judgement)
 	H.visible_message(span_warning("The strike from [M]'s fist causes [H] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
 	qdel(src)
 
-//Call to Arms - AoE buff for all people surrounding you.
-/obj/effect/proc_holder/spell/self/call_to_arms
-	name = "Call to Arms"
-	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution."
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_state = "call_to_arms"
-	recharge_time = 5 MINUTES
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	invocations = list("FOR GLORY AND HONOR!")
-	invocation_type = "shout"
-	sound = 'sound/magic/battle_cry.ogg'
-	releasedrain = 30
-	miracle = TRUE
-	devotion_cost = 40
-	range = 3
+/atom/movable/screen/alert/status_effect/debuff/judgement
+	name = "Ravox's Burden"
+	desc = "My arms and legs are restrained by divine chains!"
+	icon_state = "restrained"
 
-/obj/effect/proc_holder/spell/self/call_to_arms/cast(list/targets,mob/living/user = usr)
-	for(var/mob/living/carbon/target in view(range, get_turf(user)))
-		if(istype(target.patron, /datum/patron/inhumen))
-			target.apply_status_effect(/datum/status_effect/debuff/call_to_arms)	//Debuffs inhumen worshipers.
-			continue
-		if(istype(target.patron, /datum/patron/old_god))
-			to_chat(target, span_danger("You feel a hot-wave wash over you, leaving as quickly as it came.."))	//No effect on Psydonians!
-			continue
-		if(!user.faction_check_mob(target))
-			continue
-		if(target.mob_biotypes & MOB_UNDEAD)
-			continue
-		target.apply_status_effect(/datum/status_effect/buff/call_to_arms)
+/datum/status_effect/debuff/judgement
+	id = "judgement_debuff"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/judgement
+	effectedstats = list(STATKEY_SPD = -2)
+	duration = 30 SECONDS
+
+/datum/status_effect/debuff/judgement/on_apply()
+		. = ..()
+		var/mob/living/carbon/C = owner
+		C.add_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN, multiplicative_slowdown = 1.5)
+
+/datum/status_effect/debuff/judgement/on_remove()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
+
+///////////////////////////////////////////////////////////
+// T1 - Justicar's Aegis - Summon a shield for yourself. //
+///////////////////////////////////////////////////////////
+
+/datum/action/cooldown/spell/ravox/aegis
+	name = "Justicar's Aegis"
+	desc = "Conjure a Holy Aegis - a projected shield of divine energy designed to counter projectiles.\n\
+	Less effective against deliberate melee strikes, but excellent against ranged attacks.\n\
+	The shield vanishes when broken or when a new one is conjured."
+	button_icon_state = "aegis"
+	sound = 'sound/magic/whiteflame.ogg'
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+
+	click_to_activate = TRUE
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_CONJURE
+
+	invocations = list("Ravox, grant me your bulwark!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = 3 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 90 SECONDS
+
+	ignore_armor_penalty = TRUE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/obj/item/rogueweapon/shield/ravox_aegis/conjured_shield
+
+/datum/action/cooldown/spell/ravox/aegis/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	if(H.get_num_arms() <= 0)
+		to_chat(H, span_warning("I don't have any usable hands!"))
+		return FALSE
+
+	// Destroy previous conjured shield
+	if(conjured_shield && !QDELETED(conjured_shield))
+		conjured_shield.visible_message(span_warning("[conjured_shield] flickers and fades away!"))
+		qdel(conjured_shield)
+
+	var/obj/item/rogueweapon/shield/ravox_aegis/S = new(H.drop_location())
+	S.linked_spell = src
+	S.caster_ref = WEAKREF(H)
+	S.AddComponent(/datum/component/conjured_item, null, TRUE)
+	H.put_in_hands(S)
+	conjured_shield = S
+	H.visible_message("[H] conjures a shimmering shield of arcyne energy!")
 	return TRUE
 
-//Persistence - Harms the shit out of an undead mob/player while causing bleeding/pain wounds to clot at higher rate for living ones. Basically a 'shittier' yet still good greater heal effect.
-/obj/effect/proc_holder/spell/invoked/persistence
-	name = "Persistence"
-	desc = "Harms Undead and encourages the livings wounds to close faster."
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_state = "persistence"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 7
-	warnie = "sydwarning"
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/persistence.ogg'
-	invocations = list("Ravox deems your persistence worthy!")
-	invocation_type = "shout"
+/datum/action/cooldown/spell/ravox/aegis/Destroy()
+	if(conjured_shield && !QDELETED(conjured_shield))
+		conjured_shield.visible_message(span_warning("[conjured_shield] flickers and fades away!"))
+		qdel(conjured_shield)
+	conjured_shield = null
+	return ..()
+
+// The conjured shield item
+/obj/item/rogueweapon/shield/ravox_aegis
+	name = "justicar's aegis"
+	desc = "A rare hunk of arcyne energy projected in front of the caster. Slower and more deliberate movement by blades and melee weapons easily pierce through to the squishy Magi behind."
+	icon_state = "ravox_aegis"
+	wdefense = 7
+	coverage = 70
+	max_integrity = 200
+	force = 5
+	unenchantable = TRUE
+	anvilrepair = /datum/skill/magic/holy
+	parrysound = list('sound/combat/parry/shield/magicshield (1).ogg', 'sound/combat/parry/shield/magicshield (2).ogg', 'sound/combat/parry/shield/magicshield (3).ogg')
 	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 20 SECONDS
-	miracle = TRUE
-	devotion_cost = 50
+	var/datum/action/cooldown/spell/ravox/aegis/linked_spell
+	var/datum/weakref/caster_ref
 
-/obj/effect/proc_holder/spell/invoked/persistence/cast(list/targets, mob/living/user)
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		if(target.mob_biotypes & MOB_UNDEAD)
-			if(spell_guard_check(target, TRUE))
-				target.visible_message(span_warning("[target] resists Ravox's judgment!"))
-				return TRUE
-			if(ishuman(target)) //BLEED AND PAIN
-				var/mob/living/carbon/human/human_target = target
-				var/datum/physiology/phy = human_target.physiology
-				phy.bleed_mod *= 1.5
-				phy.pain_mod *= 1.5
-				addtimer(CALLBACK(src, PROC_REF(restore_modifiers), phy), 19 SECONDS)
-				human_target.visible_message(span_danger("[target]'s wounds become inflamed as their vitality is sapped away!"), span_userdanger("Ravox inflames my wounds and weakens my body!"))
-				return TRUE
-			return FALSE
+/obj/item/rogueweapon/shield/ravox_aegis/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -5,"sy" = -1,"nx" = 6,"ny" = -1,"wx" = 0,"wy" = -2,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-		target.visible_message(span_info("Warmth radiates from [target] as their wounds seal over!"), span_notice("The pain from my wounds fade as warmth radiates from my soul!"))
-		var/situational_bonus = 0.25
-		for(var/obj/effect/decal/cleanable/blood/O in oview(5, target))
-			situational_bonus = min(situational_bonus + 0.015, 1)
-		if(situational_bonus > 0.25)
-			to_chat(user, "Channeling Ravox's power is easier in these conditions!")
+/obj/item/rogueweapon/shield/ravox_aegis/obj_break()
+	. = ..()
+	if(!QDELETED(src))
+		dispel()
 
-		if(iscarbon(target))
-			var/mob/living/carbon/C = target
-			var/obj/item/bodypart/affecting = C.get_bodypart(check_zone(user.zone_selected))
-			if(affecting)
-				for(var/datum/wound/bleeder in affecting.wounds)
-					bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.25)
-					if(!isnull(bleeder.clotting_threshold) && bleeder.bleed_rate > bleeder.clotting_threshold)
-						var/difference = bleeder.bleed_rate - bleeder.clotting_threshold
-						bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference * situational_bonus))
-		else if(HAS_TRAIT(target, TRAIT_SIMPLE_WOUNDS))
-			for(var/datum/wound/bleeder in target.simple_wounds)
-				bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.25)
-				if(!isnull(bleeder.clotting_threshold) && bleeder.bleed_rate > bleeder.clotting_threshold)
-					var/difference = bleeder.bleed_rate - bleeder.clotting_threshold
-					bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference * situational_bonus))
-		return TRUE
-	return FALSE
+/obj/item/rogueweapon/shield/ravox_aegis/attack_hand(mob/living/user)
+	. = ..()
+	if(!QDELETED(src) && !(user.get_active_held_item() == src || user.get_inactive_held_item() == src))
+		dispel()
 
-/obj/effect/proc_holder/spell/invoked/persistence/proc/restore_modifiers(datum/physiology/physiology)
-	if(!physiology)
+/obj/item/rogueweapon/shield/ravox_aegis/dropped(mob/living/user)
+	. = ..()
+	if(QDELETED(src))
 		return
+	var/mob/caster = caster_ref?.resolve()
+	// Only dispel if dropped on the ground (not held by the caster)
+	if(!caster || loc != caster)
+		dispel()
 
-	physiology.bleed_mod /= 1.5
-	physiology.pain_mod /= 1.5
+/obj/item/rogueweapon/shield/ravox_aegis/proc/dispel()
+	if(QDELETED(src))
+		return
+	visible_message(span_warning("[src] shatters into motes of divine light!"))
+	playsound(get_turf(src), 'sound/magic/magic_nulled.ogg', 80)
+	if(linked_spell)
+		linked_spell.conjured_shield = null
+	qdel(src)
 
-/atom/movable/screen/alert/status_effect/buff/divine_strike
-	name = "Divine Strike"
-	desc = "Your next attack slows your target, lowering their WIL and SPD."
-	icon_state = "divine_strike"
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// T2 - Withstand - Based on skill provides varying degrees of stun immunity and force push up. //
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/effect/proc_holder/spell/invoked/tug_of_war
-	name = "Tug of War"
-	desc = "Casts out a chain that tries to pull the target closer."
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_state = "ravox_tug"
-	recharge_time = 1 MINUTES
-	movement_interrupt = FALSE //WTF, targeted fetch and one minute recharge
-	chargedrain = 0
-	chargetime = 5
-	charging_slowdown = 0
-	chargedloop = null
-	associated_skill = /datum/skill/magic/holy
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/battletrance.ogg'
-	invocations = list("By Ravox, let your sins guide you to justice!")
-	invocation_type = "shout"
-	antimagic_allowed = FALSE
-	miracle = TRUE
-	devotion_cost = 25
-	var/pull_distance = 1
-	var/slowdown = 1
+/datum/action/cooldown/spell/ravox/withstand
+	name = "Withstand"
+	desc = "Regain balance and become immune to any form of stun for the next 10 seconds."
+	button_icon_state = "withstand"
+	sound = 'sound/magic/ravox_withstand.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
 
-/obj/effect/proc_holder/spell/invoked/tug_of_war/cast(list/targets, mob/living/user)
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		if(spell_guard_check(target, TRUE))
-			target.visible_message(span_warning("[target] holds firm against the pull!"))
-			return TRUE
-		var/chance = 0
-		if(target.mob_biotypes & MOB_UNDEAD)
-			pull_distance++
-			chance += 20
-		if(ishuman(target))
-			var/mob/living/carbon/human/H = target
-			var/strdiff = user.STASTR - H.STASTR
-			var/enddiff = user.STAWIL - H.STAWIL
-			var/condiff = user.STACON - H.STACON
-			var/spddiff = user.STASPD - H.STASPD
-			var/fordiff = user.STALUC - H.STALUC
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = TRUE
 
-			var/list/statdiffs = list(strdiff, enddiff, condiff, spddiff, fordiff)
-			var/count = 0
-			for(var/diff in statdiffs)
-				if(diff > 0)
-					chance += 10
-					count++
-				else if(diff < 0)
-					chance -= 10
-			var/holymod = user.get_skill_level(/datum/skill/magic/holy) * 10
-			pull_distance += floor((user.get_skill_level(/datum/skill/magic/holy) - 1) / 2)	//+1 pull dist at Jman and Master Holy skill
-			chance += holymod
-			user.visible_message(span_boldwarning("[user] yanks on a transluscent chain sticking out of [target]!"))
-			if(count > 3)	//More than half of the stats are in our favor.
-				pull_distance++
-				slowdown++
-			if(prob(chance))
-				H.throw_at(user, pull_distance, 1, H, FALSE)
-				H.visible_message(span_warning("[H]'s body moves on its own!"))
-				user.Beam(target,icon_state="chain",time=5)
-			else
-				H.visible_message(span_warning("[H] holds firm!"))
-			H.Slowdown(slowdown)
-			return TRUE
-		revert_cast()
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_CANTRIP
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("I stand, by Ravox!")
+
+	charge_required = FALSE
+	cooldown_time = 1 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/ravox/withstand/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/user = owner
+	if(!isliving(user))
 		return FALSE
-	revert_cast()
-	return FALSE
+	var/skill = user.get_skill_level(/datum/skill/magic/holy)
+	user.apply_status_effect(/datum/status_effect/withstand)
+	if(user.has_status_effect(/datum/status_effect/incapacitating/off_balanced))
+		user.remove_status_effect(/datum/status_effect/incapacitating/off_balanced)
+	if(skill >= 2)
+		if(!(user.mobility_flags & MOBILITY_STAND))
+			user.SetUnconscious(0)
+			user.SetSleeping(0)
+			user.SetParalyzed(0)
+			user.SetImmobilized(0)
+			user.SetStun(0)
+			user.SetKnockdown(0)
+			user.set_resting(FALSE)
+	if(skill >= 3)
+		user.apply_status_effect(/datum/status_effect/buff/order/onfeet)
+	return TRUE
 
+/atom/movable/screen/alert/status_effect/buff/withstand
+	name = "Withstand"
+	desc = "I hold fast for Ravox."
+	icon_state = "withstand"
 
-/obj/effect/proc_holder/spell/invoked/challenge
+/datum/status_effect/withstand
+	id = "withstand"
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 10 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/buff/withstand
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// T2 - Challenge - Teleport yourself and target into an ARENA for 3 minutes or until one of you dies. //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/datum/action/cooldown/spell/ravox/challenge
 	name = "Challenge"
 	desc = "Bring an opponent with you to Ravoxian Trial. Engage in 3 minute combat."
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_state = "ravoxchallenge"
-	action_icon_state = "ravoxchallenge"
-	recharge_time = 10 MINUTES
-	movement_interrupt = FALSE
-	chargedrain = 0
-	range = 5
-	chargetime = 3 SECONDS
-	charging_slowdown = 2
-	chargedloop = null
-	associated_skill = /datum/skill/magic/holy
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	button_icon_state = "ravoxchallenge"
 	sound = 'sound/magic/battletrance.ogg'
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_AURA
+	self_cast_possible = FALSE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_LEGENDARY
+
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	invocation_type = INVOCATION_SHOUT
 	invocations = list("By Ravox, I challenge you!!")
-	chargedloop = /datum/looping_sound/invokeholy
-	invocation_type = "shout"
-	antimagic_allowed = TRUE
-	miracle = TRUE
-	devotion_cost = 100
+
+	charge_required = TRUE
+	charge_time = 3 SECONDS
+	charge_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 10 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. Since /entered doesnt work on teleported mobs.
 
-/obj/effect/proc_holder/spell/invoked/challenge/cast(list/targets, mob/living/user)
+/datum/action/cooldown/spell/ravox/challenge/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/user = owner
+	if(!istype(user))
+		return FALSE
+
 	var/area/rogue/indoors/ravoxarena/thearena = GLOB.areas_by_type[/area/rogue/indoors/ravoxarena]
 	var/turf/challengerspawnpoint
 	var/turf/challengedspawnpoint
 	var/arenacount = GLOB.arenafolks.len
 	if(arenacount >= 2)
 		to_chat(user, span_italics("The arena is not yet ready for the next trial! Wait your turn!"))
-		revert_cast()
 		return FALSE
 
-	if(!isliving(targets[1]))
-		revert_cast()
+	if(!isliving(cast_on))
 		return FALSE
 
-	var/mob/living/carbon/target = targets[1]
+	var/mob/living/carbon/target = cast_on
 	var/originalcmodeuser = user.cmode_music
 	var/originalcmodetarget = target.cmode_music
 	var/turf/storedchallengerturf = get_turf(user)
 	var/turf/storedchallengedturf = get_turf(target)
 
 	if(user.z != target.z)
-		revert_cast()
 		return FALSE
 	if(target == user)
-		revert_cast()
+		return FALSE
+	if(!target.mind)//We can't use it on mindless mobs
+		to_chat(user, span_warning("[target] is not worthy of a duel!"))
 		return FALSE
 	if(
 		(target.stat > CONSCIOUS) || \
@@ -319,7 +596,6 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 		(target.legcuffed)
 	)
 		to_chat(user, span_warning("[target] is in no shape to accept the duel!"))
-		revert_cast()
 		return FALSE
 
 	if(spell_guard_check(target, TRUE))
@@ -430,274 +706,336 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	addtimer(CALLBACK(src, GLOBAL_PROC_REF(qdel), src), 3 MINUTES)
 	addtimer(CALLBACK(src,TYPE_PROC_REF(/obj/structure/fluff/ravox, spawnprotection)), 179 SECONDS)
 
-//T0
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// T3 - Persistence - Harms an undead mob/player while causing bleeding/pain wounds to clot at higher rate for living ones. //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/effect/proc_holder/spell/self/balance_immune
-	name = "Strong Stance"
-	desc = "Regain balance and become immune to any form of stun for the next 10 seconds."
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_state = "balance_immune"
-	recharge_time = 1 MINUTES
-	movement_interrupt = FALSE
-	chargedrain = 0
-	chargetime = 1 SECONDS
-	charging_slowdown = 2
-	chargedloop = null
-	associated_skill = /datum/skill/magic/holy
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/battletrance.ogg'
-	invocations = list("I stand, by Ravox!")
-	invocation_type = "shout"
-	antimagic_allowed = TRUE
-	miracle = TRUE
-	devotion_cost = 30
+/datum/action/cooldown/spell/ravox/persistence
+	name = "Persistence"
+	desc = "Harms Undead and encourages the livings wounds to close faster."
+	button_icon_state = "persistence"
+	sound = 'sound/magic/persistence.ogg'
 
-/obj/effect/proc_holder/spell/self/balance_immune/cast(mob/living/user)
-	if(!isliving(user))
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Ravox deems your persistence worthy!")
+
+	charge_required = FALSE
+	cooldown_time = 30 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/ravox/persistence/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
 		return FALSE
-	var/skill = user.get_skill_level(/datum/skill/magic/holy)
-	user.apply_status_effect(/datum/status_effect/balance_immune)
-	if(user.has_status_effect(/datum/status_effect/incapacitating/off_balanced))
-		user.remove_status_effect(/datum/status_effect/incapacitating/off_balanced)
-	if(skill >= 2)
-		if(!(user.mobility_flags & MOBILITY_STAND))
-			user.SetUnconscious(0)
-			user.SetSleeping(0)
-			user.SetParalyzed(0)
-			user.SetImmobilized(0)
-			user.SetStun(0)
-			user.SetKnockdown(0)
-			user.set_resting(FALSE)
-	if(skill >= 3)
-		user.apply_status_effect(/datum/status_effect/buff/order/onfeet)
+
+	if(!isliving(cast_on))
+		return FALSE
+	if(isliving(cast_on))
+		var/mob/living/target = cast_on
+		if(target.mob_biotypes & MOB_UNDEAD)
+			if(spell_guard_check(target, TRUE))
+				target.visible_message(span_warning("[target] resists Ravox's judgment!"))
+				return TRUE
+			if(ishuman(target)) //BLEED AND PAIN
+				var/mob/living/carbon/human/human_target = target
+				var/datum/physiology/phy = human_target.physiology
+				phy.bleed_mod *= 1.5
+				phy.pain_mod *= 1.5
+				addtimer(CALLBACK(src, PROC_REF(restore_modifiers), phy), 19 SECONDS)
+				human_target.visible_message(span_danger("[target]'s wounds become inflamed as their vitality is sapped away!"), span_userdanger("Ravox inflames my wounds and weakens my body!"))
+				return TRUE
+			return FALSE
+
+		target.visible_message(span_info("Warmth radiates from [target] as their wounds seal over!"), span_notice("The pain from my wounds fade as warmth radiates from my soul!"))
+		var/situational_bonus = 0.25
+		for(var/obj/effect/decal/cleanable/blood/O in oview(5, target))
+			situational_bonus = min(situational_bonus + 0.015, 1)
+		if(situational_bonus > 0.25)
+			to_chat(owner, "Channeling Ravox's power is easier in these conditions!")
+
+		if(iscarbon(target))
+			var/mob/living/carbon/C = target
+			var/obj/item/bodypart/affecting = C.get_bodypart(check_zone(owner.zone_selected))
+			if(affecting)
+				for(var/datum/wound/bleeder in affecting.wounds)
+					bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.25)
+					if(!isnull(bleeder.clotting_threshold) && bleeder.bleed_rate > bleeder.clotting_threshold)
+						var/difference = bleeder.bleed_rate - bleeder.clotting_threshold
+						bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference * situational_bonus))
+		else if(HAS_TRAIT(target, TRAIT_SIMPLE_WOUNDS))
+			for(var/datum/wound/bleeder in target.simple_wounds)
+				bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.25)
+				if(!isnull(bleeder.clotting_threshold) && bleeder.bleed_rate > bleeder.clotting_threshold)
+					var/difference = bleeder.bleed_rate - bleeder.clotting_threshold
+					bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference * situational_bonus))
+		return TRUE
+	return FALSE
+
+/datum/action/cooldown/spell/ravox/persistence/proc/restore_modifiers(datum/physiology/physiology)
+	if(!physiology)
+		return
+
+	physiology.bleed_mod /= 1.5
+	physiology.pain_mod /= 1.5
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// T3 - Call to Arms - Warcry that provides buff to DIVINE worshippers and debuff to ASCENDANTS. //
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+/datum/action/cooldown/spell/ravox/battlecry
+	name = "Call to Arms"
+	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution while taking away willpower and constitution from ascendant worshippers."
+	fluff_desc = "A yell rings out across the battlefield! Your sergeant bellows a final order before they're claimed by Necra's grasp - leave none standing before the might of Ravox! So long as you draw breath, there shall be no defeat."
+	button_icon_state = "call_to_arms"
+	sound = 'sound/magic/battle_cry.ogg'
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_AURA
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR - 10
+
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("By Ravox, stand and fight!")
+
+	charge_required = FALSE
+	cooldown_time = 5 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/ravox/battlecry/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
+		if(istype(target.patron, /datum/patron/inhumen))
+			target.apply_status_effect(/datum/status_effect/debuff/call_to_arms)	//Debuffs inhumen worshipers.
+			continue
+		if(istype(target.patron, /datum/patron/old_god))
+			to_chat(target, span_danger("You feel a hot-wave wash over you, leaving as quickly as it came.."))	//No effect on Psydonians!
+			continue
+		if(!owner.faction_check_mob(target))
+			continue
+		if(target.mob_biotypes & MOB_UNDEAD)
+			continue
+		target.apply_status_effect(/datum/status_effect/buff/call_to_arms)
 	return TRUE
 
-/datum/status_effect/balance_immune
-	id = "balance_immune"
-	status_type = STATUS_EFFECT_UNIQUE
-	duration = 10 SECONDS
-	alert_type = /atom/movable/screen/alert/status_effect/buff/divine_strike
-	on_remove_on_mob_delete = TRUE
-	var/datum/weakref/buffed_item
+/datum/status_effect/buff/call_to_arms
+	id = "call_to_arms"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/call_to_arms
+	duration = 3 MINUTES
+	effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 2, STATKEY_CON = 2)
 
-//T0
+/atom/movable/screen/alert/status_effect/buff/call_to_arms
+	name = "Call to Arms"
+	desc = span_bloody("FOR GLORY AND HONOR!")
+	icon_state = "call_to_arms"
 
-/obj/effect/proc_holder/spell/self/provocation
-	name = "Provocation"
-	desc = "Forces hostile creatures around to target you."
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_state = "provocation"
-	recharge_time = 1 MINUTES
-	movement_interrupt = FALSE
-	chargedrain = 0
-	chargetime = 1 SECONDS
-	charging_slowdown = 2
-	chargedloop = null
-	associated_skill = /datum/skill/magic/holy
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/battletrance.ogg'
-	invocations = list("By Ravox, come to me!")
-	invocation_type = "shout"
-	antimagic_allowed = TRUE
-	miracle = TRUE
-	devotion_cost = 30
+/datum/status_effect/debuff/call_to_arms
+	id = "call_to_arms"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/call_to_arms
+	effectedstats = list(STATKEY_WIL = -2, STATKEY_CON = -2)
+	duration = 3 MINUTES
 
-/obj/effect/proc_holder/spell/self/provocation/cast(mob/living/user)
-	if(!isliving(user))
+/atom/movable/screen/alert/status_effect/debuff/call_to_arms
+	name = "Ravox's Call to Arms"
+	desc = "His voice keeps ringing in your ears, rocking your soul.."
+	icon_state = "call_to_arms_negative"
+
+////////////////////////////////////////////////////////////////////
+// T4 - Warrior Spirit - Summon warrior spirits to fight for you. //
+////////////////////////////////////////////////////////////////////
+
+/datum/action/cooldown/spell/ravox/spirits
+	name = "Justicar's Spirit"
+	desc = "Tear out part of your spirit, and manifest it into a spectral warrior!"
+	button_icon_state = "warriors"
+	sound = 'sound/magic/magnet.ogg'
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = FALSE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_LEGENDARY
+
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Ravox calls upon you once more!")
+
+	charge_required = TRUE
+	charge_time = 3 SECONDS
+	charge_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 5 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/ravox/spirits/cast(atom/cast_on)
+	. = ..()
+
+	var/mob/living/carbon/human/user = owner
+	if(!istype(user))
 		return FALSE
-	var/checkgate = FALSE
-	var/skill = user.get_skill_level(/datum/skill/magic/holy)
-	var/dist = (3 + skill)
-	for(var/mob/living/mob in view(dist, get_turf(user)))
-		if(!mob.mind && mob.ai_controller)
-			mob.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, user)
-			mob.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, user)
-			var/datum/component/ai_aggro_system/aggro = mob.GetComponent(/datum/component/ai_aggro_system)
-			if(aggro)
-				aggro.add_threat_to_mob(user, 50)
-			checkgate = TRUE
-	if(checkgate == TRUE)
-		user.apply_status_effect(/datum/status_effect/buff/ravox_provocation, skill)
-	return TRUE
-
-/atom/movable/screen/alert/status_effect/buff/ravox_provocation
-	name = "Provocation"
-	desc = "All hostile creatures are targeting me! For Ravox!"
-	icon_state = "astrata_gaze"
-
-/datum/status_effect/buff/ravox_provocation
-	id = "ravox_provocation"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/ravox_provocation
-	duration = 10 SECONDS
-
-/datum/status_effect/buff/ravox_provocation/on_creation(mob/living/new_owner, assocskill)
-	var/con_bonus = 0
-	if(assocskill)
-		if(assocskill == 1)
-			duration = duration
-		else
-			duration *= assocskill-1
-		con_bonus = assocskill-1
-	if(con_bonus > 0)
-		effectedstats = list(STATKEY_CON = con_bonus, STATKEY_WIL = con_bonus)
-	. = ..()
-
-/datum/status_effect/buff/ravox_prv/on_apply(assocskill)
-	to_chat(owner, span_info("For Ravox!"))
-	. = ..()
-
-/obj/effect/proc_holder/spell/invoked/raise_warrior_spirits
-	name = "Inner Fire"
-	desc = "Tear out part of your warrior's spirit, and manifest it into a spirit of battle!"
-	range = 7
-	sound = list('sound/magic/magnet.ogg')
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_state = "warriors"
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	releasedrain = 40
-	chargetime = 30
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	charging_slowdown = 1
-	chargedloop = /datum/looping_sound/invokeholy
-	gesture_required = TRUE
-	associated_skill = /datum/skill/magic/holy
-	recharge_time = 5 MINUTES
-	hide_charge_effect = TRUE
-	miracle = TRUE
-	devotion_cost = 50
-	invocations = list("Armor-claid faith, enflame myne spirit!!") //I'M A FOOL, I KNOW NOTHING. I TAKE THE ROLE OF A SIILLY CLOOOWN
-	invocation_type = "shout"
-
-/obj/effect/proc_holder/spell/invoked/raise_warrior_spirits/cast(list/targets, mob/living/user)
-	. = ..()
 
 	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
-		to_chat(user, span_userdanger("I reach for outer help, but Ravox rebukes me! This opponet is only for me to overcome!"))
-		revert_cast()
+		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
 		return FALSE
 
-	if(!("[user.mind.current.real_name]_faction" in user.faction))  //FUCK VVV
+	if(!("[user.mind.current.real_name]_faction" in user.faction))
 		user.faction |= "[user.mind.current.real_name]_faction"
 
-	if(!locate(/obj/effect/proc_holder/spell/invoked/gravemark) in user.mind?.spell_list) //OFF VVV
-		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark/no_sprite)
+	if(!locate(/datum/action/cooldown/spell/gravemark) in user.mind?.spell_list) //OFF VVV
+		user.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark/no_sprite)
 
-	if(!locate(/obj/effect/proc_holder/spell/invoked/minion_order) in user.mind?.spell_list)  //SPELLGRANT IN CLASS FILE
-		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+	if(!locate(/datum/action/cooldown/spell/minion_order) in user.mind?.spell_list)  //SPELLGRANT IN CLASS FILE
+		user.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
 
-	var/skill = user.get_skill_level(/datum/skill/magic/holy)
 	var/time = 1 MINUTES
 
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		user.apply_status_effect(/datum/status_effect/debuff/ravox_warrior_spirit)
-		var/blorbo_picker = rand(1, 3)
+	if(isliving(cast_on))
+		var/mob/living/target = cast_on
 		var/turf/spawn_turf = get_step(user, user.dir)
 		if(!spawn_turf)
 			spawn_turf = get_turf(user)
-		switch(blorbo_picker)
-			if(1)
-				new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear(spawn_turf, user)
-			if(2)
-				new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/axe(spawn_turf, user)
-			if(3)
-				new /mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword(spawn_turf, user)
-		for(var/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/swarm in view(3, user))
+		new /mob/living/carbon/human/species/human/northern/ravox_spirit(spawn_turf, user)
+		for(var/mob/living/carbon/human/species/human/northern/ravox_spirit/swarm in view(3, user))
+			swarm.faction |= list("ravox_spirit", "[user.mind.current.real_name]_faction")
 			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
+			swarm.ai_controller.set_blackboard_key(BB_MAIN_TARGET, target)
+			swarm.ai_controller.insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, target)
+			swarm.visible_message(span_notice("A [swarm] manifests following after [target]... !"))
 			if(swarm.buffed_r == FALSE)
-				swarm.maxHealth += (skill*10)
-				swarm.health += (skill*10)
 				addtimer(CALLBACK(swarm, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), time)
 				swarm.buffed_r = TRUE
 				swarm.name = "[user.real_name]'s Spirit"
 		return TRUE
-	revert_cast()
 	return FALSE
 
-/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
-	name = "Ravox' Grasp"
-	desc = "Summon the Divine Justice from your soul and let it envelop your hand. Use on heads of criminals (NPCs only) to convert them into devotion."
-	clothes_req = FALSE
-	drawmessage = "I prepare to perform a divine incantation."
-	dropmessage = "I release my divine focus."
-	overlay_state = "justice_hand"
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	chargedrain = 0
-	chargetime = 0
-	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
-	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/holy
-	hand_path = /obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
-	devotion_cost = 30
-	miracle = TRUE
+/*
+ * Justicar's Spirit
+*/
 
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
-	name = "Justice Hand"
-	desc = "The Sacred Light of Ravox. \n\
-	click on self to remove it."
-	icon = 'icons/roguetown/misc/miraclestuff.dmi'
-	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
-	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
-	righthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
-	icon_state = "justicei"
-	item_state = "justicei"
-	possible_item_intents = list(/datum/intent/use)
-	parrysound = list('sound/magic/magic_nulled.ogg')
-	swingsound = list('sound/magic/churn.ogg')
-	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
-	wbalance = WBALANCE_HEAVY
-	force = 0
-	damtype = BURN
-	wdefense = 0
-	associated_skill = /datum/skill/magic/holy //EHEHEHEHEHEH
-	can_parry = TRUE
+GLOBAL_LIST_INIT(ravox_aggro, world.file2list("strings/rt/ravoxspiritlines.txt"))
 
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/Initialize()
+/mob/living/carbon/human/species/human/northern/ravox_spirit
+	ai_controller = /datum/ai_controller/human_npc
+	d_intent = INTENT_PARRY
+	faction = list(FACTION_DUNDEAD)
+	ambushable = FALSE
+	dodgetime = 30
+	var/buffed_r = FALSE
+	var/mob/living/spirit_owner = null
+
+/mob/living/carbon/human/species/human/northern/ravox_spirit/Initialize(mob/user)
 	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
-	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
+	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+	if(isliving(user))
+		spirit_owner = user
 
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/attack(mob/target, mob/living/carbon/user)
-	if(!iscarbon(user)) //Look ma, no hands
+/mob/living/carbon/human/species/human/northern/ravox_spirit/death(gibbed, nocutscene)
+	say("Ravox, I return to you...", forced = TRUE, npc_speech = TRUE)
+	emote("painscream")
+	. = ..()
+	if(!gibbed)
+		dust(FALSE, FALSE, TRUE)
+
+/mob/living/carbon/human/species/human/northern/ravox_spirit/proc/outfit_ravoxspirit(datum/outfit/outfit)
+	if(!outfit)
 		return
-	if(!(user.mobility_flags & MOBILITY_USE))
-		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
-		return
+	equipOutfit(outfit)
+	// Apply dust-on-drop to all equipped gear so it can't be looted via dismemberment or stripping.
+	// TRAIT_NODROP on held items prevents grab disarming.
+	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
+		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
+	for(var/obj/item/held_item in held_items)
+		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+
+/mob/living/carbon/human/species/human/northern/ravox_spirit/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.ravox_aggro, TRUE)
+	job = "Ravoxian Spirit"
+	patron = /datum/patron/divine/ravox
+	gender = MALE
+	
+	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_BATTLEMASTER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_GOODLOVER, TRAIT_GENERIC)//Eoran Influence
+	outfit_ravoxspirit(/datum/outfit/job/roguetown/ravox_spirit)
 
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/proc/skillcheck()
-	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
-	wdefense_dynamic += skill
-	wdefense += skill
+	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
+	var/obj/item/organ/ears/organ_ears = getorgan(/obj/item/organ/ears)
 
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
-	if(isobj(target))
-		var/obj/item/O = target
-		var/mob/living/carbon/human/H = usr
-		var/cost = 0
-		var/dist = get_dist(O, user)
-		if(dist > 1)
-			return
-		if(istype(O, /obj/item/natural/head) || istype(O, /obj/item/bodypart/head))
-			if(O.sellprice > 0)
-				cost = 100
-		if(cost >= 100)
-			H.devotion?.update_devotion(cost)
-			to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
-			qdel(O)
-		return
-	return
+	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
+	dna.species.handle_body(src)
 
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/pre_attack(atom/target, mob/living/user, params)
-	if(isliving(target))
-		var/mob/living/L = target
-		if (do_after(user, 1 SECONDS, target = L))
-			wash_atom(target, 1)
-			to_chat(user, span_notice("I render \the [target.name] clean."))
-			return TRUE
-	return ..()
+	if(organ_eyes)
+		organ_eyes.eye_color = "#0f70b1"
+		organ_eyes.accessory_colors = "#FFBF00#FFBF00"
+
+	if(organ_ears)
+		organ_ears.accessory_colors = "e9d298"
+
+	skin_tone = "e9d298"
+
+	update_hair()
+	update_body()
+	update_overlays()
+	regenerate_icons()
+
+	def_intent_change(INTENT_PARRY)
+
+/datum/outfit/job/roguetown/ravox_spirit/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	H.STASTR = 15
+	H.STASPD = 14
+	H.STACON = 12
+	H.STAWIL = 12
+	H.STAPER = 12
+	H.STAINT = 12
+	H.STALUC = 10
+
+	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 6, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
+/datum/outfit/job/roguetown/ravox_spirit/pre_equip(mob/living/carbon/human/H)
+	. = ..()
+	l_hand = /obj/item/rogueweapon/sword/long/ravox_spirit
+	r_hand = /obj/item/rogueweapon/sword/long/ravox_spirit
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm 
+	mask = /obj/item/clothing/head/roguetown/roguehood/ravoxgorget
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	cloak = /obj/item/clothing/cloak/templar/ravox
+	armor = /obj/item/clothing/suit/roguetown/armor/plate
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	gloves = /obj/item/clothing/gloves/roguetown/plate
+	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
+	beltr = /obj/item/clothing/neck/roguetown/psicross/ravox
+	pants = /obj/item/clothing/under/roguetown/platelegs
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor

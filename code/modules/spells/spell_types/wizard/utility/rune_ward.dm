@@ -2,8 +2,8 @@
 	button_icon = 'icons/mob/actions/mage_utilities.dmi'
 	name = "Rune Ward"
 	desc = "Channel arcyne energy through ash to inscribe protective runes upon the ground. The runes trigger when trespassers cross them - but can be circumvented by jumping or flying over them. Includes the following modes:\n \
-	<b>Touch</b>: Draw a rune on the ground using ash from your off-hand. Choose from Stun, Fire, Chill, Damage, or Alarm types.\n \
-	<b>Shove</b>: Scrub an existing rune from the ground. Skilled mages can do this silently.\n \
+	<b>Draw</b>: Draw a rune on the ground using ash from your off-hand. Choose from Stun, Fire, Chill, Damage, or Alarm types.\n \
+	<b>Clean</b>: Scrub an existing rune from the ground. Skilled mages can do this silently.\n \
 	<b>Use</b>: Memorize or forget allies - memorized people will not trigger your runes."
 
 	button_icon_state = "rune_ward"
@@ -49,9 +49,9 @@
 
 /datum/action/cooldown/spell/touch/rune_ward/cast_on_hand_hit(obj/item/melee/new_touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
 	switch(caster.used_intent.type)
-		if(INTENT_HELP)
+		if(/datum/intent/hand/draw)
 			return draw_rune(hand, victim, caster)
-		if(INTENT_DISARM)
+		if(/datum/intent/hand/clean)
 			return scrub_rune(hand, victim, caster)
 		if(/datum/intent/use)
 			return memorize_allies(caster)
@@ -223,7 +223,7 @@
 /obj/item/melee/new_touch_attack/rune_ward
 	name = "\improper inscribing hand"
 	desc = "Arcyne energy crackles at your fingertips, ready to inscribe wards. Touch yourself to dismiss."
-	possible_item_intents = list(INTENT_HELP, INTENT_DISARM, /datum/intent/use)
+	possible_item_intents = list(/datum/intent/hand/draw, /datum/intent/hand/clean, /datum/intent/use)
 	icon = 'icons/mob/roguehudgrabs.dmi'
 	icon_state = "grabbing_greyscale"
 	color = "#FF8844"

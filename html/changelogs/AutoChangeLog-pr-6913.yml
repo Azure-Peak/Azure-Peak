@@ -1,4 +1,0 @@
-author: "FloofyIsNotPoofy"
-delete-after: True
-changes:
-  - balance: "adjusted the damage and arced damage values of every staple Mage spell.\nbalance/tweak: adjusted the cooldown and simplemob multiplier of Artillery Fireball to match its baseline counterpart.\n:cl:\n<!-- Both :cl:'s are required for the changelog to work! You can put your name to the right of the first :cl: if you want to overwrite your GitHub username as author ingame. -->\n<!-- You can use multiple of the same prefix (they're only used for the icon ingame) and delete the unneeded ones. Despite some of the tags, changelogs should generally represent how a player might be affected by the changes rather than a summary of the PR's contents. -->"

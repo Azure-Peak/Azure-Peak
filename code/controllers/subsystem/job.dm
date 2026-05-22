@@ -146,6 +146,13 @@ SUBSYSTEM_DEF(job)
 		if(flag && (!(flag in player.client.prefs.be_special)))
 			continue
 		if(player.mind && (job.title in player.mind.restricted_roles))
+			JobDebug("FOC incompatible with antagonist role, Player: [player]")
+			continue
+		if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
+			JobDebug("FOC incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+			continue
+		if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
+			JobDebug("FOC incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
 		var/datum/preferences/char_prefs = player.client.prefs.get_job_prefs(job.title)
 		if(!job.validate_prefs_for_job(char_prefs)) 
@@ -188,6 +195,15 @@ SUBSYSTEM_DEF(job)
 		if(job.required_playtime_remaining(player.client))
 			continue
 		if(player.mind && (job.title in player.mind.restricted_roles))
+			JobDebug("GRJ incompatible with antagonist role, Player: [player], Job: [job.title]")
+			continue
+
+		if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
+			JobDebug("GRJ incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+			continue
+
+		if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
+			JobDebug("GRJ incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
 
 		var/datum/preferences/char_prefs = player.client.prefs.get_job_prefs(job.title)
@@ -373,6 +389,13 @@ SUBSYSTEM_DEF(job)
 					continue
 
 				var/datum/preferences/char_prefs = player.client.prefs.get_job_prefs(job.title)
+				if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
+					JobDebug("DO incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+					continue
+
+				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
+					JobDebug("DO incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+					continue
 
 				if(!job.validate_prefs_for_job(char_prefs))
 					JobDebug("DO incompatible with character traits (Race/Faith/Vices/etc), Player: [player], Job: [job.title]")
@@ -438,7 +461,41 @@ SUBSYSTEM_DEF(job)
 				if(player.mind && (job.title in player.mind.restricted_roles)) continue
 
 				var/datum/preferences/char_prefs = player.client.prefs.get_job_prefs(job.title)
-				if(!job.validate_prefs_for_job(char_prefs)) continue
+				if(!job.validate_prefs_for_job(char_prefs)) 
+          continue
+
+				if(is_banned_from(player.ckey, job.title))
+					continue
+
+				if(QDELETED(player))
+					break
+
+				if(!job.player_old_enough(player.client))
+					continue
+
+				if(job.required_playtime_remaining(player.client))
+					continue
+
+				if(player.mind && (job.title in player.mind.restricted_roles))
+					continue
+
+				if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
+					continue
+				
+				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
+					continue
+
+				if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
+					continue
+					
+				if(length(job.vice_restrictions))
+					var/has_restricted_vice = FALSE
+					for(var/datum/charflaw/cf in player.client.prefs.charflaws)
+						if(cf.type in job.vice_restrictions)
+							has_restricted_vice = TRUE
+							break
+					if(has_restricted_vice)
+						continue
 
 				#ifdef USES_PQ
 				if(!isnull(job.min_pq) && (get_playerquality(player.ckey) < job.min_pq) && level != JP_LOW) continue

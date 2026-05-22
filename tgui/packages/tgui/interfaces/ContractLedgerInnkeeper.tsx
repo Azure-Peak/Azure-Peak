@@ -21,6 +21,8 @@ type InnkeeperData = {
   rumor_destinations: string[];
   rumor_log: RumorLogEntry[];
   rumor_lucrative_mult: number;
+  region_tp_multipliers: Record<string, number>;
+  region_delivery_multipliers: Record<string, number>;
 };
 
 type DispatchMode = 'board' | 'hands';
@@ -29,6 +31,23 @@ const RECOVERY_TYPE = 'Recovery';
 const DISPATCH_DEBOUNCE_MS = 500;
 
 const pts = (n: number) => `${n}\u00A0pt${n === 1 ? '' : 's'}`;
+
+const formatMultiplierDelta = (delta: number): string => {
+  const pct = Math.round(delta * 100);
+  return `${pct}%`;
+};
+
+const regionRewardFlavor = (
+  regionName: string,
+  mult: number | undefined,
+): string | null => {
+  if (typeof mult !== 'number' || mult === 1) return null;
+  if (mult > 1) {
+    const descriptor = mult >= 1.4 ? 'bleak' : 'dangerous';
+    return `${regionName} is a ${descriptor} region - rumors from there tend to be ${formatMultiplierDelta(mult - 1)} more lucrative.`;
+  }
+  return `${regionName} is a settled region - rumors from there tend to be ${formatMultiplierDelta(1 - mult)} less lucrative.`;
+};
 
 const FormRow = (props: { label: string; children: ReactNode }) => (
   <div className="ContractLedger__InnkeeperFormRow">
@@ -207,15 +226,58 @@ const ComposeView = () => {
       </FormRow>
 
       <FormRow label="Region">
-        <Select
+        <select
+          className="ContractLedger__InnkeeperSelect"
           value={region}
-          onChange={setRegion}
-          options={regionsForType}
-          placeholder="- pick a region -"
+          onChange={(e) => setRegion(e.target.value)}
           disabled={regionsForType.length === 0}
-          disabledPlaceholder="No region will host this type"
-        />
+        >
+          <option value="">
+            {regionsForType.length === 0
+              ? 'No region will host this type'
+              : '- pick a region -'}
+          </option>
+          {regionsForType.map((r) => {
+            const mult =
+              type === RECOVERY_TYPE
+                ? data.region_delivery_multipliers?.[r]
+                : data.region_tp_multipliers?.[r];
+            const suffix =
+              typeof mult === 'number' && mult !== 1
+                ? ` (×${mult} reward)`
+                : '';
+            return (
+              <option key={r} value={r}>
+                {r}
+                {suffix}
+              </option>
+            );
+          })}
+        </select>
       </FormRow>
+
+      {region &&
+        (() => {
+          const mult =
+            type === RECOVERY_TYPE
+              ? data.region_delivery_multipliers?.[region]
+              : data.region_tp_multipliers?.[region];
+          const flavor = regionRewardFlavor(region, mult);
+          if (!flavor) return null;
+          return (
+            <div
+              style={{
+                fontSize: '11px',
+                fontStyle: 'italic',
+                color: '#6b4e2a',
+                padding: '2px 0 6px 0',
+                marginLeft: '6px',
+              }}
+            >
+              {flavor}
+            </div>
+          );
+        })()}
 
       {needsDestination && (
         <FormRow label="Rumored Shipment">

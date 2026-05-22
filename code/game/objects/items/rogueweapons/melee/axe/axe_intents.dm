@@ -23,7 +23,7 @@
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	penfactor = PEN_MEDIUM
 	damfactor = 1.5
-	demolition_mod = 5
+	demolition_mod = 2.5
 	swingdelay = 0.8 SECONDS
 	swingdelay_type = SWINGDELAY_PENALTY
 	clickcd = CLICK_CD_CHARGED // Effective Shield DPS: 25 / 2.4 = 10.4

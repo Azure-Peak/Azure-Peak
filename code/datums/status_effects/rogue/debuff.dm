@@ -349,9 +349,22 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	duration = 30 MINUTES
 
+/datum/status_effect/debuff/ritesexpended/heretic
+	duration = 2 HOURS
+
+/datum/status_effect/debuff/lux_exhausted
+	id = "lux_exhausted"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/lux_exhausted
+	effectedstats = list(STATKEY_STR = -2, STATKEY_WIL = -2, STATKEY_LCK = -2)
+	duration = 2 HOURS
+
 /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	name = "Rites Complete"
 	desc = "It will take time before I can next perform a rite."
+
+/atom/movable/screen/alert/status_effect/debuff/lux_exhausted
+	name = "Lux Exhausted"
+	desc = "My lux is spent, leaving body and will diminished."
 
 /datum/status_effect/debuff/ritesexpended_heavy
 	id = "ritesexpended_heavy"
@@ -362,23 +375,6 @@
 	name = "Rites Complete"
 	desc = "It will take a lot of time before I can perform a next rite. I am drained."
 
-/datum/status_effect/debuff/call_to_arms
-	id = "call_to_arms"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/call_to_arms
-	effectedstats = list(STATKEY_WIL = -2, STATKEY_CON = -2)
-	duration = 2.5 MINUTES
-
-/atom/movable/screen/alert/status_effect/debuff/call_to_arms
-	name = "Ravox's Call to Arms"
-	desc = "His voice keeps ringing in your ears, rocking your soul.."
-	icon_state = "call_to_arms_negative"
-
-/datum/status_effect/debuff/ravox_spirit_backlash
-	id = "ravox_spirit_backlash"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/ravox_spirit_backlash
-	effectedstats = list(STATKEY_WIL = -1, STATKEY_CON = -1, STATKEY_STR = -1)
-	duration = 60 SECONDS
-
 /atom/movable/screen/alert/status_effect/debuff/ravox_spirit_backlash
 	name = "Spiritual Backlash"
 	desc = "Myne body weak, myne muscles burn- but I must fight on."
@@ -388,35 +384,6 @@
 	name = "Lux-strain"
 	desc = "My spirit is momentarily stretched thin."
 	icon_state = "astrata_gaze"
-
-/datum/status_effect/debuff/ravox_warrior_spirit
-	id = "ravox_warrior_spirit"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/ravox_warrior_spirit
-	duration = 1 MINUTES
-	effectedstats = list(STATKEY_STR = -1, STATKEY_WIL = -1, STATKEY_SPD = -1)
-
-
-/datum/status_effect/debuff/ravox_burden
-	id = "ravox_burden"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/ravox_burden
-	effectedstats = list(STATKEY_SPD = -2, STATKEY_WIL = -3)
-	duration = 12 SECONDS
-
-/atom/movable/screen/alert/status_effect/debuff/ravox_burden
-	name = "Ravox's Burden"
-	desc = "My arms and legs are restrained by divine chains!\n"
-	icon_state = "restrained"
-
-/datum/status_effect/debuff/call_to_slaughter
-	id = "call_to_slaughter"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/call_to_slaughter
-	effectedstats = list(STATKEY_WIL = -2, STATKEY_CON = -2)
-	duration = 2.5 MINUTES
-
-/atom/movable/screen/alert/status_effect/debuff/call_to_slaughter
-	name = "Call to Slaughter"
-	desc = "A putrid rotting scent fills your nose as Graggar's call for slaughter rattles you to your core.."
-	icon_state = "call_to_slaughter_negative"
 
 //For revive - your body DIDN'T rot, but it did suffer damage. Unlike being rotted, this one is only timed. Not forever.
 /datum/status_effect/debuff/revived
@@ -1105,3 +1072,44 @@
 	desc = "Our weapons binded! That conniving sod knew right where I was aiming! I can't benefit from a weapon bind!"
 	icon = 'icons/mob/combat_debuffs.dmi'
 	icon_state = "weapon_bind_debuff"
+
+/datum/status_effect/debuff/knockout
+	id = "knockout"
+	effectedstats = null
+	alert_type = null
+	duration = 12 SECONDS
+	var/time = 0
+
+/datum/status_effect/debuff/knockout/tick()
+	time += 1
+	switch(time)
+		if(3)
+			if(prob(50)) //You don't always know...
+				var/msg = pick("I feel sleepy...", "I feel relaxed.", "My eyes feel a little heavy.")
+				to_chat(owner, span_warn(msg))
+
+		if(5)
+			if(prob(50))
+				owner.Slowdown(20)
+			else
+				owner.Slowdown(10)
+		if(8)
+			if(iscarbon(owner))
+				var/mob/living/carbon/C = owner
+				var/msg = pick("yawn", "cough", "clearthroat")
+				C.emote(msg, forced = TRUE)
+		if(12)
+			// it's possible that stacking effects delay this.
+			// If we hit 12 regardless we end
+			Destroy()
+
+/datum/status_effect/debuff/knockout/on_remove()
+	if(iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		if(C.IsSleeping()) //No need to add more it's already pretty long.
+			return ..()
+		C.SetSleeping(20 SECONDS)
+	..()
+
+/atom/movable/screen/alert/status_effect/debuff/knockout
+	name = "Drowsy"

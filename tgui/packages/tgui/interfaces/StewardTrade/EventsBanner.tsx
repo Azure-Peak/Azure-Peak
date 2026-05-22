@@ -17,6 +17,13 @@ export const EventsBanner = (props: { events: EconomicEvent[] }) => {
       <div style={sectionHeaderStyle}>Active Economic Events</div>
       {props.events.map((e) => {
         const color = e.event_type === 'shortage' ? SEAL_RED : SEAL_GREEN;
+        const isShortage = e.event_type === 'shortage';
+        const target = e.saturation_target || 0;
+        const progress = e.saturation_progress || 0;
+        const pct =
+          isShortage && target > 0
+            ? Math.min(100, Math.round((progress / target) * 100))
+            : 0;
         return (
           <div
             key={e.name}
@@ -36,6 +43,29 @@ export const EventsBanner = (props: { events: EconomicEvent[] }) => {
             <div style={{ fontStyle: 'italic', color: INK_SOFT, fontSize: '12px' }}>
               {e.description}
             </div>
+            {isShortage && target > 0 && (
+              <div style={{ marginTop: '4px' }}>
+                <div style={{ color: INK_FAINT, fontSize: '11px', marginBottom: '2px' }}>
+                  Relief: {progress} / {target} units delivered ({pct}%)
+                </div>
+                <div
+                  style={{
+                    height: '4px',
+                    background: '#3a2a1a',
+                    border: '1px solid #5a4a3a',
+                    borderRadius: '1px',
+                  }}
+                >
+                  <div
+                    style={{
+                      height: '100%',
+                      width: `${pct}%`,
+                      background: SEAL_GREEN,
+                    }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         );
       })}

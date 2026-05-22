@@ -138,6 +138,40 @@
 
 	var/list/current_weathers = list()
 	var/last_lighting_update = 0
+	/// Currently selected browser-backed stat panel tab.
+	var/browserpanel_tab = "RoundInfo"
+	/// Whether the next browser stat panel content update must force the visible tab.
+	var/browserpanel_forcetab = FALSE
+	/// Cached verb categories and commands for the browser-backed stat panel.
+	var/list/browserpanel_cachedverbs
+	/// Stamp used to detect when the browser panel verb cache needs rebuilding.
+	var/browserpanel_cachestamp
+	/// Cached rendered HTML for browser verb categories.
+	var/list/browserpanel_renderedverbs
+	/// Verb cache stamp corresponding to the rendered verb HTML cache.
+	var/browserpanel_renderstamp
+	/// Whether the browser stat panel has received its initial full HTML shell.
+	var/browserpanel_init = FALSE
+	/// Last tab markup sent to the browser stat panel.
+	var/browserpanel_tabshtml
+	/// Last content markup sent to the browser stat panel.
+	var/browserpanel_contenthtml
+	/// Next world time when browser stat panel tabs may be rebuilt without a forced refresh.
+	var/browserpanel_nexttabs = 0
+	/// Next world time when the browser stat panel may run a non-forced content refresh.
+	var/browserpanel_nextrefresh = 0
+	/// Cached rendered HTML for the Stats tab.
+	var/browserpanel_statshtml
+	/// Stamp matching the inputs used to render `browserpanel_statshtml`.
+	var/browserpanel_statsstamp
+	/// Stamp matching the inputs used to render `browserpanel_tabshtml`.
+	var/browserpanel_tabsstamp
+	/// Atom armed for a browser-panel drag-drop (mousedown on a turf entry, drag to a map atom).
+	var/atom/browserpanel_dragatom
+	/// Which mouse button initiated the armed drag ("left"/"right"/"middle").
+	var/browserpanel_dragbtn
+	/// world.time after which `browserpanel_dragatom` expires unconsumed.
+	var/browserpanel_dragexp = 0
 
 	var/list/open_popups = list()
 

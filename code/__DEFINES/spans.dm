@@ -162,12 +162,15 @@
 #define span_warning(str) ("<span class='warning'>" + str + "</span>")
 #define span_warningbig(str) ("<span class='warningbig'>" + str + "</span>")
 #define span_yell(str) ("<span class='yell'>" + str + "</span>")
+#define span_yellow(str) ("<span class = 'yellow'>" + str + "</span>")
 #define span_yellowteamradio(str) ("<span class='yellowteamradio'>" + str + "</span>")
 #define span_beautiful_masc(str) ("<span class='beautifulmasc'>" + str + "</span>")
 #define span_beautiful_fem(str) ("<span class='beautifulfem'>" + str + "</span>")
 #define span_beautiful_nb(str) ("<span class='beautifulnb'>" + str + "</span>")
 #define span_orator(str) ("<span class='orator'>" + str + "</span>")
 
+#define span_astrata(str) ("<span class='astrata'>" + str + "</span>")
+#define span_undivided(str) ("<span class='undivided'>" + str + "</span>")
 /// Displays a tooltip. Tooltip is text-only, and HTML will be ignored.
 /// * SPAN_LINKIFY doesn't work here.
 #define SPAN_TOOLTIP(tip, str) ("<span data-component=\"Tooltip\" data-content=\"[html_encode(tip)]\" class=\"tooltip\">[str]</span>")

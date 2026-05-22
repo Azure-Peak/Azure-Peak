@@ -19,15 +19,9 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_heavygloves
-	name = "Heavy Leather Gloves"
-	path = /obj/item/clothing/gloves/roguetown/angle
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_heavyboots
-	name = "Heavy Leather Boots"
-	path = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+/datum/loadout_item/triumph_winterdress
+	name = "Winter Dress"
+	path = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
@@ -116,24 +110,6 @@
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_gildedshirt
-	name = "Gilded Dress Shirt"
-	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
-	triumph_cost = 5
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_pristinedress
-	name = "Pristine Dress"
-	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
-	triumph_cost = 5
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_royalsleeves
-	name = "Royal Sleeves"
-	path = /obj/item/clothing/wrists/roguetown/royalsleeves
-	triumph_cost = 5
-	sort_category = "Triumphs"
-
 /datum/loadout_item/triumph_goldhalfmask
 	name = "Golden Halfmask, Ornate"
 	path = /obj/item/clothing/mask/rogue/lordmask/triumph
@@ -158,23 +134,41 @@
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
-// -9 TRI
+/datum/loadout_item/triumph_gildedshirt
+	name = "Gilded Dress Shirt"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
+	triumph_cost = 5
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_pristinedress
+	name = "Pristine Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
+	triumph_cost = 5
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_royalsleeves
+	name = "Royal Sleeves"
+	path = /obj/item/clothing/wrists/roguetown/royalsleeves
+	triumph_cost = 5
+	sort_category = "Triumphs"
+
+// -7 TRI
 /datum/loadout_item/triumph_buttpack
 	name = "Belted Satchel"
 	path = /obj/item/storage/backpack/rogue/satchel/beltpack
-	triumph_cost = 9
+	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_lunchpouch
 	name = "Pouch of Luncheons"
 	path = /obj/item/storage/belt/rogue/pouch/triumphlunch
-	triumph_cost = 9
+	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_lordcloak
 	name = "Lordly Cloak"
 	path = /obj/item/clothing/cloak/lordcloak
-	triumph_cost = 9
+	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_ladycloak
@@ -186,19 +180,19 @@
 /datum/loadout_item/triumph_scabbardroyal
 	name = "Decorated Scabbard, Golden"
 	path = /obj/item/rogueweapon/scabbard/sword/royal
-	triumph_cost = 9
+	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_sheathroyal
 	name = "Decorated Sheath, Golden"
 	path = /obj/item/rogueweapon/scabbard/sheath/royal
-	triumph_cost = 9
+	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_gdorpelring
 	name = "Golden Dorpel Ring, Ornate"
 	path = /obj/item/clothing/ring/diamond/triumph
-	triumph_cost = 9
+	triumph_cost = 7
 	sort_category = "Triumphs"
 
 //////////////////

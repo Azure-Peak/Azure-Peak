@@ -85,7 +85,7 @@
 
 /mob/living/carbon/human/species/human/northern/bog_deserters
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list(FACTION_BANDITS, FACTION_STATION)
+	faction = list(FACTION_BANDITS)
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 30
@@ -180,7 +180,7 @@
 		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 		H.STASTR -= 2
 		H.STAPER += 3
-	else if(prob(50)) // tossblade
+	else if(prob(25)) // tossblade
 		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
 		H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 		add_random_deserter_weapon(H)

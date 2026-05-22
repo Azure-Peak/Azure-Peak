@@ -1,7 +1,7 @@
 /datum/reagent/blood
 	data = list("donor"=null,"blood_DNA"=null,"blood_type"=null,"resistances"=null,"trace_chem"=null,"mind"=null,"ckey"=null,"gender"=null,"real_name"=null,"cloneable"=null,"factions"=null,"quirks"=null)
 	name = "Blood"
-	color = "#C80000" // rgb: 200, 0, 0
+	color = BLOOD_COLOR_RED
 	metabolization_rate = 5 //fast rate so it disappears fast.
 	taste_description = "iron"
 	taste_mult = 1.3
@@ -9,6 +9,7 @@
 	glass_name = "glass of tomato juice"
 	glass_desc = ""
 	shot_glass_icon_state = "shotglassred"
+
 /datum/reagent/blood/shitty
 	name = "Dirty blood"
 	color = "#941010" // rgb: 148, 16, 16

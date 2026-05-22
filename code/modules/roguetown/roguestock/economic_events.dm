@@ -11,12 +11,23 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	var/day_started = 0
 	var/day_expires = 0
 	var/datum/weakref/urgent_order_ref
+	var/saturation_target = 0
+	var/saturation_progress = 0
+	var/relief_triggered = FALSE
 
 /datum/economic_event/proc/on_apply()
 	for(var/good_id in affected_goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(tg)
 			tg.global_price_mod *= price_mod
+	refresh_affected_stockpile_caches()
+	if(event_type == ECON_EVENT_SHORTAGE)
+		var/total_demand = 0
+		for(var/good_id in affected_goods)
+			for(var/region_id in GLOB.economic_regions)
+				var/datum/economic_region/region = GLOB.economic_regions[region_id]
+				total_demand += region.demands[good_id] || 0
+		saturation_target = max(1, round(total_demand * ECON_EVENT_SATURATION_THRESHOLD))
 	if(announcement)
 		scom_announce(announcement)
 
@@ -25,6 +36,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(tg && price_mod != 0)
 			tg.global_price_mod /= price_mod
+	refresh_affected_stockpile_caches()
 	// Withdraw auto-price ratchets downward only, so a glut that pushed it below
 	// baseline never recovers on its own. When an oversupply ends, snap any
 	// auto-priced stockpile entry back to the restored market.
@@ -36,6 +48,48 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		if(!(D.trade_good_id in affected_goods))
 			continue
 		D.snap_auto_prices()
+
+/// Refresh cached market reference prices and (for auto-priced entries) the live
+/// payout/withdraw prices on every stockpile entry whose trade good was affected by
+/// this event. Replaces the per-tick refresh_auto_price + get_market_*_price work
+/// the stewardry UI used to do for every good every tick.
+/datum/economic_event/proc/refresh_affected_stockpile_caches()
+	for(var/datum/roguestock/D as anything in SStreasury.stockpile_datums)
+		if(!D.trade_good_id || !(D.trade_good_id in affected_goods))
+			continue
+		var/datum/trade_good/tg = GLOB.trade_goods[D.trade_good_id]
+		if(!tg)
+			continue
+		D.recompute_market_reference_prices(tg)
+		if(D.automatic_price)
+			D.compute_auto_prices(tg)
+	SStreasury.dirty_market_view()
+
+/datum/economic_event/proc/end_with_relief()
+	if(relief_triggered)
+		return
+	relief_triggered = TRUE
+	on_expire()
+	GLOB.active_economic_events -= src
+	record_round_statistic(STATS_SHORTAGES_ENDED, 1)
+	scom_announce("<font color='#5cb85c'>RELIEF: [name] eased by relief efforts. Prices return to normal.</font>")
+
+/proc/credit_economic_event_saturation(good_id, units)
+	if(!good_id || units <= 0)
+		return
+	var/list/relieved = list()
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(E.event_type != ECON_EVENT_SHORTAGE)
+			continue
+		if(E.relief_triggered)
+			continue
+		if(!(good_id in E.affected_goods))
+			continue
+		E.saturation_progress += units
+		if(E.saturation_progress >= E.saturation_target)
+			relieved += E
+	for(var/datum/economic_event/E as anything in relieved)
+		E.end_with_relief()
 
 
 // ============================================================================
@@ -202,14 +256,6 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	announcement = "<font color='#c44'>ORCHARD LOCUSTS: The orchards stripped bare. Apples and berries grow costly.</font>"
 	affected_goods = list(TRADE_GOOD_APPLE, TRADE_GOOD_PEAR, TRADE_GOOD_JACKSBERRY)
 	price_mod = 4.25
-	event_type = ECON_EVENT_SHORTAGE
-
-/datum/economic_event/gem_cartel_squeeze
-	name = "GEM CARTEL SQUEEZE"
-	description = "The merchant houses have cornered the cut-stone market. Toper and gemerald prices jump overnight."
-	announcement = "<font color='#c44'>GEM CARTEL SQUEEZE: Merchants corner the gem market. Common gems grow dearer.</font>"
-	affected_goods = list(TRADE_GOOD_TOPER, TRADE_GOOD_GEMERALD)
-	price_mod = 4.5
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/silk_moth_collapse

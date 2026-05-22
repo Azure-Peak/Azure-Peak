@@ -5,6 +5,7 @@
 	desc = "Abstract parent. Contact developer if you see this."
 	icon_state = null
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	unenchantable = TRUE
 
 	/// Feedback messages
 	var/repairmsg_begin = "My armour begins to slowly mend its abuse.."
@@ -16,6 +17,9 @@
 	var/repair_time
 	/// Holder for timer
 	var/reptimer
+
+	/// Holder for disruption timer
+	var/disrupttimer
 
 	/// To make repairs relative or not.
 	/// In other words, if you use relative repairing then it will use a different repair interval.
@@ -39,10 +43,33 @@
 	var/interrupt_dflag
 	var/interrupt_ddir
 
+	/// Regen cost vars
+	var/blue_to_integ_ratio = 0
+	var/is_disrupted = FALSE
+
 /obj/item/clothing/suit/roguetown/armor/regenerating/Initialize(mapload)
 	. = ..()
 	if(auto_repair_mode)
 		setup_auto_repair()
+	addtimer(CALLBACK(src, PROC_REF(check_owner)), 5 SECONDS)
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/check_owner()
+	if(!ishuman(loc))
+		return
+	var/mob/living/L = loc
+	RegisterSignal(L, COMSIG_MOB_ITEM_BEING_ATTACKED, PROC_REF(process_attack))
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
+	is_disrupted = TRUE
+	if(reptimer)
+		deltimer(reptimer)
+	disrupttimer = addtimer(CALLBACK(src, PROC_REF(revert_disrupt)), 60 SECONDS, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/revert_disrupt()
+	if(is_disrupted)
+		is_disrupted = FALSE
+		to_chat(loc, repairmsg_begin)
+		armour_regen()
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
@@ -52,6 +79,9 @@
 		to_chat(loc, span_notice(repairmsg_stop))
 		deltimer(reptimer)
 		reptimer = null
+
+	if(is_disrupted)
+		return
 
 	// If relative repair mode is on, use the interval instead of repairing 20% every repair_time seconds
 	var/wait_time = relative_repair_mode ? relative_repair_interval : repair_time
@@ -90,6 +120,11 @@
 		next_tick_time = repair_time
 
 	obj_integrity = min(obj_integrity + repair_amount, max_integrity)
+
+	if(ishuman(loc))
+		var/mob/living/L = loc
+		var/energycost = blue_to_integ_ratio * repair_amount
+		L.energy_add(-energycost)
 
 	// Fix armor so it can still be interrupted from regenerating
 	if(obj_broken && obj_integrity > 0)
@@ -133,7 +168,6 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	armor_class = ARMOR_CLASS_LIGHT
 	blocksound = SOFTUNDERHIT
-	blade_dulling = DULLING_BASHCHOP
 	armor = ARMOR_PADDED
 
 	repairmsg_begin = "My skin begins to slowly mend its abuse.."

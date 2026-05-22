@@ -41,6 +41,8 @@
 	var/active_icon_state
 	/// Timer for retriggering the spell
 	var/retrigger_timer
+	/// This will make it so spells that are of the "same type" cannot be obtained. This is mostly for "Lesser" variants to not stack with the normal ones.
+	var/exclusive_group = null
 
 /datum/action/cooldown/New(Target)
 	. = ..()

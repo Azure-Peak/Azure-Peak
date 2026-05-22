@@ -1,8 +1,47 @@
-// Druid
+///////////////////////
+// T0 - Spider Speak //
+///////////////////////
+
+/obj/effect/proc_holder/spell/invoked/spiderspeak
+	name = "Spider Speak"
+	desc = "Makes spiders not attack the target."
+	action_icon = 'icons/mob/actions/dendormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
+	overlay_state = "tamebeast"
+	releasedrain = 15
+	chargedrain = 0
+	chargetime = 1 SECONDS
+	range = 2
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/churn.ogg'
+	invocations = list("Spiders of Psydonia, allow me to pass safely!")
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	recharge_time = 4 SECONDS
+	miracle = TRUE
+	devotion_cost = 25
+
+/obj/effect/proc_holder/spell/invoked/spiderspeak/cast(list/targets, mob/living/user)
+	. = ..()
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		target.visible_message("<font color='yellow'>[user] infuses [target] with swirling strands of spectral webs!</font>", "<font color='yellow'>You feel your tongue shift strangely, producing odd clicking noises.</font>")
+		target.apply_status_effect(/datum/status_effect/buff/spider_speak)
+		return TRUE
+	revert_cast()
+	return FALSE
+
+//////////////////////
+// T0 - Bless Crops //
+//////////////////////
+
 /obj/effect/proc_holder/spell/targeted/blesscrop
 	name = "Bless Crops"
 	desc = "Bless up to five crops around you. Revives dead plants, gives them nutrition and water if low and boosts their growth."
 	range = 5
+	action_icon = 'icons/mob/actions/dendormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
 	overlay_state = "blesscrop"
 	releasedrain = 30
 	recharge_time = 30 SECONDS
@@ -31,11 +70,16 @@
 		visible_message(span_green("[usr] blesses the nearby crops with Dendor's Favour!"))
 	return growed
 
-//At some point, this spell should Awaken beasts, allowing a ghost to possess them. Not for this PR though.
+/////////////////////
+// T? - Tame Beast //
+/////////////////////
+//Apparently not for this PR and not for any other PR
 /obj/effect/proc_holder/spell/targeted/beasttame
 	name = "Tame Beast"
 	desc = "Tames a targeted saiga, chicken, cow, goat, volf or spider to be non hostile and tamed."
 	range = 5
+	action_icon = 'icons/mob/actions/dendormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
 	overlay_state = "tamebeast"
 	releasedrain = 30
 	recharge_time = 30 SECONDS
@@ -67,10 +111,16 @@
 			to_chat(usr, "With Dendor's aide, you soothe [animal] of their anger.")
 	return tamed
 
+//////////////////////////////
+// T3 - Fungal Illumination //
+//////////////////////////////
+
 /obj/effect/proc_holder/spell/targeted/conjure_glowshroom
 	name = "Fungal Illumination"
 	desc = "Summons glowing mushrooms that shock people that try moving into them. Dendorites are immune."
 	range = 1
+	action_icon = 'icons/mob/actions/dendormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
 	overlay_state = "blesscrop"
 	releasedrain = 30
 	recharge_time = 30 SECONDS
@@ -96,9 +146,17 @@
 		if(!isclosedturf(TT) && !locate(/obj/structure/glowshroom) in TT)
 			new /obj/structure/glowshroom(TT)
 	return TRUE
+
+
+//////////////////////
+// T3 - Vine Sprout //
+//////////////////////
+
 /obj/effect/proc_holder/spell/targeted/conjure_vines
 	name = "Vine Sprout"
 	desc = "Summon vines nearby."
+	action_icon = 'icons/mob/actions/dendormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
 	overlay_state = "blesscrop"
 	releasedrain = 30
 	invocations = list("Treefather, bring forth vines.")
@@ -126,9 +184,16 @@
 		new /obj/structure/vine/dendor(target_turf_three)
 
 	return TRUE
+
+///////////////////////////
+// T4 - Call of the Moon //
+///////////////////////////
+
 /obj/effect/proc_holder/spell/self/howl/call_of_the_moon
 	name = "Call of the Moon"
 	desc = "Draw upon the secrets of the hidden firmament to converse with the mooncursed."
+	action_icon = 'icons/mob/actions/dendormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
 	overlay_state = "howl"
 	antimagic_allowed = FALSE
 	recharge_time = 600
@@ -152,31 +217,3 @@
 		to_chat(user, span_boldwarning("Ware thee well, child of Dendor."))
 		first_cast = TRUE
 	. = ..()
-
-/obj/effect/proc_holder/spell/invoked/spiderspeak
-	name = "Spider Speak"
-	desc = "Makes spiders not attack the target."
-	overlay_state = "tamebeast"
-	releasedrain = 15
-	chargedrain = 0
-	chargetime = 1 SECONDS
-	range = 2
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = 'sound/magic/churn.ogg'
-	invocations = list("Spiders of Psydonia, allow me to pass safely!")
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	recharge_time = 4 SECONDS
-	miracle = TRUE
-	devotion_cost = 25
-
-/obj/effect/proc_holder/spell/invoked/spiderspeak/cast(list/targets, mob/living/user)
-	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		target.visible_message("<font color='yellow'>[user] infuses [target] with swirling strands of spectral webs!</font>", "<font color='yellow'>You feel your tongue shift strangely, producing odd clicking noises.</font>")
-		target.apply_status_effect(/datum/status_effect/buff/spider_speak)
-		return TRUE
-	revert_cast()
-	return FALSE

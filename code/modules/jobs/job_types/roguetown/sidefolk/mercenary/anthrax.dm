@@ -5,9 +5,7 @@
 	blades.  The matriarch has set you a task: to get to the surface and find out what is going \
 	on, and during this time you will be able to earn money, because, unfortunately, the \
 	inhabitants of the upper world refuse to accept spider paws as payment for their services."
-	allowed_races = list(
-		/datum/species/elf/dark
-	)
+	forbidden_races = list(RACES_ANTHRAX)
 	outfit = /datum/outfit/job/roguetown/mercenary/anthrax
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
@@ -69,7 +67,7 @@
 	beltr = /obj/item/rogueweapon/whip/spiderwhip	
 	beltl = /obj/item/rope/chain
 
-	H.faction += "spider_lowers"
+	H.faction += FACTION_SPIDER_LOWERS
 
 	if(H.mind)
 		var/riding = list("Spidertamer (Tameable Spider Mount)", "Shroomwalker (+I to Athletics)")
@@ -90,9 +88,7 @@
 	from afar or take a second sabre and weave a beautiful dance of death. All that matters is \
 	that your contract is fulfilled and your pockets heavy with mammon."
 	outfit = /datum/outfit/job/roguetown/mercenary/anthrax_assassin
-	allowed_races = list(
-		/datum/species/elf/dark
-	)
+	forbidden_races = list(RACES_ANTHRAX)
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_delf.ogg'
@@ -149,7 +145,7 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants
 
-	H.faction += "spider_lowers"
+	H.faction += FACTION_SPIDER_LOWERS
 
 	if(H.mind)
 		var/weapon = list("Bow & Poisoned Arrows", "Dual Sabres")
