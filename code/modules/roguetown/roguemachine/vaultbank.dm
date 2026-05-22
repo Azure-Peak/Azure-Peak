@@ -646,7 +646,7 @@
 
 /obj/structure/roguemachine/vaultbank/church
 	name = "\improper CHURCH JAWBANK"
-	desc = "A biomechanical obselisk that hoards the alms and indulgences of Eora's faithful. Throttle it with a strike to spill that which is rightfully yours."
+	desc = "A biomechanical obselisk that holds the alms and tithe of Ten's faithful. Throttle it with a strike to spill that which is rightfully yours."
 	alert_jobs = list("Bishop", "Martyr", "Acolyte")
 	alert_location = "the Church"
 	bash_floor = 500
