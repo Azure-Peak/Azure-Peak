@@ -1,9 +1,8 @@
 /datum/foreign_realm/grenzelhoft
 	id = REALM_GRENZELHOFT
 	name = "Grenzelhoft"
-	auto_discovered = TRUE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_BOOKS, NAVIGATOR_BUCKET_GARMENTS, NAVIGATOR_BUCKET_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_BOOKS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_CARVED, NAVIGATOR_BUCKET_POTTERY)
 	ship_name_words = list(
 		"Eisernen", "Sturm", "Adler", "Wolf", "Drache",
 		"Schwert", "Bruder", "Krone", "Burg", "Wappen",

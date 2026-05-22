@@ -287,10 +287,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/always_destroy = FALSE
 	/// If TRUE, this item is not allowed to be minted. May be useful for other things later.
 	var/is_important = FALSE
-	/// Tagged on mapload-spawned items inside town areas - marks them as town property so they can't be fed to the stockpile for minting.
 	var/unmintable = FALSE
-	/// Marks goods sold by the merchant. block navigator export, stockpile minting and ship fulfillment. This means it cannot be flipped for profit
 	var/atc_sealed = FALSE
+	var/was_crafted = FALSE
+	var/is_carved = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
 
@@ -1747,12 +1747,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(looted)
 		. += span_info(LOOTED_EXAMINE_DESC)
 	var/list/seals = list()
+	var/craftsell_str = ""
 	if(atc_sealed)
 		seals += "ATC seal"
 	if(unmintable)
 		seals += "town-property stamp"
 	if(length(seals))
-		. += span_info("Marked with [english_list(seals)] - the stockpile minter and navigator will not take it.")
+		craftsell_str += span_info("Marked with [english_list(seals)] - the stockpile minter and navigator will not take it.")
+	if(was_crafted)
+		craftsell_str = span_info("It appears to be crafted by the hand of a local artisan.")
+	if(is_carved)
+		craftsell_str = span_info("It is a carved item.")
+	. += craftsell_str
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.STAINT < 9)

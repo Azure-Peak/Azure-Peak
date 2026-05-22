@@ -1,9 +1,8 @@
 /datum/foreign_realm/lirvas
 	id = REALM_LIRVAS
 	name = "Lirvas"
-	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_RARE
-	demanded_categories = list(NAVIGATOR_BUCKET_GARMENTS, NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR, NAVIGATOR_BUCKET_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_GARMENT_FINELUX, NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_HEAVY, NAVIGATOR_BUCKET_SEAFOOD)
 	ship_name_words = list(
 		"Zarvlor", "Drak", "Aurum", "Mammon", "Debt",
 		"Hoard", "Indenture", "Sissean", "Coil", "Scale",
@@ -28,14 +27,21 @@
 	city_tag_chance = 0
 	cultural_goods = list()
 	bulk_supply_pool = list(
-		list("good" = TRADE_GOOD_GEMERALD, "qty_min" = BULK_QTY_TINY_MIN, "qty_max" = BULK_QTY_TINY_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT, "always" = TRUE),
-		list("good" = TRADE_GOOD_TOPER, "qty_min" = BULK_QTY_TINY_MIN, "qty_max" = BULK_QTY_TINY_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT, "always" = TRUE),
-		list("good" = TRADE_GOOD_SAFFIRA, "qty_min" = BULK_QTY_TINY_MIN, "qty_max" = BULK_QTY_TINY_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT, "always" = TRUE),
-		list("good" = TRADE_GOOD_BLORTZ, "qty_min" = BULK_QTY_TINY_MIN, "qty_max" = BULK_QTY_TINY_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
-		list("good" = TRADE_GOOD_DORPEL, "qty_min" = BULK_QTY_TINY_MIN, "qty_max" = BULK_QTY_TINY_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
-		list("good" = TRADE_GOOD_CINNABAR, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
-		list("good" = TRADE_GOOD_GOLD_INGOT, "qty_min" = BULK_QTY_TINY_MIN, "qty_max" = BULK_QTY_TINY_MAX, "price_mod" = BULK_PRICE_FAIR),
-		list("good" = TRADE_GOOD_GOLD_ORE, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_FAIR),
+		list("good" = TRADE_GOOD_TOPER, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT, "always" = TRUE),
+		list("good" = TRADE_GOOD_GEMERALD, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT, "always" = TRUE),
+		list("good" = TRADE_GOOD_SAFFIRA, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT, "always" = TRUE),
+		list("good" = TRADE_GOOD_BLORTZ, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DISCOUNT, "always" = TRUE),
+		list("good" = TRADE_GOOD_DORPEL, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_DISCOUNT, "always" = TRUE),
+		list("good" = TRADE_GOOD_JADE, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT),
+		list("good" = TRADE_GOOD_OPAL, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
+		list("good" = TRADE_GOOD_ONYXA, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT),
+		list("good" = TRADE_GOOD_CERULITE, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
+		list("good" = TRADE_GOOD_HEARTSTONE, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
+		list("good" = TRADE_GOOD_AMBER, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT),
+		list("good" = TRADE_GOOD_ROSESTONE, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
+		list("good" = TRADE_GOOD_CINNABAR, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
+		list("good" = TRADE_GOOD_GOLD_ORE, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_FAIR),
+		list("good" = TRADE_GOOD_GOLD_INGOT, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_FAIR),
 	)
 	bulk_demand_pool = list(
 		list("good" = TRADE_GOOD_GRAIN, "qty_min" = BULK_QTY_HUGE_MIN, "qty_max" = BULK_QTY_HUGE_MAX, "price_mod" = BULK_PRICE_DESPERATE, "always" = TRUE),
@@ -69,16 +75,6 @@
 		list("recipe" = /datum/brewing_recipe/blackberry_wine, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
 	)
 	cultural_stock_pool = list(
-		/datum/supply_pack/rogue/gems/amethyst,
-		/datum/supply_pack/rogue/gems/toper,
-		/datum/supply_pack/rogue/gems/gemerald,
-		/datum/supply_pack/rogue/gems/saffira,
-		/datum/supply_pack/rogue/gems/blortz,
-		/datum/supply_pack/rogue/gems/diamond,
-		/datum/supply_pack/rogue/gems/jade,
-		/datum/supply_pack/rogue/gems/onyxa,
-		/datum/supply_pack/rogue/gems/amber,
-		/datum/supply_pack/rogue/gems/opal,
 		/datum/supply_pack/rogue/lirvas/tabard,
 		/datum/supply_pack/rogue/lirvas/pauldrons,
 		/datum/supply_pack/rogue/lirvas/gold_gorget,

@@ -13,10 +13,6 @@ import {
 } from '../../common/parchment';
 import type { HarborRealm, MarketCondition } from '../types';
 
-const Unknown = () => (
-  <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>UNKNOWN</span>
-);
-
 const toneToColor = (tone?: string) => {
   switch (tone) {
     case 'good':
@@ -116,7 +112,6 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
   const { realm } = props;
   const [expanded, setExpanded] = useState(false);
   const conditions = realm.market_conditions ?? [];
-  const isUnknown = !realm.discovered;
 
   return (
     <div
@@ -163,9 +158,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
             {realm.name}
           </div>
           <div style={{ lineHeight: '1.5' }}>
-            {isUnknown ? (
-              <Unknown />
-            ) : conditions.length === 0 ? (
+            {conditions.length === 0 ? (
               <span
                 style={{
                   color: INK_SOFT,
@@ -274,7 +267,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
               </div>
             </div>
           )}
-          {!isUnknown && conditions.length > 0 && (
+          {conditions.length > 0 && (
             <div style={{ marginBottom: '8px' }}>
               <div
                 style={{

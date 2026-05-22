@@ -1,9 +1,8 @@
 /datum/foreign_realm/hammerhold
 	id = REALM_HAMMERHOLD
 	name = "Hammerhold"
-	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(NAVIGATOR_BUCKET_GARMENTS, NAVIGATOR_BUCKET_BEVERAGE, NAVIGATOR_BUCKET_ARMOR, NAVIGATOR_BUCKET_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_GARMENT_COMMON, NAVIGATOR_BUCKET_BEVERAGE, NAVIGATOR_BUCKET_ARMOR_HEAVY, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_POTTERY)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Æthel", "Beorht", "Hammer", "Anvil", "Grim",

@@ -185,8 +185,6 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			realms_data += list(list(
 				"id" = R.id,
 				"name" = R.name,
-				"auto_discovered" = R.auto_discovered ? TRUE : FALSE,
-				"discovered" = SSmerchant_trade.is_discovered(R.id) ? TRUE : FALSE,
 				"cultural_goods_count" = length(R.cultural_goods),
 				"bulk_demand_count" = length(R.bulk_demand_pool),
 				"bulk_supply_count" = length(R.bulk_supply_pool),
@@ -617,13 +615,6 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				admin_log_fiscal("spawned a [realm_id] trade ship: [ship.ship_name] (Captain [ship.captain_name], expected favor [ship.expected_favor])", "Spawn Trade Ship")
 			else
 				to_chat(usr, span_warning("Could not spawn ship - realm unknown or undiscovered."))
-			return TRUE
-		if("discover_realm")
-			if(!SSmerchant_trade)
-				return TRUE
-			var/realm_id = "[params["realm_id"]]"
-			if(SSmerchant_trade.discover_realm(realm_id))
-				admin_log_fiscal("force-discovered realm [realm_id]", "Discover Realm")
 			return TRUE
 		if("clear_trade_ships")
 			if(!SSmerchant_trade)

@@ -1,9 +1,8 @@
 /datum/foreign_realm/gronn
 	id = REALM_GRONN
 	name = "Gronn"
-	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR, NAVIGATOR_BUCKET_VALUABLES, NAVIGATOR_BUCKET_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_HEAVY, NAVIGATOR_BUCKET_POTTERY, NAVIGATOR_BUCKET_SEAFOOD)
 	ship_name_words = list(
 		"Fjord", "Iskarn", "Volf", "Beorn", "Ravn",
 		"Skuld", "Storm", "Aurora", "Glacier", "Ulfr",

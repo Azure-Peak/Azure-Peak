@@ -106,11 +106,19 @@ export type MarketCategory = {
   pending_ship_demand: number;
 };
 
+export type RealmDemandRow = {
+  realm_id: string;
+  name: string;
+  demanded: string[];
+};
+
 export type MarketData = {
   categories: MarketCategory[];
   pop_snapshot: number;
   category_count: number;
   theme_dispatch?: string;
+  realm_demand_matrix?: RealmDemandRow[];
+  all_buckets?: string[];
 };
 
 export type MercenaryRoster = {

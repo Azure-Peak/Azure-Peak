@@ -67,6 +67,14 @@ export const Navigator = () => {
           >
             ?
           </button>
+          <button
+            type="button"
+            title="Refresh market data (5s cooldown)"
+            style={{ ...inkButtonStyle({}), position: 'absolute', top: 8, right: 40 }}
+            onClick={() => act('refresh_market')}
+          >
+            ↻
+          </button>
           <div style={titleStyle}>{motto}</div>
           <div style={subtitleStyle}>
             Next balloon in {formatCountdown(data.next_airlift_seconds)}
@@ -173,6 +181,23 @@ export const Navigator = () => {
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {!isSmuggler && (
+            <div
+              style={{
+                marginTop: 10,
+                marginBottom: 10,
+                padding: '8px 12px',
+                border: `1px dashed ${SEAL_AMBER}`,
+                color: INK_SOFT,
+                fontSize: '12px',
+                fontStyle: 'italic',
+                lineHeight: 1.4,
+              }}
+            >
+              <b style={{ color: SEAL_AMBER }}>Saturated valuables?</b> If the Valuables warehouse is choked and no ship hungers for them, consider the Stewardry&apos;s stockpile for minting, the bathhouse, or a shadier facilitator willing to take such things off your hands.
             </div>
           )}
 

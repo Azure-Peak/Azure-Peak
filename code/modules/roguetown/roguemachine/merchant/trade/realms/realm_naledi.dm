@@ -1,9 +1,8 @@
 /datum/foreign_realm/naledi
 	id = REALM_NALEDI
 	name = "Naledi"
-	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR, NAVIGATOR_BUCKET_BEVERAGE, NAVIGATOR_BUCKET_GARMENTS, NAVIGATOR_BUCKET_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_BEVERAGE, NAVIGATOR_BUCKET_GARMENT_COMMON, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_TROPHIES, NAVIGATOR_BUCKET_VALUABLES_LOOTED)
 	ship_name_words = list(
 		"Psydon", "Bilomari", "Veralun", "Olindar", "Veranda",
 		"Repentance", "Mercy", "Vigil", "Pilgrim", "Endurance",

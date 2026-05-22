@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 
 import {
   cardStyle,
+  dashedFrameStyle,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -10,11 +11,13 @@ import {
   SEAL_BLUE,
   SEAL_GREEN,
   SEAL_RED,
+  stickyLeftCellStyle,
 } from '../../common/parchment';
 import {
   type MarketCategory,
   type MarketData,
   type NoticeboardData,
+  type RealmDemandRow,
 } from '../types';
 
 const FILL_YELLOW = 0.50;
@@ -107,11 +110,125 @@ const demandColor = (mult: number): string => {
   if (mult >= 1.35) return SEAL_RED;
   if (mult >= 1.15) return '#b8501c';
   if (mult > DEMAND_WARM) return SEAL_AMBER;
+  if (mult < 1) return SEAL_BLUE;
   return INK_FAINT;
 };
 
 const formatMult = (m: number): string => `${m.toFixed(2)}x`;
 const formatPct = (n: number): string => `${Math.round(n * 100)}%`;
+
+const matrixContainerStyle: React.CSSProperties = {
+  ...dashedFrameStyle,
+  marginTop: 10,
+  overflowX: 'auto',
+};
+
+const matrixTableStyle: React.CSSProperties = {
+  width: '100%',
+  borderCollapse: 'collapse',
+  fontSize: '11px',
+  color: INK,
+};
+
+const matrixCornerStyle: React.CSSProperties = {
+  ...stickyLeftCellStyle,
+  textAlign: 'left',
+  padding: '3px 6px',
+  fontVariant: 'small-caps',
+  color: SEAL_AMBER,
+  borderBottom: `1px solid ${INK_FAINT}`,
+};
+
+const matrixRealmHeaderStyle: React.CSSProperties = {
+  padding: '3px 4px',
+  fontVariant: 'small-caps',
+  fontSize: '11px',
+  color: INK_SOFT,
+  borderBottom: `1px solid ${INK_FAINT}`,
+  textAlign: 'center',
+  whiteSpace: 'nowrap',
+  minWidth: '64px',
+};
+
+const matrixBucketLabelStyle: React.CSSProperties = {
+  ...stickyLeftCellStyle,
+  padding: '2px 8px 2px 4px',
+  borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
+  fontWeight: 'bold',
+  color: INK,
+  whiteSpace: 'nowrap',
+};
+
+const matrixCellStyle: React.CSSProperties = {
+  textAlign: 'center',
+  padding: '2px 4px',
+  borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
+};
+
+const RealmDemandMatrix = (props: {
+  realms: RealmDemandRow[];
+  allBuckets: string[];
+}) => {
+  const { realms, allBuckets } = props;
+  if (realms.length === 0 || allBuckets.length === 0) {
+    return (
+      <div style={{ ...matrixContainerStyle, color: INK_FAINT, fontStyle: 'italic' }}>
+        The factors have no realm intelligence to share.
+      </div>
+    );
+  }
+  // Precompute one Set<bucket> per realm so the inner table-cell lookup is O(1) instead
+  // of an Array.includes call per cell. With 11 realms x 16 buckets = 176 cells per render
+  // this matters under static-data refresh churn.
+  const realmDemandSets = realms.map((r) => ({
+    realm: r,
+    set: new Set(r.demanded),
+  }));
+  return (
+    <div style={matrixContainerStyle}>
+      <div
+        style={{
+          color: INK_SOFT,
+          fontStyle: 'italic',
+          fontSize: '11px',
+          marginBottom: 4,
+        }}
+      >
+        A summary of what each foreign realm demands. Hail a ship from a realm to raise the demand for its categories at the Navigator. Valuables and Seafood keep their full price even with no ship in port; every other category pays only half until a buyer arrives.
+      </div>
+      <table style={matrixTableStyle}>
+        <thead>
+          <tr>
+            <th style={matrixCornerStyle}>Category</th>
+            {realmDemandSets.map(({ realm }) => (
+              <th key={realm.realm_id} style={matrixRealmHeaderStyle} title={realm.name}>
+                {realm.name}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {allBuckets.map((bucket) => (
+            <tr key={bucket}>
+              <td style={matrixBucketLabelStyle}>{bucket}</td>
+              {realmDemandSets.map(({ realm, set }) => (
+                <td key={realm.realm_id} style={matrixCellStyle}>
+                  {set.has(bucket) ? (
+                    <span style={{ color: SEAL_GREEN, fontWeight: 'bold' }}>
+                      &#x2714;
+                    </span>
+                  ) : (
+                    <span style={{ color: INK_FAINT }}>&middot;</span>
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export const MarketView = ({
   market,
@@ -147,6 +264,7 @@ export const MarketView = ({
   }, [categories]);
 
   const [loreOpen, setLoreOpen] = useState(false);
+  const [matrixOpen, setMatrixOpen] = useState(false);
 
   if (!market || categories.length === 0) {
     return (
@@ -213,18 +331,29 @@ export const MarketView = ({
         >
           {loreOpen ? '[ hide market notes ]' : '[ how the markets work ]'}
         </div>
+        <div
+          onClick={() => setMatrixOpen(!matrixOpen)}
+          style={{
+            marginTop: 2,
+            cursor: 'pointer',
+            color: SEAL_AMBER,
+            fontStyle: 'italic',
+            fontSize: '11px',
+            fontVariant: 'small-caps',
+          }}
+        >
+          {matrixOpen
+            ? '[ hide realms demand matrix ]'
+            : '[ show realms demand matrix ]'}
+        </div>
+        {matrixOpen && (
+          <RealmDemandMatrix
+            realms={market.realm_demand_matrix ?? []}
+            allBuckets={market.all_buckets ?? []}
+          />
+        )}
         {loreOpen && (
-          <div
-            style={{
-              marginTop: 8,
-              padding: '8px 10px',
-              border: `1px dashed ${INK_FAINT}`,
-              color: INK_SOFT,
-              fontSize: '12px',
-              lineHeight: 1.4,
-              textAlign: 'left',
-            }}
-          >
+          <div style={{ ...dashedFrameStyle, marginTop: 8 }}>
             <p style={{ margin: '0 0 6px 0' }}>
               Wares lifted from the Navigator pass into the warehouses of the Azurian Trading Company, sorted by category. Each week the factors weigh which goods are scarce and which lie in glut, and the Navigator&apos;s payouts shift accordingly.
             </p>

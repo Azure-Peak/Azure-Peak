@@ -7,6 +7,8 @@
 	grid_width = 32
 	w_class = WEIGHT_CLASS_NORMAL
 	has_item_quality = TRUE
+	is_carved = TRUE
+	was_crafted = TRUE
 
 //.....................Shell......................//
 

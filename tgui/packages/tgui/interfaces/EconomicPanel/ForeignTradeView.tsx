@@ -5,13 +5,10 @@ import {
   Stack,
   Table,
 } from 'tgui-core/components';
-import type { BooleanLike } from 'tgui-core/react';
 
 export type ForeignRealm = {
   id: string;
   name: string;
-  auto_discovered: BooleanLike;
-  discovered: BooleanLike;
   cultural_goods_count: number;
   bulk_demand_count: number;
   bulk_supply_count: number;
@@ -70,7 +67,6 @@ const RealmsSection = (props: {
       <Table>
         <Table.Row header>
           <Table.Cell>Realm</Table.Cell>
-          <Table.Cell collapsing>Discovered?</Table.Cell>
           <Table.Cell collapsing>Cultural Goods</Table.Cell>
           <Table.Cell collapsing>Demands / Supplies</Table.Cell>
           <Table.Cell collapsing>&nbsp;</Table.Cell>
@@ -82,15 +78,6 @@ const RealmsSection = (props: {
               <Box italic color="gray" fontSize="11px">
                 {r.id}
               </Box>
-            </Table.Cell>
-            <Table.Cell collapsing>
-              {r.discovered ? (
-                <span style={{ color: '#5cb85c' }}>
-                  {r.auto_discovered ? 'auto' : 'discovered'}
-                </span>
-              ) : (
-                <span style={{ color: '#888' }}>hidden</span>
-              )}
             </Table.Cell>
             <Table.Cell collapsing>{r.cultural_goods_count}</Table.Cell>
             <Table.Cell collapsing>
@@ -104,18 +91,6 @@ const RealmsSection = (props: {
               >
                 Spawn Ship
               </Button>
-              {!r.discovered && (
-                <Button
-                  ml={1}
-                  onClick={() =>
-                    act('discover_realm', {
-                      realm_id: r.id,
-                    })
-                  }
-                >
-                  Discover
-                </Button>
-              )}
             </Table.Cell>
           </Table.Row>
         ))}

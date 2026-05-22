@@ -9,11 +9,20 @@
 	blade_dulling = DULLING_BASH
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
+	var/last_market_refresh = 0
 
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
 	SSroguemachine.noticeboards += src
 	update_icon()
+	if(SSmerchant_trade)
+		SSmerchant_trade.register_market_watcher(src)
+
+/obj/structure/roguemachine/noticeboard/Destroy()
+	SSroguemachine.noticeboards -= src
+	if(SSmerchant_trade)
+		SSmerchant_trade.unregister_market_watcher(src)
+	return ..()
 
 /obj/structure/roguemachine/noticeboard/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	if(istype(P, /obj/item/quest_writ/blockade))
@@ -84,6 +93,7 @@
 /obj/structure/roguemachine/noticeboard/ui_static_data(mob/user)
 	var/list/data = list()
 	data["realm_name"] = SSticker.realm_name
+	data["market_data"] = build_market_data()
 	return data
 
 /obj/structure/roguemachine/noticeboard/ui_data(mob/user)
@@ -94,7 +104,6 @@
 	data["charters"] = build_charters()
 	data["economic_events"] = build_economic_events()
 	data["mercenary_roster"] = build_mercenary_roster()
-	data["market_data"] = build_market_data()
 	if(!ishuman(user))
 		data["postings"] = list()
 		data["can_post_listing"] = FALSE
@@ -330,6 +339,8 @@
 	data["categories"] = rows
 	data["category_count"] = length(rows)
 	data["theme_dispatch"] = build_market_theme_dispatch(SSmerchant_trade.pool_theme_jitters)
+	data["realm_demand_matrix"] = SSmerchant_trade.build_realm_demand_matrix()
+	data["all_buckets"] = all_navigator_buckets()
 	return data
 
 /obj/structure/roguemachine/noticeboard/proc/serialize_posting(datum/noticeboard_posting/P, mob/living/carbon/human/viewer, viewer_is_authority)
@@ -376,6 +387,13 @@
 	if(!H.canUseTopic(src, BE_CLOSE))
 		return TRUE
 	switch(action)
+		if("refresh_market")
+			if(world.time < last_market_refresh + 5 SECONDS)
+				to_chat(H, span_warning("The factors haven't tallied fresh numbers yet. Wait a moment."))
+				return TRUE
+			last_market_refresh = world.time
+			update_static_data(H)
+			return TRUE
 		if("make_post")
 			handle_make_post(H, params)
 			SStgui.update_uis(src)

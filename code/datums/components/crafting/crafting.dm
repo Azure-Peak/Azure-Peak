@@ -312,6 +312,7 @@
 							I.OnCrafted(user.dir, user)
 							if(isitem(I))
 								var/obj/item/CI = I
+								CI.was_crafted = TRUE
 								if(CI.has_item_quality)
 									CI.apply_quality(user, R.skillcraft)
 							I.add_fingerprint(user)
@@ -336,6 +337,7 @@
 								I.OnCrafted(user.dir, user)
 							if(isitem(I))
 								var/obj/item/CI = I
+								CI.was_crafted = TRUE
 								if(CI.has_item_quality)
 									CI.apply_quality(user, R.skillcraft)
 							I.add_fingerprint(user)

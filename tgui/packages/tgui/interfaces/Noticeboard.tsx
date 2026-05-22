@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
+  inkButtonStyle,
   pageStyle,
   rulerStyle,
   subtitleStyle,
@@ -22,7 +23,15 @@ export const Noticeboard = () => {
   return (
     <Window title="Noticeboard" width={1000} height={760} theme="parchment">
       <Window.Content scrollable>
-        <div style={pageStyle}>
+        <div style={{ ...pageStyle, position: 'relative' }}>
+          <button
+            type="button"
+            title="Refresh market data (5s cooldown)"
+            style={{ ...inkButtonStyle({}), position: 'absolute', top: 8, right: 8 }}
+            onClick={() => act('refresh_market')}
+          >
+            ↻
+          </button>
           <div style={titleStyle}>The Notice Board</div>
           <div style={subtitleStyle}>
             of {data.realm_name || 'the realm'} &middot; postings of the realm and her commons

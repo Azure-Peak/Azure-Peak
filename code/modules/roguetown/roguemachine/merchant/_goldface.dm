@@ -366,11 +366,9 @@
 	var/list/realms = list()
 	for(var/realm_id in SSmerchant_trade.realms)
 		var/datum/foreign_realm/R = SSmerchant_trade.realms[realm_id]
-		var/discovered = SSmerchant_trade.is_discovered(R.id)
 		var/list/rrow = list(
 			"id" = R.id,
 			"name" = R.name,
-			"discovered" = discovered ? TRUE : FALSE,
 			"cultural_goods" = R.cultural_goods ? R.cultural_goods.Copy() : list(),
 			"cultural_pack_names" = cultural_pack_names(R.cultural_stock_pool),
 			"basic_buys" = pool_good_names(R.bulk_demand_pool, TRUE),
@@ -379,15 +377,14 @@
 			"rare_sells" = pool_good_names(R.bulk_supply_pool, FALSE),
 			"demanded_categories" = R.demanded_categories ? R.demanded_categories.Copy() : list(),
 		)
-		if(discovered)
-			var/list/condition_entries = list()
-			for(var/datum/realm_condition/C as anything in SSmerchant_trade.active_conditions_for(R.id))
-				condition_entries += list(list(
-					"name" = C.name,
-					"description" = C.description,
-					"tone" = C.tone,
-				))
-			rrow["market_conditions"] = condition_entries
+		var/list/condition_entries = list()
+		for(var/datum/realm_condition/C as anything in SSmerchant_trade.active_conditions_for(R.id))
+			condition_entries += list(list(
+				"name" = C.name,
+				"description" = C.description,
+				"tone" = C.tone,
+			))
+		rrow["market_conditions"] = condition_entries
 		realms += list(rrow)
 	return list(
 		"ships_docked" = docked,
@@ -436,6 +433,8 @@
 	data["categories"] = rows
 	data["category_count"] = length(rows)
 	data["theme_dispatch"] = build_market_theme_dispatch(SSmerchant_trade.pool_theme_jitters)
+	data["realm_demand_matrix"] = SSmerchant_trade.build_realm_demand_matrix()
+	data["all_buckets"] = all_navigator_buckets()
 	return data
 
 /obj/structure/roguemachine/goldface/proc/build_ledger_data()
@@ -807,12 +806,6 @@
 	switch(result)
 		if("ok")
 			to_chat(user, span_notice("You signal the [ship.ship_name] to make port. She is being brought in now."))
-			speak_captain_hail(ship, user)
-		if("ok_first")
-			var/datum/foreign_realm/realm = SSmerchant_trade.realms[ship.realm_id]
-			var/realm_name = realm ? realm.name : ship.realm_id
-			to_chat(user, span_notice("You signal the [ship.ship_name] to make port. She is being brought in now."))
-			to_chat(user, span_info("The captain of the [ship.ship_name] is the first of [realm_name] to make port this week. They bring fresh dispatches from [realm_name] - their markets and news are now clear to you."))
 			speak_captain_hail(ship, user)
 		if("no_hails")
 			to_chat(user, span_warning("You have no hails left to spend today."))

@@ -50,7 +50,6 @@ export type MarketCondition = {
 export type HarborRealm = {
   id: string;
   name: string;
-  discovered: BooleanLike;
   cultural_goods: string[];
   cultural_pack_names: string[];
   basic_buys: string[];

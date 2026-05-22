@@ -4,7 +4,6 @@ SUBSYSTEM_DEF(merchant_trade)
 	init_order = INIT_ORDER_MERCHANT_TRADE
 	var/last_processed_day = -1
 	var/list/datum/foreign_realm/realms = list()
-	var/list/discovered_realms = list()
 	var/list/datum/trade_ship/all_ships = list()
 	var/hails_remaining = 0
 	var/list/active_conditions = list()
@@ -36,6 +35,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/hails_by_realm = list()
 	var/list/dock_durations_by_realm = list()
 	var/list/favor_earned_by_realm = list()
+	var/list/market_watchers = list()
 
 /datum/controller/subsystem/merchant_trade/proc/set_merchant_levy(new_percent)
 	new_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
@@ -64,8 +64,6 @@ SUBSYSTEM_DEF(merchant_trade)
 			qdel(R)
 			continue
 		realms[R.id] = R
-		if(R.auto_discovered)
-			discovered_realms[R.id] = TRUE
 	roll_active_conditions()
 	hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
 	roll_daily_pool()
@@ -103,16 +101,21 @@ SUBSYSTEM_DEF(merchant_trade)
 
 /datum/controller/subsystem/merchant_trade/proc/resnapshot_market_pools()
 	var/new_pop = compute_pop_count_for_pools()
+	var/changed = FALSE
 	if(new_pop > pool_pop_snapshot)
 		pool_pop_snapshot = new_pop
 		for(var/bucket in all_navigator_buckets())
 			var/new_cap = compute_navigator_bucket_capacity(bucket, pool_pop_snapshot, pool_theme_jitters)
 			if(new_cap > pool_capacity[bucket])
 				pool_capacity[bucket] = new_cap
+				changed = TRUE
 			var/new_bm_cap = round(new_cap * MARKET_BM_POOL_FRACTION)
 			if(new_bm_cap > bm_pool_capacity[bucket])
 				bm_pool_capacity[bucket] = new_bm_cap
+				changed = TRUE
 	schedule_pool_resnapshot()
+	if(changed)
+		broadcast_market_change()
 
 /datum/controller/subsystem/merchant_trade/proc/regen_bm_saturation_daily()
 	for(var/cat in bm_pool_capacity)
@@ -132,6 +135,38 @@ SUBSYSTEM_DEF(merchant_trade)
 
 /datum/controller/subsystem/merchant_trade/proc/get_bm_demand_multiplier(category)
 	return 1.0
+
+/datum/controller/subsystem/merchant_trade/proc/build_realm_demand_matrix()
+	var/list/out = list()
+	for(var/realm_id in realms)
+		var/datum/foreign_realm/R = realms[realm_id]
+		var/list/buckets = list()
+		for(var/cat in R.demanded_categories)
+			var/bucket = (cat in all_navigator_buckets()) ? cat : get_navigator_bucket_for_category(cat)
+			if(bucket && !(bucket in buckets))
+				buckets += bucket
+		out += list(list(
+			"realm_id" = R.id,
+			"name" = R.name,
+			"demanded" = buckets,
+		))
+	return out
+
+/datum/controller/subsystem/merchant_trade/proc/register_market_watcher(atom/A)
+	if(A && !(A in market_watchers))
+		market_watchers += A
+
+/datum/controller/subsystem/merchant_trade/proc/unregister_market_watcher(atom/A)
+	market_watchers -= A
+
+/// Pushes a full TGUI static-data update to every registered market watcher. Called when
+/// market-relevant state (saturation, ship demand, weekly resnapshot) actually mutates.
+/datum/controller/subsystem/merchant_trade/proc/broadcast_market_change()
+	for(var/atom/A as anything in market_watchers)
+		if(!A || QDELETED(A))
+			market_watchers -= A
+			continue
+		A.update_static_data_for_all_viewers()
 
 /datum/controller/subsystem/merchant_trade/proc/add_ship_demand_for_realm(datum/foreign_realm/realm)
 	if(!realm || !length(realm.demanded_categories))
@@ -172,6 +207,13 @@ SUBSYSTEM_DEF(merchant_trade)
 	if(cap <= 0)
 		return 1.0
 	var/demand = pending_ship_demand[category] || 0
+	if(demand <= 0)
+		// Buckets exempt from the no-ship dampener. Valuables are precious by nature
+		// and Seafood is the fishermen's baseline livelihood - neither should crash
+		// just because no foreign ship is in port.
+		if(category == NAVIGATOR_BUCKET_VALUABLES_CRAFTED || category == NAVIGATOR_BUCKET_VALUABLES_LOOTED || category == NAVIGATOR_BUCKET_SEAFOOD)
+			return 1.0
+		return MARKET_DEMAND_NO_SHIP_FLOOR
 	var/ratio = demand / cap
 	var/mult = 1 + ratio * (MARKET_DEMAND_PAYOUT_MAX_MULT - 1) / MARKET_DEMAND_MAX_POOL_MULT
 	return min(MARKET_DEMAND_PAYOUT_MAX_MULT, mult)
@@ -257,17 +299,6 @@ SUBSYSTEM_DEF(merchant_trade)
 /datum/controller/subsystem/merchant_trade/proc/get_realm(realm_id)
 	return realms[realm_id]
 
-/datum/controller/subsystem/merchant_trade/proc/is_discovered(realm_id)
-	return !!discovered_realms[realm_id]
-
-/datum/controller/subsystem/merchant_trade/proc/discover_realm(realm_id)
-	if(!realms[realm_id])
-		return FALSE
-	if(discovered_realms[realm_id])
-		return FALSE
-	discovered_realms[realm_id] = TRUE
-	return TRUE
-
 /datum/controller/subsystem/merchant_trade/proc/generate_ship(realm_id)
 	var/datum/foreign_realm/realm = realms[realm_id]
 	if(!realm)
@@ -316,11 +347,8 @@ SUBSYSTEM_DEF(merchant_trade)
 	ship.dock()
 	announce_dock(ship)
 	hails_by_realm[ship.realm_id] = (hails_by_realm[ship.realm_id] || 0) + 1
-	var/datum/foreign_realm/realm = realms[ship.realm_id]
-	var/first_of_realm = realm && !is_discovered(realm.id)
-	if(first_of_realm)
-		discover_realm(realm.id)
-	return first_of_realm ? "ok_first" : "ok"
+	broadcast_market_change()
+	return "ok"
 
 /datum/controller/subsystem/merchant_trade/proc/send_away_ship(ship_id, mob/sender)
 	var/datum/trade_ship/ship = find_ship_by_id(ship_id)
@@ -341,6 +369,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	remove_ship_demand_for_realm(realm)
 	all_ships -= ship
 	qdel(ship)
+	broadcast_market_change()
 	return "ok"
 
 /datum/controller/subsystem/merchant_trade/proc/resolve_ship_favor(datum/trade_ship/ship, datum/foreign_realm/realm)

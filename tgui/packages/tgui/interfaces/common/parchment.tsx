@@ -118,6 +118,21 @@ export const cardStyle: CSSProperties = {
   boxShadow: '1px 1px 4px var(--p-card-shadow)',
 };
 
+export const dashedFrameStyle: CSSProperties = {
+  padding: '8px 10px',
+  border: `1px dashed ${INK_FAINT}`,
+  textAlign: 'left',
+  fontSize: '12px',
+  lineHeight: 1.4,
+  color: INK_SOFT,
+};
+
+export const stickyLeftCellStyle: CSSProperties = {
+  position: 'sticky',
+  left: 0,
+  background: 'var(--p-card-bg)',
+};
+
 export const badgeStyle = (color: string): CSSProperties => ({
   display: 'inline-block',
   fontFamily: SERIF,

@@ -166,6 +166,7 @@
 	needed_item_text = null
 
 /datum/anvil_recipe/proc/handle_creation(obj/item/I)
+	I.was_crafted = TRUE
 	numberofhits = ceil(numberofhits / num_of_materials) // Divide the hits equally among the number of bars required, rounded up.
 	if(numberofbreakthroughs) // Hitting the bar the perfect way should be rewarding quality-wise
 		numberofhits -= numberofbreakthroughs
