@@ -366,7 +366,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/thrill_of_the_hunt
 	duration = 5 MINUTES
 	tick_interval = 2 SECONDS
-	effectedstats = list(STATKEY_SPD = 2, STATKEY_WIL = 2)
 	var/mob/living/tracked_target
 
 /datum/status_effect/buff/thrill_of_the_hunt/on_creation(mob/living/new_owner, mob/living/target)
