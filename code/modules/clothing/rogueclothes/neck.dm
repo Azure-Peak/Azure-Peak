@@ -871,6 +871,7 @@
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
 	anvilrepair = /datum/skill/craft/armorsmithing
+	no_loot_taint = TRUE
 
 /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	var/choicename = FALSE
@@ -997,6 +998,7 @@
 	color = "#00FF00"
 	resistance_flags = FIRE_PROOF
 	sellprice = 222
+	no_loot_taint = TRUE
 	smeltresult = /obj/item/roguegem/green
 	anvilrepair = /datum/skill/craft/armorsmithing
 	var/luckyskull = FALSE
@@ -1186,6 +1188,7 @@
 	sellprice = 0
 	salvage_result = null
 	smeltresult = null
+	no_loot_taint = TRUE
 
 /obj/item/clothing/neck/roguetown/carved/jadeamulet
 	name = "jade amulet"

@@ -372,9 +372,6 @@
 		if(length(boost_categories))
 			visible_message(span_notice("The balloon reports eager buyers - prices on [english_list(boost_categories)] were lifted higher."))
 
-/// Parallel-bites payout. Crown duty and Merchant levy both come off gross; the levy is
-/// itself subject to Crown income duty so the producer's tax base doesn't shrink because
-/// the Merchant exists. Producer net drops on src tile, levy drops on the tile facing src.dir.
 /obj/item/roguemachine/navigator/proc/settle_export(gross)
 	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
 	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0

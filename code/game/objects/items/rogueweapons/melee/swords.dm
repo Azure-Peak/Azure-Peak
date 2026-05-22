@@ -99,6 +99,7 @@
 	name = "decorated arming sword"
 	desc = "A valuable ornate arming sword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."
 	icon_state = "decsword1"
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/decorated/Initialize()
 	. = ..()
@@ -976,6 +977,7 @@
 	max_integrity = 300
 	smeltresult = /obj/item/ingot/gold
 	wdefense = 5
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/sabre/bronzekhopesh
 	name = "khopesh"
@@ -1483,6 +1485,7 @@
 	obverse reads, \"YE NOT GUILTY\"."
 	icon_state = "decrapier"
 	sheathe_icon = "decrapier"
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/rapier/silver
 	name = "silver rapier"
@@ -1688,6 +1691,7 @@
 	icon_state = "ram_dao"
 	sheathe_icon = "scabbard_decsword3"
 	force = 25
+	no_loot_taint = TRUE
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
 	gripped_intents = null
 	minstr = 11
@@ -1941,6 +1945,7 @@
 	desc = "A valuable ornate longsword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard. \
 	Its blade bears twin inscriptions on either side. One reads, \"THY KINGDOM COME\" while the obverse reads, \"THY WILL BE DONE\"."
 	icon_state = "declongsword"
+	no_loot_taint = TRUE
 
 // kazengite content
 // Stronger offense less defense sword meant to be paired w/ scabbard for parrying
@@ -2231,6 +2236,7 @@
 	sheathe_icon = "goldsword"
 	wbalance = WBALANCE_HEAVY
 	unenchantable = TRUE
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/blacksteel
 	name = "blacksteel arming sword"
@@ -2254,6 +2260,7 @@
 	sheathe_icon = "bs_swordregal"
 	wdefense = 7
 	sellprice = 250
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/short/gronn
 	name = "gronnic hinterblade"

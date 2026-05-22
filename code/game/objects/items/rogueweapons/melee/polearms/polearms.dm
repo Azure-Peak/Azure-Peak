@@ -1167,6 +1167,7 @@
 	force = 23
 	force_wielded = 30
 	sellprice = 50
+	no_loot_taint = TRUE
 	max_integrity = 250 //equal to psydonite; putting it at half of this was a neat little experiment but agonizing
 
 

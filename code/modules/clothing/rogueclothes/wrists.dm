@@ -72,6 +72,7 @@
 	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
 	sellprice = 300
 	unenchantable = TRUE
+	no_loot_taint = TRUE
 
 /obj/item/clothing/wrists/roguetown/bracers/lirvas
 	name = "lirvasi pauldrons"

@@ -293,6 +293,7 @@
 	max_integrity = 300
 	smeltresult = /obj/item/ingot/gold
 	wdefense = 5
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 	name = "ancient alloy axe"

@@ -2,12 +2,14 @@
 	name = "fake crown"
 	desc = "You shouldn't be seeing this."
 	icon_state = "serpcrown"
+	no_loot_taint = TRUE
 
 /obj/item/clothing/head/roguetown/crown/surplus
 	name = "crown"
 	icon_state = "serpcrowno"
 	sellprice = 100
 	allowed_race = list(/datum/species/goblinp)
+	no_loot_taint = TRUE
 
 /obj/item/clothing/head/roguetown/crown/sparrowcrown
 	name = "champion's circlet"
@@ -18,6 +20,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	sellprice = 50
 	anvilrepair = /datum/skill/craft/armorsmithing
+	no_loot_taint = TRUE
 
 /obj/item/clothing/head/roguetown/nyle
 	name = "jewel of nyle"
@@ -28,6 +31,7 @@
 	sellprice = 100
 	resistance_flags = FIRE_PROOF
 	anvilrepair = /datum/skill/craft/armorsmithing
+	no_loot_taint = TRUE
 
 /obj/item/clothing/head/roguetown/nyle/consortcrown
 	name = "gem-encrusted crown"
@@ -42,6 +46,7 @@
 	icon_state = "circlet"
 	item_state = "circlet"
 	sellprice = 50
+	no_loot_taint = TRUE
 
 /obj/item/clothing/head/roguetown/circlet/carvedgem
 	name = "generic carved gem circlet"

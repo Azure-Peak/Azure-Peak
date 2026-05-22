@@ -258,6 +258,7 @@
 	smelt_bar_num = 1
 	sellprice = 150
 	is_silver = TRUE
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/steel/silver/decorated/ComponentInitialize()
 	AddComponent(\
@@ -281,6 +282,7 @@
 	minstr = 11
 	smeltresult = /obj/item/ingot/gold
 	unenchantable = TRUE
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/woodclub
 	force = 15
@@ -760,6 +762,7 @@
 	smeltresult = /obj/item/ingot/gold
 	wdefense = 5
 	max_integrity = 250
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/warhammer/alloy
 	name = "decrepit warhammer"

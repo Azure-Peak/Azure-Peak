@@ -401,6 +401,8 @@
 
 /mob/living/carbon/human/proc/flag_worn_as_looted()
 	for(var/obj/item/I in get_equipped_items(TRUE) + held_items)
+		if(I.no_loot_taint)
+			continue
 		I.mark_as_looted()
 
 

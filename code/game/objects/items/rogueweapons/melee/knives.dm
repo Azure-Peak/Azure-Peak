@@ -533,6 +533,7 @@
 	desc = "A valuable ornate dagger made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."
 	icon_state = "decdagger"
 	sheathe_icon = "decdagger"
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
 	name = "stalker dagger"

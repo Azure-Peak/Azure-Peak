@@ -29,6 +29,7 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 	var/sellprice = 0 //sanitize this somewhere so it cant be decimals
 	var/static_price = FALSE
 	var/looted = FALSE
+	var/no_loot_taint = FALSE
 
 /atom/movable/proc/randomize_price()
 	if(sellprice)

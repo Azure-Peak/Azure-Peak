@@ -14,6 +14,7 @@
 	drop_sound = 'sound/foley/coinphy (1).ogg'
 	salvage_result = null
 	alternate_worn_layer = NECK_LAYER
+	no_loot_taint = TRUE
 	var/overarmor
 
 /obj/item/clothing/ring/MiddleClick(mob/user, params)
