@@ -292,7 +292,7 @@
 			var/remaining = (cooldown_until - world.time) / 10
 			to_chat(user, span_warning("The Mossmother is satiated. It will not hunger again for another [round(remaining)] seconds."))
 			return
-		to_chat(user, span_boldgreen("You start to feed the tree lux"))
+		to_chat(user, span_boldgreen("You start to feed the tree lux."))
 		if(!do_after(user, 2 SECONDS))
 			return
 		if(world.time < cooldown_until)
