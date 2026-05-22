@@ -5,6 +5,7 @@ import {
   cardStyle,
   fieldRowStyle,
   INK,
+  INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
   PARCHMENT_SHADOW,
@@ -18,6 +19,29 @@ import type { ActFn, CommissionerData } from './types';
 const starsIf = (text: string, canRead: boolean) =>
   canRead ? text : text.replace(/[A-Za-z0-9]/g, '*');
 
+const CapStatus = (props: { data: CommissionerData }) => {
+  const { data } = props;
+  const cap = data.item_cap_per_order;
+  const count = data.my_manifest_items;
+  const overCap = count > cap;
+  return (
+    <div
+      style={{
+        ...cardStyle,
+        marginBottom: '8px',
+        fontFamily: SERIF,
+        fontSize: '11px',
+        color: INK_FAINT,
+        fontStyle: 'italic',
+      }}
+    >
+      Your manifest holds{' '}
+      <b style={{ color: overCap ? SEAL_RED : INK }}>{count}</b> of {cap}{' '}
+      allowed item{cap === 1 ? '' : 's'} per commission.
+    </div>
+  );
+};
+
 export const ManifestTab = (props: {
   data: CommissionerData;
   act: ActFn;
@@ -27,13 +51,23 @@ export const ManifestTab = (props: {
   const lines = data.manifest;
   const total = data.manifest_total;
   const deposit = data.my_deposit;
-  const canSubmit = lines.length > 0 && deposit >= total && total > 0;
+  const cap = data.item_cap_per_order;
+  const itemCount = data.my_manifest_items;
+  const hasActive = !!data.has_active_order;
+  const overCap = itemCount > cap;
+  const canSubmit =
+    lines.length > 0 &&
+    deposit >= total &&
+    total > 0 &&
+    !overCap &&
+    !hasActive;
   const shortfall = total - deposit;
   const [note, setNote] = useState('');
 
   if (lines.length === 0) {
     return (
       <>
+        <CapStatus data={data} />
         <div
           style={{
             ...cardStyle,
@@ -72,6 +106,7 @@ export const ManifestTab = (props: {
 
   return (
     <>
+      <CapStatus data={data} />
       <div>
         {lines.map((line) => (
           <div
@@ -227,6 +262,34 @@ export const ManifestTab = (props: {
         </div>
       )}
 
+      {overCap && (
+        <div
+          style={{
+            marginTop: '8px',
+            textAlign: 'center',
+            fontSize: '12px',
+            color: SEAL_RED,
+          }}
+        >
+          This commission asks for {itemCount} items; the cap is {cap}. Trim the
+          manifest.
+        </div>
+      )}
+
+      {hasActive && (
+        <div
+          style={{
+            marginTop: '8px',
+            textAlign: 'center',
+            fontSize: '12px',
+            color: SEAL_RED,
+          }}
+        >
+          You already have an active commission here. Finish or cancel it before
+          posting another.
+        </div>
+      )}
+
       <div
         style={{
           marginTop: '12px',
@@ -293,6 +356,18 @@ export const ManifestTab = (props: {
       >
         Insert coins into the machine to build your deposit. Posting locks the
         coin in escrow; the smith collects it on completion.
+      </div>
+
+      <div
+        style={{
+          marginTop: '6px',
+          textAlign: 'center',
+          fontSize: '11px',
+          fontStyle: 'italic',
+          color: SEAL_RED,
+        }}
+      >
+        Warning: your REAL NAME will be shown on the posted commission.
       </div>
     </>
   );

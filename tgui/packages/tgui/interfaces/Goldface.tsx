@@ -32,7 +32,7 @@ export const Goldface = () => {
     <button
       type="button"
       title="Open the economy guidebook"
-      style={{ ...inkButtonStyle({}), marginLeft: 'auto' }}
+      style={inkButtonStyle({})}
       onClick={() => act('help')}
     >
       ?
@@ -86,6 +86,7 @@ export const Goldface = () => {
   return (
     <Window width={880} height={800} theme="parchment">
       <Window.Content scrollable>
+        <div style={{ position: 'relative' }}>
         <div style={tabBarStyle}>
           <div
             style={tabStyle(activeTab === 'goods')}
@@ -133,7 +134,10 @@ export const Goldface = () => {
               Ledger
             </div>
           )}
+        </div>
+        <div style={{ position: 'absolute', right: 0, top: '10px' }}>
           {helpButton}
+        </div>
         </div>
         {mammonBar}
         {activeTab === 'goods' && <VendingPanel data={data} act={act} />}

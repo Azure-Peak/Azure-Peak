@@ -85,6 +85,7 @@
 	var/list/material_prices
 	var/percent_margin = 70
 	var/flat_margin = 5
+	var/item_cap_per_order = 3
 	var/list/orders = list()
 	var/list/manifests = list()
 	var/list/manifest_deposits = list()
@@ -549,6 +550,9 @@
 	data["my_deposit"] = (user_key && manifest_deposits[user_key]) || 0
 	data["percent_margin"] = percent_margin
 	data["flat_margin"] = flat_margin
+	data["item_cap_per_order"] = item_cap_per_order
+	data["my_manifest_items"] = user_key ? manifest_item_count(user_key) : 0
+	data["has_active_order"] = (user_key && has_active_order(user_key)) ? TRUE : FALSE
 
 	if(catalog_view_dirty || isnull(cached_catalog_data))
 		rebuild_catalog_view()
@@ -693,6 +697,11 @@
 			if("toggle_lock")
 				toggle_lock(usr)
 				return TRUE
+			if("set_item_cap")
+				var/n = text2num(params["value"])
+				if(isnum(n))
+					item_cap_per_order = clamp(round(n), 1, 10)
+				return TRUE
 
 	if(!locked)
 		to_chat(usr, span_warning("[src] is open for guild adjustments - turn the key to close it before posting or claiming work."))
@@ -788,12 +797,37 @@
 		total += recipe_price(k) * cart[k]
 	return total
 
+/obj/structure/roguemachine/escrow/proc/has_active_order(key)
+	if(!key)
+		return FALSE
+	for(var/datum/escrow_order/O in orders)
+		if(O.commissioner_name == key && (O.status == "open" || O.status == "claimed"))
+			return TRUE
+	return FALSE
+
+/obj/structure/roguemachine/escrow/proc/manifest_item_count(key)
+	var/total = 0
+	if(!key)
+		return 0
+	var/list/cart = manifests[key]
+	if(!cart)
+		return 0
+	for(var/k in cart)
+		total += cart[k]
+	return total
+
 /obj/structure/roguemachine/escrow/proc/submit_manifest(mob/user, note = "")
 	var/key = escrow_key(user)
 	if(!key)
 		return
 	var/list/cart = manifests[key]
 	if(!length(cart))
+		return
+	if(has_active_order(key))
+		to_chat(user, span_warning("You already have an active commission here - finish or cancel it before posting another."))
+		return
+	if(manifest_item_count(key) > item_cap_per_order)
+		to_chat(user, span_warning("This commission asks for more than [item_cap_per_order] item\s - trim the manifest or raise the cap."))
 		return
 	var/total = manifest_total(user)
 	var/deposit = manifest_deposits[key] || 0

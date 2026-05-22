@@ -196,7 +196,20 @@ export const ConfigPanel = (props: {
         </button>
       </div>
 
-      <div style={sectionHeaderStyle}>Pricing Margins</div>
+      <div style={sectionHeaderStyle}>Commission Limits</div>
+      <MarginRow
+        label="Items per Order"
+        hint="max items in a single commission (1 active order per person)"
+        current={data.item_cap_per_order}
+        minValue={1}
+        maxValue={10}
+        step={1}
+        onSet={(v) => act('set_item_cap', { value: v })}
+      />
+
+      <div style={{ ...sectionHeaderStyle, marginTop: '16px' }}>
+        Pricing Margins
+      </div>
       <MarginRow
         label="Percent Margin"
         hint="% added to material cost"

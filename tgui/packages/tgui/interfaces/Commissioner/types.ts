@@ -71,6 +71,9 @@ export type CommissionerData = {
   my_deposit: number;
   percent_margin: number;
   flat_margin: number;
+  item_cap_per_order: number;
+  my_manifest_items: number;
+  has_active_order: BooleanLike;
   catalog: CatalogEntry[];
   categories: string[];
   ingots: string[];
