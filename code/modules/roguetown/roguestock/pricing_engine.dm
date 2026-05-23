@@ -2,6 +2,7 @@ GLOBAL_LIST_EMPTY(material_baseline_prices)
 GLOBAL_LIST_EMPTY(derived_sellprices)
 GLOBAL_LIST_EMPTY(derived_categories)
 GLOBAL_LIST_EMPTY(item_cat_markups)
+GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 
 /proc/init_item_cat_markups()
 	GLOB.item_cat_markups = list(
@@ -523,9 +524,15 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 		R.build_display_cache()
 
 /proc/apply_trade_good_categories()
+	GLOB.bulk_trade_item_types = list()
 	for(var/id in GLOB.trade_goods)
 		var/datum/trade_good/TG = GLOB.trade_goods[id]
-		if(!TG.item_type || !TG.display_category)
+		if(!TG.item_type)
+			continue
+		if(TG.behavior == TRADE_BEHAVIOR_RAW || TG.behavior == TRADE_BEHAVIOR_INTERMEDIARY)
+			for(var/subtype in typesof(TG.item_type))
+				GLOB.bulk_trade_item_types[subtype] = TG.id
+		if(!TG.display_category)
 			continue
 		for(var/subtype in typesof(TG.item_type))
 			GLOB.derived_categories[subtype] = TG.display_category

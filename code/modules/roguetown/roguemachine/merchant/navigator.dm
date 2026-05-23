@@ -353,6 +353,13 @@
 				var/base_price = I.get_real_price()
 				var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
 				var/bucket = get_navigator_bucket_for_item(I, category)
+				if(bucket == NAVIGATOR_BUCKET_MISCELLANEOUS)
+					if(GLOB.bulk_trade_item_types && GLOB.bulk_trade_item_types[I.type])
+						if(!refused_announced)
+							refused_announced = TRUE
+							I.visible_message(span_warning("The balloon refuses [I] - bulk goods belong in the ship hold, not the navigator."))
+						continue
+					log_admin("[src] (navigator) exported [I] ([I.type]) categorized as Miscellaneous at [AREACOORD(src)] for [base_price] base price.")
 				var/refusal_msg = get_navigator_refusal_message(bucket)
 				if(refusal_msg)
 					if(!refused_announced)
