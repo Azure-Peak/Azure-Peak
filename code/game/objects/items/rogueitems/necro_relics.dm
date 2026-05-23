@@ -9,7 +9,7 @@
 	var/use_cooldown = 300 // 30 seconds
 	var/list/active_skeletons = list() //List of active skeletons stored here.
 	var/max_summons = 5 //Maximum amount of skeletons that can be summoned at one time.
-	var/max_charges = 2 //Maximum amount of charges the crystal can hold. Less than max to encourage summoning and being more obvious for more leeway.
+	var/max_charges = 3 //Maximum amount of charges the crystal can hold.
 	var/current_charges = 2
 	grid_height = 32
 	grid_width = 32
