@@ -3,7 +3,7 @@
 	desc = "A great coop of wood and iron where carrier zads are kept, fed, and dispatched abroad."
 	icon = 'icons/roguetown/misc/zadcote.dmi'
 	icon_state = "zadcote"
-	density = TRUE
+	density = FALSE
 	anchored = TRUE
 	w_class = WEIGHT_CLASS_GIGANTIC
 	max_integrity = 0
@@ -41,6 +41,8 @@
 			continue
 		var/turf/spawn_at = forced_tile || get_turf(src)
 		var/obj/item/zadcage/cage = new(spawn_at)
+		cage.pixel_x = 1
+		cage.pixel_y = 0
 		attach_cage(cage, null)
 
 /obj/item/roguemachine/zadcote/Destroy()
