@@ -8,6 +8,8 @@
 	var/descend_time = rand(ZAD_FLIGHT_BOMB_LANDING_MIN, ZAD_FLIGHT_BOMB_LANDING_MAX)
 	play_zad_bomb_descend(src, flight.zads_used, flight.bombs, descend_time)
 	balloon_alert_to_viewers("<font color='#ff2222'><b>[bomb_word]!!!</b></font>")
+	if(flight.bomb_caw)
+		say("<font color='#ff2222'>[flight.bomb_caw]</font>")
 	playsound(src, 'sound/items/blackeye_warn.ogg', 80, FALSE, 4)
 	playsound(src, pick('sound/vo/mobs/bird/CROW_01.ogg','sound/vo/mobs/bird/CROW_02.ogg','sound/vo/mobs/bird/CROW_03.ogg'), 70, TRUE, 3)
 	if(holder)

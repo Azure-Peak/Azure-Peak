@@ -28,25 +28,46 @@
 	var/turf/cage_turf = get_turf(src)
 	message_admins("ZAD VOYEUR: [operator.real_name] ([operator.ckey]) scryed via zadcage on [holder ? "[holder.real_name] ([holder.ckey])" : "the empty cage at [AREACOORD(cage_turf)]"]")
 	log_game("ZAD VOYEUR: [operator.real_name] ([operator.ckey]) scryed via zadcage on [holder ? "[holder.real_name] ([holder.ckey])" : "the empty cage"]")
-	visible_message(span_notice("A strange blue glow emits from the zad in [src]."))
+	var/atom/movable/broadcaster = visible_holder()
+	var/source_desc
+	if(broadcaster == src)
+		source_desc = "the zad in [src]"
+	else if(ismob(broadcaster))
+		source_desc = "a zadcage on [broadcaster]"
+	else
+		source_desc = "[broadcaster]"
+	broadcaster.visible_message(span_notice("A strange blue glow emits from [source_desc]."))
 	add_filter("zad_voyeur_glow", 2, list("type" = "outline", "size" = 1, "color" = "#4488ff"))
 	set_light(2, 2, 2, l_color = "#1b7bf1")
 	var/mob/dead/observer/screye/zadcote_voyeur/S = spawn_zad_screye(operator)
 	if(!S)
-		remove_filter("zad_voyeur_glow")
-		set_light(0)
+		end_voyeur_visuals()
 		return
+	S.bonded_cage = WEAKREF(src)
+	active_voyeur_screye = WEAKREF(S)
+	if(holder)
+		active_voyeur_holder = WEAKREF(holder)
 	S.ManualFollow(target)
 	operator.visible_message(span_danger("[operator] stares into the zadcote, [operator.p_their()] eyes rolling back into [operator.p_their()] head."))
-	to_chat(S, span_notice("You see through the zad's eyes. Click <b>Stop Scrying</b> in the IC tab to return early; otherwise the bond breaks on its own after [time2text(ZAD_VOYEUR_DURATION)]."))
+	to_chat(S, span_notice("You see through the zad's eyes. Click <b>Stop Scrying</b> in the IC tab to return early; otherwise the bond breaks on its own after [ZAD_VOYEUR_DURATION / (1 MINUTES)] minute\s."))
 	if(holder && holder.stat != DEAD && holder.stat != UNCONSCIOUS)
 		holder.throw_alert("scryingeye", /atom/movable/screen/alert/scryingeye, override = TRUE)
 		to_chat(holder, span_warning("The zad in your zadcage stirs - you feel a pair of eyes peering through it."))
+		holder.balloon_alert_to_viewers("<font color='#b388ff'>scried!</font>")
 		holder.playsound_local(holder, 'sound/magic/scryed_on.ogg', 75, TRUE)
-	addtimer(CALLBACK(S, TYPE_PROC_REF(/mob/dead/observer, reenter_corpse)), ZAD_VOYEUR_DURATION)
+	addtimer(CALLBACK(src, PROC_REF(finish_voyeur)), ZAD_VOYEUR_DURATION)
+
+/obj/item/zadcage/proc/finish_voyeur()
+	var/mob/dead/observer/screye/zadcote_voyeur/S = active_voyeur_screye?.resolve()
+	var/mob/holder = active_voyeur_holder?.resolve()
+	active_voyeur_screye = null
+	active_voyeur_holder = null
+	end_voyeur_visuals()
 	if(holder)
-		addtimer(CALLBACK(holder, TYPE_PROC_REF(/mob/, clear_alert), "scryingeye", TRUE), ZAD_VOYEUR_DURATION)
-	addtimer(CALLBACK(src, PROC_REF(end_voyeur_visuals)), ZAD_VOYEUR_DURATION)
+		holder.clear_alert("scryingeye", TRUE)
+	if(S && !QDELETED(S))
+		S.bonded_cage = null
+		S.reenter_corpse()
 
 /obj/item/zadcage/proc/end_voyeur_visuals()
 	remove_filter("zad_voyeur_glow")
@@ -69,6 +90,7 @@
 
 /mob/dead/observer/screye/zadcote_voyeur
 	name = "scrying through a zad"
+	var/datum/weakref/bonded_cage
 
 /mob/dead/observer/screye/zadcote_voyeur/Initialize()
 	. = ..()
@@ -78,4 +100,8 @@
 	set category = "IC"
 	set name = "Stop Scrying"
 	set desc = "End the zad-scrying and return to your body."
-	reenter_corpse()
+	var/obj/item/zadcage/cage = bonded_cage?.resolve()
+	if(cage)
+		cage.finish_voyeur()
+	else
+		reenter_corpse()

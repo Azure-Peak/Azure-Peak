@@ -1,17 +1,19 @@
 /obj/item/zadcage
 	name = "zadcage"
-	desc = "A small cage made to ride on a belt. Empty perches inside."
+	desc = "A small cage made to ride on a belt. Empty perches inside. Too awkward to fit in most containers."
 	icon = 'icons/roguetown/misc/zadcage.dmi'
 	icon_state = "zadcage"
-	w_class = WEIGHT_CLASS_SMALL
+	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_HIP
-	grid_height = 32
-	grid_width = 32
+	grid_height = 96
+	grid_width = 96
 	var/datum/weakref/bonded_cote
 	var/datum/weakref/bonded_link
 	var/datum/zad_occupancy/current_occupancy
 	var/severed_announced = FALSE
 	var/list/obj/item/held_payload = list()
+	var/datum/weakref/active_voyeur_screye
+	var/datum/weakref/active_voyeur_holder
 
 /obj/item/zadcage/update_icon()
 	cut_overlays()
@@ -24,6 +26,8 @@
 
 /obj/item/zadcage/Destroy()
 	STOP_PROCESSING(SSroguemachine, src)
+	if(active_voyeur_screye)
+		finish_voyeur()
 	var/datum/zadlink/link = resolve_link()
 	if(link)
 		link.cage_ref = null
@@ -169,6 +173,14 @@
 		if(!isatom(cursor))
 			return null
 		cursor = cursor.loc
+	return cursor
+
+/obj/item/zadcage/proc/visible_holder()
+	var/atom/cursor = src
+	while(cursor.loc && !isturf(cursor.loc))
+		cursor = cursor.loc
+		if(ismob(cursor))
+			return cursor
 	return cursor
 
 /obj/item/zadcage/examine(mob/user)

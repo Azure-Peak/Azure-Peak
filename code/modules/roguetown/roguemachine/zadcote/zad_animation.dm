@@ -82,9 +82,41 @@
 	pixel_y = ZAD_FLIGHT_TRAVEL_HEIGHT
 	alpha = 255
 
-/obj/effect/temp_visual/zad_tracked/zad_flight/descend_long/proc/begin_descent()
-	animate(src, pixel_y = 0, time = duration - 3, easing = SINE_EASING)
+/obj/effect/temp_visual/zad_tracked/zad_flight/descend_long/proc/begin_descent(drift_time, plunge_time, drift_height, list/drift_plan)
+	animate_drift_plan(src, ZAD_FLIGHT_TRAVEL_HEIGHT, drift_height, drift_time, drift_plan)
+	animate(pixel_y = 0, time = plunge_time, easing = LINEAR_EASING)
 	animate(alpha = 0, time = 3)
+
+/proc/build_drift_plan()
+	var/segments = rand(3, 5)
+	var/list/time_shares = list()
+	var/list/distance_shares = list()
+	for(var/i in 1 to segments)
+		time_shares += rand(20, 80)
+		distance_shares += rand(20, 80)
+	return list("time_shares" = time_shares, "distance_shares" = distance_shares)
+
+/proc/animate_drift_plan(atom/movable/AM, start_y, end_y, total_time, list/plan)
+	var/list/time_shares = plan["time_shares"]
+	var/list/distance_shares = plan["distance_shares"]
+	var/segments = length(time_shares)
+	var/total_distance = start_y - end_y
+	var/time_total = 0
+	var/distance_total = 0
+	for(var/i in 1 to segments)
+		time_total += time_shares[i]
+		distance_total += distance_shares[i]
+	var/current_y = start_y
+	for(var/i in 1 to segments)
+		var/seg_time = round(total_time * (time_shares[i] / time_total))
+		var/seg_distance = round(total_distance * (distance_shares[i] / distance_total))
+		current_y -= seg_distance
+		if(i == segments)
+			current_y = end_y
+		if(i == 1)
+			animate(AM, pixel_y = current_y, time = max(seg_time, 1), easing = LINEAR_EASING)
+		else
+			animate(pixel_y = current_y, time = max(seg_time, 1), easing = LINEAR_EASING)
 
 /obj/effect/temp_visual/zad_tracked/zad_flight/plummet
 	icon = 'icons/roguetown/mob/monster/crow.dmi'
@@ -174,14 +206,20 @@
 	if(!source)
 		return
 	var/effect_duration = descend_time || ZAD_BOMB_DESCEND_DURATION_VAR_MAX
+	var/total = max(effect_duration - 3, 1)
+	var/plunge_time = rand(3, 5)
+	var/drift_time = max(total - plunge_time, 1)
+	var/drift_fraction_remaining = rand(25, 45) / 100
+	var/drift_height = ZAD_FLIGHT_TRAVEL_HEIGHT * drift_fraction_remaining
+	var/list/drift_plan = build_drift_plan()
 	for(var/i in 1 to count)
 		var/obj/effect/temp_visual/zad_tracked/zad_flight/descend_long/effect = new(get_turf(source))
 		effect.duration = effect_duration
 		var/list/offsets = zad_overlay_offset(i, count)
 		effect.pixel_x = offsets["x"]
 		attach_zad_effect(effect, source)
-		effect.begin_descent()
-	apply_bomb_payload_overlay(source, bomb_count, effect_duration, "descend_long")
+		effect.begin_descent(drift_time, plunge_time, drift_height, drift_plan)
+	apply_bomb_payload_overlay(source, bomb_count, effect_duration, "descend_long", drift_time, plunge_time, drift_fraction_remaining, drift_plan)
 
 /proc/play_zad_arrival(atom/source, count = 1)
 	if(!source)
@@ -223,7 +261,7 @@
 		animate(alpha = 0, time = 3)
 	attach_zad_effect(parcel, host)
 
-/proc/apply_bomb_payload_overlay(atom/host, bomb_count, duration, mode = "descend_long")
+/proc/apply_bomb_payload_overlay(atom/host, bomb_count, duration, mode = "descend_long", shared_drift_time, shared_plunge_time, shared_drift_fraction, list/shared_drift_plan)
 	if(!host || bomb_count <= 0)
 		return
 	var/effect_duration = duration || ZAD_BOMB_DESCEND_DURATION_VAR_MAX
@@ -254,7 +292,14 @@
 		else
 			bomb.pixel_y = ZAD_FLIGHT_TRAVEL_HEIGHT - 14
 			bomb.alpha = 255
-			animate(bomb, pixel_y = -14, time = effect_duration - 3, easing = SINE_EASING)
+			var/total = max(effect_duration - 3, 1)
+			var/drift_time = shared_drift_time || rand(total * 0.65, total * 0.9)
+			var/plunge_time = shared_plunge_time || (total - drift_time)
+			var/drift_fraction = shared_drift_fraction || (rand(25, 45) / 100)
+			var/drift_y = (ZAD_FLIGHT_TRAVEL_HEIGHT - 14) * drift_fraction - 14
+			var/list/plan = shared_drift_plan || build_drift_plan()
+			animate_drift_plan(bomb, ZAD_FLIGHT_TRAVEL_HEIGHT - 14, drift_y, drift_time, plan)
+			animate(pixel_y = -14, time = plunge_time, easing = LINEAR_EASING)
 			animate(alpha = 0, time = 3)
 		attach_zad_effect(bomb, host)
 
