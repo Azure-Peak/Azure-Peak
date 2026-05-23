@@ -16,11 +16,11 @@
 /datum/realm_condition/aavnr_steppe_drought
 	id = "aavnr_steppe_drought"
 	name = "Steppe Drought"
-	description = "The Steppes has been suffering from a severe drought. Grain grows dear, while hides are plentiful as livestock are slaughtered for sustenance. The price of grain skyrockets while hides are sold off cheap."
+	description = "The Steppes are dust. The grain fields have failed and the herds are being slaughtered for what they can yield. The Potentate's heralds beg foreign caravans for any sack of grain or oats, while hide is sold off cheap from the cull."
 	weight = 8
 	affected_realms = list(REALM_AAVNR)
 	supply_modifiers = list(
-		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_GRAIN, "price_mod" = CONDITION_PRICE_HEAVY, "qty_mod" = 1.0),
+		list("op" = CONDITION_OP_REMOVE, "good" = TRADE_GOOD_GRAIN),
 		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_HIDE, "price_mod" = CONDITION_PRICE_VERY_CHEAP, "qty_mod" = CONDITION_QTY_HEAVY),
 	)
 	demand_modifiers = list(
@@ -171,11 +171,11 @@
 /datum/realm_condition/gronn_long_winter
 	id = "gronn_long_winter"
 	name = "Long Winter"
-	description = "The Fjall is three months under snow and the straits froze early. Hide is dear, the holds hunger for grain at any price, and coal trades for its weight in silver."
+	description = "The Fjall is three months under snow and the straits froze early. Hide is hoarded against the cold, the holds hunger for grain at any price, and coal trades for its weight in silver."
 	weight = 8
 	affected_realms = list(REALM_GRONN)
 	supply_modifiers = list(
-		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_HIDE, "price_mod" = CONDITION_PRICE_MODERATE, "qty_mod" = 1.0),
+		list("op" = CONDITION_OP_REMOVE, "good" = TRADE_GOOD_HIDE),
 	)
 	demand_modifiers = list(
 		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_GRAIN, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_DESPERATE),
@@ -346,11 +346,11 @@
 /datum/realm_condition/lingyue_river_flood
 	id = "lingyue_river_flood"
 	name = "River Flood"
-	description = "The Ciwai has overrun its banks for the first time in twelve yils. Rice and cloth are scarce and dear. The dispossessed of three counties demand foreign grain and rice at any cost."
+	description = "The Ciwai has overrun its banks for the first time in twelve yils. The paddies are drowned and the cloth-villages are washed downstream. The dispossessed of three counties demand foreign grain and rice at any cost."
 	weight = 8
 	affected_realms = list(REALM_LINGYUE)
 	supply_modifiers = list(
-		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_RICE, "price_mod" = CONDITION_PRICE_HEAVY, "qty_mod" = 1.0),
+		list("op" = CONDITION_OP_REMOVE, "good" = TRADE_GOOD_RICE),
 		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_CLOTH, "price_mod" = CONDITION_PRICE_MODERATE, "qty_mod" = CONDITION_QTY_LOW),
 	)
 	demand_modifiers = list(
@@ -602,13 +602,13 @@
 /datum/realm_condition/cross_raneshen_drought
 	id = "cross_raneshen_drought"
 	name = "Ranesheni Drought"
-	description = "The Raneshen continent's harvests have collapsed. Rice and garlick from the Ranesheni heartlands are produced expensively, while Lirvas's tributary fields wither in tandem. Both realms beg for foreign grain and oats."
+	description = "The Raneshen continent's harvests have collapsed. The Ranesheni heartlands ship no rice or garlick this season, and Lirvas's tributary fields wither in tandem. Both realms beg for foreign grain and oats."
 	weight = 6
 	cross_realm = TRUE
 	affected_realms = list(REALM_RANESHEN, REALM_LIRVAS)
 	supply_modifiers = list(
-		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_RICE, "price_mod" = CONDITION_PRICE_HEAVY, "qty_mod" = 1.0),
-		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_GARLICK, "price_mod" = CONDITION_PRICE_HEAVY, "qty_mod" = 1.0),
+		list("op" = CONDITION_OP_REMOVE, "good" = TRADE_GOOD_RICE),
+		list("op" = CONDITION_OP_REMOVE, "good" = TRADE_GOOD_GARLICK),
 	)
 	demand_modifiers = list(
 		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_GRAIN, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_DESPERATE),
@@ -618,12 +618,12 @@
 /datum/realm_condition/cross_aavnr_naledi_drought
 	id = "cross_aavnr_naledi_drought"
 	name = "Southern Drought"
-	description = "A scorching season has dried the Aavnic steppes and the dunes alike. Naledian rice arrives expensive and thin, while both the Potentate and the Malikat beg the seafaring realms for grain and oats."
+	description = "A scorching season has dried the Aavnic steppes and the dunes alike. The Naledian rice paddies have gone to dust, while both the Potentate and the Malikat beg the seafaring realms for grain and oats."
 	weight = 6
 	cross_realm = TRUE
 	affected_realms = list(REALM_AAVNR, REALM_NALEDI)
 	supply_modifiers = list(
-		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_RICE, "price_mod" = CONDITION_PRICE_HEAVY, "qty_mod" = 1.0),
+		list("op" = CONDITION_OP_REMOVE, "good" = TRADE_GOOD_RICE),
 	)
 	demand_modifiers = list(
 		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_GRAIN, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_DESPERATE),
