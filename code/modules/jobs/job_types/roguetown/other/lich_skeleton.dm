@@ -533,7 +533,7 @@ LICH SKELETONS
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich //Felt sovlful
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy //So you can't just shatter them with a mace + fients super quickly, aim for the head
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 	pants = /obj/item/clothing/under/roguetown/platelegs/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/plate/paalloy
