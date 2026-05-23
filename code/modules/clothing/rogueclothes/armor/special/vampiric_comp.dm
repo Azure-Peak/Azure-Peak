@@ -1,0 +1,179 @@
+/datum/component/vampiric_striker
+	/// List of our specific target armor items being tracked for repairs
+	var/list/repairing_items = list()
+	/// How much armor damage we have stripped from targets
+	var/accumulated_armor_damage = 0
+	/// How much armor damage we must deal to drop a shard
+	var/shard_threshold = 40
+	/// The value of the spawned shard
+	var/shard_repair_value = 20
+	/// Type of shard to spawn
+	var/obj/effect/temp_visual/dream_shard/shard_type = /obj/effect/temp_visual/dream_shard/vampiric
+	/// The specific path type of armor we want to check for and repair
+	var/target_armor_path = /obj/item/clothing/suit/roguetown/armor/vampiric
+
+/datum/component/vampiric_striker/Initialize()
+	if(!ishuman(parent))
+		return COMPONENT_INCOMPATIBLE
+		
+	to_chat(parent, span_userdanger("Your strikes look to splinter the defenses of your foes."))
+	
+	var/mob/living/carbon/human/H = parent
+	
+	for(var/obj/item/I in H.contents)
+		if(istype(I, target_armor_path))
+			add_item(I)
+
+	RegisterSignal(H, COMSIG_MOB_EQUIPPED_ITEM, .proc/on_item_equipped)
+	RegisterSignal(H, COMSIG_MOB_DROPITEM, .proc/on_item_dropped)
+	RegisterSignal(H, COMSIG_MOB_ITEM_ATTACK, .proc/on_successful_strike)
+
+/datum/component/vampiric_striker/proc/on_item_equipped(mob/user, obj/item/source, slot)
+	SIGNAL_HANDLER
+	if(istype(source, target_armor_path))
+		add_item(source)
+
+/datum/component/vampiric_striker/proc/on_item_dropped(mob/user, obj/item/source)
+	SIGNAL_HANDLER
+	if(istype(source, target_armor_path))
+		remove_item(source)
+	UnregisterSignal(source, COMSIG_ITEM_ATTACK)
+
+/datum/component/vampiric_striker/proc/add_item(obj/item/I)
+	if(I in repairing_items)
+		return
+	repairing_items += I
+
+/datum/component/vampiric_striker/proc/remove_item(obj/item/I)
+	repairing_items -= I
+
+/datum/component/vampiric_striker/proc/on_successful_strike(mob/living/carbon/human/source, mob/living/target, obj/item/weapon)
+	SIGNAL_HANDLER
+	if(!istype(target) || !length(repairing_items))
+		return
+	RegisterSignal(target, COMSIG_MOB_APPLY_DAMGE, .proc/intercept_damage_calculation, override = TRUE)
+
+/datum/component/vampiric_striker/proc/intercept_damage_calculation(mob/living/carbon/target, damage, damagetype, def_zone)
+	SIGNAL_HANDLER
+
+	UnregisterSignal(target, COMSIG_MOB_APPLY_DAMGE)
+
+	var/obj/item/bodypart/BP = target.get_bodypart(def_zone)
+	if(!BP)
+		return
+	var/attack_flag = "blunt"
+	var/armor_blocked_amount = target.run_armor_check(BP, attack_flag, damage = damage)
+
+	if(armor_blocked_amount > damage)
+		armor_blocked_amount = damage
+	if(armor_blocked_amount <= 0)
+		return
+
+	accumulated_armor_damage += armor_blocked_amount
+
+	if(accumulated_armor_damage >= shard_threshold)
+		spawn_offensive_shard(target)
+		accumulated_armor_damage -= shard_threshold
+
+/datum/component/vampiric_striker/proc/spawn_offensive_shard(mob/living/target)
+	var/turf/spawn_location = get_turf(target)
+	var/turf/attacker_turf = get_turf(parent)
+	if(!spawn_location || !attacker_turf)
+		return
+
+	playsound(spawn_location, 'sound/combat/sharpness_loss1.ogg', 75, TRUE)
+	target.visible_message(span_danger("Fragments of [target]'s armor are ripped away by the blow!"))
+
+	var/turf/landing_turf
+	var/attempts = 0
+	while(attempts < 10)
+		attempts++
+		var/rand_x = attacker_turf.x + rand(-2, 2)
+		var/rand_y = attacker_turf.y + rand(-2, 2)
+		var/turf/picked_turf = locate(rand_x, rand_y, attacker_turf.z)
+		if(picked_turf && !picked_turf.is_blocked_turf() && picked_turf != spawn_location)
+			landing_turf = picked_turf
+			break
+	if(!landing_turf)
+		landing_turf = locate(spawn_location.x + 1, spawn_location.y, spawn_location.z)
+	to_chat(world, "\[DEBUG VAMP SPARK\] Spawning shard at Enemy Turf ([spawn_location.x], [spawn_location.y]). Flying towards Random Turf ([landing_turf.x], [landing_turf.y]). Attacker is at ([attacker_turf.x], [attacker_turf.y]).")
+	var/obj/effect/temp_visual/dream_shard/vampiric/S = new shard_type(spawn_location, 10 SECONDS, shard_repair_value, landing_turf)
+	S.creator_ref = WEAKREF(parent)
+
+/datum/component/vampiric_striker/proc/on_shard_crossed(obj/effect/temp_visual/dream_shard/S, atom/movable/AM)
+	SIGNAL_HANDLER
+	if(AM != parent)
+		return
+
+	repair_from_shard(S.repair_value)
+	
+	var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(parent))
+	E.color = S.effect_color
+	playsound(parent, 'sound/magic/magic_nulled.ogg', 70, TRUE)
+	
+	UnregisterSignal(S, COMSIG_MOVABLE_CROSSED)
+	qdel(S)
+
+/datum/component/vampiric_striker/proc/repair_from_shard(amount)
+	var/remaining_repair = amount
+	while(remaining_repair > 0)
+		var/obj/item/most_broken = null
+		var/lowest_percent = 1
+
+		for(var/obj/item/I in repairing_items)
+			var/integrity_ratio = I.obj_integrity / I.max_integrity
+			if(integrity_ratio < lowest_percent)
+				lowest_percent = integrity_ratio
+				most_broken = I
+
+		if(!most_broken)
+			break 
+
+		var/needed = most_broken.max_integrity - most_broken.obj_integrity
+		var/applied = min(remaining_repair, needed)
+		most_broken.obj_integrity += applied
+		
+		if(most_broken.max_blade_int && most_broken.blade_int < most_broken.max_blade_int)
+			most_broken.blade_int = most_broken.max_blade_int
+		remaining_repair -= applied
+
+		if(most_broken.obj_broken && most_broken.obj_integrity > 0)
+			most_broken.obj_fix(null, FALSE)
+
+		most_broken.update_icon()
+
+		if(needed > applied) 
+			break
+
+/datum/component/vampiric_striker/Destroy()
+	repairing_items = null
+	return ..()
+
+/obj/effect/temp_visual/dream_shard/vampiric
+	name = "vampiric armor shard"
+	desc = "A piece of someone's armor, twisted to invigorate someone else instead."
+	icon_state = "graggshard"
+	/// Weak reference to the player mob who spawned this shard
+	var/datum/weakref/creator_ref
+	effect_color = "#440101"
+
+/obj/effect/temp_visual/dream_shard/vampiric/Crossed(atom/movable/AM)
+	if(!creator_ref)
+		return
+	var/mob/living/carbon/human/creator = creator_ref.resolve()
+	if(!creator)
+		qdel(src)
+		return
+	if(AM != creator)
+		return
+	if(!pickuppable || QDELETED(src))
+		return
+	var/datum/component/vampiric_striker/vamp_comp = creator.GetComponent(/datum/component/vampiric_striker)
+	if(!vamp_comp)
+		return
+	vamp_comp.repair_from_shard(repair_value)
+	var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(creator))
+	E.color = effect_color
+	playsound(creator, 'sound/magic/magic_nulled.ogg', 70, TRUE)
+	to_chat(world, "\[DEBUG VAMP SHARD\] Deleting shard.")
+	qdel(src)

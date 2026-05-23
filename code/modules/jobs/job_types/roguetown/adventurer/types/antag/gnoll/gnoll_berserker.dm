@@ -32,6 +32,7 @@
 /datum/outfit/job/roguetown/gnoll/berserker/pre_equip(mob/living/carbon/human/H)
 	if(H.mind)
 		H.set_species(/datum/species/gnoll)
-		H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor(H)
+		H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/vampiric(H)
+		H.AddComponent(/datum/component/vampiric_striker)
 		neck = /obj/item/storage/belt/rogue/pouch/healing
 		don_pelt(H)
