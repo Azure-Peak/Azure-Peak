@@ -29687,10 +29687,6 @@
 	color = "#3b444b"
 	},
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
-"fZB" = (
-/obj/structure/roguemachine/noticeboard/wall,
-/turf/closed/wall/mineral/rogue/wooddark,
-/area/rogue/indoors/town/shop)
 "fZD" = (
 /obj/structure/table/wood/poor,
 /obj/item/contraption/folding_table_stored,
@@ -104143,6 +104139,10 @@
 	},
 /obj/machinery/light/rogue/candle{
 	pixel_y = -32
+	},
+/obj/structure/roguemachine/noticeboard/wall{
+	pixel_y = 0;
+	pixel_x = 30
 	},
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/shop)
@@ -280233,7 +280233,7 @@ mPk
 xBe
 pwi
 eZd
-fZB
+mPk
 pxc
 pxc
 eKH
