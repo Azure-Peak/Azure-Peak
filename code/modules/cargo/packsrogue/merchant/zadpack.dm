@@ -11,6 +11,7 @@
 
 /datum/supply_pack/rogue/zadpack/bathhouse
 	name = "Discreet Zad Pack"
+	group = "Discreet Zads"
 	cost = ZADPACK_PRICE_BATHHOUSE
 	contains = list(/obj/item/zadpack)
 	contraband = TRUE
@@ -35,6 +36,7 @@
 
 /datum/supply_pack/rogue/zadpack/new_cage_bathhouse
 	name = "Discreet Zadcage"
+	group = "Discreet Zads"
 	cost = ZADCOTE_NEW_CAGE_COST_MAMMON
 	contains = list(/obj/item/zadcage)
 	contraband = TRUE

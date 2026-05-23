@@ -35,13 +35,13 @@
 	var/church_tithe_collected_here = 0
 	var/list/categories = list(
 		"Alcohols",
+		"Discreet Zads",
 		"Drugs",
 		"Exotic Apparel",
 		"Instruments",
 		"Cosmetics",
 		"Roguery",
 		"Smokes",
-		"Zadpacks",
 	)
 
 /obj/structure/roguemachine/bathvend/Initialize()

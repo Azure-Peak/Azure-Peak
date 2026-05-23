@@ -77,6 +77,9 @@ export const GoodPill = (props: {
   const removed = !!good.removed;
   const addedOnly = !!good.added_only;
   const delta = good.delta || 0;
+  const faded = rare || addedOnly;
+  const bgAlpha = removed ? 0.45 : faded ? 0.55 : 1;
+  const borderAlpha = removed ? 0.5 : faded ? 0.6 : 1;
   const tooltipParts: string[] = [];
   tooltipParts.push(rare ? 'Sometimes' : 'Always');
   if (addedOnly) tooltipParts.push('introduced by an event');
@@ -92,16 +95,14 @@ export const GoodPill = (props: {
         padding: '0px 5px',
         marginRight: '3px',
         marginBottom: '2px',
-        border: `1px ${rare || addedOnly ? 'dashed' : 'solid'} ${color}`,
+        border: `1px ${faded ? 'dashed' : 'solid'} color-mix(in srgb, ${color} ${borderAlpha * 100}%, transparent)`,
         borderRadius: '3px',
         color: color,
-        background:
-          rare || addedOnly ? 'rgba(255, 255, 255, 0.55)' : BUTTON_BG,
+        background: `color-mix(in srgb, ${BUTTON_BG} ${bgAlpha * 100}%, transparent)`,
         fontWeight: 'bold',
         fontSize: '11px',
         whiteSpace: 'nowrap',
         textDecoration: removed ? 'line-through' : 'none',
-        opacity: removed ? 0.6 : 1,
       }}
     >
       {good.name}
