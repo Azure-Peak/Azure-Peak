@@ -1,7 +1,7 @@
-/mob/living/carbon/human/species/skeleton/npc/summon
+/mob/living/carbon/human/species/skeleton/npc/summon //Unique skilled NPC summons exclusive to necromancers, these guys are a menace to fight.
 	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/npc/summon
 
-/datum/outfit/job/roguetown/npc/skeleton/npc/summon
+/datum/outfit/job/roguetown/npc/skeleton/npc/summon //On par getup almost with greater summons, because sovl.
 
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
@@ -21,7 +21,7 @@
 			r_hand = /obj/item/rogueweapon/spear
 		if(3)
 			r_hand = /obj/item/rogueweapon/mace
-		if(3)
+		if(4)
 			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
 	switch(rand(1, 3)) //Random Cloaks, akin to lich skeletons.
 		if(1)
@@ -32,11 +32,11 @@
 			cloak = /obj/item/clothing/cloak/half/lich
 			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 	H.STASTR = rand(11,13)
-	H.STASPD = 8
-	H.STACON = 7 //Decently tough, has a lifespan + player tied
+	H.STASPD = 7 //Slightly slower cause you can have a LOT of these guys.
+	H.STACON = 7 //Decently tough, has a lifespan + player tied, will still crumble to fients/numbers.
 	H.STAINT = 1
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE) //Good parrying, still will crumble to numbers. Intended so lone advs/garrison can't just solo through a necromancer's summons with ease.
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)

@@ -33,6 +33,7 @@
 		return FALSE
 
 	new /obj/effect/temp_visual/gib_animation(T, "gibbed-h")
+	new /obj/effect/temp_visual/bluespace_fissure(T)
 	var/mob/living/skeleton_new = new /mob/living/carbon/human/species/skeleton/npc/summon(T, owner)
 	apply_mob_lifespan(skeleton_new, owner, spawn_lifespan)
 	var/caster_name = owner.mind?.current?.real_name
