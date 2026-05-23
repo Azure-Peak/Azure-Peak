@@ -184,7 +184,6 @@
 #include "code\__DEFINES\weather.dm"
 #include "code\__DEFINES\werewolf.dm"
 #include "code\__DEFINES\wires.dm"
-#include "code\__DEFINES\zadcote.dm"
 #include "code\__DEFINES\ai\_ai.dm"
 #include "code\__DEFINES\ai\hostile.dm"
 #include "code\__DEFINES\ai\pet_commands.dm"
