@@ -20,6 +20,7 @@
 	ambush_faction = "undead"
 	ai_controller = /datum/ai_controller/human_npc
 	skel_fragile = TRUE
+	blood_toll_bucket = STATS_KILLED_DEADITES
 
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE
