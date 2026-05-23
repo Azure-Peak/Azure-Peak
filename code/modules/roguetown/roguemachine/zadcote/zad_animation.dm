@@ -300,3 +300,9 @@
 			return list("x" = three_offsets[index])
 		else
 			return list("x" = 0)
+
+#undef ZAD_FLIGHT_TRAVEL_HEIGHT
+#undef ZAD_ASCEND_DURATION
+#undef ZAD_DESCEND_DURATION
+#undef ZAD_BOMB_DESCEND_DURATION_VAR_MIN
+#undef ZAD_BOMB_DESCEND_DURATION_VAR_MAX
