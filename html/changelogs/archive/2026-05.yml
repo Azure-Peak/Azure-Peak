@@ -818,3 +818,41 @@
   - rscadd: Added Zizo's Bane mushrooms and sleep poison made using them.
   saltprjak:
   - rscadd: Added bandolier option to loadout, under Miscellaneous.
+2026-05-23:
+  FreeStylaLT:
+  - bugfix: Fixed some rare instances of wield-only specials working with unwielded
+      or unwieldable weapons.
+  - balance: Woodwalker no longer grants double harvests from plants. Alchemy Expert
+      gives a boost to it instead.
+  Ollanius:
+  - bugfix: Lunatics can be played by any race and creed, once more!
+  OrbisAnima:
+  - bugfix: Makes it so Legendary classes are able to use the houses they would normally
+      get if they were their regular counterpart. Ie, the Legendary Chef getting the
+      Cheesemaker house.
+  - bugfix: Gives the Legendary classes the skills,stats,traits they would normally
+      had gotten from their base class, as well as what they normally would get from
+      the bank, ie, legendary fisher gets the unique fishing trait, the skills from
+      regular fisher, any stat they didnt had already.
+  Quinalion:
+  - image: Resprited the Bone Cataclysm spell sprite.
+  - image: Slightly resprited vampire spells.
+  SpadesNeil:
+  - rscadd: Ashes can now be scattered by using them in hand.
+  borneblood:
+  - rscadd: Psydonic Maul for Adjudicator.
+  radarseas:
+  - code_imp: Killed Crafter's Coverant. Sorry Malumites. Maybe someone can give you
+      a miracle to sacrifice crafts for materials but until then, its dead sire. The
+      image icon stays though for that purpose.
+  - balance: Malumites now get apprentice lumberjacking as a suppliment patron boon,
+      shared between missionary, acolytes, templar and heretics.
+  - balance: munitioneer has higher crafting skills + Expert lumberjacking + Homesteading
+      since they no longer clutch on this miracle cruxing them from ever being proper
+      fort makers.
+  - bugfix: munitioneer now has miracle skill, they're no longer worse than vagabonds
+      as an antagonist with miracles.
+  - balance: munitioneer gets T4s off-the-bat, they no longer have to grind to revive
+      people and stuff.
+  saltprjak:
+  - bugfix: Soulshot now deals full damage to the first target instead of half.

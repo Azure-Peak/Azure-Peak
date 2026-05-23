@@ -80,12 +80,10 @@
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat // bae item
 	name = "meat pie"
 	desc = "A delicious, homemade pie made with minced meat. Still needs to be sliced."
-	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | DAIRY | MEAT
-
-/obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/meat
 	icon_state = "meatpie"
 	tastes = list("succulent meat and crispy butterdough" = 1)
+	eat_effect = /datum/status_effect/buff/snackbuff
+	foodtype = GRAIN | DAIRY | MEAT
 	filling_color = "#b43628"
 	slice_name = "meat pie slice"
 
@@ -98,6 +96,14 @@
 	filling_color = "#d44197"
 	slice_name = "fish pie slice"
 
+// -------------- SPIDER PIE --------------
+/obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/spider
+	name = "de-scallax pie"
+	desc = "A delicious, homemade pie made with the inside of a spider. It was often used as a gesture of reconciliation between drow clans. Still needs to be sliced."
+	icon_state = "spiderpie"
+	tastes = list("spider innards and crispy butterdough" = 1)
+	filling_color = "#6a9153"
+	slice_name = "de-scallax pie slice"
 
 // -------------- POT PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pot

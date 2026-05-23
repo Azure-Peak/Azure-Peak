@@ -1084,9 +1084,9 @@
 	time += 1
 	switch(time)
 		if(3)
-			if(prob(50)) //You don't always know...
+			if(prob(70)) //You don't always know...
 				var/msg = pick("I feel sleepy...", "I feel relaxed.", "My eyes feel a little heavy.")
-				to_chat(owner, span_warn(msg))
+				to_chat(owner, span_warning(msg))
 
 		if(5)
 			if(prob(50))

@@ -6,7 +6,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/farmermaster
-	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
+	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_SEEDKNOW)
 
 	maximum_possible_slots = 1
 	pickprob = 5
@@ -59,3 +59,5 @@
 	beltl = /obj/item/rogueweapon/sickle
 	beltr = /obj/item/flint
 	backr = /obj/item/rogueweapon/hoe
+	if(H.mind)
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)

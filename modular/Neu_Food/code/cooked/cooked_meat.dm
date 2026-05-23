@@ -280,3 +280,27 @@
 	tastes = list("hog" = 1)
 	cooked_type = null
 	fried_type = null
+
+/*	.............   Cooked Spidermeat   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball/cooked
+	name = "fried spidermeatball"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "spidermeatball_cooked"
+	bitesize = 3
+	slices_num = FALSE
+	slice_path = FALSE
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	eat_effect = null
+	tastes = list("crispy chitin" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise/cooked
+	name = "spider surprise"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "spider_surprise_cooked"
+	bitesize = 4
+	slices_num = FALSE
+	slice_path = FALSE
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	eat_effect = null
+	tastes = list("crispy chitin" = 1, "venom innards" = 1)
+	faretype = FARE_FINE

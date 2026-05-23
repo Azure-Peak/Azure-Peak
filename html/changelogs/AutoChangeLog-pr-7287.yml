@@ -1,0 +1,4 @@
+author: "VanessaCoding"
+delete-after: True
+changes:
+  - bugfix: "fixing the interaction lockout on using tools that aren't watering on soil from the Orison QOL change."
