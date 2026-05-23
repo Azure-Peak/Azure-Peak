@@ -21,6 +21,7 @@
 	var/mob/living/carbon/human/L = owner.current
 	L.become_skeleton()
 	ADD_TRAIT(L, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(L, TRAIT_SHATTER_KILL, TRAIT_GENERIC)
 
 /datum/antagonist/unbound_death_knight/proc/equip_knight()
 	owner.unknow_all_people()
