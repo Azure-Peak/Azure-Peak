@@ -8,7 +8,7 @@
 	class_select_category = CLASS_CAT_MAGE
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_ZOMBIE_IMMUNE, TRAIT_NOSTINK, TRAIT_GRAVEROBBER, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_MEDICINE_EXPERT)
-	maximum_possible_slots = 2 // Skeles no longer count vs antag cap, however these are pretty strong mage roles with some insane shit that makes them a fucking menace to deal with. A la-wretch heretics.
+	maximum_possible_slots = 2 // Skeles no longer count vs antag cap, however these are pretty strong mage roles with some inzane potental that can make them a fucking menace to deal with if they work for it. A la-wretch heretics.
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_PER = 2,
@@ -18,7 +18,7 @@
 	age_mod = /datum/class_age_mod/wretch/rogue_mage
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
-		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE, //Weaker than rogue mage, you have minions for stabbing.
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -37,8 +37,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	backl = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
 		/obj/item/book/spellbook = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
@@ -73,15 +72,18 @@
 		if("Discretion (Mage Disguise)")
 			head = /obj/item/clothing/head/roguetown/roguehood/black
 			neck = /obj/item/clothing/neck/roguetown/gorget
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
 			gloves = /obj/item/clothing/gloves/roguetown/angle //Slightly better glove armor
 			belt = /obj/item/storage/belt/rogue/leather
-			beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot
+			beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot //Hacky solution so you don't lose em.
 			beltl = /obj/item/rogueweapon/huntingknife
 		if("Progress (Open Necromancer Robes)")
 			head = /obj/item/clothing/head/roguetown/roguehood/unholy/enchanted
 			neck = /obj/item/clothing/neck/roguetown/leather //Lesser gorget for more armor elsewhere, have to aquire one in the round.
 			belt = /obj/item/storage/belt/rogue/leather/black
-			beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot
+			beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot //Hacky solution so you don't lose em.
 			beltl = /obj/item/rogueweapon/huntingknife
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson //Can upgrade this via sewing/theft, balances out with the robes also having armor + head armor with this choice.
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/unholy/enchanted
+			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/bronze //It ain't gold, it ain't decrepit, but its certainly fitting for YOU.
