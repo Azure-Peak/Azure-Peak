@@ -241,7 +241,7 @@
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/obnoxious_taunt)
-		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
+		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
 		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
 		switch(instrument_choice)
 			if("Harp")
