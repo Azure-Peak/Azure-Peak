@@ -79,6 +79,9 @@
 	if(armor_damage_taken <= 0)
 		return
 
+	// If we are using blunt to damage multiple layers, there are diminishing returns.
+	// Layer 2 only gives 50% the value anymore.
+	// Layer 3 only gives 33% the value anymore (Example, damaging MASK + COIF + HELM)
 	var/layer_modifier = 1 / current_layer
 	var/effective_damage = armor_damage_taken * layer_modifier
 
