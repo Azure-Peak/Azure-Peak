@@ -392,6 +392,13 @@
 	},
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
+"mJ" = (
+/obj/item/bomb,
+/obj/item/bomb,
+/obj/item/bomb,
+/obj/item/bomb,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "mL" = (
 /obj/item/inhand_tester,
 /turf/open/floor/rogue/cobblerock,
@@ -1653,6 +1660,12 @@
 /obj/structure/roguemachine/noticeboard,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"Vd" = (
+/obj/item/roguemachine/zadcote/merchant{
+	zadcage_dir = 4
+	},
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "Vk" = (
 /obj/structure/roguemachine/goldface/public/wretch_cat,
 /obj/structure/table/wood/poker,
@@ -3452,8 +3465,8 @@ dB
 ev
 ev
 ev
-ev
-ev
+mJ
+Vd
 OI
 wE
 wi

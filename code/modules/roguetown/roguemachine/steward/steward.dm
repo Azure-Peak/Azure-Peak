@@ -762,14 +762,13 @@
 				for(var/datum/crown_import/A in GLOB.crown_imports)
 					var/blockade_tag = A.is_blockaded() ? " <font color='#c44'>(BLOCKADED)</font>" : ""
 					contents += "<b>[A.name][blockade_tag]:</b>"
-					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR><BR>"
+					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR>"
 			else
 				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 				for(var/datum/crown_import/A in GLOB.crown_imports)
 					var/blockade_tag_full = A.is_blockaded() ? " <font color='#c44'>(BLOCKADED - 2x COST)</font>" : ""
-					contents += "[A.name][blockade_tag_full]<BR>"
-					contents += "[A.desc]<BR>"
-					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR><BR>"
+					contents += "<b>[A.name][blockade_tag_full]</b> - <i>[A.desc]</i> "
+					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR>"
 		if(TAB_BOUNTIES)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += "<center>Bounties<BR>"

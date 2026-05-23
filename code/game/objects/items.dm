@@ -1759,29 +1759,40 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(is_carved)
 		craftsell_str = span_info("It is a carved item.")
 	. += craftsell_str
+	. += span_info("[weight_tier_examine_line()]")
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.STAINT < 9)
 			return .
-	if(isnull(anvilrepair) && isnull(sewrepair))
-		return .
-
-	var/str = "This object can be repaired using "
+	var/list/craft_lines = list()
 	if(anvilrepair)
-		var/datum/skill/S = anvilrepair		//Should only ever be a skill or null
-		str += "<b>[initial(S.name)]</b> and a hammer."
+		var/datum/skill/S = anvilrepair
+		craft_lines += "Repair: <b>[initial(S.name)]</b> + hammer"
 	if(sewrepair)
-		str += "<b>Sewing</b> and a needle."
-	str = span_info(str)
-	. += str
-
-	if(smeltresult)
-		var/atom/A = smeltresult
-		. += span_info("Melts down to: <b>[capitalize(initial(A.name))]</b>.")
-	
+		craft_lines += "Repair: <b>Sewing</b> + needle"
 	if(salvage_result && salvage_amount)
 		var/atom/A = salvage_result
-		. += span_info("Can be salvaged for: <b>[salvage_amount] [capitalize(initial(A.name))]</b>.")
+		craft_lines += "Salvage: <b>[salvage_amount] [capitalize(initial(A.name))]</b>"
+	if(length(craft_lines))
+		. += span_info(craft_lines.Join(" - "))
+
+/obj/item/proc/weight_tier_examine_line()
+	. = ""
+	var/size_word = "unwieldy"
+	switch(w_class)
+		if(WEIGHT_CLASS_TINY)
+			size_word = "tiny"
+		if(WEIGHT_CLASS_SMALL)
+			size_word = "small"
+		if(WEIGHT_CLASS_NORMAL)
+			size_word = "normal"
+		if(WEIGHT_CLASS_BULKY)
+			size_word = "bulky"
+		if(WEIGHT_CLASS_HUGE)
+			size_word = "huge"
+		if(WEIGHT_CLASS_GIGANTIC)
+			size_word = "gigantic"
+	return "Size: [size_word] ([grid_width]x[grid_height])."
 
 /obj/item/proc/apply_quality(mob/crafter, skill_path, forced_tier = null)
 	var/tier

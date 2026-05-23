@@ -9987,14 +9987,11 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/beach/forest/south)
 "ceh" = (
-/obj/structure/rack/rogue/shelf/biggest,
-/obj/item/soap{
-	pixel_x = 4;
-	pixel_y = -5
+/obj/item/roguemachine/zadcote/merchant{
+	pixel_x = 0;
+	pixel_y = -32
 	},
-/obj/item/reagent_containers/glass/bucket,
-/obj/item/natural/cloth,
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/shop)
 "cei" = (
 /mob/living/carbon/human/species/skeleton/npc/easy,
@@ -15988,7 +15985,6 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/town/basement)
 "doD" = (
-/obj/structure/rack/rogue/shelf/biggest,
 /obj/item/storage/roguebag{
 	pixel_x = 7;
 	pixel_y = 7
@@ -16000,6 +15996,9 @@
 /obj/item/storage/roguebag,
 /obj/item/mini_flagpole/freeform2,
 /obj/item/mini_flagpole,
+/obj/item/roguemachine/zadcote/steward{
+	pixel_y = 32
+	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town/steward)
 "doH" = (
@@ -63381,7 +63380,13 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
-/turf/open/floor/rogue/concrete,
+/obj/item/natural/cloth,
+/obj/item/soap{
+	pixel_x = 4;
+	pixel_y = -5
+	},
+/obj/item/reagent_containers/glass/bucket,
+/turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/shop)
 "mAs" = (
 /obj/structure/table/wood/long_table,
@@ -71383,6 +71388,10 @@
 "oiI" = (
 /obj/structure/roguemachine/scomm/r{
 	scom_tag = "Bathhouse - Counter"
+	},
+/obj/item/roguemachine/zadcote/bathhouse{
+	pixel_x = 0;
+	pixel_y = -32
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
@@ -96247,7 +96256,7 @@
 	pixel_y = -32;
 	scom_tag = "Merchant - Shop"
 	},
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/shop)
 "tbM" = (
 /obj/structure/rack/rogue,

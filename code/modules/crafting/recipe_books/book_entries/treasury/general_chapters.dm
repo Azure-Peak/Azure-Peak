@@ -350,3 +350,44 @@
 		<p>A censured subject cannot stand for Alderman, cannot wield a warrant they hold, and cannot be granted one. The mark lasts the round.</p>
 		</div>
 	"}
+
+/datum/book_entry/treasury_general/zadcote
+	name = "13. Zadcote and Zadcage"
+
+/datum/book_entry/treasury_general/zadcote/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>The Zadcote is used to send messages, parcels, and for the nefarious - bottlebombs to linked zadcages. Each Zadcote is bound to a single faction - the Crown, the Azurian Trading Company, or the Bathhouse and accepts orders only from its faction.</p>
+
+		<p>A Zadcage can ride in a pack, on a person, or be set down, and the zad will route to it reliably. Each zadcote spawns with its linked zadcages automatically..</p>
+
+		<h3>Bonding a Zadcage</h3>
+		<p>Strike a free Zadcage against a Zadcote to bond it to one of ten slots. The Zadcote operator may rename the slot in the interface. Bond persists until the operator severs it; the Zadcage holder cannot break it themselves. If you sever a slot while a zad is in flight, that zad completes its current trip before the bond goes dead.</p>
+
+		<h3>Capacity tiers</h3>
+		<p>Each dispatch chooses how many zads to send. Each of them may send a message, alongside a payload:</p>
+		<ul>
+			<li><b>1 zad</b> - A small item.</li>
+			<li><b>2 zads</b> - A medium (normal) item or a pouch.</li>
+			<li><b>3 zads</b> - A large / bulky item or container.</li>
+		</ul>
+
+		<h3>Flight time and turnback</h3>
+		<p>A dispatched zad team takes about a minute to reach the Zadcage. If the Zadcage has been destroyed by then, the zads turn back with the payload intact. If the Zadcage is bonded but not on a person, delivery still completes - the Zadcote chimes to its operator so they know the cage was unattended.</p>
+
+		<h3>Reply window</h3>
+		<p>Once a zad lands, the Zadcage holder has three minutes to write a reply and place a return payload. After three minutes the zad lifts off on its own. Return capacity is equal to the dispatch capacity. <b>Auto-departure carries no message and no package.</b> The last 30 seconds tint the countdown red.</p>
+
+		<h3>Attrition and Zadpacks</h3>
+		<p>A returning zad has a small chance of being lost to exhaustion or harm. Bottlebomb flights are <b>one-way</b> - those zads are never recovered. A faction restocks its Zadcote with a Pack of Trained Zads bought through its supply machine: the ATC's at GOLDFACE, the Stewardry's via the nerve master's import, and the Bathhouse's through BRASSFACE. Strike the pack against the Zadcote to add ten fresh zads to the reserve.</p>
+
+		<h3>Bombing!</h3>
+		<p>The Zadcote can carry bottlebombs as a payload - up to three per dispatch. Bomb can only be sent once every five minutes. The Zadcage holder sees the zads arriving with bombs slung beneath, has time to drop or throw the cage, and may even weaponize it against someone they dislike. Admin logs every bomb dispatch by sender, receiver, and place of detonation.</p>
+
+		<h3>Scrying (ATC and Bathhouse only)</h3>
+		<p>The Merchant's Zadcote and the Bathmaster's Zadcote may scry through the bonded zad on a Zadcage. Scrying draws from a small <b>scrying fund</b> kept by the Zadcote itself. Feed coins of any denomination directly into the Zadcote to add to the fund, each scry deducts five mammon. The Zadcage holder feels arcane energy stir, and the cage glows blue while the scrying is active. The view lasts three minutes, long enough to confirm the holder is safe - or to make trouble. The Steward and Crown have no scrying access through Zadcotes, they must relies on the Court Mage's expertise scrying.</p>
+
+		<h3>Spare zadcages & zads</h3>
+		<p>Spare Zadcages cost ten mammon at the can be replaced by purchase from the faction's import machine. Trained zads sell as packs of ten.</p>
+		</div>
+	"}
