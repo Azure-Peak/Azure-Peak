@@ -1,0 +1,6 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - rscadd: "New spider-meat recipes: Spider Meatballs, Spider Surprise, and De-Scallax Pie."
+  - rscadd: "Adds Spider Meat Mince as a craftable/processable ingredient used by new recipes."
+  - code_imp: "Removes /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/meat and moves all variables to /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat to consolidate cooked-meat handling."

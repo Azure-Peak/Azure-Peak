@@ -421,9 +421,13 @@
 					res_replenish = world.time + 8 MINUTES
 				var/obj/item/B = pick_n_take(looty)
 				if(B)
+					var/double_output = (HAS_TRAIT(user, TRAIT_ALCHEMY_EXPERT) && user.get_skill_level(/datum/skill/craft/alchemy) >= SKILL_LEVEL_JOURNEYMAN)
+					if(double_output)
+						var/obj/item/C = new B.type(user.loc)
+						user.put_in_hands(C)
 					B = new B(user.loc)
 					user.put_in_hands(B)
-					user.visible_message(span_notice("[user] finds [B] in [src]."))
+					user.visible_message("<span class='notice'>[user] finds [double_output ? "two of " : ""][B] in [src].</span>")
 					return
 			user.visible_message(span_warning("[user] searches through [src]."))
 			if(looty.len)
@@ -763,13 +767,13 @@
 					B = new B(user.loc)
 					user.put_in_hands(B)
 					var/bonus_chance = 0
-					if(HAS_TRAIT(user, TRAIT_WOODWALKER))
-						bonus_chance = 75
 					if(user.mind)
 						var/alch_level = user.get_skill_level(/datum/skill/craft/alchemy)
 						var/farm_level = user.get_skill_level(/datum/skill/labor/farming)
 						var/alch_chance = (alch_level / 6) * 100
 						var/farm_chance = (farm_level / 6) * 66
+						if(HAS_TRAIT(user, TRAIT_ALCHEMY_EXPERT) && alch_level >= SKILL_LEVEL_JOURNEYMAN)
+							alch_chance *= 2
 						bonus_chance = max(bonus_chance, alch_chance, farm_chance)
 					var/got_bonus = FALSE
 					if(prob(bonus_chance))

@@ -97,6 +97,6 @@
 	for(var/mob/living/carbon/human/player as anything in GLOB.human_list)
 		if(!player.mind || !player.client)
 			continue
-		if(player.has_flaw(/datum/charflaw/hunted))
+		if(player.has_flaw(/datum/charflaw/hunted) && (player.job in GLOB.hunted_protected_roles))
 			count++
 	return count

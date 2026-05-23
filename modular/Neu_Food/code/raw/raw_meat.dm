@@ -90,8 +90,10 @@
 	icon_state = "spidermeat"
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/fried
-	slice_path = null
-	slices_num = 0
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider
+	slices_num = 2
+	cooked_smell = /datum/pollutant/food/fried_spidermeat
+	tastes = list("chitin" = 1, "mild venom" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/spider/attackby(obj/item/I, mob/living/user)
 	update_cooktime(user)
@@ -310,6 +312,38 @@
 	name = "minced fish"
 	icon_state = "fishmince"
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider
+	name = "minced spidermeat"
+	icon_state = "spidermince"
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider/attackby(obj/item/I, mob/living/user)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(!isdarkelf(user))
+		to_chat(user, span_warning("You lack knowledge of underdark delicacies!"))
+		return
+	else
+		if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider))
+			if(isturf(loc)&& (found_table))
+				to_chat(user, span_notice("Preparing a spider meatball..."))
+				playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+				if(do_after(user,long_cooktime, target = src))
+					add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+					new /obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball/(loc)
+					qdel(I)
+					qdel(src)
+			else
+				to_chat(user, span_warning("You need to put [src] on a table to work on it."))
+		if(istype(I, /obj/item/reagent_containers/powder/flour))
+			if(isturf(loc)&& (found_table))
+				to_chat(user, span_notice("Mixing flour with [src]..."))
+				playsound(get_turf(user), 'modular/Neu_Food/sound/kneading.ogg', 100, TRUE, -1)
+				if(do_after(user,short_cooktime, target = src))
+					add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+					new /obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise/(loc)
+					qdel(I)
+					qdel(src)
+
 /obj/item/reagent_containers/food/snacks/rogue/meat/mince/rabbit
 	name = "minced cabbit"
 	icon_state = "meatmince"
@@ -342,6 +376,23 @@
 			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
 	else
 		return ..()
+
+/* ............. Underdark Cuisine ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball //If you will add another meatball, consider refactoring this into a more general meatball object with variables for the type of meat, the name, and the icon.
+	name = "raw spidermeatball"
+	desc = "A meatball made from minced spidermeat. It's a bit chewy, but not bad if you can get past the idea of eating spiders."
+	icon_state = "raw_spidermeatball"
+	ingredient_size = 1
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball/cooked
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball/cooked
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise
+	name = "raw spider surprise"
+	desc = "A meatball made from minced spidermeat and flour. It looks like a normal meatball, but you can see the occasional leg or eyeball poking out of the sides."
+	icon_state = "raw_spider_surprise"
+	ingredient_size = 1
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise/cooked
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise/cooked
 
 /* ............. fish chop ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish

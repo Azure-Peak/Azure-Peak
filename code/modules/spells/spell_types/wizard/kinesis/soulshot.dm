@@ -73,8 +73,10 @@
 		return . || BULLET_ACT_HIT
 	hits++
 	// Halve damage after the first target
-	if(hits == 1)
-		damage = round(damage * 0.5)
+	if(hits <= 1)
+		damage = 95
+	else
+		damage = round(95 * 0.5)
 	if(hits >= max_hits)
 		qdel(src)
 		return . || BULLET_ACT_HIT

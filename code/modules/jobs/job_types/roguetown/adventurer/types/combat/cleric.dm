@@ -479,10 +479,10 @@
 		else
 			cloak = /obj/item/clothing/cloak/cape/crusader
 	if(H.mind)
-		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum")
-		var/weapon_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", weapons)
+		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
+		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
 		H.set_blindness(0)
-		switch(weapon_choice)
+		switch(instrument_choice)
 			if("Harp")
 				backr = /obj/item/rogue/instrument/harp
 			if("Lute")
@@ -503,7 +503,8 @@
 				backr = /obj/item/rogue/instrument/flute
 			if("Drum")
 				backr = /obj/item/rogue/instrument/drum
-
+			if("Shamisen")
+				backr = /obj/item/rogue/instrument/shamisen
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross
