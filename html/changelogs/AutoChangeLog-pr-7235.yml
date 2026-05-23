@@ -1,0 +1,5 @@
+author: "VanessaCoding"
+delete-after: True
+changes:
+  - balance: "drip speed for Fill intent with Orison is now a flat 1.5 seconds. The drip amount is now 5 x Holy Skill Level."
+  - balance: "you can now use Fill intent with Orison on soil to water it."

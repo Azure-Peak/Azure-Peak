@@ -30,6 +30,7 @@
 		/datum/advclass/heir/scamp
 	)
 
+
 /datum/outfit/job/roguetown/heir/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.verbs |= /mob/living/carbon/human/proc/declarechampion

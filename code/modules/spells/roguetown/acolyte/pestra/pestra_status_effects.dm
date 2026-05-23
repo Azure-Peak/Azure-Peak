@@ -148,7 +148,7 @@
 /atom/movable/screen/alert/status_effect/buff/pestra_care
 	name = "Pestra's embrace"
 	desc = "It's like something is wriggling around inside of me, but it's making me feel better..."
-	icon_state = "divine_heal"
+	icon_state = "buff"
 
 #define PLAGUE_GLOW_FILTER "plague_glow_filter"
 
@@ -208,7 +208,7 @@
 /datum/status_effect/black_rot_debility
 	id = "black_rot_debility"
 	alert_type = /atom/movable/screen/alert/status_effect/black_rot_debility
-	duration = 50 SECONDS
+	duration = 15 SECONDS
 	effectedstats = list(
 		STATKEY_CON = -1,
 		STATKEY_STR = -1

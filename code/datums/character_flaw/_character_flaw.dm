@@ -409,6 +409,26 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	..()
 	user.add_client_colour(/datum/client_colour/monochrome)
 
+GLOBAL_LIST_INIT(hunted_protected_roles, list(
+	"Head Physician",
+	"Martyr",
+	"Bishop",
+	"Councillor",
+	"Hand",
+	"Jester",
+	"Court Magician",
+	"Seneschal",
+	"Suitor",
+	"Sergeant",
+	"Inquisitor",
+	"Consort",
+	"Grand Duke",
+	"Prince",
+	"Servant",
+	"Knight",
+	"Marshal"
+))
+
 /datum/charflaw/hunted
 	name = "Hunted (+2 TRI)"
 	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\

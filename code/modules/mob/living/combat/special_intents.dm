@@ -176,7 +176,10 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 	return TRUE
 
 /datum/special_intent/proc/check_reqs(mob/living/carbon/human/user, obj/item/I)
-	if(requires_wielding && length(I.gripped_intents))
+	if(requires_wielding)
+		if(!length(I.gripped_intents) || !I.gripped_intents)	// We have no gripped intents at all
+			to_chat(user, span_warning("This weapon cannot use this Special at all. I should probably tell the Gods (coders)"))
+			return FALSE
 		if(I.wielded)
 			return TRUE
 		else
@@ -1337,7 +1340,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
 	active_timer = addtimer(CALLBACK(src, PROC_REF(effect_expire)), 20 SECONDS, TIMER_STOPPABLE)
 	W.icon_state = "iceaxeactive"
-	W.toggle_state = "iceaxeactive"
+	W.override_state = "iceaxeactive"
 	W.inactive_intents = W.possible_item_intents
 	W.inactive_gripped_intents = W.gripped_intents
 	W.possible_item_intents = W.active_intents
@@ -1350,7 +1353,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	howner.visible_message(span_warning("The ice covering [iparent]'s blade thaws out!"))
 	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
 	W.icon_state = "iceaxe"
-	W.toggle_state = null
+	W.override_state = null
 	W.possible_item_intents = W.inactive_intents
 	W.gripped_intents = W.inactive_gripped_intents
 	howner.update_a_intents()

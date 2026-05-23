@@ -748,3 +748,111 @@
       choosing eastern weapons.
   zeroisthebiggay:
   - rscadd: makes arcyne potential grant a level of literacy
+2026-05-21:
+  FreeStylaLT:
+  - rscadd: Standing on a tree as it gets chopped will now carry a (very) high risk
+      of getting thrown off. Risk scales with worn armor.
+  Ketrai:
+  - balance: Black rot cures are now gradual.
+  - balance: Black rot cures can be interrupted by rotfang attacks.
+  - balance: T4 black rot slightly easier to achieve/maintain.
+  Ryan180602:
+  - rscadd: winter dress for -3 triumphs in loadout.
+  - rscdel: heavy leather armour from triumphstore.
+  WeNeedMorePhoron:
+  - rscadd: Ported Qdel / Delete logs improvements. At roundend, qdel.log extra details
+      and other things to help us better track down hard deletes.
+  borneblood:
+  - bugfix: fixed a few wrong variable values
+  - rscadd: T3 - Bone Cataclysm
+  - rscdel: T2 - Summon (Carbon) Deadite
+  - balance: Adjusted Rituos paths to be more distinctive from each other.
+  - qol: Various tweaks to Zizo, better detailed in the PR.
+  - bugfix: Made it so Gravemark is more responsive. Made it so qdel-ing skeleton
+      mobs do not cause runtimes.
+  kbitykbitykbity:
+  - rscadd: Added a new mage adventurer subclass, Arcyne Trickster.
+  - rscadd: Added a new minor utility spell, Water Bolt.
+  radarseas:
+  - rscadd: pre-settable vagabond bounties
+  - rscadd: wanted vagabonds can pick more wanted poster options than just Azuria,
+      be a branded heretic or be a branded outlaw!
+  - balance: max vagabond bounty RNG roll 200 -> 250
+  - bugfix: fixed vagabond bounties
+  - code_imp: added a wanted vagabond bounty proc in vagabond, use this in case you
+      want other wanted vagabond classes
+  - code_imp: added global values like wretch/bandit for vagabond bounties
+2026-05-22:
+  FreeStylaLT:
+  - bugfix: Fixed donator items acting oddly when altgripped.
+  HeroWithYay:
+  - bugfix: Fossilized Oysters are now obtainable
+  Kelshark:
+  - rscadd: Gives Lance and Shield option to Knight-Errant
+  Ketrai:
+  - rscadd: Chance to receive two herbs when picking herbs based on farming or alchemy
+      skill, whichever is better.
+  - qol: shucking wheat by hand now scans nearby tiles for more wheat to shuck.
+  - balance: woodwalker no longer guarantees two herbs per plant, it is random now.
+  Ryan180602:
+  - bugfix: boot blood colour
+  - bugfix: uncoloured blood overlay on hands
+  - code_imp: overhaul our verbpanel UI
+  - bugfix: bandit/assassin spawns.
+  - bugfix: remove waitfor sleeps for UI
+  SciDragon:
+  - rscadd: slurbow to engineering, swaps 1 plank for 1 small log in the recipe
+  SpringSkipper:
+  - bugfix: giltsilk belt now covers privates
+  WeNeedMorePhoron:
+  - balance: Reduced Stygian damage by 20%
+  - balance: Reduced Cryo damage across the board by 10%, shatter damage by 50% due
+      to it consistently showing up as overtuned.
+  - bugfix: Fixed hard deletes on heart blood containers. Report any oddity.
+  - bugfix: Tried to fix saddleborn hard delete
+  changelingonberry:
+  - bugfix: Fix chat tab sorting for emotes, OOC, LOOC, and admin log messages
+  - rscadd: Dust runner examine for fellow thieves, Matthiosites, and bathhouse workers
+  - rscadd: Thieves cant for dust runner virtue
+  kbitykbitykbity:
+  - rscadd: Added Zizo's Bane mushrooms and sleep poison made using them.
+  saltprjak:
+  - rscadd: Added bandolier option to loadout, under Miscellaneous.
+2026-05-23:
+  FreeStylaLT:
+  - bugfix: Fixed some rare instances of wield-only specials working with unwielded
+      or unwieldable weapons.
+  - balance: Woodwalker no longer grants double harvests from plants. Alchemy Expert
+      gives a boost to it instead.
+  Ollanius:
+  - bugfix: Lunatics can be played by any race and creed, once more!
+  OrbisAnima:
+  - bugfix: Makes it so Legendary classes are able to use the houses they would normally
+      get if they were their regular counterpart. Ie, the Legendary Chef getting the
+      Cheesemaker house.
+  - bugfix: Gives the Legendary classes the skills,stats,traits they would normally
+      had gotten from their base class, as well as what they normally would get from
+      the bank, ie, legendary fisher gets the unique fishing trait, the skills from
+      regular fisher, any stat they didnt had already.
+  Quinalion:
+  - image: Resprited the Bone Cataclysm spell sprite.
+  - image: Slightly resprited vampire spells.
+  SpadesNeil:
+  - rscadd: Ashes can now be scattered by using them in hand.
+  borneblood:
+  - rscadd: Psydonic Maul for Adjudicator.
+  radarseas:
+  - code_imp: Killed Crafter's Coverant. Sorry Malumites. Maybe someone can give you
+      a miracle to sacrifice crafts for materials but until then, its dead sire. The
+      image icon stays though for that purpose.
+  - balance: Malumites now get apprentice lumberjacking as a suppliment patron boon,
+      shared between missionary, acolytes, templar and heretics.
+  - balance: munitioneer has higher crafting skills + Expert lumberjacking + Homesteading
+      since they no longer clutch on this miracle cruxing them from ever being proper
+      fort makers.
+  - bugfix: munitioneer now has miracle skill, they're no longer worse than vagabonds
+      as an antagonist with miracles.
+  - balance: munitioneer gets T4s off-the-bat, they no longer have to grind to revive
+      people and stuff.
+  saltprjak:
+  - bugfix: Soulshot now deals full damage to the first target instead of half.

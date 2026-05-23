@@ -8,7 +8,7 @@
 	alt_required_items = list()
 	required_items = list()
 	sound = 'sound/magic/slimesquish.ogg'
-	chargedloop = /datum/looping_sound/invokelightning
+	chargedloop = /datum/looping_sound/invokeascendant
 	harms_undead = FALSE
 	recharge_time = 2 MINUTES //Anastasis Equivalent
 	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
@@ -26,7 +26,7 @@
 	alt_required_items = list(/obj/item/organ/heart = 1)
 	required_items = list(/obj/item/organ/heart = 1)
 	sound = 'sound/magic/slimesquish.ogg'
-	chargedloop = /datum/looping_sound/invokelightning
+	chargedloop = /datum/looping_sound/invokeascendant
 	harms_undead = FALSE
 	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_state = "revival"
@@ -41,7 +41,7 @@
 	alt_required_items = list(/obj/item/natural/thorn = 3)
 	required_items = list(/obj/item/natural/thorn = 7)
 	sound = 'sound/magic/slimesquish.ogg'
-	chargedloop = /datum/looping_sound/invokelightning
+	chargedloop = /datum/looping_sound/invokeascendant
 	harms_undead = FALSE
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "revival"
@@ -51,19 +51,19 @@
 	req_items = list() // temp. baothans dont have a holy symbol. apparently one is being commed so this is just the stopgap.
 
 /obj/effect/proc_holder/spell/invoked/resurrect/zizo
-	name = "Zizoid Rebirth"
-	desc = "Revive a fallen ally by siphoning their potential. You gain their strength, whilst they gain a second chance.\
+	name = "Hollow Rebirth"
+	desc = "Revive a fallen subject while siphoning their potential and destroying some of their Lux as a toll. You gain their strength, whilst they gain a second chance.\
 	If they die, you will lose their stolen strength."
 	sound = 'sound/magic/slimesquish.ogg'
-	chargedloop = /datum/looping_sound/invokelightning
+	chargedloop = /datum/looping_sound/invokeascendant
 	harms_undead = FALSE
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "revival"
 	action_icon_state = "revival"
+	recharge_time = 5 MINUTES // halved compared to others
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	required_items = list(/obj/item/heart_blood_vial/filled = 3)
-	alt_required_items = list(/obj/item/heart_blood_vial/filled = 1)
-	// We apply zizo's debuff differently
+	// We apply zizo's revival differently from this point onward
+	zizo = TRUE
 	debuff_type = null
 	required_structure = /obj/structure/fluff/psycross/zizocross
 
@@ -483,19 +483,104 @@
 	// check if parent returns TRUE
 	if(.)
 		var/mob/living/carbon/human/target = targets[1]
+
 		user.apply_status_effect(/datum/status_effect/buff/zizo_tithe, tithe_distribution, target)
 		target.apply_status_effect(/datum/status_effect/debuff/zizo_drain, tithe_distribution)
 
-		to_chat(user, span_nicegreen("The victim's essence flows into you as they gasp for air."))
-		to_chat(target, span_userdanger("You are alive, but Zizo has taken his tithe from your soul."))
+		var/found_zizo_cross = FALSE
+
+		for(var/atom/A in oview(1, target))
+			if(istype(A, /obj/structure/fluff/psycross/zizocross))
+				found_zizo_cross = TRUE
+				break
+
+			if(istype(A, /turf))
+				var/turf/T = A
+				for(var/obj/O in T.contents)
+					if(istype(O, /obj/structure/fluff/psycross/zizocross))
+						found_zizo_cross = TRUE
+						break
+
+			if(found_zizo_cross)
+				break
+
+		// A proper Zizo cross stabilizes the rite and prevents undeath complications
+		if(found_zizo_cross)
+			to_chat(target, span_warning("Your stolen Lux writhes violently, but the unholy cross steadies your Lux before undeath can fully take hold."))
+		else
+			if(!target.has_status_effect(/datum/status_effect/debuff/zizo_temp_undeath))
+				target.apply_status_effect(/datum/status_effect/debuff/zizo_temp_undeath)
+				to_chat(target, span_userdanger("You feel your rekindled Lux torn from within, leaving you hollowed as undeath threatens to gnaw at your fading soul."))
+			else
+				playsound(user.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
+				to_chat(target, span_userdanger("Your fading Lux collapses inward far too soon. Flesh sloughs from bone as undeath tightens its grip upon you."))
+				target.apply_status_effect(/datum/status_effect/debuff/devitalised)
+
+		to_chat(user, span_nicegreen("You wrench the victim's rekindled Lux into yourself, leaving them hollowed and starving for life."))
+
+/atom/movable/screen/alert/status_effect/debuff/zizo_temp_undeath
+	name = "Embrace of Zizo"
+	desc = "You feel your very essence struggling against the hold of Undeath... Your mind is beseethed with dark, evil thoughts, and all you feel is hunger..."
+
+/datum/status_effect/debuff/zizo_temp_undeath
+	id = "zizo_temp_undeath"
+	duration = 15 MINUTES
+	tick_interval = 1 MINUTES // every minute, starve, if you manage to fill your belly, duration is reduced by 5 minutes
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/zizo_temp_undeath
+
+/datum/status_effect/debuff/zizo_temp_undeath/on_creation()
+	. = ..()
+	to_chat(owner, span_warning("Hungry... Hungry... HUNGRY. I AM STARVING. I NEED TO EAT. I NEED TO EAT!"))
+	ADD_TRAIT(owner, TRAIT_ROTMAN, "zizo_temp_undeath")
+	ADD_TRAIT(owner, TRAIT_NASTY_EATER, "zizo_temp_undeath")
+	ADD_TRAIT(owner, TRAIT_STRONGBITE, "zizo_temp_undeath")
+	to_chat(owner, span_necrosis("My limbs... I am rotten under my skin. Anything can remove them-- Anything can reattach them...?"))
+	ADD_TRAIT(owner, TRAIT_EASYDISMEMBER, "zizo_temp_undeath")
+	ADD_TRAIT(owner, TRAIT_LIMBATTACHMENT, "zizo_temp_undeath")
+	ADD_TRAIT(owner, TRAIT_SILVER_WEAK, "zizo_temp_undeath")
+	ADD_TRAIT(owner, TRAIT_DEATHLESS, "zizo_temp_undeath")
+	ADD_TRAIT(owner, TRAIT_ZOMBIE_IMMUNE, "zizo_temp_undeath")
+	to_chat(owner, span_boldred("THIS WORLD IS WRONG. EVERYTHING IS WRONG. WE LIVE IN A CORPSE. THE DECAYING CORPSE OF A DEAD GOD!"))
+	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, "zizo_temp_undeath")
+	ADD_TRAIT(owner, TRAIT_NOMOOD, "zizo_temp_undeath")
+
+/datum/status_effect/debuff/zizo_temp_undeath/tick()
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return
+	if(H.stat == DEAD)
+		return
+	var/very_hongry = pick("HUNGRY...", "Hungry...", "Hungry! Hungry!",	"I NEED TO EAT!", "I'm STARVING!!", "Need to eat... anything... I'll eat anything. I'm so hungry.")
+	if(H.nutrition >= NUTRITION_LEVEL_FED)
+		duration -= 5 MINUTES
+		to_chat(owner, span_warning("You feel some of your Lux react to being full... your reserves drain rapidly and your stomach quickly empties."))
+		to_chat(owner, span_green("I am recovering faster..."))
+
+	to_chat(owner, span_warning(very_hongry))
+	H.nutrition = 0
+
+/datum/status_effect/debuff/zizo_temp_undeath/on_remove()
+	. = ..()
+	to_chat(owner, span_boldgreen("...You feel the corroded part of your Lux finally recover, giving you some well-deserved clarity back. What the hell was that?"))
+	REMOVE_TRAIT(owner, TRAIT_ROTMAN, "zizo_temp_undeath")
+	REMOVE_TRAIT(owner, TRAIT_NASTY_EATER, "zizo_temp_undeath")
+	REMOVE_TRAIT(owner, TRAIT_STRONGBITE, "zizo_temp_undeath")
+	REMOVE_TRAIT(owner, TRAIT_EASYDISMEMBER, "zizo_temp_undeath")
+	REMOVE_TRAIT(owner, TRAIT_LIMBATTACHMENT, "zizo_temp_undeath")
+	REMOVE_TRAIT(owner, TRAIT_SILVER_WEAK, "zizo_temp_undeath")
+	REMOVE_TRAIT(owner, TRAIT_DEATHLESS, "zizo_temp_undeath")
+	REMOVE_TRAIT(owner, TRAIT_ZOMBIE_IMMUNE, "zizo_temp_undeath")
+	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, "zizo_temp_undeath")
+	REMOVE_TRAIT(owner, TRAIT_NOMOOD, "zizo_temp_undeath")
 
 /atom/movable/screen/alert/status_effect/debuff/zizo_drain
-	name = "Zizo's drain"
-	desc = "Zizo has deemed my return worthy, but at a dear expense."
+	name = "Syphoned Lux"
+	desc = "Half of your very rekindled Lux has been syphoned away and the leftovers profaned..."
 
 /atom/movable/screen/alert/status_effect/buff/zizo_tithe
-	name = "Zizo's tithe"
-	desc = "Zizo has boosted my capabilities with their vitality."
+	name = "Lux Syphon"
+	desc = "You are invigorated with the rekindled Lux of another. A thousand more, and perhaps you will reach Her first step to Ascension."
 
 // THE BOON - Caster
 /datum/status_effect/buff/zizo_tithe
@@ -512,14 +597,22 @@
 	return ..()
 
 /datum/status_effect/buff/zizo_tithe/on_remove()
-	UnregisterSignal(victim, COMSIG_LIVING_DEATH)
+	if(victim)
+		UnregisterSignal(victim, COMSIG_LIVING_DEATH)
 	. = ..()
 
 /datum/status_effect/buff/zizo_tithe/proc/cancel_early()
 	SIGNAL_HANDLER
 
-	var/mob/living/carbon/human/H = owner
-	H.remove_status_effect(/datum/status_effect/buff/zizo_tithe)
+	var/mob/living/carbon/human/caster = owner
+	var/mob/living/carbon/human/target = victim
+
+	if(caster)
+		caster.remove_status_effect(/datum/status_effect/buff/zizo_tithe)
+
+	if(target)
+		target.remove_status_effect(/datum/status_effect/debuff/zizo_drain)
+		target.remove_status_effect(/datum/status_effect/debuff/zizo_temp_undeath)
 
 // THE DRAIN - Victim
 /datum/status_effect/debuff/zizo_drain

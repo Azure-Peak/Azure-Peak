@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Added a new rclick functionality to shovels -- they can now select what they'll be digging for (solids like clay or stone, or bait like worms and leeches) without actually digging a hole."

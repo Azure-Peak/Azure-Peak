@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - qol: "Fishing rods will now auto-hook valid nearby bait when casting an empty line if the user has Expert skill or higher."
+  - balance: "Cautious Fisher trait now is even more effective."

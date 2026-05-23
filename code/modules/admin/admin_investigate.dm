@@ -6,7 +6,7 @@
 
 /client/proc/investigate_show()
 	set name = "Investigate"
-	set category = "-Admin-"
+	set category = "ADMIN"
 	if(!holder)
 		return
 

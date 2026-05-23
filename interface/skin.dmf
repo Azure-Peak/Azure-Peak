@@ -204,7 +204,7 @@ window "statwindow"
 		saved-params = "pos;size"
 		is-pane = true
 	elem "stat"
-		type = INFO
+		type = BROWSER
 		pos = 0,0
 		size = 640x480
 		anchor1 = 0,0
