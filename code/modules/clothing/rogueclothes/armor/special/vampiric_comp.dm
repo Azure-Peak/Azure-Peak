@@ -13,10 +13,16 @@
 	var/target_armor_path = /obj/item/clothing/suit/roguetown/armor/vampiric
 	/// Weakref to the victim whose armor we're tracking, triggered in a single tick.
 	var/datum/weakref/current_victim_ref
+	/// Whether shards are allowed to actively repair tracked items when picked up
+	var/repairs_enabled = TRUE
 
-/datum/component/vampiric_striker/Initialize()
+/datum/component/vampiric_striker/Initialize(threshold, repair_value)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
+	if(!isnull(threshold))
+		shard_threshold = threshold
+	if(!isnull(repair_value))
+		shard_repair_value = repair_value
 		
 	to_chat(parent, span_userdanger("Your strikes look to splinter the defenses of your foes."))
 	
@@ -53,6 +59,11 @@
 /datum/component/vampiric_striker/proc/on_successful_strike(mob/living/carbon/human/source, mob/living/target, obj/item/weapon)
 	SIGNAL_HANDLER
 
+	var/datum/component/vampiric_striker/vamp_comp = target.GetComponent(/datum/component/vampiric_striker)
+	// We don't really want gnolls to hit each other to pre-buff.
+	// For now, I'll allow NPCs, but should it become an issue in the future, we can add a mind/client check here.
+	if(vamp_comp)
+		return
 	if(!istype(target, /mob/living/carbon/human))
 		return
 	current_victim_ref = WEAKREF(target)
@@ -125,6 +136,9 @@
 	qdel(S)
 
 /datum/component/vampiric_striker/proc/repair_from_shard(amount)
+	if(!repairs_enabled)
+		return
+
 	var/remaining_repair = amount
 	while(remaining_repair > 0)
 		var/obj/item/most_broken = null
@@ -180,6 +194,8 @@
 		return
 	var/datum/component/vampiric_striker/vamp_comp = creator.GetComponent(/datum/component/vampiric_striker)
 	if(!vamp_comp)
+		return
+	if(!vamp_comp.repairs_enabled)
 		return
 	vamp_comp.repair_from_shard(repair_value)
 	var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(creator))

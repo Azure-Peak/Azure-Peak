@@ -65,6 +65,7 @@
 			var/datum/antagonist/new_antag = new /datum/antagonist/gnoll()
 			H.mind.add_antag_datum(new_antag)
 			H.verbs |= /mob/living/carbon/human/proc/gnoll_inspect_skin
+			H.verbs |= /mob/living/carbon/human/proc/gnoll_toggle_pelt_repair
 
 /datum/outfit/job/roguetown/gnoll/proc/don_pelt(mob/living/carbon/human/H)
 	if(H.mind)
@@ -139,8 +140,25 @@
 	set name = "Inspect Pelt"
 	set category = "Gnoll"
 	set desc = "Examine your gnoll skin armor"
-	if(!istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor))
+	if(!istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll))
 		to_chat(src, span_warning("You don't have any gnoll skin armor to inspect!"))
 		return
-	var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/GA = skin_armor
+	var/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/GA = skin_armor
 	GA.Topic(null, list("inspect" = "1"), src)
+
+/mob/living/carbon/human/proc/gnoll_toggle_pelt_repair()
+	set name = "Toggle Pelt Repair From Shards"
+	set category = "Gnoll"
+	set desc = "Toggle whether vampiric shard consumption repairs your skin armor."
+
+	var/datum/component/vampiric_striker/vamp_comp = GetComponent(/datum/component/vampiric_striker)
+	if(!vamp_comp)
+		to_chat(src, span_warning("You don't possess the ability required to attune your pelt!"))
+		return
+
+	vamp_comp.repairs_enabled = !vamp_comp.repairs_enabled
+
+	if(vamp_comp.repairs_enabled)
+		to_chat(src, span_notice("Armor shards will now repair your pelt."))
+	else
+		to_chat(src, span_warning("Armor shards will no longer repair your pelt. Warning, this prevents gaining buffs from picking up shards."))
