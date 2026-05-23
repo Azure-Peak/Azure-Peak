@@ -22,6 +22,7 @@
 	..()
 
 	ADD_TRAIT(H, TRAIT_OUTLAW, TRAIT_GENERIC) //No miesters for skeletons, you're an undead, bloodless skeletal abomination.
+	ADD_TRAIT(H, TRAIT_SHATTER_KILL, TRAIT_GENERIC) //Rib fractures kill you, unlike crit weakness you cannot examine this version and it won't make you weaker for being rotcured.
 
 	H.set_patron(/datum/patron/inhumen/zizo)
 
