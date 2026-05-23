@@ -2,6 +2,27 @@
 #define GNOLL_ABDUCT_TIMER 20 SECONDS
 #define GNOLL_ABDUCT_DAMAGE_TRESHOLD 100
 
+/datum/action/cooldown/spell/graggar
+	background_icon = 'icons/mob/actions/graggarmiracles.dmi'
+	button_icon = 'icons/mob/actions/graggarmiracles.dmi'
+	spell_color = GLOW_COLOR_GRAGGAR
+
+	ignore_armor_penalty = TRUE
+
+	attunement_school = null
+
+	primary_resource_type = SPELL_COST_STAMINA
+
+	secondary_resource_type = null
+
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = STATKEY_INT
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+
+	point_cost = 0
+
 /obj/effect/proc_holder/spell/self/claws/gnoll
 	name = "Gnoll Claws"
 	claw_type = /obj/item/rogueweapon/werewolf_claw/gnoll
@@ -325,6 +346,49 @@
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message), span_warning("[target] lunges out of the shadows!"), span_notice("Your invisibility fades.")), base_dur)
 
 	return TRUE
+
+/datum/action/cooldown/spell/gnoll/gnoll_battlecry
+	name = "Battlecry"
+	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution. Debuffs followers of the Ten, but not Psydonites."
+	fluff_desc = "The battlefield quakes with your roar! Shaken to their core, they will prove easy pickings for a worthy champion such as yourself; the power of the Sinistar, unleashed.\
+	SLAUGHTER THE LAMBS - DRINK THEIR MARROW - FEAST UPON THEIR FLESH - LEAVE NO TRACE OF THEIR PATHETIC EXISTENCE! - THE SINISTAR HUNGERS!"
+	button_icon_state = "call_to_slaughter"
+	sound = 'sound/magic/battle_cry_graggar.ogg'
+	glow_intensity = 0
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_AURA
+
+	primary_resource_cost = SPELLCOST_STAT_BUFF
+
+	invocations = list("LAMBS TO THE SLAUGHTER!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = FALSE
+	cooldown_time = 5 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/ravox/gnoll_battlecry/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
+		if(istype(target.patron, /datum/patron/inhumen))
+			target.apply_status_effect(/datum/status_effect/buff/call_to_slaughter)	//Buffs inhumens
+			continue
+		if(istype(target.patron, /datum/patron/old_god))
+			to_chat(target, span_danger("You feel a surge of cold wash over you; leaving your body as quick as it hit.."))	//No effect on Psydonians!
+			continue
+		if(!owner.faction_check_mob(target))
+			continue
+		if(target.mob_biotypes & MOB_UNDEAD)
+			continue
+		target.apply_status_effect(/datum/status_effect/debuff/call_to_slaughter)	//Debuffs non-inhumens/psydonians
+	return TRUE
+
 
 #undef GNOLL_STEALTH_TIMER
 #undef GNOLL_ABDUCT_TIMER

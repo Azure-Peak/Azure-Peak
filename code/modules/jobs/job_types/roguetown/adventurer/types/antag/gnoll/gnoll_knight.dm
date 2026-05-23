@@ -45,7 +45,6 @@
 	icon_state = "knight"
 	max_integrity = 750
 	armor = ARMOR_GNOLL_STRONG
-	relative_repair_interval = 25 SECONDS
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/knight
 	var/coverage = 30 // Worse than any shield, but still some passive defense against ranged attacks.

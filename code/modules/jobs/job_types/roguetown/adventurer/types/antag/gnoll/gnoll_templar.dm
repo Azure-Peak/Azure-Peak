@@ -40,14 +40,13 @@
 		neck = /obj/item/storage/belt/rogue/pouch
 		wrists = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 		don_pelt(H)
-		var/datum/devotion/C = new /datum/devotion(H, H.patron)
-		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = FALSE)
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll/templar)
 
+
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/templar
 	icon_state = "templar"
-	max_integrity = 500
+	max_integrity = 600
 	armor = ARMOR_GNOLL_STANDARD
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/templar

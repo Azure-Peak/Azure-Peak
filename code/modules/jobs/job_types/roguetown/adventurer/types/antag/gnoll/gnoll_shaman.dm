@@ -2,7 +2,7 @@
 	name = "Gnoll Shaman"
 	tutorial = "Leader in faith, often the main source of wisdom within a gnoll pack. Few are closer to Graggar himself as you are. You may chose to waylay the hunt, in order to nurture fallen oppponents back to health, so they may grow stronger, providing a true challenge in a future fight."
 	outfit = /datum/outfit/job/roguetown/gnoll/shaman
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT)
 	reset_stats = TRUE
 	subclass_stats = list(
 		// Weighted towards 16 currently. They don't get statpacks or racial stats, so we could consider this about 2 less at least, maybe 3. For about a 13.
@@ -15,8 +15,8 @@
 	subclass_skills = list(
 		/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
 
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN, // I'm sorry but I think the Shamans should have lower combat skill than the Knight and Templar.
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
@@ -28,7 +28,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT, // To give them more of a surgery capability
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
@@ -46,20 +46,18 @@
 		neck = /obj/item/storage/belt/rogue/pouch/alchemy
 		wrists = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 		don_pelt(H)
-		var/datum/devotion/C = new /datum/devotion(H, H.patron)
-		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll/shaman)
-		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast) // It does such pitiful damage I kinda don't even want to add it, but I think it can add a bit for the Shaman.
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/extract_heart) // Shamans had no real way to get hearts. This is very thematic.
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/gnoll/gnoll_battlecry)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/shaman
 	icon_state = "shaman"
-	armor = ARMOR_GNOLL_WEAK
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/shaman
 	name = "Shaman Claw"
 	force = 25
+	wdefense = 6
 	/* 
 	Shaman does 25 * 1.2 = 30 force with their base STR.
 	*/

@@ -12,11 +12,11 @@
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 250
+	max_integrity = 400
 	item_flags = DROPDEL
 
 	auto_repair_mode = TRUE
-	relative_repair_interval = 15 SECONDS
+	relative_repair_interval = 90 SECONDS
 	interrupt_damount = 15
 	blue_to_integ_ratio = 0.6
 
