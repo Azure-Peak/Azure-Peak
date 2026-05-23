@@ -134,6 +134,16 @@ export const HarborTab = (props: {
     <div style={pageStyle}>
       {agentBanner}
       <BudgetStrip harbor={harbor} />
+      <div
+        style={{
+          margin: '4px 0 6px',
+          fontFamily: SERIF,
+          fontSize: '13px',
+          color: INK_SOFT,
+        }}
+      >
+        Tip: Ctrl+F in this window to find a good or realm quickly.
+      </div>
       {harbor.kinship?.realm_name && (
         <div
           style={{
