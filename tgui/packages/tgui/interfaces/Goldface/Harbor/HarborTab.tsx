@@ -216,6 +216,7 @@ export const HarborTab = (props: {
           hailsRemaining={harbor.hails_remaining}
           budget={budget}
           act={act}
+          realms={harbor.realms}
         />
       )}
       {tab === 'realms' && <RealmsView realms={harbor.realms} />}

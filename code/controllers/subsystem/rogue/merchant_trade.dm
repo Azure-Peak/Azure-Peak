@@ -174,7 +174,7 @@ SUBSYSTEM_DEF(merchant_trade)
 		A.update_static_data_for_all_viewers()
 
 /datum/controller/subsystem/merchant_trade/proc/add_ship_demand_for_realm(datum/foreign_realm/realm)
-	if(!realm || !length(realm.demanded_categories))
+	if(!realm)
 		return
 	var/list/buckets_seen = list()
 	for(var/cat in realm.demanded_categories)
@@ -192,7 +192,7 @@ SUBSYSTEM_DEF(merchant_trade)
 		pool_consumed[bucket] = max(0, (pool_consumed[bucket] || 0) - drain)
 
 /datum/controller/subsystem/merchant_trade/proc/remove_ship_demand_for_realm(datum/foreign_realm/realm)
-	if(!realm || !length(realm.demanded_categories))
+	if(!realm)
 		return
 	var/list/buckets_seen = list()
 	for(var/cat in realm.demanded_categories)

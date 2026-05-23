@@ -599,16 +599,31 @@
 		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_COAL, "price_mod" = CONDITION_PRICE_MODERATE, "qty_mod" = CONDITION_QTY_MODERATE),
 	)
 
-/datum/realm_condition/cross_southern_drought
-	id = "cross_southern_drought"
-	name = "Southern Drought"
-	description = "The southern continent's harvests have collapsed. Rice and garlick from Naledi and Raneshen are produced expensively, and both realms beg for foreign grain and oats."
+/datum/realm_condition/cross_raneshen_drought
+	id = "cross_raneshen_drought"
+	name = "Ranesheni Drought"
+	description = "The Raneshen continent's harvests have collapsed. Rice and garlick from the Ranesheni heartlands are produced expensively, while Lirvas's tributary fields wither in tandem. Both realms beg for foreign grain and oats."
 	weight = 6
 	cross_realm = TRUE
-	affected_realms = list(REALM_NALEDI, REALM_RANESHEN)
+	affected_realms = list(REALM_RANESHEN, REALM_LIRVAS)
 	supply_modifiers = list(
 		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_RICE, "price_mod" = CONDITION_PRICE_HEAVY, "qty_mod" = 1.0),
 		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_GARLICK, "price_mod" = CONDITION_PRICE_HEAVY, "qty_mod" = 1.0),
+	)
+	demand_modifiers = list(
+		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_GRAIN, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_DESPERATE),
+		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_OATS, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM),
+	)
+
+/datum/realm_condition/cross_aavnr_naledi_drought
+	id = "cross_aavnr_naledi_drought"
+	name = "Southern Drought"
+	description = "A scorching season has dried the Aavnic steppes and the dunes alike. Naledian rice arrives expensive and thin, while both the Potentate and the Malikat beg the seafaring realms for grain and oats."
+	weight = 6
+	cross_realm = TRUE
+	affected_realms = list(REALM_AAVNR, REALM_NALEDI)
+	supply_modifiers = list(
+		list("op" = CONDITION_OP_MODIFY, "good" = TRADE_GOOD_RICE, "price_mod" = CONDITION_PRICE_HEAVY, "qty_mod" = 1.0),
 	)
 	demand_modifiers = list(
 		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_GRAIN, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_DESPERATE),

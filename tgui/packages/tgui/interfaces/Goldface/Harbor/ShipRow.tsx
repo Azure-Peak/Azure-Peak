@@ -19,7 +19,8 @@ import {
   SEAL_RED,
   SERIF,
 } from '../../common/parchment';
-import type { ActFn, BulkLine, HarborShip } from '../types';
+import type { ActFn, BulkLine, HarborRealm, HarborShip } from '../types';
+import { RealmCard } from './RealmCard';
 
 const formatDuration = (totalSeconds: number) => {
   if (totalSeconds <= 0) return 'now';
@@ -62,6 +63,7 @@ type Props = {
   ship: HarborShip;
   budget: number;
   act: ActFn;
+  realm?: HarborRealm;
   onHail?: () => void;
   hailDisabled?: boolean;
   hailDisabledReason?: string;
@@ -281,6 +283,7 @@ export const ShipRow = (props: Props) => {
     ship,
     budget,
     act,
+    realm,
     onHail,
     hailDisabled,
     hailDisabledReason,
@@ -288,6 +291,7 @@ export const ShipRow = (props: Props) => {
   } = props;
   const hasBulk =
     (ship.bulk_demands?.length ?? 0) + (ship.bulk_supplies?.length ?? 0) > 0;
+  const [realmOpen, setRealmOpen] = useState(false);
   return (
     <div
       style={{
@@ -336,16 +340,104 @@ export const ShipRow = (props: Props) => {
         >
           <div
             title={`Tonnage scales goods on offer and expected favor. 100t baseline = 1.00x, 800t galleon caps at 2.00x. This vessel: ${ship.tonnage_mult.toFixed(2)}x.`}
+            style={{ position: 'relative' }}
           >
-            <span style={{ color: SEAL_AMBER, fontVariant: 'small-caps' }}>
-              {ship.realm_id}
-            </span>
+            {realm ? (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setRealmOpen((o) => !o);
+                }}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  padding: 0,
+                  margin: 0,
+                  color: SEAL_AMBER,
+                  fontVariant: 'small-caps',
+                  fontFamily: SERIF,
+                  fontSize: 'inherit',
+                  cursor: 'pointer',
+                  borderBottom: `1px dotted ${SEAL_AMBER}`,
+                }}
+                title="Click to see what this realm typically wants and sells"
+              >
+                {ship.realm_id}
+              </button>
+            ) : (
+              <span style={{ color: SEAL_AMBER, fontVariant: 'small-caps' }}>
+                {ship.realm_id}
+              </span>
+            )}
             <span style={{ color: INK_FAINT }}> &middot; </span>
             {ship.ship_type} &middot; {ship.tonnage}t
             {ship.tonnage_mult > 1.0 && (
               <span style={{ color: SEAL_AMBER }}>
                 {' '}({ship.tonnage_mult.toFixed(2)}x)
               </span>
+            )}
+            {realm && realmOpen && (
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  right: 0,
+                  marginTop: '4px',
+                  zIndex: 10,
+                  width: '320px',
+                  textAlign: 'left',
+                  padding: '8px 10px',
+                  background: 'var(--p-bg)',
+                  border: `1px solid ${INK}`,
+                  borderRadius: '2px',
+                  boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.35)',
+                  fontFamily: SERIF,
+                  fontSize: '12px',
+                  color: INK,
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    justifyContent: 'space-between',
+                    marginBottom: '6px',
+                  }}
+                >
+                  <span
+                    style={{
+                      color: SEAL_AMBER,
+                      fontVariant: 'small-caps',
+                      fontWeight: 'bold',
+                      fontSize: '13px',
+                    }}
+                  >
+                    {realm.name}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setRealmOpen(false);
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: INK_SOFT,
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      padding: '0 4px',
+                      lineHeight: 1,
+                    }}
+                    title="Close"
+                  >
+                    ✕
+                  </button>
+                </div>
+                <RealmCard realm={realm} />
+              </div>
             )}
           </div>
           {ship.expected_favor > 0 && (
