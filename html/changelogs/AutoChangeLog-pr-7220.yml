@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "Fix chat tab sorting for emotes, OOC, LOOC, and admin log messages"

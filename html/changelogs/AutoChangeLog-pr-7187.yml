@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Hags and lich skeletons can no longer take hunted"
+  - balance: "Hunted now makes you a target for assassins if you're a heavily-protected town role, and gnolls otherwise"

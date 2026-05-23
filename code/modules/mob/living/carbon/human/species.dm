@@ -790,7 +790,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					return FALSE
 			if(H.wear_armor)
 				if(istype(H.wear_armor, I.type))
-					return FALSE
+					if(!(I.blocking_behavior & SAMEWEAR))
+						return FALSE
 				if(I.blocksound)
 					if(I.blocksound == H.wear_armor.blocksound)
 						return FALSE

@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "A large amount of offensive spells has been audited and should no longer be possible to cast in shapeshifted form. Report any that is missing."

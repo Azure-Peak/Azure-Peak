@@ -220,6 +220,21 @@
 	name = "berserker's skin"
 	desc = "I've endured enough. The onslaught has lost its meaning."
 	armor = ARMOR_LEATHER
+	blocksound = SOFTUNDERHIT
+	blocking_behavior = SAMEWEAR
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker/chest
+	name = "berserker's thickened chest"
+	desc = "The callouses could stop arrows! But only so many."
+	slot_flags = ITEM_SLOT_ARMOR
+	armor = ARMOR_MAILLE
+	resistance_flags = FLAMMABLE
+	blocksound = SOFTHIT
+	blocking_behavior = SAMEWEAR
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST
+	max_integrity = 180
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/bailiff
 	name = "executioneer's skin"

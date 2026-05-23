@@ -18,6 +18,7 @@
 	zizo_spell = TRUE
 
 /datum/action/cooldown/spell/lacrima/zizo
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = 100
 	secondary_resource_type = SPELL_COST_ENERGY
@@ -40,13 +41,16 @@
 	return FALSE
 
 /datum/action/cooldown/spell/lacrima/proc/lux_rip(mob/living/carbon/human/target, mob/living/carbon/human/user)
-	var/break_time = 100
-	var/tear_time = 100
+	var/break_time = 13 SECONDS
+	var/tear_time = 7 SECONDS
 
 	if(target == user)
 		return
 	if(!iscarbon(target))
 		to_chat(user, span_info("Their Lux is insufficient or plain worthless for this ritual."))
+		return
+	if(target.stat == DEAD)
+		to_chat(user, span_notice("They're dead."))
 		return
 	if(!target.Adjacent(user))
 		to_chat(user, span_info("I need to be next to [target] to excise their Lux."))
@@ -80,11 +84,13 @@
 		to_chat(target, span_purple("<b>You hear a vicious giggle echoing through your mind. The Dame of Progress is pleased.</b>"))
 		target.add_stress(/datum/stressevent/torn_lux_psydonite)
 		owner.add_stress(/datum/stressevent/dame_favor)
+		owner.playsound_local(owner, 'sound/misc/zizo.ogg', 25, FALSE)
 
 	else if(HAS_TRAIT(target, TRAIT_NOBLE) || HAS_TRAIT(target, TRAIT_CLERGY))
 		to_chat(target, span_purple("<b>You hear a vicious giggle echoing through your mind. The Dame of Progress is pleased.</b>"))
 		target.add_stress(/datum/stressevent/torn_lux_devout)
 		owner.add_stress(/datum/stressevent/dame_favor)
+		owner.playsound_local(owner, 'sound/misc/zizo.ogg', 25, FALSE)
 
 	else
 		target.add_stress(/datum/stressevent/torn_lux)
