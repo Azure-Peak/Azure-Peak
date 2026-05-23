@@ -1,9 +1,3 @@
-#define ZAD_FLIGHT_TRAVEL_HEIGHT 256
-#define ZAD_ASCEND_DURATION (8 SECONDS)
-#define ZAD_DESCEND_DURATION (8 SECONDS)
-#define ZAD_BOMB_DESCEND_DURATION_VAR_MIN (13 SECONDS)
-#define ZAD_BOMB_DESCEND_DURATION_VAR_MAX (18 SECONDS)
-
 /obj/effect/temp_visual/zad_tracked
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	layer = ABOVE_MOB_LAYER
@@ -300,9 +294,3 @@
 			return list("x" = three_offsets[index])
 		else
 			return list("x" = 0)
-
-#undef ZAD_FLIGHT_TRAVEL_HEIGHT
-#undef ZAD_ASCEND_DURATION
-#undef ZAD_DESCEND_DURATION
-#undef ZAD_BOMB_DESCEND_DURATION_VAR_MIN
-#undef ZAD_BOMB_DESCEND_DURATION_VAR_MAX
