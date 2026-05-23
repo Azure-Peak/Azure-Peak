@@ -51,16 +51,23 @@ export type MarketCondition = {
   tone?: 'good' | 'bad' | 'neutral';
 };
 
+export type PoolGood = {
+  name: string;
+  delta: number;
+  removed: BooleanLike;
+  added_only: BooleanLike;
+};
+
 export type HarborRealm = {
   id: string;
   name: string;
   is_kin?: BooleanLike;
   cultural_goods: string[];
   cultural_pack_names: string[];
-  basic_buys: string[];
-  rare_buys: string[];
-  basic_sells: string[];
-  rare_sells: string[];
+  basic_buys: PoolGood[];
+  rare_buys: PoolGood[];
+  basic_sells: PoolGood[];
+  rare_sells: PoolGood[];
   demanded_categories: string[];
   market_conditions?: MarketCondition[];
 };

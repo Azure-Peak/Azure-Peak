@@ -52,6 +52,7 @@
 		"Seeds",
 		"Tools",
 		"Wardrobe",
+		"Zadpacks",
 	)
 	var/list/categories_gamer = list(
 		"Adventuring Supplies",
@@ -417,10 +418,10 @@
 			"is_kin" = (kinship_realm_id && R.id == kinship_realm_id) ? TRUE : FALSE,
 			"cultural_goods" = R.cultural_goods ? R.cultural_goods.Copy() : list(),
 			"cultural_pack_names" = cultural_pack_names(R.cultural_stock_pool),
-			"basic_buys" = pool_good_names(R.bulk_demand_pool, TRUE),
-			"rare_buys" = pool_good_names(R.bulk_demand_pool, FALSE),
-			"basic_sells" = pool_good_names(R.bulk_supply_pool, TRUE),
-			"rare_sells" = pool_good_names(R.bulk_supply_pool, FALSE),
+			"basic_buys" = filtered_pool_summary(R, FALSE, TRUE),
+			"rare_buys" = filtered_pool_summary(R, FALSE, FALSE),
+			"basic_sells" = filtered_pool_summary(R, TRUE, TRUE),
+			"rare_sells" = filtered_pool_summary(R, TRUE, FALSE),
 			"demanded_categories" = R.demanded_categories ? R.demanded_categories.Copy() : list(),
 		)
 		var/list/condition_entries = list()
@@ -544,16 +545,19 @@
 			result += PA.name
 	return result
 
-/obj/structure/roguemachine/goldface/proc/pool_good_names(list/pool, want_always)
+/obj/structure/roguemachine/goldface/proc/filtered_pool_summary(datum/foreign_realm/R, want_supply, want_always)
 	var/list/result = list()
-	for(var/list/entry in pool)
+	for(var/list/entry in R.get_pool_ui_summary(want_supply))
 		if(want_always && !entry["always"])
 			continue
 		if(!want_always && entry["always"])
 			continue
-		var/datum/trade_good/TG = GLOB.trade_goods[entry["good"]]
-		if(TG)
-			result += TG.name
+		result += list(list(
+			"name" = entry["name"],
+			"delta" = entry["delta_steps"],
+			"removed" = entry["removed"],
+			"added_only" = entry["added_only"],
+		))
 	return result
 
 /obj/structure/roguemachine/goldface/proc/build_cultural_stock_data(mob/living/carbon/human/viewer)

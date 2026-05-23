@@ -186,8 +186,8 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				"id" = R.id,
 				"name" = R.name,
 				"cultural_goods_count" = length(R.cultural_goods),
-				"bulk_demand_count" = length(R.bulk_demand_pool),
-				"bulk_supply_count" = length(R.bulk_supply_pool),
+				"bulk_demand_count" = length(R.bulk_demand_pool_base) + length(R.bulk_demand_modifiers),
+				"bulk_supply_count" = length(R.bulk_supply_pool_base) + length(R.bulk_supply_modifiers),
 			))
 		var/list/ships_data = list()
 		for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)

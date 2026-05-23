@@ -15,8 +15,10 @@
 	var/list/city_tags = list()
 	var/city_tag_chance = 0
 	var/list/cultural_goods = list()
-	var/list/bulk_demand_pool = list()
-	var/list/bulk_supply_pool = list()
+	var/list/bulk_demand_pool_base = list()
+	var/list/bulk_supply_pool_base = list()
+	var/list/bulk_demand_modifiers = list()
+	var/list/bulk_supply_modifiers = list()
 	var/list/cultural_stock_pool = list()
 	var/list/demanded_categories = list()
 	var/list/cultural_overrides = list()
@@ -24,6 +26,97 @@
 	var/list/victualling_preserved_pool = list()
 	var/list/victualling_drinks_pool = list()
 	var/list/hail_lines = list()
+
+/datum/foreign_realm/proc/get_effective_demand_pool()
+	return build_effective_pool(bulk_demand_pool_base, bulk_demand_modifiers)
+
+/datum/foreign_realm/proc/get_effective_supply_pool()
+	return build_effective_pool(bulk_supply_pool_base, bulk_supply_modifiers)
+
+/datum/foreign_realm/proc/build_effective_pool(list/base, list/modifiers)
+	var/list/result = list()
+	var/list/removed_goods = list()
+	for(var/list/mod as anything in modifiers)
+		if(mod["op"] == CONDITION_OP_REMOVE)
+			removed_goods[mod["good"]] = TRUE
+	for(var/list/entry as anything in base)
+		if(removed_goods[entry["good"]])
+			continue
+		var/list/working = entry.Copy()
+		for(var/list/mod as anything in modifiers)
+			if(mod["op"] != CONDITION_OP_MODIFY)
+				continue
+			if(mod["good"] != entry["good"])
+				continue
+			if(mod["price_mod"])
+				working["price_mod"] = (working["price_mod"] || 1.0) * mod["price_mod"]
+			if(mod["qty_mod"])
+				working["qty_min"] = max(1, round((working["qty_min"] || BULK_QTY_SMALL_MIN) * mod["qty_mod"]))
+				working["qty_max"] = max(working["qty_min"], round((working["qty_max"] || BULK_QTY_SMALL_MAX) * mod["qty_mod"]))
+		result += list(working)
+	for(var/list/mod as anything in modifiers)
+		if(mod["op"] != CONDITION_OP_ADD)
+			continue
+		result += list(list(
+			"good" = mod["good"],
+			"qty_min" = mod["qty_min"] || BULK_QTY_SMALL_MIN,
+			"qty_max" = mod["qty_max"] || BULK_QTY_SMALL_MAX,
+			"price_mod" = mod["price_mod"] || BULK_PRICE_FAIR,
+			"always" = mod["always"] || FALSE,
+		))
+	return result
+
+/// Returns UI-friendly summary: list of dicts {good, name, always, removed, delta_steps} where delta_steps counts net + (positive price_mods) and - (negative price_mods) condition effects.
+/datum/foreign_realm/proc/get_pool_ui_summary(want_supply)
+	var/list/base = want_supply ? bulk_supply_pool_base : bulk_demand_pool_base
+	var/list/modifiers = want_supply ? bulk_supply_modifiers : bulk_demand_modifiers
+	var/list/result = list()
+	var/list/base_goods = list()
+	for(var/list/entry as anything in base)
+		base_goods[entry["good"]] = TRUE
+		var/datum/trade_good/TG = GLOB.trade_goods?[entry["good"]]
+		if(!TG)
+			continue
+		var/removed = FALSE
+		var/delta_steps = 0
+		for(var/list/mod as anything in modifiers)
+			if(mod["good"] != entry["good"])
+				continue
+			if(mod["op"] == CONDITION_OP_REMOVE)
+				removed = TRUE
+			else if(mod["op"] == CONDITION_OP_MODIFY)
+				var/p = mod["price_mod"]
+				if(!p)
+					continue
+				if(p > 1.0)
+					delta_steps += 1
+				else if(p < 1.0)
+					delta_steps -= 1
+		result += list(list(
+			"good" = entry["good"],
+			"name" = TG.name,
+			"always" = entry["always"] ? TRUE : FALSE,
+			"removed" = removed,
+			"delta_steps" = delta_steps,
+			"added_only" = FALSE,
+		))
+	for(var/list/mod as anything in modifiers)
+		if(mod["op"] != CONDITION_OP_ADD)
+			continue
+		if(base_goods[mod["good"]])
+			continue
+		var/datum/trade_good/TG = GLOB.trade_goods?[mod["good"]]
+		if(!TG)
+			continue
+		result += list(list(
+			"good" = mod["good"],
+			"name" = TG.name,
+			"always" = mod["always"] ? TRUE : FALSE,
+			"removed" = FALSE,
+			"delta_steps" = 1,
+			"added_only" = TRUE,
+		))
+	return result
 
 /datum/foreign_realm/proc/pick_ship_type()
 	if(!length(ship_types))

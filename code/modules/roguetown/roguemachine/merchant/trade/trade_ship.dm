@@ -43,8 +43,8 @@
 	return clamp(raw, 1.0, TRADE_SHIP_TONNAGE_SCALE_CAP)
 
 /datum/trade_ship/proc/roll_bulk_lines(datum/foreign_realm/realm)
-	bulk_demands = roll_bulk_pool(realm.bulk_demand_pool, FALSE)
-	bulk_supplies = roll_bulk_pool(realm.bulk_supply_pool, TRUE)
+	bulk_demands = roll_bulk_pool(realm.get_effective_demand_pool(), FALSE)
+	bulk_supplies = roll_bulk_pool(realm.get_effective_supply_pool(), TRUE)
 
 /datum/trade_ship/proc/roll_bulk_pool(list/pool, is_supply)
 	var/list/result = list()

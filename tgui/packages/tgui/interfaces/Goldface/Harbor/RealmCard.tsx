@@ -6,7 +6,7 @@ import {
   SEAL_GREEN,
   SEAL_RED,
 } from '../../common/parchment';
-import type { HarborRealm, MarketCondition } from '../types';
+import type { HarborRealm, MarketCondition, PoolGood } from '../types';
 
 const toneToColor = (tone?: string) => {
   switch (tone) {
@@ -62,30 +62,50 @@ export const CategoryPill = (props: { name: string }) => (
   </span>
 );
 
+const deltaSuffix = (delta: number) => {
+  if (!delta) return '';
+  if (delta > 0) return ' ' + '+'.repeat(Math.min(delta, 4));
+  return ' ' + '-'.repeat(Math.min(-delta, 4));
+};
+
 export const GoodPill = (props: {
-  name: string;
+  good: PoolGood;
   rare: boolean;
   color: string;
 }) => {
-  const { name, rare, color } = props;
+  const { good, rare, color } = props;
+  const removed = !!good.removed;
+  const addedOnly = !!good.added_only;
+  const delta = good.delta || 0;
+  const tooltipParts: string[] = [];
+  tooltipParts.push(rare ? 'Sometimes' : 'Always');
+  if (addedOnly) tooltipParts.push('introduced by an event');
+  if (delta > 0) tooltipParts.push(`boosted by ${delta} event${delta > 1 ? 's' : ''}`);
+  if (delta < 0)
+    tooltipParts.push(`suppressed by ${-delta} event${-delta > 1 ? 's' : ''}`);
+  if (removed) tooltipParts.push('removed by an event');
   return (
     <span
-      title={rare ? 'Sometimes' : 'Always'}
+      title={tooltipParts.join(' - ')}
       style={{
         display: 'inline-block',
         padding: '0px 5px',
         marginRight: '3px',
         marginBottom: '2px',
-        border: `1px ${rare ? 'dashed' : 'solid'} ${color}`,
+        border: `1px ${rare || addedOnly ? 'dashed' : 'solid'} ${color}`,
         borderRadius: '3px',
         color: color,
-        background: rare ? 'rgba(255, 255, 255, 0.55)' : BUTTON_BG,
+        background:
+          rare || addedOnly ? 'rgba(255, 255, 255, 0.55)' : BUTTON_BG,
         fontWeight: 'bold',
         fontSize: '11px',
         whiteSpace: 'nowrap',
+        textDecoration: removed ? 'line-through' : 'none',
+        opacity: removed ? 0.6 : 1,
       }}
     >
-      {name}
+      {good.name}
+      {deltaSuffix(delta)}
     </span>
   );
 };
@@ -127,14 +147,19 @@ export const RealmCard = (props: { realm: HarborRealm }) => {
           <>
             {realm.basic_buys.map((g) => (
               <GoodPill
-                key={`b-${g}`}
-                name={g}
+                key={`b-${g.name}`}
+                good={g}
                 rare={false}
                 color={SEAL_GREEN}
               />
             ))}
             {realm.rare_buys.map((g) => (
-              <GoodPill key={`br-${g}`} name={g} rare color={SEAL_GREEN} />
+              <GoodPill
+                key={`br-${g.name}`}
+                good={g}
+                rare
+                color={SEAL_GREEN}
+              />
             ))}
           </>
         )}
@@ -147,14 +172,19 @@ export const RealmCard = (props: { realm: HarborRealm }) => {
           <>
             {realm.basic_sells.map((g) => (
               <GoodPill
-                key={`s-${g}`}
-                name={g}
+                key={`s-${g.name}`}
+                good={g}
                 rare={false}
                 color={SEAL_RED}
               />
             ))}
             {realm.rare_sells.map((g) => (
-              <GoodPill key={`sr-${g}`} name={g} rare color={SEAL_RED} />
+              <GoodPill
+                key={`sr-${g.name}`}
+                good={g}
+                rare
+                color={SEAL_RED}
+              />
             ))}
           </>
         )}
