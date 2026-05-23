@@ -61,7 +61,7 @@
 	range = 5
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "stygian"
-	damage = 42
+	damage = 34
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB
 	armor_penetration = PEN_LIGHT
@@ -70,11 +70,11 @@
 	accuracy = 65
 	flag = "piercing"
 	hitsound = 'sound/combat/hits/bladed/genstab (1).ogg'
-	var/reduced_damage = 23
+	var/reduced_damage = 18
 
 /obj/projectile/energy/stygian/arc
 	name = "arced stygian harpe"
-	damage = 32
+	damage = 26
 	arcshot = TRUE
 
 /obj/projectile/energy/stygian/on_hit(target)

@@ -1,6 +1,6 @@
 /datum/admins/proc/admin_show_heal_panel(mob/living/M in GLOB.mob_list)
 	set name = "Show Health Panel"
-	set category = "-GameMaster-"
+	set category = "GAME MASTER"
 
 	if(!check_rights(R_ADMIN))
 		return

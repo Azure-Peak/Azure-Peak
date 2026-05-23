@@ -17,10 +17,16 @@
 		STATKEY_STR = 2,
 		STATKEY_INT = 2,
 		STATKEY_WIL = 2,
-		STATKEY_CON = 1,
-		STATKEY_PER = 1
+		STATKEY_CON = 2,
 	)
 	subclass_skills = list(
+		/datum/skill/combat/swords = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/engineering = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
@@ -63,3 +69,5 @@
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 		shoes = /obj/item/clothing/shoes/roguetown/shortboots
+	if(H.mind)
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)

@@ -276,7 +276,7 @@
 	return
 
 /mob/living/carbon/human/get_blood_color()
-	return dna?.species?.blood_color
+	return dna?.species?.blood_color || BLOOD_COLOR_RED
 
 /****************************************************
 				BLOOD TRANSFERS
@@ -410,13 +410,12 @@
 		W.water_volume = 10
 		W.update_icon()
 		return
-	new /obj/effect/decal/cleanable/blood/splatter(T)
-	var/current_blood_color = get_blood_color()
-	if(current_blood_color)
-		for(var/obj/effect/decal/cleanable/blood/B in T)
-			if(istype(B, /obj/effect/decal/cleanable/blood/footprints))
-				continue
-			B.set_blood_color(current_blood_color)
+	var/current_blood_color = get_blood_color() || BLOOD_COLOR_RED
+	new /obj/effect/decal/cleanable/blood/splatter(T, current_blood_color)
+	for(var/obj/effect/decal/cleanable/blood/B in T)
+		if(istype(B, /obj/effect/decal/cleanable/blood/footprints))
+			continue
+		B.set_blood_color(current_blood_color)
 	T?.pollute_turf(/datum/pollutant/metallic_scent, 30)
 
 //to add splatters of blood onto nearby walls. When provided a certain force amount, also increases the range at which blood can appear on the walls.

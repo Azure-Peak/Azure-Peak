@@ -1,0 +1,8 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - code_imp: "Killed Crafter's Coverant. Sorry Malumites. Maybe someone can give you a miracle to sacrifice crafts for materials but until then, its dead sire. The image icon stays though for that purpose."
+  - balance: "Malumites now get apprentice lumberjacking as a suppliment patron boon, shared between missionary, acolytes, templar and heretics."
+  - balance: "munitioneer has higher crafting skills + Expert lumberjacking + Homesteading since they no longer clutch on this miracle cruxing them from ever being proper fort makers."
+  - bugfix: "munitioneer now has miracle skill, they're no longer worse than vagabonds as an antagonist with miracles."
+  - balance: "munitioneer gets T4s off-the-bat, they no longer have to grind to revive people and stuff."

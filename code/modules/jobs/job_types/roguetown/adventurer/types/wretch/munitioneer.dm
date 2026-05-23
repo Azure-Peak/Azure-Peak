@@ -6,7 +6,7 @@
 	cmode_music = 'sound/music/combat_dwarf.ogg'
 	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_TRAINED_SMITH, TRAIT_SMITHING_EXPERT, TRAIT_RITUALIST)
+	traits_applied = list(TRAIT_TRAINED_SMITH, TRAIT_SMITHING_EXPERT, TRAIT_HOMESTEAD_EXPERT, TRAIT_RITUALIST)
 	maximum_possible_slots = 1 // do we need TWO antag weapon factories?
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -24,18 +24,20 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/masonry = SKILL_LEVEL_JOURNEYMAN, 
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/armorsmithing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_EXPERT,
 		/datum/skill/labor/mining = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/smelting = SKILL_LEVEL_EXPERT,
-		/datum/skill/craft/engineering = SKILL_LEVEL_APPRENTICE
+		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN, //Literal Priest of Malum, but we don't want to step on the toes of heretics.
+		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN
 	)
 	subclass_stashed_items = list(
         "Sewing Kit" =  /obj/item/repair_kit,
@@ -69,6 +71,7 @@
 	. = ..()
 	if(H.mind)
 		H.set_patron(/datum/patron/divine/malum)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Single-Use Riddle Spell
 		H.AddComponent(/datum/component/ore_sight) // controversial, and powerful, but it means you're spending less Wretch Time just mining.
 	var/weapons = list("Path of the Hammer - Steel Warhammer", "Path of the Crossbow - Crossbow and Bolts", "Path of the Pick - Pulaski Axe")
 	var/weapon_choice = input(H, "Choose your weapon.", "HOT IS THE ANVYL") as anything in weapons
@@ -84,5 +87,5 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/woodcut/pick)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)	//Minor regen, can level up to T4.
+	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)	//Minor regen, is pre-emptively leveled up to T4 to avoid grind and support.
 	wretch_select_bounty(H)

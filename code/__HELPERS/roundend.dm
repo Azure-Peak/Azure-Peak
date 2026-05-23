@@ -97,6 +97,7 @@
 	if(client)
 		client.verbs |= /client/proc/lobbyooc
 		client.verbs |= /client/proc/view_stats
+		client.update_browserpanel()
 		client.show_game_over()
 
 /mob/living/do_game_over()

@@ -334,7 +334,7 @@
 	return TRUE
 
 /client/proc/run_particle_weather()
-	set category = "-GameMaster-"
+	set category = "GAME MASTER"
 	set name = "Weather - Particle"
 	set desc = "Triggers a particle weather"
 
@@ -353,7 +353,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Run Particle Weather")
 
 /client/proc/run_custom_particle_weather()
-	set category = "-GameMaster-"
+	set category = "GAME MASTER"
 	set name = "Weather - Color Particle"
 	set desc = "Triggers a particle weather"
 

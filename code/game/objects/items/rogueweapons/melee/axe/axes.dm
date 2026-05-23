@@ -660,6 +660,7 @@
 	max_blade_int = 270
 	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/chop/heavy, /datum/intent/axe/sweep)
 	smeltresult = /obj/item/ingot/component/graggar
+	special = /datum/special_intent/vicious_swipe
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar/Initialize()
 	. = ..()

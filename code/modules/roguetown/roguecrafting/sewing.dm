@@ -2238,7 +2238,7 @@
 	category = "Pants"
 /datum/crafting_recipe/roguetown/sewing/velvetdress
 	name = "velvet dress"
-	result = list(/obj/item/clothing/suit/roguetown/shirt/velvetdress)
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/velvetdress)
 	reqs = list(
 		/obj/item/natural/cloth = 3,
 		/obj/item/natural/fibers = 2
@@ -2246,7 +2246,7 @@
 	craftdiff = 3
 /datum/crafting_recipe/roguetown/sewing/noble
 	name = "noble's pinafore"
-	result = list(/obj/item/clothing/suit/roguetown/shirt/nobledress)
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/nobledress)
 	reqs = list(
 		/obj/item/natural/cloth = 3,
 		/obj/item/natural/fibers = 2

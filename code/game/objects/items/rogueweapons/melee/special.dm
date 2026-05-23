@@ -610,8 +610,8 @@
 /obj/item/rogueweapon/spear/militia/proc/load_hay()
 	var/datum/component/ignitable/CI = GetComponent(/datum/component/ignitable)
 	is_loaded = TRUE
-	toggle_state = "peasantwarspear_hay"
-	icon_state = "[toggle_state][wielded ? "1" : ""]"
+	override_state = "peasantwarspear_hay"
+	icon_state = "[override_state][wielded ? "1" : ""]"
 	CI.make_ignitable()
 
 /datum/component/ignitable/warspear
@@ -627,7 +627,7 @@
 		P.is_loaded = FALSE
 
 //Component used to make any item gain the ability to be lit afire and turned into a light source / usable for single-use fire attack.
-//Uses toggle_state for the 'on-fire' sprites.
+//Uses override_state for the 'on-fire' sprites.
 //By default, all it does is become ignited when you click a fire / light source with it, and spread it to anything else, then extinguish.
 /datum/component/ignitable
 	var/is_ignitable = TRUE	//This var makes it actually ignitable, so you want to handle it on a per-item-with-component basis.
@@ -695,11 +695,11 @@
 /datum/component/ignitable/proc/update_icon()
 	var/obj/item/I = parent
 	if(is_active)
-		I.toggle_state = "[icon_state_ignited]"
+		I.override_state = "[icon_state_ignited]"
 		I.icon_state = "[icon_state_ignited][I.wielded ? "1" : ""]"
 	else
 		I.icon_state = "[initial(I.icon_state)][I.wielded ? "1" : ""]"
-		I.toggle_state = null
+		I.override_state = null
 		I.update_icon()
 
 
