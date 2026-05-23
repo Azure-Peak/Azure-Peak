@@ -428,7 +428,7 @@
 	mouse_opacity = 1
 	duration = 5 SECONDS
 	var/repair_value = 50
-	var/health = 25
+	var/health = 15
 	var/pickuppable = TRUE
 	var/dream_check = TRUE
 	var/effect_color = "#005180"
