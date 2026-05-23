@@ -41,6 +41,7 @@
 		"Cosmetics",
 		"Roguery",
 		"Smokes",
+		"Zadpacks",
 	)
 
 /obj/structure/roguemachine/bathvend/Initialize()
