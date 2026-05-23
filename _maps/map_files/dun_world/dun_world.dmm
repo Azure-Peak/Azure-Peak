@@ -32478,6 +32478,10 @@
 /obj/machinery/light/rogue/campfire/densefire,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
+"gDy" = (
+/obj/structure/roguemachine/vaultbank/merchant,
+/turf/open/floor/rogue/woodturned,
+/area/rogue/under/town/sewer)
 "gDA" = (
 /obj/machinery/light/rogue/torchholder/c{
 	dir = 1;
@@ -169024,7 +169028,7 @@ mMx
 ylh
 cqm
 sLd
-gbF
+gDy
 mNc
 kjA
 jFS
