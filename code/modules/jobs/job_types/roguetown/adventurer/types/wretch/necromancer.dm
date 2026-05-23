@@ -1,6 +1,6 @@
 /datum/advclass/wretch/necromancer
 	name = "Necromancer"
-	tutorial = "You have been ostracized and hunted by society for your dark magics and perversion of life."
+	tutorial = "You have been ostracized and hunted by society for your dark magics and perversion of lyfe; your speciality is gaining power through what you raise."
 	allowed_sexes = list(MALE, FEMALE)
 	
 	outfit = /datum/outfit/job/roguetown/wretch/necromancer
@@ -9,23 +9,24 @@
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_ZOMBIE_IMMUNE, TRAIT_NOSTINK, TRAIT_GRAVEROBBER, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_MEDICINE_EXPERT)
 	maximum_possible_slots = 2 // Skeles no longer count vs antag cap, however these are pretty strong mage roles with some inzane potental that can make them a fucking menace to deal with if they work for it. A la-wretch heretics.
+	//Slightly worse spread than rogue mage, trades off with a lot of summoning potental + pretty fucking decent armor choice that's more obvious long-term + player skeles with numbers + traits + medicine skill.
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_PER = 2,
-		STATKEY_WIL = 1,
-		STATKEY_SPD = 1
+		STATKEY_WIL = 1
 	)
 	age_mod = /datum/class_age_mod/wretch/rogue_mage
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE)
+	//VS rogue mage, weaker combat skills + less alchemy (works with the living less often) to make up for their minions doing the work for them.
 	subclass_skills = list(
-		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE, //Weaker than rogue mage, you have minions for stabbing.
+		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, //For lux extractions.
 	)
@@ -65,7 +66,7 @@
 		wretch_select_bounty(H)
 	H.grant_language(/datum/language/undead)
 
-	// Armor choice: Discretion (lighter robes, less protection like rogue mage) vs Progress (open armored necromancer robes) with lightly better protection and unique drip
+	// Armor choice: Discretion (lighter robes, subtle similar to rogue mage) vs Progress (open armored necromancer robes) with better protection potental and unique drip
 	var/armor_style = list("Discretion (Mage Disguise)", "Progress (Open Necromancer Robes)")
 	var/armor_choice = input(H, "Choose your scholarship route.", "NO COST TOO GREAT") as anything in armor_style
 	switch(armor_choice)
@@ -74,11 +75,10 @@
 			neck = /obj/item/clothing/neck/roguetown/gorget
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
-			gloves = /obj/item/clothing/gloves/roguetown/angle //Slightly better glove armor
 			belt = /obj/item/storage/belt/rogue/leather
 			beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot //Hacky solution so you don't lose em.
 			beltl = /obj/item/rogueweapon/huntingknife
-		if("Progress (Open Necromancer Robes)")
+		if("Progress (Open Necromancer Robes)") //Good light armored potental, at a price of being super obvious with unique robes.
 			head = /obj/item/clothing/head/roguetown/roguehood/unholy/enchanted
 			neck = /obj/item/clothing/neck/roguetown/leather //Lesser gorget for more armor elsewhere, have to aquire one in the round.
 			belt = /obj/item/storage/belt/rogue/leather/black
