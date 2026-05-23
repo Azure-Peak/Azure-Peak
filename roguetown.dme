@@ -1770,6 +1770,7 @@
 #include "code\modules\clothing\rogueclothes\armor\unique.dm"
 #include "code\modules\clothing\rogueclothes\armor\special\special.dm"
 #include "code\modules\clothing\rogueclothes\armor\special\vampiric_comp.dm"
+#include "code\modules\clothing\rogueclothes\armor\special\vampiric_rage.dm"
 #include "code\modules\clothing\rogueclothes\gloves\_gloves.dm"
 #include "code\modules\clothing\rogueclothes\gloves\angle.dm"
 #include "code\modules\clothing\rogueclothes\gloves\blacksteel.dm"

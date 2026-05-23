@@ -22,6 +22,8 @@
 /datum/outfit/job/roguetown/gnoll
 	var/shard_threshold = 40
 	var/shard_repair_value = 20
+	var/max_fury_stacks = 150
+	var/vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll
 
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll
 	name = "gnoll skin"

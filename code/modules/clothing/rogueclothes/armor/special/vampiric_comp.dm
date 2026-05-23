@@ -6,7 +6,7 @@
 	/// How much armor damage we must deal to drop a shard
 	var/shard_threshold = 40
 	/// The value of the spawned shard
-	var/shard_repair_value = 20
+	var/shard_repair_value = 16
 	/// Type of shard to spawn
 	var/obj/effect/temp_visual/dream_shard/shard_type = /obj/effect/temp_visual/dream_shard/vampiric
 	/// The specific path type of armor we want to check for and repair
@@ -15,19 +15,23 @@
 	var/datum/weakref/current_victim_ref
 	/// Whether shards are allowed to actively repair tracked items when picked up
 	var/repairs_enabled = TRUE
+	/// How high the fury can build from picking up shards.
+	var/fury_cap = 100
 
-/datum/component/vampiric_striker/Initialize(threshold, repair_value)
+/datum/component/vampiric_striker/Initialize(threshold, repair_value, custom_fury_cap)
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	if(!isnull(threshold))
 		shard_threshold = threshold
 	if(!isnull(repair_value))
 		shard_repair_value = repair_value
-		
+	if(!isnull(custom_fury_cap))
+		fury_cap = custom_fury_cap
+
 	to_chat(parent, span_userdanger("Your strikes look to splinter the defenses of your foes."))
-	
+
 	var/mob/living/carbon/human/H = parent
-	
+
 	for(var/obj/item/I in H.contents)
 		if(istype(I, target_armor_path))
 			add_item(I)
@@ -198,6 +202,11 @@
 	if(!vamp_comp.repairs_enabled)
 		return
 	vamp_comp.repair_from_shard(repair_value)
+	var/datum/status_effect/vampiric_fury/F = creator.has_status_effect(/datum/status_effect/vampiric_fury)
+	if(F)
+		F.add_stack(15)
+	else
+		creator.apply_status_effect(/datum/status_effect/vampiric_fury, 15, vamp_comp.fury_cap)
 	var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(creator))
 	E.color = effect_color
 	playsound(creator, 'sound/magic/magic_nulled.ogg', 70, TRUE)

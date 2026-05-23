@@ -26,18 +26,20 @@
 	)
 	cmode_music = 'sound/music/combat_graggar.ogg'
 
+/datum/outfit/job/roguetown/gnoll/templar
+	vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/templar
+	max_fury_stacks = 100
+	shard_threshold = 40
+	shard_repair_value = 16
+
 /datum/outfit/job/roguetown/gnoll/templar/pre_equip(mob/living/carbon/human/H)
 	if(H.mind)
 		H.set_species(/datum/species/gnoll)
-		H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/templar(H)
+		H.skin_armor = new vamp_armor_type(H)
+		H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)
 		neck = /obj/item/storage/belt/rogue/pouch
 		wrists = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = FALSE)
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/templar
-	icon_state = "templar"
-	max_integrity = 600
-	armor = ARMOR_GNOLL_STANDARD
