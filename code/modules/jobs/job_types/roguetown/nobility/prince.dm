@@ -262,7 +262,10 @@
 				backr = /obj/item/rogue/instrument/psyaltery
 			if("Flute")
 				backr = /obj/item/rogue/instrument/flute
-
+			if("Drum")
+				backr = /obj/item/rogue/instrument/drum
+			if("Shamisen")
+				backr = /obj/item/rogue/instrument/shamisen
 
 /// Gameplay idea: Giving your hardcore challenge the potential to be godly useful if you can stomach the awful stats.
 /datum/advclass/heir/inbred
