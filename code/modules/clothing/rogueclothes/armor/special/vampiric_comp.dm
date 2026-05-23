@@ -11,6 +11,8 @@
 	var/obj/effect/temp_visual/dream_shard/shard_type = /obj/effect/temp_visual/dream_shard/vampiric
 	/// The specific path type of armor we want to check for and repair
 	var/target_armor_path = /obj/item/clothing/suit/roguetown/armor/vampiric
+	/// Weakref to the victim whose armor we're tracking, triggered in a single tick.
+	var/datum/weakref/current_victim_ref
 
 /datum/component/vampiric_striker/Initialize()
 	if(!ishuman(parent))
@@ -27,6 +29,7 @@
 	RegisterSignal(H, COMSIG_MOB_EQUIPPED_ITEM, .proc/on_item_equipped)
 	RegisterSignal(H, COMSIG_MOB_DROPITEM, .proc/on_item_dropped)
 	RegisterSignal(H, COMSIG_MOB_ITEM_ATTACK, .proc/on_successful_strike)
+	RegisterSignal(H, COMSIG_MOB_ITEM_AFTERATTACK, .proc/on_attack_finished)
 
 /datum/component/vampiric_striker/proc/on_item_equipped(mob/user, obj/item/source, slot)
 	SIGNAL_HANDLER
@@ -49,31 +52,39 @@
 
 /datum/component/vampiric_striker/proc/on_successful_strike(mob/living/carbon/human/source, mob/living/target, obj/item/weapon)
 	SIGNAL_HANDLER
-	if(!istype(target) || !length(repairing_items))
-		return
-	RegisterSignal(target, COMSIG_MOB_APPLY_DAMGE, .proc/intercept_damage_calculation, override = TRUE)
 
-/datum/component/vampiric_striker/proc/intercept_damage_calculation(mob/living/carbon/target, damage, damagetype, def_zone)
+	if(!istype(target, /mob/living/carbon/human))
+		return
+	current_victim_ref = WEAKREF(target)
+	RegisterSignal(target, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, .proc/handle_target_armor_shred)
+
+/datum/component/vampiric_striker/proc/handle_target_armor_shred(mob/living/carbon/human/target, armor_damage_taken, obj/item/clothing/damaged_item, current_layer, total_layers)
 	SIGNAL_HANDLER
 
-	UnregisterSignal(target, COMSIG_MOB_APPLY_DAMGE)
-
-	var/obj/item/bodypart/BP = target.get_bodypart(def_zone)
-	if(!BP)
-		return
-	var/attack_flag = "blunt"
-	var/armor_blocked_amount = target.run_armor_check(BP, attack_flag, damage = damage)
-
-	if(armor_blocked_amount > damage)
-		armor_blocked_amount = damage
-	if(armor_blocked_amount <= 0)
+	if(armor_damage_taken <= 0)
 		return
 
-	accumulated_armor_damage += armor_blocked_amount
+	var/layer_modifier = 1 / current_layer
+	var/effective_damage = armor_damage_taken * layer_modifier
+
+	accumulated_armor_damage += effective_damage
 
 	if(accumulated_armor_damage >= shard_threshold)
-		spawn_offensive_shard(target)
-		accumulated_armor_damage -= shard_threshold
+		while(accumulated_armor_damage >= shard_threshold)
+			spawn_offensive_shard(target)
+			accumulated_armor_damage -= shard_threshold
+
+/datum/component/vampiric_striker/proc/on_attack_finished(mob/living/carbon/human/source, atom/target, obj/item/weapon, proximity_flag, click_parameters)
+	SIGNAL_HANDLER
+
+	if(!current_victim_ref)
+		return
+
+	var/mob/living/carbon/human/victim = current_victim_ref.resolve()
+	if(victim)
+		UnregisterSignal(victim, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED)
+
+	current_victim_ref = null
 
 /datum/component/vampiric_striker/proc/spawn_offensive_shard(mob/living/target)
 	var/turf/spawn_location = get_turf(target)
@@ -96,7 +107,6 @@
 			break
 	if(!landing_turf)
 		landing_turf = locate(spawn_location.x + 1, spawn_location.y, spawn_location.z)
-	to_chat(world, "\[DEBUG VAMP SPARK\] Spawning shard at Enemy Turf ([spawn_location.x], [spawn_location.y]). Flying towards Random Turf ([landing_turf.x], [landing_turf.y]). Attacker is at ([attacker_turf.x], [attacker_turf.y]).")
 	var/obj/effect/temp_visual/dream_shard/vampiric/S = new shard_type(spawn_location, 10 SECONDS, shard_repair_value, landing_turf)
 	S.creator_ref = WEAKREF(parent)
 
@@ -175,5 +185,4 @@
 	var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(creator))
 	E.color = effect_color
 	playsound(creator, 'sound/magic/magic_nulled.ogg', 70, TRUE)
-	to_chat(world, "\[DEBUG VAMP SHARD\] Deleting shard.")
 	qdel(src)
