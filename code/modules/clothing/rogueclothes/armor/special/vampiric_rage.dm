@@ -133,6 +133,8 @@
 					REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, SPECIES_TRAIT)
 			if(4)
 				to_chat(owner, span_danger("YOU ARE ANGRY... SO... DAMN... ANGRY!!!"))
+				if(ishuman(owner))
+					ADD_TRAIT(owner, TRAIT_NOPAINSTUN, SPECIES_TRAIT)
 				var/filter = owner.get_filter(FURY_FILTER)
 				if(!filter)
 					owner.add_filter(FURY_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 100, "size" = 1))
@@ -152,6 +154,8 @@
 			if(3)
 				to_chat(owner, span_info("The pure blinding rush of the apex hunt passes, giving way back to conscious thought."))
 				owner.remove_filter(FURY_FILTER)
+				if(ishuman(owner))
+					REMOVE_TRAIT(owner, TRAIT_NOPAINSTUN, SPECIES_TRAIT)
 
 	tier = new_tier
 
@@ -175,6 +179,7 @@
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
 		REMOVE_TRAIT(H, TRAIT_BREADY, SPECIES_TRAIT)
+		REMOVE_TRAIT(H, TRAIT_NOPAINSTUN, SPECIES_TRAIT)
 		if(!HAS_TRAIT(H, TRAIT_LONGSTRIDER))
 			ADD_TRAIT(H, TRAIT_LONGSTRIDER, SPECIES_TRAIT)
 	
