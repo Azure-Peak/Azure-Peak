@@ -24,6 +24,7 @@ export type HarborShip = {
   tonnage_mult: number;
   expected_favor: number;
   favor_earned: number;
+  auto_hailed?: BooleanLike;
   seconds_until_departure?: number;
   can_send_away?: BooleanLike;
   bulk_demands?: BulkLine[];

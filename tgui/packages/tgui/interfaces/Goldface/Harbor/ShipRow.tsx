@@ -310,6 +310,24 @@ export const ShipRow = (props: Props) => {
       >
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ color: INK, fontWeight: 'bold', fontSize: FONT_TITLE }}>
+            {!!ship.auto_hailed && (
+              <span
+                title="This vessel sailed in unbidden while no Merchant was tending the harbor. Dismiss her freely with no penalty."
+                style={{
+                  marginRight: '6px',
+                  padding: '0 4px',
+                  border: `1px solid ${SEAL_AMBER}`,
+                  borderRadius: '6px',
+                  color: SEAL_AMBER,
+                  fontSize: '9px',
+                  fontWeight: 'bold',
+                  letterSpacing: '0.5px',
+                  verticalAlign: 'middle',
+                }}
+              >
+                DRIFTED IN
+              </span>
+            )}
             {ship.ship_name}
           </div>
           {ship.captain_name && (
@@ -487,9 +505,11 @@ export const ShipRow = (props: Props) => {
               style={inkButtonStyle({ disabled: !ship.can_send_away })}
               disabled={!ship.can_send_away}
               title={
-                ship.can_send_away
-                  ? 'Send this vessel away early.'
-                  : 'She has only just docked.'
+                ship.auto_hailed
+                  ? 'This vessel drifted in - dismiss her freely, no penalty.'
+                  : ship.can_send_away
+                    ? 'Send this vessel away early.'
+                    : 'She has only just docked.'
               }
               onClick={onSendAway}
             >

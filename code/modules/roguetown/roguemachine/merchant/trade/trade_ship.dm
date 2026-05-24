@@ -13,6 +13,7 @@
 	var/dock_expires_at = 0
 	var/dock_expiry_timer_id
 	var/favor_earned = 0
+	var/auto_hailed = FALSE
 	var/list/bulk_demands = list()
 	var/list/bulk_supplies = list()
 	var/list/cultural_stock = list()

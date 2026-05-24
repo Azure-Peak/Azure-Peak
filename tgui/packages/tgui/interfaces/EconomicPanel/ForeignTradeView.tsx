@@ -111,6 +111,9 @@ const ShipsSection = (props: {
       buttons={
         <>
           <Button onClick={() => act('regen_hails')}>Regen Hails</Button>
+          <Button ml={1} onClick={() => act('force_auto_hail')}>
+            Force Auto-Hail
+          </Button>
           <Button ml={1} onClick={() => act('reroll_trade_ships')}>
             Reroll Daily Pool
           </Button>

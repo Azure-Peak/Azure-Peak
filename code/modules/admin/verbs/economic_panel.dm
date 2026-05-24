@@ -641,6 +641,18 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SSmerchant_trade.hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
 			admin_log_fiscal("regenerated Merchant hails to [TRADE_SHIPS_HAIL_PER_DAY]", "Regen Hails")
 			return TRUE
+		if("force_auto_hail")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/result = SSmerchant_trade.force_auto_hail()
+			switch(result)
+				if("ok")
+					admin_log_fiscal("forced an auto-hail", "Force Auto-Hail")
+				if("no_dock_spots")
+					to_chat(usr, span_warning("No dock spots free - send a ship away first."))
+				if("no_ships")
+					to_chat(usr, span_warning("No available ships in the pool to hail."))
+			return TRUE
 		if("bulk_add_advance")
 			var/days = text2num(params["days"]) || 1
 			var/list/matches = SStreasury.compute_filtered_players(filter_category, filter_status, filter_search)

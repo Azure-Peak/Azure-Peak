@@ -380,12 +380,13 @@
 			"tonnage_mult" = ship.tonnage_scale_mult(),
 			"expected_favor" = ship.expected_favor,
 			"favor_earned" = ship.favor_earned,
+			"auto_hailed" = ship.auto_hailed ? TRUE : FALSE,
 		)
 		if(is_docked)
 			var/seconds_left = max(0, round((ship.dock_expires_at - world.time) / 10))
 			row["seconds_until_departure"] = seconds_left
 			var/honored = ship.expected_favor > 0 && ship.favor_earned >= ship.expected_favor
-			row["can_send_away"] = (honored || world.time >= ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE) ? TRUE : FALSE
+			row["can_send_away"] = (ship.auto_hailed || honored || world.time >= ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE) ? TRUE : FALSE
 			if(any_kin)
 				var/list/kin_supplies = list()
 				for(var/list/L in ship.bulk_supplies)
@@ -608,6 +609,8 @@
 	if(locked && !is_public)
 		return
 	var/mob/living/carbon/human/H = usr
+	if(SSmerchant_trade && (H.job in profit_id))
+		SSmerchant_trade.touch_merchant_activity()
 	switch(action)
 		if("changecat")
 			var/cat = "[params["category"]]"

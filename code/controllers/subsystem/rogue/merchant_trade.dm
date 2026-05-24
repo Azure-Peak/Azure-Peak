@@ -38,6 +38,9 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/auto_hailer_unlocked = FALSE
 	var/auto_hailer_on = FALSE
 	var/auto_hailer_timer_id
+	var/last_merchant_activity = 0
+	var/auto_hail_used_day = -1
+	var/auto_hail_timer_id
 	var/list/hails_by_realm = list()
 	var/list/dock_durations_by_realm = list()
 	var/list/favor_earned_by_realm = list()
@@ -77,6 +80,8 @@ SUBSYSTEM_DEF(merchant_trade)
 	roll_daily_pool()
 	init_market_pools()
 	last_processed_day = GLOB.dayspassed
+	last_merchant_activity = world.time
+	schedule_auto_hail_tick()
 	return ..()
 
 /datum/controller/subsystem/merchant_trade/proc/init_market_pools()
@@ -386,7 +391,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
 		return "ship_gone"
 	var/honored = ship.expected_favor > 0 && ship.favor_earned >= ship.expected_favor
-	if(!honored && world.time < ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE)
+	if(!ship.auto_hailed && !honored && world.time < ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE)
 		return "early"
 	finalize_ship_departure(ship, auto = FALSE)
 	broadcast_market_change()
@@ -415,7 +420,9 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/outcome
 	var/awarded = 0
 	var/refunded = FALSE
-	if(ratio >= FAVOR_SEND_CLEAN_THRESHOLD)
+	if(ship.auto_hailed)
+		outcome = FAVOR_OUTCOME_PARTIAL
+	else if(ratio >= FAVOR_SEND_CLEAN_THRESHOLD)
 		outcome = FAVOR_OUTCOME_HONORED
 		awarded = round(ship.favor_earned * FAVOR_SEND_CLEAN_MULT)
 		if(hails_remaining < TRADE_SHIPS_HAIL_PER_DAY)
@@ -541,6 +548,51 @@ SUBSYSTEM_DEF(merchant_trade)
 	if(!ship || ship.dock_state != TRADE_SHIP_STATE_DOCKED)
 		return
 	finalize_ship_departure(ship, auto = TRUE)
+
+/datum/controller/subsystem/merchant_trade/proc/touch_merchant_activity()
+	last_merchant_activity = world.time
+
+/datum/controller/subsystem/merchant_trade/proc/force_auto_hail()
+	if(length(get_docked_ships()) >= get_dock_spots_max())
+		return "no_dock_spots"
+	var/datum/trade_ship/picked = pick_available_ship_weighted()
+	if(!picked)
+		return "no_ships"
+	picked.auto_hailed = TRUE
+	picked.dock()
+	auto_hail_used_day = GLOB.dayspassed
+	hails_by_realm[picked.realm_id] = (hails_by_realm[picked.realm_id] || 0) + 1
+	scom_announce("The [picked.ship_type] [picked.ship_name] has sailed into the Azurian Docks unbidden, hoping to find a buyer.")
+	broadcast_market_change()
+	return "ok"
+
+/datum/controller/subsystem/merchant_trade/proc/schedule_auto_hail_tick()
+	if(auto_hail_timer_id)
+		deltimer(auto_hail_timer_id)
+	auto_hail_timer_id = addtimer(CALLBACK(src, PROC_REF(auto_hail_tick)), AUTO_HAIL_CHECK_INTERVAL, TIMER_STOPPABLE)
+
+/datum/controller/subsystem/merchant_trade/proc/auto_hail_tick()
+	auto_hail_timer_id = null
+	if(auto_hail_used_day == GLOB.dayspassed)
+		schedule_auto_hail_tick()
+		return
+	if(world.time - last_merchant_activity < AUTO_HAIL_IDLE_THRESHOLD)
+		schedule_auto_hail_tick()
+		return
+	if(length(get_docked_ships()) >= get_dock_spots_max())
+		schedule_auto_hail_tick()
+		return
+	var/datum/trade_ship/picked = pick_available_ship_weighted()
+	if(!picked)
+		schedule_auto_hail_tick()
+		return
+	picked.auto_hailed = TRUE
+	picked.dock()
+	auto_hail_used_day = GLOB.dayspassed
+	hails_by_realm[picked.realm_id] = (hails_by_realm[picked.realm_id] || 0) + 1
+	scom_announce("The [picked.ship_type] [picked.ship_name] has sailed into the Azurian Docks unbidden, hoping to find a buyer.")
+	broadcast_market_change()
+	schedule_auto_hail_tick()
 
 /datum/controller/subsystem/merchant_trade/proc/favor_triumph_bonus()
 	var/high = merchant_favor_high
