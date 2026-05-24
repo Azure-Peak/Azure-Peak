@@ -1,4 +1,4 @@
-import { INK, INK_SOFT, SEAL_RED, subtitleStyle } from '../common/parchment';
+import { INK_SOFT, subtitleStyle } from '../common/parchment';
 import {
   compactCardStyle,
   compactDataCell,
@@ -21,9 +21,6 @@ const subTitle = {
   fontSize: '11px',
 } as const;
 
-const isChoked = (cap: number, consumed: number) =>
-  cap > 0 && consumed >= cap;
-
 const RealMarketTable = (props: { rows: RealBucket[] }) => (
   <div>
     <div style={subTitle}>Real Market</div>
@@ -31,51 +28,33 @@ const RealMarketTable = (props: { rows: RealBucket[] }) => (
       <thead>
         <tr>
           <td style={compactHeaderCell}>Bucket</td>
-          <td style={{ ...compactHeaderCell, textAlign: 'right' }}>Cap</td>
-          <td style={{ ...compactHeaderCell, textAlign: 'right' }}>Used</td>
+          <td style={{ ...compactHeaderCell, textAlign: 'right' }}>Sold</td>
           <td
             style={{ ...compactHeaderCell, textAlign: 'right', paddingRight: 0 }}
           >
-            Demand
+            Relieved
           </td>
         </tr>
       </thead>
       <tbody>
-        {props.rows.map((row) => {
-          const choked = isChoked(row.capacity, row.consumed);
-          return (
-            <tr key={row.name}>
-              <td style={compactDataCell}>{row.name}</td>
-              <td
-                style={{
-                  ...compactDataCell,
-                  textAlign: 'right',
-                  color: INK_SOFT,
-                }}
-              >
-                {row.capacity}
-              </td>
-              <td
-                style={{
-                  ...compactDataCell,
-                  textAlign: 'right',
-                  color: choked ? SEAL_RED : INK,
-                }}
-              >
-                {row.consumed}
-              </td>
-              <td
-                style={{
-                  ...compactDataCell,
-                  textAlign: 'right',
-                  paddingRight: 0,
-                }}
-              >
-                {row.demand_drained}
-              </td>
-            </tr>
-          );
-        })}
+        {props.rows.map((row) => (
+          <tr key={row.name}>
+            <td style={compactDataCell}>{row.name}</td>
+            <td style={{ ...compactDataCell, textAlign: 'right' }}>
+              {row.sold}
+            </td>
+            <td
+              style={{
+                ...compactDataCell,
+                textAlign: 'right',
+                color: INK_SOFT,
+                paddingRight: 0,
+              }}
+            >
+              {row.relieved}
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   </div>
@@ -88,42 +67,24 @@ const BlackMarketTable = (props: { rows: BmBucket[] }) => (
       <thead>
         <tr>
           <td style={compactHeaderCell}>Bucket</td>
-          <td style={{ ...compactHeaderCell, textAlign: 'right' }}>Cap</td>
           <td
             style={{ ...compactHeaderCell, textAlign: 'right', paddingRight: 0 }}
           >
-            Used
+            Sold
           </td>
         </tr>
       </thead>
       <tbody>
-        {props.rows.map((row) => {
-          const choked = isChoked(row.capacity, row.consumed);
-          return (
-            <tr key={row.name}>
-              <td style={compactDataCell}>{row.name}</td>
-              <td
-                style={{
-                  ...compactDataCell,
-                  textAlign: 'right',
-                  color: INK_SOFT,
-                }}
-              >
-                {row.capacity}
-              </td>
-              <td
-                style={{
-                  ...compactDataCell,
-                  textAlign: 'right',
-                  color: choked ? SEAL_RED : INK,
-                  paddingRight: 0,
-                }}
-              >
-                {row.consumed}
-              </td>
-            </tr>
-          );
-        })}
+        {props.rows.map((row) => (
+          <tr key={row.name}>
+            <td style={compactDataCell}>{row.name}</td>
+            <td
+              style={{ ...compactDataCell, textAlign: 'right', paddingRight: 0 }}
+            >
+              {row.sold}
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   </div>

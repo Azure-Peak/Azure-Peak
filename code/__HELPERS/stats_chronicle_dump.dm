@@ -193,19 +193,17 @@
 		out += "  (SSmerchant_trade not initialized)\n\n"
 		return jointext(out, "")
 	out += chronicle_section_header("Navigator Buckets — Real Market")
-	out += "  Bucket               | Cap   | Consumed | Demand Drained\n"
+	out += "  Bucket               | Sold   | Ship Relieved\n"
 	for(var/bucket in SSmerchant_trade.pool_capacity)
-		var/cap = SSmerchant_trade.pool_capacity[bucket] || 0
-		var/consumed = SSmerchant_trade.pool_consumed[bucket] || 0
-		var/drained = SSmerchant_trade.pending_ship_demand_satisfied[bucket] || 0
-		out += "  [chronicle_pad_right(bucket, 20)] | [chronicle_pad_left("[cap]", 5)] | [chronicle_pad_left("[consumed]", 8)] | [drained]\n"
+		var/sold = SSmerchant_trade.lifetime_pool_credited[bucket] || 0
+		var/relieved = SSmerchant_trade.lifetime_pool_relieved[bucket] || 0
+		out += "  [chronicle_pad_right(bucket, 20)] | [chronicle_pad_left("[sold]", 6)] | [relieved]\n"
 	out += "\n"
 	out += chronicle_section_header("Navigator Buckets — Black Market")
-	out += "  Bucket               | Cap   | Consumed\n"
+	out += "  Bucket               | Sold\n"
 	for(var/bucket in SSmerchant_trade.bm_pool_capacity)
-		var/cap = SSmerchant_trade.bm_pool_capacity[bucket] || 0
-		var/consumed = SSmerchant_trade.bm_pool_consumed[bucket] || 0
-		out += "  [chronicle_pad_right(bucket, 20)] | [chronicle_pad_left("[cap]", 5)] | [consumed]\n"
+		var/sold = SSmerchant_trade.lifetime_bm_pool_credited[bucket] || 0
+		out += "  [chronicle_pad_right(bucket, 20)] | [sold]\n"
 	out += "\n"
 	return jointext(out, "")
 

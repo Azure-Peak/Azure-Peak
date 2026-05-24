@@ -102,6 +102,7 @@
 	if(!SSmerchant_trade || !category || base_price <= 0)
 		return
 	SSmerchant_trade.pool_consumed[category] = (SSmerchant_trade.pool_consumed[category] || 0) + base_price
+	SSmerchant_trade.lifetime_pool_credited[category] = (SSmerchant_trade.lifetime_pool_credited[category] || 0) + base_price
 	var/demand = SSmerchant_trade.pending_ship_demand[category] || 0
 	var/drain = min(demand, base_price)
 	if(drain > 0)
@@ -122,6 +123,7 @@
 	if(!SSmerchant_trade || !category || base_price <= 0)
 		return
 	SSmerchant_trade.bm_pool_consumed[category] = (SSmerchant_trade.bm_pool_consumed[category] || 0) + base_price
+	SSmerchant_trade.lifetime_bm_pool_credited[category] = (SSmerchant_trade.lifetime_bm_pool_credited[category] || 0) + base_price
 
 /obj/structure/roguemachine/balloon_pad
 	name = ""

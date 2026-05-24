@@ -115,15 +115,13 @@ export type ShipSnapshot = {
 
 export type RealBucket = {
   name: string;
-  capacity: number;
-  consumed: number;
-  demand_drained: number;
+  sold: number;
+  relieved: number;
 };
 
 export type BmBucket = {
   name: string;
-  capacity: number;
-  consumed: number;
+  sold: number;
 };
 
 export type BucketSnapshot = {

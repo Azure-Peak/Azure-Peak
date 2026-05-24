@@ -16,6 +16,9 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/pending_ship_demand_satisfied = list()
 	var/list/bm_pool_capacity = list()
 	var/list/bm_pool_consumed = list()
+	var/list/lifetime_pool_credited = list()
+	var/list/lifetime_pool_relieved = list()
+	var/list/lifetime_bm_pool_credited = list()
 	var/list/pool_theme_jitters = list()
 	var/pool_pop_snapshot = 0
 	var/resnapshot_timer_id
@@ -84,6 +87,9 @@ SUBSYSTEM_DEF(merchant_trade)
 	pending_ship_demand_satisfied = list()
 	bm_pool_capacity = list()
 	bm_pool_consumed = list()
+	lifetime_pool_credited = list()
+	lifetime_pool_relieved = list()
+	lifetime_bm_pool_credited = list()
 	pool_theme_jitters = roll_market_theme_jitters()
 	var/dispatch = build_market_theme_dispatch(pool_theme_jitters)
 	if(dispatch)
@@ -94,9 +100,12 @@ SUBSYSTEM_DEF(merchant_trade)
 		pool_consumed[bucket] = 0
 		pending_ship_demand[bucket] = 0
 		pending_ship_demand_satisfied[bucket] = 0
+		lifetime_pool_credited[bucket] = 0
+		lifetime_pool_relieved[bucket] = 0
 		var/bm_cap = round(cap * MARKET_BM_POOL_FRACTION)
 		bm_pool_capacity[bucket] = bm_cap
 		bm_pool_consumed[bucket] = 0
+		lifetime_bm_pool_credited[bucket] = 0
 	schedule_pool_resnapshot()
 
 /datum/controller/subsystem/merchant_trade/proc/schedule_pool_resnapshot()
@@ -185,11 +194,15 @@ SUBSYSTEM_DEF(merchant_trade)
 		var/cap = pool_capacity[bucket] || 0
 		if(cap <= 0)
 			continue
-		var/per_ship = round(cap * MARKET_DEMAND_PER_SHIP_FRACTION)
-		var/hard_cap = round(cap * MARKET_DEMAND_MAX_POOL_MULT)
-		pending_ship_demand[bucket] = min(hard_cap, (pending_ship_demand[bucket] || 0) + per_ship)
+		if(bucket != NAVIGATOR_BUCKET_VALUABLES_LOOTED)
+			var/per_ship = round(cap * MARKET_DEMAND_PER_SHIP_FRACTION)
+			var/hard_cap = round(cap * MARKET_DEMAND_MAX_POOL_MULT)
+			pending_ship_demand[bucket] = min(hard_cap, (pending_ship_demand[bucket] || 0) + per_ship)
 		var/drain = round(cap * MARKET_DEMAND_SHIP_SATURATION_DRAIN)
-		pool_consumed[bucket] = max(0, (pool_consumed[bucket] || 0) - drain)
+		var/before = pool_consumed[bucket] || 0
+		var/after = max(0, before - drain)
+		pool_consumed[bucket] = after
+		lifetime_pool_relieved[bucket] = (lifetime_pool_relieved[bucket] || 0) + (before - after)
 
 /datum/controller/subsystem/merchant_trade/proc/remove_ship_demand_for_realm(datum/foreign_realm/realm)
 	if(!realm)
@@ -202,6 +215,8 @@ SUBSYSTEM_DEF(merchant_trade)
 		buckets_seen += bucket
 		var/cap = pool_capacity[bucket] || 0
 		if(cap <= 0)
+			continue
+		if(bucket == NAVIGATOR_BUCKET_VALUABLES_LOOTED)
 			continue
 		var/per_ship = round(cap * MARKET_DEMAND_PER_SHIP_FRACTION)
 		var/new_val = (pending_ship_demand[bucket] || 0) - per_ship

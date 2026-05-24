@@ -188,15 +188,13 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		for(var/bucket in SSmerchant_trade.pool_capacity)
 			real += list(list(
 				"name" = bucket,
-				"capacity" = SSmerchant_trade.pool_capacity[bucket] || 0,
-				"consumed" = SSmerchant_trade.pool_consumed[bucket] || 0,
-				"demand_drained" = SSmerchant_trade.pending_ship_demand_satisfied[bucket] || 0,
+				"sold" = SSmerchant_trade.lifetime_pool_credited[bucket] || 0,
+				"relieved" = SSmerchant_trade.lifetime_pool_relieved[bucket] || 0,
 			))
 		for(var/bucket in SSmerchant_trade.bm_pool_capacity)
 			bm += list(list(
 				"name" = bucket,
-				"capacity" = SSmerchant_trade.bm_pool_capacity[bucket] || 0,
-				"consumed" = SSmerchant_trade.bm_pool_consumed[bucket] || 0,
+				"sold" = SSmerchant_trade.lifetime_bm_pool_credited[bucket] || 0,
 			))
 	return list(
 		"real" = real,
