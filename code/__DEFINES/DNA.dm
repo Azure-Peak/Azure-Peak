@@ -151,7 +151,7 @@
 #define MANDATORY_FEATURE_LIST list("mcolor" = "FFF", "mcolor2" = "FFF", "mcolor3" = "FFF", "ethcolor" = "9c3030", "legs" = "Normal Legs", "body_size" = BODY_SIZE_NORMAL)
 
 #define BODY_SIZE_NORMAL 1.00
-#define BODY_SIZE_MAX 1.05
+#define BODY_SIZE_MAX 1.25
 #define BODY_SIZE_MIN 0.95
 
 #define HAIR_COLOR_LIST list("#8f5a00", "#593800", "#362200", "#4e422e", "#8c8271", "#bfb7ab", "#31302e", "#f0dc48")
