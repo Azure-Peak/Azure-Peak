@@ -760,7 +760,7 @@
 	H.color = "#d3d3d3"
 	var/list/wCount = owner.get_wounds()
 	if(wCount.len > 0)
-		owner.heal_wounds(healing_on_tick * 1.75)
+		owner.staunch_wounds(healing_on_tick * 1.75) // Because Endure did not previously
 		owner.update_damage_overlays()
 	owner.adjustOxyLoss(-healing_on_tick, 0)
 	owner.adjustToxLoss(-healing_on_tick, 0)

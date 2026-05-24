@@ -82,6 +82,37 @@
 			healed_any = TRUE
 	return healed_any
 
+/// Reduces bleeding on wounds without healing their actual damage
+/mob/living/proc/staunch_wounds(staunch_amount, list/specific_types)
+	var/staunched_any = FALSE
+
+	if(has_status_effect(/datum/status_effect/buff/fortify))
+		staunch_amount *= 1.5
+
+	for(var/datum/wound/wound as anything in get_wounds())
+		if(isnull(wound))
+			continue
+
+		if(staunch_amount <= 0)
+			break
+
+		if(length(specific_types))
+			var/found = FALSE
+			for(var/woundtype in specific_types)
+				if(istype(wound, woundtype))
+					found = TRUE
+					break
+			if(!found)
+				continue
+
+		if(wound.bleed_rate > 0)
+			var/reduced = min(staunch_amount, wound.bleed_rate)
+			wound.bleed_rate -= reduced
+			staunch_amount -= reduced
+			staunched_any = TRUE
+
+	return staunched_any
+
 /// Simple version for adding a wound - DO NOT CALL THIS ON CARBON MOBS!
 /mob/living/proc/simple_add_wound(datum/wound/wound, silent = FALSE, crit_message = FALSE)
 	if(!wound || (status_flags & GODMODE) || !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
