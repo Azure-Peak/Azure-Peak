@@ -153,14 +153,17 @@
 		var/datum/blockade/B = blockade_by_threat_name[TR.region_name]
 		if(B)
 			var/datum/quest_faction/F = B.get_faction()
+			var/datum/economic_region/ER = B.get_region()
 			row["blockaded"] = TRUE
 			row["blockade_writ_out"] = B.has_active_scroll() ? TRUE : FALSE
 			row["blockade_faction_label"] = F ? "[F.group_word] of [F.name_plural]" : (B.faction_id || "")
+			row["blockade_region_label"] = ER ? ER.name : (B.region_id || "")
 			row["blockade_days_active"] = max(0, GLOB.dayspassed - B.day_started)
 		else
 			row["blockaded"] = FALSE
 			row["blockade_writ_out"] = FALSE
 			row["blockade_faction_label"] = ""
+			row["blockade_region_label"] = ""
 			row["blockade_days_active"] = 0
 		rows += list(row)
 	return rows

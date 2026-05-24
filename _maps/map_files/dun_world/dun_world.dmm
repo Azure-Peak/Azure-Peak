@@ -5717,6 +5717,13 @@
 "bjC" = (
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/shelter/mountains/decap)
+"bjH" = (
+/obj/structure/fluff/railing/corner,
+/obj/structure/roguemachine/noticeboard/wall{
+	pixel_x = 32
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/steward)
 "bjJ" = (
 /obj/structure/roguewindow/stained/silver,
 /turf/open/floor/rogue/grass,
@@ -47739,7 +47746,9 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cavewet/bogcaves/north)
 "jBh" = (
-/obj/structure/roguemachine/noticeboard/wall,
+/obj/structure/roguemachine/noticeboard/wall{
+	pixel_x = 32
+	},
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/physician)
 "jBl" = (
@@ -53655,7 +53664,9 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "kIR" = (
-/obj/structure/roguemachine/noticeboard/wall,
+/obj/structure/roguemachine/noticeboard/wall{
+	pixel_x = 32
+	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/shop)
 "kIV" = (
@@ -65967,7 +65978,9 @@
 /area/rogue/indoors/town/church/chapel)
 "nez" = (
 /obj/structure/fermentation_keg/water,
-/obj/structure/roguemachine/noticeboard/wall,
+/obj/structure/roguemachine/noticeboard/wall{
+	pixel_x = 32
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/dwarfin)
 "neE" = (
@@ -113548,7 +113561,9 @@
 "wyh" = (
 /obj/machinery/tanningrack,
 /obj/structure/fluff/railing/border/east,
-/obj/structure/roguemachine/noticeboard/wall,
+/obj/structure/roguemachine/noticeboard/wall{
+	pixel_x = 32
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "wyx" = (
@@ -282025,7 +282040,7 @@ fCK
 rKJ
 rKJ
 pWf
-vHt
+bjH
 tMh
 tMh
 uaF

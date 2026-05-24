@@ -130,6 +130,18 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                 {region.blockade_days_active}d
               </span>
             </div>
+            {!!region.blockade_region_label && (
+              <div
+                style={{
+                  color: INK_SOFT,
+                  fontStyle: 'italic',
+                  fontSize: '11px',
+                  marginTop: 1,
+                }}
+              >
+                blocking {region.blockade_region_label}
+              </div>
+            )}
             {!!region.blockade_writ_out ? (
               <div style={{ marginTop: 3 }}>
                 <span style={badgeStyle(SEAL_AMBER)}>WRIT OUT</span>

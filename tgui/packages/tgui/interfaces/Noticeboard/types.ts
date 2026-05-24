@@ -28,6 +28,7 @@ export type ScoutRegion = {
   blockaded: boolean;
   blockade_writ_out: boolean;
   blockade_faction_label: string;
+  blockade_region_label: string;
   blockade_days_active: number;
 };
 
