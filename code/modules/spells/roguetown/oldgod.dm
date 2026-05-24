@@ -626,7 +626,7 @@
 
 	var/list/BPs_to_check = list()
 
-	H.visible_message(span_blue("[H] connects their Lux with [H]'s own."))
+	H.visible_message(span_blue("[user] connects their Lux with [H]'s own."))
 	if(user.cmode)
 		user.say(pick("RESPITE FOR THY WOUNDS!", "BLEED STANDING!", "I BLEED SO YOU MAY ENDURE!", "PERSIST AGAINST THE PAIN!","LET YOUR WOUNDS WEEP NO MORE!"))
 		if(HAS_TRAIT(user, TRAIT_IRONMAN))
@@ -767,7 +767,7 @@
 		revert_cast()
 		return FALSE
 
-	H.visible_message(span_red("[H] <i>dangerously</i> connects their Lux with [H]'s own."))
+	H.visible_message(span_red("[user] <i>dangerously</i> connects their Lux with [H]'s own."))
 	if(user.cmode)
 		user.say(pick("BE ABSOLVED!","I'LL BLEED IN YOUR STEAD!","YOUR TIME IS NOT NOW!","I SHALL WEEP IN YOUR STEAD!","ENDURE, AS HE DOES!","PERSIST, AS HE DOES!"))
 		if(HAS_TRAIT(user, TRAIT_IRONMAN))
