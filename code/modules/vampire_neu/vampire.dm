@@ -55,7 +55,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			research_points = 17
 		if(GENERATION_NEONATE)
 			research_points = 9
-		if(GENERATION_THINBLOOD)
+		if(GENERATION_THINBLOOD, GENERATION_THINNERBLOOD)
 			research_points = 0
 
 /datum/antagonist/vampire/get_antag_cap_weight()
@@ -68,6 +68,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			return 0.75 // Licker Wretch
 		if(GENERATION_THINBLOOD)
 			return 0.25 // You are not even an antagonist
+		if(GENERATION_THINNERBLOOD)
+			return 0 //Vagabond class
 		else
 			return 1 // Default weight if generation not set
 
@@ -113,6 +115,10 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 3, TRUE) // You are not even an antagonist
 				max_thralls = 0
+			if(GENERATION_THINNERBLOOD)
+				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 1, TRUE)
+				max_thralls = 0
 			else
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 2, TRUE) // Default weight if generation not set
 				max_thralls = 0
@@ -145,7 +151,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	if(!vampdude)
 		return
 
-	if(vampdude.job == "Wretch")
+	if(vampdude.job == "Wretch" || vampdude.job == "Abandoned Thrall")
 		var/wretch_name = tgui_input_text(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Custom Clan", MAX_NAME_LEN)
 		create_custom_clan(vampdude, wretch_name)
 		return
@@ -174,7 +180,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	switch(vampdude.get_vampire_generation())
 		if(GENERATION_NEONATE, GENERATION_THINBLOOD)
 			new_clan.covens_to_select = COVENS_PER_WRETCH_CLAN
-
+		if(GENERATION_THINNERBLOOD)
+			new_clan.covens_to_select = COVENS_PER_VAGABOND
 	vampdude.set_clan_direct(new_clan)
 	clan_selected = TRUE
 	after_gain()
