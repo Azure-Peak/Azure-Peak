@@ -36,7 +36,8 @@
 	var/last_bite
 	/// Traits applied to the owner mob when we turn into a zombie
 	var/static/list/traits_zombie = list(
-		TRAIT_INFINITE_STAMINA,
+		TRAIT_LIMBATTACHMENT,
+		TRAIT_BREADY,
 		TRAIT_NOMOOD,
 		TRAIT_NOHUNGER,
 		TRAIT_EASYDISMEMBER,
@@ -44,6 +45,7 @@
 		TRAIT_NOPAINSTUN,
 		TRAIT_NOBREATH,
 		TRAIT_DEATHLESS,
+		TRAIT_NOBURN_RESIST, //because they slowly regenerate and get back up from dying constantly.
 		TRAIT_TOXIMMUNE,
 		TRAIT_CHUNKYFINGERS,
 		TRAIT_NOSLEEP,
@@ -53,7 +55,7 @@
 		TRAIT_ZOMBIE_SPEECH,
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_ROTMAN,
-		TRAIT_NORUN,
+		//TRAIT_NORUN, re-add if zombies become too problematic
 		TRAIT_SILVER_WEAK,
 		TRAIT_DEADITE,
 	)
@@ -81,6 +83,7 @@
 		return span_boldnotice("Another deadite.")
 	if(istype(examined_datum, /datum/antagonist/lich))
 		return span_boldnotice("Another deadite.")
+	return span_narsie(pick("FLESH. HUNGER.", "KILL THE RASPING THING.", "SO HUNGRY. EAT IT.", "KILL IT. KILL IT.", "EAT. CONSUME.", "CONSUME."))
 
 //Housekeeping/saving variables from pre-zombie
 
@@ -284,14 +287,16 @@
 
 	// This is the original first commit values for it, aka 5-7
 	zombie.STASPD = rand(5,7)
-
 	zombie.STAINT = 1
+	zombie.STASTR = 14
+	zombie.STACON = 14 //Decently tough to make up for melee only, prevents conmaxxers at 16 or above becoming literally unkillable.
+	zombie.STAWIL = 13 //You have to do unarmed fighting, so you need some willpower for it
 	last_bite = world.time
 	has_turned = TRUE
-	// Drop your helm and gorgies boy you won't need it anymore!!!
+	// Drop whatever's in your mouth, a workaround for being gagged.
 	var/static/list/removed_slots = list(
-		SLOT_HEAD,
-		SLOT_WEAR_MASK,
+		//SLOT_HEAD,
+		//SLOT_WEAR_MASK,
 		SLOT_MOUTH,
 		//SLOT_NECK,
 	)
@@ -398,9 +403,16 @@
 
 	if (converted || infected_wake)
 		zombie.flash_fullscreen("redflash3")
-		zombie.emote("scream") // Warning for nearby players
-		zombie.Knockdown(1)
+		zombie.visible_message(span_warning("[zombie] convulses on the floor momentarily, skin rotting away as their once-dead eyes light up with an eerie light."))
+		zombie.Knockdown(3)
+		zombie.emote("groan") // First warning to nearby players on top of the above message
+		zombie.Jitter(3)
 		zombie.drop_all_held_items()
+		sleep(3 SECONDS)
+		zombie.emote("rage") // This is where the fun begins
+		if(zombie.resting)
+			zombie.set_resting(FALSE, FALSE)
+		zombie.visible_message(span_warning("[zombie] shambles to their feet, groaning as their lyfeless eyes flick around with unnatural hunger."))
 
 ///Making sure they're not any other antag as well as adding the zombie datum to their mind
 /mob/living/carbon/human/proc/zombie_check_can_convert()
