@@ -470,7 +470,7 @@ LICH SKELETONS
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
 	backl = /obj/item/storage/backpack/rogue/satchel
 
-	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy
+	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/paalloy
 	beltl = /obj/item/quiver/bolt/heavy/paalloy
 
 	backpack_contents = list(
