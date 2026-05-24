@@ -1742,40 +1742,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/repair_coverage()
 	body_parts_covered_dynamic = body_parts_covered
 
-/obj/item/examine(mob/user)
-	. = ..()
-	if(looted)
-		. += span_info(LOOTED_EXAMINE_DESC)
-	var/list/seals = list()
-	var/craftsell_str = ""
-	if(atc_sealed)
-		seals += "ATC seal"
-	if(unmintable)
-		seals += "town-property stamp"
-	if(length(seals))
-		craftsell_str += span_info("Marked with [english_list(seals)] - the stockpile minter and navigator will not take it.")
-	if(was_crafted)
-		craftsell_str = span_info("It appears to be crafted by the hand of a local artisan.")
-	if(is_carved)
-		craftsell_str = span_info("It is a carved item.")
-	. += craftsell_str
-	. += span_info("[weight_tier_examine_line()]")
-	if(isliving(user))
-		var/mob/living/L = user
-		if(L.STAINT < 9)
-			return .
-	var/list/craft_lines = list()
-	if(anvilrepair)
-		var/datum/skill/S = anvilrepair
-		craft_lines += "Repair: <b>[initial(S.name)]</b> + hammer"
-	if(sewrepair)
-		craft_lines += "Repair: <b>Sewing</b> + needle"
-	if(salvage_result && salvage_amount)
-		var/atom/A = salvage_result
-		craft_lines += "Salvage: <b>[salvage_amount] [capitalize(initial(A.name))]</b>"
-	if(length(craft_lines))
-		. += span_info(craft_lines.Join(" - "))
-
 /obj/item/proc/weight_tier_examine_line()
 	. = ""
 	var/size_word = "unwieldy"

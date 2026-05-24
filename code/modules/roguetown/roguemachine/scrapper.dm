@@ -53,7 +53,7 @@
 		return I.type
 	if(I.smeltresult && (I.smeltresult in material_prices) && material_enabled[I.smeltresult])
 		return I.smeltresult
-	if(I.salvage_result && (I.salvage_result in material_prices) && material_enabled[I.salvage_result])
+	if(I.sewrepair && I.salvage_result && (I.salvage_result in material_prices) && material_enabled[I.salvage_result])
 		return I.salvage_result
 	return null
 

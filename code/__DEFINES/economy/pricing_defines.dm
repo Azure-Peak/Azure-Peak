@@ -9,7 +9,6 @@
 // #define PRICING_ENGINE_DUMP_AUDITS
 
 #define LOOTED_SELL_MULT ITEM_QUALITY_MULT_LOOTED
-#define LOOTED_EXAMINE_DESC "It is well-worn and unmistakably second-hand."
 
 #define MARKUP_ARMOR_HELMETS 1.5
 #define MARKUP_ARMOR_CHESTPIECES 1.5
