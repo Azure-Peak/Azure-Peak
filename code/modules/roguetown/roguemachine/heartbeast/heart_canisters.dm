@@ -404,17 +404,21 @@
 		.["aspect_data"] = aspect_data
 	return .
 
+/obj/item/proc/spill_heart_contents()
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
+	playsound(T, 'sound/foley/glassbreak.ogg', 75, TRUE)
+	new /obj/effect/decal/cleanable/heart_shards(T)
+	if(istype(src, /obj/item/heart_blood_canister/filled))
+		new /obj/effect/decal/cleanable/heart_blood(T)
+	else if(istype(src, /obj/item/heart_blood_vial/filled))
+		new /obj/effect/decal/cleanable/heart_blood/small(T)
+
 /obj/item/proc/break_fancy_container(obj/item/container)
 	if(!container)
 		return
-	var/turf/T = get_turf(container)
-	playsound(T, 'sound/foley/glassbreak.ogg', 75, TRUE)
-	new /obj/effect/decal/cleanable/heart_shards(T)
-	if(istype(container, /obj/item/heart_blood_canister/filled) || istype(container, /obj/item/heart_blood_vial/filled))
-		if(istype(container, /obj/item/heart_blood_canister/filled))
-			new /obj/effect/decal/cleanable/heart_blood(T)
-		else if(istype(container, /obj/item/heart_blood_vial/filled))
-			new /obj/effect/decal/cleanable/heart_blood/small(T)
+	container.spill_heart_contents()
 	qdel(container)
 	return TRUE
 
@@ -443,10 +447,12 @@
 	break_fancy_container(src)
 
 /obj/item/heart_blood_canister/obj_destruction(damage_flag)
-	break_fancy_container(src)
+	spill_heart_contents()
+	return ..()
 
 /obj/item/heart_blood_vial/obj_destruction(damage_flag)
-	break_fancy_container(src)
+	spill_heart_contents()
+	return ..()
 
 /obj/item/heart_blood_canister/filled/attack(mob/living/target, mob/living/user)
 	if(istype(target))

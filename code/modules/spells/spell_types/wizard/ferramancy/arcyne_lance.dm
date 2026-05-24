@@ -21,7 +21,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	weapon_cast_penalized = FALSE
+	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
 	charge_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
@@ -31,6 +31,8 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 // --- Arcyne spear projectile ---
 

@@ -28,7 +28,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	weapon_cast_penalized = FALSE
+	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
 	charge_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
@@ -39,6 +39,8 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 	var/spread_step = 12
 
@@ -61,7 +63,7 @@
 	range = 5
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "stygian"
-	damage = 42
+	damage = 34
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB
 	armor_penetration = PEN_LIGHT
@@ -70,11 +72,11 @@
 	accuracy = 65
 	flag = "piercing"
 	hitsound = 'sound/combat/hits/bladed/genstab (1).ogg'
-	var/reduced_damage = 23
+	var/reduced_damage = 18
 
 /obj/projectile/energy/stygian/arc
 	name = "arced stygian harpe"
-	damage = 32
+	damage = 26
 	arcshot = TRUE
 
 /obj/projectile/energy/stygian/on_hit(target)

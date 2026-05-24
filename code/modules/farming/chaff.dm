@@ -1,3 +1,5 @@
+#define BASE_SHUCK_TIME 4 SECONDS
+
 /obj/item/natural/chaff
 	icon = 'icons/roguetown/items/produce.dmi'
 	var/foodextracted = null
@@ -5,19 +7,50 @@
 	icon_state = "chaff1"
 	desc = "A farmer's chaff." //english is not my native language, upon searching "chaff" i didn't even get what this is.
 	var/canthresh = TRUE
-	//dropshrink = 0.75
+
+/obj/item/natural/chaff/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right click chaff with an empty hand to shuck chaff into grains by hand.")
+	. += span_info("Use a thresher on the chaff's tile to thresh all the grains on that tile at once.")
+	. += span_info("Use a club on chaff to thresh several grains, easier for stronger individuals and skilled farmers.")
+	. += span_info("Use a pitchfork to move a lot of chaff around at once.")
 
 /obj/item/natural/chaff/attack_right(mob/user)
-	if(foodextracted && !user.get_active_held_item())
-		to_chat(user, span_warning("I start to shuck [src]..."))
-		if(move_after(user,40, target = src)) //ROGTODO make this based on farming skill and speed
-			user.visible_message(span_notice("[user] shucks [src]."), \
-								span_notice("I shuck [src]."))
+	if(!isliving(user))
+		return ..()
+	var/mob/living/L = user
+	to_chat(L, span_notice("You begin shucking [src]..."))
+	INVOKE_ASYNC(src, PROC_REF(shuck_loop), L)
+	return TRUE
 
-			var/obj/item/G = new foodextracted(get_turf(src))
-			user.put_in_active_hand(G)
-			new /obj/item/natural/fibers(get_turf(src))
-			qdel(src)
+/obj/item/natural/chaff/proc/shuck_loop(mob/living/user)
+	if(!user || user.stat || !src || QDELETED(src))
+		return
+
+	var/calculated_time = get_farming_do_time(user, BASE_SHUCK_TIME)
+
+	if(!do_after(user, calculated_time, target = src))
+		return
+	var/turf/drop_location = get_turf(src)
+	if(drop_location)
+		new foodextracted(drop_location)
+	if(src in user.contents)
+		user.transferItemToLoc(src, drop_location)
+	var/obj/item/natural/chaff/next_target = find_adjacent_chaff(user)
+	if(next_target)
+		to_chat(user, span_notice("You move on to shucking the next piece of [next_target.name]..."))
+		INVOKE_ASYNC(next_target, PROC_REF(shuck_loop), user)
+	qdel(src)
+
+/obj/item/natural/chaff/proc/find_adjacent_chaff(mob/living/user)
+	if(!user || QDELETED(user))
+		return null
+
+	for(var/obj/item/natural/chaff/W in range(1, user))
+		if(!W || QDELETED(W) || W.gc_destroyed || W == src)
+			continue
+		return W
+	return null
 
 /obj/item/natural/chaff/proc/thresh()
 	if(foodextracted && canthresh)
@@ -76,3 +109,5 @@
 	name = "rice stalks"
 	icon_state = "ricechaff"
 	foodextracted = /obj/item/reagent_containers/food/snacks/grown/rice
+
+#undef BASE_SHUCK_TIME

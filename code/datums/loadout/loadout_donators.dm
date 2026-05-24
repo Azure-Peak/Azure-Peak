@@ -351,3 +351,18 @@
 /datum/loadout_item/donator/magi1138/specs
 	name = "Donator Kit - Modified Nocshade Lens-pair"
 	path = /obj/item/clothing/mask/rogue/spectacles/magi1138
+
+/datum/loadout_item/donator/nero_sword
+	name = "Donator Kit - Sylvan Longsword"
+	path = /obj/item/enchantingkit/weapon/nero_lsword
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+
+/datum/loadout_item/donator/nero_dagger
+	name = "Donator Kit - Sylvan Dagger"
+	path = /obj/item/enchantingkit/weapon/nero_dagger
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+
+/datum/loadout_item/donator/nero_sabre
+	name = "Donator Kit - Sylvan Sabre"
+	path = /obj/item/enchantingkit/weapon/nero_sabre
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")

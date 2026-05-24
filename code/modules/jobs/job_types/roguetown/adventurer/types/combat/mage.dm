@@ -272,6 +272,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/conjure_instrument)
 		var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 		var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 		switch(poke_choice)

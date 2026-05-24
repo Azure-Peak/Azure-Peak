@@ -21,7 +21,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	weapon_cast_penalized = FALSE
+	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
 	charge_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
@@ -34,10 +34,12 @@
 	point_cost = 3
 	spell_impact_intensity = SPELL_IMPACT_LOW
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 /obj/projectile/magic/frostbolt
 	name = "frost bolt"
 	icon_state = "ice_2"
-	damage = 33
+	damage = 30
 	npc_simple_damage_mult = 2
 	damage_type = BURN
 	woundclass = BCLASS_BURN
@@ -49,7 +51,7 @@
 
 /obj/projectile/magic/frostbolt/arc
 	name = "arced frost bolt"
-	damage = 25
+	damage = 23
 	arcshot = TRUE
 
 /obj/projectile/magic/frostbolt/on_hit(target)

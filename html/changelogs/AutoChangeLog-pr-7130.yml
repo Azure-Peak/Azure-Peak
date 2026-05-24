@@ -1,9 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "pre-settable vagabond bounties"
-  - rscadd: "wanted vagabonds can pick more wanted poster options than just Azuria, be a branded heretic or be a branded outlaw!"
-  - balance: "max vagabond bounty RNG roll 200 -> 250"
-  - bugfix: "fixed vagabond bounties"
-  - code_imp: "added a wanted vagabond bounty proc in vagabond, use this in case you want other wanted vagabond classes"
-  - code_imp: "added global values like wretch/bandit for vagabond bounties"

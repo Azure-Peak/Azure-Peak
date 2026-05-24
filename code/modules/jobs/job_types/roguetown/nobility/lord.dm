@@ -42,6 +42,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/advclass/lord/mage,
 		/datum/advclass/lord/inbred
 	)
+	
 
 /datum/outfit/job/roguetown/lord
 	job_bitflag = BITFLAG_ROYALTY

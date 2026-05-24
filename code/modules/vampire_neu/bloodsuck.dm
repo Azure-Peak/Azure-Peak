@@ -217,6 +217,7 @@
 
 	if(client)
 		client.verbs.Remove(GLOB.ghost_verbs)
+		client.update_browserpanel()
 
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
 	visible_message(span_red("[src] rises as a new spawn!"))

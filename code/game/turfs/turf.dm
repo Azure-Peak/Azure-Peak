@@ -61,6 +61,9 @@
 	/// If we were going to smooth with an Atom instead overlay this onto self
 	var/neighborlay_self
 
+	/// Lazy list of clients currently viewing this turf in the browser-backed stat panel; notified on contents change.
+	var/list/panel_listeners
+
 /turf/vv_edit_var(var_name, new_value)
 	var/static/list/banned_edits = list("x", "y", "z")
 	if(var_name in banned_edits)
@@ -417,6 +420,9 @@
 		has_opaque_atom = TRUE // Make sure to do this before reconsider_lights(), incase we're on instant updates. Guaranteed to be on in this case.
 		reconsider_lights()
 
+	if(LAZYLEN(panel_listeners))
+		notify_browserpanel_listeners()
+
 /turf/Exited(atom/movable/Obj, atom/newloc)
 	. = ..()
 
@@ -427,6 +433,22 @@
 	if (Obj && Obj.opacity)
 		recalc_atom_opacity() // Make sure to do this before reconsider_lights(), incase we're on instant updates.
 		reconsider_lights()
+
+	if(LAZYLEN(panel_listeners))
+		notify_browserpanel_listeners()
+
+/**
+ * Pings every client currently viewing this turf in the browser-backed stat panel,
+ * telling them to re-render the TURF tab. Called from `Entered`/`Exited` whenever
+ * `panel_listeners` is non-empty so contents updates propagate without polling.
+ * Stale (disconnected) clients are dropped lazily.
+ */
+/turf/proc/notify_browserpanel_listeners()
+	for(var/client/C as anything in panel_listeners)
+		if(QDELETED(C))
+			LAZYREMOVE(panel_listeners, C)
+			continue
+		C.update_turfpanel()
 
 /turf/open/Entered(atom/movable/AM)
 	..()

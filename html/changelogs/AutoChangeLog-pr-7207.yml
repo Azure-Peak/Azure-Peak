@@ -1,6 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - balance: "Black rot cures are now gradual."
-  - balance: "Black rot cures can be interrupted by rotfang attacks."
-  - balance: "T4 black rot slightly easier to achieve/maintain."

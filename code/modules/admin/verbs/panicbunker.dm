@@ -1,5 +1,5 @@
 /client/proc/panicbunker()
-	set category = "-Server-"
+	set category = "SERVER"
 	set name = "Toggle Panic Bunker"
 	if (!CONFIG_GET(flag/sql_enabled))
 		to_chat(usr, span_adminnotice("The Database is not enabled!"))

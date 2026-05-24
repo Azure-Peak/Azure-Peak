@@ -614,6 +614,19 @@
 		var/mob/recipient = src
 		recipient.bloody_hands_color = source_color
 	. = add_blood_DNA(blood_dna)
+	if(ismob(src))
+		var/mob/recipient = src
+		recipient.bloody_hands_color = source_color
+		if(ishuman(recipient))
+			var/mob/living/carbon/human/H = recipient
+			if(H.bloody_hands && !H.gloves)
+				H.update_inv_gloves()
+			if(H.shoes)
+				var/obj/item/clothing/shoes/S = H.shoes
+				if(istype(S))
+					var/datum/component/decal/blood/shoe_blood = S.GetComponent(/datum/component/decal/blood)
+					shoe_blood?.set_blood_color(source_color)
+					H.update_inv_shoes()
 	var/datum/component/decal/blood/B = GetComponent(/datum/component/decal/blood)
 	B?.set_blood_color(source_color)
 
