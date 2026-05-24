@@ -90,6 +90,10 @@
 	if(I?.is_carved)
 		return NAVIGATOR_BUCKET_CARVED
 	var/bucket = get_navigator_bucket_for_category(category)
+	if(bucket == NAVIGATOR_BUCKET_ARMOR_HEAVY && isclothing(I))
+		var/obj/item/clothing/C = I
+		if(C.armor_class <= ARMOR_CLASS_LIGHT)
+			bucket = NAVIGATOR_BUCKET_ARMOR_LIGHT
 	if(bucket == NAVIGATOR_BUCKET_VALUABLES_LOOTED && I?.was_crafted)
 		return NAVIGATOR_BUCKET_VALUABLES_CRAFTED
 	return bucket
