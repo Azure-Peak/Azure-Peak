@@ -103,7 +103,7 @@ LICH SKELETONS
 			beltl = /obj/item/quiver/sling/aalloy //Decrepit vs ballistaires, weak but good for harrassment
 		if("An Ancient Dagger")
 			beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
-	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak + Greathood")
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak + Greathood", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
@@ -113,6 +113,8 @@ LICH SKELETONS
 		if("Black Cloak + Greathood")
 			cloak = /obj/item/clothing/cloak/half/lich
 			mask = /obj/item/clothing/cloak/tabard/stabard/hoodlich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	H.energy = H.max_energy
 
@@ -195,7 +197,7 @@ LICH SKELETONS
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			beltl = /obj/item/quiver/sling/paalloy
 			H.adjust_skillrank(/datum/skill/combat/slings, 1, TRUE)
-	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Tabard")
+	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Tabard", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
@@ -205,6 +207,8 @@ LICH SKELETONS
 		if("Black Cloak + Greathood")
 			cloak = /obj/item/clothing/cloak/half/lich
 			mask = /obj/item/clothing/cloak/tabard/stabard/hoodlich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	H.energy = H.max_energy
 
@@ -309,7 +313,7 @@ LICH SKELETONS
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
-	var/tabards = list("Black Tabard", "Black Jupon", "Black Cloak + Greathood")
+	var/tabards = list("Black Tabard", "Black Jupon", "Black Cloak + Greathood", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
@@ -319,6 +323,8 @@ LICH SKELETONS
 		if("Black Cloak + Greathood")
 			cloak = /obj/item/clothing/cloak/half/lich
 			mask = /obj/item/clothing/cloak/tabard/stabard/hoodlich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	H.energy = H.max_energy
 
@@ -400,7 +406,7 @@ LICH SKELETONS
 	beltl = /obj/item/rogueweapon/pick/paalloy
 
 	H.adjust_blindness(-3)
-	var/tabards = list("Black Cloak", "Black Jupon", "Black Tabard")
+	var/tabards = list("Black Cloak", "Black Jupon", "Black Tabard", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	H.set_blindness(0)
 	switch(tabard_choice)
@@ -410,6 +416,8 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/lich
 		if("Black Cloak") //No hood because spectacles.
 			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	H.energy = H.max_energy
 
@@ -481,7 +489,7 @@ LICH SKELETONS
 		if("Dagger")
 			beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 			H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
-	var/tabards = list("Black Cloak + Greathood", "Black Jupon")
+	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
@@ -489,6 +497,8 @@ LICH SKELETONS
 		if("Black Cloak + Greathood")
 			cloak = /obj/item/clothing/cloak/half/lich
 			mask = /obj/item/clothing/cloak/tabard/stabard/hoodlich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	H.energy = H.max_energy
 
@@ -560,13 +570,15 @@ LICH SKELETONS
 			l_hand = /obj/item/rogueweapon/shield/bronze/great/paalloy //study, range resistance vs range to tradeoff for no reach + sweep.
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
-	var/tabards = list("Black Tabard", "Black Jupon")
+	var/tabards = list("Black Tabard", "Black Jupon", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
 		if("Black Tabard")
 			cloak = /obj/item/clothing/cloak/tabard/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	H.energy = H.max_energy
 
@@ -732,13 +744,15 @@ LICH SKELETONS
 		existing_eyes.Remove(H, TRUE)
 		existing_eyes.Insert(H)
 
-	var/tabards = list("Black Tabard", "Black Jupon")
+	var/tabards = list("Black Tabard", "Black Jupon", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
 		if("Black Tabard")
 			cloak = /obj/item/clothing/cloak/tabard/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	H.energy = H.max_energy
 
@@ -782,6 +796,47 @@ LICH SKELETONS
 	name = "decrepit cloak"
 	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fear what they've truly become."
 	color = CLOTHING_BLACK
+
+/obj/item/clothing/cloak/tabard/toga/lich
+	name = "decrepit toga"
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fight a war without reason."
+	color = CLOTHING_BLACK
+
+/obj/item/clothing/cloak/tabard/toga/lich/alt
+	name = "opened decrepit toga"
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fight a war without reason, parted to reveal what remains beneath its cloth."
+	body_parts_covered = GROIN
+	icon_state = "whitepsydontabardalt"
+	item_state = "whitepsydontabardalt"
+	flags_inv = HIDECROTCH
+	open_wear = TRUE
+
+/obj/item/clothing/cloak/tabard/toga/lich/attack_right(mob/user)
+	switch(open_wear)
+		if(FALSE)
+			name = "opened decrepit toga"
+			desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fight a war without reason, parted to reveal what remains beneath its cloth."
+			body_parts_covered = GROIN
+			icon_state = "whitepsydontabardalt"
+			item_state = "whitepsydontabardalt"
+			open_wear = TRUE
+			flags_inv = HIDECROTCH // BARE YOUR CHEST, NOT YOUR WEEN! Not urm, you have one, you're a fucking skeleton sire.
+			to_chat(usr, span_warning("You pull back the roughspun fabric, baring what remains to Psydonia's eyes."))
+		if(TRUE)
+			name = "decrepit toga"
+			desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fight a war without reason.."
+			body_parts_covered = CHEST|GROIN
+			icon_state = "whitepsydontabard"
+			item_state = "whitekpsydontabard"
+			flags_inv = HIDECROTCH|HIDEBOOB
+			open_wear = FALSE
+			to_chat(usr, span_warning("You cloak yourself in the roughspun fabric, veiling what remains from Psydonia's eyes."))
+	update_icon()
+	if(user)
+		if(ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_cloak()
+			H.update_inv_armor()
 
 /obj/item/clothing/cloak/tabard/stabard/hoodlich
 	name = "decrepit greathood"
