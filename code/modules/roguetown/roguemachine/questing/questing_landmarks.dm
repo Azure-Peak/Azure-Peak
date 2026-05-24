@@ -60,20 +60,6 @@
 	icon_state = "quest_marker_high"
 	quest_type = list(QUEST_BLOCKADE_DEFENSE)
 
-// Easy / Medium / Hard spawner will be phased out, so we have no override (
-// Every quest is eligible)
-/obj/effect/landmark/quest_spawner/easy
-	name = "easy quest landmark"
-	icon_state = "quest_marker_low"
-
-/obj/effect/landmark/quest_spawner/medium
-	name = "medium quest landmark"
-	icon_state = "quest_marker_mid"
-
-/obj/effect/landmark/quest_spawner/hard
-	name = "hard quest landmark"
-	icon_state = "quest_marker_high"
-
 /obj/effect/landmark/quest_spawner/proc/is_available_for_quest()
 	if(claimed_by?.resolve())
 		return FALSE
