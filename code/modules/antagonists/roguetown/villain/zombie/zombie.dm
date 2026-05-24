@@ -289,8 +289,8 @@
 	zombie.STASPD = rand(5,7)
 	zombie.STAINT = 1
 	zombie.STASTR = 14
-	zombie.STACON = 14 //Decently tough to make up for melee only, prevents conmaxxers at 16 or above becoming literally unkillable.
-	zombie.STAWIL = 13 //You have to do unarmed fighting, so you need some willpower for it
+	zombie.STACON = 12 //Slightly above baseline Con only, prevents conmaxxers at 16 or above becoming literally unkillable with sprinting back
+	zombie.STAWIL = 12 //You have to do unarmed fighting, so its uniform
 	last_bite = world.time
 	has_turned = TRUE
 	// Drop whatever's in your mouth, a workaround for being gagged.
@@ -403,16 +403,19 @@
 
 	if (converted || infected_wake)
 		zombie.flash_fullscreen("redflash3")
-		zombie.visible_message(span_warning("[zombie] convulses on the floor momentarily, skin rotting away as their once-dead eyes light up with an eerie light."))
-		zombie.Knockdown(3)
+		zombie.visible_message(span_necrosis("[zombie] convulses on the floor momentarily, skin rotting away unnaturally fast..."))
+		zombie.Knockdown(4)
+		zombie.Immobilize(4) //Don't want to move during this
+		zombie.Jitter(4)
 		zombie.emote("groan") // First warning to nearby players on top of the above message
-		zombie.Jitter(3)
 		zombie.drop_all_held_items()
-		sleep(3 SECONDS)
-		zombie.emote("rage") // This is where the fun begins
+		sleep(4 SECONDS)
 		if(zombie.resting)
-			zombie.set_resting(FALSE, FALSE)
-		zombie.visible_message(span_warning("[zombie] shambles to their feet, groaning as their lyfeless eyes flick around with unnatural hunger."))
+			zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
+		zombie.flash_fullscreen("redflash3")
+		zombie.visible_message(span_warning("[zombie] rises again... As a terrifying deadite!")) //On par with deadite animals reanimating.
+		zombie.emote("rage") // This is where the fun begins
+		zombie.to_chat(span_narsie("Death is not the end..."))
 
 ///Making sure they're not any other antag as well as adding the zombie datum to their mind
 /mob/living/carbon/human/proc/zombie_check_can_convert()
