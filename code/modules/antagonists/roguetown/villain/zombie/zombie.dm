@@ -415,7 +415,7 @@
 		zombie.flash_fullscreen("redflash3")
 		zombie.visible_message(span_warning("[zombie] rises again... As a terrifying deadite!")) //On par with deadite animals reanimating.
 		zombie.emote("rage") // This is where the fun begins
-		zombie.to_chat(span_narsie("Death is not the end..."))
+		to_chat(zombie, span_narsie("Death is not the end..."))
 
 ///Making sure they're not any other antag as well as adding the zombie datum to their mind
 /mob/living/carbon/human/proc/zombie_check_can_convert()
