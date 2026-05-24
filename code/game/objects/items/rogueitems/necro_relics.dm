@@ -107,9 +107,9 @@
 	active_skeletons += W
 
 	target.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
-	target.select_skeleton_features()
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "GREATER SKELETON"), 3 SECONDS)
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, select_skeleton_features)), 7 SECONDS)
 
 	if(current_charges <= 0)
 		to_chat(user, span_notice("The crystal dims, its power spent."))
