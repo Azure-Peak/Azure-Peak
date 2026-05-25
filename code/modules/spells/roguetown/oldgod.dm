@@ -128,7 +128,7 @@
 
 /datum/action/cooldown/spell/psydon/endure
 	name = "ENDURE"
-	desc = "Invoke an envigoring prayer for those who're faltering in willpower. </br>‎  </br>Provides minor health regeneration, staunches the target's bleeding, and helps to alleviate those who're struggling to breathe. The more valuable a caster's psycross is, the more health that is restored unto the target - this is further increased if they have been mortally wounded."
+	desc = "Invoke an envigoring prayer for those who're faltering in willpower. </br>‎  </br>Provides minor wound regeneration, staunches the target's bleeding, and helps to alleviate those who're struggling to breathe. The more valuable a caster's psycross is, the more health that is restored unto the target - this is further increased if they have been mortally wounded."
 	button_icon_state = "ENDURE"
 	sound = 'sound/magic/ENDVRE.ogg'
 
@@ -163,7 +163,7 @@
 				H.visible_message(span_blue("[H] fervently recites an orison, invoking the warmth of a dying light."))
 				H.say(pick("ENDURE!!","COME ON!!","HANG ON!!")) // because I miss this! :(
 			else
-				H.visible_message(span_blue("[H] quietly recites an orison, invoking the warmth of a dying light."))
+				H.visible_message(span_blue("[H] grits their teeth and recites an orison, invoking the warmth of a dying light."))
 		else
 			H.visible_message(span_blue("[H] quietly recites an orison, invoking the warmth of a dying light."))
 
@@ -231,6 +231,11 @@
 			return FALSE
 
 		target.apply_status_effect(/datum/status_effect/buff/psyhealing, psyhealing)
+
+		for(var/datum/wound/W as anything in wAmount) // moved the staunching outside of the above, this works as intended and shouldn't cure the wounds
+			if(W?.bleed_rate > 0)
+				W.set_bleed_rate(0)
+
 		return TRUE
 
 	return FALSE

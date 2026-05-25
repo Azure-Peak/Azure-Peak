@@ -344,6 +344,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 			var/datum/hud/hud_used = bodypart_owner.owner.hud_used
 			if(hud_used?.zone_select)
 				hud_used.zone_select.update_limb(bodypart_owner.body_zone)
+
 /// Heals this wound by the given amount, and deletes it if it's healed completely
 /datum/wound/proc/heal_wound(heal_amount)
 	// Wound cannot be healed normally, whp is null
