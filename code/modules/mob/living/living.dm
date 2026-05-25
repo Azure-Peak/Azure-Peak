@@ -54,9 +54,9 @@
 	return ..()
 
 /mob/living/onZImpact(turf/T, levels)
-	if(HAS_TRAIT(src, TRAIT_NOFALLDAMAGE2))
+	if(HAS_TRAIT(src, TRAIT_NOFALLDAMAGE2) && !HAS_TRAIT(src, TRAIT_DEADITE)) //Deadites cannot benefit from fall immunity
 		return
-	if(HAS_TRAIT(src, TRAIT_NOFALLDAMAGE1))
+	if(HAS_TRAIT(src, TRAIT_NOFALLDAMAGE1) && !HAS_TRAIT(src, TRAIT_DEADITE)) //Ditto
 		if(levels <= 2)
 			Immobilize(10)
 			if(m_intent == MOVE_INTENT_RUN)
