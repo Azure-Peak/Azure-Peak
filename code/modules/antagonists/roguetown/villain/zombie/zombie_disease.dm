@@ -29,6 +29,7 @@
 	transformation_time = world.time + time_to_transform
 	message_cooldown_time = world.time + message_cooldown_amount
 	infected_wake = infected_wake_flag
+	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, "zombie_infection_traits") //Creepy ambience during Infection.
 
 /datum/status_effect/zombie_infection/tick()
 	if(QDELETED(owner))
@@ -76,6 +77,10 @@
 
 	H.vomit(1, blood = TRUE, stun = FALSE)
 	return TRUE
+
+/datum/status_effect/zombie_infection/on_remove() //For trait/stat debuffs potentally in future to be removed via
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, "zombie_infection_traits")
 
 /atom/movable/screen/alert/status_effect/zombie_infection
 	name = "Zombie Infection"
