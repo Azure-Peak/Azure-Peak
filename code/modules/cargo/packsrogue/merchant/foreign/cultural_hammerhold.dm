@@ -77,3 +77,58 @@
 	)
 	ship_qty_min = 2
 	ship_qty_max = 5
+
+/datum/supply_pack/rogue/hammerhold/slayer_axe
+	name = "Slayer Axe"
+	cost = 600
+	contains = list(/obj/item/rogueweapon/stoneaxe/woodcut/steel/slayer)
+	ship_qty_min = 1
+	ship_qty_max = 1
+
+/datum/supply_pack/rogue/hammerhold/slayer_greataxe
+	name = "Slayer Greataxe"
+	cost = 750
+	contains = list(/obj/item/rogueweapon/stoneaxe/battle/slayer)
+	ship_qty_min = 1
+	ship_qty_max = 1
+
+/datum/supply_pack/rogue/hammerhold/slayer_belt
+	name = "Rugged Dwarven Belt"
+	cost = 80
+	contains = list(/obj/item/storage/belt/rogue/leather/slayer)
+	ship_qty_min = 1
+	ship_qty_max = 2
+
+/datum/supply_pack/rogue/hammerhold/dwarven_warpick
+	name = "Dwarven Warpick"
+	cost = 120
+	contains = list(/obj/item/rogueweapon/pick/militia/steel/warpick)
+	ship_qty_min = 1
+	ship_qty_max = 2
+
+/datum/supply_pack/rogue/hammerhold/grudgebearer_smith_kit
+	name = "Grudgebearer Smith Harness"
+	no_name_quantity = TRUE
+	cost = 720
+	contains = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/smith,
+		/obj/item/clothing/head/roguetown/helmet/heavy/dwarven/smith,
+		/obj/item/clothing/gloves/roguetown/plate/dwarven,
+		/obj/item/clothing/shoes/roguetown/boots/armor/dwarven,
+	)
+	ship_qty_min = 1
+	ship_qty_max = 1
+
+/datum/supply_pack/rogue/hammerhold/grudgebearer_soldier_kit
+	name = "Grudgebearer Soldier Harness"
+	no_name_quantity = TRUE
+	cost = 1000
+	contains = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/full/dwarven,
+		/obj/item/clothing/head/roguetown/helmet/heavy/dwarven,
+		/obj/item/clothing/gloves/roguetown/plate/dwarven,
+		/obj/item/clothing/shoes/roguetown/boots/armor/dwarven,
+		/obj/item/rogueweapon/shield/tower/metal/dwarf,
+	)
+	ship_qty_min = 1
+	ship_qty_max = 1
