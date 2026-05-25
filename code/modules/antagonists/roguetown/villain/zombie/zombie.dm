@@ -315,17 +315,19 @@
 
 	//small cutscene now we are a zombie, phew!
 	sleep(0.1) //Quickly make sure we already cleared our stuns and stuff
-	zombie.Knockdown(30)
-	zombie.Immobilize(30) //Don't want to move during this
-	zombie.Stun(30)
-	zombie.Jitter(30)
+	zombie.Knockdown(60)
+	zombie.Immobilize(60) //Don't want to move during this
+	zombie.Stun(60)
+	zombie.Jitter(60)
 	zombie.emote("groan") // First audio warning to nearby players on top of the above message
 	zombie.drop_all_held_items()
 	sleep(2 SECONDS) //First message, honestly if you can't tell something's off this'll let you know.
+	zombie.playsound_local(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80) //Horrible noises
 	zombie.flash_fullscreen("redflash3")
 	zombie.vomit(1, blood = TRUE, stun = FALSE)
 	zombie.visible_message(span_warning("[zombie] convulses on the floor momentarily, skin rotting away unnaturally fast..."))
 	sleep(2 SECONDS) //Second message, another small gap to notice something is very fucking wrong if the previous que wasn't enough.
+	zombie.playsound_local(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80) //Horrible noises
 	zombie.flash_fullscreen("redflash3")
 	zombie.vomit(1, blood = TRUE, stun = FALSE)
 	zombie.visible_message(span_warning("[zombie]'s lyfeless eyes begin to light up with an eerie glow."))
@@ -334,7 +336,7 @@
 	if(zombie.resting)
 		zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
 	zombie.flash_fullscreen("redflash3")
-	zombie.visible_message(span_warning("[zombie] rises again... As a terrifying deadite!")) //On par with deadite animals reanimating.
+	zombie.visible_message(span_danger("[zombie] stands back up.")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
 	to_chat(zombie, span_narsie("Hungry... so hungry... I CRAVE FLESH!"))
 	if(!zombie.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing

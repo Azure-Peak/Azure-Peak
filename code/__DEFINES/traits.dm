@@ -464,7 +464,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_JUSTICARSIGHT = span_info("I am able to remember someone's crimes by looking at them, and how much their bounty is."),
 	TRAIT_CICERONE = span_info("I am well-versed in the differences of brews and spirits, and can tell them apart at a glance."),
 	TRAIT_BETTER_SLEEP = span_info("I recover more energy when sleeping."),
-	TRAIT_ROTMAN = span_info("I am partially undead. My heart does not beat."),
+	TRAIT_ROTMAN = span_necrosis("I am partially undead. My heart does not beat."),
 	TRAIT_DEADITE = span_necrosis("I am a feral deadite, anyone can tell at a glance. Regardless of my equipment."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
 	TRAIT_HARDDISMEMBER = span_info("My body is strong and endurant. My limbs are not easily dismembered."),

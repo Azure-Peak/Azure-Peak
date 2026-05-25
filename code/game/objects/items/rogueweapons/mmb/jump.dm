@@ -128,7 +128,6 @@
 			Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 5 : 10))	//Acrobatics get half the time
 			if(HAS_TRAIT(src, TRAIT_DEADITE)) //Non-Jester deadites collapse and fall over, you're literally rotting apart.
 				Knockdown(10)
-				src.emote("rage") //AURA
 		if(isopenturf(src.loc))
 			var/turf/open/T = src.loc
 			if(T.landsound)
