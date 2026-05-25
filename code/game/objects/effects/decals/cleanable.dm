@@ -91,6 +91,10 @@
 			S.bloody_shoes[blood_state] = min(MAX_SHOE_BLOODINESS,S.bloody_shoes[blood_state]+add_blood)
 			S.add_blood_DNA(return_blood_DNA())
 			S.blood_state = blood_state
+			if(istype(src, /obj/effect/decal/cleanable/blood))
+				var/obj/effect/decal/cleanable/blood/source_blood = src
+				var/datum/component/decal/blood/shoe_blood = S.GetComponent(/datum/component/decal/blood)
+				shoe_blood?.set_blood_color(source_blood.blood_color)
 			update_icon()
 			H.update_inv_shoes()
 

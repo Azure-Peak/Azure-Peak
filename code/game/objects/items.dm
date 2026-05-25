@@ -278,7 +278,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	/// no force-undisguise on hit, and only a slow accumulation of (non-igniting) sunder stacks while held/worn.
 	var/is_lesser_silver = FALSE
 	var/last_used = 0
-	var/toggle_state = null
+	var/override_state = null
 	var/icon_x_offset = 0
 	var/icon_y_offset = 0
 	var/always_destroy = FALSE
@@ -338,14 +338,14 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					B.apply()
 				if (obj_broken)
 					update_damaged_state()
-			if(toggle_state)
-				icon_state = "[toggle_state]1"
+			if(override_state)
+				icon_state = "[override_state]1"
 			return
 		if(gripsprite)
-			if(!toggle_state)
+			if(!override_state)
 				icon_state = initial(icon_state)
 			else
-				icon_state = "[toggle_state]"
+				icon_state = "[override_state]"
 			var/datum/component/decal/blood/B = GetComponent(/datum/component/decal/blood)
 			if(B)
 				B.remove()
@@ -1573,6 +1573,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(user.get_active_held_item() == src)
 		user.update_a_intents()
 	user.changeNext_move(CLICK_CD_RAPID)
+	if(override_state)
+		apply_override_state(override_state)
 	return TRUE
 
 /obj/item/proc/altgrip(mob/living/carbon/user)

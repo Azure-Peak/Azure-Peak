@@ -169,7 +169,7 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/stoneskin)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 	var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 	switch(poke_choice)
 		if("Spitfire")
@@ -186,7 +186,8 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 		if("Lesser Gravel Blast")
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
-			
+		if("Lesser Soulshot")
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
@@ -330,7 +331,7 @@
 		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 		)
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 	var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 	switch(poke_choice)
 		if("Spitfire")
@@ -347,6 +348,8 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 		if("Lesser Gravel Blast")
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
+		if("Lesser Soulshot")
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)

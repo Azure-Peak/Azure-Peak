@@ -64,3 +64,5 @@
 						)
 	if(H.mind)
 		H.AddComponent(/datum/component/ore_sight)
+	if(H.mind)
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)

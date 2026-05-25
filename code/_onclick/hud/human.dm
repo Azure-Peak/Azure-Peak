@@ -131,6 +131,7 @@
 
 	def_intent = new /atom/movable/screen/def_intent
 	def_intent.hud = src
+	def_intent.update_icon()
 	static_inventory += def_intent
 
 	cmode_button = new /atom/movable/screen/cmode

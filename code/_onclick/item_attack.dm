@@ -399,7 +399,7 @@
 						dullfactor = 0.45 + (lumberskill * 0.15)
 						if(HAS_TRAIT(user, TRAIT_WYRD_LABOURER))
 							dullfactor *= 1.5
-						lumberjacker.mind.add_sleep_experience(/datum/skill/labor/lumberjacking, (lumberjacker.STAINT*0.2))
+						lumberjacker.mind?.add_sleep_experience(/datum/skill/labor/lumberjacking, (lumberjacker.STAINT*0.2))
 					cont = TRUE
 				if(BCLASS_CHOP)
 					var/mob/living/lumberjacker = user
@@ -408,7 +408,7 @@
 						dullfactor = 0.3
 					else
 						dullfactor = 1.0 + (lumberskill * 0.25)
-						lumberjacker.mind.add_sleep_experience(/datum/skill/labor/lumberjacking, (lumberjacker.STAINT*0.2))
+						lumberjacker.mind?.add_sleep_experience(/datum/skill/labor/lumberjacking, (lumberjacker.STAINT*0.2))
 					cont = TRUE
 			if(!cont)
 				return 0

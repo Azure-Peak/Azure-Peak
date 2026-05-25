@@ -710,3 +710,219 @@
   string-thing:
   - balance: increased the range of restoration to be in line with the current standard
       for heals
+2026-05-20:
+  Quinalion:
+  - image: Added missing icon for sallet detail.
+  - bugfix: Fixed velvet and noble dress paths; they now correctly cover the groin
+      area.
+  - bugfix: Fixed bronze handlantern lighting.
+  - bugfix: Fixed hauberk brigandine sleeves.
+  - bugfix: Fixed fencing gloves path, so they display correctly when facing east/west.
+  - bugfix: Fixed missing background icon for Zizo's miracles.
+  Ryan180602:
+  - bugfix: blood colour for species specific blood colour
+  - bugfix: donor item
+  SpadesNeil:
+  - rscdel: Removes "Emperor of Flame" from shamisen
+  - refactor: Alphabetizes the .dme
+  WeNeedMorePhoron:
+  - rscadd: Removed the shared SPIDERS_LOWER faction from drow raider, which resulted
+      in anthraxi sharing a faction with drow, thus making them free kills for anthraxi.
+      Because I hear about Anthraxi just farming drow quests and that pisses me off
+  - rscadd: Aragn now have a backup melee tree which is no longer blocked by the cocoon
+      tree, so they are actually a threat instead of chasing you longingly
+  - rscadd: Fixed aggro on spider cocooning so that they no longer chase someone they
+      cannot aggro onto
+  - bugfix: Removed every single runtime fixes from the runtimes fix pack after discovered
+      it drove typecacheof to the highest performance eating individual proc with
+      30s of overtime and 150s of total cpu time out of 1701 total on a mid pop.
+  - bugfix: Fixed an erroneously untested runtime fixes that I presumed was tested
+      and pulled in. This is my bad. Spells Projectiles should work again.
+  changelingonberry:
+  - admin: dont log linux machine id user
+  kbitykbitykbity:
+  - rscadd: Added portable peddlers to the game, can be crafted with engineering skill.
+  - rscadd: Added Bunny Ears (Droopy) sprite.
+  plsleavemealon:
+  - rscadd: Kazengunese/lingyue spellblades now get a proper eastern loadout when
+      choosing eastern weapons.
+  zeroisthebiggay:
+  - rscadd: makes arcyne potential grant a level of literacy
+2026-05-21:
+  FreeStylaLT:
+  - rscadd: Standing on a tree as it gets chopped will now carry a (very) high risk
+      of getting thrown off. Risk scales with worn armor.
+  Ketrai:
+  - balance: Black rot cures are now gradual.
+  - balance: Black rot cures can be interrupted by rotfang attacks.
+  - balance: T4 black rot slightly easier to achieve/maintain.
+  Ryan180602:
+  - rscadd: winter dress for -3 triumphs in loadout.
+  - rscdel: heavy leather armour from triumphstore.
+  WeNeedMorePhoron:
+  - rscadd: Ported Qdel / Delete logs improvements. At roundend, qdel.log extra details
+      and other things to help us better track down hard deletes.
+  borneblood:
+  - bugfix: fixed a few wrong variable values
+  - rscadd: T3 - Bone Cataclysm
+  - rscdel: T2 - Summon (Carbon) Deadite
+  - balance: Adjusted Rituos paths to be more distinctive from each other.
+  - qol: Various tweaks to Zizo, better detailed in the PR.
+  - bugfix: Made it so Gravemark is more responsive. Made it so qdel-ing skeleton
+      mobs do not cause runtimes.
+  kbitykbitykbity:
+  - rscadd: Added a new mage adventurer subclass, Arcyne Trickster.
+  - rscadd: Added a new minor utility spell, Water Bolt.
+  radarseas:
+  - rscadd: pre-settable vagabond bounties
+  - rscadd: wanted vagabonds can pick more wanted poster options than just Azuria,
+      be a branded heretic or be a branded outlaw!
+  - balance: max vagabond bounty RNG roll 200 -> 250
+  - bugfix: fixed vagabond bounties
+  - code_imp: added a wanted vagabond bounty proc in vagabond, use this in case you
+      want other wanted vagabond classes
+  - code_imp: added global values like wretch/bandit for vagabond bounties
+2026-05-22:
+  FreeStylaLT:
+  - bugfix: Fixed donator items acting oddly when altgripped.
+  HeroWithYay:
+  - bugfix: Fossilized Oysters are now obtainable
+  Kelshark:
+  - rscadd: Gives Lance and Shield option to Knight-Errant
+  Ketrai:
+  - rscadd: Chance to receive two herbs when picking herbs based on farming or alchemy
+      skill, whichever is better.
+  - qol: shucking wheat by hand now scans nearby tiles for more wheat to shuck.
+  - balance: woodwalker no longer guarantees two herbs per plant, it is random now.
+  Ryan180602:
+  - bugfix: boot blood colour
+  - bugfix: uncoloured blood overlay on hands
+  - code_imp: overhaul our verbpanel UI
+  - bugfix: bandit/assassin spawns.
+  - bugfix: remove waitfor sleeps for UI
+  SciDragon:
+  - rscadd: slurbow to engineering, swaps 1 plank for 1 small log in the recipe
+  SpringSkipper:
+  - bugfix: giltsilk belt now covers privates
+  WeNeedMorePhoron:
+  - balance: Reduced Stygian damage by 20%
+  - balance: Reduced Cryo damage across the board by 10%, shatter damage by 50% due
+      to it consistently showing up as overtuned.
+  - bugfix: Fixed hard deletes on heart blood containers. Report any oddity.
+  - bugfix: Tried to fix saddleborn hard delete
+  changelingonberry:
+  - bugfix: Fix chat tab sorting for emotes, OOC, LOOC, and admin log messages
+  - rscadd: Dust runner examine for fellow thieves, Matthiosites, and bathhouse workers
+  - rscadd: Thieves cant for dust runner virtue
+  kbitykbitykbity:
+  - rscadd: Added Zizo's Bane mushrooms and sleep poison made using them.
+  saltprjak:
+  - rscadd: Added bandolier option to loadout, under Miscellaneous.
+2026-05-23:
+  FreeStylaLT:
+  - bugfix: Fixed some rare instances of wield-only specials working with unwielded
+      or unwieldable weapons.
+  - balance: Woodwalker no longer grants double harvests from plants. Alchemy Expert
+      gives a boost to it instead.
+  Ollanius:
+  - bugfix: Lunatics can be played by any race and creed, once more!
+  OrbisAnima:
+  - bugfix: Makes it so Legendary classes are able to use the houses they would normally
+      get if they were their regular counterpart. Ie, the Legendary Chef getting the
+      Cheesemaker house.
+  - bugfix: Gives the Legendary classes the skills,stats,traits they would normally
+      had gotten from their base class, as well as what they normally would get from
+      the bank, ie, legendary fisher gets the unique fishing trait, the skills from
+      regular fisher, any stat they didnt had already.
+  Quinalion:
+  - image: Resprited the Bone Cataclysm spell sprite.
+  - image: Slightly resprited vampire spells.
+  SpadesNeil:
+  - rscadd: Ashes can now be scattered by using them in hand.
+  borneblood:
+  - rscadd: Psydonic Maul for Adjudicator.
+  radarseas:
+  - code_imp: Killed Crafter's Coverant. Sorry Malumites. Maybe someone can give you
+      a miracle to sacrifice crafts for materials but until then, its dead sire. The
+      image icon stays though for that purpose.
+  - balance: Malumites now get apprentice lumberjacking as a suppliment patron boon,
+      shared between missionary, acolytes, templar and heretics.
+  - balance: munitioneer has higher crafting skills + Expert lumberjacking + Homesteading
+      since they no longer clutch on this miracle cruxing them from ever being proper
+      fort makers.
+  - bugfix: munitioneer now has miracle skill, they're no longer worse than vagabonds
+      as an antagonist with miracles.
+  - balance: munitioneer gets T4s off-the-bat, they no longer have to grind to revive
+      people and stuff.
+  saltprjak:
+  - bugfix: Soulshot now deals full damage to the first target instead of half.
+2026-05-24:
+  FreeStylaLT:
+  - balance: Berserker can now pick its skin armor option freely. Picking it will
+      give an extra layer of 'skin' that has better protection.
+  - qol: Fishing rods will now auto-hook valid nearby bait when casting an empty line
+      if the user has Expert skill or higher.
+  - balance: Cautious Fisher trait now is even more effective.
+  - rscadd: Added a new rclick functionality to shovels -- they can now select what
+      they'll be digging for (solids like clay or stone, or bait like worms and leeches)
+      without actually digging a hole.
+  KatTheFox:
+  - bugfix: Hags and lich skeletons can no longer take hunted
+  - balance: Hunted now makes you a target for assassins if you're a heavily-protected
+      town role, and gnolls otherwise
+  OrbisAnima:
+  - qol: Makes all the instrument selections consistent for all the instrument welding
+      classes. (This adds instruments)
+  - rscadd: Adds conjure instrurment to arcane spellsinger.
+  - balance: Adds 1 point of INT and WILL to the minstrel, the movement set on apprentice,
+      and camping set (medicine and cooking) as novice, while removing pickpocketing,
+      as its assumed this is your friendly musician that works at the town. Also changed
+      their belt and added a lantern given they had to give up so many sellable instruments
+  Quinalion:
+  - rscadd: 'New spider-meat recipes: Spider Meatballs, Spider Surprise, and De-Scallax
+      Pie.'
+  - rscadd: Adds Spider Meat Mince as a craftable/processable ingredient used by new
+      recipes.
+  - code_imp: Removes /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/meat
+      and moves all variables to /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat
+      to consolidate cooked-meat handling.
+  VanessaCoding:
+  - balance: drip speed for Fill intent with Orison is now a flat 1.5 seconds. The
+      drip amount is now 5 x Holy Skill Level.
+  - balance: you can now use Fill intent with Orison on soil to water it.
+  - bugfix: fixing the interaction lockout on using tools that aren't watering on
+      soil from the Orison QOL change.
+  WeNeedMorePhoron:
+  - rscdel: Remove Jman requirement for making a mound bare-handed with seeds
+  - rscadd: Parry is now the default intent you start a round with.
+  - rscadd: Add perfumes and fermented crab to loadout. Common perfumes 2, rare is
+      3, and fermented crab 5.
+  - rscadd: A large amount of offensive spells has been audited and should no longer
+      be possible to cast in shapeshifted form. Report any that is missing.
+  borneblood:
+  - bugfix: Lacrima can't be used on dead people.
+  kbitykbitykbity:
+  - balance: Tweaked Zizo's Bane, now only appears in the underdark and is much more
+      obviously telegraphed when you step on one.
+  psyendrocronologicalwarfare:
+  - balance: The Templar light gambeson is replaced with a padded gambeson.
+2026-05-25:
+  Ryan180602:
+  - bugfix: runtime batchfix
+  - bugfix: combat aware redundant info
+  WeNeedMorePhoron:
+  - bugfix: Inhumen Digestion no longer have an inaccurate comment in code and inaccurate
+      trait description, and tell you you can eat burnt, rotten or raw food and not
+      refers to POISONED food.
+  - bugfix: The on spawn armor / fabric kit bonus now accounts for POST SPAWN class
+      choices properly. So for example a Hangyaku-Kounen would get a scrap kit instead
+      of a fabric kit
+  borneblood:
+  - bugfix: No more aliases as Regent.
+  changelingonberry:
+  - admin: remove MUTE from player LOOC
+  psyendrocronologicalwarfare:
+  - spellcheck: removes mention of caine/kaine because they are not real
+  saltprjak:
+  - balance: Rogue Mages receive dagger skill, some utility skills, and innate Message
+      and Mindlink spells.

@@ -609,9 +609,26 @@
 	var/list/blood_dna = M.get_blood_dna_list()
 	if(!blood_dna)
 		return FALSE
+	var/source_color = M.get_blood_color() || BLOOD_COLOR_RED
+	if(ismob(src))
+		var/mob/recipient = src
+		recipient.bloody_hands_color = source_color
 	. = add_blood_DNA(blood_dna)
+	if(ismob(src))
+		var/mob/recipient = src
+		recipient.bloody_hands_color = source_color
+		if(ishuman(recipient))
+			var/mob/living/carbon/human/H = recipient
+			if(H.bloody_hands && !H.gloves)
+				H.update_inv_gloves()
+			if(H.shoes)
+				var/obj/item/clothing/shoes/S = H.shoes
+				if(istype(S))
+					var/datum/component/decal/blood/shoe_blood = S.GetComponent(/datum/component/decal/blood)
+					shoe_blood?.set_blood_color(source_color)
+					H.update_inv_shoes()
 	var/datum/component/decal/blood/B = GetComponent(/datum/component/decal/blood)
-	B?.set_blood_color(M.get_blood_color())
+	B?.set_blood_color(source_color)
 
 ///Called when gravity returns after floating I think
 /atom/proc/handle_fall()
@@ -1175,6 +1192,9 @@
 		filter_data = list()
 	var/list/p = params.Copy()
 	p["priority"] = priority
+	if(("color" in p) && !isnull(p["color"]) && !istext(p["color"]) && !islist(p["color"]))
+		stack_trace("filter '[name]' on [type] given non-text non-list color [p["color"]] - fix the caller")
+		return
 	filter_data[name] = p
 	update_filters()
 
@@ -1241,6 +1261,9 @@
 /atom/movable/proc/modify_filter(name, list/new_params, overwrite = FALSE)
 	var/filter = get_filter(name)
 	if(!filter)
+		return
+	if(("color" in new_params) && !isnull(new_params["color"]) && !istext(new_params["color"]) && !islist(new_params["color"]))
+		stack_trace("filter '[name]' on [type] given non-text non-list color [new_params["color"]] - fix the caller")
 		return
 	if(overwrite)
 		filter_data[name] = new_params

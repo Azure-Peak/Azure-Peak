@@ -35,6 +35,8 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 /datum/action/cooldown/spell/thunderstrike/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner

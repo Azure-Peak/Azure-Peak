@@ -342,6 +342,7 @@
 	chargedloop = /datum/looping_sound/invokefire
 	recharge_time = 2 MINUTES
 	associated_skill = /datum/skill/magic/holy
+	human_req = TRUE
 	var/delay = 12
 	var/strike_delay = 2
 	var/damage = 20
@@ -538,6 +539,7 @@
 	movement_interrupt = FALSE
 	recharge_time = 6 MINUTES
 	range = 4
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/matthios_equalize/cast(list/targets, mob/living/user)
 	if(ishuman(targets[1]))
@@ -687,7 +689,7 @@
 	if(I.GetComponent(/datum/component/martyrweapon))
 		to_chat(user, span_danger("My divine energies recoil from the relic! It resists!"))
 		return TRUE	//why did you try this? Go on full CD, bad.
-	if(I.toggle_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
+	if(I.override_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
 		revert_cast()
 		to_chat(user, span_warning("This thing has been glamoured or changed -- its value is too unclear."))
 		return FALSE
@@ -745,6 +747,7 @@
 	movement_interrupt = FALSE
 	recharge_time = 5 MINUTES //This probably should not be on low cooldown
 	range = 4
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/matthios_churn/cast(list/targets, mob/living/user)
 	if(ishuman(targets[1]))
@@ -873,6 +876,7 @@
 	cooldown_time = 45 SECONDS
 	associated_skill = /datum/skill/magic/holy
 	spell_tier = 0
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 	var/min_mammon = 25
 	var/max_mammon = 100
 

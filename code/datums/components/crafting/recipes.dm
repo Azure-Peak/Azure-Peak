@@ -217,7 +217,7 @@
 				if(WLENGTH_GREAT)
 					html += "Great<br>"
 
-		if(bookweapon.has_altgrip_modes())
+		if(!ispath(bookweapon) && bookweapon.has_altgrip_modes())
 			html += "\n<b>GRIP: ALT-GRIP (RCLICK/HOTKEY(B)/CTRL+SCRLWHL)</b><br>"
 			var/list/alt_grip_lines = bookweapon.get_altgrip_lines(src, user)
 			if(length(alt_grip_lines))

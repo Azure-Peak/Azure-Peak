@@ -52,8 +52,8 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 	sellprice = 15 // Default price for the keg.
 
 /obj/structure/fermentation_keg/Initialize()
-	. = ..()
 	create_reagents(900, OPENCONTAINER | NO_REACT | AMOUNT_VISIBLE | REFILLABLE) //on agv it should be 120u for water then rest can be other needed chemicals
+	. = ..()
 	recipe_crop_stocks = list()
 
 	soundloop = new(src, brewing)

@@ -1102,6 +1102,15 @@
 	if(HAS_TRAIT(examiner, TRAIT_HERETIC_SEER))
 		seer = TRUE
 
+	if(HAS_TRAIT(src, TRAIT_DUSTRUNNER))
+		var/mob/living/living_examiner = examiner
+		if(HAS_TRAIT(examiner, TRAIT_DUSTRUNNER))
+			heretic_text += "Fellow runner. The dust moves."
+		else if(living_examiner?.patron?.type == /datum/patron/inhumen/matthios)
+			heretic_text += "A Guild runner, by the look of them."
+		else if(examiner.job in GLOB.bathhouse_positions)
+			heretic_text += "One of the Guild's runners. I know the signs."
+
 	if(HAS_TRAIT(src, TRAIT_FREEMAN))
 		if(seer)
 			heretic_text += "Matthiosian."

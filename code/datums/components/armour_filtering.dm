@@ -141,7 +141,7 @@ TRAIT UNIQUE PROCS
 /datum/component/armour_filtering/proc/trait_boon_equip(mob/living/carbon/human/user, id)
 	if(HAS_TRAIT(user, TRAIT_FENCERDEXTERITY))
 		if(!positive)
-			user.dropItemToGround(parent, TRUE, TRUE)
+			addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, dropItemToGround), parent, TRUE, TRUE), 0)
 			if(!HAS_TRAIT(user, TRAIT_ARMOUR_DISLIKED))
 				return
 			REMOVE_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)
@@ -149,7 +149,7 @@ TRAIT UNIQUE PROCS
 
 	if(HAS_TRAIT(user, TRAIT_HONORBOUND))
 		if(!positive)
-			user.dropItemToGround(parent, TRUE, TRUE)
+			addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, dropItemToGround), parent, TRUE, TRUE), 0)
 			if(!HAS_TRAIT(user, TRAIT_ARMOUR_DISLIKED))
 				return
 			REMOVE_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)

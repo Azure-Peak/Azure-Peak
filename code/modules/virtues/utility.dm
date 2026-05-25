@@ -366,7 +366,7 @@
 
 /datum/virtue/utility/woodwalker
 	name = "Woodwalker"
-	desc = "After years of training in the wilds, I've learned to traverse the woods confidently, without breaking any twigs. I can even step lightly on leaves without falling, and I can gather twice as many things from bushes."
+	desc = "After years of training in the wilds, I've learned to traverse the woods confidently, without breaking any twigs. I can even step lightly on leaves without falling."
 	added_traits = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN)
 
 /datum/virtue/heretic/zchurch_keyholder

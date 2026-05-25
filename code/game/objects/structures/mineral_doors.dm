@@ -1040,15 +1040,15 @@
 	require_noble_trait = TRUE
 
 /obj/structure/mineral_door/wood/towner/blacksmith
-	resident_advclass = list(/datum/advclass/blacksmith)
+	resident_advclass = list(/datum/advclass/blacksmith, /datum/advclass/masterblacksmith)
 	lockid = "towner_blacksmith"
 
 /obj/structure/mineral_door/wood/towner/cheesemaker
-	resident_advclass = list(/datum/advclass/cheesemaker)
+	resident_advclass = list(/datum/advclass/cheesemaker, /datum/advclass/masterchef)
 	lockid = "towner_cheesemaker"
 
 /obj/structure/mineral_door/wood/towner/miner
-	resident_advclass = list(/datum/advclass/miner)
+	resident_advclass = list(/datum/advclass/miner, /datum/advclass/minermaster)
 	lockid = "towner_miner"
 
 /obj/structure/mineral_door/wood/towner/seamstress
@@ -1060,7 +1060,7 @@
 	lockid = "towner_woodworker"
 
 /obj/structure/mineral_door/wood/towner/fisher
-	resident_advclass = list(/datum/advclass/fisher)
+	resident_advclass = list(/datum/advclass/fisher, /datum/advclass/fishermaster)
 	lockid = "towner_fisher"
 
 /obj/structure/mineral_door/wood/towner/hunter
