@@ -36,6 +36,8 @@
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 	displayed_damage = 60
 
 	var/spread_step = 8

@@ -320,6 +320,8 @@
  */
 /datum/proc/_SendSignal(sigtype, list/arguments)
 	var/target = comp_lookup[sigtype]
+	if(!target)
+		return NONE
 	if(!length(target))
 		var/datum/listening_datum = target
 		return NONE | call(listening_datum, listening_datum.signal_procs[src][sigtype])(arglist(arguments))
@@ -329,6 +331,9 @@
 	// AKA: No you can't cancel the signal reception of another object by doing an unregister in the same signal.
 	var/list/queued_calls = list()
 	for(var/datum/listening_datum as anything in target)
+		if(!listening_datum)
+			stack_trace("null entry in comp_lookup\[[sigtype]\] on [type] during _SendSignal - upstream RegisterSignal/UnregisterSignal corruption")
+			continue
 		queued_calls[listening_datum] = listening_datum.signal_procs[src][sigtype]
 	for(var/datum/listening_datum as anything in queued_calls)
 		. |= call(listening_datum, queued_calls[listening_datum])(arglist(arguments))

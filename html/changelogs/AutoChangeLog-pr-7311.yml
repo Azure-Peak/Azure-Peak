@@ -1,0 +1,4 @@
+author: "kiwedespars"
+delete-after: True
+changes:
+  - bugfix: "fixed siegebow slowdown to actually be 6 seconds"

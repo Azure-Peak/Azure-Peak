@@ -47,6 +47,7 @@
 	primary_resource_cost = 30
 	secondary_resource_cost = 10
 	sound = 'sound/magic/zizo_snuff.ogg'
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 	var/snuff_range = 2
 
 /datum/action/cooldown/spell/zizo/snuff_lights/cast(atom/cast_on)
@@ -111,6 +112,7 @@
 	secondary_resource_cost = 15
 	charge_required = FALSE
 	cooldown_time = 30 SECONDS
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 /datum/action/cooldown/spell/projectile/zizo/profane/cast(atom/cast_on)
 	var/mob/living/user = owner
@@ -417,11 +419,13 @@
 	invocation_type = null
 	invocations = null
 	associated_skill = /datum/skill/magic/holy
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 // TAME UNDEAD (T3) - I don't know why this is a T3, being just a forced Gravemark on a hostile NPC undead.
 /datum/action/cooldown/spell/tame_undead/zizo
 	associated_skill = /datum/skill/magic/holy
 	primary_resource_cost = 100
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 // T3: Rituos - Zizo's Lesser Work. A single painful ritual that grants the caster a choice:
 // Progress: Arcyne knowledge (2 minor aspects, 4 utilities). No skeletonization. -- Kunai: I made this more distinctive from Undeath, now it also gives you some traits to give a better progress vibe.
@@ -585,6 +589,7 @@
 	invocations = list("Solve ossa, redite ad pulverem!")
 	invocation_type = INVOCATION_SHOUT
 	sound = 'sound/magic/swap.ogg'
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 /datum/action/cooldown/spell/zizo/bone_cataclysm/cast(atom/cast_on)
 	. = ..()

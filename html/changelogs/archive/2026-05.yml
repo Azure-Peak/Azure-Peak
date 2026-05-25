@@ -856,3 +856,73 @@
       people and stuff.
   saltprjak:
   - bugfix: Soulshot now deals full damage to the first target instead of half.
+2026-05-24:
+  FreeStylaLT:
+  - balance: Berserker can now pick its skin armor option freely. Picking it will
+      give an extra layer of 'skin' that has better protection.
+  - qol: Fishing rods will now auto-hook valid nearby bait when casting an empty line
+      if the user has Expert skill or higher.
+  - balance: Cautious Fisher trait now is even more effective.
+  - rscadd: Added a new rclick functionality to shovels -- they can now select what
+      they'll be digging for (solids like clay or stone, or bait like worms and leeches)
+      without actually digging a hole.
+  KatTheFox:
+  - bugfix: Hags and lich skeletons can no longer take hunted
+  - balance: Hunted now makes you a target for assassins if you're a heavily-protected
+      town role, and gnolls otherwise
+  OrbisAnima:
+  - qol: Makes all the instrument selections consistent for all the instrument welding
+      classes. (This adds instruments)
+  - rscadd: Adds conjure instrurment to arcane spellsinger.
+  - balance: Adds 1 point of INT and WILL to the minstrel, the movement set on apprentice,
+      and camping set (medicine and cooking) as novice, while removing pickpocketing,
+      as its assumed this is your friendly musician that works at the town. Also changed
+      their belt and added a lantern given they had to give up so many sellable instruments
+  Quinalion:
+  - rscadd: 'New spider-meat recipes: Spider Meatballs, Spider Surprise, and De-Scallax
+      Pie.'
+  - rscadd: Adds Spider Meat Mince as a craftable/processable ingredient used by new
+      recipes.
+  - code_imp: Removes /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/meat
+      and moves all variables to /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat
+      to consolidate cooked-meat handling.
+  VanessaCoding:
+  - balance: drip speed for Fill intent with Orison is now a flat 1.5 seconds. The
+      drip amount is now 5 x Holy Skill Level.
+  - balance: you can now use Fill intent with Orison on soil to water it.
+  - bugfix: fixing the interaction lockout on using tools that aren't watering on
+      soil from the Orison QOL change.
+  WeNeedMorePhoron:
+  - rscdel: Remove Jman requirement for making a mound bare-handed with seeds
+  - rscadd: Parry is now the default intent you start a round with.
+  - rscadd: Add perfumes and fermented crab to loadout. Common perfumes 2, rare is
+      3, and fermented crab 5.
+  - rscadd: A large amount of offensive spells has been audited and should no longer
+      be possible to cast in shapeshifted form. Report any that is missing.
+  borneblood:
+  - bugfix: Lacrima can't be used on dead people.
+  kbitykbitykbity:
+  - balance: Tweaked Zizo's Bane, now only appears in the underdark and is much more
+      obviously telegraphed when you step on one.
+  psyendrocronologicalwarfare:
+  - balance: The Templar light gambeson is replaced with a padded gambeson.
+2026-05-25:
+  Ryan180602:
+  - bugfix: runtime batchfix
+  - bugfix: combat aware redundant info
+  WeNeedMorePhoron:
+  - bugfix: Inhumen Digestion no longer have an inaccurate comment in code and inaccurate
+      trait description, and tell you you can eat burnt, rotten or raw food and not
+      refers to POISONED food.
+  - bugfix: The on spawn armor / fabric kit bonus now accounts for POST SPAWN class
+      choices properly. So for example a Hangyaku-Kounen would get a scrap kit instead
+      of a fabric kit
+  borneblood:
+  - bugfix: No more aliases as Regent.
+  changelingonberry:
+  - admin: remove MUTE from player LOOC
+  psyendrocronologicalwarfare:
+  - spellcheck: removes mention of caine/kaine because they are not real
+  saltprjak:
+  - balance: Rogue Mages receive dagger skill, some utility skills, and innate Message
+      and Mindlink spells.

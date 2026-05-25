@@ -683,13 +683,12 @@
 	smeltresult = /obj/item/ingot/steelholy
 	smelt_bar_num = 2
 
-/obj/item/rogueweapon/mace/goden/kanabo
+/obj/item/rogueweapon/mace/goden/steel/kanabo
 	name = "kanabo"
 	desc = "A steel-banded wooden club, made to break the enemy in spirit as much as in flesh. One of the outliers among the many more elegant weapons of Kazengun."
 	icon_state = "kanabo"
 	slot_flags = ITEM_SLOT_BACK
 	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/effect/daze)
-	max_integrity = 250 // it's strong wood, but it's still wood.
 
 /obj/item/rogueweapon/mace/goden/steel/ravox
 	name = "duel settler"
