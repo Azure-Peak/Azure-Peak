@@ -444,8 +444,10 @@
 	var/list/parts = list("[gross] gross")
 	if(levy > 0)
 		parts += "[levy] merchant"
-	if(total_duty > 0)
+	if(pay_taxes && total_duty > 0)
 		parts += "[total_duty] taxed"
+	if(fixed_tax > 0)
+		parts += "[round(fixed_tax * 100)]% handler skim"
 	parts += "[producer_net] net"
 	var/tile_label = payout_dir ? "[dir2text(payout_dir)] - " : ""
 	visible_message(span_info("[src] chimes: \"[tile_label][parts.Join(", ")].\""))
