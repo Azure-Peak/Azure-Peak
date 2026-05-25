@@ -704,6 +704,8 @@
 					forcemoved = TRUE
 					hitscan_last = loc
 
+	if(QDELETED(src) || !trajectory)
+		return
 	if(!hitscanning && !forcemoved)
 		pixel_x = trajectory.return_px() - trajectory.mpx * trajectory_multiplier * SSprojectiles.global_iterations_per_move
 		pixel_y = trajectory.return_py() - trajectory.mpy * trajectory_multiplier * SSprojectiles.global_iterations_per_move

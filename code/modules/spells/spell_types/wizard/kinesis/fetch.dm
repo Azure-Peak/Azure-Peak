@@ -30,6 +30,8 @@
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_LOW
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 /obj/projectile/magic/fetch
 	name = "bolt of fetching"
 	icon_state = "cursehand0"

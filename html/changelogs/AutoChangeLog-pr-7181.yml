@@ -1,0 +1,11 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Deadite Venards"
+  - rscadd: "Deadite Boars"
+  - rscadd: "Deadite Trolls"
+  - qol: "Corpses about to turn into a deadite begin shaking 12 seconds before turning fully"
+  - bugfix: "All simple deadite animals should be able to be slowed now by targeting the legs"
+  - bugfix: "All simple deadite animals should properly be executed when you target any head zone, not just the main ones."
+  - refactor: "componentalized deadite animal code"
+  - balance: "Increased butchery EXP gains and reduced butchering time, significant for both."
