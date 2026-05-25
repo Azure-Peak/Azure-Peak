@@ -36,6 +36,9 @@
 		return
 	if(user == target)
 		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites get extremely funny messages trying to do this.
+		to_chat(user, span_warning(pick("I stare uselessly at their weapon..", "I drool as I stare at their weapon..", "I stare at their weapon... and forgot what I was doing..")))
+		return
 	
 	var/mob/living/carbon/human/HT = target
 	var/mob/living/carbon/human/HU = user
@@ -139,6 +142,9 @@
 		return
 	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites get extremely funny messages trying to do this.
+		to_chat(user, span_warning(pick("I use the ancient technique... of nearly falling over..", "I muster all of my strength... and forgot what I was doing..", "I trip and stumble while wildly flailing around..", "I focus... and... feel too hungry to do so..", "I... feel suddenly very... what is stupid..?", "I focus... but the concept slipped my mind..")))
+		return
 
 	user.face_atom(target)
 
@@ -230,6 +236,11 @@
 		newcd = 5 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
 
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //You didn't think trying to fient a person was going to work, you're not even smart enough to know what you're doing to begin with.
+		perc = 0
+		newcd = 10 SECONDS //UNNESSESSARY BUT HILARIOUS
+		special_msg = span_warning(pick("I... Prepare to lunge vaguely towards nothing in particular, then stumble..", "I claw at nothing in particular uselessly..", "I trip and flail wildly... nothing happens..", "I claw... at the air and stumble, this achieves nothing..", "I swing for a moment... then stop, what is a feint..?"))
+
 	perc = CLAMP(perc, 10, 90)
 
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
@@ -282,9 +293,11 @@
 	bypasses_click_cd = TRUE
 
 /datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)
-	if(ishuman(user))
+	if(ishuman(user) && !HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites... are too stiff to even attempt this, let alone think to do this.
 		var/mob/living/carbon/human/H = user
 		H.try_guard()
+	if(HAS_TRAIT(user, TRAIT_DEADITE))
+	to_chat(user, span_warning("...What?")) //Item use, we're just using the default fallback. No humor here.
 
 /datum/rmb_intent/guard
 	name = "guarde"
