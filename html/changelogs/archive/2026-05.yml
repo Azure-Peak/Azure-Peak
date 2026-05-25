@@ -906,3 +906,23 @@
       obviously telegraphed when you step on one.
   psyendrocronologicalwarfare:
   - balance: The Templar light gambeson is replaced with a padded gambeson.
+2026-05-25:
+  Ryan180602:
+  - bugfix: runtime batchfix
+  - bugfix: combat aware redundant info
+  WeNeedMorePhoron:
+  - bugfix: Inhumen Digestion no longer have an inaccurate comment in code and inaccurate
+      trait description, and tell you you can eat burnt, rotten or raw food and not
+      refers to POISONED food.
+  - bugfix: The on spawn armor / fabric kit bonus now accounts for POST SPAWN class
+      choices properly. So for example a Hangyaku-Kounen would get a scrap kit instead
+      of a fabric kit
+  borneblood:
+  - bugfix: No more aliases as Regent.
+  changelingonberry:
+  - admin: remove MUTE from player LOOC
+  psyendrocronologicalwarfare:
+  - spellcheck: removes mention of caine/kaine because they are not real
+  saltprjak:
+  - balance: Rogue Mages receive dagger skill, some utility skills, and innate Message
+      and Mindlink spells.
