@@ -313,7 +313,8 @@
 
 	record_round_statistic(STATS_DEADITES_WOKEN_UP) //Turning into a deadite in-general raises this now. ZIZO. ZIZO. ZIZO.
 
-	//small cutscene now we are a zombie, phew!
+	//small cutscene now we are a zombie, phew! lets make it a little dramatic.
+
 	sleep(0.1) //Quickly make sure we already cleared our stuns and stuff
 	zombie.Knockdown(55)
 	zombie.Immobilize(60) //Don't want to move during this
@@ -327,18 +328,18 @@
 	zombie.vomit(1, blood = TRUE, stun = FALSE)
 	zombie.visible_message(span_warning("[zombie] convulses on the floor momentarily, skin rotting away unnaturally fast..."))
 	sleep(2 SECONDS) //Second message, another small gap to notice something is very fucking wrong if the previous que wasn't enough.
-	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //Horrible noises
 	zombie.flash_fullscreen("redflash3")
 	zombie.vomit(1, blood = TRUE, stun = FALSE)
 	zombie.visible_message(span_warning("[zombie]'s lyfeless eyes begin to light up with an eerie glow."))
+	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //Horrible noises
 	to_chat(zombie, span_narsie("Death is not the end..."))
 	sleep(2 SECONDS) //now get them up to go fight and die
-	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
 	if(zombie.resting)
 		zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
 	zombie.flash_fullscreen("redflash3")
 	zombie.visible_message(span_danger("[zombie] stands back up.")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
+	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
 	to_chat(zombie, span_narsie(pick("SO... HUNGRY... CRAVE FLESH!", "FLESH... MUST HAVE FLESH!", "HUNGER... KILL... FLESH!")))
 	if(!zombie.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
 		zombie.toggle_cmode()
@@ -420,6 +421,7 @@
 		zombie.adjustBruteLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
 		zombie.adjustFireLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
 		zombie.heal_wounds(INFINITY) // Heal all non-permanent wounds
+		playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //Horrible noises for yes, that.
 		to_chat(zombie, span_userdanger("Your bones snap back into place and your flesh knits itself back together as you rise again in undeath."))
 
 	zombie.stat = UNCONSCIOUS // Start unconscious
