@@ -77,12 +77,11 @@
 
 /obj/item/rogueweapon/sword/falx
 	name = "falx"
-	desc = "An unusual type of curved sword that evolved from the farmer's sickle. It has an inwards edge, making it useful for cutting and chopping."
+	desc = "An unusual type of curved sword that evolved from the farmer's sickle. It has an inwards edge, making it useful for cutting and chopping, great for destroying shields and men alike."
 	force = 22
-	possible_item_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/chop/falx, /datum/intent/sword/strike)
+	possible_item_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/chop/falx, /datum/intent/sword/cut/falx/heavy, /datum/intent/sword/strike)
 	icon_state = "falx"
-	max_blade_int = 250
-	max_integrity = 125
+	max_blade_int = 230 // Tiny downgrade like the sabre
 	gripped_intents = null
 	minstr = 4
 	wdefense = 6
@@ -94,6 +93,20 @@
 	wbalance = WBALANCE_SWIFT
 	smeltresult = /obj/item/ingot/drow
 	smelt_bar_num = 1
+
+/obj/item/rogueweapon/sword/falx/dadao
+	name = "dadao"
+	desc = "A heavy steel blade with a pronounced curve and thick blade, designed to chop apart men and saigas alike. The Ranesheni name it Saigachopper - until they encountered the Zhanmadao, and then they renamed it the Little Saigachopper."
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	icon_state = "dadao"
+	sheathe_icon = "dadao"
+
+/obj/item/rogueweapon/sword/falx/dadao/iron
+	name = "iron dadao"
+	desc = "A wrought iron variant of the dadao, wrought by Lingyuese smithmen for smoothmen to use along a shield. The edge dulls quickly, but it will decapitate men and saiga all the same."
+	icon_state = "idadao"
+	smeltresult = /obj/item/ingot/iron
+	max_blade_int = 200
 
 /obj/item/rogueweapon/sword/decorated
 	name = "decorated arming sword"
@@ -1715,10 +1728,10 @@
 /obj/item/rogueweapon/sword/long/rhomphaia
 	name = "rhomphaia"
 	desc = "An ancient two-handed sword similar to the falx, with a less pronounced curve. Once known for cutting through helmet - metallurgy has improved since then, but it can chop through light armor with ease."
-	force = 25
-	force_wielded = 30
+	force = 22
+	force_wielded = 27 // Do not want it to become the meat mulcher on 2 hand with this speed
 	possible_item_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/strike, /datum/intent/sword/chop/falx)
-	gripped_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/thrust, /datum/intent/sword/chop/falx) //>Ability to strike and THRUST - No thrust intent? Nonsense.
+	gripped_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/chop/falx, /datum/intent/sword/cut/falx/heavy, /datum/intent/sword/cut/zwei/sweep)
 	icon_state = "rhomphaia"
 	smeltresult = /obj/item/ingot/steel
 
@@ -1975,6 +1988,20 @@
 	max_integrity = 200
 	sharpness_mod = 2
 	sellprice = 150
+
+/obj/item/rogueweapon/sword/sabre/wodao
+	name = "wodao"
+	desc = "A slightly curved blade originating in the eastern realm of Lingyue, where its design was perfected over centuries of dynastic warfare. \
+	The pattern has since spread along the trade routes - adopted by Kazengunite diplomat-militants, then carried west as far as the Naledian allspice caravans. \
+	While less durable compared to other arming swords, its swift balance and unique design make it great for unleashing precise strikes."
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	icon_state = "wodao"
+	sheathe_icon = "wodao"
+
+/obj/item/rogueweapon/sword/saber/iron/wodao
+	name = "iron wodao"
+	desc = "A wrought-iron wodao, mass produced by the thousands in the state arsenals for Xinyi infantry and provincial militias. The blade is competent, its edge sharp, but it will not hold as long under use. But at a fraction of the cost of a hwando, it is more than enough to slay a man or five before it needs to be sharpened."
+	icon_state = "iwodao"
 
 /obj/item/rogueweapon/sword/sabre/hook
 	force = 20

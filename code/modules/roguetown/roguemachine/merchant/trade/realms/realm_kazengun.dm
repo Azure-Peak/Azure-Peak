@@ -78,14 +78,11 @@
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/jade,
-		/datum/supply_pack/rogue/merc_weapons/hwando,
 		/datum/supply_pack/rogue/merc_weapons/naginata,
 		/datum/supply_pack/rogue/merc_weapons/hookblade,
 		/datum/supply_pack/rogue/merc_weapons/kodachi,
 		/datum/supply_pack/rogue/merc_weapons/tanto,
-		/datum/supply_pack/rogue/merc_weapons/ssangsudo,
 		/datum/supply_pack/rogue/kazengun/kanabo,
-		/datum/supply_pack/rogue/kazengun/ssangsudo,
 		/datum/supply_pack/rogue/kazengun/samsibsa,
 		/datum/supply_pack/rogue/kazengun/haraate,
 		/datum/supply_pack/rogue/kazengun/kabuto,
@@ -93,8 +90,6 @@
 		/datum/supply_pack/rogue/kazengun/mask_full,
 		/datum/supply_pack/rogue/kazengun/mask_half,
 		/datum/supply_pack/rogue/kazengun/cloak,
-		/datum/supply_pack/rogue/kazengun/shirt_black,
-		/datum/supply_pack/rogue/kazengun/shirt_white,
 		/datum/supply_pack/rogue/kazengun/captainrobe,
 		/datum/supply_pack/rogue/kazengun/gorget,
 		/datum/supply_pack/rogue/kazengun/kote,

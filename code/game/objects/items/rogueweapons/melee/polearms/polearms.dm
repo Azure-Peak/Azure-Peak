@@ -869,6 +869,18 @@
 	max_blade_int = 225
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/rogueweapon/halberd/ji
+	name = "ji"
+	desc = "A Lingyuese dagger-axe. A spearhead crowns the shaft, while a crescent side-blade hooks outwards - equally suited to thrusting, hooking a mounted foe out of his saddle, or shearing through a footman's guard."
+	icon_state = "ji"
+
+/obj/item/rogueweapon/halberd/ji/iron
+	name = "iron ji"
+	desc = "A Lingyuese dagger-axe wrought in iron, lacking the steel reinforcement of finer makes. Still serviceable in the hands of a drilled levyman."
+	icon_state = "iji"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = 200
+
 /obj/item/rogueweapon/halberd/bardiche
 	possible_item_intents = list(/datum/intent/spear/thrust/bad, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/spear/cut, /datum/intent/spear/cut/bardiche/cleave, /datum/intent/spear/cut/glaive/sweep, SPEAR_BASH)
