@@ -14,7 +14,6 @@
 					/datum/action/cooldown/spell/tame_undead/zizo						= CLERIC_T3,
 					/datum/action/cooldown/spell/zizo/rituos 							= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/zizo				= CLERIC_T3,
-					/datum/action/cooldown/spell/convert_heretic						= CLERIC_T4,
 					/datum/action/cooldown/spell/lacrima/zizo							= CLERIC_T4,	
 	)
 	confess_lines = list(

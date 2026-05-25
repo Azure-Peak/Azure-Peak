@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Inhumen Digestion no longer have an inaccurate comment in code and inaccurate trait description, and tell you you can eat burnt, rotten or raw food and not refers to POISONED food."
+  - bugfix: "The on spawn armor / fabric kit bonus now accounts for POST SPAWN class choices properly. So for example a Hangyaku-Kounen would get a scrap kit instead of a fabric kit"

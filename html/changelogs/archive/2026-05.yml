@@ -818,3 +818,91 @@
   - rscadd: Added Zizo's Bane mushrooms and sleep poison made using them.
   saltprjak:
   - rscadd: Added bandolier option to loadout, under Miscellaneous.
+2026-05-23:
+  FreeStylaLT:
+  - bugfix: Fixed some rare instances of wield-only specials working with unwielded
+      or unwieldable weapons.
+  - balance: Woodwalker no longer grants double harvests from plants. Alchemy Expert
+      gives a boost to it instead.
+  Ollanius:
+  - bugfix: Lunatics can be played by any race and creed, once more!
+  OrbisAnima:
+  - bugfix: Makes it so Legendary classes are able to use the houses they would normally
+      get if they were their regular counterpart. Ie, the Legendary Chef getting the
+      Cheesemaker house.
+  - bugfix: Gives the Legendary classes the skills,stats,traits they would normally
+      had gotten from their base class, as well as what they normally would get from
+      the bank, ie, legendary fisher gets the unique fishing trait, the skills from
+      regular fisher, any stat they didnt had already.
+  Quinalion:
+  - image: Resprited the Bone Cataclysm spell sprite.
+  - image: Slightly resprited vampire spells.
+  SpadesNeil:
+  - rscadd: Ashes can now be scattered by using them in hand.
+  borneblood:
+  - rscadd: Psydonic Maul for Adjudicator.
+  radarseas:
+  - code_imp: Killed Crafter's Coverant. Sorry Malumites. Maybe someone can give you
+      a miracle to sacrifice crafts for materials but until then, its dead sire. The
+      image icon stays though for that purpose.
+  - balance: Malumites now get apprentice lumberjacking as a suppliment patron boon,
+      shared between missionary, acolytes, templar and heretics.
+  - balance: munitioneer has higher crafting skills + Expert lumberjacking + Homesteading
+      since they no longer clutch on this miracle cruxing them from ever being proper
+      fort makers.
+  - bugfix: munitioneer now has miracle skill, they're no longer worse than vagabonds
+      as an antagonist with miracles.
+  - balance: munitioneer gets T4s off-the-bat, they no longer have to grind to revive
+      people and stuff.
+  saltprjak:
+  - bugfix: Soulshot now deals full damage to the first target instead of half.
+2026-05-24:
+  FreeStylaLT:
+  - balance: Berserker can now pick its skin armor option freely. Picking it will
+      give an extra layer of 'skin' that has better protection.
+  - qol: Fishing rods will now auto-hook valid nearby bait when casting an empty line
+      if the user has Expert skill or higher.
+  - balance: Cautious Fisher trait now is even more effective.
+  - rscadd: Added a new rclick functionality to shovels -- they can now select what
+      they'll be digging for (solids like clay or stone, or bait like worms and leeches)
+      without actually digging a hole.
+  KatTheFox:
+  - bugfix: Hags and lich skeletons can no longer take hunted
+  - balance: Hunted now makes you a target for assassins if you're a heavily-protected
+      town role, and gnolls otherwise
+  OrbisAnima:
+  - qol: Makes all the instrument selections consistent for all the instrument welding
+      classes. (This adds instruments)
+  - rscadd: Adds conjure instrurment to arcane spellsinger.
+  - balance: Adds 1 point of INT and WILL to the minstrel, the movement set on apprentice,
+      and camping set (medicine and cooking) as novice, while removing pickpocketing,
+      as its assumed this is your friendly musician that works at the town. Also changed
+      their belt and added a lantern given they had to give up so many sellable instruments
+  Quinalion:
+  - rscadd: 'New spider-meat recipes: Spider Meatballs, Spider Surprise, and De-Scallax
+      Pie.'
+  - rscadd: Adds Spider Meat Mince as a craftable/processable ingredient used by new
+      recipes.
+  - code_imp: Removes /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/meat
+      and moves all variables to /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat
+      to consolidate cooked-meat handling.
+  VanessaCoding:
+  - balance: drip speed for Fill intent with Orison is now a flat 1.5 seconds. The
+      drip amount is now 5 x Holy Skill Level.
+  - balance: you can now use Fill intent with Orison on soil to water it.
+  - bugfix: fixing the interaction lockout on using tools that aren't watering on
+      soil from the Orison QOL change.
+  WeNeedMorePhoron:
+  - rscdel: Remove Jman requirement for making a mound bare-handed with seeds
+  - rscadd: Parry is now the default intent you start a round with.
+  - rscadd: Add perfumes and fermented crab to loadout. Common perfumes 2, rare is
+      3, and fermented crab 5.
+  - rscadd: A large amount of offensive spells has been audited and should no longer
+      be possible to cast in shapeshifted form. Report any that is missing.
+  borneblood:
+  - bugfix: Lacrima can't be used on dead people.
+  kbitykbitykbity:
+  - balance: Tweaked Zizo's Bane, now only appears in the underdark and is much more
+      obviously telegraphed when you step on one.
+  psyendrocronologicalwarfare:
+  - balance: The Templar light gambeson is replaced with a padded gambeson.

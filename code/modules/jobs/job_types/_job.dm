@@ -269,10 +269,7 @@
 
 		if(H.mind)
 			H.mind?.special_items["Pouch of Coins"] = /obj/item/storage/belt/rogue/pouch/coins/readyuppouch
-			if (HAS_TRAIT(H, TRAIT_MEDIUMARMOR) || HAS_TRAIT(H, TRAIT_HEAVYARMOR))
-				H.mind?.special_items["Metal Scrap (Repair kit)"] = /obj/item/repair_kit/metal/bad
-			else
-				H.mind?.special_items["Fabric Patch (Repair kit)"] = /obj/item/repair_kit/bad
+			set_readyup_repair_kit(H)
 
 		to_chat(M, span_notice("Rising early, you made sure to pack a pouch of coins in your stash and eat a hearty breakfast before starting your day. A true TRIUMPH!"))
 
@@ -314,6 +311,17 @@
 		hugboxify_for_class_selection(H)
 
 	log_admin("[H.key]/([H.real_name]) has joined as [H.mind.assigned_role].")
+
+/// Sets the ready-up repair kit stash entry based on the mob's current armor traits.
+/// Safe to call multiple times — later calls overwrite earlier ones, so loadout-based armor picks can re-run this to upgrade the kit after choose_loadout finishes.
+/datum/job/proc/set_readyup_repair_kit(mob/living/carbon/human/H)
+	if(!H?.mind)
+		return
+	if(HAS_TRAIT(H, TRAIT_MEDIUMARMOR) || HAS_TRAIT(H, TRAIT_HEAVYARMOR))
+		H.mind.special_items -= "Fabric Patch (Repair kit)"
+		H.mind.special_items["Metal Scrap (Repair kit)"] = /obj/item/repair_kit/metal/bad
+	else
+		H.mind.special_items["Fabric Patch (Repair kit)"] = /obj/item/repair_kit/bad
 
 /// Called when a player permanently leaves the round (via returntolobby). Handles slot reopening and respawn delays.
 /datum/job/proc/on_round_removal(mob/M)
