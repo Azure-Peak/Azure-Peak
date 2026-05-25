@@ -287,7 +287,7 @@
 //We greet them there, play a stinger and yeah.
 	zombie.update_body()
 	zombie.playsound_local(get_turf(zombie), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE) //Extra bit of AURA
-	to_chat(zombie, span_narsie("Hungry... so hungry... I CRAVE FLESH!"))
+	to_chat(zombie, span_necrosis("My mind grows numb and empty as unlyfe takes ahold of my body..."))
 	zombie.cmode_music = 'sound/music/combat_weird.ogg'
 
 
@@ -311,24 +311,34 @@
 	for(var/slot in removed_slots)
 		zombie.dropItemToGround(zombie.get_item_by_slot(slot), TRUE)
 
+	record_round_statistic(STATS_DEADITES_WOKEN_UP) //Turning into a deadite in-general raises this now. ZIZO. ZIZO. ZIZO.
+
 	//small cutscene now we are a zombie, phew!
-	zombie.flash_fullscreen("redflash3")
-	zombie.Knockdown(4)
-	zombie.Immobilize(4) //Don't want to move during this
-	zombie.Jitter(10)
+	sleep(0.1) //Quickly make sure we already cleared our stuns and stuff
+	zombie.Knockdown(30)
+	zombie.Immobilize(30) //Don't want to move during this
+	zombie.Stun(30)
+	zombie.Jitter(30)
 	zombie.emote("groan") // First audio warning to nearby players on top of the above message
 	zombie.drop_all_held_items()
-	sleep(1 SECONDS) //First message, a small gap to notice something is very fucking wrong if the previous que wasn't enough.
+	sleep(2 SECONDS) //First message, honestly if you can't tell something's off this'll let you know.
+	zombie.flash_fullscreen("redflash3")
 	zombie.vomit(1, blood = TRUE, stun = FALSE)
 	zombie.visible_message(span_warning("[zombie] convulses on the floor momentarily, skin rotting away unnaturally fast..."))
-	sleep(3 SECONDS) //now get them up to go fight and die
+	sleep(2 SECONDS) //Second message, another small gap to notice something is very fucking wrong if the previous que wasn't enough.
+	zombie.flash_fullscreen("redflash3")
+	zombie.vomit(1, blood = TRUE, stun = FALSE)
+	zombie.visible_message(span_warning("[zombie]'s lyfeless eyes begin to light up with an eerie glow."))
+	to_chat(zombie, span_narsie("Death is not the end..."))
+	sleep(4 SECONDS) //now get them up to go fight and die
 	if(zombie.resting)
 		zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
 	zombie.flash_fullscreen("redflash3")
 	zombie.visible_message(span_warning("[zombie] rises again... As a terrifying deadite!")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
-	to_chat(zombie, span_narsie("Death is not the end..."))
-	record_round_statistic(STATS_DEADITES_WOKEN_UP) //Turning into a deadite in-general raises this now. ZIZO. ZIZO. ZIZO.
+	to_chat(zombie, span_narsie("Hungry... so hungry... I CRAVE FLESH!"))
+	if(!zombie.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
+		zombie.toggle_cmode()
 
 // Infected wake param is just a transition from living to zombie, via zombie_infect()
 // Prevoously you just died without warning in ~3 min, now you just become an antag instead of having to die first if infected.

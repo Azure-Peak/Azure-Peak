@@ -412,6 +412,9 @@
 	if(HAS_TRAIT(src, TRAIT_DEADITE)) //Zombies always show up as deadites to others even behind masks
 		. += span_userdanger("DEADITE!")
 
+	if(HAS_TRAIT(user, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE)) //Zombies get some messed up examines on non-zombie immune people.
+		. += span_narsie(pick("KILL IT. KILL IT", "FLESH. HUNGER", "KILL. CONSUME", "CONSUME", "KILL THE RASPING THING", "HUNGER.", "EAT IT.", "MUST HAVE FLESH."))
+
 	if(user != src)
 		var/datum/mind/Umind = user.mind
 		if(Umind && mind)

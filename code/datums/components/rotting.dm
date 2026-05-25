@@ -63,7 +63,7 @@
 	var/mob/living/carbon/C = parent
 
 	var/is_zombie
-	//if(HAS_TRAIT(C, TRAIT_DNR)) disabled for now, expect DNR to zombify too. Just ghost if you don't wanna turn, numbers are important.
+	//if(HAS_TRAIT(C, TRAIT_DNR)) //disabled override for now.
 		//return
 	if(C.mind)
 		if(C.mind.has_antag_datum(/datum/antagonist/zombie))

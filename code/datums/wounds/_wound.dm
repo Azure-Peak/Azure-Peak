@@ -304,7 +304,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		if(!owner || QDELETED(owner) || QDELETED(src))
 			return FALSE
 
-	if(HAS_TRAIT(owner, TRAIT_DEADITE) && !passive_healing) //Zombies shrug off injuries over-time, since they literally can't do anything to stop them
+	if(HAS_TRAIT(owner, TRAIT_DEADITE)) //Zombies always shrug off injuries over-time, since they literally can't do anything to stop them
 		heal_wound(1)
 		if(!owner || QDELETED(owner) || QDELETED(src))
 			return FALSE
