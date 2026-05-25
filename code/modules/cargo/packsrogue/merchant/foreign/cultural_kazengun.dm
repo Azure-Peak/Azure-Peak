@@ -7,7 +7,7 @@
 /datum/supply_pack/rogue/kazengun/kanabo
 	name = "Kanabo"
 	cost = 220
-	contains = list(/obj/item/rogueweapon/mace/goden/kanabo)
+	contains = list(/obj/item/rogueweapon/mace/goden/steel/kanabo)
 	ship_qty_min = 1
 	ship_qty_max = 2
 
