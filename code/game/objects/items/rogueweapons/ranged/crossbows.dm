@@ -383,6 +383,5 @@
 	desc = "A heavier weight crossbow from another tyme - the basis of a mounted ballista, made fit for handheld usage. Integrated just beneath the stock is a windlass mechanism, necessary to surmount the siegebow's titanic draw-strength. It loads heavier, full-length bolts; purpose-made to pulverize. </br>'Rudmarsch's walls broke beneath the volley, and Her sickness petered through the cracks..'"
 	icon_state = "ancientheavybow0"
 	item_state = "ancientheavybow"
-	max_integrity = 130
 
 //

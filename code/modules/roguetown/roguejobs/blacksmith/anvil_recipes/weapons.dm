@@ -1116,17 +1116,43 @@
 	additional_items = list(/obj/item/ingot/steel, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/tower/metal
 
-/datum/anvil_recipe/weapons/alloy/shield
+/datum/anvil_recipe/weapons/aalloy/shield
 	name = "Shield, Decrepit (+1 Alloy, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/ingot/aalloy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/tower/metal/alloy
 
-/datum/anvil_recipe/weapons/alloy/shield
+/datum/anvil_recipe/weapons/palloy/shield
 	name = "Shield, Ancient (+1 Purified Alloy, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/tower/metal/palloy
+
+/datum/anvil_recipe/weapons/paalloy/greatshield
+	name = "Greatshield, Ancient (+2 Purified Alloy, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/shield/bronze/great/paalloy
+	craftdiff = 2
+
+/datum/anvil_recipe/weapons/alloy/greatshield
+	name = "Greatshield, Decrepit (+2 Alloy, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/aalloy
+	additional_items = list(/obj/item/ingot/aalloy, /obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/shield/bronze/great/aalloy
+	craftdiff = 2
+
+/datum/anvil_recipe/weapons/paalloy/hoplonshield
+	name = "Hoplon Shield, Ancient (+1 Purified Alloy, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	additional_items = list(/obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/shield/bronze/paalloy
+
+/datum/anvil_recipe/weapons/aalloy/hoplonshield
+	name = "Hoplon Shield, Decrepit (+1 Alloy, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/aalloy
+	additional_items = list(/obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/shield/bronze/aalloy
 
 /datum/anvil_recipe/weapons/iron/towershield
 	name = "Tower Shield (+1 Small Log)"

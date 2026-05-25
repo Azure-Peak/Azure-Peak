@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Adds Tenymuri's 'handgames' function! Accessible in the Emote tab, this verb allows you to play up to four classic games with another person; either across a table, or adjacent to one-another."

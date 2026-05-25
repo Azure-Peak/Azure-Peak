@@ -2,7 +2,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead
 //I'm not inhereting base wolf either because it uses cursed elements and AI.
-	icon = 'icons/mob/wolf_undead.dmi'
+	icon = 'icons/roguetown/mob/monster/deadites/wolf_undead.dmi'
 	name = "deadite volf"
 	desc = "A volf that was claimed for undeath, defiantly snarling with a hunger for fresh meat."
 	icon_state = "wolf"
@@ -17,6 +17,7 @@
 	see_in_dark = 6
 	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/volf)
+	head_butcher = /obj/item/natural/head/volf/undead
 	botched_butcher_results = list(/obj/item/alch/viscera = 1, /obj/item/alch/sinew = 1, /obj/item/natural/bone = 2)
 	butcher_results = list(/obj/item/natural/hide = 1,
 						/obj/item/alch/sinew = 1,
@@ -54,14 +55,6 @@
 	aggressive = 1
 	remains_type = /obj/effect/decal/remains/wolf
 
-	var/leg_health = 100
-	var/max_leg_health = 100
-	var/head_health = 75
-	var/max_head_health = 75
-	var/reinimation_timer = 15 MINUTES
-	var/is_downed = FALSE
-	var/legs_broken = FALSE
-
 	var/chomp_cd = 0
 	var/chomp_roll = 0
 
@@ -95,64 +88,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/Initialize()
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
-	REMOVE_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_RIGIDMOVEMENT, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
-	AddComponent(/datum/component/infection_spreader)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/death()
-	if(is_downed)
-		visible_message(span_danger("[src] has their head smashed to pulp!"))
-		. = ..()
-		update_icon()
-		ai_controller.set_ai_status(AI_STATUS_OFF)
-	else
-		visible_message(span_notice("[src] falls down, body brutally battered, yet its head continues that unending stare."))
-		is_downed = TRUE
-		ai_controller.movement_delay = 100
-		icon_state = icon_downed
-		icon_living = icon_downed
-		adjustBruteLoss(-250)
-		set_stat(CONSCIOUS)
-		update_icon()
-		// If you don't kill it, it will become a threat again.
-		addtimer(CALLBACK(src, .proc/reanimation), reinimation_timer)
-		return
-
-/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/proc/reanimation()
-	if(!QDELETED(src) && stat != DEAD)
-		visible_message(span_danger("The [src] stands back up."))
-		health = maxHealth
-		leg_health = max_leg_health
-		head_health = max_head_health
-		legs_broken = FALSE
-		icon_state = "wolf"
-		icon_living = "wolf"
-		ai_controller.movement_delay = initial(ai_controller.movement_delay)
-		is_downed = FALSE
-		set_stat(CONSCIOUS)
-		update_icon()
-
-/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/apply_damage(damage, damagetype, def_zone, blocked, forced)
-	. = ..()
-	if(is_downed)
-		if(def_zone == "head" || \
-		   def_zone == "nose" || \
-		   def_zone == "mouth" || \
-		   def_zone == "neck")
-
-			head_health -= damage
-			if(head_health <= 0 && stat != DEAD)
-				head_health = 0
-				death()
-
-	if(def_zone == "foreleg" || def_zone == "leg")
-		leg_health -= damage
-		if(leg_health <= 0 && !legs_broken)
-			leg_health = 0
-			legs_broken = TRUE
-			ai_controller.movement_delay += 10
-			visible_message(span_notice("[src] slows down, its broken legs dragging."))
+	AddComponent(/datum/component/deadite, 15 MINUTES, 100, 75, "wolf_downed")
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/get_sound(input)
 	switch(input)
@@ -171,40 +107,16 @@
 	if(!zone)
 		return ""
 	switch(zone)
-		if(BODY_ZONE_PRECISE_R_EYE)
+		if(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS)
 			return "head"
-		if(BODY_ZONE_PRECISE_L_EYE)
-			return "head"
-		if(BODY_ZONE_PRECISE_NOSE)
-			return "nose"
-		if(BODY_ZONE_PRECISE_MOUTH)
+		if(BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH)
 			return "mouth"
-		if(BODY_ZONE_PRECISE_SKULL)
-			return "head"
-		if(BODY_ZONE_PRECISE_EARS)
-			return "head"
 		if(BODY_ZONE_PRECISE_NECK)
 			return "neck"
-		if(BODY_ZONE_PRECISE_L_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_R_HAND)
-			return "foreleg"
-		if(BODY_ZONE_PRECISE_L_FOOT)
-			return "leg"
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			return "leg"
+		if(BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_R_ARM, BODY_ZONE_PRECISE_R_HAND)
+			return "r_leg"
+		if(BODY_ZONE_L_LEG, BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_L_ARM, BODY_ZONE_PRECISE_L_HAND)
+			return "l_leg"
 		if(BODY_ZONE_PRECISE_STOMACH)
 			return "stomach"
-		if(BODY_ZONE_PRECISE_GROIN)
-			return "tail"
-		if(BODY_ZONE_HEAD)
-			return "head"
-		if(BODY_ZONE_R_LEG)
-			return "leg"
-		if(BODY_ZONE_L_LEG)
-			return "leg"
-		if(BODY_ZONE_R_ARM)
-			return "foreleg"
-		if(BODY_ZONE_L_ARM)
-			return "foreleg"
 	return ..()
