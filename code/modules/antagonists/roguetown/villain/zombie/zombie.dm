@@ -286,19 +286,19 @@
 
 //We greet them there, play a stinger and yeah.
 	zombie.update_body()
-	zombie.playsound_local(get_turf(zombie), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE) //Extra bit of AURA
+	zombie.playsound_local(get_turf(zombie), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE) //Extra bit of AURA, plus antag stinger is good design.
 	to_chat(zombie, span_infection("My mind grows numb and empty as unlyfe takes ahold of my body..."))
 	zombie.cmode_music = 'sound/music/combat_weird.ogg'
 
 
-	// Original first commit values for speed were 5-7 randomly. They can sprint again, lets just keep everything uniform.
+	// Original first commit values for speed were 5-7 randomly. They can sprint again, lets just keep everything uniform. No more RNG
 	// We pre-set stats here.
 	zombie.STASPD = 5
 	zombie.STAPER = 5 //You ain't hitting anything but chest outside of biting, let alone looking afar
 	zombie.STAINT = 1
 	zombie.STASTR = 14
-	zombie.STACON = 12 //Slightly above baseline Con only, prevents conmaxxers at 16 or above becoming literally unkillable with sprinting back
-	zombie.STAWIL = 12 //You have to do unarmed fighting, so its uniform
+	zombie.STACON = 10 //Baseline Con only, prevents conmaxxers at 16 or above becoming literally unkillable + concheck spamming with sprinting back - also because they can re-attach limbs now.
+	zombie.STAWIL = 12 //You have to do unarmed fighting, so its uniformly high but not excessive
 	last_bite = world.time
 	has_turned = TRUE
 	// Drop whatever's in your mouth, a workaround for being gagged.
@@ -338,7 +338,7 @@
 	zombie.visible_message(span_danger("[zombie] stands back up.")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
 	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
-	to_chat(zombie, span_narsie(pick("SO... HUNGRY... CRAVE FLESH!", "FLESH... MUST HAVE FLESH!", "HUNGER... KILL... FLESH!")))
+	to_chat(zombie, span_narsie(pick("SO... HUNGRY... CRAVE FLESH!", "FLESH... MUST HAVE FLESH!", "LYVING FIND... KILL... FLESH!", "RAGE... AGAINST THE LYVING... CONSUME")))
 	if(!zombie.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
 		zombie.toggle_cmode()
 
@@ -366,10 +366,11 @@
 	zombie.blood_volume = BLOOD_VOLUME_NORMAL
 	zombie.setOxyLoss(0, updating_health = FALSE, forced = TRUE)
 	zombie.setToxLoss(0, updating_health = FALSE, forced = TRUE)
-	if(!infected_wake)	// if we died, heal all this too
-		zombie.adjustBruteLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
-		zombie.adjustFireLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
-		zombie.heal_wounds(INFINITY)
+	// We always heal this off, zombies from infections tend to pre-emptively heavily wounded/paralyised.
+	zombie.adjustBruteLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
+	zombie.adjustFireLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
+	zombie.heal_wounds(INFINITY)
+
 	zombie.stat = UNCONSCIOUS
 	zombie.updatehealth()
 	zombie.update_mobility()
@@ -419,8 +420,8 @@
 		zombie.adjustBruteLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
 		zombie.adjustFireLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
 		zombie.heal_wounds(INFINITY) // Heal all non-permanent wounds
-		playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //Horrible noises for yes, that.
 		to_chat(zombie, span_userdanger("Your bones snap back into place and your flesh knits itself back together as you rise again in undeath."))
+		playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //Horrible noises for yes, that.
 
 	zombie.stat = UNCONSCIOUS // Start unconscious
 	zombie.updatehealth() // Then check if the mob should wake up
