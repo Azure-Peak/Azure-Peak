@@ -229,7 +229,7 @@
 
 //Housekeeping's done. Transform into zombie.
 /datum/antagonist/zombie/proc/transform_zombie()
-	add_antag_hud(antag_hud_type, antag_hud_name, owner.current)
+	add_antag_hud(antag_hud_type, antag_hud_name, owner.current) //Easier for zombies to tell, fellow zombies.
 	var/mob/living/carbon/human/zombie = owner.current
 	if(!zombie)
 		qdel(src)
