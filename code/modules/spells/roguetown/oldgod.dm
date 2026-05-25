@@ -628,7 +628,7 @@
 
 	H.visible_message(span_blue("[user] connects their Lux with [H]'s own."))
 	if(user.cmode)
-		user.say(pick("RESPITE FOR THY WOUNDS!", "BLEED STANDING!", "I BLEED SO YOU MAY ENDURE!", "PERSIST AGAINST THE PAIN!","LET YOUR WOUNDS WEEP NO MORE!"))
+		user.say(pick("RESPITE FOR THY WOUNDS!", "BLEED STANDING!", "I BLEED SO YOU MAY ENDURE!", "PERSIST AGAINST THE PAIN!","LET YOUR WOUNDS WEEP NO MORE!","THIS IS OUR TRIAL!"))
 		if(HAS_TRAIT(user, TRAIT_IRONMAN))
 			user.electrocute_act(10, user)
 	else
@@ -660,6 +660,9 @@
 
 		if(newwound)
 			targetwound.copy_to(newwound)
+			// Do not transfer bleeding from clotted wounds
+			if(targetwound.is_clotted() || targetwound.is_sewn())
+				newwound.set_bleed_rate(0)
 		else
 			c_BP.receive_damage(targetwound.whp)
 
@@ -691,6 +694,26 @@
 			C_caster.apply_status_effect(/datum/status_effect/debuff/exposed, stuntime)
 			C_caster.emote("pain")
 
+
+	// DAMAGE TRANSFER
+	var/brute_transfer = H.getBruteLoss() * 0.25
+	var/burn_transfer = H.getFireLoss() * 0.25
+	var/tox_transfer = H.getToxLoss() * 0.25
+	var/oxy_transfer = H.getOxyLoss()
+	var/clone_transfer = H.getCloneLoss()
+
+	H.adjustBruteLoss(-brute_transfer)
+	H.adjustFireLoss(-burn_transfer)
+	H.adjustToxLoss(-tox_transfer)
+	H.adjustOxyLoss(-oxy_transfer)
+	H.adjustCloneLoss(-clone_transfer)
+
+	C.adjustBruteLoss(brute_transfer)
+	C.adjustFireLoss(burn_transfer)
+	C.adjustToxLoss(tox_transfer)
+	C.adjustOxyLoss(oxy_transfer)
+	C.adjustCloneLoss(clone_transfer)
+
 	// BLOOD TRANSFER
 	var/blood_transfer = 0
 	var/mob/living/carbon/human/loosah = user
@@ -710,8 +733,6 @@
 	// VISUALS
 	user.visible_message(span_danger("[user] purifies [H]'s wounds!"))
 
-	// ENDURE
-	H.apply_status_effect(/datum/status_effect/buff/psyhealing, 10)
 	playsound(get_turf(user), 'sound/magic/psydonbleeds.ogg', 50, TRUE)
 
 	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97")
@@ -768,14 +789,6 @@
 		return FALSE
 
 	H.visible_message(span_red("[user] <i>dangerously</i> connects their Lux with [H]'s own."))
-	if(user.cmode)
-		user.say(pick("BE ABSOLVED!","I'LL BLEED IN YOUR STEAD!","YOUR TIME IS NOT NOW!","I SHALL WEEP IN YOUR STEAD!","ENDURE, AS HE DOES!","PERSIST, AS HE DOES!"))
-		if(HAS_TRAIT(user, TRAIT_IRONMAN))
-			user.electrocute_act(10, user)
-	else
-		user.say(pick("Live, as he does!","Be healed in His name!","May your injuries be mine to bear!","I absolve you of your wounds!","Be absolved!"))
-		if(HAS_TRAIT(user, TRAIT_IRONMAN))
-			user.adjustFireLoss(25)
 
 	// REVIVE PATH
 	if(H.stat >= DEAD)
@@ -812,6 +825,15 @@
 		H.apply_status_effect(/datum/status_effect/debuff/revived)
 		return TRUE
 
+	if(user.cmode)
+		user.say(pick("BE ABSOLVED!","I'LL BLEED IN YOUR STEAD!","YOUR TIME IS NOT NOW!","I SHALL WEEP IN YOUR STEAD!","ENDURE, AS HE DOES!","PERSIST, AS HE DOES!"))
+		if(HAS_TRAIT(user, TRAIT_IRONMAN))
+			user.electrocute_act(10, user)
+	else
+		user.say(pick("Live, as he does!","Be healed in His name!","May your injuries be mine to bear!","I absolve you of your wounds!","Be absolved!"))
+		if(HAS_TRAIT(user, TRAIT_IRONMAN))
+			user.adjustFireLoss(25)
+
 	// LIMB TRANSFER
 	var/list/zones = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 
@@ -842,6 +864,8 @@
 		var/datum/wound/newW = cBP.add_wound(new_type)
 		if(newW)
 			W.copy_to(newW)
+			if(W.is_clotted() || W.is_sewn())
+				newW.set_bleed_rate(0)
 		else
 			cBP.receive_damage(W.whp)
 		var/obj/item/bodypart/tBP = H.get_bodypart(W.bodypart_owner.body_zone)
