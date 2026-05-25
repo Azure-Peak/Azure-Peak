@@ -287,7 +287,7 @@
 //We greet them there, play a stinger and yeah.
 	zombie.update_body()
 	zombie.playsound_local(get_turf(zombie), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE) //Extra bit of AURA
-	to_chat(zombie, span_necrosis("My mind grows numb and empty as unlyfe takes ahold of my body..."))
+	to_chat(zombie, span_infection("My mind grows numb and empty as unlyfe takes ahold of my body..."))
 	zombie.cmode_music = 'sound/music/combat_weird.ogg'
 
 
@@ -322,23 +322,23 @@
 	zombie.emote("groan") // First audio warning to nearby players on top of the above message
 	zombie.drop_all_held_items()
 	sleep(2 SECONDS) //First message, honestly if you can't tell something's off this'll let you know.
-	zombie.playsound_local(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80) //Horrible noises
 	zombie.flash_fullscreen("redflash3")
 	zombie.vomit(1, blood = TRUE, stun = FALSE)
 	zombie.visible_message(span_warning("[zombie] convulses on the floor momentarily, skin rotting away unnaturally fast..."))
 	sleep(2 SECONDS) //Second message, another small gap to notice something is very fucking wrong if the previous que wasn't enough.
-	zombie.playsound_local(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80) //Horrible noises
+	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //Horrible noises
 	zombie.flash_fullscreen("redflash3")
 	zombie.vomit(1, blood = TRUE, stun = FALSE)
 	zombie.visible_message(span_warning("[zombie]'s lyfeless eyes begin to light up with an eerie glow."))
 	to_chat(zombie, span_narsie("Death is not the end..."))
 	sleep(4 SECONDS) //now get them up to go fight and die
+	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
 	if(zombie.resting)
 		zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
 	zombie.flash_fullscreen("redflash3")
 	zombie.visible_message(span_danger("[zombie] stands back up.")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
-	to_chat(zombie, span_narsie("Hungry... so hungry... I CRAVE FLESH!"))
+	to_chat(zombie, span_narsie(pick("SO... HUNGRY... CRAVE FLESH!", "FLESH... MUST HAVE FLESH!", "HUNGER... KILL... FLESH!")))
 	if(!zombie.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
 		zombie.toggle_cmode()
 
@@ -419,7 +419,7 @@
 		zombie.adjustBruteLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
 		zombie.adjustFireLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
 		zombie.heal_wounds(INFINITY) // Heal all non-permanent wounds
-		to_chat(zombie, span_necrosis("Your bones snap back into place and your flesh knits itself back together as you rise again in undeath."))
+		to_chat(zombie, span_userdanger("Your bones snap back into place and your flesh knits itself back together as you rise again in undeath."))
 
 	zombie.stat = UNCONSCIOUS // Start unconscious
 	zombie.updatehealth() // Then check if the mob should wake up
