@@ -7,7 +7,8 @@ GLOBAL_LIST_INIT(huds, alist(
 	ROGUE_HUD_MARRIED = new/datum/atom_hud/antag(),
 	ANTAG_HUD_TRAITOR = new/datum/atom_hud/antag/hidden(),
 	ANTAG_HUD_REV = new/datum/atom_hud/antag(),
-	ANTAG_HUD_VAMPIRE = new/datum/atom_hud/antag()
+	ANTAG_HUD_VAMPIRE = new/datum/atom_hud/antag(),
+	ANTAG_HUD_ZOMBIE = new/datum/atom_hud/antag()
 	))
 
 /datum/atom_hud

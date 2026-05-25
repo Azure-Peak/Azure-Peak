@@ -409,7 +409,7 @@
 			if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 				guarded = TRUE
 
-	if(user != src && HAS_TRAIT(src, TRAIT_DEADITE)) //Zombies always show up as deadites even behind masks
+	if(HAS_TRAIT(src, TRAIT_DEADITE)) //Zombies always show up as deadites to others even behind masks
 		. += span_userdanger("DEADITE!")
 
 	if(user != src)

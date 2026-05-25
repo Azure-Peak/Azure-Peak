@@ -3,8 +3,9 @@
 
 /datum/antagonist/zombie
 	name = "Deadite"
-	antag_hud_type = ANTAG_HUD_TRAITOR
+	antag_hud_type = ANTAG_HUD_ZOMBIE
 	antag_hud_name = "zombie"
+	antag_hud_name = "zombie_hud"
 	show_in_roundend = FALSE
 	rogue_enabled = TRUE
 	/// SET TO FALSE IF WE DON'T TURN INTO ROTMEN WHEN REMOVED
@@ -83,7 +84,6 @@
 		return span_boldnotice("Another deadite.")
 	if(istype(examined_datum, /datum/antagonist/lich))
 		return span_boldnotice("Another deadite.")
-	return span_narsie(pick("FLESH. HUNGER.", "KILL THE RASPING THING.", "SO HUNGRY. EAT IT.", "KILL IT. KILL IT.", "EAT. CONSUME.", "CONSUME."))
 
 //Housekeeping/saving variables from pre-zombie
 
@@ -159,7 +159,7 @@
 /datum/antagonist/zombie/on_removal()
 	var/mob/living/carbon/human/zombie = owner?.current
 	if(zombie)
-
+		remove_antag_hud(antag_hud_type, owner.current) //No more HUD sire.
 		zombie.infected = FALSE // Makes sure admins removing deadification removes the infected var if they do it before they turn
 		zombie.verbs -= /mob/living/carbon/human/proc/zombie_seek
 		zombie.mind?.special_role = special_role
@@ -226,6 +226,7 @@
 
 //Housekeeping's done. Transform into zombie.
 /datum/antagonist/zombie/proc/transform_zombie()
+	add_antag_hud(antag_hud_type, antag_hud_name, owner.current)
 	var/mob/living/carbon/human/zombie = owner.current
 	if(!zombie)
 		qdel(src)
@@ -280,13 +281,16 @@
 
 //Add claws here if wanted.
 
+//We greet them there, play a stinger and yeah.
 	zombie.update_body()
-	to_chat(zombie, span_narsiesmall("Hungry... so hungry... I CRAVE FLESH!"))
+	zombie.playsound_local(get_turf(zombie), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE) //Extra bit of AURA
+	to_chat(zombie, span_narsie("Hungry... so hungry... I CRAVE FLESH!"))
 	zombie.cmode_music = 'sound/music/combat_weird.ogg'
 
 
-	// This is the original first commit values for it, aka 5-7
-	zombie.STASPD = rand(5,7)
+	// Original first commit values for speed were 5-7 randomly. They can sprint again, lets just keep everything uniform.
+	// We pre-set stats here.
+	zombie.STASPD = 5
 	zombie.STAINT = 1
 	zombie.STASTR = 14
 	zombie.STACON = 12 //Slightly above baseline Con only, prevents conmaxxers at 16 or above becoming literally unkillable with sprinting back
@@ -302,6 +306,24 @@
 	)
 	for(var/slot in removed_slots)
 		zombie.dropItemToGround(zombie.get_item_by_slot(slot), TRUE)
+
+	//small cutscene now we are a zombie, phew!
+	zombie.flash_fullscreen("redflash3")
+	zombie.Knockdown(4)
+	zombie.Immobilize(4) //Don't want to move during this
+	zombie.Jitter(4)
+	zombie.emote("groan") // First audio warning to nearby players on top of the above message
+	zombie.drop_all_held_items()
+	sleep(1 SECONDS) //First message, a small gap to notice something is very fucking wrong if the previous que wasn't enough.
+	zombie.vomit(1, blood = TRUE, stun = FALSE)
+	zombie.visible_message(span_warning("[zombie] convulses on the floor momentarily, skin rotting away unnaturally fast..."))
+	sleep(3 SECONDS) //now get them up to go fight and die
+	if(zombie.resting)
+		zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
+	zombie.flash_fullscreen("redflash3")
+	zombie.visible_message(span_warning("[zombie] rises again... As a terrifying deadite!")) //On par with deadite animals reanimating.
+	zombie.emote("rage") // This is where the fun begins
+	to_chat(zombie, span_narsie("Death is not the end..."))
 
 // Infected wake param is just a transition from living to zombie, via zombie_infect()
 // Prevoously you just died without warning in ~3 min, now you just become an antag instead of having to die first if infected.
@@ -381,7 +403,7 @@
 		zombie.adjustBruteLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
 		zombie.adjustFireLoss(-INFINITY, updating_health = FALSE, forced = TRUE)
 		zombie.heal_wounds(INFINITY) // Heal all non-permanent wounds
-		to_chat(zombie, span_userdanger("Your bones snap back into place and your flesh knits itself back together as you rise again in undeath."))
+		to_chat(zombie, span_necrosis("Your bones snap back into place and your flesh knits itself back together as you rise again in undeath."))
 
 	zombie.stat = UNCONSCIOUS // Start unconscious
 	zombie.updatehealth() // Then check if the mob should wake up
@@ -400,22 +422,6 @@
 		qdel(zombie)
 		return
 
-
-	if (converted || infected_wake)
-		zombie.flash_fullscreen("redflash3")
-		zombie.visible_message(span_necrosis("[zombie] convulses on the floor momentarily, skin rotting away unnaturally fast..."))
-		zombie.Knockdown(4)
-		zombie.Immobilize(4) //Don't want to move during this
-		zombie.Jitter(4)
-		zombie.emote("groan") // First warning to nearby players on top of the above message
-		zombie.drop_all_held_items()
-		sleep(4 SECONDS)
-		if(zombie.resting)
-			zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
-		zombie.flash_fullscreen("redflash3")
-		zombie.visible_message(span_warning("[zombie] rises again... As a terrifying deadite!")) //On par with deadite animals reanimating.
-		zombie.emote("rage") // This is where the fun begins
-		to_chat(zombie, span_narsie("Death is not the end..."))
 
 ///Making sure they're not any other antag as well as adding the zombie datum to their mind
 /mob/living/carbon/human/proc/zombie_check_can_convert()
