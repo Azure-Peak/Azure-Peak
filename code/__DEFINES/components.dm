@@ -12,6 +12,8 @@
 #define COMPONENT_INCOMPATIBLE 1
 /// Returned in PostTransfer to prevent transfer, similar to `COMPONENT_INCOMPATIBLE`
 #define COMPONENT_NOTRANSFER 2
+/// Same as component_incompatible, but silent for intended cases.
+#define COMPONENT_INCOMPATIBLE_SILENT 3
 
 /// Return value to cancel attaching
 #define ELEMENT_INCOMPATIBLE 1
@@ -264,6 +266,7 @@
 	#define COMPONENT_ITEM_NO_DEFENSE 2
 #define COMSIG_MOB_ITEM_BEING_ATTACKED "mob_item_being_attacked"	//from base of /obj/item/attack(): (mob/M, mob/user)
 #define COMSIG_MOB_APPLY_DAMGE	"mob_apply_damage"				//from base of /mob/living/proc/apply_damage(): (damage, damagetype, def_zone)
+	#define COMPONENT_DAMAGE_HANDLED (1<<1)
 #define COMSIG_MOB_AFTERATTACK_SUCCESS "mob_afterattack_success"//from base of /mob/living/carbon/human/attack_animal(): (mob/living/simple_animal/M)
 #define COMSIG_MOB_ITEM_AFTERATTACK "mob_item_afterattack"		//from base of obj/item/afterattack(): (atom/target, mob/user, proximity_flag, click_parameters)
 #define COMSIG_MOB_ITEM_ATTACK_QDELETED "mob_item_attack_qdeleted"	//from base of obj/item/attack_qdeleted(): (atom/target, mob/user, proxiumity_flag, click_parameters)

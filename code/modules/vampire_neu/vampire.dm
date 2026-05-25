@@ -22,7 +22,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	confess_lines = list(
 		"I WANT YOUR BLOOD!",
 		"DRINK THE BLOOD!",
-		"CHILD OF KAIN!",
+		"DEATH DID LITTLE THE FIRST TIME!",
 	)
 	rogue_enabled = TRUE
 	show_in_roundend = FALSE
@@ -73,9 +73,9 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /datum/antagonist/vampire/examine_friendorfoe(datum/antagonist/examined_datum, mob/examiner, mob/examined)
 	if(istype(examined_datum, /datum/antagonist/vampire/lord))
-		return span_boldnotice("Kaine's firstborn!")
+		return span_boldnotice("A vampyr!")
 	if(istype(examined_datum, /datum/antagonist/vampire))
-		return span_boldnotice("A child of Kaine.")
+		return span_boldnotice("A lycker!")
 	if(istype(examined_datum, /datum/antagonist/zombie))
 		return span_boldnotice("Another deadite.")
 	if(istype(examined_datum, /datum/antagonist/skeleton))

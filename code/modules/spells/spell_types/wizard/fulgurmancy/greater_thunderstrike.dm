@@ -8,7 +8,7 @@
 	desc = "PLACEHOLDER MASTERY SPELL - may be replaced later.\n\n\
 	Call a massive lightning strike that engulfs the entire area at once. \
 	Damage falls off with distance from the center."
-	button_icon_state = "thunderstrike"
+	button_icon_state = "greater_thunderstrike"
 	sound = 'sound/magic/lightning.ogg'
 	spell_color = GLOW_COLOR_LIGHTNING
 	glow_intensity = GLOW_INTENSITY_VERY_HIGH

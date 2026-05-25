@@ -640,7 +640,7 @@
 	force = 15
 	force_wielded = 35
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/sweep)
+	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/chop/heavy, /datum/intent/axe/sweep)
 	name = "double-headed steel greataxe"
 	desc = "A large axe with a twinned axhead of steel, requiring both hands to properly swing. It carves, chops, and cleaves from \
 	afar. </br>'Crush your enemies, see them driven before you, and hear the lamentations of the women..'"

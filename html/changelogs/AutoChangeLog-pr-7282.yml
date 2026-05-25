@@ -1,0 +1,4 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - bugfix: "Munitioneer Wretches can no longer spontaniously explode with calclic outburst for absolutely no reasoning than SOME coder forgot they accidentally left it in, COUGH, COUGH. AAAAAAAAAA-"

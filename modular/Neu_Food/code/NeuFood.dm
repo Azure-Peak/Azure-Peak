@@ -142,6 +142,8 @@
 			to_chat(user, span_nicegreen("[name] is ready to be cooked."))
 			cooked_type = active_recipe.result_type
 			fried_type = active_recipe.result_type
+			active_recipe = null
+			current_step = 1
 
 /obj/item/reagent_containers/food/snacks/rogue/proc/finalize_cooking()
 	var/res_type = active_recipe.result_type
