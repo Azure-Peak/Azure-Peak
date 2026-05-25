@@ -694,6 +694,7 @@
 			C_caster.apply_status_effect(/datum/status_effect/debuff/exposed, stuntime)
 			C_caster.emote("pain")
 
+	var/mob/living/carbon/human/C = user
 
 	// DAMAGE TRANSFER
 	var/brute_transfer = H.getBruteLoss() * 0.25
@@ -716,13 +717,12 @@
 
 	// BLOOD TRANSFER
 	var/blood_transfer = 0
-	var/mob/living/carbon/human/loosah = user
-	if(!(NOBLOOD in loosah.dna?.species?.species_traits))
+	if(!(NOBLOOD in C.dna?.species?.species_traits))
 		if(H.blood_volume < BLOOD_VOLUME_NORMAL)
 			blood_transfer = BLOOD_VOLUME_NORMAL - H.blood_volume
 			H.blood_volume = BLOOD_VOLUME_NORMAL
-			loosah.blood_volume -= blood_transfer
-			to_chat(loosah, span_warning("You feel your blood drain into [H]!"))
+			C.blood_volume -= blood_transfer
+			to_chat(C, span_warning("You feel your blood drain into [H]!"))
 			to_chat(H, span_notice("You feel your blood replenish!"))
 	else
 		user.adjustFireLoss(BLOOD_VOLUME_NORMAL/4)
