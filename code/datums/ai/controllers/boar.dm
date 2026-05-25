@@ -24,6 +24,7 @@
 	)
 
 /datum/ai_planning_subtree/boar_charge
+	var/behavior_type_boar = /datum/ai_behavior/boar_charge
 
 /datum/ai_planning_subtree/boar_charge/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	var/atom/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
@@ -33,11 +34,14 @@
 	if(controller.blackboard[BB_BOAR_CHARGE_COOLDOWN] > world.time)
 		return
 
-	controller.queue_behavior(/datum/ai_behavior/boar_charge, BB_BASIC_MOB_CURRENT_TARGET)
+	controller.queue_behavior(behavior_type_boar, BB_BASIC_MOB_CURRENT_TARGET)
 	return SUBTREE_RETURN_FINISH_PLANNING
 
 /datum/ai_behavior/boar_charge
-	//action_cooldown = 20 SECONDS
+	var/charge_cooldown = 20 SECONDS
+	var/charge_range = 7
+	var/charge_speed = 2 // Lower number = Faster flight speed
+	var/windup_time = 0.5 SECONDS
 
 /datum/ai_behavior/boar_charge/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
 	var/mob/living/simple_animal/boar = controller.pawn
@@ -47,12 +51,12 @@
 		finish_action(controller, FALSE)
 		return
 
-	if(do_after(boar, 0.5 SECONDS))
-		controller.set_blackboard_key(BB_BOAR_CHARGE_COOLDOWN, world.time + 20 SECONDS)
+	if(do_after(boar, windup_time))
+		controller.set_blackboard_key(BB_BOAR_CHARGE_COOLDOWN, world.time + charge_cooldown)
 		boar.visible_message("<b>[boar]</b> lowers its head and charges!")
 		playsound(boar, 'sound/vo//mobs/boar/boar_charge.ogg', 75, TRUE)
 		var/charge_dir = get_dir(boar, target)
-		boar.throw_at(target, 7, 2.5, boar, callback = CALLBACK(src, .proc/on_charge_end, controller, charge_dir))
+		boar.throw_at(target, charge_range, charge_speed, boar, callback = CALLBACK(src, .proc/on_charge_end, controller, charge_dir))
 	finish_action(controller, TRUE)
 
 /datum/ai_behavior/boar_charge/proc/on_charge_end(datum/ai_controller/controller, charge_dir)
@@ -103,16 +107,24 @@
 		victim.adjustBruteLoss(50)
 		playsound(victim, 'sound/combat/crit.ogg', 75, TRUE)
 		return
-	if(impact_turf.is_blocked_turf(exclude_mobs = TRUE))
+
+	var/list/blocked_turfs = list()
+	for(var/turf/check_turf in turfs_to_check)
+		if(check_turf.is_blocked_turf(exclude_mobs = TRUE))
+			blocked_turfs += check_turf
+	if(length(blocked_turfs))
 		did_hit = TRUE
-		boar.visible_message("<span class='danger'>[boar] slams into [impact_turf] with bone-shattering force!</span>")
-		playsound(boar, 'sound/combat/hits/onwood/fence_hit3.ogg', 100, TRUE)
+		// Use the primary impact turf for the central sound/message epicentre
+		boar.visible_message("<span class='danger'>[boar] slams into the environment with bone-shattering force!</span>")
+		playsound(impact_turf, 'sound/combat/hits/onwood/fence_hit3.ogg', 100, TRUE)
 		boar.Stun(3 SECONDS)
+		// Pass ALL blocked turfs found to the hook so subtypes can check them for trees/walls
+		on_wall_impact(boar, blocked_turfs)
+		// Shockwave visuals and effects
 		for(var/turf/T in range(1, impact_turf))
 			var/obj/effect/temp_visual/special_intent/smash = new (T, 0.5 SECONDS)
 			smash.icon = 'icons/effects/effects.dmi'
 			smash.icon_state = "strike"
-		// Anyone within 1 tile of the point of impact gets knocked down and dazed.
 		for(var/mob/living/L in range(1, impact_turf))
 			if(L == boar)
 				continue
@@ -120,6 +132,7 @@
 			L.Knockdown(3 SECONDS)
 			L.apply_status_effect(/datum/status_effect/debuff/dazed)
 			L.adjustBruteLoss(20)
+
 	if(!did_hit)
 		var/attempts = controller.blackboard[BB_BOAR_CHARGE_ATTEMPTS]
 		if(attempts < 1)
@@ -129,6 +142,9 @@
 		else
 			// If they miss the second time, they have to wait for the full cooldown
 			controller.set_blackboard_key(BB_BOAR_CHARGE_ATTEMPTS, 0)
+
+/datum/ai_behavior/boar_charge/proc/on_wall_impact(mob/living/boar, list/blocked_turfs)
+	return
 
 #undef BB_BOAR_CHARGE_COOLDOWN
 #undef BB_BOAR_CHARGE_ATTEMPTS

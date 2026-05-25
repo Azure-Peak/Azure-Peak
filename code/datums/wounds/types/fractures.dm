@@ -105,6 +105,8 @@
 	mortal = TRUE
 	/// Some head fractures will knock your lights out, if not flat-out paralyze you.
 	var/knockout = 2 SECONDS
+	/// Few fractures will kill you instantly with shatterable form - used to workaround stage 1 skullcracks being hyper lethal for crit weakness.
+	shatter_wound = FALSE
 
 /datum/wound/fracture/head/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -145,6 +147,7 @@
 		"THE SKULL IS MINCED INTO DUST!",
 	)
 	paralysis = TRUE
+	shatter_wound = TRUE
 
 /datum/wound/fracture/head/brain
 	name = "depressed cranial fracture"
@@ -167,6 +170,7 @@
 		"THE CRANIUM CAVES IN!",
 	)
 	paralysis = TRUE
+	shatter_wound = TRUE
 
 /datum/wound/fracture/head/eyes
 	name = "orbital fracture"
@@ -284,6 +288,7 @@
 		"THE SPINE POPS WITH A SICKENING NOISE!",
 	)
 	whp = 100
+	shatter_wound = TRUE
 
 /datum/wound/fracture/neck/shatter/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -316,6 +321,7 @@
 	bleed_rate = 25				//Higher than artery
 	clotting_threshold = 1		//Will always bleed bad
 	clotting_rate = 1			//Good clotting rate; within 24 ticks (~3 seconds) will lower heavily.
+	shatter_wound = TRUE //Lethal for all skeles, workaround for their spammability and feeling seemingly unkillable for mace users
 
 /datum/wound/fracture/chest/on_mob_gain(mob/living/affected)
 	. = ..()

@@ -64,6 +64,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	var/disabling = FALSE
 	/// If TRUE, this is a crit wound
 	var/critical = FALSE
+	/// Some wounds cause instant death for SHATTER_KILL, which is basically critical weakness but softer
+	var/shatter_wound = FALSE
 	/// Some wounds cause instant death for CRITICAL_WEAKNESS
 	var/mortal = FALSE
 	/// Amount we heal passively while sleeping
@@ -268,6 +270,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		werewolf_infection_timer = null
 		werewolf_infect_attempt()
 	if(mortal && HAS_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS))
+		affected.death()
+	if(shatter_wound && HAS_TRAIT(affected, TRAIT_SHATTER_KILL))
 		affected.death()
 
 /// Removes this wound from a given, simpler than adding to a bodypart - No extra effects
