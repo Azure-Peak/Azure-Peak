@@ -1,4 +1,4 @@
-#define EXPORT_TIME 2 MINUTES
+#define EXPORT_TIME 1 MINUTES
 #define EXPORT_TIME_TESTING 5 SECONDS
 
 /obj/item/roguemachine/navigator
@@ -390,7 +390,7 @@
 			record_round_statistic(is_bm_export ? STATS_TRADE_VALUE_EXPORTED_BM : STATS_TRADE_VALUE_EXPORTED, budgie)
 			if(budgie > 0)
 				play_sound = TRUE
-				settle_export(budgie)
+				settle_export(budgie, T, D)
 		if(play_sound)
 			playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 		if(length(penalty_categories))
@@ -398,7 +398,7 @@
 		if(length(boost_categories))
 			visible_message(span_notice("The balloon reports eager buyers - prices on [english_list(boost_categories)] were lifted higher."))
 
-/obj/item/roguemachine/navigator/proc/settle_export(gross)
+/obj/item/roguemachine/navigator/proc/settle_export(gross, turf/payout_turf, payout_dir)
 	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
 	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
 	var/levy = pay_merchant_share ? round(gross * levy_pct / 100) : 0
@@ -438,7 +438,7 @@
 		var/passive = round(gross * FAVOR_PASSIVE_TRADE_FRACTION)
 		SSmerchant_trade.adjust_merchant_favor(passive)
 		SSmerchant_trade.favor_from_navigator += passive
-	var/turf/producer_turf = get_turf(src)
+	var/turf/producer_turf = payout_turf || get_turf(src)
 	if(producer_net > 0)
 		budget2change(producer_net, custom_turf = producer_turf)
 	var/list/parts = list("[gross] gross")
@@ -447,7 +447,8 @@
 	if(total_duty > 0)
 		parts += "[total_duty] taxed"
 	parts += "[producer_net] net"
-	visible_message(span_info("[src] chimes: \"[parts.Join(", ")].\""))
+	var/tile_label = payout_dir ? "[dir2text(payout_dir)] - " : ""
+	visible_message(span_info("[src] chimes: \"[tile_label][parts.Join(", ")].\""))
 
 #undef EXPORT_TIME
 #undef EXPORT_TIME_TESTING
