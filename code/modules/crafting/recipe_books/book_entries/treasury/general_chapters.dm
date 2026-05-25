@@ -381,6 +381,9 @@
 		<h3>Attrition and Zadpacks</h3>
 		<p>A returning zad has a small chance of being lost to exhaustion or harm. Bottlebomb flights are <b>one-way</b> - those zads are never recovered. A faction restocks its Zadcote with a Pack of Trained Zads bought through its supply machine: the ATC's at GOLDFACE, the Stewardry's via the nerve master's import, and the Bathhouse's through BRASSFACE. Strike the pack against the Zadcote to add ten fresh zads to the reserve.</p>
 
+		<h3>Summoning</h3>
+		<p>A Zadcage holder can actively summon zads from the linked zadcote, so they can send a message or package back proactively. The owner of the zadcote could turn it off if they are low on zads or think the bearer is abusing it.</p>
+
 		<h3>Bombing!</h3>
 		<p>The Zadcote can carry bottlebombs as a payload - up to three per dispatch. Bomb can only be sent once every five minutes. The Zadcage holder sees the zads arriving with bombs slung beneath, has time to drop or throw the cage, and may even weaponize it against someone they dislike. Admin logs every bomb dispatch by sender, receiver, and place of detonation.</p>
 
