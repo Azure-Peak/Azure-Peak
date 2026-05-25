@@ -315,12 +315,13 @@
 
 	//small cutscene now we are a zombie, phew!
 	sleep(0.1) //Quickly make sure we already cleared our stuns and stuff
-	zombie.Knockdown(60)
+	zombie.Knockdown(55)
 	zombie.Immobilize(60) //Don't want to move during this
-	zombie.Stun(60)
-	zombie.Jitter(60)
+	zombie.Stun(55)
+	zombie.Jitter(30) //Convulse a bit before we stand up again
 	zombie.emote("groan") // First audio warning to nearby players on top of the above message
 	zombie.drop_all_held_items()
+	zombie.Unconscious(20) //Brief Knockout
 	sleep(2 SECONDS) //First message, honestly if you can't tell something's off this'll let you know.
 	zombie.flash_fullscreen("redflash3")
 	zombie.vomit(1, blood = TRUE, stun = FALSE)
@@ -331,7 +332,7 @@
 	zombie.vomit(1, blood = TRUE, stun = FALSE)
 	zombie.visible_message(span_warning("[zombie]'s lyfeless eyes begin to light up with an eerie glow."))
 	to_chat(zombie, span_narsie("Death is not the end..."))
-	sleep(4 SECONDS) //now get them up to go fight and die
+	sleep(2 SECONDS) //now get them up to go fight and die
 	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
 	if(zombie.resting)
 		zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
