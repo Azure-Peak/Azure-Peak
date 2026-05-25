@@ -231,8 +231,7 @@
 			return FALSE
 
 		target.apply_status_effect(/datum/status_effect/buff/psyhealing, psyhealing)
-
-		for(var/datum/wound/W as anything in wAmount) // moved the staunching outside of the above, this works as intended and shouldn't cure the wounds
+		for(var/datum/wound/W as anything in wAmount)
 			if(W?.bleed_rate > 0)
 				W.set_bleed_rate(0)
 
@@ -611,7 +610,7 @@
 		revert_cast()
 		return FALSE
 
-	if(H.stat == DEAD)
+	if(H.stat == DEAD || HAS_TRAIT(H, TRAIT_DEADITE))
 		to_chat(user, span_warning("[H]'s Lux is extinguished... What can I do?!"))
 		user.emote("cry")
 		revert_cast()
@@ -661,14 +660,21 @@
 			continue
 
 		var/wound_type = translate_wound_for_target(targetwound, C_caster)
-		var/datum/wound/newwound = c_BP.add_wound(wound_type)
 
-		if(newwound)
-			targetwound.copy_to(newwound)
-			// Do not transfer bleeding from clotted wounds
-			if(targetwound.is_clotted() || targetwound.is_sewn())
-				newwound.set_bleed_rate(0)
-		else
+		if(!wound_type)
+			continue
+
+		var/datum/wound/newwound = new wound_type()
+
+		targetwound.copy_to(newwound)
+
+		// preserve non-bleeding treatment states BEFORE application
+		if(targetwound.is_clotted() || targetwound.is_sewn())
+			newwound.set_bleed_rate(0)
+
+		newwound = c_BP.add_wound(newwound)
+
+		if(!newwound)
 			c_BP.receive_damage(targetwound.whp)
 
 			if(!(c_BP in BPs_to_check))
@@ -788,6 +794,41 @@
 	var/mob/living/carbon/human/H = targets[1]
 	var/mob/living/carbon/human/C = user
 
+	// CONSEQUENCE WARNING CHECKS
+
+	var/will_die = FALSE
+	var/will_lose_limbs = FALSE
+
+	// Resurrection costs your life.
+	if(H.stat >= DEAD)
+		will_die = TRUE
+
+	// Limb restoration costs your limbs.
+	var/list/warning_zones = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+
+	for(var/zone in warning_zones)
+		if(!H.get_bodypart(zone))
+			if(C.get_bodypart(zone))
+				will_lose_limbs = TRUE
+				break
+
+	if(will_die || will_lose_limbs)
+
+		var/list/messages = list()
+
+		if(will_die)
+			messages += span_userdanger("THIS TARGET IS DEAD. ABSOLUTION WILL CLAIM YOUR LIFE.")
+
+		if(will_lose_limbs)
+			messages += span_userdanger("THIS TARGET IS MISSING LIMBS. YOU WILL SACRIFICE YOUR OWN LIMBS.")
+
+		messages += ""
+		messages += "Continue?"
+
+		if(alert(C, messages.Join("\n"), "ABSOLUTION WARNING", "YES", "NO") != "YES")
+			revert_cast()
+			return FALSE
+
 	if(H == C)
 		to_chat(C, span_warning("You cannot ABSOLVE yourself!"))
 		revert_cast()
@@ -809,10 +850,12 @@
 			revert_cast()
 			return FALSE
 		C.visible_message(span_danger("[C] grabs [H] by the wrists, attempting to ABSOLVE them!"))
+		C.emote("whimper")
 		if(alert(H,"They want to ABSOLVE you. Will you let them?","ABSOLUTION","I'll allow it","I refuse") != "I'll allow it")
 			return FALSE
 		H.apply_status_effect(/datum/status_effect/buff/psyvived)
 		C.say("MY LYFE FOR YOURS! LYVE, AS DOES HE!", forced=TRUE, language=/datum/language/common)
+		C.visible_message(span_danger("[C] suddenly falls down on the ground... DEAD and PSY-DONE!"))
 		C.death()
 		H.revive(full_heal=TRUE, admin_revive=FALSE)
 		H.adjustOxyLoss(-H.getOxyLoss())
@@ -862,18 +905,30 @@
 	for(var/datum/wound/W in wounds)
 		if(!W.bodypart_owner)
 			continue
+
 		var/obj/item/bodypart/cBP = C.get_bodypart(W.bodypart_owner.body_zone)
 		if(!cBP)
 			continue
+
 		var/new_type = translate_wound_for_target(W, C)
-		var/datum/wound/newW = cBP.add_wound(new_type)
-		if(newW)
-			W.copy_to(newW)
-			if(W.is_clotted() || W.is_sewn())
-				newW.set_bleed_rate(0)
-		else
+
+		if(!new_type)
+			continue
+
+		var/datum/wound/newW = new new_type()
+
+		W.copy_to(newW)
+
+		if(W.is_clotted() || W.is_sewn())
+			newW.set_bleed_rate(0)
+
+		newW = cBP.add_wound(newW)
+
+		if(!newW)
 			cBP.receive_damage(W.whp)
+
 		var/obj/item/bodypart/tBP = H.get_bodypart(W.bodypart_owner.body_zone)
+
 		if(tBP)
 			tBP.remove_wound(W.type)
 
