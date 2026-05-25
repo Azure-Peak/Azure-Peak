@@ -1,0 +1,6 @@
+author: "ToasterStrudes"
+delete-after: True
+changes:
+  - rscadd: "Added sprites to mirror image, greater thunderstrike and meteor swarm"
+  - image: "modified a majority of placeholder sprites for the new spells"
+  - refactor: "Mirror Transformation now works on other people"

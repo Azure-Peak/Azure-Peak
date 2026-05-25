@@ -109,6 +109,13 @@
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	i_type = "Tools"
 
+/datum/anvil_recipe/tools/paalloy/hammer
+	name = "Hammer, Ancient (+1 Stick)"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	additional_items = list(/obj/item/grown/log/tree/stick)
+	created_item = /obj/item/rogueweapon/hammer/paalloy
+	i_type = "Tools"
+
 /datum/anvil_recipe/tools/aalloy/sickle
 	name = "Sickle, Decrepit (+1 Stick)"
 	req_bar = /obj/item/ingot/aalloy
@@ -122,6 +129,12 @@
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/tongs/aalloy
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
+	i_type = "Tools"
+
+/datum/anvil_recipe/tools/paalloy/tongs
+	name = "Tongs, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/rogueweapon/tongs/paalloy
 	i_type = "Tools"
 
 /datum/anvil_recipe/tools/aalloy/pick
