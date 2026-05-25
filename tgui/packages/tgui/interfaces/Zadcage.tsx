@@ -47,6 +47,8 @@ type ZadcageData = {
   slot_index: number;
   cote_name: string;
   cote_motto: string;
+  allow_summons: boolean;
+  pending_flight: boolean;
   occupied: boolean;
   time_remaining?: number;
   warning_tail?: boolean;
@@ -94,11 +96,94 @@ export const Zadcage = () => {
               No zad in the cage. Wait for one to arrive.
             </div>
           )}
+          <SummonPanel />
           {data.stored_payload.length > 0 && <StoredPanel />}
           {!!data.occupied && <OccupancyPanel />}
         </div>
       </Window.Content>
     </Window>
+  );
+};
+
+const SummonPanel = () => {
+  const { act, data } = useBackend<ZadcageData>();
+  const pending = !!data.pending_flight;
+  const [zads, setZads] = useState(1);
+
+  const may_summon = !data.occupied && data.bonded && !data.severed && data.allow_summons;
+
+  if(!may_summon) return null;
+
+  return (
+    <div style={cardStyle}>
+      <div style={{ fontVariant: 'small-caps', fontWeight: 'bold', color: INK, marginBottom: '4px' }}>
+        Summon a flight
+      </div>
+      <div style={{ color: INK_SOFT, fontSize: '11px', marginBottom: '6px' }}>
+        {pending
+          ? 'A flight is already on the way.'
+          : `Call a flight from ${data.cote_name || 'the zadcote'}. It will arrive in about a minute. Load any package onto it once it lands.`}
+      </div>
+      {!pending && (
+        <div style={{ marginBottom: '8px' }}>
+          <div
+            style={{
+              fontVariant: 'small-caps',
+              color: INK_SOFT,
+              fontSize: '11px',
+              marginBottom: '2px',
+            }}
+          >
+            Zads
+          </div>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            {[1, 2, 3].map((opt) => {
+              const active = opt === zads;
+              return (
+                <button
+                  key={opt}
+                  type="button"
+                  style={{
+                    ...inkButtonStyle(),
+                    padding: '2px 12px',
+                    fontWeight: active ? 'bold' : 'normal',
+                    borderColor: active ? INK : INK_FAINT,
+                    color: active ? INK : INK_SOFT,
+                  }}
+                  onClick={() => setZads(opt)}
+                >
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
+          <div
+            style={{
+              color: INK_FAINT,
+              fontSize: '11px',
+              fontStyle: 'italic',
+              marginTop: '2px',
+            }}
+          >
+            {zads === 1
+              ? '1 zad: tiny or small return parcel.'
+              : zads === 2
+                ? '2 zads: pouch, helmet, or normal-sized return.'
+                : '3 zads: bulky return parcel or large container.'}
+          </div>
+        </div>
+      )}
+      <div style={{ textAlign: 'center' }}>
+        <button
+          type="button"
+          style={inkButtonStyle({ disabled: pending })}
+          disabled={pending}
+          onClick={() => act('request_summon', { zads })}
+        >
+          Summon
+        </button>
+      </div>
+    </div>
   );
 };
 
@@ -151,7 +236,7 @@ const OccupancyPanel = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontVariant: 'small-caps', fontWeight: 'bold', color: INK }}>
-              A zad waits in the cage
+              A flight waits in the cage
             </div>
             <div style={{ color: INK_SOFT, fontSize: '11px' }}>
               Capacity for return: {capacity} {capacity === 1 ? 'zad' : 'zads'}

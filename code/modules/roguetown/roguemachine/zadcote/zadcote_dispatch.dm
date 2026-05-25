@@ -46,11 +46,11 @@
 		return FALSE
 	if(link.resolve_flight())
 		if(operator)
-			to_chat(operator, span_warning("A zad is already in flight on that slot."))
+			to_chat(operator, span_warning("A flight is already on that slot."))
 		return FALSE
 	if(cage.current_occupancy)
 		if(operator)
-			to_chat(operator, span_warning("A zad is already waiting in that zadcage. Wait for it to return."))
+			to_chat(operator, span_warning("That zadcage is already occupied. Wait for it to return."))
 		return FALSE
 	if(length(cage.held_payload))
 		if(operator)
@@ -72,9 +72,9 @@
 		if(operator)
 			to_chat(operator, span_warning("Only [reserve] zads remain in the cote."))
 		return FALSE
-	if(in_flight_count() >= ZADCOTE_IN_FLIGHT_CAP)
+	if(flight_count() >= ZADCOTE_FLIGHT_CAP)
 		if(operator)
-			to_chat(operator, span_warning("Too many zads already in flight."))
+			to_chat(operator, span_warning("Too many flights in the air."))
 		return FALSE
 	var/list/payload_items = list()
 	if(bomb_count == 0 && length(payload_refs) && operator)
@@ -245,7 +245,7 @@
 	if(length(mail_log) > 20)
 		mail_log.Cut(21)
 
-/obj/item/roguemachine/zadcote/proc/log_sent(slot_index, sender_label, message_text, list/item_names, zads_used, bombs)
+/obj/item/roguemachine/zadcote/proc/log_sent(slot_index, sender_label, message_text, list/item_names, zads_used, bombs, summoned = FALSE)
 	mail_log.Insert(1, list(list(
 		"stamp" = station_time_timestamp("hh:mm"),
 		"slot" = slot_index,
@@ -254,6 +254,7 @@
 		"items" = item_names ? item_names.Copy() : list(),
 		"zads_used" = zads_used,
 		"bombs" = bombs,
+		"summoned" = summoned,
 		"kind" = "sent",
 	)))
 	if(length(mail_log) > 20)

@@ -6,6 +6,7 @@
 	var/created_time
 	var/severed = FALSE
 	var/datum/weakref/pending_flight
+	var/allow_summons = TRUE
 
 /datum/zadlink/New(obj/item/roguemachine/zadcote/owner, index)
 	parent = WEAKREF(owner)

@@ -42,6 +42,7 @@ type ZadcoteSlot = {
   flight_arrival_seconds?: number;
   flight_direction?: FlightDirection;
   flight_bombs?: number;
+  allow_summons?: boolean;
 };
 
 type PayloadItem = {
@@ -60,6 +61,7 @@ type MailEntry = {
   lost?: number;
   zads_used?: number;
   bombs?: number;
+  summoned?: boolean;
 };
 
 const WEIGHT_CLASS_TINY = 1;
@@ -86,8 +88,8 @@ type ZadcoteData = {
   motto: string;
   reserve: number;
   reserve_start: number;
-  in_flight: number;
-  in_flight_cap: number;
+  flights: number;
+  flight_cap: number;
   bomb_stock: number;
   bomb_stock_cap: number;
   bomb_cooldown_remaining: number;
@@ -171,11 +173,11 @@ const ReserveHeader = (props: {
             }
           />
           <HeaderStat
-            label="In flight"
+            label="Flights"
             value={
               <>
-                <span style={{ fontWeight: 'bold' }}>{data.in_flight}</span>
-                <span style={{ color: INK_SOFT }}> / {data.in_flight_cap}</span>
+                <span style={{ fontWeight: 'bold' }}>{data.flights}</span>
+                <span style={{ color: INK_SOFT }}> / {data.flight_cap}</span>
               </>
             }
           />
@@ -344,10 +346,10 @@ const SendPanel = (props: {
   const refusedReason = (() => {
     if (slot.severed) return 'The zadlink is severed.';
     if (!slot.bonded) return 'No cage is bonded to this slot.';
-    if (slot.in_flight) return 'A zad is already in flight on this slot.';
-    if (slot.cage_occupied) return 'A zad is already waiting in that cage.';
+    if (slot.in_flight) return 'A flight is already on this slot.';
+    if (slot.cage_occupied) return 'That zadcage is already occupied.';
     if (slot.cage_has_payload) return 'Unclaimed parcels still sit in that cage.';
-    if (data.in_flight >= data.in_flight_cap) return 'Too many zads already in flight.';
+    if (data.flights >= data.flight_cap) return 'Too many flights in the air.';
     if (data.reserve < effectiveZads) return `Only ${data.reserve} zads remain in the cote.`;
     if (overLimit) return `Message exceeds ${MESSAGE_MAX} characters.`;
     return null;
@@ -680,6 +682,22 @@ const SlotRow = (props: {
             style={inkButtonStyle({ disabled: !canSever })}
             disabled={!canSever}
             title={
+              slot.allow_summons
+                ? 'Summons are allowed. The cage holder may summon a zad on demand.'
+                : 'Summons are blocked. The cage holder cannot summon zads.'
+            }
+            onClick={() => {
+              if (!canSever) return;
+              act('toggle_summons', { slot: slot.slot });
+            }}
+          >
+            {slot.allow_summons ? 'Summons: on' : 'Summons: off'}
+          </button>
+          <button
+            type="button"
+            style={inkButtonStyle({ disabled: !canSever })}
+            disabled={!canSever}
+            title={
               canSever
                 ? 'Sever this zadlink. A zad in flight will complete its trip first.'
                 : 'Nothing to sever.'
@@ -846,21 +864,36 @@ const MailColumn = (props: {
                   {entry.stamp}
                 </span>
               </div>
-              {entry.items && entry.items.length > 0 && (
+              {(() => {
+                const zads = entry.zads_used ?? 0;
+                if (zads <= 0) return null;
+                const verb =
+                  entry.kind === 'returned'
+                    ? 'Returned'
+                    : entry.summoned
+                      ? 'Summoned'
+                      : 'Sent';
+                return (
+                  <div style={{ color: INK_SOFT, fontSize: FONT_SMALL, paddingLeft: '8px' }}>
+                    {verb}: {zads} zad{zads === 1 ? '' : 's'}
+                  </div>
+                );
+              })()}
+              {entry.items && entry.items.length > 0 ? (
                 <div style={{ color: INK_SOFT, fontSize: FONT_SMALL, paddingLeft: '8px' }}>
                   {entry.kind === 'sent' ? 'Carried' : 'Brought'}: {entry.items.join(', ')}
                 </div>
-              )}
-              {entry.kind === 'sent' && !!entry.bombs && entry.bombs > 0 && (
+              ) : null}
+              {entry.kind === 'sent' && (entry.bombs ?? 0) > 0 ? (
                 <div style={{ color: SEAL_RED, fontSize: FONT_SMALL, paddingLeft: '8px' }}>
                   {entry.bombs} bottlebomb{entry.bombs === 1 ? '' : 's'} attached
                 </div>
-              )}
-              {entry.kind === 'returned' && !!entry.lost && entry.lost > 0 && (
+              ) : null}
+              {entry.kind === 'returned' && (entry.lost ?? 0) > 0 ? (
                 <div style={{ color: SEAL_RED, fontSize: FONT_SMALL, paddingLeft: '8px', fontStyle: 'italic' }}>
                   {entry.lost} of {entry.zads_used} zad{entry.zads_used === 1 ? '' : 's'} lost to exhaustion
                 </div>
-              )}
+              ) : null}
               {hasMessage && expanded && (
                 <div
                   style={{

@@ -210,6 +210,9 @@
 	if(current_occupancy || length(held_payload))
 		ui_interact(user)
 		return
+	if(link && !link.severed && link.allow_summons)
+		ui_interact(user)
+		return
 	. = ..()
 
 /obj/item/zadcage/ui_state(mob/user)
@@ -231,6 +234,8 @@
 	var/obj/item/roguemachine/zadcote/cote = resolve_cote()
 	data["cote_name"] = cote ? cote.name : ""
 	data["cote_motto"] = cote ? cote.motto : ""
+	data["allow_summons"] = link ? link.allow_summons : FALSE
+	data["pending_flight"] = (link && link.resolve_flight()) ? TRUE : FALSE
 	data["occupied"] = current_occupancy ? TRUE : FALSE
 	if(current_occupancy)
 		data["time_remaining"] = round(current_occupancy.time_remaining() / 10)
@@ -273,4 +278,13 @@
 			return TRUE
 		if("retrieve")
 			retrieve_payload(usr)
+			return TRUE
+		if("request_summon")
+			var/datum/zadlink/link = resolve_link()
+			var/obj/item/roguemachine/zadcote/cote = resolve_cote()
+			if(!link || !cote)
+				return TRUE
+			var/zads = text2num(params["zads"]) || ZAD_CAPACITY_TIER_1
+			if(do_after(usr, ZAD_MANUAL_SEND_DOAFTER, target = src))
+				cote.request_summon(link, usr, zads)
 			return TRUE

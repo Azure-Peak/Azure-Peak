@@ -57,7 +57,7 @@
 /obj/item/roguemachine/zadcote/examine()
 	. = ..()
 	. += span_notice(motto)
-	. += span_info("Reserve: [reserve] zads. In flight: [in_flight_count()] / [ZADCOTE_IN_FLIGHT_CAP].")
+	. += span_info("Reserve: [reserve] zads. Flights: [flight_count()] / [ZADCOTE_FLIGHT_CAP].")
 	if(bomb_stock)
 		. += span_info("Bombs stored: [bomb_stock] / [ZADCOTE_BOMB_STOCK_CAP].")
 
@@ -73,8 +73,48 @@
 /obj/item/roguemachine/zadcote/proc/can_restock(mob/living/carbon/human/H)
 	return is_operator(H)
 
-/obj/item/roguemachine/zadcote/proc/in_flight_count()
+/obj/item/roguemachine/zadcote/proc/flight_count()
 	return length(pending_outbound) + length(pending_return)
+
+/obj/item/roguemachine/zadcote/proc/request_summon(datum/zadlink/link, mob/requester, zad_count = ZAD_CAPACITY_TIER_1)
+	if(!link || link.severed)
+		return FALSE
+	if(!link.allow_summons)
+		if(requester)
+			to_chat(requester, span_warning("The zadcote does not accept summons on this zadlink."))
+		return FALSE
+	var/obj/item/zadcage/cage = link.resolve_cage()
+	if(!cage)
+		return FALSE
+	if(link.resolve_flight())
+		if(requester)
+			to_chat(requester, span_warning("A flight is already on this zadlink."))
+		return FALSE
+	if(cage.current_occupancy)
+		if(requester)
+			to_chat(requester, span_warning("This zadcage is already occupied."))
+		return FALSE
+	zad_count = clamp(zad_count, ZAD_CAPACITY_TIER_1, ZAD_CAPACITY_TIER_3)
+	if(reserve < zad_count)
+		if(requester)
+			to_chat(requester, span_warning("Only [reserve] zads remain in the cote."))
+		return FALSE
+	if(flight_count() >= ZADCOTE_FLIGHT_CAP)
+		if(requester)
+			to_chat(requester, span_warning("Too many flights in the air. Try again shortly."))
+		return FALSE
+	consume_reserve(zad_count)
+	var/datum/zad_flight/flight = new(src, link, zad_count, "", null, 0)
+	if(requester && requester.client)
+		flight.sender_ckey = requester.client.ckey
+	pending_outbound += flight
+	link.pending_flight = WEAKREF(flight)
+	playsound(loc, 'sound/vo/mobs/bird/birdfly.ogg', 65, TRUE, 2)
+	playsound(loc, pick('sound/vo/mobs/bird/CROW_01.ogg','sound/vo/mobs/bird/CROW_02.ogg','sound/vo/mobs/bird/CROW_03.ogg'), 55, TRUE, 2)
+	visible_message(span_notice("[zad_count] zad\s leap from [src], summoned away."))
+	play_zad_ascend(src, zad_count)
+	log_sent(link.slot_index, link.get_label(), "", list(), zad_count, 0, TRUE)
+	return TRUE
 
 /obj/item/roguemachine/zadcote/proc/find_slot_by_index(index)
 	if(index < 1 || index > length(slots))
@@ -168,8 +208,8 @@
 	data["motto"] = motto
 	data["reserve"] = reserve
 	data["reserve_start"] = ZADCOTE_RESERVE_CAP
-	data["in_flight"] = in_flight_count()
-	data["in_flight_cap"] = ZADCOTE_IN_FLIGHT_CAP
+	data["flights"] = flight_count()
+	data["flight_cap"] = ZADCOTE_FLIGHT_CAP
 	data["bomb_stock"] = bomb_stock
 	data["bomb_stock_cap"] = ZADCOTE_BOMB_STOCK_CAP
 	data["bomb_cooldown_remaining"] = max(0, round((bomb_cooldown_until - world.time) / 10))
@@ -188,6 +228,7 @@
 			"lost" = entry["lost"],
 			"zads_used" = entry["zads_used"],
 			"bombs" = entry["bombs"],
+			"summoned" = entry["summoned"],
 		))
 	data["mail_log"] = mail_rows
 	var/list/slot_rows = list()
@@ -203,6 +244,7 @@
 			"in_flight" = flight ? TRUE : FALSE,
 			"cage_occupied" = (cage && cage.current_occupancy) ? TRUE : FALSE,
 			"cage_has_payload" = (cage && length(cage.held_payload)) ? TRUE : FALSE,
+			"allow_summons" = link.allow_summons,
 		)
 		if(flight)
 			row["flight_zads"] = flight.zads_used
@@ -277,6 +319,13 @@
 			if(!link)
 				return TRUE
 			begin_voyeur(link, H)
+			return TRUE
+		if("toggle_summons")
+			var/slot_idx = text2num(params["slot"])
+			var/datum/zadlink/link = find_slot_by_index(slot_idx)
+			if(!link)
+				return TRUE
+			link.allow_summons = !link.allow_summons
 			return TRUE
 
 /obj/item/roguemachine/zadcote/attackby(obj/item/I, mob/user, params)
