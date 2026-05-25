@@ -65882,9 +65882,7 @@
 /area/rogue/indoors/town/church/chapel)
 "nez" = (
 /obj/structure/fermentation_keg/water,
-/obj/structure/roguemachine/noticeboard/wall{
-	pixel_x = 32
-	},
+/obj/structure/roguemachine/noticeboard/wall,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/dwarfin)
 "neE" = (
