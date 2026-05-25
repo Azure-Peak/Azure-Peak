@@ -3,10 +3,10 @@
 	desc = "A small cage made to ride on a belt. Empty perches inside. Too awkward to fit in most containers."
 	icon = 'icons/roguetown/misc/zadcage.dmi'
 	icon_state = "zadcage"
-	w_class = WEIGHT_CLASS_BULKY
+	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_HIP
-	grid_height = 96
-	grid_width = 96
+	grid_height = 32
+	grid_width = 64
 	var/datum/weakref/bonded_cote
 	var/datum/weakref/bonded_link
 	var/datum/zad_occupancy/current_occupancy
