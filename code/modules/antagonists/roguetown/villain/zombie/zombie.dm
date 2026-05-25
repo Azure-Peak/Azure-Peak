@@ -25,6 +25,7 @@
 
 	var/STASTR
 	var/STASPD
+	var/STAPER
 	var/STAINT
 	var/STACON
 	var/STAWIL
@@ -141,6 +142,7 @@
 
 	src.STASTR = zombie.STASTR
 	src.STASPD = zombie.STASPD
+	src.STAPER = zombie.STAPER
 	src.STAINT = zombie.STAINT
 	src.STACON = zombie.STACON
 	src.STAWIL = zombie.STAWIL
@@ -176,6 +178,7 @@
 
 		zombie.STASTR = src.STASTR
 		zombie.STASPD = src.STASPD
+		zombie.STASPD = src.STAPER
 		zombie.STAINT = src.STAINT
 		zombie.STACON = src.STACON
 		zombie.STAWIL = src.STAWIL
@@ -291,6 +294,7 @@
 	// Original first commit values for speed were 5-7 randomly. They can sprint again, lets just keep everything uniform.
 	// We pre-set stats here.
 	zombie.STASPD = 5
+	zombie.STAPER = 5 //You ain't hitting anything but chest outside of biting, let alone looking afar
 	zombie.STAINT = 1
 	zombie.STASTR = 14
 	zombie.STACON = 12 //Slightly above baseline Con only, prevents conmaxxers at 16 or above becoming literally unkillable with sprinting back
@@ -311,7 +315,7 @@
 	zombie.flash_fullscreen("redflash3")
 	zombie.Knockdown(4)
 	zombie.Immobilize(4) //Don't want to move during this
-	zombie.Jitter(4)
+	zombie.Jitter(10)
 	zombie.emote("groan") // First audio warning to nearby players on top of the above message
 	zombie.drop_all_held_items()
 	sleep(1 SECONDS) //First message, a small gap to notice something is very fucking wrong if the previous que wasn't enough.
@@ -324,6 +328,7 @@
 	zombie.visible_message(span_warning("[zombie] rises again... As a terrifying deadite!")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
 	to_chat(zombie, span_narsie("Death is not the end..."))
+	record_round_statistic(STATS_DEADITES_WOKEN_UP) //Turning into a deadite in-general raises this now. ZIZO. ZIZO. ZIZO.
 
 // Infected wake param is just a transition from living to zombie, via zombie_infect()
 // Prevoously you just died without warning in ~3 min, now you just become an antag instead of having to die first if infected.
@@ -393,7 +398,6 @@
 		qdel(zombie)
 		return
 
-	record_round_statistic(STATS_DEADITES_WOKEN_UP)
 	// Heal the zombie
 	zombie.blood_volume = BLOOD_VOLUME_NORMAL
 	zombie.setOxyLoss(0, updating_health = FALSE, forced = TRUE) // Zombies don't breathe

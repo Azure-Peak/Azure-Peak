@@ -242,6 +242,9 @@
 							helping_items += rope.name
 							has_wall_ladder = TRUE
 							break
+				if(HAS_TRAIT(L, TRAIT_DEADITE) && climbdiff > 1) //Deadites CANNOT climb... Anything more complex than rock walls
+					to_chat(user, span_warning("...What?"))
+					return
 
 				if(myskill < climbdiff)
 					to_chat(user, span_warning("I'm not capable of climbing this wall."))
