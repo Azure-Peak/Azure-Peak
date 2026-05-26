@@ -8,6 +8,7 @@
 
 /datum/crafting_recipe/roguetown/leather/bedroll
 	name = "bedroll"
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = /obj/item/bedroll
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/rope = 1)
@@ -18,6 +19,7 @@
 
 /datum/crafting_recipe/roguetown/leather/peltbedsheet
 	name = "bedsheet, pelt"
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = /obj/item/bedsheet/rogue/pelt
 	reqs = list(/obj/item/natural/fibers = 1,
 				/obj/item/natural/fur = 1)
@@ -26,6 +28,7 @@
 
 /datum/crafting_recipe/roguetown/leather/doublepeltbedsheet
 	name = "bedsheet, double pelt"
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = /obj/item/bedsheet/rogue/double_pelt
 	reqs = list(/obj/item/natural/fibers = 1,
 				/obj/item/natural/fur = 2)
@@ -147,7 +150,7 @@
 
 /datum/crafting_recipe/roguetown/leather/saddle
 	name = "saddle"
-	display_category = ITEM_CAT_COMPONENTS
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = /obj/item/natural/saddle
 	reqs = list(/obj/item/natural/hide/cured = 2)
 
@@ -204,7 +207,7 @@
 
 /datum/crafting_recipe/roguetown/leather/doctormask
 	name = "plague mask"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = /obj/item/clothing/mask/rogue/physician
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	craftdiff = 1
@@ -222,7 +225,7 @@
 
 /datum/crafting_recipe/roguetown/leather/doctormaskphys
 	name = "head physician's mask"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = /obj/item/clothing/mask/rogue/courtphysician
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/bone = 1)
 	craftdiff = 1

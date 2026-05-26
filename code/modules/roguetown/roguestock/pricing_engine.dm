@@ -44,6 +44,8 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 		ITEM_CAT_GARMENT_COMMON = MARKUP_GARMENT_COMMON,
 		ITEM_CAT_GARMENT_FINE = MARKUP_GARMENT_FINE,
 		ITEM_CAT_GARMENT_LUXURY = MARKUP_GARMENT_LUXURY,
+		ITEM_CAT_TAILOR_MISC = MARKUP_GARMENT_COMMON,
+		ITEM_CAT_CLOTH_MASK = MARKUP_GARMENT_COMMON,
 		ITEM_CAT_FOODSTUFF_FRESH = MARKUP_FOODSTUFF_FRESH,
 		ITEM_CAT_FOODSTUFF_PRESERVED = MARKUP_FOODSTUFF_PRESERVED,
 		ITEM_CAT_POTION = MARKUP_POTION,
@@ -86,6 +88,7 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	GLOB.material_baseline_prices[/obj/item/ingot/aalloy] = round(SELLPRICE_IRON_INGOT * INGOT_AALLOY_MULT)
 	GLOB.material_baseline_prices[/obj/item/ingot/drow] = round(SELLPRICE_STEEL_INGOT * INGOT_DROW_MULT)
 	GLOB.material_baseline_prices[/obj/item/grown/log/tree/small] = SELLPRICE_WOOD
+	GLOB.material_baseline_prices[/obj/item/grown/log/tree/stick] = 1
 	GLOB.material_baseline_prices[/obj/item/natural/wood/plank] = round(SELLPRICE_WOOD * MATERIAL_PLANK_FROM_WOOD)
 	GLOB.material_baseline_prices[/obj/item/natural/glass] = SELLPRICE_GLASS_BATCH
 	GLOB.material_baseline_prices[/obj/item/roguegear] = round(SELLPRICE_STEEL_INGOT * MATERIAL_ROGUEGEAR_FROM_STEEL)

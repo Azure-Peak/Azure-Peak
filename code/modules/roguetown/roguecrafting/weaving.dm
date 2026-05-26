@@ -46,7 +46,7 @@
 
 /datum/crafting_recipe/roguetown/weaving/shepardmask
 	name = "half-mask"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/mask/rogue/shepherd)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/silk = 1)

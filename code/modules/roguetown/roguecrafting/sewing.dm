@@ -38,7 +38,7 @@
 /datum/crafting_recipe/roguetown/sewing/faceveil
 	name = "face veil"
 	category = "Masks"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/mask/rogue/faceveil)
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 0
@@ -120,7 +120,7 @@
 /datum/crafting_recipe/roguetown/sewing/necramask
 	name = "death mask, reassembled"
 	category = "Masks"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/head/roguetown/necramask)
 	reqs = list(/obj/item/clothing/head/roguetown/necrahood = 1,
 				/obj/item/natural/bone = 1)
@@ -129,7 +129,7 @@
 /datum/crafting_recipe/roguetown/sewing/physmask
 	name = "plague mask, physicker's"
 	category = "Masks"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/mask/rogue/physician/phys)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/bouquet/calendula = 1,
@@ -140,7 +140,7 @@
 /datum/crafting_recipe/roguetown/sewing/feldmask
 	name = "plague mask, feldsher's"
 	category = "Masks"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/mask/rogue/physician/feld)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/bouquet/calendula = 1,
@@ -173,7 +173,7 @@
 /datum/crafting_recipe/roguetown/sewing/clothbedsheet
 	name = "bedsheet, cloth"
 	category = "Misc"
-	display_category = ITEM_CAT_DECORATION
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = list(/obj/item/bedsheet/rogue/cloth)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
@@ -182,7 +182,7 @@
 /datum/crafting_recipe/roguetown/sewing/fabricbedsheet // cloth bedsheet's fancier looking cousin
 	name = "bedsheet, fabric"
 	category = "Misc"
-	display_category = ITEM_CAT_DECORATION
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = list(/obj/item/bedsheet/rogue/fabric)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1,
@@ -192,7 +192,7 @@
 /datum/crafting_recipe/roguetown/sewing/doublefabricbedsheet
 	name = "bedsheet, double fabric"
 	category = "Misc"
-	display_category = ITEM_CAT_DECORATION
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = list(/obj/item/bedsheet/rogue/fabric_double)
 	reqs = list(/obj/item/natural/cloth = 4,
 				/obj/item/natural/fibers = 2,
@@ -283,7 +283,7 @@
 /datum/crafting_recipe/roguetown/sewing/Reyepatch
 	name = "right eye patch"
 	category = "Misc"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/mask/rogue/eyepatch)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
@@ -292,7 +292,7 @@
 /datum/crafting_recipe/roguetown/sewing/Leyepatch
 	name = "left eye patch"
 	category = "Misc"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/mask/rogue/eyepatch/left)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
@@ -348,7 +348,7 @@
 /datum/crafting_recipe/roguetown/sewing/clothblindfold
 	name = "blindfold"
 	category = "Masks"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/mask/rogue/blindfold)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
@@ -357,7 +357,7 @@
 /datum/crafting_recipe/roguetown/sewing/duelmask
 	name = "duelist's mask"
 	category = "Masks"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/mask/rogue/duelmask)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
@@ -468,7 +468,7 @@
 /datum/crafting_recipe/roguetown/sewing/necramask
 	name = "death mask"
 	category = "Masks"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/head/roguetown/necramask)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1,
@@ -1188,7 +1188,7 @@
 /datum/crafting_recipe/roguetown/sewing/ragmask
 	name = "rag mask"
 	category = "Masks"
-	display_category = ITEM_CAT_ARMOR_MASKS
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/mask/rogue/ragmask)
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 0

@@ -18,6 +18,7 @@ const PAGE_SIZE = 40;
 
 const GROUP_ORDER = [
   'Armor',
+  'Garments',
   'Weapons',
   'Tools',
   'Valuables',
