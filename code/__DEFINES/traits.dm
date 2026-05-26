@@ -40,6 +40,7 @@
 #define TRAIT_JOURNEYS_END "Journey's End"
 #define TRAIT_RAGE "Rage"
 #define TRAIT_CRITICAL_WEAKNESS "Critical Weakness"
+#define TRAIT_SHATTER_KILL "Shatterable Form" //Lesser ver of critical weakness that only instantly kills on chest fractures/paralysis.
 #define TRAIT_DNR "Bane of Existence"
 #define TRAIT_MANIAC_AWOKEN "Awoken"
 #define TRAIT_INFINITE_STAMINA "Indefatigable" //for ai
@@ -377,6 +378,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_JOURNEYS_END = span_info ("As the lyfe ebbs from my veins, my resolve hardens to push through. Do not go quietly into that good nite."),
 	TRAIT_RAGE = span_info ("PAIN AND INJURY FUELS MY BATTLERAGE!"),
 	TRAIT_CRITICAL_WEAKNESS = span_danger("I am weak to wounds that others could survive."),
+	TRAIT_SHATTER_KILL = span_danger("My form is vulnerable to chest fractures and paralysis, I will die instantly if my ribs shatter or I am paralyised."),
 	TRAIT_DNR = span_danger("My lux' vigor is weak. There is no hope for me. This lyfe is all I have."),
 	TRAIT_MANIAC_AWOKEN = span_danger("I am <b>WAKING UP</b> and the sheeple know this. They will resist."),
 	TRAIT_INFINITE_STAMINA = "I have boundless energy, I will never tire.",

@@ -80,7 +80,7 @@
 				H.change_stat(STATKEY_CON, 2)
 			if("Kanabo +1 STR")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/mace/goden/kanabo
+				r_hand = /obj/item/rogueweapon/mace/goden/steel/kanabo
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 				H.change_stat(STATKEY_STR, 1)
 			if("Naginata +2 PER")

@@ -926,3 +926,75 @@
   saltprjak:
   - balance: Rogue Mages receive dagger skill, some utility skills, and innate Message
       and Mindlink spells.
+2026-05-26:
+  BurpleBineapple:
+  - balance: The kanabo is a steel goden instead of an iron goden.
+  Ketrai:
+  - rscadd: Deadite Venards
+  - rscadd: Deadite Boars
+  - rscadd: Deadite Trolls
+  - qol: Corpses about to turn into a deadite begin shaking 12 seconds before turning
+      fully
+  - bugfix: All simple deadite animals should be able to be slowed now by targeting
+      the legs
+  - bugfix: All simple deadite animals should properly be executed when you target
+      any head zone, not just the main ones.
+  - refactor: componentalized deadite animal code
+  - balance: Increased butchery EXP gains and reduced butchering time, significant
+      for both.
+  - qol: Clarified dreamwalker shards being destructible.
+  Ollanius:
+  - rscadd: Adds Tenymuri's 'handgames' function! Accessible in the Emote tab, this
+      verb allows you to play up to four classic games with another person; either
+      across a table, or adjacent to one-another.
+  Rannoooo:
+  - rscadd: Adds hack to doubleheads
+  ToasterStrudes:
+  - rscadd: Added sprites to mirror image, greater thunderstrike and meteor swarm
+  - image: modified a majority of placeholder sprites for the new spells
+  - refactor: Mirror Transformation now works on other people
+  changelingonberry:
+  - qol: view-actors verb in occ
+  kiwedespars:
+  - bugfix: fixed siegebow slowdown to actually be 6 seconds
+  radarseas:
+  - rscadd: Added two new shields for lich skeles, these can be crafted too.
+  - rscadd: Added a new explosion for sapper skeles
+  - rscadd: Decrepit Togas for those whom are too ancient to remember their war without
+      reason, in her name.
+  - rscadd: Added ancient versions of the tongs + hammer
+  - rscadd: Added a few new peices of lich skele clothing
+  - rscadd: Lich skeles can now pick features like unbound spellblades.
+  - balance: death knight's statline has been adjusted, making them a powerful, but
+      slow and unsprinting juggernaut with unbound strength, crack them down at distance
+      or overwhelm them with numbers.
+  - balance: ancient siegebow no longer has less durability than the basic one, in
+      addition lich ballistaries now get it for flavor.
+  - balance: death knight's light gambeson has been swapped with a heavy one to make
+      them slightly tankier, aim for the head. Double-tap.
+  - balance: spellblade lich skele has better stats so they don't instantly keel over
+      to fire unlike wretch skeles.
+  - balance: skeletons are now shatter weak! rib fractures and paralyising stage-two
+      neck/skullcracks can kill them now!
+  - balance: lich sappers are now lightly armored, semi-smith, proper laborers that
+      double as seige bombs with a longer windup to obliterate walls and heavily hurt
+      anyone nearby.
+  - balance: legionnaires now get to pick a sidearm instead of always having javs,
+      between a net/javs/knife or decrepid pellets and a sling
+  - balance: bulwarks get to pick disiplines instead of just weaponry, your choice
+      now adjusts your statline to have a playstyle around your weapon pick.
+  - balance: lich's self-detonation has been buffed immensely, its now extremely lethal
+      to anyone nearby if they manage to survive long enough to set it off.
+  - balance: skeletons can no longer make miester accounts and are now given trait_outlaw
+      so they're truely recognised as a rightless abominations they are under Astrata's
+      light.
+  - balance: ballistiares no longer randomly have a 30% chance of a seigebow and instead
+      have a proper ancient crossbow.
+  - bugfix: fixed siege skeles getting lich guardhood
+  - bugfix: fixed lich guard hood having keep colors
+  - bugfix: fixed lich robes having no female render
+  - image: added two new shields - Ancient Hoplon and Greatshield
+  - code_imp: reworked most of lich skeles.
+  - bugfix: Munitioneer Wretches can no longer spontaniously explode with calclic
+      outburst for absolutely no reasoning than SOME coder forgot they accidentally
+      left it in, COUGH, COUGH. AAAAAAAAAA-
