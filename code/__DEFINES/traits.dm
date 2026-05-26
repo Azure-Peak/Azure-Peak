@@ -467,7 +467,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CICERONE = span_info("I am well-versed in the differences of brews and spirits, and can tell them apart at a glance."),
 	TRAIT_BETTER_SLEEP = span_info("I recover more energy when sleeping."),
 	TRAIT_ROTMAN = span_necrosis("I am partially undead. My heart does not beat."),
-	TRAIT_DEADITE = span_necrosis("I am a feral deadite, anyone can tell at a glance. Regardless of my equipment. I am stiff and unthinking, attempting to do anything complex will end poorly and my trait-defining techniques in lyfe will not always follow me into this undeath."),
+	TRAIT_DEADITE = span_necrosis("I am a feral deadite, anyone can tell at a glance. Regardless of my equipment. I am stiff and unthinking, attempting to do anything complex will end poorly and my trait-defining techniques in lyfe will not always follow me into this undeath. My wounds and injuries will passively regenerate away as long as I am not sundered."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
 	TRAIT_HARDDISMEMBER = span_info("My body is strong and endurant. My limbs are not easily dismembered."),
 	TRAIT_NOPAIN = span_info("I feel no pain. I can endure more burns before collapsing."),
