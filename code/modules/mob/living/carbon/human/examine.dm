@@ -414,7 +414,7 @@
 		. += span_warning("Uneasy steps, the sound of profane flesh and bone knitting itself and a stench of rot. A walking corpse!")
 
 	if(HAS_TRAIT(user, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && src.stat == CONSCIOUS) //Zombies get some messed up examines on non-zombie immune people that aren't KO'd.
-		. += span_narsie(pick("KILL IT. KILL IT", "FLESH. HUNGER", "KILL. CONSUME", "CONSUME", "KILL THE RASPING THING", "HUNGER.", "EAT IT.", "MUST HAVE FLESH."))
+		. += span_narsie(pick("KILL IT. KILL IT", "FLESH. HUNGER.", "KILL. CONSUME.", "CONSUME.", "KILL THE RASPING THING.", "HUNGER.", "EAT IT.", "MUST HAVE FLESH."))
 
 	if(user != src)
 		var/datum/mind/Umind = user.mind
