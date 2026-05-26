@@ -305,15 +305,22 @@
 
 
 		qdel(W)
-		check_fey_ascension(user)
+		check_fey_ascension(!is_impure, user)
 		feed_the_network(is_impure, user)
 		return
 	return ..()
 
-/obj/structure/roguemachine/mossmother/proc/check_fey_ascension(mob/living/user)
+/obj/structure/roguemachine/mossmother/proc/check_fey_ascension(pure = FALSE, mob/living/user)
+	var/did_something = FALSE
 	if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && !HAS_TRAIT(user, TRAIT_ROOT_WALKER))
 		ADD_TRAIT(user, TRAIT_ROOT_WALKER, TRAIT_HAG_BOON)
 		to_chat(user, span_userdanger("As the Lux flows, the roots under your feet soften. You feel the map of the bog etched into your mind. You can now walk the deep paths."))
+		did_something = TRUE
+	if(pure && HAS_TRAIT(user, TRAIT_FEYTOUCHED) && !HAS_TRAIT(user, TRAIT_BOGWALKER))
+		ADD_TRAIT(user, TRAIT_BOGWALKER, TRAIT_HAG_BOON)
+		to_chat(user, span_userdanger("As the roots drink the purified Lux, the heart of the bog beats in response. You feel a renewed kinship. The bog's wrath turns its gaze from you."))
+		did_something = TRUE
+	if(did_something)
 		playsound(src, 'sound/magic/ahh1.ogg', 50, TRUE)
 
 /obj/structure/roguemachine/mossmother/proc/feed_the_network(is_impure = FALSE, mob/living/feeder)

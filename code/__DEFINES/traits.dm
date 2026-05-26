@@ -559,7 +559,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ANCIENT_HAG = span_info("I know of secrets in alchemy and magyck no one else is aware of, for none are more ancient, more engrossed with the finer details of this land."),
 	TRAIT_WYRD_LABOURER = span_info("Strange power causes my swings to cut through trees and rocks with ease."),
 	TRAIT_CURSE_SCAR = span_info("That foul wench cursed me! I'll have my revenge... Those strange fog wards in the bog, what if?..."),
-	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel."),
+	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel. I can gain the bog's blessing if I use pure lux instead."),
 	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees."),
 	TRAIT_WHITE_STAG = span_info("The power of the white stag lives on inside of me!"),
 	TRAIT_EDIT_DESCRIPTORS = span_info("I can change my appearance at a magic mirror in a thorough manner."),
