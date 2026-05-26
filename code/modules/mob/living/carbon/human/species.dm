@@ -790,7 +790,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					return FALSE
 			if(H.wear_armor)
 				if(istype(H.wear_armor, I.type))
-					return FALSE
+					if(!(I.blocking_behavior & SAMEWEAR))
+						return FALSE
 				if(I.blocksound)
 					if(I.blocksound == H.wear_armor.blocksound)
 						return FALSE
@@ -1271,7 +1272,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			return FALSE
 */
 		var/selzone = melee_accuracy_check(user.zone_selected, user, target, /datum/skill/combat/unarmed, user.used_intent)
-		var/selzone_real = user.zone_selected
 
 		var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(selzone))
 
@@ -1305,8 +1305,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				SEND_SIGNAL(user, COMSIG_HEAD_PUNCHED, target)
 		log_combat(user, target, "punched")
 		if(ishuman(user))
-			var/text = "[bodyzone2readablezone(selzone_real)]..."
-			user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text, show_self = FALSE)
+			user.resolve_combataware(target, "[bodyzone2readablezone(selzone)]...", "[bodyzone2readablezone(user.zone_selected)]...")
 
 		if(!nodmg)
 			if(user.limb_destroyer)
@@ -1578,8 +1577,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			log_combat(user, target, "kicked")
 
 			if(ishuman(user))
-				var/text = "[bodyzone2readablezone(user.zone_selected)]..."
-				user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text, show_self = FALSE)
+				user.resolve_combataware(target, "[bodyzone2readablezone(selzone)]...", "[bodyzone2readablezone(user.zone_selected)]...")
 
 			user.do_attack_animation_simple(target, ATTACK_EFFECT_KICK, TRUE)
 			if(!nodmg)
@@ -1758,7 +1756,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return 0
 
 	var/hit_area
-	var/selzone_real = user.zone_selected
 
 	selzone = melee_accuracy_check(user.zone_selected, user, H, I.associated_skill, user.used_intent, I)
 	affecting = H.get_bodypart(check_zone(selzone))
@@ -1830,14 +1827,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		used_intfactor = higher_intfactor
 
 	if(ishuman(user) && user != H)
-		var/text = "[bodyzone2readablezone(selzone_real)]..."
+		var/aim_text = "[bodyzone2readablezone(user.zone_selected)]..."
 		if(HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS))
-			if(prob(10))
-				text = "<i>I can't tell...</i>"
-			else
-				text = null
-		if(text)
-			user.filtered_balloon_alert(TRAIT_COMBAT_AWARE, text, show_self = FALSE)
+			aim_text = prob(10) ? "<i>I can't tell...</i>" : null
+		user.resolve_combataware(H, "[bodyzone2readablezone(selzone)]...", aim_text)
 
 	if(H.client?.prefs.combat_toggles & HITZONE_TEXT)
 		H.balloon_alert(H, "[bodyzone2readablezone(selzone)]...") 

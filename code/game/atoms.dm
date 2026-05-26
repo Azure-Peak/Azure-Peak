@@ -1192,6 +1192,9 @@
 		filter_data = list()
 	var/list/p = params.Copy()
 	p["priority"] = priority
+	if(("color" in p) && !isnull(p["color"]) && !istext(p["color"]) && !islist(p["color"]))
+		stack_trace("filter '[name]' on [type] given non-text non-list color [p["color"]] - fix the caller")
+		return
 	filter_data[name] = p
 	update_filters()
 
@@ -1258,6 +1261,9 @@
 /atom/movable/proc/modify_filter(name, list/new_params, overwrite = FALSE)
 	var/filter = get_filter(name)
 	if(!filter)
+		return
+	if(("color" in new_params) && !isnull(new_params["color"]) && !istext(new_params["color"]) && !islist(new_params["color"]))
+		stack_trace("filter '[name]' on [type] given non-text non-list color [new_params["color"]] - fix the caller")
 		return
 	if(overwrite)
 		filter_data[name] = new_params

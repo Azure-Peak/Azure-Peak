@@ -65,8 +65,8 @@
 					/obj/item/rogueweapon/scabbard/sheath = 1
 					)
 	if(H.mind)
-		var/instrument = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute", "Psyaltery")
-		var/instrument_choice = input(H, "Choose your instrument.", "TAKE UP SONGS") as anything in instrument
+		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
+		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
 		H.set_blindness(0)
 		switch(instrument_choice)
 			if("Harp")
@@ -83,10 +83,14 @@
 				backr = /obj/item/rogue/instrument/viola
 			if("Vocal Talisman")
 				backr = /obj/item/rogue/instrument/vocals
-			if("Flute")
-				backr = /obj/item/rogue/instrument/flute
 			if("Psyaltery")
 				backr = /obj/item/rogue/instrument/psyaltery
+			if("Flute")
+				backr = /obj/item/rogue/instrument/flute
+			if("Drum")
+				backr = /obj/item/rogue/instrument/drum
+			if("Shamisen")
+				backr = /obj/item/rogue/instrument/shamisen
 		var/weapons = list("Maille Training","Bardic Inspiration")
 		var/weapon_choice = input(H, "Choose your discipline.", "TAKE A PATH") as anything in weapons
 		switch(weapon_choice)

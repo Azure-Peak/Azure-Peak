@@ -540,6 +540,8 @@
 
 /// Adjust the cooldown time based on associated_stat and armor.
 /datum/action/cooldown/spell/proc/get_adjusted_cooldown()
+	if(!isliving(owner))
+		return initial(cooldown_time)
 	var/mob/living/living_owner = owner
 	var/base = initial(cooldown_time)
 	var/newcd = base
