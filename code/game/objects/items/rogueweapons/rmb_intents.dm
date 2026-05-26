@@ -198,6 +198,8 @@
 		return
 	if(user.has_status_effect(/datum/status_effect/debuff/feintcd))
 		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //You're not even smart enough to know what you're doing to begin with.
+		tochat(user, span_warning(pick("I... Prepare to lunge vaguely towards nothing in particular, then stumble..", "I claw at nothing in particular uselessly..", "I trip and flail wildly... nothing happens..", "I claw... at the air and stumble, this achieves nothing..", "I swing for a moment... then stop, what is a feint..?")))
 	var/mob/living/L = target
 	user.visible_message(span_danger("[user] feints an attack at [target]!"))
 	var/perc = 50
@@ -235,11 +237,6 @@
 		perc = 0
 		newcd = 5 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
-
-	if(HAS_TRAIT(user, TRAIT_DEADITE)) //You didn't think trying to fient a person was going to work, you're not even smart enough to know what you're doing to begin with.
-		perc = 0
-		newcd = 10 SECONDS //UNNESSESSARY BUT HILARIOUS
-		special_msg = span_warning(pick("I... Prepare to lunge vaguely towards nothing in particular, then stumble..", "I claw at nothing in particular uselessly..", "I trip and flail wildly... nothing happens..", "I claw... at the air and stumble, this achieves nothing..", "I swing for a moment... then stop, what is a feint..?"))
 
 	perc = CLAMP(perc, 10, 90)
 

@@ -68,7 +68,7 @@
 			return
 		handle_wounds()
 		for(var/datum/wound/wound as anything in get_wounds())
-			wound.heal_wound(2)
+			wound.heal_wound(3)
 
 	if(blood_volume <= BLOOD_VOLUME_SURVIVE && stat)
 		handle_passive_blood()

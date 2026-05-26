@@ -296,7 +296,7 @@
 	zombie.STAPER = 5 //You ain't hitting anything but chest outside of biting, let alone looking afar
 	zombie.STAINT = 1
 	zombie.STASTR = 14 //More brawn than brains... Oh wait, you don't have any!
-	zombie.STACON = 12 //Decent but never higher, we automatically regenerate health + can re-attach limbs.
+	zombie.STACON = 12 //Decent but never higher, we automatically regenerate away wounds + can re-attach limbs.
 	zombie.STAWIL = 12 //You have to do unarmed fighting + dodge.
 	last_bite = world.time
 	has_turned = TRUE
