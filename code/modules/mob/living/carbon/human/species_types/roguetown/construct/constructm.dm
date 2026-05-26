@@ -241,7 +241,7 @@
 				return FALSE
 		power = I.sellprice * 2
 		M.apply_status_effect(/datum/status_effect/buff/gemmuncher, power)
-		visible_message(span_notice("[user] embeds [I] on [M]. It cracks and fuses, rapidly spreading throughout their shell."))
+		user.visible_message(span_notice("[user] embeds [I] on [M]. It cracks and fuses, rapidly spreading throughout their shell."))
 		qdel(I)
 		playsound(user.loc, 'sound/magic/swap.ogg', 40)
 		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
