@@ -297,7 +297,7 @@
 		var/mob/living/carbon/human/H = user
 		H.try_guard()
 	if(HAS_TRAIT(user, TRAIT_DEADITE))
-	to_chat(user, span_warning("...What?")) //Item use, we're just using the default fallback. No humor here.
+		to_chat(user, span_warning("...What?")) //Item use, we're just using the default fallback. No humor here.
 
 /datum/rmb_intent/guard
 	name = "guarde"
