@@ -45,12 +45,13 @@
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
 //Strudles donator item - mage vest, xylix tabard, etruscan cloak, and formfitted gambeson
-/obj/item/clothing/suit/roguetown/shirt/robe/sofiavest
+/obj/item/clothing/suit/roguetown/shirt/sofiavest
 	name = "grenzelhoftian mages vest"
 	desc = "A vest often worn by those of the Grenzelhoftian mages college."
 	icon_state = "sofiavest"
 	item_state = "sofiavest"
 	sleevetype = "sofiavest"
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
