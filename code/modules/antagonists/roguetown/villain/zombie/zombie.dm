@@ -79,6 +79,8 @@
 	if(istype(examined_datum, /datum/antagonist/lich))
 		return span_boldnotice("Another deadite.")
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /atom/movable/screen/alert/status_effect/buff/zombified //Our stat handling "buff
 	name = "zombified"
 	desc = "HUNGER, MUST, HAVE, FLESH"
@@ -116,6 +118,8 @@
 /datum/status_effect/buff/zombified/on_remove()
 	. = ..()
 	owner.visible_message(span_warning("[owner] DEBUG - had zombification removed."))
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Housekeeping/saving variables from pre-zombie
 
