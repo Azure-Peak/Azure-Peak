@@ -31,12 +31,6 @@
 	var/zombie_original_INT = 10
 	var/zombie_original_CON = 10
 	var/zombie_original_WIL = 10
-	var/zombie_original_STR
-	var/zombie_original_SPD
-	var/zombie_original_PER
-	var/zombie_original_INT
-	var/zombie_original_CON
-	var/zombie_original_WIL
 
 	var/cmode_music
 	var/list/base_intents
