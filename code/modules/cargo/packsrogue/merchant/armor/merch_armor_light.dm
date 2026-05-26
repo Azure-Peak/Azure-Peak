@@ -91,6 +91,11 @@
 	cost = 40 // superior gambeson. idk if its on par w/ the actual padded one or not
 	contains = list(/obj/item/clothing/suit/roguetown/armor/gambeson/lord)
 
+/datum/supply_pack/rogue/light_armor/heavy_leather_boots
+	name = "Heavy Leather Boots"
+	cost = 20
+	contains = list(/obj/item/clothing/shoes/roguetown/boots/leather/reinforced)
+
 /datum/supply_pack/rogue/light_armor/arming_jacket
 	name = "Padded Arming Jacket"
 	cost = 58 // padded gambeson equiv. but it lacks leg prot?
