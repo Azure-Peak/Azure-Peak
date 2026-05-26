@@ -623,11 +623,6 @@
 	var/mob/living/carbon/human/C_target = H
 	var/mob/living/carbon/human/C_caster = user
 	var/list/tw_List = C_target.get_wounds()
-
-	if(!tw_List.len && H.blood_volume >= BLOOD_VOLUME_NORMAL)
-		revert_cast()
-		return FALSE
-
 	var/list/BPs_to_check = list()
 
 	H.visible_message(span_blue("[user] connects their Lux with [H]'s own."))
@@ -727,19 +722,19 @@
 	C.adjustCloneLoss(clone_transfer)
 
 	// BLOOD TRANSFER
-	var/blood_transfer = 0
-	if(!(NOBLOOD in C.dna?.species?.species_traits))
-		if(H.blood_volume < BLOOD_VOLUME_NORMAL)
-			blood_transfer = BLOOD_VOLUME_NORMAL - H.blood_volume
-			H.blood_volume = BLOOD_VOLUME_NORMAL
-			C.blood_volume -= blood_transfer
-			to_chat(C, span_warning("You feel your blood drain into [H]!"))
-			to_chat(H, span_notice("You feel your blood replenish!"))
-	else
-		user.adjustFireLoss(BLOOD_VOLUME_NORMAL/4)
-		H.blood_volume = BLOOD_VOLUME_NORMAL
-		to_chat(user, span_warning("You feel your Lux sear into [H]!"))
-		to_chat(H, span_notice("You feel your blood miraculously replenish!"))
+	var/blood_needed = max(0, BLOOD_VOLUME_NORMAL - H.blood_volume)
+
+	if(blood_needed)
+		if(NOBLOOD in C.dna?.species?.species_traits)
+			H.blood_volume = min(BLOOD_VOLUME_NORMAL, H.blood_volume + round(BLOOD_VOLUME_NORMAL * 0.5))
+			C.adjustFireLoss(round(blood_needed / 4))
+		else
+			var/transfer_cap = round(C.blood_volume * 0.5)
+			var/transferred = min(blood_needed, transfer_cap)
+
+			if(transferred > 0)
+				H.blood_volume += transferred
+				C.blood_volume -= transferred
 
 	// VISUALS
 	user.visible_message(span_danger("[user] purifies [H]'s wounds!"))
@@ -951,19 +946,28 @@
 	C.adjustOxyLoss(oxy_transfer)
 	C.adjustCloneLoss(clone_transfer)
 
-	// BLOOD LOSS TRANSFER
+	// BLOOD TRANSFER
 	var/blood_needed = max(0, BLOOD_VOLUME_NORMAL - H.blood_volume)
+
 	if(blood_needed)
 		if(NOBLOOD in C.dna?.species?.species_traits)
 			H.blood_volume = BLOOD_VOLUME_NORMAL
-			C.adjustFireLoss(round(blood_needed / 8))
+			C.adjustFireLoss(round(blood_needed / 4))
 		else
-			if(C.blood_volume > BLOOD_VOLUME_BAD)
-				var/available_blood = C.blood_volume - BLOOD_VOLUME_BAD
-				var/transferred = min(blood_needed, available_blood)
-				if(transferred > 0)
-					H.blood_volume += transferred
-					C.blood_volume -= transferred
+			var/transferred = min(blood_needed, C.blood_volume)
+
+			if(transferred > 0)
+				H.blood_volume += transferred
+				C.blood_volume -= transferred
+
+			if(H.blood_volume < BLOOD_VOLUME_NORMAL)
+				var/remaining = BLOOD_VOLUME_NORMAL - H.blood_volume
+
+				H.blood_volume += remaining
+				C.blood_volume -= remaining
+
+			if(C.blood_volume <= 0)
+				C.blood_volume = BLOOD_VOLUME_SURVIVE
 
 	// VISUALS
 	C.visible_message(span_danger("[C] absolves [H]'s suffering!"))

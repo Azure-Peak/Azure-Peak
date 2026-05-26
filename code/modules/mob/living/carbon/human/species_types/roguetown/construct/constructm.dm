@@ -164,7 +164,7 @@
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 3 MINUTES)
 			playsound(M, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			user.visible_message(
-				span_notice("[user] wedges the stick into [M]'s damaged lattice, crudely pinning it in place."),
+				span_notice("[user] wedges [I] into [M]'s damaged lattice, crudely pinning it in place."),
 				span_notice("A weak brace holds my damaged integrity together. It might not last")
 			)
 			qdel(S)
@@ -175,7 +175,7 @@
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 6 MINUTES)
 			playsound(M, 'sound/combat/hits/blunt/woodblunt (1).ogg', 100, TRUE)
 			user.visible_message(
-				span_notice("[user] jams the small log into [M]'s exposed conduit, safely reinforcing the fracture."),
+				span_notice("[user] jams [I] into [M]'s exposed conduit, safely reinforcing the fracture."),
 				span_notice("The wooden brace steadies my damaged integrity.")
 			)
 			qdel(S)
@@ -186,7 +186,7 @@
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 9 MINUTES)
 			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
 			user.visible_message(
-				span_warning("[user] forces the stone into [M]'s ruptured lattice. Sparks violently erupt!"),
+				span_warning("[user] forces [I] into [M]'s ruptured lattice. Sparks violently erupt!"),
 				span_notice("A dense mineral brace locks my damaged integrity into place.")
 			)
 			explosion(M, 0, 0, 0, 0, FALSE, FALSE, 0, FALSE, FALSE)
@@ -201,7 +201,7 @@
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 9 MINUTES)
 			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
 			user.visible_message(
-				span_warning("[user] forces the scrap bits into [M]'s ruptured lattice. Sparks violently erupt, a bit safely!"),
+				span_warning("[user] forces [I] into [M]'s ruptured lattice. Sparks violently erupt, a bit safely!"),
 				span_notice("Odds bits and pieces locks my damaged integrity into place.")
 			)
 			explosion(M, 0, 0, 0, 0, FALSE, FALSE, 0, FALSE, FALSE)
@@ -213,7 +213,7 @@
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 20 MINUTES)
 			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
 			user.visible_message(
-				span_warning("[user] appends the ingot into [M]'s ruptured lattice, stabilizing it properly."),
+				span_warning("[user] appends [I] into [M]'s ruptured lattice, stabilizing it properly."),
 				span_notice("A refined mineral brace locks my damaged integrity into place, for now.")
 			)
 			return TRUE
@@ -228,10 +228,7 @@
 				return FALSE
 		power = 5 + I.sellprice * 1.5
 		M.apply_status_effect(/datum/status_effect/buff/ingotmuncher, power)
-		user.visible_message(
-			span_notice("[user] presses [I] into their form. It fuses seamlessly, spreading throughout their shell."),
-			span_notice("I press [I] into my body. It quickly binds and greatly reinforces me.")
-		)
+		user.visible_message(span_notice("[user] presses [I] on [M]. It fuses seamlessly, spreading throughout their shell."))
 		playsound(user.loc, 'sound/magic/swap.ogg', 40)
 		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
 		qdel(I)
@@ -244,10 +241,7 @@
 				return FALSE
 		power = I.sellprice * 2
 		M.apply_status_effect(/datum/status_effect/buff/gemmuncher, power)
-		user.visible_message(
-			span_notice("[user] embeds [I] into their core. It crackles, then vanishes within."),
-			span_notice("I set [I] into my core. It sinks in... and I feel it resonate greatly, restoring me!")
-		)
+		visible_message(span_notice("[user] embeds [I] on [M]. It cracks and fuses, rapidly spreading throughout their shell."))
 		qdel(I)
 		playsound(user.loc, 'sound/magic/swap.ogg', 40)
 		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
