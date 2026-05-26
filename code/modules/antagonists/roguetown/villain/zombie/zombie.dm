@@ -23,15 +23,12 @@
 	var/soundpack_m
 	var/soundpack_f
 
-	//Fuck it I'm completely re-doing this code so a sane person can comprehend it (not me) - Radarseas
-	//If we somehow fuck up uhh, yeah its gonna be all 10 in stats for debugging purposes.
-	var/zombie_original_STR = 10
-	var/zombie_original_SPD = 10
-	var/zombie_original_PER = 10
-	var/zombie_original_INT = 10
-	var/zombie_original_CON = 10
-	var/zombie_original_WIL = 10
-
+	var/STASTR
+	var/STASPD
+	var/STAPER
+	var/STAINT
+	var/STACON
+	var/STAWIL
 	var/cmode_music
 	var/list/base_intents
 
@@ -117,7 +114,6 @@
 
 	Infection transformation process goes -> infection -> timered transform in zombie_infect_attempt() [drink red/holy water and kill timer?] -> /datum/antagonist/zombie/proc/wake_zombie -> zombietransform
 */
-
 /datum/antagonist/zombie/on_gain(admin_granted = FALSE)
 	var/mob/living/carbon/human/zombie = owner?.current
 	if(zombie)
@@ -134,20 +130,21 @@
 		soundpack_f = zombie.dna.species.soundpack_f
 	base_intents = zombie.base_intents
 
+	//Just need to clear it to snapshot. May get things we don't want to get.
+	// A later coder. Sincerely, what the ****???
+	// If we ever need this again, change this to something that removes status effects that are CLEAR to be dispelled by this.
+	// for(var/status_effect in zombie.status_effects)
+	// 	zombie.remove_status_effect(status_effect)
 	zombie.grant_language(/datum/language/undead)
 	var/datum/language_holder/language_holder = zombie.get_language_holder()
 	language_holder.selected_default_language = /datum/language/undead
 
-	//We take their TRUE stats here (we have this FUNCTION WHY WERE WE NOT USING IT REEEEEE)
-	//and set them to be snapshotted in a way we can exclude buff modifiers correctly so we have
-	//Their actual true stats instead of whatever the everliving shitcoded fuck the first way was supposed to be.
-	src.zombie_original_STR = zombie.get_true_stat(STATKEY_STR)
-	src.zombie_original_SPD = zombie.get_true_stat(STATKEY_SPD)
-	src.zombie_original_PER = zombie.get_true_stat(STATKEY_PER)
-	src.zombie_original_INT = zombie.get_true_stat(STATKEY_INT)
-	src.zombie_original_CON = zombie.get_true_stat(STATKEY_CON)
-	src.zombie_original_WIL = zombie.get_true_stat(STATKEY_WIL)
-
+	src.STASTR = zombie.STASTR
+	src.STASPD = zombie.STASPD
+	src.STAPER = zombie.STAPER
+	src.STAINT = zombie.STAINT
+	src.STACON = zombie.STACON
+	src.STAWIL = zombie.STAWIL
 	cmode_music = zombie.cmode_music
 
 	//Special because deadite status is latent as opposed to the others.
@@ -178,12 +175,12 @@
 			cf.ephemeral = FALSE
 		zombie.update_body()
 
-		zombie.STASTR = src.zombie_original_STR
-		zombie.STASPD = src.zombie_original_SPD
-		zombie.STAPER = src.zombie_original_PER
-		zombie.STAINT = src.zombie_original_INT
-		zombie.STACON = src.zombie_original_CON
-		zombie.STAWIL = src.zombie_original_WIL
+		zombie.STASTR = src.STASTR
+		zombie.STASPD = src.STASPD
+		zombie.STASPD = src.STAPER
+		zombie.STAINT = src.STAINT
+		zombie.STACON = src.STACON
+		zombie.STAWIL = src.STAWIL
 
 
 
@@ -292,13 +289,15 @@
 	to_chat(zombie, span_infection("My mind grows numb and empty as unlyfe takes ahold of my body..."))
 	zombie.cmode_music = 'sound/music/combat_weird.ogg'
 
+
+	// Original first commit values for speed were 5-7 randomly. They can sprint again, lets just keep everything uniform.
 	// We pre-set stats here.
 	zombie.STASPD = 5
-	zombie.STAPER = 5
+	zombie.STAPER = 5 //You ain't hitting anything but chest outside of biting, let alone looking afar
 	zombie.STAINT = 1
-	zombie.STASTR = 14
-	zombie.STACON = 12
-	zombie.STAWIL = 12
+	zombie.STASTR = 14 //More brawn than brains... Oh wait, you don't have any!
+	zombie.STACON = 12 //Decent but never higher, we automatically regenerate away wounds + can re-attach limbs.
+	zombie.STAWIL = 12 //You have to do unarmed fighting + dodge.
 	last_bite = world.time
 	has_turned = TRUE
 	// Drop whatever's in your mouth, a workaround for being gagged.
