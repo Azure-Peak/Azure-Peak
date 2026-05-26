@@ -591,7 +591,7 @@
 			if("Holy Silver Armet")
 				head = /obj/item/clothing/head/roguetown/helmet/heavy/holysee/alt
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Church Funding.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 
 
 /obj/item/rogueweapon/sword/long/martyr

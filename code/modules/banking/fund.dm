@@ -5,6 +5,7 @@
 	var/datum/weakref/owner_ref
 	var/created_at
 	var/tax_debt = 0
+	var/list/pending_micro = list()
 	var/wages_suspended = FALSE
 
 /datum/fund/New(fund_name, mob/living/fund_owner, starting_balance = 0, fund_currency = CURRENCY_MAMMON)
@@ -18,3 +19,11 @@
 
 /datum/fund/proc/get_owner()
 	return owner_ref?.resolve()
+
+/datum/fund/church
+
+/datum/fund/merchant
+
+/datum/fund/bathhouse
+
+/datum/fund/innkeeper

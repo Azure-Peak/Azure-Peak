@@ -22,8 +22,7 @@ export const BanditryBanner = (props: { projection: BanditryProjection }) => {
           style={{
             fontWeight: 'normal',
             fontVariant: 'normal',
-            fontStyle: 'italic',
-            fontSize: '11px',
+            fontSize: '12px',
             color: SEAL_AMBER,
             letterSpacing: 0,
           }}

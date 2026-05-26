@@ -10,6 +10,7 @@
 	abstract_type = /datum/crafting_recipe/roguetown/arcana
 	skillcraft = /datum/skill/magic/arcane
 	subtype_reqs = TRUE
+	display_category = ITEM_CAT_ARCYNE_GEARS
 	xp_modifier = 0
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
@@ -85,6 +86,7 @@
 /datum/crafting_recipe/roguetown/arcana/forge
 	name = "infernal forge"
 	req_table = FALSE
+	display_category = ITEM_CAT_ENG_MACHINERY
 	result = /obj/machinery/light/rogue/forge/arcane
 	reqs = list(/obj/item/magic/infernal/core = 1,
 				/obj/item/natural/stone = 4)
@@ -244,6 +246,7 @@
 
 /datum/crafting_recipe/roguetown/arcana/pre_arcyne_spellbook
 	name = "tome in waiting"
+	display_category = ITEM_CAT_BOOK_WRIT
 	result = /obj/item/spellbook_unfinished/pre_arcyne
 	reqs = list(/obj/item/natural/hide = 1,
 				/obj/item/paper/scroll = 6)

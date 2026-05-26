@@ -1425,6 +1425,12 @@
 									ADD_TRAIT(living_mob, TRAIT_DUST_LEAVE_HEAD, TRAIT_GENERIC)
 								if(href_list["dust_delete_gear"])
 									ADD_TRAIT(living_mob, TRAIT_DUST_DELETE_GEAR, TRAIT_GENERIC)
+							if(ishuman(O))
+								var/mob/living/carbon/human/spawned_human = O
+								spawned_human.taints_loot_on_death = !!href_list["taint_loot"]
+								if(!spawned_human.taints_loot_on_death)
+									for(var/obj/item/I in spawned_human.get_equipped_items(TRUE) + spawned_human.held_items)
+										I.unmark_as_looted()
 							if(where == "inhand" && isliving(usr) && isitem(O))
 								var/mob/living/L = usr
 								var/obj/item/I = O

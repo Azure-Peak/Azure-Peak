@@ -36,7 +36,7 @@
 		if(headdy)
 			headdy.icon = 'icons/roguetown/mob/monster/goblins.dmi'
 			headdy.icon_state = "[H.dna.species.id]_head"
-			headdy.sellprice = rand(7,20)
+			headdy.sellprice = rand(HEAD_BOUNTY_GOBLIN_JOB_MIN, HEAD_BOUNTY_GOBLIN_JOB_MAX)
 		H.regenerate_limb(BODY_ZONE_R_ARM)
 		H.regenerate_limb(BODY_ZONE_L_ARM)
 		H.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw)

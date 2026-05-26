@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/leather
 	abstract_type = /datum/crafting_recipe/roguetown/leather
+	display_category = ITEM_CAT_ARMOR_LIGHT
 	tools = list(/obj/item/needle)
 	structurecraft = /obj/machinery/tanningrack
 	skillcraft = /datum/skill/craft/tanning
@@ -7,6 +8,7 @@
 
 /datum/crafting_recipe/roguetown/leather/bedroll
 	name = "bedroll"
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = /obj/item/bedroll
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/rope = 1)
@@ -17,6 +19,7 @@
 
 /datum/crafting_recipe/roguetown/leather/peltbedsheet
 	name = "bedsheet, pelt"
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = /obj/item/bedsheet/rogue/pelt
 	reqs = list(/obj/item/natural/fibers = 1,
 				/obj/item/natural/fur = 1)
@@ -25,6 +28,7 @@
 
 /datum/crafting_recipe/roguetown/leather/doublepeltbedsheet
 	name = "bedsheet, double pelt"
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = /obj/item/bedsheet/rogue/double_pelt
 	reqs = list(/obj/item/natural/fibers = 1,
 				/obj/item/natural/fur = 2)
@@ -42,6 +46,7 @@
 
 /datum/crafting_recipe/roguetown/leather/gloves
 	name = "leather gloves"
+	display_category = ITEM_CAT_ARMOR_GLOVES
 	result = list(/obj/item/clothing/gloves/roguetown/leather,
 	/obj/item/clothing/gloves/roguetown/leather)
 	reqs = list(/obj/item/natural/hide/cured = 1)
@@ -49,6 +54,7 @@
 
 /datum/crafting_recipe/roguetown/leather/heavygloves
 	name = "heavy leather gloves"
+	display_category = ITEM_CAT_ARMOR_GLOVES
 	result = /obj/item/clothing/gloves/roguetown/angle
 	reqs = list(/obj/item/natural/fur = 1)
 	sellprice = 20
@@ -56,6 +62,7 @@
 
 /datum/crafting_recipe/roguetown/leather/heavyglovesphys
 	name = "heavy leather gloves, physicker's"
+	display_category = ITEM_CAT_ARMOR_GLOVES
 	result = /obj/item/clothing/gloves/roguetown/angle/phys
 	reqs = list(/obj/item/natural/fur = 1)
 	sellprice = 30
@@ -63,6 +70,7 @@
 
 /datum/crafting_recipe/roguetown/leather/heavyglovesfeld
 	name = "heavy leather gloves, feldsher's"
+	display_category = ITEM_CAT_ARMOR_GLOVES
 	result = /obj/item/clothing/gloves/roguetown/angle/feld
 	reqs = list(/obj/item/natural/fur = 1)
 	sellprice = 30
@@ -70,6 +78,7 @@
 
 /datum/crafting_recipe/roguetown/leather/fingerless_leather_gloves
 	name = "fingerless leather gloves"
+	display_category = ITEM_CAT_ARMOR_GLOVES
 	result = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	reqs = list(
 		/obj/item/natural/hide/cured = 1,
@@ -80,6 +89,7 @@
 
 /datum/crafting_recipe/roguetown/leather/bandana
 	name = "leather bandana"
+	display_category = ITEM_CAT_ARMOR_HELMETS
 	result = /obj/item/clothing/head/roguetown/helmet/bandana
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	sellprice = 27
@@ -87,6 +97,7 @@
 
 /datum/crafting_recipe/roguetown/leather/tricorn
 	name = "leather tricorn"
+	display_category = ITEM_CAT_ARMOR_HELMETS
 	result = /obj/item/clothing/head/roguetown/helmet/tricorn
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	sellprice = 27
@@ -130,6 +141,7 @@
 
 /datum/crafting_recipe/roguetown/leather/papakha
 	name = "papakha hat"
+	display_category = ITEM_CAT_ARMOR_HELMETS
 	result = /obj/item/clothing/head/roguetown/papakha/crafted
 	reqs = list(/obj/item/natural/fur = 1, /obj/item/natural/fibers = 2)
 
@@ -138,17 +150,20 @@
 
 /datum/crafting_recipe/roguetown/leather/saddle
 	name = "saddle"
+	display_category = ITEM_CAT_TAILOR_MISC
 	result = /obj/item/natural/saddle
 	reqs = list(/obj/item/natural/hide/cured = 2)
 
 /datum/crafting_recipe/roguetown/leather/whip
 	name = "leather whip"
+	display_category = ITEM_CAT_WEAPONS_FLAILS
 	result = /obj/item/rogueweapon/whip
 	reqs = list(/obj/item/natural/hide/cured = 2,/obj/item/natural/stone = 1)
 	sellprice = 39
 
 /datum/crafting_recipe/roguetown/leather/drum
 	name = "Drum"
+	display_category = ITEM_CAT_INSTRUMENT
 	result = /obj/item/rogue/instrument/drum
 	reqs = list(/obj/item/natural/hide/cured = 1,/obj/item/grown/log/tree/small = 1)
 
@@ -183,6 +198,7 @@
 
 /datum/crafting_recipe/roguetown/leather/leathertights
 	name = "leather tights"
+	display_category = ITEM_CAT_ARMOR_LEGS
 	result = list(/obj/item/clothing/under/roguetown/trou/leathertights)
 	reqs = list(/obj/item/natural/hide/cured = 2)
 	tools = list(/obj/item/needle)
@@ -191,12 +207,14 @@
 
 /datum/crafting_recipe/roguetown/leather/doctormask
 	name = "plague mask"
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = /obj/item/clothing/mask/rogue/physician
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/leather/skillbook
 	name = "unfinished skillbook (1 leather, 1 paper)"
+	display_category = ITEM_CAT_BOOK_WRIT
 	result = /obj/item/skillbook/unfinished
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/paper = 1)
 	tools = list(/obj/item/needle)
@@ -207,6 +225,7 @@
 
 /datum/crafting_recipe/roguetown/leather/doctormaskphys
 	name = "head physician's mask"
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = /obj/item/clothing/mask/rogue/courtphysician
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/bone = 1)
 	craftdiff = 1
@@ -221,6 +240,7 @@
 
 /datum/crafting_recipe/roguetown/leather/sanguinegloves
 	name = "sanguine gloves"
+	display_category = ITEM_CAT_ARMOR_GLOVES
 	reqs = list(
 		/obj/item/natural/hide/cured = 2
 	)
@@ -229,6 +249,7 @@
 
 /datum/crafting_recipe/roguetown/leather/sanguinesleeves
 	name = "sanguine sleeves"
+	display_category = ITEM_CAT_ARMOR_GLOVES
 	reqs = list(
 		/obj/item/natural/hide/cured = 2,
 		/obj/item/natural/silk = 2,
@@ -246,6 +267,7 @@
 
 /datum/crafting_recipe/roguetown/leather/sanguineshoes
 	name = "sanguine shoes"
+	display_category = ITEM_CAT_ARMOR_BOOTS
 	reqs = list(
 		/obj/item/natural/hide/cured = 2
 	)
@@ -254,6 +276,7 @@
 
 /datum/crafting_recipe/roguetown/leather/sanguineheels
 	name = "sanguine heels"
+	display_category = ITEM_CAT_ARMOR_BOOTS
 	reqs = list(
 		/obj/item/natural/hide/cured = 2
 	)
@@ -262,6 +285,7 @@
 
 /datum/crafting_recipe/roguetown/leather/belt
 	name = "suspenders"
+	display_category = ITEM_CAT_ARMOR_BELTS
 	reqs = list(
 		/obj/item/natural/hide/cured = 1,
 		/obj/item/natural/cloth = 2,

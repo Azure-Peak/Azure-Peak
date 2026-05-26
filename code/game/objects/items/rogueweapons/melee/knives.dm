@@ -533,7 +533,7 @@
 	desc = "A valuable ornate dagger made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."
 	icon_state = "decdagger"
 	sheathe_icon = "decdagger"
-	sellprice = 100
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
 	name = "stalker dagger"
@@ -717,7 +717,6 @@
 	sheathe_icon = "sildagger"
 	force = 15
 	wdefense = 6
-	sellprice = 50
 	smeltresult = /obj/item/ingot/silver
 	last_used = 0
 	is_silver = TRUE
@@ -768,7 +767,6 @@
 	throwforce = 20
 	wdefense = 0
 	max_integrity = 50
-	sellprice = 50
 	slot_flags = ITEM_SLOT_HIP
 	smeltresult = /obj/item/rogueore/coal
 	last_used = 0
@@ -875,7 +873,6 @@
 	max_blade_int = 50
 	wdefense = 3
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	sellprice = 75
 
 /obj/item/rogueweapon/huntingknife/stoneknife/opalknife
 	name = "opal knife"
@@ -886,7 +883,6 @@
 	max_blade_int = 50
 	wdefense = 3
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	sellprice = 105
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish
 	name = "elvish dagger"
@@ -1015,7 +1011,6 @@
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 25, "embedded_fall_chance" = 10)
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/chop)
 	smeltresult = null
-	sellprice = 1
 	thrown_damage_flag = "piercing"		//Checks piercing type like an arrow.
 
 /obj/item/rogueweapon/huntingknife/throwingknife/getonmobprop(tag)
@@ -1051,7 +1046,6 @@
 	armor_penetration = PEN_MEDIUM
 	icon_state = "throw_knifes"
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 30, "embedded_fall_chance" = 5)
-	sellprice = 2
 
 /obj/item/rogueweapon/huntingknife/throwingknife/steel/palloy
 	name = "ancient alloy tossblade"

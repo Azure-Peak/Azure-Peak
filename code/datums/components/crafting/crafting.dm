@@ -310,6 +310,11 @@
 							var/atom/movable/I = new IT(T)
 							I.CheckParts(parts, R)
 							I.OnCrafted(user.dir, user)
+							if(isitem(I))
+								var/obj/item/CI = I
+								CI.was_crafted = TRUE
+								if(CI.has_item_quality)
+									CI.apply_quality(user, R.skillcraft)
 							I.add_fingerprint(user)
 					else
 						if(ispath(R.result, /turf))
@@ -330,6 +335,11 @@
 								I.OnCrafted(I.SelectDiagDirection(), user)
 							else
 								I.OnCrafted(user.dir, user)
+							if(isitem(I))
+								var/obj/item/CI = I
+								CI.was_crafted = TRUE
+								if(CI.has_item_quality)
+									CI.apply_quality(user, R.skillcraft)
 							I.add_fingerprint(user)
 					user.visible_message(span_notice("[user] [R.verbage] \a [R.name]!"), \
 										span_notice("I [R.verbage_simple] \a [R.name]!"))
