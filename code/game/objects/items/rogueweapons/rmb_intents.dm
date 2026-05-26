@@ -200,6 +200,8 @@
 		return
 	if(HAS_TRAIT(user, TRAIT_DEADITE)) //You're not even smart enough to know what you're doing to begin with.
 		to_chat(user, span_warning(pick("I... Prepare to lunge vaguely towards nothing in particular, then stumble..", "I claw at nothing in particular uselessly..", "I trip and flail wildly... nothing happens..", "I claw... at the air and stumble, this achieves nothing..", "I swing for a moment... then stop, what is a feint..?")))
+		return
+
 	var/mob/living/L = target
 	user.visible_message(span_danger("[user] feints an attack at [target]!"))
 	var/perc = 50
