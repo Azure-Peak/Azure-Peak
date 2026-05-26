@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - server: "Add better tracking of hard delete"
+  - server: "Fixed a hard delete with reach dummy introduced from a PR 3 months ago."
+  - server: "Disabled hard deletes in imitation of Vanderlin, which should alleviates some of our performance issues especially on highpop"
