@@ -327,10 +327,6 @@
 /obj/item/rogueweapon/woodstaff/quarterstaff,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
-"ade" = (
-/obj/effect/landmark/quest_spawner/generic,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/town)
 "adi" = (
 /obj/structure/flora/roguegrass/water,
 /turf/open/water/river/flow/east,
@@ -322209,7 +322205,7 @@ aFv
 pWT
 pWT
 pWT
-ade
+pWT
 pWT
 pWT
 jhP
@@ -323131,7 +323127,7 @@ aFv
 njB
 pWT
 pWT
-ade
+pWT
 pWT
 pWT
 pWT
