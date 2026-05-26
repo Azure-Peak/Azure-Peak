@@ -47,7 +47,6 @@
 		TRAIT_NOPAINSTUN,
 		TRAIT_NOBREATH,
 		TRAIT_DEATHLESS,
-		TRAIT_NOBURN_RESIST, //because they slowly regenerate and get back up from dying constantly.
 		TRAIT_TOXIMMUNE,
 		TRAIT_CHUNKYFINGERS,
 		TRAIT_NOSLEEP,
@@ -296,9 +295,9 @@
 	zombie.STASPD = 5
 	zombie.STAPER = 5 //You ain't hitting anything but chest outside of biting, let alone looking afar
 	zombie.STAINT = 1
-	zombie.STASTR = 14
-	zombie.STACON = 12 //Slightly above baseline Con only, prevents conmaxxers at 16 or above becoming literally unkillable with sprinting back
-	zombie.STAWIL = 12 //You have to do unarmed fighting, so its uniform
+	zombie.STASTR = 14 //More brawn than brains... Oh wait, you don't have any!
+	zombie.STACON = 12 //Decent but never higher, we automatically regenerate health + can re-attach limbs.
+	zombie.STAWIL = 12 //You have to do unarmed fighting + dodge.
 	last_bite = world.time
 	has_turned = TRUE
 	// Drop whatever's in your mouth, a workaround for being gagged.
