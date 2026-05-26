@@ -63,8 +63,8 @@
 			for(var/datum/wound/wound as anything in get_wounds())
 				wound.heal_wound(3)
 
-	if(!stat && HAS_TRAIT(src, TRAIT_DEADITE)) //Deadites are always regenerating unless sundered. Finish them off or restrain them.
-		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+	if(!stat && HAS_TRAIT(src, TRAIT_DEADITE)) //Deadites are always regenerating unless under the effects of ANY KIND OF firestacks. Finish them off or restrain them.
+		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
 			return
 		handle_wounds()
 		heal_overall_damage(3, 2) //Brute heals better than our burns.
