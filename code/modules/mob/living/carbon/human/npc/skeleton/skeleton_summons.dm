@@ -30,7 +30,6 @@
 			cloak = /obj/item/clothing/cloak/tabard/lich
 		if(3)
 			cloak = /obj/item/clothing/cloak/half/lich
-			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 	H.STASTR = rand(11,13)
 	H.STASPD = 7 //Slightly slower cause you can have a LOT of these guys.
 	H.STACON = 7 //Decently tough, has a lifespan + player tied, will still crumble to fients/numbers.
