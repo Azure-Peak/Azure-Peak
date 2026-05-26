@@ -43,7 +43,7 @@
 
 /datum/supply_pack/rogue/light_armor/studded_leather_cuirass
 	name = "Studded Leather Cuirass, 'Cuir-Bouilli'-Style"
-	cost = 45
+	cost = 50
 	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli)
 
 /datum/supply_pack/rogue/light_armor/heavy_leather_coat
