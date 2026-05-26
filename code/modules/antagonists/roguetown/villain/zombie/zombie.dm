@@ -138,9 +138,9 @@
 	var/datum/language_holder/language_holder = zombie.get_language_holder()
 	language_holder.selected_default_language = /datum/language/undead
 
-	//We take their TRUE stats here because we need to lock in and get them proper
+	//We take their TRUE stats here (we have this FUNCTION WHY WERE WE NOT USING IT REEEEEE)
 	//and set them to be snapshotted in a way we can exclude buff modifiers correctly so we have
-	//Their actual true stats instead of whatever the first thing was supposed to be.
+	//Their actual true stats instead of whatever the everliving shitcoded fuck the first way was supposed to be.
 	src.zombie_original_STR = zombie.get_true_stat(STATKEY_STR)
 	src.zombie_original_SPD = zombie.get_true_stat(STATKEY_SPD)
 	src.zombie_original_PER = zombie.get_true_stat(STATKEY_PER)
