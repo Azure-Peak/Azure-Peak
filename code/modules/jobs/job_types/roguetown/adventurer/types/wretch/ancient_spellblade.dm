@@ -60,7 +60,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
-	mask = /obj/item/clothing/mask/rogue/ragmask/black
+	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich //Stands out
 	backr = /obj/item/rogueweapon/shield/heater
 	backl = /obj/item/storage/backpack/rogue/satchel
 
@@ -173,13 +173,17 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 	H.set_blindness(0)
 
-	var/tabards = list("Black Tabard", "Black Jupon")
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/lich
+			cloak = /obj/item/clothing/cloak/tabard/unboundskele
+		if("Black Cloak")
+			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	// Reorder undead eyes action to the end
 	var/obj/item/organ/eyes/existing_eyes = H.getorganslot(ORGAN_SLOT_EYES)

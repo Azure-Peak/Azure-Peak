@@ -58,6 +58,7 @@
 
 	var/helmets = list(
 		"Gilbranze Knight Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy,
+		"Gilbranze Sayovard Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy,
 	)
 	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
 	if(helmchoice != "None")
@@ -92,13 +93,17 @@
 
 	H.set_blindness(0)
 
-	var/tabards = list("Black Tabard", "Black Jupon")
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/lich
+			cloak = /obj/item/clothing/cloak/tabard/unboundskele
+		if("Black Cloak")
+			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	H.energy = H.max_energy
 

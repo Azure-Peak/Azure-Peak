@@ -106,15 +106,17 @@
 			beltr = /obj/item/rogueweapon/mace/alloy
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 
-	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak")
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/lich
+			cloak = /obj/item/clothing/cloak/tabard/unboundskele
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
@@ -163,15 +165,17 @@
 	backl = /obj/item/quiver/broadhead_aalloy
 	//Knife is default softlock protection sidearm, difference is you don't suck at it here as much.
 
-	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak")
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/lich
+			cloak = /obj/item/clothing/cloak/tabard/unboundskele
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
@@ -230,16 +234,28 @@
 		if("Grand Mace")
 			r_hand = /obj/item/rogueweapon/mace/goden/aalloy
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak")
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/lich
+			cloak = /obj/item/clothing/cloak/tabard/unboundskele
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
 	H.energy = H.max_energy
+
+/obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
+	name = "decrepit jupon"
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who are condemned to march forevermore."
+	color = CLOTHING_BLACK
+
+/obj/item/clothing/cloak/tabard/unboundskele
+	name = "decrepit tabard"
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who once knew of chivalry's allure."
+	color = CLOTHING_BLACK
