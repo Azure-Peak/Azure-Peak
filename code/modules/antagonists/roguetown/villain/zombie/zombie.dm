@@ -312,13 +312,13 @@
 
 	record_round_statistic(STATS_DEADITES_WOKEN_UP) //Turning into a deadite in-general raises this now. ZIZO. ZIZO. ZIZO.
 
-	//small cutscene now we are a zombie, phew! lets make it a little dramatic.
+	//small cutscene now we are a zombie, phew! lets make it a little dramatic. This can probably be done in a far better way but whatever.
 
-	sleep(0.1) //Quickly make sure we already cleared our stuns and stuff
+	sleep(0.1) //Quickly make sure we already cleared our stuns and stuff before applying more, we want to be lightning quick.
 	zombie.Knockdown(35)
 	zombie.Immobilize(35) //Don't want to move during this
 	zombie.Stun(35)
-	zombie.Jitter(15) //Convulse a bit before we stand up again
+	zombie.Jitter(15) //Convulse a bit.
 	zombie.emote("groan") // First audio warning to nearby players on top of the above message
 	zombie.drop_all_held_items()
 	zombie.Unconscious(15) //Brief Knockout
@@ -338,6 +338,7 @@
 	zombie.emote("rage") // This is where the fun begins
 	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
 	to_chat(zombie, span_narsie(pick("SO... HUNGRY... CRAVE FLESH!", "FLESH... MUST HAVE FLESH!", "HUNGER... KILL... FLESH!")))
+	zombie.set_blurriness(0) //Unblind us so we aren't blurred forever
 	if(!zombie.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
 		zombie.toggle_cmode()
 
