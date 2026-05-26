@@ -23,12 +23,6 @@
 	var/soundpack_m
 	var/soundpack_f
 
-	var/STASTR
-	var/STASPD
-	var/STAPER
-	var/STAINT
-	var/STACON
-	var/STAWIL
 	var/cmode_music
 	var/list/base_intents
 
@@ -85,6 +79,44 @@
 	if(istype(examined_datum, /datum/antagonist/lich))
 		return span_boldnotice("Another deadite.")
 
+/atom/movable/screen/alert/status_effect/buff/zombified //Our stat handling "buff
+	name = "zombified"
+	desc = "HUNGER, MUST, HAVE, FLESH"
+	icon_state = "poison"
+
+/datum/status_effect/buff/zombified
+	id = "zombified"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/zombified
+
+/datum/status_effect/buff/zombified/on_apply()
+	owner.visible_message(span_warning("[owner] DEBUG - had zombification added."))
+  /*So how does this work, simply put - we check if you have X stat, if not we take our number and take away your stat from this
+
+  That means we always have the stat change number as our buff/debuff to change your stats to this, its quite a fussy thing to work with
+  But this means that we can keep applying this buff until you de-zombify, constantly changing your statline.
+  Its janky and frankly I would much rather we re-factored buffs to modify an "effective" statline
+  
+  As we can then change your "true" statline for antag roles properly currently our only "reasonable" method that we have is using buffs
+  to inefficently do math to figure out our difference and pray it works, this...
+  
+  isn't super effective as you can imagine and isn't without flaw.
+  */
+
+	effectedstats = list(
+		STATKEY_STR = (14 - owner.STASTR),
+		STATKEY_SPD = (5 - owner.STASPD),
+		STATKEY_INT = (1 - owner.STAINT),
+		STATKEY_CON = (12 - owner.STACON),
+		STATKEY_WIL = (13 - owner.STAWIL),
+		STATKEY_PER = (13 - owner.STAPER)
+		)
+	. = ..()
+	return TRUE
+
+/datum/status_effect/buff/zombified/on_remove()
+	. = ..()
+	owner.visible_message(span_warning("[owner] DEBUG - had zombification removed."))
+
 //Housekeeping/saving variables from pre-zombie
 
 /*Death transformation process goes:
@@ -114,6 +146,7 @@
 
 	Infection transformation process goes -> infection -> timered transform in zombie_infect_attempt() [drink red/holy water and kill timer?] -> /datum/antagonist/zombie/proc/wake_zombie -> zombietransform
 */
+
 /datum/antagonist/zombie/on_gain(admin_granted = FALSE)
 	var/mob/living/carbon/human/zombie = owner?.current
 	if(zombie)
@@ -130,21 +163,11 @@
 		soundpack_f = zombie.dna.species.soundpack_f
 	base_intents = zombie.base_intents
 
-	//Just need to clear it to snapshot. May get things we don't want to get.
-	// A later coder. Sincerely, what the ****???
-	// If we ever need this again, change this to something that removes status effects that are CLEAR to be dispelled by this.
-	// for(var/status_effect in zombie.status_effects)
-	// 	zombie.remove_status_effect(status_effect)
+
 	zombie.grant_language(/datum/language/undead)
 	var/datum/language_holder/language_holder = zombie.get_language_holder()
 	language_holder.selected_default_language = /datum/language/undead
 
-	src.STASTR = zombie.STASTR
-	src.STASPD = zombie.STASPD
-	src.STAPER = zombie.STAPER
-	src.STAINT = zombie.STAINT
-	src.STACON = zombie.STACON
-	src.STAWIL = zombie.STAWIL
 	cmode_music = zombie.cmode_music
 
 	//Special because deadite status is latent as opposed to the others.
@@ -175,19 +198,11 @@
 			cf.ephemeral = FALSE
 		zombie.update_body()
 
-		zombie.STASTR = src.STASTR
-		zombie.STASPD = src.STASPD
-		zombie.STASPD = src.STAPER
-		zombie.STAINT = src.STAINT
-		zombie.STACON = src.STACON
-		zombie.STAWIL = src.STAWIL
-
-
-
 		GLOB.dead_mob_list -= zombie // Remove it from global dead/alive mob list here here, if they're a zombie they probably died.
 									 // There is a better way to maintain it but needs overhaul. Will cover the two methods of zombie
 		GLOB.alive_mob_list += zombie// in both cure rot and medicine.
 
+		zombie.remove_status_effect(/datum/status_effect/buff/zombified)
 		zombie.cmode_music = cmode_music
 
 		for(var/trait in traits_zombie)
@@ -228,7 +243,6 @@
 
 //Housekeeping's done. Transform into zombie.
 /datum/antagonist/zombie/proc/transform_zombie()
-	add_antag_hud(antag_hud_type, antag_hud_name, owner.current) //Easier for zombies to tell, fellow zombies.
 	var/mob/living/carbon/human/zombie = owner.current
 	if(!zombie)
 		qdel(src)
@@ -239,6 +253,8 @@
 		return
 
 	revived = TRUE //so we can die for real later
+	add_antag_hud(antag_hud_type, antag_hud_name, owner.current) //Easier for zombies to tell, fellow zombies.
+	zombie.apply_status_effect(/datum/status_effect/buff/zombified) //Handle our stats
 
 	for(var/trait_applied in traits_zombie)
 		ADD_TRAIT(zombie, trait_applied, "[type]")
@@ -289,15 +305,6 @@
 	to_chat(zombie, span_infection("My mind grows numb and empty as unlyfe takes ahold of my body..."))
 	zombie.cmode_music = 'sound/music/combat_weird.ogg'
 
-
-	// Original first commit values for speed were 5-7 randomly. They can sprint again, lets just keep everything uniform.
-	// We pre-set stats here.
-	zombie.STASPD = 5
-	zombie.STAPER = 5 //You ain't hitting anything but chest outside of biting, let alone looking afar
-	zombie.STAINT = 1
-	zombie.STASTR = 14 //More brawn than brains... Oh wait, you don't have any!
-	zombie.STACON = 12 //Decent but never higher, we automatically regenerate away wounds + can re-attach limbs.
-	zombie.STAWIL = 12 //You have to do unarmed fighting + dodge.
 	last_bite = world.time
 	has_turned = TRUE
 	// Drop whatever's in your mouth, a workaround for being gagged.
