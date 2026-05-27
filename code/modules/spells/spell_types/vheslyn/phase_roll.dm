@@ -37,3 +37,45 @@
 	var/mob/living/living_user = user
 	living_user.apply_status_effect(/datum/status_effect/buff/vheslyn_phase_roll)
 	return TRUE
+
+//Vheslyn phase roll effects are below here.
+#define VHESLYN_PHASE_FILTER "vheslyn_phase_roll"
+
+/atom/movable/screen/alert/status_effect/buff/vheslyn_phase_roll
+	name = "Phase Roll"
+	desc = span_cult("Nothing can hold me for this moment.")
+	icon_state = "daggerdash"
+
+/datum/status_effect/buff/vheslyn_phase_roll
+	id = "vheslyn_phase_roll"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/vheslyn_phase_roll
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 3 SECONDS
+	mob_effect_icon_state = "eff_daggerboost"
+	mob_effect_layer = MOB_EFFECT_LAYER_DBOOST
+	examine_text = "SUBJECTPRONOUN phases through reality with unnatural grace!"
+	var/outline_color = "#9aff9f"
+	effectedstats = list(STATKEY_SPD = 4) //Fucked up, bare in mind I don't intend dodge experts to ever get this. DO not fucking give them this if you're not a sadistic coder.
+
+/datum/status_effect/buff/vheslyn_phase_roll/on_apply()
+	owner.visible_message(span_warning("[owner] phases through reality itself, with profane power."))
+	shake_camera(owner, 5, 3)
+	var/filter = owner.get_filter(VHESLYN_PHASE_FILTER)
+	if(!filter)
+		owner.add_filter(VHESLYN_PHASE_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 160, "size" = 1))
+	owner.pass_flags |= PASSMOB
+	ADD_TRAIT(owner, TRAIT_GRABIMMUNE, TRAIT_STATUS_EFFECT)
+	. = ..()
+
+/datum/status_effect/buff/vheslyn_phase_roll/on_remove()
+	owner.visible_message(span_warning("[owner] stumbles as they slip back into reality."))
+	playsound(owner, 'sound/misc/portalactivate.ogg', 100, TRUE)
+	owner.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS) //Small window to hit them
+	owner.remove_filter(VHESLYN_PHASE_FILTER)
+	owner.pass_flags &= ~PASSMOB
+	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE, TRAIT_STATUS_EFFECT)
+	. = ..()
+
+#undef VHESLYN_PHASE_FILTER
+
+//	owner.adjust_fire_stacks(7, /datum/status_effect/fire_handler/fire_stacks/vheslyn)

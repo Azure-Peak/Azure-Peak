@@ -162,7 +162,10 @@ GLOBAL_LIST_EMPTY(last_words)
 	if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE)) //Vheslynites explode violently upon death out of pure spite and malice.
 		src.flash_fullscreen("redflash3")
 		src.visible_message(span_danger("[src] explodes violently as they are unmade in unholy fire!"))
-		explosion(get_turf(src), light_impact_range = 2, heavy_impact_range = 1, flame_range = 2, smoke = FALSE, soundin = 'sound/misc/explode/incendiary (2).ogg')
+		for (var/mob/living/flame_victim in view(2, src))
+			flame_victim.adjust_fire_stacks(10, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks on nearby people.
+			flame_victim.ignite_mob()
+		explosion(get_turf(src), light_impact_range = 2, heavy_impact_range = 1, smoke = FALSE, soundin = 'sound/misc/explode/incendiary (2).ogg')
 		src.gib()
 
 	// AZURE EDIT BEGIN: necra acolyte/priest deathsight trait
