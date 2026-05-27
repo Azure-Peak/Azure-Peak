@@ -2051,14 +2051,14 @@
 	mob_effect_icon_state = "eff_daggerboost"
 	mob_effect_layer = MOB_EFFECT_LAYER_DBOOST
 	examine_text = "SUBJECTPRONOUN phases through reality with unnatural grace!"
-	var/outline_color = "#6340ff"
+	var/outline_color = "#5fff67"
 	effectedstats = list(STATKEY_SPD = 4) //Fucked up, bare in mind I don't intend dodge experts to ever get this. DO not fucking give them this if you're not a sadistic coder.
 
 /datum/status_effect/buff/vheslyn_phase_roll/on_apply()
 	owner.visible_message(span_warning("[owner] phases through reality itself, with profane power."))
 	var/filter = owner.get_filter(VHESLYN_PHASE_FILTER)
 	if(!filter)
-		owner.add_filter(VHESLYN_PHASE_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 40, "size" = 3))
+		owner.add_filter(VHESLYN_PHASE_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 30, "size" = 1))
 	owner.pass_flags |= PASSMOB
 	ADD_TRAIT(owner, TRAIT_GRABIMMUNE, TRAIT_STATUS_EFFECT)
 	. = ..()

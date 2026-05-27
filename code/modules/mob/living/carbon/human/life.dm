@@ -142,8 +142,9 @@
 			var/datum/status_effect/fire_handler/fire_stacks/fire_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks)
 			var/datum/status_effect/fire_handler/fire_stacks/sunder_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder)
 			var/datum/status_effect/fire_handler/fire_stacks/divine_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/divine)
+			var/datum/status_effect/fire_handler/fire_stacks/vheslyn_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/vheslyn)
 			var/datum/status_effect/fire_handler/fire_stacks/sunder/blessed/blessed_sunder = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
-			if(fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks > 10)
+			if(fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + vheslyn_status?.stacks + blessed_sunder?.stacks > 10)
 				Immobilize(30)
 				emote("firescream", TRUE)
 			else

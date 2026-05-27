@@ -273,6 +273,14 @@
 	victim?.dna?.species?.handle_fire(victim, no_protection)
 	victim.adjustFireLoss(10)
 
+/datum/status_effect/fire_handler/fire_stacks/vheslyn
+	id = "fire_stacks_vheslyn"
+
+/datum/status_effect/fire_handler/fire_stacks/vheslyn/harm_human(seconds_per_tick, no_protection = FALSE)
+	var/mob/living/carbon/human/victim = owner
+	victim?.dna?.species?.handle_fire(victim, no_protection)
+	victim.adjustFireLoss(8) //Slightly less because they're harder to resist off
+
 /datum/status_effect/fire_handler/fire_stacks/sunder
 	id = "fire_stacks_sunder"
 	fire_alert_type = /atom/movable/screen/alert/fire/sunder

@@ -159,13 +159,10 @@ GLOBAL_LIST_EMPTY(last_words)
 		LoadComponent(rot_type)
 
 	clear_typing_indicator()
-	if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE)) //Vheslynites explode violently upon death out of pure spite and malice. Standing on top of them is a horrible idea.
-		src.visible_message(span_warning("[src] begins to violently convulse! Their skin shifting like something is underneath it, something is <b>very wrong!</b>"))
-		playsound(src, 'sound/magic/woundheal_crunch.ogg')
-		src.Jitter(40) //We violently start shaking
-		sleep(4)
-		src.visible_message(span_bloody("[src] explodes violently as they are unmade in unholy fire!"))
-		explosion(get_turf(src), light_impact_range = 2, heavy_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = 'sound/misc/explode/incendiary (2).ogg')
+	if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE)) //Vheslynites explode violently upon death out of pure spite and malice.
+		src.flash_fullscreen("redflash3")
+		src.visible_message(span_danger("[src] explodes violently as they are unmade in unholy fire!"))
+		explosion(get_turf(src), light_impact_range = 2, heavy_impact_range = 1, flame_range = 2, smoke = FALSE, soundin = 'sound/misc/explode/incendiary (2).ogg')
 		src.gib()
 
 	// AZURE EDIT BEGIN: necra acolyte/priest deathsight trait
