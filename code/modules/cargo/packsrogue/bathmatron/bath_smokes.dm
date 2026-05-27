@@ -38,7 +38,7 @@
 	cost = 40
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/chocolate)
 	
-/datum/supply_pack/rogue/bath_smokes/scig
+/datum/supply_pack/rogue/bath_smokes/sbcig
 	name = "Strawberry Zig"
 	cost = 7
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/strawberry)
@@ -53,12 +53,12 @@
 	cost = 5
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/lime)
 
-/datum/supply_pack/rogue/bath_smokes/jcig
+/datum/supply_pack/rogue/bath_smokes/jbcig
 	name = "Jacksberries zig"
 	cost = 5
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/jacksberries)
 
-/datum/supply_pack/rogue/bath_smokes/salviacig
+/datum/supply_pack/rogue/bath_smokes/scig
 	name = "Salvia Zig"
 	cost = 7
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/salvia)
