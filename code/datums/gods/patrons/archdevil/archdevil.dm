@@ -5,13 +5,24 @@
 	worshippers = "Accelerationists, Extremists, Nihilists, Sadists, Freaks, Wretches, and You."
 	associated_faith = /datum/faith/accelerationism
 	mob_traits = list(TRAIT_UNFORGIVABLE, TRAIT_DNR, TRAIT_NOMOOD, TRAIT_DETACHED, TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_PSYCHOSIS) //You're not humen, no, there's no humenity in you.
-	preference_accessible = TRUE
+	profane_words = list("psydon", "allfather") //SPEAKETH ALL THOU SIN THOU WISH, BUT SPEAK NAUGHT THE NAME O' THE DECIEVER
+	preference_accessible = FALSE //LOL, NO
 	undead_hater = TRUE
 	//Intended more as final bouts of unholy spite, confessing will violently kill YOU and the PERSON doing a confession from you.
 	confess_lines = list(
-		"HELL IS REAL!! LET CHAOS BE OUR LAMPTERN!!",
-		"KILL THEM ALL, ALL OF THEM!!",
+		"HELL IS REAL!! CHAOS WILL ALWAYS TRIUMPH!!",
+		"KILL THEM ALL, ALL OF THEM!! YOU CANNOT STOP FATE!!",
 		"I KNOW WHAT I AM!! DO YOU KNOW WHAT YOU ARE?!!",
+	)
+
+	//I guess, not like it matters sire, Vheslyn is dead
+	titles = list(
+		"Great Worm",
+		"Leviathan",
+		"Defiler",
+		"Unmaker",
+		"Archdevil",
+		"Earth Mover"
 	)
 
 	//literally evil incarnate, there are no holy casters, there are no miracles. You have to draw power from something... else..

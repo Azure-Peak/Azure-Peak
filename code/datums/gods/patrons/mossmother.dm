@@ -5,6 +5,7 @@
 	worshippers = "Hags"
 	associated_faith = /datum/faith/mossmother
 	preference_accessible = FALSE
+	profane_words = list("cock","dick","fuck","shit","pussy","cuck","cunt","asshole", "pintle", "vheslyn") //Same as Inhuman list
 	undead_hater = FALSE
 	confess_lines = list(
 		"THE MOSSMOTHER SEES YOU!",

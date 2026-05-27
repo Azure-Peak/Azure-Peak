@@ -165,6 +165,7 @@ GLOBAL_LIST_EMPTY(last_words)
 		for (var/mob/living/flame_victim in view(2, src))
 			flame_victim.adjust_fire_stacks(10, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks on nearby people.
 			flame_victim.ignite_mob()
+			to_chat(flame_victim, span_infection("you are violently set ablaze in unholy fire!"))
 		explosion(get_turf(src), light_impact_range = 2, heavy_impact_range = 1, smoke = FALSE, soundin = 'sound/misc/explode/incendiary (2).ogg')
 		src.gib()
 

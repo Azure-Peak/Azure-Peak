@@ -5,6 +5,7 @@
 	worshippers = "Madmen, beasts and some dwarves"
 	associated_faith = /datum/faith/godless
 	preference_accessible = FALSE
+	profane_words = NULL //Nobody is powerful enough to smite you, godless appostate.
 	undead_hater = FALSE
 	confess_lines = list(
 		"Gods are WORTHLESS!",
