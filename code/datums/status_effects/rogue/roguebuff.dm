@@ -2034,6 +2034,46 @@
 	if(!istype(M.get_active_held_item(), held_dagger))
 		M.remove_status_effect(/datum/status_effect/buff/dagger_boost)
 
+//Vheslyn powers go here, UNMAKE YOUR WORLD - These are all obvious in-action and clear as day they're not ascendant nor tennite nor Psydonic in nature
+//These are demonic arts used by monsters, not people. Balancejak in mind with the fact anyone using this is immedately hard RR'd on death..
+#define VHESLYN_PHASE_FILTER "vheslyn_phase_roll"
+
+/atom/movable/screen/alert/status_effect/buff/vheslyn_phase_roll
+	name = "Phase Roll"
+	desc = "Nothing can hold me for this moment."
+	icon_state = "daggerdash"
+
+/datum/status_effect/buff/vheslyn_phase_roll
+	id = "vheslyn_phase_roll"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/vheslyn_phase_roll
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 3 SECONDS
+	mob_effect_icon_state = "eff_daggerboost"
+	mob_effect_layer = MOB_EFFECT_LAYER_DBOOST
+	examine_text = "SUBJECTPRONOUN phases through reality with unnatural grace!"
+	var/outline_color = "#6340ff"
+	effectedstats = list(STATKEY_SPD = 4) //Fucked up, bare in mind I don't intend dodge experts to ever get this. DO not fucking give them this if you're not a sadistic coder.
+
+/datum/status_effect/buff/vheslyn_phase_roll/on_apply()
+	owner.visible_message(span_warning("[owner] phases through reality itself, with profane power."))
+	var/filter = owner.get_filter(VHESLYN_PHASE_FILTER)
+	if(!filter)
+		owner.add_filter(VHESLYN_PHASE_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 40, "size" = 3))
+	owner.pass_flags |= PASSMOB
+	ADD_TRAIT(owner, TRAIT_GRABIMMUNE, TRAIT_STATUS_EFFECT)
+	. = ..()
+
+/datum/status_effect/buff/vheslyn_phase_roll/on_remove()
+	owner.visible_message(span_warning("[owner] stumbles as they slip back into reality."))
+	playsound(owner, 'sound/misc/portalactivate.ogg', 100, TRUE)
+	owner.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS) //Small window to hit them
+	owner.remove_filter(VHESYLN_PHASE_FILTER)
+	owner.pass_flags &= ~PASSMOB
+	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE, TRAIT_STATUS_EFFECT)
+	. = ..()
+
+#undef VHESLYN_PHASE_FILTER
+
 // special lirvas dragonskin buffs
 /datum/status_effect/buff/lirvan_broken_scales
 	id = "lirvan_broken_scales"
