@@ -243,3 +243,8 @@
 	name = "Prosthetic Wood Leg (R)"
 	cost = 15
 	contains = list(/obj/item/bodypart/r_leg/prosthetic)
+
+/datum/supply_pack/rogue/tools/pot
+	name = "Iron Pot"
+	cost = 12
+	contains = list(/obj/item/reagent_containers/glass/bucket/pot)

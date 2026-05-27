@@ -47,6 +47,8 @@ The dead has no voice in this. The world is not progressive enough for that.
 		return TRUE
 	if(user.job in GLOB.sidefolk_positions)
 		return TRUE
+	if(user.job == "Shophand")
+		return TRUE
 	return FALSE
 
 /datum/usurpation_rite/popular_acclaim/on_gathering_started()

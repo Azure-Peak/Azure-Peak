@@ -421,7 +421,6 @@
 	desc = "A massive hunk, born from the incoherent fusion of molten iron. Chunks of ore-and-ingotry peak out from its jagged surface, yearning to be refined - be it into ingots, or something more purposeful."
 	icon_state = "component_berserkheap"
 	smeltresult = /obj/item/rogueore/iron
-	sellprice = 44
 	smelt_bar_num = 4
 
 /obj/item/ingot/component/berserkswordblade
@@ -429,7 +428,6 @@
 	desc = "A massive blade, forged from a raw heap of iron. The unique spike-styled tang seems to be longer than what'd be seen on most greatswords, stowable only by the innards of a fittingly large handle."
 	icon_state = "component_berserkblade"
 	smeltresult = /obj/item/ingot/iron
-	sellprice = 33
 	smelt_bar_num = 3
 
 /obj/item/ingot/component/berserkswordgrip

@@ -11,6 +11,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	anvilrepair = /datum/skill/craft/armorsmithing
 	visual_replacement = /obj/item/clothing/head/roguetown/crown/fakecrown
+	no_loot_taint = TRUE
 	var/listening = TRUE
 	var/speaking = TRUE
 	var/loudmouth_listening = TRUE

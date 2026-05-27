@@ -383,8 +383,7 @@ const ComposeView = () => {
           return (
             <div
               style={{
-                fontSize: '11px',
-                fontStyle: 'italic',
+                fontSize: '12px',
                 color: '#6b4e2a',
                 padding: '2px 0 6px 0',
                 marginLeft: '6px',

@@ -44,6 +44,7 @@
 	var/aliases = ""
 	var/list/cached_display_data
 	var/cached_category
+	var/display_category
 /*
 /datum/crafting_recipe/example
 	name = ""
@@ -61,7 +62,20 @@
 	data["name"] = name
 	data["ref"] = "[REF(src)]"
 	data["path"] = type
-	data["sellprice"] = sellprice
+	var/resolved_sellprice = sellprice
+	var/result_path
+	if(islist(result))
+		var/list/result_list = result
+		if(result_list.len)
+			result_path = result_list[1]
+	else if(ispath(result, /atom/movable))
+		result_path = result
+	if(!resolved_sellprice && result_path)
+		resolved_sellprice = initial(result_path:sellprice)
+		if(!resolved_sellprice && GLOB.derived_sellprices)
+			resolved_sellprice = GLOB.derived_sellprices[result_path] || lookup_derived_subtype_price(result_path)
+	data["sellprice"] = resolved_sellprice
+	data["has_item_quality"] = result_path && ispath(result_path, /obj/item) ? initial(result_path:has_item_quality) : FALSE
 	data["craftingdifficulty"] = skill_to_string(craftdiff)
 
 	var/req_text = ""

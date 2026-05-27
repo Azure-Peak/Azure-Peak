@@ -10,6 +10,9 @@
 		for(var/X in GLOB.burgher_positions)
 			peopleiknow += X
 			peopleknowme += X
+		for(var/X in GLOB.atc_positions)
+			peopleiknow += X
+			peopleknowme += X
 		for(var/X in GLOB.church_positions)
 			peopleiknow += X
 			peopleknowme += X

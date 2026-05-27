@@ -607,28 +607,28 @@
 ///to add blood from a mob onto something, and transfer their dna info
 /atom/proc/add_mob_blood(mob/living/M)
 	var/list/blood_dna = M.get_blood_dna_list()
-	if(!blood_dna)
-		return FALSE
 	var/source_color = M.get_blood_color() || BLOOD_COLOR_RED
-	if(ismob(src))
-		var/mob/recipient = src
-		recipient.bloody_hands_color = source_color
-	. = add_blood_DNA(blood_dna)
+	if(length(blood_dna))
+		. = add_blood_DNA(blood_dna)
 	if(ismob(src))
 		var/mob/recipient = src
 		recipient.bloody_hands_color = source_color
 		if(ishuman(recipient))
 			var/mob/living/carbon/human/H = recipient
-			if(H.bloody_hands && !H.gloves)
-				H.update_inv_gloves()
-			if(H.shoes)
+			if(H.gloves)
+				var/datum/component/decal/blood/glove_blood = H.gloves.LoadComponent(/datum/component/decal/blood)
+				glove_blood?.set_blood_color(source_color)
+			else if(!H.bloody_hands)
+				H.bloody_hands = rand(2, 4)
+			H.update_inv_gloves()
+			if(istype(H.shoes, /obj/item/clothing/shoes))
 				var/obj/item/clothing/shoes/S = H.shoes
-				if(istype(S))
-					var/datum/component/decal/blood/shoe_blood = S.GetComponent(/datum/component/decal/blood)
-					shoe_blood?.set_blood_color(source_color)
-					H.update_inv_shoes()
-	var/datum/component/decal/blood/B = GetComponent(/datum/component/decal/blood)
-	B?.set_blood_color(source_color)
+				var/datum/component/decal/blood/shoe_blood = S.LoadComponent(/datum/component/decal/blood)
+				shoe_blood?.set_blood_color(source_color)
+				H.update_inv_shoes()
+	else if(isitem(src))
+		var/datum/component/decal/blood/B = LoadComponent(/datum/component/decal/blood)
+		B?.set_blood_color(source_color)
 
 ///Called when gravity returns after floating I think
 /atom/proc/handle_fall()

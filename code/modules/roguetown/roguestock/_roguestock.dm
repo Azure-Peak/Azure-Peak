@@ -48,8 +48,9 @@
 /datum/roguestock/proc/compute_auto_prices(datum/trade_good/tg)
 	if(!tg)
 		return
-	var/import_ref = max(1, round(tg.base_price * tg.global_price_mod))
-	var/export_ref = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+	var/unit_price = (tg.item_type && GLOB.derived_sellprices[tg.item_type]) || tg.base_price
+	var/import_ref = max(1, round(unit_price * tg.global_price_mod))
+	var/export_ref = max(1, round(unit_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
 	var/buy_target = min(round(export_ref * (1 - IMPORT_EXPORT_SPREAD)), export_ref - 1)
 	payout_price = max(1, buy_target)
 	withdraw_price = import_ref
@@ -86,9 +87,10 @@
 		tg = GLOB.trade_goods[trade_good_id]
 	if(!tg)
 		return
-	var/export_ref = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+	var/unit_price = (tg.item_type && GLOB.derived_sellprices[tg.item_type]) || tg.base_price
+	var/export_ref = max(1, round(unit_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
 	cached_market_deposit_price = max(1, min(round(export_ref * (1 - IMPORT_EXPORT_SPREAD)), export_ref - 1))
-	cached_market_withdraw_price = max(1, round(tg.base_price * tg.global_price_mod))
+	cached_market_withdraw_price = max(1, round(unit_price * tg.global_price_mod))
 
 /datum/roguestock/proc/get_market_price()
 	return get_market_deposit_price()
@@ -131,6 +133,39 @@
 			color = "#c84"
 	return " <font color='[color]'>([sign_str]% [label])</font>"
 
+/// Returns "SHORTAGE", "GLUT", or "" - the plain event label without HTML.
+/datum/roguestock/proc/get_event_label()
+	if(!trade_good_id)
+		return ""
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(!(trade_good_id in E.affected_goods))
+			continue
+		if(E.event_type == ECON_EVENT_SHORTAGE)
+			return "SHORTAGE"
+		if(E.event_type == ECON_EVENT_OVERSUPPLY)
+			return "GLUT"
+	return ""
+
+/datum/roguestock/proc/get_shortage_progress()
+	if(!trade_good_id)
+		return null
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(E.event_type != ECON_EVENT_SHORTAGE)
+			continue
+		if(!(trade_good_id in E.affected_goods))
+			continue
+		var/list/good_names = list()
+		for(var/good_id in E.affected_goods)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			good_names += (tg && tg.name) ? tg.name : good_id
+		return list(
+			"progress" = E.saturation_progress,
+			"target" = E.saturation_target,
+			"affected" = jointext(good_names, ", "),
+		)
+	return null
+
+/// Returns a span tag naming the active event affecting this good, or "" if none.
 /datum/roguestock/proc/get_event_tag()
 	if(!trade_good_id)
 		return ""

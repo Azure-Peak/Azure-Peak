@@ -53,10 +53,10 @@
 	craftdiff = 0
 
 /datum/anvil_recipe/engineering/chains
-	name = "Chains"
+	name = "Chains (x2)"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/rope/chain
-	createditem_num = 1
+	createditem_num = 2
 	craftdiff = 0
 
 /datum/anvil_recipe/engineering/ironscissors

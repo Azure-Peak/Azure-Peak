@@ -18,7 +18,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	storyteller_slot_scaling = 2
 	storyteller_maxcaps = list(/datum/storyteller/astrata = 2)
 	antag_hud_type = ANTAG_HUD_VAMPIRE
-	antag_hud_name = "Vspawn"
+	antag_hud_name = "vamp_spawn_hud"
 	confess_lines = list(
 		"I WANT YOUR BLOOD!",
 		"DRINK THE BLOOD!",

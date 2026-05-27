@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/hunting
 	abstract_type = /datum/crafting_recipe/roguetown/hunting/
+	display_category = ITEM_CAT_TOOLS_FIELD
 	skillcraft = /datum/skill/misc/hunting
 	// I don't want people to use this to substitute actual hunting
 	xp_modifier = 0.1

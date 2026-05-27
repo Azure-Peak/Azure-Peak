@@ -58,6 +58,11 @@
 	cost = 5
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/jacksberries)
 
+/datum/supply_pack/rogue/bath_smokes/salviacig
+	name = "Salvia Zig"
+	cost = 7
+	contains = list(/obj/item/clothing/mask/cigarette/rollie/salvia)
+
 /datum/supply_pack/rogue/bath_smokes/cigar
 	name = "Zigar"
 	cost = 20
