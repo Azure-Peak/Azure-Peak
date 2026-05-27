@@ -125,8 +125,8 @@
 	smeltresult = null
 	resistance_flags = FIRE_PROOF
 	smelted = TRUE
+	has_item_quality = TRUE
 	var/datum/anvil_recipe/currecipe
-	var/quality = SMELTERY_LEVEL_NORMAL
 	grid_width = 64
 	grid_height = 32
 
@@ -137,30 +137,38 @@
 
 /obj/item/ingot/Initialize(mapload, smelt_quality)
 	. = ..()
-	if(!smelt_quality)
-		return
-	quality = smelt_quality
-	switch(quality)
-		if(SMELTERY_LEVEL_SPOIL)
-			name = "spoilt [name]"
-			desc += " It is practically scrap."
-			sellprice *= 0.5
-		if(SMELTERY_LEVEL_POOR)
-			name = "poor-quality [name]"
-			desc += " It is of dubious quality." // EA NASSIR, WHEN I GET YOU...
-			sellprice *= 0.8
-		if(SMELTERY_LEVEL_GOOD)
-			name = "good-quality [name]"
-			desc += " It is of notable quality."
-			sellprice *= 1.1
-		if(SMELTERY_LEVEL_GREAT)
-			name = "great-quality [name]"
-			desc += " It is of remarkable quality. Fit for ambitious endeavours."
-			sellprice *= 1.2
-		if(SMELTERY_LEVEL_EXCELLENT)
-			name = "excellent-quality [name]"
-			desc += " It is of exquisite quality. It [pick("yearns","begs","demands")] to be turned into a masterwork."
-			sellprice *= 1.3
+	if(smelt_quality)
+		apply_smelt_quality(smelt_quality)
+
+/obj/item/ingot/proc/apply_smelt_quality(smelt_quality)
+	item_quality = smelt_quality
+	name = initial(name)
+	desc = initial(desc)
+	var/prefix
+	switch(item_quality)
+		if(ITEM_QUALITY_AWFUL)
+			prefix = ITEM_QUALITY_PREFIX_AWFUL
+			desc = "[initial(desc)] It is practically scrap."
+		if(ITEM_QUALITY_CRUDE)
+			prefix = ITEM_QUALITY_PREFIX_CRUDE
+			desc = "[initial(desc)] It is of dubious quality."
+		if(ITEM_QUALITY_ROUGH)
+			prefix = ITEM_QUALITY_PREFIX_ROUGH
+		if(ITEM_QUALITY_STANDARD)
+			prefix = null
+		if(ITEM_QUALITY_FINE)
+			prefix = ITEM_QUALITY_PREFIX_FINE
+			desc = "[initial(desc)] It is of notable quality."
+		if(ITEM_QUALITY_FLAWLESS)
+			prefix = ITEM_QUALITY_PREFIX_FLAWLESS
+			desc = "[initial(desc)] It is of remarkable quality. Fit for ambitious endeavours."
+		if(ITEM_QUALITY_MASTERWORK)
+			prefix = ITEM_QUALITY_PREFIX_MASTERWORK
+			desc = "[initial(desc)] It is of exquisite quality. It [pick("yearns","begs","demands")] to be turned into a masterwork."
+	if(prefix)
+		name = "[prefix] [initial(name)]"
+	if(initial(sellprice) > 0)
+		sellprice = max(1, round(initial(sellprice) * ITEM_QUALITY_MULT(item_quality)))
 
 /obj/item/ingot/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/rogueweapon/tongs))

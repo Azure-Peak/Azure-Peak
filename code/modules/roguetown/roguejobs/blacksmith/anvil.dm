@@ -39,8 +39,8 @@
 					hingot.currecipe.item_added(user)
 					if(istype(T.hingot, /obj/item/ingot))
 						var/obj/item/ingot/I = T.hingot
-						hingot.currecipe.material_quality += I.quality
-						previous_material_quality = I.quality
+						hingot.currecipe.material_quality += I.item_quality
+						previous_material_quality = I.item_quality
 					else
 						hingot.currecipe.material_quality += previous_material_quality
 					hingot.currecipe.num_of_materials += 1
@@ -139,8 +139,8 @@
 		hingot.currecipe.item_added(user)
 		if(istype(W, /obj/item/ingot))
 			var/obj/item/ingot/I = W
-			hingot.currecipe.material_quality += I.quality
-			previous_material_quality = I.quality
+			hingot.currecipe.material_quality += I.item_quality
+			previous_material_quality = I.item_quality
 		else
 			hingot.currecipe.material_quality += previous_material_quality
 		hingot.currecipe.num_of_materials += 1
@@ -222,10 +222,10 @@
 				return TRUE
 
 			hingot.currecipe = new recipe.type(hingot)
-			hingot.currecipe.bar_health = 50 * (hingot.quality+1)
+			hingot.currecipe.bar_health = 50 * (hingot.item_quality+1)
 			hingot.currecipe.max_progress = 100
-			hingot.currecipe.material_quality += hingot.quality
-			previous_material_quality = hingot.quality
+			hingot.currecipe.material_quality += hingot.item_quality
+			previous_material_quality = hingot.item_quality
 			ui.close()
 			var/obj/item/rogueweapon/hammer/hammer = user.get_active_held_item()
 			if(istype(hammer))

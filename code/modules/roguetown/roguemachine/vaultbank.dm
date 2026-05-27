@@ -405,9 +405,9 @@
 			. += span_notice("[F.name]'s balance is sealed from afar. Step closer to count the coin.")
 	else
 		. += span_warning("This jawbank is unbound to any treasury. Notify staff.")
-	. += span_info("Only [get_authority_label()] may withdraw or draft writs of loan from this jawbank.")
-	. += span_info("Strike it with any weapon to throttle coins loose - heavier strikes are louder and more reliable. When coin spills, the clattering will be loud.")
-	. += span_notice("The Jawbank is not interactable with directly, and only serves as a physical anchor for institutional funds. To withdraw your funds or use them, use a Meister and the Institutional tab. Jawbanks can be robbed physically with weapons.")
+	. += span_info("The Jawbank is not interactable with directly, and only serves as a physical anchor for institutional funds. To withdraw your funds or use them, use a Meister and the Institutional tab instead.")
+	. += span_info("Strike it with any weapon to throttle coins loose - heavier strikes are louder and more reliable. When coin spills, people nearby and on other Z-level will hear the commotion.")
+
 
 /obj/structure/roguemachine/vaultbank/proc/get_authority_label()
 	return "the Steward, Clerk, Grand Duke, or Regent"
