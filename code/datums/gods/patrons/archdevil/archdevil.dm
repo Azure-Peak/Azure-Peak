@@ -14,6 +14,9 @@
 		"I KNOW WHAT I AM!! DO YOU KNOW WHAT YOU ARE?!!",
 	)
 
+	//literally evil incarnate, there are no holy casters, there are no miracles. You have to draw power from something... else..
+	//Also because Vheslyn is fucking dead, you're shit outta luck sire, the COMET SYON ended the archdevil. You're more of... a reminant of that corruption.
+
 /datum/patron/vheslyn/can_pray(mob/living/follower) //You already knew that answer
 	. = ..()
 	. = FALSE

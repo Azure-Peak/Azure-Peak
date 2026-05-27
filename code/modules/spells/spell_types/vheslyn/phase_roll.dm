@@ -28,7 +28,7 @@
 	releasedrain = 10 //Light cost but its falloff opens you to a free hit through parries.
 	range = 0
 
-/obj/effect/proc_holder/spell/self/vheslyn_phase_roll/cast(list/targets, mob/user)
+/obj/effect/proc_holder/spell/selfvheslyn/vheslyn_phase_roll/cast(list/targets, mob/user)
 	. = ..()
 	if(!isliving(user))
 		revert_cast()
