@@ -24,7 +24,7 @@
 	clothes_req = FALSE
 	invocations = list("UN'MAKAR'SAR'IN!", "LE'SELIA WRL'LD!", "I'RISIA TAK'ATI' HELL!") //Unmake my flesh, let me slip the world, I'll take you to hell - gibberish-ified
 	invocation_type = "shout"
-	sound = (pick('sound/magic/diminish1.ogg', 'sound/magic/diminish2.ogg', 'sound/magic/diminish3.ogg', 'sound/magic/diminish4.ogg'))
+	sound = 'sound/magic/diminish1.ogg'
 	releasedrain = 10 //Light cost but its falloff opens you to a free hit through parries.
 	range = 0
 
