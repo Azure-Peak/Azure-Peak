@@ -4,7 +4,7 @@
 	desc = "The Archdevil, the Great Worm, the Earth Mover, the Leviathan, the Defiler, the Unmaker. The rottting worm at the center of a discarded apple. The embodiment of pure evil that seeketh to sunder the world in fire and agony, to return it all to nonexistence. There will be no forgiveness or mercy for you, and you will give none in return."
 	worshippers = "Accelerationists, Extremists, Nihilists, Sadists, Freaks, Wretches, and You."
 	associated_faith = /datum/faith/accelerationism
-	mob_traits = list(TRAIT_UNFORGIVABLE, TRAIT_DNR, TRAIT_MOODLESS, TRAIT_DETACHED, TRAIT_NOPAIN, TRAIT_NOPAINSTUN) //You're not humen, no, there's no humenity in you.
+	mob_traits = list(TRAIT_UNFORGIVABLE, TRAIT_DNR, TRAIT_NOMOOD, TRAIT_DETACHED, TRAIT_NOPAIN, TRAIT_NOPAINSTUN) //You're not humen, no, there's no humenity in you.
 	preference_accessible = TRUE
 	undead_hater = TRUE
 	//Intended more as final bouts of unholy spite, confessing will violently kill YOU and the PERSON doing a confession from you.

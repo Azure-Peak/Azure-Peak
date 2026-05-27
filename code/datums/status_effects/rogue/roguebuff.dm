@@ -2067,7 +2067,7 @@
 	owner.visible_message(span_warning("[owner] stumbles as they slip back into reality."))
 	playsound(owner, 'sound/misc/portalactivate.ogg', 100, TRUE)
 	owner.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS) //Small window to hit them
-	owner.remove_filter(VHESYLN_PHASE_FILTER)
+	owner.remove_filter(VHESLYN_PHASE_FILTER)
 	owner.pass_flags &= ~PASSMOB
 	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE, TRAIT_STATUS_EFFECT)
 	. = ..()
