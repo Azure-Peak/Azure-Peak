@@ -386,13 +386,11 @@
 
 /datum/status_effect/buff/abyss/on_apply()
 	. = ..()
-	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, id)
 
 /datum/status_effect/buff/abyss/on_remove()
-	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, id)
 	. = ..()
-
-
 
 /datum/status_effect/buff/fermented_crab
 	id = "fermented_crab"
