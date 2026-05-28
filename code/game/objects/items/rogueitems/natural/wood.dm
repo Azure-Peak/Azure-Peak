@@ -466,8 +466,6 @@
 				return
 			to_chat(user, span_warning("The [user] breaks an [I] into small parts with the stake!"))
 			new /obj/item/scrap(get_turf(I))
-			new /obj/item/scrap(get_turf(I))
-			new /obj/item/scrap(get_turf(I))
 			qdel(I)
 		if(I.anvilrepair)
 			if(I.smeltresult == /obj/item/ingot/iron)
