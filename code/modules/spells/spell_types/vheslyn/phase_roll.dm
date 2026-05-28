@@ -45,7 +45,7 @@
 /atom/movable/screen/alert/status_effect/buff/vheslyn_phase_roll
 	name = "Phase Roll"
 	desc = span_cult("Nothing can hold me for this moment.")
-	icon_state = "daggerdash"
+	icon_state = "vheslynphase"
 
 /datum/status_effect/buff/vheslyn_phase_roll
 	id = "vheslyn_phase_roll"
@@ -59,7 +59,7 @@
 	effectedstats = list(STATKEY_SPD = 4) //Fucked up, bare in mind I don't intend dodge experts to ever get this. DO not fucking give them this if you're not a sadistic coder.
 
 /datum/status_effect/buff/vheslyn_phase_roll/on_apply()
-	owner.visible_message(span_warning("[owner] phases through reality itself, with profane power."))
+	owner.visible_message(span_warning("[owner] phases through reality itself, with corrupted magicka."))
 	shake_camera(owner, 5, 3)
 	var/filter = owner.get_filter(VHESLYN_PHASE_FILTER)
 	if(!filter)

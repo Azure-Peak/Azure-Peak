@@ -7,8 +7,6 @@
 	button_icon_state = "unmake"
 	charge_required = FALSE
 	click_to_activate = FALSE
-	primary_resource_type = SPELL_COST_ENERGY
-	primary_resource_cost = 10
 	cooldown_time = 5 SECONDS //Intended to be very short, this is a suicide spell sire.
 	invocations = "UN'MER'KI SELIA!" //UNMAKE ME! - gibberished
 	associated_skill = /datum/skill/magic/arcane
