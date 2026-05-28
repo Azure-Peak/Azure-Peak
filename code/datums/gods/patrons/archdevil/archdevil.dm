@@ -30,6 +30,7 @@
 	//literally evil incarnate, there are no holy casters, there are no miracles. - Vheslyn is fucking dead.
 	//You have to draw power from unstable magicka, corrupted with your own essence to make a pale imitation of that divine spark - that is to say, you get custom magic on classes.
 	//Yes, a pale imitation. You don't pray, you don't gather, your spells will be detrimental to everyone that isn't you one way or another.
+	//Its also why your incantations are fucked up, these are essentally a bastardisation of several things into something that shouldn't exist.
 
 /datum/patron/vheslyn/can_pray(mob/living/follower) //You already knew that answer
 	. = ..()
