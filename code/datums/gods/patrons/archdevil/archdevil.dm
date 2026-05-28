@@ -8,9 +8,10 @@
 	profane_words = list("psydon", "allfather") //SPEAKETH ALL THOU SIN THOU WISH, BUT SPEAK NAUGHT THE NAME O' THE DECIEVER
 	preference_accessible = FALSE //LOL, NO
 	undead_hater = TRUE
-	//Intended more as final bouts of unholy spite, confessing will violently kill YOU and the PERSON doing a confession from you.
+	//Unforgivable evil to a comedic extent.
 	confess_lines = list(
 		"HELL IS REAL!! CHAOS WILL ALWAYS TRIUMPH!!",
+		"THE WEEPER WEEPS NO MORE!! SOON THE WORLD WILL JOIN!!",
 		"KILL THEM ALL, ALL OF THEM!! YOU CANNOT STOP FATE!!",
 		"I KNOW WHAT I AM!! DO YOU KNOW WHAT YOU ARE?!!",
 	)
