@@ -800,10 +800,14 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/proc/make_babies() // <3 <3 <3
 	if(gender != FEMALE || stat || next_scan_time > world.time || !childtype || !animal_species || !SSticker.IsRoundInProgress())
 		return
-	var/area/A = get_area(src)
-	// animals won't breed indoors
-	if(!A?.outdoors)
+	var/turf/T = get_turf(src)
+
+	if(!istype(T, /turf/open/floor/rogue/dirt) && \
+	   !istype(T, /turf/open/floor/rogue/hay) && \
+	   !istype(T, /turf/open/floor/rogue/grass) && \
+	   !istype(T, /turf/open/floor/rogue/grassyel))
 		return
+
 	if(GLOB.farm_animals >= MAX_FARM_ANIMALS)
 		return
 	if(food < 10)
@@ -1229,10 +1233,14 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
     return .
 
 /mob/living/simple_animal/proc/eat_plants()
-	var/area/A = get_area(src)
-	// animals won't eat indoors
-	if(!A?.outdoors)
+	var/turf/T = get_turf(src)
+
+	if(!istype(T, /turf/open/floor/rogue/dirt) && \
+	   !istype(T, /turf/open/floor/rogue/hay) && \
+	   !istype(T, /turf/open/floor/rogue/grass) && \
+	   !istype(T, /turf/open/floor/rogue/grassyel))
 		return
+
 	var/obj/item/reagent_containers/food/I = locate(/obj/item/reagent_containers/food) in loc
 	if(is_type_in_list(I, food_type))
 		qdel(I)
