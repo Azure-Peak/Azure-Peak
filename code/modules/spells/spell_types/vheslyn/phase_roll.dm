@@ -17,6 +17,7 @@
 /obj/effect/proc_holder/spell/self/vheslyn/vheslyn_phase_roll
 	name = "Phase Roll"
 	desc = "Invoke Daemonic void energies to phase through flesh and steel alyke."
+	fluff_desc = "`When the SYON, was sent down by Psydon to topple Vheslyn, the world was met with a blinding light and then silence... Just like that, a great evil slain. However the surviving cultists of the Earth mover were not detered, for yills, centuries they waited until Her ascension and with one of the Leylines severed, she unknowingly brought forth long forgotten and corrupted arts of Magicka, once filtered out yet now freely drawn to their own needs. Although lethal to most in the long-term, the cultists of the Earth Mover are oft unphased by this drawback.`"
 	action_icon = 'icons/mob/actions/vheslynspells.dmi'
 	overlay_icon = 'icons/mob/actions/vheslynspells.dmi'
 	overlay_state = "phaseroll"
