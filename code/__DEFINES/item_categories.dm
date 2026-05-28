@@ -66,5 +66,6 @@
 #define ITEM_CAT_REAGENT_ALCHEMICAL "Reagents (Alchemical)"
 #define ITEM_CAT_REAGENT_ARCANE "Reagents (Arcane)"
 #define ITEM_CAT_ARCYNE_GEARS "Arcyne Gears & Implements"
+#define ITEM_CAT_MAGICAL "Magical"
 
 #define ITEM_CAT_MISCELLANEOUS "Miscellaneous"

@@ -610,7 +610,7 @@
 	the encroach of rust and rot threatens even this memory."
 	icon_state = "ancient_buckler"
 	max_integrity = 85
-		smeltresult = /obj/item/ingot/aaslag
+	smeltresult = /obj/item/ingot/aaslag
 
 // unique, better buckler for champion
 /obj/item/rogueweapon/shield/buckler/banneret
