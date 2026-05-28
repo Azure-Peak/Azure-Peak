@@ -121,24 +121,9 @@ export const BathhouseOrdinanceSection = ({
                 }
               </li>
             </ul>
-            <p style={{ margin: '0 0 4px 0' }}>
-              {'Further, in honour of the Ordinance:'}
-            </p>
-            <ul style={{ margin: '0 0 6px 16px', padding: 0 }}>
-              <li style={{ marginBottom: 4 }}>
-                {
-                  'That the Bathmaster shall keep, at all hours the Bath is in operation, sacred, scented candles of Eora, preferably in the pleasing color of pink, burning, such that the airs within be wholesome and the passing of pestilence be stayed.'
-                }
-              </li>
-              <li style={{ marginBottom: 4 }}>
-                {
-                  'That the Bathmaster, and Attendant, shall greet every guest at the threshold with the words "Eora keepeth thee", or variants thereof, and shall send each forth at parting with the words "Eora go with thee", or the variants thereof, that none enter or depart without her blessing upon them.'
-                }
-              </li>
-            </ul>
             <p style={{ margin: '0 0 6px 0' }}>
               {
-                'Should the ordinances be broken, the Church shall renounce its sanction; the brassface shall fall again beneath the Crown\'s tariff, and the matter of the Baths\' regular income shall be settled thereafter between the Bathmaster and the Crown alone.'
+                'Should the ordinances be broken, the Church may renounce its sanction or seek recompense as it see fit; the brassface shall fall again beneath the Crown\'s tariff, and the matter of the Baths\' regular income shall be settled thereafter between the Bathmaster and the Crown alone.'
               }
             </p>
             <p style={{ margin: 0, color: INK_FAINT }}>
