@@ -78,7 +78,7 @@ you violently rend it asunder killing them, intended as a finisher to make these
 	target.death()
 	target.adjust_fire_stacks(20, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks. we do a LOT of them, this ritual keeps people /down/.
 	target.ignite_mob()
-	to_chat(victim, span_userdanger("[user] rips out my weary lux and tears it to peices!"))
+	to_chat(target, span_userdanger("[user] rips out my weary lux and tears it to peices!"))
 
 	//I would gib DNRs but its probably better to not permanently remove players in niche cases like the Weeping Psycross.
 
