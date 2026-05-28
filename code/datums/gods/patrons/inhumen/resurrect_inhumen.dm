@@ -689,7 +689,7 @@
 			return TRUE
 
 		var/cost = rand(100, 150)
-		var/paid = pay_matthios_mammon_bankfirst(user, cost)
+		var/paid = pay_matthios_mammon(user, cost)
 
 		if(paid >= cost)
 			to_chat(user, span_nicegreen("You quietly trade with Matthios into veiling the miracle from Astrata's divine scrutiny."))
