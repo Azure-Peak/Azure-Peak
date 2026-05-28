@@ -27,8 +27,9 @@
 		"Earth Mover"
 	)
 
-	//literally evil incarnate, there are no holy casters, there are no miracles. You have to draw power from something... else..
-	//Also because Vheslyn is fucking dead, you're shit outta luck sire, the COMET SYON ended the archdevil. You're more of... a reminant of that corruption.
+	//literally evil incarnate, there are no holy casters, there are no miracles. - Vheslyn is fucking dead.
+	//You have to draw power from unstable magicka, corrupted with your own essence to make a pale imitation of that divine spark - that is to say, you get custom magic on classes.
+	//Yes, a pale imitation. You don't pray, you don't gather, your spells will be detrimental to everyone that isn't you one way or another.
 
 /datum/patron/vheslyn/can_pray(mob/living/follower) //You already knew that answer
 	. = ..()

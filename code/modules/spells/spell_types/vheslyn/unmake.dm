@@ -4,12 +4,12 @@
 	desc = "Invoke an excess of corrupted magicked into the Needle in your skull and violently detonate your skull and body, injuring and setting anyone ablaze around you. This triggers it instantly by killing you, with no different effects to dying normally."
 	fluff_desc = "The Needle is an artifact borne from the pyres of the Vheslynic cult, a reanimating blessing of Vheslyn, designed to hollow out creation and reanimate one to purpose anew. It also serves a second purpose of unraveling husks that have served their purpose."
 	button_icon = 'icons/mob/actions/vheslynspells.dmi'
-	button_icon_state = "conscindo"
+	button_icon_state = "unmake"
 	charge_required = FALSE
 	click_to_activate = FALSE
 	primary_resource_type = SPELL_COST_ENERGY
 	primary_resource_cost = 10
-	cooldown_time = 8 MINUTES //Intended to be very long, this is an instant-kill spell.
+	cooldown_time = 5 SECONDS //Intended to be very short, this is a suicide spell sire.
 	invocations = "UN'MER'KI SELIA!" //UNMAKE ME! - gibberished
 	associated_skill = /datum/skill/magic/arcane
 
