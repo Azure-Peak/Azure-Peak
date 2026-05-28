@@ -23,7 +23,7 @@
 	overlay_state = "phaseroll"
 	recharge_time = 30 SECONDS
 	clothes_req = FALSE
-	invocations = list("UN'MAKAR'SAR'IN!", "LE'SELIA WRL'LD!", "I'RISIA TAK'ATI' HELL!") //Unmake my flesh, let me slip the world, I'll take you to hell - gibberish-ified
+	invocations = list("UN'MA FL'ASH!", "LE'SL TWRL'LD!", "I'L TAK' TI'HL!") //Unmake my flesh, let me slip the world, I'll take you to hell - gibberish-ified
 	invocation_type = "shout"
 	sound = 'sound/magic/diminish1.ogg'
 	releasedrain = 10 //Light cost but its falloff opens you to a free hit through parries.
