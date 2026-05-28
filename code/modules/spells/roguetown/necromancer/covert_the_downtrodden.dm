@@ -52,7 +52,7 @@
 		return FALSE
 
 	if(istype(target.patron, /datum/patron/vheslyn)) //UNFORGIVABLE SIN, UNFORGIVABLE, DIE. DIE. DIE.
-		to_chat(user, span_userdanger("[target] is UNFORGIVABLE, my attempt to convert them to the TEN, violently sunders my lux!"))
+		to_chat(user, span_userdanger("[target] is UNFORGIVABLE, my attempt to convert them to my patron, violently sunders my lux!"))
 		if(!HAS_TRAIT(user, TRAIT_NOPAIN))
 			user.emote("agony")
 		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
