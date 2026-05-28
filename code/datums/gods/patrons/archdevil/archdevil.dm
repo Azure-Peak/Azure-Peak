@@ -31,6 +31,5 @@
 /datum/patron/vheslyn/can_pray(mob/living/follower) //You already knew that answer
 	. = ..()
 	. = FALSE
-	to_chat(follower, span_userdanger(pick("... NOTHING RESPONDS, GOOD ...", "... THE WORLD GROWS SILENT, AS IT SHOULD BE ...", "... BUT NOTHING RESPONDED ...", "... SILENCE, TASTE OF SWEET OBLIVION ...")))
-	to_chat(follower, span_bloody("I SEE YOU."))
+	to_chat(follower, span_userdanger(pick("... NOTHING RESPONDS ...", "... THE WORLD GROWS SILENT ...", "... BUT NOTHING RESPONDED ...", "... SILENCE, TASTE OF SWEET OBLIVION ...")))
 	return FALSE
