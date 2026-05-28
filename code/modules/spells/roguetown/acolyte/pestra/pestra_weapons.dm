@@ -102,6 +102,9 @@
 			rot_to_apply = 0
 
 	if(rot_to_apply)
+		var/datum/status_effect/buff/rot_cleansing/cleanse = target.has_status_effect(/datum/status_effect/buff/rot_cleansing)
+		if(cleanse)
+			cleanse.reduce_cleansing_cap(12)
 		apply_black_rot(target, rot_to_apply)
 		charges -= rot_to_apply
 		to_chat(user, span_warning("you apply black ichor to [target]!"))

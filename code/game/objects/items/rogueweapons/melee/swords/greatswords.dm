@@ -1,4 +1,3 @@
-
 /obj/item/rogueweapon/greatsword
 	force = 12
 	force_wielded = 30
@@ -403,3 +402,13 @@
 	minstr = 7// Lighter
 	wdefense = 8// Better defence than greatsword
 	sellprice = 60
+
+// Design intent: A greatsword, for 2 handed use only and focused entirely on cutting and AOE
+// With really shitty stab
+/obj/item/rogueweapon/greatsword/zhanmadao
+	possible_item_intents = list(/datum/intent/sword/chop,/datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut/zhanmadao, /datum/intent/rend, /datum/intent/sword/thrust/zhanmadao, /datum/intent/sword/cut/zhanmadao/sweep)
+	alt_grips = null // can't be alt-gripped
+	name = "Zhanmadao"
+	desc = "A traditional Lingyuese weapon, the 'horse chopping saber', first pioneered during the Yuanzhao dynasty to cut through saigas and fogbeasts legs from below. It consists of a long, single-edged blade affixed to a hilt meant strictly for two-handed use, and is designed strictly for cutting and wide sweeping attacks. Quite bad at thrusting, unusable for striking."
+	icon_state = "zhanmadao"

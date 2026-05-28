@@ -1,5 +1,6 @@
 /obj/effect/proc_holder/spell/targeted/transfix_neu
 	name = "Transfix"
+	action_icon = 'icons/mob/actions/vampspells.dmi'
 	overlay_state = "transfix"
 
 	associated_skill = /datum/skill/magic/blood

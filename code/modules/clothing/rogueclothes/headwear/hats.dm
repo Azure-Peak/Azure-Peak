@@ -364,7 +364,6 @@
 	name = "nun's veil"
 	desc = "A humble hat for the faithful."
 	icon_state = "nun"
-	sellprice = 5
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/hennin
@@ -470,6 +469,9 @@
 	sewrepair = TRUE
 	color = CLOTHING_BLACK
 	detail_color = CLOTHING_BROWN
+
+/obj/item/clothing/head/roguetown/witchhat/mageblue
+	color = CLOTHING_MAGE_BLUE
 
 /obj/item/clothing/head/roguetown/witchhat/old
 	name = "decrepit witch hat"

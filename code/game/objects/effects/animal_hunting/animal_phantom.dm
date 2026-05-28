@@ -10,11 +10,14 @@
 	var/spawn_delay = 15 SECONDS
 	var/rot_path
 	var/list/target_factions
+	var/skip_parent_call = FALSE
 	duration = 20 SECONDS
 	mouse_opacity = MOUSE_OPACITY_ICON
 
 /obj/effect/temp_visual/hunting_phantom/Initialize(mapload, target_mob_path, target_rot)
 	. = ..()
+	if(skip_parent_call)
+		return
 	if(!ispath(target_mob_path))
 		return INITIALIZE_HINT_QDEL
 

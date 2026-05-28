@@ -34,6 +34,8 @@
 	spell_tier = 4
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 	var/channel_duration = 10 SECONDS
 	var/pulse_interval = 1 SECONDS
 	var/arc_width = 120

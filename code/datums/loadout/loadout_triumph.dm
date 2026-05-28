@@ -19,15 +19,9 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_heavygloves
-	name = "Heavy Leather Gloves"
-	path = /obj/item/clothing/gloves/roguetown/angle
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_heavyboots
-	name = "Heavy Leather Boots"
-	path = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+/datum/loadout_item/triumph_winterdress
+	name = "Winter Dress"
+	path = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
@@ -272,24 +266,6 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_weaponkit_wodao
-	name = "Morphing Elixir, 'Wodao'"
-	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_wodao
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkit_dadao
-	name = "Morphing Elixir, 'Dadao'"
-	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_dadao
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkit_gdadao
-	name = "Morphing Elixir, 'Greatdadao'"
-	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_gdadao
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
 /datum/loadout_item/triumph_weaponkit_estoc
 	name = "Morphing Elixir, 'Azurian Estoc'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_estoc
@@ -354,4 +330,87 @@
 	name = "Morphing Elixir, 'Sengese'"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_sengese
 	triumph_cost = 3
+	sort_category = "Triumphs"
+
+//////////////////
+//  PERFUMES !  //
+//////////////////
+
+/datum/loadout_item/triumph_perfume_lavender
+	name = "Lavender Perfume"
+	path = /obj/item/perfume/lavender
+	triumph_cost = 2
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_cherry
+	name = "Cherry Perfume"
+	path = /obj/item/perfume/cherry
+	triumph_cost = 2
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_rose
+	name = "Rose Perfume"
+	path = /obj/item/perfume/rose
+	triumph_cost = 2
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_jasmine
+	name = "Jasmine Perfume"
+	path = /obj/item/perfume/jasmine
+	triumph_cost = 2
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_mint
+	name = "Mint Perfume"
+	path = /obj/item/perfume/mint
+	triumph_cost = 2
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_vanilla
+	name = "Vanilla Perfume"
+	path = /obj/item/perfume/vanilla
+	triumph_cost = 2
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_pear
+	name = "Pear Perfume"
+	path = /obj/item/perfume/pear
+	triumph_cost = 2
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_strawberry
+	name = "Strawberry Perfume"
+	path = /obj/item/perfume/strawberry
+	triumph_cost = 2
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_cinnamon
+	name = "Cinnamon Perfume"
+	path = /obj/item/perfume/cinnamon
+	triumph_cost = 2
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_frankincense
+	name = "Frankincense Perfume"
+	path = /obj/item/perfume/frankincense
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_sandalwood
+	name = "Sandalwood Perfume"
+	path = /obj/item/perfume/sandalwood
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_perfume_myrrh
+	name = "Myrrh Perfume"
+	path = /obj/item/perfume/myrrh
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_fermented_crab
+	name = "Fermented Crab"
+	desc = "A man thinks he's done, drinks a mouthful of this. Five minutes later he's back in the race."
+	path = /obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab
+	triumph_cost = 5
 	sort_category = "Triumphs"

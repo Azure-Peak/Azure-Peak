@@ -252,6 +252,7 @@
 	miracle = FALSE
 	devotion_cost = 0 // not a miracle
 	recharge_time = 30 SECONDS // on par with other familiar abilities. from inround testing this really is not strong enough to warrant a 2 min cd
+	human_req = FALSE
 
 /obj/effect/proc_holder/spell/self/infernal_surge
 	name = "Infernal Surge"

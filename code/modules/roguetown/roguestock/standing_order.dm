@@ -15,6 +15,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/roll_weight = 1
 	/// Spawned by a Steward petition. Payout is shaved by PETITION_TAX_MULT and the UI tags it.
 	var/petitioned = FALSE
+	var/pair_id
+	var/pair_label
+	var/pair_sibling_type
 
 /// Returns assoc list of trade_good_id -> quantity. Randomized mix.
 /datum/standing_order/proc/generate_item_mix()
@@ -142,9 +145,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 
 // ============================================================================
-// demand_construction - masons + carpenters, merged
+// demand_construction
 // ============================================================================
-/datum/standing_order/demand_construction
+/datum/standing_order/demand_construction_bulk
+	pair_label = "Construction"
+	pair_sibling_type = /datum/standing_order/demand_construction_smithy
 	var/list/project_by_region = list(
 		TRADE_REGION_BLEAKCOAST = list("a harbor wall reinforcement", "a coastal garrison's repairs"),
 		TRADE_REGION_NORTHFORT = list("a frontier garrison expanding its keep", "a watchtower rebuild"),
@@ -157,23 +162,36 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_REGION_SALTWICK = list("a salt-house rebuild", "wharf reinforcements"),
 	)
 
-/datum/standing_order/demand_construction/generate_item_mix()
+/datum/standing_order/demand_construction_bulk/generate_item_mix()
 	var/list/mix = list()
 	mix[TRADE_GOOD_STONE] = rand(40, 70)
 	if(prob(70))
 		mix[TRADE_GOOD_WOOD] = rand(12, 25)
-	if(prob(50))
-		mix[TRADE_GOOD_IRON_INGOT] = rand(3, 7)
 	return mix
 
-/datum/standing_order/demand_construction/generate_name(datum/economic_region/region)
-	return "[uppertext(region.name)] - CONSTRUCTION ORDER"
+/datum/standing_order/demand_construction_bulk/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - CONSTRUCTION: MASONRY"
 
-/datum/standing_order/demand_construction/generate_description(datum/economic_region/region)
+/datum/standing_order/demand_construction_bulk/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires construction materials urgently."
-	return "Builders in [region.name] require stone, timber, and hardware."
+		return "[capitalize(pick(projects))] at [region.name] requires stone and timber from the yards."
+	return "Builders in [region.name] require stone and timber from the yards."
+
+/datum/standing_order/demand_construction_smithy
+	pair_label = "Construction"
+	pair_sibling_type = /datum/standing_order/demand_construction_bulk
+
+/datum/standing_order/demand_construction_smithy/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_IRON_INGOT] = rand(4, 8)
+	return mix
+
+/datum/standing_order/demand_construction_smithy/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - CONSTRUCTION: METAL"
+
+/datum/standing_order/demand_construction_smithy/generate_description(datum/economic_region/region)
+	return "The same works in [region.name] need ironmongery from the smithy."
 
 
 // ============================================================================
@@ -713,10 +731,12 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 
 // ============================================================================
-// demand_great_feast - heavy butter + meat feast spread, 1/3 chance Lord Harlause
+// demand_great_feast
 // ============================================================================
-/datum/standing_order/demand_great_feast
+/datum/standing_order/demand_great_feast_proteins
 	roll_weight = 2
+	pair_label = "The Great Feast"
+	pair_sibling_type = /datum/standing_order/demand_great_feast_carbs
 	var/list/feast_for_by_region = list(
 		TRADE_REGION_KINGSFIELD = list("a market town's harvest feast", "the manor of a country knight", "a wedding banquet"),
 		TRADE_REGION_HEARTFELT = list("the count's high table", "a chapter feast of the march guard"),
@@ -725,31 +745,46 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_REGION_ROCKHILL = list("the orchard-masters' harvest hall", "a press-house celebration"),
 	)
 
-/datum/standing_order/demand_great_feast/generate_item_mix()
+/datum/standing_order/demand_great_feast_proteins/generate_item_mix()
 	var/list/mix = list()
 	mix[TRADE_GOOD_BUTTER] = rand(8, 15)
-	mix[TRADE_GOOD_GRAIN] = rand(30, 50)
 	mix[TRADE_GOOD_MEAT] = rand(15, 25)
-	mix[TRADE_GOOD_CHEESE] = rand(8, 15)
-	if(prob(70))
-		var/fruit = pick(TRADE_GOOD_APPLE, TRADE_GOOD_PEAR, TRADE_GOOD_JACKSBERRY)
-		mix[fruit] = rand(8, 14)
 	if(prob(50))
 		mix[TRADE_GOOD_POULTRY] = rand(5, 10)
 	if(prob(40))
 		mix[TRADE_GOOD_PORK] = rand(5, 10)
 	return mix
 
-/datum/standing_order/demand_great_feast/generate_name(datum/economic_region/region)
-	return "[uppertext(region.name)] - THE GREAT FEAST"
+/datum/standing_order/demand_great_feast_proteins/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - GREAT FEAST: BUTCHERY"
 
-/datum/standing_order/demand_great_feast/generate_description(datum/economic_region/region)
+/datum/standing_order/demand_great_feast_proteins/generate_description(datum/economic_region/region)
 	if(prob(33))
-		return "Lord Harlause sets the table at [region.name]. His house calls for butter, beef, and bread."
+		return "Lord Harlause sets the table at [region.name]. His house calls for butter and beef from the shambles."
 	var/list/feasts = feast_for_by_region[region.region_id]
 	if(length(feasts))
-		return "[capitalize(pick(feasts))] at [region.name] calls for butter, beef, and bread."
-	return "A great feast at [region.name] calls for butter, beef, and bread."
+		return "[capitalize(pick(feasts))] at [region.name] calls for butter and beef from the shambles."
+	return "A great feast at [region.name] calls for butter and beef from the shambles."
+
+/datum/standing_order/demand_great_feast_carbs
+	roll_weight = 2
+	pair_label = "The Great Feast"
+	pair_sibling_type = /datum/standing_order/demand_great_feast_proteins
+
+/datum/standing_order/demand_great_feast_carbs/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_GRAIN] = rand(30, 50)
+	mix[TRADE_GOOD_CHEESE] = rand(8, 15)
+	if(prob(70))
+		var/fruit = pick(TRADE_GOOD_APPLE, TRADE_GOOD_PEAR, TRADE_GOOD_JACKSBERRY)
+		mix[fruit] = rand(8, 14)
+	return mix
+
+/datum/standing_order/demand_great_feast_carbs/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - GREAT FEAST: PANTRY"
+
+/datum/standing_order/demand_great_feast_carbs/generate_description(datum/economic_region/region)
+	return "The same feast at [region.name] needs bread, cheese, and orchard fruit from the pantry."
 
 
 // ============================================================================
@@ -992,10 +1027,12 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 
 // ============================================================================
-// demand_tournament_supply - single fat composite order, deliberately challenging
+// demand_tournament
 // ============================================================================
-/datum/standing_order/demand_tournament_supply
+/datum/standing_order/demand_tournament_arms
 	roll_weight = 2
+	pair_label = "Tournament"
+	pair_sibling_type = /datum/standing_order/demand_tournament_provisions
 	var/list/project_by_region = list(
 		TRADE_REGION_KINGSFIELD = list("the Tournament of the Three Hills", "the lists at Cherrybrook", "a knight-errants' convocation"),
 		TRADE_REGION_HEARTFELT = list("the March Tourney", "the count's lists at Heartfelt"),
@@ -1013,10 +1050,30 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_GOOD_BRIGANDINE,
 	)
 
-/datum/standing_order/demand_tournament_supply/generate_item_mix()
+/datum/standing_order/demand_tournament_arms/generate_item_mix()
 	var/list/mix = list()
 	mix[pick(weapon_pool)] = rand(3, 5)
 	mix[pick(armor_pool)] = rand(2, 3)
+	if(prob(50))
+		mix[TRADE_GOOD_RECURVE_BOW] = rand(3, 5)
+	return mix
+
+/datum/standing_order/demand_tournament_arms/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - TOURNAMENT: ARMS"
+
+/datum/standing_order/demand_tournament_arms/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] requires arms and armor for the lists. The patrons pay accordingly."
+	return "A great tournament at [region.name] requires arms and armor for the lists. The patrons pay accordingly."
+
+/datum/standing_order/demand_tournament_provisions
+	roll_weight = 2
+	pair_label = "Tournament"
+	pair_sibling_type = /datum/standing_order/demand_tournament_arms
+
+/datum/standing_order/demand_tournament_provisions/generate_item_mix()
+	var/list/mix = list()
 	mix[TRADE_GOOD_HEALTH_POTION] = rand(6, 10)
 	mix[TRADE_GOOD_MANA_POTION] = rand(3, 5)
 	mix[TRADE_GOOD_GRAIN] = rand(20, 35)
@@ -1024,18 +1081,13 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	mix[TRADE_GOOD_BUTTER] = rand(5, 10)
 	if(prob(60))
 		mix[TRADE_GOOD_NOBLECOAT] = rand(1, 2)
-	if(prob(50))
-		mix[TRADE_GOOD_RECURVE_BOW] = rand(3, 5)
 	return mix
 
-/datum/standing_order/demand_tournament_supply/generate_name(datum/economic_region/region)
-	return "[uppertext(region.name)] - TOURNAMENT PROVISION"
+/datum/standing_order/demand_tournament_provisions/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - TOURNAMENT: PROVISIONS"
 
-/datum/standing_order/demand_tournament_supply/generate_description(datum/economic_region/region)
-	var/list/projects = project_by_region[region.region_id]
-	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires arms, armor, draughts, and feast-fare. The patrons pay accordingly."
-	return "A great tournament at [region.name] requires arms, armor, draughts, and feast-fare. The patrons pay accordingly."
+/datum/standing_order/demand_tournament_provisions/generate_description(datum/economic_region/region)
+	return "The same tournament at [region.name] calls for draughts, feast-fare, and finery for the champions."
 
 
 // ============================================================================

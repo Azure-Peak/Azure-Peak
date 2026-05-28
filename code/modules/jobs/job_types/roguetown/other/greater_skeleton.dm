@@ -17,9 +17,13 @@
 	show_in_credits = FALSE
 	give_bank_account = FALSE
 	hidden_job = TRUE
+	vice_restrictions = list(/datum/charflaw/hunted)
 
 /datum/outfit/job/roguetown/greater_skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
+
+	ADD_TRAIT(H, TRAIT_OUTLAW, TRAIT_GENERIC) //No miesters for skeletons, you're an undead, bloodless skeletal abomination.
+	ADD_TRAIT(H, TRAIT_SHATTER_KILL, TRAIT_GENERIC) //Softer version of crit weakness that only kills with paralysis/rib fractures and nothing else.
 
 	H.set_patron(/datum/patron/inhumen/zizo)
 

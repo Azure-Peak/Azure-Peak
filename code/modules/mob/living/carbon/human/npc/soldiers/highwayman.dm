@@ -47,7 +47,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 30 // 50% More than goblin
+	head.sellprice = HEAD_BOUNTY_HIGHWAYMAN
 	AddComponent(/datum/component/npc_death_line, null, 25)
 
 

@@ -132,4 +132,4 @@
 	..()
 	AddComponent(/datum/component/ai_aggro_system)
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 20 // Gobbo sellprice
+	head.sellprice = HEAD_BOUNTY_GOBLIN

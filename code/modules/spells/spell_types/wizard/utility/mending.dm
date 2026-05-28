@@ -89,3 +89,9 @@
 	repair_percent = 0.10
 	cooldown_time = 30 SECONDS
 	point_cost = 1
+
+/datum/action/cooldown/spell/mending
+	exclusive_group = "mending"
+
+/datum/action/cooldown/spell/mending/lesser
+	exclusive_group = "mending"

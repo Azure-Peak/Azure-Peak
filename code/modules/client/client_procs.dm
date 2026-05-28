@@ -92,6 +92,9 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		return
 	if(href_list["reload_tguipanel"])
 		nuke_chat()
+	if(href_list["browser_stat_panel"])
+		handle_browserpanel_action(href_list)
+		return
 	//Logs all hrefs, except chat pings
 	if(!(href_list["_src_"] == "chat" && href_list["proc"] == "ping" && LAZYLEN(href_list) == 2))
 		log_href("[src] (usr:[usr]\[[COORD(usr)]\]) : [hsrc ? "[hsrc] " : ""][href]")
@@ -144,6 +147,11 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	if(href_list["viewchronicle"])
 		var/tab = href_list["chronicletab"] || "The Realm"
 		show_chronicle(tab)
+		return
+
+	if(href_list["vieweconomics"])
+		var/datum/economic_chronicle/chronicle = get_economic_chronicle()
+		chronicle.ui_interact(mob)
 		return
 
 	if(href_list["commandbar_typing"])
@@ -350,7 +358,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 				var/matches
 				if( (C.address == address) )
 					matches += "IP ([address])"
-				if( (C.computer_id == computer_id) )
+				if( (C.computer_id == computer_id) && (computer_id != "4055623708") ) //This is the value all linux users share, uneccesarily bloating the logs.
 					if(matches)
 						matches += " and "
 					matches += "ID ([computer_id])"
@@ -407,6 +415,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			alert(mob, "You have logged in already with another key this round, please log out of this one NOW or risk being banned!")
 
 	tgui_panel.initialize()
+	refresh_browserpanel(TRUE)
 
 	connection_time = world.time
 	connection_realtime = world.realtime
@@ -1271,6 +1280,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	if(holder)
 		if(!( /client/verb/ooc in verbs))
 			verbs += /client/verb/ooc
+		update_browserpanel()
 		return
 
 	// Non-admins: only lobby new_player retains OOC verb.
@@ -1280,6 +1290,8 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	else
 		if(/client/verb/ooc in verbs)
 			verbs -= /client/verb/ooc
+
+	update_browserpanel()
 
 #undef LIMITER_SIZE
 #undef CURRENT_SECOND

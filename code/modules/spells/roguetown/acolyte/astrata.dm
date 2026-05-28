@@ -831,11 +831,13 @@
 	for(var/obj/structure/fluff/psycross/S in oview(5, user))
 		S.AOE_flash(user, range = 8)
 	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
-		target.visible_message(
-			span_danger("[target] is unmade by holy light!"),
-			span_userdanger("I'm unmade by holy light!")
-		)
-		target.gib()
+		if(alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", "PURGE THE UNCLEAN!", "Stop") != "PURGE THE UNCLEAN!")
+			to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
+			revert_cast()
+			return FALSE
+		target.visible_message(span_danger("[target] is unmade by divine magic!"), span_userdanger("Holy power tears my undead form apart!"))
+		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
+		target.dust()
 		return TRUE
 	if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 		target.visible_message(span_astrata("Nothing happens. They are not being let go."))

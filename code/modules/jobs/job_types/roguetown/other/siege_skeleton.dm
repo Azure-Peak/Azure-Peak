@@ -9,6 +9,7 @@
 	min_pq = null //no pq
 	max_pq = null
 	announce_latejoin = FALSE
+	vice_restrictions = list(/datum/charflaw/hunted)
 
 	//Unlike most roles of skeletons, these ones just dust. Rids you instantly out of the round so you can respawn.
 	//These are exclusive to skeleton sieges, they're a threat in numbers but advs can usually kill them with some effort solo by design.
@@ -114,7 +115,6 @@
 			cloak = /obj/item/clothing/cloak/tabard/lich
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
-			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity

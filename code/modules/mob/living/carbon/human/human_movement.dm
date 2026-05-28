@@ -76,6 +76,9 @@
 						FP.entered_dirs |= dir
 						FP.bloodiness = S.bloody_shoes[S.blood_state] - BLOOD_LOSS_IN_SPREAD
 						FP.add_blood_DNA(S.return_blood_DNA())
+						var/datum/component/decal/blood/shoe_blood = S.GetComponent(/datum/component/decal/blood)
+						if(shoe_blood?.blood_color)
+							FP.set_blood_color(shoe_blood.blood_color)
 						FP.update_icon()
 					update_inv_shoes()
 				//End bloody footprints

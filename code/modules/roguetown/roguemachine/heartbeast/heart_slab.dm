@@ -150,8 +150,15 @@
 	H.apply_status_effect(/datum/status_effect/buff/pestra_care)
 
 	if(H.has_status_effect(/datum/status_effect/black_rot))
-		var/datum/status_effect/black_rot/rot = H.has_status_effect(/datum/status_effect/black_rot)
-		rot.remove_stack(80)
+		var/new_total = 80
+		var/new_per_tick = 5
+		var/datum/status_effect/buff/rot_cleansing/existing_cleanse = H.has_status_effect(/datum/status_effect/buff/rot_cleansing)
+		if(existing_cleanse)
+			if(existing_cleanse.can_override(new_total, new_per_tick))
+				H.remove_status_effect(existing_cleanse)
+				H.apply_status_effect(/datum/status_effect/buff/rot_cleansing, new_total, new_per_tick)
+		else
+			H.apply_status_effect(/datum/status_effect/buff/rot_cleansing, new_total, new_per_tick)
 		to_chat(H, span_good("The calyx's purifying blood flows through you, cleansing the black rot!"))
 
 	to_chat(H, span_boldnotice("The calyx shudders as tendrils extend to feel up your arms, affectionately carressing your head. You have contributed [points_granted] Echoes."))

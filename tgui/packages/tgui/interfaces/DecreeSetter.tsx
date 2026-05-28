@@ -15,6 +15,7 @@ import {
   SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
+  SERIF,
   subtitleStyle,
   tabBarStyle,
   tabStyle,
@@ -67,7 +68,6 @@ const cardHeaderStyle: React.CSSProperties = {
 
 const cardTitleStyle: React.CSSProperties = {
   fontVariant: 'small-caps',
-  letterSpacing: '2px',
   fontSize: '15px',
   fontWeight: 'bold',
   color: INK,
@@ -103,14 +103,13 @@ const flavorBodyStyle: React.CSSProperties = {
   whiteSpace: 'pre-wrap',
   borderTop: `1px dashed ${INK_FAINT}`,
   paddingTop: '6px',
-  fontFamily: '"Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif',
+  fontFamily: SERIF,
   lineHeight: 1.55,
 };
 
 const proclamationNoteStyle: React.CSSProperties = {
   textAlign: 'center',
-  fontStyle: 'italic',
-  fontSize: '11px',
+  fontSize: '12px',
   color: SEAL_AMBER,
   margin: '4px 0 8px',
 };
@@ -278,8 +277,7 @@ export const DecreeSetter = () => {
             <div
               style={{
                 textAlign: 'center',
-                fontStyle: 'italic',
-                color: INK_FAINT,
+                color: INK_SOFT,
                 padding: '20px',
               }}
             >

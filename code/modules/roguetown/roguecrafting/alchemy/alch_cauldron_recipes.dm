@@ -32,6 +32,12 @@
 	skill_required = SKILL_LEVEL_EXPERT // Strong poison should be more difficult to make
 	output_reagents = list(/datum/reagent/strongstampoison = 90)
 
+/datum/alch_cauldron_recipe/sleeping_poison
+	name = "Sleep Poison"
+	smells_like = "numbing mint"
+	skill_required = SKILL_LEVEL_MASTER // Fairly potent, let's lock it behind high alchemy skill.
+	output_reagents = list(/datum/reagent/sleep_powder = 90)
+
 //Healing potions
 /datum/alch_cauldron_recipe/health_potion
 	name = "Elixir of Health"

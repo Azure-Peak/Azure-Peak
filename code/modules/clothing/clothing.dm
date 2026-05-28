@@ -7,6 +7,7 @@
 	max_integrity = 200
 	integrity_failure = ARMOR_INTEG_FAILURE
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	has_item_quality = TRUE
 	///What level of bright light protection item has.
 	var/flash_protect = FLASH_PROTECTION_NONE
 	var/tint = 0				//Sets the item's level of visual impairment tint, normally set to the same as flash_protect
@@ -49,11 +50,12 @@
 	var/dynamic_fhair_suffix = ""//mask > head for facial hair
 	edelay_type = 0
 	var/list/allowed_sex = list(MALE,FEMALE)
+
 	var/list/allowed_race = CLOTHED_RACES_TYPES
 	var/immune_to_genderswap = FALSE
 	var/armor_class = ARMOR_CLASS_NONE
 
-	sellprice = 1
+	var/blood_color = null
 	var/naledicolor = FALSE
 	var/chunkcolor = "#5e5e5e"
 	var/material_category = ARMOR_MAT_LEATHER

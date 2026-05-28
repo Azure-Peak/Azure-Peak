@@ -30,6 +30,10 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	ai_controller = /datum/ai_controller/human_npc
 	dodgetime = 30
 
+/mob/living/carbon/human/species/goblin/npc/after_creation()
+	..()
+	AddComponent(/datum/component/ai_aggro_system)
+
 /mob/living/carbon/human/species/goblin/npc/ambush
 	threat_point = THREAT_TRASH
 	ambush_faction = "goblins"
@@ -228,7 +232,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /mob/living/carbon/human/species/goblin/after_creation()
 	..()
-	AddComponent(/datum/component/ai_aggro_system)
 	// Goblins shrug off their own bottle bombs
 	ADD_TRAIT(src, TRAIT_HARDSOLE, INNATE_TRAIT)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_aggro, TRUE)
@@ -240,7 +243,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		if(headdy)
 			headdy.icon = 'icons/roguetown/mob/monster/goblins.dmi'
 			headdy.icon_state = "[src.dna.species.id]_head"
-			headdy.sellprice = 20
+			headdy.sellprice = HEAD_BOUNTY_GOBLIN
 	src.grant_language(/datum/language/orcish)
 	var/obj/item/organ/eyes/eyes = src.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)

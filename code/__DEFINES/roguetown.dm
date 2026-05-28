@@ -397,9 +397,8 @@ GLOBAL_LIST_EMPTY(confessors)
 #define FAMILY_FULL 3
 
 GLOBAL_LIST_EMPTY(head_bounties)
-GLOBAL_LIST_EMPTY(board_viewers)
-GLOBAL_LIST_EMPTY(noticeboard_posts)
-GLOBAL_LIST_EMPTY(premium_noticeboardposts)
+GLOBAL_LIST_EMPTY(noticeboard_notices)
+GLOBAL_LIST_EMPTY(noticeboard_listings)
 GLOBAL_LIST_EMPTY(job_respawn_delays)
 GLOBAL_LIST_EMPTY(round_join_times)
 

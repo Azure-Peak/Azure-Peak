@@ -2,6 +2,15 @@ import { useState } from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import {
+  INK,
+  INK_FAINT,
+  pageStyle,
+  rulerStyle,
+  SEAL_AMBER,
+  subtitleStyle,
+  titleStyle,
+} from './common/parchment';
 import { ArrearsBanner } from './StewardTrade/ArrearsBanner';
 import { ATCLoanBanner } from './StewardTrade/ATCLoanBanner';
 import { AutoImportView } from './StewardTrade/AutoImportView';
@@ -12,17 +21,9 @@ import { MarketView } from './StewardTrade/MarketView';
 import { OrdersView } from './StewardTrade/OrdersView';
 import { PetitionView } from './StewardTrade/PetitionView';
 import { RegionsView } from './StewardTrade/RegionsView';
+import { RoyalCustomPanel } from './StewardTrade/RoyalCustomPanel';
 import { SequesteredOverlay } from './StewardTrade/SequesteredOverlay';
 import { SequestrationBanner } from './StewardTrade/SequestrationBanner';
-import {
-  INK,
-  INK_FAINT,
-  pageStyle,
-  rulerStyle,
-  SEAL_AMBER,
-  subtitleStyle,
-  titleStyle,
-} from './common/parchment';
 import { TabBar } from './StewardTrade/TabBar';
 import { TradeModal, type TradeModalRequest } from './StewardTrade/TradeModal';
 import type { Data, TabKey } from './StewardTrade/types';
@@ -93,7 +94,6 @@ export const StewardTrade = () => {
               <div
                 style={{
                   fontVariant: 'small-caps',
-                  letterSpacing: '2px',
                   color: SEAL_AMBER,
                   fontWeight: 'bold',
                   marginBottom: '2px',
@@ -108,7 +108,7 @@ export const StewardTrade = () => {
                 </span>{' '}
                 of {warrant.trade_cap}m remaining today
               </div>
-              <div style={{ color: INK_FAINT, fontSize: '11px', fontStyle: 'italic' }}>
+              <div style={{ color: INK_FAINT, fontSize: '12px' }}>
                 Trades beyond the warrant are refused. Crown&apos;s Purse still pays the coin.
               </div>
             </div>
@@ -119,7 +119,7 @@ export const StewardTrade = () => {
           <ATCLoanBanner atc_loan={data.atc_loan} />
           <BlockadeBanner regions={data.blockaded_regions} />
           <BanditryBanner projection={data.banditry_projection} />
-          <EventsBanner events={data.active_events} />
+          <EventsBanner events={data.active_events} goodCatalog={data.good_catalog} />
 
           <TabBar tab={tab} onSwitch={setTab} />
           <hr style={rulerStyle} />
@@ -144,12 +144,13 @@ export const StewardTrade = () => {
           {tab === 'auto_import' && (
             <SequesteredOverlay
               active={!!data.sequestration?.active}
-              label="Standing Imports"
+              label="Imports"
             >
               <AutoImportView data={data} />
             </SequesteredOverlay>
           )}
           {tab === 'petition' && <PetitionView data={data} />}
+          {tab === 'royal_custom' && <RoyalCustomPanel />}
         </div>
         <TradeModal
           request={tradeRequest}

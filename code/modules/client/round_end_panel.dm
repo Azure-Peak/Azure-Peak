@@ -22,6 +22,7 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Messages' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a1a, #1a120a); border: 1px solid #5a4a3a; border-bottom: 2px solid #8a7a6a; color: #d4c4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>WHISPERS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=The Realm' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #2a2a3a, #0a0a1a); border: 1px solid #4a4a5a; border-bottom: 2px solid #7a7a8a; color: #c4c4d4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>THE REALM</a>"
 	data += "<a href='byond://?src=[REF(src)];viewstats=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a0a, #1a1200); border: 1px solid #5a4a1a; border-bottom: 2px solid #8a7a3a; color: #dec97a; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>STATISTICS</a>"
+	data += "<a href='byond://?src=[REF(src)];vieweconomics=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #4a3a1a, #2a1a08); border: 1px solid #7a5a2a; border-bottom: 2px solid #b89a4a; color: #f0c759; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>ECONOMICS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Heroes' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a4a5a, #1a1b2a); border: 1px solid #6a7b8a; border-bottom: 2px solid #8f9caa; color: #c0c0d0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>HEROES</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
@@ -248,6 +249,7 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Messages' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a1a, #1a120a); border: 1px solid #5a4a3a; border-bottom: 2px solid #8a7a6a; color: #d4c4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>WHISPERS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=The Realm' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #2a2a3a, #0a0a1a); border: 1px solid #4a4a5a; border-bottom: 2px solid #7a7a8a; color: #c4c4d4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>THE REALM</a>"
 	data += "<a href='byond://?src=[REF(src)];viewstats=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a0a, #1a1200); border: 1px solid #5a4a1a; border-bottom: 2px solid #8a7a3a; color: #dec97a; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>STATISTICS</a>"
+	data += "<a href='byond://?src=[REF(src)];vieweconomics=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #4a3a1a, #2a1a08); border: 1px solid #7a5a2a; border-bottom: 2px solid #b89a4a; color: #f0c759; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>ECONOMICS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Heroes' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a4a5a, #1a1b2a); border: 1px solid #6a7b8a; border-bottom: 2px solid #8f9caa; color: #c0c0d0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>HEROES</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
@@ -515,256 +517,6 @@
 			data += "</div>"
 
 			data += "</div></div></div>"
-
-			data += "<div style='height: 20px;'></div>"
-
-			// Treasury Section
-			data += "<div style='text-align: center; color: #e6b327; font-size: 1.2em; margin: 15px 0; text-transform: uppercase;'>Realm's Treasury: [SStreasury.discretionary_fund.balance]</div>"
-			data += "<div style='border-top: 1.5px solid #e6b327; margin: 0 auto 20px auto; width: 75%;'></div>"
-
-			data += "<div style='width: 100%; margin: 0 auto; position: relative;'>"
-			// Table layout instead of flex - the legacy DM browser (MSHTML) doesn't honor
-			// flex children's percentage widths, so long breakdown rows escape the column.
-			// Tables enforce column widths and wrap content within cells.
-			data += "<table style='width: 100%; border-collapse: collapse; table-layout: fixed;'><tr>"
-
-			// Left column (Revenue) - real treasury inflows only.
-			var/contract_levy = GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY]
-			var/headeater_levy = GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]
-			var/import_tariff = GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]
-			var/export_duty = GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]
-			var/royal_taxes_total = GLOB.azure_round_stats[STATS_TAXES_COLLECTED]
-			var/categorized_taxes = contract_levy + headeater_levy + import_tariff + export_duty
-			var/other_fees = max(0, royal_taxes_total - categorized_taxes)
-			var/poll_total = GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]
-			data += "<td style='width: 50%; vertical-align: top; padding-right: 20px; word-wrap: break-word;'>"
-			data += "<div style='margin-bottom: 4px;'><font color='#f0c759'>Starting Treasury: </font>[GLOB.azure_round_stats[STATS_STARTING_TREASURY]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#ce9d15'>Rural Taxes Collected: </font>[GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED]]</div>"
-			data += "<div style='margin-bottom: 2px;'><font color='#ebbf49'>Poll Tax Collected: </font>[poll_total]</div>"
-			data += "<div style='color: #888; font-size: 85%; padding-left: 12px; margin-bottom: 4px; line-height: 1.4em; overflow-wrap: break-word; word-wrap: break-word;'>"
-			data += "Noble [GLOB.azure_round_stats[STATS_POLL_TAX_NOBLE]] &bull; "
-			data += "Clergy [GLOB.azure_round_stats[STATS_POLL_TAX_CLERGY]] &bull; "
-			data += "Inquisition [GLOB.azure_round_stats[STATS_POLL_TAX_INQUISITION]] &bull; "
-			data += "Courtier [GLOB.azure_round_stats[STATS_POLL_TAX_COURTIER]] &bull; "
-			data += "Garrison [GLOB.azure_round_stats[STATS_POLL_TAX_GARRISON]] &bull; "
-			data += "Guilds [GLOB.azure_round_stats[STATS_POLL_TAX_GUILDS]] &bull; "
-			data += "Merchant [GLOB.azure_round_stats[STATS_POLL_TAX_MERCHANT]] &bull; "
-			data += "Burgher [GLOB.azure_round_stats[STATS_POLL_TAX_BURGHER]] &bull; "
-			data += "Adventurer [GLOB.azure_round_stats[STATS_POLL_TAX_ADVENTURER]] &bull; "
-			data += "Mercenary [GLOB.azure_round_stats[STATS_POLL_TAX_MERCENARY]] &bull; "
-			data += "Peasant [GLOB.azure_round_stats[STATS_POLL_TAX_PEASANT]]"
-			data += "</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c78445'>Royal Fines Collected: </font>[GLOB.azure_round_stats[STATS_FINES_INCOME]]</div>"
-			data += "<div style='margin-bottom: 2px;'><font color='#f5c02e'>Royal Taxes Collected: </font>[royal_taxes_total]</div>"
-			data += "<div style='color: #888; font-size: 85%; padding-left: 12px; margin-bottom: 4px; line-height: 1.4em; overflow-wrap: break-word; word-wrap: break-word;'>"
-			data += "Contract Levy [contract_levy] &bull; "
-			data += "Headeater Levy [headeater_levy] &bull; "
-			data += "Import Tariff [import_tariff] &bull; "
-			data += "Export Duty [export_duty] &bull; "
-			data += "Other [other_fees]"
-			data += "</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#90b34f'>Stockpile Exports: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#a2b337'>Bought from Stockpile: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE]]</div>"
-			var/standing_order_revenue = GLOB.azure_round_stats[STATS_STANDING_ORDER_REVENUE]
-			var/orders_fulfilled = GLOB.azure_round_stats[STATS_STANDING_ORDERS_FULFILLED]
-			var/orders_expired = GLOB.azure_round_stats[STATS_STANDING_ORDERS_EXPIRED]
-			var/orders_petitioned = GLOB.azure_round_stats[STATS_STANDING_ORDERS_PETITIONED]
-			var/petition_pledge_spent = GLOB.azure_round_stats[STATS_PETITION_PLEDGE_SPENT]
-			data += "<div style='margin-bottom: 2px;'><font color='#7eb84a'>Standing Order Revenue: </font>[standing_order_revenue]</div>"
-			data += "<div style='color: #888; font-size: 85%; padding-left: 12px; margin-bottom: 4px; line-height: 1.4em; overflow-wrap: break-word; word-wrap: break-word;'>"
-			data += "[orders_fulfilled] fulfilled &bull; [orders_expired] expired &bull; [orders_petitioned] petitioned ([petition_pledge_spent]p spent)"
-			data += "</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#5cb85c'>Shortages Ended Early: </font>[GLOB.azure_round_stats[STATS_SHORTAGES_ENDED]]</div>"
-			data += "<div style='border-top: 1px solid #555; margin: 8px 0;'></div>"
-			var/total_revenue = GLOB.azure_round_stats[STATS_STARTING_TREASURY] + GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] + royal_taxes_total + GLOB.azure_round_stats[STATS_FINES_INCOME] + poll_total + GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] + GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] + standing_order_revenue
-			data += "<div style='margin-bottom: 4px;'><font color='#23ba30'>Total Revenue: </font>[total_revenue]</div>"
-			data += "</td>"
-
-			// Right column (Expenses) - real treasury outflows only.
-			data += "<td style='width: 50%; vertical-align: top; padding-left: 20px; word-wrap: break-word;'>"
-			data += "<div style='margin-bottom: 4px;'><font color='#b6a17f'>Salary Payments: </font>[GLOB.azure_round_stats[STATS_WAGES_PAID]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#aac484'>Treasury Transfers: </font>[GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#db853d'>Stockpile Imports: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE]]</div>"
-			var/banditry_losses = GLOB.azure_round_stats[STATS_BANDITRY_LOSSES]
-			var/banditry_owed = GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING]
-			data += "<div style='margin-bottom: 4px;'><font color='#c44'>Banditry Losses: </font>[banditry_losses]"
-			if(banditry_owed > 0)
-				data += " <span style='color: #888; font-size: 85%;'>([banditry_owed] still owed)</span>"
-			data += "</div>"
-			var/bankruptcy_count = GLOB.azure_round_stats[STATS_BANKRUPTCY_DECLARED]
-			var/arrears_count = GLOB.azure_round_stats[STATS_ARREARS_DECLARED]
-			var/treasury_debt_repaid = GLOB.azure_round_stats[STATS_TREASURY_DEBT_REPAID]
-			var/treasury_debt_owed = GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING]
-			if(bankruptcy_count || arrears_count || treasury_debt_repaid || treasury_debt_owed)
-				var/label_color = bankruptcy_count ? "#c0392b" : "#e07b39"
-				var/label = bankruptcy_count ? "Receivership" : "Arrears"
-				data += "<div style='margin-bottom: 4px;'><font color='[label_color]'>[label]: </font>"
-				if(arrears_count)
-					data += "[arrears_count]x arrears"
-				if(arrears_count && bankruptcy_count)
-					data += ", "
-				if(bankruptcy_count)
-					data += "[bankruptcy_count]x bankruptcy"
-				if(treasury_debt_repaid)
-					data += " <span style='color: #888; font-size: 85%;'>([treasury_debt_repaid] repaid"
-					if(treasury_debt_owed > 0)
-						data += ", [treasury_debt_owed] still owed"
-					data += ")</span>"
-				else if(treasury_debt_owed > 0)
-					data += " <span style='color: #888; font-size: 85%;'>([treasury_debt_owed] still owed)</span>"
-				data += "</div>"
-			var/forfeiture_amount = GLOB.azure_round_stats[STATS_FORFEITURE_AMOUNT]
-			var/forfeiture_count = GLOB.azure_round_stats[STATS_FORFEITURE_COUNT]
-			if(forfeiture_amount || forfeiture_count)
-				data += "<div style='margin-bottom: 4px;'><font color='#8f6f3a'>Forfeitures: </font>[forfeiture_amount]m"
-				if(forfeiture_count)
-					data += " <span style='color: #888; font-size: 85%;'>(from [forfeiture_count] departing Keep insider[forfeiture_count == 1 ? "" : "s"])</span>"
-				data += "</div>"
-			var/exempt_contract = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY]
-			var/exempt_headeater = GLOB.azure_round_stats[STATS_EXEMPTED_HEADEATER_LEVY]
-			var/exempt_import = GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF]
-			var/exempt_export = GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY]
-			var/exempt_fine = GLOB.azure_round_stats[STATS_EXEMPTED_FINE]
-			var/exempt_poll = GLOB.azure_round_stats[STATS_EXEMPTED_POLL_TAX]
-			var/exempt_total = exempt_contract + exempt_headeater + exempt_import + exempt_export + exempt_fine + exempt_poll
-			data += "<div style='margin-bottom: 2px;'><font color='#8f7a5a'>Forgone Revenue: </font>[exempt_total]</div>"
-			data += "<div style='color: #888; font-size: 85%; padding-left: 12px; margin-bottom: 4px; line-height: 1.4em; overflow-wrap: break-word; word-wrap: break-word;'>"
-			data += "Contract [exempt_contract] &bull; "
-			data += "Headeater [exempt_headeater] &bull; "
-			data += "Import [exempt_import] &bull; "
-			data += "Export [exempt_export] &bull; "
-			data += "Fines [exempt_fine] &bull; "
-			data += "Poll Tax [exempt_poll]"
-			data += "</div>"
-			data += "<div style='border-top: 1px solid #555; margin: 8px 0;'></div>"
-			var/total_expenses = GLOB.azure_round_stats[STATS_WAGES_PAID] + GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS] + GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE] + banditry_losses
-			data += "<div style='margin-bottom: 4px;'><font color='#c44731'>Total Expenses: </font>[total_expenses]</div>"
-			data += "</td>"
-
-			data += "</tr></table></div>"
-
-			// Realm Insight - derived metrics that summarise the round's fiscal narrative.
-			// All figures here are computed from the lines above; no new tracking.
-			var/trade_balance = GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] - GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE]
-			var/net_treasury = total_revenue - total_expenses
-			var/foreign_trade_volume = GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED] + GLOB.azure_round_stats[STATS_TRADE_VALUE_IMPORTED]
-			var/taxable_activity = royal_taxes_total + GLOB.azure_round_stats[STATS_TAXES_EVADED]
-			var/effective_tax_rate_text = taxable_activity > 0 ? "[round((royal_taxes_total / taxable_activity) * 100, 0.1)]%" : "n/a"
-			var/all_revenue_streams = royal_taxes_total + GLOB.azure_round_stats[STATS_FINES_INCOME] + poll_total + exempt_total
-			var/exemption_share_text = all_revenue_streams > 0 ? "[round((exempt_total / all_revenue_streams) * 100, 0.1)]%" : "n/a"
-			var/trade_balance_color = trade_balance >= 0 ? "#23ba30" : "#c44731"
-			var/net_treasury_color = net_treasury >= 0 ? "#23ba30" : "#c44731"
-			data += "<div style='margin: 18px auto 0 auto; padding: 10px 14px; border-top: 1px dashed #555; width: 88%; box-sizing: border-box;'>"
-			data += "<div style='text-align: center; color: #c5b074; font-size: 0.95em; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;'>Realm Insight</div>"
-			data += "<div style='display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;'>"
-			data += "<div><font color='[net_treasury_color]'>Net Treasury Result: </font>[net_treasury >= 0 ? "+" : ""][net_treasury]</div>"
-			data += "<div><font color='[trade_balance_color]'>Trade Balance: </font>[trade_balance >= 0 ? "+" : ""][trade_balance]</div>"
-			data += "<div><font color='#dfbf57'>Foreign Trade Volume: </font>[foreign_trade_volume]</div>"
-			data += "<div><font color='#f5c02e'>Effective Tax Rate: </font>[effective_tax_rate_text]</div>"
-			data += "<div><font color='#8f7a5a'>Forgone Share: </font>[exemption_share_text]</div>"
-			data += "</div></div>"
-
-			// Economy Section
-			data += "<div style='text-align: center; color: #e6b327; font-size: 1.2em; margin: 15px 0; text-transform: uppercase; margin-top: 35px;'>ECONOMY</div>"
-			data += "<div style='border-top: 1.5px solid #e6b327; margin: 0 auto 20px auto; width: 75%;'></div>"
-
-			data += "<div style='width: 100%; margin: 0 auto; position: relative;'>"
-			data += "<table style='width: 100%; border-collapse: collapse; table-layout: fixed;'><tr>"
-
-			// Left column - subjects' commerce: banking activity, noble estates, tax evasion.
-			data += "<td style='width: 50%; vertical-align: top; padding-right: 20px; word-wrap: break-word;'>"
-			data += "<div style='margin-bottom: 4px;'><font color='#ebbf49'>Mammons Circulating: </font>[GLOB.azure_round_stats[STATS_MAMMONS_HELD]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#8fa36a'>Mammons Deposited: </font>[GLOB.azure_round_stats[STATS_MAMMONS_DEPOSITED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c95555'>Mammons Withdrawn: </font>[GLOB.azure_round_stats[STATS_MAMMONS_WITHDRAWN]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#e67e22'>Noble Estates Revenue: </font>[GLOB.azure_round_stats[STATS_NOBLE_INCOME_TOTAL]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#caa64a'>Bathmatron Vault Revenue: </font>[GLOB.azure_round_stats[STATS_BATHMATRON_VAULT_TOTAL_REVENUE]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c57e62'>Sold to Stockpile: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_EXPANSES]]</div>"
-			data += "<div><font color='#e74c3c'>Royal Taxes Evaded: </font>[GLOB.azure_round_stats[STATS_TAXES_EVADED]]</div>"
-			data += "</td>"
-
-			// Right column - external trade and merchant activity.
-			data += "<td style='width: 50%; vertical-align: top; padding-left: 20px; word-wrap: break-word;'>"
-			data += "<div style='margin-bottom: 4px;'><font color='#db9a59'>Trade Value Exported: </font>[GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#dfbf57'>Trade Value Imported: </font>[GLOB.azure_round_stats[STATS_TRADE_VALUE_IMPORTED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c0b283'>GOLDFACE Imports: </font>[GLOB.azure_round_stats[STATS_GOLDFACE_VALUE_SPENT]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c0c0c0'>SILVERFACE Imports: </font>[GLOB.azure_round_stats[STATS_SILVERFACE_VALUE_SPENT]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#b87333'>COPPERFACE Imports: </font>[GLOB.azure_round_stats[STATS_COPPERFACE_VALUE_SPENT]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#b5a642'>PURITY Imports: </font>[GLOB.azure_round_stats[STATS_PURITY_VALUE_SPENT]]</div>"
-			data += "<div><font color='#7495d3'>Peddler Revenue: </font>[GLOB.azure_round_stats[STATS_PEDDLER_REVENUE]]</div>"
-			data += "</td>"
-
-			data += "</tr></table></div>"
-
-			// Guild Contracts Section
-			data += "<div style='text-align: center; color: #e6b327; font-size: 1.2em; margin: 15px 0; text-transform: uppercase; margin-top: 35px;'>GUILD CONTRACTS</div>"
-			data += "<div style='border-top: 1.5px solid #e6b327; margin: 0 auto 20px auto; width: 75%;'></div>"
-
-			data += "<div style='width: 100%; margin: 0 auto; position: relative;'>"
-			data += "<table style='width: 100%; border-collapse: collapse; table-layout: fixed;'><tr>"
-
-			// Left column - throughput
-			data += "<td style='width: 50%; vertical-align: top; padding-right: 20px; word-wrap: break-word;'>"
-			var/gen_total = GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED]
-			var/gen_pool = GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_POOL]
-			var/gen_rumor = GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_RUMOR]
-			var/gen_defense = GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_DEFENSE]
-			var/taken_total = GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN]
-			var/taken_pool = GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_POOL]
-			var/taken_rumor = GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_RUMOR]
-			var/taken_defense = GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_DEFENSE]
-			var/comp_total = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED]
-			var/comp_pool = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_POOL]
-			var/comp_rumor = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_RUMOR]
-			var/comp_defense = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_DEFENSE]
-			data += "<div style='margin-bottom: 2px;'><font color='#c0b283'>Contracts Issued: </font>[gen_total]</div>"
-			data += "<div style='color: #888; font-size: 85%; padding-left: 12px; margin-bottom: 4px; line-height: 1.4em; overflow-wrap: break-word; word-wrap: break-word;'>"
-			data += "Guild [gen_pool] &bull; Tavern [gen_rumor] &bull; Crown [gen_defense]"
-			data += "</div>"
-			data += "<div style='margin-bottom: 2px;'><font color='#90b34f'>Contracts Taken: </font>[taken_total]</div>"
-			data += "<div style='color: #888; font-size: 85%; padding-left: 12px; margin-bottom: 4px; line-height: 1.4em; overflow-wrap: break-word; word-wrap: break-word;'>"
-			data += "Guild [taken_pool] &bull; Tavern [taken_rumor] &bull; Crown [taken_defense]"
-			data += "</div>"
-			data += "<div style='margin-bottom: 2px;'><font color='#5cb85c'>Contracts Completed: </font>[comp_total]</div>"
-			data += "<div style='color: #888; font-size: 85%; padding-left: 12px; margin-bottom: 4px; line-height: 1.4em; overflow-wrap: break-word; word-wrap: break-word;'>"
-			data += "Guild [comp_pool] &bull; Tavern [comp_rumor] &bull; Crown [comp_defense]"
-			data += "</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#d9534f'>Contracts Abandoned: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_ABANDONED]]</div>"
-			data += "<div><font color='#8f816b'>Contracts Rerolled: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_REROLLED]]</div>"
-			data += "</td>"
-
-			// Right column - mammon flow
-			data += "<td style='width: 50%; vertical-align: top; padding-left: 20px; word-wrap: break-word;'>"
-			data += "<div style='margin-bottom: 4px;'><font color='#ebbf49'>Mammons Paid Out: </font>[GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_PAID]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#f5c02e'>Mammons Taxed: </font>[GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_TAXED]]</div>"
-			data += "<div><font color='#e74c3c'>Mammons Forfeited: </font>[GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_FORFEITED]]</div>"
-			data += "</td>"
-
-			data += "</tr></table>"
-
-			// Resource Streams - the abstract fuels that feed contract issuance.
-			// Pledge funds Crown defense commissions; Rumor Points fund tavern leads.
-			// "Unused" = generated minus consumed; positive means surplus carried, negative
-			// means refunds outpaced new generation (rare but possible after recalls).
-			var/pledge_generated = GLOB.azure_round_stats[STATS_PLEDGE_GENERATED]
-			var/pledge_consumed = GLOB.azure_round_stats[STATS_PLEDGE_CONSUMED]
-			var/pledge_unused = pledge_generated - pledge_consumed
-			var/rumor_generated = GLOB.azure_round_stats[STATS_RUMOR_POINTS_GENERATED]
-			var/rumor_consumed = GLOB.azure_round_stats[STATS_RUMOR_POINTS_CONSUMED]
-			var/rumor_unused = rumor_generated - rumor_consumed
-			data += "<div style='margin: 18px auto 0 auto; padding: 10px 14px; border-top: 1px dashed #555; width: 88%; box-sizing: border-box;'>"
-			data += "<div style='text-align: center; color: #c5b074; font-size: 0.95em; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;'>Resource Streams</div>"
-			data += "<div style='display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;'>"
-			data += "<div style='min-width: 240px;'>"
-			data += "<div style='color: #b2d33d; font-weight: bold; margin-bottom: 4px;'>Burghers' Pledge</div>"
-			data += "<div style='font-size: 90%; line-height: 1.5em;'>"
-			data += "Made: [pledge_generated] &bull; Consumed: [pledge_consumed] &bull; Unused: [pledge_unused]"
-			data += "</div></div>"
-			data += "<div style='min-width: 240px;'>"
-			data += "<div style='color: #c39bd3; font-weight: bold; margin-bottom: 4px;'>Rumor Points</div>"
-			data += "<div style='font-size: 90%; line-height: 1.5em;'>"
-			data += "Generated: [rumor_generated] &bull; Consumed: [rumor_consumed] &bull; Unused: [rumor_unused]"
-			data += "</div></div>"
-			data += "</div></div>"
 
 			data += "</div>"
 
@@ -1092,6 +844,7 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Messages' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a1a, #1a120a); border: 1px solid #5a4a3a; border-bottom: 2px solid #8a7a6a; color: #d4c4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>WHISPERS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=The Realm' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #2a2a3a, #0a0a1a); border: 1px solid #4a4a5a; border-bottom: 2px solid #7a7a8a; color: #c4c4d4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>THE REALM</a>"
 	data += "<a href='byond://?src=[REF(src)];viewstats=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a0a, #1a1200); border: 1px solid #5a4a1a; border-bottom: 2px solid #8a7a3a; color: #dec97a; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>STATISTICS</a>"
+	data += "<a href='byond://?src=[REF(src)];vieweconomics=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #4a3a1a, #2a1a08); border: 1px solid #7a5a2a; border-bottom: 2px solid #b89a4a; color: #f0c759; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>ECONOMICS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Heroes' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a4a5a, #1a1b2a); border: 1px solid #6a7b8a; border-bottom: 2px solid #8f9caa; color: #c0c0d0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>HEROES</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"

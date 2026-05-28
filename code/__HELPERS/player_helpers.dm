@@ -10,6 +10,7 @@
 	valid_positions += GLOB.peasant_positions
 	valid_positions += GLOB.levy_positions
 	valid_positions += GLOB.burgher_positions
+	valid_positions += GLOB.atc_positions
 	valid_positions += GLOB.antagonist_positions
 
 
