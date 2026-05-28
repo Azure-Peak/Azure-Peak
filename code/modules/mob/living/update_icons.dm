@@ -15,7 +15,7 @@
 		if(divine_status?.stacks > fire_status?.stacks)
 			new_fire_overlay.color = list(0,0,0, 0,0,0, 0,0,0, 1,1,1)
 		if(vheslyn_status?.stacks > fire_status?.stacks)
-			new_fire_overlay.color = list(0,0,0, 0,0,0, 0,0,0, 0.5,1,0.5)
+			new_fire_overlay.color = list(0,0,0, 0,0,0, 0,0,0, 0.5,0,1)
 		new_fire_overlay.appearance_flags = RESET_COLOR
 		overlays_standing[FIRE_LAYER] = new_fire_overlay
 

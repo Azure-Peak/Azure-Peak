@@ -279,7 +279,12 @@
 /datum/status_effect/fire_handler/fire_stacks/vheslyn/harm_human(seconds_per_tick, no_protection = FALSE)
 	var/mob/living/carbon/human/victim = owner
 	victim?.dna?.species?.handle_fire(victim, no_protection)
-	victim.adjustFireLoss(8) //Slightly less because they're harder to resist off
+	if(HAS_TRAIT(victim, TRAIT_UNFORGIVABLE))
+		victim.adjustFireLoss(-5) //This heals them instead of burning them.
+		victim.adjustBruteLoss(-3)
+		victim.heal_wounds(0.4)
+	else
+		victim.adjustFireLoss(8) //Slightly less because they're harder to resist off
 
 /datum/status_effect/fire_handler/fire_stacks/sunder
 	id = "fire_stacks_sunder"

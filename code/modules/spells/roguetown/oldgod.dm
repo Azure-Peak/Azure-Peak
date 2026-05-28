@@ -168,7 +168,7 @@
 			target.visible_message(span_info("[target] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be rebuked back at its caster!"))
 			playsound(target, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
 			owner.playsound_local(owner, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
-			H.adjust_fire_stacks(8, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks, ANCIENT ENEMY
+			H.adjust_fire_stacks(8, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, ANCIENT ENEMY
 			H.ignite_mob()
 			H.adjustBruteLoss(25)
 			owner.visible_message(span_warning("[owner] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine, yet my body catches aflame. a feeling of ominious dread washes over me."))
@@ -613,7 +613,7 @@
 		H.visible_message(span_info("[H] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be rebuked back at its caster!"))
 		playsound(H, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
 		user.playsound_local(user, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
-		user.adjust_fire_stacks(12, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks, ANCIENT ENEMY
+		user.adjust_fire_stacks(12, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, ANCIENT ENEMY
 		user.Knockdown(10)
 		user.Jitter(30)
 		user.ignite_mob()

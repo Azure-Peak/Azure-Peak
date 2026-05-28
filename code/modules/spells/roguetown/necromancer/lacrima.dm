@@ -77,8 +77,8 @@
 		return
 
 	if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //Oh boy, you're going to have a NASTY surprise in there
-		to_chat(user, span_userdanger("Your hand finds nothing but an unnatural green flame within [target], burning at your hand and soul!"))
-		user.visible_message(span_alert("[user] recoils from [target]'s ribcage, as unholy green flames flicker out and engulf them!"))
+		to_chat(user, span_userdanger("Your hand finds nothing but an unnatural violet-ochre flame within [target], burning at your hand and soul!"))
+		user.visible_message(span_alert("[user] recoils from [target]'s ribcage, as unholy violet-ochre flames flicker out and engulf them!"))
 		if(!HAS_TRAIT(user, TRAIT_NOPAIN))
 			user.emote("agony")
 		if(!HAS_TRAIT(user, TRAIT_NOMOOD))

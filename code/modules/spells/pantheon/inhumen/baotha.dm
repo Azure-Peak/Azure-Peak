@@ -83,7 +83,7 @@
 			target.visible_message(span_info("[target] stirs for a moment, the miracle is deflected!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be rebuked back at its caster!"))
 			playsound(target, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
 			user.playsound_local(user, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
-			user.adjust_fire_stacks(5, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks, twice as hard to shake off.
+			user.adjust_fire_stacks(5, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, twice as hard to shake off.
 			user.ignite_mob()
 			user.apply_status_effect(/datum/status_effect/buff/baothablessing)
 			user.visible_message("<span class='info'>[user]'s eyes appear to gloss over!</span>", "<span class='notice'>I feel.. at ease.</span>")

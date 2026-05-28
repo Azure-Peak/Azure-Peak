@@ -6,7 +6,7 @@ you violently rend it asunder killing them, intended as a finisher to make these
 /datum/action/cooldown/spell/vheslyn/conscindo
 	name = "Conscindo"
 	desc = "Requires an aggressive grab on a prone and living target. Begin a unspeakable ritual that fractures their ribcage and, directly but violently, rends apart their Lux by melting it killing them instantly and devitalising them for a long-period of time."
-	fluff_desc = "A method from tymes long forgotten and unspeakable, granted by the archdevil to its cultists to require minimal effort in rending apart those that stood in the way of its rise. A method of lux destruction that is brutish, inelegant, yet undeniably effective."
+	fluff_desc = "A method from tymes long forgotten and unspeakable, reborn through applying unstable magic and corrupted Vheslynite essense to essentally re-purpose the Lacrima spell of Zizo into a method of lux destruction and murder that is brutish, inelegant, yet undeniably effective."
 	button_icon = 'icons/mob/actions/vheslynspells.dmi'
 	button_icon_state = "conscindo"
 	charge_required = FALSE
@@ -55,7 +55,7 @@ you violently rend it asunder killing them, intended as a finisher to make these
 		return
 	//We don't care if you're undead, we're tearing it out to kill you.
 	else
-		user.visible_message(span_alert("[user] reaches towards [target]'s chest, unholy green flames wreathing [user.p_their()] hand..."))
+		user.visible_message(span_alert("[user] reaches towards [target]'s chest, unholy violet-ochre flames wreathing [user.p_their()] hand..."))
 	var/obj/item/bodypart/chest = target.get_bodypart(BODY_ZONE_CHEST)
 	if(!chest.has_wound(/datum/wound/fracture/chest))
 		if(!do_after(user, break_time, target = target))
@@ -64,7 +64,7 @@ you violently rend it asunder killing them, intended as a finisher to make these
 			if(!HAS_TRAIT(target, TRAIT_NOPAIN))
 				target.emote("agony")
 			chest.add_wound(/datum/wound/fracture/chest)
-			target.adjust_fire_stacks(10, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks. we do a LOT of them, this ritual keeps people /down/.
+			target.adjust_fire_stacks(10, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks. we do a LOT of them, this ritual keeps people /down/.
 			target.ignite_mob()
 			target.apply_damage(70, BRUTE, BODY_ZONE_CHEST) //We aren't delicate vs Zizo's version, we want them dead.
 			user.visible_message(span_alert("[user] violently plunges their fist into [target]'s ribcage, shattering it spectacularly!"))
@@ -76,7 +76,7 @@ you violently rend it asunder killing them, intended as a finisher to make these
 	playsound(user, 'sound/misc/lava_death.ogg', 100, TRUE) //You literally ripped their lux out and tore it apart + melted it to nothing.
 	user.visible_message(span_alert("[user] tears and rends apart the Lux in [target]'s heart, killing them!"))
 	target.death()
-	target.adjust_fire_stacks(20, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks. we do a LOT of them, this ritual keeps people /down/.
+	target.adjust_fire_stacks(20, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks. we do a LOT of them, this ritual keeps people /down/.
 	target.ignite_mob()
 	to_chat(target, span_userdanger("[user] rips out my weary lux and tears it to peices!"))
 

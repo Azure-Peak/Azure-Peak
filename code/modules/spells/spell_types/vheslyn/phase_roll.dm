@@ -55,7 +55,7 @@
 	mob_effect_icon_state = "eff_daggerboost"
 	mob_effect_layer = MOB_EFFECT_LAYER_DBOOST
 	examine_text = "SUBJECTPRONOUN phases through reality with unnatural grace!"
-	var/outline_color = "#9aff9f"
+	var/outline_color = "#b700ff" //Lore accurate violet-flame color
 	effectedstats = list(STATKEY_SPD = 4) //Fucked up, bare in mind I don't intend dodge experts to ever get this. DO not fucking give them this if you're not a sadistic coder.
 
 /datum/status_effect/buff/vheslyn_phase_roll/on_apply()

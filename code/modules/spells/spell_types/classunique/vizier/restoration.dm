@@ -33,7 +33,7 @@
 		target.visible_message(span_info("[target] stirs for a moment, the magick is deflected!"), span_notice("A dull restoration magick passes through your hollow husk of a body, only to be reformed and rebuked back at its caster!"))
 		playsound(target, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
 		user.playsound_local(user, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
-		user.adjust_fire_stacks(5, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks, twice as hard to shake off.
+		user.adjust_fire_stacks(5, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, twice as hard to shake off.
 		user.ignite_mob()
 		user.visible_message(span_warning("[user] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine, yet my body catches aflame. a feeling of ominious dread washes over me."))
 		return FALSE
