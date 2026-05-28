@@ -34,9 +34,11 @@
 	var/list/age_times = list()
 	///the heat we need to be kept at
 	var/heat_required
-	// The name & description on the bottle, if any. Lowercase for the name. 
+	// The name & description on the bottle, if any. Lowercase for the name.
 	var/bottle_name = "generic brew"
 	var/bottle_desc = null
+	/// Typepath spawned by the keg when bottling. Override per recipe so the trade matcher can discriminate brews.
+	var/obj/item/reagent_containers/glass/bottle/brewing_bottle/output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle
 
 /datum/brewing_recipe/proc/after_finish_attackby(mob/user, obj/item/attacked_item, atom/source)
 	return FALSE

@@ -1,0 +1,5 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - rscadd: "Giggle sounds for elven female voicepack."
+  - rscadd: "Giggle sounds for generic male voicepack."

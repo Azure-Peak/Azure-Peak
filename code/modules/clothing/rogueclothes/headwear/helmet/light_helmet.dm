@@ -36,7 +36,6 @@
 	body_parts_covered = HEAD|HAIR|EARS|NOSE
 	icon_state = "leatherhelm"
 	armor = ARMOR_LEATHER_NPC
-	sellprice = 10
 	anvilrepair = null
 	smeltresult = null
 	sewrepair = TRUE

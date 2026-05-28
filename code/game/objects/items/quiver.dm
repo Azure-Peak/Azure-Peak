@@ -11,7 +11,6 @@
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK
 	resistance_flags = FIRE_PROOF
 	max_integrity = 0
-	sellprice = 2 // Shouldn't have added value lmao
 	equip_sound = 'sound/blank.ogg'
 	bloody_icon_state = "bodyblood"
 	alternate_worn_layer = UNDER_CLOAK_LAYER
@@ -347,7 +346,6 @@
 	icon_state = "boltpouch0"
 	item_state = "boltpouch"
 	max_storage = 16
-	sellprice = 10
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt
 
 /obj/item/quiver/bolt/getonmobprop(tag)
@@ -506,7 +504,6 @@
 	icon_state = "boltpouch0"
 	item_state = "boltpouch"
 	max_storage = 8
-	sellprice = 10
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
 
 /obj/item/quiver/bolt/heavy/attack_turf(turf/T, mob/living/user)
@@ -577,7 +574,6 @@
 	icon_state = "javelinbag0"
 	item_state = "javelinbag"
 	max_storage = 20 // Javelins weigh 5 each, so 4 javelins at full capacity
-	sellprice = 10
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/javelin
 
 /obj/item/quiver/javelin/attack_turf(turf/T, mob/living/user)

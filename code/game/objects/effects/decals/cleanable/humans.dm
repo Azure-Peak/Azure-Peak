@@ -373,13 +373,14 @@
 /obj/effect/decal/cleanable/blood/footprints/update_icon()
 	cut_overlays()
 
-	var/overlay_color = null
-	var/turf/T = loc
-	if(istype(T))
-		for(var/obj/effect/decal/cleanable/blood/puddle/P in T)
-			if(P.blood_color)
-				overlay_color = P.blood_color
-			break
+	var/overlay_color = blood_color
+	if(!overlay_color)
+		var/turf/T = loc
+		if(istype(T))
+			for(var/obj/effect/decal/cleanable/blood/puddle/P in T)
+				if(P.blood_color)
+					overlay_color = P.blood_color
+				break
 
 	for(var/Ddir in GLOB.cardinals)
 		if(entered_dirs & Ddir)

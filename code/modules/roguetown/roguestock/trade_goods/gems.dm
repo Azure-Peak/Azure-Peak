@@ -38,3 +38,59 @@
 	category = TRADE_CATEGORY_GEM_LEGENDARY
 	base_price = SELLPRICE_DORPEL
 	item_type = /obj/item/roguegem/diamond
+
+/datum/trade_good/gem/jade
+	id = TRADE_GOOD_JADE
+	name = "Jade"
+	category = TRADE_CATEGORY_GEM_COMMON
+	base_price = SELLPRICE_JADE
+	item_type = /obj/item/roguegem/jade
+
+/datum/trade_good/gem/opal
+	id = TRADE_GOOD_OPAL
+	name = "Opal"
+	category = TRADE_CATEGORY_GEM_RARE
+	base_price = SELLPRICE_OPAL
+	item_type = /obj/item/roguegem/opal
+
+/datum/trade_good/gem/onyxa
+	id = TRADE_GOOD_ONYXA
+	name = "Onyxa"
+	category = TRADE_CATEGORY_GEM_COMMON
+	base_price = SELLPRICE_ONYXA
+	item_type = /obj/item/roguegem/onyxa
+
+/datum/trade_good/gem/cerulite
+	id = TRADE_GOOD_CERULITE
+	name = "Cerulite"
+	category = TRADE_CATEGORY_GEM_RARE
+	base_price = SELLPRICE_CERULITE
+	item_type = /obj/item/roguegem/turq
+
+/datum/trade_good/gem/heartstone
+	id = TRADE_GOOD_HEARTSTONE
+	name = "Heartstone"
+	category = TRADE_CATEGORY_GEM_COMMON
+	base_price = SELLPRICE_HEARTSTONE
+	item_type = /obj/item/roguegem/coral
+
+/datum/trade_good/gem/amber
+	id = TRADE_GOOD_AMBER
+	name = "Amber"
+	category = TRADE_CATEGORY_GEM_COMMON
+	base_price = SELLPRICE_AMBER
+	item_type = /obj/item/roguegem/amber
+
+/datum/trade_good/gem/clamshell
+	id = TRADE_GOOD_CLAMSHELL
+	name = "Clamshell"
+	category = TRADE_CATEGORY_GEM_COMMON
+	base_price = SELLPRICE_CLAMSHELL
+	item_type = /obj/item/carvedgem/shell/rawshell
+
+/datum/trade_good/gem/rosestone
+	id = TRADE_GOOD_ROSESTONE
+	name = "Rosestone"
+	category = TRADE_CATEGORY_GEM_COMMON
+	base_price = SELLPRICE_ROSESTONE
+	item_type = /obj/item/carvedgem/rose/rawrose

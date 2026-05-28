@@ -16,11 +16,9 @@ import {
   sectionHeaderStyle,
 } from '../common/parchment';
 
-// ── Regions view ─────────────────────────────────────────────────
 export const RegionsView = (props: { data: Data }) => {
   const { region_rows, region_catalog } = props.data;
 
-  // Sort: blockaded first (demand attention), then alphabetical by name.
   const sorted = [...region_rows].sort((a, b) => {
     if (!!a.blockaded !== !!b.blockaded) return a.blockaded ? -1 : 1;
     const an = region_catalog[a.region_id]?.name ?? a.region_id;
@@ -38,14 +36,12 @@ export const RegionsView = (props: { data: Data }) => {
   );
 };
 
-// ── Single region card ───────────────────────────────────────────
 const RegionCard = (props: { region: RegionRow; data: Data }) => {
   const { act } = useBackend<Data>();
   const { region, data } = props;
   const meta = data.region_catalog[region.region_id];
   const regionName = meta?.name ?? region.region_id;
   const description = meta?.description;
-  // Blockaded regions open by default so the Steward sees what's cut off.
   const [expanded, setExpanded] = useState<boolean>(!!region.blockaded);
 
   const producesCount = region.produces.length;
@@ -87,7 +83,6 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
           {description && (
             <div
               style={{
-                fontStyle: 'italic',
                 color: INK_SOFT,
                 fontSize: '12px',
                 margin: '6px 0 4px 16px',
@@ -155,7 +150,6 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
   );
 };
 
-// ── One side of the two-column region layout ────────────────────
 const FlowColumn = (props: {
   title: string;
   color: string;
@@ -212,7 +206,6 @@ const FlowColumn = (props: {
               fontVariant: 'small-caps',
               color: INK_FAINT,
               fontSize: '10px',
-              letterSpacing: '0.5px',
             }}
           >
             {label}

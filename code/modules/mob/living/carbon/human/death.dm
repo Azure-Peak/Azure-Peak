@@ -33,6 +33,9 @@
 	if(QDELETED(src) || !loc)
 		return
 
+	if(taints_loot_on_death)
+		flag_worn_as_looted()
+
 	if(SScity_assembly?.is_alderman(src))
 		var/departing_name = real_name
 		var/departing_job = job

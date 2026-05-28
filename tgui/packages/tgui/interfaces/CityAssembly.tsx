@@ -6,6 +6,7 @@ import { BooleanLike } from 'tgui-core/react';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
+  BUTTON_BG,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -122,8 +123,6 @@ const formatCountdown = (seconds: number): string => {
   return `${m}m ${s.toString().padStart(2, '0')}s`;
 };
 
-// ─ Compact ballot styles ────────────────────────────────────────────
-
 const ballotRowStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'baseline',
@@ -137,14 +136,12 @@ const rowLabelStyle: CSSProperties = {
   minWidth: '110px',
   color: INK,
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   fontWeight: 'bold',
 };
 
 const rowHintStyle: CSSProperties = {
-  color: INK_FAINT,
-  fontStyle: 'italic',
-  fontSize: '11px',
+  color: INK_SOFT,
+  fontSize: '12px',
   flexBasis: '100%',
   paddingLeft: '118px',
   marginTop: '2px',
@@ -154,7 +151,6 @@ const previewStyle: CSSProperties = {
   color: INK_SOFT,
   fontSize: '11px',
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   flexBasis: '100%',
   paddingLeft: '118px',
   marginTop: '2px',
@@ -166,7 +162,6 @@ const headerBarStyle: CSSProperties = {
   alignItems: 'baseline',
   color: INK_SOFT,
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   fontSize: '12px',
   marginBottom: '4px',
 };
@@ -178,7 +173,6 @@ const quorumBannerStyle = (quorate: boolean): CSSProperties => ({
   padding: '4px 10px',
   marginBottom: '10px',
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   fontWeight: 'bold',
   fontSize: '12px',
   textAlign: 'center',
@@ -228,9 +222,8 @@ const candidateJobStyle: CSSProperties = {
 };
 
 const candidatePledgeStyle: CSSProperties = {
-  color: INK_FAINT,
-  fontStyle: 'italic',
-  fontSize: '11px',
+  color: INK_SOFT,
+  fontSize: '12px',
   flexBasis: '100%',
   paddingLeft: '28px',
 };
@@ -341,8 +334,6 @@ export const CityAssembly = () => {
             disabled={!canVote}
           />
 
-          {/* Poll Tax disabled pending anti-dodge design. */}
-
           {hasAlderman ? (
             <>
               <YaeNayRow
@@ -377,8 +368,6 @@ export const CityAssembly = () => {
   );
 };
 
-// ─ Alderman-only status strip ───────────────────────────────────────
-
 const AldermanStrip = (props: {
   warrant: Warrant;
   onResign: () => void;
@@ -390,7 +379,6 @@ const AldermanStrip = (props: {
       <div
         style={{
           fontVariant: 'small-caps',
-          letterSpacing: '2px',
           color: SEAL_AMBER,
           fontWeight: 'bold',
           marginBottom: '4px',
@@ -439,8 +427,6 @@ const AldermanStrip = (props: {
   );
 };
 
-// ─ Election ballot row ──────────────────────────────────────────────
-
 type ElectionRowProps = {
   data: Data;
   canVote: boolean;
@@ -474,7 +460,7 @@ const ElectionRow = (props: ElectionRowProps) => {
       <span style={rowLabelStyle}>Alderman</span>
       <div style={{ flex: 1, minWidth: 0 }}>
         {data.candidates.length === 0 && (
-          <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+          <div style={{ color: INK_SOFT }}>
             No one has stood yet.
           </div>
         )}
@@ -570,7 +556,7 @@ const ElectionRow = (props: ElectionRowProps) => {
               onChange={(v) => props.setPledgeDraft(v)}
               placeholder="Your pledge (max 300 characters)..."
               style={{
-                background: 'rgba(255,248,220,0.6)',
+                background: BUTTON_BG,
                 border: `1px solid ${INK_FAINT}`,
                 padding: '4px 6px',
                 fontFamily: SERIF,
@@ -605,8 +591,6 @@ const ElectionRow = (props: ElectionRowProps) => {
     </div>
   );
 };
-
-// ─ Bracket ballot row ───────────────────────────────────────────────
 
 type BracketRowProps = {
   label: string;
@@ -689,8 +673,6 @@ const BracketRow = (props: BracketRowProps) => {
   );
 };
 
-// ─ YAE/NAY ballot row (recall, censure) ─────────────────────────────
-
 type YaeNayProps = {
   label: string;
   hint: string;
@@ -756,12 +738,10 @@ const YaeNayRow = (props: YaeNayProps) => {
   );
 };
 
-// ─ History (collapsed by default) ───────────────────────────────────
-
 const HistoryBlock = (props: { history: HistoryEntry[] }) => {
   if (props.history.length === 0) {
     return (
-      <div style={{ color: INK_FAINT, fontStyle: 'italic', marginTop: '6px' }}>
+      <div style={{ color: INK_SOFT, marginTop: '6px' }}>
         No sessions have yet been written into the record.
       </div>
     );

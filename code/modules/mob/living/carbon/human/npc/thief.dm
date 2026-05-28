@@ -75,7 +75,7 @@
 		real_name = pick(world.file2list("strings/names/first_male.txt"))
 	update_hair()
 	update_body()
-	head.sellprice = 30
+	head.sellprice = HEAD_BOUNTY_THIEF
 
 
 /datum/outfit/job/roguetown/human/species/human/northern/thief/pre_equip(mob/living/carbon/human/H)

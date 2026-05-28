@@ -43,7 +43,7 @@
 
 /datum/supply_pack/rogue/light_armor/studded_leather_cuirass
 	name = "Studded Leather Cuirass, 'Cuir-Bouilli'-Style"
-	cost = 45
+	cost = 50
 	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli)
 
 /datum/supply_pack/rogue/light_armor/heavy_leather_coat
@@ -90,6 +90,11 @@
 	name = "Arming Jacket"
 	cost = 40 // superior gambeson. idk if its on par w/ the actual padded one or not
 	contains = list(/obj/item/clothing/suit/roguetown/armor/gambeson/lord)
+
+/datum/supply_pack/rogue/light_armor/heavy_leather_boots
+	name = "Heavy Leather Boots"
+	cost = 20
+	contains = list(/obj/item/clothing/shoes/roguetown/boots/leather/reinforced)
 
 /datum/supply_pack/rogue/light_armor/arming_jacket
 	name = "Padded Arming Jacket"

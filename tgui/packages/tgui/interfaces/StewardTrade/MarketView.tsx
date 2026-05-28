@@ -5,6 +5,7 @@ import { groupByCategory } from './helpers';
 import type { Data, MarketRegionOption, MarketRow } from './types';
 import {
   badgeStyle,
+  BUTTON_BG,
   cardStyle,
   INK,
   INK_FAINT,
@@ -43,7 +44,6 @@ const promptMultiplier = (label: string): number | null => {
   return n;
 };
 
-// ── Market view ──────────────────────────────────────────────────
 export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
   const { act } = useBackend<Data>();
   const {
@@ -63,7 +63,6 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
   );
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
-  // If the selected category disappears (e.g. good toggled off mid-session), fall back.
   const activeGroup =
     groups.find((g) => g.category === activeCategory) ?? groups[0];
 
@@ -199,7 +198,7 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
         </div>
       </div>
       {market_rows.length === 0 ? (
-        <div style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}>
+        <div style={{ textAlign: 'center', color: INK_SOFT }}>
           No goods accepted at present.
         </div>
       ) : (
@@ -410,7 +409,6 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
   );
 };
 
-// ── Per-side block (buy or sell) ─────────────────────────────────
 const SideBlock = (props: {
   side: Side;
   label: string;
@@ -495,7 +493,6 @@ const SideBlock = (props: {
   );
 };
 
-// ── One region line (used for primary + expanded entries) ────────
 const RegionRow = (props: {
   side: Side;
   color: string;
@@ -574,13 +571,12 @@ const chevronStyle = {
   padding: '1px 6px',
   marginLeft: '6px',
   border: `1px solid ${INK_FAINT}`,
-  background: 'rgba(255,248,220,0.5)',
+  background: BUTTON_BG,
   color: INK_SOFT,
   cursor: 'pointer',
   borderRadius: '2px',
 };
 
-// ── Stockpile management strip (Steward-only controls; visible to Alderman) ──
 const stripStyle: React.CSSProperties = {
   display: 'flex',
   flexWrap: 'wrap',
@@ -618,7 +614,6 @@ const stripValueButtonStyle: React.CSSProperties = {
 const flagPillStyle = (active: boolean): React.CSSProperties => ({
   fontSize: '9px',
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   padding: '0 4px',
   border: `1px solid ${active ? SEAL_GREEN : INK_FAINT}`,
   color: active ? SEAL_GREEN : INK_FAINT,

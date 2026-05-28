@@ -1,7 +1,7 @@
 /obj/structure/roguemachine/noticeboard
 	name = "Notice Board"
 	desc = "A large wooden notice board, carrying postings from all across Azuria. A ZAD perch sits atop it."
-	icon = 'icons/roguetown/misc/64x64.dmi'
+	icon = 'icons/roguetown/structure/noticeboard64.dmi'
 	icon_state = "noticeboard0"
 	density = TRUE
 	anchored = TRUE
@@ -9,23 +9,20 @@
 	blade_dulling = DULLING_BASH
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
-	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters", "Trade Orders", "Economic Events", "Blockades", "City Assembly")
-
-/obj/structure/roguemachine/noticeboard/get_mechanics_examine(mob/user)
-	. = ..()
-	. += span_info("Left-click the noticeboard to take a better look at it.")
-	. += span_info("'Postings' and 'Premium Postings' can host messages of any kind. The zads will audibly notify everyone that a new message has been added to the noticeboard, whenever one is posted.")
-	. += span_info("'Scout Reports' detail how dangerous the ambushes in Azuria's many regions might be. The more dangerous a region is, the more numerous and lethal its ambushers will be.")
-	. += span_info("'Mercenary Rosters' list the names and detailings of all Mercenaries currently registered to Azuria's Mercenary Guild.")
-	. += span_info("'Charters' display the current state of Azuria's four foundational Charters.")
-	. += span_info("'Trade Orders' list standing trade demands from every region. Speak with the Steward if you wish to help fulfill one.")
-	. += span_info("'Economic Events' warn of active shortages and gluts affecting trade prices across the realm.")
-	. += span_info("'Blockades' list regions where trade roads are cut by raiders. Pin a Steward's blockade writ here to open it to a Fellowship of three.")
+	var/last_market_refresh = 0
 
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
 	SSroguemachine.noticeboards += src
+	update_icon()
+	if(SSmerchant_trade)
+		SSmerchant_trade.register_market_watcher(src)
+
+/obj/structure/roguemachine/noticeboard/Destroy()
+	SSroguemachine.noticeboards -= src
+	if(SSmerchant_trade)
+		SSmerchant_trade.unregister_market_watcher(src)
+	return ..()
 
 /obj/structure/roguemachine/noticeboard/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	if(istype(P, /obj/item/quest_writ/blockade))
@@ -42,27 +39,29 @@
 		return
 	return ..()
 
-/datum/noticeboardpost
-	var/title
-	var/truepostername
-	var/posterstitle
-	var/poster
-	var/message
-	var/banner
+/obj/structure/roguemachine/noticeboard/wall
+	icon = 'icons/roguetown/structure/noticeboard32.dmi'
+	density = FALSE
+	layer = ABOVE_MOB_LAYER
+	pixel_y = 32
 
-/obj/structure/roguemachine/noticeboard/examine(mob/living/carbon/human/user)
+/obj/structure/roguemachine/noticeboard/wall/OnCrafted(dirin, user)
+	pixel_x = 0
+	pixel_y = 0
+	switch(dirin)
+		if(NORTH)
+			pixel_y = 32
+		if(SOUTH)
+			pixel_y = -32
+		if(EAST)
+			pixel_x = 32
+		if(WEST)
+			pixel_x = -32
 	. = ..()
-	if(!ishuman(user))
-		return
-	if(user in GLOB.board_viewers)
-		return
-	else
-		GLOB.board_viewers += user
-		to_chat(user, span_smallred("A new posting has been made since I last checked!"))
 
 /obj/structure/roguemachine/noticeboard/update_icon()
 	. = ..()
-	var/total_length = length(GLOB.noticeboard_posts) + length(GLOB.premium_noticeboardposts)
+	var/total_length = length(GLOB.noticeboard_notices) + length(GLOB.noticeboard_listings)
 	switch(total_length)
 		if(0)
 			icon_state = "noticeboard0"
@@ -73,352 +72,403 @@
 		else
 			icon_state = "noticeboard3"
 
-/obj/structure/roguemachine/noticeboard/Topic(href, href_list)
+/obj/structure/roguemachine/noticeboard/attack_hand(mob/user)
 	. = ..()
-	if(!usr.canUseTopic(src, BE_CLOSE))
+	if(!ishuman(user))
 		return
-	if(href_list["changecategory"])
-		current_category = href_list["changecategory"]
-	if(href_list["makepost"])
-		make_post(usr)
-		return attack_hand(usr)
-	if(href_list["premiumpost"])
-		premium_post(usr)
-		return attack_hand(usr)
-	if(href_list["removepost"])
-		remove_post(usr)
-		return attack_hand(usr)
-	if(href_list["authorityremovepost"])
-		authority_removepost(usr)
-		return attack_hand(usr)
-	if(href_list["open_assembly"])
-		open_assembly_tgui(usr)
-		return
+	open_noticeboard_tgui(user)
 
-	return attack_hand(usr)
+/obj/structure/roguemachine/noticeboard/proc/open_noticeboard_tgui(mob/user)
+	var/datum/tgui/ui = SStgui.try_update_ui(user, src, null)
+	if(!ui)
+		ui = new(user, src, "Noticeboard")
+		ui.open()
 
-/obj/structure/roguemachine/noticeboard/attack_hand(mob/living/user)
-	var/can_addremove = ishuman(user)
-	var/mob/living/carbon/human/human_user = user
-	var/can_remove = FALSE
-	var/can_premium = FALSE
-	if(can_addremove && (human_user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Orthodoxist", "Absolver", "Marshal", "Hand", "Grand Duke"))) //why was KC here but not marshal ?
-		can_remove = TRUE
-	if(can_addremove && (human_user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper", "Grand Duke")))
-		can_premium = TRUE
-	var/contents
-	contents += "<center>NOTICEBOARD<BR>"
-	contents += "--------------<BR>"
-	var/selection = "Categories: "
-	for(var/i = 1, i <= length(categories), i++)
-		var/category = categories[i]
-		if(category == current_category)
-			selection += "<b>[current_category]</b> | "
-		else if(i != length(categories))
-			selection += "<a href='?src=[REF(src)];changecategory=[category]'>[category]</a> | "
+/obj/structure/roguemachine/noticeboard/ui_state(mob/user)
+	return GLOB.human_adjacent_state
+
+/obj/structure/roguemachine/noticeboard/ui_interact(mob/user, datum/tgui/ui)
+	SStgui.try_update_ui(user, src, ui)
+
+/obj/structure/roguemachine/noticeboard/ui_static_data(mob/user)
+	var/list/data = list()
+	data["realm_name"] = SSticker.realm_name
+	data["market_data"] = build_market_data()
+	return data
+
+/obj/structure/roguemachine/noticeboard/ui_data(mob/user)
+	var/list/data = list()
+	data["scout_regions"] = build_scout_regions()
+	data["trade_orders"] = build_trade_orders()
+	data["harbor_demands"] = build_harbor_demands()
+	data["charters"] = build_charters()
+	data["economic_events"] = build_economic_events()
+	data["mercenary_roster"] = build_mercenary_roster()
+	if(!ishuman(user))
+		data["postings"] = list()
+		data["can_post_listing"] = FALSE
+		data["can_authority_remove"] = FALSE
+		data["user_real_name"] = ""
+		data["user_default_name"] = ""
+		data["user_default_role"] = ""
+		data["has_active_notice"] = FALSE
+		data["has_active_listing"] = FALSE
+		return data
+	var/mob/living/carbon/human/H = user
+	var/can_listing = (H.job in NOTICEBOARD_LISTING_ROLES) ? TRUE : FALSE
+	var/can_auth_remove = (H.job in NOTICEBOARD_AUTHORITY_ROLES) ? TRUE : FALSE
+	var/list/postings = list()
+	var/has_active_listing = FALSE
+	var/has_active_notice = FALSE
+	for(var/datum/noticeboard_posting/P in GLOB.noticeboard_listings)
+		if(P.truename == H.real_name)
+			has_active_listing = TRUE
+		postings += list(serialize_posting(P, H, can_auth_remove))
+	for(var/datum/noticeboard_posting/P in GLOB.noticeboard_notices)
+		if(P.truename == H.real_name)
+			has_active_notice = TRUE
+		postings += list(serialize_posting(P, H, can_auth_remove))
+	data["postings"] = postings
+	data["can_post_listing"] = can_listing
+	data["can_authority_remove"] = can_auth_remove
+	data["user_real_name"] = H.real_name
+	data["user_default_name"] = H.real_name
+	data["user_default_role"] = H.job || ""
+	data["has_active_notice"] = has_active_notice
+	data["has_active_listing"] = has_active_listing
+	return data
+
+/obj/structure/roguemachine/noticeboard/proc/build_scout_regions()
+	var/list/blockade_by_threat_name = list()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		if(B.threat_region_name)
+			blockade_by_threat_name[B.threat_region_name] = B
+	var/list/rows = list()
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		var/list/row = list()
+		row["region_name"] = TR.region_name
+		row["danger_level"] = TR.get_danger_level()
+		row["danger_color"] = TR.get_danger_color()
+		row["ic_descriptions"] = TR.get_ic_description()
+		var/datum/blockade/B = blockade_by_threat_name[TR.region_name]
+		if(B)
+			var/datum/quest_faction/F = B.get_faction()
+			var/datum/economic_region/ER = B.get_region()
+			row["blockaded"] = TRUE
+			row["blockade_writ_out"] = B.has_active_scroll() ? TRUE : FALSE
+			row["blockade_faction_label"] = F ? "[F.group_word] of [F.name_plural]" : (B.faction_id || "")
+			row["blockade_region_label"] = ER ? ER.name : (B.region_id || "")
+			row["blockade_days_active"] = max(0, GLOB.dayspassed - B.day_started)
 		else
-			selection += "<a href='?src=[REF(src)];changecategory=[category]'>[category]</a> "
-	contents += selection + "<BR>"
-	if(current_category in list("Postings", "Premium Postings"))
-		if(can_addremove)
-			contents += "<a href='?src=[REF(src)];makepost=1'>Make a Posting</a>"
-			if(can_premium)
-				contents += " | <a href='?src=[REF(src)];premiumpost=1'>Make a Premium Posting</a><br>"
+			row["blockaded"] = FALSE
+			row["blockade_writ_out"] = FALSE
+			row["blockade_faction_label"] = ""
+			row["blockade_region_label"] = ""
+			row["blockade_days_active"] = 0
+		rows += list(row)
+	return rows
+
+/obj/structure/roguemachine/noticeboard/proc/build_trade_orders()
+	var/list/rows = list()
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		if(O.is_fulfilled)
+			continue
+		var/list/row = list()
+		var/datum/economic_region/region = GLOB.economic_regions[O.region_id]
+		row["name"] = O.name
+		row["region_label"] = region ? region.name : O.region_id
+		row["description"] = O.description || ""
+		row["days_left"] = max(0, O.day_expires - GLOB.dayspassed)
+		row["total_payout"] = O.total_payout
+		row["urgent"] = istype(O, /datum/standing_order/urgent) ? TRUE : FALSE
+		row["blockaded"] = (region?.is_region_blockaded) ? TRUE : FALSE
+		row["petitioned"] = O.petitioned ? TRUE : FALSE
+		var/has_warehouse = FALSE
+		var/has_stockpile = FALSE
+		var/list/requirements = list()
+		for(var/good_id in O.required_items)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			if(SSeconomy.get_good_route(good_id) == "warehouse")
+				has_warehouse = TRUE
 			else
-				contents += "<br>"
-			contents += "<a href='?src=[REF(src)];removepost=1'>Remove my Posting</a><br>"
-			if(can_remove)
-				contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
-		var/board_empty = TRUE
-		switch(current_category)
-			if("Postings")
-				for(var/datum/noticeboardpost/saved_post in GLOB.noticeboard_posts)
-					contents += saved_post.banner
-					board_empty = FALSE
-			if("Premium Postings")
-				for(var/datum/noticeboardpost/saved_post in GLOB.premium_noticeboardposts)
-					contents += saved_post.banner
-					board_empty = FALSE
-		if(board_empty)
-			contents += "<br><span class='notice'>No postings have been made yet!</span>"
-	else if(current_category == "Scout Report")
-		var/list/regional_threats = SSregionthreat.get_threat_regions_for_display()
-		contents += "<h2>Scout Report</h2>"
-		contents += "<hr></center>"
-		for(var/T in regional_threats)
-			var/datum/threat_region_display/TRS = T
-			var/entry = "<div>[TRS?.region_name]: <font color=[TRS?.danger_color]>[TRS?.danger_level]</font>"
-			if(length(TRS?.ic_description))
-				entry += " &mdash; [jointext(TRS.ic_description, "; ")]"
-			entry += "</div>"
-			contents += entry
-		contents += "<hr>"
-		contents += "Scouts rate how dangerous a region is from Safe -> Low -> Moderate -> Dangerous -> Bleak <br>"
-		contents += "A safe region is safe and travelers are unlikely to be ambushed by common creechurs and brigands. <br>"
-		contents += "A low threat region is unlikely to manifest any great threat and brigands and creechurs are often found alone. <br>"
-		contents += "Only Azure Basin, Azure Grove and the Terrorbog can be rendered safe entirely. <br>"
-		contents += "Regions not listed are beyond the charge of the wardens. Danger will be constant in these regions. <br>"
-		contents += "Danger is reduced by luring villains and creechurs and killing them when they ambush you. Traveling in groups draws larger ambushes, but each additional companion contributes less to taming the region than a lone traveler would. <br>"
-		contents += "The signal horns wardens have been issued can provoke a sizeable fight proportional to the region's dangers, and is the surest way to tame a region. Bandits and wild creechurs trickle back in over time, generally overnight. Take care with the horn, and bring friends."
-	else if(current_category == "Mercenary Roster")
-		if(SSroguemachine.mercenary_statue)
-			contents += SSroguemachine.mercenary_statue.get_readonly_roster_html()
-		else
-			contents += "<br><span class='notice'>The mercenary statue network is not available.</span>"
-	else if(current_category == "Charters")
-		contents += "<h2>Charters of the Realm</h2>"
-		contents += "<hr></center>"
-		for(var/id in SStreasury.decrees)
-			var/datum/decree/D = SStreasury.decrees[id]
-			// Dormant charters (never activated this round) are hidden from the public Charters
-			// listing. A charter the Lord has never pressed doesn't exist as far as the town is
-			// concerned - the Notice Board only reflects what's in actual force or was recently.
-			if(!D.has_ever_been_active)
+				has_stockpile = TRUE
+			requirements += list(list(
+				"label" = tg ? tg.name : good_id,
+				"quantity" = O.required_items[good_id],
+			))
+		row["warehouse"] = has_warehouse
+		row["stockpile"] = has_stockpile
+		row["requirements"] = requirements
+		rows += list(row)
+	return rows
+
+/obj/structure/roguemachine/noticeboard/proc/build_harbor_demands()
+	var/list/rows = list()
+	if(!SSmerchant_trade)
+		return rows
+	for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
+		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+			continue
+		var/datum/foreign_realm/realm = SSmerchant_trade.realms[ship.realm_id]
+		var/realm_name = realm ? realm.name : ship.realm_id
+		var/seconds_left = max(0, round((ship.dock_expires_at - world.time) / 10))
+		var/list/lines = list()
+		for(var/list/line in ship.bulk_demands)
+			var/remaining = line["qty_target"] - line["qty_fulfilled"]
+			if(remaining <= 0)
 				continue
-			var/state_color = D.active ? "#2a8a2a" : "#8a2a2a"
-			var/state_label = D.active ? "IN FORCE" : "SUSPENDED"
-			contents += "<div style='margin-bottom:10px'>"
-			contents += "<b>[D.name]</b> <i>of [D.year]</i> &mdash; <font color='[state_color]'>[state_label]</font><br>"
-			contents += "<div style='white-space:pre-wrap;margin-top:4px'>[D.get_display_flavor_text()]</div>"
-			contents += "</div><hr>"
-	else if(current_category == "Trade Orders")
-		contents += "<h2>Standing Trade Orders</h2>"
-		contents += "<hr></center>"
-		var/orders_shown = 0
-		for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-			if(O.is_fulfilled)
+			lines += list(list(
+				"good_name" = line["good_name"],
+				"qty_target" = line["qty_target"],
+				"qty_fulfilled" = line["qty_fulfilled"],
+				"qty_remaining" = remaining,
+				"offered_price" = line["offered_price"],
+			))
+		var/list/cultural = list()
+		for(var/list/entry in ship.cultural_stock)
+			if(entry["qty"] <= 0)
 				continue
-			orders_shown++
-			var/datum/economic_region/region = GLOB.economic_regions[O.region_id]
-			var/region_name = region ? region.name : O.region_id
-			var/days_left = max(0, O.day_expires - GLOB.dayspassed)
-			var/is_urgent = istype(O, /datum/standing_order/urgent)
-			contents += "<div style='margin-bottom:10px'>"
-			if(is_urgent)
-				contents += "<font color='#c44'><b>URGENT</b></font> "
-			if(region?.is_region_blockaded)
-				contents += "<font color='#c44'><b>BLOCKADED</b></font> "
-			if(SSeconomy.order_is_equipment(O))
-				contents += "<font color='#88c'><b>WAREHOUSE</b></font> "
-			if(O.petitioned)
-				contents += "<font color='#a872c4'><b>STEWARD'S PETITION</b></font> "
-			contents += "<b>[O.name]</b> &mdash; [region_name] &mdash; [days_left]d remaining<br>"
-			if(O.description)
-				contents += "<i>[O.description]</i><br>"
-			contents += "Requires: "
-			var/first = TRUE
-			for(var/good_id in O.required_items)
-				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-				var/label = tg ? tg.name : good_id
-				if(!first)
-					contents += ", "
-				first = FALSE
-				contents += "[O.required_items[good_id]] [label]"
-			contents += "<br>"
-			contents += "Payout: <b>[O.total_payout]m</b><br>"
-			contents += "</div><hr>"
-		if(!orders_shown)
-			contents += "<br><span class='notice'>No standing orders currently posted. Check back later.</span>"
-		else
-			contents += "<div style='margin-top:8px'><i>Speak with the Steward or Clerk at the Nerve Master to fulfill a stockpile order. WAREHOUSE-tagged orders require finished goods to be left at the dock manifest for Crown collection. Orders can be settled short once at least [round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)]% by value is on hand, paid at [round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of the delivered share - the rest is forfeit.</i></div>"
-	else if(current_category == "Blockades")
-		contents += "<h2>Regional Blockades</h2>"
-		contents += "<hr></center>"
-		if(!length(GLOB.active_blockades))
-			contents += "<br><span class='notice'>No blockades are active. The trade roads run clear.</span>"
-		else
-			for(var/datum/blockade/B as anything in GLOB.active_blockades)
-				var/datum/economic_region/ER = B.get_region()
-				var/datum/quest_faction/F = B.get_faction()
-				var/region_label = ER ? ER.name : B.region_id
-				var/faction_label = F ? "[F.group_word] of [F.name_plural]" : B.faction_id
-				var/days_active = GLOB.dayspassed - B.day_started
-				contents += "<div style='margin-bottom:10px'>"
-				contents += "<font color='#c44'><b>BLOCKADED</b></font> <b>[region_label]</b> &mdash; [days_active]d active<br>"
-				contents += "Raiders: <i>[faction_label]</i><br>"
-				if(B.has_active_scroll())
-					contents += "<font color='#5cb85c'>A defense writ is in circulation - seek the bearer.</font><br>"
-				else
-					contents += "<i>Awaiting a Steward's defense writ.</i><br>"
-				contents += "</div><hr>"
-			contents += "<div style='margin-top:8px'><i>Defense writs are drafted by the Steward from the Contract Ledger. Pinning a writ here binds it to a Fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT].</i></div>"
-	else if(current_category == "Economic Events")
-		contents += "<h2>Economic Events</h2>"
-		contents += "<hr></center>"
-		if(!length(GLOB.active_economic_events))
-			contents += "<br><span class='notice'>The realm's trade is calm. No events are currently disturbing the market.</span>"
-		else
-			for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-				var/days_left = max(0, E.day_expires - GLOB.dayspassed)
-				var/color = (E.event_type == ECON_EVENT_SHORTAGE) ? "#c44" : "#5cb85c"
-				var/type_label = (E.event_type == ECON_EVENT_SHORTAGE) ? "SHORTAGE" : "GLUT"
-				contents += "<div style='margin-bottom:10px'>"
-				contents += "<font color='[color]'><b>[type_label]</b></font> &mdash; <b>[E.name]</b> &mdash; forecast to return to normal within [days_left]d<br>"
-				if(E.description)
-					contents += "<i>[E.description]</i><br>"
-				if(length(E.affected_goods))
-					contents += "Affected goods: "
-					var/first = TRUE
-					for(var/good_id in E.affected_goods)
-						var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-						var/label = tg ? tg.name : good_id
-						if(!first)
-							contents += ", "
-						first = FALSE
-						contents += label
-					contents += "<br>"
-				if(E.event_type == ECON_EVENT_SHORTAGE && E.saturation_target > 0)
-					var/pct = min(100, round((E.saturation_progress / E.saturation_target) * 100))
-					contents += "<font color='#5cb85c'>Relief progress:</font> [E.saturation_progress]/[E.saturation_target] units delivered ([pct]%) - the shortage ends early once this fills.<br>"
-				contents += "</div><hr>"
-	else if(current_category == "City Assembly")
-		contents += build_assembly_summary_html()
-	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
-	popup.set_content(contents)
-	popup.open()
+			var/discounted = round(entry["base_cost"] * (100 - TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT) / 100)
+			cultural += list(list(
+				"name" = entry["name"],
+				"qty" = entry["qty"],
+				"base_cost" = entry["base_cost"],
+				"price" = discounted,
+			))
+		if(!length(lines) && !length(cultural))
+			continue
+		rows += list(list(
+			"ship_id" = ship.ship_id,
+			"ship_name" = ship.ship_name,
+			"realm_name" = realm_name,
+			"realm_id" = ship.realm_id,
+			"seconds_until_departure" = seconds_left,
+			"lines" = lines,
+			"cultural_stock" = cultural,
+		))
+	return rows
 
-/obj/structure/roguemachine/noticeboard/proc/premium_post(mob/living/carbon/human/guy)
-	if(guy.has_status_effect(/datum/status_effect/debuff/postcooldown))
-		to_chat(guy, span_warning("I must wait a time until my next posting..."))
-		return
-	var/inputtitle = input(guy, "What shall the title of my posting be?", "NOTICEBOARD", null)
-	if(!inputtitle)
-		return
-	var/inputmessage = stripped_multiline_input(guy, "What shall I write for this posting?", "NOTICEBOARD", no_trim=TRUE)
-	if(inputmessage)
-		if(length(inputmessage) > 2000)
-			to_chat(guy, span_warning("Too long! You shall surely overburden the with this novel!"))
-			return
-	else
-		return
-	var/inputname = input(guy, "What name shall I use on the posting?", "NOTICEBOARD", null)
-	if(!inputname)
-		return
-	var/inputrole = input(guy, "What personal title shall I use on the posting?", "NOTICEBOARD", null)
-	add_post(inputmessage, inputtitle, inputname, inputrole, guy.real_name, TRUE)
-	guy.apply_status_effect(/datum/status_effect/debuff/postcooldown)
-	message_admins("[ADMIN_LOOKUPFLW(guy)] has made a notice board post. The message was: [inputmessage]")
-	for(var/obj/structure/roguemachine/noticeboard/board in SSroguemachine.noticeboards)
-		if(board != src)
-			playsound(board, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
-			board.visible_message(span_smallred("A ZAD lands, delivering a new posting!"))
-			board.update_icon()
+/obj/structure/roguemachine/noticeboard/proc/build_charters()
+	var/list/rows = list()
+	for(var/id in SStreasury.decrees)
+		var/datum/decree/D = SStreasury.decrees[id]
+		if(!D.has_ever_been_active)
+			continue
+		rows += list(list(
+			"name" = D.name,
+			"year" = D.year,
+			"active" = D.active ? TRUE : FALSE,
+			"flavor_text" = D.get_display_flavor_text(),
+		))
+	return rows
 
-/obj/structure/roguemachine/noticeboard/proc/make_post(mob/living/carbon/human/guy)
-	if(guy.has_status_effect(/datum/status_effect/debuff/postcooldown))
-		to_chat(guy, span_warning("I must wait a time until my next posting..."))
-		return
-	var/inputtitle = stripped_input(guy, "What shall the title of my posting be?", "NOTICEBOARD", null)
-	if(!inputtitle)
-		return
-	if(length(inputtitle) > 50)
-		to_chat(guy, span_warning("Too long! You shall surely overburden the zad with this novel!"))
-		return
-	var/inputmessage = stripped_multiline_input(guy, "What shall I write for this posting?", "NOTICEBOARD", no_trim=TRUE)
-	if(inputmessage)
-		if(length(inputmessage) > 2000)
-			to_chat(guy, span_warning("Too long! You shall surely overburden the zad with this novel!"))
-			return
-	else
-		return
-	var/inputname = stripped_input(guy, "What name shall I use on the posting?", "NOTICEBOARD", null)
-	if(!inputname)
-		return
-	if(length(inputname) > 50)
-		to_chat(guy, span_warning("Too long! You shall surely overburden the zad with this novel!"))
-		return
-	var/inputrole = stripped_input(guy, "What personal title shall I use on the posting?", "NOTICEBOARD", null)
-	if(length(inputrole) > 50)
-		to_chat(guy, span_warning("Too long! You shall surely overburden the zad with this novel!"))
-		return
-	add_post(inputmessage, inputtitle, inputname, inputrole, guy.real_name, FALSE)
-	guy.apply_status_effect(/datum/status_effect/debuff/postcooldown)
-	message_admins("[ADMIN_LOOKUPFLW(guy)] has made a notice board post. The message was: [inputmessage]")
-	for(var/obj/structure/roguemachine/noticeboard/board in SSroguemachine.noticeboards)
-		board.update_icon()
-		if(board != src)
-			playsound(board, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
-			board.visible_message(span_smallred("A ZAD lands, delivering a new posting!"))
+/obj/structure/roguemachine/noticeboard/proc/build_economic_events()
+	var/list/rows = list()
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		var/list/affected = list()
+		for(var/good_id in E.affected_goods)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			affected += (tg ? tg.name : good_id)
+		rows += list(list(
+			"name" = E.name,
+			"description" = E.description || "",
+			"event_type" = E.event_type,
+			"days_left" = max(0, E.day_expires - GLOB.dayspassed),
+			"affected_goods" = affected,
+		))
+	return rows
 
-/obj/structure/roguemachine/noticeboard/proc/remove_post(mob/living/carbon/human/guy)
-	var/list/myposts_list = list()
-	for(var/datum/noticeboardpost/removable_posts in GLOB.noticeboard_posts)
-		if(removable_posts.truepostername == guy.real_name)
-			myposts_list += removable_posts.title
-	for(var/datum/noticeboardpost/removable_postspremium in GLOB.premium_noticeboardposts)
-		if(removable_postspremium.truepostername == guy.real_name)
-			myposts_list += removable_postspremium.title
-	if(!myposts_list.len)
-		to_chat(guy, span_warning("There are no posts I can take down."))
+/obj/structure/roguemachine/noticeboard/proc/build_mercenary_roster()
+	var/list/data = list(
+		"available" = list(),
+		"contracted" = list(),
+		"dnd" = list(),
+		"available_count" = 0,
+		"contracted_count" = 0,
+		"dnd_count" = 0,
+	)
+	var/obj/structure/roguemachine/talkstatue/mercenary/statue = SSroguemachine.mercenary_statue
+	if(!statue)
+		return data
+	for(var/merc_key in statue.mercenary_status)
+		var/list/merc_data = statue.mercenary_status[merc_key]
+		var/mob/living/carbon/human/merc = merc_data["mob"]
+		if(!merc)
+			continue
+		var/status = merc_data["status"] || "Available"
+		var/list/entry = list(
+			"name" = merc.real_name,
+			"advjob" = merc.advjob || "Mercenary",
+			"message" = merc_data["message"] || "",
+		)
+		switch(status)
+			if("Available")
+				data["available"] += list(entry)
+				data["available_count"]++
+			if("Contracted")
+				data["contracted"] += list(entry)
+				data["contracted_count"]++
+			if("Do not Disturb")
+				data["dnd"] += list(entry)
+				data["dnd_count"]++
+	return data
+
+/obj/structure/roguemachine/noticeboard/proc/build_market_data()
+	var/list/data = list(
+		"categories" = list(),
+		"pop_snapshot" = 0,
+		"category_count" = 0,
+	)
+	if(!SSmerchant_trade)
+		return data
+	data["pop_snapshot"] = SSmerchant_trade.pool_pop_snapshot
+	var/list/rows = list()
+	for(var/cat in SSmerchant_trade.pool_capacity)
+		var/cap = SSmerchant_trade.pool_capacity[cat] || 0
+		var/consumed = SSmerchant_trade.pool_consumed[cat] || 0
+		var/fill_ratio = cap > 0 ? min(1, consumed / cap) : 0
+		var/refused = SSmerchant_trade.get_saturation_factor(cat) <= 0
+		var/demand_mult = SSmerchant_trade.get_demand_multiplier(cat)
+		var/pending = SSmerchant_trade.pending_ship_demand[cat] || 0
+		rows += list(list(
+			"category" = cat,
+			"capacity" = cap,
+			"consumed" = consumed,
+			"fill_ratio" = fill_ratio,
+			"refused" = refused,
+			"demand_mult" = demand_mult,
+			"pending_ship_demand" = pending,
+		))
+	data["categories"] = rows
+	data["category_count"] = length(rows)
+	data["theme_dispatch"] = build_market_theme_dispatch(SSmerchant_trade.pool_theme_jitters)
+	data["realm_demand_matrix"] = SSmerchant_trade.build_realm_demand_matrix()
+	data["all_buckets"] = all_navigator_buckets()
+	return data
+
+/obj/structure/roguemachine/noticeboard/proc/serialize_posting(datum/noticeboard_posting/P, mob/living/carbon/human/viewer, viewer_is_authority)
+	var/list/entry = list()
+	entry["posting_id"] = P.posting_id
+	entry["tier"] = P.tier
+	entry["title"] = P.title
+	entry["body"] = P.body
+	entry["poster_name"] = P.poster_name
+	entry["poster_title"] = P.poster_title
+	entry["poster_job"] = P.poster_job
+	entry["signature_attested"] = P.signature_attested ? TRUE : FALSE
+	entry["posted_at_label"] = format_posted_at_label(P.posted_at)
+	entry["expires_in_label"] = (P.tier == POSTING_TIER_NOTICE) ? format_expires_in_label(P.posted_at) : ""
+	entry["is_own"] = (viewer && P.truename == viewer.real_name) ? TRUE : FALSE
+	entry["can_authority_remove"] = (viewer_is_authority && P.tier == POSTING_TIER_NOTICE) ? TRUE : FALSE
+	return entry
+
+/obj/structure/roguemachine/noticeboard/proc/format_posted_at_label(posted_at)
+	var/elapsed = world.time - posted_at
+	if(elapsed < 1 MINUTES)
+		return "just now"
+	var/minutes = round(elapsed / (1 MINUTES))
+	if(minutes < 60)
+		return "[minutes]m ago"
+	var/hours = round(minutes / 60)
+	return "[hours]h ago"
+
+/obj/structure/roguemachine/noticeboard/proc/format_expires_in_label(posted_at)
+	var/expires_at = posted_at + NOTICEBOARD_NOTICE_LIFETIME
+	var/remaining = expires_at - world.time
+	if(remaining <= 0)
+		return "any moment"
+	var/minutes = CEILING(remaining / (1 MINUTES), 1)
+	return "in [minutes]m"
+
+/obj/structure/roguemachine/noticeboard/ui_act(action, list/params)
+	. = ..()
+	if(.)
 		return
-	var/post2remove = input(guy, "Which post shall I take down?", src) as null|anything in myposts_list
-	if(!post2remove)
+	var/mob/living/carbon/human/H = usr
+	if(!istype(H))
+		return TRUE
+	if(!H.canUseTopic(src, BE_CLOSE))
+		return TRUE
+	switch(action)
+		if("refresh_market")
+			if(world.time < last_market_refresh + 5 SECONDS)
+				to_chat(H, span_warning("The factors haven't tallied fresh numbers yet. Wait a moment."))
+				return TRUE
+			last_market_refresh = world.time
+			update_static_data(H)
+			return TRUE
+		if("make_post")
+			handle_make_post(H, params)
+			SStgui.update_uis(src)
+			return TRUE
+		if("remove_post")
+			handle_remove_post(H, params)
+			SStgui.update_uis(src)
+			return TRUE
+		if("authority_remove_post")
+			handle_authority_remove_post(H, params)
+			SStgui.update_uis(src)
+			return TRUE
+		if("open_assembly")
+			SStgui.close_uis(src)
+			open_assembly_tgui(H)
+			return TRUE
+		if("help_market")
+			open_economy_guidebook(H, "Merchant", /datum/book_entry/treasury_merchant/avisa_market)
+			return TRUE
+
+/obj/structure/roguemachine/noticeboard/proc/handle_make_post(mob/living/carbon/human/H, list/params)
+	var/tier = "[params["tier"]]"
+	if(tier != POSTING_TIER_NOTICE && tier != POSTING_TIER_LISTING)
+		to_chat(H, span_warning("Unknown posting kind."))
+		return
+	if(tier == POSTING_TIER_LISTING && !(H.job in NOTICEBOARD_LISTING_ROLES))
+		to_chat(H, span_warning("Only certain offices may pin a Standing Listing."))
+		return
+	var/title = sanitize_input("[params["title"]]", NOTICEBOARD_TITLE_MAX_LENGTH)
+	var/body = sanitize_input("[params["body"]]", NOTICEBOARD_BODY_MAX_LENGTH, multiline = TRUE)
+	var/poster_name = sanitize_input("[params["poster_name"]]", NOTICEBOARD_NAME_MAX_LENGTH)
+	var/poster_title = sanitize_input("[params["poster_title"]]", NOTICEBOARD_ROLE_MAX_LENGTH)
+	if(!title || !body || !poster_name)
+		to_chat(H, span_warning("The posting must bear a title, a body, and a name."))
+		return
+	noticeboard_add_posting(tier, title, body, poster_name, poster_title, H)
+	message_admins("[ADMIN_LOOKUPFLW(H)] has made a [tier] noticeboard post. The message was: [body]")
+
+/obj/structure/roguemachine/noticeboard/proc/handle_remove_post(mob/living/carbon/human/H, list/params)
+	var/posting_id = "[params["posting_id"]]"
+	var/datum/noticeboard_posting/P = noticeboard_find_post_by_id(posting_id)
+	if(!P)
+		return
+	if(P.truename != H.real_name)
+		to_chat(H, span_warning("That posting is not yours to take down."))
 		return
 	playsound(loc, 'sound/foley/dropsound/paper_drop.ogg', 50, FALSE, -1)
-	loc.visible_message(span_smallred("[guy] tears down a posting!"))
-	for(var/datum/noticeboardpost/removing_post in GLOB.noticeboard_posts)
-		if(post2remove == removing_post.title && removing_post.truepostername == guy.real_name)
-			GLOB.noticeboard_posts -= removing_post
-			message_admins("[ADMIN_LOOKUPFLW(guy)] has removed their post, the message was [removing_post.message]")
-	for(var/datum/noticeboardpost/removing_post in GLOB.premium_noticeboardposts)
-		if(post2remove == removing_post.title && removing_post.truepostername == guy.real_name)
-			GLOB.premium_noticeboardposts -= removing_post
-			message_admins("[ADMIN_LOOKUPFLW(guy)] has removed their post, the message was [removing_post.message]")
-	for(var/obj/structure/roguemachine/noticeboard/board in SSroguemachine.noticeboards)
-		board.update_icon()
-		if(board != src)
-			playsound(board, 'sound/ambience/noises/birds (7).ogg', 50, FALSE, -1)
-			board.visible_message(span_smallred("A ZAD lands, removing an old posting!"))
+	loc.visible_message(span_smallred("[H] tears down a posting!"))
+	noticeboard_remove_posting(P)
+	message_admins("[ADMIN_LOOKUPFLW(H)] has removed their noticeboard post.")
 
-/obj/structure/roguemachine/noticeboard/proc/authority_removepost(mob/living/carbon/human/guy)
-	var/list/posts_list = list()
-	for(var/datum/noticeboardpost/removable_posts in GLOB.noticeboard_posts)
-		posts_list += removable_posts.title
-	if(!posts_list.len)
-		to_chat(guy, span_warning("There are no posts I can take down."))
+/obj/structure/roguemachine/noticeboard/proc/handle_authority_remove_post(mob/living/carbon/human/H, list/params)
+	if(!(H.job in NOTICEBOARD_AUTHORITY_ROLES))
+		to_chat(H, span_warning("You hold no authority to take down another's posting."))
 		return
-	var/post2remove = input(guy, "Which post shall I take down?", src) as null|anything in posts_list
-	if(!post2remove)
+	var/posting_id = "[params["posting_id"]]"
+	var/datum/noticeboard_posting/P = noticeboard_find_post_by_id(posting_id)
+	if(!P)
+		return
+	if(P.tier == POSTING_TIER_LISTING)
+		to_chat(H, span_warning("A Standing Listing may not be taken down by authority while its issuer lives."))
 		return
 	playsound(loc, 'sound/foley/dropsound/paper_drop.ogg', 50, FALSE, -1)
-	loc.visible_message(span_smallred("[guy] tears down a posting!"))
-	for(var/datum/noticeboardpost/removing_post in GLOB.noticeboard_posts)
-		if(post2remove == removing_post.title)
-			GLOB.noticeboard_posts -= removing_post
-			message_admins("[ADMIN_LOOKUPFLW(guy)] has authoritavely removed a post, the message was [removing_post.message]")
+	loc.visible_message(span_smallred("[H] tears down a posting!"))
+	noticeboard_remove_posting(P)
+	message_admins("[ADMIN_LOOKUPFLW(H)] has authoritatively removed a noticeboard post by [P.truename].")
 
-
-
-/proc/add_post(message, chosentitle, chosenname, chosenrole, truename, premium)
-	var/datum/noticeboardpost/new_post = new /datum/noticeboardpost
-	new_post.poster = chosenname
-	new_post.title = chosentitle
-	new_post.message = message
-	new_post.posterstitle = chosenrole
-	new_post.truepostername = truename
-	compose_post(new_post)
-	GLOB.board_viewers = list()
-	if(!premium)
-		GLOB.noticeboard_posts += new_post
-	else
-		GLOB.premium_noticeboardposts += new_post
-
-
-
-/proc/compose_post(datum/noticeboardpost/new_post)
-	new_post.banner += "<center><b>[new_post.title]</b><BR>"
-	new_post.banner += "[new_post.message]<BR>"
-	new_post.banner += "- [new_post.poster]"
-	if(new_post.posterstitle)
-		new_post.banner += ", [new_post.posterstitle]"
-	new_post.banner += "<BR>"
-	new_post.banner += "--------------<BR>"
-
-/datum/status_effect/debuff/postcooldown
-	id = "postcooldown"
-	duration = 5 MINUTES
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/postcooldown
-
-/atom/movable/screen/alert/status_effect/debuff/postcooldown
-	name = "Recent messenger"
-	desc = "I'll have to wait a bit before making another posting!"
+/obj/structure/roguemachine/noticeboard/proc/sanitize_input(text, max_length, multiline = FALSE)
+	if(!text || text == "null")
+		return null
+	text = copytext(text, 1, max_length + 1)
+	text = trim(text)
+	if(!length(text))
+		return null
+	return text
