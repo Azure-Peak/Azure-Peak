@@ -164,8 +164,8 @@
 			// We do nothing to avoid meta checking for undead
 			target.visible_message(span_info("A strange stirring feeling pours from [target]!"), span_info("Sentimental thoughts drive away my pain..."))		
 			return TRUE
-		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //Vhelsynites backfire + aren't affected
-			target.visible_message(span_info("[target] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be rebuked back at its caster!"))
+		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //ANCIENT ENEMY, I DO NOT FEAR YOU.
+			target.visible_message(span_info("[target] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be corrupted and rebuked back at its caster!"))
 			playsound(target, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
 			owner.playsound_local(owner, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
 			H.adjust_fire_stacks(8, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, ANCIENT ENEMY
@@ -609,8 +609,8 @@
 		revert_cast()
 		return FALSE	
 
-	if(HAS_TRAIT(H, TRAIT_UNFORGIVABLE)) //Vhelsynites backfire + aren't affected
-		H.visible_message(span_info("[H] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be rebuked back at its caster!"))
+	if(HAS_TRAIT(H, TRAIT_UNFORGIVABLE)) //ANCIENT ENEMY, I DO NOT FEAR YOU.
+		H.visible_message(span_info("[H] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be corrupted and rebuked back at its caster!"))
 		playsound(H, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
 		user.playsound_local(user, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
 		user.adjust_fire_stacks(12, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, ANCIENT ENEMY

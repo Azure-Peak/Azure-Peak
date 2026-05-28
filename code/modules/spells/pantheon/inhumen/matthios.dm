@@ -443,32 +443,16 @@
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
+		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE))
+			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your hollow husk of a body, only to fade as quickly as it arrived."))
+			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			return FALSE
 		user.visible_message(span_notice("The transaction is made! [target] is bathed in a golden light!"))
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target
 			var/datum/status_effect/buff/healing/heal_effect = C.apply_status_effect(/datum/status_effect/buff/healing)
-			if(heal_effect && !HAS_TRAIT(C, TRAIT_UNFORGIVABLE))
-				heal_effect.healing_on_tick = helditemvalue / 2
-			if(heal_effect && HAS_TRAIT(C, TRAIT_UNFORGIVABLE)) //Vheslynites turn your healing into firestacks.
-				user.adjust_fire_stacks(helditemvalue / 4, /datum/status_effect/fire_handler/fire_stacks/vheslyn)
-				user.ignite_mob()
-				if(helditemvalue > 100) //Oh god you poor bastard, you're DEAD SIRE, DEAD.
-					if(!HAS_TRAIT(user, TRAIT_NOPAIN))
-						user.emote("agony")
-					if(!HAS_TRAIT(user, TRAIT_NOMOOD))
-						user.freak_out()
-					playsound(user, 'sound/misc/lava_death.ogg', 100, TRUE)
-					user.adjustFireLoss(60)
-					user.Knockdown(30)
-					user.Jitter(30)
-					user.Stun(25) //ITS GOING TO HURT, A LOT. YOU CAST FIRE INTO UNMAKING FIRE DUMBASS.
-					user.ignite_mob()
-					explosion(get_turf(user), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-					user.visible_message(span_danger("[user] is violently smited as profane flames engulf their entire body!"))
-				C.visible_message(span_danger("[C] stirs for a moment, the miracle is twisted into unmaking flames and reflected!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be warped into unmaking flames and be reflected back at its caster!"))
-				playsound(C, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
-				user.playsound_local(user, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
-				user.visible_message(span_warning("[user] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine, yet my body catches aflame. a feeling of ominious dread washes over me."))
+			heal_effect.healing_on_tick = helditemvalue / 2
 			playsound(user, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
 			if(istype(held_item, /obj/item/rogueweapon))
 				to_chat(user, "<font color='yellow'>[held_item] melts at its very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
