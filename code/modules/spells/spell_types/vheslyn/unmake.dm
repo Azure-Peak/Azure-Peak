@@ -1,2 +1,29 @@
-// Phase Roll - brief phasing roll inspired by the dagger special, albeit with some tweaks to make it super obvious.
-/obj/effect/proc_holder/spell/self/vheslyn/unmake
+// Unmake -> it just kills you so you can manually explode
+/datum/action/cooldown/spell/vheslyn/unmake
+	name = "Unmake"
+	desc = "Unmake yourself and explode, injuring and setting anyone ablaze around you. This triggers it instantly by killing you, with no different effects."
+	fluff_desc = "The Needle is an artifact borne from the pyres of the Vheslynic cult, a reanimating blessing of Vhesyln, designed to hollow out creation and reanimate one to purpose anew. It also serves a second purpose of unraveling husks that have served their purpose."
+	button_icon = 'icons/mob/actions/vheslynspells.dmi'
+	button_icon_state = "conscindo"
+	charge_required = FALSE
+	click_to_activate = FALSE
+	primary_resource_type = SPELL_COST_ENERGY
+	primary_resource_cost = 10
+	cooldown_time = 8 MINUTES //Intended to be very long, this is an instant-kill spell.
+	invocations = "UN'MER'KI SELIA!" //UNMAKE ME! - gibberished
+	associated_skill = /datum/skill/magic/arcane
+
+/datum/action/cooldown/spell/vheslyn/unmake/cast(list/targets, mob/living/user = usr)
+	..()
+	if(!user)
+		revert_cast()
+		return FALSE
+	if(user.stat == DEAD)
+		revert_cast()
+		return FALSE
+	if(alert(user, "Do you wish to sacrifice this vessel in a powerful explosion?", "Unravel this worthless husk", "Yes", "No") == "No")
+		revert_cast()
+		return FALSE
+	
+	user.death() //Your trait handles the explosion + gib. Its as simple as that.
+	return TRUE

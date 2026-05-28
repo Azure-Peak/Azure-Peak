@@ -2,7 +2,7 @@
 	name = "Vheslyn"
 	domain = "Unreality. The space in between your world and nothingness. The back of your amygdala."
 	desc = "The Archdevil, the Great Worm, the Earth Mover, the Leviathan, the Defiler, the Unmaker. The rottting worm at the center of a discarded apple. The embodiment of pure evil that seeketh to sunder the world in fire and agony, to return it all to nonexistence. There will be no forgiveness or mercy for you, and you will give none in return."
-	worshippers = "Accelerationists, Extremists, Nihilists, Sadists, Freaks, Wretches, and You."
+	worshippers = "EMPTY FUCKING HUSKS, THE BROKEN, THE HURT, THE IGNORED. THE DESPERATE, THE HURT, THE ONES WHO HURT YOU. MURDERERS AND KILLERS AND HUNTERS. NO INNOCENTS. NEVER INNOCENTS."
 	associated_faith = /datum/faith/accelerationism
 	mob_traits = list(TRAIT_UNFORGIVABLE, TRAIT_DNR, TRAIT_NOMOOD, TRAIT_DETACHED, TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_PSYCHOSIS) //You're not humen, no, there's no humenity in you.
 	profane_words = list("psydon", "allfather") //SPEAKETH ALL THOU SIN THOU WISH, BUT SPEAK NAUGHT THE NAME O' THE DECIEVER
@@ -10,10 +10,11 @@
 	undead_hater = TRUE
 	//Unforgivable evil to a comedic extent.
 	confess_lines = list(
-		"HELL IS REAL!! CHAOS WILL ALWAYS TRIUMPH!!",
-		"THE WEEPER WEEPS NO MORE!! SOON THE WORLD WILL JOIN!!",
-		"KILL THEM ALL, ALL OF THEM!! YOU CANNOT STOP FATE!!",
-		"I KNOW WHAT I AM!! DO YOU KNOW WHAT YOU ARE?!!",
+		"HELL IS REAL! CHAOS WILL ALWAYS TRIUMPH!",
+		"FORGET SALVATION! PUT A FYRE TO THE GARDEN!",
+		"THE WEEPER WEEPS NO MORE! SOON THE WORLD WILL JOIN!",
+		"KILL THEM ALL, ALL OF THEM! YOU CANNOT STOP FATE!",
+		"I KNOW WHAT I AM! DO YOU KNOW WHAT YOU ARE?!",
 	)
 
 	//I guess, not like it matters sire, Vheslyn is dead
