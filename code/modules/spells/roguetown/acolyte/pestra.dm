@@ -741,6 +741,14 @@
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
+		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //Vhelsynites backfire + aren't affected
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
+			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			user.adjust_fire_stacks(5, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks, twice as hard to shake off.
+			user.ignite_mob()
+			to_chat(user, span_danger("I am violently set ablaze in profane fire as my miracle gets reflected back at me."))
+			return FALSE
 		// Keep in mind this is 7.5 per tick with fortify!
 		// Double the power of miracle
 		var/healing = 5
@@ -789,15 +797,28 @@
 	chargedloop = /datum/looping_sound/invokeholy
 
 // Given this is Pestra's true T4 spell, and it is limited in availability and gated heavily behind tech, this heal does affect Psydonites.
-// You can't resist Pestra's most divine gift.
+// You can't resist Pestra's most divine gift, excluding Vheslynites because you're a hollow husk filled with unmaking flame.
 /obj/effect/proc_holder/spell/invoked/divine_rebirth/cast(list/targets, mob/living/user)
 	. = ..()
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-		target.visible_message(span_info("An ethereal, mushroom infested arm carresses [target]!"), span_notice("I feel a caring touch!"))
-		target.apply_status_effect(/datum/status_effect/buff/divine_rebirth_healing)
-		SEND_SIGNAL(user, COMSIG_DIVINE_REBIRTH_CAST, target)
-		return TRUE
+		if(!HAS_TRAIT(target, TRAIT_UNFORGIVABLE))
+			target.visible_message(span_info("An ethereal, mushroom infested arm carresses [target]!"), span_notice("I feel a caring touch!"))
+			target.apply_status_effect(/datum/status_effect/buff/divine_rebirth_healing)
+			SEND_SIGNAL(user, COMSIG_DIVINE_REBIRTH_CAST, target)
+			return 
+		else
+			target.visible_message(span_info("[target] impossibly stirs for a moment, the divine rebirth miracle fizzles out in violent flames."), span_notice("A violently boiling warmth swells in your hollow body, only to overwhelm you and burn you!"))
+			target.adjustFireLoss(40) //This also hurts the Vheslynite, this is Pestra's strongest healing miracle being tossed into the fyres of non-creation
+			target.Knockdown(10)
+			user.visible_message(span_warning("[user] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine, yet my body sizzles and withers for a moment. a feeling of ominious dread washes over me."))
+			to_chat(user, span_warning(pick("I feel something burn at my skin.", "I feel hot, like I'm melting from the inside out.", "Something burns sharply within my skull.")))
+			user.adjustFireLoss(30)
+			user.Knockdown(10)
+			user.playsound_local(user, 'sound/misc/lava_death.ogg', 100, FALSE, -1)
+			playsound(target, 'sound/misc/lava_death.ogg', 100, FALSE, -1)
+			SEND_SIGNAL(user, COMSIG_DIVINE_REBIRTH_CAST, target)
+			return 
 	revert_cast()
 	return FALSE
 

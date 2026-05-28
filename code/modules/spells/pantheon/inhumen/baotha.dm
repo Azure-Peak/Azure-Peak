@@ -79,6 +79,16 @@
 			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
+		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //Vhelsynites backfire + aren't affected
+			target.visible_message(span_info("[target] stirs for a moment, the miracle is deflected!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be rebuked back at its caster!"))
+			playsound(target, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
+			user.playsound_local(user, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
+			user.adjust_fire_stacks(5, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique green firestacks, twice as hard to shake off.
+			user.ignite_mob()
+			user.apply_status_effect(/datum/status_effect/buff/baothablessing)
+			user.visible_message("<span class='info'>[user]'s eyes appear to gloss over!</span>", "<span class='notice'>I feel.. at ease.</span>")
+			user.visible_message(span_warning("[user] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine, yet my body catches aflame. a feeling of ominious dread washes over me."))
+			return FALSE
 		if(target.has_status_effect(/datum/status_effect/buff/baothablessing))
 			to_chat(user, span_warning("They're already blessed by these effects!"))
 			revert_cast()

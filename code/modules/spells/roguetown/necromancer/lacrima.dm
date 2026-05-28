@@ -86,6 +86,7 @@
 		playsound(user, 'sound/misc/lava_death.ogg', 100, TRUE)
 		user.adjust_fire_stacks(20, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //YOU PUT YOUR FUCKING HAND IN THE DEMONIC HUSK YOU DUMBASS
 		user.ignite_mob()
+		user.adjustFireLoss(60)
 		user.Knockdown(20)
 		user.Jitter(20)
 		user.Stun(5) //ITS GOING TO HURT, A LOT

@@ -817,6 +817,12 @@
 			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return sig_return | SPELL_CANCEL_CAST
 
+		if((primary_resource_type == SPELL_COST_DEVOTION) && HAS_TRAIT(cast_on, TRAIT_UNFORGIVABLE))
+			cast_on.visible_message(span_info("[cast_on] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
+			playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			return sig_return | SPELL_CANCEL_CAST
+
 	if(charge_required && !click_to_activate)
 		// Use a simple do_after for non-click charge spells
 		var/require_no_move = (spell_requirements & SPELL_REQUIRES_NO_MOVE)

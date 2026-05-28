@@ -128,6 +128,11 @@
 		if(istype(target.patron, /datum/patron/old_god))
 			to_chat(target, span_danger("You feel a surge of cold wash over you; leaving your body as quick as it hit.."))	//No effect on Psydonians!
 			continue
+		if(istype(target.patron, /datum/patron/vheslyn))
+			to_chat(target, span_danger("You feel... nothing..")) //No effect on Vheslynites, fear them.
+			if(prob(1)) //1% chance to pop a forcesay line easter egg
+				target.say(pick("SAY NO MORE, YOU FIRST, THEN THE REST!", "LET ME SHOW YOU A REAL FUCKING SLAUGHTER!", "YOU WILL BE, THEN THEM, THEN THE REST!"), spans = list("bloody"))
+			continue
 		if(!owner.faction_check_mob(target))
 			continue
 		if(target.mob_biotypes & MOB_UNDEAD)
