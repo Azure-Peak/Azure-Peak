@@ -5093,6 +5093,10 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
+"bbX" = (
+/obj/effect/landmark/quest_spawner/generic,
+/turf/open/floor/rogue/grasscold,
+/area/rogue/outdoors/beach/forest/south)
 "bcb" = (
 /obj/structure/table/wood/long_table/right,
 /obj/item/rogueweapon/huntingknife/chefknife,
@@ -99338,6 +99342,10 @@
 /obj/structure/stairs/stone,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
+"tHL" = (
+/obj/effect/landmark/quest_spawner/generic,
+/turf/open/floor/rogue/snowpatchy,
+/area/rogue/outdoors/beach/forest/south)
 "tHM" = (
 /obj/structure/table/wood/poor,
 /obj/item/reagent_containers/glass/cup/wooden{
@@ -107556,6 +107564,10 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/mountains)
+"voI" = (
+/obj/effect/landmark/quest_spawner/generic,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/beach/forest/north)
 "voK" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -414088,7 +414100,7 @@ eTa
 eTa
 eTa
 eTa
-eTa
+hyi
 eTa
 eTa
 eTa
@@ -415458,7 +415470,7 @@ eTa
 eTa
 eTa
 eTa
-eTa
+hyi
 eTa
 eTa
 eTa
@@ -424436,7 +424448,7 @@ eDr
 eDr
 kpS
 kpS
-kpS
+voI
 kpS
 kpS
 kpS
@@ -424888,7 +424900,7 @@ eDr
 kpS
 kpS
 kpS
-kpS
+voI
 kpS
 kpS
 kpS
@@ -445725,7 +445737,7 @@ eDr
 eDr
 idM
 oal
-eTa
+hyi
 oal
 dsP
 idM
@@ -472402,7 +472414,7 @@ wHp
 kNH
 kNH
 sEo
-lRZ
+rwg
 eAq
 eAq
 eAq
@@ -476472,7 +476484,7 @@ fRR
 eAq
 fRR
 eAq
-eAq
+pbm
 eAq
 eAq
 eAq
@@ -485930,7 +485942,7 @@ oyf
 eAq
 eAq
 eAq
-eAq
+pbm
 fRR
 eAq
 eAq
@@ -489106,7 +489118,7 @@ eAq
 eAq
 eAq
 lRZ
-lRZ
+rwg
 lRZ
 eAq
 eAq
@@ -491829,7 +491841,7 @@ lRZ
 eAq
 eAq
 eAq
-eAq
+pbm
 eAq
 lRZ
 eAq
@@ -493628,8 +493640,8 @@ oyf
 oyf
 lRZ
 lRZ
-eAq
-eAq
+pbm
+pbm
 eAq
 eAq
 eAq
@@ -494097,7 +494109,7 @@ lRZ
 eAq
 eAq
 eAq
-eAq
+pbm
 eAq
 lRZ
 lRZ
@@ -510797,7 +510809,7 @@ eAq
 eAq
 eAq
 eAq
-eAq
+pbm
 eAq
 eAq
 eAq
@@ -511742,7 +511754,7 @@ eAq
 eAq
 eAq
 lRZ
-eAq
+pbm
 lRZ
 oyf
 wHi
@@ -528925,7 +528937,7 @@ iWC
 wwP
 wwP
 wwP
-wwP
+bbX
 wwP
 iWC
 qdf
@@ -537521,7 +537533,7 @@ vCU
 vCU
 wwP
 wwP
-vCU
+tHL
 vCU
 wwP
 wwP
