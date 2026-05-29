@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Fixes Tailoring Commissioner and make most recipes appear there"
-  - rscadd: "Dedupe a fencing jacket recipe"
-  - rscadd: "Consolidated the fine & luxury garments category together since fine only have 2 items"

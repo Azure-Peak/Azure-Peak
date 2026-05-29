@@ -1089,3 +1089,21 @@
   - bugfix: Gnoll / Werewolf claws now do have special once again.
   changelingonberry:
   - rscadd: Cycle MMB intent hotkey DEFAULT UNBOUND GO CHANGE IT TO YOUR LIKING
+2026-05-29:
+  Aisu9:
+  - bugfix: Fixed Mystic's quarterstaff weapon choice not working correctly.
+  EtheoBoxxman:
+  - bugfix: Fixes Vampire Scrying Eye Movement
+  Quinalion:
+  - rscadd: Giggle sounds for elven female voicepack.
+  - rscadd: Giggle sounds for generic male voicepack.
+  Ryan180602:
+  - bugfix: runtime batchfixes (2)
+  WeNeedMorePhoron:
+  - rscadd: Fixes Tailoring Commissioner and make most recipes appear there
+  - rscadd: Dedupe a fencing jacket recipe
+  - rscadd: Consolidated the fine & luxury garments category together since fine only
+      have 2 items
+  - bugfix: Placed the noticeboard in clinic in the proper position
+  changelingonberry:
+  - admin: Adds coordinates to lockpicking and doorbreaking
