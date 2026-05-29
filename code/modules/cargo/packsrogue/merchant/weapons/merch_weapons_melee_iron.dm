@@ -24,7 +24,7 @@
 	cost = 25 // 1 Iron Ingot
 	contains = list(/obj/item/rogueweapon/sword/short/messer/iron/virtue)
 
-/datum/supply_pack/rogue/iron_weapons/get_hunting_do_time(mob/user, time)
+/datum/supply_pack/rogue/iron_weapons/huntingsword
 	name = "Hunting Sword"
 	cost = 25 // 1 iron ingot
 	contains = list(/obj/item/rogueweapon/sword/short/messer/iron)
