@@ -6,6 +6,21 @@
 	crate_name = "merchant guild's crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
+/datum/supply_pack/rogue/light_armor/leatherkini
+	name = "Leather Corslet"
+	cost = 21 // you're vuln to gutspill with this
+	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/bikini)
+
+/datum/supply_pack/rogue/light_armor/hidekini
+	name = "Hide Corslet"
+	cost = 32 // ditto
+	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/hide/bikini)
+
+/datum/supply_pack/rogue/light_armor/studded_leatherkini
+	name = "Studded Leather Corslet"
+	cost = 43 // ditto
+	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/bikini)
+
 /datum/supply_pack/rogue/light_armor/padded_gambeson
 	name = "Padded Gambeson"
 	cost = 60 // Base sellprice of 25

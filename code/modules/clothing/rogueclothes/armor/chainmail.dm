@@ -109,6 +109,7 @@
 	allowed_sex = list(MALE, FEMALE)
 	allowed_race = CLOTHED_RACES_TYPES
 	body_parts_covered = CHEST|GROIN
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	armor_class = ARMOR_CLASS_LIGHT //placed in the medium category to keep it with its parent obj
 
 //HEAVY ARMOR//
