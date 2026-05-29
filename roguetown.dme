@@ -2818,6 +2818,7 @@
 #include "code\modules\roguetown\roguemachine\mail.dm"
 #include "code\modules\roguetown\roguemachine\money.dm"
 #include "code\modules\roguetown\roguemachine\potionseller.dm"
+#include "code\modules\roguetown\roguemachine\quality_flavor.dm"
 #include "code\modules\roguetown\roguemachine\rogue_flagpole.dm"
 #include "code\modules\roguetown\roguemachine\scrapper.dm"
 #include "code\modules\roguetown\roguemachine\smuggler_mail.dm"

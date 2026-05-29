@@ -194,7 +194,7 @@
 	for(var/thing in atoms)
 		var/atom/A = thing
 		if(!A || !A.type)
-			stack_trace("typecache_filter_list got a null/typeless entry [thing] — fix the caller passing this list")
+			stack_trace("typecache_filter_list got a null/typeless entry [thing] - fix the caller passing this list")
 			continue
 		if (typecache[A.type])
 			. += A
@@ -205,7 +205,7 @@
 	for(var/thing in atoms)
 		var/atom/A = thing
 		if(!A || !A.type)
-			stack_trace("typecache_filter_list_reverse got a null/typeless entry [thing] — fix the caller passing this list")
+			stack_trace("typecache_filter_list_reverse got a null/typeless entry [thing] - fix the caller passing this list")
 			continue
 		if(!typecache[A.type])
 			. += A

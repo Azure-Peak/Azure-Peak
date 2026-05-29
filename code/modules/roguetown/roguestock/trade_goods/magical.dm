@@ -2,7 +2,8 @@
 	behavior = TRADE_BEHAVIOR_EQUIPMENT
 	importable = FALSE
 	crown_accepts = TRUE
-	category = "Magical"
+	category = ITEM_CAT_MAGICAL
+	display_category = ITEM_CAT_MAGICAL
 
 /datum/trade_good/magical/enchantment_scroll_basic
 	id = TRADE_GOOD_ENCHSCROLL_BASIC

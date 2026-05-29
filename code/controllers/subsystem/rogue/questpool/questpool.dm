@@ -477,13 +477,9 @@ SUBSYSTEM_DEF(questpool)
 	if(!landmark)
 		log_event("claim_failed", "no landmark available for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
-	// Remove from pool BEFORE materialize — materialize can sleep (spawn_kill_mobs contains
-	// sleep(1) per spawn), and a double-click ui_act can otherwise re-enter this proc, pass the
-	// `Q in pool` check, and materialize the same quest twice (double scrolls, double mob waves).
 	pool -= Q
 	adjust_region_count(Q, -1)
 	if(!Q.materialize(landmark))
-		// Materialize failed during setup — put it back so someone else (or a retry) can take it.
 		if(!(Q in pool))
 			pool += Q
 			adjust_region_count(Q, 1)
