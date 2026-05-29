@@ -509,7 +509,7 @@
 		if(found_zizo_cross)
 			to_chat(target, span_warning("Your stolen Lux writhes violently, but the unholy cross steadies your Lux before undeath can fully take hold."))
 		else
-			if(!target.has_status_effect(/datum/status_effect/debuff/zizo_temp_undeath))
+			if(!target.has_status_effect(/datum/status_effect/debuff/zizo_temp_undeath) || !HAS_TRAIT(target, TRAIT_SILVER_BLESSED))
 				target.apply_status_effect(/datum/status_effect/debuff/zizo_temp_undeath)
 				to_chat(target, span_userdanger("You feel your rekindled Lux torn from within, leaving you hollowed as undeath threatens to gnaw at your fading soul."))
 			else
