@@ -80,7 +80,7 @@
 			target.adjustFireLoss(PVE_damage)
 	if(spawn_shard)
 		new /obj/item/natural/glass_shard(T)
-	explosion(T, light_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+	explosion(T, light_impact_range = 1, flame_range = 2, smoke = spawn_shard, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 	return TRUE
 
 /obj/item/bomb/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
