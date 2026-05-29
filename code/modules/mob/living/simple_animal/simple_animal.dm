@@ -215,6 +215,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/get_mechanics_examine(mob/user)
 	. = ..()
+	if(childtype)
+		. += span_info("Most animals do not feel comfortable away from nature or natural turfs, such as Grass, Dirt, Hay or similar, and may refuse to eat or breed.")
 	if(can_buckle && max_buckled_mobs)
 		. += span_info("This can carry up to [max_buckled_mobs] rider[max_buckled_mobs == 1 ? "" : "s"].")
 		. += span_info("To mount an incapacitated or tied up mob, a rider must be present on the mount.")
@@ -806,6 +808,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	   !istype(T, /turf/open/floor/rogue/hay) && \
 	   !istype(T, /turf/open/floor/rogue/grass) && \
 	   !istype(T, /turf/open/floor/rogue/grassyel))
+		src.visible_message(span_danger("[src] seems uncomfortable..."))
 		return
 
 	if(GLOB.farm_animals >= MAX_FARM_ANIMALS)
@@ -1239,6 +1242,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	   !istype(T, /turf/open/floor/rogue/hay) && \
 	   !istype(T, /turf/open/floor/rogue/grass) && \
 	   !istype(T, /turf/open/floor/rogue/grassyel))
+		src.visible_message(span_danger("[src] seems uncomfortable..."))
 		return
 
 	var/obj/item/reagent_containers/food/I = locate(/obj/item/reagent_containers/food) in loc
