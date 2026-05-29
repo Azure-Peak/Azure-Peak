@@ -42,7 +42,6 @@
 
 #define ITEM_CAT_GARMENT_COMMON "Garments (Common)"
 #define ITEM_CAT_GARMENT_FINE "Garments (Fine)"
-#define ITEM_CAT_GARMENT_LUXURY "Garments (Luxury)"
 #define ITEM_CAT_TAILOR_MISC "Garments (Misc)"
 #define ITEM_CAT_CLOTH_MASK "Garments (Masks)"
 

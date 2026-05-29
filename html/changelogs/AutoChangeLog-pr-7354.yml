@@ -1,0 +1,4 @@
+author: "Aisu9"
+delete-after: True
+changes:
+  - bugfix: "Fixed Mystic's quarterstaff weapon choice not working correctly."

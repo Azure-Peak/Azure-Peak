@@ -30,7 +30,7 @@
 /datum/crafting_recipe/roguetown/weaving/puritan
 
 	name = "puritan's cape"
-	display_category = ITEM_CAT_GARMENT_LUXURY
+	display_category = ITEM_CAT_GARMENT_FINE
 	result = list(/obj/item/clothing/cloak/cape/puritan)
 	reqs = list(/obj/item/natural/silk = 4)
 	craftdiff = 3
@@ -38,7 +38,7 @@
 
 /datum/crafting_recipe/roguetown/weaving/shirt
 	name = "formal silks"
-	display_category = ITEM_CAT_GARMENT_LUXURY
+	display_category = ITEM_CAT_GARMENT_FINE
 	result = list(/obj/item/clothing/suit/roguetown/shirt/undershirt/puritan)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 3
@@ -176,7 +176,7 @@
 
 /datum/crafting_recipe/roguetown/weaving/silkdress
 	name = "chemise"
-	display_category = ITEM_CAT_GARMENT_LUXURY
+	display_category = ITEM_CAT_GARMENT_FINE
 	result = list (/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/random)
 	reqs = list(/obj/item/natural/fibers = 2,
 				/obj/item/natural/silk = 3)
@@ -185,7 +185,7 @@
 
 /datum/crafting_recipe/roguetown/weaving/silkcoat
 	name = "silk coat"
-	display_category = ITEM_CAT_GARMENT_LUXURY
+	display_category = ITEM_CAT_GARMENT_FINE
 	result = list (/obj/item/clothing/suit/roguetown/armor/silkcoat)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/silk = 3,

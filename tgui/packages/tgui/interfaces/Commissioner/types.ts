@@ -77,6 +77,7 @@ export type CommissionerData = {
   catalog: CatalogEntry[];
   categories: string[];
   ingots: string[];
+  group_order: string[];
   manifest: ManifestLine[];
   manifest_total: number;
   orders: Order[];
