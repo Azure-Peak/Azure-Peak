@@ -21,7 +21,7 @@
 	desc = "GETTING HURT MAKES YOU ANGRY, MAKE THEM HURT BACK- MORE HURT IS MORE ANGRY!"
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
-	recharge_time = 2 MINUTES
+	recharge_time = 3 MINUTES
 	invocations = list("enters a state of furious rage!")
 	invocation_type = "emote"
 
@@ -33,6 +33,8 @@
 	user.apply_status_effect(/datum/status_effect/buff/rage)
 	if(get_buff_value(user) >= 1)
 		user.apply_status_effect(/datum/status_effect/buff/rage_stamina)
+	if(get_buff_value(user) >= 2)
+		user.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/rage
@@ -46,6 +48,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/rage
 	effectedstats = list(STATKEY_STR = 1)
 	duration = 90 SECONDS
+	var/originalcmode = ""
 	var/ragebuff = 0
 	var/outline_colour = "#ca0000"
 
@@ -57,13 +60,27 @@
 		if(!filter)
 			owner.add_filter(RAGE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 120, "size" = 1))
 		owner.emote("rage", forced = TRUE)
+		ADD_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, id)
+		ADD_TRAIT(owner, TRAIT_PSYCHOSIS, id)
+		ADD_TRAIT(owner, TRAIT_NOCSHADES, id)
+		originalcmode = owner.cmode_music
+		owner.cmode_music = 'sound/music/combat_ozium.ogg'
 		to_chat(owner, span_notice("PAIN FUELS MY RAGE, MY BODY IS READY TO FIGHT!"))
 		playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
 
 /datum/status_effect/buff/rage/on_remove()
 	. = ..()
 	owner.remove_filter(RAGE_FILTER)
+	owner.apply_status_effect(/datum/status_effect/debuff/falter)
+	owner.apply_status_effect(/datum/status_effect/debuff/exposed)
+	REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, id)
+	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, id)
+	REMOVE_TRAIT(owner, TRAIT_NOCSHADES, id)
+	owner.cmode_music = originalcmode
 	to_chat(owner, span_warning("Rage subsides."))
+
+/datum/status_effect/buff/rage/tick()
+	update_effects()
 
 /datum/status_effect/buff/rage/proc/update_effects()
 	ragebuff = get_buff_value(owner)
@@ -77,6 +94,22 @@
 		effectedstats = list(STATKEY_CON = 2, STATKEY_WIL = 2, STATKEY_STR = 2)
 	else
 		effectedstats = list(STATKEY_CON = 3, STATKEY_WIL = 3, STATKEY_STR = 3)
+
+/atom/movable/screen/alert/status_effect/debuff/falter
+	name = "Faltering"
+	desc = "<span class='warning'>I've pushed myself to my limit.</span>"
+	icon_state = "debuff"
+
+/datum/status_effect/debuff/falter
+	id = "falter"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/falter
+	effectedstats = list(STATKEY_STR = -2, STATKEY_PER = -2, STATKEY_INT = -2, STATKEY_WIL = -2, STATKEY_CON = -2, STATKEY_SPD = -2)
+	duration = 90 SECONDS
+
+/atom/movable/screen/alert/status_effect/buff/rage
+	name = "RAGE"
+	desc = "YOU'RE MAKING ME ANGRY!"
+	icon_state = "buff"
 
 /atom/movable/screen/alert/status_effect/buff/rage_stamina
 	name = "RAAADRENALINE"
