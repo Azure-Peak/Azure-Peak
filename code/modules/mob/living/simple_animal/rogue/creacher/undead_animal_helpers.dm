@@ -14,6 +14,8 @@
 
 /datum/component/infection_spreader/proc/handle_early_cleanup(datum/source)
 	SIGNAL_HANDLER
+	UnregisterSignal(COMSIG_LIVING_DEATH)
+	UnregisterSignal(COMSIG_MOB_AFTERATTACK_SUCCESS)
 	qdel(src)
 
 /datum/component/infection_spreader/proc/on_bite(mob/living/source, mob/living/target)
@@ -43,6 +45,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/troll/axe = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/undead,
 ))
 
 #define ZOMBIE_REANIMATION_CHANCE 25

@@ -1,0 +1,7 @@
+author: "Oats"
+delete-after: True
+changes:
+  - rscadd: "Added pork belly"
+  - rscadd: "Made regular pork flesh mince-able"
+  - rscadd: "Truffle pigs now yield the same butchering results as regular pigs"
+  - rscadd: "Boars now yield pork belly as well."
