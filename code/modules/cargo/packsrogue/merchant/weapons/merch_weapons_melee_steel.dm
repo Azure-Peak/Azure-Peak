@@ -25,6 +25,21 @@
 	cost = 70 // 2 Steel Ingots
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/rondel)
 
+/datum/supply_pack/rogue/steel_weapons/parrying
+	name = "Parrying Dagger, Steel"
+	cost = 70 // 2 Steel Ingots
+	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/parrying)
+
+/datum/supply_pack/rogue/steel_weapons/combatknife
+	name = "Seax, Steel"
+	cost = 35 // 1 steel ingot
+	contains = list(/obj/item/rogueweapon/huntingknife/combat)
+
+/datum/supply_pack/rogue/steel_weapons/combatknife_messer
+	name = "Kampfmesser, Steel"
+	cost = 70 // 2 steel ingot
+	contains = list(/obj/item/rogueweapon/huntingknife/combat/messser)
+
 /datum/supply_pack/rogue/steel_weapons/katar
 	name = "Katar"
 	cost = 40 // 1 Steel Ingot
