@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Fixed a bug where washing in water did not clear blood overlays from character body sprites."
