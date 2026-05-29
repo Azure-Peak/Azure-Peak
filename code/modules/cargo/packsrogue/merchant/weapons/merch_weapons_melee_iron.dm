@@ -146,7 +146,7 @@
 
 /datum/supply_pack/rogue/iron_weapons/ironshield
 	name = "Shield, Iron"
-	cost = 20 // 2 iron 
+	cost = 40 // 2 iron 
 	contains = list(/obj/item/rogueweapon/shield/iron)
 
 /datum/supply_pack/rogue/iron_weapons/towershield
