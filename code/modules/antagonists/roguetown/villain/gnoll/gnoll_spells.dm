@@ -389,6 +389,57 @@
 		target.apply_status_effect(/datum/status_effect/debuff/call_to_slaughter)	//Debuffs non-inhumens/psydonians
 	return TRUE
 
+/datum/action/cooldown/spell/gnoll/consume
+	name = "Consume"
+	desc = "Feast on flesh, bones, or bodies to recover from battle. Cast on yourself to consume items in hand, or on a corpse to begin to consume it."
+	fluff_desc = "The hunger for flesh is eternal in Gnolls. They hunt to sate this desire, endlessly, for they are Graggar's chosen."
+	button_icon_state = null
+	glow_intensity = 0
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_ADJACENT
+
+	primary_resource_cost = NONE
+
+	invocation_type = INVOCATION_NONE
+	charge_required = FALSE
+	cooldown_time = 10 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/gnoll/consume/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	var/mob/living/corpse = null
+	if(isliving(cast_on))
+		corpse = cast_on
+	if(!istype(H))
+		return FALSE
+	
+	if(corpse)
+		if(corpse.stat == DEAD)
+			to_chat(owner, span_notice("You begin to consume [corpse.name]."))
+			if(do_after(owner, 10 SECONDS, corpse))
+				qdel(corpse)
+				to_chat(owner, span_notice("You finish consuming [corpse.name], feeling reinvigorated."))
+		else
+			to_chat(owner, span_warning("You can only consume the dead!"))
+	else if(istype(cast_on, /obj/item/reagent_containers/food/snacks/rogue/meat))
+		var/obj/item/reagent_containers/food/snacks/rogue/meat/m = cast_on
+		to_chat(owner, span_notice("You begin to consume the [m.name], savoring the taste of fresh meat."))
+		if(do_after(owner, 3 SECONDS, cast_on))
+			qdel(cast_on)
+			to_chat(owner, span_notice("You finish consuming the [m.name], feeling reinvigorated."))
+	else if(cast_on == owner && istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat))
+		to_chat(owner, span_notice("You begin to consume the flesh in your hands, feeling reinvigorated."))
+		if(do_after(owner, 3 SECONDS, owner))
+			var/obj/item/reagent_containers/food/snacks/rogue/meat/m = owner.get_active_held_item()
+			qdel(m)
+			to_chat(owner, span_notice("You finish consuming the [m.name], feeling reinvigorated."))
+	else
+		to_chat(H, span_warning("You need to target meat, corpses or yourself to eat meat in your hands!"))
+		return FALSE
+
 
 #undef GNOLL_STEALTH_TIMER
 #undef GNOLL_ABDUCT_TIMER

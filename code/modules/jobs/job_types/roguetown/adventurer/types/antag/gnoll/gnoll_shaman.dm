@@ -50,6 +50,7 @@
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll/shaman)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/extract_heart) // Shamans had no real way to get hearts. This is very thematic.
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/gnoll/gnoll_battlecry)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/gnoll/consume)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/shaman
 	icon_state = "shaman"
