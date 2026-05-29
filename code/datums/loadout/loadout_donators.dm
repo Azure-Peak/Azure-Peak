@@ -366,3 +366,8 @@
 	name = "Donator Kit - Sylvan Sabre"
 	path = /obj/item/enchantingkit/weapon/nero_sabre
 	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+
+/datum/loadout_item/donator/des_gaebolg
+	name = "Dontaor Kit - Gae Bolg"
+	path = /obj/item/enchantingkit/weapon/des_gaebolg
+	ckeywhitelist = list("desminus")

@@ -10,7 +10,7 @@
 	return noble
 
 /mob/living/carbon/human/proc/is_burgher()
-	return job in GLOB.burgher_positions
+	return (job in GLOB.burgher_positions) || (job in GLOB.atc_positions)
 
 /mob/living/carbon/human/proc/is_courtier()
 	return job in GLOB.courtier_positions

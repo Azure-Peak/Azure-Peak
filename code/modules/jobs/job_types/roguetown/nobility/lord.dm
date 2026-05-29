@@ -505,6 +505,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	//only migrants and peasants
 	if(!(recruit.job in GLOB.peasant_positions) && \
 		!(recruit.job in GLOB.burgher_positions) && \
+		!(recruit.job in GLOB.atc_positions) && \
 		!(recruit.job in GLOB.wanderer_positions))
 		return FALSE
 	//need to see their damn face

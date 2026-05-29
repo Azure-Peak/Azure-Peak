@@ -50,4 +50,29 @@
 	if(harddel_deets_dumped)
 		return
 	harddel_deets_dumped = TRUE
-	return "Effect type: [type] - icon: [icon] - icon_state: [icon_state] - name: \"[name]\" - layer: [layer] - vis_contents: [length(vis_contents)] [loc ? "loc.type: [loc.type] ([loc.x],[loc.y],[loc.z])" : "loc: NULLSPACE"]"
+	var/list/parts = list("Effect type: [type]", "icon: [icon]", "icon_state: \"[icon_state]\"", "name: \"[name]\"", "layer: [layer]", "vis_contents: [length(vis_contents)]")
+	parts += loc ? "loc.type: [loc.type] ([loc.x],[loc.y],[loc.z])" : "loc: NULLSPACE"
+	if(LAZYLEN(datum_components))
+		var/list/comp_types = list()
+		for(var/key in datum_components)
+			comp_types += "[key]"
+		parts += "datum_components: [comp_types.Join(",")]"
+	if(LAZYLEN(comp_lookup))
+		var/list/sig_keys = list()
+		for(var/sig in comp_lookup)
+			sig_keys += "[sig]"
+		parts += "comp_lookup signals: [sig_keys.Join(",")]"
+	if(LAZYLEN(signal_procs))
+		var/list/sig_sources = list()
+		for(var/target in signal_procs)
+			var/sig_entry = signal_procs[target]
+			sig_sources += "[target]:[islist(sig_entry) ? jointext(sig_entry, "+") : sig_entry]"
+		parts += "signal_procs targets: [sig_sources.Join(" ; ")]"
+	if(spatial_grid_key)
+		parts += "spatial_grid_key: [spatial_grid_key]"
+	if(LAZYLEN(important_recursive_contents))
+		var/list/irc_keys = list()
+		for(var/key in important_recursive_contents)
+			irc_keys += "[key]"
+		parts += "important_recursive_contents: [irc_keys.Join(",")]"
+	return parts.Join(" - ")

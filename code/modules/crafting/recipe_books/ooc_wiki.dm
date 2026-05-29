@@ -44,15 +44,15 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	return GLOB.recipe_wiki
 
 /// Open the recipe viewer for a specific book's types. Used by physical recipe book items.
-/datum/recipe_wiki/proc/show_to_user(mob/user, list/type_filter, title = "Recipe Book", book_type_path)
+/datum/recipe_wiki/proc/show_to_user(mob/user, list/type_filter, title = "Recipe Book", book_type_path, preselect_category, preselect_entry)
 	if(!user?.client)
 		return
 	var/ckey = user.client.ckey
 	if(!user_states[ckey])
 		user_states[ckey] = list()
 	var/list/state = user_states[ckey]
-	state["recipe"] = null
-	state["category"] = "All"
+	state["recipe"] = preselect_entry
+	state["category"] = preselect_category || "All"
 	state["filter"] = type_filter
 	state["title"] = title
 	state["page"] = "book"
@@ -117,6 +117,7 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	data["page"] = state["page"] || "library"
 	data["current_book"] = state["book_path"]
 	data["current_book_title"] = state["title"] || "Guidebook"
+	data["initial_category"] = state["category"] || "All"
 	var/cur_recipe = state["recipe"]
 	data["current_recipe"] = cur_recipe ? "[cur_recipe]" : null
 

@@ -568,3 +568,12 @@ DEFAULT_VIEW_SQUARE 15x15
 ## 1 Puts Border Control into 'learning mode' and will have it automatically whitelist new connections
 ## 2 Puts Border Control into 'enforcing mode' and will have it deny connections that are not already whitelisted.
 BORDER_CONTROL 0
+
+## Whether something with floating refs can be hard deleted
+#HARD_DELETES_ENABLED
+
+## How long in seconds after which a hard delete is treated as causing lag. This can be a float and supports a precision as low as nanoseconds.
+#HARD_DELETES_OVERRUN_THRESHOLD 0.5
+
+## Once a typepath causes overrun from hard deletes this many times, stop hard deleting it on garbage collection failures. (set to 0 to disable)
+#HARD_DELETES_OVERRUN_LIMIT 0

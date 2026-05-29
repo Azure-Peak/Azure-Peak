@@ -132,7 +132,6 @@
 	item_state = "leather_armor"
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
-	sellprice = 20
 	color = "#7D6653"
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
@@ -143,7 +142,6 @@
 	body_parts_covered = COVERAGE_ALL_BUT_ARMFEET
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
-	sellprice = 25
 	color = "#7D6653"
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
@@ -196,7 +194,6 @@
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
-	sellprice = 25
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest
 	name = "drowcraft vest"

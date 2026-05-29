@@ -635,6 +635,19 @@
 		rog_intent_change(r_index)
 		rog_intent_change(l_index, 1)
 
+/mob/proc/cycle_mmb_intent()
+	if(!possible_mmb_intents?.len)
+		return
+	var/next_qintent
+	switch(mmb_intent?.type)
+		if(null)         next_qintent = QINTENT_BITE
+		if(INTENT_BITE)  next_qintent = QINTENT_JUMP
+		if(INTENT_JUMP)  next_qintent = QINTENT_KICK
+		if(INTENT_KICK)  next_qintent = QINTENT_SPECIAL
+		if(INTENT_SPECIAL) next_qintent = null
+		else             next_qintent = QINTENT_BITE
+	mmb_intent_change(next_qintent)
+
 /mob/verb/mmb_intent_change(input as text)
 	set name = "mmb-change"
 	set hidden = 1

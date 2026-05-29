@@ -504,6 +504,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	omegalist += list(GLOB.garrison_positions)
 	omegalist += list(GLOB.church_positions)
 	omegalist += list(GLOB.burgher_positions)
+	omegalist += list(GLOB.atc_positions)
 	omegalist += list(GLOB.peasant_positions)
 	omegalist += list(GLOB.sidefolk_positions)
 	omegalist += list(GLOB.wanderer_positions)
@@ -543,6 +544,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 					cat_name = "Churchmen"
 				if (BURGHERS)
 					cat_name = "Burghers"
+				if (ATC)
+					cat_name = "Azurian Trading Company"
 				if (PEASANTS)
 					cat_name = "Peasants"
 				if (SIDEFOLK)

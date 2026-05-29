@@ -37,6 +37,7 @@
 
 /datum/crafting_recipe/roguetown/survival/boat
 	name = "Dinghy"
+	display_category = ITEM_CAT_ENG_MACHINERY
 	result = /obj/vehicle/ridden/dinghy
 	reqs = list(
 		/obj/item/grown/log/tree = 4,

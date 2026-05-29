@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/ceramics
 	abstract_type = /datum/crafting_recipe/roguetown/ceramics
+	display_category = ITEM_CAT_POTTERY
 	skillcraft = /datum/skill/craft/ceramics
 
 /datum/crafting_recipe/roguetown/ceramics/clay

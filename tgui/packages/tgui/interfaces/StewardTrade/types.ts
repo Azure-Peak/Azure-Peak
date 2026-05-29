@@ -25,6 +25,7 @@ export type OrderItem = {
   good_id: string;
   needed: number;
   have: number;
+  route: 'warehouse' | 'stockpile';
 };
 
 export type Order = {
@@ -33,7 +34,8 @@ export type Order = {
   description: string;
   region_id: string;
   region_blockaded: BooleanLike;
-  is_equipment: BooleanLike;
+  has_warehouse: BooleanLike;
+  has_stockpile: BooleanLike;
   days_left: number;
   payout: number;
   items: OrderItem[];
@@ -43,6 +45,8 @@ export type Order = {
   can_partial: BooleanLike;
   partial_pct: number;
   partial_payout_preview: number;
+  pair_id: string | null;
+  pair_label: string | null;
 };
 
 export type EconomicEvent = {
@@ -219,6 +223,10 @@ export type Data = StaticData & {
   petition: PetitionState;
   sequestration: SequestrationState;
   atc_loan: AtcLoanState;
+  royal_custom_unlocked: BooleanLike;
+  royal_custom_margin: number;
+  royal_custom_threshold: number;
+  royal_custom_volume: number;
 };
 
 export type TabKey =
@@ -226,4 +234,5 @@ export type TabKey =
   | 'market'
   | 'regions'
   | 'auto_import'
-  | 'petition';
+  | 'petition'
+  | 'royal_custom';

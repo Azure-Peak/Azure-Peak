@@ -4,6 +4,7 @@ import { useBackend } from '../../backend';
 import { groupByCategory } from './helpers';
 import {
   badgeStyle,
+  BUTTON_BG,
   cardStyle,
   INK,
   INK_FAINT,
@@ -72,7 +73,7 @@ export const AutoImportView = (props: { data: Data }) => {
               &middot; Goods on standing import:{' '}
               <span style={{ fontWeight: 'bold' }}>{activeCount}</span>
             </div>
-            <div style={{ fontSize: '11px', color: INK_FAINT, fontStyle: 'italic' }}>
+            <div style={{ fontSize: '12px', color: INK_SOFT }}>
               Tops up each good by {batch_size} units every 6 minutes when stock is
               below {floor_target}, skipping when a unit would cost more than{' '}
               {max_price_mult}x its base price.
@@ -92,7 +93,7 @@ export const AutoImportView = (props: { data: Data }) => {
                 fontSize: '12px',
                 padding: '2px 4px',
                 border: `1px solid ${INK_FAINT}`,
-                background: 'rgba(255,248,220,0.55)',
+                background: BUTTON_BG,
                 color: INK,
                 opacity: aldermanActing ? 0.55 : 1,
               }}
@@ -189,7 +190,7 @@ export const AutoImportView = (props: { data: Data }) => {
       )}
 
       <div style={sectionHeaderStyle}>
-        Recent Activity (last {history.length || 0} day{history.length === 1 ? '' : 's'})
+        Tally (last {history.length || 0} day{history.length === 1 ? '' : 's'})
       </div>
       {history.length === 0 ? (
         <div style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}>

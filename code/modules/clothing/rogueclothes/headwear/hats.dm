@@ -364,7 +364,6 @@
 	name = "nun's veil"
 	desc = "A humble hat for the faithful."
 	icon_state = "nun"
-	sellprice = 5
 	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/hennin
