@@ -1,3 +1,5 @@
+#define LEDGER_PAGE_SIZE 50
+
 /obj/structure/roguemachine/steward/ui_state(mob/user)
 	// The sitting Alderman acts remotely from the Notice Board - they cannot physically reach the
 	// locked Stewardry. For them, swap adjacency for a conscious-and-alive check; access is gated
@@ -88,7 +90,45 @@
 	data["petition_tax_pct"] = round((1 - PETITION_TAX_MULT) * 100)
 	data["petitions_per_day"] = PETITIONS_PER_DAY
 
+	var/list/lview = ledger_view[user.ckey]
+	if(lview && lview["open"])
+		data["ledger_page"] = build_ledger_page(user.ckey)
+
 	return data
+
+/obj/structure/roguemachine/steward/proc/build_ledger_page(ckey)
+	var/list/lview = ledger_view[ckey]
+	var/page = max(1, lview ? (lview["page"] || 1) : 1)
+	var/filter = lview ? (lview["filter"] || "") : ""
+	var/window_start = (page - 1) * LEDGER_PAGE_SIZE + 1
+	var/window_end = page * LEDGER_PAGE_SIZE
+	var/list/entries = list()
+	var/matched = 0
+	var/total = length(SStreasury.ledger)
+	for(var/i = total to 1 step -1)
+		var/datum/treasury_entry/E = SStreasury.ledger[i]
+		if(filter && !findtext(E.reason, filter) && !findtext(E.from_name, filter) && !findtext(E.to_name, filter))
+			continue
+		matched++
+		if(matched < window_start)
+			continue
+		if(matched > window_end)
+			break
+		entries += list(list(
+			"kind" = E.kind,
+			"from" = E.from_name,
+			"to" = E.to_name,
+			"amount" = E.amount,
+			"reason" = E.reason || "",
+		))
+	return list(
+		"entries" = entries,
+		"page" = page,
+		"page_size" = LEDGER_PAGE_SIZE,
+		"shown" = length(entries),
+		"has_more" = (matched > window_end) ? TRUE : FALSE,
+		"filtered" = filter ? TRUE : FALSE,
+	)
 
 /obj/structure/roguemachine/steward/ui_data(mob/user)
 	var/list/data = list()
@@ -958,3 +998,35 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			if(isnum(n))
 				SStreasury.royal_custom_margin = clamp(round(n), 0, 500)
 			return TRUE
+		if("ledger_open")
+			ledger_view[usr.ckey] = list("open" = TRUE, "page" = 1, "filter" = "")
+			update_static_data(usr)
+			return TRUE
+		if("ledger_close")
+			var/list/lview = ledger_view[usr.ckey]
+			if(lview)
+				lview["open"] = FALSE
+			return TRUE
+		if("ledger_page")
+			var/list/lview = ledger_view[usr.ckey]
+			if(!lview || !lview["open"])
+				return TRUE
+			lview["page"] = max(1, text2num("[params["page"]]") || 1)
+			update_static_data(usr)
+			return TRUE
+		if("ledger_filter")
+			var/list/lview = ledger_view[usr.ckey]
+			if(!lview || !lview["open"])
+				return TRUE
+			lview["filter"] = trim("[params["filter"]]")
+			lview["page"] = 1
+			update_static_data(usr)
+			return TRUE
+		if("ledger_refresh")
+			var/list/lview = ledger_view[usr.ckey]
+			if(!lview || !lview["open"])
+				return TRUE
+			update_static_data(usr)
+			return TRUE
+
+#undef LEDGER_PAGE_SIZE

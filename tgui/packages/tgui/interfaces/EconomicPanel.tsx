@@ -766,12 +766,12 @@ export const EconomicPanel = () => {
                   Aggregations above cover the full round.
                 </Box>
               )}
-              {pageRows.length === 0 ? (
-                <Box italic color="gray">
-                  No entries match the current filter.
-                </Box>
-              ) : (
-                <>
+              <Box height="540px" mb={1} style={{ overflowY: 'auto' }}>
+                {pageRows.length === 0 ? (
+                  <Box italic color="gray">
+                    No entries match the current filter.
+                  </Box>
+                ) : (
                   <Table>
                     <Table.Row header>
                       <Table.Cell>Time</Table.Cell>
@@ -814,6 +814,10 @@ export const EconomicPanel = () => {
                       </Table.Row>
                     ))}
                   </Table>
+                )}
+              </Box>
+              {pageRows.length > 0 && (
+                <>
                   <Stack align="center" mt={1}>
                     <Stack.Item grow>
                       <Box italic color="gray">
