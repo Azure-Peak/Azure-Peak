@@ -613,11 +613,15 @@
 		H.visible_message(span_info("[H] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be corrupted and rebuked back at its caster!"))
 		playsound(H, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
 		user.playsound_local(user, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
-		user.adjust_fire_stacks(12, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, ANCIENT ENEMY
+		user.adjust_fire_stacks(15, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, ANCIENT ENEMY
 		user.Knockdown(10)
 		user.Jitter(30)
 		user.ignite_mob()
-		to_chat(user, span_danger("I am violently SMITED by profane flame as my miracle is warped and reflected back at me!"))
+		if(!HAS_TRAIT(user, TRAIT_NOPAIN))
+			user.emote("agony")
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			user.freak_out()
+		to_chat(user, span_userdanger("I recoil as I'm violently SMITED by profane flame as I attempt to purify their lux by the merging of-.. wait, where's THEIR LUX?!"))
 		return TRUE
 	
 	// Transfer wounds.
