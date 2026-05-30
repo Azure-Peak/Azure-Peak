@@ -6,6 +6,26 @@
 	crate_name = "merchant guild's crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
+/datum/supply_pack/rogue/light_armor/rough_headband
+	name = "Roughspun Headband"
+	cost = 18 // 2 cloth + 5 fiber
+	contains = list(/obj/item/clothing/head/roguetown/headband/monk/barbarian)
+
+/datum/supply_pack/rogue/light_armor/padded_headband
+	name = "Padded Headband"
+	cost = 24 // 4 cloth + 4 fiber
+	contains = list(/obj/item/clothing/head/roguetown/headband/monk)
+
+/datum/supply_pack/rogue/light_armor/arming_cap
+	name = "Arming Cap"
+	cost = 10 // 1 cloth + 3 fiber
+	contains = list(/obj/item/clothing/head/roguetown/armingcap)
+
+/datum/supply_pack/rogue/light_armor/padded_arming_cap
+	name = "Padded Arming Cap"
+	cost = 18 // 2 cloth + 5 fiber
+	contains = list(/obj/item/clothing/head/roguetown/armingcap/padded)
+
 /datum/supply_pack/rogue/light_armor/dobo_robe
 	name = "Dobo Robe"
 	cost = 40

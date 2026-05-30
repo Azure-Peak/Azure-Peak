@@ -1098,7 +1098,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/hunterheadband
-	name = "padded headband, hunter's style"
+	name = "roughspun headband"
 	category = "Coifs"
 	display_category = ITEM_CAT_ARMOR_HELMETS
 	result = list(/obj/item/clothing/head/roguetown/headband/monk/barbarian)
@@ -1107,7 +1107,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/monkheadband
-	name = "padded headband, monk's style"
+	name = "padded headband"
 	category = "Coifs"
 	display_category = ITEM_CAT_ARMOR_HELMETS
 	result = list(/obj/item/clothing/head/roguetown/headband/monk)

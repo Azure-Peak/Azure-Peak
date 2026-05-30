@@ -221,7 +221,7 @@
 	sewrepair = TRUE
 
 /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
-	name = "monk's wrappings"
+	name = "padded wrappings"
 	desc = "Sheared burlap and cloth, meticulously fashioned around the forearms. Taut fibers turn weeping gashes into mere tears along the cloth, allowing for Monks to more confidently parry blades with their bare hands."
 	color = "#BFB8A9"
 
