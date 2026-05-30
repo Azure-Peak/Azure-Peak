@@ -63,8 +63,8 @@
 	var/mob/living/carbon/C = parent
 
 	var/is_zombie
-	//if(HAS_TRAIT(C, TRAIT_DNR)) //disabled override for now.
-		//return
+	if(HAS_TRAIT(C, TRAIT_DNR))
+		return
 	if(C.mind)
 		if(C.mind.has_antag_datum(/datum/antagonist/zombie))
 			is_zombie = TRUE
