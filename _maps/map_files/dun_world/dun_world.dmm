@@ -110318,7 +110318,7 @@
 /area/rogue/outdoors/mountains)
 "vQL" = (
 /obj/structure/roguemachine/noticeboard/wall{
-	pixel_x = 32
+	pixel_x = null
 	},
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/physician)
@@ -294466,7 +294466,7 @@ rZO
 sNZ
 sNZ
 sNZ
-sNZ
+mfL
 sNZ
 sNZ
 sNZ
@@ -314365,7 +314365,7 @@ fVo
 rZO
 rZO
 sNZ
-sNZ
+mfL
 sNZ
 sNZ
 ccz
@@ -355148,7 +355148,7 @@ sNZ
 hmZ
 quW
 quW
-sNZ
+mfL
 sNZ
 sNZ
 seL
@@ -356030,7 +356030,7 @@ bsL
 bsL
 bsL
 bsL
-bsL
+kKc
 bsL
 bsL
 bsL
@@ -358721,7 +358721,7 @@ bsL
 bsL
 bsL
 bsL
-bsL
+kKc
 bsL
 fVo
 bUW
@@ -365947,7 +365947,7 @@ pxF
 pxF
 emv
 emv
-sNZ
+mfL
 sNZ
 sNZ
 sNZ

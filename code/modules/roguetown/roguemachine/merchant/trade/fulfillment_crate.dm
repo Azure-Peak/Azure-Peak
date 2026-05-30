@@ -121,7 +121,7 @@
 	if(!SStreasury.has_account(user))
 		say("No account found for [user]. Submit your fingers to a Meister for inspection.")
 		return
-	var/list/tally = list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "lines" = list())
+	var/list/tally = list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "total_quality_delta" = 0, "lines" = list())
 	for(var/obj/item/I in get_turf(user))
 		attempt_deposit(I, user, FALSE, FALSE, tally)
 	flush_tally(tally, user)
@@ -137,8 +137,19 @@
 		var/list/info = tally["lines"][key]
 		line_summaries += "[info["qty"]] [info["good_name"]] -> [info["ship_name"]]"
 	var/kin_total = tally["total_kin_bonus"] || 0
-	var/breakdown = "[english_list(line_summaries)]: gross [tally["total_gross"]]m, Crown [tally["total_duty"]]m, Merchant [tally["total_cut"]]m[kin_total > 0 ? ", Kinship +[kin_total]m" : ""]"
+	var/quality_delta = tally["total_quality_delta"] || 0
+	var/quality_str = ""
+	if(quality_delta != 0)
+		var/sign_str = quality_delta > 0 ? "+" : ""
+		quality_str = ", quality [sign_str][quality_delta]m"
+	var/breakdown = "[english_list(line_summaries)]: gross [tally["total_gross"]]m, Crown [tally["total_duty"]]m, Merchant [tally["total_cut"]]m[kin_total > 0 ? ", Kinship +[kin_total]m" : ""][quality_str]"
 	SStreasury.give_money_account(tally["total_producer"], user, breakdown)
+	if(quality_delta != 0)
+		var/representative_quality = quality_delta > 0 ? ITEM_QUALITY_MASTERWORK : ITEM_QUALITY_CRUDE
+		var/jab = navigator_quality_jab(representative_quality)
+		if(jab)
+			say(jab)
+			to_chat(user, span_info("[src] says, \"[jab]\""))
 
 /obj/structure/roguemachine/ship_fulfillment/proc/attempt_deposit(obj/item/I, mob/user, message = TRUE, sound = TRUE, list/tally)
 	if(!SSmerchant_trade)
@@ -199,8 +210,16 @@
 				return
 		var/datum/trade_ship/dish_ship = dish_match["ship"]
 		dish_line["qty_fulfilled"]++
+		var/dish_q_mult = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : 1.0
+		var/dish_unit_price = round(dish_line["offered_price"] * dish_q_mult)
+		var/dish_quality_delta = dish_unit_price - dish_line["offered_price"]
+		if(message && I.has_item_quality && I.item_quality != ITEM_QUALITY_STANDARD)
+			var/jab = navigator_quality_jab(I.item_quality)
+			if(jab)
+				say(jab)
+				to_chat(user, span_info("[src] says, \"[jab]\""))
 		qdel(I)
-		settle_payout(dish_line["offered_price"], user, dish_ship, dish_line["good_name"], 1, message, sound, tally)
+		settle_payout(dish_unit_price, user, dish_ship, dish_line["good_name"], 1, message, sound, tally, dish_quality_delta)
 		return
 	if(istype(I, /obj/item/natural/bundle))
 		var/obj/item/natural/bundle/B = I
@@ -245,10 +264,18 @@
 			to_chat(user, span_warning("That vessel's hold is full of [line["good_name"]]."))
 		return
 	line["qty_fulfilled"]++
+	var/q_mult = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : 1.0
+	var/unit_price = round(line["offered_price"] * q_mult)
+	var/quality_delta = unit_price - line["offered_price"]
+	if(message && I.has_item_quality && I.item_quality != ITEM_QUALITY_STANDARD)
+		var/jab = navigator_quality_jab(I.item_quality)
+		if(jab)
+			say(jab)
+			to_chat(user, span_info("[src] says, \"[jab]\""))
 	qdel(I)
-	settle_payout(line["offered_price"], user, ship, line["good_name"], 1, message, sound, tally)
+	settle_payout(unit_price, user, ship, line["good_name"], 1, message, sound, tally, quality_delta)
 
-/obj/structure/roguemachine/ship_fulfillment/proc/settle_payout(gross, mob/user, datum/trade_ship/ship, good_name, qty, message, sound, list/tally)
+/obj/structure/roguemachine/ship_fulfillment/proc/settle_payout(gross, mob/user, datum/trade_ship/ship, good_name, qty, message, sound, list/tally, quality_delta = 0)
 	if(gross <= 0)
 		return
 	var/kin_bonus = 0
@@ -297,6 +324,7 @@
 		tally["total_duty"] += total_duty
 		tally["total_cut"] += levy_remitted
 		tally["total_kin_bonus"] = (tally["total_kin_bonus"] || 0) + kin_bonus
+		tally["total_quality_delta"] = (tally["total_quality_delta"] || 0) + quality_delta
 		var/key = "[ship.ship_id]|[good_name]"
 		var/list/info = tally["lines"][key]
 		if(info)
@@ -304,7 +332,11 @@
 		else
 			tally["lines"][key] = list("qty" = qty, "good_name" = good_name, "ship_name" = ship.ship_name)
 		return
-	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""]"
+	var/quality_str = ""
+	if(quality_delta != 0)
+		var/q_sign = quality_delta > 0 ? "+" : ""
+		quality_str = ", quality [q_sign][quality_delta]m"
+	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""][quality_str]"
 	if(producer_payout > 0)
 		SStreasury.give_money_account(producer_payout, user, breakdown)
 

@@ -589,7 +589,7 @@
 	icon_state = "kazscabyuruku"
 	item_state = "kazscabyuruku"
 	valid_blade = /obj/item/rogueweapon/sword/short/kazengun
-	wdefense = 4
+	wdefense = 7
 	special = null
 
 /obj/item/rogueweapon/scabbard/sheath/kazengun

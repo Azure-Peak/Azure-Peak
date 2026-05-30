@@ -1,6 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "Added new HUD icon + Vlord uses their blood title."
-  - image: "added more HUD Icons and changed those of vampires to be much nicer on the eyes."
-  - image: "Vspawn -> vampire_spawn_hud. Vlord -> vampire_lord_hud. Paths for icons, far less of a headache to deal with."

@@ -252,7 +252,7 @@
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	allowed_race = NON_DWARVEN_RACE_TYPES
+	//allowed_race = NON_DWARVEN_RACE_TYPES
 	max_integrity = 350
 
 	repairmsg_begin = "The tattoos begin to slowly mend their abuse..."
@@ -262,6 +262,12 @@
 
 	interrupt_damount = 20
 	repair_time = 30 SECONDS
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats/mistwalker
+	name = "seon-mul tattoos"
+	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
+	armor = ARMOR_LEATHER
+	max_integrity = 450
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/gladiator
 	name = "gladiator's skin"

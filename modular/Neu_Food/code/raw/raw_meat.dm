@@ -69,9 +69,20 @@
 	icon_state = "pork"
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
 	slices_num = 2
-	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/bacon
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
+	slice_bclass = BCLASS_CHOP
 	chopping_sound = TRUE
 	cooked_smell = /datum/pollutant/food/fried_meat
+
+/* ............. Pork Belly ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly
+	name = "pork belly"
+	icon_state = "pork_belly"
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	slices_num = 4
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/bacon
+	slice_sound = TRUE
+	cooked_smell = /datum/pollutant/food/fried_bacon
 
 /* ............. Bacon ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/bacon

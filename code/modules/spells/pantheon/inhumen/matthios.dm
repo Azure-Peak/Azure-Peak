@@ -1,5 +1,23 @@
 #define EQUALIZED_GLOW "equalizer glow"
 
+/datum/action/cooldown/spell/matthios
+	background_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	spell_color = GLOW_COLOR_MATTHIOS
+	ignore_armor_penalty = TRUE
+	attunement_school = null
+	primary_resource_type = SPELL_COST_DEVOTION
+	secondary_resource_type = SPELL_COST_STAMINA
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	zizo_spell = TRUE
+	spell_tier = 0
+	point_cost = 0
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
+
 //////////////////////////
 // T0 - Freeman's Tools //
 //////////////////////////
@@ -10,7 +28,7 @@
 // Most of the things included here envision utility and non-combat applications, and dhe "alchemy" part offers the
 // means to convert discarded adven trash and item clutter into useful things.
 
-/datum/action/cooldown/spell/freemans_tools
+/datum/action/cooldown/spell/matthios/freemans_tools
 	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	button_icon_state = "lockpick"
 	name = "Freeman's Tools"
@@ -163,7 +181,7 @@
 
 	var/list/item_cooldowns = list()
 
-/datum/action/cooldown/spell/freemans_tools/cast(atom/cast_on)
+/datum/action/cooldown/spell/matthios/freemans_tools/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
@@ -321,58 +339,101 @@
 		var/totalvalue = mammonsinbank + mammonsonperson
 		to_chat(user, ("<font color='yellow'>[target] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.</font>"))
 
-//T0: Firebreath
-/obj/effect/proc_holder/spell/invoked/matthios_firebreath // Shamelessly steals Wither's cool code / Originally from Racial Perk PR for drakians
+//T0: Raze (Matthios Firebreath)
+/datum/action/cooldown/spell/matthios/raze // Shamelessly steals Wither's cool code / Originally from Racial Perk PR for drakians
 	name = "Raze"
-	desc = "Tap into the dragon aspect of your Lord, unleashing a wave of unholy fyre in front of you. Damage increases with Holy Skill"
-	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_state = "breath"
-	miracle = TRUE
-	devotion_cost = 20
-	releasedrain = 30
-	chargedrain = 2
-	chargetime = 1 SECONDS
-	range = 3
+	desc = "Exhale a cone of stolen fyre before you, scorching enemies and igniting the ground. Damage increases with Holy Skill. These flames are also strong enough to turn unworthy corpses into ashes and dust."
+	fluff_desc = "Some legends claim Matthios to be the origin of dragonkind itself. Whether innate gift or Malchem synthesis, most worshippers of the Free God can naturally give voice to His stolen fyre. A gentle puff of a whisper to some, a roaring inferno to others."
+	button_icon_state = "breath"
 	sound = 'sound/misc/bamf.ogg'
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	invocation_type = "emote"
-	invocations = list("sharply exhales, breathing out cloud of fyre.")
-	chargedloop = /datum/looping_sound/invokefire
-	recharge_time = 2 MINUTES
+	charge_sound = 'sound/magic/charging_fire.ogg'
+	cooldown_time = 2 MINUTES
+	charge_required = TRUE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_time = 1 SECONDS
+	primary_resource_cost = 125
+	secondary_resource_cost = 10
 	associated_skill = /datum/skill/magic/holy
-	human_req = TRUE
 	var/delay = 12
 	var/strike_delay = 2
 	var/damage = 20
+	var/cone_range = 3
+	var/familiar = FALSE
 
-/obj/effect/proc_holder/spell/invoked/matthios_firebreath/cast(list/targets, mob/user = usr)
+/datum/action/cooldown/spell/matthios/raze/cast(list/targets, mob/living/user = usr)
+	. = ..()
 	var/turf/T = get_turf(targets[1])
 	var/turf/source_turf = get_turf(user)
 
 	if(T.z != user.z)
-		revert_cast()
 		return FALSE
 
-	var/list/affected_turfs = getline(source_turf, T)
-	affected_turfs -= source_turf // Remove caster's turf
+	var/direction = get_dir(source_turf, T)
 
-	if(get_dist(source_turf, T) > range)
-		to_chat(user, span_danger("Too far!"))
-		revert_cast()
-		return FALSE
+	for(var/distance = 1, distance <= cone_range, distance++)
+		var/list/current_wave = list()
+		var/turf/center = source_turf
 
-	for(var/i = 1, i <= min(affected_turfs.len, range), i++) // Respect spell range
-		var/turf/affected_turf = affected_turfs[i]
-		if(!(affected_turf in view(source_turf)))
+		for(var/i = 1, i <= distance, i++)
+			center = get_step(center, direction)
+
+		if(!center)
 			continue
-		var/tile_delay = strike_delay * (i - 1) + delay
-		new /obj/effect/temp_visual/trap/firebreath(affected_turf, tile_delay)
-		addtimer(CALLBACK(src, PROC_REF(ignite), affected_turf), tile_delay)
+
+		current_wave += center
+
+		var/width = distance - 1
+
+		var/left_dir
+		var/right_dir
+
+		switch(direction)
+			if(NORTH, SOUTH)
+				left_dir = WEST
+				right_dir = EAST
+			if(EAST, WEST)
+				left_dir = NORTH
+				right_dir = SOUTH
+			if(NORTHEAST, SOUTHWEST)
+				left_dir = NORTHWEST
+				right_dir = SOUTHEAST
+			if(NORTHWEST, SOUTHEAST)
+				left_dir = NORTHEAST
+				right_dir = SOUTHWEST
+
+		for(var/offset = 1, offset <= width, offset++)
+			var/turf/L = center
+			var/turf/R = center
+
+			for(var/j = 1, j <= offset, j++)
+				L = get_step(L, left_dir)
+				R = get_step(R, right_dir)
+
+			if(L)
+				current_wave |= L
+			if(R)
+				current_wave |= R
+
+		var/tile_delay = delay + (strike_delay * (distance - 1))
+
+		for(var/turf/affected_turf in current_wave)
+			if(!(affected_turf in view(source_turf)))
+				continue
+
+			new /obj/effect/temp_visual/trap/firebreath(affected_turf, tile_delay)
+			addtimer(CALLBACK(src, PROC_REF(ignite), affected_turf), tile_delay)
+
+	user.visible_message(span_yellow("[user] sharply exhales, breathing out a cloud of fyre!"))
+	user.Immobilize(15)
+
+	if(!familiar && !(islizard(user) || iskobold(user) || isdracon(user) || ishalfkin(user)))
+		user.adjust_fire_stacks(2)
+		user.ignite_mob()
+		to_chat(user, span_userdanger("Your mortal flesh struggles to withstand the draconic fyre coursing through you!"))
+
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/matthios_firebreath/proc/ignite(turf/damage_turf)
+/datum/action/cooldown/spell/matthios/raze/proc/ignite(turf/damage_turf)
 	new /obj/effect/temp_visual/firebreath_actual(damage_turf)
 	playsound(damage_turf, 'sound/magic/fireball.ogg', 50, TRUE)
 
@@ -382,6 +443,10 @@
 		var/total_damage = (damage + (usr.get_skill_level(associated_skill, 15)))
 		L.adjustFireLoss(total_damage) // Just straight damage, no firestacks or ignite
 		to_chat(L, span_userdanger("You're scorched by flames!"))
+
+		// Vaporize dead NPC / departed player corpses
+		if((L.stat == DEAD && !L.mind) || (!L.key && !L.get_ghost(FALSE, TRUE)))
+			addtimer(CALLBACK(L, TYPE_PROC_REF(/mob/living, dust)), 2 SECONDS)
 
 	new /obj/effect/hotspot(damage_turf) // This is the actual scary part
 
@@ -399,7 +464,6 @@
 	duration = 1 SECONDS
 
 // T1 - Take value of item in hand, apply that as healing. Destroys item.
-
 /obj/effect/proc_holder/spell/invoked/matthios_transact
 	name = "Transact"
 	desc = "Sacrifice an item in your hand, applying a heal over time to yourself with strenght depending on its value."

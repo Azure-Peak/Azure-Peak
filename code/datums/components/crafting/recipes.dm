@@ -29,7 +29,9 @@
 	var/xp_modifier = 1 // Multiplier for crafting XP. Set to 0 to disable XP (e.g. arcana recipes).
 	var/sellprice = 0
 	/// Whether this recipe will be hidden from recipe books
-	var/hides_from_books = FALSE 
+	var/hides_from_books = FALSE
+	// Does not imposes quality on the finished item, but take the lowest quality of input items to prevent any kind of quality transmutation exploit
+	var/skip_quality = FALSE
 	/// Whether this recipe will transmit a message in a 7x7 column around the source.
 	var/loud = FALSE
 	/// Whether this recipe will log for admins, use for structures and anything that can cause grief.

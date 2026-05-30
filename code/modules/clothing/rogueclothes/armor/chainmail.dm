@@ -161,7 +161,7 @@
 	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
 	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
 
-///////// CRAFTING DATUMS FOR MAILLED HAUBERK /////////
+///////// CRAFTING DATUMS FOR MAILLED CUIRASS /////////
 
 /datum/crafting_recipe/roguetown/survival/mailledhauberk
 	name = "layer a steel cuirass atop hauberk"
@@ -170,14 +170,6 @@
 	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
 	craftdiff = 0 //Straight-forward. Note that this is a copy of Draganfrukt's helmet-and-hat combination system, which also has the slight caveat..
 	req_table = TRUE //..of resetting the durability of both items, when crafted and uncrafted. This check helps to reduce a lot of potential cheese, but should be tweaked later.
-	bypass_dupe_test = TRUE
-
-/datum/crafting_recipe/roguetown/survival/mailledhauberk/off
-	name = "take steel cuirass off the hauberk"
-	result = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass = 1, /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
-	reqs = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy = 1)
-	craftdiff = 0
-	req_table = TRUE
 	bypass_dupe_test = TRUE
 
 /datum/crafting_recipe/roguetown/survival/ironmailledhauberk
@@ -189,14 +181,6 @@
 	req_table = TRUE
 	bypass_dupe_test = TRUE
 
-/datum/crafting_recipe/roguetown/survival/ironmailledhauberk/off
-	name = "take iron cuirass off the hauberk"
-	result = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron = 1, /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron = 1)
-	reqs = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy = 1)
-	craftdiff = 0
-	req_table = TRUE
-	bypass_dupe_test = TRUE
-
 /datum/crafting_recipe/roguetown/survival/ancientmailledhauberk
 	name = "layer an ancient cuirass atop hauberk"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy)
@@ -204,14 +188,6 @@
 	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy = 1)
 	craftdiff = 0 //Note that its Decrepit-tier variant is intended to largely be used by mobs and not players; hence, the lack of a crafting recipe.
 	req_table = TRUE //If someone wants to add that in post, hwoever, I don't mind. You can easily do so by copy-pasting the format, here.
-	bypass_dupe_test = TRUE
-
-/datum/crafting_recipe/roguetown/survival/ancientmailledhauberk/off
-	name = "take ancient cuirass off the hauberk"
-	result = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy = 1, /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy = 1)
-	reqs = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy = 1)
-	craftdiff = 0
-	req_table = TRUE
 	bypass_dupe_test = TRUE
 
 //
