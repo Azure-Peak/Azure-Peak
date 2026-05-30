@@ -162,6 +162,14 @@ GLOBAL_LIST_EMPTY(last_words)
 	if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE)) //Vheslynites explode violently upon death out of pure spite and malice.
 		src.flash_fullscreen("redflash3")
 		src.visible_message(span_danger("[src] explodes violently as they are unmade in unholy fire!"))
+	//Handle our mood debuffs for being witnessed within 7 tiles
+	for(var/mob/living/carbon/stresstarget in view(7, src))
+		if(!HAS_TRAIT(stresstarget, TRAIT_UNFORGIVABLE) && !HAS_TRAIT(stresstarget, TRAIT_INQUISITION)) //Non inquis get heftier stress
+			stresstarget.add_stress(/datum/stressevent/witnessvheslyn)
+			continue
+		if(!HAS_TRAIT(stresstarget, TRAIT_UNFORGIVABLE) && HAS_TRAIT(stresstarget, TRAIT_INQUISITION)) //Inquis get lesser stress
+			stresstarget.add_stress(/datum/stressevent/witnessvheslyninquis)
+			continue
 		for (var/mob/living/flame_victim in view(2, src))
 			flame_victim.adjust_fire_stacks(10, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks on nearby people.
 			flame_victim.ignite_mob()

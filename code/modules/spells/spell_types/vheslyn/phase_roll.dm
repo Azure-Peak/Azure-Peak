@@ -37,6 +37,15 @@
 
 	var/mob/living/living_user = user
 	living_user.apply_status_effect(/datum/status_effect/buff/vheslyn_phase_roll)
+
+	//Handle our mood debuffs for being witnessed within 7 tiles
+	for(var/mob/living/carbon/stresstarget in view(7, user))
+		if(!HAS_TRAIT(stresstarget, TRAIT_UNFORGIVABLE) && !HAS_TRAIT(stresstarget, TRAIT_INQUISITION)) //Non inquis get heftier stress
+			stresstarget.add_stress(/datum/stressevent/witnessvheslyn)
+			continue
+		if(!HAS_TRAIT(stresstarget, TRAIT_UNFORGIVABLE) && HAS_TRAIT(stresstarget, TRAIT_INQUISITION)) //Inquis get lesser stress
+			stresstarget.add_stress(/datum/stressevent/witnessvheslyninquis)
+			continue
 	return TRUE
 
 //Vheslyn phase roll effects are below here.
@@ -59,7 +68,7 @@
 	effectedstats = list(STATKEY_SPD = 4) //Fucked up, bare in mind I don't intend dodge experts to ever get this. DO not fucking give them this if you're not a sadistic coder.
 
 /datum/status_effect/buff/vheslyn_phase_roll/on_apply()
-	owner.visible_message(span_warning("[owner] phases through reality itself, with corrupted magicka."))
+	owner.visible_message(span_warning("[owner] phases through reality itself, as violet-flames engulf them."))
 	shake_camera(owner, 5, 3)
 	var/filter = owner.get_filter(VHESLYN_PHASE_FILTER)
 	if(!filter)
@@ -80,3 +89,13 @@
 #undef VHESLYN_PHASE_FILTER
 
 //	owner.adjust_fire_stacks(7, /datum/status_effect/fire_handler/fire_stacks/vheslyn)
+
+/datum/stressevent/witnessvheslyn
+	timer = 8 MINUTES 
+	stressadd = 6 //What the fuck was that? A hefty incentive to deal with them.
+	desc = span_boldred("I feel ill, like I'm burning from inside, those flames... Something is wrong..")
+
+/datum/stressevent/witnessvheslyninquis
+	timer = 8 MINUTES 
+	stressadd = 3 //Hardened, you know what you're dealing with, sire. ENDVRE, SLAY THE ARCHDEVIL FOLLOWER!
+	desc = span_boldred("A follower of the archdevil, an abomination that defies Him!")

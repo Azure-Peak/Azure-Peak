@@ -56,6 +56,15 @@ you violently rend it asunder killing them, intended as a finisher to make these
 	//We don't care if you're undead, we're tearing it out to kill you.
 	else
 		user.visible_message(span_alert("[user] reaches towards [target]'s chest, unholy violet-ochre flames wreathing [user.p_their()] hand..."))
+	//Handle our mood debuffs for being witnessed within 7 tiles
+	for(var/mob/living/carbon/stresstarget in view(7, user))
+		if(!HAS_TRAIT(stresstarget, TRAIT_UNFORGIVABLE) && !HAS_TRAIT(stresstarget, TRAIT_INQUISITION)) //Non inquis get heftier stress
+			stresstarget.add_stress(/datum/stressevent/witnessvheslyn)
+			continue
+		if(!HAS_TRAIT(stresstarget, TRAIT_UNFORGIVABLE) && HAS_TRAIT(stresstarget, TRAIT_INQUISITION)) //Inquis get lesser stress
+			stresstarget.add_stress(/datum/stressevent/witnessvheslyninquis)
+			continue
+
 	var/obj/item/bodypart/chest = target.get_bodypart(BODY_ZONE_CHEST)
 	if(!chest.has_wound(/datum/wound/fracture/chest))
 		if(!do_after(user, break_time, target = target))
