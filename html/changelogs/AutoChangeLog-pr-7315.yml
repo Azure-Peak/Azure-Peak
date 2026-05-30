@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - code_imp: "Turned Raze into action/cooldown and added a few fluff interactions to it."

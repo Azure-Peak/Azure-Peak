@@ -518,3 +518,14 @@
 		/obj/item/rogueweapon/eaglebeak
 	)
 	result_item = /obj/item/rogueweapon/example/des_gaebolg
+
+// inverserun
+/obj/item/enchantingkit/weapon/arra_amdir
+	name = "'Amdir' morphing elixir"
+	target_items = list(
+	/obj/item/rogueweapon/greataxe/steel/knight,
+	/obj/item/rogueweapon/greataxe/silver,
+	/obj/item/rogueweapon/greataxe/psy
+
+	)
+	result_item = /obj/item/rogueweapon/example/arra_amdir

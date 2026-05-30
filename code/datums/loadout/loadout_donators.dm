@@ -371,3 +371,13 @@
 	name = "Dontaor Kit - Gae Bolg"
 	path = /obj/item/enchantingkit/weapon/des_gaebolg
 	ckeywhitelist = list("desminus")
+
+/datum/loadout_item/donator/arra_amdir
+	name = "Dontaor Kit - Amdir"
+	path = /obj/item/enchantingkit/weapon/arra_amdir
+	ckeywhitelist = list("inverserun","vaki ova","maesune","koruu","rezathedwarf","theneogamer42")
+
+/datum/loadout_item/donator/pes_guitar
+	name = "Donator Item - Red-Stained Guitar"
+	path = /obj/item/rogue/instrument/guitar/pes_guitar
+	ckeywhitelist = list("pessime959")

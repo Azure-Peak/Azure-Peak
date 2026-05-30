@@ -442,7 +442,7 @@
 		span_info("As your flame grows, you can manifest it more violently, surging around you to burn anything unfortunate enough to be nearby.")
 	)
 	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite)
-	t1_spell = /obj/effect/proc_holder/spell/invoked/matthios_firebreath/infernal
+	t1_spell = /datum/action/cooldown/spell/matthios/raze/infernal
 	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)

@@ -9,12 +9,12 @@
 	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_NOPAINSTUN, TRAIT_BLOOD_RESISTANCE, TRAIT_JOURNEYS_END) //no armour, literally made to bleed
-	maximum_possible_slots = 1 //you probably don't want many of these
+	maximum_possible_slots = 2 //you probably don't want many of these - edit: let them bring a friend/rival
 
 	cmode_music = 'sound/music/combat_Kazengun_Firestorm.ogg'
 	subclass_stats = list(
-		STATKEY_STR = 2, //8 weighted with weapon buff, same as berserker
-		STATKEY_CON = 1,
+		STATKEY_STR = 2, //9 weighted with weapon buff, same as berserker
+		STATKEY_CON = 2,
 		STATKEY_WIL = 1
 	)
 	subclass_skills = list(
@@ -22,14 +22,16 @@
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN, //wish there was an oni axe or something
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE, //my dynasty is highly learned and we wear all shadow and leave no souls to recount our legend
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, //you'll get real familiar with bleeding
-		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN, //flavour and useful for making armour
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE, //social outcast but can still read protective charms
+		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN, //flavour and useful for making armour
 	)
 	subclass_stashed_items = list(
         "Sewing Kit" =  /obj/item/repair_kit, //I am sure you'll find a way to repair your bracers
@@ -42,21 +44,9 @@
 	
 	change_origin(H, /datum/virtue/origin/kazengun, "guardian duty")
 	to_chat(H, span_warning("Failed in your duty, outcast from whence you came you wander. Only the steel in your hand can be trusted."))
-	
-	if(H.dna.species.type in NON_DWARVEN_RACE_TYPES)
-		armor = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
-		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
-	else
-		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/black
-		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun/black
 
 	head = /obj/item/clothing/head/roguetown/mentorhat
-	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel/kazengun //eh could be a regular one too
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/black
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/kazengun //let them have this
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/black
-	shoes = /obj/item/clothing/shoes/roguetown/boots
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -69,9 +59,40 @@
 		)
 
 	if(H.mind)
-		var/weapons = list("Ssangsudo +2 CON", "Kanabo +1 STR", "Naginata +2 PER", "Hwando +2 WIL", "Kodachi +1 SPD")
+		var/armor_options = list("Ceremonial Robes", "Enchanted Inks")
+		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armor_options
+		var/weapons = list("Ssangsudo +2 CON", "Kanabo +1 STR", "Naginata +2 PER", "Hwando +2 INT", "Longbow +1 SPD")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
+		switch(armor_choice)
+			if("Ceremonial Robes")
+				neck = /obj/item/clothing/neck/roguetown/gorget/steel/kazengun
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/black
+				wrists = /obj/item/clothing/wrists/roguetown/bracers/black
+				if(H.dna.species.type in NON_DWARVEN_RACE_TYPES)
+					armor = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
+					pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun/black
+					gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
+					shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
+				else
+					armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/black
+					pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+					gloves = /obj/item/clothing/gloves/roguetown/angle
+					shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //dwarves like to blow up my patience
+			if("Enchanted Inks")
+				neck = /obj/item/clothing/neck/roguetown/coif/heavypadding/black
+				armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats/mistwalker //they don't get stronger swords like ruma, let them have the +50 integ
+				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
+				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
+				ADD_TRAIT(H, TRAIT_HONORBOUND, TRAIT_GENERIC)
+				if(H.dna.species.type in NON_DWARVEN_RACE_TYPES)
+					pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun/black
+					gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
+					shoes = /obj/item/clothing/shoes/roguetown/armor/rumaclan
+				else
+					pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+					gloves = /obj/item/clothing/gloves/roguetown/angle
+					shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 		switch(weapon_choice)
 			if("Ssangsudo +2 CON")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -88,12 +109,17 @@
 				r_hand = /obj/item/rogueweapon/spear/naginata
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 				H.change_stat(STATKEY_PER, 2)
-			if("Hwando +2 WIL")
+			if("Hwando +2 INT")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog
 				beltr = /obj/item/rogueweapon/scabbard/sword/kazengun
-				H.change_stat(STATKEY_WIL, 2)
-			if("Kodachi +1 SPD") //SPD you can dodge, probably
+				H.change_stat(STATKEY_INT, 2)
+			if("Longbow +1 SPD") //they still have the expert knives for melee
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE) //no dexpert, armor, or innately high SPD-PER - let them have this bone
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
+				beltr = /obj/item/quiver/arrows
+				H.change_stat(STATKEY_SPD, 1)
+			if("Kodachi +1 SPD")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/sword/short/kazengun
 				beltr = /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
@@ -106,6 +132,8 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/black
 	color = CLOTHING_BLACK
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/black
+	color = CLOTHING_BLACK
+/obj/item/clothing/neck/roguetown/coif/heavypadding/black
 	color = CLOTHING_BLACK
 /obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun/black
 	color = CLOTHING_BLACK
