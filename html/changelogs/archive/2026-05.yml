@@ -1107,3 +1107,22 @@
   - bugfix: Placed the noticeboard in clinic in the proper position
   changelingonberry:
   - admin: Adds coordinates to lockpicking and doorbreaking
+2026-05-30:
+  Ketrai:
+  - rscadd: Deadite cabbit
+  Oats:
+  - rscadd: Added pork belly
+  - rscadd: Made regular pork flesh mince-able
+  - rscadd: Truffle pigs now yield the same butchering results as regular pigs
+  - rscadd: Boars now yield pork belly as well.
+  Quinalion:
+  - bugfix: Fixed a bug where washing in water did not clear blood overlays from character
+      body sprites.
+  Ryan180602:
+  - bugfix: repair exploit of disassembling mailled cuirass.
+  - bugfix: rename mailled hauberk to mailled cuirass.
+  WeNeedMorePhoron:
+  - rscadd: TGUI Calendar accessible by clicking "IC Date" with 29 human (me) written
+      events based on real historical festivals and events.
+  kiwedespars:
+  - bugfix: pants

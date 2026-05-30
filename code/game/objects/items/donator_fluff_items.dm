@@ -151,7 +151,7 @@
 //Zydras donator items - ironclad baddie
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/zycuirass
 	name = "iron gardbrace and fauld"
-	desc = "An aged piece of damaged mailled hauberk, with only its skirt and a spiked shoulder remaining. It glimmers with a reddish hue."
+	desc = "An aged piece of damaged mailled cuirass, with only its skirt and a spiked shoulder remaining. It glimmers with a reddish hue."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "zy_cuirass"
@@ -804,3 +804,26 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "gae_bolg"
 	bigboy = TRUE
+
+// inverserun
+/obj/item/rogueweapon/example/arra_amdir
+	name = "Amdir"
+	desc = "This is a strange weapon, a mix of Elven steel, and obvious Otavan silversmithing. \
+	The blade glints with the light of reflected stars. \
+	Inscribed on the leaf patterned staff is a single word in Elvish. \
+	Amdir- Look Up. Along one of the braces is a psycross, dangling, jangling \
+	and shining with a defiant light.\n\n\
+	\"Look up. Do you not hope to see the stars? Astrata's light? Noc's gaze? Look up. \
+	To do that, is to hope.\""
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "amdir"
+	bigboy = TRUE
+
+// pessime959
+/obj/item/rogue/instrument/guitar/pes_guitar
+	name = "Red-Stained Guitar"
+	desc = "\"A song sang, love shared, and promise fulfilled. \
+	A well loved guitar, stained to the colors left behind by our Weeping God.\""
+	icon = 'icons/obj/items/donor_music.dmi'
+	icon_state = "redstainedguitar"
+
