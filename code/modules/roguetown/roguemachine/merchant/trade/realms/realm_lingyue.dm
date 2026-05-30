@@ -81,6 +81,7 @@
 		/datum/supply_pack/rogue/merc_weapons/hwando,
 		/datum/supply_pack/rogue/merc_weapons/ssangsudo,
 		/datum/supply_pack/rogue/kazengun/ssangsudo,
+		/datum/supply_pack/rogue/kazengun/mentorhat,
 		/datum/supply_pack/rogue/lingyue/ji,
 		/datum/supply_pack/rogue/lingyue/iji,
 		/datum/supply_pack/rogue/lingyue/zhanmadao,

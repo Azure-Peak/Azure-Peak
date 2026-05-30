@@ -82,11 +82,13 @@
 		/datum/supply_pack/rogue/merc_weapons/hookblade,
 		/datum/supply_pack/rogue/merc_weapons/kodachi,
 		/datum/supply_pack/rogue/merc_weapons/tanto,
+		
 		/datum/supply_pack/rogue/kazengun/kanabo,
 		/datum/supply_pack/rogue/kazengun/samsibsa,
 		/datum/supply_pack/rogue/kazengun/haraate,
 		/datum/supply_pack/rogue/kazengun/kabuto,
 		/datum/supply_pack/rogue/kazengun/jingasa,
+		/datum/supply_pack/rogue/kazengun/mentorhat,
 		/datum/supply_pack/rogue/kazengun/mask_full,
 		/datum/supply_pack/rogue/kazengun/mask_half,
 		/datum/supply_pack/rogue/kazengun/cloak,
