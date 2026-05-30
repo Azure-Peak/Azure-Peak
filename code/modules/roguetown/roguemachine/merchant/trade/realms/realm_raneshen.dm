@@ -67,11 +67,11 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bun_jamtallow, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX, "price" = VICTUALLING_PRICE_SIMPLE),
 	)
 	victualling_drinks_pool = list(
-		list("recipe" = /datum/brewing_recipe/winespiced, "qty_min" = VICTUALLING_QTY_TINY_MIN, "qty_max" = VICTUALLING_QTY_TINY_MAX),
-		list("recipe" = /datum/brewing_recipe/mead, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/liquor, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/aqua_vitae, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/limoncello, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
+		list("recipe" = /datum/brewing_recipe/winespiced),
+		list("recipe" = /datum/brewing_recipe/mead),
+		list("recipe" = /datum/brewing_recipe/liquor),
+		list("recipe" = /datum/brewing_recipe/aqua_vitae),
+		list("recipe" = /datum/brewing_recipe/limoncello),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/amber,

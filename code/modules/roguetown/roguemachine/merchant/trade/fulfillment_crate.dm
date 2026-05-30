@@ -17,8 +17,9 @@
 /obj/structure/roguemachine/ship_fulfillment/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click with an item to deposit it for matching ship demands. You must have a MEISTER account to deposit - the crate will refuse goods otherwise.")
-	. += span_info("Right-click to dump everything on this tile into the crate at once.")
-	. += span_info("Stacks, handcarts, and roguebins are unwrapped automatically.")
+	. += span_info("Right-click to dump everything on your tile into the crate at once.")
+	. += span_info("Certain items like kegs can be click dragged or offloaded in hand.")
+	. += span_info("Stacks, handcarts, and bins are unloaded automatically.")
 
 /obj/structure/roguemachine/ship_fulfillment/examine(mob/user)
 	. = ..()
