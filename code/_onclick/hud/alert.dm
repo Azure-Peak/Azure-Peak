@@ -281,7 +281,7 @@
 		return L.resist_fire() //I just want to start a flame in your hearrrrrrtttttt.
 
 /atom/movable/screen/alert/fire/vheslynfire
-	name = "Sundered!"
+	name = "Hellfire!"
 	desc = ""
 	icon_state = "vheslynfire"
 

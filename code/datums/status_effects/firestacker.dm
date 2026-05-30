@@ -273,8 +273,9 @@
 	victim?.dna?.species?.handle_fire(victim, no_protection)
 	victim.adjustFireLoss(10)
 
-/datum/status_effect/fire_handler/fire_stacks/vheslyn
+/datum/status_effect/fire_handler/fire_stacks/vheslynfire
 	id = "fire_stacks_vheslyn"
+	fire_alert_type = /atom/movable/screen/alert/fire/vheslyn
 
 /datum/status_effect/fire_handler/fire_stacks/vheslyn/harm_human(seconds_per_tick, no_protection = FALSE)
 	var/mob/living/carbon/human/victim = owner

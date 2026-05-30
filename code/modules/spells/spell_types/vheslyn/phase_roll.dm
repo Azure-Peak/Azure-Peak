@@ -17,7 +17,6 @@
 /obj/effect/proc_holder/spell/self/vheslyn/vheslyn_phase_roll
 	name = "Phase Roll"
 	desc = "Invoke corrupted magicka with dodging techniques to enhance yourself to effortlessly phase through flesh and steel alyke."
-//Until I can get it working	//fluff_desc = "When the SYON, was sent down by Psydon to topple Vheslyn, the world was met with a blinding light and then silence... Just like that, a great evil slain. However the surviving cultists, fragments of the Earth Mover's lingering corruption were not detered, for yills, centuries they waited until Her ascension shattered the world and with one of the Leylines permanently severed, she unknowingly brought forth unstable magicka to channel, those whom bare Vheslyn's corruption can channel and further corrupt this to make unspeakable spells unbound by restrictions of coventional laws of magic to create but a pale imitation of their long lost divine spark once granted by Vheslyn. Although lethal to most in the long-term and highly destructive, the cultists of the Earth Mover are unphased by this drawback."
 	action_icon = 'icons/mob/actions/vheslynspells.dmi'
 	overlay_icon = 'icons/mob/actions/vheslynspells.dmi'
 	overlay_state = "phaseroll"
@@ -99,3 +98,26 @@
 	timer = 8 MINUTES 
 	stressadd = 3 //Hardened, you know what you're dealing with, sire. ENDVRE, SLAY THE ARCHDEVIL FOLLOWER!
 	desc = span_boldred("A follower of the archdevil, an abomination that defies Him!")
+
+/*
+Vague lore note guideline for adding spells ->
+
+When the SYON, was sent down by Psydon to topple Vheslyn, the world was met with a blinding light and then silence...
+Just like that, a great evil slain. However the surviving cultists, fragments of the Earth Mover's lingering corruption were not detered,
+for yills, centuries they waited until Her ascension shattered the world and with one of the Leylines permanently severed.
+
+she unknowingly brought forth unstable magicka to channel, those whom bare Vheslyn's corruption can channel and further corrupt this to make
+unspeakable spells unbound by restrictions of coventional laws of magic to create but a pale imitation of their long lost divine spark
+once granted by Vheslyn. Although lethal to most in the long-term and highly destructive,
+the cultists of the Earth Moverare unphased by this drawback.
+
+TLDR: Corrupting unstable magics to make magic that defies the usual rules of magic, a pale imitation of Vheslyn's divine arts (Since its dead).
+This isn't to say Vheslynites aren't capable of regular spells and the likes, they just can't use any divine arts, they're incompatable of divinity.
+
+
+
+We also avoid creating things where we can. Think rapidly-lifting up objects and flinging them at a spot, spawning a vortex to fire out beams.
+Dodging through mobs of people, using unstable magics to enchange regular techniques like dodging, etc. Your spells will always stress people out.
+
+UNDER NO CIRCUMSTANCES, SPELLS SHOULD BENEFIT NON-VHESLYNITES UNLESS ITS SIDE-EFFECTS.
+*/
