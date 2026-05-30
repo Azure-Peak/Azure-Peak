@@ -6,6 +6,26 @@
 	crate_name = "merchant guild's crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
+/datum/supply_pack/rogue/light_armor/dobo_robe
+	name = "Dobo Robe"
+	cost = 40
+	contains = list(/obj/item/clothing/suit/roguetown/armor/basiceast)
+
+/datum/supply_pack/rogue/light_armor/dobo_robe_premium
+	name = "Dobo Robe, Reinforced"
+	cost = 72
+	contains = list(/obj/item/clothing/suit/roguetown/armor/basiceast/crafteast)
+
+/datum/supply_pack/rogue/light_armor/fingerless_leather
+	name = "Fingerless Gloves"
+	cost = 40
+	contains = list(/obj/item/clothing/gloves/roguetown/fingerless_leather)
+
+/datum/supply_pack/rogue/light_armor/fingerless_leather_drow
+	name = "Fingerless Gloves, Reinforced"
+	cost = 64
+	contains = list(/obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock)
+
 /datum/supply_pack/rogue/light_armor/leatherkini
 	name = "Leather Corslet"
 	cost = 21 // you're vuln to gutspill with this
