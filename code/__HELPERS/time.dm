@@ -98,6 +98,7 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 	if(GLOB.tod != oldtod)
 		if(GLOB.tod == "dawn")
 			GLOB.dayspassed++
+			scom_announce_new_dawn()
 			if(SStreasury?.initialized)
 				SStreasury.tick_rural_tax()
 				SStreasury.distribute_estate_incomes()
@@ -124,28 +125,33 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 	if(!mind)
 		return
 	if(GLOB.tod == "dawn")
-		var/text_to_show
+		var/weekday_line
 		var/day_number = get_current_day_of_week()
 		switch(day_number)
 			if(1)
-				text_to_show = "DAWN OF THE FIRST DAE\nMOON'S DAE"
+				weekday_line = "DAWN OF THE FIRST DAE\nMOON'S DAE"
 			if(2)
-				text_to_show = "DAWN OF THE SECOND DAE\nTIW'S DAE"
+				weekday_line = "DAWN OF THE SECOND DAE\nTRUCE'S DAE"
 			if(3)
-				text_to_show = "DAWN OF THE THIRD DAE\nWEDDING'S DAE"
+				weekday_line = "DAWN OF THE THIRD DAE\nWEDDING'S DAE"
 			if(4)
-				text_to_show = "DAWN OF THE FOURTH DAE\nTOLL'S DAE"
+				weekday_line = "DAWN OF THE FOURTH DAE\nTHUNDER'S DAE"
 			if(5)
-				text_to_show = "DAWN OF THE FIFTH DAE\nFREYJA'S DAE"
+				weekday_line = "DAWN OF THE FIFTH DAE\nFEAST'S DAE"
 			if(6)
-				text_to_show = "DAWN OF THE SIXTH DAE\nSATURN'S DAE"
+				weekday_line = "DAWN OF THE SIXTH DAE\nPSYDON'S DAE"
 			if(7)
-				text_to_show = "DAWN OF THE SEVENTH DAE\nSUN'S DAE"
-		if(!text_to_show)
+				weekday_line = "DAWN OF THE SEVENTH DAE\nSUN'S DAE"
+		if(!weekday_line)
 			return
-		if(text_to_show in mind.areas_entered)
+		var/text_to_show = "[weekday_line]\n[uppertext(get_ic_date_short_as_string())]"
+		var/list/active_titles = get_active_calendar_event_titles()
+		if(length(active_titles))
+			text_to_show += "\n- [uppertext(active_titles.Join(" & "))] -"
+		var/dedup_key = "calendar_dawn_[GLOB.dayspassed]"
+		if(dedup_key in mind.areas_entered)
 			return
-		mind.areas_entered += text_to_show
+		mind.areas_entered += dedup_key
 		var/atom/movable/screen/area_text/T = new()
 		client.screen += T
 		T.maptext = {"<span style='vertical-align:top; text-align:center;

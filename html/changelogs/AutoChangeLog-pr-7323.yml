@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "TGUI Calendar accessible by clicking \"IC Date\" with 29 human (me) written events based on real historical festivals and events."

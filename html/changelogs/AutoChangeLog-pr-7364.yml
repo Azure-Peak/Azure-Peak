@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "repair exploit of disassembling mailled cuirass."
+  - bugfix: "rename mailled hauberk to mailled cuirass."

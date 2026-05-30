@@ -215,7 +215,7 @@
 ///
 
 /obj/item/clothing/ring/signet
-	name = "golden signet ring"
+	name = "gold signet ring"
 	icon_state = "signet"
 	desc = "A ring of opulent gold, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, and a fresh bead of tallow rests in the underside."
 	sellprice = 135
@@ -262,7 +262,7 @@
     . += span_info("Packing an INDEXER into an ACCUSATION or CONFESSION before folding-and-stamping it will further amplify this financial bonus.")
 
 /obj/item/clothing/ring/signet/psy/g
-	name = "psydonian golden signet ring"
+	name = "psydonian gold signet ring"
 	icon_state = "psysignet_gold"
 	desc = "A ring of opulent gold, embodying the Naledian belief in Psydon's eternity. Its face is cut to seal writs of religious importance, a bead of tallow nested in the underside."
 	is_silver = FALSE

@@ -791,7 +791,7 @@
 		if(!M.client)
 			to_chat(usr, span_warning("[M] doesn't seem to have an active client."))
 			return
-		var/datum/job/mob_job = SSjob.GetJob(M.mind.assigned_role)
+		var/datum/job/mob_job
 		var/target_job = SSrole_class_handler.get_advclass_by_name(M.advjob)
 		if(M.mind)
 			mob_job = SSjob.GetJob(M.mind.assigned_role)
@@ -1338,6 +1338,15 @@
 		if(obj_dir && !(obj_dir in list(1,2,4,8,5,6,9,10)))
 			obj_dir = null
 		var/obj_name = sanitize(href_list["object_name"])
+		var/quality_raw = href_list["object_quality"]
+		var/obj_quality = null
+		var/obj_quality_set = FALSE
+		if(length(quality_raw))
+			obj_quality = text2num(quality_raw)
+			if(obj_quality != null && obj_quality >= ITEM_QUALITY_RUINED && obj_quality <= ITEM_QUALITY_MASTERWORK)
+				obj_quality_set = TRUE
+			else
+				obj_quality = null
 
 
 		var/atom/target //Where the object will be spawned
@@ -1402,6 +1411,15 @@
 							O.flags_1 |= ADMIN_SPAWNED_1
 							if(obj_dir)
 								O.setDir(obj_dir)
+							if(obj_quality_set && istype(O, /obj/item))
+								var/obj/item/spawned_item = O
+								if(istype(spawned_item, /obj/item/ingot))
+									var/obj/item/ingot/ING = spawned_item
+									ING.apply_smelt_quality(obj_quality)
+								else if(spawned_item.has_item_quality)
+									spawned_item.item_quality = obj_quality
+									if(initial(spawned_item.sellprice) > 0)
+										spawned_item.sellprice = max(1, round(initial(spawned_item.sellprice) * ITEM_QUALITY_MULT(obj_quality)))
 							if(obj_name)
 								O.name = obj_name
 								if(ismob(O))

@@ -177,7 +177,7 @@
 
 //Zydras donator items - Ironclad baddie
 /obj/item/enchantingkit/zydrashauberk
-	name = "Mailled Hauberk morphing elixir"
+	name = "Mailled Cuirass morphing elixir"
 	target_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy)
 	result_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/zycuirass
 

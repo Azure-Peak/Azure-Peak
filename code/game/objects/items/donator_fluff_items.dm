@@ -151,7 +151,7 @@
 //Zydras donator items - ironclad baddie
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/zycuirass
 	name = "iron gardbrace and fauld"
-	desc = "An aged piece of damaged mailled hauberk, with only its skirt and a spiked shoulder remaining. It glimmers with a reddish hue."
+	desc = "An aged piece of damaged mailled cuirass, with only its skirt and a spiked shoulder remaining. It glimmers with a reddish hue."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "zy_cuirass"

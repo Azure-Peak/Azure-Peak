@@ -318,8 +318,21 @@
 					return
 				auto_exported = TRUE
 			R.refresh_auto_price()
-			var/amt = R.get_payout_price(I)
+			var/list/settlement = R.get_quality_settlement(I)
+			var/amt = settlement["seller_payout"]
+			var/crown_delta = settlement["crown_delta"]
+			var/quality_baseline = settlement["baseline"]
 			var/true_value = I.get_real_price()
+			var/mint_amt = 0
+			if(message && I.has_item_quality && I.item_quality != ITEM_QUALITY_STANDARD)
+				var/flavor = quality_delta_flavor(I.item_quality)
+				if(flavor)
+					say(flavor)
+					to_chat(H, span_info("[src] says, \"[flavor]\""))
+			if(crown_delta > 0)
+				SStreasury.mint(SStreasury.discretionary_fund, crown_delta, "Quality premium: [I.name] (+[crown_delta]m)")
+			else if(crown_delta < 0)
+				SStreasury.burn(SStreasury.discretionary_fund, -crown_delta, "Quality penalty: [I.name] ([crown_delta]m)")
 			if(!R.mint_item)
 				if(!full_on_arrival)
 					R.stockpile_amount += 1
@@ -331,18 +344,28 @@
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 			else
-				var/mint_amt = round(SStreasury.mint_multiplier * true_value)
-				SStreasury.minted += mint_amt
-				SStreasury.mint(SStreasury.discretionary_fund, mint_amt, "Minting - [I.name]")
-				record_round_statistic(STATS_MINTED_TREASURE_GROSS, mint_amt)
-				record_round_statistic(STATS_MINTED_TREASURE_NET, max(0, mint_amt - amt))
+				var/pool = round(SStreasury.mint_multiplier * true_value)
+				mint_amt = max(0, pool - amt)
+				if(pool > 0)
+					SStreasury.minted += pool
+					SStreasury.mint(SStreasury.discretionary_fund, pool, "Minting - [I.name]")
+				record_round_statistic(STATS_MINTED_TREASURE_GROSS, pool)
+				record_round_statistic(STATS_MINTED_TREASURE_NET, mint_amt)
 				qdel(I)
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 			if(amt)
 				SStreasury.economic_output += true_value
-				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
+				var/bounty_msg = "+[amt] from [R.name] bounty"
+				if(R.mint_item)
+					bounty_msg = "+[amt] from [R.name] bounty (Crown's share: +[mint_amt]m)"
+				if(crown_delta != 0)
+					var/seller_delta = amt - quality_baseline
+					var/seller_sign = seller_delta > 0 ? "+" : ""
+					var/crown_sign = crown_delta > 0 ? "+" : ""
+					bounty_msg = "+[amt] from [R.name] bounty (quality: you [seller_sign][seller_delta]m, Crown [crown_sign][crown_delta]m vs. [quality_baseline]m baseline)"
+				SStreasury.give_money_account(amt, H, bounty_msg)
 				if(auto_exported && message)
 					say("Crown's [R.name] stockpile is full - shipped regionally on your behalf.")
 			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)

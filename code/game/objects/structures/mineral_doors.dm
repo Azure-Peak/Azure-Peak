@@ -445,6 +445,9 @@
 		var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, T)
 		if(new_track)
 			new_track.handle_creation(user)
+		if(user?.ckey)
+			message_admins("[user.real_name] [obj_destroyed ? "destroyed" : "broke"] [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)] [ADMIN_JMP(src)]")
+			log_admin("[user.real_name] [obj_destroyed ? "destroyed" : "broke"] [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
 
 /obj/structure/mineral_door/proc/repairdoor(obj/item/I, mob/user)
 	if(brokenstate)
@@ -600,8 +603,8 @@
 
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
-			message_admins("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name]. [ADMIN_JMP(src)]")
-			log_admin("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name].")
+			message_admins("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)] [ADMIN_JMP(src)]")
+			log_admin("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
 
 		while(!QDELETED(I) &&(lockprogress < locktreshold))
 			if(!do_after(user, picktime, target = src))
@@ -619,8 +622,8 @@
 					to_chat(user, "<span class='deadsay'>The locking mechanism gives.</span>")
 					if(ishuman(user))
 						var/mob/living/carbon/human/H = user
-						message_admins("[H.real_name]([key_name(user)]) successfully lockpicked [src.name] & [locked ? "unlocked" : "locked"] it. [ADMIN_JMP(src)]")
-						log_admin("[H.real_name]([key_name(user)]) successfully lockpicked [src.name].")
+						message_admins("[H.real_name]([key_name(user)]) successfully lockpicked [src.name] & [locked ? "unlocked" : "locked"] it at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)] [ADMIN_JMP(src)]")
+						log_admin("[H.real_name]([key_name(user)]) successfully lockpicked [src.name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
 						record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 						record_round_statistic(STATS_LOCKS_PICKED)
 						var/obj/effect/track/structure/new_track = SStracks.get_track(/obj/effect/track/structure, get_turf(src))

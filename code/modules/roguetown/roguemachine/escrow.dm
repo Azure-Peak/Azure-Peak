@@ -83,6 +83,7 @@
 	var/locked = TRUE
 	var/budget = 0
 	var/list/material_prices
+	var/list/derived_material_prices
 	var/percent_margin = 70
 	var/flat_margin = 5
 	var/item_cap_per_order = 3
@@ -105,6 +106,7 @@
 		/obj/item/ingot/aalloy,
 		/obj/item/ingot/drow,
 	)
+	var/list/excluded_material_parents = list()
 	var/list/default_disabled_materials = list(
 		/obj/item/ingot/blacksteel,
 		/obj/item/ingot/silver,
@@ -150,6 +152,7 @@
 		ITEM_CAT_ENG_TRIGGERS,
 		ITEM_CAT_ENG_MISC,
 	)
+	var/list/group_order = list("Armor", "Weapons", "Tools", "Valuables", "Decoration", "Engineering", "Other")
 
 /obj/structure/roguemachine/escrow/Initialize()
 	. = ..()
@@ -159,7 +162,7 @@
 	update_icon()
 
 /obj/structure/roguemachine/escrow/proc/toggle_material_enabled(path)
-	if(!path || (path in excluded_materials))
+	if(!path || path_is_excluded(path))
 		return FALSE
 	if(path in disabled_materials)
 		disabled_materials -= path
@@ -171,10 +174,44 @@
 /obj/structure/roguemachine/escrow/proc/init_material_prices()
 	material_prices = list()
 	for(var/path in GLOB.material_baseline_prices)
+		if(path_is_excluded_parent(path))
+			continue
 		var/baseline = GLOB.material_baseline_prices[path]
 		if(baseline <= 0)
 			continue
 		material_prices[path] = max(1, round(baseline * PRICING_ENGINE_COMMISSIONER_MARKUP))
+	derived_material_prices = list()
+	for(var/path in GLOB.derived_sellprices)
+		if(path in material_prices)
+			continue
+		if(path_is_excluded_parent(path))
+			continue
+		var/derived = GLOB.derived_sellprices[path]
+		if(derived <= 0)
+			continue
+		derived_material_prices[path] = max(1, round(derived * PRICING_ENGINE_COMMISSIONER_MARKUP))
+
+/obj/structure/roguemachine/escrow/proc/path_is_excluded_parent(path)
+	if(!length(excluded_material_parents))
+		return FALSE
+	for(var/parent in excluded_material_parents)
+		if(ispath(path, parent))
+			return TRUE
+	return FALSE
+
+/obj/structure/roguemachine/escrow/proc/get_material_price(path)
+	if(material_prices && (path in material_prices))
+		return material_prices[path]
+	if(derived_material_prices && (path in derived_material_prices))
+		return derived_material_prices[path]
+	return 0
+
+/obj/structure/roguemachine/escrow/proc/has_material_price(path)
+	if(material_prices && (path in material_prices))
+		return TRUE
+	if(derived_material_prices && (path in derived_material_prices))
+		return TRUE
+	return FALSE
 
 /obj/structure/roguemachine/escrow/Destroy()
 	orders?.Cut()
@@ -231,29 +268,36 @@
 	return best_path
 
 /obj/structure/roguemachine/escrow/proc/recipe_uses_excluded_material(datum/recipe)
-	if(!length(excluded_materials))
+	if(!length(excluded_materials) && !length(excluded_material_parents))
 		return FALSE
 	if(istype(recipe, /datum/anvil_recipe))
 		var/datum/anvil_recipe/AR = recipe
-		if(AR.req_bar in excluded_materials)
+		if(path_is_excluded(AR.req_bar))
 			return TRUE
 		if(islist(AR.additional_items))
 			for(var/path in AR.additional_items)
-				if(path in excluded_materials)
+				if(path_is_excluded(path))
 					return TRUE
 	else if(istype(recipe, /datum/crafting_recipe))
 		var/datum/crafting_recipe/CR = recipe
 		if(islist(CR.reqs))
 			for(var/path in CR.reqs)
-				if(path in excluded_materials)
+				if(path_is_excluded(path))
 					return TRUE
 	return FALSE
+
+/obj/structure/roguemachine/escrow/proc/path_is_excluded(path)
+	if(!path)
+		return FALSE
+	if(path in excluded_materials)
+		return TRUE
+	return path_is_excluded_parent(path)
 
 /obj/structure/roguemachine/escrow/proc/recipe_has_only_raw_materials(datum/crafting_recipe/CR)
 	if(!islist(CR.reqs) || !length(CR.reqs))
 		return FALSE
 	for(var/path in CR.reqs)
-		if(!(path in GLOB.material_baseline_prices))
+		if(!has_material_price(path))
 			return FALSE
 	return TRUE
 
@@ -349,15 +393,15 @@
 	var/total = 0
 	if(istype(recipe, /datum/anvil_recipe))
 		var/datum/anvil_recipe/AR = recipe
-		total += material_prices[AR.req_bar] || 0
+		total += get_material_price(AR.req_bar)
 		if(islist(AR.additional_items))
 			for(var/path in AR.additional_items)
-				total += material_prices[path] || 0
+				total += get_material_price(path)
 	else if(istype(recipe, /datum/crafting_recipe))
 		var/datum/crafting_recipe/CR = recipe
 		if(islist(CR.reqs))
 			for(var/path in CR.reqs)
-				total += (material_prices[path] || 0) * CR.reqs[path]
+				total += get_material_price(path) * CR.reqs[path]
 	return total
 
 /obj/structure/roguemachine/escrow/proc/recipe_materials(datum/recipe)
@@ -559,6 +603,7 @@
 	data["catalog"] = cached_catalog_data
 	data["categories"] = cached_categories
 	data["ingots"] = cached_ingots
+	data["group_order"] = group_order
 
 	var/list/manifest_data = list()
 	var/list/cart = user_key ? manifests[user_key] : null
@@ -1004,17 +1049,31 @@
 	allowed_categories = list(
 		ITEM_CAT_GARMENT_COMMON,
 		ITEM_CAT_GARMENT_FINE,
-		ITEM_CAT_GARMENT_LUXURY,
 		ITEM_CAT_TAILOR_MISC,
 		ITEM_CAT_CLOTH_MASK,
 		ITEM_CAT_ARMOR_LIGHT,
+		ITEM_CAT_ARMOR_HELMETS,
+		ITEM_CAT_ARMOR_CHESTPIECES,
+		ITEM_CAT_ARMOR_LEGS,
+		ITEM_CAT_ARMOR_NECK,
+		ITEM_CAT_ARMOR_BOOTS,
+		ITEM_CAT_ARMOR_GLOVES,
+		ITEM_CAT_ARMOR_BRACERS,
+		ITEM_CAT_ARMOR_BELTS,
+		ITEM_CAT_ARMOR_BARDING,
 	)
+	group_order = list("Garments", "Armor", "Other")
 	priority_material_types = list(
 		/obj/item/natural/hide,
 		/obj/item/natural/silk,
 		/obj/item/natural/cloth,
 		/obj/item/natural/fibers,
 		/obj/item/natural/fur,
+	)
+	default_disabled_materials = list()
+	excluded_material_parents = list(
+		/obj/item/ingot,
+		/obj/item/roguegear,
 	)
 
 /obj/structure/roguemachine/escrow/tailor/get_mechanics_examine(mob/user)
