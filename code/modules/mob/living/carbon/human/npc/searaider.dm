@@ -196,10 +196,10 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	if(prob(30))
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	H.STASPD = 9
-	H.STACON = 8
+	H.STACON = 7
 	H.STAWIL = 8
-	H.STAPER = 10
-	H.STAINT = 4
+	H.STAPER = 8 //AIMING? Who needs that lame-ass shit? GRAGGAR GRAGGAR GRAGGAR!!
+	H.STAINT = 8 //Minimal req to use specials
 	H.STASTR = 14
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)

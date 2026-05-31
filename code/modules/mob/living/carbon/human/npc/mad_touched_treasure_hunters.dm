@@ -121,7 +121,7 @@
 		beltl = /obj/item/reagent_containers/glass/bottle/alchemical/healthpot
 	head = /obj/item/clothing/head/roguetown/menacing/mad_touched_treasure_hunter
 	if(prob(50))
-		head = /obj/item/clothing/head/roguetown/menacing/bandit //IS THIS TRVE?!
+		head = /obj/item/clothing/head/roguetown/menacing/bandit/mad_touched_treasure_hunter //IS THIS TRVE?!
 	if(prob(33))
 		r_hand = /obj/item/rogueweapon/greatsword/paalloy
 	else if(prob(33))
@@ -151,6 +151,12 @@
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
+/obj/item/clothing/head/roguetown/menacing/bandit/mad_touched_treasure_hunter //its here so it doesnt wind up on some class' loadout.
+	name = "sack hood"
+	desc = "A ragged hood of thick red dyed jute fibres. The itchiness is unbearable."
+	sewrepair = TRUE
+	armor = ARMOR_LEATHER
 
 /obj/item/clothing/head/roguetown/menacing/mad_touched_treasure_hunter //its here so it doesnt wind up on some class' loadout.
 	name = "sack hood"

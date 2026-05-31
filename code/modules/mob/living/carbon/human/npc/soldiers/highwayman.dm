@@ -178,7 +178,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			if(4)
 				head = /obj/item/clothing/head/roguetown/armingcap
 			if(5)
-				head = /obj/item/clothing/head/roguetown/roguehood/red
+				head = /obj/item/clothing/head/roguetown/menacing/bandit //IS THIS TRVE?
 	var/neck_choice = rand(1, 2)
 	switch(neck_choice)
 		if(1)
