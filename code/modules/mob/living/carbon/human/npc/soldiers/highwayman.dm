@@ -142,7 +142,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	belt = /obj/belt/rogue/leather/cloth/bandit
+	belt = /obj/item/storage/belt/rogue/leather/cloth
 	if(prob(10))
 		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
 	if(prob(50))
