@@ -1,20 +1,16 @@
 // A Knight may take a Squire as their protégé for the round.
 //
 // Mechanics:
-//   - While the squire stays within view of the knight, on town turf, and both are alive, the
-//     squire gains the /datum/status_effect/buff/protege_vigilance buff (+1 CON, +1 WIL, +1 SPD —
-//     the same stat profile that town guards get from /datum/status_effect/buff/guardbuffone,
-//     scoped to "in the knight's company while on patrol" rather than just "in town").
-//   - The knight gets NO direct stat buff for taking a squire. But they do get the Empath trait purely for their chosen protégé.
-//   - When the squire dies, the knight takes a 10-mood hit via /datum/stressevent/protege_dead.
-//     A 5-minute grace period prevents revive-die-revive-die loops from instantly stacking;
-//     stacks up to 5 deep otherwise, so a knight who repeatedly loses their squire feels it.
+//   - While both are alive and within view of each other, each gets a presence buff: an alert icon,
+//     on-apply/on-remove messages, and a recurring mood boost. Neither side gains stats.
+//   - The knight gains the Empath read on their squire.
+//   - When either dies, the survivor takes a mood hit. A 5-minute grace period prevents
+//     a revive-die loop from re-triggering it.
 /datum/action/cooldown/spell/takeprotege
 	name = "Take Protégé"
-	desc = "Designate a nearby Squire as your protégé. You will know how they feel. So long as you patrol the town together \
-	within view of each other, your squire gains the vigilance of a town guardsman (+1 \
-	Constitution, +1 Willpower, +1 Speed). Should they fall, your spirit will mourn them. You \
-	may only have one squire at a time; should they leave the round you may take another."
+	desc = "Designate a nearby Squire as your protégé. You will know how they feel, and their \
+	presence at your side will lift your spirits. Should they fall, the loss will be a great burden. \
+	You may only have one squire at a time; should they leave the round you may take another."
 	button_icon = 'icons/mob/actions/actions_clockcult.dmi'
 	button_icon_state = "eminence_rally"
 	cast_range = 1
@@ -45,11 +41,7 @@
 		reset_spell_cooldown()
 		return FALSE
 	if(H == L)
-		to_chat(H, span_warning("I cannot take myself as a squire."))
-		reset_spell_cooldown()
-		return FALSE
-	if(H.job != "Knight")
-		to_chat(H, span_warning("Only a knight may take a squire."))
+		to_chat(H, span_warning("You seriously tried to take yourself as a squire?."))
 		reset_spell_cooldown()
 		return FALSE
 	if(L.job != "Squire")
@@ -76,7 +68,7 @@
 			reset_spell_cooldown()
 			return FALSE
 
-	if(alert(L, "[H.name] offers to take you as their protégé. While by their side on the town's streets, you stand with a guardsman's vigilance, but they will have the read on you. Do you accept?", "Take Protégé", "I ACCEPT", "I REFUSE") == "I REFUSE")
+	if(alert(L, "[H.name] offers to take you as their protégé. They will have the read on you. Do you accept?", "Take Protégé", "I ACCEPT", "I REFUSE") == "I REFUSE")
 		to_chat(H, span_warning("[L.name] has declined the bond."))
 		reset_spell_cooldown()
 		return FALSE
@@ -86,9 +78,11 @@
 	H.RegisterSignal(H, COMSIG_MOVABLE_MOVED, TYPE_PROC_REF(/mob/living/carbon/human, squire_bond_on_move), TRUE)
 	L.RegisterSignal(L, COMSIG_MOVABLE_MOVED, TYPE_PROC_REF(/mob/living/carbon/human, squire_bond_on_move), TRUE)
 	H.RegisterSignal(L, COMSIG_LIVING_DEATH, TYPE_PROC_REF(/mob/living/carbon/human, on_protege_death), TRUE)
+	L.RegisterSignal(H, COMSIG_LIVING_DEATH, TYPE_PROC_REF(/mob/living/carbon/human, on_lord_death), TRUE)
 	to_chat(H, span_nicegreen("[L.name] is now your protégé."))
 	to_chat(L, span_nicegreen("[H.name] has taken you as their protégé."))
 	if(squire_bond_buff_eligible(H, L))
+		H.apply_status_effect(/datum/status_effect/buff/protege_ward)
 		L.apply_status_effect(/datum/status_effect/buff/protege_vigilance)
 	return TRUE
 
@@ -98,17 +92,13 @@
 /proc/squire_bond_partner_despawned(mob/living/M)
 	return QDELETED(M) || M.stat == DEAD || !M.client
 
-// All conditions that must be true for the squire to receive the vigilance buff:
-// both alive, squire in view of knight, and squire currently on town turf.
+// Both alive and squire in view of the knight.
 /proc/squire_bond_buff_eligible(mob/living/carbon/human/knight, mob/living/carbon/human/squire)
 	if(QDELETED(knight) || QDELETED(squire))
 		return FALSE
 	if(knight.stat == DEAD || squire.stat == DEAD)
 		return FALSE
 	if(!(knight in view(7, get_turf(squire))))
-		return FALSE
-	var/area/rogue/squire_area = get_area(squire)
-	if(!istype(squire_area) || !squire_area.town_area)
 		return FALSE
 	return TRUE
 
@@ -118,7 +108,10 @@
 			knight.UnregisterSignal(squire, COMSIG_LIVING_DEATH)
 		knight.UnregisterSignal(knight, COMSIG_MOVABLE_MOVED)
 		knight.set_squire(null)
+		knight.remove_status_effect(/datum/status_effect/buff/protege_ward)
 	if(squire && !QDELETED(squire))
+		if(knight && !QDELETED(knight))
+			squire.UnregisterSignal(knight, COMSIG_LIVING_DEATH)
 		squire.UnregisterSignal(squire, COMSIG_MOVABLE_MOVED)
 		squire.set_knight_lord(null)
 		squire.remove_status_effect(/datum/status_effect/buff/protege_vigilance)
@@ -142,13 +135,9 @@
 	if(QDELETED(partner))
 		squire_bond_break(knight_mob, squire_mob)
 		return
-	// Mood: knight is content while their living protégé is in view, regardless of turf type.
-	if(knight_mob.stat != DEAD && squire_mob.stat != DEAD && (squire_mob in view(7, get_turf(knight_mob))))
-		knight_mob.add_stress(/datum/stressevent/protege_nearby)
-	// Vigilance stat buff additionally requires town turf.
-	if(!squire_bond_buff_eligible(knight_mob, squire_mob))
-		return
-	squire_mob.apply_status_effect(/datum/status_effect/buff/protege_vigilance)
+	if(squire_bond_buff_eligible(knight_mob, squire_mob))
+		knight_mob.apply_status_effect(/datum/status_effect/buff/protege_ward)
+		squire_mob.apply_status_effect(/datum/status_effect/buff/protege_vigilance)
 
 /mob/living/carbon/human/proc/on_protege_death(mob/living/source, gibbed)
 	SIGNAL_HANDLER
@@ -163,52 +152,99 @@
 	add_stress(/datum/stressevent/protege_dead)
 
 
+/mob/living/carbon/human/proc/on_lord_death(mob/living/source, gibbed)
+	SIGNAL_HANDLER
+	if(QDELETED(src))
+		return
+	var/datum/stressevent/existing = get_stress_event(/datum/stressevent/protege_lord_dead)
+	if(existing && (world.time - existing.time_added) < 5 MINUTES)
+		return
+	to_chat(src, span_userdanger("My knight [source.name] has fallen!"))
+	add_stress(/datum/stressevent/protege_lord_dead)
+
+
 /datum/stressevent/protege_dead
-	stressadd = 25
-	stressadd_per_extra_stack = 25
-	max_stacks = 5
+	stressadd = 20 //A squire is worth twice as much as a saiga
 	timer = 30 MINUTES
 	desc = span_boldred("My protégé has fallen. I have failed in my duty.")
+
+/datum/stressevent/protege_lord_dead
+	stressadd = 20
+	timer = 30 MINUTES
+	desc = span_boldred("My knight has fallen. I could not protect them.")
 
 /datum/stressevent/protege_nearby
 	stressadd = -2
 	timer = 5 MINUTES
 	desc = span_green("My protégé hasn't met Necra yet. Great!")
 
+/datum/stressevent/protege_lord_nearby
+	stressadd = -2
+	timer = 5 MINUTES
+	desc = span_green("My knight walks beside me. I will not fail them.")
 
 
-// The squire's proximity buff. Mirrors /datum/status_effect/buff/guardbuffone (CON/WIL/SPD)
-// but is gated on line-of-sight to the bonded knight (and squire being on town turf) instead of
-// merely standing on town turf.
+
+// Presence buff for the squire — active while in view of their bonded knight.
 /datum/status_effect/buff/protege_vigilance
 	id = "protege_vigilance"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/protege_vigilance
-	duration = 1 MINUTES
+	duration = 2 MINUTES
 	tick_interval = 30 SECONDS
-	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_SPD = 1)
 
 /datum/status_effect/buff/protege_vigilance/tick()
 	var/mob/living/carbon/human/knight = owner?.get_knight_lord()
 	if(!knight || QDELETED(knight))
 		qdel(src)
 		return
-	// Refresh from the tick so the buff doesn't time out while standing still in town with the
-	// knight in view. Movement signals also refresh; either path is enough on its own. Refresh
-	// the knight's mood event from here too so a stationary pair doesn't lose the +2 mood.
 	if(squire_bond_buff_eligible(knight, owner))
 		refresh()
-		knight.add_stress(/datum/stressevent/protege_nearby)
+		owner.add_stress(/datum/stressevent/protege_lord_nearby)
 
 /datum/status_effect/buff/protege_vigilance/on_apply()
 	. = ..()
-	to_chat(owner, span_blue("My knight stands with me. I shall stand vigilant."))
+	to_chat(owner, span_blue("My knight stands with me. I will do them proud."))
 
 /datum/status_effect/buff/protege_vigilance/on_remove()
 	if(owner && !QDELETED(owner))
-		to_chat(owner, span_warning("Without my knight near, my vigilance fades."))
+		to_chat(owner, span_warning("Without my knight near, my duty rings hollow."))
 	. = ..()
 
 /atom/movable/screen/alert/status_effect/buff/protege_vigilance
-	name = "Vigilant Protégé"
-	desc = "My knight stands with me on the streets we patrol. Faster, better stronger."
+	name = "Dutiful Protégé"
+	desc = "With hearty will, - for I will not rebel\
+			Against your lust, - a tale will I tell.\                
+			Have me excused if I speak amiss;\
+			My will is good; and lo, my tale is this."
+	icon_state = "buff"
+
+
+// Presence buff for the knight — active while their bonded squire is in view.
+/datum/status_effect/buff/protege_ward
+	id = "protege_ward"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/protege_ward
+	duration = 2 MINUTES
+	tick_interval = 30 SECONDS
+
+/datum/status_effect/buff/protege_ward/tick()
+	var/mob/living/carbon/human/squire = owner?.get_squire()
+	if(!squire || QDELETED(squire))
+		qdel(src)
+		return
+	if(squire_bond_buff_eligible(owner, squire))
+		refresh()
+		owner.add_stress(/datum/stressevent/protege_nearby)
+
+/datum/status_effect/buff/protege_ward/on_apply()
+	. = ..()
+	to_chat(owner, span_blue("My protégé walks at my side."))
+
+/datum/status_effect/buff/protege_ward/on_remove()
+	if(owner && !QDELETED(owner))
+		to_chat(owner, span_warning("My protégé is no longer within sight."))
+	. = ..()
+
+/atom/movable/screen/alert/status_effect/buff/protege_ward
+	name = "Knight's Ward"
+	desc = "My protégé walks at my side. Our bond holds."
 	icon_state = "buff"
