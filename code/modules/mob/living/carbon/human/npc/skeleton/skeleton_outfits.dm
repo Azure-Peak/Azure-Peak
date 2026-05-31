@@ -89,7 +89,7 @@
 		if(1)
 			head = /obj/item/clothing/head/roguetown/cap
 		if(2)
-			head = /obj/item/clothing/neck/roguetown/hood
+			head = /obj/item/clothing/head/roguetown/hood
 		if(3)
 			head = /obj/item/clothing/head/roguetown/fisherhat
 		if(4)
