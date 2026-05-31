@@ -74,3 +74,5 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+
+	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()

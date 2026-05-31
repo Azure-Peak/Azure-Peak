@@ -121,7 +121,7 @@
 		beltl = /obj/item/reagent_containers/glass/bottle/alchemical/healthpot
 	head = /obj/item/clothing/head/roguetown/menacing/mad_touched_treasure_hunter
 	if(prob(50))
-		head = /obj/item/clothing/head/roguetown/menacing //IS THIS TRVE?!
+		head = /obj/item/clothing/head/roguetown/menacing/bandit //IS THIS TRVE?!
 	if(prob(33))
 		r_hand = /obj/item/rogueweapon/greatsword/paalloy
 	else if(prob(33))
