@@ -22,7 +22,7 @@
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
-	armor = ARMOR_DOBO
+	armor = ARMOR_MAILLE
 	blocksound = SOFTHIT
 	sewrepair = TRUE
 	nodismemsleeves = TRUE
