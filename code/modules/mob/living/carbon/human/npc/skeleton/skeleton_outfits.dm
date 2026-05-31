@@ -83,6 +83,15 @@
 	H.STAWIL = 4
 	H.STAINT = 1
 	name = "Skeleton"
+	if(prob(10))
+		var/amulet_choice = rand(1, 3)
+		switch(amulet_choice)
+			if(1)
+				id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy //ZIZO. ZIZO. ZIZO.
+			if(2)
+				id = /obj/item/clothing/neck/roguetown/psicross/aalloy
+			if(3)
+				id = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
 	if(prob(50))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/rags
 	else
@@ -140,6 +149,15 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	if(prob(10))
+		var/amulet_choice = rand(1, 3)
+		switch(amulet_choice)
+			if(1)
+				id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy //ZIZO. ZIZO. ZIZO.
+			if(2)
+				id = /obj/item/clothing/neck/roguetown/psicross/aalloy
+			if(3)
+				id = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
 	var/weapon_choice = rand(1, 4)
 	switch(weapon_choice)
 		if(1)
@@ -183,6 +201,17 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	if(prob(10))
+		var/amulet_choice = rand(1, 4)
+		switch(amulet_choice)
+			if(1)
+				id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy //ZIZO. ZIZO. ZIZO.
+			if(2)
+				id = /obj/item/clothing/neck/roguetown/psicross/aalloy
+			if(3)
+				id = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
+			if(4)
+				id = /obj/item/clothing/neck/roguetown/psicross/abyssor
 	if(prob(50))
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/adagger
 	else
@@ -220,6 +249,15 @@
 		mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 	if(prob(15))
 		beltl = /obj/item/repair_kit/bad
+	if(prob(10))
+		var/amulet_choice = rand(1, 3)
+		switch(amulet_choice)
+			if(1)
+				id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy //ZIZO. ZIZO. ZIZO.
+			if(2)
+				id = /obj/item/clothing/neck/roguetown/psicross/aalloy
+			if(3)
+				id = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
 	var/weapon_choice = rand(1, 5)
 	switch(weapon_choice)
 		if(1)
@@ -235,7 +273,7 @@
 			if(prob(65)) // 65% chance of shield, these ones are really weak and break easily
 				l_hand = /obj/item/rogueweapon/shield/bronze/aalloy
 		if(4)
-			r_hand = /obj/item/rogueweapon/mace/alloy
+			r_hand = /obj/item/rogueweapon/mace/warhammer/alloy //Nastier for MAA skele
 			if(prob(40)) // 40% chance of replacing this with a decently okay shield
 				l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
 		if(5)
@@ -270,16 +308,23 @@
 	var/skeletonclass = rand(1, 2)
 	if(skeletonclass == 1) // Khopesh Knight
 		H.STASPD = 12 // Hue
+		ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC) //Parity slightly with deadlier dreadknight + swift on heavy armor no longer being cracked
 		cloak = /obj/item/clothing/cloak/hierophant
 		mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 		head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 		pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
 		shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
-		neck = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+		neck = /obj/item/clothing/neck/roguetown/gorget/aalloy
 		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 		r_hand = /obj/item/rogueweapon/sword/sabre/alloy
 		l_hand = /obj/item/rogueweapon/sword/sabre/alloy
+		var/amulet_choice = rand(1, 2) //Cultist look so, no Psydon choice
+		switch(amulet_choice)
+			if(1)
+				id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy //ZIZO. ZIZO. ZIZO.
+			if(2)
+				id = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
 		if(prob(60))
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
 			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
@@ -306,10 +351,17 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 		if(prob(15))
 			beltl = /obj/item/repair_kit/metal/bad
-		if(prob(50))
-			r_hand = /obj/item/rogueweapon/greatsword/aalloy
-		else
-			r_hand = /obj/item/rogueweapon/mace/goden/aalloy
+		var/weapon_choice = rand(1, 4)
+		switch(weapon_choice)
+			if(1)
+				r_hand = /obj/item/rogueweapon/greatsword/aalloy
+			if(2)
+				r_hand = /obj/item/rogueweapon/mace/goden/aalloy
+			if(3)
+				r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/aalloy
+			if(4)
+				r_hand = /obj/item/rogueweapon/flail/aflail
+				l_hand = /obj/item/rogueweapon/shield/bronze/great/aalloy //THE WALL, THE WALL, THE WALL
 		var/cloak_choice = rand(1, 3)
 		switch(cloak_choice)
 			if(1)
@@ -318,6 +370,7 @@
 				cloak = /obj/item/clothing/cloak/tabard/toga/lich/alt
 			if(3)
 				cloak = /obj/item/clothing/cloak/tabard/blkknight // SOVL
+
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
@@ -350,6 +403,15 @@
 	r_hand = /obj/item/rogueweapon/mace/alloy
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+	if(prob(10))
+		var/amulet_choice = rand(1, 3)
+		switch(amulet_choice)
+			if(1)
+				id = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy //ZIZO. ZIZO. ZIZO.
+			if(2)
+				id = /obj/item/clothing/neck/roguetown/psicross/aalloy
+			if(3)
+				id = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
 	var/cloak_choice = rand(1, 3)
 	switch(cloak_choice)
 		if(1)
