@@ -83,15 +83,30 @@
 	H.STAWIL = 4
 	H.STAINT = 1
 	name = "Skeleton"
+	var/hat_choice = rand(1, 4)
+	if(prob(40))
+		switch(hat_choice)
+		if(1)
+			head = /obj/item/clothing/head/roguetown/cap
+		if(2)
+			head = /obj/item/clothing/neck/roguetown/hood
+		if(3)
+			head = /obj/item/clothing/head/roguetown/fisherhat
+		if(4)
+			head = /obj/item/clothing/head/roguetown/knitcap
 	if(prob(50))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/rags
 	else
-		shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/random
+		armor = /obj/item/clothing/suit/roguetown/armor/workervest
+	if(prob(10))
+		cloak = /obj/item/clothing/cloak/raincloak/brown
 	if(prob(50))
 		pants = /obj/item/clothing/under/roguetown/tights/random
 	else
 		pants = /obj/item/clothing/under/roguetown/loincloth
-	var/weapon_choice = rand(1, 4)
+	if(prob(50))
+		shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
+	var/weapon_choice = rand(1, 5)
 	switch(weapon_choice)
 		if(1)
 			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
@@ -101,6 +116,8 @@
 			r_hand = /obj/item/rogueweapon/spear/aalloy
 		if(4)
 			r_hand = /obj/item/rogueweapon/mace/alloy
+		if(5)
+			r_hand = /obj/item/rogueweapon/mace/woodclub
 	H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
@@ -133,6 +150,14 @@
 			r_hand = /obj/item/rogueweapon/spear/aalloy
 		if(4)
 			r_hand = /obj/item/rogueweapon/mace/alloy
+	var/cloak_choice = rand(1, 3)
+	switch(cloak_choice)
+		if(1)
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
+		if(2)
+			cloak = /obj/item/clothing/cloak/half/lich
+		if(3)
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich/alt
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
@@ -181,7 +206,7 @@
 	H.STAWIL = 8
 	H.STAINT = 1
 	name = "Skeleton Soldier"
-	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/guard // Ooo Spooky Old Dead MAA
+	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich // Ooo Spooky Old Dead MAA
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
@@ -201,6 +226,14 @@
 		r_hand = /obj/item/rogueweapon/sword/short/gladius/agladius	// ave
 	else
 		r_hand = /obj/item/rogueweapon/flail/aflail
+	var/cloak_choice = rand(1, 3)
+	switch(cloak_choice)
+		if(1)
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
+		if(2)
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich/alt
+		if(3)
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich // Ooo Spooky Old Dead MAA
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
@@ -284,6 +317,14 @@
 	r_hand = /obj/item/rogueweapon/mace/alloy
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+	var/cloak_choice = rand(1, 3)
+	switch(cloak_choice)
+		if(1)
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
+		if(2)
+			cloak = /obj/item/clothing/cloak/half/lich
+		if(3)
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich/alt
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
