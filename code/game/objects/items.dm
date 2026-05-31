@@ -1698,8 +1698,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(anvilrepair)
 		if(smeltresult == /obj/item/ingot/iron)
 			new /obj/item/scrap(get_turf(src))
-			if(prob(20))
-				new /obj/item/scrap(get_turf(src))
 		if(smeltresult == /obj/item/ingot/avantyne) //In short - it checks the item's smeltable result. If it matches what's listed here, it'll spawn something 'new' - scrap, in this case - when destroyed.
 			new /obj/item/ingot/component/zizo(get_turf(src))
 			if(prob(20))

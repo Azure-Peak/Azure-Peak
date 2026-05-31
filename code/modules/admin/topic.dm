@@ -219,6 +219,7 @@
 				"Puncture" = /datum/wound/puncture,
 				"Bruise" = /datum/wound/bruise,
 				"Artery" = /datum/wound/artery,
+				"Integrity" = /datum/wound/integrity,
 				"Bite" = /datum/wound/bite,
 				"Dislocation" = /datum/wound/dislocation
 			)
@@ -226,16 +227,25 @@
 			if(wound_choice)
 				var/wound_path = wound_types[wound_choice]
 				// Apply body-part-specific wound variants
+				
 				if(wound_choice == "Fracture")
 					if(BP.body_zone == BODY_ZONE_HEAD)
 						wound_path = /datum/wound/fracture/head
 					else if(BP.body_zone == BODY_ZONE_CHEST)
 						wound_path = /datum/wound/fracture/chest
+				
 				else if(wound_choice == "Artery")
 					if(BP.body_zone == BODY_ZONE_HEAD)
 						wound_path = /datum/wound/artery/neck
 					else if(BP.body_zone == BODY_ZONE_CHEST)
 						wound_path = /datum/wound/artery/chest
+				
+				else if(wound_choice == "Integrity")
+					if(BP.body_zone == BODY_ZONE_HEAD)
+						wound_path = /datum/wound/integrity/neck
+					else if(BP.body_zone == BODY_ZONE_CHEST)
+						wound_path = /datum/wound/integrity/chest
+				
 				else if(wound_choice == "Dislocation")
 					if(BP.body_zone == BODY_ZONE_HEAD)
 						wound_path = /datum/wound/dislocation/neck

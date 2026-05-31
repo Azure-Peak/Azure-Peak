@@ -36,6 +36,9 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/gnome_automation_unlocked = FALSE
 	var/extra_pier_rented = FALSE
 	var/auto_hailer_unlocked = FALSE
+	var/list/datum/merchant_catalog/catalogs = list()
+	var/list/unlocked_catalogs = list()
+	var/list/catalog_stock = list()
 	var/auto_hailer_on = FALSE
 	var/auto_hailer_timer_id
 	var/last_merchant_activity = 0
@@ -75,6 +78,13 @@ SUBSYSTEM_DEF(merchant_trade)
 			qdel(R)
 			continue
 		realms[R.id] = R
+	for(var/path in subtypesof(/datum/merchant_catalog))
+		var/datum/merchant_catalog/C = new path
+		if(!C.id)
+			qdel(C)
+			continue
+		catalogs[C.id] = C
+	init_catalog_stock()
 	roll_active_conditions()
 	hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
 	roll_daily_pool()
@@ -305,6 +315,7 @@ SUBSYSTEM_DEF(merchant_trade)
 		return
 	last_processed_day = GLOB.dayspassed
 	hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
+	restock_catalogs()
 	expire_undocked_ships()
 	roll_daily_pool()
 	regen_bm_saturation_daily()

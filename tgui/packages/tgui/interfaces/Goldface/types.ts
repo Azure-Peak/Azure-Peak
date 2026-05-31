@@ -46,6 +46,31 @@ export type CulturalStockEntry = {
   ship_name: string;
 };
 
+export type CatalogEntry = {
+  pack: string;
+  name: string;
+  pack_qty: number;
+  price_base: number;
+  price_base_pre_kin: number;
+  price_tariff: number;
+  price: number;
+  qty: number;
+  stock_max: number;
+};
+
+export type CatalogData = {
+  id: string;
+  name: string;
+  desc: string;
+  favor_cost: number;
+  home_label: string;
+  unlocked: BooleanLike;
+  origin_access: BooleanLike;
+  accessible: BooleanLike;
+  discount_pct: number;
+  entries: CatalogEntry[];
+};
+
 export type MarketCondition = {
   name: string;
   description: string;
@@ -92,6 +117,7 @@ export type HarborData = {
   dock_spots_used: number;
   dock_spots_max: number;
   cultural_stock: CulturalStockEntry[];
+  catalogs: CatalogData[];
   merchant_levy_percent: number;
   merchant_levy_cap: number;
   merchant_levy_collected: number;

@@ -337,37 +337,27 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			S.set_up(1, 1, front)
 			S.start()
 	if( user.used_intent.type == /datum/intent/chisel )
-		var/location = src.loc
-		for(var/obj/item/natural/stone/S in get_turf(src))
-			user.visible_message("<span class='info'>[user] chisels the stone into a block.</span>")
-			if(do_after(user, work_time))
-				new /obj/item/natural/stoneblock(get_turf(location))
-				if(HAS_TRAIT(user, TRAIT_MASTER_MASON)) //double the amount for any in a stone worker role
-					new /obj/item/natural/stoneblock(get_turf(location))
-				new /obj/effect/decal/cleanable/debris/stony(get_turf(location))
-				playsound(location, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
-				qdel(S)
-				user.mind.add_sleep_experience(/datum/skill/craft/masonry, (user.STAINT*0.2))
-			else
-				return
+		playsound(src.loc, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
+		user.visible_message("<span class='info'>[user] chisels the stone into a block.</span>")
+		if(do_after(user, work_time))
+			new /obj/item/natural/stoneblock(get_turf(src.loc))
+			if(HAS_TRAIT(user, TRAIT_MASTER_MASON)) //double the amount for any in a stone worker role
+				new /obj/item/natural/stoneblock(get_turf(src.loc))
+			new /obj/effect/decal/cleanable/debris/stony(get_turf(src))
+			playsound(src.loc, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
+			qdel(src)
+			user.mind.add_sleep_experience(/datum/skill/craft/masonry, (user.STAINT*0.2))
 		return
 	else if(istype(W, /obj/item/rogueweapon/chisel/assembly))
 		to_chat(user, span_warning("You most use both hands to chisel blocks."))
 	else
 		..()
-
+		
 //rock munching
 /obj/item/natural/stone/attack(mob/living/M, mob/user)
-
 	if(!user.cmode)
-		if(M.construct)
-			var/healydoodle = magic_power+1
-			M.apply_status_effect(/datum/status_effect/buff/rockmuncher, healydoodle)
-			qdel(src)
-			if(M == user)
-				user.visible_message(span_notice("[user] presses the stone to [user]'s body, and it is absorbed."), span_notice("I absorb the stone."))
-			else
-				user.visible_message(span_notice("[user] presses the stone to [M]'s body, and it is absorbed."), span_notice("I press the stone to [M], and it is absorbed."))
+		if(try_construct_consume(src, M, user))
+			return
 		else // if theyre not a construct, but we're not in cmode, beat them 2 death with rocks.
 			return ..()
 	else // if we're in cmode, beat them to death with rocks.
@@ -404,13 +394,11 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	. += span_info("Left-clicking a rock with a stone has a chance to spawn sparks. Sparks can be used to reignite extinguished torches, lampterns, hearths, and other igniteable structures.")
 	. += span_info("Left-clicking a rock with a chisel will turn it into a stone block, which can be used for masonry and construction.")
 
-/obj/item/natural/rock/Initialize(mapload, autodeconstruct, hp_override)
+/obj/item/natural/rock/Initialize(mapload, autodeconstruct)
 	icon_state = "stonebig[rand(1,2)]"
 	if(autodeconstruct)
 		deconstruct()
 		return
-	if(hp_override)
-		obj_integrity = hp_override
 	..()
 
 /obj/item/natural/rock/Crossed(mob/living/L)
@@ -421,6 +409,16 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			L.drop_all_held_items()
 			L.consider_ambush(always = TRUE)
 	..()
+
+//le rocke CRUSHER
+/obj/item/natural/rock/attack(mob/living/M, mob/user)
+	if(!user.cmode)
+		if(try_construct_consume(src, M, user))
+			return
+		else // if theyre not a construct, but we're not in cmode, beat them 2 death with rocks.
+			return ..()
+	else // if we're in cmode, beat them to death with rocks.
+		return ..()
 
 /obj/item/natural/rock/attacked_by(obj/item/I, mob/living/user)
 	var/was_destroyed = obj_destroyed

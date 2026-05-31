@@ -1,0 +1,5 @@
+author: "kiwedespars"
+delete-after: True
+changes:
+  - rscadd: "singleclap emote"
+  - rscadd: "slowclap emote"

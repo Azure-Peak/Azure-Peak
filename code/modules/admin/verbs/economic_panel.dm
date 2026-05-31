@@ -102,6 +102,29 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 		))
 	data["blockades"] = blockades
 
+	var/list/blockade_region_options = list()
+	for(var/region_id in GLOB.economic_regions)
+		var/datum/economic_region/ER = GLOB.economic_regions[region_id]
+		if(!ER.threat_region_id)
+			continue
+		blockade_region_options += list(list(
+			"id" = region_id,
+			"name" = ER.name,
+			"blockaded" = ER.is_region_blockaded ? TRUE : FALSE,
+		))
+	data["blockade_region_options"] = blockade_region_options
+
+	var/list/blockade_faction_options = list()
+	for(var/fid in GLOB.quest_factions)
+		var/datum/quest_faction/F = GLOB.quest_factions[fid]
+		if(!F.can_blockade)
+			continue
+		blockade_faction_options += list(list(
+			"id" = fid,
+			"name" = F.name_plural,
+		))
+	data["blockade_faction_options"] = blockade_faction_options
+
 	var/list/assembly = list()
 	if(SScity_assembly)
 		var/mob/alderman = SScity_assembly.resolve_get_alderman()
@@ -354,6 +377,28 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				admin_log_fiscal("rolled a blockade on [ER ? ER.name : B.region_id] ([B.faction_id])", "Fire Blockade Roll")
 			else
 				to_chat(usr, span_warning("No eligible region available to blockade."))
+			return TRUE
+		if("place_blockade")
+			if(!SSeconomy)
+				return TRUE
+			var/region_id = params["region_id"]
+			if(!region_id || !GLOB.economic_regions[region_id])
+				to_chat(usr, span_warning("Pick a region to blockade."))
+				return TRUE
+			if(SSeconomy.find_blockade_for_region(region_id))
+				to_chat(usr, span_warning("That region is already blockaded."))
+				return TRUE
+			var/datum/economic_region/ER = GLOB.economic_regions[region_id]
+			var/fid = params["faction_id"]
+			if(!fid)
+				var/datum/threat_region/TR = SSregionthreat.get_region(ER.threat_region_id)
+				fid = SSeconomy.pick_blockade_faction_for(TR)
+			if(!fid)
+				to_chat(usr, span_warning("No eligible faction for that region - pick one explicitly."))
+				return TRUE
+			var/datum/blockade/B = SSeconomy.place_blockade(region_id, fid)
+			if(B)
+				admin_log_fiscal("placed a blockade on [ER.name] ([fid])", "Place Blockade")
 			return TRUE
 		if("clear_blockade")
 			if(!SSeconomy)

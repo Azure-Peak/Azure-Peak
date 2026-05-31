@@ -147,6 +147,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesewheel
 	name = "unfinished cheese wheel"
+	desc = "Clotted and salted milk, eager to be cocooned in cloth so that it may realize its fullest potential. You'll need three more servings of fresh cheese to finish it."
 	icon = 'modular/Neu_Food/icons/others/dairy.dmi'
 	icon_state = "cheesewheel_1"
 	w_class = WEIGHT_CLASS_BULKY
@@ -168,8 +169,10 @@
 				switch(process_step)
 					if(2)
 						icon_state = "cheesewheel_2"
+						desc = "You'll need two more servings of fresh cheese to finish it."
 					if(3)
 						icon_state = "cheesewheel_3"
+						desc = "You'll need only one more serving of fresh cheese to finish it."
 					if(4)
 						name = "maturing cheese wheel"
 						icon_state = "cheesewheel_end"
@@ -270,7 +273,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/cheddarslice
 	name = "slice of cheese"
-	desc = "A sliver of savoriness." 
+	desc = "A sliver of savoriness."
 	icon = 'modular/Neu_Food/icons/others/dairy.dmi'
 	icon_state = "cheese_slice"
 	bitesize = 1

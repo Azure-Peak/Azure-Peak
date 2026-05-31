@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   Box,
   Button,
+  Dropdown,
   Input,
   LabeledList,
   NumberInput,
@@ -118,6 +119,17 @@ type Blockade = {
   ref: string;
 };
 
+type BlockadeRegionOption = {
+  id: string;
+  name: string;
+  blockaded: BooleanLike;
+};
+
+type BlockadeFactionOption = {
+  id: string;
+  name: string;
+};
+
 type LedgerEntry = {
   kind: string;
   from: string;
@@ -187,6 +199,8 @@ type Data = {
   effective_player_count: number;
   live_player_count: number;
   blockades: Blockade[];
+  blockade_region_options: BlockadeRegionOption[];
+  blockade_faction_options: BlockadeFactionOption[];
   assembly: Assembly;
   bankruptcy: Bankruptcy;
   ledger: LedgerEntry[];
@@ -236,6 +250,8 @@ export const EconomicPanel = () => {
     effective_player_count,
     live_player_count,
     blockades,
+    blockade_region_options,
+    blockade_faction_options,
     assembly,
     bankruptcy,
     ledger,
@@ -256,6 +272,8 @@ export const EconomicPanel = () => {
   const [ledgerReason, setLedgerReason] = useState('');
   const [ledgerGroup, setLedgerGroup] = useState(false);
   const [ledgerPage, setLedgerPage] = useState(0);
+  const [blockadeRegion, setBlockadeRegion] = useState('');
+  const [blockadeFaction, setBlockadeFaction] = useState('');
   const LEDGER_PAGE_SIZE = 50;
   const filteredLedger = ledger.filter((e) => {
     if (ledgerKind !== 'all' && e.kind !== ledgerKind) return false;
@@ -748,12 +766,12 @@ export const EconomicPanel = () => {
                   Aggregations above cover the full round.
                 </Box>
               )}
-              {pageRows.length === 0 ? (
-                <Box italic color="gray">
-                  No entries match the current filter.
-                </Box>
-              ) : (
-                <>
+              <Box height="540px" mb={1} style={{ overflowY: 'auto' }}>
+                {pageRows.length === 0 ? (
+                  <Box italic color="gray">
+                    No entries match the current filter.
+                  </Box>
+                ) : (
                   <Table>
                     <Table.Row header>
                       <Table.Cell>Time</Table.Cell>
@@ -796,6 +814,10 @@ export const EconomicPanel = () => {
                       </Table.Row>
                     ))}
                   </Table>
+                )}
+              </Box>
+              {pageRows.length > 0 && (
+                <>
                   <Stack align="center" mt={1}>
                     <Stack.Item grow>
                       <Box italic color="gray">
@@ -959,10 +981,50 @@ export const EconomicPanel = () => {
           {tab === 'internal' && (
           <Stack.Item>
             <Section title={`Blockades (${blockades.length} active)`}>
-              <Stack wrap mb={1}>
+              <Stack wrap mb={1} align="center">
                 <Stack.Item>
                   <Button.Confirm onClick={() => act('fire_blockade_roll')}>
                     Fire Blockade Roll
+                  </Button.Confirm>
+                </Stack.Item>
+                <Stack.Item>
+                  <Dropdown
+                    width="11em"
+                    placeholder="Region..."
+                    selected={blockadeRegion}
+                    options={blockade_region_options.map((o) => ({
+                      value: o.id,
+                      displayText: o.blockaded ? `${o.name} (blockaded)` : o.name,
+                    }))}
+                    onSelected={(value) => setBlockadeRegion(value)}
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Dropdown
+                    width="11em"
+                    placeholder="Faction (auto)..."
+                    selected={blockadeFaction}
+                    options={[
+                      { value: '', displayText: 'Auto (by region)' },
+                      ...blockade_faction_options.map((o) => ({
+                        value: o.id,
+                        displayText: o.name,
+                      })),
+                    ]}
+                    onSelected={(value) => setBlockadeFaction(value)}
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm
+                    disabled={!blockadeRegion}
+                    onClick={() =>
+                      act('place_blockade', {
+                        region_id: blockadeRegion,
+                        faction_id: blockadeFaction || null,
+                      })
+                    }
+                  >
+                    Blockade Region
                   </Button.Confirm>
                 </Stack.Item>
               </Stack>

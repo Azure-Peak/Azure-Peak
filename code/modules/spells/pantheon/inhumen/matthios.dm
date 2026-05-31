@@ -322,7 +322,9 @@
 /obj/effect/proc_holder/spell/invoked/appraise/secular
 	name = "Secular Appraise"
 	range = 2
-	associated_skill = /datum/skill/misc/reading // idk reading is like Accounting right
+	associated_skill = /datum/skill/misc/reading
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	miracle = FALSE
 	devotion_cost = 0 //Merchants are not clerics
 
@@ -789,6 +791,93 @@
 /obj/effect/proc_holder/spell/invoked/barter/proc/process_barter(mammon, mob/user, turf/target_turf)
 	playsound(target_turf, 'sound/effects/matth_barter.ogg', 100, TRUE)
 	budget2change(mammon, user, putinhands = FALSE, custom_turf = target_turf)
+
+/obj/effect/proc_holder/spell/invoked/secularbarter
+	name = "Secular Barter" //rebased, mostly copypasta but with some differences
+	desc = "Your contacts allow you to find a buyer for most items, though it at a lesser rate than reputable merchants"
+	action_icon = 'icons/mob/actions/antiquarianspells.dmi'
+	overlay_icon = 'icons/mob/actions/antiquarianspells.dmi'
+	overlay_state = "secularbarter"
+	range = 1
+	associated_skill = /datum/skill/misc/reading
+	miracle = FALSE
+	devotion_cost = 0
+	chargetime = 0 SECONDS
+	releasedrain = 30
+	var/static/list/barter_whitelist = list(
+		/obj/item/clothing/ring,
+		/obj/item/clothing/ring/gold,
+		/obj/item/clothing/ring/blacksteel,
+		/obj/item/clothing/ring/coral,
+		/obj/item/clothing/ring/opal,
+		/obj/item/clothing/ring/jade,
+		/obj/item/clothing/ring/aalloy,
+		/obj/item/clothing/ring/amber,
+		/obj/item/clothing/ring/band,
+		/obj/item/clothing/ring/bronze,
+		/obj/item/clothing/ring/diamond,
+		/obj/item/clothing/ring/diamonds,
+		/obj/item/clothing/ring/diamondbs,
+		/obj/item/clothing/ring/dragon_ring,
+		/obj/item/clothing/ring/emerald,
+		/obj/item/clothing/ring/emeraldbs,
+		/obj/item/clothing/ring/emeralds,
+		/obj/item/clothing/ring/signet,
+		/obj/item/clothing/ring/signet/silver,
+	)
+
+/obj/effect/proc_holder/spell/invoked/secularbarter/cast(list/targets, mob/user)
+	. = ..()
+	if(!istype(targets[1], /obj/item))
+		revert_cast()
+		to_chat(user, span_warning("This is not a suitable item to Barter with."))
+		return FALSE
+	var/obj/item/I = targets[1]
+	if(I.sellprice < 2 || isnull(I.sellprice))
+		revert_cast()
+		to_chat(user, span_warning("This thing is worthless."))
+		return FALSE
+	if(I.override_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
+		revert_cast()
+		to_chat(user, span_warning("This thing has been glamoured or changed -- its value is too unclear."))
+		return FALSE
+	if(I.GetComponent(/datum/component/holster))
+		var/datum/component/holster/SC = I.GetComponent(/datum/component/holster)
+		if(SC.sheathed)
+			revert_cast()
+			to_chat(user, span_warning("I should empty it, first."))
+			return FALSE
+	if((istype(I, /obj/item/rogueweapon) || istype(I, /obj/item/clothing)))
+		if(!(I.type in barter_whitelist))
+			revert_cast()
+			to_chat(user, span_warning("Arms and armor are too difficult to fence on the market, best stick to valuables."))
+			return FALSE
+	if(!SStreasury.has_account(user))
+		to_chat(user, span_warning("Your contacts can't pay you without a registered treasury account. Visit a Meister."))
+		return FALSE
+
+	var/delay = 1 SECONDS
+	delay += round((I.sellprice / 50) SECONDS)
+	if(I.Adjacent(user))
+		if(do_after(user, delay))
+			if(I.Adjacent(user))	//We make sure it didnt' get yoinked after the delay.
+				var/ratio = 0.4 + ((user.get_skill_level(associated_skill)) * 0.05)
+				var/mammonreward = round(I.sellprice * ratio)
+				var/turf/T = get_turf(I)
+				new /obj/effect/temp_visual/barter_fx(T)
+				addtimer(CALLBACK(src, PROC_REF(process_secularbarter), mammonreward, user, T), 0.3 SECONDS)	//fluffy delay to make it sync up with the barter_fx.
+				if(I.GetComponent(/datum/component/storage))
+					var/datum/component/storage/ST = I.GetComponent(/datum/component/storage)
+					if(!ST.do_quick_empty(T))
+						revert_cast()
+						return FALSE
+				qdel(I)
+				user.visible_message(span_info("[user] markets [I] off to [user.p_their()] contacts."), span_danger("Fencing off [I] to your contacts, [mammonreward] mammons are transferred to your account."))
+				var/datum/fund/account = SStreasury.get_account(user)
+				SStreasury.mint(account, mammonreward, "interstate mammon transfer")
+
+/obj/effect/proc_holder/spell/invoked/secularbarter/proc/process_secularbarter(mammon, mob/user, turf/target_turf)
+	playsound(target_turf, 'sound/effects/secularbarter.ogg', 100, TRUE)
 
 //T3 COUNT WEALTH, HURT TARGET/APPLY EFFECTS BASED ON AMOUNT OF WEALTH. AT 500+, OLD STYLE CHURNS THE TARGET.
 

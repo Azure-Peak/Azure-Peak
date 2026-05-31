@@ -1,0 +1,6 @@
+author: "SpadesNeil"
+delete-after: True
+changes:
+  - bugfix: "Kabuto helmet now has normal visibility."
+  - balance: "Samsibsa scaleplate armor has 50 more points of integrity"
+  - refactor: "Removed some white space"

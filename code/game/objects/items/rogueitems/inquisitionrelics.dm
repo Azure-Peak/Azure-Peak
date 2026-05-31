@@ -377,7 +377,27 @@ Inquisitorial armory down here
 	if(on && next_smoke < world.time)
 		new /obj/effect/temp_visual/censer_dust(get_turf(src))
 		next_smoke = world.time + smoke_interval
-		
+
+		var/mob/living/user = loc
+
+		if(!istype(user))
+			return
+
+		// Golgotha PvE buff goes here
+		if(HAS_TRAIT(user, TRAIT_SILVER_BLESSED))
+			for(var/mob/living/L in range(4, src))
+				if(L.stat == DEAD || L.mind)
+					continue
+
+				// Mindless humanoid monsters
+				if(istype(L, /mob/living/carbon/human/species/goblin/npc) || istype(L, /mob/living/carbon/human/species/orc/npc) || istype(L, /mob/living/carbon/human/species/skeleton/npc))
+					L.adjustFireLoss(25)
+
+				// Silver-vulnerable creatures
+				if(HAS_TRAIT(L, TRAIT_SILVER_WEAK))
+					L.Paralyze(10)
+					L.adjustFireLoss(25)
+					L.adjust_fire_stacks(3, /datum/status_effect/fire_handler/fire_stacks/sunder)
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/turn_off()
 	playsound(src.loc, 'sound/items/censer_off.ogg', 100)
@@ -1319,6 +1339,12 @@ Inquisitorial armory down here
 
 /atom/movable/screen/alert/scryingeye
 	name = "SCRYING EYE"
+	desc = "I SEE YOU."
+	icon_state = "scryingeye"
+	timeout = 8 SECONDS
+
+/atom/movable/screen/alert/hagscry
+	name = "THE ROOTS OBSERVE"
 	desc = "I SEE YOU."
 	icon_state = "scryingeye"
 	timeout = 8 SECONDS

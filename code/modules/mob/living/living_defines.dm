@@ -218,7 +218,6 @@
 
 	var/tempatarget = null
 	var/pegleg = 0			//Handles check & slowdown for peglegs. Fuckin' bootleg, literally, but hey it at least works.
-	var/construct = 0
 	var/burialrited = FALSE
 
 	/// Toggle delay for Specials, or really anything else that you don't want input spam to instantly cycle through.
