@@ -139,8 +139,14 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	pants = /obj/item/clothing/under/roguetown/trou/leather
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	belt = /obj/belt/rogue/leather/cloth/bandit
+	if(prob(10))
+		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+	if(prob(50))
+		shoes = /obj/item/clothing/shoes/roguetown/boots //Dark boots
 	if(prob(30)) //30% cloak chance - themed off bandits
 		var/cloak_choice = rand(1, 5)
 		switch(cloak_choice)
@@ -185,7 +191,6 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			neck = /obj/item/clothing/neck/roguetown/coif //SOVL
 		if(2)
 			neck = neck = /obj/item/clothing/neck/roguetown/leather
-	gloves = /obj/item/clothing/gloves/roguetown/leather
 	H.STASTR = rand(11,14) //random strength
 	H.STASPD = 11
 	H.STACON = 6
@@ -218,9 +223,6 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			r_hand = /obj/item/rogueweapon/huntingknife/idagger
 			if(prob(65)) //More likely but loses upgrade for shield pick
 				l_hand = /obj/item/rogueweapon/shield/buckler/palloy
-
-	if(prob(10))
-		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
 
 	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
