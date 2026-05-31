@@ -160,10 +160,10 @@
 		/datum/alch_cauldron_recipe
 		)
  
-/obj/item/recipe_book/cooking
-	name = "The Culinary Codex"
-	wiki_name = "Cooking"
-	desc = "A book full of recipes and tips for cooking. This version looks very incomplete, and only contain brewing recipes. Perhaps it will be filled in later?"
+/obj/item/recipe_book/brewing
+	name = "The Brewer's Compendium"
+	wiki_name = "Brewing"
+	desc = "A book full of knowledges on brewing recipes and notes on the arts of distillation."
 	icon_state = "book2_0"
 	base_icon_state = "book2"
 

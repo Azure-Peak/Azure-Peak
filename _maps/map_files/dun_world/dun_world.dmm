@@ -25585,7 +25585,7 @@
 "fiy" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/ywflowers,
-/obj/item/recipe_book/cooking,
+/obj/item/recipe_book/brewing,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "fiz" = (
