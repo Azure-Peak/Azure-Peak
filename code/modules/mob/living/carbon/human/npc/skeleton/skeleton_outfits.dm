@@ -83,17 +83,6 @@
 	H.STAWIL = 4
 	H.STAINT = 1
 	name = "Skeleton"
-	var/hat_choice = rand(1, 4)
-	if(prob(40))
-		switch(hat_choice)
-		if(1)
-			head = /obj/item/clothing/head/roguetown/cap
-		if(2)
-			head = /obj/item/clothing/head/roguetown/roguehood
-		if(3)
-			head = /obj/item/clothing/head/roguetown/fisherhat
-		if(4)
-			head = /obj/item/clothing/head/roguetown/knitcap
 	if(prob(50))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/rags
 	else
@@ -104,7 +93,7 @@
 		pants = /obj/item/clothing/under/roguetown/tights/random
 	else
 		pants = /obj/item/clothing/under/roguetown/loincloth
-	if(prob(50))
+	if(prob(60))
 		shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	var/weapon_choice = rand(1, 5)
 	switch(weapon_choice)
@@ -118,6 +107,17 @@
 			r_hand = /obj/item/rogueweapon/mace/alloy
 		if(5)
 			r_hand = /obj/item/rogueweapon/mace/woodclub
+	var/hat_choice = rand(1, 4)
+	if(prob(40))
+	switch(hat_choice)
+		if(1)
+			head = /obj/item/clothing/head/roguetown/cap
+		if(2)
+			head = /obj/item/clothing/head/roguetown/roguehood
+		if(3)
+			head = /obj/item/clothing/head/roguetown/fisherhat
+		if(4)
+			head = /obj/item/clothing/head/roguetown/knitcap
 	H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
@@ -216,10 +216,14 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	belt = /obj/item/storage/belt/rogue/leather/rope
+	if(prob(10)) //10% chance to have overpowered levels of aurafarming
+		mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 	if(prob(15))
 		beltl = /obj/item/repair_kit/bad
-	if(prob(33)) // 33% chance of shield, so ranged don't get screwed over entirely
-		l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
+	if(prob(45)) // 45% chance of shield, these ones are really weak and break easily
+		l_hand = /obj/item/rogueweapon/shield/bronze/aalloy
+		if(prob(20)) // 20% chance of replacing this with a decently okay shield
+			l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
 	if(prob(33))
 		r_hand = /obj/item/rogueweapon/spear/aalloy
 	else if(prob(33))
@@ -258,8 +262,7 @@
 		H.STASPD = 12 // Hue
 		cloak = /obj/item/clothing/cloak/hierophant
 		mask = /obj/item/clothing/mask/rogue/facemask/aalloy
-		armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
-		shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
+		head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 		pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
 		shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
@@ -267,24 +270,44 @@
 		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 		r_hand = /obj/item/rogueweapon/sword/sabre/alloy
 		l_hand = /obj/item/rogueweapon/sword/sabre/alloy
+		if(prob(60))
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
+		else
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	else // Withered Dreadknight
 		H.STASPD = 8
-		cloak = /obj/item/clothing/cloak/tabard/blkknight
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
-		armor = /obj/item/clothing/suit/roguetown/armor/plate/aalloy
-		shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 		pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
 		shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 		neck = /obj/item/clothing/neck/roguetown/gorget/aalloy
 		gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
 		belt = /obj/item/storage/belt/rogue/leather
+		if(prob(60))
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
+		else
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy
+		if(prob(60))
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/aalloy
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
+		else
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 		if(prob(15))
 			beltl = /obj/item/repair_kit/metal/bad
 		if(prob(50))
 			r_hand = /obj/item/rogueweapon/greatsword/aalloy
 		else
 			r_hand = /obj/item/rogueweapon/mace/goden/aalloy
+		var/cloak_choice = rand(1, 3)
+		switch(cloak_choice)
+			if(1)
+				cloak = /obj/item/clothing/cloak/tabard/toga/lich
+			if(2)
+				cloak = /obj/item/clothing/cloak/tabard/toga/lich/alt
+			if(3)
+				cloak = /obj/item/clothing/cloak/tabard/blkknight // SOVL
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
