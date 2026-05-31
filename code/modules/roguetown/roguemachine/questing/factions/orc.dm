@@ -21,6 +21,7 @@
 		"Warlord %N",
 		"%N Skullcleaver",
 		"%N the Mighty",
+		"%N the Pillager",
 		"Chieftain %N",
 	)
 	boss_name_file = "strings/rt/names/other/halforcm.txt"

@@ -30,12 +30,28 @@
 
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	var/hairf = pick(list(/datum/sprite_accessory/hair/head/bedhead, 
-						/datum/sprite_accessory/hair/head/bob))
-	var/hairm = pick(list(/datum/sprite_accessory/hair/head/ponytail1, 
-						/datum/sprite_accessory/hair/head/shaved))
-	var/beard = pick(list(/datum/sprite_accessory/hair/facial/vandyke,
-						/datum/sprite_accessory/hair/facial/croppedfullbeard))
+	var/hairf = pick(list(
+						/datum/sprite_accessory/hair/head/lowbraid,
+						/datum/sprite_accessory/hair/head/countryponytailalt,
+						/datum/sprite_accessory/hair/head/gloomy,
+						/datum/sprite_accessory/hair/head/zone,
+						/datum/sprite_accessory/hair/head/hime,
+						/datum/sprite_accessory/hair/head/fluffy,
+						/datum/sprite_accessory/hair/head/fluffylong))
+	var/hairm = pick(list(
+						/datum/sprite_accessory/hair/head/ponytailwitcher,
+						/datum/sprite_accessory/hair/head/bowlcut, 
+						/datum/sprite_accessory/hair/head/bowlcut2, 
+						/datum/sprite_accessory/hair/head/rogue))
+	var/beard = pick(list(/datum/sprite_accessory/hair/facial/stubble,
+						/datum/sprite_accessory/hair/facial/manly,
+						/datum/sprite_accessory/hair/facial/fiveoclockmoustache,
+						/datum/sprite_accessory/hair/facial/sevenoclockm,
+						/datum/sprite_accessory/hair/facial/chinlessbeard,
+						/datum/sprite_accessory/hair/facial/fullbeard,
+						/datum/sprite_accessory/hair/facial/chinstrap,
+						/datum/sprite_accessory/hair/facial/vandyke,
+						/datum/sprite_accessory/hair/facial/longbeard))
 
 	var/datum/bodypart_feature/hair/head/new_hair = new()
 	var/datum/bodypart_feature/hair/facial/new_facial = new()
@@ -46,18 +62,32 @@
 		new_hair.set_accessory_type(hairm, null, src)
 		new_facial.set_accessory_type(beard, null, src)
 
-	if(prob(50))
-		new_hair.accessory_colors = "#96403d"
-		new_hair.hair_color = "#96403d"
-		new_facial.accessory_colors = "#96403d"
-		new_facial.hair_color = "#96403d"
-		hair_color = "#96403d"
-	else
-		new_hair.accessory_colors = "#C7C755"
-		new_hair.hair_color = "#C7C755"
-		new_facial.accessory_colors = "#C7C755"
-		new_facial.hair_color = "#C7C755"
-		hair_color = "#C7C755"
+	var/haircolor_choice = rand(1, 4)
+	switch(haircolor_choice)
+		if(1)
+			new_hair.accessory_colors = "#C1A287"
+			new_hair.hair_color = "#C1A287"
+			new_facial.accessory_colors = "#C1A287"
+			new_facial.hair_color = "#C1A287"
+			hair_color = "#C1A287"
+		if(2)
+			new_hair.accessory_colors = "#A56B3D"
+			new_hair.hair_color = "#A56B3D"
+			new_facial.accessory_colors = "#A56B3D"
+			new_facial.hair_color = "#A56B3D"
+			hair_color = "#A56B3D"
+		if(3) //Black
+			new_hair.accessory_colors = "#030107"
+			new_hair.hair_color = "#030107"
+			new_facial.accessory_colors = "#030107"
+			new_facial.hair_color = "#030107"
+			hair_color = "#030107"
+		if(4) //Red
+			new_hair.accessory_colors = "#a53d3d"
+			new_hair.hair_color = "#a53d3d"
+			new_facial.accessory_colors = "#a53d3d"
+			new_facial.hair_color = "#a53d3d"
+			hair_color = "#a53d3d"
 
 	head.add_bodypart_feature(new_hair)
 	head.add_bodypart_feature(new_facial)
@@ -75,6 +105,7 @@
 		real_name = pick(world.file2list("strings/names/first_male.txt"))
 	update_hair()
 	update_body()
+	src.regenerate_icons() //Fixes the weird body but lets check performance first
 	head.sellprice = HEAD_BOUNTY_THIEF
 
 
@@ -110,3 +141,16 @@
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
+	if(prob(30))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(2)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(3)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()

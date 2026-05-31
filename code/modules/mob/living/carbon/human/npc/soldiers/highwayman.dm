@@ -41,65 +41,178 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman)
+	gender = pick(MALE, FEMALE)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
-	if(organ_eyes)
-		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
-	update_hair()
-	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = HEAD_BOUNTY_HIGHWAYMAN
+	var/hairf = pick(list(
+						/datum/sprite_accessory/hair/head/lowbraid,
+						/datum/sprite_accessory/hair/head/countryponytailalt,
+						/datum/sprite_accessory/hair/head/gloomy,
+						/datum/sprite_accessory/hair/head/zone,
+						/datum/sprite_accessory/hair/head/hime,
+						/datum/sprite_accessory/hair/head/fluffy,
+						/datum/sprite_accessory/hair/head/fluffylong))
+	var/hairm = pick(list(
+						/datum/sprite_accessory/hair/head/ponytailwitcher,
+						/datum/sprite_accessory/hair/head/bowlcut, 
+						/datum/sprite_accessory/hair/head/bowlcut2, 
+						/datum/sprite_accessory/hair/head/rogue))
+	var/beard = pick(list(/datum/sprite_accessory/hair/facial/stubble,
+						/datum/sprite_accessory/hair/facial/manly,
+						/datum/sprite_accessory/hair/facial/fiveoclockmoustache,
+						/datum/sprite_accessory/hair/facial/sevenoclockm,
+						/datum/sprite_accessory/hair/facial/chinlessbeard,
+						/datum/sprite_accessory/hair/facial/fullbeard,
+						/datum/sprite_accessory/hair/facial/chinstrap,
+						/datum/sprite_accessory/hair/facial/vandyke,
+						/datum/sprite_accessory/hair/facial/longbeard))
 	AddComponent(/datum/component/npc_death_line, null, 25)
+
+	var/datum/bodypart_feature/hair/head/new_hair = new()
+	var/datum/bodypart_feature/hair/facial/new_facial = new()
+
+	if(gender == FEMALE)
+		new_hair.set_accessory_type(hairf, null, src)
+	else
+		new_hair.set_accessory_type(hairm, null, src)
+		new_facial.set_accessory_type(beard, null, src)
+
+	var/haircolor_choice = rand(1, 4)
+	switch(haircolor_choice)
+		if(1)
+			new_hair.accessory_colors = "#C1A287"
+			new_hair.hair_color = "#C1A287"
+			new_facial.accessory_colors = "#C1A287"
+			new_facial.hair_color = "#C1A287"
+			hair_color = "#C1A287"
+		if(2)
+			new_hair.accessory_colors = "#A56B3D"
+			new_hair.hair_color = "#A56B3D"
+			new_facial.accessory_colors = "#A56B3D"
+			new_facial.hair_color = "#A56B3D"
+			hair_color = "#A56B3D"
+		if(3) //Black
+			new_hair.accessory_colors = "#030107"
+			new_hair.hair_color = "#030107"
+			new_facial.accessory_colors = "#030107"
+			new_facial.hair_color = "#030107"
+			hair_color = "#030107"
+		if(4) //Red
+			new_hair.accessory_colors = "#a53d3d"
+			new_hair.hair_color = "#a53d3d"
+			new_facial.accessory_colors = "#a53d3d"
+			new_facial.hair_color = "#a53d3d"
+			hair_color = "#a53d3d"
+
+	head.add_bodypart_feature(new_hair)
+	head.add_bodypart_feature(new_facial)
+
+	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
+	dna.species.handle_body(src)
+
+	if(organ_eyes)
+		organ_eyes.eye_color = "#336699"
+		organ_eyes.accessory_colors = "#336699#336699"
+
+	if(gender == FEMALE)
+		real_name = pick(world.file2list("strings/names/first_female.txt"))
+	else
+		real_name = pick(world.file2list("strings/names/first_male.txt"))
+	update_hair()
+	update_body()
+	src.regenerate_icons() //Fixes the weird body but lets check performance first
 
 
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	if(prob(50))
-		mask = /obj/item/clothing/mask/rogue/ragmask/red
 	armor = /obj/item/clothing/suit/roguetown/armor/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	if(prob(30)) //30% cloak chance - themed off bandits
+		var/cloak_choice = rand(1, 5)
+		switch(cloak_choice)
+			if(1)
+				cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+			if(2)
+				cloak = /obj/item/clothing/cloak/raincloak/red
+			if(3)
+				cloak = /obj/item/clothing/cloak/raincloak/green
+			if(4)
+				cloak = /obj/item/clothing/cloak/raincloak/blue
+			if(5)
+				cloak = /obj/item/clothing/cloak/raincloak/brown
+	if(prob(50)) //50% MASK, SER MASK OFF, SER MASK
+		var/cloak_choice = rand(1, 3)
+		switch(cloak_choice)
+			if(1)
+				mask = /obj/item/clothing/mask/rogue/ragmask/red
+			if(2)
+				mask = /obj/item/clothing/mask/rogue/ragmask/black
+			if(3)
+				mask = /obj/item/clothing/mask/rogue/skullmask
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	if(prob(50))
 		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
-	pants = /obj/item/clothing/under/roguetown/trou/leather
-	if(prob(50))
-		head = /obj/item/clothing/head/roguetown/helmet/leather
-	if(prob(30))
-		head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
-	if(prob(50))
-		neck = /obj/item/clothing/neck/roguetown/coif
+	if(prob(70)) //70% random helm chance
+		var/helmet_choice = rand(1, 5)
+		switch(helmet_choice)
+			if(1)
+				head = /obj/item/clothing/head/roguetown/helmet/leather
+			if(2)
+				head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
+			if(3)
+				head = /obj/item/clothing/head/roguetown/helmet/tricorn //YARRRGH
+			if(4)
+				head = /obj/item/clothing/head/roguetown/armingcap
+			if(5)
+				head = /obj/item/clothing/head/roguetown/roguehood/red
+	var/neck_choice = rand(1, 2)
+	switch(neck_choice)
+		if(1)
+			neck = /obj/item/clothing/neck/roguetown/coif //SOVL
+		if(2)
+			neck = neck = /obj/item/clothing/neck/roguetown/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
-	H.STASTR = rand(12,14) //GENDER EQUALITY!!
+	H.STASTR = rand(11,14) //random strength
 	H.STASPD = 11
 	H.STACON = 6
 	H.STAWIL = 6
 	H.STAPER = 10
 	H.STAINT = 8
-	if(prob(50))
-		r_hand = /obj/item/rogueweapon/sword/short/iron
-	else
-		r_hand = /obj/item/rogueweapon/mace/cudgel
-	if(prob(20))
-		r_hand = /obj/item/rogueweapon/sword/falchion/militia
-	if(prob(20))
-		r_hand = /obj/item/rogueweapon/pick/militia
-	if(prob(25))
-		l_hand = /obj/item/rogueweapon/shield/wood
-	if(prob(10))
-		l_hand = /obj/item/rogueweapon/shield/buckler/palloy
+	switch(rand(1, 7))
+		if(1)
+			r_hand = /obj/item/rogueweapon/sword/short/iron
+			if(prob(45))
+				l_hand = /obj/item/rogueweapon/shield/wood
+		if(2)
+			r_hand = /obj/item/rogueweapon/mace/cudgel
+			if(prob(25))
+				l_hand = /obj/item/rogueweapon/shield/wood
+
+		if(3)
+			r_hand = /obj/item/rogueweapon/sword/falchion/militia
+			if(prob(20))
+				l_hand = /obj/item/rogueweapon/shield/wood
+		if(4)
+			r_hand = /obj/item/rogueweapon/pick/militia
+			if(prob(35))
+				l_hand = /obj/item/rogueweapon/shield/buckler/palloy
+		if(5)
+			r_hand = /obj/item/rogueweapon/greataxe/militia
+		if(6)
+			l_hand = /obj/item/rogueweapon/woodstaff/militia
+		if(7)
+			r_hand = /obj/item/rogueweapon/huntingknife/idagger
+			if(prob(65)) //More likely but loses upgrade for shield pick
+				l_hand = /obj/item/rogueweapon/shield/buckler/palloy
+
 	if(prob(10))
 		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
-		H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	if(prob(30))
-		neck = /obj/item/clothing/neck/roguetown/leather
-	H.eye_color = "27becc"
-	H.hair_color = "61310f"
-	H.facial_hair_color = H.hair_color
-	if(H.gender == FEMALE)
-		H.hairstyle =  "Messy (Rogue)"
-	else
-		H.hairstyle = "Messy"
-		H.facial_hairstyle = "Beard (Manly)"
+
+	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/staves, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
@@ -108,6 +221,19 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
+	if(prob(30))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(2)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(3)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
 
 /datum/outfit/job/roguetown/human/species/human/northern/mount_reaver/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
@@ -150,14 +276,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	if(prob(25))
 		neck = /obj/item/storage/belt/rogue/pouch/bombs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	H.eye_color = "27becc"
-	H.hair_color = "61310f"
-	H.facial_hair_color = H.hair_color
-	if(H.gender == FEMALE)
-		H.hairstyle =  "Messy (Rogue)"
-	else
-		H.hairstyle = "Messy"
-		H.facial_hairstyle = "Beard (Manly)"
+
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)

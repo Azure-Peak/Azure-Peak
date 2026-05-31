@@ -119,26 +119,80 @@
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
-	if(organ_eyes)
-		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
-	update_hair()
-	update_body()
+	gender = pick(MALE, FEMALE)
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+	var/hairf = pick(list(/datum/sprite_accessory/hair/head/lowbraid,
+						/datum/sprite_accessory/hair/head/countryponytailalt))
+	var/hairm = pick(list(/datum/sprite_accessory/hair/head/ponytailwitcher,
+						/datum/sprite_accessory/hair/head/lowbraid))
+	var/beard = pick(list(/datum/sprite_accessory/hair/facial/stubble,
+						/datum/sprite_accessory/hair/facial/manly,
+						/datum/sprite_accessory/hair/facial/fiveoclockmoustache,
+						/datum/sprite_accessory/hair/facial/sevenoclockm,
+						/datum/sprite_accessory/hair/facial/chinlessbeard,
+						/datum/sprite_accessory/hair/facial/fullbeard,
+						/datum/sprite_accessory/hair/facial/chinstrap,
+						/datum/sprite_accessory/hair/facial/longbeard))
 	head.sellprice = HEAD_BOUNTY_DESERTER
 	AddComponent(/datum/component/npc_death_line, null, 25)
+
+	var/datum/bodypart_feature/hair/head/new_hair = new()
+	var/datum/bodypart_feature/hair/facial/new_facial = new()
+
+	if(gender == FEMALE)
+		new_hair.set_accessory_type(hairf, null, src)
+	else
+		new_hair.set_accessory_type(hairm, null, src)
+		new_facial.set_accessory_type(beard, null, src)
+
+	var/haircolor_choice = rand(1, 4)
+	switch(haircolor_choice)
+		if(1)
+			new_hair.accessory_colors = "#C1A287"
+			new_hair.hair_color = "#C1A287"
+			new_facial.accessory_colors = "#C1A287"
+			new_facial.hair_color = "#C1A287"
+			hair_color = "#C1A287"
+		if(2)
+			new_hair.accessory_colors = "#A56B3D"
+			new_hair.hair_color = "#A56B3D"
+			new_facial.accessory_colors = "#A56B3D"
+			new_facial.hair_color = "#A56B3D"
+			hair_color = "#A56B3D"
+		if(3) //Black
+			new_hair.accessory_colors = "#030107"
+			new_hair.hair_color = "#030107"
+			new_facial.accessory_colors = "#030107"
+			new_facial.hair_color = "#030107"
+			hair_color = "#030107"
+		if(4) //Red
+			new_hair.accessory_colors = "#a53d3d"
+			new_hair.hair_color = "#a53d3d"
+			new_facial.accessory_colors = "#a53d3d"
+			new_facial.hair_color = "#a53d3d"
+			hair_color = "#a53d3d"
+
+	head.add_bodypart_feature(new_hair)
+	head.add_bodypart_feature(new_facial)
+
+	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
+	dna.species.handle_body(src)
+
+	if(organ_eyes)
+		organ_eyes.eye_color = "#336699"
+		organ_eyes.accessory_colors = "#336699#336699"
+
+	if(gender == FEMALE)
+		real_name = pick(world.file2list("strings/names/first_female.txt"))
+	else
+		real_name = pick(world.file2list("strings/names/first_male.txt"))
+	update_hair()
+	update_body()
+	src.regenerate_icons() //Fixes the weird body but lets check performance first
 
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/pre_equip(mob/living/carbon/human/H)
 	..()
-	//Body Stuff
-	H.eye_color = "27becc"
-	H.hair_color = "61310f"
-	H.facial_hair_color = H.hair_color
-	if(H.gender == FEMALE)
-		H.hairstyle =  "Messy (Rogue)"
-	else
-		H.hairstyle = "Messy"
-		H.facial_hairstyle = "Beard (Manly)"
 	//skill Stuff
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE) //NPCs do not get these skills unless a mind takes them over, hopefully in the future someone can fix
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
@@ -190,6 +244,19 @@
 	add_random_deserter_beltl_stuff(H)
 	add_random_deserter_beltr_stuff(H)
 
+	if(prob(30))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(2)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(3)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
+
 /mob/living/carbon/human/species/human/northern/bog_deserters/better_gear
 	ai_controller = /datum/ai_controller/human_npc
 	faction = list(FACTION_BANDITS, FACTION_STATION)
@@ -212,24 +279,10 @@
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters/better_gear)
-	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
-	if(organ_eyes)
-		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
-	update_hair()
-	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = HEAD_BOUNTY_DESERTER
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/better_gear/pre_equip(mob/living/carbon/human/H)
-	//Body Stuff
-	H.eye_color = "27becc"
-	H.hair_color = "61310f"
-	H.facial_hair_color = H.hair_color
-	if(H.gender == FEMALE)
-		H.hairstyle =  "Messy (Rogue)"
-	else
-		H.hairstyle = "Messy"
-		H.facial_hairstyle = "Beard (Manly)"
 	//skill Stuff
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE) //NPCs do not get these skills unless a mind takes them over, hopefully in the future someone can fix
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
@@ -291,24 +344,10 @@
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters/tosser)
-	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
-	if(organ_eyes)
-		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
-	update_hair()
-	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = HEAD_BOUNTY_DESERTER
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/tosser/pre_equip(mob/living/carbon/human/H)
-	//Body Stuff
-	H.eye_color = "27becc"
-	H.hair_color = "61310f"
-	H.facial_hair_color = H.hair_color
-	if(H.gender == FEMALE)
-		H.hairstyle =  "Messy (Rogue)"
-	else
-		H.hairstyle = "Messy"
-		H.facial_hairstyle = "Beard (Manly)"
 	//skill Stuff
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)

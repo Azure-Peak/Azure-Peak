@@ -53,18 +53,32 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 		new_hair.set_accessory_type(hairm, null, src)
 		new_facial.set_accessory_type(beard, null, src)
 
-	if(prob(50))
-		new_hair.accessory_colors = "#C1A287"
-		new_hair.hair_color = "#C1A287"
-		new_facial.accessory_colors = "#C1A287"
-		new_facial.hair_color = "#C1A287"
-		hair_color = "#C1A287"
-	else
-		new_hair.accessory_colors = "#A56B3D"
-		new_hair.hair_color = "#A56B3D"
-		new_facial.accessory_colors = "#A56B3D"
-		new_facial.hair_color = "#A56B3D"
-		hair_color = "#A56B3D"
+	var/haircolor_choice = rand(1, 4)
+	switch(haircolor_choice)
+		if(1)
+			new_hair.accessory_colors = "#C1A287"
+			new_hair.hair_color = "#C1A287"
+			new_facial.accessory_colors = "#C1A287"
+			new_facial.hair_color = "#C1A287"
+			hair_color = "#C1A287"
+		if(2)
+			new_hair.accessory_colors = "#A56B3D"
+			new_hair.hair_color = "#A56B3D"
+			new_facial.accessory_colors = "#A56B3D"
+			new_facial.hair_color = "#A56B3D"
+			hair_color = "#A56B3D"
+		if(3) //Black
+			new_hair.accessory_colors = "#030107"
+			new_hair.hair_color = "#030107"
+			new_facial.accessory_colors = "#030107"
+			new_facial.hair_color = "#030107"
+			hair_color = "#030107"
+		if(4) //Red
+			new_hair.accessory_colors = "#a53d3d"
+			new_hair.hair_color = "#a53d3d"
+			new_facial.accessory_colors = "#a53d3d"
+			new_facial.hair_color = "#a53d3d"
+			hair_color = "#a53d3d"
 
 	head.add_bodypart_feature(new_hair)
 	head.add_bodypart_feature(new_facial)
@@ -82,14 +96,12 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 		real_name = pick(world.file2list("strings/rt/names/human/vikingm.txt"))
 	update_hair()
 	update_body()
-	//src.regenerate_icons() Fixes the weird body but lets check performance first
+	src.regenerate_icons() //Fixes the weird body but lets check performance first
 
 
 /datum/outfit/job/roguetown/human/species/human/northern/searaider/pre_equip(mob/living/carbon/human/H)
-	change_origin(H, /datum/virtue/origin/gronn) //They're literally called "Gronnman" in code.
-
-	belt = /obj/item/storage/belt/rogue/leather //Cosmetic mostly.
-	if(prob(20))
+	belt = /obj/item/storage/belt/rogue/leather //Cosmetic + Holding repair kits for looting mostly.
+	if(prob(15))
 		beltl = /obj/item/repair_kit/bad //So you can get repair kits easier from looting them
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(prob(50))
@@ -127,7 +139,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 			pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 		if(3)
 			pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
-	if(prob(60))
+	if(prob(60)) //60% of a random helmet
 		var/helmet_choice = rand(1, 4)
 		switch(helmet_choice)
 			if(1)
