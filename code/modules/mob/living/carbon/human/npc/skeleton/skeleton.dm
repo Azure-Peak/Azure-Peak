@@ -25,8 +25,9 @@
 /mob/living/carbon/human/species/skeleton/npc/after_creation()
 	..()
 	gender = pick(MALE, FEMALE)
+	dna.species.handle_body(src)
 	update_body()
-	src.regenerate_icons()
+	//src.regenerate_icons() Fixes the weird body but lets check performance first
 
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE

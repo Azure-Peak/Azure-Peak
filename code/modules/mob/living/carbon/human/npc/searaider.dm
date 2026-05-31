@@ -82,44 +82,100 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 		real_name = pick(world.file2list("strings/rt/names/human/vikingm.txt"))
 	update_hair()
 	update_body()
+	//src.regenerate_icons() Fixes the weird body but lets check performance first
 
 
 /datum/outfit/job/roguetown/human/species/human/northern/searaider/pre_equip(mob/living/carbon/human/H)
+	change_origin(H, /datum/virtue/origin/gronn) //They're literally called "Gronnman" in code.
+
+	belt = /obj/item/storage/belt/rogue/leather //Cosmetic mostly.
+	if(prob(20))
+		beltl = /obj/item/repair_kit/bad //So you can get repair kits easier from looting them
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(prob(50))
-		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+		wrists = wrists = /obj/item/clothing/wrists/roguetown/bracers/copper
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	if(prob(50))
-		shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
-	pants = /obj/item/clothing/under/roguetown/tights
-	if(prob(50))
-		pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	head = /obj/item/clothing/head/roguetown/helmet/leather
-	if(prob(50))
-		head = /obj/item/clothing/head/roguetown/helmet/horned
-	if(prob(50))
-		neck = /obj/item/clothing/neck/roguetown/gorget
-	if(prob(50))
-		gloves = /obj/item/clothing/gloves/roguetown/leather
+		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor //We don't want anything that dips below waist, looks bad w/kilt
+	if(prob(20))
+		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
+	var/armor_choice = rand(1, 4)
+	switch(armor_choice)
+		if(1)
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+		if(2)
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
+		if(3)
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
+		if(4)
+			armor = /obj/item/clothing/suit/roguetown/armor/gambeson
+	var/cloak_choice = rand(1, 4)
+	switch(cloak_choice)
+		if(1)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+		if(2)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/black
+		if(3)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak //White
+		if(4)
+			cloak = /obj/item/clothing/cloak/volfmantle
+	var/leg_choice = rand(1, 3)
+	switch(leg_choice)
+		if(1)
+			pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+		if(2)
+			pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
+		if(3)
+			pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
+	if(prob(60))
+		var/helmet_choice = rand(1, 4)
+		switch(helmet_choice)
+			if(1)
+				head = /obj/item/clothing/head/roguetown/helmet/horned //SOVL
+			if(2)
+				head = /obj/item/clothing/head/roguetown/helmet/sallet/iron/banded
+			if(3)
+				head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
+			if(4)
+				head = /obj/item/clothing/head/roguetown/helmet/leather
+	var/neck_choice = rand(1, 3)
+	switch(neck_choice)
+		if(1)
+			neck = /obj/item/clothing/neck/roguetown/gorget //SOVL
+		if(2)
+			neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+		if(3)
+			neck = /obj/item/clothing/neck/roguetown/bevor/iron
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	if(prob(40))
+		gloves = /obj/item/clothing/gloves/roguetown/plate/iron/banded
 	// Stopgap: archer roll removed because the ranged NPC AI is unreliable.
-	switch(rand(1, 4))
+	switch(rand(1, 6))
 		if(1)
 			r_hand = /obj/item/rogueweapon/sword/iron
 			l_hand = /obj/item/rogueweapon/shield/wood
 		if(2)
-			r_hand = /obj/item/rogueweapon/spear
+			r_hand = /obj/item/rogueweapon/stoneaxe/handaxe
+			l_hand = /obj/item/rogueweapon/shield/wood
 		if(3)
-			r_hand = /obj/item/rogueweapon/greataxe
+			r_hand = /obj/item/rogueweapon/spear
 		if(4)
+			r_hand = /obj/item/rogueweapon/greataxe
+		if(5)
 			r_hand = /obj/item/rogueweapon/greatsword/iron
+		if(6) //GRAGGAR, LET ME BE WITNESSED
+			r_hand = /obj/item/rogueweapon/stoneaxe/handaxe/copper
+			l_hand = /obj/item/rogueweapon/stoneaxe/handaxe/copper
+			ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC) //lets them actually use it, not just for show, sire.
 
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
+	if(prob(30))
+		shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	H.STASPD = 9
 	H.STACON = 8
 	H.STAWIL = 8
 	H.STAPER = 10
-	H.STAINT = 1
+	H.STAINT = 4
 	H.STASTR = 14
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
@@ -130,6 +186,9 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
+	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
 
 /mob/living/carbon/human/species/human/northern/searaider/archer
 	ai_controller = /datum/ai_controller/human_npc/archer
