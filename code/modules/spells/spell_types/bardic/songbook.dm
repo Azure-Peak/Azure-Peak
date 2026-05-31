@@ -102,7 +102,7 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 			"known" = (rhythm_path in existing_rhythm_types),
 		))
 
-	var/max_picks = owner?.inspiration?.level >= BARD_T2 ? RHYTHM_PICKS_T2 : RHYTHM_PICKS_T1
+	var/max_picks = (owner?.inspiration?.level >= BARD_T2 ? RHYTHM_PICKS_T2 : RHYTHM_PICKS_T1) + (owner?.inspiration?.bonus_rhythm_picks || 0)
 	data["rhythms"] = rhythm_list
 	data["rhythm_slots_remaining"] = max_picks - existing_rhythm_types.len
 	data["can_unlearn"] = can_unlearn()

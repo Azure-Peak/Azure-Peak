@@ -13,6 +13,7 @@
 						  Busker gains Empath, Deceiving Meekness, and Light Step, with Expert Sneaking, Stealing, Lockpicking, Climbing, and Knives (Parrying Knife).<br>\
 						  Cacophonist gains a bonus rhythm pick (3 total) and song slot (5 total), with Expert Swords and Whips & Flails (Alloy-tipped whip & Arming Sword).<br>\
 						  Boomwhacker gains Expert Pugilist and +1 Strength, with Expert Unarmed and Wrestling (Knuckle dusters).<br>\
+						  Chanter gains T1 miracles (slow Devotion regen), with Journeyman Holy skill.<br>\
 						  Cipher gains one Minor Arcane aspect, five Utility points, and one offensive cantrip of choice."
 	subclass_stats = list(
 		STATKEY_INT = 1,
@@ -46,7 +47,7 @@
 	pants  = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes  = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	belt   = /obj/item/storage/belt/rogue/leather/knifebelt
+	belt   = /obj/item/storage/belt/rogue/leather/knifebelt/black/iron
 	beltr  = /obj/item/rogueweapon/huntingknife/idagger/steel
 	backl  = /obj/item/storage/backpack/rogue/satchel
 	mask   = /obj/item/clothing/mask/rogue/duelmask
@@ -88,7 +89,7 @@
 			if("Flute")
 				backr = /obj/item/rogue/instrument/flute
 
-		var/paths = list("Busker", "Cacophonist", "Boomwhacker", "Cipher")
+		var/paths = list("Busker", "Cacophonist", "Boomwhacker", "Chanter", "Cipher")
 		var/path_choice = input(H, "Choose your genre.", "Choose your genre") as anything in paths
 		switch(path_choice)
 			if("Busker")
@@ -115,6 +116,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling,  SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_STR, 1)
 				gloves = /obj/item/clothing/gloves/roguetown/knuckles
+			if("Chanter")
+				H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				var/datum/devotion/D = new /datum/devotion(H, H.patron)
+				D.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)
 			if("Cipher")
 				ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_JOURNEYMAN, TRUE)
