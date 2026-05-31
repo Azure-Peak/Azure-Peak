@@ -22,6 +22,12 @@
 	skel_fragile = TRUE
 	blood_toll_bucket = STATS_KILLED_DEADITES
 
+/mob/living/carbon/human/species/skeleton/npc/after_creation()
+	..()
+	gender = pick(MALE, FEMALE)
+	update_body()
+	src.regenerate_icons()
+
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE
 
