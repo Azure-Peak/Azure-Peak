@@ -53,6 +53,8 @@
 				used = list('sound/vo/male/gen/groan (1).ogg','sound/vo/male/gen/groan (2).ogg','sound/vo/male/gen/groan (3).ogg','sound/vo/male/gen/groan (4).ogg','sound/vo/male/gen/groan (5).ogg','sound/vo/male/gen/groan (6).ogg')
 			if("grumble")
 				used = 'sound/vo/male/gen/grumble.ogg'
+			if("giggle")
+				used = list('sound/vo/male/gen/giggle (1).ogg','sound/vo/male/gen/giggle (2).ogg')
 			if("haltyell")
 				used = list('sound/vo/male/gen/haltyell (1).ogg','sound/vo/male/gen/haltyell (2).ogg')
 				if(prob(3))

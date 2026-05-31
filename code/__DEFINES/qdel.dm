@@ -9,6 +9,11 @@
 #define QDEL_HINT_FINDREFERENCE	5 //functionally identical to QDEL_HINT_QUEUE if TESTING is not enabled in _compiler_options.dm.
 								  //if TESTING is enabled, qdel will call this object's find_references() verb.
 #define QDEL_HINT_IFFAIL_FINDREFERENCE 6		//Above but only if gc fails.
+
+// Flags on /datum/qdel_item.qdel_flags
+#define QDEL_ITEM_ADMINS_WARNED (1<<0) //! Set when admins are told about lag-causing qdels in this type.
+#define QDEL_ITEM_SUSPENDED_FOR_LAG (1<<1) //! Set when a type can no longer be hard deleted on failure because of lag it causes.
+
 //defines for the gc_destroyed var
 
 // Defines for the ssgarbage queues

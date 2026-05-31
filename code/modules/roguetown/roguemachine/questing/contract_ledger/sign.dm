@@ -94,6 +94,8 @@
 
 	var/datum/quest/completed_quest = scroll.assigned_quest
 	var/quest_levy_exempt = completed_quest.levy_exempt
+	if(completed_quest.source == QUEST_SOURCE_TOWNER && hascall(completed_quest, "on_turn_in_pay_giver"))
+		call(completed_quest, "on_turn_in_pay_giver")(user, get_turf(src))
 	qdel(scroll.assigned_quest)
 	qdel(scroll)
 

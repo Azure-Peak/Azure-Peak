@@ -270,6 +270,8 @@ All foods are distributed among various categories. Use common sense.
 	if (ishuman(eater))
 		var/mob/living/carbon/human/human_eater = eater
 		if(human_eater.culinary_preferences)
+			if(HAS_TRAIT(human_eater, TRAIT_ROTMAN)||HAS_TRAIT(human_eater, TRAIT_IRONMAN))
+				return
 			var/favorite_food_type = human_eater.culinary_preferences[CULINARY_FAVOURITE_FOOD]
 			if(favorite_food_type == type)
 				if(human_eater.add_stress(/datum/stressevent/favourite_food))

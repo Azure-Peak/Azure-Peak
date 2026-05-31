@@ -34,6 +34,8 @@
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	attunement_school = ASPECT_NAME_KINESIS
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 /obj/projectile/magic/greater_arcyne_bolt
 	name = "greater arcyne bolt"
 	icon = 'icons/obj/magic_projectiles.dmi'

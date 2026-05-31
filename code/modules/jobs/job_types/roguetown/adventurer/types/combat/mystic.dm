@@ -55,7 +55,7 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	
 	if(H.mind)
-		var/weapons = list("lesser staff", "lesser wand", "Quarterstaff")
+		var/weapons = list("lesser staff", "lesser wand", "quarterstaff")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("lesser staff")

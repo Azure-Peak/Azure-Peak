@@ -15,6 +15,19 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	var/filter_status = "all"
 	var/filter_search = ""
 	var/selected_ref
+	var/cached_uncategorized_count = -1
+	var/cached_total_item_count = -1
+
+/datum/economic_panel/proc/refresh_uncategorized_cache()
+	var/uncat = 0
+	var/total = 0
+	for(var/obj/item/path as anything in subtypesof(/obj/item))
+		total++
+		if(GLOB.derived_categories && GLOB.derived_categories[path])
+			continue
+		uncat++
+	cached_uncategorized_count = uncat
+	cached_total_item_count = total
 
 /datum/economic_panel/ui_state(mob/user)
 	if(user.client && check_rights_for(user.client, R_ADMIN|R_DEBUG))
@@ -88,6 +101,29 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			"ref" = "\ref[B]",
 		))
 	data["blockades"] = blockades
+
+	var/list/blockade_region_options = list()
+	for(var/region_id in GLOB.economic_regions)
+		var/datum/economic_region/ER = GLOB.economic_regions[region_id]
+		if(!ER.threat_region_id)
+			continue
+		blockade_region_options += list(list(
+			"id" = region_id,
+			"name" = ER.name,
+			"blockaded" = ER.is_region_blockaded ? TRUE : FALSE,
+		))
+	data["blockade_region_options"] = blockade_region_options
+
+	var/list/blockade_faction_options = list()
+	for(var/fid in GLOB.quest_factions)
+		var/datum/quest_faction/F = GLOB.quest_factions[fid]
+		if(!F.can_blockade)
+			continue
+		blockade_faction_options += list(list(
+			"id" = fid,
+			"name" = F.name_plural,
+		))
+	data["blockade_faction_options"] = blockade_faction_options
 
 	var/list/assembly = list()
 	if(SScity_assembly)
@@ -164,6 +200,52 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	bankruptcy["daily_payroll_total"] = payroll_total
 	data["bankruptcy"] = bankruptcy
 
+	var/list/foreign_trade = list()
+	var/list/realms_data = list()
+	if(SSmerchant_trade)
+		for(var/realm_id in SSmerchant_trade.realms)
+			var/datum/foreign_realm/R = SSmerchant_trade.realms[realm_id]
+			realms_data += list(list(
+				"id" = R.id,
+				"name" = R.name,
+				"cultural_goods_count" = length(R.cultural_goods),
+				"bulk_demand_count" = length(R.bulk_demand_pool_base) + length(R.bulk_demand_modifiers),
+				"bulk_supply_count" = length(R.bulk_supply_pool_base) + length(R.bulk_supply_modifiers),
+			))
+		var/list/ships_data = list()
+		for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
+			ships_data += list(list(
+				"ship_id" = ship.ship_id,
+				"realm_id" = ship.realm_id,
+				"ship_name" = ship.ship_name,
+				"captain_name" = ship.captain_name,
+				"ship_type" = ship.ship_type,
+				"tonnage" = ship.tonnage,
+				"expected_favor" = ship.expected_favor,
+				"dock_state" = ship.dock_state,
+				"favor_earned" = ship.favor_earned,
+			))
+		foreign_trade["ships"] = ships_data
+	foreign_trade["realms"] = realms_data
+	var/list/market_pools_data = list()
+	if(SSmerchant_trade)
+		for(var/cat in SSmerchant_trade.pool_capacity)
+			var/cap = SSmerchant_trade.pool_capacity[cat]
+			var/consumed = SSmerchant_trade.pool_consumed[cat] || 0
+			var/demand = SSmerchant_trade.pending_ship_demand[cat] || 0
+			market_pools_data += list(list(
+				"category" = cat,
+				"capacity" = cap,
+				"consumed" = consumed,
+				"saturation_pct" = cap > 0 ? round((consumed / cap) * 100) : 0,
+				"pending_demand" = demand,
+				"demand_pct" = cap > 0 ? round((demand / cap) * 100) : 0,
+				"demand_mult" = SSmerchant_trade.get_demand_multiplier(cat),
+			))
+	foreign_trade["market_pools"] = market_pools_data
+	foreign_trade["market_pop_snapshot"] = SSmerchant_trade ? SSmerchant_trade.pool_pop_snapshot : 0
+	data["foreign_trade"] = foreign_trade
+
 	// Aggregation tallies the full ledger so cap-exceeding history still shows up in the
 	// inflow/outflow totals; only the displayed rows are capped to keep the payload bounded.
 	var/list/ledger_serialized = list()
@@ -198,6 +280,13 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	data["ledger_full_minted"] = full_minted
 	data["ledger_full_burned"] = full_burned
 
+	var/list/debug_data = list()
+	debug_data["derived_price_count"] = length(GLOB.derived_sellprices)
+	debug_data["categorized_count"] = length(GLOB.derived_categories)
+	debug_data["uncategorized_item_count"] = cached_uncategorized_count
+	debug_data["total_item_count"] = cached_total_item_count
+	data["debug"] = debug_data
+
 	return data
 
 /datum/economic_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -227,6 +316,12 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SStreasury.tick_burgher_pledge()
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
+			for(var/mob/living/carbon/human/H in GLOB.human_list)
+				var/datum/charflaw/indebted/I = locate(/datum/charflaw/indebted) in H.charflaws
+				if(!I || !I.is_active)
+					continue
+				I.next_alimony = 0
+				I.calculate_childsupport(H)
 			admin_log_fiscal("advanced the day to [GLOB.dayspassed] (full daily tick)", "Advance Day")
 			return TRUE
 		if("fire_rural_tick")
@@ -259,6 +354,11 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				SSeconomy.daily_tick()
 				admin_log_fiscal("forced economy daily tick (regenerated produces/demands, rolled orders, rolled events)", "Fire Economy Tick")
 			return TRUE
+		if("fire_brassface_tick")
+			if(SSBMtreasury)
+				var/amt = SSBMtreasury.tick_vault_income()
+				admin_log_fiscal("fired BRASSFACE vault tick (+[amt]m to budget)", "Fire BRASSFACE Tick")
+			return TRUE
 		if("set_simulated_population")
 			if(!SSeconomy)
 				return TRUE
@@ -277,6 +377,28 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				admin_log_fiscal("rolled a blockade on [ER ? ER.name : B.region_id] ([B.faction_id])", "Fire Blockade Roll")
 			else
 				to_chat(usr, span_warning("No eligible region available to blockade."))
+			return TRUE
+		if("place_blockade")
+			if(!SSeconomy)
+				return TRUE
+			var/region_id = params["region_id"]
+			if(!region_id || !GLOB.economic_regions[region_id])
+				to_chat(usr, span_warning("Pick a region to blockade."))
+				return TRUE
+			if(SSeconomy.find_blockade_for_region(region_id))
+				to_chat(usr, span_warning("That region is already blockaded."))
+				return TRUE
+			var/datum/economic_region/ER = GLOB.economic_regions[region_id]
+			var/fid = params["faction_id"]
+			if(!fid)
+				var/datum/threat_region/TR = SSregionthreat.get_region(ER.threat_region_id)
+				fid = SSeconomy.pick_blockade_faction_for(TR)
+			if(!fid)
+				to_chat(usr, span_warning("No eligible faction for that region - pick one explicitly."))
+				return TRUE
+			var/datum/blockade/B = SSeconomy.place_blockade(region_id, fid)
+			if(B)
+				admin_log_fiscal("placed a blockade on [ER.name] ([fid])", "Place Blockade")
 			return TRUE
 		if("clear_blockade")
 			if(!SSeconomy)
@@ -301,6 +423,15 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				return TRUE
 			SStreasury.burn(SStreasury.discretionary_fund, amt, "Lost in Transit")
 			admin_log_fiscal("burned [amt]m from Crown's Purse", "Burn Crown's Purse")
+			return TRUE
+		if("adjust_merchant_favor")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/amt = text2num(params["amount"])
+			if(!isnum(amt) || amt == 0)
+				return TRUE
+			SSmerchant_trade.adjust_merchant_favor(amt)
+			admin_log_fiscal("adjusted Merchant favor by [amt] (now [SSmerchant_trade.merchant_favor], high [SSmerchant_trade.merchant_favor_high])", "Adjust Merchant Favor")
 			return TRUE
 		if("toggle_charter")
 			var/datum/decree/D = SStreasury.get_decree(params["decree_id"])
@@ -520,6 +651,53 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				count++
 			admin_log_fiscal("bulk-cleared poll-tax debt for [count] players (filter cat=[filter_category] status=[filter_status])", "Bulk Clear Debt")
 			return TRUE
+		if("spawn_trade_ship")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/realm_id = "[params["realm_id"]]"
+			var/datum/trade_ship/ship = SSmerchant_trade.generate_ship(realm_id)
+			if(ship)
+				admin_log_fiscal("spawned a [realm_id] trade ship: [ship.ship_name] (Captain [ship.captain_name], expected favor [ship.expected_favor])", "Spawn Trade Ship")
+			else
+				to_chat(usr, span_warning("Could not spawn ship - realm unknown or undiscovered."))
+			return TRUE
+		if("clear_trade_ships")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/cleared = length(SSmerchant_trade.all_ships)
+			for(var/datum/trade_ship/ship as anything in SSmerchant_trade.all_ships)
+				qdel(ship)
+			SSmerchant_trade.all_ships.Cut()
+			admin_log_fiscal("cleared [cleared] trade ships from the pool", "Clear Trade Ships")
+			return TRUE
+		if("reroll_trade_ships")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/cleared = length(SSmerchant_trade.all_ships)
+			for(var/datum/trade_ship/ship as anything in SSmerchant_trade.all_ships)
+				qdel(ship)
+			SSmerchant_trade.all_ships.Cut()
+			SSmerchant_trade.roll_daily_pool()
+			admin_log_fiscal("rerolled the daily ship pool (cleared [cleared], rolled [length(SSmerchant_trade.all_ships)] new)", "Reroll Trade Ships")
+			return TRUE
+		if("regen_hails")
+			if(!SSmerchant_trade)
+				return TRUE
+			SSmerchant_trade.hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
+			admin_log_fiscal("regenerated Merchant hails to [TRADE_SHIPS_HAIL_PER_DAY]", "Regen Hails")
+			return TRUE
+		if("force_auto_hail")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/result = SSmerchant_trade.force_auto_hail()
+			switch(result)
+				if("ok")
+					admin_log_fiscal("forced an auto-hail", "Force Auto-Hail")
+				if("no_dock_spots")
+					to_chat(usr, span_warning("No dock spots free - send a ship away first."))
+				if("no_ships")
+					to_chat(usr, span_warning("No available ships in the pool to hail."))
+			return TRUE
 		if("bulk_add_advance")
 			var/days = text2num(params["days"]) || 1
 			var/list/matches = SStreasury.compute_filtered_players(filter_category, filter_status, filter_search)
@@ -532,6 +710,104 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				count++
 			admin_log_fiscal("bulk-added [days] advance days to [count] players", "Bulk Add Advance")
 			return TRUE
+		if("dump_pricing_audits")
+			run_pricing_audits_runtime()
+			refresh_uncategorized_cache()
+			admin_log_fiscal("re-ran pricing engine with audit dumps (CSVs at project root)", "Dump Pricing Audits")
+			to_chat(usr, span_notice("Pricing audit CSVs written to project root (pricing_engine_*.csv)."))
+			return TRUE
+		if("dump_uncategorized_items")
+			dump_uncategorized_items_audit()
+			refresh_uncategorized_cache()
+			admin_log_fiscal("dumped uncategorized item audit (project root)", "Dump Uncategorized")
+			to_chat(usr, span_notice("Wrote pricing_engine_uncategorized_audit.csv."))
+			return TRUE
+		if("refresh_debug_counts")
+			refresh_uncategorized_cache()
+			return TRUE
+		if("spawn_atoms_from_paste")
+			if(!check_rights_for(usr.client, R_SPAWN))
+				to_chat(usr, span_warning("You need +SPAWN permissions for this."))
+				return TRUE
+			var/raw = params["paste"]
+			if(!raw)
+				return TRUE
+			var/turf/T = get_turf(usr)
+			if(!T)
+				return TRUE
+			var/list/lines = splittext(raw, "\n")
+			var/spawned = 0
+			var/skipped = 0
+			for(var/line in lines)
+				var/trimmed = trim(line)
+				if(!length(trimmed))
+					continue
+				var/list/parts = splittext(trimmed, ":")
+				var/path_text = trim(parts[1])
+				var/amount = 1
+				if(parts.len > 1)
+					amount = CLAMP(text2num(parts[2]), 1, ADMIN_SPAWN_CAP)
+				var/chosen = pick_closest_path(path_text)
+				if(!chosen || !ispath(chosen, /atom))
+					skipped++
+					continue
+				for(var/i in 1 to amount)
+					var/atom/A = new chosen(T)
+					A.flags_1 |= ADMIN_SPAWNED_1
+					spawned++
+			admin_log_fiscal("paste-spawned [spawned] atoms ([skipped] lines skipped)", "Spawn From Paste")
+			return TRUE
+		if("spawn_all_subtypes")
+			if(!check_rights_for(usr.client, R_SPAWN))
+				to_chat(usr, span_warning("You need +SPAWN permissions for this."))
+				return TRUE
+			var/path_text = params["parent_path"]
+			if(!path_text)
+				return TRUE
+			var/parent_path = text2path(path_text)
+			if(!parent_path || !ispath(parent_path))
+				to_chat(usr, span_warning("Not a valid typepath: [path_text]"))
+				return TRUE
+			var/turf/T = get_turf(usr)
+			if(!T)
+				return TRUE
+			var/list/subs = subtypesof(parent_path)
+			if(!length(subs))
+				to_chat(usr, span_warning("No subtypes of [parent_path]."))
+				return TRUE
+			var/spawned = 0
+			for(var/atom/sub as anything in subs)
+				var/atom/A = new sub(T)
+				A.flags_1 |= ADMIN_SPAWNED_1
+				spawned++
+			admin_log_fiscal("spawned [spawned] subtypes of [parent_path]", "Spawn All Subtypes")
+			return TRUE
+		if("dump_chronicle_stats")
+			var/path = dump_chronicle_stats()
+			admin_log_fiscal("dumped chronicle stats to [path]", "Dump Chronicle Stats")
+			to_chat(usr, span_notice("Chronicle stats written to [path]."))
+			return TRUE
+		if("download_chronicle_this_week")
+			chronicle_download_for_admin(usr, chronicle_stats_current_path())
+			return TRUE
+		if("download_chronicle_last_week")
+			chronicle_download_for_admin(usr, chronicle_stats_previous_week_path())
+			return TRUE
+
+/proc/chronicle_download_for_admin(mob/admin, path)
+	if(!admin || !admin.client)
+		return
+	if(!fexists(path))
+		to_chat(admin, span_warning("No chronicle file at [path] yet."))
+		return
+	var/size = length(file2text(file(path)))
+	if(size > CHRONICLE_STATS_DOWNLOAD_LIMIT_BYTES)
+		to_chat(admin, span_warning("Chronicle file [path] is [size] bytes - over the [CHRONICLE_STATS_DOWNLOAD_LIMIT_BYTES]-byte limit. Trim or fetch directly from the server."))
+		return
+	message_admins("[key_name_admin(admin)] is downloading chronicle stats: [path]")
+	log_admin("[key_name(admin)] downloaded chronicle stats: [path]")
+	admin.client << ftp(file(path))
+	to_chat(admin, span_notice("Sending [path] - this may take a moment for large files."))
 
 /proc/admin_log_fiscal(detail, tally_label)
 	log_admin("[key_name(usr)] [detail]")

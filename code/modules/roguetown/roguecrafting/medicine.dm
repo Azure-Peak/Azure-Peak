@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/survival/cheele
 	name = "cheele"
+	display_category = ITEM_CAT_POTION
 	result = list(
 		/obj/item/natural/worms/leech/cheele
 		)
@@ -12,6 +13,7 @@
 
 /datum/crafting_recipe/roguetown/survival/purify_lux
 	name = "purify lux"
+	display_category = ITEM_CAT_POTION
 	result = list(
 		/obj/item/heart_blood_canister,
 		/obj/item/reagent_containers/lux,
@@ -25,6 +27,7 @@
 
 /datum/crafting_recipe/roguetown/survival/purify_lux_vials
 	name = "purify lux (vials)"
+	display_category = ITEM_CAT_POTION
 	result = list(
 		/obj/item/reagent_containers/lux,
 		/obj/item/heart_blood_vial,
@@ -40,6 +43,7 @@
 
 /datum/crafting_recipe/roguetown/survival/bandage
 	name = "bandages (medicine)"
+	display_category = ITEM_CAT_TOOLS_SUNDRIES
 	result = list(
 		/obj/item/natural/cloth/bandage
 	)

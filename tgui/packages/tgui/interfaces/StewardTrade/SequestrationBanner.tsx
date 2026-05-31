@@ -24,7 +24,6 @@ export const SequestrationBanner = (props: {
           right: '8px',
           fontSize: '10px',
           fontStyle: 'italic',
-          letterSpacing: '0',
           fontVariant: 'normal',
           color: SEAL_RED,
           opacity: 0.7,
@@ -36,13 +35,12 @@ export const SequestrationBanner = (props: {
         style={{
           fontSize: '18px',
           fontWeight: 'bold',
-          letterSpacing: '4px',
           marginBottom: '4px',
         }}
       >
         SEQUESTRATION DECLARED
       </div>
-      <div style={{ fontStyle: 'italic', fontVariant: 'normal' }}>
+      <div style={{ fontVariant: 'normal' }}>
         Following the Crown&apos;s default, the Azurian Trading Company holds
         the sequestered revenues of the realm and farms the customs and salt
         tolls in perpetuity until the {sequestration.debt}m debt is repaid.

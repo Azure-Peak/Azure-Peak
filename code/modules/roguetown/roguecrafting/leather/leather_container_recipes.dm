@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/leather/container
 	abstract_type = /datum/crafting_recipe/roguetown/leather/container
+	display_category = ITEM_CAT_TAILOR_MISC
 	category = "Container"
 
 /datum/crafting_recipe/roguetown/leather/container/pouch

@@ -205,7 +205,8 @@
 				/datum/species/goblinp,
 				/datum/species/moth,			//They are from the Underdark. source: moth.dm
 				/datum/species/anthromorphsmall,
-				/datum/species/dullahan
+				/datum/species/dullahan,
+				/datum/species/ooze,
 )
 	origin_desc = "Underdwellers are those who are descendants of their lengthy lineage that settled, lived and toiled in the darkest and deepest \
 	of depths of the vast, deadly Underdark a millennia ago. When one speaks of a 'Underdweller',a dark elf first comes to mynd, though despite them\

@@ -163,6 +163,8 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/tame_undead)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
+		// This is probably a bad idea, but let's live a little.
+		H.mind.AddSpell(new /datum/action/cooldown/spell/summon_terrorhog)
 	H.ambushable = FALSE
 	H.dna.species.soundpack_m = new /datum/voicepack/other/lich()
 
@@ -355,3 +357,113 @@
 		skele.current.playsound_local(get_turf(A.owner), 'sound/misc/deadbell.ogg', 50, FALSE)
 
 	..()
+
+/datum/action/cooldown/spell/summon_terrorhog
+	name = "Summon Terrorhog"
+	desc = "First cast allows you to name your very own, loyal Terrorhog. Second cast lets you summon a Terrorhog. This is a single use spell when uses to summon. Beware, drooling feral hogs do not cease their rampage until they are dead, and cannot be leashed properly."
+	button_icon = 'icons/mob/actions/classuniquespells/lichspells.dmi'
+	button_icon_state = "hog"
+
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = FALSE
+	cooldown_time = 10 SECONDS
+	charge_time = 2 SECONDS
+	associated_skill = /datum/skill/magic/holy
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_STAT_BUFF
+	spell_color = "#330000"
+	var/hog_name = ""
+
+/datum/action/cooldown/spell/summon_terrorhog/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/caster = owner
+	if(!caster)
+		return FALSE
+
+	if(hog_name == "")
+		var/input_name = tgui_input_text(caster, "What name do you name your loyal pet?", "Name Your Terrorhog", max_length = MAX_NAME_LEN)
+		if(!input_name || QDELETED(src) || QDELETED(caster) || owner != caster)
+			return FALSE
+		hog_name = sanitize_name(input_name)
+		name = "Summon [hog_name]"
+		desc = "Call your bound beast, [hog_name], forth into reality with a significant delay. This will consume the spell. Beware, drooling feral hogs do not cease their rampage until they are dead, and cannot be leashed properly."
+		to_chat(caster, span_notice("You may now cast the spell again on the ground to manifest [hog_name]."))
+		return TRUE
+
+	var/turf/target_turf = get_turf(cast_on)
+	if(!target_turf || istransparentturf(target_turf) || is_blocked_turf(target_turf))
+		to_chat(caster, span_warning("You must target solid ground to anchor the ritual!"))
+		return FALSE
+
+	caster.visible_message(span_danger("[caster] begins chanting a deep, primal incantation as lightning arcs nearby!"))
+	new /obj/structure/terrorhog_summon_rune(target_turf, hog_name)
+
+	addtimer(CALLBACK(src, .proc/self_consume, caster), 1)
+	return TRUE
+
+/datum/action/cooldown/spell/summon_terrorhog/proc/self_consume(mob/living/L)
+	if(L?.mind)
+		L.mind.RemoveSpell(src)
+
+/obj/structure/terrorhog_summon_rune
+	name = "pulsating rune"
+	desc = "A violently vibrating runic inscription channeling deep earth energy."
+	icon = 'icons/roguetown/misc/rituals.dmi'
+	icon_state = "zizo_active"
+	anchored = TRUE
+	layer = BELOW_OBJ_LAYER
+	density = FALSE
+	light_outer_range = 3
+	light_color = LIGHT_COLOR_BLUE
+	var/stored_hog_name = "Terrorhog"
+
+/obj/structure/terrorhog_summon_rune/Initialize(mapload, name_to_assign)
+	. = ..()
+	if(name_to_assign)
+		stored_hog_name = name_to_assign
+
+	playsound(src, 'sound/magic/lightning.ogg', 80, TRUE)
+	src.visible_message(span_userdanger("A glowing, pulsating rune etches itself into the ground. Reality cracks visibly around it! Something is coming!"))
+	new /obj/effect/temp_visual/hunting_phantom/terrorhog_bound(src.loc, stored_hog_name, src)
+
+/obj/effect/temp_visual/hunting_phantom/terrorhog_bound
+	name = "approaching horror"
+	desc = "A massive abomination approaches"
+	spawn_delay = 12 SECONDS
+	skip_parent_call = TRUE
+	var/assigned_beast_name = ""
+	var/obj/structure/terrorhog_summon_rune/linked_rune
+
+/obj/effect/temp_visual/hunting_phantom/terrorhog_bound/Initialize(mapload, incoming_name, obj/structure/terrorhog_summon_rune/source_rune)
+	. = ..()
+	assigned_beast_name = incoming_name
+	linked_rune = source_rune
+	var/mob/living/path_cast = /mob/living/carbon/human/species/wildshape/terrorhog
+	src.icon = initial(path_cast.icon)
+	src.icon_state = initial(path_cast.icon_state)
+	src.pixel_x = initial(path_cast.pixel_x)
+	src.pixel_y = initial(path_cast.pixel_y)
+	src.color = "#777777" 
+	animate(src, alpha = 200, time = spawn_delay, easing = EASE_IN)
+	playsound(src, 'sound/misc/jumpscare (4).ogg', 50, TRUE)
+	addtimer(CALLBACK(src, PROC_REF(finalize_spawn_terrorhog)), spawn_delay)
+
+/obj/effect/temp_visual/hunting_phantom/terrorhog_bound/proc/finalize_spawn_terrorhog()
+	var/turf/spawn_tile = get_turf(src)
+	if(spawn_tile)
+		var/mob/living/carbon/human/species/wildshape/terrorhog/H = new(spawn_tile)
+		if(istype(H))
+			if(assigned_beast_name != "")
+				addtimer(CALLBACK(src, PROC_REF(apply_name_async), H, assigned_beast_name), 11)
+			H.faction |= FACTION_UNDEAD
+		spawn_tile.visible_message(span_boldwarning("With a horrid squeal, the [H.name] lunges out from the shadows!"))
+		playsound(spawn_tile, 'sound/items/seedextract.ogg', 100, TRUE)
+	if(linked_rune)
+		qdel(linked_rune)
+
+/obj/effect/temp_visual/hunting_phantom/terrorhog_bound/proc/apply_name_async(mob/living/carbon/human/species/wildshape/terrorhog/H, name_to_set)
+	if(QDELETED(H))
+		return
+	H.real_name = name_to_set
+	H.name = name_to_set
+	qdel(src)

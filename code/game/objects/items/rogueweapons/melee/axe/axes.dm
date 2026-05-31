@@ -142,7 +142,6 @@
 	embedding = list("embedded_pain_multiplier" = 6, "embed_chance" = 50, "embedded_fall_chance" = 30) //high chance at embed, high chance to fall out on its own.
 	possible_item_intents = list(/datum/intent/axe/chop/stone)
 	gripped_intents = null
-	sellprice = 1
 	thrown_damage_flag = "piercing"		//Checks piercing type like an arrow.
 
 /obj/item/rogueweapon/stoneaxe/hurlbat/getonmobprop(tag)
@@ -293,8 +292,8 @@
 	civilization. Such makes it a favorite amongst the nobility of both Naledi and Ranenshen."
 	max_integrity = 300
 	smeltresult = /obj/item/ingot/gold
-	sellprice = 100
 	wdefense = 5
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 	name = "ancient alloy axe"
@@ -640,7 +639,7 @@
 	force = 15
 	force_wielded = 35
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/sweep)
+	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/chop/heavy, /datum/intent/axe/sweep)
 	name = "double-headed steel greataxe"
 	desc = "A large axe with a twinned axhead of steel, requiring both hands to properly swing. It carves, chops, and cleaves from \
 	afar. </br>'Crush your enemies, see them driven before you, and hear the lamentations of the women..'"

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Section, Stack } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
@@ -26,6 +26,7 @@ export type RecipeBookData = {
   current_book_title: string;
   current_recipe: string | null;
   recipe_detail_html: string;
+  initial_category?: string;
 };
 
 export const RecipeBook = () => {
@@ -138,7 +139,11 @@ const LibraryPage = () => {
 
 const BookPage = () => {
   const { data, act } = useBackend<RecipeBookData>();
-  const [category, setCategory] = useState('All');
+  const [category, setCategory] = useState(data.initial_category || 'All');
+
+  useEffect(() => {
+    setCategory(data.initial_category || 'All');
+  }, [data.current_book, data.initial_category]);
 
   const recipes = data.current_book
     ? (data.book_recipes[data.current_book] || [])

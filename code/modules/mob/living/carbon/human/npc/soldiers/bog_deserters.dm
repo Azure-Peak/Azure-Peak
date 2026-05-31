@@ -124,7 +124,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 50 // Big sellprice for these guys since they're deserters
+	head.sellprice = HEAD_BOUNTY_DESERTER
 	AddComponent(/datum/component/npc_death_line, null, 25)
 
 
@@ -218,7 +218,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 50 // Big sellprice for these guys since they're deserters
+	head.sellprice = HEAD_BOUNTY_DESERTER
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/better_gear/pre_equip(mob/living/carbon/human/H)
 	//Body Stuff
@@ -297,7 +297,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 50
+	head.sellprice = HEAD_BOUNTY_DESERTER
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/tosser/pre_equip(mob/living/carbon/human/H)
 	//Body Stuff
@@ -369,7 +369,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 50
+	head.sellprice = HEAD_BOUNTY_DESERTER
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/tosser/better_gear/pre_equip(mob/living/carbon/human/H)
 	//Body Stuff

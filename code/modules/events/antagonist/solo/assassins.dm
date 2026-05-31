@@ -69,16 +69,26 @@
 	assassin_job.total_positions = length(setup_minds)
 	assassin_job.spawn_positions = length(setup_minds)
 	for(var/datum/mind/antag_mind as anything in setup_minds)
-		var/datum/job/J = SSjob.GetJob(antag_mind.current?.job)
+		var/mob/living/carbon/human/H = antag_mind.current
+		if(!H)
+			continue
+		var/datum/job/J = SSjob.GetJob(H.job)
 		J?.current_positions = max(J?.current_positions-1, 0)
-		antag_mind.current.unequip_everything()
-		SSjob.AssignRole(antag_mind.current, "Assassin")
-		SSmapping.retainer.assassins |= antag_mind.current
+
+		if(H.client)
+			var/datum/class_select_handler/stale = SSrole_class_handler.class_select_handlers[H.client.ckey]
+			if(stale)
+				SSrole_class_handler.class_select_handlers.Remove(H.client.ckey)
+				qdel(stale)
+
+		H.unequip_everything()
+		SSjob.AssignRole(H, "Assassin")
+		SSmapping.retainer.assassins |= H
 		antag_mind.add_antag_datum(/datum/antagonist/assassin)
 
-		SSrole_class_handler.setup_class_handler(antag_mind.current, list(CTAG_ASSASSIN = 20))
-		antag_mind.current:advsetup = TRUE
-		antag_mind.current.hud_used?.set_advclass()
+		SSrole_class_handler.setup_class_handler(H, list(CTAG_ASSASSIN = 20))
+		H.advsetup = TRUE
+		H.hud_used?.set_advclass()
 
 	SSrole_class_handler.assassins_in_round = TRUE
 
@@ -87,6 +97,6 @@
 	for(var/mob/living/carbon/human/player as anything in GLOB.human_list)
 		if(!player.mind || !player.client)
 			continue
-		if(player.has_flaw(/datum/charflaw/hunted))
+		if(player.has_flaw(/datum/charflaw/hunted) && (player.job in GLOB.hunted_protected_roles))
 			count++
 	return count

@@ -68,7 +68,7 @@
 		var/is_hunted = L.has_flaw(/datum/charflaw/hunted)
 		// Don't uncomment for now
 		// var/target_role = L.job
-		var/is_valid_prey = is_hunted
+		var/is_valid_prey = is_hunted && (!(L.job in GLOB.hunted_protected_roles))
 		// if(!is_valid_prey)
 		// 	if(target_role in combat_roles)
 		// 		is_valid_prey = TRUE
@@ -174,7 +174,7 @@
 
 	// Determine Channel Time
 	var/channel_time = 15 SECONDS
-	if(target.has_flaw(/datum/charflaw/hunted))
+	if(target.has_flaw(/datum/charflaw/hunted) && !(target.job in GLOB.hunted_protected_roles))
 		channel_time = 6 SECONDS
 
 	to_chat(user, span_notice("You begin pulling [target] into graggar's plane"))

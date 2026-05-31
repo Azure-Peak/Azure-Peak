@@ -51,7 +51,6 @@ export const PetitionView = (props: { data: Data }) => {
           color: INK_SOFT,
           fontSize: '12px',
           marginBottom: '10px',
-          fontStyle: 'italic',
           lineHeight: '1.5em',
         }}
       >
@@ -111,9 +110,8 @@ export const PetitionView = (props: { data: Data }) => {
       <div
         style={{
           marginTop: '14px',
-          color: INK_FAINT,
-          fontSize: '11px',
-          fontStyle: 'italic',
+          color: INK_SOFT,
+          fontSize: '12px',
           lineHeight: '1.5em',
         }}
       >
@@ -234,9 +232,7 @@ const RegionPicker = (props: {
           </span>
           <span style={badgeStyle(SEAL_AMBER)}>{category.cost}p</span>
         </div>
-        <div
-          style={{ color: INK_SOFT, fontSize: '12px', fontStyle: 'italic' }}
-        >
+        <div style={{ color: INK_SOFT, fontSize: '12px' }}>
           {category.description}
         </div>
       </div>

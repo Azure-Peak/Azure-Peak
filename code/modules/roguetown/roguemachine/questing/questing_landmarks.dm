@@ -2,7 +2,7 @@
 	name = "quest landmark"
 	icon = 'code/modules/roguetown/roguemachine/questing/questing.dmi'
 	icon_state = "quest_marker"
-	var/list/quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_KILL_EASY, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_BLOCKADE_DEFENSE)
+	var/list/quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_KILL_EASY, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_BLOCKADE_DEFENSE, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN)
 	var/region
 	var/datum/weakref/claimed_by
 	var/locked_at = 0
@@ -53,26 +53,12 @@
 /obj/effect/landmark/quest_spawner/generic
 	name = "generic quest landmark"
 	icon_state = "quest_marker_low"
-	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_BLOCKADE_DEFENSE)
+	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_BLOCKADE_DEFENSE, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN)
 
 /obj/effect/landmark/quest_spawner/defense
 	name = "defense quest landmark"
 	icon_state = "quest_marker_high"
 	quest_type = list(QUEST_BLOCKADE_DEFENSE)
-
-// Easy / Medium / Hard spawner will be phased out, so we have no override (
-// Every quest is eligible)
-/obj/effect/landmark/quest_spawner/easy
-	name = "easy quest landmark"
-	icon_state = "quest_marker_low"
-
-/obj/effect/landmark/quest_spawner/medium
-	name = "medium quest landmark"
-	icon_state = "quest_marker_mid"
-
-/obj/effect/landmark/quest_spawner/hard
-	name = "hard quest landmark"
-	icon_state = "quest_marker_high"
 
 /obj/effect/landmark/quest_spawner/proc/is_available_for_quest()
 	if(claimed_by?.resolve())
@@ -104,7 +90,7 @@
 		if(length(region_matches))
 			picked = pick(region_matches)
 
-	if(!picked)
+	if(!picked && !region)
 		var/list/type_matches = list()
 		for(var/obj/effect/landmark/quest_spawner/landmark as anything in candidates)
 			if(QDELETED(landmark))
@@ -117,7 +103,7 @@
 		if(length(type_matches))
 			picked = pick(type_matches)
 
-	if(!picked)
+	if(!picked && !region)
 		var/list/any_type_match = list()
 		for(var/obj/effect/landmark/quest_spawner/landmark as anything in candidates)
 			if(QDELETED(landmark))

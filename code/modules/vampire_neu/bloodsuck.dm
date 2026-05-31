@@ -122,7 +122,7 @@
 			if(vdrinker.thrall_count >= vdrinker.max_thralls) //you've hit your max
 				to_chat(src, span_warning("I cannot sire anymore thralls.."))
 			else
-				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
+				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF ASTRATA", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
 					to_chat(src, span_warning("I decide [victim] is unworthy."))
 				else
 					visible_message(span_danger("[src] begins channeling their energies to [victim]!"))
@@ -165,8 +165,8 @@
 
 	var/vampire_choice = tgui_alert(
 		src,
-		"Would you like to rise as a vampire spawn? Warning: refusal may or may not mortally wound you.",
-		"THE CURSE OF KAIN",
+		"Would you like to rise as a lycker spawn? Warning: refusal may or may not mortally wound you.",
+		"THE CURSE OF ASTRATA",
 		list("MAKE IT SO", "I RESCIND"),
 		VAMP_CONVERT_TIMEOUT
 	)

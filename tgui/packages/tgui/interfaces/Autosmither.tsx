@@ -289,7 +289,6 @@ const QuoteRail = ({ lines }: QuoteRailProps) => {
               style={{
                 writingMode: 'vertical-rl',
                 textOrientation: 'mixed',
-                letterSpacing: '0.08em',
                 color: '#c9c1ab',
                 minHeight: '100%',
                 display: 'flex',
@@ -334,7 +333,6 @@ const CurrentQueueSection = ({ machineOn, queue }: CurrentQueueSectionProps) => 
             background: '#2c2f33',
             border: '1px solid rgba(255, 255, 255, 0.08)',
             color: '#d8d3c2',
-            letterSpacing: '0.05em',
           }}
         >
           Malum holds you in His cradle. Do not kick Him in the guts.
@@ -409,7 +407,6 @@ const ActiveCenterPanel = ({
             fontSize={2}
             style={{
               color: STATUS_COLORS[statusState],
-              letterSpacing: '0.12em',
             }}
           >
             {STATUS_LABELS[statusState]}
@@ -559,7 +556,6 @@ const OffCenterPanel = ({ controlsLocked, machinePowered }: OffCenterPanelProps)
               fontSize={1.8}
               style={{
                 color: '#d8d3c2',
-                letterSpacing: '0.14em',
               }}
             >
               {machinePowered
@@ -572,7 +568,6 @@ const OffCenterPanel = ({ controlsLocked, machinePowered }: OffCenterPanelProps)
               fontSize={2.2}
               style={{
                 color: STATUS_COLORS.off,
-                letterSpacing: '0.18em',
               }}
             >
               {MACHINE_ACTIVITY_LABELS.inactive}

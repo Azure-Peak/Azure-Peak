@@ -4,6 +4,7 @@
 	bottle_name = "gin"
 	bottle_desc = "A bottle of locally-distilled gin. Has a strong, piney flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/gin
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/gin
 	pre_reqs = /datum/reagent/consumable/ethanol/voddena
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2)
 	brewed_amount = 4
@@ -16,6 +17,7 @@
 	bottle_name = "rice spirit"
 	bottle_desc = "A bottle of locally-distilled rice spirit. Has a clean flavor and a dry finish."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/ricespirit
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/ricespirit
 	pre_reqs = /datum/reagent/consumable/ethanol/ricewine
 	needed_items = null
 	brewed_amount = 4

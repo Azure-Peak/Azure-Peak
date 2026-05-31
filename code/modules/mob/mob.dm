@@ -49,8 +49,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 		a_intent.mastermob = null
 	a_intent = null
 	o_intent = null
+	possible_mmb_intents = null
+	QDEL_LIST(possible_spell_intents)
 	QDEL_LIST(possible_a_intents)
 	QDEL_LIST(possible_offhand_intents)
+	QDEL_LIST(possible_rmb_intents)
+	QDEL_NULL(base_intents)
 	QDEL_NULL(mmb_intent)
 	QDEL_NULL(rmb_intent)
 	QDEL_NULL(unarmed_special)
@@ -65,8 +69,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 		my_skill.current = null
 		QDEL_NULL(skills)
 	client_colours = null
-	last_reach_target = null
-	last_reach_tool = null
 	if(active_storage)
 		active_storage.hide_from(src)
 	ghostize(drawskip=TRUE)

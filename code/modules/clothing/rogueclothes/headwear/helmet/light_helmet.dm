@@ -36,7 +36,6 @@
 	body_parts_covered = HEAD|HAIR|EARS|NOSE
 	icon_state = "leatherhelm"
 	armor = ARMOR_LEATHER_NPC
-	sellprice = 10
 	anvilrepair = null
 	smeltresult = null
 	sewrepair = TRUE
@@ -212,7 +211,6 @@
 	to_chat(user, span_warning ("The thorns prick me."))
 	user.adjustBruteLoss(4)
 
-//kazengite update
 /obj/item/clothing/head/roguetown/mentorhat
 	name = "worn bamboo hat"
 	desc = "A reinforced bamboo hat."

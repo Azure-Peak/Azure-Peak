@@ -533,7 +533,15 @@
 	desc = "A valuable ornate dagger made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."
 	icon_state = "decdagger"
 	sheathe_icon = "decdagger"
-	sellprice = 100
+	no_loot_taint = TRUE
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/stalker
+	name = "stalker dagger"
+	desc = "A wave-bladed dagger, forged in reverence to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface. Sadly, heavy corrosion and dried grime have completely clogged these cruel grooves, rendering the blade incapable of holding any fresh poison."
+	icon_state = "spiderdaggeralt"
+	sheathe_icon = "spiderdaggeralt"
+	smeltresult = /obj/item/ingot/drow
+	smelt_bar_num = 1
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
 	name = "corroded dagger"
@@ -546,7 +554,7 @@
 	AddElement(/datum/element/tipped_item)	//Lets you tip your weapon in poison
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
-	name = "fanged dagger"
+	name = "stalker dirk"
 	desc = "A wave-bladed dagger, forged in reverance to the visage of an anthraxi spider's fang. Offer a keen-eyed glance to its obsidian edge, and you might just notice the hundreds of capillary-like channels lining its surface; a cruel finishing touch, soon to be understood by the sundrunk. </br>I can coat this dagger in most poisons, ensuring that my next strike leaves a festering surprise."
 	icon_state = "spiderdagger"
 	sheathe_icon = "spiderdagger"
@@ -709,7 +717,6 @@
 	sheathe_icon = "sildagger"
 	force = 15
 	wdefense = 6
-	sellprice = 50
 	smeltresult = /obj/item/ingot/silver
 	last_used = 0
 	is_silver = TRUE
@@ -760,7 +767,6 @@
 	throwforce = 20
 	wdefense = 0
 	max_integrity = 50
-	sellprice = 50
 	slot_flags = ITEM_SLOT_HIP
 	smeltresult = /obj/item/rogueore/coal
 	last_used = 0
@@ -867,7 +873,6 @@
 	max_blade_int = 50
 	wdefense = 3
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	sellprice = 75
 
 /obj/item/rogueweapon/huntingknife/stoneknife/opalknife
 	name = "opal knife"
@@ -878,7 +883,6 @@
 	max_blade_int = 50
 	wdefense = 3
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	sellprice = 105
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish
 	name = "elvish dagger"
@@ -1007,7 +1011,6 @@
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 25, "embedded_fall_chance" = 10)
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/chop)
 	smeltresult = null
-	sellprice = 1
 	thrown_damage_flag = "piercing"		//Checks piercing type like an arrow.
 
 /obj/item/rogueweapon/huntingknife/throwingknife/getonmobprop(tag)
@@ -1043,7 +1046,6 @@
 	armor_penetration = PEN_MEDIUM
 	icon_state = "throw_knifes"
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 30, "embedded_fall_chance" = 5)
-	sellprice = 2
 
 /obj/item/rogueweapon/huntingknife/throwingknife/steel/palloy
 	name = "ancient alloy tossblade"

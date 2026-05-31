@@ -37,8 +37,6 @@
 	if(repair_type == 1)
 		if(prob(20))
 			new /obj/item/scrap(get_turf(src))
-		if(prob(20))
-			new /obj/item/scrap(get_turf(src))
 	qdel(src)
 
 /obj/item/repair_kit/attack_obj(obj/O, mob/living/user)
@@ -162,3 +160,12 @@
 	grid_height = 32
 	dropshrink = 0.7
 	anvilrepair = /datum/skill/craft/blacksmithing //for empty kit code
+
+/obj/item/scrap/attack(mob/living/M, mob/user)
+	if(!user.cmode)
+		if(try_construct_consume(src, M, user))
+			return
+		else 
+			return ..()
+	else
+		return ..()

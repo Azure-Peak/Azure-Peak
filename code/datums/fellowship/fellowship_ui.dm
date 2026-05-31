@@ -171,7 +171,13 @@
 			continue
 		if(F.has_member(H))
 			continue
-		candidates[H.real_name] = H
+		var/display = H.get_visible_name()
+		var/label = display
+		var/suffix = 2
+		while(label in candidates)
+			label = "[display] ([suffix])"
+			suffix++
+		candidates[label] = H
 	if(!length(candidates))
 		to_chat(holder, span_warning("There is no one nearby you can invite."))
 		return TRUE
