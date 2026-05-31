@@ -7,7 +7,7 @@
 	dropshrink = 0.8
 	bitesize = 3
 	possible_transfer_amounts = list()
-	list_reagents = list(/datum/reagent/consumable/honey = 5, /datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/honey = 5, /datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	grind_results = list()
 	disease_amount = 0
 	volume = 10

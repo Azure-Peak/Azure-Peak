@@ -25586,6 +25586,7 @@
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/ywflowers,
 /obj/item/recipe_book/brewing,
+/obj/item/recipe_book/cooking,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "fiz" = (

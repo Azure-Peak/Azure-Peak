@@ -13,7 +13,9 @@
 	var/datum/temp_recipe
 	var/category
 
-	if(ispath(path, /datum/crafting_recipe))
+	if(ispath(path, /datum/crafting_recipe/roguetown/cooking))
+		category = FOOD_CAT_DRYING
+	else if(ispath(path, /datum/crafting_recipe))
 		temp_recipe = new path()
 		var/datum/crafting_recipe/r = temp_recipe
 		category = r.category
@@ -37,6 +39,8 @@
 		temp_recipe = new path()
 		var/datum/brewing_recipe/r = temp_recipe
 		category = r.category
+	else if(ispath(path, /datum/food_recipe))
+		category = initial(path:book_category)
 	else if(ispath(path, /datum/runeritual))
 		temp_recipe = new path()
 		var/datum/runeritual/r = temp_recipe
@@ -141,6 +145,11 @@
 	else if(ispath(path, /datum/brewing_recipe))
 		temp_recipe = new path()
 		var/datum/brewing_recipe/r = temp_recipe
+		recipe_name = initial(r.name)
+		recipe_html = r.generate_html(user)
+	else if(ispath(path, /datum/food_recipe))
+		temp_recipe = new path()
+		var/datum/food_recipe/r = temp_recipe
 		recipe_name = initial(r.name)
 		recipe_html = r.generate_html(user)
 	else if(ispath(path, /datum/runeritual))

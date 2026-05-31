@@ -172,6 +172,19 @@
 		/datum/book_entry/brewing
 	)
 
+/obj/item/recipe_book/cooking
+	name = "The Culinary Codex"
+	wiki_name = "Cooking"
+	desc = "Recipes for the assembly of prepared dishes, along with notes on stations and station-side preparations."
+	icon_state = "book2_0"
+	base_icon_state = "book2"
+
+	types = list(
+		/datum/food_recipe,
+		/datum/crafting_recipe/roguetown/cooking,
+		/datum/book_entry/cooking_basics
+	)
+
 /obj/item/recipe_book/magic
 	name = "The Magister's Grimoire"
 	wiki_name = "Magic"
