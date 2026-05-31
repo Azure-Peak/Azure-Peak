@@ -181,8 +181,12 @@
 
 	types = list(
 		/datum/food_recipe,
+		/datum/stew_recipe,
 		/datum/crafting_recipe/roguetown/cooking,
-		/datum/book_entry/cooking_basics
+		/datum/book_entry/cooking_basics,
+		/datum/book_entry/cooking_ingredients,
+		/datum/book_entry/cooking_pies,
+		/datum/book_entry/cooking_deepfry
 	)
 
 /obj/item/recipe_book/magic
