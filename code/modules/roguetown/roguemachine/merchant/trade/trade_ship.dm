@@ -141,15 +141,14 @@
 		var/typepath = initial(recipe.output_bottle_type)
 		if(!typepath)
 			continue
-		var/brewed_amount = max(1, initial(recipe.brewed_amount))
-		var/per_bottle_base = round(initial(recipe.sell_value) / brewed_amount)
 		var/price_mod = entry["price_mod"] || 1.0
-		var/offered_price = max(1, round(per_bottle_base * TRADE_DRINKS_EXPORT_MARKUP * price_mod))
-		var/qty = round(rand(entry["qty_min"] || TRADE_VICTUALLING_QTY_PER_LINE_MIN, entry["qty_max"] || TRADE_VICTUALLING_QTY_PER_LINE_MAX) * tonnage_scale_mult())
+		var/offered_price = max(1, round(initial(recipe.sell_value) * TRADE_DRINKS_EXPORT_MARKUP * price_mod))
+		var/keg_mult = entry["keg_mult"] || 1
+		var/qty = max(1, round(rand(TRADE_DRINKS_KEGS_MIN, TRADE_DRINKS_KEGS_MAX) * keg_mult * tonnage_scale_mult()))
 		result += list(list(
 			"typepath" = "[typepath]",
-			"good_name" = initial(recipe.bottle_name),
-			"qty_target" = max(1, qty),
+			"good_name" = "keg of [initial(recipe.bottle_name)]",
+			"qty_target" = qty,
 			"qty_fulfilled" = 0,
 			"offered_price" = offered_price,
 			"tag" = TRADE_VICTUALLING_TAG_DRINKS,

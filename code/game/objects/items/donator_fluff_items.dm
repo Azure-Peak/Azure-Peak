@@ -805,7 +805,8 @@ As Excaliber."
 	icon_state = "gae_bolg"
 	bigboy = TRUE
 
-// inverserun
+// INVERSERUN
+
 /obj/item/rogueweapon/example/arra_amdir
 	name = "Amdir"
 	desc = "This is a strange weapon, a mix of Elven steel, and obvious Otavan silversmithing. \
@@ -819,7 +820,8 @@ As Excaliber."
 	icon_state = "amdir"
 	bigboy = TRUE
 
-// pessime959
+// PESSIME959
+
 /obj/item/rogue/instrument/guitar/pes_guitar
 	name = "Red-Stained Guitar"
 	desc = "\"A song sang, love shared, and promise fulfilled. \
@@ -827,3 +829,17 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_music.dmi'
 	icon_state = "redstainedguitar"
 
+// VAKIOVA
+
+/obj/item/clothing/cloak/vaki_gravetender
+	name = "\improper Gravetender's Winter Coat"
+	desc = "A fine woven coat that excels at protecting from the cold. It signifies the wearer as one who tends to those in her embrace."
+	icon_state = "vaki_necradress"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+	alternate_worn_layer = TABARD_LAYER
+	body_parts_covered = CHEST|GROIN|ARMS
+	slot_flags = ITEM_SLOT_CLOAK
+	flags_inv = HIDECROTCH|HIDEBOOB

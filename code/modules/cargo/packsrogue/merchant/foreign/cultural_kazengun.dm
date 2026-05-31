@@ -46,6 +46,13 @@
 	ship_qty_min = 2
 	ship_qty_max = 4
 
+/datum/supply_pack/rogue/kazengun/mentorhat
+	name = "Worn Bamboo Hat"
+	cost = 60
+	contains = list(/obj/item/clothing/head/roguetown/mentorhat)
+	ship_qty_min = 2
+	ship_qty_max = 4
+
 /datum/supply_pack/rogue/kazengun/mask_full
 	name = "Steel Mengu"
 	cost = 120

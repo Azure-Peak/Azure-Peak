@@ -66,10 +66,10 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bread, "qty_min" = VICTUALLING_QTY_LARGE_MIN, "qty_max" = VICTUALLING_QTY_LARGE_MAX, "price" = VICTUALLING_PRICE_BREAD),
 	)
 	victualling_drinks_pool = list(
-		list("recipe" = /datum/brewing_recipe/beer, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/jack_wine, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/cider, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/aqua_vitae, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
+		list("recipe" = /datum/brewing_recipe/beer),
+		list("recipe" = /datum/brewing_recipe/jack_wine),
+		list("recipe" = /datum/brewing_recipe/cider),
+		list("recipe" = /datum/brewing_recipe/aqua_vitae),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/merc_weapons/grenzelstaff,

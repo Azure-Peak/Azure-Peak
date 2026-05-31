@@ -502,6 +502,8 @@ SUBSYSTEM_DEF(questpool)
 	if(landmark && !QDELETED(landmark))
 		return landmark
 	landmark = find_quest_landmark(Q.quest_type, Q.region, Q)
+	if(!landmark)
+		landmark = find_quest_landmark(Q.quest_type, null, Q)
 	if(landmark)
 		Q.pending_landmark_ref = WEAKREF(landmark)
 		Q.target_spawn_area = get_area_name(get_turf(landmark))

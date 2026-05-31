@@ -548,6 +548,9 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 		for(var/subtype in typesof(proto_type))
 			if(!GLOB.derived_categories[subtype])
 				GLOB.derived_categories[subtype] = proto_cat
+	for(var/subtype in typesof(/obj/item/reagent_containers/glass/bottle/brewing_bottle))
+		if(!GLOB.derived_categories[subtype])
+			GLOB.derived_categories[subtype] = ITEM_CAT_BEVERAGE
 
 /proc/pricing_engine_fingerprint()
 	var/list/parts = list()

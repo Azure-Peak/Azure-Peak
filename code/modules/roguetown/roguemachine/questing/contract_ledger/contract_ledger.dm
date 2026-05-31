@@ -120,6 +120,7 @@
 		data["crown_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["defense_costs"] = GLOB.defense_quest_tier_costs.Copy()
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
+		data["blockade_region_labels"] = build_blockade_region_labels()
 		data["defense_destinations"] = build_rumor_destinations()
 		data["defense_log"] = SStreasury.defense_log
 		data["blockade_recall_list"] = build_blockade_recall_list()

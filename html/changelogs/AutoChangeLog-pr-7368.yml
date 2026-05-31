@@ -1,4 +1,0 @@
-author: "SpadesNeil"
-delete-after: True
-changes:
-  - refactor: "Moved some defines in mask.dm"

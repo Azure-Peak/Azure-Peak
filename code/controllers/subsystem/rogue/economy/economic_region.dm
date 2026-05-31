@@ -125,7 +125,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	name = "Rockhill"
 	subtitle = "The Orchards, Vintners and Herbalists of the Ridge"
 	description = "A cluster of orchards and herb gardens to the north of Azuria, sheltered by a ridge that makes the climate there milder than it has any right to be. The many rolling hills of the county make for poor grain land but excellent orchard land. Rockhill wine and liquor are renowned throughout Azuria, and some are exported beyond. It is a quiet, quaint, agricultural county, dotted with noble estates. Rockhill apple brandy is the realm's most counterfeited drink. Every other inn from Bleakcoast to Heartfelt claims to serve it, but perhaps only a third of them actually do. The county is also known for its many country manor, with perhaps three quarter of the noble houses of the realm owning at least one in Rockhill."
-	threat_region_id = THREAT_REGION_MOUNT_DECAP
+	threat_region_id = THREAT_REGION_AZUREAN_COAST
 	produces = list(
 		TRADE_GOOD_APPLE = TG_SUPPLY_LOCAL_FRUIT,
 		TRADE_GOOD_PEAR = TG_SUPPLY_LOCAL_FRUIT,

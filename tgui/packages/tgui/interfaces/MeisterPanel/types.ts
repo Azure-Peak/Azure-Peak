@@ -8,6 +8,7 @@ export type FundEntry = {
   can_withdraw: boolean;
   can_view: boolean;
   supports_loans: boolean;
+  allow_zero_rate: boolean;
   authority_label: string;
   withdraw_rule: string;
   has_patronage: boolean;
