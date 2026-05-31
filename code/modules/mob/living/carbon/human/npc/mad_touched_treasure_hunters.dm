@@ -83,7 +83,7 @@
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
 	dna.species.handle_body(src)
 
-	if(organ_eyes)
+	if(organ_eyes) //Evil mad, unnaturally bloodshot look
 		organ_eyes.eye_color = "#ff0000"
 		organ_eyes.accessory_colors = "#ff0000#ff0000"
 	

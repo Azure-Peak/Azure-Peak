@@ -112,8 +112,20 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	dna.species.handle_body(src)
 
 	if(organ_eyes)
-		organ_eyes.eye_color = "#336699"
-		organ_eyes.accessory_colors = "#336699#336699"
+		var/eye_choice = rand(1, 4)
+		switch(eye_choice)
+			if(1)
+				organ_eyes.eye_color = "#336699"
+				organ_eyes.accessory_colors = "#336699#336699"
+			if(2)
+				organ_eyes.eye_color = "#339933"
+				organ_eyes.accessory_colors = "#339933#339933"
+			if(3)
+				organ_eyes.eye_color = "#995333"
+				organ_eyes.accessory_colors = "#995333#995333"
+			if(3)
+				organ_eyes.eye_color = "#000000" //Souless greytider look
+				organ_eyes.accessory_colors = "#000000#000000"
 
 	if(gender == FEMALE)
 		real_name = pick(world.file2list("strings/names/first_female.txt"))
