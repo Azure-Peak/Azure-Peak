@@ -1,4 +1,6 @@
 /datum/crafting_recipe/roguetown/farming
+	abstract_type = /datum/crafting_recipe/roguetown/farming
+	display_category = ITEM_CAT_RAW_MATERIAL_ORGANIC
 	req_table = FALSE
 	verbage_simple = "mix"
 	skillcraft = /datum/skill/labor/farming

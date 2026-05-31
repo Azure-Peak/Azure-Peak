@@ -170,7 +170,6 @@
 
 	force = 3
 	max_integrity = 500
-	sellprice = 2
 
 	invalid_blades = list(
 		/obj/item/rogueweapon/huntingknife/idagger/stake,
@@ -378,7 +377,6 @@
 	sewrepair = FALSE
 	wdefense = 2
 	max_integrity = 50
-	sellprice = 50
 	resistance_flags = null
 
 /obj/item/rogueweapon/scabbard/sheath/royal
@@ -390,7 +388,6 @@
 	can_parry = TRUE
 	sewrepair = FALSE
 	wdefense = 4
-	sellprice = 100
 	resistance_flags = null
 
 ///////////////////////
@@ -414,7 +411,6 @@
 
 	force = 7
 	max_integrity = 750
-	sellprice = 3
 
 /obj/item/rogueweapon/scabbard/sword/MiddleClick(mob/user)
 	if(hol_comp.sheathed)
@@ -525,7 +521,6 @@
 	sewrepair = FALSE
 	wdefense = 4
 	max_integrity = 75
-	sellprice = 50
 	resistance_flags = null
 
 /obj/item/rogueweapon/scabbard/sword/royal
@@ -538,7 +533,6 @@
 	sewrepair = FALSE
 	wdefense = 6
 	max_integrity = 150
-	sellprice = 100
 	resistance_flags = null
 
 //
@@ -595,7 +589,7 @@
 	icon_state = "kazscabyuruku"
 	item_state = "kazscabyuruku"
 	valid_blade = /obj/item/rogueweapon/sword/short/kazengun
-	wdefense = 4
+	wdefense = 7
 	special = null
 
 /obj/item/rogueweapon/scabbard/sheath/kazengun
@@ -721,7 +715,6 @@
 	sheathe_time = 2 SECONDS
 
 	max_integrity = 0
-	sellprice = 15
 
 /obj/item/rogueweapon/scabbard/gwstrap/ComponentInitialize()
 	AddComponent(/datum/component/holster/gwstrap, FALSE, FALSE, FALSE, sheathe_time)

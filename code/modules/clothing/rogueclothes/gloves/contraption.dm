@@ -60,7 +60,6 @@
 	var/activate_sound = 'sound/items/stunmace_gen (2).ogg'
 	var/cdtime = 1.5 MINUTES
 	var/activetime = 5 SECONDS
-	sellprice = 100
 	var/delay = 5 SECONDS
 	var/sprite_changes = 10
 	var/datum/beam/current_beam = null

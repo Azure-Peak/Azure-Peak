@@ -1,0 +1,7 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - rscadd: "Added new racial & features to Construct."
+  - balance: "Modified their racial traits a little more, further enforced the no-magic-heal policy. Constructs die super fast to electricity and are even more difficult to heal mid combat."
+  - bugfix: "Absolver WEEP and ABSOLVE are now working as intended, and compatible with Construct."
+  - balance: "Golgotha now deals a small amount of damage to NPCs in an area every time it produces the fog."

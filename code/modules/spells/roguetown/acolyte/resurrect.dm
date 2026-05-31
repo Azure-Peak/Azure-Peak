@@ -29,6 +29,7 @@
 	var/structure_range = 1
 	var/harms_undead = TRUE
 	var/zizo = FALSE
+	var/matthios = FALSE
 	priest_excluded = TRUE
 
 /obj/effect/proc_holder/spell/invoked/resurrect/start_recharge()
@@ -146,6 +147,10 @@
 				return ""
 
 		return "A living, bleeding victim"
+
+	if(matthios)
+	// Matthios revivals will drain mammon actively now
+		return ""
 
 	var/list/current_required_items = get_current_required_items()
 	var/list/available_items = list()

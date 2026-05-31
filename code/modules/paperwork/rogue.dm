@@ -5,7 +5,6 @@
 	slot_flags = null
 	dropshrink = 0.6
 	firefuel = 30 SECONDS
-	sellprice = 2
 	textper = 108
 	maxlen = 2000
 	throw_range = 3

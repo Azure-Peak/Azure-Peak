@@ -10,6 +10,9 @@
 		for(var/X in GLOB.burgher_positions)
 			peopleiknow += X
 			peopleknowme += X
+		for(var/X in GLOB.atc_positions)
+			peopleiknow += X
+			peopleknowme += X
 		for(var/X in GLOB.church_positions)
 			peopleiknow += X
 			peopleknowme += X
@@ -100,12 +103,20 @@
 		var/datum/triumph_buy/thing = SStriumphs.post_equip_calls[list_key]
 		thing.on_activate(H)
 	if(has_loadout && H.mind)
-		addtimer(CALLBACK(src, PROC_REF(choose_loadout), H), 50)
+		addtimer(CALLBACK(src, PROC_REF(run_loadout_and_finalize), H), 50)
 	return
+
+/datum/outfit/job/roguetown/proc/run_loadout_and_finalize(mob/living/carbon/human/H)
+	choose_loadout(H)
+	// Re-evaluate the readyup repair kit now that loadout-based armor traits (if any) have been applied.
+	// Late joiners skip the readyup bonus entirely, so only refresh the kit when one was actually granted.
+	if(H?.mind && (H.mind.special_items["Fabric Patch (Repair kit)"] || H.mind.special_items["Metal Scrap (Repair kit)"]))
+		var/datum/job/J = SSjob.GetJob(H.mind.assigned_role)
+		J?.set_readyup_repair_kit(H)
 
 /datum/outfit/job/roguetown/proc/choose_loadout(mob/living/carbon/human/H)
 	if(!has_loadout)
 		return
 	if(!H.client)
-		addtimer(CALLBACK(src, PROC_REF(choose_loadout), H), 50)
+		addtimer(CALLBACK(src, PROC_REF(run_loadout_and_finalize), H), 50)
 		return

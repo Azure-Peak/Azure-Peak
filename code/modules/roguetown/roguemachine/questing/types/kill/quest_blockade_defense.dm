@@ -303,9 +303,16 @@
 	var/payout = reward_amount
 	if(payout > 0)
 		if(lead && SStreasury.has_account(lead))
-			SStreasury.mint(SStreasury.get_account(lead), payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])")
+			var/datum/fund/lead_account = SStreasury.get_account(lead)
+			SStreasury.mint(lead_account, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])")
+			var/tax_amt = 0
+			if(!levy_exempt)
+				tax_amt = SStreasury.apply_tax(lead_account, payout, TAX_CATEGORY_CONTRACT_LEVY, "Blockade defense")
+				if(tax_amt > 0)
+					record_featured_stat(FEATURED_STATS_TAX_PAYERS, lead, tax_amt)
+					record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 			record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, payout)
-			announce_to_bearer("The final wave breaks. The rewards have been transferred to your account.")
+			announce_to_bearer("The final wave breaks. The rewards have been transferred to your account. Gross: [payout] mammons. Tax: [tax_amt] mammons. Net: [payout - tax_amt] mammons.")
 		else
 			SStreasury.mint(SStreasury.discretionary_fund, payout, "Blockade defense reward (unbanked bearer)")
 			announce_to_bearer("The final wave breaks. The Crown holds your share - return to the Nerve Master to collect.")

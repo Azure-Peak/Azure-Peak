@@ -18,6 +18,8 @@
 	var/DropPodOnly = FALSE//only usable by the Bluespace Drop Pod via the express cargo console
 	var/admin_spawned = FALSE
 	var/small_item = FALSE //Small items can be grouped into a single crate.
+	var/ship_qty_min = 1
+	var/ship_qty_max = 1
 
 /datum/supply_pack/New()
 	..()

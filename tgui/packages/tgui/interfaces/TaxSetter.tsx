@@ -123,9 +123,8 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
       </div>
       <div
         style={{
-          fontSize: '10px',
-          color: INK_FAINT,
-          fontStyle: 'italic',
+          fontSize: '12px',
+          color: INK_SOFT,
         }}
       >
         Gross projection from rate × eligible heads. Ignores balance, advance, arrears.
@@ -181,8 +180,7 @@ export const TaxSetter = (props: any, context: any) => {
           <div
             style={{
               textAlign: 'center',
-              fontStyle: 'italic',
-              fontSize: '11px',
+              fontSize: '12px',
               color: INK_SOFT,
               marginBottom: '10px',
             }}
@@ -199,7 +197,7 @@ export const TaxSetter = (props: any, context: any) => {
                 padding: '6px 10px',
                 textAlign: 'center',
                 fontVariant: 'small-caps',
-                letterSpacing: '1px',
+
                 fontWeight: 'bold',
                 marginBottom: '10px',
               }}
@@ -239,7 +237,6 @@ export const TaxSetter = (props: any, context: any) => {
                     ...inkButtonStyle({ disabled: onCooldown }),
                     padding: '5px 24px',
                     fontSize: '13px',
-                    letterSpacing: '3px',
                   }}
                   onClick={() =>
                     !onCooldown && act('set_rates', { categoryRates: payload })
@@ -255,9 +252,8 @@ export const TaxSetter = (props: any, context: any) => {
               <div style={sectionHeaderStyle}>Poll Tax</div>
               <div
                 style={{
-                  fontSize: '11px',
+                  fontSize: '12px',
                   color: INK_SOFT,
-                  fontStyle: 'italic',
                   marginBottom: '8px',
                 }}
               >
@@ -287,7 +283,6 @@ export const TaxSetter = (props: any, context: any) => {
                     ...inkButtonStyle({ disabled: onCooldown }),
                     padding: '5px 24px',
                     fontSize: '13px',
-                    letterSpacing: '3px',
                   }}
                   onClick={() =>
                     !onCooldown &&

@@ -45,12 +45,13 @@
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
 //Strudles donator item - mage vest, xylix tabard, etruscan cloak, and formfitted gambeson
-/obj/item/clothing/suit/roguetown/shirt/robe/sofiavest
+/obj/item/clothing/suit/roguetown/shirt/sofiavest
 	name = "grenzelhoftian mages vest"
 	desc = "A vest often worn by those of the Grenzelhoftian mages college."
 	icon_state = "sofiavest"
 	item_state = "sofiavest"
 	sleevetype = "sofiavest"
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
@@ -150,7 +151,7 @@
 //Zydras donator items - ironclad baddie
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/zycuirass
 	name = "iron gardbrace and fauld"
-	desc = "An aged piece of damaged mailled hauberk, with only its skirt and a spiked shoulder remaining. It glimmers with a reddish hue."
+	desc = "An aged piece of damaged mailled cuirass, with only its skirt and a spiked shoulder remaining. It glimmers with a reddish hue."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "zy_cuirass"
@@ -788,3 +789,57 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_weapons.dmi'
 	icon_state = "sylvan_dagger" 
 	sheathe_icon = "sylvan_dagger"
+
+// DESMINUS
+
+/obj/item/rogueweapon/example/des_gaebolg
+	name = "Gae Bolg"
+	desc = "A double headed polearm with sharp curvacious edges that come to a point. \
+	One side is fit with a large viscious blade whilst the dull and flattend. \
+	Adorned with blackened steel that rusted to a dark crimson along the handle and blade; \
+	the rust has hardened to time to ressemble blood dripping along the blade, whom over owned \
+	it must not have seen it well cared for in their deliverance. \n\
+	\n\ \
+	Along the Handle reads a silver engraving, 'Justice in Blood'"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "gae_bolg"
+	bigboy = TRUE
+
+// INVERSERUN
+
+/obj/item/rogueweapon/example/arra_amdir
+	name = "Amdir"
+	desc = "This is a strange weapon, a mix of Elven steel, and obvious Otavan silversmithing. \
+	The blade glints with the light of reflected stars. \
+	Inscribed on the leaf patterned staff is a single word in Elvish. \
+	Amdir- Look Up. Along one of the braces is a psycross, dangling, jangling \
+	and shining with a defiant light.\n\n\
+	\"Look up. Do you not hope to see the stars? Astrata's light? Noc's gaze? Look up. \
+	To do that, is to hope.\""
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "amdir"
+	bigboy = TRUE
+
+// PESSIME959
+
+/obj/item/rogue/instrument/guitar/pes_guitar
+	name = "Red-Stained Guitar"
+	desc = "\"A song sang, love shared, and promise fulfilled. \
+	A well loved guitar, stained to the colors left behind by our Weeping God.\""
+	icon = 'icons/obj/items/donor_music.dmi'
+	icon_state = "redstainedguitar"
+
+// VAKIOVA
+
+/obj/item/clothing/cloak/vaki_gravetender
+	name = "\improper Gravetender's Winter Coat"
+	desc = "A fine woven coat that excels at protecting from the cold. It signifies the wearer as one who tends to those in her embrace."
+	icon_state = "vaki_necradress"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+	alternate_worn_layer = TABARD_LAYER
+	body_parts_covered = CHEST|GROIN|ARMS
+	slot_flags = ITEM_SLOT_CLOAK
+	flags_inv = HIDECROTCH|HIDEBOOB

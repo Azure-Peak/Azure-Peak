@@ -213,7 +213,8 @@ GLOBAL_LIST_EMPTY(stress_test_mobs)
 				possible_wounds += list(
 					/datum/wound/fracture,
 					/datum/wound/dislocation,
-					/datum/wound/artery
+					/datum/wound/artery,
+					/datum/wound/integrity,
 				)
 
 			var/wound_type = pick(possible_wounds)

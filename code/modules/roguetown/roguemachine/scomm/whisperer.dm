@@ -17,7 +17,7 @@
 	sleeved = 'icons/roguetown/clothing/onmob/neck.dmi'
 	grid_width = 32
 	grid_height = 32
-	var/fakename = "secret whisperer"
+	var/fakename = "psydonian signet ring"
 
 /obj/item/speakerinq/proc/repeat_message(message, atom/A, tcolor, message_language)
 	if(!ismob(loc))
@@ -49,7 +49,6 @@
 	. = ..()
 	switch(slot)
 		if(SLOT_RING)
-			fakename = "psydonian signet ring"
 			name = fakename
 	return TRUE
 

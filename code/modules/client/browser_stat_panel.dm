@@ -154,6 +154,10 @@
 		browserpanel_mapfocus()
 		return
 
+	if(action == "open_calendar")
+		open_calendar_ui()
+		return
+
 	if(!(holder && check_rights_for(src, R_DEBUG)))
 		return
 
@@ -562,7 +566,7 @@
 				else
 					lines += "<div class='line'>[line]</div>"
 	if(SS.ic_date_text)
-		lines += browserpanel_roundline("IC DATE", copytext(SS.ic_date_text, length("IC DATE:") + 1))
+		lines += browserpanel_calendarline("IC DATE", copytext(SS.ic_date_text, length("IC DATE:") + 1))
 	if(SS.timeofday_text)
 		lines += browserpanel_timeline(SS.timeofday_text)
 		lines += browserpanel_roundbreak()
@@ -578,6 +582,10 @@
 
 /client/proc/browserpanel_roundline(label, value)
 	return "<div class='line'>[browserpanel_roundlabel("[label]:")] [html_encode(trim("[value]"))]</div>"
+
+/client/proc/browserpanel_calendarline(label, value)
+	var/href = "byond://?src=[REF(src)];browser_stat_panel=open_calendar"
+	return "<div class='line'>[browserpanel_roundlabel("[label]:")] <a class='link' href='[href]'>[html_encode(trim("[value]"))]</a></div>"
 
 /client/proc/browserpanel_roundbreak()
 	return "<div class='round-break'></div>"

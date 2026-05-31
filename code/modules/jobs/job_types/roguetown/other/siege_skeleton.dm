@@ -115,7 +115,6 @@
 			cloak = /obj/item/clothing/cloak/tabard/lich
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
-			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
