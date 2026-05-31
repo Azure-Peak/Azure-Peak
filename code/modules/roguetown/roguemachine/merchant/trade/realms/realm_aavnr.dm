@@ -2,7 +2,7 @@
 	id = REALM_AAVNR
 	name = "Aavnr"
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_BOOKS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_POTTERY, NAVIGATOR_BUCKET_VALUABLES_LOOTED, NAVIGATOR_BUCKET_MISCELLANEOUS)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_POTTERY, NAVIGATOR_BUCKET_VALUABLES_LOOTED, NAVIGATOR_BUCKET_MISCELLANEOUS)
 	ship_name_words = list(
 		"Yarlsnik", "Koprivka", "Diethelm", "Tomorzh", "Khairin",
 		"Wardenpact", "Hetman", "Saiga", "Bloodaxe", "Ironmask",
@@ -68,10 +68,10 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bread, "qty_min" = VICTUALLING_QTY_LARGE_MIN, "qty_max" = VICTUALLING_QTY_LARGE_MAX, "price" = VICTUALLING_PRICE_BREAD),
 	)
 	victualling_drinks_pool = list(
-		list("recipe" = /datum/brewing_recipe/mead, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/jack_wine, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/voddena, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/winespiced, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
+		list("recipe" = /datum/brewing_recipe/mead),
+		list("recipe" = /datum/brewing_recipe/jack_wine),
+		list("recipe" = /datum/brewing_recipe/voddena),
+		list("recipe" = /datum/brewing_recipe/winespiced),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/aavnr/shashka,

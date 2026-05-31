@@ -85,3 +85,21 @@
 
 /obj/item/storage/belt/rogue/pouch/medicine/get_types_to_preload()
 	return populate_contents
+
+/obj/item/storage/belt/rogue/surgery_bag/full/bad
+	populate_contents = list(
+	/obj/item/rogueweapon/huntingknife/stoneknife,
+	/obj/item/rogueweapon/surgery/saw/improv,
+	/obj/item/rogueweapon/surgery/hemostat/improv,
+	/obj/item/rogueweapon/surgery/hemostat/improv,
+	/obj/item/rogueweapon/surgery/retractor/improv,
+	/obj/item/rogueweapon/surgery/retractor/improv,
+	/obj/item/rogueweapon/surgery/hammer,
+	/obj/item/reagent_containers/glass/bottle/rogue/beer,
+	/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab,
+	/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum,
+	/obj/item/needle/thorn
+	)
+
+/obj/item/storage/belt/rogue/surgery_bag/full/bad/get_types_to_preload()
+	return populate_contents

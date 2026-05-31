@@ -24,6 +24,7 @@
 	)
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 4,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly = 1,
 		/obj/item/reagent_containers/food/snacks/fat = 2, 
 		/obj/item/natural/bundle/bone/full = 1, 
 		/obj/item/alch/sinew = 3, 
@@ -34,6 +35,7 @@
 	)
 	perfect_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 5,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly = 2,
 		/obj/item/reagent_containers/food/snacks/fat = 3, 
 		/obj/item/natural/bundle/bone/full = 1, 
 		/obj/item/alch/sinew = 4, 

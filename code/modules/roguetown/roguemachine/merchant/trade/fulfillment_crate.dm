@@ -17,8 +17,9 @@
 /obj/structure/roguemachine/ship_fulfillment/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click with an item to deposit it for matching ship demands. You must have a MEISTER account to deposit - the crate will refuse goods otherwise.")
-	. += span_info("Right-click to dump everything on this tile into the crate at once.")
-	. += span_info("Stacks, handcarts, and roguebins are unwrapped automatically.")
+	. += span_info("Right-click to dump everything on your tile into the crate at once.")
+	. += span_info("Certain items like kegs can be click dragged or offloaded in hand.")
+	. += span_info("Stacks, handcarts, and bins are unloaded automatically.")
 
 /obj/structure/roguemachine/ship_fulfillment/examine(mob/user)
 	. = ..()
@@ -113,6 +114,15 @@
 		return ..()
 	attempt_deposit(P, user, TRUE, TRUE)
 
+/obj/structure/roguemachine/ship_fulfillment/MouseDrop_T(atom/dropped, mob/living/user)
+	if(!ishuman(user))
+		return
+	if(!istype(dropped, /obj/structure/fermentation_keg))
+		return ..()
+	if(!user.Adjacent(src) || !user.Adjacent(dropped))
+		return
+	attempt_deposit_keg(dropped, user)
+
 /obj/structure/roguemachine/ship_fulfillment/attack_right(mob/user)
 	if(!ishuman(user))
 		return
@@ -121,9 +131,11 @@
 	if(!SStreasury.has_account(user))
 		say("No account found for [user]. Submit your fingers to a Meister for inspection.")
 		return
-	var/list/tally = list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "lines" = list())
+	var/list/tally = list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "total_quality_delta" = 0, "lines" = list())
 	for(var/obj/item/I in get_turf(user))
 		attempt_deposit(I, user, FALSE, FALSE, tally)
+	for(var/obj/structure/fermentation_keg/keg in get_turf(user))
+		attempt_deposit_keg(keg, user)
 	flush_tally(tally, user)
 	say("Bulk fulfillment in progress...")
 	playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
@@ -137,8 +149,19 @@
 		var/list/info = tally["lines"][key]
 		line_summaries += "[info["qty"]] [info["good_name"]] -> [info["ship_name"]]"
 	var/kin_total = tally["total_kin_bonus"] || 0
-	var/breakdown = "[english_list(line_summaries)]: gross [tally["total_gross"]]m, Crown [tally["total_duty"]]m, Merchant [tally["total_cut"]]m[kin_total > 0 ? ", Kinship +[kin_total]m" : ""]"
+	var/quality_delta = tally["total_quality_delta"] || 0
+	var/quality_str = ""
+	if(quality_delta != 0)
+		var/sign_str = quality_delta > 0 ? "+" : ""
+		quality_str = ", quality [sign_str][quality_delta]m"
+	var/breakdown = "[english_list(line_summaries)]: gross [tally["total_gross"]]m, Crown [tally["total_duty"]]m, Merchant [tally["total_cut"]]m[kin_total > 0 ? ", Kinship +[kin_total]m" : ""][quality_str]"
 	SStreasury.give_money_account(tally["total_producer"], user, breakdown)
+	if(quality_delta != 0)
+		var/representative_quality = quality_delta > 0 ? ITEM_QUALITY_MASTERWORK : ITEM_QUALITY_CRUDE
+		var/jab = navigator_quality_jab(representative_quality)
+		if(jab)
+			say(jab)
+			to_chat(user, span_info("[src] says, \"[jab]\""))
 
 /obj/structure/roguemachine/ship_fulfillment/proc/attempt_deposit(obj/item/I, mob/user, message = TRUE, sound = TRUE, list/tally)
 	if(!SSmerchant_trade)
@@ -192,15 +215,21 @@
 	if(dish_match)
 		var/list/dish_line = dish_match["line"]
 		if(dish_line["tag"] == TRADE_VICTUALLING_TAG_DRINKS)
-			var/obj/item/reagent_containers/glass/bottle/brewing_bottle/B = I
-			if(!istype(B) || !B.sealed)
-				if(message)
-					to_chat(user, span_warning("[I] has been broken open - the captain only buys sealed bottles."))
-				return
+			if(message)
+				to_chat(user, span_warning("Captains buy drinks by the barrel - drag a full keg onto [src], not loose bottles."))
+			return
 		var/datum/trade_ship/dish_ship = dish_match["ship"]
 		dish_line["qty_fulfilled"]++
+		var/dish_q_mult = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : 1.0
+		var/dish_unit_price = round(dish_line["offered_price"] * dish_q_mult)
+		var/dish_quality_delta = dish_unit_price - dish_line["offered_price"]
+		if(message && I.has_item_quality && I.item_quality != ITEM_QUALITY_STANDARD)
+			var/jab = navigator_quality_jab(I.item_quality)
+			if(jab)
+				say(jab)
+				to_chat(user, span_info("[src] says, \"[jab]\""))
 		qdel(I)
-		settle_payout(dish_line["offered_price"], user, dish_ship, dish_line["good_name"], 1, message, sound, tally)
+		settle_payout(dish_unit_price, user, dish_ship, dish_line["good_name"], 1, message, sound, tally, dish_quality_delta)
 		return
 	if(istype(I, /obj/item/natural/bundle))
 		var/obj/item/natural/bundle/B = I
@@ -245,10 +274,44 @@
 			to_chat(user, span_warning("That vessel's hold is full of [line["good_name"]]."))
 		return
 	line["qty_fulfilled"]++
+	var/q_mult = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : 1.0
+	var/unit_price = round(line["offered_price"] * q_mult)
+	var/quality_delta = unit_price - line["offered_price"]
+	if(message && I.has_item_quality && I.item_quality != ITEM_QUALITY_STANDARD)
+		var/jab = navigator_quality_jab(I.item_quality)
+		if(jab)
+			say(jab)
+			to_chat(user, span_info("[src] says, \"[jab]\""))
 	qdel(I)
-	settle_payout(line["offered_price"], user, ship, line["good_name"], 1, message, sound, tally)
+	settle_payout(unit_price, user, ship, line["good_name"], 1, message, sound, tally, quality_delta)
 
-/obj/structure/roguemachine/ship_fulfillment/proc/settle_payout(gross, mob/user, datum/trade_ship/ship, good_name, qty, message, sound, list/tally)
+/obj/structure/roguemachine/ship_fulfillment/proc/attempt_deposit_keg(obj/structure/fermentation_keg/keg, mob/user)
+	if(!SSmerchant_trade)
+		return
+	if(!SStreasury.has_account(user))
+		say("No account found for [user]. Submit your fingers to a Meister for inspection.")
+		return
+	if(keg.brewing || !keg.ready_to_bottle || keg.tapped || !keg.selected_recipe)
+		to_chat(user, span_warning("[keg] holds no finished, sealed batch the captains would buy."))
+		return
+	var/bottle_type = keg.selected_recipe.output_bottle_type
+	if(!bottle_type)
+		to_chat(user, span_warning("No vessel here is buying [keg]."))
+		return
+	var/list/match = find_dish_match(bottle_type)
+	if(!match)
+		to_chat(user, span_warning("No vessel here is buying [keg.selected_recipe.bottle_name]."))
+		return
+	var/datum/trade_ship/ship = match["ship"]
+	var/list/line = match["line"]
+	if(line["qty_fulfilled"] >= line["qty_target"])
+		to_chat(user, span_warning("That vessel's hold is full of [line["good_name"]]."))
+		return
+	line["qty_fulfilled"]++
+	qdel(keg)
+	settle_payout(line["offered_price"], user, ship, line["good_name"], 1, TRUE, TRUE)
+
+/obj/structure/roguemachine/ship_fulfillment/proc/settle_payout(gross, mob/user, datum/trade_ship/ship, good_name, qty, message, sound, list/tally, quality_delta = 0)
 	if(gross <= 0)
 		return
 	var/kin_bonus = 0
@@ -297,6 +360,7 @@
 		tally["total_duty"] += total_duty
 		tally["total_cut"] += levy_remitted
 		tally["total_kin_bonus"] = (tally["total_kin_bonus"] || 0) + kin_bonus
+		tally["total_quality_delta"] = (tally["total_quality_delta"] || 0) + quality_delta
 		var/key = "[ship.ship_id]|[good_name]"
 		var/list/info = tally["lines"][key]
 		if(info)
@@ -304,7 +368,11 @@
 		else
 			tally["lines"][key] = list("qty" = qty, "good_name" = good_name, "ship_name" = ship.ship_name)
 		return
-	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""]"
+	var/quality_str = ""
+	if(quality_delta != 0)
+		var/q_sign = quality_delta > 0 ? "+" : ""
+		quality_str = ", quality [q_sign][quality_delta]m"
+	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""][quality_str]"
 	if(producer_payout > 0)
 		SStreasury.give_money_account(producer_payout, user, breakdown)
 

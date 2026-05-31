@@ -6,8 +6,8 @@
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/sewing/bandithood, /datum/crafting_recipe/roguetown/structure/matthios_cross_stone, /datum/crafting_recipe/roguetown/structure/matthios_cross_meat)
 	mob_traits = list(TRAIT_FREEMAN, TRAIT_MATTHIOS_EYES, TRAIT_SEEPRICES_SHITTY)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
-					/datum/action/cooldown/spell/freemans_tools					= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/matthios_firebreath	= CLERIC_T0,
+					/datum/action/cooldown/spell/matthios/freemans_tools		= CLERIC_T0,
+					/datum/action/cooldown/spell/matthios/raze					= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/matthios_transact		= CLERIC_T1, //It says it should be T1

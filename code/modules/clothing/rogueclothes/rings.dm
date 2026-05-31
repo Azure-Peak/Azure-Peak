@@ -215,7 +215,7 @@
 ///
 
 /obj/item/clothing/ring/signet
-	name = "golden signet ring"
+	name = "gold signet ring"
 	icon_state = "signet"
 	desc = "A ring of opulent gold, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, and a fresh bead of tallow rests in the underside."
 	sellprice = 135
@@ -262,7 +262,7 @@
     . += span_info("Packing an INDEXER into an ACCUSATION or CONFESSION before folding-and-stamping it will further amplify this financial bonus.")
 
 /obj/item/clothing/ring/signet/psy/g
-	name = "psydonian golden signet ring"
+	name = "psydonian gold signet ring"
 	icon_state = "psysignet_gold"
 	desc = "A ring of opulent gold, embodying the Naledian belief in Psydon's eternity. Its face is cut to seal writs of religious importance, a bead of tallow nested in the underside."
 	is_silver = FALSE
@@ -539,6 +539,15 @@
 		active_item = FALSE
 	return
 
+/obj/item/clothing/ring/statgemerald/antiquarian
+	sellprice = 30
+	desc = "A gemerald ring, glimmering with verdant brilliance. The closer your hand drifts to it, the stronger that the wind howls. The precious stone has chipped with long use, and is quite worthless except in its magick."	
+/obj/item/clothing/ring/statonyx/antiquarian
+	sellprice = 30
+	desc = "An onyx ring, shining with violet determination. The closer your hand drifts to it, the faster your heart pounds. The precious stone has chipped with long use, and is quite worthless except in its magick."
+/obj/item/clothing/ring/statamythortz/antiquarian
+	sellprice = 30
+	desc = "A saffira ring, crackling with azuric fascination. The closer your hand drifts to it, the clearer your mind becomes. The precious stone has chipped with long use, and is quite worthless except in its magick."
 ///
 
 /obj/item/clothing/ring/statdorpel

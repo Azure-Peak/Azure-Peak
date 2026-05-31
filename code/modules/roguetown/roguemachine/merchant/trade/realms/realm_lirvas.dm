@@ -72,11 +72,11 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/raisinbread, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX, "price" = VICTUALLING_PRICE_FISH),
 	)
 	victualling_drinks_pool = list(
-		list("recipe" = /datum/brewing_recipe/whipwine, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/luxintenebre, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/voddena, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/jack_wine, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/blackberry_wine, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
+		list("recipe" = /datum/brewing_recipe/whipwine),
+		list("recipe" = /datum/brewing_recipe/luxintenebre),
+		list("recipe" = /datum/brewing_recipe/voddena),
+		list("recipe" = /datum/brewing_recipe/jack_wine),
+		list("recipe" = /datum/brewing_recipe/blackberry_wine),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/lirvas/tabard,

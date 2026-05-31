@@ -9,11 +9,11 @@
 /datum/roguestock/bounty/treasure/get_payout_price(obj/item/I)
 	if(!I)
 		return ..()
-	var/bounty_percent = (payout_price/100) * I.get_real_price()
-	bounty_percent = round(bounty_percent)
-	if(bounty_percent < 1)
+	var/pool = round(SStreasury.mint_multiplier * I.get_real_price())
+	if(pool < 1)
 		return 0
-	return bounty_percent
+	var/seller_share = round((payout_price/100) * pool)
+	return max(0, seller_share)
 
 /* Non-Ideal but a way to replicate old vault mechanics:
 	- Ores are not accepted.

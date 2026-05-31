@@ -55,6 +55,9 @@ export const TabBar = (props: {
       >
         Petition
       </div>
+      <div style={tabStyle(tab === 'ledger')} onClick={() => onSwitch('ledger')}>
+        Ledger
+      </div>
       <div
         style={tabStyle(tab === 'royal_custom')}
         onClick={() => onSwitch('royal_custom')}

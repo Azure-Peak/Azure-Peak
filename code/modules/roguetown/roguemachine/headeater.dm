@@ -73,5 +73,9 @@
 				eathead(I, user, TRUE, FALSE)
 	if(topay > 0)
 		var/net = payout(user, topay)
-		to_chat(user, span_danger("The [src] credits [net] mammons to your account."))
+		var/levy = topay - net
+		if(levy > 0)
+			to_chat(user, span_danger("The [src] credits [net] mammons to your account, less [levy] mammon to the Crown's Levy."))
+		else
+			to_chat(user, span_danger("The [src] credits [net] mammons to your account."))
 		topay = 0

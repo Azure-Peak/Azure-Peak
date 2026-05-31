@@ -43,7 +43,6 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 		ITEM_CAT_ENG_MISC = MARKUP_ENG_MISC,
 		ITEM_CAT_GARMENT_COMMON = MARKUP_GARMENT_COMMON,
 		ITEM_CAT_GARMENT_FINE = MARKUP_GARMENT_FINE,
-		ITEM_CAT_GARMENT_LUXURY = MARKUP_GARMENT_LUXURY,
 		ITEM_CAT_TAILOR_MISC = MARKUP_GARMENT_COMMON,
 		ITEM_CAT_CLOTH_MASK = MARKUP_GARMENT_COMMON,
 		ITEM_CAT_FOODSTUFF_FRESH = MARKUP_FOODSTUFF_FRESH,
@@ -549,6 +548,9 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 		for(var/subtype in typesof(proto_type))
 			if(!GLOB.derived_categories[subtype])
 				GLOB.derived_categories[subtype] = proto_cat
+	for(var/subtype in typesof(/obj/item/reagent_containers/glass/bottle/brewing_bottle))
+		if(!GLOB.derived_categories[subtype])
+			GLOB.derived_categories[subtype] = ITEM_CAT_BEVERAGE
 
 /proc/pricing_engine_fingerprint()
 	var/list/parts = list()

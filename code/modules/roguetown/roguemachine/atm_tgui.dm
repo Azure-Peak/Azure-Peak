@@ -63,6 +63,7 @@
 			"can_withdraw" = (V && V.can_withdraw(user)) ? TRUE : FALSE,
 			"can_view" = (V && V.can_view(user)) ? TRUE : FALSE,
 			"supports_loans" = V ? (V.supports_loans ? TRUE : FALSE) : TRUE,
+			"allow_zero_rate" = (V && (0 in V.allowed_rates())) ? TRUE : FALSE,
 			"authority_label" = V ? V.get_authority_label() : "",
 			"withdraw_rule" = V ? V.get_withdraw_rule_text() : "",
 			"has_patronage" = (V && !isnull(V.get_patronage_writ_path())) ? TRUE : FALSE,

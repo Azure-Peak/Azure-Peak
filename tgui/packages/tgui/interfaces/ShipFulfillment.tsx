@@ -62,7 +62,7 @@ const SUBSECTION_HINT: Record<string, string> = {
   [TAG_VICTUALLING_PRESERVED]:
     'Preserved foods for the voyage.',
   [TAG_VICTUALLING_DRINKS]:
-    'Drinks for the crews and to resell back home. Sealed brewer bottles only. Uncorked stock is refused.',
+    'Drinks for the crews and to resell back home. Sold by the keg - drag a finished, untapped fermentation keg onto the crate. Loose bottles are refused.',
 };
 
 const SUBSECTION_ORDER = [

@@ -7,10 +7,10 @@
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT,
 	 					  TRAIT_ANCIENT_HAG, TRAIT_EDIT_DESCRIPTORS,
 						  TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT,
-						  TRAIT_LEECHIMMUNE, TRAIT_ZOMBIE_IMMUNE,
-						  TRAIT_NOMOOD, TRAIT_UNLYCKERABLE,
-						  TRAIT_KNEESTINGER_IMMUNITY, TRAIT_DARKVISION,
-						  TRAIT_NOHUNGER, TRAIT_TECHNOPHOBE)
+						  TRAIT_ZOMBIE_IMMUNE, TRAIT_NOMOOD,
+						  TRAIT_UNLYCKERABLE, TRAIT_BOGWALKER,
+						  TRAIT_DARKVISION, TRAIT_NOHUNGER,
+						  TRAIT_TECHNOPHOBE)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,
@@ -52,8 +52,9 @@
 	beltr = /obj/item/roguekey/hag
 	if(H.mind)
 		H.verbs |= /mob/living/carbon/human/proc/commune_with_roots
+		H.verbs |= /mob/living/carbon/human/proc/toggle_guarded
 		H.ambushable = FALSE
-		H.faction |= list("hag", "spiders")
+		H.faction |= list(FACTION_HAG, FACTION_SPIDERS, FACTION_TROLLS)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/wildshape/hag_true_form)
 		H.set_patron(/datum/patron/mossmother)
 		H.AddComponent(/datum/component/hag_curio_tracker)
@@ -67,6 +68,7 @@
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/crawling_moss)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/stormy_moss)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/corrosive_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/sprouting_moss)
 
 		// Mid Rarity
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/lustrous_moss)
@@ -85,6 +87,7 @@
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_sword)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_spear)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/lux_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_mirror)
 
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/repulse)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/spiritual_siphon)
@@ -92,8 +95,8 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grant_boon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/resurrect/hag)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink/hag)
-		H.dna.species.soundpack_m = new /datum/voicepack/hag()
-		H.dna.species.soundpack_f = new /datum/voicepack/hag()
+		H.dna.species.soundpack_m = new /datum/voicepack/female/hag()
+		H.dna.species.soundpack_f = new /datum/voicepack/male/hag()
 		if(!H.mind.has_antag_datum(/datum/antagonist/hag))
 			var/datum/antagonist/new_antag = new /datum/antagonist/hag()
 			H.mind.add_antag_datum(new_antag)
