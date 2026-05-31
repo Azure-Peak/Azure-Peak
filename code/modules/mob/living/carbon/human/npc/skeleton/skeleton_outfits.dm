@@ -107,17 +107,17 @@
 			r_hand = /obj/item/rogueweapon/mace/alloy
 		if(5)
 			r_hand = /obj/item/rogueweapon/mace/woodclub
-	var/hat_choice = rand(1, 4)
 	if(prob(40))
-	switch(hat_choice)
-		if(1)
-			head = /obj/item/clothing/head/roguetown/cap
-		if(2)
-			head = /obj/item/clothing/head/roguetown/roguehood
-		if(3)
-			head = /obj/item/clothing/head/roguetown/fisherhat
-		if(4)
-			head = /obj/item/clothing/head/roguetown/knitcap
+		var/hat_choice = rand(1, 4)
+		switch(hat_choice)
+			if(1)
+				head = /obj/item/clothing/head/roguetown/cap
+			if(2)
+				head = /obj/item/clothing/head/roguetown/roguehood
+			if(3)
+				head = /obj/item/clothing/head/roguetown/fisherhat
+			if(4)
+				head = /obj/item/clothing/head/roguetown/knitcap
 	H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
@@ -220,16 +220,26 @@
 		mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 	if(prob(15))
 		beltl = /obj/item/repair_kit/bad
-	if(prob(45)) // 45% chance of shield, these ones are really weak and break easily
-		l_hand = /obj/item/rogueweapon/shield/bronze/aalloy
-		if(prob(20)) // 20% chance of replacing this with a decently okay shield
-			l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
-	if(prob(33))
-		r_hand = /obj/item/rogueweapon/spear/aalloy
-	else if(prob(33))
-		r_hand = /obj/item/rogueweapon/sword/short/gladius/agladius	// ave
-	else
-		r_hand = /obj/item/rogueweapon/flail/aflail
+	var/weapon_choice = rand(1, 5)
+	switch(weapon_choice)
+		if(1)
+			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
+			if(prob(20)) // 20% chance of replacing this with a decently okay shield
+				l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
+		if(2)
+			r_hand = /obj/item/rogueweapon/sword/short/gladius/agladius // ave
+			if(prob(45)) // 45% chance of shield, these ones are really weak and break easily
+				l_hand = /obj/item/rogueweapon/shield/bronze/aalloy
+		if(3)
+			r_hand = /obj/item/rogueweapon/flail/aflail
+			if(prob(65)) // 65% chance of shield, these ones are really weak and break easily
+				l_hand = /obj/item/rogueweapon/shield/bronze/aalloy
+		if(4)
+			r_hand = /obj/item/rogueweapon/mace/alloy
+			if(prob(40)) // 40% chance of replacing this with a decently okay shield
+				l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
+		if(5)
+			r_hand = /obj/item/rogueweapon/halberd/bardiche/aalloy
 	var/cloak_choice = rand(1, 3)
 	switch(cloak_choice)
 		if(1)
