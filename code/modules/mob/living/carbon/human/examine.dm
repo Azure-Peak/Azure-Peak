@@ -326,7 +326,7 @@
 		if (HAS_TRAIT(src, TRAIT_LEPROSY))
 			. += span_necrosis("A LEPER...")
 
-		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL) || (issunelf(src) && issunelf(user)))
+		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL))
 			switch (pronouns)
 				if (HE_HIM)
 					. += span_beautiful_masc("[m1] handsome!")

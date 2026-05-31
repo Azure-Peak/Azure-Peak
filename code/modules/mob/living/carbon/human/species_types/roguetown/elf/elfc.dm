@@ -42,7 +42,7 @@
 	skin_tone_wording = "Skintone"
 	use_skin_tone_wording_for_examine = FALSE
 
-	inherent_traits = list(TRAIT_SILVER_BLESSED, TRAIT_ZOMBIE_IMMUNE, TRAIT_UNLYCKERABLE)
+	inherent_traits = list(TRAIT_SILVER_BLESSED, TRAIT_ZOMBIE_IMMUNE, TRAIT_UNLYCKERABLE, TRAIT_BEAUTIFUL)
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,OLDGREY)
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = 1
