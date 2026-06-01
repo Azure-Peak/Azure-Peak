@@ -99,8 +99,8 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 				organ_eyes.eye_color = "#995333"
 				organ_eyes.accessory_colors = "#995333#995333"
 			if(3)
-				organ_eyes.eye_color = "#000000" //Souless greytider look
-				organ_eyes.accessory_colors = "#000000#000000"
+				organ_eyes.eye_color = "#131313" //Souless greytider look
+				organ_eyes.accessory_colors = "#131313#131313"
 
 	if(gender == FEMALE)
 		real_name = pick(world.file2list("strings/rt/names/human/vikingf.txt"))
