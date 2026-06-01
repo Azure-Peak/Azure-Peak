@@ -125,7 +125,7 @@ NECRO SKELETONS
 			beltr = /obj/item/rogueweapon/sword
 			backr = /obj/item/rogueweapon/shield/wood
 		if("Spear")
-			beltr = /obj/item/rogueweapon/spear
+			r_hand = /obj/item/rogueweapon/spear
 		if("Mace + Shield")
 			backr = /obj/item/rogueweapon/shield/wood
 			beltr = /obj/item/rogueweapon/mace
@@ -261,7 +261,7 @@ NECRO SKELETONS
 			beltr = /obj/item/rogueweapon/spear
 		if("Great Flail")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			beltr = /obj/item/rogueweapon/flail/peasantwarflail/iron
+			r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
 		if("Warhammer + Shield")
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			backr = /obj/item/rogueweapon/shield/wood
@@ -318,12 +318,11 @@ NECRO SKELETONS
 	H.STAINT = 6
 	H.STAPER = 8
 
-	head = /obj/item/clothing/head/roguetown/helmet/skullcap
+	head = /obj/item/clothing/head/roguetown/armingcap
 	armor = /obj/item/clothing/suit/roguetown/armor/leather //So you don't fall off a wall and gib yourself.
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer/lich
+	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 	pants = /obj/item/clothing/under/roguetown/trou/artipants/lich
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	backl = /obj/item/storage/backpack/rogue/backpack //Only cheating here, because you sort of /need/ it to carry stuff around to smelt/whatever
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 	beltl = /obj/item/rogueweapon/pick
 
