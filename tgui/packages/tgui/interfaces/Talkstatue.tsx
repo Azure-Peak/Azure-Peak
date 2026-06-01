@@ -41,6 +41,9 @@ type Data = {
   is_bathhouse: BooleanLike;
   my_key: string;
   message_char_limit: number;
+  merc_status_options: string[];
+  adv_status_options: string[];
+  wretch_status_options: string[];
   mercenaries: RosterEntry[];
   adventurers: RosterEntry[];
   wretches: RosterEntry[];
@@ -117,12 +120,13 @@ const RosterRow = (props: {
 const OwnControls = (props: {
   myEntry: RosterEntry | undefined;
   registeredLabel: string;
-  cycleAction: string;
+  statusOptions: string[];
+  setAction: string;
   editAction: string;
   extraButtons?: React.ReactNode;
   act: ActFn;
 }) => {
-  const { myEntry, registeredLabel, cycleAction, editAction, extraButtons, act } = props;
+  const { myEntry, registeredLabel, statusOptions, setAction, editAction, extraButtons, act } = props;
   return (
     <div
       style={{
@@ -156,13 +160,17 @@ const OwnControls = (props: {
           </div>
         )}
       </div>
-      <button
-        type="button"
-        style={inkButtonStyle()}
-        onClick={() => act(cycleAction)}
+      <select
+        value={myEntry?.status || statusOptions[0]}
+        onChange={(e) => act(setAction, { status: e.target.value })}
+        style={{ ...inkButtonStyle(), fontFamily: SERIF }}
       >
-        Cycle Status
-      </button>
+        {statusOptions.map((s) => (
+          <option key={s} value={s}>
+            {s}
+          </option>
+        ))}
+      </select>
       <button
         type="button"
         style={inkButtonStyle()}
@@ -187,7 +195,8 @@ const MercTab = (props: { data: Data; act: ActFn }) => {
         <OwnControls
           myEntry={myEntry}
           registeredLabel="Mercenary registry"
-          cycleAction="cycle_merc_status"
+          statusOptions={data.merc_status_options}
+          setAction="set_merc_status"
           editAction="edit_merc_message"
           act={act}
         />
@@ -241,8 +250,11 @@ const MercTab = (props: { data: Data; act: ActFn }) => {
 const AdventurerTab = (props: { data: Data; act: ActFn }) => {
   const { data, act } = props;
   const myEntry = data.adventurers.find((e) => e.key === data.my_key);
-  const sortedByStatus = [...data.adventurers].sort((a, b) =>
-    a.status.localeCompare(b.status) || a.name.localeCompare(b.name),
+  const sortedByStatus = [...data.adventurers].sort(
+    (a, b) =>
+      (a.status === 'Available' ? 0 : 1) - (b.status === 'Available' ? 0 : 1) ||
+      a.status.localeCompare(b.status) ||
+      a.name.localeCompare(b.name),
   );
   return (
     <>
@@ -250,8 +262,20 @@ const AdventurerTab = (props: { data: Data; act: ActFn }) => {
         <OwnControls
           myEntry={myEntry}
           registeredLabel="Adventurer Hall registry"
-          cycleAction="cycle_adv_status"
+          statusOptions={data.adv_status_options}
+          setAction="set_adv_status"
           editAction="edit_adv_message"
+          extraButtons={
+            myEntry && (
+              <button
+                type="button"
+                style={inkButtonStyle()}
+                onClick={() => act('leave_adv')}
+              >
+                Take Myself Off
+              </button>
+            )
+          }
           act={act}
         />
       )}
@@ -298,7 +322,7 @@ const AdventurerTab = (props: { data: Data; act: ActFn }) => {
             entry={entry}
             showAdvjob
             action={
-              entry.status !== 'Do not Disturb' && entry.key !== data.my_key
+              entry.status !== 'Do not Disturb'
                 ? {
                     label: 'Message',
                     onClick: () =>
@@ -325,7 +349,8 @@ const WretchTab = (props: { data: Data; act: ActFn }) => {
         <OwnControls
           myEntry={myEntry}
           registeredLabel="Wretch registry (only the bathhouse sees this list)"
-          cycleAction="cycle_wretch_status"
+          statusOptions={data.wretch_status_options}
+          setAction="set_wretch_status"
           editAction="edit_wretch_message"
           extraButtons={
             <button
