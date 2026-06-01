@@ -178,6 +178,7 @@ NECRO SKELETONS
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	beltr = /obj/item/rogueweapon/huntingknife/idagger
@@ -343,6 +344,8 @@ NECRO SKELETONS
 	H.STAINT = 6
 	H.STAPER = 8
 
+	head = = /obj/item/clothing/head/roguetown/helmet/leather //Looks bad with volf helm vs archer so no ability to pick
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/leather //So you don't fall off a wall and gib yourself.
 	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 	pants = /obj/item/clothing/under/roguetown/trou/artipants/lich
@@ -350,15 +353,6 @@ NECRO SKELETONS
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 	beltl = /obj/item/rogueweapon/pick
 
-	var/helmets = list(
-		"Leather Helmet"	= /obj/item/clothing/head/roguetown/helmet/leather,
-		"Volf Helmet"		= /obj/item/clothing/head/roguetown/helmet/leather/volfhelm,
-		"None"
-		)
-	H.adjust_blindness(-3)
-	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
-	if(helmchoice != "None")
-		head = helmets[helmchoice]
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
