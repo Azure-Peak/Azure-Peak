@@ -344,7 +344,7 @@ NECRO SKELETONS
 	H.STAINT = 6
 	H.STAPER = 8
 
-	head = = /obj/item/clothing/head/roguetown/helmet/leather //Looks bad with volf helm vs archer so no ability to pick
+	head = /obj/item/clothing/head/roguetown/helmet/leather //Looks bad with volf helm vs archer so no ability to pick
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/leather //So you don't fall off a wall and gib yourself.
 	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
