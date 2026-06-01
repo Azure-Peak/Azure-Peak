@@ -1,4 +1,5 @@
 import {
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -15,7 +16,7 @@ const tabBarStyle = {
 
 const tabStyle = (active: boolean) => ({
   fontFamily: SERIF,
-  fontSize: '14px',
+  fontSize: FONT_BODY,
   fontVariant: 'small-caps' as const,
   padding: '2px 8px',
   color: active ? INK : INK_FAINT,

@@ -4,6 +4,7 @@ import { NumberInput } from 'tgui-core/components';
 import { useBackend } from '../../backend';
 import {
   cardStyle,
+  FONT_BODY,
   INK,
   INK_SOFT,
   inkButtonStyle,
@@ -23,7 +24,7 @@ export const RoyalCustomPanel = () => {
         ...cardStyle,
         marginBottom: '10px',
         fontFamily: SERIF,
-        fontSize: '12px',
+        fontSize: FONT_BODY,
       }}
     >
       <div
@@ -66,7 +67,7 @@ export const RoyalCustomPanel = () => {
                 alignItems: 'center',
               }}
             >
-              <span style={{ color: INK_SOFT, fontSize: '11px' }}>
+              <span style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
                 Margin %
               </span>
               <NumberInput
@@ -97,7 +98,7 @@ export const RoyalCustomPanel = () => {
       <div
         style={{
           color: INK_SOFT,
-          fontSize: '12px',
+          fontSize: FONT_BODY,
           marginTop: '4px',
         }}
       >

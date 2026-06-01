@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react';
 import {
   cardStyle,
   dashedFrameStyle,
+  FONT_BODY,
+  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -46,7 +48,7 @@ const feedColumnStyle: React.CSSProperties = {
 const feedTitleStyle: React.CSSProperties = {
   fontVariant: 'small-caps',
   fontWeight: 'bold',
-  fontSize: '14px',
+  fontSize: FONT_BODY,
   color: INK,
   marginBottom: 6,
   borderBottom: `1px solid ${INK_FAINT}`,
@@ -57,7 +59,7 @@ const feedRowStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'space-between',
   padding: '2px 0',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   color: INK,
   borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
 };
@@ -73,7 +75,7 @@ const ledgerHeaderStyle: React.CSSProperties = {
   fontVariant: 'small-caps',
   color: SEAL_AMBER,
   fontStyle: 'italic',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   borderBottom: `1px solid ${INK_FAINT}`,
   padding: '2px 4px 3px 4px',
   display: 'grid',
@@ -89,7 +91,7 @@ const ledgerRowStyle: React.CSSProperties = {
   alignItems: 'center',
   padding: '3px 4px',
   borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   color: INK,
 };
 
@@ -126,7 +128,7 @@ const matrixContainerStyle: React.CSSProperties = {
 const matrixTableStyle: React.CSSProperties = {
   width: '100%',
   borderCollapse: 'collapse',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   color: INK,
 };
 
@@ -142,7 +144,7 @@ const matrixCornerStyle: React.CSSProperties = {
 const matrixRealmHeaderStyle: React.CSSProperties = {
   padding: '3px 4px',
   fontVariant: 'small-caps',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   color: INK_SOFT,
   borderBottom: `1px solid ${INK_FAINT}`,
   textAlign: 'center',
@@ -190,7 +192,7 @@ const RealmDemandMatrix = (props: {
         style={{
           color: INK_SOFT,
           fontStyle: 'italic',
-          fontSize: '11px',
+          fontSize: FONT_BODY,
           marginBottom: 4,
         }}
       >
@@ -287,7 +289,7 @@ export const MarketView = ({
           style={{
             fontVariant: 'small-caps',
             fontWeight: 'bold',
-            fontSize: '15px',
+            fontSize: FONT_TITLE,
             color: INK,
           }}
         >
@@ -298,7 +300,7 @@ export const MarketView = ({
             style={{
               color: SEAL_AMBER,
               fontStyle: 'italic',
-              fontSize: '13px',
+              fontSize: FONT_BODY,
               marginTop: 4,
               fontWeight: 'bold',
             }}
@@ -311,7 +313,7 @@ export const MarketView = ({
             style={{
               color: INK_SOFT,
               fontStyle: 'italic',
-              fontSize: '12px',
+              fontSize: FONT_BODY,
               marginTop: 2,
             }}
           >
@@ -325,7 +327,7 @@ export const MarketView = ({
             cursor: 'pointer',
             color: SEAL_AMBER,
             fontStyle: 'italic',
-            fontSize: '11px',
+            fontSize: FONT_BODY,
             fontVariant: 'small-caps',
           }}
         >
@@ -338,7 +340,7 @@ export const MarketView = ({
             cursor: 'pointer',
             color: SEAL_AMBER,
             fontStyle: 'italic',
-            fontSize: '11px',
+            fontSize: FONT_BODY,
             fontVariant: 'small-caps',
           }}
         >
@@ -384,7 +386,7 @@ export const MarketView = ({
               style={{
                 color: INK_FAINT,
                 fontStyle: 'italic',
-                fontSize: '12px',
+                fontSize: FONT_BODY,
                 padding: '6px 0',
               }}
             >
@@ -416,7 +418,7 @@ export const MarketView = ({
               style={{
                 color: INK_FAINT,
                 fontStyle: 'italic',
-                fontSize: '12px',
+                fontSize: FONT_BODY,
                 padding: '6px 0',
               }}
             >
@@ -465,7 +467,7 @@ export const MarketView = ({
                         textAlign: 'right',
                         color: fillCol,
                         fontWeight: 'bold',
-                        fontSize: '12px',
+                        fontSize: FONT_BODY,
                         whiteSpace: 'nowrap',
                       }}
                     >
@@ -476,7 +478,7 @@ export const MarketView = ({
                         textAlign: 'center',
                         color: demCol,
                         fontWeight: 'bold',
-                        fontSize: '12px',
+                        fontSize: FONT_BODY,
                       }}
                     >
                       {formatMult(c.demand_mult)}

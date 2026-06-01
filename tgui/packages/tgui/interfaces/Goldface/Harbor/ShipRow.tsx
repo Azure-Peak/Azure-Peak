@@ -298,7 +298,7 @@ export const ShipRow = (props: Props) => {
         padding: '6px 8px',
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
         fontFamily: SERIF,
-        fontSize: '13px',
+        fontSize: FONT_BODY,
       }}
     >
       <div
@@ -319,7 +319,7 @@ export const ShipRow = (props: Props) => {
                   border: `1px solid ${SEAL_AMBER}`,
                   borderRadius: '6px',
                   color: SEAL_AMBER,
-                  fontSize: '9px',
+                  fontSize: FONT_BODY,
                   fontWeight: 'bold',
                   letterSpacing: '0.5px',
                   verticalAlign: 'middle',
@@ -412,7 +412,7 @@ export const ShipRow = (props: Props) => {
                   borderRadius: '2px',
                   boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.35)',
                   fontFamily: SERIF,
-                  fontSize: '12px',
+                  fontSize: FONT_BODY,
                   color: INK,
                 }}
               >
@@ -429,7 +429,7 @@ export const ShipRow = (props: Props) => {
                       color: SEAL_AMBER,
                       fontVariant: 'small-caps',
                       fontWeight: 'bold',
-                      fontSize: '13px',
+                      fontSize: FONT_BODY,
                     }}
                   >
                     {realm.name}
@@ -445,7 +445,7 @@ export const ShipRow = (props: Props) => {
                       border: 'none',
                       color: INK_SOFT,
                       cursor: 'pointer',
-                      fontSize: '14px',
+                      fontSize: FONT_BODY,
                       padding: '0 4px',
                       lineHeight: 1,
                     }}
@@ -472,7 +472,7 @@ export const ShipRow = (props: Props) => {
                     border: `1px solid ${SEAL_GREEN}`,
                     borderRadius: '6px',
                     color: SEAL_GREEN,
-                    fontSize: '9px',
+                    fontSize: FONT_BODY,
                     fontWeight: 'bold',
                     letterSpacing: '0.5px',
                     verticalAlign: 'middle',

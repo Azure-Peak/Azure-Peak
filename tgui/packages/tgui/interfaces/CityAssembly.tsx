@@ -7,6 +7,7 @@ import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
   BUTTON_BG,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -141,7 +142,7 @@ const rowLabelStyle: CSSProperties = {
 
 const rowHintStyle: CSSProperties = {
   color: INK_SOFT,
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   flexBasis: '100%',
   paddingLeft: '118px',
   marginTop: '2px',
@@ -149,7 +150,7 @@ const rowHintStyle: CSSProperties = {
 
 const previewStyle: CSSProperties = {
   color: INK_SOFT,
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   fontVariant: 'small-caps',
   flexBasis: '100%',
   paddingLeft: '118px',
@@ -162,7 +163,7 @@ const headerBarStyle: CSSProperties = {
   alignItems: 'baseline',
   color: INK_SOFT,
   fontVariant: 'small-caps',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   marginBottom: '4px',
 };
 
@@ -174,7 +175,7 @@ const quorumBannerStyle = (quorate: boolean): CSSProperties => ({
   marginBottom: '10px',
   fontVariant: 'small-caps',
   fontWeight: 'bold',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   textAlign: 'center',
 });
 
@@ -197,7 +198,7 @@ const standLinkStyle: CSSProperties = {
   cursor: 'pointer',
   color: INK_SOFT,
   fontStyle: 'italic',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   textDecoration: 'underline',
   marginTop: '4px',
 };
@@ -218,19 +219,19 @@ const candidateNameStyle: CSSProperties = {
 const candidateJobStyle: CSSProperties = {
   color: INK_SOFT,
   fontStyle: 'italic',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
 };
 
 const candidatePledgeStyle: CSSProperties = {
   color: INK_SOFT,
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   flexBasis: '100%',
   paddingLeft: '28px',
 };
 
 const tallyChipStyle: CSSProperties = {
   color: INK_SOFT,
-  fontSize: '10px',
+  fontSize: FONT_BODY,
   fontWeight: 'normal',
   marginLeft: '2px',
 };
@@ -483,12 +484,12 @@ const ElectionRow = (props: ElectionRowProps) => {
               <span style={candidateNameStyle}>{c.name}</span>
               <span style={candidateJobStyle}>&ldquo;{c.job}&rdquo;</span>
               {c.is_alderman ? (
-                <span style={{ color: SEAL_AMBER, fontSize: '11px' }}>
+                <span style={{ color: SEAL_AMBER, fontSize: FONT_BODY }}>
                   (sitting)
                 </span>
               ) : null}
               {c.is_me ? (
-                <span style={{ color: INK_SOFT, fontSize: '11px' }}>
+                <span style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
                   (you)
                 </span>
               ) : null}
@@ -560,7 +561,7 @@ const ElectionRow = (props: ElectionRowProps) => {
                 border: `1px solid ${INK_FAINT}`,
                 padding: '4px 6px',
                 fontFamily: SERIF,
-                fontSize: '12px',
+                fontSize: FONT_BODY,
                 color: INK,
                 minHeight: '50px',
                 width: '100%',
@@ -757,11 +758,11 @@ const HistoryBlock = (props: { history: HistoryEntry[] }) => {
             marginBottom: '8px',
           }}
         >
-          <div style={{ color: INK_SOFT, fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '1px' }}>
+          <div style={{ color: INK_SOFT, fontSize: FONT_BODY, fontVariant: 'small-caps', letterSpacing: '1px' }}>
             Session {h.session} &mdash; Day {h.day}
           </div>
           <div
-            style={{ color: INK, lineHeight: 1.5, fontSize: '12px' }}
+            style={{ color: INK, lineHeight: 1.5, fontSize: FONT_BODY }}
             dangerouslySetInnerHTML={{ __html: h.text }}
           />
         </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import {
+  FONT_BODY,
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
@@ -121,7 +122,7 @@ export const AvisaTab = ({ data, act }: TabProps) => {
         style={{
           color: INK_SOFT,
           fontStyle: 'italic',
-          fontSize: '12px',
+          fontSize: FONT_BODY,
           marginTop: 8,
           marginBottom: 8,
         }}
@@ -145,7 +146,7 @@ const AssemblySection = ({ act }: { act: TabProps['act'] }) => (
     <div
       style={{
         color: INK_FAINT,
-        fontSize: '12px',
+        fontSize: FONT_BODY,
         marginBottom: 12,
       }}
     >

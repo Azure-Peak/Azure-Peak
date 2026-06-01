@@ -6,6 +6,7 @@ import { Window } from '../layouts';
 import {
   badgeStyle,
   cardStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -17,8 +18,8 @@ import {
   SEAL_BLUE,
   SEAL_GREEN,
   SEAL_RED,
-  SERIF,
   sectionHeaderStyle,
+  SERIF,
   subtitleStyle,
   tabBarStyle,
   tabStyle,
@@ -79,10 +80,10 @@ const RosterRow = (props: {
       }}
     >
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: '13px', color: INK }}>
+        <div style={{ fontSize: FONT_BODY, color: INK }}>
           <b>{entry.name}</b>
           {showAdvjob && entry.advjob && (
-            <span style={{ color: INK_FAINT, fontSize: '11px' }}>
+            <span style={{ color: INK_FAINT, fontSize: FONT_BODY }}>
               {' '}
               - {entry.advjob}
             </span>
@@ -91,7 +92,7 @@ const RosterRow = (props: {
         {entry.message && (
           <div
             style={{
-              fontSize: '11px',
+              fontSize: FONT_BODY,
               fontStyle: 'italic',
               color: INK_SOFT,
             }}
@@ -135,10 +136,10 @@ const OwnControls = (props: {
       }}
     >
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: '12px', color: SEAL_AMBER, fontStyle: 'italic' }}>
+        <div style={{ fontSize: FONT_BODY, color: SEAL_AMBER, fontStyle: 'italic' }}>
           {registeredLabel}
         </div>
-        <div style={{ fontSize: '13px', color: INK }}>
+        <div style={{ fontSize: FONT_BODY, color: INK }}>
           Status:{' '}
           <b style={{ color: STATUS_COLOR[myEntry?.status || ''] || INK }}>
             {myEntry?.status || 'Not Registered'}
@@ -147,7 +148,7 @@ const OwnControls = (props: {
         {myEntry?.message && (
           <div
             style={{
-              fontSize: '11px',
+              fontSize: FONT_BODY,
               fontStyle: 'italic',
               color: INK_SOFT,
             }}
@@ -259,7 +260,7 @@ const AdventurerTab = (props: { data: Data; act: ActFn }) => {
       <div
         style={{
           ...subtitleStyle,
-          fontSize: '12px',
+          fontSize: FONT_BODY,
           marginBottom: '8px',
           color: INK_SOFT,
         }}
@@ -343,7 +344,7 @@ const WretchTab = (props: { data: Data; act: ActFn }) => {
       <div
         style={{
           ...subtitleStyle,
-          fontSize: '12px',
+          fontSize: FONT_BODY,
           marginBottom: '8px',
           color: INK_SOFT,
         }}

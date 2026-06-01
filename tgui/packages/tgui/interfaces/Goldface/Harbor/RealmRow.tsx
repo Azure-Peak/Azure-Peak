@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import {
+  FONT_BODY,
   INK,
   INK_SOFT,
   PARCHMENT_SHADOW,
@@ -33,14 +34,14 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
           columnGap: '8px',
           padding: '6px',
           cursor: 'pointer',
-          fontSize: '11px',
+          fontSize: FONT_BODY,
         }}
         onClick={() => setExpanded((e) => !e)}
       >
         <div
           style={{
             color: INK_SOFT,
-            fontSize: '11px',
+            fontSize: FONT_BODY,
             paddingTop: '2px',
           }}
         >
@@ -52,7 +53,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
             style={{
               color: SEAL_AMBER,
               fontVariant: 'small-caps',
-              fontSize: '13px',
+              fontSize: FONT_BODY,
               fontWeight: 'bold',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -70,7 +71,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
                   border: `1px solid ${SEAL_GREEN}`,
                   borderRadius: '8px',
                   color: SEAL_GREEN,
-                  fontSize: '10px',
+                  fontSize: FONT_BODY,
                   fontWeight: 'bold',
                   letterSpacing: '0.5px',
                 }}
@@ -85,7 +86,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
                 style={{
                   color: INK_SOFT,
                   fontStyle: 'italic',
-                  fontSize: '10px',
+                  fontSize: FONT_BODY,
                 }}
               >
                 no conditions
@@ -104,7 +105,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
         <div
           style={{
             padding: '6px 8px 10px 36px',
-            fontSize: '12px',
+            fontSize: FONT_BODY,
             color: INK,
             background: 'var(--p-card-bg)',
           }}
@@ -147,7 +148,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
                     style={{
                       marginTop: '2px',
                       color: INK_SOFT,
-                      fontSize: '11px',
+                      fontSize: FONT_BODY,
                       lineHeight: '1.4',
                     }}
                   >

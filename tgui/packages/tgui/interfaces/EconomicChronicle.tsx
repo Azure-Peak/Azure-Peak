@@ -1,6 +1,11 @@
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
-import { rulerStyle, subtitleStyle, titleStyle } from './common/parchment';
+import {
+  FONT_BODY,
+  rulerStyle,
+  subtitleStyle,
+  titleStyle,
+} from './common/parchment';
 import { BucketsSection } from './EconomicChronicle/BucketsSection';
 import { ContractsSection } from './EconomicChronicle/ContractsSection';
 import { EconomySection } from './EconomicChronicle/EconomySection';
@@ -22,7 +27,7 @@ export const EconomicChronicle = () => {
           <div
             style={{
               ...subtitleStyle,
-              fontSize: '11px',
+              fontSize: FONT_BODY,
               marginBottom: '6px',
             }}
           >

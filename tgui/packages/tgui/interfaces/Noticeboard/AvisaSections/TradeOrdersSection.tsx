@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react';
 import {
   badgeStyle,
   cardStyle,
+  FONT_BODY,
+  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -53,7 +55,7 @@ export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
           type="button"
           style={{
             ...inkButtonStyle({}),
-            fontSize: '11px',
+            fontSize: FONT_BODY,
             padding: '2px 6px',
           }}
           onClick={() => setHelpOpen((v) => !v)}
@@ -97,7 +99,7 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
 
       <div
         style={{
-          fontSize: '15px',
+          fontSize: FONT_TITLE,
           fontWeight: 'bold',
           color: INK,
           fontFamily: SERIF,
@@ -110,7 +112,7 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
         style={{
           color: INK_SOFT,
           fontStyle: 'italic',
-          fontSize: '12px',
+          fontSize: FONT_BODY,
           marginTop: 2,
         }}
       >
@@ -121,7 +123,7 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
         <div
           style={{
             color: INK,
-            fontSize: '12px',
+            fontSize: FONT_BODY,
             marginTop: 6,
             whiteSpace: 'pre-wrap',
           }}
@@ -160,7 +162,7 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
           style={{
             color: SEAL_AMBER,
             fontWeight: 'bold',
-            fontSize: '14px',
+            fontSize: FONT_BODY,
           }}
         >
           {order.total_payout}m
@@ -174,7 +176,7 @@ const fieldLabelStyle: React.CSSProperties = {
   fontVariant: 'small-caps',
   color: SEAL_AMBER,
   fontStyle: 'italic',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
 };
 
 const EmptyMessage = ({ text }: { text: string }) => (
@@ -197,7 +199,7 @@ const HelpPanel = () => (
       background: 'var(--p-card-bg)',
       border: `1px solid ${INK_FAINT}`,
       color: INK_SOFT,
-      fontSize: '12px',
+      fontSize: FONT_BODY,
       lineHeight: 1.5,
     }}
   >

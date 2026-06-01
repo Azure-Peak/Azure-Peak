@@ -4,6 +4,7 @@ import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
   cardStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -89,7 +90,7 @@ const CharterChip = (props: { data: Data }) => {
         fontVariant: 'small-caps',
         color,
         fontWeight: 'bold',
-        fontSize: '11px',
+        fontSize: FONT_BODY,
         fontFamily: SERIF,
       }}
     >
@@ -124,7 +125,7 @@ const StockRowView = (props: {
         padding: '2px 6px',
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
         fontFamily: SERIF,
-        fontSize: '12px',
+        fontSize: FONT_BODY,
       }}
     >
       <div style={{ flex: '1 1 200px', minWidth: 0 }}>
@@ -137,7 +138,7 @@ const StockRowView = (props: {
             style={{
               color: row.event_tag === 'GLUT' ? SEAL_GREEN : SEAL_RED,
               fontWeight: 'bold',
-              fontSize: '10px',
+              fontSize: FONT_BODY,
               marginLeft: '6px',
               padding: '0 4px',
               border: `1px solid ${row.event_tag === 'GLUT' ? SEAL_GREEN : SEAL_RED}`,
@@ -162,7 +163,7 @@ const StockRowView = (props: {
             style={{
               color: INK_FAINT,
               fontStyle: 'italic',
-              fontSize: '10px',
+              fontSize: FONT_BODY,
               marginLeft: '4px',
             }}
           >
@@ -173,7 +174,7 @@ const StockRowView = (props: {
           <span
             style={{
               color: INK_SOFT,
-              fontSize: '12px',
+              fontSize: FONT_BODY,
               marginLeft: '6px',
             }}
           >
@@ -195,7 +196,7 @@ const StockRowView = (props: {
             style={{
               display: 'inline-block',
               fontFamily: SERIF,
-              fontSize: '12px',
+              fontSize: FONT_BODY,
               fontWeight: 'bold',
               padding: '1px 8px',
               color: SEAL_AMBER,
@@ -283,7 +284,7 @@ export const Stockpile = () => {
               padding: '4px 8px',
               borderBottom: `1px solid ${PARCHMENT_SHADOW}`,
               fontFamily: SERIF,
-              fontSize: '12px',
+              fontSize: FONT_BODY,
               marginBottom: '6px',
               flexWrap: 'wrap',
             }}
@@ -389,7 +390,7 @@ export const Stockpile = () => {
                     padding: '4px 8px',
                     borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
                     fontFamily: SERIF,
-                    fontSize: '12px',
+                    fontSize: FONT_BODY,
                   }}
                 >
                   <span style={{ flex: 1, color: INK }}>{b.name}</span>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import {
   badgeStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -17,7 +18,7 @@ const tableStyle: React.CSSProperties = {
   width: '100%',
   borderCollapse: 'collapse',
   fontFamily: SERIF,
-  fontSize: '13px',
+  fontSize: FONT_BODY,
 };
 
 const headerCellStyle: React.CSSProperties = {
@@ -57,7 +58,7 @@ export const ScoutsSection = ({ data }: { data: NoticeboardData }) => {
           type="button"
           style={{
             ...inkButtonStyle({}),
-            fontSize: '11px',
+            fontSize: FONT_BODY,
             padding: '2px 6px',
           }}
           onClick={() => setHelpOpen((v) => !v)}
@@ -112,7 +113,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
           <>
             <div
               style={{
-                fontSize: '12px',
+                fontSize: FONT_BODY,
                 color: SEAL_RED,
                 fontWeight: 'bold',
               }}
@@ -123,7 +124,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                   marginLeft: 6,
                   color: INK_SOFT,
                   fontStyle: 'italic',
-                  fontSize: '11px',
+                  fontSize: FONT_BODY,
                   fontWeight: 'normal',
                 }}
               >
@@ -135,7 +136,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                 style={{
                   color: INK_SOFT,
                   fontStyle: 'italic',
-                  fontSize: '11px',
+                  fontSize: FONT_BODY,
                   marginTop: 1,
                 }}
               >
@@ -152,7 +153,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                   marginTop: 3,
                   color: SEAL_AMBER,
                   fontStyle: 'italic',
-                  fontSize: '11px',
+                  fontSize: FONT_BODY,
                 }}
               >
                 Awaiting writ
@@ -194,7 +195,7 @@ const HelpPanel = () => (
       background: 'var(--p-card-bg)',
       border: `1px solid ${INK_FAINT}`,
       color: INK_SOFT,
-      fontSize: '12px',
+      fontSize: FONT_BODY,
       lineHeight: 1.5,
     }}
   >

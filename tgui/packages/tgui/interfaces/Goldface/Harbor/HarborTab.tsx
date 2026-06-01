@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {
   cardStyle,
   fieldRowStyle,
+  FONT_BODY,
   INK,
   INK_SOFT,
   pageStyle,
@@ -32,12 +33,12 @@ const BudgetPair = (props: { label: string; value: React.ReactNode }) => (
         fontVariant: 'small-caps',
         color: SEAL_AMBER,
         fontStyle: 'italic',
-        fontSize: '11px',
+        fontSize: FONT_BODY,
       }}
     >
       {props.label}
     </span>
-    <span style={{ fontFamily: SERIF, fontSize: '13px', color: INK }}>
+    <span style={{ fontFamily: SERIF, fontSize: FONT_BODY, color: INK }}>
       {props.value}
     </span>
   </div>
@@ -91,7 +92,7 @@ export const HarborTab = (props: {
         border: `1px dashed ${SEAL_GREEN}`,
         color: INK,
         fontFamily: SERIF,
-        fontSize: '12px',
+        fontSize: FONT_BODY,
         lineHeight: 1.4,
       }}
     >
@@ -138,7 +139,7 @@ export const HarborTab = (props: {
         style={{
           margin: '4px 0 6px',
           fontFamily: SERIF,
-          fontSize: '13px',
+          fontSize: FONT_BODY,
           color: INK_SOFT,
         }}
       >
@@ -152,7 +153,7 @@ export const HarborTab = (props: {
             border: `1px dashed ${SEAL_GREEN}`,
             color: INK,
             fontFamily: SERIF,
-            fontSize: '12px',
+            fontSize: FONT_BODY,
             lineHeight: 1.4,
           }}
         >
@@ -181,7 +182,7 @@ export const HarborTab = (props: {
             border: `1px dashed ${SEAL_GREEN}`,
             color: INK,
             fontFamily: SERIF,
-            fontSize: '12px',
+            fontSize: FONT_BODY,
             lineHeight: 1.4,
           }}
         >

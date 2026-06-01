@@ -8,6 +8,7 @@ import { ManifestTab } from './Commissioner/ManifestTab';
 import { OrdersTab } from './Commissioner/OrdersTab';
 import type { CommissionerData } from './Commissioner/types';
 import {
+  FONT_BODY,
   INK,
   INK_SOFT,
   pageStyle,
@@ -68,7 +69,7 @@ export const Commissioner = () => {
             <span
               style={{
                 marginLeft: 'auto',
-                fontSize: '11px',
+                fontSize: FONT_BODY,
                 color: INK_SOFT,
               }}
             >

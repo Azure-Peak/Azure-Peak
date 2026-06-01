@@ -1,5 +1,6 @@
 import {
   BUTTON_BG,
+  FONT_BODY,
   INK,
   INK_FAINT,
   SEAL_AMBER,
@@ -32,7 +33,7 @@ export const ConditionPill = (props: { condition: MarketCondition }) => {
         border: `1px solid ${color}`,
         borderRadius: '8px',
         color: color,
-        fontSize: '10px',
+        fontSize: FONT_BODY,
         fontVariant: 'small-caps',
         fontWeight: 'bold',
         whiteSpace: 'nowrap',
@@ -54,7 +55,7 @@ export const CategoryPill = (props: { name: string }) => (
       borderRadius: '3px',
       color: INK,
       background: BUTTON_BG,
-      fontSize: '10px',
+      fontSize: FONT_BODY,
       whiteSpace: 'nowrap',
     }}
   >
@@ -100,7 +101,7 @@ export const GoodPill = (props: {
         color: color,
         background: `color-mix(in srgb, ${BUTTON_BG} ${bgAlpha * 100}%, transparent)`,
         fontWeight: 'bold',
-        fontSize: '11px',
+        fontSize: FONT_BODY,
         whiteSpace: 'nowrap',
         textDecoration: removed ? 'line-through' : 'none',
       }}
@@ -116,7 +117,7 @@ const RowLabel = (props: { children: React.ReactNode; color: string }) => (
     style={{
       color: props.color,
       fontStyle: 'italic',
-      fontSize: '10px',
+      fontSize: FONT_BODY,
       fontVariant: 'small-caps',
       fontWeight: 'bold',
       marginRight: '6px',

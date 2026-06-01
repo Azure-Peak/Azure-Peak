@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {
   badgeStyle,
   cardStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -52,7 +53,7 @@ const CharterRow = ({ charter }: { charter: Charter }) => {
         <span
           style={{
             color: INK_FAINT,
-            fontSize: '11px',
+            fontSize: FONT_BODY,
             width: 10,
           }}
         >
@@ -61,7 +62,7 @@ const CharterRow = ({ charter }: { charter: Charter }) => {
         <span
           style={{
             flex: 1,
-            fontSize: '14px',
+            fontSize: FONT_BODY,
             fontWeight: 'bold',
             color: INK,
             fontFamily: SERIF,
@@ -73,7 +74,7 @@ const CharterRow = ({ charter }: { charter: Charter }) => {
               marginLeft: 8,
               color: INK_SOFT,
               fontStyle: 'italic',
-              fontSize: '12px',
+              fontSize: FONT_BODY,
               fontWeight: 'normal',
             }}
           >
@@ -93,7 +94,7 @@ const CharterRow = ({ charter }: { charter: Charter }) => {
             paddingLeft: 18,
             whiteSpace: 'pre-wrap',
             color: INK,
-            fontSize: '12px',
+            fontSize: FONT_BODY,
           }}
         >
           {charter.flavor_text}

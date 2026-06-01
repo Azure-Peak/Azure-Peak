@@ -91,7 +91,7 @@ export const capitalize = (s: string) =>
 
 export const parchment: CSSProperties = {
   color: 'var(--p-ink)',
-  fontFamily: "Georgia, 'Palatino Linotype', Palatino, serif",
+  fontFamily: "'Lora', Georgia, serif",
   padding: '24px 28px',
   minHeight: '100%',
   boxSizing: 'border-box',

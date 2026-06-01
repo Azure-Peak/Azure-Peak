@@ -22,6 +22,15 @@
     'link-hover':      #b42a24,
   ), '../assets/azure_default/topbar_red.svg');
 
+  --font-family: 'Lora', Georgia, serif;
+
+  --p-font-tiny: 14px;
+  --p-font-small: 14px;
+  --p-font-body: 14px;
+  --p-font-lead: 14px;
+  --p-font-title: 15px;
+  --p-font-head: 16px;
+
   --p-bg: #f4e7c6;
   --p-bg-deep: #e6d4a3;
   --p-bg-shadow: #c7a86a;
@@ -59,7 +68,6 @@
   }
 
   .TitleBar__title {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
     color: #281a07;
     font-size: 14px;
     letter-spacing: 3px;
@@ -83,7 +91,6 @@
 
   .Section__title {
     color: #281a07;
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
     letter-spacing: 2px;
     font-variant: small-caps;
     border-bottom: 1px solid rgba(122, 86, 22, 0.4);
@@ -108,13 +115,11 @@
 
   .LabeledList__label {
     color: #563d1e;
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
     font-style: italic;
   }
 
   .LabeledList__content {
     color: #281a07;
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
   }
 
   .toc-link:hover {

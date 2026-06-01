@@ -114,7 +114,7 @@ const captionStyle = {
   fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
   fontStyle: 'italic' as const,
-  fontSize: '12px',
+  fontSize: FONT_BODY,
 };
 
 const HeaderStat = (props: {
@@ -397,7 +397,7 @@ const SendPanel = (props: {
           <div
             style={{
               color: overLimit ? SEAL_RED : INK_FAINT,
-              fontSize: '11px',
+              fontSize: FONT_BODY,
             }}
           >
             {message.length} / {MESSAGE_MAX}
@@ -410,7 +410,7 @@ const SendPanel = (props: {
           style={{
             width: '100%',
             fontFamily: SERIF,
-            fontSize: '13px',
+            fontSize: FONT_BODY,
             background: BUTTON_BG,
             border: `1px solid ${INK_FAINT}`,
             color: INK,
@@ -635,7 +635,7 @@ const SlotRow = (props: {
         padding: '6px 8px',
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
         fontFamily: SERIF,
-        fontSize: '13px',
+        fontSize: FONT_BODY,
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

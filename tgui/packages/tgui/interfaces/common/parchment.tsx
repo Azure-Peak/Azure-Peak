@@ -1,11 +1,11 @@
 import type { CSSProperties } from 'react';
 
-export const FONT_TINY = '10px';
-export const FONT_SMALL = '11px';
-export const FONT_BODY = '12px';
-export const FONT_LEAD = '13px';
-export const FONT_TITLE = '14px';
-export const FONT_HEAD = '15px';
+export const FONT_TINY = 'var(--p-font-tiny)';
+export const FONT_SMALL = 'var(--p-font-small)';
+export const FONT_BODY = 'var(--p-font-body)';
+export const FONT_LEAD = 'var(--p-font-lead)';
+export const FONT_TITLE = 'var(--p-font-title)';
+export const FONT_HEAD = 'var(--p-font-head)';
 
 export const INK = 'var(--p-ink)';
 export const INK_SOFT = 'var(--p-ink-soft)';
@@ -20,7 +20,7 @@ export const SEAL_BLUE = 'var(--p-seal-blue)';
 export const SEAL_AMBER = 'var(--p-seal-amber)';
 export const BUTTON_BG = 'var(--p-button-bg)';
 
-export const SERIF = '"Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif';
+export const SERIF = '"Lora", Georgia, serif';
 
 export const pageStyle: CSSProperties = {
   position: 'relative',
@@ -28,7 +28,7 @@ export const pageStyle: CSSProperties = {
   padding: '18px 28px 28px 28px',
   fontFamily: SERIF,
   color: INK,
-  fontSize: '13px',
+  fontSize: FONT_BODY,
   lineHeight: 1.5,
 };
 
@@ -45,7 +45,7 @@ export const subtitleStyle: CSSProperties = {
   textAlign: 'center',
   color: INK_SOFT,
   fontStyle: 'italic',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   marginBottom: '10px',
 };
 
@@ -58,7 +58,7 @@ export const rulerStyle: CSSProperties = {
 
 export const sectionHeaderStyle: CSSProperties = {
   fontVariant: 'small-caps',
-  fontSize: '15px',
+  fontSize: FONT_TITLE,
   color: INK,
   fontWeight: 'bold',
   borderBottom: `1px solid ${INK_FAINT}`,
@@ -76,7 +76,7 @@ export const tabBarStyle: CSSProperties = {
 
 export const tabStyle = (active: boolean): CSSProperties => ({
   fontFamily: SERIF,
-  fontSize: '14px',
+  fontSize: FONT_BODY,
   fontVariant: 'small-caps',
   padding: '4px 18px',
   color: active ? INK : INK_FAINT,
@@ -97,7 +97,7 @@ export const subTabBarStyle: CSSProperties = {
 
 export const subTabStyle = (active: boolean): CSSProperties => ({
   fontFamily: SERIF,
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   fontVariant: 'small-caps',
   padding: '3px 10px',
   color: active ? INK : INK_FAINT,
@@ -143,7 +143,7 @@ export const dashedFrameStyle: CSSProperties = {
   padding: '8px 10px',
   border: `1px dashed ${INK_FAINT}`,
   textAlign: 'left',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   lineHeight: 1.4,
   color: INK_SOFT,
 };
@@ -157,7 +157,7 @@ export const stickyLeftCellStyle: CSSProperties = {
 export const badgeStyle = (color: string): CSSProperties => ({
   display: 'inline-block',
   fontFamily: SERIF,
-  fontSize: '10px',
+  fontSize: FONT_BODY,
   fontVariant: 'small-caps',
   padding: '1px 7px',
   marginLeft: '6px',
@@ -175,7 +175,7 @@ export const inkButtonStyle = (opts: {
   const col = opts.color || INK;
   return {
     fontFamily: SERIF,
-    fontSize: '12px',
+    fontSize: FONT_BODY,
     fontWeight: 'bold',
     padding: '2px 10px',
     color: col,
@@ -192,7 +192,7 @@ export const inkButtonStyle = (opts: {
 
 export const inkInputStyle: CSSProperties = {
   fontFamily: SERIF,
-  fontSize: '13px',
+  fontSize: FONT_BODY,
   color: INK,
   background: BUTTON_BG,
   border: `1px solid ${INK_FAINT}`,
@@ -205,7 +205,7 @@ export const fieldRowStyle: CSSProperties = {
   display: 'flex',
   padding: '5px 0',
   borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
-  fontSize: '13px',
+  fontSize: FONT_BODY,
 };
 
 export const fieldLabelStyle: CSSProperties = {
@@ -219,7 +219,7 @@ export const fieldValueStyle: CSSProperties = {
   color: INK,
   flex: 1,
   fontFamily: SERIF,
-  fontSize: '14px',
+  fontSize: FONT_BODY,
 };
 
 export const bannerStyle = (color: string, soft: boolean = false): CSSProperties => ({

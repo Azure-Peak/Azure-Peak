@@ -108,7 +108,7 @@
 
   .TitleBar__title {
     padding-left: 12px;
-    font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+    font-family: 'Lora', Georgia, serif;
     font-size: 15px;
     color: #{map.get($colors, 'section-title')};
     font-weight: bolder;
@@ -146,7 +146,7 @@
   }
 
   .Section__titleText {
-    font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+    font-family: 'Lora', Georgia, serif;
     letter-spacing: 2px;
     text-transform: uppercase;
   }
