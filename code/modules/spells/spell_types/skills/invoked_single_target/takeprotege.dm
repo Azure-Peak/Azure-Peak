@@ -41,7 +41,7 @@
 		reset_spell_cooldown()
 		return FALSE
 	if(H == L)
-		to_chat(H, span_warning("You seriously tried to take yourself as a squire?."))
+		to_chat(H, span_warning("You seriously tried to take yourself as a protégé?"))
 		reset_spell_cooldown()
 		return FALSE
 	if(L.job != "Squire")
@@ -171,7 +171,7 @@
 /datum/stressevent/protege_lord_dead
 	stressadd = 20
 	timer = 30 MINUTES
-	desc = span_boldred("My knight has fallen. I could not protect them.")
+	desc = span_boldred("My knight has fallen. I am abandoned and alone.")
 
 /datum/stressevent/protege_nearby
 	stressadd = -2
@@ -212,11 +212,11 @@
 
 /atom/movable/screen/alert/status_effect/buff/protege_vigilance
 	name = "Dutiful Protégé"
-	desc = "With hearty will, - for I will not rebel\
-			Against your lust, - a tale will I tell.\                
-			Have me excused if I speak amiss;\
-			My will is good; and lo, my tale is this."
-	icon_state = "buff"
+	desc = "With hearty will, - for I will not rebel<br>\
+			Against your lust, - a tale will I tell.<br>\
+			Have me excused if I speak amiss;<br>\
+			My will is good; and lo, my tale is this. (Mood buff while around your knight)"
+	icon_state = "protege_buff"
 
 
 // Presence buff for the knight — active while their bonded squire is in view.
@@ -246,5 +246,9 @@
 
 /atom/movable/screen/alert/status_effect/buff/protege_ward
 	name = "Knight's Ward"
-	desc = "My protégé walks at my side. Our bond holds."
-	icon_state = "buff"
+	desc = "Listeth, lordes, in good entent,<br>\
+			And I wol telle verrayment<br>\
+			Of myrthe and of solas,<br>\
+			In bataille and in tourneyment,<br>\
+			His name was Sir Thopas. (Mood buff while around your protégé)"
+	icon_state = "protege_buff"
