@@ -66,7 +66,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 
-		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Psyaltery","Flute")
+		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Psyaltery","Flute","Drums")
 		var/instrument_choice = input(H, "Choose your instrument.", "Choose your instrument.") as anything in instruments
 		H.set_blindness(0)
 		switch(instrument_choice)
@@ -88,6 +88,8 @@
 				backr = /obj/item/rogue/instrument/psyaltery
 			if("Flute")
 				backr = /obj/item/rogue/instrument/flute
+			if("Drums")
+				backr = /obj/item/rogue/instrument/drum
 
 		var/paths = list("Busker", "Cacophonist", "Boomwhacker", "Chanter", "Cipher")
 		var/path_choice = input(H, "Choose your genre.", "Choose your genre") as anything in paths
@@ -116,6 +118,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling,  SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_STR, 1)
 				gloves = /obj/item/clothing/gloves/roguetown/knuckles
+				beltl  = /obj/item/rogueweapon/katar
 			if("Chanter")
 				H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				var/datum/devotion/D = new /datum/devotion(H, H.patron)
