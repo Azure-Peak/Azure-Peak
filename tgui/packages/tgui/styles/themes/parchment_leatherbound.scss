@@ -136,4 +136,9 @@
   .Input input::placeholder {
     color: rgba(212, 192, 144, 0.45);
   }
+
+  .toc-link:hover {
+    text-decoration: underline;
+    color: var(--p-ink);
+  }
 }

@@ -34,7 +34,7 @@
 	<li>Slice the finished pie to produce pie slices.</li>
 	</ol>
 
-	<p><i>Unsliced pies do not spoil. Slice only what you intend to serve.</i></p>
-	<p><i>Most pies grant +1 willpower for ten minutes when eaten.</i></p>
+	<p>Unsliced pies do not spoil. Slice only what you intend to serve.</p>
+	<p>Most pies grant +1 willpower for ten minutes when eaten.</p>
 	</div>
 	"}

@@ -279,4 +279,4 @@
 		parts += "deep fries into [initial(d.name)]"
 	if(!length(parts))
 		return ""
-	return "<br><i>Becomes: [parts.Join("; ")].</i>"
+	return "<br>Becomes: [parts.Join("; ")]."

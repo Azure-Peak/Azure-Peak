@@ -46,9 +46,9 @@
 			html += result_details
 
 	if(needs_cooking)
-		html += "<p><i>After assembly, this still needs to be cooked - place over a hearth in a pan, or bake in an oven.</i></p>"
+		html += "<p>After assembly, this still needs to be cooked - place over a hearth in a pan, or bake in an oven.</p>"
 
-	html += "<p><i>Each step takes about [time_per_step / 10] seconds before cooking skill modifiers.</i></p>"
+	html += "<p>Each step takes about [time_per_step / 10] seconds before cooking skill modifiers.</p>"
 
 	if(SScooking?.recipe_index && result_type)
 		var/list/follow_ups = SScooking.recipe_index[result_type]
@@ -114,7 +114,7 @@
 
 	if(!length(lines))
 		return ""
-	return "<p><i>[lines.Join("<br>")]</i></p>"
+	return "<p>[lines.Join("<br>")]</p>"
 
 /proc/describe_food_effect(effect_path)
 	if(!ispath(effect_path, /datum/status_effect))

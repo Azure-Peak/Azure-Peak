@@ -33,7 +33,7 @@
   --p-seal-green: #3b6a35;
   --p-seal-blue: #2e4a78;
   --p-seal-amber: #7a5616;
-  --p-button-bg: rgba(245, 230, 190, 0.35);
+  --p-button-bg: rgba(122, 86, 22, 0.15);
   --p-tab-active-bg: rgba(200, 170, 100, 0.25);
   --p-card-bg: rgba(230, 210, 165, 0.3);
   --p-card-shadow: rgba(80, 50, 10, 0.12);
@@ -46,7 +46,6 @@
     background: #c2ad7c !important;
     background-image: none !important;
   }
-
   .Window__contentPadding {
     margin: 0;
     height: 100%;
@@ -60,7 +59,7 @@
   }
 
   .TitleBar__title {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    font-family: 'Lora', Georgia, serif;
     color: #281a07;
     font-size: 14px;
     letter-spacing: 3px;
@@ -84,37 +83,48 @@
 
   .Section__title {
     color: #281a07;
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    font-family: 'Lora', Georgia, serif;
     letter-spacing: 2px;
     font-variant: small-caps;
     border-bottom: 1px solid rgba(122, 86, 22, 0.4);
   }
 
   .Button {
-    border-color: rgba(122, 86, 22, 0.45);
-    background: rgba(250, 238, 205, 0.35);
+    font-size: 14px;
+    border: 1px solid rgba(122, 86, 22, 0.45);
+    background: rgba(122, 86, 22, 0.12);
     color: #281a07;
     box-shadow: none;
+    margin: 1px 2px;
 
     &:hover {
       border-color: rgba(110, 20, 20, 0.65);
-      background: rgba(250, 238, 205, 0.85);
-      box-shadow: 0 0 6px rgba(181, 148, 64, 0.25);
+      background: rgba(122, 86, 22, 0.22);
     }
 
     &:active {
-      box-shadow: inset 1px 1px 3px rgba(80, 50, 10, 0.35);
+      background: rgba(122, 86, 22, 0.32);
+    }
+
+    &.Button--selected {
+      background: rgba(122, 86, 22, 0.35);
+      border-color: rgba(80, 50, 10, 0.6);
     }
   }
 
   .LabeledList__label {
     color: #563d1e;
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    font-family: 'Lora', Georgia, serif;
     font-style: italic;
   }
 
   .LabeledList__content {
     color: #281a07;
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    font-family: 'Lora', Georgia, serif;
+  }
+
+  .toc-link:hover {
+    text-decoration: underline;
+    color: var(--p-ink);
   }
 }

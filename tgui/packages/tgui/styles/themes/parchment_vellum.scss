@@ -116,4 +116,9 @@
     color: #281a07;
     font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
   }
+
+  .toc-link:hover {
+    text-decoration: underline;
+    color: var(--p-ink);
+  }
 }

@@ -25,7 +25,7 @@
 	</ol>
 
 	<h2>Prezzel</h2>
-	<p>Slice 1 butterdough, then bake the slice in the oven. <i>You must be a dwarf to know this recipe.</i> Prezzels do not spoil.</p>
+	<p>Slice 1 butterdough, then bake the slice in the oven. You must be a dwarf to know this recipe. Prezzels do not spoil.</p>
 
 	<h2>Pumpkin Balls</h2>
 	<ol>
@@ -33,7 +33,7 @@
 	<li>Add the sliced or mashed pumpkin to 1 slice of butterdough.</li>
 	<li>Bake the raw pumpkin ball in the oven.</li>
 	</ol>
-	<p><i>Grants +1 willpower for ten minutes.</i></p>
+	<p>Grants +1 willpower for ten minutes.</p>
 
 	<h2>Pumpkin Loaf</h2>
 	<p>Add 1 sliced or mashed pumpkin to 1 butterdough, then bake. Can be sliced. Grants +1 willpower for ten minutes.</p>
@@ -44,14 +44,14 @@
 	<li>Bake the result in the oven for a fruit-flavored bookbread loaf.</li>
 	<li>The loaf can be sliced into individual servings.</li>
 	</ol>
-	<p><i>Poison jacksberries will poison the bookbread. Grants +1 willpower for ten minutes.</i></p>
+	<p>Poison jacksberries will poison the bookbread. Grants +1 willpower for ten minutes.</p>
 
 	<h2>Biscuits</h2>
 	<ol>
 	<li>Add 1 handful of raisins (or a fruit, depending on the variant) to 1 slice of butterdough.</li>
 	<li>Bake. Biscuits do not spoil.</li>
 	</ol>
-	<p><i>Grants +1 willpower for ten minutes.</i></p>
+	<p>Grants +1 willpower for ten minutes.</p>
 
 	<h2>Muffins</h2>
 	<ol>
@@ -59,7 +59,7 @@
 	<li>Bake the muffindough for a plain muffin.</li>
 	<li>For a finer meal, add 1 fresh cheese for a cheese muffin, or 1 honey for a honey muffin, then bake again.</li>
 	</ol>
-	<p><i>Cheese and honey muffins grant +1 willpower for ten minutes.</i></p>
+	<p>Cheese and honey muffins grant +1 willpower for ten minutes.</p>
 
 	<h2>Cookies</h2>
 	<ol>
@@ -77,7 +77,7 @@
 	<li>Add sugar afterwards to produce a coated strudel.</li>
 	<li>The finished strudel can be sliced.</li>
 	</ol>
-	<p><i>Grants +1 willpower for ten minutes.</i></p>
+	<p>Grants +1 willpower for ten minutes.</p>
 
 	<h2>Cakes</h2>
 	<p>Cakes start from a cake base. Plain variants are made by adding honey or cheese before baking; frosted variants take a separate frosting and accept fruits.</p>
@@ -88,12 +88,12 @@
 	<p>For frosted cakes:</p>
 	<ol>
 	<li>Combine 1 sugar with 1 butter slice to make 1 frosting.</li>
-	<li>Add the frosting to a cake base to make a frosted cake base, then bake. <i>(You may instead add frosting to an already-baked plain cake to frost it retroactively.)</i></li>
+	<li>Add the frosting to a cake base to make a frosted cake base, then bake. (You may instead add frosting to an already-baked plain cake to frost it retroactively.)</li>
 	<li>To a frosted cake, add one of: apple, berry, blackberry, baked carrot, lemon, lime, mentha, peaceflower, raspberry, rocknut, strawberry, or tangerine. The cake takes the name of the fruit added.</li>
 	<li>An apple cake combined with a rocknut (or a rocknut cake with an apple) becomes an applenut cake.</li>
 	<li>Finished cakes can be sliced for 8 servings. Sliced cake suffers a slight quality reduction unless plated.</li>
 	</ol>
-	<p><i>A peaceflower produces a peace cake, which pacifies the eater for five minutes.</i></p>
+	<p>A peaceflower produces a peace cake, which pacifies the eater for five minutes.</p>
 
 	<h2>Stuffed Egg</h2>
 	<p>Add 1 aged cheese wedge to 1 egg, then cook in an oven or pan.</p>
@@ -105,7 +105,7 @@
 	<li>Top with a tomato. Bake for stuffed aubergine.</li>
 	<li>Optionally add a cheese wedge to elevate it to fine quality.</li>
 	</ol>
-	<p><i>Grants +1 willpower and +1 constitution for ten minutes.</i></p>
+	<p>Grants +1 willpower and +1 constitution for ten minutes.</p>
 
 	<h2>Handpies</h2>
 	<ol>
@@ -113,6 +113,6 @@
 	<li>Add one of: truffles, mince, jacksberries, mushroom, fish mince, crab meat, berry, apple, potato slice, or cabbage.</li>
 	<li>Cook the handpie in an oven or pan.</li>
 	</ol>
-	<p><i>Handpies do not spoil until bitten. Grants +1 willpower and +1 constitution for ten minutes.</i></p>
+	<p>Handpies do not spoil until bitten. Grants +1 willpower and +1 constitution for ten minutes.</p>
 	</div>
 	"}

@@ -109,6 +109,27 @@ export const subTabStyle = (active: boolean): CSSProperties => ({
   whiteSpace: 'nowrap',
 });
 
+/// Wiki-style table-of-contents link. Renders as plain text with a dashed separator
+/// between rows, a subtle background tint when selected, and a hover underline.
+/// Apply via `style={tocLinkStyle(active)} className="toc-link"` on a button or anchor.
+/// Hover style lives in parchment.scss (and variants) keyed off the .toc-link class.
+export const tocLinkStyle = (active: boolean): CSSProperties => ({
+  display: 'block',
+  width: '100%',
+  textAlign: 'left',
+  background: active ? 'var(--p-tab-active-bg)' : 'transparent',
+  border: 'none',
+  borderBottom: `1px dashed ${INK_FAINT}`,
+  padding: '4px 8px',
+  fontFamily: SERIF,
+  fontSize: FONT_TITLE,
+  color: active ? INK : INK_SOFT,
+  fontWeight: active ? 'bold' : 'normal',
+  cursor: 'pointer',
+  whiteSpace: 'normal',
+  lineHeight: 1.3,
+});
+
 export const cardStyle: CSSProperties = {
   background: 'var(--p-card-bg)',
   border: `1px solid ${INK_FAINT}`,

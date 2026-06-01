@@ -44,5 +44,5 @@
 		seen[key] = TRUE
 		rows += "<tr><td>[source_name]</td><td>&rarr; [result_name]</td></tr>"
 	if(!length(rows))
-		return "<p><i>Nothing applicable found.</i></p>"
+		return "<p>Nothing applicable found.</p>"
 	return "<table border='1' cellpadding='3'>[rows.Join("")]</table>"

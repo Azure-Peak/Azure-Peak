@@ -19,7 +19,7 @@
 	if(R)
 		html += "<p>Boil a hot pot of water, then add any of the following ingredients. Each yields <b>[initial(R.name)]</b>:</p>"
 		if(initial(R.description))
-			html += "<p><i>[initial(R.description)]</i></p>"
+			html += "<p class='recipe-desc'>[initial(R.description)]</p>"
 
 	if(length(inputs))
 		html += "<ul>"
@@ -28,7 +28,7 @@
 			html += "<li>[icon2html(new A, user)] [initial(A.name)]</li>"
 		html += "</ul>"
 
-	html += "<p><i>Stews simmer for about [cooktime / 10] seconds per ingredient. A pot consumes 30dr of water per ingredient converted.</i></p>"
+	html += "<p>Stews simmer for about [cooktime / 10] seconds per ingredient. A pot consumes 30dr of water per ingredient converted.</p>"
 	return html
 
 // DO NOT SORT the list unless you know what you're doing (refactor it) - I ordered specific recipe before generic one for a reason!!

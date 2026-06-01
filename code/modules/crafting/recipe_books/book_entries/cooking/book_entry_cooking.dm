@@ -27,7 +27,7 @@
 	</div>
 	<div>
 	<h2>Cooking Cues</h2>
-	When food cooks to completion in an oven or pan, you will usually see <i>Something smells good!</i> in the chat. Pan-fried foods sometimes only signal completion by a change in sprite, so keep an eye on the pan or you will end with an inedible burned mess.<br>
+	When food cooks to completion in an oven or pan, you will usually see Something smells good! in the chat. Pan-fried foods sometimes only signal completion by a change in sprite, so keep an eye on the pan or you will end with an inedible burned mess.<br>
 	If you are out in the wild without a kitchen, you can roast raw meat over any open flame: hold the meat in one hand, a weapon set to STAB intent in the other, then click the fire.<br>
 	</div>
 	<div>
