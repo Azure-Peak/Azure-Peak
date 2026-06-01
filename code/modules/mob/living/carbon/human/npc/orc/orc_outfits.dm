@@ -202,14 +202,16 @@
 // Heavily armored orc with complete iron protection, heavy armor, and a two hander. Is able to do special attacks.
 /datum/outfit/job/roguetown/orc/npc/warlord/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/iron/banded //Tough upgrade for ironclad, pretty average for anyone else who can't use heavy armor 
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/iron/banded
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/black //Cosmetic + Holding repair kits for looting mostly.
-	if(prob(8))
+	if(prob(50))
 		beltl = /obj/item/repair_kit/bad //So you can get repair kits easier from looting them
+	if(prob(66))
+		beltr = /obj/item/reagent_containers/glass/bottle/alchemical/healthpot //Small heal to loot since they do a lot of damage
 	if(prob(60))
 		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
 	var/neck_choice = rand(1, 3)
@@ -245,10 +247,10 @@
 		if(6)
 			l_hand = /obj/item/rogueweapon/greatsword/iron
 	H.STASTR = 14 // GAGGER GAGGER GAGGER
-	H.STASPD = 10 // Fast, for an orc
-	H.STACON = 11
+	H.STASPD = 8
+	H.STACON = 9
 	H.STAWIL = 11
-	H.STAINT = 5 //Smarter than most, still can't do specials
+	H.STAINT = 8 //Minimal req to do special attacks.
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
