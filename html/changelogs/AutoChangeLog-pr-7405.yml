@@ -1,0 +1,4 @@
+author: "FeniaFox"
+delete-after: True
+changes:
+  - bugfix: "Fixed various helmets not respecting trait locks properly."

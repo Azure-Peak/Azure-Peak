@@ -8,6 +8,18 @@
 	max_integrity = 0
 	anchored = TRUE
 	layer = BELOW_OBJ_LAYER
+	var/list/profit_id = list("Merchant", "Shophand")
+	var/duty_suspended = FALSE
+	var/duty_collected_here = 0
+	var/duty_evaded_here = 0
+
+/obj/structure/roguemachine/ship_fulfillment/proc/can_manage(mob/user)
+	if(!ishuman(user))
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	if(H.job in profit_id)
+		return TRUE
+	return FALSE
 
 /obj/structure/roguemachine/ship_fulfillment/Initialize()
 	. = ..()
@@ -71,6 +83,13 @@
 		if("help")
 			open_economy_guidebook(usr, "Merchant", /datum/book_entry/treasury_merchant/fulfillment_crate)
 			return TRUE
+		if("toggle_duty")
+			if(!can_manage(usr))
+				to_chat(usr, span_warning("Only the Merchant or Shophand may work the crate's underledger."))
+				return TRUE
+			duty_suspended = !duty_suspended
+			to_chat(usr, span_notice("Crown export duty now [duty_suspended ? "DODGED" : "PAID"] at this crate."))
+			return TRUE
 
 /obj/structure/roguemachine/ship_fulfillment/ui_data(mob/user)
 	var/list/data = list()
@@ -107,6 +126,11 @@
 	data["manifests"] = manifests
 	data["middleman_cut_percent"] = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
 	data["kinship_sell_pct"] = round((KINSHIP_SELL_MULT - 1) * 100)
+	data["can_manage"] = can_manage(user) ? TRUE : FALSE
+	data["duty_suspended"] = duty_suspended
+	data["duty_rate_pct"] = round(SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) * 100)
+	data["duty_collected_here"] = duty_collected_here
+	data["duty_evaded_here"] = duty_evaded_here
 	return data
 
 /obj/structure/roguemachine/ship_fulfillment/attackby(obj/item/P, mob/user, params)
@@ -145,9 +169,12 @@
 	if(!tally || tally["total_producer"] <= 0)
 		return
 	var/list/line_summaries = list()
+	var/list/ship_names = list()
 	for(var/key in tally["lines"])
 		var/list/info = tally["lines"][key]
 		line_summaries += "[info["qty"]] [info["good_name"]] -> [info["ship_name"]]"
+		ship_names |= info["ship_name"]
+	var/mint_label = (length(ship_names) == 1) ? ship_names[1] : "foreign vessels"
 	var/kin_total = tally["total_kin_bonus"] || 0
 	var/quality_delta = tally["total_quality_delta"] || 0
 	var/quality_str = ""
@@ -155,7 +182,7 @@
 		var/sign_str = quality_delta > 0 ? "+" : ""
 		quality_str = ", quality [sign_str][quality_delta]m"
 	var/breakdown = "[english_list(line_summaries)]: gross [tally["total_gross"]]m, Crown [tally["total_duty"]]m, Merchant [tally["total_cut"]]m[kin_total > 0 ? ", Kinship +[kin_total]m" : ""][quality_str]"
-	SStreasury.give_money_account(tally["total_producer"], user, breakdown)
+	SStreasury.give_money_account(tally["total_producer"], user, breakdown, mint_new = TRUE, mint_label = mint_label)
 	if(quality_delta != 0)
 		var/representative_quality = quality_delta > 0 ? ITEM_QUALITY_MASTERWORK : ITEM_QUALITY_CRUDE
 		var/jab = navigator_quality_jab(representative_quality)
@@ -329,19 +356,27 @@
 	var/duty_remitted = 0
 	var/levy_tax_remitted = 0
 	var/levy_remitted = 0
-	if(duty_on_gross_float > 0)
-		duty_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_gross_float, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)")
-		SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "ship fulfillment")
-	if(duty_on_levy_float > 0)
-		levy_tax_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_levy_float, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)")
-		SStreasury.apply_concordat_tithe(levy_float, TAX_CATEGORY_EXPORT_DUTY, "levy income (ship fulfillment)")
-	var/total_duty = duty_remitted + levy_tax_remitted
-	if(total_duty > 0)
-		record_round_statistic(STATS_TAXES_COLLECTED, total_duty)
-		record_round_statistic(STATS_REVENUE_EXPORT_DUTY, total_duty)
-		if(SSmerchant_trade)
-			SSmerchant_trade.merchant_levy_taxed += levy_tax_remitted
-	var/merchant_net_float = levy_float - duty_on_levy_float
+	var/total_duty = 0
+	if(duty_suspended)
+		var/evaded = round(duty_on_gross_float) + round(duty_on_levy_float)
+		if(evaded > 0)
+			record_round_statistic(STATS_TAXES_EVADED, evaded)
+			duty_evaded_here += evaded
+	else
+		if(duty_on_gross_float > 0)
+			duty_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_gross_float, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)")
+			SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "ship fulfillment")
+		if(duty_on_levy_float > 0)
+			levy_tax_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_levy_float, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)")
+			SStreasury.apply_concordat_tithe(levy_float, TAX_CATEGORY_EXPORT_DUTY, "levy income (ship fulfillment)")
+		total_duty = duty_remitted + levy_tax_remitted
+		if(total_duty > 0)
+			record_round_statistic(STATS_TAXES_COLLECTED, total_duty)
+			record_round_statistic(STATS_REVENUE_EXPORT_DUTY, total_duty)
+			duty_collected_here += total_duty
+			if(SSmerchant_trade)
+				SSmerchant_trade.merchant_levy_taxed += levy_tax_remitted
+	var/merchant_net_float = levy_float - (duty_suspended ? 0 : duty_on_levy_float)
 	if(merchant_net_float > 0)
 		levy_remitted = SStreasury.mint_fractional(SStreasury.merchant_fund, merchant_net_float, "Merchant's levy: [qty] [good_name] -> [ship.ship_name]")
 		if(SSmerchant_trade)
@@ -374,7 +409,7 @@
 		quality_str = ", quality [q_sign][quality_delta]m"
 	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""][quality_str]"
 	if(producer_payout > 0)
-		SStreasury.give_money_account(producer_payout, user, breakdown)
+		SStreasury.give_money_account(producer_payout, user, breakdown, mint_new = TRUE, mint_label = ship ? ship.ship_name : "foreign vessels")
 
 /obj/structure/roguemachine/ship_fulfillment/proc/identify_trade_good(obj/item/P)
 	for(var/id in GLOB.trade_goods)

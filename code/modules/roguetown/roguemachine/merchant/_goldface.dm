@@ -62,6 +62,7 @@
 		"Potions",
 		"Weapons (Ranged)",
 		"Weapons (Iron and Shields)",
+		"Weapons (Bronze)",
 		"Weapons (Steel)",
 		"Weapons (Foreign)",
 	)
@@ -112,6 +113,7 @@
 		"Armor (Exotic)",
 		"Weapons (Ranged)",
 		"Weapons (Iron and Shields)",
+		"Weapons (Bronze)",
 		"Weapons (Steel)",
 	)
 	categories_gamer = list()
