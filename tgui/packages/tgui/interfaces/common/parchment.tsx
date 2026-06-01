@@ -212,7 +212,6 @@ export const fieldLabelStyle: CSSProperties = {
   flex: '0 0 145px',
   fontVariant: 'small-caps',
   color: SEAL_AMBER,
-  fontStyle: 'italic',
 };
 
 export const fieldValueStyle: CSSProperties = {

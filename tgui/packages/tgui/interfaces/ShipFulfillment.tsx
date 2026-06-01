@@ -175,7 +175,6 @@ const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
           flex: '0 0 130px',
           textAlign: 'right',
           color: done ? INK_FAINT : SEAL_GREEN,
-          fontStyle: 'italic',
         }}
       >
         you get {producerPayout}m
@@ -198,7 +197,6 @@ const Subsection = (props: {
           fontFamily: SERIF,
           fontVariant: 'small-caps',
           color: SEAL_AMBER,
-          fontStyle: 'italic',
           fontSize: FONT_BODY,
           marginBottom: '2px',
         }}
@@ -272,7 +270,6 @@ const ManifestSection = (props: {
           style={{
             fontFamily: SERIF,
             fontSize: FONT_BODY,
-            fontStyle: 'italic',
             color: INK_SOFT,
             marginTop: '2px',
             marginBottom: '6px',

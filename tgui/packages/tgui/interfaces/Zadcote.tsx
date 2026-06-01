@@ -113,7 +113,6 @@ const formatCountdown = (totalSeconds: number): string => {
 const captionStyle = {
   fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
-  fontStyle: 'italic' as const,
   fontSize: FONT_BODY,
 };
 
@@ -477,7 +476,6 @@ const SendPanel = (props: {
                   style={{
                     color: tooHeavy ? SEAL_RED : INK_FAINT,
                     fontSize: FONT_SMALL,
-                    fontStyle: 'italic',
                     marginLeft: 'auto',
                   }}
                 >
@@ -503,7 +501,7 @@ const SendPanel = (props: {
             }}
             disabled={bombs > 0}
           />
-          <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, fontStyle: 'italic', marginTop: '4px' }}>
+          <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, marginTop: '4px' }}>
             {effectiveZads === 1
               ? '1 zad: tiny or small parcel.'
               : effectiveZads === 2
@@ -560,7 +558,7 @@ const SendPanel = (props: {
           Send
         </button>
         {refusedReason && (
-          <span style={{ color: SEAL_RED, fontSize: FONT_BODY, fontStyle: 'italic' }}>
+          <span style={{ color: SEAL_RED, fontSize: FONT_BODY }}>
             {refusedReason}
           </span>
         )}
@@ -890,7 +888,7 @@ const MailColumn = (props: {
                 </div>
               ) : null}
               {entry.kind === 'returned' && (entry.lost ?? 0) > 0 ? (
-                <div style={{ color: SEAL_RED, fontSize: FONT_SMALL, paddingLeft: '8px', fontStyle: 'italic' }}>
+                <div style={{ color: SEAL_RED, fontSize: FONT_SMALL, paddingLeft: '8px' }}>
                   {entry.lost} of {entry.zads_used} zad{entry.zads_used === 1 ? '' : 's'} lost to exhaustion
                 </div>
               ) : null}

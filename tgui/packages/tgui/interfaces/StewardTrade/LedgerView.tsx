@@ -112,7 +112,6 @@ export const LedgerView = (props: { data: Data }) => {
           style={{
             fontFamily: SERIF,
             fontSize: FONT_BODY,
-            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >

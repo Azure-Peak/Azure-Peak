@@ -110,7 +110,7 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
             onChange={(v: number) => setAmount(v)}
           />
           <span>m</span>
-          <span style={{ color: SEAL_RED_SOFT, fontStyle: 'italic' }}>
+          <span style={{ color: SEAL_RED_SOFT }}>
             (owe {Math.round(amount * (1 + atc_loan.interest_pct / 100))}m)
           </span>
           <Button.Confirm

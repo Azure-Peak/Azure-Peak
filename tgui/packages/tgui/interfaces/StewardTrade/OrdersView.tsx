@@ -188,7 +188,6 @@ const OrderCard = (props: CardProps) => {
             marginTop: '4px',
             color: INK_FAINT,
             fontSize: FONT_BODY,
-            fontStyle: 'italic',
             cursor: 'help',
           }}
           title={QUALITY_TIER_TOOLTIP}

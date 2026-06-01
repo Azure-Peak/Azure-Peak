@@ -140,7 +140,6 @@ const RosterGroup = ({
           <span
             style={{
               color: INK_SOFT,
-              fontStyle: 'italic',
               fontSize: FONT_BODY,
               marginLeft: 6,
             }}

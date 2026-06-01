@@ -44,7 +44,6 @@ const railHeaderStyle = {
   fontSize: FONT_BODY,
   fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
-  fontStyle: 'italic' as const,
   marginBottom: '4px',
   marginTop: '4px',
 };
@@ -223,7 +222,6 @@ export const BrowseTab = (props: {
             style={{
               fontFamily: SERIF,
               fontSize: FONT_BODY,
-              fontStyle: 'italic',
               color: INK_SOFT,
             }}
           >
@@ -296,7 +294,6 @@ export const BrowseTab = (props: {
                         <div
                           style={{
                             fontSize: FONT_BODY,
-                            fontStyle: 'italic',
                             color: INK_SOFT,
                           }}
                         >
@@ -320,7 +317,6 @@ export const BrowseTab = (props: {
                         style={{
                           flex: '0 0 auto',
                           fontSize: FONT_BODY,
-                          fontStyle: 'italic',
                           color: INK_SOFT,
                         }}
                       >
@@ -351,7 +347,6 @@ export const BrowseTab = (props: {
                   fontFamily: SERIF,
                   fontSize: FONT_BODY,
                   color: INK_FAINT,
-                  fontStyle: 'italic',
                 }}
               >
                 <button

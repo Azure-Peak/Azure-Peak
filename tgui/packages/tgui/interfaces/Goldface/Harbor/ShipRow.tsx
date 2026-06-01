@@ -228,7 +228,7 @@ const SupplyLineRow = (props: {
         </span>
       )}
       {soldOut ? (
-        <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>sold</span>
+        <span style={{ color: INK_FAINT }}>sold</span>
       ) : (
         <>
           <input

@@ -82,7 +82,7 @@ export const Header = (props: Props) => {
           </>
         )}
         {!isProprietor && !ordinanceActive && (
-          <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+          <span style={{ color: INK_FAINT }}>
             Prices include Crown import duty.
           </span>
         )}

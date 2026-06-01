@@ -72,7 +72,6 @@ export const PackRow = (props: Props) => {
           <span
             style={{
               fontSize: FONT_SMALL,
-              fontStyle: 'italic',
               color: INK_SOFT,
               fontWeight: 'normal',
               marginLeft: '6px',

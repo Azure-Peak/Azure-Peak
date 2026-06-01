@@ -115,7 +115,6 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
               <div
                 style={{
                   color: SEAL_AMBER,
-                  fontStyle: 'italic',
                   fontWeight: 'bold',
                   marginBottom: '4px',
                 }}
@@ -134,7 +133,6 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
               <div
                 style={{
                   color: SEAL_AMBER,
-                  fontStyle: 'italic',
                   fontWeight: 'bold',
                   marginBottom: '4px',
                 }}

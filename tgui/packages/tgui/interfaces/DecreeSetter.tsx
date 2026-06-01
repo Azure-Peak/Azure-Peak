@@ -78,7 +78,6 @@ const cardTitleStyle: React.CSSProperties = {
 
 const cardYearStyle: React.CSSProperties = {
   color: INK_FAINT,
-  fontStyle: 'italic',
   fontSize: FONT_BODY,
 };
 
@@ -91,7 +90,6 @@ const mechanicalStyle: React.CSSProperties = {
 const flavorToggleStyle: React.CSSProperties = {
   fontSize: FONT_BODY,
   color: INK_SOFT,
-  fontStyle: 'italic',
   cursor: 'pointer',
   userSelect: 'none',
   display: 'inline-block',
@@ -209,7 +207,7 @@ const DecreeCard = (props: DecreeCardProps) => {
         <div style={mechanicalStyle}>{decree.mechanical}</div>
       )}
       {onCooldown && (
-        <div style={{ fontSize: FONT_BODY, color: SEAL_AMBER, fontStyle: 'italic' }}>
+        <div style={{ fontSize: FONT_BODY, color: SEAL_AMBER }}>
           Cooldown: {formatCooldown(cooldownLeft)}
         </div>
       )}

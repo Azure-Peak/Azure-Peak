@@ -33,7 +33,6 @@ const splitParagraphs = (text: string): string[] =>
 
 const eventSpanStyle: CSSProperties = {
   fontSize: FONT_BODY,
-  fontStyle: 'italic',
   color: INK_FAINT,
 };
 

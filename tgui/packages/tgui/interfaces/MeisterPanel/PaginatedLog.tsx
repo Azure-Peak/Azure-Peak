@@ -83,7 +83,7 @@ export const PaginatedLog = ({
                 </span>
               )}
               {!!entry.reason && (
-                <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+                <span style={{ color: INK_FAINT }}>
                   {entry.reason}
                 </span>
               )}
@@ -109,7 +109,7 @@ export const PaginatedLog = ({
           >
             Newer
           </button>
-          <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+          <span style={{ color: INK_FAINT }}>
             {start + 1}-{Math.min(start + PAGE_SIZE, total)} of {total}
           </span>
           <button

@@ -26,7 +26,6 @@ const headerCellStyle: React.CSSProperties = {
   padding: '4px 8px 6px 8px',
   fontVariant: 'small-caps',
   color: SEAL_AMBER,
-  fontStyle: 'italic',
   borderBottom: `1px solid ${INK_FAINT}`,
 };
 
@@ -123,7 +122,6 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                 style={{
                   marginLeft: 6,
                   color: INK_SOFT,
-                  fontStyle: 'italic',
                   fontSize: FONT_BODY,
                   fontWeight: 'normal',
                 }}
@@ -135,7 +133,6 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
               <div
                 style={{
                   color: INK_SOFT,
-                  fontStyle: 'italic',
                   fontSize: FONT_BODY,
                   marginTop: 1,
                 }}
@@ -152,7 +149,6 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                 style={{
                   marginTop: 3,
                   color: SEAL_AMBER,
-                  fontStyle: 'italic',
                   fontSize: FONT_BODY,
                 }}
               >
@@ -161,7 +157,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
             )}
           </>
         ) : (
-          <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>-</span>
+          <span style={{ color: INK_FAINT }}>-</span>
         )}
       </td>
       <td

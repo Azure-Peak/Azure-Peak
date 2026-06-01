@@ -76,11 +76,11 @@ const OrderCard = (props: {
             minWidth: 0,
           }}
         >
-          <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>for </span>
+          <span style={{ color: INK_SOFT }}>for </span>
           <b>{starsIf(order.commissioner_name, canRead)}</b>
           {order.status !== 'open' && order.smith_name && (
             <>
-              <span style={{ color: INK_SOFT, fontStyle: 'italic' }}> by </span>
+              <span style={{ color: INK_SOFT }}> by </span>
               <b>{starsIf(order.smith_name, canRead)}</b>
             </>
           )}
@@ -90,7 +90,6 @@ const OrderCard = (props: {
             style={{
               fontFamily: SERIF,
               fontSize: FONT_BODY,
-              fontStyle: 'italic',
               color: order.days_left <= 0 ? SEAL_RED : INK_SOFT,
             }}
           >
@@ -148,7 +147,6 @@ const OrderCard = (props: {
             marginTop: '3px',
             fontSize: FONT_BODY,
             fontFamily: SERIF,
-            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >
@@ -166,7 +164,6 @@ const OrderCard = (props: {
               fontSize: FONT_BODY,
               fontVariant: 'small-caps',
               color: SEAL_AMBER,
-              fontStyle: 'italic',
             }}
           >
             Delivered {order.done_count} / {order.needed_count}

@@ -35,7 +35,6 @@ const MarginRow = (props: {
           fontFamily: SERIF,
           fontVariant: 'small-caps',
           color: SEAL_AMBER,
-          fontStyle: 'italic',
         }}
       >
         {label}
@@ -45,7 +44,6 @@ const MarginRow = (props: {
         <span
           style={{
             color: INK_FAINT,
-            fontStyle: 'italic',
             fontSize: FONT_BODY,
             marginLeft: '8px',
           }}
@@ -117,7 +115,6 @@ const MaterialRow = (props: {
           flex: '0 0 auto',
           color: INK_SOFT,
           fontSize: FONT_BODY,
-          fontStyle: 'italic',
         }}
       >
         {material.price}m
@@ -171,7 +168,6 @@ export const ConfigPanel = (props: {
               fontFamily: SERIF,
               fontVariant: 'small-caps',
               color: SEAL_AMBER,
-              fontStyle: 'italic',
               fontSize: FONT_BODY,
             }}
           >
@@ -268,7 +264,6 @@ const MaterialColumns = (props: {
               fontVariant: 'small-caps',
               color: SEAL_AMBER,
               fontSize: FONT_BODY,
-              fontStyle: 'italic',
               marginTop: '6px',
               marginBottom: '2px',
             }}
@@ -296,7 +291,6 @@ const MaterialColumns = (props: {
               fontVariant: 'small-caps',
               color: INK_SOFT,
               fontSize: FONT_BODY,
-              fontStyle: 'italic',
               marginTop: '10px',
               marginBottom: '2px',
             }}

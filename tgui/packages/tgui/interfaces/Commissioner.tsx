@@ -54,13 +54,13 @@ export const Commissioner = () => {
               fontFamily: SERIF,
             }}
           >
-            <span style={{ color: SEAL_AMBER, fontStyle: 'italic' }}>
+            <span style={{ color: SEAL_AMBER }}>
               Escrow held
             </span>
             <span style={{ color: INK, fontWeight: 'bold', marginRight: 12 }}>
               {data.budget}m
             </span>
-            <span style={{ color: SEAL_AMBER, fontStyle: 'italic' }}>
+            <span style={{ color: SEAL_AMBER }}>
               Your deposit
             </span>
             <span style={{ color: INK, fontWeight: 'bold' }}>

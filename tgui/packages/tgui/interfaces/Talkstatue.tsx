@@ -136,7 +136,7 @@ const OwnControls = (props: {
       }}
     >
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: FONT_BODY, color: SEAL_AMBER, fontStyle: 'italic' }}>
+        <div style={{ fontSize: FONT_BODY, color: SEAL_AMBER }}>
           {registeredLabel}
         </div>
         <div style={{ fontSize: FONT_BODY, color: INK }}>

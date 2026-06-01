@@ -31,7 +31,7 @@ export const GrimoireUtilitiesDetail = ({
     <div className="AspectPicker__section-label">
       {pointsSpent} / {pointsBudget} pts spent
       {!readOnly && !initialSetup && (
-        <span style={{ marginLeft: '12px', fontStyle: 'italic' }}>
+        <span style={{ marginLeft: '12px' }}>
           (reshaping: {resetBudget} / 2)
         </span>
       )}

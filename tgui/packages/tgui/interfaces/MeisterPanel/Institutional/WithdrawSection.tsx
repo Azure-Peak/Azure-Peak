@@ -33,7 +33,6 @@ export const WithdrawSection = ({
         <div
           style={{
             color: SEAL_AMBER,
-            fontStyle: 'italic',
             marginBottom: 8,
             fontSize: FONT_BODY,
           }}

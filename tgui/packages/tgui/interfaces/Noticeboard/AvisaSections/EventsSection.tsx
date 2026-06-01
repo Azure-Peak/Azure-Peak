@@ -65,7 +65,6 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
         <span
           style={{
             color: INK_SOFT,
-            fontStyle: 'italic',
             fontSize: FONT_BODY,
             marginLeft: 'auto',
           }}
@@ -91,7 +90,6 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
             style={{
               fontVariant: 'small-caps',
               color: INK_SOFT,
-              fontStyle: 'italic',
               marginRight: 6,
             }}
           >

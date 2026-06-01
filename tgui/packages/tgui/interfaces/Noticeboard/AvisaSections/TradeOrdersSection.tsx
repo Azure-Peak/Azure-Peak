@@ -111,7 +111,6 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
       <div
         style={{
           color: INK_SOFT,
-          fontStyle: 'italic',
           fontSize: FONT_BODY,
           marginTop: 2,
         }}
@@ -175,7 +174,6 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
 const fieldLabelStyle: React.CSSProperties = {
   fontVariant: 'small-caps',
   color: SEAL_AMBER,
-  fontStyle: 'italic',
   fontSize: FONT_BODY,
 };
 

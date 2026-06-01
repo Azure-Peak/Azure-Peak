@@ -91,7 +91,7 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
           fontSize: FONT_BODY,
         }}
       >
-        <div style={{ color: INK_SOFT, fontStyle: 'italic' }}>
+        <div style={{ color: INK_SOFT }}>
           Crown spread on held stockpile:{' '}
           <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
             {total_arbitrage_potential}m
@@ -228,7 +228,7 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
                   color: INK_SOFT,
                 }}
               >
-                <span style={{ fontStyle: 'italic' }}>
+                <span>
                   {activeGroup.label}:
                 </span>
                 <button

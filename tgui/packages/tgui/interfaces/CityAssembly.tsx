@@ -197,7 +197,6 @@ const aldermanRowStyle: CSSProperties = {
 const standLinkStyle: CSSProperties = {
   cursor: 'pointer',
   color: INK_SOFT,
-  fontStyle: 'italic',
   fontSize: FONT_BODY,
   textDecoration: 'underline',
   marginTop: '4px',
@@ -218,7 +217,6 @@ const candidateNameStyle: CSSProperties = {
 
 const candidateJobStyle: CSSProperties = {
   color: INK_SOFT,
-  fontStyle: 'italic',
   fontSize: FONT_BODY,
 };
 

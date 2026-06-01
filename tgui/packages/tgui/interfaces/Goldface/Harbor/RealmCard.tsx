@@ -116,7 +116,6 @@ const RowLabel = (props: { children: React.ReactNode; color: string }) => (
   <span
     style={{
       color: props.color,
-      fontStyle: 'italic',
       fontSize: FONT_BODY,
       fontVariant: 'small-caps',
       fontWeight: 'bold',

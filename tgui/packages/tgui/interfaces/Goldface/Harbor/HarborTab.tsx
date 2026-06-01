@@ -32,7 +32,6 @@ const BudgetPair = (props: { label: string; value: React.ReactNode }) => (
         fontFamily: SERIF,
         fontVariant: 'small-caps',
         color: SEAL_AMBER,
-        fontStyle: 'italic',
         fontSize: FONT_BODY,
       }}
     >

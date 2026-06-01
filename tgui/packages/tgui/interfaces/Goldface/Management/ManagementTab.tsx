@@ -282,7 +282,7 @@ const LedgerRow = (props: { entry: FavorLedgerEntry }) => {
       <span style={{ color: INK, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
         {entry.ship_name} <span style={{ color: INK_SOFT }}>- {entry.realm_label}</span>
         {entry.refunded_hail ? (
-          <span style={{ color: SEAL_GREEN, fontStyle: 'italic' }}> (hail refunded)</span>
+          <span style={{ color: SEAL_GREEN }}> (hail refunded)</span>
         ) : null}
       </span>
       <span
@@ -433,7 +433,7 @@ const FavorCard = (props: {
             </span>
           </>
         )}
-        <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>Lyfetime peak</span>
+        <span style={{ color: INK_SOFT }}>Lyfetime peak</span>
         <span style={{ color: SEAL_AMBER, fontWeight: 'bold', textAlign: 'right' }}>
           {favor.high_water}m
         </span>

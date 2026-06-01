@@ -127,7 +127,6 @@ const MaterialRowView = (props: {
             <span
               style={{
                 color: INK_FAINT,
-                fontStyle: 'italic',
                 fontSize: FONT_BODY,
               }}
             >
@@ -146,7 +145,7 @@ const MaterialRowView = (props: {
             {capText}
           </span>
           {advertising && enabled && (
-            <span style={{ color: SEAL_GREEN, fontStyle: 'italic' }}>
+            <span style={{ color: SEAL_GREEN }}>
               {' '}
               - advertised
             </span>
@@ -219,7 +218,6 @@ export const Scrapper = () => {
                 style={{
                   fontSize: FONT_BODY,
                   color: SEAL_AMBER,
-                  fontStyle: 'italic',
                 }}
               >
                 Coffer

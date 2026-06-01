@@ -69,7 +69,6 @@ export const PetitionView = (props: { data: Data }) => {
             ...cardStyle,
             borderLeft: `4px solid ${SEAL_RED}`,
             color: SEAL_RED,
-            fontStyle: 'italic',
           }}
         >
           {cannotActReason}
@@ -279,7 +278,6 @@ const RegionPicker = (props: {
                   <span
                     style={{
                       color: SEAL_RED,
-                      fontStyle: 'italic',
                       fontSize: FONT_BODY,
                       marginLeft: '6px',
                     }}

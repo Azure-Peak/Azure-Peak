@@ -162,7 +162,6 @@ const SummonPanel = () => {
             style={{
               color: INK_FAINT,
               fontSize: FONT_BODY,
-              fontStyle: 'italic',
               marginTop: '2px',
             }}
           >
@@ -327,7 +326,6 @@ const OccupancyPanel = () => {
                 <span
                   style={{
                     color: tooHeavy ? SEAL_RED : INK_FAINT,
-                    fontStyle: 'italic',
                     marginLeft: 'auto',
                   }}
                 >

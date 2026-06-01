@@ -73,7 +73,6 @@ const CharterRow = ({ charter }: { charter: Charter }) => {
             style={{
               marginLeft: 8,
               color: INK_SOFT,
-              fontStyle: 'italic',
               fontSize: FONT_BODY,
               fontWeight: 'normal',
             }}

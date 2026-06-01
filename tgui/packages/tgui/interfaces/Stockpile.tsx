@@ -162,7 +162,6 @@ const StockRowView = (props: {
           <span
             style={{
               color: INK_FAINT,
-              fontStyle: 'italic',
               fontSize: FONT_BODY,
               marginLeft: '4px',
             }}
@@ -289,7 +288,7 @@ export const Stockpile = () => {
               flexWrap: 'wrap',
             }}
           >
-            <span style={{ color: SEAL_AMBER, fontStyle: 'italic' }}>
+            <span style={{ color: SEAL_AMBER }}>
               Coinpouch
             </span>
             <span
@@ -301,12 +300,12 @@ export const Stockpile = () => {
               {data.budget}m
             </span>
             {!!data.food_stipend && (
-              <span style={{ fontStyle: 'italic', color: SEAL_GREEN }}>
+              <span style={{ color: SEAL_GREEN }}>
                 treasury-line
               </span>
             )}
             {!!data.below_floor && (
-              <span style={{ fontStyle: 'italic', color: SEAL_RED }}>
+              <span style={{ color: SEAL_RED }}>
                 crown ledger thin
               </span>
             )}

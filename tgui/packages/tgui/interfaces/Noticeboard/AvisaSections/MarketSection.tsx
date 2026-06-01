@@ -74,7 +74,6 @@ const ledgerGridStyle: React.CSSProperties = {
 const ledgerHeaderStyle: React.CSSProperties = {
   fontVariant: 'small-caps',
   color: SEAL_AMBER,
-  fontStyle: 'italic',
   fontSize: FONT_BODY,
   borderBottom: `1px solid ${INK_FAINT}`,
   padding: '2px 4px 3px 4px',
@@ -326,7 +325,6 @@ export const MarketView = ({
             marginTop: 6,
             cursor: 'pointer',
             color: SEAL_AMBER,
-            fontStyle: 'italic',
             fontSize: FONT_BODY,
             fontVariant: 'small-caps',
           }}
@@ -339,7 +337,6 @@ export const MarketView = ({
             marginTop: 2,
             cursor: 'pointer',
             color: SEAL_AMBER,
-            fontStyle: 'italic',
             fontSize: FONT_BODY,
             fontVariant: 'small-caps',
           }}

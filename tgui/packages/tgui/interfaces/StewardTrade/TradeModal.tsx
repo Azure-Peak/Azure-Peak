@@ -114,7 +114,6 @@ const lineStyle: React.CSSProperties = {
 
 const lineLabelStyle: React.CSSProperties = {
   color: INK_SOFT,
-  fontStyle: 'italic',
 };
 
 const lineValueStyle: React.CSSProperties = {

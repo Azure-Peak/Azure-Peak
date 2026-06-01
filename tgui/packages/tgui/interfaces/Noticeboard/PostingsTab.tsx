@@ -147,7 +147,6 @@ const PostingCard = ({
           style={{
             color: INK_FAINT,
             fontSize: FONT_BODY,
-            fontStyle: 'italic',
           }}
         >
           {posting.posted_at_label}
@@ -159,7 +158,6 @@ const PostingCard = ({
         <div
           style={{
             color: SEAL_AMBER,
-            fontStyle: 'italic',
             fontSize: FONT_BODY,
             fontVariant: 'small-caps',
             marginTop: '2px',
@@ -201,7 +199,6 @@ const PostingCard = ({
             <span
               style={{
                 color: INK_FAINT,
-                fontStyle: 'italic',
                 fontSize: FONT_BODY,
                 marginLeft: '6px',
               }}
@@ -402,7 +399,6 @@ const PostingForm = ({
 const fieldLabel = {
   fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
-  fontStyle: 'italic' as const,
   fontSize: FONT_BODY,
 };
 

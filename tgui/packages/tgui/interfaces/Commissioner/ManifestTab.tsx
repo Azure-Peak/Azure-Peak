@@ -33,7 +33,6 @@ const CapStatus = (props: { data: CommissionerData }) => {
         fontFamily: SERIF,
         fontSize: FONT_BODY,
         color: INK_FAINT,
-        fontStyle: 'italic',
       }}
     >
       Your manifest holds{' '}
@@ -128,7 +127,6 @@ export const ManifestTab = (props: {
               <div
                 style={{
                   fontSize: FONT_BODY,
-                  fontStyle: 'italic',
                   color: INK_SOFT,
                 }}
               >
@@ -140,7 +138,6 @@ export const ManifestTab = (props: {
                 flex: '0 0 auto',
                 color: SEAL_AMBER,
                 fontSize: FONT_BODY,
-                fontStyle: 'italic',
               }}
             >
               {line.unit_price}m each
@@ -210,7 +207,6 @@ export const ManifestTab = (props: {
             fontFamily: SERIF,
             fontVariant: 'small-caps',
             color: SEAL_AMBER,
-            fontStyle: 'italic',
           }}
         >
           Manifest Total
@@ -233,7 +229,6 @@ export const ManifestTab = (props: {
             fontFamily: SERIF,
             fontVariant: 'small-caps',
             color: SEAL_AMBER,
-            fontStyle: 'italic',
           }}
         >
           Deposit Held
@@ -303,7 +298,6 @@ export const ManifestTab = (props: {
         <span
           style={{
             fontSize: FONT_BODY,
-            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >
@@ -364,7 +358,6 @@ export const ManifestTab = (props: {
           marginTop: '6px',
           textAlign: 'center',
           fontSize: FONT_BODY,
-          fontStyle: 'italic',
           color: SEAL_RED,
         }}
       >

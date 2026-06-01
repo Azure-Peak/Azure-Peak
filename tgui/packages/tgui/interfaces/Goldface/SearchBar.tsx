@@ -43,7 +43,6 @@ export const SearchBar = (props: Props) => {
         style={{
           fontFamily: SERIF,
           fontSize: FONT_BODY,
-          fontStyle: 'italic',
           color: INK_SOFT,
         }}
       >
