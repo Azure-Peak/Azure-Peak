@@ -200,6 +200,9 @@
 	light_on = FALSE
 	var/lit = FALSE
 
+	grid_height = 64
+	grid_width = 64
+
 /obj/item/portable_hookah/Initialize(mapload)
 	. = ..()
 	create_reagents(20)

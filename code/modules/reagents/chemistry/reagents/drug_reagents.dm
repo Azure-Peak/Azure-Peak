@@ -647,7 +647,7 @@
 	. = 1
 
 /datum/reagent/drug/nicotine/refined
-	name = "Refined Nicotine"
+	name = "Petun"
 	description = "A highly concentrated form of nicotine. Produces a causes sore throat and mild relaxation."
 	reagent_state = LIQUID
 	color = "#7ed9ad"
