@@ -30,6 +30,7 @@ type StewardData = {
   crown_purse_balance: number;
   defense_costs: Record<string, number>;
   defense_regions_by_type: Record<string, string[]>;
+  blockade_region_labels: Record<string, string>;
   region_tp_multipliers: Record<string, number>;
   defense_destinations: string[];
   defense_log: DefenseLogEntry[];
@@ -362,9 +363,12 @@ const ComposeView = () => {
               !isBlockade && typeof mult === 'number' && mult !== 1
                 ? ` (×${mult} reward)`
                 : '';
+            const label = isBlockade
+              ? data.blockade_region_labels?.[r] || r
+              : r;
             return (
               <option key={r} value={r}>
-                {r}
+                {label}
                 {suffix}
               </option>
             );
@@ -383,8 +387,7 @@ const ComposeView = () => {
           return (
             <div
               style={{
-                fontSize: '11px',
-                fontStyle: 'italic',
+                fontSize: '12px',
                 color: '#6b4e2a',
                 padding: '2px 0 6px 0',
                 marginLeft: '6px',

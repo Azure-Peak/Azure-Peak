@@ -4,6 +4,7 @@
 
 /datum/crafting_recipe/roguetown/leather/armor/lgorget
 	name = "hardened leather gorget"
+	display_category = ITEM_CAT_ARMOR_NECK
 	result = /obj/item/clothing/neck/roguetown/leather
 	reqs = list(/obj/item/natural/hide/cured = 1,
 				/obj/item/natural/fibers = 1)
@@ -11,6 +12,7 @@
 
 /datum/crafting_recipe/roguetown/leather/armor/heavybracers
 	name = "hardened leather bracers"
+	display_category = ITEM_CAT_ARMOR_BRACERS
 	result = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fibers = 1)
@@ -18,18 +20,21 @@
 
 /datum/crafting_recipe/roguetown/leather/armor/bracers
 	name = "leather bracers"
+	display_category = ITEM_CAT_ARMOR_BRACERS
 	result = /obj/item/clothing/wrists/roguetown/bracers/leather
 	reqs = list(/obj/item/natural/hide/cured = 1)
 	sellprice = 10
 
 /datum/crafting_recipe/roguetown/leather/armor/pants
 	name = "leather pants"
+	display_category = ITEM_CAT_ARMOR_LEGS
 	result = /obj/item/clothing/under/roguetown/trou/leather
 	reqs = list(/obj/item/natural/hide/cured = 2)
 	sellprice = 10
 
 /datum/crafting_recipe/roguetown/leather/armor/volfhelm
 	name = "volf helm"
+	display_category = ITEM_CAT_ARMOR_HELMETS
 	result = list(/obj/item/clothing/head/roguetown/helmet/leather/volfhelm)
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/fur/wolf = 1, /obj/item/natural/head/volf = 1)
 	sellprice = 20
@@ -45,12 +50,14 @@
 
 /datum/crafting_recipe/roguetown/leather/armor/saigahelm
 	name = "saiga skull helm"
+	display_category = ITEM_CAT_ARMOR_HELMETS
 	result = list(/obj/item/clothing/head/roguetown/helmet/leather/saiga)
 	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/hide = 2, /obj/item/natural/head/saiga = 1)
 	sellprice = 20
 
 /datum/crafting_recipe/roguetown/leather/armor/heavy_leather_pants
 	name = "hardened leather pants"
+	display_category = ITEM_CAT_ARMOR_LEGS
 	result = list(/obj/item/clothing/under/roguetown/heavy_leather_pants)
 	reqs = list(
 		/obj/item/natural/hide/cured = 3,
@@ -62,6 +69,7 @@
 
 /datum/crafting_recipe/roguetown/leather/armor/heavy_leather_pants/shorts
 	name = "hardened leather shorts"
+	display_category = ITEM_CAT_ARMOR_LEGS
 	result = list(/obj/item/clothing/under/roguetown/heavy_leather_pants/shorts)
 	reqs = list(
 		/obj/item/natural/hide/cured = 1, //they cover less, you see
@@ -73,6 +81,7 @@
 
 /datum/crafting_recipe/roguetown/leather/armor/helmet/advanced
 	name = "hardened leather helmet"
+	display_category = ITEM_CAT_ARMOR_HELMETS
 	result = /obj/item/clothing/head/roguetown/helmet/leather/advanced
 	reqs = list(/obj/item/natural/hide/cured = 1,
 				/obj/item/natural/fibers = 1,
@@ -138,6 +147,7 @@
 
 /datum/crafting_recipe/roguetown/leather/armor/helmet
 	name = "leather helmet"
+	display_category = ITEM_CAT_ARMOR_HELMETS
 	result = /obj/item/clothing/head/roguetown/helmet/leather
 	reqs = list(/obj/item/natural/hide/cured = 1)
 

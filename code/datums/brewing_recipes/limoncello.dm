@@ -4,6 +4,7 @@
 	bottle_name = "limoncello"
 	bottle_desc = "A bottle of locally-distilled limoncello. Has a sweet, citrusy and burning flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/limoncello
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/limoncello
 	pre_reqs = /datum/reagent/consumable/ethanol/voddena
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/fruit/lemon = 2, /obj/item/reagent_containers/food/snacks/sugar = 1)
 	brewed_amount = 4

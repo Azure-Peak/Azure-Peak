@@ -1,0 +1,5 @@
+author: "kbitykbitykbity"
+delete-after: True
+changes:
+  - rscadd: "Added a new species, murklings - they're slime people!"
+  - rscadd: "Added 'ooze' simplemobs that can ambush you in caves in the bog."

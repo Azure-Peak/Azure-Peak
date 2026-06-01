@@ -14,6 +14,7 @@
 		faction_options += "<option value=\"__custom__\">- custom (see text box) -</option>"
 
 		var/faction_block = {"<input type="checkbox" name="disable_ai" value="1"> Disable AI &nbsp; <input type="checkbox" name="dust_on_death" value="1"> Dust on death &nbsp; <input type="checkbox" name="dust_leave_head" value="1"> Dust, leave head &nbsp; <input type="checkbox" name="dust_delete_gear" value="1"> Dust, delete gear<br>
+<input type="checkbox" name="taint_loot" value="1" checked> Taint loot on death (worn gear sells for 25%)<br>
 Faction: <select name="faction_preset" style="width:250px">[faction_options]</select><br>
 Custom faction: <input type="text" name="faction_custom" value="" style="width:250px"> (used only if Custom is selected)<br><br>
 <input type="submit" value="spawn">"}

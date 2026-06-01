@@ -245,6 +245,33 @@
 	desc = "An ordinary brown sack. This one has eyeholes cut into it, bearing a crude chalk drawing of Psydon's cross upon its visage. Unsettling for most."
 	icon_state = "sackmask_psy"
 
+/obj/item/clothing/mask/rogue/facemask
+	name = "iron mask"
+	desc = "A simple, utilitarian mask designed to protect the face from oncoming blows."
+	icon_state = "imask"
+	max_integrity = 100
+	blocksound = PLATEHIT
+	break_sound = 'sound/foley/breaksound.ogg'
+	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
+	resistance_flags = FIRE_PROOF
+	armor = ARMOR_PLATE
+	flags_inv = HIDEFACE|HIDESNOUT
+	body_parts_covered = FACE
+	block2add = FOV_BEHIND
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
+	experimental_onhip = TRUE
+	anvilrepair = /datum/skill/craft/armorsmithing
+	smeltresult = /obj/item/ingot/iron
+	stack_fovs = TRUE
+
+/obj/item/clothing/mask/rogue/facemask/steel
+	name = "steel mask"
+	desc = "Expressionless steel sits where a face ought to be. It is better to be \
+	safe than to be known."
+	icon_state = "smask"
+	max_integrity = 200
+	smeltresult = /obj/item/ingot/steel
+
 /obj/item/clothing/mask/rogue/facemask/steel/confessor
 	name = "strange mask"
 	desc = "It is said that the original version of this mask was used for obscure rituals prior to the fall of the Empire of the Holy Celestia, and now it has been repurposed as a veil for the cunning hand of the Otavan Orthodoxy.<br> <br>Others say it is a piece of heresy, a necessary evil, capable of keeping its user safe from left-handed magicks. You can taste copper whenever you draw breath."
@@ -336,25 +363,6 @@
 	smeltresult = /obj/item/ingot/iron
 	stack_fovs = TRUE
 
-/obj/item/clothing/mask/rogue/facemask
-	name = "iron mask"
-	desc = "A simple, utilitarian mask designed to protect the face from oncoming blows."
-	icon_state = "imask"
-	max_integrity = 100
-	blocksound = PLATEHIT
-	break_sound = 'sound/foley/breaksound.ogg'
-	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	resistance_flags = FIRE_PROOF
-	armor = ARMOR_PLATE
-	flags_inv = HIDEFACE|HIDESNOUT
-	body_parts_covered = FACE
-	block2add = FOV_BEHIND
-	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
-	experimental_onhip = TRUE
-	anvilrepair = /datum/skill/craft/armorsmithing
-	smeltresult = /obj/item/ingot/iron
-	stack_fovs = TRUE
-
 /obj/item/clothing/mask/rogue/facemask/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 
@@ -415,14 +423,6 @@
 	icon_state = "psydonmask"
 	item_state = "psydonmask"
 
-/obj/item/clothing/mask/rogue/facemask/steel
-	name = "steel mask"
-	desc = "Expressionless steel sits where a face ought to be. It is better to be \
-	safe than to be known."
-	icon_state = "smask"
-	max_integrity = 200
-	smeltresult = /obj/item/ingot/steel
-
 /obj/item/clothing/mask/rogue/facemask/steel/graggar
 	name = "vicious jawmask"
 	desc = "Shattered jaws, chipped teeth, sunken metal - fit for a skull of the same. It snarls in mimicry of the Sinistar's visage."
@@ -457,14 +457,12 @@
 	name = "gold mask"
 	icon_state = "goldmask"
 	max_integrity = 150
-	sellprice = 100
 	smeltresult = /obj/item/ingot/gold
 
 /obj/item/clothing/mask/rogue/facemask/goldmaskc
 	name = "gold mask"
 	icon_state = "goldmaskc"
 	max_integrity = 150
-	sellprice = 100
 	smeltresult = /obj/item/ingot/gold
 
 /obj/item/clothing/mask/rogue/facemask/yoruku_oni
@@ -691,58 +689,44 @@
 	salvage_result = null
 
 /obj/item/clothing/mask/rogue/facemask/carved/jademask
-	name = "jade mask "
-	icon_state = "mask_jade"
-	desc = "A jade mask that both conceals and protects the face."
-	sellprice = 70
-
-/obj/item/clothing/mask/rogue/facemask/carved/jademask
 	name = "jade mask"
 	icon_state = "mask_jade"
 	desc = "A jade mask that both conceals and protects the face."
-	sellprice = 70
 
 /obj/item/clothing/mask/rogue/facemask/carved/turqmask
 	name = "cerulite mask"
 	icon_state = "mask_turq"
 	desc = "A cerulite mask that both conceals and protects the face."
-	sellprice = 95
 
 /obj/item/clothing/mask/rogue/facemask/carved/rosemask
 	name = "rosestone mask"
 	icon_state = "mask_rose"
 	desc = "A rosestone mask that both conceals and protects the face."
-	sellprice = 35
 
 /obj/item/clothing/mask/rogue/facemask/carved/shellmask
 	name = "shell mask"
 	icon_state = "mask_shell"
 	desc = "A shell mask that both conceals and protects the face."
-	sellprice = 30
 
 /obj/item/clothing/mask/rogue/facemask/carved/coralmask
 	name = "heartstone mask"
 	icon_state = "mask_coral"
 	desc = "An heartstone mask that both conceals and protects the face."
-	sellprice = 80
 
 /obj/item/clothing/mask/rogue/facemask/carved/ambermask
 	name = "amber mask"
 	icon_state = "mask_amber"
 	desc = "A amber mask that both conceals and protects the face."
-	sellprice = 70
 
 /obj/item/clothing/mask/rogue/facemask/carved/onyxamask
 	name = "onyxa mask"
 	icon_state = "mask_onyxa"
 	desc = "An onyxa mask that both conceals and protects the face."
-	sellprice = 50
 
 /obj/item/clothing/mask/rogue/facemask/carved/opalmask
 	name = "opal mask"
 	icon_state = "mask_opal"
 	desc = "An opal mask that both conceals and protects the face."
-	sellprice = 100
 
 /obj/item/clothing/mask/rogue/xylixmask
 	name = "jester mask"

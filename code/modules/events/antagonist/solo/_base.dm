@@ -125,6 +125,12 @@
 			candidates += antag_mind.current
 			SSgamemode.roundstart_antag_minds -= antag_mind
 			log_storyteller("Roundstart antag_mind, [antag_mind]")
+	
+	if(prompted_picking)
+		// Trying a callback here to avoid hanging the event logic.
+		INVOKE_ASYNC(src, PROC_REF(poll_and_assign), possible_candidates)
+		setup = TRUE // We tell the controller we started successfully
+		return
 
 	//guh
 	var/list/cliented_list = list()
@@ -270,3 +276,44 @@
 	new_character.key = ghost_player.key
 
 	return new_character
+
+/// POLLING LOGIC BELOW.
+
+/datum/round_event/antagonist/solo/proc/poll_and_assign(list/mob/living/possible_candidates)
+	var/datum/round_event_control/antagonist/solo/cast_control = control
+	var/list/willing_candidates = list()
+	var/poll_time = 20 SECONDS
+
+	for(var/mob/living/L in possible_candidates)
+		if(!L.client)
+			continue
+		INVOKE_ASYNC(src, PROC_REF(ask_candidate), L, willing_candidates, poll_time)
+
+	sleep(poll_time)
+
+	for(var/mob/M in willing_candidates)
+		if(QDELETED(M) || !M.client || (M.stat == DEAD && !istype(M, /mob/dead/observer)))
+			willing_candidates -= M
+
+	if(!length(willing_candidates))
+		message_admins("STORYTELLER: [cast_control.name] failed - poll returned no willing candidates.")
+		return
+
+	var/requested_count = cast_control.get_antag_amount()
+	while(length(willing_candidates) && setup_minds.len < requested_count)
+		var/mob/chosen = pick_n_take(willing_candidates)
+
+		if(!chosen.mind)
+			chosen.mind = new /datum/mind(chosen.key)
+
+		setup_minds += chosen.mind
+		chosen.mind.special_role = antag_flag
+		add_datum_to_mind(chosen.mind) 
+	message_admins("STORYTELLER: [cast_control.name] poll finished. [setup_minds.len] antags spawned.")
+
+/datum/round_event/antagonist/solo/proc/ask_candidate(mob/M, list/willing_list, poll_time)
+	var/ask_text = "The storyteller is requesting a [antag_flag]. Would you like to play this role?"
+	var/choice = tgui_alert(M, ask_text, "Antagonist Request", list("Yes", "No"), poll_time)
+	
+	if(choice == "Yes")
+		willing_list += M

@@ -147,7 +147,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 15 // Not much
+	head.sellprice = HEAD_BOUNTY_REIVER
 
 /datum/outfit/job/roguetown/human/northern/border_reiver/midgear/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -246,7 +246,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 15 // Not much
+	head.sellprice = HEAD_BOUNTY_REIVER
 
 /datum/outfit/job/roguetown/human/northern/border_reiver/lowgear/pre_equip(mob/living/carbon/human/H)
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
@@ -330,7 +330,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 15 // Not much
+	head.sellprice = HEAD_BOUNTY_REIVER
 
 /datum/outfit/job/roguetown/human/northern/border_reiver/highgear/pre_equip(mob/living/carbon/human/H)
 	..()

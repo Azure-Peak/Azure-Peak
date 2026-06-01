@@ -69,6 +69,12 @@
 	icon_state = "deadfoxhead"
 	sellprice = 20
 
+/obj/item/natural/head/cabbit/undead
+	name = "deadite cabbit head"
+	desc = "Despite the small size, undead cabbits are considered one of the more dangerous types of cabbit."
+	icon_state = "deadcabbit"
+	sellprice = 40
+
 /obj/item/natural/head/saiga
 	name = "saiga head"
 	desc = "The head of a proud saiga."

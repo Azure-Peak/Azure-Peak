@@ -34,7 +34,6 @@
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
 	minstr = 7
-	sellprice = 30
 	wdefense = 4
 	grid_width = 32
 	grid_height = 64
@@ -60,7 +59,6 @@
 	minstr = 6
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
-	sellprice = 10
 	sheathe_icon = "isword"
 
 /obj/item/rogueweapon/sword/bronze
@@ -79,12 +77,11 @@
 
 /obj/item/rogueweapon/sword/falx
 	name = "falx"
-	desc = "An unusual type of curved sword that evolved from the farmer's sickle. It has an inwards edge, making it useful for cutting and chopping."
+	desc = "An unusual type of curved sword that evolved from the farmer's sickle. It has an inwards edge, making it useful for cutting and chopping, great for destroying shields and men alike."
 	force = 22
-	possible_item_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/chop/falx, /datum/intent/sword/strike)
+	possible_item_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/chop/falx, /datum/intent/sword/cut/falx/heavy, /datum/intent/sword/strike)
 	icon_state = "falx"
-	max_blade_int = 250
-	max_integrity = 125
+	max_blade_int = 230 // Tiny downgrade like the sabre
 	gripped_intents = null
 	minstr = 4
 	wdefense = 6
@@ -97,11 +94,25 @@
 	smeltresult = /obj/item/ingot/drow
 	smelt_bar_num = 1
 
+/obj/item/rogueweapon/sword/falx/dadao
+	name = "dadao"
+	desc = "A heavy steel blade with a pronounced curve and thick blade, designed to chop apart men and saigas alike. The Ranesheni name it Saigachopper - until they encountered the Zhanmadao, and then they renamed it the Little Saigachopper."
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	icon_state = "dadao"
+	sheathe_icon = "dadao"
+
+/obj/item/rogueweapon/sword/falx/dadao/iron
+	name = "iron dadao"
+	desc = "A wrought iron variant of the dadao, wrought by Lingyuese smithmen for smoothmen to use along a shield. The edge dulls quickly, but it will decapitate men and saiga all the same."
+	icon_state = "idadao"
+	smeltresult = /obj/item/ingot/iron
+	max_blade_int = 200
+
 /obj/item/rogueweapon/sword/decorated
 	name = "decorated arming sword"
 	desc = "A valuable ornate arming sword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."
 	icon_state = "decsword1"
-	sellprice = 140
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/decorated/Initialize()
 	. = ..()
@@ -135,7 +146,6 @@
 	smeltresult = null
 	minstr = 4
 	wdefense = 4
-	sellprice = 10
 
 /obj/item/rogueweapon/sword/zizo
 	name = "avantyne arming sword"
@@ -910,7 +920,6 @@
 	wdefense = 3
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
-	sellprice = 10
 
 /obj/item/rogueweapon/sword/short/ashort
 	name = "decrepit short sword"
@@ -980,8 +989,8 @@
 	sheathe_icon = "decgladius"
 	max_integrity = 300
 	smeltresult = /obj/item/ingot/gold
-	sellprice = 100
 	wdefense = 5
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/sabre/bronzekhopesh
 	name = "khopesh"
@@ -1112,7 +1121,6 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
-	sellprice = 10
 
 /obj/item/rogueweapon/sword/short/messer/iron/virtue
 	name = "iron dueling messer"
@@ -1195,7 +1203,6 @@
 /obj/item/rogueweapon/sword/sabre/dec
 	icon_state = "decsaber"
 	sheathe_icon = "decsaber"
-	sellprice = 140
 
 /obj/item/rogueweapon/sword/saber/iron
 	name = "iron saber"
@@ -1204,7 +1211,6 @@
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
 	icon_state = "isaber"
-	sellprice = 10
 
 /obj/item/rogueweapon/sword/sabre/steppesman
 	name = "aavnic shashka"
@@ -1492,7 +1498,7 @@
 	obverse reads, \"YE NOT GUILTY\"."
 	icon_state = "decrapier"
 	sheathe_icon = "decrapier"
-	sellprice = 140
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/rapier/silver
 	name = "silver rapier"
@@ -1698,6 +1704,7 @@
 	icon_state = "ram_dao"
 	sheathe_icon = "scabbard_decsword3"
 	force = 25
+	no_loot_taint = TRUE
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
 	gripped_intents = null
 	minstr = 11
@@ -1705,7 +1712,6 @@
 	smeltresult = /obj/item/ingot/gold
 	smelt_bar_num = 1
 	wdefense = 5
-	sellprice = 150
 	is_silver = TRUE
 
 /obj/item/rogueweapon/sword/silver/decorated/ComponentInitialize()
@@ -1722,10 +1728,10 @@
 /obj/item/rogueweapon/sword/long/rhomphaia
 	name = "rhomphaia"
 	desc = "An ancient two-handed sword similar to the falx, with a less pronounced curve. Once known for cutting through helmet - metallurgy has improved since then, but it can chop through light armor with ease."
-	force = 25
-	force_wielded = 30
+	force = 22
+	force_wielded = 27 // Do not want it to become the meat mulcher on 2 hand with this speed
 	possible_item_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/strike, /datum/intent/sword/chop/falx)
-	gripped_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/thrust, /datum/intent/sword/chop/falx) //>Ability to strike and THRUST - No thrust intent? Nonsense.
+	gripped_intents = list(/datum/intent/sword/cut/falx, /datum/intent/sword/chop/falx, /datum/intent/sword/cut/falx/heavy, /datum/intent/sword/cut/zwei/sweep)
 	icon_state = "rhomphaia"
 	smeltresult = /obj/item/ingot/steel
 
@@ -1952,7 +1958,7 @@
 	desc = "A valuable ornate longsword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard. \
 	Its blade bears twin inscriptions on either side. One reads, \"THY KINGDOM COME\" while the obverse reads, \"THY WILL BE DONE\"."
 	icon_state = "declongsword"
-	sellprice = 140
+	no_loot_taint = TRUE
 
 // kazengite content
 // Stronger offense less defense sword meant to be paired w/ scabbard for parrying
@@ -1982,6 +1988,20 @@
 	max_integrity = 200
 	sharpness_mod = 2
 	sellprice = 150
+
+/obj/item/rogueweapon/sword/sabre/wodao
+	name = "wodao"
+	desc = "A slightly curved blade originating in the eastern realm of Lingyue, where its design was perfected over centuries of dynastic warfare. \
+	The pattern has since spread along the trade routes - adopted by Kazengunite diplomat-militants, then carried west as far as the Naledian allspice caravans. \
+	While less durable compared to other arming swords, its swift balance and unique design make it great for unleashing precise strikes."
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	icon_state = "wodao"
+	sheathe_icon = "wodao"
+
+/obj/item/rogueweapon/sword/saber/iron/wodao
+	name = "iron wodao"
+	desc = "A wrought-iron wodao, mass produced by the thousands in the state arsenals for Xinyi infantry and provincial militias. The blade is competent, its edge sharp, but it will not hold as long under use. But at a fraction of the cost of a hwando, it is more than enough to slay a man or five before it needs to be sharpened."
+	icon_state = "iwodao"
 
 /obj/item/rogueweapon/sword/sabre/hook
 	force = 20
@@ -2243,6 +2263,7 @@
 	sheathe_icon = "goldsword"
 	wbalance = WBALANCE_HEAVY
 	unenchantable = TRUE
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/blacksteel
 	name = "blacksteel arming sword"
@@ -2266,6 +2287,7 @@
 	sheathe_icon = "bs_swordregal"
 	wdefense = 7
 	sellprice = 250
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/short/gronn
 	name = "gronnic hinterblade"

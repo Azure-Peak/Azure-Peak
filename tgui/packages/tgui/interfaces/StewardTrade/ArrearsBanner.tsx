@@ -21,14 +21,13 @@ export const ArrearsBanner = (props: {
         style={{
           fontSize: '15px',
           fontWeight: 'bold',
-          letterSpacing: '3px',
           marginBottom: '3px',
           color: SEAL_AMBER,
         }}
       >
         ARREARS WITH THE BURGHERS
       </div>
-      <div style={{ fontStyle: 'italic', fontVariant: 'normal', color: INK }}>
+      <div style={{ fontVariant: 'normal', color: INK }}>
         The Crown owes <b>{sequestration.debt}m</b> to the Burghers of Azuria
         for the day's interest-free advance. All inflow into the Crown's Purse
         is skimmed against the debt until it is settled. Should the Crown miss

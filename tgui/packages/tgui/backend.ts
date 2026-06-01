@@ -406,6 +406,7 @@ type BackendState<TData> = {
       fancy: BooleanLike;
       locked: BooleanLike;
       theme: string;
+      parchment_skin: string;
       scale: BooleanLike;
     };
     client: {

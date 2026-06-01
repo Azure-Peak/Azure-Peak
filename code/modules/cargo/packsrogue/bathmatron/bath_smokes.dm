@@ -53,6 +53,16 @@
 	cost = 5
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/jacksberries)
 
+/datum/supply_pack/rogue/bath_smokes/swampzig
+	name = "Swampweed zig"
+	cost = 13
+	contains = list(/obj/item/clothing/mask/cigarette/rollie/cannabis)
+
+/datum/supply_pack/rogue/bath_smokes/salviazig
+	name = "Salvia zig"
+	cost = 6
+	contains = list(/obj/item/clothing/mask/cigarette/rollie/salvia)
+
 /datum/supply_pack/rogue/bath_smokes/sigar
 	name = "Ziggara"
 	cost = 21

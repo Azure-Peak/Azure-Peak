@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/leather/footwear
 	abstract_type = /datum/crafting_recipe/roguetown/leather/footwear
+	display_category = ITEM_CAT_ARMOR_BOOTS
 	category = "Footwear"
 	reqs = list(/obj/item/natural/hide/cured = 1, 
 				/obj/item/natural/fibers = 1) //basic footwear all have the same recipe
