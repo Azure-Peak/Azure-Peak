@@ -454,13 +454,13 @@
 		if(L.m_intent == MOVE_INTENT_RUN)
 			prob2break = 100
 		if(prob(prob2break))
-			if(!(HAS_TRAIT(L, TRAIT_AZURENATIVE) || (HAS_TRAIT(L, TRAIT_WOODWALKER)) && L.m_intent != MOVE_INTENT_RUN))
+			if(L.m_intent == MOVE_INTENT_RUN || !(HAS_TRAIT(L, TRAIT_AZURENATIVE) || HAS_TRAIT(L, TRAIT_WOODWALKER) || (HAS_TRAIT(L, TRAIT_BOGWALKER) && istype(get_area(L), /area/rogue/outdoors/bog))))
 				playsound(src,'sound/items/seedextract.ogg', 100, FALSE)
-			qdel(src)
-			if (L.alpha == 0 && L.rogue_sneaking) // not anymore you're not
-				L.update_sneak_invis(TRUE)
-			if(!HAS_TRAIT(L, TRAIT_WOODWALKER))
-				L.consider_ambush()
+				qdel(src)
+				if (L.alpha == 0 && L.rogue_sneaking) // not anymore you're not
+					L.update_sneak_invis(TRUE)
+				if(!HAS_TRAIT(L, TRAIT_WOODWALKER))
+					L.consider_ambush()
 
 /obj/item/natural/bundle/fibers
 	name = "fiber bundle"

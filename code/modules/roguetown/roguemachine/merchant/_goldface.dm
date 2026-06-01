@@ -48,7 +48,6 @@
 		"Luxury",
 		"Livestock",
 		"Cosmetics",
-		"Raw Materials",
 		"Seeds",
 		"Tools",
 		"Wardrobe",
@@ -63,6 +62,7 @@
 		"Potions",
 		"Weapons (Ranged)",
 		"Weapons (Iron and Shields)",
+		"Weapons (Bronze)",
 		"Weapons (Steel)",
 		"Weapons (Foreign)",
 	)
@@ -93,7 +93,6 @@
 		"Luxury",
 		"Livestock",
 		"Cosmetics",
-		"Raw Materials",
 		"Seeds",
 		"Tools",
 		"Weapons (Foreign)",
@@ -114,6 +113,7 @@
 		"Armor (Exotic)",
 		"Weapons (Ranged)",
 		"Weapons (Iron and Shields)",
+		"Weapons (Bronze)",
 		"Weapons (Steel)",
 	)
 	categories_gamer = list()
@@ -445,6 +445,7 @@
 		"dock_spots_used" = length(docked),
 		"dock_spots_max" = SSmerchant_trade.get_dock_spots_max(),
 		"cultural_stock" = build_cultural_stock_data(viewer),
+		"catalogs" = build_catalog_data(viewer),
 		"merchant_levy_percent" = SSmerchant_trade.merchant_levy_percent,
 		"merchant_levy_cap" = TRADE_MERCHANT_LEVY_CAP_PERCENT,
 		"merchant_levy_collected" = SSmerchant_trade.merchant_levy_collected,
@@ -595,6 +596,51 @@
 				"ship_id" = ship.ship_id,
 				"ship_name" = ship.ship_name,
 			))
+	return result
+
+/obj/structure/roguemachine/goldface/proc/build_catalog_data(mob/living/carbon/human/viewer)
+	var/list/result = list()
+	if(!SSmerchant_trade)
+		return result
+	var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+	var/tariff_rate = SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF)
+	for(var/cid in SSmerchant_trade.catalogs)
+		var/datum/merchant_catalog/C = SSmerchant_trade.catalogs[cid]
+		var/unlocked = SSmerchant_trade.catalog_unlocked(cid)
+		var/origin_access = SSmerchant_trade.catalog_origin_access(C, viewer)
+		var/accessible = unlocked || origin_access
+		var/list/entries = list()
+		if(accessible)
+			for(var/path in C.stock)
+				var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
+				if(!PA)
+					continue
+				var/pre_kin = PA.cost
+				var/base = origin_access ? max(1, round(PA.cost * CATALOG_KIN_BUY_MULT)) : PA.cost
+				var/tariff = tariff_active ? round(tariff_rate * base) : 0
+				entries += list(list(
+					"pack" = "[PA.type]",
+					"name" = PA.name,
+					"pack_qty" = PA.no_name_quantity ? 1 : PA.contains.len,
+					"price_base" = base,
+					"price_base_pre_kin" = pre_kin,
+					"price_tariff" = tariff,
+					"price" = base + tariff,
+					"qty" = SSmerchant_trade.catalog_stock_remaining(cid, path),
+					"stock_max" = C.stock[path],
+				))
+		result += list(list(
+			"id" = C.id,
+			"name" = C.name,
+			"desc" = C.desc,
+			"favor_cost" = C.favor_cost,
+			"home_label" = C.home_label,
+			"unlocked" = unlocked,
+			"origin_access" = origin_access,
+			"accessible" = accessible,
+			"discount_pct" = round((1 - CATALOG_KIN_BUY_MULT) * 100),
+			"entries" = entries,
+		))
 	return result
 
 /obj/structure/roguemachine/goldface/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -774,6 +820,61 @@
 			to_chat(H, span_notice("You buy [PA.name] from [source_ship.ship_name] for [total_cost]m[tariff_active_cultural && tax_amt > 0 ? " (incl. [tax_amt]m Crown duty)" : ""][kin_saving > 0 ? " (Kinship saved [kin_saving]m)" : ""]."))
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			return TRUE
+		if("catalog_buy")
+			if(!is_command_center || !SSmerchant_trade)
+				return TRUE
+			var/cid = "[params["catalog"]]"
+			var/datum/merchant_catalog/C = SSmerchant_trade.catalogs[cid]
+			if(!C)
+				return TRUE
+			var/origin_access = SSmerchant_trade.catalog_origin_access(C, H)
+			if(!SSmerchant_trade.catalog_unlocked(cid) && !origin_access)
+				to_chat(H, span_warning("The [C.name] is not open."))
+				return TRUE
+			var/path = text2path(params["pack"])
+			if(!ispath(path, /datum/supply_pack) || !(path in C.stock))
+				return TRUE
+			var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
+			if(!PA)
+				return TRUE
+			if(SSmerchant_trade.catalog_stock_remaining(cid, path) <= 0)
+				to_chat(H, span_warning("The [C.name] has none of that left. Wait until the next restock."))
+				return TRUE
+			var/base_cost = PA.cost
+			var/kin_saving = 0
+			if(origin_access)
+				var/pre_kin = base_cost
+				base_cost = max(1, round(base_cost * CATALOG_KIN_BUY_MULT))
+				kin_saving = pre_kin - base_cost
+			var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+			var/tax_amt = round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * base_cost)
+			var/total_cost = base_cost
+			if(tariff_active)
+				total_cost += tax_amt
+			if(budget < total_cost)
+				say("Not enough!")
+				return TRUE
+			budget -= total_cost
+			SSmerchant_trade.consume_catalog_stock(cid, path)
+			record_round_statistic(value_record_key, total_cost)
+			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, total_cost)
+			if(tariff_active)
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
+				SStreasury.apply_concordat_tithe(total_cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")
+				record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, tax_amt)
+				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+				record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)
+				tariff_collected_here += tax_amt
+			else
+				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
+				tariff_evaded_here += tax_amt
+			for(var/pathi in PA.contains)
+				var/obj/item/spawned = new pathi(get_turf(usr))
+				if(istype(spawned))
+					spawned.atc_sealed = TRUE
+			to_chat(H, span_notice("You order [PA.name] from the [C.name] for [total_cost]m[tariff_active && tax_amt > 0 ? " (incl. [tax_amt]m Crown duty)" : ""][kin_saving > 0 ? " (Kinship saved [kin_saving]m)" : ""]."))
+			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
+			return TRUE
 		if("bulk_buy")
 			if(!is_command_center || !can_view_harbor(H) || !SSmerchant_trade)
 				return TRUE
@@ -883,6 +984,19 @@
 			if(try_favor_unlock(H, SSmerchant_trade?.auto_hailer_unlocked, AUTO_HAILER_FAVOR, "The harbor crew already has a retainer with the Company.", "Not enough favor with the Company to retain the harbor crew."))
 				if(SSmerchant_trade.unlock_auto_hailer())
 					to_chat(H, span_notice("The harbor crew is on retainer. Toggle the Auto-Hailer when you wish them to work."))
+					playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
+			return TRUE
+		if("unlock_catalog")
+			var/cid = "[params["catalog"]]"
+			if(!SSmerchant_trade)
+				return TRUE
+			var/datum/merchant_catalog/C = SSmerchant_trade.catalogs[cid]
+			if(!C)
+				return TRUE
+			if(try_favor_unlock(H, SSmerchant_trade.catalog_unlocked(cid), C.favor_cost, "The [C.name] is already open to the company.", "Not enough favor with the Company to open the [C.name]."))
+				if(SSmerchant_trade.unlock_catalog(cid))
+					scom_announce("The Azurian Trading Company has secured a trade agreement with the [C.name].")
+					to_chat(H, span_notice("The [C.name] is now open to the company."))
 					playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			return TRUE
 		if("toggle_auto_hailer")

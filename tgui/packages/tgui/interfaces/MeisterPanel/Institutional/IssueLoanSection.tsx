@@ -29,6 +29,9 @@ export const IssueLoanSection = ({
   const [amount, setAmount] = useState<string>('');
   const [term, setTerm] = useState<number>(2);
   const [rate, setRate] = useState<number>(25);
+  const rateOptions = fund.allow_zero_rate
+    ? [0, ...RATE_OPTIONS]
+    : RATE_OPTIONS;
   const indentureTargets = data.funds.filter(
     (f) => f.id !== fund.id && f.supports_loans,
   );
@@ -152,7 +155,7 @@ export const IssueLoanSection = ({
       <div style={fieldRowStyle}>
         <div style={fieldLabelStyle}>Rate</div>
         <div style={fieldValueStyle}>
-          {RATE_OPTIONS.map((r) => (
+          {rateOptions.map((r) => (
             <button
               type="button"
               key={r}

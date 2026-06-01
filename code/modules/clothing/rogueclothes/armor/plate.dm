@@ -81,7 +81,7 @@
 /obj/item/clothing/suit/roguetown/armor/plate/bronze
 	name = "bronze cuirass"
 	desc = "A chiseled breastplate of bronze, further padded with hide to comfort its championing bod. The plates have been carefully forged to mimic the statuesque physiques of Psydonia's ancient heroes. Wearing it bolsters you with determination."
-	body_parts_covered = CHEST | VITALS | LEGS 
+	body_parts_covered = CHEST | VITALS | LEGS
 	icon_state = "bronzecuirass"
 	armor = ARMOR_BRONZE
 	smeltresult = /obj/item/ingot/bronze
@@ -282,7 +282,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted
 	name = "fluted half-plate"
-	desc = "An ornate steel cuirass, fitted with tassets and pauldrons for additional coverage. This lightweight deviation of 'plate armor' is favored by cuirassiers all across Psydonia, alongside fledging barons who've - up until now - waged their fiercest battles upon a chamberpot." 
+	desc = "An ornate steel cuirass, fitted with tassets and pauldrons for additional coverage. This lightweight deviation of 'plate armor' is favored by cuirassiers all across Psydonia, alongside fledging barons who've - up until now - waged their fiercest battles upon a chamberpot."
 	icon_state = "ornatehalfplate"
 
 	equip_delay_self = 6 SECONDS
@@ -376,7 +376,7 @@
 	color = null
 	detail_color = CLOTHING_WHITE
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
-	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL - 50 //slightly worse
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
 	var/picked = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa/attack_right(mob/user)
@@ -394,7 +394,7 @@
 			H.update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa/Initialize()
-	. = ..()		
+	. = ..()
 	update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa/update_icon()
@@ -447,7 +447,7 @@
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
 	name = "inquisitorial ordinator's plate"
 	desc = "A relic that is said to have survived the Grenzelhoft-Otavan war, refurbished and repurposed to slay the arch-enemy in the name of Psydon. <br> A fluted cuirass that has been reinforced with thick padding and an additional shoulder piece. You will endure."
-	icon_state = "ordinatorplate"	
+	icon_state = "ordinatorplate"
 
 // Heretic Matthios Full Plate
 /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
@@ -680,7 +680,7 @@
 	icon_state = "ornatecuirass"
 	desc = "An ornate steel cuirass, fitted with tassets for additional coverage. The intricate fluting not only attracts the maidens, but also strengthens the steel's resistance against repeated impacts."
 
-	body_parts_covered = CHEST | VITALS | LEGS 
+	body_parts_covered = CHEST | VITALS | LEGS
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold
@@ -854,7 +854,7 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "armored inquisitorial duster"
 	desc = "A heavy longcoat with layers of maille hidden beneath the leather, donned by the Holy Otavan Inquisition's finest. Where the longcoat parts, a surprise awaits; an ornate steel cuirass, worn beneath the leathers to ward off crippling blows."
-	smeltresult = /obj/item/ingot/steel 
+	smeltresult = /obj/item/ingot/steel
 	icon_state = "inqcoata"
 	item_state = "inqcoata"
 	equip_delay_self = 4 SECONDS
@@ -863,7 +863,7 @@
 	armor = ARMOR_PLATE
 	smelt_bar_num = 2
 	smeltresult = /obj/item/ingot/steel
-	blocksound = PLATEHIT	
+	blocksound = PLATEHIT
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored/ComponentInitialize()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 12)

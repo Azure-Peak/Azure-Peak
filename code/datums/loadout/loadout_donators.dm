@@ -133,6 +133,11 @@
 	path = /obj/item/enchantingkit/weapon/inverserun
 	ckeywhitelist = list("inverserun")
 
+/datum/loadout_item/donator/inverserun/amdir
+	name = "Donator Kit - Amdir"
+	path = /obj/item/enchantingkit/weapon/arra_amdir
+	ckeywhitelist = list("inverserun","vakiova","maesune","koruu","rezathedwarf","theneogamer42")
+
 /datum/loadout_item/donator/zoe
 	name = "Donator Kit - Shroud of the Undermaiden"
 	path = /obj/item/enchantingkit/zoe
@@ -248,7 +253,7 @@
 /datum/loadout_item/donator/maesune
 	name = "Donator Item - Mercantile Union's Garb"
 	path = /obj/item/clothing/suit/roguetown/shirt/maesune
-	ckeywhitelist = list("maesune", "koruu", "inverserun", "vaki ova", "ryan180602")
+	ckeywhitelist = list("maesune", "koruu", "inverserun", "vakiova", "ryan180602")
 
 /datum/loadout_item/donator/maesune/shield
 	name = "Donator Kit - Silver Shield"
@@ -371,3 +376,13 @@
 	name = "Dontaor Kit - Gae Bolg"
 	path = /obj/item/enchantingkit/weapon/des_gaebolg
 	ckeywhitelist = list("desminus")
+
+/datum/loadout_item/donator/pes_guitar
+	name = "Donator Item - Red-Stained Guitar"
+	path = /obj/item/rogue/instrument/guitar/pes_guitar
+	ckeywhitelist = list("pessime959")
+
+/datum/loadout_item/donator/vakiova
+	name = "Donator Item - Gravetender Coat"
+	path = /obj/item/clothing/cloak/vaki_gravetender
+	ckeywhitelist = list("vakiova", "maesune", "astartee")

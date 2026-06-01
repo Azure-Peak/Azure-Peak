@@ -593,16 +593,28 @@
 		return FALSE
 	if(shock_damage < 1 && !(flags & SHOCK_VISUAL_ONLY))
 		return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_IRONMAN) && !(flags & SHOCK_VISUAL_ONLY)) // this handles shock weakness, jakk here as you wish
+		adjustFireLoss(50)
+
 	if(!(flags & SHOCK_VISUAL_ONLY))
 		if(!(flags & SHOCK_ILLUSION))
 			adjustFireLoss(shock_damage)
 		else
 			adjustStaminaLoss(shock_damage)
-	visible_message(
-		span_danger("[src] was shocked by \the [source]!"), \
-		span_danger("I feel a powerful shock coursing through my body!"), \
-		span_hear("I hear a heavy electrical crack.") \
-	)
+
+	if(HAS_TRAIT(src, TRAIT_IRONMAN)) // sovl
+		visible_message(
+			span_danger("[src] was violently shocked by \the [source]!"), \
+			span_danger("Electricity tears through my metal body with ease!"), \
+			span_hear("I hear violent electrical cracking and metal popping.")
+		)
+	else
+		visible_message(
+			span_danger("[src] was shocked by \the [source]!"), \
+			span_danger("I feel a powerful shock coursing through my body!"), \
+			span_hear("I hear a heavy electrical crack.")
+		)	
 	playsound(get_turf(src), pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
 	return shock_damage
 

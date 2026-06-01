@@ -54,6 +54,9 @@
 
 	two_stage_death = TRUE // players won't be decapitated instantly (they'll still die immediately, though)
 
+/obj/item/bodypart/head/get_real_price()
+	return 0
+
 /obj/item/bodypart/head/examine()
 	. = ..()
 	if(sellprice)

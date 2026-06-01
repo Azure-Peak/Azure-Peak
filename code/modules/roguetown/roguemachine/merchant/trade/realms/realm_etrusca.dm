@@ -75,10 +75,10 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/applebread, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX, "price" = VICTUALLING_PRICE_FISH),
 	)
 	victualling_drinks_pool = list(
-		list("recipe" = /datum/brewing_recipe/beer, "qty_min" = VICTUALLING_QTY_LARGE_MIN, "qty_max" = VICTUALLING_QTY_LARGE_MAX),
-		list("recipe" = /datum/brewing_recipe/brandy/plum, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/brandy, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/rum, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
+		list("recipe" = /datum/brewing_recipe/beer, "keg_mult" = 2),
+		list("recipe" = /datum/brewing_recipe/brandy/plum),
+		list("recipe" = /datum/brewing_recipe/brandy),
+		list("recipe" = /datum/brewing_recipe/rum),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/coral,
