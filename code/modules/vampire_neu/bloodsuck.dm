@@ -20,10 +20,10 @@
 		to_chat(src, span_warning("I can only drink blood from living, intelligent beings!"))
 		return
 	if(victim.dna?.species && (NOBLOOD in victim.dna.species.species_traits))
-		to_chat(src, span_warning("Sigh. No blood."))
+		to_chat(src, span_warning("They have no blood."))
 		return
 	if(victim.blood_volume <= 0)
-		to_chat(src, span_warning("Sigh. No blood."))
+		to_chat(src, span_warning("Sigh. No blood left."))
 		return
 
 	var/datum/antagonist/vampire/VDrinker = mind.has_antag_datum(/datum/antagonist/vampire)
@@ -32,7 +32,7 @@
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
 		if(VDrinker && istype(human_victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver))
-			to_chat(src, span_userdanger("SILVER! HISSS!!!"))
+			to_chat(src, span_userdanger("SILVER CROSS! HISSS!!!"))
 			return
 		if(VDrinker && HAS_TRAIT(human_victim, TRAIT_SILVER_BLESSED))
 			to_chat(src, span_userdanger("SILVER IN THE BLOOD! HISSS!!!"))
@@ -122,7 +122,7 @@
 			if(vdrinker.thrall_count >= vdrinker.max_thralls) //you've hit your max
 				to_chat(src, span_warning("I cannot sire anymore thralls.."))
 			else
-				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
+				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF ASTRATA", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
 					to_chat(src, span_warning("I decide [victim] is unworthy."))
 				else
 					visible_message(span_danger("[src] begins channeling their energies to [victim]!"))
@@ -165,8 +165,8 @@
 
 	var/vampire_choice = tgui_alert(
 		src,
-		"Would you like to rise as a vampire spawn? Warning: refusal may or may not mortally wound you.",
-		"THE CURSE OF KAIN",
+		"Would you like to rise as a lycker spawn? Warning: refusal may or may not mortally wound you.",
+		"THE CURSE OF ASTRATA",
 		list("MAKE IT SO", "I RESCIND"),
 		VAMP_CONVERT_TIMEOUT
 	)
@@ -217,6 +217,7 @@
 
 	if(client)
 		client.verbs.Remove(GLOB.ghost_verbs)
+		client.update_browserpanel()
 
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
 	visible_message(span_red("[src] rises as a new spawn!"))

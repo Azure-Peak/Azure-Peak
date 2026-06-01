@@ -9,6 +9,7 @@
 		/obj/item/alch/hag_moss/enchanted/crawling   = 5,
 		/obj/item/alch/hag_moss/enchanted/deathless  = 4,
 		/obj/item/alch/hag_moss/enchanted/corrosive  = 4,
+		/obj/item/alch/hag_moss/enchanted/sprouting  = 4,
 		// Mid Rarity Enchanted
 		/obj/item/alch/hag_moss/enchanted/random/mid = 3,
 		/obj/item/alch/hag_moss/enchanted/caring     = 2,

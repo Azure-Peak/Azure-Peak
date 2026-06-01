@@ -33,6 +33,8 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 /obj/projectile/magic/soulshot
 	name = "soulshot"
 	tracer_type = /obj/effect/projectile/tracer/bloodsteal
@@ -73,9 +75,26 @@
 		return . || BULLET_ACT_HIT
 	hits++
 	// Halve damage after the first target
-	if(hits == 1)
-		damage = round(damage * 0.5)
+	if(hits <= 1)
+		damage = 95
+	else
+		damage = round(95 * 0.5)
 	if(hits >= max_hits)
 		qdel(src)
 		return . || BULLET_ACT_HIT
 	return BULLET_ACT_FORCE_PIERCE
+
+/datum/action/cooldown/spell/projectile/soulshot/lesser
+	name = "Lesser Soulshot"
+	desc = "Fire a devastating beam of kinetic force that pierces through up to 2 targets. Stopped by solid objects. \
+	Damage is halved after the first target. \
+	Deals 50% increased damage to simple-minded creechurs. \
+	Basic offensive magic, refined for over a millenium since the first Magi expelled mana from their body with pure malice and determination to destroy another."
+	invocations = list("Animus Ictus!")
+	projectile_type = /obj/projectile/magic/soulshot/lesser
+	attunement_school = null
+	spell_tier = 0
+	point_cost = 0
+
+/obj/projectile/magic/soulshot/lesser
+	max_hits = 2

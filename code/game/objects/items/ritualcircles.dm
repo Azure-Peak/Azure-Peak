@@ -1212,9 +1212,14 @@
 		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
 		return
 	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
-		target.visible_message(span_danger("[target] is unmade by divine magic! The Toll is accepted, and [target] is dragged to ever-death!"), span_userdanger("I'm unmade by divine magic!"))
-		target.gib()
-		return
+		if(alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", "PURGE THE UNCLEAN!", "Stop") != "PURGE THE UNCLEAN!")
+			to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
+			return FALSE
+		target.visible_message(span_danger("[target] is unmade by divine magic!"), span_userdanger("Holy power tears my undead form apart!"))
+		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
+		target.dust()
+		return TRUE
+
 	if(alert(target, "A Toll is being offered for your soul, BREAK FREE?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 		target.visible_message(span_notice("Nothing happens. They are not being let go."))
 		return
@@ -1432,8 +1437,8 @@
 	name = "Rune of Deca Divinity"
 	desc = "A Holy Rune of The Undivided Pantheon"
 	icon_state = "undivided_chalky"
-	var/decarites = list("Crusader's Oath")
-
+	//var/decarites = list()
+/*
 /obj/structure/ritualcircle/undivided/attack_hand(mob/living/user)
 	if(!..())
 		return
@@ -1448,85 +1453,8 @@
 		return
 	var/riteselection = input(user, "Rituals of Deca Divinity", src) as null|anything in decarites
 	switch(riteselection) // put ur rite selection here
-		if("Crusader's Oath")
-			var/onrune = view(1, loc)
-			var/list/folksonrune = list()
-			for(var/mob/living/carbon/human/persononrune in onrune)
-				if(HAS_TRAIT(persononrune, TRAIT_UNDIVIDED))
-					folksonrune += persononrune
-			var/target = input(user, "Choose a host") as null|anything in folksonrune
-			if(!target)
-				return
-			user.say("Before your greatness, I swear an oath!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("To vanquish the horrors and evils of Psydonia!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("To protect those who cannot protect themselves!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("To be your blade of justice, torch in the eternal darkness!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			icon_state = "undivided_active"
-			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			undividedarmaments(target)
-			spawn(120)
-				icon_state = "undivided_chalky"
-
-/obj/structure/ritualcircle/undivided/proc/undividedarmaments(mob/living/carbon/human/target)
-	var/undivided_cockblock = target.get_skill_level(/datum/skill/magic/holy)
-	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
-		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
-		return FALSE
-	if(undivided_cockblock < SKILL_LEVEL_NOVICE)//You need to actually be devoted
-		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
-		return FALSE
-	target.Stun(120)
-	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
-	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
-	loc.visible_message(span_good("[target]'s form becomes entombed in Malum's finest craftsmanship."))
-	spawn(20)
-		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
-		playsound(target, 'sound/magic/undivided_revenge.ogg', 90, FALSE, -1)
-		target.equipOutfit(/datum/outfit/job/roguetown/decarite)
-		tag_kit_items(target, list(
-			"head" = target.get_item_by_slot(SLOT_HEAD),
-			"cloak" = target.get_item_by_slot(SLOT_CLOAK),
-			"armor" = target.get_item_by_slot(SLOT_ARMOR),
-			"gloves" = target.get_item_by_slot(SLOT_GLOVES),
-			"belt" = target.get_item_by_slot(SLOT_BELT),
-			"beltl" = target.get_item_by_slot(SLOT_BELT_L),
-			"pants" = target.get_item_by_slot(SLOT_PANTS),
-			"shoes" = target.get_item_by_slot(SLOT_SHOES),
-			"backl" = target.get_item_by_slot(SLOT_BACK_L),
-			"backr" = target.get_item_by_slot(SLOT_BACK_R),
-		), list("head", "cloak", "armor", "gloves", "belt", "beltl", "pants", "shoes", "backl", "backr"))
-		to_chat(target, span_boldred("This is my only chance at LYFE."))
-		ADD_TRAIT(target, TRAIT_DNR, TRAIT_RITUAL)
-
-/datum/outfit/job/roguetown/decarite/pre_equip(mob/living/carbon/human/H)
-	..()
-	var/list/items = list()
-	items |= H.get_equipped_items(TRUE)
-	for(var/I in items)
-		H.dropItemToGround(I, TRUE)
-	H.drop_all_held_items()
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual
-	cloak = /obj/item/clothing/cloak/templar/undivided_alt
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual
-	gloves = /obj/item/clothing/gloves/roguetown/plate/holysee/ritual
-	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
-	beltl = /obj/item/rogueweapon/scabbard/sword/royal
-	pants = /obj/item/clothing/under/roguetown/platelegs/holysee/ritual
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual
-	backl = /obj/item/rogueweapon/sword/long/crusader
-	backr = /obj/item/rogueweapon/shield/tower/holysee
-
-	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
-
+		if()
+*/
 // TIME FOR THE ASCENDANT. These can be stronger. As they are pretty much antag exclusive - Iconoclast for Matthios, Lich for ZIZO. ZIZO!
 
 
@@ -1665,15 +1593,16 @@
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	pants = /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo/heavy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo/heavy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo/heavy
 	head = selected_helm_path
-	neck = /obj/item/clothing/neck/roguetown/bevor/zizo/heavy
+	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	r_hand = /obj/item/rogueweapon/sword/long/zizo
 
+	H.mind.RemoveSpell(/datum/action/cooldown/spell/mending) // brute forcing this one, hope this works ryon!
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 /datum/outfit/job/roguetown/darksteelrite/medium/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
@@ -2073,14 +2002,14 @@
 /datum/outfit/job/roguetown/viciousrite/heavy/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/graggar
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/heavy
-	pants = /obj/item/clothing/under/roguetown/platelegs/graggar/heavy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar/heavy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
+	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar/heavy
 	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar/heavy
 	head = selected_helm_path
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar/heavy
 	r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
 	l_hand = /obj/item/rogueweapon/shield/iron/graggar

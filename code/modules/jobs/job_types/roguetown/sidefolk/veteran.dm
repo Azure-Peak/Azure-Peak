@@ -7,7 +7,7 @@
 	spawn_positions = 1
 
 	allowed_sexes = list(MALE, FEMALE) //same as town guard
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED) //Constructs are too new to even exist long enough to be veterans, plus noble title.
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE) //Constructs are too new to even exist long enough to be veterans, plus noble title.
 	tutorial = "You've known combat your entire life. There isn't a way to kill a man you havent practiced in the tapestries of war itself. You wouldn't call yourself a hero--those belong to the men left rotting in the fields where you honed your ancient trade. You don't sleep well at night anymore, you don't like remembering what you've had to do to survive. Trading adventure for stable pay was the only logical solution, and maybe someday you'll get to lay down the blade and rest your weary body..."
 	allowed_ages = list(AGE_OLD) //VETERANS!! ARE!!! OLD!!!
 	advclass_cat_rolls = list(CTAG_VETERAN = 20)
@@ -110,7 +110,7 @@
 
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Longsword","Sabre")
+		var/weapons = list("Longsword","Sabre", "Mace")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -120,6 +120,8 @@
 			if("Sabre")
 				H.put_in_hands(new /obj/item/rogueweapon/sword/sabre)
 				H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L)
+			if("Mace")
+				H.put_in_hands(new /obj/item/rogueweapon/mace)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
 		var/retirement_choice = input(H, "During your retirement, you decided to...", "PICK A HOBBY.") as anything in retirement
 		switch(retirement_choice)
@@ -554,8 +556,19 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
-	beltl = /obj/item/quiver/arrows
-	beltr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	var/weapons = list("Recurve Bow", "Slurbow", "Crossbow")
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Recurve Bow")
+			beltl = /obj/item/quiver/arrows
+			beltr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+		if("Slurbow")
+			beltr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
+			beltl = /obj/item/quiver/bolt/light
+		if("Crossbow")
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
+			beltl = /obj/item/quiver/bolt/standard
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backl = /obj/item/rogueweapon/stoneaxe/woodcut/pick
 	belt = /obj/item/storage/belt/rogue/leather/black

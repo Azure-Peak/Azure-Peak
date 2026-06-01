@@ -8,7 +8,7 @@
 	category_tags = list(CTAG_WRETCH)
 	maximum_possible_slots = 2 // Two so that the gimmick isn't overdone
 	applies_post_equipment = TRUE
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SHATTER_KILL, TRAIT_ARCYNE, TRAIT_DUSTABLE, TRAIT_BLOODLOSS_IMMUNE)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_WIL = 2,

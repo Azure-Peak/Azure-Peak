@@ -18,11 +18,11 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	storyteller_slot_scaling = 2
 	storyteller_maxcaps = list(/datum/storyteller/astrata = 2)
 	antag_hud_type = ANTAG_HUD_VAMPIRE
-	antag_hud_name = "Vspawn"
+	antag_hud_name = "vamp_spawn_hud"
 	confess_lines = list(
 		"I WANT YOUR BLOOD!",
 		"DRINK THE BLOOD!",
-		"CHILD OF KAIN!",
+		"DEATH DID LITTLE THE FIRST TIME!",
 	)
 	rogue_enabled = TRUE
 	show_in_roundend = FALSE
@@ -73,9 +73,9 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /datum/antagonist/vampire/examine_friendorfoe(datum/antagonist/examined_datum, mob/examiner, mob/examined)
 	if(istype(examined_datum, /datum/antagonist/vampire/lord))
-		return span_boldnotice("Kaine's firstborn!")
+		return span_boldnotice("A vampyr!")
 	if(istype(examined_datum, /datum/antagonist/vampire))
-		return span_boldnotice("A child of Kaine.")
+		return span_boldnotice("A lycker!")
 	if(istype(examined_datum, /datum/antagonist/zombie))
 		return span_boldnotice("Another deadite.")
 	if(istype(examined_datum, /datum/antagonist/skeleton))
@@ -98,15 +98,19 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 		switch(generation)
 			if(GENERATION_METHUSELAH)
+				vampdude?.cmode_music = 'sound/music/cmode/combat_ready_to_die.ogg' //LISTEN TO ME WHETHER YOU WANT TO HEAR IT OR NOT, YOU WEREN'T EVEN BORN WHEN THIS HAPPENED
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
 				max_thralls = 69
 			if(GENERATION_ANCILLAE)
+				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 5, TRUE)
 				max_thralls = 3
 			if(GENERATION_NEONATE)
+				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 4, TRUE) // Licker Wretch
 				max_thralls = 1
 			if(GENERATION_THINBLOOD)
+				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 3, TRUE) // You are not even an antagonist
 				max_thralls = 0
 			else

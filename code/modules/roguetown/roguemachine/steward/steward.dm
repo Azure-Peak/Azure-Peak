@@ -2,7 +2,6 @@
 #define TAB_BANK 2
 #define TAB_IMPORT 3
 #define TAB_BOUNTIES 4
-#define TAB_LOG 5
 #define TAB_FISCAL 6
 #define TAB_PAYDAY 7
 #define TAB_DEBT 8
@@ -29,6 +28,10 @@
 	var/residency_print_cooldown = 0
 	// Last trade-modal quote keyed by ckey. Read by ui_data to round-trip per-user.
 	var/list/last_trade_quote = list()
+	// Per-user ledger view state keyed by ckey: list("open", "page", "filter"). Only populated
+	// into ui_static_data while a user has the Ledger tab open, so the full ledger never rides
+	// the per-tick Market Scroll payload.
+	var/list/ledger_view = list()
 	COOLDOWN_DECLARE(fulfill_retry_cooldown)
 
 /obj/structure/roguemachine/steward/Initialize()
@@ -74,44 +77,6 @@
 		return TRUE
 	return FALSE
 
-/obj/structure/roguemachine/steward/proc/issue_loan_dialog(mob/living/carbon/human/user)
-	if(!istype(user))
-		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
-		return
-	if(GLOB.dayspassed > SStreasury.loan_max_issuance_day)
-		say("No new loans may be drawn after day [SStreasury.loan_max_issuance_day].")
-		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		return
-	var/amount = input(user, "Principal (50-250 mammon).", src, 100) as null|num
-	if(isnull(amount))
-		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
-		return
-	if(findtext(num2text(amount), "."))
-		return
-	amount = CLAMP(round(amount), 50, 250)
-	var/term_choice = input(user, "Select term.", src) as null|anything in list("2 days", "3 days")
-	if(!term_choice)
-		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
-		return
-	var/term = (term_choice == "3 days") ? 3 : 2
-	if(SStreasury.discretionary_fund.balance < amount)
-		say("The treasury cannot cover a loan of [amount]m at this time.")
-		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		return
-	var/obj/item/loan_contract/contract = new(get_turf(src))
-	contract.issuer_name = user.real_name
-	contract.issuer_year = CALENDAR_EPOCH_YEAR
-	contract.principal = amount
-	contract.term_days = term
-	contract.interest_rate = SStreasury.loan_interest_rate
-	contract.principal_due_on_day = GLOB.dayspassed + term
-	contract.total_due = FLOOR(amount * (1 + (contract.interest_rate * term)), 1)
-	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	say("Bearer Loan Contract issued: [amount]m over [term] day\s, signed by [user.real_name].")
-	log_game("LOAN CONTRACT: [key_name(user)] drafted bearer loan contract - [amount]m over [term] days at [round(contract.interest_rate * 100)]%/day.")
 
 
 /obj/structure/roguemachine/steward/attackby(obj/item/P, mob/user, params)
@@ -238,22 +203,6 @@
 		residency_print_cooldown = world.time + 1 MINUTES
 		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 		say("Letter of Citizenry issued, signed by [H.real_name].")
-	if(href_list["issueloan"])
-		issue_loan_dialog(usr)
-	if(href_list["setloanrate"])
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/current_pct = round(SStreasury.loan_interest_rate * 100)
-		var/new_pct = input(usr, "Set daily loan interest rate (percent 0-200)", src, current_pct) as null|num
-		if(isnull(new_pct))
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		if(findtext(num2text(new_pct), "."))
-			return
-		new_pct = CLAMP(new_pct, 0, 200)
-		SStreasury.loan_interest_rate = new_pct / 100
-		say("Default loan rate set to [new_pct]% per day.")
 	if(href_list["setpurchasefloor"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
@@ -320,7 +269,7 @@
 		log_game("POLL TAX CLEARED: [key_name(usr)] cleared [was_owed]m poll tax arrears on [key_name(target)] ([was_overdue] day\s overdue)")
 		to_chat(target, span_notice("The Stewardry has cleared my poll tax arrears. The Crown's ledger on my head is wiped clean."))
 	if(href_list["payroll"])
-		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
+		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.atc_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
 		for(var/list/category in L)
 			for(var/A in category)
@@ -344,7 +293,7 @@
 				if(SStreasury.give_money_account(amount_to_pay, H, "NERVE MASTER"))
 					record_round_statistic(STATS_WAGES_PAID, amount_to_pay)
 	if(href_list["setdailypay"])
-		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
+		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.atc_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
 		for(var/list/category in L)
 			for(var/A in category)
@@ -383,25 +332,27 @@
 			daily_payments -= job_to_remove
 			say("Daily payment for [job_to_remove] removed.")
 	if(href_list["togglewages"])
-		var/X = locate(href_list["togglewages"])
-		if(!X)
+		var/mob/living/carbon/human/A = locate(href_list["togglewages"])
+		if(!istype(A))
 			return
-		for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
-			if(A == X)
-				if(!has_fiscal_authority(usr))
-					say("Only the Steward, Clerk, or Ruler may suspend wages.")
-					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-					return
-
-				if(HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED))
-					REMOVE_TRAIT(A, TRAIT_WAGES_SUSPENDED, TRAIT_GENERIC)
-					say("[A.real_name]'s wages have been reinstated.")
-					to_chat(A, span_notice("My wages have been reinstated by the Stewardry."))
-				else
-					ADD_TRAIT(A, TRAIT_WAGES_SUSPENDED, TRAIT_GENERIC)
-					say("[A.real_name]'s wages have been suspended.")
-					to_chat(A, span_danger("My wages have been suspended by the Stewardry!"))
-				break
+		if(!has_fiscal_authority(usr))
+			say("Only the Steward, Clerk, or Ruler may suspend wages.")
+			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			return
+		var/datum/fund/account = SStreasury.bank_accounts[A]
+		if(!account)
+			return
+		var/has_wage = (daily_payments[A.job] > 0)
+		if(account.wages_suspended)
+			account.wages_suspended = FALSE
+			say("[A.real_name]'s wages have been reinstated.")
+			if(has_wage)
+				to_chat(A, span_notice("My wages have been reinstated by the Stewardry."))
+		else
+			account.wages_suspended = TRUE
+			say("[A.real_name]'s wages have been suspended.")
+			if(has_wage)
+				to_chat(A, span_danger("My wages have been suspended by the Stewardry!"))
 	if(href_list["compact"])
 		compact = !compact
 	if(href_list["setbounty"])
@@ -701,16 +652,9 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_IMPORT]'>\[Import\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_BOUNTIES]'>\[Bounties\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_LOG]'>\[Log\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_FISCAL]'>\[Fiscal Ledger\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_DEBT]'>\[Debts &amp; Arrears\]</a><BR>"
 			contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Citizenry\]</a><BR>"
-			var/loan_gate_ok = (GLOB.dayspassed <= SStreasury.loan_max_issuance_day)
-			if(loan_gate_ok)
-				contents += "<a href='?src=\ref[src];issueloan=1'>\[Issue Loan\]</a><BR>"
-			else
-				contents += "<font color='gray'>\[Issue Loan - closed after day [SStreasury.loan_max_issuance_day]\]</font><BR>"
-			contents += "<a href='?src=\ref[src];setloanrate=1'>\[Loan Rate: [round(SStreasury.loan_interest_rate * 100)]%/day\]</a><BR>"
 			contents += "<a href='?src=\ref[src];setpurchasefloor=1'>\[Purchase Floor: [SStreasury.stockpile_purchase_floor]m\]</a><BR>"
 			contents += "</center>"
 		if(TAB_BANK)
@@ -734,8 +678,10 @@
 			for(var/mob/living/carbon/human/A in priority_accounts + normal_accounts)
 				var/balance = SStreasury.get_balance(A)
 				var/max_fine = SStreasury.get_max_fine_for(A)
-				var/wage_status_short = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "UNSUSPEND" : "SUSPEND"
-				var/wage_status_long = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "Unsuspend Wages" : "Suspend Wages"
+				var/datum/fund/A_account = SStreasury.bank_accounts[A]
+				var/A_suspended = A_account?.wages_suspended ? TRUE : FALSE
+				var/wage_status_short = A_suspended ? "UNSUSPEND" : "SUSPEND"
+				var/wage_status_long = A_suspended ? "Unsuspend Wages" : "Suspend Wages"
 				var/fine_label = max_fine > 0 ? "FINE (Max [max_fine]m)" : "FINE (exempt)"
 				var/fine_long_label = max_fine > 0 ? "Fine Account (Max [max_fine]m)" : "Fine Account (exempt)"
 				var/poll_owed = SStreasury.poll_tax_owed[A] || 0
@@ -818,14 +764,13 @@
 				for(var/datum/crown_import/A in GLOB.crown_imports)
 					var/blockade_tag = A.is_blockaded() ? " <font color='#c44'>(BLOCKADED)</font>" : ""
 					contents += "<b>[A.name][blockade_tag]:</b>"
-					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR><BR>"
+					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR>"
 			else
 				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 				for(var/datum/crown_import/A in GLOB.crown_imports)
 					var/blockade_tag_full = A.is_blockaded() ? " <font color='#c44'>(BLOCKADED - 2x COST)</font>" : ""
-					contents += "[A.name][blockade_tag_full]<BR>"
-					contents += "[A.desc]<BR>"
-					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR><BR>"
+					contents += "<b>[A.name][blockade_tag_full]</b> - <i>[A.desc]</i> "
+					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR>"
 		if(TAB_BOUNTIES)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += "<center>Bounties<BR>"
@@ -839,13 +784,6 @@
 					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]%</a><BR><BR>"
 				else
 					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]</a><BR><BR>"
-		if(TAB_LOG)
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
-			contents += "<center>Log<BR>"
-			contents += "--------------</center><BR><BR>"
-			for(var/i = SStreasury.ledger.len to 1 step -1)
-				var/datum/treasury_entry/entry = SStreasury.ledger[i]
-				contents += "<span class='info'>[entry.format()]</span><BR>"
 		if(TAB_FISCAL)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			var/list/snap = SStreasury.compute_fiscal_snapshot()
@@ -1025,13 +963,18 @@
 			contents += "<center>Daily Payments<BR>"
 			contents += "--------------<BR>"
 			contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
+			var/list/headcount_by_job = list()
+			for(var/mob/living/o as anything in SStreasury.bank_accounts)
+				if(!o || !daily_payments[o.job])
+					continue
+				var/datum/fund/acct = SStreasury.bank_accounts[o]
+				if(!acct || acct.wages_suspended)
+					continue
+				headcount_by_job[o.job] = (headcount_by_job[o.job] || 0) + 1
 			var/total_payroll = 0
 			for(var/job_name in daily_payments)
 				var/amt = daily_payments[job_name]
-				var/count = 0
-				for(var/mob/living/carbon/human/H in GLOB.human_list)
-					if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-						count++
+				var/count = headcount_by_job[job_name] || 0
 				total_payroll += amt * count
 			contents += "Projected Daily Payroll: [total_payroll]m</center><BR>"
 			contents += "<a href='?src=\ref[src];setdailypay=1'>\[Add/Modify Job Payment\]</a><BR><BR>"
@@ -1039,10 +982,7 @@
 				contents += "<center>Configured Payments:</center><BR>"
 				for(var/job_name in daily_payments)
 					var/amt = daily_payments[job_name]
-					var/count = 0
-					for(var/mob/living/carbon/human/H in GLOB.human_list)
-						if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-							count++
+					var/count = headcount_by_job[job_name] || 0
 					var/job_floor = SStreasury.get_wage_floor(job_name)
 					contents += "<b>[job_name]:</b> [amt]m/day"
 					if(job_floor > 0)
@@ -1077,7 +1017,6 @@
 #undef TAB_BANK
 #undef TAB_IMPORT
 #undef TAB_BOUNTIES
-#undef TAB_LOG
 #undef TAB_FISCAL
 #undef TAB_PAYDAY
 #undef TAB_DEBT

@@ -12,9 +12,11 @@
 	associated_skill = /datum/skill/misc/athletics
 	charge_required = FALSE
 	primary_resource_type = SPELL_COST_NONE
-	cooldown_time = 3 SECONDS
+	cooldown_time = 2 SECONDS
 	spell_requirements = SPELL_REQUIRES_SAME_Z
 	zizo_spell = TRUE
+	has_visual_effects = FALSE
+	sound = null
 	var/order_range = 12
 	var/faction_ordering = FALSE
 

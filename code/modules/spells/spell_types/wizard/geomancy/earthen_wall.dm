@@ -30,6 +30,8 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 	var/wall_width = 3
 	var/telegraph_time = 3 SECONDS
 	var/wall_duration = 10 SECONDS

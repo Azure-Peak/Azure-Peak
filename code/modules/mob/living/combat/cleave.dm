@@ -200,3 +200,15 @@
 	tile_offsets = list(list(0, 1), list(0, 2))
 	max_targets = 1
 	desc = "Lances forward, skewering a target three tiles ahead and anyone behind them."
+
+/datum/cleave_pattern/frontal_t
+	// U is at (0, 0)
+	// Row 1 (X/X/X): (-1, 1), (0, 1), (1, 1)
+	// Row 2 (0/X/0): (0, 2)
+	tile_offsets = list(
+		list(-1, 1), list(0, 1), list(1, 1), // The horizontal bar
+		list(0, 2)                           // The top tip
+	)
+	user_relative = TRUE
+	max_targets = 2
+	desc = "Cleaves in a T-shaped pattern directly ahead."

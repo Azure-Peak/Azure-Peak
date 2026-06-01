@@ -59,7 +59,7 @@
 /client/verb/mentorhelp()
 	set name = "Mentorhelp"
 	set desc = ""
-	set category = "-Admin-"
+	set category = "ADMIN"
 	if(mob)
 		var/msg = input("Submit your question to the Voices:", "Mentorhelp Input") as text|null
 		if(msg)

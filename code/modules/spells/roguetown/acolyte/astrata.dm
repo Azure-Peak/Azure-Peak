@@ -675,7 +675,7 @@
 		var/list/hearers_in_range = get_hearers_in_LOS(healing_range, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 		for(var/mob/living/carbon/human/human in hearers_in_range)
 			var/distance = get_dist(src, human)
-			if(distance > healing_range || human.construct)
+			if(distance > healing_range || HAS_TRAIT(human, TRAIT_IRONMAN))
 				continue
 			if(istype(human.patron, /datum/patron/divine))
 				if(!human.has_status_effect(/datum/status_effect/buff/pyre))
@@ -710,7 +710,7 @@
 	if(!owner.cmode)
 		healing_on_tick_pyre *= 2
 		return
-	if(owner.construct)
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(owner))
 	H.color = GLOW_COLOR_ASTRATA
@@ -831,11 +831,13 @@
 	for(var/obj/structure/fluff/psycross/S in oview(5, user))
 		S.AOE_flash(user, range = 8)
 	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
-		target.visible_message(
-			span_danger("[target] is unmade by holy light!"),
-			span_userdanger("I'm unmade by holy light!")
-		)
-		target.gib()
+		if(alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", "PURGE THE UNCLEAN!", "Stop") != "PURGE THE UNCLEAN!")
+			to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
+			revert_cast()
+			return FALSE
+		target.visible_message(span_danger("[target] is unmade by divine magic!"), span_userdanger("Holy power tears my undead form apart!"))
+		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
+		target.dust()
 		return TRUE
 	if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 		target.visible_message(span_astrata("Nothing happens. They are not being let go."))

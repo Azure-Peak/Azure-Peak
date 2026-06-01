@@ -7,27 +7,29 @@
 		. = ..()
 
 //Will drop or destroy items depending on their allowed status within the proc
-/mob/living/carbon/human/proc/wildshape_drop_items()
+/mob/living/carbon/human/proc/wildshape_drop_items(list/allowed_types, list/disallowed_types)
 
-	var/list/disallowed_equipment_Type = list(	/obj/item/storage,
+	if(!disallowed_types)
+		disallowed_types = list(/obj/item/storage,
 											/obj/item/rogueweapon,
 											)
 
-	var/list/allowed_equipment_Type = list(	/obj/item/rogueweapon/woodstaff,
+	if(!allowed_types)
+		allowed_types = list(/obj/item/rogueweapon/woodstaff,
 											/obj/item/storage/belt
 											)
 	
 	drop_all_held_items() //Drop what were in your hands
 
 	for(var/obj/item/I in src)
-		if(is_type_in_list(I, allowed_equipment_Type)) //Allow items of allowed type no matter what
+		if(is_type_in_list(I, allowed_types)) //Allow items of allowed type no matter what
 			continue
-		if(is_type_in_list(I, disallowed_equipment_Type)) //Drops all items of the disallowed type
+		if(is_type_in_list(I, disallowed_types)) //Drops all items of the disallowed type
 			dropItemToGround(I)
 		else if(I.has_armor_value()) //Drop armor
 			dropItemToGround(I)
 
-/mob/living/carbon/human/proc/wildshape_transformation(shapepath)
+/mob/living/carbon/human/proc/wildshape_transformation(shapepath, list/allowed_equipment, list/disallowed_equipment)
 	if(!mind)
 		log_runtime("NO MIND ON [src.name] WHEN TRANSFORMING")
 	Paralyze(1, ignore_canstun = TRUE)
@@ -37,7 +39,7 @@
 	dropItemToGround(stored_neck)
 	dropItemToGround(stored_ring)
 
-	wildshape_drop_items()
+	wildshape_drop_items(allowed_equipment, disallowed_equipment)
 
 	regenerate_icons()
 	icon = null

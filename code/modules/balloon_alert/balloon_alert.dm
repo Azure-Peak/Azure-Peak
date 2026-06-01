@@ -106,6 +106,19 @@
 
 	balloon_alert_to_viewers(text, null, DEFAULT_MESSAGE_RANGE, candidates, x_offset, y_offset)
 
+/atom/proc/resolve_combataware(mob/living/target, hit_text, aim_text)
+	if(hit_text && HAS_TRAIT(src, TRAIT_COMBAT_AWARE))
+		target.balloon_alert(src, hit_text)
+	if(!aim_text)
+		return
+	var/list/observers = get_hearers_in_view(DEFAULT_MESSAGE_RANGE, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
+	for(var/mob/living/carbon/human/observer in observers)
+		if(observer == src)
+			continue
+		if(!HAS_TRAIT(observer, TRAIT_COMBAT_AWARE))
+			continue
+		balloon_alert(observer, aim_text)
+
 /// Proc for creating a balloon alert that only someone with a specific skill level can see.
 /atom/proc/skill_filtered_balloon_alert(skill_path, required_level, text, x_offset, y_offset, show_self = TRUE)
 	var/list/candidates = get_hearers_in_view(DEFAULT_MESSAGE_RANGE, src, RECURSIVE_CONTENTS_CLIENT_MOBS)

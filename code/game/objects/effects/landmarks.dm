@@ -92,7 +92,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 /obj/effect/landmark/start/sieges
 	name = "Siege Spawnpoint"
 	icon_state = "arrow"
-	jobspawn_override = list("Goblin", "Greater Skeleton")
+	jobspawn_override = list("Goblin", "Siege Skeleton") //Add Jobs for Siege Role Spawn Spots Here
 	delete_after_roundstart = FALSE
 
 /obj/effect/landmark/start/lord
@@ -370,6 +370,14 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	. = ..()
 	GLOB.bandit_starts += loc
 
+/obj/effect/landmark/start/lich
+	name = "lich"
+	icon_state = "arrow"
+	delete_after_roundstart = FALSE
+
+/obj/effect/landmark/start/lich/Initialize()
+	. = ..()
+	GLOB.lich_starts += loc
 
 /obj/effect/landmark/start/delf
 	name = "delf"
@@ -632,7 +640,8 @@ GLOBAL_LIST_EMPTY(travel_spawn_points)
 		var/obj/structure/fluff/traveltile/tile = new /obj/structure/fluff/traveltile(landmark.loc)
 		tile.aportalid = travel_id
 		tile.aportalgoesto = travel_goes_to_id
-		tile.required_trait = required_trait
+		if(required_trait)
+			tile.required_traits = list(required_trait)
 
 
 //Deathsdoor landmark

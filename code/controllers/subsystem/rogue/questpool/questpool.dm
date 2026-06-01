@@ -360,6 +360,45 @@ SUBSYSTEM_DEF(questpool)
 	log_event("generate", "blockade-defense in-hand for [ER.name] (faction [Q.faction_id], reward [Q.reward_amount])")
 	return Q
 
+/datum/controller/subsystem/questpool/proc/issue_towner_quest(type, mob/living/carbon/human/poster, posting_tier = TOWNER_POSTING_TIER_HARD)
+	if(!type || !poster)
+		return null
+	var/datum/quest/Q = instantiate_quest_of_type(type)
+	if(!Q)
+		return null
+	if(istype(Q, /datum/quest/kill/recovery/towner_smith_caravan))
+		var/datum/quest/kill/recovery/towner_smith_caravan/SQ = Q
+		SQ.posting_tier = posting_tier
+	else if(istype(Q, /datum/quest/kill/towner_miner_orevein))
+		var/datum/quest/kill/towner_miner_orevein/MQ = Q
+		MQ.posting_tier = posting_tier
+	else
+		qdel(Q)
+		return null
+	Q.source = QUEST_SOURCE_TOWNER
+	Q.created_at = world.time
+	Q.issued_day = GLOB.dayspassed
+	Q.quest_giver_reference = WEAKREF(poster)
+	Q.quest_giver_name = poster.real_name
+	Q.deposit_amount = 0
+	var/datum/threat_region/preferred_region = SSregionthreat.pick_region_for_quest(type)
+	var/region_name = preferred_region?.region_name
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name)
+	if(!landmark)
+		qdel(Q)
+		return null
+	if(!Q.preview(landmark))
+		qdel(Q)
+		return null
+	var/turf/landmark_turf = get_turf(landmark)
+	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
+	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
+	pool += Q
+	adjust_region_count(Q, 1)
+	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	log_event("generate", "towner-pool [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (poster [poster.real_name], tier [posting_tier], reward [Q.reward_amount])")
+	return Q
+
 /datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region, is_replacement = FALSE)
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)
@@ -423,6 +462,10 @@ SUBSYSTEM_DEF(questpool)
 			return new /datum/quest/kill/recovery()
 		if(QUEST_BLOCKADE_DEFENSE)
 			return new /datum/quest/kill/blockade_defense()
+		if(QUEST_TOWNER_SMITH_CARAVAN)
+			return new /datum/quest/kill/recovery/towner_smith_caravan()
+		if(QUEST_TOWNER_MINER_OREVEIN)
+			return new /datum/quest/kill/towner_miner_orevein()
 	return null
 
 /datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)
@@ -434,13 +477,9 @@ SUBSYSTEM_DEF(questpool)
 	if(!landmark)
 		log_event("claim_failed", "no landmark available for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
-	// Remove from pool BEFORE materialize — materialize can sleep (spawn_kill_mobs contains
-	// sleep(1) per spawn), and a double-click ui_act can otherwise re-enter this proc, pass the
-	// `Q in pool` check, and materialize the same quest twice (double scrolls, double mob waves).
 	pool -= Q
 	adjust_region_count(Q, -1)
 	if(!Q.materialize(landmark))
-		// Materialize failed during setup — put it back so someone else (or a retry) can take it.
 		if(!(Q in pool))
 			pool += Q
 			adjust_region_count(Q, 1)
@@ -463,6 +502,8 @@ SUBSYSTEM_DEF(questpool)
 	if(landmark && !QDELETED(landmark))
 		return landmark
 	landmark = find_quest_landmark(Q.quest_type, Q.region, Q)
+	if(!landmark)
+		landmark = find_quest_landmark(Q.quest_type, null, Q)
 	if(landmark)
 		Q.pending_landmark_ref = WEAKREF(landmark)
 		Q.target_spawn_area = get_area_name(get_turf(landmark))

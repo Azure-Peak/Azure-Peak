@@ -1,12 +1,12 @@
 /* 
-*	based on pages from elden ring in terms of visual design, these guys are intended to be a speedbump to solo adventurers at mount decap
+*	these guys are intended to be a speedbump to solo adventurers at mount decap
 *	deadly but small in numbers. come back with a party, chump
 */
 
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter
 	ai_controller = /datum/ai_controller/human_npc
 	d_intent = INTENT_PARRY
-	faction = list(FACTION_MADMEN)
+	faction = list(FACTION_MADMEN, FACTION_BANDITS) // Avoid them hitting bandits in dungeon
 	ambushable = FALSE
 	dodgetime = 15
 
@@ -39,7 +39,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 40
+	head.sellprice = HEAD_BOUNTY_MAD_TOUCHED
 
 
 /datum/outfit/job/roguetown/human/species/human/northern/mad_touched_treasure_hunter/pre_equip(mob/living/carbon/human/H)

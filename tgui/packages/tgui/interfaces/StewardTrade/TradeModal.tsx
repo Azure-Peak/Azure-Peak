@@ -55,7 +55,6 @@ const modalStyle: React.CSSProperties = {
 const headerStyle: React.CSSProperties = {
   textAlign: 'center',
   fontVariant: 'small-caps',
-  letterSpacing: '4px',
   fontSize: '18px',
   fontWeight: 'bold',
   color: INK,
@@ -130,8 +129,7 @@ const totalLineStyle: React.CSSProperties = {
 };
 
 const warningStyle: React.CSSProperties = {
-  fontSize: '11px',
-  fontStyle: 'italic',
+  fontSize: '12px',
   textAlign: 'center',
   marginTop: '8px',
 };
@@ -308,9 +306,8 @@ export const TradeModal = (props: TradeModalProps) => {
 
         <div
           style={{
-            fontSize: '11px',
-            color: INK_FAINT,
-            fontStyle: 'italic',
+            fontSize: '12px',
+            color: INK_SOFT,
             textAlign: 'center',
             margin: '6px 0 4px',
             minHeight: '30px',

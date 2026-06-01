@@ -77,6 +77,16 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	droning_sound_dusk = null
 	droning_sound_night = null
 
+/area/rogue/indoors/lich_start //Quieter so our droning noise doesn't cut out the on-spawn stinger, not yet. I want this experience to be thematic
+	name = "Lich Lair"
+	droning_sound = 'sound/ambience/creepywind.ogg' //Ominiously quiet starting room, let them build up a bit.
+	droning_sound_dusk = null
+	droning_sound_night = null
+
+/area/rogue/indoors/lich_start/lich_lair //Sovlnuke with a unique track we didn't use previous I think?
+	first_time_text = "FORGOTTEN KEEP"
+	droning_sound = 'sound/music/area/morosewaters.ogg'
+
 /area/rogue/indoors/ravoxarena
 	name = "Ravox's Arena"
 	deathsight_message = "an arena of justice"

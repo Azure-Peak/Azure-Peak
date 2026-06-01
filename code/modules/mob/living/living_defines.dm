@@ -170,6 +170,8 @@
 	///The NAME (not the reference) of the mob's summoner and probable master.
 	var/summoner = null
 
+	/// This is for highlighting marks in track.dm
+	var/mob/living/current_mark
 
 	var/datum/component/personal_crafting/craftingthing
 
@@ -216,7 +218,6 @@
 
 	var/tempatarget = null
 	var/pegleg = 0			//Handles check & slowdown for peglegs. Fuckin' bootleg, literally, but hey it at least works.
-	var/construct = 0
 	var/burialrited = FALSE
 
 	/// Toggle delay for Specials, or really anything else that you don't want input spam to instantly cycle through.

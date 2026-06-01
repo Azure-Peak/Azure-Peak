@@ -3,8 +3,11 @@ to all mage classes.
 */
 GLOBAL_LIST_INIT(utility_spells, (list(
 		/datum/action/cooldown/spell/chill_food,
+		/datum/action/cooldown/spell/conjure_instrument,
+		/datum/action/cooldown/spell/conjure_spectacles,
 		/datum/action/cooldown/spell/create_campfire,
 		/datum/action/cooldown/spell/darkvision,
+		/datum/action/cooldown/spell/fridigitation,
 		/datum/action/cooldown/spell/greater_cleaning,
 		/datum/action/cooldown/spell/lesser_knock,
 		/datum/action/cooldown/spell/light,
@@ -18,7 +21,10 @@ GLOBAL_LIST_INIT(utility_spells, (list(
 		/datum/action/cooldown/spell/nondetection,
 		/datum/action/cooldown/spell/projectile/lesser_fetch,
 		/datum/action/cooldown/spell/projectile/lesser_repel,
+		/datum/action/cooldown/spell/projectile/waterbolt,
+		/datum/action/cooldown/spell/readomen,
 		/datum/action/cooldown/spell/touch/rune_ward,
+		/datum/action/cooldown/spell/transcribe,
 		)
 ))
 

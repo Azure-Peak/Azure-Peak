@@ -233,7 +233,8 @@
 				if(rotted)
 					for(var/obj/item/reagent_containers/food/snacks/rogue/meat/steak/putrid in produced_steaks)
 						putrid.become_rotten()
-				new /obj/effect/decal/cleanable/blood/splatter(get_turf(src))
+				var/datum/component/decal/blood/blood_decal = GetComponent(/datum/component/decal/blood)
+				new /obj/effect/decal/cleanable/blood/splatter(get_turf(src), blood_decal?.blood_color || BLOOD_COLOR_RED)
 				user.mind.add_sleep_experience(/datum/skill/labor/butchering, amt2raise, FALSE)
 				qdel(src)
 	..()
@@ -243,6 +244,9 @@
 		var/mob/living/carbon/human/H = C
 		if(HAS_TRAIT(C, TRAIT_LIMBATTACHMENT))
 			if(!H.get_bodypart(body_zone) && !animal_origin)
+				if(HAS_TRAIT(C, TRAIT_IRONMAN)) // there we go, figured a way to give this a delay, now ima go sleep
+					if(!do_after(C, 20 SECONDS))
+						return
 				if(H == user)
 					H.visible_message(span_warning("[H] jams [src] into [H.p_their()] empty socket!"),\
 					span_notice("I force [src] into my empty socket, and it locks into place!"))
