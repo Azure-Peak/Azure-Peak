@@ -183,7 +183,7 @@
 			r_hand = /obj/item/rogueweapon/sword/sabre/bronzekhopesh
 	H.STASTR = 13 // GAGGER GAGGER GAGGER
 	H.STASPD = 10 // Fast, for an orc
-	H.STACON = 10
+	H.STACON = 11
 	H.STAWIL = 10
 	H.STAINT = 1 // Minmax department
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
