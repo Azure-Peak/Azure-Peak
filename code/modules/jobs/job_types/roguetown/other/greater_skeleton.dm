@@ -214,7 +214,7 @@ NECRO SKELETONS
 
 	H.energy = H.max_energy
 
-// Melee Heavy-Plate fighter with a mace/spear. Holds the line. Vs Legionnarie you aren't an all-rounder
+// Melee Heavy-Plate fighter with a mace/spear. Heavy weapon specialist that cracks to fire/when their armor is busted up.
 /datum/advclass/greater_skeleton/necro/bulwark
 	name = "Shattered Bulwark"
 	tutorial = "Legions rise and you answer. Stand rigid and unbreakable; for you serve the architect. Death comes for all but you delay and defy it."
@@ -241,7 +241,7 @@ NECRO SKELETONS
 	H.STASTR = 13
 	H.STAPER = 10
 	H.STASPD = 6
-	H.STACON = 7 //Relies on armor
+	H.STACON = 6 //Relies on armor
 	H.STAWIL = 12
 	H.STAINT = 1
 
@@ -275,12 +275,12 @@ NECRO SKELETONS
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
-	var/weapon_choice = input(H, "Choose your weapon.", "RISE AGAINST THE LYVING.") as anything in list("Broadsword", "Spear", "Great Flail", "Warhammer + Shield")
+	var/weapon_choice = input(H, "Choose your weapon.", "RISE AGAINST THE LYVING.") as anything in list("Greatsword", "Spear", "Great Flail", "Warhammer + Shield")
 	H.set_blindness(0)
 	switch(weapon_choice)
-		if("Broadsword")
+		if("Greatsword")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			backr = /obj/item/rogueweapon/sword/long/broadsword
+			backr = /obj/item/rogueweapon/greatsword/iron
 		if("Spear")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			beltr = /obj/item/rogueweapon/spear
