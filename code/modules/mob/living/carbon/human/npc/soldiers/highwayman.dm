@@ -204,7 +204,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			if(5)
 				head = /obj/item/clothing/head/roguetown/menacing/bandit //IS THIS TRVE?
 	neck = /obj/item/storage/belt/rogue/pouch/bombs //Expect more booms
-	if(prob(95)) //5% bomber chance
+	if(prob(98)) //2% bomber chance
 		var/neck_choice = rand(1, 2)
 		switch(neck_choice)
 			if(1)
@@ -285,7 +285,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		if(5)
 			cloak = /obj/item/clothing/cloak/raincloak/brown
 	mask = /obj/item/clothing/mask/rogue/ragmask/black
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	var/helmet_choice = rand(1, 4)
 	switch(helmet_choice)
