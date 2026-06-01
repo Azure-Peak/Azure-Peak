@@ -27,15 +27,19 @@
 	</div>
 	<div>
 	<h2>Cooking Cues</h2>
-	When food cooks to completion in an oven or pan, you will usually see <i>Something smells good!</i> in the chat. Pan-fried foods sometimes only signal completion by a change in sprite, so keep an eye on the pan or you will end with a burned mess.<br>
+	When food cooks to completion in an oven or pan, you will usually see <i>Something smells good!</i> in the chat. Pan-fried foods sometimes only signal completion by a change in sprite, so keep an eye on the pan or you will end with an inedible burned mess.<br>
 	If you are out in the wild without a kitchen, you can roast raw meat over any open flame: hold the meat in one hand, a weapon set to STAB intent in the other, then click the fire.<br>
 	</div>
 	<div>
 	<h2>Food Quality</h2>
-	Foods carry a quality tier: <b>Impoverished</b>, <b>Poor</b>, <b>Neutral</b>, <b>Fine</b>, or <b>Lavish</b>. Plating raises quality by one. Nobles complain at anything below Fine and may vomit at Poor or worse. Burghers and yeomen complain at Impoverished.<br>
+	Foods carry a quality tier: <b>Impoverished</b>, <b>Poor</b>, <b>Neutral</b>, <b>Fine</b>, or <b>Lavish</b>. Plating on a platter (Click the platter with it) raises quality by one. Nobles complain at anything below Fine and may vomit at Poor or worse. Burghers and yeomen complain at Impoverished.<br>
+	</div>
+	<div>
+	<h2>Platter</h2>
+	Food on platter does not rot. Clicking a platter with a feather allows you to rename the name and description of the dish, which is cosmetic only but allows you to roleplay it as a different or similar dish you want!
 	</div>
 	<div>
 	<h2>Spoilage</h2>
-	Food left out too long will spoil. To prevent it: dehydrate it on a drying rack, wrap it in ration paper, or store it in a chest (not a closet).<br>
+	Food left out too long will spoil. To prevent it: dehydrate it on a drying rack (if available), put it on a cooling table,  wrap it in ration paper, or store it in a chest (not a closet).<br>
 	</div>
 	"}
