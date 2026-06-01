@@ -334,10 +334,10 @@ NECRO SKELETONS
 
 /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
 	name = "decrepit jupon"
-	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who are condemned to march forevermore."
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who are condemned to walk forevermore."
 	color = CLOTHING_BLACK
 
 /obj/item/clothing/cloak/tabard/necro
 	name = "decrepit tabard"
-	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who once knew of chivalry's allure."
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who once knew of class and place."
 	color = CLOTHING_BLACK
