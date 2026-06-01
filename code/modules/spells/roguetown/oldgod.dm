@@ -632,13 +632,6 @@
 		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
 			user.freak_out()
 		to_chat(user, span_userdanger("I recoil as I'm violently SMITED by profane flame as I attempt to purify their lux by the merging of-.. wait, where's THEIR LUX?!"))
-		return TRUE
-	
-	// Transfer wounds.
-	if(ishuman(H) && ishuman(user))
-		var/mob/living/carbon/human/C_target = H
-		var/mob/living/carbon/human/C_caster = user
-		var/list/datum/wound/tw_List = C_target.get_wounds()
 		return FALSE
 
 	if(H.stat == DEAD || HAS_TRAIT(H, TRAIT_DEADITE))
