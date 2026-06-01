@@ -305,7 +305,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	H.STACON = 8
 	H.STAWIL = 8
 	H.STAPER = 11
-	H.STAINT = 8
+	H.STAINT = 9 //Slightly higher, due to losing their bombs cause of how inhereting the loadout works.
 // Rest of the random gear is handled via subtyping regular highwaymen, this includes our weaponry picks. Which yes, means a slight downgrade.
 
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
