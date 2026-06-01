@@ -60,12 +60,11 @@ NECRO SKELETONS
 
 
 /datum/outfit/job/roguetown/greater_skeleton/necro
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 
-// Melee fighter with a shield. Holds the line.
+// Melee fighter with a shield/spear. Holds the line.
 /datum/advclass/greater_skeleton/necro/legionnaire
 	name = "Decrepit Legionnaire"
 	tutorial = "Legions rise and you answer. Stand proud with your line; for you serve the architect. You know death. Memento mori. You just can't understand it."
@@ -100,7 +99,7 @@ NECRO SKELETONS
 	H.STAINT = 3
 
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/iron
-	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
+	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	armor = /obj/item/clothing/suit/roguetown/armor/leather
@@ -169,6 +168,7 @@ NECRO SKELETONS
 	H.STAPER = 14
 
 	head = /obj/item/clothing/head/roguetown/helmet/leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
@@ -196,6 +196,76 @@ NECRO SKELETONS
 		if("Sling")
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			beltl = /obj/item/quiver/sling/iron
+
+	H.energy = H.max_energy
+
+// Melee Heavy-Plate fighter with a mace/spear. Holds the line. Vs Legionnarie you aren't an all-rounder
+/datum/advclass/greater_skeleton/necro/bulwark
+	name = "Shattered Bulwark"
+	tutorial = "Legions rise and you answer. Stand rigid and unbreakable; for you serve the architect. Death comes for all but you delay and defy it."
+	outfit = /datum/outfit/job/roguetown/greater_skeleton/necro/bulwark
+
+	category_tags = list(CTAG_NSKELETON)
+	subclass_skills = list(
+		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/masonry = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
+
+	)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SILVER_WEAK)
+
+/datum/outfit/job/roguetown/greater_skeleton/necro/bulwark/pre_equip(mob/living/carbon/human/H)
+	..()
+
+	H.STASTR = 13
+	H.STAPER = 10
+	H.STASPD = 6
+	H.STACON = 7 //Relies on armor
+	H.STAWIL = 12
+	H.STAINT = 1
+
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+
+	H.adjust_blindness(-3)
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/necro
+		if("Black Cloak")
+			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
+	var/weapon_choice = input(H, "Choose your weapon.", "RISE AGAINST THE LYVING!") as anything in list("Broadsword", "Spear", "Great Flail", "Warhammer + Shield")
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Broadsword")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			backr = /obj/item/rogueweapon/sword/long/broadsword
+		if("Spear")
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			beltr = /obj/item/rogueweapon/spear
+		if("Great Flail")
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			beltr = /obj/item/rogueweapon/flail/peasantwarflail/iron
+		if("Warhammer + Shield")
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			backr = /obj/item/rogueweapon/shield/wood
+			beltr = /obj/item/rogueweapon/mace/warhammer
 
 	H.energy = H.max_energy
 
