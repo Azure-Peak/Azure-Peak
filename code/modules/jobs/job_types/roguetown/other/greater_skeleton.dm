@@ -161,7 +161,7 @@ NECRO SKELETONS
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.STASTR = 8
-	H.STASPD = 9
+	H.STASPD = 8
 	H.STACON = 8
 	H.STAWIL = 12
 	H.STAINT = 3
@@ -234,8 +234,8 @@ NECRO SKELETONS
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy
+	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 
 	H.adjust_blindness(-3)
@@ -286,18 +286,26 @@ NECRO SKELETONS
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE, //For the alchemy mortar + pestle for explosives, remove once the recipe changes.
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/smelting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/labor/mining = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/labor/lumberjacking = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/tanning = SKILL_LEVEL_NOVICE, //You /can/ do it, is the point here
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/mining = SKILL_LEVEL_EXPERT,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_EXPERT, //High because necromancer has a skeleton cap and they have /you/
 	)
-	//Gimmic here is for smithing, you have to spect out into what you want.
-	//Vs lich skele you can't artifice as-well either nor do enchantments/explosives without effort.
-	//You won't be entirely self-sufficent. But you're definitely *good* at making forts fast for your master.
-	traits_applied = list(TRAIT_SILVER_WEAK, TRAIT_HOMESTEAD_EXPERT, TRAIT_SMITHING_EXPERT)
+	/*Gimmic here is for smithing, you have to spect out into what you want.
+	You remain mostly spread into utility as well as construction however this still remains a non-combat role,
+	for skeles to pick into, expect to be pretty chill playing this.
+	
+	vs lich skele you can't artifice as-well as them, nor do you get free spells + wall destroying explosion + decent as they have armor
+	Nor do you get yourself a free spec of golden specs to tell structure health, you're sort of a knockoff one to say the least.
+	You don't get a backpack or free toolset either, this isn't to say you can't do some amazing stuff/virtues don't exist.
+	*/
+	traits_applied = list(TRAIT_SILVER_WEAK, TRAIT_HOMESTEAD_EXPERT, TRAIT_SMITHING_EXPERT, TRAIT_SELF_SUSTENANCE)
 
 /datum/outfit/job/roguetown/greater_skeleton/necro/sapper/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -311,9 +319,11 @@ NECRO SKELETONS
 	H.STAPER = 8
 
 	head = /obj/item/clothing/head/roguetown/helmet/skullcap
+	armor = /obj/item/clothing/suit/roguetown/armor/leather //So you don't fall off a wall and gib yourself.
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer/lich
 	pants = /obj/item/clothing/under/roguetown/trou/artipants/lich
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	backl = /obj/item/storage/backpack/rogue/backpack //Only cheating here, because you sort of /need/ it to carry stuff around to smelt/whatever
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 	beltl = /obj/item/rogueweapon/pick
 

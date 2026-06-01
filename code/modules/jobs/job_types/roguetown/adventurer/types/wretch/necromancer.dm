@@ -32,7 +32,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT, //For lux extractions/revivals (Higher than rogue mage by 2 levels).
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 	)
 	subclass_stashed_items = list(
         "Sewing Kit" =  /obj/item/repair_kit,
