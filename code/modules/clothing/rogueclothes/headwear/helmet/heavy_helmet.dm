@@ -179,6 +179,7 @@
 	flags_inv = HIDEEARS|HIDEHAIR
 	flags_cover = null
 	icon_state = "kazengunheavyhelm"
+	block2add = null // Open face, better visibility.
 
 /obj/item/clothing/head/roguetown/helmet/heavy/paalloy
 	name = "ancient barbute"
