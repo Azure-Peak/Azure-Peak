@@ -124,14 +124,14 @@
 		"Gilbranze Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/paalloy,
 		"None",
 	)
-	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "A VISAGE UNBOUND.") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
 	switch(subclass_selected)
 		if("blade")
 			var/weapons = list("Ancient Khopesh", "Sabre", "Ancient Dagger")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Khopesh")
 					beltr = /obj/item/rogueweapon/sword/sabre/palloy
@@ -145,7 +145,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("phalangite")
 			var/weapons = list("Ancient Spear", "Ancient Bardiche", "Dory")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Spear")
 					r_hand = /obj/item/rogueweapon/spear/paalloy
@@ -158,7 +158,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("macebearer")
 			var/weapons = list("Ancient Mace", "Ancient Warhammer", "Ancient Grand Mace", "Ancient Alloy Axe", "Steel Greataxe")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			var/picked_axe = FALSE
 			switch(weapon_choice)
 				if("Ancient Mace")

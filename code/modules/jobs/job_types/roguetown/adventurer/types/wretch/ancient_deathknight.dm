@@ -47,12 +47,9 @@
 	H.cmode_music = 'sound/music/combat_cult.ogg'
 
 	// Equipment — gilbranze loadout loosely matching lich skeleton death knight
-	beltl = /obj/item/rogueweapon/scabbard/sword
 	belt = /obj/item/storage/belt/rogue/leather/black
 	pants = /obj/item/clothing/under/roguetown/platelegs/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/plate/paalloy
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
@@ -64,18 +61,30 @@
 		"Gilbranze Knight Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy,
 		"Gilbranze Sayovard Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy,
 	)
-	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "A VISAGE UNBOUND.") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
-	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in list("Longsword + Shield", "Ancient Greatsword", "Ancient Axe + Shield", "Ancient Mace + Shield", "Ancient Warhammer + Shield", "Bardiche", "Grand Mace")
+	var/armor_choice = input(H, "Choose your Armor.", "A BULWARK TO LAST FOREVER.") as anything in list("Halfplate", "Cuirass & Haulberk", "Heavy Haulberk")
+	switch(armor_choice)
+		if("Halfplate")
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
+		if("Cuirass & Haulberk")
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
+		if("Heavy Haulberk")
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
+			
+	var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in list("Longsword + Shield", "Ancient Greatsword", "Ancient Axe + Shield", "Ancient Mace + Shield", "Ancient Warhammer + Shield", "Bardiche", "Grand Mace")
 	switch(weapon_choice)
 		if("Longsword + Shield")
 			beltl = /obj/item/rogueweapon/scabbard/sword
 			l_hand = /obj/item/rogueweapon/sword/long/death
 			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
-		if("Ancient Greatsword") //No Flameberge, go be a real death knight for that.
+		if("Ancient Greatsword") //No Flameberge, go be a REAL death knight for that.
 			r_hand = /obj/item/rogueweapon/greatsword/paalloy
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Ancient Axe + Shield")
