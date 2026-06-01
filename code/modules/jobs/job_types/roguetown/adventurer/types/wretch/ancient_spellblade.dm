@@ -12,8 +12,8 @@
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_WIL = 2,
-		STATKEY_CON = 0,
 		STATKEY_PER = 1,
+		STATKEY_SPD = -1,
 		STATKEY_STR = -1,
 	 ) // Weighted 3 - Loses str because Int makes sense for a caster. 0 CON for limb reattachment tradeoff.
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
@@ -25,6 +25,8 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 	)
+	adv_stat_ceiling = list(STAT_INT = 12, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + spellblade fuckery vs vamp
+	extra_context = "This class is unable to be revived and all forms of death will dust you."
 
 /datum/outfit/job/roguetown/wretch/ancient_spellblade
 	var/subclass_selected
@@ -64,9 +66,13 @@
 	backr = /obj/item/rogueweapon/shield/heater
 	backl = /obj/item/storage/backpack/rogue/satchel
 
-	// DO NOT GIVE THEM MAGE CHALK. This is a SKELETON. Don't let them
-	// grind the gameplay loop (without putting in the efforts to acquire a chalk)
-	backpack_contents = list(/obj/item/book/spellbook = 1)
+	// DO NOT GIVE THEM MAGE CHALK. This is a SKELETON. Please don't let them easily
+	// grind the gameplay loop (without putting in the efforts/virtue to acquire a chalk)
+	backpack_contents = list(
+		/obj/item/book/spellbook = 1,
+		/obj/item/natural/feather = 1, //For your helm
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1, //Hilarious
+		)
 
 	// Chant selection — uses undead faction for "MEMORIES" UI
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
@@ -124,16 +130,16 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Ancient Khopesh", "Sabre", "Corroded Dagger")
+			var/weapons = list("Ancient Khopesh", "Sabre", "Ancient Dagger")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Khopesh")
 					beltr = /obj/item/rogueweapon/sword/sabre/palloy
 				if("Sabre")
 					beltr = /obj/item/rogueweapon/sword/sabre
-				if("Corroded Dagger")
-					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
-			if(weapon_choice == "Corroded Dagger")
+				if("Ancient Dagger")
+					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+			if(weapon_choice == "Ancient Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
 			else
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
@@ -177,9 +183,9 @@
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/unboundskele
+			cloak = /obj/item/clothing/cloak/tabard/necro
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")

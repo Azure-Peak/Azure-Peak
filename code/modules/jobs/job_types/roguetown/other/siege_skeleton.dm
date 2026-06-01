@@ -110,9 +110,9 @@
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/unboundskele
+			cloak = /obj/item/clothing/cloak/tabard/necro
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")
@@ -169,9 +169,9 @@
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/unboundskele
+			cloak = /obj/item/clothing/cloak/tabard/necro
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")
@@ -238,9 +238,9 @@
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/unboundskele
+			cloak = /obj/item/clothing/cloak/tabard/necro
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")
@@ -249,13 +249,3 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
 	H.energy = H.max_energy
-
-/obj/item/clothing/cloak/tabard/stabard/surcoat/unboundskele
-	name = "decrepit jupon"
-	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who are condemned to march forevermore."
-	color = CLOTHING_BLACK
-
-/obj/item/clothing/cloak/tabard/unboundskele
-	name = "decrepit tabard"
-	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who once knew of chivalry's allure."
-	color = CLOTHING_BLACK

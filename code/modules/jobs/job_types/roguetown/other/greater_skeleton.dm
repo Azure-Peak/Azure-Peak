@@ -61,13 +61,9 @@ NECRO SKELETONS
 
 /datum/outfit/job/roguetown/greater_skeleton/necro
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	head = /obj/item/clothing/head/roguetown/helmet/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots
 	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 
 /datum/outfit/job/roguetown/greater_skeleton/necro/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -97,6 +93,8 @@ NECRO SKELETONS
 /datum/outfit/job/roguetown/greater_skeleton/necro/legionnaire/pre_equip(mob/living/carbon/human/H)
 	..()
 
+	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.STASTR = prob(2) ? 18 : rand(11,12)
 	H.STAPER = rand(9,11)
 	H.STASPD = rand(7,8)
@@ -104,9 +102,23 @@ NECRO SKELETONS
 	H.STAWIL = rand(10,11)
 	H.STAINT = rand(1,3)
 
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots
 	backr = /obj/item/rogueweapon/shield/wood
 
 	H.adjust_blindness(-3)
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/necro
+		if("Black Cloak")
+			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 	var/weapon_choice = input(H, "Choose your weapon.", "WHAT WILL YOU CARRY?") as anything in list("Sword", "Axe")
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -140,16 +152,33 @@ NECRO SKELETONS
 /datum/outfit/job/roguetown/greater_skeleton/necro/ballistiare/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	H.STASTR = rand(6,8)
-	H.STASPD = rand(8,10)
-	H.STACON = rand(5,7)
-	H.STAWIL = rand(11,13)
-	H.STAINT = rand(4,6)
-	H.STAPER = prob(2) ? 18 : rand(13,15)
+	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	H.STASTR = 8
+	H.STASPD = 9
+	H.STACON = 8
+	H.STAWIL = 12
+	H.STAINT = 6
+	H.STAPER = 14
 
+	head = /obj/item/clothing/head/roguetown/helmet/leather
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots
 	beltr = /obj/item/rogueweapon/huntingknife/idagger
 
 	H.adjust_blindness(-3)
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/necro
+		if("Black Cloak")
+			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 	var/weapon_choice = input(H, "Choose your weapon.", "WHAT WILL YOU CARRY?") as anything in list("Bow", "Sling")
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -188,6 +217,7 @@ NECRO SKELETONS
 /datum/outfit/job/roguetown/greater_skeleton/necro/sapper/pre_equip(mob/living/carbon/human/H)
 	..()
 
+	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	H.STASTR = rand(8,10)
 	H.STASPD = rand(4,6)
 	H.STACON = rand(6,8)
@@ -195,7 +225,33 @@ NECRO SKELETONS
 	H.STAINT = prob(2) ? 18 : rand(4,6)
 	H.STAPER = rand(6,8)
 
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer/lich
+	pants = /obj/item/clothing/under/roguetown/trou/artipants/lich
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 	beltl = /obj/item/rogueweapon/pick
 
+	H.adjust_blindness(-3)
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/necro
+		if("Black Cloak")
+			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
+
 	H.energy = H.max_energy
+
+/obj/item/clothing/cloak/tabard/stabard/surcoat/necro
+	name = "decrepit jupon"
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who are condemned to march forevermore."
+	color = CLOTHING_BLACK
+
+/obj/item/clothing/cloak/tabard/necro
+	name = "decrepit tabard"
+	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who once knew of chivalry's allure."
+	color = CLOTHING_BLACK
