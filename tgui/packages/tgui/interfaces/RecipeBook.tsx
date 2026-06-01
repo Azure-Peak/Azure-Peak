@@ -61,13 +61,11 @@ const chapterNumeralStyle: CSSProperties = {
   minWidth: '48px',
   textAlign: 'right',
   flexShrink: 0,
-  fontVariant: 'small-caps',
 };
 
 const libraryHeadingStyle: CSSProperties = {
   fontFamily: SERIF,
   fontSize: '20px',
-  fontVariant: 'small-caps',
   fontWeight: 'bold',
   color: INK,
   textAlign: 'center',

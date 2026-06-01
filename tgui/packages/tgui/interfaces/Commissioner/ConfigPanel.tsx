@@ -33,7 +33,6 @@ const MarginRow = (props: {
         style={{
           flex: '0 0 160px',
           fontFamily: SERIF,
-          fontVariant: 'small-caps',
           color: SEAL_AMBER,
         }}
       >
@@ -166,7 +165,6 @@ export const ConfigPanel = (props: {
           <div
             style={{
               fontFamily: SERIF,
-              fontVariant: 'small-caps',
               color: SEAL_AMBER,
               fontSize: FONT_BODY,
             }}
@@ -261,7 +259,6 @@ const MaterialColumns = (props: {
           <div
             style={{
               fontFamily: SERIF,
-              fontVariant: 'small-caps',
               color: SEAL_AMBER,
               fontSize: FONT_BODY,
               marginTop: '6px',
@@ -288,7 +285,6 @@ const MaterialColumns = (props: {
           <div
             style={{
               fontFamily: SERIF,
-              fontVariant: 'small-caps',
               color: INK_SOFT,
               fontSize: FONT_BODY,
               marginTop: '10px',

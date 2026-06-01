@@ -159,7 +159,6 @@ const PostingCard = ({
           style={{
             color: SEAL_AMBER,
             fontSize: FONT_BODY,
-            fontVariant: 'small-caps',
             marginTop: '2px',
           }}
         >
@@ -397,7 +396,6 @@ const PostingForm = ({
 };
 
 const fieldLabel = {
-  fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
   fontSize: FONT_BODY,
 };

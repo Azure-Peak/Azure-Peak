@@ -34,7 +34,6 @@ export const ConditionPill = (props: { condition: MarketCondition }) => {
         borderRadius: '8px',
         color: color,
         fontSize: FONT_BODY,
-        fontVariant: 'small-caps',
         fontWeight: 'bold',
         whiteSpace: 'nowrap',
       }}
@@ -117,7 +116,6 @@ const RowLabel = (props: { children: React.ReactNode; color: string }) => (
     style={{
       color: props.color,
       fontSize: FONT_BODY,
-      fontVariant: 'small-caps',
       fontWeight: 'bold',
       marginRight: '6px',
     }}

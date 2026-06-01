@@ -20,7 +20,6 @@ const HeaderStrip = () => (
       borderBottom: `1px solid ${INK_FAINT}`,
       fontFamily: SERIF,
       fontSize: FONT_BODY,
-      fontVariant: 'small-caps',
       color: INK_SOFT,
     }}
   >

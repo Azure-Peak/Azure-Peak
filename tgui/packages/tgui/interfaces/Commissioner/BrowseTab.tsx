@@ -42,7 +42,6 @@ const starsIf = (text: string, canRead: boolean) =>
 const railHeaderStyle = {
   fontFamily: SERIF,
   fontSize: FONT_BODY,
-  fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
   marginBottom: '4px',
   marginTop: '4px',
@@ -54,7 +53,6 @@ const railRowStyle = (active: boolean, indent = false) => ({
   textAlign: 'left' as const,
   fontFamily: SERIF,
   fontSize: FONT_BODY,
-  fontVariant: 'small-caps' as const,
   padding: indent ? '2px 8px 2px 20px' : '3px 8px',
   color: active ? INK : INK_FAINT,
   background: active ? 'rgba(200,170,100,0.25)' : 'transparent',

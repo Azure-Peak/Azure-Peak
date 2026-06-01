@@ -111,7 +111,6 @@ const formatCountdown = (totalSeconds: number): string => {
 };
 
 const captionStyle = {
-  fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
   fontSize: FONT_BODY,
 };
@@ -125,7 +124,6 @@ const HeaderStat = (props: {
       style={{
         fontFamily: SERIF,
         fontSize: FONT_SMALL,
-        fontVariant: 'small-caps',
         color: SEAL_AMBER,
         letterSpacing: '0.04em',
       }}
@@ -227,7 +225,6 @@ const StatusPill = (props: { slot: ZadcoteSlot }) => {
       <span
         style={{
           color: SEAL_AMBER,
-          fontVariant: 'small-caps',
           fontWeight: 'bold',
           fontSize: FONT_BODY,
         }}
@@ -245,7 +242,6 @@ const StatusPill = (props: { slot: ZadcoteSlot }) => {
       <span
         style={{
           color: SEAL_RED,
-          fontVariant: 'small-caps',
           fontWeight: 'bold',
           fontSize: FONT_BODY,
         }}
@@ -259,7 +255,6 @@ const StatusPill = (props: { slot: ZadcoteSlot }) => {
       <span
         style={{
           color: INK_FAINT,
-          fontVariant: 'small-caps',
           fontStyle: 'italic',
           fontSize: FONT_BODY,
         }}
@@ -272,7 +267,6 @@ const StatusPill = (props: { slot: ZadcoteSlot }) => {
     <span
       style={{
         color: SEAL_GREEN,
-        fontVariant: 'small-caps',
         fontWeight: 'bold',
         fontSize: FONT_BODY,
       }}
@@ -377,7 +371,6 @@ const SendPanel = (props: {
         <span
           style={{
             fontFamily: SERIF,
-            fontVariant: 'small-caps',
             fontSize: FONT_TITLE,
             color: INK,
             fontWeight: 'bold',

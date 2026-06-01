@@ -20,7 +20,6 @@ const monthTitleStyle: CSSProperties = {
   flex: 1,
   textAlign: 'center',
   fontFamily: SERIF,
-  fontVariant: 'small-caps',
   letterSpacing: '3px',
   fontSize: '18px',
   color: INK,

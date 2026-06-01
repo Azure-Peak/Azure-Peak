@@ -42,7 +42,6 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
         style={{
           fontSize: FONT_TITLE,
           fontWeight: 'bold',
-          fontVariant: 'small-caps',
           marginBottom: '4px',
           color: accent,
         }}

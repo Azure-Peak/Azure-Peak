@@ -164,7 +164,6 @@ const FlowColumn = (props: {
         <div
           style={{
             color: INK_SOFT,
-            fontVariant: 'small-caps',
             fontWeight: 'bold',
             borderBottom: `1px solid ${INK_FAINT}`,
             paddingBottom: '2px',
@@ -190,7 +189,6 @@ const FlowColumn = (props: {
       <div
         style={{
           color: INK_SOFT,
-          fontVariant: 'small-caps',
           fontWeight: 'bold',
           borderBottom: `1px solid ${INK_FAINT}`,
           paddingBottom: '2px',
@@ -204,7 +202,6 @@ const FlowColumn = (props: {
         <div key={category} style={{ marginBottom: '4px' }}>
           <div
             style={{
-              fontVariant: 'small-caps',
               color: INK_FAINT,
               fontSize: FONT_BODY,
             }}

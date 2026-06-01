@@ -182,5 +182,4 @@ export const titleHint: CSSProperties = {
   textAlign: 'center',
   color: 'var(--p-ink-soft)',
   marginBottom: '18px',
-  fontVariant: 'small-caps',
 };

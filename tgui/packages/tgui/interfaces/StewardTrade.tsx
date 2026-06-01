@@ -102,7 +102,6 @@ export const StewardTrade = () => {
             >
               <div
                 style={{
-                  fontVariant: 'small-caps',
                   color: SEAL_AMBER,
                   fontWeight: 'bold',
                   marginBottom: '2px',

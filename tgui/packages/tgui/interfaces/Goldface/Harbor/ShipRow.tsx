@@ -104,7 +104,6 @@ const DemandGroupDivider = (props: { label: string }) => (
       style={{
         color: SEAL_AMBER,
         fontFamily: SERIF,
-        fontVariant: 'small-caps',
         fontWeight: 'bold',
         fontSize: FONT_SMALL,
         letterSpacing: '1px',
@@ -373,7 +372,6 @@ export const ShipRow = (props: Props) => {
                   padding: 0,
                   margin: 0,
                   color: SEAL_AMBER,
-                  fontVariant: 'small-caps',
                   fontFamily: SERIF,
                   fontSize: 'inherit',
                   cursor: 'pointer',
@@ -384,7 +382,7 @@ export const ShipRow = (props: Props) => {
                 {ship.realm_id}
               </button>
             ) : (
-              <span style={{ color: SEAL_AMBER, fontVariant: 'small-caps' }}>
+              <span style={{ color: SEAL_AMBER }}>
                 {ship.realm_id}
               </span>
             )}
@@ -427,7 +425,6 @@ export const ShipRow = (props: Props) => {
                   <span
                     style={{
                       color: SEAL_AMBER,
-                      fontVariant: 'small-caps',
                       fontWeight: 'bold',
                       fontSize: FONT_BODY,
                     }}
@@ -538,7 +535,6 @@ export const ShipRow = (props: Props) => {
                 color: SEAL_GREEN,
                 fontWeight: 'bold',
                 fontSize: FONT_HEAD,
-                fontVariant: 'small-caps',
                 marginBottom: '3px',
               }}
             >
@@ -585,7 +581,6 @@ export const ShipRow = (props: Props) => {
                 color: SEAL_RED,
                 fontWeight: 'bold',
                 fontSize: FONT_HEAD,
-                fontVariant: 'small-caps',
                 marginBottom: '3px',
               }}
             >

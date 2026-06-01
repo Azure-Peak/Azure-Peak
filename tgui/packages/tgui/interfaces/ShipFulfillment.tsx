@@ -100,7 +100,6 @@ const GroupDivider = (props: { label: string }) => (
       style={{
         color: SEAL_AMBER,
         fontFamily: SERIF,
-        fontVariant: 'small-caps',
         fontWeight: 'bold',
         fontSize: FONT_BODY,
         letterSpacing: '2px',
@@ -195,7 +194,6 @@ const Subsection = (props: {
       <div
         style={{
           fontFamily: SERIF,
-          fontVariant: 'small-caps',
           color: SEAL_AMBER,
           fontSize: FONT_BODY,
           marginBottom: '2px',
@@ -239,7 +237,6 @@ const ManifestSection = (props: {
         <span
           style={{
             color: SEAL_AMBER,
-            fontVariant: 'small-caps',
             fontSize: FONT_BODY,
             marginLeft: '8px',
           }}

@@ -85,7 +85,6 @@ export const compactPageStyle: CSSProperties = {
 };
 
 export const compactSectionHeader: CSSProperties = {
-  fontVariant: 'small-caps',
   fontSize: FONT_BODY,
   color: INK,
   fontWeight: 'bold',
@@ -106,7 +105,6 @@ export const compactDataCell: CSSProperties = {
 };
 
 export const columnSubheadStyle: CSSProperties = {
-  fontVariant: 'small-caps',
   fontSize: FONT_BODY,
   color: INK_SOFT,
   borderBottom: `1px dotted ${INK_FAINT}`,

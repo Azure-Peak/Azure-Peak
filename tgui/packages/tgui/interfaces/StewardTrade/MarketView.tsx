@@ -436,7 +436,7 @@ const SideBlock = (props: {
   if (regions.length === 0) {
     return (
       <div style={sideLineStyle}>
-        <span style={{ color: INK_FAINT, fontVariant: 'small-caps', width: '34px' }}>
+        <span style={{ color: INK_FAINT, width: '34px' }}>
           {label}:
         </span>
         <span style={{ fontStyle: 'italic', color: INK_FAINT, marginLeft: '6px' }}>
@@ -452,7 +452,7 @@ const SideBlock = (props: {
   return (
     <>
       <div style={sideLineStyle}>
-        <span style={{ color: INK_FAINT, fontVariant: 'small-caps', width: '34px' }}>
+        <span style={{ color: INK_FAINT, width: '34px' }}>
           {label}:
         </span>
         <RegionRow
@@ -614,7 +614,6 @@ const stripValueButtonStyle: React.CSSProperties = {
 
 const flagPillStyle = (active: boolean): React.CSSProperties => ({
   fontSize: FONT_BODY,
-  fontVariant: 'small-caps',
   padding: '0 4px',
   border: `1px solid ${active ? SEAL_GREEN : INK_FAINT}`,
   color: active ? SEAL_GREEN : INK_FAINT,

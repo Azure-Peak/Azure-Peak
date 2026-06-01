@@ -56,7 +56,6 @@ const modalStyle: React.CSSProperties = {
 
 const headerStyle: React.CSSProperties = {
   textAlign: 'center',
-  fontVariant: 'small-caps',
   fontSize: '18px',
   fontWeight: 'bold',
   color: INK,

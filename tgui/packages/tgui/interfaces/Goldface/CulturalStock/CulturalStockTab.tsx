@@ -398,7 +398,6 @@ export const CulturalStockTab = (props: Props) => {
           <span
             style={{
               color: SEAL_GREEN,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}
@@ -417,7 +416,6 @@ export const CulturalStockTab = (props: Props) => {
           <span
             style={{
               color: SEAL_GREEN,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}
@@ -435,7 +433,6 @@ export const CulturalStockTab = (props: Props) => {
           <span
             style={{
               color: SEAL_GREEN,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}

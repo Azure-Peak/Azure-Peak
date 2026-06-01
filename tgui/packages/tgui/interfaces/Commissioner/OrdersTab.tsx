@@ -150,7 +150,7 @@ const OrderCard = (props: {
             color: INK_SOFT,
           }}
         >
-          <span style={{ fontVariant: 'small-caps', color: SEAL_AMBER }}>
+          <span style={{ color: SEAL_AMBER }}>
             needs:{' '}
           </span>
           {order.materials.map((m) => `${m.qty} ${m.name}`).join(' · ')}
@@ -162,7 +162,6 @@ const OrderCard = (props: {
           <div
             style={{
               fontSize: FONT_BODY,
-              fontVariant: 'small-caps',
               color: SEAL_AMBER,
             }}
           >

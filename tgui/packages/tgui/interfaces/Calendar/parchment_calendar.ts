@@ -23,7 +23,6 @@ export const detailPanelStyle: CSSProperties = {
 
 export const dashedHeaderStyle: CSSProperties = {
   fontFamily: SERIF,
-  fontVariant: 'small-caps',
   letterSpacing: '2px',
   fontSize: FONT_BODY,
   color: INK,

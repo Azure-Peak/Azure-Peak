@@ -24,7 +24,6 @@ const tableStyle: React.CSSProperties = {
 const headerCellStyle: React.CSSProperties = {
   textAlign: 'left',
   padding: '4px 8px 6px 8px',
-  fontVariant: 'small-caps',
   color: SEAL_AMBER,
   borderBottom: `1px solid ${INK_FAINT}`,
 };
@@ -101,7 +100,6 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
           style={{
             color: region.danger_color,
             fontWeight: 'bold',
-            fontVariant: 'small-caps',
           }}
         >
           {region.danger_level}

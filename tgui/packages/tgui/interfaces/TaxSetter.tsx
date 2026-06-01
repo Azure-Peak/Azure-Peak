@@ -92,7 +92,7 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
           marginBottom: '4px',
         }}
       >
-        <span style={{ color: INK_SOFT, fontVariant: 'small-caps', letterSpacing: '1px' }}>
+        <span style={{ color: INK_SOFT, letterSpacing: '1px' }}>
           Projected per tick
         </span>
         <span style={{ color: netColor, fontWeight: 'bold' }}>{netLabel}</span>
@@ -197,7 +197,6 @@ export const TaxSetter = (props: any, context: any) => {
                 color: SEAL_RED_SOFT,
                 padding: '6px 10px',
                 textAlign: 'center',
-                fontVariant: 'small-caps',
 
                 fontWeight: 'bold',
                 marginBottom: '10px',

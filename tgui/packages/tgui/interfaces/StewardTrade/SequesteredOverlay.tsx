@@ -36,7 +36,6 @@ export const SequesteredOverlay = (props: {
           padding: '8px 24px',
           fontSize: '32px',
           fontWeight: 'bold',
-          fontVariant: 'small-caps',
           background: 'rgba(244,231,198,0.85)',
           textAlign: 'center',
           pointerEvents: 'none',

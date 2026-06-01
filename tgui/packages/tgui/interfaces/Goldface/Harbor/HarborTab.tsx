@@ -30,7 +30,6 @@ const BudgetPair = (props: { label: string; value: React.ReactNode }) => (
     <span
       style={{
         fontFamily: SERIF,
-        fontVariant: 'small-caps',
         color: SEAL_AMBER,
         fontSize: FONT_BODY,
       }}
@@ -98,7 +97,6 @@ export const HarborTab = (props: {
       <span
         style={{
           color: SEAL_GREEN,
-          fontVariant: 'small-caps',
           fontWeight: 'bold',
           marginRight: '6px',
         }}
@@ -159,7 +157,6 @@ export const HarborTab = (props: {
           <span
             style={{
               color: SEAL_GREEN,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}
@@ -188,7 +185,6 @@ export const HarborTab = (props: {
           <span
             style={{
               color: SEAL_GREEN,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}

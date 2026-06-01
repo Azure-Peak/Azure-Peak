@@ -205,7 +205,6 @@ export const ManifestTab = (props: {
           style={{
             flex: 1,
             fontFamily: SERIF,
-            fontVariant: 'small-caps',
             color: SEAL_AMBER,
           }}
         >
@@ -227,7 +226,6 @@ export const ManifestTab = (props: {
           style={{
             flex: 1,
             fontFamily: SERIF,
-            fontVariant: 'small-caps',
             color: SEAL_AMBER,
           }}
         >

@@ -19,6 +19,8 @@ export const SEAL_GREEN = 'var(--p-seal-green)';
 export const SEAL_BLUE = 'var(--p-seal-blue)';
 export const SEAL_AMBER = 'var(--p-seal-amber)';
 export const BUTTON_BG = 'var(--p-button-bg)';
+export const TITLE = 'var(--p-title)';
+export const TITLE_FONT = 'var(--p-title-font)';
 
 export const SERIF = '"Lora", Georgia, serif';
 
@@ -35,9 +37,9 @@ export const pageStyle: CSSProperties = {
 export const titleStyle: CSSProperties = {
   textAlign: 'center',
   fontSize: '22px',
-  fontVariant: 'small-caps',
   fontWeight: 'bold',
-  color: INK,
+  fontFamily: TITLE_FONT,
+  color: TITLE,
   margin: '0 0 4px 0',
 };
 
@@ -57,9 +59,8 @@ export const rulerStyle: CSSProperties = {
 };
 
 export const sectionHeaderStyle: CSSProperties = {
-  fontVariant: 'small-caps',
   fontSize: FONT_TITLE,
-  color: INK,
+  color: TITLE,
   fontWeight: 'bold',
   borderBottom: `1px solid ${INK_FAINT}`,
   paddingBottom: '2px',
@@ -77,7 +78,6 @@ export const tabBarStyle: CSSProperties = {
 export const tabStyle = (active: boolean): CSSProperties => ({
   fontFamily: SERIF,
   fontSize: FONT_BODY,
-  fontVariant: 'small-caps',
   padding: '4px 18px',
   color: active ? INK : INK_FAINT,
   background: active ? 'var(--p-tab-active-bg)' : 'transparent',
@@ -98,7 +98,6 @@ export const subTabBarStyle: CSSProperties = {
 export const subTabStyle = (active: boolean): CSSProperties => ({
   fontFamily: SERIF,
   fontSize: FONT_BODY,
-  fontVariant: 'small-caps',
   padding: '3px 10px',
   color: active ? INK : INK_FAINT,
   background: active ? 'var(--p-tab-active-bg)' : 'transparent',
@@ -158,7 +157,6 @@ export const badgeStyle = (color: string): CSSProperties => ({
   display: 'inline-block',
   fontFamily: SERIF,
   fontSize: FONT_BODY,
-  fontVariant: 'small-caps',
   padding: '1px 7px',
   marginLeft: '6px',
   color: 'var(--p-badge-text)',
@@ -210,7 +208,7 @@ export const fieldRowStyle: CSSProperties = {
 
 export const fieldLabelStyle: CSSProperties = {
   flex: '0 0 145px',
-  fontVariant: 'small-caps',
+  fontWeight: 500,
   color: SEAL_AMBER,
 };
 
@@ -230,7 +228,6 @@ export const bannerStyle = (color: string, soft: boolean = false): CSSProperties
   padding: '6px 12px',
   marginBottom: '10px',
   textAlign: 'center',
-  fontVariant: 'small-caps',
   fontWeight: 'bold',
 });
 

@@ -69,7 +69,6 @@ const cardHeaderStyle: React.CSSProperties = {
 };
 
 const cardTitleStyle: React.CSSProperties = {
-  fontVariant: 'small-caps',
   fontSize: FONT_TITLE,
   fontWeight: 'bold',
   color: INK,

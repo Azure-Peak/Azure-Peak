@@ -49,9 +49,21 @@
 
 @font-face {
   font-family: 'Lora';
+  src: url('~roguefont/lora-medium.ttf');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lora';
   src: url('~roguefont/lora-bold.ttf');
   font-weight: bold;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'MedievalSharp';
+  src: url('~roguefont/medievalsharp.ttf');
 }
 
 @mixin azure-theme($colors, $topbar-svg) {

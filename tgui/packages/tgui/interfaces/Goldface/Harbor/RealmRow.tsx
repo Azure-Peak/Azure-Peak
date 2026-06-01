@@ -52,7 +52,6 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
           <div
             style={{
               color: SEAL_AMBER,
-              fontVariant: 'small-caps',
               fontSize: FONT_BODY,
               fontWeight: 'bold',
               overflow: 'hidden',

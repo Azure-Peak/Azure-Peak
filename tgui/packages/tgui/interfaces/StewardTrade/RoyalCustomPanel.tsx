@@ -37,7 +37,6 @@ export const RoyalCustomPanel = () => {
       >
         <span
           style={{
-            fontVariant: 'small-caps',
             color: SEAL_AMBER,
             fontWeight: 'bold',
           }}

@@ -88,7 +88,6 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
         <div style={{ marginTop: 6, fontSize: FONT_BODY, color: INK }}>
           <span
             style={{
-              fontVariant: 'small-caps',
               color: INK_SOFT,
               marginRight: 6,
             }}

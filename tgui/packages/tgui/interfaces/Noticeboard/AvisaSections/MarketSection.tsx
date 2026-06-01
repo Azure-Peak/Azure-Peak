@@ -46,7 +46,6 @@ const feedColumnStyle: React.CSSProperties = {
 };
 
 const feedTitleStyle: React.CSSProperties = {
-  fontVariant: 'small-caps',
   fontWeight: 'bold',
   fontSize: FONT_BODY,
   color: INK,
@@ -72,7 +71,6 @@ const ledgerGridStyle: React.CSSProperties = {
 };
 
 const ledgerHeaderStyle: React.CSSProperties = {
-  fontVariant: 'small-caps',
   color: SEAL_AMBER,
   fontSize: FONT_BODY,
   borderBottom: `1px solid ${INK_FAINT}`,
@@ -135,14 +133,12 @@ const matrixCornerStyle: React.CSSProperties = {
   ...stickyLeftCellStyle,
   textAlign: 'left',
   padding: '3px 6px',
-  fontVariant: 'small-caps',
   color: SEAL_AMBER,
   borderBottom: `1px solid ${INK_FAINT}`,
 };
 
 const matrixRealmHeaderStyle: React.CSSProperties = {
   padding: '3px 4px',
-  fontVariant: 'small-caps',
   fontSize: FONT_BODY,
   color: INK_SOFT,
   borderBottom: `1px solid ${INK_FAINT}`,
@@ -286,7 +282,6 @@ export const MarketView = ({
       <div style={headerStripStyle}>
         <div
           style={{
-            fontVariant: 'small-caps',
             fontWeight: 'bold',
             fontSize: FONT_TITLE,
             color: INK,
@@ -326,7 +321,6 @@ export const MarketView = ({
             cursor: 'pointer',
             color: SEAL_AMBER,
             fontSize: FONT_BODY,
-            fontVariant: 'small-caps',
           }}
         >
           {loreOpen ? '[ hide market notes ]' : '[ how the markets work ]'}
@@ -338,7 +332,6 @@ export const MarketView = ({
             cursor: 'pointer',
             color: SEAL_AMBER,
             fontSize: FONT_BODY,
-            fontVariant: 'small-caps',
           }}
         >
           {matrixOpen

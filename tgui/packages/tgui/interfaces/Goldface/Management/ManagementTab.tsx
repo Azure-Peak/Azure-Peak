@@ -26,7 +26,6 @@ import type {
 const labelStyle = {
   fontFamily: SERIF,
   fontSize: FONT_BODY,
-  fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
   letterSpacing: '0.04em',
 };
@@ -276,7 +275,7 @@ const LedgerRow = (props: { entry: FavorLedgerEntry }) => {
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
       }}
     >
-      <span style={{ color: style.color, fontWeight: 'bold', fontVariant: 'small-caps' }}>
+      <span style={{ color: style.color, fontWeight: 'bold' }}>
         {style.label}
       </span>
       <span style={{ color: INK, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

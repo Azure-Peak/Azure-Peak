@@ -117,7 +117,7 @@ const SummonPanel = () => {
 
   return (
     <div style={cardStyle}>
-      <div style={{ fontVariant: 'small-caps', fontWeight: 'bold', color: INK, marginBottom: '4px' }}>
+      <div style={{ fontWeight: 'bold', color: INK, marginBottom: '4px' }}>
         Summon a flight
       </div>
       <div style={{ color: INK_SOFT, fontSize: FONT_BODY, marginBottom: '6px' }}>
@@ -129,7 +129,6 @@ const SummonPanel = () => {
         <div style={{ marginBottom: '8px' }}>
           <div
             style={{
-              fontVariant: 'small-caps',
               color: INK_SOFT,
               fontSize: FONT_BODY,
               marginBottom: '2px',
@@ -192,7 +191,7 @@ const StoredPanel = () => {
   if (!data.stored_payload.length) return null;
   return (
     <div style={cardStyle}>
-      <div style={{ fontVariant: 'small-caps', fontWeight: 'bold', color: INK, marginBottom: '4px' }}>
+      <div style={{ fontWeight: 'bold', color: INK, marginBottom: '4px' }}>
         Held in the cage
       </div>
       {data.stored_payload.map((item, idx) => (
@@ -235,7 +234,7 @@ const OccupancyPanel = () => {
       <div style={cardStyle}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <div style={{ fontVariant: 'small-caps', fontWeight: 'bold', color: INK }}>
+            <div style={{ fontWeight: 'bold', color: INK }}>
               A flight waits in the cage
             </div>
             <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
@@ -245,7 +244,6 @@ const OccupancyPanel = () => {
           <div
             style={{
               fontFamily: SERIF,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               color: warning ? SEAL_RED : INK,
               fontSize: '18px',

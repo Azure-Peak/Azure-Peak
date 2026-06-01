@@ -136,7 +136,6 @@ const ballotRowStyle: CSSProperties = {
 const rowLabelStyle: CSSProperties = {
   minWidth: '110px',
   color: INK,
-  fontVariant: 'small-caps',
   fontWeight: 'bold',
 };
 
@@ -151,7 +150,6 @@ const rowHintStyle: CSSProperties = {
 const previewStyle: CSSProperties = {
   color: INK_SOFT,
   fontSize: FONT_BODY,
-  fontVariant: 'small-caps',
   flexBasis: '100%',
   paddingLeft: '118px',
   marginTop: '2px',
@@ -162,7 +160,6 @@ const headerBarStyle: CSSProperties = {
   justifyContent: 'space-between',
   alignItems: 'baseline',
   color: INK_SOFT,
-  fontVariant: 'small-caps',
   fontSize: FONT_BODY,
   marginBottom: '4px',
 };
@@ -173,7 +170,6 @@ const quorumBannerStyle = (quorate: boolean): CSSProperties => ({
   color: quorate ? SEAL_GREEN : SEAL_RED,
   padding: '4px 10px',
   marginBottom: '10px',
-  fontVariant: 'small-caps',
   fontWeight: 'bold',
   fontSize: FONT_BODY,
   textAlign: 'center',
@@ -377,7 +373,6 @@ const AldermanStrip = (props: {
     <div style={aldermanPanelStyle}>
       <div
         style={{
-          fontVariant: 'small-caps',
           color: SEAL_AMBER,
           fontWeight: 'bold',
           marginBottom: '4px',
@@ -756,7 +751,7 @@ const HistoryBlock = (props: { history: HistoryEntry[] }) => {
             marginBottom: '8px',
           }}
         >
-          <div style={{ color: INK_SOFT, fontSize: FONT_BODY, fontVariant: 'small-caps', letterSpacing: '1px' }}>
+          <div style={{ color: INK_SOFT, fontSize: FONT_BODY, letterSpacing: '1px' }}>
             Session {h.session} &mdash; Day {h.day}
           </div>
           <div

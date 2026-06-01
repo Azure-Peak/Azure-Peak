@@ -20,7 +20,6 @@ const orderGridStyle: React.CSSProperties = {
 };
 
 const fieldLabelStyle: React.CSSProperties = {
-  fontVariant: 'small-caps',
   color: SEAL_AMBER,
   fontSize: FONT_BODY,
 };

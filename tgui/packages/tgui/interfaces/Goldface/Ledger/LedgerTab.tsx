@@ -17,7 +17,6 @@ import type { FundLogEntry, HarborData } from '../types';
 const labelStyle = {
   fontFamily: SERIF,
   fontSize: FONT_BODY,
-  fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
   letterSpacing: '0.04em',
 };

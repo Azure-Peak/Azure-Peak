@@ -87,7 +87,6 @@ const CharterChip = (props: { data: Data }) => {
   return (
     <span
       style={{
-        fontVariant: 'small-caps',
         color,
         fontWeight: 'bold',
         fontSize: FONT_BODY,

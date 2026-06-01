@@ -172,7 +172,6 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
 };
 
 const fieldLabelStyle: React.CSSProperties = {
-  fontVariant: 'small-caps',
   color: SEAL_AMBER,
   fontSize: FONT_BODY,
 };

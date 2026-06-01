@@ -17,7 +17,6 @@ export const EventBar = ({ color, isStart, isEnd, label }: EventBarProps) => {
   const style: CSSProperties = {
     fontSize: FONT_BODY,
     fontFamily: SERIF,
-    fontVariant: 'small-caps',
     letterSpacing: '1px',
     color: RIBBON_TEXT,
     background: color,
