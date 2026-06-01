@@ -111,6 +111,23 @@
 				organ_eyes.eye_color = "#131313" //Souless greytider look
 				organ_eyes.accessory_colors = "#131313#131313"
 
+	var/skintone_choice = rand(1, 7) //Heavily simplified
+	switch(skintone_choice)
+		if(1)
+			skin_tone = "SKIN_COLOR_GRENZELHOFT"
+		if(2)
+			skin_tone = "SKIN_COLOR_AVAR"
+		if(3)
+			skin_tone = "SKIN_COLOR_OTAVA"
+		if(4)
+			skin_tone = "SKIN_COLOR_SHALVISTINE"
+		if(5)
+			skin_tone = "SKIN_COLOR_LALVESTINE"
+		if(6)
+			skin_tone = "SKIN_COLOR_NALEDI"
+		if(7)
+			skin_tone = "SKIN_COLOR_KAZENGUN"
+
 	if(gender == FEMALE)
 		real_name = pick(world.file2list("strings/names/first_female.txt"))
 	else

@@ -78,6 +78,23 @@
 			new_hair.hair_color = "#a53d3d"
 			hair_color = "#a53d3d"
 
+	var/skintone_choice = rand(1, 7) //Heavily simplified
+	switch(skintone_choice)
+		if(1)
+			skin_tone = "SKIN_COLOR_GRENZELHOFT"
+		if(2)
+			skin_tone = "SKIN_COLOR_AVAR"
+		if(3)
+			skin_tone = "SKIN_COLOR_OTAVA"
+		if(4)
+			skin_tone = "SKIN_COLOR_SHALVISTINE"
+		if(5)
+			skin_tone = "SKIN_COLOR_LALVESTINE"
+		if(6)
+			skin_tone = "SKIN_COLOR_NALEDI"
+		if(7)
+			skin_tone = "SKIN_COLOR_KAZENGUN"
+
 	head.add_bodypart_feature(new_hair)
 
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
