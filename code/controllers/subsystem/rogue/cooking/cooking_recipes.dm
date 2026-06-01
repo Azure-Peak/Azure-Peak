@@ -86,7 +86,7 @@
 	if(islist(declared_bonus))
 		nutriment_total += declared_bonus[/datum/reagent/consumable/nutriment] || 0
 	if(nutriment_total > 0)
-		lines += "Nutrition: [nutriment_total] units."
+		lines += "Nutrition: [nutrition_unit_label(nutriment_total)] ([nutriment_total] units)."
 
 	var/list/other_reagents = list()
 	if(islist(declared_reagents))
@@ -140,4 +140,27 @@
 		var/minutes = round(seconds / 60)
 		return "[minutes] minute[minutes == 1 ? "" : "s"]"
 	return "[seconds] seconds"
+
+/proc/nutrition_unit_label(amount)
+	if(amount >= NUTRITION_FIVE_MEALS)
+		return "five meals or more"
+	if(amount >= NUTRITION_THREE_AND_HALF_MEALS)
+		return "three-and-a-half meals"
+	if(amount >= NUTRITION_TWO_AND_HALF_MEALS)
+		return "two-and-a-half meals"
+	if(amount >= NUTRITION_TWO_MEALS)
+		return "two meals"
+	if(amount >= NUTRITION_MEAL_AND_HALF)
+		return "a meal and a half"
+	if(amount >= NUTRITION_MEAL_AND_QUARTER)
+		return "a meal and a quarter"
+	if(amount >= NUTRITION_FULL_MEAL)
+		return "a full meal"
+	if(amount >= NUTRITION_THREE_QUARTER_MEAL)
+		return "three-quarters of a meal"
+	if(amount >= NUTRITION_HALF_MEAL)
+		return "half a meal"
+	if(amount >= NUTRITION_QUARTER_MEAL)
+		return "a quarter of a meal"
+	return "a small bite"
 
