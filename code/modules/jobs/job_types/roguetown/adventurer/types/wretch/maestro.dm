@@ -12,7 +12,7 @@
 	extra_context       = "All paths gain Allegro: every 5th landed rhythm restores energy.<br>\
 						  Busker gains Empath, Deceiving Meekness, and Light Step, with Expert Sneaking, Stealing, Lockpicking, Climbing, and Knives (Parrying Knife).<br>\
 						  Cacophonist gains a bonus rhythm pick (3 total) and song slot (5 total), with Expert Swords and Whips & Flails (Alloy-tipped whip & Arming Sword).<br>\
-						  Boomwhacker gains Expert Pugilist and +1 Strength, with Expert Unarmed and Wrestling (Knuckle dusters).<br>\
+						  Boomwhacker gains Expert Pugilist and +1 Strength, with Expert Unarmed and Wrestling (Knuckle dusters & Katar).<br>\
 						  Chanter gains T1 miracles (slow Devotion regen), with Journeyman Holy skill.<br>\
 						  Cipher gains one Minor Arcane aspect, five Utility points, and one offensive cantrip of choice."
 	subclass_stats = list(
