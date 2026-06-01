@@ -33,6 +33,7 @@
 	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/mad_touched_treasure_hunter)
 	gender = pick(MALE, FEMALE)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)

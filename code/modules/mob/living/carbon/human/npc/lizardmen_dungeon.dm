@@ -26,7 +26,7 @@
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/after_creation()
 	..()
 	AddComponent(/datum/component/ai_aggro_system)
-	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
+	//SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE) they're not bandits
 	//This Stuff handles their parts
 	var/obj/item/organ/tail/lizard/tail = src.getorganslot(ORGAN_SLOT_TAIL)
 	var/obj/item/organ/snout/lizard/psy_vault_guard/snout = src.getorganslot(ORGAN_SLOT_SNOUT)
@@ -57,6 +57,7 @@
 	ADD_TRAIT(src, TRAIT_BIGGUY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard)
 	patron = /datum/patron/old_god
 	update_hair()

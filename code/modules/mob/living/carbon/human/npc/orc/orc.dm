@@ -51,6 +51,7 @@
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 
 	var/datum/bodypart_feature/hair/head/new_hair = new()
 	var/datum/bodypart_feature/hair/facial/new_facial = new()

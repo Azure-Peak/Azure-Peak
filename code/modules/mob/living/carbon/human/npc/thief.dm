@@ -24,6 +24,7 @@
 	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/thief)
 	gender = pick(MALE, FEMALE)
 	regenerate_icons()

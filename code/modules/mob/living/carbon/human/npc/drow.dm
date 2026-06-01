@@ -71,6 +71,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/elf/dark/drowraider)
 	if(prob(40))
 		gender = MALE

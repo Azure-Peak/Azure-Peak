@@ -40,6 +40,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman)
 	gender = pick(MALE, FEMALE)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
@@ -178,8 +179,8 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			if(5)
 				cloak = /obj/item/clothing/cloak/raincloak/brown
 	if(prob(50)) //50% MASK, SER MASK OFF, SER MASK
-		var/cloak_choice = rand(1, 3)
-		switch(cloak_choice)
+		var/mask_choice = rand(1, 3)
+		switch(mask_choice)
 			if(1)
 				mask = /obj/item/clothing/mask/rogue/ragmask/red
 			if(2)
@@ -189,7 +190,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	if(prob(50))
 		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
-	if(prob(70)) //70% random helm chance
+	if(prob(50)) //50% random helm chance
 		var/helmet_choice = rand(1, 5)
 		switch(helmet_choice)
 			if(1)
@@ -202,12 +203,15 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 				head = /obj/item/clothing/head/roguetown/armingcap
 			if(5)
 				head = /obj/item/clothing/head/roguetown/menacing/bandit //IS THIS TRVE?
-	var/neck_choice = rand(1, 2)
-	switch(neck_choice)
-		if(1)
-			neck = /obj/item/clothing/neck/roguetown/coif //SOVL
-		if(2)
-			neck = neck = /obj/item/clothing/neck/roguetown/leather
+	neck = /obj/item/storage/belt/rogue/pouch/bombs //Expect more booms
+	if(prob(95)) //5% bomber chance
+		var/neck_choice = rand(1, 2)
+		switch(neck_choice)
+			if(1)
+				neck = /obj/item/clothing/neck/roguetown/coif //SOVL
+			if(2)
+				neck = neck = /obj/item/clothing/neck/roguetown/leather
+
 	H.STASTR = rand(11,14) //random strength
 	H.STASPD = 11
 	H.STACON = 6
@@ -268,48 +272,50 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 
 /datum/outfit/job/roguetown/human/species/human/northern/mount_reaver/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	if(prob(50))
-		mask = /obj/item/clothing/mask/rogue/ragmask/red
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	var/cloak_choice = rand(1, 5)
+	switch(cloak_choice)
+		if(1)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+		if(2)
+			cloak = /obj/item/clothing/cloak/raincloak/red
+		if(3)
+			cloak = /obj/item/clothing/cloak/raincloak/green
+		if(4)
+			cloak = /obj/item/clothing/cloak/raincloak/blue
+		if(5)
+			cloak = /obj/item/clothing/cloak/raincloak/brown
+	var/mask_choice = rand(1, 2) //Happening after will override our previous mask picks, so we have FOV
+	switch(mask_choice)
+		if(1)
+			mask = /obj/item/clothing/mask/rogue/ragmask/red
+		if(2)
+			mask = /obj/item/clothing/mask/rogue/ragmask/black
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	if(prob(55))
-		head = /obj/item/clothing/head/roguetown/helmet/skullcap
-	else if(prob(30))
-		head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
-	else if(prob(30))
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/barbute
-	else
-		head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
-	if(prob(70))
-		neck = /obj/item/clothing/neck/roguetown/coif
+	var/helmet_choice = rand(1, 4)
+	switch(helmet_choice)
+		if(1)
+			head = /obj/item/clothing/head/roguetown/helmet/skullcap
+		if(2)
+			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
+		if(3)
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/barbute
+		if(4)
+			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 	gloves = /obj/item/clothing/gloves/roguetown/leather
+	if(prob(15)) //On top of the other 10%, a lot higher chance to be using this.
+		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
 	H.STASTR = 12
 	H.STASPD = 11
 	H.STACON = 8
 	H.STAWIL = 8
 	H.STAPER = 11
 	H.STAINT = 8
-	if(prob(35))
-		r_hand = /obj/item/rogueweapon/sword/short/iron
-	else if(prob(30))
-		r_hand = /obj/item/rogueweapon/sword/falchion/militia
-	else if(prob(20))
-		r_hand = /obj/item/rogueweapon/mace/cudgel
-	else
-		r_hand = /obj/item/rogueweapon/pick/militia
-	if(prob(30))
-		l_hand = /obj/item/rogueweapon/shield/tower
-	else if(prob(35))
-		l_hand = /obj/item/rogueweapon/shield/wood
-	else if(prob(15))
-		l_hand = /obj/item/rogueweapon/shield/buckler/palloy
-	if(prob(25))
-		neck = /obj/item/storage/belt/rogue/pouch/bombs
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+// Rest of the random gear is handled via subtyping regular highwaymen, this includes our weaponry picks. Which yes, means a slight downgrade.
 
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/staves, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
@@ -317,3 +323,16 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+
+	if(prob(30))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(2)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(3)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()

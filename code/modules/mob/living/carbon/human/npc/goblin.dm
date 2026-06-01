@@ -32,6 +32,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /mob/living/carbon/human/species/goblin/npc/after_creation()
 	..()
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	AddComponent(/datum/component/ai_aggro_system)
 
 /mob/living/carbon/human/species/goblin/npc/ambush

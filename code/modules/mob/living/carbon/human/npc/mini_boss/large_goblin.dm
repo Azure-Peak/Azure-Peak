@@ -29,6 +29,7 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	src.transform = src.transform.Scale(1.25, 1.25)
 	src.pixel_y += round(0.25 * 16)
 	for(var/obj/item/equipped_item in get_equipped_items() + held_items)

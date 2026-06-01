@@ -42,6 +42,7 @@
 	..()
 	if(ai_controller)
 		AddComponent(/datum/component/ai_aggro_system)
+		ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	if(dna && dna.species)
 		dna.species.species_traits |= NOBLOOD
 		dna.species.soundpack_m = new /datum/voicepack/skeleton()
