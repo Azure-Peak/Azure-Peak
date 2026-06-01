@@ -185,6 +185,7 @@
 		/datum/crafting_recipe/roguetown/cooking,
 		/datum/book_entry/cooking_basics,
 		/datum/book_entry/cooking_ingredients,
+		/datum/book_entry/cooking_baked_goods,
 		/datum/book_entry/cooking_pies,
 		/datum/book_entry/cooking_deepfry
 	)

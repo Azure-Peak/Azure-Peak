@@ -1849,6 +1849,7 @@
 #include "code\modules\crafting\recipe_books\recipe_books_list.dm"
 #include "code\modules\crafting\recipe_books\recipe_helpers.dm"
 #include "code\modules\crafting\recipe_books\book_entries\book_entry_base.dm"
+#include "code\modules\crafting\recipe_books\book_entries\cooking\book_entry_baked_goods.dm"
 #include "code\modules\crafting\recipe_books\book_entries\cooking\book_entry_basics.dm"
 #include "code\modules\crafting\recipe_books\book_entries\cooking\book_entry_brewing.dm"
 #include "code\modules\crafting\recipe_books\book_entries\cooking\book_entry_cooking.dm"
