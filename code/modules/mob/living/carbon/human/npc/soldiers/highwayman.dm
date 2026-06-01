@@ -284,13 +284,8 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			cloak = /obj/item/clothing/cloak/raincloak/blue
 		if(5)
 			cloak = /obj/item/clothing/cloak/raincloak/brown
-	var/mask_choice = rand(1, 2) //Happening after will override our previous mask picks, so we have FOV
-	switch(mask_choice)
-		if(1)
-			mask = /obj/item/clothing/mask/rogue/ragmask/red
-		if(2)
-			mask = /obj/item/clothing/mask/rogue/ragmask/black
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	mask = /obj/item/clothing/mask/rogue/ragmask/black
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	var/helmet_choice = rand(1, 4)
 	switch(helmet_choice)
