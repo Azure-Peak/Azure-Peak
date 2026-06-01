@@ -6,7 +6,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
-	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	head = /obj/item/clothing/head/roguetown/helmet/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 

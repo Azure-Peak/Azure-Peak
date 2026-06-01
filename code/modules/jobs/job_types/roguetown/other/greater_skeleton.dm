@@ -65,10 +65,6 @@ NECRO SKELETONS
 	backl = /obj/item/storage/backpack/rogue/satchel
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 
-/datum/outfit/job/roguetown/greater_skeleton/necro/pre_equip(mob/living/carbon/human/H)
-	..()
-	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
-
 // Melee fighter with a shield. Holds the line.
 /datum/advclass/greater_skeleton/necro/legionnaire
 	name = "Decrepit Legionnaire"
@@ -78,6 +74,7 @@ NECRO SKELETONS
 	category_tags = list(CTAG_NSKELETON)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
@@ -95,17 +92,20 @@ NECRO SKELETONS
 
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	H.STASTR = prob(2) ? 18 : rand(11,12)
-	H.STAPER = rand(9,11)
-	H.STASPD = rand(7,8)
-	H.STACON = rand(7,9)
-	H.STAWIL = rand(10,11)
-	H.STAINT = rand(1,3)
+	H.STASTR = 12
+	H.STAPER = 11
+	H.STASPD = 8
+	H.STACON = 9
+	H.STAWIL = 11
+	H.STAINT = 3
 
+	head = /obj/item/clothing/head/roguetown/helmet/sallet/iron
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	backr = /obj/item/rogueweapon/shield/wood
+	armor = /obj/item/clothing/suit/roguetown/armor/leather
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
@@ -119,12 +119,19 @@ NECRO SKELETONS
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
-	var/weapon_choice = input(H, "Choose your weapon.", "WHAT WILL YOU CARRY?") as anything in list("Sword", "Axe")
+	var/weapon_choice = input(H, "Choose your weapon.", "RISE AGAINST THE LYVING!") as anything in list("Sword + Shield", "Spear", "Mace + Shield", "Axe + Shield")
 	H.set_blindness(0)
 	switch(weapon_choice)
-		if("Sword")
+		if("Sword + Shield")
 			beltr = /obj/item/rogueweapon/sword
-		if("Axe")
+			backr = /obj/item/rogueweapon/shield/wood
+		if("Spear")
+			beltr = /obj/item/rogueweapon/spear
+		if("Mace + Shield")
+			backr = /obj/item/rogueweapon/shield/wood
+			beltr = /obj/item/rogueweapon/mace
+		if("Axe + Shield")
+			backr = /obj/item/rogueweapon/shield/wood
 			beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 
 	H.energy = H.max_energy
@@ -158,12 +165,13 @@ NECRO SKELETONS
 	H.STASPD = 9
 	H.STACON = 8
 	H.STAWIL = 12
-	H.STAINT = 6
+	H.STAINT = 3
 	H.STAPER = 14
 
 	head = /obj/item/clothing/head/roguetown/helmet/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	beltr = /obj/item/rogueweapon/huntingknife/idagger
 
@@ -179,7 +187,7 @@ NECRO SKELETONS
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
-	var/weapon_choice = input(H, "Choose your weapon.", "WHAT WILL YOU CARRY?") as anything in list("Bow", "Sling")
+	var/weapon_choice = input(H, "Choose your weapon.", "RISE AGAINST THE LYVING!") as anything in list("Bow", "Sling")
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Bow")
@@ -199,9 +207,9 @@ NECRO SKELETONS
 
 	category_tags = list(CTAG_NSKELETON)
 	subclass_skills = list(
-		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/masonry = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
@@ -209,22 +217,30 @@ NECRO SKELETONS
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/blacksmithing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/smelting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/mining = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/labor/lumberjacking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_EXPERT,
 	)
-	traits_applied = list(TRAIT_SILVER_WEAK)
+	//Gimmic here is for smithing, you have to spect out into what you want.
+	//Vs lich skele you can't artifice as-well either nor do enchantments/explosives without effort.
+	//You won't be entirely self-sufficent. But you're definitely *good* at making forts fast for your master.
+	traits_applied = list(TRAIT_SILVER_WEAK, TRAIT_HOMESTEAD_EXPERT, TRAIT_SMITHING_EXPERT)
 
 /datum/outfit/job/roguetown/greater_skeleton/necro/sapper/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	H.STASTR = rand(8,10)
-	H.STASPD = rand(4,6)
-	H.STACON = rand(6,8)
-	H.STAWIL = rand(8,10)
-	H.STAINT = prob(2) ? 18 : rand(4,6)
-	H.STAPER = rand(6,8)
+	H.STASTR = 10
+	H.STASPD = 10
+	H.STACON = 5 //Light armor, weak constition, high potental.
+	H.STAWIL = 10
+	H.STAINT = 6
+	H.STAPER = 8
 
+	head = /obj/item/clothing/head/roguetown/helmet/skullcap
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer/lich
 	pants = /obj/item/clothing/under/roguetown/trou/artipants/lich
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
