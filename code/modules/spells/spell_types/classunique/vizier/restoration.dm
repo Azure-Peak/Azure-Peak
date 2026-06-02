@@ -27,10 +27,42 @@
 	if(!isliving(targets[1]))
 		revert_cast()
 		return FALSE
-
 	var/mob/living/target = targets[1]
-	target.visible_message(span_info("Origin magick restores [target]'s body!"), span_notice("My body recalls its prior form!"))
-	var/healing = 3
-	user.Beam(target, icon_state="lichbeam", time=1 SECONDS)
-	target.apply_status_effect(/datum/status_effect/buff/healing, healing)
+	new /obj/effect/temp_visual/origin_restoration(get_turf(target))
+	new /obj/effect/temp_visual/origin_restoration_burst(get_turf(user), NORTHEAST)
+	new /obj/effect/temp_visual/origin_restoration_burst(get_turf(user), NORTHWEST)
+	new /obj/effect/temp_visual/origin_restoration_burst(get_turf(user), SOUTHEAST)
+	new /obj/effect/temp_visual/origin_restoration_burst(get_turf(user), SOUTHWEST)
+	target.visible_message(span_info("Origin magick rewinds [target]'s body!"), span_notice("My body recalls its prior form!"))
+	var/amt_per_tick = 3
+	target.apply_status_effect(/datum/status_effect/buff/originhealing, amt_per_tick)
 	return TRUE
+
+/obj/effect/temp_visual/origin_restoration
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "bhole3"
+	duration = 10
+	layer = ABOVE_MOB_LAYER
+	alpha = 220
+	color = "#FFD966"
+
+/obj/effect/temp_visual/origin_restoration/Initialize(mapload)
+	. = ..()
+	transform = matrix()*3
+	animate(src, transform = matrix()*0.1, alpha = 0, time = duration, easing = EASE_IN)
+	return INITIALIZE_HINT_NORMAL
+
+/obj/effect/temp_visual/origin_restoration_burst
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "medi_holo"
+	duration = 8
+	layer = ABOVE_MOB_LAYER
+	alpha = 220
+	color = "#FFD966"
+
+/obj/effect/temp_visual/origin_restoration_burst/Initialize(mapload, dir_to_go)
+	. = ..()
+	var/turf/T = get_step(src, dir_to_go)
+	if(T)
+		animate(src, pixel_x = (T.x - x) * 32, pixel_y = (T.y - y) * 32, alpha = 0, time = duration)
+	return INITIALIZE_HINT_NORMAL

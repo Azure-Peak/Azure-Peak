@@ -176,19 +176,16 @@
 
 /datum/advclass/foreigner/refugee
 	name = "Naledi Refugee"
-	tutorial = "An asylum-seeker from the war-torn deserts of Naledi, driven north as your homeland continues to be ravaged by an endless conflict against the Djinn."
-	
+	tutorial = "An asylum-seeker from the war-torn deserts of Naledi. Once destined for a seminary, war and displacement robbed you of your future. Though no Hierophant, Vizier, or Pontifex, fragments of your training remain."
+
 	outfit = /datum/outfit/job/roguetown/adventurer/refugee
 	subclass_languages = list(/datum/language/celestial)
 	cmode_music = 'sound/music/warscholar.ogg'
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT)
+	traits_applied = list(TRAIT_STEELHEARTED)
 	forbidden_races = list()
-	subclass_stats = list(
-		STATKEY_SPD = 2,
-		STATKEY_PER = 1,
-		STATKEY_WIL = 1,
-		STATKEY_INT = 1,
-	)
+	
+	subclass_stats = list(STATKEY_SPD = 2, STATKEY_PER = 1, STATKEY_WIL = 1)
+	
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
@@ -196,18 +193,17 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
 	)
 
 /datum/outfit/job/roguetown/adventurer/refugee/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("An asylum-seeker from the war-torn deserts of Naledi, \
-	driven north as your homeland continues to be ravaged by an endless conflict against the Djinn."))
+	var/list/paths = list("Refugee (Default)", "Seminary Dropout (Hierophant)", "Desert Ascetic (Pontifex)", "Wandering Yogi (Vizier)")
+	var/path = input(H, "Choose your past.", "WHAT DID WAR TAKE FROM YOU?") as anything in paths
+
 	mask = /obj/item/clothing/mask/rogue/lordmask/tarnished
-	r_hand = /obj/item/rogueweapon/spear/assegai
-	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	backr = /obj/item/storage/backpack/rogue/satchel
-	wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
+	id = /obj/item/clothing/neck/roguetown/psicross/naledi
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/civilian
 	pants = /obj/item/clothing/under/roguetown/skirt/black
@@ -217,7 +213,100 @@
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(/obj/item/recipe_book/survival = 1, 
 						/obj/item/rogueweapon/huntingknife = 1)
+	switch(path)
 
+		if("Refugee (Default)")
+			to_chat(H, span_warning("An asylum-seeker from the war-torn deserts of Naledi, \
+			driven north as your homeland continues to be ravaged by an endless conflict against the Djinn."))
+			r_hand = /obj/item/rogueweapon/spear/assegai
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+
+		if("Seminary Dropout (Hierophant)") // poke spell + weaker sorcerer, pmuch a turret gameplay, if you get jumped you die
+			H.set_patron(/datum/patron/old_god)
+			to_chat(H, span_warning("A promising Magos in the study halls, until envy turned to accusation. Branded Djinn-touched by your peers, you fled Naledi before the deepest secrets of the Hierophants were yours, left with only incomplete theories."))
+			r_hand = /obj/item/rogueweapon/woodstaff/implement
+			head = /obj/item/clothing/head/roguetown/roguehood/hierophant
+			cloak = /obj/item/clothing/cloak/hierophant
+			
+			backpack_contents += list(/obj/item/book/spellbook = 1)
+
+			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
+
+			H.change_stat(STATKEY_INT, 1)
+			H.change_stat(STATKEY_SPD, -1)
+			H.change_stat(STATKEY_PER, -1)
+
+			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
+
+			if(H.mind)
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4))
+				H.mind.AddSpell(new /datum/action/cooldown/spell/ley_lines)
+
+		if("Desert Ascetic (Pontifex)") // no momentum for this one as its flaw, as well as only the poke fist spells
+			H.set_patron(/datum/patron/old_god)
+			to_chat(H, span_warning("You were being initiated as a Pontifex, training in body and will. When a Djinn attack razed your school, you survived where others fell. Shunned for your survival and left without a master, you wandered the deserts with unfinished discipline."))
+			r_hand = /obj/item/rogueweapon/katar
+
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_EXPERT, TRUE)
+
+			H.change_stat(STATKEY_STR, 1)
+			H.change_stat(STATKEY_CON, 1)
+			H.change_stat(STATKEY_SPD, -1)
+			H.change_stat(STATKEY_PER, -1)
+			H.change_stat(STATKEY_WIL, -1)
+
+			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+
+			if(H.mind)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/fist_of_psydon)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/grasp_of_psydon)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4))
+
+		if("Wandering Yogi (Vizier)") // you are pretty screwed with that skin armor and no enduring, have fun!!!
+			H.set_patron(/datum/patron/old_god)
+			to_chat(H, span_warning("A Vizier healer in training, you practiced Origin Magyck to restore body and spirit in Psydon’s name. Your work drew suspicion, and you were cast out before completing your vows, now wandering in exile with only fragments of the art."))
+			r_hand = /obj/item/rogueweapon/woodstaff/implement
+			armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple // placeholder until monk is merged
+			shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
+			backpack_contents += list(/obj/item/book/spellbook = 1)
+
+			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_APPRENTICE, TRUE)
+
+			H.change_stat(STATKEY_INT, 1)
+			H.change_stat(STATKEY_LCK, 1)
+			H.change_stat(STATKEY_PER, -1)
+			H.change_stat(STATKEY_WIL, -1)
+
+			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_MEDICINE_EXPERT, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
+
+			var/datum/devotion/C = new /datum/devotion(H, H.patron)
+			C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
+
+			if(H.mind)
+				grant_poke_spell(H)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/vizier_restoration)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 4))
+			
 /datum/advclass/foreigner/slaver
 	name = "Ranesheni Slaver"
 	tutorial = "In parts of Psydonia, the practice of slavery is still a common sight. \
