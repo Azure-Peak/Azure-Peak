@@ -218,7 +218,7 @@
 			to_chat(user, span_notice("[I] is useless for shisha."))
 			return
 
-		if(reagents.maximum_volume < reagents.total_volume + powder.reagents.total_volume)
+		if(reagents.total_volume >= reagents.maximum_volume)
 			to_chat(user, span_notice("[src] is already tightly packed."))
 			return
 
@@ -237,7 +237,7 @@
 		var/new_reagents_amt = 0
 		for(var/id in tobacco.pipe_reagents)
 			new_reagents_amt += tobacco.pipe_reagents[id]
-		if(reagents.maximum_volume < reagents.total_volume + new_reagents_amt)
+		if(reagents.total_volume >= reagents.maximum_volume)
 			to_chat(user, span_notice("[src] is already tightly packed."))
 			return
 

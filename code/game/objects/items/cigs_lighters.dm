@@ -422,7 +422,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	
 /obj/item/clothing/mask/cigarette/rollie/blackberry
 	name = "blackberry zig"
-	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a cooling effect."
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
 	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/blackberry = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/blackberry/cheroot
@@ -510,8 +510,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 /obj/item/clothing/mask/cigarette/rollie/salviavaleriana
     name = "salvia-valeriana zig"
-    desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a spicy, earthy and bitter effect."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/salvia = 5, /datum/reagent/drug/valeriana = 10)
+    desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a spicy, earthy and bitter effect, combined with a calming and sleep-inducing one."
 
 /obj/item/clothing/mask/cigarette/rollie/salviavaleriana/cheroot
     name = "salvia-valeriana cheroot"
@@ -526,7 +525,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 /obj/item/clothing/mask/cigarette/rollie/calendula/cheroot
     name = "calendula cheroot"
-    desc = "A rewrapped westleach zig with some alchemically extracted calendula essence. It has a bitter taste and light healing properties."
+    desc = "A rewrapped westleach zig with some alchemically extracted calendula essence."
     smoketime = 240
     list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/calendula = 15)
 
@@ -575,13 +574,13 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon_on = "stogieon"
 	icon_off = "stogieoff"
 	item_state = "stogieoff"
-	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/nicotine/refined = 15)
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/petun = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/zigar/cheroot
 	name = "zigar cheroot"
 	desc = "A rewrapped zigar with some alchemically extracted hypericum and very more westleach essence."
 	smoketime = 360
-	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/nicotine/refined = 15)
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/petun = 15)
 
 /obj/item/clothing/mask/cigarette/cigar
 	name = "premium cigar"

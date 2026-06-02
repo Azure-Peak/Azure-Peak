@@ -646,7 +646,7 @@
 	..()
 	. = 1
 
-/datum/reagent/drug/nicotine/refined
+/datum/reagent/drug/petun
 	name = "Petun"
 	description = "A highly concentrated form of nicotine. Produces a causes sore throat and mild relaxation."
 	reagent_state = LIQUID
@@ -657,10 +657,10 @@
 	overdose_threshold = 999
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
 
-/datum/reagent/drug/nicotine/refined/on_mob_end_metabolize(mob/living/M)
+/datum/reagent/drug/petun/on_mob_end_metabolize(mob/living/M)
 	..()
 
-/datum/reagent/drug/nicotine/refined/on_mob_metabolize(mob/living/M)
+/datum/reagent/drug/petun/on_mob_metabolize(mob/living/M)
 	var/mob/living/carbon/V = M
 	V.add_stress(/datum/stressevent/zweed)
 	if(prob(10))
@@ -669,13 +669,13 @@
 		M.visible_message("<span class='notice'>[M]'s pleasantly relaxing.</span>")
 	..()
 
-/datum/reagent/drug/nicotine/refined/on_mob_life(mob/living/carbon/M)
+/datum/reagent/drug/petun/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_TOXIMMUNE))
 		M.adjustToxLoss(0.1)
 	..()
 	. = 1
 
-/datum/reagent/drug/nicotine/refined/overdose_process(mob/living/M)
+/datum/reagent/drug/petun/overdose_process(mob/living/M)
 	M.adjustToxLoss(0.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	M.adjustOxyLoss(1.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
