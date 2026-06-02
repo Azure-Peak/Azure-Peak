@@ -80,7 +80,7 @@
 	C.icon_state = "firepelt"
 	C.base_pixel_x = -8
 	C.pixel_x = -8
-	C.pixel_y = -4
+	C.base_pixel_y = -4
 	C.pixel_y = -4
 
 /datum/species/gnoll/update_damage_overlays(mob/living/carbon/human/H)
