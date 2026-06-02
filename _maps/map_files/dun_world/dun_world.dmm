@@ -94843,10 +94843,6 @@
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
-"sOi" = (
-/mob/living/carbon/human/species/skeleton/npc/mediumspread,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/mountains/decap)
 "sOp" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/hay,
@@ -502723,7 +502719,7 @@ snO
 ieo
 jZX
 fDP
-sOi
+fRR
 fRR
 eAq
 fRR
