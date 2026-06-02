@@ -175,6 +175,7 @@ NECRO SKELETONS
 	H.STAINT = 3
 	H.STAPER = 14
 
+	head = /obj/item/clothing/head/roguetown/helmet/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
@@ -183,15 +184,7 @@ NECRO SKELETONS
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	beltr = /obj/item/rogueweapon/huntingknife/idagger
 
-	var/helmets = list(
-		"Leather Helmet"	= /obj/item/clothing/head/roguetown/helmet/leather,
-		"Volf Helmet"		= /obj/item/clothing/head/roguetown/helmet/leather/volfhelm,
-		"None"
-		)
 	H.adjust_blindness(-3)
-	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
-	if(helmchoice != "None")
-		head = helmets[helmchoice]
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
@@ -239,9 +232,9 @@ NECRO SKELETONS
 /datum/outfit/job/roguetown/greater_skeleton/necro/bulwark/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	H.STASTR = 13
+	H.STASTR = 12
 	H.STAPER = 10
-	H.STASPD = 6
+	H.STASPD = 7 //Slightly faster than lich one cause its rarer.
 	H.STACON = 6 //Relies on armor
 	H.STAWIL = 12
 	H.STAINT = 1
@@ -306,7 +299,7 @@ NECRO SKELETONS
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/masonry = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
