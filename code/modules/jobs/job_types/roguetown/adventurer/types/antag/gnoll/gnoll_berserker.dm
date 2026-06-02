@@ -51,6 +51,7 @@
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
 			if("Headbutt - Vulnerable Debuff")
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/gnoll/consume)
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/berserker
 	name = "Berserker Claw"
@@ -64,14 +65,14 @@
 
 /datum/intent/simple/gnoll_cut/berserker
 	/* 
-	Deals about 4.2 damage through any armor to cause bleed.
+	Deals about  damage through any armor to cause bleed.
 	If you are being healed at all by a Miracle you will most likely outheal this anyway. 
 	But it should push holy classes to heal more, and others to think twice about fighting a Gnoll without healing at hand.
 	*/ 
 	name = "Bleed Out"
 	desc = "A low damage slash that penetrates through most armor to cause your foes to bleed."
 	penfactor = PEN_HEAVY
-	damfactor = 0.2
+	damfactor = 0.01
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/berserker/right
 	icon_state = "claw_r"

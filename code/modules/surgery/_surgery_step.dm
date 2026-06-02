@@ -205,9 +205,6 @@
 				return FALSE
 	*/
 
-	if(isgnoll(target))
-		return TRUE
-
 	if(!ignore_clothes && !get_location_accessible(target, target_zone || bodypart.body_zone))
 		return FALSE
 

@@ -42,6 +42,8 @@
 		don_pelt(H)
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll/templar)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/gnoll/consume)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/gnoll/blood_rite)
 
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/templar

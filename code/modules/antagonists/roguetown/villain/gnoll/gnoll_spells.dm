@@ -410,6 +410,7 @@
 /datum/action/cooldown/spell/gnoll/consume/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
+	var/mob/living/target = owner
 	var/mob/living/corpse = null
 	if(isliving(cast_on))
 		corpse = cast_on
@@ -417,27 +418,71 @@
 		return FALSE
 	
 	if(corpse)
-		if(corpse.stat == DEAD)
+		if(corpse.stat == DEAD && !corpse.ckey)
 			to_chat(owner, span_notice("You begin to consume [corpse.name]."))
 			if(do_after(owner, 10 SECONDS, corpse))
 				qdel(corpse)
-				to_chat(owner, span_notice("You finish consuming [corpse.name], feeling reinvigorated."))
+				to_chat(owner, span_notice("You finish consuming [corpse.name], restoring your physical form."))
+				H.fully_heal(admin_revive=TRUE)
 		else
-			to_chat(owner, span_warning("You can only consume the dead!"))
+			to_chat(owner, span_warning("You can only consume the soulless dead!"))
 	else if(istype(cast_on, /obj/item/reagent_containers/food/snacks/rogue/meat))
 		var/obj/item/reagent_containers/food/snacks/rogue/meat/m = cast_on
 		to_chat(owner, span_notice("You begin to consume the [m.name], savoring the taste of fresh meat."))
-		if(do_after(owner, 3 SECONDS, cast_on))
+		if(do_after(owner, 1.5 SECONDS, cast_on))
 			qdel(cast_on)
 			to_chat(owner, span_notice("You finish consuming the [m.name], feeling reinvigorated."))
+			target.apply_status_effect(/datum/status_effect/buff/healing, 5)
 	else if(cast_on == owner && istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat))
 		to_chat(owner, span_notice("You begin to consume the flesh in your hands, feeling reinvigorated."))
-		if(do_after(owner, 3 SECONDS, owner))
+		if(do_after(owner, 1.5 SECONDS, owner))
 			var/obj/item/reagent_containers/food/snacks/rogue/meat/m = owner.get_active_held_item()
 			qdel(m)
 			to_chat(owner, span_notice("You finish consuming the [m.name], feeling reinvigorated."))
+			target.apply_status_effect(/datum/status_effect/buff/healing, 5)
 	else
 		to_chat(H, span_warning("You need to target meat, corpses or yourself to eat meat in your hands!"))
+		return FALSE
+
+/datum/action/cooldown/spell/gnoll/blood_rite
+	name = "Blood Rite"
+	desc = ""
+	fluff_desc = "The hunger for flesh is eternal in Gnolls. They hunt to sate this desire, endlessly, for they are Graggar's chosen."
+	button_icon_state = null
+	glow_intensity = 0
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_AURA // 4
+
+	primary_resource_cost = NONE
+
+	invocation_type = INVOCATION_NONE
+	charge_required = FALSE
+	cooldown_time = 10 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/gnoll/blood_rite/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	var/mob/living/target = null
+	if(isliving(cast_on))
+		target = cast_on
+	if(!istype(H))
+		return FALSE
+	if(target == owner)
+		to_chat(owner, span_notice("You can't heal yourself with the blood rite!"))
+		return FALSE
+	
+	if(target && istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat))
+		to_chat(owner, span_notice("You channel the life fromt the flesh at [target.name]."))
+		if(do_after(owner, 1.5 SECONDS, target))
+			var/obj/item/reagent_containers/food/snacks/rogue/meat/m = owner.get_active_held_item()
+			qdel(m)
+			to_chat(owner, span_notice("You finish the blood rite. Healing [target.name] and consuming the [m.name]."))
+			target.apply_status_effect(/datum/status_effect/buff/healing, 5)
+	else
+		to_chat(H, span_warning("You need to hold meat!"))
 		return FALSE
 
 

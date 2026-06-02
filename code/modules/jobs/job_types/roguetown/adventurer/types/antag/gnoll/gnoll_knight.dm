@@ -40,6 +40,7 @@
 		neck = /obj/item/storage/belt/rogue/pouch/healing
 		don_pelt(H)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll/knight)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/gnoll/consume)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/knight
 	icon_state = "knight"
