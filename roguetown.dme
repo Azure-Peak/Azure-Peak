@@ -1237,7 +1237,6 @@
 #include "code\game\objects\effects\temporary_visuals\projectiles\muzzle.dm"
 #include "code\game\objects\effects\temporary_visuals\projectiles\projectile_effects.dm"
 #include "code\game\objects\effects\temporary_visuals\projectiles\tracer.dm"
-#include "code\game\objects\items\arcane_granter.dm"
 #include "code\game\objects\items\beartraps.dm"
 #include "code\game\objects\items\bedsheets.dm"
 #include "code\game\objects\items\candle.dm"

@@ -95,8 +95,7 @@
 	max_choices = 5
 	choice_costs = list(0, 0, 0, 2, 4, 4)
 	extra_choices = list(
-		"Swords Skill (JMAN)" = /datum/skill/combat/swords,
-		"Shield Skill (JMAN)" = /datum/skill/combat/shields,
+		"Sword Skill (JMAN)" = /datum/skill/combat/swords,
 		"Dagger Skill (JMAN)" = /datum/skill/combat/knives,
 		"Unarmed Skill (JMAN)" = /datum/skill/combat/unarmed,
 		"Sling Skill (JMAN)" = /datum/skill/combat/slings,
@@ -105,12 +104,17 @@
 		"Mace Skill (JMAN)" = /datum/skill/combat/maces,
 		"Polearm Skill (JMAN)" = /datum/skill/combat/polearms,
 		"Staves Skill (JMAN)" = /datum/skill/combat/staves,
-		"Stashed Messer & Parrying Dagger" = list(/obj/item/rogueweapon/sword/short/messer/iron/virtue, /obj/item/rogueweapon/huntingknife/idagger/virtue),
-		"Stashed Shield & Arming Sword" = list(/obj/item/rogueweapon/shield/wood, /obj/item/rogueweapon/sword/iron),
-		"Stashed Quarterstaff & Sling" = list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron, /obj/item/gun/ballistic/revolver/grenadelauncher/sling, /obj/item/quiver/sling/iron),
-		"Stashed Spear & Mace" = list(/obj/item/rogueweapon/spear, /obj/item/rogueweapon/mace, /obj/item/rogueweapon/scabbard/gwstrap),
-		"Stashed Katar & Knuckles" = list(/obj/item/rogueweapon/katar/bronze, /obj/item/clothing/gloves/roguetown/knuckles/bronze),
-		"Stashed Axe & Whip" = list(/obj/item/rogueweapon/stoneaxe/woodcut, /obj/item/rogueweapon/whip)
+		"Stashed Messer" = list(/obj/item/rogueweapon/sword/short/messer/iron/virtue),
+		"Stashed Parrying Dagger" = list(/obj/item/rogueweapon/huntingknife/idagger/virtue),
+		"Stashed Arming Sword" = list(/obj/item/rogueweapon/sword/iron),
+		"Stashed Quarterstaff" = list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron),
+		"Stashed Sling" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/sling, /obj/item/quiver/sling/iron),
+		"Stashed Spear (& Strap)" = list(/obj/item/rogueweapon/spear, /obj/item/rogueweapon/scabbard/gwstrap),
+		"Stashed Mace" = list(/obj/item/rogueweapon/mace),
+		"Stashed Katar" = list(/obj/item/rogueweapon/katar/bronze),
+		"Stashed Knuckles" = list(/obj/item/clothing/gloves/roguetown/knuckles/bronze),
+		"Stashed Axe" = list(/obj/item/rogueweapon/stoneaxe/woodcut),
+		"Stashed Whip" = list(/obj/item/rogueweapon/whip)
 	)
 
 /datum/virtue/combat/combat_virtue/apply_to_human(mob/living/carbon/human/recipient)

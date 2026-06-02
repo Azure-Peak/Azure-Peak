@@ -182,6 +182,18 @@
 			if(equippedloc != H.loc)
 				H.dropItemToGround(H.head)
 
+/obj/item/reagent_containers/food/snacks/grown/apple/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/appledry,
+		/datum/crafting_recipe/roguetown/cooking/menthaappledry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
+
 /obj/item/reagent_containers/food/snacks/grown/fruit
 	name = "generic fruit"
 	desc = "Uh oh, this shouldn't be here."
@@ -215,6 +227,17 @@
 	icon_state = "lime"
 	tastes = list("lime" = 1)
 	splat_color = "#00FF00"
+
+/obj/item/reagent_containers/food/snacks/grown/fruit/lime/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/limedry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine
 	name = "tangerine"
@@ -252,6 +275,17 @@
 	tastes = list("strawberry" = 1)
 	splat_color = "#9A1B00"
 
+/obj/item/reagent_containers/food/snacks/grown/fruit/strawberry/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/strawberrydry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
+
 /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry
 	name = "blackberry"
 	seed = /obj/item/seeds/blackberry
@@ -259,6 +293,17 @@
 	icon_state = "blackberry"
 	tastes = list("blackberry" = 1)
 	splat_color = "#272C3F"
+
+/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/blackberrydry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry_sugared
 	name = "smothered blackberry"
@@ -326,7 +371,15 @@
 			GLOB.berrycolors[color_index] = newcolor
 		filling_color = GLOB.berrycolors[color_index]
 	update_icon()
-	..()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/jacksberriesdry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
 
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue/On_Consume(mob/living/eater)
 	..()
@@ -354,6 +407,17 @@
 	list_reagents = list(/datum/reagent/berrypoison = 5, /datum/reagent/consumable/nutriment = 3, /datum/reagent/water = 5)
 	grind_results = list(/datum/reagent/berrypoison = 5)
 	color_index = "bad"
+
+/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/jacksberriespoisondry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
 
 /obj/item/reagent_containers/food/snacks/grown/nut
 	name = "rocknut"
@@ -714,6 +778,17 @@
 	tastes = list("carrot" = 1)
 	dropshrink = 0.75
 	seed = /obj/item/seeds/carrot
+
+/obj/item/reagent_containers/food/snacks/grown/carrot/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/carrotdry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
 
 ///////////  Skysugar   //////////////
 // Stored here, as it uses deepfrying to make. Let's cook, yo!

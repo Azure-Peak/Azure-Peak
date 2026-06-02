@@ -100,14 +100,14 @@
 		clear_treasury_debt_state()
 	return amount - skim
 
-/datum/controller/subsystem/treasury/proc/mint(datum/fund/to_fund, amount, reason)
+/datum/controller/subsystem/treasury/proc/mint(datum/fund/to_fund, amount, reason, from_label)
 	if(!to_fund || amount <= 0)
 		return FALSE
 	var/credited = skim_for_banditry_debt(to_fund, amount)
 	credited = skim_for_treasury_debt(to_fund, credited)
 	if(credited > 0)
 		to_fund.balance += credited
-		log_fund_entry(new /datum/treasury_entry("mint", null, to_fund, credited, reason))
+		log_fund_entry(new /datum/treasury_entry("mint", null, to_fund, credited, reason, from_label))
 	return TRUE
 
 /datum/controller/subsystem/treasury/proc/mint_fractional(datum/fund/to_fund, amount, reason, datum/fund/source_fund)
