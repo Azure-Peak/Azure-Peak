@@ -1,4 +1,4 @@
-import { type CSSProperties, useMemo, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -269,6 +269,11 @@ export const MiaCraft = () => {
   const craftability: Craftability = Object.entries(data.craftability);
   const onlyCraftable = !!data.showonlycraftable;
   const [searchText, setSearchText] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    searchRef.current?.focus();
+  }, []);
 
   const categories = useMemo(
     () =>
@@ -296,6 +301,7 @@ export const MiaCraft = () => {
             }}
           >
             <input
+              ref={searchRef}
               style={{ ...inkInputStyle, flex: 1 }}
               placeholder="Search..."
               value={searchText}
