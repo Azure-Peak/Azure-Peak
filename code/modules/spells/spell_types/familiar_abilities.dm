@@ -253,6 +253,7 @@
 	primary_resource_cost = 0
 	cooldown_time = 1 MINUTES
 	familiar = TRUE
+	required_items = null
 
 /obj/effect/proc_holder/spell/self/infernal_surge
 	name = "Infernal Surge"

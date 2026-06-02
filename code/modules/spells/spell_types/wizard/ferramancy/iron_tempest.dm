@@ -32,6 +32,7 @@
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 20 SECONDS
+	self_cast_possible = TRUE
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2

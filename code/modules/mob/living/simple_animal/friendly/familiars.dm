@@ -456,6 +456,11 @@
 	src.set_light_color(LIGHT_COLOR_FIRE)
 	if(src.light_system == STATIC_LIGHT)
 		src.update_light()
+	ADD_TRAIT(src, TRAIT_NOFIRE, "[type]")
+	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	weather_immunities += "lava"
 
 /mob/living/simple_animal/pet/familiar/infernal/is_aligned_leyline(obj/structure/leyline/ley)
 	return istype(ley, /obj/structure/leyline/normal/decap)
