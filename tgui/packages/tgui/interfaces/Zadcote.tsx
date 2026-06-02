@@ -139,8 +139,9 @@ const HeaderStat = (props: {
 const ReserveHeader = (props: {
   data: ZadcoteData;
   onHelp: () => void;
+  act: (action: string, payload?: Record<string, unknown>) => void;
 }) => {
-  const { data, onHelp } = props;
+  const { data, onHelp, act } = props;
   const lowReserve = data.reserve <= Math.max(2, Math.floor(data.reserve_start * 0.2));
   const bombsReady = data.bomb_cooldown_remaining <= 0;
   return (
@@ -201,12 +202,30 @@ const ReserveHeader = (props: {
             <HeaderStat
               label="Scrying fund"
               value={
-                <>
-                  <span style={{ color: data.voyeur_fund < data.voyeur_cost ? SEAL_RED : INK, fontWeight: 'bold' }}>
-                    {data.voyeur_fund}m
-                  </span>
-                  <span style={{ color: INK_SOFT }}> ({data.voyeur_cost}m / scry)</span>
-                </>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                  <div>
+                    <span style={{ color: data.voyeur_fund < data.voyeur_cost ? SEAL_RED : INK, fontWeight: 'bold' }}>
+                      {data.voyeur_fund}m
+                    </span>
+                    <span style={{ color: INK_SOFT }}> ({data.voyeur_cost}m / scry)</span>
+                  </div>
+                  <button
+                    type="button"
+                    disabled={data.voyeur_fund <= 0}
+                    style={inkButtonStyle({ disabled: data.voyeur_fund <= 0 })}
+                    title={
+                      data.voyeur_fund <= 0
+                        ? 'The scrying basin is empty.'
+                        : `Drain ${data.voyeur_fund}m from the scrying basin into coin.`
+                    }
+                    onClick={() => {
+                      if (data.voyeur_fund <= 0) return;
+                      act('withdraw_voyeur');
+                    }}
+                  >
+                    Withdraw
+                  </button>
+                </div>
               }
             />
           )}
@@ -718,7 +737,7 @@ export const Zadcote = () => {
     <Window title="Zadcote" width={720} height={760} theme="parchment">
       <Window.Content scrollable>
         <div style={pageStyle}>
-          <ReserveHeader data={data} onHelp={() => act('help')} />
+          <ReserveHeader data={data} onHelp={() => act('help')} act={act} />
           <div style={{ display: 'flex', gap: '6px', margin: '8px 0' }}>
             <TabButton active={tab === 'slots'} onClick={() => setTab('slots')}>
               Zadlinks
