@@ -28,6 +28,17 @@
 		eater.adjustToxLoss(5)
 	return ..()
 
+/obj/item/reagent_containers/food/snacks/chocolate/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/chocolatedry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
+
 /obj/item/reagent_containers/food/snacks/chocolate/slice
 	name = "halved chocolate ingot"
 	desc = "An unbelievably decadant halve of fudge, made with Amazonia's cocoa beans and Grenzelhoft's saiga milk. A \
