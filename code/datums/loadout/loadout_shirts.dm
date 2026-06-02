@@ -172,12 +172,12 @@
 
 /datum/loadout_item/velvetdress
 	name = "Velvet Dress"
-	path = /obj/item/clothing/suit/roguetown/shirt/velvetdress
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/velvetdress
 	sort_category = "Shirts"
 
 /datum/loadout_item/nobledress
 	name = "Noble's Pinafore"
-	path = /obj/item/clothing/suit/roguetown/shirt/nobledress
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/nobledress
 	sort_category = "Shirts"
 
 /datum/loadout_item/formalshirt
@@ -189,7 +189,7 @@
 	name = "Valorian Maid Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/maidfancy
 	sort_category = "Shirts"
-  
+
 /datum/loadout_item/wedding_dress
 	name = "Wedding Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/weddingdress

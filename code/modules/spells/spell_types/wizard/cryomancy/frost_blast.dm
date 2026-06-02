@@ -32,7 +32,7 @@
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 
 	var/line_length = 4
-	var/blast_damage = 40
+	var/blast_damage = 36
 	var/push_dist = 2
 
 /datum/action/cooldown/spell/frost_blast/cast(atom/cast_on)

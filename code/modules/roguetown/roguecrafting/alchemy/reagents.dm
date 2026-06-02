@@ -380,6 +380,17 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 		M.adjustToxLoss(2)
 	return ..()
 
+/datum/reagent/sleep_powder
+	name = "Sleep Poison"
+	description = ""
+	color = "#ddd3df" // rgb: 96, 165, 132
+	metabolization_rate = 1
+	taste_description = "numbing mintiness"
+
+/datum/reagent/sleep_powder/on_mob_metabolize(mob/living/carbon/M)
+	M.apply_status_effect(/datum/status_effect/debuff/knockout)
+	..()
+
 /datum/reagent/stampoison
 	name = "Stamina Poison"
 	description = ""

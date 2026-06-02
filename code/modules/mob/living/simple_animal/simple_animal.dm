@@ -45,6 +45,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/obj/item/handcuffed = null //Whether or not the mob is handcuffed
 	var/obj/item/legcuffed = null  //Same as handcuffs but for legs. Bear traps use this.
 
+	var/blood_color = BLOOD_COLOR_RED
+
 	///When someone interacts with the simple animal.
 	///Help-intent verb in present continuous tense.
 	var/response_help_continuous = "pokes"
@@ -207,6 +209,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		. += span_info("To dismount an incapacitated or tied up mob, all riders must dismount, first.")
 		if(ssaddle)
 			. += span_info("Use middle-mouse button on the mount to open its inventory.")
+
+/mob/living/simple_animal/get_blood_color()
+	return blood_color
 
 /mob/living/simple_animal/Initialize()
 	. = ..()

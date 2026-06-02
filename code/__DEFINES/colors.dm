@@ -114,6 +114,9 @@
 
 #define CLOTHING_WET CLOTHING_DUNKED_WATER
 
+// Species blood color
+#define BLOOD_COLOR_RED "#740707"
+
 /* Core */
 #define CLOTHING_COLOR_MAP list(	\
 	"Red" = CLOTHING_RED,			\

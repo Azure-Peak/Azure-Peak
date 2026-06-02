@@ -4,7 +4,7 @@
 // Fire spells shatter frost stacks (handled in fire spell on_hit procs)
 
 #define FROST_OVERLAY_COLOR rgb(136, 191, 255)
-#define FROST_BURST_DAMAGE 50
+#define FROST_BURST_DAMAGE 25
 #define FROST_BURST_IMMUNITY_DURATION (15 SECONDS)
 #define FROST_BURST_IMMUNITY_KEY "frost_burst_immunity"
 

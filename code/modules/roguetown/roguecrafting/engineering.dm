@@ -43,6 +43,19 @@
 	craftdiff = 4
 	ignoredensity = TRUE
 
+/datum/crafting_recipe/roguetown/engineering/peddlercart
+	name = "peddler cart"
+	category = "Machines"
+	result = /obj/structure/roguemachine/vendor/mobile
+	reqs = list(
+		/obj/item/grown/log/tree/small = 1,
+		/obj/item/ingot/iron = 1,
+		/obj/item/natural/glass = 1,
+		/obj/item/roguegear = 2,
+	)
+	craftdiff = 4
+	skillcraft = /datum/skill/craft/engineering
+
 /datum/crafting_recipe/roguetown/engineering/lever
 	name = "lever"
 	category = "Triggers"
@@ -218,6 +231,20 @@
 		/obj/item/ingot/steel = 1,
 		/obj/item/natural/fibers = 1,
 		/obj/item/natural/wood/plank = 2,
+	)
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/engineering/crossbow/slurbow
+	name = "slurbow"
+	category = "Weapons"
+	result = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
+	reqs = list(
+		/obj/item/ingot/steel = 1,
+		/obj/item/natural/fibers = 1,
+		/obj/item/natural/wood/plank = 1,
+		/obj/item/grown/log/tree/small = 1,
 	)
 	structurecraft = /obj/machinery/artificer_table
 	skillcraft = /datum/skill/craft/engineering

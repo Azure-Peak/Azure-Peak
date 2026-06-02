@@ -1,0 +1,6 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - qol: "Makes all the instrument selections consistent for all the instrument welding classes. (This adds instruments)"
+  - rscadd: "Adds conjure instrurment to arcane spellsinger."
+  - balance: "Adds 1 point of INT and WILL to the minstrel, the movement set on apprentice, and camping set (medicine and cooking) as novice, while removing pickpocketing, as its assumed this is your friendly musician that works at the town. Also changed their belt and added a lantern given they had to give up so many sellable instruments"

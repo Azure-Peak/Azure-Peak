@@ -542,6 +542,7 @@ GLOBAL_LIST(teleport_runes)
 				busy = FALSE
 				return
 			fam.client?.verbs -= GLOB.ghost_verbs
+			fam.client?.update_browserpanel()
 			mind_datum.RemoveAllSpells()
 			mind_datum.AddSpell(new /datum/action/cooldown/spell/message_summoner())
 			mind_datum.AddSpell(new /datum/action/cooldown/spell/familiar_transform())

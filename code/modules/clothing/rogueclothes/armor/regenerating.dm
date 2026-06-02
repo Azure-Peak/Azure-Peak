@@ -18,6 +18,9 @@
 	/// Holder for timer
 	var/reptimer
 
+	/// Holder for disruption timer
+	var/disrupttimer
+
 	/// To make repairs relative or not.
 	/// In other words, if you use relative repairing then it will use a different repair interval.
 	/// Repair_time becomes how long it will take on average for the armor to fully repair itself.
@@ -42,6 +45,7 @@
 
 	/// Regen cost vars
 	var/blue_to_integ_ratio = 0
+	var/is_disrupted = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/Initialize(mapload)
 	. = ..()
@@ -56,8 +60,16 @@
 	RegisterSignal(L, COMSIG_MOB_ITEM_BEING_ATTACKED, PROC_REF(process_attack))
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/proc/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
+	is_disrupted = TRUE
 	if(reptimer)
-		reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), 60 SECONDS, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
+		deltimer(reptimer)
+	disrupttimer = addtimer(CALLBACK(src, PROC_REF(revert_disrupt)), 60 SECONDS, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/proc/revert_disrupt()
+	if(is_disrupted)
+		is_disrupted = FALSE
+		to_chat(loc, repairmsg_begin)
+		armour_regen()
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	..()
@@ -67,6 +79,9 @@
 		to_chat(loc, span_notice(repairmsg_stop))
 		deltimer(reptimer)
 		reptimer = null
+
+	if(is_disrupted)
+		return
 
 	// If relative repair mode is on, use the interval instead of repairing 20% every repair_time seconds
 	var/wait_time = relative_repair_mode ? relative_repair_interval : repair_time
@@ -205,6 +220,21 @@
 	name = "berserker's skin"
 	desc = "I've endured enough. The onslaught has lost its meaning."
 	armor = ARMOR_LEATHER
+	blocksound = SOFTUNDERHIT
+	blocking_behavior = SAMEWEAR
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker/chest
+	name = "berserker's thickened chest"
+	desc = "The callouses could stop arrows! But only so many."
+	slot_flags = ITEM_SLOT_ARMOR
+	armor = ARMOR_MAILLE
+	resistance_flags = FLAMMABLE
+	blocksound = SOFTHIT
+	blocking_behavior = SAMEWEAR
+	body_parts_covered = COVERAGE_VEST
+	body_parts_inherent = COVERAGE_VEST
+	max_integrity = 180
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/bailiff
 	name = "executioneer's skin"

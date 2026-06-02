@@ -3149,7 +3149,7 @@
 "no" = (
 /obj/machinery/light/rogue/candle/l,
 /obj/structure/mannequin/male,
-/obj/item/clothing/suit/roguetown/shirt/velvetdress,
+/obj/item/clothing/suit/roguetown/shirt/dress/velvetdress,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/vampire_manor)
 "np" = (
@@ -4357,8 +4357,8 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/gown/fallgown,
 /obj/item/clothing/suit/roguetown/shirt/dress/gown,
 /obj/item/clothing/suit/roguetown/shirt/dress/royal,
-/obj/item/clothing/suit/roguetown/shirt/nobledress,
-/obj/item/clothing/suit/roguetown/shirt/velvetdress,
+/obj/item/clothing/suit/roguetown/shirt/dress/nobledress,
+/obj/item/clothing/suit/roguetown/shirt/dress/velvetdress,
 /obj/item/storage/belt/rogue/leather,
 /obj/item/storage/belt/rogue/leather/plaquegold,
 /obj/item/clothing/wrists/roguetown/royalsleeves,

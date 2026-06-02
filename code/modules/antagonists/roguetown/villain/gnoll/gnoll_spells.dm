@@ -105,7 +105,7 @@
 		var/is_hunted = L.has_flaw(/datum/charflaw/hunted)
 		// Don't uncomment for now
 		// var/target_role = L.job
-		var/is_valid_prey = is_hunted
+		var/is_valid_prey = is_hunted && (!(L.job in GLOB.hunted_protected_roles))
 		// if(!is_valid_prey)
 		// 	if(target_role in combat_roles)
 		// 		is_valid_prey = TRUE
@@ -211,7 +211,7 @@
 
 	// Determine Channel Time
 	var/channel_time = 15 SECONDS
-	if(target.has_flaw(/datum/charflaw/hunted))
+	if(target.has_flaw(/datum/charflaw/hunted) && !(target.job in GLOB.hunted_protected_roles))
 		channel_time = 6 SECONDS
 
 	to_chat(user, span_notice("You begin pulling [target] into graggar's plane"))
@@ -299,6 +299,11 @@
 
 /datum/component/gnoll_combat_tracker/proc/can_cast_stealth()
 	// Returns TRUE if 1 minute has passed
+	var/mob/living/carbon/human/H = parent
+	var/datum/status_effect/vampiric_fury/F = H.has_status_effect(/datum/status_effect/vampiric_fury)
+	if(F)
+		to_chat(H, span_userdanger("You are too furious to concentrate on stealth!"))
+		return FALSE
 	return (world.time >= last_damage_time + GNOLL_STEALTH_TIMER)
 
 /datum/component/gnoll_combat_tracker/proc/get_recent_damage()

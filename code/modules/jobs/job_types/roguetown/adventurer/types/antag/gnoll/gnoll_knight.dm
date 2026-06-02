@@ -33,10 +33,17 @@
 	)
 	cmode_music = 'sound/music/combat_graggar.ogg'
 
+/datum/outfit/job/roguetown/gnoll/knight
+	vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/knight
+	max_fury_stacks = 100
+	shard_threshold = 40
+	shard_repair_value = 16
+
 /datum/outfit/job/roguetown/gnoll/knight/pre_equip(mob/living/carbon/human/H)
 	if(H.mind)
 		H.set_species(/datum/species/gnoll)
-		H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/knight(H)
+		H.skin_armor = new vamp_armor_type(H)
+		H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)
 		neck = /obj/item/storage/belt/rogue/pouch/healing
 		don_pelt(H)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll/knight)

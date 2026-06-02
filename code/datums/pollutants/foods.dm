@@ -20,6 +20,10 @@
 	name = "meat pie"
 	scent = "meat pie"
 
+/datum/pollutant/food/spider_pie
+	name = "spider pie"
+	scent = "spider pie"
+
 /datum/pollutant/food/pot_pie
 	name = "pot pie"
 	scent = "pot pie"
@@ -167,6 +171,10 @@
 /datum/pollutant/food/fried_meat
 	name = "fried meat"
 	scent = "fried meat"
+
+/datum/pollutant/food/fried_spidermeat
+	name = "fried spidermeat"
+	scent = "fried spidermeat"
 
 /datum/pollutant/food/cooked_chicken
 	name = "cooked chicken"

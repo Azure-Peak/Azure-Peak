@@ -207,23 +207,114 @@
 		))
 	data["active_orders"] = orders
 
-	// Market rows — strip static fields (name, importable — come from good_catalog) and
-	// keep only mutable state (stock, event tag, best import/export region + prices).
-	var/list/event_tag_by_good = list()
-	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
-		for(var/gid in E.affected_goods)
-			event_tag_by_good[gid] = E.event_type
+	// Caching more for performance
+	if(SStreasury.market_view_dirty || isnull(SStreasury.cached_market_rows))
+		rebuild_market_view()
+	data["market_rows"] = SStreasury.cached_market_rows
+	data["total_arbitrage_potential"] = SStreasury.cached_total_arbitrage_potential
+	data["autoexport_percentage"] = round(SStreasury.autoexport_percentage * 100)
+	data["region_rows"] = SStreasury.cached_region_rows
+
+	data["auto_import"] = build_auto_import_data()
+
+	var/list/petition_state = list()
+	var/petitions_remaining = SSeconomy.petitions_remaining_today()
+	petition_state["pledge_balance"] = SStreasury.burgher_pledge_fund?.balance || 0
+	petition_state["petitions_remaining"] = petitions_remaining
+	petition_state["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
+	petition_state["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
+	var/list/eligibility = list()
+	var/pool_full = (GLOB.standing_order_pool.len >= STANDING_ORDERS_POOL_CAP)
+	var/pledge_balance = SStreasury.burgher_pledge_fund?.balance || 0
+	var/pledge_missing = !SStreasury.burgher_pledge_fund
+	var/list/orders_by_region = list()
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		orders_by_region[O.region_id] = (orders_by_region[O.region_id] || 0) + 1
+	for(var/cat_id in GLOB.petition_categories)
+		var/list/cat = GLOB.petition_categories[cat_id]
+		var/cost = cat["cost"]
+		var/list/templates = cat["templates"]
+		var/list/per_region = list()
+		eligibility[cat_id] = per_region
+		for(var/region_id in GLOB.economic_regions)
+			var/datum/economic_region/region = GLOB.economic_regions[region_id]
+			var/blocker = ""
+			if(petitions_remaining <= 0)
+				blocker = "the trade hall has already heard a petition today"
+			else if(!region)
+				blocker = "unknown region"
+			else if(region.is_region_blockaded)
+				blocker = "[region.name] is blockaded - the road is closed to envoys"
+			else if(region.day_last_cleared >= 0 && (GLOB.dayspassed - region.day_last_cleared) < PETITION_BLOCKADE_RECOVERY_DAYS)
+				var/wait_days = PETITION_BLOCKADE_RECOVERY_DAYS - (GLOB.dayspassed - region.day_last_cleared)
+				blocker = "[region.name]'s contacts are still scattered - wait [wait_days]d more"
+			else if(pool_full)
+				blocker = "the warehouse manifest is full - fulfill orders first"
+			else if((orders_by_region[region_id] || 0) >= STANDING_ORDERS_MAX_PER_REGION)
+				blocker = "[region.name] already has [orders_by_region[region_id]] active orders"
+			else if(pledge_missing)
+				blocker = "the Burgher Pledge is not yet established"
+			else if(pledge_balance < cost)
+				blocker = "the Burgher Pledge cannot cover [cost]m"
+			else
+				var/has_template = FALSE
+				for(var/template_path in templates)
+					if(template_path in region.possible_standing_order_types)
+						has_template = TRUE
+						break
+				if(!has_template)
+					blocker = "[region.name]'s trade hall does not deal in [cat["label"]]"
+			per_region[region_id] = blocker
+	petition_state["eligibility"] = eligibility
+	data["petition"] = petition_state
+
+	data["sequestration"] = list(
+		"active" = SStreasury.is_in_receivership() ? TRUE : FALSE,
+		"in_arrears" = (SStreasury.treasury_state == TREASURY_IN_ARREARS) ? TRUE : FALSE,
+		"debt" = SStreasury.treasury_debt,
+		"state_label" = bankruptcy_state_label(SStreasury.treasury_state),
+	)
+
+	var/can_draw_loan = (user.job in GLOB.crown_authority_roles) && !SScity_assembly?.is_alderman(user)
+	data["atc_loan"] = list(
+		"available" = (can_draw_loan && SStreasury.atc_loan_available()) ? TRUE : FALSE,
+		"can_view" = can_draw_loan ? TRUE : FALSE,
+		"min" = ATC_LOAN_MIN_AMOUNT,
+		"max" = ATC_LOAN_MAX_AMOUNT,
+		"closed_day" = ATC_LOAN_CLOSED_DAY,
+		"interest_pct" = round(ATC_LOAN_INTEREST_RATE * 100),
+		"blocker" = SStreasury.atc_loan_blocker_reason() || "",
+		"arrears_consumed" = SStreasury.atc_loan_arrears_consumed ? TRUE : FALSE,
+		"loans_drawn" = SStreasury.atc_loans_drawn_this_round,
+		"outstanding" = SStreasury.atc_loan_arrears_consumed ? SStreasury.treasury_debt : 0,
+	)
+
+	return data
+
+/// Rebuild SStreasury's cached_market_rows + cached_region_rows + cached_total_arbitrage_potential
+/// from current world state and clear market_view_dirty. Heavy work (~3ms); called only when
+/// invalidated by a trade action, stockpile mutation, blockade flip, day reset, or economic
+/// event boundary. event_tag_by_good is pre-built by the ui_data caller from the small, hot
+/// active_events list.
+/obj/structure/roguemachine/steward/proc/rebuild_market_view(list/event_tag_by_good)
+	if(isnull(event_tag_by_good))
+		event_tag_by_good = list()
+		for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+			for(var/gid in E.affected_goods)
+				event_tag_by_good[gid] = E.event_type
 
 	var/list/market_rows = list()
 	var/total_arbitrage_potential = 0
-	for(var/good_id in GLOB.trade_goods)
+	var/list/market_stockpile_entries = SStreasury.stockpile_by_trade_good
+	var/list/producers = SSeconomy.goods_with_producers
+	var/list/demanders = SSeconomy.goods_with_demand
+	for(var/good_id in market_stockpile_entries)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(!tg)
 			continue
-		var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+		var/datum/roguestock/entry = market_stockpile_entries[good_id]
 		if(!entry)
 			continue
-		entry.refresh_auto_price()
 
 		var/event_tag = ""
 		if(event_tag_by_good[good_id] == ECON_EVENT_SHORTAGE)
@@ -235,33 +326,25 @@
 		var/arbitrage_potential = margin_per_unit * entry.stockpile_amount
 		total_arbitrage_potential += arbitrage_potential
 
-		var/list/row = list(
+		market_rows += list(list(
 			"good_id" = good_id,
 			"stock" = entry.stockpile_amount,
 			"stock_limit" = entry.stockpile_limit,
 			"event_tag" = event_tag,
-			"import_regions" = tg.importable ? build_market_import_regions(good_id) : list(),
-			"export_regions" = build_market_export_regions(good_id),
-			// Stockpile management state (read by Steward; visible-only to Alderman).
+			"import_regions" = (tg.importable && producers[good_id]) ? build_market_import_regions(good_id) : list(),
+			"export_regions" = demanders[good_id] ? build_market_export_regions(good_id) : list(),
 			"buy_price" = entry.payout_price,
 			"sell_price" = entry.withdraw_price,
-			"market_buy_price" = entry.get_market_deposit_price(),
-			"market_sell_price" = entry.get_market_withdraw_price(),
+			"market_buy_price" = entry.cached_market_deposit_price || entry.payout_price,
+			"market_sell_price" = entry.cached_market_withdraw_price || entry.withdraw_price,
 			"automatic_price" = entry.automatic_price ? TRUE : FALSE,
 			"automatic_limit" = entry.automatic_limit ? TRUE : FALSE,
 			"accepting" = entry.accept_toggle_enabled ? TRUE : FALSE,
 			"withdraw_disabled" = entry.withdraw_disabled ? TRUE : FALSE,
 			"margin_per_unit" = margin_per_unit,
 			"arbitrage_potential" = arbitrage_potential,
-		)
+		))
 
-		market_rows += list(row)
-	data["market_rows"] = market_rows
-	data["total_arbitrage_potential"] = total_arbitrage_potential
-	data["autoexport_percentage"] = round(SStreasury.autoexport_percentage * 100)
-
-	// Region rows — strip static fields (name, description — come from region_catalog)
-	// and keep only mutable state (blockade flag, produces_today, demands_today).
 	var/list/region_rows = list()
 	for(var/region_id in GLOB.economic_regions)
 		var/datum/economic_region/region = GLOB.economic_regions[region_id]
@@ -289,56 +372,18 @@
 			"produces" = produces,
 			"demands" = demands,
 		))
-	data["region_rows"] = region_rows
 
-	data["auto_import"] = build_auto_import_data()
+	SStreasury.cached_market_rows = market_rows
+	SStreasury.cached_region_rows = region_rows
+	SStreasury.cached_total_arbitrage_potential = total_arbitrage_potential
+	SStreasury.market_view_dirty = FALSE
 
-	var/list/petition_state = list()
-	petition_state["pledge_balance"] = SStreasury.burgher_pledge_fund?.balance || 0
-	petition_state["petitions_remaining"] = SSeconomy.petitions_remaining_today()
-	petition_state["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
-	petition_state["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
-	var/list/eligibility = list()
-	for(var/cat_id in GLOB.petition_categories)
-		eligibility[cat_id] = list()
-		for(var/region_id in GLOB.economic_regions)
-			eligibility[cat_id][region_id] = SSeconomy.petition_blocker(region_id, cat_id) || ""
-	petition_state["eligibility"] = eligibility
-	data["petition"] = petition_state
-
-	data["sequestration"] = list(
-		"active" = SStreasury.is_in_receivership() ? TRUE : FALSE,
-		"in_arrears" = (SStreasury.treasury_state == TREASURY_IN_ARREARS) ? TRUE : FALSE,
-		"debt" = SStreasury.treasury_debt,
-		"state_label" = bankruptcy_state_label(SStreasury.treasury_state),
-	)
-
-	var/can_draw_loan = (user.job in GLOB.crown_authority_roles) && !SScity_assembly?.is_alderman(user)
-	data["atc_loan"] = list(
-		"available" = (can_draw_loan && SStreasury.atc_loan_available()) ? TRUE : FALSE,
-		"can_view" = can_draw_loan ? TRUE : FALSE,
-		"min" = ATC_LOAN_MIN_AMOUNT,
-		"max" = ATC_LOAN_MAX_AMOUNT,
-		"closed_day" = ATC_LOAN_CLOSED_DAY,
-		"interest_pct" = round(ATC_LOAN_INTEREST_RATE * 100),
-		"blocker" = SStreasury.atc_loan_blocker_reason() || "",
-		"arrears_consumed" = SStreasury.atc_loan_arrears_consumed ? TRUE : FALSE,
-		"loans_drawn" = SStreasury.atc_loans_drawn_this_round,
-		"outstanding" = SStreasury.atc_loan_arrears_consumed ? SStreasury.treasury_debt : 0,
-	)
-
-	return data
-
-/// Enumerates every region producing good_id, with current next-unit import price and
-/// capacity. Sorted ascending by price so entry 1 is the "best buy." Blockade multiplier
-/// is baked into unit_price (no separate flag needed for ranking), but is_blockaded is
-/// still exposed so the UI can badge it.
 /obj/structure/roguemachine/steward/proc/build_market_import_regions(good_id)
 	var/list/out = list()
 	for(var/rid in GLOB.economic_regions)
 		var/datum/economic_region/r = GLOB.economic_regions[rid]
-		var/pace = r.produces[good_id] || 0
-		if(pace <= 0)
+		var/pace = r.produces[good_id]
+		if(!pace)
 			continue
 		var/today = r.produces_today[good_id] || 0
 		var/starting_index = max(0, pace - today)
@@ -350,7 +395,6 @@
 			"capacity_total" = pace,
 			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
 		))
-	// Insertion sort by unit_price ascending. At most ~9 entries so O(n^2) is negligible.
 	for(var/i in 1 to length(out) - 1)
 		for(var/j in (i + 1) to length(out))
 			if(out[j]["unit_price"] < out[i]["unit_price"])
@@ -359,13 +403,12 @@
 				out[j] = swap
 	return out
 
-/// As above, but for export destinations. Sorted descending by price (best sell first).
 /obj/structure/roguemachine/steward/proc/build_market_export_regions(good_id)
 	var/list/out = list()
 	for(var/rid in GLOB.economic_regions)
 		var/datum/economic_region/r = GLOB.economic_regions[rid]
-		var/pace = r.demands[good_id] || 0
-		if(pace <= 0)
+		var/pace = r.demands[good_id]
+		if(!pace)
 			continue
 		var/today = r.demands_today[good_id] || 0
 		var/starting_index = max(0, pace - today)
@@ -377,7 +420,6 @@
 			"capacity_total" = pace,
 			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
 		))
-	// Descending by unit_price (highest = best sell).
 	for(var/i in 1 to length(out) - 1)
 		for(var/j in (i + 1) to length(out))
 			if(out[j]["unit_price"] > out[i]["unit_price"])
@@ -387,6 +429,8 @@
 	return out
 
 /obj/structure/roguemachine/steward/proc/build_auto_import_data()
+	if(!SStreasury.auto_import_view_dirty && !isnull(SStreasury.cached_auto_import_data))
+		return SStreasury.cached_auto_import_data
 	var/list/essentials = list()
 	for(var/good_id in AUTO_IMPORT_ESSENTIALS)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
@@ -399,26 +443,19 @@
 			"stock" = entry ? entry.stockpile_amount : 0,
 		))
 
-	// "Other goods" shown in the tab: importable trade goods the Crown can actually deposit
-	// (has a stockpile entry that accepts them) and that have at least one producing region.
-	// Essentials are filtered out because they appear in the top panel.
 	var/list/others = list()
-	for(var/good_id in GLOB.trade_goods)
+	var/list/stockpile_entries = SStreasury.stockpile_by_trade_good
+	var/list/producers = SSeconomy.goods_with_producers
+	for(var/good_id in stockpile_entries)
 		if(good_id in AUTO_IMPORT_ESSENTIALS)
+			continue
+		if(!producers[good_id])
 			continue
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(!tg || !tg.importable)
 			continue
-		var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+		var/datum/roguestock/entry = stockpile_entries[good_id]
 		if(!entry || !entry.accept_toggle_enabled)
-			continue
-		var/has_producer = FALSE
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			if(region.produces[good_id])
-				has_producer = TRUE
-				break
-		if(!has_producer)
 			continue
 		others += list(list(
 			"good_id" = good_id,
@@ -434,7 +471,7 @@
 			"lines" = lines || list(),
 		))
 
-	return list(
+	SStreasury.cached_auto_import_data = list(
 		"today_spent" = SStreasury.auto_import_daily_spent,
 		"purse_floor" = SStreasury.auto_import_purse_floor,
 		"floor_target" = AUTO_IMPORT_FLOOR,
@@ -444,6 +481,8 @@
 		"others" = others,
 		"history" = history,
 	)
+	SStreasury.auto_import_view_dirty = FALSE
+	return SStreasury.cached_auto_import_data
 
 /// Trade-control actions blocked during sequestration. Petitions, order fulfillment,
 /// and read-only quote actions are deliberately excluded so the Steward can still
@@ -489,6 +528,8 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 	if(SStreasury.is_in_receivership() && (action in GLOB.steward_trade_sequestration_locked_actions))
 		to_chat(usr, span_warning("The Azurian Trading Company holds the Crown's commerce in sequestration. Petition, tax, and fine are your remaining instruments."))
 		return TRUE
+	if(action == "fulfill_order" || (action in GLOB.steward_trade_sequestration_locked_actions))
+		SStreasury.dirty_market_view()
 	switch(action)
 		if("fulfill_order")
 			if(!COOLDOWN_FINISHED(src, fulfill_retry_cooldown))

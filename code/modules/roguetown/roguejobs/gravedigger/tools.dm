@@ -1,3 +1,7 @@
+#define MODE_HOLE 1
+#define MODE_SOLIDS 2
+#define MODE_BAIT 3
+
 /obj/item/rogueweapon/shovel
 	force = 21
 	possible_item_intents = list(/datum/intent/shovelscoop, /datum/intent/mace/strike/shovel)
@@ -21,6 +25,19 @@
 	grid_width = 32
 	grid_height = 96
 	is_tool = TRUE // if i see a familiar fragging out with a silver shovel i will be very upset but also like lmao
+	var/curr_mode_index = MODE_HOLE
+
+/obj/item/rogueweapon/shovel/examine(mob/user)
+	. = ..()
+	var/str = "The shovel is set to dig: "
+	switch(curr_mode_index)
+		if(MODE_HOLE)
+			str += "a hole."
+		if(MODE_SOLIDS)
+			str += "solids (clay & stone)."
+		if(MODE_BAIT)
+			str += "bait."
+	. += span_notice(str)
 
 /obj/item/rogueweapon/shovel/get_mechanics_examine(mob/user)
 	. = ..()
@@ -30,6 +47,23 @@
 	. += span_info("Left-click the hole to widen it. Once it has been dug out to its maximum size, click-drag an adjacent structure, item, or body onto it to shove it inside.")
 	. += span_info("Once click-dragged inside of the hole, left-clicking it with a scoop of dirt will bury everything underneath a mound. Crafting a grave marker atop a mound brings peace to the unruliest spirits.")
 	. += span_info("Mounds tend to house corpses, coffins, or other buried goods. Digging up the dead without the proper rites or blessings can lead to potentially being cursed.")
+	. += span_info("Right clicking the shovel while it's not in your active hand will swap between various modes for SCOOP. One for digging holes, two for looking for specific types of loot, depending on the muddiness of the dirt.")
+
+/obj/item/rogueweapon/shovel/attack_right(mob/user)
+	if(curr_mode_index < 3)
+		curr_mode_index++
+	else
+		curr_mode_index = MODE_HOLE
+	var/str = "The shovel will now "
+	switch(curr_mode_index)
+		if(MODE_HOLE)
+			str += "dig a hole."
+		if(MODE_SOLIDS)
+			str += "sift for rocks and clay."
+		if(MODE_BAIT)
+			str += "sift for bait."
+	user.playsound_local(get_turf(user), 'sound/misc/click.ogg', 100, TRUE)
+	to_chat(user, span_notice(str))
 
 /obj/item/rogueweapon/shovel/Destroy()
 	if(heldclod)
@@ -72,101 +106,6 @@
 	user.changeNext_move(user.used_intent.clickcd)
 
 	if(user.used_intent.type == /datum/intent/shovelscoop)
-		if(istype(T, /turf/open/floor/rogue/dirt))
-			var/turf/open/floor/rogue/dirt/D = T
-
-			if(!heldclod && user && istype(user.rmb_intent, /datum/rmb_intent/strong) && HAS_TRAIT(user, TRAIT_GRAVEROBBER))
-				if(D.holie && D.holie.stage >= 3)
-					return
-
-				to_chat(user, span_notice("I tear into the earth, carving out a pit!"))
-
-				if(do_after(user, 2 SECONDS, target = T))
-					var/obj/structure/closet/dirthole/H = null
-
-					if(istype(T, /turf/open/floor/rogue/dirt))
-						var/turf/open/floor/rogue/dirt/curD = T
-						H = curD.holie
-
-					if(!H)
-						if(istype(T, /turf/open/floor/rogue/dirt/road))
-							H = new /obj/structure/closet/dirthole(T)
-						else
-							T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
-							var/turf/open/floor/rogue/dirt/newD = T
-							H = newD.holie
-
-					if(H)
-						H.stage = 3
-						H.faildirt = 0
-						H.climb_offset = 0
-						H.locked = FALSE
-						H.opened = TRUE
-						H.update_icon()
-
-						heldclod = new(src)
-						update_icon()
-
-						var/list/spawn_turfs = list(
-							user,
-							get_step(user, NORTH),
-							get_step(user, SOUTH),
-							get_step(user, EAST),
-							get_step(user, WEST)
-						)
-
-						var/spawned = 0
-						for(var/turf/spawnT in spawn_turfs)
-							if(!spawnT) continue
-							new /obj/item/natural/dirtclod(spawnT)
-							spawned++
-							if(spawned >= 3)
-								break
-
-						playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
-
-				return
-
-			if(heldclod)
-				if(D.holie && D.holie.stage < 4)
-					D.holie.attackby(src, user)
-				else
-					if(istype(T, /turf/open/floor/rogue/dirt/road))
-						qdel(heldclod)
-						T.ChangeTurf(/turf/open/floor/rogue/dirt, flags = CHANGETURF_INHERIT_AIR)
-					else
-						heldclod.forceMove(T)
-
-					heldclod = null
-					playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
-					update_icon()
-					return
-			else
-				if(D.holie)
-					D.holie.attackby(src, user)
-				else
-					if(istype(T, /turf/open/floor/rogue/dirt/road))
-						new /obj/structure/closet/dirthole(T)
-					else
-						T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
-
-					heldclod = new(src)
-					playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
-					update_icon()
-
-			return
-
-		if(heldclod)
-			if(istype(T, /turf/open/water))
-				qdel(heldclod)
-			else
-				heldclod.forceMove(T)
-
-			heldclod = null
-			playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
-			update_icon()
-			return
-
 		if(istype(T, /turf/open/floor/rogue/grass) || istype(T, /turf/open/floor/rogue/grassred) || istype(T, /turf/open/floor/rogue/grassyel) || istype(T, /turf/open/floor/rogue/grasscold))
 			to_chat(user, span_warning("There is grass in the way."))
 			return
@@ -176,7 +115,158 @@
 			to_chat(user, span_warning("You scoop away the snow!"))
 			return
 
+		switch(curr_mode_index)
+			if(MODE_HOLE)
+				if(istype(T, /turf/open/floor/rogue/dirt))
+					var/turf/open/floor/rogue/dirt/D = T
+
+					if(!heldclod && user && istype(user.rmb_intent, /datum/rmb_intent/strong) && HAS_TRAIT(user, TRAIT_GRAVEROBBER))
+						if(D.holie && D.holie.stage >= 3)
+							return
+
+						to_chat(user, span_notice("I tear into the earth, carving out a pit!"))
+
+						if(do_after(user, 2 SECONDS, target = T))
+							var/obj/structure/closet/dirthole/H = null
+
+							if(istype(T, /turf/open/floor/rogue/dirt))
+								var/turf/open/floor/rogue/dirt/curD = T
+								H = curD.holie
+
+							if(!H)
+								if(istype(T, /turf/open/floor/rogue/dirt/road))
+									H = new /obj/structure/closet/dirthole(T)
+								else
+									T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
+									var/turf/open/floor/rogue/dirt/newD = T
+									H = newD.holie
+
+							if(H)
+								H.stage = 3
+								H.faildirt = 0
+								H.climb_offset = 0
+								H.locked = FALSE
+								H.opened = TRUE
+								H.update_icon()
+
+								heldclod = new(src)
+								update_icon()
+
+								var/list/spawn_turfs = list(
+									user,
+									get_step(user, NORTH),
+									get_step(user, SOUTH),
+									get_step(user, EAST),
+									get_step(user, WEST)
+								)
+
+								var/spawned = 0
+								for(var/turf/spawnT in spawn_turfs)
+									if(!spawnT) continue
+									new /obj/item/natural/dirtclod(spawnT)
+									spawned++
+									if(spawned >= 3)
+										break
+
+								playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
+
+						return
+
+					if(heldclod)
+						if(D.holie && D.holie.stage < 4)
+							D.holie.attackby(src, user)
+						else
+							if(istype(T, /turf/open/floor/rogue/dirt/road))
+								qdel(heldclod)
+								T.ChangeTurf(/turf/open/floor/rogue/dirt, flags = CHANGETURF_INHERIT_AIR)
+							else
+								heldclod.forceMove(T)
+
+							heldclod = null
+							playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
+							update_icon()
+							return
+					else
+						if(D.holie)
+							D.holie.attackby(src, user)
+						else
+							if(istype(T, /turf/open/floor/rogue/dirt/road))
+								new /obj/structure/closet/dirthole(T)
+							else
+								T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
+
+							heldclod = new(src)
+							playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
+							update_icon()
+
+					return
+
+				if(heldclod)
+					if(istype(T, /turf/open/water))
+						qdel(heldclod)
+					else
+						heldclod.forceMove(T)
+
+					heldclod = null
+					playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
+					update_icon()
+					return
+
+			if(MODE_SOLIDS)
+				if(!istype(T, /turf/open/floor/rogue/dirt))
+					return
+				var/turf/open/floor/rogue/dirt/TD = T
+				var/min_loot = 1
+				var/skill_influence = min(user.get_skill_level(/datum/skill/craft/ceramics) + user.get_skill_level(/datum/skill/labor/mining), 6)
+				playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
+				to_chat(user, span_notice("I start digging up solids..."))
+				if(do_after(user, max((4 - (skill_influence / 2)), 1) SECONDS))	// 4 seconds, down to 1 if our skills are high enough.
+					min_loot += skill_influence
+					min_loot += (user.STALUC - 10)
+					min_loot += rand(0, 2)
+					for(var/i in 1 to min_loot)
+						if(TD.muddy)
+							if(prob(80))
+								new /obj/item/natural/clay(TD)
+							else
+								new /obj/item/natural/stone(TD)
+						else
+							if(prob(80))
+								new /obj/item/natural/stone(TD)
+							else
+								new /obj/item/natural/clay(TD)
+					playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
+
+			if(MODE_BAIT)
+				if(!istype(T, /turf/open/floor/rogue/dirt))
+					return
+				var/turf/open/floor/rogue/dirt/TD = T
+				var/min_loot = 1
+				var/skill_influence = min(user.get_skill_level(/datum/skill/labor/fishing) + user.get_skill_level(/datum/skill/misc/medicine), 6)
+				playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
+				to_chat(user, span_notice("I start digging up bait..."))
+				if(do_after(user, max((4 - (skill_influence / 2)), 1) SECONDS))	// 4 seconds, down to 1 if our skills are high enough.
+					min_loot += skill_influence
+					min_loot += (user.STALUC - 10)
+					min_loot += rand(0, 2)
+					for(var/i in 1 to min_loot)
+						if(TD.muddy)
+							if(prob(5))
+								new /obj/item/natural/worms/grubs(TD)
+							else if(prob(20))
+								new /obj/item/natural/worms/leech(TD)
+							else
+								new /obj/item/natural/worms(TD)
+						else
+							if(prob(50))
+								new /obj/item/natural/worms(TD)
+					playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
+
 	return ..()
+
+#undef MODE_HOLE
+#undef MODE_SOLIDS
+#undef MODE_BAIT
 
 /obj/item/rogueweapon/shovel/getonmobprop(tag)
 	. = ..()

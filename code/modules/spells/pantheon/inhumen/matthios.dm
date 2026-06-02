@@ -687,7 +687,7 @@
 	if(I.GetComponent(/datum/component/martyrweapon))
 		to_chat(user, span_danger("My divine energies recoil from the relic! It resists!"))
 		return TRUE	//why did you try this? Go on full CD, bad.
-	if(I.toggle_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
+	if(I.override_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
 		revert_cast()
 		to_chat(user, span_warning("This thing has been glamoured or changed -- its value is too unclear."))
 		return FALSE
