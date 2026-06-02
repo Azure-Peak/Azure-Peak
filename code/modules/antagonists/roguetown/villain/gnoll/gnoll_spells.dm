@@ -426,7 +426,7 @@
 		if(corpse.stat == DEAD && !corpse.ckey)
 			to_chat(owner, span_notice("You begin to consume [corpse.name]."))
 			if(do_after(owner, 10 SECONDS, corpse))
-				qdel(corpse)
+				corpse.gib()
 				to_chat(owner, span_notice("You finish consuming [corpse.name], restoring your physical form."))
 				H.fully_heal(admin_revive=TRUE)
 		else
