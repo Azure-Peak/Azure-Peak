@@ -21754,11 +21754,6 @@
 "evK" = (
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
-"evU" = (
-/obj/structure/chair/stool/rogue,
-/mob/living/carbon/human/species/skeleton/npc/mediumspread,
-/turf/open/floor/rogue/grasscold,
-/area/rogue/outdoors/mountains/decap)
 "evW" = (
 /obj/structure/fluff/railing/border/east,
 /obj/structure/fluff/railing/corner,
@@ -36812,10 +36807,6 @@
 /obj/structure/fluff/statue/knight/interior/r,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/licharena/bossroom)
-"hxd" = (
-/mob/living/carbon/human/species/skeleton/npc/mediumspread,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/under/cave)
 "hxe" = (
 /obj/structure/table/wood/poor,
 /obj/item/millstone{
@@ -105146,10 +105137,6 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/beach)
-"uPT" = (
-/mob/living/carbon/human/species/skeleton/npc/hard,
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cave)
 "uQa" = (
 /obj/structure/roguewindow/harem3,
 /turf/open/floor/rogue/tile/brownbrick,
@@ -110893,7 +110880,7 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/mountains)
 "vWB" = (
-/obj/structure/fluff/psycross/zizocross/golden,
+/obj/structure/fluff/psycross/zizocross/stone,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/taricheamanor)
 "vWD" = (
@@ -506326,7 +506313,7 @@ lRZ
 eAq
 lRZ
 lRZ
-evU
+mjU
 lRZ
 lRZ
 sQC
@@ -506779,7 +506766,7 @@ eAq
 mjU
 lRZ
 apY
-evU
+mjU
 lRZ
 lxa
 eAq
@@ -507682,7 +507669,7 @@ oGG
 emo
 eAq
 lRZ
-evU
+mjU
 lRZ
 lRZ
 lxa
@@ -519914,7 +519901,7 @@ toJ
 toJ
 htN
 toJ
-uPT
+toJ
 oyf
 oyf
 oyf
@@ -523526,10 +523513,10 @@ oyf
 oyf
 bVo
 bVo
-hxd
 htN
 htN
-hxd
+htN
+htN
 bVo
 bVo
 oyf
