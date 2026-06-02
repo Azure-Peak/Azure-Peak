@@ -261,6 +261,7 @@
 	max_blade_int = 100
 	max_integrity = 150
 	smeltresult = null
+	anvilrepair = /datum/skill/craft/carpentry
 
 /datum/intent/dagger/cut/wood
 	name = "cut"
@@ -863,6 +864,7 @@
 	max_blade_int = 100
 	wdefense = 1
 	resistance_flags = FLAMMABLE
+	anvilrepair = /datum/skill/craft/crafting
 
 /obj/item/rogueweapon/huntingknife/stoneknife/kukri
 	name = "jade kukri"
@@ -873,6 +875,7 @@
 	max_blade_int = 50
 	wdefense = 3
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/huntingknife/stoneknife/opalknife
 	name = "opal knife"
@@ -883,6 +886,7 @@
 	max_blade_int = 50
 	wdefense = 3
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish
 	name = "elvish dagger"

@@ -66580,7 +66580,6 @@
 	lockid = "baroness"
 	},
 /obj/item/roguegem/ruby,
-/obj/item/book/granter/arcane_aspect/minor,
 /obj/item/rogueweapon/woodstaff/implement/grand,
 /obj/item/storage/belt/rogue/pouch/coins/rich,
 /turf/open/floor/rogue/wood/herringbone,

@@ -218,8 +218,8 @@
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	result = /obj/item/clothing/mask/cigarette/rollie/cannabis/cheroot
 	reqs = list(
-		/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 1,
 		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 1,
 		)
 	time = 10 SECONDS
 	verbage_simple = "roll"
@@ -272,6 +272,145 @@
 	time = 10 SECONDS
 	verbage_simple = "roll"
 	verbage = "rolls"
+
+/datum/crafting_recipe/roguetown/cooking/menthadry
+	name = "cheroot - mentha"
+	result = /obj/item/clothing/mask/cigarette/rollie/mentha/cheroot
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+		/obj/item/alch/mentha = 1,
+	)
+	time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/blackberrydry
+	name = "cheroot - blackberry"
+	result = /obj/item/clothing/mask/cigarette/rollie/blackberry/cheroot
+	reqs = list(
+	/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+		/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry = 1,
+	)
+	time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/appledry
+	name = "cheroot - apple"
+	result = /obj/item/clothing/mask/cigarette/rollie/apple/cheroot
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/reagent_containers/food/snacks/grown/apple = 1,
+	)
+	time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/menthaappledry
+    name = "cheroot - mentha-apple"
+    result = /obj/item/clothing/mask/cigarette/rollie/menthaapple/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/alch/mentha = 1,
+        /obj/item/reagent_containers/food/snacks/grown/apple = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/chocolatedry
+    name = "cheroot - chocolate"
+    result = /obj/item/clothing/mask/cigarette/rollie/chocolate/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/reagent_containers/food/snacks/chocolate = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/strawberrydry
+    name = "cheroot - strawberry"
+    result = /obj/item/clothing/mask/cigarette/rollie/strawberry/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/reagent_containers/food/snacks/grown/fruit/strawberry = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/carrotdry
+    name = "cheroot - carrot"
+    result = /obj/item/clothing/mask/cigarette/rollie/carrot/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/reagent_containers/food/snacks/grown/carrot = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/limedry
+    name = "cheroot - lime"
+    result = /obj/item/clothing/mask/cigarette/rollie/lime/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/reagent_containers/food/snacks/grown/fruit/lime = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/salviadry
+    name = "cheroot - salvia"
+    result = /obj/item/clothing/mask/cigarette/rollie/salvia/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/alch/salvia = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/salviavalerianadry
+    name = "cheroot - salvia-valeriana"
+    result = /obj/item/clothing/mask/cigarette/rollie/salviavaleriana/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/alch/salvia = 1,
+        /obj/item/alch/valeriana = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/calenduladry
+    name = "cheroot - calendula"
+    result = /obj/item/clothing/mask/cigarette/rollie/calendula/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/alch/calendula = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/jacksberriesdry
+    name = "cheroot - jacksberries"
+    result = /obj/item/clothing/mask/cigarette/rollie/jacksberries/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/jacksberriespoisondry
+    name = "cheroot - jacksberries poison"
+    result = /obj/item/clothing/mask/cigarette/rollie/jacksberriespoison/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/abyssdry
+    name = "cheroot - abyss"
+    result = /obj/item/clothing/mask/cigarette/rollie/abyss/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1,
+        /obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1,
+        /datum/reagent/water/salty = 25,
+        /obj/item/reagent_containers/food/snacks/fish = 1,
+    )
+    time = 10 SECONDS
+
+/datum/crafting_recipe/roguetown/cooking/zigardry
+    name = "cheroot - zigar"
+    result = /obj/item/clothing/mask/cigarette/rollie/zigar/cheroot
+    reqs = list(
+        /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 2,
+        /obj/item/alch/hypericum  = 1,
+    )
+    time = 10 SECONDS
 
 /datum/crafting_recipe/roguetown/cooking/lemonystickets
 	name = "lemony stickets"

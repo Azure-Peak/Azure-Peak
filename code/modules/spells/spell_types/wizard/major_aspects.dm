@@ -195,11 +195,11 @@
 		/datum/action/cooldown/spell/projectile/seeker_volley,
 		/datum/action/cooldown/spell/greater_cleaning, // placeholder free utility - replace with Recall once implemented
 	)
-	// variants = list(
-	// 	"mastery" = list(
-	// 		VARIANT_ADDITIVE = /datum/action/cooldown/spell/projectile/arcyne_barrage,
-	// 	),
-	// )
+	variants = list(
+		"mastery" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/projectile/arcyne_barrage,
+		),
+	)
 
 /datum/magic_aspect/augmentation
 	name = "Augmentation"

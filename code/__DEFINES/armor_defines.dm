@@ -151,9 +151,9 @@
 // LIGHT ARMOR - Split into two sidegrades: PADDED VS LEATHER
 // PADDED: Best Blunt protection, Bodkin immune. But Axe CHOP (MEDIUM) and most thrusts (LIGHT) get through. 
 // LEATHER: Decent Blunt DR. Axe CHOP (MEDIUM), sword thrust (MEDIUM) and bodkin (HEAVY) get through. Better vs stab than padded, worse vs piercing.
-#define ARMOR_PADDED list("blunt" = DR_SUPER, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_BSTEEL, "fire" = DR_HEAVY, "acid" = DR_NONE)
-#define ARMOR_LEATHER_NPC list("blunt" = DR_HEAVY, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_MEDIUM, "fire" = DR_SUPER, "acid" = DR_NONE)
-#define ARMOR_LEATHER list("blunt" = DR_ULTRA, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_HEAVY, "fire" = DR_SUPER, "acid" = DR_NONE)
+#define ARMOR_PADDED list("blunt" = DR_SUPER, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_BSTEEL, "fire" = DR_MEDIUM, "acid" = DR_NONE)
+#define ARMOR_LEATHER_NPC list("blunt" = DR_HEAVY, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_MEDIUM, "fire" = DR_MEDIUM, "acid" = DR_NONE)
+#define ARMOR_LEATHER list("blunt" = DR_ULTRA, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_HEAVY, "fire" = DR_MEDIUM, "acid" = DR_NONE)
 
 // LIGHT ARMOR - SNOWFLAKE. Not comfortable with them, but not touching it atm.
 #define ARMOR_DRAGONSKIN list("blunt" = DR_SUPER, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_MEDIUM, "fire" = DR_HEAVY, "acid" = DR_NONE) // Iconoclast dragon skin. Fire resistant.
