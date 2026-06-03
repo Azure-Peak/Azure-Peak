@@ -604,6 +604,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			if(L.has_status_effect(/datum/status_effect/buff/clash))
 				var/mob/living/carbon/human/H = user
 				H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
+			if(L.get_skill_level(/datum/skill/misc/sneaking) >= SKILL_LEVEL_JOURNEYMAN || HAS_TRAIT(L, TRAIT_LIGHT_STEP))
+				L.apply_status_effect(/datum/status_effect/stealth_revealed)
 		if(action)
 			action.build_all_button_icons()
 		return TRUE

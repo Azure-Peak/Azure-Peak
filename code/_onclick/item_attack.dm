@@ -31,6 +31,12 @@
 			if(istype(weapon) && !weapon.is_tool)
 				to_chat(user, span_warning("I am too small to properly wield a weapon."))
 				return
+		// Uniquely reskinned variant, for those who don't happen to be familiars.Add a comment on  line R34Add diff commentMarkdown input:  edit mode selected.WritePreviewAdd a suggestionHeadingBoldItalicQuoteCodeLinkUnordered listNumbered listTask listMentionReferenceMore Formatting tools items 0Saved repliesAdd FilesPaste, drop, or click to add filesCancelCommentStart a review
+		if(HAS_TRAIT(user, TRAIT_WEAPONLESS))
+			var/obj/item/rogueweapon/weapon = src
+			if(istype(weapon) && !weapon.is_tool)
+				to_chat(user, span_warning("I cannot properly wield this weapon."))
+				return
 	if(tool_behaviour && target.tool_act(user, src, tool_behaviour))
 		return
 	if(pre_attack(target, user, params))
@@ -190,6 +196,9 @@
 	// Release drain on attacks besides unarmed attacks/grabs is 1, so it'll just be whatever the penalty is + 1.
 	// Unarmed attacks are the only ones right now that have differing releasedrain, see unarmed attacks for their calc.
 	user.stamina_add(user.used_intent.releasedrain + rmb_stam_penalty)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		H.process_golgatha_rebuke(user)
 	if(user.mob_biotypes & MOB_UNDEAD)
 		if(M.has_status_effect(/datum/status_effect/buff/necras_vow))
 			if(isnull(user.mind))

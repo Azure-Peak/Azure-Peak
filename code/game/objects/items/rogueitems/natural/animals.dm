@@ -10,6 +10,7 @@
 	resistance_flags = FLAMMABLE
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sellprice = 8
+	dropshrink = 0.9
 
 /obj/item/natural/hide/get_mechanics_examine(mob/user)
 	. = ..()
@@ -43,6 +44,7 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	color = "#5c5243"
 	experimental_inhand = TRUE
+	dropshrink = 0.9
 
 /obj/item/natural/fur/goat
 	desc = "Fur from a humble gote."
@@ -211,6 +213,7 @@
 	resistance_flags = FLAMMABLE
 	w_class = WEIGHT_CLASS_SMALL
 	sellprice = 20
+	dropshrink = 0.6
 
 /obj/item/natural/rabbitsfoot
 	name = "rabbit's foot"

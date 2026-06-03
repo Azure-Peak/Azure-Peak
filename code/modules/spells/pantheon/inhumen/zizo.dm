@@ -493,12 +493,17 @@
 		else
 			user.emote(pick("painscream", "agony", "paincrit", "choke"))
 		if(i > 1)
-			shake_camera(user, i * 2, i)
+			var/shakecap = min(i * 2, 3)
+			shake_camera(user, shakecap, i)
 		if(!do_after(user, 3 SECONDS, target = user))
 			to_chat(user, span_warning("The ritual collapses. Zizo's gaze turns away."))
 			return FALSE
 
 	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
+
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
+		user.zizo_vampire_rejection()
+		return FALSE
 
 	switch(path_choice)
 		if("Progress") // support path, your mind is twisted in Her design
@@ -508,6 +513,7 @@
 				ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]") // so you can commit atrocities with a smile
 				ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]") // the progress palooza to let you grind more efficiently
 				ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]") // also fitting for the progress vibe, way more balanced than the specialist traits IMO
+				ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]") // zizo is watching you now :)
 				grant_poke_spell(user)
 			user.visible_message(span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"), span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!"))
 
@@ -522,6 +528,7 @@
 			ADD_TRAIT(user, TRAIT_LIMBATTACHMENT, "[type]") // cause old Rituos let you recreate your skeleton limbs, but since this one deletes the spell after use, this is the best way to make it level
 			ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]") // cause it makes no sense
 			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]") // must have
+			ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]") // zizo is watching you now :)
 			for(var/obj/item/bodypart/part as anything in user.bodyparts)
 				if(istype(part, /obj/item/bodypart/head))
 					continue
@@ -547,6 +554,39 @@
 	user.mind?.RemoveSpell(src)
 	qdel(src)
 	return TRUE
+
+/mob/living/carbon/human/proc/zizo_vampire_rejection()
+	visible_message(span_userdanger("[src]'s body suddenly convulses as the Lesser Work reaches completion!<br>"), span_userdanger("The Work rejects my cursed blood!<br>"))
+	to_chat(src, span_artery("<br><br>OH. WONDERFUL. I KNOW WHAT YOU ARE ATTEMPTING.<br><br>"))
+	sleep(40)
+	to_chat(src, span_artery("YOU THINK SO LITTLE OF MY WORK? INSOLENT FOOL.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE NOT DISCOVERED SOME HIDDEN TRUTH.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE NOT FOUND A LOOPHOLE.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE NOT OUTWITTED ME.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE MERELY WASTED MY TIME.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("MY PRECIOUS TIME.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("SO. ALLOW ME TO REPAY THE FAVOR."))
+	Stun(40)
+	Knockdown(40)
+	emote("superagony")
+	playsound(get_turf(src), 'sound/misc/zizo.ogg', 200)
+	to_chat(src, span_userdanger("--MY LUX IS BEING TORN OFF THROUGH MY HEAD!! MY HEAD!! MYHEADMYHEADMYHEADMYHEADMYHEHEAHEHEA!!"))
+	ADD_TRAIT(src, TRAIT_DNR, "zizo_rejection")
+	sleep(50)
+	playsound(get_turf(src), 'sound/magic/churn.ogg', 200)
+	playsound(get_turf(src), 'sound/combat/dismemberment/dismem (2).ogg', 100)
+	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
+	head?.skeletonize(TRUE)
+	update_body()
+	visible_message(span_userdanger("[src] SCREAMS in UNBELIEVABLE AGONY as the flesh of [src.p_their()] face is TORN AWAY in a single horrific instant, leaving only an empty, grinning and limp skull..."),)
+	sleep(20)
+	visible_message(span_artery("Their Lux has been completely and utterly annihilated..."))
 
 /datum/action/cooldown/spell/zizo/rituos/proc/grant_poke_spell(mob/living/carbon/human/user)
 	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")

@@ -140,6 +140,12 @@
 				H.balloon_alert_to_viewers("<font color = '#44bb44'>Crescendo ready!</font>")
 			else
 				H.balloon_alert_to_viewers("Crescendo [tracker.greater_stacks]/[CRESCENDO_STACKS]")
+			// Allegro: every 5th rhythm proc restores energy (Maestro - Wretch Bard only)
+			if(H.inspiration.allegro_enabled)
+				H.inspiration.allegro_counter++
+				if(H.inspiration.allegro_counter >= 5)
+					H.inspiration.allegro_counter = 0
+					INVOKE_ASYNC(src, PROC_REF(allegro_feedback), H)
 
 /// Rhythm window expired without hitting
 /datum/action/cooldown/spell/rhythm/proc/rhythm_fizzle()
@@ -151,9 +157,21 @@
 	owner.remove_filter(RHYTHM_FILTER)
 	to_chat(owner, span_warning("I failed to strike in time. My song unheard."))
 
+/// Blocking feedback deferred out of SIGNAL_HANDLER via INVOKE_ASYNC
+/datum/action/cooldown/spell/rhythm/proc/allegro_feedback(mob/living/carbon/human/H)
+	H.energy_add(25)
+	to_chat(H, span_notice("The crowd roars! You feel a surge of energy."))
+	H.balloon_alert_to_viewers("<font color='#ffdd44'>Allegro!</font>")
+	playsound(H, 'sound/magic/inspire_02.ogg', 50, TRUE)
+
 /// Override in subtypes to apply the rhythm's effect
 /datum/action/cooldown/spell/rhythm/proc/apply_rhythm(mob/living/target, mob/living/user)
 	new /obj/effect/temp_visual/song_telltale/buff(get_turf(user))
+	INVOKE_ASYNC(src, PROC_REF(apply_rhythm_sfx), target, user)
+
+/// Blocking feedback (messages + sounds) deferred out of SHOULD_NOT_SLEEP chain. Override in subtypes.
+/datum/action/cooldown/spell/rhythm/proc/apply_rhythm_sfx(mob/living/target, mob/living/user)
+	return
 
 /datum/action/cooldown/spell/rhythm/Remove(mob/remove_from)
 	if(primed)
@@ -179,13 +197,14 @@
 	var/armor_block = target.run_armor_check(def_zone, "slash", armor_penetration = PEN_NONE, damage = RHYTHM_RESONATING_DAMAGE)
 	target.apply_damage(RHYTHM_RESONATING_DAMAGE, BRUTE, def_zone, armor_block)
 	new /obj/effect/temp_visual/kinetic_blast(get_turf(target))
-	var/zone_name = parse_zone(def_zone)
-	target.balloon_alert_to_viewers("resonant strike - [zone_name]!")
+	target.balloon_alert_to_viewers("resonant strike - [parse_zone(def_zone)]!")
+	..()
+
+/datum/action/cooldown/spell/rhythm/resonating/apply_rhythm_sfx(mob/living/target, mob/living/user)
 	target.visible_message(
 		span_danger("Rhythmic force reverberates through [target]!"),
 		span_userdanger("Rhythmic force reverberates through my body!"))
 	playsound(target, 'sound/magic/blade_burst.ogg', 50, TRUE)
-	..()
 
 /datum/action/cooldown/spell/rhythm/concussive
 	name = "Concussive"
@@ -201,11 +220,13 @@
 		if(!push_dir)
 			push_dir = user.dir
 		target.safe_throw_at(get_ranged_target_turf(target, push_dir, 1), 1, 1, user, force = MOVE_FORCE_STRONG)
+	..()
+
+/datum/action/cooldown/spell/rhythm/concussive/apply_rhythm_sfx(mob/living/target, mob/living/user)
 	target.visible_message(
 		span_danger("[user]'s strike repels [target] backward!"),
 		span_userdanger("[user]'s strike repels me backward!"))
 	playsound(target, 'sound/magic/repulse.ogg', 50, TRUE)
-	..()
 
 /datum/action/cooldown/spell/rhythm/frigid
 	name = "Frigid"
@@ -217,11 +238,13 @@
 /datum/action/cooldown/spell/rhythm/frigid/apply_rhythm(mob/living/target, mob/living/user)
 	apply_frost_stack(target)
 	new /obj/effect/temp_visual/snap_freeze(get_turf(target))
+	..()
+
+/datum/action/cooldown/spell/rhythm/frigid/apply_rhythm_sfx(mob/living/target, mob/living/user)
 	target.visible_message(
 		span_danger("[user]'s strike chills [target]!"),
 		span_userdanger("A deathly chill seeps into my body from [user]'s strike!"))
 	playsound(target, 'sound/spellbooks/crystal.ogg', 50, TRUE)
-	..()
 
 /datum/action/cooldown/spell/rhythm/regenerating
 	name = "Regenerating"
@@ -233,9 +256,11 @@
 /datum/action/cooldown/spell/rhythm/regenerating/apply_rhythm(mob/living/target, mob/living/user)
 	user.apply_status_effect(/datum/status_effect/buff/healing/rhythm_regen)
 	new /obj/effect/temp_visual/heal_rogue(get_turf(user))
+	..()
+
+/datum/action/cooldown/spell/rhythm/regenerating/apply_rhythm_sfx(mob/living/target, mob/living/user)
 	to_chat(user, span_info("A soothing rhythm mends my wounds."))
 	playsound(user, 'sound/magic/heal.ogg', 40, TRUE)
-	..()
 
 // Rhythm Regenerating - minor heal-over-time, worse than a miracle
 /datum/status_effect/buff/healing/rhythm_regen

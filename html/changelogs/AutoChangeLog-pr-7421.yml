@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Replaces the Cleric's Silver Longsword with the Crusader's Longsword, an unsundering analogue that retains all of the Silver Longsword's other mechanical quirks (ala higher defense, lower offense)."
+  - rscadd: "Adds a variant of the Blessed Longsword as a new Triumph reskin option - the 'Anointed / Clerical Longsword'."

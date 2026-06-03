@@ -4,6 +4,7 @@ import { useBackend } from '../../backend';
 import {
   badgeStyle,
   cardStyle,
+  FONT_BODY,
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
@@ -122,7 +123,7 @@ const OrderCard = (props: CardProps) => {
   return (
     <div style={style}>
       <div style={{ marginBottom: '4px' }}>
-        <span style={{ fontWeight: 'bold', fontSize: '14px' }}>{o.name}</span>
+        <span style={{ fontWeight: 'bold', fontSize: FONT_BODY }}>{o.name}</span>
         {!!o.region_blockaded && (
           <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
         )}
@@ -143,14 +144,14 @@ const OrderCard = (props: CardProps) => {
         <div
           style={{
             color: INK_SOFT,
-            fontSize: '12px',
+            fontSize: FONT_BODY,
             marginBottom: '4px',
           }}
         >
           {o.description}
         </div>
       )}
-      <div style={{ color: INK_SOFT, fontSize: '12px' }}>
+      <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
         {props.regionCatalog[o.region_id]?.name ?? o.region_id} &middot;{' '}
         {o.days_left}d left &middot; Payout:{' '}
         <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
@@ -158,7 +159,7 @@ const OrderCard = (props: CardProps) => {
         </span>
       </div>
       <div style={{ marginTop: '4px' }}>
-        <span style={{ color: INK_FAINT, fontSize: '11px' }}>Items: </span>
+        <span style={{ color: INK_FAINT, fontSize: FONT_BODY }}>Items: </span>
         {o.items.map((it, i) => {
           const isStockpileItem = it.route === 'stockpile';
           const short = isStockpileItem && it.have < it.needed;
@@ -186,8 +187,7 @@ const OrderCard = (props: CardProps) => {
           style={{
             marginTop: '4px',
             color: INK_FAINT,
-            fontSize: '11px',
-            fontStyle: 'italic',
+            fontSize: FONT_BODY,
             cursor: 'help',
           }}
           title={QUALITY_TIER_TOOLTIP}
@@ -228,7 +228,7 @@ const PairGroup = (props: {
       <div
         style={{
           fontWeight: 'bold',
-          fontSize: '13px',
+          fontSize: FONT_BODY,
           color: PAIR_ACCENT,
           marginBottom: '4px',
           textTransform: 'uppercase',

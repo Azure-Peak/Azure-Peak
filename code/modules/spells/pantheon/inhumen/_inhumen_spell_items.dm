@@ -441,7 +441,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		target.visible_message(span_warning("[target.name]'s body rewinds to life... only for a massive shockwave of fire to burst from them!"))
 		target.adjust_fire_stacks(5)
 		target.ignite_mob()
-		target.emote("agony", forced = TRUE)
+		target.emote("superagony", forced = TRUE)
 	else
 		to_chat(target, span_warning("You refuse the call... but the warmth curdles into something volatile."))
 		target.visible_message(span_warning("[target.name] does not rise. The Geald within them destabilizes violently!"))

@@ -27,3 +27,4 @@
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/blacksmithing
 	resistance_flags = FIRE_PROOF
+	dropshrink = null

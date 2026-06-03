@@ -63,6 +63,17 @@
 
 //--- WRETCHES ---
 
+/datum/class_age_mod/wretch/maestro
+	target_age = AGE_OLD
+	skill_mods = list(
+		/datum/skill/misc/reading  = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/music = SKILL_LEVEL_LEGENDARY,
+	)
+	stat_mods = list(
+		STATKEY_LCK = 1,
+		STATKEY_WIL = 1,
+	)
+
 /datum/class_age_mod/wretch/rogue_mage
 	target_age = AGE_OLD
 	skill_mods = list(

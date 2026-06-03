@@ -9,12 +9,14 @@
 
 	grid_width = 32
 	grid_height = 64
+	dropshrink = 0.9
 
 /obj/item/bouquet/rosa
 	name = "rosa bouquet"
 	desc = "Affections bundled together in string."
 	item_state = "bouquet_rosa"
 	icon_state = "bouquet_rosa"
+	dropshrink = 0.9
 
 /obj/item/bouquet/salvia
 	name = "salvia bouquet"

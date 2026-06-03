@@ -1,0 +1,4 @@
+author: "FeniaFox"
+delete-after: True
+changes:
+  - bugfix: "berzerker wretch weapon option fix (no non-functional bodybuilder option, yes now-functional greatsword option)."

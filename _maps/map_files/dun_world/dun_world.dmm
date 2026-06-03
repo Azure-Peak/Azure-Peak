@@ -6581,6 +6581,7 @@
 "bsc" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/rogueweapon/huntingknife/chefknife,
+/obj/structure/roguemachine/noticeboard/wall,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern)
 "bsh" = (
@@ -25585,6 +25586,7 @@
 "fiy" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/ywflowers,
+/obj/item/recipe_book/brewing,
 /obj/item/recipe_book/cooking,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)

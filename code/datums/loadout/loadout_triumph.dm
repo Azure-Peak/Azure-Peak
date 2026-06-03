@@ -332,6 +332,12 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_weaponkit_clericsword
+	name = "Morphing Elixir, 'Clerical Longsword'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_clericsword
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 //////////////////
 //  PERFUMES !  //
 //////////////////

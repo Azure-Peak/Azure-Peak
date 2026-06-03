@@ -15,6 +15,7 @@
 	resistance_flags = FIRE_PROOF
 	grid_height = 32
 	grid_width = 32
+	dropshrink = 0.8
 
 /obj/item/flint/attack_self(mob/living/user)
 	if(world.time < flintcd + 10)

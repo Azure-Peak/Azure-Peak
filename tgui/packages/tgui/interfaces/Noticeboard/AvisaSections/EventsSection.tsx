@@ -1,6 +1,8 @@
 import {
   badgeStyle,
   cardStyle,
+  FONT_BODY,
+  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -52,7 +54,7 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
         )}
         <span
           style={{
-            fontSize: '15px',
+            fontSize: FONT_TITLE,
             fontWeight: 'bold',
             color: INK,
             fontFamily: SERIF,
@@ -63,8 +65,7 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
         <span
           style={{
             color: INK_SOFT,
-            fontStyle: 'italic',
-            fontSize: '12px',
+            fontSize: FONT_BODY,
             marginLeft: 'auto',
           }}
         >
@@ -75,7 +76,7 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
         <div
           style={{
             color: INK,
-            fontSize: '12px',
+            fontSize: FONT_BODY,
             marginTop: 6,
             whiteSpace: 'pre-wrap',
           }}
@@ -84,12 +85,10 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
         </div>
       )}
       {event.affected_goods.length > 0 && (
-        <div style={{ marginTop: 6, fontSize: '12px', color: INK }}>
+        <div style={{ marginTop: 6, fontSize: FONT_BODY, color: INK }}>
           <span
             style={{
-              fontVariant: 'small-caps',
               color: INK_SOFT,
-              fontStyle: 'italic',
               marginRight: 6,
             }}
           >

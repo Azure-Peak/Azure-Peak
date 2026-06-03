@@ -317,6 +317,20 @@
 	throwforce = 5
 	thrown_bclass = BCLASS_BLUNT
 
+/obj/item/rogueweapon/sword/long/cleric
+	name = "crusaders longsword"
+	desc = "A crusader's longsword, adorned with a blade of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
+	sunder those who bare greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes. </br>'Strike \
+	true, my child, for thy blade is thine God..'"
+	icon_state = "crusaderlongsword"
+	sheathe_icon = "crusaderlongsword"
+	force = 20
+	force_wielded = 25
+	wdefense = 6
+	wdefense_wbonus = 3
+	max_blade_int = 370
+	smeltresult = /obj/item/ingot/iron
+
 /obj/item/rogueweapon/sword/long/church
 	name = "see longsword"
 	desc = "A blessed longsword, wielded by the Holy See's templars in their stalwart defense against evil. Originating in the wake of the Celestial Empire's \
@@ -341,7 +355,12 @@
 
 /obj/item/rogueweapon/sword/long/ravox_spirit
 	name = "\"Adjudicator\""
-	desc = "A blessed longsword of Ravox, held by the devout crusaders in service to the Divine Ten against the encroaching darkness. The crossguard bears motif of the Justicar, and psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'...And upon the Lands came the DIVINE. In PSYDON's absence, so came the TRUE GODS from their rest. So were THEIR gifts spread across the breadth of the world.' </br>'...It was the Justicar's hand that stayed the blade, for He objected to the execution, and demanded that Justice overcome where Vengeance reigned.'</br>Many tales surround this mythical blade - the demise of the Dark Star and the Mad Duke are often cited as to have been result of such - with little evidence to support these claims."
+	desc = "A blessed longsword of Ravox, held by the devout crusaders in service to the Divine Ten against the encroaching darkness. The crossguard \
+	bears motif of the Justicar, and psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'...And upon the \
+	Lands came the DIVINE. In PSYDON's absence, so came the TRUE GODS from their rest. So were THEIR gifts spread across the breadth of the \
+	world.' </br>'...It was the Justicar's hand that stayed the blade, for He objected to the execution, and demanded that Justice overcome where \
+	Vengeance reigned.'</br>Many tales surround this mythical blade - the demise of the Dark Star and the Mad Duke are often cited as to have been \
+	result of such - with little evidence to support these claims."
 	icon_state = "seemasterblade"
 	sheathe_icon = "eclipsum"
 	force = 30
@@ -664,13 +683,14 @@
 
 /obj/item/rogueweapon/sword/long/exe/silver
 	name = "silver executioners sword"
-	desc = "A thorned executioner's sword, whose massive silver blade lays mounted atop an intricately-carved \
-	handle. Though the barbs dig into your hands, it's said that such pricklings will only draw blood if the \
+	desc = "A resplendant executioner's sword, whose massive silver blade lays mounted atop an intricately-carved \
+	handle. Though the grooves dig into your hands, it's said that such chaffings will only draw blood if the \
 	silvered edge falls upon the neck of the innocent."
-	icon_state = "psygsword"
+	icon_state = "silvexe"
 	force = 22
 	force_wielded = 25
 	minstr_req = TRUE
+	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/sword/long/exe/silver/ComponentInitialize()
@@ -678,6 +698,40 @@
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 100,\
+		added_def = 2,\
+	)
+
+/obj/item/rogueweapon/sword/long/exe/psy
+	name = "psydonic executioners sword"
+	desc = "A blessed executioner's sword, whose massive silver blade lays mounted atop an intricately-carved \
+	handle. The heft belies a purpose most holy, when hoisted beyond the chopping block; to cleave through hordes, and \
+	to march knee-deep through the dead in search of absolution."
+	icon_state = "silvexe"
+	force = 22
+	force_wielded = 25
+	minstr_req = TRUE
+	smeltresult = /obj/item/ingot/silverblessed
+	is_silver = TRUE
+
+/obj/item/rogueweapon/sword/long/exe/psy/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 100,\
+		added_def = 2,\
+	)
+
+/obj/item/rogueweapon/sword/long/exe/psy/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 100,\
 		added_int = 100,\
@@ -732,6 +786,7 @@
 	icon_state = "opsysword"
 	sheathe_icon = "opsysword"
 	dropshrink = 1
+	is_silver = FALSE
 
 /obj/item/rogueweapon/sword/long/psysword
 	name = "psydonic longsword"
@@ -775,7 +830,7 @@
 	against the horrors that lurk within the nite. </br>'Swing with precision and purpose, levyman o' the Gods. The nite is long and many-an-evil cur \
 	would engineer civilization's destruction, while Astrata's gaze leers elsewhere. So long as you wield this sword, you have a duty that beckons.'"
 	icon_state = "silverlongsword"
-	sheathe_icon = "psysword"
+	sheathe_icon = "silverlongsword"
 	force = 20
 	force_wielded = 25
 	minstr = 9
@@ -800,7 +855,7 @@
 	desc = "A two-handed broadsword, fitted with a blade of pure silver. Each swing commands more effort than the last, but not without purpose. One \
 	blow to crack the deadite's leg in twain; and a heartbeat later, another to splatter the soil with bile and teeth."
 	icon_state = "silverbroadsword"
-	sheathe_icon = "psysword"
+	sheathe_icon = "silverlongsword"
 	swingsound = BLADEWOOSH_HUGE
 	force = 20
 	force_wielded = 25
@@ -828,7 +883,7 @@
 	save Psydonia when all else is lost. </br>'Even here it is not safe, and even this grave has been defaced. Yet, someone has written on this \
 	stone, in some angry hand - 'HOPE RIDES ALONE..'"
 	icon_state = "silverbroadsword"
-	sheathe_icon = "psysword"
+	sheathe_icon = "silverlongsword"
 	swingsound = BLADEWOOSH_HUGE
 	force = 20
 	force_wielded = 25
@@ -843,6 +898,17 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
+/obj/item/rogueweapon/sword/long/kriegmesser/psy/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 100,\
@@ -1505,7 +1571,7 @@
 	desc = "A basket-hilted rapier, fitted with a thin blade of pure silver. Immortalized by Rockhill's witch hunters, this weapon - though cumberstone \
 	in an untrained hand - is surprisingly adept at both parrying and riposting."
 	icon_state = "silverrapier"
-	sheathe_icon = "psyrapier"
+	sheathe_icon = "silverrapier"
 	max_integrity = 225
 	max_blade_int = 225
 	force = 20
@@ -1531,7 +1597,7 @@
 	desc = "A basket-hilted rapier, fitted with a thin blade of pure silver. Such a resplendent weapon not only pierces the gaps within a heathen's \
 	maille, but also serves as the symbol of an Otavan diplomat's authority."
 	icon_state = "silverrapier"
-	sheathe_icon = "rapier"
+	sheathe_icon = "silverrapier"
 	max_integrity = 225
 	max_blade_int = 225
 	force = 20
@@ -1691,6 +1757,45 @@
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
+/obj/item/rogueweapon/sword/psy
+	name = "psydonic arming sword"
+	desc = "An arming sword, fitted with a blade of pure silver. It is the bane of vampyres, nitebeasts, and deadites throughout all of Psydonia; \
+	cursed flesh erupts into holy fire, and unholy bravado twists into mortal fear."
+	icon_state = "silversword"
+	sheathe_icon = "silversword"
+	force = 20
+	force_wielded = 25
+	minstr = 9
+	wdefense = 5
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silverblessed
+	smelt_bar_num = 2
+	max_blade_int = 230
+	max_integrity = 200
+	smelt_bar_num = 1
+
+/obj/item/rogueweapon/sword/psy/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
+/obj/item/rogueweapon/sword/psy/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 50,\
 		added_int = 50,\

@@ -10,7 +10,7 @@
 	bitesize = 7
 	slice_batch = FALSE
 	faretype = FARE_POOR
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/salami/slice
 	tastes = list("salted meat" = 1)
 	rotprocess = null
@@ -41,7 +41,7 @@
 	icon_state = "salumoi_slice"
 	faretype = FARE_NEUTRAL
 	fried_type = null
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	bitesize = 2
 	tastes = list("salted meat" = 1)
 
@@ -58,7 +58,7 @@
 	slice_path = null
 	tastes = list("salted meat" = 1)
 	rotprocess = null
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/coppiette/On_Consume(mob/living/eater)
 	..()
@@ -85,7 +85,7 @@
 	slice_path = null
 	tastes = list("lip-puckering sweetness" = 1, "an unfortunate aftertaste of burnt wood" = 1)
 	rotprocess = null
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 
 /obj/item/reagent_containers/food/snacks/rogue/lemoncoppiette/On_Consume(mob/living/eater)
 	..()
@@ -104,7 +104,7 @@
 	desc = "Salted pork fat, slabbed and ready for a slicing. A classic amongst the peasantry's pantry, when leaner cuts of meat are scarce. Quite delicious if watered down."
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
 	icon_state = "salo4"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	bitesize = 6
 	slice_path = /obj/item/reagent_containers/food/snacks/fat/salo/slice
 	faretype = FARE_IMPOVERISHED
@@ -136,7 +136,7 @@
 	bitesize = 2
 	slices_num = FALSE
 	slice_path = FALSE
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 
 // ------------ PEMMICAN - BROTHBRICK --------------
 /obj/item/reagent_containers/food/snacks/rogue/meat/brothbrique
@@ -152,7 +152,7 @@
 	bitesize = 6
 	slice_batch = FALSE
 	faretype = FARE_POOR
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY * 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL * 2)
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/brothbrique/slice
 	tastes = list("salted meat" = 1, "dried berries" = 1, "a slightly greasy aftertaste" = 1)
 	rotprocess = null
@@ -180,7 +180,7 @@
 	bitesize = 3
 	slices_num = FALSE
 	slice_path = FALSE
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 
 // ------------ HELLFIRE STEW - SALO N' TACK --------------
 /obj/item/reagent_containers/food/snacks/balefire
@@ -189,7 +189,7 @@
 	its portions can be further divvied up with a knife and stewed into a remarkably hearty broth."
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
 	icon_state = "balefire4"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY * 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL * 2)
 	bitesize = 4
 	slice_path = /obj/item/reagent_containers/food/snacks/balefire/slice
 	faretype = FARE_NEUTRAL
@@ -223,7 +223,7 @@
 	bitesize = 2
 	slices_num = FALSE
 	slice_path = FALSE
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT * 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL * 2)
 
 // -------------- DRIED FISH FILET -----------------
 /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet
@@ -235,6 +235,6 @@
 	fried_type = null
 	bitesize = 3
 	faretype = FARE_POOR
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	tastes = list("salted fish" = 1)
 	rotprocess = null

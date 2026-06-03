@@ -18,6 +18,7 @@
 	experimental_inhand = TRUE
 	experimental_onhip = TRUE
 	component_type = /datum/component/storage/concrete/roguetown/keyring
+	dropshrink = 0.85
 
 /obj/item/storage/keyring/get_mechanics_examine(mob/user)
 	. = ..()

@@ -73,3 +73,27 @@
   - rscdel: Removed arcane aspect granting scrolls.
   borneblood:
   - bugfix: fixed an oversight on hellfyre wave, and they cannot be ignited now
+2026-06-03:
+  FeniaFox:
+  - bugfix: Stone/wooden tools now repair via the same skill used to make them (usually
+      crafting).
+  FreeStylaLT:
+  - rscadd: Added animations for beckon and shoo.
+  - balance: Trained & Ready's stashed weapon options have been split up.
+  - balance: Trained & Ready's Shield skill (and stashed shield) have been removed.
+  Ollanius:
+  - balance: 'Adjusts a wide, wide, wide variety of pretty much everything involving
+      the Inquisition. Check out PR #7308 on Azure Peak''s GitHub for the full changelog.'
+  Quinalion:
+  - bugfix: Fixed bandage sewing exploit so bandages are used correctly and cannot
+      be used infinitely for sewing.
+  - bugfix: Fixed Spellblade jump causing the player to hang in mid-air.
+  - code_imp: Added `forced = TRUE` to emotion invocation in several procs to prevent
+      trait bypass and ensure consistent emotion delivery.
+  WeNeedMorePhoron:
+  - balance: Sawblade Volley now slows you down a bit more and take longer to charge
+      up.
+  - balance: Arcyne Lance and Stygian now uses **STAB** instead of **PIERCING** damage,
+      to reinforce them being good vs shitty light and not so good vs plate
+  - balance: Leather and Padded armor reduced back to 2 pips vs burn damage after
+      I ran some DPS checks locally.

@@ -1,6 +1,11 @@
 import type { CSSProperties } from 'react';
 
-import { INK, INK_FAINT, INK_SOFT } from '../common/parchment';
+import {
+  FONT_BODY,
+  INK,
+  INK_FAINT,
+  INK_SOFT,
+} from '../common/parchment';
 import { AMBER_TINT, AMBER_TINT_STRONG } from './parchment_calendar';
 import { EventBar } from './EventBar';
 import type { CalendarEvent } from './shared';
@@ -30,7 +35,7 @@ const cellStyle = (selected: boolean, isToday: boolean): CSSProperties => ({
       : 'transparent',
   display: 'flex',
   flexDirection: 'column',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   color: INK,
 });
 
@@ -49,7 +54,7 @@ const barsContainerStyle: CSSProperties = {
 };
 
 const overflowStyle: CSSProperties = {
-  fontSize: '9px',
+  fontSize: FONT_BODY,
   color: INK_FAINT,
   textAlign: 'right',
   paddingRight: '2px',
