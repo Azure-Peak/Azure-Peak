@@ -9,6 +9,7 @@
 	experimental_inhand = TRUE
 	possible_item_intents = list(/datum/intent/use) //If this affects candles lighting anything, remove this entire line to fix it.
 	light_color = LIGHT_COLOR_FIRE
+	dropshrink = 0.85
 	heat = 1000
 	var/wax = 1000
 	var/lit = FALSE

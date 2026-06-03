@@ -312,6 +312,7 @@
 	invocation_type = "emote"
 	invocations = list("flicks their wrist, filling the air in front of them with a fine powder.")
 	devotion_cost = 30
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/blowingdust/cast(list/targets, mob/user = user)
 	switch(user.rmb_intent.name)
@@ -393,6 +394,7 @@
 	recharge_time = 5 MINUTES
 	miracle = TRUE
 	devotion_cost = 75
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/lasthigh/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))

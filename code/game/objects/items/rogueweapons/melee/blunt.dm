@@ -59,6 +59,20 @@
 	desc = "A powerful blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XIII (3 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
 	maxrange = 3
 
+/datum/intent/mace/demolish
+	name = "demolish"
+	desc = "A deliberate structure-breaking blow. Deals bonus damage equal to 15% of a target structure's maximum integrity."
+	icon_state = "incrush"
+	blade_class = BCLASS_SMASH
+	attack_verb = list("demolishes", "crushes", "wrecks")
+	animname = "strike"
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	item_d_type = "blunt"
+	penfactor = PEN_NONE
+	demolition_mod = 3.5
+	clickcd = CLICK_CD_HEAVY
+	swingdelay = 10
+
 /datum/intent/mace/rangedthrust
 	name = "thrust"
 	blade_class = BCLASS_STAB
@@ -92,6 +106,12 @@
 	name = "heavy strike"
 	damfactor = 1.1
 	demolition_mod = 1.25
+
+/datum/intent/mace/strike/reach
+	name = "heavy strike"
+	damfactor = 1.25
+	demolition_mod = 2
+	reach = 2
 
 /datum/intent/mace/smash/grand
 	name = "heavy smash"
@@ -238,6 +258,7 @@
 	smelt_bar_num = 1
 	sellprice = 150
 	is_silver = TRUE
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/steel/silver/decorated/ComponentInitialize()
 	AddComponent(\
@@ -259,9 +280,9 @@
 	max_integrity = 50
 	anvilrepair = null //Ceremonial. This should break comedically easily, but still have just enough toughness to work with a few strikes.
 	minstr = 11
-	sellprice = 300
 	smeltresult = /obj/item/ingot/gold
 	unenchantable = TRUE
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/woodclub
 	force = 15
@@ -364,6 +385,7 @@
 	swingsound = BLUNTWOOSH_LARGE
 	minstr = 7
 	wdefense = 3
+
 	smeltresult = /obj/item/ingot/steel
 	icon_state = "flangedmace"
 
@@ -407,9 +429,7 @@
 	desc = "A ceremonial rungu carved out of clam shell. Not intended for combat. Its used in various Sea and Coastal Elven rituals and ceremonies."
 	icon = 'icons/roguetown/gems/gem_shell.dmi'
 	icon_state = "rungu_shell"
-
 	max_integrity = 75
-	sellprice = 35
 
 /obj/item/rogueweapon/mace/cudgel/psy
 	name = "psydonic flanged mace"
@@ -519,6 +539,7 @@
 	force_wielded = 25
 	wbalance = WBALANCE_NORMAL
 	icon_state = "opsyflangedmacelegacy"
+	is_silver = FALSE
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/mace/cudgel/psyclassic/old/ComponentInitialize()
@@ -642,7 +663,6 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	wdefense_wbonus = 5
-	special = null
 	max_integrity = 300
 
 /obj/item/rogueweapon/mace/goden/steel/paalloy
@@ -663,13 +683,12 @@
 	smeltresult = /obj/item/ingot/steelholy
 	smelt_bar_num = 2
 
-/obj/item/rogueweapon/mace/goden/kanabo
+/obj/item/rogueweapon/mace/goden/steel/kanabo
 	name = "kanabo"
 	desc = "A steel-banded wooden club, made to break the enemy in spirit as much as in flesh. One of the outliers among the many more elegant weapons of Kazengun."
 	icon_state = "kanabo"
 	slot_flags = ITEM_SLOT_BACK
 	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/effect/daze)
-	max_integrity = 250 // it's strong wood, but it's still wood.
 
 /obj/item/rogueweapon/mace/goden/steel/ravox
 	name = "duel settler"
@@ -695,6 +714,17 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 1,\
+	)
+
+/obj/item/rogueweapon/mace/goden/psymace/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
 		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 0,\
@@ -740,9 +770,9 @@
 	desc = "Flowers, silk, and gold caress this carved-and-spiked log; a honored totem who's roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
 	icon_state = "bronzeclubdec"
 	smeltresult = /obj/item/ingot/gold
-	sellprice = 100
 	wdefense = 5
 	max_integrity = 250
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/warhammer/alloy
 	name = "decrepit warhammer"
@@ -904,10 +934,10 @@
 	else
 		src.minstr = 18
 	..()
-	
+
 //Dwarvish mauls. Unobtanium outside of Grudgebearer. Do not change that.
 /obj/item/rogueweapon/mace/maul/steel
-	name = "dwarvish maul"
+	name = "dwarven maul"
 	desc = "An incredibly heavy, oversized hammer. The owner is not compensating, for this maul will do the speaking. \
 	This one has been well balanced, allowing for a weaker wielder to make use of it."
 	icon_state = "dwarfhammer"
@@ -927,6 +957,89 @@
 	minstr = 10 //+1 STR from Grudgebearer Smith. It should be fine.
 	smelt_bar_num = 3 //Please don't...
 	max_integrity = 370
+
+//Psydonite maul. Intended for FUCKING SHIT UP.
+/obj/item/rogueweapon/mace/maul/grand/psy
+	name = "psydonic maul"
+	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/sweep, /datum/intent/mace/demolish, /datum/intent/effect/hobble)
+	desc = "A rune-forged maul inspired by dwarven rock-hammers. Created as the faithful's answer to heretics hiding behind walls, it provides the impure with a sermon of exceptional concussive clarity. A good hit with this is guaranteed to give even the most peppy of heretics some deserved 'respite', and in best scenarios, send them to confess directly to HIM."
+	icon_state = "psyhammer"
+	smeltresult = /obj/item/ingot/silverblessed
+	minstr = 8
+	wdefense_wbonus = 8
+	is_silver = TRUE
+	max_integrity = 600 // need a lil more cause destroying walls takes a bit of this
+
+/obj/item/rogueweapon/mace/maul/grand/psy/pickup(mob/living/user)
+	if(HAS_TRAIT(user, TRAIT_PSYDONITE))
+		src.minstr = 8//-10, if you have the ability to use this.
+	else
+		src.minstr = 18
+	..()
+
+/obj/item/rogueweapon/mace/maul/grand/psy/ComponentInitialize()
+	AddComponent(\
+	/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
+/obj/item/rogueweapon/mace/maul/grand/psy/preblessed/ComponentInitialize()
+		AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
+/obj/item/rogueweapon/mace/maul/grand/psy/attack_obj(obj/O, mob/living/user)
+	. = ..()
+	if(!.)
+		return
+	if(!istype(user?.used_intent, /datum/intent/mace/demolish))
+		return
+	if(QDELETED(O))
+		return
+	if(isnull(O.obj_integrity))
+		return
+	if(O.obj_integrity > 900)
+		to_chat(user, span_warning("Too hard!"))
+		return
+	var/bonus_damage = round(O.obj_integrity * 0.15)
+	if(prob(50))
+		bonus_damage += rand(1,10)
+	else
+		bonus_damage -= rand(1,10)
+	O.take_damage(bonus_damage, BRUTE, src.d_type, FALSE)
+	to_chat(user, span_warning("Your blow expertly crushes [O]! (+[bonus_damage])"))
+
+/obj/item/rogueweapon/mace/maul/grand/psy/attack_turf(turf/T, mob/living/user, multiplier)
+	. = ..()
+	if(!.)
+		return
+	if(!istype(user?.used_intent, /datum/intent/mace/demolish))
+		return
+	if(QDELETED(T))
+		return
+	if(isnull(T.max_integrity))
+		return
+	if(T.max_integrity > 3000)
+		to_chat(user, span_warning("Too hard!"))
+		return
+	var/bonus_damage = round(T.max_integrity * 0.15)
+	if(prob(50))
+		bonus_damage += rand(1,20)
+	else
+		bonus_damage -= rand(1,20)
+	T.take_damage(bonus_damage, BRUTE, src.d_type, 1)
+	to_chat(user, span_warning("Your blow expertly caves into [T]! (+[bonus_damage])"))
 
 /datum/intent/mace/sweep
 	name = "sweeping strike"

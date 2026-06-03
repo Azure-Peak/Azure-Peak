@@ -109,6 +109,31 @@
 		M.energy_add(120)
 	..()
 
+/datum/reagent/medicine/restoration
+	name = "Restoration Potion"
+	description = "Simultaneously regenerates health and energy. Inherits a higher potency than common lifeblood and manna, but remains inferior to stronger brews."
+	color = "#ff8da1"
+	taste_description = "reinvigorative creaminess"
+	scent_description = "strawberries in liqour"
+	metabolization_rate = REAGENTS_METABOLISM * 2
+
+/datum/reagent/medicine/restoration/on_mob_life(mob/living/carbon/M)
+	if(volume >= 60)
+		M.reagents.remove_reagent(/datum/reagent/medicine/restoration, 2) //No overhealing.
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(3)
+	if(volume > 0.99)
+		M.adjustBruteLoss(-3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-3, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1.75 * REAGENTS_EFFECT_MULTIPLIER)
+	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
+		M.energy_add(60)
+	..()
+
 /datum/reagent/medicine/stampot
 	name = "Stamina Potion"
 	description = "Gradually regenerates stamina."
@@ -152,7 +177,7 @@
 **/
 /datum/reagent/medicine/antidote
 	name = "Antidote"
-	description = ""
+	description = "Gradually purges any imbalanced humors and poisons within the bloodstream."
 	reagent_state = LIQUID
 	color = "#00ff00"
 	taste_description = "sickly sweet"
@@ -172,7 +197,7 @@
 // About 3 time as potent as antidote
 /datum/reagent/medicine/strong_antidote
 	name = "Strong Antidote"
-	description = ""
+	description = "Rapidly purges any imbalanced humors and poisons within the bloodstream."
 	reagent_state = LIQUID
 	color = "#004200"
 	taste_description = "dirt"
@@ -379,6 +404,17 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 		M.add_nausea(9)
 		M.adjustToxLoss(2)
 	return ..()
+
+/datum/reagent/sleep_powder
+	name = "Sleep Poison"
+	description = ""
+	color = "#ddd3df" // rgb: 96, 165, 132
+	metabolization_rate = 1
+	taste_description = "numbing mintiness"
+
+/datum/reagent/sleep_powder/on_mob_metabolize(mob/living/carbon/M)
+	M.apply_status_effect(/datum/status_effect/debuff/knockout)
+	..()
 
 /datum/reagent/stampoison
 	name = "Stamina Poison"

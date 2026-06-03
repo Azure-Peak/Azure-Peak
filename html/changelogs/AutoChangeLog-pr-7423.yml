@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "The Golgatha's blessing correctly applies Fortune, now."

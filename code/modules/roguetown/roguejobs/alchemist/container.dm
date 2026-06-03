@@ -7,11 +7,18 @@
 	list_reagents = list(/datum/reagent/medicine/stronghealth = 50)
 	flags_ai_inventory = AI_ITEM_HEALING_DRINK | AI_ITEM_DRINK
 
+/obj/item/reagent_containers/glass/bottle/rogue/restoration
+	list_reagents = list(/datum/reagent/medicine/restoration = 50)
+	flags_ai_inventory = AI_ITEM_HEALING_DRINK | AI_ITEM_DRINK
+
 /obj/item/reagent_containers/glass/bottle/rogue/manapot
 	list_reagents = list(/datum/reagent/medicine/manapot = 50)
 
 /obj/item/reagent_containers/glass/bottle/rogue/poison
 	list_reagents = list(/datum/reagent/toxin/killersice = 1)
+
+/obj/item/reagent_containers/glass/bottle/rogue/sleep
+	list_reagents = list(/datum/reagent/sleep_powder = 50)
 
 /obj/item/reagent_containers/glass/bottle/rogue/water
 	list_reagents = list(/datum/reagent/water = 50)
@@ -92,6 +99,9 @@
 
 /obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab
 	list_reagents = list(/datum/reagent/fermented_crab = 15)
+
+/obj/item/reagent_containers/glass/bottle/alchemical/restoration
+	list_reagents = list(/datum/reagent/medicine/restoration = 30)
 
 //////////////////////////
 /// ALCOHOLIC BOTTLES ///
@@ -235,6 +245,12 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/apfelweinheim = 50)
 	desc = "A bottle with the Apfelweinheim cork-seal. A cider from the Grenzelhoftian town of Apfelweinheim. Well received for its addition of pear, alongside crisp apples."
 
+/obj/item/reagent_containers/glass/bottle/rogue/beer/limoncello
+	name = "bottle of Limoncello"
+	icon_state = "plum_wine"
+	list_reagents = list(/datum/reagent/consumable/ethanol/limoncello = 50)
+	desc = "A bottle with a golden lemon-printed cork-seal. An Etruscan distillate of sun-cured lemons and grain spirit. Sweet on the tongue, devastating to the throat."
+
 /obj/item/reagent_containers/glass/bottle/rogue/beer/rtoper
 	name = "bottle of Lirvas Cider"
 	icon_state = "ale"
@@ -295,7 +311,7 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/kgunshochu = 50)
 	desc = "A bottle with a Golden Swan cork-seal. A clean alcohol made by distilling rice. With a dry and clean finish. Popular amongst the warrior caste of Kazengun."
 
-// Zhongese Drinks
+// Lingyuese Drinks
 /obj/item/reagent_containers/glass/bottle/rogue/beer/huangjiu
 	name = "bottle of Huangjiu Rice Wine"
 	icon_state = "rice_wine"
@@ -312,13 +328,13 @@
 	name = "bottle of Yaojiu Rice Wine"
 	icon_state = "rice_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/yaojiu = 50)
-	desc = "A bottle with a red seal. A strong, sweet rice wine infused with medicinal herbs, including Ginseng. Often prescribed as a medicine on the Zhongese mainland."
+	desc = "A bottle with a red seal. A strong, sweet rice wine infused with medicinal herbs, including Ginseng. Often prescribed as a medicine on the Lingyuese mainland."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/shejiu
 	name = "bottle of Shejiu Rice Wine"
 	icon_state = "rice_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/shejiu = 50)
-	desc = "A bottle with a red seal. A strong rice wine with a dead snake inside. In the land of Zhong, It is believed that drinking this will improve one's virility and blood circulation."
+	desc = "A bottle with a red seal. A strong rice wine with a dead snake inside. In the land of Lingyue, it is believed that drinking this will improve one's virility and blood circulation."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/murkwine
 	name = "bottle of Possumtail Swampweed Wine"
@@ -338,11 +354,11 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/whipwine = 50)
 	desc = "A strange bottle with a concerningly brown color. It bears the seal of a snake's head over a leaf. Markings indicate the contents are supposed to be good for health..."
 
-/obj/item/reagent_containers/glass/bottle/rogue/beer/komuchisake
-	name = "bottle of Komuchi Sake"
+/obj/item/reagent_containers/glass/bottle/rogue/beer/truewhipwine
+	name = "bottle of Divine Snake Wine"
 	icon_state = "rice_wine"
-	list_reagents = list(/datum/reagent/consumable/ethanol/komuchisake = 50)
-	desc = "A dusty, ancient bottle with a red-ochre coloring. It bears an intricately detailed golden skull seal, and the markings on it are clearly of the Shogunate. It looks to be filled with herbs inside."
+	list_reagents = list(/datum/reagent/consumable/ethanol/truewhipwine = 50)
+	desc = "A weighty, lacquered bottle stamped with the coiled-serpent seal of an old Lingyuese apothecary house. Through the dark glass one can dimly see the silhouette of a long-dead snake suspended in the wine, surrounded by herbs. The True Form of the Whipwine - the recipe that the common Magickal Whip-Wine is a poor imitation of."
 
 		//////////////////////////
 		/// CLAY BOTTLES ///

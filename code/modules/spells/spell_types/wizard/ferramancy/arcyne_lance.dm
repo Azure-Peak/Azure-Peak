@@ -32,6 +32,8 @@
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 // --- Arcyne spear projectile ---
 
 /obj/projectile/magic/arcyne_lance
@@ -48,7 +50,7 @@
 	armor_penetration = PEN_LIGHT
 	movement_type = UNSTOPPABLE
 	range = SPELL_RANGE_PROJECTILE
-	flag = "piercing"
+	flag = "stab"
 	hitsound = 'sound/combat/hits/bladed/genthrust (1).ogg'
 	/// How many mob targets have been pierced
 	var/hits = 0

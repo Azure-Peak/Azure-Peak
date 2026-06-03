@@ -540,6 +540,8 @@
 
 /// Adjust the cooldown time based on associated_stat and armor.
 /datum/action/cooldown/spell/proc/get_adjusted_cooldown()
+	if(!isliving(owner))
+		return initial(cooldown_time)
 	var/mob/living/living_owner = owner
 	var/base = initial(cooldown_time)
 	var/newcd = base
@@ -878,6 +880,9 @@
 		var/mob/living/carbon/human/H = owner
 		if(H.has_status_effect(/datum/status_effect/buff/clash))
 			H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
+
+		if(H.get_skill_level(/datum/skill/misc/sneaking) >= SKILL_LEVEL_JOURNEYMAN || HAS_TRAIT(H, TRAIT_LIGHT_STEP))
+			H.apply_status_effect(/datum/status_effect/stealth_revealed)
 
 	// Sparks and smoke can only occur if there's an owner to source them from.
 	if(sparks_amt)

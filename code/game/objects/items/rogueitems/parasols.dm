@@ -19,7 +19,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	grid_width = 32
 	grid_height = 64
-
+	dropshrink = 0.75
 	var/active_item = FALSE
 
 /obj/item/rogueweapon/mace/parasol/Initialize()
@@ -51,7 +51,6 @@
 	icon = 'icons/roguetown/items/parasols64.dmi'
 	icon_state = "parasol1"
 	max_integrity = 75 // Fashion over function
-	sellprice = 45 // Takes master sewing and silk to create
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 

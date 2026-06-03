@@ -2,17 +2,56 @@ import { useState } from 'react';
 import {
   Box,
   Button,
+  Dropdown,
   Input,
   LabeledList,
   NumberInput,
   Section,
   Stack,
   Table,
+  Tabs,
 } from 'tgui-core/components';
+
+type EconomicPanelTab =
+  | 'dashboard'
+  | 'solvency'
+  | 'players'
+  | 'charters'
+  | 'assembly'
+  | 'internal'
+  | 'foreign'
+  | 'ledger'
+  | 'debug';
+
+const TAB_LABELS: Record<EconomicPanelTab, string> = {
+  dashboard: 'Dashboard',
+  solvency: 'Solvency',
+  players: 'Players',
+  charters: 'Charters',
+  assembly: 'Assembly',
+  internal: 'Internal',
+  foreign: 'Foreign',
+  ledger: 'Ledger',
+  debug: 'Debug',
+};
+
+const TAB_ORDER: EconomicPanelTab[] = [
+  'dashboard',
+  'solvency',
+  'players',
+  'charters',
+  'assembly',
+  'internal',
+  'foreign',
+  'ledger',
+  'debug',
+];
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { type DebugCounts, DebugView } from './EconomicPanel/DebugView';
+import { type ForeignTrade, ForeignTradeView } from './EconomicPanel/ForeignTradeView';
 
 type Dashboard = {
   discretionary: number;
@@ -78,6 +117,17 @@ type Blockade = {
   day_started: number;
   has_active_scroll: BooleanLike;
   ref: string;
+};
+
+type BlockadeRegionOption = {
+  id: string;
+  name: string;
+  blockaded: BooleanLike;
+};
+
+type BlockadeFactionOption = {
+  id: string;
+  name: string;
 };
 
 type LedgerEntry = {
@@ -149,6 +199,8 @@ type Data = {
   effective_player_count: number;
   live_player_count: number;
   blockades: Blockade[];
+  blockade_region_options: BlockadeRegionOption[];
+  blockade_faction_options: BlockadeFactionOption[];
   assembly: Assembly;
   bankruptcy: Bankruptcy;
   ledger: LedgerEntry[];
@@ -156,6 +208,8 @@ type Data = {
   ledger_cap: number;
   ledger_full_minted: number;
   ledger_full_burned: number;
+  foreign_trade: ForeignTrade;
+  debug: DebugCounts;
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -196,6 +250,8 @@ export const EconomicPanel = () => {
     effective_player_count,
     live_player_count,
     blockades,
+    blockade_region_options,
+    blockade_faction_options,
     assembly,
     bankruptcy,
     ledger,
@@ -203,8 +259,11 @@ export const EconomicPanel = () => {
     ledger_cap,
     ledger_full_minted,
     ledger_full_burned,
+    foreign_trade,
+    debug,
   } = data;
 
+  const [tab, setTab] = useState<EconomicPanelTab>('dashboard');
   const [searchDraft, setSearchDraft] = useState(filter.search);
   const [ledgerKind, setLedgerKind] = useState<
     'all' | 'mint' | 'burn' | 'transfer'
@@ -213,6 +272,8 @@ export const EconomicPanel = () => {
   const [ledgerReason, setLedgerReason] = useState('');
   const [ledgerGroup, setLedgerGroup] = useState(false);
   const [ledgerPage, setLedgerPage] = useState(0);
+  const [blockadeRegion, setBlockadeRegion] = useState('');
+  const [blockadeFaction, setBlockadeFaction] = useState('');
   const LEDGER_PAGE_SIZE = 50;
   const filteredLedger = ledger.filter((e) => {
     if (ledgerKind !== 'all' && e.kind !== ledgerKind) return false;
@@ -293,6 +354,7 @@ export const EconomicPanel = () => {
   };
   const [mintAmount, setMintAmount] = useState(100);
   const [burnAmount, setBurnAmount] = useState(100);
+  const [favorAmount, setFavorAmount] = useState(500);
   const [bulkAdvanceDays, setBulkAdvanceDays] = useState(1);
   const [playerAdvanceDays, setPlayerAdvanceDays] = useState(1);
   const [playerMintAmount, setPlayerMintAmount] = useState(50);
@@ -320,6 +382,21 @@ export const EconomicPanel = () => {
     <Window width={1080} height={780}>
       <Window.Content scrollable>
         <Stack vertical>
+          <Stack.Item>
+            <Tabs>
+              {TAB_ORDER.map((t) => (
+                <Tabs.Tab
+                  key={t}
+                  selected={tab === t}
+                  onClick={() => setTab(t)}
+                >
+                  {TAB_LABELS[t]}
+                </Tabs.Tab>
+              ))}
+            </Tabs>
+          </Stack.Item>
+
+          {tab === 'solvency' && (
           <Stack.Item>
             <Section
               title={
@@ -497,9 +574,7 @@ export const EconomicPanel = () => {
                               <span
                                 style={{
                                   color: '#c0392b',
-                                  fontVariant: 'small-caps',
                                   fontWeight: 'bold',
-                                  letterSpacing: '1px',
                                 }}
                               >
                                 suspended
@@ -544,7 +619,9 @@ export const EconomicPanel = () => {
               )}
             </Section>
           </Stack.Item>
+          )}
 
+          {tab === 'dashboard' && (
           <Stack.Item>
             <Section title={`Dashboard  -  Day ${day}`}>
               <Stack>
@@ -599,6 +676,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'ledger' && (
           <Stack.Item>
             <Section
               title={`Treasury Ledger  -  ${ledger_total} entries this round`}
@@ -685,12 +765,12 @@ export const EconomicPanel = () => {
                   Aggregations above cover the full round.
                 </Box>
               )}
-              {pageRows.length === 0 ? (
-                <Box italic color="gray">
-                  No entries match the current filter.
-                </Box>
-              ) : (
-                <>
+              <Box height="540px" mb={1} style={{ overflowY: 'auto' }}>
+                {pageRows.length === 0 ? (
+                  <Box italic color="gray">
+                    No entries match the current filter.
+                  </Box>
+                ) : (
                   <Table>
                     <Table.Row header>
                       <Table.Cell>Time</Table.Cell>
@@ -733,6 +813,10 @@ export const EconomicPanel = () => {
                       </Table.Row>
                     ))}
                   </Table>
+                )}
+              </Box>
+              {pageRows.length > 0 && (
+                <>
                   <Stack align="center" mt={1}>
                     <Stack.Item grow>
                       <Box italic color="gray">
@@ -784,6 +868,15 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'debug' && (
+          <Stack.Item>
+            <DebugView debug={debug} act={act} />
+          </Stack.Item>
+          )}
+
+          {tab === 'solvency' && (
           <Stack.Item>
             <Section title="Tick Actions">
               <Stack wrap>
@@ -827,10 +920,18 @@ export const EconomicPanel = () => {
                     Fire Economy Tick
                   </Button.Confirm>
                 </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm onClick={() => act('fire_brassface_tick')}>
+                    Fire BRASSFACE Tick
+                  </Button.Confirm>
+                </Stack.Item>
               </Stack>
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'solvency' && (
           <Stack.Item>
             <Section title="Simulated Population (economy pop scaling)">
               <Box mb={1} color="label">
@@ -874,12 +975,55 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'internal' && (
           <Stack.Item>
             <Section title={`Blockades (${blockades.length} active)`}>
-              <Stack wrap mb={1}>
+              <Stack wrap mb={1} align="center">
                 <Stack.Item>
                   <Button.Confirm onClick={() => act('fire_blockade_roll')}>
                     Fire Blockade Roll
+                  </Button.Confirm>
+                </Stack.Item>
+                <Stack.Item>
+                  <Dropdown
+                    width="11em"
+                    placeholder="Region..."
+                    selected={blockadeRegion}
+                    options={blockade_region_options.map((o) => ({
+                      value: o.id,
+                      displayText: o.blockaded ? `${o.name} (blockaded)` : o.name,
+                    }))}
+                    onSelected={(value) => setBlockadeRegion(value)}
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Dropdown
+                    width="11em"
+                    placeholder="Faction (auto)..."
+                    selected={blockadeFaction}
+                    options={[
+                      { value: '', displayText: 'Auto (by region)' },
+                      ...blockade_faction_options.map((o) => ({
+                        value: o.id,
+                        displayText: o.name,
+                      })),
+                    ]}
+                    onSelected={(value) => setBlockadeFaction(value)}
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm
+                    disabled={!blockadeRegion}
+                    onClick={() =>
+                      act('place_blockade', {
+                        region_id: blockadeRegion,
+                        faction_id: blockadeFaction || null,
+                      })
+                    }
+                  >
+                    Blockade Region
                   </Button.Confirm>
                 </Stack.Item>
               </Stack>
@@ -920,7 +1064,15 @@ export const EconomicPanel = () => {
               )}
             </Section>
           </Stack.Item>
+          )}
 
+          {tab === 'foreign' && (
+          <Stack.Item>
+            <ForeignTradeView foreignTrade={foreign_trade} act={act} />
+          </Stack.Item>
+          )}
+
+          {tab === 'assembly' && (
           <Stack.Item>
             <Section
               title={`City Assembly  -  Session #${assembly.session_number || 0}`}
@@ -1038,6 +1190,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'dashboard' && (
           <Stack.Item>
             <Section title="Crown's Purse Mint / Burn">
               <Stack align="center">
@@ -1079,6 +1234,45 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'dashboard' && (
+          <Stack.Item>
+            <Section title="Merchant Favor (testing)">
+              <Stack align="center">
+                <Stack.Item>Amount:</Stack.Item>
+                <Stack.Item>
+                  <NumberInput
+                    step={100}
+                    minValue={1}
+                    maxValue={100000}
+                    value={favorAmount}
+                    onChange={(v: number) => setFavorAmount(v)}
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm
+                    color="good"
+                    onClick={() => act('adjust_merchant_favor', { amount: favorAmount })}
+                  >
+                    Grant
+                  </Button.Confirm>
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm
+                    color="bad"
+                    onClick={() => act('adjust_merchant_favor', { amount: -favorAmount })}
+                  >
+                    Revoke
+                  </Button.Confirm>
+                </Stack.Item>
+              </Stack>
+            </Section>
+          </Stack.Item>
+
+          )}
+
+          {tab === 'charters' && (
           <Stack.Item>
             <Section title="Charters">
               <Stack vertical>
@@ -1097,6 +1291,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'players' && (
           <Stack.Item>
             <Section title="Filter">
               <Stack align="center" wrap>
@@ -1154,6 +1351,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'players' && (
           <Stack.Item>
             <Section title={`Players (${players.length} matching filter)`}>
               {players.length === 0 ? (
@@ -1239,8 +1439,9 @@ export const EconomicPanel = () => {
               )}
             </Section>
           </Stack.Item>
+          )}
 
-          {selected && (
+          {tab === 'players' && selected && (
             <Stack.Item>
               <Section
                 title={`Detail: ${selected.name} (${selected.job})`}

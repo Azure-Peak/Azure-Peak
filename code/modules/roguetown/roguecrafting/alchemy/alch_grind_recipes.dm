@@ -68,6 +68,18 @@
 	valid_outputs = list(/obj/item/alch/swampdust = 1)
 	bonus_chance_outputs = list(/obj/item/alch/earthdust = 50,/obj/item/alch/swampdust = 50)
 
+/datum/alch_grind_recipe/sleep_powder
+	name = "Sleep Powder"
+	valid_input = /obj/item/reagent_containers/food/snacks/zizo_bane
+	valid_outputs = list(/obj/item/alch/sleep_powder = 1)
+	bonus_chance_outputs = list(/obj/item/alch/airdust = 25)
+
+/datum/alch_grind_recipe/briar_essence
+	name = "Briar Essence"
+	valid_input = /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals
+	valid_outputs = list(/obj/item/alch/briar_essence = 1)
+	bonus_chance_outputs = list(/obj/item/alch/earthdust = 50)
+
 /datum/alch_grind_recipe/westleach
 	name = "Westleach"
 	valid_input = /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed

@@ -185,6 +185,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	/// %-age of our raw damage that is dealt to armor or weapon on hit / parry / clip.
 	var/intdamage_factor = 1
 
+	var/item_quality = ITEM_QUALITY_STANDARD
+	var/has_item_quality = FALSE
+
 	var/sleeved = null
 	var/sleevetype = null
 	var/nodismemsleeves = FALSE
@@ -278,14 +281,16 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	/// no force-undisguise on hit, and only a slow accumulation of (non-igniting) sunder stacks while held/worn.
 	var/is_lesser_silver = FALSE
 	var/last_used = 0
-	var/toggle_state = null
+	var/override_state = null
 	var/icon_x_offset = 0
 	var/icon_y_offset = 0
 	var/always_destroy = FALSE
 	/// If TRUE, this item is not allowed to be minted. May be useful for other things later.
 	var/is_important = FALSE
-	/// Tagged on mapload-spawned items inside town areas - marks them as town property so they can't be fed to the stockpile for minting.
 	var/unmintable = FALSE
+	var/atc_sealed = FALSE
+	var/was_crafted = FALSE
+	var/is_carved = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
 
@@ -338,14 +343,14 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					B.apply()
 				if (obj_broken)
 					update_damaged_state()
-			if(toggle_state)
-				icon_state = "[toggle_state]1"
+			if(override_state)
+				icon_state = "[override_state]1"
 			return
 		if(gripsprite)
-			if(!toggle_state)
+			if(!override_state)
 				icon_state = initial(icon_state)
 			else
-				icon_state = "[toggle_state]"
+				icon_state = "[override_state]"
 			var/datum/component/decal/blood/B = GetComponent(/datum/component/decal/blood)
 			if(B)
 				B.remove()
@@ -1573,6 +1578,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(user.get_active_held_item() == src)
 		user.update_a_intents()
 	user.changeNext_move(CLICK_CD_RAPID)
+	if(override_state)
+		apply_override_state(override_state)
 	return TRUE
 
 /obj/item/proc/altgrip(mob/living/carbon/user)
@@ -1691,8 +1698,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(anvilrepair)
 		if(smeltresult == /obj/item/ingot/iron)
 			new /obj/item/scrap(get_turf(src))
-			if(prob(20))
-				new /obj/item/scrap(get_turf(src))
 		if(smeltresult == /obj/item/ingot/avantyne) //In short - it checks the item's smeltable result. If it matches what's listed here, it'll spawn something 'new' - scrap, in this case - when destroyed.
 			new /obj/item/ingot/component/zizo(get_turf(src))
 			if(prob(20))
@@ -1735,23 +1740,107 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/repair_coverage()
 	body_parts_covered_dynamic = body_parts_covered
 
-/obj/item/examine(mob/user)
-	. = ..()
-	if(isliving(user))
-		var/mob/living/L = user
-		if(L.STAINT < 9)
-			return .
-	if(isnull(anvilrepair) && isnull(sewrepair))
-		return .
+/obj/item/proc/weight_tier_examine_line()
+	. = ""
+	var/size_word = "unwieldy"
+	switch(w_class)
+		if(WEIGHT_CLASS_TINY)
+			size_word = "tiny"
+		if(WEIGHT_CLASS_SMALL)
+			size_word = "small"
+		if(WEIGHT_CLASS_NORMAL)
+			size_word = "normal"
+		if(WEIGHT_CLASS_BULKY)
+			size_word = "bulky"
+		if(WEIGHT_CLASS_HUGE)
+			size_word = "huge"
+		if(WEIGHT_CLASS_GIGANTIC)
+			size_word = "gigantic"
+	return "Size: [size_word] ([grid_width]x[grid_height])."
 
-	var/str = "This object can be repaired using "
-	if(anvilrepair)
-		var/datum/skill/S = anvilrepair		//Should only ever be a skill or null
-		str += "<b>[initial(S.name)]</b> and a hammer."
-	if(sewrepair)
-		str += "<b>Sewing</b> and a needle."
-	str = span_info(str)
-	. += str
+/obj/item/proc/apply_quality(mob/crafter, skill_path, forced_tier = null)
+	var/tier
+	if(forced_tier != null)
+		tier = forced_tier
+	else
+		var/skill_level = 0
+		if(crafter && skill_path)
+			skill_level = crafter.get_skill_level(skill_path)
+		var/roll = rand(1, 100)
+		switch(skill_level)
+			if(SKILL_LEVEL_NONE, SKILL_LEVEL_NOVICE)
+				if(roll <= 60)
+					tier = ITEM_QUALITY_CRUDE
+				else if(roll <= 95)
+					tier = ITEM_QUALITY_ROUGH
+				else
+					tier = ITEM_QUALITY_STANDARD
+			if(SKILL_LEVEL_APPRENTICE)
+				if(roll <= 20)
+					tier = ITEM_QUALITY_CRUDE
+				else if(roll <= 75)
+					tier = ITEM_QUALITY_ROUGH
+				else
+					tier = ITEM_QUALITY_STANDARD
+			if(SKILL_LEVEL_JOURNEYMAN)
+				tier = ITEM_QUALITY_STANDARD
+			if(SKILL_LEVEL_EXPERT)
+				if(roll <= 70)
+					tier = ITEM_QUALITY_FINE
+				else if(roll <= 95)
+					tier = ITEM_QUALITY_FLAWLESS
+				else
+					tier = ITEM_QUALITY_MASTERWORK
+			if(SKILL_LEVEL_MASTER)
+				if(roll <= 30)
+					tier = ITEM_QUALITY_FINE
+				else if(roll <= 80)
+					tier = ITEM_QUALITY_FLAWLESS
+				else
+					tier = ITEM_QUALITY_MASTERWORK
+			else
+				if(roll <= 40)
+					tier = ITEM_QUALITY_FLAWLESS
+				else
+					tier = ITEM_QUALITY_MASTERWORK
+	item_quality = tier
+	var/prefix
+	switch(tier)
+		if(ITEM_QUALITY_LOOTED)
+			prefix = ITEM_QUALITY_PREFIX_LOOTED
+		if(ITEM_QUALITY_RUINED)
+			prefix = ITEM_QUALITY_PREFIX_RUINED
+		if(ITEM_QUALITY_AWFUL)
+			prefix = ITEM_QUALITY_PREFIX_AWFUL
+		if(ITEM_QUALITY_CRUDE)
+			prefix = ITEM_QUALITY_PREFIX_CRUDE
+		if(ITEM_QUALITY_ROUGH)
+			prefix = ITEM_QUALITY_PREFIX_ROUGH
+		if(ITEM_QUALITY_FINE)
+			prefix = ITEM_QUALITY_PREFIX_FINE
+		if(ITEM_QUALITY_FLAWLESS)
+			prefix = ITEM_QUALITY_PREFIX_FLAWLESS
+		if(ITEM_QUALITY_MASTERWORK)
+			prefix = ITEM_QUALITY_PREFIX_MASTERWORK
+	if(prefix)
+		name = "[prefix] [name]"
+	if(initial(sellprice) > 0)
+		sellprice = max(1, round(sellprice * ITEM_QUALITY_MULT(tier)))
+	return tier
+
+/obj/item/proc/mark_as_looted()
+	if(looted)
+		return
+	looted = TRUE
+	item_quality = ITEM_QUALITY_LOOTED
+	name = "[ITEM_QUALITY_PREFIX_LOOTED] [name]"
+
+/obj/item/proc/unmark_as_looted()
+	if(!looted)
+		return
+	looted = FALSE
+	item_quality = ITEM_QUALITY_STANDARD
+	name = replacetext(name, "[ITEM_QUALITY_PREFIX_LOOTED] ", "")
 
 /obj/item/proc/update_force_dynamic()
 	force_dynamic = (wielded ? force_wielded : force)

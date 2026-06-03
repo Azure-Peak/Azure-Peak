@@ -268,7 +268,7 @@
 
 /datum/reagent/water/blessed
 	name = "blessed water"
-	description = "A gift of Devotion. Very slightly heals wounds."
+	description = "A gift of Devotion. It very lightly mends the wounds of the lyving, but ignites the flesh of the unlyving."
 
 /datum/reagent/water/blessed/on_mob_life(mob/living/carbon/M)
 	. = ..()
@@ -288,9 +288,10 @@
 	..()
 	if(L.mob_biotypes & MOB_UNDEAD)
 		L.adjust_fire_stacks(2)
+		L.adjustFireLoss(5)
 		L.ignite_mob()
 		L.emote("scream")
-		L.visible_message(span_warning("[L] erupts into angry fizzling and hissing!"), span_warning("BLESSED WATER!!! IT BURNS!!!"))
+		L.visible_message(span_warning("[L] erupts into angry fizzling and hissing!"), span_warning("DAMNATION, BLESSED WATER! IT BUUUURNS!"))
 
 /datum/reagent/water/blessed/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	if (!istype(M))
@@ -299,9 +300,9 @@
 	if (method == TOUCH)
 		if (M.mob_biotypes & MOB_UNDEAD)
 			M.adjustFireLoss(2*reac_volume, 0)
-			M.visible_message(span_warning("[M] erupts into angry fizzling and hissing!"), span_warning("BLESSED WATER!!! IT BURNS!!!"))
+			M.visible_message(span_warning("[M] erupts into angry fizzling and hissing!"), span_warning("DAMNATION, BLESSED WATER! IT BUUUURNS!"))
 			M.emote("scream")
-	
+
 	return ..()
 
 /datum/reagent/water/cursed
@@ -354,7 +355,7 @@
 				holder.remove_reagent(R.type, 0.2 * REAGENTS_EFFECT_MULTIPLIER)
 		var/list/wCount = M.get_wounds()
 		if(wCount.len > 0)
-			M.heal_wounds(2 * REAGENTS_EFFECT_MULTIPLIER)
+			M.heal_wounds(2)
 		..()
 
 /datum/action/cooldown/spell/touch/orison/proc/create_water(obj/item/melee/new_touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
@@ -371,14 +372,14 @@
 		caster.visible_message(span_info("[caster] closes [caster.p_their()] eyes in prayer and extends a hand over [victim] as water begins to stream from [caster.p_their()] fingertips..."), span_notice("I utter forth a plea to [caster.patron.name] for succour, and hold my hand out above [victim]..."))
 
 		var/holy_skill = caster.get_skill_level(/datum/skill/magic/holy)
-		var/drip_speed = 56 - (holy_skill * 8)
+		var/drip_speed = 1.5 SECONDS
 		var/fatigue_spent = 0
-		var/fatigue_used = max(3, holy_skill)
+		var/water_qty = 5
 		while (do_after(caster, drip_speed, target = victim))
-			if (victim.reagents.holder_full())//|| (caster.devotion.devotion - fatigue_used <= 0)
+			if (victim.reagents.holder_full())
 				break
 
-			var/water_qty = max(2, 2 * holy_skill) + 2
+			water_qty = holy_skill * 5
 			var/list/water_contents = list(/datum/reagent/water/cursed = water_qty)
 			if(caster.patron.undead_hater == TRUE)
 				water_contents = list(/datum/reagent/water/blessed = water_qty)
@@ -387,11 +388,7 @@
 			var/datum/reagents/reagents_to_add = new()
 			reagents_to_add.add_reagent_list(water_contents)
 			reagents_to_add.trans_to(victim, reagents_to_add.total_volume, transfered_by = caster)
-
-			fatigue_spent += fatigue_used
-			caster.stamina_add(fatigue_used)
-			//caster.devotion?.update_devotion(-1.5)
-
+			
 			if (prob(80))
 				playsound(caster, 'sound/items/fillcup.ogg', 55, TRUE)
 		
@@ -418,5 +415,9 @@
 	else if (istype(victim, /obj/item/reagent_containers/powder/mineral))
 		var/obj/item/reagent_containers/powder/mineral/the_mineral = victim
 		the_mineral.wet(src, caster)
+		return
+	else if (istype(victim, /obj/structure/soil))
+		caster.visible_message(span_info("[caster] conjures water over the soil."), span_notice("I utter forth a plea to [caster.patron.name] for succour, and will moisture into the soil."))
+		return
 	else
 		to_chat(caster, span_info("I'll need to find a container that can hold water."))

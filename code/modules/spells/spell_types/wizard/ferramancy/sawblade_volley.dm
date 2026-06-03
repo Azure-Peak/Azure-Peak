@@ -26,15 +26,17 @@
 
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
-	charge_time = CHARGETIME_POKE
+	charge_time = CHARGETIME_MAJOR
 	charge_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 15 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 	displayed_damage = 60
 

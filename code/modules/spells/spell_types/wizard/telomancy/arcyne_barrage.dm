@@ -3,8 +3,8 @@
 /datum/action/cooldown/spell/projectile/arcyne_barrage
 	button_icon = 'icons/mob/actions/mage_telomancy.dmi'
 	name = "Arcyne Barrage"
-	desc = "The Ultimate Reason of a Telomancer - barrage a general direction with a barrage of arcyne bolts for ten seconds. \
-	The bolts arrive in interleaved pulses. You can walk while channeling but you are greatly slowed down and cannot change your direction. \
+	desc = "The Ultimate Reason of a Telomancer - barrage a direction with pulses of piercing, ricocheting arcyne bolts for ten seconds. The bolts can pierce up to five targets. \
+	You can walk while channeling but you are greatly slowed down and cannot change your direction. \
 	Being stunned, knocked down, or grabbed will break the channeling."
 	button_icon_state = "arcyne_barrage"
 	sound = 'sound/magic/vlightning.ogg'
@@ -34,11 +34,12 @@
 	spell_tier = 4
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 	var/channel_duration = 10 SECONDS
-	var/pulse_interval = 1 SECONDS
-	var/arc_width = 120
-	var/odd_pulse_step = 10
-	var/even_pulse_step = 10
+	var/pulse_interval = 2 SECONDS
+	var/bolts_per_pulse = 5
+	var/pulse_spread = 120
 	var/channel_slowdown = 3
 
 /datum/action/cooldown/spell/projectile/arcyne_barrage/before_cast(atom/cast_on)
@@ -60,7 +61,7 @@
 	var/end_time = world.time + channel_duration
 	var/pulse_index = 0
 
-	H.visible_message(span_danger("<b>[H] plants their feet and unleashes a storm of arcyne bolts!</b>"))
+	H.visible_message(span_danger("<b>[H] unleashes a storm of arcyne bolts!</b>"))
 	playsound(get_turf(H), 'sound/magic/vlightning.ogg', 100, TRUE)
 	H.add_movespeed_modifier(ARCYNE_BARRAGE_SLOWDOWN_ID, update = TRUE, priority = 100, multiplicative_slowdown = channel_slowdown, movetypes = GROUND)
 
@@ -99,19 +100,11 @@
 		return FALSE
 	return TRUE
 
-/// Fire a single pulse of greater arcyne bolts. Odd pulses hit 0/20/40/60/80/100/120; even pulses hit 10/30/50/70/90/110.
 /datum/action/cooldown/spell/projectile/arcyne_barrage/proc/fire_pulse(mob/living/carbon/human/H, locked_angle, pulse_index)
-	var/is_odd_pulse = (pulse_index % 2) == 1
-	var/start_offset = is_odd_pulse ? 0 : (odd_pulse_step / 2)
-	var/step_size = is_odd_pulse ? odd_pulse_step : even_pulse_step
-	var/arc_start = locked_angle - (arc_width / 2)
-	var/list/angles_to_fire = list()
-	var/current_offset = start_offset
-	while(current_offset <= arc_width)
-		angles_to_fire += (arc_start + current_offset)
-		current_offset += step_size
-	for(var/angle in angles_to_fire)
-		fire_barrage_bolt(H, angle)
+	var/arc_start = locked_angle - (pulse_spread / 2)
+	var/step_size = bolts_per_pulse > 1 ? (pulse_spread / (bolts_per_pulse - 1)) : 0
+	for(var/i in 1 to bolts_per_pulse)
+		fire_barrage_bolt(H, arc_start + (step_size * (i - 1)))
 
 /datum/action/cooldown/spell/projectile/arcyne_barrage/proc/fire_barrage_bolt(mob/living/carbon/human/H, angle)
 	var/obj/projectile/magic/arcyne_barrage_bolt/bolt = new(get_turf(H))
@@ -141,14 +134,17 @@
 	guard_deflectable = TRUE
 	npc_simple_damage_mult = 1.5
 	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-	ricochets_max = 2
-	ricochet_chance = 80
+	movement_type = UNSTOPPABLE
+	ricochets_max = 5
+	ricochet_chance = 100
 	ricochet_auto_aim_angle = 40
 	ricochet_auto_aim_range = 5
 	ricochet_incidence_leeway = 40
 	ricochet_decay_chance = 1
-	ricochet_decay_damage = 0.8
+	ricochet_decay_damage = 1
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
+	var/hits = 0
+	var/max_hits = 5
 
 /obj/projectile/magic/arcyne_barrage_bolt/on_hit(target)
 	hitsound = pick('sound/combat/hits/blunt/shovel_hit.ogg', 'sound/combat/hits/blunt/shovel_hit2.ogg', 'sound/combat/hits/blunt/shovel_hit3.ogg')
@@ -160,5 +156,12 @@
 			qdel(src)
 			return BULLET_ACT_BLOCK
 	. = ..()
+	if(!ismob(target))
+		return
+	hits++
+	if(hits >= max_hits)
+		qdel(src)
+		return . || BULLET_ACT_HIT
+	return BULLET_ACT_FORCE_PIERCE
 
 #undef ARCYNE_BARRAGE_SLOWDOWN_ID

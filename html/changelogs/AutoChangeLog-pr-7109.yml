@@ -1,4 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - bugfix: "attempts to stop ham from being infinite again."

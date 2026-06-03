@@ -26,7 +26,6 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN, // average weapon skill for an adventurer role
 	)
 
 /datum/outfit/job/roguetown/adventurer/mystic/pre_equip(mob/living/carbon/human/H)
@@ -41,8 +40,6 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/backpack
-	r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
-	l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
@@ -56,6 +53,46 @@
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
+	
+	if(H.mind)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
+
+	switch(H.patron?.type)
+		if(/datum/patron/divine/undivided)
+			var/list/heal = list("Cure Greater Wounds(Miracle)", "Fortifying Vapors(Medical)")
+			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(highheal_options)
+				if("Cure Greater Wounds(Miracle)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+				if("Fortifying Vapors(Medical)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+		else
+			var/list/heal = list("Cure Wounds(Miracle)", "Fortifying Vapors(Medical)")
+			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(heal_options)
+				if("Cure Wounds(Miracle)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
+				if("Fortifying Vapors(Medical)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+
+
+	if(H.mind)
+		var/weapons = list("lesser staff", "lesser wand", "quarterstaff")
+		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		switch(weapon_choice)
+			if("lesser staff")
+				r_hand = /obj/item/rogueweapon/woodstaff/implement
+				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE)
+			if("lesser wand")
+				r_hand = /obj/item/rogueweapon/wand
+				l_hand = /obj/item/rogueweapon/shield/wood
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE)
+			if("quarterstaff")
+				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
+				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE)
+
+
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross
@@ -130,7 +167,6 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 	)
 
 /datum/outfit/job/roguetown/adventurer/resilient/pre_equip(mob/living/carbon/human/H)
@@ -145,7 +181,6 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
@@ -157,7 +192,7 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/stoneskin)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 	var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 	switch(poke_choice)
 		if("Spitfire")
@@ -174,11 +209,45 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 		if("Lesser Gravel Blast")
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
-			
+		if("Lesser Soulshot")
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
+
+	switch(H.patron?.type)
+		if(/datum/patron/divine/undivided)
+			var/list/heal = list("Cure Greater Wounds(Miracle)", "Fortifying Vapors(Medical)")
+			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(highheal_options)
+				if("Cure Greater Wounds(Miracle)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+				if("Fortifying Vapors(Medical)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+		else
+			var/list/heal = list("Cure Wounds(Miracle)", "Fortifying Vapors(Medical)")
+			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(heal_options)
+				if("Cure Wounds(Miracle)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
+				if("Fortifying Vapors(Medical)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+
+	if(H.mind)
+		var/weapons = list("lesser staff", "lesser wand")
+		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		switch(weapon_choice)
+			if("lesser staff")
+				r_hand = /obj/item/rogueweapon/woodstaff/implement
+				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE)
+			if("lesser wand")
+				r_hand = /obj/item/rogueweapon/wand
+				l_hand = /obj/item/rogueweapon/shield/wood
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE)
+
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross
@@ -282,6 +351,7 @@
 			if("Shortsword + shield")
 				r_hand = /obj/item/rogueweapon/sword/short
 				beltr = /obj/item/rogueweapon/scabbard/sword
+				backr = /obj/item/rogueweapon/shield/wood
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 3, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
 			if("Quarterstaff")
@@ -304,7 +374,7 @@
 		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 		)
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 	var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 	switch(poke_choice)
 		if("Spitfire")
@@ -321,6 +391,8 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 		if("Lesser Gravel Blast")
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
+		if("Lesser Soulshot")
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
@@ -372,4 +444,3 @@
 		if(/datum/patron/divine/xylix)
 			id = /obj/item/clothing/neck/roguetown/luckcharm
 			H.cmode_music = 'sound/music/combat_jester.ogg'
-

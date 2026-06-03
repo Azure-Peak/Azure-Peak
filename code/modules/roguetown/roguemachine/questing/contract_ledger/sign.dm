@@ -18,6 +18,11 @@
 		play_reject_sound()
 		return
 
+	if(is_quest_claim_barred(user))
+		say("Your office forbids you from signing contracts. Leave the work to those sworn to it.")
+		play_reject_sound()
+		return
+
 	if(!is_townie_contract_gate_exempt(user))
 		var/elapsed = world.time - SSticker.round_start_time
 		if(elapsed < CONTRACT_TOWNIE_GATE_TIME)
@@ -89,6 +94,8 @@
 
 	var/datum/quest/completed_quest = scroll.assigned_quest
 	var/quest_levy_exempt = completed_quest.levy_exempt
+	if(completed_quest.source == QUEST_SOURCE_TOWNER && hascall(completed_quest, "on_turn_in_pay_giver"))
+		call(completed_quest, "on_turn_in_pay_giver")(user, get_turf(src))
 	qdel(scroll.assigned_quest)
 	qdel(scroll)
 

@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/ceramics
 	abstract_type = /datum/crafting_recipe/roguetown/ceramics
+	display_category = ITEM_CAT_POTTERY
 	skillcraft = /datum/skill/craft/ceramics
 
 /datum/crafting_recipe/roguetown/ceramics/clay
@@ -140,3 +141,12 @@
 	reqs = list(/obj/item/natural/glass = 2)
 	craftdiff = 5
 
+/datum/crafting_recipe/roguetown/ceramics/portable_hookah
+	name = "portable hookah"
+	result = list(/obj/item/portable_hookah)
+	reqs = list(
+	/obj/item/natural/hide/cured = 1,
+	/obj/item/natural/clay = 2,
+	/obj/item/candle/yellow = 1
+	)
+	craftdiff = 4

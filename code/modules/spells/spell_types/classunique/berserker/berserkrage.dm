@@ -91,7 +91,7 @@
 	var/tech_healing_modifier = 1
 
 /datum/status_effect/buff/rage_stamina/tick()
-	if(owner.construct)
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/stamheal = healing_on_tick
 	owner.energy_add(stamheal)

@@ -26,7 +26,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE
 	)
 	subclass_stashed_items = list(
-		"Of Psydon" = /obj/item/book/rogue/bibble/psy
+		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
 	
 /datum/outfit/job/roguetown/psyaltrist/pre_equip(mob/living/carbon/human/H)
@@ -54,7 +54,7 @@
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 	if(H.mind)
-		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
+		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
 		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
 		H.set_blindness(0)
 		switch(instrument_choice)
@@ -76,17 +76,27 @@
 				backr = /obj/item/rogue/instrument/psyaltery
 			if("Flute")
 				backr = /obj/item/rogue/instrument/flute
+			if("Drum")
+				backr = /obj/item/rogue/instrument/drum
+			if("Shamisen")
+				backr = /obj/item/rogue/instrument/shamisen
 
-	var/weapons = list("Psydonic Whip", "Psydonic Shortsword")
+	var/weapons = list("Psydonic Whip", "Psydonic Shortsword", "Psydonic Handmace - Swift-Balanced", "Psydonic Flanged Mace - Heavy-Balanced")
 	var/weapon_choice = tgui_input_list(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 	switch(weapon_choice)
 		if("Psydonic Whip")
-			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser(H))
+			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser/preblessed(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Psydonic Shortsword")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy(H))
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy/preblessed(H))
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+		if("Psydonic Handmace - Swift-Balanced")
+			l_hand = /obj/item/rogueweapon/mace/cudgel/psyclassic/preblessed
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+		if("Psydonic Flanged Mace - Heavy-Balanced")
+			l_hand = /obj/item/rogueweapon/mace/cudgel/psy/preblessed
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 /datum/outfit/job/roguetown/psyaltrist
 	job_bitflag = BITFLAG_HOLY_WARRIOR

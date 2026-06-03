@@ -30,6 +30,12 @@
 	clotting_rate = 0.60		// Normally it's only 0.02, this is huge compared to that.
 	bypass_bloody_wound_check = TRUE	//We bypass this proc-checkfor fractures.
 
+//Slimes don't have bones, instead we'll make their limbs straight up dissolve if they take too much damage.
+/datum/wound/fracture/can_apply_to_bodypart(obj/item/bodypart/affected)
+	if(isooze(affected.owner))
+		return FALSE
+	return ..()
+
 /datum/wound/fracture/get_visible_name(mob/user)
 	. = ..()
 	if(passive_healing)
@@ -105,6 +111,8 @@
 	mortal = TRUE
 	/// Some head fractures will knock your lights out, if not flat-out paralyze you.
 	var/knockout = 2 SECONDS
+	/// Few fractures will kill you instantly with shatterable form - used to workaround stage 1 skullcracks being hyper lethal for crit weakness.
+	shatter_wound = FALSE
 
 /datum/wound/fracture/head/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -145,6 +153,7 @@
 		"THE SKULL IS MINCED INTO DUST!",
 	)
 	paralysis = TRUE
+	shatter_wound = TRUE
 
 /datum/wound/fracture/head/brain
 	name = "depressed cranial fracture"
@@ -167,6 +176,7 @@
 		"THE CRANIUM CAVES IN!",
 	)
 	paralysis = TRUE
+	shatter_wound = TRUE
 
 /datum/wound/fracture/head/eyes
 	name = "orbital fracture"
@@ -284,6 +294,7 @@
 		"THE SPINE POPS WITH A SICKENING NOISE!",
 	)
 	whp = 100
+	shatter_wound = TRUE
 
 /datum/wound/fracture/neck/shatter/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -316,6 +327,7 @@
 	bleed_rate = 25				//Higher than artery
 	clotting_threshold = 1		//Will always bleed bad
 	clotting_rate = 1			//Good clotting rate; within 24 ticks (~3 seconds) will lower heavily.
+	shatter_wound = TRUE //Lethal for all skeles, workaround for their spammability and feeling seemingly unkillable for mace users
 
 /datum/wound/fracture/chest/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -332,6 +344,11 @@
 	var/mob/living/carbon/carbon_owner = owner
 	if(!carbon_owner.stat && prob(5))
 		carbon_owner.vomit(1, blood = TRUE, stun = TRUE)
+		if(HAS_TRAIT(carbon_owner, TRAIT_IRONMAN)) // oops, compensating the lack of blood vomit with this
+			carbon_owner.OffBalance(50)
+			carbon_owner.Jitter(50)
+			carbon_owner.Immobilize(50)
+			carbon_owner.emote("gag")
 
 /datum/wound/fracture/groin
 	name = "pelvic fracture"

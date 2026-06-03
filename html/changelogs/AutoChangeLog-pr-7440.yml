@@ -1,0 +1,5 @@
+author: "sakke03"
+delete-after: True
+changes:
+  - balance: "Maneaters are no longer revealed by walking over them in cases where they won't attack"
+  - bugfix: "Maneaters no longer refuse to eat ambush NPCs"

@@ -138,7 +138,7 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Billhook","Battle Axe","Greataxe","Greatflail")
+		var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Lance + Shield","Billhook","Battle Axe","Greataxe","Greatflail")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Longsword")
@@ -154,6 +154,11 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/flail
+				backr = /obj/item/rogueweapon/shield/tower/metal
+			if("Lance + Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/spear/lance
 				backr = /obj/item/rogueweapon/shield/tower/metal
 			if("Greatflail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -213,11 +218,12 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
-		/obj/item/rogueweapon/hammer/iron = 1, 
-		/obj/item/rogueweapon/tongs = 1, 
-		/obj/item/recipe_book/survival = 1,
+		/obj/item/rogueweapon/hammer/iron = 1,
 		/obj/item/repair_kit/metal = 1,
 		/obj/item/repair_kit = 1,
+		/obj/item/armor_brush = 1,
+		/obj/item/polishing_cream = 1,
+		/obj/item/recipe_book/survival = 1,
 	)
 	if(H.mind)
 		var/armors = list("Light Armor","Medium Armor")

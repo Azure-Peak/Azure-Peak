@@ -422,7 +422,6 @@
 	desc = span_aiprivradio("The standard calls out to me! It knows we're to see victory!")
 	timer = 3 MINUTES
 
-
 // Effects for zigs
 
 /datum/stressevent/menthasmoke
@@ -441,7 +440,7 @@
 	desc = list(span_blue("A feeling of sourness and coolness on the tongue."))
 
 /datum/stressevent/chocolatesmoke
-	timer = 2 MINUTES
+	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_purple("A pleasant feeling of rawness and bitterness on the tongue."))
 	
@@ -470,9 +469,8 @@
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling bitter-spicy and tart on the tongue."))
 	
-	
-/datum/stressevent/ziggarasmoke
-	timer = 2 MINUTES
+/datum/stressevent/zweed
+	timer = 5 MINUTES
 	stressadd = -2
 	desc = list(span_blue("You feel a pleasant bitterness that burns and scratches your throat. Nicotine and the taste of oak bark leave a pleasant aftertaste in your mouth."))
 
@@ -484,7 +482,9 @@
 /datum/stressevent/abysssmoke
 	timer = 1 MINUTES
 	stressadd = 0
-	desc = list(span_blue("A pleasant feeling slight sourness and sweetnesson... and salty on the tongue? You feel an unpleasant chill run down your spine. You can't shake the feeling of someone staring from behind you...."))
+	desc = list(span_blue("A pleasant feeling slight sourness and sweetnesson... and salty on the tongue? You feel an unpleasant chill run down your spine. You can't shake the feeling of someone staring from behind you..."))
+
+//
 
 /datum/stressevent/kytherian_blessing
 	timer = 5 MINUTES

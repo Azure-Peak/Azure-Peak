@@ -41,6 +41,8 @@ export type QuestScrollData = {
   levy_exempt?: BooleanLike;
   is_rumor?: BooleanLike;
   is_defense?: BooleanLike;
+  is_towner?: BooleanLike;
+  guild_cut_exempt?: BooleanLike;
   blockade_timer_label?: string;
   blockade_timer_seconds?: number;
   blockade_current_wave?: number;
@@ -49,6 +51,16 @@ export type QuestScrollData = {
   blockade_failed?: BooleanLike;
   hunt_timer_label?: string;
   hunt_timer_seconds?: number;
+  caravan_parcel_spawned?: BooleanLike;
+  caravan_expired?: BooleanLike;
+  caravan_expiry_seconds?: number;
+  caravan_bearer_arrived?: BooleanLike;
+  orevein_clusters_total?: number;
+  orevein_clusters_remaining?: number;
+  orevein_clusters_spawned?: BooleanLike;
+  orevein_expired?: BooleanLike;
+  orevein_expiry_seconds?: number;
+  orevein_bearer_arrived?: BooleanLike;
 };
 
 export const FACTION_CAT_HUMANOID = 'humanoid';
@@ -65,6 +77,7 @@ export const CONDEMNATION_VOLKOMIR = 'volkomir';
 
 export const WRIT_TYPE_RECOVERY = 'recovery';
 export const WRIT_TYPE_CARRIAGE = 'carriage';
+export const WRIT_TYPE_TOWNER_VEIN = 'towner_vein';
 
 export const formatMinSec = (totalSeconds: number) => {
   if (totalSeconds <= 0) return '0:00';
@@ -77,8 +90,8 @@ export const capitalize = (s: string) =>
   s.length > 0 ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 
 export const parchment: CSSProperties = {
-  color: 'hsl(28, 42%, 18%)',
-  fontFamily: "Georgia, 'Palatino Linotype', Palatino, serif",
+  color: 'var(--p-ink)',
+  fontFamily: "'Lora', Georgia, serif",
   padding: '24px 28px',
   minHeight: '100%',
   boxSizing: 'border-box',
@@ -108,31 +121,30 @@ export const indictmentItem: CSSProperties = {
 export const sacralPlea: CSSProperties = {
   fontStyle: 'italic',
   marginBottom: '12px',
-  color: 'hsl(28, 50%, 25%)',
+  color: 'var(--p-ink-soft)',
 };
 
 export const caputLupinum: CSSProperties = {
   fontWeight: 'bold',
-  letterSpacing: '1.5px',
 };
 
 export const sealLine: CSSProperties = {
   fontStyle: 'italic',
   fontSize: '0.92em',
-  color: 'hsl(28, 50%, 25%)',
+  color: 'var(--p-ink-soft)',
   marginTop: '14px',
   marginBottom: '8px',
 };
 
 export const divider: CSSProperties = {
   border: 'none',
-  borderTop: '1px solid hsl(30, 30%, 50%)',
+  borderTop: '1px solid var(--p-ink-faint)',
   margin: '14px 0',
 };
 
 export const marginalia: CSSProperties = {
-  background: 'hsla(46, 40%, 76%, 0.4)',
-  border: '1px solid hsl(30, 30%, 60%)',
+  background: 'var(--p-card-bg)',
+  border: '1px solid var(--p-ink-faint)',
   borderRadius: '2px',
   padding: '8px 12px',
   marginTop: '12px',
@@ -145,14 +157,14 @@ export const marginaliaLine: CSSProperties = {
 
 export const marginaliaLabel: CSSProperties = {
   fontStyle: 'italic',
-  color: 'hsl(30, 38%, 35%)',
+  color: 'var(--p-ink-soft)',
   marginRight: '6px',
 };
 
 export const completionStamp: CSSProperties = {
   textAlign: 'center',
   fontWeight: 'bold',
-  color: 'hsl(130, 45%, 28%)',
+  color: 'var(--p-seal-green)',
   fontSize: '1.08em',
   marginTop: '14px',
 };
@@ -160,16 +172,14 @@ export const completionStamp: CSSProperties = {
 export const failedStamp: CSSProperties = {
   textAlign: 'center',
   fontWeight: 'bold',
-  color: 'hsl(0, 55%, 32%)',
+  color: 'var(--p-seal-red)',
   fontSize: '1.08em',
   marginTop: '14px',
 };
 
 export const titleHint: CSSProperties = {
   fontSize: '0.78em',
-  letterSpacing: '4px',
   textAlign: 'center',
-  color: 'hsl(28, 52%, 30%)',
+  color: 'var(--p-ink-soft)',
   marginBottom: '18px',
-  fontVariant: 'small-caps',
 };

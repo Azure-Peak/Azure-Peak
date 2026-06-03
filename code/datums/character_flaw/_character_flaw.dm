@@ -41,12 +41,13 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	"Courtiers & Nobility" = (COURTIERS | NOBLEMEN | COUNCILLOR),
 	"Inquisition" = INQUISITION,
 	"Burghers" = BURGHERS,
+	"Azurian Trading Company" = ATC,
 	"Retinue" = RETINUE,
 	"Garrison" = GARRISON,
 	"Churchmen" = CHURCHMEN,
 	"Peasants" = PEASANTS,
 	"Wanderers" = WANDERERS,
-	"Everyone" = (COURTIERS | NOBLEMEN | INQUISITION | BURGHERS | RETINUE | GARRISON | CHURCHMEN | PEASANTS | WANDERERS | SIDEFOLK | ANTAGONIST | COUNCILLOR)
+	"Everyone" = (COURTIERS | NOBLEMEN | INQUISITION | BURGHERS | ATC | RETINUE | GARRISON | CHURCHMEN | PEASANTS | WANDERERS | SIDEFOLK | ANTAGONIST | COUNCILLOR)
 ))
 
 /datum/charflaw
@@ -409,6 +410,26 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	..()
 	user.add_client_colour(/datum/client_colour/monochrome)
 
+GLOBAL_LIST_INIT(hunted_protected_roles, list(
+	"Head Physician",
+	"Martyr",
+	"Bishop",
+	"Councillor",
+	"Hand",
+	"Jester",
+	"Court Magician",
+	"Seneschal",
+	"Suitor",
+	"Sergeant",
+	"Inquisitor",
+	"Consort",
+	"Grand Duke",
+	"Prince",
+	"Servant",
+	"Knight",
+	"Marshal"
+))
+
 /datum/charflaw/hunted
 	name = "Hunted (+2 TRI)"
 	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
@@ -651,7 +672,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	ADD_TRAIT(insane_fool, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
 	insane_fool.adjust_triumphs(3)
 	if(insane_fool.patron?.type == /datum/patron/divine/abyssor) 
-	 insane_fool.grant_language(/datum/language/abyssal)
+		insane_fool.grant_language(/datum/language/abyssal)
 
 /datum/charflaw/indebted
 	name = "Indebted"
@@ -667,11 +688,12 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	addtimer(CALLBACK(src, PROC_REF(setup_self), alimony), 5 SECONDS)
 
 /datum/charflaw/indebted/proc/setup_self(mob/living/carbon/human/user)
-	if(user.mind)
-		if(!SStreasury.has_account(user))
-			SStreasury.create_bank_account(user, minimum)
-			is_active = TRUE
-			next_alimony = world.time + interval
+	if(!user?.mind)
+		return
+	if(!SStreasury.has_account(user))
+		SStreasury.create_bank_account(user, minimum)
+	is_active = TRUE
+	next_alimony = world.time + interval
 
 /datum/charflaw/indebted/flaw_on_life(mob/user)
 	. = ..()

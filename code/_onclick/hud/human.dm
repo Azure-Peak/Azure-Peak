@@ -104,11 +104,6 @@
 	action_intent.screen_loc = rogueui_intents
 	static_inventory += action_intent
 
-//	clock = new /atom/movable/screen/time
-//	clock.hud = src
-//	clock.screen_loc = rogueui_clock
-//	static_inventory += clock
-
 	stressies = new /atom/movable/screen/stress
 	stressies.hud = src
 	stressies.screen_loc = rogueui_stress
@@ -131,6 +126,7 @@
 
 	def_intent = new /atom/movable/screen/def_intent
 	def_intent.hud = src
+	def_intent.update_icon()
 	static_inventory += def_intent
 
 	cmode_button = new /atom/movable/screen/cmode

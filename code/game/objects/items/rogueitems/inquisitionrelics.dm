@@ -17,10 +17,10 @@
 	if(ishuman(user))
 		if(istype(W, /obj/item/roguekey/psydonkey))
 			if(opened)
-				to_chat(user, span_info("The reliquary box has already been opened..."))
+				to_chat(user, span_info("The reliquary box has already been opened.."))
 				return
 			qdel(W)
-			to_chat(user, span_info("The reliquary lock takes my key as it opens, I take a moment to ponder what power was delivered to us..."))
+			to_chat(user, span_info("The reliquary lock takes my key as it opens, I take a moment to ponder what power was delivered to us.."))
 			playsound(loc, 'sound/foley/doors/lock.ogg', 60)
 			to_chat(user,)
 			var/relics = list("Melancholic Crankbox - Antimagic", "Daybreak - Silver Whip", "Stigmata - Silver Halberd", "Apocrypha - Silver Greatsword", "Golgatha - SYON Shard Censer")
@@ -68,9 +68,9 @@
 /obj/item/psydonmusicbox/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(usr, TRAIT_INQUISITION))
-		desc = "A relic from the bowels of the Otavan cathedral's thaumaturgical workshops. Fourteen souls of heretics, all bound together, they will scream and protect us from magicks. It would be wise to not teach the heretics of its true nature, to only bring it to bear in dire circumstances."
+		desc = "A relic from the bowels of the Grand Otavan Cathedral's thaumaturgical workshops. The spirits of fifteen heathens, bound within this infernal contraption, sign a haunting tune; one that disrupts the leylines, prevents the faithless from casting spells, and immunizing the faithful to all magicka. It would be wise to not teach outsiders of its true nature, and to only bring it to bear in dire circumstances."
 	else
-		desc = "A cranked music box, it has the seal of the Otavan Inquisition on the side. It carries a somber feeling to it..."
+		desc = "A cranked music box, bearing the seal of the Holy Otavan Inquisition on its side. It radiates with an inexplicable feeling of somberness."
 
 /obj/item/psydonmusicbox/attack_self(mob/living/user)
 	. = ..()
@@ -90,7 +90,7 @@
 		soundloop.start()
 		var/songhearers = view(7, user)
 		for(var/mob/living/carbon/human/target in songhearers)
-			to_chat(target,span_cultsmall("[user] begins cranking the soul churner..."))
+			to_chat(target,span_cultsmall("[user] begins cranking the melancholic crankbox.."))
 	if(!cranking)
 		soundloop.stop()
 		user.remove_status_effect(/datum/status_effect/buff/cranking_soulchurner)
@@ -129,9 +129,9 @@
 				return list("shrink" = 0.6,"sx" = -1,"sy" = 0,"nx" = 11,"ny" = 1,"wx" = 0,"wy" = 1,"ex" = 4,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 15,"sturn" = 0,"wturn" = 0,"eturn" = 39,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 8)
 
 /atom/movable/screen/alert/status_effect/buff/cranking_soulchurner
-	name = "Cranking Soulchurner"
-	desc = "I am bringing the twisted device to life..."
-	icon_state = "buff"
+	name = "Soulchurning"
+	desc = "I am bringing the twisted device to life, letting their screams be heard!"
+	icon_state = "cranked"
 
 /datum/status_effect/buff/cranking_soulchurner
 	id = "crankchurner"
@@ -333,8 +333,9 @@ Inquisitorial armory down here
 	if(fuel > 0)
 		. += span_info("Activate in your hand to open it.")
 		. += span_info("When opened, the 'BLESS' intent can be used to anoint Psydonic silver weaponry. Blessing a Psydonic silver weapon greatly enhances the power of its critical hits and debuffs against sunderable opponents.")
-		. += span_info("Blessing someone else, who happens to be a worshipper of Psydon, will temporarily buff them with increased Willpower and Constitution.")
+		. += span_info("Blessing someone else, who happens to be a worshipper of Psydon, will temporarily buff them with increased Willpower, Constitution, and Fortune.")
 		. += span_warning("If the 'SMASH' intent is used while it's opened, the residing shard will violently explode with unimaginable force.")
+		. += span_warning("<font color='#00e1ff'>While active, Golgatha burns and weakens anyone who attacks its bearer. The effect persists only while the attacker remains within the relic's light. This feature requires the bearer to be Silverblessed, and inflicts extra damage to mindless foes.</font>")
 	if(fuel <= 0)
 		. += span_info("It is gone.")
 
@@ -377,7 +378,6 @@ Inquisitorial armory down here
 	if(on && next_smoke < world.time)
 		new /obj/effect/temp_visual/censer_dust(get_turf(src))
 		next_smoke = world.time + smoke_interval
-		
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/turn_off()
 	playsound(src.loc, 'sound/items/censer_off.ogg', 100)
@@ -391,7 +391,6 @@ Inquisitorial armory down here
 		M.update_inv_belt()
 	damtype = BRUTE
 
-
 /obj/item/flashlight/flare/torch/lantern/psycenser/fire_act(added, maxstacks)
 	return
 
@@ -399,6 +398,7 @@ Inquisitorial armory down here
 	. = ..()	//We smashed a guy with it turned on. Bad idea!
 	if(ismob(A) && on && (user.used_intent.type == /datum/intent/flail/smash/golgotha) && user.cmode)
 		user.visible_message(span_warningbig("[user] smashes the exposed [src], shattering the shard of SYON!"))
+		user.visible_message(span_blue(pick("WHY--!!","SYON BLAS--!!","ENDU--!!","ENDURE THI--!!","WHAT THE F--!!","OH MY ALLFA--!!","OH PSYDO--!!","KABOO--!!","MASHALLA--!!","OH ADONA--!!","OH SHI--!!","PSYDO--!!","PSYDON BLAS--!!")))
 		explosion(get_turf(A),devastation_range = 3, heavy_impact_range = 5, light_impact_range = 6, flame_range = 3, flash_range = 6, smoke = FALSE)
 		fuel = 0
 		turn_off()
@@ -406,7 +406,7 @@ Inquisitorial armory down here
 		possible_item_intents = list(/datum/intent/weep)
 		user.update_a_intents()
 		for(var/mob/living/carbon/human/H in view(get_turf(src)))
-			if(H.patron?.type == /datum/patron/old_god)	//Psydonites get VERY depressed seeing an artifact get turned into an ulapool caber.
+			if(H.patron?.type == /datum/patron/old_god)	//Psydonites get VERY depressed seeing an artifact get turned into an ullapool caber.
 				H.add_stress(/datum/stressevent/syoncalamity)
 		for(var/mob/living/carbon/human/H in range(1, get_turf(src)))
 			H.gib()
@@ -415,7 +415,7 @@ Inquisitorial armory down here
 		if(CP)
 			if(!CP.is_blessed && (CP.silver_type & SILVER_PSYDONIAN))
 				playsound(user, 'sound/magic/censercharging.ogg', 100)
-				user.visible_message(span_info("[user] holds \the [src] over \the [A]..."))
+				user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
 				if(do_after(user, 50, target = A))
 					CP.try_bless(BLESSING_PSYDONIAN)
 					new /obj/effect/temp_visual/censer_dust(get_turf(A))
@@ -426,10 +426,10 @@ Inquisitorial armory down here
 		if(H.patron?.type == /datum/patron/old_god)
 			if(!H.has_status_effect(/datum/status_effect/buff/censerbuff))
 				playsound(user, 'sound/magic/censercharging.ogg', 100)
-				user.visible_message(span_info("[user] holds \the [src] over \the [A]..."))
+				user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
 				if(do_after(user, 50, target = A))
 					H.apply_status_effect(/datum/status_effect/buff/censerbuff)
-					to_chat(H, span_notice("The comet dust invigorates you."))
+					to_chat(H, span_hypnophrase("The fragrance of SYON's shard invigorates you!"))
 					playsound(H, 'sound/magic/holyshield.ogg', 100)
 					new /obj/effect/temp_visual/censer_dust(get_turf(H))
 			else
@@ -437,6 +437,102 @@ Inquisitorial armory down here
 
 		else
 			to_chat(user, span_warning("They do not share our faith."))
+
+/mob/living/carbon/human/proc/has_active_golgatha()
+	for(var/obj/item/flashlight/flare/torch/lantern/psycenser/G in contents)
+		if(G.on)
+			return TRUE
+	return FALSE
+
+/mob/living/carbon/human/proc/process_golgatha_rebuke(mob/living/attacker)
+	if(!has_active_golgatha())
+		return
+	if(!HAS_TRAIT(src, TRAIT_SILVER_BLESSED)) // only people who is silverblessed can use golgatha's hidden feature
+		return
+	if(HAS_TRAIT(attacker, TRAIT_INQUISITION)) // wife abuse
+		return
+	new /obj/effect/temp_visual/censer_dust(get_turf(attacker))
+	new /obj/effect/temp_visual/censer_dust(get_turf(attacker))
+	if(issimple(attacker) || !attacker.mind)
+		attacker.apply_status_effect(/datum/status_effect/syonchurn, src)
+	
+	attacker.adjustFireLoss(9)
+
+#define SYONCHURN_FILTER "syonchurn glow"
+
+/atom/movable/screen/alert/status_effect/syonchurn
+	name = "Dying Light"
+	desc = "The shard of Syon rejects my hostility against Psydon's anointed! Luminous fragments scour my body and spirit!"
+	icon_state = "supersunder"
+
+/datum/status_effect/syonchurn
+	id = "syon_churned"
+	alert_type = /atom/movable/screen/alert/status_effect/syonchurn
+	duration = -1
+	tick_interval = 1 SECONDS
+	examine_text = "<font color='#00fff2'><b>SUBJECTPRONOUN is seared in body and soul by motes of lingering comet dust!</b></font>"
+	status_type = STATUS_EFFECT_REFRESH
+	effectedstats = list(STATKEY_LCK = -2, STATKEY_SPD = -2)
+	var/datum/weakref/debuffer
+	var/outline_colour = "#70d1e2"
+	var/intensity = 1
+	var/range = 4
+	var/damage_per_tick = 0.5
+	var/agony = 0
+
+/datum/status_effect/syonchurn/on_creation(mob/living/new_owner, mob/living/caster, potency)
+	if(potency)
+		intensity = potency
+	if(caster)
+		debuffer = WEAKREF(caster)
+	return ..()
+
+/datum/status_effect/syonchurn/on_apply()
+	var/filter = owner.get_filter(SYONCHURN_FILTER)
+	if(!filter)
+		owner.add_filter(SYONCHURN_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 200, "size" = 1))
+	to_chat(owner, span_warning("Brilliant fragments of comet-light burst around me, repelling my violent intent!"))
+	return TRUE
+
+/datum/status_effect/syonchurn/refresh()
+	. = ..()
+	intensity++
+	to_chat(owner, span_boldwarning("The shard's radiance intensifies, scourging me for my aggression!"))
+
+/datum/status_effect/syonchurn/process()
+	. = ..()
+	if(!owner)
+		qdel(src)
+		return
+	var/mob/living/carbon/human/source = debuffer?.resolve()
+	if(!source)
+		qdel(src)
+		return
+	if(!source.has_active_golgatha())
+		to_chat(owner, span_blue("As the Golgatha is sealed, the searing dust fades into nothing."))
+		qdel(src)
+		return
+	if(get_dist(source, owner) > range)
+		to_chat(owner, span_blue("Away from the Golgatha's radiance, the searing dust fades into nothing."))
+		qdel(src)
+		return
+
+	if(!owner.mind)
+		owner.adjustFireLoss((damage_per_tick * intensity) * 3)
+
+	owner.adjustFireLoss(damage_per_tick * intensity)
+
+	if(world.time >= agony)
+		agony = world.time + rand(5,15) SECONDS
+		to_chat(owner, span_blue("Blue motes of a dying light burn through my flesh and soul!"))
+		new /obj/effect/particle_effect/thick_steam(get_turf(owner))
+		if(prob(50) && !HAS_TRAIT(owner, TRAIT_NOPAIN))
+			owner.emote("pain")
+
+/datum/status_effect/syonchurn/on_remove()
+	owner.remove_filter(SYONCHURN_FILTER)
+
+#undef SYONCHURN_FILTER
 
 /obj/effect/temp_visual/censer_dust
 	icon = 'icons/effects/effects.dmi'
@@ -456,7 +552,7 @@ Inquisitorial armory down here
 	throwforce = 15
 	force = 5
 	tool_behaviour = null
-	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust) //Extremely low damage, blocked by anything sturdier than a cloth shirt. Quite funny to imagine it as a shiv, however.
+	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust/quick) //Extremely low damage, blocked by anything sturdier than a cloth shirt. Quite funny to imagine it as a shiv, however.
 	slot_flags = ITEM_SLOT_HIP
 	sharpness = IS_SHARP
 	experimental_inhand = TRUE
@@ -588,7 +684,7 @@ Inquisitorial armory down here
 		full = TRUE
 		visible_message(span_warning("[src] finishes drawing blood!"))
 		active = FALSE
-		desc += span_notice(" It's full!")
+		desc += span_notice("It's full!")
 		if(cursedblood)
 			playsound(src, 'sound/items/indexer_cursed.ogg', 100, FALSE, 3)
 			possible_item_intents = list(/datum/intent/use)
@@ -1319,6 +1415,12 @@ Inquisitorial armory down here
 
 /atom/movable/screen/alert/scryingeye
 	name = "SCRYING EYE"
+	desc = "I SEE YOU."
+	icon_state = "scryingeye"
+	timeout = 8 SECONDS
+
+/atom/movable/screen/alert/hagscry
+	name = "THE ROOTS OBSERVE"
 	desc = "I SEE YOU."
 	icon_state = "scryingeye"
 	timeout = 8 SECONDS

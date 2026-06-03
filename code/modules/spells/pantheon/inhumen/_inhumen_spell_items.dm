@@ -441,7 +441,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		target.visible_message(span_warning("[target.name]'s body rewinds to life... only for a massive shockwave of fire to burst from them!"))
 		target.adjust_fire_stacks(5)
 		target.ignite_mob()
-		target.emote("agony", forced = TRUE)
+		target.emote("superagony", forced = TRUE)
 	else
 		to_chat(target, span_warning("You refuse the call... but the warmth curdles into something volatile."))
 		target.visible_message(span_warning("[target.name] does not rise. The Geald within them destabilizes violently!"))
@@ -1511,7 +1511,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		if(do_after(user, 2 SECONDS, target = target))
 			if(is_vampire)
 				to_chat(target, span_notice("It tastes like very old wine... Rich, deep, and impossibly satisfying~"))
-				target.bloodpool += 75
+				target.adjust_bloodpool(75)
 				target.apply_status_effect(/datum/status_effect/buff/vitae)
 			else
 				to_chat(target, span_notice("It tastes like old wine... Strange, but not entirely unpleasant."))

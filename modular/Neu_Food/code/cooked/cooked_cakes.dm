@@ -11,45 +11,6 @@
 	foodtype = GRAIN | DAIRY
 	rotprocess = SHELFLIFE_LONG
 
-/obj/item/reagent_containers/food/snacks/rogue/cake_base/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/frosting))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Slathering the cake with frosting..."))
-			if(do_after(user,short_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/frostedcakeuncooked(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Spreading fresh cheese on the cake..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/ccakeuncooked(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Slathering the cake with delicious honey..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/hcakeuncooked(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	else
-		return ..()
-
 //	.................   Cooked   .................
 /obj/item/reagent_containers/food/snacks/rogue/cake
 	name = "cake"
@@ -69,30 +30,13 @@
 	eat_effect = /datum/status_effect/buff/snackbuff
 	bitesize = 16
 
-/obj/item/reagent_containers/food/snacks/rogue/cake/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/frosting)) // QoL for those that forgot to put the icing first
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Slathering the cake with frosting..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/frostedcake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	else
-		return ..()
-
 /obj/item/reagent_containers/food/snacks/rogue/cakeslice
 	name = "cake slice"
 	desc = "Soft and tender, a delicious slice of plain cake."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "cake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	cooked_type = null
@@ -135,174 +79,13 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	bitesize = 16
 
-/obj/item/reagent_containers/food/snacks/rogue/frostedcake/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/apple)) //apple cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Chopping and mixing-in the [I]..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/applecake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/berries/rogue)) //berry cake (+poison)
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Squashing some and mixing-in the left-over berries..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				if(istype(I, /obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison))
-					new /obj/item/reagent_containers/food/snacks/rogue/berrycake/poison(loc)
-				else
-					new /obj/item/reagent_containers/food/snacks/rogue/berrycake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry)) //blackberry cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Pouring and filling the cake with juicy blackberries..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/blackberrycake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/carrot_baked) || istype(I, /obj/item/reagent_containers/food/snacks/grown/carrot)) //carrot cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Peeling and mixing the [I] into the frosting and dough..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/carrotcake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/lemon)) //lemon cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Chopping the [I] and mixing it with the cake..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/lemoncake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/lime)) //lime cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Chopping the [I] and mixing it with the cake..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/limecake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-/*
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/manabloom)) //manabloom cake
-		if(isturf(loc)&& (found_table))
-			if(user.get_skill_level(/datum/skill/magic/arcane) < 1)
-				to_chat(user, span_notice("I do not know how to bind the arcyne between the manabloom and the cake."))
-			else
-				playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-				to_chat(user, span_notice("Carefully placing the manabloom on the cake and binding its essence to the cake..."))
-				if(do_after(user,long_cooktime, target = src))
-					add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-					new /obj/item/reagent_containers/food/snacks/rogue/manacake(loc)
-					qdel(I)
-					qdel(src)
-					playsound(get_turf(user), 'sound/magic/charged.ogg', 100, TRUE, -1)
-					user.say("Immensa dulcedo!")
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-*/
-	if(istype(I, /obj/item/alch/mentha)) //mentha cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Chopping and mixing the [I] with the cake frosting..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/menthacake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/clothing/head/peaceflower)) //peace cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Carefully adding the [I] to the cake..."))
-			if(do_after(user,long_cooktime, target = src))
-				user.visible_message(span_notice("[user] adds the [I] to the [src]. The frosting changes color!"))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/peacecake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/raspberry)) //raspberry cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Pouring and filling the cake with juicy raspberries..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/raspberrycake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/nut)) //rocknut cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Surrounding the cake with [I]..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/rocknutcake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/strawberry)) //strawberry cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Surrounding the cake with [I]..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/strawberrycake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine)) //tangerine cake
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Chopping the [I] and mixing it with the cake..."))
-			if(do_after(user,long_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/tangerinecake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	//(We could add generic cakes here, using the filling overlays)
-	else
-		return ..()
-
 /obj/item/reagent_containers/food/snacks/rogue/frostedcakeslice
 	name = "frosted cake slice"
 	desc = "Glazed slice with a sugary frosting, ready to be tasted."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "frostedcake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1)
@@ -333,30 +116,13 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	bitesize = 16
 
-/obj/item/reagent_containers/food/snacks/rogue/applecake/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/nut))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Surrounding the cake with rocknuts..."))
-			if(do_after(user,short_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/applenutcake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	else
-		return ..()
-
 /obj/item/reagent_containers/food/snacks/rogue/applecakeslice
 	name = "apple cake slice"
 	desc = "Glazed slice with a sugary frosting and layered with juicy apples, sweetness and tart."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "applecake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"apple"=1)
@@ -393,7 +159,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "applenutcake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT, /datum/reagent/consumable/acorn_powder = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL, /datum/reagent/consumable/acorn_powder = 1)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"apple"=1,"nutty"=1)
@@ -434,7 +200,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "berrycake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"berry"=1)
@@ -446,7 +212,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 /obj/item/reagent_containers/food/snacks/rogue/berrycakeslice/poison
-	list_reagents = list(/datum/reagent/berrypoison = 1, /datum/reagent/consumable/nutriment = SNACK_DECENT, /datum/reagent/water = 1)
+	list_reagents = list(/datum/reagent/berrypoison = 1, /datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL, /datum/reagent/water = 1)
 
 //	..................   Blackberry cake   ..................
 /obj/item/reagent_containers/food/snacks/rogue/blackberrycake
@@ -474,7 +240,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "blackberrycake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"blackberry"=1)
@@ -512,7 +278,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "carrotcake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"carrot"=1)
@@ -549,7 +315,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "lemoncake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"lemon"=1)
@@ -586,7 +352,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "limecake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"lime"=1)
@@ -627,7 +393,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "manacake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("hollow sweetness"=1)
@@ -665,7 +431,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "menthacake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"fresh herbaceousness"=1)
@@ -708,7 +474,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "peacecake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"peace"=1)
@@ -750,7 +516,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "raspberrycake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"raspberry"=1)
@@ -781,30 +547,13 @@
 	extra_eat_effect = /datum/status_effect/buff/sweet
 	bitesize = 16
 
-/obj/item/reagent_containers/food/snacks/rogue/rocknutcake/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/apple))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-			to_chat(user, span_notice("Chopping and mixing-in the [I]..."))
-			if(do_after(user,short_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/applenutcake(loc)
-				qdel(I)
-				qdel(src)
-		else
-			to_chat(user, span_warning("You need to put [src] on a table to work it."))
-	else
-		return ..()
-
 /obj/item/reagent_containers/food/snacks/rogue/rocknutcakeslice
 	name = "rocknut cake slice"
 	desc = "A simple frosted cake slice with a spread of nuts. Its mild stimulant properties makes-up most of its popularity."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "rocknutcake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT, /datum/reagent/consumable/acorn_powder = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL, /datum/reagent/consumable/acorn_powder = 1)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"nutty"=1)
@@ -841,7 +590,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "strawberrycake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"strawberry"=1)
@@ -878,7 +627,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "tangerinecake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"sugary frosting"=1,"tangerine"=1)
@@ -929,7 +678,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "honeycake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"delicious honeyfrosting"=1)
@@ -979,7 +728,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
 	icon_state = "cheesecake_slice"
 	slices_num = 0
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("cake"=1,"creamy cheese"=1)
 	faretype = FARE_FINE

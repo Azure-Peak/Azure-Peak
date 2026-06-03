@@ -49,8 +49,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 		a_intent.mastermob = null
 	a_intent = null
 	o_intent = null
+	possible_mmb_intents = null
+	QDEL_LIST(possible_spell_intents)
 	QDEL_LIST(possible_a_intents)
 	QDEL_LIST(possible_offhand_intents)
+	QDEL_LIST(possible_rmb_intents)
+	QDEL_NULL(base_intents)
 	QDEL_NULL(mmb_intent)
 	QDEL_NULL(rmb_intent)
 	QDEL_NULL(unarmed_special)
@@ -65,8 +69,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 		my_skill.current = null
 		QDEL_NULL(skills)
 	client_colours = null
-	last_reach_target = null
-	last_reach_tool = null
 	if(active_storage)
 		active_storage.hide_from(src)
 	ghostize(drawskip=TRUE)
@@ -767,83 +769,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(!client)
 		return
 
-	var/datum/controller/subsystem/statpanel/SS = SSstatpanel
-
-	if(statpanel("RoundInfo"))
-		for(var/line in SS.base_roundinfo_text)
-			stat(null, line)
-
-		if(client.holder)
-			for(var/line in SS.debug_roundinfo_text)
-				stat(null, line)
-
-		stat(null, SS.ic_date_text)
-		stat(null, SS.timeofday_text)
-		stat(null, "PING: [round(client.lastping,1)]ms (AVG: [round(client.avgping,1)]ms)")
-		stat(null, SS.td_info_text)
-
-		if(check_rights(R_ADMIN,0))
-			for(var/line in SS.admin_roundinfo_text)
-				stat(null, line)
-
-	if(client?.holder && check_rights(R_DEBUG, 0))
-		if(statpanel("MC"))
-			var/turf/T = get_turf(client.eye)
-			stat("Location:", COORD(T))
-			for(var/line in SSstatpanel.mc_info_text)
-				stat(null, line)
-
-			GLOB.stat_entry()
-			config.stat_entry()
-			if(Master)
-				Master.stat_entry()
-			else
-				stat("Master Controller:", "ERROR")
-			if(Failsafe)
-				Failsafe.stat_entry()
-			else
-				stat("Failsafe Controller:", "ERROR")
-				
-			stat(null)
-
-			for(var/entry in SSstatpanel.mc_cache)
-				var/datum/controller/subsystem/SSsub = entry["subsystem"]
-				stat(entry["title"], SSsub.statclick.update(entry["msg"]))
-				
-		if(statpanel("Tickets"))
-			GLOB.ahelp_tickets.stat_entry()
-
-		if(length(GLOB.sdql2_queries))
-			if(statpanel("SDQL2"))
-				stat("Access Global SDQL2 List", GLOB.sdql2_vv_statobj)
-				for(var/i in GLOB.sdql2_queries)
-					var/datum/SDQL2_query/Q = i
-					Q.generate_stat()
-
-	if(listed_turf && client)
-		if(!TurfAdjacent(listed_turf))
-			listed_turf = null
-		else
-			statpanel(listed_turf.name, null, listed_turf)
-
-			var/list/overrides = list()
-			for(var/image/I in client.images)
-				if(I.loc && I.loc.loc == listed_turf && I.override)
-					overrides += I.loc
-
-			for(var/atom/A in listed_turf)
-				if(!A.mouse_opacity)
-					continue
-				if(A.invisibility > see_invisible)
-					continue
-				if(overrides.len && (A in overrides))
-					continue
-
-				statpanel(listed_turf.name, null, A)
-
-//	if(mind)
-//		add_spells_to_statpanel(mind.spell_list)
-//	add_spells_to_statpanel(mob_spell_list)
+	client.refresh_browserpanel()
 
 /**
  * Convert a list of spells into a displyable list for the statpanel
@@ -1113,9 +1039,15 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(!("[REF(target)]" in faction_src))
 			faction_target -= "[REF(target)]" //same thing here.
 		return faction_check(faction_src, faction_target, TRUE)
-	var/list/faction2use = target.faction.Copy()
-	faction2use += target.name
-	return faction_check(faction, faction2use, FALSE)
+	// Avoid lit allocations by scanning factions directly for better perf.
+	var/list/their_faction = target.faction
+	var/their_name = target.name
+	for(var/f in faction)
+		if(f == their_name)
+			return TRUE
+		if(f in their_faction)
+			return TRUE
+	return FALSE
 /*
  * Compare two lists of factions, returning true if any match
  *

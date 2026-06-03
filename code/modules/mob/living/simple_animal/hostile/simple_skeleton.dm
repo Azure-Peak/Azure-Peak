@@ -118,25 +118,29 @@
 		if("idle")
 			return pick('sound/vo/mobs/skel/skeleton_idle (1).ogg','sound/vo/mobs/skel/skeleton_idle (2).ogg','sound/vo/mobs/skel/skeleton_idle (3).ogg')
 
-
 /mob/living/simple_animal/hostile/rogue/skeleton/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
 	. = ..()
+
 	if(user)
 		if(user.mind && user.mind.current)
 			summoner = user.mind.current.real_name
 		else
 			summoner = user.name
-	if (is_summoned || cabal_affine)
-		faction = list(FACTION_CABAL) //No mix undead faction and cabal, summoned skeletons can attack any undead, mark your friends
-	// adds the name of the summoner to the faction, to avoid the hooded "Unknown" bug with Skeleton IDs
+
+	if(is_summoned || cabal_affine)
+		faction = list(FACTION_CABAL)
+
 	if(user && user.mind && user.mind.current)
-		faction = list("[user.mind.current.real_name]_faction") //if you summon this, he not affected on cabal. This skeletons can attack any undead and other zizo affected characters
-		// lich also gets to have friendlies, as a treat
+		faction = user.mind.current.faction.Copy()
+		faction += "[user.mind.current.real_name]_faction"
 		var/datum/antagonist/lich/lich_antag = user.mind.has_antag_datum(/datum/antagonist/lich)
 		if(lich_antag && user.real_name)
-			faction = list(FACTION_UNDEAD, "[user.mind.current.real_name]_faction", "[user.real_name]_faction") //no changes. Undead faction + lich_name faction
+			faction += FACTION_UNDEAD
+			faction += "[user.real_name]_faction"
+
 	damage_check = world.time
-	if(is_summoned) //check, if it NOT summoned skeleton, he lifetime - infinity. For mapping-spawned skeltons
+
+	if(is_summoned)
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), 1 MINUTES)
 
 /mob/living/simple_animal/hostile/rogue/skeleton/proc/deathtime()
@@ -234,3 +238,20 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/bow/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
     . = ..(mapload, user, cabal_affine, is_summoned)
+
+/mob/living/simple_animal/hostile/rogue/skeleton/Destroy()
+	for(var/mob/living/M in viewers(10, src))
+		var/datum/ai_controller/controller = M.ai_controller
+		if(!controller)
+			continue
+		var/needs_cleanup = FALSE
+		if(controller.blackboard[BB_HIGHEST_THREAT_MOB] == src)
+			controller.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+			needs_cleanup = TRUE
+		if(controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET] == src)
+			controller.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+			needs_cleanup = TRUE
+		if(needs_cleanup)
+			controller.CancelActions()
+
+	return ..()

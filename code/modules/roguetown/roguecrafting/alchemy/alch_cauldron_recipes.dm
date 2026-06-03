@@ -32,6 +32,12 @@
 	skill_required = SKILL_LEVEL_EXPERT // Strong poison should be more difficult to make
 	output_reagents = list(/datum/reagent/strongstampoison = 90)
 
+/datum/alch_cauldron_recipe/sleeping_poison
+	name = "Sleep Poison"
+	smells_like = "numbing mint"
+	skill_required = SKILL_LEVEL_MASTER // Fairly potent, let's lock it behind high alchemy skill.
+	output_reagents = list(/datum/reagent/sleep_powder = 90)
+
 //Healing potions
 /datum/alch_cauldron_recipe/health_potion
 	name = "Elixir of Health"
@@ -66,7 +72,14 @@
 	skill_required = SKILL_LEVEL_JOURNEYMAN
 	output_reagents = list(/datum/reagent/medicine/strongstam = 90)
 
+/datum/alch_cauldron_recipe/restoration_potion
+	name = "Elixir of Restoration"
+	smells_like = "fizzling berries"
+	skill_required = SKILL_LEVEL_EXPERT
+	output_reagents = list(/datum/reagent/medicine/restoration = 90)
+
 //S.P.E.C.I.A.L. potions - Expert or above (roundstart Witch etc.)
+
 /datum/alch_cauldron_recipe/str_potion
 	name = "Potion of Mountain Muscles"
 	smells_like = "petrichor"

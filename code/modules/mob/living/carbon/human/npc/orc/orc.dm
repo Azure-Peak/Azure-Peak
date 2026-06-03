@@ -44,7 +44,7 @@
 	var/beard = pick(list(/datum/sprite_accessory/hair/facial/viking,
 						/datum/sprite_accessory/hair/facial/manly,
 						/datum/sprite_accessory/hair/facial/longbeard))
-	head.sellprice = 30
+	head.sellprice = HEAD_BOUNTY_ORC
 
 	src.set_patron(/datum/patron/inhumen/graggar)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)

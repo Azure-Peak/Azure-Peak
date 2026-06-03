@@ -133,6 +133,11 @@
 	path = /obj/item/enchantingkit/weapon/inverserun
 	ckeywhitelist = list("inverserun")
 
+/datum/loadout_item/donator/inverserun/amdir
+	name = "Donator Kit - Amdir"
+	path = /obj/item/enchantingkit/weapon/arra_amdir
+	ckeywhitelist = list("inverserun","vakiova","maesune","koruu","rezathedwarf","theneogamer42")
+
 /datum/loadout_item/donator/zoe
 	name = "Donator Kit - Shroud of the Undermaiden"
 	path = /obj/item/enchantingkit/zoe
@@ -151,6 +156,10 @@
 /datum/loadout_item/donator/willmbrink/sleeves
 	name = "Donator Item - Royal Sleeves"
 	path = /obj/item/clothing/wrists/roguetown/royalsleeves
+
+/datum/loadout_item/donator/willmbrink/padded_dress
+	name = "Donator Item - Padded Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/willmbrink
 
 /datum/loadout_item/donator/dasfox
 	name = "Donator Kit - Archaic Ceremonial Valkyrhelm"
@@ -244,7 +253,7 @@
 /datum/loadout_item/donator/maesune
 	name = "Donator Item - Mercantile Union's Garb"
 	path = /obj/item/clothing/suit/roguetown/shirt/maesune
-	ckeywhitelist = list("maesune", "koruu", "inverserun", "vaki ova", "ryan180602")
+	ckeywhitelist = list("maesune", "koruu", "inverserun", "vakiova", "ryan180602")
 
 /datum/loadout_item/donator/maesune/shield
 	name = "Donator Kit - Silver Shield"
@@ -322,7 +331,7 @@
 /datum/loadout_item/donator/koruu_silver_kukri
 	name = "Donator Kit - Psydonic Leachwhacker"
 	path = /obj/item/enchantingkit/weapon/koruu_kukri_silver
-	ckeywhitelist = list("koruu")
+	ckeywhitelist = list("koruu", "pepperoniplayboy")
 
 /datum/loadout_item/donator/koruu_longsword
 	name = "Donator Kit - Excaliber"
@@ -338,3 +347,42 @@
 	name = "Donator Kit - A Durthurian Tale"
 	path = /obj/item/enchantingkit/weapon/koruu_judgement
 	ckeywhitelist = list("koruu", "pneumothorax")
+
+/datum/loadout_item/donator/magi1138
+	name = "Donator Kit - Stolen Xylix Cloak"
+	path = /obj/item/clothing/cloak/magi1138
+	ckeywhitelist = list("magi1138")
+
+/datum/loadout_item/donator/magi1138/specs
+	name = "Donator Kit - Modified Nocshade Lens-pair"
+	path = /obj/item/clothing/mask/rogue/spectacles/magi1138
+
+/datum/loadout_item/donator/nero_sword
+	name = "Donator Kit - Sylvan Longsword"
+	path = /obj/item/enchantingkit/weapon/nero_lsword
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+
+/datum/loadout_item/donator/nero_dagger
+	name = "Donator Kit - Sylvan Dagger"
+	path = /obj/item/enchantingkit/weapon/nero_dagger
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+
+/datum/loadout_item/donator/nero_sabre
+	name = "Donator Kit - Sylvan Sabre"
+	path = /obj/item/enchantingkit/weapon/nero_sabre
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+
+/datum/loadout_item/donator/des_gaebolg
+	name = "Dontaor Kit - Gae Bolg"
+	path = /obj/item/enchantingkit/weapon/des_gaebolg
+	ckeywhitelist = list("desminus")
+
+/datum/loadout_item/donator/pes_guitar
+	name = "Donator Item - Red-Stained Guitar"
+	path = /obj/item/rogue/instrument/guitar/pes_guitar
+	ckeywhitelist = list("pessime959")
+
+/datum/loadout_item/donator/vakiova
+	name = "Donator Item - Gravetender Coat"
+	path = /obj/item/clothing/cloak/vaki_gravetender
+	ckeywhitelist = list("vakiova", "maesune", "astartee")

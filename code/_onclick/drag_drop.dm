@@ -77,16 +77,15 @@
 	blockscharging = TRUE
 
 /client/MouseDown(object, location, control, params)
+	if(browserpanel_dragatom && browserpanel_consume_drag(object, location, control, params))
+		return
 	charge_was_blocked_by_cooldown = FALSE
 	var/list/modifiers = params2list(params)
+	var/lmb_blocked = FALSE
 
 	if(modifiers["left"])
-		if(blocked_lmb)
-			return
-		if(lmb_throttle(object, modifiers))
-			blocked_lmb = TRUE
-			return
-		if(!modifiers["shift"] || mob.BehindAtom(object, mob.dir))
+		lmb_blocked = lmb_noface(object, modifiers)
+		if(!lmb_blocked && (!modifiers["shift"] || mob.BehindAtom(object, mob.dir)))
 			mob.face_atom(object, location, control, params)
 
 	if(mob.incapacitated())
@@ -103,6 +102,9 @@
 
 	// New spell system intercepted this click — skip old cursor/intent handling
 	if(signal_result & COMPONENT_CLIENT_MOUSEDOWN_INTERCEPT)
+		return
+
+	if(lmb_blocked)
 		return
 
 	tcompare = object
@@ -207,6 +209,20 @@
 	else
 		mouse_pointer_icon = 'icons/effects/mousemice/human_attack.dmi'
 
+/client/proc/lmb_noface(atom/object, list/modifiers)
+	if(!modifiers["left"])
+		return FALSE
+	if(blocked_lmb)
+		return TRUE
+	if(modifiers["right"])
+		return FALSE
+	var/cooldown = (mob.active_hand_index == 1) ? mob.next_lmove : mob.next_rmove
+	if(cooldown > world.time)
+		charge_was_blocked_by_cooldown = TRUE
+		blocked_lmb = TRUE
+		return TRUE
+	return FALSE
+
 /mob
 	var/datum/intent/curplaying
 	var/obj/effect/spell_rune_under/spell_rune
@@ -215,12 +231,11 @@
 	return TRUE
 
 /client/MouseUp(object, location, control, params)
+	if(browserpanel_dragatom && browserpanel_consume_drag(object, location, control, params))
+		return
 	var/list/modifiers = params2list(params)
 	if(modifiers["left"])
 		blocked_lmb = FALSE
-
-	if(lmb_throttle(object, modifiers, no_swing = TRUE))
-		return
 
 	if(SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEUP, object, location, control, params) & COMPONENT_CLIENT_MOUSEUP_INTERCEPT)
 		click_intercept_time = world.time
@@ -309,6 +324,9 @@
 
 /client/Destroy()
 	STOP_PROCESSING(SSmousecharge, src)
+	if(mob?.listed_turf)
+		LAZYREMOVE(mob.listed_turf.panel_listeners, src)
+	clear_browserpanel_drag()
 	return ..()
 
 /client/process(seconds_per_tick)
@@ -406,10 +424,12 @@
 			middragtime = 0
 			middragatom = null
 
-	if(mob.buckled)
-		mob.buckled.face_atom(over_object, over_location, over_control, params)
-	else
-		mob.face_atom(over_object, over_location, over_control, params)
+	var/block_lmb_facing = lmb_noface(over_object, L)
+	if(!block_lmb_facing)
+		if(mob.buckled)
+			mob.buckled.face_atom(over_object, over_location, over_control, params)
+		else
+			mob.face_atom(over_object, over_location, over_control, params)
 
 	mouseParams = params
 	mouseLocation = over_location

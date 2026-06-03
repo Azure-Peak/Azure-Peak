@@ -20,6 +20,10 @@
 	name = "meat pie"
 	scent = "meat pie"
 
+/datum/pollutant/food/spider_pie
+	name = "spider pie"
+	scent = "spider pie"
+
 /datum/pollutant/food/pot_pie
 	name = "pot pie"
 	scent = "pot pie"
@@ -168,6 +172,10 @@
 	name = "fried meat"
 	scent = "fried meat"
 
+/datum/pollutant/food/fried_spidermeat
+	name = "fried spidermeat"
+	scent = "fried spidermeat"
+
 /datum/pollutant/food/cooked_chicken
 	name = "cooked chicken"
 	scent = "cooked chicken"
@@ -231,3 +239,11 @@
 /datum/pollutant/food/muffin
 	name = "fresh baked muffins"
 	scent = "fresh baked muffins"
+
+/datum/pollutant/food/strange_meat
+	name = "strangely delicious meat"
+	scent = "strangely delicious meat"
+
+/datum/pollutant/food/rotten_meat
+	name = "rotten flesh"
+	scent = "rotten flesh"

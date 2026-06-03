@@ -1,0 +1,99 @@
+2026-06-01:
+  Baneuus:
+  - rscadd: New Vagabond class, "The Accursed"
+  KatTheFox:
+  - rscadd: THE ROOTS SEE ALL. THE ROOTS HEAR ALL. THE FEY KNOW ALL.
+  - rscadd: Hags will no longer be ambushed in the bog, regardless of whether they
+      are in true form
+  - rscadd: Added the Bogwalker boon, grants immunity to some (but not all) dangers
+      of the bog
+  - rscadd: Hag guidebook now has descriptions for all boons, not just some
+  - bugfix: Fixed several hag-related typos
+  - bugfix: Bushes, grass, thorns, and twigs now have their visual and sound cues
+      tied to whether or not you can actually ambushed from them
+  - bugfix: Woodwalker logic now actually works instead of being overridden when you
+      don't have Azure Native
+  - bugfix: Hag emotes are no longer silent while using the default voicepack
+  Ketrai:
+  - rscadd: Bronze weapons in the silverface
+  - bugfix: Antag polling is now functional & enabled for dreamwalkers.
+  Ryan180602:
+  - balance: ups fire res on armour
+  - rscadd: vakiova donor stuff
+  - bugfix: maesune donor stuff
+  - admin: PP can be filtered by voicedesc
+  SpadesNeil:
+  - bugfix: Kabuto helmet now has normal visibility.
+  - balance: Samsibsa scaleplate armor has 50 more points of integrity
+  - refactor: Removed some white space
+  - rscadd: Unfinished cheese wheel now tells you what to do next.
+  WeNeedMorePhoron:
+  - rscadd: Skeleton / Goblins siege no longer hardblock you from joining as other
+      roles
+  borneblood:
+  - rscadd: Physician's Apprentice starts with an Improv. Surgery Kit too.
+  - rscadd: Added some missing options to the Guild's Silverface.
+  - rscadd: Added new racial & features to Construct.
+  - balance: Modified their racial traits a little more, further enforced the no-magic-heal
+      policy. Constructs die super fast to electricity and are even more difficult
+      to heal mid combat.
+  - bugfix: Absolver WEEP and ABSOLVE are now working as intended, and compatible
+      with Construct.
+  - balance: Golgotha now deals a small amount of damage to NPCs in an area every
+      time it produces the fog.
+  changelingonberry:
+  - rscadd: Legionnaire, Ballistiare and Sapper classes for Necromancer Greater Skeletons
+  hazarawn:
+  - rscadd: antiquarian adv class
+  - rscadd: two spells and a secular barter, all with unique sprites
+  kbitykbitykbity:
+  - rscadd: Added a new species, murklings - they're slime people!
+  - rscadd: Added 'ooze' simplemobs that can ambush you in caves in the bog.
+  kiwedespars:
+  - bugfix: tailcoat armor is now leather
+  - rscadd: singleclap emote
+  - rscadd: slowclap emote
+  - bugfix: briar's curse now works on onehanded/unwieldable weapons
+2026-06-02:
+  FeniaFox:
+  - bugfix: Fixed various helmets not respecting trait locks properly.
+  - balance: Squire Errants now spawn with brush and polishing cream instead of tongs.
+  FreeStylaLT:
+  - rscadd: Added an animation for friendly waves.
+  WeNeedMorePhoron:
+  - rscadd: Improved UX of the Talkstatue
+  - rscadd: Allows you to dodge taxes at the ship fulfillment crate
+  - bugfix: Also fixed a critical bug where fulfillment crate were apparently charging
+      the treasury (??)
+  - rscadd: Ledger no longer magically reveal all transfer and transactions and only
+      those that directly concern the Crown's purse to make tax dodging audit requires
+      slightly more efforts.
+  - rscadd: Restore and rework arcyne barrage to fire piercing projectiles and less
+      of them for the same effect but hopefully way less lag.
+  - rscdel: Removed arcane aspect granting scrolls.
+  borneblood:
+  - bugfix: fixed an oversight on hellfyre wave, and they cannot be ignited now
+2026-06-03:
+  FeniaFox:
+  - bugfix: Stone/wooden tools now repair via the same skill used to make them (usually
+      crafting).
+  FreeStylaLT:
+  - rscadd: Added animations for beckon and shoo.
+  - balance: Trained & Ready's stashed weapon options have been split up.
+  - balance: Trained & Ready's Shield skill (and stashed shield) have been removed.
+  Ollanius:
+  - balance: 'Adjusts a wide, wide, wide variety of pretty much everything involving
+      the Inquisition. Check out PR #7308 on Azure Peak''s GitHub for the full changelog.'
+  Quinalion:
+  - bugfix: Fixed bandage sewing exploit so bandages are used correctly and cannot
+      be used infinitely for sewing.
+  - bugfix: Fixed Spellblade jump causing the player to hang in mid-air.
+  - code_imp: Added `forced = TRUE` to emotion invocation in several procs to prevent
+      trait bypass and ensure consistent emotion delivery.
+  WeNeedMorePhoron:
+  - balance: Sawblade Volley now slows you down a bit more and take longer to charge
+      up.
+  - balance: Arcyne Lance and Stygian now uses **STAB** instead of **PIERCING** damage,
+      to reinforce them being good vs shitty light and not so good vs plate
+  - balance: Leather and Padded armor reduced back to 2 pips vs burn damage after
+      I ran some DPS checks locally.

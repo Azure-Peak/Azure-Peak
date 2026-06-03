@@ -23,6 +23,10 @@
 
 //Gods - Ascendant
 #define GLOW_COLOR_GRAGGAR "#19345E" //Graggar Dark Blue
+#define GLOW_COLOR_ZIZO "#b76bff" //Graggar Dark Purple
+#define GLOW_COLOR_BAOTHA "#ff008c" //Baotha Violent Rose
+#define GLOW_COLOR_MATTHIOS "#ffd900" //Matthios Golden
+
 
 // Constants for spell glow intensity. These are literally 1 2 3 4 but it is for documenting design purposes
 #define GLOW_INTENSITY_LOW 1 // For spam projectiles or generic buffs

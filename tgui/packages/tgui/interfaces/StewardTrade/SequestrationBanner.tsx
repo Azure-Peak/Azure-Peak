@@ -1,4 +1,8 @@
-import { bannerStyle, SEAL_RED } from '../common/parchment';
+import {
+  bannerStyle,
+  FONT_BODY,
+  SEAL_RED,
+} from '../common/parchment';
 import type { SequestrationState } from './types';
 
 export const SequestrationBanner = (props: {
@@ -13,7 +17,7 @@ export const SequestrationBanner = (props: {
       style={{
         ...bannerStyle(SEAL_RED),
         position: 'relative',
-        fontSize: '13px',
+        fontSize: FONT_BODY,
         padding: '12px 16px',
       }}
     >
@@ -22,9 +26,8 @@ export const SequestrationBanner = (props: {
           position: 'absolute',
           top: '4px',
           right: '8px',
-          fontSize: '10px',
+          fontSize: FONT_BODY,
           fontStyle: 'italic',
-          letterSpacing: '0',
           fontVariant: 'normal',
           color: SEAL_RED,
           opacity: 0.7,
@@ -36,13 +39,12 @@ export const SequestrationBanner = (props: {
         style={{
           fontSize: '18px',
           fontWeight: 'bold',
-          letterSpacing: '4px',
           marginBottom: '4px',
         }}
       >
         SEQUESTRATION DECLARED
       </div>
-      <div style={{ fontStyle: 'italic', fontVariant: 'normal' }}>
+      <div style={{ fontVariant: 'normal' }}>
         Following the Crown&apos;s default, the Azurian Trading Company holds
         the sequestered revenues of the realm and farms the customs and salt
         tolls in perpetuity until the {sequestration.debt}m debt is repaid.

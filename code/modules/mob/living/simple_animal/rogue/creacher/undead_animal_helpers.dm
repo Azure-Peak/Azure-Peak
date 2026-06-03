@@ -1,21 +1,22 @@
 
 /datum/component/infection_spreader
-	var/infection_chance = 20
+	var/infection_chance = 5
 	//More time than a standard infection to compensate for the fact these things will dwell in the woods.
 	var/infection_timer = 5 MINUTES
 
-/datum/component/infection_spreader/Initialize()
+/datum/component/infection_spreader/Initialize(inf_chance = 5)
 	. = ..()
 	if(!istype(parent, /mob/living))
 		return COMPONENT_INCOMPATIBLE
-
-/datum/component/infection_spreader/RegisterWithParent()
-	. = ..()
+	infection_chance = inf_chance
+	RegisterSignal(parent, COMSIG_LIVING_DEATH, .proc/handle_early_cleanup)
 	RegisterSignal(parent, COMSIG_MOB_AFTERATTACK_SUCCESS, PROC_REF(on_bite))
 
-/datum/component/infection_spreader/UnregisterFromParent()
-	. = ..()
-	UnregisterSignal(parent, COMSIG_MOB_AFTERATTACK_SUCCESS)
+/datum/component/infection_spreader/proc/handle_early_cleanup(datum/source)
+	SIGNAL_HANDLER
+	UnregisterSignal(COMSIG_LIVING_DEATH)
+	UnregisterSignal(COMSIG_MOB_AFTERATTACK_SUCCESS)
+	qdel(src)
 
 /datum/component/infection_spreader/proc/on_bite(mob/living/source, mob/living/target)
 	SIGNAL_HANDLER
@@ -35,10 +36,21 @@
 GLOBAL_LIST_INIT(animal_to_undead, list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/saiga = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/wolf = /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/fox = /mob/living/simple_animal/hostile/retaliate/rogue/fox/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/boar = /mob/living/simple_animal/hostile/retaliate/rogue/boar/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/boar/undead = /mob/living/carbon/human/species/wildshape/terrorhog,
+	/mob/living/simple_animal/hostile/retaliate/rogue/troll = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/troll/axe = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/undead,
 ))
+
 #define ZOMBIE_REANIMATION_CHANCE 25
-#define ZOMBIE_REANIMATION_TIMER 15 MINUTES
+#define REANIMATION_TELL_TIME 12 SECONDS
+#define ZOMBIE_REANIMATION_TIMER (15 MINUTES - REANIMATION_TELL_TIME)
 
 /datum/component/deadite_animal_reanimation
 	var/reanimation_timer
@@ -49,20 +61,56 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 		return COMPONENT_INCOMPATIBLE
 
 	var/mob/living/simple_animal/mob = parent
-	if(mob.stat != DEAD || !GLOB.animal_to_undead[mob.type])
-		//unregister here not to throw runtimes in intended cases.
-		UnregisterFromParent()
-		return
+	if(mob.stat != DEAD || !get_undead_type(mob.type))
+		// Not an error, we don't want this logged.
+		return COMPONENT_INCOMPATIBLE_SILENT
 
 	//KEEP IN MIND. IF YOU EDIT THIS TIMER TO BE LONGER THAN THE ROT COMPONENT, YOU WILL BREAK THIS.
-	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(reanimate)), get_reanimation_time(), TIMER_STOPPABLE)
+	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(start_twitching)), get_reanimation_time(), TIMER_STOPPABLE)
 
-/datum/component/deadite_animal_reanimation/proc/reanimate()
+/datum/component/deadite_animal_reanimation/Destroy()
+	if(reanimation_timer)
+		deltimer(reanimation_timer)
+	return ..()
+
+/datum/component/deadite_animal_reanimation/proc/get_undead_type(mob_type)
+	var/current_mob_type = mob_type
+	while(mob_type && mob_type != /mob/living/simple_animal)
+		if(GLOB.animal_to_undead[mob_type])
+			var/target_undead = GLOB.animal_to_undead[mob_type]
+			if(target_undead == current_mob_type || current_mob_type == mob_type && target_undead == current_mob_type)
+				return null
+			return target_undead
+		mob_type = type2parent(mob_type)
+	return null
+
+/datum/component/deadite_animal_reanimation/proc/start_twitching()
 	var/mob/living/simple_animal/mob = parent
 	if(!prob(get_reanimation_chance()) || QDELETED(mob) || mob.stat != DEAD)
 		UnregisterFromParent()
+		qdel(src)
 		return
 
+	mob.visible_message(span_warning("The corpse of [mob] begins to twitch violently, its muscles snapping abnormally!"))
+	playsound(mob, 'sound/combat/fracture/fracturewet (1).ogg', 100, TRUE)
+	var/orig_x = mob.pixel_x
+	var/orig_y = mob.pixel_y
+	animate(mob, pixel_x = orig_x + 2, pixel_y = orig_y - 1, time = 1, loop = -1)
+	animate(pixel_x = orig_x - 2, pixel_y = orig_y + 2, time = 1)
+	animate(pixel_x = orig_x + 1, pixel_y = orig_y + 1, time = 1)
+	animate(pixel_x = orig_x - 1, pixel_y = orig_y - 2, time = 1)
+	animate(pixel_x = orig_x,     pixel_y = orig_y,     time = 1)
+
+	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(reanimate)), REANIMATION_TELL_TIME, TIMER_STOPPABLE)
+
+/datum/component/deadite_animal_reanimation/proc/reanimate()
+	var/mob/living/simple_animal/mob = parent
+	if(QDELETED(mob) || mob.stat != DEAD)
+		UnregisterFromParent()
+		return
+
+	playsound(mob, 'sound/combat/fracture/fracturewet (2).ogg', 100, TRUE)
+	animate(mob)
 	var/undead_type = GLOB.animal_to_undead[mob.type]
 	new undead_type(mob.loc)
 	mob.visible_message(span_danger("[mob] walks again... As a terrifying deadite!"))
@@ -79,6 +127,6 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 		return 1.5 MINUTES
 	return ZOMBIE_REANIMATION_TIMER
 
-
 #undef ZOMBIE_REANIMATION_CHANCE
 #undef ZOMBIE_REANIMATION_TIMER
+#undef REANIMATION_TELL_TIME

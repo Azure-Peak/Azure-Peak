@@ -1,5 +1,31 @@
+import {
+  FONT_BODY,
+  INK,
+  INK_FAINT,
+  INK_SOFT,
+  SERIF,
+} from '../common/parchment';
 import type { TabKey } from './types';
-import { tabBarStyle, tabStyle } from '../common/parchment';
+
+const tabBarStyle = {
+  display: 'flex',
+  flexWrap: 'wrap' as const,
+  gap: '4px',
+  margin: '8px 0 4px 0',
+};
+
+const tabStyle = (active: boolean) => ({
+  fontFamily: SERIF,
+  fontSize: FONT_BODY,
+  padding: '2px 8px',
+  color: active ? INK : INK_FAINT,
+  background: active ? 'rgba(200,170,100,0.25)' : 'transparent',
+  border: `1px solid ${active ? INK_SOFT : 'transparent'}`,
+  borderRadius: '2px',
+  cursor: 'pointer',
+  fontWeight: active ? ('bold' as const) : ('normal' as const),
+  whiteSpace: 'nowrap' as const,
+});
 
 export const TabBar = (props: {
   tab: TabKey;
@@ -21,13 +47,22 @@ export const TabBar = (props: {
         style={tabStyle(tab === 'auto_import')}
         onClick={() => onSwitch('auto_import')}
       >
-        Auto-Import
+        Imports
       </div>
       <div
         style={tabStyle(tab === 'petition')}
         onClick={() => onSwitch('petition')}
       >
         Petition
+      </div>
+      <div style={tabStyle(tab === 'ledger')} onClick={() => onSwitch('ledger')}>
+        Ledger
+      </div>
+      <div
+        style={tabStyle(tab === 'royal_custom')}
+        onClick={() => onSwitch('royal_custom')}
+      >
+        Royal Custom
       </div>
     </div>
   );

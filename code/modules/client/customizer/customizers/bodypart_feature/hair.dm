@@ -784,21 +784,23 @@
 /datum/customizer_choice/bodypart_feature/hair
 	abstract_type = /datum/customizer_choice/bodypart_feature/hair
 	customizer_entry_type = /datum/customizer_entry/hair
+	var/custom_hair_color = TRUE
 	allows_accessory_color_customization = FALSE //Customized through hair color
 	var/natgrad = TRUE
 	var/dyegrad = TRUE
 
 /datum/customizer_choice/bodypart_feature/hair/customize_feature(datum/bodypart_feature/feature, mob/living/carbon/human/human, datum/preferences/prefs, datum/customizer_entry/hair/entry)
-	var/datum/bodypart_feature/hair/hair_feature = feature
-	hair_entry_prepare(entry)
-	hair_feature.hair_color = entry.hair_color
-	hair_feature.accessory_colors = entry.hair_color
-	hair_feature.natural_color = entry.natural_color
-	hair_feature.hair_dye_color = entry.dye_color
-	hair_feature.natural_gradient = entry.natural_gradient
-	hair_feature.hair_dye_gradient = entry.dye_gradient
-	hair_feature.colormasks = entry.colormasks
-	hair_feature.custom_mask_version = entry.custom_mask_version
+	if(custom_hair_color)
+		var/datum/bodypart_feature/hair/hair_feature = feature
+		hair_entry_prepare(entry)
+		hair_feature.hair_color = entry.hair_color
+		hair_feature.accessory_colors = entry.hair_color
+		hair_feature.natural_color = entry.natural_color
+		hair_feature.hair_dye_color = entry.dye_color
+		hair_feature.natural_gradient = entry.natural_gradient
+		hair_feature.hair_dye_gradient = entry.dye_gradient
+		hair_feature.colormasks = entry.colormasks
+		hair_feature.custom_mask_version = entry.custom_mask_version
 
 /datum/customizer_choice/bodypart_feature/hair/validate_entry(datum/preferences/prefs, datum/customizer_entry/entry)
 	..()
@@ -812,18 +814,19 @@
 
 /datum/customizer_choice/bodypart_feature/hair/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
-	var/datum/customizer_entry/hair/hair_entry = entry
-	dat += "<br>Hair Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=hair_color''><span class='color_holder_box' style='background-color:[hair_entry.hair_color]'></span></a>"
-	if(natgrad)
-		var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.natural_gradient)
-		dat += "<br>Natural Gradient: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=natural_gradient'>[gradient.name]</a>"
-		if(hair_entry.natural_gradient != /datum/hair_gradient/none)
-			dat += "<br>Natural Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=natural_gradient_color''><span class='color_holder_box' style='background-color:[hair_entry.natural_color]'></span></a>"
-	if(dyegrad)
-		var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.dye_gradient)
-		dat += "<br>Dye Gradient: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=dye_gradient'>[gradient.name]</a>"
-		if(hair_entry.dye_gradient != /datum/hair_gradient/none)
-			dat += "<br>Dye Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=dye_gradient_color''><span class='color_holder_box' style='background-color:[hair_entry.dye_color]'></span></a>"
+	if(custom_hair_color)
+		var/datum/customizer_entry/hair/hair_entry = entry
+		dat += "<br>Hair Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=hair_color''><span class='color_holder_box' style='background-color:[hair_entry.hair_color]'></span></a>"
+		if(natgrad)
+			var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.natural_gradient)
+			dat += "<br>Natural Gradient: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=natural_gradient'>[gradient.name]</a>"
+			if(hair_entry.natural_gradient != /datum/hair_gradient/none)
+				dat += "<br>Natural Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=natural_gradient_color''><span class='color_holder_box' style='background-color:[hair_entry.natural_color]'></span></a>"
+		if(dyegrad)
+			var/datum/hair_gradient/gradient = HAIR_GRADIENT(hair_entry.dye_gradient)
+			dat += "<br>Dye Gradient: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=dye_gradient'>[gradient.name]</a>"
+			if(hair_entry.dye_gradient != /datum/hair_gradient/none)
+				dat += "<br>Dye Color: <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=dye_gradient_color''><span class='color_holder_box' style='background-color:[hair_entry.dye_color]'></span></a>"
 
 /datum/customizer_choice/bodypart_feature/hair/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
@@ -914,10 +917,11 @@
 
 /datum/customizer_choice/bodypart_feature/hair/head/generate_pref_choices(list/dat, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	..()
-	var/datum/customizer_entry/hair/hair_entry = entry
-	dat += "<br><a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=custom_hair_editor'>Customise</a>"
-	if(hairmask_layers_any(hair_entry_masks(hair_entry)))
-		dat += " | <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=custom_hair_clear'>Clear</a>"
+	if(custom_hair_color)
+		var/datum/customizer_entry/hair/hair_entry = entry
+		dat += "<br><a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=custom_hair_editor'>Customise</a>"
+		if(hairmask_layers_any(hair_entry_masks(hair_entry)))
+			dat += " | <a href='?_src_=prefs;task=change_customizer;customizer=[customizer_type];customizer_task=custom_hair_clear'>Clear</a>"
 
 /datum/customizer_choice/bodypart_feature/hair/head/handle_topic(mob/user, list/href_list, datum/preferences/prefs, datum/customizer_entry/entry, customizer_type)
 	if(href_list["customizer_task"] == "custom_hair_editor")
@@ -2107,3 +2111,18 @@
 		/datum/sprite_accessory/hair/facial/vox/fu,
 		/datum/sprite_accessory/hair/facial/vox/neck,
 		)
+
+// Slime hair shouldn't be recolorable, should match body color. They're one big mass of goop.
+/datum/customizer/bodypart_feature/hair/head/humanoid/slime
+	customizer_choices = list(/datum/customizer_choice/bodypart_feature/hair/head/humanoid/slime)
+
+/datum/customizer/bodypart_feature/hair/facial/humanoid/slime
+	customizer_choices = list(/datum/customizer_choice/bodypart_feature/hair/facial/humanoid/slime)
+
+/datum/customizer_choice/bodypart_feature/hair/head/humanoid/slime
+	custom_hair_color = FALSE
+	allows_accessory_color_customization = FALSE
+
+/datum/customizer_choice/bodypart_feature/hair/facial/humanoid/slime
+	allows_accessory_color_customization = FALSE
+	custom_hair_color = FALSE

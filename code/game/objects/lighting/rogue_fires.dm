@@ -796,7 +796,7 @@
 		var/list/hearers_in_range = get_hearers_in_LOS(healing_range, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 		for(var/mob/living/carbon/human/human in hearers_in_range)
 			var/distance = get_dist(src, human)
-			if(distance > healing_range || human.construct)
+			if(distance > healing_range || HAS_TRAIT(human, TRAIT_IRONMAN))
 				continue
 			if(!human.has_status_effect(/datum/status_effect/buff/campfire_stamina))
 				to_chat(human, span_info("The warmth of the fire comforts me, affording me a short rest. I would need to lie down on a bed to get a better rest."))

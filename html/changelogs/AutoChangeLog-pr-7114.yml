@@ -1,5 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "You can now pray to gods by common titles, in addition to their name"
-  - bugfix: "Fixed some weirdness with Undivided patron name, and some typos"

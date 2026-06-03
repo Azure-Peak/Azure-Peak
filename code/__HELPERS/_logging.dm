@@ -59,6 +59,10 @@
 	if (CONFIG_GET(flag/log_game))
 		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] GAME: [text]")
 
+/proc/log_craft(text)
+	if (CONFIG_GET(flag/log_game))
+		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] CRAFT: [text]")
+
 /proc/log_mecha(text)
 	if (CONFIG_GET(flag/log_mecha))
 		WRITE_LOG(GLOB.world_mecha_log, "\[[logtime]] MECHA: [text]")

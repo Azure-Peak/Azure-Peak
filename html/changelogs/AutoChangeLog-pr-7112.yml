@@ -1,4 +1,0 @@
-author: "SnubbyNotSorry"
-delete-after: True
-changes:
-  - balance: "trauma surgery now scales its healing based on total damage for dead patients, like it did for living ones"

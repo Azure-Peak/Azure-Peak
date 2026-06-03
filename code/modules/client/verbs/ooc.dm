@@ -107,7 +107,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 			msg_to_send = "<span style='font-size:70%'>[base_msg]</span>"
 		else
 			msg_to_send = base_msg
-		to_chat(C, msg_to_send)
+		to_chat(C, msg_to_send, type = MESSAGE_TYPE_OOC)
 
 //				if(!holder.fakekey || C.holder)
 //					if(check_rights_for(src, R_ADMIN))
@@ -224,7 +224,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 			msg_to_send = "<span style='font-size:70%'>[base_msg]</span>"
 		else
 			msg_to_send = base_msg
-		to_chat(C, msg_to_send)
+		to_chat(C, msg_to_send, type = MESSAGE_TYPE_OOC)
 
 
 /proc/toggle_ooc(toggle = null)
@@ -249,7 +249,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 /client/proc/set_ooc(newColor as color)
 	set name = "Set Player OOC Color"
 	set desc = ""
-	set category = "-GameMaster-"
+	set category = "GAME MASTER"
 	set hidden = 1
 	if(!holder)
 		return
@@ -260,7 +260,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 /client/proc/reset_ooc()
 	set name = "Reset Player OOC Color"
 	set desc = ""
-	set category = "-GameMaster-"
+	set category = "GAME MASTER"
 	set hidden = 1
 	if(!holder)
 		return
@@ -320,7 +320,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 //Checks admin notice
 /client/verb/admin_notice()
 	set name = "Adminnotice"
-	set category = "-Admin-"
+	set category = "ADMIN"
 	set desc ="Check the admin notice if it has been set"
 	set hidden = 1
 	if(!holder)

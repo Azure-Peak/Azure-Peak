@@ -148,10 +148,10 @@
 			else
 				. += span_notice("Something about them seems... different.")
 
-		if((HAS_TRAIT(user, TRAIT_ANCIENT_HAG) || HAS_TRAIT(user, TRAIT_FEYTOUCHED)) && HAS_TRAIT(src, TRAIT_FEYTOUCHED))
+		if((HAS_TRAIT(user, TRAIT_ANCIENT_HAG) || HAS_TRAIT(user, TRAIT_FEYTOUCHED) || istype(user, /mob/living/simple_animal/pet/familiar/fae)) && HAS_TRAIT(src, TRAIT_FEYTOUCHED))
 			. += span_nicegreen("Someone touched by, or created by fey. Perhaps a vessel of the past, or a deeply affected puppet.")
 
-		if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && HAS_TRAIT(src, TRAIT_ANCIENT_HAG))
+		if((HAS_TRAIT(user, TRAIT_FEYTOUCHED) ||  istype(user, /mob/living/simple_animal/pet/familiar/fae)) && HAS_TRAIT(src, TRAIT_ANCIENT_HAG))
 			. += span_nicegreen("A true force of the fey, the mossmother speaks to this one closely.")
 
 		if(SSticker.rulermob == src)
@@ -168,12 +168,28 @@
 		if(HAS_TRAIT(src, TRAIT_RESIDENT))
 			. += span_notice("A chartered resident of Azuria.")
 
+		if(HAS_TRAIT(src, TRAIT_AGENT_MERCHANT))
+			. += span_notice("An agent of the Azurian Trading Company.")
+		if(HAS_TRAIT(src, TRAIT_AGENT_BATHHOUSE))
+			. += span_notice("An agent of the Bathhouse.")
+
 		if(HAS_TRAIT(src, TRAIT_DEBTOR))
 			// Defaulted-loan debtor: a serious civic brand. Authority roles see the full banner.
 			if(ishuman(user))
 				var/mob/living/carbon/human/viewer = user
-				if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
-					. += span_userdanger("DEFAULT DEBTOR OF THE CROWN!")
+				var/saw_specific = FALSE
+				if(HAS_TRAIT(src, TRAIT_DEBTOR_CHURCH) && (viewer.job in GLOB.church_positions))
+					. += span_userdanger("DEFAULT DEBTOR OF THE CHURCH!")
+					saw_specific = TRUE
+				if(HAS_TRAIT(src, TRAIT_DEBTOR_MERCHANT) && (viewer.job == "Merchant" || viewer.job == "Shophand" || HAS_TRAIT(viewer, TRAIT_AGENT_MERCHANT)))
+					. += span_userdanger("DEFAULT DEBTOR OF THE TRADING COMPANY!")
+					saw_specific = TRUE
+				if(HAS_TRAIT(src, TRAIT_DEBTOR_BATHHOUSE) && (viewer.job == "Bathmaster" || viewer.job == "Bathhouse Attendant" || HAS_TRAIT(viewer, TRAIT_AGENT_BATHHOUSE)))
+					. += span_userdanger("DEFAULT DEBTOR OF THE BATHHOUSE!")
+					saw_specific = TRUE
+				if(!saw_specific && HAS_TRAIT(src, TRAIT_DEBTOR_CROWN))
+					if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
+						. += span_userdanger("DEFAULT DEBTOR OF THE CROWN!")
 
 		if(HAS_TRAIT(src, TRAIT_ARREARS))
 			// Poll-tax arrears: a soft mark. Authority roles (garrison, retinue, courtier, noble)
@@ -186,11 +202,11 @@
 
 		if(src.job in GLOB.church_positions)
 			. += span_notice("A member of the Church of Azuria.")
-		else if(HAS_TRAIT(src, TRAIT_DECLARED_BENEFACTOR))
+		else if(HAS_TRAIT(src, TRAIT_AGENT_CHURCH))
 			. += span_notice("A benefactor of the Church of Azuria.")
 
 		if(src.job in GLOB.inquisition_positions)
-			. += span_notice("A member of the Holy Otavan Inquisition.")
+			. += span_notice("An adherent of the Holy Otavan Inquisition.")
 
 		if((HAS_TRAIT(user, TRAIT_BLACKOAK) && !(src.dna.species.name == "Elf" || src.dna.species.name == "Dark Elf" || src.dna.species.name == "Half-Elf")))
 			. += span_phobia("An invader...")
@@ -286,8 +302,10 @@
 				if(charflaws.len)
 					var/list/vice_desc = list()
 					for(var/datum/charflaw/cf in charflaws)
-						vice_desc.Add(cf.voyeur_descriptor)
-					. += span_voyeurvice("[m1][english_list(vice_desc)]...")
+						if(cf.voyeur_descriptor)
+							vice_desc.Add(cf.voyeur_descriptor)
+					if(length(vice_desc))
+						. += span_voyeurvice("[m1] [english_list(vice_desc)]...")
 
 			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_PERMAMUTE))
 				. += span_notice("[m1] lacks a voice. [m1] is a mute!")
@@ -325,6 +343,10 @@
 					. += span_redtext("[m1] repugnant!")
 				if (THEY_THEM, IT_ITS)
 					. += span_redtext("[m1] repulsive!")
+
+		var/datum/antagonist/vampire/vamp_inspect_vlord = src.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
+		if(vamp_inspect_vlord && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
+			. += span_userdanger("A MONSTER!")
 
 		var/datum/antagonist/vampire/vamp_inspect = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(vamp_inspect && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
@@ -1096,6 +1118,15 @@
 	if(HAS_TRAIT(examiner, TRAIT_HERETIC_SEER))
 		seer = TRUE
 
+	if(HAS_TRAIT(src, TRAIT_DUSTRUNNER))
+		var/mob/living/living_examiner = examiner
+		if(HAS_TRAIT(examiner, TRAIT_DUSTRUNNER))
+			heretic_text += "Fellow runner. The dust moves."
+		else if(living_examiner?.patron?.type == /datum/patron/inhumen/matthios)
+			heretic_text += "A Guild runner, by the look of them."
+		else if(examiner.job in GLOB.bathhouse_positions)
+			heretic_text += "One of the Guild's runners. I know the signs."
+
 	if(HAS_TRAIT(src, TRAIT_FREEMAN))
 		if(seer)
 			heretic_text += "Matthiosian."
@@ -1149,10 +1180,15 @@
 	if(HAS_TRAIT(src, TRAIT_PURITAN) && HAS_TRAIT(examiner, TRAIT_INQUISITION))
 		inquisition_text = "My superior, sent by the Holy Otavan Inquisition to lead our sect."
 	if(HAS_TRAIT(src, TRAIT_INQUISITION) && HAS_TRAIT(examiner, TRAIT_PURITAN))
-		inquisition_text = "A subordinate to my authority, as willed by the Holy Otavan Inquisition."
+		inquisition_text = "A subordinate to my authority, within the Holy Otavan Inquisition."
 	if(HAS_TRAIT(src, TRAIT_PURITAN) && HAS_TRAIT(examiner, TRAIT_PURITAN))
 		inquisition_text = "Myself. I lead this sect of the Holy Otavan Inquisition."
-
+	if(HAS_TRAIT(src, TRAIT_MANORKEEPER) && HAS_TRAIT(examiner, TRAIT_INQUISITION))
+		inquisition_text = "Our honored priest, this estate's keeper, and my superior's confidant."
+	if(HAS_TRAIT(src, TRAIT_MANORKEEPER) && HAS_TRAIT(examiner, TRAIT_PURITAN))
+		inquisition_text = "Our honored priest, this estate's keeper, and my trusted confidant."
+	if(HAS_TRAIT(src, TRAIT_MANORKEEPER) && HAS_TRAIT(examiner, TRAIT_MANORKEEPER))
+		inquisition_text = "Myself. I am a honored priest, this estate's keeper, and the Inquisitor's confidant."
 	return inquisition_text
 
 // Used for Church tags
@@ -1182,10 +1218,6 @@
 				villain_text = span_userdanger("BANDIT!")
 		if(mind.special_role == "Deadite")
 			villain_text = span_userdanger("DEADITE!")
-		if(mind.special_role == "Vampire Lord")
-			var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
-			if(!SEND_SIGNAL(VD.owner, COMSIG_DISGUISE_STATUS))
-				villain_text += span_userdanger("A MONSTER!")
 		if(mind.assigned_role == "Lunatic")
 			villain_text += span_userdanger("LUNATIC!")
 

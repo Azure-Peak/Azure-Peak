@@ -36,169 +36,14 @@
 				loc.visible_message(span_warning("The meister snaps onto [H]'s arm!"))
 				H.Stun(80)
 				H.apply_damage(50, BRUTE, def_zone)
-				H.emote("agony")
+				H.emote("superagony")
 				spawn(5)
 				say("Blueblood for the Freefolk!")
 				playsound(src, 'sound/vo/mobs/ghost/laugh (5).ogg', 100, TRUE)
-				return	
-	if(SStreasury.has_account(H))
-		var/poll_category = SStreasury.get_poll_tax_category(H)
-		var/poll_rate = poll_category ? SStreasury.get_poll_tax_rate_for(H, poll_category) : 0
-		var/poll_exempt = poll_category ? SStreasury.is_poll_tax_charter_exempt(H, poll_category) : FALSE
-		if(!poll_category)
-			to_chat(H, span_info("<b>MEISTER:</b> There is no poll tax for your class."))
-		else if(poll_exempt && poll_rate >= 0)
-			to_chat(H, span_info("<b>MEISTER:</b> You are exempt from poll tax by decree."))
-		else if(poll_rate > 0)
-			to_chat(H, span_info("<b>MEISTER:</b> Poll tax for your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)]) is [poll_rate]m per day."))
-		else if(poll_rate < 0)
-			to_chat(H, span_info("<b>MEISTER:</b> The Crown extends a [-poll_rate]m daily subsidy to your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)])."))
-		else
-			to_chat(H, span_info("<b>MEISTER:</b> No poll tax is currently levied on your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)]). Advance payment may be made at a presumed rate of [POLL_TAX_ADVANCE_FALLBACK_RATE]m per day."))
-		var/amt = SStreasury.get_balance(H)
-		var/datum/loan/active_loan = SStreasury.get_loan_for(H)
-		if(!amt && !active_loan)
-			say("Your balance is nothing.")
-			return
-		if(amt < 0)
-			say("Your balance is NEGATIVE.")
-			return
-		var/list/choicez = list()
-		if(active_loan)
-			if(active_loan.defaulted)
-				choicez += "REPAY DEBT ([active_loan.get_remaining_due()]m owed to the Crown)"
-			else
-				choicez += "REPAY LOAN ([active_loan.get_remaining_due()]m due, [active_loan.days_until_due()]d left)"
-		if(amt > 0 && poll_category && !poll_exempt && poll_rate >= 0)
-			var/existing_advance = SStreasury.poll_tax_advance_days[H] || 0
-			var/advance_rate = poll_rate > 0 ? poll_rate : POLL_TAX_ADVANCE_FALLBACK_RATE
-			var/rate_suffix = poll_rate > 0 ? "m/d" : "m/d presumed"
-			choicez += "ADVANCE POLL TAX ([advance_rate][rate_suffix], [existing_advance]d held)"
-		if(amt > 10)
-			choicez += "GOLD"
-		if(amt > 5)
-			choicez += "SILVER"
-		if(amt > 0)
-			choicez += "BRONZE"
-		if(!length(choicez))
-			say("Your balance is nothing.")
-			return
-		var/selection = input(user, "Make a Selection", src) as null|anything in choicez
-		if(!selection)
-			return
-		if(active_loan && (copytext(selection, 1, 11) == "REPAY LOAN" || copytext(selection, 1, 11) == "REPAY DEBT"))
-			if(!Adjacent(user))
 				return
-			// Re-resolve in case of dialog churn.
-			active_loan = SStreasury.get_loan_for(H)
-			if(!active_loan)
-				say("No active loan on record.")
-				return
-			var/outstanding = active_loan.get_remaining_due()
-			amt = SStreasury.get_balance(H)
-			var/max_payable = min(outstanding, amt)
-			if(max_payable <= 0)
-				say("You have nothing to repay the loan with.")
-				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-				return
-			var/pay_amt = input(user, "Repay how much? Outstanding: [outstanding]m. Your balance: [amt]m. (Maximum [max_payable]m)", src, max_payable) as null|num
-			if(isnull(pay_amt))
-				return
-			pay_amt = round(pay_amt)
-			if(pay_amt < 1)
-				return
-			if(!Adjacent(user))
-				return
-			pay_amt = min(pay_amt, max_payable)
-			var/paid = SStreasury.repay_loan(H, pay_amt)
-			if(!paid)
-				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-				say("The ledger refused the transfer.")
-				return
-			playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
-			if(!SStreasury.get_loan_for(H))
-				say("Loan repaid in full. [paid]m transferred to the Crown.")
-			else
-				var/datum/loan/still = SStreasury.get_loan_for(H)
-				say("[paid]m transferred. [still.get_remaining_due()]m remains.")
-			return
-		if(copytext(selection, 1, 18) == "ADVANCE POLL TAX ")
-			if(!Adjacent(user))
-				return
-			poll_category = SStreasury.get_poll_tax_category(H)
-			if(!poll_category)
-				say("The Crown does not tax your class.")
-				return
-			if(SStreasury.is_poll_tax_charter_exempt(H, poll_category))
-				say("Your class is exempt from poll tax by decree.")
-				return
-			var/eff_rate = SStreasury.get_poll_tax_rate_for(H, poll_category)
-			var/presumed_rate = FALSE
-			if(eff_rate <= 0)
-				// No rate set — permit advance at the presumed fallback so proactive
-				// payers can settle up front even when the Crown is lazy.
-				eff_rate = POLL_TAX_ADVANCE_FALLBACK_RATE
-				presumed_rate = TRUE
-			amt = SStreasury.get_balance(H)
-			if(amt <= 0)
-				say("Your balance is nothing.")
-				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-				return
-			var/existing_advance = SStreasury.poll_tax_advance_days[H] || 0
-			var/advance_remaining = POLL_TAX_MAX_ADVANCE_DAYS - existing_advance
-			if(advance_remaining <= 0)
-				say("You already hold the maximum of [POLL_TAX_MAX_ADVANCE_DAYS] days of advance.")
-				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-				return
-			var/max_days = min(floor(amt / eff_rate), advance_remaining)
-			if(max_days < 1)
-				say("You cannot afford a single day at [eff_rate]m.")
-				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-				return
-			var/days_to_advance = input(user, "Pay advance on how many days of poll tax? ([eff_rate]m/d[presumed_rate ? " presumed" : ""]) Your balance: [amt]m. (Maximum [max_days] day[max_days == 1 ? "" : "s"]; cap of [POLL_TAX_MAX_ADVANCE_DAYS] days of advance, you hold [existing_advance].)", src, max_days) as null|num
-			if(isnull(days_to_advance))
-				return
-			days_to_advance = round(days_to_advance)
-			if(days_to_advance < 1)
-				return
-			if(!Adjacent(user))
-				return
-			days_to_advance = min(days_to_advance, max_days)
-			if(!SStreasury.poll_tax_pay_advance(H, days_to_advance))
-				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-				say("The ledger refused the advance.")
-				return
-			playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
-			say("[days_to_advance] day[days_to_advance == 1 ? "" : "s"] of Poll Tax advanced for [H.real_name].")
-			return
-		amt = SStreasury.get_balance(H)
-		var/mod = 1
-		if(selection == "GOLD")
-			mod = 10
-		if(selection == "SILVER")
-			mod = 5
-		var/coin_amt = input(user, "Account balance: [amt] mammon. You may withdraw up to [floor(amt/mod)] [selection] COINS.", src) as null|num
-		coin_amt = round(coin_amt)
-		if(coin_amt < 1)
-			return
-		// checks the maximum coin limit before deducting balance; prevents stacks of >=20
-		var/max_coins = 20
-		if(coin_amt > max_coins)
-			to_chat(user, span_warning("Maximum withdrawal limit exceeded. You can only withdraw up to [max_coins] coins at once."))
-			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-			return
-		amt = SStreasury.get_balance(H)
-		if(!Adjacent(user))
-			return
-		if((coin_amt*mod) > amt)
-			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-			return
-		if(!SStreasury.withdraw_money_account(coin_amt*mod, H))
-			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-			return
-		record_round_statistic(STATS_MAMMONS_WITHDRAWN, coin_amt * mod)
-		budget2change(coin_amt*mod, user, selection)
-	else
+		to_chat(H, span_warning("The MEISTER's mouth gapes wide and chewed - it cannot serve while drilled."))
+		return
+	if(!SStreasury.has_account(H))
 		to_chat(user, span_warning("The machine bites my finger."))
 		if(!drilled)
 			icon_state = "atm-b"
@@ -213,6 +58,8 @@
 		spawn(5)
 			say("New account created.")
 			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+		return
+	open_meister_tgui(H)
 
 /*
 /obj/structure/roguemachine/atm/attack_right(mob/user)
@@ -278,6 +125,9 @@
 /obj/structure/roguemachine/atm/examine(mob/user)
 	. = ..()
 	. += span_smallnotice("Crown levies - Contract: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY) * 100)]%, Headeater: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%, Import: [round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * 100)]%, Export: [round(SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) * 100)]%")
+	var/datum/decree/concordat = SStreasury.get_decree(DECREE_ZENITSTADT_CONCORDAT)
+	if(concordat?.active)
+		. += span_smallnotice("Concordat of Zenitstadt: [round(CONCORDAT_TITHE_RATE * 100)]% of every taxed transaction is tithed to the Church of Azuria, drawn from the Crown's share.")
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/poll_category = SStreasury.get_poll_tax_category(H)
@@ -463,16 +313,16 @@
 			head.add_wound(/datum/wound/fracture)
 			head.update_disabled()
 			H.apply_damage(50, BRUTE, head)
-			H.emote("agony")
+			H.emote("superagony")
 		if("agony")
 			H.apply_damage(10, BRUTE, head)
-			H.emote("agony")
+			H.emote("agony", forced = TRUE)
 		if("whimper")
 			H.apply_damage(10, BRUTE, head)
-			H.emote("whimper")
+			H.emote("whimper", forced = TRUE)
 		if("cry")
 			H.apply_damage(10, BRUTE, head)
-			H.emote("cry")
+			H.emote("cry", forced = TRUE)
 		if("silence")
 			return
 		else
@@ -482,9 +332,9 @@
 	var/consequence = pick(slow_effects)
 	switch(consequence)
 		if("whimper")
-			H.emote("whimper")
+			H.emote("whimper", forced = TRUE)
 		if("cry")
-			H.emote("cry")
+			H.emote("cry", forced = TRUE)
 		if("silence")
 			return
 		else
