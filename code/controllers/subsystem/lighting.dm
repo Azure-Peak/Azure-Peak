@@ -36,65 +36,88 @@ SUBSYSTEM_DEF(lighting)
 
 /datum/controller/subsystem/lighting/fire(resumed, init_tick_checks)
 	MC_SPLIT_TICK_INIT(3)
+
 	if(!init_tick_checks)
 		MC_SPLIT_TICK
-	var/list/queue = sources_queue
-	var/i = 0
-	for (i in 1 to length(queue))
+
+	var/list/queue
+	var/i
+	var/queue_len
+
+	// Light sources
+	queue = sources_queue
+	queue_len = length(queue)
+
+	for(i in 1 to queue_len)
 		var/datum/light_source/L = queue[i]
 
-		L.update_corners()
+		if(!L || QDELETED(L))
+			continue
 
+		L.update_corners()
 		L.needs_update = LIGHTING_NO_UPDATE
 
 		if(init_tick_checks)
 			CHECK_TICK
-		else if (MC_TICK_CHECK)
+		else if(MC_TICK_CHECK)
 			break
-	if (i)
-		queue.Cut(1, i+1)
-		i = 0
+
+	if(i)
+		queue.Cut(1, i + 1)
 
 	if(!init_tick_checks)
 		MC_SPLIT_TICK
 
+	// Lighting corners
 	queue = corners_queue
-	for (i in 1 to length(queue))
+	queue_len = length(queue)
+
+	for(i in 1 to queue_len)
 		var/datum/lighting_corner/C = queue[i]
+
+		if(!C || QDELETED(C))
+			continue
 
 		C.update_objects()
 		C.needs_update = FALSE
+
 		if(init_tick_checks)
 			CHECK_TICK
-		else if (MC_TICK_CHECK)
+		else if(MC_TICK_CHECK)
 			break
-	if (i)
-		queue.Cut(1, i+1)
-		i = 0
 
+	if(i)
+		queue.Cut(1, i + 1)
 
 	if(!init_tick_checks)
 		MC_SPLIT_TICK
 
+	// Lighting objects
 	queue = objects_queue
-	for (i in 1 to length(queue))
+	queue_len = length(queue)
+
+	for(i in 1 to queue_len)
 		var/atom/movable/lighting_object/O = queue[i]
 
-		if (QDELETED(O))
+		if(!O || QDELETED(O))
 			continue
 
 		O.update()
 		O.needs_update = FALSE
+
 		if(init_tick_checks)
 			CHECK_TICK
-		else if (MC_TICK_CHECK)
+		else if(MC_TICK_CHECK)
 			break
-	if (i)
-		queue.Cut(1, i+1)
+
+	if(i)
+		queue.Cut(1, i + 1)
 
 
 /datum/controller/subsystem/lighting/Recover()
-	initialized = SSlighting.initialized
+	if(SSlighting)
+		initialized = SSlighting.initialized
+
 	..()
 
 #undef LIGHTING_INITIAL_FIRE_DELAY
