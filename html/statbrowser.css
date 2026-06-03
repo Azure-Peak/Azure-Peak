@@ -358,3 +358,38 @@ img {
   color: var(--text-muted);
   opacity: 1;
 }
+
+.turf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 8px;
+  width: 100%;
+}
+
+.turf-grid .turf-entry {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 3px;
+  border-bottom: 0;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.turf-grid .turf-entry:hover {
+  background: var(--line-border);
+}
+
+.turf-icon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+}
+
+.turf-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

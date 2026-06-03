@@ -440,6 +440,7 @@ function iconError(e) {
 function draw_listedturf() {
   statcontentdiv.textContent = '';
   var table = document.createElement('table');
+  table.className = 'turf-grid';
   for (var i = 0; i < turfcontents.length; i++) {
     var part = turfcontents[i];
     var clickfunc = ((part) => {
@@ -471,6 +472,10 @@ function draw_listedturf() {
       };
     })(part);
     var iconsrc = part[2] || storedimages[part[1]];
+    var clickcatcher = '';
+    var row = document.createElement('div');
+    row.className = 'turf-entry';
+    row.onmousedown = clickfunc;
     if (iconsrc) {
       if (storedimages[part[1]] == null) {
         storedimages[part[1]] = part[2];
@@ -478,17 +483,15 @@ function draw_listedturf() {
       var img = document.createElement('img');
       img.src = iconsrc;
       img.id = part[1];
+      img.className = 'turf-icon';
       img.onerror = iconError;
-      img.onmousedown = clickfunc;
-      table.appendChild(img);
+      row.appendChild(img);
     }
-    var b = document.createElement('div');
-    var clickcatcher = '';
-    b.className = 'link';
-    b.onmousedown = clickfunc;
+    var b = document.createElement('span');
+    b.className = 'link turf-name';
     b.textContent = part[0];
-    table.appendChild(b);
-    table.appendChild(document.createElement('br'));
+    row.appendChild(b);
+    table.appendChild(row);
   }
   document.getElementById('statcontent').appendChild(table);
 }
