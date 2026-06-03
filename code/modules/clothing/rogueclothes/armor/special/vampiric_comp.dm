@@ -70,6 +70,8 @@
 		return
 	if(!istype(target, /mob/living/carbon/human))
 		return
+	if(target.stat == DEAD)
+		return
 	current_victim_ref = WEAKREF(target)
 	RegisterSignal(target, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, .proc/handle_target_armor_shred)
 

@@ -254,7 +254,7 @@
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 	color = "#2ba6b2"
 
-/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/dreamwalker/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
@@ -497,3 +497,24 @@
 		pixel_x = 0
 		pixel_y = 0
 		pickuppable = TRUE
+
+/obj/effect/temp_visual/dream_shard/attack_hand(mob/living/carbon/human/user, list/modifiers)
+	. = ..()
+	if(.)
+		return
+
+	if(HAS_TRAIT(user, TRAIT_DREAMWALKER) && dream_check)
+		consume_shard(user)
+		return TRUE
+	else if (!dream_check)
+		if(consume_shard(user))
+			return TRUE
+
+	var/unarmed_damage = user.get_punch_dmg() || 5
+	health -= unarmed_damage
+	user.visible_message(span_danger("[user] smashes the [src] with their bare hands!"))
+	playsound(get_turf(src), 'sound/foley/breaksound.ogg', 80, TRUE)
+
+	if(health <= 0)
+		qdel(src)
+	return TRUE
