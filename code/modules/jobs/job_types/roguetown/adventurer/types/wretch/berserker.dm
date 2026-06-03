@@ -97,7 +97,7 @@
 					if("Punch Dagger")
 						beltr = /obj/item/rogueweapon/katar/punchdagger
 			if("Martial Expert") // designed to compete with unarmed by giving you alternatives to approaching fights- only expert 
-				var/list/martial_options = list("Discipline - Bodybuilder", "Battle Axe", "Grand Mace", "Longsword")
+				var/list/martial_options = list("Greatsword", "Battle Axe", "Grand Mace", "Longsword")
 				var/weapon_choice = input(H, "Choose your WEAPONS of WAR!", "SPILL THEIR ENTRAILS.") as anything in martial_options
 				switch(weapon_choice)
 					if("Greatsword") //Actually not a meme anymore
