@@ -321,9 +321,7 @@
 			used = round(damage_dividend * 20 + (dam / 2))
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder
-			if(owner.sunder_stacks < 150) //We don't want too many stacks or we'll never recover.
-				owner.sunder_stacks += 10 //Far less for nonlethal sunders. THIS WILL STILL FUCK YOU UP FROM JUST A FEW.
-				owner.add_stress(/datum/stressevent/sundercritted)
+				owner.add_stress(/datum/stressevent/sundercritted) //You're still being sundered, sire.
 	// Check if critical resistance applies
 	var/has_crit_attempt = length(attempted_wounds)
 	if(!has_crit_attempt)

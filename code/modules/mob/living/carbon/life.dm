@@ -372,9 +372,9 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		if(cultslurring < 5) //Fucks up our ability to talk
 			cultslurring += 1.2
 
-		if(sunder_stacks >= 21)
+		if(sunder_stacks >= 41)
 			adjustBruteLoss(2)
-			if(prob(5)) //5% chance of random dizziness
+			if(prob(3)) //5% chance of random dizziness
 				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
 				Dizzy(5)
 
