@@ -132,10 +132,18 @@ SUBSYSTEM_DEF(statpanels)
 	target.stat_panel.send_message("update_mc", list("mc_data" = mc_data, "coord_entry" = coord_entry))
 
 /datum/controller/subsystem/statpanels/proc/set_tickets_tab(client/target)
-	return
+	var/list/ahelp_tickets = GLOB.ahelp_tickets.stat_entry()
+	target.stat_panel.send_message("update_tickets", ahelp_tickets)
 
 /datum/controller/subsystem/statpanels/proc/set_SDQL2_tab(client/target)
-	return
+	var/list/sdql2A = list()
+	sdql2A[++sdql2A.len] = list("", "Access Global SDQL2 List", REF(GLOB.sdql2_vv_statobj))
+	var/list/sdql2B = list()
+	for(var/datum/SDQL2_query/query as anything in GLOB.sdql2_queries)
+		sdql2B = query.generate_stat()
+
+	sdql2A += sdql2B
+	target.stat_panel.send_message("update_sdql2", sdql2A)
 
 /// Set up the various action tabs.
 /datum/controller/subsystem/statpanels/proc/set_action_tabs(client/target, mob/target_mob)
