@@ -409,10 +409,12 @@
 	if(bclass in GLOB.sunder_bclasses)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			used = round(damage_dividend * 20 + (dam / 2))
-			if(prob(used) && owner.sunder_stacks > 100)
+			if(prob(used) && !owner.mind)
 				attempted_wounds += /datum/wound/sunder/chest
-			if(prob(used) && owner.sunder_stacks < 150) //We don't want too many stacks or we'll never recover.
-				owner.sunder_stacks += 40
+			if(prob(used) && owner.sunder_stacks > 100 && owner.mind)
+				attempted_wounds += /datum/wound/sunder/chest
+			if(prob(used) && owner.sunder_stacks < 150 && owner.mind) //We don't want too many stacks or we'll never recover.
+				owner.sunder_stacks += 30
 				to_chat(owner, span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
 				owner.add_stress(/datum/stressevent/sundercritted)
 	// Check if critical resistance applies
@@ -547,10 +549,12 @@
 	if(bclass in GLOB.sunder_bclasses)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			used = round(damage_dividend * 20 + (dam / 2), 1)
-			if(prob(used) && owner.sunder_stacks > 100)
+			if(prob(used) && !owner.mind)
 				attempted_wounds += /datum/wound/sunder/head
-			if(prob(used) && owner.sunder_stacks < 150) //We don't want too many stacks or we'll never recover.
-				owner.sunder_stacks += 40
+			if(prob(used) && owner.sunder_stacks > 100 && owner.mind)
+				attempted_wounds += /datum/wound/sunder/head
+			if(prob(used) && owner.sunder_stacks < 150 && owner.mind) //We don't want too many stacks or we'll never recover.
+				owner.sunder_stacks += 30
 				to_chat(owner, span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
 				owner.add_stress(/datum/stressevent/sundercritted)
 	var/has_crit_attempt = length(attempted_wounds) || try_knockout
