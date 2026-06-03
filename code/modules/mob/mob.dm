@@ -588,7 +588,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/memory()
 	set name = "Notes"
-	set category = "Memory"
+	set category = "IC.Memory"
 	set desc = ""
 	if(mind)
 		mind.show_memory(src)
@@ -600,7 +600,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/add_memory(msg as message)
 	set name = "AddNote"
-	set category = "Memory"
+	set category = "IC.Memory"
 	if(mind)
 		if (world.time < memory_throttle_time)
 			return
@@ -621,7 +621,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/abandon_mob()
 	set name = "{ABANDON MOB}"
-	set category = "Options"
+	set category = "Preferences.Options"
 	set hidden = 1
 	if(!check_rights(0))
 		return

@@ -1298,7 +1298,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 //Flight related procs foy flying simple_animals
 /mob/living/simple_animal/proc/fly_up()
-	set category = "Winged Form"
+	set category = "RoleUnique.Winged Form"
 	set name = "Fly Up"
 
 	if(src.pulledby != null)
@@ -1313,7 +1313,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			to_chat(src, span_notice("I can't fly away while being grabbed!"))
 
 /mob/living/simple_animal/proc/fly_down()
-	set category = "Winged Form"
+	set category = "RoleUnique.Winged Form"
 	set name = "Fly Down"
 
 	if(src.pulledby != null)

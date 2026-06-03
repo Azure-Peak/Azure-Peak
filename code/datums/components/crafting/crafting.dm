@@ -706,7 +706,7 @@
 
 /client/verb/toggle_legacycraft()
 	set name = "Toggle legacy craft"
-	set category = "Options"
+	set category = "Preferences.Options"
 	set desc = "Toggles between legacy and miacraft"
 	usr.client.legacycraft = !legacycraft
 

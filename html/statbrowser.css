@@ -1,6 +1,6 @@
 :root,
 :root.dark {
-  --font: "Book Antiqua", "Palatino Linotype", Georgia, serif;
+  --font: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
   --bg-base: #000000;
   --bg-panel: #0a0a0a;
   --text: #efefef;
@@ -35,38 +35,38 @@
 }
 
 :root.light {
-  --font: "Book Antiqua", "Palatino Linotype", Georgia, serif;
-  --bg-base: #241a0e;
-  --bg-panel: #302314;
-  --text: #e6d3a6;
-  --text-muted: #b29560;
-  --accent: #d9b04a;
-  --line-border: rgba(230, 211, 166, 0.14);
-  --rule: rgba(230, 211, 166, 0.3);
+  --font: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --bg-base: #2a2118;
+  --bg-panel: #332a1e;
+  --text: #d4c090;
+  --text-muted: #a89060;
+  --accent: #c8a050;
+  --line-border: rgba(160, 130, 80, 0.30);
+  --rule: rgba(160, 130, 80, 0.40);
 
-  --tab-grad: linear-gradient(180deg, #3e2e1a 0%, #322512 55%, #251a0d 100%);
-  --tab-border: #5e472a #211708 #120c05 #3e2e1a;
-  --tab-hover-grad: linear-gradient(180deg, #4c3920 0%, #3e2d18 55%, #2f2210 100%);
-  --tab-hover-border: #6e5331 #281c0d #160f07 #4c3920;
-  --tab-active-grad: linear-gradient(180deg, #1c1409 0%, #120c05 100%);
-  --tab-active-border: #d9b04a #120c05 #090602 #5e472a;
-  --tab-active-text: #e8cf86;
-  --tab-inset: inset 0 1px 0 rgba(230, 211, 166, 0.12), inset 0 -1px 0 rgba(0, 0, 0, 0.55);
-  --text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+  --tab-grad: linear-gradient(180deg, #3d3122 0%, #352a1c 55%, #2c2216 100%);
+  --tab-border: #6e5a3a #3a2e1c #281f12 #5f4d31;
+  --tab-hover-grad: linear-gradient(180deg, #4e3f28 0%, #443824 55%, #382e1d 100%);
+  --tab-hover-border: #a88d57 #5a4a2e #342a19 #917a49;
+  --tab-active-grad: linear-gradient(180deg, #82693f 0%, #6e5836 100%);
+  --tab-active-border: #c8a050 #4a3a22 #2c2114 #917a49;
+  --tab-active-text: #f0dca8;
+  --tab-inset: inset 0 1px 0 rgba(212, 192, 144, 0.10), inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+  --text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
 
-  --link: #d9b04a;
-  --scrollbar-base: #302314;
-  --scrollbar-thumb: #5e472a;
+  --link: #c8a050;
+  --scrollbar-base: #332a1e;
+  --scrollbar-thumb: rgba(160, 130, 80, 0.45);
 
-  --c-str: #c98e8e;
-  --c-per: #cdbf85;
-  --c-int: #8ab4cf;
-  --c-con: #d98f95;
-  --c-wil: #b48cc2;
-  --c-spd: #dcc56f;
-  --c-for: #8aa98b;
-  --c-vitae: #d85a5a;
-  --c-patron: #ecdcb4;
+  --c-str: #a04848;
+  --c-per: #b59a5e;
+  --c-int: #5a7ca8;
+  --c-con: #8a3c3c;
+  --c-wil: #9a7ab0;
+  --c-spd: #c8a050;
+  --c-for: #6a9560;
+  --c-vitae: #8a2f2f;
+  --c-patron: #d4c090;
 }
 
 html,

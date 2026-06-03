@@ -12,7 +12,7 @@
 	return SStriumphs.get_triumphs(ckey)
 
 /client/proc/adjusttriumph()
-	set category = "SPECIAL VERBS"
+	set category = "Admin.Special"
 	set name = "Adjust Own Triumphs"
 	var/input = input(src, "how much") as num
 	if(mob && input)

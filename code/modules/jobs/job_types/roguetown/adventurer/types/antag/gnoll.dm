@@ -137,7 +137,7 @@
 
 /mob/living/carbon/human/proc/gnoll_inspect_skin()
 	set name = "Inspect Pelt"
-	set category = "Gnoll"
+	set category = "RoleUnique.Gnoll"
 	set desc = "Examine your gnoll skin armor"
 	if(!istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor))
 		to_chat(src, span_warning("You don't have any gnoll skin armor to inspect!"))

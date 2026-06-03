@@ -76,7 +76,7 @@ GLOBAL_LIST_EMPTY(graggar_cullings)
 /// Verb for the graggar's culling contestants to remember their targets
 /mob/living/carbon/human/proc/remember_culling()
 	set name = "Graggar's Culling"
-	set category = "Graggar"
+	set category = "RoleUnique.Graggar"
 	if(!mind)
 		return
 	mind.recall_culling(src)

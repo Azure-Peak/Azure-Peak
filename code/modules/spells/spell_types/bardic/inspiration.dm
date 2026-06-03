@@ -45,7 +45,7 @@
 
 /mob/living/carbon/human/proc/setaudience()
 	set name = "Audience Choice"
-	set category = "Inspiration"
+	set category = "RoleUnique.Inspiration"
 
 	if(!inspiration)
 		return FALSE
@@ -70,7 +70,7 @@
 
 /mob/living/carbon/human/proc/clearaudience()
 	set name = "Clear Audience"
-	set category = "Inspiration"
+	set category = "RoleUnique.Inspiration"
 	if(!inspiration)
 		return FALSE
 	if(src.has_status_effect(/datum/status_effect/buff/playing_melody) || src.has_status_effect(/datum/status_effect/buff/playing_dirge))
@@ -81,7 +81,7 @@
 
 /mob/living/carbon/human/proc/checkaudience()
 	set name = "Check Audience"
-	set category = "Inspiration"
+	set category = "RoleUnique.Inspiration"
 
 	if(!inspiration)
 		return FALSE
@@ -95,7 +95,7 @@
 
 /mob/living/carbon/human/proc/explain_bard()
 	set name = "Explain Bardic Inspiration"
-	set category = "Inspiration"
+	set category = "RoleUnique.Inspiration"
 	if(!inspiration)
 		return FALSE
 	var/tier_name = inspiration.level == BARD_T2 ? "Full Bard" : "Lesser Bard"

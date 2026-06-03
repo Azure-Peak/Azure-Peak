@@ -7,7 +7,7 @@
 
 /mob/living/carbon/human/verb/commune()
 	set name = "Commune"
-	set category = "Heretic"
+	set category = "RoleUnique.Heretic"
 	set desc = "Communicate with fellow believers"
 	
 	if(!mind)
@@ -87,7 +87,7 @@
 
 /mob/living/carbon/human/verb/show_heretics()
 	set name = "Show Fellow Believers"
-	set category = "Heretic"
+	set category = "RoleUnique.Heretic"
 	set desc = "View others of your faith"
 	
 	if(!mind)
@@ -138,7 +138,7 @@
 
 /mob/living/carbon/human/verb/bad_omen()
 	set name = "Dark Chant"
-	set category = "Heretic"
+	set category = "RoleUnique.Heretic"
 	set desc = "Begin a forbidden ritual chant"
 	
 	if(!mind)
