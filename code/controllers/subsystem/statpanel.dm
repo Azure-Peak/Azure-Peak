@@ -1,3 +1,7 @@
+/// Listed-turf lag guards: drop per-atom icons past ICON_LIMIT entries, hard-cap total entries.
+#define STATBROWSER_TURF_ICON_LIMIT 25
+#define STATBROWSER_TURF_HARD_CAP 100
+
 SUBSYSTEM_DEF(statpanels)
 	name = "Stat Panels"
 	wait = 4
@@ -67,6 +71,9 @@ SUBSYSTEM_DEF(statpanels)
 
 		if(target.stat_tab == "Status" && num_fires % status_wait == 0)
 			set_status_tab(target)
+
+		if((target.mob?.listed_turf || target.listedturf_sig) && num_fires % default_wait == 0)
+			target.update_listed_turf()
 
 		if(!target.holder)
 			target.stat_panel.send_message("remove_admin_tabs")
@@ -179,6 +186,10 @@ SUBSYSTEM_DEF(statpanels)
 		set_status_tab(target)
 		return TRUE
 
+	if(target.mob?.listed_turf && target.stat_tab == "[target.mob.listed_turf]")
+		target.send_listed_turf()
+		return TRUE
+
 	var/mob/target_mob = target.mob
 
 	// Handle actions
@@ -211,3 +222,88 @@ SUBSYSTEM_DEF(statpanels)
 /datum/tgui_window/stat/initialize(strict_mode, fancy, assets, inline_html, inline_js, inline_css)
 	. = ..()
 	send_message("build_topbar") // This is the best way of doing it... don't @ me
+
+/client/proc/open_listed_turf(turf/T)
+	if(!mob || !T || !mob.TurfAdjacent(T))
+		return
+	mob.listed_turf = T
+	listedturf_sig = null
+	stat_panel.send_message("create_listedturf", "[T]")
+	send_listed_turf()
+
+/client/proc/listedturf_signature(turf/T)
+	return "[REF(T)]|[length(T.contents)]|[mob?.see_invisible]"
+
+/client/proc/update_listed_turf()
+	var/turf/T = mob?.listed_turf
+	if(!T || !mob.TurfAdjacent(T))
+		if(listedturf_sig != null)
+			mob?.listed_turf = null
+			listedturf_sig = null
+			stat_panel.send_message("remove_listedturf")
+		return
+	if(stat_tab == "[T]" && listedturf_sig != listedturf_signature(T))
+		send_listed_turf()
+
+/client/proc/send_listed_turf()
+	var/turf/T = mob?.listed_turf
+	if(!T)
+		return
+	listedturf_sig = listedturf_signature(T)
+	var/list/overrides = list()
+	for(var/image/override_image in images)
+		if(override_image.override && override_image.loc?.loc == T)
+			overrides += override_image.loc
+	var/use_icons = (length(T.contents) <= STATBROWSER_TURF_ICON_LIMIT)
+	var/list/data = list(list("[T]", REF(T), use_icons ? listedturf_icon(T) : null))
+	var/shown = 0
+	for(var/atom/thing in T)
+		if(!ismob(thing) && !thing.mouse_opacity)
+			continue
+		if(thing.invisibility > mob.see_invisible)
+			continue
+		if(length(overrides) && !ismob(thing) && (thing in overrides))
+			continue
+		if(shown >= STATBROWSER_TURF_HARD_CAP)
+			data += list(list("...more contents not shown", null, null))
+			break
+		data += list(list("[thing]", REF(thing), use_icons ? listedturf_icon(thing) : null))
+		shown++
+	stat_panel.send_message("update_listedturf", data)
+
+/client/proc/listedturf_icon(atom/thing)
+	if(!thing.icon)
+		return null
+	var/icon/flat = getFlatIcon(thing, no_anim = TRUE)
+	if(!flat)
+		return null
+	var/b64 = icon2base64(flat)
+	return b64 ? "data:image/png;base64,[b64]" : null
+
+/atom/Topic(href, list/href_list)
+	. = ..()
+	if(!href_list["statpanel_item_click"])
+		return
+	var/mob/user = usr
+	if(!user || !user.client)
+		return
+	var/list/paramslist = list()
+	switch(href_list["statpanel_item_click"])
+		if("left")
+			paramslist[LEFT_CLICK] = "1"
+		if("right")
+			paramslist[RIGHT_CLICK] = "1"
+		if("middle")
+			paramslist[MIDDLE_CLICK] = "1"
+		else
+			return
+	if(href_list["statpanel_item_shiftclick"])
+		paramslist[SHIFT_CLICKED] = "1"
+	if(href_list["statpanel_item_ctrlclick"])
+		paramslist[CTRL_CLICKED] = "1"
+	if(href_list["statpanel_item_altclick"])
+		paramslist[ALT_CLICKED] = "1"
+	user.client.Click(src, loc, null, list2params(paramslist))
+
+#undef STATBROWSER_TURF_ICON_LIMIT
+#undef STATBROWSER_TURF_HARD_CAP

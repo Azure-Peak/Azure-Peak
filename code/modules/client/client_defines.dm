@@ -145,6 +145,8 @@
 
 	/// list of all tabs
 	var/list/panel_tabs = list()
+	/// Signature of the last listed-turf contents sent, to skip redundant rebuilds.
+	var/listedturf_sig
 	/// Whether the next browser stat panel content update must force the visible tab.
 	var/browserpanel_forcetab = FALSE
 	/// Cached verb categories and commands for the browser-backed stat panel.
