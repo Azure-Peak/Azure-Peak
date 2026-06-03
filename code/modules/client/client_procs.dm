@@ -92,6 +92,8 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		return
 	if(href_list["reload_tguipanel"])
 		nuke_chat()
+	if(href_list["reload_statbrowser"])
+		stat_panel.reinitialize()
 	if(href_list["browser_stat_panel"])
 		handle_browserpanel_action(href_list)
 		return
@@ -287,6 +289,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	GLOB.clients += src
 	GLOB.directory[ckey] = src
 
+	stat_panel = new(src, "statbrowser")
+	stat_panel.subscribe(src, PROC_REF(on_stat_panel_message))
+
 	initialize_commandbar_spy()
 
 	GLOB.ahelp_tickets.ClientLogin(src)
@@ -416,6 +421,12 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 
 	tgui_panel.initialize()
 	refresh_browserpanel(TRUE)
+	stat_panel.initialize(
+		inline_html = file("html/statbrowser.html"),
+		inline_js = file("html/statbrowser.js"),
+		inline_css = file("html/statbrowser.css"),
+	)
+	addtimer(CALLBACK(src, PROC_REF(check_panel_loaded)), 30 SECONDS)
 
 	connection_time = world.time
 	connection_realtime = world.realtime
@@ -1299,3 +1310,47 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 #undef CURRENT_MINUTE
 #undef MINUTE_COUNT
 #undef ADMINSWARNED_AT
+
+/client/proc/check_panel_loaded()
+	if(stat_panel.is_ready())
+		return
+	to_chat(src, span_userdanger("Statpanel failed to load, click <a href='byond://?src=[REF(src)];reload_statbrowser=1'>here</a> to reload the panel "))
+
+/// compiles a full list of verbs and sends it to the browser
+/client/proc/init_verbs()
+	if(IsAdminAdvancedProcCall())
+		return
+	var/list/verblist = list()
+	var/list/verbstoprocess = verbs.Copy()
+	if(mob)
+		verbstoprocess += mob.verbs
+		for(var/atom/movable/thing as anything in mob.contents)
+			verbstoprocess += thing.verbs
+	panel_tabs.Cut() // panel_tabs get reset in init_verbs on JS side anyway
+	for(var/procpath/verb_to_init as anything in verbstoprocess)
+		if(!verb_to_init)
+			continue
+		if(GLOB.browserpanel_hidden_verbs["[verb_to_init]"])
+			continue
+		if(!istext(verb_to_init.category))
+			continue
+		panel_tabs |= verb_to_init.category
+		verblist[++verblist.len] = list(verb_to_init.category, verb_to_init.name)
+	stat_panel.send_message("init_verbs", list(panel_tabs = panel_tabs, verblist = verblist))
+
+/**
+ * Handles incoming messages from the stat-panel TGUI.
+ */
+/client/proc/on_stat_panel_message(type, payload)
+	switch(type)
+		if("Update-Verbs")
+			init_verbs()
+		if("Remove-Tabs")
+			panel_tabs -= payload["tab"]
+		if("Send-Tabs")
+			panel_tabs |= payload["tab"]
+		if("Reset-Tabs")
+			panel_tabs = list()
+		if("Set-Tab")
+			stat_tab = payload["tab"]
+			SSstatpanels.immediate_send_stat_data(src)

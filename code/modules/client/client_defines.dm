@@ -140,6 +140,11 @@
 	var/last_lighting_update = 0
 	/// Currently selected browser-backed stat panel tab.
 	var/browserpanel_tab = "RoundInfo"
+	/// our current tab
+	var/stat_tab
+
+	/// list of all tabs
+	var/list/panel_tabs = list()
 	/// Whether the next browser stat panel content update must force the visible tab.
 	var/browserpanel_forcetab = FALSE
 	/// Cached verb categories and commands for the browser-backed stat panel.

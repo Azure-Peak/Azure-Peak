@@ -1352,3 +1352,9 @@ GLOBAL_VAR_INIT(mobids, 1)
 	canon_client = null
 
 #undef MOB_FACE_DIRECTION_DELAY
+
+/// Adds this list to the output to the stat browser
+/mob/proc/get_status_tab_items()
+	. = list("") //we want to offset unique stuff from standard stuff
+	SEND_SIGNAL(src, COMSIG_MOB_GET_STATUS_TAB_ITEMS, .)
+	return .

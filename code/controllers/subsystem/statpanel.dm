@@ -38,7 +38,7 @@ SUBSYSTEM_DEF(statpanels)
 		if(SSticker.HasRoundStarted())
 			true_round_time = "[DisplayTimeText(world.time - SSticker.round_start_time, 1)]"
 		global_data += list(
-			"Round ID: [GLOB.round_id ? GLOB.round_id : "NULL"]",
+			"Round ID: [GLOB.rogue_round_id ? GLOB.rogue_round_id : "NULL"]",
 			"Server Time: [time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss", world.timezone)]",
 			"Round Time: [true_round_time]",
 			"In-Character Time: [station_time_timestamp()]",
@@ -51,12 +51,7 @@ SUBSYSTEM_DEF(statpanels)
 			var/time_left = SSgamemode.round_ends_at - ticker_time
 			global_data += "Round End: [DisplayTimeText(time_left, 1)]"
 
-		if(SSticker.reboot_timer)
-			var/reboot_time = timeleft(SSticker.reboot_timer)
-			if(reboot_time)
-				global_data += "Reboot: [DisplayTimeText(reboot_time, 1)]"
-		// admin must have delayed round end
-		else if(SSticker.ready_for_reboot)
+		if(SSticker.ready_for_reboot)
 			global_data += "Reboot: DELAYED"
 
 		src.currentrun = GLOB.clients.Copy()
@@ -137,18 +132,10 @@ SUBSYSTEM_DEF(statpanels)
 	target.stat_panel.send_message("update_mc", list("mc_data" = mc_data, "coord_entry" = coord_entry))
 
 /datum/controller/subsystem/statpanels/proc/set_tickets_tab(client/target)
-	var/list/ahelp_tickets = GLOB.ahelp_tickets.stat_entry()
-	target.stat_panel.send_message("update_tickets", ahelp_tickets)
+	return
 
 /datum/controller/subsystem/statpanels/proc/set_SDQL2_tab(client/target)
-	var/list/sdql2A = list()
-	sdql2A[++sdql2A.len] = list("", "Access Global SDQL2 List", REF(GLOB.sdql2_vv_statobj))
-	var/list/sdql2B = list()
-	for(var/datum/SDQL2_query/query as anything in GLOB.sdql2_queries)
-		sdql2B = query.generate_stat()
-
-	sdql2A += sdql2B
-	target.stat_panel.send_message("update_sdql2", sdql2A)
+	return
 
 /// Set up the various action tabs.
 /datum/controller/subsystem/statpanels/proc/set_action_tabs(client/target, mob/target_mob)
@@ -161,20 +148,17 @@ SUBSYSTEM_DEF(statpanels)
 	// target.stat_panel.send_message("update_spells", list(spell_tabs = target.spell_tabs, actions = actions))
 
 /datum/controller/subsystem/statpanels/proc/generate_mc_data()
-	mc_data = list(
-		list("", "CPU:", world.cpu),
-		list("", "Instances:", "[num2text(world.contents.len, 10)]"),
-		list("", "World Time:", "[world.time]"),
-		list("", "Globals:", GLOB.stat_entry(), text_ref(GLOB)),
-		list("", "[config]:", config.stat_entry(), text_ref(config)),
-//		list("", "Byond:", "(FPS:[world.fps]) (TickCount:[world.time/world.tick_lag]) (TickDrift:[round(Master.tickdrift,1)]([round((Master.tickdrift/(world.time/world.tick_lag))*100,0.1)]%))\n  (Internal Tick Usage: [round(MAPTICK_LAST_INTERNAL_TICK_USAGE,0.1)]%)"),
-		list("", "Master Controller:", Master.stat_entry(), text_ref(Master)),
-		list("", "Failsafe Controller:", Failsafe.stat_entry(), text_ref(Failsafe)),
-		list("", "", "")
-	)
-
-	for(var/datum/controller/subsystem/sub_system as anything in Master.subsystems)
-		mc_data[++mc_data.len] = list("\[[sub_system.state_letter()]]", sub_system.name, sub_system.stat_entry(), text_ref(sub_system))
+	mc_data = list()
+	for(var/line in SSstatpanel.mc_info_text)
+		mc_data += list(list("", "[line]", ""))
+	mc_data += list(list("", "Globals:", "Edit", text_ref(GLOB)))
+	mc_data += list(list("", "[config]:", "Edit", text_ref(config)))
+	mc_data += list(list("", "Master Controller:", "Edit", text_ref(Master)))
+	mc_data += list(list("", "Failsafe Controller:", "Edit", text_ref(Failsafe)))
+	mc_data += list(list("", "", ""))
+	for(var/entry in SSstatpanel.mc_cache)
+		var/datum/controller/subsystem/sub_system = entry["subsystem"]
+		mc_data += list(list("", "[entry["title"]]", "[entry["msg"]]", text_ref(sub_system)))
 
 ///immediately update the active statpanel tab of the target client
 /datum/controller/subsystem/statpanels/proc/immediate_send_stat_data(client/target)
