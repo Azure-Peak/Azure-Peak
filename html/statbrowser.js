@@ -343,7 +343,25 @@ function draw_status() {
       }
     } else {
       var div;
-      if (part[0].trim() == 'same_line') {
+      if (part[0] == 'tod') {
+        div = document.createElement('div');
+        var todWord = part[1].charAt(0).toUpperCase() + part[1].slice(1);
+        var todText = part[2];
+        var todIdx = todText.indexOf(todWord);
+        if (todIdx === -1) {
+          div.textContent = todText;
+        } else {
+          div.appendChild(document.createTextNode(todText.slice(0, todIdx)));
+          var todSpan = document.createElement('span');
+          todSpan.className = 'tod-' + part[1];
+          todSpan.textContent = todWord;
+          div.appendChild(todSpan);
+          div.appendChild(
+            document.createTextNode(todText.slice(todIdx + todWord.length)),
+          );
+        }
+        table.appendChild(div);
+      } else if (part[0].trim() == 'same_line') {
         var a = document.createElement('a');
         a.href = 'byond://?' + part[2];
         a.textContent = part[1];
@@ -744,6 +762,12 @@ function add_verb_list(payload) {
 
 document.addEventListener('mouseup', restoreFocus);
 document.addEventListener('keyup', restoreFocus);
+
+document.addEventListener('wheel', (e) => {
+  if (e.ctrlKey) {
+    e.preventDefault();
+  }
+}, { passive: false });
 
 if (!current_tab) {
   addPermanentTab(defaultTab);

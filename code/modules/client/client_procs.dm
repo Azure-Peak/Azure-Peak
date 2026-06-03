@@ -1347,6 +1347,11 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		verblist[++verblist.len] = list(verb_to_init.category, verb_to_init.name)
 	stat_panel.send_message("init_verbs", list(panel_tabs = panel_tabs, verblist = verblist))
 
+/client/verb/fix_stat_panel()
+	set name = "Fix Stat Panel"
+	set hidden = TRUE
+	init_verbs()
+
 /**
  * Handles incoming messages from the stat-panel TGUI.
  */

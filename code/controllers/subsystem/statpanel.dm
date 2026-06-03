@@ -45,8 +45,6 @@ SUBSYSTEM_DEF(statpanels)
 			"Round ID: [GLOB.rogue_round_id ? GLOB.rogue_round_id : "NULL"]",
 			"Server Time: [time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss", world.timezone)]",
 			"Round Time: [true_round_time]",
-			"In-Character Time: [station_time_timestamp()]",
-			"Time of Day: [GLOB.tod]",
 			"Time Dilation: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%)",
 		)
 
@@ -82,7 +80,7 @@ SUBSYSTEM_DEF(statpanels)
 			target.stat_panel.send_message("remove_stats_tab")
 			target.statbrowser_stats_shown = FALSE
 
-		if((target.mob?.listed_turf || target.listedturf_sig) && num_fires % default_wait == 0)
+		if(target.mob?.listed_turf || target.listedturf_sig)
 			target.update_listed_turf()
 
 		if(!target.holder)
@@ -246,7 +244,10 @@ SUBSYSTEM_DEF(statpanels)
 /client/proc/open_listed_turf(turf/T)
 	if(!mob || !T || !mob.TurfAdjacent(T))
 		return
+	if(mob.listed_turf)
+		LAZYREMOVE(mob.listed_turf.panel_listeners, src)
 	mob.listed_turf = T
+	LAZYADD(T.panel_listeners, src)
 	listedturf_sig = null
 	stat_panel.send_message("create_listedturf", "[T]")
 	send_listed_turf()
@@ -258,6 +259,8 @@ SUBSYSTEM_DEF(statpanels)
 	var/turf/T = mob?.listed_turf
 	if(!T || !mob.TurfAdjacent(T))
 		if(listedturf_sig != null)
+			if(T)
+				LAZYREMOVE(T.panel_listeners, src)
 			mob?.listed_turf = null
 			listedturf_sig = null
 			stat_panel.send_message("remove_listedturf")
@@ -275,7 +278,7 @@ SUBSYSTEM_DEF(statpanels)
 		if(override_image.override && override_image.loc?.loc == T)
 			overrides += override_image.loc
 	var/use_icons = (length(T.contents) <= STATBROWSER_TURF_ICON_LIMIT)
-	var/list/data = list(list("[T]", REF(T), use_icons ? listedturf_icon(T) : null))
+	var/list/data = list(list(statpanel_strip_article("[T]"), REF(T), use_icons ? listedturf_icon(T) : null))
 	var/shown = 0
 	for(var/atom/thing in T)
 		if(!ismob(thing) && !thing.mouse_opacity)
@@ -287,7 +290,7 @@ SUBSYSTEM_DEF(statpanels)
 		if(shown >= STATBROWSER_TURF_HARD_CAP)
 			data += list(list("...more contents not shown", null, null))
 			break
-		data += list(list("[thing]", REF(thing), use_icons ? listedturf_icon(thing) : null))
+		data += list(list(statpanel_strip_article("[thing]"), REF(thing), use_icons ? listedturf_icon(thing) : null))
 		shown++
 	stat_panel.send_message("update_listedturf", data)
 
@@ -299,6 +302,11 @@ SUBSYSTEM_DEF(statpanels)
 		return null
 	var/b64 = icon2base64(flat)
 	return b64 ? "data:image/png;base64,[b64]" : null
+
+/proc/statpanel_strip_article(name)
+	if(findtext(name, "the ") == 1)
+		return copytext(name, 5)
+	return name
 
 /atom/Topic(href, list/href_list)
 	. = ..()

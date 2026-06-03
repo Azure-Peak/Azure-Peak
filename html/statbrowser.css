@@ -76,7 +76,7 @@ body {
 
 body {
   font-family: var(--font);
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.02em;
   margin: 0 !important;
   padding: 0 !important;
@@ -145,11 +145,11 @@ img {
   -ms-user-select: none; /* Remove after Byond 516 */
   text-align: center;
   font-family: var(--font);
-  font-size: 13px;
+  font-size: 15px;
   letter-spacing: 0.03em;
-  min-width: 2.9em;
+  min-width: 3.2em;
   margin: 0 2px;
-  padding: 0.4em 0.6em 0.3em;
+  padding: 0.5em 0.85em 0.4em;
   border-width: 1px;
   border-style: solid;
   border-color: var(--tab-border);
@@ -237,6 +237,11 @@ img {
 .stat-label-vitae { color: var(--c-vitae); }
 .stat-label-patron { color: var(--c-patron); }
 
+.tod-dawn { color: #e8dfa5; }
+.tod-day { color: #f0d24a; }
+.tod-dusk { color: #9dbfe8; }
+.tod-night { color: #f2f2f2; }
+
 .grid-container {
   margin: -0.15em;
 }
@@ -247,7 +252,7 @@ img {
   user-select: none;
   -ms-user-select: none; /* Remove after Byond 516 */
   width: 100%;
-  max-height: 1.95em;
+  max-height: 1.6em;
   text-decoration: none;
   background-color: transparent;
 }
@@ -260,7 +265,8 @@ img {
   pointer-events: none;
   width: 100%;
   margin: 1px;
-  padding: 0.3em 0.5em 0.2em;
+  padding: 0.2em 0.45em 0.1em;
+  font-size: 12px;
   border-width: 1px;
   border-style: solid;
   border-color: var(--tab-border);
@@ -361,7 +367,7 @@ img {
 
 .turf-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   column-gap: 8px;
   width: 100%;
 }
@@ -382,8 +388,8 @@ img {
 
 .turf-icon {
   flex: 0 0 auto;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
 }
 
 .turf-name {

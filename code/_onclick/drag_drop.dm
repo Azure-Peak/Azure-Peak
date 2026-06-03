@@ -320,6 +320,8 @@
 
 /client/Destroy()
 	STOP_PROCESSING(SSmousecharge, src)
+	if(mob?.listed_turf)
+		LAZYREMOVE(mob.listed_turf.panel_listeners, src)
 	return ..()
 
 /client/process(seconds_per_tick)
