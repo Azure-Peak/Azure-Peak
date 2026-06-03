@@ -305,7 +305,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		holder.owner = src
 		connecting_admin = TRUE
 	else if(GLOB.deadmins[ckey])
-		verbs += /client/proc/readmin
+		add_verb(src, /client/proc/readmin)
 		connecting_admin = TRUE
 	if(CONFIG_GET(flag/autoadmin))
 		if(!GLOB.admin_datums[ckey])
@@ -346,7 +346,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	tgui_panel = new(src, "browseroutput")
 
 	if(fexists(roundend_report_file()))
-		verbs += /client/proc/show_previous_roundend_report
+		add_verb(src, /client/proc/show_previous_roundend_report)
 
 	var/full_version = "[byond_version].[byond_build ? byond_build : "xxx"]"
 	log_access("Login: [key_name(src)] from [address ? address : "localhost"]-[computer_id] || BYOND v[full_version]")
@@ -1054,9 +1054,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 
 /client/proc/add_verbs_from_config()
 	if(CONFIG_GET(flag/see_own_notes))
-		verbs += /client/proc/self_notes
+		add_verb(src, /client/proc/self_notes)
 	if(CONFIG_GET(flag/use_exp_tracking))
-		verbs += /client/proc/self_playtime
+		add_verb(src, /client/proc/self_playtime)
 
 
 #undef UPLOAD_LIMIT
@@ -1291,17 +1291,17 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	// If admin (holder) always keep OOC for moderation.
 	if(holder)
 		if(!( /client/verb/ooc in verbs))
-			verbs += /client/verb/ooc
+			add_verb(src, /client/verb/ooc)
 		init_verbs()
 		return
 
 	// Non-admins: only lobby new_player retains OOC verb.
 	if(istype(mob, /mob/dead/new_player))
 		if(!( /client/verb/ooc in verbs))
-			verbs += /client/verb/ooc
+			add_verb(src, /client/verb/ooc)
 	else
 		if(/client/verb/ooc in verbs)
-			verbs -= /client/verb/ooc
+			remove_verb(src, /client/verb/ooc)
 
 	init_verbs()
 

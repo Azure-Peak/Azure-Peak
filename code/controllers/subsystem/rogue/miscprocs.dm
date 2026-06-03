@@ -141,7 +141,7 @@
 		update_devotion(max_devotion, CLERIC_REQ_4, silent = TRUE)
 	else
 		update_devotion(50, 50, silent = TRUE)
-	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+	add_verb(H, list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray))
 
 // Debug verb
 /mob/living/carbon/human/proc/devotionchange()
@@ -216,7 +216,7 @@
 	V.second_color = sanitize_hexcolor(newcolor)
 	V.second_desc_path = voice_options[picked_name]
 	to_chat(src, span_notice("Second voice configured: Color [V.second_color] with the '[picked_name]' description."))
-	src.verbs -= /mob/living/carbon/human/proc/changevoice
+	remove_verb(src, /mob/living/carbon/human/proc/changevoice)
 	return TRUE
 
 /mob/living/carbon/human/proc/swapvoice()

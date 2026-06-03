@@ -40,7 +40,7 @@
 			rhythm_tracker.crescendo_action = C
 			H.mind.AddSpell(C)
 	audience |= H // Bard is always in their own audience
-	H.verbs += list(/mob/living/carbon/human/proc/setaudience, /mob/living/carbon/human/proc/clearaudience, /mob/living/carbon/human/proc/checkaudience, /mob/living/carbon/human/proc/open_songbook, /mob/living/carbon/human/proc/explain_bard)
+	add_verb(H, list(/mob/living/carbon/human/proc/setaudience, /mob/living/carbon/human/proc/clearaudience, /mob/living/carbon/human/proc/checkaudience, /mob/living/carbon/human/proc/open_songbook, /mob/living/carbon/human/proc/explain_bard))
 
 /mob/living/carbon/human/proc/in_audience(mob/living/carbon/human/audiencee)
 	if(!src.mind)

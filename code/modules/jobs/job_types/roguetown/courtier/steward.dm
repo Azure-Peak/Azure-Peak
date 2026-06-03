@@ -79,7 +79,7 @@
 	id = /obj/item/scomstone
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
-	H.verbs |= /mob/living/carbon/human/proc/adjust_taxes
+	add_verb(H, /mob/living/carbon/human/proc/adjust_taxes)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 	backpack_contents = list(

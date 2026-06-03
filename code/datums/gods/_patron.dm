@@ -42,7 +42,7 @@ GLOBAL_LIST_EMPTY(prayers)
 		ADD_TRAIT(pious, trait, "[type]")
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))
 		pious.grant_language(/datum/language/tricksterscant)
-		pious.verbs += /mob/living/carbon/human/proc/emote_ffsalute
+		add_verb(pious, /mob/living/carbon/human/proc/emote_ffsalute)
 	if(HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction |= "cabal"
 

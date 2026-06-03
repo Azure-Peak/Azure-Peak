@@ -32,7 +32,7 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 				if(D.buried && D.funeral)
 					D.returntolobby()
 					return
-			verbs -= GLOB.ghost_verbs
+			remove_verb(src, GLOB.ghost_verbs)
 			init_verbs()
 			mob.returntolobby()
 		if("No")
@@ -100,7 +100,8 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 		qdel(M)
 		return
 
-	client?.verbs -= GLOB.ghost_verbs
+	if(client)
+		remove_verb(client, GLOB.ghost_verbs)
 	client?.init_verbs()
 	M.key = key
 	if(istype(src, /mob/dead/observer)) //Be rid of clogging ghost shades

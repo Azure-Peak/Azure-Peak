@@ -106,12 +106,12 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron) // This creates the cleric holder used for devotion spells
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
 
-	H.verbs |= /mob/living/carbon/human/proc/coronate_lord
-	H.verbs |= /mob/living/carbon/human/proc/churchannouncement
-	H.verbs |= /mob/living/carbon/human/proc/churchexcommunicate //your button against clergy
-	H.verbs |= /mob/living/carbon/human/proc/churchpriestcurse //snowflake priests button. Will not sacrifice them
-	H.verbs |= /mob/living/carbon/human/proc/churcheapostasy //punish the lamb reward the wolf
-	H.verbs |= /mob/living/carbon/human/proc/completesermon
+	add_verb(H, /mob/living/carbon/human/proc/coronate_lord)
+	add_verb(H, /mob/living/carbon/human/proc/churchannouncement)
+	add_verb(H, /mob/living/carbon/human/proc/churchexcommunicate) //your button against clergy
+	add_verb(H, /mob/living/carbon/human/proc/churchpriestcurse) //snowflake priests button. Will not sacrifice them
+	add_verb(H, /mob/living/carbon/human/proc/churcheapostasy) //punish the lamb reward the wolf
+	add_verb(H, /mob/living/carbon/human/proc/completesermon)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic_priest)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/revive)
 	if(H.mind)

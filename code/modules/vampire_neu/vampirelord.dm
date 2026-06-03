@@ -37,7 +37,7 @@
 	var/mob/living/carbon/human/H = owner.current
 	H.equipOutfit(/datum/outfit/job/vamplord)
 	H.set_patron(/datum/patron/inhumen/zizo)
-	H.verbs |= /mob/living/carbon/human/proc/demand_submission
+	add_verb(H, /mob/living/carbon/human/proc/demand_submission)
 	H.maxbloodpool += 3000
 	H.adjust_bloodpool(3000)
 	for(var/S in MOBSTATS)

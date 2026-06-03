@@ -59,12 +59,12 @@
 /mob/dead/observer/rogue/arcaneeye/Initialize()
 	. = ..()
 	set_invisibility(GLOB.observer_default_invisibility)
-	verbs += list(
+	add_verb(src, list(
 		/mob/dead/observer/rogue/arcaneeye/proc/scry_tele,
 		/mob/dead/observer/rogue/arcaneeye/proc/cancel_scry,
 		/mob/dead/observer/rogue/arcaneeye/proc/eye_down,
 		/mob/dead/observer/rogue/arcaneeye/proc/eye_up,
-		/mob/dead/observer/rogue/arcaneeye/proc/vampire_telepathy)
+		/mob/dead/observer/rogue/arcaneeye/proc/vampire_telepathy))
 	name = "Arcane Eye"
 	grant_all_languages()
 
