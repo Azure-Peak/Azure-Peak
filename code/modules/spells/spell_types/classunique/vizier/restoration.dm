@@ -28,7 +28,6 @@
 	. = ..()
 
 	var/mob/living/carbon/target = cast_on
-	var/mob/living/carbon/human/H = owner
 
 	if(!istype(target))
 		return FALSE

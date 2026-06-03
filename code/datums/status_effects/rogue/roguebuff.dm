@@ -565,6 +565,8 @@
 	owner.adjustCloneLoss(-healing_on_tick, 0)
 // Lesser miracle effect end
 
+#define REWIND_AURA "originhealing"
+
 /datum/status_effect/buff/originhealing // not affected by the heartbeast, since this is not really "healing", you're restoring someone in time. It will also only heal one limb at a time, to differ from other heals that are more uniform.
 	id = "originhealing"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
@@ -579,14 +581,17 @@
 	return ..()
 
 /datum/status_effect/buff/originhealing/on_apply()
-	SEND_SIGNAL(owner, COMSIG_LIVING_MIRACLE_HEAL_APPLY, healing_on_tick, src)
-	var/filter = owner.get_filter(MIRACLE_HEALING_FILTER)
-	if(!filter)
-		owner.add_filter(MIRACLE_HEALING_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	var/filter = owner.get_filter(REWIND_AURA)
+	if (!filter)
+		owner.add_filter(REWIND_AURA, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
 	return TRUE
 
+/datum/status_effect/buff/originhealing/on_remove()
+	. = ..()
+	owner.remove_filter(REWIND_AURA)
+
 /datum/status_effect/buff/originhealing/tick()
-	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
 	H.color = "#ffda95"
 
 	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
@@ -627,6 +632,8 @@
 
 	owner.stamina_add(-6)
 	owner.energy_add(9)
+
+#undef REWIND_AURA
 
 /atom/movable/screen/alert/status_effect/buff/healing/campfire
 	name = "Camp Rest"
