@@ -6,7 +6,7 @@ SUBSYSTEM_DEF(rivers)
 	var/list/currentrun = list()
 
 /datum/controller/subsystem/rivers/stat_entry()
-	..("ACTIVE RIVER TILES:[processing.len]")
+	return ..("ACTIVE RIVER TILES:[processing.len]")
 
 
 /datum/controller/subsystem/rivers/fire(resumed = 0)

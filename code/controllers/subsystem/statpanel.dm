@@ -148,17 +148,19 @@ SUBSYSTEM_DEF(statpanels)
 	// target.stat_panel.send_message("update_spells", list(spell_tabs = target.spell_tabs, actions = actions))
 
 /datum/controller/subsystem/statpanels/proc/generate_mc_data()
-	mc_data = list()
-	for(var/line in SSstatpanel.mc_info_text)
-		mc_data += list(list("", "[line]", ""))
-	mc_data += list(list("", "Globals:", "Edit", text_ref(GLOB)))
-	mc_data += list(list("", "[config]:", "Edit", text_ref(config)))
-	mc_data += list(list("", "Master Controller:", "Edit", text_ref(Master)))
-	mc_data += list(list("", "Failsafe Controller:", "Edit", text_ref(Failsafe)))
-	mc_data += list(list("", "", ""))
-	for(var/entry in SSstatpanel.mc_cache)
-		var/datum/controller/subsystem/sub_system = entry["subsystem"]
-		mc_data += list(list("", "[entry["title"]]", "[entry["msg"]]", text_ref(sub_system)))
+	mc_data = list(
+		list("", "CPU:", world.cpu),
+		list("", "Instances:", "[num2text(world.contents.len, 10)]"),
+		list("", "World Time:", "[world.time]"),
+		list("", "Globals:", GLOB.stat_entry(), text_ref(GLOB)),
+		list("", "[config]:", config.stat_entry(), text_ref(config)),
+		list("", "Master Controller:", Master.stat_entry(), text_ref(Master)),
+		list("", "Failsafe Controller:", Failsafe.stat_entry(), text_ref(Failsafe)),
+		list("", "", "")
+	)
+
+	for(var/datum/controller/subsystem/sub_system as anything in Master.subsystems)
+		mc_data[++mc_data.len] = list("\[[sub_system.state_letter()]]", sub_system.name, sub_system.stat_entry(), text_ref(sub_system))
 
 ///immediately update the active statpanel tab of the target client
 /datum/controller/subsystem/statpanels/proc/immediate_send_stat_data(client/target)
