@@ -304,11 +304,7 @@ SUBSYSTEM_DEF(statpanels)
 /client/proc/listedturf_icon(atom/thing)
 	if(!thing.icon)
 		return null
-	var/icon/flat = getFlatIcon(thing, no_anim = TRUE)
-	if(!flat)
-		return null
-	var/b64 = icon2base64(flat)
-	return b64 ? "data:image/png;base64,[b64]" : null
+	return icon2html(thing, src, sourceonly = TRUE)
 
 /proc/statpanel_strip_article(name)
 	if(findtext(name, "the ") == 1)
