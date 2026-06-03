@@ -271,3 +271,10 @@ body.dark {
 .dark .grid-item:active .grid-item-text {
   background-color: #313131;
 }
+
+.verb-search {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 4px;
+  padding: 2px 4px;
+}

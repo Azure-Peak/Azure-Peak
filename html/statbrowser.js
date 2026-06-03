@@ -25,6 +25,8 @@ var mc_tab_parts = [['Loading...']];
 var href_token = null;
 var verb_tabs = [];
 var verbs = [['', '']]; // list with a list inside
+var verbSearch = '';
+var lastVerbCat = '';
 var tickets = [];
 var sdql2 = [];
 var permanent_tabs = []; // tabs that won't be cleared by wipes
@@ -574,6 +576,20 @@ function make_verb_onclick(command) {
 
 function draw_verbs(cat) {
   statcontentdiv.textContent = '';
+  if (cat != lastVerbCat) {
+    verbSearch = '';
+    lastVerbCat = cat;
+  }
+  var verbSearchBox = document.createElement('input');
+  verbSearchBox.type = 'text';
+  verbSearchBox.className = 'verb-search';
+  verbSearchBox.placeholder = 'Search verbs...';
+  verbSearchBox.value = verbSearch;
+  verbSearchBox.oninput = function () {
+    verbSearch = this.value;
+    filterVerbs();
+  };
+  statcontentdiv.appendChild(verbSearchBox);
   var table = document.createElement('div');
   var additions = {}; // additional sub-categories to be rendered
   table.className = 'grid-container';
@@ -629,6 +645,16 @@ function draw_verbs(cat) {
       content.appendChild(header);
       content.appendChild(additions[cat]);
     }
+  }
+  filterVerbs();
+}
+
+function filterVerbs() {
+  var q = (verbSearch || '').toLowerCase();
+  var items = document.getElementById('statcontent').getElementsByClassName('grid-item');
+  for (var i = 0; i < items.length; i++) {
+    var show = !q || items[i].textContent.toLowerCase().indexOf(q) !== -1;
+    items[i].style.display = show ? '' : 'none';
   }
 }
 

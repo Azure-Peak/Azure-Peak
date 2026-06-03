@@ -202,6 +202,8 @@
 /client/proc/update_browserpanel()
 	reset_browserpanelcache()
 	refresh_browserpanel(TRUE)
+	if(stat_panel)
+		init_verbs()
 
 /client/proc/browserpanel_cachestamp()
 	var/base_stamp = "[length(verbs)]|[REF(holder)]|[holder?.rank?.name || "null"]|[REF(mob)]"
