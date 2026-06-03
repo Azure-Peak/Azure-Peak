@@ -27,17 +27,6 @@
 	var/list/statindex = list()
 	var/datum/patron/patron = /datum/patron/godless
 
-/mob/living/get_status_tab_items()
-	. = ..()
-	. += "STR: \Roman[STASTR]"
-	. += "PER: \Roman[STAPER]"
-	. += "INT: \Roman[STAINT]"
-	. += "CON: \Roman[STACON]"
-	. += "WIL: \Roman[STAWIL]"
-	. += "SPD: \Roman[STASPD]"
-	. += "FOR: \Roman[STALUC]"
-	. += "PATRON: [patron]"
-
 /mob/living/proc/init_faith()
 	set_patron(/datum/patron/godless)
 

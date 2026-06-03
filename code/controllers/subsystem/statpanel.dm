@@ -69,8 +69,18 @@ SUBSYSTEM_DEF(statpanels)
 		if(!target.stat_panel.is_ready())
 			continue
 
-		if(target.stat_tab == "Status" && num_fires % status_wait == 0)
+		if(target.stat_tab == "Round Info" && num_fires % status_wait == 0)
 			set_status_tab(target)
+
+		if(isliving(target.mob))
+			if(!target.statbrowser_stats_shown)
+				target.stat_panel.send_message("add_stats_tab")
+				target.statbrowser_stats_shown = TRUE
+			if(target.stat_tab == "Stats" && num_fires % status_wait == 0)
+				set_stats_tab(target)
+		else if(target.statbrowser_stats_shown)
+			target.stat_panel.send_message("remove_stats_tab")
+			target.statbrowser_stats_shown = FALSE
 
 		if((target.mob?.listed_turf || target.listedturf_sig) && num_fires % default_wait == 0)
 			target.update_listed_turf()
@@ -131,6 +141,21 @@ SUBSYSTEM_DEF(statpanels)
 		"other_str" = target.mob?.get_status_tab_items(),
 	))
 
+/datum/controller/subsystem/statpanels/proc/set_stats_tab(client/target)
+	var/mob/living/L = target.mob
+	if(!isliving(L))
+		return
+	target.stat_panel.send_message("update_stats", list(
+		"STR: \Roman[L.STASTR]",
+		"PER: \Roman[L.STAPER]",
+		"INT: \Roman[L.STAINT]",
+		"CON: \Roman[L.STACON]",
+		"WIL: \Roman[L.STAWIL]",
+		"SPD: \Roman[L.STASPD]",
+		"FOR: \Roman[L.STALUC]",
+		"PATRON: [L.patron]",
+	))
+
 /datum/controller/subsystem/statpanels/proc/set_MC_tab(client/target)
 	var/turf/eye_turf = get_turf(target.eye)
 	var/coord_entry = COORD(eye_turf)
@@ -182,8 +207,12 @@ SUBSYSTEM_DEF(statpanels)
 	if(!target.stat_panel.is_ready())
 		return FALSE
 
-	if(target.stat_tab == "Status")
+	if(target.stat_tab == "Round Info")
 		set_status_tab(target)
+		return TRUE
+
+	if(target.stat_tab == "Stats")
+		set_stats_tab(target)
 		return TRUE
 
 	if(target.mob?.listed_turf && target.stat_tab == "[target.mob.listed_turf]")

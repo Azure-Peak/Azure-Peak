@@ -48,6 +48,10 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		return 0
 	// RATWOOD EDIT END
 
+	if(href_list["statbrowser_calendar"])
+		open_calendar_ui()
+		return
+
 	// asset_cache
 	var/asset_cache_job
 	if(href_list["asset_cache_confirm_arrival"])
