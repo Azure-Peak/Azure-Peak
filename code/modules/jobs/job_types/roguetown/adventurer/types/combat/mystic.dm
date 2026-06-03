@@ -55,6 +55,29 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	
 	if(H.mind)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
+
+	switch(H.patron?.type)
+		if(/datum/patron/divine/undivided)
+			var/list/heal = list("Cure Greater Wounds(Miracle)", "Fortifying Vapors(Medical)")
+			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(highheal_options)
+				if("Cure Greater Wounds(Miracle)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+				if("Fortifying Vapors(Medical)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+		else
+			var/list/heal = list("Cure Wounds(Miracle)", "Fortifying Vapors(Medical)")
+			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(heal_options)
+				if("Cure Wounds(Miracle)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
+				if("Fortifying Vapors(Medical)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+
+
+	if(H.mind)
 		var/weapons = list("lesser staff", "lesser wand", "quarterstaff")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
@@ -192,6 +215,26 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
+
+	switch(H.patron?.type)
+		if(/datum/patron/divine/undivided)
+			var/list/heal = list("Cure Greater Wounds(Miracle)", "Fortifying Vapors(Medical)")
+			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(highheal_options)
+				if("Cure Greater Wounds(Miracle)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+				if("Fortifying Vapors(Medical)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+		else
+			var/list/heal = list("Cure Wounds(Miracle)", "Fortifying Vapors(Medical)")
+			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(heal_options)
+				if("Cure Wounds(Miracle)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
+				if("Fortifying Vapors(Medical)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
 	if(H.mind)
 		var/weapons = list("lesser staff", "lesser wand")
@@ -401,4 +444,3 @@
 		if(/datum/patron/divine/xylix)
 			id = /obj/item/clothing/neck/roguetown/luckcharm
 			H.cmode_music = 'sound/music/combat_jester.ogg'
-

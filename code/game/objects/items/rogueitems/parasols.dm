@@ -19,7 +19,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	grid_width = 32
 	grid_height = 64
-
+	dropshrink = 0.75
 	var/active_item = FALSE
 
 /obj/item/rogueweapon/mace/parasol/Initialize()

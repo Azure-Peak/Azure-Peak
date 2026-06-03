@@ -1,0 +1,8 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Restored selling by bottles for DISTILLED spirits so that they are sellable from distillery. My bad!"
+  - rscadd: "Added a single mini noticeboard to the inn wall on request to make it more convenient for innkeeper to read food / victualling request and make money off it."
+  - bugfix: "Ship departing on its own should resolve favor correctly."
+  - balance: "Purified alloy ingot reduced from 4x to 1x modifier, and now skeletons taint their loot on death to prevent town making massive bucks from selling skeleton gears"
+  - rscdel: "Cut down on abuse potential. Merchant, Shophand, Bathmaster and Bathhouse Attendant can no longer hold the Alderman office."

@@ -270,6 +270,7 @@
 #define TRAIT_ARCYNE "Arcyne Training"
 #define TRAIT_BITERHELM "Helmetbiter" // just use this to get helmets which are bitey.
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
+#define TRAIT_MANORKEEPER "Manorkeeper" // Flavortext-related for the Absolver.
 #define TRAIT_EORAN_CALM "Eoran Calm"
 #define TRAIT_EORAN_SERENE "Eoran Serenity"
 #define TRAIT_NECRAS_VOW "Necra's Vow"
@@ -676,7 +677,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_CLUMSY			"clumsy"
 #define TRAIT_CHUNKYFINGERS		"chunkyfingers" //means that you can't use weapons with normal trigger guards.
 #define TRAIT_GNARLYDIGITS		"gnarlydigits" //less aggressive version of chunky fingers to allow -some- fun.
-#define TRAIT_TINYPAWS		"tinypaws" // even less aggressive version of chunky fingers to allow familiars to perform repairs.
+#define TRAIT_TINYPAWS			"tinypaws" // even less aggressive version of chunky fingers to allow familiars to perform repairs.
+#define TRAIT_WEAPONLESS		"weaponless" // reskinned variant of the above.
 #define TRAIT_DUMB				"dumb"
 #define TRAIT_MONKEYLIKE		"monkeylike" //sets IsAdvancedToolUser to FALSE
 #define TRAIT_NOTIGHTGRABMESSAGE "notightgrabmessage" // Hides grab tightening messages.

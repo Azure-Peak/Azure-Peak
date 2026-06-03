@@ -40,7 +40,7 @@
 	. += span_info("To <b>turn in</b> a completed contract, click the ledger while holding the quest scroll.")
 	. += span_info("Retrieval-quest items should be <b>dropped onto the marked tile</b> in front of the ledger.")
 	. += span_info("Abandoning a contract forfeits its deposit to the treasury and places you under a brief guild cooldown before you may abandon another.")
-	. += span_info("The <b>Innkeeper</b> may compose rumor contracts here, spending Rumor Points to seed retrieval, courier, and light kill jobs across the realm.")
+	. += span_info("The <b>Innkeeper and their tavern staff</b> (Cook, Tapster) may compose rumor contracts here, spending Rumor Points to seed retrieval, courier, and light kill jobs across the realm.")
 	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> may commission defense writs here - paid from the Burgher Pledge, the Crown's Purse, or issued as an unfunded Request. The Steward is the primary commissioner; the others substitute if the Steward is absent. A Regent sitting in the Lord's absence inherits commission authority for the duration of their regency.")
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)

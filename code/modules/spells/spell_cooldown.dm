@@ -881,6 +881,9 @@
 		if(H.has_status_effect(/datum/status_effect/buff/clash))
 			H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
 
+		if(H.get_skill_level(/datum/skill/misc/sneaking) >= SKILL_LEVEL_JOURNEYMAN || HAS_TRAIT(H, TRAIT_LIGHT_STEP))
+			H.apply_status_effect(/datum/status_effect/stealth_revealed)
+
 	// Sparks and smoke can only occur if there's an owner to source them from.
 	if(sparks_amt)
 		do_sparks(sparks_amt, FALSE, get_turf(owner))

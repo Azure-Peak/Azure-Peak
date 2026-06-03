@@ -161,7 +161,7 @@
 		if(H.cmode)
 			if(H != target)
 				H.visible_message(span_blue("[H] fervently recites an orison, invoking the warmth of a dying light."))
-				H.say(pick("ENDURE!!","COME ON!!","HANG ON!!")) // because I miss this! :(
+				H.say(pick("ENDURE!!","ENDURE!!","ENDURE!!","ENDURE!!","ENDURE!!","COME ON!!","COME ON!!","HANG ON!!","GRIT!!","STAND TALL!!")) // because I miss this! :(
 			else
 				H.visible_message(span_blue("[H] grits their teeth and recites an orison, invoking the warmth of a dying light."))
 		else
@@ -834,7 +834,7 @@
 	// REVIVE PATH
 	if(H.stat >= DEAD)
 		if(!H.key && !H.get_ghost(FALSE, TRUE))
-			to_chat(user, span_warning("[H] is irreversibly gone... There's nothing we can do to bring them back anymore!"))
+			to_chat(user, span_warning("[H] is irreversibly gone... there's nothing we can do to bring them back anymore!"))
 			user.emote("cry")
 			revert_cast()
 			return FALSE
@@ -846,11 +846,11 @@
 			return FALSE
 		C.visible_message(span_danger("[C] grabs [H] by the wrists, attempting to ABSOLVE them!"))
 		C.emote("whimper")
-		if(alert(H,"They want to ABSOLVE you. Will you let them?","ABSOLUTION","I'll allow it","I refuse") != "I'll allow it")
+		if(alert(H,"They want to ABSOLVE you. Will you let them?","ABSOLUTION","I accept!","I refuse..") != "I accept!")
 			return FALSE
 		H.apply_status_effect(/datum/status_effect/buff/psyvived)
 		C.say("MY LYFE FOR YOURS! LYVE, AS DOES HE!", forced=TRUE, language=/datum/language/common)
-		C.visible_message(span_danger("[C] suddenly falls down on the ground... DEAD and PSY-DONE!"))
+		C.visible_message(span_danger("[C] suddenly collapses, as the last of their lux is siphoned into [H]'s chest!")) //Originally "[C] suddenly falls down on the ground... DEAD and PSY-DONE!".
 		C.death()
 		H.revive(full_heal=TRUE, admin_revive=FALSE)
 		H.adjustOxyLoss(-H.getOxyLoss())

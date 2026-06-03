@@ -4,7 +4,7 @@
 	name = "fat"
 	desc = "A lump of animal fat, fit for oiling and sausage-stuffing."
 	icon_state = "fat"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	eat_effect = /datum/status_effect/debuff/uncookedfood
 	possible_item_intents = list(/datum/intent/food, /datum/intent/splash)
 	fat_yield = 20
@@ -51,7 +51,7 @@
 	icon_state = "tallow"
 	tastes = list("grease" = 1, "oil" = 1, "regret" = 1)
 	obj_flags = CAN_BE_HIT
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	eat_effect = /datum/status_effect/debuff/uncookedfood
 	fat_yield = 5 // 5 per animal fat
 	bitesize = 1

@@ -9,7 +9,7 @@
 	townie_contract_gate_exempt = TRUE
 	townie_contract_gate_hide_in_list = TRUE
 	class_select_category = CLASS_CAT_CLERIC
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_CIVILIZEDBARBARIAN)
+	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_WIL = 2,
@@ -31,7 +31,7 @@
 	// Also because the alternative is not very clean codewise.
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
-		"Tome of Psydon" = /obj/item/book/rogue/bibble/psy
+		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
 	extra_context = "This subclass can choose from multiple disciplines. The further your chosen discipline strays from unarmed combat, however, the greater your skills in fistfighting and wrestling will atrophy. Taking a Quarterstaff provides a minor bonus to Perception, but removes the 'Dodge Expert' trait."
 
@@ -66,17 +66,31 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles. Better passive regeneration.
 	if(H.mind)
-		var/weapons = list("Discipline - Unarmed","Katar","Knuckledusters","Quarterstaff")
+		var/weapons = list("Penance - Unarmored","Discipline - Unarmed","Katar","Knuckledusters","Quarterstaff")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
+			if("Penance - Unarmored") // Loses Dodge Expert, gains Enduring and a weaker Skin Armor.
+				ADD_TRAIT(H, TRAIT_NOPAINSTUN, JOB_TRAIT)
+				H.change_stat(STATKEY_LCK, 1) // better pity bonus
+				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
+					armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/monke // ape out, brothers. +25 durability over other monks.
+				else
+					armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/monk // same as gladiator's skin.
+
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			if("Discipline - Unarmed")
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			if("Katar")
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
 				beltl = /obj/item/rogueweapon/katar/bronze
 				gloves = /obj/item/clothing/gloves/roguetown/bandages
 			if("Knuckledusters")
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
 					r_hand = /obj/item/clothing/gloves/roguetown/knuckles/psydon/old
 				else
@@ -85,7 +99,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE) //On par with the new Quarterstaff-centric virtue. A monk can take said-virtue if they want the best of both worlds.
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 2, TRUE) //Balance idea's pretty simple. A dedicated staff user can use polearms too - as both weapon types are fundamentally similar, but it'd always be a skill level lower than the staff.
 				H.change_stat(STATKEY_PER, 1) //Compliments the quarterstaff's precision-based mechanics.
-				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+//				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) -- Note for future references: The traits from traits_applied are added after pre_equip() is already finished, it won't remove. Keeping this here for others to take a ref.
 				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 				l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
@@ -196,7 +210,7 @@
 	)
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
-		"Tome of Psydon" = /obj/item/book/rogue/bibble/psy
+		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
 	extra_context = "This subclass can choose to take one of two holy items to take along: a potion of lifeblood and Novice skills in Medicine, or a silver longsword that gives Journeyman skills in Swordsmanship."
 
@@ -240,7 +254,8 @@
 			cloak = /obj/item/clothing/cloak/tabard/psydontabard/black
 			if(H.mind)
 				helmets += list("Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm,
-							"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket)
+							"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket,
+							"Greatplumed Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/psy/greatplume)
 				var/armors = list("Hauberk","Cuirass")
 				var/armor_choice = input(H, "Choose your MAILLE.", "STAND AGAINST HER DARKNESS.") as anything in armors
 				switch(armor_choice)
@@ -332,16 +347,16 @@
 			if("Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
-		var/oaths = list("Cleric - Medicine Training + Supplies","Crusader - Silver Longsword + Surcoat","None")
+		var/oaths = list("Cleric - Medicine Training + Supplies","Crusader - Unique Longsword + Surcoat","None")
 		var/oath_choice = input(H, "Choose your OATH.", "PROFESS YOUR BLESSINGS.") as anything in oaths
 		switch(oath_choice)
 			if("Cleric - Medicine Training + Supplies")
 				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, TRUE)
 				l_hand = /obj/item/needle/thorn/cleric //Unique to the Cleric. Far worse than a traditional iron needle, but better than a regular thorn needle - with 10 uses, instead of 5 (or 20, in the former's case).
 				beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot //No cloth, but a basic potion of lifeblood - similar to the Sorcerer's manna potion. Take the 'Physician's Apprentice' virtue for that, uncapped skills, and more.
-			if("Crusader - Silver Longsword + Surcoat")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE) //Essentially turns it into the old Monster Hunter, in terms of balance.
-				beltl = /obj/item/rogueweapon/sword/long/silver //Functionally, inflicts silverbane at the cost of -5 damage. Likely won't be a balancing issue, unless we start seeing +5-10 Clerics overnight.
+			if("Crusader - Unique Longsword + Surcoat")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE) 
+				beltl = /obj/item/rogueweapon/sword/long/cleric //Essentially, a silver longsword without the ability to sunder antagonists. Should it deal lesser sunder to mindless unholy foes, later? Perhaps.
 				switch(H.patron?.type)
 					if(/datum/patron/old_god)
 						l_hand = /obj/item/clothing/cloak/tabard/stabard/crusader/t
@@ -424,7 +439,7 @@
 	)
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
-		"Tome of Psydon" = /obj/item/book/rogue/bibble/psy
+		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
 	extra_context = "This subclass has higher-tier miracles, but regenerates Devotion far slower."
 
@@ -579,7 +594,7 @@
 	)
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
-		"Tome of Psydon" = /obj/item/book/rogue/bibble/psy
+		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
 	extra_context = "This subclass regenerates Devotion far quicker, but only has access to lesser miracles."
 
@@ -606,46 +621,64 @@
 			head = /obj/item/clothing/head/roguetown/roguehood
 			cloak = /obj/item/clothing/cloak/tabard/stabard/crusader/undivided
 			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
+			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		if(/datum/patron/divine/astrata)
 			head = /obj/item/clothing/head/roguetown/roguehood/astrata
 			cloak = /obj/item/clothing/cloak/tabard/devotee/astrata
 			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
+			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		if(/datum/patron/divine/noc)
 			head =  /obj/item/clothing/head/roguetown/roguehood/nochood
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/noc
-			H.adjust_skillrank(/datum/skill/misc/reading, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/reading, SKILL_LEVEL_JOURNEYMAN, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
 			H.adjust_skillrank(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
-			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC) // we keep this one since adventuring cleric doesnt get it like the regular acolyte.
+			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE) // for their arcane spells, very little CDR and cast speed.
+			if(H.mind)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
+			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC) // So that they can take arcyne potential and not break.
 		if(/datum/patron/divine/abyssor)
 			head = /obj/item/clothing/head/roguetown/roguehood/abyssor
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor
-			H.adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_NOVICE, TRUE)
-			H.adjust_skillrank(/datum/skill/labor/fishing, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank(/datum/skill/labor/fishing, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
+			H.grant_language(/datum/language/abyssal)
 		if(/datum/patron/divine/dendor)
 			head = /obj/item/clothing/head/roguetown/dendormask
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 			H.adjust_skillrank(/datum/skill/labor/farming, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/hunting, SKILL_LEVEL_NOVICE, TRUE)
 			ADD_TRAIT(H, TRAIT_EXPERT_HUNTER, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_WOODWALKER, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
 		if(/datum/patron/divine/necra)
 			head = /obj/item/clothing/head/roguetown/necrahood
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe/necra
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
+			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) // digging graves and carrying bodies builds muscles probably.
+			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
 		if (/datum/patron/divine/malum)
 			head = /obj/item/clothing/head/roguetown/roguehood //placeholder
 			cloak = /obj/item/clothing/cloak/tabard/devotee/malum
-			H.adjust_skillrank(/datum/skill/craft/blacksmithing, SKILL_LEVEL_NOVICE, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/armorsmithing, SKILL_LEVEL_NOVICE, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_NOVICE, TRUE)
-			H.adjust_skillrank(/datum/skill/craft/smelting, SKILL_LEVEL_NOVICE, TRUE)
+			ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, TRAIT_GENERIC)
+			H.adjust_skillrank(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/armorsmithing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/smelting, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank(/datum/skill/labor/lumberjacking, SKILL_LEVEL_APPRENTICE, TRUE)
 		if (/datum/patron/divine/eora)
 			head = /obj/item/clothing/head/roguetown/eoramask
 			backpack_contents[/obj/item/reagent_containers/eoran_seed] = 1
 			r_hand = /obj/item/rogueweapon/huntingknife/scissors
-			H.adjust_skillrank(/datum/skill/craft/cooking, SKILL_LEVEL_APPRENTICE, TRUE)
 			ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
+			// 90% of eorans i see are farming to tend to their tree and/or cooking. they also get sewing -- arts and crafts.
+			H.adjust_skillrank(/datum/skill/craft/sewing, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank(/datum/skill/labor/farming, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/cooking, SKILL_LEVEL_APPRENTICE, TRUE)
 			var/robes = list("Modest","Exposed")
 			var/robe_choice = input(H, "Choose your ROBES.", "TAKE UP ROBES.") as anything in robes
 			switch(robe_choice) // This feels wrong to do but I am unsure how else to do it
@@ -655,16 +688,21 @@
 					cloak = /obj/item/clothing/suit/roguetown/shirt/robe/eora/alt
 		if (/datum/patron/divine/xylix)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/xylix
-			H.adjust_skillrank(/datum/skill/misc/climbing, SKILL_LEVEL_NOVICE, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/sneaking, SKILL_LEVEL_NOVICE, TRUE)
-			H.adjust_skillrank(/datum/skill/misc/music, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, TRUE)
+			H.cmode_music = 'sound/music/combat_jester.ogg'
+			var/datum/inspiration/I = new /datum/inspiration(H)
+			I.grant_inspiration(H, bard_tier = BARD_T2)
 		if (/datum/patron/divine/pestra)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/pestra
 			H.adjust_skillrank(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/alchemy, SKILL_LEVEL_NOVICE, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		if (/datum/patron/divine/ravox)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/ravox
-			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/staves, SKILL_LEVEL_NOVICE, TRUE) //On par with an Adventuring Monk. Seems quite fitting.
 			ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/zizo)
 			cloak = /obj/item/clothing/suit/roguetown/shirt/robe 

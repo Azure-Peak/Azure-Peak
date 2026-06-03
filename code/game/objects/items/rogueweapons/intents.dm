@@ -640,9 +640,11 @@
 		var/mob/M = target
 		var/list/targetl = list(target)
 		user.visible_message(span_blue("[user] shoos [M] away."), span_blue("I shoo [M] away."), ignored_mobs = targetl)
-		if(M.client)
-			if(M.can_see_cone(user))
-				to_chat(M, span_blue("[user] shoos me away."))
+		if(M.mind)
+			var/mob/living/L = user
+			L.play_overhead_private_rclickemote(targetl, "dismiss")
+			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
+			to_chat(M, span_blue("[user] shoos me away."))
 		else
 			M.shood(user)
 	return
@@ -667,9 +669,11 @@
 		var/mob/M = target
 		var/list/targetl = list(target)
 		user.visible_message(span_yellow("[user] beckons [M] to come closer."), span_yellow("I beckon [M] to come closer."), ignored_mobs = targetl)
-		if(M.client)
-			if(M.can_see_cone(user))
-				to_chat(M, span_yellow("[user] beckons me to come closer."))
+		if(M.mind)
+			var/mob/living/L = user
+			L.play_overhead_private_rclickemote(targetl, "beckon")
+			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
+			to_chat(M, span_yellow("[user] beckons me to come closer."))
 		else
 			M.beckoned(user)
 	return
@@ -692,15 +696,8 @@
 		var/list/targetl = list(target)
 		user.visible_message(span_green("[user] waves friendly at [M]."), span_green("I wave friendly at [M]."), ignored_mobs = targetl)
 		if(M.mind)	// Waving at an NPC doesn't need to show this.
-			var/mob/living/carbon/human/H = user
-			var/datum/species/SPC =	H.dna.species
-			var/list/offset_list
-			var/icon_plane = WEATHER_EFFECT_PLANE	//Will show up through the cone.
-			if(H.gender == FEMALE)
-				offset_list = SPC.offset_features[OFFSET_HEAD_F]
-			else
-				offset_list = SPC.offset_features[OFFSET_HEAD]
-			user.vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, M, 'icons/mob/overhead_effects.dmi', "wavefriendly", offset_list, 20, icon_plane)
+			var/mob/living/L = user
+			L.play_overhead_private_rclickemote(targetl, "wavefriendly")
 			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
 			to_chat(M, span_green("[user] gives me a friendly wave."))
 	return

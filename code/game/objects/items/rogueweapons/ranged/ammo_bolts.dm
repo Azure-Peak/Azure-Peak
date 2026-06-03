@@ -69,6 +69,15 @@
 	caliber = "regbolt"
 	icon_state = "bolt_holywater"
 
+/obj/item/ammo_casing/caseless/rogue/bolt/lightholy
+	name = "light sunderbolt"
+	desc = "A compact silver-tipped bolt, containing a small vial of holy water. Though it inflicts lesser wounds on living flesh, it exceeds when \
+	employed against the unholy; a snap and a crack, followed by a fiery surprise. </br>'One baptism for the remission of sins.'"
+	projectile_type = /obj/projectile/bullet/reusable/bolt/holy //Most of the effectiveness comes from the debuffs, rather than the damage itself. Simple, but sweet.
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
+	caliber = "lightbolt"
+	icon_state = "light_bolt_holywater"
+
 /obj/projectile/bullet/reusable/bolt
 	name = "bolt"
 	damage = 70
@@ -135,7 +144,7 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/holy
 	embedchance = 100
 	poisontype = /datum/reagent/water/blessed
-	poisonamount = 5
+	poisonamount = 7
 	is_silver_proj = TRUE //Uniquely deals a 'double whammy', in terms of both applying Sunder and some lingering post-impact damage.
 	npc_simple_damage_mult = 5 //175, compared to the regular bolt's 140. Slightly more damage, as to imitate its anti-unholy properties on mobs who aren't affected by any form of poison.
 
@@ -158,8 +167,7 @@
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "heabolt"
 	icon = 'icons/roguetown/weapons/ammo.dmi'
-	icon_state = "heavybolt" //NOTE!!! FIND A WAY TO MAKE BOLTS DEAL EXTRA DAMAGE TO BARRICADES AND STRUCTURES ASAP!!! IF YOU KNOW, FEEL FREE TO PR IT ASAP!!!
-	dropshrink = 0.8
+	icon_state = "heavybolt"
 	max_integrity = 15
 	force = 15
 	grid_height = 96 //Effectively as large as a shortsword. Two in a belt, four in a satchel. Unideal for carrying without a purpose-made pouch.
@@ -171,7 +179,7 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt
 	name = "heavy bolt"
-	damage = 90 // +20 damage over the regular bolt
+	damage = 90 // +20 damage over the regular bolt.
 	damage_type = BRUTE
 	armor_penetration = PEN_BSTEEL
 	object_damage_multiplier = 14 //Determines the multiplier that's applied to the bolt's damage value, when striking a structure. By default, it can destroy any wooden defense - a door, barricade, wall - in one shot.
@@ -278,7 +286,6 @@
 	icon_state = "bronzebolt_proj"
 	speed = 0.8
 
-
 /obj/item/ammo_casing/caseless/rogue/bolt/silver
 	name = "silver bolt"
 	desc = "A masterworked bolt of silver, fitted to a winged rod of boswellia wood. Expensive, yet uncompromisingly lethal; the \
@@ -322,22 +329,75 @@
 	is_silver_proj = TRUE
 	npc_simple_damage_mult = 10 //..or 1000 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
 
+// STAKE AMMO
+/obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake
+	name = "siegestake"
+	desc = "A large branch that has been broken off of a boswellia tree, sharpened to a fine points. Though its prodigious \
+	size - comparable to a fencepost in length and width - makes it cumbersome for hand-to-hand stakings, siegestakes like these are perfect for disrupting \
+	curses from afar. </br>'Vampyres, gargoyles, necromancers, they're all the same - best when cooked well.'"
+	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/stake
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
+	icon_state = "heavystake"
+	max_integrity = 15
+	force = 20
+
+/obj/projectile/bullet/reusable/heavy_bolt/stake
+	name = "siegestake"
+	damage = 60
+	armor_penetration = PEN_BSTEEL 
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake
+	icon_state = "heavystake_proj"
+	hitsound = 'sound/combat/hits/hi_bolt (3).ogg'
+	speed = 0.8
+	npc_simple_damage_mult = 10 //..or 750 damage against a mindless mob.
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 6 //Deals 60 BRUTE and 30 BURN, on top of some mild afterburn.
+
+/obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake_silver
+	name = "silver-tipped siegestake"
+	desc = "A large branch that has been broken off of a boswellia tree, sharpened to a fine point and tipped with blessed silver. Though its prodigious \
+	size - comparable to a fencepost in length and width - makes it cumbersome for hand-to-hand stakings, siegestakes like these are perfect for disrupting \
+	curses from afar.  </br>'Requiescat in pace..' - '..may thee rest in peace.'"
+	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/stake_silver
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
+	icon_state = "silvheavystake"
+	max_integrity = 15
+	force = 20
+	is_silver = TRUE
+	is_lesser_silver = TRUE
+
+/obj/projectile/bullet/reusable/heavy_bolt/stake_silver
+	name = "silver-tipped siegestake"
+	damage = 70 // In essence, a lesser version of the traditional silver siegebolts.
+	armor_penetration = PEN_BSTEEL 
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake_silver
+	icon_state = "silvheavystake_proj"
+	hitsound = 'sound/combat/hits/hi_bolt (3).ogg'
+	speed = 0.6
+	is_silver_proj = TRUE
+	npc_simple_damage_mult = 10 //..or 900 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 4 //Deals 70 BRUTE and 40 BURN, on top of some mild afterburn.
+
 // PYRO AMMO
 /obj/item/ammo_casing/caseless/rogue/bolt/pyro
 	name = "pyroclastic bolt"
-	desc = "A bolt smeared with a flammable tincture."
+	desc = "A flint-tipped bolt, housed in a thin alloy and smeared with a flammable tincture. The lightest impact tends to violently crumple its alloyed blanket \
+	against the flint, spawning a flurry of sparks that turns its jellified accompaniment into a firestorm."
 	projectile_type = /obj/projectile/bullet/bolt/pyro
 	possible_item_intents = list(/datum/intent/mace/strike)
 	icon_state = "bolt_pyroclastic"
 
 /obj/projectile/bullet/bolt/pyro
 	name = "pyroclastic bolt"
-	desc = "A bolt smeared with a flammable tincture."
+	desc = "A flint-tipped bolt, housed in a thin alloy and smeared with a flammable tincture. The lightest impact tends to violently crumple its alloyed blanket \
+	against the flint, spawning a flurry of sparks that turns its jellified accompaniment into a firestorm."
 	damage = 20
 	icon_state = "boltpyro_proj"
 	hitsound = 'sound/blank.ogg'
 	embedchance = 0
 	woundclass = BCLASS_BLUNT
+	npc_simple_damage_mult = 4 //..or 100 damage against a mindless mob. Fairly mild, but also comes with the benefit of inducing heavy firestacks on impact.
 
 /obj/projectile/bullet/bolt/pyro/on_hit(target)
 	..()

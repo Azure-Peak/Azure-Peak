@@ -11,7 +11,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked
 	icon_state = "pie"
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_FILLING)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_AND_HALF_MEALS)
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/pieslice
 	slices_num = 5
 	bitesize = 8
@@ -60,7 +60,7 @@
 		qdel(M)
 
 /obj/item/reagent_containers/food/snacks/rogue/pieslice
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("pie" = 1)
 	name = "pie slice"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pies.dmi'
@@ -109,7 +109,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pot
 	name = "pot pie"
 	desc = "A delicious, homemade pie. Still needs to be sliced."
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
 	tastes = list("succulent filling and crispy butterdough" = 1)
 	filling_color = "#755430"
 	foodtype = GRAIN | DAIRY | MEAT
@@ -119,7 +119,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/berry
 	name = "berry pie"
 	desc = "A delicious, homemade pie made with wild berries. Still needs to be sliced."
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
 	slices_num = 4
 	bitesize = 7
 	tastes = list("crispy butterdough" = 1, "sweet berries" = 1)
@@ -132,7 +132,7 @@
 	desc = "A delicious, homemade pie made with wild berries. Still needs to be sliced."
 	slices_num = 4
 	bitesize = 7
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD, /datum/reagent/berrypoison = 12)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS, /datum/reagent/berrypoison = 12)
 	tastes = list("crispy butterdough" = 1, "bitter berries" =1)
 	filling_color = "#4a62cf"
 	slice_name = "berry pie slice"
@@ -143,7 +143,7 @@
 	desc = "A delicious, homemade pie made with the sliced apples. Still needs to be cut."
 	slices_num = 4
 	bitesize = 7
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
 	tastes = list("baked apples and crispy butterdough" = 1)
 	filling_color = "#947a4b"
 	slice_name = "apple pie slice"
@@ -154,7 +154,7 @@
 	desc = "A delicious, homemade pie made with the inside of a crustacean. Still needs to be sliced."
 	slices_num = 4
 	bitesize = 7
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
 	tastes = list("crispy butterdough" = 1, "rich crab meat" = 1)
 	filling_color = "#f1e0cb"
 	slice_name = "crab pie slice"
@@ -169,7 +169,7 @@
 	slices_num = 4
 	bitesize = 7
 	slice_name = "pumpkin pie slice"
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
 	tastes = list("crispy butterdough" = 1,"pumpkin"=1,"cheese"=1)
 	foodtype = GRAIN | DAIRY | FRUIT | SUGAR
 	bitesize = 8

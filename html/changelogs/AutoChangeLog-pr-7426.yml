@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Restoration elixirs are now accessible via an Expert-level alchemic cauldron recipe. These elixirs use gold dust, silver dust, and rosas to brew; in exchange, they restore health and energy at the same time, at a rate halfway between regular-and-strong potions."
+  - rscadd: "Rosas can now be used to brew Luck potions, Antidotes, and Restoration elixirs."
+  - code_imp: "Gold dust and silver dust can no longer be used for Constitution potions and Antidotes. There's still a wide variety of ingredients that can be used for those two brews; though if it's an issue, do let me know."

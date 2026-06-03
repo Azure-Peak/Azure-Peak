@@ -24,14 +24,13 @@
 	var/protection = 0
 	var/intdamage = damage
 	var/consume_debuff = TRUE
+	
+	if(HAS_TRAIT(src, TRAIT_IRONMAN)) // free clongo noise when hit
+		playsound(loc, get_armor_sound(PLATEHIT, blade_dulling), 100) // SOVLNUKE!!!
+
 	if(!(d_type in ARMOR_DR_TYPES))
 		// Penetration types: slash, stab, piercing
 		used = get_best_worn_armor(def_zone, d_type)
-
-		if(!used && HAS_TRAIT(src, TRAIT_IRONMAN))
-			if(!blade_dulling)
-				blade_dulling = BCLASS_BLUNT
-			playsound(loc, get_armor_sound(PLATEHIT, blade_dulling), 100) // SOVLNUKE!!!
 
 		if(used)
 			protection = used.armor.getRating(d_type)

@@ -251,6 +251,14 @@
 		)
 	result_item = /obj/item/rogueweapon/example/sengese
 
+/obj/item/enchantingkit/weapon/triumph_weaponkit_clericsword
+	name = "'Clerical' longsword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Longsword."
+	target_items = list(
+		/obj/item/rogueweapon/sword/long,
+		)
+	result_item = /obj/item/rogueweapon/example/clericsword
+
 //////////////////////////////
 // TRIUMPH-RESKIN EXAMPLES! //
 //////////////////////////////
@@ -326,6 +334,15 @@
 	a lethal implement, if entrusted to the hands of a wielder whose skill in swordsmanship lays unmatched."
 	icon_state = "sengese"
 	sheathe_icon = "sgeneric"
+
+/obj/item/rogueweapon/example/clericsword
+	name = "anointed longsword"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "A cleric's longsword, adorned with a blade of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
+	sunder those who bare greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes. </br>'Strike \
+	true, my child, for thy blade is thine God..'"
+	icon_state = "crusaderlongsword"
+	sheathe_icon = "crusaderlongsword"
 
 ////////////////////////////////////////////////////
 // ! TO BE ARCHIVED / REPLACED WITH BETTER CODE!  //
