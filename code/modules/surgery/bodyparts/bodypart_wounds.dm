@@ -411,7 +411,7 @@
 			used = round(damage_dividend * 20 + (dam / 2))
 			if(prob(used) && owner.sunder_stacks > 100)
 				attempted_wounds += /datum/wound/sunder/chest
-			if(owner.sunder_stacks < 150) //We don't want too many stacks or we'll never recover.
+			if(prob(used) && owner.sunder_stacks < 150) //We don't want too many stacks or we'll never recover.
 				owner.sunder_stacks += 40
 				to_chat(owner, span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
 				owner.add_stress(/datum/stressevent/sundercritted)
@@ -549,7 +549,7 @@
 			used = round(damage_dividend * 20 + (dam / 2), 1)
 			if(prob(used) && owner.sunder_stacks > 100)
 				attempted_wounds += /datum/wound/sunder/head
-			if(owner.sunder_stacks < 150) //We don't want too many stacks or we'll never recover.
+			if(prob(used) && owner.sunder_stacks < 150) //We don't want too many stacks or we'll never recover.
 				owner.sunder_stacks += 40
 				to_chat(owner, span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
 				owner.add_stress(/datum/stressevent/sundercritted)

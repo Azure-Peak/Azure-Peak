@@ -367,32 +367,34 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 
 //WE HANDLE SUNDERSTACKS HERE
 	if(sunder_stacks)
-		sunder_stacks = max(sunder_stacks - 0.5, 0) //Takes a bit to shrug off
-		apply_status_effect(/datum/status_effect/debuff/sunder_stacks) //You survived an EXTREMELY lethal blow, you might want to keep back for now
-		if(cultslurring < 5) //Fucks up our ability to talk, completely
+		sunder_stacks = max(sunder_stacks - 1, 0) //Takes a bit to shrug off
+		if(cultslurring < 5) //Fucks up our ability to talk, completely until all sunderstacks are gone
 			cultslurring += 1.2
+
+		if(sunder_stacks >= 21)
+			apply_status_effect(/datum/status_effect/debuff/sunder_stacks) //You survived an EXTREMELY lethal blow, you might want to keep back for now
 
 		if(sunder_stacks >= 41)
 			adjustBruteLoss(2)
 			if(prob(3)) //5% chance of random dizziness
-				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
+				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire. No immobilise yet.
 				Dizzy(5)
 
-		if(sunder_stacks >= 61) //At this point you've taken (2) blows or more and shouldn't be escaping death this easily.
+		if(sunder_stacks >= 71) //At this point you've taken (2) blows or more and shouldn't be escaping death this easily.
 			adjustBruteLoss(2)
+			apply_status_effect(/datum/status_effect/debuff/devitalised/lesser) //5 min long debuff, you narrowly escaped death.
 			if(prob(12)) //12% chance to have random movement + stun + dizziness
 				confused += 15
-				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
+				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
 				Dizzy(25)
 			if(prob(5)) //5% chance to collapse randomly
-				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
+				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
 				Knockdown(15)
 
 		if(sunder_stacks >= 101) //We are beyond the point of lethal, somehow. This will cripple you severely.
 			adjustBruteLoss(1)
 			if(prob(50))
 				blur_eyes(5)
-				Dizzy(5)
 			Dizzy(25)//You are completely fucked up at this point, any more stacks of SUNDER and you're DEAD.
 
 
