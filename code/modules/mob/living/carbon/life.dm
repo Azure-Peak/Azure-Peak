@@ -368,26 +368,24 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 //WE HANDLE SUNDERSTACKS HERE
 	if(sunder_stacks)
 		sunder_stacks = max(sunder_stacks - 0.5, 0)
+		apply_status_effect(/datum/status_effect/debuff/sunder_stacks)
 		if(cultslurring < 5) //Fucks up our ability to talk
 			cultslurring += 1.2
 
-		if(sunder_stacks >= 11 && sunder_stacks < 41 )
-			apply_status_effect(/datum/status_effect/debuff/sunder_stacks)
-
-		if(sunder_stacks >= 41)
+		if(sunder_stacks >= 21)
 			adjustBruteLoss(2)
 			if(prob(5)) //5% chance of random dizziness
 				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
 				Dizzy(5)
-				jitter(5)
+				jitteriness(5)
 
-		if(sunder_stacks >= 81)
+		if(sunder_stacks >= 61) //At this point you've taken (2) blows or more and shouldn't be escaping death this easily.
 			adjustBruteLoss(2)
 			if(prob(12)) //12% chance to have random movement + stun + dizziness
 				confused += 15
 				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
 				Dizzy(25)
-				jitter(15)
+				jitteriness(15)
 			if(prob(5)) //5% chance to collapse randomly
 				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
 				Knockdown(15)

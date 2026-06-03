@@ -323,8 +323,7 @@
 				attempted_wounds += /datum/wound/sunder
 			if(owner.sunder_stacks < 150) //We don't want too many stacks or we'll never recover.
 				owner.sunder_stacks += 10 //Far less for nonlethal sunders. THIS WILL STILL FUCK YOU UP FROM JUST A FEW.
-				to_chat(owner, span_danger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
-				add_stress(owner, /datum/stressevent/sundercritted)
+				owner.add_stress(/datum/stressevent/sundercritted)
 	// Check if critical resistance applies
 	var/has_crit_attempt = length(attempted_wounds)
 	if(!has_crit_attempt)
@@ -417,7 +416,7 @@
 			if(owner.sunder_stacks < 150) //We don't want too many stacks or we'll never recover.
 				owner.sunder_stacks += 40
 				to_chat(owner, span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
-				add_stress(owner, /datum/stressevent/sundercritted)
+				owner.add_stress(/datum/stressevent/sundercritted)
 	// Check if critical resistance applies
 	var/has_crit_attempt = length(attempted_wounds)
 	if(!has_crit_attempt)
@@ -555,7 +554,7 @@
 			if(owner.sunder_stacks < 150) //We don't want too many stacks or we'll never recover.
 				owner.sunder_stacks += 40
 				to_chat(owner, span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
-				add_stress(owner, /datum/stressevent/sundercritted)
+				owner.add_stress(/datum/stressevent/sundercritted)
 	var/has_crit_attempt = length(attempted_wounds) || try_knockout
 	if(!has_crit_attempt)
 		return FALSE
