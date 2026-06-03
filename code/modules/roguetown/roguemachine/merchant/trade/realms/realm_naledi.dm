@@ -2,7 +2,7 @@
 	id = REALM_NALEDI
 	name = "Naledi"
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_BEVERAGE, NAVIGATOR_BUCKET_GARMENT_COMMON, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_TROPHIES, NAVIGATOR_BUCKET_VALUABLES_LOOTED, NAVIGATOR_BUCKET_MISCELLANEOUS)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_GARMENT_COMMON, NAVIGATOR_BUCKET_ENCHANTMENTS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_TROPHIES, NAVIGATOR_BUCKET_VALUABLES_LOOTED, NAVIGATOR_BUCKET_MISCELLANEOUS)
 	ship_name_words = list(
 		"Psydon", "Bilomari", "Veralun", "Olindar", "Veranda",
 		"Repentance", "Mercy", "Vigil", "Pilgrim", "Endurance",
@@ -76,10 +76,10 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/roastseeds, "qty_min" = VICTUALLING_QTY_LARGE_MIN, "qty_max" = VICTUALLING_QTY_LARGE_MAX, "price" = VICTUALLING_PRICE_BREAD),
 	)
 	victualling_drinks_pool = list(
-		list("recipe" = /datum/brewing_recipe/tangerine_wine, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/golden_calendula_tea, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/soothing_valerian_tea, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/fermentedcrab, "qty_min" = VICTUALLING_QTY_TINY_MIN, "qty_max" = VICTUALLING_QTY_TINY_MAX),
+		list("recipe" = /datum/brewing_recipe/tangerine_wine),
+		list("recipe" = /datum/brewing_recipe/golden_calendula_tea),
+		list("recipe" = /datum/brewing_recipe/soothing_valerian_tea),
+		list("recipe" = /datum/brewing_recipe/fermentedcrab),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/turq,

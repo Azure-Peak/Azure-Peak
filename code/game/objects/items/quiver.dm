@@ -459,6 +459,13 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/bolt/lightholy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/lightholy/A = new()
+		arrows += A
+	update_icon()
+
 /obj/item/quiver/bolt/pyro/Initialize()
 	..()
 	for(var/i in 1 to max_storage)
@@ -564,6 +571,20 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/bolt/heavy/stake/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/heavy/stake_silver/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake_silver/A = new()
+		arrows += A
+	update_icon()
+	
 //////////////
 // JAVELINS //
 //////////////

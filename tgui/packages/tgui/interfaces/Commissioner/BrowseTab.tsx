@@ -3,6 +3,7 @@ import { Input } from 'tgui-core/components';
 
 import {
   cardStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -16,9 +17,8 @@ import type { ActFn, CommissionerData } from './types';
 const ALL = '__all__';
 const PAGE_SIZE = 40;
 
-const GROUP_ORDER = [
+const DEFAULT_GROUP_ORDER = [
   'Armor',
-  'Garments',
   'Weapons',
   'Tools',
   'Valuables',
@@ -27,13 +27,13 @@ const GROUP_ORDER = [
   'Other',
 ];
 
-const groupFor = (category: string): string => {
+const groupFor = (category: string, order: string[]): string => {
   const paren = category.indexOf(' (');
   if (paren === -1) {
-    return GROUP_ORDER.includes(category) ? category : 'Other';
+    return order.includes(category) ? category : 'Other';
   }
   const head = category.slice(0, paren);
-  return GROUP_ORDER.includes(head) ? head : 'Other';
+  return order.includes(head) ? head : 'Other';
 };
 
 const starsIf = (text: string, canRead: boolean) =>
@@ -41,10 +41,8 @@ const starsIf = (text: string, canRead: boolean) =>
 
 const railHeaderStyle = {
   fontFamily: SERIF,
-  fontSize: '11px',
-  fontVariant: 'small-caps' as const,
+  fontSize: FONT_BODY,
   color: SEAL_AMBER,
-  fontStyle: 'italic' as const,
   marginBottom: '4px',
   marginTop: '4px',
 };
@@ -54,8 +52,7 @@ const railRowStyle = (active: boolean, indent = false) => ({
   width: '100%',
   textAlign: 'left' as const,
   fontFamily: SERIF,
-  fontSize: '11px',
-  fontVariant: 'small-caps' as const,
+  fontSize: FONT_BODY,
   padding: indent ? '2px 8px 2px 20px' : '3px 8px',
   color: active ? INK : INK_FAINT,
   background: active ? 'rgba(200,170,100,0.25)' : 'transparent',
@@ -84,18 +81,23 @@ export const BrowseTab = (props: {
   const [page, setPage] = useState(0);
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
 
+  const groupOrder =
+    data.group_order && data.group_order.length > 0
+      ? data.group_order
+      : DEFAULT_GROUP_ORDER;
+
   const grouped = useMemo(() => {
     const byGroup: Record<string, string[]> = {};
     for (const cat of data.categories) {
-      const g = groupFor(cat);
+      const g = groupFor(cat, groupOrder);
       if (!byGroup[g]) byGroup[g] = [];
       byGroup[g].push(cat);
     }
     for (const g of Object.keys(byGroup)) byGroup[g].sort();
     return byGroup;
-  }, [data.categories]);
+  }, [data.categories, groupOrder]);
 
-  const activeGroup = category === ALL ? null : groupFor(category);
+  const activeGroup = category === ALL ? null : groupFor(category, groupOrder);
 
   useEffect(() => {
     if (activeGroup && !openGroups[activeGroup]) {
@@ -149,7 +151,7 @@ export const BrowseTab = (props: {
         >
           All ({data.catalog.length})
         </button>
-        {GROUP_ORDER.map((g) => {
+        {groupOrder.map((g) => {
           const cats = grouped[g];
           if (!cats || cats.length === 0) return null;
           const expanded = !!openGroups[g];
@@ -217,8 +219,7 @@ export const BrowseTab = (props: {
           <span
             style={{
               fontFamily: SERIF,
-              fontSize: '12px',
-              fontStyle: 'italic',
+              fontSize: FONT_BODY,
               color: INK_SOFT,
             }}
           >
@@ -279,7 +280,7 @@ export const BrowseTab = (props: {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div
                         style={{
-                          fontSize: '12px',
+                          fontSize: FONT_BODY,
                           color: INK,
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
@@ -290,8 +291,7 @@ export const BrowseTab = (props: {
                       {category === ALL && (
                         <div
                           style={{
-                            fontSize: '10px',
-                            fontStyle: 'italic',
+                            fontSize: FONT_BODY,
                             color: INK_SOFT,
                           }}
                         >
@@ -303,7 +303,7 @@ export const BrowseTab = (props: {
                       style={{
                         flex: '0 0 auto',
                         textAlign: 'right',
-                        fontSize: '12px',
+                        fontSize: FONT_BODY,
                         color: SEAL_AMBER,
                         fontWeight: 'bold',
                       }}
@@ -314,8 +314,7 @@ export const BrowseTab = (props: {
                       <div
                         style={{
                           flex: '0 0 auto',
-                          fontSize: '10px',
-                          fontStyle: 'italic',
+                          fontSize: FONT_BODY,
                           color: INK_SOFT,
                         }}
                       >
@@ -344,9 +343,8 @@ export const BrowseTab = (props: {
                   gap: '8px',
                   marginTop: '8px',
                   fontFamily: SERIF,
-                  fontSize: '11px',
+                  fontSize: FONT_BODY,
                   color: INK_FAINT,
-                  fontStyle: 'italic',
                 }}
               >
                 <button

@@ -511,6 +511,15 @@
 	resistance_flags = FIRE_PROOF
 	sellprice = 100
 
+/obj/item/clothing/neck/roguetown/psicross/silver/naledi
+	name = "golden psycross"
+	desc = "'Purity afloat, for paradise awaits!' </br>The surface is meticulously lined with Naledian glyphs, said to ward off the possessive allure of djinns."
+	icon_state = "psycross_g"
+	item_state = "psycross_g"
+	//dropshrink = 0.75
+	resistance_flags = FIRE_PROOF
+	sellprice = 100
+
 /obj/item/clothing/neck/roguetown/psicross/aalloy
 	name = "decrepit psycross"
 	desc = "'A comet capable of rending all the enemies of humanity apart; oh, how graceful His power was! And His sacrifice, ever so noble! Yet now He slumbers, unaware of the fruits His efforts came to give. And He sighs. And He weeps.'"

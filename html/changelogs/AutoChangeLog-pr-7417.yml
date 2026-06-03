@@ -1,0 +1,5 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - rscadd: "'superagony' emote, which bypasses pain immunity's emote noise suppression"
+  - bugfix: "Rituos won't stack with vampirism"

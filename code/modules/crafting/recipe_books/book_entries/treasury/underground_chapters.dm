@@ -12,9 +12,8 @@
 
 		<h3>Brassface & Contraband Vendor</h3>
 		<ul>
-			<li></li>
 			<li>The bathhouse-side contraband vendor. Roundstart-locked by the <code>nightman</code> key, which only the Bathmaster and Bathhouse Attendant carry; anyone else needs the key or a successful lockpick.</li>
-			<li>The public reflavor, PURITY, is unlockable and sells only Ordinance-compliant Drugs, Smokes, and Cosmetics. Anything flagged <code>contraband = TRUE</code> on its supply pack appears on BRASSFACE only, and only to the proprietor jobs.</li>
+			<li>The public reflavor, PURITY, is unlockable and sells only Ordinance-compliant Drugs, Smokes, and Cosmetics. Anything flagged contraband appears on BRASSFACE only, and only to the proprietor jobs.</li>
 			<li>Same shared TGUI as BRASSFACE; the difference is what categories are exposed and whether contraband-flagged packs are filtered.</li>
 		</ul>
 

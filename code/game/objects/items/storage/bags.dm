@@ -107,6 +107,7 @@
 	resistance_flags = NONE
 	max_integrity = 300
 	component_type = /datum/component/storage/concrete/grid/meatsack
+	dropshrink = 0.8
 
 /obj/item/storage/meatbag/attack_right(mob/user)
 	. = ..()

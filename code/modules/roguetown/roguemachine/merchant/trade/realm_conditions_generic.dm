@@ -112,9 +112,6 @@
 	description = "The Emperor's Magi have called for a sweep of the unregistered, and the Holy See has answered with fire. Confiscated staves and magos mantles flood the markets while the court trims its silk to look less ornate. Leather is in short supply and dear demand."
 	weight = 8
 	affected_realms = list(REALM_GRENZELHOFT)
-	supply_modifiers = list(
-		list("op" = CONDITION_OP_ADD, "good" = TRADE_GOOD_ENCHSCROLL_BASIC, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT),
-	)
 	cultural_modifiers = list(
 		list("op" = CONDITION_OP_MODIFY_CULTURAL, "typepath" = /datum/supply_pack/rogue/merc_weapons/grenzelstaff, "price_mod" = CONDITION_PRICE_VERY_CHEAP, "qty_mod" = CONDITION_QTY_HEAVY),
 		list("op" = CONDITION_OP_MODIFY_CULTURAL, "typepath" = /datum/supply_pack/rogue/grenzelhoft/magos_mantle, "price_mod" = CONDITION_PRICE_VERY_CHEAP, "qty_mod" = CONDITION_QTY_HEAVY),

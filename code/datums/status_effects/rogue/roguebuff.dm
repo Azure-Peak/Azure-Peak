@@ -386,13 +386,11 @@
 
 /datum/status_effect/buff/abyss/on_apply()
 	. = ..()
-	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, id)
 
 /datum/status_effect/buff/abyss/on_remove()
-	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
+	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, id)
 	. = ..()
-
-
 
 /datum/status_effect/buff/fermented_crab
 	id = "fermented_crab"
@@ -549,7 +547,7 @@
 /datum/status_effect/buff/healing/tick()
 	if(block_combat_mode && owner.cmode)
 		return
-	if(owner.construct)
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#FF0000"
@@ -596,7 +594,7 @@
 	return TRUE
 
 /datum/status_effect/buff/campfire_stamina/tick()
-	if(owner.construct)
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/stamheal = healing_on_tick
 	if(!owner.cmode)
@@ -617,7 +615,7 @@
 /datum/status_effect/buff/campfire/tick()
 	if(owner.cmode)
 		return
-	if(owner.construct)
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(owner))
 	H.color = "#c7aa5c"
@@ -675,14 +673,15 @@
 	owner.remove_filter(MIRACLE_BLOODHEAL_FILTER)
 
 /datum/status_effect/buff/bloodheal/tick()
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_blood(get_turf(owner))
 	H.color = "#FF0000"
-	if(!owner.construct)
-		if(skill_level >= SKILL_LEVEL_JOURNEYMAN)
-			if(owner.blood_volume < BLOOD_VOLUME_SURVIVE)
-				owner.blood_volume = BLOOD_VOLUME_SURVIVE
-		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-			owner.blood_volume = min(owner.blood_volume + healing_on_tick, BLOOD_VOLUME_NORMAL)
+	if(skill_level >= SKILL_LEVEL_JOURNEYMAN)
+		if(owner.blood_volume < BLOOD_VOLUME_SURVIVE)
+			owner.blood_volume = BLOOD_VOLUME_SURVIVE
+	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume + healing_on_tick, BLOOD_VOLUME_NORMAL)
 
 #undef BLOODHEAL_DUR_SCALE_PER_LEVEL
 #undef BLOODHEAL_RESTORE_DEFAULT
@@ -703,21 +702,22 @@
 	return TRUE
 
 /datum/status_effect/buff/healing/necras_vow/tick()
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#a5a5a5"
 	var/list/wCount = owner.get_wounds()
-	if(!owner.construct)
-		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-			owner.blood_volume = min(owner.blood_volume + (healing_on_tick + 10), BLOOD_VOLUME_NORMAL)
-		if(wCount.len > 0)
-			owner.heal_wounds(healing_on_tick, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic))
-			owner.update_damage_overlays()
-		owner.adjustBruteLoss(-healing_on_tick, 0)
-		owner.adjustFireLoss(-healing_on_tick, 0)
-		owner.adjustOxyLoss(-healing_on_tick, 0)
-		owner.adjustToxLoss(-healing_on_tick, 0)
-		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
-		owner.adjustCloneLoss(-healing_on_tick, 0)
+	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume + (healing_on_tick + 10), BLOOD_VOLUME_NORMAL)
+	if(wCount.len > 0)
+		owner.heal_wounds(healing_on_tick, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic))
+		owner.update_damage_overlays()
+	owner.adjustBruteLoss(-healing_on_tick, 0)
+	owner.adjustFireLoss(-healing_on_tick, 0)
+	owner.adjustOxyLoss(-healing_on_tick, 0)
+	owner.adjustToxLoss(-healing_on_tick, 0)
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
+	owner.adjustCloneLoss(-healing_on_tick, 0)
 
 /atom/movable/screen/alert/status_effect/buff/psyhealing
 	name = "Enduring"
@@ -752,17 +752,18 @@
 	return TRUE
 
 /datum/status_effect/buff/psyhealing/tick()
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN)) 
+		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
 	H.color = "#d3d3d3"
 	var/list/wCount = owner.get_wounds()
-	if(!owner.construct)
-		if(wCount.len > 0)
-			owner.heal_wounds(healing_on_tick * 1.75)
-			owner.update_damage_overlays()
-		owner.adjustOxyLoss(-healing_on_tick, 0)
-		owner.adjustToxLoss(-healing_on_tick, 0)
-		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
-		owner.adjustCloneLoss(-healing_on_tick, 0)
+	if(wCount.len > 0)
+		owner.heal_wounds(healing_on_tick * 1.75)
+		owner.update_damage_overlays()
+	owner.adjustOxyLoss(-healing_on_tick, 0)
+	owner.adjustToxLoss(-healing_on_tick, 0)
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
+	owner.adjustCloneLoss(-healing_on_tick, 0)
 
 /datum/status_effect/buff/psyvived
 	id = "psyvived"
@@ -784,29 +785,137 @@
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
 	H.color = "#aa1717"
 
-/datum/status_effect/buff/rockmuncher
-	id = "rockmuncher"
+////////////////////////////////////////////////////////////////////////////////////////////
+
+#define ROCKEATER_AURA "rockeater_aura"
+
+/atom/movable/screen/alert/status_effect/buff/oremuncher
+	name = "Processing: Ore"
+	desc = "I am currently processing complex minerals, regenerating my shell's integrity."
+	icon_state = "buff"
+
+/atom/movable/screen/alert/status_effect/buff/ingotmuncher
+	name = "Processing: Refined"
+	desc = "I am currently processing refined minerals, greatly regenerating my shell's integrity."
+	icon_state = "buff"
+	
+/atom/movable/screen/alert/status_effect/buff/gemmuncher
+	name = "Processing: Gem"
+	desc = "I am currently processing an arcyne conduit, efficiently regenerating my shell's integrity and reinvigorating my core."
+	icon_state = "buff"
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+/datum/status_effect/buff/oremuncher // heals like old rockmunch
+	id = "oremuncher"
 	duration = 10 SECONDS
 	var/healing_on_tick = 4
+	alert_type = /atom/movable/screen/alert/status_effect/buff/oremuncher
 
-/datum/status_effect/buff/rockmuncher/on_creation(mob/living/new_owner, new_healing_on_tick)
+/datum/status_effect/buff/oremuncher/on_creation(mob/living/new_owner, new_healing_on_tick)
 	healing_on_tick = new_healing_on_tick
 	return ..()
 
-/datum/status_effect/buff/rockmuncher/tick()
+/datum/status_effect/buff/oremuncher/tick()
+	if(!HAS_TRAIT(owner, TRAIT_IRONMAN))
+		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
-	H.color = "#FF0000"
+	H.color = "#ceb8a3"
 	var/list/wCount = owner.get_wounds()
-	if(owner.construct)
-		if(wCount.len > 0)
-			owner.heal_wounds(healing_on_tick)
-			owner.update_damage_overlays()
-		owner.adjustBruteLoss(0.15*-healing_on_tick, 0)
-		owner.adjustFireLoss(0.15*-healing_on_tick, 0)
-		owner.adjustOxyLoss(0.15*-healing_on_tick, 0)
-		owner.adjustToxLoss(0.15*-healing_on_tick, 0)
-		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.15*-healing_on_tick)
-		owner.adjustCloneLoss(0.15*-healing_on_tick, 0)
+	if(wCount.len > 0)
+		owner.heal_wounds(healing_on_tick)
+		owner.update_damage_overlays()
+	owner.adjustBruteLoss(0.15*-healing_on_tick, 0)
+	owner.adjustFireLoss(0.15*-healing_on_tick, 0)
+	owner.adjustOxyLoss(0.15*-healing_on_tick, 0)
+	owner.adjustToxLoss(0.15*-healing_on_tick, 0)
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.15*-healing_on_tick)
+	owner.adjustCloneLoss(0.15*-healing_on_tick, 0)
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+/datum/status_effect/buff/ingotmuncher // better than ore, worse than gem
+	id = "ingotmuncher"
+	duration = 10 SECONDS
+	var/healing_on_tick = 4
+	var/outline_colour = "#ffffff"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/ingotmuncher
+
+/datum/status_effect/buff/ingotmuncher/on_creation(mob/living/new_owner, new_healing_on_tick)
+	healing_on_tick = new_healing_on_tick + 4
+	return ..()
+
+/datum/status_effect/buff/ingotmuncher/tick()
+	if(!HAS_TRAIT(owner, TRAIT_IRONMAN))
+		return
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
+	H.color = "#ffffff"
+	var/list/wCount = owner.get_wounds()
+	if(wCount.len > 0)
+		owner.heal_wounds(healing_on_tick)
+		owner.update_damage_overlays()
+	owner.adjustBruteLoss(0.2*-healing_on_tick, 0)
+	owner.adjustFireLoss(0.2*-healing_on_tick, 0)
+	owner.adjustOxyLoss(0.2*-healing_on_tick, 0)
+	owner.adjustToxLoss(0.2*-healing_on_tick, 0)
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.15*-healing_on_tick)
+	owner.adjustCloneLoss(0.2*-healing_on_tick, 0)
+
+/datum/status_effect/buff/ingotmuncher/on_apply()
+	var/filter = owner.get_filter(ROCKEATER_AURA)
+	if (!filter)
+		owner.add_filter(ROCKEATER_AURA, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	return TRUE
+
+/datum/status_effect/buff/ingotmuncher/on_remove()
+	. = ..()
+	owner.remove_filter(ROCKEATER_AURA)
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+/datum/status_effect/buff/gemmuncher // heals all super well, also gives stamina back
+	id = "gemmuncher"
+	duration = 10 SECONDS
+	var/healing_on_tick = 4
+	var/outline_colour = "#fff56d"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/gemmuncher
+
+/datum/status_effect/buff/gemmuncher/on_creation(mob/living/new_owner, new_healing_on_tick)
+	healing_on_tick = new_healing_on_tick
+	return ..()
+
+/datum/status_effect/buff/gemmuncher/tick()
+	if(!HAS_TRAIT(owner, TRAIT_IRONMAN))
+		return
+	var/randomcolor = pick("#ff0000","#ffee00","#09ff00","#00f7ff","#0004ff","#ae00ff","#ff00dd")
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
+	H.color = randomcolor
+	var/list/wCount = owner.get_wounds()
+	if(wCount.len > 0)
+		owner.heal_wounds(healing_on_tick)
+		owner.update_damage_overlays()
+	owner.adjustBruteLoss(0.4*-healing_on_tick, 0)
+	owner.adjustFireLoss(0.4*-healing_on_tick, 0)
+	owner.adjustOxyLoss(0.4*-healing_on_tick, 0)
+	owner.adjustToxLoss(0.4*-healing_on_tick, 0)
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.15*-healing_on_tick)
+	owner.adjustCloneLoss(0.4*-healing_on_tick, 0)
+	owner.energy_add(50)
+	owner.stamina_add(-10)
+
+/datum/status_effect/buff/gemmuncher/on_apply()
+	var/filter = owner.get_filter(ROCKEATER_AURA)
+	if (!filter)
+		owner.add_filter(ROCKEATER_AURA, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	return TRUE
+
+/datum/status_effect/buff/gemmuncher/on_remove()
+	. = ..()
+	owner.remove_filter(ROCKEATER_AURA)
+
+#undef ROCKEATER_AURA
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 /datum/status_effect/buff/healing/on_remove()
 	owner.remove_filter(MIRACLE_HEALING_FILTER)
@@ -836,8 +945,8 @@
 	icon_state = "buff"
 
 /atom/movable/screen/alert/status_effect/buff/censerbuff
-	name = "Inspired by SYON."
-	desc = "The shard of the great comet had inspired me to ENDURE."
+	name = "Syon's Blessings"
+	desc = "I have been anointed in His comet's radiance; let no evil befall me!"
 	icon_state = "censerbuff"
 
 /datum/status_effect/buff/fortify //Increases all healing while it lasts.
@@ -849,7 +958,7 @@
 	id = "censer"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/censerbuff
 	duration = 15 MINUTES
-	effectedstats = list(STATKEY_WIL = 1, STATKEY_CON = 1)
+	effectedstats = list(STATKEY_WIL = 1, STATKEY_CON = 1, STATKEY_LCK = 1)
 
 #define DIMINISH_FILTER "diminish_glow"
 /datum/status_effect/debuff/diminish
@@ -881,13 +990,14 @@
 
 #define CRANKBOX_FILTER "crankboxbuff_glow"
 /atom/movable/screen/alert/status_effect/buff/churnerprotection
-	name = "Magick Distorted"
-	desc = "The wailing box is disrupting magicks around me!"
-	icon_state = "buff"
+	name = "Antimagicka"
+	desc = "The crankbox's harmonized wails render me immune to all magicka!"
+	icon_state = "crankbox_psy"
+
 /atom/movable/screen/alert/status_effect/buff/churnernegative
-	name = "Magick Distorted"
+	name = "Nullmagicka"
 	desc = "That infernal contraption is sapping my very arcyne essence!"
-	icon_state = "buff"
+	icon_state = "crankbox_debuff"
 
 /datum/status_effect/buff/churnerprotection
 	var/outline_colour = "#fad55a"
@@ -905,7 +1015,7 @@
 
 /datum/status_effect/buff/churnerprotection/on_remove()
 	. = ..()
-	to_chat(owner, span_warning("The wailing box's protection fades..."))
+	to_chat(owner, span_warning("The wailing box's protection fades.."))
 	owner.remove_filter(CRANKBOX_FILTER)
 	REMOVE_TRAIT(owner, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
 
@@ -913,7 +1023,7 @@
 #undef MIRACLE_HEALING_FILTER
 
 /datum/status_effect/buff/churnernegative
-	id ="soulchurnernegative"
+	id = "soulchurnernegative"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/churnernegative
 	duration = 23 SECONDS
 
@@ -921,15 +1031,15 @@
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_SPELLCOCKBLOCK, MAGIC_TRAIT)
 	ADD_TRAIT(owner, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
-	to_chat(owner, span_warning("I feel as if my connection to the Arcyne disappears entirely. The air feels still..."))
-	owner.visible_message("[owner]'s arcyne aura seems to fade.")
+	to_chat(owner, span_warning("My arcyne connections are no more! Something is disrupting the leyline's flow!"))
+	owner.visible_message("[owner]'s magicka is suddenly sapped away!")
 
 /datum/status_effect/buff/churnernegative/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_SPELLCOCKBLOCK, MAGIC_TRAIT)
 	REMOVE_TRAIT(owner, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
-	to_chat(owner, span_warning("I feel my connection to the arcyne surround me once more."))
-	owner.visible_message("[owner]'s arcyne aura seems to return once more.")
+	to_chat(owner, span_warning("The leyline's flow has been restored, and I can feel my fingertips buzzing with restored magicka.."))
+	owner.visible_message("[owner]'s magicka gradually flares back up..")
 
 #define BLESSINGOFSUN_FILTER "sun_glow"
 /atom/movable/screen/alert/status_effect/buff/guidinglight

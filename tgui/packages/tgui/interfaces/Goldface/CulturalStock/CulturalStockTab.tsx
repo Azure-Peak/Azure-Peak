@@ -5,6 +5,7 @@ import {
   compactButtonStyle,
   denseRowStyle,
   ellipsisCellStyle,
+  FONT_BODY,
   FONT_LEAD,
   FONT_SMALL,
   FONT_TITLE,
@@ -13,14 +14,22 @@ import {
   pageStyle,
   PriceTag,
   SEAL_GREEN,
+  SEAL_RED,
   sectionHeaderStyle,
   SERIF,
   titleStyle,
 } from '../../common/parchment';
-import type { ActFn, CulturalStockEntry, KinshipData } from '../types';
+import type {
+  ActFn,
+  CatalogData,
+  CatalogEntry,
+  CulturalStockEntry,
+  KinshipData,
+} from '../types';
 
 type Props = {
   stock: CulturalStockEntry[];
+  catalogs?: CatalogData[];
   kinship?: KinshipData;
   budget: number;
   isAgent?: boolean;
@@ -132,14 +141,14 @@ const ShipSection = (props: {
         }}
         onClick={() => setExpanded((e) => !e)}
       >
-        <span style={{ color: INK_SOFT, fontSize: '11px' }}>
+        <span style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
           {expanded ? '▾' : '▸'}
         </span>
         <span>{shipName}</span>
         <span
           style={{
             color: INK_SOFT,
-            fontSize: '11px',
+            fontSize: FONT_BODY,
             textTransform: 'none',
             fontVariant: 'normal',
             fontWeight: 'normal',
@@ -171,6 +180,177 @@ const ShipSection = (props: {
   );
 };
 
+const CatalogStockCard = (props: {
+  catalogId: string;
+  entry: CatalogEntry;
+  budget: number;
+  act: ActFn;
+}) => {
+  const { catalogId, entry, budget, act } = props;
+  const soldOut = entry.qty <= 0;
+  const cantAfford = budget < entry.price;
+  const disabled = soldOut || cantAfford;
+  const hasTariff = entry.price_tariff > 0;
+  const hasKin = entry.price_base_pre_kin > entry.price_base;
+  const kinSaving = hasKin ? entry.price_base_pre_kin - entry.price_base : 0;
+  const preKinPrice = hasKin ? entry.price_base_pre_kin + entry.price_tariff : 0;
+  const priceTitle = hasKin
+    ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty = ${entry.price}m (Kinship -${kinSaving}m)`
+    : hasTariff
+      ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty = ${entry.price}m`
+      : `${entry.price}m`;
+  return (
+    <div style={denseRowStyle}>
+      <div
+        style={{ ...ellipsisCellStyle, color: INK, fontSize: FONT_TITLE }}
+        title={entry.name}
+      >
+        {entry.pack_qty > 1 && (
+          <span
+            style={{ color: INK_SOFT, marginRight: '4px', fontSize: FONT_LEAD }}
+          >
+            x{entry.pack_qty}
+          </span>
+        )}
+        {entry.name}
+        <span
+          style={{
+            color: soldOut ? SEAL_RED : INK_SOFT,
+            marginLeft: '6px',
+            fontSize: FONT_SMALL,
+          }}
+          title={`${entry.qty} of ${entry.stock_max} in stock - restocks to full each day`}
+        >
+          ({entry.qty}/{entry.stock_max})
+        </span>
+      </div>
+      <PriceTag
+        price={entry.price}
+        tariff={entry.price_tariff}
+        cantAfford={cantAfford}
+        title={priceTitle}
+        strikethrough={hasKin ? preKinPrice : undefined}
+      />
+      <div style={{ flexShrink: 0 }}>
+        <button
+          type="button"
+          style={compactButtonStyle({ disabled })}
+          disabled={disabled}
+          onClick={() => act('catalog_buy', { catalog: catalogId, pack: entry.pack })}
+          title={
+            soldOut
+              ? `${entry.name} is out of stock - the caravan restocks to full each day`
+              : `Order ${entry.name} for ${entry.price}m`
+          }
+        >
+          {soldOut ? 'Out' : 'Buy'}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const CatalogSection = (props: {
+  catalog: CatalogData;
+  budget: number;
+  act: ActFn;
+}) => {
+  const { catalog, budget, act } = props;
+  const accessible = !!catalog.accessible;
+  const [expanded, setExpanded] = useState(accessible);
+  return (
+    <div style={{ marginBottom: '8px' }}>
+      <div
+        style={{
+          ...sectionHeaderStyle,
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          marginTop: '4px',
+        }}
+        onClick={() => setExpanded((e) => !e)}
+      >
+        <span style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
+          {expanded ? '▾' : '▸'}
+        </span>
+        <span>{catalog.name}</span>
+        <span
+          style={{
+            color: accessible ? SEAL_GREEN : INK_SOFT,
+            fontSize: FONT_BODY,
+            textTransform: 'none',
+            fontVariant: 'normal',
+            fontWeight: 'normal',
+            marginLeft: '6px',
+          }}
+        >
+          {catalog.origin_access
+            ? `(open to you - ${catalog.discount_pct}% off)`
+            : catalog.unlocked
+              ? '(agreement signed)'
+              : `(sealed - ${catalog.favor_cost} favor to sign)`}
+        </span>
+      </div>
+      {expanded && (
+        <>
+          <div
+            style={{
+              ...noteStyleItalic,
+              padding: '2px 0 6px',
+            }}
+          >
+            {catalog.desc}
+          </div>
+          {accessible && (
+            <div
+              style={{
+                ...noteStyleItalic,
+                fontStyle: 'normal',
+                padding: '0 0 6px',
+              }}
+            >
+              The caravan restocks to its full load each day.
+            </div>
+          )}
+          {accessible ? (
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+                gap: '0 12px',
+              }}
+            >
+              {catalog.entries.map((entry) => (
+                <CatalogStockCard
+                  key={entry.pack}
+                  catalogId={catalog.id}
+                  entry={entry}
+                  budget={budget}
+                  act={act}
+                />
+              ))}
+            </div>
+          ) : (
+            // TODO: flavor
+            <div style={{ ...cardStyle, color: INK_SOFT, textAlign: 'center' }}>
+              This charter is sealed. Open it in Management for{' '}
+              {catalog.favor_cost} favor.
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
+
+const noteStyleItalic = {
+  color: INK_SOFT,
+  fontStyle: 'italic' as const,
+  fontSize: FONT_BODY,
+  lineHeight: 1.4,
+};
+
 const KinshipBanner = (props: { children: React.ReactNode }) => (
   <div
     style={{
@@ -179,7 +359,7 @@ const KinshipBanner = (props: { children: React.ReactNode }) => (
       border: `1px dashed ${SEAL_GREEN}`,
       color: INK,
       fontFamily: SERIF,
-      fontSize: '12px',
+      fontSize: FONT_BODY,
       lineHeight: 1.4,
     }}
   >
@@ -188,7 +368,28 @@ const KinshipBanner = (props: { children: React.ReactNode }) => (
 );
 
 export const CulturalStockTab = (props: Props) => {
-  const { stock, kinship, budget, isAgent, act } = props;
+  const { stock, catalogs = [], kinship, budget, isAgent, act } = props;
+
+  const catalogSections = catalogs.length > 0 && (
+    <>
+      <div
+        style={{
+          ...sectionHeaderStyle,
+          marginTop: '12px',
+        }}
+      >
+        Trade Agreements
+      </div>
+      {catalogs.map((catalog) => (
+        <CatalogSection
+          key={catalog.id}
+          catalog={catalog}
+          budget={budget}
+          act={act}
+        />
+      ))}
+    </>
+  );
 
   const banners = (
     <>
@@ -197,7 +398,6 @@ export const CulturalStockTab = (props: Props) => {
           <span
             style={{
               color: SEAL_GREEN,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}
@@ -216,7 +416,6 @@ export const CulturalStockTab = (props: Props) => {
           <span
             style={{
               color: SEAL_GREEN,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}
@@ -234,7 +433,6 @@ export const CulturalStockTab = (props: Props) => {
           <span
             style={{
               color: SEAL_GREEN,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}
@@ -266,6 +464,7 @@ export const CulturalStockTab = (props: Props) => {
           No foreign vessel is at the pier. Hail one to access her cultural
           stores.
         </div>
+        {catalogSections}
       </div>
     );
   }
@@ -292,7 +491,7 @@ export const CulturalStockTab = (props: Props) => {
         style={{
           textAlign: 'center',
           color: INK_SOFT,
-          fontSize: '12px',
+          fontSize: FONT_BODY,
           marginBottom: '8px',
         }}
       >
@@ -310,6 +509,7 @@ export const CulturalStockTab = (props: Props) => {
           defaultExpanded={ships.length === 1}
         />
       ))}
+      {catalogSections}
     </div>
   );
 };

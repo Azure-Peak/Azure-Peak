@@ -304,7 +304,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 			return FALSE
 
 	if(HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
-		heal_wound(0.6)
+		if(!istype(src, /datum/wound/slash/incision))
+			heal_wound(0.6)
 		if(!owner || QDELETED(owner) || QDELETED(src))
 			return FALSE
 
@@ -321,7 +322,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 	if (HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
 		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive
-
+		if(!istype(src, /datum/wound/slash/incision))
+			heal_wound(0.6)
 	return TRUE
 
 /// Setter for any adjustments we make to our bleed_rate, propagating them to the host bodypart.
@@ -348,6 +350,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 			var/datum/hud/hud_used = bodypart_owner.owner.hud_used
 			if(hud_used?.zone_select)
 				hud_used.zone_select.update_limb(bodypart_owner.body_zone)
+
 /// Heals this wound by the given amount, and deletes it if it's healed completely
 /datum/wound/proc/heal_wound(heal_amount)
 	// Wound cannot be healed normally, whp is null
@@ -493,6 +496,11 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		clotting_rate = max(0.01, (clotting_rate - CLOT_DECREASE_PER_HIT))
 		clotting_threshold += CLOT_THRESHOLD_INCREASE_PER_HIT
 	..()
+
+/datum/wound/proc/handle_ooze_wound(obj/item/bodypart/affected)
+	if(bodypart_owner || owner || QDELETED(affected) || QDELETED(affected.owner))
+		return FALSE
+	return TRUE
 
 #undef CLOT_THRESHOLD_INCREASE_PER_HIT
 #undef CLOT_DECREASE_PER_HIT

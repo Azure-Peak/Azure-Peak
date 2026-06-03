@@ -1,0 +1,6 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - balance: "Makes Golgatha less oppressive."
+  - bugfix: "Incisions won't heal from Psydonite traits."
+  - bugfix: "Organs can only be eaten if you are (or your patient is) not laying down."

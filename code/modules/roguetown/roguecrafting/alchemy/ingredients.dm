@@ -3,6 +3,7 @@
 	desc = ""
 	icon = 'icons/roguetown/misc/alchemy.dmi'
 	icon_state = "irondust"
+	dropshrink = 0.75
 	w_class = WEIGHT_CLASS_TINY
 	experimental_inhand = TRUE
 	/*
@@ -134,7 +135,7 @@
 	icon_state = "silverdust"
 	sellprice = 20
 	major_pot = /datum/alch_cauldron_recipe/strong_antidote
-	med_pot = /datum/alch_cauldron_recipe/antidote
+	med_pot = /datum/alch_cauldron_recipe/restoration_potion
 	minor_pot = /datum/alch_cauldron_recipe/big_health_potion
 
 /obj/item/alch/magicdust
@@ -251,7 +252,7 @@
 	sellprice = 15
 
 	major_pot = /datum/alch_cauldron_recipe/big_mana_potion
-	med_pot = /datum/alch_cauldron_recipe/con_potion
+	med_pot = /datum/alch_cauldron_recipe/restoration_potion
 	minor_pot = /datum/alch_cauldron_recipe/per_potion
 
 /obj/item/alch/feaudust
@@ -429,6 +430,17 @@
 	med_pot = /datum/alch_cauldron_recipe/end_potion
 	minor_pot = /datum/alch_cauldron_recipe/health_potion
 
+/obj/item/alch/calendula/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/calenduladry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
+
 /obj/item/alch/mentha
 	name = "mentha"
 	icon_state = "mentha"
@@ -437,6 +449,18 @@
 	major_pot = /datum/alch_cauldron_recipe/per_potion
 	med_pot = /datum/alch_cauldron_recipe/int_potion
 	minor_pot = /datum/alch_cauldron_recipe/stamina_potion
+
+/obj/item/alch/mentha/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/menthadry,
+		/datum/crafting_recipe/roguetown/cooking/menthaappledry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
 
 /obj/item/alch/urtica
 	name = "urtica"
@@ -461,6 +485,18 @@
 	med_pot = /datum/alch_cauldron_recipe/str_potion
 	minor_pot = /datum/alch_cauldron_recipe/end_potion
 
+/obj/item/alch/salvia/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/salviadry,
+		/datum/crafting_recipe/roguetown/cooking/salviavalerianadry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
+
 /obj/item/alch/hypericum
 	name = "hypericum"
 	icon_state = "hypericum"
@@ -469,6 +505,17 @@
 	major_pot = /datum/alch_cauldron_recipe/stamina_potion
 	med_pot = /datum/alch_cauldron_recipe/big_mana_potion
 	minor_pot = /datum/alch_cauldron_recipe/antidote
+
+/obj/item/alch/hypericum/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/zigardry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
 
 /obj/item/alch/benedictus
 	name = "benedictus"
@@ -487,6 +534,17 @@
 	major_pot = /datum/alch_cauldron_recipe/health_potion
 	med_pot = /datum/alch_cauldron_recipe/spd_potion
 	minor_pot = /datum/alch_cauldron_recipe/stam_poison
+
+/obj/item/alch/valeriana/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/salviavalerianadry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
 
 /obj/item/alch/artemisia
 	name = "artemisia"
@@ -521,6 +579,9 @@
 	muteinmouth = FALSE
 	alternate_worn_layer  = 8.9 //On top of helmet
 	mill_result = /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals
+	major_pot = /datum/alch_cauldron_recipe/lck_potion
+	med_pot = /datum/alch_cauldron_recipe/antidote
+	minor_pot = /datum/alch_cauldron_recipe/restoration_potion
 
 /obj/item/alch/rosa/equipped(mob/living/carbon/human/user, slot)
 	. = ..()

@@ -92,10 +92,18 @@
 
 /datum/emote/living/meditate/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
-	if(do_after(user, 1 MINUTES))
-		user.add_stress(/datum/stressevent/meditation)
-		to_chat(user, span_green("My meditations were rewarding."))
-
+	if(HAS_TRAIT(user, TRAIT_IRONMAN))
+		to_chat(user, span_green("You focus inwards..."))
+		if(do_after(user, 1 MINUTES))
+			var/mob/living/U = user
+			var/percent = U.max_energy * 0.3
+			user.add_stress(/datum/stressevent/meditation_ironman)
+			user.energy_add(percent)
+			playsound(user, 'sound/misc/machineyes.ogg', 25)
+	else
+		to_chat(user, span_green("You focus inwards..."))
+		if(do_after(user, 1 MINUTES))
+			user.add_stress(/datum/stressevent/meditation)
 
 /datum/emote/living/bow
 	key = "bow"
@@ -856,6 +864,24 @@
 	needs_emotion = TRUE
 
 /datum/emote/living/scream/agony/run_emote(mob/user, params, type_override, intentional)
+	. = ..()
+	if(.)
+		for(var/mob/living/carbon/human/L in viewers(7,user))
+			if(L == user)
+				L.sate_addiction(/datum/charflaw/addiction/masochist)
+				continue
+			if(get_dist(L, user) <= 2 && L != user)
+				L.sate_addiction(/datum/charflaw/addiction/sadist)
+
+/datum/emote/living/scream/superagony
+	key = "superagony"
+	message = "screams in ungodly agony!"
+	emote_type = EMOTE_AUDIBLE
+	only_forced_audio = TRUE
+	show_runechat = FALSE
+	needs_emotion = TRUE
+
+/datum/emote/living/scream/superagony/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
 	if(.)
 		for(var/mob/living/carbon/human/L in viewers(7,user))

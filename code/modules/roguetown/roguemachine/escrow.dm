@@ -10,6 +10,9 @@
 	var/day_posted = 0
 	var/day_claimed = 0
 	var/commissioner_note = ""
+	var/list/cached_required_counts
+	var/list/cached_lines
+	var/list/cached_materials
 
 /datum/escrow_order/proc/label()
 	var/list/parts = list()
@@ -25,6 +28,8 @@
 	return jointext(parts, ", ")
 
 /datum/escrow_order/proc/required_result_counts()
+	if(cached_required_counts)
+		return cached_required_counts
 	var/list/out = list()
 	for(var/key in recipe_quantities)
 		var/want = recipe_quantities[key]
@@ -44,6 +49,7 @@
 		if(!result_path)
 			continue
 		out[result_path] = (out[result_path] || 0) + want
+	cached_required_counts = out
 	return out
 
 /datum/escrow_order/proc/is_fulfilled()
@@ -83,6 +89,7 @@
 	var/locked = TRUE
 	var/budget = 0
 	var/list/material_prices
+	var/list/derived_material_prices
 	var/percent_margin = 70
 	var/flat_margin = 5
 	var/item_cap_per_order = 3
@@ -105,6 +112,7 @@
 		/obj/item/ingot/aalloy,
 		/obj/item/ingot/drow,
 	)
+	var/list/excluded_material_parents = list()
 	var/list/default_disabled_materials = list(
 		/obj/item/ingot/blacksteel,
 		/obj/item/ingot/silver,
@@ -150,6 +158,7 @@
 		ITEM_CAT_ENG_TRIGGERS,
 		ITEM_CAT_ENG_MISC,
 	)
+	var/list/group_order = list("Armor", "Weapons", "Tools", "Valuables", "Decoration", "Engineering", "Other")
 
 /obj/structure/roguemachine/escrow/Initialize()
 	. = ..()
@@ -159,7 +168,7 @@
 	update_icon()
 
 /obj/structure/roguemachine/escrow/proc/toggle_material_enabled(path)
-	if(!path || (path in excluded_materials))
+	if(!path || path_is_excluded(path))
 		return FALSE
 	if(path in disabled_materials)
 		disabled_materials -= path
@@ -171,10 +180,44 @@
 /obj/structure/roguemachine/escrow/proc/init_material_prices()
 	material_prices = list()
 	for(var/path in GLOB.material_baseline_prices)
+		if(path_is_excluded_parent(path))
+			continue
 		var/baseline = GLOB.material_baseline_prices[path]
 		if(baseline <= 0)
 			continue
 		material_prices[path] = max(1, round(baseline * PRICING_ENGINE_COMMISSIONER_MARKUP))
+	derived_material_prices = list()
+	for(var/path in GLOB.derived_sellprices)
+		if(path in material_prices)
+			continue
+		if(path_is_excluded_parent(path))
+			continue
+		var/derived = GLOB.derived_sellprices[path]
+		if(derived <= 0)
+			continue
+		derived_material_prices[path] = max(1, round(derived * PRICING_ENGINE_COMMISSIONER_MARKUP))
+
+/obj/structure/roguemachine/escrow/proc/path_is_excluded_parent(path)
+	if(!length(excluded_material_parents))
+		return FALSE
+	for(var/parent in excluded_material_parents)
+		if(ispath(path, parent))
+			return TRUE
+	return FALSE
+
+/obj/structure/roguemachine/escrow/proc/get_material_price(path)
+	if(material_prices && (path in material_prices))
+		return material_prices[path]
+	if(derived_material_prices && (path in derived_material_prices))
+		return derived_material_prices[path]
+	return 0
+
+/obj/structure/roguemachine/escrow/proc/has_material_price(path)
+	if(material_prices && (path in material_prices))
+		return TRUE
+	if(derived_material_prices && (path in derived_material_prices))
+		return TRUE
+	return FALSE
 
 /obj/structure/roguemachine/escrow/Destroy()
 	orders?.Cut()
@@ -231,29 +274,36 @@
 	return best_path
 
 /obj/structure/roguemachine/escrow/proc/recipe_uses_excluded_material(datum/recipe)
-	if(!length(excluded_materials))
+	if(!length(excluded_materials) && !length(excluded_material_parents))
 		return FALSE
 	if(istype(recipe, /datum/anvil_recipe))
 		var/datum/anvil_recipe/AR = recipe
-		if(AR.req_bar in excluded_materials)
+		if(path_is_excluded(AR.req_bar))
 			return TRUE
 		if(islist(AR.additional_items))
 			for(var/path in AR.additional_items)
-				if(path in excluded_materials)
+				if(path_is_excluded(path))
 					return TRUE
 	else if(istype(recipe, /datum/crafting_recipe))
 		var/datum/crafting_recipe/CR = recipe
 		if(islist(CR.reqs))
 			for(var/path in CR.reqs)
-				if(path in excluded_materials)
+				if(path_is_excluded(path))
 					return TRUE
 	return FALSE
+
+/obj/structure/roguemachine/escrow/proc/path_is_excluded(path)
+	if(!path)
+		return FALSE
+	if(path in excluded_materials)
+		return TRUE
+	return path_is_excluded_parent(path)
 
 /obj/structure/roguemachine/escrow/proc/recipe_has_only_raw_materials(datum/crafting_recipe/CR)
 	if(!islist(CR.reqs) || !length(CR.reqs))
 		return FALSE
 	for(var/path in CR.reqs)
-		if(!(path in GLOB.material_baseline_prices))
+		if(!has_material_price(path))
 			return FALSE
 	return TRUE
 
@@ -280,6 +330,7 @@
 
 /obj/structure/roguemachine/escrow/proc/dirty_catalog_view()
 	catalog_view_dirty = TRUE
+	update_static_data_for_all_viewers()
 
 /obj/structure/roguemachine/escrow/proc/rebuild_catalog_view()
 	var/list/catalog_data = list()
@@ -349,15 +400,15 @@
 	var/total = 0
 	if(istype(recipe, /datum/anvil_recipe))
 		var/datum/anvil_recipe/AR = recipe
-		total += material_prices[AR.req_bar] || 0
+		total += get_material_price(AR.req_bar)
 		if(islist(AR.additional_items))
 			for(var/path in AR.additional_items)
-				total += material_prices[path] || 0
+				total += get_material_price(path)
 	else if(istype(recipe, /datum/crafting_recipe))
 		var/datum/crafting_recipe/CR = recipe
 		if(islist(CR.reqs))
 			for(var/path in CR.reqs)
-				total += (material_prices[path] || 0) * CR.reqs[path]
+				total += get_material_price(path) * CR.reqs[path]
 	return total
 
 /obj/structure/roguemachine/escrow/proc/recipe_materials(datum/recipe)
@@ -425,7 +476,7 @@
 		manifest_deposits[key] = (manifest_deposits[key] || 0) + P.get_real_price()
 		qdel(P)
 		playsound(loc, 'sound/misc/machinevomit.ogg', 100, TRUE, -1)
-		SStgui.update_uis(src)
+		update_user_ui(user)
 		return
 
 	if(ishuman(user))
@@ -479,6 +530,12 @@
 		playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 		ui = new(user, src, "Commissioner", name)
 		ui.open()
+		ui.set_autoupdate(FALSE)
+
+/// Refresh only the acting user's UI (dynamic data) for changes that touch nobody else.
+/obj/structure/roguemachine/escrow/proc/update_user_ui(mob/user)
+	var/datum/tgui/ui = SStgui.get_open_ui(user, src)
+	ui?.send_update()
 
 /obj/structure/roguemachine/escrow/proc/is_guild_member(mob/user)
 	if(!ishuman(user))
@@ -539,6 +596,52 @@
 			O.day_claimed = 0
 			notify_commissioner(O, "The claim on your commission at [src] has expired; the order is open again for new smiths.")
 
+/obj/structure/roguemachine/escrow/ui_static_data(mob/user)
+	var/list/data = list()
+	if(catalog_view_dirty || isnull(cached_catalog_data))
+		rebuild_catalog_view()
+	data["catalog"] = cached_catalog_data
+	data["categories"] = cached_categories
+	data["ingots"] = cached_ingots
+	data["group_order"] = group_order
+	data["percent_margin"] = percent_margin
+	data["flat_margin"] = flat_margin
+	data["item_cap_per_order"] = item_cap_per_order
+
+	var/list/materials_data = list()
+	for(var/path in material_prices)
+		var/atom/A = path
+		materials_data += list(list(
+			"path" = "[path]",
+			"name" = initial(A.name),
+			"price" = material_prices[path],
+			"priority" = is_priority_material(path) ? TRUE : FALSE,
+			"enabled" = (path in disabled_materials) ? FALSE : TRUE,
+		))
+	data["materials"] = materials_data
+	return data
+
+/// Build the parts of an order's UI payload that never change after posting.
+/obj/structure/roguemachine/escrow/proc/build_order_cache(datum/escrow_order/O)
+	var/list/order_lines = list()
+	var/list/mat_tally = list()
+	for(var/datum/R in O.recipe_quantities)
+		var/recipe_qty = O.recipe_quantities[R]
+		order_lines += list(list(
+			"name" = recipe_name(R),
+			"qty" = recipe_qty,
+		))
+		for(var/list/m in recipe_materials(R))
+			mat_tally[m["name"]] = (mat_tally[m["name"]] || 0) + (m["qty"] * recipe_qty)
+	var/list/order_materials = list()
+	for(var/mname in mat_tally)
+		order_materials += list(list(
+			"name" = mname,
+			"qty" = mat_tally[mname],
+		))
+	O.cached_lines = order_lines
+	O.cached_materials = order_materials
+
 /obj/structure/roguemachine/escrow/ui_data(mob/user)
 	prune_expired_orders()
 	var/list/data = list()
@@ -548,17 +651,8 @@
 	var/user_key = escrow_key(user)
 	data["budget"] = budget
 	data["my_deposit"] = (user_key && manifest_deposits[user_key]) || 0
-	data["percent_margin"] = percent_margin
-	data["flat_margin"] = flat_margin
-	data["item_cap_per_order"] = item_cap_per_order
 	data["my_manifest_items"] = user_key ? manifest_item_count(user_key) : 0
 	data["has_active_order"] = (user_key && has_active_order(user_key)) ? TRUE : FALSE
-
-	if(catalog_view_dirty || isnull(cached_catalog_data))
-		rebuild_catalog_view()
-	data["catalog"] = cached_catalog_data
-	data["categories"] = cached_categories
-	data["ingots"] = cached_ingots
 
 	var/list/manifest_data = list()
 	var/list/cart = user_key ? manifests[user_key] : null
@@ -582,24 +676,8 @@
 
 	var/list/orders_data = list()
 	for(var/datum/escrow_order/O in orders)
-		var/is_commissioner = (user_key && user_key == O.commissioner_name)
-		var/is_smith = (user_key && user_key == O.smith_name)
-		var/list/order_lines = list()
-		var/list/mat_tally = list()
-		for(var/datum/R in O.recipe_quantities)
-			var/recipe_qty = O.recipe_quantities[R]
-			order_lines += list(list(
-				"name" = recipe_name(R),
-				"qty" = recipe_qty,
-			))
-			for(var/list/m in recipe_materials(R))
-				mat_tally[m["name"]] = (mat_tally[m["name"]] || 0) + (m["qty"] * recipe_qty)
-		var/list/order_materials = list()
-		for(var/mname in mat_tally)
-			order_materials += list(list(
-				"name" = mname,
-				"qty" = mat_tally[mname],
-			))
+		if(isnull(O.cached_lines))
+			build_order_cache(O)
 		var/list/needed = O.required_result_counts()
 		var/list/fulfillment = list()
 		var/done_count = 0
@@ -629,31 +707,19 @@
 			"smith_name" = O.smith_name || "",
 			"deposited" = O.deposited,
 			"status" = O.status,
-			"lines" = order_lines,
-			"materials" = order_materials,
+			"lines" = O.cached_lines,
+			"materials" = O.cached_materials,
 			"fulfillment" = fulfillment,
 			"done_count" = done_count,
 			"needed_count" = needed_count,
-			"is_commissioner" = is_commissioner ? TRUE : FALSE,
-			"is_smith" = is_smith ? TRUE : FALSE,
-			"is_fulfilled" = O.is_fulfilled() ? TRUE : FALSE,
+			"is_commissioner" = (user_key && user_key == O.commissioner_name) ? TRUE : FALSE,
+			"is_smith" = (user_key && user_key == O.smith_name) ? TRUE : FALSE,
+			"is_fulfilled" = (needed_count > 0 && done_count >= needed_count) ? TRUE : FALSE,
 			"days_left" = days_left,
 			"expiry_label" = expiry_label,
 			"note" = O.commissioner_note,
 		))
 	data["orders"] = orders_data
-
-	var/list/materials_data = list()
-	for(var/path in material_prices)
-		var/atom/A = path
-		materials_data += list(list(
-			"path" = "[path]",
-			"name" = initial(A.name),
-			"price" = material_prices[path],
-			"priority" = is_priority_material(path) ? TRUE : FALSE,
-			"enabled" = (path in disabled_materials) ? FALSE : TRUE,
-		))
-	data["materials"] = materials_data
 	return data
 
 /obj/structure/roguemachine/escrow/proc/is_priority_material(path)
@@ -675,33 +741,34 @@
 				if(isnum(n))
 					percent_margin = clamp(round(n), 0, 500)
 					dirty_catalog_view()
-				return TRUE
+				return FALSE
 			if("set_flat_margin")
 				var/n = text2num(params["value"])
 				if(isnum(n))
 					flat_margin = max(0, round(n))
 					dirty_catalog_view()
-				return TRUE
+				return FALSE
 			if("set_material_price")
 				var/path = text2path(params["path"])
 				var/n = text2num(params["value"])
 				if(path && (path in material_prices) && isnum(n))
 					material_prices[path] = max(0, round(n))
 					dirty_catalog_view()
-				return TRUE
+				return FALSE
 			if("toggle_material")
 				var/path = text2path(params["path"])
 				if(path)
 					toggle_material_enabled(path)
-				return TRUE
+				return FALSE
 			if("toggle_lock")
 				toggle_lock(usr)
-				return TRUE
+				return FALSE
 			if("set_item_cap")
 				var/n = text2num(params["value"])
 				if(isnum(n))
 					item_cap_per_order = clamp(round(n), 1, 10)
-				return TRUE
+					update_static_data_for_all_viewers()
+				return FALSE
 
 	if(!locked)
 		to_chat(usr, span_warning("[src] is open for guild adjustments - turn the key to close it before posting or claiming work."))
@@ -712,25 +779,29 @@
 			var/datum/R = locate(params["ref"]) in catalog
 			if(R)
 				manifest_change(usr, R, text2num(params["delta"]) || 1)
-			return TRUE
+			update_user_ui(usr)
+			return FALSE
 		if("manifest_dec")
 			var/datum/R = locate(params["ref"]) in catalog
 			if(R)
 				manifest_change(usr, R, -(text2num(params["delta"]) || 1))
-			return TRUE
+			update_user_ui(usr)
+			return FALSE
 		if("manifest_remove")
 			var/datum/R = locate(params["ref"]) in catalog
 			var/usr_key = escrow_key(usr)
 			var/list/cart = usr_key ? manifests[usr_key] : null
 			if(R && cart)
 				cart -= R
-			return TRUE
+			update_user_ui(usr)
+			return FALSE
 		if("submit_manifest")
 			submit_manifest(usr, params["note"])
 			return TRUE
 		if("refund_deposit")
 			refund_deposit(usr)
-			return TRUE
+			update_user_ui(usr)
+			return FALSE
 		if("cancel_order")
 			var/datum/escrow_order/O = locate(params["ref"]) in orders
 			if(O)
@@ -1004,17 +1075,31 @@
 	allowed_categories = list(
 		ITEM_CAT_GARMENT_COMMON,
 		ITEM_CAT_GARMENT_FINE,
-		ITEM_CAT_GARMENT_LUXURY,
 		ITEM_CAT_TAILOR_MISC,
 		ITEM_CAT_CLOTH_MASK,
 		ITEM_CAT_ARMOR_LIGHT,
+		ITEM_CAT_ARMOR_HELMETS,
+		ITEM_CAT_ARMOR_CHESTPIECES,
+		ITEM_CAT_ARMOR_LEGS,
+		ITEM_CAT_ARMOR_NECK,
+		ITEM_CAT_ARMOR_BOOTS,
+		ITEM_CAT_ARMOR_GLOVES,
+		ITEM_CAT_ARMOR_BRACERS,
+		ITEM_CAT_ARMOR_BELTS,
+		ITEM_CAT_ARMOR_BARDING,
 	)
+	group_order = list("Garments", "Armor", "Other")
 	priority_material_types = list(
 		/obj/item/natural/hide,
 		/obj/item/natural/silk,
 		/obj/item/natural/cloth,
 		/obj/item/natural/fibers,
 		/obj/item/natural/fur,
+	)
+	default_disabled_materials = list()
+	excluded_material_parents = list(
+		/obj/item/ingot,
+		/obj/item/roguegear,
 	)
 
 /obj/structure/roguemachine/escrow/tailor/get_mechanics_examine(mob/user)

@@ -405,9 +405,9 @@
 			. += span_notice("[F.name]'s balance is sealed from afar. Step closer to count the coin.")
 	else
 		. += span_warning("This jawbank is unbound to any treasury. Notify staff.")
-	. += span_info("Only [get_authority_label()] may withdraw or draft writs of loan from this jawbank.")
-	. += span_info("Strike it with any weapon to throttle coins loose - heavier strikes are louder and more reliable. When coin spills, the clattering will be loud.")
-	. += span_notice("The Jawbank is not interactable with directly, and only serves as a physical anchor for institutional funds. To withdraw your funds or use them, use a Meister and the Institutional tab. Jawbanks can be robbed physically with weapons.")
+	. += span_info("The Jawbank is not interactable with directly, and only serves as a physical anchor for institutional funds. To withdraw your funds or use them, use a Meister and the Institutional tab instead.")
+	. += span_info("Strike it with any weapon to throttle coins loose - heavier strikes are louder and more reliable. When coin spills, people nearby and on other Z-level will hear the commotion.")
+
 
 /obj/structure/roguemachine/vaultbank/proc/get_authority_label()
 	return "the Steward, Clerk, Grand Duke, or Regent"
@@ -423,6 +423,9 @@
 	if(SSticker.regentmob && user == SSticker.regentmob)
 		return TRUE
 	return FALSE
+
+/obj/structure/roguemachine/vaultbank/proc/allowed_rates()
+	return list(10, 15, 20, 25, 50)
 
 /obj/structure/roguemachine/vaultbank/proc/can_withdraw(mob/user, amount)
 	return can_issue_loan(user)
@@ -559,7 +562,7 @@
 		to_chat(user, span_warning("Term must be 1, 2, or 3 days."))
 		return
 	var/rate_pct = round(text2num("[params["rate"]]"))
-	if(!(rate_pct in list(10, 15, 20, 25, 50)))
+	if(!(rate_pct in allowed_rates()))
 		to_chat(user, span_warning("Interest must be one of the listed rates."))
 		return
 	if(F.balance < amount)
@@ -619,7 +622,7 @@
 		to_chat(user, span_warning("Term must be 1, 2, or 3 days."))
 		return
 	var/rate_pct = round(text2num("[params["rate"]]"))
-	if(!(rate_pct in list(10, 15, 20, 25, 50)))
+	if(!(rate_pct in allowed_rates()))
 		to_chat(user, span_warning("Interest must be one of the listed rates."))
 		return
 	if(F.balance < amount)
@@ -663,6 +666,9 @@
 	if(!user)
 		return FALSE
 	return user.job == "Bishop" || user.job == "Martyr"
+
+/obj/structure/roguemachine/vaultbank/church/allowed_rates()
+	return list(0, 10, 15, 20, 25, 50)
 
 /obj/structure/roguemachine/vaultbank/church/get_authority_label()
 	return "the Bishop or Martyr"

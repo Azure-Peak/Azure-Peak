@@ -1,4 +1,5 @@
 import {
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -15,8 +16,7 @@ const tabBarStyle = {
 
 const tabStyle = (active: boolean) => ({
   fontFamily: SERIF,
-  fontSize: '14px',
-  fontVariant: 'small-caps' as const,
+  fontSize: FONT_BODY,
   padding: '2px 8px',
   color: active ? INK : INK_FAINT,
   background: active ? 'rgba(200,170,100,0.25)' : 'transparent',
@@ -54,6 +54,9 @@ export const TabBar = (props: {
         onClick={() => onSwitch('petition')}
       >
         Petition
+      </div>
+      <div style={tabStyle(tab === 'ledger')} onClick={() => onSwitch('ledger')}>
+        Ledger
       </div>
       <div
         style={tabStyle(tab === 'royal_custom')}

@@ -28,7 +28,7 @@
 			<li>Anchored items, coins, handcarts, ATC-sealed items, and items flagged unmintable (items that spawned in town at mapstart) are skipped.</li>
 			<li>Each item's payout is its base price multiplied by category demand (current ship demand boost), then reduced by the navigator's handler fees - including export duty, merchant's levy,
 			and any handler fees imposed by say, smugglers.</li>
-			<li>Items priced below 1m of net payout are refused outright with a "the market is choked" message.</li>.</li>
+			<li>Items priced below 1m of net payout are refused outright with a "the market is choked" message.</li>
 			<li>Clicking on the Navigator reveals the current state of the warehouses.</li>
 		</ul>
 

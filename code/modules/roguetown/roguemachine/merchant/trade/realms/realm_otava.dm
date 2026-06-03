@@ -2,7 +2,7 @@
 	id = REALM_OTAVA
 	name = "Otava"
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(NAVIGATOR_BUCKET_BEVERAGE, NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_VALUABLES_CRAFTED, NAVIGATOR_BUCKET_VALUABLES_LOOTED, NAVIGATOR_BUCKET_CARVED, NAVIGATOR_BUCKET_TROPHIES, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_MISCELLANEOUS)
+	demanded_categories = list(NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_VALUABLES_CRAFTED, NAVIGATOR_BUCKET_VALUABLES_LOOTED, NAVIGATOR_BUCKET_CARVED, NAVIGATOR_BUCKET_TROPHIES, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_MISCELLANEOUS)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Belle", "Coeur", "Lis", "Rose", "Etoile",
@@ -90,10 +90,10 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast, "qty_min" = VICTUALLING_QTY_LARGE_MIN, "qty_max" = VICTUALLING_QTY_LARGE_MAX, "price" = VICTUALLING_PRICE_BREAD),
 	)
 	victualling_drinks_pool = list(
-		list("recipe" = /datum/brewing_recipe/jack_wine, "qty_min" = VICTUALLING_QTY_TINY_MIN, "qty_max" = VICTUALLING_QTY_TINY_MAX),
-		list("recipe" = /datum/brewing_recipe/cider, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/aqua_vitae, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/brandy/pear, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
+		list("recipe" = /datum/brewing_recipe/jack_wine),
+		list("recipe" = /datum/brewing_recipe/cider),
+		list("recipe" = /datum/brewing_recipe/aqua_vitae),
+		list("recipe" = /datum/brewing_recipe/brandy/pear),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/amber,

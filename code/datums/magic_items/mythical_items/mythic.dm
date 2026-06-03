@@ -96,6 +96,7 @@
 	i.force = i.force + 10
 	if (i.force_wielded)
 		i.force_wielded = i.force_wielded + 10
+	i.update_force_dynamic()
 
 /datum/magic_item/mythic/briarcurse/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	.=..()

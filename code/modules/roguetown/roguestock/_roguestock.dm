@@ -30,6 +30,27 @@
 /datum/roguestock/proc/get_payout_price(obj/item/I)
 	return payout_price
 
+/datum/roguestock/proc/get_quality_settlement(obj/item/I)
+	var/baseline = get_payout_price(I)
+	var/list/out = list(
+		"seller_payout" = baseline,
+		"crown_delta" = 0,
+		"baseline" = baseline,
+		"q_mult" = 1.0,
+	)
+	if(!istype(I) || !I.has_item_quality)
+		return out
+	var/q_mult = ITEM_QUALITY_MULT(I.item_quality)
+	if(q_mult == 1.0)
+		return out
+	var/buy_price = baseline * q_mult
+	var/loss = baseline - buy_price
+	var/seller_payout = buy_price - (loss * STOCKPILE_QUALITY_LOSS_SELLER_SHARE)
+	out["seller_payout"] = max(1, round(seller_payout))
+	out["crown_delta"] = round(-loss * (1 - STOCKPILE_QUALITY_LOSS_SELLER_SHARE))
+	out["q_mult"] = q_mult
+	return out
+
 /datum/roguestock/proc/check_item(obj/item/I)
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
 		var/obj/item/reagent_containers/food/snacks/food = I

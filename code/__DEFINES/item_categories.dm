@@ -42,7 +42,6 @@
 
 #define ITEM_CAT_GARMENT_COMMON "Garments (Common)"
 #define ITEM_CAT_GARMENT_FINE "Garments (Fine)"
-#define ITEM_CAT_GARMENT_LUXURY "Garments (Luxury)"
 #define ITEM_CAT_TAILOR_MISC "Garments (Misc)"
 #define ITEM_CAT_CLOTH_MASK "Garments (Masks)"
 
@@ -51,7 +50,6 @@
 #define ITEM_CAT_SEAFOOD "Seafood"
 
 #define ITEM_CAT_POTION "Potions"
-#define ITEM_CAT_BEVERAGE "Beverages"
 
 #define ITEM_CAT_BOOK_WRIT "Books & Writs"
 #define ITEM_CAT_INSTRUMENT "Instruments"
@@ -66,5 +64,6 @@
 #define ITEM_CAT_REAGENT_ALCHEMICAL "Reagents (Alchemical)"
 #define ITEM_CAT_REAGENT_ARCANE "Reagents (Arcane)"
 #define ITEM_CAT_ARCYNE_GEARS "Arcyne Gears & Implements"
+#define ITEM_CAT_MAGICAL "Magical"
 
 #define ITEM_CAT_MISCELLANEOUS "Miscellaneous"

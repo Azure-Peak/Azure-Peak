@@ -8,6 +8,18 @@
 	max_integrity = 0
 	anchored = TRUE
 	layer = BELOW_OBJ_LAYER
+	var/list/profit_id = list("Merchant", "Shophand")
+	var/duty_suspended = FALSE
+	var/duty_collected_here = 0
+	var/duty_evaded_here = 0
+
+/obj/structure/roguemachine/ship_fulfillment/proc/can_manage(mob/user)
+	if(!ishuman(user))
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	if(H.job in profit_id)
+		return TRUE
+	return FALSE
 
 /obj/structure/roguemachine/ship_fulfillment/Initialize()
 	. = ..()
@@ -17,8 +29,9 @@
 /obj/structure/roguemachine/ship_fulfillment/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click with an item to deposit it for matching ship demands. You must have a MEISTER account to deposit - the crate will refuse goods otherwise.")
-	. += span_info("Right-click to dump everything on this tile into the crate at once.")
-	. += span_info("Stacks, handcarts, and roguebins are unwrapped automatically.")
+	. += span_info("Right-click to dump everything on your tile into the crate at once.")
+	. += span_info("Certain items like kegs can be click dragged or offloaded in hand.")
+	. += span_info("Stacks, handcarts, and bins are unloaded automatically.")
 
 /obj/structure/roguemachine/ship_fulfillment/examine(mob/user)
 	. = ..()
@@ -70,6 +83,13 @@
 		if("help")
 			open_economy_guidebook(usr, "Merchant", /datum/book_entry/treasury_merchant/fulfillment_crate)
 			return TRUE
+		if("toggle_duty")
+			if(!can_manage(usr))
+				to_chat(usr, span_warning("Only the Merchant or Shophand may work the crate's underledger."))
+				return TRUE
+			duty_suspended = !duty_suspended
+			to_chat(usr, span_notice("Crown export duty now [duty_suspended ? "DODGED" : "PAID"] at this crate."))
+			return TRUE
 
 /obj/structure/roguemachine/ship_fulfillment/ui_data(mob/user)
 	var/list/data = list()
@@ -106,12 +126,26 @@
 	data["manifests"] = manifests
 	data["middleman_cut_percent"] = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
 	data["kinship_sell_pct"] = round((KINSHIP_SELL_MULT - 1) * 100)
+	data["can_manage"] = can_manage(user) ? TRUE : FALSE
+	data["duty_suspended"] = duty_suspended
+	data["duty_rate_pct"] = round(SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) * 100)
+	data["duty_collected_here"] = duty_collected_here
+	data["duty_evaded_here"] = duty_evaded_here
 	return data
 
 /obj/structure/roguemachine/ship_fulfillment/attackby(obj/item/P, mob/user, params)
 	if(!ishuman(user))
 		return ..()
 	attempt_deposit(P, user, TRUE, TRUE)
+
+/obj/structure/roguemachine/ship_fulfillment/MouseDrop_T(atom/dropped, mob/living/user)
+	if(!ishuman(user))
+		return
+	if(!istype(dropped, /obj/structure/fermentation_keg))
+		return ..()
+	if(!user.Adjacent(src) || !user.Adjacent(dropped))
+		return
+	attempt_deposit_keg(dropped, user)
 
 /obj/structure/roguemachine/ship_fulfillment/attack_right(mob/user)
 	if(!ishuman(user))
@@ -121,9 +155,11 @@
 	if(!SStreasury.has_account(user))
 		say("No account found for [user]. Submit your fingers to a Meister for inspection.")
 		return
-	var/list/tally = list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "lines" = list())
+	var/list/tally = list("total_producer" = 0, "total_gross" = 0, "total_duty" = 0, "total_cut" = 0, "total_kin_bonus" = 0, "total_quality_delta" = 0, "lines" = list())
 	for(var/obj/item/I in get_turf(user))
 		attempt_deposit(I, user, FALSE, FALSE, tally)
+	for(var/obj/structure/fermentation_keg/keg in get_turf(user))
+		attempt_deposit_keg(keg, user)
 	flush_tally(tally, user)
 	say("Bulk fulfillment in progress...")
 	playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
@@ -133,12 +169,26 @@
 	if(!tally || tally["total_producer"] <= 0)
 		return
 	var/list/line_summaries = list()
+	var/list/ship_names = list()
 	for(var/key in tally["lines"])
 		var/list/info = tally["lines"][key]
 		line_summaries += "[info["qty"]] [info["good_name"]] -> [info["ship_name"]]"
+		ship_names |= info["ship_name"]
+	var/mint_label = (length(ship_names) == 1) ? ship_names[1] : "foreign vessels"
 	var/kin_total = tally["total_kin_bonus"] || 0
-	var/breakdown = "[english_list(line_summaries)]: gross [tally["total_gross"]]m, Crown [tally["total_duty"]]m, Merchant [tally["total_cut"]]m[kin_total > 0 ? ", Kinship +[kin_total]m" : ""]"
-	SStreasury.give_money_account(tally["total_producer"], user, breakdown)
+	var/quality_delta = tally["total_quality_delta"] || 0
+	var/quality_str = ""
+	if(quality_delta != 0)
+		var/sign_str = quality_delta > 0 ? "+" : ""
+		quality_str = ", quality [sign_str][quality_delta]m"
+	var/breakdown = "[english_list(line_summaries)]: gross [tally["total_gross"]]m, Crown [tally["total_duty"]]m, Merchant [tally["total_cut"]]m[kin_total > 0 ? ", Kinship +[kin_total]m" : ""][quality_str]"
+	SStreasury.give_money_account(tally["total_producer"], user, breakdown, mint_new = TRUE, mint_label = mint_label)
+	if(quality_delta != 0)
+		var/representative_quality = quality_delta > 0 ? ITEM_QUALITY_MASTERWORK : ITEM_QUALITY_CRUDE
+		var/jab = navigator_quality_jab(representative_quality)
+		if(jab)
+			say(jab)
+			to_chat(user, span_info("[src] says, \"[jab]\""))
 
 /obj/structure/roguemachine/ship_fulfillment/proc/attempt_deposit(obj/item/I, mob/user, message = TRUE, sound = TRUE, list/tally)
 	if(!SSmerchant_trade)
@@ -191,16 +241,28 @@
 	var/list/dish_match = find_dish_match(I.type)
 	if(dish_match)
 		var/list/dish_line = dish_match["line"]
-		if(dish_line["tag"] == TRADE_VICTUALLING_TAG_DRINKS)
-			var/obj/item/reagent_containers/glass/bottle/brewing_bottle/B = I
-			if(!istype(B) || !B.sealed)
+		if(dish_line["tag"] == TRADE_VICTUALLING_TAG_DRINKS && !dish_line["by_bottle"])
+			if(message)
+				to_chat(user, span_warning("Captains buy drinks by the barrel - drag a full keg onto [src], not loose bottles."))
+			return
+		if(istype(I, /obj/item/reagent_containers/glass/bottle/brewing_bottle))
+			var/obj/item/reagent_containers/glass/bottle/brewing_bottle/BB = I
+			if(!BB.sealed)
 				if(message)
-					to_chat(user, span_warning("[I] has been broken open - the captain only buys sealed bottles."))
+					to_chat(user, span_warning("[I] has been unsealed - no captain will load an opened bottle."))
 				return
 		var/datum/trade_ship/dish_ship = dish_match["ship"]
 		dish_line["qty_fulfilled"]++
+		var/dish_q_mult = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : 1.0
+		var/dish_unit_price = round(dish_line["offered_price"] * dish_q_mult)
+		var/dish_quality_delta = dish_unit_price - dish_line["offered_price"]
+		if(message && I.has_item_quality && I.item_quality != ITEM_QUALITY_STANDARD)
+			var/jab = navigator_quality_jab(I.item_quality)
+			if(jab)
+				say(jab)
+				to_chat(user, span_info("[src] says, \"[jab]\""))
 		qdel(I)
-		settle_payout(dish_line["offered_price"], user, dish_ship, dish_line["good_name"], 1, message, sound, tally)
+		settle_payout(dish_unit_price, user, dish_ship, dish_line["good_name"], 1, message, sound, tally, dish_quality_delta)
 		return
 	if(istype(I, /obj/item/natural/bundle))
 		var/obj/item/natural/bundle/B = I
@@ -245,10 +307,47 @@
 			to_chat(user, span_warning("That vessel's hold is full of [line["good_name"]]."))
 		return
 	line["qty_fulfilled"]++
+	var/q_mult = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : 1.0
+	var/unit_price = round(line["offered_price"] * q_mult)
+	var/quality_delta = unit_price - line["offered_price"]
+	if(message && I.has_item_quality && I.item_quality != ITEM_QUALITY_STANDARD)
+		var/jab = navigator_quality_jab(I.item_quality)
+		if(jab)
+			say(jab)
+			to_chat(user, span_info("[src] says, \"[jab]\""))
 	qdel(I)
-	settle_payout(line["offered_price"], user, ship, line["good_name"], 1, message, sound, tally)
+	settle_payout(unit_price, user, ship, line["good_name"], 1, message, sound, tally, quality_delta)
 
-/obj/structure/roguemachine/ship_fulfillment/proc/settle_payout(gross, mob/user, datum/trade_ship/ship, good_name, qty, message, sound, list/tally)
+/obj/structure/roguemachine/ship_fulfillment/proc/attempt_deposit_keg(obj/structure/fermentation_keg/keg, mob/user)
+	if(!SSmerchant_trade)
+		return
+	if(!SStreasury.has_account(user))
+		say("No account found for [user]. Submit your fingers to a Meister for inspection.")
+		return
+	if(keg.anchored)
+		to_chat(user, span_warning("[keg] is fixed in place - bottle its spirits and deposit those instead."))
+		return
+	if(keg.brewing || !keg.ready_to_bottle || keg.tapped || !keg.selected_recipe)
+		to_chat(user, span_warning("[keg] holds no finished, sealed batch the captains would buy."))
+		return
+	var/bottle_type = keg.selected_recipe.output_bottle_type
+	if(!bottle_type)
+		to_chat(user, span_warning("No vessel here is buying [keg]."))
+		return
+	var/list/match = find_dish_match(bottle_type)
+	if(!match)
+		to_chat(user, span_warning("No vessel here is buying [keg.selected_recipe.bottle_name]."))
+		return
+	var/datum/trade_ship/ship = match["ship"]
+	var/list/line = match["line"]
+	if(line["qty_fulfilled"] >= line["qty_target"])
+		to_chat(user, span_warning("That vessel's hold is full of [line["good_name"]]."))
+		return
+	line["qty_fulfilled"]++
+	qdel(keg)
+	settle_payout(line["offered_price"], user, ship, line["good_name"], 1, TRUE, TRUE)
+
+/obj/structure/roguemachine/ship_fulfillment/proc/settle_payout(gross, mob/user, datum/trade_ship/ship, good_name, qty, message, sound, list/tally, quality_delta = 0)
 	if(gross <= 0)
 		return
 	var/kin_bonus = 0
@@ -266,19 +365,27 @@
 	var/duty_remitted = 0
 	var/levy_tax_remitted = 0
 	var/levy_remitted = 0
-	if(duty_on_gross_float > 0)
-		duty_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_gross_float, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)")
-		SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "ship fulfillment")
-	if(duty_on_levy_float > 0)
-		levy_tax_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_levy_float, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)")
-		SStreasury.apply_concordat_tithe(levy_float, TAX_CATEGORY_EXPORT_DUTY, "levy income (ship fulfillment)")
-	var/total_duty = duty_remitted + levy_tax_remitted
-	if(total_duty > 0)
-		record_round_statistic(STATS_TAXES_COLLECTED, total_duty)
-		record_round_statistic(STATS_REVENUE_EXPORT_DUTY, total_duty)
-		if(SSmerchant_trade)
-			SSmerchant_trade.merchant_levy_taxed += levy_tax_remitted
-	var/merchant_net_float = levy_float - duty_on_levy_float
+	var/total_duty = 0
+	if(duty_suspended)
+		var/evaded = round(duty_on_gross_float) + round(duty_on_levy_float)
+		if(evaded > 0)
+			record_round_statistic(STATS_TAXES_EVADED, evaded)
+			duty_evaded_here += evaded
+	else
+		if(duty_on_gross_float > 0)
+			duty_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_gross_float, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)")
+			SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "ship fulfillment")
+		if(duty_on_levy_float > 0)
+			levy_tax_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_levy_float, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)")
+			SStreasury.apply_concordat_tithe(levy_float, TAX_CATEGORY_EXPORT_DUTY, "levy income (ship fulfillment)")
+		total_duty = duty_remitted + levy_tax_remitted
+		if(total_duty > 0)
+			record_round_statistic(STATS_TAXES_COLLECTED, total_duty)
+			record_round_statistic(STATS_REVENUE_EXPORT_DUTY, total_duty)
+			duty_collected_here += total_duty
+			if(SSmerchant_trade)
+				SSmerchant_trade.merchant_levy_taxed += levy_tax_remitted
+	var/merchant_net_float = levy_float - (duty_suspended ? 0 : duty_on_levy_float)
 	if(merchant_net_float > 0)
 		levy_remitted = SStreasury.mint_fractional(SStreasury.merchant_fund, merchant_net_float, "Merchant's levy: [qty] [good_name] -> [ship.ship_name]")
 		if(SSmerchant_trade)
@@ -297,6 +404,7 @@
 		tally["total_duty"] += total_duty
 		tally["total_cut"] += levy_remitted
 		tally["total_kin_bonus"] = (tally["total_kin_bonus"] || 0) + kin_bonus
+		tally["total_quality_delta"] = (tally["total_quality_delta"] || 0) + quality_delta
 		var/key = "[ship.ship_id]|[good_name]"
 		var/list/info = tally["lines"][key]
 		if(info)
@@ -304,9 +412,13 @@
 		else
 			tally["lines"][key] = list("qty" = qty, "good_name" = good_name, "ship_name" = ship.ship_name)
 		return
-	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""]"
+	var/quality_str = ""
+	if(quality_delta != 0)
+		var/q_sign = quality_delta > 0 ? "+" : ""
+		quality_str = ", quality [q_sign][quality_delta]m"
+	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m[kin_bonus > 0 ? ", Kinship +[kin_bonus]m" : ""][quality_str]"
 	if(producer_payout > 0)
-		SStreasury.give_money_account(producer_payout, user, breakdown)
+		SStreasury.give_money_account(producer_payout, user, breakdown, mint_new = TRUE, mint_label = ship ? ship.ship_name : "foreign vessels")
 
 /obj/structure/roguemachine/ship_fulfillment/proc/identify_trade_good(obj/item/P)
 	for(var/id in GLOB.trade_goods)

@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import {
   cardStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -14,25 +15,30 @@ import {
   sectionHeaderStyle,
   SERIF,
 } from '../../common/parchment';
-import type { ActFn, FavorData, FavorLedgerEntry, HarborData } from '../types';
+import type {
+  ActFn,
+  CatalogData,
+  FavorData,
+  FavorLedgerEntry,
+  HarborData,
+} from '../types';
 
 const labelStyle = {
   fontFamily: SERIF,
-  fontSize: '11px',
-  fontVariant: 'small-caps' as const,
+  fontSize: FONT_BODY,
   color: SEAL_AMBER,
   letterSpacing: '0.04em',
 };
 
 const valueStyle = {
   fontFamily: SERIF,
-  fontSize: '13px',
+  fontSize: FONT_BODY,
   color: INK,
 };
 
 const noteStyle = {
   fontFamily: SERIF,
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   fontStyle: 'italic' as const,
   color: INK_SOFT,
   lineHeight: 1.4,
@@ -78,7 +84,7 @@ const LevyControl = (props: {
           style={{
             width: '64px',
             fontFamily: SERIF,
-            fontSize: '13px',
+            fontSize: FONT_BODY,
             color: INK,
             background: 'var(--p-button-bg)',
             border: `1px solid ${INK_FAINT}`,
@@ -141,7 +147,7 @@ const GnomeMarginControl = (props: {
           style={{
             width: '64px',
             fontFamily: SERIF,
-            fontSize: '13px',
+            fontSize: FONT_BODY,
             color: INK,
             background: 'var(--p-button-bg)',
             border: `1px solid ${INK_FAINT}`,
@@ -265,17 +271,17 @@ const LedgerRow = (props: { entry: FavorLedgerEntry }) => {
         columnGap: '8px',
         alignItems: 'baseline',
         padding: '2px 0',
-        fontSize: '12px',
+        fontSize: FONT_BODY,
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
       }}
     >
-      <span style={{ color: style.color, fontWeight: 'bold', fontVariant: 'small-caps' }}>
+      <span style={{ color: style.color, fontWeight: 'bold' }}>
         {style.label}
       </span>
       <span style={{ color: INK, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
         {entry.ship_name} <span style={{ color: INK_SOFT }}>- {entry.realm_label}</span>
         {entry.refunded_hail ? (
-          <span style={{ color: SEAL_GREEN, fontStyle: 'italic' }}> (hail refunded)</span>
+          <span style={{ color: SEAL_GREEN }}> (hail refunded)</span>
         ) : null}
       </span>
       <span
@@ -299,9 +305,11 @@ const SinkButton = (props: {
   done: boolean;
   doneLabel: string;
   action: string;
+  params?: Record<string, unknown>;
   act: ActFn;
 }) => {
-  const { label, flavor, cost, current, done, doneLabel, action, act } = props;
+  const { label, flavor, cost, current, done, doneLabel, action, params, act } =
+    props;
   const canAfford = current >= cost;
   const disabled = done || !canAfford;
   return (
@@ -322,7 +330,7 @@ const SinkButton = (props: {
           marginBottom: '4px',
         }}
       >
-        <span style={{ ...labelStyle, color: INK, fontSize: '12px' }}>{label}</span>
+        <span style={{ ...labelStyle, color: INK, fontSize: FONT_BODY }}>{label}</span>
         <span style={{ ...valueStyle, fontWeight: 'bold' }}>
           {done ? (
             <span style={{ color: SEAL_GREEN }}>{doneLabel}</span>
@@ -343,7 +351,7 @@ const SinkButton = (props: {
         style={inkButtonStyle({ disabled })}
         onClick={() => {
           if (disabled) return;
-          act(action);
+          act(action, params);
         }}
       >
         {done ? 'Already in effect' : canAfford ? 'Spend favor' : 'Not enough favor'}
@@ -352,8 +360,12 @@ const SinkButton = (props: {
   );
 };
 
-const FavorCard = (props: { favor: FavorData; act: ActFn }) => {
-  const { favor, act } = props;
+const FavorCard = (props: {
+  favor: FavorData;
+  catalogs: CatalogData[];
+  act: ActFn;
+}) => {
+  const { favor, catalogs, act } = props;
   return (
     <div style={{ ...cardStyle, marginTop: '8px' }}>
       <div style={sectionHeaderStyle}>Standing with the Company</div>
@@ -381,7 +393,7 @@ const FavorCard = (props: { favor: FavorData; act: ActFn }) => {
           marginTop: '10px',
           marginBottom: '4px',
           color: INK,
-          fontSize: '12px',
+          fontSize: FONT_BODY,
         }}
       >
         Favor sources this week
@@ -392,7 +404,7 @@ const FavorCard = (props: { favor: FavorData; act: ActFn }) => {
           gridTemplateColumns: '1fr auto',
           rowGap: '3px',
           columnGap: '12px',
-          fontSize: '12px',
+          fontSize: FONT_BODY,
           marginBottom: '6px',
         }}
       >
@@ -420,7 +432,7 @@ const FavorCard = (props: { favor: FavorData; act: ActFn }) => {
             </span>
           </>
         )}
-        <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>Lyfetime peak</span>
+        <span style={{ color: INK_SOFT }}>Lyfetime peak</span>
         <span style={{ color: SEAL_AMBER, fontWeight: 'bold', textAlign: 'right' }}>
           {favor.high_water}m
         </span>
@@ -431,7 +443,7 @@ const FavorCard = (props: { favor: FavorData; act: ActFn }) => {
           marginTop: '10px',
           marginBottom: '4px',
           color: INK,
-          fontSize: '12px',
+          fontSize: FONT_BODY,
         }}
       >
         Recent send-offs
@@ -451,7 +463,7 @@ const FavorCard = (props: { favor: FavorData; act: ActFn }) => {
           marginTop: '10px',
           marginBottom: '4px',
           color: INK,
-          fontSize: '12px',
+          fontSize: FONT_BODY,
         }}
       >
         Spend favor
@@ -493,6 +505,26 @@ const FavorCard = (props: { favor: FavorData; act: ActFn }) => {
           act={act}
         />
       )}
+      {/* TODO: flavor - charter button label + flavor (catalog.desc from DM, origin note inline) */}
+      {catalogs.map((catalog) => (
+        <SinkButton
+          key={catalog.id}
+          label={`Open the ${catalog.name}`}
+          flavor={
+            catalog.desc +
+            (catalog.origin_access
+              ? ` Your ${catalog.home_label} already opens it to you at ${catalog.discount_pct}% off; pay to extend the charter to the whole company.`
+              : '')
+          }
+          cost={catalog.favor_cost}
+          current={favor.current}
+          done={!!catalog.unlocked}
+          doneLabel="CHARTER OPEN"
+          action="unlock_catalog"
+          params={{ catalog: catalog.id }}
+          act={act}
+        />
+      ))}
     </div>
   );
 };
@@ -520,7 +552,7 @@ const AutoHailerToggle = (props: {
           marginBottom: '4px',
         }}
       >
-        <span style={{ ...labelStyle, color: INK, fontSize: '12px' }}>
+        <span style={{ ...labelStyle, color: INK, fontSize: FONT_BODY }}>
           Auto-Hailer (Harbor Crew)
         </span>
         <span style={{ ...valueStyle, fontWeight: 'bold' }}>
@@ -561,7 +593,11 @@ export const ManagementTab = (props: {
   }
   return (
     <div style={pageStyle}>
-      <FavorCard favor={harbor.favor} act={act} />
+      <FavorCard
+        favor={harbor.favor}
+        catalogs={harbor.catalogs ?? []}
+        act={act}
+      />
       <LevyControl
         current={harbor.merchant_levy_percent}
         cap={harbor.merchant_levy_cap}

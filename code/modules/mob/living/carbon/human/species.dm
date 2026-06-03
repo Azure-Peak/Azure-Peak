@@ -155,7 +155,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	// Associative list of stat (STAT_STRENGTH, etc) bonuses used to differentiate each race. They should ALWAYS be positive.
 	var/list/race_bonus = list()
-	var/construct = 0
 	var/gibs_on_shapeshift = FALSE
 
 	var/obj/item/mutanthands
@@ -482,9 +481,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	if(TRAIT_NOMETABOLISM in inherent_traits)
 		C.reagents.end_metabolization(C, keep_liverless = TRUE)
-
-	if(construct)
-		C.construct = 1 //for constructs? Duh.
 
 	if(inherent_factions)
 		for(var/i in inherent_factions)
@@ -1244,6 +1240,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			var/obj/item/IM = target.get_active_held_item()
 			target.process_skd(user, IM)
 			return
+
+		var/mob/living/carbon/human/H = target
+		H.process_golgatha_rebuke(user)
 
 		if(user.mob_biotypes & MOB_UNDEAD)
 			if(target.has_status_effect(/datum/status_effect/buff/necras_vow))

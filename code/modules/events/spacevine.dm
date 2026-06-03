@@ -557,3 +557,5 @@
 			. = TRUE
 		else if (HAS_TRAIT(M, TRAIT_KNEESTINGER_IMMUNITY))
 			. = TRUE
+		else if (HAS_TRAIT(M, TRAIT_BOGWALKER))
+			. = TRUE

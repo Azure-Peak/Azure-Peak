@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
+  FONT_BODY,
   INK,
   INK_FAINT,
   pageStyle,
@@ -17,6 +18,7 @@ import { AutoImportView } from './StewardTrade/AutoImportView';
 import { BanditryBanner } from './StewardTrade/BanditryBanner';
 import { BlockadeBanner } from './StewardTrade/BlockadeBanner';
 import { EventsBanner } from './StewardTrade/EventsBanner';
+import { LedgerView } from './StewardTrade/LedgerView';
 import { MarketView } from './StewardTrade/MarketView';
 import { OrdersView } from './StewardTrade/OrdersView';
 import { PetitionView } from './StewardTrade/PetitionView';
@@ -29,11 +31,18 @@ import { TradeModal, type TradeModalRequest } from './StewardTrade/TradeModal';
 import type { Data, TabKey } from './StewardTrade/types';
 
 export const StewardTrade = () => {
-  const { data } = useBackend<Data>();
+  const { data, act } = useBackend<Data>();
   const [tab, setTab] = useState<TabKey>('orders');
   const [tradeRequest, setTradeRequest] = useState<TradeModalRequest | null>(
     null,
   );
+
+  useEffect(() => {
+    if (tab === 'ledger') {
+      act('ledger_open');
+      return () => act('ledger_close');
+    }
+  }, [tab, act]);
 
   const aldermanActing = !!data.is_alderman_acting;
   const warrant = data.alderman_warrant;
@@ -58,7 +67,7 @@ export const StewardTrade = () => {
             style={{
               ...subtitleStyle,
               color: INK_FAINT,
-              fontSize: '11px',
+              fontSize: FONT_BODY,
               marginTop: '2px',
             }}
           >
@@ -87,13 +96,12 @@ export const StewardTrade = () => {
                 border: `1px solid ${SEAL_AMBER}`,
                 padding: '6px 12px',
                 marginBottom: '10px',
-                fontSize: '12px',
+                fontSize: FONT_BODY,
                 color: INK,
               }}
             >
               <div
                 style={{
-                  fontVariant: 'small-caps',
                   color: SEAL_AMBER,
                   fontWeight: 'bold',
                   marginBottom: '2px',
@@ -108,7 +116,7 @@ export const StewardTrade = () => {
                 </span>{' '}
                 of {warrant.trade_cap}m remaining today
               </div>
-              <div style={{ color: INK_FAINT, fontSize: '12px' }}>
+              <div style={{ color: INK_FAINT, fontSize: FONT_BODY }}>
                 Trades beyond the warrant are refused. Crown&apos;s Purse still pays the coin.
               </div>
             </div>
@@ -150,6 +158,7 @@ export const StewardTrade = () => {
             </SequesteredOverlay>
           )}
           {tab === 'petition' && <PetitionView data={data} />}
+          {tab === 'ledger' && <LedgerView data={data} />}
           {tab === 'royal_custom' && <RoyalCustomPanel />}
         </div>
         <TradeModal

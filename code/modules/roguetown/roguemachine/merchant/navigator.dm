@@ -333,6 +333,7 @@
 		next_airlift = world.time + export_time
 		var/play_sound = FALSE
 		var/refused_announced = FALSE
+		var/quality_announced = FALSE
 		var/list/penalty_categories = list()
 		var/list/boost_categories = list()
 		for(var/D in GLOB.alldirs)
@@ -381,6 +382,14 @@
 							penalty_categories += bucket
 						if(demand_mult > 1.15 && !(bucket in boost_categories))
 							boost_categories += bucket
+					if(!quality_announced && isitem(I))
+						var/obj/item/QI = I
+						if(QI.has_item_quality && QI.item_quality != ITEM_QUALITY_STANDARD)
+							var/jab = navigator_quality_jab(QI.item_quality)
+							if(jab)
+								quality_announced = TRUE
+								say(jab)
+								visible_message(span_info("[src] says, \"[jab]\""))
 					qdel(I)
 				else if(base_price > 0)
 					if(!refused_announced)

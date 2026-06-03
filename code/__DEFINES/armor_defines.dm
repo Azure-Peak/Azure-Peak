@@ -160,16 +160,16 @@
 #define ARMOR_DRAGONHIDE list("blunt" = DR_SUPER, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_LIGHT, "fire" = DR_HEAVY, "acid" = DR_NONE) // snowflake armor for dragonhide - a bit worse than hard leather but w/ decent fire resist
 
 // BRIGANDINE — All brigandine parts. Better blunt and arrow padding than plate, but sword stabs and above will pen. Best light armor gets for melee. Medium/heavy classes should still wear maille under it!
-#define ARMOR_BRIGANDINE list("blunt" = DR_HEAVY, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_HEAVY, "fire" = DR_NONE, "acid" = DR_NONE)
+#define ARMOR_BRIGANDINE list("blunt" = DR_HEAVY, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_HEAVY, "fire" = DR_MEDIUM, "acid" = DR_NONE)
 
 // BRONZE - All bronze armor. Not particularly good against any specialized AP intent, but uniquely resistant to fire damage from mage spells and the like. THIS SHOULD BE USING IRON INTEGRITY.
 #define ARMOR_BRONZE list("blunt" = DR_MEDIUM, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_MEDIUM, "fire" = DR_LIGHT, "acid" = DR_LIGHT)
 
 // MAILLE — Chainmail. Medium: Plate level protection but weak vs Bodkin (100% through)
-#define ARMOR_MAILLE list("blunt" = DR_MEDIUM, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_LIGHT, "fire" = DR_NONE, "acid" = DR_NONE)
+#define ARMOR_MAILLE list("blunt" = DR_MEDIUM, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_LIGHT, "fire" = DR_LIGHT, "acid" = DR_NONE)
 
 // PLATE — Cuirass, plate. All plate-tier items; differentiated by integrity, not rating. Spear (PEN_HEAVY) gets 20% through stab. Bodkin goes through 100% - MEDIUM rating. Weak vs Blunt. 
-#define ARMOR_PLATE list("blunt" = DR_LIGHT, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_MEDIUM, "fire" = DR_NONE, "acid" = DR_NONE)
+#define ARMOR_PLATE list("blunt" = DR_LIGHT, "slash" = DBLOCK_HEAVY, "stab" = DBLOCK_HEAVY, "piercing" = DBLOCK_MEDIUM, "fire" = DR_LIGHT, "acid" = DR_NONE)
 
 // BSTEEL — Blacksteel, antagonist. DBLOCK_BSTEEL (4).
 // Halfsword (PEN_BSTEEL) gets 20% through. Blunt still works decently (DR_MEDIUM only).

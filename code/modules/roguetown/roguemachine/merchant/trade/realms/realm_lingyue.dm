@@ -2,7 +2,7 @@
 	id = REALM_LINGYUE
 	name = "Lingyue"
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_BEVERAGE, NAVIGATOR_BUCKET_GARMENT_FINELUX, NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_VALUABLES_CRAFTED, NAVIGATOR_BUCKET_MISCELLANEOUS)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_GARMENT_FINELUX, NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_ENCHANTMENTS, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_VALUABLES_CRAFTED, NAVIGATOR_BUCKET_MISCELLANEOUS)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Tianxia", "Fenghuang", "Qilin", "Longwang", "Yuanzhao",
@@ -62,11 +62,11 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = VICTUALLING_QTY_HUGE_MIN, "qty_max" = VICTUALLING_QTY_HUGE_MAX, "price" = VICTUALLING_PRICE_HARDTACK),
 	)
 	victualling_drinks_pool = list(
-		list("recipe" = /datum/brewing_recipe/plum_wine, "qty_min" = VICTUALLING_QTY_TINY_MIN, "qty_max" = VICTUALLING_QTY_TINY_MAX),
-		list("recipe" = /datum/brewing_recipe/liquor/ricespirit, "qty_min" = VICTUALLING_QTY_TINY_MIN, "qty_max" = VICTUALLING_QTY_TINY_MAX),
-		list("recipe" = /datum/brewing_recipe/whipwine, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/tangerine_wine, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/rum, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
+		list("recipe" = /datum/brewing_recipe/plum_wine),
+		list("recipe" = /datum/brewing_recipe/liquor/ricespirit),
+		list("recipe" = /datum/brewing_recipe/whipwine),
+		list("recipe" = /datum/brewing_recipe/tangerine_wine),
+		list("recipe" = /datum/brewing_recipe/rum),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/jade,
@@ -81,6 +81,7 @@
 		/datum/supply_pack/rogue/merc_weapons/hwando,
 		/datum/supply_pack/rogue/merc_weapons/ssangsudo,
 		/datum/supply_pack/rogue/kazengun/ssangsudo,
+		/datum/supply_pack/rogue/kazengun/mentorhat,
 		/datum/supply_pack/rogue/lingyue/ji,
 		/datum/supply_pack/rogue/lingyue/iji,
 		/datum/supply_pack/rogue/lingyue/zhanmadao,

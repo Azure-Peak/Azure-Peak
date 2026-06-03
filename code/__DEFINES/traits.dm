@@ -252,6 +252,7 @@
 #define TRAIT_TOXIMMUNE	"Poison Immune"
 #define TRAIT_GRABIMMUNE "Unstoppable"
 #define TRAIT_ROTMAN "Rotman"
+#define TRAIT_IRONMAN "Construct" // basically rotman but not really, used for diff flavor of some things
 #define TRAIT_DEADITE "Deadite"
 #define TRAIT_ZOMBIE_IMMUNE "Deadite Immunity" //immune to deadite infection
 #define TRAIT_FACELESS_KNOWN "Faceless but Known" //recognizable despite having no face (skeletonized head - for skeleton) — does NOT bypass TRAIT_DISFIGURED
@@ -262,12 +263,14 @@
 #define TRAIT_LIGHT_STEP	"Light Step"
 #define TRAIT_HARDSOLE		"Hard Sole"
 #define TRAIT_AZURENATIVE "Azure Native"
+#define TRAIT_BOGWALKER "Bogwalker"
 #define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_HARDSHELL "Hardshell"
 #define TRAIT_WOODWALKER "Woodwalker"
 #define TRAIT_ARCYNE "Arcyne Training"
 #define TRAIT_BITERHELM "Helmetbiter" // just use this to get helmets which are bitey.
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
+#define TRAIT_MANORKEEPER "Manorkeeper" // Flavortext-related for the Absolver.
 #define TRAIT_EORAN_CALM "Eoran Calm"
 #define TRAIT_EORAN_SERENE "Eoran Serenity"
 #define TRAIT_NECRAS_VOW "Necra's Vow"
@@ -279,6 +282,7 @@
 #define TRAIT_PALLID "Pallid"
 #define TRAIT_ASSASSIN	"Assassin"
 #define TRAIT_EQUESTRIAN "Equestrian"
+#define TRAIT_REGROW_LIMBS "Regrow Limbs"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 #define TRAIT_BLACKOAK "Heritage Vision"
@@ -473,6 +477,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CICERONE = span_info("I am well-versed in the differences of brews and spirits, and can tell them apart at a glance."),
 	TRAIT_BETTER_SLEEP = span_info("I recover more energy when sleeping."),
 	TRAIT_ROTMAN = span_info("I am partially undead. My heart does not beat."),
+	TRAIT_IRONMAN = span_info("I am an artificial being with a physiology unlike that of organics and react very little to physical trauma. Minerals, gems and ingots restore my structure, but electrocution is especially fatal to me. When critically damaged, I can be stabilized through sticks or rocks, but I will rapidly decay otherwise if not repaired in time. I can process certain materials on the go, and with empty hands, Combat Mode active, and a STRONG stance, I can mine mineral walls and topple trees by bumping into them."),
 	TRAIT_DEADITE = span_info("I am a feral deadite."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
 	TRAIT_HARDDISMEMBER = span_info("My body is strong and endurant. My limbs are not easily dismembered."),
@@ -500,6 +505,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOMOOD = span_info("I feel no sorrow, no joy, and no stress."),
 	TRAIT_DETACHED = span_info("Nothing could move me. Any emotion I show is a facade."),
 	TRAIT_AZURENATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),
+	TRAIT_BOGWALKER = span_info("The bog's blessing graces me. Kneestingers and leeches will not harm me, and I cannot trigger ambushes within the bog unless sprinting."),
 	TRAIT_SLEUTH = span_info("I can spot my tracked Mark's trail without needing to approach it, and can spot them at a distance. I can track more frequently, and the act is not impaired by movement. I can examine tracks right away."),
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
 	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is. I can also tell if someone is hoarding mammons, and with blessed gilded spectacles, I can even see how much they have in their bank."),
@@ -536,7 +542,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ASTRATAN_AFFINITY = span_bone("My bond with Astrata is strong. I can tell who worships her from up close."),
 	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!"),
 	TRAIT_MEDICINE_EXPERT = span_greentext("I've deep, intricate knowledge of the medicinal arts. This skill can progress to Master and Legendary levels."),
-	TRAIT_ALCHEMY_EXPERT = span_greentext("I've deep, intricate knowledge of the alchemical arts. This skill can progress to Expert and above levels."),
+	TRAIT_ALCHEMY_EXPERT = span_greentext("I've deep, intricate knowledge of the alchemical arts. This skill can progress to Legendary levels."),
 	TRAIT_SMITHING_EXPERT = span_greentext("I'm experienced with the arts of smithing and engineering. Smithing, Smelting, Engineering, Mining, Masonry and Pottery can progress to Legendary levels."),
 	TRAIT_SEWING_EXPERT = span_greentext("I'm experienced with the arts of sewing and leathercraft. Sewing, Skincrafting and Butchering can progress to Legendary levels."),
 	TRAIT_SURVIVAL_EXPERT = span_greentext("I'm experienced with the arts of survival in the wild. Cooking, Fishing, Butchering and Skincrafting can progress to Legendary levels. Sewing can progress to Journeyman levels."),
@@ -575,11 +581,12 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ANCIENT_HAG = span_info("I know of secrets in alchemy and magyck no one else is aware of, for none are more ancient, more engrossed with the finer details of this land."),
 	TRAIT_WYRD_LABOURER = span_info("Strange power causes my swings to cut through trees and rocks with ease."),
 	TRAIT_CURSE_SCAR = span_info("That foul wench cursed me! I'll have my revenge... Those strange fog wards in the bog, what if?..."),
-	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel."),
+	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel. I can gain the bog's blessing if I use pure lux instead."),
 	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees."),
 	TRAIT_WHITE_STAG = span_info("The power of the white stag lives on inside of me!"),
 	TRAIT_EDIT_DESCRIPTORS = span_info("I can change my appearance at a magic mirror in a thorough manner."),
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
+	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry.")
 ))
 
 // trait accessor defines
@@ -670,7 +677,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_CLUMSY			"clumsy"
 #define TRAIT_CHUNKYFINGERS		"chunkyfingers" //means that you can't use weapons with normal trigger guards.
 #define TRAIT_GNARLYDIGITS		"gnarlydigits" //less aggressive version of chunky fingers to allow -some- fun.
-#define TRAIT_TINYPAWS		"tinypaws" // even less aggressive version of chunky fingers to allow familiars to perform repairs.
+#define TRAIT_TINYPAWS			"tinypaws" // even less aggressive version of chunky fingers to allow familiars to perform repairs.
+#define TRAIT_WEAPONLESS		"weaponless" // reskinned variant of the above.
 #define TRAIT_DUMB				"dumb"
 #define TRAIT_MONKEYLIKE		"monkeylike" //sets IsAdvancedToolUser to FALSE
 #define TRAIT_NOTIGHTGRABMESSAGE "notightgrabmessage" // Hides grab tightening messages.
@@ -683,7 +691,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_CONFESSED "confessed" // Used in Indexer-mailing to prevent false-flags. God, this is snowflakey.
 #define TRAIT_BAGGED "bagged" // Black-bagged. More snowflaking.
 #define TRAIT_IGNORESLOWDOWN	"Ignore Slow"
-#define TRAIT_IGNOREDAMAGESLOWDOWN "Ignore Damage Slowdown"
+#define TRAIT_IGNOREDAMAGESLOWDOWN "Relentless"
 #define TRAIT_RIGIDMOVEMENT		"Ignore Natural Health Slowdown"
 #define TRAIT_DEATHCOMA			"Death Coma" //Causes death-like unconsciousness
 #define TRAIT_FRESHSPAWN "freshspawn"

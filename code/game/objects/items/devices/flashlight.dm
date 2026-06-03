@@ -314,6 +314,7 @@
 	extinguishable = FALSE
 	weather_resistant = TRUE
 	experimental_onhip = FALSE //Looks a little wonky due to how belts overlay with hip items. Reenable if you wish, but be mindful of that fact.
+	dropshrink = 0.8
 
 /obj/item/flashlight/flare/torch/lantern/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()
@@ -426,7 +427,6 @@
 	w_class = WEIGHT_CLASS_SMALL
 	light_color = "#ffb272ff"
 	on = FALSE
-
 	slot_flags = ITEM_SLOT_HEAD
 	flags_inv = HIDEFACE|HIDEEARS|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	body_parts_covered = FULL_HEAD|NECK
@@ -434,13 +434,13 @@
 	block2add = FOV_BEHIND
 	equip_delay_self = 3 SECONDS
 	unequip_delay_self = 3 SECONDS
-
 	force = 1
 	on_damage = 3
 	wdefense = 1 //The pumpkin has a chance of getting in the way of strikes.
 	fuel = 0 MINUTES
 	should_self_destruct = FALSE
 	sellprice = 8 //Allows a minor business to bloom from them. This may require adjustments.
+	dropshrink = null
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/examine(mob/user)
 	. = ..()

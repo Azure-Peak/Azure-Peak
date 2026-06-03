@@ -442,7 +442,7 @@
 		span_info("As your flame grows, you can manifest it more violently, surging around you to burn anything unfortunate enough to be nearby.")
 	)
 	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite)
-	t1_spell = /obj/effect/proc_holder/spell/invoked/matthios_firebreath/infernal
+	t1_spell = /datum/action/cooldown/spell/matthios/raze/infernal
 	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
@@ -456,6 +456,11 @@
 	src.set_light_color(LIGHT_COLOR_FIRE)
 	if(src.light_system == STATIC_LIGHT)
 		src.update_light()
+	ADD_TRAIT(src, TRAIT_NOFIRE, "[type]")
+	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	weather_immunities += "lava"
 
 /mob/living/simple_animal/pet/familiar/infernal/is_aligned_leyline(obj/structure/leyline/ley)
 	return istype(ley, /obj/structure/leyline/normal/decap)
@@ -476,7 +481,7 @@
 	var/list/hearers_in_range = get_hearers_in_LOS(healing_range, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 	for(var/mob/living/carbon/human/human in hearers_in_range)
 		var/distance = get_dist(src, human)
-		if(distance > healing_range || human.construct)
+		if(distance > healing_range || HAS_TRAIT(human, TRAIT_IRONMAN))
 			continue
 		if(!human.has_status_effect(/datum/status_effect/buff/campfire_stamina))
 			to_chat(human, span_info("The warmth of [src.name]'s flames comforts me, affording me a short rest. I would need to lie down on a bed to get a better rest."))

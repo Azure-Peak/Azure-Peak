@@ -151,6 +151,7 @@ export const Goldface = () => {
         {activeTab === 'cultural' && canSeeHarborTabs && (
           <CulturalStockTab
             stock={culturalStock}
+            catalogs={data.harbor?.catalogs}
             kinship={data.harbor?.kinship}
             budget={data.budget}
             isAgent={isAgent}

@@ -72,6 +72,14 @@
 	if(has_buckled_mobs())
 		return
 
+	var/mob/living/victim = AM
+	if(victim == planter)
+		return
+	if(!victim.ambushable() && victim.mind)
+		return
+	if(victim.m_intent == MOVE_INTENT_SNEAK)
+		return
+
 	if(!aggroed)
 		START_PROCESSING(SSobj, src)
 	aggroed = world.time
@@ -83,14 +91,6 @@
 			playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
 			AM.forceMove(src)
 			seednutrition += 10
-		return
-
-	var/mob/living/victim = AM
-	if(victim == planter)
-		return
-	if(!victim.ambushable())
-		return
-	if(victim.m_intent == MOVE_INTENT_SNEAK)
 		return
 
 	buckle_mob(victim, TRUE, check_loc = FALSE)

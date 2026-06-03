@@ -32,7 +32,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "onionsteak"
 	tastes = list("steak" = 1, "onions" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	foodtype = MEAT
 	faretype = FARE_NEUTRAL
 	portable = FALSE
@@ -48,7 +48,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "carrotsteak"
 	tastes = list("steak" = 1, "carrot" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	foodtype = MEAT
 	faretype = FARE_FINE
 	warming = 5 MINUTES
@@ -58,7 +58,7 @@
 
 /*	.................   Steak & carrot & onion   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/steakcarrotonion
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("steak" = 1, "onion" = 1, "carrots" = 1)
 	name = "steak meal"
 	desc = ""
@@ -72,7 +72,7 @@
 
 /*	.................   Wiener Cabbage   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienercabbage
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	tastes = list("savory sausage" = 1, "cabbage" = 1)
 	name = "wiener on cabbage"
 	desc = "A rich and hearty meal, perfect for a soldier on the march."
@@ -88,7 +88,7 @@
 
 /*	.................   Wiener & Fried potato   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotato
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	tastes = list("savory sausage" = 1, "potato" = 1)
 	name = "wiener on tato"
 	desc = "Stout and nourishing."
@@ -103,7 +103,7 @@
 
 /*	.................   Wiener & Fried onions   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wieneronions
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	tastes = list("savory sausage" = 1, "fried onions" = 1)
 	name = "wiener and onions"
 	desc = "Stout and flavourful."
@@ -118,7 +118,7 @@
 
 /*	.................   Wiener & potato & onions   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("savory sausage" = 1, "potato" = 1)
 	name = "wiener meal"
 	desc = "Stout and nourishing."
@@ -167,11 +167,11 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "stuffedchicken"
 	eat_effect = /datum/status_effect/buff/mealbuff
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE*2)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER*2)
 
 /*	.................   Frybird & Tato   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/frybirdtato
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	tastes = list("frybird" = 1, "tato" = 1)
 	name = "frybird with a tato"
 	desc = "Hearty, comforting, and rich - Some say it was Ravox's favorite meal."
@@ -186,7 +186,7 @@
 
 /*	.................   Frybird Bucket   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/frybirdbucket
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE*3)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER*3)
 	tastes = list("frybird" = 1)
 	name = "frybird bucket"
 	desc = "Hearty, comforting, and rich - Azurean Frybirds are the best on the entire continent and now even in a convinient bucket!"
@@ -322,7 +322,7 @@
 	rotprocess = null
 	slice_sound = TRUE
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf_slice
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	cooked_smell = /datum/pollutant/food/strange_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf/update_icon()
@@ -353,7 +353,7 @@
 	bitesize = 2
 	slices_num = FALSE
 	slice_path = FALSE
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	eat_effect = null
 	tastes = list("crumbly squishy meatloaf" = 1, "ghoul" = 1, "grout and grime" = 1)
 	cooked_type = null
