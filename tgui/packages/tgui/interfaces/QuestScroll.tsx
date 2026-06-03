@@ -444,7 +444,6 @@ export const QuestScroll = () => {
               <div
                 style={{
                   textAlign: 'center',
-                  fontStyle: 'italic',
                   fontSize: '0.9em',
                   marginTop: '4px',
                   color: 'hsl(30, 35%, 40%)',

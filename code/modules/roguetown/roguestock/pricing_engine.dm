@@ -48,7 +48,6 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 		ITEM_CAT_FOODSTUFF_FRESH = MARKUP_FOODSTUFF_FRESH,
 		ITEM_CAT_FOODSTUFF_PRESERVED = MARKUP_FOODSTUFF_PRESERVED,
 		ITEM_CAT_POTION = MARKUP_POTION,
-		ITEM_CAT_BEVERAGE = MARKUP_BEVERAGE,
 		ITEM_CAT_BOOK_WRIT = MARKUP_BOOK_WRIT,
 		ITEM_CAT_INSTRUMENT = MARKUP_INSTRUMENT,
 		ITEM_CAT_TROPHY = MARKUP_TROPHY,
@@ -548,9 +547,6 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 		for(var/subtype in typesof(proto_type))
 			if(!GLOB.derived_categories[subtype])
 				GLOB.derived_categories[subtype] = proto_cat
-	for(var/subtype in typesof(/obj/item/reagent_containers/glass/bottle/brewing_bottle))
-		if(!GLOB.derived_categories[subtype])
-			GLOB.derived_categories[subtype] = ITEM_CAT_BEVERAGE
 
 /proc/pricing_engine_fingerprint()
 	var/list/parts = list()

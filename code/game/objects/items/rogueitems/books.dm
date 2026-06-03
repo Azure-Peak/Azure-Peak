@@ -169,7 +169,9 @@
 
 /obj/item/book/rogue/bibble
 	name = "The Verses and Acts of the Ten"
-	desc = "The collected verses and acts of the DIVINE PANTHEON. Split into three parts.</br>VISAGE - The OLD, THE FIRST ACTS OF THE TEN UPON PSYDONIA, BEFORE THE COMET SYON </br>DECANOMICON - THE ERA OF GLEAM, THE HOLY CELESTIAL EMPIRE - </br>NEW DAWN - Modern Era, the foundation of the HOLY SEE and ONWARDS."
+	desc = "The collected verses and acts of the DIVINE PANTHEON. Split into three parts. </br>VISAGE - The OLD, THE FIRST ACTS \
+	OF THE TEN UPON PSYDONIA, BEFORE THE COMET SYON </br>DECANOMICON - THE ERA OF GLEAM, THE HOLY CELESTIAL EMPIRE - </br>NEW DAWN \
+	- Modern Era, the foundation of the HOLY SEE and ONWARDS."
 	icon_state = "bibble_0"
 	base_icon_state = "bibble"
 	title = "The Verses and Acts of the Ten"
@@ -244,8 +246,12 @@
     . += span_info("Anointing a person will bless them, imparting a temporary bonus to their Fortune.")
 
 /obj/item/book/rogue/bibble/psy
-	name = "Tome of Psydon"
-	desc = "'And HE WEEPS. Not for you, not for me, but for it all.' </br>A leatherbound tome, chronicling the beliefs held by the Orthodoxy; the largest Psydonic denomination in the world. The 'Harlaus Press', a recent invention by Otava's clergymen, has ensured that no corner of Psydonia would remain unlit by His teachings. Inside are three seperate testaments, each marked with a velvet strap.. </br>PSALMS - TESTAMENTS OF CLERICAL WISDOM, COMMANDING INTERPRETATION. </br>GENESIS - TESTAMENTS OF PSYDONIA'S CREATION, FOR WHAT ONCE WAS. </br>INVOCATIONS - TESTAMENTS OF WILL, TO EXORCISE AND CHANT."
+	name = "The Book"
+	desc = "'And He weeps. Not for you, not for me, but for it all.' </br>A leatherbound tome, chronicling the \
+	beliefs held by the Orthodoxy; the largest Psydonic denomination in the world. The 'Harlaus Press', a recent \
+	invention by Otava's clergymen, has ensured that no corner of Psydonia would remain unlit by His teachings. Inside \
+	are three seperate testaments, each marked with a velvet strap.. </br>PSALMS - TESTAMENTS OF CLERICAL WISDOM, COMMANDING \
+	INTERPRETATION. </br>GENESIS - TESTAMENTS OF PSYDONIA'S CREATION, FOR WHAT ONCE WAS. </br>INVOCATIONS - TESTAMENTS OF WILL, TO EXORCISE AND CHANT."
 	icon_state = "psyble_0"
 	base_icon_state = "psyble"
 	title = "psyble"
@@ -620,6 +626,7 @@
 	var/compiled_pages = null
 	var/list/page_texts = list()
 	var/qdel_source = FALSE
+	dropshrink = 0.8
 
 /obj/item/manuscript/examine()
 	. = ..()
@@ -639,7 +646,7 @@
 		return
 	var/obj/item/paper/P = I
 	if(!(P.info))
-		to_chat(user, "the paper needs to contain text to be added to a manuscript!")
+		to_chat(user, "The paper needs to contain text to be added to a manuscript!")
 		return
 	if(number_of_pages == 8)
 		to_chat(user, "The manuscript pile cannot surpass 8 pages!")
@@ -760,3 +767,4 @@
 	desc = "Apply on a written manuscript to create a book."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "book_crafting_kit"
+	dropshrink = 0.7

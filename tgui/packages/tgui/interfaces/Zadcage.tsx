@@ -6,6 +6,7 @@ import { Window } from '../layouts';
 import {
   bannerStyle,
   cardStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -116,10 +117,10 @@ const SummonPanel = () => {
 
   return (
     <div style={cardStyle}>
-      <div style={{ fontVariant: 'small-caps', fontWeight: 'bold', color: INK, marginBottom: '4px' }}>
+      <div style={{ fontWeight: 'bold', color: INK, marginBottom: '4px' }}>
         Summon a flight
       </div>
-      <div style={{ color: INK_SOFT, fontSize: '11px', marginBottom: '6px' }}>
+      <div style={{ color: INK_SOFT, fontSize: FONT_BODY, marginBottom: '6px' }}>
         {pending
           ? 'A flight is already on the way.'
           : `Call a flight from ${data.cote_name || 'the zadcote'}. It will arrive in about a minute. Load any package onto it once it lands.`}
@@ -128,9 +129,8 @@ const SummonPanel = () => {
         <div style={{ marginBottom: '8px' }}>
           <div
             style={{
-              fontVariant: 'small-caps',
               color: INK_SOFT,
-              fontSize: '11px',
+              fontSize: FONT_BODY,
               marginBottom: '2px',
             }}
           >
@@ -160,8 +160,7 @@ const SummonPanel = () => {
           <div
             style={{
               color: INK_FAINT,
-              fontSize: '11px',
-              fontStyle: 'italic',
+              fontSize: FONT_BODY,
               marginTop: '2px',
             }}
           >
@@ -192,11 +191,11 @@ const StoredPanel = () => {
   if (!data.stored_payload.length) return null;
   return (
     <div style={cardStyle}>
-      <div style={{ fontVariant: 'small-caps', fontWeight: 'bold', color: INK, marginBottom: '4px' }}>
+      <div style={{ fontWeight: 'bold', color: INK, marginBottom: '4px' }}>
         Held in the cage
       </div>
       {data.stored_payload.map((item, idx) => (
-        <div key={idx} style={{ fontSize: '12px', color: INK }}>
+        <div key={idx} style={{ fontSize: FONT_BODY, color: INK }}>
           - {item.name}
         </div>
       ))}
@@ -235,17 +234,16 @@ const OccupancyPanel = () => {
       <div style={cardStyle}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <div style={{ fontVariant: 'small-caps', fontWeight: 'bold', color: INK }}>
+            <div style={{ fontWeight: 'bold', color: INK }}>
               A flight waits in the cage
             </div>
-            <div style={{ color: INK_SOFT, fontSize: '11px' }}>
+            <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
               Capacity for return: {capacity} {capacity === 1 ? 'zad' : 'zads'}
             </div>
           </div>
           <div
             style={{
               fontFamily: SERIF,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               color: warning ? SEAL_RED : INK,
               fontSize: '18px',
@@ -255,7 +253,7 @@ const OccupancyPanel = () => {
           </div>
         </div>
         {warning && (
-          <div style={{ color: SEAL_RED, fontSize: '11px', marginTop: '4px' }}>
+          <div style={{ color: SEAL_RED, fontSize: FONT_BODY, marginTop: '4px' }}>
             Auto-depart imminent. Auto-depart will NOT carry your reply or package.
           </div>
         )}
@@ -282,7 +280,7 @@ const OccupancyPanel = () => {
         </button>
       </div>
       <div style={sectionHeaderStyle}>Return Package</div>
-      <div style={{ color: INK_FAINT, fontSize: '11px', marginBottom: '6px' }}>
+      <div style={{ color: INK_FAINT, fontSize: FONT_BODY, marginBottom: '6px' }}>
         Hold a parcel in your active hand to send it back.
         {capacity === 1
           ? ' This return can carry a tiny or small item.'
@@ -291,7 +289,7 @@ const OccupancyPanel = () => {
             : ' This return can carry a bulky parcel or large container.'}
       </div>
       {data.payload_in_hand.length === 0 ? (
-        <div style={{ color: INK_FAINT, fontStyle: 'italic', fontSize: '12px' }}>
+        <div style={{ color: INK_FAINT, fontStyle: 'italic', fontSize: FONT_BODY }}>
           Empty-handed - hold something to offer it as the return parcel.
         </div>
       ) : (
@@ -308,7 +306,7 @@ const OccupancyPanel = () => {
                   alignItems: 'center',
                   gap: '8px',
                   padding: '2px 0',
-                  fontSize: '12px',
+                  fontSize: FONT_BODY,
                   color: tooHeavy ? INK_FAINT : INK,
                   cursor: tooHeavy ? 'not-allowed' : 'pointer',
                   opacity: tooHeavy ? 0.6 : 1,
@@ -326,7 +324,6 @@ const OccupancyPanel = () => {
                 <span
                   style={{
                     color: tooHeavy ? SEAL_RED : INK_FAINT,
-                    fontStyle: 'italic',
                     marginLeft: 'auto',
                   }}
                 >

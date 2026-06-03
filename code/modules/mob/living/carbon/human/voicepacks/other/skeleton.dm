@@ -19,6 +19,8 @@
 			used = pick('sound/vo/mobs/skel/skeleton_scream (1).ogg','sound/vo/mobs/skel/skeleton_scream (2).ogg','sound/vo/mobs/skel/skeleton_scream (3).ogg','sound/vo/mobs/skel/skeleton_scream (4).ogg','sound/vo/mobs/skel/skeleton_scream (5).ogg')
 		if("agony") //Close enough
 			used = list('sound/vo/mobs/skel/skeleton_pain (1).ogg','sound/vo/mobs/skel/skeleton_pain (2).ogg','sound/vo/mobs/skel/skeleton_pain (3).ogg','sound/vo/mobs/skel/skeleton_pain (4).ogg','sound/vo/mobs/skel/skeleton_pain (5).ogg')
+		if("superagony") // to bypass painless override, use responsibly
+			used = list('sound/vo/mobs/skel/skeleton_pain (1).ogg','sound/vo/mobs/skel/skeleton_pain (2).ogg','sound/vo/mobs/skel/skeleton_pain (3).ogg','sound/vo/mobs/skel/skeleton_pain (4).ogg','sound/vo/mobs/skel/skeleton_pain (5).ogg')
 		if("snap")
 			used = list('sound/vo/fsnap1.ogg')
 		if("snap2")

@@ -30,7 +30,7 @@ export const MeisterPanel = () => {
   );
 
   return (
-    <Window title="Meister Ledger" width={620} height={620} theme="parchment">
+    <Window title="Meister" width={620} height={620} theme="parchment">
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>The Meister</div>

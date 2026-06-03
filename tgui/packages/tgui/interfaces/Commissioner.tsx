@@ -8,6 +8,7 @@ import { ManifestTab } from './Commissioner/ManifestTab';
 import { OrdersTab } from './Commissioner/OrdersTab';
 import type { CommissionerData } from './Commissioner/types';
 import {
+  FONT_BODY,
   INK,
   INK_SOFT,
   pageStyle,
@@ -53,13 +54,13 @@ export const Commissioner = () => {
               fontFamily: SERIF,
             }}
           >
-            <span style={{ color: SEAL_AMBER, fontStyle: 'italic' }}>
+            <span style={{ color: SEAL_AMBER }}>
               Escrow held
             </span>
             <span style={{ color: INK, fontWeight: 'bold', marginRight: 12 }}>
               {data.budget}m
             </span>
-            <span style={{ color: SEAL_AMBER, fontStyle: 'italic' }}>
+            <span style={{ color: SEAL_AMBER }}>
               Your deposit
             </span>
             <span style={{ color: INK, fontWeight: 'bold' }}>
@@ -68,7 +69,7 @@ export const Commissioner = () => {
             <span
               style={{
                 marginLeft: 'auto',
-                fontSize: '11px',
+                fontSize: FONT_BODY,
                 color: INK_SOFT,
               }}
             >

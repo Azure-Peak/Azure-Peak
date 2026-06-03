@@ -1,0 +1,10 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Renamed and repathed the old \"Cooking\" book, which was left unfinished, to a Brewing book"
+  - rscadd: "Added a new cooking wiki which contains new food recipes, stew recipes, and rewritten sections from the cooking wiki page where needed."
+  - rscadd: "Overhauled the entirety of Parchment / TGUI styles to clear up a lot of old code. I moved the font from Palatino Linotype to **Lora**, and the title to **MedievalSharp**. I also cleared up a lot of italics that were unnecessary and destroyed all cases of small-caps which was damaging readability."
+  - rscadd: "Rewrote the existing text for \"decent meagre snack\" etc. to a much more legible and understandable system. Now, 12 units of nutrient is defined as a meal and every calculation stems from that - quarter of a meal, three meals, etc."
+  - rscadd: "Default parchment style is now Leatherbound"
+  - rscadd: "Forced crafting menu to use the new Parchment styles"
+  - rscadd: "Give a withdraw button to zadcote"

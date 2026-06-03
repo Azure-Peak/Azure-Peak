@@ -34,7 +34,7 @@
 	slices_num = 3
 	rotprocess = null
 	eat_effect = /datum/status_effect/buff/snackbuff
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD, /datum/reagent/medicine/stronghealth = 12)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS, /datum/reagent/medicine/stronghealth = 12)
 
 /obj/item/reagent_containers/food/snacks/grown/apple/gold/Initialize()
   ..()
@@ -55,7 +55,7 @@
 	rotprocess = null
 	tastes = list("a sliver of divine sweetness" = 1)
 	eat_effect = /datum/status_effect/buff/snackbuff
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD, /datum/reagent/medicine/stronghealth = 6)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS, /datum/reagent/medicine/stronghealth = 6)
 
 /obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced/gold/Initialize()
   ..()

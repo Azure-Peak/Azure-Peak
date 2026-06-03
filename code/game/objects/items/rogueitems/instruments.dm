@@ -27,6 +27,7 @@
 	var/playing = FALSE
 	grid_height = 64
 	grid_width = 32
+	dropshrink = 0.8
 
 /obj/item/rogue/instrument/equipped(mob/living/user, slot)
 	. = ..()

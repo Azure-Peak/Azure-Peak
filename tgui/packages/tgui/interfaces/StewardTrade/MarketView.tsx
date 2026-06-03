@@ -7,6 +7,7 @@ import {
   badgeStyle,
   BUTTON_BG,
   cardStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -87,10 +88,10 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
           justifyContent: 'space-between',
           gap: '12px',
           marginBottom: '6px',
-          fontSize: '12px',
+          fontSize: FONT_BODY,
         }}
       >
-        <div style={{ color: INK_SOFT, fontStyle: 'italic' }}>
+        <div style={{ color: INK_SOFT }}>
           Crown spread on held stockpile:{' '}
           <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
             {total_arbitrage_potential}m
@@ -223,11 +224,11 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
                   justifyContent: 'flex-end',
                   gap: '6px',
                   marginBottom: '6px',
-                  fontSize: '11px',
+                  fontSize: FONT_BODY,
                   color: INK_SOFT,
                 }}
               >
-                <span style={{ fontStyle: 'italic' }}>
+                <span>
                   {activeGroup.label}:
                 </span>
                 <button
@@ -369,7 +370,7 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
                       {eventColor && (
                         <span style={badgeStyle(eventColor)}>{row.event_tag}</span>
                       )}
-                      <span style={{ color: INK_FAINT, marginLeft: '8px', fontSize: '11px' }}>
+                      <span style={{ color: INK_FAINT, marginLeft: '8px', fontSize: FONT_BODY }}>
                         Stock: {row.stock}/{row.stock_limit}
                       </span>
                     </div>
@@ -435,7 +436,7 @@ const SideBlock = (props: {
   if (regions.length === 0) {
     return (
       <div style={sideLineStyle}>
-        <span style={{ color: INK_FAINT, fontVariant: 'small-caps', width: '34px' }}>
+        <span style={{ color: INK_FAINT, width: '34px' }}>
           {label}:
         </span>
         <span style={{ fontStyle: 'italic', color: INK_FAINT, marginLeft: '6px' }}>
@@ -451,7 +452,7 @@ const SideBlock = (props: {
   return (
     <>
       <div style={sideLineStyle}>
-        <span style={{ color: INK_FAINT, fontVariant: 'small-caps', width: '34px' }}>
+        <span style={{ color: INK_FAINT, width: '34px' }}>
           {label}:
         </span>
         <RegionRow
@@ -462,7 +463,7 @@ const SideBlock = (props: {
           isPrimary
           onTrade={onTrade}
         />
-        <span style={{ color: INK_FAINT, fontSize: '11px', marginLeft: '8px' }}>
+        <span style={{ color: INK_FAINT, fontSize: FONT_BODY, marginLeft: '8px' }}>
           ({regions.length} region{regions.length === 1 ? '' : 's'})
         </span>
         {others.length > 0 && (
@@ -527,7 +528,7 @@ const RegionRow = (props: {
             style={{
               color: capacityColor,
               marginLeft: '4px',
-              fontSize: '11px',
+              fontSize: FONT_BODY,
             }}
           >
             [{region.capacity_today}/{region.capacity_total}]
@@ -561,13 +562,13 @@ const sideLineStyle = {
   display: 'flex',
   flexWrap: 'wrap' as const,
   alignItems: 'center',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   marginBottom: '3px',
 };
 
 const chevronStyle = {
   fontFamily: 'inherit',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   padding: '1px 6px',
   marginLeft: '6px',
   border: `1px solid ${INK_FAINT}`,
@@ -585,7 +586,7 @@ const stripStyle: React.CSSProperties = {
   marginTop: '6px',
   paddingTop: '6px',
   borderTop: `1px dashed ${INK_FAINT}`,
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   color: INK_SOFT,
 };
 
@@ -608,12 +609,11 @@ const stripValueButtonStyle: React.CSSProperties = {
   cursor: 'pointer',
   textDecoration: 'underline dotted',
   fontFamily: 'inherit',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
 };
 
 const flagPillStyle = (active: boolean): React.CSSProperties => ({
-  fontSize: '9px',
-  fontVariant: 'small-caps',
+  fontSize: FONT_BODY,
   padding: '0 4px',
   border: `1px solid ${active ? SEAL_GREEN : INK_FAINT}`,
   color: active ? SEAL_GREEN : INK_FAINT,

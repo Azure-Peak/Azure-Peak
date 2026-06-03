@@ -174,6 +174,7 @@
 	spitoutmouth = FALSE
 	experimental_inhand = TRUE
 	bundletype = /obj/item/natural/bundle/cloth
+	dropshrink = 0.9
 	sellprice = 4
 	detail_tag = "_soaked"
 	var/wet = 0
@@ -542,6 +543,7 @@
 	icon2step = 10
 	grid_width = 32
 	grid_height = 32
+	dropshrink = 0.9
 
 /obj/item/natural/bundle/stick
 	name = "bundle of sticks"

@@ -13,6 +13,8 @@
 			used = pick('sound/vo/mobs/wwolf/painscream.ogg')
 		if("agony")
 			used = pick('sound/vo/mobs/wwolf/painscream.ogg')
+		if("superagony") // to bypass painless override, use responsibly
+			used = pick('sound/vo/mobs/wwolf/painscream.ogg')
 		if("jump")
 			used = pick('sound/vo/mobs/wwolf/jump (1).ogg','sound/vo/mobs/wwolf/jump (3).ogg','sound/vo/mobs/wwolf/jump (2).ogg')
 		if("leap")
