@@ -612,6 +612,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/voddena
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/beer
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/beer_oat
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/beer_lager
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/cider
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/gin
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/ricespirit

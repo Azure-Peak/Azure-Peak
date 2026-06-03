@@ -126,6 +126,13 @@
 	glass_name = "glass of ale"
 	glass_desc = ""
 
+/datum/reagent/consumable/ethanol/lager
+	name = "Rantegarde Lager"
+	description = "A mixed grain alcoholic beverage made with malted oats, grain and yeast."
+	color = "#9e6701" // rgb: 102, 67, 0
+	boozepwr = 25
+	taste_description = "rich mixed lager"
+
 
 // BEERS - Imported for now, later the styles will be 'mockable', if and when I get to brewing.
 

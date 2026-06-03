@@ -26,3 +26,11 @@
 	reagent_to_brew = /datum/reagent/consumable/ethanol/ricewine
 	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/rice = 6)
+
+/datum/brewing_recipe/beer/lager
+	name = "Rantegarde Lager"
+	bottle_name = "Rantegarde Lager"
+	bottle_desc = "An brew developed within the ducal taphouses of the Golden Estate"
+	reagent_to_brew = /datum/reagent/consumable/ethanol/lager
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/beer_lager
+	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/oat = 3, /obj/item/reagent_containers/food/snacks/grown/wheat = 3)
