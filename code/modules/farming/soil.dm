@@ -320,6 +320,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 
 	visible_message(span_green("[src] is bathed in sacred light!"))
 
+	// On cast growth boost is back, kill Pockette not me!!!!
+	add_growth(3 MINUTES)
+
 	// Nutrition stasis: never below sated
 	nutrition = max(nutrition, MAX_PLANT_NUTRITION * 0.5)
 

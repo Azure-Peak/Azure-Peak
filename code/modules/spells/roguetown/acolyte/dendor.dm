@@ -129,10 +129,10 @@
 			if(amount_blessed >= max_blessed)
 				break
 
-			// Cannot refresh unless near expiration
-			if(soil.blessed_time > 5 MINUTES)
-				continue
-
+//			// Cannot refresh unless near expiration
+//			if(soil.blessed_time > 5 MINUTES)
+//				continue
+//									i was promised I'd not be crucified so ye, there you go
 			soil.bless_soil()
 
 			new /obj/effect/temp_visual/dendor_bless(T)
