@@ -377,7 +377,6 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			if(prob(5)) //5% chance of random dizziness
 				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
 				Dizzy(5)
-				jitteriness(5)
 
 		if(sunder_stacks >= 61) //At this point you've taken (2) blows or more and shouldn't be escaping death this easily.
 			adjustBruteLoss(2)
@@ -385,7 +384,6 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 				confused += 15
 				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
 				Dizzy(25)
-				jitteriness(15)
 			if(prob(5)) //5% chance to collapse randomly
 				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
 				Knockdown(15)
