@@ -414,7 +414,7 @@
 			if(prob(used) && owner.sunder_stacks > 100 && owner.mind)
 				attempted_wounds += /datum/wound/sunder/chest
 			if(prob(used) && owner.sunder_stacks < 150 && owner.mind) //We don't want too many stacks or we'll never recover.
-				owner.sunder_stacks += 30
+				owner.sunder_stacks += 40
 				to_chat(owner, span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
 				owner.add_stress(/datum/stressevent/sundercritted)
 	// Check if critical resistance applies
@@ -554,7 +554,7 @@
 			if(prob(used) && owner.sunder_stacks > 100 && owner.mind)
 				attempted_wounds += /datum/wound/sunder/head
 			if(prob(used) && owner.sunder_stacks < 150 && owner.mind) //We don't want too many stacks or we'll never recover.
-				owner.sunder_stacks += 30
+				owner.sunder_stacks += 40
 				to_chat(owner, span_userdanger("A CRITICAL BLOW SUNDERS ME WITH SACRED FLAME!"))
 				owner.add_stress(/datum/stressevent/sundercritted)
 	var/has_crit_attempt = length(attempted_wounds) || try_knockout
