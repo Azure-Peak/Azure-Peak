@@ -382,7 +382,6 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 
 		if(sunder_stacks >= 71) //At this point you've taken (2) blows or more and shouldn't be escaping death this easily.
 			adjustBruteLoss(2)
-			apply_status_effect(/datum/status_effect/debuff/devitalised/lesser) //5 min long debuff, you narrowly escaped death.
 			if(prob(12)) //12% chance to have random movement + stun + dizziness
 				confused += 8
 				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
