@@ -198,9 +198,10 @@
 /datum/outfit/job/roguetown/adventurer/refugee/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/paths = list("Refugee (Default)", "Seminary Dropout (Hierophant)", "Desert Ascetic (Pontifex)", "Wandering Yogi (Vizier)")
+	var/list/hmm = list("Purity afloat! Even if far! (Naledi Complex)", "I left for a reason... (Default)")
 	var/path = input(H, "Choose your past.", "WHAT DID WAR TAKE FROM YOU?") as anything in paths
+	var/complex = input(H, "How tightly bound to traditions you are?", "I HATE DJINNS!") as anything in hmm
 
-	mask = /obj/item/clothing/mask/rogue/lordmask/tarnished
 	backr = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/clothing/neck/roguetown/psicross/naledi
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
@@ -300,7 +301,7 @@
 			if(H.mind)
 				grant_poke_spell(H)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/vizier_restoration)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 6))
@@ -308,6 +309,13 @@
 			var/datum/devotion/C = new /datum/devotion(H, H.patron)
 			C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
 
+	switch(complex)
+		if("Purity afloat! Even if far! (Naledi Complex)")
+			ADD_TRAIT(H, TRAIT_NALEDI, TRAIT_GENERIC)
+			mask = /obj/item/clothing/mask/rogue/lordmask/naledi
+		else
+			mask = /obj/item/clothing/mask/rogue/lordmask/tarnished
+		 
 
 /datum/advclass/foreigner/slaver
 	name = "Ranesheni Slaver"

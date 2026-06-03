@@ -1,41 +1,56 @@
-/obj/effect/proc_holder/spell/invoked/vizier_restoration
-	name = "Restoration"
-	desc = "Uses origin magick to restore the target's body to a prior state, granting health regeneration."
-	overlay_state = "restoration"
-	releasedrain = 50
-	chargedrain = 0
-	chargetime = 0
-	range = 4
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = list('sound/magic/regression1.ogg','sound/magic/regression2.ogg','sound/magic/regression3.ogg','sound/magic/regression4.ogg')
-	action_icon = 'icons/mob/actions/classuniquespells/vizier.dmi'
-	invocations = list("Ishfi!") // https://en.wiktionary.org/wiki/%D8%B4%D9%81%D9%89
-	invocation_type = "whisper"
-	associated_skill = /datum/skill/magic/arcane
-	antimagic_allowed = TRUE
-	recharge_time = 12 SECONDS
-	miracle = FALSE
-	ignore_los = FALSE
-	cost = 2
-	devotion_cost = 0
-	glow_color = GLOW_COLOR_ARCANE
+/datum/action/cooldown/spell/vizier
+	button_icon = 'icons/mob/actions/classuniquespells/vizier.dmi'
+	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_LOW
+	click_to_activate = TRUE
+	self_cast_possible = TRUE
+	primary_resource_type = SPELL_COST_STAMINA
+	charge_sound = 'sound/magic/charging.ogg'
+	associated_skill = /datum/skill/magic/arcane
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	/// Fatigue/mana cost for the Vizier's origin magic system.
+	var/cost
 
-/obj/effect/proc_holder/spell/invoked/vizier_restoration/cast(list/targets, mob/living/user)
+/datum/action/cooldown/spell/vizier/restoration
+	name = "Restoration"
+	desc = "Uses Origin Magick to rewind a target's body to a healthier state, removing embedded objects and granting health and energy regeneration. The nature of time-based manipulation allows this to work on most targets."
+	fluff_desc = "The Yogis of Naledi teach that time is not a river but a tapestry, every moment of a thing's existence woven into a single whole. Origin Magick draws upon this belief, allowing its practitioners to call forth echoes of an earlier state and impose them upon the present. To heal is to remember an unwounded body; to restore is to recall a form before it was broken. Though no mortal can truly stand outside the march of time, Origin Magick is regarded as the nearest approach to Psydon's divinity ever achieved by humenity."
+	button_icon_state = "restoration"
+	sound = list('sound/magic/regression1.ogg', 'sound/magic/regression2.ogg', 'sound/magic/regression3.ogg', 'sound/magic/regression4.ogg')
+	cast_range = 4
+	charge_required = FALSE
+	cooldown_time = 12 SECONDS
+	invocations = list("Ishfi!")
+	invocation_type = INVOCATION_WHISPER
+
+/datum/action/cooldown/spell/vizier/restoration/cast(atom/cast_on)
 	. = ..()
-	if(!isliving(targets[1]))
-		revert_cast()
+
+	var/mob/living/carbon/target = cast_on
+	var/mob/living/carbon/human/H = owner
+
+	if(!istype(target))
 		return FALSE
-	var/mob/living/target = targets[1]
-	new /obj/effect/temp_visual/origin_restoration(get_turf(target))
-	new /obj/effect/temp_visual/origin_restoration_burst(get_turf(user), NORTHEAST)
-	new /obj/effect/temp_visual/origin_restoration_burst(get_turf(user), NORTHWEST)
-	new /obj/effect/temp_visual/origin_restoration_burst(get_turf(user), SOUTHEAST)
-	new /obj/effect/temp_visual/origin_restoration_burst(get_turf(user), SOUTHWEST)
-	target.visible_message(span_info("Origin magick rewinds [target]'s body!"), span_notice("My body recalls its prior form!"))
-	var/amt_per_tick = 3
-	target.apply_status_effect(/datum/status_effect/buff/originhealing, amt_per_tick)
+	var/obj/effect/temp_visual/origin_restoration/V = new
+	target.vis_contents += V
+	var/turf/user_turf = get_turf(owner)
+	new /obj/effect/temp_visual/origin_restoration_burst(user_turf, NORTHEAST)
+	new /obj/effect/temp_visual/origin_restoration_burst(user_turf, NORTHWEST)
+	new /obj/effect/temp_visual/origin_restoration_burst(user_turf, SOUTHEAST)
+	new /obj/effect/temp_visual/origin_restoration_burst(user_turf, SOUTHWEST)
+
+	// Rewind foreign objects out of the body.
+	for(var/obj/item/bodypart/BP in target.bodyparts)
+		for(var/obj/item/embedded as anything in BP.embedded_objects)
+			BP.remove_embedded_object(embedded)
+			playsound(target.loc, 'sound/surgery/organ1.ogg')
+	for(var/obj/item/embedded as anything in target.simple_embedded_objects)
+		target.simple_remove_embedded_object(embedded)
+		playsound(target.loc, 'sound/surgery/organ1.ogg')
+
+	target.visible_message(span_info("Origin arts rewind [target]'s body!"), span_notice("My body recalls its prior form!"))
+	target.apply_status_effect(/datum/status_effect/buff/originhealing)
 	return TRUE
 
 /obj/effect/temp_visual/origin_restoration
@@ -51,6 +66,12 @@
 	transform = matrix()*3
 	animate(src, transform = matrix()*0.1, alpha = 0, time = duration, easing = EASE_IN)
 	return INITIALIZE_HINT_NORMAL
+
+/obj/effect/temp_visual/origin_restoration/Destroy()
+	if(ismob(loc))
+		var/mob/M = loc
+		M.vis_contents -= src
+	return ..()
 
 /obj/effect/temp_visual/origin_restoration_burst
 	icon = 'icons/effects/effects.dmi'

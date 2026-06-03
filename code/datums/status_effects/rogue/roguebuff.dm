@@ -565,52 +565,68 @@
 	owner.adjustCloneLoss(-healing_on_tick, 0)
 // Lesser miracle effect end
 
-/datum/status_effect/buff/originhealing
+/datum/status_effect/buff/originhealing // not affected by the heartbeast, since this is not really "healing", you're restoring someone in time. It will also only heal one limb at a time, to differ from other heals that are more uniform.
 	id = "originhealing"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
 	duration = 10 SECONDS
-	examine_text = "<font color='#ffae00'>SUBJECTPRONOUN is being slowly rewound in time!</font>"
-	var/healing_on_tick = 1
+	examine_text = "<font color='#ffae00'>SUBJECTPRONOUN is slowly being rewound in time!</font>"
+	var/healing_on_tick = 2
 	var/outline_colour = "#ffc558"
-	var/tech_healing_modifier = 1
-	var/block_combat_mode = FALSE
 
-/datum/status_effect/buff/originhealing/on_creation(mob/living/new_owner, new_healing_on_tick, is_inhumen = FALSE)
+/datum/status_effect/buff/originhealing/on_creation(mob/living/new_owner, new_healing_on_tick)
 	if(!isnull(new_healing_on_tick))
 		healing_on_tick = new_healing_on_tick
-	tech_healing_modifier = SSchimeric_tech.get_healing_multiplier()
-	if(is_inhumen)
-		// The penalty/benefit of healing tech is halved for inhumen followers
-		tech_healing_modifier = 1 + ((tech_healing_modifier - 1) * 0.5)
-	healing_on_tick *= tech_healing_modifier
 	return ..()
 
 /datum/status_effect/buff/originhealing/on_apply()
 	SEND_SIGNAL(owner, COMSIG_LIVING_MIRACLE_HEAL_APPLY, healing_on_tick, src)
 	var/filter = owner.get_filter(MIRACLE_HEALING_FILTER)
-	if (!filter)
+	if(!filter)
 		owner.add_filter(MIRACLE_HEALING_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
 	return TRUE
 
 /datum/status_effect/buff/originhealing/tick()
-	if(block_combat_mode && owner.cmode)
-		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#ffda95"
+
 	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-		owner.blood_volume = min(owner.blood_volume+healing_on_tick, BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume + healing_on_tick, BLOOD_VOLUME_NORMAL)
+
+	// Rewind the most damaged limb.
+	if(ishuman(owner))
+		var/mob/living/carbon/human/HM = owner
+		var/obj/item/bodypart/most_damaged
+		for(var/obj/item/bodypart/BP in HM.bodyparts)
+			if(QDELETED(BP))
+				continue
+			if(!most_damaged || (BP.brute_dam + BP.burn_dam) > (most_damaged.brute_dam + most_damaged.burn_dam))
+				most_damaged = BP
+
+		if(most_damaged)
+			var/total_damage = most_damaged.brute_dam + most_damaged.burn_dam
+			if(total_damage > 0)
+				var/brute_heal = healing_on_tick
+				var/burn_heal = healing_on_tick
+				// Additional 8% rewind of current limb damage.
+				brute_heal += most_damaged.brute_dam * 0.08
+				burn_heal += most_damaged.burn_dam * 0.08
+				most_damaged.heal_damage(brute_heal, burn_heal)
+				HM.update_damage_overlays()
+
 	var/list/wCount = owner.get_wounds()
+
 	if(length(wCount))
-		owner.heal_wounds(healing_on_tick)
+		owner.heal_wounds(healing_on_tick * 2)
 		owner.update_damage_overlays()
-	owner.adjustBruteLoss(-healing_on_tick, 0)
-	owner.adjustFireLoss(-healing_on_tick, 0)
+
 	owner.adjustOxyLoss(-healing_on_tick, 0)
 	owner.adjustToxLoss(-healing_on_tick, 0)
+
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
 	owner.adjustCloneLoss(-healing_on_tick, 0)
-	owner.stamina_add(-healing_on_tick * 5)
-	owner.energy_add(healing_on_tick * 10)
+
+	owner.stamina_add(-6)
+	owner.energy_add(9)
 
 /atom/movable/screen/alert/status_effect/buff/healing/campfire
 	name = "Camp Rest"
