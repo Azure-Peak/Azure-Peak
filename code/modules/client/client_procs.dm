@@ -1318,8 +1318,12 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	to_chat(src, span_userdanger("Statpanel failed to load, click <a href='byond://?src=[REF(src)];reload_statbrowser=1'>here</a> to reload the panel "))
 
 /client/proc/apply_statbrowser_theme()
-	if(prefs && stat_panel)
+	if(!prefs)
+		return
+	if(stat_panel)
 		stat_panel.send_message("set_theme", prefs.statbrowser_theme)
+	if(tgui_panel)
+		tgui_panel.set_chat_theme(prefs.statbrowser_theme)
 
 /// compiles a full list of verbs and sends it to the browser
 /client/proc/init_verbs()
