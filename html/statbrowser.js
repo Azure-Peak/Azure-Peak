@@ -18,6 +18,7 @@ if (!String.prototype.trim) {
 //status_tab_parts expects a list to be returned, to which we'll send a list within a list
 //with just "loading" to not appear broken.
 var status_tab_parts = [['Loading...']];
+var stats_tab_parts = [];
 var current_tab = null;
 //mc_tab_parts expects a list to be returned, to which we'll send a list within a list
 //with just "loading" to not appear broken.
@@ -39,7 +40,7 @@ var statcontentdiv = document.getElementById('statcontent');
 var storedimages = [];
 var split_admin_tabs = false;
 //The 'default' tab that everyone should have, that we swap to if the tab you're on is deleted or anything similar.
-var defaultTab = 'Status';
+var defaultTab = 'Round Info';
 
 // Any BYOND commands that could result in the client's focus changing go through this
 // to ensure that when we relinquish our focus, we don't do it after the result of
@@ -70,7 +71,7 @@ function createStatusTab(name) {
   button.textContent = name;
   button.className = 'button';
   //ORDERING ALPHABETICALLY
-  button.style.order = { Status: 1, MC: 2 }[name] || name.charCodeAt(0);
+  button.style.order = { 'Round Info': 1, Stats: 2, MC: 3 }[name] || name.charCodeAt(0);
   //END ORDERING
   menu.appendChild(button);
   SendTabToByond(name);
@@ -221,8 +222,10 @@ function tab_change(tab) {
     document.getElementById(tab).className = 'button active'; // make current button active
   var verb_tabs_thingy = verb_tabs.includes(tab);
   statcontentdiv.className = 'statcontent';
-  if (tab == 'Status') {
+  if (tab == 'Round Info') {
     draw_status();
+  } else if (tab == 'Stats') {
+    draw_stats();
   } else if (tab == 'MC') {
     draw_mc();
   } else if (verb_tabs_thingy) {
@@ -322,9 +325,9 @@ function draw_debug() {
 }
 
 function draw_status() {
-  if (!document.getElementById('Status')) {
-    createStatusTab('Status');
-    current_tab = 'Status';
+  if (!document.getElementById('Round Info')) {
+    createStatusTab('Round Info');
+    current_tab = 'Round Info';
   }
   statcontentdiv.textContent = '';
   var table = document.createElement('table');
@@ -788,15 +791,46 @@ Byond.subscribeTo('update_stat', (payload) => {
   for (var i = 0; i < parsed.length; i++)
     if (parsed[i] != null) status_tab_parts.push(parsed[i]);
 
+  if (payload.ping_str) status_tab_parts.push(payload.ping_str);
+
   parsed = payload.other_str;
 
   for (var i = 0; i < parsed.length; i++)
     if (parsed[i] != null) status_tab_parts.push(parsed[i]);
 
-  if (current_tab == 'Status') {
+  if (current_tab == 'Round Info') {
     draw_status();
   } else if (current_tab == 'Debug Stat Panel') {
     draw_debug();
+  }
+});
+
+function draw_stats() {
+  statcontentdiv.textContent = '';
+  var table = document.createElement('table');
+  for (var i = 0; i < stats_tab_parts.length; i++) {
+    var div = document.createElement('div');
+    div.textContent = stats_tab_parts[i];
+    table.appendChild(div);
+  }
+  document.getElementById('statcontent').appendChild(table);
+}
+
+Byond.subscribeTo('update_stats', (payload) => {
+  stats_tab_parts = payload;
+  if (current_tab == 'Stats') {
+    draw_stats();
+  }
+});
+
+Byond.subscribeTo('add_stats_tab', () => {
+  addPermanentTab('Stats');
+});
+
+Byond.subscribeTo('remove_stats_tab', () => {
+  removePermanentTab('Stats');
+  if (current_tab == 'Stats') {
+    tab_change(defaultTab);
   }
 });
 

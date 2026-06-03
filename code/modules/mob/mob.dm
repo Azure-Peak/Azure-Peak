@@ -757,19 +757,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/is_muzzled()
 	return 0
 
-/**
- * Output an update to the stat panel for the client
- *
- * calculates client ping, round id, server time, time dilation and other data about the round
- * and puts it in the mob status panel on a regular loop
- */
-/mob/Stat()
-	..()
-
-	if(!client)
-		return
-
-	client.refresh_browserpanel()
 
 /**
  * Convert a list of spells into a displyable list for the statpanel
@@ -1360,3 +1347,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(client)
 		. += list(list("IC DATE: [get_current_ic_date_as_string()] ", "(CLICK FOR CALENDAR)", "src=[REF(client)];statbrowser_calendar=1"))
 	return .
+
+/mob/proc/get_stats_tab_items()
+	return list()

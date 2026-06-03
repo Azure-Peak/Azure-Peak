@@ -33,7 +33,7 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 					D.returntolobby()
 					return
 			verbs -= GLOB.ghost_verbs
-			update_browserpanel()
+			init_verbs()
 			mob.returntolobby()
 		if("No")
 			usr << "You have second thoughts."
@@ -101,7 +101,7 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 		return
 
 	client?.verbs -= GLOB.ghost_verbs
-	client?.update_browserpanel()
+	client?.init_verbs()
 	M.key = key
 	if(istype(src, /mob/dead/observer)) //Be rid of clogging ghost shades
 		qdel(src)

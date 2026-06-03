@@ -98,9 +98,6 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		nuke_chat()
 	if(href_list["reload_statbrowser"])
 		stat_panel.reinitialize()
-	if(href_list["browser_stat_panel"])
-		handle_browserpanel_action(href_list)
-		return
 	//Logs all hrefs, except chat pings
 	if(!(href_list["_src_"] == "chat" && href_list["proc"] == "ping" && LAZYLEN(href_list) == 2))
 		log_href("[src] (usr:[usr]\[[COORD(usr)]\]) : [hsrc ? "[hsrc] " : ""][href]")
@@ -424,7 +421,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			alert(mob, "You have logged in already with another key this round, please log out of this one NOW or risk being banned!")
 
 	tgui_panel.initialize()
-	refresh_browserpanel(TRUE)
 	stat_panel.initialize(
 		inline_html = file("html/statbrowser.html"),
 		inline_js = file("html/statbrowser.js"),
@@ -1295,7 +1291,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	if(holder)
 		if(!( /client/verb/ooc in verbs))
 			verbs += /client/verb/ooc
-		update_browserpanel()
+		init_verbs()
 		return
 
 	// Non-admins: only lobby new_player retains OOC verb.
@@ -1306,7 +1302,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		if(/client/verb/ooc in verbs)
 			verbs -= /client/verb/ooc
 
-	update_browserpanel()
+	init_verbs()
 
 #undef LIMITER_SIZE
 #undef CURRENT_SECOND

@@ -71,11 +71,9 @@
 	hud_used?.bloodpool?.name = "Bloodpool: [bloodpool]"
 	hud_used?.bloodpool?.desc = "Bloodpool: [bloodpool]/[maxbloodpool]"
 	hud_used?.bloodpool?.set_value((100 / (maxbloodpool / bloodpool)) / 100, 1 SECONDS)
-	client?.update_mobstatpanel()
 
 /mob/living/proc/adjust_bloodpool(adjust, visible = TRUE)
 	bloodpool = CLAMP(bloodpool + adjust, 0, maxbloodpool)
-	client?.update_mobstatpanel()
 	if(!visible)
 		return
 

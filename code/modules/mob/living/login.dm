@@ -5,7 +5,7 @@
 		client.update_ooc_verb_visibility()
 		if(stat == DEAD)
 			client.verbs.Add(GLOB.ghost_verbs)
-			client.update_browserpanel()
+			client.init_verbs()
 	//Mind updates
 	sync_mind()
 	mind.show_memory(src, 0)

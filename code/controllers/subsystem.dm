@@ -40,8 +40,6 @@
 
 	var/lazy_load = TRUE
 
-	var/tmp/collecting_stat = FALSE
-	var/tmp/collected_stat
 //Do not override
 ///datum/controller/subsystem/New()
 
@@ -184,16 +182,6 @@
 		msg = "[round(cost,1)]ms|[round(tick_usage,1)]%([round(tick_overrun,1)]%)|[round(ticks,0.1)]\t[msg]"
 	else
 		msg = "OFFLINE\t[msg]"
-
-	if(collecting_stat)
-		var/title = name
-		if(can_fire)
-			title = "\[[state_letter()]][title]"
-		collected_stat = list(
-			"subsystem" = src,
-			"title" = title,
-			"msg" = msg
-		)
 
 	return msg
 

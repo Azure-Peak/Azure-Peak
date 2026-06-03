@@ -142,19 +142,10 @@ SUBSYSTEM_DEF(statpanels)
 	))
 
 /datum/controller/subsystem/statpanels/proc/set_stats_tab(client/target)
-	var/mob/living/L = target.mob
-	if(!isliving(L))
+	var/mob/M = target.mob
+	if(!M)
 		return
-	target.stat_panel.send_message("update_stats", list(
-		"STR: \Roman[L.STASTR]",
-		"PER: \Roman[L.STAPER]",
-		"INT: \Roman[L.STAINT]",
-		"CON: \Roman[L.STACON]",
-		"WIL: \Roman[L.STAWIL]",
-		"SPD: \Roman[L.STASPD]",
-		"FOR: \Roman[L.STALUC]",
-		"PATRON: [L.patron]",
-	))
+	target.stat_panel.send_message("update_stats", M.get_stats_tab_items())
 
 /datum/controller/subsystem/statpanels/proc/set_MC_tab(client/target)
 	var/turf/eye_turf = get_turf(target.eye)

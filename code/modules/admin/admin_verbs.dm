@@ -325,7 +325,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 				verbs += /client/proc/play_web_sound
 		if(rights & R_SPAWN)
 			verbs += GLOB.admin_verbs_spawn
-		update_browserpanel()
+		init_verbs()
 
 /client/proc/remove_admin_verbs()
 	verbs.Remove(
@@ -348,7 +348,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		/client/proc/disable_debug_verbs,
 		/client/proc/readmin
 		)
-	update_browserpanel()
+	init_verbs()
 
 /client/proc/hide_most_verbs()//Allows you to keep some functionality while hiding some verbs
 	set name = "Adminverbs - Hide Most"
@@ -356,7 +356,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 	verbs.Remove(/client/proc/hide_most_verbs, GLOB.admin_verbs_hideable)
 	verbs += /client/proc/show_verbs
-	update_browserpanel()
+	init_verbs()
 
 	to_chat(src, span_interface("Most of your adminverbs have been hidden."))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Hide Most Adminverbs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -368,7 +368,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 	remove_admin_verbs()
 	verbs += /client/proc/show_verbs
-	update_browserpanel()
+	init_verbs()
 
 	to_chat(src, span_interface("Almost all of your adminverbs have been hidden."))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Hide All Adminverbs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
