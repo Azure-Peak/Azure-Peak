@@ -109,6 +109,9 @@
 	return ..()
 
 /obj/item/clothing/suit/roguetown/armor/AltRightClick(mob/user)
+	. = ..()
+	if(!istype(loc, /mob/living/carbon))
+		return
 	if(attachment_component)
 		var/datum/component/storage/concrete/roguetown/storage_component = GetComponent(attachment_component)
 		if(storage_component && length(storage_component.item_to_grid_coordinates))
