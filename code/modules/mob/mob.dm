@@ -1345,7 +1345,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	. = list("") //we want to offset unique stuff from standard stuff
 	SEND_SIGNAL(src, COMSIG_MOB_GET_STATUS_TAB_ITEMS, .)
 	if(client)
-		. += list(list("IC DATE: [get_current_ic_date_as_string()] ", "(CLICK FOR CALENDAR)", "src=[REF(client)];statbrowser_calendar=1"))
+		. += list(list("IC DATE: ", "[get_current_ic_date_as_string()] (CLICK FOR CALENDAR)", "src=[REF(client)];statbrowser_calendar=1"))
 	return .
 
 /mob/proc/get_stats_tab_items()

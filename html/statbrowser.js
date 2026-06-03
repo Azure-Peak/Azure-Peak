@@ -627,6 +627,7 @@ function draw_verbs(cat) {
       a.href = '#';
       a.onclick = make_verb_onclick(command.replace(/\s/g, '-'));
       a.className = 'grid-item';
+      a.setAttribute('data-label', command);
       var t = document.createElement('span');
       t.textContent = command;
       t.className = 'grid-item-text';
@@ -689,6 +690,9 @@ function set_tabs_style(style) {
 }
 
 function restoreFocus() {
+  if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+    return;
+  }
   run_after_focus(() => {
     Byond.winset('map', {
       focus: true,
@@ -810,7 +814,18 @@ function draw_stats() {
   var table = document.createElement('table');
   for (var i = 0; i < stats_tab_parts.length; i++) {
     var div = document.createElement('div');
-    div.textContent = stats_tab_parts[i];
+    var text = stats_tab_parts[i];
+    var idx = text.indexOf(':');
+    if (idx === -1) {
+      div.textContent = text;
+    } else {
+      var label = text.substring(0, idx);
+      var span = document.createElement('span');
+      span.className = 'stat-label stat-label-' + label.trim().toLowerCase();
+      span.textContent = label + ':';
+      div.appendChild(span);
+      div.appendChild(document.createTextNode(text.substring(idx + 1)));
+    }
     table.appendChild(div);
   }
   document.getElementById('statcontent').appendChild(table);
@@ -891,6 +906,8 @@ Byond.subscribeTo('update_split_admin_tabs', (status) => {
   }
   split_admin_tabs = status;
 });
+
+set_theme('dark');
 
 Byond.subscribeTo('add_admin_tabs', (ht) => {
   href_token = ht;
