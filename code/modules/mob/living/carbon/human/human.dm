@@ -170,19 +170,6 @@
 		incoming_fellowship_invites.Cut()
 	return ..()
 
-/mob/living/carbon/human/Stat()
-	..()
-	if(mind)
-		var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
-		if(VD)
-			if(statpanel("Stats"))
-				stat("Vitae:", bloodpool)
-		if((mind.assigned_role == "Shepherd") || (mind.assigned_role == "Inquisitor"))
-			if(statpanel("Status"))
-				stat("Confessions sent: [GLOB.confessors.len]")
-
-	return //RTchange
-
 /mob/living/carbon/human/show_inv(mob/user)
 	user.set_machine(src)
 	var/list/obscured = check_obscured_slots()

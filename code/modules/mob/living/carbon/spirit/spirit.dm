@@ -106,13 +106,6 @@
 			slow += (health_deficiency / 25)
 	add_movespeed_modifier(MOVESPEED_ID_MONKEY_HEALTH_SPEEDMOD, TRUE, 100, override = TRUE, multiplicative_slowdown = slow)
 
-/mob/living/carbon/spirit/Stat()
-	..()
-	if(statpanel("Status"))
-		stat(null, "Intent: [a_intent]")
-		stat(null, "Move Mode: [m_intent]")
-	return
-
 /mob/living/carbon/spirit/toggle_move_intent(mob/user) // Override so they can't run.
 	return
 

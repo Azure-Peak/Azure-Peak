@@ -83,13 +83,6 @@
 		slow += ((283.222 - bodytemperature) / 10) * 1.75
 	add_movespeed_modifier(MOVESPEED_ID_MONKEY_TEMPERATURE_SPEEDMOD, TRUE, 100, override = TRUE, multiplicative_slowdown = slow)
 
-/mob/living/carbon/monkey/Stat()
-	..()
-	if(statpanel("Status"))
-		stat(null, "Intent: [a_intent]")
-		stat(null, "Move Mode: [m_intent]")
-	return
-
 /mob/living/carbon/monkey/IsAdvancedToolUser()//Unless its monkey mode monkeys can't use advanced tools
 	if(mind)
 		return TRUE

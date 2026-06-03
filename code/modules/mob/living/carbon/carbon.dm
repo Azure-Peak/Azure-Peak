@@ -559,22 +559,6 @@
 			used = 1
 		return used
 
-/mob/living/Stat()
-	..()
-	if(statpanel("Stats"))
-		stat("STR: \Roman [STASTR]")
-		stat("PER: \Roman [STAPER]")
-		stat("INT: \Roman [STAINT]")
-		stat("CON: \Roman [STACON]")
-		stat("WIL: \Roman [STAWIL]")
-		stat("SPD: \Roman [STASPD]")
-		stat("FOR: \Roman [STALUC]")
-		stat("PATRON: [patron]")
-
-/mob/living/carbon/Stat()
-	..()
-	add_abilities_to_panel()
-
 /mob/living/carbon/attack_ui(slot)
 	if(!has_hand_for_held_index(active_hand_index))
 		return 0
