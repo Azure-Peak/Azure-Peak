@@ -241,10 +241,16 @@
 	var/list/dish_match = find_dish_match(I.type)
 	if(dish_match)
 		var/list/dish_line = dish_match["line"]
-		if(dish_line["tag"] == TRADE_VICTUALLING_TAG_DRINKS)
+		if(dish_line["tag"] == TRADE_VICTUALLING_TAG_DRINKS && !dish_line["by_bottle"])
 			if(message)
 				to_chat(user, span_warning("Captains buy drinks by the barrel - drag a full keg onto [src], not loose bottles."))
 			return
+		if(istype(I, /obj/item/reagent_containers/glass/bottle/brewing_bottle))
+			var/obj/item/reagent_containers/glass/bottle/brewing_bottle/BB = I
+			if(!BB.sealed)
+				if(message)
+					to_chat(user, span_warning("[I] has been unsealed - no captain will load an opened bottle."))
+				return
 		var/datum/trade_ship/dish_ship = dish_match["ship"]
 		dish_line["qty_fulfilled"]++
 		var/dish_q_mult = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : 1.0
@@ -317,6 +323,9 @@
 		return
 	if(!SStreasury.has_account(user))
 		say("No account found for [user]. Submit your fingers to a Meister for inspection.")
+		return
+	if(keg.anchored)
+		to_chat(user, span_warning("[keg] is fixed in place - bottle its spirits and deposit those instead."))
 		return
 	if(keg.brewing || !keg.ready_to_bottle || keg.tapped || !keg.selected_recipe)
 		to_chat(user, span_warning("[keg] holds no finished, sealed batch the captains would buy."))

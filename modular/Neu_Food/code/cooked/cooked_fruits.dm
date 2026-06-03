@@ -8,5 +8,5 @@
 	faretype = FARE_POOR
 	portable = FALSE
 	bitesize = 3
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	rotprocess = SHELFLIFE_LONG

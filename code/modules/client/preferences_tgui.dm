@@ -24,11 +24,11 @@
 	var/list/skins = get_parchment_skins()
 	if(value in skins)
 		return value
-	return "parchment"
+	return "leatherbound"
 
 /datum/preferences/proc/get_parchment_skin_display_name()
 	var/list/skins = get_parchment_skins()
-	return skins[parchment_skin] || skins["parchment"]
+	return skins[parchment_skin] || skins["leatherbound"]
 
 /datum/preferences/proc/cycle_parchment_skin()
 	var/list/skins = get_parchment_skins()

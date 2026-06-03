@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { useState } from 'react';
 
 import {
+  FONT_BODY,
   INK,
   INK_FAINT,
   inkButtonStyle,
@@ -14,7 +15,7 @@ const PAGE_SIZE = 20;
 
 const logRowStyle: CSSProperties = {
   display: 'flex',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   lineHeight: 1.3,
   padding: '1px 0',
   color: INK,
@@ -48,7 +49,7 @@ export const PaginatedLog = ({
 
   if (!entries.length) {
     return (
-      <div style={{ color: INK_FAINT, fontSize: '12px' }}>
+      <div style={{ color: INK_FAINT, fontSize: FONT_BODY }}>
         {emptyMessage}
       </div>
     );
@@ -82,7 +83,7 @@ export const PaginatedLog = ({
                 </span>
               )}
               {!!entry.reason && (
-                <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+                <span style={{ color: INK_FAINT }}>
                   {entry.reason}
                 </span>
               )}
@@ -97,7 +98,7 @@ export const PaginatedLog = ({
             justifyContent: 'space-between',
             alignItems: 'center',
             marginTop: 4,
-            fontSize: '11px',
+            fontSize: FONT_BODY,
           }}
         >
           <button
@@ -108,7 +109,7 @@ export const PaginatedLog = ({
           >
             Newer
           </button>
-          <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+          <span style={{ color: INK_FAINT }}>
             {start + 1}-{Math.min(start + PAGE_SIZE, total)} of {total}
           </span>
           <button

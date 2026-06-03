@@ -3,6 +3,7 @@
 	desc = ""
 	icon = 'icons/roguetown/misc/alchemy.dmi'
 	icon_state = "irondust"
+	dropshrink = 0.75
 	w_class = WEIGHT_CLASS_TINY
 	experimental_inhand = TRUE
 	/*
@@ -134,7 +135,7 @@
 	icon_state = "silverdust"
 	sellprice = 20
 	major_pot = /datum/alch_cauldron_recipe/strong_antidote
-	med_pot = /datum/alch_cauldron_recipe/antidote
+	med_pot = /datum/alch_cauldron_recipe/restoration_potion
 	minor_pot = /datum/alch_cauldron_recipe/big_health_potion
 
 /obj/item/alch/magicdust
@@ -251,7 +252,7 @@
 	sellprice = 15
 
 	major_pot = /datum/alch_cauldron_recipe/big_mana_potion
-	med_pot = /datum/alch_cauldron_recipe/con_potion
+	med_pot = /datum/alch_cauldron_recipe/restoration_potion
 	minor_pot = /datum/alch_cauldron_recipe/per_potion
 
 /obj/item/alch/feaudust
@@ -578,6 +579,9 @@
 	muteinmouth = FALSE
 	alternate_worn_layer  = 8.9 //On top of helmet
 	mill_result = /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals
+	major_pot = /datum/alch_cauldron_recipe/lck_potion
+	med_pot = /datum/alch_cauldron_recipe/antidote
+	minor_pot = /datum/alch_cauldron_recipe/restoration_potion
 
 /obj/item/alch/rosa/equipped(mob/living/carbon/human/user, slot)
 	. = ..()

@@ -1,10 +1,78 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Box, Button, Section, Stack } from 'tgui-core/components';
+import { type CSSProperties, useEffect, useMemo, useState } from 'react';
+import { Box, Section, Stack } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import {
+  INK,
+  INK_FAINT,
+  INK_SOFT,
+  rulerStyle,
+  SERIF,
+  titleStyle,
+} from './common/parchment';
 import { RecipeBookEntry } from './RecipeBookEntry';
 import { RecipeBookSidebar } from './RecipeBookSidebar';
+
+const ROMAN = [
+  '',
+  'I',
+  'II',
+  'III',
+  'IV',
+  'V',
+  'VI',
+  'VII',
+  'VIII',
+  'IX',
+  'X',
+  'XI',
+  'XII',
+  'XIII',
+  'XIV',
+  'XV',
+  'XVI',
+  'XVII',
+  'XVIII',
+  'XIX',
+  'XX',
+];
+
+const chapterRowStyle: CSSProperties = {
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: '14px',
+  width: '100%',
+  textAlign: 'left',
+  background: 'transparent',
+  border: 'none',
+  borderBottom: `1px dashed ${INK_FAINT}`,
+  padding: '10px 12px',
+  fontFamily: SERIF,
+  fontSize: '17px',
+  color: INK,
+  cursor: 'pointer',
+  whiteSpace: 'normal',
+  lineHeight: 1.35,
+};
+
+const chapterNumeralStyle: CSSProperties = {
+  color: INK_SOFT,
+  minWidth: '48px',
+  textAlign: 'right',
+  flexShrink: 0,
+};
+
+const libraryHeadingStyle: CSSProperties = {
+  fontFamily: SERIF,
+  fontSize: '20px',
+  fontWeight: 'bold',
+  color: INK,
+  textAlign: 'center',
+  letterSpacing: '2px',
+  marginTop: '20px',
+  marginBottom: '8px',
+};
 
 type BookEntry = {
   wiki_name: string;
@@ -36,6 +104,7 @@ export const RecipeBook = () => {
     <Window
       width={1150}
       height={810}
+      theme="parchment"
       title={
         data.page === 'book' && data.current_book_title
           ? `Encyclopedia - ${data.current_book_title}`
@@ -68,71 +137,62 @@ const LibraryPage = () => {
 
   return (
     <Section fill scrollable>
-      <Box
-        textAlign="center"
-        fontSize={2.2}
-        bold
-        mb={2}
-        pb={1}
-        style={{
-          borderBottom: '2px solid var(--section-title-color)',
-          color: 'var(--section-title-color)',
-        }}
-      >
-        Encyclop&aelig;dia Azurea
+      <Box style={{ padding: '20px 36px 28px 36px' }}>
+        <Box style={titleStyle}>Encyclop&aelig;dia Azurea</Box>
+        <hr style={rulerStyle} />
+        {guides.length > 0 && (
+          <>
+            <Box style={libraryHeadingStyle}>Guides</Box>
+            <Box
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                columnGap: '36px',
+              }}
+            >
+              {guides.map((book, idx) => (
+                <button
+                  key={book.path}
+                  type="button"
+                  className="toc-link"
+                  style={chapterRowStyle}
+                  onClick={() => act('open_book', { path: book.path })}
+                >
+                  <span style={chapterNumeralStyle}>{ROMAN[idx + 1]}.</span>
+                  <span>{book.wiki_name}</span>
+                </button>
+              ))}
+            </Box>
+          </>
+        )}
+        {recipes.length > 0 && (
+          <>
+            <Box style={{ ...libraryHeadingStyle, marginTop: '32px' }}>
+              Crafting Recipes
+            </Box>
+            <Box
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                columnGap: '36px',
+              }}
+            >
+              {recipes.map((book, idx) => (
+                <button
+                  key={book.path}
+                  type="button"
+                  className="toc-link"
+                  style={chapterRowStyle}
+                  onClick={() => act('open_book', { path: book.path })}
+                >
+                  <span style={chapterNumeralStyle}>{ROMAN[idx + 1]}.</span>
+                  <span>{book.wiki_name}</span>
+                </button>
+              ))}
+            </Box>
+          </>
+        )}
       </Box>
-      {guides.length > 0 && (
-        <>
-          <Box bold fontSize={1.2} mb={1} mt={1}>
-            Guides
-          </Box>
-          <Box
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '2px',
-              alignItems: 'stretch',
-            }}
-          >
-            {guides.map((book) => (
-              <Button
-                key={book.path}
-                fluid
-                style={{ height: '100%' }}
-                onClick={() => act('open_book', { path: book.path })}
-              >
-                {book.wiki_name}
-              </Button>
-            ))}
-          </Box>
-        </>
-      )}
-      {recipes.length > 0 && (
-        <>
-          <Box bold fontSize={1.2} mb={1} mt={2}>
-            Crafting Recipes
-          </Box>
-          <Box
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '2px',
-              alignItems: 'stretch',
-            }}
-          >
-            {recipes.map((book) => (
-              <Button
-                key={book.path}
-                fluid
-                style={{ height: '100%' }}
-                onClick={() => act('open_book', { path: book.path })}
-              >
-                {book.wiki_name}
-              </Button>
-            ))}
-          </Box>
-        </>
-      )}
     </Section>
   );
 };

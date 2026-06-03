@@ -8,8 +8,8 @@
 	friction               = 0.3  // shed 30% of velocity and drift every 0.1s
 	transform 			   = null // Rain is directional - so don't make it "3D"
 	//Weather effects, max values
-	maxSpawning            = 250
-	minSpawning            = 50
+	maxSpawning            = 150
+	minSpawning            = 40
 	wind                   = 2
 	spin                   = 0 // explicitly set spin to 0 - there is a bug that seems to carry generators over from old particle effects
 

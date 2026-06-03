@@ -14,15 +14,45 @@ SUBSYSTEM_DEF(ParticleWeather)
 	var/list/turfs_to_process = list()
 	var/list/weathered_turfs = list()
 
-/datum/controller/subsystem/ParticleWeather/fire()
+	var/list/currentrun_mobs
+	var/list/currentrun_objs
+
+	var/obj_act_interval = 3 SECONDS
+	var/next_obj_act = 0
+
+/datum/controller/subsystem/ParticleWeather/fire(resumed = FALSE)
 	// process active weather
-	if(runningWeather)
-		if(runningWeather.running)
-			runningWeather.tick()
-			for(var/mob/act_on as anything in GLOB.mob_living_list) //yikes. this should probably be a client scan not all mobs. it already checks for minds
-				runningWeather.try_weather_act(act_on)
-			for(var/obj/act_on as anything in GLOB.weather_act_upon_list)
-				runningWeather.weather_obj_act(act_on)
+	if(!runningWeather || !runningWeather.running)
+		return
+
+	if(!resumed)
+		runningWeather.tick()
+		currentrun_mobs = GLOB.player_list.Copy()
+		// Every registered obj's weather_act_on() gates on PARTICLEWEATHER_RAIN, and target_trait is
+		// what we pass it - so only rain-trait weather (incl. fog) can affect objs. Skip the whole
+		// sweep for leaves/snow/blood rain, and throttle it otherwise.
+		if(runningWeather.target_trait == PARTICLEWEATHER_RAIN && world.time >= next_obj_act)
+			next_obj_act = world.time + obj_act_interval
+			currentrun_objs = GLOB.weather_act_upon_list.Copy()
+		else
+			currentrun_objs = null
+
+	var/list/curr_mobs = currentrun_mobs
+	while(curr_mobs.len)
+		var/mob/act_on = curr_mobs[curr_mobs.len]
+		curr_mobs.len--
+		if(isliving(act_on))
+			runningWeather.try_weather_act(act_on)
+		if(MC_TICK_CHECK)
+			return
+
+	var/list/curr_objs = currentrun_objs
+	while(curr_objs?.len)
+		var/obj/act_on = curr_objs[curr_objs.len]
+		curr_objs.len--
+		runningWeather.weather_obj_act(act_on)
+		if(MC_TICK_CHECK)
+			return
 
 
 //This has been mangled - currently only supports 1 weather effect serverwide so I can finish this

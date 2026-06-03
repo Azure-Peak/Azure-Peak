@@ -6,6 +6,9 @@
 	var/maxsongs = 2
 	var/songsbought = 0
 	var/datum/rhythm_tracker/rhythm_tracker = null
+	var/allegro_enabled = FALSE  // Maestro - Wretch Bard only — restore energy every 5th rhythm proc
+	var/allegro_counter = 0
+	var/bonus_rhythm_picks = 0  // Added on top of the tier's default pick count
 
 /datum/inspiration/New(mob/living/carbon/human/holder)
 	. = ..()
@@ -31,6 +34,11 @@
 		if(BARD_T2)
 			maxaudience = 6
 			maxsongs = 4
+			rhythm_tracker = new /datum/rhythm_tracker()
+			var/datum/action/cooldown/spell/crescendo/C = new()
+			C.tracker = rhythm_tracker
+			rhythm_tracker.crescendo_action = C
+			H.mind.AddSpell(C)
 	audience |= H // Bard is always in their own audience
 	H.verbs += list(/mob/living/carbon/human/proc/setaudience, /mob/living/carbon/human/proc/clearaudience, /mob/living/carbon/human/proc/checkaudience, /mob/living/carbon/human/proc/open_songbook, /mob/living/carbon/human/proc/explain_bard)
 

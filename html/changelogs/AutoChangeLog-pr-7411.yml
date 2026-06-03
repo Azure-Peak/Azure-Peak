@@ -1,4 +1,0 @@
-author: "FeniaFox"
-delete-after: True
-changes:
-  - bugfix: "Stone/wooden tools now repair via the same skill used to make them (usually crafting)."

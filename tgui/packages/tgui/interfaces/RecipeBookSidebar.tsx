@@ -1,5 +1,12 @@
 import { memo, useMemo, useState } from 'react';
-import { Box, Button, Input, Section, Stack } from 'tgui-core/components';
+import { Box, Section, Stack } from 'tgui-core/components';
+
+import {
+  INK_SOFT,
+  inkButtonStyle,
+  inkInputStyle,
+  tocLinkStyle,
+} from './common/parchment';
 
 type RecipeEntry = {
   name: string;
@@ -50,34 +57,38 @@ export const RecipeBookSidebar = memo((props: Props) => {
   return (
     <Stack fill>
       {hasCategories && (
-        <Stack.Item style={{ overflow: 'auto', minWidth: '130px' }}>
+        <Stack.Item style={{ overflow: 'auto', minWidth: '140px' }}>
           <Stack vertical fill>
             <Stack.Item grow basis={0} style={{ overflow: 'auto' }}>
               <Section fill scrollable title="Filter">
-                <Stack vertical>
-                  {categories.map((cat) => (
-                    <Stack.Item key={cat}>
-                      <Button
-                        fluid
-                        compact
-                        selected={category === cat}
-                        onClick={() => onCategoryChange(cat)}
-                      >
-                        {cat}
-                      </Button>
-                    </Stack.Item>
-                  ))}
-                </Stack>
+                {categories.map((cat) => {
+                  const active = category === cat;
+                  return (
+                    <button
+                      key={cat}
+                      type="button"
+                      className="toc-link"
+                      style={tocLinkStyle(active)}
+                      onClick={() => onCategoryChange(cat)}
+                    >
+                      {cat}
+                    </button>
+                  );
+                })}
               </Section>
             </Stack.Item>
-            <Stack.Item>
-              <Button
-                fluid
-                icon="arrow-left"
+            <Stack.Item style={{ flexShrink: 0, marginTop: '6px', marginBottom: '6px' }}>
+              <button
+                type="button"
+                style={{
+                  ...inkButtonStyle(),
+                  width: '100%',
+                  textAlign: 'center',
+                }}
                 onClick={onBack}
               >
-                Library
-              </Button>
+                &larr; Library
+              </button>
             </Stack.Item>
           </Stack>
         </Stack.Item>
@@ -87,41 +98,54 @@ export const RecipeBookSidebar = memo((props: Props) => {
           <Stack.Item grow basis={0} style={{ overflow: 'auto' }}>
             <Section fill scrollable title="Entries">
               {filtered.length === 0 ? (
-                <Box italic color="label" textAlign="center">
+                <Box textAlign="center" style={{ color: INK_SOFT }}>
                   No matching entries found.
                 </Box>
               ) : (
-                filtered.map((recipe) => (
-                  <Button
-                    key={recipe.path}
-                    fluid
-                    selected={selectedRecipe === recipe.path}
-                    onClick={() => onSelectRecipe(recipe.path)}
-                    style={{ whiteSpace: 'normal' }}
-                  >
-                    {recipe.name}
-                  </Button>
-                ))
+                filtered.map((recipe) => {
+                  const active = selectedRecipe === recipe.path;
+                  return (
+                    <button
+                      key={recipe.path}
+                      type="button"
+                      className="toc-link"
+                      style={tocLinkStyle(active)}
+                      onClick={() => onSelectRecipe(recipe.path)}
+                    >
+                      {recipe.name}
+                    </button>
+                  );
+                })
               )}
             </Section>
           </Stack.Item>
-          <Stack.Item>
-            <Input
-              fluid
+          <Stack.Item style={{ flexShrink: 0, marginTop: '6px', marginBottom: '6px' }}>
+            <input
+              type="text"
               placeholder="Search..."
               value={search}
-              onChange={(value) => setSearch(value)}
+              onChange={(e) => setSearch(e.target.value)}
+              style={{
+                ...inkInputStyle,
+                width: '100%',
+                boxSizing: 'border-box',
+                padding: '6px 8px',
+              }}
             />
           </Stack.Item>
           {!hasCategories && (
-            <Stack.Item>
-              <Button
-                fluid
-                icon="arrow-left"
+            <Stack.Item style={{ flexShrink: 0, marginTop: '6px', marginBottom: '6px' }}>
+              <button
+                type="button"
+                style={{
+                  ...inkButtonStyle(),
+                  width: '100%',
+                  textAlign: 'center',
+                }}
                 onClick={onBack}
               >
-                Back to Library
-              </Button>
+                &larr; Back to Library
+              </button>
             </Stack.Item>
           )}
         </Stack>
