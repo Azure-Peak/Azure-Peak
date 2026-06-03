@@ -147,8 +147,6 @@
 	var/listedturf_sig
 	/// Whether the living-only Stats tab is currently shown in the statbrowser.
 	var/statbrowser_stats_shown = FALSE
-	/// Active statbrowser theme: "dark" (matte black) or "light" (leatherbound).
-	var/statbrowser_theme = "dark"
 
 	var/list/open_popups = list()
 

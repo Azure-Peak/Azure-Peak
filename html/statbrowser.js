@@ -907,6 +907,8 @@ Byond.subscribeTo('update_split_admin_tabs', (status) => {
   split_admin_tabs = status;
 });
 
+Byond.subscribeTo('set_theme', (payload) => set_theme(payload));
+
 set_theme('dark');
 
 Byond.subscribeTo('add_admin_tabs', (ht) => {

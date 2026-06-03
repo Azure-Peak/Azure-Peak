@@ -49,14 +49,6 @@
 		else
 			to_chat(src, "Screen shake disabled.")
 
-/client/verb/toggle_statpanel_theme()
-	set category = "Preferences.Options"
-	set name = "Toggle Stat Panel Theme"
-	set desc = "Switch the stat panel between the matte black and leatherbound themes."
-	statbrowser_theme = (statbrowser_theme == "dark") ? "light" : "dark"
-	src << output(statbrowser_theme, "statbrowser:set_theme")
-	to_chat(src, "Stat panel theme: [statbrowser_theme == "dark" ? "Matte Black" : "Leatherbound"].")
-
 /client/verb/masked_examine()
 	set category = "Preferences.Options"
 	set name = "Toggle Masked Examine"
