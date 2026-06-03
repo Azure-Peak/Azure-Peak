@@ -266,24 +266,6 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_weaponkit_wodao
-	name = "Morphing Elixir, 'Wodao'"
-	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_wodao
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkit_dadao
-	name = "Morphing Elixir, 'Dadao'"
-	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_dadao
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkit_gdadao
-	name = "Morphing Elixir, 'Greatdadao'"
-	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_gdadao
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
 /datum/loadout_item/triumph_weaponkit_estoc
 	name = "Morphing Elixir, 'Azurian Estoc'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_estoc
@@ -428,6 +410,7 @@
 
 /datum/loadout_item/triumph_fermented_crab
 	name = "Fermented Crab"
+	desc = "A man thinks he's done, drinks a mouthful of this. Five minutes later he's back in the race."
 	path = /obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab
 	triumph_cost = 5
 	sort_category = "Triumphs"

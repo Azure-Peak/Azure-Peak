@@ -118,7 +118,7 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
 /datum/outfit/job/roguetown/templar/noc_spellblade/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

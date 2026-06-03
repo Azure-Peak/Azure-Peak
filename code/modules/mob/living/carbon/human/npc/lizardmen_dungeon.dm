@@ -63,7 +63,7 @@
 	update_body()
 	update_overlays()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 50 // Big sellprice for these guys
+	head.sellprice = HEAD_BOUNTY_LIZARDMAN
 
 
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/pre_equip(mob/living/carbon/human/H)

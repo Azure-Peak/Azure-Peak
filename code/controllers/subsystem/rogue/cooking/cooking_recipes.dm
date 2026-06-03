@@ -12,3 +12,4 @@
 	var/time_per_step = 2 SECONDS
 	/// Experience per step per int
 	var/experience_per_step = 0.5
+	var/display_category = ITEM_CAT_FOODSTUFF_FRESH

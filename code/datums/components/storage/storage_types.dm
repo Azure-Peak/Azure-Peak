@@ -146,6 +146,8 @@
 		/obj/item/alch/sinew,
 		/obj/item/alch/viscera,
 		/obj/item/alch/bone,
+		/obj/item/alch/horn,
+		/obj/item/reagent_containers/spidervenom_inert,
 		/obj/item/natural/head // this only works for animal heads
 		))
 

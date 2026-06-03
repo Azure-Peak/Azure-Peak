@@ -134,9 +134,15 @@
 			if(length(comps))
 				for(var/i in comps)
 					var/datum/component/comp = i
+					if(!comp)
+						stack_trace("null entry in comp_lookup\[[sig]\] on [type] during clear_signal_refs - upstream RegisterSignal/UnregisterSignal corruption")
+						continue
 					comp.UnregisterSignal(src, sig)
 			else
 				var/datum/component/comp = comps
+				if(!comp)
+					stack_trace("null scalar in comp_lookup\[[sig]\] on [type] during clear_signal_refs - upstream RegisterSignal/UnregisterSignal corruption")
+					continue
 				comp.UnregisterSignal(src, sig)
 		comp_lookup = lookup = null
 

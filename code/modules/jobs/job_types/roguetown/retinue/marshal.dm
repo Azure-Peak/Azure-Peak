@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	display_order = JDO_MARSHAL
 	selection_color = JCOLOR_RETINUE

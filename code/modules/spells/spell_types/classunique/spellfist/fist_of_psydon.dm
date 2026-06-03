@@ -40,13 +40,13 @@
 	var/area_of_effect = 1 // 1-tile radius = 3x3
 	var/telegraph_delay = TELEGRAPH_DODGEABLE
 
-/datum/action/cooldown/spell/fist_of_psydon/cast(list/targets, mob/user = usr)
+/datum/action/cooldown/spell/fist_of_psydon/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/carbon/human/H = user
+	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
 
-	var/turf/T = get_turf(targets[1])
+	var/turf/T = get_turf(cast_on)
 	if(!T)
 		return FALSE
 

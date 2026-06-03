@@ -186,39 +186,6 @@
 		)
 	result_item = /obj/item/rogueweapon/example/valorian_greatsword
 
-/obj/item/enchantingkit/weapon/triumph_weaponkit_wodao
-	name = "'Wodao' sabre morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Sabre, a Steel Sabre, a Cutlass, or a Falchion."
-	target_items = list(
-		/obj/item/rogueweapon/sword/short/falchion,
-		/obj/item/rogueweapon/sword/saber/iron,
-		/obj/item/rogueweapon/sword/sabre,
-		/obj/item/rogueweapon/sword/cutlass
-		)
-	result_item = /obj/item/rogueweapon/example/wodao
-
-/obj/item/enchantingkit/weapon/triumph_weaponkit_dadao
-	name = "'Dadao' messer morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Hunting Sword, an Iron Dueling Messer, a Steel Messer, a Steel Hunting Sword, a Falchion, or a Falx."
-	target_items = list(
-		/obj/item/rogueweapon/sword/short/falchion,
-		/obj/item/rogueweapon/sword/short/messer/iron/virtue,
-		/obj/item/rogueweapon/sword/short/messer/iron,
-		/obj/item/rogueweapon/sword/short/messer/alt,
-		/obj/item/rogueweapon/sword/short/messer,
-		/obj/item/rogueweapon/sword/falx
-		)
-	result_item = /obj/item/rogueweapon/example/dadao
-
-/obj/item/enchantingkit/weapon/triumph_weaponkit_gdadao
-	name = "'Greatdadao' longsword morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Kriegmesser, or a Rhomphaia."
-	target_items = list(
-		/obj/item/rogueweapon/sword/long/rhomphaia,
-		/obj/item/rogueweapon/sword/long/kriegmesser
-		)
-	result_item = /obj/item/rogueweapon/example/gdadao
-
 /obj/item/enchantingkit/weapon/triumph_weaponkit_kaskara
 	name = "'Kaskara' sword morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Arming Sword, a Steel Arming Sword, or a Rapier."
@@ -310,31 +277,6 @@
 	desc = "A massive two-handed sword, wieldable by only the strongest of Psydonia's children. One swing could surely cleave \
 	even the mightiest foes in twain - not even a horde's might could hope to stop you, now!"
 	icon_state = "longsword_rockhillg"
-
-/obj/item/rogueweapon/example/wodao
-	name = "wodao"
-	icon = 'icons/roguetown/weapons/swords32.dmi'
-	desc = "A slightly curved blade that has been proliferated everywhere from Naledian allspice caravans to \
-	Kazengunite diplomat-militants. While less durable compared to other arming swords, it's swift balance and unique design \
-	makes it great for unleashing precise strikes."
-	icon_state = "wodao"
-	sheathe_icon = "wodao"
-
-/obj/item/rogueweapon/example/dadao
-	name = "dadao"
-	icon = 'icons/roguetown/weapons/swords32.dmi'
-	desc = "A heavier alternative to the 'Wodao' sabre, this well-balanced cleaver is informally known amongst Ranensheni pikemen as \
-	the 'Saigachopper'; termed such for its purported ability to decapitate a calvaryman's steed in but a single blow."
-	icon_state = "dadao"
-	sheathe_icon = "dadao"
-
-/obj/item/rogueweapon/example/gdadao
-	name = "greatdadao"
-	icon = 'icons/roguetown/weapons/64.dmi'
-	desc = "Larger than the 'Wodao' sabre, sharper than the 'Dadao' cleaver, and nastier than the sum of its parts. A single stroke dares to \
-	part even the thickest-of-foes into gorey halves."
-	icon_state = "gdadao"
-	sheathe_icon = "dadao"
 
 /obj/item/rogueweapon/example/kaskara
 	name = "kaskara"

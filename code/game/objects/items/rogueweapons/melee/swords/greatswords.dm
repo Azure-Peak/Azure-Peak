@@ -1,4 +1,3 @@
-
 /obj/item/rogueweapon/greatsword
 	force = 12
 	force_wielded = 30
@@ -115,7 +114,7 @@
 	force_wielded = 35
 
 /obj/item/rogueweapon/greatsword/grenz
-	name = "steel zweihander"
+	name = "zweihander"
 	icon_state = "steelzwei"
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 3
@@ -125,7 +124,7 @@
 	force_wielded = 35
 
 /obj/item/rogueweapon/greatsword/grenz/flamberge
-	name = "steel flamberge"
+	name = "flamberge"
 	desc = "A close relative of the Grenzelhoftian \"zweihander\", favored by Otavan nobility. The name comes from its unique, flame-shaped blade; a labor only surmountable by Psydonia's finest weaponsmiths."
 	icon_state = "steelflamberge"
 	max_blade_int = 180
@@ -263,7 +262,7 @@
 	desc = "'Let His name be naught but forgot'n.' </br>The remnants of a legendary champion, who's name has been lost to the annals of tyme. Even so, the tarnished \
 	silver still glimmers with otherworldly strength; to exorcise, to eradicate, and to endure."
 	icon_state = "oldpsybroadsword"
-	force = 20 
+	force = 15 
 	force_wielded = 25
 	minstr = 11
 	wdefense = 6
@@ -278,8 +277,28 @@
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 0,\
+		added_force = 10,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
+/obj/item/rogueweapon/greatsword/bsword/psy/unforgotten
+	name = "unforgotten blade"
+	desc = "'Let His name be naught but forgot'n.' </br>High Inquisitor Archibald once recorded an expedition of seven brave Adjudicators into Gronnian snow-felled wastes to \
+	root out evil. Its leader, Holy Ordinator Guillemin, was said to have held on for seven daes and seven nights against darksteel-clad heretics before Psydon acknowledged his \
+	endurance. Nothing but his blade remained - his psycross wrapped around its hilt in rememberance."
+	icon_state = "forgottenblade"
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
+
+/obj/item/rogueweapon/greatsword/bsword/psy/unforgotten/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 10,\
+		added_blade_int = 50,\
 		added_int = 50,\
 		added_def = 2,\
 	)
@@ -289,6 +308,8 @@
 	desc = "Psydonian prayers and Tennite smiths, working as one to craft a weapon to slay the Four. A heavy and large blade, favored by Saint Ravox, to lay \
 	waste to those who threaten His flock. The crossguard's psycross reflects even the faintest of Noc's light. You're the light - show them the way."
 	icon_state = "psybroadsword"
+	force = 25 
+	force_wielded = 25
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
@@ -309,26 +330,6 @@
 		added_force = 0,\
 		added_blade_int = 100,\
 		added_int = 100,\
-		added_def = 2,\
-	)
-
-/obj/item/rogueweapon/greatsword/bsword/psy/unforgotten
-	name = "unforgotten blade"
-	desc = "'Let His name be naught but forgot'n.' </br>High Inquisitor Archibald once recorded an expedition of seven brave Adjudicators into Gronnian snow-felled wastes to \
-	root out evil. Its leader, Holy Ordinator Guillemin, was said to have held on for seven daes and seven nights against darksteel-clad heretics before Psydon acknowledged his \
-	endurance. Nothing but his blade remained - his psycross wrapped around its hilt in rememberance."
-	icon_state = "forgottenblade"
-	is_silver = TRUE
-	smeltresult = /obj/item/ingot/silver
-
-/obj/item/rogueweapon/greatsword/bsword/psy/unforgotten/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 50,\
-		added_int = 50,\
 		added_def = 2,\
 	)
 
@@ -403,3 +404,13 @@
 	minstr = 7// Lighter
 	wdefense = 8// Better defence than greatsword
 	sellprice = 60
+
+// Design intent: A greatsword, for 2 handed use only and focused entirely on cutting and AOE
+// With really shitty stab
+/obj/item/rogueweapon/greatsword/zhanmadao
+	possible_item_intents = list(/datum/intent/sword/chop,/datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut/zhanmadao, /datum/intent/rend, /datum/intent/sword/thrust/zhanmadao, /datum/intent/sword/cut/zhanmadao/sweep)
+	alt_grips = null // can't be alt-gripped
+	name = "Zhanmadao"
+	desc = "A traditional Lingyuese weapon, the 'horse chopping saber', first pioneered during the Yuanzhao dynasty to cut through saigas and fogbeasts legs from below. It consists of a long, single-edged blade affixed to a hilt meant strictly for two-handed use, and is designed strictly for cutting and wide sweeping attacks. Quite bad at thrusting, unusable for striking."
+	icon_state = "zhanmadao"

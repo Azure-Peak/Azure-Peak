@@ -87,10 +87,13 @@
 		..()
 		return
 	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("None", "Symbol", "Split", "Quadrants", "Boxes", "Diamonds")
+	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("No changes!", "None", "Symbol", "Split", "Quadrants", "Boxes", "Diamonds")
 	if(!design)
 		return
 	if(world.time > (the_time + 30 SECONDS))
+		return
+	if(design == "No changes!")
+		custom_design = TRUE
 		return
 	var/symbol_chosen = FALSE
 	if(design == "Symbol")
@@ -1151,7 +1154,6 @@
 	slot_flags = ITEM_SLOT_CLOAK
 	allowed_sex = list(MALE, FEMALE)
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	sellprice = 50
 	nodismemsleeves = TRUE
 	salvage_result = /obj/item/natural/fur
 

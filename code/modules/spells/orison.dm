@@ -268,7 +268,7 @@
 
 /datum/reagent/water/blessed
 	name = "blessed water"
-	description = "A gift of Devotion. Very slightly heals wounds."
+	description = "A gift of Devotion. It very lightly mends the wounds of the lyving, but ignites the flesh of the unlyving."
 
 /datum/reagent/water/blessed/on_mob_life(mob/living/carbon/M)
 	. = ..()
@@ -288,9 +288,10 @@
 	..()
 	if(L.mob_biotypes & MOB_UNDEAD)
 		L.adjust_fire_stacks(2)
+		L.adjustFireLoss(5)
 		L.ignite_mob()
 		L.emote("scream")
-		L.visible_message(span_warning("[L] erupts into angry fizzling and hissing!"), span_warning("BLESSED WATER!!! IT BURNS!!!"))
+		L.visible_message(span_warning("[L] erupts into angry fizzling and hissing!"), span_warning("DAMNATION, BLESSED WATER! IT BUUUURNS!"))
 
 /datum/reagent/water/blessed/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	if (!istype(M))
@@ -299,9 +300,9 @@
 	if (method == TOUCH)
 		if (M.mob_biotypes & MOB_UNDEAD)
 			M.adjustFireLoss(2*reac_volume, 0)
-			M.visible_message(span_warning("[M] erupts into angry fizzling and hissing!"), span_warning("BLESSED WATER!!! IT BURNS!!!"))
+			M.visible_message(span_warning("[M] erupts into angry fizzling and hissing!"), span_warning("DAMNATION, BLESSED WATER! IT BUUUURNS!"))
 			M.emote("scream")
-	
+
 	return ..()
 
 /datum/reagent/water/cursed
@@ -354,7 +355,7 @@
 				holder.remove_reagent(R.type, 0.2 * REAGENTS_EFFECT_MULTIPLIER)
 		var/list/wCount = M.get_wounds()
 		if(wCount.len > 0)
-			M.heal_wounds(2 * REAGENTS_EFFECT_MULTIPLIER)
+			M.heal_wounds(2)
 		..()
 
 /datum/action/cooldown/spell/touch/orison/proc/create_water(obj/item/melee/new_touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)

@@ -303,13 +303,24 @@
 							continue
 						to_chat(user, span_danger("I've failed to craft \the [R.name]."))
 						continue
-					var/list/parts = del_reqs(R, user)
+					var/list/quality_capture = R.skip_quality ? list() : null
+					var/list/parts = del_reqs(R, user, quality_capture)
+					var/inherited_quality = quality_capture?["min_quality"]
 					if(islist(R.result))
 						var/list/L = R.result
 						for(var/IT in L)
 							var/atom/movable/I = new IT(T)
 							I.CheckParts(parts, R)
 							I.OnCrafted(user.dir, user)
+							if(isitem(I))
+								var/obj/item/CI = I
+								CI.was_crafted = TRUE
+								if(CI.has_item_quality)
+									if(R.skip_quality)
+										if(inherited_quality != null)
+											CI.apply_quality(null, null, inherited_quality)
+									else
+										CI.apply_quality(user, R.skillcraft)
 							I.add_fingerprint(user)
 					else
 						if(ispath(R.result, /turf))
@@ -330,6 +341,15 @@
 								I.OnCrafted(I.SelectDiagDirection(), user)
 							else
 								I.OnCrafted(user.dir, user)
+							if(isitem(I))
+								var/obj/item/CI = I
+								CI.was_crafted = TRUE
+								if(CI.has_item_quality)
+									if(R.skip_quality)
+										if(inherited_quality != null)
+											CI.apply_quality(null, null, inherited_quality)
+									else
+										CI.apply_quality(user, R.skillcraft)
 							I.add_fingerprint(user)
 					user.visible_message(span_notice("[user] [R.verbage] \a [R.name]!"), \
 										span_notice("I [R.verbage_simple] \a [R.name]!"))
@@ -385,7 +405,7 @@
 	del_reqs return the list of parts resulting object will receive as argument of CheckParts proc, on the atom level it will add them all to the contents, on all other levels it calls ..() and does whatever is needed afterwards but from contents list already
 */
 
-/datum/component/personal_crafting/proc/del_reqs(datum/crafting_recipe/R, mob/user)
+/datum/component/personal_crafting/proc/del_reqs(datum/crafting_recipe/R, mob/user, list/quality_out)
 	var/list/surroundings
 	var/list/Deletion = list()
 	. = list()
@@ -438,34 +458,52 @@
 						surroundings -= RC
 			else if(ispath(A, /obj/item/natural) || A == /obj/item/grown/log/tree/stick)
 				while(amt > 0)
-					for(var/obj/item/natural/bundle/B in get_environment(user))
-						if(B.stacktype == A)
-							if(B.amount > amt)
-								B.amount -= amt
-								B.update_bundle()
-								switch(B.amount)
-									if(1)
-										var/mob/living/carbon/old_loc = B.loc
-										qdel(B)
-										var/new_item = new B.stacktype(old_loc)
-										// Put in the person's hands if there were holding it.
-										if(ishuman(old_loc))
-											old_loc.put_in_hands(new_item)
-									if(0)
-										qdel(B)
-								amt = 0
-								continue main_loop
-							else
-								qdel(B)
-								amt -= B.amount
-						else
+					var/found_bundle = FALSE
+					for(var/obj/item/natural/bundle/B in surroundings)
+						if(!B.stacktype || !ispath(B.stacktype, A))
 							continue
-					var/atom/movable/I
-					while(amt > 0)
-						I = locate(A) in surroundings
-						Deletion += I
+						if(!R.subtype_reqs && (B.stacktype in subtypesof(A)))
+							continue 
+						if(R.blacklist.Find(B.stacktype))
+							continue
+						found_bundle = TRUE
+						surroundings -= B
+						if(B.amount > amt)
+							var/stacktype = B.stacktype
+							B.amount -= amt
+							B.update_bundle()
+							switch(B.amount)
+								if(1)
+									var/atom/old_loc = B.loc
+									qdel(B)
+									var/obj/item/new_item = new stacktype(old_loc)
+									if(ishuman(old_loc))
+										var/mob/living/carbon/human/H = old_loc
+										H.put_in_hands(new_item) 
+								if(0)
+									qdel(B)
+							amt = 0
+							continue main_loop
+						else
+							var/used_amount = B.amount
+							amt -= used_amount
+							qdel(B)
+							if(amt <= 0)
+								continue main_loop
+							break
+					if(!found_bundle)
+						break
+				var/atom/movable/I
+				while(amt > 0)
+					I = locate(A) in surroundings
+					if(!I)
+						break
+					if(R.blacklist.Find(I.type))
 						surroundings -= I
-						amt--
+						continue
+					Deletion += I
+					surroundings -= I
+					amt--
 			else if(ispath(A, /obj/item/reagent_containers/glass)) //Don't eat bottles with reagents in them
 				var/atom/movable/I
 				while(amt > 0)
@@ -501,6 +539,25 @@
 				. += AM
 				Deletion -= AM
 				partlist[A] -= 1
+	if(quality_out)
+		var/min_q = null
+		for(var/atom/movable/AM in Deletion)
+			if(!isitem(AM))
+				continue
+			var/obj/item/IT = AM
+			if(!IT.has_item_quality)
+				continue
+			if(min_q == null || IT.item_quality < min_q)
+				min_q = IT.item_quality
+		for(var/atom/movable/AM in .)
+			if(!isitem(AM))
+				continue
+			var/obj/item/IT = AM
+			if(!IT.has_item_quality)
+				continue
+			if(min_q == null || IT.item_quality < min_q)
+				min_q = IT.item_quality
+		quality_out["min_quality"] = min_q
 	while(Deletion.len)
 		var/DL = Deletion[Deletion.len]
 		Deletion.Cut(Deletion.len)

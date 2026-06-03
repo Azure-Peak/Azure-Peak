@@ -255,6 +255,7 @@
 			output += "</div></div>"
 		var/list/long_job_lists = list("Peasants" = GLOB.peasant_positions,
 									"Burghers" = GLOB.burgher_positions,
+									"ATC" = GLOB.atc_positions,
 									"Sidefolk" = GLOB.sidefolk_positions,
 									"Ghost and Other Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT),
 									"Antagonist Positions" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL),

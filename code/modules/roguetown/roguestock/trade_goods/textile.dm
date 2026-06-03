@@ -51,3 +51,13 @@
 	base_price = SELLPRICE_CURED_LEATHER
 	source_region_id = TRADE_REGION_ROSAWOOD
 	item_type = /obj/item/natural/hide/cured
+
+/datum/trade_good/rope
+	id = TRADE_GOOD_ROPE
+	name = "Rope"
+	category = TRADE_CATEGORY_INTERMEDIARY
+	behavior = TRADE_BEHAVIOR_INTERMEDIARY
+	base_price = SELLPRICE_ROPE
+	importable = FALSE
+	source_region_id = null
+	item_type = /obj/item/rope

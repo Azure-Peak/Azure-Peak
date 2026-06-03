@@ -18,7 +18,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	spawn_positions = 1
 	selection_color = JCOLOR_CHURCH
 	f_title = "Bishop"
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)		//Too recent arrivals to ascend to priesthood.
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE)		//Too recent arrivals to ascend to priesthood.
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "The Divine is all that matters in a world of the immoral. The Weeping God abandoned us, and in his stead the TEN rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See."
@@ -112,12 +112,10 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	H.verbs |= /mob/living/carbon/human/proc/churchpriestcurse //snowflake priests button. Will not sacrifice them
 	H.verbs |= /mob/living/carbon/human/proc/churcheapostasy //punish the lamb reward the wolf
 	H.verbs |= /mob/living/carbon/human/proc/completesermon
-	H.verbs |= /mob/living/carbon/human/proc/declare_benefactor
-	H.verbs |= /mob/living/carbon/human/proc/revoke_benefactor
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic_priest)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/revive)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Church Funding.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
 			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
@@ -693,16 +691,6 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 	return TRUE
 
 #undef PRIEST_ANNOUNCEMENT_COOLDOWN
-/mob/living/carbon/human/proc/declare_benefactor()
-	set name = "Declare Benefactor"
-	set category = "Priest"
-	perform_patronage_grant(src, TRAIT_DECLARED_BENEFACTOR, "a Benefactor of the Church", "a benefactor of the Church of Azuria", "no longer a benefactor of the Church of Azuria")
-
-/mob/living/carbon/human/proc/revoke_benefactor()
-	set name = "Revoke Benefactor"
-	set category = "Priest"
-	perform_patronage_revoke_from_list(src, TRAIT_DECLARED_BENEFACTOR, "no longer a benefactor of the Church of Azuria")
-
 #undef PRIEST_SERMON_COOLDOWN
 #undef PRIEST_APOSTASY_COOLDOWN
 #undef PRIEST_EXCOMMUNICATION_COOLDOWN

@@ -10,7 +10,6 @@
 	slot_flags = ITEM_SLOT_MOUTH
 	dropshrink = 0.4
 	drop_sound = 'sound/items/gem.ogg'
-	sellprice = 1
 	static_price = FALSE
 	resistance_flags = FIRE_PROOF
 
@@ -31,6 +30,15 @@
 	. = ..()
 	. += span_info("Most gemstomes are extremely valuable, and are chiefly used to create bejeweled rings and weaponry.")
 	. += span_info("Certain gemstones can be carved into ornate treasures, cutlery, and armor with the right skills and tools.")
+
+/obj/item/roguegem/attack(mob/living/M, mob/user)
+	if(!user.cmode)
+		if(try_construct_consume(src, M, user))
+			return
+	else
+		return ..()
+		
+	return ..()
 
 /obj/item/roguegem/green
 	name = "gemerald"
@@ -73,14 +81,14 @@
 	desc = "A sinister, glimmering stone. Valuable to the drow, it is sometimes used in necromantic rituals. Mirrors made of this are said to never show your own face."
 	icon = 'icons/roguetown/gems/gem_onyxa.dmi'
 	icon_state = "raw_onyxa"
-	sellprice = 30
+	sellprice = SELLPRICE_ONYXA
 
 /obj/item/roguegem/jade
 	name = "jade"
 	desc = "A dull green gem prized in Lingyue and Kazengun alike. Lingyuese tradition holds that jade is the essence of Psydon, protecting both soul and flesh from decay and corruption."
 	icon = 'icons/roguetown/gems/gem_jade.dmi'
 	icon_state = "raw_jade"
-	sellprice = 50
+	sellprice = SELLPRICE_JADE
 
 /obj/item/roguegem/oyster
 	name = "fossilized clam"
@@ -94,28 +102,28 @@
 	desc = "Jagged like a hound's tooth. Heartstone is speculated to be the crystalized blood of fallen sailors. It is sacred to Abyssorites and is used in numerous Abyssorites rituals."
 	icon = 'icons/roguetown/gems/gem_coral.dmi'
 	icon_state = "raw_coral"
-	sellprice = 60
+	sellprice = SELLPRICE_HEARTSTONE
 
 /obj/item/roguegem/turq
 	name = "cerulite"
 	desc = "A beautiful teal gem that carves easily. Beloved by mages, its remarkable clarity makes it a favored tool of Naledi’s astrologer-mages in divination."
 	icon = 'icons/roguetown/gems/gem_turq.dmi'
 	icon_state = "raw_turq"
-	sellprice = 75
+	sellprice = SELLPRICE_CERULITE
 
 /obj/item/roguegem/amber
 	name = "amber"
 	desc = "A chunk of fossilized sunlight. Believed to have been shed during the shattering of the First Sun, its remnants are prized among Astratans. Raaneshi sometimes use fragments as currency, instead of mammon."
 	icon = 'icons/roguetown/gems/gem_amber.dmi'
 	icon_state = "raw_amber"
-	sellprice = 50
+	sellprice = SELLPRICE_AMBER
 
 /obj/item/roguegem/opal
 	name = "opal"
 	desc = "A dazzling gem of great value. Opal is widely speculated to be the crystallized essence left behind by rainbows."
 	icon = 'icons/roguetown/gems/gem_opal.dmi'
 	icon_state = "raw_opal"
-	sellprice = 80
+	sellprice = SELLPRICE_OPAL
 
 // Do NOT add these to the stockpile treasures list, they have other uses.
 /obj/item/roguegem/blood_diamond

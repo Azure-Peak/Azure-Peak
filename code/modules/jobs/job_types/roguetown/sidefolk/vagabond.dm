@@ -44,7 +44,8 @@
 		/datum/advclass/vagabond_scholar,
 		/datum/advclass/vagabond_wanted,
 		/datum/advclass/vagabond_unraveled,
-		/datum/advclass/vagabond_thrall
+		/datum/advclass/vagabond_thrall,
+		/datum/advclass/vagabond_accursed
 	)
 
 /datum/job/roguetown/vagabond/New()

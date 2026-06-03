@@ -1,3 +1,5 @@
+#define LEDGER_PAGE_SIZE 50
+
 /obj/structure/roguemachine/steward/ui_state(mob/user)
 	// The sitting Alderman acts remotely from the Notice Board - they cannot physically reach the
 	// locked Stewardry. For them, swap adjacency for a conscious-and-alive check; access is gated
@@ -88,7 +90,48 @@
 	data["petition_tax_pct"] = round((1 - PETITION_TAX_MULT) * 100)
 	data["petitions_per_day"] = PETITIONS_PER_DAY
 
+	var/list/lview = ledger_view[user.ckey]
+	if(lview && lview["open"])
+		data["ledger_page"] = build_ledger_page(user.ckey)
+
 	return data
+
+/obj/structure/roguemachine/steward/proc/build_ledger_page(ckey)
+	var/list/lview = ledger_view[ckey]
+	var/page = max(1, lview ? (lview["page"] || 1) : 1)
+	var/filter = lview ? (lview["filter"] || "") : ""
+	var/window_start = (page - 1) * LEDGER_PAGE_SIZE + 1
+	var/window_end = page * LEDGER_PAGE_SIZE
+	var/list/entries = list()
+	var/matched = 0
+	var/total = length(SStreasury.ledger)
+	var/crown_name = SStreasury.discretionary_fund?.name
+	for(var/i = total to 1 step -1)
+		var/datum/treasury_entry/E = SStreasury.ledger[i]
+		if(crown_name && E.from_name != crown_name && E.to_name != crown_name)
+			continue
+		if(filter && !findtext(E.reason, filter) && !findtext(E.from_name, filter) && !findtext(E.to_name, filter))
+			continue
+		matched++
+		if(matched < window_start)
+			continue
+		if(matched > window_end)
+			break
+		entries += list(list(
+			"kind" = E.kind,
+			"from" = E.from_name,
+			"to" = E.to_name,
+			"amount" = E.amount,
+			"reason" = E.reason || "",
+		))
+	return list(
+		"entries" = entries,
+		"page" = page,
+		"page_size" = LEDGER_PAGE_SIZE,
+		"shown" = length(entries),
+		"has_more" = (matched > window_end) ? TRUE : FALSE,
+		"filtered" = filter ? TRUE : FALSE,
+	)
 
 /obj/structure/roguemachine/steward/ui_data(mob/user)
 	var/list/data = list()
@@ -96,6 +139,10 @@
 	data["day"] = GLOB.dayspassed
 	data["expected_rural_revenue"] = SStreasury?.get_rural_tax_amount() || 0
 	data["expected_wage_outlay"] = SStreasury?.get_expected_wage_outlay() || 0
+	data["royal_custom_unlocked"] = SStreasury?.royal_custom_unlocked ? TRUE : FALSE
+	data["royal_custom_margin"] = SStreasury?.royal_custom_margin
+	data["royal_custom_threshold"] = SStreasury?.royal_custom_threshold
+	data["royal_custom_volume"] = SStreasury?.economic_output || 0
 
 	// Alderman-acting view: expose the warrant so the TGUI can render it prominently. Only
 	// populated when the viewer is the sitting Alderman - the Steward doesn't need a warrant
@@ -140,27 +187,29 @@
 		))
 	data["active_events"] = events
 
-	// Active standing orders. Items carry only good_id + counts; the TSX looks up the
-	// good's label/name via the static good_catalog.
 	var/list/orders = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
 		if(O.is_fulfilled)
 			continue
 		var/datum/economic_region/order_region = GLOB.economic_regions[O.region_id]
 		var/is_blockaded = order_region?.is_region_blockaded ? TRUE : FALSE
-		var/is_warehouse = (SSeconomy.order_is_equipment(O) || SSeconomy.order_is_alchemical(O)) ? TRUE : FALSE
 		var/days_left = max(0, O.day_expires - GLOB.dayspassed)
 
 		var/list/items = list()
 		var/can_fulfill = TRUE
 		var/shortfall = ""
 		var/delivered_value = 0
+		var/has_warehouse = FALSE
+		var/has_stockpile = FALSE
 		for(var/good_id in O.required_items)
 			var/needed = O.required_items[good_id]
 			var/have = 0
-			if(is_warehouse)
+			var/route = SSeconomy.get_good_route(good_id)
+			if(route == "warehouse")
+				has_warehouse = TRUE
 				have = needed
 			else
+				has_stockpile = TRUE
 				var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
 				have = entry ? entry.stockpile_amount : 0
 				if(have < needed)
@@ -175,12 +224,14 @@
 				"good_id" = good_id,
 				"needed" = needed,
 				"have" = have,
+				"route" = route,
 			))
 
+		// Partial settlement applies only to the stockpile portion's coverage; warehouse goods are all-or-nothing.
 		var/can_partial = FALSE
 		var/partial_pct = 0
 		var/partial_payout_preview = 0
-		if(!is_warehouse && !can_fulfill && O.total_payout > 0)
+		if(has_stockpile && !can_fulfill && O.total_payout > 0)
 			var/petitioned_value = O.petitioned ? round(delivered_value * PETITION_TAX_MULT) : delivered_value
 			var/coverage = petitioned_value / O.total_payout
 			if(coverage >= STANDING_ORDER_PARTIAL_THRESHOLD)
@@ -194,7 +245,8 @@
 			"description" = O.description,
 			"region_id" = O.region_id,
 			"region_blockaded" = is_blockaded,
-			"is_equipment" = is_warehouse,
+			"has_warehouse" = has_warehouse,
+			"has_stockpile" = has_stockpile,
 			"days_left" = days_left,
 			"payout" = O.total_payout,
 			"items" = items,
@@ -204,6 +256,8 @@
 			"can_partial" = can_partial,
 			"partial_pct" = partial_pct,
 			"partial_payout_preview" = partial_payout_preview,
+			"pair_id" = O.pair_id,
+			"pair_label" = O.pair_label,
 		))
 	data["active_orders"] = orders
 
@@ -355,7 +409,7 @@
 			produces += list(list(
 				"good_id" = good_id,
 				"total" = region.produces[good_id],
-				"today" = region.produces_today[good_id] || 0,
+				"today" = max(0, region.produces_today[good_id] || 0),
 			))
 		var/list/demands = list()
 		for(var/good_id in region.demands)
@@ -364,7 +418,7 @@
 			demands += list(list(
 				"good_id" = good_id,
 				"total" = region.demands[good_id],
-				"today" = region.demands_today[good_id] || 0,
+				"today" = max(0, region.demands_today[good_id] || 0),
 			))
 		region_rows += list(list(
 			"region_id" = region_id,
@@ -391,7 +445,7 @@
 		out += list(list(
 			"region_id" = rid,
 			"unit_price" = price,
-			"capacity_today" = today,
+			"capacity_today" = max(0, today),
 			"capacity_total" = pace,
 			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
 		))
@@ -416,7 +470,7 @@
 		out += list(list(
 			"region_id" = rid,
 			"unit_price" = price,
-			"capacity_today" = today,
+			"capacity_today" = max(0, today),
 			"capacity_total" = pace,
 			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
 		))
@@ -548,14 +602,26 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 					if(confirm == "Yes")
 						var/list/partial_result = SSeconomy.fulfill_order(usr, O, TRUE)
 						if(islist(partial_result) && partial_result["status"] == "partial")
-							scom_announce("Standing Order settled (partial): [O.name] (+[partial_result["payout"]]m).")
+							var/pq_delta = partial_result["quality_delta"]
+							var/pq_suffix = ""
+							if(pq_delta > 0)
+								pq_suffix = " (quality bonus: +[pq_delta]m)"
+							else if(pq_delta < 0)
+								pq_suffix = " (quality penalty: [pq_delta]m)"
+							scom_announce("Standing Order settled (partial): [O.name] (+[partial_result["payout"]]m)[pq_suffix].")
 							playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 						else
 							COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
 					SStgui.update_uis(src)
 					return TRUE
 				if(islist(result) && result["status"] == "full")
-					scom_announce("Standing Order fulfilled: [O.name] (+[result["payout"]]m).")
+					var/q_delta = result["quality_delta"]
+					var/q_suffix = ""
+					if(q_delta > 0)
+						q_suffix = " (quality bonus: +[q_delta]m)"
+					else if(q_delta < 0)
+						q_suffix = " (quality penalty: [q_delta]m)"
+					scom_announce("Standing Order fulfilled: [O.name] (+[result["payout"]]m)[q_suffix].")
 					playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 				else
 					COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
@@ -928,3 +994,42 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				visible_message(span_notice("[src] stamps a sealed writ. The wax bears the mark of the Azurian Trading Company."))
 			SStgui.update_uis(src)
 			return TRUE
+		if("set_royal_custom_margin")
+			if(!SStreasury.royal_custom_unlocked)
+				return TRUE
+			var/n = text2num("[params["value"]]")
+			if(isnum(n))
+				SStreasury.royal_custom_margin = clamp(round(n), 0, 500)
+			return TRUE
+		if("ledger_open")
+			ledger_view[usr.ckey] = list("open" = TRUE, "page" = 1, "filter" = "")
+			update_static_data(usr)
+			return TRUE
+		if("ledger_close")
+			var/list/lview = ledger_view[usr.ckey]
+			if(lview)
+				lview["open"] = FALSE
+			return TRUE
+		if("ledger_page")
+			var/list/lview = ledger_view[usr.ckey]
+			if(!lview || !lview["open"])
+				return TRUE
+			lview["page"] = max(1, text2num("[params["page"]]") || 1)
+			update_static_data(usr)
+			return TRUE
+		if("ledger_filter")
+			var/list/lview = ledger_view[usr.ckey]
+			if(!lview || !lview["open"])
+				return TRUE
+			lview["filter"] = trim("[params["filter"]]")
+			lview["page"] = 1
+			update_static_data(usr)
+			return TRUE
+		if("ledger_refresh")
+			var/list/lview = ledger_view[usr.ckey]
+			if(!lview || !lview["open"])
+				return TRUE
+			update_static_data(usr)
+			return TRUE
+
+#undef LEDGER_PAGE_SIZE

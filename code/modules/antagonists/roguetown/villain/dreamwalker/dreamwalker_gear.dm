@@ -366,7 +366,7 @@
 	new shard_type(center, shard_duration, shard_amount, chosen_spawn)
 	
 	if(prob(40))
-		to_chat(L, span_notice("A shard of your armor shatters onto the floor!"))
+		L.visible_message(span_boldnotice("[L.name] sheds a fragile looking shard of their armor. It seems to yearn to return to the whole."))
 
 /datum/component/dreamwalker_repair/proc/is_tile_valid(turf/T)
 	if(!T || istransparentturf(T) || T.density)
@@ -419,7 +419,7 @@
 
 /obj/effect/temp_visual/dream_shard
 	name = "dream shard"
-	desc = "A jagged fragment of iridescent reality. It pulses with restorative energy."
+	desc = "Looks fragile, smashable even. A grouping of jagged fragments of iridescence. They pulse with restorative energy."
 	icon_state = "dream_shards"
 	layer = ABOVE_OBJ_LAYER
 	plane = GAME_PLANE

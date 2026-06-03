@@ -3,6 +3,7 @@
 
 /datum/crafting_recipe/roguetown/tallow
 	abstract_type = /datum/crafting_recipe/roguetown/tallow
+	display_category = ITEM_CAT_TOOLS_SUNDRIES
 	subtype_reqs = FALSE
 	skillcraft = /datum/skill/craft/cooking
 

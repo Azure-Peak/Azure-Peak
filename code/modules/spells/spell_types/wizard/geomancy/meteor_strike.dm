@@ -10,7 +10,7 @@
 	Each boulder deals heavy damage on direct hit, splashes nearby, and sends gravel fragments flying. \
 	Deals 2x damage to structures. \
 	Extremely telegraphed - only a fool would stand in the impact zone."
-	button_icon_state = "boulder_strike"
+	button_icon_state = "meteor_strike"
 	sound = 'sound/magic/meteorstorm.ogg'
 	spell_color = GLOW_COLOR_EARTHEN
 	glow_intensity = GLOW_INTENSITY_VERY_HIGH

@@ -22,6 +22,7 @@
 	L.become_skeleton()
 	ADD_TRAIT(L, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(L, TRAIT_ARCYNE, TRAIT_GENERIC)
+	ADD_TRAIT(L, TRAIT_SHATTER_KILL, TRAIT_GENERIC)
 
 /datum/antagonist/unbound_spellblade/proc/equip_spellblade()
 	owner.unknow_all_people()

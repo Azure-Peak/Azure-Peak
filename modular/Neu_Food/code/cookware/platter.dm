@@ -109,13 +109,11 @@ What it does:
 	desc = "Wrought bronze, flattened to serve. The edge remains wet with red; spilled merlot, meaty juices, or blood?"
 	icon_state = "aplatter"
 	color = "#bb9696"
-	sellprice = 15
 
 /obj/item/cooking/platter/bronze
 	name = "bronze platter"
 	desc = "A shined bronze platter that hasn't lost its charm, even after a thousand yils."
 	icon_state = "platter_bronze"
-	sellprice = 15
 
 /obj/item/cooking/platter/copper
 	name = "copper platter"
@@ -123,7 +121,6 @@ What it does:
 	icon_state = "platter_copper"
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	sellprice = 5
 
 /obj/item/cooking/platter/pewter
 	name = "pewter platter"
@@ -131,13 +128,11 @@ What it does:
 	icon_state = "platter_tin"
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	sellprice = 10
 
 /obj/item/cooking/platter/silver
 	name = "silver platter"
 	desc = "A fancy silver plate often used by the nobility as a symbol of class."
 	icon_state = "platter_silver"
-	sellprice = 30
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -147,7 +142,6 @@ What it does:
 	icon_state = "platter_gold"
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	sellprice = 25
 
 /obj/item/cooking/platter/carved
 	name = "carved platter"
@@ -155,52 +149,44 @@ What it does:
 	icon_state = "aplatter"
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	sellprice = 0
+	has_item_quality = TRUE
 
 /obj/item/cooking/platter/carved/jade
 	name = "jade platter"
 	desc = "A fancy platter carved out of jade."
 	icon_state = "platter_jade"
-	sellprice = 60
 
 /obj/item/cooking/platter/carved/onyxa
 	name = "onyxa platter"
 	desc = "A fancy platter carved out of onyxa."
 	icon_state = "platter_onyxa"
-	sellprice = 40
 
 /obj/item/cooking/platter/carved/shell
 	name = "shell platter"
 	desc = "A fancy platter carved out of shell."
 	icon_state = "platter_shell"
-	sellprice = 20
 
 /obj/item/cooking/platter/carved/rose
 	name = "rosestone platter"
 	desc = "A fancy platter carved out of rosestone."
 	icon_state = "platter_rose"
-	sellprice = 25
 
 /obj/item/cooking/platter/carved/amber
 	name = "amber platter"
 	desc = "A fancy platter carved out of amber."
 	icon_state = "platter_amber"
-	sellprice = 60
 
 /obj/item/cooking/platter/carved/opal
 	name = "opal platter"
 	desc = "A fancy platter carved out of opal."
 	icon_state = "platter_opal"
-	sellprice = 90
 
 /obj/item/cooking/platter/carved/coral
 	name = "heartstone platter"
 	desc = "A fancy platter carved out of heartstone."
 	icon_state = "platter_coral"
-	sellprice = 70
 
 /obj/item/cooking/platter/carved/turq
 	name = "cerulite platter"
 	desc = "A fancy platter carved out of cerulite."
 	icon_state = "platter_turq"
-	sellprice = 85

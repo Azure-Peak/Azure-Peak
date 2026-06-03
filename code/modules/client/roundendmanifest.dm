@@ -8,7 +8,12 @@
 	popup.set_content(dat)
 	popup.open(FALSE)
 
-/client/proc/view_actors_manifest()
+/client/verb/view_actors_manifest()
+	set category = "OOC"
+	set name = "View Actors"
+	if(!holder && !isobserver(mob) && SSticker.current_state < GAME_STATE_FINISHED && !istype(mob, /mob/dead/new_player))
+		to_chat(src, span_danger("I can't use this while alive. No spoilers!"))
+		return
 	var/list/actors_list = get_sorted_actors_list()
 	var/list/categories_used = list()
 

@@ -1,9 +1,11 @@
 /datum/crafting_recipe/roguetown/gemcarving
 	abstract_type = /datum/crafting_recipe/roguetown/gemcarving
+	display_category = ITEM_CAT_DECORATION
 	skillcraft = /datum/skill/craft/masonry
 	category = "Gem Carving"
 
 /datum/crafting_recipe/roguetown/gemcarving/jadefork
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "jade fork"
 	result = /obj/item/kitchen/fork/carved/jade
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -11,6 +13,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/jadespoon
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "jade spoon"
 	result = /obj/item/kitchen/spoon/carved/jade
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -25,6 +28,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/jadebowl
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "jade bowl"
 	result = /obj/item/reagent_containers/glass/bowl/carved/jade
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -32,6 +36,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/jadecup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "jade cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/jade
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -39,6 +44,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/jadeplatter
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "jade platter"
 	result = /obj/item/cooking/platter/carved/jade
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -46,6 +52,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/jadering
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "jade ring"
 	result = /obj/item/clothing/ring/jade
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -53,6 +60,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/jadeamulet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "jade amulet"
 	result = /obj/item/clothing/neck/roguetown/carved/jadeamulet
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -88,6 +96,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/jade/teapot
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "jade teapot"
 	result = /obj/item/reagent_containers/glass/bucket/pot/carved/teapotjade
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -123,6 +132,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/jade/bracelet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "jade bracelets"
 	result = /obj/item/clothing/wrists/roguetown/gem/jadebracelet
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -130,6 +140,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/jade/circlet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "jade circlet"
 	result = /obj/item/clothing/head/roguetown/circlet/carvedgem/jade
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -137,6 +148,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/jade/fancycup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "fancy jade cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/jadefancy
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -144,6 +156,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/jade/mask
+	display_category = ITEM_CAT_ARMOR_MASKS
 	name = "jade mask"
 	result = /obj/item/clothing/mask/rogue/facemask/carved/jademask
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -179,6 +192,7 @@
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/crafting_recipe/roguetown/gemcarving/jade/kukri
+	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	name = "jade kukri"
 	result = /obj/item/rogueweapon/huntingknife/stoneknife/kukri
 	reqs = list(/obj/item/roguegem/jade = 1)
@@ -206,6 +220,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/fork
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "shell fork"
 	result = /obj/item/kitchen/fork/carved/shell
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -213,6 +228,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/spoon
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "shell spoon"
 	result = /obj/item/kitchen/spoon/carved/shell
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -227,6 +243,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/bowl
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "shell bowl"
 	result = /obj/item/reagent_containers/glass/bowl/carved/shell
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -234,6 +251,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/cup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "shell cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/shell
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -241,6 +259,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/platter
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "shell platter"
 	result = /obj/item/cooking/platter/carved/shell
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -248,6 +267,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/ring
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "shell ring"
 	result = /obj/item/clothing/ring/shell
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -255,6 +275,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/teapot
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "shell teapot"
 	result = /obj/item/reagent_containers/glass/bucket/pot/carved/teapotshell
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -262,6 +283,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/amulet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "shell amulet"
 	result = /obj/item/clothing/neck/roguetown/carved/shellamulet
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -304,6 +326,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/circlet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "shell circlet"
 	result = /obj/item/clothing/head/roguetown/circlet/carvedgem/shell
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -311,6 +334,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/bracelet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "shell bracelets"
 	result = /obj/item/clothing/wrists/roguetown/gem/shellbracelet
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -318,6 +342,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/fancycup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "fancy shell cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/shellfancy
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -346,6 +371,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/mask
+	display_category = ITEM_CAT_ARMOR_MASKS
 	name = "shell mask"
 	result = /obj/item/clothing/mask/rogue/facemask/carved/shellmask
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -381,6 +407,7 @@
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/rungu
+	display_category = ITEM_CAT_WEAPONS_MACES
 	name = "shell rungu"
 	result = /obj/item/rogueweapon/mace/cudgel/shellrungu
 	reqs = list(/obj/item/carvedgem/shell/rawshell = 1)
@@ -388,6 +415,7 @@
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/spoon
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "rosestone spoon"
 	result = /obj/item/kitchen/spoon/carved/rose
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -395,6 +423,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/fork
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "rosestone fork"
 	result = /obj/item/kitchen/fork/carved/rose
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -402,6 +431,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/cup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "rosestone cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/rose
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -409,6 +439,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/bowl
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "rosestone bowl"
 	result = /obj/item/reagent_containers/glass/bowl/carved/rose
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -451,6 +482,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/teapot
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "rosestone teapot"
 	result = /obj/item/reagent_containers/glass/bucket/pot/carved/teapotrose
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -458,6 +490,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/ring
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "rosestone ring"
 	result = /obj/item/clothing/ring/rose
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -465,6 +498,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/amulet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "rosestone amulet"
 	result = /obj/item/clothing/neck/roguetown/carved/roseamulet
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -472,6 +506,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/platter
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "rosestone platter"
 	result = /obj/item/cooking/platter/carved/rose
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -507,6 +542,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/bracelet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "rosestone bracelets"
 	result = /obj/item/clothing/wrists/roguetown/gem/rosebracelet
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -514,6 +550,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/circlet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "rosestone circlet"
 	result = /obj/item/clothing/head/roguetown/circlet/carvedgem/rose
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -521,6 +558,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/fancycup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "fancy rosestone cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/rosefancy
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -549,6 +587,7 @@
 	craftdiff = SKILL_LEVEL_EXPERT
 
 /datum/crafting_recipe/roguetown/gemcarving/rose/mask
+	display_category = ITEM_CAT_ARMOR_MASKS
 	name = "rosestone mask"
 	result = /obj/item/clothing/mask/rogue/facemask/carved/rosemask
 	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
@@ -570,6 +609,7 @@
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/fork
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "onyxa fork"
 	result = /obj/item/kitchen/fork/carved/onyxa
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -577,6 +617,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/spoon
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "onyxa spoon"
 	result = /obj/item/kitchen/spoon/carved/onyxa
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -591,6 +632,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/cup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "onyxa cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/onyxa
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -598,6 +640,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/bowl
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "onyxa bowl"
 	result = /obj/item/reagent_containers/glass/bowl/carved/onyxa
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -633,6 +676,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/teapot
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "onyxa teapot"
 	result = /obj/item/reagent_containers/glass/bucket/pot/carved/teapotonyxa
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -640,6 +684,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/ring
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "onyxa ring"
 	result = /obj/item/clothing/ring/onyxa
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -647,6 +692,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/amulet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "onyxa amulet"
 	result = /obj/item/clothing/neck/roguetown/carved/onyxaamulet
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -654,6 +700,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/platter
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "onyxa platter"
 	result = /obj/item/cooking/platter/carved/onyxa
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -689,6 +736,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/fancycup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "fancy onyxa cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/onyxafancy
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -696,6 +744,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/bracelet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "onyxa bracelets"
 	result = /obj/item/clothing/wrists/roguetown/gem/onyxabracelet
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -703,6 +752,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/circlet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "onyxa circlet"
 	result = /obj/item/clothing/head/roguetown/circlet/carvedgem/onyxa
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -710,6 +760,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/mask
+	display_category = ITEM_CAT_ARMOR_MASKS
 	name = "onyxa mask"
 	result = /obj/item/clothing/mask/rogue/facemask/carved/onyxamask
 	reqs = list(/obj/item/roguegem/onyxa = 1)
@@ -759,6 +810,7 @@
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/fork
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "cerulite fork"
 	result = /obj/item/kitchen/fork/carved/turq
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -766,6 +818,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/spoon
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "cerulite spoon"
 	result = /obj/item/kitchen/spoon/carved/turq
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -780,6 +833,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/bowl
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "cerulite bowl"
 	result = /obj/item/reagent_containers/glass/bowl/carved/turq
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -787,6 +841,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/cup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "cerulite cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/turq
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -815,6 +870,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/amulet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "cerulite amulet"
 	result = /obj/item/clothing/neck/roguetown/carved/turqamulet
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -829,6 +885,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/ring
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "cerulite ring"
 	result = /obj/item/clothing/ring/turq
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -836,6 +893,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/platter
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "cerulite platter"
 	result = /obj/item/cooking/platter/carved/turq
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -843,6 +901,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/bracelet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "cerulite bracelets"
 	result = /obj/item/clothing/wrists/roguetown/gem/turqbracelet
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -850,6 +909,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/circlet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "cerulite circlet"
 	result = /obj/item/clothing/head/roguetown/circlet/carvedgem/turq
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -857,6 +917,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/fancycup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "fancy cerulite cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/turqfancy
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -913,6 +974,7 @@
 	craftdiff = SKILL_LEVEL_EXPERT
 
 /datum/crafting_recipe/roguetown/gemcarving/turq/mask
+	display_category = ITEM_CAT_ARMOR_MASKS
 	name = "cerulite mask"
 	result = /obj/item/clothing/mask/rogue/facemask/carved/turqmask
 	reqs = list(/obj/item/roguegem/turq = 1)
@@ -934,6 +996,7 @@
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/fork
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "heartstone fork"
 	result = /obj/item/kitchen/fork/carved/coral
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -941,6 +1004,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/spoon
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "heartstone spoon"
 	result = /obj/item/kitchen/spoon/carved/coral
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -955,6 +1019,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/cup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "heartstone cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/coral
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -962,6 +1027,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/bowl
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "heartstone bowl"
 	result = /obj/item/reagent_containers/glass/bowl/carved/coral
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -997,6 +1063,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/teapot
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "heartstone teapot"
 	result = /obj/item/reagent_containers/glass/bucket/pot/carved/teapotcoral
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -1004,6 +1071,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/platter
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "heartstone platter"
 	result = /obj/item/cooking/platter/carved/coral
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -1011,6 +1079,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/amulet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "heartstone amulet"
 	result = /obj/item/clothing/neck/roguetown/carved/coralamulet
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -1018,6 +1087,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/ring
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "heartstone ring"
 	result = /obj/item/clothing/ring/coral
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -1053,6 +1123,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/fancycup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "fancy heartstone cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/coralfancy
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -1060,6 +1131,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/circlet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "heartstone circlet"
 	result = /obj/item/clothing/head/roguetown/circlet/carvedgem/coral
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -1067,6 +1139,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/bracelet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "heartstone bracelets"
 	result = /obj/item/clothing/wrists/roguetown/gem/coralbracelet
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -1074,6 +1147,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/coral/mask
+	display_category = ITEM_CAT_ARMOR_MASKS
 	name = "heartstone mask"
 	result = /obj/item/clothing/mask/rogue/facemask/carved/coralmask
 	reqs = list(/obj/item/roguegem/coral = 1)
@@ -1116,6 +1190,7 @@
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/spoon
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "amber spoon"
 	result = /obj/item/kitchen/spoon/carved/amber
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1123,6 +1198,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/fork
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "amber fork"
 	result = /obj/item/kitchen/fork/carved/amber
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1137,6 +1213,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/bowl
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "amber bowl"
 	result = /obj/item/reagent_containers/glass/bowl/carved/amber
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1144,6 +1221,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/cup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "amber cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/amber
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1179,6 +1257,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/teapot
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "amber teapot"
 	result = /obj/item/reagent_containers/glass/bucket/pot/carved/teapotamber
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1186,6 +1265,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/platter
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "amber platter"
 	result = /obj/item/cooking/platter/carved/amber
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1193,6 +1273,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/ring
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "amber ring"
 	result = /obj/item/clothing/ring/amber
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1200,6 +1281,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/amulet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "amber amulet"
 	result = /obj/item/clothing/neck/roguetown/carved/amberamulet
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1207,6 +1289,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/bracelet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "amber bracelets"
 	result = /obj/item/clothing/wrists/roguetown/gem/amberbracelet
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1214,6 +1297,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/circlet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "amber circlet"
 	result = /obj/item/clothing/head/roguetown/circlet/carvedgem/amber
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1221,6 +1305,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/fancycup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "fancy amber cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/amberfancy
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1256,6 +1341,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/amber/mask
+	display_category = ITEM_CAT_ARMOR_MASKS
 	name = "amber mask"
 	result = /obj/item/clothing/mask/rogue/facemask/carved/ambermask
 	reqs = list(/obj/item/roguegem/amber = 1)
@@ -1298,6 +1384,7 @@
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/spoon
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "opal spoon"
 	result = /obj/item/kitchen/spoon/carved/opal
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1305,6 +1392,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/fork
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "opal fork"
 	result = /obj/item/kitchen/fork/carved/opal
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1319,6 +1407,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/bowl
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "opal bowl"
 	result = /obj/item/reagent_containers/glass/bowl/carved/opal
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1326,6 +1415,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/cup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "opal cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/opal
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1333,6 +1423,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/teapot
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "opal teapot"
 	result = /obj/item/reagent_containers/glass/bucket/pot/carved/teapotopal
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1340,6 +1431,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/platter
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "opal platter"
 	result = /obj/item/cooking/platter/carved/opal
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1347,6 +1439,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/ring
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "opal ring"
 	result = /obj/item/clothing/ring/opal
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1354,6 +1447,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/amulet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "opal amulet"
 	result = /obj/item/clothing/neck/roguetown/carved/opalamulet
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1389,6 +1483,7 @@
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/bracelet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "opal bracelets"
 	result = /obj/item/clothing/wrists/roguetown/gem/opalbracelet
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1396,6 +1491,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/circlet
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	name = "opal circlet"
 	result = /obj/item/clothing/head/roguetown/circlet/carvedgem/opal
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1403,6 +1499,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/fancycup
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "fancy opal cup"
 	result = /obj/item/reagent_containers/glass/cup/carved/opalfancy
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1438,6 +1535,7 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/mask
+	display_category = ITEM_CAT_ARMOR_MASKS
 	name = "opal mask"
 	result = /obj/item/clothing/mask/rogue/facemask/carved/opalmask
 	reqs = list(/obj/item/roguegem/opal = 1)
@@ -1473,6 +1571,7 @@
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/crafting_recipe/roguetown/gemcarving/opal/knife
+	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	name = "opal knife"
 	result = /obj/item/rogueweapon/huntingknife/stoneknife/opalknife
 	reqs = list(/obj/item/roguegem/opal = 1)

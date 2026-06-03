@@ -251,6 +251,8 @@
  * return list
  */
 /datum/tgui/proc/get_payload(custom_data, with_data, with_static_data)
+	if(!user?.client)
+		return list()
 	var/list/json_data = list()
 	json_data["config"] = list(
 		"title" = title,
@@ -266,6 +268,7 @@
 			"fancy" = user.client.prefs.tgui_fancy,
 			"locked" = user.client.prefs.tgui_lock,
 			"theme" = user.client.prefs.tgui_theme,
+			"parchment_skin" = user.client.prefs.parchment_skin,
 			"scale" = TRUE,
 		),
 		"client" = list(

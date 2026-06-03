@@ -63,7 +63,12 @@ const CraftingCategory = ({ crafties, key3, onlyCraftable, craftability, key, ac
                   </LabeledList.Item>
               }
               <LabeledList.Item label="Sell Price" style={{ 'margin-left': '20px' }}>
-                {recipe.sellprice}
+                {recipe.sellprice || '-'}
+                {!!recipe.has_item_quality && !!recipe.sellprice && (
+                  <span style={{ 'color': 'grey', 'margin-left': '6px' }}>
+                    (varies {Math.max(1, Math.round(recipe.sellprice * 0.20))}-{Math.round(recipe.sellprice * 1.35)} by quality)
+                  </span>
+                )}
               </LabeledList.Item>
               <LabeledList.Item label="Craft it!" style={{ 'margin-left': '20px', 'gap': '4px' }}>
                 <Button content="1x" onClick={() => {

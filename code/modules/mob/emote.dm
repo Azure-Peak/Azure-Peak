@@ -2,6 +2,45 @@
 /mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE)
 	var/oldact = act
 	act = lowertext(act)
+
+	if(HAS_TRAIT(src, TRAIT_NOBREATH))
+		var/static/list/nobreath_blocked = list(
+			"choke",
+			"cough",
+			"snore",
+			"breathgasp",
+			"drown",
+			"sneeze"
+		)
+
+		if(act in nobreath_blocked)
+			return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_IRONMAN))
+		var/static/list/ironman_blocked = list(
+			"pain",
+			"painmoan",
+			"paincrit",
+			"painscream",
+			"agony",
+			"drool"
+		)
+
+		if(act in ironman_blocked)
+			return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_NOPAIN))
+		var/static/list/nopain_blocked = list(
+			"pain",
+			"painmoan",
+			"paincrit",
+			"painscream",
+			"agony",
+		)
+
+		if(act in nopain_blocked)
+			return FALSE
+
 	var/param = message
 	var/custom_param = findchar(act, " ")
 //	if(custom_param)
@@ -88,3 +127,56 @@
 			else
 				R.unbuckle_all_mobs()
 */
+
+/mob/proc/play_death_emote()
+	var/list/key_emotes = GLOB.emote_list["death"]
+	if(!length(key_emotes))
+		return
+
+	for(var/datum/emote/P in key_emotes)
+		var/raw_msg = P.select_message_type(src, FALSE)
+		if(!raw_msg && P.nomsg == FALSE)
+			continue
+
+		var/msg = P.replace_pronoun(src, raw_msg)
+		var/atom/movable/emotelocation = src
+
+		var/pitch = 1
+
+		var/sound/tmp_sound = P.get_sound(src)
+		if(!istype(tmp_sound))
+			tmp_sound = sound(get_sfx(tmp_sound))
+		
+		if(tmp_sound)
+			tmp_sound.frequency = pitch
+			if(tmp_sound.file)
+				playsound(emotelocation, tmp_sound, P.snd_vol, FALSE, P.snd_range, soundping = P.soundping, animal_pref = TRUE, quiet = P.is_quiet)
+
+		if(!P.nomsg)
+			log_message(msg, LOG_EMOTE)
+			var/pre_color_msg = msg
+			if(P.use_params_for_runechat)
+				var/static/regex/regex = regex(@"[,.!?]", "g")
+				pre_color_msg = regex.Replace(pre_color_msg, "")
+				pre_color_msg = trim(pre_color_msg, MAX_MESSAGE_LEN)
+
+			var/styled_name = "<b>[emotelocation]</b>"
+			if(findtext(msg, "$n"))
+				msg = trim(replacetext(msg, "$n", styled_name))
+				pre_color_msg = trim(replacetext(pre_color_msg, "$n", "[emotelocation]"))
+			else
+				msg = "[styled_name] [msg]"
+
+			for(var/mob/M in GLOB.dead_mob_list)
+				if(!M.client || isnewplayer(M))
+					continue
+				var/turf/T = get_turf(emotelocation)
+				if(M.stat == DEAD && M.client && (M.client.prefs?.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
+					M.show_message(msg)
+
+			var/runechat_msg_to_use = P.show_runechat ? (P.runechat_msg ? P.runechat_msg : pre_color_msg) : null
+			if(P.emote_type == EMOTE_AUDIBLE)
+				emotelocation.audible_message(msg, runechat_message = runechat_msg_to_use, log_seen = SEEN_LOG_EMOTE)
+			else
+				emotelocation.visible_message(msg, runechat_message = runechat_msg_to_use, log_seen = SEEN_LOG_EMOTE)
+		break
