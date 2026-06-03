@@ -367,9 +367,9 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 
 //WE HANDLE SUNDERSTACKS HERE
 	if(sunder_stacks)
-		sunder_stacks = max(sunder_stacks - 0.5, 0)
-		apply_status_effect(/datum/status_effect/debuff/sunder_stacks)
-		if(cultslurring < 5) //Fucks up our ability to talk
+		sunder_stacks = max(sunder_stacks - 0.5, 0) //Takes a bit to shrug off
+		apply_status_effect(/datum/status_effect/debuff/sunder_stacks) //You survived an EXTREMELY lethal blow, you might want to keep back for now
+		if(cultslurring < 5) //Fucks up our ability to talk, completely
 			cultslurring += 1.2
 
 		if(sunder_stacks >= 41)
@@ -388,7 +388,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 				vomit(blood = TRUE) // vomiting blood, because you are actually pretty fucked up sire.
 				Knockdown(15)
 
-		if(sunder_stacks >= 101)
+		if(sunder_stacks >= 101) //We are beyond the point of lethal, somehow. This will cripple you severely.
 			adjustBruteLoss(1)
 			if(prob(50))
 				blur_eyes(5)
