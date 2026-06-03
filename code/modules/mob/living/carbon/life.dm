@@ -378,15 +378,15 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			adjustBruteLoss(2)
 			if(prob(3)) //5% chance of random dizziness
 				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire. No immobilise yet.
-				Dizzy(5)
+				Dizzy(3)
 
 		if(sunder_stacks >= 71) //At this point you've taken (2) blows or more and shouldn't be escaping death this easily.
 			adjustBruteLoss(2)
 			apply_status_effect(/datum/status_effect/debuff/devitalised/lesser) //5 min long debuff, you narrowly escaped death.
 			if(prob(12)) //12% chance to have random movement + stun + dizziness
-				confused += 15
+				confused += 8
 				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
-				Dizzy(25)
+				Dizzy(15)
 			if(prob(5)) //5% chance to collapse randomly
 				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
 				Knockdown(15)
