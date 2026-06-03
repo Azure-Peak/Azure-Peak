@@ -250,14 +250,14 @@
 			if(lowertext(newletter)=="u")
 				newletter="oo"
 			if(lowertext(newletter)=="c")
-				newletter=" NAR "
+				newletter="lr"
 			if(lowertext(newletter)=="s")
-				newletter=" SIE "
+				newletter="zr"
 		if(prob(25))
 			if(newletter==" ")
-				newletter=" no hope... "
+				newletter=" BURNS... "
 			if(newletter=="H")
-				newletter=" IT COMES... "
+				newletter=" FIRE... "
 
 		switch(rand(1,15))
 			if(1)
@@ -267,9 +267,9 @@
 			if(3)
 				newletter="fth"
 			if(4)
-				newletter="nglu"
+				newletter="zghl"
 			if(5)
-				newletter="glor"
+				newletter="psyzl"
 			else
 				;;
 		newphrase+="[newletter]";counter-=1
