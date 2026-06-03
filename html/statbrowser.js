@@ -361,6 +361,19 @@ function draw_status() {
           );
         }
         table.appendChild(div);
+      } else if (part[0] == 'load') {
+        div = document.createElement('div');
+        if (part[3] !== undefined) {
+          div.appendChild(document.createTextNode(part[2]));
+          var loadSpan = document.createElement('span');
+          loadSpan.className = 'load-' + part[1];
+          loadSpan.textContent = part[3];
+          div.appendChild(loadSpan);
+        } else {
+          div.className = 'load-' + part[1];
+          div.textContent = part[2];
+        }
+        table.appendChild(div);
       } else if (part[0].trim() == 'same_line') {
         var a = document.createElement('a');
         a.href = 'byond://?' + part[2];

@@ -242,6 +242,10 @@ img {
 .tod-dusk { color: #9dbfe8; }
 .tod-night { color: #f2f2f2; }
 
+.load-low { color: #819e82; }
+.load-mid { color: #d6c36b; }
+.load-high { color: #d97575; }
+
 .grid-container {
   margin: -0.15em;
 }

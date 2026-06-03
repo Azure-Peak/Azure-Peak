@@ -40,12 +40,12 @@ SUBSYSTEM_DEF(statpanels)
 
 		var/true_round_time = "[ROUND_TIME()]"
 		if(SSticker.HasRoundStarted())
-			true_round_time = "[DisplayTimeText(world.time - SSticker.round_start_time, 1)]"
+			true_round_time = time2text(world.time - SSticker.round_start_time, "hh:mm:ss", 0)
 		global_data += list(
 			"Round ID: [GLOB.rogue_round_id ? GLOB.rogue_round_id : "NULL"]",
 			"Server Time: [time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss", world.timezone)]",
-			"Round Time: [true_round_time]",
-			"Time Dilation: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%)",
+			"Round Time: [true_round_time] | TrueTime: [worldtime2text()] ([world.time])",
+			list("load", load_class(world.map_cpu), "Time Dilation: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%) | Map Tick: ", "[round(world.map_cpu, 1)]%"),
 		)
 
 		if(SSgamemode.roundvoteend)
@@ -144,6 +144,13 @@ SUBSYSTEM_DEF(statpanels)
 	if(!M)
 		return
 	target.stat_panel.send_message("update_stats", M.get_stats_tab_items())
+
+/datum/controller/subsystem/statpanels/proc/load_class(percent)
+	if(percent >= 80)
+		return "high"
+	if(percent >= 50)
+		return "mid"
+	return "low"
 
 /datum/controller/subsystem/statpanels/proc/set_MC_tab(client/target)
 	var/turf/eye_turf = get_turf(target.eye)
