@@ -245,6 +245,8 @@
 
 /datum/outfit/job/roguetown/mercenary/warscholar_vizier/pre_equip(mob/living/carbon/human/H)
 	..()
+	var/list/choices = list("Spiritual Path (Soulshot)", "Ascetic Path (Poke Spells)")
+	var/choice = input(H, "What path did you take?", "CHOOSE YOUR MASTERY") as anything in choices
 	var/list/naledicolors = sortList(list(
 		"GOLD" = "#C8BE6D",
 		"PALE PURPLE" = "#9E93FF",
@@ -283,9 +285,15 @@
 		)
 
 	if(H.mind)
+		switch(choice)
+			if("Spiritual Path (Soulshot)")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot)
+			else
+				grant_poke_spell(H)
+
+	if(H.mind)
 		detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
-		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diminish)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration)
@@ -294,6 +302,10 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/guidance)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+
+		var/datum/devotion/C = new /datum/devotion(H, H.patron)
+		C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
+
 	H.merctype = 14
 
 /datum/outfit/job/roguetown/mercenary/warscholar/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)

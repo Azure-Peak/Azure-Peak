@@ -410,7 +410,7 @@
 	edelay_type = 1
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
-	max_integrity = 200
+	max_integrity = ARMOR_INT_HELMET_LEATHER
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
 
@@ -434,14 +434,14 @@
 	edelay_type = 1
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
-	max_integrity = 200
+	max_integrity = ARMOR_INT_HELMET_LEATHER
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
 
 /obj/item/clothing/head/roguetown/roguehood/hierophant
 	name = "hierophant's pashmina"
 	desc = "A thick hood that covers one's entire head, should they desire, or merely acts as a scarf otherwise. Made with spell-laced fabric to provide some protection against daemons and mortals alike."
-	max_integrity = 100
+	max_integrity = ARMOR_INT_HELMET_LEATHER
 	armor = ARMOR_LEATHER
 	icon_state = "hijab"
 	item_state = "hijab"
@@ -452,7 +452,7 @@
 /obj/item/clothing/head/roguetown/roguehood/pontifex
 	name = "pontifex's pashmina"
 	desc = "A slim hood with thin, yet dense fabric. Stretchy and malleable, allowing for full flexibility and mobility. Made with spell-laced fabric to provide some protection against daemons and mortals alike."
-	max_integrity = 100
+	max_integrity = ARMOR_INT_HELMET_LEATHER
 	armor = ARMOR_LEATHER
 	icon_state = "monkhood"
 	item_state = "monkhood"
