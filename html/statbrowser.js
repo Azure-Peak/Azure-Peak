@@ -475,8 +475,6 @@ function draw_listedturf() {
   for (var i = 0; i < turfcontents.length; i++) {
     var part = turfcontents[i];
     var clickfunc = ((part) => {
-      // Dispatch on mousedown (not mouseup): the panel is pushed/redrawn every
-      // subsystem fire, so the row can be destroyed before mouseup lands on it.
       return (e) => {
         var href = 'byond://?src=' + part[1] + ';statpanel_item_click=';
         switch (e.button) {
