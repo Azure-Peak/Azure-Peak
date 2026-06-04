@@ -30,6 +30,15 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	ai_controller = /datum/ai_controller/human_npc
 	dodgetime = 30
 
+/mob/living/carbon/human/species/goblin/siege //Slightly smarter varient for players in seiges, meant to last longer than the regular horde's masses
+	gob_outfit =/datum/outfit/job/roguetown/npc/goblin/siege
+
+/mob/living/carbon/human/species/goblin/npc/siege //Slightly smarter varient for sieges
+	ai_controller = /datum/ai_controller/human_npc
+	dodgetime = 20 //Slightly more competent than their lobotomised counterparts.
+	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/siege
+	//Keep in mind these are balanced out by them firebombing 90% of their own numbers and dying instantly 20% of the time. KEEP THIS, ITS SOVL SIRE.
+
 /mob/living/carbon/human/species/goblin/npc/after_creation()
 	..()
 	AddComponent(/datum/component/ai_aggro_system)
@@ -318,6 +327,30 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 
 //////////////////   OUTFITS	//////////////////
+/datum/outfit/job/roguetown/npc/goblin/siege/pre_equip(mob/living/carbon/human/H)
+	..() //Regular outfit is also loaded cause subtype, this just ensures they have the minimal requirements of armor + enough stats/skills to do specials
+	H.STAINT = 8 //Minimal req to do specials
+	H.STACON = 6 //Slightly harder to kill, crit weakness still works.
+	if(prob(40))
+		armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin
+	else
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/goblin
+	if(prob(40))
+		head = /obj/item/clothing/head/roguetown/helmet/goblin
+	else
+		head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
+	//Our skills get bumped from (2) apprentice to (3) journeyman
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 2, TRUE) // Still Trash Mob
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 3, TRUE) //Give players a way to use their stone knives, NPCs hit better.
+	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 3, TRUE) //So players can break dorpels, NPCs hit better.
 
 /datum/outfit/job/roguetown/npc/goblin/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -383,15 +416,16 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 			H.name = "goblin pyromancer"
 			H.real_name = "goblin pyromancer"
 			SEND_SIGNAL(H, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE) // Trash mob
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 2, TRUE) // Trash mob
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 2, TRUE)
+	//Upto is nessessary so latejoin goblins on raids don't have EXPERT SKILLS WHAAAAAAAAAT
 
 /datum/outfit/job/roguetown/npc/goblin/archer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -471,7 +505,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		to_chat(user, "<span class='danger'>Too many player Goblins.</span>")
 		return
 	playergobs++
-	var/mob/living/carbon/human/species/goblin/N = new (get_turf(src))
+	var/mob/living/carbon/human/species/goblin/siege/N = new (get_turf(src))
 	N.key = user.key
 	N.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw) //As intended from seige goblins, so it is here.
 	N.update_a_intents()
@@ -499,7 +533,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	if(moon_goblins == 1)
 		new /mob/living/carbon/human/species/goblin/npc/moon(get_turf(src))
 	else
-		new /mob/living/carbon/human/species/goblin/npc(get_turf(src))
+		new /mob/living/carbon/human/species/goblin/npc/siege(get_turf(src))
 	gobs++
 	update_icon()
 	if(living_player_count() < 30) //Lowpop Measures
