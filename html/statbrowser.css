@@ -145,11 +145,11 @@ img {
   -ms-user-select: none; /* Remove after Byond 516 */
   text-align: center;
   font-family: var(--font);
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.03em;
   min-width: 3.2em;
   margin: 0 2px;
-  padding: 0.5em 0.85em 0.4em;
+  padding: 0.4em 0.7em 0.3em;
   border-width: 1px;
   border-style: solid;
   border-color: var(--tab-border);
@@ -345,8 +345,8 @@ img {
 .verb-search {
   width: 100%;
   box-sizing: border-box;
-  margin: 0 0 8px;
-  padding: 5px 9px 4px;
+  margin: 0 0 6px;
+  padding: 3px 7px 2px;
   border-width: 1px;
   border-style: solid;
   border-color: var(--tab-border);
@@ -355,7 +355,7 @@ img {
   box-shadow: var(--tab-inset);
   color: var(--text);
   font-family: var(--font);
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: 0.05em;
   text-shadow: var(--text-shadow);
   outline: none;

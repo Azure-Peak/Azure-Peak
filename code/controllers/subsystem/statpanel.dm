@@ -49,8 +49,7 @@ SUBSYSTEM_DEF(statpanels)
 		)
 
 		if(SSgamemode.roundvoteend)
-			var/ticker_time = world.time - SSticker.round_start_time
-			var/time_left = SSgamemode.round_ends_at - ticker_time
+			var/time_left = SSgamemode.round_ends_at - world.time
 			global_data += "Round End: [DisplayTimeText(time_left, 1)]"
 
 		if(SSticker.ready_for_reboot)

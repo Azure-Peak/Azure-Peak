@@ -475,38 +475,45 @@ function draw_listedturf() {
   for (var i = 0; i < turfcontents.length; i++) {
     var part = turfcontents[i];
     var clickfunc = ((part) => {
-      // The outer function is used to close over a fresh "part" variable,
-      // rather than every onmousedown getting the "part" of the last entry.
+      // Dispatch on mousedown (not mouseup): the panel is pushed/redrawn every
+      // subsystem fire, so the row can be destroyed before mouseup lands on it.
       return (e) => {
-        e.preventDefault();
-        clickcatcher = 'byond://?src=' + part[1];
+        var href = 'byond://?src=' + part[1] + ';statpanel_item_click=';
         switch (e.button) {
           case 1:
-            clickcatcher += ';statpanel_item_click=middle';
+            href += 'middle';
             break;
           case 2:
-            clickcatcher += ';statpanel_item_click=right';
+            href += 'right';
             break;
           default:
-            clickcatcher += ';statpanel_item_click=left';
+            href += 'left';
         }
         if (e.shiftKey) {
-          clickcatcher += ';statpanel_item_shiftclick=1';
+          href += ';statpanel_item_shiftclick=1';
         }
         if (e.ctrlKey) {
-          clickcatcher += ';statpanel_item_ctrlclick=1';
+          href += ';statpanel_item_ctrlclick=1';
         }
         if (e.altKey) {
-          clickcatcher += ';statpanel_item_altclick=1';
+          href += ';statpanel_item_altclick=1';
         }
-        window.location.href = clickcatcher;
+        if (e.preventDefault) e.preventDefault();
+        window.location.href = href;
+        return false;
       };
     })(part);
+    // Kill the native right-click menu and middle-click autoscroll, which
+    // otherwise eat the button before navigation fires.
+    var suppress = (e) => {
+      if (e && e.preventDefault) e.preventDefault();
+      return false;
+    };
     var iconsrc = part[2] || storedimages[part[1]];
-    var clickcatcher = '';
     var row = document.createElement('div');
     row.className = 'turf-entry';
     row.onmousedown = clickfunc;
+    row.oncontextmenu = suppress;
     if (iconsrc) {
       if (storedimages[part[1]] == null) {
         storedimages[part[1]] = part[2];
