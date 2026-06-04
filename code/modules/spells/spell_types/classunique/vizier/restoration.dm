@@ -20,7 +20,7 @@
 	sound = list('sound/magic/regression1.ogg', 'sound/magic/regression2.ogg', 'sound/magic/regression3.ogg', 'sound/magic/regression4.ogg')
 	cast_range = 4
 	charge_required = FALSE
-	cooldown_time = 12 SECONDS
+	cooldown_time = 15 SECONDS
 	invocations = list("Ishfi!")
 	invocation_type = INVOCATION_WHISPER
 
@@ -43,10 +43,10 @@
 	for(var/obj/item/bodypart/BP in target.bodyparts)
 		for(var/obj/item/embedded as anything in BP.embedded_objects)
 			BP.remove_embedded_object(embedded)
-			playsound(target.loc, 'sound/surgery/organ1.ogg')
+			playsound(target.loc, 'sound/surgery/organ1.ogg', 100)
 	for(var/obj/item/embedded as anything in target.simple_embedded_objects)
 		target.simple_remove_embedded_object(embedded)
-		playsound(target.loc, 'sound/surgery/organ1.ogg')
+		playsound(target.loc, 'sound/surgery/organ1.ogg', 100)
 
 	target.visible_message(span_info("Origin arts rewind [target]'s body!"), span_notice("My body recalls its prior form!"))
 	target.apply_status_effect(/datum/status_effect/buff/originhealing)
@@ -54,7 +54,7 @@
 
 /obj/effect/temp_visual/origin_restoration
 	icon = 'icons/effects/effects.dmi'
-	icon_state = "bhole3"
+	icon_state = "anom"
 	duration = 10
 	layer = ABOVE_MOB_LAYER
 	alpha = 220

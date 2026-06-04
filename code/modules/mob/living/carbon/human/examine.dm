@@ -350,7 +350,7 @@
 
 		var/datum/antagonist/vampire/vamp_inspect = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(vamp_inspect && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
-			. += span_redtext("[m3] strange glowying eyes and fangs!")
+			. += span_redtext("[m3] strange glowing eyes and fangs!")
 
 		// Shouldn't be able to tell they are unrevivable through a mask as a Necran
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
@@ -800,6 +800,18 @@
 		for(var/i in stun_absorption)
 			if(stun_absorption[i]["end_time"] > world.time && stun_absorption[i]["examine_message"])
 				msg += "[m1][stun_absorption[i]["examine_message"]]"
+
+	//Temporary wards and/or status effects go here, just for some more clarity.
+	if(src.skin_armor && istype(src.skin_armor, /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/bestowed))
+		var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/bestowed/W = src.skin_armor
+		var/time_remaining = max(0, W.expires_at - world.time)
+		var/total_seconds = round(time_remaining / 10)
+		var/minutes = floor(total_seconds / 60)
+		var/seconds = total_seconds % 60
+		if(minutes > 0)
+			msg += "<font color='#ffbd09'>A temporary ward surrounds them. It will last for [minutes] minute[minutes == 1 ? "" : "s"], [seconds] second[seconds == 1 ? "" : "s"].</font>"
+		else
+			msg += "<font color='#ffbd09'>A temporary ward surrounds them. It will last for [seconds] second[seconds == 1 ? "" : "s"].</font>"
 
 	if(!appears_dead)
 		if(!skipface)

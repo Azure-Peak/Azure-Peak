@@ -238,30 +238,32 @@
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
-			H.change_stat(STATKEY_INT, 2)
-			H.change_stat(STATKEY_WIL, 1)
-			H.change_stat(STATKEY_SPD, -1)
+			H.change_stat(STATKEY_INT, 3)
 			H.change_stat(STATKEY_PER, -1)
+			H.change_stat(STATKEY_SPD, -1)
+			H.change_stat(STATKEY_CON, -1)
 
 			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 
 			if(H.mind)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4))
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 4))
 				H.mind.AddSpell(new /datum/action/cooldown/spell/ley_lines)
 
 		if("Desert Ascetic (Pontifex)") // no momentum for this one as its flaw, as well as only the poke fist spells
 			H.set_patron(/datum/patron/old_god)
 			to_chat(H, span_warning("You were being initiated as a Pontifex, training in body and will. When a Djinn attack razed your school, you survived where others fell. Shunned for your survival and left without a master, you wandered the deserts with unfinished discipline."))
 			r_hand = /obj/item/rogueweapon/katar
+			armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/monke
 
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_EXPERT, TRUE)
 
 			H.change_stat(STATKEY_CON, 2)
-			H.change_stat(STATKEY_STR, 1)
-			H.change_stat(STATKEY_SPD, -1)
+			H.change_stat(STATKEY_STR, 2)
 			H.change_stat(STATKEY_PER, -1)
+			H.change_stat(STATKEY_WIL, -1)
+			H.change_stat(STATKEY_SPD, -1)
 
 			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
@@ -278,7 +280,7 @@
 			H.set_patron(/datum/patron/old_god)
 			to_chat(H, span_warning("A Vizier healer in training, you practiced Origin Magyck to restore body and spirit in Psydon’s name. Your work drew suspicion, and you were cast out before completing your vows, now wandering in exile with only fragments of the art."))
 			r_hand = /obj/item/rogueweapon/woodstaff/implement
-			armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple // placeholder until monk is merged
+			armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/monke
 			shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
 			backpack_contents += list(/obj/item/book/spellbook = 1)
 
@@ -291,7 +293,7 @@
 
 			H.change_stat(STATKEY_INT, 2)
 			H.change_stat(STATKEY_LCK, 1)
-			H.change_stat(STATKEY_PER, -1)
+			H.change_stat(STATKEY_CON, -2)
 			H.change_stat(STATKEY_WIL, -1)
 
 			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
