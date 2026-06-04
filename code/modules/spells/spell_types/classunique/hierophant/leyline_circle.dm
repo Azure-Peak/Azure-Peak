@@ -90,12 +90,12 @@
 	. = ..()
 	if(owner)
 		ADD_TRAIT(owner, TRAIT_NODEF, "[id]")
-		ADD_TRAIT(owner, TRAIT_LEYLINES, "[id]")
+		ADD_TRAIT(owner, TRAIT_LEYLINE_HASTE, "[id]")
 
 /datum/status_effect/buff/circle_of_power/on_remove()
 	if(owner)
 		REMOVE_TRAIT(owner, TRAIT_NODEF, "[id]")
-		REMOVE_TRAIT(owner, TRAIT_LEYLINES, "[id]")
+		REMOVE_TRAIT(owner, TRAIT_LEYLINE_HASTE, "[id]")
 	. = ..()
 
 /datum/status_effect/buff/circle_of_power/tick()
