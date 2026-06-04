@@ -20,7 +20,7 @@
 	sound = list('sound/magic/regression1.ogg', 'sound/magic/regression2.ogg', 'sound/magic/regression3.ogg', 'sound/magic/regression4.ogg')
 	cast_range = 4
 	charge_required = FALSE
-	cooldown_time = 15 SECONDS
+	cooldown_time = 12 SECONDS
 	invocations = list("Ishfi!")
 	invocation_type = INVOCATION_WHISPER
 
@@ -48,7 +48,7 @@
 		target.simple_remove_embedded_object(embedded)
 		playsound(target.loc, 'sound/surgery/organ1.ogg', 100)
 
-	target.visible_message(span_info("Origin arts rewind [target]'s body!"), span_notice("My body recalls its prior form!"))
+	target.visible_message(span_info("Origin arts rewind [target]'s body!"), span_notice("My body slowly recalls to a prior form!"))
 	target.apply_status_effect(/datum/status_effect/buff/originhealing)
 	return TRUE
 
@@ -57,7 +57,7 @@
 	icon_state = "anom"
 	duration = 10
 	layer = ABOVE_MOB_LAYER
-	alpha = 220
+	alpha = 200
 	color = "#FFD966"
 
 /obj/effect/temp_visual/origin_restoration/Initialize(mapload)
