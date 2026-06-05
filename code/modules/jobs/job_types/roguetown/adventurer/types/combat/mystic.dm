@@ -67,6 +67,8 @@
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
 				if("Fortifying Vapors(Medical)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+		if(/datum/patron/old_god)
+			H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
 		else
 			var/list/heal = list("Cure Wounds(Miracle)", "Fortifying Vapors(Medical)")
 			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
@@ -227,6 +229,8 @@
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
 				if("Fortifying Vapors(Medical)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+		if(/datum/patron/old_god)
+			H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
 		else
 			var/list/heal = list("Cure Wounds(Miracle)", "Fortifying Vapors(Medical)")
 			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
