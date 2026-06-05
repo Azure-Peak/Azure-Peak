@@ -347,6 +347,11 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "FLAIL")
 
+// OV Edit - Heresy Description
+/obj/item/rogueweapon/flail/peasantwarflail/matthios/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_WEAPON)
+// OV Edit End
+
 /obj/item/rogueweapon/flail/militia
 	name = "militia flail"
 	desc = "In another lyfe, this humble thresher was used to pound stalks into grain. Under a militiaman's grasp, however, it has found a new purpose: to humble overconfident bandits with crippling blows."

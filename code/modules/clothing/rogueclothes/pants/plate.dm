@@ -67,6 +67,10 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
+// OV Edit - Heresy Description
+/obj/item/clothing/under/roguetown/platelegs/graggar/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+// OV Edit End
 
 /obj/item/clothing/under/roguetown/platelegs/matthios
 	max_integrity = ARMOR_INT_LEG_ANTAG
@@ -81,6 +85,11 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
+
+// OV Edit - Heresy Description
+/obj/item/clothing/under/roguetown/platelegs/matthios/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+// OV Edit End
 
 /obj/item/clothing/under/roguetown/platelegs/matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
@@ -99,6 +108,11 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/component/zizo
 	unenchantable = TRUE
+
+// OV Edit - Heresy Description
+/obj/item/clothing/under/roguetown/platelegs/zizo/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+// OV Edit End
 
 /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
 	name = "avantyne garments"
@@ -133,6 +147,11 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/avantyne
 	armor = ARMOR_PLATE_BSTEEL
+
+// OV Edit - Heresy Description
+/obj/item/clothing/under/roguetown/platelegs/avantyne/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+// OV Edit End
 
 /obj/item/clothing/under/roguetown/platelegs/skirt
 	name = "steel plate tassets"

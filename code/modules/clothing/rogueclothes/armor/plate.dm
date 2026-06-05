@@ -320,6 +320,11 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
+// OV Edit - Heresy Description
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+// OV Edit End
+
 // Heretic Graggar Full Plate
 /obj/item/clothing/suit/roguetown/armor/plate/full/graggar
 	name = "vicious full-plate"
@@ -331,6 +336,11 @@
 	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
+
+// OV Edit - Heresy Description
+/obj/item/clothing/suit/roguetown/armor/plate/full/graggar/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+// OV Edit End
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/graggar/Initialize()
 	. = ..()
@@ -494,6 +504,11 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
+// OV Edit - Heresy Description
+/obj/item/clothing/suit/roguetown/armor/plate/full/matthios/get_heresy_status()
+	return HERESYDESC_MATTHIOS_ARMOR
+// OV Edit End
+
 /obj/item/clothing/suit/roguetown/armor/plate/full/matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
@@ -516,6 +531,11 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
+// OV Edit - Heresy Description
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/zizo/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+// OV Edit End
+
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/zizo/dropped(mob/living/carbon/human/user)
 	return ..()
 
@@ -535,7 +555,7 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/zizo/dropped(mob/living/carbon/human/user)
+/*/obj/item/clothing/suit/roguetown/armor/plate/full/zizo/dropped(mob/living/carbon/human/user) //OV Edit Start - Armor Remove Maint
 	. = ..()
 	if(QDELETED(src))
 		return
@@ -550,6 +570,11 @@
 	icon_state = "zizoplatechest_med"
 	armor = ARMOR_PLATE_BSTEEL
 	smeltresult = /obj/item/ingot/avantyne //Made from 'inert avantyne wafers', meaning that anyone can feasibly wear it.
+
+// OV Edit - Heresy Description
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+// OV Edit End
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/bikini
 	name = "full-plate corset"

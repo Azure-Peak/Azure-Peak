@@ -161,6 +161,11 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
 
+// OV Edit - Heresy Description
+/obj/item/rogueweapon/sword/zizo/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+// OV Edit End
+
 /obj/item/rogueweapon/sword/avantyne
 	name = "avantyne-threaded arming sword"
 	desc = "Anger and spite, channeled into a blade that defies both wisdom and purity. Seldom does such power come without a price, however; are you ready to pay it?"
@@ -175,6 +180,11 @@
 	equip_delay_self = 0
 	unequip_delay_self = 0
 	smeltresult = /obj/item/ingot/avantyne
+
+// OV Edit - Heresy Description
+/obj/item/rogueweapon/sword/avantyne/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
+// OV Edit End
 
 /obj/item/rogueweapon/sword/long
 	name = "longsword"
@@ -438,6 +448,11 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
 
+// OV Edit - Heresy Description
+/obj/item/rogueweapon/sword/long/zizo/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+// OV Edit End
+
 /obj/item/rogueweapon/sword/long/avantyne
 	name = "avantyne-threaded longsword"
 	desc = "A parasitic mandate to progress, borne through the cultivation of crystalline metastasis. This otherworldly blade is stronger and sharper than any \
@@ -452,6 +467,11 @@
 	unequip_delay_self = 0
 	wdefense_wbonus = 5
 	smeltresult = /obj/item/ingot/avantyne
+
+// OV Edit - Heresy Description
+/obj/item/rogueweapon/sword/zizo/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
+// OV Edit End
 
 /obj/item/rogueweapon/sword/long/heirloom
 	name = "old longsword"
@@ -1713,6 +1733,11 @@
 	max_blade_int = 250
 	max_integrity = 225
 	smeltresult = /obj/item/ingot/avantyne
+
+// OV Edit - Heresy Description
+/obj/item/rogueweapon/sword/rapier/avantyne/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+// OV Edit End
 
 /obj/item/rogueweapon/sword/rapier/avantyne/relic
 	name = "Damnatio"

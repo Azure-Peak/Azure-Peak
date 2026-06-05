@@ -1558,6 +1558,11 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "CLOAK", "RENDERED ASUNDER")
 
+// OV Edit - Heresy Description
+/obj/item/clothing/cloak/graggar/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_MISC)
+// OV Edit End
+
 /obj/item/clothing/cloak/graggar/heavy
 	name = "vicious halfcloak"
 	desc = "Sorrow begets spite; and when one has nothing else to lose, spite is all that's needed for Man to defy God."
