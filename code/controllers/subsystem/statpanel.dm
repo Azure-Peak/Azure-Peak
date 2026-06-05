@@ -1,5 +1,4 @@
-/// Listed-turf lag guards: drop per-atom icons past ICON_LIMIT entries, hard-cap total entries.
-#define STATBROWSER_TURF_ICON_LIMIT 25
+/// Listed-turf lag guard: hard-cap total entries.
 #define STATBROWSER_TURF_HARD_CAP 100
 
 SUBSYSTEM_DEF(statpanels)
@@ -283,8 +282,7 @@ SUBSYSTEM_DEF(statpanels)
 	for(var/image/override_image in images)
 		if(override_image.override && override_image.loc?.loc == T)
 			overrides += override_image.loc
-	var/use_icons = (length(T.contents) <= STATBROWSER_TURF_ICON_LIMIT)
-	var/list/data = list(list(statpanel_strip_article("[T]"), REF(T), use_icons ? listedturf_icon(T) : null))
+	var/list/data = list(list(statpanel_strip_article("[T]"), REF(T), listedturf_icon(T)))
 	var/shown = 0
 	for(var/atom/thing in T)
 		if(!ismob(thing) && !thing.mouse_opacity)
@@ -296,14 +294,18 @@ SUBSYSTEM_DEF(statpanels)
 		if(shown >= STATBROWSER_TURF_HARD_CAP)
 			data += list(list("...more contents not shown", null, null))
 			break
-		data += list(list(statpanel_strip_article("[thing]"), REF(thing), use_icons ? listedturf_icon(thing) : null))
+		data += list(list(statpanel_strip_article("[thing]"), REF(thing), listedturf_icon(thing)))
 		shown++
 	stat_panel.send_message("update_listedturf", data)
 
 /client/proc/listedturf_icon(atom/thing)
 	if(!thing.icon)
 		return null
-	return icon2html(thing, src, sourceonly = TRUE)
+	if(ismob(thing) || length(thing.overlays) > 2 || !isfile(thing.icon))
+		var/atom/movable/screen/container = mob?.send_appearance(copy_appearance_filter_overlays(thing.appearance))
+		if(container)
+			return "\ref[container]"
+	return "\ref[thing.icon]?state=[thing.icon_state]&dir=[thing.dir]"
 
 /proc/statpanel_strip_article(name)
 	if(findtext(name, "the ") == 1)
@@ -335,5 +337,4 @@ SUBSYSTEM_DEF(statpanels)
 		paramslist[ALT_CLICKED] = "1"
 	user.client.Click(src, loc, null, list2params(paramslist))
 
-#undef STATBROWSER_TURF_ICON_LIMIT
 #undef STATBROWSER_TURF_HARD_CAP
