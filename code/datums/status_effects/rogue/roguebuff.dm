@@ -595,7 +595,7 @@
 	H.color = "#ffda95"
 
 	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-		owner.blood_volume = min(owner.blood_volume + healing_on_tick, BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume + (BLOOD_VOLUME_NORMAL * 0.02), BLOOD_VOLUME_NORMAL)
 
 	// Rewind the most damaged limb.
 	if(ishuman(owner))

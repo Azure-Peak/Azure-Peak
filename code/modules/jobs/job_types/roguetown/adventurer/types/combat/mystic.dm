@@ -67,6 +67,11 @@
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+
+		if(/datum/patron/old_god) // ENDVRE LIKE THE MAN(or woman, or nonbinary) YOU ARE SUPPOSED TO BE, CHUD!
+			to_chat(H, span_blue("No matter how much you pray, you weep, and you endure. HE does not answer... Your trial begins now."))
+			H.emote("cry")
+
 		else
 			var/list/heal = list("Miracle (Divine)", "Fortifying Vapors (Secular)")
 			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
@@ -201,20 +206,25 @@
 
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
-			var/list/heal = list("Cure Greater Wounds(Miracle)", "Fortifying Vapors(Medical)")
+			var/list/heal = list("Greater Miracle (Miracle)", "Fortifying Vapors (Medical)")
 			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
 			switch(highheal_options)
-				if("Cure Greater Wounds(Miracle)")
+				if("Greater Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
-				if("Fortifying Vapors(Medical)")
+				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+
+		if(/datum/patron/old_god) // ENDVRE LIKE THE MAN(or woman, or nonbinary) YOU ARE SUPPOSED TO BE, CHUD!
+			to_chat(H, span_blue("No matter how much you pray, you weep, and you endure. HE does not answer... Your trial begins now."))
+			H.emote("cry")
+
 		else
-			var/list/heal = list("Cure Wounds(Miracle)", "Fortifying Vapors(Medical)")
+			var/list/heal = list("Miracle (Divine)", "Fortifying Vapors (Secular)")
 			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
 			switch(heal_options)
-				if("Cure Wounds(Miracle)")
+				if("Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
-				if("Fortifying Vapors(Medical)")
+				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
 	if(H.mind)

@@ -41,7 +41,7 @@
 
 	cost = 3
 
-/datum/action/cooldown/spell/reversion/is_valid_target(atom/cast_on)
+/datum/action/cooldown/spell/vizier/reversion/is_valid_target(atom/cast_on)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -55,7 +55,7 @@
 		return FALSE
 	return TRUE
 
-/datum/action/cooldown/spell/reversion/cast(atom/cast_on)
+/datum/action/cooldown/spell/vizier/reversion/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
@@ -92,7 +92,7 @@
 					return TRUE
 
 	// Snapshot the target's current state
-	var/datum/action/cooldown/spell/reversion_trigger/trigger = new
+	var/datum/action/cooldown/spell/vizier/reversion_trigger/trigger = new
 	trigger.origin = get_turf(target)
 	trigger.brute = target.getBruteLoss()
 	trigger.burn = target.getFireLoss()
@@ -128,7 +128,7 @@
 
 	return TRUE
 
-/datum/action/cooldown/spell/reversion_trigger
+/datum/action/cooldown/spell/vizier/reversion_trigger
 	button_icon = 'icons/mob/actions/classuniquespells/vizier.dmi'
 	name = "Revert"
 	desc = "Activate to snap back to your marked position and restore your state."
@@ -176,7 +176,7 @@
 	/// Ground marker effect at the origin point.
 	var/obj/effect/reversion_marker/ground_marker
 
-/datum/action/cooldown/spell/reversion_trigger/Grant(mob/grant_to)
+/datum/action/cooldown/spell/vizier/reversion_trigger/Grant(mob/grant_to)
 	. = ..()
 	if(!owner)
 		return
@@ -186,7 +186,7 @@
 	if(origin)
 		ground_marker = new(origin)
 
-/datum/action/cooldown/spell/reversion_trigger/cast(atom/cast_on)
+/datum/action/cooldown/spell/vizier/reversion_trigger/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/target = owner
 	if(!istype(target))
@@ -226,7 +226,7 @@
 	return TRUE
 
 /// Called when the mark expires without being used.
-/datum/action/cooldown/spell/reversion_trigger/proc/expire()
+/datum/action/cooldown/spell/vizier/reversion_trigger/proc/expire()
 	if(!owner)
 		qdel(src)
 		return
@@ -236,7 +236,7 @@
 	cleanup()
 
 /// Remove this spell from the target and delete it.
-/datum/action/cooldown/spell/reversion_trigger/proc/cleanup()
+/datum/action/cooldown/spell/vizier/reversion_trigger/proc/cleanup()
 	if(expiry_timer)
 		deltimer(expiry_timer)
 		expiry_timer = null
@@ -245,7 +245,7 @@
 		Remove(owner)
 	qdel(src)
 
-/datum/action/cooldown/spell/reversion_trigger/Destroy()
+/datum/action/cooldown/spell/vizier/reversion_trigger/Destroy()
 	if(expiry_timer)
 		deltimer(expiry_timer)
 		expiry_timer = null

@@ -26,11 +26,13 @@
 
 /datum/action/cooldown/spell/vizier/restoration/cast(atom/cast_on)
 	. = ..()
-	var/step_check
-	var/mob/living/carbon/target = cast_on
 
+	var/mob/living/target = cast_on
 	if(!istype(target))
 		return FALSE
+	if(!isliving(target))
+		return FALSE
+
 	var/obj/effect/temp_visual/origin_restoration/V = new
 	target.vis_contents += V
 
@@ -40,33 +42,59 @@
 	new /obj/effect/temp_visual/origin_restoration_burst(user_turf, SOUTHEAST)
 	new /obj/effect/temp_visual/origin_restoration_burst(user_turf, SOUTHWEST)
 
-	// Rewind foreign objects out of the body.
-	for(var/obj/item/bodypart/BP in target.bodyparts)
-		for(var/obj/item/embedded as anything in BP.embedded_objects)
-			BP.remove_embedded_object(embedded)
-			playsound(target.loc, 'sound/surgery/organ1.ogg', 100)
-			step_check = TRUE
-	for(var/obj/item/embedded as anything in target.simple_embedded_objects)
-		target.simple_remove_embedded_object(embedded)
-		playsound(target.loc, 'sound/surgery/organ1.ogg', 100)
-		step_check = TRUE
-	if(step_check)
-		target.visible_message(span_info("Origin arts undo [target]'s embedded objects!"), span_notice("Foreign objects are rewound in time!"))
+	if(!istype(target, /mob/living/carbon))
+		target.apply_status_effect(/datum/status_effect/buff/originhealing)
+		target.visible_message(span_info("Origin arts stabilize [target]!"), span_notice("A brief temporal correction passes through me."))
 		return TRUE
 
-	// Rewind bleeding from wounds.
-	var/list/wAmount = target.get_wounds()
-	for(var/datum/wound/W as anything in wAmount)
-		if(W?.bleed_rate > 0)
-			W.set_bleed_rate(0)
+	var/mob/living/carbon/C = target
+
+	var/step_check = FALSE
+
+	// Embedded objects
+	if(length(C.bodyparts))
+		for(var/obj/item/bodypart/BP in C.bodyparts)
+			if(!BP)
+				continue
+
+			if(length(BP.embedded_objects))
+				for(var/obj/item/embedded as anything in BP.embedded_objects)
+					if(!embedded)
+						continue
+					BP.remove_embedded_object(embedded)
+					playsound(C.loc, 'sound/surgery/organ1.ogg', 100)
+					step_check = TRUE
+
+	if(length(C.simple_embedded_objects))
+		for(var/obj/item/embedded as anything in C.simple_embedded_objects)
+			if(!embedded)
+				continue
+			C.simple_remove_embedded_object(embedded)
+			playsound(C.loc, 'sound/surgery/organ1.ogg', 100)
 			step_check = TRUE
+
 	if(step_check)
-		target.visible_message(span_info("Origin arts reverse [target]'s bleeding!"), span_notice("My open wounds close, as if reverting in time!"))
+		C.visible_message(span_info("Origin arts undo [C]'s embedded objects!"), span_notice("Foreign objects are rewound in time!"))
 		return TRUE
 
-	// Then, actually commence to heal.
-	target.visible_message(span_info("Origin arts rewind [target]'s body!"), span_notice("My body slowly recalls to a prior form!"))
-	target.apply_status_effect(/datum/status_effect/buff/originhealing)
+	// Wound bleed
+	var/list/wAmount = C.get_wounds()
+	if(wAmount && length(wAmount))
+		for(var/datum/wound/W as anything in wAmount)
+			if(!W)
+				continue
+			if(W.bleed_rate > 0)
+				W.set_bleed_rate(0)
+				step_check = TRUE
+
+	if(step_check)
+		C.visible_message(span_info("Origin arts reverse [C]'s bleeding!"),	span_notice("My open wounds close, as if reverting in time!"))
+		return TRUE
+
+	// Healing
+	C.visible_message(span_info("Origin arts rewind [C]'s body!"), span_notice("My body slowly recalls to a prior form!"))
+
+	C.apply_status_effect(/datum/status_effect/buff/originhealing)
 
 	return TRUE
 
