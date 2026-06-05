@@ -47,7 +47,7 @@
 			else
 				spawn_turf = get_step(T, prob(50) ? NORTH : SOUTH)
 
-		if(!isopenturf(spawn_turf))
+		if(!isopenturf(spawn_turf) || spawn_turf.is_blocked_turf())
 			continue
 
 		new /obj/effect/temp_visual/bluespace_fissure(spawn_turf)

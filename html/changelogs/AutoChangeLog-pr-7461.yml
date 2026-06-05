@@ -1,0 +1,4 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "weeping cross now needs you to be a psydonite to work."
