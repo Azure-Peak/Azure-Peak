@@ -195,3 +195,27 @@
   - balance: Maneaters are no longer revealed by walking over them in cases where
       they won't attack
   - bugfix: Maneaters no longer refuse to eat ambush NPCs
+2026-06-05:
+  KatTheFox:
+  - bugfix: Summoned golden spectacles can now be adjusted
+  Ollanius:
+  - rscadd: Four new stature-type descriptors and three new trait-type descriptors.
+  - balance: Increases the fire resistance value of bronze armor from LIGHT to HEAVY,
+      making it uniquely adept at protecting against incendiary attacks.
+  Quinalion:
+  - rscadd: Otavan Short Satchel.
+  - rscadd: Black Satchel is now obtainable.
+  - image: Black Satchel sprites.
+  Ryan180602:
+  - balance: gmace fits in gwstrap only.
+  - balance: gmace stab is now 1-tile.
+  - balance: spawning mobs on turfs with existing mobs won't work.
+  WeNeedMorePhoron:
+  - bugfix: 'THIS IS A BUG FIX: Arcyne Ward no longer stack on top of armor, this
+      is defined by any piece having real armor rating. When you put on armor, it
+      will remove the coverage again. Coverage does not restore until the cast of
+      regen / full cast happens. It will only ever **LOSE** coverage from you putting
+      on, or having had armor on during the initial cast'
+  - balance: For balance purpose due to multiple complaints about mid combat regeneration,
+      the conjure time for regen / conjuring ward has been changed from 6 seconds
+      to 10 seconds

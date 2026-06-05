@@ -86,6 +86,18 @@
 	name = "Blessed"
 	prefix = "%ARE%"
 
+/datum/mob_descriptor/trait/holy
+	name = "Holy"
+	prefix = "%ARE%"
+
+/datum/mob_descriptor/trait/unholy
+	name = "Unholy"
+	prefix = "%ARE%"
+
+/datum/mob_descriptor/trait/sacrificial
+	name = "Sacrificial"
+	prefix = "%ARE%"
+
 /datum/mob_descriptor/trait/accursed
 	name = "Accursed"
 	prefix = "%ARE%"
