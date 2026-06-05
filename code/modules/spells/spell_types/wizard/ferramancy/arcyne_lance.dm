@@ -47,7 +47,6 @@
 	npc_simple_damage_mult = 1.5
 	nodamage = FALSE
 	speed = MAGE_PROJ_MEDIUM
-	armor_penetration = PEN_LIGHT
 	movement_type = UNSTOPPABLE
 	range = SPELL_RANGE_PROJECTILE
 	flag = "stab"
