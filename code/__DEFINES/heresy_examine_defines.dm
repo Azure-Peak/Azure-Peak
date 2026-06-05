@@ -1,9 +1,3 @@
-// OV FILE
-/* This file HAS to be in Azure Peak's defines folder or else all the code that uses these doesn't compile
-* I SOB VIOLENTLY AT THIS KNOWLEDGE AND APOLOGIZE PROFUSELY. BYOND IS JUST LIKE THIS
-* - Ryumi
-*/
-
 // Zizo items
 #define HERESYDESC_ZIZO_WEAPON "A grim weapon of Zizo's champions"
 #define HERESYDESC_ZIZO_ARMOR "An accursed armor piece of Zizo's champions"
@@ -37,7 +31,7 @@
 #define HERESY_SEVERITY_SUSPICIOUS 1
 #define HERESY_SEVERITY_ALARMING 2
 
-// Heresy severity descriptions
+// Heresy severity colors
 #define COLOR_HERESY_SEVERITY_SUSPICIOUS "bba737"
 #define COLOR_HERESY_SEVERITY_ALARMING "c43535"
 
