@@ -66,7 +66,7 @@
 	to_chat(owner, span_green("My timeline races ahead of the present. I am unbound by time!"))
 
 /datum/status_effect/buff/accel/tick()
-	owner.stamina_add(-50)
+	owner.stamina_add(-69)
 
 /datum/status_effect/buff/accel/on_remove()
 	. = ..()
@@ -103,8 +103,7 @@
 
 	ADD_TRAIT(owner, TRAIT_NODEF, "naledi_cat_nonsense")
 	owner.energy_add(-100)
-	owner.stamina_add(900)
-	owner.stamina_add(900)
+	owner.stamina_add(6969)
 	to_chat(owner, span_red("Everything feels unbearably slow. I am defenseless!"))
 
 /datum/status_effect/debuff/decel/on_remove()
