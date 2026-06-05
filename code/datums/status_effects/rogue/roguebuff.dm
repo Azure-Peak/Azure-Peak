@@ -572,7 +572,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
 	duration = 10 SECONDS
 	examine_text = "<font color='#ffae00'>SUBJECTPRONOUN is slowly being rewound in time!</font>"
-	var/healing_on_tick = 2
+	var/healing_on_tick = 3
 	var/outline_colour = "#ffc558"
 
 /datum/status_effect/buff/originhealing/on_creation(mob/living/new_owner, new_healing_on_tick)
