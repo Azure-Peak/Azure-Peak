@@ -1,0 +1,6 @@
+author: "FeniaFox"
+delete-after: True
+changes:
+  - rscadd: "Added leather helms to tailor silverface as sidegrade vs headbands, trading integ to get nose coverage."
+  - rscadd: "Added light arming jackets, with identical stats to current arming jacket."
+  - balance: "rebalanced arming jackets to not just be worse gambesons, now they have a noticable integ advantage to make up for lack of leg coverage. Adjusted role starter gear to be untouched in effectiveness by this change."

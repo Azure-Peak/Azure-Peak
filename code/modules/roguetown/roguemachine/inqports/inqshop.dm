@@ -472,9 +472,14 @@
 	marquescost = 12
 
 /datum/inqports/wardrobe/otavansatchel
-	name = "1 Satchel, Otavan Leather"
+	name = "1 Satchel, Otavan"
 	item_type = /obj/item/storage/backpack/rogue/satchel/otavan
 	marquescost = 3
+
+/datum/inqports/wardrobe/otavansatchel/short
+	name = "1 Short Satchel, Otavan"
+	item_type = /obj/item/storage/backpack/rogue/satchel/otavan/short
+	marquescost = 4
 
 /datum/inqports/wardrobe/satchelbelted
 	name = "1 Satchel, Belted"

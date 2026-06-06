@@ -209,6 +209,13 @@
 					/obj/item/quiver/bolt
 				)
 
+/datum/supply_pack/rogue/apparel/quiver/stake
+	name = "Empty Shotstake Pouch"
+	cost = 20
+	contains = list(
+					/obj/item/quiver/bolt/stake
+				)
+
 /datum/supply_pack/rogue/apparel/gwstrap
 	name = "Greatweapon Strap"
 	cost = 30

@@ -27,6 +27,9 @@
 		span_notice("Blood pools around the incision in [target]'s [parse_zone(target_zone)]."))
 	var/obj/item/bodypart/gotten_part = target.get_bodypart(check_zone(target_zone))
 	if(gotten_part)
+		if(target.has_status_effect(/datum/status_effect/debuff/deadite_grace))
+			target.remove_status_effect(/datum/status_effect/debuff/deadite_grace)
+			display_results(user, target, span_necrosis("[target] seizes violently as their rotting frame locks up in a grisly spasm!"), span_necrosis("[target] seizes violently as their rotting frame locks up in a grisly spasm!"))
 		gotten_part.add_wound(/datum/wound/slash/incision)
 	return TRUE
 
