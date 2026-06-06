@@ -7,7 +7,7 @@
 	cast_range = 5
 	self_cast_possible = TRUE
 	charge_required = FALSE
-	cooldown_time = 30 SECONDS
+	cooldown_time = 60 SECONDS
 	invocations = list("Naf'ir! Diverge, timeline!")
 	invocation_type = INVOCATION_SHOUT
 
@@ -28,7 +28,7 @@
 	var/list/fragments = list()
 
 	var/heal_per_fragment = 14
-	var/damage_per_fragment = 24
+	var/damage_per_fragment = 22
 
 	var/mob/living/caster
 
@@ -45,7 +45,7 @@
 
 	var/turf/center = get_turf(owner)
 
-	owner.Immobilize(2 SECONDS)
+	owner.Immobilize(3 SECONDS)
 
 	owner.visible_message(
 		span_warning("[owner]'s timeline fractures apart!"),
