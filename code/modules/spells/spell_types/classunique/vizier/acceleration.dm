@@ -44,7 +44,7 @@
 	id = "acceleration"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/accel
 	effectedstats = list(STATKEY_SPD = 20)
-	duration = 10 SECONDS
+	duration = 15 SECONDS
 	tick_interval = 1 SECONDS
 	var/afterimage_active = FALSE
 
@@ -58,6 +58,7 @@
 
 	ADD_TRAIT(owner, TRAIT_GUIDANCE, "naledi_cat_nonsense")
 	ADD_TRAIT(owner, TRAIT_NOPAINSTUN, "naledi_cat_nonsense")
+	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, "naledi_cat_nonsense")
 
 	if(!afterimage_active)
 		owner.AddComponent(/datum/component/after_image)
@@ -73,6 +74,7 @@
 
 	REMOVE_TRAIT(owner, TRAIT_GUIDANCE, "naledi_cat_nonsense")
 	REMOVE_TRAIT(owner, TRAIT_NOPAINSTUN, "naledi_cat_nonsense")
+	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, "naledi_cat_nonsense")
 
 	if(afterimage_active)
 		var/datum/component/after_image/after_image_component = owner.GetComponent(/datum/component/after_image)
@@ -91,7 +93,7 @@
 	id = "deceleration"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/decel
 	effectedstats = list(STATKEY_SPD = -20)
-	duration = 10 SECONDS
+	duration = 15 SECONDS
 
 /datum/status_effect/debuff/decel/on_creation(mob/living/new_owner, new_duration = null)
 	if(new_duration)
@@ -102,8 +104,7 @@
 	. = ..()
 
 	ADD_TRAIT(owner, TRAIT_NODEF, "naledi_cat_nonsense")
-	owner.energy_add(-100)
-	owner.stamina_add(6969)
+	owner.stamina_add(125)
 	to_chat(owner, span_red("Everything feels unbearably slow. I am defenseless!"))
 
 /datum/status_effect/debuff/decel/on_remove()
