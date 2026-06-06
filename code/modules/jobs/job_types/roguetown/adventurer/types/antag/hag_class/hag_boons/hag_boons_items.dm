@@ -41,7 +41,7 @@
 	else
 		switch(mimic_type)
 			// Zizo psicrosses
-			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/iron, /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph)
+			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/iron, /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph, /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy)
 				return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
 			// Matthios psicrosses
 			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios)
