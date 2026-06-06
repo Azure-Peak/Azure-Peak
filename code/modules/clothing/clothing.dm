@@ -643,7 +643,6 @@ BLIND     // can't see anything
 /obj/proc/generate_tooltip(examine_text)
 	return examine_text
 
-// OV Add Begin - Items have heresy descriptions!
 /obj/item/generate_tooltip(examine_text)
 	var/heresy_status = get_heresy_status()
 	if(heresy_status)
@@ -654,7 +653,6 @@ BLIND     // can't see anything
 		examine_text = "<font color = '#[severity_color]'>[severity_symbol] [examine_text] [severity_symbol]</font>"
 		return SPAN_TOOLTIP_DANGEROUS_HTML(heresy_desc, examine_text)
 	return examine_text
-// OV Add End
 
 /obj/item/clothing/generate_tooltip(examine_text)
 	if(!armor)	// No armor
@@ -665,7 +663,6 @@ BLIND     // can't see anything
 		return examine_text
 
 	var/str
-	// OV Edit Begin - Heresy item tooltip
 	var/is_heretical = FALSE
 	var/heresy_status = get_heresy_status()
 	if(heresy_status)
@@ -673,7 +670,6 @@ BLIND     // can't see anything
 		if(heresy_desc)
 			is_heretical = TRUE
 			str += heresy_desc
-	// OV Edit End
 	str += "<b>ABSORPTION:</b> [colorgrade_rating("🔨 BLUNT", armor.blunt, elaborate = TRUE, max_tier = 5)]<br>"
 	str += "<b>BLOCK:</b> "
 	str += "[colorgrade_rating("🪓 SLASH", armor.slash, elaborate = TRUE)] | "
@@ -688,14 +684,12 @@ BLIND     // can't see anything
 			resists += colorgrade_rating("🧪 ACID", armor.acid, elaborate = TRUE)
 		str += resists.Join(" | ")
 
-	// OV Edit - Make it extra obvious if it's HERETICAL!
 	if(is_heretical)
 		var/severity = heresy_status[1]
 		var/severity_color = get_heresy_severity_color(severity)
 		var/severity_symbol = get_heresy_severity_symbol(severity)
 		examine_text = "<font color = '#[severity_color]'>[severity_symbol] [examine_text] [severity_symbol]</font>"
 	else
-	// OV Edit End
 		//This makes it appear darker than the rest of examine text. Draws the cursor to it like to a Wetsquires.rt link.
 		examine_text = "<font color = '#808080'>[examine_text]</font>"
 	return SPAN_TOOLTIP_DANGEROUS_HTML(str, examine_text)

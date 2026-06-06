@@ -419,10 +419,8 @@
 	smeltresult = null
 	sellprice = 130
 
-// OV Edit - Heresy Description
 /obj/item/ingot/avantyne/get_heresy_status()
 	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
-// OV Edit End
 
 //Components!
 
@@ -490,10 +488,8 @@
 	icon_state = "component_zizo"
 	dropshrink = 0.7
 
-// OV Edit - Heresy Description
 /obj/item/ingot/component/zizo/get_heresy_status()
 	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
-// OV Edit End
 
 /obj/item/ingot/component/graggar
 	name = "vicious fragment"
@@ -501,10 +497,8 @@
 	icon_state = "component_graggar"
 	dropshrink = 0.7
 
-// OV Edit - Heresy Description
 /obj/item/ingot/component/graggar/get_heresy_status()
 	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_MISC)
-// OV Edit End
 
 /obj/item/ingot/component/matthios
 	name = "gilded fragment"
@@ -512,10 +506,8 @@
 	icon_state = "component_matthios"
 	dropshrink = 0.7
 
-// OV Edit - Heresy Description
 /obj/item/ingot/component/matthios/get_heresy_status()
 	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
-// OV Edit End
 
 /obj/item/ingot/component/baotha
 	name = "saccharine fragment"
@@ -523,7 +515,5 @@
 	icon_state = "component_baotha"
 	dropshrink = 0.7
 
-// OV Edit - Heresy Description
 /obj/item/ingot/component/baotha/get_heresy_status()
 	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_MISC)
-// OV Edit End

@@ -356,10 +356,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "AXE", "RENDERED ASUNDER")
 
-// OV Edit - Heresy Description
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar/get_heresy_status()
 	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
-// OV Edit End
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/decorated
 	name = "decorated axe"
@@ -752,10 +750,8 @@
 	smeltresult = /obj/item/ingot/component/graggar
 	special = /datum/special_intent/vicious_swipe
 
-// OV Edit - Heresy Description
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar/get_heresy_status()
 	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
-// OV Edit End
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar/Initialize()
 	. = ..()

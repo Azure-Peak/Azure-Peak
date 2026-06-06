@@ -577,10 +577,8 @@
 	resistance_flags = FIRE_PROOF
 	sellprice = 100
 
-// OV Edit - Heresy Description
 /obj/item/clothing/neck/roguetown/psicross/inhumen/g/get_heresy_status()
 	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
-// OV Edit End
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios
 	name = "amulet of Matthios"
@@ -590,10 +588,8 @@
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS|ITEM_SLOT_RING
 	smeltresult = null
 
-// OV Edit - Heresy Description
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/get_heresy_status()
 	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
-// OV Edit End
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 	name = "amulet of Graggar"
@@ -603,10 +599,8 @@
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS|ITEM_SLOT_RING
 	smeltresult = null
 
-// OV Edit - Heresy Description
 /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/get_heresy_status()
 	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_ICON)
-// OV Edit End
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha
 	name = "amulet of Baotha"
@@ -616,10 +610,8 @@
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS|ITEM_SLOT_RING
 	smeltresult = null
 
-// OV Edit - Heresy Description
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha/get_heresy_status()
 	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_ICON)
-// OV Edit End
 
 /obj/item/clothing/neck/roguetown/psicross/undivided
 	name = "amulet of Ten"
@@ -1070,10 +1062,8 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
 
-// OV Edit - Heresy Description
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/get_heresy_status()
 	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
-// OV Edit End
 
 //
 
@@ -1092,10 +1082,8 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
 
-// OV Edit - Heresy Description
 /obj/item/clothing/neck/roguetown/bevor/zizo/get_heresy_status()
 	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-// OV Edit End
 
 /obj/item/clothing/neck/roguetown/bevor/zizo/heavy
 	name = "fused avantyne bevor"
@@ -1125,10 +1113,8 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.
 
-// OV Edit - Heresy Description
 /obj/item/clothing/neck/roguetown/gorget/steel/graggar/get_heresy_status()
 	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
-// OV Edit End
 
 //
 

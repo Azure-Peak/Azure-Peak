@@ -1908,5 +1908,3 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(HERESY_SEVERITY_ALARMING)
 			return SYMBOL_HERESY_SEVERITY_ALARMING
 	return null
-	
-// OV Add End

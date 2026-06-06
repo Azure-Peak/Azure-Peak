@@ -369,10 +369,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
-// OV Edit - Heresy Description
 /obj/item/clothing/shoes/roguetown/boots/armor/graggar/get_heresy_status()
 	return HERESYDESC_GRAGGAR_ARMOR
-// OV Edit End
 
 /obj/item/clothing/shoes/roguetown/boots/armor/matthios
 	max_integrity = ARMOR_INT_SIDE_ANTAG
@@ -383,10 +381,8 @@
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
 
-// OV Edit - Heresy Description
 /obj/item/clothing/shoes/roguetown/boots/armor/matthios/get_heresy_status()
 	return HERESYDESC_MATTHIOS_ARMOR
-// OV Edit End
 
 /obj/item/clothing/shoes/roguetown/boots/armor/matthios/Initialize()
 	. = ..()
@@ -414,10 +410,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
-// OV Edit - Heresy Description
 /obj/item/clothing/shoes/roguetown/boots/armor/zizo/get_heresy_status()
 	return HERESYDESC_ZIZO_ARMOR
-// OV Edit End
 
 /obj/item/clothing/shoes/roguetown/boots/armor/avantyne
 	name = "avantyne-threaded sabatons"
@@ -431,10 +425,8 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/avantyne
 
-// OV Edit - Heresy Description
 /obj/item/clothing/shoes/roguetown/boots/armor/avantyne/get_heresy_status()
 	return HERESYDESC_ZIZO_ARMOR
-// OV Edit End
 
 /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	name = "light plated boots"

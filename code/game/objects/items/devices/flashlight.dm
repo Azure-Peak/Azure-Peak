@@ -488,10 +488,8 @@
 	item_state = "pumpkinlampz"
 	light_color = "#ceff72ff"
 
-// OV Edit - Heresy Description
 /obj/item/flashlight/flare/torch/lantern/pumpkin/zizo/get_heresy_status()
 	return list(HERESY_SEVERITY_SUSPICIOUS, "GREAT GOOGLY MOOGLY, THAT PUMPKIN IS PRAISING SHE OF Z!")
-// OV Edit End
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/grin
 	name = "smiling pumpkin lamptern"

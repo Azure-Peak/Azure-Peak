@@ -588,10 +588,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "DAGGER")
 
-// OV Edit - Heresy Description
 /obj/item/rogueweapon/huntingknife/idagger/steel/zizo/get_heresy_status()
 	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
-// OV Edit End
 
 /obj/item/rogueweapon/huntingknife/idagger/avantyne
 	name = "avantyne-threaded dagger"
@@ -605,10 +603,8 @@
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 50, "embedded_fall_chance" = 0) 
 	smeltresult = /obj/item/ingot/avantyne
 
-// OV Edit - Heresy Description
 /obj/item/rogueweapon/huntingknife/idagger/avantyne/get_heresy_status()
 	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
-// OV Edit End
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/holysee
 	name = "eclipsum dagger"
