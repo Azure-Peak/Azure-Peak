@@ -22,8 +22,27 @@
 	src.transform = turn(src.transform, pick(0, 90, 180, 270))
 	src.alpha = 255
 
-	//animate(src, alpha = 255, time = duration - 3 SECONDS, flags = ANIMATION_RELATIVE)
-	//animate(alpha = 25, time = 3 SECONDS, easing = LINEAR_EASING)
+	// We use a filter to make it cheaper for del() to clean these up!
+	start_filter_fade()
+
+/obj/effect/temp_visual/ink_trail/proc/start_filter_fade()
+	var/list/filter_params = list(
+		"type" = "color",
+		"color" = list(
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		)
+	)
+
+	src.add_filter("ink_trail_fade", 1, filter_params)
+	if(!src.filters || !src.filters.len)
+		return
+	var/raw_filter = src.filters[src.filters.len]
+
+	animate(raw_filter, color = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1), time = duration - 3 SECONDS, flags = ANIMATION_RELATIVE)
+	animate(color = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,0.1), time = 3 SECONDS, easing = LINEAR_EASING)
 
 /obj/effect/temp_visual/ink_trail/Crossed(atom/movable/AM)
 	. = ..()
