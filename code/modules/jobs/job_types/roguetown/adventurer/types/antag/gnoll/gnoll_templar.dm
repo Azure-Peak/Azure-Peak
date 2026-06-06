@@ -10,10 +10,11 @@
 	subclass_stats = list(
 		// Weighted towards 16 currently. They don't get statpacks or racial stats, so we could consider this about 2 less at least, maybe 3. For about a 13.
 		STATKEY_STR = 2,
-		STATKEY_CON = 3,
-		STATKEY_WIL = 4,
-		STATKEY_INT = 1,
-		STATKEY_SPD = 2
+		STATKEY_CON = 2,
+		STATKEY_WIL = 2,
+		STATKEY_INT = 2,
+		STATKEY_SPD = 2,
+		STATKEY_PER = 2,
 	)
 	subclass_skills = list(
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
@@ -23,7 +24,7 @@
 		
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 
-		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN,
 
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -55,8 +56,8 @@
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/templar
 	name = "Templar Claw"
-	wdefense = 6
-	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/smash/werewolf/gnoll, /datum/intent/spear/thrust)
+	wdefense = 6 // The Templar and the Berserker have the same parry capability due to skill difference.
+	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/mace/strike/gnoll, /datum/intent/mace/smash/werewolf/gnoll/templar, /datum/intent/spear/thrust)
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/templar/right
 	icon_state = "claw_r"
@@ -67,4 +68,5 @@
 	wlength = WLENGTH_SHORT
 
 /datum/intent/mace/smash/werewolf/gnoll/templar
+	desc = "A powerful, smash of Gnoll muscle that deals normal damage but can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 13 (1 - 3 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance."
 	maxrange = 3 // Templar and Knight gets 3 tiles if they are buffed, no more.

@@ -74,11 +74,11 @@
 	miss_text = "slashes the air!"
 	miss_sound = "bluntwooshlarge"
 	item_d_type = "slash"
-	damfactor = 1.2
+	damfactor = 1.3
 
 /datum/intent/mace/smash/werewolf/gnoll
 	name = "thrash"
-	desc = "A powerful, smash of lycan muscle that deals normal damage but can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 15 (1 - 5 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance."
+	desc = "A powerful, smash of Gnoll muscle that deals normal damage but can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 12 (1 - 2 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance."
 	icon_state = "insmash"
 	maxrange = 2 // Lets try to keep Shamans from STR maxing and throwing people off cliffs, but still let them rage a bit.
 	chargetime = 1

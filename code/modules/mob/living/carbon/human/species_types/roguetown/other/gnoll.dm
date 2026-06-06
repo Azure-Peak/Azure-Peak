@@ -15,7 +15,7 @@
 	custom_base_icon = "firepelt"
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
-		TRAIT_NOPAINSTUN, // They get slowed like crazy when they start taking damage without this. Let's keep our bloodlusted gnoll friends fighting to the end. Otherwise they keep being incentiviced to run away before armor break which sucks.
+		// TRAIT_NOPAINSTUN, // They get slowed like crazy when they start taking damage without this. Let's keep our bloodlusted gnoll friends fighting to the end. Otherwise they keep being incentiviced to run away before armor break which sucks.
 		TRAIT_LONGSTRIDER,
 		TRAIT_IGNORESLOWDOWN,
 		TRAIT_IGNOREDAMAGESLOWDOWN,

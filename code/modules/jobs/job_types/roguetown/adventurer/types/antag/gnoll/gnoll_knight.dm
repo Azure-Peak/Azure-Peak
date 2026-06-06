@@ -23,7 +23,7 @@
 
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 
-		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN,
 
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
@@ -86,6 +86,7 @@
 	return FALSE
 
 /datum/intent/mace/smash/werewolf/gnoll/knight
+	desc = "A powerful, smash of Gnoll muscle that deals normal damage but can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 13 (1 - 3 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance."
 	maxrange = 3 // Templar and Knight gets 3 tiles if they are buffed, no more.
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/knight/right

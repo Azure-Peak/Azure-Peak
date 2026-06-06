@@ -24,7 +24,7 @@
 
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 
-		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN,
 
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
@@ -62,18 +62,11 @@
 	This does about 50 damage with the chop.
 	This does 62 integ damage on the strike intent.
 	*/
-	possible_item_intents = list(/datum/intent/simple/gnoll_cut/berserker, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/smash/werewolf/gnoll/berserker, /datum/intent/mace/strike/gnoll)
+	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/smash/werewolf/gnoll/berserker, /datum/intent/mace/strike/gnoll)
 
-/datum/intent/simple/gnoll_cut/berserker
-	/* 
-	Deals about  damage through any armor to cause bleed.
-	If you are being healed at all by a Miracle you will most likely outheal this anyway. 
-	But it should push holy classes to heal more, and others to think twice about fighting a Gnoll without healing at hand.
-	*/ 
-	name = "Bleed Out"
-	desc = "A low damage slash that penetrates through most armor to cause your foes to bleed."
-	penfactor = PEN_HEAVY
-	damfactor = 0.01
+/datum/intent/mace/smash/werewolf/gnoll/berserker
+	desc = "A powerful, smash of Gnoll muscle that deals normal damage but can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 15 (1 - 5 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance."
+
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/berserker/right
 	icon_state = "claw_r"
