@@ -510,6 +510,7 @@ function draw_listedturf() {
     var iconsrc = part[2] || storedimages[part[1]];
     var row = document.createElement('div');
     row.className = 'turf-entry';
+    row.setAttribute('data-fullname', part[0]);
     row.onmousedown = clickfunc;
     row.oncontextmenu = suppress;
     if (iconsrc) {

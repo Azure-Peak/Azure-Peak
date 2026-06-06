@@ -373,12 +373,13 @@ img {
 
 .turf-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   column-gap: 8px;
   width: 100%;
 }
 
 .turf-grid .turf-entry {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -386,6 +387,24 @@ img {
   border-bottom: 0;
   line-height: 1.1;
   cursor: pointer;
+}
+
+.turf-grid .turf-entry:hover::after {
+  content: attr(data-fullname);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 100;
+  max-width: 320px;
+  padding: 2px 6px;
+  background: var(--bg-panel);
+  color: var(--text);
+  border: 1px solid var(--accent);
+  text-shadow: var(--text-shadow);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
 }
 
 .turf-grid .turf-entry:hover {
