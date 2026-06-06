@@ -1237,6 +1237,7 @@
 			return "[verbose ? "Conjured" : "(C. shaft)"]"
 		else
 			return null
+
 /mob/living/proc/get_item_examine_text(obj/item/I, mob/living/user)
 	var/heresy_status = I.get_heresy_status()
 	var/item_examine_string = I.get_examine_string(user)
