@@ -219,3 +219,6 @@
   - balance: For balance purpose due to multiple complaints about mid combat regeneration,
       the conjure time for regen / conjuring ward has been changed from 6 seconds
       to 10 seconds
+2026-06-06:
+  Ryan180602:
+  - bugfix: weeping cross now needs you to be a psydonite to work.
