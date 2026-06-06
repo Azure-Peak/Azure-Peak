@@ -43,12 +43,12 @@
 #define HERESY_SEVERITY_ALARMING 2
 
 // Heresy severity colors
-#define COLOR_HERESY_SEVERITY_SUSPICIOUS "#bba737"
+#define COLOR_HERESY_SEVERITY_SUSPICIOUS "#c49337"
 #define COLOR_HERESY_SEVERITY_ALARMING "#c43535"
 
 // Heresy severity descriptions
-#define DESCRIPTION_HERESY_SEVERITY_SUSPICIOUS "<b>This is a suspicious item!</b> Carrying this item out in the open is going to see me viewed with suspicion by Tennites and Psydonites - and rightfully so."
-#define DESCRIPTION_HERESY_SEVERITY_ALARMING "<b>This is a blatant, dangerous heretical item!</b> Carrying this out in the open is tantamount to declaring myself an enemy to Tennites and Psydonites, and they are likely to respond in kind."
+#define DESCRIPTION_HERESY_SEVERITY_SUSPICIOUS "<font color=[COLOR_HERESY_SEVERITY_SUSPICIOUS]><b>This is a suspicious heretical item!</b></font><br>It is considered heretical by Tennite and Psydonite faith. Those who serve the Ten and the One are likely to view me with suspicion and distrust <b>at best</b> if I am caught with it."
+#define DESCRIPTION_HERESY_SEVERITY_ALARMING "<font color=[COLOR_HERESY_SEVERITY_ALARMING]><b>This is a blatantly dangerous heretical item!</b></font><br>Carrying this out in the open is tantamount to declaring myself an enemy to Tennite and Psydonite faith. Those who serve the Ten and the One are likely to respond in kind."
 
 // Heresy severity symbols
 #define SYMBOL_HERESY_SEVERITY_SUSPICIOUS "?"

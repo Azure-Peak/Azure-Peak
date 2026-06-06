@@ -1864,7 +1864,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/get_heresy_status()
 	return null
 
-/obj/item/proc/get_heresy_description(list/heresy_status, itis = FALSE)
+/obj/item/proc/get_heresy_description(list/heresy_status, itis = FALSE, allcaps = TRUE)
 	if(heresy_status)
 		var/severity = heresy_status[1]
 		var/heresy_desc = heresy_status[2]
@@ -1874,7 +1874,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/severity_symbol = get_heresy_severity_symbol(severity)
 		var/severity_itis = "[itis ? "It is " : ""]<b>[get_heresy_severity_adjective(severity)]</b>"
 		
-		return "<font color = '[severity_color]'>[severity_symbol] [severity_itis]: [uppertext(heresy_desc)] [severity_symbol]</font>"
+		return "<font color = '[severity_color]'>[severity_symbol] [allcaps ? uppertext(severity_itis) : severity_itis]: [allcaps ? uppertext(heresy_desc) : heresy_desc] [severity_symbol]</font>"
 	return null
 
 /obj/item/proc/get_heresy_severity_adjective(severity_level)
