@@ -1854,21 +1854,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/ai_withdraw_item(obj/item/it, mob/living/user)
 	return FALSE
 
-// OV Add - Heresy description
 /** Is this item commonly known as heretical? If it is, this should to return a list containing:
 * - First: A heresy severity level (see `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`).
 * - Second: A short description of the nature of the item's heresy.
 *
 * When set, highlights the item's mob examine name/tooltip with obvious heretical flavor when worn/held.
-* 
-* `HERESY_SEVERITY_ALARMING` is intended for items that are blatantly and dangerously heretical,
-* and will warn users that being caught openly holding them is a form of PVP escalation.
-* Examples of what this is intended for are heretical weapons such as (and primarily) heretic armor/weapons.
-* 
-* `HERESY_SEVERITY_SUSPICIOUS` is for items that are heretical, but the reaction would instead be suspicion
-* and a calling for them to be destroyed. Openly holding these are NOT a form of PVP escalation, but are do
-* not exempt the user from conflict coming from it.
-* Examples of what this is intended for include Ascendant amulets.
 * 
 * If this returns null, the item will not be shown as heretical.*/
 /obj/item/proc/get_heresy_status()
@@ -1914,9 +1904,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/get_heresy_severity_symbol(severity_level)
 	switch(severity_level)
 		if(HERESY_SEVERITY_SUSPICIOUS)
-			return "?"
+			return SYMBOL_HERESY_SEVERITY_SUSPICIOUS
 		if(HERESY_SEVERITY_ALARMING)
-			return "&#x16E3;" // Zcross unicode
+			return SYMBOL_HERESY_SEVERITY_ALARMING
 	return null
 	
 // OV Add End
