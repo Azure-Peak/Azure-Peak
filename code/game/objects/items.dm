@@ -1864,19 +1864,30 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/get_heresy_status()
 	return null
 
+/** Returns an HTML-formatted string explaining how/why this item is heretical.
+* - `heresy_status`: This item's heresy status (see `proc/get_heresy_status()`).
+* - `itis`: Determines if the string will start with "It is" (i.e. "It is HERETICAL" vs "HERETICAL").
+* - `allcaps`: Determines if the returned string will be in allcaps.
+*/
 /obj/item/proc/get_heresy_description(list/heresy_status, itis = FALSE, allcaps = TRUE)
 	if(heresy_status)
 		var/severity = heresy_status[1]
 		var/heresy_desc = heresy_status[2]
 		if(!severity || !heresy_desc)
 			return null
-		var/severity_color = get_heresy_severity_color(severity)
-		var/severity_symbol = get_heresy_severity_symbol(severity)
 		var/severity_itis = "[itis ? "It is " : ""]<b>[get_heresy_severity_adjective(severity)]</b>"
-		
-		return "<font color = '[severity_color]'>[severity_symbol] [allcaps ? uppertext(severity_itis) : severity_itis]: [allcaps ? uppertext(heresy_desc) : heresy_desc] [severity_symbol]</font>"
+		return get_heresy_labeled_string(severity, "[allcaps ? uppertext(severity_itis) : severity_itis]: [allcaps ? uppertext(heresy_desc) : heresy_desc]")
 	return null
 
+/// Returns `label_string` HTML formatted depending on the provided heresy severity level (see `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`). 
+/obj/item/proc/get_heresy_labeled_string(heresy_severity, label_string)
+	if(!heresy_severity || !label_string)
+		return null
+	var/severity_color = get_heresy_severity_color(heresy_severity)
+	var/severity_symbol = get_heresy_severity_symbol(heresy_severity)
+	return "<font color = '[severity_color]'>[severity_symbol] [label_string] [severity_symbol]</font>"
+
+/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
 /obj/item/proc/get_heresy_severity_adjective(severity_level)
 	switch(severity_level)
 		if(HERESY_SEVERITY_SUSPICIOUS)
@@ -1885,6 +1896,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return "HERETICAL"
 	return null
 
+/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
 /obj/item/proc/get_heresy_severity_explanation(severity_level)
 	switch(severity_level)
 		if(HERESY_SEVERITY_SUSPICIOUS)
@@ -1893,6 +1905,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return DESCRIPTION_HERESY_SEVERITY_ALARMING
 	return null
 
+/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
 /obj/item/proc/get_heresy_severity_color(severity_level)
 	switch(severity_level)
 		if(HERESY_SEVERITY_SUSPICIOUS)
@@ -1901,6 +1914,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return COLOR_HERESY_SEVERITY_ALARMING
 	return null
 	
+/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
 /obj/item/proc/get_heresy_severity_symbol(severity_level)
 	switch(severity_level)
 		if(HERESY_SEVERITY_SUSPICIOUS)

@@ -488,7 +488,7 @@
 		//suit/armor storage
 		if(s_store && !(SLOT_S_STORE in obscured))
 			if(is_normal || is_smart)
-				. += "[m1] carrying [s_store.get_examine_string(user)] on [m2] [wear_armor.name]."
+				. += "[m1] carrying [get_item_examine_label(s_store, user)] on [m2] [wear_armor.name]."
 
 	//back
 //	if(back)
@@ -510,20 +510,20 @@
 
 	//right back
 	if(backr && !(SLOT_BACK_R in obscured))
-		var/str = "[m3] [backr.get_examine_string(user)] on [m2] back. "
+		var/str = "[m3] [get_item_examine_label(backr, user)] on [m2] back. "
 		str += backr.integrity_check(is_smart, guarded)
 		. += str
 
 	//left back
 	if(backl && !(SLOT_BACK_L in obscured))
-		var/str = "[m3] [backl.get_examine_string(user)] on [m2] back. "
+		var/str = "[m3] [get_item_examine_label(backl, user)] on [m2] back. "
 		str += backl.integrity_check(is_smart, guarded)
 		. += str
 
 	//Hands
 	for(var/obj/item/I in held_items)
 		if(!(I.item_flags & ABSTRACT))
-			var/str = "[m1] holding [get_item_examine_text(I, user)] in [m2] [get_held_index_name(get_held_index_of_item(I))]. "
+			var/str = "[m1] holding [get_item_examine_label(I, user)] in [m2] [get_held_index_name(get_held_index_of_item(I))]. "
 			str += I.integrity_check(is_smart, guarded)
 			. += str
 
@@ -545,19 +545,19 @@
 
 	//belt
 	if(belt && !(SLOT_BELT in obscured))
-		var/str = "[m3] [get_item_examine_text(belt, user)] about [m2] waist. "
+		var/str = "[m3] [get_item_examine_label(belt, user)] about [m2] waist. "
 		str += belt.integrity_check(is_smart, guarded)
 		. += str
 
 	//right belt
 	if(beltr && !(SLOT_BELT_R in obscured))
-		var/str = "[m3] [get_item_examine_text(beltr, user)] on [m2] belt. "
+		var/str = "[m3] [get_item_examine_label(beltr, user)] on [m2] belt. "
 		str += beltr.integrity_check(is_smart, guarded)
 		. += str
 
 	//left belt
 	if(beltl && !(SLOT_BELT_L in obscured))
-		var/str = "[m3] [get_item_examine_text(beltl, user)] on [m2] belt. "
+		var/str = "[m3] [get_item_examine_label(beltl, user)] on [m2] belt. "
 		str += beltl.integrity_check(is_smart)
 		. += str
 
@@ -584,7 +584,7 @@
 			var/obj/item/clothing/CM = mouth
 			str = "[m3] [CM.generate_tooltip(CM.get_examine_string(user))] in [m2] mouth. "
 		else
-			"[m3] [get_item_examine_text(mouth, user)] in [m2] mouth. "
+			"[m3] [get_item_examine_label(mouth, user)] in [m2] mouth. "
 		str += mouth.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] some kinda thing on [m2] mouth!"
@@ -601,13 +601,13 @@
 	//eyes
 	if(!(SLOT_GLASSES in obscured))
 		if(glasses)
-			. += "[m3] [get_item_examine_text(glasses, user)] covering [m2] eyes."
+			. += "[m3] [get_item_examine_label(glasses, user)] covering [m2] eyes."
 		else if(eye_color == BLOODCULT_EYE)
 			. += span_warning("<B>[m2] eyes are glowing an unnatural red!</B>")
 
 	//ears
 	if(ears && !(SLOT_HEAD in obscured))
-		. += "[m3] [get_item_examine_text(ears, user)] on [m2] ears."
+		. += "[m3] [get_item_examine_label(ears, user)] on [m2] ears."
 
 	//ID
 	if(wear_ring && !(SLOT_RING in obscured))
@@ -1238,13 +1238,11 @@
 		else
 			return null
 
-/mob/living/proc/get_item_examine_text(obj/item/I, mob/living/user)
+/mob/living/proc/get_item_examine_label(obj/item/I, mob/living/user)
 	var/heresy_status = I.get_heresy_status()
 	var/item_examine_string = I.get_examine_string(user)
 	if(heresy_status)
 		var/severity = heresy_status[1]
-		var/severity_color = I.get_heresy_severity_color(severity)
-		var/severity_symbol = I.get_heresy_severity_symbol(severity)
 		var/heresy_examine_tooltip = I.get_heresy_description(heresy_status) + "<br>" + I.get_heresy_severity_explanation(severity)
-		item_examine_string = SPAN_TOOLTIP_DANGEROUS_HTML(heresy_examine_tooltip, "<font color = '[severity_color]'>[severity_symbol] [item_examine_string] [severity_symbol]</font>")
+		item_examine_string = SPAN_TOOLTIP_DANGEROUS_HTML(heresy_examine_tooltip, I.get_heresy_labeled_string(severity, item_examine_string))
 	return item_examine_string
