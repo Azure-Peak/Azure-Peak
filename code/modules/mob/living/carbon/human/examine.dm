@@ -1246,5 +1246,5 @@
 		var/severity_color = I.get_heresy_severity_color(severity)
 		var/severity_symbol = I.get_heresy_severity_symbol(severity)
 		var/heresy_examine_tooltip = I.get_heresy_description(heresy_status) + "<br>" + I.get_heresy_severity_explanation(severity)
-		item_examine_string = SPAN_TOOLTIP_DANGEROUS_HTML(heresy_examine_tooltip, "<font color = '#[severity_color]'>[severity_symbol] [item_examine_string] [severity_symbol]</font>")
+		item_examine_string = SPAN_TOOLTIP_DANGEROUS_HTML(heresy_examine_tooltip, "<font color = '[severity_color]'>[severity_symbol] [item_examine_string] [severity_symbol]</font>")
 	return item_examine_string

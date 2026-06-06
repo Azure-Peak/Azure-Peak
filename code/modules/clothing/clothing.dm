@@ -650,7 +650,7 @@ BLIND     // can't see anything
 		var/severity = heresy_status[1]
 		var/severity_color = get_heresy_severity_color(severity)
 		var/severity_symbol = get_heresy_severity_symbol(severity)
-		examine_text = "<font color = '#[severity_color]'>[severity_symbol] [examine_text] [severity_symbol]</font>"
+		examine_text = "<font color = '[severity_color]'>[severity_symbol] [examine_text] [severity_symbol]</font>"
 		return SPAN_TOOLTIP_DANGEROUS_HTML(heresy_desc, examine_text)
 	return examine_text
 
@@ -688,7 +688,7 @@ BLIND     // can't see anything
 		var/severity = heresy_status[1]
 		var/severity_color = get_heresy_severity_color(severity)
 		var/severity_symbol = get_heresy_severity_symbol(severity)
-		examine_text = "<font color = '#[severity_color]'>[severity_symbol] [examine_text] [severity_symbol]</font>"
+		examine_text = "<font color = '[severity_color]'>[severity_symbol] [examine_text] [severity_symbol]</font>"
 	else
 		//This makes it appear darker than the rest of examine text. Draws the cursor to it like to a Wetsquires.rt link.
 		examine_text = "<font color = '#808080'>[examine_text]</font>"

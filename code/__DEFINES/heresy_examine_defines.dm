@@ -43,8 +43,8 @@
 #define HERESY_SEVERITY_ALARMING 2
 
 // Heresy severity colors
-#define COLOR_HERESY_SEVERITY_SUSPICIOUS "bba737"
-#define COLOR_HERESY_SEVERITY_ALARMING "c43535"
+#define COLOR_HERESY_SEVERITY_SUSPICIOUS "#bba737"
+#define COLOR_HERESY_SEVERITY_ALARMING "#c43535"
 
 // Heresy severity descriptions
 #define DESCRIPTION_HERESY_SEVERITY_SUSPICIOUS "<b>This is a suspicious item!</b> Carrying this item out in the open is going to see me viewed with suspicion by Tennites and Psydonites - and rightfully so."
