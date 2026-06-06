@@ -253,7 +253,7 @@
 		M.adjustOxyLoss(master.damage_per_fragment/2)
 		M.visible_message(span_danger("Time violently distorts around [M] as a discarded timeline is forced back into reality!"), span_userdanger("One of my fractured timelines violently collapses!"))
 		shake_camera(M, 2, 2)
-		if(M.mind && iscarbon(M) && prob(30)) // 30% crit chance on NPCs, baybee
+		if(!M.mind && iscarbon(M) && prob(30)) // 30% crit chance on NPCs, baybee
 			var/list/limb_zones = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 			shuffle(limb_zones)
 			for(var/zone in limb_zones)

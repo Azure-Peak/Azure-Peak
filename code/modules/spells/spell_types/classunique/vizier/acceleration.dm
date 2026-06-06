@@ -6,7 +6,7 @@
 	sound = list('sound/magic/haste.ogg')
 	cast_range = 4
 	charge_required = FALSE
-	cooldown_time = 3 MINUTES
+	cooldown_time = 5 MINUTES
 	invocations = list("Aggil!")
 	invocation_type = INVOCATION_SHOUT
 
