@@ -174,7 +174,6 @@
 			. += span_notice("An agent of the Bathhouse.")
 
 		if(HAS_TRAIT(src, TRAIT_DEBTOR))
-			// Defaulted-loan debtor: a serious civic brand. Authority roles see the full banner.
 			if(ishuman(user))
 				var/mob/living/carbon/human/viewer = user
 				var/saw_specific = FALSE

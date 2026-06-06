@@ -130,11 +130,11 @@
 	desc = "Grants an affinity for training others, allowing training up to equal level in weaponry skills."
 	points = 75
 
-/datum/hag_boon/trait/counter_counterspell
-	name = "Trait - Counter Counterspell"
-	trait_to_apply = TRAIT_COUNTERCOUNTERSPELL
-	desc = "Prevents Counterspells from affecting the bearer."
-	points = 40
+// /datum/hag_boon/trait/counter_counterspell
+// 	name = "Trait - Counter Counterspell"
+// 	trait_to_apply = TRAIT_COUNTERCOUNTERSPELL
+// 	desc = "Prevents Counterspells from affecting the bearer."
+// 	points = 40
 
 /datum/hag_boon/trait/keen_ears
 	name = "Trait - Keen Ears"

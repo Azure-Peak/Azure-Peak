@@ -97,11 +97,6 @@
 	GLOB.human_list += src
 	unarmed_special = new /datum/special_intent/upper_cut()
 
-	max_breath = 10
-	breath_remaining = 10
-	addtimer(CALLBACK(src, PROC_REF(update_breath_hud)), 1)
-
-
 /mob/living/carbon/human/ZImpactDamage(turf/T, levels)
 	var/obj/item/bodypart/affecting
 	var/dam = levels * rand(10,50)

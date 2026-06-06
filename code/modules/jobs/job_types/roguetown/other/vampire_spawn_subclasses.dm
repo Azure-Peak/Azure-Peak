@@ -241,7 +241,7 @@
 				belt = /obj/item/storage/belt/rogue/leather/black //stylish belt
 				mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble //regal appearance
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				r_hand = /obj/item/rogueweapon/scabbard/sword/royal
 				armor = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 				ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
@@ -250,14 +250,14 @@
 				belt = /obj/item/storage/belt/rogue/leather/black //stylish belt
 				mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble //regal appearance
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				r_hand = /obj/item/rogueweapon/scabbard/sword/royal
 				armor = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 				ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 			if("Noble (Light Armor + Skilled Appraisal)")
 				head = /obj/item/clothing/head/roguetown/chaperon/noble //nobility look
 				cloak = /obj/item/clothing/suit/roguetown/armor/longcoat
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				belt = /obj/item/storage/belt/rogue/leather/steel //similar to spymaster hand
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 				mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask //hidden face
@@ -267,7 +267,7 @@
 				head = /obj/item/clothing/head/roguetown/nyle/consortcrown //suitor/consort look
 				armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 				cloak = /obj/item/clothing/cloak/half/red
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				belt = /obj/item/storage/belt/rogue/leather //on-par with valiant
 				wrists = /obj/item/clothing/wrists/roguetown/bracers
 				mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble

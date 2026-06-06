@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscadd: "Simplemobs can now be riposted with guard stance"

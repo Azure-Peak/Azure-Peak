@@ -954,6 +954,16 @@
 	craftdiff = 4
 	sellprice = 14
 
+/datum/crafting_recipe/roguetown/sewing/larmingjacket
+	name = "light arming jacket" //its a gambeson without leg cover
+	category = "Gambesons"
+	display_category = ITEM_CAT_ARMOR_LIGHT
+	result = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 2 //because if it was 3, you'd just make the proper arming jacket
+
 /datum/crafting_recipe/roguetown/sewing/gambeson
 	name = "gambeson"
 	category = "Gambesons"
@@ -971,7 +981,7 @@
 	display_category = ITEM_CAT_ARMOR_LIGHT
 	result = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	reqs = list(/obj/item/natural/cloth = 3,
-				/obj/item/natural/fibers = 2)
+				/obj/item/natural/fibers = 3)
 	tools = list(/obj/item/needle)
 	craftdiff = 3
 
@@ -1094,8 +1104,8 @@
 	display_category = ITEM_CAT_ARMOR_LIGHT
 	result = list(/obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy)
 	reqs = list(/obj/item/natural/cloth = 5,
-				/obj/item/natural/fibers = 4)
-	craftdiff = 3
+				/obj/item/natural/fibers = 5)
+	craftdiff = 4 //highest possible light-armor integ on a shirt layer, so should take some work
 
 /datum/crafting_recipe/roguetown/sewing/monkwraps
 	name = "padded arm wrappings"

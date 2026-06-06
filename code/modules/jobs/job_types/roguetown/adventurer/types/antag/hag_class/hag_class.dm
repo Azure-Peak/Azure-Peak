@@ -10,7 +10,7 @@
 						  TRAIT_ZOMBIE_IMMUNE, TRAIT_NOMOOD,
 						  TRAIT_UNLYCKERABLE, TRAIT_BOGWALKER,
 						  TRAIT_DARKVISION, TRAIT_NOHUNGER,
-						  TRAIT_TECHNOPHOBE)
+						  TRAIT_TECHNOPHOBE, TRAIT_NOPVE)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,
@@ -37,6 +37,12 @@
 		/datum/skill/craft/sewing = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/cooking = SKILL_LEVEL_MASTER,
 	)
+	subclass_languages = list(
+		/datum/language/oldazurian, // (gerson voice) you're old!
+		/datum/language/beast, // fucked up nature spirit gaming
+		/datum/language/celestial, // old enough to know the OG celestial, probably
+		/datum/language/abyssal // you can send people to the dream you can presumably communicate with its denizens
+	)
 	category_tags = list(CTAG_HAG)
 	cmode_music = 'sound/music/combat_graggar.ogg'
 
@@ -50,11 +56,14 @@
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/aalloy
 	beltr = /obj/item/roguekey/hag
+	backpack_contents = list(
+		/obj/item/handmirror = 1
+	)
 	if(H.mind)
 		H.verbs |= /mob/living/carbon/human/proc/commune_with_roots
 		H.verbs |= /mob/living/carbon/human/proc/toggle_guarded
 		H.ambushable = FALSE
-		H.faction |= list(FACTION_HAG, FACTION_SPIDERS, FACTION_TROLLS)
+		H.faction |= list(FACTION_HAG)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/wildshape/hag_true_form)
 		H.set_patron(/datum/patron/mossmother)
 		H.AddComponent(/datum/component/hag_curio_tracker)

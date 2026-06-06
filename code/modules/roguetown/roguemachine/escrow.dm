@@ -86,7 +86,6 @@
 	anchored = TRUE
 	layer = BELOW_OBJ_LAYER
 	var/list/keycontrol = list("crafterguild", "craftermaster")
-	var/locked = TRUE
 	var/budget = 0
 	var/list/material_prices
 	var/list/derived_material_prices
@@ -229,7 +228,7 @@
 	. = ..()
 	. += span_info("Any commissioner may build a manifest of smithing or engineering recipes and deposit coin into the machine. Submitting the manifest posts an order with the coin held in escrow.")
 	. += span_info("A smith can claim an open order, deliver the finished items back into the machine, and collect the escrowed pay once every item has been delivered. An order that has been claimed cannot be cancelled by the commissioner.")
-	. += span_info("Unlocked with the guildmaster's key, material prices and margins can be adjusted.")
+	. += span_info("A guild member may adjust material prices and margins through the machine's panel.")
 
 /obj/structure/roguemachine/escrow/proc/rebuild_catalog()
 	catalog = list()
@@ -450,23 +449,6 @@
 	return round(base * (1 + percent_margin / 100)) + flat_margin
 
 /obj/structure/roguemachine/escrow/attackby(obj/item/P, mob/user, params)
-	if(istype(P, /obj/item/roguekey))
-		var/obj/item/roguekey/K = P
-		if(K.lockid in keycontrol)
-			toggle_lock(user)
-			return
-		to_chat(user, span_warning("Wrong key."))
-		return
-	if(istype(P, /obj/item/storage/keyring))
-		var/obj/item/storage/keyring/KR = P
-		for(var/obj/item/roguekey/KE in KR)
-			if(KE.lockid in keycontrol)
-				toggle_lock(user)
-				return
-
-	if(!locked)
-		return ..()
-
 	if(istype(P, /obj/item/roguecoin/aalloy) || istype(P, /obj/item/roguecoin/inqcoin))
 		return
 	if(istype(P, /obj/item/roguecoin))
@@ -481,12 +463,6 @@
 
 	if(ishuman(user))
 		try_smith_deliver(P, user)
-
-/obj/structure/roguemachine/escrow/proc/toggle_lock(mob/user)
-	locked = !locked
-	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	update_icon()
-	SStgui.update_uis(src)
 
 /obj/structure/roguemachine/escrow/proc/escrow_key(mob/user)
 	if(!user || !user.real_name)
@@ -645,7 +621,6 @@
 /obj/structure/roguemachine/escrow/ui_data(mob/user)
 	prune_expired_orders()
 	var/list/data = list()
-	data["locked"] = locked ? TRUE : FALSE
 	data["can_read"] = (ishuman(user) && user.can_read(src, TRUE)) ? TRUE : FALSE
 	data["is_guildmaster"] = is_guild_member(user) ? TRUE : FALSE
 	var/user_key = escrow_key(user)
@@ -760,19 +735,12 @@
 				if(path)
 					toggle_material_enabled(path)
 				return FALSE
-			if("toggle_lock")
-				toggle_lock(usr)
-				return FALSE
 			if("set_item_cap")
 				var/n = text2num(params["value"])
 				if(isnum(n))
 					item_cap_per_order = clamp(round(n), 1, 10)
 					update_static_data_for_all_viewers()
 				return FALSE
-
-	if(!locked)
-		to_chat(usr, span_warning("[src] is open for guild adjustments - turn the key to close it before posting or claiming work."))
-		return TRUE
 
 	switch(action)
 		if("manifest_inc")
@@ -1062,7 +1030,7 @@
 	if(obj_broken)
 		set_light(0)
 		return
-	icon_state = locked ? "streetvendor1" : "streetvendor0"
+	icon_state = "streetvendor1"
 	if(length(orders))
 		set_light(1, 1, 1, l_color = "#f1c94b")
 	else

@@ -207,7 +207,7 @@
 	var/base_stamp = "[length(verbs)]|[REF(holder)]|[holder?.rank?.name || "null"]|[REF(mob)]"
 	if(!mob)
 		return base_stamp
-	base_stamp += "|[length(mob.verbs)]|[length(mob.contents)]|[browserpanel_spellstamp(mob.mob_spell_list)]|[mob.mind ? browserpanel_spellstamp(mob.mind.spell_list) : "null"]|[browserpanel_wildtongue()]|[istype(get_turf(mob), /turf/open/water/transparent)]"
+	base_stamp += "|[length(mob.verbs)]|[length(mob.contents)]|[browserpanel_spellstamp(mob.mob_spell_list)]|[mob.mind ? browserpanel_spellstamp(mob.mind.spell_list) : "null"]|[browserpanel_wildtongue()]"
 	var/contentverbs = 0
 	for(var/atom/movable/thing as anything in mob.contents)
 		contentverbs += length(thing.verbs)
@@ -910,9 +910,6 @@
 		return FALSE
 	if(category == "WILDTONGUE" && !browserpanel_wildtongue())
 		return FALSE
-	if(category == "Swimming")
-		if(!mob || !istype(get_turf(mob), /turf/open/water/transparent))
-			return FALSE
 	return TRUE
 
 /client/proc/browserpanel_wildtongue()
