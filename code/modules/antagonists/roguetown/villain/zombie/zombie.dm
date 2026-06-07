@@ -167,11 +167,6 @@
 		soundpack_f = zombie.dna.species.soundpack_f
 	base_intents = zombie.base_intents
 
-
-	zombie.grant_language(/datum/language/undead)
-	var/datum/language_holder/language_holder = zombie.get_language_holder()
-	language_holder.selected_default_language = /datum/language/undead
-
 	cmode_music = zombie.cmode_music
 
 	//Special because deadite status is latent as opposed to the others.
@@ -256,6 +251,10 @@
 	revived = TRUE //so we can die for real later
 	add_antag_hud(antag_hud_type, antag_hud_name, owner.current) //Easier for zombies to tell, fellow zombies.
 	zombie.apply_status_effect(/datum/status_effect/buff/zombified) //Handle our stats
+
+	zombie.grant_language(/datum/language/undead) //Now we give you the language.
+	var/datum/language_holder/language_holder = zombie.get_language_holder()
+	language_holder.selected_default_language = /datum/language/undead
 
 	for(var/trait_applied in traits_zombie)
 		ADD_TRAIT(zombie, trait_applied, "[type]")
