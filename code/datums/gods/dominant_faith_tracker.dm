@@ -22,8 +22,8 @@
 			/datum/faith/old_god = "The world is quiet. A soft wind blows. The divines rest, for now.",
 		),
 		/datum/faith/inhumen = list(
-			/datum/faith/divine = "$patron outshines the mendacity of The Ten! Mortalkind ascend!",
-			/datum/faith/inhumen = "The firmanent feels thick. The Ten's influence is overpowering!",
+			/datum/faith/inhumen = "$patron outshines the mendacity of The Ten! Mortalkind ascend!",
+			/datum/faith/divine = "The firmanent feels thick. The Ten's influence is overpowering!",
 			/datum/faith/old_god = "The world is quiet. A soft wind blows. The divines rest, for now.",
 		),
 		/datum/faith/old_god = list( // psydonites can only tell whether they're dominant or not, here
@@ -57,7 +57,7 @@
 		var/mob/living/carbon/human/H = i
 		if(!istype(H) || !H.patron || ispath(H.patron.associated_faith, /datum/faith/mossmother) || ispath(H.patron.associated_faith, /datum/faith/godless) || !H.devotion)
 			continue
-		to_chat(H, reign_messages[H.patron.associated_faith][dominant_faith])
+		to_chat(H, replacetext(reign_messages[H.patron.associated_faith][dominant_faith], "$patron", get_god_name(H.patron)))
 	if(last_announce_time == 0) // this is our first announcement of the round! 19 minute bonus timer on this one because the first half hour of the round is a 'grace period' for latejoins to settle in
 		last_announce_time = world.time + 19 MINUTES
 	else
