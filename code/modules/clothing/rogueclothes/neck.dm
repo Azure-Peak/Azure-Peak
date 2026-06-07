@@ -808,7 +808,6 @@
 		return null
 	// If it is disguised, check to see if it appears like one of the heretical amulets and present it accordingly
 	else
-		var/t = mimic_type
 		switch(mimic_type)
 			// Zizo psicrosses
 			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/iron, /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph, /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g)
