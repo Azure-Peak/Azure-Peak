@@ -442,7 +442,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		/datum/patron/divine/ravox = "O great Justiciar, grant justice to this wayward soul!!",
 		/datum/patron/divine/necra = "Undermaiden, grant peace to this wayward soul!!",
 		// /datum/patron/divine/xylix = "", nah. we do a little trolling with xylix
-		/datum/patron/divine/pestra = "Lady of Pesilence, bring clarity to this wayward soul!!",
+		/datum/patron/divine/pestra = "Lady of Pestilence, bring clarity to this wayward soul!!",
 		/datum/patron/divine/malum = "O great Forgefather, bring diligence to this wayward soul!!",
 		/datum/patron/divine/eora = "Great Mother, show mercy to this wayward soul!!", // because just "love" is too tacky
 		/datum/patron/old_god = "Embrace the truth; PSYDON lyves!!", // psydon doesn't hear you, so you're talking to the other person here
