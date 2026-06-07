@@ -748,6 +748,7 @@
 	desc = "In lyfe a smile is sharper than any blade."
 	icon_state = "xylix"
 	toggle_icon_state = FALSE
+	var/mimic_type = null
 
 /obj/item/clothing/neck/roguetown/psicross/xylix/examine(mob/user)
 	. = ..()
@@ -777,14 +778,52 @@
 	if(!selected_cross)
 		return
 
-	var/obj/item/clothing/neck/roguetown/psicross/cross_type = choices[selected_cross]
+	var/target_path = choices[selected_cross]
+	mimic_type = target_path
+
+	var/obj/item/clothing/neck/roguetown/psicross/cross_type = target_path
 
 	name = initial(cross_type.name)
 	desc = initial(cross_type.desc)
 	icon_state = initial(cross_type.icon_state)
 	item_state = initial(cross_type.item_state)
+	mob_overlay_icon = initial(cross_type.mob_overlay_icon)
 
 	human.regenerate_clothes()
+
+/obj/item/clothing/neck/roguetown/psicross/xylix/update_icon()
+	. = ..()
+	// (Stole this shamelessly from the wyrd cross code)
+	if(mimic_type)
+		// If we are mimicking, FORCE the appearance to stay as the mimic
+		var/obj/item/clothing/neck/roguetown/psicross/C = mimic_type
+		icon = initial(C.icon)
+		icon_state = initial(C.icon_state)
+		name = initial(C.name)
+		return
+
+/obj/item/clothing/neck/roguetown/psicross/xylix/get_heresy_status()
+	// If the cross is not disguised, it's just a Xylixian amulet, so... Not heretical!
+	if(!mimic_type)
+		return null
+	// If it is disguised, check to see if it appears like one of the heretical amulets and present it accordingly
+	else
+		var/t = mimic_type
+		switch(mimic_type)
+			// Zizo psicrosses
+			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/iron, /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph, /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g)
+				return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
+			// Matthios psicrosses
+			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios)
+				return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
+			// Graggar psicrosses
+			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar)
+				return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_ICON)
+			// Baotha psicrosses
+			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha)
+				return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_ICON)
+		// If it isn't disguised as anything heretical, present it as the "totally innocent" amulet it pretends to be
+		return null
 
 /obj/item/clothing/neck/roguetown/psicross/wood
 	name = "wooden psycross"
