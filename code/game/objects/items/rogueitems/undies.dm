@@ -39,6 +39,7 @@
 				forceMove(H)
 				H.underwear = src
 				undies_feature.accessory_colors = color
+				SEND_SIGNAL(src, COMSIG_ITEM_UNDERWEAR_EQUIPPED, H) // OV Add
 
 /obj/item/undies/Destroy()
 	undies_feature = null

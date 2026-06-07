@@ -3469,6 +3469,7 @@
 #include "modular\code\game\objects\tent_kit.dm"
 #include "modular\code\game\objects\items\items.dm"
 #include "modular\code\game\objects\items\lewd\dildo.dm"
+#include "modular\code\game\objects\items\lewd\portal_clothes.dm"
 #include "modular\code\modules\admin\bunker_bypass.dm"
 #include "modular\code\modules\crafting\lewd\dildo_crafting.dm"
 #include "modular\code\modules\jobs\job_types\roguetown\roguetown.dm"

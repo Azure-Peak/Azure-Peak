@@ -40,6 +40,7 @@
 				forceMove(H)
 				H.legwear_socks = src
 				legwears_feature.accessory_colors = color
+				SEND_SIGNAL(src, COMSIG_ITEM_UNDERWEAR_EQUIPPED, H) // OV Add
 
 /obj/item/legwears/Destroy()
 	legwears_feature = null

@@ -128,6 +128,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			if(iscarbon(usr))
 				var/mob/living/carbon/C = usr
 				C.put_in_hands(underwear)
+			SEND_SIGNAL(underwear, COMSIG_ITEM_UNDERWEAR_REMOVE, src) //OV ADD
 			underwear = null
 
 	if(href_list["legwearsthing"]) //canUseTopic check for this is handled by mob/Topic()
@@ -140,11 +141,12 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		if(do_after(usr, 50, needhand = 1, target = src))
 			var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
 			chest.remove_bodypart_feature(legwear_socks.legwears_feature)
-			underwear.forceMove(get_turf(src))
+			legwear_socks.forceMove(get_turf(src))
 			if(iscarbon(usr))
 				var/mob/living/carbon/C = usr
-				C.put_in_hands(underwear)
-			underwear = null
+				C.put_in_hands(legwear_socks) //OV EDIT
+			SEND_SIGNAL(legwear_socks, COMSIG_ITEM_UNDERWEAR_REMOVE, src) //OV ADD
+			legwear_socks = null //OV EDIT
 
 	if(href_list["pockets"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY)) //TODO: Make it match (or intergrate it into) strippanel so you get 'item cannot fit here' warnings if mob_can_equip fails
 		var/pocket_side = href_list["pockets"]

@@ -44,6 +44,7 @@
 					chest.remove_bodypart_feature(underwear.undies_feature)
 					underwear.forceMove(get_turf(src))
 					src.put_in_hands(underwear)
+					SEND_SIGNAL(underwear, COMSIG_ITEM_UNDERWEAR_REMOVE, src) //OV ADD
 					underwear = null
 		if((user.zone_selected == BODY_ZONE_L_LEG) || (user.zone_selected == BODY_ZONE_R_LEG))
 			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
@@ -55,6 +56,7 @@
 					chest.remove_bodypart_feature(legwear_socks.legwears_feature)
 					legwear_socks.forceMove(get_turf(src))
 					src.put_in_hands(legwear_socks)
+					SEND_SIGNAL(underwear, COMSIG_ITEM_UNDERWEAR_REMOVE, src) //OV ADD
 					legwear_socks = null
 		if(user.zone_selected == BODY_ZONE_CHEST)
 			if(!piercings_item)
@@ -67,6 +69,7 @@
 				chest.remove_bodypart_feature(piercings_item.piercings_feature)
 				piercings_item.forceMove(get_turf(src))
 				src.put_in_hands(piercings_item)
+				SEND_SIGNAL(underwear, COMSIG_ITEM_UNDERWEAR_REMOVE, src) //OV ADD
 				piercings_item = null
 				regenerate_icons()
 #endif

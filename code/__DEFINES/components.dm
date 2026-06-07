@@ -378,6 +378,10 @@
 #define COMSIG_ITEM_ATTACK_TURF "item_attack_turf"
 #define COMSIG_ITEM_GUN_PROCESS_FIRE	"item_gun_process_fire"		//called on /obj/item/gun/proc/process_fire
 
+// portal components for portal clothes
+#define COMSIG_ITEM_UNDERWEAR_EQUIPPED "undies_equip"			//OV ADD - from base of /obj/item/undies/attack(): (/mob/equipper)
+#define COMSIG_ITEM_UNDERWEAR_REMOVE "undies_unequip"			//OV ADD - from base of /mob/living/carbon/human/MiddleClick() and /mob/living/carbon/human/Topic(): (/mob/user) Also applies to piercings and legwear
+
 // /obj/item/clothing signals
 #define COMSIG_CLOTHING_STEP_ACTION "clothing_step_action"			//from base of obj/item/clothing/shoes/proc/step_action(): ()
 
