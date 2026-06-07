@@ -146,7 +146,7 @@ export const WaxSeal = (props: WaxSealProps) => {
       ) : (
         <text
           fill={palette.glyph}
-          fontFamily='"Lora", Georgia, serif'
+          fontFamily='"Palatino Linotype", "Times New Roman", serif'
           fontSize="30"
           fontWeight="700"
           stroke={palette.detail}

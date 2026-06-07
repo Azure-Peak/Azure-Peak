@@ -4,7 +4,6 @@ import {
   fieldLabelStyle,
   fieldRowStyle,
   fieldValueStyle,
-  FONT_BODY,
   INK_FAINT,
   inkButtonStyle,
   inkInputStyle,
@@ -33,8 +32,9 @@ export const WithdrawSection = ({
         <div
           style={{
             color: SEAL_AMBER,
+            fontStyle: 'italic',
             marginBottom: 8,
-            fontSize: FONT_BODY,
+            fontSize: '12px',
           }}
         >
           {fund.withdraw_rule}

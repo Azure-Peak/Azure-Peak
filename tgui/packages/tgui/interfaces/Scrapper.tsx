@@ -6,7 +6,6 @@ import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
   cardStyle,
-  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -121,13 +120,14 @@ const MaterialRowView = (props: {
       }}
     >
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: FONT_BODY, color: INK }}>
+        <div style={{ fontSize: '13px', color: INK }}>
           <b>{row.name}</b>
           {!enabled && (
             <span
               style={{
                 color: INK_FAINT,
-                fontSize: FONT_BODY,
+                fontStyle: 'italic',
+                fontSize: '11px',
               }}
             >
               {' '}
@@ -135,7 +135,7 @@ const MaterialRowView = (props: {
             </span>
           )}
         </div>
-        <div style={{ fontSize: FONT_BODY, color: INK_SOFT }}>
+        <div style={{ fontSize: '11px', color: INK_SOFT }}>
           <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
             {row.price}m
           </span>{' '}
@@ -145,7 +145,7 @@ const MaterialRowView = (props: {
             {capText}
           </span>
           {advertising && enabled && (
-            <span style={{ color: SEAL_GREEN }}>
+            <span style={{ color: SEAL_GREEN, fontStyle: 'italic' }}>
               {' '}
               - advertised
             </span>
@@ -216,8 +216,9 @@ export const Scrapper = () => {
             <div style={{ flex: 1 }}>
               <div
                 style={{
-                  fontSize: FONT_BODY,
+                  fontSize: '12px',
                   color: SEAL_AMBER,
+                  fontStyle: 'italic',
                 }}
               >
                 Coffer
@@ -235,7 +236,7 @@ export const Scrapper = () => {
             {isKeyholder && (
               <div
                 style={{
-                  fontSize: FONT_BODY,
+                  fontSize: '12px',
                   color: INK_SOFT,
                   flex: 1,
                   textAlign: 'right',

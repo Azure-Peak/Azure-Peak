@@ -1,7 +1,6 @@
 import {
   badgeStyle,
   cardStyle,
-  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -72,7 +71,7 @@ export const RosterTab = ({ data }: TabProps) => {
           color: INK_FAINT,
           textAlign: 'center',
           padding: '12px 0 4px 0',
-          fontSize: FONT_BODY,
+          fontSize: '12px',
         }}
       >
         Visit the Mercenary Statue for further contact.
@@ -91,7 +90,7 @@ const SummaryLine = ({
   <div
     style={{
       textAlign: 'center',
-      fontSize: FONT_BODY,
+      fontSize: '12px',
       color: INK,
       padding: '4px 0 12px 0',
     }}
@@ -135,12 +134,13 @@ const RosterGroup = ({
           marginBottom: 4,
         }}
       >
-        <div style={{ fontFamily: SERIF, fontSize: FONT_BODY, color: INK }}>
+        <div style={{ fontFamily: SERIF, fontSize: '13px', color: INK }}>
           <b>{m.name}</b>
           <span
             style={{
               color: INK_SOFT,
-              fontSize: FONT_BODY,
+              fontStyle: 'italic',
+              fontSize: '12px',
               marginLeft: 6,
             }}
           >
@@ -152,7 +152,7 @@ const RosterGroup = ({
             style={{
               color: INK_SOFT,
               fontStyle: 'italic',
-              fontSize: FONT_BODY,
+              fontSize: '12px',
               marginTop: 2,
             }}
           >

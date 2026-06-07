@@ -62,8 +62,7 @@
 			backl = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 		if("Polemace")
-			r_hand = /obj/item/rogueweapon/mace/goden/steel
-			backl = /obj/item/rogueweapon/scabbard/gwstrap
+			beltr = /obj/item/rogueweapon/mace/goden/steel
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
 		if("Poleaxe")
 			beltr = /obj/item/rogueweapon/greataxe/steel/knight

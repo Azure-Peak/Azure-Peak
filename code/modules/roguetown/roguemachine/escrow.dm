@@ -10,9 +10,6 @@
 	var/day_posted = 0
 	var/day_claimed = 0
 	var/commissioner_note = ""
-	var/list/cached_required_counts
-	var/list/cached_lines
-	var/list/cached_materials
 
 /datum/escrow_order/proc/label()
 	var/list/parts = list()
@@ -28,8 +25,6 @@
 	return jointext(parts, ", ")
 
 /datum/escrow_order/proc/required_result_counts()
-	if(cached_required_counts)
-		return cached_required_counts
 	var/list/out = list()
 	for(var/key in recipe_quantities)
 		var/want = recipe_quantities[key]
@@ -49,7 +44,6 @@
 		if(!result_path)
 			continue
 		out[result_path] = (out[result_path] || 0) + want
-	cached_required_counts = out
 	return out
 
 /datum/escrow_order/proc/is_fulfilled()
@@ -86,6 +80,7 @@
 	anchored = TRUE
 	layer = BELOW_OBJ_LAYER
 	var/list/keycontrol = list("crafterguild", "craftermaster")
+	var/locked = TRUE
 	var/budget = 0
 	var/list/material_prices
 	var/list/derived_material_prices
@@ -228,7 +223,7 @@
 	. = ..()
 	. += span_info("Any commissioner may build a manifest of smithing or engineering recipes and deposit coin into the machine. Submitting the manifest posts an order with the coin held in escrow.")
 	. += span_info("A smith can claim an open order, deliver the finished items back into the machine, and collect the escrowed pay once every item has been delivered. An order that has been claimed cannot be cancelled by the commissioner.")
-	. += span_info("A guild member may adjust material prices and margins through the machine's panel.")
+	. += span_info("Unlocked with the guildmaster's key, material prices and margins can be adjusted.")
 
 /obj/structure/roguemachine/escrow/proc/rebuild_catalog()
 	catalog = list()
@@ -329,7 +324,6 @@
 
 /obj/structure/roguemachine/escrow/proc/dirty_catalog_view()
 	catalog_view_dirty = TRUE
-	update_static_data_for_all_viewers()
 
 /obj/structure/roguemachine/escrow/proc/rebuild_catalog_view()
 	var/list/catalog_data = list()
@@ -449,6 +443,23 @@
 	return round(base * (1 + percent_margin / 100)) + flat_margin
 
 /obj/structure/roguemachine/escrow/attackby(obj/item/P, mob/user, params)
+	if(istype(P, /obj/item/roguekey))
+		var/obj/item/roguekey/K = P
+		if(K.lockid in keycontrol)
+			toggle_lock(user)
+			return
+		to_chat(user, span_warning("Wrong key."))
+		return
+	if(istype(P, /obj/item/storage/keyring))
+		var/obj/item/storage/keyring/KR = P
+		for(var/obj/item/roguekey/KE in KR)
+			if(KE.lockid in keycontrol)
+				toggle_lock(user)
+				return
+
+	if(!locked)
+		return ..()
+
 	if(istype(P, /obj/item/roguecoin/aalloy) || istype(P, /obj/item/roguecoin/inqcoin))
 		return
 	if(istype(P, /obj/item/roguecoin))
@@ -458,11 +469,17 @@
 		manifest_deposits[key] = (manifest_deposits[key] || 0) + P.get_real_price()
 		qdel(P)
 		playsound(loc, 'sound/misc/machinevomit.ogg', 100, TRUE, -1)
-		update_user_ui(user)
+		SStgui.update_uis(src)
 		return
 
 	if(ishuman(user))
 		try_smith_deliver(P, user)
+
+/obj/structure/roguemachine/escrow/proc/toggle_lock(mob/user)
+	locked = !locked
+	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
+	update_icon()
+	SStgui.update_uis(src)
 
 /obj/structure/roguemachine/escrow/proc/escrow_key(mob/user)
 	if(!user || !user.real_name)
@@ -506,12 +523,6 @@
 		playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 		ui = new(user, src, "Commissioner", name)
 		ui.open()
-		ui.set_autoupdate(FALSE)
-
-/// Refresh only the acting user's UI (dynamic data) for changes that touch nobody else.
-/obj/structure/roguemachine/escrow/proc/update_user_ui(mob/user)
-	var/datum/tgui/ui = SStgui.get_open_ui(user, src)
-	ui?.send_update()
 
 /obj/structure/roguemachine/escrow/proc/is_guild_member(mob/user)
 	if(!ishuman(user))
@@ -572,62 +583,27 @@
 			O.day_claimed = 0
 			notify_commissioner(O, "The claim on your commission at [src] has expired; the order is open again for new smiths.")
 
-/obj/structure/roguemachine/escrow/ui_static_data(mob/user)
+/obj/structure/roguemachine/escrow/ui_data(mob/user)
+	prune_expired_orders()
 	var/list/data = list()
+	data["locked"] = locked ? TRUE : FALSE
+	data["can_read"] = (ishuman(user) && user.can_read(src, TRUE)) ? TRUE : FALSE
+	data["is_guildmaster"] = is_guild_member(user) ? TRUE : FALSE
+	var/user_key = escrow_key(user)
+	data["budget"] = budget
+	data["my_deposit"] = (user_key && manifest_deposits[user_key]) || 0
+	data["percent_margin"] = percent_margin
+	data["flat_margin"] = flat_margin
+	data["item_cap_per_order"] = item_cap_per_order
+	data["my_manifest_items"] = user_key ? manifest_item_count(user_key) : 0
+	data["has_active_order"] = (user_key && has_active_order(user_key)) ? TRUE : FALSE
+
 	if(catalog_view_dirty || isnull(cached_catalog_data))
 		rebuild_catalog_view()
 	data["catalog"] = cached_catalog_data
 	data["categories"] = cached_categories
 	data["ingots"] = cached_ingots
 	data["group_order"] = group_order
-	data["percent_margin"] = percent_margin
-	data["flat_margin"] = flat_margin
-	data["item_cap_per_order"] = item_cap_per_order
-
-	var/list/materials_data = list()
-	for(var/path in material_prices)
-		var/atom/A = path
-		materials_data += list(list(
-			"path" = "[path]",
-			"name" = initial(A.name),
-			"price" = material_prices[path],
-			"priority" = is_priority_material(path) ? TRUE : FALSE,
-			"enabled" = (path in disabled_materials) ? FALSE : TRUE,
-		))
-	data["materials"] = materials_data
-	return data
-
-/// Build the parts of an order's UI payload that never change after posting.
-/obj/structure/roguemachine/escrow/proc/build_order_cache(datum/escrow_order/O)
-	var/list/order_lines = list()
-	var/list/mat_tally = list()
-	for(var/datum/R in O.recipe_quantities)
-		var/recipe_qty = O.recipe_quantities[R]
-		order_lines += list(list(
-			"name" = recipe_name(R),
-			"qty" = recipe_qty,
-		))
-		for(var/list/m in recipe_materials(R))
-			mat_tally[m["name"]] = (mat_tally[m["name"]] || 0) + (m["qty"] * recipe_qty)
-	var/list/order_materials = list()
-	for(var/mname in mat_tally)
-		order_materials += list(list(
-			"name" = mname,
-			"qty" = mat_tally[mname],
-		))
-	O.cached_lines = order_lines
-	O.cached_materials = order_materials
-
-/obj/structure/roguemachine/escrow/ui_data(mob/user)
-	prune_expired_orders()
-	var/list/data = list()
-	data["can_read"] = (ishuman(user) && user.can_read(src, TRUE)) ? TRUE : FALSE
-	data["is_guildmaster"] = is_guild_member(user) ? TRUE : FALSE
-	var/user_key = escrow_key(user)
-	data["budget"] = budget
-	data["my_deposit"] = (user_key && manifest_deposits[user_key]) || 0
-	data["my_manifest_items"] = user_key ? manifest_item_count(user_key) : 0
-	data["has_active_order"] = (user_key && has_active_order(user_key)) ? TRUE : FALSE
 
 	var/list/manifest_data = list()
 	var/list/cart = user_key ? manifests[user_key] : null
@@ -651,8 +627,24 @@
 
 	var/list/orders_data = list()
 	for(var/datum/escrow_order/O in orders)
-		if(isnull(O.cached_lines))
-			build_order_cache(O)
+		var/is_commissioner = (user_key && user_key == O.commissioner_name)
+		var/is_smith = (user_key && user_key == O.smith_name)
+		var/list/order_lines = list()
+		var/list/mat_tally = list()
+		for(var/datum/R in O.recipe_quantities)
+			var/recipe_qty = O.recipe_quantities[R]
+			order_lines += list(list(
+				"name" = recipe_name(R),
+				"qty" = recipe_qty,
+			))
+			for(var/list/m in recipe_materials(R))
+				mat_tally[m["name"]] = (mat_tally[m["name"]] || 0) + (m["qty"] * recipe_qty)
+		var/list/order_materials = list()
+		for(var/mname in mat_tally)
+			order_materials += list(list(
+				"name" = mname,
+				"qty" = mat_tally[mname],
+			))
 		var/list/needed = O.required_result_counts()
 		var/list/fulfillment = list()
 		var/done_count = 0
@@ -682,19 +674,31 @@
 			"smith_name" = O.smith_name || "",
 			"deposited" = O.deposited,
 			"status" = O.status,
-			"lines" = O.cached_lines,
-			"materials" = O.cached_materials,
+			"lines" = order_lines,
+			"materials" = order_materials,
 			"fulfillment" = fulfillment,
 			"done_count" = done_count,
 			"needed_count" = needed_count,
-			"is_commissioner" = (user_key && user_key == O.commissioner_name) ? TRUE : FALSE,
-			"is_smith" = (user_key && user_key == O.smith_name) ? TRUE : FALSE,
-			"is_fulfilled" = (needed_count > 0 && done_count >= needed_count) ? TRUE : FALSE,
+			"is_commissioner" = is_commissioner ? TRUE : FALSE,
+			"is_smith" = is_smith ? TRUE : FALSE,
+			"is_fulfilled" = O.is_fulfilled() ? TRUE : FALSE,
 			"days_left" = days_left,
 			"expiry_label" = expiry_label,
 			"note" = O.commissioner_note,
 		))
 	data["orders"] = orders_data
+
+	var/list/materials_data = list()
+	for(var/path in material_prices)
+		var/atom/A = path
+		materials_data += list(list(
+			"path" = "[path]",
+			"name" = initial(A.name),
+			"price" = material_prices[path],
+			"priority" = is_priority_material(path) ? TRUE : FALSE,
+			"enabled" = (path in disabled_materials) ? FALSE : TRUE,
+		))
+	data["materials"] = materials_data
 	return data
 
 /obj/structure/roguemachine/escrow/proc/is_priority_material(path)
@@ -716,60 +720,62 @@
 				if(isnum(n))
 					percent_margin = clamp(round(n), 0, 500)
 					dirty_catalog_view()
-				return FALSE
+				return TRUE
 			if("set_flat_margin")
 				var/n = text2num(params["value"])
 				if(isnum(n))
 					flat_margin = max(0, round(n))
 					dirty_catalog_view()
-				return FALSE
+				return TRUE
 			if("set_material_price")
 				var/path = text2path(params["path"])
 				var/n = text2num(params["value"])
 				if(path && (path in material_prices) && isnum(n))
 					material_prices[path] = max(0, round(n))
 					dirty_catalog_view()
-				return FALSE
+				return TRUE
 			if("toggle_material")
 				var/path = text2path(params["path"])
 				if(path)
 					toggle_material_enabled(path)
-				return FALSE
+				return TRUE
+			if("toggle_lock")
+				toggle_lock(usr)
+				return TRUE
 			if("set_item_cap")
 				var/n = text2num(params["value"])
 				if(isnum(n))
 					item_cap_per_order = clamp(round(n), 1, 10)
-					update_static_data_for_all_viewers()
-				return FALSE
+				return TRUE
+
+	if(!locked)
+		to_chat(usr, span_warning("[src] is open for guild adjustments - turn the key to close it before posting or claiming work."))
+		return TRUE
 
 	switch(action)
 		if("manifest_inc")
 			var/datum/R = locate(params["ref"]) in catalog
 			if(R)
 				manifest_change(usr, R, text2num(params["delta"]) || 1)
-			update_user_ui(usr)
-			return FALSE
+			return TRUE
 		if("manifest_dec")
 			var/datum/R = locate(params["ref"]) in catalog
 			if(R)
 				manifest_change(usr, R, -(text2num(params["delta"]) || 1))
-			update_user_ui(usr)
-			return FALSE
+			return TRUE
 		if("manifest_remove")
 			var/datum/R = locate(params["ref"]) in catalog
 			var/usr_key = escrow_key(usr)
 			var/list/cart = usr_key ? manifests[usr_key] : null
 			if(R && cart)
 				cart -= R
-			update_user_ui(usr)
-			return FALSE
+			return TRUE
 		if("submit_manifest")
 			submit_manifest(usr, params["note"])
 			return TRUE
 		if("refund_deposit")
 			refund_deposit(usr)
-			update_user_ui(usr)
-			return FALSE
+			return TRUE
 		if("cancel_order")
 			var/datum/escrow_order/O = locate(params["ref"]) in orders
 			if(O)
@@ -1030,7 +1036,7 @@
 	if(obj_broken)
 		set_light(0)
 		return
-	icon_state = "streetvendor1"
+	icon_state = locked ? "streetvendor1" : "streetvendor0"
 	if(length(orders))
 		set_light(1, 1, 1, l_color = "#f1c94b")
 	else

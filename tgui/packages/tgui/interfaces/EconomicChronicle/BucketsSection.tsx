@@ -1,8 +1,4 @@
-import {
-  FONT_BODY,
-  INK_SOFT,
-  subtitleStyle,
-} from '../common/parchment';
+import { INK_SOFT, subtitleStyle } from '../common/parchment';
 import {
   compactCardStyle,
   compactDataCell,
@@ -22,7 +18,7 @@ const subTitle = {
   ...subtitleStyle,
   textAlign: 'left',
   marginBottom: '2px',
-  fontSize: FONT_BODY,
+  fontSize: '11px',
 } as const;
 
 const RealMarketTable = (props: { rows: RealBucket[] }) => (

@@ -1,8 +1,6 @@
 import {
   badgeStyle,
   cardStyle,
-  FONT_BODY,
-  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -20,8 +18,10 @@ const orderGridStyle: React.CSSProperties = {
 };
 
 const fieldLabelStyle: React.CSSProperties = {
+  fontVariant: 'small-caps',
   color: SEAL_AMBER,
-  fontSize: FONT_BODY,
+  fontStyle: 'italic',
+  fontSize: '12px',
 };
 
 const formatDuration = (totalSeconds: number) => {
@@ -39,7 +39,7 @@ const HarborDemandCard = ({ demand }: { demand: HarborDemand }) => (
     </div>
     <div
       style={{
-        fontSize: FONT_TITLE,
+        fontSize: '15px',
         fontWeight: 'bold',
         color: INK,
         fontFamily: SERIF,
@@ -51,7 +51,8 @@ const HarborDemandCard = ({ demand }: { demand: HarborDemand }) => (
     <div
       style={{
         color: INK_SOFT,
-        fontSize: FONT_BODY,
+        fontStyle: 'italic',
+        fontSize: '12px',
         marginTop: 2,
       }}
     >
@@ -69,7 +70,7 @@ const HarborDemandCard = ({ demand }: { demand: HarborDemand }) => (
                 display: 'flex',
                 alignItems: 'baseline',
                 gap: 8,
-                fontSize: FONT_BODY,
+                fontSize: '12px',
                 color: INK,
                 padding: '2px 0',
               }}
@@ -103,7 +104,7 @@ const HarborDemandCard = ({ demand }: { demand: HarborDemand }) => (
                 display: 'flex',
                 alignItems: 'baseline',
                 gap: 8,
-                fontSize: FONT_BODY,
+                fontSize: '12px',
                 color: INK,
                 padding: '2px 0',
               }}
@@ -119,7 +120,7 @@ const HarborDemandCard = ({ demand }: { demand: HarborDemand }) => (
           style={{
             marginTop: 4,
             color: INK_SOFT,
-            fontSize: FONT_BODY,
+            fontSize: '12px',
           }}
         >
           Inquire with the Merchant for terms.
@@ -130,7 +131,7 @@ const HarborDemandCard = ({ demand }: { demand: HarborDemand }) => (
       style={{
         marginTop: 8,
         color: INK_FAINT,
-        fontSize: FONT_BODY,
+        fontSize: '12px',
       }}
     >
       Deposit goods at the Fulfillment Crate to settle the vessel&apos;s

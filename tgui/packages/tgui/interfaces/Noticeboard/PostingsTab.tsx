@@ -3,8 +3,6 @@ import { useState } from 'react';
 import {
   BUTTON_BG,
   cardStyle,
-  FONT_BODY,
-  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -135,7 +133,7 @@ const PostingCard = ({
         <div
           style={{
             flex: 1,
-            fontSize: FONT_TITLE,
+            fontSize: '15px',
             fontWeight: 'bold',
             color: INK,
             fontFamily: SERIF,
@@ -146,7 +144,8 @@ const PostingCard = ({
         <div
           style={{
             color: INK_FAINT,
-            fontSize: FONT_BODY,
+            fontSize: '11px',
+            fontStyle: 'italic',
           }}
         >
           {posting.posted_at_label}
@@ -158,7 +157,9 @@ const PostingCard = ({
         <div
           style={{
             color: SEAL_AMBER,
-            fontSize: FONT_BODY,
+            fontStyle: 'italic',
+            fontSize: '11px',
+            fontVariant: 'small-caps',
             marginTop: '2px',
           }}
         >
@@ -189,7 +190,7 @@ const PostingCard = ({
             flex: 1,
             color: INK_SOFT,
             fontStyle: 'italic',
-            fontSize: FONT_BODY,
+            fontSize: '12px',
           }}
         >
           - {posting.poster_name}
@@ -198,7 +199,8 @@ const PostingCard = ({
             <span
               style={{
                 color: INK_FAINT,
-                fontSize: FONT_BODY,
+                fontStyle: 'italic',
+                fontSize: '11px',
                 marginLeft: '6px',
               }}
             >
@@ -352,7 +354,7 @@ const PostingForm = ({
         <div
           style={{
             color: SEAL_AMBER,
-            fontSize: FONT_BODY,
+            fontSize: '12px',
             marginTop: 6,
           }}
         >
@@ -363,7 +365,7 @@ const PostingForm = ({
         <div
           style={{
             color: SEAL_AMBER,
-            fontSize: FONT_BODY,
+            fontSize: '12px',
             marginTop: 6,
           }}
         >
@@ -396,8 +398,10 @@ const PostingForm = ({
 };
 
 const fieldLabel = {
+  fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
-  fontSize: FONT_BODY,
+  fontStyle: 'italic' as const,
+  fontSize: '12px',
 };
 
 const FormField = ({
@@ -428,7 +432,7 @@ const FormField = ({
         <div
           style={{
             color: overLimit ? SEAL_RED : INK_FAINT,
-            fontSize: FONT_BODY,
+            fontSize: '11px',
           }}
         >
           {value.length} / {max}
@@ -442,7 +446,7 @@ const FormField = ({
           style={{
             width: '100%',
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '13px',
             background: BUTTON_BG,
             border: `1px solid ${INK_FAINT}`,
             color: INK,
@@ -458,7 +462,7 @@ const FormField = ({
           style={{
             width: '100%',
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '13px',
             background: BUTTON_BG,
             border: `1px solid ${INK_FAINT}`,
             color: INK,

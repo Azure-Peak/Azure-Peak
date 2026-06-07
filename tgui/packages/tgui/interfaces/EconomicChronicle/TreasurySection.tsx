@@ -1,9 +1,4 @@
-import {
-  FONT_BODY,
-  SEAL_GREEN,
-  SEAL_RED,
-  subtitleStyle,
-} from '../common/parchment';
+import { SEAL_GREEN, SEAL_RED, subtitleStyle } from '../common/parchment';
 import {
   Breakdown,
   compactCardStyle,
@@ -177,7 +172,7 @@ const RealmInsight = (props: { t: TreasurySnapshot }) => {
         marginTop: '6px',
         marginBottom: 0,
         textAlign: 'left',
-        fontSize: FONT_BODY,
+        fontSize: '11px',
       }}
     >
       <table style={twoColTable}>

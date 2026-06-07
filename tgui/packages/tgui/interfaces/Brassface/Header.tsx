@@ -1,5 +1,4 @@
 import {
-  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -50,7 +49,7 @@ export const Header = (props: Props) => {
           justifyContent: 'center',
           gap: '8px 18px',
           fontFamily: SERIF,
-          fontSize: FONT_BODY,
+          fontSize: '12px',
           marginBottom: '8px',
         }}
       >
@@ -82,7 +81,7 @@ export const Header = (props: Props) => {
           </>
         )}
         {!isProprietor && !ordinanceActive && (
-          <span style={{ color: INK_FAINT }}>
+          <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
             Prices include Crown import duty.
           </span>
         )}

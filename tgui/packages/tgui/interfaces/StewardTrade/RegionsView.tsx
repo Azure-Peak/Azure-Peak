@@ -6,7 +6,6 @@ import type { Data, RegionFlow, RegionRow } from './types';
 import {
   badgeStyle,
   cardStyle,
-  FONT_BODY,
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
@@ -66,16 +65,16 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
           gap: '6px',
         }}
       >
-        <span style={{ color: INK_FAINT, fontSize: FONT_BODY, width: '10px' }}>
+        <span style={{ color: INK_FAINT, fontSize: '10px', width: '10px' }}>
           {expanded ? '▼' : '▶'}
         </span>
-        <span style={{ fontWeight: 'bold', fontSize: FONT_BODY }}>
+        <span style={{ fontWeight: 'bold', fontSize: '14px' }}>
           {regionName}
         </span>
         {!!region.blockaded && (
           <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
         )}
-        <span style={{ color: INK_FAINT, fontSize: FONT_BODY, marginLeft: 'auto' }}>
+        <span style={{ color: INK_FAINT, fontSize: '11px', marginLeft: 'auto' }}>
           {producesCount} produces &middot; {demandsCount} demands
         </span>
       </div>
@@ -85,7 +84,7 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
             <div
               style={{
                 color: INK_SOFT,
-                fontSize: FONT_BODY,
+                fontSize: '12px',
                 margin: '6px 0 4px 16px',
               }}
             >
@@ -164,17 +163,18 @@ const FlowColumn = (props: {
         <div
           style={{
             color: INK_SOFT,
+            fontVariant: 'small-caps',
             fontWeight: 'bold',
             borderBottom: `1px solid ${INK_FAINT}`,
             paddingBottom: '2px',
             marginBottom: '4px',
-            fontSize: FONT_BODY,
+            fontSize: '12px',
           }}
         >
           {title}
         </div>
         <div
-          style={{ fontStyle: 'italic', color: INK_FAINT, fontSize: FONT_BODY }}
+          style={{ fontStyle: 'italic', color: INK_FAINT, fontSize: '11px' }}
         >
           none
         </div>
@@ -189,11 +189,12 @@ const FlowColumn = (props: {
       <div
         style={{
           color: INK_SOFT,
+          fontVariant: 'small-caps',
           fontWeight: 'bold',
           borderBottom: `1px solid ${INK_FAINT}`,
           paddingBottom: '2px',
           marginBottom: '4px',
-          fontSize: FONT_BODY,
+          fontSize: '12px',
         }}
       >
         {title} &middot; {flows.length}
@@ -202,8 +203,9 @@ const FlowColumn = (props: {
         <div key={category} style={{ marginBottom: '4px' }}>
           <div
             style={{
+              fontVariant: 'small-caps',
               color: INK_FAINT,
-              fontSize: FONT_BODY,
+              fontSize: '10px',
             }}
           >
             {label}
@@ -212,7 +214,7 @@ const FlowColumn = (props: {
             <div
               key={f.good_id}
               style={{
-                fontSize: FONT_BODY,
+                fontSize: '11px',
                 display: 'flex',
                 justifyContent: 'space-between',
                 padding: '1px 4px',

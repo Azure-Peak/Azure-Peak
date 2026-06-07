@@ -4,7 +4,6 @@ import {
   fieldLabelStyle,
   fieldRowStyle,
   fieldValueStyle,
-  FONT_BODY,
   INK_FAINT,
   inkButtonStyle,
   SEAL_AMBER,
@@ -69,7 +68,7 @@ export const BathhouseOrdinanceSection = ({
           type="button"
           style={{
             ...inkButtonStyle({}),
-            fontSize: FONT_BODY,
+            fontSize: '11px',
             padding: '2px 6px',
           }}
           onClick={() => setExpanded((v) => !v)}
@@ -81,7 +80,7 @@ export const BathhouseOrdinanceSection = ({
             style={{
               color: SEAL_AMBER,
               marginTop: 6,
-              fontSize: FONT_BODY,
+              fontSize: '12px',
               lineHeight: 1.4,
             }}
           >
@@ -140,7 +139,7 @@ export const BathhouseOrdinanceSection = ({
           style={{
             color: INK_FAINT,
             marginBottom: 8,
-            fontSize: FONT_BODY,
+            fontSize: '12px',
           }}
         >
           The seal is still warm upon the wax. The Ordinance may be reconsidered in{' '}

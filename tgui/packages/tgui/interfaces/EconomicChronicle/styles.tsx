@@ -1,7 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 
 import {
-  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -13,7 +12,7 @@ export const twoColTable: CSSProperties = {
   width: '100%',
   borderCollapse: 'collapse',
   fontFamily: SERIF,
-  fontSize: FONT_BODY,
+  fontSize: '12px',
 };
 
 export const labelCell: CSSProperties = {
@@ -30,7 +29,7 @@ export const valueCell: CSSProperties = {
 
 export const breakdownStyle: CSSProperties = {
   color: INK_FAINT,
-  fontSize: FONT_BODY,
+  fontSize: '10px',
   paddingLeft: '10px',
   lineHeight: '1.2em',
   marginBottom: '2px',
@@ -80,12 +79,13 @@ export const compactPageStyle: CSSProperties = {
   padding: '8px 14px 14px 14px',
   fontFamily: SERIF,
   color: INK,
-  fontSize: FONT_BODY,
+  fontSize: '12px',
   lineHeight: 1.3,
 };
 
 export const compactSectionHeader: CSSProperties = {
-  fontSize: FONT_BODY,
+  fontVariant: 'small-caps',
+  fontSize: '13px',
   color: INK,
   fontWeight: 'bold',
   borderBottom: `1px solid ${INK_FAINT}`,
@@ -105,7 +105,8 @@ export const compactDataCell: CSSProperties = {
 };
 
 export const columnSubheadStyle: CSSProperties = {
-  fontSize: FONT_BODY,
+  fontVariant: 'small-caps',
+  fontSize: '11px',
   color: INK_SOFT,
   borderBottom: `1px dotted ${INK_FAINT}`,
   paddingBottom: '1px',

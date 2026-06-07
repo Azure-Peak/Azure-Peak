@@ -101,8 +101,8 @@
 				break
 		if(blocked)
 			break
-		if(!step(H, facing))
-			break
+
+		step(H, facing)
 		steps_taken++
 
 		if(i < leap_range)
@@ -115,10 +115,6 @@
 
 	H.pass_flags = old_pass
 	H.throwing = old_throwing
-
-	var/turf/landing_turf = get_turf(H)
-	if(landing_turf?.zFall(H))
-		return TRUE
 
 	if(steps_taken == 0)
 		to_chat(H, span_warning("My leap is blocked!"))

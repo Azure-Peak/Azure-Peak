@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import {
-  FONT_BODY,
   INK,
   INK_SOFT,
   PARCHMENT_SHADOW,
@@ -34,14 +33,14 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
           columnGap: '8px',
           padding: '6px',
           cursor: 'pointer',
-          fontSize: FONT_BODY,
+          fontSize: '11px',
         }}
         onClick={() => setExpanded((e) => !e)}
       >
         <div
           style={{
             color: INK_SOFT,
-            fontSize: FONT_BODY,
+            fontSize: '11px',
             paddingTop: '2px',
           }}
         >
@@ -52,7 +51,8 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
           <div
             style={{
               color: SEAL_AMBER,
-              fontSize: FONT_BODY,
+              fontVariant: 'small-caps',
+              fontSize: '13px',
               fontWeight: 'bold',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -70,7 +70,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
                   border: `1px solid ${SEAL_GREEN}`,
                   borderRadius: '8px',
                   color: SEAL_GREEN,
-                  fontSize: FONT_BODY,
+                  fontSize: '10px',
                   fontWeight: 'bold',
                   letterSpacing: '0.5px',
                 }}
@@ -85,7 +85,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
                 style={{
                   color: INK_SOFT,
                   fontStyle: 'italic',
-                  fontSize: FONT_BODY,
+                  fontSize: '10px',
                 }}
               >
                 no conditions
@@ -104,7 +104,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
         <div
           style={{
             padding: '6px 8px 10px 36px',
-            fontSize: FONT_BODY,
+            fontSize: '12px',
             color: INK,
             background: 'var(--p-card-bg)',
           }}
@@ -114,6 +114,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
               <div
                 style={{
                   color: SEAL_AMBER,
+                  fontStyle: 'italic',
                   fontWeight: 'bold',
                   marginBottom: '4px',
                 }}
@@ -132,6 +133,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
               <div
                 style={{
                   color: SEAL_AMBER,
+                  fontStyle: 'italic',
                   fontWeight: 'bold',
                   marginBottom: '4px',
                 }}
@@ -145,7 +147,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
                     style={{
                       marginTop: '2px',
                       color: INK_SOFT,
-                      fontSize: FONT_BODY,
+                      fontSize: '11px',
                       lineHeight: '1.4',
                     }}
                   >

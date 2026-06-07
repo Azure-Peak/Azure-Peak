@@ -1,6 +1,5 @@
 import {
   cardStyle,
-  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -16,20 +15,21 @@ import type { FundLogEntry, HarborData } from '../types';
 
 const labelStyle = {
   fontFamily: SERIF,
-  fontSize: FONT_BODY,
+  fontSize: '11px',
+  fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
   letterSpacing: '0.04em',
 };
 
 const valueStyle = {
   fontFamily: SERIF,
-  fontSize: FONT_BODY,
+  fontSize: '13px',
   color: INK,
 };
 
 const noteStyle = {
   fontFamily: SERIF,
-  fontSize: FONT_BODY,
+  fontSize: '11px',
   fontStyle: 'italic' as const,
   color: INK_SOFT,
   lineHeight: 1.4,
@@ -90,7 +90,7 @@ const FundLogRow = (props: { entry: FundLogEntry }) => {
         columnGap: '8px',
         padding: '3px 4px',
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
-        fontSize: FONT_BODY,
+        fontSize: '12px',
         color: INK,
       }}
     >
@@ -186,7 +186,7 @@ export const LedgerTab = (props: { harbor?: HarborData }) => {
             <div style={{ ...noteStyle, marginBottom: '4px' }}>
               By writ of the Azurean Guild of Gnomes Porters, the public stalls now run under their hand. They take their cost in labour and remit the margin of <b>+{ledger.silverface_margin_percent}%</b> on every sale unto the Merchant Fund. Adjust the rate from the Management tab as you see fit.
             </div>
-            <div style={{ color: INK_FAINT, fontSize: FONT_BODY, fontStyle: 'italic' }}>
+            <div style={{ color: INK_FAINT, fontSize: '11px', fontStyle: 'italic' }}>
               A heavier margin fattens the Fund per sale; a lighter one draws more buyers to the stalls.
             </div>
           </>

@@ -104,6 +104,7 @@ const DemandGroupDivider = (props: { label: string }) => (
       style={{
         color: SEAL_AMBER,
         fontFamily: SERIF,
+        fontVariant: 'small-caps',
         fontWeight: 'bold',
         fontSize: FONT_SMALL,
         letterSpacing: '1px',
@@ -227,7 +228,7 @@ const SupplyLineRow = (props: {
         </span>
       )}
       {soldOut ? (
-        <span style={{ color: INK_FAINT }}>sold</span>
+        <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>sold</span>
       ) : (
         <>
           <input
@@ -297,7 +298,7 @@ export const ShipRow = (props: Props) => {
         padding: '6px 8px',
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
         fontFamily: SERIF,
-        fontSize: FONT_BODY,
+        fontSize: '13px',
       }}
     >
       <div
@@ -318,7 +319,7 @@ export const ShipRow = (props: Props) => {
                   border: `1px solid ${SEAL_AMBER}`,
                   borderRadius: '6px',
                   color: SEAL_AMBER,
-                  fontSize: FONT_BODY,
+                  fontSize: '9px',
                   fontWeight: 'bold',
                   letterSpacing: '0.5px',
                   verticalAlign: 'middle',
@@ -372,6 +373,7 @@ export const ShipRow = (props: Props) => {
                   padding: 0,
                   margin: 0,
                   color: SEAL_AMBER,
+                  fontVariant: 'small-caps',
                   fontFamily: SERIF,
                   fontSize: 'inherit',
                   cursor: 'pointer',
@@ -382,7 +384,7 @@ export const ShipRow = (props: Props) => {
                 {ship.realm_id}
               </button>
             ) : (
-              <span style={{ color: SEAL_AMBER }}>
+              <span style={{ color: SEAL_AMBER, fontVariant: 'small-caps' }}>
                 {ship.realm_id}
               </span>
             )}
@@ -410,7 +412,7 @@ export const ShipRow = (props: Props) => {
                   borderRadius: '2px',
                   boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.35)',
                   fontFamily: SERIF,
-                  fontSize: FONT_BODY,
+                  fontSize: '12px',
                   color: INK,
                 }}
               >
@@ -425,8 +427,9 @@ export const ShipRow = (props: Props) => {
                   <span
                     style={{
                       color: SEAL_AMBER,
+                      fontVariant: 'small-caps',
                       fontWeight: 'bold',
-                      fontSize: FONT_BODY,
+                      fontSize: '13px',
                     }}
                   >
                     {realm.name}
@@ -442,7 +445,7 @@ export const ShipRow = (props: Props) => {
                       border: 'none',
                       color: INK_SOFT,
                       cursor: 'pointer',
-                      fontSize: FONT_BODY,
+                      fontSize: '14px',
                       padding: '0 4px',
                       lineHeight: 1,
                     }}
@@ -469,7 +472,7 @@ export const ShipRow = (props: Props) => {
                     border: `1px solid ${SEAL_GREEN}`,
                     borderRadius: '6px',
                     color: SEAL_GREEN,
-                    fontSize: FONT_BODY,
+                    fontSize: '9px',
                     fontWeight: 'bold',
                     letterSpacing: '0.5px',
                     verticalAlign: 'middle',
@@ -535,6 +538,7 @@ export const ShipRow = (props: Props) => {
                 color: SEAL_GREEN,
                 fontWeight: 'bold',
                 fontSize: FONT_HEAD,
+                fontVariant: 'small-caps',
                 marginBottom: '3px',
               }}
             >
@@ -581,6 +585,7 @@ export const ShipRow = (props: Props) => {
                 color: SEAL_RED,
                 fontWeight: 'bold',
                 fontSize: FONT_HEAD,
+                fontVariant: 'small-caps',
                 marginBottom: '3px',
               }}
             >

@@ -1,12 +1,6 @@
 import type { CSSProperties } from 'react';
 
-import {
-  FONT_BODY,
-  INK,
-  INK_FAINT,
-  inkButtonStyle,
-  SERIF,
-} from '../common/parchment';
+import { INK, INK_FAINT, inkButtonStyle, SERIF } from '../common/parchment';
 
 const navRowStyle: CSSProperties = {
   display: 'flex',
@@ -20,6 +14,7 @@ const monthTitleStyle: CSSProperties = {
   flex: 1,
   textAlign: 'center',
   fontFamily: SERIF,
+  fontVariant: 'small-caps',
   letterSpacing: '3px',
   fontSize: '18px',
   color: INK,
@@ -29,7 +24,7 @@ const monthSubStyle: CSSProperties = {
   textAlign: 'center',
   color: INK_FAINT,
   fontStyle: 'italic',
-  fontSize: FONT_BODY,
+  fontSize: '11px',
   marginBottom: '8px',
 };
 

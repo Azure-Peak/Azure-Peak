@@ -13,8 +13,7 @@
 	traits_applied = list(
 		TRAIT_CIVILIZEDBARBARIAN,
 		TRAIT_ARCYNE,
-		TRAIT_NALEDI,
-		TRAIT_BLOOD_RESISTANCE
+		TRAIT_NALEDI
 	)
 	subclass_stats = list(
 		STATKEY_STR = 1,
@@ -26,7 +25,7 @@
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
@@ -36,7 +35,7 @@
 	)
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
 	subclass_stashed_items = list(
-		"The Book" = /obj/item/book/rogue/bibble/psy
+		"Tome of Psydon" = /obj/item/book/rogue/bibble/psy
 	)
 
 /datum/outfit/job/roguetown/sojourner
@@ -77,9 +76,9 @@
 
 	switch(sidearm_selected)
 		if("katar")
-			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/katar(H))
 		if("knuckledusters")
-			H.put_in_hands(new /obj/item/rogueweapon/knuckledusters/psy(H))
+			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
 
 	head = /obj/item/clothing/head/roguetown/headband/naledi
 	mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
@@ -88,8 +87,8 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	neck = /obj/item/clothing/neck/roguetown/psicross/silver/naledi
-	id = /obj/item/clothing/ring/signet/psy/g
+	neck = /obj/item/clothing/neck/roguetown/psicross/g
+	id = /obj/item/clothing/ring/signet/psy
 	belt = /obj/item/storage/belt/rogue/leather/rope/dark
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backl = /obj/item/storage/backpack/rogue/satchel/black

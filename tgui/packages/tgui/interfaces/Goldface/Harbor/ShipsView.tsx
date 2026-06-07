@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 
 import {
   cardStyle,
-  FONT_BODY,
   INK_FAINT,
   sectionHeaderStyle,
 } from '../../common/parchment';
@@ -15,7 +14,7 @@ const EmptyCard = (props: { children: React.ReactNode }) => (
       ...cardStyle,
       textAlign: 'center',
       color: INK_FAINT,
-      fontSize: FONT_BODY,
+      fontSize: '12px',
     }}
   >
     {props.children}

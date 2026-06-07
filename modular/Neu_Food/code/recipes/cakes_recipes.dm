@@ -1,9 +1,5 @@
-/datum/food_recipe/cake
-	abstract_type = /datum/food_recipe/cake
-	book_category = FOOD_CAT_CAKES
-
 // Cake Base + Frosting -> Frosted Cake Base (Raw)
-/datum/food_recipe/cake/frosted_cake_base
+/datum/food_recipe/frosted_cake_base
 	name = "Frosted Cake Base"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/cake_base
 	ingredients = list(
@@ -13,7 +9,7 @@
 	time_per_step = 3 SECONDS
 
 // Cake Base + Cheese -> Cheesecake (Raw)
-/datum/food_recipe/cake/cheesecake_base
+/datum/food_recipe/cheesecake_base
 	name = "Cheesecake Base"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/cake_base
 	ingredients = list(
@@ -23,7 +19,7 @@
 	time_per_step = 5 SECONDS
 
 // Cake Base + Honey -> Honey Cake (Raw)
-/datum/food_recipe/cake/honeycake_base
+/datum/food_recipe/honeycake_base
 	name = "Honey Cake Base"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/cake_base
 	ingredients = list(
@@ -33,7 +29,7 @@
 	time_per_step = 5 SECONDS
 
 // Cooked Cake + Frosting -> Frosted Cake (for those who forgot to frost first)
-/datum/food_recipe/cake/frosted_cake_postbake
+/datum/food_recipe/frosted_cake_postbake
 	name = "Frosted Cake (Post-Bake)"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/cake
 	ingredients = list(
@@ -43,7 +39,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Apple -> Apple Cake
-/datum/food_recipe/cake/apple_cake
+/datum/food_recipe/apple_cake
 	name = "Apple Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -53,7 +49,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Berries -> Berry Cake
-/datum/food_recipe/cake/berry_cake
+/datum/food_recipe/berry_cake
 	name = "Berry Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -63,7 +59,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Poison Berries -> Poison Berry Cake
-/datum/food_recipe/cake/berry_cake_poison
+/datum/food_recipe/berry_cake_poison
 	name = "Poison Berry Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -73,7 +69,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Blackberry -> Blackberry Cake
-/datum/food_recipe/cake/blackberry_cake
+/datum/food_recipe/blackberry_cake
 	name = "Blackberry Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -83,7 +79,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Carrot -> Carrot Cake
-/datum/food_recipe/cake/carrot_cake
+/datum/food_recipe/carrot_cake
 	name = "Carrot Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -93,7 +89,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Raw Carrot -> Carrot Cake (alternative)
-/datum/food_recipe/cake/carrot_cake_alt
+/datum/food_recipe/carrot_cake_alt
 	name = "Carrot Cake (Raw Carrot)"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -103,7 +99,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Lemon -> Lemon Cake
-/datum/food_recipe/cake/lemon_cake
+/datum/food_recipe/lemon_cake
 	name = "Lemon Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -113,7 +109,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Lime -> Lime Cake
-/datum/food_recipe/cake/lime_cake
+/datum/food_recipe/lime_cake
 	name = "Lime Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -123,7 +119,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Mentha -> Mentha Cake
-/datum/food_recipe/cake/mentha_cake
+/datum/food_recipe/mentha_cake
 	name = "Mentha Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -133,7 +129,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Peaceflower -> Peace Cake
-/datum/food_recipe/cake/peace_cake
+/datum/food_recipe/peace_cake
 	name = "Peace Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -143,7 +139,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Raspberry -> Raspberry Cake
-/datum/food_recipe/cake/raspberry_cake
+/datum/food_recipe/raspberry_cake
 	name = "Raspberry Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -153,7 +149,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Rocknut -> Rocknut Cake
-/datum/food_recipe/cake/rocknut_cake
+/datum/food_recipe/rocknut_cake
 	name = "Rocknut Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -163,7 +159,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Strawberry -> Strawberry Cake
-/datum/food_recipe/cake/strawberry_cake
+/datum/food_recipe/strawberry_cake
 	name = "Strawberry Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -173,7 +169,7 @@
 	time_per_step = 5 SECONDS
 
 // Frosted Cake + Tangerine -> Tangerine Cake
-/datum/food_recipe/cake/tangerine_cake
+/datum/food_recipe/tangerine_cake
 	name = "Tangerine Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/frostedcake
 	ingredients = list(
@@ -183,7 +179,7 @@
 	time_per_step = 5 SECONDS
 
 // Apple Cake + Nut -> Applenut Cake
-/datum/food_recipe/cake/applenut_cake
+/datum/food_recipe/applenut_cake
 	name = "Applenut Cake"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/applecake
 	ingredients = list(
@@ -193,7 +189,7 @@
 	time_per_step = 3 SECONDS
 
 // Rocknut Cake + Apple -> Applenut Cake (alternative path)
-/datum/food_recipe/cake/applenut_cake_alt
+/datum/food_recipe/applenut_cake_alt
 	name = "Applenut Cake (from Rocknut)"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/rocknutcake
 	ingredients = list(

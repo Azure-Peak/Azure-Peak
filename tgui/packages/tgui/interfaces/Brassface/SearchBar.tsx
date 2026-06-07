@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Input } from 'tgui-core/components';
 
-import {
-  FONT_BODY,
-  INK_SOFT,
-  inkButtonStyle,
-  SERIF,
-} from '../common/parchment';
+import { INK_SOFT, inkButtonStyle, SERIF } from '../common/parchment';
 import type { ActFn } from './types';
 
 type Props = {
@@ -42,7 +37,8 @@ export const SearchBar = (props: Props) => {
       <span
         style={{
           fontFamily: SERIF,
-          fontSize: FONT_BODY,
+          fontSize: '12px',
+          fontStyle: 'italic',
           color: INK_SOFT,
         }}
       >

@@ -4,7 +4,6 @@ import { Input } from 'tgui-core/components';
 import {
   badgeStyle,
   cardStyle,
-  FONT_BODY,
   INK,
   INK_SOFT,
   inkButtonStyle,
@@ -61,13 +60,13 @@ const OrderCard = (props: {
         <span style={badgeStyle(STATUS_BADGE_COLOR[order.status] || SEAL_BLUE)}>
           {STATUS_LABEL[order.status] || order.status.toUpperCase()}
         </span>
-        <span style={{ color: SEAL_AMBER, fontWeight: 'bold', fontSize: FONT_BODY }}>
+        <span style={{ color: SEAL_AMBER, fontWeight: 'bold', fontSize: '12px' }}>
           {order.deposited}m
         </span>
         <span
           style={{
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '11px',
             color: INK,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
@@ -76,11 +75,11 @@ const OrderCard = (props: {
             minWidth: 0,
           }}
         >
-          <span style={{ color: INK_SOFT }}>for </span>
+          <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>for </span>
           <b>{starsIf(order.commissioner_name, canRead)}</b>
           {order.status !== 'open' && order.smith_name && (
             <>
-              <span style={{ color: INK_SOFT }}> by </span>
+              <span style={{ color: INK_SOFT, fontStyle: 'italic' }}> by </span>
               <b>{starsIf(order.smith_name, canRead)}</b>
             </>
           )}
@@ -89,7 +88,8 @@ const OrderCard = (props: {
           <span
             style={{
               fontFamily: SERIF,
-              fontSize: FONT_BODY,
+              fontSize: '10px',
+              fontStyle: 'italic',
               color: order.days_left <= 0 ? SEAL_RED : INK_SOFT,
             }}
           >
@@ -110,7 +110,7 @@ const OrderCard = (props: {
             borderLeft: `2px solid ${SEAL_AMBER}`,
             fontFamily: SERIF,
             fontStyle: 'italic',
-            fontSize: FONT_BODY,
+            fontSize: '11px',
             color: INK_SOFT,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
@@ -125,7 +125,7 @@ const OrderCard = (props: {
           <div
             key={idx}
             style={{
-              fontSize: FONT_BODY,
+              fontSize: '11px',
               color: INK,
               fontFamily: SERIF,
               padding: '0px',
@@ -145,12 +145,13 @@ const OrderCard = (props: {
         <div
           style={{
             marginTop: '3px',
-            fontSize: FONT_BODY,
+            fontSize: '10px',
             fontFamily: SERIF,
+            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >
-          <span style={{ color: SEAL_AMBER }}>
+          <span style={{ fontVariant: 'small-caps', color: SEAL_AMBER }}>
             needs:{' '}
           </span>
           {order.materials.map((m) => `${m.qty} ${m.name}`).join(' · ')}
@@ -161,8 +162,10 @@ const OrderCard = (props: {
         <div style={{ marginTop: '3px' }}>
           <div
             style={{
-              fontSize: FONT_BODY,
+              fontSize: '10px',
+              fontVariant: 'small-caps',
               color: SEAL_AMBER,
+              fontStyle: 'italic',
             }}
           >
             Delivered {order.done_count} / {order.needed_count}
@@ -171,7 +174,7 @@ const OrderCard = (props: {
             <div
               key={idx}
               style={{
-                fontSize: FONT_BODY,
+                fontSize: '10px',
                 fontFamily: SERIF,
                 color: f.have >= f.want ? SEAL_GREEN : INK_SOFT,
               }}
@@ -285,7 +288,7 @@ const OrderCard = (props: {
         >
           <div
             style={{
-              fontSize: FONT_BODY,
+              fontSize: '11px',
               color: INK_SOFT,
               marginBottom: '4px',
             }}
@@ -333,7 +336,7 @@ const OrderCard = (props: {
         <div
           style={{
             marginTop: '6px',
-            fontSize: FONT_BODY,
+            fontSize: '11px',
             color: INK_SOFT,
           }}
         >

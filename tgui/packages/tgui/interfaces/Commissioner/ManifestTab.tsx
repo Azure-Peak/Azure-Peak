@@ -4,7 +4,6 @@ import { Input } from 'tgui-core/components';
 import {
   cardStyle,
   fieldRowStyle,
-  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -31,8 +30,9 @@ const CapStatus = (props: { data: CommissionerData }) => {
         ...cardStyle,
         marginBottom: '8px',
         fontFamily: SERIF,
-        fontSize: FONT_BODY,
+        fontSize: '11px',
         color: INK_FAINT,
+        fontStyle: 'italic',
       }}
     >
       Your manifest holds{' '}
@@ -121,12 +121,13 @@ export const ManifestTab = (props: {
             }}
           >
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: FONT_BODY, color: INK }}>
+              <div style={{ fontSize: '13px', color: INK }}>
                 {starsIf(line.name, canRead)}
               </div>
               <div
                 style={{
-                  fontSize: FONT_BODY,
+                  fontSize: '10px',
+                  fontStyle: 'italic',
                   color: INK_SOFT,
                 }}
               >
@@ -137,7 +138,8 @@ export const ManifestTab = (props: {
               style={{
                 flex: '0 0 auto',
                 color: SEAL_AMBER,
-                fontSize: FONT_BODY,
+                fontSize: '11px',
+                fontStyle: 'italic',
               }}
             >
               {line.unit_price}m each
@@ -155,7 +157,7 @@ export const ManifestTab = (props: {
               style={{
                 flex: '0 0 32px',
                 textAlign: 'center',
-                fontSize: FONT_BODY,
+                fontSize: '13px',
                 color: INK,
                 fontWeight: 'bold',
               }}
@@ -175,7 +177,7 @@ export const ManifestTab = (props: {
               style={{
                 flex: '0 0 60px',
                 textAlign: 'right',
-                fontSize: FONT_BODY,
+                fontSize: '13px',
                 color: SEAL_AMBER,
                 fontWeight: 'bold',
               }}
@@ -205,7 +207,9 @@ export const ManifestTab = (props: {
           style={{
             flex: 1,
             fontFamily: SERIF,
+            fontVariant: 'small-caps',
             color: SEAL_AMBER,
+            fontStyle: 'italic',
           }}
         >
           Manifest Total
@@ -213,7 +217,7 @@ export const ManifestTab = (props: {
         <div
           style={{
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '14px',
             color: INK,
             fontWeight: 'bold',
           }}
@@ -226,7 +230,9 @@ export const ManifestTab = (props: {
           style={{
             flex: 1,
             fontFamily: SERIF,
+            fontVariant: 'small-caps',
             color: SEAL_AMBER,
+            fontStyle: 'italic',
           }}
         >
           Deposit Held
@@ -234,7 +240,7 @@ export const ManifestTab = (props: {
         <div
           style={{
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '14px',
             color: deposit >= total ? SEAL_GREEN : SEAL_RED,
             fontWeight: 'bold',
           }}
@@ -248,7 +254,7 @@ export const ManifestTab = (props: {
           style={{
             marginTop: '8px',
             textAlign: 'center',
-            fontSize: FONT_BODY,
+            fontSize: '12px',
             color: SEAL_RED,
           }}
         >
@@ -261,7 +267,7 @@ export const ManifestTab = (props: {
           style={{
             marginTop: '8px',
             textAlign: 'center',
-            fontSize: FONT_BODY,
+            fontSize: '12px',
             color: SEAL_RED,
           }}
         >
@@ -275,7 +281,7 @@ export const ManifestTab = (props: {
           style={{
             marginTop: '8px',
             textAlign: 'center',
-            fontSize: FONT_BODY,
+            fontSize: '12px',
             color: SEAL_RED,
           }}
         >
@@ -295,7 +301,8 @@ export const ManifestTab = (props: {
       >
         <span
           style={{
-            fontSize: FONT_BODY,
+            fontSize: '11px',
+            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >
@@ -343,7 +350,7 @@ export const ManifestTab = (props: {
         style={{
           marginTop: '10px',
           textAlign: 'center',
-          fontSize: FONT_BODY,
+          fontSize: '12px',
           color: INK_SOFT,
         }}
       >
@@ -355,7 +362,8 @@ export const ManifestTab = (props: {
         style={{
           marginTop: '6px',
           textAlign: 'center',
-          fontSize: FONT_BODY,
+          fontSize: '11px',
+          fontStyle: 'italic',
           color: SEAL_RED,
         }}
       >

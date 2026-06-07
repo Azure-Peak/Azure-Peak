@@ -5,7 +5,6 @@ import { useBackend } from '../../backend';
 import {
   denseRowStyle,
   ellipsisCellStyle,
-  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -111,7 +110,8 @@ export const LedgerView = (props: { data: Data }) => {
         <span
           style={{
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '12px',
+            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >
@@ -175,7 +175,7 @@ export const LedgerView = (props: { data: Data }) => {
         >
           &lsaquo; Newer
         </button>
-        <span style={{ color: INK_FAINT, fontSize: FONT_BODY }}>
+        <span style={{ color: INK_FAINT, fontSize: '12px' }}>
           Page {pageNum} &middot; {page.shown} shown
         </span>
         <button

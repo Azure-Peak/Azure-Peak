@@ -19,7 +19,6 @@
 	grid_width = 32
 	grid_height = 64
 	var/matthios_chains = FALSE
-	dropshrink = 0.9
 
 /obj/item/rope/Initialize()
 	. = ..()

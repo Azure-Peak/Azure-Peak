@@ -1,9 +1,4 @@
-import {
-  cardStyle,
-  FONT_BODY,
-  INK_SOFT,
-  SERIF,
-} from '../common/parchment';
+import { cardStyle, INK_SOFT, SERIF } from '../common/parchment';
 import { PackRow } from './PackRow';
 import type { ActFn, VendingPack } from './types';
 
@@ -91,7 +86,7 @@ export const PacksGrid = (props: Props) => {
             marginTop: '8px',
             textAlign: 'center',
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '12px',
             color: INK_SOFT,
           }}
         >

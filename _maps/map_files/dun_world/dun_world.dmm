@@ -6581,7 +6581,6 @@
 "bsc" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/rogueweapon/huntingknife/chefknife,
-/obj/structure/roguemachine/noticeboard/wall,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern)
 "bsh" = (
@@ -25586,7 +25585,6 @@
 "fiy" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/ywflowers,
-/obj/item/recipe_book/brewing,
 /obj/item/recipe_book/cooking,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
@@ -33543,7 +33541,7 @@
 /area/rogue/under/underdark/south)
 "gPc" = (
 /obj/structure/flora/ausbushes/reedbush,
-/turf/open/water/pond,
+/turf/open/water/transparent/surface/pond,
 /area/rogue/outdoors/town)
 "gPh" = (
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -75439,6 +75437,9 @@
 /obj/structure/closet/crate/roguecloset/dark,
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/tavern)
+"oVk" = (
+/turf/open/water/transparent/inner/pond,
+/area/underwater)
 "oVl" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/blocks,
@@ -77631,6 +77632,10 @@
 	smooth = 0
 	},
 /area/rogue/outdoors/town)
+"psb" = (
+/obj/structure/flora/roguegrass/water,
+/turf/open/water/transparent/surface/pond,
+/area/rogue/outdoors/woods/south)
 "psg" = (
 /obj/machinery/light/rogue/candle/r,
 /obj/structure/fermentation_keg/water,
@@ -109164,6 +109169,9 @@
 /obj/item/bedsheet/rogue/wool,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town)
+"vEG" = (
+/turf/open/water/transparent/surface/pond,
+/area/rogue/outdoors/woods/south)
 "vEJ" = (
 /obj/structure/fluff/railing/corner/south_east,
 /obj/machinery/light/rogue/candle,
@@ -120498,6 +120506,9 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/cave/west)
+"xTD" = (
+/turf/open/water/transparent/surface/pond,
+/area/rogue/outdoors/town)
 "xTG" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -190592,8 +190603,8 @@ miF
 miF
 miF
 miF
-miF
-miF
+ogs
+ogs
 qHj
 qHj
 qHj
@@ -191043,10 +191054,10 @@ miF
 miF
 miF
 miF
-miF
-miF
-miF
-miF
+ogs
+oVk
+oVk
+ogs
 miF
 qHj
 qHj
@@ -191494,12 +191505,12 @@ bhJ
 bhJ
 bhJ
 miF
-miF
-miF
-miF
-miF
-miF
-miF
+ogs
+oVk
+oVk
+oVk
+oVk
+ogs
 miF
 miF
 qHj
@@ -191946,12 +191957,12 @@ bhJ
 bhJ
 bhJ
 miF
-miF
-miF
-miF
-miF
-miF
-miF
+ogs
+oVk
+oVk
+oVk
+oVk
+ogs
 miF
 miF
 qHj
@@ -192398,12 +192409,12 @@ bhJ
 bhJ
 bhJ
 miF
-miF
-miF
-miF
-miF
-miF
-miF
+ogs
+oVk
+oVk
+oVk
+oVk
+ogs
 miF
 miF
 qHj
@@ -192850,12 +192861,12 @@ bhJ
 bhJ
 bhJ
 miF
-miF
-miF
-miF
-miF
-miF
-miF
+ogs
+oVk
+oVk
+oVk
+oVk
+ogs
 qHj
 miF
 miF
@@ -193303,10 +193314,10 @@ bhJ
 bhJ
 miF
 miF
-miF
-miF
-miF
-miF
+ogs
+oVk
+oVk
+ogs
 miF
 qHj
 qHj
@@ -193756,8 +193767,8 @@ miF
 miF
 miF
 miF
-miF
-miF
+ogs
+ogs
 miF
 miF
 miF
@@ -210782,11 +210793,11 @@ wOu
 bdN
 bdN
 oBQ
-uir
-uir
-uir
-uir
-uir
+mhC
+uyh
+uyh
+uyh
+uyh
 fLd
 uao
 fLd
@@ -211234,12 +211245,12 @@ vjY
 bdN
 bdN
 bdN
-uir
-uir
-uir
-uir
-uir
-uir
+uyh
+oVk
+oVk
+oVk
+oVk
+uyh
 oBQ
 oBQ
 oBQ
@@ -211686,12 +211697,12 @@ vjY
 bdN
 bdN
 bdN
-uir
-uir
-uir
-uir
-uir
-uir
+uyh
+oVk
+oVk
+oVk
+oVk
+uyh
 oBQ
 oBQ
 oBQ
@@ -212138,12 +212149,12 @@ aYF
 bdN
 bdN
 bdN
-uir
-uir
-uir
-uir
-uir
-uir
+uyh
+oVk
+oVk
+oVk
+oVk
+uyh
 mhC
 oBQ
 oBQ
@@ -212590,12 +212601,12 @@ cak
 uir
 bdN
 bdN
-uir
-uir
-uir
-uir
-uir
-uir
+uyh
+oVk
+oVk
+oVk
+oVk
+uyh
 mhC
 oBQ
 oBQ
@@ -213043,10 +213054,10 @@ uir
 bdN
 bdN
 bdN
-uir
-uir
-uir
-uir
+uyh
+uyh
+uyh
+uyh
 uir
 mhC
 oBQ
@@ -306306,7 +306317,7 @@ bhJ
 bhJ
 bhJ
 gPc
-pJb
+xTD
 sDH
 pWT
 oHH
@@ -306756,9 +306767,9 @@ bhJ
 bhJ
 bhJ
 bhJ
-pJb
-pJb
-pJb
+xTD
+xTD
+xTD
 gPc
 pWT
 oHH
@@ -307208,10 +307219,10 @@ bhJ
 bhJ
 bhJ
 bhJ
-pJb
-pJb
-pJb
-pJb
+xTD
+xTD
+xTD
+xTD
 njB
 oHH
 nvq
@@ -307660,10 +307671,10 @@ bhJ
 bhJ
 bhJ
 bhJ
-pJb
-pJb
-pJb
-pJb
+xTD
+xTD
+xTD
+xTD
 pWT
 oHH
 xvX
@@ -308112,9 +308123,9 @@ bhJ
 bhJ
 bhJ
 bhJ
-pJb
-pJb
-pJb
+xTD
+xTD
+xTD
 gPc
 pWT
 oHH
@@ -308566,7 +308577,7 @@ bhJ
 bhJ
 bhJ
 gPc
-pJb
+xTD
 pUg
 pWT
 oHH
@@ -326496,10 +326507,10 @@ jaH
 jaH
 fML
 itZ
-itZ
-scK
-itZ
-itZ
+vEG
+psb
+vEG
+vEG
 itZ
 scK
 itZ
@@ -326948,10 +326959,10 @@ jaH
 fML
 fML
 itZ
-itZ
-itZ
-itZ
-itZ
+vEG
+vEG
+vEG
+vEG
 itZ
 itZ
 fML
@@ -327400,10 +327411,10 @@ jaH
 fML
 fML
 itZ
-itZ
-itZ
-itZ
-itZ
+vEG
+vEG
+vEG
+vEG
 fLV
 fML
 jaH
@@ -327852,10 +327863,10 @@ gsg
 jaH
 fML
 fML
-itZ
-itZ
-itZ
-itZ
+vEG
+vEG
+vEG
+vEG
 fML
 fML
 fML

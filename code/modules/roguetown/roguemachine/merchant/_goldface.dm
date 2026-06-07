@@ -607,9 +607,8 @@
 	for(var/cid in SSmerchant_trade.catalogs)
 		var/datum/merchant_catalog/C = SSmerchant_trade.catalogs[cid]
 		var/unlocked = SSmerchant_trade.catalog_unlocked(cid)
-		var/access_basis = SSmerchant_trade.catalog_access_basis(C, viewer)
-		var/kin_access = !isnull(access_basis)
-		var/accessible = unlocked || kin_access
+		var/origin_access = SSmerchant_trade.catalog_origin_access(C, viewer)
+		var/accessible = unlocked || origin_access
 		var/list/entries = list()
 		if(accessible)
 			for(var/path in C.stock)
@@ -617,7 +616,7 @@
 				if(!PA)
 					continue
 				var/pre_kin = PA.cost
-				var/base = kin_access ? max(1, round(PA.cost * CATALOG_KIN_BUY_MULT)) : PA.cost
+				var/base = origin_access ? max(1, round(PA.cost * CATALOG_KIN_BUY_MULT)) : PA.cost
 				var/tariff = tariff_active ? round(tariff_rate * base) : 0
 				entries += list(list(
 					"pack" = "[PA.type]",
@@ -637,9 +636,7 @@
 			"favor_cost" = C.favor_cost,
 			"home_label" = C.home_label,
 			"unlocked" = unlocked,
-			"origin_access" = kin_access,
-			"access_basis" = access_basis,
-			"home_realm_name" = C.home_origin_name,
+			"origin_access" = origin_access,
 			"accessible" = accessible,
 			"discount_pct" = round((1 - CATALOG_KIN_BUY_MULT) * 100),
 			"entries" = entries,
@@ -830,8 +827,8 @@
 			var/datum/merchant_catalog/C = SSmerchant_trade.catalogs[cid]
 			if(!C)
 				return TRUE
-			var/kin_access = !isnull(SSmerchant_trade.catalog_access_basis(C, H))
-			if(!SSmerchant_trade.catalog_unlocked(cid) && !kin_access)
+			var/origin_access = SSmerchant_trade.catalog_origin_access(C, H)
+			if(!SSmerchant_trade.catalog_unlocked(cid) && !origin_access)
 				to_chat(H, span_warning("The [C.name] is not open."))
 				return TRUE
 			var/path = text2path(params["pack"])
@@ -845,7 +842,7 @@
 				return TRUE
 			var/base_cost = PA.cost
 			var/kin_saving = 0
-			if(kin_access)
+			if(origin_access)
 				var/pre_kin = base_cost
 				base_cost = max(1, round(base_cost * CATALOG_KIN_BUY_MULT))
 				kin_saving = pre_kin - base_cost

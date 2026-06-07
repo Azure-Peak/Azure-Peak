@@ -3,7 +3,6 @@ import { useState } from 'react';
 import {
   cardStyle,
   fieldRowStyle,
-  FONT_BODY,
   INK,
   INK_SOFT,
   pageStyle,
@@ -30,13 +29,15 @@ const BudgetPair = (props: { label: string; value: React.ReactNode }) => (
     <span
       style={{
         fontFamily: SERIF,
+        fontVariant: 'small-caps',
         color: SEAL_AMBER,
-        fontSize: FONT_BODY,
+        fontStyle: 'italic',
+        fontSize: '11px',
       }}
     >
       {props.label}
     </span>
-    <span style={{ fontFamily: SERIF, fontSize: FONT_BODY, color: INK }}>
+    <span style={{ fontFamily: SERIF, fontSize: '13px', color: INK }}>
       {props.value}
     </span>
   </div>
@@ -90,13 +91,14 @@ export const HarborTab = (props: {
         border: `1px dashed ${SEAL_GREEN}`,
         color: INK,
         fontFamily: SERIF,
-        fontSize: FONT_BODY,
+        fontSize: '12px',
         lineHeight: 1.4,
       }}
     >
       <span
         style={{
           color: SEAL_GREEN,
+          fontVariant: 'small-caps',
           fontWeight: 'bold',
           marginRight: '6px',
         }}
@@ -136,7 +138,7 @@ export const HarborTab = (props: {
         style={{
           margin: '4px 0 6px',
           fontFamily: SERIF,
-          fontSize: FONT_BODY,
+          fontSize: '13px',
           color: INK_SOFT,
         }}
       >
@@ -150,13 +152,14 @@ export const HarborTab = (props: {
             border: `1px dashed ${SEAL_GREEN}`,
             color: INK,
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '12px',
             lineHeight: 1.4,
           }}
         >
           <span
             style={{
               color: SEAL_GREEN,
+              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}
@@ -178,13 +181,14 @@ export const HarborTab = (props: {
             border: `1px dashed ${SEAL_GREEN}`,
             color: INK,
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '12px',
             lineHeight: 1.4,
           }}
         >
           <span
             style={{
               color: SEAL_GREEN,
+              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}

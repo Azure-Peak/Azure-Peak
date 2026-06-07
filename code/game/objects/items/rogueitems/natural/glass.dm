@@ -80,7 +80,6 @@
 	icon1step = 2
 	icon2 = "glasspane2"
 	icon2step = 3
-	dropshrink = 0.9
 
 /obj/item/natural/bundle/glass/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
 	if(!..()) //was it caught by a mob?
@@ -109,7 +108,6 @@
 	attack_verb = list("stabbed", "slashed", "sliced", "cut")
 	max_integrity = 40
 	smeltresult = /obj/item/natural/glass
-	dropshrink = 0.8
 
 /obj/item/natural/glass_shard/Initialize()
 	. = ..()

@@ -2346,17 +2346,24 @@
 	if(!can_look_up())
 		return
 
+	var/turf/T = get_turf(src)
+	var/turf/ceiling = get_step_multiz(src, UP)
+	var/water_view = (istype(T, /turf/open/water) && istype(ceiling, /turf/open/water))
+
 	changeNext_move(CLICK_CD_MELEE)
 
-	if(m_intent != MOVE_INTENT_SNEAK)
-		visible_message(span_info("[src] looks up."))
+	if(water_view)
+		if(m_intent != MOVE_INTENT_SNEAK)
+			visible_message(span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
+		else
+			to_chat(src, span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
 	else
-		to_chat(src, span_info("[src] looks up."))
+		if(m_intent != MOVE_INTENT_SNEAK)
+			visible_message(span_info("[src] looks up."))
+		else
+			to_chat(src, span_info("[src] looks up."))
 
-	var/turf/ceiling = get_step_multiz(src, UP)
-	var/turf/T = get_turf(src)
-
-	if(!ceiling)  //We are at the highest z-level.
+	if(!ceiling)
 		if(T.can_see_sky())
 			switch(GLOB.forecast)
 				if("prerain")
@@ -2375,7 +2382,7 @@
 			do_time_change()
 		return
 		
-	else if(!istransparentturf(ceiling)) 
+	else if(!istransparentturf(ceiling) && !water_view) 
 		to_chat(src, span_warning("There is a ceiling above my head."))
 		return
 

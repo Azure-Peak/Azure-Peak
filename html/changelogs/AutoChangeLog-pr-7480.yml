@@ -1,5 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - rscadd: "Added three new Taunt animations. (Rclicking someone with PUNCH intent.)"
-  - refactor: "You can now see your own rclick interaction animation."

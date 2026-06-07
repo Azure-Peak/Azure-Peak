@@ -720,14 +720,10 @@
 			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 			// ── Active Loans ──────────────────────────────────────────────────
 			if(length(SStreasury.loans))
-				var/crown_loans = 0
-				var/crown_loan_content = "" 
+				contents += "<b>Active Loans ([length(SStreasury.loans)]):</b><BR>"
 				for(var/datum/loan/L in SStreasury.loans)
-					crown_loans++
-					if(L.source_fund == SStreasury.discretionary_fund)
-						var/loan_color = L.defaulted ? "#d9534f" : "#e07b39"
-						crown_loan_content += "<font color='[loan_color]'>[L.format()]</font><BR>"
-				contents += "<b>Active Crown Loans ([crown_loans]):</b><BR>"
+					var/loan_color = L.defaulted ? "#d9534f" : "#e07b39"
+					contents += "<font color='[loan_color]'>[L.format()]</font><BR>"
 				contents += "<BR>"
 			else
 				contents += "<i>No active loans.</i><BR><BR>"
@@ -743,7 +739,7 @@
 				for(var/mob/living/carbon/human/A in debt_rows)
 					var/poll_owed = SStreasury.poll_tax_owed[A] || 0
 					var/overdue_days = SStreasury.poll_tax_debt_days[A] || 0
-					var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR_CROWN)
+					var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
 					var/balance = SStreasury.get_balance(A)
 					if(is_debtor)
 						var/owed_str = poll_owed > 0 ? ", owes [poll_owed]m" : ""

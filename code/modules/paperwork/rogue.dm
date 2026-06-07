@@ -294,13 +294,13 @@
     . += span_info("Successfully mailing a SLIP will reward the sender with MARQUES. The amount of rewarded MARQUES increases, depending on whether you're an Orthodoxist, Absolver, or Inquisitor.")
 
 /obj/item/paper/inqslip/arrival/ortho
-	marquevalue = 8 //At least two Orthodoxists can afford one relic, should they be understaffed and outgunned.
+	marquevalue = 4
 
 /obj/item/paper/inqslip/arrival/inq
-	marquevalue = 16 //Allows for the purchasing of one relic, or a couple lesser items from the Marquette.
+	marquevalue = 10
 
 /obj/item/paper/inqslip/arrival/abso
-	marquevalue = 16 //Ditto.
+	marquevalue = 6
 
 /obj/item/paper/inqslip/proc/attemptsign(mob/user, mob/living/carbon/human/M)
 	if(sliptype == 2)

@@ -5,7 +5,6 @@ import {
   compactButtonStyle,
   denseRowStyle,
   ellipsisCellStyle,
-  FONT_BODY,
   FONT_LEAD,
   FONT_SMALL,
   FONT_TITLE,
@@ -141,14 +140,14 @@ const ShipSection = (props: {
         }}
         onClick={() => setExpanded((e) => !e)}
       >
-        <span style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
+        <span style={{ color: INK_SOFT, fontSize: '11px' }}>
           {expanded ? '▾' : '▸'}
         </span>
         <span>{shipName}</span>
         <span
           style={{
             color: INK_SOFT,
-            fontSize: FONT_BODY,
+            fontSize: '11px',
             textTransform: 'none',
             fontVariant: 'normal',
             fontWeight: 'normal',
@@ -271,14 +270,14 @@ const CatalogSection = (props: {
         }}
         onClick={() => setExpanded((e) => !e)}
       >
-        <span style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
+        <span style={{ color: INK_SOFT, fontSize: '11px' }}>
           {expanded ? '▾' : '▸'}
         </span>
         <span>{catalog.name}</span>
         <span
           style={{
             color: accessible ? SEAL_GREEN : INK_SOFT,
-            fontSize: FONT_BODY,
+            fontSize: '11px',
             textTransform: 'none',
             fontVariant: 'normal',
             fontWeight: 'normal',
@@ -347,7 +346,7 @@ const CatalogSection = (props: {
 const noteStyleItalic = {
   color: INK_SOFT,
   fontStyle: 'italic' as const,
-  fontSize: FONT_BODY,
+  fontSize: '12px',
   lineHeight: 1.4,
 };
 
@@ -359,7 +358,7 @@ const KinshipBanner = (props: { children: React.ReactNode }) => (
       border: `1px dashed ${SEAL_GREEN}`,
       color: INK,
       fontFamily: SERIF,
-      fontSize: FONT_BODY,
+      fontSize: '12px',
       lineHeight: 1.4,
     }}
   >
@@ -369,11 +368,6 @@ const KinshipBanner = (props: { children: React.ReactNode }) => (
 
 export const CulturalStockTab = (props: Props) => {
   const { stock, catalogs = [], kinship, budget, isAgent, act } = props;
-
-  const companyKinCatalogs = catalogs.filter(
-    (c) => c.access_basis === 'kinship',
-  );
-  const agentKinCatalogs = catalogs.filter((c) => c.access_basis === 'agent');
 
   const catalogSections = catalogs.length > 0 && (
     <>
@@ -403,6 +397,7 @@ export const CulturalStockTab = (props: Props) => {
           <span
             style={{
               color: SEAL_GREEN,
+              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}
@@ -421,6 +416,7 @@ export const CulturalStockTab = (props: Props) => {
           <span
             style={{
               color: SEAL_GREEN,
+              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}
@@ -438,6 +434,7 @@ export const CulturalStockTab = (props: Props) => {
           <span
             style={{
               color: SEAL_GREEN,
+              fontVariant: 'small-caps',
               fontWeight: 'bold',
               marginRight: '6px',
             }}
@@ -450,42 +447,6 @@ export const CulturalStockTab = (props: Props) => {
           </span>
         </KinshipBanner>
       )}
-      {companyKinCatalogs.map((c) => (
-        <KinshipBanner key={`mk-${c.id}`}>
-          <span
-            style={{
-              color: SEAL_GREEN,
-              fontVariant: 'small-caps',
-              fontWeight: 'bold',
-              marginRight: '6px',
-            }}
-          >
-            Merchant Kinship: {c.home_realm_name}
-          </span>
-          <span style={{ color: INK_SOFT }}>
-            The {c.name} is open to the Company — wares cost {c.discount_pct}%
-            less.
-          </span>
-        </KinshipBanner>
-      ))}
-      {agentKinCatalogs.map((c) => (
-        <KinshipBanner key={`ak-${c.id}`}>
-          <span
-            style={{
-              color: SEAL_GREEN,
-              fontVariant: 'small-caps',
-              fontWeight: 'bold',
-              marginRight: '6px',
-            }}
-          >
-            Agent Kinship: {c.home_realm_name}
-          </span>
-          <span style={{ color: INK_SOFT }}>
-            As kin, the {c.name} is open to you — wares cost {c.discount_pct}%
-            less.
-          </span>
-        </KinshipBanner>
-      ))}
     </>
   );
 
@@ -532,7 +493,7 @@ export const CulturalStockTab = (props: Props) => {
         style={{
           textAlign: 'center',
           color: INK_SOFT,
-          fontSize: FONT_BODY,
+          fontSize: '12px',
           marginBottom: '8px',
         }}
       >

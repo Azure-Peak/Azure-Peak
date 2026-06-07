@@ -6,12 +6,10 @@ import { Window } from '../layouts';
 import {
   badgeStyle,
   cardStyle,
-  FONT_BODY,
-  FONT_TITLE,
+  inkButtonStyle,
   INK,
   INK_FAINT,
   INK_SOFT,
-  inkButtonStyle,
   pageStyle,
   rulerStyle,
   SEAL_AMBER,
@@ -69,7 +67,8 @@ const cardHeaderStyle: React.CSSProperties = {
 };
 
 const cardTitleStyle: React.CSSProperties = {
-  fontSize: FONT_TITLE,
+  fontVariant: 'small-caps',
+  fontSize: '15px',
   fontWeight: 'bold',
   color: INK,
   flex: 1,
@@ -77,18 +76,20 @@ const cardTitleStyle: React.CSSProperties = {
 
 const cardYearStyle: React.CSSProperties = {
   color: INK_FAINT,
-  fontSize: FONT_BODY,
+  fontStyle: 'italic',
+  fontSize: '12px',
 };
 
 const mechanicalStyle: React.CSSProperties = {
-  fontSize: FONT_BODY,
+  fontSize: '12px',
   color: INK,
   margin: '4px 0 6px',
 };
 
 const flavorToggleStyle: React.CSSProperties = {
-  fontSize: FONT_BODY,
+  fontSize: '11px',
   color: INK_SOFT,
+  fontStyle: 'italic',
   cursor: 'pointer',
   userSelect: 'none',
   display: 'inline-block',
@@ -96,7 +97,7 @@ const flavorToggleStyle: React.CSSProperties = {
 };
 
 const flavorBodyStyle: React.CSSProperties = {
-  fontSize: FONT_BODY,
+  fontSize: '12px',
   color: INK,
   marginTop: '6px',
   whiteSpace: 'pre-wrap',
@@ -108,7 +109,7 @@ const flavorBodyStyle: React.CSSProperties = {
 
 const proclamationNoteStyle: React.CSSProperties = {
   textAlign: 'center',
-  fontSize: FONT_BODY,
+  fontSize: '12px',
   color: SEAL_AMBER,
   margin: '4px 0 8px',
 };
@@ -206,7 +207,7 @@ const DecreeCard = (props: DecreeCardProps) => {
         <div style={mechanicalStyle}>{decree.mechanical}</div>
       )}
       {onCooldown && (
-        <div style={{ fontSize: FONT_BODY, color: SEAL_AMBER }}>
+        <div style={{ fontSize: '11px', color: SEAL_AMBER, fontStyle: 'italic' }}>
           Cooldown: {formatCooldown(cooldownLeft)}
         </div>
       )}

@@ -62,6 +62,7 @@ export const PackRow = (props: Props) => {
         {browseOnly ? (
           <span
             style={{
+              fontStyle: 'italic',
               color: INK_FAINT,
               fontSize: FONT_SMALL,
             }}

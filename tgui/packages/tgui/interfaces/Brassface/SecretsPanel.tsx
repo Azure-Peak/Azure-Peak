@@ -1,6 +1,5 @@
 import {
   cardStyle,
-  FONT_BODY,
   INK,
   INK_SOFT,
   inkButtonStyle,
@@ -24,7 +23,7 @@ export const SecretsPanel = (props: Props) => {
       <div
         style={{
           fontFamily: SERIF,
-          fontSize: FONT_BODY,
+          fontSize: '12px',
           color: INK_SOFT,
           marginBottom: '8px',
           fontStyle: 'italic',
@@ -40,7 +39,7 @@ export const SecretsPanel = (props: Props) => {
           gap: '12px',
         }}
       >
-        <div style={{ fontFamily: SERIF, fontSize: FONT_BODY, color: INK }}>
+        <div style={{ fontFamily: SERIF, fontSize: '13px', color: INK }}>
           <b>Crown Duty:</b>{' '}
           {dodging ? (
             <span style={{ color: SEAL_RED }}>EVADED (NOTAX)</span>

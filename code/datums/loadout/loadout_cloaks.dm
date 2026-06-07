@@ -188,8 +188,3 @@
 	name = "Maid Apron"
 	path = /obj/item/clothing/cloak/apron/waist/fancymaid
 	sort_category = "Cloaks"
-
-/datum/loadout_item/wicker
-	name = "Wicker Cloak"
-	path = /obj/item/clothing/cloak/wickercloak
-	sort_category = "Cloaks"

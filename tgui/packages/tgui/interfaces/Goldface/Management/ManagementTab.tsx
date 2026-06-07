@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import {
   cardStyle,
-  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -25,20 +24,21 @@ import type {
 
 const labelStyle = {
   fontFamily: SERIF,
-  fontSize: FONT_BODY,
+  fontSize: '11px',
+  fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
   letterSpacing: '0.04em',
 };
 
 const valueStyle = {
   fontFamily: SERIF,
-  fontSize: FONT_BODY,
+  fontSize: '13px',
   color: INK,
 };
 
 const noteStyle = {
   fontFamily: SERIF,
-  fontSize: FONT_BODY,
+  fontSize: '11px',
   fontStyle: 'italic' as const,
   color: INK_SOFT,
   lineHeight: 1.4,
@@ -84,7 +84,7 @@ const LevyControl = (props: {
           style={{
             width: '64px',
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '13px',
             color: INK,
             background: 'var(--p-button-bg)',
             border: `1px solid ${INK_FAINT}`,
@@ -147,7 +147,7 @@ const GnomeMarginControl = (props: {
           style={{
             width: '64px',
             fontFamily: SERIF,
-            fontSize: FONT_BODY,
+            fontSize: '13px',
             color: INK,
             background: 'var(--p-button-bg)',
             border: `1px solid ${INK_FAINT}`,
@@ -271,17 +271,17 @@ const LedgerRow = (props: { entry: FavorLedgerEntry }) => {
         columnGap: '8px',
         alignItems: 'baseline',
         padding: '2px 0',
-        fontSize: FONT_BODY,
+        fontSize: '12px',
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
       }}
     >
-      <span style={{ color: style.color, fontWeight: 'bold' }}>
+      <span style={{ color: style.color, fontWeight: 'bold', fontVariant: 'small-caps' }}>
         {style.label}
       </span>
       <span style={{ color: INK, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
         {entry.ship_name} <span style={{ color: INK_SOFT }}>- {entry.realm_label}</span>
         {entry.refunded_hail ? (
-          <span style={{ color: SEAL_GREEN }}> (hail refunded)</span>
+          <span style={{ color: SEAL_GREEN, fontStyle: 'italic' }}> (hail refunded)</span>
         ) : null}
       </span>
       <span
@@ -330,7 +330,7 @@ const SinkButton = (props: {
           marginBottom: '4px',
         }}
       >
-        <span style={{ ...labelStyle, color: INK, fontSize: FONT_BODY }}>{label}</span>
+        <span style={{ ...labelStyle, color: INK, fontSize: '12px' }}>{label}</span>
         <span style={{ ...valueStyle, fontWeight: 'bold' }}>
           {done ? (
             <span style={{ color: SEAL_GREEN }}>{doneLabel}</span>
@@ -393,7 +393,7 @@ const FavorCard = (props: {
           marginTop: '10px',
           marginBottom: '4px',
           color: INK,
-          fontSize: FONT_BODY,
+          fontSize: '12px',
         }}
       >
         Favor sources this week
@@ -404,7 +404,7 @@ const FavorCard = (props: {
           gridTemplateColumns: '1fr auto',
           rowGap: '3px',
           columnGap: '12px',
-          fontSize: FONT_BODY,
+          fontSize: '12px',
           marginBottom: '6px',
         }}
       >
@@ -432,7 +432,7 @@ const FavorCard = (props: {
             </span>
           </>
         )}
-        <span style={{ color: INK_SOFT }}>Lyfetime peak</span>
+        <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>Lyfetime peak</span>
         <span style={{ color: SEAL_AMBER, fontWeight: 'bold', textAlign: 'right' }}>
           {favor.high_water}m
         </span>
@@ -443,7 +443,7 @@ const FavorCard = (props: {
           marginTop: '10px',
           marginBottom: '4px',
           color: INK,
-          fontSize: FONT_BODY,
+          fontSize: '12px',
         }}
       >
         Recent send-offs
@@ -463,7 +463,7 @@ const FavorCard = (props: {
           marginTop: '10px',
           marginBottom: '4px',
           color: INK,
-          fontSize: FONT_BODY,
+          fontSize: '12px',
         }}
       >
         Spend favor
@@ -552,7 +552,7 @@ const AutoHailerToggle = (props: {
           marginBottom: '4px',
         }}
       >
-        <span style={{ ...labelStyle, color: INK, fontSize: FONT_BODY }}>
+        <span style={{ ...labelStyle, color: INK, fontSize: '12px' }}>
           Auto-Hailer (Harbor Crew)
         </span>
         <span style={{ ...valueStyle, fontWeight: 'bold' }}>

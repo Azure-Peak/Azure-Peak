@@ -6895,7 +6895,6 @@
 	pixel_x = 15;
 	pixel_y = 3
 	},
-/obj/item/recipe_book/brewing,
 /obj/item/recipe_book/cooking,
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
@@ -8091,7 +8090,6 @@
 /area/rogue/outdoors/woods/vampire_lair)
 "Iu" = (
 /obj/structure/table/wood/poor,
-/obj/item/recipe_book/brewing,
 /obj/item/recipe_book/cooking,
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/inhumen)

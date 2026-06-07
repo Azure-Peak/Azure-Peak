@@ -152,18 +152,13 @@
 	sort_category = "Accessories"
 
 /datum/loadout_item/doublebelt
-	name = "Paired Slim Belts"
+	name = "Paired slim belts"
 	path = /obj/item/storage/belt/rogue/leather/double
 	sort_category = "Accessories"
 
 /datum/loadout_item/knifebelt // comes empty
 	name = "Tossblade Belt"
 	path = /obj/item/storage/belt/rogue/leather/knifebelt/black
-	sort_category = "Accessories"
-
-/datum/loadout_item/blackbelt
-	name = "Black Belt"
-	path = /obj/item/storage/belt/rogue/leather/black
 	sort_category = "Accessories"
 
 /datum/loadout_item/psicross
@@ -180,7 +175,7 @@
 	path = /obj/item/clothing/neck/roguetown/psicross/reform
 
 /datum/loadout_item/psicross/naledi
-	name = "Naledian Psy-Bracelet"
+	name = "Naledian psy-bracelet"
 	path = /obj/item/clothing/neck/roguetown/psicross/naledi
 
 /datum/loadout_item/psicross/astrata

@@ -3,8 +3,6 @@ import { useMemo, useState } from 'react';
 import {
   badgeStyle,
   cardStyle,
-  FONT_BODY,
-  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -55,7 +53,7 @@ export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
           type="button"
           style={{
             ...inkButtonStyle({}),
-            fontSize: FONT_BODY,
+            fontSize: '11px',
             padding: '2px 6px',
           }}
           onClick={() => setHelpOpen((v) => !v)}
@@ -99,7 +97,7 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
 
       <div
         style={{
-          fontSize: FONT_TITLE,
+          fontSize: '15px',
           fontWeight: 'bold',
           color: INK,
           fontFamily: SERIF,
@@ -111,7 +109,8 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
       <div
         style={{
           color: INK_SOFT,
-          fontSize: FONT_BODY,
+          fontStyle: 'italic',
+          fontSize: '12px',
           marginTop: 2,
         }}
       >
@@ -122,7 +121,7 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
         <div
           style={{
             color: INK,
-            fontSize: FONT_BODY,
+            fontSize: '12px',
             marginTop: 6,
             whiteSpace: 'pre-wrap',
           }}
@@ -161,7 +160,7 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
           style={{
             color: SEAL_AMBER,
             fontWeight: 'bold',
-            fontSize: FONT_BODY,
+            fontSize: '14px',
           }}
         >
           {order.total_payout}m
@@ -172,8 +171,10 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
 };
 
 const fieldLabelStyle: React.CSSProperties = {
+  fontVariant: 'small-caps',
   color: SEAL_AMBER,
-  fontSize: FONT_BODY,
+  fontStyle: 'italic',
+  fontSize: '12px',
 };
 
 const EmptyMessage = ({ text }: { text: string }) => (
@@ -196,7 +197,7 @@ const HelpPanel = () => (
       background: 'var(--p-card-bg)',
       border: `1px solid ${INK_FAINT}`,
       color: INK_SOFT,
-      fontSize: FONT_BODY,
+      fontSize: '12px',
       lineHeight: 1.5,
     }}
   >

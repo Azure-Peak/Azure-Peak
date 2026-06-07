@@ -1,11 +1,6 @@
 import type { CSSProperties } from 'react';
 
-import {
-  FONT_BODY,
-  INK,
-  INK_FAINT,
-  SERIF,
-} from '../common/parchment';
+import { INK, INK_FAINT, SERIF } from '../common/parchment';
 
 export const AMBER_TINT_SOFT = 'rgba(200,170,100,0.08)';
 export const AMBER_TINT = 'rgba(200,170,100,0.25)';
@@ -23,8 +18,9 @@ export const detailPanelStyle: CSSProperties = {
 
 export const dashedHeaderStyle: CSSProperties = {
   fontFamily: SERIF,
+  fontVariant: 'small-caps',
   letterSpacing: '2px',
-  fontSize: FONT_BODY,
+  fontSize: '14px',
   color: INK,
   borderBottom: `1px dashed ${INK_FAINT}`,
   paddingBottom: '4px',
@@ -35,6 +31,6 @@ export const emptyHintStyle: CSSProperties = {
   textAlign: 'center',
   fontStyle: 'italic',
   color: INK_FAINT,
-  fontSize: FONT_BODY,
+  fontSize: '12px',
   padding: '14px 0',
 };

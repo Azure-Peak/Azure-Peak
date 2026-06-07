@@ -6,8 +6,6 @@
 	switch(soundin)
 		if("agony")
 			used = list('sound/vo/male/knight/agony (1).ogg','sound/vo/male/knight/agony (2).ogg','sound/vo/male/knight/agony (3).ogg')
-		if("superagony") // to bypass painless override, use responsibly
-			used = list('sound/vo/male/knight/agony (1).ogg','sound/vo/male/knight/agony (2).ogg','sound/vo/male/knight/agony (3).ogg')
 		if("firescream")
 			used = list('sound/vo/male/knight/firescream (1).ogg','sound/vo/male/knight/firescream (2).ogg','sound/vo/male/knight/firescream (3).ogg')
 		if("laugh")

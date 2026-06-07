@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import {
   badgeStyle,
-  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -18,13 +17,15 @@ const tableStyle: React.CSSProperties = {
   width: '100%',
   borderCollapse: 'collapse',
   fontFamily: SERIF,
-  fontSize: FONT_BODY,
+  fontSize: '13px',
 };
 
 const headerCellStyle: React.CSSProperties = {
   textAlign: 'left',
   padding: '4px 8px 6px 8px',
+  fontVariant: 'small-caps',
   color: SEAL_AMBER,
+  fontStyle: 'italic',
   borderBottom: `1px solid ${INK_FAINT}`,
 };
 
@@ -56,7 +57,7 @@ export const ScoutsSection = ({ data }: { data: NoticeboardData }) => {
           type="button"
           style={{
             ...inkButtonStyle({}),
-            fontSize: FONT_BODY,
+            fontSize: '11px',
             padding: '2px 6px',
           }}
           onClick={() => setHelpOpen((v) => !v)}
@@ -100,6 +101,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
           style={{
             color: region.danger_color,
             fontWeight: 'bold',
+            fontVariant: 'small-caps',
           }}
         >
           {region.danger_level}
@@ -110,7 +112,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
           <>
             <div
               style={{
-                fontSize: FONT_BODY,
+                fontSize: '12px',
                 color: SEAL_RED,
                 fontWeight: 'bold',
               }}
@@ -120,7 +122,8 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                 style={{
                   marginLeft: 6,
                   color: INK_SOFT,
-                  fontSize: FONT_BODY,
+                  fontStyle: 'italic',
+                  fontSize: '11px',
                   fontWeight: 'normal',
                 }}
               >
@@ -131,7 +134,8 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
               <div
                 style={{
                   color: INK_SOFT,
-                  fontSize: FONT_BODY,
+                  fontStyle: 'italic',
+                  fontSize: '11px',
                   marginTop: 1,
                 }}
               >
@@ -147,7 +151,8 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                 style={{
                   marginTop: 3,
                   color: SEAL_AMBER,
-                  fontSize: FONT_BODY,
+                  fontStyle: 'italic',
+                  fontSize: '11px',
                 }}
               >
                 Awaiting writ
@@ -155,7 +160,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
             )}
           </>
         ) : (
-          <span style={{ color: INK_FAINT }}>-</span>
+          <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>-</span>
         )}
       </td>
       <td
@@ -189,7 +194,7 @@ const HelpPanel = () => (
       background: 'var(--p-card-bg)',
       border: `1px solid ${INK_FAINT}`,
       color: INK_SOFT,
-      fontSize: FONT_BODY,
+      fontSize: '12px',
       lineHeight: 1.5,
     }}
   >
