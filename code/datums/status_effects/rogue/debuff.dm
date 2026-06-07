@@ -1070,7 +1070,7 @@
 /atom/movable/screen/alert/status_effect/debuff/weapon_bind_debuff
 	name = "Weapon Binded"
 	desc = "Our weapons binded! That conniving sod knew right where I was aiming! I can't benefit from a weapon bind!"
-	icon = 'icons/mob/combat_debuffs.dmi'
+	icon = 'icons/mob/screen_alert_combat.dmi'
 	icon_state = "weapon_bind_debuff"
 
 /datum/status_effect/debuff/knockout

@@ -162,10 +162,10 @@
 /datum/book_entry/treasury_general/innkeeper/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p>On the Grand Contract Ledger, the Innkeeper has unique access to <b>Rumor</b> contracts - framed IC as rumors of lucrative opportunities the Innkeeper has heard. Treat them ICly, not as raw mechanics.</p>
+		<p>On the Grand Contract Ledger, the Innkeeper and their tavern staff (Cook, Tapster) have access to <b>Rumor</b> contracts - framed IC as rumors of lucrative opportunities overheard at the tavern. Treat them ICly, not as raw mechanics.</p>
 
 		<h3>Rumor Points</h3>
-		<p><b>Rumor Points</b> are the currency the Innkeeper uses to generate contracts. The pool starts at [RUMOR_POINTS_START] and refills each dawn by [RUMOR_POINTS_BASE_REFILL] base + [RUMOR_POINTS_PER_PLAYER] per active player, capped at [RUMOR_POINTS_CLAWBACK_MULTIPLIER]x the daily refill. Unspent points above the cap are clawed back.</p>
+		<p><b>Rumor Points</b> are the currency the tavern uses to generate contracts. The pool starts at [RUMOR_POINTS_START] and refills each dawn by [RUMOR_POINTS_BASE_REFILL] base + [RUMOR_POINTS_PER_PLAYER] per active player, capped at [RUMOR_POINTS_CLAWBACK_MULTIPLIER]x the daily refill. Unspent points above the cap are clawed back.</p>
 
 		<p>Each rumor type has a fixed point cost:</p>
 		<ul>
@@ -175,7 +175,7 @@
 		</ul>
 
 		<h3>Composing a Rumor</h3>
-		<p>At the Grand Contract Ledger, the Innkeeper opens the Rumor tab, picks a quest type, picks a region from those the type allows, and (for Recovery rumors) picks a shipment destination. The rumor may be:</p>
+		<p>At the Grand Contract Ledger, the Innkeeper or their tavern staff opens the Rumor tab, picks a quest type, picks a region from those the type allows, and (for Recovery rumors) picks a shipment destination. The rumor may be:</p>
 		<ul>
 			<li><b>Posted to the board</b> - any qualifying party may take it, like any other contract.</li>
 			<li><b>Placed in hands</b> - a physical scroll the Innkeeper hands to a chosen bearer directly.</li>

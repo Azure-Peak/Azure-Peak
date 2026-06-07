@@ -255,7 +255,7 @@
 	faretype = FARE_FINE
 	splat_color = "#FFA500"
 	tastes = list("overpoweringly sweet" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	deep_fried_type = /obj/item/reagent_containers/food/snacks/marmalade
 	eat_effect = /datum/status_effect/buff/sweet
 
@@ -312,7 +312,7 @@
 	faretype = FARE_FINE
 	splat_color = "#272C3F"
 	tastes = list("overpoweringly sweet" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	deep_fried_type = /obj/item/reagent_containers/food/snacks/jamtallow
 	eat_effect = /datum/status_effect/buff/sweet
 
@@ -439,7 +439,7 @@
 	faretype = FARE_FINE
 	tastes = list("overpoweringly sweet and nutty" = 1)
 	filling_color = "#6b4d18"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	grind_results = list(/datum/reagent/consumable/acorn_powder = 4)
 	deep_fried_type = /obj/item/reagent_containers/food/snacks/dragee
 	eat_effect = /datum/status_effect/buff/sweet

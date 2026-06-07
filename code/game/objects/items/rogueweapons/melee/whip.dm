@@ -206,3 +206,14 @@
 		added_int = 50,\
 		added_def = 0,\
 	)
+
+/obj/item/rogueweapon/whip/psywhip_lesser/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 0,\
+	)

@@ -111,10 +111,8 @@ const formatCountdown = (totalSeconds: number): string => {
 };
 
 const captionStyle = {
-  fontVariant: 'small-caps' as const,
   color: SEAL_AMBER,
-  fontStyle: 'italic' as const,
-  fontSize: '12px',
+  fontSize: FONT_BODY,
 };
 
 const HeaderStat = (props: {
@@ -126,7 +124,6 @@ const HeaderStat = (props: {
       style={{
         fontFamily: SERIF,
         fontSize: FONT_SMALL,
-        fontVariant: 'small-caps',
         color: SEAL_AMBER,
         letterSpacing: '0.04em',
       }}
@@ -142,8 +139,9 @@ const HeaderStat = (props: {
 const ReserveHeader = (props: {
   data: ZadcoteData;
   onHelp: () => void;
+  act: (action: string, payload?: Record<string, unknown>) => void;
 }) => {
-  const { data, onHelp } = props;
+  const { data, onHelp, act } = props;
   const lowReserve = data.reserve <= Math.max(2, Math.floor(data.reserve_start * 0.2));
   const bombsReady = data.bomb_cooldown_remaining <= 0;
   return (
@@ -204,12 +202,30 @@ const ReserveHeader = (props: {
             <HeaderStat
               label="Scrying fund"
               value={
-                <>
-                  <span style={{ color: data.voyeur_fund < data.voyeur_cost ? SEAL_RED : INK, fontWeight: 'bold' }}>
-                    {data.voyeur_fund}m
-                  </span>
-                  <span style={{ color: INK_SOFT }}> ({data.voyeur_cost}m / scry)</span>
-                </>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                  <div>
+                    <span style={{ color: data.voyeur_fund < data.voyeur_cost ? SEAL_RED : INK, fontWeight: 'bold' }}>
+                      {data.voyeur_fund}m
+                    </span>
+                    <span style={{ color: INK_SOFT }}> ({data.voyeur_cost}m / scry)</span>
+                  </div>
+                  <button
+                    type="button"
+                    disabled={data.voyeur_fund <= 0}
+                    style={inkButtonStyle({ disabled: data.voyeur_fund <= 0 })}
+                    title={
+                      data.voyeur_fund <= 0
+                        ? 'The scrying basin is empty.'
+                        : `Drain ${data.voyeur_fund}m from the scrying basin into coin.`
+                    }
+                    onClick={() => {
+                      if (data.voyeur_fund <= 0) return;
+                      act('withdraw_voyeur');
+                    }}
+                  >
+                    Withdraw
+                  </button>
+                </div>
               }
             />
           )}
@@ -228,7 +244,6 @@ const StatusPill = (props: { slot: ZadcoteSlot }) => {
       <span
         style={{
           color: SEAL_AMBER,
-          fontVariant: 'small-caps',
           fontWeight: 'bold',
           fontSize: FONT_BODY,
         }}
@@ -246,7 +261,6 @@ const StatusPill = (props: { slot: ZadcoteSlot }) => {
       <span
         style={{
           color: SEAL_RED,
-          fontVariant: 'small-caps',
           fontWeight: 'bold',
           fontSize: FONT_BODY,
         }}
@@ -260,7 +274,6 @@ const StatusPill = (props: { slot: ZadcoteSlot }) => {
       <span
         style={{
           color: INK_FAINT,
-          fontVariant: 'small-caps',
           fontStyle: 'italic',
           fontSize: FONT_BODY,
         }}
@@ -273,7 +286,6 @@ const StatusPill = (props: { slot: ZadcoteSlot }) => {
     <span
       style={{
         color: SEAL_GREEN,
-        fontVariant: 'small-caps',
         fontWeight: 'bold',
         fontSize: FONT_BODY,
       }}
@@ -378,7 +390,6 @@ const SendPanel = (props: {
         <span
           style={{
             fontFamily: SERIF,
-            fontVariant: 'small-caps',
             fontSize: FONT_TITLE,
             color: INK,
             fontWeight: 'bold',
@@ -397,7 +408,7 @@ const SendPanel = (props: {
           <div
             style={{
               color: overLimit ? SEAL_RED : INK_FAINT,
-              fontSize: '11px',
+              fontSize: FONT_BODY,
             }}
           >
             {message.length} / {MESSAGE_MAX}
@@ -410,7 +421,7 @@ const SendPanel = (props: {
           style={{
             width: '100%',
             fontFamily: SERIF,
-            fontSize: '13px',
+            fontSize: FONT_BODY,
             background: BUTTON_BG,
             border: `1px solid ${INK_FAINT}`,
             color: INK,
@@ -477,7 +488,6 @@ const SendPanel = (props: {
                   style={{
                     color: tooHeavy ? SEAL_RED : INK_FAINT,
                     fontSize: FONT_SMALL,
-                    fontStyle: 'italic',
                     marginLeft: 'auto',
                   }}
                 >
@@ -503,7 +513,7 @@ const SendPanel = (props: {
             }}
             disabled={bombs > 0}
           />
-          <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, fontStyle: 'italic', marginTop: '4px' }}>
+          <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, marginTop: '4px' }}>
             {effectiveZads === 1
               ? '1 zad: tiny or small parcel.'
               : effectiveZads === 2
@@ -560,7 +570,7 @@ const SendPanel = (props: {
           Send
         </button>
         {refusedReason && (
-          <span style={{ color: SEAL_RED, fontSize: FONT_BODY, fontStyle: 'italic' }}>
+          <span style={{ color: SEAL_RED, fontSize: FONT_BODY }}>
             {refusedReason}
           </span>
         )}
@@ -635,7 +645,7 @@ const SlotRow = (props: {
         padding: '6px 8px',
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
         fontFamily: SERIF,
-        fontSize: '13px',
+        fontSize: FONT_BODY,
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -727,7 +737,7 @@ export const Zadcote = () => {
     <Window title="Zadcote" width={720} height={760} theme="parchment">
       <Window.Content scrollable>
         <div style={pageStyle}>
-          <ReserveHeader data={data} onHelp={() => act('help')} />
+          <ReserveHeader data={data} onHelp={() => act('help')} act={act} />
           <div style={{ display: 'flex', gap: '6px', margin: '8px 0' }}>
             <TabButton active={tab === 'slots'} onClick={() => setTab('slots')}>
               Zadlinks
@@ -890,7 +900,7 @@ const MailColumn = (props: {
                 </div>
               ) : null}
               {entry.kind === 'returned' && (entry.lost ?? 0) > 0 ? (
-                <div style={{ color: SEAL_RED, fontSize: FONT_SMALL, paddingLeft: '8px', fontStyle: 'italic' }}>
+                <div style={{ color: SEAL_RED, fontSize: FONT_SMALL, paddingLeft: '8px' }}>
                   {entry.lost} of {entry.zads_used} zad{entry.zads_used === 1 ? '' : 's'} lost to exhaustion
                 </div>
               ) : null}
