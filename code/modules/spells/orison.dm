@@ -543,6 +543,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 	var/saved_level = CLERIC_T0
 	var/saved_max_progression = CLERIC_T1
 	var/saved_devotion_gain = CLERIC_REGEN_MINOR
+	var/had_blast = FALSE
 
 	if(new_convert.devotion)
 		saved_level = new_convert.devotion.level
@@ -552,6 +553,19 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		// Remove all granted spells
 		for(var/S in new_convert.devotion.granted_spells)
 			new_convert.mind.RemoveSpell(S)
+
+		// gravemark and minion order are special, they're given to zizo and ravox only, and zizo only if they're t3 or above; also, necromancers and liches get them through arcyne means
+		if(new_convert.mind.has_spell(/datum/action/cooldown/spell/gravemark) && !istype(SSrole_class_handler.get_advclass_by_name(H.advjob), /datum/advclass/wretch/necromancer) && !new_convert.mind.has_antag_datum(/datum/antagonist/lich))
+			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/gravemark)
+			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/minion_order)
+
+		if(new_convert.mind.has_spell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast))
+			had_blast = TRUE
+			new_convert.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+
+		if(new_convert.mind.has_spell(/obj/effect/proc_holder/spell/invoked/projectile/unholyblast))
+			had_blast = TRUE
+			new_convert.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 
 		// cleric traits are removed here
 		new_convert.devotion.Destroy()
@@ -564,6 +578,13 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		var/datum/devotion/new_devotion = new /datum/devotion(new_convert, new_convert.patron)
 		new_convert.devotion = new_devotion
 		new_devotion.grant_miracles(new_convert, saved_level, saved_devotion_gain, saved_max_progression)
+		if(had_blast)
+			var/blast_to_grant = (istype(new_convert.patron, /datum/patron/inhumen) ? /obj/effect/proc_holder/spell/invoked/projectile/unholyblast : /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+			new_convert.mind.AddSpell(new blast_to_grant)
+		// why are you like this
+		if(saved_level >= 3 && istype(new_convert.patron, /datum/patron/inhumen/zizo) && !new_convert.mind.has_spell(/datum/action/cooldown/spell/gravemark))
+			new_convert.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+			new_convert.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
 
 	// give a small mood buff to both parties, identical to prayer; psydonites get the same thing but with more ambiguous wording
 	if(istype(new_convert.patron, /datum/patron/old_god))
