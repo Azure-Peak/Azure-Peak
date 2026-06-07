@@ -345,6 +345,9 @@
 	max_integrity = 500
 	smeltresult = /obj/item/ingot/avantyne
 
+/obj/item/rogueweapon/greatsword/avantyne/get_heresy_status()
+	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+
 /obj/item/rogueweapon/estoc
 	name = "estoc"
 	desc = "A sword possessed of a quite long and tapered blade that is intended to be thrust between the \

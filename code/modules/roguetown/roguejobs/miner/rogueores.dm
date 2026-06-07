@@ -419,6 +419,9 @@
 	smeltresult = null
 	sellprice = 130
 
+/obj/item/ingot/avantyne/get_heresy_status()
+	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
+
 //Components!
 
 /obj/item/ingot/component //Root. Don't use under most circumstances.
@@ -485,11 +488,17 @@
 	icon_state = "component_zizo"
 	dropshrink = 0.7
 
+/obj/item/ingot/component/zizo/get_heresy_status()
+	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
+
 /obj/item/ingot/component/graggar
 	name = "vicious fragment"
 	desc = "Bleeding fragments of an otherworldly alloy. </br>Murder is nothing more than justice without arbitration."
 	icon_state = "component_graggar"
 	dropshrink = 0.7
+
+/obj/item/ingot/component/graggar/get_heresy_status()
+	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_MISC)
 
 /obj/item/ingot/component/matthios
 	name = "gilded fragment"
@@ -497,8 +506,14 @@
 	icon_state = "component_matthios"
 	dropshrink = 0.7
 
+/obj/item/ingot/component/matthios/get_heresy_status()
+	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
+
 /obj/item/ingot/component/baotha
 	name = "saccharine fragment"
 	desc = "Aromatic fragments of an otherworldly alloy. </br>Despair is the gravest, most agonizing poison of them all."
 	icon_state = "component_baotha"
 	dropshrink = 0.7
+
+/obj/item/ingot/component/baotha/get_heresy_status()
+	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_MISC)

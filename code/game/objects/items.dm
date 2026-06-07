@@ -1853,3 +1853,72 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/ai_withdraw_item(obj/item/it, mob/living/user)
 	return FALSE
+
+/** Is this item commonly known as heretical? If it is, this should to return a list containing:
+* - First: A heresy severity level (see `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`).
+* - Second: A short description of the nature of the item's heresy.
+*
+* When set, highlights the item's mob examine name/tooltip with obvious heretical flavor when worn/held.
+* 
+* If this returns null, the item will not be shown as heretical.*/
+/obj/item/proc/get_heresy_status()
+	return null
+
+/** Returns an HTML-formatted string explaining how/why this item is heretical.
+* - `heresy_status`: This item's heresy status (see `proc/get_heresy_status()`).
+* - `itis`: Determines if the string will start with "It is" (i.e. "It is HERETICAL" vs "HERETICAL").
+* - `allcaps`: Determines if the returned string will be in allcaps.
+*/
+/obj/item/proc/get_heresy_description(list/heresy_status, itis = FALSE, allcaps = TRUE)
+	if(heresy_status)
+		var/severity = heresy_status[1]
+		var/heresy_desc = heresy_status[2]
+		if(!severity || !heresy_desc)
+			return null
+		var/severity_itis = "[itis ? "It is " : ""]<b>[get_heresy_severity_adjective(severity)]</b>"
+		return get_heresy_labeled_string(severity, "[allcaps ? uppertext(severity_itis) : severity_itis]: [allcaps ? uppertext(heresy_desc) : heresy_desc]")
+	return null
+
+/// Returns `label_string` HTML formatted depending on the provided heresy severity level (see `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`). 
+/obj/item/proc/get_heresy_labeled_string(heresy_severity, label_string)
+	if(!heresy_severity || !label_string)
+		return null
+	var/severity_color = get_heresy_severity_color(heresy_severity)
+	var/severity_symbol = get_heresy_severity_symbol(heresy_severity)
+	return "<font color = '[severity_color]'>[severity_symbol] [label_string] [severity_symbol]</font>"
+
+/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
+/obj/item/proc/get_heresy_severity_adjective(severity_level)
+	switch(severity_level)
+		if(HERESY_SEVERITY_SUSPICIOUS)
+			return "SUSPICIOUS"
+		if(HERESY_SEVERITY_ALARMING)
+			return "HERETICAL"
+	return null
+
+/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
+/obj/item/proc/get_heresy_severity_explanation(severity_level)
+	switch(severity_level)
+		if(HERESY_SEVERITY_SUSPICIOUS)
+			return DESCRIPTION_HERESY_SEVERITY_SUSPICIOUS
+		if(HERESY_SEVERITY_ALARMING)
+			return DESCRIPTION_HERESY_SEVERITY_ALARMING
+	return null
+
+/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
+/obj/item/proc/get_heresy_severity_color(severity_level)
+	switch(severity_level)
+		if(HERESY_SEVERITY_SUSPICIOUS)
+			return COLOR_HERESY_SEVERITY_SUSPICIOUS
+		if(HERESY_SEVERITY_ALARMING)
+			return COLOR_HERESY_SEVERITY_ALARMING
+	return null
+	
+/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
+/obj/item/proc/get_heresy_severity_symbol(severity_level)
+	switch(severity_level)
+		if(HERESY_SEVERITY_SUSPICIOUS)
+			return SYMBOL_HERESY_SEVERITY_SUSPICIOUS
+		if(HERESY_SEVERITY_ALARMING)
+			return SYMBOL_HERESY_SEVERITY_ALARMING
+	return null
