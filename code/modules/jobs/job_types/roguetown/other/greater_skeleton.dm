@@ -227,14 +227,14 @@ NECRO SKELETONS
 		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
 
 	)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SILVER_WEAK)
+	traits_applied = list(TRAIT_SILVER_WEAK)
 
 /datum/outfit/job/roguetown/greater_skeleton/necro/bulwark/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.STASTR = 12
 	H.STAPER = 10
-	H.STASPD = 7 //Slightly faster than lich one cause its rarer.
+	H.STASPD = 7 //Slightly faster than lich one cause its got to keep up with the other necro's goons + less disposable + worse statline due to lux cost.
 	H.STACON = 6 //Relies on armor
 	H.STAWIL = 12
 	H.STAINT = 1

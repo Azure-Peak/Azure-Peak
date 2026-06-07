@@ -23,11 +23,11 @@
 			r_hand = /obj/item/rogueweapon/mace
 		if(4)
 			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
-	switch(rand(1, 3)) //Random Cloaks, akin to lich skeletons.
+	switch(rand(1, 3)) //Random Cloaks, akin to regular-ish necro skeletons.
 		if(1)
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
 		if(2)
-			cloak = /obj/item/clothing/cloak/tabard/lich
+			cloak = /obj/item/clothing/cloak/tabard/necro
 		if(3)
 			cloak = /obj/item/clothing/cloak/half/lich
 	H.STASTR = rand(11,13)
