@@ -45,8 +45,8 @@
 
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		H.verbs += /mob/living/carbon/human/proc/toggle_oresight
-		H.verbs += /mob/living/carbon/human/proc/range_oresight
+		add_verb(H, /mob/living/carbon/human/proc/toggle_oresight)
+		add_verb(H, /mob/living/carbon/human/proc/range_oresight)
 	
 
 /datum/component/ore_sight/process()

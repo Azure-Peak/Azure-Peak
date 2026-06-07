@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Removed the Z level swim feature and swimming tab. The two test ponds has been restored to z levelless state."

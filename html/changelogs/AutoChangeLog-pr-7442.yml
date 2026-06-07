@@ -1,8 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Fix kinship not applying on roundstart merchant"
-  - rscadd: "Updated the agent mechanics to surface it better, and make sure Agent have a banner telling them they can access Rosawood / Anthraxi with discount as an agent instantly, and buy at 10% off."
-  - balance: "SCREW YOU NO MORE LOCKING COMMISSIONER"
-  - bugfix: "Blacksteel Bar now show correct price from pricing engine. oops."
-  - rscadd: "Tapster and Cook may now also access institutional inn fund"

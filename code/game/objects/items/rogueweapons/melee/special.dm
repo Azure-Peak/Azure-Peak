@@ -1391,8 +1391,8 @@
 		ADD_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
 		if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
 			to_chat(user, span_suppradio("<small>It remains ready for your word. You need only ask.</small>"))
-			user.verbs |= /mob/proc/standard_position
-			user.verbs |= /mob/proc/standard_rally
+			add_verb(user, /mob/proc/standard_position)
+			add_verb(user, /mob/proc/standard_rally)
 	else
 		to_chat(user, span_suicide("The standard's runes pulse, rejecting me as its <b>master</b>."))
 
@@ -1409,8 +1409,8 @@
 		REMOVE_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
 		if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
 			to_chat(user, span_monkeyhive("<small>You feel ill. Was that a mistake?</small>"))
-			user.verbs -= /mob/proc/standard_position
-			user.verbs -= /mob/proc/standard_rally
+			remove_verb(user, /mob/proc/standard_position)
+			remove_verb(user, /mob/proc/standard_rally)
 	else
 		to_chat(user, span_suicide("The standard's runes pulse, as if sighing in relief once I let go."))
 

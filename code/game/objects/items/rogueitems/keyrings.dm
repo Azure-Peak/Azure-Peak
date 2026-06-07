@@ -19,6 +19,7 @@
 	experimental_onhip = TRUE
 	component_type = /datum/component/storage/concrete/roguetown/keyring
 	dropshrink = 0.85
+	is_important = TRUE
 
 /obj/item/storage/keyring/get_mechanics_examine(mob/user)
 	. = ..()
@@ -119,6 +120,7 @@
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_MOUTH|ITEM_SLOT_WRISTS
 	experimental_inhand = TRUE
 	dropshrink = 0.7
+	is_important = TRUE
 
 /obj/item/lockpickring/get_mechanics_examine(mob/user)
 	. = ..()

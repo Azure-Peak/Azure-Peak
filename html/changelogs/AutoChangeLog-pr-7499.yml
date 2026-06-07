@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - code_imp: "All crafting recipes for shotstake ammunition now list what crafting station's used for each specific variation."

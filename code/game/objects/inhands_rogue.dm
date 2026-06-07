@@ -814,7 +814,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 	LI.update_inv_back()
 
 /client/verb/give_me_money()
-	set category = "DEBUGTEST"
+	set category = "Debug.Test"
 	set name = "GiveMeMoney"
 	if(mob)
 		var/turf/T = get_turf(mob)
@@ -822,7 +822,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 			new /obj/item/coin/gold/pile(T)
 /*
 /client/verb/wwolf()
-	set category = "DEBUGTEST"
+	set category = "Debug.Test"
 	set name = "Werewolf"
 	if(mob.mind)
 		if(mob.mind.has_antag_datum(/datum/antagonist/werewolf, TRUE))
@@ -833,7 +833,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 */
 
 /client/verb/zoomtest()
-	set category = "DEBUGTEST"
+	set category = "Debug.Test"
 	set name = "ZoomTest"
 	if(mob)
 		if(iscarbon(mob))
@@ -847,7 +847,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 				animate(transform = -newmatrix, time = 5, easing = QUAD_EASING)
 
 /client/verb/zoomteststop()
-	set category = "DEBUGTEST"
+	set category = "Debug.Test"
 	set name = "ZoomTestEnd"
 	if(mob)
 		if(iscarbon(mob))

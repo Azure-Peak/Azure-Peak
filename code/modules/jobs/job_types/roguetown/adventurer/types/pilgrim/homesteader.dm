@@ -112,7 +112,7 @@
 						/obj/item/hair_dye_cream = 3,
 						/obj/item/rogueweapon/chisel = 1,
 						/obj/item/natural/clay = 3,
-						/obj/item/natural/clay/glassbatch = 1,
+						/obj/item/natural/glassbatch = 1,
 						/obj/item/rogueore/coal = 1,
 						/obj/item/roguegear = 1,
 	)
