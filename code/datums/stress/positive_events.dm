@@ -3,6 +3,17 @@
 	stressadd = -2
 	desc = span_green("The Gods smile upon me.")
 
+/datum/stressevent/convert
+	timer = 30 MINUTES
+	stressadd = -2
+	desc = span_green("I have done a good deed; my patron smiles upon me.")
+
+/datum/stressevent/convert/psydon
+	desc = span_green("I have done a good deed; surely, PSYDON must smile upon me.")
+
+/datum/stressevent/convert/recipient
+	desc = span_green("I was a blind fool, before. Now I see what I have been missing.")
+
 /datum/stressevent/seeblessed
 	timer = 30 MINUTES
 	stressadd = -2

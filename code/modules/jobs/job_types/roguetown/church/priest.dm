@@ -112,7 +112,6 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	H.verbs |= /mob/living/carbon/human/proc/churchpriestcurse //snowflake priests button. Will not sacrifice them
 	H.verbs |= /mob/living/carbon/human/proc/churcheapostasy //punish the lamb reward the wolf
 	H.verbs |= /mob/living/carbon/human/proc/completesermon
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic_priest)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/revive)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
@@ -607,88 +606,6 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 			log_game("DIVINE CURSE: [real_name] ([ckey]) has stricken [H.real_name] ([H.ckey] with [curse_pick])")
 
 		return
-
-/obj/effect/proc_holder/spell/invoked/convert_heretic_priest
-	name = "Absolve the Heretic"
-	desc = "Convert a heretic back to the fold of the church. Requires the heretic to be willing, and takes a long time to cast."
-	invocations = list("Show this lost sheep the way back to the flock.")
-	invocation_type = "whisper"
-	sound = 'sound/magic/bless.ogg'
-	devotion_cost = 100
-	recharge_time = 20 MINUTES
-	chargetime = 10 SECONDS
-	associated_skill = /datum/skill/magic/holy
-	overlay_state = "convert_heretic"
-
-/obj/effect/proc_holder/spell/invoked/convert_heretic_priest/cast(list/targets, mob/living/carbon/human/user)
-	var/mob/living/carbon/human/target = targets[1]
-
-	if(!ishuman(target))
-		revert_cast()
-		return FALSE
-
-	if(target.cmode)
-		revert_cast()
-		return FALSE
-
-	if(!HAS_TRAIT(target, TRAIT_HERESIARCH))
-		to_chat(user, span_warning("[target] wasn't marked by the enemy as a heretic!"))
-		revert_cast()
-		return FALSE
-
-	if(alert(target, "[user.real_name] is trying to convert you back to the church. Do you accept?", "Conversion Request", "Yes", "No") != "Yes")
-		to_chat(user, span_warning("[target] refused your offer of conversion."))
-		revert_cast()
-		return FALSE
-
-	// Remove from excommunication lists
-	if(target.real_name in GLOB.excommunicated_players)
-		GLOB.excommunicated_players -= target.real_name
-
-	// Remove heretic traits
-	REMOVE_TRAIT(target, TRAIT_HERESIARCH, TRAIT_GENERIC)
-	REMOVE_TRAIT(target, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
-
-	// Remove divine punishments
-	target.remove_status_effect(/datum/status_effect/debuff/excomm)
-	target.remove_stress(/datum/stressevent/excommunicated)
-
-	// Save devotion state
-	var/saved_level = CLERIC_T0
-	var/saved_max_progression = CLERIC_T1
-	var/saved_devotion_gain = CLERIC_REGEN_MINOR
-
-	if(target.devotion)
-		saved_level = target.devotion.level
-		saved_devotion_gain = target.devotion.passive_devotion_gain
-		saved_max_progression = target.devotion.max_progression
-
-		// Remove all granted spells
-		for(var/obj/effect/proc_holder/spell/S in target.devotion.granted_spells)
-			target.mind.RemoveSpell(S)
-
-		target.devotion.Destroy()
-
-	// Convert to priest's patron
-	target.patron = new user.patron.type()
-
-	// Grant new devotion
-	var/datum/devotion/new_devotion = new /datum/devotion(target, target.patron)
-	target.devotion = new_devotion
-	new_devotion.grant_miracles(target, saved_level, saved_devotion_gain, saved_max_progression)
-
-	// Apply revival debuff as a small cost to conversion in addition to the cooldown
-	user.apply_status_effect(/datum/status_effect/debuff/devitalised)
-	target.apply_status_effect(/datum/status_effect/debuff/devitalised)
-
-	var/announcement_text = "[user.real_name] has brought [target.real_name] back into the fold of the church! [target.real_name] now follows [user.patron.name]!"
-	priority_announce(announcement_text, title = "REDEMPTION", sound = 'sound/misc/bell.ogg')
-	message_admins("HERETIC CONVERSION: [user.real_name] ([user.ckey]) has converted [target.real_name] ([target.ckey]) to [user.patron.name]")
-	log_game("HERETIC CONVERSION: [user.real_name] ([user.ckey]) converted [target.real_name] ([target.ckey]) to [user.patron.name]")
-	to_chat(user, span_danger("You've converted [target.name] to follow [user.patron.name]!"))
-	to_chat(target, span_danger("You feel the weight of heresy lift from your soul as you embrace [user.patron.name]!"))
-
-	return TRUE
 
 #undef PRIEST_ANNOUNCEMENT_COOLDOWN
 #undef PRIEST_SERMON_COOLDOWN
