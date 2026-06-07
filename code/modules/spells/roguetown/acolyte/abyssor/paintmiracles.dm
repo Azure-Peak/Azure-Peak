@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/ink_presence
 	name = "Depth Stride"
-	desc = "Start leaving paint trails as you move. You and those with paint affinity are sped up, everyone else touching the trail is slowed."
+	desc = "Start leaving paint trails as you move. You and those with paint affinity are sped up and regain a smidge of nutrition for touching trails, everyone else touching the trail is slowed."
 	button_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	button_icon_state = "paint"
 	sound = 'sound/magic/abyssor_splash.ogg'

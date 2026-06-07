@@ -5,7 +5,6 @@
 	icon_state = "paint"
 	alpha = 255
 	anchored = TRUE
-	duration = 8 SECONDS
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	layer = ABOVE_MOB_LAYER
 
