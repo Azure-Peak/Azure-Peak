@@ -33,7 +33,7 @@
 
 /datum/outfit/job/roguetown/heir/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.verbs |= /mob/living/carbon/human/proc/declarechampion
+	add_verb(H, /mob/living/carbon/human/proc/declarechampion)
 	has_loadout = TRUE
 
 /datum/outfit/job/roguetown/heir/choose_loadout(mob/living/carbon/human/H)
@@ -319,7 +319,7 @@
 
 /mob/living/carbon/human/proc/declarechampion()
 	set name = "Declare Champion"
-	set category = "Noble"
+	set category = "RoleUnique.Noble"
 
 
 	if(stat)

@@ -1949,10 +1949,6 @@
 	if(A.action)
 		A.action.Remove(src)
 
-/mob/living/proc/add_abilities_to_panel()
-	for(var/obj/effect/proc_holder/A in abilities)
-		statpanel("[A.panel]",A.get_panel_text(),A)
-
 /mob/living/lingcheck()
 	return LINGHIVE_NONE
 
@@ -2346,24 +2342,17 @@
 	if(!can_look_up())
 		return
 
-	var/turf/T = get_turf(src)
-	var/turf/ceiling = get_step_multiz(src, UP)
-	var/water_view = (istype(T, /turf/open/water) && istype(ceiling, /turf/open/water))
-
 	changeNext_move(CLICK_CD_MELEE)
 
-	if(water_view)
-		if(m_intent != MOVE_INTENT_SNEAK)
-			visible_message(span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
-		else
-			to_chat(src, span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
+	if(m_intent != MOVE_INTENT_SNEAK)
+		visible_message(span_info("[src] looks up."))
 	else
-		if(m_intent != MOVE_INTENT_SNEAK)
-			visible_message(span_info("[src] looks up."))
-		else
-			to_chat(src, span_info("[src] looks up."))
+		to_chat(src, span_info("[src] looks up."))
 
-	if(!ceiling)
+	var/turf/ceiling = get_step_multiz(src, UP)
+	var/turf/T = get_turf(src)
+
+	if(!ceiling)  //We are at the highest z-level.
 		if(T.can_see_sky())
 			switch(GLOB.forecast)
 				if("prerain")
@@ -2382,7 +2371,7 @@
 			do_time_change()
 		return
 		
-	else if(!istransparentturf(ceiling) && !water_view) 
+	else if(!istransparentturf(ceiling)) 
 		to_chat(src, span_warning("There is a ceiling above my head."))
 		return
 

@@ -1,22 +1,21 @@
 /datum/patron/godless
-	name = "Science"
-	domain = "Ontological Reality"
-	desc = "No gods or kings, only man! Gods exist but you give them the finger."
-	worshippers = "Madmen, beasts and some dwarves"
+	name = "Godless"
+	domain = "Humenity"
+	desc = "The gods exists, but either you do not know them or do not worship them. You guide yourself by your instincts or your reasons."
+	worshippers = "Beasts whom cannot reason and the truly cynical."
 	associated_faith = /datum/faith/godless
 	preference_accessible = FALSE
 	undead_hater = FALSE
 	confess_lines = list(
 		"Gods are WORTHLESS!",
 		"I DON'T NEED GODS!",
-		"I AM MY OWN GOD!",
 		"NO GODS, NO MASTERS!",
 	)
 
 /datum/patron/godless/can_pray(mob/living/follower)
 	. = ..()
-	to_chat(follower, span_danger("Zarlz Zarwin and psyvolution cannot hear my prayer!"))
-	return FALSE	//heathen
+	to_chat(follower, span_danger("You worship no gods, who are you praying to?"))
+	return FALSE
 
 /datum/patron/godless/on_lesser_heal(
     mob/living/user,

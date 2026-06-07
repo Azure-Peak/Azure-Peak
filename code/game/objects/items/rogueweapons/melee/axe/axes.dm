@@ -373,21 +373,6 @@
 	icon_state = "ahandaxe"
 	smeltresult = /obj/item/ingot/aaslag
 
-/datum/intent/axe/cut/long
-	reach = 2
-	damfactor = 1
-	demolition_mod = 1
-
-/datum/intent/axe/cut/long/bronze
-	damfactor = 0.8
-	demolition_mod = 1.3
-
-/datum/intent/axe/chop/long
-	reach = 2
-	damfactor = 1
-	demolition_mod = 1.5
-	swingdelay = 0.5 SECONDS
-
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter
 	name = "woodcutter's axe"
 	icon = 'icons/roguetown/weapons/axes64.dmi'

@@ -4,6 +4,7 @@
 	var/desc
 	var/favor_cost = 750
 	var/home_origin_name
+	var/home_realm_id
 	var/home_label
 	var/list/stock = list()
 
@@ -13,6 +14,7 @@
 	desc = "The private arsenal of the Count of Rosawood, producing the finest elven arms in Azuria - fine steel weapons, bows and the bounty of Eveswood." //TODO: flavor
 	favor_cost = ROSAWOOD_ARSENAL_FAVOR
 	home_origin_name = "Azuria"
+	home_realm_id = REALM_AZURIA
 	home_label = "Azurian origin"
 	stock = list(
 		/datum/supply_pack/rogue/rosawood/elvish_longsword = 2,
@@ -49,6 +51,7 @@
 	desc = "Finely crafted drow weapons and armor, with a reputation for quality and lethality."
 	favor_cost = UNDERDARK_CARAVAN_FAVOR
 	home_origin_name = "the Underdark"
+	home_realm_id = REALM_UNDERDARK
 	home_label = "Underdark origin"
 	stock = list(
 		/datum/supply_pack/rogue/underdark/stalker_falx = 2,
@@ -93,6 +96,26 @@
 	if(!istype(O))
 		return FALSE
 	return O.origin_name == C.home_origin_name
+
+/datum/controller/subsystem/merchant_trade/proc/catalog_company_kinship(datum/merchant_catalog/C)
+	if(!istype(C) || !C.home_realm_id || !current_kinship_realm)
+		return FALSE
+	return C.home_realm_id == current_kinship_realm
+
+/datum/controller/subsystem/merchant_trade/proc/catalog_agent_kinship(datum/merchant_catalog/C, mob/living/carbon/human/H)
+	if(!istype(C) || !C.home_realm_id)
+		return FALSE
+	var/agent_realm = get_agent_personal_kinship_realm(H)
+	return agent_realm && (agent_realm == C.home_realm_id)
+
+/datum/controller/subsystem/merchant_trade/proc/catalog_access_basis(datum/merchant_catalog/C, mob/living/carbon/human/H)
+	if(catalog_company_kinship(C))
+		return "kinship"
+	if(catalog_agent_kinship(C, H))
+		return "agent"
+	if(catalog_origin_access(C, H))
+		return "origin"
+	return null
 
 /datum/controller/subsystem/merchant_trade/proc/init_catalog_stock()
 	catalog_stock = list()

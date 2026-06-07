@@ -74,6 +74,12 @@
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fibers = 1)
 
+/datum/crafting_recipe/roguetown/leather/container/stakepouch
+	name = "quiver, shotstake pouch"
+	result = /obj/item/quiver/bolt/stake
+	reqs = list(/obj/item/natural/hide/cured = 2,
+				/obj/item/natural/fibers = 1)
+
 /datum/crafting_recipe/roguetown/leather/container/heavyboltpouch
 	name = "quiver, heavy bolt pouch"
 	result = /obj/item/quiver/bolt/heavy

@@ -9,6 +9,7 @@
 	var/say_mod = null
 	var/taste_sensitivity = 15 // lower is more sensitive.
 	var/modifies_speech = FALSE
+	var/list/emote_verbs
 	var/static/list/languages_possible_base = typecacheof(list(
 		/datum/language/common,
 		/datum/language/dwarvish,
@@ -49,6 +50,8 @@
 	M.UnregisterSignal(M, COMSIG_MOB_SAY)
 	for(var/datum/wound/facial/ears/tongue_wound as anything in M.get_wounds())
 		qdel(tongue_wound)
+	if(length(emote_verbs))
+		add_verb(M, emote_verbs)
 
 /obj/item/organ/tongue/Remove(mob/living/carbon/M, special = FALSE, drop_if_replaced = TRUE)
 	. = ..()
@@ -56,6 +59,8 @@
 		M.dna.species.say_mod = initial(M.dna.species.say_mod)
 	UnregisterSignal(M, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	M.RegisterSignal(M, COMSIG_MOB_SAY, TYPE_PROC_REF(/mob/living/carbon, handle_tongueless_speech))
+	if(length(emote_verbs))
+		remove_verb(M, emote_verbs)
 
 /obj/item/organ/tongue/could_speak_in_language(datum/language/dt)
 	return is_type_in_typecache(dt, languages_possible)
@@ -73,6 +78,13 @@
 	icon_state = "tonguelizard"
 	say_mod = "hisses"
 	taste_sensitivity = 10 // combined nose + tongue, extra sensitive
+	emote_verbs = list(
+		/mob/living/carbon/human/proc/emote_yip,
+		/mob/living/carbon/human/proc/emote_lizard_bellow,
+		/mob/living/carbon/human/proc/emote_lizard_hiss,
+		/mob/living/carbon/human/proc/emote_lizard_squeal,
+		/mob/living/carbon/human/proc/emote_lizard_thump,
+	)
 //	modifies_speech = TRUE
 /*
 /obj/item/organ/tongue/lizard/handle_speech(datum/source, list/speech_args)
@@ -260,7 +272,35 @@
 
 /obj/item/organ/tongue/wild_tongue
 	name = "wild tongue"
+	emote_verbs = list(
+		/mob/living/carbon/human/proc/emote_meow,
+		/mob/living/carbon/human/proc/emote_mrrp,
+		/mob/living/carbon/human/proc/emote_caw,
+		/mob/living/carbon/human/proc/emote_peep,
+		/mob/living/carbon/human/proc/emote_hoot,
+		/mob/living/carbon/human/proc/emote_squeak,
+		/mob/living/carbon/human/proc/emote_hiss,
+		/mob/living/carbon/human/proc/emote_phiss,
+		/mob/living/carbon/human/proc/emote_roar,
+		/mob/living/carbon/human/proc/emote_howl,
+		/mob/living/carbon/human/proc/emote_cackle,
+		/mob/living/carbon/human/proc/emote_whine,
+		/mob/living/carbon/human/proc/emote_fwhine,
+		/mob/living/carbon/human/proc/emote_snort,
+		/mob/living/carbon/human/proc/emote_oink,
+		/mob/living/carbon/human/proc/emote_trill,
+		/mob/living/carbon/human/proc/emote_purr,
+		/mob/living/carbon/human/proc/emote_moo,
+		/mob/living/carbon/human/proc/emote_bark,
+		/mob/living/carbon/human/proc/emote_growl,
+		/mob/living/carbon/human/proc/emote_prbt,
+		/mob/living/carbon/human/proc/emote_bleat,
+	)
 
 /obj/item/organ/tongue/moth
 	name = "moth tongue"
 	say_mod = "flutters"
+	emote_verbs = list(
+		/mob/living/carbon/human/proc/emote_chitter,
+		/mob/living/carbon/human/proc/emote_flutter,
+	)

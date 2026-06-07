@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You need to arc your projectiles (spells or bow) to shoot across elevations, removing the z-level shooting functionalities that let you shoot straight across Z level. Arced mode while you are looking at a z level below will also arc, instead of arc symmetrically only works if you arc at an open space."
+  - rscadd: "Fire Curtain, Ensnare and spells etc. can no longer be cast across Z level by default. Projectiles can, excepting fetch / repel."
+  - rscadd: "Being hit while climbing will interrupt the climb"

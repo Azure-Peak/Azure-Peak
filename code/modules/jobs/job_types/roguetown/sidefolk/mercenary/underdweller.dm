@@ -43,7 +43,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	mask = /obj/item/clothing/mask/rogue/ragmask
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	belt = /obj/item/storage/belt/rogue/leather/black		//Should give these guys a unique miners belt at some point..
 	neck = /obj/item/clothing/neck/roguetown/chaincoif

@@ -54,3 +54,22 @@
 .Button:hover {
   background-color: #222;
 }
+
+.theme-leatherbound {
+  --chat-text-color: #d4c090;
+  --color-base: #241a0e;
+  --color-hyperlink: #c8a050;
+
+  .Button {
+    background-color: #3a2e1c;
+  }
+
+  .Button:hover {
+    background-color: #4a3a22;
+  }
+
+  .Tabs--horizontal .Tab {
+    border-left: 2px solid #5e472a;
+    border-top: 2px solid #5e472a;
+  }
+}

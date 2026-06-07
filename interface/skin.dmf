@@ -203,7 +203,7 @@ window "statwindow"
 		background-color = #000000
 		saved-params = "pos;size"
 		is-pane = true
-	elem "stat"
+	elem "statbrowser"
 		type = BROWSER
 		pos = 0,0
 		size = 640x480

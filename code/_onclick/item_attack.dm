@@ -137,6 +137,10 @@
 			return FALSE
 		to_chat(user, span_warning("I don't want to harm other living beings!"))
 		return
+	
+	if(force && user.has_status_effect(/datum/status_effect/debuff/deadite_grace) && M.mind)
+		to_chat(user, span_warning("Ah, Lux... I calm down considerably, but my hunger only increases."))
+		user.remove_status_effect(/datum/status_effect/debuff/deadite_grace)
 
 	if(force && user.rogue_sneaking)
 		user.mob_timers[MT_FOUNDSNEAK] = world.time

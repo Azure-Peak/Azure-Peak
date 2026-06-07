@@ -146,8 +146,6 @@
 	var/ammo_type
 
 	var/arcshot = FALSE
-	var/diagonal_step = 0
-	var/diagonal_target_z = 0
 	// Is this projectile blacklisted from crossing z-level
 	var/cannot_cross_z = 0
 	var/poisontype
@@ -156,8 +154,6 @@
 
 	var/accuracy = 65 //How likely the project will hit it's intended target area. Decreases over distance moved, increased from perception.
 	var/bonus_accuracy = 0 //bonus accuracy that cannot be affected by range drop off.
-
-	var/target_z = 0
 
 	/// Min tile distance for full damage/AP.
 	var/min_range = 0
@@ -174,38 +170,8 @@
 	permutated = list()
 	decayedRange = range
 
-/obj/projectile/proc/get_nearest_open_turf(turf/center, max_range)
-	for(var/i in 0 to max_range)
-		for(var/turf/T in range(i, center))
-			if(!T.density && !has_dense_content(T))
-				return T
-	return null
-
-/obj/projectile/proc/has_dense_content(turf/T)
-	for(var/atom/A in T)
-		if(A.density && A != src && A != firer)
-			return TRUE
-	return FALSE
-
 /obj/projectile/proc/Range()
 	range--
-	if(diagonal_step && diagonal_target_z && z != diagonal_target_z)
-		if((decayedRange - range) >= diagonal_step)
-			var/turf/T = locate(x, y, diagonal_target_z)
-			if(T)
-				if(T.density || has_dense_content(T))
-					T = get_nearest_open_turf(T, 3)
-				
-				if(T)
-					trajectory_ignore_forcemove = TRUE
-					forceMove(T)
-					trajectory_ignore_forcemove = FALSE
-					if(trajectory)
-						trajectory.z = T.z
-				else
-					qdel(src)
-					return
-
 	if(accuracy > 20) //so there is always a somewhat prevalent chance to hit the target, despite distance.
 		accuracy -= 10
 	if(range <= 0 && loc)
@@ -612,7 +578,13 @@
 	if(zc)
 		after_z_change(old, target)
 
-/obj/projectile/proc/after_z_change(atom/olcloc, atom/newloc)
+/obj/projectile/proc/after_z_change(atom/oldloc, atom/newloc)
+	if(!isturf(oldloc) || !isturf(newloc))
+		return
+	if(newloc.z < oldloc.z)
+		visible_message(span_warning("[src] comes arcing down from above!"))
+	else if(newloc.z > oldloc.z)
+		visible_message(span_warning("[src] comes arcing up from below!"))
 
 /obj/projectile/proc/before_z_change(atom/oldloc, atom/newloc)
 
@@ -685,24 +657,6 @@
 		else if(T != loc)
 			step_towards(src, T)
 			hitscan_last = loc
-		
-		if(arcshot && starting && target_z && z > target_z)
-			var/tx = starting.x + xo
-			var/ty = starting.y + yo
-			
-			if(get_dist(loc, locate(tx, ty, z)) == 0)
-				var/turf/below = locate(x, y, target_z)
-				if(below)
-					var/old = loc
-					before_z_change(loc, below)
-					trajectory_ignore_forcemove = TRUE
-					forceMove(below)
-					trajectory_ignore_forcemove = FALSE
-					after_z_change(old, loc)
-					if(trajectory)
-						trajectory.z = below.z
-					forcemoved = TRUE
-					hitscan_last = loc
 
 	if(QDELETED(src) || !trajectory)
 		return
@@ -777,18 +731,16 @@
 	var/turf/start_loc = curloc
 
 	if(targloc && curloc)
-		target_z = targloc.z
-		if(arcshot)
-			if(targloc.z > curloc.z)
-				var/turf/above = get_step_multiz(curloc, UP)
-				if(above)
-					curloc = above
-					start_loc = above
-		else
-			if(targloc.z != curloc.z && !cannot_cross_z)
-				var/dist = get_dist_euclidian(curloc, targloc)
-				diagonal_step = max(1, round(dist / 2))
-				diagonal_target_z = targloc.z
+		if(arcshot && targloc.z > curloc.z)
+			var/turf/above = get_step_multiz(curloc, UP)
+			if(above)
+				curloc = above
+				start_loc = above
+		else if(arcshot && targloc.z < curloc.z)
+			var/turf/hole = locate(targloc.x, targloc.y, curloc.z)
+			if(istype(hole, /turf/open/transparent/openspace))
+				target = hole
+				targloc = hole
 
 	trajectory_ignore_forcemove = TRUE
 	forceMove(start_loc)

@@ -11,7 +11,7 @@ SUBSYSTEM_DEF(matthios_mobs)
 	var/looked = FALSE
 
 /datum/controller/subsystem/matthios_mobs/stat_entry()
-	..("MM:[matthios_mobs.len]")
+	return ..("MM:[matthios_mobs.len]")
 
 /datum/controller/subsystem/matthios_mobs/fire(resumed = 0)
 	var/seconds = wait * 0.1

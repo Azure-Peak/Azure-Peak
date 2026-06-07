@@ -804,7 +804,7 @@
 /obj/structure/roguemachine/vaultbank/innkeeper/can_withdraw(mob/user, amount)
 	if(!user)
 		return FALSE
-	return user.job == "Innkeeper"
+	return user.job in list("Innkeeper", "Tapster", "Cook")
 
 /obj/structure/roguemachine/vaultbank/innkeeper/can_view(mob/user)
 	if(!user)
@@ -812,7 +812,7 @@
 	return user.job in list("Innkeeper", "Tapster", "Cook")
 
 /obj/structure/roguemachine/vaultbank/innkeeper/get_authority_label()
-	return "the Innkeeper"
+	return "the Innkeeper, Tapster or Cook"
 
 /obj/structure/roguemachine/vaultbank/innkeeper/enforce_placement()
 	return

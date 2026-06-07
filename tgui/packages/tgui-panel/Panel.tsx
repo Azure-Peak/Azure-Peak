@@ -28,7 +28,7 @@ export const Panel = (props) => {
   }
 
   return (
-    <Pane theme="dark">
+    <Pane theme={settings.theme === 'leatherbound' ? 'leatherbound' : 'dark'}>
       <Stack fill vertical>
         <Stack.Item fontSize={1.2}>
           <Section fitted>

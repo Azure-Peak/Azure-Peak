@@ -130,6 +130,8 @@
 	var/self_cast_possible = TRUE
 	/// The casting range of our spell.
 	var/cast_range = 7
+	/// If TRUE, this spell may be cast at a target on a different Z-level. Defaults FALSE; only projectile spells opt in.
+	var/allow_cross_z = FALSE
 	/// Variable dictating if the spell will use turf based aim assist.
 	var/aim_assist = TRUE
 
@@ -791,7 +793,7 @@
 		if(sig_return & SPELL_CANCEL_CAST)
 			return sig_return
 
-		if(spell_requirements & SPELL_REQUIRES_SAME_Z)
+		if(!allow_cross_z)
 			var/turf/caster_t = get_turf(owner)
 			var/turf/target_t = get_turf(cast_on)
 			if(caster_t && target_t && caster_t.z != target_t.z)

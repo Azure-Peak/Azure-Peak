@@ -588,7 +588,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/memory()
 	set name = "Notes"
-	set category = "Memory"
+	set category = "IC.Memory"
 	set desc = ""
 	if(mind)
 		mind.show_memory(src)
@@ -600,7 +600,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/add_memory(msg as message)
 	set name = "AddNote"
-	set category = "Memory"
+	set category = "IC.Memory"
 	if(mind)
 		if (world.time < memory_throttle_time)
 			return
@@ -621,7 +621,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/abandon_mob()
 	set name = "{ABANDON MOB}"
-	set category = "Options"
+	set category = "Preferences.Options"
 	set hidden = 1
 	if(!check_rights(0))
 		return
@@ -757,35 +757,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/is_muzzled()
 	return 0
 
-/**
- * Output an update to the stat panel for the client
- *
- * calculates client ping, round id, server time, time dilation and other data about the round
- * and puts it in the mob status panel on a regular loop
- */
-/mob/Stat()
-	..()
-
-	if(!client)
-		return
-
-	client.refresh_browserpanel()
-
-/**
- * Convert a list of spells into a displyable list for the statpanel
- *
- * Shows charge and other important info
- */
-/mob/proc/add_spells_to_statpanel(list/spells)
-	for(var/obj/effect/proc_holder/spell/S in spells)
-		if(S.can_be_cast_by(src))
-			switch(S.charge_type)
-				if("recharge")
-					statpanel("[S.panel]","[S.charge_counter/10.0]/[S.recharge_time/10]",S)
-				if("charges")
-					statpanel("[S.panel]","[S.charge_counter]/[S.recharge_time]",S)
-				if("holdervar")
-					statpanel("[S.panel]","[S.holder_var_type] [S.holder_var_amount]",S)
 
 #define MOB_FACE_DIRECTION_DELAY 1
 
@@ -1039,6 +1010,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(!("[REF(target)]" in faction_src))
 			faction_target -= "[REF(target)]" //same thing here.
 		return faction_check(faction_src, faction_target, TRUE)
+	if(HAS_TRAIT(target, TRAIT_NOPVE))
+		return TRUE // don't bother checking anyone who's exempt from pve entirely
 	// Avoid lit allocations by scanning factions directly for better perf.
 	var/list/their_faction = target.faction
 	var/their_name = target.name
@@ -1352,3 +1325,15 @@ GLOBAL_VAR_INIT(mobids, 1)
 	canon_client = null
 
 #undef MOB_FACE_DIRECTION_DELAY
+
+/// Adds this list to the output to the stat browser
+/mob/proc/get_status_tab_items()
+	. = list("") //we want to offset unique stuff from standard stuff
+	SEND_SIGNAL(src, COMSIG_MOB_GET_STATUS_TAB_ITEMS, .)
+	if(client)
+		. += list(list("IC DATE: ", "[get_current_ic_date_as_string()] (CLICK FOR CALENDAR)", "src=[REF(client)];statbrowser_calendar=1"))
+		. += list(list("tod", GLOB.tod, "IC TIME: [get_current_ic_time_as_string()]"))
+	return .
+
+/mob/proc/get_stats_tab_items()
+	return list()
