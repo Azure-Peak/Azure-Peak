@@ -7,6 +7,7 @@
 	icon_state = "portal"
 	desc = "A portal stone that can be synced to clothing, allowing sensations to be passed through it. (Note: if linked while the clothing is being worn, remove the clothing and re-equip.)"
 	w_class = WEIGHT_CLASS_TINY
+	obj_flags = UNIQUE_RENAME
 	var/datum/component/portal_clothes/paired_with
 	possible_item_intents = list(/datum/intent/use)
 
