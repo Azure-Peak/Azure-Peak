@@ -98,7 +98,7 @@
 #define TRAIT_PERMAMUTE "Permanent Mute"
 #define TRAIT_EXCOMMUNICATED "Excommunicated"
 #define TRAIT_RECENT_CONVERT "Recent Convert"
-#define TRAIT_UNCONVERTABLE "Unconvertible"
+#define TRAIT_UNCONVERTIBLE "Unconvertible"
 #define TRAIT_HERESIARCH "Forbidden Knowledge"
 #define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_JACKOFALLTRADES "Jack of All Trades"	//Reduces skill up cost
@@ -538,7 +538,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CURSE_EORA = span_warning("I am forsaken by the Lover. There is no beauty to be found for me in this world."),
 	TRAIT_EXCOMMUNICATED = span_warning("I have been excommunicated."),
 	TRAIT_RECENT_CONVERT = span_info("I have recently converted to a new patron; I shall not forsake them so soon."),
-	TRAIT_UNCONVERTABLE = span_info("My nature is inextricably tied to my patron. Any attempts at conversion will fail."),
+	TRAIT_UNCONVERTIBLE = span_info("My nature is inextricably tied to my patron. Any attempts at conversion will fail."),
 	TRAIT_CURSE_ZIZO = span_warning("I am forsaken by the Architect. Her grasp reaches for my heart."),
 	TRAIT_CURSE_GRAGGAR = span_warning("I am forsaken by the Warlord. Bloodlust is only thing I know for real."),
 	TRAIT_CURSE_MATTHIOS = span_warning("I am forsaken by the Dragon. Greed will be my only salvation."),

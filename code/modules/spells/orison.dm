@@ -469,11 +469,30 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		to_chat(caster, span_info("I need to be closer to [victim] to grant them [get_god_name(caster.patron)]'s grace."))
 		return FALSE
 
-	if(!new_convert.client || HAS_TRAIT(new_convert, TRAIT_RECENT_CONVERT) || HAS_TRAIT(new_convert, TRAIT_UNCONVERTABLE)) // no converting NPCs. if they're SSD this may also trigger, but why are you trying to convert ssd players. also, no ping-ponging back and forth in a single round or converting patron-locked roles
+	// no converting NPCs. if they're SSD this may also trigger, but why are you trying to convert ssd players. also, no ping-ponging back and forth in a single round or converting patron-locked roles
+	if(!new_convert.client || HAS_TRAIT(new_convert, TRAIT_RECENT_CONVERT) || HAS_TRAIT(new_convert, TRAIT_UNCONVERTIBLE))
 		to_chat(caster, span_info("They don't seem like they'll be receptive to my proselytizing..."))
 		return FALSE
 
-	var/convert_message = (istype(caster.patron, /datum/patron/old_god) ? ("[caster.real_name] is trying to guide you onto PSYDON's path. Do you accept?") : ("[caster.real_name] is trying to bring you into [is_tennite ? "the Ten" : caster.patron.name]'s embrace. Do you accept?"))
+	visible_message(span_info("[src] whispers rapid prayers, performing a rite to bring [new_convert] before their patron's gaze..."), span_info("You whisper prayers to [get_god_name(caster.patron)], casting their gaze upon [new_convert]..."))
+	var/convert_message
+	if(istype(caster.patron, /datum/patron/old_god))
+		convert_message = "[caster.real_name] is trying to guide you onto PSYDON's path. Will you embrace Him, and forswear any lesser 'gods'?"
+	else if(is_tennite)
+		convert_message = "[caster.real_name] is trying to bring you into the Ten's embrace. Will you bask in Their light?"
+	else
+		switch(caster.patron.type)
+			if(/datum/patron/inhumen/zizo)
+				convert_message = "[caster.real_name] is trying to teach you the ways of ZIZO. Will you learn?"
+			if(/datum/patron/inhumen/matthios)
+				convert_message = "[caster.real_name] is offering you membership of the free men. Will you join?"
+			if(/datum/patron/inhumen/graggar)
+				convert_message = "[caster.real_name] is offering you Graggar's anointment. Will you break free?"
+			if(/datum/patron/inhumen/baotha)
+				convert_message = "[caster.real_name] is trying to offer you Baotha's mercy. Will you indulge?"
+			else // this should not happen but if people add more gods and don't update this it's good to have a fallback
+				convert_message = "[caster.real_name] is trying to convert you to [get_god_name(caster.patron)]. Will you accept?"
+	convert_message += " THIS WILL CHANGE YOUR PATRON."
 	// this is going to look slightly jank, and it is. but this is the best way to get a window that doesn't steal focus, can't intercept your clicks, and can't be meta'd; all concerns people had with alert()
 	var/list/result = list(new_convert)
 	if(!is_tennite && istype(caster.patron, new_convert.patron.type))
@@ -481,7 +500,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 	else
 		showCandidatePollWindow(new_convert, 10 SECONDS, convert_message, result, null, world.time, flashwindow = FALSE)
 	if(!do_mob(caster, new_convert, 10 SECONDS, can_move = FALSE) || caster.cmode || new_convert.cmode)
-		to_chat(caster, span_info("I lose focus!"))
+		to_chat(caster, span_info("I lose focus! The rite fails."))
 		return FALSE
 	if(!length(result))
 		if(is_tennite)
