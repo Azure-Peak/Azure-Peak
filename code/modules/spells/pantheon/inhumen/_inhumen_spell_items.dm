@@ -1785,6 +1785,14 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		user.remove_language(/datum/language/thievescant)
 		grant_chant = FALSE
 
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/get_heresy_status()
+	// If we have stolen fyre, it looks like an ornate Astratan amulet. Disguised...
+	if(stolen_fyre)
+		return null
+	// Otherwise, it's an undisguised and GAUDY Matthiosian amulet. Very obvious.
+	else
+		returnlsit(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
+
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios
 	name = "gilded fingerless gloves"
 	desc = "Those who grasp at Fyre, are bount to be burned."
