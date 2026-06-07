@@ -217,9 +217,6 @@
 		language_holder.selected_default_language = null
 
 		if(has_turned && become_rotman)
-			zombie.STACON = max(zombie.STACON - 2, 1) //ur rotting bro
-			zombie.STASPD = max(zombie.STASPD - 3, 1)
-			zombie.STAINT = max(zombie.STAINT - 3, 1)
 			for(var/trait in traits_rotman)
 				ADD_TRAIT(zombie, trait, "[type]")
 			to_chat(zombie, span_green("I no longer crave for flesh... <i>But I still feel ill.</i>"))
