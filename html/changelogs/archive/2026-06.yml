@@ -222,3 +222,57 @@
 2026-06-06:
   Ryan180602:
   - bugfix: weeping cross now needs you to be a psydonite to work.
+2026-06-07:
+  FeniaFox:
+  - rscadd: Added leather helms to tailor silverface as sidegrade vs headbands, trading
+      integ to get nose coverage.
+  - rscadd: Added light arming jackets, with identical stats to current arming jacket.
+  - balance: rebalanced arming jackets to not just be worse gambesons, now they have
+      a noticable integ advantage to make up for lack of leg coverage. Adjusted role
+      starter gear to be untouched in effectiveness by this change.
+  KatTheFox:
+  - rscadd: Simplemobs can now be riposted with guard stance
+  - rscadd: Paladins who pick the spear loadout now get a greatweapon strap instead
+      of a shield
+  - rscadd: Hags now get some thematic languages for free, as well as a hand mirror
+      in their bag
+  - rscadd: New trait that exempts hags from PVE entirely
+  - rscdel: Removed counter counterspell boon, since that trait does literally nothing
+      - counterspell was removed from the game!
+  - bugfix: Hag scrying should no longer break when your target goes AFK or dies
+  Ollanius:
+  - rscadd: The Staker, a PVE-centric ranged weapon that can either be acquired by
+      the Exorcist or produced by the Artificer. Deals the lowest damage out of any
+      ranged weapon in the game, in exchange for minor anti-unholy properties, easier
+      handling, and a very easily-sourced type of ammunition.
+  - rscadd: Shotstakes, a new proprietary caliber exclusively used by the Staker.
+      Inherits the heavy penetration of regular crossbow bolts, but has the lowest
+      damage out of any ranged weapon in the game. These can be made by introducing
+      any stake (carved, sharpened, hand- or silver-tipped) to a brazier, hearth,
+      or campfire.
+  - balance: Adds the Silver Halberd, Executioner Sword, Knuckledusters, Hunting Knife,
+      Tomahawk, and Staker to the Exorcist's loadout.
+  - balance: Moved the Steel Broadsword to the Exorcist's sidearm options, alongside
+      the rest of the non-silvered weapons.
+  - balance: Partially restored the damage multiplier of most axes - chiefly, the
+      Silver Poleaxe - with the 'long-' chopping and cutting intents. These should
+      now match the Halberd's 1.3x damage modiifer.
+  - rscadd: The Roundface Bascinet, as donated by Noire.
+  PepegaSandwich:
+  - rscadd: Added wicker cloak to loadout
+  Randall:
+  - rscadd: Added the Stecher to Battlemaster's loadout options
+  WeNeedMorePhoron:
+  - rscadd: Added noc shine as a three steps distillation recipe
+  - rscdel: Removed the Z level swim feature and swimming tab. The two test ponds
+      has been restored to z levelless state.
+  - bugfix: Fix kinship not applying on roundstart merchant
+  - rscadd: Updated the agent mechanics to surface it better, and make sure Agent
+      have a banner telling them they can access Rosawood / Anthraxi with discount
+      as an agent instantly, and buy at 10% off.
+  - balance: SCREW YOU NO MORE LOCKING COMMISSIONER
+  - bugfix: Blacksteel Bar now show correct price from pricing engine. oops.
+  - rscadd: Tapster and Cook may now also access institutional inn fund
+  borneblood:
+  - balance: Deadites who are freshly raised go on an overdrive for a minute or so,
+      making them extremely dangerous.

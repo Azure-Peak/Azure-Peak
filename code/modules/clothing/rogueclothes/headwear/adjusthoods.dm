@@ -40,6 +40,9 @@
 	user.update_inv_head()
 
 /obj/item/clothing/head/roguetown/roguehood/AltRightClick(mob/user)
+	. = ..()
+	if(!istype(loc, /mob/living/carbon))
+		return
 	overarmor = !overarmor
 	to_chat(user, span_info("I wear \the [src] [overarmor ? "under" : "over"] my hair."))
 	if(overarmor)

@@ -216,8 +216,8 @@
 	mind?.remove_antag_datum(/datum/antagonist/zombie)
 
 	if(client)
-		client.verbs.Remove(GLOB.ghost_verbs)
-		client.update_browserpanel()
+		remove_verb(client, GLOB.ghost_verbs)
+		client.init_verbs()
 
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
 	visible_message(span_red("[src] rises as a new spawn!"))

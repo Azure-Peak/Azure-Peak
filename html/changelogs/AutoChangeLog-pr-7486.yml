@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscdel: "Removed (bugged) hag grand rite"

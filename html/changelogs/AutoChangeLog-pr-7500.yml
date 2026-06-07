@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Roundface bascinets now properly display orles and greatplumes in the correct order."

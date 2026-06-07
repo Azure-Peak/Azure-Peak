@@ -28,7 +28,7 @@
 	hud_type = /datum/hud/eye
 
 /mob/dead/observer/rogue/arcaneeye/proc/scry_tele()
-	set category = "Arcane Eye"
+	set category = "RoleUnique.Arcane Eye"
 	set name = "Teleport"
 	set desc= "Teleport to a location"
 	set hidden = 0
@@ -59,17 +59,17 @@
 /mob/dead/observer/rogue/arcaneeye/Initialize()
 	. = ..()
 	set_invisibility(GLOB.observer_default_invisibility)
-	verbs += list(
+	add_verb(src, list(
 		/mob/dead/observer/rogue/arcaneeye/proc/scry_tele,
 		/mob/dead/observer/rogue/arcaneeye/proc/cancel_scry,
 		/mob/dead/observer/rogue/arcaneeye/proc/eye_down,
 		/mob/dead/observer/rogue/arcaneeye/proc/eye_up,
-		/mob/dead/observer/rogue/arcaneeye/proc/vampire_telepathy)
+		/mob/dead/observer/rogue/arcaneeye/proc/vampire_telepathy))
 	name = "Arcane Eye"
 	grant_all_languages()
 
 /mob/dead/observer/rogue/arcaneeye/proc/cancel_scry()
-	set category = "Arcane Eye"
+	set category = "RoleUnique.Arcane Eye"
 	set name = "Cancel Eye"
 	set desc= "Return to Body"
 
@@ -96,7 +96,7 @@
 
 /mob/dead/observer/rogue/arcaneeye/proc/vampire_telepathy()
 	set name = "Telepathy"
-	set category = "Arcane Eye"
+	set category = "RoleUnique.Arcane Eye"
 
 	var/msg = input("Send a message.", "Command") as text|null
 	if(!msg)
@@ -109,14 +109,14 @@
 		to_chat(A, span_boldnotice("A message from [src.real_name]:[msg]"))
 
 /mob/dead/observer/rogue/arcaneeye/proc/eye_up()
-	set category = "Arcane Eye"
+	set category = "RoleUnique.Arcane Eye"
 	set name = "Move Up"
 
 	if(zMove(UP, TRUE))
 		to_chat(src, span_notice("I move upwards."))
 
 /mob/dead/observer/rogue/arcaneeye/proc/eye_down()
-	set category = "Arcane Eye"
+	set category = "RoleUnique.Arcane Eye"
 	set name = "Move Down"
 
 	if(zMove(DOWN, TRUE))

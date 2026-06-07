@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Redid the stat panel again to improve performance. It can also select the Leatherbound theme. Admin verbs and verbs in general has been rearranged and reorganized to lower tab spam. For example, memory and IC has been consolidated into one tab. Admin Preferences and such has been consolidated too. Suggestions welcome on what verbs to remove and how to organize it better."

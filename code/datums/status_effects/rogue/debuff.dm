@@ -349,7 +349,9 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	duration = 30 MINUTES
 
-/datum/status_effect/debuff/ritesexpended/heretic
+/datum/status_effect/debuff/armamentrites
+	id = "armamentrites"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/armamentrites
 	duration = 2 HOURS
 
 /datum/status_effect/debuff/lux_exhausted
@@ -360,6 +362,10 @@
 
 /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	name = "Rites Complete"
+	desc = "It will take time before I can next perform a rite."
+
+/atom/movable/screen/alert/status_effect/debuff/armamentrites
+	name = "Armament Rites Complete"
 	desc = "It will take time before I can next perform a rite."
 
 /atom/movable/screen/alert/status_effect/debuff/lux_exhausted

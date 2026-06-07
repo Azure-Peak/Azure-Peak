@@ -1,0 +1,12 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Repathed glass batch which was inheriting from clay, to avoid issues in the stockpile and because it does not inherit any clay function and is meant to be smelted. Rewrote the desc to make it obvious you should smelt them and also made it more medieval (no reference to silica)"
+  - rscadd: "Keyrings and keys are now IS_IMPORTANT and cannot be sold by accident at the navigator. Thank you downstream for report"
+  - rscadd: "Stockpiles now accept copper and tin ingots by default and there's demands for them"
+  - rscadd: "Pork belly and ham added to stockpile. If this become too bloated I will figure out. For now this is acceptable."
+  - rscadd: "Scrapper / Rag Picker now scrap / pick the items pulled into them into its results instead of having to manually scrap it. The Economy Will Go On"
+  - rscadd: "Scrapper / Rag Picker can now take a sack emptying into them and give you reason for why it cannot take anymore."
+  - rscadd: "Rag Picker now take cloth, fibers and leather again, but with lowered price, because 95% of cloth items scrap into them and I overreacted to feedback on these items being useless as they are unlikely to be sold as scrap ever."
+  - rscadd: "Labourious Apprentice gives Expert Homesteader now"
+  - rscadd: "Fixes an issue with Shortage scaling to stockpile limit instead of regional demands"
