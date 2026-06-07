@@ -137,6 +137,11 @@
 	var/datum/weakref/unlocked_by_owner_ref
 	var/owner_name = ""
 
+/obj/item/parcel/towner_caravan/Initialize(mapload)
+	. = ..()
+	invisibility = initial(invisibility)
+	QDEL_NULL(proximity_monitor)
+
 /obj/item/parcel/towner_caravan/attack_self(mob/user)
 	if(!length(contained_items))
 		return

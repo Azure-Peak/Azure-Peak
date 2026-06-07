@@ -1,7 +1,8 @@
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/modern
 	name = "blacksteel armet"
-	desc = "A magnificent greathelm of blacksteel, bearing the handiwork of Psydonia's finest blacksmiths. Beneath the visor most-assuredly lays a legendary guise; be it a commander's glare, a conquerer's sneer, or a champion's observance."
+	desc = "A magnificent greathelm of blacksteel, bearing the handiwork of Psydonia's finest blacksmiths. Beneath the \
+	visor most-assuredly lays a legendary guise; be it a commander's glare, a conquerer's sneer, or a champion's observance."
 	icon_state = "bplatehelm"
 	item_state = "bplatehelm"
 	adjustable = CAN_CADJUST
@@ -54,7 +55,10 @@
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel
 	name = "blacksteel bucket helm"
-	desc = "An antiquated greathelm of blacksteel, crested with a thick and luscious plume. How much will it take for your faith to sway - and how little will it be? Will you clasp to the atrocities of the past and believe yourself unredeemable, or will you mantle the burden of doing what is right? </br>‎  </br>It is never too late to change; for the better, and for the worse."
+	desc = "An antiquated greathelm of blacksteel, crested with a thick and luscious plume. How much will it take for \
+	your faith to sway - and how little will it be? Will you clasp to the atrocities of the past and believe yourself \
+	unredeemable, or will you mantle the burden of doing what is right? </br>‎  </br>It is never too late to \
+	change; for the better, and for the worse."
 	icon_state = "bkhelm"
 	item_state = "bkhelm"
 	body_parts_covered = FULL_HEAD
@@ -105,6 +109,7 @@
 	block2add = FOV_DEFAULT
 	flags_cover = null
 	flags_inv = null
+	smeltresult = /obj/item/ingot/bsslag
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns/attack_self(mob/living/user)
 	. = ..()
@@ -120,3 +125,18 @@
 	else
 		user.visible_message(span_warning("[user] stops reshaping [src]."))
 		return
+
+/obj/item/clothing/head/roguetown/helmet/blacksteel/psychains
+	name = "length of psydonian chains"
+	desc = "Chains fashioned from blacksteel, ritualistically worn atop helmets to testify one's unshatterable bond to Him."
+	icon_state = "psychains"
+	armor = ARMOR_PLATE_BSTEEL
+	body_parts_covered = HAIR
+	max_integrity = ARMOR_INT_SIDE_COVERAGE_BONUS //Translates into 50INT. Tremendously weaker - intended for aesthetics above all else.
+	alternate_worn_layer  = 8.9 //On top of helmet
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	armor_class = ARMOR_CLASS_NONE
+	block2add = FOV_DEFAULT
+	flags_cover = null
+	flags_inv = null
+	smeltresult = /obj/item/ingot/bsslag

@@ -1,6 +1,11 @@
 import type { CSSProperties } from 'react';
 
-import { INK, INK_FAINT, SERIF } from '../common/parchment';
+import {
+  FONT_BODY,
+  INK,
+  INK_FAINT,
+  SERIF,
+} from '../common/parchment';
 import {
   dashedHeaderStyle,
   detailPanelStyle,
@@ -11,13 +16,13 @@ import type { CalendarEvent } from './shared';
 const eventTitleStyle = (color: string): CSSProperties => ({
   fontFamily: SERIF,
   fontWeight: 'bold',
-  fontSize: '13px',
+  fontSize: FONT_BODY,
   color: color || INK,
   marginBottom: '2px',
 });
 
 const eventDescStyle: CSSProperties = {
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   color: INK,
   marginBottom: '6px',
   lineHeight: 1.45,
@@ -27,8 +32,7 @@ const splitParagraphs = (text: string): string[] =>
   text.split(/\n{2,}/).map((p) => p.trim()).filter((p) => p.length > 0);
 
 const eventSpanStyle: CSSProperties = {
-  fontSize: '10px',
-  fontStyle: 'italic',
+  fontSize: FONT_BODY,
   color: INK_FAINT,
 };
 

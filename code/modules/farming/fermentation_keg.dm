@@ -610,6 +610,8 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/luxintenebre
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/winespiced
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/voddena
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/nocmash
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/nocshine
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/beer
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/beer_oat
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/cider

@@ -56,7 +56,6 @@ export const PackRow = (props: Props) => {
             style={{
               marginLeft: '6px',
               fontSize: FONT_TINY,
-              fontVariant: 'small-caps',
               fontWeight: 'bold',
               color: SEAL_RED,
               border: `1px solid ${SEAL_RED}`,
@@ -72,7 +71,6 @@ export const PackRow = (props: Props) => {
           <span
             style={{
               fontSize: FONT_SMALL,
-              fontStyle: 'italic',
               color: INK_SOFT,
               fontWeight: 'normal',
               marginLeft: '6px',

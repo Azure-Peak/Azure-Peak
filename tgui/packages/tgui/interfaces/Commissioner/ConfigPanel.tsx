@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { NumberInput } from 'tgui-core/components';
 
 import {
-  cardStyle,
   fieldRowStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -32,20 +32,17 @@ const MarginRow = (props: {
         style={{
           flex: '0 0 160px',
           fontFamily: SERIF,
-          fontVariant: 'small-caps',
           color: SEAL_AMBER,
-          fontStyle: 'italic',
         }}
       >
         {label}
       </div>
-      <div style={{ flex: 1, color: INK, fontSize: '13px' }}>
+      <div style={{ flex: 1, color: INK, fontSize: FONT_BODY }}>
         <span style={{ fontWeight: 'bold' }}>Current: {current}</span>
         <span
           style={{
             color: INK_FAINT,
-            fontStyle: 'italic',
-            fontSize: '11px',
+            fontSize: FONT_BODY,
             marginLeft: '8px',
           }}
         >
@@ -105,7 +102,7 @@ const MaterialRow = (props: {
         style={{
           flex: 1,
           color: INK,
-          fontSize: '13px',
+          fontSize: FONT_BODY,
           textTransform: 'capitalize',
         }}
       >
@@ -115,8 +112,7 @@ const MaterialRow = (props: {
         style={{
           flex: '0 0 auto',
           color: INK_SOFT,
-          fontSize: '11px',
-          fontStyle: 'italic',
+          fontSize: FONT_BODY,
         }}
       >
         {material.price}m
@@ -152,50 +148,8 @@ export const ConfigPanel = (props: {
   act: ActFn;
 }) => {
   const { data, act } = props;
-  const locked = !!data.locked;
   return (
     <>
-      <div
-        style={{
-          ...cardStyle,
-          marginBottom: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-        }}
-      >
-        <div style={{ flex: 1 }}>
-          <div
-            style={{
-              fontFamily: SERIF,
-              fontVariant: 'small-caps',
-              color: SEAL_AMBER,
-              fontStyle: 'italic',
-              fontSize: '12px',
-            }}
-          >
-            Machine State
-          </div>
-          <div
-            style={{
-              fontFamily: SERIF,
-              color: locked ? INK : INK_FAINT,
-              fontWeight: 'bold',
-              fontSize: '13px',
-            }}
-          >
-            {locked ? 'Open for business' : 'Closed (no commissions accepted)'}
-          </div>
-        </div>
-        <button
-          type="button"
-          style={inkButtonStyle()}
-          onClick={() => act('toggle_lock')}
-        >
-          {locked ? 'Close Machine' : 'Open Machine'}
-        </button>
-      </div>
-
       <div style={sectionHeaderStyle}>Commission Limits</div>
       <MarginRow
         label="Items per Order"
@@ -235,7 +189,7 @@ export const ConfigPanel = (props: {
       <div
         style={{
           marginTop: '4px',
-          fontSize: '12px',
+          fontSize: FONT_BODY,
           color: INK_SOFT,
           marginBottom: '6px',
         }}
@@ -264,10 +218,8 @@ const MaterialColumns = (props: {
           <div
             style={{
               fontFamily: SERIF,
-              fontVariant: 'small-caps',
               color: SEAL_AMBER,
-              fontSize: '11px',
-              fontStyle: 'italic',
+              fontSize: FONT_BODY,
               marginTop: '6px',
               marginBottom: '2px',
             }}
@@ -292,10 +244,8 @@ const MaterialColumns = (props: {
           <div
             style={{
               fontFamily: SERIF,
-              fontVariant: 'small-caps',
               color: INK_SOFT,
-              fontSize: '11px',
-              fontStyle: 'italic',
+              fontSize: FONT_BODY,
               marginTop: '10px',
               marginBottom: '2px',
             }}

@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - balance: "Sawblade Volley now slows you down a bit more and take longer to charge up."
-  - balance: "Arcyne Lance and Stygian now uses **STAB** instead of **PIERCING** damage, to reinforce them being good vs shitty light and not so good vs plate"
-  - balance: "Leather and Padded armor reduced back to 2 pips vs burn damage after I ran some DPS checks locally."

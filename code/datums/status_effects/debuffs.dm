@@ -875,7 +875,7 @@
 	name = "Vulnerable"
 	desc = "A mistake. I can be hit through my parry and dodge to a lighter effect!"
 	icon_state = "vulnerable"
-	icon = 'icons/mob/combat_debuffs.dmi'
+	icon = 'icons/mob/screen_alert_combat.dmi'
 
 /datum/status_effect/debuff/vulnerable
 	id = "nofeintlite"

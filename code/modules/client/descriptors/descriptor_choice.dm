@@ -198,6 +198,10 @@
 		/datum/mob_descriptor/stature/reprobate,
 		/datum/mob_descriptor/stature/spendthrift,
 		/datum/mob_descriptor/stature/liability,
+		/datum/mob_descriptor/stature/idiot,
+		/datum/mob_descriptor/stature/lamb,
+		/datum/mob_descriptor/stature/assailant,
+		/datum/mob_descriptor/stature/survivor,
 	)
 
 /datum/descriptor_choice/voice
@@ -344,6 +348,9 @@
 		/datum/mob_descriptor/trait/elven,
 		/datum/mob_descriptor/trait/rousley,
 		/datum/mob_descriptor/trait/blessed,
+		/datum/mob_descriptor/trait/holy,
+		/datum/mob_descriptor/trait/unholy,
+		/datum/mob_descriptor/trait/sacrificial,
 		/datum/mob_descriptor/trait/accursed,
 		/datum/mob_descriptor/trait/aquatic,
 		/datum/mob_descriptor/trait/horned,

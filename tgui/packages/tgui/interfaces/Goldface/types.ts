@@ -66,6 +66,8 @@ export type CatalogData = {
   home_label: string;
   unlocked: BooleanLike;
   origin_access: BooleanLike;
+  access_basis?: 'kinship' | 'agent' | 'origin' | null;
+  home_realm_name?: string;
   accessible: BooleanLike;
   discount_pct: number;
   entries: CatalogEntry[];

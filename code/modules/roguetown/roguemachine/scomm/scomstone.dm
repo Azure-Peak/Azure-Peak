@@ -5,7 +5,7 @@
 	icon_state = "ring_scom"
 	desc = "A heavy ring made of metal. There is a gem embedded in the center - dim, but alive."
 	gripped_intents = null
-	dropshrink = 0.75
+	dropshrink = 0.6
 	possible_item_intents = list(INTENT_GENERIC)
 	force = 10
 	throwforce = 10

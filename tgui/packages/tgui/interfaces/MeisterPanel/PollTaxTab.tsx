@@ -73,7 +73,7 @@ export const PollTaxTab = ({ data, act }: TabProps) => {
 
       {!advanceBlocked && (
         <>
-          <div style={sectionHeaderStyle}>Pre-pay</div>
+          <div style={sectionHeaderStyle}>Advance</div>
           <div style={fieldRowStyle}>
             <div style={fieldLabelStyle}>Days</div>
             <div style={fieldValueStyle}>

@@ -843,3 +843,13 @@ As Excaliber."
 	body_parts_covered = CHEST|GROIN|ARMS
 	slot_flags = ITEM_SLOT_CLOAK
 	flags_inv = HIDECROTCH|HIDEBOOB
+
+
+//sakuyzo
+/obj/item/rogueweapon/sakuyzo/sword
+	name = "Hævatein"
+	desc = "A precious Relic of the highest rarity - a blacksteel sword coated in dragonfyre, found at the base of a river of lava. Inscribed with runic symbols, it is deeply attuned in the arcyne and serves any Spellblade as a vessel for channeling overwhelming power through it - Ironically, at the cost of requiring an aptitude to wield it."
+	icon_state = "sakuyzo"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "sakuyzo"
+	bigboy = TRUE

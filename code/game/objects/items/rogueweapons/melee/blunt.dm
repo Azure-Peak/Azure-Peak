@@ -88,6 +88,9 @@
 	damfactor = 0.9
 	item_d_type = "stab"
 
+/datum/intent/mace/rangedthrust/short
+	reach = 1
+
 /datum/intent/mace/bash
 	name = "bash"
 	blade_class = BCLASS_BLUNT
@@ -429,7 +432,6 @@
 	desc = "A ceremonial rungu carved out of clam shell. Not intended for combat. Its used in various Sea and Coastal Elven rituals and ceremonies."
 	icon = 'icons/roguetown/gems/gem_shell.dmi'
 	icon_state = "rungu_shell"
-
 	max_integrity = 75
 
 /obj/item/rogueweapon/mace/cudgel/psy
@@ -540,6 +542,7 @@
 	force_wielded = 25
 	wbalance = WBALANCE_NORMAL
 	icon_state = "opsyflangedmacelegacy"
+	is_silver = FALSE
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/mace/cudgel/psyclassic/old/ComponentInitialize()
@@ -611,7 +614,7 @@
 	force = 15
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged) //Fluffed as either buttstroking with the Grand Mace, or ineffectually swinging it.
-	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/mace/rangedthrust, /datum/intent/effect/daze)
+	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/mace/rangedthrust/short, /datum/intent/effect/daze)
 	name = "goedendag"
 	desc = "Good morning."
 	icon_state = "goedendag"
@@ -620,6 +623,7 @@
 	//dropshrink = 0.75
 	wlength = WLENGTH_LONG
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = null
 	associated_skill = /datum/skill/combat/maces
 	smeltresult = /obj/item/ash
 	swingsound = BLUNTWOOSH_LARGE
@@ -714,6 +718,17 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 1,\
+	)
+
+/obj/item/rogueweapon/mace/goden/psymace/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
 		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 0,\
@@ -884,7 +899,7 @@
 	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	dropshrink = 0.6
+	//dropshrink = 0.6
 	bigboy = TRUE
 	gripsprite = TRUE
 	minstr_req = TRUE //You MUST have the required strength. No exceptions.
@@ -953,8 +968,10 @@
 	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/sweep, /datum/intent/mace/demolish, /datum/intent/effect/hobble)
 	desc = "A rune-forged maul inspired by dwarven rock-hammers. Created as the faithful's answer to heretics hiding behind walls, it provides the impure with a sermon of exceptional concussive clarity. A good hit with this is guaranteed to give even the most peppy of heretics some deserved 'respite', and in best scenarios, send them to confess directly to HIM."
 	icon_state = "psyhammer"
+	smeltresult = /obj/item/ingot/silverblessed
 	minstr = 8
 	wdefense_wbonus = 8
+	is_silver = TRUE
 	max_integrity = 600 // need a lil more cause destroying walls takes a bit of this
 
 /obj/item/rogueweapon/mace/maul/grand/psy/pickup(mob/living/user)

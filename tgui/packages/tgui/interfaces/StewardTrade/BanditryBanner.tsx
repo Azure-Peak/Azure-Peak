@@ -1,5 +1,10 @@
 import type { BanditryProjection } from './types';
-import { bannerStyle, SEAL_AMBER, SEAL_RED_SOFT } from '../common/parchment';
+import {
+  bannerStyle,
+  FONT_BODY,
+  SEAL_AMBER,
+  SEAL_RED_SOFT,
+} from '../common/parchment';
 
 export const BanditryBanner = (props: { projection: BanditryProjection }) => {
   const p = props.projection;
@@ -22,7 +27,7 @@ export const BanditryBanner = (props: { projection: BanditryProjection }) => {
           style={{
             fontWeight: 'normal',
             fontVariant: 'normal',
-            fontSize: '12px',
+            fontSize: FONT_BODY,
             color: SEAL_AMBER,
             letterSpacing: 0,
           }}

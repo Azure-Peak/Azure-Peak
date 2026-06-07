@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react';
 
-import { SEAL_RED } from '../common/parchment';
+import {
+  FONT_BODY,
+  SEAL_RED,
+} from '../common/parchment';
 
 export const SequesteredOverlay = (props: {
   active: boolean;
@@ -33,7 +36,6 @@ export const SequesteredOverlay = (props: {
           padding: '8px 24px',
           fontSize: '32px',
           fontWeight: 'bold',
-          fontVariant: 'small-caps',
           background: 'rgba(244,231,198,0.85)',
           textAlign: 'center',
           pointerEvents: 'none',
@@ -43,7 +45,7 @@ export const SequesteredOverlay = (props: {
         Sequestered
         <div
           style={{
-            fontSize: '11px',
+            fontSize: FONT_BODY,
             fontWeight: 'normal',
             fontStyle: 'italic',
             marginTop: '2px',

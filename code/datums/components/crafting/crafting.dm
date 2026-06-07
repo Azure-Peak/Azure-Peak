@@ -458,34 +458,52 @@
 						surroundings -= RC
 			else if(ispath(A, /obj/item/natural) || A == /obj/item/grown/log/tree/stick)
 				while(amt > 0)
-					for(var/obj/item/natural/bundle/B in get_environment(user))
-						if(B.stacktype == A)
-							if(B.amount > amt)
-								B.amount -= amt
-								B.update_bundle()
-								switch(B.amount)
-									if(1)
-										var/mob/living/carbon/old_loc = B.loc
-										qdel(B)
-										var/new_item = new B.stacktype(old_loc)
-										// Put in the person's hands if there were holding it.
-										if(ishuman(old_loc))
-											old_loc.put_in_hands(new_item)
-									if(0)
-										qdel(B)
-								amt = 0
-								continue main_loop
-							else
-								qdel(B)
-								amt -= B.amount
-						else
+					var/found_bundle = FALSE
+					for(var/obj/item/natural/bundle/B in surroundings)
+						if(!B.stacktype || !ispath(B.stacktype, A))
 							continue
-					var/atom/movable/I
-					while(amt > 0)
-						I = locate(A) in surroundings
-						Deletion += I
+						if(!R.subtype_reqs && (B.stacktype in subtypesof(A)))
+							continue 
+						if(R.blacklist.Find(B.stacktype))
+							continue
+						found_bundle = TRUE
+						surroundings -= B
+						if(B.amount > amt)
+							var/stacktype = B.stacktype
+							B.amount -= amt
+							B.update_bundle()
+							switch(B.amount)
+								if(1)
+									var/atom/old_loc = B.loc
+									qdel(B)
+									var/obj/item/new_item = new stacktype(old_loc)
+									if(ishuman(old_loc))
+										var/mob/living/carbon/human/H = old_loc
+										H.put_in_hands(new_item) 
+								if(0)
+									qdel(B)
+							amt = 0
+							continue main_loop
+						else
+							var/used_amount = B.amount
+							amt -= used_amount
+							qdel(B)
+							if(amt <= 0)
+								continue main_loop
+							break
+					if(!found_bundle)
+						break
+				var/atom/movable/I
+				while(amt > 0)
+					I = locate(A) in surroundings
+					if(!I)
+						break
+					if(R.blacklist.Find(I.type))
 						surroundings -= I
-						amt--
+						continue
+					Deletion += I
+					surroundings -= I
+					amt--
 			else if(ispath(A, /obj/item/reagent_containers/glass)) //Don't eat bottles with reagents in them
 				var/atom/movable/I
 				while(amt > 0)
@@ -645,71 +663,4 @@
 		return
 	learned_recipes -= R
 
-// new crafting button interaction
-
-/datum/component/personal_crafting/proc/roguecraft(location, control, params, mob/user)
-
-	if(user.doing)
-		return
-	var/area/A = get_area(user)
-	if(!A.can_craft_here())
-		to_chat(user, span_warning("I can't craft here."))
-		return
-
-	var/list/data = list()
-	var/list/catty = list()
-	var/list/surroundings = get_surroundings(user)
-	for(var/rec in GLOB.crafting_recipes)
-		var/datum/crafting_recipe/R = rec
-		if(!R.always_availible && !(R.type in user?.mind?.learned_recipes)) //User doesn't actually know how to make this.
-			continue
-		if(R.required_tech_node && !R.tech_unlocked)
-			continue
-
-		if(check_contents(R, surroundings))
-			if(R.name)
-				data += R
-				if(R.skillcraft)
-					var/datum/skill/S = new R.skillcraft()
-					catty |= S.name
-				else
-					catty |= "Other"
-	if(!data.len)
-		to_chat(user, span_warning("There is nothing I can craft."))
-		return
-	if(!catty.len)
-		return
-	var/t
-	if(catty.len > 1)
-		t=input(user, "CHOOSE SKILL") as null|anything in catty
-	else
-		t=pick(catty)
-	if(t)
-		var/list/realdata = list()
-		for(var/datum/crafting_recipe/X in data)
-			if(X.skillcraft)
-				var/datum/skill/S = new X.skillcraft()
-				if(t == S.name)
-					realdata += X
-			else
-				if(t == "Other")
-					realdata += X
-		if(realdata.len)
-			realdata = sortNames(realdata)
-			var/r = input(user, "What should I craft?") as null|anything in realdata
-			if(r)
-				construct_item_repeatable(user, r)
-				user.mind.lastrecipe = r
-
-
-
-
-/client/verb/toggle_legacycraft()
-	set name = "Toggle legacy craft"
-	set category = "Options"
-	set desc = "Toggles between legacy and miacraft"
-	usr.client.legacycraft = !legacycraft
-
-/client
-	var/legacycraft = FALSE
 

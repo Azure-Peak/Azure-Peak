@@ -1,5 +1,5 @@
 /obj/item/reagent_containers/food/snacks/rogue/friedegg
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("fried egg" = 1)
 	name = "base fried egg"
 	desc = "you shouldn't be seeing this."
@@ -17,7 +17,7 @@
 
 /*	.............   Twin fried eggs   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/two
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	tastes = list("fried egg" = 1)
 	name = "twin fried egg"
 	faretype = FARE_NEUTRAL
@@ -42,7 +42,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/stuffedegg/cooked
 	tastes = list("creamy cheese" = 1, "egg" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	name = "stuffed egg"
 	desc = "Egg stuffed with a creamy cheese filling."
 	icon_state = "deviledegg"
@@ -67,7 +67,7 @@
 
 /*	.................   Valerian Omelette   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/tiberian
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "cheese" = 1)
 	name = "valerian omelette"
 	desc = "Fried eggs on a bed of half-melted cheese. A dish from distant lands."
@@ -80,7 +80,7 @@
 
 /*	.................   Bacon & Eggs   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/bacon
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "bacon" = 1)
 	name = "bacon and egg"
 	desc = "Fried eggs with bacon. The bacon's savory salty crunch is a perfect complement to the eggs' more mellow flavors."
@@ -93,7 +93,7 @@
 /*	.................   Hammerholdian Breakfast   ................... */
 //This is an extremely convoluded recipe probably not even worth it but yknow what, why not.
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausage
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "sausage" = 1)
 	name = "wiener egg"
 	desc = "Fried egg with sausage on the side. A good start to a perfect morning."
@@ -104,7 +104,7 @@
 	rotprocess = SHELFLIFE_DECENT
 
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausagebacon
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "sausage" = 1, "bacon" = 1)
 	name = "wiener egg with bacon"
 	desc = "Fried egg with sausage and bacon on the side. Mere step away from greatness."
@@ -115,7 +115,7 @@
 	rotprocess = SHELFLIFE_DECENT
 
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/hammerhold
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "sausage" = 1, "bacon" = 1, "toast" = 1)
 	name = "Hammerholdian breakfast"
 	desc = "A classic of the northern fortresses, peeled of its more exotic ingredients for Azurean kitchens, a true staple of Dwarven diet."

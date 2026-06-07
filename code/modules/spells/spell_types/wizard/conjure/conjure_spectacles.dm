@@ -81,5 +81,17 @@
 // Golden spectacles summonable lesser varient - with no mechanical effects
 
 /obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned
-		name = "summoned golden spectacles"
-		icon_state = "goggles"
+	name = "summoned golden spectacles"
+	icon_state = "goggles"
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 35
+	integrity_failure = 0.5
+	resistance_flags = FIRE_PROOF
+	body_parts_covered = EYES
+	anvilrepair = /datum/skill/craft/armorsmithing
+	adjustable = CAN_CADJUST
+	var/active_item = FALSE
+
+/obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
