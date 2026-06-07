@@ -233,6 +233,9 @@
 	if(istype(user) && user?.wear_ring == src)
 		user.remove_status_effect(/datum/status_effect/buff/griefflower)
 
+/obj/item/clothing/ring/griefflower/get_heresy_description(list/heresy_status, itis, allcaps)
+	return list(HERESY_SEVERITY_ALARMING, "A ring imbued with Baotha's depraved power")
+
 // Insufflation - effectively just drugging yourself. Lets you pick, the same as Enrapturing Powder. T1, for now, to make up for the loss of the Baotha Blessing buff.
 
 /obj/effect/proc_holder/spell/self/insufflation 
