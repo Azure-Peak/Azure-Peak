@@ -652,8 +652,11 @@ BLIND     // can't see anything
 	if(armor.getRating("slash") == 0 && armor.getRating("stab") == 0 && armor.getRating("blunt") == 0 && armor.getRating("piercing") == 0)
 		if(heresy_status)
 			var/severity = heresy_status[1]
+			var/heresy_reason = get_heresy_description(heresy_status)
+			var/severity_explanation = get_heresy_severity_explanation(severity)
+
 			var/labeled_string = get_heresy_labeled_string(severity, examine_text)
-			var/tooltip_string = get_heresy_severity_explanation(severity)
+			var/tooltip_string = "[heresy_reason]<br>[severity_explanation]"
 			return SPAN_TOOLTIP_DANGEROUS_HTML(tooltip_string, labeled_string)
 		else
 			return examine_text
