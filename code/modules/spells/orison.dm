@@ -448,7 +448,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		/datum/patron/old_god = "Embrace the truth; PSYDON lyves!!", // psydon doesn't hear you, so you're talking to the other person here
 		/datum/patron/inhumen/zizo = "Dame of Progress, show this one the truth of the world!", // culty, progressive, quieter than tennite invocations. all the Four are, except Graggar, because there's more of a usecase for being subtle
 		/datum/patron/inhumen/graggar = "SHATTER THE BINDS OF MIND AND SOUL! SMASH THE CAGE OF LIES! GRAGGAR GRAGGAR GRAGGAR!!", // the ten's order is a cage. shatter the bars, claw free to the truth. in other words: they're larping. also, loud.
-		/datum/patron/inhumen/matthios = "O Lorde, grant camaraderie to this wayward soul!", // similar to astrata's on purpose. and linked to matthios's free-men/comrade/siblings-in-arms thing. yes the title portion IS based entirely on how avarice refers to matthios why do you ask
+		/datum/patron/inhumen/matthios = "O Lorde, grant camaraderie to this wayward soul!", // similar to astrata's on purpose. and linked to matthios's free-men/comrades/siblings-in-arms thing. yes the title portion IS based entirely on how avarice refers to matthios why do you ask
 		/datum/patron/inhumen/baotha = "Lady of Heartbreak, grant mercy to this wounded soul!" // once more, similar to eora's. emphasizes the "mercy" baotha grants to the broken
 		))
 
@@ -469,12 +469,9 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		to_chat(caster, span_info("I need to be closer to [victim] to grant them [get_god_name(caster.patron)]'s grace."))
 		return FALSE
 
-	if(!new_convert.client || HAS_TRAIT(new_convert, TRAIT_RECENT_CONVERT)) // no converting NPCs. if they're SSD this should also trigger, but why are you trying to convert ssd players. also, no ping-ponging back and forth in a single round
+	if(!new_convert.client || HAS_TRAIT(new_convert, TRAIT_RECENT_CONVERT) || HAS_TRAIT(new_convert, TRAIT_UNCONVERTABLE)) // no converting NPCs. if they're SSD this may also trigger, but why are you trying to convert ssd players. also, no ping-ponging back and forth in a single round or converting patron-locked roles
 		to_chat(caster, span_info("They don't seem like they'll be receptive to my proselytizing..."))
 		return FALSE
-
-	if(!do_mob(caster, new_convert, 15 SECONDS, can_move = FALSE) || caster.cmode || new_convert.cmode)
-		to_chat(caster, span_info("I lose focus!"))
 
 	var/convert_message = (istype(caster.patron, /datum/patron/old_god) ? ("[caster.real_name] is trying to guide you onto PSYDON's path. Do you accept?") : ("[caster.real_name] is trying to bring you into [is_tennite ? "the Ten" : caster.patron.name]'s embrace. Do you accept?"))
 	// this is going to look slightly jank, and it is. but this is the best way to get a window that doesn't steal focus, can't intercept your clicks, and can't be meta'd; all concerns people had with alert()
@@ -483,7 +480,9 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		result -= new_convert
 	else
 		showCandidatePollWindow(new_convert, 10 SECONDS, convert_message, result, null, world.time, flashwindow = FALSE)
-	sleep(10 SECONDS)
+	if(!do_mob(caster, new_convert, 10 SECONDS, can_move = FALSE) || caster.cmode || new_convert.cmode)
+		to_chat(caster, span_info("I lose focus!"))
+		return FALSE
 	if(!length(result))
 		if(is_tennite)
 			to_chat(caster, span_warning("[new_convert] is not responsive to my proselytizing..."))

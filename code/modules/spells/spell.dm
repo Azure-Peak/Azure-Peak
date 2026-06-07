@@ -239,6 +239,11 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 /obj/effect/proc_holder/spell/proc/get_cooldown_breakdown(mob/living/user)
 	var/list/breakdown = list()
+	if(miracle && !ispath(user.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
+		if(user.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
+			breakdown += span_smallgreen("  Dominant faith: -[DisplayTimeText(initial(recharge_time) * DOMINANT_FAITH_ADJUST)]")
+		else
+			breakdown += span_smallred("  Suppressed faith: +[DisplayTimeText(initial(recharge_time) * DOMINANT_FAITH_ADJUST)]")
 	if(user.STAINT > SPELL_SCALING_THRESHOLD)
 		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/int_mod = initial(recharge_time) * diff * COOLDOWN_REDUCTION_PER_INT
@@ -271,6 +276,12 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		return initial(recharge_time)
 	var/base = initial(recharge_time)
 	var/newcd = base
+	// Dominant faith adjust
+	if(miracle && !ispath(user.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
+		if(user.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
+			newcd -= base * DOMINANT_FAITH_ADJUST
+		else
+			newcd += base * DOMINANT_FAITH_ADJUST
 	// INT scaling
 	if(user.STAINT > SPELL_SCALING_THRESHOLD)
 		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD

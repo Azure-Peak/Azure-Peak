@@ -847,6 +847,7 @@
 #include "code\datums\gods\_curses.dm"
 #include "code\datums\gods\_faith.dm"
 #include "code\datums\gods\_patron.dm"
+#include "code\datums\gods\dominant_faith_tracker.dm"
 #include "code\datums\gods\faiths\atheism.dm"
 #include "code\datums\gods\faiths\divine_pantheon.dm"
 #include "code\datums\gods\faiths\inhumen_pantheon.dm"

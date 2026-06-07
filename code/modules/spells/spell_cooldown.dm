@@ -546,6 +546,13 @@
 	var/base = initial(cooldown_time)
 	var/newcd = base
 
+	// Dominant faith adjust
+	if(istype(living_owner) && (primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION) && !ispath(living_owner.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
+		if(living_owner.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
+			newcd -= base * DOMINANT_FAITH_ADJUST
+		else
+			newcd += base * DOMINANT_FAITH_ADJUST
+
 	// Stat scaling
 	var/stat_value = get_caster_stat(living_owner)
 	if(stat_value > SPELL_SCALING_THRESHOLD)
@@ -1389,6 +1396,11 @@
 	var/base = initial(cooldown_time)
 	var/stat_value = get_caster_stat(user)
 	var/stat_label = get_stat_label()
+	if((primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION) && !ispath(user.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
+		if(user.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
+			breakdown += span_smallgreen("  Dominant faith: -[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
+		else
+			breakdown += span_smallred("  Suppressed faith: +[DisplayTimeText(base * DOMINANT_FAITH_ADJUST)]")
 	if(stat_value > SPELL_SCALING_THRESHOLD)
 		var/diff = min(stat_value, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/stat_mod = base * diff * COOLDOWN_REDUCTION_PER_INT
