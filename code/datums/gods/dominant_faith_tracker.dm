@@ -35,9 +35,13 @@
 	var/dominant_faith = /datum/faith/old_god
 	var/last_announce_time = 0
 
+/mob/living/carbon/human/proc/debug_faiths()
+	GLOB.dominant_faith_tracker.last_announce_time = 0
+	GLOB.dominant_faith_tracker.announce_reign()
+	to_chat(world, "debugged faiths. current dominant faith: [GLOB.dominant_faith_tracker.dominant_faith]")
+
 /datum/dominant_faith_tracker/proc/roundstart_setup()
-	calculate_dominant_faith(force = TRUE)
-	addtimer(CALLBACK(src, PROC_REF(announce_reign)), 60 SECONDS) // wait a bit after roundstart spam settles down and the first wave of latejoins pops in
+	addtimer(CALLBACK(src, PROC_REF(calculate_dominant_faith), TRUE), 5 MINUTES) // wait a bit after roundstart spam settles down and the first wave of latejoins pops in
 
 /datum/dominant_faith_tracker/proc/calculate_dominant_faith(force = FALSE)
 	if(force)
@@ -51,15 +55,18 @@
 	announce_reign() // cooldown for this is at the top of the announce_reign proc, so it's fine to call it every time we recalc
 
 /datum/dominant_faith_tracker/proc/announce_reign()
-	if((last_announce_time != 0) && world.time <= (last_announce_time + 10 MINUTES))
+	if((last_announce_time != 0) && (world.time <= (last_announce_time + 10 MINUTES)))
 		return // no announcement spam
 	for(var/mob/i in GLOB.player_list)
 		var/mob/living/carbon/human/H = i
 		if(!istype(H) || !H.patron || ispath(H.patron.associated_faith, /datum/faith/mossmother) || ispath(H.patron.associated_faith, /datum/faith/godless) || !H.devotion)
 			continue
-		to_chat(H, replacetext(reign_messages[H.patron.associated_faith][dominant_faith], "$patron", get_god_name(H.patron)))
-	if(last_announce_time == 0) // this is our first announcement of the round! 19 minute bonus timer on this one because the first half hour of the round is a 'grace period' for latejoins to settle in
-		last_announce_time = world.time + 19 MINUTES
+		if(ispath(H.patron.associated_faith, dominant_faith))
+			to_chat(H, span_boldgreen(replacetext(reign_messages[H.patron.associated_faith][dominant_faith], "$patron", get_god_name(H.patron))))
+		else
+			to_chat(H, span_warningbig(replacetext(reign_messages[H.patron.associated_faith][dominant_faith], "$patron", get_god_name(H.patron))))
+	if(last_announce_time == 0) // this is our first announcement of the round! 14 minute bonus timer on this one because the first half hour of the round is a 'grace period' for latejoins to settle in
+		last_announce_time = world.time + 14 MINUTES
 	else
 		last_announce_time = world.time
 
