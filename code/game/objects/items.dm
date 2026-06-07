@@ -1887,6 +1887,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/severity_symbol = get_heresy_severity_symbol(heresy_severity)
 	return "<font color = '[severity_color]'>[severity_symbol] [label_string] [severity_symbol]</font>"
 
+/// Returns a full HTML-formatted tooltip string whose contents depend on the given status level (See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`). 
+/obj/item/proc/get_heresy_tooltip_string(list/heresy_status)
+	if(!heresy_status)
+		return null
+	var/heresy_reason = get_heresy_description(heresy_status)
+	var/severity_explanation = get_heresy_severity_explanation(heresy_status[1])
+
+	return "[heresy_reason]<br>[severity_explanation]"
+
 /// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
 /obj/item/proc/get_heresy_severity_adjective(severity_level)
 	switch(severity_level)

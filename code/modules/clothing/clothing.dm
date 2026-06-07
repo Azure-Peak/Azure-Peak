@@ -644,19 +644,22 @@ BLIND     // can't see anything
 	return examine_text
 
 /obj/item/clothing/generate_tooltip(examine_text)
-	if(!armor)	// No armor
-		return examine_text
-
 	var/heresy_status = get_heresy_status()
+	if(!armor)	// No armor
+		if(heresy_status)
+			var/severity = heresy_status[1]
+			var/labeled_string = get_heresy_labeled_string(severity, examine_text)
+			var/tooltip_string = get_heresy_tooltip_string(heresy_status)
+			return SPAN_TOOLTIP_DANGEROUS_HTML(tooltip_string, labeled_string)
+		else
+			return examine_text
+
 	// Fake armor
 	if(armor.getRating("slash") == 0 && armor.getRating("stab") == 0 && armor.getRating("blunt") == 0 && armor.getRating("piercing") == 0)
 		if(heresy_status)
 			var/severity = heresy_status[1]
-			var/heresy_reason = get_heresy_description(heresy_status)
-			var/severity_explanation = get_heresy_severity_explanation(severity)
-
 			var/labeled_string = get_heresy_labeled_string(severity, examine_text)
-			var/tooltip_string = "[heresy_reason]<br>[severity_explanation]"
+			var/tooltip_string = get_heresy_tooltip_string(heresy_status)
 			return SPAN_TOOLTIP_DANGEROUS_HTML(tooltip_string, labeled_string)
 		else
 			return examine_text
