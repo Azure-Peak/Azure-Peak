@@ -274,10 +274,10 @@ NECRO SKELETONS
 	switch(weapon_choice)
 		if("Greatsword")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			backr = /obj/item/rogueweapon/greatsword/iron
+			r_hand = /obj/item/rogueweapon/greatsword/iron
 		if("Spear")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
-			beltr = /obj/item/rogueweapon/spear
+			r_hand = /obj/item/rogueweapon/spear
 		if("Great Flail")
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
