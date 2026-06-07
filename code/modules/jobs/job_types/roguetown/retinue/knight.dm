@@ -349,7 +349,8 @@
 			if("Grand Mace + Longbow")
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 				beltr = /obj/item/quiver/arrows
-				beltl = /obj/item/rogueweapon/mace/goden/steel
+				r_hand = /obj/item/rogueweapon/mace/goden/steel
+				l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Sabre + Recurve Bow")
 				l_hand = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/sabre

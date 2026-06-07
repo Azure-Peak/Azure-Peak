@@ -64,7 +64,6 @@ export type MaterialEntry = {
 };
 
 export type CommissionerData = {
-  locked: BooleanLike;
   can_read: BooleanLike;
   is_guildmaster: BooleanLike;
   budget: number;

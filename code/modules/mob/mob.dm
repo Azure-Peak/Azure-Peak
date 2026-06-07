@@ -1039,6 +1039,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(!("[REF(target)]" in faction_src))
 			faction_target -= "[REF(target)]" //same thing here.
 		return faction_check(faction_src, faction_target, TRUE)
+	if(HAS_TRAIT(target, TRAIT_NOPVE))
+		return TRUE // don't bother checking anyone who's exempt from pve entirely
 	// Avoid lit allocations by scanning factions directly for better perf.
 	var/list/their_faction = target.faction
 	var/their_name = target.name

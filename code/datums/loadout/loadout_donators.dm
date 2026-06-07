@@ -386,3 +386,8 @@
 	name = "Donator Item - Gravetender Coat"
 	path = /obj/item/clothing/cloak/vaki_gravetender
 	ckeywhitelist = list("vakiova", "maesune", "astartee")
+
+/datum/loadout_item/donator/sakuyzo
+	name = "Donator Kit - Hævatein"
+	path = /obj/item/enchantingkit/weapon/sakuyzo
+	ckeywhitelist = list("sakuzyo")

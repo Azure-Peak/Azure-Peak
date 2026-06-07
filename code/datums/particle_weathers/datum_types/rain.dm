@@ -9,8 +9,8 @@
 	friction               = 0.3  // shed 30% of velocity and drift every 0.1s
 	transform 			   = null // Rain is directional - so don't make it "3D"
 	//Weather effects, max values
-	maxSpawning            = 250
-	minSpawning            = 50
+	maxSpawning            = 150
+	minSpawning            = 40
 	wind                   = 2
 	spin                   = 0 // explicitly set spin to 0 - there is a bug that seems to carry generators over from old particle effects
 
@@ -41,7 +41,7 @@
 	if(HAS_TRAIT(L, TRAIT_ABYSSOR_SWIM))
 		L.add_stress(/datum/stressevent/abyssor_rain)
 
-	L.adjust_bodytemperature(-rand(1,3))
+	L.adjust_bodytemperature(-rand(3,9))
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)
 	wash_atom(L, CLEAN_WEAK)
@@ -69,7 +69,7 @@
 	if(HAS_TRAIT(L, TRAIT_ABYSSOR_SWIM))
 		L.add_stress(/datum/stressevent/abyssor_storm)
 
-	L.adjust_bodytemperature(-rand(3,5))
+	L.adjust_bodytemperature(-rand(9,15))
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)
 	wash_atom(L,CLEAN_STRONG)

@@ -283,6 +283,7 @@
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,

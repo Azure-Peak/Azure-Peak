@@ -35,7 +35,7 @@
 		revert_cast()
 		return
 	var/turf/T = get_turf(targets[1])
-	if(!isopenturf(T))
+	if(!isopenturf(T) || T.is_blocked_turf())
 		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
 		revert_cast()
 		return

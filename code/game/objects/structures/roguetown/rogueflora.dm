@@ -338,7 +338,7 @@
 		if(L.m_intent == MOVE_INTENT_SNEAK)
 			return
 		else
-			if(L.m_intent == MOVE_INTENT_RUN || !(HAS_TRAIT(L, TRAIT_AZURENATIVE) || (HAS_TRAIT(L, TRAIT_BOGWALKER) && istype(get_area(L), /area/rogue/outdoors/bog))))
+			if(L.m_intent == MOVE_INTENT_RUN || !(HAS_TRAIT(L, TRAIT_AZURENATIVE) || HAS_TRAIT(L, TRAIT_NOPVE) || (HAS_TRAIT(L, TRAIT_BOGWALKER) && istype(get_area(L), /area/rogue/outdoors/bog))))
 				playsound(A.loc, "plantcross", 100, FALSE, -1)
 				var/oldx = A.pixel_x
 				animate(A, pixel_x = oldx+1, time = 0.5)
