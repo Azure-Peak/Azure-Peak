@@ -253,7 +253,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	r_hand = /obj/item/rogueweapon/sword/long/zizo
-	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy //ZIZO. ZIZO. ZIZO.
+	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/g //ZIZO. ZIZO. ZIZO. (golden inverted cross)
 
 /datum/outfit/job/roguetown/quest_miniboss/graggar/pre_equip(mob/living/carbon/human/H)
 	. = ..()
