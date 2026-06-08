@@ -171,9 +171,15 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 		else
 			say("Matthios, is this true?!", forced = TRUE, npc_speech = TRUE)
 	else if(preset == "zizo")
-		say("Zizo, forgive me!", forced = TRUE, npc_speech = TRUE)
+		if(prob(95))
+			say("Zizo, forgive me!", forced = TRUE, npc_speech = TRUE)
+		else
+			say("We lyve in a Zociety...", forced = TRUE, npc_speech = TRUE)
 	else if(preset == "graggar")
-		say("No more... Blood!", npc_speech = TRUE)
+		if(prob(95))
+			say("No more... Blood!", forced = TRUE, npc_speech = TRUE)
+		else
+			say("WHERE'S THE BLOOD?!!", forced = TRUE, npc_speech = TRUE)
 	emote("painscream")
 	. = ..()
 	if(!gibbed)
@@ -197,8 +203,8 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE) //No more swimming cheese
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 
 	if(prob(60))
 		var/voicepack_choice = rand(1, 5)
@@ -223,6 +229,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
+	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios
 	pants = /obj/item/clothing/under/roguetown/platelegs/matthios
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/matthios
@@ -231,11 +238,13 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/matthios
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
 	r_hand = /obj/item/rogueweapon/flail/peasantwarflail/matthios
+	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios //IS THIS TRVE?!
 
 /datum/outfit/job/roguetown/quest_miniboss/zizo/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
+	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	pants = /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
@@ -244,11 +253,13 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	r_hand = /obj/item/rogueweapon/sword/long/zizo
+	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy //ZIZO. ZIZO. ZIZO.
 
 /datum/outfit/job/roguetown/quest_miniboss/graggar/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
+	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
 	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
@@ -259,12 +270,14 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	cloak = /obj/item/clothing/cloak/graggar
+	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
 
 /datum/outfit/job/roguetown/quest_miniboss/blacksteel/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
+	belt = /obj/item/storage/belt/rogue/leather/steel
 	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern
 	gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel/modern
