@@ -52,7 +52,9 @@
 		dominant_faith = /datum/faith/divine
 	else // either psydonians are coping so hard they won, or the ten and inhumen are at an impasse
 		dominant_faith = /datum/faith/old_god
-	announce_reign() // cooldown for this is at the top of the announce_reign proc, so it's fine to call it every time we recalc
+	
+	// cooldown for this is at the top of the announce_reign proc, so it's fine to call it every time we recalc
+	addtimer(CALLBACK(src, PROC_REF(announce_reign), TRUE), pick(list(1,2,3,4,5)) MINUTES) // however we do a small, random delay to prevent meta'ing "this person just latejoined and then the thing switched"
 
 /datum/dominant_faith_tracker/proc/announce_reign()
 	if((last_announce_time != 0) && (world.time <= (last_announce_time + 10 MINUTES)))
