@@ -1,0 +1,4 @@
+author: "scarrmu"
+delete-after: True
+changes:
+  - rscadd: "light armour option for sojourner + jman sneak"

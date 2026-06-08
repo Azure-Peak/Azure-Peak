@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Armament Rites now has its own cooldown separate from the general ritual rites CD."

@@ -15,15 +15,6 @@
 	force = 10
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
 
-/obj/item/ammo_casing/caseless/rogue/bolt/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 2,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-
 /obj/item/ammo_casing/caseless/rogue/bolt/light
 	name = "light bolt"
 	desc = "A lighter, far less sturdier bolt. Made for smaller crossbows."
@@ -332,7 +323,7 @@
 // STAKE AMMO
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake
 	name = "siegestake"
-	desc = "A large branch that has been broken off of a boswellia tree, sharpened to a fine points. Though its prodigious \
+	desc = "A large branch that has been broken off of a boswellia tree, sharpened to a fine point. Though its prodigious \
 	size - comparable to a fencepost in length and width - makes it cumbersome for hand-to-hand stakings, siegestakes like these are perfect for disrupting \
 	curses from afar. </br>'Vampyres, gargoyles, necromancers, they're all the same - best when cooked well.'"
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/stake
@@ -347,7 +338,7 @@
 	armor_penetration = PEN_BSTEEL 
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake
 	icon_state = "heavystake_proj"
-	hitsound = 'sound/combat/hits/hi_bolt (3).ogg'
+	hitsound = 'sound/combat/hits/hi_bolt (2).ogg'
 	speed = 0.8
 	npc_simple_damage_mult = 10 //..or 750 damage against a mindless mob.
 	poisontype = /datum/reagent/water/blessed
@@ -372,12 +363,69 @@
 	armor_penetration = PEN_BSTEEL 
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake_silver
 	icon_state = "silvheavystake_proj"
-	hitsound = 'sound/combat/hits/hi_bolt (3).ogg'
+	hitsound = 'sound/combat/hits/hi_bolt (2).ogg'
 	speed = 0.6
 	is_silver_proj = TRUE
 	npc_simple_damage_mult = 10 //..or 900 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
 	poisontype = /datum/reagent/water/blessed
 	poisonamount = 4 //Deals 70 BRUTE and 40 BURN, on top of some mild afterburn.
+
+//
+
+/obj/item/ammo_casing/caseless/rogue/stake
+	name = "shotstake"
+	desc = "A small branch that has been broken off a boswellia tree, and sharpened to a fine point. While imbalanced for hand-to-hand stakings, the \
+	heat-treated wood makes it perfect for being loaded-and-launched out of a staker."
+	projectile_type = /obj/projectile/bullet/reusable/stake
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
+	caliber = "stake"
+	icon_state = "stake"
+	dropshrink = 0.6
+	max_integrity = 15
+	force = 15
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
+
+/obj/projectile/bullet/reusable/stake
+	name = "shotstake"
+	damage = 25
+	damage_type = BRUTE
+	armor_penetration = PEN_HEAVY
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/stake
+	icon_state = "stake_proj"
+	hitsound = 'sound/combat/hits/hi_bolt (1).ogg'
+	npc_simple_damage_mult = 6 //..or 150 damage against a mindless mob.
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 3 //Deals 25 BRUTE and 15 BURN, on top of some mild afterburn.
+	range = 15
+	speed = 0.4
+	min_range = MIN_BOLT_RANGE - 1
+	max_range = MAX_BOLT_RANGE
+	dam_falloff_factor = DAM_FALLOFF_BOLT
+	embedchance = 100
+	woundclass = BCLASS_PIERCE
+
+/obj/item/ammo_casing/caseless/rogue/stake/silver
+	name = "silver-tipped shotstake"
+	desc = "A small branch that has been broken off a boswellia tree, sharpened to a fine point, and tipped with blessed silver. While imbalanced for \
+	hand-to-hand stakings, the heat-treated wood makes it perfect for being loaded-and-launched out of a staker. </br>'Requiescat in pace..' - '..may thee rest in peace.'"
+	projectile_type = /obj/projectile/bullet/reusable/stake/silver
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
+	icon_state = "silverstake"
+	max_integrity = 15
+	force = 20
+	is_silver = TRUE
+	is_lesser_silver = TRUE
+
+/obj/projectile/bullet/reusable/stake/silver
+	name = "silver-tipped shotstake"
+	damage = 40
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/stake/silver
+	icon_state = "silverstake_proj"
+	hitsound = 'sound/combat/hits/hi_bolt (1).ogg'
+	npc_simple_damage_mult = 6 //..or 300 damage against a mindless mob.
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 4 //Deals 40 BRUTE and 20 BURN, on top of some mild afterburn.
+	is_silver_proj = TRUE
 
 // PYRO AMMO
 /obj/item/ammo_casing/caseless/rogue/bolt/pyro

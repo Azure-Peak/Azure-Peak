@@ -999,6 +999,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/steel/helmetroundface
+	name = "Bascinet, Roundface, Steel (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface
+	display_category = ITEM_CAT_ARMOR_HELMETS
+
 /datum/anvil_recipe/armor/steel/etruscanbascinet
 	name = "Bascinet, Klappvisier, Steel (+1 Steel)"
 	req_bar = /obj/item/ingot/steel

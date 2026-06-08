@@ -444,7 +444,7 @@ Inquisitorial armory down here
 			return TRUE
 	return FALSE
 
-/mob/living/carbon/human/proc/process_golgatha_rebuke(mob/living/carbon/human/attacker)
+/mob/living/carbon/human/proc/process_golgatha_rebuke(mob/living/attacker)
 	if(!has_active_golgatha())
 		return
 	if(!HAS_TRAIT(src, TRAIT_SILVER_BLESSED)) // only people who is silverblessed can use golgatha's hidden feature
@@ -453,20 +453,15 @@ Inquisitorial armory down here
 		return
 	new /obj/effect/temp_visual/censer_dust(get_turf(attacker))
 	new /obj/effect/temp_visual/censer_dust(get_turf(attacker))
-	attacker.apply_status_effect(/datum/status_effect/syonchurn, src)
-	if(isnull(attacker.mind))
-		attacker.apply_status_effect(/datum/status_effect/debuff/clickcd, 2 SECONDS)
-		attacker.apply_status_effect(/datum/status_effect/debuff/exposed)
-	else
-		attacker.apply_status_effect(/datum/status_effect/debuff/clickcd, 1 SECONDS)
-	if(attacker.mob_biotypes & MOB_UNDEAD)
-		attacker.adjust_fire_stacks(3, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
-		attacker.ignite_mob()
+	if(issimple(attacker) || !attacker.mind)
+		attacker.apply_status_effect(/datum/status_effect/syonchurn, src)
+	
+	attacker.adjustFireLoss(9)
 
 #define SYONCHURN_FILTER "syonchurn glow"
 
 /atom/movable/screen/alert/status_effect/syonchurn
-	name = "Syon's Rebuke"
+	name = "Dying Light"
 	desc = "The shard of Syon rejects my hostility against Psydon's anointed! Luminous fragments scour my body and spirit!"
 	icon_state = "supersunder"
 
@@ -476,12 +471,12 @@ Inquisitorial armory down here
 	duration = -1
 	tick_interval = 1 SECONDS
 	examine_text = "<font color='#00fff2'><b>SUBJECTPRONOUN is seared in body and soul by motes of lingering comet dust!</b></font>"
-	effectedstats = list(STATKEY_STR = -2, STATKEY_CON = -2, STATKEY_WIL = -2, STATKEY_SPD = -2)
 	status_type = STATUS_EFFECT_REFRESH
+	effectedstats = list(STATKEY_LCK = -2, STATKEY_SPD = -2)
 	var/datum/weakref/debuffer
 	var/outline_colour = "#70d1e2"
 	var/intensity = 1
-	var/range = 6
+	var/range = 4
 	var/damage_per_tick = 0.5
 	var/agony = 0
 
@@ -523,7 +518,7 @@ Inquisitorial armory down here
 		return
 
 	if(!owner.mind)
-		owner.adjustFireLoss((damage_per_tick * intensity) * 2)
+		owner.adjustFireLoss((damage_per_tick * intensity) * 3)
 
 	owner.adjustFireLoss(damage_per_tick * intensity)
 

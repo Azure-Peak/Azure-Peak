@@ -48,3 +48,6 @@
 
 /// From /obj/item/organ/proc/Remove() (mob/living/carbon/lost_organ, obj/item/organ/removed, special, drop_if_replaced)
 #define COMSIG_MOB_ORGAN_REMOVED "mob_organ_removed"
+
+/// From /mob/proc/get_status_tab_items(): (list/items)
+#define COMSIG_MOB_GET_STATUS_TAB_ITEMS "mob_get_status_tab_items"

@@ -1159,6 +1159,9 @@
 /obj/item/clothing/neck/roguetown/psicross/weeping/equipped(mob/living/user, slot)
 	. = ..()
 	if(slot == SLOT_NECK)
+		if(!istype(user.patron, /datum/patron/old_god))
+			to_chat(user, span_warning("The [src] feels heavy around my neck. But it's no albatross of mine. It does nothing to me."))
+			return
 		active_item = TRUE
 		to_chat(user, span_red("As you don the psicross, the chains tighten like a vice around your neck!  </br>  </br>You're overcome with a sense of terrible anguish - all of humenity's suffering, thrust upon your very spirit!  </br>  </br>Your chest grows cold, yet your blood boils hotter than magma! Psydonia's villains may be brutal and merciless, but you will be WORSE!  </br>  </br>You've gone BERSERK!"))
 		user.change_stat(STATKEY_STR, 3)

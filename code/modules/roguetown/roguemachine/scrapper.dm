@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/scrapper
 	name = "scrapper"
-	desc = "A brass-trimmed contraption with a hopper above and an iron strongbox beneath. Bring rag-and-bone and broken stock; the scrapper weighs the offer and pays in coin. The proprietor sets the rate."
+	desc = "A brass-trimmed contraption with a hopper above and an iron strongbox beneath. The scrapper pays in coin and recycle the materials. The owner sets the rate. Can take a sack of junk and work through it, or be fed items one by one."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "streetvendor1"
 	density = TRUE
@@ -20,6 +20,7 @@
 	var/list/bark_candidates = list()
 	var/bark_dirty = TRUE
 	var/next_bark = 0
+	var/recycle_sound = 'sound/misc/smelter_fin.ogg'
 
 /obj/structure/roguemachine/scrapper/Initialize()
 	. = ..()
@@ -102,44 +103,85 @@
 
 	if(!ishuman(user))
 		return
+	if(istype(P, /obj/item/storage) && !istype(P, /obj/item/storage/keyring))
+		var/processed = 0
+		var/hit_broke = FALSE
+		var/hit_full = FALSE
+		for(var/obj/item/SI in P.contents.Copy())
+			switch(try_recycle(SI, user, TRUE))
+				if(SCRAPPER_RECYCLE_OK)
+					processed++
+				if(SCRAPPER_RECYCLE_BROKE)
+					hit_broke = TRUE
+				if(SCRAPPER_RECYCLE_FULL)
+					hit_full = TRUE
+		if(processed)
+			playsound(loc, recycle_sound, 100, FALSE, -1)
+			playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
+			var/tail = hit_broke ? " The scrapper ran dry before I finished." : ""
+			to_chat(user, span_notice("[src] works through [P] and takes [processed] item\s.[tail]"))
+			SStgui.update_uis(src)
+		else if(hit_broke)
+			playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			to_chat(user, span_warning("[src]'s coffer hasn't the coin to take anything from [P]."))
+		else if(hit_full)
+			playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			to_chat(user, span_warning("[src]'s hoppers are too full to take anything from [P]."))
+		else
+			to_chat(user, span_warning("[src] finds nothing worth taking in [P]."))
+		return
 	try_recycle(P, user)
 
-/obj/structure/roguemachine/scrapper/proc/try_recycle(obj/item/I, mob/user)
+/obj/structure/roguemachine/scrapper/proc/try_recycle(obj/item/I, mob/user, silent = FALSE)
+	if(I.is_important)
+		if(!silent)
+			to_chat(user, span_warning("[src] sees no worth in [I]."))
+		return SCRAPPER_RECYCLE_WORTHLESS
 	var/path = identify_material(I)
 	if(!path)
-		to_chat(user, span_warning("[src] sees no worth in [I]."))
-		return
+		if(!silent)
+			to_chat(user, span_warning("[src] sees no worth in [I]."))
+		return SCRAPPER_RECYCLE_WORTHLESS
 	var/units = 1
 	if(I.salvage_result == path)
 		units = I.salvage_amount
 		if(units <= 0)
-			to_chat(user, span_warning("[src] sees no worth in [I]."))
-			return
+			if(!silent)
+				to_chat(user, span_warning("[src] sees no worth in [I]."))
+			return SCRAPPER_RECYCLE_WORTHLESS
 	var/unit_price = material_prices[path] || 0
 	if(unit_price <= 0)
-		to_chat(user, span_warning("[src] is not taking [material_name(path)] today."))
-		return
+		if(!silent)
+			to_chat(user, span_warning("[src] is not taking [material_name(path)] today."))
+		return SCRAPPER_RECYCLE_WORTHLESS
 	var/total_price = unit_price * units
 	var/cap = material_caps[path] || 0
 	var/held = material_held[path] || 0
 	if(cap > 0 && held + units > cap)
-		to_chat(user, span_warning("[src]'s [material_name(path)] hopper has no room for that."))
-		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		return
+		if(!silent)
+			to_chat(user, span_warning("[src]'s [material_name(path)] hopper has no room for that."))
+			playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return SCRAPPER_RECYCLE_FULL
 	if(budget < total_price)
-		to_chat(user, span_warning("[src]'s coffer hasn't the coin for that."))
-		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		return
+		if(!silent)
+			to_chat(user, span_warning("[src]'s coffer hasn't the coin for that."))
+			playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return SCRAPPER_RECYCLE_BROKE
 	material_held[path] = held + units
 	budget -= total_price
 	bark_dirty = TRUE
-	I.forceMove(src)
+	qdel(I)
+	for(var/i in 1 to units)
+		new path(src)
 	budget2change(total_price, user)
-	playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
-	var/cap_text = cap > 0 ? "[max(0, cap - material_held[path])] / [cap] left" : "no cap"
-	var/units_text = units > 1 ? " ([units] units)" : ""
-	to_chat(user, span_notice("[material_name(path)] weighed and paid: [total_price]m[units_text]. [cap_text]."))
-	SStgui.update_uis(src)
+	if(!silent)
+		playsound(loc, recycle_sound, 100, FALSE, -1)
+		playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
+		var/cap_text = cap > 0 ? "[max(0, cap - material_held[path])] / [cap] left" : "no cap"
+		var/units_text = units > 1 ? " ([units] units)" : ""
+		to_chat(user, span_notice("[material_name(path)] weighed and paid: [total_price]m[units_text]. [cap_text]."))
+		SStgui.update_uis(src)
+	return SCRAPPER_RECYCLE_OK
 
 /obj/structure/roguemachine/scrapper/proc/rebuild_bark_candidates()
 	bark_candidates = list()
@@ -336,17 +378,18 @@
 	name = "rag-picker"
 	desc = "A brass-trimmed contraption with a hopper above and an iron strongbox beneath. Takes whatever a tailor can rework into fabrics."
 	seed_budget = 50
+	recycle_sound = 'sound/foley/cloth_rip.ogg'
 
 /obj/structure/roguemachine/scrapper/tailor/populate_defaults()
 	material_prices = list(
-		/obj/item/natural/fibers = 2,
-		/obj/item/natural/cloth = 3,
-		/obj/item/natural/silk = 4,
-		/obj/item/natural/hide = 8,
-		/obj/item/natural/hide/cured = 3,
-		/obj/item/natural/fur = 10,
+		/obj/item/natural/fibers = 1,
+		/obj/item/natural/cloth = 2,
+		/obj/item/natural/silk = 2,
+		/obj/item/natural/hide = 5,
+		/obj/item/natural/hide/cured = 2,
+		/obj/item/natural/fur = 8,
 	)
-	var/list/defaults_on = list(/obj/item/natural/hide, /obj/item/natural/fur)
+	var/list/defaults_on = list(/obj/item/natural/fibers, /obj/item/natural/cloth, /obj/item/natural/silk, /obj/item/natural/hide, /obj/item/natural/hide/cured, /obj/item/natural/fur)
 	material_caps[/obj/item/natural/fibers] = 10
 	material_caps[/obj/item/natural/cloth] = 10
 	material_caps[/obj/item/natural/silk] = 10
@@ -359,3 +402,7 @@
 		material_advertise[path] = (path in defaults_on)
 
 #undef SCRAPPER_BARK_INTERVAL
+#undef SCRAPPER_RECYCLE_OK
+#undef SCRAPPER_RECYCLE_WORTHLESS
+#undef SCRAPPER_RECYCLE_FULL
+#undef SCRAPPER_RECYCLE_BROKE

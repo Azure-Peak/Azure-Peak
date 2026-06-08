@@ -420,5 +420,5 @@
 /atom/movable/screen/alert/status_effect/buff/weapon_bind_buff
 	name = "Weapon Bind"
 	desc = "Our weapons binded in my favour! I knew right where they were gonna hit me! My parrying is improved for a short while!"
-	icon = 'icons/mob/combat_debuffs.dmi'
+	icon = 'icons/mob/screen_alert_combat.dmi'
 	icon_state = "weapon_bind_buff"

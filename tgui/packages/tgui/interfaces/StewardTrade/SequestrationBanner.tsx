@@ -1,4 +1,8 @@
-import { bannerStyle, SEAL_RED } from '../common/parchment';
+import {
+  bannerStyle,
+  FONT_BODY,
+  SEAL_RED,
+} from '../common/parchment';
 import type { SequestrationState } from './types';
 
 export const SequestrationBanner = (props: {
@@ -13,7 +17,7 @@ export const SequestrationBanner = (props: {
       style={{
         ...bannerStyle(SEAL_RED),
         position: 'relative',
-        fontSize: '13px',
+        fontSize: FONT_BODY,
         padding: '12px 16px',
       }}
     >
@@ -22,7 +26,7 @@ export const SequestrationBanner = (props: {
           position: 'absolute',
           top: '4px',
           right: '8px',
-          fontSize: '10px',
+          fontSize: FONT_BODY,
           fontStyle: 'italic',
           fontVariant: 'normal',
           color: SEAL_RED,

@@ -166,7 +166,7 @@
 	icon_state = "brush_0"
 	w_class = WEIGHT_CLASS_SMALL
 	smeltresult = null
-	dropshrink = 0.8
+	dropshrink = 0.6
 	grid_width = 32
 	grid_height = 64
 	var/roughness = 0 // 0  for a fine brush, 1 for a coarse brush

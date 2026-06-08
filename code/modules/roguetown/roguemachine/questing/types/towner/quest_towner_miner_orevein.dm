@@ -31,6 +31,9 @@ GLOBAL_LIST_INIT(towner_orevein_gem_types, list(
 	var/expiry_timer_id = null
 	var/expired = FALSE
 	var/bearer_arrived = FALSE
+
+	var/warned_bearer_return = FALSE
+	var/announced_waiting_miner = FALSE
 	var/list/datum/weakref/spawned_cluster_refs = list()
 
 /datum/quest/kill/towner_miner_orevein/calculate_deposit()
@@ -110,13 +113,20 @@ GLOBAL_LIST_INIT(towner_orevein_gem_types, list(
 	var/turf/landmark_turf = get_turf(landmark)
 	var/mob/living/miner = quest_giver_reference?.resolve()
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
-	if(!bearer_arrived && bearer && bearer.stat != DEAD && mob_in_strike_range(bearer, landmark_turf))
-		bearer_arrived = TRUE
-		expiry_at = world.time + TOWNER_OREVEIN_EXPIRY_DS
-		expiry_timer_id = addtimer(CALLBACK(src, PROC_REF(on_expiry)), TOWNER_OREVEIN_EXPIRY_DS, TIMER_STOPPABLE)
+	if(!bearer_arrived)
+		if(bearer && bearer.stat != DEAD && mob_in_strike_range(bearer, landmark_turf))
+			bearer_arrived = TRUE
+			expiry_at = world.time + TOWNER_OREVEIN_EXPIRY_DS
+			expiry_timer_id = addtimer(CALLBACK(src, PROC_REF(on_expiry)), TOWNER_OREVEIN_EXPIRY_DS, TIMER_STOPPABLE)
+		else if(bearer && !warned_bearer_return)
+			warned_bearer_return = TRUE
+			to_chat(bearer, span_warning("<b>You must reach the vein itself before it will open. Return to it.</b>"))
 	if(miner && miner.stat != DEAD && mob_in_strike_range(miner, landmark_turf))
 		erupt(landmark)
 		return
+	if(bearer_arrived && !announced_waiting_miner && bearer)
+		announced_waiting_miner = TRUE
+		to_chat(bearer, span_notice("<b>The vein will not open until [quest_giver_name] reaches it.</b>"))
 	addtimer(CALLBACK(src, PROC_REF(check_arrival)), TOWNER_PRESENCE_POLL_INTERVAL)
 
 /datum/quest/kill/towner_miner_orevein/proc/mob_in_strike_range(mob/M, turf/landmark_turf)

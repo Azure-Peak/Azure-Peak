@@ -25,6 +25,7 @@
 	gripped_intents = list(/datum/intent/axe/chop/stone)
 	resistance_flags = FLAMMABLE
 	special = /datum/special_intent/axe_swing
+	anvilrepair = /datum/skill/craft/crafting
 
 /obj/item/rogueweapon/stoneaxe/getonmobprop(tag)
 	. = ..()
@@ -53,6 +54,7 @@
 	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/chop/heavy, /datum/intent/axe/bash/battle)
 	minstr = 9
 	wdefense = 4
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/stoneaxe/oath
 	force = 30
@@ -77,6 +79,7 @@
 	smeltresult = /obj/item/ingot/steel
 	minstr = 12
 	wdefense = 5
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/stoneaxe/oath/getonmobprop(tag)
 	if(tag)
@@ -100,6 +103,7 @@
 	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
 	wdefense = 2
 	is_tool = TRUE // set here to exclude battleaxes and such
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/stoneaxe/woodcut/woodcutter
 	name = "woodcutter's handaxe"
@@ -143,6 +147,7 @@
 	possible_item_intents = list(/datum/intent/axe/chop/stone)
 	gripped_intents = null
 	thrown_damage_flag = "piercing"		//Checks piercing type like an arrow.
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/stoneaxe/hurlbat/getonmobprop(tag)
 	. = ..()
@@ -221,6 +226,7 @@
 	throw_speed = 3 
 	armor_penetration = PEN_LIGHT
 	is_tool = TRUE
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /datum/intent/axe/cut/handaxe
 	damfactor = 1.1
@@ -367,21 +373,6 @@
 	icon_state = "ahandaxe"
 	smeltresult = /obj/item/ingot/aaslag
 
-/datum/intent/axe/cut/long
-	reach = 2
-	damfactor = 1
-	demolition_mod = 1
-
-/datum/intent/axe/cut/long/bronze
-	damfactor = 0.8
-	demolition_mod = 1.3
-
-/datum/intent/axe/chop/long
-	reach = 2
-	damfactor = 1
-	demolition_mod = 1.5
-	swingdelay = 0.5 SECONDS
-
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter
 	name = "woodcutter's axe"
 	icon = 'icons/roguetown/weapons/axes64.dmi'
@@ -431,6 +422,7 @@
 	pickup_sound = 'sound/foley/equip/rummaging-03.ogg'
 	gripped_intents = list(/datum/intent/axe/cut,/datum/intent/axe/chop)
 	resistance_flags = FLAMMABLE
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/stoneaxe/woodcut/silver
 	name = "silver war axe"

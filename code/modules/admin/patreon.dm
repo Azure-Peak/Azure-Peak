@@ -214,15 +214,15 @@ GLOBAL_PROTECT(plevelfiveverbs)
 	var/plev = check_patreon_lvl(ckey)
 
 	if(plev > 1)
-		verbs |= GLOB.pleveloneverbs
+		add_verb(src, GLOB.pleveloneverbs)
 	if(plev > 2)
-		verbs |= GLOB.pleveltwoverbs
+		add_verb(src, GLOB.pleveltwoverbs)
 	if(plev > 3)
-		verbs |= GLOB.plevelthreeverbs
+		add_verb(src, GLOB.plevelthreeverbs)
 	if(plev > 4)
-		verbs |= GLOB.plevelfourverbs
+		add_verb(src, GLOB.plevelfourverbs)
 	if(plev > 5)
-		verbs |= GLOB.plevelfiveverbs
+		add_verb(src, GLOB.plevelfiveverbs)
 
 GLOBAL_LIST_EMPTY(hiderole)
 
@@ -230,7 +230,7 @@ GLOBAL_LIST_EMPTY(hiderole)
 GLOBAL_LIST_EMPTY(anonymize)
 
 /mob/dead/new_player/verb/anonymize()
-	set category = "Options"
+	set category = "Preferences.Options"
 	set name = "Anonymize"
 	if(!client)
 		return

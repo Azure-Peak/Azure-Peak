@@ -57,7 +57,8 @@
 			if("Mace")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					beltr = /obj/item/rogueweapon/mace/goden/psymace
+					r_hand = /obj/item/rogueweapon/mace/goden/psymace
+					l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 				else
 					beltr = /obj/item/rogueweapon/mace/steel
 			if("Flail")
@@ -89,7 +90,7 @@
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
 			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-			H.verbs |= /mob/living/carbon/human/proc/revelations
+			add_verb(H, /mob/living/carbon/human/proc/revelations)
 			H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
@@ -494,7 +495,7 @@
 
 /mob/living/carbon/human/proc/revelations()
 	set name = "Revelations"
-	set category = "Cleric"
+	set category = "RoleUnique.Cleric"
 	var/obj/item/grabbing/I = get_active_held_item()
 	var/mob/living/carbon/human/H
 	var/obj/item/S = get_inactive_held_item()

@@ -7,7 +7,7 @@
 
 /mob/living/carbon/human/verb/commune()
 	set name = "Commune"
-	set category = "Heretic"
+	set category = "RoleUnique.Heretic"
 	set desc = "Communicate with fellow believers"
 	
 	if(!mind)
@@ -15,14 +15,14 @@
 		
 	// Check for puritan trait and remove heretic tab if found
 	if(HAS_TRAIT(src, TRAIT_PURITAN))
-		verbs -= /mob/living/carbon/human/verb/commune
-		verbs -= /mob/living/carbon/human/verb/show_heretics
-		verbs -= /mob/living/carbon/human/verb/bad_omen
+		remove_verb(src, /mob/living/carbon/human/verb/commune)
+		remove_verb(src, /mob/living/carbon/human/verb/show_heretics)
+		remove_verb(src, /mob/living/carbon/human/verb/bad_omen)
 		return
 		
 	if(!HAS_TRAIT(src, TRAIT_FREEMAN) && !HAS_TRAIT(src, TRAIT_CABAL) && !HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_DEPRAVED))
 		to_chat(src, span_warning("You have no heretical allegiances to commune with!"))
-		verbs -= /mob/living/carbon/human/verb/commune
+		remove_verb(src, /mob/living/carbon/human/verb/commune)
 		return
 		
 	var/echo_message
@@ -87,7 +87,7 @@
 
 /mob/living/carbon/human/verb/show_heretics()
 	set name = "Show Fellow Believers"
-	set category = "Heretic"
+	set category = "RoleUnique.Heretic"
 	set desc = "View others of your faith"
 	
 	if(!mind)
@@ -95,9 +95,9 @@
 		
 	// Check for puritan trait and remove heretic tab if found
 	if(HAS_TRAIT(src, TRAIT_PURITAN))
-		verbs -= /mob/living/carbon/human/verb/commune
-		verbs -= /mob/living/carbon/human/verb/show_heretics
-		verbs -= /mob/living/carbon/human/verb/bad_omen
+		remove_verb(src, /mob/living/carbon/human/verb/commune)
+		remove_verb(src, /mob/living/carbon/human/verb/show_heretics)
+		remove_verb(src, /mob/living/carbon/human/verb/bad_omen)
 		return
 		
 	var/my_trait
@@ -138,7 +138,7 @@
 
 /mob/living/carbon/human/verb/bad_omen()
 	set name = "Dark Chant"
-	set category = "Heretic"
+	set category = "RoleUnique.Heretic"
 	set desc = "Begin a forbidden ritual chant"
 	
 	if(!mind)
@@ -146,14 +146,14 @@
 		
 	// Check for puritan trait and remove heretic tab if found
 	if(HAS_TRAIT(src, TRAIT_PURITAN))
-		verbs -= /mob/living/carbon/human/verb/commune
-		verbs -= /mob/living/carbon/human/verb/show_heretics
-		verbs -= /mob/living/carbon/human/verb/bad_omen
+		remove_verb(src, /mob/living/carbon/human/verb/commune)
+		remove_verb(src, /mob/living/carbon/human/verb/show_heretics)
+		remove_verb(src, /mob/living/carbon/human/verb/bad_omen)
 		return
 
 	if(!HAS_TRAIT(src, TRAIT_FREEMAN) && !HAS_TRAIT(src, TRAIT_CABAL) && !HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_DEPRAVED))
 		to_chat(src, span_warning("You have no heretical knowledge of dark chants!"))
-		verbs -= /mob/living/carbon/human/verb/bad_omen
+		remove_verb(src, /mob/living/carbon/human/verb/bad_omen)
 		return
 
 	if(GLOB.last_omen && (world.time - GLOB.last_omen) < 6000) // 10 minutes

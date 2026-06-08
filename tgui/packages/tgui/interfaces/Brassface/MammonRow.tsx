@@ -20,9 +20,7 @@ export const MammonRow = (props: Props) => {
         style={{
           flex: '0 0 auto',
           fontFamily: SERIF,
-          fontVariant: 'small-caps',
           color: SEAL_AMBER,
-          fontStyle: 'italic',
           marginRight: '12px',
         }}
       >

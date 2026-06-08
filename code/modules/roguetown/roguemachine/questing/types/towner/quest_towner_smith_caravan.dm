@@ -36,6 +36,8 @@ GLOBAL_LIST_INIT(towner_smith_caravan_bundle_ranges, list(
 	var/expiry_timer_id = null
 	var/expired = FALSE
 	var/bearer_arrived = FALSE
+	var/warned_bearer_return = FALSE
+	var/announced_waiting_smith = FALSE
 
 /datum/quest/kill/recovery/towner_smith_caravan/calculate_deposit()
 	return 0
@@ -121,6 +123,13 @@ GLOBAL_LIST_INIT(towner_smith_caravan_bundle_ranges, list(
 	wreck_landmark_ref = WEAKREF(landmark)
 	addtimer(CALLBACK(src, PROC_REF(check_smith_presence)), TOWNER_PRESENCE_POLL_INTERVAL)
 
+/datum/quest/kill/recovery/towner_smith_caravan/get_target_location()
+	if(!parcel_spawned)
+		var/obj/effect/landmark/quest_spawner/landmark = wreck_landmark_ref?.resolve()
+		if(landmark)
+			return get_turf(landmark)
+	return ..()
+
 /datum/quest/kill/recovery/towner_smith_caravan/proc/check_smith_presence()
 	if(parcel_spawned || complete || expired)
 		return
@@ -128,14 +137,20 @@ GLOBAL_LIST_INIT(towner_smith_caravan_bundle_ranges, list(
 	if(QDELETED(landmark))
 		return
 	var/turf/landmark_turf = get_turf(landmark)
+	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(!bearer_arrived)
-		var/mob/living/bearer = quest_receiver_reference?.resolve()
 		if(bearer && bearer.stat != DEAD && mob_in_wreck_range(bearer, landmark_turf))
 			arm_expiry_timer()
+		else if(bearer && !warned_bearer_return)
+			warned_bearer_return = TRUE
+			to_chat(bearer, span_warning("<b>You must reach the wreck itself before the trail can be picked up. Return to it.</b>"))
 	var/mob/living/smith = quest_giver_reference?.resolve()
 	if(smith && smith.stat != DEAD && mob_in_wreck_range(smith, landmark_turf))
 		do_spawn_parcel(landmark)
 		return
+	if(bearer_arrived && !announced_waiting_smith && bearer)
+		announced_waiting_smith = TRUE
+		to_chat(bearer, span_notice("<b>The wreck is secure. The strongbox stays buried until [quest_giver_name] reaches it.</b>"))
 	addtimer(CALLBACK(src, PROC_REF(check_smith_presence)), TOWNER_PRESENCE_POLL_INTERVAL)
 
 /datum/quest/kill/recovery/towner_smith_caravan/proc/mob_in_wreck_range(mob/M, turf/landmark_turf)

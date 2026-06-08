@@ -27,6 +27,7 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/mercenary/seonjang/pre_equip(mob/living/carbon/human/H)

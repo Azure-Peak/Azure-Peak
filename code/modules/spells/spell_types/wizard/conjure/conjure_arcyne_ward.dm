@@ -167,7 +167,7 @@
 	invocations = list("Psymagia Congrego!")
 	dismiss_invocation = "Psymagia Dissipo!"
 	regen_invocation = "Psymagia Restauro!"
-	charge_time = 5 SECONDS
+	charge_time = 6 SECONDS
 	point_cost = 4
 	spell_tier = 3
 	ward_type = /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/crystalhide
@@ -178,7 +178,7 @@
 /datum/action/cooldown/spell/regenerate_arcyne_ward
 	name = "Regenerate Arcyne Ward"
 	desc = "Channel a restoration on my active Arcyne Ward, returning it to full integrity. \
-	The channel takes 6 seconds and costs stamina and energy proportional to how damaged the ward is - \
+	The channel takes 10 seconds and costs stamina and energy proportional to how damaged the ward is - \
 	a nearly-full ward costs almost nothing, a shattered one costs nearly as much as a fresh cast. \
 	While channeling this spell, I cannot parry or dodge."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
@@ -196,7 +196,7 @@
 	var/upfront_stamina_cost = 70
 
 	charge_required = TRUE
-	charge_time = 6 SECONDS
+	charge_time = 10 SECONDS
 	charge_drain = 5
 	charge_slowdown = 3
 	charge_sound = 'sound/magic/charging.ogg'
@@ -297,6 +297,7 @@
 		ward.obj_fix(H, full_repair = TRUE)
 	else
 		ward.obj_integrity = ward.max_integrity
+	ward.recalculate_coverage(force_full = TRUE)
 	return TRUE
 
 /datum/action/cooldown/spell/regenerate_arcyne_ward/dragonhide
@@ -325,7 +326,6 @@
 
 	var/datum/action/cooldown/spell/conjure_arcyne_ward/linked_spell
 	var/mob/living/carbon/human/ward_owner
-	var/coverage_locked = FALSE
 	var/dismissed = FALSE
 	var/ward_color = GLOW_COLOR_ARCANE
 	var/arcyne_armor_tier = ARCYNE_WARD_TIER_BASE
@@ -334,13 +334,13 @@
 	ward_owner = H
 	RegisterSignal(H, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_owner_equip_change))
 	RegisterSignal(H, COMSIG_MOB_DROPITEM, PROC_REF(on_owner_equip_change))
-	recalculate_coverage()
+	recalculate_coverage(force_full = TRUE)
 
 /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/on_owner_equip_change(datum/source, obj/item/item)
 	SIGNAL_HANDLER
 	addtimer(CALLBACK(src, PROC_REF(recalculate_coverage)), 1)
 
-/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/recalculate_coverage()
+/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/recalculate_coverage(force_full = FALSE)
 	if(QDELETED(src) || !ward_owner)
 		return
 
@@ -368,18 +368,26 @@
 	if(has_real_armor(H.shoes))
 		new_coverage &= ~(FOOT_LEFT | FOOT_RIGHT)
 
-	if(coverage_locked)
+	if(!force_full)
 		new_coverage &= body_parts_covered_dynamic
 	body_parts_covered_dynamic = new_coverage
 
 /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/has_real_armor(obj/item/clothing/C, coverage_check)
 	if(!C || !istype(C))
 		return FALSE
-	if(C.armor_class <= ARMOR_CLASS_NONE)
+	if(!piece_is_armor(C))
 		return FALSE
 	if(coverage_check)
 		return (C.body_parts_covered_dynamic & coverage_check)
 	return TRUE
+
+/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/piece_is_armor(obj/item/clothing/C)
+	if(C.armor_class > ARMOR_CLASS_NONE)
+		return TRUE
+	if(!C.armor)
+		return FALSE
+	return (C.armor.getRating("blunt") > 0 || C.armor.getRating("slash") > 0 \
+		|| C.armor.getRating("stab") > 0 || C.armor.getRating("piercing") > 0)
 
 /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 	if(ward_owner && damage_amount > 0)
@@ -389,7 +397,6 @@
 		flash_ward()
 		if(prob(50))
 			do_sparks(2, FALSE, T)
-	coverage_locked = TRUE
 	return ..()
 
 /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/flash_ward()

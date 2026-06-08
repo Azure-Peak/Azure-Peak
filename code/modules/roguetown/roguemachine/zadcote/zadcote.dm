@@ -327,6 +327,22 @@
 				return TRUE
 			link.allow_summons = !link.allow_summons
 			return TRUE
+		if("withdraw_voyeur")
+			withdraw_voyeur(H)
+			return TRUE
+
+/obj/item/roguemachine/zadcote/proc/withdraw_voyeur(mob/living/carbon/human/operator)
+	if(!allows_voyeur)
+		return FALSE
+	if(voyeur_fund <= 0)
+		to_chat(operator, span_warning("The scrying basin is empty."))
+		return FALSE
+	var/amount = voyeur_fund
+	voyeur_fund = 0
+	budget2change(amount, operator)
+	to_chat(operator, span_notice("You drain [amount]m from [src]'s scrying basin."))
+	playsound(loc, 'sound/misc/gold_misc.ogg', 60, FALSE, -1)
+	return TRUE
 
 /obj/item/roguemachine/zadcote/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/zadcage))

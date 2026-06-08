@@ -318,7 +318,7 @@
 	thrown_bclass = BCLASS_BLUNT
 
 /obj/item/rogueweapon/sword/long/cleric
-	name = "blessed longsword"
+	name = "crusaders longsword"
 	desc = "A crusader's longsword, adorned with a blade of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
 	sunder those who bare greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes. </br>'Strike \
 	true, my child, for thy blade is thine God..'"

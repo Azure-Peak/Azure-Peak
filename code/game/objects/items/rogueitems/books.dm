@@ -626,6 +626,7 @@
 	var/compiled_pages = null
 	var/list/page_texts = list()
 	var/qdel_source = FALSE
+	dropshrink = 0.8
 
 /obj/item/manuscript/examine()
 	. = ..()
@@ -645,7 +646,7 @@
 		return
 	var/obj/item/paper/P = I
 	if(!(P.info))
-		to_chat(user, "the paper needs to contain text to be added to a manuscript!")
+		to_chat(user, "The paper needs to contain text to be added to a manuscript!")
 		return
 	if(number_of_pages == 8)
 		to_chat(user, "The manuscript pile cannot surpass 8 pages!")
@@ -766,3 +767,4 @@
 	desc = "Apply on a written manuscript to create a book."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "book_crafting_kit"
+	dropshrink = 0.7

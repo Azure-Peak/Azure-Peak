@@ -46,7 +46,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/tgui_fancy = TRUE
 	var/tgui_lock = TRUE
 	var/tgui_theme = "azure_default"
-	var/parchment_skin = "parchment"
+	var/parchment_skin = "leatherbound"
+	var/statbrowser_theme = "dark"
 	var/windowflashing = TRUE
 	var/toggles = TOGGLES_DEFAULT
 	var/ghost_toggles
@@ -717,6 +718,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<h2>Display</h2>"
 			dat += "<b>TGUI Theme:</b> <a href='?_src_=prefs;preference=tgui_theme'>[get_tgui_theme_display_name()]</a><br>"
 			dat += "<b>Parchment Theme:</b> <a href='?_src_=prefs;preference=parchment_skin'>[get_parchment_skin_display_name()]</a><br>"
+			dat += "<b>Panel Theme:</b> <a href='?_src_=prefs;preference=statbrowser_theme'>[get_statbrowser_theme_display_name()]</a><br>"
 			dat += "<b>UI Mode:</b> <a href='?_src_=prefs;preference=tgui_ui_prefs;task=menu'>[tgui_pref ? "TGUI" : "Legacy"]</a><br>"
 			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(tgui_lock) ? "Primary" : "All"]</a><br>"
 			dat += "<b>Ambient Occlusion:</b> <a href='?_src_=prefs;preference=ambientocclusion'>[ambientocclusion ? "Enabled" : "Disabled"]</a><br>"
@@ -725,6 +727,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[auto_fit_viewport ? "Auto" : "Manual"]</a><br>"
 			if (CONFIG_GET(string/default_view) != CONFIG_GET(string/default_view_square))
 				dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled ([CONFIG_GET(string/default_view)])" : "Disabled ([CONFIG_GET(string/default_view_square)])"]</a><br>"
+			dat += "<h2>Other</h2>"
+			dat += "<b>Be Voice:</b> <a href='?_src_=prefs;preference=schizo_voice'>[(toggles & SCHIZO_VOICE) ? "Enabled":"Disabled"]</a><br>"
 			dat += "</td><td width='400px' valign='top'>"
 			dat += "<h2>Special Role Settings</h2>"
 			if(is_banned_from(user.ckey, ROLE_SYNDICATE))
@@ -2813,6 +2817,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					setTguiStyle(user)
 				if("parchment_skin")
 					cycle_parchment_skin()
+				if("statbrowser_theme")
+					cycle_statbrowser_theme()
+					user.client?.apply_statbrowser_theme()
 				if("winflash")
 					windowflashing = !windowflashing
 

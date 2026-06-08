@@ -322,7 +322,7 @@
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		to_chat(target,span_userdanger("You feel them crawling into your wounds and pores. Their horrific hum rings through your ears as they do their work!"))
 		target.flash_fullscreen("redflash3")
-		target.emote("agony")
+		target.emote("superagony")
 		target.Stun(200)
 		target.Knockdown(200)
 		to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
@@ -338,7 +338,7 @@
 		return FALSE
 	target.Stun(120)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
 	loc.visible_message(span_good("[target]'s form becomes enveloped in rot."))
 	spawn(20)
@@ -684,7 +684,7 @@
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/combat/newstuck.ogg', 50)
 	loc.visible_message(span_cult("Ethereal tendrils emerge from the rune, wrapping around [target]'s body. Their form shifts and warps as dream-stuff solidifies into armor."))
 	spawn(20)
@@ -1421,7 +1421,7 @@
 		return FALSE
 	target.Stun(120)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
 	loc.visible_message(span_good("[target]'s form becomes enveloped in calming aura."))
 	spawn(20)
@@ -1479,6 +1479,9 @@
 	var/riteselection = input(user, "Rituals of Progress", src) as null|anything in zizorites
 	switch(riteselection)
 		if("Rite of Armaments")
+			if(user.has_status_effect(/datum/status_effect/debuff/armamentrites))
+				to_chat(user, span_warning("I am not yet ready to perform this rite."))
+				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
 			for(var/mob/living/carbon/human/persononrune in onrune)
@@ -1519,11 +1522,10 @@
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "zizo_active"
-			var/rite_cooldown = /datum/status_effect/debuff/ritesexpended
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
 			if(is_heretic)
-				rite_cooldown = /datum/status_effect/debuff/ritesexpended/heretic
-			user.apply_status_effect(rite_cooldown)
+				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
@@ -1556,7 +1558,7 @@
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/combat/newstuck.ogg', 50)
 	loc.visible_message(span_cult("Great hooks come from the rune, embedding into [target]'s ankles, pulling them onto the rune. Then, into their wrists. Their lux is torn from their chest, and reforms into armor. "))
 	spawn(20)
@@ -1642,6 +1644,9 @@
 	var/riteselection = input(user, "Rituals of Transaction", src) as null|anything in matthiosrites
 	switch(riteselection) // put ur rite selection here
 		if("Rite of Armaments")
+			if(user.has_status_effect(/datum/status_effect/debuff/armamentrites))
+				to_chat(user, span_warning("I am not yet ready to perform this rite."))
+				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
 			for(var/mob/living/carbon/human/persononrune in onrune)
@@ -1662,11 +1667,10 @@
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "matthios_active"
-			var/rite_cooldown = /datum/status_effect/debuff/ritesexpended
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
 			if(is_heretic)
-				rite_cooldown = /datum/status_effect/debuff/ritesexpended/heretic
-			user.apply_status_effect(rite_cooldown)
+				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
@@ -1701,7 +1705,7 @@
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
 	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, gleaming golds sizzles. Molten gold and metals swirl into armor, seered to their skin."))
 	spawn(20)
@@ -1773,7 +1777,7 @@
 	victim.apply_status_effect(/datum/status_effect/debuff/ritualdefiled)
 
 	to_chat(victim, span_userdanger("ASTRATA WEEPS!"))
-	victim.emote("Agony")
+	victim.emote("superagony")
 	REMOVE_TRAIT(victim, TRAIT_NOBLE, TRAIT_GENERIC)
 	REMOVE_TRAIT(victim, TRAIT_NOBLE, TRAIT_VIRTUE)
 	ADD_TRAIT(victim, TRAIT_DEFILED_NOBLE, TRAIT_GENERIC)
@@ -1821,6 +1825,9 @@
 	var/riteselection = input(user, "Rituals of Violence", src) as null|anything in graggarrites
 	switch(riteselection) // put ur rite selection here
 		if("Rite of Armaments")
+			if(user.has_status_effect(/datum/status_effect/debuff/armamentrites))
+				to_chat(user, span_warning("I am not yet ready to perform this rite."))
+				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
 			for(var/mob/living/carbon/human/persononrune in onrune)
@@ -1856,11 +1863,10 @@
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "graggar_active"
-			var/rite_cooldown = /datum/status_effect/debuff/ritesexpended
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
 			if(is_heretic)
-				rite_cooldown = /datum/status_effect/debuff/ritesexpended/heretic
-			user.apply_status_effect(rite_cooldown)
+				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
@@ -1911,7 +1917,7 @@
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
+	target.emote("superagony")
 	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
 	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, motive and metals swirl into armor, snug around their form!"))
 	spawn(20)
@@ -1957,13 +1963,14 @@
 	victim.Knockdown(60)
 	to_chat(victim, span_userdanger("UNIMAGINABLE PAIN!"))
 	victim.apply_status_effect(/datum/status_effect/debuff/ritualdefiled)
-	victim.emote("Agony")
+	victim.emote("superagony")
 	victim.visible_message(
 		span_danger("[victim] writhes in unimaginable pain!"),
 		span_userdanger("IT HURTS! IT BURNS!")
 	)
 
 	to_chat(world, span_danger("A war ritual has been completed! Goblin portals begin to tear open across the land!"))
+	SSParticleWeather?.run_weather(pick(/datum/particle_weather/blood_rain_gentle, /datum/particle_weather/blood_rain_storm))
 	playsound(loc, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
 	var/datum/round_event_control/gobinvade/E = new()
 	E.req_omen = FALSE

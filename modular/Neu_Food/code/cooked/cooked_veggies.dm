@@ -8,7 +8,7 @@
 	faretype = FARE_POOR
 	portable = FALSE
 	bitesize = 6
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("warm cabbage" = 1)
 	rotprocess = SHELFLIFE_LONG
 
@@ -20,7 +20,7 @@
 	faretype = FARE_POOR
 	icon_state = "potato_baked"
 	bitesize = 4
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	rotprocess = SHELFLIFE_LONG
 
 /*	.............   Fried potato   ................ */
@@ -32,7 +32,7 @@
 	faretype = FARE_NEUTRAL
 	portable = FALSE
 	bitesize = 3
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("warm potato" = 1)
 	rotprocess = SHELFLIFE_LONG
 
@@ -43,7 +43,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
 	icon_state = "carrot_cooked"
 	bitesize = 6
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("carrot" = 1)
 	rotprocess = SHELFLIFE_DECENT
 
@@ -56,7 +56,7 @@
 	faretype = FARE_POOR
 	portable = FALSE
 	bitesize = 6
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("savoury morsel" = 1)
 	rotprocess = SHELFLIFE_DECENT
 
@@ -84,7 +84,7 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffed
 
 /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffed
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	name = "stuffed aubergine"
 	desc = "Eggplant stuffed with meat and tomato. Delicious!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
@@ -95,7 +95,7 @@
 	eat_effect = /datum/status_effect/buff/snackbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffedcheese
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_NUTRITIOUS)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	name = "stuffed aubergine with cheese"
 	desc = "Stuffed aubergine with cheese on top. Fit for a king!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'

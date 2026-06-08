@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - balance: "Snuff Lights works on Lights, but can't affect relic lights."

@@ -1,6 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - bugfix: "Fixed bandage sewing exploit so bandages are used correctly and cannot be used infinitely for sewing."
-  - bugfix: "Fixed Spellblade jump causing the player to hang in mid-air."
-  - code_imp: "Added `forced = TRUE` to emotion invocation in several procs to prevent trait bypass and ensure consistent emotion delivery."

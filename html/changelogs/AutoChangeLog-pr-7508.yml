@@ -1,0 +1,9 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - bugfix: "you can no longer heal unintended vampire noises."
+  - balance: "Nosferato is no longer the default vampire clan fallback, because why was the hardest clan to play the default sire?"
+  - balance: "Torpor no longer is only useful for infinite vitae exploits, you no longer gain vitae from but instead heal wounds/damage at an insanely fast rate."
+  - balance: "journey -> expert unarmed for vamp arsonist"
+  - balance: "1spd -> 2 spd for vamp physician"
+  - code_imp: "adjusted vampire stat codenotes to be truer. they're points not weighted balance-wise. oops."
