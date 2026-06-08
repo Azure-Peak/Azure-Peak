@@ -1,3 +1,27 @@
+GLOBAL_LIST_EMPTY(brewing_recipe_by_reagent)
+
+/proc/brew_recipe_for_reagent(reagent_path)
+	if(!reagent_path)
+		return null
+	if(!GLOB.brewing_recipe_by_reagent.len)
+		for(var/datum/brewing_recipe/R as anything in subtypesof(/datum/brewing_recipe))
+			var/produced = initial(R.reagent_to_brew)
+			if(produced && !GLOB.brewing_recipe_by_reagent[produced])
+				GLOB.brewing_recipe_by_reagent[produced] = R
+	return GLOB.brewing_recipe_by_reagent[reagent_path]
+
+/proc/brew_recipe_needs_distiller(datum/brewing_recipe/recipe_path)
+	var/guard = 0
+	while(recipe_path && guard < 10)
+		if(initial(recipe_path.heat_required))
+			return TRUE
+		var/prereq = initial(recipe_path.pre_reqs)
+		if(!prereq)
+			return FALSE
+		recipe_path = brew_recipe_for_reagent(prereq)
+		guard++
+	return FALSE
+
 /datum/trade_ship
 	var/ship_id
 	var/realm_id
@@ -142,13 +166,27 @@
 		if(!typepath)
 			continue
 		var/price_mod = entry["price_mod"] || 1.0
+		var/volume_mult = entry["keg_mult"] || 1
+		if(brew_recipe_needs_distiller(recipe))
+			var/brewed = max(1, initial(recipe.brewed_amount))
+			var/per_bottle = max(1, round(initial(recipe.sell_value) / brewed * TRADE_SPIRITS_EXPORT_MARKUP * price_mod))
+			var/bottle_qty = max(1, round(rand(TRADE_DRINKS_BOTTLES_MIN, TRADE_DRINKS_BOTTLES_MAX) * volume_mult * tonnage_scale_mult()))
+			result += list(list(
+				"typepath" = "[typepath]",
+				"good_name" = "bottle of [initial(recipe.bottle_name)]",
+				"qty_target" = bottle_qty,
+				"qty_fulfilled" = 0,
+				"offered_price" = per_bottle,
+				"tag" = TRADE_VICTUALLING_TAG_DRINKS,
+				"by_bottle" = TRUE,
+			))
+			continue
 		var/offered_price = max(1, round(initial(recipe.sell_value) * TRADE_DRINKS_EXPORT_MARKUP * price_mod))
-		var/keg_mult = entry["keg_mult"] || 1
-		var/qty = max(1, round(rand(TRADE_DRINKS_KEGS_MIN, TRADE_DRINKS_KEGS_MAX) * keg_mult * tonnage_scale_mult()))
+		var/keg_qty = max(1, round(rand(TRADE_DRINKS_KEGS_MIN, TRADE_DRINKS_KEGS_MAX) * volume_mult * tonnage_scale_mult()))
 		result += list(list(
 			"typepath" = "[typepath]",
 			"good_name" = "keg of [initial(recipe.bottle_name)]",
-			"qty_target" = qty,
+			"qty_target" = keg_qty,
 			"qty_fulfilled" = 0,
 			"offered_price" = offered_price,
 			"tag" = TRADE_VICTUALLING_TAG_DRINKS,
@@ -199,7 +237,6 @@
 	if(!ship || ship.dock_state != TRADE_SHIP_STATE_DOCKED)
 		return
 	if(SSmerchant_trade)
-		var/datum/foreign_realm/realm = SSmerchant_trade.realms[ship.realm_id]
-		SSmerchant_trade.remove_ship_demand_for_realm(realm)
-		SSmerchant_trade.all_ships -= ship
-	qdel(ship)
+		SSmerchant_trade.auto_dismiss_ship(ship)
+	else
+		qdel(ship)

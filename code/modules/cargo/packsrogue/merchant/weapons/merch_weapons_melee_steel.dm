@@ -45,6 +45,11 @@
 	cost = 40 // 1 Steel Ingot
 	contains = list(/obj/item/rogueweapon/katar)
 
+/datum/supply_pack/rogue/steel_weapons/punchdagger
+	name = "Punch Dagger"
+	cost = 40 // 1 Steel Ingot
+	contains = list(/obj/item/rogueweapon/katar/punchdagger)
+
 /datum/supply_pack/rogue/steel_weapons/steelknuckle
 	name = "Steel Knuckle"
 	cost = 40 // 1 Steel Ingot
@@ -179,6 +184,11 @@
 	name = "Grand Mace"
 	cost = 75 // 2 Steel Ingot, 1 Small Log
 	contains = list(/obj/item/rogueweapon/mace/goden/steel)
+
+/datum/supply_pack/rogue/steel_weapons/grandmaul
+	name = "Grand Maul"
+	cost = 105 // 3 Steel Ingot
+	contains = list(/obj/item/rogueweapon/mace/maul/grand)
 
 /datum/supply_pack/rogue/steel_weapons/partizan
 	name = "Partizan"

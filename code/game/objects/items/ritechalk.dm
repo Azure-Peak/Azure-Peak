@@ -1,10 +1,11 @@
 /obj/item/ritechalk
-	name = "Ritual Chalk"
+	name = "ritual chalk"
 	icon_state = "chalk"
 	desc = "Simple white chalk. A useful tool for rites."
 	icon = 'icons/roguetown/misc/rituals.dmi'
 	w_class = WEIGHT_CLASS_TINY
 	experimental_inhand = TRUE
+	dropshrink = 0.6
 
 /obj/item/ritechalk/attack_self(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))

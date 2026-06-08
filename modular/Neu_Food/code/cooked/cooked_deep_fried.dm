@@ -21,7 +21,7 @@
 	icon_state = "nitzel"
 	faretype = FARE_LAVISH
 	foodtype = MEAT | GRAIN
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY * 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL * 2)
 	bitesize = 5 // If you go through all of the efforts to make this it should have big portion
 	tastes = list("crunchy toastcrumbs" = 1, "tender pork" = 1)
 	cooked_type = null
@@ -42,7 +42,7 @@
 	icon_state = "chickentender"
 	faretype = FARE_LAVISH
 	foodtype = MEAT | GRAIN
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY * 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL * 2)
 	bitesize = 5 // If you go through all of the efforts to make this it should have big portion
 	tastes = list("crunchy toastcrumbs" = 1, "tender chicken" = 1)
 	cooked_type = null

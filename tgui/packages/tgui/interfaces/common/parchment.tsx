@@ -1,11 +1,11 @@
 import type { CSSProperties } from 'react';
 
-export const FONT_TINY = '10px';
-export const FONT_SMALL = '11px';
-export const FONT_BODY = '12px';
-export const FONT_LEAD = '13px';
-export const FONT_TITLE = '14px';
-export const FONT_HEAD = '15px';
+export const FONT_TINY = 'var(--p-font-tiny)';
+export const FONT_SMALL = 'var(--p-font-small)';
+export const FONT_BODY = 'var(--p-font-body)';
+export const FONT_LEAD = 'var(--p-font-lead)';
+export const FONT_TITLE = 'var(--p-font-title)';
+export const FONT_HEAD = 'var(--p-font-head)';
 
 export const INK = 'var(--p-ink)';
 export const INK_SOFT = 'var(--p-ink-soft)';
@@ -19,8 +19,10 @@ export const SEAL_GREEN = 'var(--p-seal-green)';
 export const SEAL_BLUE = 'var(--p-seal-blue)';
 export const SEAL_AMBER = 'var(--p-seal-amber)';
 export const BUTTON_BG = 'var(--p-button-bg)';
+export const TITLE = 'var(--p-title)';
+export const TITLE_FONT = 'var(--p-title-font)';
 
-export const SERIF = '"Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif';
+export const SERIF = '"Lora", Georgia, serif';
 
 export const pageStyle: CSSProperties = {
   position: 'relative',
@@ -28,16 +30,16 @@ export const pageStyle: CSSProperties = {
   padding: '18px 28px 28px 28px',
   fontFamily: SERIF,
   color: INK,
-  fontSize: '13px',
+  fontSize: FONT_BODY,
   lineHeight: 1.5,
 };
 
 export const titleStyle: CSSProperties = {
   textAlign: 'center',
   fontSize: '22px',
-  fontVariant: 'small-caps',
   fontWeight: 'bold',
-  color: INK,
+  fontFamily: TITLE_FONT,
+  color: TITLE,
   margin: '0 0 4px 0',
 };
 
@@ -45,7 +47,7 @@ export const subtitleStyle: CSSProperties = {
   textAlign: 'center',
   color: INK_SOFT,
   fontStyle: 'italic',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   marginBottom: '10px',
 };
 
@@ -57,9 +59,8 @@ export const rulerStyle: CSSProperties = {
 };
 
 export const sectionHeaderStyle: CSSProperties = {
-  fontVariant: 'small-caps',
-  fontSize: '15px',
-  color: INK,
+  fontSize: FONT_TITLE,
+  color: TITLE,
   fontWeight: 'bold',
   borderBottom: `1px solid ${INK_FAINT}`,
   paddingBottom: '2px',
@@ -76,8 +77,7 @@ export const tabBarStyle: CSSProperties = {
 
 export const tabStyle = (active: boolean): CSSProperties => ({
   fontFamily: SERIF,
-  fontSize: '14px',
-  fontVariant: 'small-caps',
+  fontSize: FONT_BODY,
   padding: '4px 18px',
   color: active ? INK : INK_FAINT,
   background: active ? 'var(--p-tab-active-bg)' : 'transparent',
@@ -97,8 +97,7 @@ export const subTabBarStyle: CSSProperties = {
 
 export const subTabStyle = (active: boolean): CSSProperties => ({
   fontFamily: SERIF,
-  fontSize: '12px',
-  fontVariant: 'small-caps',
+  fontSize: FONT_BODY,
   padding: '3px 10px',
   color: active ? INK : INK_FAINT,
   background: active ? 'var(--p-tab-active-bg)' : 'transparent',
@@ -107,6 +106,27 @@ export const subTabStyle = (active: boolean): CSSProperties => ({
   cursor: 'pointer',
   fontWeight: active ? 'bold' : 'normal',
   whiteSpace: 'nowrap',
+});
+
+/// Wiki-style table-of-contents link. Renders as plain text with a dashed separator
+/// between rows, a subtle background tint when selected, and a hover underline.
+/// Apply via `style={tocLinkStyle(active)} className="toc-link"` on a button or anchor.
+/// Hover style lives in parchment.scss (and variants) keyed off the .toc-link class.
+export const tocLinkStyle = (active: boolean): CSSProperties => ({
+  display: 'block',
+  width: '100%',
+  textAlign: 'left',
+  background: active ? 'var(--p-tab-active-bg)' : 'transparent',
+  border: 'none',
+  borderBottom: `1px dashed ${INK_FAINT}`,
+  padding: '4px 8px',
+  fontFamily: SERIF,
+  fontSize: FONT_TITLE,
+  color: active ? INK : INK_SOFT,
+  fontWeight: active ? 'bold' : 'normal',
+  cursor: 'pointer',
+  whiteSpace: 'normal',
+  lineHeight: 1.3,
 });
 
 export const cardStyle: CSSProperties = {
@@ -122,7 +142,7 @@ export const dashedFrameStyle: CSSProperties = {
   padding: '8px 10px',
   border: `1px dashed ${INK_FAINT}`,
   textAlign: 'left',
-  fontSize: '12px',
+  fontSize: FONT_BODY,
   lineHeight: 1.4,
   color: INK_SOFT,
 };
@@ -136,8 +156,7 @@ export const stickyLeftCellStyle: CSSProperties = {
 export const badgeStyle = (color: string): CSSProperties => ({
   display: 'inline-block',
   fontFamily: SERIF,
-  fontSize: '10px',
-  fontVariant: 'small-caps',
+  fontSize: FONT_BODY,
   padding: '1px 7px',
   marginLeft: '6px',
   color: 'var(--p-badge-text)',
@@ -154,7 +173,7 @@ export const inkButtonStyle = (opts: {
   const col = opts.color || INK;
   return {
     fontFamily: SERIF,
-    fontSize: '12px',
+    fontSize: FONT_BODY,
     fontWeight: 'bold',
     padding: '2px 10px',
     color: col,
@@ -171,7 +190,7 @@ export const inkButtonStyle = (opts: {
 
 export const inkInputStyle: CSSProperties = {
   fontFamily: SERIF,
-  fontSize: '13px',
+  fontSize: FONT_BODY,
   color: INK,
   background: BUTTON_BG,
   border: `1px solid ${INK_FAINT}`,
@@ -184,21 +203,20 @@ export const fieldRowStyle: CSSProperties = {
   display: 'flex',
   padding: '5px 0',
   borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
-  fontSize: '13px',
+  fontSize: FONT_BODY,
 };
 
 export const fieldLabelStyle: CSSProperties = {
   flex: '0 0 145px',
-  fontVariant: 'small-caps',
+  fontWeight: 500,
   color: SEAL_AMBER,
-  fontStyle: 'italic',
 };
 
 export const fieldValueStyle: CSSProperties = {
   color: INK,
   flex: 1,
   fontFamily: SERIF,
-  fontSize: '14px',
+  fontSize: FONT_BODY,
 };
 
 export const bannerStyle = (color: string, soft: boolean = false): CSSProperties => ({
@@ -210,7 +228,6 @@ export const bannerStyle = (color: string, soft: boolean = false): CSSProperties
   padding: '6px 12px',
   marginBottom: '10px',
   textAlign: 'center',
-  fontVariant: 'small-caps',
   fontWeight: 'bold',
 });
 

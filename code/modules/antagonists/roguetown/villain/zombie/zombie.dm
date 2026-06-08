@@ -158,7 +158,7 @@
 	if(zombie)
 
 		zombie.infected = FALSE // Makes sure admins removing deadification removes the infected var if they do it before they turn
-		zombie.verbs -= /mob/living/carbon/human/proc/zombie_seek
+		remove_verb(zombie, /mob/living/carbon/human/proc/zombie_seek)
 		zombie.mind?.special_role = special_role
 		zombie.ambushable = ambushable
 
@@ -256,7 +256,7 @@
 	zombie.faction += "undead"
 	zombie.faction += "zombie"
 	zombie.faction -= "neutral"
-	zombie.verbs |= /mob/living/carbon/human/proc/zombie_seek
+	add_verb(zombie, /mob/living/carbon/human/proc/zombie_seek)
 	for(var/obj/item/bodypart/zombie_part as anything in zombie.bodyparts)
 		if(!zombie_part.rotted && !zombie_part.skeletonized)
 			zombie_part.rotted = TRUE
@@ -278,9 +278,11 @@
 //Add claws here if wanted.
 
 	zombie.update_body()
-	to_chat(zombie, span_narsiesmall("Hungry... so hungry... I CRAVE FLESH!"))
+	to_chat(zombie, span_red("Hungry... so hungry... I CRAVE FLESH!"))
 	zombie.cmode_music = 'sound/music/combat_weird.ogg'
 
+	// lets not be fucking fancy here ugh
+	zombie.apply_status_effect(/datum/status_effect/debuff/deadite_grace)
 
 	// This is the original first commit values for it, aka 5-7
 	zombie.STASPD = rand(5,7)
@@ -419,6 +421,34 @@
 	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE))
 		return
 	return mind.add_antag_datum(/datum/antagonist/zombie)
+
+/atom/movable/screen/alert/status_effect/debuff/deadite_grace
+	name = "Necrotic Overdrive"
+	desc = "My corroded Lux is ravaging throughout my decaying corpse. I cannot be stopped now, not while this lasts."
+	icon_state = "rotted_body"
+
+/datum/status_effect/debuff/deadite_grace
+	id = "deadite_grace_period"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/deadite_grace
+	duration = 3 MINUTES // this buff is cancelled early if you attack a mob with mind. Mind your targets, sire.
+
+/datum/status_effect/debuff/deadite_grace/on_apply()
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	H.status_flags |= GODMODE
+	ADD_TRAIT(owner, TRAIT_IGNORESLOWDOWN, id)
+	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, id)
+	ADD_TRAIT(owner, TRAIT_STRONG_GRABBER, id)
+	to_chat(owner, span_userdanger("I feel my body tense up immensely in response to this hunger, tendrils of darkness crawling under my skin.")) 
+
+/datum/status_effect/debuff/deadite_grace/on_remove()
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	H.status_flags -= GODMODE
+	REMOVE_TRAIT(owner, TRAIT_IGNORESLOWDOWN, id)
+	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
+	REMOVE_TRAIT(owner, TRAIT_STRONG_GRABBER, id)
+	to_chat(owner, span_userdanger("I feel my body relax a little, and that is the last thing I feel as my Lux wanes... I am fading."))
 
 #undef ZOMBIE_FIRST_BITE_CHANCE
 #undef ZOMBIE_BITE_CONVERSION_TIME

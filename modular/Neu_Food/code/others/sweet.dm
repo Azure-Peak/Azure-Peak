@@ -11,7 +11,7 @@
 	bitesize = 4
 	slices_num = 2
 	slice_path = /obj/item/reagent_containers/food/snacks/chocolate/slice
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	w_class = WEIGHT_CLASS_TINY
 	tastes = list("sugary richness" = 1)
 	faretype = FARE_LAVISH
@@ -27,6 +27,17 @@
 			C.add_nausea(120) // enough to trigger vomiting
 		eater.adjustToxLoss(5)
 	return ..()
+
+/obj/item/reagent_containers/food/snacks/chocolate/Initialize()
+	. = ..()
+	var/static/list/slapcraft_recipe_list = list(
+		/datum/crafting_recipe/roguetown/cooking/chocolatedry,
+		)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+		)
 
 /obj/item/reagent_containers/food/snacks/chocolate/slice
 	name = "halved chocolate ingot"
@@ -45,7 +56,7 @@
 	desc = "An ingot of jammified blackberries, fit only for the finest slices of bread. It beckons to be sliced with proper cutlery."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "jamtallow6"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_POOR //Slightly better than eating a whole log of butter on your lonesome. Slightly.
 	slice_path = /obj/item/reagent_containers/food/snacks/jamtallowslice
 	slices_num = 6
@@ -81,7 +92,7 @@
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "jamtallow_slice"
 	faretype = FARE_POOR
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("stickied deliciousness" = 1, "subtle sour-tartiness" = 1)
 	eat_effect = /datum/status_effect/buff/sweet
 
@@ -90,7 +101,7 @@
 	desc = "An ingot of jammified tangerines, fit only for the finest slices of bread. It beckons to be sliced with proper cutlery."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "marmalade6"
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_POOR //Slightly better than eating a whole log of butter on your lonesome. Slightly.
 	slice_path = /obj/item/reagent_containers/food/snacks/marmaladeslice
 	slices_num = 6
@@ -126,7 +137,7 @@
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "marmalade_slice"
 	faretype = FARE_POOR
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("stickied deliciousness" = 1, "subtle sweet-tartiness" = 1)
 	eat_effect = /datum/status_effect/buff/sweet
 
@@ -142,7 +153,7 @@
 	tastes = list("rich sugariness" = 1, "a lingering sweetness on the tongue" = 1)
 	w_class = WEIGHT_CLASS_TINY
 	rotprocess = null
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'
 	eat_effect = /datum/status_effect/buff/sweet
 
@@ -166,7 +177,7 @@
 	tastes = list("nutty sugariness" = 1, "a lingering hint of herbal warmth on the tongue" = 1)
 	w_class = WEIGHT_CLASS_TINY
 	rotprocess = null
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT, /datum/reagent/medicine/healthpot = 5) //Very light medicinal effect, equivalent to half of a vial when fully eaten. Yum!
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL, /datum/reagent/medicine/healthpot = 5) //Very light medicinal effect, equivalent to half of a vial when fully eaten. Yum!
 	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'
 	eat_effect = /datum/status_effect/buff/sweet
 
@@ -188,7 +199,7 @@
 	rotprocess = null
 	faretype = FARE_POOR
 	bitesize = 2
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("a mouthful of sugar" = 1)
 	mill_result = /obj/item/reagent_containers/food/snacks/sugar
 	cooked_type = /obj/item/reagent_containers/food/snacks/sugarstatue
@@ -295,7 +306,7 @@
 	faretype = FARE_FINE
 	obj_flags = CAN_BE_HIT|UNIQUE_RENAME
 	bitesize = 3
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("crispy sugarglass" = 1)
 	sellprice = 15
 	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'

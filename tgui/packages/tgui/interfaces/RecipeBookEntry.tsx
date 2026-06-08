@@ -51,6 +51,7 @@ export const RecipeBookEntry = memo((props: Props) => {
         dangerouslySetInnerHTML={{ __html: html }}
         style={{
           textAlign: 'left',
+          padding: '4px 8px 24px 8px',
         }}
       />
     </Section>

@@ -27,7 +27,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	rogue_enabled = TRUE
 	show_in_roundend = FALSE
 	show_in_antagpanel = FALSE // Base vampire shouldn't be directly selectable - use Vampire Lord or specific subtypes
-	var/datum/clan/default_clan = /datum/clan/nosferatu
+	var/datum/clan/default_clan = /datum/clan/crimson_fang
 	// New variables for clan selection
 	var/clan_selected = FALSE
 	var/custom_clan_name = ""
@@ -39,7 +39,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/max_thralls = 1
 	var/thrall_count = 0
 
-/datum/antagonist/vampire/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation)
+/datum/antagonist/vampire/New(incoming_clan = /datum/clan/crimson_fang, forced_clan = FALSE, generation)
 	. = ..()
 	if(forced_clan)
 		forced = forced_clan
@@ -157,14 +157,14 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	if(clan_selected || !vampdude)
 		return
 	if(!clan_type)
-		clan_type = /datum/clan/nosferatu
+		clan_type = /datum/clan/crimson_fang
 	default_clan = clan_type
 	vampdude.set_clan(default_clan)
 	clan_selected = TRUE
 	after_gain()
 
 /datum/antagonist/vampire/proc/finalize_default_clan_selection(mob/living/carbon/human/vampdude)
-	finalize_clan_selection(vampdude, /datum/clan/nosferatu)
+	finalize_clan_selection(vampdude, /datum/clan/crimson_fang)
 
 /datum/antagonist/vampire/proc/create_custom_clan(mob/living/carbon/human/vampdude, custom_name = null)
 	custom_clan_name = (istext(custom_name) && length(custom_name)) ? custom_name : "Custom Clan"
@@ -267,7 +267,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	name = "Thinblood"
 	show_in_antagpanel = TRUE
 
-/datum/antagonist/vampire/thinblood/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation = GENERATION_THINBLOOD)
+/datum/antagonist/vampire/thinblood/New(incoming_clan = /datum/clan/crimson_fang, forced_clan = FALSE, generation = GENERATION_THINBLOOD)
 	. = ..(incoming_clan, forced_clan, generation)
 
 /// Similarly as before, just a prefab for admins to give them via Traitor Panel
@@ -275,7 +275,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	name = "Licker - Neonate"
 	show_in_antagpanel = TRUE
 
-/datum/antagonist/vampire/licker/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation = GENERATION_NEONATE)
+/datum/antagonist/vampire/licker/New(incoming_clan = /datum/clan/crimson_fang, forced_clan = FALSE, generation = GENERATION_NEONATE)
 	. = ..(incoming_clan, forced_clan, generation)
 
 /// Just a prefab for admins to give them via Traitor Panel, otherwise unused because vars can be normally passed in parent's New()
@@ -283,7 +283,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	name = "Ancillae"
 	show_in_antagpanel = TRUE
 
-/datum/antagonist/vampire/ancillae/New(incoming_clan = /datum/clan/nosferatu, forced_clan = FALSE, generation = GENERATION_ANCILLAE)
+/datum/antagonist/vampire/ancillae/New(incoming_clan = /datum/clan/crimson_fang, forced_clan = FALSE, generation = GENERATION_ANCILLAE)
 	. = ..()
 
 

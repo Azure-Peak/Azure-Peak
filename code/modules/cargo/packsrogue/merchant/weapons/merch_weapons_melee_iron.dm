@@ -9,6 +9,11 @@
 	cost = 25 // 1 Iron Ingot
 	contains = list(/obj/item/rogueweapon/sword/iron)
 
+/datum/supply_pack/rogue/iron_weapons/sabre
+	name = "Sabre"
+	cost = 25 // 1 Iron Ingot
+	contains = list(/obj/item/rogueweapon/sword/saber/iron)
+
 /datum/supply_pack/rogue/iron_weapons/greatsword
 	name = "Iron Greatsword"
 	cost = 50
@@ -44,7 +49,7 @@
 	cost = 25 // 1 Iron Ingot
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger)
 
-/datum/supply_pack/rogue/iron_weapons/dagger
+/datum/supply_pack/rogue/iron_weapons/parryingdagger
 	name = "Parrying Dagger"
 	cost = 25 // 1 Iron Ingot
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/virtue)
@@ -104,6 +109,11 @@
 	cost = 45 // 2 Iron Ingots + 1 Small Log
 	contains = list(/obj/item/rogueweapon/sword/long/broadsword)
 
+/datum/supply_pack/rogue/iron_weapons/executioner
+	name = "Executioner's Sword"
+	cost = 60 // 3 Iron Ingots
+	contains = list(/obj/item/rogueweapon/sword/long/exe)
+
 /datum/supply_pack/rogue/iron_weapons/greataxe
 	name = "Greataxe"
 	cost = 45 // 2 Iron Ingot, 1 Small Log
@@ -128,6 +138,11 @@
 	name = "Goedendag"
 	cost = 40 // 2 Iron Ingot
 	contains = list(/obj/item/rogueweapon/mace/goden)
+
+/datum/supply_pack/rogue/iron_weapons/maul
+	name = "Maul"
+	cost = 40 // 2 Iron Ingot
+	contains = list(/obj/item/rogueweapon/mace/maul)
 
 /datum/supply_pack/rogue/iron_weapons/whip
 	name = "Whip"

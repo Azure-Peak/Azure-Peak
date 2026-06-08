@@ -28,7 +28,7 @@
 			<li>Anchored items, coins, handcarts, ATC-sealed items, and items flagged unmintable (items that spawned in town at mapstart) are skipped.</li>
 			<li>Each item's payout is its base price multiplied by category demand (current ship demand boost), then reduced by the navigator's handler fees - including export duty, merchant's levy,
 			and any handler fees imposed by say, smugglers.</li>
-			<li>Items priced below 1m of net payout are refused outright with a "the market is choked" message.</li>.</li>
+			<li>Items priced below 1m of net payout are refused outright with a "the market is choked" message.</li>
 			<li>Clicking on the Navigator reveals the current state of the warehouses.</li>
 		</ul>
 
@@ -296,10 +296,10 @@
 			<li>The unspent escrow is returned to the commissioner's deposit reservation.</li>
 		</ul>
 
-		<h3>Guildmaster controls</h3>
+		<h3>Guild member controls</h3>
 		<ul>
-			<li>Unlocked with a guild key. Unlocked panel exposes per-material price editing, percent margin (clamped 0-500), flat margin, and force-release of stalled claimed orders.</li>
-			<li>Guildmaster may also reject any open or claimed order with a stated reason (200 char limit); delivered items dump to the floor, escrowed coin returns to the commissioner's deposit.</li>
+			<li>A guild member sees a panel for per-material price editing, percent margin (clamped 0-500), flat margin, and force-release of stalled claimed orders.</li>
+			<li>A guild member may also reject any open or claimed order with a stated reason (200 char limit); delivered items dump to the floor, escrowed coin returns to the commissioner's deposit.</li>
 		</ul>
 
 		<h3>Other notes</h3>

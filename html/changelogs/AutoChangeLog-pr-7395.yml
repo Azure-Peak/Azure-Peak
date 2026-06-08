@@ -1,7 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Improved UX of the Talkstatue"
-  - rscadd: "Allows you to dodge taxes at the ship fulfillment crate"
-  - bugfix: "Also fixed a critical bug where fulfillment crate were apparently charging the treasury (??)"
-  - rscadd: "Ledger no longer magically reveal all transfer and transactions and only those that directly concern the Crown's purse to make tax dodging audit requires slightly more efforts."

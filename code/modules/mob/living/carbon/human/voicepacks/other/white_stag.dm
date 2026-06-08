@@ -13,6 +13,8 @@
 			used = pick('sound/vo/mobs/saiga/pain (1).ogg', 'sound/vo/mobs/saiga/pain (2).ogg', 'sound/vo/mobs/saiga/pain (3).ogg')
 		if("agony")
 			used = pick('sound/vo/mobs/saiga/pain (1).ogg', 'sound/vo/mobs/saiga/pain (2).ogg', 'sound/vo/mobs/saiga/pain (3).ogg')
+		if("superagony") // to bypass painless override, use responsibly
+			used = pick('sound/vo/mobs/saiga/pain (1).ogg', 'sound/vo/mobs/saiga/pain (2).ogg', 'sound/vo/mobs/saiga/pain (3).ogg')
 		if("jump")
 			used = pick('sound/vo/mobs/saiga/idle (1).ogg', 'sound/vo/mobs/saiga/idle (2).ogg')
 		if("leap")

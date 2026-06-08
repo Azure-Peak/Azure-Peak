@@ -3,6 +3,7 @@
 /obj/item/natural/worms/leech
 	name = "leech"
 	desc = "A disgusting, blood-sucking parasite."
+	dropshrink = 0.8
 	icon = 'icons/roguetown/items/surgery.dmi'
 	icon_state = "leech"
 	baitpenalty = 0

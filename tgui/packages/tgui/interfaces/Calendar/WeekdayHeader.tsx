@@ -1,6 +1,10 @@
 import type { CSSProperties } from 'react';
 
-import { INK_FAINT, INK_SOFT } from '../common/parchment';
+import {
+  FONT_BODY,
+  INK_FAINT,
+  INK_SOFT,
+} from '../common/parchment';
 
 const rowStyle: CSSProperties = {
   display: 'grid',
@@ -12,9 +16,8 @@ const rowStyle: CSSProperties = {
 
 const cellStyle: CSSProperties = {
   textAlign: 'center',
-  fontVariant: 'small-caps',
   letterSpacing: '1px',
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   color: INK_SOFT,
   padding: '4px 0',
 };

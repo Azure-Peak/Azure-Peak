@@ -250,7 +250,10 @@
 			if(user.m_intent != MOVE_INTENT_SNEAK)
 				playsound(user, climbsound, 100, TRUE)
 			user.visible_message(span_warning("[user] starts to climb [src][length(helping_items) ? " with the help of \the [english_list(helping_items)]" : ""]."), span_warning("I start to climb [src][length(helping_items) ? " with the help of \the [english_list(helping_items)]" : ""]..."))
-			if(do_after(L, used_time, target = src))
+			L.mid_climb = TRUE
+			var/climbed = do_after(L, used_time, target = src)
+			L.mid_climb = FALSE
+			if(climbed)
 				var/pulling = user.pulling
 				var/mob/living/carbon/human/climber = user
 				var/baseline_stamina_cost = 30 // have to disable stamina regen while on wall bruh in energystamina.dm

@@ -13,7 +13,8 @@
 	traits_applied = list(
 		TRAIT_CIVILIZEDBARBARIAN,
 		TRAIT_ARCYNE,
-		TRAIT_NALEDI
+		TRAIT_NALEDI,
+		TRAIT_BLOOD_RESISTANCE
 	)
 	subclass_stats = list(
 		STATKEY_STR = 1,
@@ -25,17 +26,18 @@
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 	)
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
 	subclass_stashed_items = list(
-		"Tome of Psydon" = /obj/item/book/rogue/bibble/psy
+		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
 
 /datum/outfit/job/roguetown/sojourner
@@ -76,23 +78,30 @@
 
 	switch(sidearm_selected)
 		if("katar")
-			H.put_in_hands(new /obj/item/rogueweapon/katar(H))
+			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon/preblessed(H))
 		if("knuckledusters")
-			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
+			H.put_in_hands(new /obj/item/rogueweapon/knuckledusters/psy(H))
 
 	head = /obj/item/clothing/head/roguetown/headband/naledi
 	mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/naledi
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	neck = /obj/item/clothing/neck/roguetown/psicross/g
-	id = /obj/item/clothing/ring/signet/psy
+	neck = /obj/item/clothing/neck/roguetown/psicross/silver/naledi
+	id = /obj/item/clothing/ring/signet/psy/g
 	belt = /obj/item/storage/belt/rogue/leather/rope/dark
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	cloak = /obj/item/clothing/cloak/tabard/psydontabard/alt
+	var/list/armor_choices = list("Light Armor", "Bare Skin")
+	var/armor_choice = input(H,"Choose your DEFENSE.", "How will you ENDURE.") as anything in armor_choices
+	switch(armor_choice)
+		if("Light Armor")
+			armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
+			shirt = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex //Yes, the item is spelled this way in the code.
+		if("Bare Skin")
+			armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
 	var/naledi_book = pick(/obj/item/book/rogue/naledi1, /obj/item/book/rogue/naledi2, /obj/item/book/rogue/naledi3, /obj/item/book/rogue/naledi4)
 	backpack_contents = list(
 		/obj/item/roguekey/inquisitionmanor = 1,

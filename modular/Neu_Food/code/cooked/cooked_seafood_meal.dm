@@ -23,7 +23,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "salmon_st_columbia"
 	tastes = list("warm fish" = 1, "fatty herbaceousness" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	faretype = FARE_FINE
 	portable = FALSE
 	warming = 5 MINUTES
@@ -39,7 +39,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "salmon_berry"
 	tastes = list("peppered fish" = 1, "fruity lightness" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	faretype = FARE_FINE
 	portable = FALSE
 	warming = 5 MINUTES
@@ -55,7 +55,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "pepper_tail"
 	tastes = list("peppered crustacean" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	faretype = FARE_NEUTRAL
 	portable = FALSE
 	warming = 5 MINUTES
@@ -71,7 +71,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "garlick_seabass"
 	tastes = list("pungent aromatics" = 1, "flaky fish goodness" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	faretype = FARE_NEUTRAL
 	portable = FALSE
 	warming = 5 MINUTES
@@ -87,7 +87,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "milk_clams"
 	tastes = list("milky crustacean" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	faretype = FARE_FINE
 	portable = FALSE
 	warming = 5 MINUTES
@@ -103,7 +103,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "ale_cod"
 	tastes = list("flaky ale-soaked fish" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	faretype = FARE_NEUTRAL
 	portable = FALSE
 	warming = 5 MINUTES
@@ -119,7 +119,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "onion_plaice"
 	tastes = list("oniony fish" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	faretype = FARE_FINE
 	portable = FALSE
 	warming = 5 MINUTES
@@ -135,7 +135,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "butter_sole"
 	tastes = list("fatty fish" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	faretype = FARE_POOR
 	portable = FALSE
 	warming = 5 MINUTES
@@ -151,7 +151,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "jellied_eel"
 	tastes = list("slimy, slippery fish" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	faretype = FARE_LAVISH
 	portable = FALSE
 	warming = 5 MINUTES
@@ -166,7 +166,7 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "lobster_meal"
 	tastes = list("lobster" = 1, "butter" = 1)
-	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	faretype = FARE_FINE // Idc lobster is not considered fine dining back then it is now since it use butter + rare fish.
 	portable = FALSE
 	warming = 5 MINUTES

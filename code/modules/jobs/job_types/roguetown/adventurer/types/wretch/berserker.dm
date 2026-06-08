@@ -97,7 +97,7 @@
 					if("Punch Dagger")
 						beltr = /obj/item/rogueweapon/katar/punchdagger
 			if("Martial Expert") // designed to compete with unarmed by giving you alternatives to approaching fights- only expert 
-				var/list/martial_options = list("Discipline - Bodybuilder", "Battle Axe", "Grand Mace", "Longsword")
+				var/list/martial_options = list("Greatsword", "Battle Axe", "Grand Mace", "Longsword")
 				var/weapon_choice = input(H, "Choose your WEAPONS of WAR!", "SPILL THEIR ENTRAILS.") as anything in martial_options
 				switch(weapon_choice)
 					if("Greatsword") //Actually not a meme anymore
@@ -109,7 +109,8 @@
 						beltr = /obj/item/rogueweapon/stoneaxe/battle
 					if("Grand Mace")
 						H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-						beltr = /obj/item/rogueweapon/mace/goden/steel
+						r_hand = /obj/item/rogueweapon/mace/goden/steel
+						backl = /obj/item/rogueweapon/scabbard/gwstrap
 					if("Longsword") //Swapped out the falx for this, it's a primary weapon afterall
 						H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 						beltr = /obj/item/rogueweapon/scabbard/sword

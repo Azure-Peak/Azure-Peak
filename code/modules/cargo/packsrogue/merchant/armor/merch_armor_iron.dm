@@ -60,6 +60,11 @@
 	name = "Bracers, Plate"
 	cost = 25
 	contains = list(/obj/item/clothing/wrists/roguetown/bracers/iron)
+	
+/datum/supply_pack/rogue/armor_iron/bracers_chain
+	name = "Bracers, Chainmaille"
+	cost = 25
+	contains = list(/obj/item/clothing/wrists/roguetown/bracers/iron/chain)
 
 /datum/supply_pack/rogue/armor_iron/jackchains
 	name = "Bracers, Jack Chain"

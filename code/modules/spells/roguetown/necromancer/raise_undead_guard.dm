@@ -28,7 +28,7 @@
 		return FALSE
 
 	var/turf/T = get_turf(cast_on)
-	if(!isopenturf(T))
+	if(!isopenturf(T) || T.is_blocked_turf())
 		to_chat(owner, span_warning("The targeted location is blocked. My summon fails to come forth."))
 		return FALSE
 
