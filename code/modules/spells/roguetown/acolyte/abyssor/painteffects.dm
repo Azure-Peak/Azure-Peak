@@ -69,7 +69,10 @@
 	if(!L || L.stat != CONSCIOUS)
 		return
 
-	var/mob/living/caster = caster_ref?.resolve()
+	// For efficiency sake, let's only check this if it's actually needed.
+	var/mob/living/caster = null
+	if(!HAS_TRAIT(L, TRAIT_INK_AFFINITY))
+		caster = caster_ref?.resolve()
 
 	if(HAS_TRAIT(L, TRAIT_INK_AFFINITY) || (caster && L == caster))
 		L.apply_status_effect(/datum/status_effect/buff/ink_surge)
@@ -118,3 +121,39 @@
 	name = "Paint Fatigue"
 	desc = "Abyssal paints cling to my legs."
 	icon_state = "debuff"
+
+/datum/status_effect/debuff/ink_leak
+	id = "ink_leak"
+	duration = 8 SECONDS
+	var/datum/weakref/caster_ref
+
+/datum/status_effect/debuff/ink_leak/on_creation(mob/living/new_owner, mob/living/caster)
+	// We always want the caster on the offchance someone is given miracles like this one, but doesn't have paint affinity.
+	// We'll see how expensive this is. In the future, maybe it's better to just give them paint affinity when they don't have it, and use a miracle that needs it.
+	if(caster)
+		caster_ref = WEAKREF(caster)
+	. = ..()
+
+/datum/status_effect/debuff/ink_leak/on_apply()
+	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, .proc/spill_trail)
+	to_chat(owner, span_userdanger("Paint oozes from your flesh!"))
+	return ..()
+
+/datum/status_effect/debuff/ink_leak/proc/spill_trail(mob/living/victim, turf/old_turf, dir)
+	SIGNAL_HANDLER
+	if(!old_turf || !isopenturf(old_turf))
+		return
+
+	var/mob/living/caster = caster_ref?.resolve()
+
+	var/obj/effect/ink_trail/existing_trail = locate(/obj/effect/ink_trail) in old_turf
+	if(existing_trail)
+		existing_trail.refresh_lifetime()
+	else
+		// Note, we do not apply the debuff here to make it less punishing. Otherwise people would lose stamina for every move.
+		new /obj/effect/ink_trail(old_turf, caster)
+
+/datum/status_effect/debuff/ink_leak/on_remove()
+	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
+	caster_ref = null
+	return ..()

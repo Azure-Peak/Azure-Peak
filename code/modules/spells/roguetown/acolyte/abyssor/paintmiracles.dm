@@ -12,7 +12,7 @@
 	invocations = list(
 		"Shogg sp'gai! Swift steps from beyond!",
 		"N'gai, n'gha'ghaa, fhtagn!",
-		"Y'gathil mor, rise!",
+		"Y'gathil mor, speed my step!",
 		"K'rnul, the painter bleeds!"
 	)
 	invocation_type = INVOCATION_SHOUT
@@ -172,3 +172,43 @@
 			REMOVE_TRAIT(L, TRAIT_INK_AFFINITY, TRAIT_MIRACLE)
 	beneficiaries.Cut()
 	return ..()
+
+/datum/action/cooldown/spell/umbral_viscosity
+	name = "Umbral Coating"
+	desc = "Infuse your active weapon with a heavy, abyssal paint. Strikes against mindless beasts deal devastating damage. Conscious targets take minimal damage but are forced to bleed paint trails behind them."
+	button_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	button_icon_state = "umbral_viscosity"
+	sound = 'sound/magic/abyssor_splash.ogg'
+	spell_color = "#03000a"
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CONJURE
+
+	invocations = list(
+		"Tha'lass-vax, blacken the iron!",
+		"Cri'morah, let the edges weep!",
+		"kra'khen, coat this steel!"
+	)
+	invocation_type = INVOCATION_WHISPER
+	charge_required = TRUE
+	charge_time = 0.7 SECONDS
+	cooldown_time = 60 SECONDS
+	devotion_cost = 25
+	associated_skill = /datum/skill/magic/holy
+
+/datum/action/cooldown/spell/umbral_viscosity/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/user = owner
+	if(!user)
+		return FALSE
+
+	var/obj/item/weapon = user.get_active_held_item()
+	if(!weapon || !isitem(weapon))
+		to_chat(user, span_warning("I must hold a weapon in my active hand to coat it!"))
+		return FALSE
+
+	if(weapon.AddComponent(/datum/component/umbral_enchant, user))
+		weapon.visible_message(span_purple("[weapon]'s aura turns purple, oozing thick droplets of paint."))
+		return TRUE
+
+	return FALSE

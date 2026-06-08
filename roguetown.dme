@@ -3056,6 +3056,7 @@
 #include "code\modules\spells\roguetown\acolyte\ravox.dm"
 #include "code\modules\spells\roguetown\acolyte\resurrect.dm"
 #include "code\modules\spells\roguetown\acolyte\xylix.dm"
+#include "code\modules\spells\roguetown\acolyte\abyssor\paintcomponents.dm"
 #include "code\modules\spells\roguetown\acolyte\abyssor\painteffects.dm"
 #include "code\modules\spells\roguetown\acolyte\abyssor\paintmiracles.dm"
 #include "code\modules\spells\roguetown\acolyte\dendor\dendor_travel.dm"
