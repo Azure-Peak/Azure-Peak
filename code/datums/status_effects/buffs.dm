@@ -52,11 +52,11 @@
 	icon_state = "buff"
 
 /datum/status_effect/vampire_spawn_protection/on_apply()
-	ADD_TRAIT(owner, TRAIT_WEATHER_PROTECTED, "vampire_spawn_protection")
+	ADD_TRAIT(owner, TRAIT_VAMPIRE_SPAWN_PROTECTION, "vampire_spawn_protection")
 	return TRUE
 
 /datum/status_effect/vampire_spawn_protection/on_remove()
-	REMOVE_TRAIT(owner, TRAIT_WEATHER_PROTECTED, "vampire_spawn_protection")
+	REMOVE_TRAIT(owner, TRAIT_VAMPIRE_SPAWN_PROTECTION, "vampire_spawn_protection")
 	if(isliving(owner))
 		to_chat(owner, span_warning("My spawn protection has faded. The sun will burn me now."))
 
