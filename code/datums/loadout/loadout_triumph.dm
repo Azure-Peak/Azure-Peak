@@ -146,6 +146,12 @@
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
+/datum/loadout_item/portalstone
+	name = "Portal Stone"
+	path = /obj/item/portal_clothes
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_royalsleeves
 	name = "Royal Sleeves"
 	path = /obj/item/clothing/wrists/roguetown/royalsleeves

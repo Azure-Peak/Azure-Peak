@@ -41,8 +41,3 @@
 	path = /obj/item/clothing/cloak/bandolier
 	sort_category = "Miscellaneous"
 	cost = 2
-
-/datum/loadout_item/portalstone
-	name = "Portal Stone"
-	path = /obj/item/portal_clothes
-	sort_category = "Miscellaneous"
