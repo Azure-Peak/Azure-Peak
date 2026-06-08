@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/vagabond/thrall
 	category_tags = list(CTAG_VAGABOND)
 	traits_applied = list(TRAIT_SILVER_WEAK)
-	maximum_possible_slots = 2
+	maximum_possible_slots = 3
 	subclass_stats = list(
 		STATKEY_STR = -1,
 		STATKEY_SPD = 2,
