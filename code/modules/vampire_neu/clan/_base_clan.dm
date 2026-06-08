@@ -369,6 +369,7 @@ And it also helps for the character set panel
 	H.process_vampire_life()
 
 /datum/clan/proc/setup_vampire_abilities(mob/living/carbon/human/H)
+	H.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix_neu)
 	if (H.job == "Thrall")
 		return
 	add_verb(H, /mob/living/carbon/human/proc/disguise_verb)
