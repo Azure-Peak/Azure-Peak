@@ -255,6 +255,7 @@
 		trail.icon_state = "paint_gray"
 		trail.color = "#52c452"
 		trail.consume_buff = TRUE
+		trail.deny_buff = TRUE
 		trail.refresh_lifetime(20 SECONDS)
 		affected_count++
 

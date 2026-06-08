@@ -25,6 +25,8 @@
 	var/debuff_payload = /datum/status_effect/debuff/ink_clog
 	/// Whether trails are consumed when a positive effect is applied.
 	var/consume_buff = FALSE
+	/// Whether trails are consumed when someone unattuned walks over them.
+	var/deny_buff = FALSE
 
 /obj/effect/ink_trail/ex_act()
 	return
@@ -103,6 +105,8 @@
 	else
 		if(debuff_payload)
 			L.apply_status_effect(debuff_payload)
+		if(deny_buff)
+			consume()
 
 // ==========================================
 // STATUS EFFECT DEFINITIONS
