@@ -1,3 +1,10 @@
+#define COLOR_LUMINOUS_ABYSSAL_INK   "#006600"
+
+#define INK_MAX_HEAL_STACKS          6
+#define INK_STACK_LIFETIME           5 SECONDS
+#define INK_HEAL_BASE                2
+#define INK_HEAL_PER_STACK           0.5
+
 /obj/effect/ink_trail
 	name = "paint trail"
 	desc = "A strange, shimmering paint staining the ground."
@@ -11,6 +18,13 @@
 	var/datum/weakref/caster_ref
 	var/duration = 8 SECONDS
 	var/expiration_timer_id
+
+	/// What buff is given if those attuned to trails walk over this one.
+	var/buff_payload = /datum/status_effect/buff/ink_surge
+	/// What debuff is given if those attuned to trails walk over this one.
+	var/debuff_payload = /datum/status_effect/debuff/ink_clog
+	/// Whether trails are consumed when a positive effect is applied.
+	var/consume_buff = FALSE
 
 /obj/effect/ink_trail/ex_act()
 	return
@@ -28,7 +42,7 @@
 	// We use a filter to make it cheaper for del() to clean these up!
 	start_filter_fade()
 
-/obj/effect/ink_trail/proc/start_filter_fade()
+/obj/effect/ink_trail/proc/start_filter_fade(var/new_duration = duration)
 	if(src.filters && src.filters.len)
 		src.remove_filter("ink_trail_fade")
 
@@ -47,18 +61,24 @@
 		return
 	var/raw_filter = src.filters[src.filters.len]
 
-	animate(raw_filter, color = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1), time = duration - 3 SECONDS, flags = ANIMATION_RELATIVE)
+	animate(raw_filter, color = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1), time = new_duration - 3 SECONDS, flags = ANIMATION_RELATIVE)
 	animate(color = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,0.1), time = 3 SECONDS, easing = LINEAR_EASING)
-	expiration_timer_id = addtimer(CALLBACK(src, .proc/timed_out), duration, TIMER_STOPPABLE)
+	expiration_timer_id = addtimer(CALLBACK(src, .proc/timed_out), new_duration, TIMER_STOPPABLE)
 
 /obj/effect/ink_trail/proc/timed_out()
 	expiration_timer_id = null
 	qdel(src)
 
-/obj/effect/ink_trail/proc/refresh_lifetime()
+/obj/effect/ink_trail/proc/refresh_lifetime(var/new_duration = duration)
 	if(expiration_timer_id)
 		deltimer(expiration_timer_id)
-	start_filter_fade()
+	start_filter_fade(new_duration)
+
+/obj/effect/ink_trail/proc/consume()
+	if(expiration_timer_id)
+		deltimer(expiration_timer_id)
+	expiration_timer_id = null
+	qdel(src)
 
 /obj/effect/ink_trail/Crossed(atom/movable/AM)
 	. = ..()
@@ -76,9 +96,13 @@
 		caster = caster_ref?.resolve()
 
 	if(HAS_TRAIT(L, TRAIT_INK_AFFINITY) || (caster && L == caster))
-		L.apply_status_effect(/datum/status_effect/buff/ink_surge)
+		if(buff_payload)
+			L.apply_status_effect(buff_payload)
+			if(consume_buff)
+				consume()
 	else
-		L.apply_status_effect(/datum/status_effect/debuff/ink_clog)
+		if(debuff_payload)
+			L.apply_status_effect(debuff_payload)
 
 // ==========================================
 // STATUS EFFECT DEFINITIONS
@@ -158,3 +182,105 @@
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
 	caster_ref = null
 	return ..()
+
+/datum/status_effect/buff/umbral_recovery
+	id = "umbral_recovery"
+	duration = -1
+	tick_interval = 1 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/buff/umbral_recovery
+	
+	var/stacks = 1
+	var/next_decay_time = 0
+	var/image/ink_overlay_mesh
+
+/datum/status_effect/buff/umbral_recovery/on_apply()
+	. = ..()
+	if(ishuman(owner))
+		update_ink_visuals()
+	
+	RegisterSignal(owner, COMSIG_MOB_APPLY_DAMGE, .proc/on_wearer_damaged)
+	next_decay_time = world.time + INK_STACK_LIFETIME
+
+/datum/status_effect/buff/umbral_recovery/refresh()
+	. = ..()
+	if(stacks < INK_MAX_HEAL_STACKS)
+		stacks++
+		update_ink_visuals()
+	next_decay_time = world.time + INK_STACK_LIFETIME
+
+/datum/status_effect/buff/umbral_recovery/proc/on_wearer_damaged(datum/source, damage, damagetype, def_zone)
+	SIGNAL_HANDLER
+	if(damage <= 0 || stacks <= 0)
+		return
+
+	if(prob(30))
+		to_chat(owner, span_danger("The impact disrupts your unholy recovery, breaking a layer of ink away!"))
+	next_decay_time = 0
+	check_decay()
+
+/datum/status_effect/buff/umbral_recovery/tick()
+	if(check_decay())
+		return
+
+	if(!ishuman(owner) || stacks <= 0)
+		return
+
+	var/mob/living/carbon/human/H = owner
+	var/healing_amount = INK_HEAL_BASE + (stacks * INK_HEAL_PER_STACK)
+	var/obj/effect/temp_visual/heal/H_heal = new /obj/effect/temp_visual/heal_rogue/hag(get_turf(H))
+	H_heal.color = COLOR_LUMINOUS_ABYSSAL_INK
+	H.adjustBruteLoss(-healing_amount, 0)
+	H.adjustFireLoss(-healing_amount, 0)
+	H.adjustOxyLoss(-healing_amount, 0)
+	H.adjustToxLoss(-healing_amount, 0)
+	H.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_amount)
+	H.adjustCloneLoss(-healing_amount, 0)
+	if(H.blood_volume < BLOOD_VOLUME_NORMAL)
+		H.blood_volume = min(H.blood_volume + healing_amount, BLOOD_VOLUME_NORMAL)
+	var/list/wCount = H.get_wounds()
+	if(wCount.len > 0)
+		H.heal_wounds(healing_amount, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic))
+		H.update_damage_overlays()
+
+/datum/status_effect/buff/umbral_recovery/proc/check_decay()
+	if(world.time < next_decay_time)
+		return FALSE
+
+	stacks--
+	if(stacks <= 0)
+		qdel(src)
+		return TRUE
+
+	update_ink_visuals()
+	next_decay_time = world.time + INK_STACK_LIFETIME
+	return FALSE
+
+/datum/status_effect/buff/umbral_recovery/proc/update_ink_visuals()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return
+
+	H.cut_overlay(ink_overlay_mesh)
+	if(stacks > 0)
+		ink_overlay_mesh = image('icons/mob/moboverlays/paintoverlay.dmi', "paint[stacks]")
+		//ink_overlay_mesh.appearance_flags = RESET_COLOR
+		H.add_overlay(ink_overlay_mesh)
+
+/datum/status_effect/buff/umbral_recovery/on_remove()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.cut_overlay(ink_overlay_mesh)
+	UnregisterSignal(owner, COMSIG_MOB_APPLY_DAMGE)
+	return ..()
+
+/atom/movable/screen/alert/status_effect/buff/umbral_recovery
+	name = "Umbral Knitting"
+	desc = "Pure abyssal ink is surging through my wounds. Taking damage will break down the concentration faster."
+	icon_state = "buff"
+
+#undef COLOR_LUMINOUS_ABYSSAL_INK
+
+#undef INK_MAX_HEAL_STACKS
+#undef INK_STACK_LIFETIME
+#undef INK_HEAL_BASE
+#undef INK_HEAL_PER_STACK

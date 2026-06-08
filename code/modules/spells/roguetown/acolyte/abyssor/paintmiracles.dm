@@ -189,7 +189,7 @@
 		"Cri'morah, let the edges weep!",
 		"kra'khen, coat this steel!"
 	)
-	invocation_type = INVOCATION_WHISPER
+	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
 	charge_time = 0.7 SECONDS
 	cooldown_time = 60 SECONDS
@@ -212,3 +212,61 @@
 		return TRUE
 
 	return FALSE
+
+/datum/action/cooldown/spell/transmute_ink
+	name = "Purifying Wave"
+	desc = "Purify nearby abyssal paint trails within your immediate surroundings, turning them into healing trails for the attuned."
+	button_icon = 'icons/mob/actions/pestraspells.dmi'
+	button_icon_state = "spore_transmute"
+	sound = 'sound/magic/abyssor_splash.ogg'
+	spell_color = "#125a00"
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_STAT_BUFF
+
+	invocations = list(
+		"Prash'ik, nar'n. Heal the faithful!",
+		"Ya'shna vin'thu rasa. Fruits of the sea!",
+		"Hu'maw, A'ferta'nu. Rejuvinate!"
+	)
+	invocation_type = INVOCATION_SHOUT
+	// Hefty cooldown given we can heal a lot of people.
+	// Up to 60 seconds with no int modifiers if a lot of puddles are made into healing stuff.
+	cooldown_time = 30 SECONDS
+	charge_time = 0.5 SECONDS
+	associated_skill = /datum/skill/magic/holy
+	var/transmute_range = 4
+	var/temp_cooldown_multiplier = 1.0
+
+/datum/action/cooldown/spell/transmute_ink/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/user = owner
+	if(!user)
+		return FALSE
+
+	var/turf/center = get_turf(user)
+	if(!center)
+		return FALSE
+
+	var/affected_count = 0
+	for(var/obj/effect/ink_trail/trail in range(transmute_range, center))
+		trail.buff_payload = /datum/status_effect/buff/umbral_recovery
+		trail.debuff_payload = null
+		trail.icon_state = "paint_gray"
+		trail.color = "#52c452"
+		trail.consume_buff = TRUE
+		trail.refresh_lifetime(20 SECONDS)
+		affected_count++
+
+	if(affected_count > 0)
+		to_chat(user, span_nicegreen("I have successfully converted [affected_count] puddles into healing paint!"))
+		temp_cooldown_multiplier = clamp(1.0 + (affected_count * 0.1), 1.0, 2.0)
+		return TRUE
+	else
+		to_chat(user, span_warning("There were no abyssal paint puddles nearby to transmute."))
+		return FALSE
+
+/datum/action/cooldown/spell/transmute_ink/get_adjusted_cooldown()
+	. = ..()
+	. *= temp_cooldown_multiplier
+	temp_cooldown_multiplier = 1.0
