@@ -105,8 +105,11 @@
 	var/list/entries = list()
 	var/matched = 0
 	var/total = length(SStreasury.ledger)
+	var/crown_name = SStreasury.discretionary_fund?.name
 	for(var/i = total to 1 step -1)
 		var/datum/treasury_entry/E = SStreasury.ledger[i]
+		if(crown_name && E.from_name != crown_name && E.to_name != crown_name)
+			continue
 		if(filter && !findtext(E.reason, filter) && !findtext(E.from_name, filter) && !findtext(E.to_name, filter))
 			continue
 		matched++

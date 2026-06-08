@@ -1,4 +1,10 @@
-import { bannerStyle, INK, SEAL_AMBER } from '../common/parchment';
+import {
+  bannerStyle,
+  FONT_BODY,
+  FONT_TITLE,
+  INK,
+  SEAL_AMBER,
+} from '../common/parchment';
 import type { SequestrationState } from './types';
 
 export const ArrearsBanner = (props: {
@@ -13,13 +19,13 @@ export const ArrearsBanner = (props: {
       style={{
         ...bannerStyle(SEAL_AMBER),
         position: 'relative',
-        fontSize: '13px',
+        fontSize: FONT_BODY,
         padding: '10px 14px',
       }}
     >
       <div
         style={{
-          fontSize: '15px',
+          fontSize: FONT_TITLE,
           fontWeight: 'bold',
           marginBottom: '3px',
           color: SEAL_AMBER,

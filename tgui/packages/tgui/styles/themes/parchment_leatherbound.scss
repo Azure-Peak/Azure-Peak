@@ -22,6 +22,18 @@
     'link-hover':      #e6c270,
   ), '../assets/azure_default/topbar_red.svg');
 
+  --font-family: 'Lora', Georgia, serif;
+
+  --p-font-tiny: 12px;
+  --p-font-small: 12px;
+  --p-font-body: 13px;
+  --p-font-lead: 13px;
+  --p-font-title: 14px;
+  --p-font-head: 15px;
+
+  --p-title: #b5654a;
+  --p-title-font: 'MedievalSharp', Georgia, serif;
+
   --p-bg: #2a2118;
   --p-bg-deep: #332a1e;
   --p-bg-shadow: #4a3a24;
@@ -59,11 +71,10 @@
   }
 
   .TitleBar__title {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
-    color: #d4c090;
+    color: var(--p-title);
     font-size: 14px;
-    letter-spacing: 3px;
-    font-variant: small-caps;
+    letter-spacing: 1px;
+    font-weight: bold;
   }
 
   .TitleBar__close {
@@ -82,10 +93,9 @@
   }
 
   .Section__title {
-    color: #d4c090;
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
-    letter-spacing: 2px;
-    font-variant: small-caps;
+    color: var(--p-title);
+    letter-spacing: 1px;
+    font-weight: bold;
     border-bottom: 1px solid rgba(160, 130, 80, 0.40);
   }
 
@@ -108,13 +118,10 @@
 
   .LabeledList__label {
     color: #a89060;
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
-    font-style: italic;
   }
 
   .LabeledList__content {
     color: #d4c090;
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
   }
 
   .Input {
@@ -135,5 +142,10 @@
   .Input__input::placeholder,
   .Input input::placeholder {
     color: rgba(212, 192, 144, 0.45);
+  }
+
+  .toc-link:hover {
+    text-decoration: underline;
+    color: var(--p-ink);
   }
 }

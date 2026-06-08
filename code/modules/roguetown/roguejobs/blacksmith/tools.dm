@@ -373,6 +373,7 @@
 	desc = "A wooden mallet is an Artificer's second best friend! But it may also come in handy to a Blacksmith or Tailor.."
 	icon_state = "hammer_w"
 	force = 16
+	anvilrepair = /datum/skill/craft/crafting
 
 /obj/item/rogueweapon/hammer/stone	// stone hammer
 	name = "stone hammer"
@@ -380,6 +381,7 @@
 	icon_state = "hammer_r"
 	force = 18
 	max_integrity = 15
+	anvilrepair = /datum/skill/craft/crafting
 
 /obj/item/rogueweapon/hammer/paalloy
 	name = "ancient hammer"

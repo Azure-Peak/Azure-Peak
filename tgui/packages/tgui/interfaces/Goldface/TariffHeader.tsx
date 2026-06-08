@@ -1,4 +1,5 @@
 import {
+  FONT_BODY,
   INK_FAINT,
   rulerStyle,
   SEAL_AMBER,
@@ -55,7 +56,7 @@ export const TariffHeader = (props: Props) => {
           style={{
             textAlign: 'center',
             fontFamily: SERIF,
-            fontSize: '11px',
+            fontSize: FONT_BODY,
             marginBottom: '4px',
           }}
         >

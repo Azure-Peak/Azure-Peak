@@ -227,13 +227,7 @@
 
 	/// Whether we are in a swingdelay, used to check for disrupted swingdelays.
 	var/swing_state = FALSE
-	var/is_swimming = FALSE
-	var/is_underwater = FALSE
-	var/drowning_drowniness = 0
-	var/breath_remaining = 100
-	var/max_breath = 100
-	var/last_breath_spent = 0
-	var/client/swimming_filter_client = null
-
+	/// Whether we are mid-climb-action, so an incoming attack can disrupt it. Distinct from climbing (wall hang).
+	var/mid_climb = FALSE
 	/// This one's for when you're choking to death.
 	var/last_gasp

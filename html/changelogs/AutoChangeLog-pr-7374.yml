@@ -1,4 +1,0 @@
-author: "kiwedespars"
-delete-after: True
-changes:
-  - bugfix: "briar's curse now works on onehanded/unwieldable weapons"

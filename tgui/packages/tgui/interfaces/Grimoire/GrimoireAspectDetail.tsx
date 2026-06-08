@@ -57,7 +57,6 @@ export const GrimoireAspectDetail = ({
             <span
               style={{
                 fontSize: '11px',
-                fontStyle: 'italic',
                 marginLeft: '10px',
                 color: 'rgba(200,100,100,0.8)',
               }}

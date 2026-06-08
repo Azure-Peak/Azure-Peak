@@ -184,6 +184,7 @@
 	max_integrity = 100
 	hoe_damage = 25
 	work_time = 15 SECONDS
+	anvilrepair = /datum/skill/craft/crafting
 
 /obj/item/rogueweapon/hoe/get_mechanics_examine(mob/user)
 	. = ..()

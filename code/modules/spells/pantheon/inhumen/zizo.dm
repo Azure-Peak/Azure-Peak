@@ -103,8 +103,8 @@
 ////////////////
 /datum/action/cooldown/spell/projectile/zizo/profane
 	name = "Profane"
-	desc = "Launch a cursed bone shard that can lodge into victims, slowly poisoning them while embedded. More embedded shards increase the damage (max. 7 DMG over time, 2x vs NPCs). Four bones in your hand (or around) may be consumed to empower the projectile, causing it to fracture into nearby non-Gravemarked enemies and embed regardless."
-	fluff_desc = "An early Cabal sacrament: bone, profaned through Zizo's teachings, proved a willing conduit for Avantyne's anti-life qualities. Splinters touched by Her grace 'bless' the living with lingering agony. Fed exactly 'four' fresh bones, the rite grows unstable, scattering its sacred cruelty to ones who do not bear your mark. Why this occurs is still never fully understood."
+	desc = "Instantly launch a cursed bone shard that pierces any armor and always lodges into its victim."
+	fluff_desc = "An early Cabal sacrament: bone, profaned through Zizo's teachings, proved a willing conduit for Avantyne's anti-life qualities. Splinters touched by Her grace pierce any ward and bury themselves deep in living flesh, a lasting testament to Her cruelty."
 	button_icon_state = "profane"
 	projectile_type = /obj/projectile/magic/profane
 	cast_range = SPELL_RANGE_PROJECTILE
@@ -113,74 +113,6 @@
 	charge_required = FALSE
 	cooldown_time = 30 SECONDS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
-
-/datum/action/cooldown/spell/projectile/zizo/profane/cast(atom/cast_on)
-	var/mob/living/user = owner
-	var/original_primary = primary_resource_cost
-	var/original_secondary = secondary_resource_cost
-	var/original_projectile = projectile_type
-
-	if(consume_bones_for_profane(user, 4))
-		primary_resource_cost = 0
-		secondary_resource_cost = 0
-		projectile_type = /obj/projectile/magic/profane/enhanced
-		user.visible_message(span_purple("Lingering bones crumble around [user]'s hand..."), span_purple("Lingering bones enhance your Divine evocation. Blessed four!"))
-	
-	. = ..()
-	projectile_type = original_projectile
-	primary_resource_cost = original_primary
-	secondary_resource_cost = original_secondary
-
-/proc/consume_bones_for_profane(mob/living/user, amount = 4)
-	var/remaining = amount
-
-	for(var/turf/T in range(1, user))
-		if(remaining <= 0)
-			break
-		for(var/obj/item/natural/bone/B in T.contents)
-			if(remaining <= 0)
-				break
-			new /obj/item/ash(T)
-			qdel(B)
-			remaining--
-
-		for(var/obj/item/natural/bundle/bone/BB in T.contents)
-			if(remaining <= 0)
-				break
-			if(QDELETED(BB) || BB.amount <= 0)
-				continue
-			var/take = min(BB.amount, remaining)
-			BB.amount -= take
-			remaining -= take
-			new /obj/item/ash(T)
-			if(BB.amount <= 0)
-				qdel(BB)
-			else if(BB.amount == 1)
-				new /obj/item/natural/bone(get_turf(BB))
-				qdel(BB)
-
-	if(remaining > 0)
-		for(var/obj/item/natural/bone/B in user.contents)
-			if(remaining <= 0)
-				break
-			qdel(B)
-			remaining--
-
-		for(var/obj/item/natural/bundle/bone/BB in user.contents)
-			if(remaining <= 0)
-				break
-			if(QDELETED(BB) || BB.amount <= 0)
-				continue
-			var/take = min(BB.amount, remaining)
-			BB.amount -= take
-			remaining -= take
-			if(BB.amount <= 0)
-				qdel(BB)
-			else if(BB.amount == 1)
-				new /obj/item/natural/bone(user.loc)
-				qdel(BB)
-
-	return remaining <= 0
 
 /obj/item/bone/profane_splinter
 	name = "profaned splinter"
@@ -220,62 +152,6 @@
 	new /obj/item/ash(get_turf(src))
 	qdel(src)
 
-/obj/item/bone/profane_splinter/on_embed(obj/item/bodypart/bp)
-	. = ..()
-	if(bp?.owner)
-		var/mob/living/L = bp.owner
-		L.apply_status_effect(/datum/status_effect/debuff/profane_poison)
-		L.visible_message(span_purple("A cursed splinter buries itself deeper into [L]'s flesh!"), span_purple("The shard buries itself deep inside me!"))
-
-/datum/status_effect/debuff/profane_poison
-	id = "profane_poison"
-	status_type = STATUS_EFFECT_UNIQUE
-	duration = INFINITY
-	tick_interval = 3 SECONDS
-	var/poison_hardcap = 7
-
-/datum/status_effect/debuff/profane_poison/tick()
-	if(!owner)
-		qdel(src)
-		return
-
-	if(owner.stat == DEAD)
-		qdel(src)
-		return
-
-	if(!iscarbon(owner))
-		if(owner.stat == CONSCIOUS)
-			owner.adjustToxLoss(7)
-		return
-
-	var/mob/living/carbon/C = owner
-	var/splinter_count = 0
-
-	for(var/obj/item/bodypart/BP in C.bodyparts)
-		if(!BP.embedded_objects)
-			continue
-
-		for(var/obj/item/I in BP.embedded_objects)
-			if(istype(I, /obj/item/bone/profane_splinter))
-				splinter_count++
-
-	if(splinter_count <= 0)
-		C.visible_message(span_notice("The profane corruption fades from [C] as the final splinter is removed."), span_notice("The profane corruption fades as the final splinter is removed."))
-		qdel(src)
-		return
-
-	if(C.stat != CONSCIOUS)
-		return
-
-	var/tox_damage = min(1 + splinter_count, poison_hardcap)
-	C.adjustToxLoss(tox_damage)
-	if(!C.mind && prob(50))
-		C.adjustToxLoss(tox_damage)
-
-	if(prob(min(splinter_count * 2, 50)))
-		C.emote("pain")
-		C.Immobilize(15)
-
 /obj/projectile/magic/profane
 	name = "profaned bone shard"
 	icon = 'icons/obj/projectiles.dmi'
@@ -283,10 +159,11 @@
 	damage = 15
 	damage_type = BRUTE
 	nodamage = FALSE
+	armor_penetration = PEN_BSTEEL
 	range = SPELL_RANGE_PROJECTILE
 	speed = MAGE_PROJ_FAST
 	accuracy = 40
-	var/embed_chance = 35
+	var/embed_chance = 100
 
 /obj/projectile/magic/profane/on_hit(atom/target, blocked)
 	. = ..()
@@ -310,90 +187,21 @@
 	if(!prob(embed_chance))
 		return
 
-	if(iscarbon(L))
-		var/mob/living/carbon/C = L
-
-		if(!length(C.bodyparts))
-			return
-
-		var/obj/item/bodypart/limb = pick(C.bodyparts)
-		if(!limb)
-			return
-
-		var/obj/item/bone/profane_splinter/S = new
-		limb.add_embedded_object(S, FALSE, TRUE, TRUE)
-		if(!L.has_status_effect(/datum/status_effect/debuff/profane_poison))
-			L.apply_status_effect(/datum/status_effect/debuff/profane_poison)
-			playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
+	if(!iscarbon(L))
 		return
 
-	if(istype(L, /mob/living/simple_animal))
-		if(!L.has_status_effect(/datum/status_effect/debuff/profane_poison))
-			L.apply_status_effect(/datum/status_effect/debuff/profane_poison)
-			playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
+	var/mob/living/carbon/C = L
 
-/obj/projectile/magic/profane/enhanced
-	name = "empowered profane shard"
-	damage = 20
-	embed_chance = 100
-
-/obj/projectile/magic/profane/enhanced/on_hit(atom/target, blocked)
-	if(!isliving(target))
-		qdel(src)
+	if(!length(C.bodyparts))
 		return
 
-	var/mob/living/main_target = target
-
-	if(main_target.anti_magic_check())
-		visible_message(span_warning("[src] shatters harmlessly against [target]!"))
-		playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
-		qdel(src)
-		return BULLET_ACT_BLOCK
-
-	try_embed_target(main_target)
-
-	main_target.visible_message(span_purple("[main_target] is struck as the shard fractures outward violently!"),span_purple("The shard explodes into a storm of splinters!"))
-
-	var/mob/living/caster = firer
-	var/faction_tag
-
-	if(caster)
-		faction_tag = "[caster.real_name]_faction"
-
-	if(!main_target || QDELETED(main_target))
-		qdel(src)
+	var/obj/item/bodypart/limb = pick(C.bodyparts)
+	if(!limb)
 		return
 
-	for(var/mob/living/L in view(5, main_target))
-		if(QDELETED(L))
-			continue
-
-		if(L.stat == DEAD)
-			continue
-
-		if(L.resting)
-			continue
-
-		if(L == main_target)
-			continue
-
-		if(L == caster)
-			continue
-
-		if(faction_tag)
-			if(L.mind?.current)
-				if(faction_tag in L.mind.current.faction)
-					continue
-			else
-				if(faction_tag in L.faction)
-					continue
-
-		main_target.Beam(L, icon_state = "chronobolt", icon = 'icons/obj/projectiles.dmi', time = 5, maxdistance = 20)
-		playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
-		playsound(get_turf(L),'sound/combat/hits/bladed/genstab (1).ogg',50,TRUE)
-		try_embed_target(L)
-
-	qdel(src)
+	var/obj/item/bone/profane_splinter/S = new
+	limb.add_embedded_object(S, FALSE, TRUE, TRUE)
+	playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
 
 // RAISE LESSER SKELETON (T2) - The new 'main' Zizo undeath-raising skill. Summon's durability scales from Miracle skill.
 /datum/action/cooldown/spell/raise_undead_formation/zizo
@@ -493,12 +301,17 @@
 		else
 			user.emote(pick("painscream", "agony", "paincrit", "choke"))
 		if(i > 1)
-			shake_camera(user, i * 2, i)
+			var/shakecap = min(i * 2, 3)
+			shake_camera(user, shakecap, i)
 		if(!do_after(user, 3 SECONDS, target = user))
 			to_chat(user, span_warning("The ritual collapses. Zizo's gaze turns away."))
 			return FALSE
 
 	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
+
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
+		user.zizo_vampire_rejection()
+		return FALSE
 
 	switch(path_choice)
 		if("Progress") // support path, your mind is twisted in Her design
@@ -508,6 +321,7 @@
 				ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]") // so you can commit atrocities with a smile
 				ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]") // the progress palooza to let you grind more efficiently
 				ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]") // also fitting for the progress vibe, way more balanced than the specialist traits IMO
+				ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]") // zizo is watching you now :)
 				grant_poke_spell(user)
 			user.visible_message(span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"), span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!"))
 
@@ -522,6 +336,7 @@
 			ADD_TRAIT(user, TRAIT_LIMBATTACHMENT, "[type]") // cause old Rituos let you recreate your skeleton limbs, but since this one deletes the spell after use, this is the best way to make it level
 			ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]") // cause it makes no sense
 			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]") // must have
+			ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]") // zizo is watching you now :)
 			for(var/obj/item/bodypart/part as anything in user.bodyparts)
 				if(istype(part, /obj/item/bodypart/head))
 					continue
@@ -547,6 +362,39 @@
 	user.mind?.RemoveSpell(src)
 	qdel(src)
 	return TRUE
+
+/mob/living/carbon/human/proc/zizo_vampire_rejection()
+	visible_message(span_userdanger("[src]'s body suddenly convulses as the Lesser Work reaches completion!<br>"), span_userdanger("The Work rejects my cursed blood!<br>"))
+	to_chat(src, span_artery("<br><br>OH. WONDERFUL. I KNOW WHAT YOU ARE ATTEMPTING.<br><br>"))
+	sleep(40)
+	to_chat(src, span_artery("YOU THINK SO LITTLE OF MY WORK? INSOLENT FOOL.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE NOT DISCOVERED SOME HIDDEN TRUTH.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE NOT FOUND A LOOPHOLE.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE NOT OUTWITTED ME.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE MERELY WASTED MY TIME.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("MY PRECIOUS TIME.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("SO. ALLOW ME TO REPAY THE FAVOR."))
+	Stun(40)
+	Knockdown(40)
+	emote("superagony")
+	playsound(get_turf(src), 'sound/misc/zizo.ogg', 200)
+	to_chat(src, span_userdanger("--MY LUX IS BEING TORN OFF THROUGH MY HEAD!! MY HEAD!! MYHEADMYHEADMYHEADMYHEADMYHEHEAHEHEA!!"))
+	ADD_TRAIT(src, TRAIT_DNR, "zizo_rejection")
+	sleep(50)
+	playsound(get_turf(src), 'sound/magic/churn.ogg', 200)
+	playsound(get_turf(src), 'sound/combat/dismemberment/dismem (2).ogg', 100)
+	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
+	head?.skeletonize(TRUE)
+	update_body()
+	visible_message(span_userdanger("[src] SCREAMS in UNBELIEVABLE AGONY as the flesh of [src.p_their()] face is TORN AWAY in a single horrific instant, leaving only an empty, grinning and limp skull..."),)
+	sleep(20)
+	visible_message(span_artery("Their Lux has been completely and utterly annihilated..."))
 
 /datum/action/cooldown/spell/zizo/rituos/proc/grant_poke_spell(mob/living/carbon/human/user)
 	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
@@ -639,13 +487,6 @@
 
 		return TRUE
 
-/obj/item/bone/splinter
-	name = "bone splinter"
-	desc = "A jagged shard of shattered bone."
-	icon = 'icons/obj/projectiles.dmi'
-	icon_state = "chronobolt"
-	embedding = list("embed_chance" = 100, "embedded_pain_chance" = 45, "embedded_fall_chance" = 0, "embedded_bloodloss" = 0, "embedded_ignore_throwspeed_threshold" = TRUE)
-
 /datum/action/cooldown/spell/zizo/bone_cataclysm/proc/explode_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
 	if(B)
 		B.End()
@@ -730,7 +571,7 @@
 			if(!length(C.bodyparts))
 				break
 			var/obj/item/bodypart/limb = pick(C.bodyparts)
-			var/obj/item/bone/splinter/P = new
+			var/obj/item/bone/profane_splinter/P = new
 			limb.add_embedded_object(P, FALSE, TRUE)
 		C.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS)
 		C.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)

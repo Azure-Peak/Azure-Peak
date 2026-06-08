@@ -75,7 +75,7 @@
 	var/chant_faction = "zizite"
 	var/extra_blade_weapon
 	if(istype(H.patron, /datum/patron/inhumen/zizo))
-		extra_blade_weapon = "Avantyne Longsword"
+		extra_blade_weapon = "Avantyne Arming Sword"
 	else if(istype(H.patron, /datum/patron/divine/noc))
 		chant_faction = "noccite"
 	var/selection_html = get_spellblade_chant_html(src, H, chant_faction, extra_blade_weapon)
@@ -157,12 +157,12 @@
 			var/list/weapons = list("Kriegmesser", "Longsword", "Rapier", "Sabre", "Steel Arming Sword", "Steel Greatsword", "Steel Dagger")
 			// Inject patron-specific weapon
 			if(istype(H.patron, /datum/patron/inhumen/zizo))
-				weapons.Insert(1, "Avantyne Longsword")
+				weapons.Insert(1, "Avantyne Arming Sword")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			switch(weapon_choice)
-				if("Avantyne Longsword")
-					r_hand = /obj/item/rogueweapon/sword/long/zizo
+				if("Avantyne Arming Sword")
+					r_hand = /obj/item/rogueweapon/sword/zizo
 				if("Kriegmesser")
 					r_hand = /obj/item/rogueweapon/sword/long/kriegmesser
 					backr = /obj/item/rogueweapon/scabbard/gwstrap

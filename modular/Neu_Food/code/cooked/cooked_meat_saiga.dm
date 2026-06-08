@@ -7,7 +7,7 @@
 	faretype = FARE_FINE
 	tastes = list("forest venison" = 1)
 	bitesize = 3
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
@@ -21,7 +21,7 @@
 	faretype = FARE_FINE
 	tastes = list("forest venison" = 1)
 	bitesize = 3
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
@@ -35,7 +35,7 @@
 	faretype = FARE_LAVISH
 	tastes = list("forest loins" = 1)
 	bitesize = 3
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
@@ -49,7 +49,7 @@
 	faretype = FARE_LAVISH
 	tastes = list("forest bounty" = 1)
 	bitesize = 6
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
@@ -63,7 +63,7 @@
 	faretype = FARE_POOR
 	tastes = list("grout and grime" = 1)
 	bitesize = 3
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
@@ -94,7 +94,7 @@
 	faretype = FARE_POOR
 	tastes = list("grout and grime" = 1)
 	bitesize = 3
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
@@ -110,7 +110,7 @@
 	faretype = FARE_NEUTRAL
 	tastes = list("grout and grime" = 1)
 	bitesize = 6
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	rotprocess = SHELFLIFE_LONG
 	fried_type = null
 	cooked_type = null
@@ -125,7 +125,7 @@
 	faretype = FARE_LAVISH
 	tastes = list("a life of hardship" = 1)
 	bitesize = 8
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEAL_FILLING)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_AND_HALF_MEALS)
 	fried_type = null
 	cooked_type = null
 
@@ -138,7 +138,7 @@
 	faretype = FARE_LAVISH
 	tastes = list("pure resolve" = 1)
 	bitesize = 10
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEAL_COMICALLY_FILLING)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_AND_HALF_MEALS)
 	volume = 100
 	fried_type = null
 	cooked_type = null
@@ -152,7 +152,7 @@
 	faretype = FARE_LAVISH
 	tastes = list("dendor's fury" = 1)
 	bitesize = 5
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEAL_FILLING)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_AND_HALF_MEALS)
 	fried_type = null
 	cooked_type = null
 
@@ -165,7 +165,7 @@
 	faretype = FARE_LAVISH
 	tastes = list("determination" = 1)
 	bitesize = 15
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GODLIKE)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FIVE_MEALS)
 	volume = 100
 	fried_type = null
 	cooked_type = null

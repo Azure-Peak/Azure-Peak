@@ -70,7 +70,7 @@
 	npc_simple_damage_mult = 1.5
 	speed = MAGE_PROJ_SLOW
 	accuracy = 65
-	flag = "piercing"
+	flag = "stab"
 	hitsound = 'sound/combat/hits/bladed/genstab (1).ogg'
 	var/reduced_damage = 18
 

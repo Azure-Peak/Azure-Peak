@@ -5,6 +5,7 @@ import {
   fieldLabelStyle,
   fieldRowStyle,
   fieldValueStyle,
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -192,7 +193,7 @@ export const Navigator = () => {
                 padding: '8px 12px',
                 border: `1px dashed ${SEAL_AMBER}`,
                 color: INK_SOFT,
-                fontSize: '12px',
+                fontSize: FONT_BODY,
                 fontStyle: 'italic',
                 lineHeight: 1.4,
               }}

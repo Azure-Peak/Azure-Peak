@@ -1,10 +1,10 @@
 
 /datum/component/infection_spreader
-	var/infection_chance = 20
+	var/infection_chance = 5
 	//More time than a standard infection to compensate for the fact these things will dwell in the woods.
 	var/infection_timer = 5 MINUTES
 
-/datum/component/infection_spreader/Initialize(inf_chance = 20)
+/datum/component/infection_spreader/Initialize(inf_chance = 5)
 	. = ..()
 	if(!istype(parent, /mob/living))
 		return COMPONENT_INCOMPATIBLE

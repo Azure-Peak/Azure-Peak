@@ -25,6 +25,7 @@
 	gripped_intents = list(/datum/intent/axe/chop/stone)
 	resistance_flags = FLAMMABLE
 	special = /datum/special_intent/axe_swing
+	anvilrepair = /datum/skill/craft/crafting
 
 /obj/item/rogueweapon/stoneaxe/getonmobprop(tag)
 	. = ..()
@@ -53,6 +54,7 @@
 	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/chop/heavy, /datum/intent/axe/bash/battle)
 	minstr = 9
 	wdefense = 4
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/stoneaxe/oath
 	force = 30
@@ -77,6 +79,7 @@
 	smeltresult = /obj/item/ingot/steel
 	minstr = 12
 	wdefense = 5
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/stoneaxe/oath/getonmobprop(tag)
 	if(tag)
@@ -100,6 +103,7 @@
 	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
 	wdefense = 2
 	is_tool = TRUE // set here to exclude battleaxes and such
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/stoneaxe/woodcut/woodcutter
 	name = "woodcutter's handaxe"
@@ -143,6 +147,7 @@
 	possible_item_intents = list(/datum/intent/axe/chop/stone)
 	gripped_intents = null
 	thrown_damage_flag = "piercing"		//Checks piercing type like an arrow.
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/stoneaxe/hurlbat/getonmobprop(tag)
 	. = ..()
@@ -220,10 +225,76 @@
 	grid_width = 32
 	throw_speed = 3 
 	armor_penetration = PEN_LIGHT
+	is_tool = TRUE
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /datum/intent/axe/cut/handaxe
 	damfactor = 1.1
 	clickcd = CLICK_CD_QUICK
+
+/obj/item/rogueweapon/stoneaxe/handaxe/silver
+	name = "silver tomahawk"
+	desc = "Once, a ceremonial rendition of the handaxes that Psydonia's ancestors built the first civilizations \
+	with. Now, an uncommon - but very much lethal - alternative to the tossblade, well-weighted for slashing and throwing."
+	armor_penetration = PEN_BSTEEL //Refers to throwing armor penetration. Heavier than silver tossblades; you get one throw.
+	icon_state = "tomahawk_silver"
+	embedding = list("embedded_pain_multiplier" = 6, "embed_chance" = 100, "embedded_fall_chance" = 30) //high chance at embed, high chance to fall out on its own.
+	gripped_intents = null
+	thrown_damage_flag = "piercing"
+	minstr = 8
+	smeltresult = /obj/item/ingot/silver
+	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
+	is_tool = FALSE
+	is_silver = TRUE
+
+/obj/item/rogueweapon/stoneaxe/handaxe/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
+/obj/item/rogueweapon/stoneaxe/handaxe/psy
+	name = "psydonic tomahawk"
+	desc = "'History prefers legends to men. It prefers nobility to brutality, soaring speeches to \
+	quiet deeds. History remembers the battle, but forgets the blood. However history remembers me, \
+	if it remembers me at all, shall only be a fraction of the truth.'"
+	armor_penetration = PEN_BSTEEL //Refers to throwing armor penetration. Heavier than silver tossblades; you get one throw.
+	icon_state = "tomahawk_silver"
+	embedding = list("embedded_pain_multiplier" = 6, "embed_chance" = 100, "embedded_fall_chance" = 30) //high chance at embed, high chance to fall out on its own.
+	gripped_intents = null
+	thrown_damage_flag = "piercing"
+	minstr = 8
+	smeltresult = /obj/item/ingot/silverblessed
+	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
+	is_tool = FALSE
+	is_silver = TRUE
+
+/obj/item/rogueweapon/stoneaxe/handaxe/psy/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
+/obj/item/rogueweapon/stoneaxe/handaxe/psy/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/stoneaxe/woodcut/bronze
 	name = "bronze axe"
@@ -302,21 +373,6 @@
 	icon_state = "ahandaxe"
 	smeltresult = /obj/item/ingot/aaslag
 
-/datum/intent/axe/cut/long
-	reach = 2
-	damfactor = 1
-	demolition_mod = 1
-
-/datum/intent/axe/cut/long/bronze
-	damfactor = 0.8
-	demolition_mod = 1.3
-
-/datum/intent/axe/chop/long
-	reach = 2
-	damfactor = 1
-	demolition_mod = 1.5
-	swingdelay = 0.5 SECONDS
-
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter
 	name = "woodcutter's axe"
 	icon = 'icons/roguetown/weapons/axes64.dmi'
@@ -331,7 +387,8 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	bigboy = TRUE
-	
+	is_tool = TRUE
+		
 /obj/item/rogueweapon/stoneaxe/woodcut/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -365,13 +422,14 @@
 	pickup_sound = 'sound/foley/equip/rummaging-03.ogg'
 	gripped_intents = list(/datum/intent/axe/cut,/datum/intent/axe/chop)
 	resistance_flags = FLAMMABLE
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/stoneaxe/woodcut/silver
 	name = "silver war axe"
 	desc = "A hefty battle axe, fashioned from pure silver. Even with a one-handed grasp, an efforted swing carries enough momentum to cleave through maille-and-flesh alike."
 	icon_state = "silveraxe"
 	force = 25 //Forgot this is forced to only be one-handed. My bad.
-	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/chop/heavy, /datum/intent/axe/bash/battle)
 	gripped_intents = null
 	minstr = 11
 	max_blade_int = 400
@@ -379,6 +437,7 @@
 	wdefense = 5
 	is_silver = TRUE
 	blade_dulling = DULLING_SHAFT_METAL
+	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
 
 /obj/item/rogueweapon/stoneaxe/woodcut/silver/ComponentInitialize()
 	AddComponent(\
@@ -397,17 +456,29 @@
 	icon_state = "psyaxe"
 	force = 25
 	force_wielded = 25
-	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/chop/heavy, /datum/intent/axe/bash/battle)
 	minstr = 11
 	wdefense = 6
 	blade_dulling = DULLING_SHAFT_METAL
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
+	special = /datum/special_intent/axe_swing //Cannot be wielded, otherwise.
 
 /obj/item/rogueweapon/stoneaxe/battle/psyaxe/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 50,\
+		added_int = 50,\
+		added_def = 1,\
+	)
+
+/obj/item/rogueweapon/stoneaxe/battle/psyaxe/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
 		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 50,\

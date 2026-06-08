@@ -266,6 +266,20 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/engineering/crossbow/staker
+	name = "staker"
+	category = "Weapons"
+	result = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/staker
+	reqs = list(
+		/obj/item/ingot/silver = 1,
+		/obj/item/natural/fibers = 1,
+		/obj/item/natural/wood/plank = 1,
+		/obj/item/grown/log/tree/small = 1,
+	)
+	structurecraft = /obj/machinery/artificer_table
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/engineering/twentybolts
 	name = "crossbow bolt (x20)"
 	category = "Ammo"

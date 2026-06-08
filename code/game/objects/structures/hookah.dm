@@ -185,3 +185,142 @@
 	smoker_user = null
 	parent_hookah = null
 	return ..()
+
+/obj/item/portable_hookah
+	name = "handheld shisha pipe"
+	desc = "A smaller, portable version of a traditional shisha. Perfect for smoking on the move."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "shisha_hand"
+	w_class = WEIGHT_CLASS_NORMAL
+	possible_item_intents = list(/datum/intent/smoke, INTENT_GENERIC)
+	slot_flags = ITEM_SLOT_HIP
+	light_system = MOVABLE_LIGHT
+	light_outer_range = 1
+	light_color = "#f5a885"
+	light_on = FALSE
+	var/lit = FALSE
+
+	grid_height = 64
+	grid_width = 64
+
+/obj/item/portable_hookah/Initialize(mapload)
+	. = ..()
+	create_reagents(20)
+
+/obj/item/portable_hookah/attackby(obj/item/I, mob/user, params)
+	if(!lit && (I.get_temperature() >= FIRE_MINIMUM_TEMPERATURE_TO_SPREAD))
+		light_shisha(user)
+		return
+
+	if(istype(I, /obj/item/reagent_containers/powder))
+		var/obj/item/reagent_containers/powder/powder = I
+		if(!powder.reagents?.total_volume)
+			to_chat(user, span_notice("[I] is useless for shisha."))
+			return
+
+		if(reagents.total_volume >= reagents.maximum_volume)
+			to_chat(user, span_notice("[src] is already tightly packed."))
+			return
+
+		to_chat(user, span_notice("I pack [src] with [powder]."))
+		powder.reagents.trans_to(reagents, powder.reagents.total_volume, transfered_by = user)
+		user.dropItemToGround(powder)
+		qdel(powder)
+		return
+
+	else if(istype(I, /obj/item/reagent_containers/food/snacks/grown))
+		var/obj/item/reagent_containers/food/snacks/grown/tobacco = I
+		if(!tobacco.pipe_reagents?.len)
+			to_chat(user, span_notice("[I] is useless for shisha."))
+			return
+
+		var/new_reagents_amt = 0
+		for(var/id in tobacco.pipe_reagents)
+			new_reagents_amt += tobacco.pipe_reagents[id]
+		if(reagents.total_volume >= reagents.maximum_volume)
+			to_chat(user, span_notice("[src] is already tightly packed."))
+			return
+
+		to_chat(user, span_notice("I pack [src] with [tobacco]."))
+		reagents.add_reagent_list(tobacco.pipe_reagents)
+		user.dropItemToGround(tobacco)
+		qdel(tobacco)
+		return
+
+	return ..()
+
+/obj/item/portable_hookah/attack(mob/M, mob/user, obj/target)
+	if(user.used_intent.type == /datum/intent/smoke)
+		if(!lit)
+			to_chat(user, span_warning("[src] is not lit! You need a flame to light it."))
+			return
+		if(!reagents?.total_volume)
+			to_chat(user, span_warning("[src] is empty! There's nothing to smoke."))
+			return
+
+		playsound(get_turf(src), 'sound/foley/shisha_gurgle.ogg', rand(50, 70), FALSE, -1)
+		
+		if(!do_after(user, 2 SECONDS, target = user) || QDELETED(src) || !lit)
+			return
+
+		if(!reagents?.total_volume)
+			return
+
+		var/smoke_amount = reagents.maximum_volume / reagents.total_volume
+		reagents.reaction(user, INGEST, min(REAGENTS_METABOLISM / smoke_amount, 1))
+		if(!reagents.trans_to(user, smoke_amount))
+			reagents.remove_any(smoke_amount)
+
+		var/turf/my_turf = get_turf(user)
+		if(my_turf)
+			my_turf.pollute_turf(/datum/pollutant/smoke, 3)
+
+		to_chat(user, span_notice("You take a pleasant puff from \the [src]."))
+
+		if(!reagents.total_volume)
+			to_chat(user, span_warning("\The [src] goes out as the smoking mix burns out."))
+			extinguish()
+
+	else
+		if(lit)
+			user.visible_message(span_notice("[user] extinguishes \the [src]."), span_notice("You extinguish \the [src]."))
+			extinguish()
+		else
+			to_chat(user, span_notice("[src] is already cold. Use a heat source on it to light it up."))
+
+/obj/item/portable_hookah/proc/light_shisha(mob/user)
+	if(lit)
+		return
+	if(!reagents?.total_volume)
+		if(user)
+			to_chat(user, span_warning("You can't light \the [src] while it's empty! Pack it first."))
+		return
+
+	lit = TRUE
+	set_light_on(TRUE)
+	icon_state = "shisha_hand_lit"
+	playsound(src.loc, 'sound/items/firelight.ogg', 100)
+	if(user)
+		user.visible_message(span_notice("[user] lights \the [src] with a satisfying hiss."), span_notice("You light \the [src]. Candle flame is so romantic."))
+	update_icon()
+
+/obj/item/portable_hookah/extinguish()
+	if(!lit)
+		return
+	lit = FALSE
+	set_light_on(FALSE)
+	icon_state = "shisha_hand"
+	playsound(src.loc, 'sound/items/firesnuff.ogg', 100)
+	update_icon()
+
+/obj/item/portable_hookah/fire_act(added, maxstacks)
+	if(!lit)
+		light_shisha()
+		return TRUE
+	return ..()
+
+/obj/item/portable_hookah/spark_act()
+	if(!lit)
+		light_shisha()
+		return TRUE
+	return ..()

@@ -47,7 +47,7 @@
 
 	backpack_contents = list(
 		/obj/item/natural/clay = 3,
-		/obj/item/natural/clay/glassbatch = 1,
+		/obj/item/natural/glassbatch = 1,
 		/obj/item/rogueore/coal = 1,
 		/obj/item/roguegear = 1,
 		/obj/item/dye_brush = 1,

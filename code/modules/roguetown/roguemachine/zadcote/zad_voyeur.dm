@@ -94,7 +94,7 @@
 
 /mob/dead/observer/screye/zadcote_voyeur/Initialize()
 	. = ..()
-	verbs += /mob/dead/observer/screye/zadcote_voyeur/proc/end_zad_voyeur
+	add_verb(src, /mob/dead/observer/screye/zadcote_voyeur/proc/end_zad_voyeur)
 
 /mob/dead/observer/screye/zadcote_voyeur/proc/end_zad_voyeur()
 	set category = "IC"

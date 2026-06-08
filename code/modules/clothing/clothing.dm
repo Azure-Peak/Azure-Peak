@@ -360,7 +360,7 @@
 		how_cool_are_your_threads += "</span>"
 		. += how_cool_are_your_threads.Join()
 */
-
+/// Proc that handles flinging off equipment when broken. NPCs have it happen to them way more frequently.
 /obj/item/clothing/proc/get_flung_off()
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
@@ -370,17 +370,28 @@
 		var/throwprob = (H.mind ? 8 : 80) + ((10 - H.STALUC))	// More FOR we have the less likely it is to happen.
 		if(!prob(throwprob))
 			return
-		if(H.dropItemToGround(src, silent = TRUE))
-			H.update_fov_angles()
-			if(material_category == ARMOR_MAT_PLATE || material_category == ARMOR_MAT_CHAINMAIL)
-				do_sparks(2, TRUE, get_turf(H))
-			var/turnangle = (prob(10) ? 180 : prob(50) ? 270 : 90)
-			var/turndir = turn(H.dir, turnangle)
-			var/dist = rand(1, max_range)
-			var/current_turf = get_turf(H)
-			var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
-			playsound(get_turf(H), 'sound/misc/obj_toss.ogg', 100, TRUE)
-			throw_at(target_turf, dist, 6, H, FALSE)
+		perform_fling(H, max_range)
+
+/// Proc mostly for admins to use that omits probabilities. We could use an arg in the proc above, but navigating proccall is simpler without them.
+/obj/item/clothing/proc/get_flung_off_forced()
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		var/max_range = rand(2, 3)
+		perform_fling(H, max_range)
+
+/// Actual proc for flinging the item off. This shouldn't really 'fail' if it is getting called.
+/obj/item/clothing/proc/perform_fling(mob/living/carbon/human/H, max_range)
+	if(H.dropItemToGround(src, silent = TRUE))
+		H.update_fov_angles()
+		if(material_category == ARMOR_MAT_PLATE || material_category == ARMOR_MAT_CHAINMAIL)
+			do_sparks(2, TRUE, get_turf(H))
+		var/turnangle = (prob(10) ? 180 : prob(50) ? 270 : 90)
+		var/turndir = turn(H.dir, turnangle)
+		var/dist = rand(1, max_range)
+		var/current_turf = get_turf(H)
+		var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
+		playsound(get_turf(H), 'sound/misc/obj_toss.ogg', 100, TRUE)
+		throw_at(target_turf, dist, 6, H, FALSE)
 
 /obj/item/clothing/obj_break(damage_flag)
 	original_armor = armor

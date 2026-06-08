@@ -15,20 +15,18 @@
 		ui = new(user, src, "Talkstatue", name)
 		ui.open()
 
-/obj/structure/roguemachine/talkstatue/mercenary/proc/cycle_role_status(mob/living/carbon/human/user, list/registry, list/states, default_state)
+/obj/structure/roguemachine/talkstatue/mercenary/proc/set_role_status(mob/living/carbon/human/user, list/registry, list/states, default_state, new_status)
+	if(!(new_status in states))
+		return
 	var/list/data = registry[user.real_name]
 	if(!data)
 		data = list("status" = default_state, "mob" = user, "message" = "")
 		registry[user.real_name] = data
-	var/idx = states.Find(data["status"])
-	if(idx <= 0)
-		data["status"] = default_state
-	else
-		data["status"] = states[(idx % length(states)) + 1]
+	data["status"] = new_status
 	data["mob"] = user
-	to_chat(user, span_notice("I set my status to: <b>[data["status"]]</b>"))
+	to_chat(user, span_notice("I set my status to: <b>[new_status]</b>"))
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	log_admin_private("[key_name(user)] set statue status to [data["status"]]")
+	log_admin_private("[key_name(user)] set statue status to [new_status]")
 
 /obj/structure/roguemachine/talkstatue/mercenary/proc/edit_role_message(mob/living/carbon/human/user, list/registry, default_state)
 	var/list/data = registry[user.real_name]
@@ -64,6 +62,15 @@
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 	log_admin_private("[key_name(user)] set wretch nom de guerre: \"[new_nom]\"")
 
+/obj/structure/roguemachine/talkstatue/mercenary/proc/leave_roster(mob/living/carbon/human/user, list/registry)
+	if(!registry[user.real_name])
+		to_chat(user, span_warning("I am not listed here."))
+		return
+	registry -= user.real_name
+	to_chat(user, span_notice("I have taken myself off the roster."))
+	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
+	log_admin_private("[key_name(user)] removed self from statue roster")
+
 /obj/structure/roguemachine/talkstatue/mercenary/proc/message_single_adventurer(mob/living/carbon/human/sender, target_key)
 	if(!target_key)
 		var/list/picker = list()
@@ -73,8 +80,6 @@
 			if(!adv || adv.stat == DEAD)
 				continue
 			if(d["status"] == "Do not Disturb")
-				continue
-			if(adv.real_name == sender.real_name)
 				continue
 			var/status_text = d["status"] || "Available"
 			picker["[adv.real_name] ([status_text])"] = adv.real_name
@@ -225,6 +230,9 @@
 	data["my_key"] = ishuman(user) ? HU.real_name : ""
 	data["message_char_limit"] = message_char_limit
 
+	data["merc_status_options"] = list("Available", "Contracted", "Do not Disturb")
+	data["adv_status_options"] = list("Available", "Away", "Resting", "Do not Disturb")
+	data["wretch_status_options"] = list("Available", "On a Job", "Lying Low", "Do not Disturb")
 	data["mercenaries"] = roster_payload(mercenary_status, FALSE)
 	data["adventurers"] = roster_payload(adventurer_status, FALSE)
 	if(is_wretch || is_bathhouse)
@@ -269,10 +277,10 @@
 	var/is_wretch = user_role == "Wretch"
 	var/is_bathhouse = (user_role == "Bathmaster") || (user_role == "Bathhouse Attendant")
 	switch(action)
-		if("cycle_merc_status")
+		if("set_merc_status")
 			if(!is_merc)
 				return
-			cycle_role_status(H, mercenary_status, list("Available", "Contracted", "Do not Disturb"), "Available")
+			set_role_status(H, mercenary_status, list("Available", "Contracted", "Do not Disturb"), "Available", params["status"])
 			return TRUE
 		if("edit_merc_message")
 			if(!is_merc)
@@ -285,15 +293,20 @@
 		if("broadcast_mercs")
 			broadcast_to_mercenaries(H)
 			return TRUE
-		if("cycle_adv_status")
+		if("set_adv_status")
 			if(!is_adv)
 				return
-			cycle_role_status(H, adventurer_status, list("Available", "Away", "Resting", "Do not Disturb"), "Available")
+			set_role_status(H, adventurer_status, list("Available", "Away", "Resting", "Do not Disturb"), "Available", params["status"])
 			return TRUE
 		if("edit_adv_message")
 			if(!is_adv)
 				return
 			edit_role_message(H, adventurer_status, "Available")
+			return TRUE
+		if("leave_adv")
+			if(!is_adv)
+				return
+			leave_roster(H, adventurer_status)
 			return TRUE
 		if("contact_adventurer")
 			message_single_adventurer(H, params["key"])
@@ -301,10 +314,10 @@
 		if("pick_adventurer")
 			message_single_adventurer(H, null)
 			return TRUE
-		if("cycle_wretch_status")
+		if("set_wretch_status")
 			if(!is_wretch)
 				return
-			cycle_role_status(H, wretch_status, list("Available", "On a Job", "Lying Low", "Do not Disturb"), "Available")
+			set_role_status(H, wretch_status, list("Available", "On a Job", "Lying Low", "Do not Disturb"), "Available", params["status"])
 			return TRUE
 		if("edit_wretch_message")
 			if(!is_wretch)

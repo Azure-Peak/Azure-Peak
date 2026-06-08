@@ -349,7 +349,9 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	duration = 30 MINUTES
 
-/datum/status_effect/debuff/ritesexpended/heretic
+/datum/status_effect/debuff/armamentrites
+	id = "armamentrites"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/armamentrites
 	duration = 2 HOURS
 
 /datum/status_effect/debuff/lux_exhausted
@@ -360,6 +362,10 @@
 
 /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	name = "Rites Complete"
+	desc = "It will take time before I can next perform a rite."
+
+/atom/movable/screen/alert/status_effect/debuff/armamentrites
+	name = "Armament Rites Complete"
 	desc = "It will take time before I can next perform a rite."
 
 /atom/movable/screen/alert/status_effect/debuff/lux_exhausted
@@ -1070,7 +1076,7 @@
 /atom/movable/screen/alert/status_effect/debuff/weapon_bind_debuff
 	name = "Weapon Binded"
 	desc = "Our weapons binded! That conniving sod knew right where I was aiming! I can't benefit from a weapon bind!"
-	icon = 'icons/mob/combat_debuffs.dmi'
+	icon = 'icons/mob/screen_alert_combat.dmi'
 	icon_state = "weapon_bind_debuff"
 
 /datum/status_effect/debuff/knockout

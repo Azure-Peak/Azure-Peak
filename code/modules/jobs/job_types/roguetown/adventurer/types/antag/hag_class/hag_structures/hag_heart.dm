@@ -31,11 +31,12 @@
 		"Here, take some of my mosses. If they glow, absorb them to manifest their magic as a boon later. Or enchant them yourself.",
 		"But remember! The pact must be accepted! Offer your enchanted gifts with a Right-Click! they must take the hook willingly.",
 		"Feed the Heartroot trees with Lux. Let them drink deep so they may sprout the mosses we need for our components.",
-		"And if the hunger for true revenge bites... bring me the tithes listed here. We shall perform the Grand Rite together.",
+		// "And if the hunger for true revenge bites... bring me the tithes listed here. We shall perform the Grand Rite together.",
 		"Be wary! Cursed mortals and the Rite itself will draw them to your hut. They will try to smash my wards in the bog to find you.",
 		"I am your anchor. I will bring you back from death's door again and again... unless they shatter me, as they did in the yils before.",
 		"Should you find yourself captured or trapped, remember you can hold your breath...",
-		"Go now. Curse them. Bind them. Or burn the world with the Rite. The bog remembers... and so do I."
+		"Go now. Curse them. Bind them. The bog remembers... and so do I."
+		// "Go now. Curse them. Bind them. Or burn the world with the Rite. The bog remembers... and so do I."
 	)
 
 /obj/structure/roguemachine/hag_heart/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE, attack_dir, armor_penetration = 0, object_damage_multiplier = 1)
@@ -65,7 +66,7 @@
 /obj/structure/roguemachine/hag_heart/Destroy()
 	GLOB.hag_hearts -= src
 	for(var/mob/living/H in GLOB.active_hags)
-		to_chat(H, span_userdanger("My heart is gone. If I die now, I won't return for until many yils have passed."))
+		to_chat(H, span_userdanger("My heart is gone. If I die now, I won't return until many yils have passed."))
 	if(timer_id)
 		deltimer(timer_id)
 		priority_announce("The Grand Rite has been thwarted! The cackling fades into a pathetic whimper.", "Rite Severed")
@@ -79,72 +80,72 @@
 		tutorial_started = TRUE
 		begin_tutorial()
 
-	if(timer_id)
-		var/time_left = timeleft(timer_id)
-		if(time_left > 0)
-			. += span_boldnotice("The Grand Rite of [chosen_rite.name] is in progress! [DisplayTimeText(time_left)] remain.")
-		else
-			. += span_boldnotice("The Grand Rite is reaching its crescendo...")
-		return
+	// if(timer_id)
+	// 	var/time_left = timeleft(timer_id)
+	// 	if(time_left > 0)
+	// 		. += span_boldnotice("The Grand Rite of [chosen_rite.name] is in progress! [DisplayTimeText(time_left)] remain.")
+	// 	else
+	// 		. += span_boldnotice("The Grand Rite is reaching its crescendo...")
+	// 	return
 
-	if(current_stage > max_stages)
-		. += span_boldnotice("The tithes are complete. <b>Interact</b> with the heart to choose your Grand Rite.")
-		return
+	// if(current_stage > max_stages)
+	// 	. += span_boldnotice("The tithes are complete. <b>Interact</b> with the heart to choose your Grand Rite.")
+	// 	return
 
-	. += span_notice("The heart demands Stage [current_stage] tithes. Offer one of the following:")
-	var/list/options = rite_requirements[current_stage]
-	for(var/path in options)
-		. += span_info("- [options[path]]x [initial(path:name)]")
+	// . += span_notice("The heart demands Stage [current_stage] tithes. Offer one of the following:")
+	// var/list/options = rite_requirements[current_stage]
+	// for(var/path in options)
+	// 	. += span_info("- [options[path]]x [initial(path:name)]")
 
-/obj/structure/roguemachine/hag_heart/attackby(obj/item/I, mob/living/user)
-	if(current_stage > max_stages || timer_id)
-		return ..()
+// /obj/structure/roguemachine/hag_heart/attackby(obj/item/I, mob/living/user)
+// 	if(current_stage > max_stages || timer_id)
+// 		return ..()
 
-	var/list/current_reqs = rite_requirements[current_stage]
-	var/path_to_check = I.type
+// 	var/list/current_reqs = rite_requirements[current_stage]
+// 	var/path_to_check = I.type
 	
-	// Check if the item matches any requirement for this stage
-	var/is_valid_contribution = FALSE
-	for(var/req_path in current_reqs)
-		if(istype(I, req_path))
-			path_to_check = req_path // Use the requirement path for consistent indexing
-			is_valid_contribution = TRUE
-			break
+// 	// Check if the item matches any requirement for this stage
+// 	var/is_valid_contribution = FALSE
+// 	for(var/req_path in current_reqs)
+// 		if(istype(I, req_path))
+// 			path_to_check = req_path // Use the requirement path for consistent indexing
+// 			is_valid_contribution = TRUE
+// 			break
 
-	if(!is_valid_contribution)
-		return ..()
+// 	if(!is_valid_contribution)
+// 		return ..()
 
-	var/total_needed = current_reqs[path_to_check]
-	var/already_delivered = delivered_items[path_to_check] || 0
+// 	var/total_needed = current_reqs[path_to_check]
+// 	var/already_delivered = delivered_items[path_to_check] || 0
 
-	// Consume the item
-	user.transferItemToLoc(I, src, TRUE) // Move to null/src before deletion for safety
-	qdel(I)
+// 	// Consume the item
+// 	user.transferItemToLoc(I, src, TRUE) // Move to null/src before deletion for safety
+// 	qdel(I)
 
-	already_delivered++
-	delivered_items[path_to_check] = already_delivered
+// 	already_delivered++
+// 	delivered_items[path_to_check] = already_delivered
 
-	to_chat(user, span_notice("The heart pulses greedily as it consumes the [initial(path_to_check:name)]. ([already_delivered]/[total_needed])"))
-	playsound(src, 'sound/magic/heartbeat.ogg', 100, TRUE)
+// 	to_chat(user, span_notice("The heart pulses greedily as it consumes the [initial(path_to_check:name)]. ([already_delivered]/[total_needed])"))
+// 	playsound(src, 'sound/magic/heartbeat.ogg', 100, TRUE)
 
-	// Check if THIS specific requirement path is satisfied
-	if(already_delivered >= total_needed)
-		to_chat(user, span_boldnotice("The heart has been satiated with [initial(path_to_check:name)] for this stage!"))
-		current_stage++
-		delivered_items.Cut() // Clear for the next stage
+// 	// Check if THIS specific requirement path is satisfied
+// 	if(already_delivered >= total_needed)
+// 		to_chat(user, span_boldnotice("The heart has been satiated with [initial(path_to_check:name)] for this stage!"))
+// 		current_stage++
+// 		delivered_items.Cut() // Clear for the next stage
 		
-		if(current_stage > max_stages)
-			to_chat(user, span_boldnotice("The tithes are complete! The heart is ready to channel your spite."))
+// 		if(current_stage > max_stages)
+// 			to_chat(user, span_boldnotice("The tithes are complete! The heart is ready to channel your spite."))
 	
-	return TRUE
+// 	return TRUE
 
-/obj/structure/roguemachine/hag_heart/attack_hand(mob/living/user)
-	if(!HAS_TRAIT(user, TRAIT_ANCIENT_HAG))
-		return
-	if(current_stage > max_stages && !timer_id && !rite_started)
-		select_rite(user)
-		return
-	..()
+// /obj/structure/roguemachine/hag_heart/attack_hand(mob/living/user)
+// 	if(!HAS_TRAIT(user, TRAIT_ANCIENT_HAG))
+// 		return
+// 	if(current_stage > max_stages && !timer_id && !rite_started)
+// 		select_rite(user)
+// 		return
+// 	..()
 
 /obj/structure/roguemachine/hag_heart/proc/select_rite(mob/living/user)
 	// We check for the component locally just to ensure a Hag is the one starting it

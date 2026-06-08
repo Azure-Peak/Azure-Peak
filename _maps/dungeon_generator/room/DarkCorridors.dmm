@@ -20,10 +20,6 @@
 /area/rogue/under/tomb/wilds)
 "bQ" = (
 /obj/structure/table/wood,
-/obj/item/book/granter/arcane_aspect/major{
-	pixel_y = 11;
-	pixel_x = 15
-	},
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/tomb/indoors/church)
 "ci" = (

@@ -63,6 +63,21 @@
 	damfactor = 1.3
 	reach = 2
 
+/datum/intent/axe/cut/long
+	reach = 2
+	damfactor = 1.3
+	demolition_mod = 1
+
+/datum/intent/axe/cut/long/bronze
+	damfactor = 1.1
+	demolition_mod = 1.3
+
+/datum/intent/axe/chop/long
+	reach = 2
+	damfactor = 1.3
+	demolition_mod = 1.5
+	swingdelay = 0.5 SECONDS
+
 /datum/intent/axe/bash
 	name = "bash"
 	icon_state = "inbash"

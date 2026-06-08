@@ -1,6 +1,9 @@
 import type { CSSProperties } from 'react';
 
-import { SERIF } from '../common/parchment';
+import {
+  FONT_BODY,
+  SERIF,
+} from '../common/parchment';
 import { RIBBON_TEXT } from './parchment_calendar';
 
 type EventBarProps = {
@@ -12,9 +15,8 @@ type EventBarProps = {
 
 export const EventBar = ({ color, isStart, isEnd, label }: EventBarProps) => {
   const style: CSSProperties = {
-    fontSize: '10px',
+    fontSize: FONT_BODY,
     fontFamily: SERIF,
-    fontVariant: 'small-caps',
     letterSpacing: '1px',
     color: RIBBON_TEXT,
     background: color,

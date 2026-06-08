@@ -169,7 +169,7 @@
 	H.STAINT = rand(9,10)
 	//Chest Gear
 	add_random_reiver_cloak(H)
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	add_random_reiver_armor(H)
 	//Head Gear
 	neck = /obj/item/clothing/neck/roguetown/leather
@@ -270,7 +270,7 @@
 	H.STAINT = rand(8,9)
 	//Chest Gear
 	add_random_reiver_cloak(H)
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
 	//Head Gear
 	neck = /obj/item/clothing/neck/roguetown/leather
 	add_random_reiver_lowgearhelmet(H)
@@ -355,7 +355,7 @@
 	H.STAINT = rand(10,11)
 	//Chest Gear
 	add_random_reiver_cloak(H)
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy
 	//Head Gear
 	neck = /obj/item/clothing/neck/roguetown/chaincoif

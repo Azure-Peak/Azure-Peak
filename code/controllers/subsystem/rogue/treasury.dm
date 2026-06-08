@@ -320,7 +320,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	return mint(account, amt, "Savings")
 
-/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source)
+/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source, mint_new = FALSE, mint_label)
 	if(!amt)
 		return
 	if(!target)
@@ -335,8 +335,12 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 
 	if(amt > 0)
-		if(!transfer(discretionary_fund, account, amt, source))
-			return FALSE
+		if(mint_new)
+			if(!mint(account, amt, source, mint_label))
+				return FALSE
+		else
+			if(!transfer(discretionary_fund, account, amt, source))
+				return FALSE
 		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
 		send_ooc_note(source ? "<b>MEISTER:</b> You received [amt]m. ([source])" : "<b>MEISTER:</b> You received [amt]m.", name = target_name)
 		log_game("CROWN GRANT: [usr ? key_name(usr) : "system"] granted [amt]m to [istype(target, /mob/living) ? key_name(target) : target_name] via [source || "unknown"]")

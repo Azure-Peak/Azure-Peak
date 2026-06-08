@@ -1,6 +1,7 @@
 import type { EconomicEvent, GoodCatalogEntry } from './types';
 import {
   cardStyle,
+  FONT_BODY,
   INK_FAINT,
   INK_SOFT,
   SEAL_GREEN,
@@ -46,12 +47,12 @@ export const EventsBanner = (props: {
             <span style={{ color: INK_FAINT, marginLeft: '8px' }}>
               ({e.days_left}d left)
             </span>
-            <div style={{ color: INK_SOFT, fontSize: '12px' }}>
+            <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
               {e.description}
             </div>
             {isShortage && target > 0 && (
               <div style={{ marginTop: '4px' }}>
-                <div style={{ color: INK_FAINT, fontSize: '11px', marginBottom: '2px' }}>
+                <div style={{ color: INK_FAINT, fontSize: FONT_BODY, marginBottom: '2px' }}>
                   Relief: {progress} / {target} units delivered ({pct}%). Accepts: {affectedNames} 
                 </div>
                 <div

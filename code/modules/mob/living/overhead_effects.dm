@@ -89,6 +89,24 @@
 		playsound(src, soundin, 100, FALSE, extrarange = -1, ignore_walls = FALSE)
 	return visual
 
+/mob/living/proc/play_overhead_private_rclickemote(list/targets, iconstate, custom_offset)
+	if(!length(targets))
+		return
+	var/list/offset_list
+	var/offset = 20
+	if(custom_offset)
+		offset = custom_offset
+	var/icon_plane = WEATHER_EFFECT_PLANE	//Will show up through the cone.
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		var/datum/species/SPC =	H.dna.species
+		if(H.gender == FEMALE)
+			offset_list = SPC.offset_features[OFFSET_HEAD_F]
+		else
+			offset_list = SPC.offset_features[OFFSET_HEAD]
+	for(var/mob/M in targets)
+		vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, M, 'icons/mob/overhead_effects.dmi', iconstate, offset_list, offset, icon_plane)
+	
 /obj/effect/temp_visual/stress_event
 	icon = 'icons/mob/overhead_effects.dmi'
 	duration = 20

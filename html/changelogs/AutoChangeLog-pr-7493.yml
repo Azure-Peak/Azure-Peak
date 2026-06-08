@@ -1,0 +1,4 @@
+author: "saltprjak"
+delete-after: True
+changes:
+  - balance: "Church Templars that receive patron daggers now have Journeyman skills to use them."

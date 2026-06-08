@@ -606,7 +606,7 @@ SUBSYSTEM_DEF(migrants)
 	return migrants
 
 /client/proc/admin_force_next_migrant_wave()
-	set category = "SERVER"
+	set category = "Server"
 	set name = "Force Migrant Wave"
 	if(!holder)
 		return

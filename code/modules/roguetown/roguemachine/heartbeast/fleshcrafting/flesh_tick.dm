@@ -17,6 +17,7 @@
 		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
 	)
 	baitresilience = 5
+	dropshrink = 0.85
 
 /obj/item/leechtick_bloated
 	icon_state = "leechthick"

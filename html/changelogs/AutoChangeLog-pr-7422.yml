@@ -1,0 +1,9 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - rscadd: "Ley Line unique spell for Hierophant-only."
+  - rscadd: "Dissonance and Acceleration unique spells for Vizier-only."
+  - rscadd: "Naledi Refugee merc-adjacent subclasses: Dropout/Ascetic/Wanderer."
+  - rscadd: "New animation for Restoration Origin Magic."
+  - balance: "Slightly buffed Restoration, it now works on Constructs too."
+  - refactor: "Removed a lot of spaghetti code repetitions and standardized Poke Spell granting to a single centralized /proc."

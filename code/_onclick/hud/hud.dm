@@ -66,7 +66,6 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	var/atom/movable/screen/stamina/stamina
 	var/atom/movable/screen/energy/energy
 	var/atom/movable/screen/bloodpool/bloodpool
-	var/atom/movable/screen/bloodpool/breath_bar
 	var/atom/movable/screen/feint_bar
 
 	var/image/object_overlay
@@ -79,10 +78,6 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	var/atom/movable/screen/textl
 	var/atom/movable/screen/textr
 	var/atom/movable/screen/vis_holder/vis_holder
-	var/atom/movable/screen/breath
-	var/atom/movable/screen/breath_bg
-	var/atom/movable/screen/breath_frame
-	var/atom/movable/screen/breath_mask
 
 /datum/hud/New(mob/owner)
 	mymob = owner

@@ -43,6 +43,9 @@
 			var/obj/item/IM = L.get_active_held_item()
 			H.process_clash(src, IM)
 			return
+		if(ishuman(L))
+			var/mob/living/carbon/human/H = L
+			H.process_golgatha_rebuke(src)
 		if(mob_biotypes & MOB_UNDEAD)
 			if(L.has_status_effect(/datum/status_effect/buff/necras_vow))
 				if(isnull(mind))

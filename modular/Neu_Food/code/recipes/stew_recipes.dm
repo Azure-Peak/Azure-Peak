@@ -1,9 +1,35 @@
 #define STEW_COOKING_TIME 60 SECONDS // Default time to cook in seconds
 
 /datum/stew_recipe
+	abstract_type = /datum/stew_recipe
+	var/name
 	var/list/obj/inputs = null // The valid inputs for the recipe
 	var/datum/reagent/output = null // The reagent to be used as output for the recipe
 	var/cooktime = STEW_COOKING_TIME // The time to cook the recipe
+
+/datum/stew_recipe/New()
+	. = ..()
+	if(!name && output)
+		name = initial(output.name)
+
+/datum/stew_recipe/proc/generate_html(mob/user)
+	var/html = "<h2>[name]</h2>"
+
+	var/datum/reagent/R = output
+	if(R)
+		html += "<p>Boil a hot pot of water, then add any of the following ingredients. Each yields <b>[initial(R.name)]</b>:</p>"
+		if(initial(R.description))
+			html += "<p class='recipe-desc'>[initial(R.description)]</p>"
+
+	if(length(inputs))
+		html += "<ul>"
+		for(var/path in inputs)
+			var/atom/A = path
+			html += "<li>[icon2html(new A, user)] [initial(A.name)]</li>"
+		html += "</ul>"
+
+	html += "<p>Stews simmer for about [cooktime / 10] seconds per ingredient. A pot consumes 30dr of water per ingredient converted.</p>"
+	return html
 
 // DO NOT SORT the list unless you know what you're doing (refactor it) - I ordered specific recipe before generic one for a reason!!
 

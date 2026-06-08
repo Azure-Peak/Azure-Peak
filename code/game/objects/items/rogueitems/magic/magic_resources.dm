@@ -24,6 +24,7 @@
 	grid_width = 32
 	grid_height = 32
 	var/tier = 0 //used for determining potency for mob healing
+	dropshrink = 0.85
 
 /obj/item/magic/familiar
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
@@ -119,6 +120,7 @@
 	icon_state = "runedartifact"
 	desc = "An old stone from age long ago, marked with glowing sigils."
 	w_class = WEIGHT_CLASS_SMALL
+	dropshrink = 0.8
 
 /obj/item/magic/artifact/Initialize()
 	.=..()

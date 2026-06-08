@@ -37,9 +37,37 @@
 
 /mob/living/carbon/human/verb/emote_clap()
 	set name = "Clap"
-	set category = "Noises"
+	set category = "Emotes.Noises"
 
 	emote("clap", intentional = TRUE)
+
+/datum/emote/living/carbon/slowclap
+	key = "slowclap"
+	key_third_person = "claps"
+	message = "slowly claps."
+	muzzle_ignore = TRUE
+	restraint_check = TRUE
+	emote_type = EMOTE_AUDIBLE
+
+/mob/living/carbon/human/verb/emote_slowclap()
+	set name = "Slowclap"
+	set category = "Emotes.Noises"
+
+	emote("slowclap", intentional = TRUE)
+
+/datum/emote/living/carbon/clap1
+	key = "clap1"
+	key_third_person = "claps"
+	message = "claps their hands together."
+	emote_type = EMOTE_AUDIBLE
+	muzzle_ignore = TRUE
+	restraint_check = TRUE
+
+/mob/living/carbon/human/verb/emote_clap1()
+	set name = "Clap once"
+	set category = "Emotes.Noises"
+
+	emote("clap1", intentional = TRUE)
 
 /datum/emote/living/carbon/gnarl
 	key = "gnarl"
