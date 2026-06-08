@@ -77,7 +77,7 @@
 		target.adjustBruteLoss(UMBRAL_MINDLESS_DAMAGE)
 	else
 		target.adjustBruteLoss(UMBRAL_CONSCIOUS_DAMAGE)
-		to_chat(user, span_notice("The glowing sediment bypasses [target]'s body, sinking straight into their spatial presence..."))
+		to_chat(user, span_notice("My strike doesn't harm [target] much, but it does make them ooze beneficial ink."))
 
 	target.apply_status_effect(/datum/status_effect/debuff/ink_leak, caster)
 

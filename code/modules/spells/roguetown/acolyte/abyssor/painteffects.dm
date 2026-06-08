@@ -62,8 +62,9 @@
 
 /obj/effect/ink_trail/Crossed(atom/movable/AM)
 	. = ..()
-	if(isliving(AM))
-		trigger_ink_effect(AM)
+	if(!AM.throwing)
+		if(isliving(AM))
+			trigger_ink_effect(AM)
 
 /obj/effect/ink_trail/proc/trigger_ink_effect(mob/living/L)
 	if(!L || L.stat != CONSCIOUS)

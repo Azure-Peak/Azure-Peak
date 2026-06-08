@@ -6,7 +6,7 @@
 	sound = 'sound/magic/abyssor_splash.ogg'
 	spell_color = "#00051f"
 
-	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_type = SPELLCOST_CONJURE
 	primary_resource_cost = SPELLCOST_STAT_BUFF
 
 	invocations = list(
