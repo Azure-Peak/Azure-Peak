@@ -167,19 +167,15 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
-	if(prob(20)) //20% cloak chance
-		var/cloak_choice = rand(1, 4)
+	if(prob(40)) //40% cloak chance
+		var/cloak_choice = rand(1, 3)
 		switch(cloak_choice)
 			if(1)
-				cloak = /obj/item/clothing/cloak/darkcloak
-			if(2)
 				cloak = /obj/item/clothing/cloak/raincloak/mortus
-			if(3)
+			if(2)
 				cloak = /obj/item/clothing/cloak/half/rider/red
-			if(4)
+			if(3)
 				cloak = /obj/item/clothing/cloak/half
-			if(5)
-				cloak = /obj/item/clothing/cloak/matron
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
