@@ -304,7 +304,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 			return FALSE
 
 	if(HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
-		heal_wound(0.6)
+		if(!istype(src, /datum/wound/slash/incision))
+			heal_wound(0.6)
 		if(!owner || QDELETED(owner) || QDELETED(src))
 			return FALSE
 
@@ -321,7 +322,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 	if (HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
 		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive
-
+		if(!istype(src, /datum/wound/slash/incision))
+			heal_wound(0.6)
 	return TRUE
 
 /// Setter for any adjustments we make to our bleed_rate, propagating them to the host bodypart.

@@ -1,5 +1,6 @@
 import {
   cardStyle,
+  FONT_BODY,
   INK_FAINT,
   INK_SOFT,
   sectionHeaderStyle,
@@ -18,8 +19,7 @@ const HeaderStrip = () => (
       padding: '4px 6px',
       borderBottom: `1px solid ${INK_FAINT}`,
       fontFamily: SERIF,
-      fontSize: '10px',
-      fontVariant: 'small-caps',
+      fontSize: FONT_BODY,
       color: INK_SOFT,
     }}
   >

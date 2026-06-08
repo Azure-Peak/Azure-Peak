@@ -94,7 +94,7 @@
 		/datum/hag_boon/trait/sharper_blades,
 		/datum/hag_boon/trait/guidance,
 		/datum/hag_boon/trait/good_trainer,
-		/datum/hag_boon/trait/counter_counterspell,
+		// /datum/hag_boon/trait/counter_counterspell,
 		/datum/hag_boon/trait/keen_ears,
 		/datum/hag_boon/trait/hard_dismember,
 		/datum/hag_boon/trait/no_pain,

@@ -68,7 +68,7 @@
 	..()
 	to_chat(H, span_warning("A knighted champion of a fallen and forgotten kingdom. You can almost remember the old tymes since your last great battle, your unmatched prowess, your elegence with any-would-be weapon and all the dread your mere presence brought; now you arise from a fallen kingdom in servitude to your lord, once more. Make their vision, become reality."))
 
-	H.verbs |= /mob/proc/haltyell_exhausting //Knight gets to halt people
+	add_verb(H, /mob/proc/haltyell_exhausting) //Knight gets to halt people
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight() //Aura
 
 	cloak = /obj/item/clothing/cloak/tabard/vamp
@@ -120,7 +120,8 @@
 			if("Grand Mace + Longsword")
 				r_hand = /obj/item/rogueweapon/sword/long
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
-				backl = /obj/item/rogueweapon/mace/goden/steel
+				l_hand = /obj/item/rogueweapon/mace/goden/steel
+				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Sabre + Recurve Bow")
 				l_hand = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/sabre
@@ -240,7 +241,7 @@
 				belt = /obj/item/storage/belt/rogue/leather/black //stylish belt
 				mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble //regal appearance
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				r_hand = /obj/item/rogueweapon/scabbard/sword/royal
 				armor = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 				ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
@@ -249,14 +250,14 @@
 				belt = /obj/item/storage/belt/rogue/leather/black //stylish belt
 				mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble //regal appearance
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				r_hand = /obj/item/rogueweapon/scabbard/sword/royal
 				armor = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 				ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 			if("Noble (Light Armor + Skilled Appraisal)")
 				head = /obj/item/clothing/head/roguetown/chaperon/noble //nobility look
 				cloak = /obj/item/clothing/suit/roguetown/armor/longcoat
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				belt = /obj/item/storage/belt/rogue/leather/steel //similar to spymaster hand
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 				mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask //hidden face
@@ -266,7 +267,7 @@
 				head = /obj/item/clothing/head/roguetown/nyle/consortcrown //suitor/consort look
 				armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 				cloak = /obj/item/clothing/cloak/half/red
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				belt = /obj/item/storage/belt/rogue/leather //on-par with valiant
 				wrists = /obj/item/clothing/wrists/roguetown/bracers
 				mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble

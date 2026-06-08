@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Graggar's War Ritual will now cause a blood rain."

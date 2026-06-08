@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "replace zpellblade Zizo longsword with arming sword."
+  - balance: "change profane shard into a high pen, 100% embed instacast."

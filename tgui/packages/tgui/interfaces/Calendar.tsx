@@ -8,6 +8,7 @@ import { Nav } from './Calendar/Nav';
 import { type CalendarData, eventsForDay } from './Calendar/shared';
 import { WeekdayHeader } from './Calendar/WeekdayHeader';
 import {
+  FONT_BODY,
   INK_FAINT,
   pageStyle,
   rulerStyle,
@@ -31,7 +32,7 @@ const wrapNoteStyle = {
   textAlign: 'center' as const,
   fontStyle: 'italic' as const,
   color: INK_FAINT,
-  fontSize: '11px',
+  fontSize: FONT_BODY,
   marginTop: '-4px',
   marginBottom: '8px',
 };

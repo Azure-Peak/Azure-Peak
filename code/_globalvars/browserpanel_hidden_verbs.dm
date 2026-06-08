@@ -41,6 +41,7 @@ GLOBAL_LIST_INIT(browserpanel_hidden_verbs, list(
 	"/client/verb/disableInput" = TRUE,
 	"/client/verb/drop_item" = TRUE,
 	"/client/verb/fit_viewport" = TRUE,
+	"/client/verb/fix_stat_panel" = TRUE,
 	"/client/verb/keyDown" = TRUE,
 	"/client/verb/keyUp" = TRUE,
 	"/client/verb/linkdiscord" = TRUE,

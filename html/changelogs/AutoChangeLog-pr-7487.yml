@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - code_imp: "Atgrevi Kite Shields should now properly be offset when worn on the back, instead of visibly floating off the wearer."

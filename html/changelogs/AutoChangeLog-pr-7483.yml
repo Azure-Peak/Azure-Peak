@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: " Rename \"Atheism\" in code to \"Godless\", which is the actual in game handler, reflavored it and the description to fit with not following gods, and remove anachronistic quotes and kept it as a fallback for no religion"

@@ -266,17 +266,24 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	musicpath = list('sound/music/Iconoclast.ogg')
 
 /datum/combat_music/inquisitor
-	name = "Inquisitor (Monster Hunter/Spellbreaker)"
-	desc = ""
+	name = "Inquisitor ('Exorcist' Mix)"
+	desc = "To have memories of those you have loved and lost is perhaps harder than to have no memories at all."
 	shortname = "Inquisitor"
 	credits = "Hellsing OST RAID Track 15: Survival on the Street of Insincerity"
 	musicpath = list('sound/music/inquisitorcombat.ogg')
 
 /datum/combat_music/inquis_ordinator
-	name = "Inquisitor - Ordinator"
+	name = "Inquisitor ('Ordinator' Mix)"
 	desc = ""
-	shortname = "Ordinator"
+	shortname = "Inq. Ordinator" 
 	musicpath = list('sound/music/combat_inqordinator.ogg')
+	
+/datum/combat_music/inquis_commander
+	name = "Inquisitor ('Commander' Mix)"
+	desc = "One last parlay at the end of the world. Finish the fight, no matter the odds."
+	shortname = "Inq. Commander"
+	credits = "Summit - TimG"
+	musicpath = list('sound/music/combat_inqcommander.ogg')
 
 /datum/combat_music/jester
 	name = "Jester"

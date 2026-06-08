@@ -3,6 +3,7 @@
 	desc = "Made to hold everything a people-butcher will need. Contains a list of implements... what even IS a Sisrat?"
 	icon = 'icons/roguetown/clothing/storage.dmi'
 	mob_overlay_icon = null
+	dropshrink = 0.9
 	icon_state = "surgery_bag"
 	slot_flags = ITEM_SLOT_HIP
 	w_class = WEIGHT_CLASS_NORMAL

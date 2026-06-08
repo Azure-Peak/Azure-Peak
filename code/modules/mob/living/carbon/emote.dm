@@ -37,7 +37,7 @@
 
 /mob/living/carbon/human/verb/emote_clap()
 	set name = "Clap"
-	set category = "Noises"
+	set category = "Emotes.Noises"
 
 	emote("clap", intentional = TRUE)
 
@@ -51,7 +51,7 @@
 
 /mob/living/carbon/human/verb/emote_slowclap()
 	set name = "Slowclap"
-	set category = "Noises"
+	set category = "Emotes.Noises"
 
 	emote("slowclap", intentional = TRUE)
 
@@ -65,7 +65,7 @@
 
 /mob/living/carbon/human/verb/emote_clap1()
 	set name = "Clap once"
-	set category = "Noises"
+	set category = "Emotes.Noises"
 
 	emote("clap1", intentional = TRUE)
 

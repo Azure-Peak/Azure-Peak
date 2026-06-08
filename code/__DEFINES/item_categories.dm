@@ -50,7 +50,6 @@
 #define ITEM_CAT_SEAFOOD "Seafood"
 
 #define ITEM_CAT_POTION "Potions"
-#define ITEM_CAT_BEVERAGE "Beverages"
 
 #define ITEM_CAT_BOOK_WRIT "Books & Writs"
 #define ITEM_CAT_INSTRUMENT "Instruments"

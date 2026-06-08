@@ -565,6 +565,76 @@
 	owner.adjustCloneLoss(-healing_on_tick, 0)
 // Lesser miracle effect end
 
+#define REWIND_AURA "originhealing"
+
+/datum/status_effect/buff/originhealing // not affected by the heartbeast, since this is not really "healing", you're restoring someone in time. It will also only heal one limb at a time, to differ from other heals that are more uniform.
+	id = "originhealing"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
+	duration = 10 SECONDS
+	examine_text = "<font color='#ffae00'>SUBJECTPRONOUN is slowly being rewound in time!</font>"
+	var/healing_on_tick = 3
+	var/outline_colour = "#ffc558"
+
+/datum/status_effect/buff/originhealing/on_creation(mob/living/new_owner, new_healing_on_tick)
+	if(!isnull(new_healing_on_tick))
+		healing_on_tick = new_healing_on_tick
+	return ..()
+
+/datum/status_effect/buff/originhealing/on_apply()
+	var/filter = owner.get_filter(REWIND_AURA)
+	if (!filter)
+		owner.add_filter(REWIND_AURA, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	return TRUE
+
+/datum/status_effect/buff/originhealing/on_remove()
+	. = ..()
+	owner.remove_filter(REWIND_AURA)
+
+/datum/status_effect/buff/originhealing/tick()
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
+	H.color = "#ffda95"
+
+	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume + (BLOOD_VOLUME_NORMAL * 0.02), BLOOD_VOLUME_NORMAL)
+
+	// Rewind the most damaged limb.
+	if(ishuman(owner))
+		var/mob/living/carbon/human/HM = owner
+		var/obj/item/bodypart/most_damaged
+		for(var/obj/item/bodypart/BP in HM.bodyparts)
+			if(QDELETED(BP))
+				continue
+			if(!most_damaged || (BP.brute_dam + BP.burn_dam) > (most_damaged.brute_dam + most_damaged.burn_dam))
+				most_damaged = BP
+
+		if(most_damaged)
+			var/total_damage = most_damaged.brute_dam + most_damaged.burn_dam
+			if(total_damage > 0)
+				var/brute_heal = healing_on_tick
+				var/burn_heal = healing_on_tick
+				// Additional 8% rewind of current limb damage.
+				brute_heal += most_damaged.brute_dam * 0.08
+				burn_heal += most_damaged.burn_dam * 0.08
+				most_damaged.heal_damage(brute_heal, burn_heal)
+				HM.update_damage_overlays()
+
+	var/list/wCount = owner.get_wounds()
+
+	if(length(wCount))
+		owner.heal_wounds(healing_on_tick * 2)
+		owner.update_damage_overlays()
+
+	owner.adjustOxyLoss(-healing_on_tick, 0)
+	owner.adjustToxLoss(-healing_on_tick, 0)
+
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
+	owner.adjustCloneLoss(-healing_on_tick, 0)
+
+	owner.stamina_add(-6)
+	owner.energy_add(9)
+
+#undef REWIND_AURA
+
 /atom/movable/screen/alert/status_effect/buff/healing/campfire
 	name = "Camp Rest"
 	desc = "The warmth of a fire and a bed soothes my ails."
@@ -574,7 +644,6 @@
 	name = "Warming Respite"
 	desc = "A break by the fire restores some of my energy."
 	icon_state = "campfire"
-
 
 #define CAMPFIRE_BASE_FILTER "campfire_stamina"
 
@@ -945,8 +1014,8 @@
 	icon_state = "buff"
 
 /atom/movable/screen/alert/status_effect/buff/censerbuff
-	name = "Inspired by SYON."
-	desc = "The shard of the great comet had inspired me to ENDURE."
+	name = "Syon's Blessings"
+	desc = "I have been anointed in His comet's radiance; let no evil befall me!"
 	icon_state = "censerbuff"
 
 /datum/status_effect/buff/fortify //Increases all healing while it lasts.
@@ -958,7 +1027,7 @@
 	id = "censer"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/censerbuff
 	duration = 15 MINUTES
-	effectedstats = list(STATKEY_WIL = 1, STATKEY_CON = 1)
+	effectedstats = list(STATKEY_WIL = 1, STATKEY_CON = 1, STATKEY_LCK = 1)
 
 #define DIMINISH_FILTER "diminish_glow"
 /datum/status_effect/debuff/diminish
@@ -990,13 +1059,14 @@
 
 #define CRANKBOX_FILTER "crankboxbuff_glow"
 /atom/movable/screen/alert/status_effect/buff/churnerprotection
-	name = "Magick Distorted"
-	desc = "The wailing box is disrupting magicks around me!"
-	icon_state = "buff"
+	name = "Antimagicka"
+	desc = "The crankbox's harmonized wails render me immune to all magicka!"
+	icon_state = "crankbox_psy"
+
 /atom/movable/screen/alert/status_effect/buff/churnernegative
-	name = "Magick Distorted"
+	name = "Nullmagicka"
 	desc = "That infernal contraption is sapping my very arcyne essence!"
-	icon_state = "buff"
+	icon_state = "crankbox_debuff"
 
 /datum/status_effect/buff/churnerprotection
 	var/outline_colour = "#fad55a"
@@ -1014,7 +1084,7 @@
 
 /datum/status_effect/buff/churnerprotection/on_remove()
 	. = ..()
-	to_chat(owner, span_warning("The wailing box's protection fades..."))
+	to_chat(owner, span_warning("The wailing box's protection fades.."))
 	owner.remove_filter(CRANKBOX_FILTER)
 	REMOVE_TRAIT(owner, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
 
@@ -1022,7 +1092,7 @@
 #undef MIRACLE_HEALING_FILTER
 
 /datum/status_effect/buff/churnernegative
-	id ="soulchurnernegative"
+	id = "soulchurnernegative"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/churnernegative
 	duration = 23 SECONDS
 
@@ -1030,15 +1100,15 @@
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_SPELLCOCKBLOCK, MAGIC_TRAIT)
 	ADD_TRAIT(owner, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
-	to_chat(owner, span_warning("I feel as if my connection to the Arcyne disappears entirely. The air feels still..."))
-	owner.visible_message("[owner]'s arcyne aura seems to fade.")
+	to_chat(owner, span_warning("My arcyne connections are no more! Something is disrupting the leyline's flow!"))
+	owner.visible_message("[owner]'s magicka is suddenly sapped away!")
 
 /datum/status_effect/buff/churnernegative/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_SPELLCOCKBLOCK, MAGIC_TRAIT)
 	REMOVE_TRAIT(owner, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
-	to_chat(owner, span_warning("I feel my connection to the arcyne surround me once more."))
-	owner.visible_message("[owner]'s arcyne aura seems to return once more.")
+	to_chat(owner, span_warning("The leyline's flow has been restored, and I can feel my fingertips buzzing with restored magicka.."))
+	owner.visible_message("[owner]'s magicka gradually flares back up..")
 
 #define BLESSINGOFSUN_FILTER "sun_glow"
 /atom/movable/screen/alert/status_effect/buff/guidinglight

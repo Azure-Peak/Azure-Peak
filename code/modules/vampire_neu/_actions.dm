@@ -2,7 +2,7 @@
 	var/TELEPATHY_COOLDOWN = 30 SECONDS
 
 	set name = "Telepathy"
-	set category = "VAMPIRE"
+	set category = "RoleUnique.Vampire"
 
 	if(!clan)
 		return
@@ -33,7 +33,7 @@
 
 /mob/living/carbon/human/proc/disguise_verb()
 	set name = "Disguise"
-	set category = "VAMPIRE"
+	set category = "RoleUnique.Vampire"
 
 	var/datum/component/vampire_disguise/disguise_comp = GetComponent(/datum/component/vampire_disguise)
 	if(!disguise_comp)

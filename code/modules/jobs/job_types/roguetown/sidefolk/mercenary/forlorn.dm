@@ -47,7 +47,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine		// They're brigandinejaks. ergo have them start w/the whole thing
 	belt = /obj/item/storage/belt/rogue/leather
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
