@@ -45,5 +45,5 @@
 		H.mind.add_antag_datum(new_antag)
 		H.apply_status_effect(STATUS_EFFECT_VAMPIRE_SPAWN_PROTECTION)
 		H.maxbloodpool = 1000
-		H.set_bloodpool (500)
+		H.set_bloodpool (750)
 
