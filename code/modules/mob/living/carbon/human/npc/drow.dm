@@ -196,7 +196,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 		if(1)
 			neck = /obj/item/clothing/neck/roguetown/coif/heavypadding //SOVL
 		if(2)
-			neck = neck = /obj/item/clothing/neck/roguetown/leather
+			neck = /obj/item/clothing/neck/roguetown/leather
 			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron //So they have head armor
 		if(2)
 			neck = /obj/item/clothing/neck/roguetown/gorget
