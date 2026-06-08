@@ -137,7 +137,7 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 	add_random_psy_vault_guard_weapon(H)
 
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_weapon(mob/living/carbon/human/H)
-	var/add_random_psy_vault_guard_weapon = rand(1, 8)
+	var/add_random_psy_vault_guard_weapon = rand(1, 7)
 	switch(add_random_psy_vault_guard_weapon)
 		if(1)
 			r_hand = /obj/item/rogueweapon/sword/short/messer
@@ -155,9 +155,6 @@ GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.
 			r_hand = /obj/item/rogueweapon/greataxe/steel
 		if(7)
 			r_hand = /obj/item/rogueweapon/mace/goden/steel
-		if(8)
-			r_hand = /obj/item/rogueweapon/sword/long/oldpsysword
-			l_hand = /obj/item/rogueweapon/shield/tower/metal
 		// 2 hand weapon to dilute the pool to keep ranged viable
 
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_mask(mob/living/carbon/human/H)
