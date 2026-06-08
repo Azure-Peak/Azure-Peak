@@ -21,9 +21,11 @@
 	..()
 
 	if(should_wear_femme_clothes(H))
+		head = /obj/item/clothing/head/roguetown/roguehood
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	
 	else if(should_wear_masc_clothes(H))
+		head = /obj/item/clothing/head/roguetown/roguehood
 		pants = /obj/item/clothing/under/roguetown/tights/vagrant
 
 		if(prob(50))
