@@ -183,7 +183,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	var/mask_choice = rand(1, 6)
+	var/mask_choice = rand(1, 5)
 	switch(mask_choice)
 		if(1 to 2)
 			mask = /obj/item/clothing/mask/rogue/facemask
@@ -191,8 +191,6 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 			mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask/delf
 		if(5)
 			mask = /obj/item/clothing/mask/rogue/xylixmask //WHY SO SERIOUS?!
-		if(6)
-			mask = /obj/item/clothing/mask/rogue/wildguard
 	var/neck_choice = rand(1, 3)
 	switch(neck_choice)
 		if(1)
