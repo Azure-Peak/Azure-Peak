@@ -256,7 +256,7 @@
 		trail.color = "#52c452"
 		trail.consume_buff = TRUE
 		trail.deny_buff = TRUE
-		trail.refresh_lifetime(20 SECONDS)
+		trail.refresh_lifetime(15 SECONDS)
 		affected_count++
 
 	if(affected_count > 0)
