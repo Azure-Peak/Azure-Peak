@@ -81,6 +81,7 @@
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = HEAD_BOUNTY_HERETICAL_FIEND
+	src.grant_language(/datum/language/undead) //So they can speak Zizocant if we give them lines
 
 	var/voice_choice = rand(1, 12)
 	switch(voice_choice)
