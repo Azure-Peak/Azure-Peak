@@ -631,5 +631,6 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		if(absolved)
 			to_chat(new_convert, span_danger("You feel ancient powers lifting divine burdens from your soul..."))
 
+	GLOB.dominant_faith_tracker.handle_conversion(new_convert, old_patron)
 	ADD_TRAIT(new_convert, TRAIT_RECENT_CONVERT, TRAIT_GENERIC)
 	return TRUE
