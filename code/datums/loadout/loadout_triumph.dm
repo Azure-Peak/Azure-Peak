@@ -149,7 +149,7 @@
 /datum/loadout_item/portalstone
 	name = "Portal Stone"
 	path = /obj/item/portal_clothes
-	triumph_cost = 3
+	triumph_cost = 2
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_royalsleeves
