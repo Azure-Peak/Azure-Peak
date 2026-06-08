@@ -253,7 +253,7 @@
 		trail.buff_payload = /datum/status_effect/buff/umbral_recovery
 		trail.debuff_payload = null
 		trail.icon_state = "paint_gray"
-		trail.color = "#52c452"
+		trail.color = "#b6e6b6"
 		trail.consume_buff = TRUE
 		trail.deny_buff = TRUE
 		trail.refresh_lifetime(15 SECONDS)
