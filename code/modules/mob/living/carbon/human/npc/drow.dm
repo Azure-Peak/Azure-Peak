@@ -229,7 +229,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
-	if(prob(30))
+	if(prob(50))
 		var/voicepack_choice = rand(1, 4)
 		switch(voicepack_choice)
 			if(1)
