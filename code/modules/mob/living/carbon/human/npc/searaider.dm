@@ -45,6 +45,33 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 						/datum/sprite_accessory/hair/facial/longbeard))
 	head.sellprice = HEAD_BOUNTY_SEARAIDER
 
+	var/voice_choice = rand(1, 12)
+	switch(voice_choice)
+		if(1)
+			src.voice_color = "0bb1e4"
+		if(2)
+			src.voice_color = "d30c0c"
+		if(3)
+			src.voice_color = "4d4afc"
+		if(4)
+			src.voice_color = "da40c0"
+		if(5)
+			src.voice_color = "51e251"
+		if(6)
+			src.voice_color = "a059cf"
+		if(7)
+			src.voice_color = "8700c5"
+		if(8)
+			src.voice_color = "cfc886"
+		if(9)
+			src.voice_color = "ff9100"
+		if(10)
+			src.voice_color = "a0a0a0"
+		if(11)
+			src.voice_color = "797979"
+		if(12)
+			src.voice_color = "ff5e00"
+
 	var/datum/bodypart_feature/hair/head/new_hair = new()
 	var/datum/bodypart_feature/hair/facial/new_facial = new()
 
