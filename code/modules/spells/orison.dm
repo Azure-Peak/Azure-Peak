@@ -544,8 +544,10 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 	var/saved_max_progression = CLERIC_T1
 	var/saved_devotion_gain = CLERIC_REGEN_MINOR
 	var/had_blast = FALSE
+	var/was_cleric = FALSE
 
 	if(new_convert.devotion)
+		was_cleric = TRUE
 		saved_level = new_convert.devotion.level
 		saved_devotion_gain = new_convert.devotion.passive_devotion_gain
 		saved_max_progression = new_convert.devotion.max_progression
@@ -573,7 +575,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 	// basic god traits are swapped over here
 	new_convert.set_patron(new_patron)
 
-	if(!istype(new_convert.patron, /datum/patron/old_god)) // psydonites don't get new miracles, since psydonite "miracles" don't work like real miracles
+	if(was_cleric && !istype(new_convert.patron, /datum/patron/old_god)) // psydonites don't get new miracles, since psydonite "miracles" don't work like real miracles
 		// Grant new devotion
 		var/datum/devotion/new_devotion = new /datum/devotion(new_convert, new_convert.patron)
 		new_convert.devotion = new_devotion
@@ -585,6 +587,9 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		if(saved_level >= 3 && istype(new_convert.patron, /datum/patron/inhumen/zizo) && !new_convert.mind.has_spell(/datum/action/cooldown/spell/gravemark))
 			new_convert.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			new_convert.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+	else if(was_cleric)
+		// however, they can have TRAIT_PSYDONITE as a treat
+		ADD_TRAIT(new_convert, TRAIT_PSYDONITE, ROUNDSTART_TRAIT)
 
 	// give a small mood buff to both parties, identical to prayer; psydonites get the same thing but with more ambiguous wording
 	if(istype(new_convert.patron, /datum/patron/old_god))
