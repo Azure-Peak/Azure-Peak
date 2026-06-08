@@ -230,7 +230,7 @@
 		if(12)
 			r_hand = /obj/item/rogueweapon/huntingknife/idagger
 			l_hand = /obj/item/rogueweapon/shield/wood
-	if(prob(10))
+	if(prob(5))
 		neck = /obj/item/storage/belt/rogue/pouch/bombs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 
