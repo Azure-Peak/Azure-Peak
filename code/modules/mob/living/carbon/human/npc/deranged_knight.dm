@@ -223,40 +223,40 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios
 	pants = /obj/item/clothing/under/roguetown/platelegs/matthios
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/matthios
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/matthios
 	gloves = /obj/item/clothing/gloves/roguetown/plate/matthios
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/matthios
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
 	r_hand = /obj/item/rogueweapon/flail/peasantwarflail/matthios
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
 
 /datum/outfit/job/roguetown/quest_miniboss/zizo/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	pants = /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo/heavy
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	r_hand = /obj/item/rogueweapon/sword/long/zizo
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
 
 /datum/outfit/job/roguetown/quest_miniboss/graggar/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
 	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
 	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	cloak = /obj/item/clothing/cloak/graggar
 
@@ -264,27 +264,27 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern
 	gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel/modern
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	head = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	r_hand = /obj/item/rogueweapon/greatsword
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
+	r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel //I am evil, yes.
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 
 /datum/outfit/job/roguetown/quest_miniboss/hedge_knight/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	pants = /obj/item/clothing/under/roguetown/platelegs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	r_hand = /obj/item/rogueweapon/greatsword/grenz
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
+	r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/rogueweapon/sword/long
