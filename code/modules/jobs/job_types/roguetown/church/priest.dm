@@ -321,6 +321,14 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	accept_message = "FOR THE TEN!"
 	refuse_message = "I refuse."
 
+
+/mob/living/carbon/human/proc/remove_church_regular()
+	if(HAS_TRAIT(src, TRAIT_TENNITE_TOWN) && !istype(src.patron, /datum/patron/divine))
+		REMOVE_TRAIT(src, TRAIT_TENNITE_TOWN, list(JOB_TRAIT, ADVENTURER_TRAIT))
+		if(istype(src.patron, /datum/patron/inhumen))
+			ADD_TRAIT(src, TRAIT_INHUMEN_TOWN, JOB_TRAIT) // currently, this does nothing, other than tell the player "you don't get moodnuked by not attending sermons, but watch out"
+
+
 /mob/living/carbon/human/proc/completesermon()
 	set name = "Sermon"
 	set category = "RoleUnique.Priest"
@@ -363,6 +371,18 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		else
 			// Other patrons - fluff only
 			to_chat(H, span_notice("Nothing seems to happen to you."))
+
+	var/missed_regulars = 0
+	for(var/mob/living/carbon/H in GLOB.player_list)
+		if(HAS_TRAIT(H, TRAIT_INHUMEN_TOWN))
+			missed_regulars++ // they aren't actually "church regulars" BUT they are town roles that should be expected to attend so they're silently added to the count even though they don't get stress from missing it
+		if(!HAS_TRAIT(H, TRAIT_TENNITE_TOWN)) // they _are_ a tennite town role that should be expected to attend major services
+			continue
+		if(H.has_stress_event(/datum/stressevent/sermon)) // they weren't at the sermon
+			H.add_stress(/datum/stressevent/tennite_missed_sermon)
+			missed_regulars++
+	if(missed_regulars)
+		to_chat(src, span_notice("[missed_regulars] of the town regulars were absent from the sermon...")) // doesn't tell you _who_, just how many
 
 	return TRUE
 
