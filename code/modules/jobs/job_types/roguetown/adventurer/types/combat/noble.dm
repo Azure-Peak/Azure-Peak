@@ -43,7 +43,7 @@
 	if(H.mind)
 		var/clothing = list("Classic - Nowhere Significant", "Grenzelhoft", "Otava", "Aavnr", "Ranesheni", "Gronn", "Etrusca", "Naledi", "Kazengun")
 		if(is_species(H, /datum/species/elf/dark) || is_species(H, /datum/species/dullahan)) //Species Exclusive Options -> Drow Underdark House
-			clothing += "Underdark - Dark Elven"
+			clothing += "Underdark"
 		//if(is_species(H, /datum/species/kobold) || is_species(H, /datum/species/dracon)) //Species Exclusive Options -> Lirvan
 			//clothing += "Lirvan" EXCLUDED for now cause of content lacking. If you ever want to add this, de-comment this.
 		var/clothing_choice = input(H, "Choose your clothing style.", "FROM WHERE DOTH YOUR HOUSE HAIL FROM?") as anything in clothing
@@ -65,7 +65,7 @@
 				beltr = /obj/item/flashlight/flare/torch/lantern
 				id = /obj/item/clothing/ring/silver
 				H.cmode_music = 'sound/music/combat_noble.ogg'
-			if("Underdark - Dark Elven") //Matron vs halfcloak fits
+			if("Underdark") //Matron vs halfcloak fits
 				if(should_wear_masc_clothes(H))
 					cloak = /obj/item/clothing/cloak/half
 					shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
