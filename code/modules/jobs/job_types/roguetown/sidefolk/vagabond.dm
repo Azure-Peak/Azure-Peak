@@ -47,8 +47,6 @@
 		/datum/advclass/vagabond_accursed
 	)
 
-	job_traits = list(TRAIT_DEVOUT_FOLLOWER)
-
 /datum/job/roguetown/vagabond/New()
 	. = ..()
 	peopleknowme = list()

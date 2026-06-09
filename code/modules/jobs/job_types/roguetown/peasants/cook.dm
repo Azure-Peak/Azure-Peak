@@ -18,7 +18,7 @@
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 	//5 points (weighted)
 
-	job_traits = list(TRAIT_CICERONE, TRAIT_HOMESTEAD_EXPERT, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
+	job_traits = list(TRAIT_CICERONE, TRAIT_HOMESTEAD_EXPERT, TRAIT_TENNITE_TOWN)
 
 	advclass_cat_rolls = list(CTAG_COOK = 2)
 	job_subclasses = list(

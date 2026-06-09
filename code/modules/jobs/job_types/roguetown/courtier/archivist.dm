@@ -30,7 +30,6 @@
 		TRAIT_SURVIVAL_EXPERT,
 		TRAIT_HOMESTEAD_EXPERT, // Archivist teaches everyone everything.
 		TRAIT_GOODWRITER,
-		TRAIT_DEVOUT_FOLLOWER,
 		TRAIT_TENNITE_TOWN
 		)
 	advclass_cat_rolls = list(CTAG_ARCHIVIST = 2)

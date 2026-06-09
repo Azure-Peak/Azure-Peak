@@ -19,7 +19,7 @@
 	wanderer_examine = FALSE
 	advjob_examine = TRUE
 	give_bank_account = 15
-	job_traits = list(TRAIT_STEELHEARTED, TRAIT_INQUISITION, TRAIT_DEVOUT_FOLLOWER)
+	job_traits = list(TRAIT_STEELHEARTED, TRAIT_INQUISITION)
 	job_subclasses = list(
 		/datum/advclass/psydoniantemplar,
 		/datum/advclass/disciple,

@@ -132,6 +132,15 @@
 	needsate_text = "I need a hot brew."
 	voyeur_descriptor = "in need of a brew"
 
+/// GOD-FEARING
+
+/datum/charflaw/addiction/godfearing
+	name = "Devout Follower"
+	desc = "I need to pray to my Patron in their realm, it will make me and my prayers stronger."
+	time = 40 MINUTES
+	needsate_text = "Time to pray to my Patron."
+	voyeur_descriptor = "quite devout"
+
 /// SADIST
 
 /datum/charflaw/addiction/sadist

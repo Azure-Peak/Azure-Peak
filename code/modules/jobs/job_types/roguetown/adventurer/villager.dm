@@ -43,4 +43,5 @@
 		/datum/advclass/witch,
 		/datum/advclass/woodworker
 	)
-	job_traits = list(TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
+
+	job_traits = list(TRAIT_TENNITE_TOWN)

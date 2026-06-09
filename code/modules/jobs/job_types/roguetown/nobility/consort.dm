@@ -21,7 +21,7 @@
 	max_pq = null
 	round_contrib_points = 3
 	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
-	job_traits = list(TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
+	job_traits = list(TRAIT_TENNITE_TOWN)
 
 /datum/job/roguetown/exlady
 	title = "Consort Dowager"

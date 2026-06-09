@@ -17,4 +17,3 @@
 
 	total_positions = 0
 	spawn_positions = 0
-	job_traits = list(TRAIT_DEVOUT_FOLLOWER)

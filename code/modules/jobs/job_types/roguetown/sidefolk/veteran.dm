@@ -27,8 +27,7 @@
 		/datum/advclass/veteran/scout,
 		/datum/advclass/veteran/spy
 	)
-
-	job_traits = list(TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
+	job_traits = list(TRAIT_TENNITE_TOWN)
 
 /datum/outfit/job/roguetown/veteran
 	job_bitflag = BITFLAG_GARRISON	//Counts towards overall combat roles

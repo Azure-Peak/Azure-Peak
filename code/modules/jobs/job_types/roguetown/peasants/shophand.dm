@@ -22,7 +22,7 @@
 	round_contrib_points = 2
 	cmode_music = 'sound/music/cmode/towner/combat_towner.ogg'
 
-	job_traits = list(TRAIT_SEEPRICES, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
+	job_traits = list(TRAIT_SEEPRICES, TRAIT_TENNITE_TOWN)
 	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
 
 	advclass_cat_rolls = list(CTAG_SHOPHAND = 2)

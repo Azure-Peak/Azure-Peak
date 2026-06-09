@@ -15,7 +15,7 @@
 
 	allowed_ages = ALL_AGES_LIST
 	outfit = /datum/outfit/job/roguetown/jester
-	job_traits = list(TRAIT_ZJUMP, TRAIT_LEAPER, TRAIT_NUTCRACKER, TRAIT_TEMPO, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
+	job_traits = list(TRAIT_ZJUMP, TRAIT_LEAPER, TRAIT_NUTCRACKER, TRAIT_TEMPO, TRAIT_TENNITE_TOWN)
 	display_order = JDO_JESTER
 	give_bank_account = TRUE
 	min_pq = -4 //silly jesters are funny so low PQ requirement

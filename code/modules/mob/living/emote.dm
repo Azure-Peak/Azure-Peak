@@ -87,12 +87,8 @@
 		// Stops prayers if you don't meet your patron's requirements to pray.
 		if(!patron?.can_pray(follower))
 			return
-		else if(!follower.prayed)
-			to_chat(follower, span_blue("[istype(follower.patron, /datum/patron/divine/undivided) ? "the Ten hear" : "[follower.patron.name] hears"] my prayer... my faith is renewed once more."))
-			follower.prayed = TRUE
-			follower.prayer_time = initial(follower.prayer_time)
-			follower.next_pray = world.time + max(follower.prayer_time, 1)
-			follower.remove_stress(/datum/stressevent/devout)
+		else
+			follower.sate_addiction(/datum/charflaw/addiction/godfearing)
 
 	/* admin stuff - tells you the followers name, key, and what patron they follow */
 	var/follower_ident = "[follower.key]/([follower.real_name]) (follower of [patron])"
@@ -109,9 +105,7 @@
 
 //Also see how prayers work in '/code/datums/gods/_patron.dm' for how patrons hear and filter prayers based on profanity, etc.
 /datum/emote/living/pray/run_emote(mob/user, params, type_override, intentional)
-	if(!ishuman(user))
-		return
-	var/mob/living/carbon/human/follower = user
+	var/mob/living/carbon/follower = user
 	var/datum/patron/patron = follower.patron
 
 	var/prayer = input("Whisper your prayer:", "Prayer") as text|null
@@ -123,12 +117,8 @@
 		// Stops prayers if you don't meet your patron's requirements to pray.
 		if(!patron?.can_pray(follower))
 			return
-		else if(!follower.prayed)
-			to_chat(follower, span_blue("[istype(follower.patron, /datum/patron/divine/undivided) ? "the Ten hear" : "[follower.patron.name] hears"] my prayer... my faith is renewed once more."))
-			follower.prayed = TRUE
-			follower.prayer_time = initial(follower.prayer_time)
-			follower.next_pray = world.time + max(follower.prayer_time, 1)
-			follower.remove_stress(/datum/stressevent/devout)
+		else
+			follower.sate_addiction(/datum/charflaw/addiction/godfearing)
 
 	/* admin stuff - tells you the followers name, key, and what patron they follow */
 	var/follower_ident = "[follower.key]/([follower.real_name]) (follower of [patron])"

@@ -76,7 +76,6 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/foreigner/bronzeclad,
 		/datum/advclass/foreigner/lesserblackoak
 	)
-	job_traits = list(TRAIT_DEVOUT_FOLLOWER)
 
 /mob/living/carbon/human/proc/adv_hugboxing_start()
 	to_chat(src, span_warning("I will be in danger once I start moving."))

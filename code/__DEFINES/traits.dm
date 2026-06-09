@@ -326,7 +326,6 @@
 #define TRAIT_FOOD_STIPEND "Vomitorium-known"
 
 // engage in religion rp, i am no longer asking
-#define TRAIT_DEVOUT_FOLLOWER "Devout Follower"
 #define TRAIT_TENNITE_TOWN "Church Regular"
 #define TRAIT_INHUMEN_TOWN "Wolf among Lambs"
 #define TRAIT_MISSED_SERMON "Conspicuously Absent"
@@ -599,7 +598,6 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_EDIT_DESCRIPTORS = span_info("I can change my appearance at a magic mirror in a thorough manner."),
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
 	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry."),
-	TRAIT_DEVOUT_FOLLOWER = span_info("This close to the site of SYON's fall, the influence of the gods is palpable. I must be sure to pray to them regularly, or risk losing their favor; I must keep their tenets in mind, for there are few heresies higher than proclaiming oneself among a god's flock and failing to live by their ideals."),
 	TRAIT_TENNITE_TOWN = span_info("The Azurian Church of the Ten is the mouthpiece of the gods. Should they call, I must answer."),
 	TRAIT_INHUMEN_TOWN = span_info("The Azurian Church of the Ten is the mouthpiece of the false gods. Attending their sermons will earn my patron's disapproval, but to do otherwise is to risk unwanted questions."),
 	TRAIT_MISSED_SERMON = span_info("I was not present for the recent sermon... this might lead to uncomfortable questions. I should clear the matter with a member of the Church.")
