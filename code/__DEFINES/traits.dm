@@ -325,6 +325,10 @@
 #define TRAIT_MASTER_MASON "Master Masonry"
 #define TRAIT_FOOD_STIPEND "Vomitorium-known"
 
+// engage in religion rp, i am no longer asking
+#define TRAIT_DEVOUT_FOLLOWER "Devout Follower"
+#define TRAIT_TENNITE_TOWN "Church Regular"
+
 // If you want description to show up you gotta have the trait name defined BEFORE this lol
 
 GLOBAL_LIST_INIT(roguetraits, list(
@@ -592,7 +596,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WHITE_STAG = span_info("The power of the white stag lives on inside of me!"),
 	TRAIT_EDIT_DESCRIPTORS = span_info("I can change my appearance at a magic mirror in a thorough manner."),
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
-	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry.")
+	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry."),
+	TRAIT_DEVOUT_FOLLOWER = span_info("This close to the site of SYON's fall, the influence of the gods is palpable. I must be sure to pray to them regularly, or risk losing their favor; I must keep their tenets in mind, for there are few heresies higher than proclaiming oneself among a god's flock and failing to live by their ideals."),
+	TRAIT_TENNITE_TOWN = span_info("The Azurian Church of the Ten is the mouthpiece of the gods. Should they call, I must answer.")
 ))
 
 // trait accessor defines

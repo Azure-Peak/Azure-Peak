@@ -26,6 +26,7 @@
 		/datum/advclass/inquisitor/inspector,
 		/datum/advclass/inquisitor/ordinator
 	)
+	job_traits = list(TRAIT_DEVOUT_FOLLOWER)
 
 /datum/outfit/job/roguetown/inquisitor
 	name = "Inquisitor"

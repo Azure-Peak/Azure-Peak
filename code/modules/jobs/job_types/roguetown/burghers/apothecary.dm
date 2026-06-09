@@ -28,7 +28,7 @@
 	round_contrib_points = 5
 
 	advclass_cat_rolls = list(CTAG_APOTH = 2)
-	job_traits = list(TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT, TRAIT_NOSTINK, TRAIT_EMPATH)
+	job_traits = list(TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT, TRAIT_NOSTINK, TRAIT_EMPATH, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
 	job_subclasses = list(
 		/datum/advclass/apothecary
 	)

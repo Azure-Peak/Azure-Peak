@@ -23,7 +23,7 @@ The priests will whisper that you follow the Sun-Thief. Frown, shake your head, 
 	cmode_music = 'sound/music/combat_noble.ogg'
 	is_quest_giver = TRUE
 
-	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
+	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
 	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
 
 	advclass_cat_rolls = list(CTAG_MERCH = 2)

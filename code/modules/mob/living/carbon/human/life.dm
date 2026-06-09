@@ -73,6 +73,8 @@
 	for(var/datum/charflaw/cf in charflaws)
 		if(!cf.ephemeral && mind)
 			cf.flaw_on_life(src)
+	if(HAS_TRAIT(src, TRAIT_DEVOUT_FOLLOWER))
+		devout_follower()
 	if(health <= 0)
 		adjustOxyLoss(0.5)
 	if(!client && !ai_controller && !HAS_TRAIT(src, TRAIT_NOSLEEP))
@@ -344,6 +346,26 @@
 		Unconscious(80)
 	// Tissues die without blood circulation
 	adjustBruteLoss(2)
+
+/mob/living/carbon/human/proc/initialize_devout_follower()
+	prayer_time = rand(6 MINUTES, 30 MINUTES)
+	next_pray = world.time + prayer_time
+
+/mob/living/carbon/human/proc/devout_follower()
+	if(!src.mind || !src.patron)
+		return
+	if(src.mind?.antag_datums)
+		for(var/datum/antagonist/D in src.mind?.antag_datums)
+			if(istype(D, /datum/antagonist/vampire/lord) || istype(D, /datum/antagonist/werewolf) || istype(D, /datum/antagonist/skeleton) || istype(D, /datum/antagonist/zombie) || istype(D, /datum/antagonist/lich))
+				return
+	var/oldprayed = prayed
+	if(oldprayed && next_pray && world.time >= next_pray)
+		prayed = FALSE
+	if(prayed != oldprayed)
+		nopray_time = world.time
+		to_chat(src, span_boldwarning("Time to pray to [istype(src.patron, /datum/patron/divine/undivided) ? "the Ten" : src.patron.name]"))
+	if(!prayed)
+		src.add_stress(/datum/stressevent/devout)
 
 /mob/living/carbon/human/proc/handle_vamp_dreams()
 	if(!HAS_TRAIT(src, TRAIT_VAMP_DREAMS))

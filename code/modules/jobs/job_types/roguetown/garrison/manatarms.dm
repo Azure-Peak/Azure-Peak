@@ -9,7 +9,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
-	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED)
+	job_traits = list(TRAIT_GUARDSMAN, TRAIT_STEELHEARTED, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
 	tutorial = "Having proven yourself loyal and capable, you are entrusted to defend the town and enforce its laws. \
 				Trained regularly in combat and siege warfare, you deal with threats - both within and without. \
 				Obey your Sergeant-at-Arms, the Marshal, and the Crown. Show the nobles and knights your respect, so that you may earn it in turn. Not as a commoner, but as a soldier.."

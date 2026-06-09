@@ -23,6 +23,8 @@
 
 	cmode_music = 'sound/music/combat_ManAtArms.ogg'
 
+	job_traits = list(TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
+
 /datum/outfit/job/roguetown/watchman
 	job_bitflag = BITFLAG_GARRISON
 

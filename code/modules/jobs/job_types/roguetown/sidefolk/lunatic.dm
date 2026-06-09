@@ -7,7 +7,7 @@
 	spawn_positions = 1
 	round_contrib_points = 2
 	var/list/traits_applied
-	traits_applied = list(TRAIT_PSYCHOSIS, TRAIT_NOSTINK, TRAIT_MANIAC_AWOKEN, TRAIT_HOMESTEAD_EXPERT) // Maniac_Awoken no longer has any function other than the flavor text and trait
+	traits_applied = list(TRAIT_PSYCHOSIS, TRAIT_NOSTINK, TRAIT_MANIAC_AWOKEN, TRAIT_HOMESTEAD_EXPERT, TRAIT_DEVOUT_FOLLOWER) // Maniac_Awoken no longer has any function other than the flavor text and trait
 	allowed_sexes = list(MALE, FEMALE)
 
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)

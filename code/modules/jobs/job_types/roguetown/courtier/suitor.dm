@@ -20,7 +20,7 @@
 	max_pq = null
 	round_contrib_points = 3
 	cmode_music = 'sound/music/combat_noble.ogg'
-	job_traits = list(TRAIT_NOBLE)
+	job_traits = list(TRAIT_NOBLE, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
 
 
 /datum/outfit/job/roguetown/suitor

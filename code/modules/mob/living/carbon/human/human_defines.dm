@@ -218,3 +218,8 @@
 
 	/// Guarded Virtue (TRAIT_DECEIVING_MEEKNESS) exclusive variable for filtering out our descriptors from examine.
 	var/show_descriptors = TRUE
+
+	var/next_pray = 0 // enforced prayer
+	var/prayed = TRUE
+	var/prayer_time = 40 MINUTES
+	var/nopray_time

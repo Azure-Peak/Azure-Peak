@@ -92,6 +92,7 @@
 
 
 	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean_blood))
+	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_DEVOUT_FOLLOWER), PROC_REF(initialize_devout_follower))
 	AddComponent(/datum/component/personal_crafting)
 	AddComponent(/datum/component/footstep, footstep_type, 1, 2)
 	GLOB.human_list += src

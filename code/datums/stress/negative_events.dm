@@ -3,6 +3,11 @@
 	stressadd = 5
 	desc = list(span_boldred("I don't indulge my vice."),span_boldred("I need to sate my vice."))
 
+/datum/stressevent/devout
+	timer = 5 MINUTES
+	stressadd = 5
+	desc = list(span_boldred("I don't pray to my Patron; my faith dwindles."),span_boldred("I need to pray to my Patron."))
+
 /datum/stressevent/miasmagas
 	timer = 10 SECONDS
 	stressadd = 2

@@ -42,6 +42,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/advclass/lord/mage,
 		/datum/advclass/lord/inbred
 	)
+
+	job_traits = list(TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
 	
 
 /datum/outfit/job/roguetown/lord

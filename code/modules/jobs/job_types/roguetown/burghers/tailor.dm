@@ -11,7 +11,7 @@
 	selection_color = JCOLOR_BURGHER
 	forbidden_races = list(RACES_DESPISED)
 	display_order = JDO_TAILOR
-	job_traits = list(TRAIT_SEWING_EXPERT)
+	job_traits = list(TRAIT_SEWING_EXPERT, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
 	outfit = /datum/outfit/job/roguetown/tailor
 	give_bank_account = TRUE
 	min_pq = 0

@@ -19,6 +19,7 @@
 		/datum/advclass/sexton/groundskeeper,
 		/datum/advclass/sexton/gravetender,
 	)
+	job_traits = list(TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
 
 /datum/outfit/job/roguetown/sexton
 	has_loadout = TRUE

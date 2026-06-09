@@ -14,7 +14,7 @@
 	whitelist_req = TRUE
 	outfit = /datum/outfit/job/roguetown/knight
 	advclass_cat_rolls = list(CTAG_ROYALGUARD = 20)
-	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN, TRAIT_EXPERT_HUNTER)
+	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN, TRAIT_EXPERT_HUNTER, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
 	give_bank_account = TRUE
 	noble_income = 15
 	min_pq = 8

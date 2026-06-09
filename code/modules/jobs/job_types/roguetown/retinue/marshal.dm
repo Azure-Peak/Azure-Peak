@@ -25,7 +25,7 @@
 	cmode_music = 'sound/music/combat_knight.ogg'
 	advclass_cat_rolls = list (CTAG_MARSHAL = 20)
 
-	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_PERFECT_TRACKER, TRAIT_EXPERT_HUNTER)
+	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_PERFECT_TRACKER, TRAIT_EXPERT_HUNTER, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
 	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
 	job_subclasses = list(
 		/datum/advclass/marshal/classic,

@@ -21,7 +21,7 @@
 	max_pq = null
 	round_contrib_points = 3
 
-	job_traits = list(TRAIT_SEEDKNOW, TRAIT_NOSTINK, TRAIT_LONGSTRIDER, TRAIT_HOMESTEAD_EXPERT)
+	job_traits = list(TRAIT_SEEDKNOW, TRAIT_NOSTINK, TRAIT_LONGSTRIDER, TRAIT_HOMESTEAD_EXPERT, TRAIT_DEVOUT_FOLLOWER, TRAIT_TENNITE_TOWN)
 
 	advclass_cat_rolls = list(CTAG_SOILBRIDE = 2)
 	job_subclasses = list(

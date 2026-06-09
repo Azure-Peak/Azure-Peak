@@ -29,7 +29,7 @@
 	job_reopens_slots_on_death = FALSE
 	same_job_respawn_delay = 1 MINUTES
 	virtue_restrictions = list(/datum/virtue/heretic/zchurch_keyholder) //all wretch classes automatically get this
-	job_traits = list(TRAIT_STEELHEARTED, TRAIT_OUTLAW, TRAIT_HERESIARCH, TRAIT_SELF_SUSTENANCE, TRAIT_ZURCH)
+	job_traits = list(TRAIT_STEELHEARTED, TRAIT_OUTLAW, TRAIT_HERESIARCH, TRAIT_SELF_SUSTENANCE, TRAIT_ZURCH, TRAIT_DEVOUT_FOLLOWER)
 	job_subclasses = list(
 		/datum/advclass/wretch/licker,
 		/datum/advclass/wretch/deserter,
