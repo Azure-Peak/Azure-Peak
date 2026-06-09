@@ -173,7 +173,7 @@
 	color = "#1b1717ff"
 	detail_color = "#b68e37ff"
 
-/obj/item/clothing/head/roguetown/chaperon/noble/astrocrat_otava
+/obj/item/clothing/head/roguetown/chaperon/noble/aristocratotava
 	desc = "A noble's chaperon made for a traveling noble from Otava. \"Purity afloat!\""
 	color = "#1f1818ff"
 	detail_color = "#dbe6e5ff"
@@ -394,7 +394,7 @@
 	detail_tag = "_detail"
 	detail_color = COLOR_SILVER
 
-/obj/item/clothing/head/roguetown/duelhat/astrocrat
+/obj/item/clothing/head/roguetown/duelhat/aristocrat
 	name = "noble's feathered hat"
 	desc = "A feathered leather hat, with silken inseams and a silver trim, to show them all your superiority."
 	icon_state = "duelhat"

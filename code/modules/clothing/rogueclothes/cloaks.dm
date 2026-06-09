@@ -1741,7 +1741,7 @@
 /obj/item/clothing/cloak/cotehardie/mageblue
 	color = CLOTHING_MAGE_BLUE
 
-/obj/item/clothing/cloak/cotehardie/astrocrat
+/obj/item/clothing/cloak/cotehardie/aristocrat
 	color = CLOTHING_RED_OCHRE
 	detail_color = CLOTHING_RED_OCHRE //Only way to work with female sprites
 

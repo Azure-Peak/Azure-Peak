@@ -238,7 +238,7 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
 	color = "#313131"
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/avar_astrocrat
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/aristocratavar
 	name = "noble's vest"
 	desc = "A light, custom-tailored flimsy leather and silken vest worn by nobility in the forested peaks of Aavnr."
 	icon_state = "freijacket"
