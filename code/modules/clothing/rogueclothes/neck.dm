@@ -504,8 +504,8 @@
     . += span_info("Middle click to kneel in prayer. Praying generates Devotion, which can be used to cast most miracles.")
     . += span_info("By typing '*pray' into your chatbar, you can write a dedicated prayer to your character's patron. Dedicated prayers have a rare chance of being answered by higher powers.")
     . += span_info("Adjusting an amulet while wearing it in the ring slot allows you to visibly layer it over most sleeves and clothing.")
-	if(HAS_TRAIT(user, TRAIT_CLERGY))
-	    . += span_info("Clicking on someone with the amulet will excuse their absence from a recent sermon. Towners tend to be stressed by such sins, and will come to you for absolution.")
+    if(HAS_TRAIT(user, TRAIT_CLERGY))
+        . += span_info("Clicking on someone with the amulet will excuse their absence from a recent sermon. Towners tend to be stressed by such sins, and will come to you for absolution.")
 
 /obj/item/clothing/neck/roguetown/psicross/reform
 	name = "reformist psycross"
