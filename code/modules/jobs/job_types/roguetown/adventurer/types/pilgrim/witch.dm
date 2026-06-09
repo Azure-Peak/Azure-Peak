@@ -127,6 +127,9 @@
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
+	REMOVE_TRAIT(src, TRAIT_TENNITE_TOWN, JOB_TRAIT) // you're on iffy terms with the church already
+	REMOVE_TRAIT(src, TRAIT_INHUMEN_TOWN, JOB_TRAIT)
+
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch
 	die_with_shapeshifted_form = FALSE
 	gesture_required = TRUE
