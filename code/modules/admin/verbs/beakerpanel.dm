@@ -36,7 +36,7 @@
 	return container
 
 /datum/admins/proc/beaker_panel()
-	set category = "GAME MASTER"
+	set category = "Game Master"
 	set name = "Spawn reagent container"
 	if(!check_rights())
 		return

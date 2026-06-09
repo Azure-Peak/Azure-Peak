@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Reduced alpha on dark vision so that those with less gamma on their monitors can still see."
+  - balance: "Goblin eyes no longer grant darkvision to pre-empt powerful gaming."

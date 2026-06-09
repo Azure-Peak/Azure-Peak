@@ -187,7 +187,7 @@
 
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
-	name = "disciple's skin"
+	name = "enduring skin"
 	desc = "It's far more than just an oath. \
 	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
 	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \
@@ -199,7 +199,7 @@
 	repair_time = 20 SECONDS
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/monke
-	name = "initiate's skin"
+	name = "trained skin"
 	desc = "They say I've taken the first step on a path older than memory.\
 	</br>Aeon, Psydon, Adonai… I don't fully understand what those names mean yet, but I repeat them as I was taught.\
 	</br>The world is said to be held together by His sacrifice. I can't imagine something like that, but the Disciples say it is true.\
@@ -222,13 +222,13 @@
 	repair_time = 20 SECONDS
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
-	name = "barbarian's skin"
+	name = "hardened skin"
 	desc = "Toughened from abuse. My mettle remains."
 	max_integrity = 200
 	repair_time = 25 SECONDS
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker
-	name = "berserker's skin"
+	name = "unstoppable skin"
 	desc = "I've endured enough. The onslaught has lost its meaning."
 	armor = ARMOR_LEATHER
 	blocksound = SOFTUNDERHIT
@@ -236,7 +236,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker/chest
-	name = "berserker's thickened chest"
+	name = "unstoppable chest"
 	desc = "The callouses could stop arrows! But only so many."
 	slot_flags = ITEM_SLOT_ARMOR
 	armor = ARMOR_MAILLE
@@ -248,7 +248,7 @@
 	max_integrity = 180
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/bailiff
-	name = "executioneer's skin"
+	name = "scar-marred skin"
 	desc = "Bearing scars of countless whips leaves a gnarly visage. Now it's your time to inflict the same fate upon others."
 	max_integrity = 250
 
@@ -281,13 +281,13 @@
 	max_integrity = 450
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/gladiator
-	name = "gladiator's skin"
+	name = "pit-hardened skin"
 	desc = "Are you not entertained?!"
 	max_integrity = 200
 	repair_time = 25 SECONDS
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/monk
-	name = "monk's skin"
+	name = "tough skin"
 	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
 	max_integrity = 200
 	repair_time = 25 SECONDS

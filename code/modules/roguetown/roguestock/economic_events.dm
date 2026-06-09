@@ -22,15 +22,20 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 			tg.global_price_mod *= price_mod
 	refresh_affected_stockpile_caches()
 	if(event_type == ECON_EVENT_SHORTAGE)
-		var/limit_sum = 0
-		var/limit_count = 0
+		var/effective_pop = SSeconomy ? SSeconomy.get_effective_player_count() : get_active_player_count()
+		var/pop_mult = min(REGION_POP_SCALE_MAX, 1.0 + (effective_pop * REGION_POP_SCALE_PER_PLAYER))
+		var/demand_sum = 0
+		var/demand_count = 0
 		for(var/good_id in affected_goods)
-			var/datum/roguestock/D = SStreasury.stockpile_by_trade_good[good_id]
-			if(!D || D.stockpile_limit <= 0)
+			var/total_demand = 0
+			for(var/region_id in GLOB.economic_regions)
+				var/datum/economic_region/region = GLOB.economic_regions[region_id]
+				total_demand += region.demands[good_id] || 0
+			if(total_demand <= 0)
 				continue
-			limit_sum += D.stockpile_limit
-			limit_count++
-		saturation_target = limit_count > 0 ? max(1, round(limit_sum * ECON_EVENT_SATURATION_MULT / limit_count)) : 1
+			demand_sum += total_demand * pop_mult * duration_days
+			demand_count++
+		saturation_target = demand_count > 0 ? clamp(round(demand_sum * ECON_EVENT_SATURATION_MULT / demand_count), ECON_EVENT_SATURATION_MIN, ECON_EVENT_SATURATION_MAX) : 1
 	if(announcement && !(SSeconomy?.daily_report_diff))
 		scom_announce(announcement)
 

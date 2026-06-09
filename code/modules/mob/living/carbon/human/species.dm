@@ -1825,6 +1825,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			pen = PEN_NONE
 			Iforce *= 0.5
 
+	if(H == user && bladec == BCLASS_DISARM)
+		bladec = BCLASS_BLUNT
+
 	var/higher_intfactor = max(user.used_intent.masteritem?.intdamage_factor, user.used_intent.intent_intdamage_factor)
 	var/lowest_intfactor = min(user.used_intent.masteritem?.intdamage_factor, user.used_intent.intent_intdamage_factor)
 	var/used_intfactor = 1
@@ -1902,6 +1905,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 //		if(H.used_intent.blade_class == BCLASS_BLUNT && I.force >= 15 && affecting.body_zone == "chest")
 //			var/turf/target_shove_turf = get_step(H.loc, get_dir(user.loc,H.loc))
 //			H.throw_at(target_shove_turf, 1, 1, H, spin = FALSE)
+
+	if(bladec == BCLASS_DISARM)
+		H.attempt_disarm(user, I)
 
 	I.funny_attack_effects(H, user, nodmg)
 	H.send_item_attack_message(I, user, selzone, affecting, bladec)

@@ -464,7 +464,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull
 	name = "hounskull bascinet"
-	desc = "A bascinet with a conical visor, favored by those with snouts and whiskers. Nestle a feather onto the rim to display your allegiance."
+	desc = "A bascinet with a conical visor, favored by those with snouts and whiskers. Nestle a feather or length of cloth onto the rim to display your allegiance."
 	icon_state = "hounskull"
 	item_state = "hounskull"
 
@@ -476,7 +476,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface
 	name = "roundface bascinet"
-	desc = "A bascinet with a conical visor, favored by those without snouts and whiskers. Nestle a feather onto the rim to display your allegiance."
+	desc = "A bascinet with a conical visor, favored by those without snouts and whiskers. Nestle a feather or length of cloth onto the rim to display your allegiance."
 	icon_state = "roundface"
 	item_state = "roundface"
 	worn_x_dimension = 64

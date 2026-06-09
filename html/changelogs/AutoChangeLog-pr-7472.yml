@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "embedchances being inversed."
+  - bugfix: "embedded projectiles sometimes disappearing"

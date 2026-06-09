@@ -96,9 +96,9 @@
 	status_flags |= GODMODE
 	ai_controller?.set_ai_status(AI_STATUS_OFF)
 	if(client)
-		client.verbs |= /client/proc/lobbyooc
-		client.verbs |= /client/proc/view_stats
-		client.update_browserpanel()
+		add_verb(client, /client/proc/lobbyooc)
+		add_verb(client, /client/proc/view_stats)
+		client.init_verbs()
 		client.show_game_over()
 
 /mob/living/do_game_over()
@@ -393,7 +393,7 @@
 	if(!previous)
 		var/list/report_parts = list(personal_report(C), GLOB.common_report)
 		content = report_parts.Join()
-		C.verbs -= /client/proc/show_previous_roundend_report
+		remove_verb(C, /client/proc/show_previous_roundend_report)
 		fdel(filename)
 		text2file(content, filename)
 	else

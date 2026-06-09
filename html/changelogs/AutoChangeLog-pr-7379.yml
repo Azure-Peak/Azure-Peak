@@ -1,0 +1,8 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Splits Migrant Wave into two tracks of regular & special, which now roll independently. Two additional track (Triumph Buy and Event) also exists"
+  - rscadd: "Greatly improved the migrant wave triumph buy interfaces and the user experience in general"
+  - rscadd: "Removed the multiple manually defined downgrade waves. Instead, each wave have required role(s), optional roles, and a minimum of required optional roles to make it much cleaner in code"
+  - rscadd: "Each wave that is rolled will take 3 minutes to form up, and if it fails, will refund any triumph buy or disband, no longer occupying the wave."
+  - rscadd: "Simplified the migrant wave code."

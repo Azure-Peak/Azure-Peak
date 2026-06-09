@@ -11,7 +11,7 @@ SUBSYSTEM_DEF(machines)
 	return ..()
 
 /datum/controller/subsystem/machines/stat_entry()
-	..("M:[processing.len]")
+	return ..("M:[processing.len]")
 
 
 /datum/controller/subsystem/machines/fire(resumed = 0)

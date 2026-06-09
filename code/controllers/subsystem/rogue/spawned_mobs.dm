@@ -16,7 +16,7 @@ SUBSYSTEM_DEF(spawned_mobs)
 	var/list/currentrun = list()
 
 /datum/controller/subsystem/spawned_mobs/stat_entry()
-	..("T:[length(tracked_mobs)]")
+	return ..("T:[length(tracked_mobs)]")
 
 /datum/controller/subsystem/spawned_mobs/fire(resumed = FALSE)
 	if(!resumed)

@@ -305,6 +305,7 @@
 	adjusted_climb_time = max(adjusted_climb_time, 0)
 
 	structureclimber = user
+	user.mid_climb = TRUE
 	if(do_mob(user, user, adjusted_climb_time))
 		if(src.loc) //Checking if structure has been destroyed
 			if(do_climb(user))
@@ -318,4 +319,5 @@
 				. = 1
 			else
 				to_chat(user, "<span class='warning'>I fail to climb onto [src].</span>")
+	user.mid_climb = FALSE
 	structureclimber = null

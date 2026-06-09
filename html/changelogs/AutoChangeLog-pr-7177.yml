@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Ports over PR #4095's stuff. All credit to Failgirl!"
+  - balance: "Hookswords, quarterstaves and regular staves (that scale off the 'staves' skill) now inherit a new intent, 'disarm'. This allows them to skillfully disarm an opponent of their current weapon, if they're afflicted with the OFF-BALANCE debuff."

@@ -158,7 +158,7 @@
 	if(zombie)
 
 		zombie.infected = FALSE // Makes sure admins removing deadification removes the infected var if they do it before they turn
-		zombie.verbs -= /mob/living/carbon/human/proc/zombie_seek
+		remove_verb(zombie, /mob/living/carbon/human/proc/zombie_seek)
 		zombie.mind?.special_role = special_role
 		zombie.ambushable = ambushable
 
@@ -256,7 +256,7 @@
 	zombie.faction += "undead"
 	zombie.faction += "zombie"
 	zombie.faction -= "neutral"
-	zombie.verbs |= /mob/living/carbon/human/proc/zombie_seek
+	add_verb(zombie, /mob/living/carbon/human/proc/zombie_seek)
 	for(var/obj/item/bodypart/zombie_part as anything in zombie.bodyparts)
 		if(!zombie_part.rotted && !zombie_part.skeletonized)
 			zombie_part.rotted = TRUE

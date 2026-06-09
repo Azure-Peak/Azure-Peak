@@ -74,9 +74,9 @@
 					if(prob(25) && (HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT) || STAWIL >= 15) && !HAS_TRAIT(src, TRAIT_NOPAINSTUN)) // PSYDONIC WEIGHTED COINFLIP. TWEAK THIS AS THOU WILT. DON'T LET THEM BE BROKEN, PSYDON WILLING. THROW CON-MAXXERS A BONE, TOO.
 						Immobilize(15) // EAT A MICROSTUN. YOU'RE AVOIDING A PAINCRIT.
 						if(HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT))
-							visible_message(span_info("[src] audibly grits their teeth. ENDURING through their pain."), span_info("Through my faith in HIM, I ENDURE."))
+							visible_message(span_info("[src] audibly grits [src.p_their()] teeth, ENDURING through [src.p_their()] pain."), span_info("Through my faith in HIM, I ENDURE."))
 						else
-							visible_message(span_info("[src] trembled for a moment, but they remain stood."), span_info("My strong constitution keeps me upright."))
+							visible_message(span_info("[src] trembles for a moment, but [src.p_they()] remain standing."), span_info("My strong constitution keeps me upright."))
 						stuttering += 5
 						emote("painmoan")
 						return
