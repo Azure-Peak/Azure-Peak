@@ -810,11 +810,11 @@
 		var/minutes = floor(total_seconds / 60)
 		var/seconds = total_seconds % 60
 		if(minutes > 0)
-			msg += "<font color='#ffbd09'>A temporary ward surrounds them. It will last for [minutes] minute[minutes == 1 ? "" : "s"], [seconds] second[seconds == 1 ? "" : "s"].</font>"
+			msg += "<font color='#ffbd09'>A temporary ward surrounds [m2]. It will last for [minutes] minute[minutes == 1 ? "" : "s"], [seconds] second[seconds == 1 ? "" : "s"].</font>"
 		else
-			msg += "<font color='#ffbd09'>A temporary ward surrounds them. It will last for [seconds] second[seconds == 1 ? "" : "s"].</font>"
+			msg += "<font color='#ffbd09'>A temporary ward surrounds [m2]. It will last for [seconds] second[seconds == 1 ? "" : "s"].</font>"
 
-	if(user == src && HAS_TRAIT(src, TRAIT_VAMPIRE_TORPOR))
+	if(user?.mind?.has_antag_datum(/datum/antagonist/vampire) && HAS_TRAIT(src, TRAIT_VAMPIRE_TORPOR))
 		var/time_remaining = max(0, vampire_revival_target - vampire_revival_progress)
 
 		var/total_seconds = round(time_remaining / 10)
@@ -822,9 +822,9 @@
 		var/seconds = total_seconds % 60
 
 		if(minutes > 0)
-			msg += "<font color='#8b0000'>My body is reconstructing itself. I shall rise again in approximately [minutes] minute[minutes == 1 ? "" : "s"], [seconds] second[seconds == 1 ? "" : "s"].</font>"
+			msg += "<font color='#8b0000'>[m1] is in a <b>death torpor</b> and may rise in [minutes] minute[minutes == 1 ? "" : "s"], [seconds] second[seconds == 1 ? "" : "s"].</font>"
 		else
-			msg += "<font color='#8b0000'>My body is reconstructing itself. I shall rise again in approximately [seconds] second[seconds == 1 ? "" : "s"].</font>"
+			msg += "<font color='#8b0000'>[m1] is in a <b>death torpor</b> and may rise in [seconds] second[seconds == 1 ? "" : "s"].</font>"
 
 	if(!appears_dead)
 		if(!skipface)
