@@ -10,7 +10,7 @@
 
 /mob/living/carbon/human/verb/emote_cry()
 	set name = "Cry"
-	set category = "Emotes.Noises"
+	set category = "Noises"
 
 	emote("cry", intentional = TRUE)
 
@@ -76,7 +76,7 @@
 
 /mob/living/carbon/human/verb/emote_psst()
 	set name = "Psst"
-	set category = "Emotes.Noises"
+	set category = "Noises"
 
 	emote("psst", intentional = TRUE)
 
@@ -89,7 +89,7 @@
 
 /mob/living/carbon/human/verb/emote_grumble()
 	set name = "Grumble"
-	set category = "Emotes.Noises"
+	set category = "Noises"
 
 	emote("grumble", intentional = TRUE)
 

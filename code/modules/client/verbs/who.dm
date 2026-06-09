@@ -1,7 +1,7 @@
 
 /client/verb/who()
 	set name = "Whom"
-	set category = "Preferences.Options"
+	set category = "Options"
 
 	var/msg = ""
 
@@ -96,7 +96,7 @@
 	to_chat(src, msg)
 
 /client/verb/adminwho()
-	set category = "Admin.Admin"
+	set category = "ADMIN"
 	set name = "Adminwho"
 	set desc = "Lists all admins currently online."
 

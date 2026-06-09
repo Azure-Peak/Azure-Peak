@@ -8,9 +8,9 @@ SUBSYSTEM_DEF(adjacent_air)
 
 /datum/controller/subsystem/adjacent_air/stat_entry()
 	#ifdef TESTING
-	return ..("P:[length(queue)], S:[GLOB.atmos_adjacent_savings[1]], T:[GLOB.atmos_adjacent_savings[2]]")
+	..("P:[length(queue)], S:[GLOB.atmos_adjacent_savings[1]], T:[GLOB.atmos_adjacent_savings[2]]")
 	#else
-	return ..("P:[length(queue)]")
+	..("P:[length(queue)]")
 	#endif
 
 /datum/controller/subsystem/adjacent_air/Initialize()

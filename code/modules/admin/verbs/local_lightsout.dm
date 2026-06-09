@@ -1,5 +1,5 @@
 /client/proc/local_lightsout()
-	set category = "Game Master"
+	set category = "GAME MASTER"
 	set name = "Local Lightsout"
 
 	if(!check_rights(R_ADMIN))

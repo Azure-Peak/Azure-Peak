@@ -485,7 +485,7 @@
 
 /client/proc/stickybanpanel()
 	set name = "Sticky Ban Panel"
-	set category = "Admin.Admin"
+	set category = "ADMIN"
 	set hidden = 1
 	if (!holder)
 		return

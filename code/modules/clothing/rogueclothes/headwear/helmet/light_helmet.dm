@@ -77,7 +77,6 @@
 			H.update_inv_head()
 
 /obj/item/clothing/head/roguetown/helmet/leather/chapeau/AltRightClick(mob/user)
-	. = ..()
 	if(!istype(loc, /mob/living/carbon))
 		return
 	var/mob/living/carbon/H = user

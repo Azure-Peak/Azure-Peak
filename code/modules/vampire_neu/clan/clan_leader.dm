@@ -40,7 +40,7 @@
 
 	// Add lord verbs
 	for(var/verb_path in lord_verbs)
-		add_verb(H, verb_path)
+		H.verbs |= verb_path
 
 	// Add lord traits
 	for(var/trait in lord_traits)
@@ -63,7 +63,7 @@
 		H.mind?.RemoveSpell(spell_type)
 
 	for(var/verb_path in lord_verbs)
-		remove_verb(H, verb_path)
+		H.verbs -= verb_path
 
 	for(var/trait in lord_traits)
 		REMOVE_TRAIT(H, trait, "lord_component")

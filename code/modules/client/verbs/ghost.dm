@@ -32,8 +32,8 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 				if(D.buried && D.funeral)
 					D.returntolobby()
 					return
-			remove_verb(src, GLOB.ghost_verbs)
-			init_verbs()
+			verbs -= GLOB.ghost_verbs
+			update_browserpanel()
 			mob.returntolobby()
 		if("No")
 			usr << "You have second thoughts."
@@ -64,7 +64,7 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 
 /mob/verb/returntolobby()
 	set name = "{RETURN TO LOBBY}"
-	set category = "Preferences.Options"
+	set category = "Options"
 	set hidden = 1
 
 	if(key)
@@ -100,9 +100,8 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 		qdel(M)
 		return
 
-	if(client)
-		remove_verb(client, GLOB.ghost_verbs)
-	client?.init_verbs()
+	client?.verbs -= GLOB.ghost_verbs
+	client?.update_browserpanel()
 	M.key = key
 	if(istype(src, /mob/dead/observer)) //Be rid of clogging ghost shades
 		qdel(src)

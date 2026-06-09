@@ -2,7 +2,7 @@
 
 /mob/living/carbon/human/proc/ventriloquate()
 	set name = "Ventriloquism"
-	set category = "RoleUnique.Japes"
+	set category = "Japes"
 	
 	var/obj/item/grabbing/I = get_active_held_item()
 	if(!I)
@@ -18,7 +18,7 @@
 
 /mob/living/carbon/human/proc/ear_trick()
 	set name = "Ear Trick"
-	set category = "RoleUnique.Japes"
+	set category = "Japes"
 
 	var/obj/item/grabbing/I = get_active_held_item()
 	var/mob/living/carbon/human/H

@@ -166,9 +166,9 @@
 
 /datum/virtue/combat/guarded/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
-	add_verb(recipient, /mob/living/carbon/human/proc/toggle_descriptors)
-	add_verb(recipient, /mob/living/carbon/human/proc/emote_ffsalute)
-	add_verb(recipient, /mob/living/carbon/human/proc/toggle_guarded)
+	recipient.verbs += /mob/living/carbon/human/proc/toggle_descriptors
+	recipient.verbs += /mob/living/carbon/human/proc/emote_ffsalute
+	recipient.verbs += /mob/living/carbon/human/proc/toggle_guarded
 
 
 /datum/virtue/combat/rotcured
@@ -201,4 +201,4 @@
 	added_traits = list(TRAIT_COMBAT_AWARE)
 
 /datum/virtue/combat/combat_aware/apply_to_human(mob/living/carbon/human/recipient)
-	add_verb(recipient, /mob/living/carbon/human/proc/togglecombatawareness)
+	recipient.verbs += /mob/living/carbon/human/proc/togglecombatawareness

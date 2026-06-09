@@ -11,7 +11,7 @@ SUBSYSTEM_DEF(processing)
 	var/list/currentrun = list()
 
 /datum/controller/subsystem/processing/stat_entry()
-	return ..("[stat_tag]:[processing.len]")
+	..("[stat_tag]:[processing.len]")
 
 /datum/controller/subsystem/processing/fire(resumed = 0)
 	if (!resumed)

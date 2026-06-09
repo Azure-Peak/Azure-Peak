@@ -36,7 +36,7 @@
 	H.change_stat(STATKEY_PER, 2)
 	H.change_stat(STATKEY_INT, 1)
 	H.change_stat(STATKEY_WIL, 1)
-	add_verb(H, /mob/living/carbon/human/proc/ventriloquate)
+	H.verbs |= /mob/living/carbon/human/proc/ventriloquate
 
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)

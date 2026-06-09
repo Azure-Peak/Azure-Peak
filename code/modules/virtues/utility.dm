@@ -231,7 +231,7 @@
 					if(recipient.has_flaw(/datum/charflaw/colorblind))
 						to_chat(recipient, "Your eyes have become permanently colorblind.")
 					else if(recipient.charflaws.len)
-						add_verb(recipient, /mob/living/carbon/human/proc/toggleblindness)
+						recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
 			else if(ispath(extra_choices[choice], /datum/skill))
 				if(extra_choices[choice] == /datum/skill/misc/sneaking)
 					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_APPRENTICE, silent = TRUE)
@@ -241,8 +241,8 @@
 				var/obj/item/I = extra_choices[choice]
 				recipient.mind?.special_items[capitalize(I::name)] = extra_choices[choice]
 			else if(choice == "Second Voice")
-				add_verb(recipient, /mob/living/carbon/human/proc/changevoice)
-				add_verb(recipient, /mob/living/carbon/human/proc/swapvoice)
+				recipient.verbs += /mob/living/carbon/human/proc/changevoice
+				recipient.verbs += /mob/living/carbon/human/proc/swapvoice
 				recipient.AddComponent(/datum/component/voice_handler)
 
 /datum/virtue/utility/performer

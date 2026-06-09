@@ -42,7 +42,6 @@ const initialState = {
   statLinked: true,
   statFontSize: 12,
   statTabsStyle: 'default',
-  theme: 'dark',
 } as const;
 
 export function settingsReducer(
@@ -56,12 +55,6 @@ export function settingsReducer(
       return {
         ...state,
         ...payload,
-      };
-
-    case 'set_chat_theme':
-      return {
-        ...state,
-        theme: payload,
       };
 
     case loadSettings.type: {

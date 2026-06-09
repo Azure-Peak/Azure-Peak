@@ -541,9 +541,8 @@ GLOBAL_LIST(teleport_runes)
 				to_chat(user, span_warning("Summoning failed: mind transfer failed"))
 				busy = FALSE
 				return
-			if(fam.client)
-				remove_verb(fam.client, GLOB.ghost_verbs)
-			fam.client?.init_verbs()
+			fam.client?.verbs -= GLOB.ghost_verbs
+			fam.client?.update_browserpanel()
 			mind_datum.RemoveAllSpells()
 			mind_datum.AddSpell(new /datum/action/cooldown/spell/message_summoner())
 			mind_datum.AddSpell(new /datum/action/cooldown/spell/familiar_transform())

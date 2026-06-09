@@ -60,8 +60,8 @@
 		/obj/item/handmirror = 1
 	)
 	if(H.mind)
-		add_verb(H, /mob/living/carbon/human/proc/commune_with_roots)
-		add_verb(H, /mob/living/carbon/human/proc/toggle_guarded)
+		H.verbs |= /mob/living/carbon/human/proc/commune_with_roots
+		H.verbs |= /mob/living/carbon/human/proc/toggle_guarded
 		H.ambushable = FALSE
 		H.faction |= list(FACTION_HAG)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/wildshape/hag_true_form)

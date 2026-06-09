@@ -551,7 +551,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	. = ..()
 	if(!.)
 		return
-	add_verb(recruit, /mob/proc/haltyell)
+	recruit.verbs |= /mob/proc/haltyell
 
 /obj/effect/proc_holder/spell/self/convertrole/servant
 	name = "Recruit Servant"

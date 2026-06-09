@@ -462,7 +462,7 @@ GLOBAL_VAR(restart_counter)
 /*
 #ifdef TESTING
 /client/verb/maxzcdec()
-	set category = "Debug.Test"
+	set category = "DEBUGTEST"
 	set name = "decr"
 	set desc = ""
 	world.decrementMaxZ()

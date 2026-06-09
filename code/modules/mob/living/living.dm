@@ -1949,6 +1949,10 @@
 	if(A.action)
 		A.action.Remove(src)
 
+/mob/living/proc/add_abilities_to_panel()
+	for(var/obj/effect/proc_holder/A in abilities)
+		statpanel("[A.panel]",A.get_panel_text(),A)
+
 /mob/living/lingcheck()
 	return LINGHIVE_NONE
 

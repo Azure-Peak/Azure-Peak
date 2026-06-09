@@ -59,7 +59,7 @@
 /client/verb/mentorhelp()
 	set name = "Mentorhelp"
 	set desc = ""
-	set category = "Admin.Admin"
+	set category = "ADMIN"
 	if(mob)
 		var/msg = input("Submit your question to the Voices:", "Mentorhelp Input") as text|null
 		if(msg)
@@ -149,7 +149,7 @@ Hotkey-Mode: (hotkey-mode must be on)
 
 /client/verb/set_fixed()
 	set name = "IconSize"
-	set category = "Preferences.Options"
+	set category = "Options"
 
 	if(winget(src, "mapwindow.map", "icon-size") == "64")
 		to_chat(src, "Stretch-to-fit... OK")
@@ -160,7 +160,7 @@ Hotkey-Mode: (hotkey-mode must be on)
 
 /client/verb/set_stretch()
 	set name = "IconScaling"
-	set category = "Preferences.Options"
+	set category = "Options"
 	if(prefs)
 		if(prefs.crt == TRUE)
 			to_chat(src, "CRT mode is on.")
@@ -174,7 +174,7 @@ Hotkey-Mode: (hotkey-mode must be on)
 		winset(src, "mapwindow.map", "zoom-mode=normal")
 
 /client/verb/crtmode()
-	set category = "Preferences.Options"
+	set category = "Options"
 	set name = "ToggleCRT"
 	if(!prefs)
 		return
@@ -194,7 +194,7 @@ Hotkey-Mode: (hotkey-mode must be on)
 			S.alpha = 70
 
 /client/verb/grainfilter()
-	set category = "Preferences.Options"
+	set category = "Options"
 	set name = "ToggleGrain"
 	if(!prefs)
 		return
@@ -246,7 +246,7 @@ Hotkey-Mode: (hotkey-mode must be on)
 			to_chat(C, span_info("Roleplay ad removed."))
 
 /client/verb/changefps()
-	set category = "Preferences.Options"
+	set category = "Options"
 	set name = "ChangeFPS"
 	if(!prefs)
 		return
@@ -258,7 +258,7 @@ Hotkey-Mode: (hotkey-mode must be on)
 
 /client/verb/set_picinchat()
 	set name = "Headshot in Chat"
-	set category = "Preferences.Options"
+	set category = "Options"
 
 	if(prefs)
 		prefs.chatheadshot = !prefs.chatheadshot
@@ -271,12 +271,12 @@ Hotkey-Mode: (hotkey-mode must be on)
 /*
 /client/verb/set_blur()
 	set name = "AAOn"
-	set category = "Preferences.Options"
+	set category = "Options"
 
 	winset(src, "mapwindow.map", "zoom-mode=blur")
 
 /client/verb/set_normal()
 	set name = "AAOff"
-	set category = "Preferences.Options"
+	set category = "Options"
 
 	winset(src, "mapwindow.map", "zoom-mode=normal")*/

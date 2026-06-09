@@ -98,16 +98,15 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 /mob/dead/observer/Initialize()
 	set_invisibility(GLOB.observer_default_invisibility)
 
-	add_verb(src, list(
+	verbs += list(
 		/mob/dead/observer/proc/dead_tele,
 		/mob/dead/observer/proc/open_spawners_menu,
-		/mob/dead/observer/proc/tray_view))
+		/mob/dead/observer/proc/tray_view)
 
 	if(!istype(src, /mob/dead/observer/rogue/arcaneeye))
 		if(!istype(src, /mob/dead/observer/screye))
-			if(client)
-				add_verb(client, GLOB.ghost_verbs)
-			client?.init_verbs()
+			client?.verbs += GLOB.ghost_verbs
+			client?.update_browserpanel()
 			to_chat(src, span_danger("Click the <b>SKULL</b> on the left of your HUD to respawn."))
 
 	if(icon_state in GLOB.ghost_forms_with_directions_list)
@@ -194,8 +193,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	real_name = name
 
 	if(!fun_verbs)
-		remove_verb(src, /mob/dead/observer/verb/boo)
-		remove_verb(src, /mob/dead/observer/verb/possess)
+		verbs -= /mob/dead/observer/verb/boo
+		verbs -= /mob/dead/observer/verb/possess
 
 	GLOB.dead_mob_list += src
 
@@ -216,9 +215,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	if(!(istype(src, /mob/dead/observer/rogue/arcaneeye)))
 		if(istype(src, /mob/dead/observer/screye))
 			return
-		if(client)
-			add_verb(client, GLOB.ghost_verbs)
-		client?.init_verbs()
+		client?.verbs += GLOB.ghost_verbs
+		client?.update_browserpanel()
 		to_chat(src, span_danger("Click the <b>SKULL</b> on the left of your HUD to respawn."))
 
 /mob/dead/observer/narsie_act()
@@ -483,16 +481,15 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	SSdroning.kill_droning(src.client)
 	remove_client_colour(/datum/client_colour/monochrome)
 	client.change_view(CONFIG_GET(string/default_view))
-	if(client)
-		remove_verb(client, GLOB.ghost_verbs)
-	client?.init_verbs()
+	client?.verbs -= GLOB.ghost_verbs
+	client?.update_browserpanel()
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	mind.current.key = key
 	return TRUE
 
 /mob/dead/observer/returntolobby(modifier as num)
 	set name = "{RETURN TO LOBBY}"
-	set category = "Preferences.Options"
+	set category = "Options"
 	set hidden = 1
 	if (CONFIG_GET(flag/norespawn))
 		return
@@ -534,8 +531,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		qdel(M)
 		return
 
-	remove_verb(client, GLOB.ghost_verbs)
-	client.init_verbs()
+	client.verbs -= GLOB.ghost_verbs
+	client.update_browserpanel()
 	M.key = key
 	return
 
@@ -997,11 +994,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			ghostimage_simple.icon_state = icon_state
 		if("fun_verbs")
 			if(fun_verbs)
-				add_verb(src, /mob/dead/observer/verb/boo)
-				add_verb(src, /mob/dead/observer/verb/possess)
+				verbs += /mob/dead/observer/verb/boo
+				verbs += /mob/dead/observer/verb/possess
 			else
-				remove_verb(src, /mob/dead/observer/verb/boo)
-				remove_verb(src, /mob/dead/observer/verb/possess)
+				verbs -= /mob/dead/observer/verb/boo
+				verbs -= /mob/dead/observer/verb/possess
 
 /mob/dead/observer/reset_perspective(atom/A)
 	if(client)

@@ -51,7 +51,7 @@
 
 /datum/outfit/job/roguetown/bandit/pre_equip(mob/living/carbon/human/H)
 	. = ..()
-	add_verb(H, /mob/proc/haltyell_exhausting)
+	H.verbs |= /mob/proc/haltyell_exhausting
 
 /datum/outfit/job/roguetown/bandit/post_equip(mob/living/carbon/human/H)
 	..()

@@ -92,7 +92,7 @@
 		/obj/item/signal_horn = 1,
 		/obj/item/hunting_map/boars = 1,
 		)
-	add_verb(H, /mob/proc/haltyell)
+	H.verbs |= /mob/proc/haltyell
 	H.set_blindness(0)
 
 	if(H.mind)
