@@ -328,6 +328,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		if(istype(src.patron, /datum/patron/inhumen))
 			ADD_TRAIT(src, TRAIT_INHUMEN_TOWN, JOB_TRAIT) // currently, this does nothing, other than tell the player "you don't get moodnuked by not attending sermons, but watch out"
 
+GLOBAL_LIST_INIT(sermon_avoiders, list())
 
 /mob/living/carbon/human/proc/completesermon()
 	set name = "Sermon"
@@ -343,6 +344,9 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	if (!COOLDOWN_FINISHED(src, priest_sermon))
 		to_chat(src, span_warning("You cannot inspire others so early."))
 		return
+	
+	if(!has_status_effect(/datum/status_effect/buff/sermontime))
+		to_chat(src, span_warning("I should not begin a sermon without announcing it! I should have someone ring the bell to signal the faithful."))
 
 	src.visible_message(span_notice("[src] begins preaching a sermon..."))
 
@@ -354,8 +358,25 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	playsound(src.loc, 'sound/magic/bless.ogg', 80, TRUE)
 	COOLDOWN_START(src, priest_sermon, PRIEST_SERMON_COOLDOWN)
 
-	for (var/mob/living/carbon/human/H in view(7, src))
+	// clear the list, because we want people to be able to attend a second sermon and clear their stress...
+	for(var/mob/living/carbon/H in GLOB.sermon_avoiders)
+		H.remove_stress(/datum/stressevent/tennite_missed_sermon)
+		REMOVE_TRAIT(H, TRAIT_MISSED_SERMON, TRAIT_GENERIC)
+		GLOB.sermon_avoiders -= H
+
+	for (var/mob/living/carbon/human/H in GLOB.player_list)
 		if (!H.patron)
+			continue
+		
+		if(!istype(get_area(H), /area/rogue/indoors/town/church/chapel)) // they're not in the sermon! how scandalous....
+			if(HAS_TRAIT(H, TRAIT_INHUMEN_TOWN))						 // they aren't actually "church regulars"
+				GLOB.sermon_avoiders += H								 // BUT they are town roles that should be expected to attend
+				ADD_TRAIT(H, TRAIT_MISSED_SERMON, TRAIT_GENERIC) 		 // ...so while they don't get stress, their absence IS noted.
+
+			if(HAS_TRAIT(H, TRAIT_TENNITE_TOWN))						 // they ARE a tennite town role that should be expected to
+				H.add_stress(/datum/stressevent/tennite_missed_sermon)	 // attend major services, and didn't!
+				ADD_TRAIT(H, TRAIT_MISSED_SERMON, TRAIT_GENERIC)		 // so they gain stress, since they're good little ten-fearing towners...
+				GLOB.sermon_avoiders += H								 // ...and their absence is noted
 			continue
 
 		if (istype(H.patron, /datum/patron/divine))
@@ -364,25 +385,15 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			to_chat(H, span_notice("You feel a divine affirmation from your patron."))
 
 		else if (istype(H.patron, /datum/patron/inhumen))
-			H.apply_status_effect(/datum/status_effect/debuff/hereticsermon)
 			H.add_stress(/datum/stressevent/heretic_on_sermon)
 			to_chat(H, span_warning("Your patron seethes with disapproval."))
 
 		else
 			// Other patrons - fluff only
 			to_chat(H, span_notice("Nothing seems to happen to you."))
-
-	var/missed_regulars = 0
-	for(var/mob/living/carbon/H in GLOB.player_list)
-		if(HAS_TRAIT(H, TRAIT_INHUMEN_TOWN))
-			missed_regulars++ // they aren't actually "church regulars" BUT they are town roles that should be expected to attend so they're silently added to the count even though they don't get stress from missing it
-		if(!HAS_TRAIT(H, TRAIT_TENNITE_TOWN)) // they _are_ a tennite town role that should be expected to attend major services
-			continue
-		if(H.has_stress_event(/datum/stressevent/sermon)) // they weren't at the sermon
-			H.add_stress(/datum/stressevent/tennite_missed_sermon)
-			missed_regulars++
-	if(missed_regulars)
-		to_chat(src, span_notice("[missed_regulars] of the town regulars were absent from the sermon...")) // doesn't tell you _who_, just how many
+		
+	if(length(GLOB.sermon_avoiders))
+		to_chat(src, span_notice("[length(GLOB.sermon_avoiders)] of the town regulars were absent from the sermon...")) // doesn't tell you _who_, just how many
 
 	return TRUE
 

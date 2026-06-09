@@ -370,14 +370,14 @@
 	timer = 999 MINUTES
 
 /datum/stressevent/heretic_on_sermon
-	stressadd = 5
-	desc = span_red("My PATRON is NOT PROUD of ME!")
+	stressadd = 3
+	desc = span_red("That sermon was naught but a deluge of lies meant to ensnare!")
 	timer = 20 MINUTES
 
 /datum/stressevent/tennite_missed_sermon
-	stressadd = 3 // slightly less impactful of a moodnuke
+	stressadd = 1 // not a very impactful moodnuke
 	desc = span_red("I missed the church service! My patron disapproves!")
-	timer = 20 MINUTES
+	timer = 999 MINUTES // however, it'll last until you get it cleared by a churchie
 
 /datum/stressevent/lostchampion
 	stressadd = 8

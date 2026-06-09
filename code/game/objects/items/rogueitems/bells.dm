@@ -102,6 +102,8 @@
 			continue
 		if(isbrain(player))
 			continue
+		if(player.job == "Bishop") // once you have someone ring the bell, you can do your sermon
+			player.apply_status_effect(/datum/status_effect/buff/sermontime)
 
 		var/distance = get_dist(player, origin_turf)
 		if(distance <= 7)

@@ -489,12 +489,23 @@
 		L.regenerate_clothes()
 	return ..()
 
+// note: this doesn't check for actually having the stress, just "not having been at the sermon", because heretics that successfully explain their absence should be able to do this too
+/obj/item/clothing/neck/roguetown/psicross/attack(mob/living/M, mob/living/user, def_zone)
+	if(HAS_TRAIT(user, TRAIT_CLERGY) && (M in GLOB.sermon_avoiders))
+		M.remove_stress(/datum/stressevent/tennite_missed_sermon)
+		GLOB.sermon_avoiders -= M
+		REMOVE_TRAIT(M, TRAIT_MISSED_SERMON, TRAIT_GENERIC)
+		to_chat(user, span_notice("You perform a small rite of blessing, excusing [M] for their absence from the recent sermon!"))
+	. = ..()
+
 /obj/item/clothing/neck/roguetown/psicross/get_mechanics_examine(mob/user)
     . = ..()
     . += span_info("Right click to adjust how your character visibly wears the amulet. Most amulets can cycle between being visibly worn on the neck, and being worn around the wrist.")
     . += span_info("Middle click to kneel in prayer. Praying generates Devotion, which can be used to cast most miracles.")
     . += span_info("By typing '*pray' into your chatbar, you can write a dedicated prayer to your character's patron. Dedicated prayers have a rare chance of being answered by higher powers.")
     . += span_info("Adjusting an amulet while wearing it in the ring slot allows you to visibly layer it over most sleeves and clothing.")
+	if(HAS_TRAIT(user, TRAIT_CLERGY))
+	    . += span_info("Clicking on someone with the amulet will excuse their absence from a recent sermon. Towners tend to be stressed by such sins, and will come to you for absolution.")
 
 /obj/item/clothing/neck/roguetown/psicross/reform
 	name = "reformist psycross"

@@ -1853,6 +1853,17 @@
 
 #undef BLOODRAGE_FILTER
 
+// exclusively to prevent a bishop giving a sermon with no announcement/bell-ringing to troll everyone
+/datum/status_effect/buff/sermontime
+	id = "sermontime"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/sermontime
+	duration = 90 MINUTES // should be more than enough time to wait for arrivals and give the sermon. if not, ring the bell again rq
+
+/atom/movable/screen/alert/status_effect/buff/sermontime
+	name = "sermon time"
+	desc = "I have rang the bell; once the faithful arrive, I can give a sermon!"
+	icon_state = "divinesermon"
+
 /datum/status_effect/buff/sermon
 	id = "sermon"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/sermon

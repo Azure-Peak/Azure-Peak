@@ -640,17 +640,6 @@
 	desc = "Shame upon the member of clergy!"
 	icon_state = "apostate"
 
-/datum/status_effect/debuff/hereticsermon
-	id = "Heretic on sermon!"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/hereticsermon
-	effectedstats = list(STATKEY_INT = -2, STATKEY_SPD = -2, STATKEY_LCK = -2)
-	duration = 20 MINUTES
-
-/atom/movable/screen/alert/status_effect/debuff/hereticsermon
-	name = "Heretic on sermon!"
-	desc = "I was on the sermon. My patron is not proud of me."
-	icon_state = "hereticsermon"
-
 /datum/status_effect/debuff/lost_naledi_mask
 	id = "naledimask"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/naledimask

@@ -329,6 +329,7 @@
 #define TRAIT_DEVOUT_FOLLOWER "Devout Follower"
 #define TRAIT_TENNITE_TOWN "Church Regular"
 #define TRAIT_INHUMEN_TOWN "Wolf among Lambs"
+#define TRAIT_MISSED_SERMON "Conspicuously Absent"
 
 // If you want description to show up you gotta have the trait name defined BEFORE this lol
 
@@ -600,7 +601,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry."),
 	TRAIT_DEVOUT_FOLLOWER = span_info("This close to the site of SYON's fall, the influence of the gods is palpable. I must be sure to pray to them regularly, or risk losing their favor; I must keep their tenets in mind, for there are few heresies higher than proclaiming oneself among a god's flock and failing to live by their ideals."),
 	TRAIT_TENNITE_TOWN = span_info("The Azurian Church of the Ten is the mouthpiece of the gods. Should they call, I must answer."),
-	TRAIT_INHUMEN_TOWN = span_info("The Azurian Church of the Ten is the mouthpiece of the false gods. Attending their sermons will earn my patron's disapproval, but to do otherwise is to risk unwanted questions.")
+	TRAIT_INHUMEN_TOWN = span_info("The Azurian Church of the Ten is the mouthpiece of the false gods. Attending their sermons will earn my patron's disapproval, but to do otherwise is to risk unwanted questions."),
+	TRAIT_MISSED_SERMON = span_info("I was not present for the recent sermon... this might lead to uncomfortable questions. I should clear the matter with a member of the Church.")
 ))
 
 // trait accessor defines

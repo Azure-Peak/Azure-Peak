@@ -193,6 +193,9 @@
 				if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
 					. += span_smallred("Destitute..")
 
+		if(HAS_TRAIT(src, TRAIT_MISSED_SERMON) && HAS_TRAIT(user, TRAIT_CLERGY))
+			. += span_smallred("Conspicuously absent from the sermon...")
+
 		if(src.job in GLOB.church_positions)
 			. += span_notice("A member of the Church of Azuria.")
 		else if(HAS_TRAIT(src, TRAIT_AGENT_CHURCH))
