@@ -204,6 +204,23 @@ T1 Enchantments below here*/
 	else
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
 
+/obj/item/enchantmentscroll/superior/weatherprot
+	name = "enchanting scroll of weather protection"
+	desc = "A scroll imbued with an enchantment of wayfaring. Provides protection against bad weather."
+	component = /datum/magic_item/superior/weatherprot
+
+/obj/item/enchantmentscroll/superior/weatherprot/attack_obj(obj/item/O, mob/living/user)
+	if(!..())
+		return
+	if(istype(O,/obj/item/clothing))
+		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		var/magiceffect= new component
+		O.AddComponent(/datum/component/magic_item, magiceffect)
+		O.name += " of weather protection"
+		qdel(src)
+	else
+		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+
 /obj/item/enchantmentscroll/superior/climbing
 	name = "enchanting scroll of spider-climbing"
 	desc = "A scroll imbued with an enchantment of spider-climbing. Helps you clamber up difficult surfaces."

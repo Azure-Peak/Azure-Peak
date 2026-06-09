@@ -21,7 +21,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	faretype = FARE_POOR
 	w_class = WEIGHT_CLASS_TINY
-	tastes = list("spelt" = 1)
+	tastes = list("teeth-cracking spelt" = 1)
 	bitesize = 6
 	rotprocess = null
 

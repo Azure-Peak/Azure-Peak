@@ -211,6 +211,9 @@
 	if((corpse.stat != DEAD))
 		return FALSE
 
+	if(HAS_TRAIT(corpse, TRAIT_VAMPIRE_TORPOR))
+		return FALSE
+
 	if(ishuman(corpse))
 		var/mob/living/carbon/human/human_corpse = corpse
 		human_corpse.buried = TRUE

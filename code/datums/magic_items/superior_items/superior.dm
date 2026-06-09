@@ -82,6 +82,29 @@
 		REMOVE_TRAIT(user, TRAIT_FIRE_RESIST, "[type]")
 		to_chat(user, span_notice("I feel mundane once more"))
 
+/datum/magic_item/superior/weatherprot
+	name = "weather protection"
+	description = "It seems to be projecting a ward against bad weather!"
+	glow_color = "#955ba3"
+	var/active_item = FALSE
+
+/datum/magic_item/superior/weatherprot/on_equip(var/obj/item/i, var/mob/living/user, slot)
+	. = ..()
+	if(slot == ITEM_SLOT_HANDS)
+		return
+	if(active_item)
+		return
+	else
+		active_item = TRUE
+		ADD_TRAIT(user, TRAIT_WEATHER_PROTECTED, "[type]")
+		to_chat(user, span_notice("I feel protected against bad weather!"))
+
+/datum/magic_item/superior/weatherprot/on_drop(var/obj/item/i, var/mob/living/user)
+	if(active_item)
+		active_item = FALSE
+		REMOVE_TRAIT(user, TRAIT_WEATHER_PROTECTED, "[type]")
+		to_chat(user, span_notice("I feel mundane once more"))
+
 /datum/magic_item/superior/climbing
 	name = "spider's movement"
 	description = "It bristles with ends like fine hairs."

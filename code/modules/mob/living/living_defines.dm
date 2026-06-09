@@ -231,3 +231,11 @@
 	var/mid_climb = FALSE
 	/// This one's for when you're choking to death.
 	var/last_gasp
+	/// Fixes to the hunger/thirst nonsense, stuffing them in species rather than mob.
+	var/hunger_stage
+	var/thirst_stage
+	var/vitae_stage
+	/// Vampire Hugbox stuff
+	var/vampire_revival_progress = 0
+	var/vampire_revival_target = 7 MINUTES // vamp timer testing goes here, base value should be 7 minutes
+	var/vampire_time_of_death = 0

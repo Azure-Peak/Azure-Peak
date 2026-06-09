@@ -104,6 +104,14 @@
 			if(mind.has_antag_datum(/datum/antagonist/skeleton) || mind.has_antag_datum(/datum/antagonist/lich))
 				record_round_statistic(STATS_SKELETONS_KILLED)
 
+	var/notreally = FALSE
+
+	if(!gibbed)
+		if(mind?.has_antag_datum(/datum/antagonist/vampire))
+			begin_vampire_torpor()
+			notreally = TRUE
+			to_chat(src, span_artery("...Wryyyyy..."))
+
 	if(!gibbed)
 		/*
 			ZOMBIFICATION BY DEATH BEGINS HERE
@@ -112,6 +120,8 @@
 			if(!is_in_roguetown(src) || has_world_trait(/datum/world_trait/zizo_defilement))
 				if(!zombie_check_can_convert()) //Gives the dead unit the zombie antag flag
 					to_chat(src, span_userdanger("..is this to be my end..?"))
+					if(notreally)
+						to_chat(src, span_artery("...No, it's not over yet... I'll be back. I'll always be back."))
 					to_chat(src, span_danger("The cold consumes the final flicker of warmth in your chest and begins to seep into your limbs..."))
 
 	stop_sound_channel(CHANNEL_HEARTBEAT)
@@ -236,3 +246,96 @@
 	body.flash_act()
 
 	playsound(T, 'sound/magic/antimagic.ogg', 50, TRUE)
+
+/mob/living/carbon/human/proc/begin_vampire_torpor()
+	if(HAS_TRAIT(src, TRAIT_VAMPIRE_TORPOR))
+		return
+
+	ADD_TRAIT(src, TRAIT_VAMPIRE_TORPOR, TRAIT_GENERIC)
+
+	vampire_revival_progress = 0
+	vampire_time_of_death = world.time
+
+	addtimer(CALLBACK(src, PROC_REF(vampire_torpor_tick)), 1 SECONDS)
+
+
+/mob/living/carbon/human/proc/vampire_torpor_tick()
+	if(QDELETED(src))
+		return
+	if(!get_bodypart(BODY_ZONE_CHEST))
+		return
+	if(stat != DEAD)
+		return
+	if(!HAS_TRAIT(src, TRAIT_VAMPIRE_TORPOR)) // this way we can give the Inquisition some way to prevent them from coming back for real, cause church can just resurrect-gib them anyway.
+		return
+
+	var/progress_gain = 1 SECONDS
+
+	// Decapitation blocks recovery, poor man's anti-vamp method until some samaritan reattaches your head and puts you in a coffin
+	var/obj/item/bodypart/head/H = get_bodypart(BODY_ZONE_HEAD)
+	if(!H)
+		progress_gain = 0
+
+	// Sunlight blocks recovery, duh
+	if(is_in_torpor_sunlight())
+		progress_gain = 0
+
+	// Coffins / graves accelerate, let's hope people don't suddenly become hellsings about it and powergame how to kill vampires for real
+	if(progress_gain)
+		if(istype(loc, /obj/structure/closet/crate/coffin))
+			progress_gain *= 2
+		else if(istype(loc, /obj/structure/closet/dirthole/closed))
+			progress_gain *= 2
+
+	vampire_revival_progress += progress_gain
+
+	// Blood feeding begins after 1 minute, basically, if you're bleeding around a vampire, we can skip 1 second per blood trickle
+	if(world.time >= vampire_time_of_death + 1 MINUTES)
+		for(var/obj/effect/decal/cleanable/blood/B in view(3, src))
+			qdel(B)
+			vampire_revival_progress += 1 SECONDS
+			break
+
+	if(vampire_revival_progress >= vampire_revival_target)
+		vampire_resurrect()
+		return
+
+	addtimer(CALLBACK(src, PROC_REF(vampire_torpor_tick)), 1 SECONDS)
+
+/mob/living/carbon/human/proc/is_in_torpor_sunlight()
+	if(GLOB.tod != "day")
+		return FALSE
+
+	var/turf/T = get_turf(src)
+	if(!T)
+		return FALSE
+
+	if(!T.can_see_sky())
+		return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_WEATHER_PROTECTED))
+		return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_VAMPIRE_SPAWN_PROTECTION))
+		return FALSE
+
+	return TRUE
+
+/mob/living/carbon/human/proc/vampire_resurrect()
+	if(stat != DEAD)
+		return
+
+	visible_message(span_warning("[src]'s corpse suddenly jolts awake!"), span_userdanger("Death releases its grip upon me. I LYYYYYVE!!!"))
+	// HE LYYYYYYVES!!!!
+	playsound(src, 'sound/magic/antimagic.ogg', 100, FALSE)
+
+	revive(full_heal = FALSE, admin_revive = TRUE)
+	emote("cackle")
+
+	apply_status_effect(/datum/status_effect/debuff/deadite_grace)
+	apply_status_effect(/datum/status_effect/vampire_spawn_protection)
+	REMOVE_TRAIT(src, TRAIT_VAMPIRE_TORPOR, TRAIT_GENERIC)
+
+	vampire_revival_progress = 0
+	vampire_time_of_death = 0
+	bloodpool = 0

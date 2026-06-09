@@ -111,6 +111,14 @@
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/infernal/fang = 2)
 	result_atoms = list(/obj/item/enchantmentscroll/superior/fireresist)
 
+/datum/runeritual/enchanting/fireresist
+	name = "Weather Protection"
+	desc = "Provides resistance against bad weather!"
+	blacklisted = FALSE
+	tier = 2
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/fae/iridescentscale = 2)
+	result_atoms = list(/obj/item/enchantmentscroll/superior/weatherprot)
+
 /datum/runeritual/enchanting/climbing
 	name = "Spider movements"
 	desc = "Better climbing!"
