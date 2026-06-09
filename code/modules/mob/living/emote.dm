@@ -50,6 +50,63 @@
 
 	emote("pray", intentional = TRUE)
 
+/datum/emote/living/pray_loud
+	key = "prayloud"
+	key_third_person = "prays"
+	message = "prays something."
+	restraint_check = FALSE
+	emote_type = EMOTE_VISIBLE
+	// We let people pray unconcious for death-gasp style prayers in crit.
+	stat_allowed = list(CONSCIOUS, UNCONSCIOUS)
+
+/mob/living/carbon/human/verb/emote_pray_loud()
+	set name = "Pray Openly"
+	set category = "Emotes"
+
+	emote("prayloud", intentional = TRUE)
+
+/datum/emote/living/pray/run_emote(mob/living/user, params, type_override, intentional)
+	user.do_prayer()
+
+/datum/emote/living/pray_loud/run_emote(mob/living/user, params, type_override, intentional)
+	user.do_prayer(TRUE)
+
+//Also see how prayers work in '/code/datums/gods/_patron.dm' for how patrons hear and filter prayers based on profanity, etc.
+/mob/living/proc/do_prayer(loud = FALSE)
+	if(!ishuman(src))
+		return
+	var/mob/living/carbon/human/follower = src
+	var/datum/patron/patron = follower.patron
+
+	var/prayer = input("[loud ? "Proclaim" : "Whisper"] your prayer:", "Prayer") as text|null
+	if(!prayer)
+		return
+
+	//If God can hear your prayer (long enough, no bad words, etc.)
+	if(patron.hear_prayer(follower, prayer))
+		// Stops prayers if you don't meet your patron's requirements to pray.
+		if(!patron?.can_pray(follower))
+			return
+		else if(!follower.prayed)
+			to_chat(follower, span_blue("[istype(follower.patron, /datum/patron/divine/undivided) ? "the Ten hear" : "[follower.patron.name] hears"] my prayer... my faith is renewed once more."))
+			follower.prayed = TRUE
+			follower.prayer_time = initial(follower.prayer_time)
+			follower.next_pray = world.time + max(follower.prayer_time, 1)
+			follower.remove_stress(/datum/stressevent/devout)
+
+	/* admin stuff - tells you the followers name, key, and what patron they follow */
+	var/follower_ident = "[follower.key]/([follower.real_name]) (follower of [patron])"
+	message_admins("[follower_ident] [ADMIN_SM(follower)] [ADMIN_FLW(follower)] prays: [span_info(prayer)]")
+	src.log_message("(follower of [patron]) prays: [prayer]", LOG_GAME)
+
+	if(loud)
+		follower.say(prayer)
+	else
+		follower.whisper(prayer)
+
+	if(SEND_SIGNAL(follower, COMSIG_CARBON_PRAY, prayer) & CARBON_PRAY_CANCEL)
+		return
+
 //Also see how prayers work in '/code/datums/gods/_patron.dm' for how patrons hear and filter prayers based on profanity, etc.
 /datum/emote/living/pray/run_emote(mob/user, params, type_override, intentional)
 	if(!ishuman(user))
