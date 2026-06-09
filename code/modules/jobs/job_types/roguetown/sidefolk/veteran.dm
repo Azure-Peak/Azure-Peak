@@ -101,7 +101,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
-	H.verbs |= /mob/proc/haltyell
+	add_verb(H, /mob/proc/haltyell)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
 
@@ -221,7 +221,7 @@
 		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
-	H.verbs |= /mob/proc/haltyell
+	add_verb(H, /mob/proc/haltyell)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
 	H.adjust_blindness(-3)
@@ -326,7 +326,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/roguekey/veteran = 1
 		)
-	H.verbs |= /mob/proc/haltyell
+	add_verb(H, /mob/proc/haltyell)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
 
@@ -449,7 +449,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
-	H.verbs |= /mob/proc/haltyell
+	add_verb(H, /mob/proc/haltyell)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
 
@@ -578,7 +578,7 @@
 		/obj/item/roguekey/veteran = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
-	H.verbs |= /mob/proc/haltyell
+	add_verb(H, /mob/proc/haltyell)
 	H.cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg' // so apparently this works for veteran, but not for advents. i dont know why.
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
@@ -686,7 +686,7 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/poison = 1,
 		/obj/item/lockpickring/mundane,
 		)
-	H.verbs |= /mob/proc/haltyell
+	add_verb(H, /mob/proc/haltyell)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
 	H.adjust_blindness(-3)

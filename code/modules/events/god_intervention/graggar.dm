@@ -33,14 +33,14 @@ GLOBAL_LIST_EMPTY(graggar_cullings)
 
 	if(winner)
 		winner.remove_stress(/datum/stressevent/graggar_culling_unfinished)
-		winner.verbs -= /mob/living/carbon/human/proc/remember_culling
+		remove_verb(winner, /mob/living/carbon/human/proc/remember_culling)
 		winner.add_stress(/datum/stressevent/graggar_culling_finished)
 		winner.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/extract_heart)
 		to_chat(winner, span_notice("Your rival's heart has been DESTROYED! While not the glorious consumption Graggar desired, he acknowledges you as not weak."))
 		winner.adjust_triumphs(1)
 	if(loser)
 		loser.remove_stress(/datum/stressevent/graggar_culling_unfinished)
-		loser.verbs -= /mob/living/carbon/human/proc/remember_culling
+		remove_verb(loser, /mob/living/carbon/human/proc/remember_culling)
 		loser.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/extract_heart)
 		to_chat(loser, span_red("You have FAILED Graggar, weakling!"))
 		loser.change_stat(STATKEY_STR, -1)
@@ -54,7 +54,7 @@ GLOBAL_LIST_EMPTY(graggar_cullings)
 
 /datum/culling_duel/proc/process_win(mob/living/winner, mob/living/loser)
 	winner.remove_stress(/datum/stressevent/graggar_culling_unfinished)
-	winner.verbs -= /mob/living/carbon/human/proc/remember_culling
+	remove_verb(winner, /mob/living/carbon/human/proc/remember_culling)
 	winner.change_stat(STATKEY_STR, 1)
 	winner.change_stat(STATKEY_WIL, 1)
 	winner.change_stat(STATKEY_CON, 1)
@@ -67,7 +67,7 @@ GLOBAL_LIST_EMPTY(graggar_cullings)
 
 	if(loser)
 		loser.remove_stress(/datum/stressevent/graggar_culling_unfinished)
-		loser.verbs -= /mob/living/carbon/human/proc/remember_culling
+		remove_verb(loser, /mob/living/carbon/human/proc/remember_culling)
 		to_chat(loser, span_boldred("You have FAILED Graggar for the LAST TIME!"))
 		loser.gib()
 
@@ -76,7 +76,7 @@ GLOBAL_LIST_EMPTY(graggar_cullings)
 /// Verb for the graggar's culling contestants to remember their targets
 /mob/living/carbon/human/proc/remember_culling()
 	set name = "Graggar's Culling"
-	set category = "Graggar"
+	set category = "RoleUnique.Graggar"
 	if(!mind)
 		return
 	mind.recall_culling(src)
@@ -136,7 +136,7 @@ GLOBAL_LIST_EMPTY(graggar_cullings)
 		// Notify first chosen
 		first_chosen.add_stress(/datum/stressevent/graggar_culling_unfinished)
 		first_chosen.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/extract_heart)
-		first_chosen.verbs |= /mob/living/carbon/human/proc/remember_culling
+		add_verb(first_chosen, /mob/living/carbon/human/proc/remember_culling)
 		to_chat(first_chosen, span_userdanger("YOU ARE GRAGGAR'S CHOSEN!"))
 		to_chat(first_chosen, span_red("Weak should feed the strong, that is Graggar's will. Prove that you are not weak by eating the heart of [span_notice(second_chosen.real_name)], the [second_chosen.job] and gain unimaginable power in turn. Fail, and you will be the one eaten."))
 		to_chat(first_chosen, span_red("[span_notice("[second_chosen.real_name]")], the [second_chosen.job] is somewhere in [span_notice("[second_chosen_location]")]. Eat their heart before they eat yours!"))
@@ -147,7 +147,7 @@ GLOBAL_LIST_EMPTY(graggar_cullings)
 		// Notify second chosen
 		second_chosen.add_stress(/datum/stressevent/graggar_culling_unfinished)
 		second_chosen.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/extract_heart)
-		second_chosen.verbs |= /mob/living/carbon/human/proc/remember_culling
+		add_verb(second_chosen, /mob/living/carbon/human/proc/remember_culling)
 		to_chat(second_chosen, span_userdanger("YOU ARE GRAGGAR'S CHOSEN!"))
 		to_chat(second_chosen, span_red("Weak should feed the strong, that is Graggar's will. Prove that you are not weak by eating the heart of [span_notice(first_chosen.real_name)], the [first_chosen.job] and gain unimaginable power in turn. Fail, and you will be the one eaten."))
 		to_chat(second_chosen, span_red("[span_notice("[first_chosen.real_name]")], the [first_chosen.job] is somewhere in [span_notice("[first_chosen_location]")]. Eat their heart before they eat yours!"))

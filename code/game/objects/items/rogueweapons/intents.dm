@@ -529,6 +529,7 @@
 
 /datum/intent/arc
 	name = "arc"
+	desc = "Fires the shot in an arc that allows it to passes through mob in the way. Will also tracks the target IF you have your cursor over them. This also allows you to aims at a target above or below."
 	icon_state = "inarc"
 	tranged = 1
 	warnie = "aimwarn"

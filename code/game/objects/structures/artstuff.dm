@@ -476,12 +476,13 @@
 	return ..()
 
 /obj/item/paint_brush/AltRightClick(mob/user)
+	. = ..()
+	if(!istype(loc, /mob/living/carbon))
+		return
 	if(decrease_brush_size())
 		to_chat(user, span_notice("Brush size decreased to [brush_size]."))
 	else
 		to_chat(user, span_notice("Brush size is at minimum."))
-
-	return ..()
 
 /obj/item/paint_brush/attack_self(mob/user)
 	. = ..()

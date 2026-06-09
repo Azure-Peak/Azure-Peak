@@ -17,7 +17,7 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 
 /mob/living/carbon/human/proc/open_songbook()
 	set name = "Songbook"
-	set category = "Inspiration"
+	set category = "RoleUnique.Inspiration"
 
 	if(!inspiration)
 		return

@@ -227,5 +227,7 @@
 
 	/// Whether we are in a swingdelay, used to check for disrupted swingdelays.
 	var/swing_state = FALSE
+	/// Whether we are mid-climb-action, so an incoming attack can disrupt it. Distinct from climbing (wall hang).
+	var/mid_climb = FALSE
 	/// This one's for when you're choking to death.
 	var/last_gasp

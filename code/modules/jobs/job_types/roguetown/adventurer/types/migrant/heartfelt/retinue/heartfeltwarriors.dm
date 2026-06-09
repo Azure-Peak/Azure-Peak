@@ -79,7 +79,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 	)
-	H.verbs |= /mob/proc/haltyell
+	add_verb(H, /mob/proc/haltyell)
 
 	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
 	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
@@ -182,7 +182,7 @@
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
 	)
-	H.verbs |= /mob/proc/haltyell
+	add_verb(H, /mob/proc/haltyell)
 
 	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Visored Sallet","Slitted Kettle","Simple Helmet","Kettle Helmet","Sallet Helmet","Winged Helmet",)
 	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet

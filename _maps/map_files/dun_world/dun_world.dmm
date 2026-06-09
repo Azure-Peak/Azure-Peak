@@ -83671,8 +83671,8 @@
 /area/rogue/indoors)
 "qCf" = (
 /obj/structure/table/wood/long_table/right,
-/obj/item/natural/clay/glassbatch,
-/obj/item/natural/clay/glassbatch,
+/obj/item/natural/glassbatch,
+/obj/item/natural/glassbatch,
 /obj/item/recipe_book/ceramics,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)

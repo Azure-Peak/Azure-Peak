@@ -539,7 +539,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 		// Build batch safely
 		for(var/obj/item/I in T)
-			if((istype(I, /obj/item/natural/stone) || istype(I, /obj/item/natural/rock)))
+			if((istype(I, /obj/item/natural/stone) || istype(I, /obj/item/natural/clay) || istype(I, /obj/item/natural/glass_shard) || istype(I, /obj/item/natural/rock)))
 				var/value = get_value(I)
 				if(value > 0)
 					batch += I
