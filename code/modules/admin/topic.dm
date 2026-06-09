@@ -1246,6 +1246,17 @@
 			return
 
 		show_individual_logging_panel(M, href_list["log_src"], href_list["log_type"])
+	else if(href_list["examine_player"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		var/mob/living/target = locate(href_list["examine_player"]) in GLOB.mob_list
+		if(!isliving(target))
+			return
+
+		var/datum/examine_panel/mob_examine_panel = new(target)
+		mob_examine_panel.viewing = usr
+		mob_examine_panel.ui_interact(usr)
 	else if(href_list["languagemenu"])
 		if(!check_rights(R_ADMIN))
 			return
