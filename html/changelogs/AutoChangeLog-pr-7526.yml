@@ -1,0 +1,6 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Joybringer debuff now clears all hallucination stacks when removed."
+  - balance: "Joybringer debuff duration increased from 3 seconds to 15 seconds."
+  - rscadd: "Rose Ring received a sprite and now removes the joybringer debuff when worn."

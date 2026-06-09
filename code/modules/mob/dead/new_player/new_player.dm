@@ -353,6 +353,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 				break
 		if(has_restricted_virtue || has_restricted_vice)
 			return JOB_UNAVAILABLE_VIRTUESVICE
+	for(var/datum/charflaw/cf in client.prefs.charflaws)
+		if(cf.allowed_jobs && !(job.type in cf.allowed_jobs))
+			return JOB_UNAVAILABLE_VIRTUESVICE
 //	if(job.title == "Adventurer" && latejoin)
 //		for(var/datum/job/J in SSjob.occupations)
 //			if(J && J.total_positions && J.current_positions < 1 && J.title != job.title && (IsJobUnavailable(J.title))
@@ -669,7 +672,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	src << browse(null, "window=preferences") //closes job selection
 	src << browse(null, "window=mob_occupation")
 	src << browse(null, "window=latechoices") //closes late job selection
-	src << browse(null, "window=migration") // Closes migrant menu
+	if(client?.prefs?.migrant)
+		client.prefs.migrant.hide_ui() // Closes migrant menu
 	src << browse(null, "window=familiar_prefs") // Closes familiar prefs menu
 
 	SStriumphs.remove_triumph_buy_menu(client)

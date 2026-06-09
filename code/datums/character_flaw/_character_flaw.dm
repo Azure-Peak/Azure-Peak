@@ -34,6 +34,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/mind_broken::name = /datum/charflaw/mind_broken,
 	/datum/charflaw/noflaw::name = /datum/charflaw/noflaw,
 	/datum/charflaw/leprosy::name = /datum/charflaw/leprosy,
+	/datum/charflaw/wanted::name = /datum/charflaw/wanted,
 	/datum/charflaw/randflaw::name = /datum/charflaw/randflaw
 	))
 
@@ -59,6 +60,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	/// Intended for addiction types only.
 	var/voyeur_descriptor
 	var/list/restricted_species = list()
+	/// If set, only characters playing one of these job types may take this flaw.
+	var/list/allowed_jobs = null
 
 /datum/charflaw/proc/on_mob_creation(mob/user)
 	return
@@ -123,6 +126,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			cf = new cf()
 			var/mob/living/carbon/human/H = user
 			if(length(cf.restricted_species) && (H.dna.species.type in cf.restricted_species))
+				cf_list.Remove(key)
+			else if(cf.allowed_jobs)
 				cf_list.Remove(key)
 
 	var/datum/job/mob_job = null
@@ -852,6 +857,35 @@ GLOBAL_LIST_INIT(hunted_protected_roles, list(
 			active_since = world.time
 	if(is_active && user && !QDELETED(user))
 		addtimer(CALLBACK(src, PROC_REF(check_for_candidates), user), 5 SECONDS)
+
+/datum/charflaw/wanted
+	name = "Wanted (+3 TRI)"
+	desc = "You're a known outsider, your name can be found on the EXCIDIUM. Your crime may have been a misdeed worthy of a fine, or a great offense against the powers at play. Only Adventurers, Pilgrims (Migrants), Traders, Vagabonds and Lunatics may pick this vice and it requires another."
+	needs_extra_vice = TRUE
+	allowed_jobs = list(
+		/datum/job/roguetown/adventurer,
+		/datum/job/roguetown/pilgrim,
+		/datum/job/roguetown/trader,
+		/datum/job/roguetown/vagabond,
+		/datum/job/roguetown/lunatic
+	)
+
+/datum/charflaw/wanted/on_mob_creation(mob/user)
+	. = ..()
+	user.adjust_triumphs(3)
+
+/datum/charflaw/wanted/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	addtimer(CALLBACK(src, PROC_REF(apply_bounty_when_ready), H), 5 SECONDS)
+
+/datum/charflaw/wanted/proc/apply_bounty_when_ready(mob/living/carbon/human/H)
+	if(H.advsetup)
+		addtimer(CALLBACK(src, PROC_REF(apply_bounty_when_ready), H), 5 SECONDS)
+		return
+	wretch_select_bounty(H)
 
 
 
