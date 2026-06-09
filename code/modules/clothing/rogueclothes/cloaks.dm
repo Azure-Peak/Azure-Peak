@@ -1229,6 +1229,9 @@
 /obj/item/clothing/cloak/half/rider/red
 	color = CLOTHING_RED
 
+/obj/item/clothing/cloak/half/rider/orange
+	color = CLOTHING_ORANGE
+
 /obj/item/clothing/cloak/half/vet
 	name = "town watch cloak"
 	icon_state = "guardcloak"
@@ -1737,6 +1740,10 @@
 
 /obj/item/clothing/cloak/cotehardie/mageblue
 	color = CLOTHING_MAGE_BLUE
+
+/obj/item/clothing/cloak/cotehardie/astrocrat
+	color = CLOTHING_RED_OCHRE
+	detail_color = CLOTHING_RED_OCHRE //Only way to work with female sprites
 
 /obj/item/clothing/cloak/banneret
 	name = "knight banneret's cape"

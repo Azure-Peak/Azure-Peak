@@ -69,7 +69,7 @@
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	shoes = /obj/item/clothing/shoes/roguetown/boots/otavan
 	gloves = /obj/item/clothing/gloves/roguetown/otavan
-	backr = /obj/item/storage/backpack/rogue/satchel/black
+	backr = /obj/item/storage/backpack/rogue/satchel/otavan
 	backl = /obj/item/rogueweapon/shield/tower/metal
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
