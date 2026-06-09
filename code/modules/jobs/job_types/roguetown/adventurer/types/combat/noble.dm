@@ -152,16 +152,15 @@
 			if("Gronn") //Noble dress or rugged cloak and hat, nordic-esc nobility
 				if(should_wear_masc_clothes(H))
 					shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
-					head = /obj/item/clothing/head/roguetown/hatfur
 					gloves = /obj/item/clothing/gloves/roguetown/angle/gronn
 					cloak = /obj/item/clothing/cloak/darkcloak/minotaur
 					belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
 				if(should_wear_femme_clothes(H))
 					armor = /obj/item/clothing/suit/roguetown/shirt/dress/velvetdress
-					head = /obj/item/clothing/head/roguetown/hatblu
 					gloves = /obj/item/clothing/gloves/roguetown/angle
 					cloak = /obj/item/clothing/cloak/raincloak/furcloak
 					belt = /obj/item/storage/belt/rogue/leather/cloth/lady
+				head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 				shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
 				pants = /obj/item/clothing/under/roguetown/trou/leather/gronn
 				beltr = /obj/item/flashlight/flare/torch/lantern
