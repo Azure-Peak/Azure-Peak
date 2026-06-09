@@ -17,8 +17,7 @@
 	embodies the term \"melting pot\" quite like the Half-Elves. Due to their half-breed nature, their physical \
 	characteristics can be either more Elvish or more Humen, depending on which of their parents' genes \
 	are more predominant. In terms of cultural identity, a Half-Elf will typically choose to lean more \
-	towards either their Humen or Elvish heritages.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | +1 PER </b></span><br>" 
+	towards either their Humen or Elvish heritages."
 
 	skin_tone_wording = "Ancestry"
 	max_age = 250

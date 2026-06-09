@@ -13,8 +13,7 @@
 	They are oft tall and slim, carrying with them a coat of discoloured short or medium length fur. \
 	Their bodies are naturally resilient and their minds as sharp as a Humen's own. \
 	A Lupian will usually display loyalty to a fault, as they are quite factional beings. \
-	Tales of old claim that they came to be when Noc stole Dendor’s curse to create lyfe of his own in an attempt to replicate Psydon’s, instead giving birth to a flawed beast-people.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 INT | +1 CON </b></span><br>"
+	Tales of old claim that they came to be when Noc stole Dendor’s curse to create lyfe of his own in an attempt to replicate Psydon’s, instead giving birth to a flawed beast-people."
 	skin_tone_wording = "Ascendance"
 	species_traits = list(
 		MUTCOLORS,

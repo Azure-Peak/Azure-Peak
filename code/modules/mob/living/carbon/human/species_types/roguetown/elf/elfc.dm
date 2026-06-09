@@ -26,8 +26,7 @@
 	Sun Elves are often deeply concerned with social order, castes, and superiority. Many \
 	are vain or power-hungry, and they tend to have imperious and assertive personalities. \
 	It is a common sentiment among Sun Elves that they are the 'chosen' of Astrata, leading \
-	to a great deal of condescension or disdain toward those faiths deemed 'lesser'.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 Stat of their choice, Silver-blooded, Rot immune. <br>Astratan Affinity grants a devotion bonus if the selected patron is Astrata.</b></span><br>"
+	to a great deal of condescension or disdain toward those faiths deemed 'lesser'."
 
 	custom_selection = list(
 		"+1 FOR" = STATKEY_LCK,

@@ -17,8 +17,7 @@
 	to the Ironmask. True orcs would kill you on sight, seeing you as a mongrel dog, and non-orcish \
 	people cannot decide between regarding you with either mere distrust or outright disgust. Yet \
 	somehow your wandering feet came to Azure Peak, where half-orcs ply muscle and their hardiness \
-	in the rough underbelly or outer reaches of society.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 STR</b></span><br>"
+	in the rough underbelly or outer reaches of society."
 
 	skin_tone_wording = "Clan"
 
