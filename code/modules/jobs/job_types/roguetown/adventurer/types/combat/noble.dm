@@ -183,6 +183,8 @@
 						neck = /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn
 					if(/datum/patron/divine/dendor)
 						neck = /obj/item/clothing/neck/roguetown/psicross/dendor/gronn
+					else
+						neck = null //fallback is nothing, heretic
 			if("Etrusca") //Somewhat placeholdery
 				if(should_wear_masc_clothes(H))
 					cloak = /obj/item/clothing/cloak/half/rider/orange
