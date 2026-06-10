@@ -28,6 +28,7 @@
 	/// Encyclopedia sidebar bucket. One of the FOOD_CAT_* defines.
 	var/book_category = FOOD_CAT_COMBINATION
 	var/restricted_message = null
+	var/list/extra_steps = list()
 
 /datum/food_recipe/proc/user_can_make(mob/user)
 	return TRUE
@@ -106,6 +107,8 @@
 			steps += pre_data["steps"]
 	for(var/i in 1 to length(ingredients))
 		steps += render_step_li(ingredients[i], user)
+	for(var/note in extra_steps)
+		steps += "<li>[note]</li>"
 	return list("base" = base, "steps" = steps)
 
 /datum/food_recipe/proc/generate_html(mob/user)

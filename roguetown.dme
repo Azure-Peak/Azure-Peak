@@ -3532,6 +3532,7 @@
 #include "modular\Neu_Food\code\recipes\baked_recipes.dm"
 #include "modular\Neu_Food\code\recipes\cakes_recipes.dm"
 #include "modular\Neu_Food\code\recipes\cooking_recipes_base.dm"
+#include "modular\Neu_Food\code\recipes\dough_recipes.dm"
 #include "modular\Neu_Food\code\recipes\drying_recipes.dm"
 #include "modular\Neu_Food\code\recipes\egg_recipes.dm"
 #include "modular\Neu_Food\code\recipes\fish_recipes.dm"
