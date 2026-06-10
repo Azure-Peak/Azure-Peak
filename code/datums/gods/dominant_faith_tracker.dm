@@ -63,7 +63,9 @@
 		var/mob/living/carbon/human/H = i
 		if(!istype(H) || !H.patron || ispath(H.patron.associated_faith, /datum/faith/mossmother) || ispath(H.patron.associated_faith, /datum/faith/godless) || !H.devotion)
 			continue
-		if(ispath(H.patron.associated_faith, dominant_faith))
+		if(ispath(dominant_faith, /datum/faith/old_god)) // psydon messages are always 'neutral'
+			to_chat(H, span_blue(replacetext(reign_messages[H.patron.associated_faith][dominant_faith], "$patron", get_god_name(H.patron))))
+		else if(ispath(H.patron.associated_faith, dominant_faith))
 			to_chat(H, span_boldgreen(replacetext(reign_messages[H.patron.associated_faith][dominant_faith], "$patron", get_god_name(H.patron))))
 		else
 			to_chat(H, span_warningbig(replacetext(reign_messages[H.patron.associated_faith][dominant_faith], "$patron", get_god_name(H.patron))))
