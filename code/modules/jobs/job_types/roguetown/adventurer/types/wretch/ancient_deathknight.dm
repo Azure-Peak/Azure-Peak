@@ -29,7 +29,7 @@
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 	)
 
-	adv_stat_ceiling = list(STAT_INT = 8, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + decent skills vs vamp
+	adv_stat_ceiling = list(STAT_INTELLIGENCE = 8, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + decent skills vs vamp
 	extra_context = "This class is unable to be revived and all forms of death will dust you."
 
 /datum/outfit/job/roguetown/wretch/ancient_deathknight/pre_equip(mob/living/carbon/human/H)

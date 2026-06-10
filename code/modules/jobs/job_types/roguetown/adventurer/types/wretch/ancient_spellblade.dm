@@ -25,7 +25,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 	)
-	adv_stat_ceiling = list(STAT_INT = 12, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + spellblade fuckery vs vamp
+	adv_stat_ceiling = list(STAT_INTELLIGENCE = 12, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + spellblade fuckery vs vamp
 	extra_context = "This class is unable to be revived and all forms of death will dust you."
 
 /datum/outfit/job/roguetown/wretch/ancient_spellblade
