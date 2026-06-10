@@ -474,6 +474,10 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		to_chat(caster, span_info("They don't seem like they'll be receptive to my proselytizing..."))
 		return FALSE
 
+	if(new_convert.mind.has_spell(/datum/action/cooldown/spell/mending/lesser)) // this is only given to luxplate heretics & iconoclasts, who are a major antag
+		to_chat(caster, span_info("Their faith is manifest as armor, bound to their very flesh... what could I possibly hope to accomplish here?"))
+		return FALSE
+
 	visible_message(span_info("[src] whispers rapid prayers, performing a rite to bring [new_convert] before their patron's gaze..."), span_info("You whisper prayers to [get_god_name(caster.patron)], casting their gaze upon [new_convert]..."))
 	var/convert_message
 	if(istype(caster.patron, /datum/patron/old_god))
