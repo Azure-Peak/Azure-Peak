@@ -1,0 +1,4 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - admin: "flavor text button in player panel"

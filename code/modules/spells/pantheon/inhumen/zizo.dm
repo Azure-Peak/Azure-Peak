@@ -61,10 +61,18 @@
 	var/checkrange = snuff_range + skill_level
 
 	for(var/obj/O in range(checkrange, owner))
+		if(istype(O, /obj/item/flashlight/flare/torch/lantern/psycenser))
+			continue
+		if(istype(O, /obj/item/flashlight/flare/light))
+			qdel(O)
 		O.extinguish()
 
 	for(var/mob/M in range(checkrange, owner))
 		for(var/obj/O in M.contents)
+			if(istype(O, /obj/item/flashlight/flare/torch/lantern/psycenser))
+				continue
+			if(istype(O, /obj/item/flashlight/flare/light))
+				qdel(O)
 			O.extinguish()
 
 	var/bonus_duration = 10 SECONDS + ((max(skill_level - 1, 0)) * 30 SECONDS)

@@ -1,130 +1,19 @@
 /datum/migrant_wave/heartfelt
 	name = "The Court of Heartfelt"
+	track = MIGRANT_TRACK_SPECIAL
 	max_spawns = 1
-	shared_wave_type = /datum/migrant_wave/heartfelt
 	weight = 50
-	downgrade_wave = /datum/migrant_wave/heartfelt_down_one
-	roles = list(
+	required_roles = list(
 		/datum/migrant_role/heartfelt/lord = 1,
+	)
+	optional_roles = list(
 		/datum/migrant_role/heartfelt/hand = 1,
 		/datum/migrant_role/heartfelt/knight = 1,
 		/datum/migrant_role/heartfelt/retinue = 4,
 	)
-	greet_text = "Fleeing the disaster at Heartfelt, you have come together - to find aide for your house, or to infest Azure Peak with the boons of the Ecclesiarchs.. Stay close and watch out for each other, for all of your sakes!"
-
-/datum/migrant_wave/heartfelt_down_one
-	name = "The Court of Heartfelt"
-	shared_wave_type = /datum/migrant_wave/heartfelt
-	can_roll = FALSE
-	downgrade_wave = /datum/migrant_wave/heartfelt_down_two
-	roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
-		/datum/migrant_role/heartfelt/hand = 1,
-		/datum/migrant_role/heartfelt/knight = 1,
-		/datum/migrant_role/heartfelt/retinue = 3,
+	min_optional_fills = 2
+	greet_text = "You're the mighty Count of Heartfelt, the second most powerful lord of Azuria. Whether compelled by an invasion at the border, a sheer desire to sightsee and visit the Capital, or some political plot known only to you and your court, you have come to visit the capital of Azuria with a small, elite picked retinue."
+	greet_text_by_fill = list(
+		"5" = "You're the mighty Count of Heartfelt, the second most powerful lord of Azuria. Whether compelled by an invasion at the border, a sheer desire to sightsee and visit the Capital, or some political plot known only to you and your court, you have come to visit the capital of Azuria with a small, elite picked retinue.",
+		"3" = "You're the mighty Count of Heartfelt, the second most powerful lord of Azuria. Whether compelled by an invasion at the border, a sheer desire to sightsee and visit the Capital, or some political plot known only to you and your court, you have come to visit the capital of Azuria with a small, elite picked retinue. Unfortunately, a few of your retinue seems to have forgotten their luggage and had to turn back.",
 	)
-	greet_text = "Fleeing the disaster at Heartfelt, you have come together - to find aide for your house, or to infest Azure Peak with the boons of the Ecclesiarchs.. Stay close and watch out for each other, for all of your sakes! Some of you already did not make it on the way here..."
-
-/datum/migrant_wave/heartfelt_down_two
-	name = "The Court of Heartfelt"
-	shared_wave_type = /datum/migrant_wave/heartfelt
-	can_roll = FALSE
-	downgrade_wave = /datum/migrant_wave/heartfelt_down_three
-	roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
-		/datum/migrant_role/heartfelt/hand = 1,
-		/datum/migrant_role/heartfelt/knight = 1,
-		/datum/migrant_role/heartfelt/retinue = 2,
-	)
-	greet_text = "Fleeing the disaster at Heartfelt, you have come together - to find aide for your house, or to infest Azure Peak with the boons of the Ecclesiarchs.. Stay close and watch out for each other, for all of your sakes! Some of you already did not make it on the way here..."
-
-
-/datum/migrant_wave/heartfelt_down_three
-	name = "The Court of Heartfelt"
-	shared_wave_type = /datum/migrant_wave/heartfelt
-	can_roll = FALSE
-	downgrade_wave = /datum/migrant_wave/heartfelt_down_four
-	roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
-		/datum/migrant_role/heartfelt/hand = 1,
-		/datum/migrant_role/heartfelt/knight = 1,
-		/datum/migrant_role/heartfelt/retinue = 1,
-	)
-	greet_text = "Fleeing the disaster at Heartfelt, you have come together - to find aide for your house, or to infest Azure Peak with the boons of the Ecclesiarchs.. Stay close and watch out for each other, for all of your sakes! Some of you already did not make it on the way here..."
-
-/datum/migrant_wave/heartfelt_down_four
-	name = "The Court of Heartfelt"
-	shared_wave_type = /datum/migrant_wave/heartfelt
-	can_roll = FALSE
-	downgrade_wave = /datum/migrant_wave/heartfelt_down_five
-	roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
-		/datum/migrant_role/heartfelt/hand = 1,
-		/datum/migrant_role/heartfelt/knight = 1,
-	)
-	greet_text = "Fleeing the disaster at Heartfelt, you have come together - to find aide for your house, or to infest Azure Peak with the boons of the Ecclesiarchs.. Stay close and watch out for each other, for all of your sakes! Some of you already did not make it on the way here..."
-
-/datum/migrant_wave/heartfelt_down_five
-	name = "The Court of Heartfelt"
-	shared_wave_type = /datum/migrant_wave/heartfelt
-	can_roll = FALSE
-	downgrade_wave = /datum/migrant_wave/heartfelt_down_six
-	roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
-		/datum/migrant_role/heartfelt/hand = 1,
-		/datum/migrant_role/heartfelt/retinue = 1,
-	)
-	greet_text = "Fleeing the disaster at Heartfelt, you have come together - to find aide for your house, or to infest Azure Peak with the boons of the Ecclesiarchs. Stay close and watch out for each other, for all of your sakes! Some of you already did not make it on the way here..."
-
-/datum/migrant_wave/heartfelt_down_six
-	name = "The Court of Heartfelt"
-	shared_wave_type = /datum/migrant_wave/heartfelt
-	can_roll = FALSE
-	downgrade_wave = /datum/migrant_wave/heartfelt_down_seven
-	roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
-		/datum/migrant_role/heartfelt/retinue = 2,
-	)
-	greet_text = "Fleeing the disaster at Heartfelt, you have come together - to find aide for your house, or to infest Azure Peak with the boons of the Ecclesiarchs. Stay close and watch out for each other, for all of your sakes! Some of you already did not make it on the way here..."
-
-/datum/migrant_wave/heartfelt_down_seven
-	name = "The Court of Heartfelt"
-	shared_wave_type = /datum/migrant_wave/heartfelt
-	can_roll = FALSE
-	downgrade_wave = /datum/migrant_wave/heartfelt_down_eight
-	roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
-		/datum/migrant_role/heartfelt/knight = 1,
-	)
-	greet_text = "Fleeing the disaster at Heartfelt, you have come together - to find aide for your house, or to infest Azure Peak with the boons of the Ecclesiarchs. Now, in the end, it is only the Lord and their trusty knight left on their lonesome..."
-
-/datum/migrant_wave/heartfelt_down_eight
-	name = "The Court of Heartfelt"
-	shared_wave_type = /datum/migrant_wave/heartfelt
-	can_roll = FALSE
-	downgrade_wave = /datum/migrant_wave/heartfelt_down_nine
-	roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
-		/datum/migrant_role/heartfelt/hand = 1,
-	)
-	greet_text = "Fleeing the disaster at Heartfelt, you have come together - to find aide for your house, or to infest Azure Peak with the boons of the Ecclesiarchs. Now, in the end, it is only the Lord and their trusty Hand left on their lonesome..."
-
-/datum/migrant_wave/heartfelt_down_nine
-	name = "The Court of Heartfelt"
-	shared_wave_type = /datum/migrant_wave/heartfelt
-	downgrade_wave = /datum/migrant_wave/heartfelt_down_ten
-	can_roll = FALSE
-	roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
-		/datum/migrant_role/heartfelt/retinue = 1,
-	)
-	greet_text = "Fleeing disaster, you have came together as a court, united in a final effort to restore the former glory and promise of Heartfelt. Now, in the end, it is only the Lord and their last loyal follower left on their lonesome..."
-
-/datum/migrant_wave/heartfelt_down_ten
-	name = "The Court of Heartfelt"
-	shared_wave_type = /datum/migrant_wave/heartfelt
-	can_roll = FALSE
-	roles = list(
-		/datum/migrant_role/heartfelt/lord = 1,
-	)
-	greet_text = "Fleeing disaster, you have came together as a court, united in a final effort to restore the former glory and promise of Heartfelt. It was all for naught - in the end, only you are left, bereft of your family and men. How the mighty have fallen..."

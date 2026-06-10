@@ -833,7 +833,7 @@
 /datum/status_effect/debuff/joybringer_druqks
 	id = "joybringer_druqks"
 	effectedstats = list(STATKEY_LCK = -2)
-	duration = 3 SECONDS
+	duration = 15 SECONDS
 	alert_type = null
 
 /datum/status_effect/debuff/joybringer_druqks/on_apply()
@@ -853,18 +853,21 @@
 
 	REMOVE_TRAIT(owner, TRAIT_DRUQK, src)
 
+	if(owner.hallucination > 0)
+		owner.hallucination = max(0, owner.hallucination - 15)
+
 	if(owner.client)
 		SSdroning.play_area_sound(get_area(owner), owner.client)
 
 /datum/status_effect/debuff/joybringer_druqks/tick()
-	if(owner.hallucination < 30) // this can stack up INFINITELY if you dont cap it like this
+	if(owner.hallucination < 15) // this can stack up INFINITELY if you dont cap it like this
 		owner.hallucination += 3 // and it doesnt decay *that* fast.
 	owner.Jitter(1)
 
 	if(!prob(10))
 		return
 
-	owner.emote(pick("chuckle", "giggle"))
+	owner.emote(pick("chuckle", "giggle"), forced = TRUE)
 
 /datum/status_effect/debuff/hobbled
 	id = "hobbled"
