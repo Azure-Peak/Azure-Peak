@@ -579,6 +579,9 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 	// basic god traits are swapped over here
 	new_convert.set_patron(new_patron)
 
+	if(!istype(new_convert.patron, /datum/patron/inhumen) && new_convert.mind.has_spell(/datum/action/cooldown/spell/convert_heretic))
+		new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/convert_heretic)
+
 	if(was_cleric && !istype(new_convert.patron, /datum/patron/old_god)) // psydonites don't get new miracles, since psydonite "miracles" don't work like real miracles
 		// Grant new devotion
 		var/datum/devotion/new_devotion = new /datum/devotion(new_convert, new_convert.patron)
