@@ -75,6 +75,10 @@
 		var/datum/runeritual/ritual = path
 		if(initial(ritual.blacklisted))
 			return TRUE
+	if(ispath(path, /datum/food_recipe))
+		var/datum/food_recipe/recipe = path
+		if(initial(recipe.hidden))
+			return TRUE
 	return FALSE
 
 /proc/gather_recipe_categories(list/types)

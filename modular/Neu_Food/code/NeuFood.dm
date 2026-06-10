@@ -34,16 +34,18 @@
 /obj/item/reagent_containers/food/snacks/rogue/examine(mob/user)
 	. = ..()
 	if(active_recipe && current_step <= active_recipe.ingredients.len)
-		var/next_path = active_recipe.ingredients[current_step]
-		. += span_smallnotice("Recipe: <b>[active_recipe.name]</b>. Next step: Add [initial(next_path:name)].")
+		var/entry = active_recipe.ingredients[current_step]
+		. += span_smallnotice("Recipe: <b>[active_recipe.name]</b>. Next step: [active_recipe.step_label(entry)].")
 
 	var/list/possible = SScooking.recipe_index[src.type]
 	if(possible && possible.len)
 		var/list/recipe_names = list()
 		for(var/datum/food_recipe/R in possible)
-			var/ingredient = R.ingredients[1]
-			recipe_names += "[R.name] (starts with [initial(ingredient:name)])"
-		. += span_smallnotice("This could be used to prepare: [recipe_names.Join(", ")].")
+			if(R.hidden)
+				continue
+			recipe_names += "[R.name] (starts with [R.step_label(R.ingredients[1])])"
+		if(length(recipe_names))
+			. += span_smallnotice("This could be used to prepare: [recipe_names.Join(", ")].")
 
 	if(cooked_type)
 		var/obj/item/CT = cooked_type
@@ -70,6 +72,9 @@
 	active_recipe = null
 	current_step = 1
 	cut_overlays()
+	name = initial(name)
+	icon = initial(icon)
+	icon_state = initial(icon_state)
 
 /obj/item/reagent_containers/food/snacks/rogue/attackby(obj/item/I, mob/living/user)
 	if(!active_recipe)
@@ -79,52 +84,64 @@
 		else
 			return ..()
 
-	var/obj/structure/table/T = locate() in loc
-	if(!T)
-		to_chat(user, span_warning("You need a table to prepare [src.name]."))
+	if(active_recipe.required_station && !(locate(active_recipe.required_station) in loc))
+		var/atom/station = active_recipe.required_station
+		to_chat(user, span_warning("You need [initial(station.name)] to prepare [src.name]."))
+		if(current_step == 1)
+			active_recipe = null
 		return
 
-	var/requirement = active_recipe.ingredients[current_step]
+	var/entry = active_recipe.ingredients[current_step]
 
-	if(ispath(requirement, /datum/reagent))
-		var/amt = active_recipe.ingredients[requirement]
-		if(I.reagents && I.reagents.has_reagent(requirement, amt))
-			do_cooking_step(I, user, requirement, amt)
-			return
+	if(ispath(entry, /datum/reagent))
+		var/amt = active_recipe.ingredients[entry]
+		if(I.reagents && I.reagents.has_reagent(entry, amt))
+			do_cooking_step(I, user, entry, amt)
 		else
-			to_chat(user, span_warning("You need at least [amt] units of [initial(requirement:name)]!"))
-			return
+			to_chat(user, span_warning("You need at least [amt] units of [initial(entry:name)]!"))
+		return
 
-	if(current_step <= active_recipe.ingredients.len && istype(I, active_recipe.ingredients[current_step]))
+	if(active_recipe.step_accepts(entry, I))
 		do_cooking_step(I, user)
 		return
 
 	return ..()
 
 /obj/item/reagent_containers/food/snacks/rogue/proc/do_cooking_step(obj/item/I, mob/living/user, req_reagent, req_amt)
+	var/entry = active_recipe.ingredients[current_step]
+	var/is_tool = (!req_reagent && active_recipe.ingredients[entry] == COOKSTEP_TOOL)
+
 	if(!do_after(user, get_cooking_do_time(user, active_recipe.time_per_step), target = src))
 		if(current_step == 1)
 			active_recipe = null
+			current_step = 1
 		return
 
 	playsound(src, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE)
-	
+
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		H.mind.add_sleep_experience(/datum/skill/craft/cooking, H.STAINT * active_recipe.experience_per_step)
+
 	if(req_reagent)
 		// Re-verify reagent exists after the timer
 		if(!I.reagents || !I.reagents.has_reagent(req_reagent, req_amt))
 			return
 		I.reagents.remove_reagent(req_reagent, req_amt)
 		playsound(src, 'modular/Creechers/sound/milking1.ogg', 50, TRUE)
-	else
+	else if(!is_tool)
 		playsound(src, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE)
 		I.moveToNullspace()
 
-	if(current_step < active_recipe.ingredients.len || active_recipe.needs_cooking)
+	var/list/visuals = active_recipe.step_visuals
+	var/list/visual = (current_step <= length(visuals)) ? visuals[current_step] : null
+	if(visual)
+		cut_overlays()
+		icon = visual[1]
+		icon_state = visual[2]
+	else if(!is_tool && (current_step < active_recipe.ingredients.len || active_recipe.needs_cooking || active_recipe.cook_method))
 		var/image/over = image(I.icon, I.icon_state)
-		over.transform = matrix() * 0.7 
+		over.transform = matrix() * 0.7
 		switch(current_step)
 			if(1) { over.pixel_x = -7; over.pixel_y = 7 }   // NW
 			if(2) { over.pixel_x = 7;  over.pixel_y = 7 }   // NE
@@ -132,24 +149,49 @@
 			if(4) { over.pixel_x = -7; over.pixel_y = -7 }  // SW
 		add_overlay(over)
 
-	if(!req_reagent)
+	if(!req_reagent && !is_tool)
 		qdel(I)
+
+	// Show the dish, not the base item, while it's in progress.
+	name = "unfinished [active_recipe.name]"
+
 	current_step++
 	if(current_step > active_recipe.ingredients.len)
-		if(!active_recipe.needs_cooking)
-			finalize_cooking()
-		else
-			to_chat(user, span_nicegreen("[name] is ready to be cooked."))
-			cooked_type = active_recipe.result_type
-			fried_type = active_recipe.result_type
-			active_recipe = null
-			current_step = 1
+		finish_recipe(user)
+
+/obj/item/reagent_containers/food/snacks/rogue/proc/finish_recipe(mob/living/user)
+	if(active_recipe.cook_method)
+		set_cook_handoff(active_recipe.cook_method, active_recipe.result_type)
+		to_chat(user, span_nicegreen("[name] is ready to be cooked."))
+		active_recipe = null
+		current_step = 1
+		return
+	if(active_recipe.needs_cooking)
+		cooked_type = active_recipe.result_type
+		fried_type = active_recipe.result_type
+		to_chat(user, span_nicegreen("[name] is ready to be cooked."))
+		active_recipe = null
+		current_step = 1
+		return
+	finalize_cooking()
+
+/obj/item/reagent_containers/food/snacks/rogue/proc/set_cook_handoff(method, result)
+	switch(method)
+		if(COOK_BAKE)
+			cooked_type = result
+		if(COOK_FRY)
+			fried_type = result
+		if(COOK_DEEPFRY)
+			deep_fried_type = result
+		// TODO: COOK_BOIL later
 
 /obj/item/reagent_containers/food/snacks/rogue/proc/finalize_cooking()
 	var/res_type = active_recipe.result_type
+	var/amount = max(1, active_recipe.result_amount)
 	var/turf/T = get_turf(src)
 	cut_overlays()
-	new res_type(T)
+	for(var/i in 1 to amount)
+		new res_type(T)
 	active_recipe = null
 	qdel(src)
 

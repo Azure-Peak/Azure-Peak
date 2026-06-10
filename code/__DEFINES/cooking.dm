@@ -7,3 +7,9 @@
 #define FOOD_CAT_SEAFOOD "Seafood"
 #define FOOD_CAT_DRYING "Drying Rack"
 #define FOOD_CAT_STEW "Stews"
+
+#define COOKSTEP_TOOL "tool"
+#define COOK_BAKE "bake"
+#define COOK_FRY "fry"
+#define COOK_DEEPFRY "deepfry"
+#define COOK_BOIL "boil"

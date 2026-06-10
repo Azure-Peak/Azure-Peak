@@ -200,11 +200,87 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/rbreaduncooked
 
-// Half Apple Dough + Apple Slices -> Raw Apple Loaf
-/datum/food_recipe/baked/apple_bread_complete
-	name = "Complete Apple Dough"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/abread_half
+/datum/food_recipe/baked/apple_loaf
+	name = "Apple Loaf"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/dough
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced
+		/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced,
+		/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced,
 	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/abreaduncooked
+	step_visuals = list(
+		list('modular/Neu_Food/icons/cooked/cooked_baked.dmi', "dough_apple"), 
+		list('modular/Neu_Food/icons/cooked/cooked_baked.dmi', "applebread_uncooked"), 
+	)
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/applebread
+
+/datum/food_recipe/baked/buttered_dough
+	name = "Buttered Dough"
+	hidden = TRUE
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/dough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/butterslice,
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+
+/datum/food_recipe/baked/pear_bookbread
+	name = "Pear Bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/pear)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_pear"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/pearbookbread
+
+/datum/food_recipe/baked/plum_bookbread
+	name = "Plum Bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/plum)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_plum"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/plumbookbread
+
+/datum/food_recipe/baked/lemon_bookbread
+	name = "Lemon Bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/lemon)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_lemon"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/lemonbookbread
+
+/datum/food_recipe/baked/tangerine_bookbread
+	name = "Tangerine Bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/tangerine)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_tangerine"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/tangerinebookbread
+
+/datum/food_recipe/baked/blackberry_bookbread
+	name = "Blackberry Bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_blackberry"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/blackberrybookbread
+
+/datum/food_recipe/baked/raspberry_bookbread
+	name = "Raspberry Bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/raspberry)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_raspberry"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/raspberrybookbread
+
+// Chocolate Bookbread uses an ANY-OF group: a whole bar OR a slice both satisfy the one step.
+/datum/food_recipe/baked/chocolate_bookbread
+	name = "Chocolate Bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(
+		list(
+			/obj/item/reagent_containers/food/snacks/chocolate,
+			/obj/item/reagent_containers/food/snacks/chocolate/slice,
+		),
+	)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_chocolate"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/chocolatebookbread
