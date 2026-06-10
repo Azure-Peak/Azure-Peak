@@ -28,7 +28,6 @@
 /datum/outfit/job/roguetown/greater_skeleton/siege_skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_UNCONVERTIBLE, TRAIT_GENERIC) // lol. lmao.
 	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC) // You are disposable, your entire role is to fight and die.
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) // No corpse, lets you get back to lobby rapidly.
 	H.cmode_music = 'sound/music/combat_weird.ogg' //Same as regular deadites
