@@ -2,7 +2,7 @@ You will DIE in DARKNESS!
 Your BLOOD will feed HER hunger!
 You +DARE+ to challenge a child of the underdark?
 Weak - just like the rest of your kind!
-I will _CARVE OUT YOUR HEART_ for my goddess!
+I will CARVE OUT YOUR HEART for my goddess!
 Her hand guides my blade!
 Surrender and perhaps I'll grant you a quick death, aye?
 Skewer them! Let their screams echo throughout the caverns!
@@ -16,13 +16,17 @@ You should have never came down here!
 I want to hear you BEG before the end!
 I'll take my time breaking you, piece by piece!
 Another body for the skallax to feast on! 
+At least the skallax won't go hungry when I'm done with +YOU+!
 Her will is absolute - your life ends here, fool!
 En garde!
 You do not belong here! Interlooper!
 I'll make you +SCREAM+!
+The darkness will take +YOU+!
+You don't belong here but you'll die here!
 Weak! Foolish!
 I'll break you!
 Pathetic! Weak!
+You deserve only chains, wretch!
 Bleed, wretch! Whimper! Cry! I'll make you scream louder!
 Is that all +YOU+, have?! Pathetic!
 Writhe in pain!
@@ -31,3 +35,5 @@ Writhe in pain!
 *chuckle
 *giggle
 *shake
+*warcry
+*rage
