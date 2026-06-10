@@ -327,7 +327,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	if(user)
 		if(pref_species.desc)
 			var/bonuses_info = span_racialstatinfo(pref_species.get_string_bonus_stats())
-			to_chat(user, "[pref_species.desc]<br>[bonuses_info]")
+			var/mechanics = pref_species.mechanics_explanation ? "<br>" + span_smallgreen(pref_species.mechanics_explanation) : null
+			to_chat(user, "[pref_species.desc]<br>[bonuses_info][mechanics]")
 		to_chat(user, span_red("Classes reset."))
 	random_character(gender, FALSE, FALSE)
 	accessory = "Nothing"
