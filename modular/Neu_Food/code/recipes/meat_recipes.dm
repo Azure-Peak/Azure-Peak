@@ -123,3 +123,42 @@
 		/obj/item/reagent_containers/food/snacks/rogue/friedegg/fried
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausage
+
+/datum/food_recipe/nitzel
+	name = "Nitzel"
+	base_item = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar,
+	)
+	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/nitzel
+	time_per_step = 3 SECONDS
+
+/datum/food_recipe/schnitzel
+	name = "Schnitzel"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/spider
+	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/schnitzel
+	time_per_step = 3 SECONDS
+
+/datum/food_recipe/chickentender
+	name = "Chicken Tender"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet
+	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/chickentender
+	time_per_step = 3 SECONDS
+
+/datum/food_recipe/wienernitzel
+	name = "Wienernitzel"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage
+	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/wienernitzel
+	time_per_step = 3 SECONDS

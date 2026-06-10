@@ -80,6 +80,10 @@
 	if(!active_recipe)
 		var/datum/food_recipe/R = SScooking.get_recipe(src, I)
 		if(R)
+			if(!R.user_can_make(user))
+				if(R.restricted_message)
+					to_chat(user, span_warning(R.restricted_message))
+				return
 			active_recipe = R
 		else
 			return ..()

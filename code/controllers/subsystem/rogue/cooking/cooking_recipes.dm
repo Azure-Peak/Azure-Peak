@@ -27,10 +27,16 @@
 	var/display_category = ITEM_CAT_FOODSTUFF_FRESH
 	/// Encyclopedia sidebar bucket. One of the FOOD_CAT_* defines.
 	var/book_category = FOOD_CAT_COMBINATION
+	var/restricted_message = null
+
+/datum/food_recipe/proc/user_can_make(mob/user)
+	return TRUE
 
 /datum/food_recipe/proc/step_accepts(entry, obj/item/I)
 	if(!entry || !I)
 		return FALSE
+	if(entry == COOKSTEP_SHARP)
+		return I.get_sharpness()
 	if(ispath(entry, /datum/reagent))
 		var/amt = ingredients[entry]
 		return (I.reagents && I.reagents.has_reagent(entry, amt))
@@ -42,6 +48,8 @@
 	return istype(I, entry)
 
 /datum/food_recipe/proc/step_label(entry)
+	if(entry == COOKSTEP_SHARP)
+		return "a sharp tool"
 	if(ispath(entry, /datum/reagent))
 		var/datum/reagent/R = entry
 		return "[ingredients[entry]]dr of [initial(R.name)]"
@@ -56,6 +64,8 @@
 	return initial(A.name)
 
 /datum/food_recipe/proc/render_step_li(entry, mob/user)
+	if(entry == COOKSTEP_SHARP)
+		return "<li>Score it with <b>any sharp tool</b></li>"
 	if(ispath(entry, /datum/reagent))
 		var/amt = ingredients[entry]
 		var/datum/reagent/R = entry
@@ -87,9 +97,9 @@
 
 /datum/food_recipe/proc/build_journey(mob/user, depth = 0)
 	var/list/steps = list()
-	var/atom/base = base_item
+	var/atom/base = islist(base_item) ? base_item[1] : base_item
 	if(depth < 10)
-		var/datum/food_recipe/pre = SScooking?.get_producing_recipe(base_item)
+		var/datum/food_recipe/pre = SScooking?.get_producing_recipe(base)
 		if(pre && pre.hidden && pre != src)
 			var/list/pre_data = pre.build_journey(user, depth + 1)
 			base = pre_data["base"]
@@ -103,7 +113,12 @@
 
 	var/list/journey = build_journey(user)
 	var/atom/base = journey["base"]
-	if(base)
+	if(islist(base_item) && length(base_item) > 1)
+		var/list/base_names = list()
+		for(var/atom/b as anything in base_item)
+			base_names += "[icon2html(new b, user)] [initial(b.name)]"
+		html += "<p><b>Start with any of:</b> [base_names.Join(", ")]</p>"
+	else if(base)
 		html += "<p><b>Start with:</b> [icon2html(new base, user)] [initial(base.name)]</p>"
 
 	var/list/steps = journey["steps"]

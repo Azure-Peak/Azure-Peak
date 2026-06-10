@@ -9,6 +9,7 @@
 #define FOOD_CAT_STEW "Stews"
 
 #define COOKSTEP_TOOL "tool"
+#define COOKSTEP_SHARP "sharp"
 #define COOK_BAKE "bake"
 #define COOK_FRY "fry"
 #define COOK_DEEPFRY "deepfry"
