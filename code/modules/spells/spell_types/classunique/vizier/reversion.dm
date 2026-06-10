@@ -5,10 +5,11 @@
 
 #define REVERSION_MARK_DURATION (15 SECONDS)
 
-/datum/action/cooldown/spell/reversion
+/datum/action/cooldown/spell/vizier/reversion
 	button_icon = 'icons/mob/actions/classuniquespells/vizier.dmi'
 	name = "Reversion"
-	desc = "Marks an adjacent ally's body and position, granting them the ability to revert to their marked state within 15 seconds. The target chooses when to activate the revert."
+	desc = "Marks an adjacent ally's body and position for 15 seconds, allowing them to return to their marked state at will.<br><br>If used on a target that has died within the last minute, the Vizier may instead rewind their death at the cost of their own Lux. Anything beyond that cannot be rewound."
+	fluff_desc = "Among the most demanding applications of Origin Magick, this art does not merely restore a prior state. It preserves one. For a fleeting moment, a Vizier anchors a person's place within the tapestry of time, allowing it to retrace its own history and reclaim a body, position, and condition once held. While it is theoretically possible to use the same principles to reclaim a soul that has only just departed, Naledi's seminaries traditionally frown upon such acts. Death is regarded as a boundary not to be crossed lightly, and those who make a habit of doing so rarely earn the respect of their peers."
 	button_icon_state = "reversion"
 	sound = 'sound/magic/timeforward.ogg'
 	spell_color = GLOW_COLOR_ARCANE
@@ -38,10 +39,9 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	/// Fatigue/mana cost for the Vizier's origin magic system.
-	var/cost = 3
+	cost = 3
 
-/datum/action/cooldown/spell/reversion/is_valid_target(atom/cast_on)
+/datum/action/cooldown/spell/vizier/reversion/is_valid_target(atom/cast_on)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -55,7 +55,7 @@
 		return FALSE
 	return TRUE
 
-/datum/action/cooldown/spell/reversion/cast(atom/cast_on)
+/datum/action/cooldown/spell/vizier/reversion/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
@@ -65,8 +65,34 @@
 	if(!istype(target))
 		return FALSE
 
+	// Reverse a recently departed soul. Must be done within 1 minute. Obs: This interaction will be removed if Death's Door PR is removed.
+	if(target.stat == DEAD)
+		if(!H.has_status_effect(/datum/status_effect/debuff/devitalised))
+			if(target.timeofdeath && (world.time - target.timeofdeath) <= 1 MINUTES)
+				if(alert(owner, "[target] has very recently departed. Sacrifice your Lux to rewind their soul back?", "Origin Restoration", "Restore Them", "Leave Them") == "Restore Them")
+					var/obj/effect/temp_visual/origin_restoration/V = new
+					target.vis_contents += V
+					var/turf/user_turf = get_turf(owner)
+					new /obj/effect/temp_visual/origin_restoration_burst(user_turf, NORTHEAST)
+					new /obj/effect/temp_visual/origin_restoration_burst(user_turf, NORTHWEST)
+					new /obj/effect/temp_visual/origin_restoration_burst(user_turf, SOUTHEAST)
+					new /obj/effect/temp_visual/origin_restoration_burst(user_turf, SOUTHWEST)
+					playsound(target.loc, 'sound/magic/regression1.ogg')				
+					H.apply_status_effect(/datum/status_effect/debuff/devitalised/lesser)
+					target.say("Telos!")
+					target.setOxyLoss(0)
+					if(target.revive(full_heal = FALSE))
+						target.grab_ghost(force = TRUE)
+						target.emote("gasp")
+						target.Jitter(100)
+						if(target.mind)
+							target.mind.remove_antag_datum(/datum/antagonist/zombie)
+						target.apply_status_effect(/datum/status_effect/debuff/revived)
+						target.visible_message(span_blue("[owner]'s Lux is forcefully torn away as [target]'s soul is rewound back into their body!"),	span_blue("A distant darkness releases its grip on me. I wake once more, feeling the remnants of a dying light..."))
+					return TRUE
+
 	// Snapshot the target's current state
-	var/datum/action/cooldown/spell/reversion_trigger/trigger = new
+	var/datum/action/cooldown/spell/vizier/reversion_trigger/trigger = new
 	trigger.origin = get_turf(target)
 	trigger.brute = target.getBruteLoss()
 	trigger.burn = target.getFireLoss()
@@ -102,7 +128,7 @@
 
 	return TRUE
 
-/datum/action/cooldown/spell/reversion_trigger
+/datum/action/cooldown/spell/vizier/reversion_trigger
 	button_icon = 'icons/mob/actions/classuniquespells/vizier.dmi'
 	name = "Revert"
 	desc = "Activate to snap back to your marked position and restore your state."
@@ -150,7 +176,7 @@
 	/// Ground marker effect at the origin point.
 	var/obj/effect/reversion_marker/ground_marker
 
-/datum/action/cooldown/spell/reversion_trigger/Grant(mob/grant_to)
+/datum/action/cooldown/spell/vizier/reversion_trigger/Grant(mob/grant_to)
 	. = ..()
 	if(!owner)
 		return
@@ -160,7 +186,7 @@
 	if(origin)
 		ground_marker = new(origin)
 
-/datum/action/cooldown/spell/reversion_trigger/cast(atom/cast_on)
+/datum/action/cooldown/spell/vizier/reversion_trigger/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/target = owner
 	if(!istype(target))
@@ -200,7 +226,7 @@
 	return TRUE
 
 /// Called when the mark expires without being used.
-/datum/action/cooldown/spell/reversion_trigger/proc/expire()
+/datum/action/cooldown/spell/vizier/reversion_trigger/proc/expire()
 	if(!owner)
 		qdel(src)
 		return
@@ -210,7 +236,7 @@
 	cleanup()
 
 /// Remove this spell from the target and delete it.
-/datum/action/cooldown/spell/reversion_trigger/proc/cleanup()
+/datum/action/cooldown/spell/vizier/reversion_trigger/proc/cleanup()
 	if(expiry_timer)
 		deltimer(expiry_timer)
 		expiry_timer = null
@@ -219,7 +245,7 @@
 		Remove(owner)
 	qdel(src)
 
-/datum/action/cooldown/spell/reversion_trigger/Destroy()
+/datum/action/cooldown/spell/vizier/reversion_trigger/Destroy()
 	if(expiry_timer)
 		deltimer(expiry_timer)
 		expiry_timer = null

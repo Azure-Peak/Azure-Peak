@@ -905,6 +905,10 @@
 		return B.eye_blind
 	return FALSE
 
+///TRUE if the mob's sight is obscured enough to sense footsteps - fully blind (see [is_blind]) or has the clouding Blindness vice.
+/proc/vision_obscured(mob/M)
+	return is_blind(M) || M.has_flaw(/datum/charflaw/noeyeall)
+
 ///Is the mob hallucinating?
 /mob/proc/hallucinating()
 	return FALSE

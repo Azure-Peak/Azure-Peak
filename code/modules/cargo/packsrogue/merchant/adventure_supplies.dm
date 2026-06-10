@@ -100,3 +100,8 @@
 	name = "Boars Map"
 	cost = 50
 	contains = list(/obj/item/hunting_map/boars)
+
+/datum/supply_pack/rogue/adventure_supplies/grapplinghook
+	name = "Grappling Hook"
+	cost = 320
+	contains = list(/obj/item/grapplinghook)

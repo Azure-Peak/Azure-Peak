@@ -461,6 +461,7 @@
 /obj/item/clothing/head/roguetown/witchhat
 	name = "witch hat"
 	desc = "Fair is foul, and foul is fair; Hover through the fog and filthy air."
+	adjustable = CAN_CADJUST
 	icon_state = "witch"
 	item_state = "witch"
 	detail_tag = "_detail"
@@ -469,6 +470,10 @@
 	sewrepair = TRUE
 	color = CLOTHING_BLACK
 	detail_color = CLOTHING_BROWN
+
+/obj/item/clothing/head/roguetown/witchhat/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, null, null, null, 'sound/foley/cloth_wipe (1).ogg', null, UPD_HEAD)
 
 /obj/item/clothing/head/roguetown/witchhat/mageblue
 	color = CLOTHING_MAGE_BLUE

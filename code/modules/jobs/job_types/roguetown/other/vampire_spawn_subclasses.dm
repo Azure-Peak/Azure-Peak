@@ -37,7 +37,7 @@
 		STATKEY_PER = 3,
 		STATKEY_LCK = 1,
 		STATKEY_SPD = -1,
-		// 11 (10 without luck) weighted statline, a miniboss of sorts for an expensive vitae cost; intended to command the vampire lord's army. (+1 over old spawn stats)
+		// 11 (10 without luck) point statline, a miniboss of sorts for an expensive vitae cost; intended to command the vampire lord's army. (+1 over old spawn stats)
 	)
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
@@ -201,7 +201,7 @@
 		STATKEY_SPD = 2,
 		STATKEY_PER = 3,
 		STATKEY_LCK = 4, //only the lucky outlive the ranks of common fodder in a vamp's court
-		// 13 (9 without luck factored in for flavor) weighted statline, mostly put into speed + int; still no con buff though, the luckiest person to ever outlyve you by who-knows-how-many-yills
+		// 13 (9 without luck factored in for flavor) point statline, mostly put into speed + int; still no con buff though, the luckiest person to ever outlyve you by who-knows-how-many-yills
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,

@@ -132,7 +132,7 @@
 		spelltarget.adjustBruteLoss(20)
 		playsound(spelltarget, 'sound/combat/dismemberment/dismem (2).ogg', 100)
 		spelltarget.emote("agony")
-		return FALSE
+		return
 
 	spelltarget.apply_status_effect(/datum/status_effect/buff/healing, healing)
 

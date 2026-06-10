@@ -216,6 +216,8 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
+	ignore_stealth_reveal = TRUE
+
 /datum/action/cooldown/spell/noc/invisibility/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/spelltarget = cast_on
@@ -259,6 +261,7 @@
 	antimagic_allowed = TRUE
 	hide_charge_effect = TRUE
 	cost = 3 // Very useful
+	ignore_stealth_reveal = TRUE
 
 /obj/effect/proc_holder/spell/invoked/invisibility/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))

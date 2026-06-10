@@ -142,7 +142,8 @@
 		if(owner.current)
 			owner.current.playsound_local(get_turf(owner.current), 'sound/misc/triumph.ogg', 50, FALSE)
 	else if(is_living && individual_spite_score > 0)
-		to_chat(owner, span_notice("The Grand Rite was not completed, but your harvest of souls was bountiful."))
+		// to_chat(owner, span_notice("The Grand Rite was not completed, but your harvest of souls was bountiful."))
+		to_chat(owner, span_notice("Your harvest of souls was bountiful."))
 		to_chat(owner, span_info("Your Personal Spite Score: [individual_spite_score] points."))
 		to_chat(world, span_notice("The Hag [owner.current.real_name] has left a mark of misery of [individual_spite_score] points."))
 	else
