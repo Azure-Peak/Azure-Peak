@@ -80,7 +80,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/thirstyt3
 	name = "Thirsty"
-	desc = "I urgently need drink something! Anything!"
+	desc = "I urgently need to drink something! Anything!"
 	icon_state = "thirst3"
 
 
