@@ -103,9 +103,9 @@
 			if("Otava") //Shoulder-Cloak or Silk Coat
 				if(should_wear_masc_clothes(H))
 					cloak = /obj/item/clothing/cloak/thief_cloak/yoruku
+					shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 				if(should_wear_femme_clothes(H))
-					armor = /obj/item/clothing/suit/roguetown/armor/silkcoat
-				shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
+					armor = /obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown
 				shoes = /obj/item/clothing/shoes/roguetown/boots/otavan
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 				head = /obj/item/clothing/head/roguetown/chaperon/noble/aristocratotava
