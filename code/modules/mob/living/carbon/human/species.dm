@@ -2492,8 +2492,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		// THIS is how we avoid showing hidden traits? Really?? Surely there's a better way than this?!
 		if(!(trait in GLOB.roguetraits))
 			continue
-		bonuses.Add(trait)
+		bonuses.Add(SPAN_TOOLTIP_DANGEROUS_HTML(GLOB.roguetraits[trait], "\[[trait]\]"))
 	if(length(bonuses))
-		return jointext(bonuses, " | ")
+		return jointext(bonuses, " ")
 	else
 		return null
