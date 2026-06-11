@@ -25,7 +25,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 	)
-	adv_stat_ceiling = list(STAT_INTELLIGENCE = 12, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + spellblade fuckery vs vamp
+	adv_stat_ceiling = list(STAT_INTELLIGENCE = 12, STAT_SPEED = 9, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + spellblade fuckery vs vamp
 	extra_context = "This class is unable to be revived and all forms of death will dust you."
 
 /datum/outfit/job/roguetown/wretch/ancient_spellblade
@@ -51,7 +51,7 @@
 
 	H.choose_name_popup("Ancient Azurcaephan")
 
-	H.cmode_music = 'sound/music/combat_cult.ogg'
+	H.cmode_music = 'sound/music/combat_weird.ogg'
 
 	// Equipment — gilbranze loadout matching lich skeleton spellblade
 	belt = /obj/item/storage/belt/rogue/leather
@@ -65,6 +65,8 @@
 	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich //Stands out
 	backr = /obj/item/rogueweapon/shield/heater
 	backl = /obj/item/storage/backpack/rogue/satchel
+
+	H.taints_loot_on_death = TRUE //For that shitty-ass reanimated corpse gear look.
 
 	// DO NOT GIVE THEM MAGE CHALK. This is a SKELETON. Please don't let them easily
 	// grind the gameplay loop (without putting in the efforts/virtue to acquire a chalk)
