@@ -43,7 +43,7 @@
 		for(var/datum/food_recipe/R in possible)
 			if(R.hidden)
 				continue
-			recipe_names += "[R.name] (starts with [R.step_label(R.ingredients[1])])"
+			recipe_names += R.name
 		if(length(recipe_names))
 			. += span_smallnotice("This could be used to prepare: [recipe_names.Join(", ")].")
 
@@ -56,6 +56,16 @@
 	if(slice_path)
 		var/obj/item/ST = slice_path
 		. += span_smallnotice("It is prepared and ready to be <b>sliced</b> into [initial(ST.name)].")
+
+	if(SScooking.get_producing_recipe(src.type))
+		. += span_smallnotice("(<a href='byond://?src=[REF(src)];view_wiki=1'>View recipe</a> in the Encyclopedia.)")
+
+/obj/item/reagent_containers/food/snacks/rogue/Topic(href, href_list)
+	. = ..()
+	if(href_list["view_wiki"])
+		var/datum/food_recipe/R = SScooking.get_producing_recipe(src.type)
+		if(R)
+			get_recipe_wiki().show_for_recipe(usr, R.type)
 
 /obj/item/reagent_containers/food/snacks/rogue/MiddleClick(mob/user)
 	. = ..()

@@ -9,6 +9,8 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	var/list/user_states = list()
 	/// Cached per-book recipe lists for TGUI static data, keyed by book path string
 	var/list/cached_book_recipes = list()
+	/// Reverse map: recipe type path string -> book_entry assoc list
+	var/list/recipe_to_book = list()
 
 /datum/recipe_wiki/New()
 	. = ..()
@@ -34,6 +36,12 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 				cached_book_recipes[book_key] = build_recipe_list(book.types)
 		qdel(book)
 	book_entries = sortTim(book_entries, GLOBAL_PROC_REF(cmp_book_entries))
+	for(var/list/entry in book_entries)
+		var/list/book_recipe_list = cached_book_recipes["[entry["path"]]"]
+		if(!book_recipe_list)
+			continue
+		for(var/list/recipe_data in book_recipe_list)
+			recipe_to_book[recipe_data["path"]] = entry
 
 /proc/cmp_book_entries(list/a, list/b)
 	return sorttext(b["wiki_name"], a["wiki_name"])
@@ -58,6 +66,15 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	state["page"] = "book"
 	state["book_path"] = book_type_path ? "[book_type_path]" : null
 	ui_interact(user)
+
+/datum/recipe_wiki/proc/show_for_recipe(mob/user, recipe_type)
+	if(!recipe_type || !user?.client)
+		return
+	var/list/entry = recipe_to_book["[recipe_type]"]
+	var/book_types = entry ? entry["types"] : null
+	var/book_name = entry ? entry["wiki_name"] : "Encyclopedia"
+	var/book_path = entry ? entry["path"] : null
+	show_to_user(user, book_types, book_name, book_path, get_recipe_category(recipe_type), recipe_type)
 
 /// Open the OOC wiki library landing page.
 /datum/recipe_wiki/proc/show_library(mob/user)
@@ -200,6 +217,7 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 				continue
 			valid_paths += path
 	valid_paths = sortNames(valid_paths)
+	valid_paths = sortTim(valid_paths, GLOBAL_PROC_REF(cmp_recipe_path_priority))
 
 	var/list/recipes = list()
 	for(var/atom/entry_path as anything in valid_paths)

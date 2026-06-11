@@ -60,6 +60,14 @@
 		qdel(temp_recipe)
 	return category
 
+/proc/recipe_path_priority(path)
+	if(ispath(path, /datum/book_entry))
+		return initial(path:book_priority)
+	return 0
+
+/proc/cmp_recipe_path_priority(a, b)
+	return recipe_path_priority(b) - recipe_path_priority(a)
+
 /proc/should_hide_recipe(path)
 	if(ispath(path, /datum/hag_boon))
 		return !initial(path:hag_is_valid)

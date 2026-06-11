@@ -120,3 +120,28 @@
 	name = "Limey Sweetglass"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/raisins/lime
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/lime
+
+/datum/food_recipe/deepfried/marmalade
+	name = "Marmalade"
+	base_item = /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine_sugared
+	result_type = /obj/item/reagent_containers/food/snacks/marmalade
+
+/datum/food_recipe/deepfried/jamtallow
+	name = "Jamtallow"
+	base_item = /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry_sugared
+	result_type = /obj/item/reagent_containers/food/snacks/jamtallow
+
+/datum/food_recipe/deepfried/dragee
+	name = "Dragee"
+	base_item = /obj/item/reagent_containers/food/snacks/grown/nut_sugared
+	result_type = /obj/item/reagent_containers/food/snacks/dragee
+
+/datum/food_recipe/deepfried/caramel
+	name = "Caramel"
+	base_item = /obj/item/reagent_containers/food/snacks/sugar
+	result_type = /obj/item/reagent_containers/food/snacks/caramel
+
+/datum/food_recipe/deepfried/skysugar
+	name = "Skysugar Slab"
+	base_item = /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase
+	result_type = /obj/item/reagent_containers/food/snacks/grown/skysugarslab

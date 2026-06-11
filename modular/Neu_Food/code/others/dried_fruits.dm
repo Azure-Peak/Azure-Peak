@@ -14,7 +14,6 @@
 	faretype = FARE_POOR
 	eat_effect = null
 	rotprocess = null
-	process_step = 1
 	foodtype = FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/On_Consume(mob/living/eater)
@@ -37,26 +36,6 @@
 			M.reagents.trans_to(src, M.reagents.total_volume)
 		qdel(M)
 
-/obj/item/reagent_containers/food/snacks/rogue/raisins/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
-		if(process_step != 1)
-			return
-		to_chat(user, span_notice("Coating the fruitied giblets with honey."))
-		if(do_after(user, short_cooktime, target = src))
-			name = "slathered jackberry giblets"
-			desc = "Jackberried giblets, slathered in sweetness and awaiting to be baptized in a pot of boiling fat."
-			icon_state = "honeyraisins"
-			faretype = FARE_FINE
-			color = null
-			tastes = list("overpoweringly honeyed" = 1, "a burst of sweetness" = 1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-			bitesize = 1
-			process_step = 2
-			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass
-			update_icon()
-			qdel(I)
-			return
-
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/raspberry
@@ -68,26 +47,6 @@
 	tastes = list("dried raspberries" = 1, "shriveled bursts of tartness" = 1)
 	color = "#FF2A00"
 
-/obj/item/reagent_containers/food/snacks/rogue/raisins/raspberry/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
-		if(process_step != 1)
-			return
-		to_chat(user, span_notice("Coating the fruitied giblets with honey."))
-		if(do_after(user, short_cooktime, target = src))
-			name = "slathered raspberry giblets"
-			desc = "Raspberried giblets, slathered in sweetness and awaiting to be baptized in a pot of boiling fat."
-			icon_state = "honeyraisins"
-			color = null
-			bitesize = 1
-			process_step = 2
-			faretype = FARE_FINE
-			tastes = list("overpoweringly honeyed" = 1, "a burst of sweetness" = 1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/raspberry
-			update_icon()
-			qdel(I)
-			return
-
 /obj/item/reagent_containers/food/snacks/rogue/raisins/strawberry
 	name = "strawberried giblets"
 	desc = "Strawberried giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
@@ -96,26 +55,6 @@
 	w_class = WEIGHT_CLASS_TINY
 	tastes = list("dried strawberries" = 1, "shriveled bursts of sweetness" = 1)
 	color = "#FF2A00"
-
-/obj/item/reagent_containers/food/snacks/rogue/raisins/strawberry/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
-		if(process_step != 1)
-			return
-		to_chat(user, span_notice("Coating the fruitied giblets with honey."))
-		if(do_after(user, short_cooktime, target = src))
-			name = "slathered strawberry giblets"
-			desc = "Strawberried giblets, slathered in sweetness and awaiting to be baptized in a pot of boiling fat."
-			icon_state = "honeyraisins"
-			color = null
-			bitesize = 1
-			process_step = 2
-			faretype = FARE_FINE
-			tastes = list("overpoweringly honeyed" = 1, "a burst of sweetness" = 1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/strawberry
-			update_icon()
-			qdel(I)
-			return
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/blackberry
 	name = "blackberried giblets"
@@ -126,26 +65,6 @@
 	tastes = list("dried blackberries" = 1, "shriveled bursts of sour-sweetness" = 1)
 	color = "#339AB7"
 
-/obj/item/reagent_containers/food/snacks/rogue/raisins/blackberry/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
-		if(process_step != 1)
-			return
-		to_chat(user, span_notice("Coating the fruitied giblets with honey."))
-		if(do_after(user, short_cooktime, target = src))
-			name = "slathered blackberry giblets"
-			desc = "Blackberried giblets, slathered in sweetness and awaiting to be baptized in a pot of boiling fat."
-			icon_state = "honeyraisins"
-			color = null
-			bitesize = 1
-			process_step = 2
-			faretype = FARE_FINE
-			tastes = list("overpoweringly honeyed" = 1, "a burst of sweetness" = 1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/blackberry
-			update_icon()
-			qdel(I)
-			return
-
 /obj/item/reagent_containers/food/snacks/rogue/raisins/plum
 	name = "plummic giblets"
 	desc = "Plummic giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
@@ -154,26 +73,6 @@
 	w_class = WEIGHT_CLASS_TINY
 	tastes = list("dried plums" = 1, "shriveled bursts of honey-sweetness" = 1)
 	color = "#FF4F86"
-
-/obj/item/reagent_containers/food/snacks/rogue/raisins/plum/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
-		if(process_step != 1)
-			return
-		to_chat(user, span_notice("Coating the fruitied giblets with honey."))
-		if(do_after(user, short_cooktime, target = src))
-			name = "slathered plummic giblets"
-			desc = "Plummic giblets, slathered in sweetness and awaiting to be baptized in a pot of boiling fat."
-			icon_state = "honeyraisins"
-			color = null
-			bitesize = 1
-			process_step = 2
-			faretype = FARE_FINE
-			tastes = list("overpoweringly honeyed" = 1, "a burst of sweetness" = 1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/plum
-			update_icon()
-			qdel(I)
-			return
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/pear
 	name = "peared giblets"
@@ -184,26 +83,6 @@
 	tastes = list("dried pears" = 1, "shriveled bursts of tarty-honeyiness" = 1)
 	color = "#EAB14F"
 
-/obj/item/reagent_containers/food/snacks/rogue/raisins/pear/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
-		if(process_step != 1)
-			return
-		to_chat(user, span_notice("Coating the fruitied giblets with honey."))
-		if(do_after(user, short_cooktime, target = src))
-			name = "slathered peared giblets"
-			desc = "Peared giblets, slathered in sweetness and awaiting to be baptized in a pot of boiling fat."
-			icon_state = "honeyraisins"
-			color = null
-			bitesize = 1
-			process_step = 2
-			faretype = FARE_FINE
-			tastes = list("overpoweringly honeyed" = 1, "a burst of sweetness" = 1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/pear
-			update_icon()
-			qdel(I)
-			return
-
 /obj/item/reagent_containers/food/snacks/rogue/raisins/tangerine
 	name = "tangerined giblets"
 	desc = "Tangerined giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
@@ -212,26 +91,6 @@
 	w_class = WEIGHT_CLASS_TINY
 	tastes = list("dried tangerines" = 1, "shriveled bursts of tarty-sweetness" = 1)
 	color = "#FF9321"
-
-/obj/item/reagent_containers/food/snacks/rogue/raisins/tangerine/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
-		if(process_step != 1)
-			return
-		to_chat(user, span_notice("Coating the fruitied giblets with honey."))
-		if(do_after(user, short_cooktime, target = src))
-			name = "slathered tangerined giblets"
-			desc = "Tangerined giblets, slathered in sweetness and awaiting to be baptized in a pot of boiling fat."
-			icon_state = "honeyraisins"
-			color = null
-			bitesize = 1
-			process_step = 2
-			faretype = FARE_FINE
-			tastes = list("overpoweringly honeyed" = 1, "a burst of sweetness" = 1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/tangerine
-			update_icon()
-			qdel(I)
-			return
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/lemon
 	name = "lemony giblets"
@@ -242,26 +101,6 @@
 	tastes = list("dried lemons" = 1, "shriveled bursts of tarty-sourness" = 1)
 	color = "#FFBD30"
 
-/obj/item/reagent_containers/food/snacks/rogue/raisins/lemon/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
-		if(process_step != 1)
-			return
-		to_chat(user, span_notice("Coating the fruitied giblets with honey."))
-		if(do_after(user, short_cooktime, target = src))
-			name = "slathered lemony giblets"
-			desc = "Lemony giblets, slathered in sweetness and awaiting to be baptized in a pot of boiling fat."
-			icon_state = "honeyraisins"
-			color = null
-			bitesize = 1
-			process_step = 2
-			faretype = FARE_FINE
-			tastes = list("overpoweringly honeyed" = 1, "a burst of sweetness" = 1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/lemon
-			update_icon()
-			qdel(I)
-			return
-
 /obj/item/reagent_containers/food/snacks/rogue/raisins/lime
 	name = "limey giblets"
 	desc = "Limey giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
@@ -271,26 +110,6 @@
 	tastes = list("dried limes" = 1, "shriveled bursts of sour-tartiness" = 1)
 	color = "#C3DB91"
 
-/obj/item/reagent_containers/food/snacks/rogue/raisins/lime/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
-		if(process_step != 1)
-			return
-		to_chat(user, span_notice("Coating the fruitied giblets with honey."))
-		if(do_after(user, short_cooktime, target = src))
-			name = "slathered limey giblets"
-			desc = "Limey giblets, slathered in sweetness and awaiting to be baptized in a pot of boiling fat."
-			icon_state = "honeyraisins"
-			color = null
-			bitesize = 1
-			process_step = 2
-			faretype = FARE_FINE
-			tastes = list("overpoweringly honeyed" = 1, "a burst of sweetness" = 1)
-			list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
-			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/lime
-			update_icon()
-			qdel(I)
-			return
-
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass
@@ -299,7 +118,7 @@
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
 	icon_state = "sweetglass5"
 	bitesize = 5
-	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL * 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	w_class = WEIGHT_CLASS_TINY
 	tastes = list("glassy jackberries" = 1, "sugary shards of sweetness" = 1)
 	faretype = FARE_LAVISH
