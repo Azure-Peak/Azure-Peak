@@ -40,6 +40,7 @@
 	recharge_time = 30 SECONDS
 	var/firstcast = TRUE
 	var/icon/clone_icon
+	ignore_stealth_reveal = TRUE
 
 /obj/effect/proc_holder/spell/invoked/mastersillusion/cast(list/targets, mob/living/carbon/human/user = usr)
 	if(firstcast)

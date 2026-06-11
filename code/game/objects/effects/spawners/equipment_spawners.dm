@@ -261,7 +261,7 @@
 	loot = list(
 		/obj/item/rogueweapon/sword/silver = 1,
 		/obj/item/rogueweapon/mace/steel/silver = 1,
-		/obj/item/rogueweapon/greataxe/silver = 1,
+		/obj/item/rogueweapon/greataxe/steel/knight/silver = 1,
 		/obj/item/rogueweapon/flail/sflail/silver = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/silver = 3,
 		/obj/item/rogueweapon/mace/warhammer/steel/silver = 1,

@@ -11,6 +11,8 @@
 	///This can be a list OR a soundfile OR null. Determines whatever sound gets played.
 	var/footstep_sounds
 	var/last_sound
+	///keen_footstep effects currently marking our position for listeners.
+	var/list/active_prints
 
 /datum/component/footstep/Initialize(footstep_type_ = FOOTSTEP_MOB_BAREFOOT, volume_ = 0.5, e_range_ = -1)
 	if(!isliving(parent))
@@ -35,6 +37,10 @@
 		if(FOOTSTEP_MOB_SLIME)
 			footstep_sounds = 'sound/blank.ogg'
 	RegisterSignal(parent, list(COMSIG_MOVABLE_MOVED), PROC_REF(play_simplestep)) //Note that this doesn't get called for humans.
+
+/datum/component/footstep/Destroy(force, silent)
+	clear_prints()
+	return ..()
 
 ///Prepares a footstep. Determines if it should get played. Returns the turf it should get played on. Note that it is always a /turf/open
 /datum/component/footstep/proc/prepare_step()
@@ -106,8 +112,13 @@
 	var/mob/living/carbon/human/H = parent
 	var/feetCover = (H.wear_armor && (H.wear_armor.body_parts_covered & FEET)) || (H.wear_pants && (H.wear_pants.body_parts_covered & FEET))
 
+	/// The specific footstep sound file picked to play.
 	var/used_sound
+	/// Sound files for surface.
 	var/list/used_footsteps
+	/// Mobs that actually heard this step, returned by playsound.
+	var/list/heard
+	/// If the stepper got their hogs out. Used for sounds.
 	var/obj/item/clothing/shoes/humshoes = H.shoes
 
 	if((istype(humshoes) && !humshoes?.is_barefoot) || feetCover) //are we wearing shoes, and do they actually cover the sole
@@ -123,7 +134,7 @@
 		if(!used_sound)
 			used_sound = last_sound
 		last_sound = used_sound
-		playsound(T, used_sound,
+		heard = playsound(T, used_sound,
 			GLOB.footstep[T.footstep][2],
 			FALSE,
 			GLOB.footstep[T.footstep][3] + e_range)
@@ -139,7 +150,39 @@
 		if(!used_sound)
 			used_sound = last_sound
 		last_sound = used_sound
-		playsound(T, used_sound,
+		heard = playsound(T, used_sound,
 			GLOB.barefootstep[T.barefootstep][2],
 			TRUE,
 			GLOB.barefootstep[T.barefootstep][3] + e_range)
+
+	reveal_footstep(T, heard)
+
+/datum/component/footstep/proc/reveal_footstep(turf/T, list/heard)
+	clear_prints()
+	if(!length(heard))
+		return
+	var/mob/living/mover = parent
+	for(var/mob/living/listener in heard)
+		if(listener == mover)
+			continue
+		if(!listener.client || listener.stat != CONSCIOUS)
+			continue
+		if(!HAS_TRAIT(listener, TRAIT_KEENEARS) && !vision_obscured(listener))
+			continue
+		if(!vision_obscured(listener) && listener.can_see_cone(mover))
+			continue
+		var/obj/effect/temp_visual/keen_footstep/print = new(T, listener, mover.dir)
+		LAZYADD(active_prints, print)
+		RegisterSignal(print, COMSIG_PARENT_QDELETING, PROC_REF(on_print_deleted))
+
+///A print we were tracking got deleted on its own (e.g. its turf was destroyed); drop our reference.
+/datum/component/footstep/proc/on_print_deleted(obj/effect/temp_visual/keen_footstep/print)
+	SIGNAL_HANDLER
+	LAZYREMOVE(active_prints, print)
+
+///Wipes the footprints marking our previous position.
+/datum/component/footstep/proc/clear_prints()
+	for(var/obj/effect/temp_visual/keen_footstep/print as anything in active_prints)
+		UnregisterSignal(print, COMSIG_PARENT_QDELETING) //Unregister first so qdel doesn't mutate active_prints while we iterate it.
+		qdel(print)
+	active_prints = null
