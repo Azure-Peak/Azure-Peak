@@ -329,7 +329,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			var/bonus_stats = span_racialstatinfo(pref_species.get_string_bonus_stats())
 			var/traits_list = pref_species.get_string_bonus_traits()
 			var/bonus_traits = traits_list && length(traits_list) ? "<br>" + span_smallracialstatinfo(traits_list) : null
-			var/mechanics = pref_species.mechanics_explanations ? span_smallgreen(pref_species.get_string_mechanics_explanations()) : null
+			var/mechanics = pref_species.mechanics_explanations ? span_info(pref_species.get_string_mechanics_explanations()) : null
 			var/description2print  = fieldset_block(span_big("<b>[span_bignotice(pref_species.desc_title)]</b>"), "[pref_species.desc]<br><br>[bonus_stats][bonus_traits][mechanics]", "speciesdesc_block")
 			to_chat(user, description2print)
 		to_chat(user, span_red("Classes reset."))

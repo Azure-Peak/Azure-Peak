@@ -91,7 +91,7 @@
 		"+1 PER" = STATKEY_PER,
 		"No Hunger & Thirst" = TRAIT_NOHUNGER
 	)
-	mechanics_explanations = list("Are the only species whose lux is already purified when extracted. However, their lux takes far longer to regrow than every other species.")
+	mechanics_explanations = list("Are the only species whose lux is already purified when extracted. However, their lux takes far longer to regrow than every other races.")
 
 /datum/species/aasimar/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	..()

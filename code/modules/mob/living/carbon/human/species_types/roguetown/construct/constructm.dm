@@ -97,11 +97,17 @@
 	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
 
 	mechanics_explanations = list("Their wounds cannot be mended with needles or surgery, but instead with mechanical repairs. Light wounds can be mended with just a hammer, but more severe injuries will require a pair of tongs or a wrench held in the off hand for the hammer to work.",
-		"Can consume ingots, powerful rocks, or gemstones in order to regenerate wounds.",
+		"Generic healing miracles used on them will be less effective the closer they are to being at perfect condition.",
+		"Spells of mending can heal their wounds.",
 		"While on the brink of death, can be temporarily stabilized by sticks or rocks.",
 		"Can easily attach any prosthetic limbs to their bodies, including their own when they are lost.",
 		"Can mine rocky terrain by trying to walk into it while in Combat Mode and while in STRONG stance.",
-		"Are vulnerable to electrocution.")
+		"Are vulnerable to electrocution.",
+		"Have unique interactions when certain items are used on them:\n\
+		\t<b>Gemstones, Ingots, Raw Ores, and Stones</b>: Are consumed to heal the construct.\n\
+		\t<b>Cut Tree Logs</b>: Are turned into charcoal.\n\
+		\t<b>Whole Tree Logs</b>: Are split in half.\n\
+		\t<b>Large Rocks</b>: Are broken down into stones.")
 
 /datum/species/construct/metal/check_roundstart_eligible()
 	return TRUE
