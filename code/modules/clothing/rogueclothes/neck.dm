@@ -545,7 +545,7 @@
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy
 	name = "ancient zcross"
@@ -556,7 +556,7 @@
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
 	name = "inverted psycross"
@@ -565,7 +565,7 @@
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/iron/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/bronze
 	name = "bronze inverted psycross"
@@ -581,7 +581,7 @@
 	sellprice = 100
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/g/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios
 	name = "amulet of Matthios"
@@ -592,7 +592,7 @@
 	smeltresult = null
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 	name = "amulet of Graggar"
@@ -603,7 +603,7 @@
 	smeltresult = null
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_ICON)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_ICON)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha
 	name = "amulet of Baotha"
@@ -614,7 +614,7 @@
 	smeltresult = null
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_ICON)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_ICON)
 
 /obj/item/clothing/neck/roguetown/psicross/undivided
 	name = "amulet of Ten"
@@ -811,16 +811,16 @@
 		switch(mimic_type)
 			// Zizo psicrosses
 			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/iron, /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph, /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g)
-				return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
+				return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
 			// Matthios psicrosses
 			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios)
-				return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
+				return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
 			// Graggar psicrosses
 			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar)
-				return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_ICON)
+				return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_ICON)
 			// Baotha psicrosses
 			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha)
-				return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_ICON)
+				return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_ICON)
 		// If it isn't disguised as anything heretical, present it as the "totally innocent" amulet it pretends to be
 		return null
 
@@ -1104,7 +1104,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
 
 //
 
@@ -1124,7 +1124,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
 
 /obj/item/clothing/neck/roguetown/bevor/zizo/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/neck/roguetown/bevor/zizo/heavy
 	name = "fused avantyne bevor"
@@ -1155,7 +1155,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.
 
 /obj/item/clothing/neck/roguetown/gorget/steel/graggar/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 //
 

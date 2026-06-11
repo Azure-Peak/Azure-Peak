@@ -235,7 +235,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
 
 //
 
@@ -254,7 +254,7 @@
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
 	name = "fused avantyne hauberk"
@@ -284,6 +284,6 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 //

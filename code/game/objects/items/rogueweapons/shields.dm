@@ -434,7 +434,7 @@
 	smeltresult = /obj/item/ingot/component/zizo
 
 /obj/item/rogueweapon/shield/tower/metal/zizo/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, "An alloy of Zizo's anointed metals; Avantyne and Darksteel")
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, "An alloy of Zizo's anointed metals; Avantyne and Darksteel")
 
 /obj/item/rogueweapon/shield/tower/metal/zizo/Initialize()
 	. = ..()
@@ -692,7 +692,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "SHIELD", "RENDERED ASUNDER")
 
 /obj/item/rogueweapon/shield/iron/graggar/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_RELIC)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_RELIC)
 
 #undef SHIELD_BANG_COOLDOWN
 

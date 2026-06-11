@@ -33,14 +33,14 @@
 * 
 * i.e. heretic armor, avantyne weapons
 */
-#define HERESY_SEVERITY_ALARMING 1
+#define EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING 1
 // Heresy item severity levels. The more "Severely" heretical an item is, the more alarmingly the item will be presented on examine.
 /** For items that are heretical and will get you in trouble if you're caught with them,
 * but not enough for people to jump straight to violence on sight without probable cause.
 * 
 * i.e. Ascendant amulets
 */
-#define HERESY_SEVERITY_SUSPICIOUS 2
+#define EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS 2
 
 // Heresy severity colors
 #define COLOR_HERESY_SEVERITY_SUSPICIOUS "#c49337"

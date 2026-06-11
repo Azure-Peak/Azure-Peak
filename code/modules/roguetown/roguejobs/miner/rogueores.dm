@@ -420,7 +420,7 @@
 	sellprice = 130
 
 /obj/item/ingot/avantyne/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
 
 //Components!
 
@@ -489,7 +489,7 @@
 	dropshrink = 0.7
 
 /obj/item/ingot/component/zizo/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/ingot/component/graggar
 	name = "vicious fragment"
@@ -498,7 +498,7 @@
 	dropshrink = 0.7
 
 /obj/item/ingot/component/graggar/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_MISC)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_MISC)
 
 /obj/item/ingot/component/matthios
 	name = "gilded fragment"
@@ -507,7 +507,7 @@
 	dropshrink = 0.7
 
 /obj/item/ingot/component/matthios/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
 
 /obj/item/ingot/component/baotha
 	name = "saccharine fragment"
@@ -516,4 +516,4 @@
 	dropshrink = 0.7
 
 /obj/item/ingot/component/baotha/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_MISC)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_MISC)

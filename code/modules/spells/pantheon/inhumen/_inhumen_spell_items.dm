@@ -1791,7 +1791,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return null
 	// Otherwise, it's an undisguised and GAUDY Matthiosian amulet. Very obvious.
 	else
-		return list(HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
+		return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios
 	name = "gilded fingerless gloves"

@@ -162,7 +162,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
 
 /obj/item/rogueweapon/sword/zizo/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/rogueweapon/sword/avantyne
 	name = "avantyne-threaded arming sword"
@@ -180,7 +180,7 @@
 	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/sword/avantyne/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
 
 /obj/item/rogueweapon/sword/long
 	name = "longsword"
@@ -445,7 +445,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
 
 /obj/item/rogueweapon/sword/long/zizo/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/rogueweapon/sword/long/avantyne
 	name = "avantyne-threaded longsword"
@@ -463,7 +463,7 @@
 	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/sword/zizo/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
 
 /obj/item/rogueweapon/sword/long/heirloom
 	name = "old longsword"
@@ -1727,7 +1727,7 @@
 	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/sword/rapier/avantyne/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/rogueweapon/sword/rapier/avantyne/relic
 	name = "Damnatio"

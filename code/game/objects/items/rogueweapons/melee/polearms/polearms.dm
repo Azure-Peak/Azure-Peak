@@ -637,7 +637,7 @@
 	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/spear/billhook/avantyne/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/rogueweapon/spear/improvisedbillhook
 	force = 12

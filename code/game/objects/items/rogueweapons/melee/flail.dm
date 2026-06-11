@@ -348,7 +348,7 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "FLAIL")
 
 /obj/item/rogueweapon/flail/peasantwarflail/matthios/get_heresy_status()
-	return list(HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_WEAPON)
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_WEAPON)
 
 /obj/item/rogueweapon/flail/militia
 	name = "militia flail"

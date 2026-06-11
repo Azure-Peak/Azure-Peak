@@ -1855,7 +1855,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	return FALSE
 
 /** Is this item commonly known as heretical? If it is, this should to return a list containing:
-* - First: A heresy severity level (see `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`).
+* - First: A heresy severity level (see `EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS` and `EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING`).
 * - Second: A short description of the nature of the item's heresy.
 *
 * When set, highlights the item's mob examine name/tooltip with obvious heretical flavor when worn/held.
@@ -1879,7 +1879,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return get_heresy_labeled_string(severity, "[allcaps ? uppertext(severity_itis) : severity_itis]: [allcaps ? uppertext(heresy_desc) : heresy_desc]")
 	return null
 
-/// Returns `label_string` HTML formatted depending on the provided heresy severity level (see `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`). 
+/// Returns `label_string` HTML formatted depending on the provided heresy severity level (see `EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS` and `EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING`). 
 /obj/item/proc/get_heresy_labeled_string(heresy_severity, label_string)
 	if(!heresy_severity || !label_string)
 		return null
@@ -1887,7 +1887,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/severity_symbol = get_heresy_severity_symbol(heresy_severity)
 	return "<font color = '[severity_color]'>[severity_symbol] [label_string] [severity_symbol]</font>"
 
-/// Returns a full HTML-formatted tooltip string whose contents depend on the given status level (See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`). 
+/// Returns a full HTML-formatted tooltip string whose contents depend on the given status level (See `proc/get_heresy_status()`, `EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS` and `EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING`). 
 /obj/item/proc/get_heresy_tooltip_string(list/heresy_status)
 	if(!heresy_status)
 		return null
@@ -1896,38 +1896,38 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	return "[heresy_reason]<br>[severity_explanation]"
 
-/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
+/// See `proc/get_heresy_status()`, `EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS` and `EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING`.
 /obj/item/proc/get_heresy_severity_adjective(severity_level)
 	switch(severity_level)
-		if(HERESY_SEVERITY_SUSPICIOUS)
+		if(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS)
 			return "SUSPICIOUS"
-		if(HERESY_SEVERITY_ALARMING)
+		if(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING)
 			return "HERETICAL"
 	return null
 
-/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
+/// See `proc/get_heresy_status()`, `EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS` and `EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING`.
 /obj/item/proc/get_heresy_severity_explanation(severity_level)
 	switch(severity_level)
-		if(HERESY_SEVERITY_SUSPICIOUS)
+		if(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS)
 			return DESCRIPTION_HERESY_SEVERITY_SUSPICIOUS
-		if(HERESY_SEVERITY_ALARMING)
+		if(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING)
 			return DESCRIPTION_HERESY_SEVERITY_ALARMING
 	return null
 
-/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
+/// See `proc/get_heresy_status()`, `EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS` and `EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING`.
 /obj/item/proc/get_heresy_severity_color(severity_level)
 	switch(severity_level)
-		if(HERESY_SEVERITY_SUSPICIOUS)
+		if(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS)
 			return COLOR_HERESY_SEVERITY_SUSPICIOUS
-		if(HERESY_SEVERITY_ALARMING)
+		if(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING)
 			return COLOR_HERESY_SEVERITY_ALARMING
 	return null
 	
-/// See `proc/get_heresy_status()`, `HERESY_SEVERITY_SUSPICIOUS` and `HERESY_SEVERITY_ALARMING`.
+/// See `proc/get_heresy_status()`, `EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS` and `EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING`.
 /obj/item/proc/get_heresy_severity_symbol(severity_level)
 	switch(severity_level)
-		if(HERESY_SEVERITY_SUSPICIOUS)
+		if(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS)
 			return SYMBOL_HERESY_SEVERITY_SUSPICIOUS
-		if(HERESY_SEVERITY_ALARMING)
+		if(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING)
 			return SYMBOL_HERESY_SEVERITY_ALARMING
 	return null

@@ -489,7 +489,7 @@
 	light_color = "#ceff72ff"
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/zizo/get_heresy_status()
-	return list(HERESY_SEVERITY_SUSPICIOUS, "GREAT GOOGLY MOOGLY, THAT PUMPKIN IS PRAISING SHE OF Z!")
+	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS, "GREAT GOOGLY MOOGLY, THAT PUMPKIN IS PRAISING SHE OF Z!")
 
 /obj/item/flashlight/flare/torch/lantern/pumpkin/grin
 	name = "smiling pumpkin lamptern"
