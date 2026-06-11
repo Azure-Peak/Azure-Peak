@@ -16,7 +16,7 @@
 	having consumed enough for their bodies to recreate and secrete the very substance that sustains them. \
 	Caught now in the struggles of surface faiths and kingdoms, Murklings search for purpose beyond their primordial mothers. \
 	Some turn to gods as they are susceptible to faith to fill the gaps their spawning pools left, and others reject them entirely. \
-	Yet all carry the memory of the deep: the silent, all-encompassing love and will from which they were born.<br>"
+	Yet all carry the memory of the deep: the silent, all-encompassing love and will from which they were born."
 	blood_color = "#00FFFF" //Defaults to blue, but we recolor this later to match the slime person's body color.
 	origin_default = /datum/virtue/origin/racial/underdark
 	base_name = "Ooze"
