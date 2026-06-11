@@ -218,6 +218,7 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/datum/admins/proc/create_or_modify_area,
 	/client/proc/returntolobby,
 	/client/proc/set_tod_override,
+	/client/proc/set_station_time,
 	/client/proc/stresstest_chat,
 	/client/proc/performance_stress_test, // Uncomment these if you tick the performance stress test .dm file
 	/client/proc/cleanup_stress_test_mobs,
@@ -504,6 +505,23 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		GLOB.todoverride = null
 		world << "[ckey] has disabled the time of day override."
 	settod()
+
+/client/proc/set_station_time()
+	set category = "Debug"
+	set name = "SetStationTime"
+	var/hour = input(usr, "Hour (0-23)", "Set Station Time") as null|num
+	if(isnull(hour))
+		return
+	var/minute = clamp((input(usr, "Minute (0-59)", "Set Station Time") as null|num) || 0, 0, 59)
+	hour = clamp(hour, 0, 23)
+	var/target = (hour * 36000) + (minute * 600)
+	var/elapsed = (world.time - SSticker.round_start_time) * SSticker.station_time_rate_multiplier
+	SSticker.gametime_offset = ((target - elapsed) % 864000 + 864000) % 864000
+	SSnightshift.check_nightshift()
+	SSoutdoor_effects.get_time_of_day()
+	for(var/atom/movable/screen/fullscreen/lighting_backdrop/sunlight/SP in SSoutdoor_effects.sunlighting_planes)
+		SSoutdoor_effects.transition_sunlight_color(SP)
+	world << "[ckey] set the station time to [hour]:[minute < 10 ? "0[minute]" : minute]."
 
 /client/proc/stresstest_chat()
 	set name = "Stress Chat"

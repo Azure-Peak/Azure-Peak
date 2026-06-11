@@ -24,7 +24,7 @@
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,
 		STATKEY_LCK = 1,
-		// 7 weighted statline, non-combat role but far-better than keep maids. Gets more traits to make up for lack of master crafting skills over the bat.
+		// 7 point statline, non-combat role but far-better than keep maids. Gets more traits to make up for lack of master crafting skills over the bat.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN, //So you don't immedately die in a fight if you somehow get into one
@@ -98,7 +98,7 @@
 		STATKEY_CON = 2,
 		STATKEY_STR = 2,
 		STATKEY_LCK = 2,
-		// 8 weighted statline, non-combat role, a straight upgrade to towner smith.
+		// 8 point statline, non-combat role, a straight upgrade to towner smith.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
@@ -175,11 +175,11 @@
 	traits_applied = list(TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT, TRAIT_NOSTINK, TRAIT_HOMESTEAD_EXPERT, TRAIT_EMPATH, TRAIT_STEELHEARTED) //Medical class, specialises in accidental killings or reviving fallen allies. !!!UNTIL LUX REVIVALS WORK ON VAMPS OR A MAP REWORK HAPPENS. YOU'LL NEED TO EITHER HAVE ZURCH ACCESS OR BREAK INTO THE CLINIC FOR A CHAIR TO REVIVE VAMPS!!!
 	category_tags = list(CTAG_VAMPSERVANT)
 	subclass_stats = list(
-		STATKEY_SPD = 1, //Corpse thievery duty
+		STATKEY_SPD = 2, //Corpse thievery duty
 		STATKEY_INT = 4,
 		STATKEY_PER = 1,
 		STATKEY_LCK = 1,
-		// 7 weighted statline, non-combat role equiv of barber doc kind of.
+		// 8 point statline, non-combat role equiv of barber doc kind of.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,

@@ -206,9 +206,6 @@
 	no_early_release = TRUE
 	intent_intdamage_factor = 0.1
 
-
-
-
 /datum/intent/spear/bash/ranged/quarterstaff
 	damfactor = 1
 
@@ -219,15 +216,30 @@
 	damfactor = 1.3 // Adds up to be slightly stronger than an unenhanced ebeak strike.
 	clickcd = CLICK_CD_CHARGED
 
+/datum/intent/spear/disarm/quarterstaff
+	name = "disarm"
+	desc = "A precise, sweeping strike that aims for the target's weapon. While it deals no damage on its own, successfully striking the target while they're off-balanced will disarm them in a grand flourish."
+	icon_state = "intake"
+	animname = "strike"
+	attack_verb = list("sweeps", "disarms")
+	blade_class = BCLASS_DISARM
+	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg')
+	penfactor = PEN_NONE
+	swingdelay = 2	//Small delay to hook
+	damfactor = 0
+	clickcd = 22	//Can't spam this; long delay.
+	item_d_type = "blunt"
+
 //polearm objs ฅ^•ﻌ•^ฅ
 
 /obj/item/rogueweapon/woodstaff
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(SPEAR_BASH,/datum/intent/mace/smash/wood)
+	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood, /datum/intent/spear/disarm/quarterstaff)
 	name = "wooden staff"
-	desc = "A solid dependable walking stick that allows one to traverse rough terrain with ease, keep the weight off an injured leg, or reliably fend off incoming blows. Perfect for beggars, pilgrims, and mages."
+	desc = "A solid dependable walking stick that allows one to traverse rough terrain with ease, keep the weight off an \
+	injured leg, or reliably fend off incoming blows. Perfect for beggars, pilgrims, and mages."
 	icon_state = "woodstaff"
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	wlength = WLENGTH_LONG
@@ -298,7 +310,8 @@
 	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H)
 	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	name = "spear"
-	desc = "One of the oldest weapons still in use today, second only to the club. The lack of reinforcements along the shaft leaves it vulnerable to being split in two."
+	desc = "One of the oldest weapons still in use today, second only to the club. The lack of reinforcements along the \
+	shaft leaves it vulnerable to being split in two."
 	icon_state = "spear"
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	pixel_y = -16
@@ -491,7 +504,8 @@
 
 /obj/item/rogueweapon/spear/aalloy
 	name = "decrepit spear"
-	desc = "A rotting staff, tipped with frayed bronze. After the stone, but before the sword; an interlude for the violence that would soon engulf His world."
+	desc = "A rotting staff, tipped with frayed bronze. After the stone, but before the sword; an interlude for the violence that would soon \
+	engulf His world."
 	icon_state = "ancient_spear"
 	force = 13
 	force_wielded = 22
@@ -504,14 +518,16 @@
 
 /obj/item/rogueweapon/spear/paalloy
 	name = "ancient spear"
-	desc = "A gnarled staff, tipped with polished gilbranze. Your breathing hilts, and your knuckles tighten around the staff; you see what is yet to come, yet your mind refuses to retain it. To know what fate this dying world has - it would drive any man inzane."
+	desc = "A gnarled staff, tipped with polished gilbranze. Your breathing hilts, and your knuckles tighten around the staff; you \
+	see what is yet to come, yet your mind refuses to retain it. To know what fate this dying world has - it would drive any man inzane."
 	smeltresult = /obj/item/ingot/aaslag
 	icon_state = "ancient_spear"
 
 
 /obj/item/rogueweapon/spear/psyspear
 	name = "psydonic spear"
-	desc = "An ornate spear, plated in a ceremonial veneer of silver. The barbs pierce your palm, and - for just a moment - you see red. Never forget that you are why Psydon wept."
+	desc = "An ornate spear, plated in a ceremonial veneer of silver. The barbs pierce your palm, and - for just a moment - you see red. Never \
+	forget that you are why Psydon wept."
 	icon_state = "psyspear"
 	force = 15
 	force_wielded = 25
@@ -545,7 +561,8 @@
 
 /obj/item/rogueweapon/spear/silver
 	name = "silver spear"
-	desc = "A winged staff, tipped with a silver spearhead. It bares a resemblenece to the 'boar spear', but with a critical difference; instead of stopping hogs, it halts charging deadites from spreading their sickness any further."
+	desc = "A winged staff, tipped with a silver spearhead. It bares a resemblenece to the 'boar spear', but with a critical difference; instead \
+	of stopping hogs, it halts charging deadites from spreading their sickness any further."
 	icon_state = "silverspear"
 	force = 15
 	force_wielded = 25
@@ -615,7 +632,8 @@
 
 /obj/item/rogueweapon/spear/billhook
 	name = "billhook"
-	desc = "A neat hook. Used to pull riders from horses, as well as defend against said horses when used in a proper formation. The reinforcements along its shaft grant it higher durability against attacks."
+	desc = "A neat hook. Used to pull riders from horses, as well as defend against said horses when used in a proper formation. The \
+	reinforcements along its shaft grant it higher durability against attacks."
 	icon_state = "billhook"
 	smeltresult = /obj/item/ingot/steel
 	max_blade_int = 230
@@ -625,7 +643,8 @@
 
 /obj/item/rogueweapon/spear/billhook/avantyne
 	name = "avantyne-threaded billhook"
-	desc = "A twisted implement of harvest, it's hooked edge festering with crystalline malice. It is a weapon of pure upheaval, designed to drag the Psydonia's false idols into the dirt."
+	desc = "A twisted implement of harvest, it's hooked edge festering with crystalline malice. It is a weapon of pure upheaval, designed \
+	to drag the Psydonia's false idols into the dirt."
 	icon_state = "zizobillhook"
 	force = 30
 	force_wielded = 35
@@ -722,7 +741,9 @@
 /obj/item/rogueweapon/fishspear/depthseek //DO NOT ADD RECIPE. MEANT TO BE AN ABYSSORITE RELIC. IDEA COURTESY OF LORDINQPLAS
 	force = 45
 	name = "blessed depthseeker"
-	desc = "A beautifully crafted weapon, with handle carved of some beast's bone, inlaid with smooth seaglass at pommel and head, with two prongs smithed of fine dwarven steel. The seaglass carving at the head is a masterwork in and of itself, you can feel an abyssal energy radiating off it."
+	desc = "A beautifully crafted weapon, with handle carved of some beast's bone, inlaid with smooth seaglass at pommel and head, with \
+	two prongs smithed of fine dwarven steel. The seaglass carving at the head is a masterwork in and of itself, you can feel an abyssal \
+	energy radiating off it."
 	icon_state = "depthseek"
 	smeltresult = /obj/item/ingot/blacksteel
 	max_blade_int = 2600
@@ -843,7 +864,8 @@
 	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, /datum/intent/axe/chop/halberd, SPEAR_BASH)
 	name = "halberd"
-	desc = "A steel halberd, the pinnacle of all cumulative melee weapon knowledge. The only downside is the cost, so it's rarely seen outside of the guardsmans' hands. The reinforcements along the shaft provide greater durability."
+	desc = "A steel halberd, the pinnacle of all cumulative melee weapon knowledge. The only downside is the cost, so it's rarely \
+	seen outside of the guardsmans' hands. The reinforcements along the shaft provide greater durability."
 	icon_state = "halberd"
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	pixel_y = -16
@@ -876,7 +898,9 @@
 
 /obj/item/rogueweapon/spear/holysee
 	name = "see spear"
-	desc = "A blessed spear, wielded by the Holy See's templars to keep the forces of evil at bay. The design is remarkably well-balanced, allowing it for effective off-handed use with a shield. The prongs seem to catch even the tiniest glimmer of daelight, magnifying it into a blinding glare. </br>'I fear no evil, my Gods, for thou art with me!'"
+	desc = "A blessed spear, wielded by the Holy See's templars to keep the forces of evil at bay. The design is remarkably \
+	well-balanced, allowing it for effective off-handed use with a shield. The prongs seem to catch even the tiniest glimmer \
+	of daelight, magnifying it into a blinding glare. </br>'I fear no evil, my Gods, for thou art with me!'"
 	icon_state = "gsspear"
 	force = 25 // better in one hand. Use it with the shield.
 	max_blade_int = 225
@@ -908,7 +932,8 @@
 
 /obj/item/rogueweapon/halberd/bardiche/aalloy
 	name = "decrepit bardiche"
-	desc = "An imposing poleaxe, wrought from frayed bronze. Whatever noble purpose this weapon held has long since decayed; for it now persists to sunder the chaff that clings to this dying world."
+	desc = "An imposing poleaxe, wrought from frayed bronze. Whatever noble purpose this weapon held has long since decayed; for \
+	it now persists to sunder the chaff that clings to this dying world."
 	max_integrity = 180
 	force = 12
 	force_wielded = 22
@@ -921,7 +946,9 @@
 
 /obj/item/rogueweapon/halberd/bardiche/paalloy
 	name = "ancient bardiche"
-	desc = "A terrifying poleaxe, forged from polished gilbranze. When Her ascension came, these weapons - bereft of their wielders - sunk deep into the earth. Shadowed hands cradled the blades over the centuries, and would eventually create its steel-tipped successor; the glaive."
+	desc = "A terrifying poleaxe, forged from polished gilbranze. When Her ascension came, these weapons - bereft of their \
+	wielders - sunk deep into the earth. Shadowed hands cradled the blades over the centuries, and would eventually create \
+	its steel-tipped successor; the glaive."
 	icon_state = "ancient_bardiche"
 	smeltresult = /obj/item/ingot/aaslag
 
@@ -936,8 +963,9 @@
 
 /obj/item/rogueweapon/halberd/psyhalberd/relic
 	name = "Stigmata"
-	desc = "Christened in the Siege of Lirvas, these silver-tipped poleaxes - wielded by a lonesome contingent of Saint Eora's paladins - kept the horrors at bay for \
-	forty daes-and-nites. Long-since-recovered from the rubble, this relic now serve as a bulwark for the defenseless; perfectly weighted for use with a greatshield."
+	desc = "Christened in the Siege of Lirvas, these silver-tipped poleaxes - wielded by a lonesome contingent of Saint Eora's \
+	paladins - kept the horrors at bay for forty daes-and-nites. Long-since-recovered from the rubble, this relic now serve as \
+	a bulwark for the defenseless."
 	icon_state = "psyhalberd"
 	force = 25
 	force_wielded = 25
@@ -1035,7 +1063,8 @@
 /// Ported from Scarlet Reach's Glaive. We're avoiding force increase because I hate roguepen. It can have better blade integrity and defense instead.
 /obj/item/rogueweapon/halberd/glaive/knightcaptain
 	name = "'Deliverance'"
-	desc = "A masterwork glaive with a seasoned ashwood shaft reinforced by brass-sheathed steel bands. The blacksteel blade bears inscriptions on both side. One reads, \"QUIS CUSTODIET\" while the other reads, \"IPSOS CUSTODES\"."
+	desc = "A masterwork glaive with a seasoned ashwood shaft reinforced by brass-sheathed steel bands. The blacksteel blade \
+	bears inscriptions on both side. One reads, \"QUIS CUSTODIET\" while the other reads, \"IPSOS CUSTODES\"."
 	icon = 'icons/roguetown/weapons/special/captainglaive.dmi'
 	icon_state = "capglaive"
 	smeltresult = /obj/item/ingot/blacksteel
@@ -1094,7 +1123,8 @@
 
 /obj/item/rogueweapon/eaglebeak/lucerne
 	name = "lucerne"
-	desc = "A polehammer of simple iron. Fracture bone and dissent with simple brute force. The studding along its shaft makes for a slightly more reinforced weapon."
+	desc = "A polehammer of simple iron. Fracture bone and dissent with simple brute force. The studding along its shaft \
+	makes for a slightly more reinforced weapon."
 	force = 12
 	force_wielded = 25
 	icon_state = "polehammer"
@@ -1107,7 +1137,9 @@
 
 /obj/item/rogueweapon/spear/bronze
 	name = "bronze spear"
-	desc = "An antiquital staff, adorned with a bronze spearhead. Ancient in both design and purpose, its lighter weight once complimented the towering shields of precivilizational legionnaires. While rarely seen beyond the Deadlands, nowadaes, its lightweight balance makes it perfect for one-handed thrusts and throws."
+	desc = "An antiquital staff, adorned with a bronze spearhead. Ancient in both design and purpose, its lighter weight once \
+	complimented the towering shields of precivilizational legionnaires. While rarely seen beyond the Deadlands, nowadaes, its \
+	lightweight balance makes it perfect for one-handed thrusts and throws."
 	force = 25
 	force_wielded = 28
 	throwforce = 30
@@ -1130,7 +1162,8 @@
 /obj/item/rogueweapon/spear/bronze/strapless
 	desc = "An antiquital staff, adorned with a bronze spearhead. Ancient in both design and purpose, its lighter weight once complimented \
 	the towering shields of precivilizational legionnaires. While rarely seen beyond the Deadlands, nowadaes, its lightweight balance makes \
-	it perfect for one-handed thrusts and throws. </br>This particular spear has a thin strap running along its grain, allowing it to be stowed without the need for a greatweapon strap."
+	it perfect for one-handed thrusts and throws. </br>This particular spear has a thin strap running along its grain, allowing it to be stowed \
+	without the need for a greatweapon strap."
 	slot_flags = ITEM_SLOT_BACK //Option-unique, uncraftable. Ensures the loadout doesn't implode on itself.
 	equip_delay_self = 2 SECONDS
 	unequip_delay_self = 2 SECONDS
@@ -1138,7 +1171,9 @@
 
 /obj/item/rogueweapon/spear/bronze/winged/strapless
 	desc = "An antiquital staff, adorned with a winged bronze spearhead. The flared edges catch errant strikes and keep snarling foes from further \
-	impaling themselves in order to maul its wielder. </br>Scholars believe this particular type of polearm was made to counter Vheslynic seadaemons, during the now-mythologized Syonic era's collapse. </br>This particular spear has a thin strap running along its grain, allowing it to be stowed without the need for a greatweapon strap."
+	impaling themselves in order to maul its wielder. </br>Scholars believe this particular type of polearm was made to counter Vheslynic seadaemons, \
+	during the now-mythologized Syonic era's collapse. </br>This particular spear has a thin strap running along its grain, allowing it to be stowed \
+	without the need for a greatweapon strap."
 	slot_flags = ITEM_SLOT_BACK //Ditto.
 	equip_delay_self = 2 SECONDS
 	unequip_delay_self = 2 SECONDS
@@ -1146,45 +1181,52 @@
 
 /obj/item/rogueweapon/woodstaff/quarterstaff
 	name = "wooden quarterstaff"
-	desc = "A staff that makes any journey easier. Durable and swift, capable of bludgeoning stray volves and ruffians alike. Its length allow it to be used for a thrusting attack."
+	desc = "A staff that makes any journey easier. Durable and swift, capable of bludgeoning stray volves and ruffians alike. The prodigious length \
+	permits it to both incapacitate the villainous with blunted strikes, and to disarm the dastardly of their weapons."
 	force = 15
 	force_wielded = 20
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/spear/disarm/quarterstaff)
 	icon_state = "quarterstaff"
 	associated_skill = /datum/skill/combat/staves
 	max_integrity = 150
 	smeltresult = /obj/item/ash
 
-/obj/item/rogueweapon/woodstaff/quarterstaff/iron
-	name = "iron quarterstaff"
-	desc = "A quarterstaff reinforced with iron tips. It is capable of dealing more damage than a wooden one, and its blunt ends make for a decent blunt thrusting weapon. Can be used to bash down your opponents' weapons."
+/obj/item/rogueweapon/woodstaff/quarterstaff/virtue
+	name = "shepherd's quarterstaff" //Reskinned iron quarterstaff without the smeltability-into-ingotry.
 	force = 16
 	force_wielded = 22
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/spear/disarm/quarterstaff)
+	icon_state = "quarterstaff_virtue"
+	max_integrity = 200
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/iron
+	name = "iron quarterstaff"
+	desc = "A quarterstaff reinforced with iron studdings and counterweights. The prodigious length \
+	permits it to both incapacitate the villainous with blunted strikes, and to disarm the dastardly of their weapons."
+	force = 16
+	force_wielded = 22
 	icon_state = "quarterstaff_iron"
-	associated_skill = /datum/skill/combat/staves
 	max_integrity = 200
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/steel
 	name = "steel quarterstaff"
-	desc = "A quarterstaff reinforced with steel tips and steel rings, blurring the line between a light polehammer and a reinforced quarterstaff. Extremely durable, and more than capable of bludgeoning brigands to death. Durable enough to break your opponents weapons."
+	desc = "A quarterstaff reinforced with steel tips and steel rings, blurring the line between a light polehammer and a reinforced \
+	quarterstaff. Extremely durable, and more than capable of bludgeoning brigands to death; or more mercifully, robbing them of their \
+	very own tools."
 	force = 18
 	force_wielded = 25
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff)
 	icon_state = "quarterstaff_steel"
-	associated_skill = /datum/skill/combat/staves
 	max_integrity = 200
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/silver
 	name = "silver quarterstaff"
-	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs oft-carried by Naledian warscholars. Durable enough to catch avantyne to the shaft, without so much as a splinter - or so, they say."
+	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs oft-carried by Naledian \
+	warscholars. Durable enough to catch-and-disarm avantyne to the shaft, without so much as a splinter - or so, they say."
 	force = 20
 	force_wielded = 27
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff)
 	icon_state = "quarterstaff_silver"
-	associated_skill = /datum/skill/combat/staves
 	max_integrity = 250
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
@@ -1205,9 +1247,7 @@
 	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs \
 	oft-carried by Naledian warscholars. Durable enough to catch avantyne to the shaft, without so much as a splinter - or so, they say."
 	force_wielded = 27
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff)
 	icon_state = "quarterstaff_silver"
-	associated_skill = /datum/skill/combat/staves
 	max_integrity = 250
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
@@ -1236,7 +1276,9 @@
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/gold
 	name = "golden quarterstaff"
-	desc = "The astute may point out that this staff is poorly designed. They would be correct. Gold, even low karat, is a bad material for a weapon. This one additionally manages to be doubly-sinned by having a heavy chunk of gold at the end. It's almost a polehammer. Practical? No. But it makes a statement."
+	desc = "The astute may point out that this staff is poorly designed. They would be correct. Gold, even low karat, is a bad material for a \
+	weapon. This one additionally manages to be doubly-sinned by having a heavy chunk of gold at the end. It's almost a polehammer. Practical? \
+	No. But it makes a statement."
 	icon_state = "quarterstaff_gold"
 	force = 23
 	force_wielded = 30
@@ -1247,7 +1289,8 @@
 
 /obj/item/rogueweapon/spear/partizan
 	name = "partizan"
-	desc = "A reinforced spear-like polearm of disputed origin: A studded shaft fitted with a steel spearhead with protrusions to aid in parrying. An extremely recent invention that is seeing increasingly more usage in the Western lands."
+	desc = "A reinforced spear-like polearm of disputed origin: A studded shaft fitted with a steel spearhead with protrusions to aid in \
+	arrying. An extremely recent invention that is seeing increasingly more usage in the Western lands."
 	force = 8	//Not a possible one-handed weapon. Also too heavy!
 	force_wielded = 30
 	possible_item_intents = list(SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
@@ -1283,7 +1326,8 @@
 
 /obj/item/rogueweapon/spear/boar/frei
 	name = "Aavnic lándzsa"
-	desc = "A regional earspoon lance with a carved handle, adorned with the colours of the Freifechters. These are smithed by the legendary armourers of Vyšvou and given to distinguished lancers upon their graduation."
+	desc = "A regional earspoon lance with a carved handle, adorned with the colours of the Freifechters. These are smithed \
+	by the legendary armourers of Vyšvou and given to distinguished lancers upon their graduation."
 	icon_state = "cityspear"
 	icon = 'icons/roguetown/weapons/special/freifechter.dmi'
 	max_blade_int = 300	//You're gonna parry a lot. You need it.
@@ -1291,7 +1335,9 @@
 
 /obj/item/rogueweapon/spear/boar/frei/pike
 	name = "banner of Szöréndnížina"
-	desc = "A steel pike with a white and red banner made to spend the time flowing proudly in the wind. A city founded by the free. A State made from the disciplined. Snowy peaks surround her strong walls, her gates make any attack a suicide. Fight, Szöréndnížina. Fight to lyve in a world that rejects you."
+	desc = "A steel pike with a white and red banner made to spend the time flowing proudly in the wind. A city founded by the \
+	free. A State made from the disciplined. Snowy peaks surround her strong walls, her gates make any attack a \
+	suicide. Fight, Szöréndnížina. Fight to lyve in a world that rejects you."
 	icon_state = "citybanner"
 	force = 18
 	force_wielded = 33
@@ -1300,12 +1346,15 @@
 
 /obj/item/rogueweapon/spear/boar/frei/pike/reformist
 	name = "banner of Psydonic Reformism"
-	desc = "A steel pike with an altered Psydonic cross representing the order of Primo Reformatio, crossed by a black stripe that symbolizes mourning. Mammukhus sum, qui castellum onere fero. Numquam genua flecto aut gradum amitto."
+	desc = "A steel pike with an altered Psydonic cross representing the order of Primo Reformatio, crossed by a black \
+	stripe that symbolizes mourning. Mammukhus sum, qui castellum onere fero. Numquam genua flecto aut gradum amitto."
 	icon_state = "reformistbanner"
 
 /obj/item/rogueweapon/spear/naginata
 	name = "naginata"
-	desc = "A traditional Kazengunese polearm, combining the reach of a spear with the cutting power of a curved blade. Due to the brittle quality of Kazengunese bladesmithing, weaponsmiths have adapted its blade to be easily replaceable when broken by a peg upon the end of the shaft."
+	desc = "A traditional Kazengunese polearm, combining the reach of a spear with the cutting power of a curved blade. Due \
+	to the brittle quality of Kazengunese bladesmithing, weaponsmiths have adapted its blade to be easily replaceable when \
+	broken by a peg upon the end of the shaft."
 	force = 16
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/spear/cut/naginata, SPEAR_BASH) // no stab for you little chuddy, it's a slashing weapon
@@ -1331,7 +1380,8 @@
 
 /obj/item/rogueweapon/spear/assegai/iron
 	name = "iron assegai"
-	desc = "A long spear originating from the southern regions of Naledi. Commoners living along the great river Bilomari are taught to use assegai so they can defend themselves against the Djinn."
+	desc = "A long spear originating from the southern regions of Naledi. Commoners living along the great river Bilomari are \
+	taught to use assegai so they can defend themselves against the Djinn."
 	max_integrity = 150
 	max_blade_int = 150
 	icon_state = "assegai_iron"
@@ -1339,7 +1389,8 @@
 
 /obj/item/rogueweapon/spear/assegai
 	name = "steel assegai"
-	desc = "A long spear originating from the southern regions of Naledi. Commoners living along the great river Bilomari are taught to use assegai so they can defend themselves against the Djinn."
+	desc = "A long spear originating from the southern regions of Naledi. Commoners living along the great river Bilomari \
+	are taught to use assegai so they can defend themselves against the Djinn."
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	max_integrity = 250
 	max_blade_int = 200
@@ -1349,7 +1400,8 @@
 
 /obj/item/rogueweapon/halberd/glaive/elvish
 	name = "elvish glaive"
-	desc = "An elven weapon that combines the elegant sweeping blade typical of Elven design with a lengthy handle. The true guardian of the forest realm."
+	desc = "An elven weapon that combines the elegant sweeping blade typical of Elven design with a lengthy handle. The true \
+	guardian of the forest realm."
 	icon_state = "elfglaive"
 	max_blade_int = 180 //Elven design makes it sharper
 	sellprice = 60

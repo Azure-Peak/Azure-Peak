@@ -1,0 +1,4 @@
+author: "kiwedespars"
+delete-after: True
+changes:
+  - bugfix: "miracles properly have cd against someone with an embed"
