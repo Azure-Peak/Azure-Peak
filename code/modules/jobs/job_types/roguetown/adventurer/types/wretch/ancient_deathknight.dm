@@ -55,7 +55,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 	backr = /obj/item/storage/backpack/rogue/satchel
 
-	H.taints_loot_on_death = TRUE //For that shitty-ass reanimated corpse gear look.
+	H.taints_loot = TRUE //For that shitty-ass reanimated corpse gear look.
 
 	H.adjust_blindness(-3)
 

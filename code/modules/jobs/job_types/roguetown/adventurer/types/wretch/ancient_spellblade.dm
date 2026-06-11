@@ -66,7 +66,7 @@
 	backr = /obj/item/rogueweapon/shield/heater
 	backl = /obj/item/storage/backpack/rogue/satchel
 
-	H.taints_loot_on_death = TRUE //For that shitty-ass reanimated corpse gear look.
+	H.taints_loot = TRUE //For that shitty-ass reanimated corpse gear look.
 
 	// DO NOT GIVE THEM MAGE CHALK. This is a SKELETON. Please don't let them easily
 	// grind the gameplay loop (without putting in the efforts/virtue to acquire a chalk)
