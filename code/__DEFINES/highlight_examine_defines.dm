@@ -27,20 +27,20 @@
 #define HERESYDESC_BAOTHA_ICON "It bears the icon of debauched Baotha"
 #define HERESYDESC_BAOTHA_MISC "A known design of Baotha"
 
-// Heresy item severity levels. The more "Severely" heretical an item is, the more alarmingly the item will be presented on examine.
-/** For items that are heretical and will get you in trouble if you're caught with them,
-* but not enough for people to jump straight to violence on sight without probable cause.
-* 
-* i.e. Ascendant amulets
-*/
-#define HERESY_SEVERITY_SUSPICIOUS 1
 /** For items that are both blatantly heretical AND actively dangerous.
 * Items should be marked with this if the expected response to seeing someone
 * carrying them is to quickly escalate to violence.
 * 
 * i.e. heretic armor, avantyne weapons
 */
-#define HERESY_SEVERITY_ALARMING 2
+#define HERESY_SEVERITY_ALARMING 1
+// Heresy item severity levels. The more "Severely" heretical an item is, the more alarmingly the item will be presented on examine.
+/** For items that are heretical and will get you in trouble if you're caught with them,
+* but not enough for people to jump straight to violence on sight without probable cause.
+* 
+* i.e. Ascendant amulets
+*/
+#define HERESY_SEVERITY_SUSPICIOUS 2
 
 // Heresy severity colors
 #define COLOR_HERESY_SEVERITY_SUSPICIOUS "#c49337"
