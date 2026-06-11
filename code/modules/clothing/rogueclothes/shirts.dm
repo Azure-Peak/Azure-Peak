@@ -342,8 +342,8 @@
 	salvage_amount = 2
 
 /obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown/aristocratotava
-	detail_color = "#ffffff"
-	color = "#1f1818ff"
+	detail_color = "#1f1818ff"
+	color = "#ffffffff"
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor
 	icon_state = "sailorblues"
