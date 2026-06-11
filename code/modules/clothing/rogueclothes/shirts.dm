@@ -341,6 +341,10 @@
 	salvage_result = /obj/item/natural/silk
 	salvage_amount = 2
 
+/obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown/aristocratotava
+	detail_color = "#ffffff"
+	color = "#ffffff"
+
 /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor
 	icon_state = "sailorblues"
 
