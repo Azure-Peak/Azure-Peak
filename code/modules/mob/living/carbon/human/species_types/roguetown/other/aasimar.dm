@@ -7,8 +7,8 @@
 	origin_default = /datum/virtue/origin/otava
 	origin = "Otava"
 	base_name = "Godtouched"
-	desc = "<b>Aasimar</b><br>\
-	Aasimar are born of a rare union between Humens and Angels. \
+	desc_title = "Aasimar"
+	desc = "Aasimar are born of a rare union between Humens and Angels. \
 	They bear the mark of their celestial touch through their many varying physical features. \
 	Their looks resemble the traditional characteristics of whichever of the Gods their Angel parent was associated with. \
 	Most commonly, Aasimar are similar to Humens, albeit taller, and commonly possess an uncanny beauty. \
@@ -91,7 +91,7 @@
 		"+1 PER" = STATKEY_PER,
 		"No Hunger & Thirst" = TRAIT_NOHUNGER
 	)
-	mechanics_explanations = list("Are the only species who lux is already purified when extracted. However, their lux takes far longer to regrow than every other species.")
+	mechanics_explanations = list("Are the only species whose lux is already purified when extracted. However, their lux takes far longer to regrow than every other species.")
 
 /datum/species/aasimar/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	..()

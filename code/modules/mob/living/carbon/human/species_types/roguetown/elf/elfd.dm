@@ -8,8 +8,8 @@
 	origin_default = /datum/virtue/origin/racial/underdark
 	origin = "Underdark"
 	base_name = "Elf"
-	desc = "<b>Dark Elf</b><br>\
-	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace their \
+	desc_title = "Dark Elf"
+	desc = "\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace their \
 	heritage to the ancient and mysterious Snow Elves. This species of elf, less frequently \
 	seen, are also referred to by some as \"drow,\" and have several key differences \
 	that set them apart from their more well-known and surface-dwelling kin. Chief among these \

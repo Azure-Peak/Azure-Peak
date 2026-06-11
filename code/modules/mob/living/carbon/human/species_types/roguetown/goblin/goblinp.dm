@@ -8,8 +8,8 @@
 	origin = "Gronn"
 	base_name = "Godtouched"
 	is_subrace = TRUE
-	desc = "<b>Goblin</b><br>\
-	Goblins are a short race of humanoids with large ears and typically green skin. \
+	desc_title = "Goblin"
+	desc = "Goblins are a short race of humanoids with large ears and typically green skin. \
 	Supposedly formed from the blood spilled by the savage War God Graggar’s conquest, \
 	the prehistory of the Goblin race is spent in mindless servitude to the Conqueror God. \
 	With Graggar’s defeat, Goblins were at last able to exercise free will, \

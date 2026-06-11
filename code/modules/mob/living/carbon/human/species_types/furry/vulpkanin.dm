@@ -8,8 +8,8 @@
 	origin_default = /datum/virtue/origin/grenzelhoft
 	origin = "Grenzelhoft"
 	base_name = "Beastvolk"
-	desc = "<b>Venardine</b><br>\
-	Based on the writings of the living Fietje von Zenitstadt: A subspecies of the more common \"Lupian\", found almost exclusively in thick forests.\
+	desc_title = "Venardine"
+	desc = "Based on the writings of the living Fietje von Zenitstadt: A subspecies of the more common \"Lupian\", found almost exclusively in thick forests.\
 	They are usually shorter and meeker, but in turn more perceptive than their Volf-like brethren. \
 	Their name is quite obvious, coming from the Venards they closely resemble. \
 	Venardines are often much more solitary than Lupians, lacking the fervent pack mentality of their parent race. \

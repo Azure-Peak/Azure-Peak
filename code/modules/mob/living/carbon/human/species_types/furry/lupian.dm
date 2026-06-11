@@ -8,8 +8,8 @@
 	origin_default = /datum/virtue/origin/hammerhold
 	origin = "Hammerhold"
 	base_name = "Beastvolk"
-	desc = "<b>Lupian</b><br>\
-	As written by an Archivist from times before yours: Lupians, known by many as Volfmen, are a very prominent type of Beastkin that is easily found all across Psydonia. \
+	desc_title = "Lupian"
+	desc = "As written by an Archivist from times before yours: Lupians, known by many as Volfmen, are a very prominent type of Beastkin that is easily found all across Psydonia. \
 	They are oft tall and slim, carrying with them a coat of discoloured short or medium length fur. \
 	Their bodies are naturally resilient and their minds as sharp as a Humen's own. \
 	A Lupian will usually display loyalty to a fault, as they are quite factional beings. \

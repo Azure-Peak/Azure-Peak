@@ -8,8 +8,8 @@
 	origin_default = /datum/virtue/origin/lirvas
 	origin = "Lirvas"
 	base_name = "Zard"
-	desc = "<b>Kobold</b><br>\
-	Short in stature and typically scrawny, these little lizards make up for it in their natural agility. People typically stereotype them as thieves, though..."
+	desc_title = "Kobold"
+	desc = "Short in stature and typically scrawny, these little lizards make up for it in their natural agility. People typically stereotype them as thieves, though..."
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT

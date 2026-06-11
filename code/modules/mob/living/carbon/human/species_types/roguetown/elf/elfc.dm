@@ -10,8 +10,8 @@
 	base_name = "Elf"
 	sub_name = "Sun Elf"
 
-	desc = "<b>Sun Elf</b><br>\
-	Native to the vast region of Raneshen, Sun Elves are an elven subspecies descended \
+	desc_title = "Sun Elf"
+	desc = "Native to the vast region of Raneshen, Sun Elves are an elven subspecies descended \
 	from the followers of the Günayan Crusade who settled in the region a millenium \
 	ago. Tradition holds that Astrata guided their ancestors on a holy mission to carve out \
 	a divine Dominion of the Sun, one that would purge all darkness with Astrata's holy light.<br><br>\
@@ -116,9 +116,6 @@
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
 	)
-
-	mechanics_explanations = list("Are immune to being turned into vampires, werewolves, or deadites.",
-	"No matter how much their corpses rot, they will never rise as a deadite.")
 
 	gender_swapping = TRUE
 

@@ -8,6 +8,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/clothes_id //id for clothes
 	var/name	// this is the fluff name. these will be left generic (such as 'Lizardperson' for the lizard race) so servers can change them to whatever
 	var/desc
+	var/desc_title
 	var/list/mechanics_explanations // if this species has unique mechanics, explain each of them here. try to keep separate mechanics separated as individual list items
 	var/default_color = "#FFF"	// if alien colors are disabled, this is the color that will be used by that race
 	var/limbs_icon_m
@@ -2484,3 +2485,15 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	for(var/tutorial in mechanics_explanations)
 		ret += "<br>- [tutorial]"
 	return ret
+
+/datum/species/proc/get_string_bonus_traits()
+	var/list/bonuses = list()
+	for (var/trait in inherent_traits)
+		// THIS is how we avoid showing hidden traits? Really?? Surely there's a better way than this?!
+		if(!(trait in GLOB.roguetraits))
+			continue
+		bonuses.Add(trait)
+	if(length(bonuses))
+		return jointext(bonuses, " | ")
+	else
+		return null

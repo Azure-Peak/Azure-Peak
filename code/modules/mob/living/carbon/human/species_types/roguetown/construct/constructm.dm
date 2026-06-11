@@ -8,8 +8,8 @@
 	origin = "Naledi"
 	base_name = "Godtouched"
 	is_subrace = TRUE
-	desc = "<b>Metallic Construct</b><br>\
-	Masterworks of artifice, metal constructs are as the name implies- entirely constructed by mortal hands. They are beings not of flesh and blood, but cold metal and the arcyne. Constructs are said to originate from works of Zizo, and they hail from the far-off lands of the Southern Empty- a great city of artifice, where the only artificers capable of understanding what is necessary to create the constructs live. For some reason, they have found themselves travelling out of the empty, as of late. Children of the Resonator Siphon."
+	desc_title = "Metallic Construct"
+	desc = "Masterworks of artifice, metal constructs are as the name implies- entirely constructed by mortal hands. They are beings not of flesh and blood, but cold metal and the arcyne. Constructs are said to originate from works of Zizo, and they hail from the far-off lands of the Southern Empty- a great city of artifice, where the only artificers capable of understanding what is necessary to create the constructs live. For some reason, they have found themselves travelling out of the empty, as of late. Children of the Resonator Siphon."
 	skin_tone_wording = "Material"
 	use_skin_tone_wording_for_examine = FALSE
 	default_color = "FFFFFF"
@@ -100,11 +100,8 @@
 		"Can consume ingots, powerful rocks, or gemstones in order to regenerate wounds.",
 		"While on the brink of death, can be temporarily stabilized by sticks or rocks.",
 		"Can easily attach any prosthetic limbs to their bodies, including their own when they are lost.",
-		"Are immune to poisoning, but vulnerable to electrocution.",
-		"Are immune to pain stuns, (screaming and collapsing when in immense pain).",
-		"Do not need to drink, eat or breathe.",
-		"Are not harmed by blood loss, but can still lose and regain blood.",
-		"No matter how much their corpses rot, they will never rise as a deadite.")
+		"Can mine rocky terrain by trying to walk into it while in Combat Mode and while in STRONG stance.",
+		"Are vulnerable to electrocution.")
 
 /datum/species/construct/metal/check_roundstart_eligible()
 	return TRUE

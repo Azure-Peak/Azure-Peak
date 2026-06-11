@@ -8,6 +8,7 @@
 	origin_default = /datum/virtue/origin/unknown
 	origin = "The Seven Winds" // I am going to be doing a larger PR with the permission and use of Sarkness lore. Let us just please get this bug fixed.
 	base_name = "Beastvolk"
+	desc_title = "Fluvian"
 	desc = "Many comparisons have been made to the common moths in an attempt to describe this unique species. From the appetite for clothing to the disconcertingly insectoid appearance, the name 'Moth' is forever stamped onto the common vocabulary. The comparison, however, falls short on the matter of flight."
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS,HAIR)
 	possible_ages = ALL_AGES_LIST

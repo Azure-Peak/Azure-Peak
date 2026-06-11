@@ -326,9 +326,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	ResetJobs()
 	if(user)
 		if(pref_species.desc)
-			var/bonuses_info = span_racialstatinfo(pref_species.get_string_bonus_stats())
+			var/bonus_stats = span_racialstatinfo(pref_species.get_string_bonus_stats())
+			var/traits_list = pref_species.get_string_bonus_traits()
+			var/bonus_traits = traits_list && length(traits_list) ? "<br>" + span_racialstatinfo(traits_list) : null
 			var/mechanics = pref_species.mechanics_explanations ? span_smallgreen(pref_species.get_string_mechanics_explanations()) : null
-			to_chat(user, "[pref_species.desc]<br>[bonuses_info][mechanics]")
+			var/description2print  = fieldset_block(span_big("<b><font color='yellow'>[pref_species.desc_title]</font></b>"), "[pref_species.desc]<br><br>[bonus_stats][bonus_traits][mechanics]", "speciesdesc_block")
+			to_chat(user, description2print)
 		to_chat(user, span_red("Classes reset."))
 	random_character(gender, FALSE, FALSE)
 	accessory = "Nothing"

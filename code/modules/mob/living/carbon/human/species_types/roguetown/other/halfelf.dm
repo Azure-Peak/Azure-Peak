@@ -7,8 +7,8 @@
 	psydonic = TRUE
 	is_subrace = TRUE
 	base_name = "Humen"
-	desc = "<b>Half Elf</b><br>\
-	The child of an Elf and Humen, Half-Elves are generally frowned \
+	desc_title = "Half Elf"
+	desc = "The child of an Elf and Humen, Half-Elves are generally frowned \
 	upon by the more conservatively minded. However, as racial tensions lower, \
 	the rate of Half-Elf births has continues to increase. So common has it become that some scholars \
 	worry that someday it may be impossible to distinguish the Humens and Elves from one another. \

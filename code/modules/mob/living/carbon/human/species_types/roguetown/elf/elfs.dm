@@ -6,8 +6,8 @@
 	id = "elfw"
 	psydonic = TRUE
 	sub_name = "Wood Elf"
-	desc = "<b>Wood Elf: Guardians of the Grove</b><br>\
-	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace \
+	desc_title = "Wood Elf: Guardians of the Grove"
+	desc = "\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace \
 	their heritage to the ancient and mysterious Snow Elves. This particular species \
 	of elf are what most imagine when they hear the word, and are also known among \
 	the elder races as \"Wood-Elves\". Considering their diverse history, it is extremely \

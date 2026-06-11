@@ -8,8 +8,8 @@
 	origin = "Aavnr"
 	base_name = "Humen"
 	is_subrace = TRUE
-	desc = "<b>Half Orcs</b><br>\
-	With the Ironmask clan on a centuries-long warpath to consolidate all orcs beneath their banner, \
+	desc_title = "Half Orc"
+	desc = "With the Ironmask clan on a centuries-long warpath to consolidate all orcs beneath their banner, \
 	crushed orc tribes have lost their menfolk, and war-widows have been scattered to the hinterlands. \
 	Between humen civilization and orc savagery, orc-women opting for exile over dishonor have become \
 	more common visitors to fur trading posts and prospecting camps, eventually leading to half-orcs \

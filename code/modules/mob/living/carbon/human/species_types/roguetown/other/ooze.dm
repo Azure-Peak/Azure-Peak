@@ -1,8 +1,8 @@
 /datum/species/ooze
 	name = "Murkling"
 	id = "ooze"
-	desc = "<b>Murkling</b><br>\
-	Few know the true origins of the Murklings. Ancient records place their beginnings deep within the cold caverns of the Underdark \
+	desc_title = "Murkling"
+	desc = "Few know the true origins of the Murklings. Ancient records place their beginnings deep within the cold caverns of the Underdark \
 	where primordial ooze infested tunnels and defended its spawning pits with relentless hostility. \
 	For centuries, Dark Elves and Dwarven delvers alike sealed these regions away, leaving the living mire undisturbed. \
 	Only within the last century did the ooze begin to change. \
@@ -102,7 +102,7 @@
 		)
 	
 	mechanics_explanations = list("Have no bones to break. However, upon suffering a severe blunt wound, or when a limb would experience a bone fracture, the limb melts. Lost limbs similarly melt off.",
-		"Can regenerate lost limbs by sleeping, at a great cost to their bodily nutrition."
+		"Can regenerate lost limbs by sleeping, at a great cost to their bodily nutrition.",
 		"Have uniquely colored blood that matches the color of their bodies.")
 
 ////// ORGAN SPRITES, provided by VelSlime
@@ -175,6 +175,3 @@
 
 /datum/species/ooze/random_surname()
 	return
-
-/datum/species/ooze/get_string_bonus_stats()
-	return ..() + " | Easy Dismember | Limb Regrowth | Inhumen Digestion"

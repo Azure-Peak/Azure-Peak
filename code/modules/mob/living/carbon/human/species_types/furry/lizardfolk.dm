@@ -7,8 +7,8 @@
 	origin_default = /datum/virtue/origin/lirvas
 	origin = "Lirvas"
 	base_name = "Zard"
-	desc = "<b>Zardman</b><br>\
-	Zardmen are semi-aquatic reptilian humanoids. \
+	desc_title = "Zardman"
+	desc = "Zardmen are semi-aquatic reptilian humanoids. \
 	Their flesh is covered in scales varying in color from dark green to shades of brown and gray. \
 	Taller than humans and powerfully built, zardmen are often between 6 and 7 feet tall. \
 	Zardmen have non-prehensile muscular tails that grow to three or four feet in length, and these are used for balance. \

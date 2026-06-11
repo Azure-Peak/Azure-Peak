@@ -8,8 +8,8 @@
 	origin = "Etrusca"
 	base_name = "Godtouched"
 	is_subrace = TRUE
-	desc = "<b>Tiefling</b><br>\
-	The offspring of demons with mortal races, a consequence of demonic incursions into the mortal realm and dark pacts. \
+	desc_title = "Tiefling"
+	desc = "The offspring of demons with mortal races, a consequence of demonic incursions into the mortal realm and dark pacts. \
 	Their origins dating back to the demonic invasion of Archdevil Vheslyn who pillaged and ravaged the mortal lands and its people before being stopped by Psydon. \
 	These offspring of demon and mortal races came to be known as 'Tieflings', largely despised by most people for centuries for their unnatural origins and appearances. \
 	It was only recently that they became more tolerated, even if the Church still watches them with a weary eye. \
