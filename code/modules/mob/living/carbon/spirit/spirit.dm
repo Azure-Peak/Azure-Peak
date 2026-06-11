@@ -212,7 +212,8 @@
 		return FALSE
 
 	if(HAS_TRAIT(corpse, TRAIT_VAMPIRE_TORPOR))
-		return FALSE
+		REMOVE_TRAIT(corpse, TRAIT_VAMPIRE_TORPOR, TRAIT_GENERIC)
+		user.visible_message(span_warning("The body within twitches, trembles, hits against the grave and then... stillness."))
 
 	if(ishuman(corpse))
 		var/mob/living/carbon/human/human_corpse = corpse

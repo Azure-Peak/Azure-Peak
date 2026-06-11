@@ -107,10 +107,15 @@
 	var/notreally = FALSE
 
 	if(!gibbed)
-		if(mind?.has_antag_datum(/datum/antagonist/vampire))
+		if(mind?.has_antag_datum(/datum/antagonist/vampire) && vampire_resurrect_chances) // You only have 1 chance by default. You gain 1 chance per person you frag through blood drinking.
 			begin_vampire_torpor()
+			vampire_resurrect_chances--
 			notreally = TRUE
-			to_chat(src, span_artery("...Wryyyyy..."))
+			to_chat(src, span_artery("<i>...Wryyyyy...</i>"))
+			playsound(src, 'sound/vo/mobs/ghost/death.ogg', 15, FALSE, -1)
+		else
+			to_chat(src, span_artery("<i>Ashes, ashes.<br>They all.<br>Fall.<br>Down.</i>"))
+			playsound(src, 'sound/magic/psydonmusicbox.ogg', 15)
 
 	if(!gibbed)
 		/*
@@ -266,21 +271,21 @@
 		return
 	if(stat != DEAD)
 		return
-	if(!HAS_TRAIT(src, TRAIT_VAMPIRE_TORPOR)) // this way we can give the Inquisition some way to prevent them from coming back for real, cause church can just resurrect-gib them anyway.
+	if(!HAS_TRAIT(src, TRAIT_VAMPIRE_TORPOR)) // Removing the Torpor trait during regen will also stop them from reviving. Intended for Inquisition doohickeys in the future.
 		return
 
 	var/progress_gain = 1 SECONDS
 
-	// Decapitation blocks recovery, poor man's anti-vamp method until some samaritan reattaches your head and puts you in a coffin
+	// Decapitation functions to completely stop the process.
 	var/obj/item/bodypart/head/H = get_bodypart(BODY_ZONE_HEAD)
 	if(!H)
 		progress_gain = 0
 
-	// Sunlight blocks recovery, duh
+	// Direct sunlight should stop the process too.
 	if(is_in_torpor_sunlight())
 		progress_gain = 0
 
-	// Coffins / graves accelerate, let's hope people don't suddenly become hellsings about it and powergame how to kill vampires for real
+	// Coffins and graves accelerate the timer. A cross, however, will properly round-remove a vampire and ash them.
 	if(progress_gain)
 		if(istype(loc, /obj/structure/closet/crate/coffin))
 			progress_gain *= 2
@@ -332,7 +337,6 @@
 	revive(full_heal = FALSE, admin_revive = TRUE)
 	emote("cackle")
 
-	apply_status_effect(/datum/status_effect/debuff/deadite_grace)
 	apply_status_effect(/datum/status_effect/vampire_spawn_protection)
 	REMOVE_TRAIT(src, TRAIT_VAMPIRE_TORPOR, TRAIT_GENERIC)
 

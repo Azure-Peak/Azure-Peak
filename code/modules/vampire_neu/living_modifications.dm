@@ -282,7 +282,7 @@
 		if(!HAS_TRAIT(src, TRAIT_DEATHCOMA))
 			to_chat(src, span_notice("You enter the horrible slumber of deathless Torpor. You will heal until you are renewed."))
 			ADD_TRAIT(src, TRAIT_DEATHCOMA, TRAIT_VAMPIRE)
-		heal_overall_damage(5, 5) // slowing this down because I could just insta-heal like I'm a pokemon in a poke-center, lmao. Previous value was (20,20)
+		heal_overall_damage(12, 4) // slowing this down because I could just insta-heal like I'm a pokemon in a poke-center, lmao. Previous value was (20,20) for Brute/Burn. Slower burn heal to simulate fire weakness.
 		//adjust_bloodpool(10)
 		heal_wounds(10)
 	if(HAS_TRAIT(src, TRAIT_DEATHCOMA) && (total_damage <= 0 || (!istype(coffin) || !(src in coffin.contents))))

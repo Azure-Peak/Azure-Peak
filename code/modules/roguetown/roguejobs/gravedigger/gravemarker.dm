@@ -76,22 +76,7 @@
 
 /obj/structure/gravemarker/OnCrafted(dir, mob/user)
 	icon_state = "gravemarker[rand(1,3)]"
-
-	var/pacified = FALSE
-	var/failed_torpor = FALSE
-
 	for(var/obj/structure/closet/dirthole/hole in loc)
-
-		for(var/mob/living/L in hole)
-			if(HAS_TRAIT(L, TRAIT_VAMPIRE_TORPOR))
-				failed_torpor = TRUE
-
 		if(pacify_coffin(hole, user))
-			pacified = TRUE
-
-	if(pacified)
-		to_chat(user, span_notice("I feel their soul finding peace..."))
-	else if(failed_torpor)
-		to_chat(user, span_warning("I feel their body finding peace...")) // :3c
-
+			to_chat(user, span_notice("I feel their soul finding peace..."))
 	return ..()

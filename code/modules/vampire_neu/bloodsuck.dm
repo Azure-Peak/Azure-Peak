@@ -107,11 +107,15 @@
 			victim.death()
 			victim.adjustBruteLoss(-50, TRUE)
 			victim.adjustFireLoss(-50, TRUE)
+			visible_message(span_artery("You drink deeply from their Lux... Another step towards true immortality."))
+			vampire_resurrect_chances++
 			return
 		else if(victim.blood_volume < BLOOD_VOLUME_SURVIVE && victim.stat != DEAD)
 			to_chat(src, span_warning("This sad sacrifice for your own pleasure affects something deep in your mind."))
 			AdjustMasquerade(-1)
 			victim.death()
+			visible_message(span_artery("You drink deeply from their Lux... Another step towards true immortality."))
+			vampire_resurrect_chances++
 			return
 
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
@@ -203,6 +207,8 @@
 		sire.adjust_bloodpool(VITAE_PER_UNIQUE_CONVERSION_REJECT)
 		ADD_TRAIT(src, TRAIT_REFUSED_VAMP_CONVERT, REF(sire))
 		vampire_conversion_prompt_active = FALSE
+		sire.visible_message(span_artery("You drink deeply from their Lux... Another step towards true immortality."))
+		sire.vampire_resurrect_chances++
 		return
 
 	if(stat == DEAD)
@@ -232,6 +238,8 @@
 
 	mind?.add_antag_datum(new_antag)
 	VDrinker.thrall_count++
+	sire.visible_message(span_artery("You drink deeply from their Lux... Another step towards true immortality."))
+	sire.vampire_resurrect_chances++
 	adjust_bloodpool(VAMP_CONVERT_BLOOD_GAIN)
 	apply_status_effect(/datum/status_effect/incapacitating/stun, VAMP_CONVERT_POST_STUN)
 
