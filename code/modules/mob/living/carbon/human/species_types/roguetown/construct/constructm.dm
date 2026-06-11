@@ -96,7 +96,7 @@
 
 	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
 
-	mechanics_explanations = list("Their wounds cannot be mended with needles or surgery, but instead with mechanical repairs. Light injuries can be mended with just a hammer, but heavier injuries will require a pair of tongs or a wrench held in the off hand for the hammer to work.",
+	mechanics_explanations = list("Their wounds cannot be mended with needles or surgery, but instead with mechanical repairs. Light wounds can be mended with just a hammer, but more severe injuries will require a pair of tongs or a wrench held in the off hand for the hammer to work.",
 		"Can consume ingots, powerful rocks, or gemstones in order to regenerate wounds.",
 		"While on the brink of death, can be temporarily stabilized by sticks or rocks.",
 		"Can easily attach any prosthetic limbs to their bodies, including their own when they are lost.",
