@@ -237,7 +237,7 @@
 				H.grant_language(/datum/language/kazengunese) //Duh
 				backl = /obj/item/storage/backpack/rogue/satchel/black
 
-		var/proficiencies = list("Decorated Sabre + Maille Training + 1 WIL", "Decorated Arming Sword + Maille Training + 1 WIL", "Decorated Dagger + Maille Training + 1 WIL", "Recurve Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER", "Extra Coin + Expert Appraiser + Intellectual", "Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training", "Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER", "Thieves Jargon + Expert Climbing + Journeyman Sneaking + Keen Ears + Cicerone + Deceiving Meakness + 1 PER")
+		var/proficiencies = list("Decorated Sabre + Maille Training + 1 WIL", "Decorated Rapier + Maille Training + 1 WIL", "Decorated Arming Sword + Maille Training + 1 WIL", "Decorated Dagger + Maille Training + 1 WIL", "Recurve Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER", "Extra Coin + Expert Appraiser + Intellectual", "Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training", "Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER", "Thieves Jargon + Expert Climbing + Journeyman Sneaking + Keen Ears + Cicerone + Deceiving Meakness + 1 PER")
 		var/proficiency_choice = input(H, "Choose your proficiency.", "WHAT IS THY TALENT?") as anything in proficiencies
 		switch(proficiency_choice)
 			if("Decorated Sabre + Maille Training + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
@@ -245,6 +245,15 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
 				beltl = /obj/item/rogueweapon/scabbard/sword/noble
 				r_hand = /obj/item/rogueweapon/sword/sabre/dec
+				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
+				H.change_stat(STATKEY_WIL, 1)
+				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
+			if("Decorated Rapier + Maille Training + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
+				beltl = /obj/item/rogueweapon/scabbard/sword/noble
+				r_hand = /obj/item/rogueweapon/sword/rapier/dec
 				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
