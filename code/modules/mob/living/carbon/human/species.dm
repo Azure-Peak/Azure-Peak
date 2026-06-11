@@ -8,7 +8,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/clothes_id //id for clothes
 	var/name	// this is the fluff name. these will be left generic (such as 'Lizardperson' for the lizard race) so servers can change them to whatever
 	var/desc
-	var/mechanics_explanation // if this species has unique mechanics, explain them here
+	var/list/mechanics_explanations // if this species has unique mechanics, explain each of them here. try to keep separate mechanics separated as individual list items
 	var/default_color = "#FFF"	// if alien colors are disabled, this is the color that will be used by that race
 	var/limbs_icon_m
 	var/limbs_icon_f
@@ -2457,7 +2457,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 /datum/species/proc/get_types_to_preload()
 	return get_organs(FALSE)
 
-/datum/species/proc/get_string_bonus_stats(pre_span = TRUE)
+/datum/species/proc/get_string_bonus_stats()
 	var/list/stats_to_abbreviations = list(
 		STAT_STRENGTH = "STR",
 		STAT_PERCEPTION = "PER",
@@ -2476,3 +2476,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return jointext(bonuses, " | ")
 	else
 		return "No racial stat changes"
+
+/datum/species/proc/get_string_mechanics_explanations()
+	if(!mechanics_explanations)
+		return null
+	var/ret = ""
+	for(var/tutorial in mechanics_explanations)
+		ret += "<br>- [tutorial]"
+	return ret

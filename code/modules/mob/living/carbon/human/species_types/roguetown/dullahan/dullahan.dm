@@ -141,6 +141,11 @@
 	)
 
 	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
+	mechanics_explanations = list("Can harmlessly detach their own head by aiming for the head and clicking themselves with an \
+		empty hand on TOUCH intent. Others can remove their head (painfully only) by GRABbing them aggressively by the head and \
+		TWISTing it. Can put only their own head back on, (by themselves or with assistance)",
+		"Do not need to drink, eat or breathe.",
+		"Are not harmed by blood loss, but can still lose and regain blood.")
 
 	stress_examine = TRUE
 	stress_desc = span_red("Accursed. I should keep my distance...")
