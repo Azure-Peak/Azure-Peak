@@ -15,8 +15,7 @@
 	When compared to the average Humen, they have strangely colored skin and are more physically frail. \
 	Because of their upbringing, they make for natural conduits for godly powers. \
 	Azure Peak's populace holds them with a mixture of uneasy mixture of fear and respect. \
-	Due to their celestial nature, it is widely believed that an Aasimar's death is a bad omen...<br>\
-	(+1 FOR, +1 Stat of their choice, or Lack of Hunger & Thirst)"
+	Due to their celestial nature, it is widely believed that an Aasimar's death is a bad omen..."
 
 	max_age = "???"
 
@@ -92,6 +91,7 @@
 		"+1 PER" = STATKEY_PER,
 		"No Hunger & Thirst" = TRAIT_NOHUNGER
 	)
+	mechanics_explanations = list("Are the only species who lux is already purified when extracted. However, their lux takes far longer to regrow than every other species.")
 
 /datum/species/aasimar/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	..()
@@ -153,3 +153,6 @@
 
 /datum/species/aasimar/random_surname()
 	return
+
+/datum/species/aasimar/get_string_bonus_stats()
+	return ..() + " | CHOOSE: +1 bonus stat of your choosing, OR No Hunger & Thirst"

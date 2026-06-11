@@ -117,6 +117,8 @@
 		/datum/body_marking/bun,
 	)
 
+	mechanics_explanations = list("Are immune to being turned into vampires, werewolves, or deadites.",
+	"No matter how much their corpses rot, they will never rise as a deadite.")
 
 	gender_swapping = TRUE
 
@@ -183,3 +185,6 @@
 
 /datum/species/elf/sun/random_surname()
 	return " [pick(world.file2list("strings/rt/names/elf/elfwlast.txt"))]"
+
+/datum/species/elf/sun/get_string_bonus_stats()
+	return "CHOOSE: +1 bonus stat of your choosing, OR Astratan Affinity (Tier 0 Miracles, Astrata patron only)"

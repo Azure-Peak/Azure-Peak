@@ -142,10 +142,12 @@
 
 	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
 	mechanics_explanations = list("Can harmlessly detach their own head by aiming for the head and clicking themselves with an \
-		empty hand on TOUCH intent. Others can remove their head (painfully only) by GRABbing them aggressively by the head and \
+		empty hand on TOUCH intent and on STRONG stance. Others can remove their head (painfully only) by GRABbing them aggressively by the head and \
 		TWISTing it. Can put only their own head back on, (by themselves or with assistance)",
+		"While decapitation does not kill them, they are decapitated more easily than other races.",
 		"Do not need to drink, eat or breathe.",
-		"Are not harmed by blood loss, but can still lose and regain blood.")
+		"Are not harmed by blood loss, but can still lose and regain blood.",
+		"No matter how much their corpses rot, they will never rise as a deadite.")
 
 	stress_examine = TRUE
 	stress_desc = span_red("Accursed. I should keep my distance...")
