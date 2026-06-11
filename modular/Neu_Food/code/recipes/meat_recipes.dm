@@ -141,6 +141,7 @@
 	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/nitzel
 	time_per_step = 3 SECONDS
+	hidden = TRUE
 
 /datum/food_recipe/schnitzel
 	name = "Schnitzel"
@@ -148,6 +149,7 @@
 	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/schnitzel
 	time_per_step = 3 SECONDS
+	hidden = TRUE
 
 /datum/food_recipe/chickentender
 	name = "Chicken Tender"
@@ -155,10 +157,79 @@
 	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/chickentender
 	time_per_step = 3 SECONDS
+	hidden = TRUE
 
 /datum/food_recipe/wienernitzel
-	name = "Wienernitzel"
+	name = "Wiener Nitzel"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage
 	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/wienernitzel
 	time_per_step = 3 SECONDS
+	hidden = TRUE
+
+/datum/food_recipe/sausage
+	name = "Sausage"
+	base_item = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/rabbit,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry,
+	)
+	ingredients = list(
+		list(
+			/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
+			/obj/item/reagent_containers/food/snacks/fat,
+		)
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage
+	time_per_step = 3 SECONDS
+
+/datum/food_recipe/tartar
+	name = "Tartar"
+	base_item = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/rabbit,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry,
+	)
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/egg
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/tartar
+	time_per_step = 3 SECONDS
+
+/datum/food_recipe/spider_meatball
+	name = "Spider Meatball"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/meatball
+	time_per_step = 3 SECONDS
+	restricted_message = "You lack knowledge of underdark delicacies!"
+
+/datum/food_recipe/spider_meatball/user_can_make(mob/user)
+	return isdarkelf(user)
+
+/datum/food_recipe/spider_surprise
+	name = "Spider Surprise"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider
+	ingredients = list(
+		/obj/item/reagent_containers/powder/flour
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise
+	restricted_message = "You lack knowledge of underdark delicacies!"
+
+/datum/food_recipe/spider_surprise/user_can_make(mob/user)
+	return isdarkelf(user)
+
+/datum/food_recipe/crabcake
+	name = "Crab Cake"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/crab
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/butterdoughslice
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/crabcakeraw
+
