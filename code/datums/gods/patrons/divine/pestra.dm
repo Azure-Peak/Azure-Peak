@@ -30,7 +30,7 @@
 	)
 
 // Near a well, cross, within the physicians, within the heartbeast's sanctum, or within the church
-/datum/patron/divine/pesta/can_pray(mob/living/follower)
+/datum/patron/divine/pestra/can_pray(mob/living/follower)
 	. = ..()
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))

@@ -363,3 +363,78 @@
       to use them.
   scarrmu:
   - rscadd: light armour option for sojourner + jman sneak
+2026-06-10:
+  BurpleBineapple:
+  - balance: The longsword's alt-grip intents have been modified. Daze and Impale
+      are now rigid intents that can be interrupted but not parried/dodged
+  - balance: Mordhau reduces your defense by -2. Mordhau now has a 0.8x penalty instead
+      of 0.6x on most swords.
+  - bugfix: Church longswords inherit from the base longsword's sharpness instead
+      of using outdated values.
+  Eagletanker:
+  - rscadd: astratan priests get a special robe. Because The Sun Tyrant Protects.
+  FreeStylaLT:
+  - bugfix: Fixed invisibility spells / miracles not working correctly.
+  - bugfix: Fixed rclick emotes not showing up on the user correctly.
+  KatTheFox:
+  - rscdel: Removed the hidden sixteenth god, Pesta
+  Ollanius:
+  - rscadd: RMBing the new Witch's Hat now allows you to adjust the brim, revealing
+      your eyeline from the southern face.
+  - rscadd: 'Ports over PR #4095''s stuff. All credit to Failgirl!'
+  - balance: Hookswords, quarterstaves and regular staves (that scale off the 'staves'
+      skill) now inherit a new intent, 'disarm'. This allows them to skillfully disarm
+      an opponent of their current weapon, if they're afflicted with the OFF-BALANCE
+      debuff.
+  Quinalion:
+  - bugfix: Joybringer debuff now clears all hallucination stacks when removed.
+  - balance: Joybringer debuff duration increased from 3 seconds to 15 seconds.
+  - rscadd: Rose Ring received a sprite and now removes the joybringer debuff when
+      worn.
+  Ryan180602:
+  - rscadd: off-fov footsteps to keen ears/blind
+  - bugfix: embedchances being inversed.
+  - bugfix: embedded projectiles sometimes disappearing
+  WeNeedMorePhoron:
+  - balance: Shock runes no longer hard stun and just applies the 6 seconds LBolt
+      plus a bit of lightning, Other runes no longer hard stun, have a longer slowdown,
+      Rebalanced Fire runes to be slightly stronger and frost rune to be slightly
+      weaker
+  - bugfix: NPC no longer turns gears on their body into scavenged on death, only
+      those they spawn with.
+  - server: Disabled non stall TD log dump
+  - rscadd: Splits Migrant Wave into two tracks of regular & special, which now roll
+      independently. Two additional track (Triumph Buy and Event) also exists
+  - rscadd: Greatly improved the migrant wave triumph buy interfaces and the user
+      experience in general
+  - rscadd: Removed the multiple manually defined downgrade waves. Instead, each wave
+      have required role(s), optional roles, and a minimum of required optional roles
+      to make it much cleaner in code
+  - rscadd: Each wave that is rolled will take 3 minutes to form up, and if it fails,
+      will refund any triumph buy or disband, no longer occupying the wave.
+  - rscadd: Simplified the migrant wave code.
+  - rscadd: Reduced alpha on dark vision so that those with less gamma on their monitors
+      can still see.
+  - balance: Goblin eyes no longer grant darkvision to pre-empt powerful gaming.
+  bearrrrrrrr:
+  - rscadd: sahir can now pick between two shamshir or a single staff
+  borneblood:
+  - balance: Adjusted adven Vizier values and limited choices.
+2026-06-11:
+  FreeStylaLT:
+  - balance: Wave Animation is now longer
+  Ryan180602:
+  - balance: poleaxe stab has 2-tile sweetspot and is delayed. but has 1x damfactor
+      instead of 0.9x.
+  TankTheBirb:
+  - bugfix: Made sure all witches get the scholars bag for ingredient gathering.
+  - bugfix: made Mystagogue and Old Magick witches properly spawn with their spellbooks.
+  - rscdel: removed chalk from godsblood witches because it was a choking hazard.
+  borneblood:
+  - bugfix: Fixes accel's deaccel having the wrong value
+  - bugfix: Restores a lost functionality from another PR
+  - bugfix: Raze no longer dusts alive mobs
+  changelingonberry:
+  - admin: flavor text button in player panel
+  kiwedespars:
+  - bugfix: miracles properly have cd against someone with an embed

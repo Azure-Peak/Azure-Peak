@@ -332,7 +332,8 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 		// Sustained elevated tick dilation: catches the "15-40% TD sustained for N seconds" case.
 		// Uses SStime_track.time_dilation_avg_fast (already a percentage, smoothed over ~few seconds).
-		if(SStime_track && SStime_track.time_dilation_avg_fast >= CONFIG_GET(number/sustained_td_threshold_pct))
+		var/sustained_td_threshold = CONFIG_GET(number/sustained_td_threshold_pct)
+		if(sustained_td_threshold > 0 && SStime_track && SStime_track.time_dilation_avg_fast >= sustained_td_threshold)
 			if(!td_elevated_since)
 				td_elevated_since = REALTIMEOFDAY
 			else if(REALTIMEOFDAY - td_elevated_since >= CONFIG_GET(number/sustained_td_duration))
