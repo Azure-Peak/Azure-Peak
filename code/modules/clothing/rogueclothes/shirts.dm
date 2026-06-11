@@ -343,7 +343,7 @@
 
 /obj/item/clothing/suit/roguetown/shirt/dress/gown/wintergown/aristocratotava
 	detail_color = "#ffffff"
-	color = "#ffffff"
+	color = "#1f1818ff"
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor
 	icon_state = "sailorblues"
