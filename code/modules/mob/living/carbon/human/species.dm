@@ -2458,7 +2458,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 /datum/species/proc/get_types_to_preload()
 	return get_organs(FALSE)
 
-/datum/species/proc/get_string_bonus_stats()
+/** Gets a string listing off all the stat changes made by a race.
+*
+* - `return_null_if_no_stats` : If no bonus stats are found, returns null instead of "No racial stat bonuses."
+* - `end_with_glue` : If any bonus stats are found, returns this string with the jointext glue string appended (`" | "`)."
+*/
+/datum/species/proc/get_string_bonus_stats(return_null_if_no_stats = FALSE, end_with_glue = FALSE)
 	var/list/stats_to_abbreviations = list(
 		STAT_STRENGTH = "STR",
 		STAT_PERCEPTION = "PER",
@@ -2474,9 +2479,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		var/abbrev = stats_to_abbreviations[stat]
 		bonuses.Add("[abbrev] [amt < 0 ? "-" : "+"][abs(amt)]")
 	if(length(bonuses))
-		return jointext(bonuses, " | ")
+		return jointext(bonuses, " | ") + (end_with_glue ? " | " : null)
 	else
-		return "No racial stat changes"
+		return return_null_if_no_stats ? null : "No racial stat changes"
 
 /datum/species/proc/get_string_mechanics_explanations()
 	if(!mechanics_explanations)
