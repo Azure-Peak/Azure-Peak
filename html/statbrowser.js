@@ -324,79 +324,117 @@ function draw_debug() {
   document.getElementById('statcontent').appendChild(table3);
 }
 
+var status_table = null;
+var status_line_sigs = [];
+
+function build_status_lines(parts) {
+  var lines = [];
+  for (var i = 0; i < parts.length; i++) {
+    var part = parts[i];
+    if (
+      Array.isArray(part) &&
+      typeof part[0] == 'string' &&
+      part[0].trim() == 'same_line' &&
+      lines.length
+    ) {
+      lines[lines.length - 1].push(part);
+    } else {
+      lines.push([part]);
+    }
+  }
+  return lines;
+}
+
+function render_status_line(line) {
+  var part = line[0];
+  var node;
+  if (!Array.isArray(part)) {
+    if (part.trim() == '') {
+      node = document.createElement('br');
+    } else {
+      node = document.createElement('div');
+      node.textContent = part;
+    }
+  } else if (part[0] == 'tod') {
+    node = document.createElement('div');
+    var todWord = part[1].charAt(0).toUpperCase() + part[1].slice(1);
+    var todText = part[2];
+    var todIdx = todText.indexOf(todWord);
+    if (todIdx === -1) {
+      node.textContent = todText;
+    } else {
+      node.appendChild(document.createTextNode(todText.slice(0, todIdx)));
+      var todSpan = document.createElement('span');
+      todSpan.className = 'tod-' + part[1];
+      todSpan.textContent = todWord;
+      node.appendChild(todSpan);
+      node.appendChild(
+        document.createTextNode(todText.slice(todIdx + todWord.length)),
+      );
+    }
+  } else if (part[0] == 'load') {
+    node = document.createElement('div');
+    if (part[3] !== undefined) {
+      node.appendChild(document.createTextNode(part[2]));
+      var loadSpan = document.createElement('span');
+      loadSpan.className = 'load-' + part[1];
+      loadSpan.textContent = part[3];
+      node.appendChild(loadSpan);
+    } else {
+      node.className = 'load-' + part[1];
+      node.textContent = part[2];
+    }
+  } else if (part[0].trim() == '') {
+    node = document.createElement('br');
+  } else {
+    node = document.createElement('div');
+    node.textContent = part[0];
+    if (part[2]) {
+      var a = document.createElement('a');
+      a.href = 'byond://?' + part[2];
+      a.textContent = part[1];
+      node.appendChild(a);
+    }
+  }
+  for (var i = 1; i < line.length; i++) {
+    if (node.tagName != 'DIV') continue;
+    var extra = line[i];
+    var link = document.createElement('a');
+    link.href = 'byond://?' + extra[2];
+    link.textContent = extra[1];
+    node.appendChild(link);
+  }
+  return node;
+}
+
 function draw_status() {
   if (!document.getElementById('Round Info')) {
     createStatusTab('Round Info');
     current_tab = 'Round Info';
   }
-  statcontentdiv.textContent = '';
-  var table = document.createElement('table');
-  for (var i = 0; i < status_tab_parts.length; i++) {
-    var part = status_tab_parts[i];
-    if (!Array.isArray(part)) {
-      var div = document.createElement('div');
-      if (part.trim() == '') {
-        table.appendChild(document.createElement('br'));
-      } else {
-        div.textContent = part;
-        table.appendChild(div);
-      }
-    } else {
-      var div;
-      if (part[0] == 'tod') {
-        div = document.createElement('div');
-        var todWord = part[1].charAt(0).toUpperCase() + part[1].slice(1);
-        var todText = part[2];
-        var todIdx = todText.indexOf(todWord);
-        if (todIdx === -1) {
-          div.textContent = todText;
-        } else {
-          div.appendChild(document.createTextNode(todText.slice(0, todIdx)));
-          var todSpan = document.createElement('span');
-          todSpan.className = 'tod-' + part[1];
-          todSpan.textContent = todWord;
-          div.appendChild(todSpan);
-          div.appendChild(
-            document.createTextNode(todText.slice(todIdx + todWord.length)),
-          );
-        }
-        table.appendChild(div);
-      } else if (part[0] == 'load') {
-        div = document.createElement('div');
-        if (part[3] !== undefined) {
-          div.appendChild(document.createTextNode(part[2]));
-          var loadSpan = document.createElement('span');
-          loadSpan.className = 'load-' + part[1];
-          loadSpan.textContent = part[3];
-          div.appendChild(loadSpan);
-        } else {
-          div.className = 'load-' + part[1];
-          div.textContent = part[2];
-        }
-        table.appendChild(div);
-      } else if (part[0].trim() == 'same_line') {
-        var a = document.createElement('a');
-        a.href = 'byond://?' + part[2];
-        a.textContent = part[1];
-        div.appendChild(a);
-      } else {
-        div = document.createElement('div');
-        if (part[0].trim() == '') {
-          table.appendChild(document.createElement('br'));
-        } else {
-          div.textContent = part[0];
-          if (part[2]) {
-            var a = document.createElement('a');
-            a.href = 'byond://?' + part[2];
-            a.textContent = part[1];
-            div.appendChild(a);
-          }
-          table.appendChild(div);
-        }
-      }
-    }
+  var lines = build_status_lines(status_tab_parts);
+  var sigs = [];
+  for (var i = 0; i < lines.length; i++) {
+    sigs.push(JSON.stringify(lines[i]));
   }
-  document.getElementById('statcontent').appendChild(table);
+  var attached = status_table && status_table.parentNode == statcontentdiv;
+  if (attached && sigs.length == status_line_sigs.length) {
+    for (var i = 0; i < sigs.length; i++) {
+      if (sigs[i] == status_line_sigs[i]) continue;
+      status_table.replaceChild(
+        render_status_line(lines[i]),
+        status_table.childNodes[i],
+      );
+    }
+  } else {
+    statcontentdiv.textContent = '';
+    status_table = document.createElement('table');
+    for (var i = 0; i < lines.length; i++) {
+      status_table.appendChild(render_status_line(lines[i]));
+    }
+    statcontentdiv.appendChild(status_table);
+  }
+  status_line_sigs = sigs;
   if (verb_tabs.length == 0 || !verbs) {
     Byond.command('Fix-Stat-Panel');
   }
@@ -877,7 +915,12 @@ function draw_stats() {
   document.getElementById('statcontent').appendChild(table);
 }
 
+var stats_sig = '';
+
 Byond.subscribeTo('update_stats', (payload) => {
+  var sig = JSON.stringify(payload);
+  if (sig == stats_sig) return;
+  stats_sig = sig;
   stats_tab_parts = payload;
   if (current_tab == 'Stats') {
     draw_stats();
