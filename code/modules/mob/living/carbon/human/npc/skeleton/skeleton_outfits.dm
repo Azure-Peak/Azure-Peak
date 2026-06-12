@@ -149,7 +149,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
-	if(prob(35)) //35% chance of a decrepit helm w/coif
+	if(prob(50)) //50% chance of a decrepit helm w/coif
 		head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
 		neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	if(prob(10))
@@ -203,7 +203,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/tights/sailor
-	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy
 	if(prob(10))
 		var/amulet_choice = rand(1, 4)
 		switch(amulet_choice)
@@ -244,7 +244,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnarie look, also weakpoint w/higher shield rate
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	belt = /obj/item/storage/belt/rogue/leather/rope
