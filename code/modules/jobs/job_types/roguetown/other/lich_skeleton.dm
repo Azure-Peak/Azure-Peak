@@ -857,7 +857,8 @@ LICH SKELETONS
 	icon_state = "ancientflamb"
 	smeltresult = /obj/item/ingot/aaslag
 	max_integrity = 150
-	force = 25
+	force = 20
+	force_wielded = 25 //Slightly lower than zwei wielded
 	blade_dulling = DULLING_SHAFT_CONJURED
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
