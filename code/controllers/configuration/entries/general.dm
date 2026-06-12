@@ -517,7 +517,7 @@
 /datum/config_entry/flag/profile_clear_on_dump
 
 /datum/config_entry/number/profiler_interval
-	config_entry_value = 300 SECONDS
+	config_entry_value = 0
 
 /datum/config_entry/number/drift_dump_threshold
 	config_entry_value = 4 SECONDS
@@ -526,7 +526,7 @@
 	config_entry_value = 15 SECONDS
 
 /datum/config_entry/number/sustained_td_threshold_pct
-	config_entry_value = 20
+	config_entry_value = 0
 	integer = FALSE
 
 /datum/config_entry/number/sustained_td_duration

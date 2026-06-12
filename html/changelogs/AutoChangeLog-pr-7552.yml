@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscadd: "Revenants can now select from skin, fur, scale, feather, or chitin descriptors, instead of just skin"

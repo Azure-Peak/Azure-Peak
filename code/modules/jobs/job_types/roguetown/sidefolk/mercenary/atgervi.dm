@@ -111,7 +111,7 @@
 	)
 
 /datum/outfit/job/roguetown/mercenary/atgervi_shaman
-	allowed_patrons = ALL_GRONNIC_PATRONS //Subvariant of the 'ALL_INHUMEN_PATRONS' tag, with Abyssor and Dendor as situational additions. Do not add any more to this, no matter what.
+	allowed_patrons = ALL_GRONNIC_PATRONS //Variant of the 'ALL_INHUMEN_PATRONS' tag, with Abyssor and Dendor as situational additions. Do not add any more to this, no matter what.
 
 /datum/outfit/job/roguetown/mercenary/atgervi_shaman/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -249,13 +249,14 @@
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	max_integrity = 300
 	experimental_inhand = FALSE
+	slot_flags = ITEM_SLOT_BACK_R
 
 /obj/item/rogueweapon/shield/atgervi/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
 			if("onback")
-				return list("shrink" = 0.7,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = -3,"ey" = 3,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+				return list("shrink" = 0.6,"sx" = -16,"sy" = -16,"nx" = -16,"ny" = -16,"wx" = -16,"wy" = -16,"ex" = -16,"ey" = -16,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/atgervi
 	name = "bearded axe"

@@ -437,7 +437,8 @@
 
 /datum/alt_grip/mordhau/sword
 	grip_intents = list(
-		SWORD_BASH,
+		/datum/intent/sword/strike/bash/mordhau,
+		/datum/intent/sword/strike/bash/mordhau/smash,
 		/datum/intent/effect/daze
 	)
 	onmobprop_overrides = list(
@@ -466,14 +467,16 @@
 		),
 	)
 	var_overrides = list(
-		"wlength" = WLENGTH_SHORT
+		"wlength" = WLENGTH_SHORT,
+		"wdefense" = -2
 	)
 
 /datum/alt_grip/mordhau/sword/frei
 
 /datum/alt_grip/mordhau/broadsword
 	grip_intents = list(
-		SWORD_BASH,
+		/datum/intent/sword/strike/bash/mordhau,
+		/datum/intent/sword/strike/bash/mordhau/smash,
 		/datum/intent/effect/daze
 	)
 	onmobprop_overrides = list(
@@ -504,7 +507,8 @@
 
 /datum/alt_grip/mordhau/greatsword
 	grip_intents = list(
-		SWORD_BASH,
+		/datum/intent/sword/strike/bash/mordhau,
+		/datum/intent/sword/strike/bash/mordhau/smash,
 		/datum/intent/effect/daze
 	)
 	onmobprop_overrides = list(
@@ -538,7 +542,8 @@
 
 /datum/alt_grip/mordhau/broadsword/forgotten_blade
 	grip_intents = list(
-		SWORD_BASH,
+		/datum/intent/sword/strike/bash/mordhau,
+		/datum/intent/sword/strike/bash/mordhau/smash,
 		/datum/intent/effect/daze
 	)
 	onmobprop_overrides = list(
@@ -571,6 +576,7 @@
 /datum/alt_grip/mordhau/broadsword/dream_broadsword
 	grip_intents = list(		
 		SWORD_BASH,
+		/datum/intent/sword/strike/bash/mordhau/smash,
 		/datum/intent/effect/daze
 	)
 	onmobprop_overrides = list(
@@ -605,8 +611,10 @@
 	two_handed = TRUE
 	skill_req = SKILL_LEVEL_JOURNEYMAN
 	grip_intents = list(
+		/datum/intent/sword/thrust/long/halfsword/jab,
+		SWORD_BASH,
+		/datum/intent/sword/thrust/long/deep/halfsword,
 		/datum/intent/sword/thrust/long/halfsword,
-		/datum/intent/sword/thrust/long/halfsword/jab
 	)
 	onmobprop_overrides = list(
 		"altgrip" = list(
@@ -637,8 +645,23 @@
 		"wlength" = WLENGTH_SHORT
 	)
 	additive_var_overrides = list(
-		"wdefense" = 2,
-		"force_wielded" = 5
+		"wdefense" = 2
+	)
+
+// Certain swords are especially nuclear like the Martyr and ZIZO swords.
+// The swords have 40 force. I cannot give it the 0.8x damage blunt or it's just a grand mace.
+// Instead, you get to keep new daze and the new stabs but not the new blunt intents or plate pen halfswording.
+/datum/alt_grip/halfsword/lesser
+	grip_intents = list(
+		/datum/intent/sword/thrust/long/halfsword/jab,
+		SWORD_BASH, 
+		/datum/intent/sword/thrust/long/deep/halfsword
+	)
+
+/datum/alt_grip/mordhau/sword/lesser
+	grip_intents = list(		
+		SWORD_BASH,
+		/datum/intent/effect/daze
 	)
 
 /datum/alt_grip/halfsword/frei
