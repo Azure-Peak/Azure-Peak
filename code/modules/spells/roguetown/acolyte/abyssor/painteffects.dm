@@ -2,7 +2,9 @@
 
 #define INK_MAX_HEAL_STACKS          6
 #define INK_STACK_LIFETIME           5 SECONDS
-#define INK_HEAL_BASE                2
+// 1.5 at one stack - 4 at max stacks
+// 1.5/2/2.5/3/3.5/4
+#define INK_HEAL_BASE                1
 #define INK_HEAL_PER_STACK           0.5
 
 /obj/effect/ink_trail
@@ -21,7 +23,7 @@
 
 	/// What buff is given if those attuned to trails walk over this one.
 	var/buff_payload = /datum/status_effect/buff/ink_surge
-	/// What debuff is given if those attuned to trails walk over this one.
+	/// What debuff is given if those NOT attuned to trails walk over this one.
 	var/debuff_payload = /datum/status_effect/debuff/ink_clog
 	/// Whether trails are consumed when a positive effect is applied.
 	var/consume_buff = FALSE
@@ -231,7 +233,7 @@
 
 	var/mob/living/carbon/human/H = owner
 	var/healing_amount = INK_HEAL_BASE + (stacks * INK_HEAL_PER_STACK)
-	var/obj/effect/temp_visual/heal/H_heal = new /obj/effect/temp_visual/heal_rogue/hag(get_turf(H))
+	var/obj/effect/temp_visual/heal_rogue/H_heal = new /obj/effect/temp_visual/heal_rogue(get_turf(H))
 	H_heal.color = COLOR_LUMINOUS_ABYSSAL_INK
 	H.adjustBruteLoss(-healing_amount, 0)
 	H.adjustFireLoss(-healing_amount, 0)

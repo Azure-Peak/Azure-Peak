@@ -215,7 +215,7 @@
 
 /datum/action/cooldown/spell/transmute_ink
 	name = "Purifying Wave"
-	desc = "Purify nearby abyssal paint trails within your immediate surroundings, turning them into healing trails for the attuned."
+	desc = "Purify nearby abyssal paint trails within your immediate surroundings, turning them into healing trails for the attuned. The more paint affected (up to 10), the longer the cooldown."
 	button_icon = 'icons/mob/actions/pestraspells.dmi'
 	button_icon_state = "spore_transmute"
 	sound = 'sound/magic/abyssor_splash.ogg'
