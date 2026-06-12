@@ -540,8 +540,8 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
 
-/obj/item/clothing/wrists/roguetown/bracers/matthios/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+/obj/item/clothing/wrists/roguetown/bracers/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
 
 //
 
@@ -561,8 +561,8 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
 
-/obj/item/clothing/wrists/roguetown/bracers/zizo/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+/obj/item/clothing/wrists/roguetown/bracers/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/wrists/roguetown/bracers/zizo/heavy
 	name = "fused avantyne bracers"
@@ -591,8 +591,8 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.
 
-/obj/item/clothing/wrists/roguetown/bracers/graggar/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+/obj/item/clothing/wrists/roguetown/bracers/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 /obj/item/clothing/wrists/roguetown/bracers/graggar/heavy
 	name = "vicious wristguards"

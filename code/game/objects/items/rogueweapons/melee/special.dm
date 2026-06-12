@@ -481,8 +481,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
 
-/obj/item/rogueweapon/handclaw/steel/graggaredged/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
+/obj/item/rogueweapon/handclaw/steel/graggaredged/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
 
 /obj/item/rogueweapon/handclaw/steel/graggarblunt
 	name = "vicious mantlebreaker"
@@ -502,8 +502,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
 
-/obj/item/rogueweapon/handclaw/steel/graggarblunt/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
+/obj/item/rogueweapon/handclaw/steel/graggarblunt/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
 
 ///Peasantry / Militia Weapon Pack///
 

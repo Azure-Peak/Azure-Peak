@@ -27,6 +27,17 @@
 #define HERESYDESC_BAOTHA_ICON "It bears the icon of debauched Baotha"
 #define HERESYDESC_BAOTHA_MISC "A known design of Baotha"
 
+// Misc items
+#define HERESYDESC_GRONN "A symbol of the North's archaic beliefs"
+
+
+/**
+* -========= HERESY ITEM SEVERITY LEVELS =========-
+*
+* The more "Severely" heretical an item is, the more
+* alarmingly the item will be presented on examine.
+*
+* -===============================================-*/
 /** For items that are both blatantly heretical AND actively dangerous.
 * Items should be marked with this if the expected response to seeing someone
 * carrying them is to quickly escalate to violence.

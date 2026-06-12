@@ -369,8 +369,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
-/obj/item/clothing/shoes/roguetown/boots/armor/graggar/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+/obj/item/clothing/shoes/roguetown/boots/armor/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/matthios
 	max_integrity = ARMOR_INT_SIDE_ANTAG
@@ -381,8 +381,8 @@
 	smeltresult = /obj/item/ingot/component/matthios
 	unenchantable = TRUE
 
-/obj/item/clothing/shoes/roguetown/boots/armor/matthios/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+/obj/item/clothing/shoes/roguetown/boots/armor/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/matthios/Initialize()
 	. = ..()
@@ -410,8 +410,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
-/obj/item/clothing/shoes/roguetown/boots/armor/zizo/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+/obj/item/clothing/shoes/roguetown/boots/armor/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/avantyne
 	name = "avantyne-threaded sabatons"
@@ -425,8 +425,8 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/avantyne
 
-/obj/item/clothing/shoes/roguetown/boots/armor/avantyne/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+/obj/item/clothing/shoes/roguetown/boots/armor/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	name = "light plated boots"

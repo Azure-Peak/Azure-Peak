@@ -233,7 +233,7 @@
 	if(istype(user) && user?.wear_ring == src)
 		user.remove_status_effect(/datum/status_effect/buff/griefflower)
 
-/obj/item/clothing/ring/griefflower/get_heresy_status()
+/obj/item/clothing/ring/griefflower/get_examine_highlight_status()
 	// The rosa ring is supposed to be 'discrete', so it doesn't look heretical to a casual observer.
 	return null
 

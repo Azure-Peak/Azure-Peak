@@ -320,8 +320,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
-/obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 // Heretic Graggar Full Plate
 /obj/item/clothing/suit/roguetown/armor/plate/full/graggar
@@ -335,8 +335,8 @@
 	smeltresult = /obj/item/ingot/component/graggar
 	unenchantable = TRUE
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/graggar/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+/obj/item/clothing/suit/roguetown/armor/plate/full/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/graggar/Initialize()
 	. = ..()
@@ -500,8 +500,8 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/matthios/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+/obj/item/clothing/suit/roguetown/armor/plate/full/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
@@ -525,8 +525,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
-/obj/item/clothing/suit/roguetown/armor/plate/fluted/zizo/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/zizo/dropped(mob/living/carbon/human/user)
 	return ..()
@@ -547,8 +547,8 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/zizo/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+/obj/item/clothing/suit/roguetown/armor/plate/full/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/zizo/dropped(mob/living/carbon/human/user)
 	. = ..()
@@ -566,8 +566,8 @@
 	armor = ARMOR_PLATE_BSTEEL
 	smeltresult = /obj/item/ingot/avantyne //Made from 'inert avantyne wafers', meaning that anyone can feasibly wear it.
 
-/obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/bikini
 	name = "full-plate corset"

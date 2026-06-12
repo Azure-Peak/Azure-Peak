@@ -1558,8 +1558,8 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "CLOAK", "RENDERED ASUNDER")
 
-/obj/item/clothing/cloak/graggar/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_GRAGGAR_MISC)
+/obj/item/clothing/cloak/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_MISC)
 
 /obj/item/clothing/cloak/graggar/heavy
 	name = "vicious halfcloak"

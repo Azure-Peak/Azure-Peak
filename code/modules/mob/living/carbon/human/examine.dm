@@ -1238,10 +1238,10 @@
 			return null
 
 /mob/living/proc/get_item_examine_label(obj/item/I, mob/living/user)
-	var/heresy_status = I.get_heresy_status()
+	var/examine_highlight_status = I.get_examine_highlight_status()
 	var/item_examine_string = I.get_examine_string(user)
-	if(heresy_status)
-		var/severity = heresy_status[1]
-		var/heresy_examine_tooltip = I.get_heresy_description(heresy_status) + "<br>" + I.get_heresy_severity_explanation(severity)
-		item_examine_string = SPAN_TOOLTIP_DANGEROUS_HTML(heresy_examine_tooltip, I.get_heresy_labeled_string(severity, item_examine_string))
+	if(examine_highlight_status)
+		var/severity = examine_highlight_status[1]
+		var/heresy_examine_tooltip = I.get_examine_highlight_description(examine_highlight_status) + "<br>" + I.get_examine_highlight_explanation(severity)
+		item_examine_string = SPAN_TOOLTIP_DANGEROUS_HTML(heresy_examine_tooltip, I.get_examine_highlight_labeled_string(severity, item_examine_string))
 	return item_examine_string

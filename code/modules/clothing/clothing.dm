@@ -644,22 +644,22 @@ BLIND     // can't see anything
 	return examine_text
 
 /obj/item/clothing/generate_tooltip(examine_text)
-	var/heresy_status = get_heresy_status()
+	var/examine_highlight_status = get_examine_highlight_status()
 	if(!armor)	// No armor
-		if(heresy_status)
-			var/severity = heresy_status[1]
-			var/labeled_string = get_heresy_labeled_string(severity, examine_text)
-			var/tooltip_string = get_heresy_tooltip_string(heresy_status)
+		if(examine_highlight_status)
+			var/severity = examine_highlight_status[1]
+			var/labeled_string = get_examine_highlight_labeled_string(severity, examine_text)
+			var/tooltip_string = get_examine_highlight_tooltip_string(examine_highlight_status)
 			return SPAN_TOOLTIP_DANGEROUS_HTML(tooltip_string, labeled_string)
 		else
 			return examine_text
 
 	// Fake armor
 	if(armor.getRating("slash") == 0 && armor.getRating("stab") == 0 && armor.getRating("blunt") == 0 && armor.getRating("piercing") == 0)
-		if(heresy_status)
-			var/severity = heresy_status[1]
-			var/labeled_string = get_heresy_labeled_string(severity, examine_text)
-			var/tooltip_string = get_heresy_tooltip_string(heresy_status)
+		if(examine_highlight_status)
+			var/severity = examine_highlight_status[1]
+			var/labeled_string = get_examine_highlight_labeled_string(severity, examine_text)
+			var/tooltip_string = get_examine_highlight_tooltip_string(examine_highlight_status)
 			return SPAN_TOOLTIP_DANGEROUS_HTML(tooltip_string, labeled_string)
 		else
 			return examine_text
@@ -679,13 +679,13 @@ BLIND     // can't see anything
 			resists += colorgrade_rating("🧪 ACID", armor.acid, elaborate = TRUE)
 		str += resists.Join(" | ")
 
-	if(heresy_status)
-		var/heresy_desc = get_heresy_description(heresy_status)
-		var/severity = heresy_status[1]
+	if(examine_highlight_status)
+		var/heresy_desc = get_examine_highlight_description(examine_highlight_status)
+		var/severity = examine_highlight_status[1]
 		if(heresy_desc)
 			str += "<br>" + heresy_desc
-			str += "<br>" + get_heresy_severity_explanation(severity)
-		examine_text = get_heresy_labeled_string(severity, examine_text)
+			str += "<br>" + get_examine_highlight_explanation(severity)
+		examine_text = get_examine_highlight_labeled_string(severity, examine_text)
 	else
 		//This makes it appear darker than the rest of examine text. Draws the cursor to it like to a Wetsquires.rt link.
 		examine_text = "<font color = '#808080'>[examine_text]</font>"

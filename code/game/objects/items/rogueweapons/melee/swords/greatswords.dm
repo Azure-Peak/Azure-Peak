@@ -345,8 +345,8 @@
 	max_integrity = 500
 	smeltresult = /obj/item/ingot/avantyne
 
-/obj/item/rogueweapon/greatsword/avantyne/get_heresy_status()
-	return list(EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+/obj/item/rogueweapon/greatsword/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/rogueweapon/estoc
 	name = "estoc"
