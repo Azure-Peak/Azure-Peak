@@ -226,7 +226,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
 			if(6)
 				H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
 
 /datum/outfit/job/roguetown/quest_miniboss/matthios/pre_equip(mob/living/carbon/human/H)
 	. = ..()
