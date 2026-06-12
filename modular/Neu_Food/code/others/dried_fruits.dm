@@ -1,5 +1,5 @@
 
-// -------------- RAISINS, GIBLETS, SWEETGLASS ------------------
+// -------------- RAISINS, SWEETGLASS ------------------
 /obj/item/reagent_containers/food/snacks/rogue/raisins
 	name = "raisins"
 	desc = "Jackberries that've been pruned of their juiciness, and turned into flavorful nuggets. Like the humble hardtack, so \
@@ -39,8 +39,8 @@
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/raspberry
-	name = "raspberried giblets"
-	desc = "Raspberried giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
+	name = "dried raspberries"
+	desc = "Dried raspberries that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
 	doused in a pot of boiling fat, it can birth 'sweetglass'; a shatteringly sweet candy, popular amongst the elders and children-of-nobility."
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	w_class = WEIGHT_CLASS_TINY
@@ -48,8 +48,8 @@
 	color = "#FF2A00"
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/strawberry
-	name = "strawberried giblets"
-	desc = "Strawberried giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
+	name = "dried strawberries"
+	desc = "Dried strawberries that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
 	doused in a pot of boiling fat, it can birth 'sweetglass'; a shatteringly sweet candy, popular amongst the elders and children-of-nobility."
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	w_class = WEIGHT_CLASS_TINY
@@ -57,8 +57,8 @@
 	color = "#FF2A00"
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/blackberry
-	name = "blackberried giblets"
-	desc = "Blackberried giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
+	name = "dried blackberries"
+	desc = "Dried blackberries that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
 	doused in a pot of boiling fat, it can birth 'sweetglass'; a shatteringly sweet candy, popular amongst the elders and children-of-nobility."
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	w_class = WEIGHT_CLASS_TINY
@@ -66,8 +66,8 @@
 	color = "#339AB7"
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/plum
-	name = "plummic giblets"
-	desc = "Plummic giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
+	name = "dried plums"
+	desc = "Dried plums that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
 	doused in a pot of boiling fat, it can birth 'sweetglass'; a shatteringly sweet candy, popular amongst the elders and children-of-nobility."
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	w_class = WEIGHT_CLASS_TINY
@@ -75,8 +75,8 @@
 	color = "#FF4F86"
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/pear
-	name = "peared giblets"
-	desc = "Peared giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
+	name = "dried pears"
+	desc = "Dried pears that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
 	doused in a pot of boiling fat, it can birth 'sweetglass'; a shatteringly sweet candy, popular amongst the elders and children-of-nobility."
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	w_class = WEIGHT_CLASS_TINY
@@ -84,8 +84,8 @@
 	color = "#EAB14F"
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/tangerine
-	name = "tangerined giblets"
-	desc = "Tangerined giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
+	name = "dried tangerines"
+	desc = "Dried tangerines that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
 	doused in a pot of boiling fat, it can birth 'sweetglass'; a shatteringly sweet candy, popular amongst the elders and children-of-nobility."
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	w_class = WEIGHT_CLASS_TINY
@@ -93,8 +93,8 @@
 	color = "#FF9321"
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/lemon
-	name = "lemony giblets"
-	desc = "Lemony giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
+	name = "dried lemons"
+	desc = "Dried lemons that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
 	doused in a pot of boiling fat, it can birth 'sweetglass'; a shatteringly sweet candy, popular amongst the elders and children-of-nobility."
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	w_class = WEIGHT_CLASS_TINY
@@ -102,8 +102,8 @@
 	color = "#FFBD30"
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/lime
-	name = "limey giblets"
-	desc = "Limey giblets that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
+	name = "dried limes"
+	desc = "Dried limes that've been pruned of their juiciness, and turned into flavorful nuggets that'll last forever. When combined with honey and \
 	doused in a pot of boiling fat, it can birth 'sweetglass'; a shatteringly sweet candy, popular amongst the elders and children-of-nobility."
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	w_class = WEIGHT_CLASS_TINY
@@ -114,7 +114,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass
 	name = "sweetglass"
-	desc = "A palmful of crystallized jackberry-giblets, popular amongst the elders and children-of-nobility. Their tendancy to only \
+	desc = "A palmful of crystallized dried raisins, popular amongst the elders and children-of-nobility. Their tendancy to only \
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
 	icon_state = "sweetglass5"
 	bitesize = 5
@@ -140,60 +140,60 @@
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/raspberry
-	name = "raspberried sweetglass"
-	desc = "A palmful of crystallized raspberry-giblets, popular amongst the elders and children-of-nobility. Their tendancy to only \
+	name = "raspberry sweetglass"
+	desc = "A palmful of crystallized dried raspberries, popular amongst the elders and children-of-nobility. Their tendancy to only \
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
 	color = "#FF2A00"
 	tastes = list("glassy raspberries" = 1, "sugary shards of tartness" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/strawberry
-	name = "strawberried sweetglass"
-	desc = "A palmful of crystallized strawberry-giblets, popular amongst the elders and children-of-nobility. Their tendancy to only \
+	name = "strawberry sweetglass"
+	desc = "A palmful of crystallized dried strawberries, popular amongst the elders and children-of-nobility. Their tendancy to only \
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
 	color = "#FF2A00"
 	tastes = list("glassy strawberries" = 1, "sugary shards of sweetness" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/blackberry
-	name = "blackberried sweetglass"
-	desc = "A palmful of crystallized blackberry-giblets, popular amongst the elders and children-of-nobility. Their tendancy to only \
+	name = "blackberry sweetglass"
+	desc = "A palmful of crystallized dried blackberries, popular amongst the elders and children-of-nobility. Their tendancy to only \
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
 	color = "#339AB7"
 	tastes = list("glassy blackberries" = 1, "sugary shards of sour-sweetness" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/plum
-	name = "plummic sweetglass"
-	desc = "A palmful of crystallized plum-giblets, popular amongst the elders and children-of-nobility. Their tendancy to only \
+	name = "plum sweetglass"
+	desc = "A palmful of crystallized dried plums, popular amongst the elders and children-of-nobility. Their tendancy to only \
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
 	color = "#FF4F86"
 	tastes = list("glassy plums" = 1, "sugary shards of honey-sweetness" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/pear
-	name = "peared sweetglass"
-	desc = "A palmful of crystallized pear-giblets, popular amongst the elders and children-of-nobility. Their tendancy to only \
+	name = "pear sweetglass"
+	desc = "A palmful of crystallized dried pears, popular amongst the elders and children-of-nobility. Their tendancy to only \
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
 	color = "#EAB14F"
 	tastes = list("glassy pears" = 1, "sugary shards of tarty-honeyiness" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/tangerine
 	name = "tangerine sweetglass"
-	desc = "A palmful of crystallized tangerine-giblets, popular amongst the elders and children-of-nobility. Their tendancy to only \
+	desc = "A palmful of crystallized dried tangerines, popular amongst the elders and children-of-nobility. Their tendancy to only \
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
 	color = "#FF9321"
 	tastes = list("glassy tangerines" = 1, "sugary shards of tarty-sweetness" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/lemon
-	name = "lemony sweetglass"
-	desc = "A palmful of crystallized lemon-giblets, popular amongst the elders and children-of-nobility. Their tendancy to only \
+	name = "lemon sweetglass"
+	desc = "A palmful of crystallized dried lemons, popular amongst the elders and children-of-nobility. Their tendancy to only \
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
 	color = "#FFBD30"
 	tastes = list("glassy lemons" = 1, "sugary shards of tarty-sourness" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/lime
-	name = "limey sweetglass"
-	desc = "A palmful of crystallized lemon-giblets, popular amongst the elders and children-of-nobility. Their tendancy to only \
+	name = "lime sweetglass"
+	desc = "A palmful of crystallized dried limes, popular amongst the elders and children-of-nobility. Their tendancy to only \
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
 	color = "#C3DB91"
-	tastes = list("glassy lemons" = 1, "sugary shards of sour-tartiness" = 1)
+	tastes = list("glassy limes" = 1, "sugary shards of sour-tartiness" = 1)
 
 // -------------- Trail-mix -----------------
 /obj/item/reagent_containers/food/snacks/rogue/trailmix
