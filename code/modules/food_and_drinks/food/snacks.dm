@@ -487,53 +487,27 @@ All foods are distributed among various categories. Use common sense.
 	var/nutrition = get_nutrition()
 	switch(nutrition)
 		if(0)
-			return "an inedible item"
+			return "An inedible item"
 		if(1 to BASE_NUTRIMENT_NUTRITION * NUTRITION_QUARTER_MEAL)
-			return "a quarter of a meal"
+			return "A quarter of a meal"
 		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_QUARTER_MEAL to BASE_NUTRIMENT_NUTRITION * NUTRITION_HALF_MEAL)
-			return "half a meal"
+			return "Half a meal"
 		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_HALF_MEAL to BASE_NUTRIMENT_NUTRITION * NUTRITION_THREE_QUARTER_MEAL)
-			return "three-quarters of a meal"
+			return "Three-quarters of a meal"
 		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_THREE_QUARTER_MEAL to BASE_NUTRIMENT_NUTRITION * NUTRITION_FULL_MEAL)
-			return "a full meal"
+			return "A full meal"
 		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_FULL_MEAL to BASE_NUTRIMENT_NUTRITION * NUTRITION_MEAL_AND_QUARTER)
-			return "a meal and a quarter"
+			return "A meal and a quarter"
 		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_MEAL_AND_QUARTER to BASE_NUTRIMENT_NUTRITION * NUTRITION_MEAL_AND_HALF)
-			return "a meal and a half"
+			return "A meal and a half"
 		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_MEAL_AND_HALF to BASE_NUTRIMENT_NUTRITION * NUTRITION_TWO_MEALS)
-			return "two meals"
+			return "Two meals"
 		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_TWO_MEALS to BASE_NUTRIMENT_NUTRITION * NUTRITION_TWO_AND_HALF_MEALS)
-			return "two-and-a-half meals"
+			return "Two-and-a-half meals"
 		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_TWO_AND_HALF_MEALS to BASE_NUTRIMENT_NUTRITION * NUTRITION_THREE_AND_HALF_MEALS)
-			return "three-and-a-half meals"
+			return "Three-and-a-half meals"
 		else
-			return "five meals or more"
-
-/obj/item/reagent_containers/food/snacks/proc/rotprocess_to_text()
-	var/rot_text = ""
-	if(!rotprocess)
-		return "This food does not rot."
-	switch(initial(rotprocess))
-		if(0 to SHELFLIFE_TINY)
-			rot_text = "This food will rot in less than a third of a dae."
-		if(SHELFLIFE_TINY to SHELFLIFE_SHORT)
-			rot_text = "This food will rot in half a dae."
-		if(SHELFLIFE_SHORT to SHELFLIFE_DECENT)
-			rot_text = "This food will last about a dae."
-		if(SHELFLIFE_DECENT to SHELFLIFE_LONG)
-			rot_text = "This food will last a dae and a half."
-		if(SHELFLIFE_LONG to SHELFLIFE_EXTREME)
-			rot_text = "This food will last three daes."
-	switch(-1 * warming / initial(rotprocess))
-		if(-INFINITY to 0.25)
-			rot_text += " It is very fresh."
-		if(0.25 to 0.5)
-			rot_text += " It is fairly fresh."
-		if(0.5 to 0.75)
-			rot_text += " It is starting to go stale."
-		if(0.75 to 1)
-			rot_text += " It is about to rot."
-	return rot_text
+			return "Five meals or more"
 
 /obj/item/reagent_containers/food/snacks/proc/food_examine_lines(mob/user)
 	var/list/parts = list()
@@ -543,7 +517,7 @@ All foods are distributed among various categories. Use common sense.
 		if(FARE_NEUTRAL)      parts += "Quality: Neutral"
 		if(FARE_FINE)         parts += "Quality: Fine"
 		if(FARE_LAVISH)       parts += "Quality: Lavish"
-	parts += get_nutrition_to_text()
+	parts += "Nutrition: [get_nutrition_to_text()]"
 	if(!portable)
 		parts += "Table: Required (For Nobles)"
 	if(!rotprocess)
@@ -552,10 +526,10 @@ All foods are distributed among various categories. Use common sense.
 		var/rot_label
 		switch(initial(rotprocess))
 			if(0 to SHELFLIFE_TINY)               rot_label = "Rot: Rots quickly"
-			if(SHELFLIFE_TINY to SHELFLIFE_SHORT)  rot_label = "Rot: lasts about half a dae"
-			if(SHELFLIFE_SHORT to SHELFLIFE_DECENT) rot_label = "Rot: lasts ~a dae"
-			if(SHELFLIFE_DECENT to SHELFLIFE_LONG)  rot_label = "Rot: lasts ~a dae and a half"
-			if(SHELFLIFE_LONG to SHELFLIFE_EXTREME) rot_label = "Rot: lasts ~three daes"
+			if(SHELFLIFE_TINY to SHELFLIFE_SHORT)  rot_label = "Rot: Lasts about half a dae"
+			if(SHELFLIFE_SHORT to SHELFLIFE_DECENT) rot_label = "Rot: Lasts a dae"
+			if(SHELFLIFE_DECENT to SHELFLIFE_LONG)  rot_label = "Rot: Lasts ~a dae and a half"
+			if(SHELFLIFE_LONG to SHELFLIFE_EXTREME) rot_label = "Rot: Lasts ~three daes"
 			else rot_label = "Rot: long shelf life"
 		switch(-1 * warming / initial(rotprocess))
 			if(-INFINITY to 0.25) rot_label += " - very fresh"
@@ -570,7 +544,7 @@ All foods are distributed among various categories. Use common sense.
 			parts += "looks great"
 
 	var/list/lines = list()
-	var/info = parts.Join(", ")
+	var/info = parts.Join(" | ")
 	lines += span_smallnotice("[info].")
 	switch(eat_effect)
 		if(/datum/status_effect/debuff/uncookedfood)

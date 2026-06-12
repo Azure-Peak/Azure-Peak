@@ -3,23 +3,34 @@
 	book_category = FOOD_CAT_BAKED
 
 /datum/food_recipe/dough/wet_flour
-	name = "Unfinished Dough"
+	name = "unfinished dough"
 	base_item = /obj/item/reagent_containers/powder/flour
 	ingredients = list(/datum/reagent/water = 10)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/dough_base
 	extra_steps = list("knead it by hand (left click with an empty hand on)")
 	hidden = TRUE
+	book_category = FOOD_CAT_DOUGHS
 
 /datum/food_recipe/dough/basic
-	name = "Dough"
+	name = "dough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/dough_base
 	ingredients = list(
 		/obj/item/reagent_containers/powder/flour
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/dough
+	book_category = FOOD_CAT_DOUGHS
+/datum/food_recipe/baked/buttered_dough
+	name = "buttered dough"
+	hidden = TRUE
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/dough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/butterslice,
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	book_category = FOOD_CAT_DOUGHS
 
 /datum/food_recipe/dough/raisin_bread
-	name = "Raisin Bread"
+	name = "raisin bread"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/dough
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/raisins
@@ -27,30 +38,33 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/rbread_half
 
 /datum/food_recipe/dough/strudel_form
-	name = "Strudel Dough"
+	name = "strudel dough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/dough
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/butterdough
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/strudeldough
+	book_category = FOOD_CAT_DOUGHS
 
 /datum/food_recipe/dough/flat
-	name = "Flatdough"
+	name = "flatdough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/dough
 	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/flatdough
 	time_per_step = 3 SECONDS
+	book_category = FOOD_CAT_DOUGHS
 
 /datum/food_recipe/dough/hardtack
-	name = "Hardtack"
+	name = "hardtack"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/flatdough
 	ingredients = list(COOKSTEP_SHARP = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw
 	result_amount = 2
 	time_per_step = 3 SECONDS
+	book_category = FOOD_CAT_DOUGHS
 
 /datum/food_recipe/dough/tomatoplate
-	name = "Tomatoplate Base"
+	name = "tomatoplate base"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/flatdough
 	ingredients = list(
 		list(
@@ -62,7 +76,7 @@
 	time_per_step = 3 SECONDS
 
 /datum/food_recipe/dough/cake_base
-	name = "Cake Base"
+	name = "cake base"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/egg
@@ -71,13 +85,14 @@
 	time_per_step = 3 SECONDS
 
 /datum/food_recipe/dough/muffin
-	name = "Muffindough"
+	name = "muffindough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
 	ingredients = list(/obj/item/kitchen/spoon = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/muffindough
+	book_category = FOOD_CAT_DOUGHS
 
 /datum/food_recipe/dough/pumpkin_loaf
-	name = "Pumpkin Loaf"
+	name = "pumpkin loaf"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
 	ingredients = list(
 		list(
@@ -89,7 +104,7 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinloaf_raw
 
 /datum/food_recipe/dough/jackberry_bread
-	name = "Jackberry Bread"
+	name = "jackberry bread"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue
@@ -98,7 +113,7 @@
 	time_per_step = 3 SECONDS
 
 /datum/food_recipe/dough/poisonberry_bread
-	name = "Jackberry Bread"
+	name = "jackberry bread"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison
@@ -108,19 +123,21 @@
 	hidden = TRUE
 
 /datum/food_recipe/dough/piedough
-	name = "Piedough"
+	name = "piedough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice
 	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/piedough
+	book_category = FOOD_CAT_DOUGHS
 
 /datum/food_recipe/dough/tartdough
-	name = "Tartdough"
+	name = "tartdough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice
 	ingredients = list(/obj/item/kitchen/spoon = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/tartdough
+	book_category = FOOD_CAT_DOUGHS
 
 /datum/food_recipe/dough/pumpkin_ball
-	name = "Pumpkin Ball"
+	name = "pumpkin ball"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice
 	ingredients = list(
 		list(
@@ -132,7 +149,7 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinball_raw
 
 /datum/food_recipe/dough/tangerine_biscuit
-	name = "Tangerine Biscuits"
+	name = "tangerine biscuits"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/fruit/tangerine
@@ -141,7 +158,7 @@
 	result_amount = 2
 
 /datum/food_recipe/dough/plum_biscuit
-	name = "Plum Biscuits"
+	name = "plum biscuits"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/fruit/plum
@@ -150,7 +167,7 @@
 	result_amount = 2
 
 /datum/food_recipe/dough/raisin_biscuit
-	name = "Raisin Biscuits"
+	name = "raisin biscuits"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/raisins
@@ -159,7 +176,7 @@
 	result_amount = 2
 
 /datum/food_recipe/dough/chocolate_biscuit
-	name = "Chocolate Biscuits"
+	name = "chocolate biscuits"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/chocolate
@@ -168,7 +185,7 @@
 	result_amount = 2
 
 /datum/food_recipe/dough/prezzel
-	name = "Prezzel"
+	name = "prezzel"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice
 	ingredients = list(COOKSTEP_SHARP = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/prezzel_raw
@@ -178,7 +195,7 @@
 	return isdwarf(user)
 
 /datum/food_recipe/dough/cheesebun
-	name = "Cheese Bun"
+	name = "cheese bun"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/doughslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/cheese
@@ -186,35 +203,37 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesebun_raw
 
 /datum/food_recipe/dough/combine_smalldough
-	name = "Dough (from Smalldough)"
+	name = "dough (from smalldough)"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/doughslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/doughslice
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/dough
+	book_category = FOOD_CAT_DOUGHS
 
 /datum/food_recipe/dough/crossbun
-	name = "Cross Bun"
+	name = "cross bun"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/doughslice
 	ingredients = list(/obj/item/clothing/neck/roguetown/psicross/astrata = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/crossbun_raw
 
 /datum/food_recipe/dough/psycrossbun
-	name = "Psycross Bun"
+	name = "psycross bun"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/doughslice
 	ingredients = list(/obj/item/clothing/neck/roguetown/psicross = COOKSTEP_TOOL)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/psycrossbun_raw
 
 /datum/food_recipe/dough/strudel_from_smalldough
-	name = "Strudel Dough (from Smalldough)"
+	name = "strudel dough (from smalldough)"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/doughslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/dough
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/strudeldough
+	book_category = FOOD_CAT_DOUGHS
 
 /datum/food_recipe/dough/tomatoplate_cheese
-	name = "Cheesed Tomatoplate"
+	name = "cheesed tomatoplate"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/cheese
@@ -222,7 +241,7 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_cheese
 
 /datum/food_recipe/dough/tomatoplate_sausage
-	name = "Sausage Tomatoplate"
+	name = "sausage tomatoplate"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_cheese
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/sausage
@@ -230,7 +249,7 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_sausage
 
 /datum/food_recipe/dough/tomatoplate_fish
-	name = "Fish Tomatoplate"
+	name = "fish tomatoplate"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_cheese
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/fish
@@ -238,7 +257,7 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_fish
 
 /datum/food_recipe/dough/tomatoplate_truffle
-	name = "Truffle Tomatoplate"
+	name = "truffle tomatoplate"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_cheese
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/truffles
@@ -246,7 +265,7 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_truffles
 
 /datum/food_recipe/dough/tomatoplate_poisontruffle
-	name = "Truffle Tomatoplate"
+	name = "truffle tomatoplate"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_cheese
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/toxicshrooms
@@ -255,7 +274,7 @@
 	hidden = TRUE
 
 /datum/food_recipe/dough/tomatoplate_onion
-	name = "Onion Tomatoplate"
+	name = "onion tomatoplate"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_cheese
 	ingredients = list(
 		list(
@@ -267,7 +286,7 @@
 	time_per_step = 3 SECONDS
 
 /datum/food_recipe/dough/tomatoplate_pear
-	name = "Pear Tomatoplate"
+	name = "pear tomatoplate"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_cheese
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/fruit/pear
@@ -280,63 +299,63 @@
 	required_station = null
 
 /datum/food_recipe/dough/handpie/mushroom
-	name = "Mushroom Handpie"
+	name = "mushroom handpie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/truffles
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/mushroom
 
 /datum/food_recipe/dough/handpie/fish
-	name = "Fish Handpie"
+	name = "fish handpie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/fish
 
 /datum/food_recipe/dough/handpie/meat
-	name = "Meat Handpie"
+	name = "meat handpie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/meat
 
 /datum/food_recipe/dough/handpie/crab
-	name = "Crab Handpie"
+	name = "crab handpie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/crab
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/crab
 
 /datum/food_recipe/dough/handpie/berry
-	name = "Berry Handpie"
+	name = "berry handpie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/berry
 
 /datum/food_recipe/dough/handpie/apple
-	name = "Apple Handpie"
+	name = "apple handpie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/apple
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/apple
 
 /datum/food_recipe/dough/handpie/potato
-	name = "Potato Handpie"
+	name = "potato handpie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/veg/potato_sliced
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/potato
 
 /datum/food_recipe/dough/handpie/cabbage
-	name = "Cabbage Handpie"
+	name = "cabbage handpie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/cabbage/rogue
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/cabbage
 
 /datum/food_recipe/dough/strudel
-	name = "Strudel"
+	name = "strudel"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/strudeldough
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/apple,
@@ -351,56 +370,56 @@
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/tartdough
 
 /datum/food_recipe/dough/dot_tart/tangerine
-	name = "Tangerine Dot Tart"
+	name = "tangerine dot tart"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/fruit/tangerine
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_tangerine
 
 /datum/food_recipe/dough/dot_tart/plum
-	name = "Plum Dot Tart"
+	name = "plum dot tart"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/fruit/plum
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_plum
 
 /datum/food_recipe/dough/dot_tart/blackberry
-	name = "Blackberry Dot Tart"
+	name = "blackberry dot tart"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_blackberry
 
 /datum/food_recipe/dough/dot_tart/raspberry
-	name = "Raspberry Dot Tart"
+	name = "raspberry dot tart"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/fruit/raspberry
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_raspberry
 
 /datum/food_recipe/dough/dot_tart/strawberry
-	name = "Strawberry Dot Tart"
+	name = "strawberry dot tart"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/fruit/strawberry
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_strawberry
 
 /datum/food_recipe/dough/dot_tart/pear
-	name = "Pear Dot Tart"
+	name = "pear dot tart"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/fruit/pear
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_pear
 
 /datum/food_recipe/dough/dot_tart/apple
-	name = "Apple Dot Tart"
+	name = "apple dot tart"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_apple
 
 /datum/food_recipe/dough/dot_tart/goldapple
-	name = "Ambrosia Dot Tart"
+	name = "ambrosia dot tart"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced/gold
 	)

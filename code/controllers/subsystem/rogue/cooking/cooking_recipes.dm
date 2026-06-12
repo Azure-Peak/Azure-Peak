@@ -36,6 +36,16 @@
 /datum/food_recipe/proc/user_can_make(mob/user)
 	return TRUE
 
+/datum/food_recipe/proc/get_wiki_key()
+	return "[type]"
+
+/datum/food_recipe/single_cook
+	required_station = null
+	var/wiki_key
+
+/datum/food_recipe/single_cook/get_wiki_key()
+	return wiki_key
+
 /datum/food_recipe/proc/step_accepts(entry, obj/item/I)
 	if(!entry || !I)
 		return FALSE
@@ -63,8 +73,6 @@
 			names += initial(p.name)
 		return "one of: [names.Join(", ")]"
 	var/atom/A = entry
-	if(ingredients[entry] == COOKSTEP_TOOL)
-		return "[initial(A.name)] (tool)"
 	return initial(A.name)
 
 /datum/food_recipe/proc/render_step_li(entry, mob/user)
@@ -124,13 +132,13 @@
 		for(var/atom/b as anything in base_item)
 			var/datum/food_recipe/br = SScooking?.get_producing_recipe(b)
 			var/bname = initial(b.name)
-			var/blabel = (br && !br.hidden) ? "<a href='byond://?src=[REF(get_recipe_wiki())];view_recipe=[br.type]'>[bname]</a>" : bname
+			var/blabel = (br && !br.hidden) ? "<a href='byond://?src=[REF(get_recipe_wiki())];view_recipe=[br.get_wiki_key()]'>[bname]</a>" : bname
 			base_names += "[icon2html(new b, user)] [blabel]"
 		html += "<p><b>Start with any of:</b> [base_names.Join(", ")]</p>"
 	else if(base)
 		var/datum/food_recipe/br = SScooking?.get_producing_recipe(base)
 		var/bname = initial(base.name)
-		var/blabel = (br && !br.hidden) ? "<a href='byond://?src=[REF(get_recipe_wiki())];view_recipe=[br.type]'>[bname]</a>" : bname
+		var/blabel = (br && !br.hidden) ? "<a href='byond://?src=[REF(get_recipe_wiki())];view_recipe=[br.get_wiki_key()]'>[bname]</a>" : bname
 		html += "<p><b>Start with:</b> [icon2html(new base, user)] [blabel]</p>"
 
 	var/list/steps = journey["steps"]
@@ -155,24 +163,107 @@
 			var/follow_html = ""
 			for(var/datum/food_recipe/F in follow_ups)
 				if(F.hidden) continue
-				follow_html += "<li><a href='byond://?src=[REF(get_recipe_wiki())];view_recipe=[F.type]'>[F.name]</a></li>"
+				follow_html += "<li><a href='byond://?src=[REF(get_recipe_wiki())];view_recipe=[F.get_wiki_key()]'>[F.name]</a></li>"
 			if(follow_html)
 				html += "<h3>Can be further prepared into:</h3><ul>[follow_html]</ul>"
 
 	return html
 
-/proc/food_nutrition_units(atom/food_path)
-	if(!ispath(food_path, /obj/item/reagent_containers/food/snacks))
-		return 0
-	var/obj/item/reagent_containers/food/snacks/proto = food_path
-	var/total = 0
-	var/list/declared = initial(proto.list_reagents)
-	if(islist(declared))
-		total += declared[/datum/reagent/consumable/nutriment] || 0
-	var/list/bonus = initial(proto.bonus_reagents)
-	if(islist(bonus))
-		total += bonus[/datum/reagent/consumable/nutriment] || 0
-	return total
+/datum/food_recipe/proc/render_step_data(entry)
+	if(entry == COOKSTEP_SHARP)
+		return list("kind" = "sharp")
+	if(ispath(entry, /datum/reagent))
+		var/amt = ingredients[entry]
+		var/datum/reagent/R = entry
+		return list("kind" = "reagent", "label" = "Add [amt] [UNIT_FORM_STRING(amt)] of [initial(R.name)]")
+	if(islist(entry))
+		var/list/options = list()
+		for(var/atom/opt as anything in entry)
+			options += list(list("icon" = "[initial(opt.icon)]", "icon_state" = initial(opt.icon_state), "name" = initial(opt.name)))
+		return list("kind" = "anyof", "options" = options)
+	var/atom/A = entry
+	var/is_tool = (ingredients[entry] == COOKSTEP_TOOL)
+	return list(
+		"kind" = is_tool ? "tool" : "item",
+		"icon" = "[initial(A.icon)]",
+		"icon_state" = initial(A.icon_state),
+		"name" = initial(A.name)
+	)
+
+/datum/food_recipe/proc/build_journey_data(depth = 0)
+	var/list/steps = list()
+	var/base_type = islist(base_item) ? base_item[1] : base_item
+	if(depth < 10)
+		var/datum/food_recipe/pre = SScooking?.get_producing_recipe(base_type)
+		if(pre && pre.hidden && pre != src)
+			var/list/pre_data = pre.build_journey_data(depth + 1)
+			base_type = pre_data["base"]
+			steps += pre_data["steps"]
+	for(var/i in 1 to length(ingredients))
+		steps += list(render_step_data(ingredients[i]))
+	for(var/note in extra_steps)
+		steps += list(list("kind" = "text", "label" = note))
+	return list("base" = base_type, "steps" = steps)
+
+/datum/food_recipe/proc/build_entry_data()
+	var/list/data = list()
+	data["type"] = "food"
+	data["name"] = name
+	data["time_per_step"] = time_per_step / 10
+
+	var/list/journey = build_journey_data()
+	var/base_type = journey["base"]
+	var/list/bases = list()
+
+	if(islist(base_item) && length(base_item) > 1)
+		for(var/atom/b as anything in base_item)
+			var/link = SScooking?.get_producer_key(b)
+			bases += list(list("icon" = "[initial(b.icon)]", "icon_state" = initial(b.icon_state), "name" = initial(b.name), "link" = link))
+	else if(base_type)
+		var/atom/B = base_type
+		var/link = SScooking?.get_producer_key(base_type)
+		bases += list(list("icon" = "[initial(B.icon)]", "icon_state" = initial(B.icon_state), "name" = initial(B.name), "link" = link))
+	data["bases"] = bases
+
+	var/list/steps = journey["steps"]
+	if(cook_method)
+		var/cook_label
+		switch(cook_method)
+			if(COOK_BAKE)
+				cook_label = "Bake it in an oven"
+			if(COOK_FRY)
+				cook_label = "Fry it in a pan over a hearth"
+			if(COOK_DEEPFRY)
+				cook_label = "Deep-fry it in a pot of hot oil"
+			if(COOK_BOIL)
+				cook_label = "Boil it in a pot of water"
+		if(cook_label)
+			steps += list(list("kind" = "cook", "label" = cook_label))
+	else if(needs_cooking)
+		steps += list(list("kind" = "cook", "label" = "Cook it over a hearth, or in an oven"))
+	data["steps"] = steps
+
+	if(result_type)
+		var/atom/R = result_type
+		data["result"] = list("icon" = "[initial(R.icon)]", "icon_state" = initial(R.icon_state), "name" = initial(R.name))
+		data["result_amount"] = result_amount
+		data["nutrition_html"] = describe_food_result(result_type)
+	else
+		data["result"] = null
+		data["result_amount"] = 1
+		data["nutrition_html"] = ""
+
+	var/list/follow_ups = list()
+	if(SScooking?.recipe_index && result_type)
+		var/list/fu_list = SScooking.recipe_index[result_type]
+		if(length(fu_list))
+			for(var/datum/food_recipe/F in fu_list)
+				if(F.hidden)
+					continue
+				follow_ups += list(list("name" = F.name, "path" = "[F.get_wiki_key()]"))
+	data["follow_ups"] = follow_ups
+
+	return data
 
 /proc/describe_food_result(atom/result_path)
 	if(!ispath(result_path, /obj/item/reagent_containers/food/snacks))
@@ -192,15 +283,9 @@
 		if(FARE_LAVISH)
 			lines += "Quality: Lavish."
 
-	var/nutriment_total = 0
 	var/list/declared_reagents = proto.list_reagents
-	if(islist(declared_reagents))
-		nutriment_total += declared_reagents[/datum/reagent/consumable/nutriment] || 0
-	var/list/declared_bonus = proto.bonus_reagents
-	if(islist(declared_bonus))
-		nutriment_total += declared_bonus[/datum/reagent/consumable/nutriment] || 0
-	if(nutriment_total > 0)
-		lines += "Nutrition: [nutrition_unit_label(nutriment_total)] ([nutriment_total] units)."
+	if(proto.get_nutrition() > 0)
+		lines += "Nutrition: [proto.get_nutrition_to_text()]."
 
 	var/list/other_reagents = list()
 	if(islist(declared_reagents))
@@ -219,11 +304,32 @@
 	if(extra_desc)
 		lines += "Bonus effect: [extra_desc]."
 
+	var/atom/baked_target = proto.cooked_type
+	var/atom/fried_target = proto.fried_type
+	if(baked_target == proto.type)
+		baked_target = null
+	if(fried_target == proto.type)
+		fried_target = null
+	if(baked_target && baked_target == fried_target)
+		lines += "Cooks into [initial(baked_target.name)] in an oven or pan."
+	else
+		if(baked_target)
+			lines += "Bakes into [initial(baked_target.name)]."
+		if(fried_target)
+			lines += "Fries into [initial(fried_target.name)]."
+	var/atom/deep_target = proto.deep_fried_type
+	if(deep_target && deep_target != proto.type)
+		lines += "Deep-fries into [initial(deep_target.name)]."
+
 	var/atom/slice_target = proto.slice_path
 	if(slice_target)
 		var/count = proto.slices_num || 1
-		var/slice_nutri = food_nutrition_units(slice_target)
-		var/slice_extra = slice_nutri > 0 ? " ([nutrition_unit_label(slice_nutri)] each)" : ""
+		var/slice_extra = ""
+		if(ispath(slice_target, /obj/item/reagent_containers/food/snacks))
+			var/obj/item/reagent_containers/food/snacks/slice_proto = new slice_target()
+			if(slice_proto.get_nutrition() > 0)
+				slice_extra = " ([slice_proto.get_nutrition_to_text()] each)"
+			qdel(slice_proto)
 		lines += "Can be cut into [count] x [initial(slice_target.name)][slice_extra]."
 
 	qdel(proto)
@@ -256,27 +362,4 @@
 		var/minutes = round(seconds / 60)
 		return "[minutes] minute[minutes == 1 ? "" : "s"]"
 	return "[seconds] seconds"
-
-/proc/nutrition_unit_label(amount)
-	if(amount >= NUTRITION_FIVE_MEALS)
-		return "five meals or more"
-	if(amount >= NUTRITION_THREE_AND_HALF_MEALS)
-		return "three-and-a-half meals"
-	if(amount >= NUTRITION_TWO_AND_HALF_MEALS)
-		return "two-and-a-half meals"
-	if(amount >= NUTRITION_TWO_MEALS)
-		return "two meals"
-	if(amount >= NUTRITION_MEAL_AND_HALF)
-		return "a meal and a half"
-	if(amount >= NUTRITION_MEAL_AND_QUARTER)
-		return "a meal and a quarter"
-	if(amount >= NUTRITION_FULL_MEAL)
-		return "a full meal"
-	if(amount >= NUTRITION_THREE_QUARTER_MEAL)
-		return "three-quarters of a meal"
-	if(amount >= NUTRITION_HALF_MEAL)
-		return "half a meal"
-	if(amount >= NUTRITION_QUARTER_MEAL)
-		return "a quarter of a meal"
-	return "a small bite"
 

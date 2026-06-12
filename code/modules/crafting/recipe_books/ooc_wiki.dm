@@ -101,7 +101,12 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	if(!user_states[ckey])
 		return
 	if(href_list["view_recipe"])
-		var/recipe_path = text2path(href_list["view_recipe"])
+		var/raw = href_list["view_recipe"]
+		if(SScooking?.auto_single_lookup[raw])
+			user_states[ckey]["recipe"] = raw
+			SStgui.update_uis(src)
+			return
+		var/recipe_path = text2path(raw)
 		if(recipe_path)
 			user_states[ckey]["recipe"] = recipe_path
 			SStgui.update_uis(src)
@@ -142,6 +147,7 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 		data["current_book_title"] = ""
 		data["current_recipe"] = null
 		data["recipe_detail_html"] = ""
+		data["recipe_entry_data"] = null
 		return data
 
 	var/list/state = user_states[ckey]
@@ -153,9 +159,16 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	data["current_recipe"] = cur_recipe ? "[cur_recipe]" : null
 
 	if(state["recipe"])
-		data["recipe_detail_html"] = get_cached_detail(state["recipe"], user)
+		var/detail = get_cached_detail(state["recipe"], user)
+		if(islist(detail))
+			data["recipe_entry_data"] = detail
+			data["recipe_detail_html"] = ""
+		else
+			data["recipe_detail_html"] = detail
+			data["recipe_entry_data"] = null
 	else
 		data["recipe_detail_html"] = ""
+		data["recipe_entry_data"] = null
 
 	return data
 
@@ -202,7 +215,11 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 			return TRUE
 
 		if("view_recipe")
-			var/recipe_path = text2path(params["path"])
+			var/raw = params["path"]
+			if(SScooking?.auto_single_lookup[raw])
+				ustate["recipe"] = raw
+				return TRUE
+			var/recipe_path = text2path(raw)
 			if(recipe_path)
 				ustate["recipe"] = recipe_path
 				return TRUE
@@ -230,17 +247,26 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 			if(should_hide_recipe(path))
 				continue
 			valid_paths += path
-	valid_paths = sortNames(valid_paths)
-	valid_paths = sortTim(valid_paths, GLOBAL_PROC_REF(cmp_recipe_path_priority))
-
 	var/list/recipes = list()
 	for(var/atom/entry_path as anything in valid_paths)
 		var/recipe_category = get_recipe_category(entry_path) || "All"
 		recipes += list(list(
 			"name" = recipe_path_name(entry_path),
 			"path" = "[entry_path]",
-			"category" = recipe_category
+			"category" = recipe_category,
+			"priority" = recipe_path_priority(entry_path)
 		))
+	if((/datum/food_recipe in types) && SScooking)
+		for(var/datum/food_recipe/single_cook/R as anything in SScooking.auto_singles)
+			if(R.hidden)
+				continue
+			recipes += list(list(
+				"name" = R.name,
+				"path" = R.wiki_key,
+				"category" = R.book_category,
+				"priority" = 0
+			))
+	recipes = sortTim(recipes, GLOBAL_PROC_REF(cmp_wiki_recipe_entries))
 	return recipes
 
 /proc/recipe_path_name(atom/path)

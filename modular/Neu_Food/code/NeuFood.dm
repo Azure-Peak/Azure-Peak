@@ -37,37 +37,56 @@
 		var/entry = active_recipe.ingredients[current_step]
 		. += span_smallnotice("Recipe: <b>[active_recipe.name]</b>. Next step: [active_recipe.step_label(entry)].")
 
+	var/list/prep = list()
+
 	var/list/possible = SScooking.recipe_index[src.type]
 	if(possible && possible.len)
 		var/list/recipe_links = list()
 		for(var/datum/food_recipe/R in possible)
 			if(R.hidden)
 				continue
-			recipe_links += "<a href='byond://?src=[REF(src)];view_wiki=[R.type]'>[R.name]</a>"
+			if(!length(R.ingredients))
+				continue
+			recipe_links += "<a href='byond://?src=[REF(src)];view_wiki=[R.get_wiki_key()]'>[R.name]</a> (starts with [R.step_label(R.ingredients[1])])"
 		if(length(recipe_links))
-			var/joined = recipe_links.Join(", ")
-			. += span_smallnotice("This could be used to prepare: [joined].")
+			prep += "This could be used to prepare: [recipe_links.Join(", ")]."
 
 	if(cooked_type)
 		var/obj/item/CT = cooked_type
-		. += span_smallnotice("It is prepared and ready to be <b>cooked</b> into [initial(CT.name)].")
+		prep += "Ready to be <b>cooked</b> into [initial(CT.name)]."
 	if(fried_type)
 		var/obj/item/FT = fried_type
-		. += span_smallnotice("It is prepared and ready to be <b>fried</b> into [initial(FT.name)].")
+		prep += "Ready to be <b>fried</b> into [initial(FT.name)]."
 	if(slice_path)
 		var/obj/item/ST = slice_path
-		. += span_smallnotice("It is prepared and ready to be <b>sliced</b> into [initial(ST.name)].")
+		prep += "Ready to be <b>sliced</b> into [initial(ST.name)]."
 
 	var/datum/food_recipe/producing = SScooking.get_producing_recipe(src.type)
 	if(producing && !producing.hidden)
-		. += span_smallnotice("(<a href='byond://?src=[REF(src)];view_wiki=[producing.type]'>View recipe</a> in the Encyclopedia.)")
+		. += span_smallnotice("(<a href='byond://?src=[REF(src)];view_wiki=[producing.get_wiki_key()]'>View recipe</a> in the Encyclopedia.)")
+
+	if(length(prep))
+		var/list/prep_lines = list()
+		for(var/line in prep)
+			prep_lines += "<span class='smallnotice'> - [line]</span>"
+		. += "<details><summary><span class='smallnotice'>Recipes</span></summary>[prep_lines.Join("<br>")]</details>"
 
 /obj/item/reagent_containers/food/snacks/rogue/Topic(href, href_list)
 	. = ..()
 	if(href_list["view_wiki"])
-		var/recipe_type = text2path(href_list["view_wiki"])
-		if(recipe_type)
-			get_recipe_wiki().show_for_recipe(usr, recipe_type)
+		var/key = href_list["view_wiki"]
+		var/datum/food_recipe/single_cook/auto = SScooking?.auto_single_lookup[key]
+		if(auto)
+			if(!auto.hidden)
+				get_recipe_wiki().show_for_recipe(usr, key)
+			return
+		var/recipe_type = text2path(key)
+		if(!ispath(recipe_type, /datum/food_recipe))
+			return
+		var/datum/food_recipe/R = recipe_type
+		if(initial(R.hidden) || is_abstract(recipe_type))
+			return
+		get_recipe_wiki().show_for_recipe(usr, recipe_type)
 
 /obj/item/reagent_containers/food/snacks/rogue/MiddleClick(mob/user)
 	. = ..()

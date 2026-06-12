@@ -17,12 +17,12 @@
 	required_station = null
 
 /datum/food_recipe/pie/bottom
-	name = "Pie Bottom"
+	name = "pie bottom"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/piedough
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/piebottom
 
 /datum/food_recipe/pie/fish
-	name = "Fish Pie"
+	name = "fish pie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish,
@@ -39,7 +39,7 @@
 	step_visuals = list(null, null, null, list(PIE_DMI, "fishpie_raw"))
 
 /datum/food_recipe/pie/meat
-	name = "Meat Pie"
+	name = "meat pie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef,
@@ -56,7 +56,7 @@
 	step_visuals = list(null, null, null, list(PIE_DMI, "meatpie_raw"))
 
 /datum/food_recipe/pie/spider
-	name = "Spider Pie"
+	name = "spider pie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/spider,
@@ -78,7 +78,7 @@
 	return isdarkelf(user)
 
 /datum/food_recipe/pie/pumpkin
-	name = "Pumpkin Pie"
+	name = "pumpkin pie"
 	ingredients = list(
 		list(
 			/obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced,
@@ -98,7 +98,7 @@
 	step_visuals = list(null, null, null, list(PIE_DMI, "pumpkinpie"))
 
 /datum/food_recipe/pie/pot
-	name = "Pot Pie"
+	name = "pot pie"
 	ingredients = list(
 		POT_PIE_FILLER,
 		POT_PIE_FILLER,
@@ -115,7 +115,7 @@
 	step_visuals = list(null, null, null, list(PIE_DMI, "pieuncooked"))
 
 /datum/food_recipe/pie/apple
-	name = "Apple Pie"
+	name = "apple pie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/apple,
 		/obj/item/reagent_containers/food/snacks/grown/apple,
@@ -132,7 +132,7 @@
 	step_visuals = list(null, null, null, list(PIE_DMI, "pieuncooked"))
 
 /datum/food_recipe/pie/berry
-	name = "Berry Pie"
+	name = "berry pie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
@@ -149,7 +149,7 @@
 	step_visuals = list(null, null, null, list(PIE_DMI, "pieuncooked"))
 
 /datum/food_recipe/pie/poisonberry
-	name = "Berry Pie"
+	name = "berry pie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison,
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
@@ -167,7 +167,7 @@
 	hidden = TRUE
 
 /datum/food_recipe/pie/crab
-	name = "Crab Pie"
+	name = "crab pie"
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/crab,
 		list(
