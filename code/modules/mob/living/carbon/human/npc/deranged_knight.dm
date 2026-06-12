@@ -229,7 +229,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
-	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios
 	pants = /obj/item/clothing/under/roguetown/platelegs/matthios
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/matthios
@@ -239,6 +239,22 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
 	r_hand = /obj/item/rogueweapon/flail/peasantwarflail/matthios
 	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios //IS THIS TRVE?!
+
+	if(prob(50))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(2)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(3)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
+			if(4)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/evil() //IS THIS TRVE?!
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
 
 /datum/outfit/job/roguetown/quest_miniboss/zizo/pre_equip(mob/living/carbon/human/H)
 	. = ..()
@@ -254,6 +270,22 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	r_hand = /obj/item/rogueweapon/sword/long/zizo
 	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/g //ZIZO. ZIZO. ZIZO. (golden inverted cross)
+
+	if(prob(50))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(2)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(3)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
+			if(4)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
 
 /datum/outfit/job/roguetown/quest_miniboss/graggar/pre_equip(mob/living/carbon/human/H)
 	. = ..()
@@ -272,6 +304,19 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	cloak = /obj/item/clothing/cloak/graggar
 	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
 
+	if(prob(50))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1 to 2)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(3)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(4)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+
 /datum/outfit/job/roguetown/quest_miniboss/blacksteel/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
@@ -286,6 +331,22 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
 	r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel //I am evil, yes.
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
+
+	if(prob(50))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(2)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(3)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
+			if(4)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
 
 /datum/outfit/job/roguetown/quest_miniboss/hedge_knight/pre_equip(mob/living/carbon/human/H)
 	. = ..()
@@ -303,6 +364,22 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	beltr = /obj/item/rogueweapon/sword/long
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	cloak = /obj/item/clothing/cloak/tabard/stabard/black
+
+	if(prob(50))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(2)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(3)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
+			if(4)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
 
 /*
  * Goon preset
