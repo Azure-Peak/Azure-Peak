@@ -149,6 +149,9 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	if(prob(35)) //35% chance of a decrepit helm w/coif
+		head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
+		neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	if(prob(10))
 		var/amulet_choice = rand(1, 3)
 		switch(amulet_choice)
@@ -391,7 +394,7 @@
 	H.STAPER = 13
 	H.STAINT = 1
 	name = "Skeleton Archer"
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
