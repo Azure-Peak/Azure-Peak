@@ -135,7 +135,7 @@
 	H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 /datum/outfit/job/roguetown/skeleton/npc/easy/pre_equip(mob/living/carbon/human/H)
@@ -227,7 +227,7 @@
 	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE) //YARR
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 /datum/outfit/job/roguetown/skeleton/npc/medium/pre_equip(mob/living/carbon/human/H)
@@ -247,7 +247,7 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	belt = /obj/item/storage/belt/rogue/leather/rope
-	if(prob(10)) //10% chance to have overpowered levels of aurafarming
+	if(prob(20)) //20% chance to have overpowered levels of aurafarming
 		mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
 	if(prob(15))
 		beltl = /obj/item/repair_kit/bad
@@ -301,12 +301,11 @@
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 
 /datum/outfit/job/roguetown/skeleton/npc/hard/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.STASTR = 12
 	H.STACON = 6
 	H.STAWIL = 10
 	H.STAINT = 1
@@ -315,7 +314,9 @@
 	var/skeletonclass = rand(1, 2)
 	if(skeletonclass == 1) // Khopesh Knight
 		H.STASPD = 12 // Hue
+		H.STASTR = 12
 		ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC) //Parity slightly with deadlier dreadknight + swift on heavy armor no longer being cracked
+		H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE) //Needed at expert else we lose our duel blades by falling over in water cause heavy
 		cloak = /obj/item/clothing/cloak/hierophant
 		mask = /obj/item/clothing/mask/rogue/facemask/aalloy
 		head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich
@@ -340,6 +341,8 @@
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	else // Withered Dreadknight
 		H.STASPD = 8
+		H.STASTR = 14 //Hits harder than other skeles
+		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE) //Tanky but falls over in water
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 		pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
 		shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
@@ -386,7 +389,6 @@
 	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
 
 /datum/outfit/job/roguetown/skeleton/npc/archer/pre_equip(mob/living/carbon/human/H)
