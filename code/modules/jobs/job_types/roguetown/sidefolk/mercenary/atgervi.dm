@@ -342,4 +342,12 @@
 /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 
+/// Generic version of the matthios gronn necklace that has no examine highlights. Purely for loadout drip
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn/generic
+	name = "tooth necklace" //starving talisman, (non-gronnic, generic)
+	desc = "A necklace with a large fanged tooth. Or is that a particularly large claw?"
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn/generic/get_examine_highlight_status()
+	return null
+
 //

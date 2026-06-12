@@ -293,6 +293,11 @@
 	path = /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn
 	sort_category = "Accessories"
 
+/datum/loadout_item/psicross/tooth_necklace
+	name = "Tooth Necklace"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn/generic
+	sort_category = "Accessories"
+
 /datum/loadout_item/wedding_band
 	name = "Wedding Band, Silver"
 	path = /obj/item/clothing/ring/band
