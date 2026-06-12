@@ -4,9 +4,15 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	"I see you.",
 	"Nowhere to hide.",
 	"One shot is all I need.",
+	"Slow is smooth, smooth is fast",
+	"An arrow to your knee.",
+	"Take aim... and..-",
+	"Missing isn't something I do",
 	"Stay back if you value your life.",
 	"I don't miss.",
 	"That was a warning shot.",
+	"*laugh",
+	"*shake",
 ))
 
 /mob/living/carbon/human/species/human/northern/outlaw_ranger
@@ -42,7 +48,8 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	update_hair()
 	update_body()
 	AddComponent(/datum/component/npc_death_line)
-
+	//random voice - no point for extensive features. They dust on death and are exclusive to quests.
+	//Their gear is also nodrop, it won't be flung off.
 	var/voice_choice = rand(1, 12)
 	switch(voice_choice)
 		if(1)
@@ -69,6 +76,10 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 			src.voice_color = "797979"
 		if(12)
 			src.voice_color = "ff5e00"
+
+	gender = pick(MALE, FEMALE)
+	dna.species.handle_body(src)
+	src.regenerate_icons() //Fixes the weird body with random genders for NPCs.
 
 /mob/living/carbon/human/species/human/northern/outlaw_ranger/death(gibbed, nocutscene = FALSE)
 	. = ..()
@@ -101,4 +112,5 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/evil() //Aura
+	H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()

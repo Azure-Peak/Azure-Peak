@@ -52,12 +52,20 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 						/datum/sprite_accessory/hair/head/gloomy,
 						/datum/sprite_accessory/hair/head/zone,
 						/datum/sprite_accessory/hair/head/hime,
+						/datum/sprite_accessory/hair/head/stacy,
+						/datum/sprite_accessory/hair/head/sabitsuki,
+						/datum/sprite_accessory/hair/head/sabitsuki_ponytail, 
+						/datum/sprite_accessory/hair/head/kusanagi_alt,
 						/datum/sprite_accessory/hair/head/fluffy,
 						/datum/sprite_accessory/hair/head/fluffylong))
 	var/hairm = pick(list(
 						/datum/sprite_accessory/hair/head/ponytailwitcher,
 						/datum/sprite_accessory/hair/head/bowlcut, 
-						/datum/sprite_accessory/hair/head/bowlcut2, 
+						/datum/sprite_accessory/hair/head/bowlcut2,
+						/datum/sprite_accessory/hair/head/lowbraid,
+						/datum/sprite_accessory/hair/head/emo,
+						/datum/sprite_accessory/hair/head/sabitsuki,
+						/datum/sprite_accessory/hair/head/sabitsuki_ponytail, 
 						/datum/sprite_accessory/hair/head/rogue))
 	var/beard = pick(list(/datum/sprite_accessory/hair/facial/stubble,
 						/datum/sprite_accessory/hair/facial/manly,
@@ -69,7 +77,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 						/datum/sprite_accessory/hair/facial/vandyke,
 						/datum/sprite_accessory/hair/facial/longbeard))
 	AddComponent(/datum/component/npc_death_line, null, 25)
-
+	//Random voices, this can probably be more random-ish but it'll do for now
 	var/voice_choice = rand(1, 12)
 	switch(voice_choice)
 		if(1)
@@ -96,7 +104,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			src.voice_color = "797979"
 		if(12)
 			src.voice_color = "ff5e00"
-
+	//Next up, we add hair
 	var/datum/bodypart_feature/hair/head/new_hair = new()
 	var/datum/bodypart_feature/hair/facial/new_facial = new()
 
@@ -132,7 +140,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			new_facial.accessory_colors = "#a53d3d"
 			new_facial.hair_color = "#a53d3d"
 			hair_color = "#a53d3d"
-
+	//Now we take skin-tone picks
 	var/skintone_choice = rand(1, 7) //Heavily simplified
 	switch(skintone_choice)
 		if(1)
@@ -149,13 +157,13 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 			skin_tone = "SKIN_COLOR_NALEDI"
 		if(7)
 			skin_tone = "SKIN_COLOR_KAZENGUN"
-
+	//Add our hair bodypart features
 	head.add_bodypart_feature(new_hair)
 	head.add_bodypart_feature(new_facial)
 
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
 	dna.species.handle_body(src)
-
+	//eye picks, we have four-cause its easier to work with. Don't ask me why it randomly breaks to white eyes but sovlful NGL
 	if(organ_eyes)
 		var/eye_choice = rand(1, 4)
 		switch(eye_choice)
@@ -178,7 +186,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		real_name = pick(world.file2list("strings/names/first_male.txt"))
 	update_hair()
 	update_body()
-	src.regenerate_icons() //Fixes the weird body but lets check performance first
+	src.regenerate_icons() //Fixes the weird body
 
 
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/pre_equip(mob/living/carbon/human/H)

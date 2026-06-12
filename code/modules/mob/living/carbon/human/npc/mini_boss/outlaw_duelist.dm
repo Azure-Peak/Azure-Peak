@@ -6,6 +6,16 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	"I've killed better than you.",
 	"Come, let us settle this.",
 	"Your form is sloppy.",
+	"Lets dance!",
+	"A dance wit' lyfe and death!",
+	"Slow! Pitiful!",
+	"Faster, faster!",
+	"*laugh",
+	"*sigh",
+	"*groan",
+	"*nod",
+	"Way ahead of you!",
+	"No no, please miss more. It makes bleeding you easier.",
 	"A shame. I expected more.",
 ))
 
@@ -45,7 +55,8 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	update_body()
 	def_intent_change(INTENT_DODGE)
 	AddComponent(/datum/component/npc_death_line)
-
+	//random voice - no point for extensive features. They dust on death and are exclusive to quests.
+	//Their gear is also nodrop, it won't be flung off.
 	var/voice_choice = rand(1, 12)
 	switch(voice_choice)
 		if(1)
@@ -73,6 +84,10 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 		if(12)
 			src.voice_color = "ff5e00"
 
+	gender = pick(MALE, FEMALE)
+	dna.species.handle_body(src)
+	src.regenerate_icons() //Fixes the weird body with random genders for NPCs.
+
 /mob/living/carbon/human/species/human/northern/outlaw_duelist/death(gibbed, nocutscene = FALSE)
 	. = ..()
 	if(!gibbed)
@@ -93,9 +108,8 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
-	neck = /obj/item/clothing/neck/roguetown/gorget
+	neck = /obj/item/clothing/neck/roguetown/bevor/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	r_hand = /obj/item/rogueweapon/sword/long
 	l_hand = /obj/item/rogueweapon/shield/buckler
 	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE)
@@ -103,4 +117,5 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/evil() //Its a dodge build w/battleready sire, I know what had to be done.
+	H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()

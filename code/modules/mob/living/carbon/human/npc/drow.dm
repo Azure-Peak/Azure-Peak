@@ -93,7 +93,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 						/datum/sprite_accessory/hair/head/sabitsuki_ponytail))
 
 	var/datum/bodypart_feature/hair/head/new_hair = new()
-
+	//Random voices, this can probably be more random-ish but it'll do for now
 	var/voice_choice = rand(1, 12)
 	switch(voice_choice)
 		if(1)
@@ -120,7 +120,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 			src.voice_color = "797979"
 		if(12)
 			src.voice_color = "ff5e00"
-
+	//Next up, we add hair
 	if(gender == FEMALE)
 		new_hair.set_accessory_type(hairf, null, src)
 	else
@@ -135,7 +135,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
 	dna.species.handle_body(src)
-
+	//eye picks, we have four-cause its easier to work with. Don't ask me why it randomly breaks to white eyes but sovlful NGL
 	if(organ_eyes)
 		var/eye_choice = rand(1, 4)
 		switch(eye_choice)

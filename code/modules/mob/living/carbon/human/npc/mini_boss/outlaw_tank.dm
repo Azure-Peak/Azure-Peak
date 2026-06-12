@@ -2,11 +2,17 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 	"You cannot break me.",
 	"Hit harder. I dare you.",
 	"Is that all?",
-	"I am a wall.",
+	"I am the wall.",
+	"Give up! You won't break me.",
+	"You won't break me, I'll break YOU!",
+	"I'm fucking invincible!",
 	"Your blows mean nothing.",
 	"Come. Shatter yourself upon me.",
 	"I have endured worse.",
 	"You will tire before I fall.",
+	"*laugh",
+	"*chuckle",
+	"*grumble",
 ))
 
 /mob/living/carbon/human/species/human/northern/outlaw_tank
@@ -44,7 +50,8 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 	update_body()
 	def_intent_change(INTENT_PARRY)
 	AddComponent(/datum/component/npc_death_line)
-
+	//random voice - no point for extensive features. They dust on death and are exclusive to quests.
+	//Their gear is also nodrop, it won't be flung off.
 	var/voice_choice = rand(1, 12)
 	switch(voice_choice)
 		if(1)
@@ -72,6 +79,10 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 		if(12)
 			src.voice_color = "ff5e00"
 
+	gender = pick(MALE, FEMALE)
+	dna.species.handle_body(src)
+	src.regenerate_icons() //Fixes the weird body with random genders for NPCs.
+
 /mob/living/carbon/human/species/human/northern/outlaw_tank/death(gibbed, nocutscene = FALSE)
 	. = ..()
 	if(!gibbed)
@@ -94,7 +105,6 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
 	neck = /obj/item/clothing/neck/roguetown/bevor/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	r_hand = /obj/item/rogueweapon/mace/steel
 	l_hand = /obj/item/rogueweapon/shield/tower
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
@@ -102,4 +112,5 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.dna.species.soundpack_m = new /datum/voicepack/male/knight() //HUZZAR!!
+	H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()

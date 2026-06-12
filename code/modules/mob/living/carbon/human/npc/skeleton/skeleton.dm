@@ -27,7 +27,7 @@
 	gender = pick(MALE, FEMALE)
 	dna.species.handle_body(src)
 	update_body()
-	src.regenerate_icons() //Fixes the weird body but lets check performance first
+	src.regenerate_icons() //Fixes the weird body with random genders for NPCs.
 
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE

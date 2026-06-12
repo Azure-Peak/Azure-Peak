@@ -44,7 +44,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 						/datum/sprite_accessory/hair/facial/manly,
 						/datum/sprite_accessory/hair/facial/longbeard))
 	head.sellprice = HEAD_BOUNTY_SEARAIDER
-
+	//Random voices, this can probably be more random-ish but it'll do for now
 	var/voice_choice = rand(1, 12)
 	switch(voice_choice)
 		if(1)
@@ -71,7 +71,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 			src.voice_color = "797979"
 		if(12)
 			src.voice_color = "ff5e00"
-
+	//Next up, we add hair
 	var/datum/bodypart_feature/hair/head/new_hair = new()
 	var/datum/bodypart_feature/hair/facial/new_facial = new()
 
@@ -107,7 +107,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 			new_facial.accessory_colors = "#a53d3d"
 			new_facial.hair_color = "#a53d3d"
 			hair_color = "#a53d3d"
-
+	//Now we take skin-tone picks
 	var/skintone_choice = rand(1, 7) //Heavily simplified
 	switch(skintone_choice)
 		if(1)
@@ -124,13 +124,13 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 			skin_tone = SKIN_COLOR_NALEDI
 		if(7)
 			skin_tone = SKIN_COLOR_KAZENGUN
-
+	//Add our hair bodypart features
 	head.add_bodypart_feature(new_hair)
 	head.add_bodypart_feature(new_facial)
 
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
 	dna.species.handle_body(src)
-
+	//eye picks, we have four-cause its easier to work with. Don't ask me why it randomly breaks to white eyes but sovlful NGL
 	if(organ_eyes)
 		var/eye_choice = rand(1, 4)
 		switch(eye_choice)
