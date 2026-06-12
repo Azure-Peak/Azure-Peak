@@ -103,11 +103,6 @@
 	output = /datum/reagent/consumable/soup/porridge/congee
 	cooktime = STEW_COOKING_TIME / 2 
 
-/datum/stew_recipe/frycongee
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked)
-	output = /datum/reagent/consumable/soup/porridge/frycongee
-	cooktime = STEW_COOKING_TIME / 2 
-
 /datum/stew_recipe/purebutter
 	inputs = list(/obj/item/reagent_containers/food/snacks/squiresdelight)
 	output = /datum/reagent/consumable/soup/purebutter
