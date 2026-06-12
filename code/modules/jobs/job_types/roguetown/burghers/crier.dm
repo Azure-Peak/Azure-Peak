@@ -94,7 +94,7 @@
 
 /mob/living/carbon/human/proc/crier_announcement()
 	set name = "Announcement"
-	set category = "CRIER"
+	set category = "RoleUnique.Crier"
 	if(stat)
 		return
 	var/announcementinput = input("Bellow to the Peaks", "Make an Announcement") as text|null

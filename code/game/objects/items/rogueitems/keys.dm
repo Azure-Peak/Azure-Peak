@@ -16,6 +16,7 @@
 	anvilrepair = /datum/skill/craft/blacksmithing
 	resistance_flags = FIRE_PROOF
 	experimental_inhand = TRUE
+	is_important = TRUE
 
 	grid_height = 32
 	grid_width = 32

@@ -11,7 +11,7 @@
 	var/icon/credits_icon = new(CREDITS_PATH)
 	LAZYINITLIST(credits)
 	var/list/_credits = credits
-	verbs += /client/proc/ClearCredits
+	add_verb(src, /client/proc/ClearCredits)
 	var/list/coomer = GLOB.credits_icons.Copy()
 	sleep(50)
 	for(var/I in coomer)
@@ -20,13 +20,13 @@
 		_credits += new /atom/movable/screen/credit(null, I, src, coomer[I]["icon"])
 		sleep(CREDIT_SPAWN_SPEED)
 	sleep(CREDIT_ROLL_SPEED - CREDIT_SPAWN_SPEED)
-	verbs -= /client/proc/ClearCredits
+	remove_verb(src, /client/proc/ClearCredits)
 	qdel(credits_icon)
 
 /client/proc/ClearCredits()
 	set name = "Hide Credits"
 	set category = "OOC"
-	verbs -= /client/proc/ClearCredits
+	remove_verb(src, /client/proc/ClearCredits)
 	QDEL_LIST(credits)
 	credits = null
 

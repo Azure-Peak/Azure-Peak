@@ -8,7 +8,7 @@
 #ifdef TESTSERVER
 
 /client/verb/textperp()
-	set category = "PAPER"
+	set category = "IC.Paper"
 	set name = "textper+"
 	set desc = ""
 
@@ -25,7 +25,7 @@
 			P.read(mob)
 
 /client/verb/textperm()
-	set category = "PAPER"
+	set category = "IC.Paper"
 	set name = "textper-"
 	set desc = ""
 

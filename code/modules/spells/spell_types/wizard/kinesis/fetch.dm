@@ -31,6 +31,7 @@
 	spell_impact_intensity = SPELL_IMPACT_LOW
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+	allow_cross_z = FALSE
 
 /obj/projectile/magic/fetch
 	name = "bolt of fetching"

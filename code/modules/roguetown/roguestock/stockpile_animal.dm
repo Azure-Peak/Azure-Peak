@@ -38,6 +38,24 @@
 	stockpile_limit = 25
 	category = "Animal"
 
+/datum/roguestock/stockpile/ham
+	name = "Ham"
+	desc = "A prime cut of swine flesh, raw and ready for steaming."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham
+	trade_good_id = TRADE_GOOD_HAM
+	importexport_amt = 5
+	stockpile_limit = 25
+	category = "Animal"
+
+/datum/roguestock/stockpile/pork_belly
+	name = "Pork Belly"
+	desc = "A fatty slab of swine belly, raw and ready to be cured into bacon."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly
+	trade_good_id = TRADE_GOOD_PORK_BELLY
+	importexport_amt = 5
+	stockpile_limit = 25
+	category = "Animal"
+
 /datum/roguestock/stockpile/fat
 	name = "Fat"
 	desc = "Greasy flesh from an animal."

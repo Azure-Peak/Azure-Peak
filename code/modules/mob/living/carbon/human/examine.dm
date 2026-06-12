@@ -12,12 +12,6 @@
 			user.add_stress(/datum/stressevent/unseemly)
 	if(HAS_TRAIT(src, TRAIT_LEPROSY) && user != src)
 		user.add_stress(/datum/stressevent/leprosy)
-	if(HAS_TRAIT(src, TRAIT_BEAUTIFUL_UNCANNY) && user != src)
-		if(prob(50) && !user.has_stress_event(/datum/stressevent/uncanny))
-			user.add_stress(/datum/stressevent/beautiful)
-		else
-			if(!user.has_stress_event(/datum/stressevent/beautiful))
-				user.add_stress(/datum/stressevent/uncanny)
 	// Apply Xylix buff when examining someone with the beautiful trait
 	if(HAS_TRAIT(user, TRAIT_XYLIX) && !user.has_status_effect(/datum/status_effect/buff/xylix_joy) && user.has_stress_event(/datum/stressevent/beautiful))
 		user.apply_status_effect(/datum/status_effect/buff/xylix_joy)
@@ -325,14 +319,22 @@
 		if (HAS_TRAIT(src, TRAIT_LEPROSY))
 			. += span_necrosis("A LEPER...")
 
-		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL) || (issunelf(src) && issunelf(user)))
+		var/we_got_spooked
+		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL_UNCANNY) && user != src)
+			we_got_spooked = prob(50)
+			if(we_got_spooked)
+				user.add_stress(/datum/stressevent/uncanny)
+			else
+				user.add_stress(/datum/stressevent/beautiful)		
+
+		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL) || HAS_TRAIT(src, TRAIT_BEAUTIFUL_UNCANNY) || (issunelf(src) && issunelf(user)))
 			switch (pronouns)
 				if (HE_HIM)
-					. += span_beautiful_masc("[m1] handsome!")
+					. += span_beautiful_masc("[m1] handsome! [we_got_spooked ? "...Something is deeply wrong." : ""]")
 				if (SHE_HER)
-					. += span_beautiful_fem("[m1] beautiful!")
+					. += span_beautiful_fem("[m1] beautiful! [we_got_spooked ? "...Something is deeply wrong." : ""]")
 				if (THEY_THEM, IT_ITS)
-					. += span_beautiful_nb("[m1] good-looking!")
+					. += span_beautiful_nb("[m1] good-looking! [we_got_spooked ? "...Something is deeply wrong." : ""]")
 
 		if (HAS_TRAIT(src, TRAIT_UNSEEMLY))
 			switch (pronouns)
@@ -349,7 +351,7 @@
 
 		var/datum/antagonist/vampire/vamp_inspect = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(vamp_inspect && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
-			. += span_redtext("[m3] strange glowying eyes and fangs!")
+			. += span_redtext("[m3] strange glowing eyes and fangs!")
 
 		// Shouldn't be able to tell they are unrevivable through a mask as a Necran
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
@@ -799,6 +801,18 @@
 		for(var/i in stun_absorption)
 			if(stun_absorption[i]["end_time"] > world.time && stun_absorption[i]["examine_message"])
 				msg += "[m1][stun_absorption[i]["examine_message"]]"
+
+	//Temporary wards and/or status effects go here, just for some more clarity.
+	if(src.skin_armor && istype(src.skin_armor, /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/bestowed))
+		var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/bestowed/W = src.skin_armor
+		var/time_remaining = max(0, W.expires_at - world.time)
+		var/total_seconds = round(time_remaining / 10)
+		var/minutes = floor(total_seconds / 60)
+		var/seconds = total_seconds % 60
+		if(minutes > 0)
+			msg += "<font color='#ffbd09'>A temporary ward surrounds them. It will last for [minutes] minute[minutes == 1 ? "" : "s"], [seconds] second[seconds == 1 ? "" : "s"].</font>"
+		else
+			msg += "<font color='#ffbd09'>A temporary ward surrounds them. It will last for [seconds] second[seconds == 1 ? "" : "s"].</font>"
 
 	if(!appears_dead)
 		if(!skipface)

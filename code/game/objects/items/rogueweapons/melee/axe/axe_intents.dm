@@ -42,6 +42,25 @@
 	blade_class = BCLASS_STAB
 	attack_verb = list("thrusts")
 
+/datum/intent/axe/rangedthrust
+	name = "thrust"
+	blade_class = BCLASS_STAB
+	attack_verb = list("thrusts")
+	animname = "stab"
+	icon_state = "instab"
+	reach = 2
+	clickcd = CLICK_CD_CHARGED
+	recovery = 30
+	warnie = "mobwarning"
+	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
+	penfactor = PEN_MEDIUM
+	item_d_type = "stab"
+	desc = "A committed thrust with the poleaxe's spike. It only bites through armor at full extension, exactly two paces away, and leaves you vulnerable as you recover the swing."
+	swingdelay = 8
+	swingdelay_type = SWINGDELAY_PENALTY
+	effective_range = 2
+	effective_range_type = EFF_RANGE_EXACT
+
 /datum/intent/axe/chop/heavy
 	name = "hack"
 	icon_state = "inhack"

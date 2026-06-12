@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - bugfix: "Golgatha was instakilling carbon NPCs and not working on simplemobs."

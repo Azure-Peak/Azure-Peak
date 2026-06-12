@@ -1,7 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "Hags now get some thematic languages for free, as well as a hand mirror in their bag"
-  - rscadd: "New trait that exempts hags from PVE entirely"
-  - rscdel: "Removed counter counterspell boon, since that trait does literally nothing - counterspell was removed from the game!"
-  - bugfix: "Hag scrying should no longer break when your target goes AFK or dies"

@@ -37,7 +37,7 @@
 		STATKEY_PER = 3,
 		STATKEY_LCK = 1,
 		STATKEY_SPD = -1,
-		// 11 (10 without luck) weighted statline, a miniboss of sorts for an expensive vitae cost; intended to command the vampire lord's army. (+1 over old spawn stats)
+		// 11 (10 without luck) point statline, a miniboss of sorts for an expensive vitae cost; intended to command the vampire lord's army. (+1 over old spawn stats)
 	)
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
@@ -68,7 +68,7 @@
 	..()
 	to_chat(H, span_warning("A knighted champion of a fallen and forgotten kingdom. You can almost remember the old tymes since your last great battle, your unmatched prowess, your elegence with any-would-be weapon and all the dread your mere presence brought; now you arise from a fallen kingdom in servitude to your lord, once more. Make their vision, become reality."))
 
-	H.verbs |= /mob/proc/haltyell_exhausting //Knight gets to halt people
+	add_verb(H, /mob/proc/haltyell_exhausting) //Knight gets to halt people
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight() //Aura
 
 	cloak = /obj/item/clothing/cloak/tabard/vamp
@@ -201,7 +201,7 @@
 		STATKEY_SPD = 2,
 		STATKEY_PER = 3,
 		STATKEY_LCK = 4, //only the lucky outlive the ranks of common fodder in a vamp's court
-		// 13 (9 without luck factored in for flavor) weighted statline, mostly put into speed + int; still no con buff though, the luckiest person to ever outlyve you by who-knows-how-many-yills
+		// 13 (9 without luck factored in for flavor) point statline, mostly put into speed + int; still no con buff though, the luckiest person to ever outlyve you by who-knows-how-many-yills
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,

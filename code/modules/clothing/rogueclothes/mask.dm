@@ -26,6 +26,7 @@
 		user.update_inv_wear_mask()
 
 /obj/item/clothing/mask/rogue/AltRightClick(mob/user)
+	. = ..()
 	if(!istype(loc, /mob/living/carbon))
 		return
 	var/mob/living/carbon/H = user

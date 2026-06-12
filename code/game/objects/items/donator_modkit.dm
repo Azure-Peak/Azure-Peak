@@ -524,8 +524,8 @@
 	name = "'Amdir' morphing elixir"
 	target_items = list(
 	/obj/item/rogueweapon/greataxe/steel/knight,
-	/obj/item/rogueweapon/greataxe/silver,
-	/obj/item/rogueweapon/greataxe/psy
+	/obj/item/rogueweapon/greataxe/steel/knight/silver,
+	/obj/item/rogueweapon/greataxe/steel/knight/psy
 
 	)
 	result_item = /obj/item/rogueweapon/example/arra_amdir

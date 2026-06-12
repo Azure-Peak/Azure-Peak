@@ -43,7 +43,7 @@
 
 /mob/living/carbon/human/proc/who_targets() // Verb for the assassin to remember their targets.
 	set name = "Remember Targets"
-	set category = "Graggar"
+	set category = "RoleUnique.Graggar"
 	if(!mind)
 		return
 	mind.recall_targets(src)
@@ -57,7 +57,7 @@
 	if(!user)
 		return
 	var/mob/living/carbon/human/H = user
-	H.verbs |= /mob/living/carbon/human/proc/who_targets
+	add_verb(H, /mob/living/carbon/human/proc/who_targets)
 
 /datum/antagonist/assassin/roundend_report()
 	var/traitorwin = FALSE
