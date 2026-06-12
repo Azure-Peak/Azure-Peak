@@ -601,3 +601,20 @@
 				/obj/item/natural/stoneblock = 3)
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/survival/mortar
+	name = "alchemical mortar"
+	result = /obj/item/reagent_containers/glass/mortar
+	reqs = list(/obj/item/natural/stone = 1)
+	craftdiff = 1
+	structurecraft = null
+	verbage_simple = "create"
+
+/datum/crafting_recipe/roguetown/survival/pestle
+	name = "stone pestle"
+	result = /obj/item/pestle
+	reqs = list(/obj/item/natural/stone = 1)
+	craftdiff = 1
+	structurecraft = null
+	verbage_simple = "create"
+

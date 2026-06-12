@@ -447,8 +447,9 @@
 		to_chat(L, span_userdanger("You're scorched by flames!"))
 
 		// Vaporize dead NPC / departed player corpses
-		if((L.stat == DEAD && !L.mind) || (!L.key && !L.get_ghost(FALSE, TRUE)))
-			addtimer(CALLBACK(L, TYPE_PROC_REF(/mob/living, dust)), 2 SECONDS)
+		if(L.stat == DEAD)
+			if(!L.mind || (!L.key && !L.get_ghost(FALSE, TRUE)))
+				addtimer(CALLBACK(L, TYPE_PROC_REF(/mob/living, dust)), 2 SECONDS)
 
 	new /obj/effect/hotspot(damage_turf) // This is the actual scary part
 

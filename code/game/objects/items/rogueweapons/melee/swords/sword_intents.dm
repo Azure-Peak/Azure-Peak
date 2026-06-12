@@ -75,16 +75,26 @@
 	name = "deep lunge"
 	icon_state = "inlunge"
 	penfactor = PEN_MEDIUM
-	damfactor = 1.1
+	damfactor = 1.2
 	swingdelay = 0.6 SECONDS
 
-/datum/intent/sword/thrust/long/halfsword
+/datum/intent/sword/thrust/long/deep/halfsword
+	name = "deep lunge"
+	icon_state = "inlunge"
+	penfactor = PEN_MEDIUM
+	damfactor = 0.8
+	swingdelay = 0.6 SECONDS
+
+/datum/intent/sword/thrust/long/halfsword // Longsword halfsword - DOES NOT crit through armor like the Freifechter version.
 	name = "halfsword thrust"
 	icon_state = "inimpale"
 	clickcd = CLICK_CD_CHARGED
-	penfactor = PEN_MEDIUM
-	damfactor = 0.8
-	swingdelay = 0.5 SECONDS
+	penfactor = PEN_HEAVY
+	damfactor = 1
+	swingdelay = 1 SECONDS
+	candodge = FALSE
+	canparry = FALSE
+	swingdelay_type = SWINGDELAY_CANCEL
 
 /datum/intent/sword/thrust/long/halfsword/jab
 	name = "jab"
@@ -94,6 +104,7 @@
 	damfactor = 0.8
 	clickcd = CLICK_CD_QUICK
 	swingdelay = 0
+	swingdelay_type = SWINGDELAY_NORMAL
 
 /datum/intent/sword/thrust/blunt
 	blade_class = BCLASS_BLUNT
@@ -117,10 +128,45 @@
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
-/datum/intent/sword/strike/bash
-	name = "pommel swing"
+/datum/intent/sword/strike/bash/mordhau
+	damfactor = 0.8
+	name = "mordhau bash"
 	icon_state = "inbash"
 	attack_verb = list("bashes", "clubs")
+
+/datum/intent/sword/strike/bash/mordhau/smash
+	name = "mordhau smash"
+	icon_state = "insmash"
+	attack_verb = list("smashes", "pummels", "pounds")
+	chargedrain = 1.8
+	chargetime = 12
+	damfactor = 1
+	desc = "A powerful strike that delivers STR scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XII (2 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
+	var/maxrange = 2
+
+/datum/intent/sword/strike/bash/mordhau/smash/spec_on_apply_effect(mob/living/H, mob/living/user, params)
+	var/chungus_khan_str = user.STASTR 
+	if(H.has_status_effect(/datum/status_effect/debuff/yeetcd))
+		return // Recently knocked back, cannot be knocked back again yet
+	if(chungus_khan_str < 10)
+		return // Too weak to have any effect
+	var/scaling = CLAMP((chungus_khan_str - 10), 1, maxrange)
+	H.apply_status_effect(/datum/status_effect/debuff/yeetcd)
+	H.Slowdown(scaling)
+	// Copypasta from knockback proc cuz I don't want the math there
+	var/knockback_tiles = scaling // 1 to 2 tiles based on strength
+	if(H.resting)
+		knockback_tiles = max(1, knockback_tiles / 2)
+	if(user?.client?.chargedprog < 100)
+		knockback_tiles = 1 // Minimal knockback on non-charged smash.
+	var/turf/edge_target_turf = get_edge_target_turf(H, get_dir(user, H))
+	if(istype(edge_target_turf))
+		H.safe_throw_at(edge_target_turf, \
+		knockback_tiles, \
+		scaling, \
+		user, \
+		spin = FALSE, \
+		force = H.move_force)
 
 /datum/intent/sword/strike/penalty
 	name = "heavy blunted swing"
@@ -189,8 +235,13 @@
 	clickcd = CLICK_CD_MELEE
 	swingdelay = 1.2 SECONDS
 	damfactor = 0.95 //slightly nerfed. go use your debuffs dude
-	blade_class = BCLASS_PICK
+	blade_class = BCLASS_PICK //This can crit through armor
 	max_intent_damage = 30
+
+	// If someone feels like reworking Freifechter for the 4th time, I suggest making this a RIGID swing intent
+	candodge = TRUE
+	canparry = TRUE
+	swingdelay_type = SWINGDELAY_NORMAL
 
 /datum/intent/sword/thrust/long/halfsword/lesser
 	name = "halbschwert"
@@ -246,7 +297,7 @@
 /datum/intent/sword/chop/short
 	damfactor = 0.9
 
-/datum/intent/sword/chop/long
+/datum/intent/sword/chop/shotel
 	reach = 2
 
 /datum/intent/sword/cut/light
@@ -254,6 +305,9 @@
 
 /datum/intent/sword/cut/long
 	clickcd = CLICK_CD_QUICK // Longsword 2H cut — faster than default, no extra damage
+
+/datum/intent/sword/chop/long
+	damfactor = 1.2
 
 // Falx sacrifices a bit of damage compared to sabre, but it is similarly fast
 // And have a very slight demolition mod to make it better vs shield

@@ -529,6 +529,7 @@
 
 /datum/intent/arc
 	name = "arc"
+	desc = "Fires the shot in an arc that allows it to passes through mob in the way. Will also tracks the target IF you have your cursor over them. This also allows you to aims at a target above or below."
 	icon_state = "inarc"
 	tranged = 1
 	warnie = "aimwarn"
@@ -596,7 +597,6 @@
 		var/mob/M = target
 		var/list/targetl = list(target)
 		user.visible_message(span_taunt("[user] taunts [M]!"), span_taunt("I taunt [M]!"), ignored_mobs = targetl)
-		targetl.Add(user)
 		user.emote("taunt")
 		if(M.mind)
 			var/mob/living/L = user
@@ -658,7 +658,6 @@
 		var/mob/M = target
 		var/list/targetl = list(target)
 		user.visible_message(span_blue("[user] shoos [M] away."), span_blue("I shoo [M] away."), ignored_mobs = targetl)
-		targetl.Add(user)
 		if(M.mind)
 			var/mob/living/L = user
 			L.play_overhead_private_rclickemote(targetl, "dismiss")
@@ -688,7 +687,6 @@
 		var/mob/M = target
 		var/list/targetl = list(target)
 		user.visible_message(span_yellow("[user] beckons [M] to come closer."), span_yellow("I beckon [M] to come closer."), ignored_mobs = targetl)
-		targetl.Add(user)
 		if(M.mind)
 			var/mob/living/L = user
 			L.play_overhead_private_rclickemote(targetl, "beckon")
@@ -715,7 +713,6 @@
 		var/mob/M = target
 		var/list/targetl = list(target)
 		user.visible_message(span_green("[user] waves friendly at [M]."), span_green("I wave friendly at [M]."), ignored_mobs = targetl)
-		targetl.Add(user)
 		if(M.mind)	// Waving at an NPC doesn't need to show this.
 			var/mob/living/L = user
 			L.play_overhead_private_rclickemote(targetl, "wavefriendly")
@@ -856,11 +853,13 @@
 	attack_verb = list("dazes")
 	animname = "strike"
 	hitsound = list('sound/combat/hits/blunt/daze_hit.ogg')
-	chargetime = 0
 	penfactor = PEN_NONE
-	swingdelay = 6
+	swingdelay = 1 SECONDS
 	damfactor = 1
 	item_d_type = "blunt"
 	intent_effect = /datum/status_effect/debuff/dazed
 	target_parts = list(BODY_ZONE_HEAD)
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	candodge = FALSE
+	canparry = FALSE
+	swingdelay_type = SWINGDELAY_CANCEL

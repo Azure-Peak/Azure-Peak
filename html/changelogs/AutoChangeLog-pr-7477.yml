@@ -1,0 +1,4 @@
+author: "VanessaCoding"
+delete-after: True
+changes:
+  - rscadd: "Eorans now gain a 30% base heal boost on someone wearing flower crowns, and a 15% base heal boost if they are wearing a flower crown."

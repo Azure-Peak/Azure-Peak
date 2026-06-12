@@ -26,7 +26,7 @@ Because if you select a player mob as owner it tries to do the proc for
 But you can call procs that are of type /mob/living/carbon/human/proc/ for that player.
 */
 /client/proc/cmd_admin_animalize(mob/M in GLOB.mob_list)
-	set category = "GAME MASTER"
+	set category = "Game Master"
 	set name = "Make Simple Animal"
 
 	if(!SSticker.HasRoundStarted())
@@ -69,7 +69,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 		SSblackbox.record_feedback("tally", "admin_verb", 1, "Delete All") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_assume_direct_control(mob/M in GLOB.mob_list)
-	set category = "ADMIN"
+	set category = "Admin.Admin"
 	set name = "Direct control..."
 	set desc = ""
 
@@ -88,7 +88,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Assume Direct Control") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_areatest(on_station)
-	set category = "Mapping"
+	set category = "Debug.Mapping"
 	set name = "Test Areas"
 
 	var/list/dat = list()
@@ -201,17 +201,17 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 
 
 /client/proc/cmd_admin_areatest_station()
-	set category = "Mapping"
+	set category = "Debug.Mapping"
 	set name = "Test Areas (STATION Z)"
 	cmd_admin_areatest(TRUE)
 
 /client/proc/cmd_admin_areatest_all()
-	set category = "Mapping"
+	set category = "Debug.Mapping"
 	set name = "Test Areas (ALL)"
 	cmd_admin_areatest(FALSE)
 
 /client/proc/cmd_admin_dress(mob/M in GLOB.mob_list)
-	set category = "GAME MASTER"
+	set category = "Game Master"
 	set name = "Select Loadout"
 	if(!(ishuman(M) || isobserver(M)))
 		alert("Invalid mob")
@@ -1469,7 +1469,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	log_admin("[key_name(src)] pumped a random event.")
 
 /client/proc/start_line_profiling()
-	set category = "Profile"
+	set category = "Debug.Profile"
 	set name = "Start Line Profiling"
 	set desc = ""
 
@@ -1480,7 +1480,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	log_admin("[key_name(src)] started line by line profiling.")
 
 /client/proc/stop_line_profiling()
-	set category = "Profile"
+	set category = "Debug.Profile"
 	set name = "Stops Line Profiling"
 	set desc = ""
 
@@ -1491,7 +1491,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	log_admin("[key_name(src)] stopped line by line profiling.")
 
 /client/proc/show_line_profiling()
-	set category = "Profile"
+	set category = "Debug.Profile"
 	set name = "Show Line Profiling"
 	set desc = ""
 

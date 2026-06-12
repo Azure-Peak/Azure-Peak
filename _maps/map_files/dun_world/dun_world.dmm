@@ -28027,10 +28027,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern)
-"fLO" = (
-/obj/effect/landmark/quest_spawner/generic,
-/turf/open/water/swamp/deep,
-/area/rogue/outdoors/bog/north)
 "fLQ" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/churchrough,
@@ -82379,8 +82375,8 @@
 /area/rogue/indoors)
 "qCf" = (
 /obj/structure/table/wood/long_table/right,
-/obj/item/natural/clay/glassbatch,
-/obj/item/natural/clay/glassbatch,
+/obj/item/natural/glassbatch,
+/obj/item/natural/glassbatch,
 /obj/item/recipe_book/ceramics,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
@@ -105024,10 +105020,6 @@
 /obj/item/grown/log/tree,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/west)
-"veH" = (
-/obj/effect/landmark/quest_spawner/generic,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/bog/north)
 "veK" = (
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors)
@@ -357270,7 +357262,7 @@ eCO
 lCD
 sxN
 sxN
-sxN
+bKx
 qwK
 qwK
 qwK
@@ -361241,7 +361233,7 @@ eWk
 uHo
 eWk
 eWk
-fLO
+eWk
 eWk
 eWk
 eWk
@@ -362614,7 +362606,7 @@ eWk
 eWk
 eWk
 eWk
-fLO
+eWk
 eWk
 eWk
 eWk
@@ -363041,7 +363033,7 @@ pMO
 pMO
 fvl
 irm
-veH
+irm
 irm
 irm
 mjV
@@ -365417,7 +365409,7 @@ sxN
 sxN
 sxN
 sxN
-sxN
+bKx
 sxN
 sxN
 sxN
@@ -373494,7 +373486,7 @@ aAP
 aAP
 irm
 irm
-veH
+irm
 uid
 irm
 pMO
@@ -375687,7 +375679,7 @@ eWk
 eWk
 eWk
 irm
-veH
+irm
 irm
 pMO
 kWI
@@ -378056,7 +378048,7 @@ oSM
 eCO
 eCO
 sxN
-sxN
+bKx
 sxN
 sxN
 lCD
@@ -382047,7 +382039,7 @@ eWk
 pKk
 eWk
 pMO
-veH
+irm
 rxd
 irm
 pMO
@@ -383368,7 +383360,7 @@ mjV
 nZH
 mjV
 pMO
-veH
+irm
 bTS
 bTS
 irm
@@ -384381,7 +384373,7 @@ sxN
 sxN
 sxN
 sxN
-sxN
+bKx
 sxN
 sxN
 sxN
@@ -384391,7 +384383,7 @@ xot
 aay
 aay
 sxN
-sxN
+bKx
 sxN
 sxN
 lCD
@@ -384741,7 +384733,7 @@ irm
 irm
 irm
 irm
-veH
+irm
 irm
 irm
 irm
@@ -385638,7 +385630,7 @@ pMO
 pMO
 irm
 irm
-veH
+irm
 irm
 lvI
 irm
@@ -386618,7 +386610,7 @@ jYu
 lCD
 lCD
 sxN
-mAW
+aPp
 sxN
 sxN
 lCD
@@ -388896,7 +388888,7 @@ jYu
 jYu
 lCD
 sxN
-sxN
+bKx
 sxN
 qwK
 qwK

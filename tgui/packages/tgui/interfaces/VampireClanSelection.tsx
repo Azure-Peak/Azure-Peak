@@ -101,7 +101,7 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     accept: 'Accept Clan',
     close: 'Close',
     warningDefault:
-      'If no clan is chosen, Nosferatu will be assigned by default.',
+      'If no clan is chosen, Crimson Fangs will be assigned by default.',
   },
 };
 

@@ -376,10 +376,11 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 			for(var/m in local_missing)
 				if(!(m in missing_materials))
 					missing_materials += m
-		var/derived = derive_price_from_cost(material_cost, category, 1)
+		var/recipe_yield = recipe_result_yield(CR, result_path)
+		var/derived = derive_price_from_cost(material_cost, category, recipe_yield)
 		var/markup = GLOB.item_cat_markups[category] || PRICING_ENGINE_DEFAULT_MARKUP
 		if(audit_lines)
-			audit_lines += csv_row(list("crafting", CR.name, "[result_path]", category, cat_missing ? "MISSING" : "", "[material_cost]", "[markup]", "1", "[derived]", jointext(breakdown, " + "), jointext(local_missing, ",")))
+			audit_lines += csv_row(list("crafting", CR.name, "[result_path]", category, cat_missing ? "MISSING" : "", "[material_cost]", "[markup]", "[recipe_yield]", "[derived]", jointext(breakdown, " + "), jointext(local_missing, ",")))
 		if(derived <= 0)
 			continue
 		if(register_derived_price(result_path, derived, category))
@@ -489,6 +490,16 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 			return rl[1]
 		return null
 	return CR.result
+
+/proc/recipe_result_yield(datum/crafting_recipe/CR, result_path)
+	if(!islist(CR.result))
+		return 1
+	var/list/rl = CR.result
+	var/count = 0
+	for(var/path in rl)
+		if(path == result_path)
+			count++
+	return max(1, count)
 
 /proc/register_derived_price(path, price, category)
 	if(!path)
@@ -602,7 +613,7 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 			for(var/p in CR.reqs)
 				sorted_reqs += "[p]=[CR.reqs[p]]"
 			reqs = jointext(sortList(sorted_reqs), ",")
-		recipe_keys += "c:[result_path]|[reqs]|[CR.display_category]"
+		recipe_keys += "c:[result_path]|[reqs]|[CR.display_category]|y[recipe_result_yield(CR, result_path)]"
 	for(var/datum/food_recipe/FR as anything in subtypesof(/datum/food_recipe))
 		var/base = initial(FR.base_item)
 		var/result_path = initial(FR.result_type)

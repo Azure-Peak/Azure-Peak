@@ -1,6 +1,6 @@
 /mob/living/carbon/human/proc/zombie_seek()
 	set name = "Seek Brains"
-	set category = "ZOMBIE"
+	set category = "RoleUnique.Zombie"
 
 	if(!mind.has_antag_datum(/datum/antagonist/zombie))
 		return FALSE

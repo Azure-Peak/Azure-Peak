@@ -9,10 +9,10 @@
 	primary_resource_cost = 40
 	primary_resource_type = SPELL_COST_STAMINA
 	charge_required = TRUE
-	charge_time = 6 SECONDS
+	charge_time = 3 SECONDS //Quick for combat, useless outside of it mostly.
 	charge_slowdown = 1
 	associated_skill = /datum/skill/magic/arcane
-	cooldown_time = 20 SECONDS
+	cooldown_time = 25 SECONDS
 	zizo_spell = TRUE
 	invocation_type = INVOCATION_SHOUT
 	invocations = list("Evoca skeletos!")
@@ -110,5 +110,5 @@
 /datum/action/cooldown/spell/raise_undead_formation/necromancer
 	cabal_affine = TRUE
 	is_summoned = TRUE
-	cooldown_time = 35 SECONDS
+	cooldown_time = 40 SECONDS
 	to_spawn = 3

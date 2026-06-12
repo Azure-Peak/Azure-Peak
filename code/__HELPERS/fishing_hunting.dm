@@ -127,7 +127,7 @@
 			/obj/item/reagent_containers/food/snacks/fish/shrimp = 250*commonMod,
 			/obj/item/reagent_containers/food/snacks/fish/crab = 250*rareMod,
 			/obj/item/reagent_containers/food/snacks/fish/lobster = 250*commonMod,
-			/obj/item/roguegem/oyster = 190*rareMod,
+			/obj/item/roguegem/oyster = 50*rareMod,
 			/obj/item/reagent_containers/food/snacks/smallrat = 1 + 15*cheeseMod, //Oh for fucks sake!
 			/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 1*cheeseMod,
 			/obj/item/grown/log/tree/stick =  100*trashMod,

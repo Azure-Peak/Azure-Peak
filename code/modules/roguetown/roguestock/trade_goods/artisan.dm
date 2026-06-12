@@ -24,3 +24,12 @@
 	base_price = SELLPRICE_VISCERA
 	source_region_id = TRADE_REGION_BLACKHOLT
 	item_type = /obj/item/alch/viscera
+
+/datum/trade_good/sinew
+	id = TRADE_GOOD_SINEW
+	name = "Sinew"
+	category = TRADE_CATEGORY_ANIMAL
+	behavior = TRADE_BEHAVIOR_RAW
+	base_price = SELLPRICE_SINEW
+	source_region_id = TRADE_REGION_BLACKHOLT
+	item_type = /obj/item/alch/sinew

@@ -515,7 +515,7 @@
 //
 
 /datum/crafting_recipe/roguetown/survival/silverstake_campfire
-	name = "heat-treat silver stake into silver shotstakes (x3)"
+	name = "heat-treat silver stake into silver shotstakes, campfire (x3)"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
@@ -529,7 +529,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/silverstake_hearth
-	name = "heat-treat silver stake into silver shotstakes (x3)"
+	name = "heat-treat silver stake into silver shotstakes, hearth (x3)"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
@@ -544,7 +544,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/silverstake_brazier
-	name = "heat-treat silver stake into silver shotstakes (x3)"
+	name = "heat-treat silver stake into silver shotstakes, brazier (x3)"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
@@ -559,7 +559,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/otavanstake_campfire
-	name = "heat-treat otavan stake into silver shotstakes (x3)"
+	name = "heat-treat otavan stake into silver shotstakes, campfire (x3)"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
@@ -573,7 +573,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/otavanstake_hearth
-	name = "heat-treat otavan stake into silver shotstakes (x3)"
+	name = "heat-treat otavan stake into silver shotstakes, hearth (x3)"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
@@ -588,7 +588,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/otavanstake_brazier
-	name = "heat-treat otavan stake into silver shotstakes (x3)"
+	name = "heat-treat otavan stake into silver shotstakes, brazier (x3)"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
@@ -603,7 +603,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/silverhandstake_campfire
-	name = "heat-treat silver handstake into silver shotstake"
+	name = "heat-treat silver handstake into silver shotstake, campfire"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				)
@@ -615,7 +615,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/silverhandstake_hearth
-	name = "heat-treat silver handstake into silver shotstake"
+	name = "heat-treat silver handstake into silver shotstake, hearth"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				)
@@ -628,7 +628,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/silverhandstake_brazier
-	name = "heat-treat silver handstake into silver shotstake"
+	name = "heat-treat silver handstake into silver shotstake, brazier"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				)
@@ -641,7 +641,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/sharpstake_campfire
-	name = "heat-treat sharpened stake into shotstakes (x3)"
+	name = "heat-treat sharpened stake into shotstakes, campfire (x3)"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake,
 				/obj/item/ammo_casing/caseless/rogue/stake,
@@ -655,7 +655,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/sharpstake_hearth
-	name = "heat-treat sharpened stake into shotstakes (x3)"
+	name = "heat-treat sharpened stake into shotstakes, hearth (x3)"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake,
 				/obj/item/ammo_casing/caseless/rogue/stake,
@@ -670,7 +670,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/sharpstake_brazier
-	name = "heat-treat sharpened stake into shotstakes (x3)"
+	name = "heat-treat sharpened stake into shotstakes, brazier (x3)"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake,
 				/obj/item/ammo_casing/caseless/rogue/stake,
@@ -685,7 +685,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/stake_campfire
-	name = "heat-treat stake into shotstake"
+	name = "heat-treat stake into shotstake, campfire"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake,
 				)
@@ -697,7 +697,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/stake_hearth
-	name = "heat-treat stake into shotstake"
+	name = "heat-treat stake into shotstake, hearth"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake,
 				)
@@ -710,7 +710,7 @@
 	verbage = "heat-treats"
 
 /datum/crafting_recipe/roguetown/survival/stake_brazier
-	name = "heat-treat stake into shotstake"
+	name = "heat-treat stake into shotstake, brazier"
 	result = list(
 				/obj/item/ammo_casing/caseless/rogue/stake,
 				)
