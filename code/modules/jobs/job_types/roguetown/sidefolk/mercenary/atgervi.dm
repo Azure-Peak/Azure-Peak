@@ -292,7 +292,7 @@
 	icon_state = "gronnzizo"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, "A symbol of the North's archaic beliefs")
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn
 	name = "carved talisman" //relishing talisma
@@ -300,7 +300,7 @@
 	icon_state = "gronnbaotha"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/baothagronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, "A symbol of the North's archaic beliefs")
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn
 	name = "carved talisman" //starving talisman
@@ -308,7 +308,7 @@
 	icon_state = "gronnmatthios"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, "A symbol of the North's archaic beliefs")
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn
 	name = "carved talisman" //grinning talisman
@@ -316,7 +316,7 @@
 	icon_state = "gronngraggar"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, "A symbol of the North's archaic beliefs")
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 
 /obj/item/clothing/neck/roguetown/psicross/dendor/gronn
 	name = "carved talisman" //volfskinned talisman
@@ -324,7 +324,7 @@
 	icon_state = "gronndendor"
 
 /obj/item/clothing/neck/roguetown/psicross/dendor/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, "A symbol of the North's archaic beliefs")
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 
 /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn
 	name = "carved talisman" //hadal talisman
@@ -332,13 +332,13 @@
 	icon_state = "gronnabyssor"
 
 /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, "A symbol of the North's archaic beliefs")
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn/special
 	name = "carved talisman" //familial talisman
 	desc = "'The memories of the past, and the dreams of the future. A fetish of a beaste, and the carvings of a force that no one beyond your homeland could understand. Sail gracefully, countryman.'"
 
 /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, "A symbol of the North's archaic beliefs")
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 
 //

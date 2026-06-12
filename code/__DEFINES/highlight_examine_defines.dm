@@ -27,6 +27,10 @@
 #define HERESYDESC_BAOTHA_ICON "It bears the icon of debauched Baotha"
 #define HERESYDESC_BAOTHA_MISC "A known design of Baotha"
 
+// Dreamwalker items
+#define HERESYDESC_DREAMWALKER_WEAPON "A weapon of the enigmatic and violent Dreamwalkers"
+#define HERESYDESC_DREAMWALKER_ARMOR "An armor piece of the enigmatic and violent Dreamwalkers"
+
 // Misc items
 #define HERESYDESC_GRONN "A symbol of the North's archaic beliefs"
 
@@ -44,24 +48,33 @@
 * 
 * i.e. heretic armor, avantyne weapons
 */
-#define EXAMINEHIGHLIGHT_HERESY_SEVERITY_ALARMING 1
-// Heresy item severity levels. The more "Severely" heretical an item is, the more alarmingly the item will be presented on examine.
+#define EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING 1
 /** For items that are heretical and will get you in trouble if you're caught with them,
 * but not enough for people to jump straight to violence on sight without probable cause.
 * 
 * i.e. Ascendant amulets
 */
-#define EXAMINEHIGHLIGHT_HERESY_SEVERITY_SUSPICIOUS 2
+#define EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS 2
+/** For items that are unusual displays of faith that are either not commonly known expressions
+* of heretical beliefs, or are simply inoffensive enough that the common Tennite / Psydonite probably won't
+* get in someone's hair about it, but will likely give the wielders funny looks and odd squints.
+*
+* i.e. Gronn/Fjall carving amulets
+*/
+#define EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD 3
 
 // Heresy severity colors
-#define COLOR_HERESY_SEVERITY_SUSPICIOUS "#c49337"
-#define COLOR_HERESY_SEVERITY_ALARMING "#c43535"
+#define COLOR_HERESYSEVERITY_ALARMING "#c43535"
+#define COLOR_HERESYSEVERITY_SUSPICIOUS "#c49337"
+#define COLOR_HERESYSEVERITY_ODD "#c564c5"
 
 // Heresy severity descriptions
-#define DESCRIPTION_HERESY_SEVERITY_SUSPICIOUS "<font color=[COLOR_HERESY_SEVERITY_SUSPICIOUS]><b>This is a suspicious heretical item!</b></font><br>It is considered heretical by Tennite and Psydonite faith. Those who serve the Ten and the One are likely to view me with suspicion and distrust <b>at best</b> if I am caught with it."
-#define DESCRIPTION_HERESY_SEVERITY_ALARMING "<font color=[COLOR_HERESY_SEVERITY_ALARMING]><b>This is a blatantly dangerous heretical item!</b></font><br>Carrying this out in the open is tantamount to declaring myself an enemy to Tennite and Psydonite faith. Those who serve the Ten and the One are likely to respond in kind."
+#define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_ALARMING "<font color=[COLOR_HERESYSEVERITY_ALARMING]><b>This is a blatantly dangerous heretical item!</b></font><br>Carrying this out in the open is tantamount to declaring myself an enemy to Tennite and Psydonite faith. Those who serve the Ten and the One are likely to respond in kind."
+#define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_SUSPICIOUS "<font color=[COLOR_HERESYSEVERITY_SUSPICIOUS]><b>This is a suspicious heretical item!</b></font><br>It is considered heretical by Tennite and Psydonite faith. Those who serve the Ten and the One are likely to view me with suspicion and distrust <b>at best</b> if I am caught with it."
+#define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_ODD "<font color=[COLOR_HERESYSEVERITY_ODD]><b>An odd expression of faith...</b></font><br>It is not openly deemed heretical by Tennite and Psydonite faith. However, that does not stop it from being seen as unusual. I am likely to be given odd looks if I am seen with it and not much more, but more guarded (or paranoid) Tennites and Psydonites may not be so charitable."
 
 // Heresy severity symbols
-#define SYMBOL_HERESY_SEVERITY_SUSPICIOUS "?"
+#define EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_SUSPICIOUS "!"
 /// Zcross unicode in HTML form
-#define SYMBOL_HERESY_SEVERITY_ALARMING "&#x16E3;"
+#define EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_ALARMING "&#x16E3;"
+#define EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_ODD "?"

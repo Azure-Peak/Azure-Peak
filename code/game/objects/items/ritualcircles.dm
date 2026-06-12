@@ -741,6 +741,9 @@
 	var/cooldown = 0
 	var/creation_time
 
+/obj/item/abyssal_marker/volatile/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, "It shatters the barrier between reality and NIGHTMARE")
+
 /obj/item/abyssal_marker/tidal
 	name = "tidal abyssal marker"
 	desc = "A pulsating crystal shard that hums with the power of the deep. It feels wet to the touch."
