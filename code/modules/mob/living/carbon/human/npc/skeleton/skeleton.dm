@@ -3,7 +3,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	",w Fight...",
 	"*laugh",
 	"*rage",
-	"*scream",
+	"*laugh",
+	"*rage",
 )) //Single Words or noises, feral and empty of mind.
 
 /mob/living/carbon/human/species/skeleton
