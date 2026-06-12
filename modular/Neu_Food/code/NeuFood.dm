@@ -75,10 +75,11 @@
 	. = ..()
 	if(href_list["view_wiki"])
 		var/key = href_list["view_wiki"]
+		var/datum/recipe_wiki/wiki = get_recipe_wiki()
 		var/datum/food_recipe/single_cook/auto = SScooking?.auto_single_lookup[key]
 		if(auto)
 			if(!auto.hidden)
-				get_recipe_wiki().show_for_recipe(usr, key)
+				wiki.show_for_recipe(usr, key)
 			return
 		var/recipe_type = text2path(key)
 		if(!ispath(recipe_type, /datum/food_recipe))
@@ -86,7 +87,7 @@
 		var/datum/food_recipe/R = recipe_type
 		if(initial(R.hidden) || is_abstract(recipe_type))
 			return
-		get_recipe_wiki().show_for_recipe(usr, recipe_type)
+		wiki.show_for_recipe(usr, recipe_type)
 
 /obj/item/reagent_containers/food/snacks/rogue/MiddleClick(mob/user)
 	. = ..()

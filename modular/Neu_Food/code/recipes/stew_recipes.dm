@@ -147,7 +147,7 @@
 
 /datum/stew_recipe/thickfrycabbage
 	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/preserved/cabbage_fried)
-	output = /datum/reagent/consumable/soup/veggie/thickcabbage
+	output = /datum/reagent/consumable/soup/veggie/thickfrycabbage
 	cooktime = STEW_COOKING_TIME * 2
 
 /datum/stew_recipe/thickturnip
@@ -470,7 +470,7 @@
 	output = /datum/reagent/consumable/soup/tangerine_marmalade
 
 /datum/stew_recipe/squash_soup
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced, /obj/item/reagent_containers/food/snacks/rogue/preserved/pumpkin_mashed)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced)
 	output = /datum/reagent/consumable/soup/stew/squash_soup
 
 /datum/stew_recipe/frysquash_soup
