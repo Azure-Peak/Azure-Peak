@@ -5,6 +5,8 @@
 #define HERESYDESC_ZIZO_ICON "It bears the grim zcross of Zizo"
 #define HERESYDESC_ZIZO_MISC "A known design of Zizo"
 #define HERESYDESC_ZIZO_AVANTYNE "It is forged out of Zizo's foul Avantyne"
+#define HERESYDESC_ZIZO_ARTIFICE "Zizo's artificed design, recreated uncomfortably accurately"
+#define HERESYDESC_ZIZO_ARTIFICE_RECLAIMED "The old artificed designs of Zizo... Reclaimed?"
 
 // Matthios items
 #define HERESYDESC_MATTHIOS_WEAPON "A weapon of Matthios's greedy champions"
