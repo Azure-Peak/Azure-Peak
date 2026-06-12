@@ -535,6 +535,52 @@ All foods are distributed among various categories. Use common sense.
 			rot_text += " It is about to rot."
 	return rot_text
 
+/obj/item/reagent_containers/food/snacks/proc/food_examine_lines(mob/user)
+	var/list/parts = list()
+	switch(faretype)
+		if(FARE_IMPOVERISHED) parts += "Desperate food"
+		if(FARE_POOR)         parts += "Poor food"
+		if(FARE_NEUTRAL)      parts += "Decent food"
+		if(FARE_FINE)         parts += "Fine food"
+		if(FARE_LAVISH)       parts += "Lavish food"
+	parts += get_nutrition_to_text()
+	if(!portable)
+		parts += "requires a table"
+	if(!rotprocess)
+		parts += "no rot"
+	else
+		var/rot_label
+		switch(initial(rotprocess))
+			if(0 to SHELFLIFE_TINY)               rot_label = "rots quickly"
+			if(SHELFLIFE_TINY to SHELFLIFE_SHORT)  rot_label = "lasts half a dae"
+			if(SHELFLIFE_SHORT to SHELFLIFE_DECENT) rot_label = "lasts ~a dae"
+			if(SHELFLIFE_DECENT to SHELFLIFE_LONG)  rot_label = "lasts ~a dae and a half"
+			if(SHELFLIFE_LONG to SHELFLIFE_EXTREME) rot_label = "lasts ~three daes"
+			else rot_label = "long shelf life"
+		switch(-1 * warming / initial(rotprocess))
+			if(-INFINITY to 0.25) rot_label += " - very fresh"
+			if(0.25 to 0.5)       rot_label += " - fairly fresh"
+			if(0.5 to 0.75)       rot_label += " - going stale"
+			if(0.75 to 1)         rot_label += " - about to rot"
+		parts += rot_label
+	switch(eat_effect)
+		if(/datum/status_effect/buff/snackbuff, /datum/status_effect/buff/mealbuff)
+			parts += "looks good"
+		if(/datum/status_effect/buff/greatsnackbuff, /datum/status_effect/buff/greatmealbuff)
+			parts += "looks great"
+
+	var/list/lines = list()
+	var/info = parts.Join(", ")
+	lines += span_smallnotice("[info].")
+	switch(eat_effect)
+		if(/datum/status_effect/debuff/uncookedfood)
+			lines += span_smallred("It is raw!")
+		if(/datum/status_effect/debuff/rotfood)
+			lines += span_smallred("It is rotten!")
+		if(/datum/status_effect/debuff/burnedfood)
+			lines += span_smallred("It is burned!")
+	return lines
+
 /obj/item/reagent_containers/food/snacks/examine(mob/user)
 	. = ..()
 	if(!in_container)
@@ -546,38 +592,7 @@ All foods are distributed among various categories. Use common sense.
 				. += span_smallnotice("[src] was bitten [bitecount] times!\n")
 			else
 				. += span_smallnotice("[src] was bitten multiple times!\n")
-	switch(faretype)
-		if(FARE_IMPOVERISHED)
-			. += span_smallnotice("It is food fit for the desperate.")
-		if(FARE_POOR)
-			. += span_smallnotice("It is food fit for the poor.")
-		if(FARE_NEUTRAL)
-			. += span_smallnotice("It is decent food.")
-		if(FARE_FINE)
-			. += span_smallnotice("It is fine food.")
-		if(FARE_LAVISH)
-			. += span_smallnotice("It is lavish food.")
-	if(portable)
-		. += span_smallnotice("It can be eaten without a table.")
-	else
-		. += span_smallnotice("Eating this without a table would be disgraceful for a noble.")
-	. += span_smallnotice("It looks like [get_nutrition_to_text()]")
-	switch(eat_effect)
-		if(/datum/status_effect/debuff/uncookedfood)
-			. += span_smallred("It is raw!")
-		if(/datum/status_effect/debuff/rotfood)
-			. += span_smallred("It is rotten!")
-		if(/datum/status_effect/debuff/burnedfood)
-			. += span_smallred("It is burned!")
-		if(/datum/status_effect/buff/snackbuff)
-			. += span_smallnotice("It looks good!")
-		if(/datum/status_effect/buff/greatsnackbuff)
-			. += span_smallnotice("It looks great!!")
-		if(/datum/status_effect/buff/mealbuff)
-			. += span_smallnotice("It looks good!")
-		if(/datum/status_effect/buff/greatmealbuff)
-			. += span_smallnotice("It looks great!!")
-	. += span_smallnotice("[rotprocess_to_text()]")
+	. += food_examine_lines(user)
 
 /obj/item/reagent_containers/food/snacks/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/kitchen/fork))

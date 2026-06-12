@@ -39,13 +39,14 @@
 
 	var/list/possible = SScooking.recipe_index[src.type]
 	if(possible && possible.len)
-		var/list/recipe_names = list()
+		var/list/recipe_links = list()
 		for(var/datum/food_recipe/R in possible)
 			if(R.hidden)
 				continue
-			recipe_names += R.name
-		if(length(recipe_names))
-			. += span_smallnotice("This could be used to prepare: [recipe_names.Join(", ")].")
+			recipe_links += "<a href='byond://?src=[REF(src)];view_wiki=[R.type]'>[R.name]</a>"
+		if(length(recipe_links))
+			var/joined = recipe_links.Join(", ")
+			. += span_smallnotice("This could be used to prepare: [joined].")
 
 	if(cooked_type)
 		var/obj/item/CT = cooked_type
@@ -57,15 +58,16 @@
 		var/obj/item/ST = slice_path
 		. += span_smallnotice("It is prepared and ready to be <b>sliced</b> into [initial(ST.name)].")
 
-	if(SScooking.get_producing_recipe(src.type))
-		. += span_smallnotice("(<a href='byond://?src=[REF(src)];view_wiki=1'>View recipe</a> in the Encyclopedia.)")
+	var/datum/food_recipe/producing = SScooking.get_producing_recipe(src.type)
+	if(producing && !producing.hidden)
+		. += span_smallnotice("(<a href='byond://?src=[REF(src)];view_wiki=[producing.type]'>View recipe</a> in the Encyclopedia.)")
 
 /obj/item/reagent_containers/food/snacks/rogue/Topic(href, href_list)
 	. = ..()
 	if(href_list["view_wiki"])
-		var/datum/food_recipe/R = SScooking.get_producing_recipe(src.type)
-		if(R)
-			get_recipe_wiki().show_for_recipe(usr, R.type)
+		var/recipe_type = text2path(href_list["view_wiki"])
+		if(recipe_type)
+			get_recipe_wiki().show_for_recipe(usr, recipe_type)
 
 /obj/item/reagent_containers/food/snacks/rogue/MiddleClick(mob/user)
 	. = ..()

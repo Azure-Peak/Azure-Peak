@@ -119,10 +119,16 @@
 	if(islist(base_item) && length(base_item) > 1)
 		var/list/base_names = list()
 		for(var/atom/b as anything in base_item)
-			base_names += "[icon2html(new b, user)] [initial(b.name)]"
+			var/datum/food_recipe/br = SScooking?.get_producing_recipe(b)
+			var/bname = initial(b.name)
+			var/blabel = (br && !br.hidden) ? "<a href='byond://?src=[REF(get_recipe_wiki())];view_recipe=[br.type]'>[bname]</a>" : bname
+			base_names += "[icon2html(new b, user)] [blabel]"
 		html += "<p><b>Start with any of:</b> [base_names.Join(", ")]</p>"
 	else if(base)
-		html += "<p><b>Start with:</b> [icon2html(new base, user)] [initial(base.name)]</p>"
+		var/datum/food_recipe/br = SScooking?.get_producing_recipe(base)
+		var/bname = initial(base.name)
+		var/blabel = (br && !br.hidden) ? "<a href='byond://?src=[REF(get_recipe_wiki())];view_recipe=[br.type]'>[bname]</a>" : bname
+		html += "<p><b>Start with:</b> [icon2html(new base, user)] [blabel]</p>"
 
 	var/list/steps = journey["steps"]
 	var/cook_li = cook_step_li()
@@ -143,15 +149,12 @@
 	if(SScooking?.recipe_index && result_type)
 		var/list/follow_ups = SScooking.recipe_index[result_type]
 		if(length(follow_ups))
-			var/list/names = list()
+			var/follow_html = ""
 			for(var/datum/food_recipe/F in follow_ups)
-				if(!F.hidden)
-					names += F.name
-			if(length(names))
-				html += "<h3>Can be further prepared into:</h3><ul>"
-				for(var/n in names)
-					html += "<li>[n]</li>"
-				html += "</ul>"
+				if(F.hidden) continue
+				follow_html += "<li><a href='byond://?src=[REF(get_recipe_wiki())];view_recipe=[F.type]'>[F.name]</a></li>"
+			if(follow_html)
+				html += "<h3>Can be further prepared into:</h3><ul>[follow_html]</ul>"
 
 	return html
 

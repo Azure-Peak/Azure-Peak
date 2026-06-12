@@ -92,6 +92,20 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	state["category"] = "All"
 	ui_interact(user)
 
+/datum/recipe_wiki/Topic(href, href_list)
+	. = ..()
+	var/mob/user = usr
+	if(!user?.client)
+		return
+	var/ckey = user.client.ckey
+	if(!user_states[ckey])
+		return
+	if(href_list["view_recipe"])
+		var/recipe_path = text2path(href_list["view_recipe"])
+		if(recipe_path)
+			user_states[ckey]["recipe"] = recipe_path
+			SStgui.update_uis(src)
+
 /datum/recipe_wiki/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
