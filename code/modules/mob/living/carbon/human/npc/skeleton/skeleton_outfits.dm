@@ -101,7 +101,7 @@
 	if(prob(50))
 		pants = /obj/item/clothing/under/roguetown/tights/random
 	else
-		pants = /obj/item/clothing/under/roguetown/loincloth
+		pants = /obj/item/clothing/under/roguetown/loincloth/brown
 	if(prob(60))
 		shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	var/weapon_choice = rand(1, 5)
@@ -148,7 +148,7 @@
 	name = "Skeleton Footsoldier"
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnaire look
 	if(prob(50)) //50% chance of a decrepit helm w/coif
 		head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
 		neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
@@ -244,7 +244,6 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
-	shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnarie look, also weakpoint w/higher shield rate
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	belt = /obj/item/storage/belt/rogue/leather/rope
@@ -262,25 +261,30 @@
 			if(3)
 				id = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
 	var/weapon_choice = rand(1, 5)
-	switch(weapon_choice)
+	switch(weapon_choice) //Also covers shoes, for a bit of immersion
 		if(1)
 			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
 			if(prob(20)) // 20% chance of replacing this with a decently okay shield
 				l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
+			shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnarie look
 		if(2)
 			r_hand = /obj/item/rogueweapon/sword/short/gladius/agladius // ave
 			if(prob(45)) // 45% chance of shield, these ones are really weak and break easily
 				l_hand = /obj/item/rogueweapon/shield/bronze/aalloy
+			shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnarie look
 		if(3)
 			r_hand = /obj/item/rogueweapon/flail/aflail
 			if(prob(65)) // 65% chance of shield, these ones are really weak and break easily
 				l_hand = /obj/item/rogueweapon/shield/bronze/aalloy
+			shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnarie look
 		if(4)
 			r_hand = /obj/item/rogueweapon/mace/warhammer/alloy //Nastier for MAA skele
 			if(prob(40)) // 40% chance of replacing this with a decently okay shield
 				l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
+			shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy //Bulwark look
 		if(5)
 			r_hand = /obj/item/rogueweapon/halberd/bardiche/aalloy
+			shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy //Bulwark look
 	var/cloak_choice = rand(1, 3)
 	switch(cloak_choice)
 		if(1)
