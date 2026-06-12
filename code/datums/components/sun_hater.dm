@@ -30,10 +30,13 @@
 	if(isturf(H.loc))
 		var/turf/T = H.loc
 		if(T.can_see_sky())
-			if(HAS_TRAIT(H, (TRAIT_WEATHER_PROTECTED||TRAIT_VAMPIRE_SPAWN_PROTECTION)))
+			if(HAS_TRAIT(H, (TRAIT_WEATHER_PROTECTED)) || (HAS_TRAIT(H, (TRAIT_VAMPIRE_SPAWN_PROTECTION))))
 				if(!in_sunlight)
 					in_sunlight = TRUE
-					to_chat(H, span_danger("I am shielded from the Sun-Tyrant's scorn."))
+					if(HAS_TRAIT(H, TRAIT_WEATHER_PROTECTED))
+						to_chat(H, span_danger("I am shielded against the sunlight."))
+					else if(HAS_TRAIT(H, TRAIT_VAMPIRE_SPAWN_PROTECTION))
+						to_chat(H, span_danger("She is ignoring me, for now. I feel very uneasy."))
 				return
 
 			if(!in_sunlight)

@@ -84,7 +84,7 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     availableClans: 'Available Clans',
     clanName: 'Clan Name',
     customNamePlaceholder: 'Name your Caitiff bloodline...',
-    customNameHint: 'Leave blank to be known simply as the "Custom Clan".',
+    customNameHint: 'Leave blank to be known simply as the "Chudsworth".',
     description: 'Description',
     curseDownside: 'Curse / Downside',
     bloodPreference: 'Blood Preference',

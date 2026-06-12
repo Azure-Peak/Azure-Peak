@@ -44,11 +44,11 @@
 /datum/status_effect/vampire_spawn_protection
 	id = "vampire_spawn_protection"
 	duration = 5 MINUTES
-	alert_type = /atom/movable/screen/alert/status_effect/vampire_spawn_protection
+	alert_type = /atom/movable/screen/alert/status_effect/buff/vampire_spawn_protection
 
-/atom/movable/screen/alert/status_effect/vampire_spawn_protection
-	name = "Sun Protection"
-	desc = "The sun cannot harm me... for now."
+/atom/movable/screen/alert/status_effect/buff/vampire_spawn_protection
+	name = "Averted Gaze"
+	desc = "The blood of my sacrificed victim still obscures my presence before the Sun-Tyrant. Until it dries, Her gaze cannot reach me."
 	icon_state = "buff"
 
 /datum/status_effect/vampire_spawn_protection/on_apply()

@@ -146,7 +146,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		return
 
 	if(vampdude.job == "Wretch")
-		var/wretch_name = tgui_input_text(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Custom Clan", MAX_NAME_LEN)
+		var/wretch_name = tgui_input_text(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Chudsworth", MAX_NAME_LEN)
 		create_custom_clan(vampdude, wretch_name)
 		return
 
@@ -167,7 +167,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	finalize_clan_selection(vampdude, /datum/clan/crimson_fang)
 
 /datum/antagonist/vampire/proc/create_custom_clan(mob/living/carbon/human/vampdude, custom_name = null)
-	custom_clan_name = (istext(custom_name) && length(custom_name)) ? custom_name : "Custom Clan"
+	custom_clan_name = (istext(custom_name) && length(custom_name)) ? custom_name : "Chudsworth"
 
 	var/datum/clan/custom/new_clan = new /datum/clan/custom()
 	new_clan.name = custom_clan_name
