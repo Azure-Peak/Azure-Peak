@@ -151,10 +151,13 @@
 
 	var/list/visuals = active_recipe.step_visuals
 	var/list/visual = (current_step <= length(visuals)) ? visuals[current_step] : null
+	var/list/step_over = (current_step <= length(active_recipe.step_overlays)) ? active_recipe.step_overlays[current_step] : null
 	if(visual)
 		cut_overlays()
 		icon = visual[1]
 		icon_state = visual[2]
+	else if(step_over)
+		add_overlay(mutable_appearance(step_over[1], step_over[2]))
 	else if(!is_tool && (current_step < active_recipe.ingredients.len || active_recipe.needs_cooking || active_recipe.cook_method))
 		var/image/over = image(I.icon, I.icon_state)
 		over.transform = matrix() * 0.7
@@ -176,6 +179,9 @@
 		finish_recipe(user)
 
 /obj/item/reagent_containers/food/snacks/rogue/proc/finish_recipe(mob/living/user)
+	if(active_recipe.cook_method || active_recipe.needs_cooking)
+		if(active_recipe.result_smell)
+			cooked_smell = active_recipe.result_smell
 	if(active_recipe.cook_method)
 		set_cook_handoff(active_recipe.cook_method, active_recipe.result_type)
 		to_chat(user, span_nicegreen("[name] is ready to be cooked."))

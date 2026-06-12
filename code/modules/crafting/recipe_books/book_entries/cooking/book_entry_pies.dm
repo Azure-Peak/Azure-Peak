@@ -1,6 +1,7 @@
 /datum/book_entry/cooking_pies
-	name = "Pies"
-	category = "Instructions"
+	name = "Pie Making"
+	category = FOOD_CAT_PIES
+	book_priority = 1
 
 /datum/book_entry/cooking_pies/inner_book_html(mob/user)
 	return {"
@@ -15,21 +16,10 @@
 	<li>Bake one piece of pie dough in the oven to produce a pie bottom.</li>
 	</ol>
 
-	<h2>Filling the Pie</h2>
-	<p>Add the appropriate filling to the pie bottom. The kind of pie depends on what you add:</p>
-	<ul>
-	<li><b>Apple Pie</b> - 3 apples.</li>
-	<li><b>Berry Pie</b> - 3 jacksberries. Poison jacksberries will produce a poison pie.</li>
-	<li><b>Meaty Pie</b> - 3 normal meat mince.</li>
-	<li><b>Fishy Pie</b> - 3 fish mince.</li>
-	<li><b>Crabby Pie</b> - 3 crab meat. One crab meat may be substituted with one slice of cabbage.</li>
-	<li><b>Pumpkin Pie</b> - Sliced or mashed pumpkin, 1 fresh cheese, 1 egg, and 1 sugar.</li>
-	<li><b>Pot Pie</b> - Any three of: fresh cheese, cheese wedge, aged cheese, potato slices, bacon, minced poultry, fat, or egg.</li>
-	</ul>
-
-	<h2>Assembly and Baking</h2>
+	<h2>Filling and Baking</h2>
 	<ol>
-	<li>Add the second uncooked pie dough on top of the filled pie bottom to seal it.</li>
+	<li>Add the filling to the pie bottom - the recipes in this category list every pie.</li>
+	<li>Most pies are sealed with the second piece of pie dough on top; the pumpkin pie is left open.</li>
 	<li>Bake the assembled pie in the oven.</li>
 	<li>Slice the finished pie to produce pie slices.</li>
 	</ol>

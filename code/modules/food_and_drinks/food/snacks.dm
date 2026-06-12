@@ -538,25 +538,25 @@ All foods are distributed among various categories. Use common sense.
 /obj/item/reagent_containers/food/snacks/proc/food_examine_lines(mob/user)
 	var/list/parts = list()
 	switch(faretype)
-		if(FARE_IMPOVERISHED) parts += "Desperate food"
-		if(FARE_POOR)         parts += "Poor food"
-		if(FARE_NEUTRAL)      parts += "Decent food"
-		if(FARE_FINE)         parts += "Fine food"
-		if(FARE_LAVISH)       parts += "Lavish food"
+		if(FARE_IMPOVERISHED) parts += "Quality: Impoverished"
+		if(FARE_POOR)         parts += "Quality: Poor"
+		if(FARE_NEUTRAL)      parts += "Quality: Neutral"
+		if(FARE_FINE)         parts += "Quality: Fine"
+		if(FARE_LAVISH)       parts += "Quality: Lavish"
 	parts += get_nutrition_to_text()
 	if(!portable)
-		parts += "requires a table"
+		parts += "Table: Required (For Nobles)"
 	if(!rotprocess)
-		parts += "no rot"
+		parts += "Rot: None"
 	else
 		var/rot_label
 		switch(initial(rotprocess))
-			if(0 to SHELFLIFE_TINY)               rot_label = "rots quickly"
-			if(SHELFLIFE_TINY to SHELFLIFE_SHORT)  rot_label = "lasts half a dae"
-			if(SHELFLIFE_SHORT to SHELFLIFE_DECENT) rot_label = "lasts ~a dae"
-			if(SHELFLIFE_DECENT to SHELFLIFE_LONG)  rot_label = "lasts ~a dae and a half"
-			if(SHELFLIFE_LONG to SHELFLIFE_EXTREME) rot_label = "lasts ~three daes"
-			else rot_label = "long shelf life"
+			if(0 to SHELFLIFE_TINY)               rot_label = "Rot: Rots quickly"
+			if(SHELFLIFE_TINY to SHELFLIFE_SHORT)  rot_label = "Rot: lasts about half a dae"
+			if(SHELFLIFE_SHORT to SHELFLIFE_DECENT) rot_label = "Rot: lasts ~a dae"
+			if(SHELFLIFE_DECENT to SHELFLIFE_LONG)  rot_label = "Rot: lasts ~a dae and a half"
+			if(SHELFLIFE_LONG to SHELFLIFE_EXTREME) rot_label = "Rot: lasts ~three daes"
+			else rot_label = "Rot: long shelf life"
 		switch(-1 * warming / initial(rotprocess))
 			if(-INFINITY to 0.25) rot_label += " - very fresh"
 			if(0.25 to 0.5)       rot_label += " - fairly fresh"

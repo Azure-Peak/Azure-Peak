@@ -3540,6 +3540,7 @@
 #include "modular\Neu_Food\code\recipes\meat_meal_recipes.dm"
 #include "modular\Neu_Food\code\recipes\meat_recipes.dm"
 #include "modular\Neu_Food\code\recipes\pastry_recipes.dm"
+#include "modular\Neu_Food\code\recipes\pie_recipes.dm"
 #include "modular\Neu_Food\code\recipes\rice_recipes.dm"
 #include "modular\Neu_Food\code\recipes\stew_recipes.dm"
 #include "modular\Neu_Food\code\recipes\veggies_recipes.dm"

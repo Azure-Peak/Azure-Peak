@@ -19,6 +19,8 @@
 	var/hidden = FALSE
 	/// step_visuals[i] = list(icon_file, icon_state). Icon used after Step 1
 	var/list/step_visuals = list()
+	/// step_overlays[i] = list(icon_file, icon_state) added as an overlay after step i. Overlays stack across steps; ignored when step_visuals has an entry for the step.
+	var/list/step_overlays = list()
 	/// How long it takes to add items
 	var/time_per_step = 2 SECONDS
 	/// Experience per step per int
@@ -29,6 +31,7 @@
 	var/book_category = FOOD_CAT_COMBINATION
 	var/restricted_message = null
 	var/list/extra_steps = list()
+	var/result_smell = null
 
 /datum/food_recipe/proc/user_can_make(mob/user)
 	return TRUE
