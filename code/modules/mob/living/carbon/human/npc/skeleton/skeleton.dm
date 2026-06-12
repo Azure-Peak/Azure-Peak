@@ -1,3 +1,11 @@
+GLOBAL_LIST_INIT(skeleton_aggro, list(
+	",w Kill...",
+	",w Fight...",
+	"*laugh",
+	"*rage",
+	"*scream",
+)) //Single Words or noises, feral and empty of mind.
+
 /mob/living/carbon/human/species/skeleton
 	name = "skeleton"
 
@@ -27,6 +35,8 @@
 	gender = pick(MALE, FEMALE)
 	dna.species.handle_body(src)
 	update_body()
+	src.grant_language(/datum/language/undead)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.skeleton_aggro, TRUE)
 	src.regenerate_icons() //Fixes the weird body with random genders for NPCs.
 
 /mob/living/carbon/human/species/skeleton/npc/ambush
