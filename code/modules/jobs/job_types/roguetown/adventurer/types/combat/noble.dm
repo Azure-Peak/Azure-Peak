@@ -32,7 +32,7 @@
 	townie_contract_gate_exempt = TRUE
 	townie_contract_gate_hide_in_list = TRUE
 
-	extra_context = "This subclass has different regional loadouts with some locked behind species (drow, kobolds, zardmen), your skills + traits + stats further differ based on proficiency picked."
+	extra_context = "This subclass has different regional loadouts with some locked behind species (drow), your skills + traits + stats further differ based on proficiency picked."
 
 /datum/outfit/job/roguetown/adventurer/noble/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -43,7 +43,7 @@
 	if(H.mind)
 		var/clothing = list("Classic - Nowhere Significant", "Grenzelhoft", "Otava", "Aavnr", "Ranesheni", "Gronn", "Etrusca", "Naledi", "Kazengun")
 		if(is_species(H, /datum/species/elf/dark) || is_species(H, /datum/species/dullahan)) //Species Exclusive Options -> Drow Underdark House
-			clothing += "Underdark"
+			clothing += "Underdark" //dullahan are only included for oversights/downstreams where they might be able to roll for this.
 		//if(is_species(H, /datum/species/kobold) || is_species(H, /datum/species/dracon)) //Species Exclusive Options -> Lirvan
 			//clothing += "Lirvan" EXCLUDED for now cause of content lacking. If you ever want to add this, de-comment this.
 		var/clothing_choice = input(H, "Choose your clothing style.", "FROM WHERE DOTH YOUR HOUSE HAIL FROM?") as anything in clothing
