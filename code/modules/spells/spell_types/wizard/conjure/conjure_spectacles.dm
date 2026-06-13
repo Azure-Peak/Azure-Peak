@@ -74,9 +74,9 @@
 /obj/item/clothing/mask/rogue/spectacles/inq_lesser_summoned
 	name = "summoned nocshade lens-pair"
 	icon_state = "bglasses"
-	desc = "An argument between the chosen of Noc and the Otavian Orthodoxy has raged on for years,\n\
-	no one truely knows who the original creator of these glasses truely was.\n\
-	But one thing is absolutely for certain, they are quite fashionable."
+	desc = "An argument between the chosen of Noc and the Otavan Orthodoxy has raged on for years.\n\
+	No-one truly knows who the original creator of these glasses was.\n\
+	But one thing, at least, is certain: they are quite fashionable."
 		
 // Golden spectacles summonable lesser varient - with no mechanical effects
 

@@ -153,7 +153,7 @@
 
 /obj/item/scrap
 	name = "iron scrap"
-	desc = "Shingles and scrap, borne from violence upon iron. There may yet still be a use for these pieces.. </br>Iron scrap can be crafted into metal repair kits, which can repair damaged equipment without the need for a blacksmith's hammer."
+	desc = "Shingles and scrap, born from violence upon iron. There may yet still be a use for these pieces.. </br>Iron scrap can be crafted into metal repair kits, which can repair damaged equipment without the need for a blacksmith's hammer."
 	icon_state = "scrap"
 	icon = 'icons/roguetown/items/misc.dmi'
 	grid_width = 32
