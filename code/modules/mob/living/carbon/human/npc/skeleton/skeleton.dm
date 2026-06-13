@@ -1,9 +1,11 @@
 GLOBAL_LIST_INIT(skeleton_aggro, list(
 	",w Kill...",
 	",w Fight...",
+	",w Destroy...",
+	"*laugh",
 	"*laugh",
 	"*rage",
-	"*laugh",
+	"*rage",
 	"*rage",
 )) //Single Words or noises, feral and empty of mind.
 
