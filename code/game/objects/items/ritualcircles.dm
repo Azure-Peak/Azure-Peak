@@ -352,7 +352,7 @@
 /obj/structure/ritualcircle/dendor
 	name = "Rune of Beasts"
 	icon_state = "dendor_chalky"
-	desc = "A Holy Rune of Dendor. Becoming one with nature is to connect with ones true instinct."
+	desc = "A Holy Rune of Dendor. To become one with nature is to connect with one's true instinct."
 	var/dendorrites = list ("Rite of the Lesser Volf")
 
 /obj/structure/ritualcircle/dendor/attack_hand(mob/living/user)

@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscadd: "Spellbooks can now be renamed"

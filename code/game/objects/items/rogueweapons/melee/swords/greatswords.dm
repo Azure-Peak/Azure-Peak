@@ -335,7 +335,7 @@
 
 /obj/item/rogueweapon/greatsword/avantyne
 	name = "avantyne-threaded greatsword"
-	desc = "Malediction made manifest; the greatweapon of an otherworldly champion, unphased by the thickest plates nor the toughest flesh. Let no one stop the \
+	desc = "Malediction made manifest; the greatweapon of an otherworldly champion, unfazed by the thickest plates and the toughest flesh. Let no one stop the \
 	march of Her disciples, towards the filament's sputtering wound. Take thine birthright and ascend to the heavens beyond, or die trying."
 	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/thrust/estoc, /datum/intent/sword/cut/zwei/cleave, /datum/intent/sword/cut/zwei/sweep)
 	icon_state = "zizogsw"

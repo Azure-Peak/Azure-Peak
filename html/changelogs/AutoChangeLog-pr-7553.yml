@@ -1,0 +1,16 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Adds a plethora of new Donator-exclusive items to the Loadout menu. These items can be freely accessed by anyone that's registered as a Donator to the server. I've added my own little funded garb, too!"
+  - code_imp: "Credit to Zydras, Dromkii, Darkinite, Desminus, Cre77, and Witty for either spriting, licensing, or otherwise commissioning most of the added sprites here. You're all wonderful."
+  - bugfix: "Haubergeon and Hauberk sleeves should render as intended, once again."
+  - bugfix: "Finalizes the renaming of Mailled Hauberk / Mailled Cuirass into Plate-And-Maille."
+  - bugfix: "Clerical longswords (now 'anointed longswords') no longer have iffy sprites."
+  - code_imp: "Reduces price of lesser perfumes from 2 to 1 on the Triumph shop."
+  - code_imp: "Reorganized Triumph kits to follow the same naming convention as their Donator equivalents, for more sorting cohesion."
+  - rscadd: "Adds the Azurosa dyeshade, which closely matches the Azurosa palette."
+  - rscadd: "Adds the Haubyrines, light-weight haubergeons that only cover the torso with reduced coverage."
+  - rscadd: "Adds wooden and golden amulets for every remaining deity. Wooden amulets can be crafted with sticks and fibers, while golden amulets can be crafted with a regular amulet and a golden ingot. Ornate variants are available via Triumphs."
+  - rscadd: "Baothan and Matthiosite amulets - as the only two(?) native golden amulets (besides the Undivided) - now require Expert-tier skills to make. Likewise, forging it from gold will make an exclusive '/g'-forked version that can be sold for a nice chunk of change. Loadout-specific variants remain the same."
+  - rscadd: "Bronze and Ancient amulets are now available for a small amount of Triumphs."
+  - rscadd: "Adds plaque belts and steel belts as a higher-end Triumph purchase."

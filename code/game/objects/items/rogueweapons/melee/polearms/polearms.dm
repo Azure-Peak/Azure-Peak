@@ -643,8 +643,8 @@
 
 /obj/item/rogueweapon/spear/billhook/avantyne
 	name = "avantyne-threaded billhook"
-	desc = "A twisted implement of harvest, it's hooked edge festering with crystalline malice. It is a weapon of pure upheaval, designed \
-	to drag the Psydonia's false idols into the dirt."
+	desc = "A twisted implement of harvest, its hooked edge festering with crystalline malice. It is a weapon of pure upheaval, designed \
+	to drag Psydonia's false idols into the dirt."
 	icon_state = "zizobillhook"
 	force = 30
 	force_wielded = 35
@@ -928,7 +928,7 @@
 	desc = "A beautiful variant of the halberd. Its reinforced shaft provides it with greater durability against attacks."
 	icon_state = "bardiche"
 	anvilrepair = /datum/skill/craft/weaponsmithing
-	smeltresult = /obj/item/ingot/iron
+	smeltresult = /obj/item/ingot/steel //this is a steel weapon.
 	max_blade_int = 300
 	wdefense = 5
 	wbalance = WBALANCE_HEAVY

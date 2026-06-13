@@ -261,6 +261,8 @@
 		msg = replacetext(msg, "them", user.p_them())
 	if(findtext(msg, "%s"))
 		msg = replacetext(msg, "%s", user.p_s())
+	if(findtext(msg, "themselves"))
+		msg = replacetext(msg, "themselves", user.p_themselves())
 	return msg
 
 /datum/emote/proc/select_message_type(mob/user, intentional)

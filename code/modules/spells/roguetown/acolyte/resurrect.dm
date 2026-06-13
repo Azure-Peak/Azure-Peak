@@ -93,7 +93,7 @@
 			target.dust()
 			return TRUE
 
-		if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+		if(alert(target, "They are calling for you. Are you ready?", "TEETERING BETWEEN PARADISE AND PERDITION.", "I need to wake up!", "Don't let me go..") != "I need to wake up!")
 			target.visible_message(span_notice("Nothing happens. They are not being let go."))
 			return FALSE
 		target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
@@ -121,10 +121,17 @@
 			target.apply_status_effect(debuff_type)	//Temp debuff on revive, your stats get hit temporarily. Doubly so if having rotted.
 		//Due to an increased cost and cooldown, these revival types heal quite a bit.
 		target.apply_status_effect(/datum/status_effect/buff/healing, 14)
+		addtimer(CALLBACK(src, PROC_REF(deathmark), target), 5 MINUTES)
 		consume_items(target)
 		return TRUE
 	revert_cast()
 	return FALSE
+
+/obj/effect/proc_holder/spell/invoked/resurrect/proc/deathmark(mob/living/victim)
+	if(victim.stat != DEAD)
+		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark in question. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
+		victim.play_permadeath_indicator()
+		to_chat(victim, span_danger("You suddenly feel a deathly chill from within, as the lux begins to creep across your heart once more. The thread betwixt your soul and body remains thin; to succumb again so soon would ensure its total severance."))
 
 /obj/effect/proc_holder/spell/invoked/resurrect/cast_check(skipcharge, mob/user = usr)
 	if(!..())
