@@ -231,8 +231,8 @@
 	)
 	invocation_type = INVOCATION_SHOUT
 	// Hefty cooldown given we can heal a lot of people.
-	// Up to 60 seconds with no int modifiers if a lot of puddles are made into healing stuff.
-	cooldown_time = 30 SECONDS
+	// Up to double the cooldown with no int modifiers if a lot of puddles are made into healing stuff.
+	cooldown_time = 28 SECONDS
 	charge_time = 0.5 SECONDS
 	associated_skill = /datum/skill/magic/holy
 	var/transmute_range = 4
@@ -261,7 +261,7 @@
 
 	if(affected_count > 0)
 		to_chat(user, span_nicegreen("I have successfully converted [affected_count] puddles into healing paint!"))
-		temp_cooldown_multiplier = clamp(1.0 + (affected_count * 0.1), 1.0, 2.0)
+		temp_cooldown_multiplier = clamp(1.0 + (affected_count * 0.08), 1.0, 2.0)
 		return TRUE
 	else
 		to_chat(user, span_warning("There were no abyssal paint puddles nearby to transmute."))

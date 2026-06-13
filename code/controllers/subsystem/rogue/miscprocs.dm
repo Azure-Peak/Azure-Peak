@@ -24,6 +24,10 @@
 	var/prayer_effectiveness = 2
 	/// Spells we have granted thus far
 	var/list/granted_spells
+	/// Whether or not we can progress devotion spells
+	var/able_to_progress = TRUE
+	/// Whether the prompt is active
+	var/path_choice_prompt = FALSE
 
 /datum/devotion/New(mob/living/carbon/human/holder, datum/patron/patron)
 	. = ..()
@@ -72,6 +76,8 @@
 		to_chat(holder, span_warning("I have reached the limit of my devotion..."))
 	if(!prog_amt) // no point in the rest if it's just an expenditure
 		return TRUE
+	if(!able_to_progress)
+		return TRUE
 	progression = clamp(progression + prog_amt, 0, max_progression)
 	switch(level)
 		if(CLERIC_T0)
@@ -98,18 +104,27 @@
 		return
 
 	if(patron)
-		if(length(patron.miracles))
-			for(var/spell_type in patron.miracles)
-				var/required_tier = patron.miracles[spell_type]			
-				if(required_tier <= level)
-					if(holder.mind.has_spell(spell_type))
-						continue
+		if(istype(patron, /datum/patron/divine/abyssor) && level >= CLERIC_T1)
+			if(HAS_TRAIT(holder, TRAIT_INK_AFFINITY))
+				var/datum/patron/divine/abyssor/A = patron
+				grant_paint_miracles(A, silent)
+				lock_down_progression()
+			else if(!path_choice_prompt)
+				path_choice_prompt = TRUE
+				handle_abyssor_paths(silent)
+		else
+			if(length(patron.miracles))
+				for(var/spell_type in patron.miracles)
+					var/required_tier = patron.miracles[spell_type]         
+					if(required_tier <= level)
+						if(holder.mind.has_spell(spell_type))
+							continue
+						var/obj/effect/proc_holder/spell/newspell = new spell_type
+						if(!silent)
+							to_chat(holder, span_boldnotice("I have unlocked a new spell: [newspell]"))
+						holder.mind.AddSpell(newspell, holder)
+						LAZYADD(granted_spells, newspell)
 
-					var/obj/effect/proc_holder/spell/newspell = new spell_type
-					if(!silent)
-						to_chat(holder, span_boldnotice("I have unlocked a new spell: [newspell]"))
-					holder.mind.AddSpell(newspell, holder)
-					LAZYADD(granted_spells, newspell)
 		if(length(patron.traits_tier))
 			for(var/trait in patron.traits_tier)
 				var/required_tier = patron.traits_tier[trait]
@@ -117,7 +132,6 @@
 					if(!silent)
 						to_chat(holder, span_boldnotice("I have unlocked a new trait: [trait]"))
 					ADD_TRAIT(holder, trait, ROUNDSTART_TRAIT)
-
 
 //The main proc that distributes all the needed devotion tweaks to the given class.
 //cleric_tier 		- The cleric tier that the holder will get spells of immediately.
@@ -284,3 +298,56 @@
 	var/datum/component/ore_sight/COS = GetComponent(/datum/component/ore_sight)
 	if(COS)
 		COS.change_range()
+
+/datum/devotion/proc/handle_abyssor_paths(silent = FALSE)
+	if(!holder || !patron)
+		return
+
+	var/datum/patron/divine/abyssor/A = patron
+
+	var/choice = input(holder, "Choose your studies under the Deepfather:", "Call Of The Deep") as null|anything in list("Path of the Dreamer (offense)", "Path of the Painter (support)")
+	if(!choice)
+		choice = "Path of the Dreamer (offense)"
+
+	switch(choice)
+		if("Path of the Painter (support)")
+			grant_paint_miracles(A, silent)
+			lock_down_progression()
+			ADD_TRAIT(holder, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
+		if("Path of the Dreamer (offense)")
+			if(!silent)
+				to_chat(holder, span_boldnotice("You have chosen the Path of the Dreamer. Your mind sinks under the waves."))
+			if(!HAS_TRAIT(holder, TRAIT_HERESIARCH))
+				ADD_TRAIT(holder, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
+			allocate_standard_miracles(silent)
+			lock_down_progression()
+
+/datum/devotion/proc/allocate_standard_miracles(silent = FALSE)
+	if(!patron || !holder?.mind)
+		return
+	if(length(patron.miracles))
+		for(var/spell_type in patron.miracles)
+			var/required_tier = patron.miracles[spell_type]         
+			if(required_tier <= level)
+				if(holder.mind.has_spell(spell_type))
+					continue
+				var/obj/effect/proc_holder/spell/newspell = new spell_type
+				if(!silent)
+					to_chat(holder, span_boldnotice("I have unlocked a new spell: [newspell]"))
+				holder.mind.AddSpell(newspell, holder)
+				LAZYADD(granted_spells, newspell)
+
+/datum/devotion/proc/lock_down_progression()
+	able_to_progress = FALSE
+
+/datum/devotion/proc/grant_paint_miracles(datum/patron/divine/abyssor/A, silent = FALSE)
+	if(!length(A.paint_miracles))
+		return
+	for(var/spell_type in A.paint_miracles)
+		if(holder.mind.has_spell(spell_type))
+			continue
+		var/obj/effect/proc_holder/spell/new_paint_spell = new spell_type
+		if(!silent)
+			to_chat(holder, span_boldnotice("You have unlocked a paint miracle: [new_paint_spell]"))
+		holder.mind.AddSpell(new_paint_spell, holder)
+		LAZYADD(granted_spells, new_paint_spell)
