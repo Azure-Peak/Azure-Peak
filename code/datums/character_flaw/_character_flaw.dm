@@ -25,6 +25,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/noeyer::name = /datum/charflaw/noeyer,
 	/datum/charflaw/noeyel::name = /datum/charflaw/noeyel,
 	/datum/charflaw/noeyeall::name = /datum/charflaw/noeyeall,
+	/datum/charflaw/armor_break::name=/datum/charflaw/armor_break,
 	/datum/charflaw/limbloss/arm_r::name = /datum/charflaw/limbloss/arm_r,
 	/datum/charflaw/limbloss/arm_l::name = /datum/charflaw/limbloss/arm_l,
 	/datum/charflaw/sleepless::name = /datum/charflaw/sleepless,
@@ -409,6 +410,17 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/colorblind/on_mob_creation(mob/user)
 	..()
 	user.add_client_colour(/datum/client_colour/monochrome)
+
+/datum/charflaw/armor_break
+	name = "Loose Straps"
+	desc = "My armor never seems to fit quite right. It has a nasty habit of exploding off my body when under inordinate stress."
+	needs_extra_vice = TRUE
+
+/datum/charflaw/armor_break/on_mob_creation(mob/user)
+	..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		ADD_TRAIT(H, TRAIT_ARMOR_BREAK, TRAIT_GENERIC)
 
 GLOBAL_LIST_INIT(hunted_protected_roles, list(
 	"Head Physician",

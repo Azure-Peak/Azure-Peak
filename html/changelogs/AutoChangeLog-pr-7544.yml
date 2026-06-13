@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Atgervi shields now properly render when on the back slot. They have been restricted to the right back slot, which shouldn't affect the ability to carry other slot-restricted pieces (like the rucksack or backpack.)"

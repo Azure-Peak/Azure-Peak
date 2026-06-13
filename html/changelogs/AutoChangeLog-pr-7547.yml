@@ -1,4 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - bugfix: "Fixes the exploit with Noc and Undivided spell selectors, preventing them from being called infinite times for infinite spells."
