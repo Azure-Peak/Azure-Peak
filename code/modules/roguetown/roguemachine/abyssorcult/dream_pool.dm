@@ -126,7 +126,7 @@
 	var/list/display_to_ritual = list()
 	for(var/ritual_name in GLOB.abyssal_rituals)
 		var/datum/abyssal_ritual/R = GLOB.abyssal_rituals[ritual_name]
-		var/menu_line = "[R.name] ([R.base_devotion_cost] Devotion) - Requires: "
+		var/menu_line = "\n[R.name] ([R.base_devotion_cost] Devotion) - Requires: "
 		if(length(R.required_ingredients))
 			var/list/ing_strings = list()
 			for(var/ing_type in R.required_ingredients)
@@ -144,10 +144,10 @@
 		selectable_menu += menu_line
 		display_to_ritual[menu_line] = R
 
-	var/choice = input(user, "Select an abyssal ritual to execute via the vortex:", "Vortex Ritual Chamber") as null|anything in selectable_menu
-	if(!choice || QDELETED(src) || QDELETED(user) || !user.Adjacent(src))
-		return
+	var/choice = tgui_input_list(user, "Select an abyssal ritual to execute via the vortex:", "Vortex Ritual Chamber", selectable_menu)
 
+	if(!choice || QDELETED(src) || QDELETED(user) || user.stat != CONSCIOUS)
+		return
 	var/datum/abyssal_ritual/chosen_ritual = display_to_ritual[choice]
 	if(!chosen_ritual)
 		return
