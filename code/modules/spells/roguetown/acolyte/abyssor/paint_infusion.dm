@@ -18,12 +18,23 @@
 	var/total_effective_consumed = 0
 	/// The original duration (stored for ratio calculations)
 	var/original_duration = 20 MINUTES
+	var/image/pylon_outline
 
 /datum/status_effect/infusion/on_creation(mob/living/new_owner, obj/structure/dream_pylon/source_pylon)
 	if(source_pylon)
 		pylon_ref = WEAKREF(source_pylon)
 	last_tick_time = world.time
 	original_duration = initial(duration)
+	. = ..()
+	if(owner && source_pylon)
+		update_pylon_outline(source_pylon, "#7A288A")
+
+/datum/status_effect/infusion/Destroy()
+	if(pylon_outline)
+		if(owner?.client)
+			owner.client.images -= pylon_outline
+		qdel(pylon_outline)
+		pylon_outline = null
 	return ..()
 
 /datum/status_effect/infusion/tick(wait)
@@ -44,10 +55,12 @@
 	if(out_of_range)
 		if(!was_out_of_range)
 			to_chat(owner, "<span class='warning'>You have wandered too far from the pylon! Your infusion begins decaying rapidly.</span>")
+			update_pylon_outline(P, COLOR_RED)
 		effective_time_consumed = time_passed * decay_multiplier
 		duration -= time_passed * (decay_multiplier - 1)
 	else if(was_out_of_range)
-		to_chat(owner, "<span class='notice'>You have stepped back into range of the pylon. Your aura stabilizes.</span>")
+		to_chat(owner, "<span class='notice'>You have stepped back into range of the pylon. Your infusion stabilizes.</span>")
+		update_pylon_outline(P, "#7A288A")
 	total_effective_consumed += effective_time_consumed
 
 /datum/status_effect/infusion/proc/refund_charge()
@@ -63,6 +76,24 @@
 	var/charge_to_restore = round(P.charge_cost_per_use * ratio_remaining)
 	P.charge = min(P.max_charge, P.charge + charge_to_restore)
 
-	to_chat(owner, "<span class='notice'>You clear your alignment. [charge_to_restore] energy points flow back to the pylon.</span>")
+	to_chat(owner, "<span class='notice'>You touch the edge of the pylon, letting the paint ooze back into the ball. [charge_to_restore] energy points flow back to the pylon.</span>")
 	P.update_pylon_appearance()
 	qdel(src)
+
+/datum/status_effect/infusion/proc/update_pylon_outline(obj/structure/dream_pylon/P, new_color)
+	if(!owner?.client || !P)
+		return
+
+	if(pylon_outline)
+		pylon_outline.filters = null
+		pylon_outline.filters += filter(type = "outline", size = 1, color = new_color)
+	else
+		var/image/I = image(icon = P.icon, loc = P, icon_state = P.icon_state, layer = P.layer + 0.05)
+
+		if(P.active_overlay)
+			I.overlays += image(icon = P.active_overlay.icon, icon_state = P.active_overlay.icon_state)
+
+		I.filters += filter(type = "outline", size = 1, color = new_color)
+
+		pylon_outline = I
+		owner.client.images += pylon_outline

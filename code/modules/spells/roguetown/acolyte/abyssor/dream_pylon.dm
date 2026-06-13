@@ -36,7 +36,8 @@
 	else
 		var/amount_of_charges = floor(charge / charge_cost_per_use)
 		var/infusion_name = initial(infusion_payload.id)
-		. += "\n<span class='notice'>It is imbued with the essence of <b>[infusion_name]</b>. It appears to have roughly <b>[amount_of_charges]</b> uses left.</span>"
+		var/message = (amount_of_charges > 0) ? amount_of_charges : "No"
+		. += "\n<span class='notice'>It is imbued with the essence of <b>[infusion_name]</b>. It appears to have <b>[message]</b> uses left.</span>"
 
 /obj/structure/dream_pylon/proc/set_pylon_overlay(new_icon, new_icon_state)
 	if(active_overlay)
