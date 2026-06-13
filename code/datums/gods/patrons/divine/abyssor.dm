@@ -21,6 +21,8 @@
 		/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 		/obj/effect/proc_holder/spell/invoked/aquatic_compulsion	= CLERIC_T0,
 		/obj/effect/proc_holder/spell/self/abyssor_wind				= CLERIC_T0,
+		/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+		/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 		/datum/action/cooldown/spell/ink_presence					= CLERIC_T1,
 		/datum/action/cooldown/spell/paint_blessing					= CLERIC_T1,
 		/datum/action/cooldown/spell/umbral_viscosity				= CLERIC_T2,
