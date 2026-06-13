@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "NPC no longer turns gears on their body into scavenged on death, only those they spawn with."

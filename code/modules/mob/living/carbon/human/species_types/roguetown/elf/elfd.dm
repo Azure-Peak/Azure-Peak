@@ -8,8 +8,8 @@
 	origin_default = /datum/virtue/origin/racial/underdark
 	origin = "Underdark"
 	base_name = "Elf"
-	desc = "<b>Dark Elf</b><br>\
-	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace their \
+	desc_title = "Dark Elf"
+	desc = "\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace their \
 	heritage to the ancient and mysterious Snow Elves. This species of elf, less frequently \
 	seen, are also referred to by some as \"drow,\" and have several key differences \
 	that set them apart from their more well-known and surface-dwelling kin. Chief among these \
@@ -23,8 +23,7 @@
 	to the surface. The reasons for each dark elf fleeing the Underdark vary depending on the \
 	individual, such as a kinder heart fleeing from a brutal society that scorns them for their \
 	less cruel nature. However, not every dark elf seen on the surface can be safely assumed as \
-	kind, for some leave the Underdark simply to find their own greater heights of power.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 PER | +1 WIL </b></span><br>"
+	kind, for some leave the Underdark simply to find their own greater heights of power."
 
 /*
 	Former RT Desc: These guys were undead which doesn't really fit considering now you have a ton of them walking around.

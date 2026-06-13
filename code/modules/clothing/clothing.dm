@@ -400,6 +400,11 @@
 		if(armorlist[x] > 0)
 			armorlist[x] = 0
 	..()
+	if(!HAS_TRAIT(src, TRAIT_NODROP))
+		if(ishuman(loc))
+			var/mob/living/carbon/human/H = loc
+			if(HAS_TRAIT(H, TRAIT_ARMOR_BREAK))
+				get_flung_off_forced()
 	if(throw_on_break && !HAS_TRAIT(src, TRAIT_NODROP))
 		get_flung_off()
 

@@ -1,6 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - balance: "The longsword's alt-grip intents have been modified. Daze and Impale are now rigid intents that can be interrupted but not parried/dodged"
-  - balance: "Mordhau reduces your defense by -2. Mordhau now has a 0.8x penalty instead of 0.6x on most swords."
-  - bugfix: "Church longswords inherit from the base longsword's sharpness instead of using outdated values."

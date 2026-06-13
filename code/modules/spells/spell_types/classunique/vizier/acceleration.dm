@@ -84,7 +84,7 @@
 			qdel(after_image_component)
 		afterimage_active = FALSE
 
-	owner.apply_status_effect(/datum/status_effect/debuff/decel, 14 SECONDS)
+	owner.apply_status_effect(/datum/status_effect/debuff/decel, 4 SECONDS)
 
 	to_chat(owner, span_red("Time catches up with me, with its toll."))
 

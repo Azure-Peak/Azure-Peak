@@ -311,6 +311,54 @@
 		/datum/mob_descriptor/chitin/hard,
 		/datum/mob_descriptor/chitin/fine,
 	)
+
+/datum/descriptor_choice/skin/rev
+	name = "Coat"
+	descriptors = list(
+		/datum/mob_descriptor/skin/normal,
+		/datum/mob_descriptor/skin/hairy,
+		/datum/mob_descriptor/skin/soft,
+		/datum/mob_descriptor/skin/rugged,
+		/datum/mob_descriptor/skin/diseased,
+		/datum/mob_descriptor/skin/dry,
+		/datum/mob_descriptor/skin/fine,
+		/datum/mob_descriptor/skin/wrinkled,
+		/datum/mob_descriptor/skin/sunkissed,
+		/datum/mob_descriptor/skin/aged,
+		/datum/mob_descriptor/skin/pockmarked,
+		/datum/mob_descriptor/skin/dusky,
+		/datum/mob_descriptor/skin/irritated,
+		/datum/mob_descriptor/skin/ashen,
+		/datum/mob_descriptor/skin/pale,
+		/datum/mob_descriptor/skin/ravaged,
+		/datum/mob_descriptor/skin/ghoulish,
+		/datum/mob_descriptor/scales/plain,
+		/datum/mob_descriptor/scales/rough,
+		/datum/mob_descriptor/scales/smooth,
+		/datum/mob_descriptor/scales/plated,
+		/datum/mob_descriptor/scales/peeling,
+		/datum/mob_descriptor/fur/plain,
+		/datum/mob_descriptor/fur/short,
+		/datum/mob_descriptor/fur/coarse,
+		/datum/mob_descriptor/fur/bristly,
+		/datum/mob_descriptor/fur/fluffy,
+		/datum/mob_descriptor/fur/shaggy,
+		/datum/mob_descriptor/fur/silky,
+		/datum/mob_descriptor/fur/lank,
+		/datum/mob_descriptor/fur/mangy,
+		/datum/mob_descriptor/fur/velvety,
+		/datum/mob_descriptor/fur/dense,
+		/datum/mob_descriptor/fur/matted,
+		/datum/mob_descriptor/feathers/fine,
+		/datum/mob_descriptor/feathers/stiff,
+		/datum/mob_descriptor/feathers/frayed,
+		/datum/mob_descriptor/feathers/delicate,
+		/datum/mob_descriptor/feathers/soft,
+		/datum/mob_descriptor/chitin/smooth,
+		/datum/mob_descriptor/chitin/hard,
+		/datum/mob_descriptor/chitin/fine,
+	)
+
 /datum/descriptor_choice/height
 	name = "Height"
 	default_descriptor = /datum/mob_descriptor/height/moderate
