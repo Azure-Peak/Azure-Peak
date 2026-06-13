@@ -438,3 +438,19 @@
   - admin: flavor text button in player panel
   kiwedespars:
   - bugfix: miracles properly have cd against someone with an embed
+2026-06-12:
+  KatTheFox:
+  - rscadd: Revenants can now select from skin, fur, scale, feather, or chitin descriptors,
+      instead of just skin
+  Ollanius:
+  - bugfix: Atgervi shields now properly render when on the back slot. They have been
+      restricted to the right back slot, which shouldn't affect the ability to carry
+      other slot-restricted pieces (like the rucksack or backpack.)
+  OrbisAnima:
+  - bugfix: Melodic Dirges no longer affect dead mobs.
+  - bugfix: Fixes the exploit with Noc and Undivided spell selectors, preventing them
+      from being called infinite times for infinite spells.
+  borneblood:
+  - bugfix: Golgatha was instakilling carbon NPCs and not working on simplemobs.
+  clumsygoblinoid:
+  - qol: made triumph winter dress fit in cosmetic storage

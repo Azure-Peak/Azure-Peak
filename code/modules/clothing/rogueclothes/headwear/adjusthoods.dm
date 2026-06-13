@@ -335,7 +335,6 @@
 /obj/item/clothing/head/roguetown/roguehood/unholy/enchanted
 	name = "ominously enchanted hood"
 	desc = "An otherworldly veil, amythortz-woven and crackling with the unignorable truths of a runic enigma. She watches over you; and Her grin is crooked into one of eternal malice."
-	max_integrity = ARMOR_INT_HELMET_ANTAG
 	armor = ARMOR_LEATHER
 	item_state = "ewarlockhood"
 	icon_state = "ewarlockhood"

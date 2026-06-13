@@ -10,10 +10,10 @@
 	primary_resource_cost = 40
 	primary_resource_type = SPELL_COST_STAMINA
 	charge_required = TRUE
-	charge_time = 3 SECONDS
+	charge_time = 6 SECONDS
 	charge_slowdown = 1
 	associated_skill = /datum/skill/magic/arcane
-	cooldown_time = 30 SECONDS
+	cooldown_time = 1 MINUTES
 	zizo_spell = TRUE
 	invocations = list("Convoca spectres custodes!")
 	invocation_type = INVOCATION_SHOUT
@@ -33,7 +33,8 @@
 		return FALSE
 
 	new /obj/effect/temp_visual/gib_animation(T, "gibbed-h")
-	var/mob/living/skeleton_new = new /mob/living/carbon/human/species/skeleton/npc/bogguard(T, owner)
+	new /obj/effect/temp_visual/bluespace_fissure(T)
+	var/mob/living/skeleton_new = new /mob/living/carbon/human/species/skeleton/npc/summon(T, owner)
 	apply_mob_lifespan(skeleton_new, owner, spawn_lifespan)
 	var/caster_name = owner.mind?.current?.real_name
 	if(caster_name)
@@ -45,4 +46,4 @@
 		skeleton.faction |= list("cabal", "[caster_name]_faction")
 
 /datum/action/cooldown/spell/raise_undead_guard/necromancer
-	spawn_lifespan = 30 MINUTES
+	spawn_lifespan = 45 MINUTES //Longer cooldown, therefore, technically less total than before -> more player skeles will fill in for this.

@@ -1,0 +1,11 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Adds the 'Death's Door' debuff, which temporarily applies the 'DNR' trait - and a heavy mood decrease - while active. It lasts for about ten-to-fifteen minutes, and provides a modest mood increase (alongside removing the 'DNR' trait) upon completion. Currently timed to expire alongside the 'Revival Sickness' debuff."
+  - balance: "Most forms of resurrection (barring Absolves and other certain methods) now have an internal timer added to them. If the timer reaches five minutes without the target-in-question dying again, a 'deathmark' is applied. Deathmarks essentially act as conduits for the new 'Death's Door' debuff."
+  - balance: "All resurrections now apply a fifteen-minute long debuff with a mild stressor."
+  - rscadd: "Being resurrected now lists a (mostly) unique, patron-related message - courtesy of Kat and Chundoan!"
+  - code_imp: "Adds a safeguard with the new 'Death's Door' debuff and 'deathmark' system, preventing unfortunate players from being permakilled due to ill-timed blunders (such as malpractice and-or incompetence.) This can be individually adjusted for each method of resurrection, if needed."
+  - rscadd: "Renamed most debuffs that pertain to Lux, Resurrections, or anything similar to those lines."
+  - rscadd: "New sprites for most of the aforementioned debuffs."
+  - rscadd: "Adds descriptions to certain debuffs, with further elaborations."

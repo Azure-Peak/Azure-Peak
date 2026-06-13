@@ -1,0 +1,5 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added new combat music for bloodrage, credit given to Ben_19M, go check em out. The Track is called \"THE WHOLE BODY IS BULLETPROOF\". Also a new message on popping it for the user and it enables combat mode if its off."
+  - rscadd: "you can also change your combat music to it, like everything else in the game."

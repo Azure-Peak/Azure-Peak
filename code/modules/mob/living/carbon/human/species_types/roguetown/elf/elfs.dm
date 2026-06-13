@@ -6,8 +6,8 @@
 	id = "elfw"
 	psydonic = TRUE
 	sub_name = "Wood Elf"
-	desc = "<b>Wood Elf: Guardians of the Grove</b><br>\
-	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace \
+	desc_title = "Wood Elf: Guardians of the Grove"
+	desc = "\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace \
 	their heritage to the ancient and mysterious Snow Elves. This particular species \
 	of elf are what most imagine when they hear the word, and are also known among \
 	the elder races as \"Wood-Elves\". Considering their diverse history, it is extremely \
@@ -18,8 +18,7 @@
 	territorial disputes. This, however, does not stop many Humens and Elves from forming \
 	relationships, which are capable of producing half-elven children. Elves are known for \
 	their intelligence and sharp eyes, but their graceful nature typically leaves their bodies \
-	more frail and fragile than most. In these lands, only a handful of the many Elvish tribes are seen.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 SPD</b></span><br>"
+	more frail and fragile than most. In these lands, only a handful of the many Elvish tribes are seen."
 
 	skin_tone_wording = "Tribal Identity"
 	max_age = 850

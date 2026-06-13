@@ -53,24 +53,47 @@
 	implement.remove_filter(IMPLEMENT_GLOW_FILTER)
 	implement.add_filter(IMPLEMENT_GLOW_FILTER, 2, list("type" = "outline", "color" = spell_color, "alpha" = glow_alpha, "size" = 1))
 
+GLOBAL_LIST_INIT(implement_choices, list(
+		"lesser" = list(
+			"Toper Staff" = /obj/item/rogueweapon/woodstaff/implement,
+			"Amythorz Staff" = /obj/item/rogueweapon/woodstaff/implement/amethyst,
+			"Wand & Shield" = /obj/item/rogueweapon/wand
+			),
+		"greater" = list(
+			"Gemerald Staff" = /obj/item/rogueweapon/woodstaff/implement/greater,
+			"Rontz Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/ruby,
+			"Blortz Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/quartz,
+			"Saffira Staff" = /obj/item/rogueweapon/woodstaff/implement/greater/sapphire,
+			"Wand & Shield" = /obj/item/rogueweapon/wand/greater
+			),
+		"grand" = list(
+			"Dorpel Staff" = /obj/item/rogueweapon/woodstaff/implement/grand,
+			"Staff of the Riddlesteel" = /obj/item/rogueweapon/woodstaff/implement/grand/riddle,
+			"Wand & Shield" = /obj/item/rogueweapon/wand/grand
+			)
+		))
+
 /// Prompts the user to choose between a wand or staff implement of the given tier.
 /// Returns the chosen implement type path, or staff by default.
 /// If Wand is chosen, additionally puts a wooden shield in H's hands and grants
 /// Apprentice-level Shields skill so the wand+shield loadout is actually usable.
 /proc/choose_implement(mob/living/carbon/human/H, tier = "lesser")
-	var/choice = tgui_input_list(H, "Choose your implement.", "IMPLEMENT", list("Staff", "Wand & Shield"))
+	if(!(tier in GLOB.implement_choices))
+		return null
+	var/choice = tgui_input_list(H, "Choose your implement.", "IMPLEMENT", GLOB.implement_choices[tier])
 	if(!choice)
-		choice = "Staff"
-	var/implement_path
-	switch(tier)
-		if("lesser")
-			implement_path = choice == "Wand & Shield" ? /obj/item/rogueweapon/wand : /obj/item/rogueweapon/woodstaff/implement
-		if("greater")
-			implement_path = choice == "Wand & Shield" ? /obj/item/rogueweapon/wand/greater : /obj/item/rogueweapon/woodstaff/implement/greater
-		if("grand")
-			implement_path = choice == "Wand & Shield" ? /obj/item/rogueweapon/wand/grand : /obj/item/rogueweapon/woodstaff/implement/grand
-		else
-			implement_path = /obj/item/rogueweapon/woodstaff/implement
+		switch(tier)
+			if("lesser")
+				choice = "Toper Staff"
+			if("greater")
+				choice = "Gemerald Staff"
+			if("grand")
+				choice = "Dorpel Staff"
+			else
+				choice = "Toper Staff"
+	if(!(choice in GLOB.implement_choices[tier]))
+		return null
+	var/implement_path = GLOB.implement_choices[tier][choice]
 
 	if(choice == "Wand & Shield" && H)
 		H.put_in_hands(new implement_path(H))
