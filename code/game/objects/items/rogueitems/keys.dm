@@ -189,6 +189,10 @@
 	name = "heir room II key"
 	lockid = "heir2"
 
+/obj/item/roguekey/heir/three
+	name = "heir room III key"
+	lockid = "heir3"
+
 /obj/item/roguekey/vault
 	name = "vault key"
 	desc = "This key opens the mighty vault."

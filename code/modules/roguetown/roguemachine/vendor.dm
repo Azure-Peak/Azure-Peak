@@ -479,7 +479,7 @@
 /obj/structure/roguemachine/vendor/keep_princes/Initialize()
 	. = ..()
 
-	for (var/X in list(/obj/item/roguekey/heir/one, /obj/item/roguekey/heir/two))
+	for (var/X in list(/obj/item/roguekey/heir/one, /obj/item/roguekey/heir/two, /obj/item/roguekey/heir/three))
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
