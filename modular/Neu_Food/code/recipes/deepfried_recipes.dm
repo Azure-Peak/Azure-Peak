@@ -67,6 +67,14 @@
 		list('modular/Neu_Food/icons/raw/raw_deep_fried.dmi', "squiresdelight_step2"),
 	)
 
+/datum/food_recipe/deepfried/griddlewiener
+	name = "griddlewiener"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/wienerstick
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked,
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/griddlewiener_uncooked
+
 /datum/food_recipe/deepfried/sweetglass
 	abstract_type = /datum/food_recipe/deepfried/sweetglass
 	ingredients = list(
