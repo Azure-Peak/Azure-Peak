@@ -1857,7 +1857,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /** Does this item have an important, immediately notable quality (such as being heretical)?
 *	If it is, this should to return a list containing:
 * - First: A highlight status (see `code\__DEFINES\highlight_examine_defines.dm`).
-* - Second: A short description of the nature of the item's heresy.
+* - Second: A short description explaining in-character why this item has that status.
 *
 * When set, highlights the item's mob examine name/tooltip with obvious heretical flavor when worn/held.
 * 
