@@ -184,7 +184,7 @@
 			break
 		var/devotion_multiplier = 1
 		if(mind)
-			devotion_multiplier += (get_skill_level(/datum/skill/magic/holy) / SKILL_LEVEL_LEGENDARY)
+			devotion_multiplier += (get_skill_level(/datum/skill/magic/holy))
 		var/prayer_effectiveness = round(devotion.prayer_effectiveness * devotion_multiplier)
 		devotion.update_devotion(prayer_effectiveness, prayer_effectiveness)
 		prayersesh += prayer_effectiveness
