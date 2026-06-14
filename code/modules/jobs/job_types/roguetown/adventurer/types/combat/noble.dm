@@ -73,11 +73,11 @@
 					shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 				if(should_wear_femme_clothes(H))
 					shirt = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph/azure
-					shoes = /obj/item/clothing/shoes/roguetown/
+					shoes = /obj/item/clothing/shoes/roguetown/boots
 					wrists = /obj/item/clothing/wrists/roguetown/royalsleeves
 				cloak = /obj/item/clothing/cloak/half/azure
 				head = /obj/item/clothing/head/roguetown/chaperon/noble
-				gloves = obj/item/clothing/gloves/roguetown/leather/black
+				gloves = /obj/item/clothing/gloves/roguetown/leather/black
 				backl = /obj/item/storage/backpack/rogue/satchel/black
 				belt = /obj/item/storage/belt/rogue/leather/plaquesilver //On-part with courtier noblilty
 				beltr = /obj/item/flashlight/flare/torch/lantern
