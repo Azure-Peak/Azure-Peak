@@ -62,7 +62,7 @@
 	icon_state = "griddlewiener"
 	faretype = FARE_LAVISH
 	foodtype = MEAT | GRAIN
-	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY * 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
 	bitesize = 4
 	tastes = list("fluffy griddlecake" = 1, "tender wiener" = 1)
 	cooked_type = null

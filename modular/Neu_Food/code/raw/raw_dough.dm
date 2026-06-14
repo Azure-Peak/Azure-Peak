@@ -397,3 +397,102 @@
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_goldapple/Initialize()
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
+
+/*	.................   Eggdough   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/eggdough
+	name = "eggdough"
+	desc = "Without tradition, legacy is left solivagant."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdough"
+	color = "#feffc1"
+	slices_num = 2
+	slice_batch = TRUE
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/eggdoughslice
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/challah
+	cooked_smell = /datum/pollutant/food/bread
+	w_class = WEIGHT_CLASS_NORMAL
+	slice_sound = TRUE
+
+/*	.................   Eggdough Piece   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughslice
+	name = "eggdough piece"
+	desc = "A slice of childhood, to remember one's roots."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughslice"
+	color = "#feffc1"
+	slices_num = 0
+	cooked_smell = /datum/pollutant/food/pastry
+	w_class = WEIGHT_CLASS_NORMAL
+
+/*	.................   Noodle Dough   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughnoodles
+	name = "uncooked noodles"
+	desc = "A bundle of soft and wobbly uncooked noodles, ready to make dreams come true."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughnoodle"
+	color = "#feffc1"
+	boiled_type = /obj/item/reagent_containers/food/snacks/rogue/noodles
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/*	.................   Sheet Noodle Dough   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles
+	name = "uncooked sheet noodles"
+	desc = "Flat sheets of sheet noodles, ready to be mixed with sauce and/or cheese."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughsheetnoodle"
+	color = "#feffc1"
+	slices_num = 0
+	boiled_type = /obj/item/reagent_containers/food/snacks/rogue/sheetnoodles
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_red
+	name = "uncooked red lasagna"
+	desc = "Flat sheets of sheet noodles smothered in tomato sauce, ready to be cooked in the oven or have cheese added."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughsheetnoodle_red"
+	color = "#feffc1"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/lasagna
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_white
+	name = "uncooked white lasagna"
+	desc = "Flat sheets of sheet noodles smothered in cheese, Valorian style, ready to be cooked in the oven or have sauce added."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughsheetnoodle_white"
+	color = "#feffc1"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/lasagna_white
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_redwhite
+	name = "uncooked red and white lasagna"
+	desc = "Flat sheets of sheet noodles smothered in cheese and sauce, Montecarinan style, ready to be cooked in the oven."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughsheetnoodle_redwhite"
+	color = "#feffc1"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/lasagna_redwhite
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_pesto
+	name = "uncooked pesto lasagna"
+	desc = "Flat sheets of sheet noodles spread with pesto, Azurian style, ready to be cooked in the oven."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughsheetnoodle_pesto"
+	color = "#feffc1"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/lasagna_pesto
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/*	.................   Griddle Dough   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked
+	name = "griddle dough"
+	desc = "A flat eggy mess of batter dough, desperate to be thrown onto a pan."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "griddle_uncooked"
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/griddle
+	w_class = WEIGHT_CLASS_NORMAL
+

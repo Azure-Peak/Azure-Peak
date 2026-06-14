@@ -40,19 +40,8 @@
 	icon = 'modular/Neu_Food/icons/raw/raw_deep_fried.dmi'
 	icon_state = "griddlewiener_step1"
 	faretype = FARE_NEUTRAL
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("tender wiener" = 1)
 	cooked_smell = /datum/pollutant/food/fried_sausage
 	rotprocess = SHELFLIFE_EXTREME
 
-/obj/item/reagent_containers/food/snacks/rogue/meat/griddlewiener_uncooked
-	name = "uncooked griddlewiener"
-	desc = "A sausage, tucked into an eggy, raw dough. It awaits a hot oil bath. Consumption of raw dough may cause illness."
-	icon = 'modular/Neu_Food/icons/raw/raw_deep_fried.dmi'
-	icon_state = "griddlewiener_step1"
-	faretype = FARE_NEUTRAL
-	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
-	tastes = list("tender wiener" = 1, "raw eggy dough" = 1)
-	eat_effect = /datum/status_effect/debuff/uncookedfood
-	cooked_smell = /datum/pollutant/food/fried_sausage
-	rotprocess = SHELFLIFE_SHORT 

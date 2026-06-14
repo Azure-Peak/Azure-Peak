@@ -325,7 +325,6 @@
 	if(boil_target && boil_target != proto.type)
 		lines += "Boils into [initial(boil_target.name)]."
 
-
 	var/atom/slice_target = proto.slice_path
 	if(slice_target)
 		var/count = proto.slices_num || 1

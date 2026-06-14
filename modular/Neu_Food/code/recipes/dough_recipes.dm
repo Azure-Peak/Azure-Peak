@@ -424,3 +424,36 @@
 		/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced/gold
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_goldapple
+
+/datum/food_recipe/dough/eggdough
+	name = "eggdough"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/dough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/egg
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdough
+	book_category = FOOD_CAT_DOUGHS
+
+/datum/food_recipe/dough/griddle_dough
+	name = "griddle dough"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/eggdough
+	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked
+	time_per_step = 3 SECONDS
+	book_category = FOOD_CAT_DOUGHS
+
+/datum/food_recipe/dough/noodles
+	name = "uncooked noodles"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/eggdoughslice
+	ingredients = list(/obj/item/kitchen/rollingpin = COOKSTEP_TOOL)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdoughnoodles
+	book_category = FOOD_CAT_DOUGHS
+
+/datum/food_recipe/dough/sheet_noodles
+	name = "uncooked sheet noodles"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/eggdoughslice
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/eggdoughslice
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles
+	book_category = FOOD_CAT_DOUGHS

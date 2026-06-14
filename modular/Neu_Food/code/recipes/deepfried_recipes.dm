@@ -73,7 +73,10 @@
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked,
 	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/griddlewiener_uncooked
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/griddlewiener
+	step_visuals = list(
+		list('modular/Neu_Food/icons/raw/raw_deep_fried.dmi', "griddlewiener_step2"),
+	)
 
 /datum/food_recipe/deepfried/sweetglass
 	abstract_type = /datum/food_recipe/deepfried/sweetglass

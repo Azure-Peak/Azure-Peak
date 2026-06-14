@@ -8,6 +8,7 @@
 #define FOOD_CAT_DRYING "Drying Rack"
 #define FOOD_CAT_STEW "Stews"
 #define FOOD_CAT_DEEPFRIED "Deep Fried"
+#define FOOD_CAT_BOILED "Boiled"
 #define FOOD_CAT_PIES "Pies"
 #define FOOD_CAT_BASICS "Basic Ingredients"
 #define FOOD_CAT_DOUGHS "Doughs"
