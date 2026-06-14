@@ -1854,8 +1854,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/ai_withdraw_item(obj/item/it, mob/living/user)
 	return FALSE
 
-/** Is this item commonly known as heretical? If it is, this should to return a list containing:
-* - First: A heresy severity level (see `code\__DEFINES\highlight_examine_defines.dm`).
+/** Does this item have an important, immediately notable quality (such as being heretical)?
+*	If it is, this should to return a list containing:
+* - First: A highlight status (see `code\__DEFINES\highlight_examine_defines.dm`).
 * - Second: A short description of the nature of the item's heresy.
 *
 * When set, highlights the item's mob examine name/tooltip with obvious heretical flavor when worn/held.
@@ -1864,7 +1865,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/get_examine_highlight_status()
 	return null
 
-/** Returns an HTML-formatted string explaining how/why this item is heretical.
+/** Returns an HTML-formatted string explaining how/why this item has the highlight status it does.
 * - `examine_highlight_status`: This item's examine highlight status (see `proc/get_examine_highlight_status()`).
 * - `itis`: Determines if the string will start with "It is".
 * - `allcaps`: Determines if the returned string will be in allcaps.
@@ -1879,7 +1880,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return get_examine_highlight_labeled_string(severity, "[allcaps ? uppertext(highlight_itis) : highlight_itis]: [allcaps ? uppertext(heresy_desc) : heresy_desc]")
 	return null
 
-/// Returns `label_string` HTML formatted depending on the provided heresy severity level (see `code\__DEFINES\highlight_examine_defines.dm`). 
+/// Returns `label_string` HTML formatted depending on the provided highlight status (see `code\__DEFINES\highlight_examine_defines.dm`). 
 /obj/item/proc/get_examine_highlight_labeled_string(examine_highlight_type, label_string)
 	if(!examine_highlight_type || !label_string)
 		return null
