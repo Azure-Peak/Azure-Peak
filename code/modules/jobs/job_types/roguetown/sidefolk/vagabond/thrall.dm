@@ -41,7 +41,7 @@
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
 	
 	if(H.mind)
-		H.job = "Thrall" //Used for my shitcode job checks to remove certain vampire abilties
+		H.job = "Stray" //Used for my shitcode job checks to remove certain vampire abilties, edited to make it not be obvious in the stewardry who is a vamp
 		H.change_stat(STATKEY_WIL, rand(-2, 2))
 		var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(generation = GENERATION_THINNERBLOOD)
 		H.mind.add_antag_datum(new_antag)

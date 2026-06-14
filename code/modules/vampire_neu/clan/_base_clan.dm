@@ -235,7 +235,7 @@ And it also helps for the character set panel
 
 /datum/clan/proc/apply_clan_components(mob/living/carbon/human/H)
 	H.AddComponent(/datum/component/sunlight_vulnerability)
-	if (H.job == "Thrall")
+	if (H.job == "Stray")
 		return
 	H.AddComponent(/datum/component/vampire_disguise)
 
@@ -370,7 +370,7 @@ And it also helps for the character set panel
 
 /datum/clan/proc/setup_vampire_abilities(mob/living/carbon/human/H)
 	H.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix_neu)
-	if (H.job == "Thrall")
+	if (H.job == "Stray")
 		return
 	add_verb(H, /mob/living/carbon/human/proc/disguise_verb)
 	add_verb(H, /mob/living/carbon/human/proc/vampire_telepathy)

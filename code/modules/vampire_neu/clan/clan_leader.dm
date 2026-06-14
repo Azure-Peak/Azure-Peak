@@ -33,7 +33,7 @@
 
 /datum/clan_leader/proc/make_new_leader(mob/living/carbon/human/H)
 	ADD_TRAIT(H, TRAIT_CLAN_LEADER, "clan")
-	if(H.job == "Thrall")
+	if(H.job == "Stray")
 		return
 	// Add lord spells
 	for(var/spell_type in lord_spells)
