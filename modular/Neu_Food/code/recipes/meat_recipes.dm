@@ -234,3 +234,11 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/crabcakeraw
 
+/datum/food_recipe/wienerstick
+	name = "wiener stick"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
+	ingredients = list(
+		/obj/item/grown/log/tree/stake
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/wienerstick
+

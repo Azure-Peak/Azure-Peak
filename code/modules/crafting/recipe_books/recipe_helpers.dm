@@ -302,6 +302,10 @@
 	if(dfried && dfried != path)
 		var/atom/d = dfried
 		parts += "deep fries into [initial(d.name)]"
+	var/dboiled = initial(proto.boiled_type)
+	if(dboiled && dboiled != path)
+		var/atom/b = dboiled
+		parts += "boils into [initial(b.name)]"
 	if(!length(parts))
 		return ""
 	return "<br>Becomes: [parts.Join("; ")]."
