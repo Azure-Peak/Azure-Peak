@@ -1,6 +1,6 @@
 /datum/advclass/noble
 	name = "Aristocrat"
-	tutorial = "You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grizzly end."
+	tutorial = "You are a traveling noble visiting the lands of Azure Peak's dutchy. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grizzly end."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/adventurer/noble
@@ -41,7 +41,7 @@
 	H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
 	if(H.mind)
-		var/clothing = list("Classic - Nowhere Significant", "Grenzelhoft", "Otava", "Aavnr", "Ranesheni", "Gronn", "Etrusca", "Naledi", "Kazengun")
+		var/clothing = list("Classic - Nowhere Significant", "Azuria", "Grenzelhoft", "Otava", "Aavnr", "Ranesheni", "Gronn", "Etrusca", "Naledi", "Kazengun")
 		if(is_species(H, /datum/species/elf/dark) || is_species(H, /datum/species/dullahan)) //Species Exclusive Options -> Drow Underdark House
 			clothing += "Underdark" //dullahan are only included for oversights/downstreams where they might be able to roll for this.
 		//if(is_species(H, /datum/species/kobold) || is_species(H, /datum/species/dracon)) //Species Exclusive Options -> Lirvan
@@ -65,6 +65,25 @@
 				beltr = /obj/item/flashlight/flare/torch/lantern
 				id = /obj/item/clothing/ring/silver
 				H.cmode_music = 'sound/music/combat_noble.ogg'
+			if("Azuria")
+				if(should_wear_masc_clothes(H))
+					shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
+					armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman
+					pants = /obj/item/clothing/under/roguetown/trou/beltpants
+					shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+				if(should_wear_femme_clothes(H))
+					shirt = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph/azure
+					shoes = /obj/item/clothing/shoes/roguetown/
+					wrists = /obj/item/clothing/wrists/roguetown/royalsleeves
+				cloak = /obj/item/clothing/cloak/half/azure
+				head = /obj/item/clothing/head/roguetown/chaperon/noble
+				gloves = obj/item/clothing/gloves/roguetown/leather/black
+				backl = /obj/item/storage/backpack/rogue/satchel/black
+				belt = /obj/item/storage/belt/rogue/leather/plaquesilver //On-part with courtier noblilty
+				beltr = /obj/item/flashlight/flare/torch/lantern
+				id = /obj/item/clothing/ring/silver
+				H.cmode_music = 'sound/music/combat_squire.ogg'
+				//No unique language cause true Azurian-Origin Azurians know the tongue. Keeps the idea of foreign marrages, same courts
 			if("Underdark") //Matron vs halfcloak fits
 				if(should_wear_masc_clothes(H))
 					cloak = /obj/item/clothing/cloak/half
@@ -136,7 +155,7 @@
 				if(should_wear_masc_clothes(H))
 					armor = /obj/item/clothing/cloak/tabard/stabard/dungeon
 				if(should_wear_femme_clothes(H))
-					armor = /obj/item/clothing/suit/roguetown/shirt/dress/royal
+					armor = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph/raneshen
 				shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/raneshen //Shittier version with regular gambeson protection levels
 				pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex/raneshen

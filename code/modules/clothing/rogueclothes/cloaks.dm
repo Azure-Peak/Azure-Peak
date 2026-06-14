@@ -1215,6 +1215,9 @@
 /obj/item/clothing/cloak/half/red
 	color = CLOTHING_RED
 
+/obj/item/clothing/cloak/half/azure
+	color = CLOTHING_AZURE
+
 /obj/item/clothing/cloak/half/orange
 	color = CLOTHING_ORANGE
 
