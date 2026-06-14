@@ -4,7 +4,7 @@
 #define DEEP_FRY_TIME 5 SECONDS // Default deep fry time
 #define OIL_CONSUMED 5 // Amount of oil consumed per deep fry (1 fat = 4 fry)
 #define BOILING_TIME 5 SECONDS // Default boiling time
-#define WATER_CONSUMED 5 // Amount of oil consumed per deep fry (1 fat = 4 fry)
+#define WATER_CONSUMED 5
 
 /obj/machinery/light/rogue/firebowl
 	name = "brazier"
@@ -905,3 +905,5 @@
 
 #undef DEEP_FRY_TIME
 #undef OIL_CONSUMED
+#undef BOILING_TIME 5 SECONDS
+#undef WATER_CONSUMED 5
