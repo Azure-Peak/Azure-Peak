@@ -1,0 +1,4 @@
+author: "Ryumi"
+delete-after: True
+changes:
+  - rscadd: "Heretical items now have big, obvious highlights and tooltips making their heretical / PVP-escalating nature clear, as well as brief explanations of how and why."

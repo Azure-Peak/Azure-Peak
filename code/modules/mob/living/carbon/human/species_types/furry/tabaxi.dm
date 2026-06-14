@@ -9,15 +9,14 @@
 	origin = "Raneshen"
 	base_name = "Beastvolk"
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | SLIME_EXTRACT
-	desc = "<b>Tabaxi</b><br>\
-		Tabaxi are taller than most humans at six to seven feet. \
+	desc_title = "Tabaxi"
+	desc = "Tabaxi are taller than most humans at six to seven feet. \
 		Their bodies are slender and covered in spotted or striped fur. \
 		Like most felines, Tabaxi have long tails and retractable claws. \
 		Tabaxi fur color ranges from light yellow to brownish red. \
 		Tabaxi eyes are slit-pupilled and usually green or yellow. \
 		Tabaxi are competent swimmers and climbers as well as speedy runners. \
-		They have a good sense of balance and an acute sense of smell.<br>\
-		<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 SPD </b></span><br>"
+		They have a good sense of balance and an acute sense of smell."
 	skin_tone_wording = "Fur Colors"
 	use_skin_tone_wording_for_examine = FALSE
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE, MUTCOLORS)

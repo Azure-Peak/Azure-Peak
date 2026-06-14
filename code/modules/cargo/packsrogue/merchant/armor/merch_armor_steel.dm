@@ -11,6 +11,11 @@
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
 // Steel Armor Section. Massive selection here so I am not going to include everything
+/datum/supply_pack/rogue/armor_steel/lightchainmail_steel
+	name = "Haubyrine"
+	cost = 50 // 1 Ingots
+	contains = list(/obj/item/clothing/suit/roguetown/armor/chainmail/light)
+
 /datum/supply_pack/rogue/armor_steel/haubergeon_steel
 	name = "Haubergeon"
 	cost = 50 // 1 Ingots
@@ -256,10 +261,15 @@
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/neck/roguetown/gorget/steel)
 
-/datum/supply_pack/rogue/armor_steel/boots_steel
+/datum/supply_pack/rogue/armor_steel/plateboots_steel
 	name = "Plated Boots"
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/shoes/roguetown/boots/armor)
+
+/datum/supply_pack/rogue/armor_iron/mailleboots_steel
+	name = "Maille Boots"
+	cost = 50
+	contains = list(/obj/item/clothing/shoes/roguetown/boots/maille)
 
 /datum/supply_pack/rogue/armor_steel/mask_steel
 	name = "Mask"

@@ -350,7 +350,7 @@
 	tier = 5
 	req_invokers = 3
 	alignment = "void"
-	required_atoms = list(/obj/item/magic/artifact = 5, /obj/item/magic/melded/t4 = 1, /obj/item/magic/voidstone = 3, /obj/item/magic/leyline = 3)
+	required_atoms = list(/obj/item/magic/artifact = 5, /obj/item/magic/fae/sylvanessence = 1, /obj/item/magic/infernal/flame = 1, /obj/item/magic/elemental/relic = 1, /obj/item/magic/voidstone = 3, /obj/item/magic/leyline = 3)
 	primary_mobs = list(/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon)
 	base_primary_count = 1
 	gone_wrong_extra = 0

@@ -1,0 +1,6 @@
+author: "FeniaFox"
+delete-after: True
+changes:
+  - balance: "Increased the integrity of heavy leather boots (and grenzelhoftian boots) to match that of other heavy/hardened leather items (100 or 80 -> 250). Removed from common NPCs to avoid easy scavenging."
+  - balance: "Reduced the integrity of Ruma sandals to match that of other hardened leather items (300 -> 250)."
+  - qol: "Renamed heavy leather gloves/boots to hardened leather gloves/boots, to match other items with similar stats."

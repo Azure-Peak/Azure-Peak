@@ -1452,7 +1452,7 @@
 		if(L.cmode && L.mobility_flags & MOBILITY_STAND && !L.restrained())
 			to_chat(src, span_warning("I can't take \the [what] off, they are too tense!"))
 			return
-		if(L.compliance || L.surrendering)
+		if(L.compliance || L.surrendering || HAS_TRAIT(L, TRAIT_ARMOR_BREAK))
 			surrender_mod = 0.5
 
 	if(!who.Adjacent(src))

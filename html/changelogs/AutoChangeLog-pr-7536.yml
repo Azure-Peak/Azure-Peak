@@ -1,0 +1,5 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - qol: "Made the Interarctions menu actions not spam over and over the same message, only giving a new one anytime you change any of the speed, the intensity or the action type."
+  - bugfix: "Fixed Mage and God Hands from not working with the backdoor. Rejoice."

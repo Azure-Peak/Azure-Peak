@@ -1357,6 +1357,9 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 
+/obj/item/clothing/head/roguetown/helmet/heavy/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar
 	name = "vicious helmet"
 	desc = "Snarled teeth gnash the unholy bascinet's visor, drenched in scarlet. Your beluxed invocation; the dinnerbell for a feast of blood and steel."
@@ -1369,6 +1372,9 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "HELM", "RENDERED ASUNDER")
+
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/equipped(mob/living/user, slot)
 	. = ..()
@@ -1409,6 +1415,9 @@
 	material_category = ARMOR_MAT_PLATE
 	toggle_icon_state = TRUE
 	smeltresult = /obj/item/ingot/component/zizo
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
 	name = "avantyne froggemund"
@@ -1462,6 +1471,9 @@
 	smeltresult = /obj/item/ingot/avantyne
 	armor = ARMOR_PLATE_BSTEEL
 	armor_class = ARMOR_CLASS_LIGHT
+
+/obj/item/clothing/head/roguetown/helmet/heavy/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
 	name = "iron bucket helm"

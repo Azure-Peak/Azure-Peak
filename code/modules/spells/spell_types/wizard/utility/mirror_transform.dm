@@ -29,7 +29,7 @@
 
 /datum/action/cooldown/spell/mirror_transform/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/carbon/human/H = owner
+	var/mob/living/carbon/human/H = cast_on
 	if(!istype(H))
 		return FALSE
 

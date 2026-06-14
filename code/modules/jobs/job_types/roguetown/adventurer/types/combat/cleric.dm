@@ -660,6 +660,14 @@
 			ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE) // digging graves and carrying bodies builds muscles probably.
 			H.cmode_music = 'sound/music/cmode/church/combat_necra.ogg'
+			var/list/necra_tools = list("Shovel", "Scythe")
+			var/tool_choice = input(H, "A reaper, or a digger?", "HOW WILL YOU APPEASE THE UNDERMAIDEN?") as anything in necra_tools
+			switch(tool_choice) // choose wisely... larp or effectiveness?
+				if("Shovel")
+					l_hand = /obj/item/rogueweapon/shovel
+				if("Scythe") // o lawd we farmin
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
+					l_hand = /obj/item/rogueweapon/scythe
 		if (/datum/patron/divine/malum)
 			head = /obj/item/clothing/head/roguetown/roguehood //placeholder
 			cloak = /obj/item/clothing/cloak/tabard/devotee/malum
@@ -695,6 +703,33 @@
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 			var/datum/inspiration/I = new /datum/inspiration(H)
 			I.grant_inspiration(H, bard_tier = BARD_T2)
+			if(H.mind)
+				var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
+				var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
+				H.set_blindness(0)
+				switch(instrument_choice)
+					if("Harp")
+						l_hand = /obj/item/rogue/instrument/harp
+					if("Lute")
+						l_hand = /obj/item/rogue/instrument/lute
+					if("Accordion")
+						l_hand = /obj/item/rogue/instrument/accord
+					if("Guitar")
+						l_hand = /obj/item/rogue/instrument/guitar
+					if("Hurdy-Gurdy")
+						l_hand = /obj/item/rogue/instrument/hurdygurdy
+					if("Viola")
+						l_hand = /obj/item/rogue/instrument/viola
+					if("Vocal Talisman")
+						l_hand = /obj/item/rogue/instrument/vocals
+					if("Psyaltery")
+						l_hand = /obj/item/rogue/instrument/psyaltery
+					if("Flute")
+						l_hand = /obj/item/rogue/instrument/flute
+					if("Drum")
+						l_hand = /obj/item/rogue/instrument/drum
+					if("Shamisen")
+						l_hand = /obj/item/rogue/instrument/shamisen
 		if (/datum/patron/divine/pestra)
 			cloak = /obj/item/clothing/cloak/tabard/devotee/pestra
 			H.adjust_skillrank(/datum/skill/misc/medicine, SKILL_LEVEL_NOVICE, TRUE)
@@ -720,10 +755,10 @@
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Woodstaff")
-				backr = /obj/item/rogueweapon/woodstaff
+				r_hand = /obj/item/rogueweapon/woodstaff
 			if("Quarterstaff")
 				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
-				l_hand = /obj/item/rogueweapon/scabbard/gwstrap
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
 	if(istype(H.patron, /datum/patron/divine))
 		// For now, only Tennites get this. Heretics can have a special treat later
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)

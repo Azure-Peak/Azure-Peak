@@ -16,7 +16,7 @@
 	origin_desc = "Originally unsettled, Azuria's forested plateaus bore witness to the greatest miracle in history; the Comet Syon, which saved the world from complete \
 	destruction. The missile's resting place - just off Azuria's coast - established the locale as a holy site for worshippers of both Psydon and the Pantheon, which \
 	eventually led to a Celestian-funded displacement of its ancestral elven inhabitants. The recent surge of villainous monsters and misfortune is said to be attributed \
-	to such injustices; a belated curse from Dendor's scornful hand. </br> Azuria houses a uniquely diverse culture, borne from generations-upon-generations of pilgrims \
+	to such injustices; a belated curse from Dendor's scornful hand. </br> Azuria houses a uniquely diverse culture, born from generations-upon-generations of pilgrims \
 	from all over Psydonia. Likewise, the lesser kingdom's proximity to the Comet Syon has spawned a deluge of anomalous quirks in both the land and its people; a facet \
 	that has drawn the attention of both opportunistic villains and desperate heroes."
 

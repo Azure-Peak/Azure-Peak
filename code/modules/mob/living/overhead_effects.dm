@@ -106,6 +106,8 @@
 			offset_list = SPC.offset_features[OFFSET_HEAD]
 	for(var/mob/M in targets)
 		vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, M, 'icons/mob/overhead_effects.dmi', iconstate, offset_list, offset, icon_plane)
+	// Seeing it on ourselves gives better feedback that it worked / was seen.
+	vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, src, 'icons/mob/overhead_effects.dmi', iconstate, offset_list, offset, icon_plane)
 	
 /obj/effect/temp_visual/stress_event
 	icon = 'icons/mob/overhead_effects.dmi'
@@ -139,6 +141,9 @@
 
 /mob/living/proc/play_relief_indicator()
 	play_overhead_indicator('icons/mob/overhead_effects.dmi', "relief", 15, OBJ_LAYER, private = TRAIT_EMPATH, soundin = 'sound/ddrelief.ogg')
+
+/mob/living/proc/play_permadeath_indicator()
+	play_overhead_indicator('icons/mob/overhead_effects.dmi', "permadeath", 25, OBJ_LAYER, private = TRAIT_EMPATH, soundin = 'sound/stressaffliction.ogg')
 
 /mob/living/proc/play_mental_break_indicator()
 	play_overhead_indicator('icons/mob/overhead_effects.dmi', "mentalbreak", 20, OBJ_LAYER)

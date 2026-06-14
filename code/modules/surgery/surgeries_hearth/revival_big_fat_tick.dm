@@ -49,7 +49,7 @@
 			"[user] works the leechtick into [target]'s innards.")
 		return FALSE
 	if (target.mind)
-		if(alert(target, "Are you ready to face the world, once more?", "Revival", "I must go on", "Let me rest") != "I must go on")
+		if(alert(target, "Are you ready to face the world, once more?", "VISCERA, CHURNING TO LYFE ONCE MORE.", "I must go on!", "Let me rest..") != "I must go on!")
 			display_results(user, target, span_notice("[target]'s heart refuses the leechtick. They're only in sweet dreams, now."),
 				"[user] works the leechtick into [target]'s innards, but nothing happens.",
 				"[user] works the leechtick into [target]'s innards, but nothing happens.")
@@ -82,7 +82,14 @@
 	target.mind.remove_antag_datum(/datum/antagonist/zombie)
 	target.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)	//Removes the rotted-zombie debuff if they have it - Failsafe for it.
 	target.apply_status_effect(/datum/status_effect/debuff/leech_schizophrenia)	//Temp debuff on revive, your stats get hit temporarily. Doubly so if having rotted.
+	addtimer(CALLBACK(src, PROC_REF(deathmark), target), 5 MINUTES) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
 	return TRUE
+
+/datum/surgery_step/infuse_tick/proc/deathmark(mob/living/victim)
+	if(victim.stat != DEAD)
+		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark in question. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
+		victim.play_permadeath_indicator()
+		to_chat(victim, span_danger("You suddenly feel a deathly chill from within, as the lux begins to creep across your heart once more. The thread betwixt your soul and body remains thin; to succumb again so soon would ensure its total severance."))
 
 /datum/surgery_step/infuse_tick/failure(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent, success_prob)
 	display_results(user, target, span_warning("I screwed up!"),

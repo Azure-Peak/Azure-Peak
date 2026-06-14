@@ -8,6 +8,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/clothes_id //id for clothes
 	var/name	// this is the fluff name. these will be left generic (such as 'Lizardperson' for the lizard race) so servers can change them to whatever
 	var/desc
+	var/desc_title
+	var/list/mechanics_explanations // if this species has unique mechanics, explain each of them here. try to keep separate mechanics separated as individual list items
 	var/default_color = "#FFF"	// if alien colors are disabled, this is the color that will be used by that race
 	var/limbs_icon_m
 	var/limbs_icon_f
@@ -1825,6 +1827,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			pen = PEN_NONE
 			Iforce *= 0.5
 
+	if(H == user && bladec == BCLASS_DISARM)
+		bladec = BCLASS_BLUNT
+
 	var/higher_intfactor = max(user.used_intent.masteritem?.intdamage_factor, user.used_intent.intent_intdamage_factor)
 	var/lowest_intfactor = min(user.used_intent.masteritem?.intdamage_factor, user.used_intent.intent_intdamage_factor)
 	var/used_intfactor = 1
@@ -1902,6 +1907,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 //		if(H.used_intent.blade_class == BCLASS_BLUNT && I.force >= 15 && affecting.body_zone == "chest")
 //			var/turf/target_shove_turf = get_step(H.loc, get_dir(user.loc,H.loc))
 //			H.throw_at(target_shove_turf, 1, 1, H, spin = FALSE)
+
+	if(bladec == BCLASS_DISARM)
+		H.attempt_disarm(user, I)
 
 	I.funny_attack_effects(H, user, nodmg)
 	H.send_item_attack_message(I, user, selzone, affecting, bladec)
@@ -2455,3 +2463,48 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 /datum/species/proc/get_types_to_preload()
 	return get_organs(FALSE)
+
+/** Gets a string listing off all the stat changes made by a race.
+*
+* - `return_null_if_no_stats` : If no bonus stats are found, returns null instead of "No racial stat bonuses."
+* - `end_with_glue` : If any bonus stats are found, returns this string with the jointext glue string appended (`" | "`)."
+*/
+/datum/species/proc/get_string_bonus_stats(return_null_if_no_stats = FALSE, end_with_glue = FALSE)
+	var/list/stats_to_abbreviations = list(
+		STAT_STRENGTH = "STR",
+		STAT_PERCEPTION = "PER",
+		STAT_INTELLIGENCE = "INT",
+		STAT_CONSTITUTION = "CON",
+		STAT_WILLPOWER = "WIL",
+		STAT_SPEED = "SPD",
+		STAT_FORTUNE = "FOR"
+	)
+	var/list/bonuses = list()
+	for (var/stat in race_bonus)
+		var/amt = race_bonus[stat]
+		var/abbrev = stats_to_abbreviations[stat]
+		bonuses.Add("[abbrev] [amt < 0 ? "-" : "+"][abs(amt)]")
+	if(length(bonuses))
+		return jointext(bonuses, " | ") + (end_with_glue ? " | " : null)
+	else
+		return return_null_if_no_stats ? null : "No racial stat changes"
+
+/datum/species/proc/get_string_mechanics_explanations()
+	if(!mechanics_explanations)
+		return null
+	var/ret = ""
+	for(var/tutorial in mechanics_explanations)
+		ret += "<br>- [tutorial]"
+	return ret
+
+/datum/species/proc/get_string_bonus_traits()
+	var/list/bonuses = list()
+	for (var/trait in inherent_traits)
+		// THIS is how we avoid showing hidden traits? Really?? Surely there's a better way than this?!
+		if(!(trait in GLOB.roguetraits))
+			continue
+		bonuses.Add(SPAN_TOOLTIP_DANGEROUS_HTML(GLOB.roguetraits[trait], "\[<u>[trait]</u>\]"))
+	if(length(bonuses))
+		return jointext(bonuses, " | ")
+	else
+		return null

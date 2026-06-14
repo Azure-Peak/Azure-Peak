@@ -352,6 +352,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	first_time_text = "The Dwarven Quarter"
 	soundenv = 16
 	converted_type = /area/rogue/indoors/shelter/town/dwarf
+
 /area/rogue/indoors/shelter/town/dwarf
 	icon_state = "dwarf"
 	droning_sound = 'sound/music/area/dwarf.ogg'
@@ -371,12 +372,13 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	name = "dream realm"
 	icon_state = "dream"
 	first_time_text = "Abyssal Dream"
+	deathsight_message = "a vast, endless dreamscape"
 
 
 
 /area/rogue/indoors/deathsedge
 	name = "Death's Precipice"
-	deathsight_message = "an place bordering necra's grasp"
+	deathsight_message = "a place bordering necra's grasp"
 	necra_area = TRUE
 	droning_sound = 'sound/music/area/underworlddrone.ogg'
 	droning_sound_dusk = null

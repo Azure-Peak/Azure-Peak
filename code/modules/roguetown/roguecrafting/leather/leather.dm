@@ -53,7 +53,7 @@
 	sellprice = 10
 
 /datum/crafting_recipe/roguetown/leather/heavygloves
-	name = "heavy leather gloves"
+	name = "hardened leather gloves"
 	display_category = ITEM_CAT_ARMOR_GLOVES
 	result = /obj/item/clothing/gloves/roguetown/angle
 	reqs = list(/obj/item/natural/fur = 1)

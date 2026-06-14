@@ -7,8 +7,8 @@
 	psydonic = TRUE
 	is_subrace = TRUE
 	base_name = "Humen"
-	desc = "<b>Half Elf</b><br>\
-	The child of an Elf and Humen, Half-Elves are generally frowned \
+	desc_title = "Half Elf"
+	desc = "The child of an Elf and Humen, Half-Elves are generally frowned \
 	upon by the more conservatively minded. However, as racial tensions lower, \
 	the rate of Half-Elf births has continues to increase. So common has it become that some scholars \
 	worry that someday it may be impossible to distinguish the Humens and Elves from one another. \
@@ -17,8 +17,7 @@
 	embodies the term \"melting pot\" quite like the Half-Elves. Due to their half-breed nature, their physical \
 	characteristics can be either more Elvish or more Humen, depending on which of their parents' genes \
 	are more predominant. In terms of cultural identity, a Half-Elf will typically choose to lean more \
-	towards either their Humen or Elvish heritages.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | +1 PER </b></span><br>" 
+	towards either their Humen or Elvish heritages."
 
 	skin_tone_wording = "Ancestry"
 	max_age = 250
