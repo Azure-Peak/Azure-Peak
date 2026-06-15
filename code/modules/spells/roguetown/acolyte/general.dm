@@ -44,7 +44,7 @@
 	<li><b>Xylix:</b> 50% chance of a random +40% to +100% bonus.</li>\
 	<li><b>Undivided:</b> Always +80% with no conditions.</li>\
 	<li><b>Baotha:</b> +20% if the target is drunk or on drugs. +20% if experiencing withdrawal. Up to +80% additional from wound pain and bleeding. Up to +120% total.</li>\
-	<li><b>Graggar:</b> Up to +100% scaling with nearby blood decals.</li>\
+	<li><b>Graggar:</b> Up to +80% scaling with nearby blood decals.</li>\
 	<li><b>Matthios:</b> +100% if the target has the Freeman trait.</li>\
 	<li><b>Zizo:</b> Up to +200% scaling with nearby bones and bone bundles.</li>\
 	</ul>"
