@@ -435,6 +435,9 @@
 /obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
+/obj/item/clothing/mask/rogue/facemask/steel/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
+
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy
 	name = "ancient mask"
 	desc = "Polished gilbranze, molded into an intimidating visage. Touch the cheek; it is warm, \

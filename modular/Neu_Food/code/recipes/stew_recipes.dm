@@ -33,6 +33,13 @@
 
 // DO NOT SORT the list unless you know what you're doing (refactor it) - I ordered specific recipe before generic one for a reason!!
 
+// DONATOR
+/datum/stew_recipe/azurosa_tea
+	inputs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_dried/azure)
+	output = /datum/reagent/water/azurosa_tea
+	cooktime = STEW_COOKING_TIME / 4
+
+// STANDARD
 /datum/stew_recipe/porridge
 	inputs = list(/obj/item/reagent_containers/food/snacks/grown/wheat, /obj/item/reagent_containers/powder/flour, /obj/item/reagent_containers/food/snacks/rogue/toastcrumbs, /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw, /obj/item/reagent_containers/food/snacks/rogue/breadslice, /obj/item/reagent_containers/food/snacks/rogue/bun, /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast)
 	output = /datum/reagent/consumable/soup/porridge

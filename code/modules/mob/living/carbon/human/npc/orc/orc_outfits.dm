@@ -93,7 +93,7 @@
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	neck = /obj/item/clothing/neck/roguetown/coif
 	mask = /obj/item/clothing/mask/rogue/facemask
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian //Cosmetic + Holding repair kits for looting mostly.
 	if(prob(10))
 		beltl = /obj/item/repair_kit/bad //So you can get repair kits easier from looting them
@@ -151,7 +151,7 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	neck = /obj/item/clothing/neck/roguetown/coif
 	mask = /obj/item/clothing/mask/rogue/facemask
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian //Cosmetic + Holding repair kits for looting mostly.
 	if(prob(15))
 		beltl = /obj/item/repair_kit/bad //So you can get repair kits easier from looting them
@@ -206,7 +206,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/iron/banded
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //Stays cause this is slightly-higher-ended
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/black //Cosmetic + Holding repair kits for looting mostly.
 	if(prob(50))
 		beltl = /obj/item/repair_kit/bad //So you can get repair kits easier from looting them

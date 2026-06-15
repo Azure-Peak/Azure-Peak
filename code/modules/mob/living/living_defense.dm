@@ -510,6 +510,11 @@
 		if(M.incapacitated())
 			return FALSE
 
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = src
+			if(H.has_active_golgatha())
+				H.process_golgatha_rebuke(M)
+
 		if(checkguard(M))
 			return FALSE
 

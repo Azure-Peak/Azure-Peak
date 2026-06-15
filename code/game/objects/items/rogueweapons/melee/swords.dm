@@ -161,6 +161,9 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
 
+/obj/item/rogueweapon/sword/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+
 /obj/item/rogueweapon/sword/avantyne
 	name = "avantyne-threaded arming sword"
 	desc = "Anger and spite, channeled into a blade that defies both wisdom and purity. Seldom does such power come without a price, however; are you ready to pay it?"
@@ -175,6 +178,9 @@
 	equip_delay_self = 0
 	unequip_delay_self = 0
 	smeltresult = /obj/item/ingot/avantyne
+
+/obj/item/rogueweapon/sword/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
 
 /obj/item/rogueweapon/sword/long
 	name = "longsword"
@@ -217,7 +223,7 @@
 /obj/item/rogueweapon/sword/long/ap
 	name = "stecher"
 	desc = "A unique longsword from the highest plateaus of the Azure Peak, sacrificing its cutting edge for a piercing tip that can easily penetrate maille. Tracing its roots to the \
-	late fourteenth century, this noble sidearm - borne from Grenzelhoftian imitations of the Otavan estoc - is proudly displayed on Azuria's official coat-of-arms."
+	late fourteenth century, this noble sidearm - born from Grenzelhoftian imitations of the Otavan estoc - is proudly displayed on Azuria's official coat-of-arms."
 	icon_state = "aplongsword"
 	sheathe_icon = "aplongsword"
 	force = 20
@@ -318,7 +324,7 @@
 	thrown_bclass = BCLASS_BLUNT
 
 /obj/item/rogueweapon/sword/long/cleric
-	name = "crusaders longsword"
+	name = "anointed longsword"
 	desc = "A crusader's longsword, adorned with a blade of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
 	sunder those who bare greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes. </br>'Strike \
 	true, my child, for thy blade is thine God..'"
@@ -437,9 +443,12 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
 
+/obj/item/rogueweapon/sword/long/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+
 /obj/item/rogueweapon/sword/long/avantyne
 	name = "avantyne-threaded longsword"
-	desc = "A parasitic mandate to progress, borne through the cultivation of crystalline metastasis. This otherworldly blade is stronger and sharper than any \
+	desc = "A parasitic mandate to progress, born through the cultivation of crystalline metastasis. This otherworldly blade is stronger and sharper than any \
 	mortal-made masterwork, yet comes at a cost that has yet to be realized."
 	icon_state = "zizolongsword"
 	sheathe_icon = "zizolongsword"
@@ -451,6 +460,9 @@
 	unequip_delay_self = 0
 	wdefense_wbonus = 5
 	smeltresult = /obj/item/ingot/avantyne
+
+/obj/item/rogueweapon/sword/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
 
 /obj/item/rogueweapon/sword/long/heirloom
 	name = "old longsword"
@@ -514,7 +526,7 @@
 
 /obj/item/rogueweapon/sword/long/judgement/vlord
 	name = "\"Ichor Fang\""
-	desc = "An unholy longsword, who's crystalline blade radiates with insurmountable sharpness. It has been brought forth unto this world \
+	desc = "An unholy longsword, whose crystalline blade radiates with insurmountable sharpness. It has been brought forth into this world \
 	for a singular purpose; not to bring peace, but to dominate all who'd dare to oppose the coming darkness. ‎</br>‎‎ </br>'And I looked, and \
 	beheld a pale horse - the name that sat upon Her was Death, and Hell followed with them.'"
 	force = 40
@@ -1712,6 +1724,9 @@
 	max_blade_int = 250
 	max_integrity = 225
 	smeltresult = /obj/item/ingot/avantyne
+
+/obj/item/rogueweapon/sword/rapier/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/rogueweapon/sword/rapier/avantyne/relic
 	name = "Damnatio"

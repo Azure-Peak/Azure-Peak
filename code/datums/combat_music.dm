@@ -251,6 +251,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "T87-Sulfurhead - Black Powder (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_graggar.ogg')
 
+/datum/combat_music/graggar_bloodrage
+	name = "Graggarite Psychosis"
+	desc = "BLOOD AND FURY SPLITTING MY SKULL! LAMBS TO THE SLAUGHTER!"
+	shortname = "Bloodrage"
+	credits = "Ben_19M - THE WHOLE BODY IS BULLETPROOF (https://www.youtube.com/@Ben_19M)"
+	musicpath = list('sound/music/combat_bloodrage.ogg')
+
 /datum/combat_music/heretic_baotha
 	name = "Heretic - Baotha"
 	desc = ""

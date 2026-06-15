@@ -64,7 +64,6 @@ LICH SKELETONS
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
 
-	backr = /obj/item/rogueweapon/shield/bronze/paalloy
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(
@@ -92,19 +91,23 @@ LICH SKELETONS
 		if("Flail")
 			beltr = /obj/item/rogueweapon/flail/sflail/paflail
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
-	var/legionnairesidearm = list("A Javelin's Bag", "A Throwing Net", "A Sling With Decrepit Pellets", "An Ancient Dagger")
+	var/legionnairesidearm = list("A Javelin's Bag + Ancient Shield", "A Throwing Net + Ancient Shield", "A Sling With Decrepit Pellets + Wooden Shield", "An Ancient Dagger + Ancient Shield")
 	var/legionnairesidearm_choice = input(H, "Choose your SYDEARM.", "RAGE AGAINST THE LYVING.") as anything in legionnairesidearm
 	switch(legionnairesidearm_choice)
-		if("A Javelin's Bag")
+		if("A Javelin's Bag + Ancient Shield")
 			beltl = /obj/item/quiver/javelin/paalloy
-		if("A Throwing Net")
+			backr = /obj/item/rogueweapon/shield/bronze/paalloy
+		if("A Throwing Net + Ancient Shield")
 			beltl = /obj/item/net
-		if("A Sling With Decrepit Pellets")
+			backr = /obj/item/rogueweapon/shield/bronze/paalloy
+		if("A Sling With Decrepit Pellets + Wooden Shield")
 			H.adjust_skillrank_up_to(/datum/skill/combat/slings, 2, TRUE) //Only apprentice, enough to be annoying
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			beltl = /obj/item/quiver/sling/aalloy //Decrepit vs ballistaires, weak but good for harrassment
-		if("An Ancient Dagger")
+			backr = /obj/item/rogueweapon/shield/wood //Weaker, go ballistaire for a good shield w/this
+		if("An Ancient Dagger + Ancient Shield")
 			beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+			backr = /obj/item/rogueweapon/shield/bronze/paalloy
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak + Greathood", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
@@ -171,7 +174,7 @@ LICH SKELETONS
 		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
 	)
 	H.adjust_blindness(-3)
-	var/weapons = list("Bow & 20 Arrows", "Bow & 20 Broadheads", "Longbow & 20 Arrows", "Longbow & 20 Broadheads", "Crossbow & 16 Bolts", "Sling")
+	var/weapons = list("Bow & 20 Arrows", "Bow & 20 Broadheads", "Longbow & 20 Arrows", "Longbow & 20 Broadheads", "Crossbow & 16 Bolts", "Sling + Ancient Shield")
 	var/weapon_choice = input(H, "Choose your MISSILE.", "CONDEMN THE LYVING FROM AFAR.") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -195,10 +198,12 @@ LICH SKELETONS
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/aalloy
 			beltl = /obj/item/quiver/bolt/paalloy
 			H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
-		if("Sling")
+		if("Sling + Ancient Shield")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			beltl = /obj/item/quiver/sling/paalloy
 			H.adjust_skillrank(/datum/skill/combat/slings, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE) //Not enough to do shield specials w/knifepick or stabs, go legionnaire for that.
+			backr = /obj/item/rogueweapon/shield/bronze/paalloy // the midground for less damage output w/more defensive value vs ranged in turn. Yes you can use the sling with it.
 	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Tabard", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
@@ -688,6 +693,7 @@ LICH SKELETONS
 		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend) //So you don't die from damaging yourself by your own gameplay loop.
 		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4))
 
 	H.adjust_blindness(-3)

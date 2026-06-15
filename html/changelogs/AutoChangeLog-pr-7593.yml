@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscdel: "Removed arcanic melds, replaced them with thematically-appropriate planar materials. Artificer armor is now powered by an infernal core like the infernal engines and infernal forge are."
+  - qol: "Familiar-binding is now free, except for the most hubristic of pursuits."

@@ -184,6 +184,9 @@
 /datum/sex_action/proc/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return
 
+/datum/sex_action/proc/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	return
+
 /datum/sex_action/proc/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	SHOULD_CALL_PARENT(TRUE)
 	unlock_sex_object(user, target)

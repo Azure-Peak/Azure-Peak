@@ -177,7 +177,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 			if(3)
 				cloak = /obj/item/clothing/cloak/half
 
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
@@ -260,7 +260,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/archer)
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/archer/pre_equip(mob/living/carbon/human/H)
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider

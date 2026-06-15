@@ -1,8 +1,8 @@
 // -------------- CHOCOLATE -----------------
 /obj/item/reagent_containers/food/snacks/chocolate
 	name = "chocolate ingot"
-	desc = "An unbelievably decadant slab of fudge, made with Amazonia's cocoa beans and Grenzelhoft's saiga milk. A \
-	recent trade agreement between the two nations has turned this once-expensive delicacy into a slightly-less-expensive \
+	desc = "An unbelievably decadant slab of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
+	recent trade agreement between the two realms has turned this once-expensive delicacy into a slightly-less-expensive \
 	treat for many. </br>Following a rather unfortunate diplomatic incident involving a Lupian nobleman and a box of chocolates, \
 	chocolate is also now-known to double as a potent 'humor rebalancer' for some of Dendor's children. </br>It looks like it can be \
 	split in half with a dagger."
@@ -41,8 +41,8 @@
 
 /obj/item/reagent_containers/food/snacks/chocolate/slice
 	name = "halved chocolate ingot"
-	desc = "An unbelievably decadant halve of fudge, made with Amazonia's cocoa beans and Grenzelhoft's saiga milk. A \
-	recent trade agreement between the two nations has turned this once-expensive delicacy into a slightly-less-expensive \
+	desc = "An unbelievably decadant halve of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
+	recent trade agreement between the two realms has turned this once-expensive delicacy into a slightly-less-expensive \
 	treat for many. </br>Following a rather unfortunate diplomatic incident involving a Lupian nobleman and a box of chocolates, \
 	chocolate is also now-known to double as a potent 'humor rebalancer' for some of Dendor's children. </br>When combined with \
 	pumpkin spice and tossed into a kettle, it makes for an absolutely divine drink."

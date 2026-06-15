@@ -420,3 +420,184 @@
   - rscadd: sahir can now pick between two shamshir or a single staff
   borneblood:
   - balance: Adjusted adven Vizier values and limited choices.
+2026-06-11:
+  FreeStylaLT:
+  - balance: Wave Animation is now longer
+  Ryan180602:
+  - balance: poleaxe stab has 2-tile sweetspot and is delayed. but has 1x damfactor
+      instead of 0.9x.
+  TankTheBirb:
+  - bugfix: Made sure all witches get the scholars bag for ingredient gathering.
+  - bugfix: made Mystagogue and Old Magick witches properly spawn with their spellbooks.
+  - rscdel: removed chalk from godsblood witches because it was a choking hazard.
+  borneblood:
+  - bugfix: Fixes accel's deaccel having the wrong value
+  - bugfix: Restores a lost functionality from another PR
+  - bugfix: Raze no longer dusts alive mobs
+  changelingonberry:
+  - admin: flavor text button in player panel
+  kiwedespars:
+  - bugfix: miracles properly have cd against someone with an embed
+2026-06-12:
+  KatTheFox:
+  - rscadd: Revenants can now select from skin, fur, scale, feather, or chitin descriptors,
+      instead of just skin
+  Ollanius:
+  - bugfix: Atgervi shields now properly render when on the back slot. They have been
+      restricted to the right back slot, which shouldn't affect the ability to carry
+      other slot-restricted pieces (like the rucksack or backpack.)
+  OrbisAnima:
+  - bugfix: Melodic Dirges no longer affect dead mobs.
+  - bugfix: Fixes the exploit with Noc and Undivided spell selectors, preventing them
+      from being called infinite times for infinite spells.
+  borneblood:
+  - bugfix: Golgatha was instakilling carbon NPCs and not working on simplemobs.
+  clumsygoblinoid:
+  - qol: made triumph winter dress fit in cosmetic storage
+2026-06-13:
+  FeniaFox:
+  - balance: rebalanced bardiche mam/crafting costs to match its performance as a
+      sidegrade weapon to the steel halberd. Mam costs 45 -> 75, craft costs iron
+      -> steel ingots and apprentice -> journeyman weaponsmithing.
+  KatTheFox:
+  - rscadd: Gem staves now have unique sprites again
+  Ollanius:
+  - balance: Adds the 'Death's Door' debuff, which temporarily applies the 'DNR' trait
+      - and a heavy mood decrease - while active. It lasts for about ten-to-fifteen
+      minutes, and provides a modest mood increase (alongside removing the 'DNR' trait)
+      upon completion. Currently timed to expire alongside the 'Revival Sickness'
+      debuff.
+  - balance: Most forms of resurrection (barring Absolves and other certain methods)
+      now have an internal timer added to them. If the timer reaches five minutes
+      without the target-in-question dying again, a 'deathmark' is applied. Deathmarks
+      essentially act as conduits for the new 'Death's Door' debuff.
+  - balance: All resurrections now apply a fifteen-minute long debuff with a mild
+      stressor.
+  - rscadd: Being resurrected now lists a (mostly) unique, patron-related message
+      - courtesy of Kat and Chundoan!
+  - code_imp: Adds a safeguard with the new 'Death's Door' debuff and 'deathmark'
+      system, preventing unfortunate players from being permakilled due to ill-timed
+      blunders (such as malpractice and-or incompetence.) This can be individually
+      adjusted for each method of resurrection, if needed.
+  - rscadd: Renamed most debuffs that pertain to Lux, Resurrections, or anything similar
+      to those lines.
+  - rscadd: New sprites for most of the aforementioned debuffs.
+  - rscadd: Adds descriptions to certain debuffs, with further elaborations.
+  OrbisAnima:
+  - qol: Xylix Acolytes  / Missionaries get one instrument of choice.
+  - balance: Necran Missionaries get their (non) silver shovel / Scythe
+  Ryumi:
+  - qol: The visual presentation of race blurbs has been greatly improved. Now, upon
+      selecting a race, it will display all racial traits and explain (most) mechanics
+      unique to that race. All listed traits come with hover tooltips providing their
+      descriptions.
+  VanessaCoding:
+  - rscadd: Eorans now gain a 30% base heal boost on someone wearing flower crowns,
+      and a 15% base heal boost if they are wearing a flower crown.
+  WeNeedMorePhoron:
+  - rscdel: Replaced reference to the non existent Amazonia in chocolate's description,
+      which does not exist and is not full of buff women, with a reference to Etrusca,
+      which does exists and is full of buff men.
+  crunchypretzels:
+  - rscadd: New aasimar skintone.
+  radarseas:
+  - balance: sling ballistiares gets a shield + apprentice skill in shields to fit
+      them into the defensive-choice for ranged where their other picks of bows +
+      crossbow are more-fitted for offensive.
+  - balance: Legionnarie taking sling gets a wooden shield instead of ancient, slightly
+      less durability and 10% less ranged blocking sacrificed for being able to pressure
+      people at a distance poorly and be able to fight up-close.
+  - rscadd: New conjured summon NPCs for necromancers, slightly better skills + guarrenteed
+      gear loadout.
+  - rscadd: Necromancer skeletons can now pick features on summoning as well as their
+      body/name.
+  - rscadd: Necro skele talbards, these are surcoats and jupons without the colors
+      of an Exarch's empire that lich skeles get. Used for seige skeletons, unbound
+      skeletons and necromancer summons + skeletons.
+  - rscadd: Necro skeles can pick their helms + new loadout tuneups.
+  - rscadd: Necro skeles can now fly a cloak/tabard/toga of their choice!
+  - rscadd: Shattered bulwark, a weaker version of Necromancer's previous heavy armor.
+      Tough but shatters fast when the armor does.
+  - balance: Unbound death knight gets another helmet choice.
+  - balance: Unbound death knight gets three armor pick choices.
+  - balance: Lich skeleton spellblade gets bonemend so they don't die from their own
+      gameplay loop, lol.
+  - balance: Unbound skeles no longer get unintended items and poison daggers to do
+      reagent warfare. Play Malpractioner for that.
+  - balance: Most Necromancer skeles are now Medium trained instead of Heavy to substitute
+      for more numbers.
+  - balance: Necromancer sapper is now a proper lesser sapper, even getting some of
+      the lich ver, attire and speccing out a little more towards construction w/out,
+      the QOL/arcayne/wall exploding lich sappers get.
+  - balance: Unbound death knight gets more gilbranze choices for weaponry + slightly
+      better gear.
+  - balance: Unbound skeletons are capped to 10 CON + whatever INT/WIL they started
+      with for statpacks.
+  - balance: Unbound skeletons get additional context on the whole dusting thing,
+      yeah.
+  - balance: Unbound spellblade rag mask -> decrepid hijab for the true Tarichean
+      wannabie style akin to lich's version.
+  - balance: Necromancers now have message + mindlink for QOL of interacting with
+      their minions, or contacting wretches or assocates of whatever form from afar.
+  - balance: unbound skeletons now get salvaged gear + use combat_weird.ogg
+  - balance: Formation is now 3 seconds from 6 seconds to cast, given an extra 5 second
+      to cooldown.
+  - balance: Necromancers get Expert from Journeyman in medicine + misc skills rogue
+      mages previously got.
+  - balance: Conjure Guard is now 6 seconds from 3 seconds, with a 1 minute delay.
+  - balance: Conjured Guards now last 45 from 30 minutes, to make up for a slightly
+      slower summoning time + cooldown.
+  - balance: Necromancers have lost 1 speed point of their stats, a slight reduction
+      in excess combat skills and slightly worse alchemy.
+  - balance: Necromancers get a choice between plain robes and protective, new robes
+      exclusive to them to stand out and aura-farm.
+  - balance: Necromancer Player skeles 2 -> 6 total
+  - balance: 'Necromancer Maximal lux charges 2 -> 3 total
+
+      balance Necromancer Starting lux charges -> Unchanged.'
+  - rscadd: Added new combat music for bloodrage, credit given to Ben_19M, go check
+      em out. The Track is called "THE WHOLE BODY IS BULLETPROOF". Also a new message
+      on popping it for the user and it enables combat mode if its off.
+  - rscadd: you can also change your combat music to it, like everything else in the
+      game.
+2026-06-14:
+  KatTheFox:
+  - rscadd: I'm back in the fucking building (proofreading mines) again.
+  - rscadd: Faith icons such as amulets are now their own loadout category instead
+      of being in Accessories
+  - rscadd: Bronze and Gilbranze amulets added to loadout
+  - bugfix: Mirror transform now actually applies its effects to the target instead
+      of the caster
+  - rscadd: Spellbooks can now be renamed
+  - qol: Dying in an area with no deathsight message set will now give a message that
+      is more obviously a code error, and gives the name of the area so we can actually
+      fix reports of it.
+  Ollanius:
+  - rscadd: Adds a plethora of new Donator-exclusive items to the Loadout menu. These
+      items can be freely accessed by anyone that's registered as a Donator to the
+      server. I've added my own little funded garb, too!
+  - code_imp: Credit to Zydras, Dromkii, Darkinite, Desminus, Cre77, and Witty for
+      either spriting, licensing, or otherwise commissioning most of the added sprites
+      here. You're all wonderful.
+  - bugfix: Haubergeon and Hauberk sleeves should render as intended, once again.
+  - bugfix: Finalizes the renaming of Mailled Hauberk / Mailled Cuirass into Plate-And-Maille.
+  - bugfix: Clerical longswords (now 'anointed longswords') no longer have iffy sprites.
+  - code_imp: Reduces price of lesser perfumes from 2 to 1 on the Triumph shop.
+  - code_imp: Reorganized Triumph kits to follow the same naming convention as their
+      Donator equivalents, for more sorting cohesion.
+  - rscadd: Adds the Azurosa dyeshade, which closely matches the Azurosa palette.
+  - rscadd: Adds the Haubyrines, light-weight haubergeons that only cover the torso
+      with reduced coverage.
+  - rscadd: Adds wooden and golden amulets for every remaining deity. Wooden amulets
+      can be crafted with sticks and fibers, while golden amulets can be crafted with
+      a regular amulet and a golden ingot. Ornate variants are available via Triumphs.
+  - rscadd: Baothan and Matthiosite amulets - as the only two(?) native golden amulets
+      (besides the Undivided) - now require Expert-tier skills to make. Likewise,
+      forging it from gold will make an exclusive '/g'-forked version that can be
+      sold for a nice chunk of change. Loadout-specific variants remain the same.
+  - rscadd: Bronze and Ancient amulets are now available for a small amount of Triumphs.
+  - rscadd: Adds plaque belts and steel belts as a higher-end Triumph purchase.
+  OrbisAnima:
+  - rscadd: Ports the Loose Straps vice from Lokaka21, who Ported Free's original
+      Armor fling code. Its a vice that makes all armor be flung off 2-3 tiles on
+      integrity break, and makes it easier to strip you.  So free vice for bath attendants.

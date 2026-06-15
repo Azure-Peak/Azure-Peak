@@ -38,9 +38,12 @@
 	user.visible_message(span_love("[user] cums over [target]'s feet!"))
 	return "onto"
 
-/datum/sex_action/sex/footjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/sex_action/sex/footjob/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] fucks [target]'s feet."))
+
+/datum/sex_action/sex/footjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	playsound(user, 'sound/misc/mat/fingering.ogg', 20, TRUE, -2, ignore_walls = FALSE)
 	do_thrust_animate(user, target, sex_session)
 	do_onomatopoeia(user)

@@ -1,4 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - balance: "poleaxe stab has 2-tile sweetspot and is delayed. but has 1x damfactor instead of 0.9x."

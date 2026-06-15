@@ -71,7 +71,6 @@
 	desc = "Bind a lesser infernal to your service: a being of daemonic hatred, specializing in fiery destruction."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/infernal
-	required_atoms = list(/obj/item/magic/infernal/fang = 2)
 	invocation = "Appare, spiritus infernus!"
 
 /datum/runeritual/binding/fae
@@ -79,7 +78,6 @@
 	desc =	 "Bind a lesser fae to your service: a being of natural whimsy, specializing in mobility and alchemy."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/fae
-	required_atoms = list(/obj/item/magic/fae/iridescentscale = 2)
 	invocation = "Appare, spiritus silvae!"
 
 /datum/runeritual/binding/elemental
@@ -87,7 +85,6 @@
 	desc = "Bind a lesser elemental to your service: a creature of earthen durability, specializing in world-manipulation and repairs."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/elemental
-	required_atoms = list(/obj/item/magic/elemental/shard = 2)
 	invocation = "Appare, spiritus terrae!"
 
 /datum/runeritual/binding/void
