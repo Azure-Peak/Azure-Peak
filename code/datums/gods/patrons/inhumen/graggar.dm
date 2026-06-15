@@ -45,7 +45,7 @@
 	var/bonus = 0
 
 	for(var/obj/effect/decal/cleanable/blood/blood in oview(5, target))
-		bonus = min(bonus + 0.1, 2.5)
+		bonus = min(bonus + 0.1, 2)
 	
 	if(!bonus)
 		return
