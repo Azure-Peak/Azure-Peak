@@ -83,6 +83,7 @@
 
 		H.unequip_everything()
 		SSjob.AssignRole(H, "Assassin")
+		H.job = "Assassin"
 		SSmapping.retainer.assassins |= H
 		antag_mind.add_antag_datum(/datum/antagonist/assassin)
 

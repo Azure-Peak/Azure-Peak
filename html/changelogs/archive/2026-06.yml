@@ -601,3 +601,39 @@
   - rscadd: Ports the Loose Straps vice from Lokaka21, who Ported Free's original
       Armor fling code. Its a vice that makes all armor be flung off 2-3 tiles on
       integrity break, and makes it easier to strip you.  So free vice for bath attendants.
+2026-06-15:
+  BurpleBineapple:
+  - bugfix: Kazengunese dobo robes were incorrectly using ARMOR_MAILLE. They now use
+      ARMOR_PADDED.
+  FeniaFox:
+  - balance: Increased the integrity of heavy leather boots (and grenzelhoftian boots)
+      to match that of other heavy/hardened leather items (100 or 80 -> 250). Removed
+      from common NPCs to avoid easy scavenging.
+  - balance: Reduced the integrity of Ruma sandals to match that of other hardened
+      leather items (300 -> 250).
+  - qol: Renamed heavy leather gloves/boots to hardened leather gloves/boots, to match
+      other items with similar stats.
+  FreeStylaLT:
+  - rscadd: Added a bunch of new hair. Courtesy of Ratwood / Vanderlin.
+  KatTheFox:
+  - rscdel: Removed arcanic melds, replaced them with thematically-appropriate planar
+      materials. Artificer armor is now powered by an infernal core like the infernal
+      engines and infernal forge are.
+  - qol: Familiar-binding is now free, except for the most hubristic of pursuits.
+  OrbisAnima:
+  - qol: Made the Interarctions menu actions not spam over and over the same message,
+      only giving a new one anytime you change any of the speed, the intensity or
+      the action type.
+  - bugfix: Fixed Mage and God Hands from not working with the backdoor. Rejoice.
+  Ryumi:
+  - rscadd: Heretical items now have big, obvious highlights and tooltips making their
+      heretical / PVP-escalating nature clear, as well as brief explanations of how
+      and why.
+  borneblood:
+  - bugfix: fixed a few odd INDEXER interactions.
+  changelingonberry:
+  - rscdel: debug cat
+  radarseas:
+  - balance: woodcutting axe w/ battleaxe choices for regular heretics.
+  - balance: Psyheretics retain and only get the battleaxe choice as they did before
+      under "Axe"

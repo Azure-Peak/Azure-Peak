@@ -10,7 +10,7 @@ GLOBAL_LIST_EMPTY(loadout_items_by_name)
 	var/list/ckeywhitelist
 	var/donator_unlocked = FALSE
 	var/triumph_cost
-	var/sort_category = "Miscellaneous" 	//Used for sorting loadout items in the menu. Should be one of the following: One per each file
+	var/sort_category = "Misc" 	//Used for sorting loadout items in the menu. Should be one of the following: One per each file
 
 /datum/loadout_item/New()
 	if(isnull(donoritem))
