@@ -63,7 +63,7 @@
 	invocation_type = INVOCATION_NONE
 
 	charge_required = FALSE
-	cooldown_time = 15 SECONDS
+	cooldown_time = 10 SECONDS
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
