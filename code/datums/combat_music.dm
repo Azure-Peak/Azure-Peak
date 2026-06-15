@@ -582,3 +582,10 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	shortname = "Ready to Die"
 	credits = "T-87 SULFURHEAD - I'M READY TO DIE, ARE YOU? (https://www.youtube.com/watch?v=cJpAxIvd8_g)"
 	musicpath = list('sound/music/cmode/combat_ready_to_die.ogg')
+
+/datum/combat_music/coordinated_assault
+	name = "Coordinated Assault"
+	desc = "One cannot hope to cut through a tiger's flesh with a single stroke. Only a relentless flurry of chained slashes can overwhelm the creature until it is felled at last."
+	shortname = "Coordinated"
+	credits = "Studio EIM - Im Gyeong-eop (https://youtu.be/lMvbwdvrJa4)"
+	musicpath = list('sound/music/combat_coordinated.ogg')

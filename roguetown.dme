@@ -3125,6 +3125,7 @@
 #include "code\modules\spells\spell_types\bardic\vicious_mockery.dm"
 #include "code\modules\spells\spell_types\classunique\berserker\berserkrage.dm"
 #include "code\modules\spells\spell_types\classunique\desertrider\zeybek_momentum.dm"
+#include "code\modules\spells\spell_types\classunique\firemonk\burn_status_effect_helper.dm"
 #include "code\modules\spells\spell_types\classunique\firemonk\coordinated_assault.dm"
 #include "code\modules\spells\spell_types\classunique\firemonk\fervid_emotions.dm"
 #include "code\modules\spells\spell_types\classunique\firemonk\fiery_waltz.dm"

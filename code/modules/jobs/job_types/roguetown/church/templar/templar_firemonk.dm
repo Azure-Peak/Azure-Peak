@@ -36,19 +36,23 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 	)
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 	)
 
+/datum/outfit/job/roguetown/templar/firemonk
+	var/sidearm_selected
+
+/datum/outfit/job/roguetown/templar/firemonk/Topic(href, href_list)
+	. = ..()
+	if(href_list["sidearm"])
+		sidearm_selected = href_list["sidearm"]
+
 /datum/outfit/job/roguetown/templar/firemonk/pre_equip(mob/living/carbon/human/H)
 	..()
-	neck = /obj/item/clothing/neck/roguetown/psicross/undivided
-	cloak = /obj/item/clothing/cloak/tabard/crusader/tief
-	id = /obj/item/clothing/ring/silver
-	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-	backl = /obj/item/storage/backpack/rogue/satchel
-	mask = /obj/item/clothing/head/roguetown/roguehood/ravox
+	backl = /obj/item/storage/backpack/rogue/satchel/short //genuinely looks like dogass with the normal satchel
 	neck = /obj/item/clothing/neck/roguetown/psicross/ravox
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
@@ -59,10 +63,9 @@
 		backpack_contents += patron_dagger
 		backpack_contents += /obj/item/rogueweapon/scabbard/sheath
 	head = /obj/item/clothing/head/roguetown/headband/monk
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
-	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk/black
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy/firemonk
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/suspenders
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltr = /obj/item/storage/keyring/acolyte
 	shoes = /obj/item/clothing/shoes/roguetown/boots/firemonk
@@ -70,11 +73,51 @@
 
 	var/datum/status_effect/buff/arcyne_momentum/momentum = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(momentum)
-		momentum.chant = "unarmed"
+		momentum.set_chant("unarmed")
 
+	// ! see below comment !
+	// i dont mind debating whenever or not they should get t1 or t2. i just think that the t1 ravox stuff is genuinely useless
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2, start_maxed = TRUE)
+
+
+	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/coordinated_assault)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/fervid_emotions)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/fiery_waltz)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/iron_mountain)
+
+/datum/outfit/job/roguetown/templar/firemonk/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	var/weapons = list("Discipline - Unarmed","Arbiter","Knuckledusters")
+
+	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	switch(weapon_choice)
+		if("Discipline - Unarmed")
+			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
+			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/bandages/pugilist(H))
+			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+		if("Arbiter")
+			H.put_in_hands(new /obj/item/rogueweapon/katar/ravox(H))
+			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+		if("Knuckledusters")
+			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
+			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+
+	var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff") // cool wrestling moves
+	var/technique_choice = input(H,"Choose your TECHNIQUE.", "TOSS THEM.") as anything in techniques
+	switch(technique_choice)
+		if("Dropkick - Pushback + Extra Damage")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick)
+		if("Chokeslam - Stamina Damage")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
+		if("Stunner - Dazed Debuff")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
+		if("Headbutt - Vulnerable Debuff")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 
 //literally just a hardened leather coat - people can buy this shit round start from the tailor silver face w/o any real drawbacks.
-//im trying 2 reduce the need 2 replace the class's unique shit, but im fine with kicking it back down to the normal shit if ppl r unhappy
+//im trying 2 reduce the desire 2 replace the class's unique shit, but im fine with kicking it back down to the normal shit if ppl r unhappy
 // ! please remove these comments/tell me if this pr is merged so i can remove em - zera !
 /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy/firemonk
 	name = "crimson cheongsam"

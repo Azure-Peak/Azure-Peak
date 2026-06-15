@@ -15,6 +15,7 @@
 #define GLOW_COLOR_LIGHT "#FFFDE7" // Pale warm white, for light spells
 #define GLOW_COLOR_WARD "#D4A844" // Warm amber-gold, for battlewardry / protective ward spells
 #define GLOW_COLOR_BARDIC "#E8837C" // Warm rose, for bardic songs and cadences
+#define GLOW_COLOR_FIREMONK "#911100" //Iron Meihua spells
 
 //Gods - Tennite
 #define GLOW_COLOR_UNDIVIDED "#28908C" //Undivided Cyan
