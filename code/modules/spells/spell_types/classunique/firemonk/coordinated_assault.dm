@@ -32,7 +32,6 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/max_range = 5
-	var/strike_damage = 15
 
 /datum/action/cooldown/spell/coordinated_assault/cast(atom/cast_on)
 	. = ..()
