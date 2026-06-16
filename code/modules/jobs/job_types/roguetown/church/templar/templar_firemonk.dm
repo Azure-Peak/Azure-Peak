@@ -1,8 +1,8 @@
 //design intent - not actually a mage, just a monk that's been enhanced by magic
 //and uses arcyne momentum mechanics
-//spells mostly rely on current stress for how potent they are - bad mood: negligible burn affliction, good mood: viable burn affliction
-//inflicts burn on themselves & other templars around them for buffs.
-//i swear grief potential'll wont be too bad cuz ill prob throw in a trait that reduces burn as well
+//spells mostly rely on empowerment for good burn application
+//inflicts burn on other templars around them for buffs.
+//i swear grief potential'll be negligible due 2 how its spread to other templars. promise
 //burn is a status effect that deals fire damage equal to its stack, then reduces said stack by 1/3rd. procs every five seconds
 //the most burn someone should have in an actual fight is abt 28-35~
 
