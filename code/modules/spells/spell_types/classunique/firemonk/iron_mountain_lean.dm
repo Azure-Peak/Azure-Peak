@@ -79,7 +79,7 @@
 		to_chat(user, span_warning("Not enough momentum! I need at least [momentum_cost] stacks!"))
 		return
 
-	var/turf/victim_turf = get_turf(owner)
+	var/turf/owner_turf = get_turf(owner)
 	if(owner_turf)
 		var/dragon_dir = get_dir(user, victim)
 		var/obj/effect/temp_visual/dragon_face/D = new(owner_turf)

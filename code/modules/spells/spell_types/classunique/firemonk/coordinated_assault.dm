@@ -101,9 +101,10 @@
 		return far_side
 	return get_turf(target_mob)
 
-/datum/action/cooldown/spell/coordinated_assault/proc/execute_path_strikes(mob/living/carbon/human/user, list/victims, obj/item/weapon, def_zone)
+/datum/action/cooldown/spell/coordinated_assault/proc/execute_path_strikes(mob/living/carbon/human/user, list/victims)
 	if(!user || QDELETED(user))
 		return
+	var/strike_zone = user.zone_selected || BODY_ZONE_CHEST
 	var/deflected = FALSE
 	for(var/mob/living/victim in victims)
 		if(QDELETED(victim) || victim.stat == DEAD)
@@ -114,7 +115,7 @@
 				user.Slowdown(2)
 			continue
 		var/total_damage = strike_damage
-		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Coordinated Assault", skip_animation = TRUE, skip_message = TRUE)
+		arcyne_strike(user, victim, damage = 15, def_zone = strike_zone, spell_name = "Coordinated Assault", skip_animation = TRUE, skip_message = TRUE)
 		for(var/mob/living/carbon/human/buffed in (get_hearers_in_view(5, user)))
 			if(isliving(buffed))
 				if(buffed.has_status_effect(/datum/status_effect/stacking/burn))
