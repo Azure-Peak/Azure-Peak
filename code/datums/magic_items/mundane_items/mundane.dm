@@ -1,7 +1,7 @@
 //T1 Enchantments
 /datum/magic_item/mundane/woodcut
 	name = "woodcutting"
-	description = "It is firm like an tree."
+	description = "It is firm like a tree."
 	glow_color = "#6B8E23"
 	var/last_used
 

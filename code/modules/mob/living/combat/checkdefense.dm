@@ -8,6 +8,9 @@
 			swing_state = FALSE
 			return FALSE
 
+	if(mid_climb)
+		interrupt_climb()
+
 	if(!has_status_effect(/datum/status_effect/stealth_revealed) || !user.has_status_effect(/datum/status_effect/stealth_revealed))
 		if(get_skill_level(/datum/skill/misc/sneaking) >= SKILL_LEVEL_JOURNEYMAN || HAS_TRAIT(src, TRAIT_LIGHT_STEP))
 			apply_status_effect(/datum/status_effect/stealth_revealed)
@@ -54,4 +57,13 @@
 			return attempt_parry(intenty, user)
 		if(INTENT_DODGE)
 			return attempt_dodge(intenty, user)
+
+/mob/living/proc/interrupt_climb()
+	if(!mid_climb)
+		return FALSE
+	mid_climb = FALSE
+	doing = FALSE
+	playsound(src, 'sound/combat/swingdelay_disrupted.ogg', 100, TRUE)
+	visible_message(span_warning("[src]'s grip is broken!"), span_warning("My grip is broken!"))
+	return TRUE
 			

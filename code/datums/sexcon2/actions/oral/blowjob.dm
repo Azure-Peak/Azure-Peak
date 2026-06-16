@@ -50,9 +50,12 @@
 	user.visible_message(span_love("[user] cums into [target]'s mouth!"))
 	return "into"
 
-/datum/sex_action/oral/blowjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/sex_action/oral/blowjob/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] sucks [target]'s pintle..."))
+
+/datum/sex_action/oral/blowjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.make_sucking_noise()
 	// you want to know how i got these scars?
 	if(istype(user.head, /obj/item/clothing/head/roguetown/jester))

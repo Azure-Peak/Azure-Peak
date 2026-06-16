@@ -45,10 +45,13 @@
 	. = ..()
 	sex_locks |= new /datum/sex_session_lock(target, ORGAN_SLOT_VAGINA)
 
+/datum/sex_action/masturbate/other/magejob_vagina/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] fingers [target]'s cunt..."))
+
 /datum/sex_action/masturbate/other/magejob_vagina/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	var/skill_level = user.get_skill_level(/datum/skill/magic/arcane)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] fingers [target]'s cunt..."))
 	playsound(user, 'sound/misc/mat/fingering.ogg', 30, TRUE, -2, ignore_walls = FALSE)
 
 	sex_session.perform_sex_action(target, (2*skill_level), 0, TRUE)

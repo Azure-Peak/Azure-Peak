@@ -63,7 +63,8 @@
             H.put_in_hands(new /obj/item/rogueweapon/mace/maul/spiked)
             H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
         if("Grand Mace")
-            H.equip_to_slot_or_del(new /obj/item/rogueweapon/mace/goden/steel, SLOT_BACK_R, TRUE)
+            H.put_in_hands(new /obj/item/rogueweapon/mace/goden/steel)
+            H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
 
 /datum/advclass/mercenary/grudgebearer_soldier
 	name = "Grudgebearer Soldier"
@@ -139,7 +140,8 @@
             H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
             H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
         if("Grand Mace")
-            H.equip_to_slot_or_del(new /obj/item/rogueweapon/mace/goden/steel, SLOT_BACK_R, TRUE)
+            H.put_in_hands(new /obj/item/rogueweapon/mace/goden/steel)
+            H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
             H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
         if("Great Axe")
             H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel)

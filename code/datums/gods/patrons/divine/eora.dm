@@ -67,6 +67,13 @@
 	*message_out = span_info("An emanance of love blossoms around [target]!")
 	*message_self = span_notice("I'm filled with the restorative warmth of love!")
 
+	var/flower_crowns = list(
+		/obj/item/flowercrown/rosa,
+		/obj/item/flowercrown/salvia,
+		/obj/item/flowercrown/calendula,
+		/obj/item/flowercrown/matricaria,
+	)
+
 	var/bonus = 0
 
 	if(HAS_TRAIT(target, TRAIT_PACIFISM))
@@ -74,6 +81,17 @@
 
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		bonus += 1.5
+
+	var/target_head = target.get_item_by_slot(SLOT_HEAD)
+	var/user_head = user.get_item_by_slot(SLOT_HEAD)
+
+	for(var/crown in flower_crowns)
+		if(istype(target_head, crown))
+			bonus += 0.75
+			to_chat(user, span_good("[target.name]'s flower crown's blessing amplifies the healing!"))
+		if(istype(user_head, crown))
+			bonus += 0.375
+			to_chat(user, span_good("My flower crown's blessing amplifies the healing!"))
 
 	if(!bonus)
 		return

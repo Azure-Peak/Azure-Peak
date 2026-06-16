@@ -8,7 +8,7 @@
 
 //Jack of all trades fighter, gains expert in their chosen weapon pick
 /datum/advclass/vampguardsman
-	name = "Vampiric Guardsman"
+	name = "Vampiric Footsoldier"
 	tutorial = "You are a seasoned weapon specialist, clad in maille, with years of experience in warfare and battle under your belt, more than any mortal could ever claim."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/other/vampguardsman
@@ -20,7 +20,7 @@
 		STATKEY_INT = 1,
 		STATKEY_CON = 1,
 		STATKEY_PER = 2,
-		// 8, weighted statline, akin to MAA deserter nearly albeit tipped towards the antag-side of scaling.
+		// 8, point statline, akin to MAA deserter nearly albeit tipped towards the antag-side of scaling.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
@@ -79,7 +79,7 @@
 				r_hand = /obj/item/rogueweapon/greataxe
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 
-	H.verbs |= /mob/proc/haltyell_exhausting //Soldier gets to halt people
+	add_verb(H, /mob/proc/haltyell_exhausting) //Soldier gets to halt people
 
 	cloak = /obj/item/clothing/cloak/tabard/stabard/vamp
 	mask = /obj/item/clothing/mask/rogue/facemask/steel //so they don't get sundered in the face
@@ -104,7 +104,7 @@
 
 // Ranger, minifort class. Also doubles as a knockoff assassin, a good tracker for people that run from your conversion horde.
 /datum/advclass/vampskirmisher
-	name = "Vampiric Ranger"
+	name = "Vampiric Skirmisher"
 	tutorial = "You are a professional soldier, light in footwork, yet with years of experience in warfare and archery, far more than most mortals could claim. Your lord's will be done."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/other/vampskirmisher
@@ -115,7 +115,7 @@
 		STATKEY_WIL = 2,
 		STATKEY_STR = 1,
 		STATKEY_PER = 4,
-		// 8 weighted statline, mostly put into perception; no int bonus though, fient them sire.
+		// 8 point statline, mostly put into perception; no int bonus though, fient them sire.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,		//On par with MAA skirmisher
@@ -159,7 +159,7 @@
 		/obj/item/rope/chain = 1
 		)
 
-	H.verbs |= /mob/proc/haltyell_exhausting //Soldier gets to halt people
+	add_verb(H, /mob/proc/haltyell_exhausting) //Soldier gets to halt people
 
 	if(H.mind)
 		var/weapons = list("Recurve Bow","Yew Longbow","Crossbow")
@@ -189,7 +189,7 @@
 		STATKEY_WIL = 2,
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,
-		// 7 weighted statline, mostly put into speed; no con buff though
+		// 7 point statline, mostly put into speed; no con buff though
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
@@ -239,7 +239,7 @@
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				beltl = /obj/item/rogueweapon/scabbard/sword
 
-	H.verbs |= /mob/proc/haltyell_exhausting //Soldier gets to halt people
+	add_verb(H, /mob/proc/haltyell_exhausting) //Soldier gets to halt people
 
 	head = /obj/item/clothing/head/roguetown/duelhat/vamp //lowest of all guards in head armor in that only their coif really gives them any.
 	mask = /obj/item/clothing/mask/rogue/duelmask //I AM THE NIGHT
@@ -281,12 +281,12 @@
 		STATKEY_SPD = 1,
 		STATKEY_CON = 3, //Trust me, you're going to need it.
 
-		// 8 weighted statline, with a unique backup unarmed choice of just punching people with your bare hands into joining your fold.
+		// 8 point statline, with a unique backup unarmed choice of just punching people with your bare hands into joining your fold.
 		// albeit unlike other unarmed classes, you get no special techniques, no skin armor, miracles, nor a lot of strength for it
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN, //Less skill than other classes here, but you get more unarmed kicking spots, higher damage and better accuracy and parries without a weapon
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT, //Maile punchman, tradeoff is that you have no special techniques vs proper unarmed classes, you lack the miracles + fullplate of icono and the stam regen of monks.
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, //RUN AND BLOW IT TO HELL, You kinda need this as you get no luxuries in raw combat outside of puglist fighting without bombs like everyone else, including just default strength.
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
@@ -301,7 +301,7 @@
 	to_chat(H, span_warning("There has been nothing more enchanting in unlyfe than the dance of flames upon an inferno of your alchemical mixes and the taste of blood. Now your master arises once more and your talents shall see use again. Your lord's will be done."))
 	H.set_blindness(0)
 
-	H.verbs |= /mob/proc/haltyell_exhausting //Halting the charred corpse is too funny, we're keeping it. sovl.
+	add_verb(H, /mob/proc/haltyell_exhausting) //Halting the charred corpse is too funny, we're keeping it. sovl.
 
 	mask = /obj/item/clothing/mask/rogue/ragmask/black
 	cloak = /obj/item/clothing/cloak/tabard/stabard/vamp
@@ -334,7 +334,7 @@
 		STATKEY_INT = 2,
 		STATKEY_SPD = 2,
 		STATKEY_WIL = 2,
-		//6 weighted statline, unchanged from adv save for +1 wil so they last longer in combat with music. Due to how strong bardic buffs can be in the hands of vampyres now they get numbers (I.E stam regen, health regen, etc) although they do still feel blue bar (excluding vlord) they have to retain being somewhat weak-ish
+		//6 point statline, unchanged from adv save for +1 wil so they last longer in combat with music. Due to how strong bardic buffs can be in the hands of vampyres now they get numbers (I.E stam regen, health regen, etc) although they do still feel blue bar (excluding vlord) they have to retain being somewhat weak-ish
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE, //Still not amazing, because you can buff up already pretty stacked classes.
@@ -375,7 +375,7 @@
 		/obj/item/lockpick = 1, //Go buy more, if you need em.
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
-	H.verbs |= /mob/proc/haltyell_exhausting //This is stupid, keeping it. Halting someone to listen to your music is too funny.
+	add_verb(H, /mob/proc/haltyell_exhausting) //This is stupid, keeping it. Halting someone to listen to your music is too funny.
 
 	var/datum/inspiration/I = new /datum/inspiration(H)
 	I.grant_inspiration(H, bard_tier = BARD_T2)
@@ -417,7 +417,7 @@
 		STATKEY_STR = -1,
 		STATKEY_WIL = 2,
 		STATKEY_PER = 3,
-		// 7 weighted statline, mostly put into perception + int, they lack on their baseline speed being slightly higher unlike most mages on top of weaker martal talent
+		// 7 point statline, mostly put into perception + int, they lack on their baseline speed being slightly higher unlike most mages on top of weaker martal talent
 	)
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
@@ -437,7 +437,7 @@
 	to_chat(H, span_warning("You were a magos of old, ever since the embrace you've never had more time to practice your persuit of arcayne magicks, let alone revel in your taste for blood; now your master arises once more and your arcayne research shall see fruitation. Your lord's will be done."))
 	H.set_blindness(0)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard() //Every wizzard gotta have the evyl laugh, I don't make the rules, sire.
-	H.verbs |= /mob/proc/haltyell_exhausting //Halting the charred corpse is too funny, we're keeping it. sovl.
+	add_verb(H, /mob/proc/haltyell_exhausting) //Halting the charred corpse is too funny, we're keeping it. sovl.
 
 	cloak = /obj/item/clothing/cloak/tabard/stabard/vamp
 	head = /obj/item/clothing/head/roguetown/witchhat //EVERY PALLY IN THE KINGDOM ON MA TAIL

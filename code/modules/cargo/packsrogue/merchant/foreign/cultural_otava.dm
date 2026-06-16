@@ -89,9 +89,16 @@
 	ship_qty_max = 4
 
 /datum/supply_pack/rogue/otava/satchel
-	name = "Otavan Leather Satchel"
+	name = "Otavan Satchel"
 	cost = 60
 	contains = list(/obj/item/storage/backpack/rogue/satchel/otavan)
+	ship_qty_min = 1
+	ship_qty_max = 3
+
+/datum/supply_pack/rogue/otava/satchel/short
+	name = "Otavan Short Satchel"
+	cost = 80
+	contains = list(/obj/item/storage/backpack/rogue/satchel/otavan/short)
 	ship_qty_min = 1
 	ship_qty_max = 3
 

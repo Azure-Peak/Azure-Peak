@@ -40,12 +40,13 @@
 						to_chat(src, span_notice("[absorb_text]"))
 		else	// Unfortunate special behaviour for projectiles because they are absent most data pen_info wants (attacker mob ref, weapon sharpness, intent, etc)
 			if(armor_tier > 0)
+				// this was fucked for how long????
 				if(armor_penetration == armor_tier)
-					blocked = block_damage * PEN_PASSTHROUGH_PROJ_EQUAL // We block 80% of the damage, letting 20% through to body / into integ.
+					blocked = block_damage * (1 - PEN_PASSTHROUGH_PROJ_EQUAL) // We block 80% of the damage, letting 20% through to body / into integ.
 					if(penetrated_text)
 						to_chat(src, span_danger("[penetrated_text]"))
 				else if(armor_penetration > armor_tier)
-					blocked = block_damage * PEN_PASSTHROUGH_PROJ_MORE // We block 20% of the damage, letting 80% through to body / into integ.
+					blocked = block_damage * (1 - PEN_PASSTHROUGH_PROJ_MORE) // We block 20% of the damage, letting 80% through to body / into integ.
 					if(penetrated_text)
 						to_chat(src, span_danger("[penetrated_text]"))
 				else
@@ -489,6 +490,9 @@
 	if(HAS_TRAIT(M, TRAIT_PACIFISM))
 		to_chat(M, span_warning("I don't want to hurt anyone!"))
 		return FALSE
+	if(M.has_status_effect(/datum/status_effect/debuff/deadite_grace) && src.mind)
+		to_chat(M, span_warning("Ah, Lux... I calm down considerably, but my hunger only increases."))
+		M.remove_status_effect(/datum/status_effect/debuff/deadite_grace)
 
 	M.do_attack_animation(src, visual_effect_icon = M.a_intent.animname)
 	playsound(get_turf(M), pick(M.attack_sound), 100, FALSE)
@@ -506,6 +510,14 @@
 		if(M.incapacitated())
 			return FALSE
 
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = src
+			if(H.has_active_golgatha())
+				H.process_golgatha_rebuke(M)
+
+		if(checkguard(M))
+			return FALSE
+
 		if(checkmiss(M))
 			return FALSE
 
@@ -519,6 +531,13 @@
 
 	return TRUE
 
+/mob/living/proc/checkguard(mob/living/simple_animal/attacker)
+	var/mob/living/carbon/human/target = src
+	if(!(ishuman(target) && target.has_status_effect(/datum/status_effect/buff/clash)))
+		return FALSE
+	var/obj/item/IM = target.get_active_held_item()
+	target.simple_clash(attacker, IM)
+	return TRUE
 
 /mob/living/attack_paw(mob/living/carbon/monkey/M)
 	if(isturf(loc) && istype(loc.loc, /area/start))
@@ -529,6 +548,9 @@
 		if(HAS_TRAIT(M, TRAIT_PACIFISM))
 			to_chat(M, span_info("I don't want to hurt anyone!"))
 			return FALSE
+		if(M.has_status_effect(/datum/status_effect/debuff/deadite_grace) && src.mind)
+			to_chat(M, span_warning("Ah, Lux... I calm down considerably, but my hunger only increases."))
+			M.remove_status_effect(/datum/status_effect/debuff/deadite_grace)
 
 		if(M.is_muzzled() || M.is_mouth_covered(FALSE, TRUE))
 			to_chat(M, span_warning("I can't bite with my mouth covered!"))
@@ -559,6 +581,9 @@
 		if(HAS_TRAIT(M, TRAIT_PACIFISM))
 			to_chat(M, span_info("I don't want to hurt anyone!"))
 			return FALSE
+		if(M.has_status_effect(/datum/status_effect/debuff/deadite_grace) && src.mind)
+			to_chat(M, span_warning("Ah, Lux... I calm down considerably, but my hunger only increases."))
+			M.remove_status_effect(/datum/status_effect/debuff/deadite_grace)
 
 		if(M.is_muzzled() || M.is_mouth_covered(FALSE, TRUE))
 			to_chat(M, span_warning("I can't bite with my mouth covered!"))

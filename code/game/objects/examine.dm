@@ -117,6 +117,13 @@
 
 	. += span_info(weight_tier_examine_line())
 
+	var/examine_highlight_status = get_examine_highlight_status()
+	if(examine_highlight_status)
+		var/severity = examine_highlight_status[1]
+		var/heresy_desc = get_examine_highlight_description(examine_highlight_status, itis = TRUE, allcaps = FALSE)
+		var/heresy_tooltip = get_examine_highlight_explanation(severity)
+		. += span_info(SPAN_TOOLTIP_DANGEROUS_HTML(heresy_tooltip, heresy_desc))
+
 	for(var/datum/examine_effect/E in examine_effects)
 		E.trigger(user)
 

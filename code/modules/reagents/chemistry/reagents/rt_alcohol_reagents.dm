@@ -618,6 +618,13 @@
 /datum/reagent/consumable/ethanol/nocshine/on_mob_end_metabolize(mob/living/M)
 	M.remove_status_effect(/datum/status_effect/buff/nocshine)
 
+/datum/reagent/consumable/ethanol/nocmash
+	name = "Noc Mash"
+	description = "A raw, grain-fortified distillate. Must be distilled with swampweed before it becomes the notorious Noc's Shine."
+	boozepwr = 55
+	taste_description = "undiluted alcohol with a faint hint of wheat"
+	color = "#b8d4d6"
+
 /datum/reagent/consumable/ethanol/luxwine // oh no.
 	name = "Luxintenebre" // lux left w/ sugar in a darkened place for quite some time... U could say... Light in Darkness.....
 	description = "A fermented form of vitae, highly alcoholic, and with a particularly grim taste. Often sought out by the daring, foolhardy, and heretical..."

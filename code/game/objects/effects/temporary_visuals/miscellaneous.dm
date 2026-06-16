@@ -417,6 +417,28 @@
 	I.appearance_flags = RESET_ALPHA
 	animate(I, alpha = 0, time = duration)
 
+/obj/effect/temp_visual/keen_footstep
+	name = "footsteps"
+	desc = "WHAT ARE THOOOOOOOOOOOOOOOOOOOOOOOOOSE"
+	icon = 'icons/effects/footprints.dmi'
+	icon_state = null
+	randomdir = FALSE
+
+/obj/effect/temp_visual/keen_footstep/timed_out()
+	return
+
+/obj/effect/temp_visual/keen_footstep/Initialize(mapload, mob/living/seer, step_dir = SOUTH)
+	. = ..()
+	if(!seer)
+		return INITIALIZE_HINT_QDEL
+
+	var/image/I = image(icon = 'icons/effects/footprints.dmi', icon_state = "keen1", loc = src, dir = step_dir)
+	I.plane = vision_obscured(seer) ? (FULLSCREEN_PLANE + 1) : ABOVE_LIGHTING_PLANE
+	I.layer = ABOVE_MOB_LAYER
+	I.alpha = 200
+	I.appearance_flags = RESET_ALPHA|RESET_COLOR
+	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/onePerson, "keen_footstep_[REF(src)]", I, seer)
+
 // NOCTRA STUFF
 /obj/effect/temp_visual/heart/sex_effects
 	duration = 4 SECONDS

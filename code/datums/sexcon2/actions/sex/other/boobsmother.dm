@@ -30,9 +30,12 @@
 /datum/sex_action/sex/other/boobsmother/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return span_warning("[user] pulls [target]'s head out from inbetween [user.p_their()] tits.")
 
-/datum/sex_action/sex/other/boobsmother/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/sex_action/sex/other/boobsmother/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	target.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] smothers [target]'s face with [user.p_their()] tits..."))
+
+/datum/sex_action/sex/other/boobsmother/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	playsound(target, 'sound/misc/mat/fingering.ogg', 20, TRUE, -2, ignore_walls = FALSE)
 
 	sex_session.perform_sex_action(target, 2, 4, TRUE)

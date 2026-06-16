@@ -40,6 +40,8 @@
 
 	var/sheathe_time = 0.1 SECONDS
 	var/sheathe_sound = 'sound/foley/equip/scabbard_holster.ogg'
+	/// If true, this weapon's examine highlights (see `get_examine_highlight_status()`) will not reveal the weapon stored in it.
+	var/hides_weapon = TRUE
 
 /obj/item/rogueweapon/scabbard/get_mechanics_examine(mob/user)
 	. = ..()
@@ -56,6 +58,19 @@
 /obj/item/rogueweapon/scabbard/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/holster, (valid_blade ? valid_blade : null), (length(valid_blades) ? valid_blades : null), (length(invalid_blades) ? invalid_blades : null))
+
+/obj/item/rogueweapon/scabbard/get_examine_highlight_status()
+	if(hides_weapon)
+		return null
+	// If we have a weapon holstered, return the status of the weapon instead
+	var/obj/item/sheathed_weapon = hol_comp?.sheathed
+	var/list/highlight_status = sheathed_weapon?.get_examine_highlight_status()
+	if(!sheathed_weapon || !highlight_status)
+		return null
+	// Change the wording of the status a bit to specify that it's the sheathed weapon being highlighted!
+	var/sheathed_desc = highlight_status[2]
+	sheathed_desc = "It holds \a [sheathed_weapon.name]: [sheathed_desc]"
+	return list(highlight_status[1], sheathed_desc)
 
 /obj/item/rogueweapon/scabbard/attack_obj(obj/O, mob/living/user)
 	return FALSE
@@ -549,6 +564,7 @@
 	possible_item_intents = list(SHIELD_BASH, SHIELD_SMASH)
 	can_parry = TRUE
 	sewrepair = FALSE
+	anvilrepair = /datum/skill/craft/carpentry
 	wdefense = 8
 	special = /datum/special_intent/limbguard
 
@@ -602,9 +618,10 @@
 	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
 	sewrepair = FALSE
-	wdefense = 3
+	anvilrepair = /datum/skill/craft/carpentry
+	wdefense = 4
+	max_integrity = 220
 
-	max_integrity = 0
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician
 	name = "fancy cane"

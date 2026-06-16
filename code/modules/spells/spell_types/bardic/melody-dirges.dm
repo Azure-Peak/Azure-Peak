@@ -142,6 +142,8 @@
 	new effect(get_turf(owner))
 	// Spawn telltale notes on debuffed enemies every tick (2s) for visibility
 	for(var/mob/living/carbon/human/H in hearers(10, O))
+		if (H.stat == DEAD)
+			continue
 		if(!O.in_audience(H))
 			for(var/datum/status_effect/debuff/song/S in H.status_effects)
 				new /obj/effect/temp_visual/song_telltale/debuff(get_turf(H))
@@ -157,6 +159,8 @@
 	if(debuff_to_apply_full && O.inspiration.level >= BARD_T2)
 		debuff = debuff_to_apply_full
 	for (var/mob/living/carbon/human/H in hearers(10, O))
+		if (H.stat == DEAD)
+			continue
 		if(!O.in_audience(H))
 			H.apply_status_effect(debuff)
 

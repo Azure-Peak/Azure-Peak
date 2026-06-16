@@ -9,20 +9,24 @@ SUBSYSTEM_DEF(profiler)
 /datum/controller/subsystem/profiler/stat_entry(msg)
 	msg += "F:[round(fetch_cost,1)]ms"
 	msg += "|W:[round(write_cost,1)]ms"
-	return msg
+	return ..(msg)
 
 /datum/controller/subsystem/profiler/Initialize()
-	if(CONFIG_GET(flag/auto_profile))
+	var/profiling = CONFIG_GET(flag/auto_profile)
+	if(profiling)
 		StartProfiling()
 	else
 		StopProfiling() //Stop the early start profiler
-	wait = CONFIG_GET(number/profiler_interval)
+	var/interval = CONFIG_GET(number/profiler_interval)
+	if(interval > 0)
+		wait = interval
+	can_fire = (profiling && interval > 0)
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/profiler/OnConfigLoad()
 	if(CONFIG_GET(flag/auto_profile))
 		StartProfiling()
-		can_fire = TRUE
+		can_fire = (CONFIG_GET(number/profiler_interval) > 0)
 	else
 		StopProfiling()
 		can_fire = FALSE
@@ -31,7 +35,7 @@ SUBSYSTEM_DEF(profiler)
 	DumpFile(reason = "scheduled")
 
 /datum/controller/subsystem/profiler/Shutdown()
-	if(CONFIG_GET(flag/auto_profile))
+	if(CONFIG_GET(flag/auto_profile) && CONFIG_GET(number/profiler_interval) > 0)
 		DumpFile(allow_yield = FALSE, reason = "shutdown")
 		world.Profile(PROFILE_CLEAR, type = "sendmaps")
 	return ..()

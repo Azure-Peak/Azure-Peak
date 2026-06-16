@@ -47,6 +47,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/tgui_lock = TRUE
 	var/tgui_theme = "azure_default"
 	var/parchment_skin = "leatherbound"
+	var/statbrowser_theme = "dark"
 	var/windowflashing = TRUE
 	var/toggles = TOGGLES_DEFAULT
 	var/ghost_toggles
@@ -325,8 +326,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	ResetJobs()
 	if(user)
 		if(pref_species.desc)
-			to_chat(user, "[pref_species.desc]")
-		to_chat(user, "<font color='red'>Classes reset.</font>")
+			var/bonus_stats = span_racialstatinfo(pref_species.get_string_bonus_stats())
+			var/traits_list = pref_species.get_string_bonus_traits()
+			var/bonus_traits = traits_list && length(traits_list) ? "<br>" + span_smallracialstatinfo(traits_list) : null
+			var/mechanics = pref_species.mechanics_explanations ? span_info(pref_species.get_string_mechanics_explanations()) : null
+			var/description2print  = fieldset_block(span_big("<b>[span_bignotice(pref_species.desc_title)]</b>"), "[pref_species.desc]<br><hr>[bonus_stats][bonus_traits][mechanics]", "speciesdesc_block")
+			to_chat(user, description2print)
+		to_chat(user, span_red("Classes reset."))
 	random_character(gender, FALSE, FALSE)
 	accessory = "Nothing"
 
@@ -717,6 +723,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<h2>Display</h2>"
 			dat += "<b>TGUI Theme:</b> <a href='?_src_=prefs;preference=tgui_theme'>[get_tgui_theme_display_name()]</a><br>"
 			dat += "<b>Parchment Theme:</b> <a href='?_src_=prefs;preference=parchment_skin'>[get_parchment_skin_display_name()]</a><br>"
+			dat += "<b>Panel Theme:</b> <a href='?_src_=prefs;preference=statbrowser_theme'>[get_statbrowser_theme_display_name()]</a><br>"
 			dat += "<b>UI Mode:</b> <a href='?_src_=prefs;preference=tgui_ui_prefs;task=menu'>[tgui_pref ? "TGUI" : "Legacy"]</a><br>"
 			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(tgui_lock) ? "Primary" : "All"]</a><br>"
 			dat += "<b>Ambient Occlusion:</b> <a href='?_src_=prefs;preference=ambientocclusion'>[ambientocclusion ? "Enabled" : "Disabled"]</a><br>"
@@ -725,6 +732,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[auto_fit_viewport ? "Auto" : "Manual"]</a><br>"
 			if (CONFIG_GET(string/default_view) != CONFIG_GET(string/default_view_square))
 				dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled ([CONFIG_GET(string/default_view)])" : "Disabled ([CONFIG_GET(string/default_view_square)])"]</a><br>"
+			dat += "<h2>Other</h2>"
+			dat += "<b>Be Voice:</b> <a href='?_src_=prefs;preference=schizo_voice'>[(toggles & SCHIZO_VOICE) ? "Enabled":"Disabled"]</a><br>"
 			dat += "</td><td width='400px' valign='top'>"
 			dat += "<h2>Special Role Settings</h2>"
 			if(is_banned_from(user.ckey, ROLE_SYNDICATE))
@@ -2813,6 +2822,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					setTguiStyle(user)
 				if("parchment_skin")
 					cycle_parchment_skin()
+				if("statbrowser_theme")
+					cycle_statbrowser_theme()
+					user.client?.apply_statbrowser_theme()
 				if("winflash")
 					windowflashing = !windowflashing
 
@@ -2935,7 +2947,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					user << browse(null, "window=preferences") //closes job selection
 					user << browse(null, "window=mob_occupation")
 					user << browse(null, "window=latechoices") //closes late job selection
-					user << browse(null, "window=migration") // Closes migrant menu
+					migrant.hide_ui() // Closes migrant menu
 
 					SStriumphs.remove_triumph_buy_menu(user.client)
 
@@ -3241,7 +3253,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 /datum/preferences/proc/is_active_migrant()
 	if(!migrant)
 		return FALSE
-	if(!migrant.active)
+	if(!migrant.queued_wave)
 		return FALSE
 	return TRUE
 

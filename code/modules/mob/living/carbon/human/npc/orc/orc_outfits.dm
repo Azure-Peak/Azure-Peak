@@ -23,7 +23,7 @@
 	orc_outfit = /datum/outfit/job/roguetown/orc/npc/berserker
 
 /mob/living/carbon/human/species/orc/npc/warlord
-	threat_point = THREAT_ELITE
+	threat_point = THREAT_DANGEROUS
 	orc_outfit = /datum/outfit/job/roguetown/orc/npc/warlord
 
 // Underarmored orc with incomplete protection, bone axe / spear, and slow speed
@@ -72,7 +72,7 @@
 	neck = /obj/item/clothing/neck/roguetown/coif
 	head = /obj/item/clothing/head/roguetown/helmet/leather
 	mask = /obj/item/clothing/mask/rogue/facemask
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	var/wepchoice = rand(1, 5)
 	switch(wepchoice)
 		if(1)
@@ -113,7 +113,7 @@
 	head = /obj/item/clothing/head/roguetown/helmet/leather
 	neck = /obj/item/clothing/neck/roguetown/coif
 	mask = /obj/item/clothing/mask/rogue/facemask
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	var/wepchoice = rand(1, 2)
 	switch(wepchoice)
 		if(1)
@@ -146,7 +146,7 @@
 	head = /obj/item/clothing/head/roguetown/helmet/skullcap
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	mask = /obj/item/clothing/mask/rogue/facemask
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	var/wepchoice = rand(1, 6)
 	switch(wepchoice)
 		if(1)

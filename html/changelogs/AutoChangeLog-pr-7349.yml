@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - balance: "Combat actions will now reset stealth timers for particularly sneaky folk."

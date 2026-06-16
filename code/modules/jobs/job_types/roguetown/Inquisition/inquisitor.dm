@@ -85,8 +85,8 @@
 /datum/outfit/job/roguetown/inquisitor/inspector/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
-	H.verbs |= /mob/living/carbon/human/proc/faith_test
-	H.verbs |= /mob/living/carbon/human/proc/torture_victim
+	add_verb(H, /mob/living/carbon/human/proc/faith_test)
+	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
@@ -221,8 +221,8 @@
 	has_loadout = TRUE
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T2 miracles.
-	H.verbs |= /mob/living/carbon/human/proc/faith_test
-	H.verbs |= /mob/living/carbon/human/proc/torture_victim
+	add_verb(H, /mob/living/carbon/human/proc/faith_test)
+	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
 	shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
@@ -284,7 +284,7 @@
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 		if("Psydonic Poleaxe")
-			H.put_in_hands(new /obj/item/rogueweapon/greataxe/psy/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel/knight/psy/preblessed(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
 		if("Psydonic Grand Mace")
@@ -305,7 +305,7 @@
 
 /mob/living/carbon/human/proc/faith_test()
 	set name = "Test Faith"
-	set category = "Interrogation"
+	set category = "RoleUnique.Interrogation"
 	var/obj/item/grabbing/I = get_active_held_item()
 	var/mob/living/carbon/human/H
 	var/obj/item/S = get_inactive_held_item()
@@ -371,7 +371,7 @@
 
 /mob/living/carbon/human/proc/torture_victim()
 	set name = "Reveal Allegiance"
-	set category = "Interrogation"
+	set category = "RoleUnique.Interrogation"
 	var/obj/item/grabbing/I = get_active_held_item()
 	var/mob/living/carbon/human/H
 	var/obj/item/S = get_inactive_held_item()

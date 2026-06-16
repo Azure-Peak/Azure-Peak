@@ -40,7 +40,7 @@
 
 /datum/outfit/job/roguetown/hand/pre_equip(mob/living/carbon/human/H)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/agent)
-	H.verbs |= /datum/job/roguetown/hand/proc/remember_agents
+	add_verb(H, /datum/job/roguetown/hand/proc/remember_agents)
 
 /datum/job/roguetown/hand/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
@@ -234,7 +234,7 @@
 
 /datum/job/roguetown/hand/proc/remember_agents()
 	set name = "Remember Agents"
-	set category = "Voice of Command"
+	set category = "RoleUnique.Voice of Command"
 
 	to_chat(usr, span_boldnotice("I have these agents present:"))
 	for(var/name in GLOB.court_agents)
@@ -256,4 +256,4 @@
 	if(!.)
 		return
 	GLOB.court_agents += recruit.real_name
-	recruit.verbs |= /datum/job/roguetown/adventurer/courtagent/proc/remember_employer
+	add_verb(recruit, /datum/job/roguetown/adventurer/courtagent/proc/remember_employer)

@@ -3,7 +3,6 @@
 	desc = ""
 	icon = 'icons/roguetown/misc/alchemy.dmi'
 	icon_state = "irondust"
-	dropshrink = 0.75
 	w_class = WEIGHT_CLASS_TINY
 	experimental_inhand = TRUE
 	/*

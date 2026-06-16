@@ -12,8 +12,8 @@
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_WIL = 2,
-		STATKEY_CON = 0,
 		STATKEY_PER = 1,
+		STATKEY_SPD = -1,
 		STATKEY_STR = -1,
 	 ) // Weighted 3 - Loses str because Int makes sense for a caster. 0 CON for limb reattachment tradeoff.
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
@@ -25,6 +25,8 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 	)
+	adv_stat_ceiling = list(STAT_INTELLIGENCE = 12, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + spellblade fuckery vs vamp
+	extra_context = "This class is unable to be revived and all forms of death will dust you."
 
 /datum/outfit/job/roguetown/wretch/ancient_spellblade
 	var/subclass_selected
@@ -49,7 +51,7 @@
 
 	H.choose_name_popup("Ancient Azurcaephan")
 
-	H.cmode_music = 'sound/music/combat_cult.ogg'
+	H.cmode_music = 'sound/music/combat_weird.ogg'
 
 	// Equipment — gilbranze loadout matching lich skeleton spellblade
 	belt = /obj/item/storage/belt/rogue/leather
@@ -60,13 +62,19 @@
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
-	mask = /obj/item/clothing/mask/rogue/ragmask/black
+	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich //Stands out
 	backr = /obj/item/rogueweapon/shield/heater
 	backl = /obj/item/storage/backpack/rogue/satchel
 
-	// DO NOT GIVE THEM MAGE CHALK. This is a SKELETON. Don't let them
-	// grind the gameplay loop (without putting in the efforts to acquire a chalk)
-	backpack_contents = list(/obj/item/book/spellbook = 1)
+	H.taints_loot = TRUE //For that shitty-ass reanimated corpse gear look.
+
+	// DO NOT GIVE THEM MAGE CHALK. This is a SKELETON. Please don't let them easily
+	// grind the gameplay loop (without putting in the efforts/virtue to acquire a chalk)
+	backpack_contents = list(
+		/obj/item/book/spellbook = 1,
+		/obj/item/natural/feather = 1, //For your helm
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1, //Hilarious
+		)
 
 	// Chant selection — uses undead faction for "MEMORIES" UI
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
@@ -118,28 +126,28 @@
 		"Gilbranze Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/paalloy,
 		"None",
 	)
-	var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+	var/helmchoice = input(H, "Choose your Helm.", "A VISAGE UNBOUND.") as anything in helmets
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Ancient Khopesh", "Sabre", "Corroded Dagger")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
+			var/weapons = list("Ancient Khopesh", "Sabre", "Ancient Dagger")
+			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Khopesh")
 					beltr = /obj/item/rogueweapon/sword/sabre/palloy
 				if("Sabre")
 					beltr = /obj/item/rogueweapon/sword/sabre
-				if("Corroded Dagger")
-					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
-			if(weapon_choice == "Corroded Dagger")
+				if("Ancient Dagger")
+					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+			if(weapon_choice == "Ancient Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
 			else
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("phalangite")
 			var/weapons = list("Ancient Spear", "Ancient Bardiche", "Dory")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			switch(weapon_choice)
 				if("Ancient Spear")
 					r_hand = /obj/item/rogueweapon/spear/paalloy
@@ -152,7 +160,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("macebearer")
 			var/weapons = list("Ancient Mace", "Ancient Warhammer", "Ancient Grand Mace", "Ancient Alloy Axe", "Steel Greataxe")
-			var/weapon_choice = input(H, "Choose your WEAPON.", "TAKE UP ARMS") as anything in weapons
+			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 			var/picked_axe = FALSE
 			switch(weapon_choice)
 				if("Ancient Mace")
@@ -173,13 +181,17 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 	H.set_blindness(0)
 
-	var/tabards = list("Black Tabard", "Black Jupon")
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/lich
+			cloak = /obj/item/clothing/cloak/tabard/necro
+		if("Black Cloak")
+			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	// Reorder undead eyes action to the end
 	var/obj/item/organ/eyes/existing_eyes = H.getorganslot(ORGAN_SLOT_EYES)

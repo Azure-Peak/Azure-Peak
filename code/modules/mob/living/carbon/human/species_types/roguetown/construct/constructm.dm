@@ -8,9 +8,8 @@
 	origin = "Naledi"
 	base_name = "Godtouched"
 	is_subrace = TRUE
-	desc = "<b>Metallic Construct</b><br>\
-	Masterworks of artifice, metal constructs are as the name implies- entirely constructed by mortal hands. They are beings not of flesh and blood, but cold metal and the arcyne. Constructs are said to originate from works of Zizo, and they hail from the far-off lands of the Southern Empty- a great city of artifice, where the only artificers capable of understanding what is necessary to create the constructs live. For some reason, they have found themselves travelling out of the empty, as of late. Children of the Resonator Siphon.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 WIL | -2 SPD | No Hunger | No Breath | No Blood | Toxic Immunity | Shock Weakness</b></span><br><br>"
+	desc_title = "Metallic Construct"
+	desc = "Masterworks of artifice, metal constructs are as the name implies- entirely constructed by mortal hands. They are beings not of flesh and blood, but cold metal and the arcyne. Constructs are said to originate from works of Zizo, and they hail from the far-off lands of the Southern Empty- a great city of artifice, where the only artificers capable of understanding what is necessary to create the constructs live. For some reason, they have found themselves travelling out of the empty, as of late. Children of the Resonator Siphon."
 	skin_tone_wording = "Material"
 	use_skin_tone_wording_for_examine = FALSE
 	default_color = "FFFFFF"
@@ -96,6 +95,19 @@
 	)
 
 	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
+
+	mechanics_explanations = list("Their wounds cannot be mended with needles or surgery, but instead with mechanical repairs. Light wounds can be mended with just a hammer, but more severe injuries will require a pair of tongs or a wrench held in the off hand for the hammer to work.",
+		"Generic healing miracles used on them will be less effective the closer they are to being at perfect condition.",
+		"Spells of mending can heal their wounds.",
+		"While on the brink of death, can be temporarily stabilized by sticks or rocks.",
+		"Can easily attach any prosthetic limbs to their bodies, including their own when they are lost.",
+		"Can mine rocky terrain by trying to walk into it while in Combat Mode and while in STRONG stance.",
+		"Are vulnerable to electrocution.",
+		"Have unique interactions when certain items are used on them:\n\
+		\t<b>Gemstones, Ingots, Raw Ores, and Stones</b>: Are consumed to heal the construct.\n\
+		\t<b>Cut Tree Logs</b>: Are turned into charcoal.\n\
+		\t<b>Whole Tree Logs</b>: Are split in half.\n\
+		\t<b>Large Rocks</b>: Are broken down into stones.")
 
 /datum/species/construct/metal/check_roundstart_eligible()
 	return TRUE

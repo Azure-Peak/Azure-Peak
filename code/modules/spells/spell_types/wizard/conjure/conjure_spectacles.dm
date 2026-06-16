@@ -74,12 +74,24 @@
 /obj/item/clothing/mask/rogue/spectacles/inq_lesser_summoned
 	name = "summoned nocshade lens-pair"
 	icon_state = "bglasses"
-	desc = "An argument between the chosen of Noc and the Otavian Orthodoxy has raged on for years,\n\
-	no one truely knows who the original creator of these glasses truely was.\n\
-	But one thing is absolutely for certain, they are quite fashionable."
+	desc = "An argument between the chosen of Noc and the Otavan Orthodoxy has raged on for years.\n\
+	No-one truly knows who the original creator of these glasses was.\n\
+	But one thing, at least, is certain: they are quite fashionable."
 		
 // Golden spectacles summonable lesser varient - with no mechanical effects
 
 /obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned
-		name = "summoned golden spectacles"
-		icon_state = "goggles"
+	name = "summoned golden spectacles"
+	icon_state = "goggles"
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 35
+	integrity_failure = 0.5
+	resistance_flags = FIRE_PROOF
+	body_parts_covered = EYES
+	anvilrepair = /datum/skill/craft/armorsmithing
+	adjustable = CAN_CADJUST
+	var/active_item = FALSE
+
+/obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask

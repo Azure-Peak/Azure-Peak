@@ -7,6 +7,15 @@
 	stockpile_limit = 20
 	category = "Alchemy"
 
+/datum/roguestock/stockpile/sinew
+	name = "Sinew"
+	desc = "Tough animal tendon, of some alchemical and crafting use."
+	item_type = /obj/item/alch/sinew
+	trade_good_id = TRADE_GOOD_SINEW
+	importexport_amt = 5
+	stockpile_limit = 20
+	category = "Alchemy"
+
 /datum/roguestock/stockpile/calendula
 	name = "Calendula"
 	desc = "Golden marigold flowers prized by apothecaries for healing salves."

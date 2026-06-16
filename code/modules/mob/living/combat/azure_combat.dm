@@ -60,6 +60,39 @@
 		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 		H.reset_desert_rider_momentum_tier()
 
+/mob/living/carbon/human/proc/simple_clash(mob/user, obj/item/IM)
+	if(!isliving(user))
+		return
+	var/mob/living/L = user
+	if(user == src)
+		bad_guard(span_warning("I hit myself."))
+		return
+	if(!IM)	
+		visible_message(span_warning("[src] deflects [L]'s strike with [p_their()] bare hands!"))
+		playsound(src, 'sound/combat/clash_struck.ogg', 100)
+		L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+		L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		if(L.mind)
+			L.dodgetime = clamp(L.dodgetime + 5, 0, CLICK_CD_HEAVY)
+		L.Slowdown(3)
+		to_chat(src, span_notice("[capitalize(L.p_theyre())] exposed!"))
+		remove_status_effect(/datum/status_effect/buff/clash)
+		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+		return
+	visible_message(span_suicide("[src] ripostes [L] with \the [IM]!"))
+	playsound(src, 'sound/combat/clash_struck.ogg', 100)
+	L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+	L.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+	if(L.mind)
+		L.dodgetime = clamp(L.dodgetime + 5, 0, CLICK_CD_HEAVY)
+	dodgetime = clamp(dodgetime - 5, 0, CLICK_CD_DODGE)
+	user.Slowdown(3)
+		
+	to_chat(src, span_notice("[capitalize(L.p_theyre())] exposed!"))
+	remove_status_effect(/datum/status_effect/buff/clash)
+	apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+	return
+
 //This is a gargantuan, clunky proc that is meant to tally stats and weapon properties for the potential disarm.
 //For future coders: Feel free to change this, just make sure someone like Struggler statpack doesn't get 3-fold advantage.
 /mob/living/carbon/human/proc/clash(mob/user, obj/item/IM, obj/item/IU)
@@ -548,3 +581,25 @@
 			return TRUE
 		else
 			return FALSE
+
+/mob/living/proc/attempt_disarm(mob/living/user, obj/item/O) //Codeblock for handling weapon-based disarming checks. 
+	var/obj/item/I
+	if(!IsOffBalanced(src))
+		to_chat(user, span_warning("They must be off-balanced before I can disarm them!"))
+		return
+	I = get_active_held_item()
+	if(!I)
+		I = get_inactive_held_item()
+	if(I)
+		var/mob/living/carbon/human/target = src
+		target.disarmed(I)
+		playsound(src, 'sound/combat/clash_struck.ogg', 100)
+		flash_fullscreen("whiteflash")
+		user.flash_fullscreen("whiteflash")
+		var/datum/effect_system/spark_spread/S = new()
+		var/turf/front = get_step(src,src.dir)
+		S.set_up(1, 1, front)
+		S.start() //In essence; requires the same conditions to knock someone down via a kick. The difference is that this replaces the knockdown with a far more pronounced 'disarming' effect.
+	else
+		to_chat(user, span_warning("They aren't holding anything that can be disarmed!"))
+		return

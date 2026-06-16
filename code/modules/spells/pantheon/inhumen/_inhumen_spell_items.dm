@@ -400,6 +400,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	aura_color = "#fffaad"
 	w_class = WEIGHT_CLASS_TINY
 
+
 /obj/item/alchserum/matthios_lyfestruth/attack(mob/living/target, mob/user)
 	if(!istype(target, /mob/living/carbon))
 		return
@@ -539,7 +540,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 		// Build batch safely
 		for(var/obj/item/I in T)
-			if((istype(I, /obj/item/natural/stone) || istype(I, /obj/item/natural/rock)))
+			if((istype(I, /obj/item/natural/stone) || istype(I, /obj/item/natural/clay) || istype(I, /obj/item/natural/glass_shard) || istype(I, /obj/item/natural/rock)))
 				var/value = get_value(I)
 				if(value > 0)
 					batch += I
@@ -1783,6 +1784,14 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_info("The knowledge fades from my mind."))
 		user.remove_language(/datum/language/thievescant)
 		grant_chant = FALSE
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/get_examine_highlight_status()
+	// If we have stolen fyre, it looks like an ornate Astratan amulet. Disguised...
+	if(stolen_fyre)
+		return null
+	// Otherwise, it's an undisguised and GAUDY Matthiosian amulet. Very obvious.
+	else
+		return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios
 	name = "gilded fingerless gloves"

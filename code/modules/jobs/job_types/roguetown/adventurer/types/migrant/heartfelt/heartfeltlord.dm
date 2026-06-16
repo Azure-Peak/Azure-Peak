@@ -89,7 +89,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/bolster)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/charge)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
-		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
+		add_verb(H, list(/mob/living/carbon/human/mind/proc/setordersheartfelt))
 
 /datum/advclass/heartfelt/lord/archmage
 	name = "Archmagos of Heartfelt"
@@ -244,7 +244,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/bolster)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/charge)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/forheartfelt)
-		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
+		add_verb(H, list(/mob/living/carbon/human/mind/proc/setordersheartfelt))
 	var/weapons = list("Double-Headed Greataxe", "Great Mace", "Battle Axe + Shield", , "Warhammer + Shield")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
@@ -489,7 +489,7 @@
 
 /mob/living/carbon/human/mind/proc/setordersheartfelt()
     set name = "Rehearse Orders"
-    set category = "Voice of Command"
+    set category = "RoleUnique.Voice of Command"
 
     #define ORDER_INPUT(varname, prompt) \
         mind.varname = input("Send a message.", prompt) as text|null; \
