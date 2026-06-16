@@ -70,28 +70,39 @@
 
 /datum/component/vision_quest_tracker
 	var/datum/vision_quest/quest
-	var/mob/living/carbon/human/target
+	var/datum/weakref/target_ref
 	var/mob/living/carbon/human/seeker
-	var/obj/structure/roguemachine/ritual_rune/reward_rune
+	var/datum/weakref/reward_rune_ref
 
 /datum/component/vision_quest_tracker/Initialize(datum/vision_quest/quest_datum, mob/target_mob, obj/structure/roguemachine/ritual_rune/rune)
 	if(!istype(quest_datum, /datum/vision_quest) || !istype(target_mob) || !istype(rune))
 		return COMPONENT_INCOMPATIBLE
 	quest = quest_datum
-	target = target_mob
-	reward_rune = rune
+	target_ref = WEAKREF(target_mob)
+	reward_rune_ref = WEAKREF(rune)
 	seeker = parent
 	RegisterSignal(parent, COMSIG_MOB_SAY, PROC_REF(on_say))
 	to_chat(seeker, span_purple("Vision granted: [quest.name]"))
 	to_chat(seeker, span_notice("[quest.description]"))
-	to_chat(seeker, span_warning("You must say \"[quest.required_phrase]\" within two tiles of [target.real_name]."))
+	var/mob/target = target_ref?.resolve()
+	if(target)
+		to_chat(seeker, span_warning("You must say \"[quest.required_phrase]\" within two tiles of [target.real_name]."))
+	else
+		to_chat(seeker, span_warning("The vision's target has faded from this world..."))
+		qdel(src)
 
-/datum/component/vision_quest_tracker/proc/on_say(mob/speaker, message)
+/datum/component/vision_quest_tracker/proc/on_say(datum/source, list/speech_args)
 	SIGNAL_HANDLER
 
-	if(speaker != seeker)
-		return
-	if(findtext(message, quest.required_phrase))
+	var/message = speech_args[1]
+	var/lower_message = lowertext(message)
+	var/lower_phrase = lowertext(quest.required_phrase)
+	if(findtext(lower_message, lower_phrase))
+		var/mob/target = target_ref?.resolve()
+		if(!target)
+			to_chat(seeker, span_warning("The vision's target is gone... Your quest is lost."))
+			qdel(src)
+			return
 		var/dist = get_dist(seeker, target)
 		if(dist <= 2 && target.stat != DEAD)
 			complete_quest()
@@ -99,14 +110,18 @@
 			to_chat(seeker, span_warning("The vision flickers - you are not close enough to [target.real_name] or they are not present."))
 
 /datum/component/vision_quest_tracker/proc/complete_quest()
-	var/turf/T = get_turf(reward_rune)
-	if(T)
-		var/list/reward_list = quest.get_reward_list()
-		for(var/reward_path in reward_list)
-			var/amount = reward_list[reward_path]
-			for(var/i in 1 to amount)
-				new reward_path(T)
-		to_chat(seeker, span_green("The vision solidifies! Your rewards appear at the ritual rune."))
+	var/obj/structure/roguemachine/ritual_rune/rune = reward_rune_ref?.resolve()
+	if(rune && !QDELETED(rune))
+		var/turf/T = get_turf(rune)
+		if(T)
+			var/list/reward_list = quest.get_reward_list()
+			for(var/reward_path in reward_list)
+				var/amount = reward_list[reward_path]
+				for(var/i in 1 to amount)
+					new reward_path(T)
+			to_chat(seeker, span_green("The vision solidifies! Your rewards appear at the ritual rune."))
+		else
+			to_chat(seeker, span_warning("The ritual rune is gone! Your rewards are lost."))
 	else
 		to_chat(seeker, span_warning("The ritual rune is gone! Your rewards are lost."))
 	qdel(src)
@@ -114,7 +129,7 @@
 /datum/component/vision_quest_tracker/Destroy()
 	UnregisterSignal(parent, COMSIG_MOB_SAY)
 	quest = null
-	target = null
-	reward_rune = null
+	target_ref = null
+	reward_rune_ref = null
 	seeker = null
 	return ..()

@@ -100,7 +100,7 @@
 	for(var/entry in available_choices)
 		var/datum/vision_quest/Q = entry["quest"]
 		var/mob/target_mob = entry["target"]
-		var/display = "[Q.name] (Target: [target_mob.real_name]) - [Q.description]"
+		var/display = "[Q.name] (Target: [target_mob.real_name])"
 		choice_names += display
 		choice_map[display] = entry
 
