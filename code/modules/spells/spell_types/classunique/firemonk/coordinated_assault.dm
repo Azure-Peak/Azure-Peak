@@ -114,7 +114,6 @@
 				deflected = TRUE
 				user.Slowdown(2)
 			continue
-		var/total_damage = strike_damage
 		arcyne_strike(user, victim, damage = 15, def_zone = strike_zone, spell_name = "Coordinated Assault", skip_animation = TRUE, skip_message = TRUE)
 		for(var/mob/living/carbon/human/buffed in (get_hearers_in_view(5, user)))
 			if(isliving(buffed))
