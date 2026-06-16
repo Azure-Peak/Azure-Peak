@@ -3814,12 +3814,6 @@
 "pZ" = (
 /turf/closed/wall/mineral/rogue/wooddark/end/west,
 /area/rogue/under/cave/inhumen)
-"qa" = (
-/mob/living/simple_animal/pet/cat/rogue{
-	name = "vampire lord manor - debug cat for teleporting to"
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/woods/vampire_lair)
 "qb" = (
 /obj/structure/fluff/railing/corner/north_east,
 /obj/structure/flora/ausbushes/lavendergrass,
@@ -39848,7 +39842,7 @@ PI
 PI
 PI
 St
-qa
+St
 St
 St
 St

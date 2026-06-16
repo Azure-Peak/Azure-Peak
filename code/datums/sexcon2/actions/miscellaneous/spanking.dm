@@ -30,14 +30,16 @@
 	. = ..()
 	user.visible_message(span_warning("[user] positions [user.p_their()] hand to spank [target]'s butt!"))
 
+/datum/sex_action/miscellaneous/spanking/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/msg = "[user] [sex_session.get_generic_force_adjective()] spanks [target]'s butt."
+	user.visible_message(sex_session.spanify_force(msg))
+
 /datum/sex_action/miscellaneous/spanking/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	var/force = sex_session.force
 	var/sound = pick('sound/foley/slap.ogg', 'sound/foley/smackspecial.ogg')
 	playsound(target, sound, 50, TRUE, -2, ignore_walls = FALSE)
-
-	var/msg = "[user] [sex_session.get_generic_force_adjective()] spanks [target]'s butt."
-	user.visible_message(sex_session.spanify_force(msg))
 
 	// Arousal and pain logic
 	var/arousal_amt = 1.2 + (force * 0.5)

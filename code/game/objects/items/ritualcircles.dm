@@ -352,7 +352,7 @@
 /obj/structure/ritualcircle/dendor
 	name = "Rune of Beasts"
 	icon_state = "dendor_chalky"
-	desc = "A Holy Rune of Dendor. Becoming one with nature is to connect with ones true instinct."
+	desc = "A Holy Rune of Dendor. To become one with nature is to connect with one's true instinct."
 	var/dendorrites = list ("Rite of the Lesser Volf")
 
 /obj/structure/ritualcircle/dendor/attack_hand(mob/living/user)
@@ -740,6 +740,9 @@
 	icon_state = "abyssal_marker_volatile"
 	var/cooldown = 0
 	var/creation_time
+
+/obj/item/abyssal_marker/volatile/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, "It shatters the barrier between reality and NIGHTMARE")
 
 /obj/item/abyssal_marker/tidal
 	name = "tidal abyssal marker"

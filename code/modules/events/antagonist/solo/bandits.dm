@@ -49,6 +49,7 @@
 				qdel(stale)
 
 		SSjob.AssignRole(H, "Bandit")
+		H.job = "Bandit"
 		SSmapping.retainer.bandits |= H
 		antag_mind.add_antag_datum(/datum/antagonist/bandit)
 

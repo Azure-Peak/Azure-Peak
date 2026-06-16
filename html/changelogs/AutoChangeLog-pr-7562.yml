@@ -1,4 +1,0 @@
-author: "Ryumi"
-delete-after: True
-changes:
-  - qol: "The visual presentation of race blurbs has been greatly improved. Now, upon selecting a race, it will display all racial traits and explain (most) mechanics unique to that race. All listed traits come with hover tooltips providing their descriptions."

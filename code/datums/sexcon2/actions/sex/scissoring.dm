@@ -47,9 +47,12 @@
 	sex_locks |= new /datum/sex_session_lock(user, ORGAN_SLOT_VAGINA)
 	sex_locks |= new /datum/sex_session_lock(target, ORGAN_SLOT_VAGINA)
 
-/datum/sex_action/scissoring/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/sex_action/scissoring/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] scissors with [target]'s cunt."))
+
+/datum/sex_action/scissoring/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	playsound(target, 'sound/misc/mat/segso.ogg', 50, TRUE, -2, ignore_walls = FALSE)
 	do_thrust_animate(user, target, sex_session)
 	do_onomatopoeia(user)

@@ -64,7 +64,7 @@ NECRO SKELETONS
 	backl = /obj/item/storage/backpack/rogue/satchel
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 
-// Melee fighter with a shield/spear. Holds the line.
+// Melee fighter with a shield/spear. Holds the line. All-rounder
 /datum/advclass/greater_skeleton/necro/legionnaire
 	name = "Decrepit Legionnaire"
 	tutorial = "Legions rise and you answer. Stand proud with your line; for you serve the architect. You know death. Memento mori. You just can't understand it."
@@ -73,6 +73,8 @@ NECRO SKELETONS
 	category_tags = list(CTAG_NSKELETON)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
@@ -126,7 +128,7 @@ NECRO SKELETONS
 			cloak = /obj/item/clothing/cloak/half/lich
 		if("Black Toga")
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
-	var/weapon_choice = input(H, "Choose your weapon.", "RISE AGAINST THE LYVING.") as anything in list("Sword + Shield", "Spear", "Mace + Shield", "Axe + Shield")
+	var/weapon_choice = input(H, "Choose your weapon.", "RISE AGAINST THE LYVING.") as anything in list("Sword + Shield", "Spear", "Mace + Shield", "Axe + Shield", "Flail + Shield")
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Sword + Shield")
@@ -137,6 +139,9 @@ NECRO SKELETONS
 		if("Mace + Shield")
 			backr = /obj/item/rogueweapon/shield/wood
 			beltr = /obj/item/rogueweapon/mace
+		if("Flail + Shield")
+			backr = /obj/item/rogueweapon/shield/wood
+			beltr = /obj/item/rogueweapon/flail
 		if("Axe + Shield")
 			backr = /obj/item/rogueweapon/shield/wood
 			beltr = /obj/item/rogueweapon/stoneaxe/woodcut
