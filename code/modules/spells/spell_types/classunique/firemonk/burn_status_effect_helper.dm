@@ -1,4 +1,3 @@
-#define STATUS_EFFECT_BURN /datum/status_effect/stacking/burn
 /datum/status_effect/stacking/burn
 	id = "burn"
 	alert_type = /atom/movable/screen/alert/status_effect/burn
