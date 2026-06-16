@@ -86,7 +86,7 @@
 	var/hit_count = 0
 	var/deflected = FALSE
 	var/obj/effect/temp_visual/fervid_emotion_spin/spinning_flames = new /obj/effect/temp_visual/fervid_emotion_spin(T)
-	spinning_flames.SpinAnimation(8,1)
+	spinning_flames.SpinAnimation(8,1,0)
 	for(var/turf/affected_turf in get_hear(area_of_effect, T))
 		for(var/mob/living/victim in affected_turf)
 			if(victim == H || victim.stat == DEAD)
