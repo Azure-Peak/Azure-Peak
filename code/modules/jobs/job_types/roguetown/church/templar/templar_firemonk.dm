@@ -9,7 +9,7 @@
 /datum/advclass/templar/firemonk
 	name = "Iron Meihua"
 	tutorial = "You're a transfer from a Lingyuese Ravoxian sect - bought out by the Azurean Church after your sect's master was forced to sell \
-	the skills of some of his disciples out to Holy See due to pressure from the Kazengites in order to continue his teachings. \
+	out his disciple's skills to the Holy See in order to ensure his temple's survival from economical struggles caused by Kazengite officials. \
 	You employ both a mix of magical enhancements in the form of skin tatoos similar to the Ruma Clan, coupled with martial arts and Ravoxian miracles. \
 	Your strategy focuses on striking enemies to charge up your tattoos, transforming the energy into strikes that burn (and buff) those around you."
 	outfit = /datum/outfit/job/roguetown/templar/firemonk
