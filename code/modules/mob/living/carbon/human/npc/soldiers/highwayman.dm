@@ -309,33 +309,8 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
 
 /datum/outfit/job/roguetown/human/species/human/northern/mount_reaver/pre_equip(mob/living/carbon/human/H)
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	var/cloak_choice = rand(1, 5)
-	switch(cloak_choice)
-		if(1)
-			cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
-		if(2)
-			cloak = /obj/item/clothing/cloak/raincloak/red
-		if(3)
-			cloak = /obj/item/clothing/cloak/raincloak/green
-		if(4)
-			cloak = /obj/item/clothing/cloak/raincloak/blue
-		if(5)
-			cloak = /obj/item/clothing/cloak/raincloak/brown
-	mask = /obj/item/clothing/mask/rogue/ragmask/black
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-	pants = /obj/item/clothing/under/roguetown/trou/leather
-	var/helmet_choice = rand(1, 4)
-	switch(helmet_choice)
-		if(1)
-			head = /obj/item/clothing/head/roguetown/helmet/skullcap
-		if(2)
-			head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
-		if(3)
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/barbute
-		if(4)
-			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
-	gloves = /obj/item/clothing/gloves/roguetown/leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	mask = /obj/item/clothing/mask/rogue/ragmask/black //Guarrenteed vs before
 	if(prob(15)) //On top of the other 10%, a lot higher chance to be using this.
 		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
 	H.STASTR = 12
@@ -343,8 +318,8 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	H.STACON = 8
 	H.STAWIL = 8
 	H.STAPER = 11
-	H.STAINT = 9 //Slightly higher, due to losing their bombs cause of how inhereting the loadout works.
-// Rest of the random gear is handled via subtyping regular highwaymen, this includes our weaponry picks. Which yes, means a slight downgrade.
+	H.STAINT = 10 //Higher, due to losing their bombs cause of how inhereting the loadout works.
+	// Rest of the random gear is handled via subtyping regular highwaymen, this includes our weaponry picks. Which yes, means a slight downgrade.
 
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
@@ -353,19 +328,6 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-
-	if(prob(30))
-		var/voicepack_choice = rand(1, 4)
-		switch(voicepack_choice)
-			if(1)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
-			if(2)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
-			if(3)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()

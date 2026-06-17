@@ -71,9 +71,12 @@
 // For Tomb of Matthios/Tomb of Alothesos Supreme Difficulty:TM: encounters.
 /mob/living/carbon/human/species/skeleton/npc/special/vile_doctor
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/vile_doctor
+	dodgetime = 15 //Moves a lot
+	d_intent = INTENT_DODGE //Expert in this
 
 /mob/living/carbon/human/species/skeleton/npc/special/disgraced_noble
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/disgraced_noble
+	dodgetime = 15 //Moves a lot
 
 /datum/outfit/job/roguetown/skeleton/npc/supereasy/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -323,6 +326,7 @@
 		pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
 		shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 		neck = /obj/item/clothing/neck/roguetown/gorget/aalloy
+		belt = /obj/item/storage/belt/rogue/leather/black
 		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 		r_hand = /obj/item/rogueweapon/sword/sabre/alloy
 		l_hand = /obj/item/rogueweapon/sword/sabre/alloy
@@ -446,8 +450,10 @@
 	H.STAWIL = 10
 	H.STASPD = 14 // that dagger WILL get thru ur parry.
 	H.STAINT = 10 //Miniboss, lets them do fients + specials
+	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) //Unique fighting style
 	name = "Vile Doctor"
-	mask = /obj/item/clothing/mask/rogue/sack
+	belt = /obj/item/storage/belt/rogue/leather/black
+	mask = /obj/item/clothing/mask/rogue/physician/plaguebearer //Tougher face armor
 	head = /obj/item/clothing/head/roguetown/physician
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
@@ -457,6 +463,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/rondel
+	id = /obj/item/clothing/ring/gold //A bit of loot for your troubles
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
@@ -473,7 +480,7 @@
 	H.STASTR = 12 // stabs quick, stabs strong.
 	H.STACON = 6
 	H.STAWIL = 10
-	H.STASPD = 12
+	H.STASPD = 14 //Lets them keep the pace a bit against dodgers.
 	H.STAINT = 10 //Miniboss, lets them do fients + specials
 	name = "Disgraced Ancient Noble"
 	var/skeletonclass = rand(0,2) // lets shake it up a little :3
@@ -481,25 +488,27 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	l_hand = /obj/item/rogueweapon/sword/rapier/dec
 	pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/evil
 	cloak = /obj/item/clothing/cloak/half/red
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
-	gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
 
 	if(skeletonclass == 0) // "standard"
 		id = /obj/item/clothing/ring/onyxa
-		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 		mask = /obj/item/clothing/mask/rogue/sack
+		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	if(skeletonclass == 1)
 		id = /obj/item/clothing/ring/gold// slightly better
 		H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE) // 5 total.
 		r_hand = /obj/item/rogueweapon/shield/tower/metal/alloy // and a shield to go with it
+		gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
 	if(skeletonclass == 2)
 		id = /obj/item/clothing/ring/coral // +30 value compared to onyx btw
 		H.adjust_skillrank(H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)) // hardest, probably
 		mask = /obj/item/clothing/mask/rogue/facemask // nose crits not as easy
+		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
