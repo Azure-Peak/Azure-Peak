@@ -40288,12 +40288,11 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/taricheamanor)
 "ieQ" = (
-/obj/structure/roguemachine/headeater,
 /obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 4
+	color = "#3f3f3f"
 	},
-/turf/open/floor/rogue/cobblerock,
+/obj/structure/roguemachine/headeater,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
 "ieS" = (
 /mob/living/carbon/human/species/orc/npc/footsoldier,
@@ -42022,6 +42021,13 @@
 /obj/machinery/light/rogue/lanternpost,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
+"ivK" = (
+/obj/structure/roguemachine/stockpile{
+	pixel_y = 0;
+	pixel_x = -32
+	},
+/turf/open/floor/rogue/herringbone,
+/area/rogue/indoors/town/steward)
 "ivQ" = (
 /obj/structure/closet/dirthole/closed/loot,
 /turf/open/floor/rogue/grass,
@@ -80068,14 +80074,6 @@
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/water/ocean,
 /area/rogue/indoors/cave/central)
-"pRr" = (
-/obj/structure/roguemachine/stockpile,
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/town)
 "pRu" = (
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/grass,
@@ -86108,8 +86106,10 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "rbf" = (
-/obj/structure/chair/wood/rogue/chair3{
-	dir = 4
+/obj/structure/roguemachine/mail{
+	mailtag = "Streets (East)";
+	pixel_x = -32;
+	pixel_y = 0
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/steward)
@@ -277902,8 +277902,8 @@ obm
 mBu
 iyM
 oKV
-oKV
-oKV
+iyM
+iyM
 oKV
 iyM
 fMW
@@ -278354,12 +278354,12 @@ lJF
 iyM
 iyM
 rtc
-rbf
+ivK
 rbf
 fJF
 iyM
 iyM
-lgD
+ieQ
 exD
 xii
 feG
@@ -280619,7 +280619,7 @@ tMh
 tMh
 ruz
 mze
-pRr
+npZ
 exD
 lJF
 mPk
@@ -281523,7 +281523,7 @@ tMh
 tMh
 tMh
 mze
-ieQ
+vQy
 exD
 lJF
 dHL
