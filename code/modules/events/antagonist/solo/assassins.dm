@@ -9,7 +9,6 @@
 	antag_flag = ROLE_ASSASSIN
 	shared_occurence_type = SHARED_MINOR_THREAT
 	storyteller_antag_flags = STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_SOFT
-	storyteller_guarantee_flags = STORYTELLER_FAVOR_ASSASSIN
 
 	restricted_roles = list(
 		"Grand Duke",
@@ -83,6 +82,7 @@
 
 		H.unequip_everything()
 		SSjob.AssignRole(H, "Assassin")
+		H.job = "Assassin"
 		SSmapping.retainer.assassins |= H
 		antag_mind.add_antag_datum(/datum/antagonist/assassin)
 
@@ -97,6 +97,6 @@
 	for(var/mob/living/carbon/human/player as anything in GLOB.human_list)
 		if(!player.mind || !player.client)
 			continue
-		if(player.has_flaw(/datum/charflaw/hunted) && (player.job in GLOB.hunted_protected_roles))
+		if(player.has_flaw(/datum/charflaw/targeted))
 			count++
 	return count

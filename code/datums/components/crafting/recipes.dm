@@ -170,7 +170,8 @@
 			<body>
 			<div>
 				<h1>[icon2html(created_stuff, user)][name]</h1>
-				<h4>DESCRIPTION: [initial(created_stuff.desc)]</h4>
+				<h4>Description</h4>
+				<span>[initial(created_stuff.desc)]</span>
 				<div>
 			"}
 	if (!isnull(created_stationary))
@@ -183,7 +184,8 @@
 			<body>
 			<div>
 				<h1>[icon2html(created_stationary, user)][name]</h1>
-				<h4>DESCRIPTION: [initial(created_stationary.desc)]</h4>
+				<h4>Description</h4>
+				<span>[initial(created_stationary.desc)]</span>
 				<div>
 			"}
 	var/obj/item/clothing/suit/roguetown/armor/bookarmor = initial(created_stuff)
@@ -257,11 +259,12 @@
 			html += "\n<b>INTEGRITY DAMAGE:</b> [bookweapon.intdamage_factor * 100]%<br>"
 
 	if(craftdiff > 0)
-		html += "<h1></h1>For those of [SSskills.level_names_plain[craftdiff]] skills<br>"
+		html += "<br><b>Skills Required:</b> [capitalize(SSskills.level_names_plain[craftdiff])]<br>"
 	else
-		html += "<h1></h1>Suitable for all skills<br>"	
+		html += "<br><b>Skills Required:</b> None<br>"	
 
 	html += {"<div>
+		      <br>
 		      <strong>Requirements</strong>
 			  <br>"}
 
@@ -316,16 +319,16 @@
 
 	if(structurecraft)
 		var/obj/structure = structurecraft
-		html += "<strong class=class='scroll'>start the process next to a</strong> <br>[icon2html(new structurecraft, user)] <br> [initial(structure.name)]<br>"
+		html += "<br><strong>Start the process next to a:</strong><br>[icon2html(new structurecraft, user)] [initial(structure.name)]<br>"
 	if(req_table)
-		html += "<strong class=class='scroll'>start the process next to a table</strong> <br>"
+		html += "<br><strong>Start the process next to a table.</strong><br>"
 	if(wallcraft)
-		html += "<strong class=class='scroll'>start the process next to a wall</strong> <br>"
+		html += "<br><strong>Start the process next to a wall.</strong><br>"
 
 	if(final_sellprice)
-		html += "<strong class=class='scroll'>You can sell this for [final_sellprice] mammons at a normal quality</strong> <br>"
+		html += "<br><strong class=class='scroll'>You can sell this for [final_sellprice] mammons at a normal quality</strong> <br>"
 	else(
-		html += "<strong class=class='scroll'>This is worthless for export</strong> <br>"
+		html += "<br><strong class=class='scroll'>This is worthless for export</strong> <br>"
 	)
 
 	html += {"

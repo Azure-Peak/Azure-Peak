@@ -142,7 +142,7 @@
 	eat_effect = /datum/status_effect/buff/sweet
 
 /obj/item/reagent_containers/food/snacks/caramel
-	name = "caramel giblets"
+	name = "caramel"
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "caramel3"
 	desc = "Glassy droppings of tallow-fried sugar, oft-divvied out amongst the youth by Psydonia's wisest and kindliest elders."
@@ -168,7 +168,7 @@
 	name = "dragée"
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "dragee3"
-	desc = "Glassy droppings of tallow-fried rocknuts, coated in sugary shells and laced with herbal medicine. Such giblets are popular \
+	desc = "Glassy droppings of tallow-fried rocknuts, coated in sugary shells and laced with herbal medicine. Such candies are popular \
 	amongst Psydonia's youth - both as a reward to Otavan children for remembering their scripture, and as a remedy to childhood ailments."
 	faretype = FARE_LAVISH
 	fried_type = null

@@ -1,22 +1,18 @@
 GLOBAL_LIST_EMPTY(vampire_objects)
 #define INITIAL_BLOODPOOL_PERCENTAGE 40
-// Storyteller scaling:
-// scaling=2, min_players=0, default_cap=0
-// On Astrata (cap=2): uses storyteller_scale_slots → always 2 slots at any pop.
-// On others (cap=0): falls through to event control's base_antags path.
+// Storyteller: no preset maxcap - the vampire count is fixed per spawn event via base_antags/maximum_antags,
+// so the Vampire Lord and Masquerade events differ:
 //  Event          | base | denom | max | Formula: base + floor(pop/denom), capped at max
-//  Vampires       |  1   |  80   |  2  | 1-79 pop → 1, 80+ → 2
-//  Masquerade     |  2   |  80   |  4  | 1-79 pop → 2, 80-159 → 3, 160+ → 4
-//  Vamp+Werewolf  |  2   |  80   |  4  | 1-79 pop → 2, 80-159 → 3, 160+ → 4
+//  Vampire Lord   |  1   |  80   |  1  | always 1 (the lord)
+//  Masquerade     |  2   |  80   |  2  | always 2 (the coven)
+//  Vamp+Werewolf  |  2   |  80   |  4  | 1-79 pop -> 2, 80-159 -> 3, 160+ -> 4
 /datum/antagonist/vampire
 	name = "Vampire"
 	roundend_category = "Vampires"
 	antagpanel_category = "Vampire"
 	job_rank = ROLE_VAMPIRE
 	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
-	storyteller_favor_flags = STORYTELLER_FAVOR_VAMPIRE_LORD | STORYTELLER_FAVOR_MASQUERADE
 	storyteller_slot_scaling = 2
-	storyteller_maxcaps = list(/datum/storyteller/astrata = 2)
 	antag_hud_type = ANTAG_HUD_VAMPIRE
 	antag_hud_name = "vamp_spawn_hud"
 	confess_lines = list(
@@ -55,7 +51,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			research_points = 17
 		if(GENERATION_NEONATE)
 			research_points = 9
-		if(GENERATION_THINBLOOD)
+		if(GENERATION_THINBLOOD, GENERATION_THINNERBLOOD)
 			research_points = 0
 
 /datum/antagonist/vampire/get_antag_cap_weight()
@@ -68,6 +64,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			return 0.75 // Licker Wretch
 		if(GENERATION_THINBLOOD)
 			return 0.25 // You are not even an antagonist
+		if(GENERATION_THINNERBLOOD)
+			return 0 //Vagabond class
 		else
 			return 1 // Default weight if generation not set
 
@@ -113,6 +111,10 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 3, TRUE) // You are not even an antagonist
 				max_thralls = 0
+			if(GENERATION_THINNERBLOOD)
+				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 1, TRUE)
+				max_thralls = 0
 			else
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 2, TRUE) // Default weight if generation not set
 				max_thralls = 0
@@ -145,7 +147,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	if(!vampdude)
 		return
 
-	if(vampdude.job == "Wretch")
+	if(vampdude.job == "Wretch" || vampdude.job == "Stray")
 		var/wretch_name = tgui_input_text(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Custom Clan", MAX_NAME_LEN)
 		create_custom_clan(vampdude, wretch_name)
 		return
@@ -174,7 +176,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	switch(vampdude.get_vampire_generation())
 		if(GENERATION_NEONATE, GENERATION_THINBLOOD)
 			new_clan.covens_to_select = COVENS_PER_WRETCH_CLAN
-
+		if(GENERATION_THINNERBLOOD)
+			new_clan.covens_to_select = COVENS_PER_VAGABOND
 	vampdude.set_clan_direct(new_clan)
 	clan_selected = TRUE
 	after_gain()

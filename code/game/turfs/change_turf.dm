@@ -59,7 +59,7 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 /turf/proc/ChangeTurf(path, list/new_baseturfs, flags)
 	if(istext(path))
 		path = text2path(path)
-	
+
 	switch(path)
 		if(null)
 			return
@@ -70,6 +70,9 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 				if (!ispath(path))
 					warning("Z-level [z] has invalid baseturf '[SSmapping.level_trait(z, ZTRAIT_BASETURF)]'")
 					path = /turf/open/floor/rogue/naturalstone
+
+	if(!ispath(path))
+		return
 
 	if(!GLOB.use_preloader && path == type && !(flags & CHANGETURF_FORCEOP)) // Don't no-op if the map loader requires it to be reconstructed
 		return src

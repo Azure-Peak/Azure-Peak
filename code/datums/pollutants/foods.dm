@@ -80,6 +80,10 @@
 	name = "fresh baked pastry"
 	scent = "fresh baked pastry"
 
+/datum/pollutant/food/pasta
+	name = "boiling pasta"
+	scent = "boiling pasta"
+
 /datum/pollutant/food/pie_base
 	name = "fresh baked pie crust"
 	scent = "fresh baked pie crust"

@@ -104,6 +104,8 @@
 	damfactor = 0.8
 	clickcd = CLICK_CD_QUICK
 	swingdelay = 0
+	candodge = TRUE
+	canparry = TRUE
 	swingdelay_type = SWINGDELAY_NORMAL
 
 /datum/intent/sword/thrust/blunt

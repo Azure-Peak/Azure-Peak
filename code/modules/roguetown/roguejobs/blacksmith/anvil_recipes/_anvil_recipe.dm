@@ -262,7 +262,8 @@
 		<body>
 		  <div>
 		    <h1>[icon2html(new created_item, user)][name]</h1>
-			<h4>DESCRIPTION: [initial(created_item.desc)]</h4>
+			<h4>Description</h4>
+			<p>[initial(created_item.desc)]</p>
 			<div>
 		"}
 	var/obj/item/clothing/suit/roguetown/armor/bookarmor = initial(new created_item)

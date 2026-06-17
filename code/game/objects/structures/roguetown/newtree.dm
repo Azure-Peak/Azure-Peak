@@ -161,6 +161,8 @@
 		T.update_icon()
 
 /obj/structure/flora/newtree/proc/build_branches()
+	if(istype(get_turf(src), /turf/open/floor) && prob(90)) // We only want branches in the upper layers
+		return
 	for(var/D in GLOB.cardinals)
 		var/turf/NT = get_step(src, D)
 		if(istype(NT, /turf/open/transparent/openspace))
