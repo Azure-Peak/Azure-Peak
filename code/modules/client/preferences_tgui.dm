@@ -17,6 +17,7 @@
 		"vellum" = "Vellum",
 		"parchment" = "Parchment",
 		"leatherbound" = "Leatherbound",
+		"disabled" = "Disabled (Compatibility)",
 	)
 	return skins
 

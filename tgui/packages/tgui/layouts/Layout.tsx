@@ -22,6 +22,7 @@ type Props = Partial<{
 const PARCHMENT_VARIANTS: Record<string, (cfg: any) => string> = {
   parchment: (cfg) => {
     const skin = cfg?.window?.parchment_skin;
+    if (skin === 'disabled') return cfg?.window?.theme ?? 'azure_default';
     if (skin === 'leatherbound') return 'parchment-leatherbound';
     if (skin === 'vellum') return 'parchment-vellum';
     return 'parchment';
