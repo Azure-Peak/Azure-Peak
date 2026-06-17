@@ -173,9 +173,11 @@
 		return FALSE
 	var/datum/status_effect/buff/clash/guard = has_status_effect(/datum/status_effect/buff/clash)
 	if(guard)
+		var/atom/movable/original_firer = P.firer
 		if(P.on_guard_deflect(src))
 			apply_status_effect(/datum/status_effect/buff/parry_buffer)
-			apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+			if(original_firer != src)
+				apply_status_effect(/datum/status_effect/buff/adrenaline_rush/ranged)
 			guard.deflected_spell = TRUE
 			remove_status_effect(/datum/status_effect/buff/clash)
 			return TRUE
@@ -682,6 +684,8 @@
 		used_item = get_active_held_item()
 	if(!used_intent)
 		used_intent = src.used_intent
+	if(!istype(used_intent, /datum/intent))
+		return
 	var/animation_type
 	if(used_item || !simplified)
 		animation_type = item_animation_override || used_intent?.get_attack_animation_type()

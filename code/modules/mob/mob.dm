@@ -523,11 +523,11 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(result)
 		var/list/mechanics_result = A.get_mechanics_examine(src)
 		if(length(mechanics_result))
-			var/mechanics_result_str = "<details><summary>Mechanics</summary>"
+			var/list/mech_lines = list()
 			for(var/line in mechanics_result)
-				mechanics_result_str += " - " + line + "\n"
-			mechanics_result_str += "</details>"
-			result += mechanics_result_str
+				mech_lines += "<span class='smallnotice'> - </span>[line]"
+			var/mechanics_result_str = "<details><summary><span class='smallnotice'>Mechanics</span></summary>[mech_lines.Join("<br>")]</details>"
+			result[result.len] += mechanics_result_str // append to last line so the join doesn't insert a blank line before the dropdown
 		to_chat(src, usr.client.prefs.no_examine_blocks ? result.Join("\n") : examine_block(result.Join("\n")))
 	SEND_SIGNAL(src, COMSIG_MOB_EXAMINATE, A)
 

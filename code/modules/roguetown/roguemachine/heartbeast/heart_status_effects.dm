@@ -82,8 +82,8 @@
 		to_remove = right_leg
 	
 	if(to_remove)
-		C.visible_message(span_userdanger("[C]'s [to_remove.name] is torn off by the tendrils!"))
-		to_remove.dismember(skip_checks = TRUE)
+		C.visible_message(span_userdanger("[C]'s [to_remove.name] is twisted by the tendrils!"))
+		to_remove.dismember(damage = 190)
 
 		var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(get_turf(C), pick(GLOB.cardinals))
 		splatter.color = "#880000"

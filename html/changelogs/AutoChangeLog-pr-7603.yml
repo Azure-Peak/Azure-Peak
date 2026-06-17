@@ -1,5 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - balance: "necro legion gets flail skill"
-  - bugfix: "fixed necro legion NOT getting maces skill AT ALL despite getting a pick for maces."

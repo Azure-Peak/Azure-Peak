@@ -35,6 +35,10 @@
 		owner.person_knows_me(MF)
 
 	var/mob/living/carbon/human/H = owner.current
+	for(var/datum/charflaw/cf in H.charflaws)
+		if(istype(cf, /datum/charflaw/hunted) || istype(cf, /datum/charflaw/targeted))
+			H.charflaws.Remove(cf)
+			QDEL_NULL(cf)
 	H.equipOutfit(/datum/outfit/job/vamplord)
 	H.set_patron(/datum/patron/inhumen/zizo)
 	add_verb(H, /mob/living/carbon/human/proc/demand_submission)

@@ -1,13 +1,9 @@
-// Scaling (base_antags path, no storyteller slot caps):
-//  base=1, denom=80, max=2
-//  Pop    | Slots
-//  1-79   |  1
-//  80+    |  2
 /datum/antagonist/lich
 	name = "Lich"
 	roundend_category = "Lich"
 	antagpanel_category = "Lich"
 	job_rank = ROLE_LICH
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
 	confess_lines = list(
 		"I WILL LIVE ETERNAL!",
 		"I AM BEHIND SEVEN PHYLACTERIES!",

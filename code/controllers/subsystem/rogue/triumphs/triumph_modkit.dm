@@ -11,6 +11,7 @@
 	name = "'Valorian Steel Armor' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of a Steel Cuirass, a Steel Halfplate, a set of Steel Plate Armor, or a set of Fluted Plate Armor."
 	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/legacy,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass 		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy,
 		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted 	= /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy,
 		/obj/item/clothing/suit/roguetown/armor/plate/full 			= /obj/item/clothing/suit/roguetown/armor/plate/full/legacy,

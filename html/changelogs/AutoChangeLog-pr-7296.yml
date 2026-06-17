@@ -1,0 +1,4 @@
+author: "HeroWithYay"
+delete-after: True
+changes:
+  - rscadd: "A new Vagabond subclass. Abandoned Thrall."

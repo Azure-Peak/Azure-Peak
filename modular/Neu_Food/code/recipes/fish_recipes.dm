@@ -4,7 +4,7 @@
 
 // Cooked Sole + Butter -> Buttered Sole
 /datum/food_recipe/seafood/buttered_sole
-	name = "Buttered Sole"
+	name = "buttered sole"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/sole
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/butterslice
@@ -13,7 +13,7 @@
 
 // Cooked Cod + Ale -> Ale Cod
 /datum/food_recipe/seafood/ale_cod
-	name = "Ale Cod"
+	name = "ale cod"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/cod
 	ingredients = list(
 		/datum/reagent/consumable/ethanol/beer = 1
@@ -22,7 +22,7 @@
 
 // Cooked Lobster + Pepper -> Pepper Lobster
 /datum/food_recipe/seafood/pepper_lobster
-	name = "Pepper Lobster"
+	name = "pepper lobster"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster
 	ingredients = list(
 		/datum/reagent/consumable/blackpepper = 1
@@ -31,7 +31,7 @@
 
 // Cooked Lobster + Butter -> Buttered Lobster Meal
 /datum/food_recipe/seafood/buttered_lobster
-	name = "Buttered Lobster"
+	name = "buttered lobster"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/butterslice
@@ -40,7 +40,7 @@
 
 // Cooked Salmon + Mentha -> Dendorsalmon (Mentha Salmon)
 /datum/food_recipe/seafood/mentha_salmon
-	name = "Mentha Salmon"
+	name = "mentha salmon"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon
 	ingredients = list(
 		/obj/item/alch/mentha
@@ -49,7 +49,7 @@
 
 // Cooked Salmon + Berries -> Berry Salmon
 /datum/food_recipe/seafood/berry_salmon
-	name = "Berry Salmon"
+	name = "berry salmon"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue
@@ -58,7 +58,7 @@
 
 // Cooked Plaice + Sliced Onion -> Onion Plaice
 /datum/food_recipe/seafood/onion_plaice
-	name = "Onion Plaice"
+	name = "onion plaice"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/plaice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/veg/onion_sliced
@@ -67,7 +67,7 @@
 
 // Cooked Bass + Garlic Clove -> Garlic Bass
 /datum/food_recipe/seafood/garlic_bass
-	name = "Garlic Bass"
+	name = "garlic bass"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/bass
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove
@@ -76,7 +76,7 @@
 
 // Cooked Clam + Milk -> Milk Clam
 /datum/food_recipe/seafood/milk_clam
-	name = "Milk Clam"
+	name = "milk clam"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/clam
 	ingredients = list(
 		/datum/reagent/consumable/milk = 1

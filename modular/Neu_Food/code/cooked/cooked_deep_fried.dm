@@ -54,3 +54,17 @@
 	desc = "A deep-fried wiener, coated in toastcrumbs and ready to eat."
 	icon_state = "wienernitzel"
 	tastes = list("crunchy toastcrumbs" = 1, "tender wiener" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/griddlewiener
+	name = "griddlewiener"
+	desc = "A deep-fried sausage, tucked into a griddle blanket, beloved by all, especially during the Harvest Festival."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_deep_fried.dmi'
+	icon_state = "griddlewiener"
+	faretype = FARE_LAVISH
+	foodtype = MEAT | GRAIN
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
+	bitesize = 4
+	tastes = list("fluffy griddlecake" = 1, "tender wiener" = 1)
+	cooked_type = null
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
+	rotprocess = SHELFLIFE_LONG // It's still just a sausage and griddle.
