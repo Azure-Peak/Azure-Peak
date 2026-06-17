@@ -41,6 +41,7 @@ export const titleStyle: CSSProperties = {
   fontFamily: TITLE_FONT,
   color: TITLE,
   margin: '0 0 4px 0',
+  fontSynthesis: 'none',
 };
 
 export const subtitleStyle: CSSProperties = {
@@ -75,17 +76,32 @@ export const tabBarStyle: CSSProperties = {
   margin: '10px 0 6px 0',
 };
 
-export const tabStyle = (active: boolean): CSSProperties => ({
+const _tabBase: CSSProperties = {
   fontFamily: SERIF,
   fontSize: FONT_BODY,
   padding: '4px 18px',
-  color: active ? INK : INK_FAINT,
-  background: active ? 'var(--p-tab-active-bg)' : 'transparent',
-  border: `1px solid ${active ? INK_SOFT : 'transparent'}`,
   borderRadius: '2px',
   cursor: 'pointer',
-  fontWeight: active ? 'bold' : 'normal',
-});
+};
+
+const tabStyleActive: CSSProperties = {
+  ..._tabBase,
+  color: INK,
+  background: 'var(--p-tab-active-bg)',
+  border: `1px solid ${INK_SOFT}`,
+  fontWeight: 'bold',
+};
+
+const tabStyleInactive: CSSProperties = {
+  ..._tabBase,
+  color: INK_FAINT,
+  background: 'transparent',
+  border: '1px solid transparent',
+  fontWeight: 'normal',
+};
+
+export const tabStyle = (active: boolean): CSSProperties =>
+  active ? tabStyleActive : tabStyleInactive;
 
 export const subTabBarStyle: CSSProperties = {
   display: 'flex',
@@ -95,39 +111,68 @@ export const subTabBarStyle: CSSProperties = {
   margin: '6px 0',
 };
 
-export const subTabStyle = (active: boolean): CSSProperties => ({
+const _subTabBase: CSSProperties = {
   fontFamily: SERIF,
   fontSize: FONT_BODY,
   padding: '3px 10px',
-  color: active ? INK : INK_FAINT,
-  background: active ? 'var(--p-tab-active-bg)' : 'transparent',
-  border: `1px solid ${active ? INK_SOFT : INK_FAINT}`,
   borderRadius: '2px',
   cursor: 'pointer',
-  fontWeight: active ? 'bold' : 'normal',
   whiteSpace: 'nowrap',
-});
+};
 
-/// Wiki-style table-of-contents link. Renders as plain text with a dashed separator
-/// between rows, a subtle background tint when selected, and a hover underline.
-/// Apply via `style={tocLinkStyle(active)} className="toc-link"` on a button or anchor.
-/// Hover style lives in parchment.scss (and variants) keyed off the .toc-link class.
-export const tocLinkStyle = (active: boolean): CSSProperties => ({
+const subTabStyleActive: CSSProperties = {
+  ..._subTabBase,
+  color: INK,
+  background: 'var(--p-tab-active-bg)',
+  border: `1px solid ${INK_SOFT}`,
+  fontWeight: 'bold',
+};
+
+const subTabStyleInactive: CSSProperties = {
+  ..._subTabBase,
+  color: INK_FAINT,
+  background: 'transparent',
+  border: `1px solid ${INK_FAINT}`,
+  fontWeight: 'normal',
+};
+
+export const subTabStyle = (active: boolean): CSSProperties =>
+  active ? subTabStyleActive : subTabStyleInactive;
+
+const _tocLinkBase: CSSProperties = {
   display: 'block',
   width: '100%',
   textAlign: 'left',
-  background: active ? 'var(--p-tab-active-bg)' : 'transparent',
   border: 'none',
   borderBottom: `1px dashed ${INK_FAINT}`,
   padding: '4px 8px',
   fontFamily: SERIF,
   fontSize: FONT_TITLE,
-  color: active ? INK : INK_SOFT,
-  fontWeight: active ? 'bold' : 'normal',
   cursor: 'pointer',
   whiteSpace: 'normal',
   lineHeight: 1.3,
-});
+};
+
+const tocLinkStyleActive: CSSProperties = {
+  ..._tocLinkBase,
+  background: 'var(--p-tab-active-bg)',
+  color: INK,
+  fontWeight: 'bold',
+};
+
+const tocLinkStyleInactive: CSSProperties = {
+  ..._tocLinkBase,
+  background: 'transparent',
+  color: INK_SOFT,
+  fontWeight: 'normal',
+};
+
+/// Wiki-style table-of-contents link. Renders as plain text with a dashed separator
+/// between rows, a subtle background tint when selected, and a hover underline.
+/// Apply via `style={tocLinkStyle(active)} className="toc-link"` on a button or anchor.
+/// Hover style lives in parchment.scss (and variants) keyed off the .toc-link class.
+export const tocLinkStyle = (active: boolean): CSSProperties =>
+  active ? tocLinkStyleActive : tocLinkStyleInactive;
 
 export const cardStyle: CSSProperties = {
   background: 'var(--p-card-bg)',
@@ -166,10 +211,25 @@ export const badgeStyle = (color: string): CSSProperties => ({
   verticalAlign: 'middle',
 });
 
+const inkButtonStyleDefault: CSSProperties = {
+  fontFamily: SERIF,
+  fontSize: FONT_BODY,
+  fontWeight: 'bold',
+  padding: '2px 10px',
+  color: INK,
+  background: BUTTON_BG,
+  border: `1px solid ${INK}`,
+  borderRadius: '2px',
+  cursor: 'pointer',
+  opacity: 1,
+  transition: 'background-color 80ms linear',
+};
+
 export const inkButtonStyle = (opts: {
   color?: string;
   disabled?: boolean;
 } = {}): CSSProperties => {
+  if (!opts.color && !opts.disabled) return inkButtonStyleDefault;
   const col = opts.color || INK;
   return {
     fontFamily: SERIF,
@@ -249,14 +309,23 @@ export const ellipsisCellStyle: CSSProperties = {
   whiteSpace: 'nowrap',
 };
 
+const compactButtonStyleDefault: CSSProperties = {
+  ...inkButtonStyleDefault,
+  padding: '1px 7px',
+  fontSize: FONT_LEAD,
+};
+
 export const compactButtonStyle = (opts: {
   color?: string;
   disabled?: boolean;
-} = {}): CSSProperties => ({
-  ...inkButtonStyle(opts),
-  padding: '1px 7px',
-  fontSize: FONT_LEAD,
-});
+} = {}): CSSProperties => {
+  if (!opts.color && !opts.disabled) return compactButtonStyleDefault;
+  return {
+    ...inkButtonStyle(opts),
+    padding: '1px 7px',
+    fontSize: FONT_LEAD,
+  };
+};
 
 export const PriceTag = (props: {
   price: number;

@@ -55,8 +55,7 @@
 
   &, .Window, .Layout, .Layout__content, .Window__rest, .Window__content,
   .Window__contentPadding {
-    background: #2a2118 !important;
-    background-image: none !important;
+    background: var(--p-bg) !important;
   }
 
   .Window__contentPadding {

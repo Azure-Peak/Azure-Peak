@@ -31,6 +31,7 @@
 @font-face {
   font-family: 'Pterra';
   src: url('~roguefont/pterra.ttf');
+  font-display: swap;
 }
 
 @font-face {
@@ -38,6 +39,7 @@
   src: url('~roguefont/lora-regular.ttf');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -45,6 +47,7 @@
   src: url('~roguefont/lora-italic.ttf');
   font-weight: normal;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
@@ -52,6 +55,7 @@
   src: url('~roguefont/lora-medium.ttf');
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -59,11 +63,15 @@
   src: url('~roguefont/lora-bold.ttf');
   font-weight: bold;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'MedievalSharp';
   src: url('~roguefont/medievalsharp.ttf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @mixin azure-theme($colors, $topbar-svg) {
