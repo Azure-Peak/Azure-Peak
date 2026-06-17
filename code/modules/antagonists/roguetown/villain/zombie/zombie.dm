@@ -4,7 +4,6 @@
 /datum/antagonist/zombie
 	name = "Deadite"
 	antag_hud_type = ANTAG_HUD_ZOMBIE
-	antag_hud_name = "zombie"
 	antag_hud_name = "zombie_hud"
 	show_in_roundend = FALSE
 	rogue_enabled = TRUE
