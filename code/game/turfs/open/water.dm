@@ -121,9 +121,6 @@
 	if(swimmer.mind)
 		swimmer.mind.add_sleep_experience(/datum/skill/misc/swimming, swimmer.STAINT * xpmod)
 //	. += (swimmer.checkwornweight()*2)
-	if(HAS_TRAIT(swimmer, TRAIT_DEADITE))
-		xpmod = 0 //UHHHHHHHH, what the fuck is a swimming?
-		base_drain = 30 //Deadites get heavy armor's stamina cost for swimming no matter what, you're literally rotting apart.
 	if(!swimmer.check_armor_skill())
 		. += UNSKILLED_ARMOR_PENALTY
 	if(.) // this check is expensive so we only run it if we do expect to use stamina
