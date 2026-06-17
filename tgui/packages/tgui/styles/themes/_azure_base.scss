@@ -106,6 +106,38 @@
   --button-border-radius: 3px;
   --button-background: #{map.get($colors, 'border')};
   --button-background-default: #{map.get($colors, 'border')};
+
+  // ── Parchment fallbacks (used when parchment-themed interfaces render under a standard theme) ──
+  --p-font-tiny:   10px;
+  --p-font-small:  11px;
+  --p-font-body:   13px;
+  --p-font-lead:   13px;
+  --p-font-title:  14px;
+  --p-font-head:   15px;
+
+  --p-ink:         var(--color-text);
+  --p-ink-soft:    var(--color-label);
+  --p-ink-faint:   var(--color-label);
+  --p-bg:          var(--color-base);
+  --p-bg-deep:     var(--color-base-end);
+  --p-bg-shadow:   var(--color-border);
+  --p-title:       var(--section-title-color);
+  --p-title-font:  var(--font-family);
+
+  --p-button-bg:      var(--button-background);
+  --p-tab-active-bg:  var(--button-background-selected);
+  --p-card-bg:        var(--color-section);
+  --p-card-shadow:    rgba(0, 0, 0, 0.20);
+  --p-badge-text:     var(--color-text);
+
+  --p-banner-bg:      rgba(139, 32, 32, 0.18);
+  --p-banner-bg-soft: rgba(139, 32, 32, 0.10);
+
+  --p-seal-red:       #b32929;
+  --p-seal-red-soft:  #a8433a;
+  --p-seal-green:     #3a7c31;
+  --p-seal-blue:      #205dbe;
+  --p-seal-amber:     #b88d44;
   --button-background-selected: #{map.get($colors, 'btn-selected')};
 
   // ── Layout ──────────────────────────────────────────────────────
