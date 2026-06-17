@@ -238,7 +238,6 @@
 	H.STAWIL = 8
 	H.STAINT = 1
 	name = "Skeleton Soldier"
-	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich // Ooo Spooky Old Dead MAA
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
