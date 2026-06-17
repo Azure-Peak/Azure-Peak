@@ -446,7 +446,7 @@
 /datum/outfit/job/roguetown/skeleton/npc/vile_doctor/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12
-	H.STACON = 6
+	H.STACON = 5 //Fragile to mages/sunders
 	H.STAWIL = 10
 	H.STASPD = 14 // that dagger WILL get thru ur parry.
 	H.STAINT = 10 //Miniboss, lets them do fients + specials
@@ -490,25 +490,27 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
-	head = /obj/item/clothing/head/roguetown/chaperon/noble/evil
-	cloak = /obj/item/clothing/cloak/half/red
 	neck = /obj/item/clothing/neck/roguetown/coif/padded //Tougher
+	head = /obj/item/clothing/head/roguetown/chaperon/noble/evil
 
 	if(skeletonclass == 0) // "standard"
 		id = /obj/item/clothing/ring/onyxa
 		mask = /obj/item/clothing/mask/rogue/sack
 		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
+		cloak = /obj/item/clothing/cloak/half/red
 	if(skeletonclass == 1)
 		id = /obj/item/clothing/ring/gold// slightly better
 		H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE) // 5 total.
 		r_hand = /obj/item/rogueweapon/shield/tower/metal/alloy // and a shield to go with it
 		mask = /obj/item/clothing/mask/rogue/sack
 		gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
+		cloak = /obj/item/clothing/cloak/half/orange
 	if(skeletonclass == 2)
 		id = /obj/item/clothing/ring/coral // +30 value compared to onyx btw
 		H.adjust_skillrank(H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)) // hardest, probably
 		mask = /obj/item/clothing/mask/rogue/facemask // nose crits not as easy
 		gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
+		cloak = /obj/item/clothing/cloak/cape/purple
 	
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
