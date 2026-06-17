@@ -500,7 +500,6 @@
 		cloak = /obj/item/clothing/cloak/half/red
 	if(skeletonclass == 1)
 		id = /obj/item/clothing/ring/gold// slightly better
-		H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE) // 4 total.
 		r_hand = /obj/item/rogueweapon/shield/tower/metal/alloy // and a shield to go with it
 		mask = /obj/item/clothing/mask/rogue/sack
 		gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
@@ -517,7 +516,7 @@
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
