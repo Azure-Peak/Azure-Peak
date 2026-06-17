@@ -64,7 +64,8 @@
 		backpack_contents += /obj/item/rogueweapon/scabbard/sheath
 	head = /obj/item/clothing/head/roguetown/headband/monk
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk/black
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy/firemonk
+	cloak = /obj/item/clothing/cloak/templar/ravox/firemonk
+	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
 	belt = /obj/item/storage/belt/rogue/leather/suspenders
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltr = /obj/item/storage/keyring/acolyte
@@ -113,20 +114,31 @@
 		if("Headbutt - Vulnerable Debuff")
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 
-//literally just a hardened leather coat - people can buy this shit round start from the tailor silver face w/o any real drawbacks.
-//im trying 2 reduce the desire 2 replace the class's unique shit, but im fine with kicking it back down to the normal shit if ppl r unhappy
-// ! please remove these comments/tell me if this pr is merged so i can remove em - zera !
-/obj/item/clothing/suit/roguetown/shirt/robe/monk/holy/firemonk
+/obj/item/clothing/cloak/templar/ravox/firemonk
 	name = "crimson cheongsam"
 	desc = "A dress with gold detailing, long red sleeves, and a slit across the side."
 	icon = 'icons/roguetown/clothing/special/meihua.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/meihua.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/meihua.dmi'
 	icon_state = "meihua"
-	body_parts_covered = COVERAGE_ALL_BUT_ARMFEET
-	armor = ARMOR_LEATHER
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
-	slot_flags = ITEM_SLOT_ARMOR
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK|ITEM_SLOT_MASK
+	flags_inv = HIDECROTCH|HIDEBOOB
+
+
+/obj/item/clothing/cloak/templar/ravox/firemonk/equipped(mob/living/user, slot)
+	..()
+	if(!HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))	//Requires this cus it's a monk-only thing.
+		return
+	ADD_TRAIT(user, TRAIT_MONK_ROBE, TRAIT_GENERIC)
+	to_chat(user, span_notice("With my vows to poverty and my vestments, I feel vigorous - empowered by my God!"))
+
+/obj/item/clothing/cloak/templar/ravox/firemonk/dropped(mob/living/user)
+	..()
+	REMOVE_TRAIT(user, TRAIT_MONK_ROBE, TRAIT_GENERIC)
+	to_chat(user, span_notice("I must lay down my robes and rest; even God's chosen must rest.."))
+
 
 /obj/item/clothing/shoes/roguetown/boots/firemonk
 	name = "black shoes"
