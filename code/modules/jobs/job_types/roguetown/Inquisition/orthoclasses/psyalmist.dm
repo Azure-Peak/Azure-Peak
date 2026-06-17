@@ -92,10 +92,10 @@
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic Handmace - Swift-Balanced")
-			l_hand = /obj/item/rogueweapon/mace/cudgel/psyclassic/preblessed
+			l_hand = /obj/item/rogueweapon/mace/cudgel/psy/preblessed
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Psydonic Flanged Mace - Heavy-Balanced")
-			l_hand = /obj/item/rogueweapon/mace/cudgel/psy/preblessed
+			l_hand = /obj/item/rogueweapon/mace/cudgel/flanged/psy/preblessed
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 /datum/outfit/job/roguetown/psyaltrist

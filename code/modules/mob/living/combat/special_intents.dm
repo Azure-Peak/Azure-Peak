@@ -578,6 +578,8 @@ SPECIALS START HERE
 	playsound(T, sfx, 100, TRUE)
 	..()
 
+/datum/special_intent/ground_smash/unwielded //For warhammers and other two-handed weapons that can be used one-handed.
+	requires_wielding = FALSE
 
 /datum/special_intent/flail_sweep
 	name = "Flail Sweep"
