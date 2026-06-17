@@ -477,10 +477,10 @@
 /datum/outfit/job/roguetown/skeleton/npc/disgraced_noble/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12 // stabs quick, stabs strong.
-	H.STACON = 6
+	H.STACON = 8
 	H.STAWIL = 10
-	H.STASPD = 14 //Lets them keep the pace a bit against dodgers.
-	H.STAINT = 10 //Miniboss, lets them do fients + specials
+	H.STASPD = 12 //Lets them keep the pace a bit against dodgers.
+	H.STAINT = 12 //Miniboss, lets them do fients + specials, better than doctor at fients/resisting them
 	name = "Disgraced Ancient Noble"
 	var/skeletonclass = rand(0,2) // lets shake it up a little :3
 	belt = /obj/item/storage/belt/rogue/leather/black
