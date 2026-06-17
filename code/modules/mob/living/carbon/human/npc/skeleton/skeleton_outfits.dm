@@ -445,7 +445,7 @@
 	H.STACON = 6
 	H.STAWIL = 10
 	H.STASPD = 14 // that dagger WILL get thru ur parry.
-	H.STAINT = 1
+	H.STAINT = 10 //Miniboss, lets them do fients + specials
 	name = "Vile Doctor"
 	mask = /obj/item/clothing/mask/rogue/sack
 	head = /obj/item/clothing/head/roguetown/physician
@@ -474,7 +474,7 @@
 	H.STACON = 6
 	H.STAWIL = 10
 	H.STASPD = 12
-	H.STAINT = 1
+	H.STAINT = 10 //Miniboss, lets them do fients + specials
 	name = "Disgraced Ancient Noble"
 	var/skeletonclass = rand(0,2) // lets shake it up a little :3
 	belt = /obj/item/storage/belt/rogue/leather/black
