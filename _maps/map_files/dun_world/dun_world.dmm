@@ -42022,15 +42022,6 @@
 /obj/machinery/light/rogue/lanternpost,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
-"ivK" = (
-/obj/structure/chair/wood/rogue{
-	dir = 4
-	},
-/obj/structure/chair/wood/rogue{
-	dir = 4
-	},
-/turf/open/floor/carpet/red,
-/area/rogue/indoors/town/steward)
 "ivQ" = (
 /obj/structure/closet/dirthole/closed/loot,
 /turf/open/floor/rogue/grass,
@@ -396788,7 +396779,7 @@ kSK
 rKJ
 lAt
 tMh
-ivK
+dKZ
 dKZ
 tMh
 jjv
