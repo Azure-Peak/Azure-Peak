@@ -5265,7 +5265,7 @@
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 4
 	},
-/turf/open/floor/rogue/tile/brick,
+/turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town/steward)
 "bdy" = (
 /obj/structure/bars/passage{
@@ -5914,6 +5914,11 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/garrison)
+"blj" = (
+/obj/structure/fluff/railing/border,
+/obj/machinery/light/rogue/candle,
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/steward)
 "blo" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -6437,6 +6442,7 @@
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "bqs" = (
 /obj/structure/chair/bench/couch/r,
+/obj/structure/fluff/wallclock,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/steward)
 "bqv" = (
@@ -14698,7 +14704,7 @@
 	pixel_x = -16;
 	pixel_y = -20
 	},
-/turf/open/floor/rogue/wood,
+/turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town/steward)
 "cZR" = (
 /obj/structure/closet/crate/chest/loot_chest,
@@ -18928,7 +18934,7 @@
 	lockid = "steward";
 	name = "Stewardry Office"
 	},
-/turf/open/floor/rogue/tile/brick,
+/turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town/steward)
 "dSi" = (
 /obj/effect/decal/shadow_floor{
@@ -19528,7 +19534,6 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
 "dYF" = (
-/obj/structure/fluff/wallclock,
 /obj/structure/closet/crate/chest{
 	locked = 1;
 	lockid = "steward"
@@ -19810,7 +19815,7 @@
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "ebo" = (
 /obj/effect/landmark/start/steward,
-/turf/open/floor/rogue/wood,
+/turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town/steward)
 "ebs" = (
 /obj/structure/fermentation_keg/random/water,
@@ -21715,8 +21720,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/underdark/north)
 "euZ" = (
-/obj/structure/fluff/railing/corner/north_east,
-/turf/open/floor/rogue/wood,
+/turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town/steward)
 "eve" = (
 /obj/structure/fluff/statue/gargoyle/candles,
@@ -35370,7 +35374,7 @@
 /obj/structure/roguemachine/scomm/r{
 	scom_tag = "Steward - Office"
 	},
-/turf/open/floor/rogue/wood,
+/turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town/steward)
 "hhP" = (
 /obj/structure/closet/crate/roguecloset/dark,
@@ -37499,12 +37503,10 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "hDH" = (
-/obj/structure/mineral_door/wood/donjon{
-	locked = 1;
-	lockid = "steward";
-	name = "Steward Bedroom"
+/obj/structure/fluff/walldeco/rpainting{
+	pixel_y = 32
 	},
-/turf/open/floor/rogue/wood,
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/steward)
 "hDJ" = (
 /obj/structure/ritualcircle/undivided,
@@ -38304,6 +38306,13 @@
 	dir = 4
 	},
 /area/rogue/under/cave/his_vault)
+"hLf" = (
+/obj/structure/fluff/railing/corner{
+	dir = 6
+	},
+/obj/machinery/light/rogue/candle,
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/steward)
 "hLg" = (
 /obj/effect/decal/cleanable/dirt/cobweb/cobweb2,
 /obj/structure/table/wood/poor,
@@ -66389,6 +66398,12 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"njF" = (
+/obj/structure/fluff/walldeco/rpainting/crown{
+	pixel_y = 33
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/steward)
 "njI" = (
 /obj/machinery/light/rogue/firebowl,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -84976,6 +84991,13 @@
 "qOD" = (
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
+"qOI" = (
+/obj/structure/mannequin,
+/obj/structure/fluff/walldeco/rpainting/forest{
+	pixel_y = 32
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/steward)
 "qON" = (
 /obj/machinery/light/rogue/torchholder/r{
 	dir = 4
@@ -86051,6 +86073,12 @@
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
+"rao" = (
+/obj/structure/fluff/walldeco/rpainting/forest{
+	pixel_y = 32
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/steward)
 "ray" = (
 /obj/structure/flora/newtree,
 /obj/item/reagent_containers/food/snacks/smallrat{
@@ -89697,9 +89725,7 @@
 /area/rogue/under/cave/his_vault/two)
 "rNq" = (
 /obj/structure/chair/bench/couch,
-/obj/structure/fluff/walldeco/rpainting/forest{
-	pixel_y = 32
-	},
+/obj/structure/fluff/walldeco/sign/trophy,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/steward)
 "rNx" = (
@@ -94961,6 +94987,10 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/physician)
+"sPA" = (
+/obj/structure/curtain/magenta,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/indoors/town/steward)
 "sPB" = (
 /obj/structure/fluff/walldeco/chains{
 	icon_state = "chains6"
@@ -97886,6 +97916,9 @@
 /obj/item/paper/scroll,
 /obj/item/paper/scroll,
 /obj/item/natural/feather,
+/obj/structure/fluff/walldeco/rpainting/forest{
+	pixel_y = 32
+	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/steward)
 "ttg" = (
@@ -104999,6 +105032,10 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/pestra_sanctum)
+"uOB" = (
+/obj/machinery/light/rogue/candle/weak/l,
+/turf/open/floor/rogue/wood/herringbone,
+/area/rogue/indoors/town/steward)
 "uOD" = (
 /obj/structure/chair/bench/church/smallbench,
 /turf/open/floor/carpet/red,
@@ -107117,8 +107154,7 @@
 /obj/structure/stairs{
 	dir = 4
 	},
-/obj/machinery/light/rogue/candle,
-/turf/open/floor/rogue/wood,
+/turf/open/transparent/openspace,
 /area/rogue/indoors/town/steward)
 "vkf" = (
 /obj/structure/table/wood/poor,
@@ -116717,8 +116753,13 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
 "xfS" = (
-/obj/machinery/light/rogue/candle,
-/turf/open/transparent/openspace,
+/obj/structure/mineral_door/wood/donjon{
+	locked = 1;
+	lockid = "steward";
+	name = "Steward Bedroom";
+	dir = 4
+	},
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/steward)
 "xfU" = (
 /obj/structure/table/wood/long_table/right,
@@ -508874,10 +508915,10 @@ bGf
 kSK
 rKJ
 tte
-aVm
-dxv
-dxv
-dxv
+uOB
+euZ
+euZ
+euZ
 wGH
 rjK
 rjK
@@ -509326,10 +509367,10 @@ bGf
 kSK
 rKJ
 rNq
-dxv
+euZ
 cZO
 ebo
-dxv
+euZ
 jdB
 ocm
 umt
@@ -509779,9 +509820,9 @@ kSK
 rKJ
 bqs
 hhO
-dxv
-dxv
-dxv
+euZ
+euZ
+euZ
 fsb
 hKH
 tDn
@@ -510230,9 +510271,9 @@ bGf
 kSK
 rKJ
 rKJ
-rKJ
 sfe
 rKJ
+euZ
 dYF
 ePb
 fIQ
@@ -510680,11 +510721,11 @@ bsh
 bGf
 bGf
 kSK
-kSK
-jMm
-uiu
-euZ
 rKJ
+hLf
+uiu
+rKJ
+xfS
 rKJ
 rKJ
 rKJ
@@ -511131,12 +511172,12 @@ quq
 bsh
 bGf
 bGf
-bGf
 kSK
-rKJ
-xfS
-yaI
-rKJ
+jMm
+osq
+jJC
+sPA
+rao
 eAi
 vDY
 eAi
@@ -511583,12 +511624,12 @@ qfC
 vVI
 bGf
 bGf
-bGf
 kSK
 rKJ
+blj
 vke
-yaI
-rKJ
+sPA
+njF
 fsb
 ikR
 fsb
@@ -512035,11 +512076,11 @@ bMm
 bGf
 bGf
 bGf
-bGf
 kSK
 jMm
 dxv
 dxv
+sPA
 hDH
 qXw
 qXw
@@ -512487,12 +512528,12 @@ bMm
 bGf
 bGf
 bGf
-bGf
 kSK
 rKJ
 vBJ
 oWi
-rKJ
+sPA
+qOI
 iSk
 qXw
 xVm
@@ -512939,8 +512980,8 @@ bMm
 eGS
 bGf
 bGf
-bGf
 kSK
+rKJ
 rKJ
 rKJ
 rKJ
@@ -513391,7 +513432,7 @@ bMm
 bGf
 bGf
 bGf
-bGf
+kSK
 kSK
 kSK
 kSK
