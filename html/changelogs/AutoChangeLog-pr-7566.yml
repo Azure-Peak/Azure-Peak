@@ -1,8 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Increase blockade TP from 72 / 104 to 90 / 120 again"
-  - rscadd: "Budget for raid increased to 200, bounty goons budget to 150"
-  - rscadd: "Raid / Bounty quest now drains 4 bands, from 3 bandst"
-  - rscadd: "Hard quest now get a +25 flat bonus to encourage more people to form a party of two and take them on"
-  - rscadd: "Orc Warlord's excessive weight of 50 reduced to 30, should alleviate instance of orc blockade looking trivially smal."

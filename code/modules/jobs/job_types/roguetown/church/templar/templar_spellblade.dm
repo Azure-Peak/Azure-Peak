@@ -47,12 +47,12 @@
 	// Equipment — medium armor templar with Noc theming
 	wrists = /obj/item/clothing/neck/roguetown/psicross/noc
 	cloak = /obj/item/clothing/cloak/tabard/devotee/noc
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/holysee
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	pants = /obj/item/clothing/under/roguetown/chainlegs
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backr = /obj/item/rogueweapon/shield/heater
 	backl = /obj/item/storage/backpack/rogue/satchel

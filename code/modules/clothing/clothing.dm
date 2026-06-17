@@ -160,6 +160,9 @@
 			if(r_sleeve_status == SLEEVE_TORN)
 				to_chat(user, span_info("It's torn away."))
 				return
+			if(!salvage_result)
+				to_chat(user, span_warning("[src] cannot be torn."))
+				return
 			if(!do_after(user, 20, target = user))
 				return
 			if(prob(L.STASTR * 8))
@@ -182,6 +185,9 @@
 				return
 			if(l_sleeve_status == SLEEVE_TORN)
 				to_chat(user, span_info("It's torn away."))
+				return
+			if(!salvage_result)
+				to_chat(user, span_warning("[src] cannot be torn."))
 				return
 			if(!do_after(user, 20, target = user))
 				return

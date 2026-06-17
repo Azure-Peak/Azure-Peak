@@ -4,24 +4,29 @@ SUBSYSTEM_DEF(soundloopers)
 	wait = 1
 	flags = SS_NO_INIT
 	priority = FIRE_PRIORITY_DEFAULT
+	/// Currently processing looping_sound that's working.
 	var/list/processing = list()
+	/// Tracks running looping_sound so that it can be ref'd to and cleared.
 	var/list/currentrun = list()
+	/// Counts fresh processing cycles; every 5th runs the per-client volume update pass.
 	var/client_ticker = 0
 
 /datum/controller/subsystem/soundloopers/fire(resumed = 0)
 	if (!resumed || !currentrun.len)
-		src.currentrun = processing.Copy()
+		currentrun = processing.Copy()
+
+		client_ticker++
+		if(client_ticker >= 5)
+			client_ticker = 0
+			if(length(GLOB.persistent_sound_loops))
+				for(var/client/C in GLOB.clients)
+					if(C.mob)
+						C.update_sounds()
+					if(MC_TICK_CHECK)
+						return
 
 	//cache for sanic speed (lists are references anyways)
-	var/list/current = src.currentrun
-	var/check_clients = FALSE
-	client_ticker++
-
-	if(client_ticker>=5) //this is dumb but necessary- clients update every half tick but sounds themselves need to be updated regularly
-		client_ticker = 0
-		check_clients = TRUE
-	else
-		check_clients = FALSE
+	var/list/current = currentrun
 
 	while (current.len)
 		var/datum/looping_sound/thing = current[current.len]
@@ -36,15 +41,14 @@ SUBSYSTEM_DEF(soundloopers)
 			if(thing.sound_loop()) //returns 1 if it fails for some reason
 				continue
 
-		if(check_clients && thing.persistent_loop)
-			for(var/client/C in GLOB.clients)
-				if(C.mob) //Not in the lobby
-					C.update_sounds()
-
 		if (MC_TICK_CHECK)
 			return
 
 /client/proc/update_sounds()
+	if(!length(played_loops) && !length(GLOB.persistent_sound_loops)) //nothing playing and nothing to acquire
+		return
+
+	var/turf/mob_turf = get_turf(mob)
 
 	//First we need to periodically scan if we moved into range of an already-playing sound
 	for(var/datum/looping_sound/PS in GLOB.persistent_sound_loops)
@@ -56,8 +60,7 @@ SUBSYSTEM_DEF(soundloopers)
 			continue
 
 		var/turf/parent_turf = get_turf(PS_parent)
-		var/turf/mob_turf = get_turf(mob)
-		if(get_dist(get_turf(mob),parent_turf) > world.view + PS.extra_range) //Too far away. get_dist shouldn't be too awful for repeated calcs
+		if(get_dist(mob_turf, parent_turf) > world.view + PS.extra_range)
 			continue
 
 		if(mob_turf.z - parent_turf.z > 2 || mob_turf.z - parent_turf.z < 2) //for some reason get_dist not checking this properly
@@ -144,7 +147,7 @@ SUBSYSTEM_DEF(soundloopers)
 			new_volume = new_volume * (prefs.mastervol * 0.01) //Modify it at the end by the player's volume setting
 
 			if(old_volume != new_volume)
-				var/turf/T = get_turf(mob)
+				var/turf/T = mob_turf //cached at proc start
 				var/dx = source_turf.x - T.x
 				if(dx <= 1 && dx >= -1)
 					found_sound.x = 0

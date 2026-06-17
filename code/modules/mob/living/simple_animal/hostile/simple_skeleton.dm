@@ -238,20 +238,3 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/bow/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
     . = ..(mapload, user, cabal_affine, is_summoned)
-
-/mob/living/simple_animal/hostile/rogue/skeleton/Destroy()
-	for(var/mob/living/M in viewers(10, src))
-		var/datum/ai_controller/controller = M.ai_controller
-		if(!controller)
-			continue
-		var/needs_cleanup = FALSE
-		if(controller.blackboard[BB_HIGHEST_THREAT_MOB] == src)
-			controller.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
-			needs_cleanup = TRUE
-		if(controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET] == src)
-			controller.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
-			needs_cleanup = TRUE
-		if(needs_cleanup)
-			controller.CancelActions()
-
-	return ..()

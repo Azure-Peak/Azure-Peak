@@ -17,7 +17,7 @@
 	show_in_credits = TRUE 
 	give_bank_account = FALSE
 	hidden_job = TRUE
-	vice_restrictions = list(/datum/charflaw/hunted)
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
 
 /datum/outfit/job/roguetown/greater_skeleton/pre_equip(mob/living/carbon/human/H)
 	..()

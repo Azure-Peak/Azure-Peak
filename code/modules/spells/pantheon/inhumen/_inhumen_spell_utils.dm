@@ -330,6 +330,8 @@
 	return TRUE
 
 /datum/status_effect/buff/skulduggery/proc/attempt_parry(mob/living/carbon/human/H, mob/living/carbon/human/A, obj/item/I)
+	if(!I?.associated_skill)
+		return FALSE
 	var/my_skill = H.get_skill_level(/datum/skill/magic/holy)
 	var/enemy_skill = A.get_skill_level(I.associated_skill)
 	if(!enemy_skill)
