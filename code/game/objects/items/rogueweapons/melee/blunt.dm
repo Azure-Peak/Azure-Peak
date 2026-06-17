@@ -413,7 +413,6 @@
 	wdefense = 3
 	smeltresult = /obj/item/ingot/steel
 	icon_state = "flangedmace"
-	special = /datum/special_intent/ground_smash/unwielded
 
 /obj/item/rogueweapon/mace/cudgel/flanged/getonmobprop(tag)
 	. = ..()
@@ -777,7 +776,6 @@
 	smeltresult = /obj/item/ingot/iron
 	wdefense = 3
 	max_integrity = 200
-	special = /datum/special_intent/ground_smash/unwielded
 
 /obj/item/rogueweapon/mace/warhammer/bronze
 	force = 22

@@ -537,7 +537,6 @@ SPECIALS START HERE
 	post_icon_state = "kick_fx"
 	pre_icon_state = "trap"
 	respect_adjacency = TRUE
-	requires_wielding = TRUE
 	delay = 0.7 SECONDS
 	cooldown = 25 SECONDS
 	stamcost = 25
@@ -577,9 +576,6 @@ SPECIALS START HERE
 	var/sfx = pick('sound/combat/ground_smash1.ogg','sound/combat/ground_smash2.ogg','sound/combat/ground_smash3.ogg')
 	playsound(T, sfx, 100, TRUE)
 	..()
-
-/datum/special_intent/ground_smash/unwielded //For warhammers and other two-handed weapons that can be used one-handed.
-	requires_wielding = FALSE
 
 /datum/special_intent/flail_sweep
 	name = "Flail Sweep"
