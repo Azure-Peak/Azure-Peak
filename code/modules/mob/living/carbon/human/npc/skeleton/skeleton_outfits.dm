@@ -453,7 +453,7 @@
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) //Unique fighting style
 	name = "Vile Doctor"
 	belt = /obj/item/storage/belt/rogue/leather/black
-	mask = /obj/item/clothing/mask/rogue/physician/plaguebearer //Tougher face armor
+	mask = /obj/item/clothing/mask/rogue/physician/plaguebearer //Tougher face armor only otherwise on wretches, also unique loot for defeating them
 	head = /obj/item/clothing/head/roguetown/physician
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
@@ -461,16 +461,15 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/rondel
-	id = /obj/item/clothing/ring/gold //A bit of loot for your troubles
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
@@ -493,7 +492,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/evil
 	cloak = /obj/item/clothing/cloak/half/red
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+	neck = /obj/item/clothing/neck/roguetown/coif/padded //Tougher
 
 	if(skeletonclass == 0) // "standard"
 		id = /obj/item/clothing/ring/onyxa
@@ -503,6 +502,7 @@
 		id = /obj/item/clothing/ring/gold// slightly better
 		H.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE) // 5 total.
 		r_hand = /obj/item/rogueweapon/shield/tower/metal/alloy // and a shield to go with it
+		mask = /obj/item/clothing/mask/rogue/sack
 		gloves = /obj/item/clothing/gloves/roguetown/plate/aalloy
 	if(skeletonclass == 2)
 		id = /obj/item/clothing/ring/coral // +30 value compared to onyx btw
