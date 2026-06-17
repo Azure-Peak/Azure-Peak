@@ -100,7 +100,10 @@
   As we can then change your "true" statline for antag roles properly currently our only "reasonable" method that we have is using buffs
   to inefficently do math to figure out our difference and pray it works, this...
   
-  isn't super effective as you can imagine and isn't without flaw.
+  isn't super effective as you can imagine and isn't without flaw. - A good example is debuff/buff before turning will...
+  change our statline since this doesn't update, this is unfortnately an issue with buffs but this is the closet to fixing it..
+
+  Blame Blackstone era roguecode's statcaps for /not/ having a seperated /true/ statline vs buffed one. 
   */
 
 	effectedstats = list(
@@ -308,11 +311,11 @@
 	last_bite = world.time
 	has_turned = TRUE
 	// Drop whatever's in your mouth, a workaround for being gagged.
+	// I know this has a flaw that Eora can shutdown deadites, I can't do much
+	// About Eoran miracles being "no fun allowed", pacifistic zombies inherently
+	// Are too funny, like absolver zombie just staring you down menacingly.
 	var/static/list/removed_slots = list(
-		//SLOT_HEAD,
-		//SLOT_WEAR_MASK,
 		SLOT_MOUTH,
-		//SLOT_NECK,
 	)
 	for(var/slot in removed_slots)
 		zombie.dropItemToGround(zombie.get_item_by_slot(slot), TRUE)
