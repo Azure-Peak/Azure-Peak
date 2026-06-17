@@ -71,7 +71,7 @@
 		handle_wounds()
 		heal_overall_damage(3, 2) //Brute heals better than our burns.
 		for(var/datum/wound/wound as anything in get_wounds())
-			wound.heal_wound(0.5) //Skullcracks and severe wounds keep us down longer. BUT WE STILL GET BACK UP
+			wound.heal_wound(0.5) //Skullcracks and severe wounds keep us down longer. BUT WE STILL GET BACK UP.
 
 	if(blood_volume <= BLOOD_VOLUME_SURVIVE && stat)
 		handle_passive_blood()
