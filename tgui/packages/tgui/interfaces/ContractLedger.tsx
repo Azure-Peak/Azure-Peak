@@ -456,6 +456,9 @@ const ActiveStrip = (props: {
         </span>
         <span>Balance: {props.balance} mammon</span>
       </div>
+      <div className="ContractLedger__FellowshipHint">
+        You can form a fellowship in the IC Tab
+      </div>
       {blockReason && (
         <div
           className="ContractLedger__ActiveRow"

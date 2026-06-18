@@ -35,14 +35,21 @@ SUBSYSTEM_DEF(vote)
 		time_remaining = round((started_time + vote_period - world.time)/10)
 
 		if(time_remaining < 0)
-			result()
-			for(var/client/C in voting)
-				C << browse(null, "window=vote;can_close=0;size=[vote_width]x[vote_height]")
-			reset()
+			end_vote()
 		else if(world.time >= next_panel_refresh)
 			next_panel_refresh = world.time + panel_refresh_interval
 			for(var/client/C in voting)
 				show_vote(C)
+
+/// Tallies the vote, closes the open panels, and clears state. Called when the timer expires, or by an external
+/// system (the lobby ticker closing the gamemode vote at the end buffer) to resolve it early.
+/datum/controller/subsystem/vote/proc/end_vote()
+	if(!mode)
+		return
+	result()
+	for(var/client/C in voting)
+		C << browse(null, "window=vote;can_close=0;size=[vote_width]x[vote_height]")
+	reset()
 
 
 /datum/controller/subsystem/vote/proc/show_vote(client/C)
@@ -77,12 +84,7 @@ SUBSYSTEM_DEF(vote)
 /datum/controller/subsystem/vote/proc/get_storyteller_vote_pool(storyteller_type)
 	if(!ispath(storyteller_type, /datum/storyteller))
 		return null
-	switch(storyteller_type)
-		if(/datum/storyteller/psydon)
-			return "Psydon"
-		if(/datum/storyteller/graggar, /datum/storyteller/matthios, /datum/storyteller/zizo, /datum/storyteller/baotha)
-			return "Ascendants"
-	return "The Ten"
+	return SSgamemode.get_story_pool(storyteller_type)
 
 /datum/controller/subsystem/vote/proc/get_storyteller_pool_totals()
 	var/list/pool_totals = list()
@@ -139,7 +141,7 @@ SUBSYSTEM_DEF(vote)
 		"selection_color" = "#ffdc7a",
 	)
 	switch(pool_name)
-		if("Psydon")
+		if(GAMEMODE_POOL_EXTENDED)
 			theme["border"] = "#7f878d"
 			theme["background"] = "#8e9499"
 			theme["title"] = "#1f2428"
@@ -148,7 +150,7 @@ SUBSYSTEM_DEF(vote)
 			theme["entry"] = "rgba(255,255,255,0.12)"
 			theme["link"] = "#d7fffb"
 			theme["selection_color"] = "#1f2428"
-		if("Ascendants")
+		if(GAMEMODE_POOL_GUARANTEED)
 			theme["border"] = "#a43c3c"
 			theme["background"] = "#581414"
 			theme["title"] = "#ffd6d6"
@@ -157,7 +159,7 @@ SUBSYSTEM_DEF(vote)
 			theme["entry"] = "rgba(255,214,214,0.08)"
 			theme["link"] = "#ffd6d6"
 			theme["selection_color"] = "#ffd6d6"
-		if("The Ten")
+		if(GAMEMODE_POOL_NOANTAG)
 			theme["border"] = "#2b8c87"
 			theme["background"] = "#10464a"
 			theme["title"] = "#d7fffb"
@@ -187,17 +189,18 @@ SUBSYSTEM_DEF(vote)
 		var/selected_text = is_selected ? " <span style='color:[selected_color];font-size:0.76rem;font-weight:bold;'>(current)</span>" : ""
 		var/entry = "<div style='padding:5px 6px;border-radius:6px;background:[theme["entry"]];min-width:0;'>"
 		var/details_link = "<a href='?src=[REF(SSgamemode)];storyboy_details=[storyteller_type]' style='display:inline-block;margin-left:4px;color:[theme["meta"]];font-size:0.75rem;text-decoration:none;'>(?)</a>"
+		var/threat = SSgamemode.preset_threat_tags(storyteller_type, theme["border"])
 		if(can_vote)
-			entry += "<div><a href='?src=[REF(src)];vote=[option_index]' style='font-size:0.9rem;color:[theme["link"]];font-weight:bold;'>[choice_text]</a>[details_link][selected_text]</div><div style='color:[theme["meta"]];font-size:0.76rem;'>[votes] votepwr</div>"
+			entry += "<div><a href='?src=[REF(src)];vote=[option_index]' style='font-size:0.9rem;color:[theme["link"]];font-weight:bold;'>[choice_text]</a>[details_link][selected_text]</div>[threat]<div style='color:[theme["meta"]];font-size:0.76rem;'>[votes] votepwr</div>"
 		else
-			entry += "<div><span style='font-size:0.9rem;font-weight:bold;'>[choice_text]</span>[details_link][selected_text]</div><div style='color:[theme["meta"]];font-size:0.76rem;'>[votes] votepwr</div>"
+			entry += "<div><span style='font-size:0.9rem;font-weight:bold;'>[choice_text]</span>[details_link][selected_text]</div>[threat]<div style='color:[theme["meta"]];font-size:0.76rem;'>[votes] votepwr</div>"
 		entry += "</div>"
 		dat += entry
 	dat += "</div></div>"
 	return dat
 
 /datum/controller/subsystem/vote/proc/render_storyteller_choices(can_vote, client/C)
-	var/list/pool_order = list("Psydon", "Ascendants", "The Ten")
+	var/list/pool_order = list(GAMEMODE_POOL_EXTENDED, GAMEMODE_POOL_GUARANTEED, GAMEMODE_POOL_NOANTAG)
 	var/list/pooled_indices = list()
 	var/selected_option = null
 	if(C)
@@ -350,8 +353,7 @@ SUBSYSTEM_DEF(vote)
 				SSgamemode.storyteller_vote_result(.)
 	else if(mode == "storyteller")
 		// No winner (inconclusive / no votes cast). Still run the result hook so
-		// selected_storyteller gets the Astrata fallback instead of whichever
-		// storyteller pick_most_influential() happened to seed at init.
+		// selected_storyteller falls back to the default No Antag / Regular Wretch preset.
 		save_storyteller_vote_log(null, "completed")
 		SSgamemode.storyteller_vote_result(null)
 
@@ -641,13 +643,13 @@ SUBSYSTEM_DEF(vote)
 		if(question)
 			. += "<h2>Vote: '[question]'</h2>"
 		else
-			. += "<h2>Vote: [capitalize(mode)]</h2>"
+			. += "<h2>Vote: [mode == "storyteller" ? "Gamemode" : capitalize(mode)]</h2>"
 		. += "Time Left: [time_remaining] s<hr>"
 		var/can_vote = can_client_vote(C)
 		if(mode == "storyteller")
 			if(!length(storyteller_vote_log))
 				load_storyteller_vote_log()
-			var/pool_text = "Check the (?) for a description of each storyteller. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. Successful votes remove the storyteller pool."
+			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. The winning pool is removed from next round's vote."
 			. += "<div style='color:#992414;font-size:0.9rem;margin-bottom:6px;'>[pool_text]</div>"
 			. += render_storyteller_choices(can_vote, C)
 		else

@@ -1,8 +1,8 @@
 /datum/species/ooze
 	name = "Murkling"
 	id = "ooze"
-	desc = "<b>Murkling</b><br>\
-	Few know the true origins of the Murklings. Ancient records place their beginnings deep within the cold caverns of the Underdark \
+	desc_title = "Murkling"
+	desc = "Few know the true origins of the Murklings. Ancient records place their beginnings deep within the cold caverns of the Underdark \
 	where primordial ooze infested tunnels and defended its spawning pits with relentless hostility. \
 	For centuries, Dark Elves and Dwarven delvers alike sealed these regions away, leaving the living mire undisturbed. \
 	Only within the last century did the ooze begin to change. \
@@ -16,9 +16,7 @@
 	having consumed enough for their bodies to recreate and secrete the very substance that sustains them. \
 	Caught now in the struggles of surface faiths and kingdoms, Murklings search for purpose beyond their primordial mothers. \
 	Some turn to gods as they are susceptible to faith to fill the gaps their spawning pools left, and others reject them entirely. \
-	Yet all carry the memory of the deep: the silent, all-encompassing love and will from which they were born.<br> \
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | +1 INT<br> \
-	Easy Dismember | Limb Regrowth | Inhumen Digestion</span><br><br>"
+	Yet all carry the memory of the deep: the silent, all-encompassing love and will from which they were born."
 	blood_color = "#00FFFF" //Defaults to blue, but we recolor this later to match the slime person's body color.
 	origin_default = /datum/virtue/origin/racial/underdark
 	base_name = "Ooze"
@@ -102,6 +100,10 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver/ooze,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach/ooze,
 		)
+	
+	mechanics_explanations = list("Have no bones to break. However, upon suffering a severe blunt wound, or when a limb would experience a bone fracture, the limb melts. Lost limbs similarly melt off.",
+		"Can regenerate lost limbs by sleeping, at a great cost to their bodily nutrition.",
+		"Have uniquely colored blood that matches the color of their bodies.")
 
 ////// ORGAN SPRITES, provided by VelSlime
 /obj/item/organ/brain/ooze

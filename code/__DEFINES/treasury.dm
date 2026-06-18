@@ -1,4 +1,4 @@
-#define RURAL_TAX 500 // Daily mint at dawn. Floor at/above RURAL_TAX_POP_HIGH effective players.
+#define RURAL_TAX 250 // Daily. Baseline to stop crown from going bankrupt too easily. Was 500, but passive income is higher now.
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 
 #define HERMES_FREE_COOLDOWN (5 MINUTES)

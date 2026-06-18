@@ -36,9 +36,12 @@
 	user.visible_message(span_love("[user] cums over [target]'s butt!"))
 	return "onto"
 
-/datum/sex_action/sex/other/buttjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+/datum/sex_action/sex/other/buttjob/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	target.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] rubs [target]'s pintle with [user.p_their()] butt..."))
+
+/datum/sex_action/sex/other/buttjob/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
 	playsound(target, 'sound/misc/mat/fingering.ogg', 20, TRUE, -2, ignore_walls = FALSE)
 
 	sex_session.perform_sex_action(target, 2, 4, TRUE)

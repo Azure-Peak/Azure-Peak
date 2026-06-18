@@ -19,7 +19,7 @@
 			visible_message(span_suicide("[src] clashes into [user]'s hands with \the [IM]!"))
 		playsound(src, pick(used_intent.hitsound), 80)
 		remove_status_effect(/datum/status_effect/buff/clash)
-		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+		apply_status_effect(/datum/status_effect/buff/adrenaline_rush/melee)
 		return
 	if(!IM)	//We are guarding unarmed but they have a weapon -- no clash, just consume the guard to block the hit.
 		visible_message(span_warning("[src] deflects [H]'s strike with [p_their()] bare hands!"))
@@ -31,7 +31,7 @@
 		H.Slowdown(3)
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
-		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+		apply_status_effect(/datum/status_effect/buff/adrenaline_rush/melee)
 		return
 	if(H.has_status_effect(/datum/status_effect/buff/clash))	//They also have Riposte active. It'll trigger the special event.
 		clash(user, IM, IU)
@@ -57,7 +57,7 @@
 		
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
-		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+		apply_status_effect(/datum/status_effect/buff/adrenaline_rush/melee)
 		H.reset_desert_rider_momentum_tier()
 
 /mob/living/carbon/human/proc/simple_clash(mob/user, obj/item/IM)
@@ -77,7 +77,7 @@
 		L.Slowdown(3)
 		to_chat(src, span_notice("[capitalize(L.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
-		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+		apply_status_effect(/datum/status_effect/buff/adrenaline_rush/melee)
 		return
 	visible_message(span_suicide("[src] ripostes [L] with \the [IM]!"))
 	playsound(src, 'sound/combat/clash_struck.ogg', 100)
@@ -90,7 +90,7 @@
 		
 	to_chat(src, span_notice("[capitalize(L.p_theyre())] exposed!"))
 	remove_status_effect(/datum/status_effect/buff/clash)
-	apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+	apply_status_effect(/datum/status_effect/buff/adrenaline_rush/melee)
 	return
 
 //This is a gargantuan, clunky proc that is meant to tally stats and weapon properties for the potential disarm.

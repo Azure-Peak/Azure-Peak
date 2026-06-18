@@ -304,3 +304,27 @@
 	eat_effect = null
 	tastes = list("crispy chitin" = 1, "venom innards" = 1)
 	faretype = FARE_FINE
+
+/*	.............   Cooked Mushroom   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked
+	slices_num = 0
+	bitesize = 4
+	name = "baked mushroom"
+	desc = "Mushroom! It's tasty, but somehow you imagine it might taste even better fried."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "mushroom"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
+	faretype = FARE_NEUTRAL
+	rotprocess = SHELFLIFE_DECENT
+	tastes = list("mushroom" = 1)
+	fried_type = null
+	cooked_type = null
+
+/*	.............   Fried Mushroom   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked/fried
+	name = "grilled mushroom"
+	desc = "Mushroom! It's grilled to perfection, a hardy snack adored by those of pale skin, and with pointy ears."
+	icon_state = "mushroom_grill"
+	// Slightly better than cooking it in an oven.
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THIRD_MEAL)
+	tastes = list("mushroom grill" = 1)

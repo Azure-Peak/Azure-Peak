@@ -81,6 +81,9 @@
 	var/shiftable = TRUE
 	var/shifted = FALSE
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/holysee
+	color = "#d6dce6"
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/attack_right(mob/user)
 	if(!shiftable)
 		return

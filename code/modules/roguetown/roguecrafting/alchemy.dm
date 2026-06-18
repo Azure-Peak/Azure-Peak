@@ -6,22 +6,6 @@
 	subtype_reqs = TRUE
 	structurecraft = /obj/structure/fluff/alch
 
-/datum/crafting_recipe/roguetown/alchemy/mortar
-	name = "alchemical mortar"
-	result = /obj/item/reagent_containers/glass/mortar
-	reqs = list(/obj/item/natural/stone = 1)
-	craftdiff = 2
-	structurecraft = null
-	verbage_simple = "create"
-
-/datum/crafting_recipe/roguetown/alchemy/pestle
-	name = "stone pestle"
-	result = /obj/item/pestle
-	reqs = list(/obj/item/natural/stone = 1)
-	craftdiff = 2
-	structurecraft = null
-	verbage_simple = "create"
-
 /datum/crafting_recipe/roguetown/alchemy/bbomb
 	name = "bottle bomb"
 	category = "Table"

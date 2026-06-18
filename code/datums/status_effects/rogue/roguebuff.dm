@@ -92,7 +92,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/greatsnackbuff
 	name = "Great Snack!"
-	desc = "Nothing like a great and nutritious snack to help you on that final strech. I feel invigorated."
+	desc = "Nothing like a great and nutritious snack to help you on that final stretch. I feel invigorated."
 	icon_state = "foodbuff"
 
 /datum/status_effect/buff/greatsnackbuff/on_apply()
@@ -1802,13 +1802,23 @@
 	id = "bloodrage"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/graggar_bloodrage
 	var/outline_color = "#ad0202"
+	var/originalcmode = ""
 	duration = 15 SECONDS
 
 /datum/status_effect/buff/bloodrage/on_apply()
 	ADD_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, TRAIT_MIRACLE)
+	shake_camera(owner, 5, 2) //Aura
+	originalcmode = owner.cmode_music
+	owner.cmode_music = 'sound/music/combat_bloodrage.ogg' //I'LL FUCK ANYTHING THAT MOVES
+	to_chat(owner, span_userdanger(pick("KILL, FUCKING KILL! SLAUGHTER THEM!", "BLOOD, FUCKING SPILL THE BLOOD!", "BLOOD AND FURY, SPLITTING MY SKULL!", "I'LL KILL ANYTHING THAT MOVES!", "I'M FUCKING UNSTOPPABLE, I'LL BREAK THEM!")))
 	var/holyskill = owner.get_skill_level(/datum/skill/magic/holy)
 	duration = ((15 SECONDS) * holyskill)
 	var/filter = owner.get_filter(BLOODRAGE_FILTER)
+	if(!owner.cmode)	//Turns on combat mode
+		owner.toggle_cmode()
+	else		//Gigajank to reset your combat music
+		owner.toggle_cmode()
+		owner.toggle_cmode()
 	if(!filter)
 		owner.add_filter(BLOODRAGE_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 60, "size" = 2))
 	if(!HAS_TRAIT(owner, TRAIT_DODGEEXPERT))
@@ -1830,7 +1840,11 @@
 	owner.OffBalance(3 SECONDS)
 	owner.remove_filter(BLOODRAGE_FILTER)
 	owner.emote("breathgasp", forced = TRUE)
+	owner.cmode_music = originalcmode
 	owner.Slowdown(3)
+	if(owner.cmode && !owner.has_status_effect(/datum/status_effect/buff/call_to_slaughter))	//No cmode, no point - More Gigajank for combat music UNLESS call to slaughter is active
+		owner.toggle_cmode()
+		owner.toggle_cmode()
 
 /datum/status_effect/buff/psydonic_endurance
 	id = "psydonic_endurance"
@@ -1891,6 +1905,7 @@
 
 /datum/status_effect/buff/adrenaline_rush
 	id = "adrrush"
+	status_type = STATUS_EFFECT_REPLACE
 	alert_type = /atom/movable/screen/alert/status_effect/buff/adrenaline_rush
 	duration = 18 SECONDS
 	examine_text = "SUBJECTPRONOUN is amped up!"
@@ -1909,10 +1924,23 @@
 
 /datum/status_effect/buff/adrenaline_rush/on_remove()
 	. = ..()
+	clear_adrenaline_rush()
+
+/datum/status_effect/buff/adrenaline_rush/be_replaced()
+	clear_adrenaline_rush()
+	return ..()
+
+/datum/status_effect/buff/adrenaline_rush/proc/clear_adrenaline_rush()
 	REMOVE_TRAIT(owner, TRAIT_ADRENALINE_RUSH, INNATE_TRAIT)
 	var/mob/living/carbon/human/human = owner
 	if(istype(human))
 		human.pain_threshold -= 50
+
+/datum/status_effect/buff/adrenaline_rush/ranged
+	effectedstats = list(STATKEY_SPD = 2)
+
+/datum/status_effect/buff/adrenaline_rush/melee
+	effectedstats = list(STATKEY_WIL = 1, STATKEY_CON = 1)
 
 /datum/status_effect/buff/nocblessing
 	id = "nocblessing"

@@ -10,8 +10,8 @@
 	base_name = "Elf"
 	sub_name = "Sun Elf"
 
-	desc = "<b>Sun Elf</b><br>\
-	Native to the vast region of Raneshen, Sun Elves are an elven subspecies descended \
+	desc_title = "Sun Elf"
+	desc = "Native to the vast region of Raneshen, Sun Elves are an elven subspecies descended \
 	from the followers of the Günayan Crusade who settled in the region a millenium \
 	ago. Tradition holds that Astrata guided their ancestors on a holy mission to carve out \
 	a divine Dominion of the Sun, one that would purge all darkness with Astrata's holy light.<br><br>\
@@ -26,8 +26,7 @@
 	Sun Elves are often deeply concerned with social order, castes, and superiority. Many \
 	are vain or power-hungry, and they tend to have imperious and assertive personalities. \
 	It is a common sentiment among Sun Elves that they are the 'chosen' of Astrata, leading \
-	to a great deal of condescension or disdain toward those faiths deemed 'lesser'.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 Stat of their choice, Silver-blooded, Rot immune. <br>Astratan Affinity grants a devotion bonus if the selected patron is Astrata.</b></span><br>"
+	to a great deal of condescension or disdain toward those faiths deemed 'lesser'."
 
 	custom_selection = list(
 		"+1 FOR" = STATKEY_LCK,
@@ -118,7 +117,6 @@
 		/datum/body_marking/bun,
 	)
 
-
 	gender_swapping = TRUE
 
 /datum/species/elf/sun/get_span_language(datum/language/message_language)
@@ -184,3 +182,6 @@
 
 /datum/species/elf/sun/random_surname()
 	return " [pick(world.file2list("strings/rt/names/elf/elfwlast.txt"))]"
+
+/datum/species/elf/sun/get_string_bonus_stats(return_null_if_no_stats = FALSE, end_with_glue = FALSE)
+	return ..(TRUE, TRUE) + "CHOOSE: +1 bonus stat of your choosing, OR Astratan Affinity (Tier 0 Miracles, Astrata patron only)"

@@ -14,11 +14,11 @@
 	result = /obj/item/clothing/shoes/roguetown/boots/leather
 
 /datum/crafting_recipe/roguetown/leather/footwear/boots_heavy
-	name = "heavy leather boots"
+	name = "hardened leather boots"
 	result = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	reqs = list(/obj/item/natural/hide/cured = 1,
 				/obj/item/natural/fur = 1)
-	craftdiff = 3	//Same as the heavy leather gloves.
+	craftdiff = 3	//Same as the hardened leather gloves.
 
 /datum/crafting_recipe/roguetown/leather/footwear/boots_heavy_b
 	name = "dress boots"

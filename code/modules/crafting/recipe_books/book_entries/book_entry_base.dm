@@ -2,6 +2,7 @@
 	abstract_type = /datum/book_entry
 	var/name = "Generic Information"
 	var/category = "Knowledge"
+	var/book_priority = 0
 
 
 /datum/book_entry/proc/generate_html(mob/user)

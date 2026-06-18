@@ -51,6 +51,7 @@
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 
 	var/datum/bodypart_feature/hair/head/new_hair = new()
 	var/datum/bodypart_feature/hair/facial/new_facial = new()
@@ -80,6 +81,33 @@
 	new_facial.accessory_colors = "#31302E"
 	new_facial.hair_color = "#31302E"
 	hair_color = "#31302E"
+
+	var/voice_choice = rand(1, 12)
+	switch(voice_choice)
+		if(1)
+			src.voice_color = "0bb1e4"
+		if(2)
+			src.voice_color = "d30c0c"
+		if(3)
+			src.voice_color = "4d4afc"
+		if(4)
+			src.voice_color = "da40c0"
+		if(5)
+			src.voice_color = "51e251"
+		if(6)
+			src.voice_color = "a059cf"
+		if(7)
+			src.voice_color = "8700c5"
+		if(8)
+			src.voice_color = "cfc886"
+		if(9)
+			src.voice_color = "ff9100"
+		if(10)
+			src.voice_color = "a0a0a0"
+		if(11)
+			src.voice_color = "797979"
+		if(12)
+			src.voice_color = "ff5e00"
 
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
 	dna.species.handle_body(src)

@@ -11,7 +11,7 @@ import {
   SERIF,
   titleStyle,
 } from './common/parchment';
-import { RecipeBookEntry } from './RecipeBookEntry';
+import { RecipeBookEntry, type RecipeEntryData } from './RecipeBookEntry';
 import { RecipeBookSidebar } from './RecipeBookSidebar';
 
 const ROMAN = [
@@ -94,6 +94,7 @@ export type RecipeBookData = {
   current_book_title: string;
   current_recipe: string | null;
   recipe_detail_html: string;
+  recipe_entry_data?: RecipeEntryData | null;
   initial_category?: string;
 };
 
@@ -218,9 +219,10 @@ const BookPage = () => {
       }
     }
     const arr = Array.from(cats);
+    const rank = (c: string) => (c === 'Instructions' ? -2 : c === 'All' ? -1 : 0);
     arr.sort((a, b) => {
-      if (a === 'All') return -1;
-      if (b === 'All') return 1;
+      const diff = rank(a) - rank(b);
+      if (diff !== 0) return diff;
       return a.localeCompare(b);
     });
     return arr;
@@ -240,7 +242,10 @@ const BookPage = () => {
         />
       </Stack.Item>
       <Stack.Item grow basis={0}>
-        <RecipeBookEntry html={data.recipe_detail_html} />
+        <RecipeBookEntry
+          html={data.recipe_detail_html}
+          entryData={data.recipe_entry_data}
+        />
       </Stack.Item>
     </Stack>
   );

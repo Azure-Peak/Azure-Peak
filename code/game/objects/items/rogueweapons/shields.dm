@@ -428,10 +428,13 @@
 
 /obj/item/rogueweapon/shield/tower/metal/zizo
 	name = "avantyne darkshield"
-	desc = "A threaded purportance, summoned from the interminglance of both avantyne and darksteel. The surface is uncharacteristically soft, not unlike silk \
+	desc = "A threaded purportance, avantyne weaving through and consuming steel. The surface is uncharacteristically soft, not unlike silk \
 	or skin; uncomforting to the unexpecting touch, but more-than-excellent for catching blows."
 	icon_state = "zizoshield"
 	smeltresult = /obj/item/ingot/component/zizo
+
+/obj/item/rogueweapon/shield/tower/metal/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, "An alloy of Zizo's anointed metals; Avantyne and Darksteel")
 
 /obj/item/rogueweapon/shield/tower/metal/zizo/Initialize()
 	. = ..()
@@ -687,6 +690,9 @@
 /obj/item/rogueweapon/shield/iron/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "SHIELD", "RENDERED ASUNDER")
+
+/obj/item/rogueweapon/shield/iron/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_RELIC)
 
 #undef SHIELD_BANG_COOLDOWN
 

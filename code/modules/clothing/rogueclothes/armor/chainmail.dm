@@ -1,4 +1,33 @@
-//HAUBERGEON//
+//LIGHT ARMOR//
+/obj/item/clothing/suit/roguetown/armor/chainmail/light
+	name = "haubyrnie"
+	desc = "A sleeveless maille shirt, fashioned from dozens of interlinked steel rings. It's light enough to comfortably tuck underneath a \
+	blouse, yet tough enough to thwart the razor-sharp edges of unwelcomed company. For the discerning nobleman."
+	icon_state = "haubyrnie"
+	max_integrity = ARMOR_INT_CHEST_LIGHT_STEEL
+	armor_class = ARMOR_CLASS_LIGHT
+	body_parts_covered = COVERAGE_TORSO
+	flags_inv = HIDEBOOB //Let it hang, sire.
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/light/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, CHEST, null, null, 'sound/foley/equip/equip_armor_chain.ogg', null, UPD_CHEST)
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/light/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("RMB to adjust the haubyrine's coverage; it can either cover the entire torso, or be tightened up to just cover the chest.")
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/light/iron
+	name = "iron haubyrnie"
+	desc = "A sleeveless maille shirt, fashioned from dozens of interlinked iron rings. It's light enough to comfortably tuck underneath a \
+	blouse, yet tough enough to thwart the razor-sharp edges of unwelcomed company. For the discerning peasant."
+	icon_state = "ihaubyrnie"
+	max_integrity = ARMOR_INT_CHEST_LIGHT_IRON
+	smeltresult = /obj/item/ingot/iron
+
+//MEDIUM ARMOR - HAUBERGEON//
 /obj/item/clothing/suit/roguetown/armor/chainmail
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "haubergeon"
@@ -52,24 +81,23 @@
 	icon_state = "ancientchain"
 	smeltresult = /obj/item/ingot/aaslag
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/light
+/obj/item/clothing/suit/roguetown/armor/chainmail/besilked
 	name = "besilked haubergeon"
 	desc = "A maille shirt fashioned from hundreds of interlinked steel rings; lighter than its compatriots, yet reinforced with the \
 	presence of a besilked underjacket. Though fragile, it is a coveted article of nobility. When worn beneath a silk blouse, it can \
 	thwart an unsuspecting assassin's blow."
 	armor_class = ARMOR_CLASS_LIGHT
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/light/ComponentInitialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/besilked/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/light/fencer
+/obj/item/clothing/suit/roguetown/armor/chainmail/besilked/fencer
 	name = "besilked haubergeon"
 	max_integrity = ARMOR_INT_CHEST_LIGHT_STEEL //Matching the Fencer Cuirass.
 
-//HAUBERK//
-
+//MEDIUM ARMOR - HAUBERK//
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "hauberk"
@@ -116,16 +144,13 @@
 	desc = "For the daring, affording maille's protection with light weight."
 	icon_state = "chainkini"
 	item_state = "chainkini"
-	allowed_sex = list(MALE, FEMALE)
-	allowed_race = CLOTHED_RACES_TYPES
 	body_parts_covered = CHEST|GROIN
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	armor_class = ARMOR_CLASS_LIGHT //placed in the medium category to keep it with its parent obj
 
 //HEAVY ARMOR//
-
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy
-	name = "mailled cuirass"
+	name = "plate-and-maille"
 	desc = "A maille-aketon of steel, comfortably fitted beneath a matching cuirass. Best paired with a padded arming jacket \
 	and a lovely goblet of wine, sourced straight from the Duke's private reserves."
 	slot_flags = ITEM_SLOT_ARMOR
@@ -135,7 +160,7 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEELLIGHT // To note, this is about 450 INT, or +150 over regular hauberk and -50 under regular plate.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy
-	name = "iron mailled cuirass"
+	name = "iron plate-and-maille"
 	desc = "A maille-aketon of iron, snuggly fitted beneath a matching cuirass. Best paired with a gambeson and a mug of chilled \
 	ale, or - as is the case with most levymen and adventurers - last nite's rags."
 	slot_flags = ITEM_SLOT_ARMOR
@@ -145,7 +170,7 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_IRONLIGHT // Roughly 325 INT. +150 over regular hauberk, and -50 under regular plate.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
-	name = "decrepit mailled cuirass"
+	name = "decrepit plate-and-maille"
 	desc = "Frayed bronze rings and rotting leather, woven together to form a sleeved maille-atekon; one that's been uncomfortably \
 	tucked beneath a matching cuirass. Such are the last remains of those who've dared to march against the undying legions, be it \
 	yils or centuries prior."
@@ -154,7 +179,7 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_DECREPITLIGHT // 200 INT.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
-	name = "ancient mailled cuirass"
+	name = "ancient plate-and-maille"
 	desc = "Polished gilbranze rings and silk, woven together to form a sleeved maille-atekon; one that's been uncomfortably tucked \
 	beneath a matching cuirass. It eminates an unfamiliar sensation, rarely seen amongst rot-and-undeath - elegance. In the worlds to \
 	come, do you suppose Her death knights would bare such a mantle?"
@@ -166,7 +191,7 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	armor_class = ARMOR_CLASS_HEAVY
 	armor = ARMOR_PLATE
-	name = "psydonic mailled cuirass"
+	name = "psydonic plate-and-maille"
 	desc = "A beautiful steel cuirass, decorated with blessed silver fluting and worn atop thick chainmaille. While it falters against \
 	arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes. </br>‎  </br>'..the \
 	knowledge of evil, and the burden of carrying Psydonia's hope upon thine shoulders..'"
@@ -234,6 +259,9 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
 
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+
 //
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
@@ -249,6 +277,9 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
 	name = "fused avantyne hauberk"
@@ -277,5 +308,7 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 //

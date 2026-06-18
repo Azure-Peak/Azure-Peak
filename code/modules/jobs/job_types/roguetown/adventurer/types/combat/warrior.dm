@@ -634,7 +634,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				head = /obj/item/clothing/head/roguetown/puritan
 				armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
-				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/light
+				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/besilked
 				belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/silver
 			if("Orthodoxist - Cuirass & Plate Training (+I CON / -I SPD)")
 				ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)

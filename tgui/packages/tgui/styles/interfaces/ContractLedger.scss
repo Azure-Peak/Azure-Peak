@@ -294,9 +294,16 @@
 // Active contracts strip at bottom
 .ContractLedger__ActiveStrip {
   flex-shrink: 0;
-  padding: 8px 16px;
+  padding: 8px 16px 40px;
   border-top: 1px solid rgba(200, 170, 100, 0.15);
   color: rgba(200, 180, 130, 0.8);
+}
+
+.ContractLedger__FellowshipHint {
+  font-size: 0.85em;
+  font-style: italic;
+  color: rgba(200, 170, 100, 0.55);
+  margin-bottom: 6px;
 }
 
 .ContractLedger__ActiveStripHeader {

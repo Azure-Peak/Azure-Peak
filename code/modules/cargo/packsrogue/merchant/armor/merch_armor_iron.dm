@@ -6,6 +6,11 @@
 	crate_name = "merchant guild's crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
+/datum/supply_pack/rogue/armor_iron/lightchainmail_iron
+	name = "Haubyrine"
+	cost = 25
+	contains = list(/obj/item/clothing/suit/roguetown/armor/chainmail/light/iron)
+
 /datum/supply_pack/rogue/armor_iron/chainmail_iron
 	name = "Haubergeon"
 	cost = 25
@@ -111,10 +116,15 @@
 	cost = 25
 	contains = list(/obj/item/clothing/mask/rogue/wildguard)
 
-/datum/supply_pack/rogue/armor_iron/boots_iron
+/datum/supply_pack/rogue/armor_iron/plateboots_iron
 	name = "Plated Boots"
 	cost = 25
 	contains = list(/obj/item/clothing/shoes/roguetown/boots/armor/iron)
+
+/datum/supply_pack/rogue/armor_iron/mailleboots_iron
+	name = "Maille Boots"
+	cost = 25
+	contains = list(/obj/item/clothing/shoes/roguetown/boots/maille/iron)
 
 /datum/supply_pack/rogue/armor_iron/skullcap_helmet
 	name = "Helmet, Skullcap"

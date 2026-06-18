@@ -324,18 +324,15 @@
 	glow_intensity = 0
 
 	click_to_activate = FALSE
-
 	primary_resource_cost = SPELLCOST_MIRACLE
-
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
-
 	invocation_type = INVOCATION_NONE
-
 	charge_required = FALSE
 	cooldown_time = 5 SECONDS
-
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
+	/// var we use to flag we are currently choosing a bundle.
+	var/choosing_bundle = FALSE
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
 		/datum/action/cooldown/spell/noc/inspiration::name					= /datum/action/cooldown/spell/noc/inspiration,
@@ -362,10 +359,15 @@
 
 /datum/action/cooldown/spell/undivided/undivided_spellpack/cast(atom/cast_on)
 	. = ..()
+	
+	if(choosing_bundle)
+		return FALSE
 	var/choice = chosen_bundle
 	if(!chosen_bundle)
+		choosing_bundle = TRUE
 		choice = alert(owner, "What type of miracles did the Divines bless you with?", "CHOOSE PATH", "Generalist", "Acolyte", "Templar")
 		chosen_bundle = choice
+		choosing_bundle = FALSE
 	switch(choice)
 		if("Generalist")
 			add_spells(owner, miracle_generalist_bundle, choice_count = 3)
@@ -379,8 +381,7 @@
 			add_spells(owner, miracle_templar_bundle, choice_count = 2)
 			owner.mind?.RemoveSpell(src.type)
 			return TRUE
-		else
-			return FALSE
+	return FALSE
 
 /datum/action/cooldown/spell/undivided/undivided_spellpack/proc/add_spells(mob/owner, list/spells, choice_count = 1, grant_all = FALSE)
 	for(var/spell_type in spells)
