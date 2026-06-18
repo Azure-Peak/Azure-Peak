@@ -33,6 +33,13 @@
 	// the per-tick Market Scroll payload.
 	var/list/ledger_view = list()
 	COOLDOWN_DECLARE(fulfill_retry_cooldown)
+	// Cached petition eligibility map (category_id → region_id → blocker string).
+	// Rebuilt only when dirty; avoids rerunning the categories×regions×templates triple-loop
+	// every ui_data tick. Invalidated by fulfill_order, petition_for_order, market rebuilds
+	// (which catch blockade flips), and day rollover.
+	var/list/cached_petition_eligibility = null
+	var/petition_eligibility_dirty = TRUE
+	var/last_petition_day = -1
 
 /obj/structure/roguemachine/steward/Initialize()
 	. = ..()

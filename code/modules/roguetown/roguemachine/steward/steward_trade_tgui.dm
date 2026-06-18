@@ -277,49 +277,11 @@
 	petition_state["petitions_remaining"] = petitions_remaining
 	petition_state["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
 	petition_state["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
-	var/list/eligibility = list()
-	var/pool_full = (GLOB.standing_order_pool.len >= STANDING_ORDERS_POOL_CAP)
-	var/pledge_balance = SStreasury.burgher_pledge_fund?.balance || 0
-	var/pledge_missing = !SStreasury.burgher_pledge_fund
-	var/list/orders_by_region = list()
-	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-		orders_by_region[O.region_id] = (orders_by_region[O.region_id] || 0) + 1
-	for(var/cat_id in GLOB.petition_categories)
-		var/list/cat = GLOB.petition_categories[cat_id]
-		var/cost = cat["cost"]
-		var/list/templates = cat["templates"]
-		var/list/per_region = list()
-		eligibility[cat_id] = per_region
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			var/blocker = ""
-			if(petitions_remaining <= 0)
-				blocker = "the trade hall has already heard a petition today"
-			else if(!region)
-				blocker = "unknown region"
-			else if(region.is_region_blockaded)
-				blocker = "[region.name] is blockaded - the road is closed to envoys"
-			else if(region.day_last_cleared >= 0 && (GLOB.dayspassed - region.day_last_cleared) < PETITION_BLOCKADE_RECOVERY_DAYS)
-				var/wait_days = PETITION_BLOCKADE_RECOVERY_DAYS - (GLOB.dayspassed - region.day_last_cleared)
-				blocker = "[region.name]'s contacts are still scattered - wait [wait_days]d more"
-			else if(pool_full)
-				blocker = "the warehouse manifest is full - fulfill orders first"
-			else if((orders_by_region[region_id] || 0) >= STANDING_ORDERS_MAX_PER_REGION)
-				blocker = "[region.name] already has [orders_by_region[region_id]] active orders"
-			else if(pledge_missing)
-				blocker = "the Burgher Pledge is not yet established"
-			else if(pledge_balance < cost)
-				blocker = "the Burgher Pledge cannot cover [cost]m"
-			else
-				var/has_template = FALSE
-				for(var/template_path in templates)
-					if(template_path in region.possible_standing_order_types)
-						has_template = TRUE
-						break
-				if(!has_template)
-					blocker = "[region.name]'s trade hall does not deal in [cat["label"]]"
-			per_region[region_id] = blocker
-	petition_state["eligibility"] = eligibility
+	if(last_petition_day != GLOB.dayspassed)
+		petition_eligibility_dirty = TRUE
+	if(petition_eligibility_dirty || isnull(cached_petition_eligibility))
+		rebuild_petition_eligibility()
+	petition_state["eligibility"] = cached_petition_eligibility
 	data["petition"] = petition_state
 
 	data["sequestration"] = list(
@@ -431,6 +393,57 @@
 	SStreasury.cached_region_rows = region_rows
 	SStreasury.cached_total_arbitrage_potential = total_arbitrage_potential
 	SStreasury.market_view_dirty = FALSE
+	// Blockade flips, economic events, and day resets all reach us through dirty_market_view().
+	// Any of those can change eligibility blockers, so invalidate the petition cache here.
+	petition_eligibility_dirty = TRUE
+
+/obj/structure/roguemachine/steward/proc/rebuild_petition_eligibility()
+	var/petitions_remaining = SSeconomy.petitions_remaining_today()
+	var/pool_full = (GLOB.standing_order_pool.len >= STANDING_ORDERS_POOL_CAP)
+	var/pledge_balance = SStreasury.burgher_pledge_fund?.balance || 0
+	var/pledge_missing = !SStreasury.burgher_pledge_fund
+	var/list/orders_by_region = list()
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		orders_by_region[O.region_id] = (orders_by_region[O.region_id] || 0) + 1
+	var/list/eligibility = list()
+	for(var/cat_id in GLOB.petition_categories)
+		var/list/cat = GLOB.petition_categories[cat_id]
+		var/cost = cat["cost"]
+		var/list/templates = cat["templates"]
+		var/list/per_region = list()
+		eligibility[cat_id] = per_region
+		for(var/region_id in GLOB.economic_regions)
+			var/datum/economic_region/region = GLOB.economic_regions[region_id]
+			var/blocker = ""
+			if(petitions_remaining <= 0)
+				blocker = "the trade hall has already heard a petition today"
+			else if(!region)
+				blocker = "unknown region"
+			else if(region.is_region_blockaded)
+				blocker = "[region.name] is blockaded - the road is closed to envoys"
+			else if(region.day_last_cleared >= 0 && (GLOB.dayspassed - region.day_last_cleared) < PETITION_BLOCKADE_RECOVERY_DAYS)
+				var/wait_days = PETITION_BLOCKADE_RECOVERY_DAYS - (GLOB.dayspassed - region.day_last_cleared)
+				blocker = "[region.name]'s contacts are still scattered - wait [wait_days]d more"
+			else if(pool_full)
+				blocker = "the warehouse manifest is full - fulfill orders first"
+			else if((orders_by_region[region_id] || 0) >= STANDING_ORDERS_MAX_PER_REGION)
+				blocker = "[region.name] already has [orders_by_region[region_id]] active orders"
+			else if(pledge_missing)
+				blocker = "the Burgher Pledge is not yet established"
+			else if(pledge_balance < cost)
+				blocker = "the Burgher Pledge cannot cover [cost]m"
+			else
+				var/has_template = FALSE
+				for(var/template_path in templates)
+					if(template_path in region.possible_standing_order_types)
+						has_template = TRUE
+						break
+				if(!has_template)
+					blocker = "[region.name]'s trade hall does not deal in [cat["label"]]"
+			per_region[region_id] = blocker
+	cached_petition_eligibility = eligibility
+	petition_eligibility_dirty = FALSE
+	last_petition_day = GLOB.dayspassed
 
 /obj/structure/roguemachine/steward/proc/build_market_import_regions(good_id)
 	var/list/out = list()
@@ -977,6 +990,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
 				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
 				visible_message(span_notice("[src] stamps a freshly sealed writ. The wax bears the mark of the [region?.name] trade hall."))
+			petition_eligibility_dirty = TRUE
 			SStgui.update_uis(src)
 			return TRUE
 		if("take_atc_loan")
