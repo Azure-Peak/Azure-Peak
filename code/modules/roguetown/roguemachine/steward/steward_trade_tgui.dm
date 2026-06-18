@@ -403,7 +403,13 @@
 	var/pledge_balance = SStreasury.burgher_pledge_fund?.balance || 0
 	var/pledge_missing = !SStreasury.burgher_pledge_fund
 	var/list/orders_by_region = list()
+	var/list/seen_pair_keys = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		if(O.pair_id)
+			var/pair_key = "[O.region_id]|[O.pair_id]"
+			if(seen_pair_keys[pair_key])
+				continue
+			seen_pair_keys[pair_key] = TRUE
 		orders_by_region[O.region_id] = (orders_by_region[O.region_id] || 0) + 1
 	var/list/eligibility = list()
 	for(var/cat_id in GLOB.petition_categories)
