@@ -13,6 +13,11 @@
 	var/list/cached_required_counts
 	var/list/cached_lines
 	var/list/cached_materials
+	// Pre-baked fulfillment template: list of list("path", "name", "want") — static after posting.
+	// Built alongside cached_lines in build_order_cache(). Lets ui_data() skip initial(A.name)
+	// and required_result_counts() every tick; only the live delivered_counts lookup remains.
+	var/list/cached_fulfillment_template
+	var/cached_needed_count = 0
 
 /datum/escrow_order/proc/label()
 	var/list/parts = list()
@@ -158,6 +163,7 @@
 		ITEM_CAT_ENG_MISC,
 	)
 	var/list/group_order = list("Armor", "Weapons", "Tools", "Valuables", "Decoration", "Engineering", "Other")
+	var/last_prune_day = -1
 
 /obj/structure/roguemachine/escrow/Initialize()
 	. = ..()
@@ -553,6 +559,9 @@
 	update_icon()
 
 /obj/structure/roguemachine/escrow/proc/prune_expired_orders()
+	if(last_prune_day == GLOB.dayspassed)
+		return
+	last_prune_day = GLOB.dayspassed
 	var/turf/T = get_turf(src)
 	for(var/datum/escrow_order/O in orders.Copy())
 		if(O.status == "open" && GLOB.dayspassed - O.day_posted >= ESCROW_OPEN_EXPIRY_DAYS)
@@ -618,6 +627,19 @@
 	O.cached_lines = order_lines
 	O.cached_materials = order_materials
 
+	// Pre-bake the static parts of the fulfillment display (item name + want count).
+	// ui_data() only needs to fill in the live delivered_counts value per tick.
+	var/list/needed = O.required_result_counts()
+	var/list/tmpl = list()
+	var/total_needed = 0
+	for(var/path in needed)
+		var/want = needed[path]
+		var/atom/A = path
+		tmpl += list(list("path" = path, "name" = initial(A.name), "want" = want))
+		total_needed += want
+	O.cached_fulfillment_template = tmpl
+	O.cached_needed_count = total_needed
+
 /obj/structure/roguemachine/escrow/ui_data(mob/user)
 	prune_expired_orders()
 	var/list/data = list()
@@ -653,20 +675,16 @@
 	for(var/datum/escrow_order/O in orders)
 		if(isnull(O.cached_lines))
 			build_order_cache(O)
-		var/list/needed = O.required_result_counts()
 		var/list/fulfillment = list()
 		var/done_count = 0
-		var/needed_count = 0
-		for(var/path in needed)
-			var/want = needed[path]
-			var/have = O.delivered_counts[path] || 0
-			done_count += min(have, want)
-			needed_count += want
-			var/atom/A = path
+		var/needed_count = O.cached_needed_count
+		for(var/list/tmpl in O.cached_fulfillment_template)
+			var/have = O.delivered_counts[tmpl["path"]] || 0
+			done_count += min(have, tmpl["want"])
 			fulfillment += list(list(
-				"name" = initial(A.name),
+				"name" = tmpl["name"],
 				"have" = have,
-				"want" = want,
+				"want" = tmpl["want"],
 			))
 		var/days_left = 0
 		var/expiry_label = ""
