@@ -40,6 +40,7 @@
 	var/list/cached_petition_eligibility = null
 	var/petition_eligibility_dirty = TRUE
 	var/last_petition_day = -1
+	var/last_pledge_balance = -1
 
 /obj/structure/roguemachine/steward/Initialize()
 	. = ..()

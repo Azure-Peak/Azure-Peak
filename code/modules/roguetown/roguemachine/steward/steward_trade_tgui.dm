@@ -273,11 +273,12 @@
 
 	var/list/petition_state = list()
 	var/petitions_remaining = SSeconomy.petitions_remaining_today()
-	petition_state["pledge_balance"] = SStreasury.burgher_pledge_fund?.balance || 0
+	var/current_pledge_balance = SStreasury.burgher_pledge_fund?.balance || 0
+	petition_state["pledge_balance"] = current_pledge_balance
 	petition_state["petitions_remaining"] = petitions_remaining
 	petition_state["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
 	petition_state["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
-	if(last_petition_day != GLOB.dayspassed)
+	if(last_petition_day != GLOB.dayspassed || current_pledge_balance != last_pledge_balance)
 		petition_eligibility_dirty = TRUE
 	if(petition_eligibility_dirty || isnull(cached_petition_eligibility))
 		rebuild_petition_eligibility()
@@ -450,6 +451,7 @@
 	cached_petition_eligibility = eligibility
 	petition_eligibility_dirty = FALSE
 	last_petition_day = GLOB.dayspassed
+	last_pledge_balance = SStreasury.burgher_pledge_fund?.balance || 0
 
 /obj/structure/roguemachine/steward/proc/build_market_import_regions(good_id)
 	var/list/out = list()
