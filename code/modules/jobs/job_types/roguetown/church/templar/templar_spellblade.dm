@@ -135,7 +135,7 @@
 					H.put_in_hands(new /obj/item/rogueweapon/sword/long/kriegmesser/noc(H))
 					H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword(H), SLOT_BELT_R, TRUE)
 				if("Longsword")
-					H.put_in_hands(new /obj/item/rogueweapon/sword/long(H))
+					H.put_in_hands(new /obj/item/rogueweapon/sword/long/church(H))
 					H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword(H), SLOT_BELT_R, TRUE)
 				if("Rapier")
 					H.put_in_hands(new /obj/item/rogueweapon/sword/rapier(H))
@@ -189,7 +189,7 @@
 					H.put_in_hands(new /obj/item/rogueweapon/mace/goden/steel(H))
 					H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 				if("Battle Axe")
-					H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle(H))
+					H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/holyseeaxe(H))
 					picked_axe = TRUE
 				if("Steel Greataxe")
 					H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel(H))

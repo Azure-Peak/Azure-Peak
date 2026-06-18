@@ -1,6 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "Hunted vice now only makes you a target for gnolls, not assassins, no matter what role you are."
-  - rscadd: "A new vice, Targeted, that does exactly what hunted used to, but for assassins only. Both Hunted and Targeted require another vice, and can be taken together if you want the \"classic hunted experience\"."
-  - bugfix: "Hard antags can no longer take hunted/targeted. Could you fucking imagine a hunted VL. The poor gnolls."

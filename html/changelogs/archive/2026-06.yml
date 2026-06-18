@@ -678,3 +678,45 @@
   - bugfix: Leaning on walls on RUN intent no longer builds Athletics XP.
   - bugfix: Morphing elixirs on fencer's cuirasses (for Freifetchers) no longer compromise
       Freifetcher dexterity.
+2026-06-18:
+  FreeStylaLT:
+  - rscadd: Adds Vocal Chirps.
+  - balance: Trees no longer grow branches at their base.
+  - refactor: Swapped around how the examine block is formatted, putting the headshot
+      & supplementary buttons / info at the bottom.
+  HeroWithYay:
+  - rscadd: A new Vagabond subclass. Abandoned Thrall.
+  KatTheFox:
+  - rscadd: Hunted vice now only makes you a target for gnolls, not assassins, no
+      matter what role you are.
+  - rscadd: A new vice, Targeted, that does exactly what hunted used to, but for assassins
+      only. Both Hunted and Targeted require another vice, and can be taken together
+      if you want the "classic hunted experience".
+  - bugfix: Hard antags can no longer take hunted/targeted. Could you fucking imagine
+      a hunted VL. The poor gnolls.
+  Ketrai:
+  - balance: Made territorial heartbeast attacks respect armor again, but damages
+      armor heavily.
+  Ryan180602:
+  - bugfix: optimise playsound
+  - bugfix: runtimes
+  - rscadd: Admin Sandbox gamemode.
+  - rscadd: Replace storytellers with gamemodes.
+  WeNeedMorePhoron:
+  - rscadd: Adrenaline rush have two mutually exclusive subtypes now. Melee and Ranged.
+      Melee Adr Rush grants +1 Wil and +1 Con, from +1 Wil. Ranged Adr Rush grants
+      +2 SPE. You gain this by deflecting spells.
+  - balance: No more adrenaline rush if you deflect a spell fired by yourself.
+  - rscadd: Reduce rural taxes income from 500 flat to 250 flat. Since Econ 3 added
+      a lot of economic activities, the Crown's passive taxation income has rose which
+      made the game kinda runs itself, so I am increasing the difficulties a bit to
+      make active steward gameplay more necessary. I will tune as needed.
+  - rscadd: Added proper category for arcane reagents selling to ship.
+  borneblood:
+  - bugfix: You can bathe with Skin Armor now. No need to take off your skin to bathe
+      anymore.
+  - bugfix: Summoned Skeletons no longer suffer PTSD.
+  kiwedespars:
+  - rscadd: silver monocle
+  - rscadd: onyxa spectacles
+  - balance: halfsword stab parriable/dodgable

@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Cooking on an infernal familiar no longer print out your cooking skills to the entire world. 1"

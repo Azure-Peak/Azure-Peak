@@ -30,13 +30,35 @@
 /datum/outfit/job/roguetown/orc/npc/footsoldier/pre_equip(mob/living/carbon/human/H)
 	name = "Orc Footsoldier"
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian //Cosmetic + Holding repair kits for looting mostly.
+	if(prob(8))
+		beltl = /obj/item/repair_kit/bad //So you can get repair kits easier from looting them
+	if(prob(10))
+		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
+	var/cloak_choice = rand(1, 4)
+	switch(cloak_choice)
+		if(1)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+		if(2)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/black
+		if(3)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak //White
+		if(4)
+			cloak = /obj/item/clothing/cloak/volfmantle
 	if(prob(50))
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
 	else
 		armor = /obj/item/clothing/suit/roguetown/armor/leather
 	pants = /obj/item/clothing/under/roguetown/loincloth
 	if(prob(50))
-		head = /obj/item/clothing/head/roguetown/helmet/leather
+		var/helmet_choice = rand(1, 3)
+		switch(helmet_choice)
+			if(1)
+				head = /obj/item/clothing/head/roguetown/helmet/horned //SOVL
+			if(2)
+				head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
+			if(3)
+				head = /obj/item/clothing/head/roguetown/helmet/leather
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	// Stopgap: bow loadout (was option 4) removed because the ranged NPC AI is unreliable.
 	var/wepchoice = rand(1, 3)
@@ -70,9 +92,26 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	neck = /obj/item/clothing/neck/roguetown/coif
-	head = /obj/item/clothing/head/roguetown/helmet/leather
 	mask = /obj/item/clothing/mask/rogue/facemask
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian //Cosmetic + Holding repair kits for looting mostly.
+	if(prob(10))
+		beltl = /obj/item/repair_kit/bad //So you can get repair kits easier from looting them
+	if(prob(10))
+		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
+	var/cloak_choice = rand(1, 4)
+	switch(cloak_choice)
+		if(1)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+		if(2)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/black
+		if(3)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak //White
+		if(4)
+			cloak = /obj/item/clothing/cloak/volfmantle
+	head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
+	if(prob(50))
+		head = /obj/item/clothing/head/roguetown/helmet/leather
 	var/wepchoice = rand(1, 5)
 	switch(wepchoice)
 		if(1)
@@ -104,25 +143,47 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
-// Lightly armored orc in light armor with no pain stun, and grappling oriented weapons
+// Lightly armored orc in light armor with no pain stun, and duel-wielder oriented weapons
 /datum/outfit/job/roguetown/orc/npc/berserker/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	head = /obj/item/clothing/head/roguetown/helmet/leather
 	neck = /obj/item/clothing/neck/roguetown/coif
 	mask = /obj/item/clothing/mask/rogue/facemask
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	var/wepchoice = rand(1, 2)
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian //Cosmetic + Holding repair kits for looting mostly.
+	if(prob(15))
+		beltl = /obj/item/repair_kit/bad //So you can get repair kits easier from looting them
+	if(prob(20))
+		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
+	head = /obj/item/clothing/head/roguetown/helmet/skullcap
+	if(prob(50))
+		head = /obj/item/clothing/head/roguetown/helmet/horned
+	var/cloak_choice = rand(1, 4)
+	switch(cloak_choice)
+		if(1)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+		if(2)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/black
+		if(3)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak //White
+		if(4)
+			cloak = /obj/item/clothing/cloak/volfmantle
+	var/wepchoice = rand(1, 3)
 	switch(wepchoice)
 		if(1)
 			l_hand = /obj/item/rogueweapon/huntingknife/idagger
+			r_hand = /obj/item/rogueweapon/huntingknife/idagger
 		if(2)
-			l_hand = /obj/item/rogueweapon/pick/militia
+			l_hand = /obj/item/rogueweapon/stoneaxe/handaxe
+			r_hand = /obj/item/rogueweapon/stoneaxe/handaxe
+		if(3)
+			l_hand = /obj/item/rogueweapon/sword/sabre/bronzekhopesh
+			r_hand = /obj/item/rogueweapon/sword/sabre/bronzekhopesh
 	H.STASTR = 13 // GAGGER GAGGER GAGGER
 	H.STASPD = 10 // Fast, for an orc
-	H.STACON = 10
+	H.STACON = 11
 	H.STAWIL = 10
 	H.STAINT = 1 // Minmax department
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
@@ -136,17 +197,41 @@
 	ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBURN_RESIST, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, INNATE_TRAIT)
+	ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 
-// Heavily armored orc with complete iron protection, heavy armor, and a two hander.
+// Heavily armored orc with complete iron protection, heavy armor, and a two hander. Is able to do special attacks.
 /datum/outfit/job/roguetown/orc/npc/warlord/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/iron/banded //Tough upgrade for ironclad, pretty average for anyone else who can't use heavy armor 
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	head = /obj/item/clothing/head/roguetown/helmet/skullcap
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
-	mask = /obj/item/clothing/mask/rogue/facemask
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	head = /obj/item/clothing/head/roguetown/helmet/sallet/iron/banded
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced //Stays cause this is slightly-higher-ended
+	belt = /obj/item/storage/belt/rogue/leather/battleskirt/black //Cosmetic + Holding repair kits for looting mostly.
+	if(prob(50))
+		beltl = /obj/item/repair_kit/bad //So you can get repair kits easier from looting them
+	if(prob(66))
+		beltr = /obj/item/reagent_containers/glass/bottle/alchemical/healthpot //Small heal to loot since they do a lot of damage
+	if(prob(60))
+		id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
+	var/neck_choice = rand(1, 3)
+	switch(neck_choice)
+		if(1)
+			neck = /obj/item/clothing/neck/roguetown/gorget //SOVL
+		if(2)
+			neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+		if(3)
+			neck = /obj/item/clothing/neck/roguetown/bevor/iron
+	var/cloak_choice = rand(1, 4)
+	switch(cloak_choice)
+		if(1)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+		if(2)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak/black
+		if(3)
+			cloak = /obj/item/clothing/cloak/raincloak/furcloak //White
+		if(4)
+			cloak = /obj/item/clothing/cloak/volfmantle
 	var/wepchoice = rand(1, 6)
 	switch(wepchoice)
 		if(1)
@@ -160,13 +245,12 @@
 		if(5)
 			l_hand = /obj/item/rogueweapon/mace/goden
 		if(6)
-			l_hand = /obj/item/rogueweapon/sword/short/falchion
-			r_hand = /obj/item/rogueweapon/sword/short/falchion // intrusive thoughts
+			l_hand = /obj/item/rogueweapon/greatsword/iron
 	H.STASTR = 14 // GAGGER GAGGER GAGGER
-	H.STASPD = 10 // Fast, for an orc
-	H.STACON = 11
+	H.STASPD = 8
+	H.STACON = 9
 	H.STAWIL = 11
-	H.STAINT = 1
+	H.STAINT = 8 //Minimal req to do special attacks.
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)

@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Reduce rural taxes income from 500 flat to 250 flat. Since Econ 3 added a lot of economic activities, the Crown's passive taxation income has rose which made the game kinda runs itself, so I am increasing the difficulties a bit to make active steward gameplay more necessary. I will tune as needed."
-  - rscadd: "Added proper category for arcane reagents selling to ship."

@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Adrenaline rush have two mutually exclusive subtypes now. Melee and Ranged. Melee Adr Rush grants +1 Wil and +1 Con, from +1 Wil. Ranged Adr Rush grants +2 SPE. You gain this by deflecting spells."
-  - balance: "No more adrenaline rush if you deflect a spell fired by yourself."

@@ -305,6 +305,14 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/mushroom
 
+/datum/food_recipe/dough/handpie/mushroom_flesh
+	name = "mushroom handpie"
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/mushroom,
+		/obj/item/reagent_containers/food/snacks/rogue/mushroom
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/mushroom
+
 /datum/food_recipe/dough/handpie/fish
 	name = "fish handpie"
 	ingredients = list(
