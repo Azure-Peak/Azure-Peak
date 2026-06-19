@@ -159,6 +159,14 @@
 		return
 	ui_interact(user)
 
+/obj/structure/roguemachine/mail/ui_state(mob/user)
+	return GLOB.human_adjacent_state
+
+/obj/structure/roguemachine/mail/ui_status(mob/user, datum/ui_state/state)
+	if(isobserver(user))
+		return UI_CLOSE
+	return ..()
+
 /obj/structure/roguemachine/mail/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -724,15 +732,6 @@
 	. = ..()
 	. += "<a href='?src=[REF(src)];directory=1'>Directory:</a> [mailtag]"
 
-/obj/structure/roguemachine/mail/Topic(href, href_list)
-	..()
-
-	if(!usr)
-		return
-
-	if(href_list["directory"])
-		view_directory(usr)
-
 /obj/structure/roguemachine/mail/proc/view_directory(mob/user)
 	var/dat
 	for(var/obj/structure/roguemachine/mail/X in SSroguemachine.hermailers)
@@ -891,6 +890,9 @@
 /obj/structure/roguemachine/mail/Topic(href, href_list)
 	..()
 	if(!usr.canUseTopic(src, BE_CLOSE))
+		return
+	if(href_list["directory"])
+		view_directory(usr)
 		return
 	if(href_list["eject"])
 		if(inqcoins <= 0)

@@ -1,4 +1,4 @@
-#define RURAL_TAX 250 // Daily. Baseline to stop crown from going bankrupt too easily. Was 500, but passive income is higher now.
+#define RURAL_TAX 200 // Cut to 200 to make economy not too easy.
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 
 #define HERMES_FREE_COOLDOWN (5 MINUTES)

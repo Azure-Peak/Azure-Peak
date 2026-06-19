@@ -171,6 +171,47 @@
 /mob/living/carbon/human/proc/CloseWings()
 	return
 
+
+/datum/emote/living/gulp
+	key = "gulp"
+	key_third_person = "gulps"
+	message = "gulps."
+	emote_type = EMOTE_AUDIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/gulp()
+	set name = "Gulp"
+	set category = "Noises"
+
+	emote("gulp", intentional = TRUE)
+
+/datum/emote/living/crack
+	key = "crack"
+	key_third_person = "cracks"
+	message = "cracks their knuckles."
+	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/crack()
+	set name = "Knuckles"
+	set category = "Noises"
+
+	emote("crack", intentional = TRUE)
+
+/datum/emote/living/facepalm
+	key = "facepalm"
+	key_third_person = "facepalms"
+	message = "facepalms."
+	emote_type =  EMOTE_AUDIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/facepalm()
+	set name = "Facepalm"
+	set category = "Noises"
+
+	emote("facepalms", intentional = TRUE)
+
+
 /mob/living/carbon/human/verb/hand_games()
 	set name = "Handgames"
 	set desc = "Challenge another to a variety of handgames, which can either be done while standing next to each other or while across a table."

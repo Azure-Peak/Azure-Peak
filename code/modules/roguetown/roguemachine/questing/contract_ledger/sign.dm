@@ -72,48 +72,68 @@
 
 	SStreasury.burn(SStreasury.get_account(user), deposit, "quest deposit")
 
+/obj/structure/roguemachine/contractledger/proc/resolve_turnin_mode(mob/user, obj/item/quest_writ/scroll, mob/living/holder)
+	if(user in scroll.get_quest_assignees(user, TRUE))
+		return QUEST_TURNIN_SELF
+	if(istype(holder))
+		var/datum/fellowship/F = holder.current_fellowship
+		if(F && F.has_member(user))
+			return QUEST_TURNIN_FELLOWSHIP
+	if(user.job in GLOB.contract_proxy_officials)
+		return QUEST_TURNIN_OFFICIAL
+	return null
+
 /obj/structure/roguemachine/contractledger/proc/turn_in_contract(mob/user, obj/item/quest_writ/scroll_in_hand)
-	var/list/mob/quest_assignees = scroll_in_hand.get_quest_assignees(user, TRUE)
-	if(!(user in quest_assignees))
+	var/datum/quest/Q = scroll_in_hand.assigned_quest
+	if(!Q)
+		return
+	var/mob/living/holder = Q.quest_receiver_reference?.resolve()
+	var/mode = resolve_turnin_mode(user, scroll_in_hand, holder)
+	if(!mode)
 		to_chat(user, span_warning("You are not the assigned quest receiver for this contract!"))
 		return
-	turn_in_scroll(user, scroll_in_hand)
+	turn_in_scroll(user, scroll_in_hand, mode, holder)
 
-/obj/structure/roguemachine/contractledger/proc/turn_in_scroll(mob/user, obj/item/quest_writ/scroll)
+/obj/structure/roguemachine/contractledger/proc/turn_in_scroll(mob/user, obj/item/quest_writ/scroll, mode = QUEST_TURNIN_SELF, mob/holder)
 	if(!scroll.assigned_quest?.complete)
 		return
 
-	var/datum/fund/user_account = SStreasury.get_account(user)
-	if(!user_account)
-		say("No account on record - register with a Meister before turning in the contract.")
+	var/datum/quest/completed_quest = scroll.assigned_quest
+	var/holder_name = completed_quest.quest_receiver_name
+	var/mob/beneficiary = (mode == QUEST_TURNIN_OFFICIAL) ? holder : user
+	var/datum/fund/benef_account = SStreasury.get_account(beneficiary)
+	if(!benef_account)
+		if(mode == QUEST_TURNIN_OFFICIAL)
+			say("[holder_name] has no account on record - the reward cannot be credited.")
+		else
+			say("No account on record - register with a Meister before turning in the contract.")
 		return
 
-	var/base_reward = scroll.assigned_quest.reward_amount
-	var/deposit_return = scroll.assigned_quest.calculate_deposit()
+	var/base_reward = completed_quest.reward_amount
+	var/deposit_return = completed_quest.calculate_deposit()
 	var/gross_reward = base_reward + deposit_return
 
-	var/datum/quest/completed_quest = scroll.assigned_quest
 	var/quest_levy_exempt = completed_quest.levy_exempt
 	if(completed_quest.source == QUEST_SOURCE_TOWNER && hascall(completed_quest, "on_turn_in_pay_giver"))
 		call(completed_quest, "on_turn_in_pay_giver")(user, get_turf(src))
 	qdel(scroll.assigned_quest)
 	qdel(scroll)
 
-	SStreasury.mint(user_account, gross_reward, "quest reward - [src.name]")
+	SStreasury.mint(benef_account, gross_reward, "quest reward - [src.name]")
 
 	// Levy applies only to the base reward, not the returned deposit. The deposit is the
 	// bearer's own money being given back; taxing it would be a hidden levy on principal.
 	var/tax_amt = 0
 	if(!quest_levy_exempt)
-		tax_amt = SStreasury.apply_tax(user_account, base_reward, TAX_CATEGORY_CONTRACT_LEVY, src.name)
+		tax_amt = SStreasury.apply_tax(benef_account, base_reward, TAX_CATEGORY_CONTRACT_LEVY, src.name)
 		if(tax_amt > 0)
-			record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
+			record_featured_stat(FEATURED_STATS_TAX_PAYERS, beneficiary, tax_amt)
 			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 	else
 		var/levy_rate = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 		SStreasury.record_tax_exemption(TAX_CATEGORY_CONTRACT_LEVY, FLOOR(base_reward * levy_rate, 1))
 
-	var/guild_fee_paid = pay_innkeeper_referral_fees(user_account, completed_quest, gross_reward)
+	var/guild_fee_paid = pay_innkeeper_referral_fees(benef_account, completed_quest, gross_reward)
 
 	var/take_home = gross_reward - tax_amt - guild_fee_paid
 	SSquestpool.record_completion(user, completed_quest, take_home, tax_amt)
@@ -124,8 +144,14 @@
 	if(guild_fee_paid > 0)
 		deductions += "[guild_fee_paid] mammon to the Guild's cut"
 	var/deductions_clause = length(deductions) ? ", less [english_list(deductions)]" : ""
-	var/deposit_clause = deposit_return > 0 ? " Your deposit of [deposit_return] mammon is also returned." : ""
-	say("Your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
+	var/deposit_clause = deposit_return > 0 ? " The deposit of [deposit_return] mammon is also returned." : ""
+	switch(mode)
+		if(QUEST_TURNIN_OFFICIAL)
+			say("On behalf of [holder_name], a reward of [base_reward] mammon has been credited to their account[deductions_clause].[deposit_clause]")
+		if(QUEST_TURNIN_FELLOWSHIP)
+			say("On [holder_name]'s behalf, your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
+		else
+			say("Your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
 
 /obj/structure/roguemachine/contractledger/proc/abandon_by_ref(mob/user, ref)
 	if(!ref)
