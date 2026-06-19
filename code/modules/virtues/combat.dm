@@ -233,6 +233,23 @@
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
 					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.</font>")
 
+					// inquisition trauma goes here
+					if(!(recipient.patron?.type == /datum/patron/old_god))
+						var/datum/charflaw/averse/A
+						for(var/datum/charflaw/averse/F in recipient.charflaws)
+							A = F
+							break
+						if(A)
+							A.chosen_group |= GLOB.averse_factions["Inquisition"]
+							to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... It is rather traumatic. Best to avoid them.</i>"))
+						else
+							A = new
+							A.set_jobflag("Inquisition")
+							recipient.charflaws += A
+							to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... It is rather traumatic. Best to avoid them.</i>"))
+					else
+						to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... But through your newfound faith in HIM, you ENDURE. You were but one wrong righted, after all.</i>"))
+
 #undef SC_ROTCURED
 #undef SC_BLACKBLOOD
 #undef SC_PALLID
