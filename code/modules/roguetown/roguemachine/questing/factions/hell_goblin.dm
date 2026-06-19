@@ -10,12 +10,10 @@
 		/mob/living/carbon/human/species/goblin/npc/ambush/hell = 55,
 		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp = 15,
 		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound = 12,
-		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 10,
-		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher = 8,
+		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 18,
 	)
 	boss_mob_types = list(
-		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher = 60,
-		/mob/living/carbon/human/species/goblin/npc/large/hell = 40,
+		/mob/living/carbon/human/species/goblin/npc/large/hell = 100,
 	)
 	boss_title_templates = list(
 		"%N the Watchful",
