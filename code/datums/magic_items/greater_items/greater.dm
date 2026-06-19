@@ -275,7 +275,7 @@
 	active_item = TRUE
 	current_wearer = user
 	to_chat(user, span_notice("RECREATE THE CONDITION OF AMNION; BE WHOLE AGAIN."))
-	addtimer(CALLBACK(src, PROC_REF(heal_wearer), i), 20 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(heal_wearer), i), 10 SECONDS)
 
 /datum/magic_item/greater/convalessence/on_drop(var/obj/item/i, var/mob/living/user)
 	if(active_item)
