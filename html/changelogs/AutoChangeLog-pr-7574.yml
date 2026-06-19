@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - qol: "Dying in an area with no deathsight message set will now give a message that is more obviously a code error, and gives the name of the area so we can actually fix reports of it."

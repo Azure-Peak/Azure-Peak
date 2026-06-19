@@ -1853,3 +1853,90 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/ai_withdraw_item(obj/item/it, mob/living/user)
 	return FALSE
+
+/** Does this item have an important, immediately notable quality (such as being heretical)?
+*	If it is, this should to return a list containing:
+* - First: A highlight status (see `code\__DEFINES\highlight_examine_defines.dm`).
+* - Second: A short description explaining in-character why this item has that status.
+*
+* When set, highlights the item's mob examine name/tooltip with obvious heretical flavor when worn/held.
+* 
+* If this returns null, the item will not be shown as heretical.*/
+/obj/item/proc/get_examine_highlight_status()
+	return null
+
+/** Returns an HTML-formatted string explaining how/why this item has the highlight status it does.
+* - `examine_highlight_status`: This item's examine highlight status (see `proc/get_examine_highlight_status()`).
+* - `itis`: Determines if the string will start with "It is".
+* - `allcaps`: Determines if the returned string will be in allcaps.
+*/
+/obj/item/proc/get_examine_highlight_description(list/examine_highlight_status, itis = FALSE, allcaps = TRUE)
+	if(examine_highlight_status)
+		var/severity = examine_highlight_status[1]
+		var/heresy_desc = examine_highlight_status[2]
+		if(!severity || !heresy_desc)
+			return null
+		var/highlight_itis = "[itis ? "It is " : ""]<b>[get_examine_highlight_adjective(severity)]</b>"
+		return get_examine_highlight_labeled_string(severity, "[allcaps ? uppertext(highlight_itis) : highlight_itis]: [allcaps ? uppertext(heresy_desc) : heresy_desc]")
+	return null
+
+/// Returns `label_string` HTML formatted depending on the provided highlight status (see `code\__DEFINES\highlight_examine_defines.dm`). 
+/obj/item/proc/get_examine_highlight_labeled_string(examine_highlight_type, label_string)
+	if(!examine_highlight_type || !label_string)
+		return null
+	var/highlight_color = get_examine_highlight_color(examine_highlight_type)
+	var/highlight_symbol = get_examine_highlight_symbol(examine_highlight_type)
+	return "<font color = '[highlight_color]'>[highlight_symbol] [label_string] [highlight_symbol]</font>"
+
+/// Returns a full HTML-formatted tooltip string whose contents depend on the given highlight status type (See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`). 
+/obj/item/proc/get_examine_highlight_tooltip_string(list/examine_highlight_status)
+	if(!examine_highlight_status)
+		return null
+	var/highlight_reason = get_examine_highlight_description(examine_highlight_status)
+	var/highlight_explanation = get_examine_highlight_explanation(examine_highlight_status[1])
+
+	return "[highlight_reason]<br>[highlight_explanation]"
+
+/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
+/obj/item/proc/get_examine_highlight_adjective(highlight_type)
+	switch(highlight_type)
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING)
+			return "HERETICAL"
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS)
+			return "SUSPICIOUS"
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD)
+			return "Odd"
+	return null
+
+/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
+/obj/item/proc/get_examine_highlight_explanation(highlight_type)
+	switch(highlight_type)
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING)
+			return EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_ALARMING
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS)
+			return EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_SUSPICIOUS
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD)
+			return EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_ODD
+	return null
+
+/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
+/obj/item/proc/get_examine_highlight_color(highlight_type)
+	switch(highlight_type)
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING)
+			return COLOR_HERESYSEVERITY_ALARMING
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS)
+			return COLOR_HERESYSEVERITY_SUSPICIOUS
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD)
+			return COLOR_HERESYSEVERITY_ODD
+	return null
+	
+/// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
+/obj/item/proc/get_examine_highlight_symbol(highlight_type)
+	switch(highlight_type)
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING)
+			return EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_ALARMING
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS)
+			return EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_SUSPICIOUS
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD)
+			return EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_ODD
+	return null

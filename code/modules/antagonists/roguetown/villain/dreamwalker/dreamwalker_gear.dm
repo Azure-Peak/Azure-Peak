@@ -77,6 +77,9 @@
 	max_blade_int = 200
 	wdefense = 8
 
+/obj/item/rogueweapon/halberd/glaive/dreamscape/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
+
 /obj/item/rogueweapon/halberd/glaive/dreamscape/active
 	desc = "A strange spear, who knows where it came from. Strange harmonious sounds ring out as wind passes through the holes."
 	icon_state = "dreamspearactive"
@@ -99,6 +102,9 @@
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop, /datum/intent/sword/thrust/long)
 	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/thrust/estoc/lunge, /datum/intent/sword/thrust/estoc)
 	alt_grips = list(/datum/alt_grip/mordhau/broadsword/dream_broadsword)
+
+/obj/item/rogueweapon/greatsword/bsword/dreamscape/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
 /obj/item/rogueweapon/greatsword/bsword/dreamscape/active
 	name = "otherworldly sword"
@@ -125,6 +131,9 @@
 	var/shockwave_cooldown_interval = 1 MINUTES
 	var/shockwave_divisor = 3
 	var/shockwave_damage = FALSE
+
+/obj/item/rogueweapon/spear/dreamscape_trident/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
 /obj/item/rogueweapon/spear/dreamscape_trident/active
 	name = "Iridescent trident"
@@ -184,6 +193,9 @@
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
+/obj/item/clothing/suit/roguetown/armor/plate/full/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
+
 /obj/item/clothing/under/roguetown/platelegs/dreamwalker
 	max_integrity = ARMOR_INT_LEG_ANTAG
 	name = "otherworldly legplate"
@@ -196,6 +208,9 @@
 /obj/item/clothing/under/roguetown/platelegs/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
+
+/obj/item/clothing/under/roguetown/platelegs/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/dreamwalker
 	max_integrity = ARMOR_INT_SIDE_ANTAG
@@ -210,6 +225,9 @@
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
+/obj/item/clothing/shoes/roguetown/boots/armor/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
+
 /obj/item/clothing/gloves/roguetown/plate/dreamwalker
 	name = "otherworldly gauntlets"
 	desc = "Strange iridescent plated gauntlets. It reflects light as if covered in shiny oil."
@@ -221,6 +239,9 @@
 /obj/item/clothing/gloves/roguetown/plate/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
+
+/obj/item/clothing/gloves/roguetown/plate/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /obj/item/clothing/neck/roguetown/bevor/dreamwalker
 	name = "otherworldly bevor"
@@ -234,6 +255,9 @@
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
+/obj/item/clothing/neck/roguetown/bevor/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
+
 // Uses hauberk's int value as I don't want to make them TOO armored either!!
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/dreamwalker
 	name = "otherworldly hauberk"
@@ -246,6 +270,9 @@
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
+
 // Ditto!! I don't want them TOO armored!!!
 /obj/item/clothing/wrists/roguetown/bracers/dreamwalker
 	name = "otherworldly bracers"
@@ -257,6 +284,9 @@
 /obj/item/clothing/wrists/roguetown/bracers/dreamwalker/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
+
+/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker
 	name = "otherworldly squid helm"
@@ -277,6 +307,9 @@
 /obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /datum/component/dreamwalker_repair
 	/// List of dream items being repaired

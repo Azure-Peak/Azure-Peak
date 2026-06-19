@@ -29,7 +29,6 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/antag_flags = NONE
 	var/has_tempo = FALSE
 	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
-	var/storyteller_favor_flags = STORYTELLER_FAVOR_NONE
 	var/storyteller_slot_scaling = 1
 	var/storyteller_slot_default_cap = 0
 	var/list/storyteller_maxcaps

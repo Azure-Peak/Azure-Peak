@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Mirror transform now actually applies its effects to the target instead of the caster"

@@ -1,4 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - rscadd: "Ports the Loose Straps vice from Lokaka21, who Ported Free's original Armor fling code. Its a vice that makes all armor be flung off 2-3 tiles on integrity break, and makes it easier to strip you.  So free vice for bath attendants."

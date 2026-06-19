@@ -455,7 +455,7 @@ Intermingleance with Otavan refugees and Ranesheni freemen, throughout the centu
 		<p><strong> Deadite </strong> - Luxless corpses, resurrected through unholy means. Interchangeably used to describe both zombies and skeletons. </p>
 		<p><strong> Nitebeast </strong> - Monsters who rely on night-and-darkness to prowl. Primarily references werewolves, but can reference vampires as well. </p>
 		<p><strong> Lycker </strong> - Vampires. These luxless revenants are said to drink the blood of the living, and are empowered with unholy magicks. </p>
-		<p><strong> Gnoll </strong> - Lesser nitebeasts, borne of Graggar's malice towards the worthiest - or most valuable - prey. Like verevolves, they were once men; unlike them, they embrace their inhumenity. </p>
+		<p><strong> Gnoll </strong> - Lesser nitebeasts, born of Graggar's malice towards the worthiest - or most valuable - prey. Like verevolves, they were once men; unlike them, they embrace their inhumenity. </p>
 		<p><strong> Verevolf </strong> - Greater nitebeasts, said to've been caused by Dendor's curses. When nite comes, even the meekest blightee turns into a fierce beast. </p>
 		<p><strong> Lich </strong> - Necromancers, ancient and well-versed in unholy magicka. They serve as the self-proclaimed lieutenants of Zizo, and are one of Azuria's gravest threats. </p>
 		<p><strong> Vampyre-Lord </strong> - Lords of lyckerdom, thought only to be restricted to the legends of antiquity. Should one resurface, terrible events are surely to follow. </p>

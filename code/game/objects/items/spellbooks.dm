@@ -21,6 +21,7 @@ Intended to be a reward or a goal for pure mage, allowing them to rebind their a
 	desc = "A crackling, glowing book, filled with runes and symbols that hurt the mind to stare at. Can be used to rebind aspect spells."
 	var/picked // if the book has had it's style picked or not
 	var/born_of_rock = FALSE // was a magical stone used to make it instead of a gem
+	obj_flags = UNIQUE_RENAME
 
 /obj/item/book/spellbook/getonmobprop(tag)
 	. = ..()

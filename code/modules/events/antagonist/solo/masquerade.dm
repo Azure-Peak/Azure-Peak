@@ -9,14 +9,16 @@
 	antag_flag = ROLE_VAMPIRE
 	shared_occurence_type = SHARED_HIGH_THREAT
 	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
-	storyteller_guarantee_flags = STORYTELLER_FAVOR_MASQUERADE
+	storyteller_pill_label = "Masquerade"
+	storyteller_rumour_name = "a vampire masquerade"
+	storyteller_slot_key = "Masquerade"
 
 	weight = 12
 
 	denominator = 80
 
 	base_antags = 2
-	maximum_antags = 4
+	maximum_antags = 2
 
 	earliest_start = 0 SECONDS
 

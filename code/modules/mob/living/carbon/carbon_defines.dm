@@ -84,6 +84,8 @@
 
 	///Overall drunkenness - check handle_alcohol() in life.dm for effects
 	var/drunkenness = 0
+	///Overall sunder stacks from critical sunder hits - check for //WE HANDLE SUNDERSTACKS HERE codenote in life.dm for effects
+	var/sunder_stacks = 0
 	///used to halt stamina regen temporarily
 	var/stam_regen_start_time = 0
 	///knocks you down

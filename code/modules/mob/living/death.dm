@@ -41,7 +41,8 @@ GLOBAL_LIST_EMPTY(last_words)
 #define DUST_ANIMATION_TIME 1.3 SECONDS
 
 /mob/living/dust(just_ash, drop_items, force)
-	death(TRUE)
+	if(stat != DEAD)
+		death(TRUE)
 
 	spill_embedded_objects()
 

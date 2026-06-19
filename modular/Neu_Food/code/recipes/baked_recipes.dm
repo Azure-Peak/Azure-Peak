@@ -4,7 +4,7 @@
 
 // Hardtack + Chocolate -> Half Cookie (Chocolate)
 /datum/food_recipe/baked/half_cookie_chocolate
-	name = "Chocolate Cookie Dough"
+	name = "chocolate cookie dough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/chocolate/slice
@@ -13,7 +13,7 @@
 
 // Hardtack + Raisins -> Half Cookie (Raisin)
 /datum/food_recipe/baked/half_cookie_raisin
-	name = "Raisin Cookie Dough"
+	name = "raisin cookie dough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/raisins
@@ -22,7 +22,7 @@
 
 // Hardtack + Caramel -> Half Cookie (Caramel)
 /datum/food_recipe/baked/half_cookie_caramel
-	name = "Caramel Cookie Dough"
+	name = "caramel cookie dough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/caramel
@@ -31,7 +31,7 @@
 
 // Hardtack + Dragée -> Half Cookie (Dragée)
 /datum/food_recipe/baked/half_cookie_dragee
-	name = "Dragée Cookie Dough"
+	name = "dragée cookie dough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/dragee
@@ -40,7 +40,7 @@
 
 // Bread Slice + Salami -> Salumoi Sandwich
 /datum/food_recipe/sandwich/salami
-	name = "Salumoi Bread"
+	name = "salumoi bread"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/breadslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/salami/slice
@@ -49,7 +49,7 @@
 
 // Bread Slice + Cheese Slice -> Cheese Bread
 /datum/food_recipe/sandwich/cheese
-	name = "Cheese Bread"
+	name = "cheese bread"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/breadslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/cheddarslice
@@ -58,7 +58,7 @@
 
 // Bread Slice + Salo -> Salo Bread
 /datum/food_recipe/sandwich/salo
-	name = "Salo Bread"
+	name = "salo bread"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/breadslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/fat/salo/slice
@@ -67,7 +67,7 @@
 
 // Bread Slice + Bacon -> Bacon Bread
 /datum/food_recipe/sandwich/bacon
-	name = "Bacon Bread"
+	name = "bacon bread"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/breadslice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/bacon/fried
@@ -76,7 +76,7 @@
 
 // Toast + Butter -> Buttered Toast
 /datum/food_recipe/sandwich/buttered_toast
-	name = "Buttered Toast"
+	name = "buttered toast"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/butterslice
@@ -85,7 +85,7 @@
 
 // Toast + Fried Egg -> Egg Toast
 /datum/food_recipe/sandwich/egg_toast
-	name = "Egg Toast"
+	name = "egg toast"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/friedegg/fried
@@ -94,7 +94,7 @@
 
 // Toast + Jamtallow Slice -> Jamtallowed Toast
 /datum/food_recipe/sandwich/jamtallowed_toast
-	name = "Jamtallowed Toast"
+	name = "jamtallowed toast"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/jamtallowslice
@@ -103,7 +103,7 @@
 
 // Toast + Marmalade Slice -> Marmaladed Toast
 /datum/food_recipe/sandwich/marmaladed_toast
-	name = "Marmaladed Toast"
+	name = "marmaladed toast"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/marmaladeslice
@@ -112,7 +112,7 @@
 
 // Toast + Ham -> Ham Bread
 /datum/food_recipe/sandwich/ham
-	name = "Ham Bread"
+	name = "ham bread"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/ham/sliced
@@ -121,7 +121,7 @@
 
 // Bun + Sausage -> Grenzelbun (Hotdog)
 /datum/food_recipe/sandwich/grenzelbun
-	name = "Grenzelbun"
+	name = "grenzelbun"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/bun
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
@@ -130,7 +130,7 @@
 
 // Bun + Cheese Wedge -> Raston
 /datum/food_recipe/sandwich/raston
-	name = "Raston"
+	name = "raston"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/bun
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge
@@ -139,7 +139,7 @@
 
 // Bun + Jamtallow Slice -> Jamtallowed Bun
 /datum/food_recipe/sandwich/jamtallowed_bun
-	name = "Jamtallowed Bun"
+	name = "jamtallowed bun"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/bun
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/jamtallowslice
@@ -148,7 +148,7 @@
 
 // Bun + Marmalade Slice -> Marmaladed Bun
 /datum/food_recipe/sandwich/marmaladed_bun
-	name = "Marmaladed Bun"
+	name = "marmaladed bun"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/bun
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/marmaladeslice
@@ -157,7 +157,7 @@
 
 // Crossbun + Jamtallow -> Jamtallowed Crossbun
 /datum/food_recipe/sandwich/jamtallowed_crossbun
-	name = "Jamtallowed Crossbun"
+	name = "jamtallowed crossbun"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/crossbun
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/jamtallowslice
@@ -166,7 +166,7 @@
 
 // Crossbun + Marmalade -> Marmaladed Crossbun
 /datum/food_recipe/sandwich/marmaladed_crossbun
-	name = "Marmaladed Crossbun"
+	name = "marmaladed crossbun"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/crossbun
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/marmaladeslice
@@ -175,7 +175,7 @@
 
 // Psycrossbun + Jamtallow -> Jamtallowed Psycrossbun
 /datum/food_recipe/sandwich/jamtallowed_psycrossbun
-	name = "Jamtallowed Psycrossbun"
+	name = "jamtallowed psycrossbun"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/psycrossbun
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/jamtallowslice
@@ -184,7 +184,7 @@
 
 // Psycrossbun + Marmalade -> Marmaladed Psycrossbun
 /datum/food_recipe/sandwich/marmaladed_psycrossbun
-	name = "Marmaladed Psycrossbun"
+	name = "marmaladed psycrossbun"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/psycrossbun
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/marmaladeslice
@@ -193,18 +193,186 @@
 
 // Half Raisin Dough + Raisins -> Raw Raisin Loaf
 /datum/food_recipe/baked/raisin_bread_complete
-	name = "Complete Raisin Dough"
+	name = "complete raisin dough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/rbread_half
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/raisins
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/rbreaduncooked
 
-// Half Apple Dough + Apple Slices -> Raw Apple Loaf
-/datum/food_recipe/baked/apple_bread_complete
-	name = "Complete Apple Dough"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/abread_half
+/datum/food_recipe/baked/apple_loaf
+	name = "apple loaf"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/dough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced,
+		/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced,
+	)
+	step_visuals = list(
+		list('modular/Neu_Food/icons/cooked/cooked_baked.dmi', "dough_apple"), 
+		list('modular/Neu_Food/icons/cooked/cooked_baked.dmi', "applebread_uncooked"), 
+	)
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/applebread
+
+/datum/food_recipe/baked/pear_bookbread
+	name = "pear bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/pear)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_pear"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/pearbookbread
+
+/datum/food_recipe/baked/plum_bookbread
+	name = "plum bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/plum)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_plum"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/plumbookbread
+
+/datum/food_recipe/baked/lemon_bookbread
+	name = "lemon bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/lemon)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_lemon"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/lemonbookbread
+
+/datum/food_recipe/baked/tangerine_bookbread
+	name = "tangerine bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/tangerine)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_tangerine"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/tangerinebookbread
+
+/datum/food_recipe/baked/blackberry_bookbread
+	name = "blackberry bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_blackberry"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/blackberrybookbread
+
+/datum/food_recipe/baked/raspberry_bookbread
+	name = "raspberry bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(/obj/item/reagent_containers/food/snacks/grown/fruit/raspberry)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_raspberry"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/raspberrybookbread
+
+// Chocolate Bookbread uses an ANY-OF group: a whole bar OR a slice both satisfy the one step.
+/datum/food_recipe/baked/chocolate_bookbread
+	name = "chocolate bookbread"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	ingredients = list(
+		list(
+			/obj/item/reagent_containers/food/snacks/chocolate,
+			/obj/item/reagent_containers/food/snacks/chocolate/slice,
+		),
+	)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "butterdough_chocolate"))
+	cook_method = COOK_BAKE
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/chocolatebookbread
+
+/*	.................   Lasagna assembly   ................... */
+// Sheet noodles + cheese -> white lasagna (raw, baked separately)
+/datum/food_recipe/baked/lasagna_white
+	name = "white lasagna"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/cheese
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_white
+	time_per_step = 3 SECONDS
+
+// Sheet noodles + tomato sauce -> red lasagna (raw, baked separately)
+/datum/food_recipe/baked/lasagna_red
+	name = "red lasagna"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_red
+	time_per_step = 3 SECONDS
+
+// Sheet noodles + pesto -> pesto lasagna (raw, baked separately)
+/datum/food_recipe/baked/lasagna_pesto
+	name = "pesto lasagna"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/pesto
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_pesto
+	time_per_step = 3 SECONDS
+
+// Red lasagna + cheese -> cheesy lasagna (raw, baked separately)
+/datum/food_recipe/baked/lasagna_redwhite_from_red
+	name = "cheesy lasagna"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_red
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/cheese
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_redwhite
+	time_per_step = 3 SECONDS
+
+// White lasagna + tomato sauce -> cheesy lasagna (raw, baked separately)
+/datum/food_recipe/baked/lasagna_redwhite_from_white
+	name = "cheesy lasagna"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_white
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_redwhite
+	time_per_step = 3 SECONDS
+
+/*	.................   Griddle fruit cakes (fruit folded in, then fried)   ................... */
+// Griddle dough + lemon -> Lemongriddles
+/datum/food_recipe/baked/griddle_lemon
+	name = "lemongriddles"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/fruit/lemon
+	)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "griddlelemon_uncooked"))
+	cook_method = COOK_FRY
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/lemon
+
+// Griddle dough + berry (blackberry/raspberry/jacksberry) -> Berrygriddles
+/datum/food_recipe/baked/griddle_berry
+	name = "berrygriddles"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked
+	ingredients = list(
+		list(
+			/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry,
+			/obj/item/reagent_containers/food/snacks/grown/fruit/raspberry,
+			/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
+		)
+	)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "griddleberry_uncooked"))
+	cook_method = COOK_FRY
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/berry
+
+// Griddle dough + poison jacksberry -> poison Berrygriddles
+/datum/food_recipe/baked/griddle_poisonberry
+	name = "berrygriddles"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison
+	)
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "griddleberry_uncooked"))
+	cook_method = COOK_FRY
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/poisonberry
+	hidden = TRUE
+
+// Griddle dough + apple slices -> Applegriddles
+/datum/food_recipe/baked/griddle_apple
+	name = "applegriddles"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced
 	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/abreaduncooked
+	step_visuals = list(list('modular/Neu_Food/icons/raw/raw_dough.dmi', "griddleapple_uncooked"))
+	cook_method = COOK_FRY
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/apple

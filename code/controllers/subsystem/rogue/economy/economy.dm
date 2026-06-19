@@ -8,6 +8,7 @@ SUBSYSTEM_DEF(economy)
 	var/list/daily_report_diff = null
 	var/last_petition_day = -1
 	var/petitions_today = 0
+	var/blockade_replenish_spent = 0
 	var/list/event_path_cooldowns = list()
 	var/list/goods_with_producers = list()
 	var/list/goods_with_demand = list()
@@ -226,6 +227,7 @@ SUBSYSTEM_DEF(economy)
 
 	expire_economic_events()
 	roll_economic_events()
+	tick_blockade_replenish()
 	tick_banditry_drain()
 
 	// Runs after events/blockades so auto-import sees the day's fresh price_mods, blockade

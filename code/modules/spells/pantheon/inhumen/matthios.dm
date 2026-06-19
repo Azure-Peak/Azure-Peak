@@ -362,9 +362,14 @@
 	var/cone_range = 3
 	var/familiar = FALSE
 
-/datum/action/cooldown/spell/matthios/raze/cast(list/targets, mob/living/user = usr)
+/datum/action/cooldown/spell/matthios/raze/cast(atom/cast_on)
 	. = ..()
-	var/turf/T = get_turf(targets[1])
+	var/mob/living/user = owner
+	if(!istype(user))
+		return FALSE
+	var/turf/T = get_turf(cast_on)
+	if(!T)
+		return FALSE
 	var/turf/source_turf = get_turf(user)
 
 	if(T.z != user.z)

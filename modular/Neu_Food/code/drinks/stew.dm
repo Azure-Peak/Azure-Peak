@@ -120,13 +120,6 @@
 	description = "Rice boiled in water until it is softened. Eaten by the poor and sick in the east. Here, it is considered a medicinal food."
 	color = "#F8F0E3"
 
-/datum/reagent/consumable/soup/porridge/frycongee
-	name = "fried congee"
-	description = "Boiled rice that's been lightly fried inside of a pot. Perplexingly soft for a fried foodstuff, but a little more filling."
-	color = "#F7E2C0"
-	nutriment_factor = 20
-	alpha = 200
-
 /datum/reagent/consumable/soup/veggie
 	name = "vegetable soup"
 	description = "Boiled, mashed, and stuck in a stew."
@@ -656,7 +649,7 @@
 	alpha = 222
 
 /datum/reagent/consumable/soup/stew/meatrice
-	name = "fried congee with roasted meat"
+	name = "congee with roasted meat"
 	color = "#E5C099"
 	taste_description = "mushy, savory-brothed rice with chunks of tender meat"
 	nutriment_factor = 30
@@ -665,7 +658,7 @@
 	alpha = 250
 
 /datum/reagent/consumable/soup/stew/eggrice
-	name = "fried congee with cackleberries"
+	name = "congee with cackleberries"
 	color = "#F7C997"
 	taste_description = "mushy, savory-brothed rice with creamy yolkage and crispy eggs"
 	nutriment_factor = 30
@@ -674,7 +667,7 @@
 	alpha = 250
 
 /datum/reagent/consumable/soup/stew/shrimprice
-	name = "fried congee with roasted shrimp"
+	name = "congee with roasted shrimp"
 	color = "#F7D5BE"
 	taste_description = "mushy, savory-brothed rice with salty yet subdued shellfish"
 	nutriment_factor = 30
@@ -683,7 +676,7 @@
 	alpha = 250
 
 /datum/reagent/consumable/soup/stew/cheeserice
-	name = "fried congee with melted cheese"
+	name = "congee with melted cheese"
 	color = "#F7E297"
 	taste_description = "mushy, savory-brothed rice that's been smothered in cheesy goodness"
 	nutriment_factor = 25
@@ -692,7 +685,7 @@
 	alpha = 250
 
 /datum/reagent/consumable/soup/stew/lavishfryrice
-	name = "lavish brisket-congee"
+	name = "luxury congee"
 	color = "#E0AF97"
 	taste_description = "sumptuous, pillowy rice with slow-braised meats with hints of butteriness and cheese"
 	nutriment_factor = 35

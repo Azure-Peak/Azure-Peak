@@ -1,5 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "Faith icons such as amulets are now their own loadout category instead of being in Accessories"
-  - rscadd: "Bronze and Gilbranze amulets added to loadout"
