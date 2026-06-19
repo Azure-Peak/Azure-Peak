@@ -538,7 +538,7 @@
 	color = "#ddb99b"
 	quality = DRINK_GOOD
 
-// Zhongese
+// Lingyuese
 /datum/reagent/consumable/ethanol/huangjiu
 	name = "Huangjiu"
 	boozepwr = 30
@@ -618,6 +618,13 @@
 /datum/reagent/consumable/ethanol/nocshine/on_mob_end_metabolize(mob/living/M)
 	M.remove_status_effect(/datum/status_effect/buff/nocshine)
 
+/datum/reagent/consumable/ethanol/nocmash
+	name = "Noc Mash"
+	description = "A raw, grain-fortified distillate. Must be distilled with swampweed before it becomes the notorious Noc's Shine."
+	boozepwr = 55
+	taste_description = "undiluted alcohol with a faint hint of wheat"
+	color = "#b8d4d6"
+
 /datum/reagent/consumable/ethanol/luxwine // oh no.
 	name = "Luxintenebre" // lux left w/ sugar in a darkened place for quite some time... U could say... Light in Darkness.....
 	description = "A fermented form of vitae, highly alcoholic, and with a particularly grim taste. Often sought out by the daring, foolhardy, and heretical..."
@@ -639,9 +646,13 @@
 	taste_description = "leather, bitter herbs, and regret" // what did you expect
 	color = "#3a1d18"
 
-/datum/reagent/consumable/ethanol/komuchisake // if you put this outside the lich dungeon i'll kill you
-	name = "Divine Snake Wine" 
-	description = "The True Form of the Whipwine. The Magickal Snake Wine was an exclusively produced medicinal wine from over three centures ago in the Kazengun Shogunate..."
-	boozepwr = 60 // ancient lichebrau...
-	taste_description = "bitterness, pain, iron, and ancient mistakes" // what did you expect [2]
+/datum/reagent/consumable/ethanol/truewhipwine
+	name = "Divine Snake Wine"
+	description = "The True Form of the Whipwine. A medicinal rice wine from the Lingyuese highlands, steeped for years with a coiled venomous serpent and a secret cocktail of mountain herbs. Said to restore the vigor of even the most spent of men."
+	boozepwr = 60
+	taste_description = "deep herbal warmth, iron, and a slow-burning fire that climbs the spine"
 	color = "#553837"
+
+/datum/reagent/consumable/ethanol/truewhipwine/on_mob_metabolize(mob/living/M)
+	. = ..()
+	M.apply_status_effect(/datum/status_effect/buff/fermented_crab)

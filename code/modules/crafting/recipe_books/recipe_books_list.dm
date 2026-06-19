@@ -160,16 +160,33 @@
 		/datum/alch_cauldron_recipe
 		)
  
-/obj/item/recipe_book/cooking
-	name = "The Culinary Codex"
-	wiki_name = "Cooking"
-	desc = "A book full of recipes and tips for cooking. This version looks very incomplete, and only contain brewing recipes. Perhaps it will be filled in later?"
+/obj/item/recipe_book/brewing
+	name = "The Brewer's Compendium"
+	wiki_name = "Brewing"
+	desc = "A book full of knowledges on brewing recipes and notes on the arts of distillation."
 	icon_state = "book2_0"
 	base_icon_state = "book2"
 
 	types = list(
 		/datum/brewing_recipe,
 		/datum/book_entry/brewing
+	)
+
+/obj/item/recipe_book/cooking
+	name = "The Culinary Codex"
+	wiki_name = "Cooking"
+	desc = "Recipes for the assembly of prepared dishes, along with notes on stations and station-side preparations."
+	icon_state = "book2_0"
+	base_icon_state = "book2"
+
+	types = list(
+		/datum/food_recipe,
+		/datum/stew_recipe,
+		/datum/crafting_recipe/roguetown/cooking,
+		/datum/book_entry/cooking_basics,
+		/datum/book_entry/cooking_ingredients,
+		/datum/book_entry/cooking_pies,
+		/datum/book_entry/cooking_deepfry
 	)
 
 /obj/item/recipe_book/magic
@@ -224,7 +241,7 @@
 	return TRUE
 
 /obj/item/recipe_book/treasury_primer
-	name = "Of Laws, Taxation and the Keeping of the Treasury"
+	name = "The Comprehensive Guide to the Azvrian Economy"
 	desc = "A plain-bound ledger-book, issued to Crown officers on appointment."
 	wiki_name = "Economy"
 	wiki_section = "Guides"
@@ -232,4 +249,4 @@
 	base_icon_state = "basic_book"
 	can_spawn = FALSE
 	wiki_only = TRUE
-	types = list(/datum/book_entry/treasury)
+	types = list(/datum/book_entry/treasury_general, /datum/book_entry/treasury_realm, /datum/book_entry/treasury_merchant, /datum/book_entry/treasury_underground)

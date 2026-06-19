@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/ceramics
 	abstract_type = /datum/crafting_recipe/roguetown/ceramics
+	display_category = ITEM_CAT_POTTERY
 	skillcraft = /datum/skill/craft/ceramics
 
 /datum/crafting_recipe/roguetown/ceramics/clay
@@ -122,7 +123,7 @@
 /datum/crafting_recipe/roguetown/ceramics/glassraw
 	name = "glass clay"			// This is not a clay, but I don't personally think 'batch' is fitting ICly.
 	tools = list(/obj/item/reagent_containers/glass/mortar, /obj/item/pestle)
-	result = list(/obj/item/natural/clay/glassbatch)
+	result = list(/obj/item/natural/glassbatch)
 	reqs = list(/obj/item/natural/clay = 2, /obj/item/ash = 2, /obj/item/natural/stone = 1)
 	craftdiff = 4 // Knowing how to mix glass is not a trivial knowledge.
 
@@ -140,3 +141,12 @@
 	reqs = list(/obj/item/natural/glass = 2)
 	craftdiff = 5
 
+/datum/crafting_recipe/roguetown/ceramics/portable_hookah
+	name = "portable hookah"
+	result = list(/obj/item/portable_hookah)
+	reqs = list(
+	/obj/item/natural/hide/cured = 1,
+	/obj/item/natural/clay = 2,
+	/obj/item/candle/yellow = 1
+	)
+	craftdiff = 4

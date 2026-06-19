@@ -34,7 +34,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	cut_overlays()
 	underlays.Cut()
 
-	if(reagents.total_volume)
+	if(reagents?.total_volume)
 		var/fill_name = fill_icon_state? fill_icon_state : icon_state
 		var/mutable_appearance/filling = mutable_appearance('icons/obj/reagentfillings.dmi', "[fill_name][fill_icon_thresholds[1]]")
 

@@ -9,6 +9,7 @@
 	sellprice = 10
 	grid_width = 32
 	grid_height = 32
+	dropshrink = 0.75
 
 /obj/item/reagent_containers/powder/spice
 	name = "spice"
@@ -164,7 +165,7 @@
 
 /obj/item/reagent_containers/powder/rocknut
 	name = "rocknut powder"
-	desc = "Coarsely powdered rocknuts, ready to be rolled into a zig!"
+	desc = "Coarsely powdered rocknuts, ready to be rolled into a zig or made into azurian pesto!"
 	gender = PLURAL
 	icon_state = "rocknut"
 	volume = 1

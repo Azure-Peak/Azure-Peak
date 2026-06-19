@@ -32,6 +32,8 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 	var/curtain_width = 5
 	var/curtain_depth = 2
 	var/hotspot_life = 20 // hotspot subsystem ticks, not deciseconds. 20 ticks × 5 ds/tick = 10 seconds

@@ -6,6 +6,7 @@
 	return max(1, newtime)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	has_item_quality = TRUE
 	name = "crossbow"
 	flags_ai_inventory = AI_ITEM_GUN
 	desc = "A deadly weapon that shoots a bolt with terrific power. Unlike the common bow, \
@@ -272,7 +273,10 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/aalloy
 	name = "ancient crossbow"
-	desc = "A deadly weapon from another tyme, which shoots a bolt with terrific power. Unlike the common bow, it uses a sophisticated mechanism to renock - and retain - its half-length bolts; a matter that relies more on raw strength than dexterity to master. </br>Once, these mechanical delights bristled the arms of Zaelorian's ancient empire; now, it shudders in the grasp of Zizo's deathless crusade."
+	desc = "A deadly weapon from another tyme, which shoots a bolt with terrific power. Unlike the common bow, it \
+	uses a sophisticated mechanism to renock - and retain - its half-length bolts; a matter that relies more on raw \
+	strength than dexterity to master. </br>Once, these mechanical delights bristled the arms of Zaelorian's ancient \
+	empire; now, it shudders in the grasp of Zizo's deathless crusade."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "ancientcrossbow0"
 	item_state = "ancientcrossbow"
@@ -295,8 +299,9 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
 	name = "slurbow"
-	desc = "A lighter weight crossbow with a distinct barrel shroud holding the bolt in place. While its reduced draw-weight does hamper the power of its bolts, it's consequently much easier to rearm and aim than the common crossbow; doubly-so, while on the move. </br>They're popular among among highwaymen and the patrolling lamplighters of Otava."
-	icon = 'icons/roguetown/weapons/misc32.dmi'
+	desc = "A lighter weight crossbow with a distinct barrel shroud holding the bolt in place. While its reduced draw-weight \
+	does hamper the power of its bolts, it's consequently much easier to rearm and aim than the common crossbow; doubly-so, \
+	while on the move. </br>They're popular among among highwaymen and the patrolling lamplighters of Otava."
 	icon_state = "slurbow0"
 	item_state = "slurbow"
 	possible_item_intents = list(/datum/intent/shoot/crossbow/slurbow, /datum/intent/arc/crossbow/slurbow, /datum/intent/buttstroke)
@@ -323,7 +328,10 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy
 	name = "siegebow"
-	desc = "A heavier weight crossbow - the basis of a mounted ballista, made fit for handheld usage. Integrated just beneath the stock is a windlass mechanism, necessary to surmount the siegebow's titanic draw-strength. It loads heavier, full-length bolts; purpose-made to pulverize. </br>Assembled in Grenzelhoft, championed by Valoria, and unfamiliar to the highlands of Azure Peak."
+	desc = "A heavier weight crossbow - the basis of a mounted ballista, made fit for handheld usage. Integrated just \
+	beneath the stock is a windlass mechanism, necessary to surmount the siegebow's titanic draw-strength. It loads \
+	heavier, full-length bolts; purpose-made to pulverize. </br>Assembled in Grenzelhoft, championed by Valoria, and \
+	unfamiliar to the highlands of Azure Peak."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "heavybow0"
 	item_state = "heavybow"
@@ -380,9 +388,63 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/paalloy
 	name = "ancient siegebow"
-	desc = "A heavier weight crossbow from another tyme - the basis of a mounted ballista, made fit for handheld usage. Integrated just beneath the stock is a windlass mechanism, necessary to surmount the siegebow's titanic draw-strength. It loads heavier, full-length bolts; purpose-made to pulverize. </br>'Rudmarsch's walls broke beneath the volley, and Her sickness petered through the cracks..'"
-	icon_state = "ancientheavybow0"
+	desc = "A heavier weight crossbow from another tyme - the basis of a mounted ballista, made fit for handheld \
+	usage. Integrated just beneath the stock is a windlass mechanism, necessary to surmount the siegebow's titanic \
+	draw-strength. It loads heavier, full-length bolts; purpose-made to pulverize. </br>'Rudmarsch's walls broke \
+	beneath the volley, and Her sickness petered through the cracks..'"
 	item_state = "ancientheavybow"
-	max_integrity = 130
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/relic
+	name = "Providence"
+	desc = "In the hands of Saint Augustere, this specially-hewn siegebow felled the traitorous Archbishop of Rockhill; \
+	mere moments before the completion of a terrible ritual. Decades later, it has been called into action once more \
+	to destroy those who'd seek to sacrifice His greatest works. May thy aim be true, childe o' God - and thy judgement, unfettered."
+	minstr = 10 //X STR. Intended for use by the Inquisitor, or as a purchased alternative.
+	max_integrity = 200
+	chargingspeed = 50 //Halfway between the standard crossbow and siegebow.
+	reloadtime = 120 //Halfway between the standard crossbow and siegebow.
+	icon_state = "relicpsyheavybow0"
+	item_state = "relicpsyheavybow"
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/relic/marque
+	name = "Epistle"
+	desc = "'I cannot explain what happened in those halls, your eminence..' </br>'..I can only have faith that I did the right thing.'"
+
+//
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/staker
+	name = "staker"
+	desc = "An unorthodoxic relative to the Otavan slurbow, rarely seen beyond the grasp of those who've dedicated their lyves to smiting \
+	evyl. Unlike a traditional crossbow, the staker - as the name'd imply - exclusively fires blessed stakes, capable of piercing even the \
+	toughest nitecreecher-hides from afar. </br>Purported to've originally been crafted by one of Grenzelhoft's finest monster hunters."
+	icon_state = "lesserstaker0"
+	item_state = "lesserstaker"
+	possible_item_intents = list(/datum/intent/shoot/crossbow/slurbow, /datum/intent/arc/crossbow/slurbow, /datum/intent/buttstroke)
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/staker
+	chargingspeed = 20
+	damfactor = 1 //No damage malus, as it uses proprietary ammunition.
+	accfactor = 1.3
+	reloadtime = 20
+	force = 15
+	hasloadedsprite = FALSE
+	movingreload = TRUE
+	onehanded = TRUE
+	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_HIP
+	w_class = WEIGHT_CLASS_SMALL
+	wdefense = 2
+	max_integrity = 100
+	smeltresult = /obj/item/ingot/silver
+	smelt_bar_num = 1
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/staker/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Unlike traditional crossbows, the staker can only load-and-launch shotstakes; a unique munition type.")
+	. += span_info("Regular stakes, silver stakes and sharpened stakes - when brought before a campfire, brazier, or hearth - can be crafted into shotstakes.")
+
+/obj/item/ammo_box/magazine/internal/shot/staker
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/stake
+	caliber = "stake"
+	max_ammo = 1
+	start_empty = TRUE
 
 //

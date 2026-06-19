@@ -913,6 +913,11 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			associated_value -= inner_key
 			return
 
+	if(isdatum(thing))
+		var/datum/dthing = thing
+		if(QDELETED(dthing))
+			return
+
 	CRASH("remove_thing_from_blackboard_key called with an invalid \"thing\" argument ([thing]). \
 		(The passed value is not tracked in the passed list.)")
 

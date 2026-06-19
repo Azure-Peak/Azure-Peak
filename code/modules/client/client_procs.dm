@@ -48,6 +48,10 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		return 0
 	// RATWOOD EDIT END
 
+	if(href_list["statbrowser_calendar"])
+		open_calendar_ui()
+		return
+
 	// asset_cache
 	var/asset_cache_job
 	if(href_list["asset_cache_confirm_arrival"])
@@ -92,9 +96,8 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		return
 	if(href_list["reload_tguipanel"])
 		nuke_chat()
-	if(href_list["browser_stat_panel"])
-		handle_browserpanel_action(href_list)
-		return
+	if(href_list["reload_statbrowser"])
+		stat_panel.reinitialize()
 	//Logs all hrefs, except chat pings
 	if(!(href_list["_src_"] == "chat" && href_list["proc"] == "ping" && LAZYLEN(href_list) == 2))
 		log_href("[src] (usr:[usr]\[[COORD(usr)]\]) : [hsrc ? "[hsrc] " : ""][href]")
@@ -147,6 +150,11 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	if(href_list["viewchronicle"])
 		var/tab = href_list["chronicletab"] || "The Realm"
 		show_chronicle(tab)
+		return
+
+	if(href_list["vieweconomics"])
+		var/datum/economic_chronicle/chronicle = get_economic_chronicle()
+		chronicle.ui_interact(mob)
 		return
 
 	if(href_list["commandbar_typing"])
@@ -282,6 +290,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	GLOB.clients += src
 	GLOB.directory[ckey] = src
 
+	stat_panel = new(src, "statbrowser")
+	stat_panel.subscribe(src, PROC_REF(on_stat_panel_message))
+
 	initialize_commandbar_spy()
 
 	GLOB.ahelp_tickets.ClientLogin(src)
@@ -294,7 +305,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		holder.owner = src
 		connecting_admin = TRUE
 	else if(GLOB.deadmins[ckey])
-		verbs += /client/proc/readmin
+		add_verb(src, /client/proc/readmin)
 		connecting_admin = TRUE
 	if(CONFIG_GET(flag/autoadmin))
 		if(!GLOB.admin_datums[ckey])
@@ -335,7 +346,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	tgui_panel = new(src, "browseroutput")
 
 	if(fexists(roundend_report_file()))
-		verbs += /client/proc/show_previous_roundend_report
+		add_verb(src, /client/proc/show_previous_roundend_report)
 
 	var/full_version = "[byond_version].[byond_build ? byond_build : "xxx"]"
 	log_access("Login: [key_name(src)] from [address ? address : "localhost"]-[computer_id] || BYOND v[full_version]")
@@ -410,7 +421,13 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			alert(mob, "You have logged in already with another key this round, please log out of this one NOW or risk being banned!")
 
 	tgui_panel.initialize()
-	refresh_browserpanel(TRUE)
+	stat_panel.initialize(
+		inline_html = file("html/statbrowser.html"),
+		inline_js = file("html/statbrowser.js"),
+		inline_css = file("html/statbrowser.css"),
+	)
+	apply_statbrowser_theme()
+	addtimer(CALLBACK(src, PROC_REF(check_panel_loaded)), 30 SECONDS)
 
 	connection_time = world.time
 	connection_realtime = world.realtime
@@ -1037,9 +1054,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 
 /client/proc/add_verbs_from_config()
 	if(CONFIG_GET(flag/see_own_notes))
-		verbs += /client/proc/self_notes
+		add_verb(src, /client/proc/self_notes)
 	if(CONFIG_GET(flag/use_exp_tracking))
-		verbs += /client/proc/self_playtime
+		add_verb(src, /client/proc/self_playtime)
 
 
 #undef UPLOAD_LIMIT
@@ -1274,19 +1291,19 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	// If admin (holder) always keep OOC for moderation.
 	if(holder)
 		if(!( /client/verb/ooc in verbs))
-			verbs += /client/verb/ooc
-		update_browserpanel()
+			add_verb(src, /client/verb/ooc)
+		init_verbs()
 		return
 
 	// Non-admins: only lobby new_player retains OOC verb.
 	if(istype(mob, /mob/dead/new_player))
 		if(!( /client/verb/ooc in verbs))
-			verbs += /client/verb/ooc
+			add_verb(src, /client/verb/ooc)
 	else
 		if(/client/verb/ooc in verbs)
-			verbs -= /client/verb/ooc
+			remove_verb(src, /client/verb/ooc)
 
-	update_browserpanel()
+	init_verbs()
 
 #undef LIMITER_SIZE
 #undef CURRENT_SECOND
@@ -1294,3 +1311,60 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 #undef CURRENT_MINUTE
 #undef MINUTE_COUNT
 #undef ADMINSWARNED_AT
+
+/client/proc/check_panel_loaded()
+	if(stat_panel.is_ready())
+		return
+	to_chat(src, span_userdanger("Statpanel failed to load, click <a href='byond://?src=[REF(src)];reload_statbrowser=1'>here</a> to reload the panel "))
+
+/client/proc/apply_statbrowser_theme()
+	if(!prefs)
+		return
+	if(stat_panel)
+		stat_panel.send_message("set_theme", prefs.statbrowser_theme)
+	if(tgui_panel)
+		tgui_panel.set_chat_theme(prefs.statbrowser_theme)
+
+/// compiles a full list of verbs and sends it to the browser
+/client/proc/init_verbs()
+	if(IsAdminAdvancedProcCall())
+		return
+	var/list/verblist = list()
+	var/list/verbstoprocess = verbs.Copy()
+	if(mob)
+		verbstoprocess += mob.verbs
+		for(var/atom/movable/thing as anything in mob.contents)
+			verbstoprocess += thing.verbs
+	panel_tabs.Cut() // panel_tabs get reset in init_verbs on JS side anyway
+	for(var/procpath/verb_to_init as anything in verbstoprocess)
+		if(!verb_to_init)
+			continue
+		if(GLOB.browserpanel_hidden_verbs["[verb_to_init]"])
+			continue
+		if(!istext(verb_to_init.category))
+			continue
+		panel_tabs |= verb_to_init.category
+		verblist[++verblist.len] = list(verb_to_init.category, verb_to_init.name)
+	stat_panel.send_message("init_verbs", list(panel_tabs = panel_tabs, verblist = verblist))
+
+/client/verb/fix_stat_panel()
+	set name = "Fix Stat Panel"
+	set hidden = TRUE
+	init_verbs()
+
+/**
+ * Handles incoming messages from the stat-panel TGUI.
+ */
+/client/proc/on_stat_panel_message(type, payload)
+	switch(type)
+		if("Update-Verbs")
+			init_verbs()
+		if("Remove-Tabs")
+			panel_tabs -= payload["tab"]
+		if("Send-Tabs")
+			panel_tabs |= payload["tab"]
+		if("Reset-Tabs")
+			panel_tabs = list()
+		if("Set-Tab")
+			stat_tab = payload["tab"]
+			SSstatpanels.immediate_send_stat_data(src)

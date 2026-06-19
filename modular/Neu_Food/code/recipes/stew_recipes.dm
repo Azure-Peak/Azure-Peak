@@ -1,12 +1,45 @@
 #define STEW_COOKING_TIME 60 SECONDS // Default time to cook in seconds
 
 /datum/stew_recipe
+	abstract_type = /datum/stew_recipe
+	var/name
 	var/list/obj/inputs = null // The valid inputs for the recipe
 	var/datum/reagent/output = null // The reagent to be used as output for the recipe
 	var/cooktime = STEW_COOKING_TIME // The time to cook the recipe
 
+/datum/stew_recipe/New()
+	. = ..()
+	if(!name && output)
+		name = initial(output.name)
+
+/datum/stew_recipe/proc/generate_html(mob/user)
+	var/html = "<h2>[name]</h2>"
+
+	var/datum/reagent/R = output
+	if(R)
+		html += "<p>Boil a hot pot of water, then add any of the following ingredients. Each yields <b>[initial(R.name)]</b>:</p>"
+		if(initial(R.description))
+			html += "<p class='recipe-desc'>[initial(R.description)]</p>"
+
+	if(length(inputs))
+		html += "<ul>"
+		for(var/path in inputs)
+			var/atom/A = path
+			html += "<li>[icon2html(new A, user)] [initial(A.name)]</li>"
+		html += "</ul>"
+
+	html += "<p>Stews simmer for about [cooktime / 10] seconds per ingredient. A pot consumes 30dr of water per ingredient converted.</p>"
+	return html
+
 // DO NOT SORT the list unless you know what you're doing (refactor it) - I ordered specific recipe before generic one for a reason!!
 
+// DONATOR
+/datum/stew_recipe/azurosa_tea
+	inputs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_dried/azure)
+	output = /datum/reagent/water/azurosa_tea
+	cooktime = STEW_COOKING_TIME / 4
+
+// STANDARD
 /datum/stew_recipe/porridge
 	inputs = list(/obj/item/reagent_containers/food/snacks/grown/wheat, /obj/item/reagent_containers/powder/flour, /obj/item/reagent_containers/food/snacks/rogue/toastcrumbs, /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw, /obj/item/reagent_containers/food/snacks/rogue/breadslice, /obj/item/reagent_containers/food/snacks/rogue/bun, /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast)
 	output = /datum/reagent/consumable/soup/porridge
@@ -23,12 +56,12 @@
 	cooktime = STEW_COOKING_TIME * 3 //Simmers the longest, so that you have enough time to plop everything else in. Cooking-wise? Well, it's common sense to let spices stew for a long while to draw the flavor out!
 
 /datum/stew_recipe/breadpudding
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/rbread_half, /obj/item/reagent_containers/food/snacks/rogue/abread_half, /obj/item/reagent_containers/food/snacks/rogue/applebreadslice, /obj/item/reagent_containers/food/snacks/rogue/raisinbreadslice, /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinloaf_raw, /obj/item/reagent_containers/food/snacks/rogue/pumpkinloafslice, /obj/item/reagent_containers/food/snacks/rogue/pumpkinball, /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinball_raw)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/rbread_half, /obj/item/reagent_containers/food/snacks/rogue/applebreadslice, /obj/item/reagent_containers/food/snacks/rogue/raisinbreadslice, /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinloaf_raw, /obj/item/reagent_containers/food/snacks/rogue/pumpkinloafslice, /obj/item/reagent_containers/food/snacks/rogue/pumpkinball, /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinball_raw)
 	output = /datum/reagent/consumable/soup/porridge/pudding
 	cooktime = STEW_COOKING_TIME
 
 /datum/stew_recipe/thickbreadpudding
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/rbreaduncooked, /obj/item/reagent_containers/food/snacks/rogue/raisinbread, /obj/item/reagent_containers/food/snacks/rogue/abreaduncooked, /obj/item/reagent_containers/food/snacks/rogue/applebread, /obj/item/reagent_containers/food/snacks/rogue/pumpkinloaf)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/rbreaduncooked, /obj/item/reagent_containers/food/snacks/rogue/raisinbread, /obj/item/reagent_containers/food/snacks/rogue/applebread, /obj/item/reagent_containers/food/snacks/rogue/pumpkinloaf)
 	output = /datum/reagent/consumable/soup/porridge/thickpudding
 	cooktime = STEW_COOKING_TIME * 2
 
@@ -77,11 +110,6 @@
 	output = /datum/reagent/consumable/soup/porridge/congee
 	cooktime = STEW_COOKING_TIME / 2 
 
-/datum/stew_recipe/frycongee
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked)
-	output = /datum/reagent/consumable/soup/porridge/frycongee
-	cooktime = STEW_COOKING_TIME / 2 
-
 /datum/stew_recipe/purebutter
 	inputs = list(/obj/item/reagent_containers/food/snacks/squiresdelight)
 	output = /datum/reagent/consumable/soup/purebutter
@@ -126,7 +154,7 @@
 
 /datum/stew_recipe/thickfrycabbage
 	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/preserved/cabbage_fried)
-	output = /datum/reagent/consumable/soup/veggie/thickcabbage
+	output = /datum/reagent/consumable/soup/veggie/thickfrycabbage
 	cooktime = STEW_COOKING_TIME * 2
 
 /datum/stew_recipe/thickturnip
@@ -449,7 +477,7 @@
 	output = /datum/reagent/consumable/soup/tangerine_marmalade
 
 /datum/stew_recipe/squash_soup
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced, /obj/item/reagent_containers/food/snacks/rogue/preserved/pumpkin_mashed)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced)
 	output = /datum/reagent/consumable/soup/stew/squash_soup
 
 /datum/stew_recipe/frysquash_soup

@@ -241,6 +241,8 @@ var/list/used_colors
 		var/obj/item/inserted_item = inserted
 		inserted.add_atom_colour(activecolor, FIXED_COLOUR_PRIORITY)
 		inserted_item.update_icon()
+		if(inserted_item.glaze_bonus_pct > 0 && !inserted_item.glazed)
+			inserted_item.glazed = TRUE
 		playsound(src, "bubbles", 50, 1)
 		interact(usr)
 
@@ -309,7 +311,7 @@ var/list/used_colors
 	desc = "A sizeable brush made of the finest mane-hairs. Thick dye adheres to it well."
 	icon_state = "dbrush"
 	w_class = WEIGHT_CLASS_SMALL
-	dropshrink = 0.8
+	dropshrink = 0.7
 	grid_width = 32
 	grid_height = 32
 

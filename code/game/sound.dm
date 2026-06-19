@@ -36,8 +36,8 @@
 		extrarange = 1
 	var/maxdistance = (world.view + extrarange)
 	var/source_z = turf_source.z
-	var/list/listeners = SSmobs.clients_by_zlevel[source_z].Copy()
 	var/list/muffled_listeners = list()
+	var/list/listeners
 
 	var/turf/above_turf = GET_TURF_ABOVE(turf_source)
 	var/turf/below_turf = GET_TURF_BELOW(turf_source)
@@ -46,18 +46,29 @@
 		ping_sound(source)
 
 	if(!ignore_walls) //these sounds don't carry through walls or vertically
-		listeners = listeners & get_hearers_in_view(maxdistance,turf_source)
+		listeners = get_hearers_in_view(maxdistance, turf_source, RECURSIVE_CONTENTS_CLIENT_MOBS)
 	else
+		listeners = get_hearers_in_range(maxdistance, turf_source, RECURSIVE_CONTENTS_CLIENT_MOBS)
 		if(above_turf)
-			muffled_listeners += SSmobs.clients_by_zlevel[above_turf.z]
-			muffled_listeners += SSmobs.dead_players_by_zlevel[above_turf.z]
-
+			var/list/above_hearers = get_hearers_in_range(maxdistance, above_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
+			listeners += above_hearers
+			muffled_listeners += above_hearers
 		if(below_turf)
-			muffled_listeners += SSmobs.clients_by_zlevel[below_turf.z]
-			muffled_listeners += SSmobs.dead_players_by_zlevel[below_turf.z]
+			var/list/below_hearers = get_hearers_in_range(maxdistance, below_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
+			listeners += below_hearers
+			muffled_listeners += below_hearers
 
 	listeners += SSmobs.dead_players_by_zlevel[source_z]
-	listeners += muffled_listeners
+	if(ignore_walls)
+		if(above_turf)
+			var/list/above_dead = SSmobs.dead_players_by_zlevel[above_turf.z]
+			listeners += above_dead
+			muffled_listeners += above_dead
+		if(below_turf)
+			var/list/below_dead = SSmobs.dead_players_by_zlevel[below_turf.z]
+			listeners += below_dead
+			muffled_listeners += below_dead
+
 	. = list()
 
 	for(var/mob/M as anything in listeners)
@@ -83,7 +94,6 @@
 			if(pref_toggle)	//We check for its absence, mostly because the default state of relevant prefs here is "ON" rather than off.
 				if(!(M.client?.prefs?.toggles & pref_toggle))
 					continue
-
 
 			var/is_muffled = (M in muffled_listeners)
 			if(M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat, is_muffled))
@@ -112,11 +122,6 @@
 	pixel_x = -224
 	pixel_y = -218
 
-/*
-/obj/effect/temp_visual/soundping/Initialize()
-	. = ..()
-	animate(src, alpha = 0, time = duration, easing = EASE_IN)
-*/
 /mob/proc/playsound_local(atom/turf_source, soundin, vol as num, vary, frequency, falloff, channel, pressure_affected = TRUE, sound/S, repeat, muffled)
 	if(!client || !can_hear())
 		return FALSE

@@ -28,6 +28,8 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_impact_intensity = SPELL_IMPACT_LOW
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 	var/area_of_effect = 1
 	var/ensnare_duration = 5 SECONDS
 	var/delay = 0.8 SECONDS

@@ -31,6 +31,8 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_impact_intensity = SPELL_IMPACT_LOW
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 /obj/projectile/magic/arc_bolt
 	name = "arc bolt"
 	tracer_type = /obj/effect/projectile/tracer/wormhole

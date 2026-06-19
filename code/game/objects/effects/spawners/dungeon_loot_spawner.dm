@@ -371,8 +371,6 @@
 	loot_value = LOOT_VALUE_DUNGEON_SPELLS
 	junk_loot = list(/obj/item/paper/scroll = 5, /obj/item/ash = 3)
 	loot = list(
-		/obj/item/book/granter/arcane_aspect/utility = 5,
-		/obj/item/book/granter/arcane_aspect/minor = 3,
 		/obj/item/book/granter/spell/bonechill = 2,
 	)
 	lootcount = 1

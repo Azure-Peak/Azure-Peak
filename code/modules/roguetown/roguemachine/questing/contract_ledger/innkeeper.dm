@@ -26,7 +26,7 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/innkeeper = user
-	if(innkeeper.job != "Innkeeper")
+	if(!(innkeeper.job in GLOB.tavern_positions))
 		return
 	if(!innkeeper.Adjacent(src))
 		return
@@ -100,30 +100,18 @@
 		say("\"So I have heard...\" A rumor is whispered into the Guild's ledger.")
 		to_chat(innkeeper, span_notice("Rumor posted to the board: <b>[dispatched.title || dispatched.quest_type]</b>[lucrative_tail]."))
 
-/obj/structure/roguemachine/contractledger/proc/find_active_innkeeper()
-	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H.stat == DEAD)
-			continue
-		if(H.job == "Innkeeper")
-			return H
-	return null
-
 /obj/structure/roguemachine/contractledger/proc/pay_innkeeper_referral_fees(datum/fund/user_account, datum/quest/completed_quest, gross_reward)
 	if(gross_reward <= 0)
 		return 0
-	var/mob/living/carbon/human/innkeeper = find_active_innkeeper()
-	var/datum/fund/inn_account = innkeeper ? SStreasury.get_account(innkeeper) : null
+	var/datum/fund/tavern_fund = SStreasury.innkeeper_fund
 	var/guild_paid = 0
-	if(completed_quest.source != QUEST_SOURCE_DEFENSE)
+	if(completed_quest.source != QUEST_SOURCE_DEFENSE && !completed_quest.guild_cut_exempt)
 		var/guild_fee = round(gross_reward * GUILD_REFERRAL_FEE_PCT)
-		if(guild_fee > 0 && user_account)
-			if(inn_account)
-				if(SStreasury.transfer(user_account, inn_account, guild_fee, "Guild Cut - [completed_quest.quest_type]"))
-					guild_paid = guild_fee
-			else if(SStreasury.burn(user_account, guild_fee, "Guild Cut - [completed_quest.quest_type]"))
+		if(guild_fee > 0 && user_account && tavern_fund)
+			if(SStreasury.transfer(user_account, tavern_fund, guild_fee, "Guild Cut - [completed_quest.quest_type]"))
 				guild_paid = guild_fee
-	if(completed_quest.source == QUEST_SOURCE_RUMOR && inn_account)
+	if(completed_quest.source == QUEST_SOURCE_RUMOR && tavern_fund)
 		var/rumor_fee = round(gross_reward * RUMOR_CONTACT_FEE_PCT)
 		if(rumor_fee > 0)
-			SStreasury.mint(inn_account, rumor_fee, "Contact Referral Fee - [completed_quest.quest_type]")
+			SStreasury.mint(tavern_fund, rumor_fee, "Contact Referral Fee - [completed_quest.quest_type]")
 	return guild_paid

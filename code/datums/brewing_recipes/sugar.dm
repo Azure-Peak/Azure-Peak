@@ -15,6 +15,7 @@
 	bottle_name = "rum"
 	bottle_desc = "A bottle of locally-distilled rum. Has a sweet flavor with a hints of caramel and vanilla."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/rum
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/rum
 	pre_reqs = /datum/reagent/consumable/sugar/molasses
 	brewed_amount = 4
 	brew_time = 4 MINUTES

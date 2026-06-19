@@ -49,7 +49,7 @@
 	aggressive = 1
 //	stat_attack = UNCONSCIOUS
 	ranged = TRUE
-	ranged_cooldown = 40
+	ranged_cooldown_time = 80
 	projectiletype = /obj/projectile/magic/aoe/fireball/rogue
 	ranged_message = "stares"
 

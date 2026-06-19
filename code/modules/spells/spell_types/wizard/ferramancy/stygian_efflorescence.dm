@@ -40,6 +40,8 @@
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 	var/spread_step = 12
 
 /datum/action/cooldown/spell/projectile/stygian_efflorescence/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
@@ -68,7 +70,7 @@
 	npc_simple_damage_mult = 1.5
 	speed = MAGE_PROJ_SLOW
 	accuracy = 65
-	flag = "piercing"
+	flag = "stab"
 	hitsound = 'sound/combat/hits/bladed/genstab (1).ogg'
 	var/reduced_damage = 18
 

@@ -155,6 +155,8 @@
 	icon_state = "lurker"
 	icon_living = "lurker"
 	icon_dead = "lurker_dead"
+	response_help_continuous = "pets"
+	response_help_simple = "pet"
 
 	faction = list(FACTION_ZOMBIE, FACTION_SPIDERS)
 	threat_point = THREAT_ELITE

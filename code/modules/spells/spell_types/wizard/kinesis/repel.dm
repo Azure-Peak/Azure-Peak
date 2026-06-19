@@ -29,6 +29,9 @@
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_LOW
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+	allow_cross_z = FALSE
+
 /datum/action/cooldown/spell/projectile/repel/cast(atom/cast_on)
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner

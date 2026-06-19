@@ -218,8 +218,8 @@
 /obj/item/clothing/ring/griefflower
 	name = "rosa ring"
 	desc = "Once a flower of love, now touched by Baotha's hand. Its petals whisper of desire, despair, and the kind of longing that never dies. Worn by those who cannot let go."
-	icon_state = "peaceflower"
-	item_state = "peaceflower"
+	icon_state = "baothaflower"
+	item_state = "baothaflower"
 	icon = 'icons/roguetown/items/produce.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
 
@@ -227,11 +227,16 @@
 	. = ..()
 	if(slot == SLOT_RING)
 		user.apply_status_effect(/datum/status_effect/buff/griefflower)
+		user.remove_status_effect(/datum/status_effect/debuff/joybringer_druqks)
 
 /obj/item/clothing/ring/griefflower/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(istype(user) && user?.wear_ring == src)
 		user.remove_status_effect(/datum/status_effect/buff/griefflower)
+
+/obj/item/clothing/ring/griefflower/get_examine_highlight_status()
+	// The rosa ring is supposed to be 'discrete', so it doesn't look heretical to a casual observer.
+	return null
 
 // Insufflation - effectively just drugging yourself. Lets you pick, the same as Enrapturing Powder. T1, for now, to make up for the loss of the Baotha Blessing buff.
 
@@ -312,6 +317,7 @@
 	invocation_type = "emote"
 	invocations = list("flicks their wrist, filling the air in front of them with a fine powder.")
 	devotion_cost = 30
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/blowingdust/cast(list/targets, mob/user = user)
 	switch(user.rmb_intent.name)
@@ -393,6 +399,7 @@
 	recharge_time = 5 MINUTES
 	miracle = TRUE
 	devotion_cost = 75
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/lasthigh/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))

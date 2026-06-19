@@ -20,6 +20,7 @@
 #define QUEST_FACTION_BLEAKISLE_REAVER "bleakisle_reaver"
 #define QUEST_FACTION_MOUNTAIN_TROLL "mountain_troll"
 #define QUEST_FACTION_BOG_TROLL "bog_troll"
+#define QUEST_FACTION_EARTH_ELEMENTAL "earth_elemental"
 
 #define FACTION_CAT_HUMANOID "humanoid"
 #define FACTION_CAT_BOG_DESERTER "bog_deserter"
@@ -28,6 +29,7 @@
 #define FACTION_CAT_DROW "drow"
 #define FACTION_CAT_UNDEAD "undead"
 #define FACTION_CAT_BEAST "beast"
+#define FACTION_CAT_ELEMENTAL "elemental"
 
 #define CRIME_TIER_PETTY 0
 #define CRIME_TIER_COMMON 1
@@ -93,6 +95,7 @@
 #define WRIT_TYPE_OUTLAWRY "outlawry"
 #define WRIT_TYPE_RECOVERY "recovery"
 #define WRIT_TYPE_CARRIAGE "carriage"
+#define WRIT_TYPE_TOWNER_VEIN "towner_vein"
 
 #define CRIME_SACRILEGE_TEMPLE "sacrilege_temple"
 #define CRIME_PRIEST_SLAYING "priest_slaying"

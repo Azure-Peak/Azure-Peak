@@ -36,13 +36,16 @@
 	body_parts_covered = HEAD|HAIR|EARS|NOSE
 	icon_state = "leatherhelm"
 	armor = ARMOR_LEATHER_NPC
-	sellprice = 10
 	anvilrepair = null
 	smeltresult = null
 	sewrepair = TRUE
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_HELMET_LEATHER
 	salvage_result = /obj/item/natural/hide/cured
+
+/obj/item/clothing/head/roguetown/helmet/leather/ComponentInitialize() //they could already use this, this just makes the examine say so.
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 /obj/item/clothing/head/roguetown/helmet/leather/chapeau
 	name = "Chapeau a Naled"
@@ -74,6 +77,7 @@
 			H.update_inv_head()
 
 /obj/item/clothing/head/roguetown/helmet/leather/chapeau/AltRightClick(mob/user)
+	. = ..()
 	if(!istype(loc, /mob/living/carbon))
 		return
 	var/mob/living/carbon/H = user
@@ -212,7 +216,6 @@
 	to_chat(user, span_warning ("The thorns prick me."))
 	user.adjustBruteLoss(4)
 
-//kazengite update
 /obj/item/clothing/head/roguetown/mentorhat
 	name = "worn bamboo hat"
 	desc = "A reinforced bamboo hat."
@@ -227,4 +230,5 @@
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/head/roguetown/mentorhat/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)

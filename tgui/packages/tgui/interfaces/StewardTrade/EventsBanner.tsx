@@ -1,6 +1,7 @@
-import type { EconomicEvent } from './types';
+import type { EconomicEvent, GoodCatalogEntry } from './types';
 import {
   cardStyle,
+  FONT_BODY,
   INK_FAINT,
   INK_SOFT,
   SEAL_GREEN,
@@ -8,7 +9,10 @@ import {
   sectionHeaderStyle,
 } from '../common/parchment';
 
-export const EventsBanner = (props: { events: EconomicEvent[] }) => {
+export const EventsBanner = (props: {
+  events: EconomicEvent[];
+  goodCatalog: Record<string, GoodCatalogEntry>;
+}) => {
   if (!props.events || props.events.length === 0) {
     return null;
   }
@@ -24,6 +28,9 @@ export const EventsBanner = (props: { events: EconomicEvent[] }) => {
           isShortage && target > 0
             ? Math.min(100, Math.round((progress / target) * 100))
             : 0;
+        const affectedNames = (e.affected_goods || [])
+          .map((gid) => props.goodCatalog[gid]?.name || gid)
+          .join(', ');
         return (
           <div
             key={e.name}
@@ -40,13 +47,13 @@ export const EventsBanner = (props: { events: EconomicEvent[] }) => {
             <span style={{ color: INK_FAINT, marginLeft: '8px' }}>
               ({e.days_left}d left)
             </span>
-            <div style={{ fontStyle: 'italic', color: INK_SOFT, fontSize: '12px' }}>
+            <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
               {e.description}
             </div>
             {isShortage && target > 0 && (
               <div style={{ marginTop: '4px' }}>
-                <div style={{ color: INK_FAINT, fontSize: '11px', marginBottom: '2px' }}>
-                  Relief: {progress} / {target} units delivered ({pct}%)
+                <div style={{ color: INK_FAINT, fontSize: FONT_BODY, marginBottom: '2px' }}>
+                  Relief: {progress} / {target} units delivered ({pct}%). Accepts: {affectedNames} 
                 </div>
                 <div
                   style={{

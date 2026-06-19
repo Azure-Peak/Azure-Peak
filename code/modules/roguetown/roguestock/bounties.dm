@@ -9,11 +9,11 @@
 /datum/roguestock/bounty/treasure/get_payout_price(obj/item/I)
 	if(!I)
 		return ..()
-	var/bounty_percent = (payout_price/100) * I.get_real_price()
-	bounty_percent = round(bounty_percent)
-	if(bounty_percent < 1)
+	var/pool = round(SStreasury.mint_multiplier * I.get_real_price())
+	if(pool < 1)
 		return 0
-	return bounty_percent
+	var/seller_share = round((payout_price/100) * pool)
+	return max(0, seller_share)
 
 /* Non-Ideal but a way to replicate old vault mechanics:
 	- Ores are not accepted.
@@ -48,6 +48,28 @@
 	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/g/triumph))
 		return FALSE
 	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/reform/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/noc/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/abyssor/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/dendor/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/necra/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/pestra/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/ravox/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/malum/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/eora/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/xylix/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/g/triumph))
 		return FALSE
 	if(istype(I, /obj/item/clothing/head/roguetown/circlet/triumph))
 		return FALSE

@@ -228,12 +228,12 @@
 					falling_back |= used_ref
 					falling_back[used_ref] = TRUE
 				if(get_turf(movable_pawn) == next_step || (istransparentturf(next_step) && get_turf(movable_pawn) == get_step_multiz(next_step, DOWN)))
-					controller.movement_path.Cut(1,2)
-					if(length(controller.movement_path))
-						var/turf/double_checked = controller.movement_path[1]
-
-						if(get_turf(movable_pawn) == double_checked) // Handle z-level stack issues
-							controller.movement_path.Cut(1,2)
+					var/path_len = length(controller.movement_path)
+					if(path_len)
+						var/cuts = 1
+						if(path_len >= 2 && get_turf(movable_pawn) == controller.movement_path[2])
+							cuts = 2
+						controller.movement_path.Cut(1, cuts + 1)
 
 					if(!length(controller.movement_path) && falling_back[used_ref])
 						falling_back[used_ref] = FALSE

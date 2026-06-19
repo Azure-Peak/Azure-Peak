@@ -7,11 +7,12 @@
 	antagpanel_category = "Gnolls"
 	job_rank = ROLE_GNOLL
 	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
-	storyteller_favor_flags = STORYTELLER_FAVOR_GNOLL
 
 /datum/antagonist/gnoll/on_gain()
 	greet()
 	owner.special_role = "Gnoll"
+	if(ishuman(owner.current))
+		ADD_TRAIT(owner.current, TRAIT_OUTLAW, TRAIT_GENERIC)
 
 	return ..()
 

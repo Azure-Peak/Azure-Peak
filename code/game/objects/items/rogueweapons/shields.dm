@@ -415,7 +415,6 @@
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	max_integrity = 280
-	sellprice = 30
 	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/shield/tower/metal/getonmobprop(tag)
@@ -429,10 +428,13 @@
 
 /obj/item/rogueweapon/shield/tower/metal/zizo
 	name = "avantyne darkshield"
-	desc = "A threaded purportance, summoned from the interminglance of both avantyne and darksteel. The surface is uncharacteristically soft, not unlike silk \
+	desc = "A threaded purportance, avantyne weaving through and consuming steel. The surface is uncharacteristically soft, not unlike silk \
 	or skin; uncomforting to the unexpecting touch, but more-than-excellent for catching blows."
 	icon_state = "zizoshield"
 	smeltresult = /obj/item/ingot/component/zizo
+
+/obj/item/rogueweapon/shield/tower/metal/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, "An alloy of Zizo's anointed metals; Avantyne and Darksteel")
 
 /obj/item/rogueweapon/shield/tower/metal/zizo/Initialize()
 	. = ..()
@@ -520,7 +522,7 @@
 	desc = "A venerable scutum, plated with polished gilbranze. An undying legionnaire's closest friend; that which rebukes arrow-and-bolt alike with \
 	unphasing prejudice. It is a reminder - one of many - that Her progress cannot be stopped."
 	icon_state = "ancientsh"
-	smeltresult = /obj/item/ingot/purifiedaalloy
+	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/rogueweapon/shield/tower/raneshen
 	name = "rider shield"
@@ -611,7 +613,7 @@
 	the encroach of rust and rot threatens even this memory."
 	icon_state = "ancient_buckler"
 	max_integrity = 85
-	smeltresult = /obj/item/ingot/purifiedaalloy
+	smeltresult = /obj/item/ingot/aaslag
 
 // unique, better buckler for champion
 /obj/item/rogueweapon/shield/buckler/banneret
@@ -688,6 +690,9 @@
 /obj/item/rogueweapon/shield/iron/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "SHIELD", "RENDERED ASUNDER")
+
+/obj/item/rogueweapon/shield/iron/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_RELIC)
 
 #undef SHIELD_BANG_COOLDOWN
 

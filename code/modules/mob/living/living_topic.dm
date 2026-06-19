@@ -13,10 +13,16 @@
 
 /mob/living/proc/check_heartbeat(mob/user)
 	var/list/message = list()
-	if(stat >= DEAD || HAS_TRAIT(src, TRAIT_FAKEDEATH) || HAS_TRAIT(src, TRAIT_ROTMAN))
-		message += "<B>No heartbeat...</B>"
+	if(!HAS_TRAIT(src, TRAIT_IRONMAN)) // more sovl
+		if(stat >= DEAD || HAS_TRAIT(src, TRAIT_FAKEDEATH) || HAS_TRAIT(src, TRAIT_ROTMAN))
+			message += "<B>No heartbeat...</B>"
+		else
+			message += "<B>The heart is still beating.</B>"
 	else
-		message += "<B>The heart is still beating.</B>"
+		if(stat >= DEAD || HAS_TRAIT(src, TRAIT_FAKEDEATH))
+			message += "<B>Their core lies silent...</B>"
+		else
+			message += "<B>Their core hums with lyfe.</B>"		
 	var/list/soul_message = soul_examine(user)
 	if(length(soul_message))
 		message += soul_message

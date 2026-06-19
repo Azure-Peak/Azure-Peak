@@ -108,7 +108,10 @@
 			used_time = max(70 - (myskill * 10) - (L.STASPD * 3), (HAS_TRAIT(L, TRAIT_WOODWALKER) ? 15 : 30))
 		playsound(user, 'sound/foley/climb.ogg', 100, TRUE)
 		user.visible_message(span_warning("[user] starts to climb [src]."), span_warning("I start to climb [src]..."))
-		if(do_after(L, used_time, target = src))
+		L.mid_climb = TRUE
+		var/climbed = do_after(L, used_time, target = src)
+		L.mid_climb = FALSE
+		if(climbed)
 			var/pulling = user.pulling
 			if(ismob(pulling))
 				user.pulling.forceMove(target)
@@ -158,6 +161,8 @@
 		T.update_icon()
 
 /obj/structure/flora/newtree/proc/build_branches()
+	if(istype(get_turf(src), /turf/open/floor) && prob(90)) // We only want branches in the upper layers
+		return
 	for(var/D in GLOB.cardinals)
 		var/turf/NT = get_step(src, D)
 		if(istype(NT, /turf/open/transparent/openspace))

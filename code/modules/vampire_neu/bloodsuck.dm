@@ -116,13 +116,13 @@
 
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
 		var/datum/antagonist/vampire/vdrinker = mind?.has_antag_datum(/datum/antagonist/vampire)
-		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation == GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
+		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation <= GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
 			to_chat(src, span_warning("I cannot sire thralls, my blood is too weak!"))
 		else
 			if(vdrinker.thrall_count >= vdrinker.max_thralls) //you've hit your max
 				to_chat(src, span_warning("I cannot sire anymore thralls.."))
 			else
-				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
+				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF ASTRATA", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
 					to_chat(src, span_warning("I decide [victim] is unworthy."))
 				else
 					visible_message(span_danger("[src] begins channeling their energies to [victim]!"))
@@ -165,8 +165,8 @@
 
 	var/vampire_choice = tgui_alert(
 		src,
-		"Would you like to rise as a vampire spawn? Warning: refusal may or may not mortally wound you.",
-		"THE CURSE OF KAIN",
+		"Would you like to rise as a lycker spawn? Warning: refusal may or may not mortally wound you.",
+		"THE CURSE OF ASTRATA",
 		list("MAKE IT SO", "I RESCIND"),
 		VAMP_CONVERT_TIMEOUT
 	)
@@ -216,8 +216,8 @@
 	mind?.remove_antag_datum(/datum/antagonist/zombie)
 
 	if(client)
-		client.verbs.Remove(GLOB.ghost_verbs)
-		client.update_browserpanel()
+		remove_verb(client, GLOB.ghost_verbs)
+		client.init_verbs()
 
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
 	visible_message(span_red("[src] rises as a new spawn!"))

@@ -39,6 +39,8 @@
 		"Spectacles" = /obj/item/clothing/mask/rogue/spectacles,
 		"Nocshades" = /obj/item/clothing/mask/rogue/spectacles/inq_lesser_summoned,
 		"Golden Spectacles" = /obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned,
+		"Silver Monocle" = /obj/item/clothing/mask/rogue/spectacles/monocle,
+		"Smokey Onyxa Spectacles" = /obj/item/clothing/mask/rogue/spectacles/onyxa_lesser_summoned,
 	)
 
 /datum/action/cooldown/spell/conjure_spectacles/cast(list/targets, mob/living/user = usr)
@@ -74,12 +76,32 @@
 /obj/item/clothing/mask/rogue/spectacles/inq_lesser_summoned
 	name = "summoned nocshade lens-pair"
 	icon_state = "bglasses"
-	desc = "An argument between the chosen of Noc and the Otavian Orthodoxy has raged on for years,\n\
-	no one truely knows who the original creator of these glasses truely was.\n\
-	But one thing is absolutely for certain, they are quite fashionable."
+	desc = "An argument between the chosen of Noc and the Otavan Orthodoxy has raged on for years.\n\
+	No-one truly knows who the original creator of these glasses was.\n\
+	But one thing, at least, is certain: they are quite fashionable."
+
+// Smokey onyxa spectacles summonable lesser varient - with no mechanical effects (seperate cause my third-eye senses potental for the original varient)
+// ALso because your specs aren't the authentic real-deal, its funnier to have them visably a knockoff varient.
+
+/obj/item/clothing/mask/rogue/spectacles/onyxa_lesser_summoned
+	name = "summoned smokey onyxa spectacles"
+	icon_state = "sglasses"
+	desc = "Death has come to your little town, Sheriff. Now, you can either ignore it, or you can help me to stop it." //KEEPING IT, ITS PEAK SIRE
 		
 // Golden spectacles summonable lesser varient - with no mechanical effects
 
 /obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned
-		name = "summoned golden spectacles"
-		icon_state = "goggles"
+	name = "summoned golden spectacles"
+	icon_state = "goggles"
+	break_sound = "glassbreak"
+	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
+	max_integrity = 35
+	integrity_failure = 0.5
+	resistance_flags = FIRE_PROOF
+	body_parts_covered = EYES
+	anvilrepair = /datum/skill/craft/armorsmithing
+	adjustable = CAN_CADJUST
+	var/active_item = FALSE
+
+/obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask

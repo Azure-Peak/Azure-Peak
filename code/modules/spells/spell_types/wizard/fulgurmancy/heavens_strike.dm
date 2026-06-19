@@ -30,6 +30,8 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 	var/damage = 60
 	var/telegraph_tick = TELEGRAPH_SKILLSHOT
 	var/npc_simple_damage_mult = 2

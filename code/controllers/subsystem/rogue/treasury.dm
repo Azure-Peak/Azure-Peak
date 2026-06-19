@@ -24,7 +24,7 @@ SUBSYSTEM_DEF(treasury)
 	priority = FIRE_PRIORITY_WATER_LEVEL
 	var/list/tax_rates = list(
 		TAX_CATEGORY_CONTRACT_LEVY = 0.20,
-		TAX_CATEGORY_HEADEATER_LEVY = 0.20,
+		TAX_CATEGORY_HEADEATER_LEVY = 0.30,
 		TAX_CATEGORY_IMPORT_TARIFF = 0.15,
 		TAX_CATEGORY_EXPORT_DUTY = 0.15,
 		TAX_CATEGORY_FINE = 1.0,
@@ -36,14 +36,23 @@ SUBSYSTEM_DEF(treasury)
 	var/list/bank_accounts = list()
 	var/datum/fund/discretionary_fund
 	var/datum/fund/burgher_pledge_fund
-	/// Banditry shortfall. Skimmed from Crown's Purse inflow until paid down.
+	var/datum/fund/church/church_fund
+	var/datum/fund/merchant/merchant_fund
+	var/datum/fund/bathhouse/bathhouse_fund
+	var/datum/fund/innkeeper/innkeeper_fund
+	var/list/jawbanks_by_fund_id = list()
+	var/concordat_tithe_debt = 0
+	var/bathhouse_tithe_debt = 0
+	var/bathhouse_ordinance_active = TRUE
+	var/bathhouse_ordinance_next_toggle_time = 0
+	var/round_bathhouse_tithe_total = 0
+	var/list/merchant_agents = list()
+	var/list/bathhouse_agents = list()
+	var/list/church_agents = list()
 	var/banditry_debt = 0
-	/// One of TREASURY_NORMAL / IN_ARREARS / BANKRUPTCY. Mutate only via bankruptcy.dm helpers.
 	var/treasury_state = TREASURY_NORMAL
-	/// Arrears + sequestration + ATC-loan debt, skimmed against above the state-dependent floor.
 	var/treasury_debt = 0
 	var/bankruptcy_count = 0
-	/// Cooldown-free charter restores remaining after sequestration recovery.
 	var/bankruptcy_concession_picks = 0
 	var/list/bankruptcy_suspended_decree_ids = list()
 	/// TRUE once the Crown has drawn an ATC emergency loan; consumes the arrears grace so the
@@ -54,10 +63,6 @@ SUBSYSTEM_DEF(treasury)
 	var/list/noble_incomes = list()
 	var/list/decrees = list()
 	var/list/stockpile_datums = list()
-	/// good_id -> /datum/roguestock/stockpile. Populated once at Initialize from
-	/// stockpile_datums; the list is never mutated afterward, so this stays valid for
-	/// the round. Lookup callers (find_stockpile_by_trade_good) hit this map - the old
-	/// linear scan was being called ~100x per Steward UI tick.
 	var/list/stockpile_by_trade_good = list()
 	var/decree_revoke_used_day = -1
 	var/decree_restore_used_day = -1
@@ -71,7 +76,6 @@ SUBSYSTEM_DEF(treasury)
 	var/obj/structure/roguemachine/steward/steward_machine
 	var/initial_payment_done = FALSE
 	var/list/loans = list()
-	var/loan_interest_rate = 0.25
 	var/loan_max_issuance_day = 5
 	var/list/poll_tax_rates = list(
 		POLL_TAX_CAT_NOBLE = 0,
@@ -101,11 +105,15 @@ SUBSYSTEM_DEF(treasury)
 	var/poll_projection_dirty = TRUE
 	/// Steward-settable floor. Stockpile refuses purchases when Crown's Purse would drop below this.
 	var/stockpile_purchase_floor = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT
-	/// Per-tick stewardry UI market view cache. Holds the full market_rows table
-	/// (per-good stock + sorted region price lists), region_rows table, and the
-	/// total_arbitrage_potential scalar. Invalidated by any mutator that affects
-	/// stockpile state, region today-pace, or blockade flag. Initial state is
-	/// dirty so first read builds.
+	/// A feature for the Steward to unlock once the Crown's trade volume reaches 10k
+	/// Basically help automate the import, fitting in line with my idea of active trade 
+	/// Converting to passive convenience later. Later on I might gate it through a 
+	/// Total trade volumes converting into multiple chooseable upgrades but for now
+	/// It just automatically unlock an upgrade with no real choice
+	var/royal_custom_unlocked = FALSE
+	var/royal_custom_active = FALSE
+	var/royal_custom_margin = ROYAL_CUSTOM_DEFAULT_MARGIN
+	var/royal_custom_threshold = ROYAL_CUSTOM_VOLUME_BASE
 	var/list/cached_market_rows = null
 	var/list/cached_region_rows = null
 	var/cached_total_arbitrage_potential = 0
@@ -120,13 +128,15 @@ SUBSYSTEM_DEF(treasury)
 	var/fined_today_day = -1
 
 /datum/controller/subsystem/treasury/Initialize()
-	// Roundstart Crown's Purse = purchase floor + random buffer + pop-scaled seed. Pop scaling
-	// covers the payroll burden (highpop full-roster = ~600m/day) so a low-rolled purse
-	// at full garrison doesn't trigger immediate insolvency.
 	var/roundstart_pop = get_active_player_count()
 	var/seed = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500) + (roundstart_pop * CROWN_PURSE_SEED_PER_PLAYER)
+	royal_custom_threshold = ROYAL_CUSTOM_VOLUME_BASE + (roundstart_pop * ROYAL_CUSTOM_VOLUME_PER_POP)
 	discretionary_fund = new("Crown's Purse", null, seed, CURRENCY_MAMMON)
 	burgher_pledge_fund = new("Burgher Pledge", null, BURGHER_PLEDGE_BASE_REFILL * BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER, CURRENCY_BURGHER_PLEDGE)
+	church_fund = new("Church Fund", null, CHURCH_FUND_SEED, CURRENCY_MAMMON)
+	merchant_fund = new("Merchant Fund", null, MERCHANT_FUND_SEED, CURRENCY_MAMMON)
+	bathhouse_fund = new("Bathhouse Fund", null, BATHHOUSE_FUND_SEED, CURRENCY_MAMMON)
+	innkeeper_fund = new("Tavern Earnings", null, INNKEEPER_FUND_SEED, CURRENCY_MAMMON)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
 	record_round_statistic(STATS_PLEDGE_GENERATED, burgher_pledge_fund.balance)
 	record_round_statistic(STATS_RUMOR_POINTS_GENERATED, rumor_points)
@@ -159,7 +169,7 @@ SUBSYSTEM_DEF(treasury)
 		if(total_demand <= 0)
 			D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, D.stockpile_limit)
 			continue
-		D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, ceil(total_demand * pop_mult * STOCKPILE_AUTO_LIMIT_DAYS))
+		D.stockpile_limit = clamp(ceil(total_demand * pop_mult * STOCKPILE_AUTO_LIMIT_DAYS), STOCKPILE_LIMIT_MIN, STOCKPILE_LIMIT_MAX)
 		D.automatic_limit = TRUE
 
 /datum/controller/subsystem/treasury/fire(resumed = 0)
@@ -310,7 +320,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	return mint(account, amt, "Savings")
 
-/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source)
+/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source, mint_new = FALSE, mint_label)
 	if(!amt)
 		return
 	if(!target)
@@ -325,8 +335,12 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 
 	if(amt > 0)
-		if(!transfer(discretionary_fund, account, amt, source))
-			return FALSE
+		if(mint_new)
+			if(!mint(account, amt, source, mint_label))
+				return FALSE
+		else
+			if(!transfer(discretionary_fund, account, amt, source))
+				return FALSE
 		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
 		send_ooc_note(source ? "<b>MEISTER:</b> You received [amt]m. ([source])" : "<b>MEISTER:</b> You received [amt]m.", name = target_name)
 		log_game("CROWN GRANT: [usr ? key_name(usr) : "system"] granted [amt]m to [istype(target, /mob/living) ? key_name(target) : target_name] via [source || "unknown"]")
@@ -404,7 +418,7 @@ SUBSYSTEM_DEF(treasury)
 		account = get_account(recipient)
 	if(!account)
 		return FALSE
-	var/source = recipient.job == "Merchant" ? "The Guild" : "Noble Estate"
+	var/source = recipient.job == "Merchant" ? "Azurian Trading Company" : "Noble Estate"
 	var/payout = is_starter ? amount + ESTATE_STARTER_BONUS : amount
 	if(!mint(account, payout, source))
 		return FALSE
@@ -508,6 +522,7 @@ SUBSYSTEM_DEF(treasury)
 
 	mint(discretionary_fund, amt, "exported [D.name]")
 	SStreasury.total_export += amt
+	economic_output += amt
 	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, amt)
 	return amt
 
@@ -584,8 +599,11 @@ SUBSYSTEM_DEF(treasury)
 	if(GLOB.dayspassed <= levy_rates_changed_day)
 		to_chat(usr, span_warning("Crown levies have already been adjusted today - come back tomorrow."))
 		return
+	var/datum/decree/concordat = get_decree(DECREE_ZENITSTADT_CONCORDAT)
+	var/concordat_active = concordat?.active ? TRUE : FALSE
 	var/list/lines = list()
 	var/bad_guy = FALSE
+	var/rejected_concordat = FALSE
 	for(var/entry in adjustments)
 		var/category = entry["category"]
 		if(!(category in tax_rates))
@@ -594,6 +612,9 @@ SUBSYSTEM_DEF(treasury)
 			continue
 		var/new_pct = CLAMP(entry["rate"], 0, 100)
 		var/new_rate = new_pct / 100
+		if(concordat_active && new_rate < CONCORDAT_TITHE_RATE)
+			rejected_concordat = TRUE
+			continue
 		var/old_rate = tax_rates[category]
 		if(new_rate == old_rate)
 			continue
@@ -605,11 +626,16 @@ SUBSYSTEM_DEF(treasury)
 		var/verb = new_rate > old_rate ? "raised" : "reduced"
 		lines += "[pretty] [verb] from [old_pct]% to [new_pct]%."
 
+	if(rejected_concordat)
+		to_chat(usr, span_warning("The Concordat of Zenitstadt forbids any levy below [round(CONCORDAT_TITHE_RATE * 100)]% while in force - the Church's tithe must be honoured."))
+
 	if(!length(lines))
 		return
 
 	levy_rates_changed_day = GLOB.dayspassed
 	var/final_text = jointext(lines, "<br>")
+	if(concordat_active)
+		final_text += "<br><i>By the Concordat of Zenitstadt, [round(CONCORDAT_TITHE_RATE * 100)]% of every taxed transaction is tithed to the Church of Azuria, drawn from the Crown's share.</i>"
 	var/final_announcement_text = bad_guy ? bad_announcement_text : good_announcement_text
 	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
 	log_game("TAX RATES: [usr ? key_name(usr) : "system"] changed levy rates - [jointext(lines, " | ")]")
@@ -696,7 +722,7 @@ SUBSYSTEM_DEF(treasury)
 		return POLL_TAX_CAT_NOBLE
 	if(H.job in GLOB.inquisition_positions)
 		return POLL_TAX_CAT_INQUISITION
-	if((H.job in GLOB.church_positions) || HAS_TRAIT(H, TRAIT_DECLARED_BENEFACTOR))
+	if((H.job in GLOB.church_positions) || HAS_TRAIT(H, TRAIT_AGENT_CHURCH))
 		return POLL_TAX_CAT_CLERGY
 	if(H.job in GLOB.courtier_positions)
 		return POLL_TAX_CAT_COURTIER
@@ -712,7 +738,7 @@ SUBSYSTEM_DEF(treasury)
 		return POLL_TAX_CAT_ADVENTURER
 	if(H.job == "Mercenary")
 		return POLL_TAX_CAT_MERCENARY
-	if((H.job in GLOB.peasant_positions) || (H.job in GLOB.sidefolk_positions))
+	if((H.job in GLOB.peasant_positions) || (H.job in GLOB.sidefolk_positions) || (H.job == "Shophand"))
 		return POLL_TAX_CAT_PEASANT
 	return null
 

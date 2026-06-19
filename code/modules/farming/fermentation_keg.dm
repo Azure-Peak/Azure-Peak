@@ -52,8 +52,8 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 	sellprice = 15 // Default price for the keg.
 
 /obj/structure/fermentation_keg/Initialize()
-	. = ..()
 	create_reagents(900, OPENCONTAINER | NO_REACT | AMOUNT_VISIBLE | REFILLABLE) //on agv it should be 120u for water then rest can be other needed chemicals
+	. = ..()
 	recipe_crop_stocks = list()
 
 	soundloop = new(src, brewing)
@@ -443,9 +443,10 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 			if(!glass_colour)
 				glass_colour = "brew_bottle"
 
+			var/bottle_path = selected_recipe.output_bottle_type || /obj/item/reagent_containers/glass/bottle/brewing_bottle
 			var/bottlecaps
 			for(bottlecaps = 0, bottlecaps < selected_recipe.brewed_amount, bottlecaps++)
-				var/obj/item/reagent_containers/glass/bottle/brewing_bottle/bottle_made = new /obj/item/reagent_containers/glass/bottle/brewing_bottle(get_turf(src))
+				var/obj/item/reagent_containers/glass/bottle/brewing_bottle/bottle_made = new bottle_path(get_turf(src))
 				bottle_made.icon_state = "[glass_colour]"
 				bottle_made.name = "brewer's bottle of [selected_recipe.bottle_name]"
 				bottle_made.sellprice = round(selected_recipe.sell_value / selected_recipe.brewed_amount)
@@ -598,6 +599,33 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 		reagents.add_reagent(keg.selected_recipe?.reagent_to_brew, keg.beer_left)
 		keg.beer_left = 0
 		keg.clear_keg(TRUE)
+
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/mead
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/spidermead
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/jack_wine
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/plum_wine
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/tangerine_wine
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/blackberry_wine
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/whipwine
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/luxintenebre
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/winespiced
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/voddena
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/nocmash
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/nocshine
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/beer
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/beer_oat
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/cider
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/gin
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/ricespirit
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/limoncello
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/rum
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/aqua_vitae
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/brandy
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/brandy_plum
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/brandy_pear
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/fermentedcrab
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/calendula_tea
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/valerian_tea
 
 /obj/structure/fermentation_keg/distiller
 	name = "copper distiller"

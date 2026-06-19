@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/trapmaking
 	abstract_type = /datum/crafting_recipe/roguetown/trapmaking
+	display_category = ITEM_CAT_ENG_COMBAT
 	skillcraft = /datum/skill/craft/traps
 	subtype_reqs = TRUE
 

@@ -41,7 +41,38 @@
 		/datum/virtue/utility/feytouched, // They are already FAE
 		/datum/virtue/utility/riding, // Hags literally get a teleportation mechanic, it doesn't make much sense.
 		)
-	vice_restrictions = list(/datum/charflaw/hunted) // could you fucking imagine
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted) // could you fucking imagine
 	job_subclasses = list(
 		/datum/advclass/hag,
 	)
+
+/datum/job/roguetown/hag/special_job_check(mob/dead/new_player/player)
+	if(!hag_slots_open())
+		return FALSE
+	return ..()
+
+/datum/job/roguetown/hag/special_check_latejoin(client/C)
+	if(!hag_slots_open())
+		return FALSE
+	return ..()
+
+/proc/hag_slots_open()
+	var/admin_slot = !SSgamemode.allow_vote ? SSgamemode.admin_slots["Hag"] : null
+	if(!isnull(admin_slot))
+		return admin_slot > 0
+	return (SSgamemode.current_storyteller?.hag_slots || 0) > 0
+
+/proc/enforce_hag_slots()
+	var/datum/job/hag_job = SSjob.GetJob("Hag")
+	if(!hag_job)
+		return
+	if(hag_job.admin_slot_override)
+		return
+	var/slots
+	var/admin_slot = !SSgamemode.allow_vote ? SSgamemode.admin_slots["Hag"] : null
+	if(!isnull(admin_slot))
+		slots = max(0, admin_slot)
+	else
+		slots = SSgamemode.current_storyteller?.hag_slots || 0
+	hag_job.total_positions = max(hag_job.current_positions, slots)
+	hag_job.spawn_positions = max(hag_job.current_positions, slots)

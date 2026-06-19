@@ -4,18 +4,19 @@ import { NumberInput } from 'tgui-core/components';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
+  FONT_BODY,
   INK,
   INK_FAINT,
   INK_SOFT,
+  inkButtonStyle,
+  pageStyle,
+  rulerStyle,
   SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
   SEAL_RED_SOFT,
-  SERIF,
-  inkButtonStyle,
-  pageStyle,
-  rulerStyle,
   sectionHeaderStyle,
+  SERIF,
 } from './common/parchment';
 
 type CategoryRate = {
@@ -64,7 +65,7 @@ const rowStyle: React.CSSProperties = {
 
 const labelStyle: React.CSSProperties = {
   fontFamily: SERIF,
-  fontSize: '13px',
+  fontSize: FONT_BODY,
   color: INK,
 };
 
@@ -81,7 +82,7 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
         border: `1px solid ${INK_FAINT}`,
         padding: '6px 10px',
         marginBottom: '10px',
-        fontSize: '11px',
+        fontSize: FONT_BODY,
       }}
     >
       <div
@@ -91,7 +92,7 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
           marginBottom: '4px',
         }}
       >
-        <span style={{ color: INK_SOFT, fontVariant: 'small-caps', letterSpacing: '1px' }}>
+        <span style={{ color: INK_SOFT, letterSpacing: '1px' }}>
           Projected per tick
         </span>
         <span style={{ color: netColor, fontWeight: 'bold' }}>{netLabel}</span>
@@ -100,7 +101,7 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
         style={{
           display: 'flex',
           gap: '12px',
-          fontSize: '11px',
+          fontSize: FONT_BODY,
           color: INK_SOFT,
           marginBottom: '4px',
         }}
@@ -123,9 +124,8 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
       </div>
       <div
         style={{
-          fontSize: '10px',
-          color: INK_FAINT,
-          fontStyle: 'italic',
+          fontSize: FONT_BODY,
+          color: INK_SOFT,
         }}
       >
         Gross projection from rate × eligible heads. Ignores balance, advance, arrears.
@@ -181,8 +181,7 @@ export const TaxSetter = (props: any, context: any) => {
           <div
             style={{
               textAlign: 'center',
-              fontStyle: 'italic',
-              fontSize: '11px',
+              fontSize: FONT_BODY,
               color: INK_SOFT,
               marginBottom: '10px',
             }}
@@ -198,8 +197,7 @@ export const TaxSetter = (props: any, context: any) => {
                 color: SEAL_RED_SOFT,
                 padding: '6px 10px',
                 textAlign: 'center',
-                fontVariant: 'small-caps',
-                letterSpacing: '1px',
+
                 fontWeight: 'bold',
                 marginBottom: '10px',
               }}
@@ -238,8 +236,7 @@ export const TaxSetter = (props: any, context: any) => {
                   style={{
                     ...inkButtonStyle({ disabled: onCooldown }),
                     padding: '5px 24px',
-                    fontSize: '13px',
-                    letterSpacing: '3px',
+                    fontSize: FONT_BODY,
                   }}
                   onClick={() =>
                     !onCooldown && act('set_rates', { categoryRates: payload })
@@ -255,9 +252,8 @@ export const TaxSetter = (props: any, context: any) => {
               <div style={sectionHeaderStyle}>Poll Tax</div>
               <div
                 style={{
-                  fontSize: '11px',
+                  fontSize: FONT_BODY,
                   color: INK_SOFT,
-                  fontStyle: 'italic',
                   marginBottom: '8px',
                 }}
               >
@@ -286,8 +282,7 @@ export const TaxSetter = (props: any, context: any) => {
                   style={{
                     ...inkButtonStyle({ disabled: onCooldown }),
                     padding: '5px 24px',
-                    fontSize: '13px',
-                    letterSpacing: '3px',
+                    fontSize: FONT_BODY,
                   }}
                   onClick={() =>
                     !onCooldown &&

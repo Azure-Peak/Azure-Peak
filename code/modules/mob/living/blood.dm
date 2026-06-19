@@ -175,7 +175,7 @@
 					if(ishuman(src))
 						var/mob/living/carbon/human/H = src
 						H.deathgasp_noise() // wanton noise pollution, blame RYON >:(
-						if(H.mind || H.mind.key) // NPC filter
+						if(H.mind && H.mind.key) // NPC filter
 							H.deathgasp_visual()
 							if(prob(50)) // mostly to halve the potential chatlog spam, we don't care if it never appears or always appear, on the former, tough luck, on the latter, drama queen
 								emote(pick("struggles to breathe, deathly pale!"))
@@ -474,6 +474,10 @@
 		else
 			D = new(T)
 			D.set_blood_color(get_blood_color())
+
+/mob/living/carbon/human/add_drip_floor(turf/T, amt)
+	if(!(NOBLOOD in dna.species.species_traits))
+		..()
 
 /mob/living/carbon/human/add_splatter_floor(turf/T, small_drip)
 	if(!(NOBLOOD in dna.species.species_traits))

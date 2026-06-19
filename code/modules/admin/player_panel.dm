@@ -251,6 +251,12 @@
 			var/M_name = html_encode(M.name)
 			var/M_rname = html_encode(M.real_name)
 			var/M_key = html_encode(M.key)
+			var/M_voice = ""
+			if(isliving(M))
+				var/mob/living/L = M
+				var/datum/mob_descriptor/voice/voice_descriptor = L.get_descriptor_type(/datum/mob_descriptor/voice)
+				if(voice_descriptor)
+					M_voice = html_encode(voice_descriptor.name)
 			var/previous_names = ""
 			if(M_key)
 				var/datum/player_details/P = GLOB.player_details[ckey(M_key)]
@@ -267,8 +273,8 @@
 						<a id='link[i]'
 						onmouseover='expand("item[i]","[M_job]","[M_name]","[M_rname]","[previous_names]","[M_key]","[M.lastKnownIP]",[is_antagonist],"[REF(M)]")'
 						>
-						<b id='search[i]'>[M_name] - [M_rname] - [M_key] ([M_job])</b>
-						<span hidden class='filter_data'>[M_name] [M_rname] [M_key] [M_job] [previous_names]</span>
+						<b id='search[i]'>[M_name] - [M_rname] - [M_key] ([M_job])[M_voice ? " \[[M_voice] voice\]" : ""]</b>
+						<span hidden class='filter_data'>[M_name] [M_rname] [M_key] [M_job] [previous_names] [M_voice]</span>
 						</a>
 						<br><span id='item[i]'></span>
 					</td>

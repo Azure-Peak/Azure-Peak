@@ -91,3 +91,17 @@
 	icon_state = "barter"
 	layer = HUD_LAYER
 	plane = ABOVE_LIGHTING_PLANE
+
+/obj/effect/temp_visual/special_intent/warning
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "warning"
+	alpha = 225
+
+/obj/effect/temp_visual/special_intent/warning/Initialize(mapload, customdur, customcolor, customstate)
+	if(customdur)
+		duration = customdur
+	if(customstate)
+		icon_state = customstate
+	if(customcolor)
+		add_atom_colour(customcolor, FIXED_COLOUR_PRIORITY)
+	. = ..()

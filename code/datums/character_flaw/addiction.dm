@@ -28,7 +28,7 @@
 
 	mob_vice.sated = TRUE
 	mob_vice.time = initial(mob_vice.time) //reset roundstart sate offset to standard
-	mob_vice.next_sate = world.time + mob_vice.time
+	mob_vice.next_sate = world.time + max(mob_vice.time, 1)
 	remove_stress(/datum/stressevent/vice)
 	if(mob_vice.debuff)
 		remove_status_effect(mob_vice.debuff)
@@ -59,9 +59,8 @@
 	var/mob/living/carbon/human/H = user
 	var/oldsated = sated
 	if(oldsated)
-		if(next_sate)
-			if(world.time > next_sate)
-				sated = FALSE
+		if(next_sate && world.time >= next_sate)
+			sated = FALSE
 	if(sated != oldsated)
 		unsate_time = world.time
 		if(needsate_text)
@@ -99,7 +98,7 @@
 /// KLEPTOMANIAC
 
 /datum/charflaw/addiction/kleptomaniac
-	name = "Thief-borne"
+	name = "Thief-born"
 	desc = "As a child I had to rely on theft to survive. Whether that changed or not, I just can't get over it."
 	time = 30 MINUTES
 	needsate_text = "I need to STEAL something! I'll die if I don't!"

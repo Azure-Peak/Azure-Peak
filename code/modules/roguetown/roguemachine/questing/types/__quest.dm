@@ -57,6 +57,7 @@
 	/// TODO: Implement new taxation mechanics — Module 3/6 will add the stamping UI and towner
 	/// bounty path. Levy rate itself also needs revisiting under the new treasury design.
 	var/levy_exempt = FALSE
+	var/guild_cut_exempt = FALSE
 	/// TRUE if the Steward issued this as a free-labor Directive (no funding, zero reward,
 	/// hand-carried only, not promotable to the public noticeboard).
 	var/is_directive = FALSE
@@ -206,7 +207,16 @@
 /datum/quest/proc/calculate_reward(turf/origin_turf, turf/target_turf)
 	var/base = get_base_reward()
 	var/additional = get_additional_reward(origin_turf, target_turf)
-	return base + additional
+	return base + additional + get_difficulty_bonus()
+
+/// Flat reward sweetener keyed off difficulty, applied to every quest type at the reward chokepoint.
+/datum/quest/proc/get_difficulty_bonus()
+	switch(quest_difficulty)
+		if(QUEST_DIFFICULTY_MEDIUM)
+			return QUEST_DIFFICULTY_BONUS_MEDIUM
+		if(QUEST_DIFFICULTY_HARD)
+			return QUEST_DIFFICULTY_BONUS_HARD
+	return QUEST_DIFFICULTY_BONUS_EASY
 
 /// Calculate deposit based on difficulty
 /datum/quest/proc/calculate_deposit()

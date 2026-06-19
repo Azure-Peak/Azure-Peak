@@ -89,6 +89,10 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	if(!always)
 		if(HAS_TRAIT(src, TRAIT_AZURENATIVE))
 			return FALSE
+		if(HAS_TRAIT(src, TRAIT_NOPVE))
+			return FALSE
+		if(HAS_TRAIT(src, TRAIT_BOGWALKER) && istype(get_area(src), /area/rogue/outdoors/bog))
+			return FALSE
 		if(world.time > last_client_interact + 0.3 SECONDS)
 			return FALSE // unmoving afks can't trigger random ambushes i.e. when being pulled/kicked/etc
 	if(get_will_block_ambush())

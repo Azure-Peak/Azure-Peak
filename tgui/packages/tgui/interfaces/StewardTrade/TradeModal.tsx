@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useBackend } from '../../backend';
 import {
   badgeStyle,
+  FONT_BODY,
+  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -54,8 +56,6 @@ const modalStyle: React.CSSProperties = {
 
 const headerStyle: React.CSSProperties = {
   textAlign: 'center',
-  fontVariant: 'small-caps',
-  letterSpacing: '4px',
   fontSize: '18px',
   fontWeight: 'bold',
   color: INK,
@@ -108,12 +108,11 @@ const lineStyle: React.CSSProperties = {
   justifyContent: 'space-between',
   alignItems: 'baseline',
   padding: '3px 0',
-  fontSize: '13px',
+  fontSize: FONT_BODY,
 };
 
 const lineLabelStyle: React.CSSProperties = {
   color: INK_SOFT,
-  fontStyle: 'italic',
 };
 
 const lineValueStyle: React.CSSProperties = {
@@ -126,12 +125,11 @@ const totalLineStyle: React.CSSProperties = {
   borderTop: `1px solid ${INK_FAINT}`,
   marginTop: '4px',
   paddingTop: '6px',
-  fontSize: '15px',
+  fontSize: FONT_TITLE,
 };
 
 const warningStyle: React.CSSProperties = {
-  fontSize: '11px',
-  fontStyle: 'italic',
+  fontSize: FONT_BODY,
   textAlign: 'center',
   marginTop: '8px',
 };
@@ -241,11 +239,11 @@ export const TradeModal = (props: TradeModalProps) => {
         <div style={headerStyle}>
           {sideLabel} {quote?.good_name ?? '...'}
         </div>
-        <div style={{ ...lineStyle, justifyContent: 'center', fontSize: '12px', color: INK_SOFT, marginBottom: '4px' }}>
+        <div style={{ ...lineStyle, justifyContent: 'center', fontSize: FONT_BODY, color: INK_SOFT, marginBottom: '4px' }}>
           {isImport ? 'from' : 'to'} {quote?.region_name ?? request.regionId}
           {blockaded && <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>}
         </div>
-        <div style={{ ...lineStyle, justifyContent: 'center', fontSize: '12px', color: INK_SOFT, marginBottom: '4px' }}>
+        <div style={{ ...lineStyle, justifyContent: 'center', fontSize: FONT_BODY, color: INK_SOFT, marginBottom: '4px' }}>
           Stockpile: <span style={{ color: INK, fontWeight: 'bold', marginLeft: '4px' }}>
             {quote ? `${quote.stockpile_amount}` : '...'}
           </span>
@@ -302,15 +300,14 @@ export const TradeModal = (props: TradeModalProps) => {
           </button>
         </div>
 
-        <div style={{ ...lineStyle, fontSize: '11px', color: INK_FAINT, justifyContent: 'center' }}>
+        <div style={{ ...lineStyle, fontSize: FONT_BODY, color: INK_FAINT, justifyContent: 'center' }}>
           (max {maxUnits} units per trade)
         </div>
 
         <div
           style={{
-            fontSize: '11px',
-            color: INK_FAINT,
-            fontStyle: 'italic',
+            fontSize: FONT_BODY,
+            color: INK_SOFT,
             textAlign: 'center',
             margin: '6px 0 4px',
             minHeight: '30px',

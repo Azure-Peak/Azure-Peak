@@ -3090,7 +3090,7 @@
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/lich_start)
 "QI" = (
-/obj/structure/mirror/fancy,
+/obj/structure/mirror/fancy/hag,
 /turf/open/floor/rogue/grassred,
 /area/rogue/indoors/shelter/bog_hag)
 "QK" = (

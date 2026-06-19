@@ -235,6 +235,8 @@ And it also helps for the character set panel
 
 /datum/clan/proc/apply_clan_components(mob/living/carbon/human/H)
 	H.AddComponent(/datum/component/sunlight_vulnerability)
+	if (H.job == "Stray")
+		return
 	H.AddComponent(/datum/component/vampire_disguise)
 
 /datum/clan/proc/disable_covens(mob/living/carbon/human/vampire)
@@ -276,8 +278,8 @@ And it also helps for the character set panel
 	if(disguise_comp)
 		qdel(disguise_comp)
 
-	vampire.verbs -= /mob/living/carbon/human/proc/disguise_verb
-	vampire.verbs -= /mob/living/carbon/human/proc/vampire_telepathy
+	remove_verb(vampire, /mob/living/carbon/human/proc/disguise_verb)
+	remove_verb(vampire, /mob/living/carbon/human/proc/vampire_telepathy)
 
 
 	// Restore normal eyes
@@ -367,12 +369,15 @@ And it also helps for the character set panel
 	H.process_vampire_life()
 
 /datum/clan/proc/setup_vampire_abilities(mob/living/carbon/human/H)
-	H.verbs |= /mob/living/carbon/human/proc/disguise_verb
-	H.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
+	H.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix_neu)
+	if (H.job == "Stray")
+		return
+	add_verb(H, /mob/living/carbon/human/proc/disguise_verb)
+	add_verb(H, /mob/living/carbon/human/proc/vampire_telepathy)
 
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 2, TRUE)
 
-	H.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix_neu)
+
 
 /// Applies clan-specific vampire look.
 /datum/clan/proc/apply_vampire_look(mob/living/carbon/human/H)

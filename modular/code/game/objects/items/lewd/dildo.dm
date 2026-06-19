@@ -60,24 +60,19 @@
 	color = "#7D4033"
 	resistance_flags = FLAMMABLE
 	dildo_material = "wooden"
-	sellprice = 1
 
 /obj/item/dildo/iron
 	color = "#9EA48E"
 	dildo_material = "iron"
-	sellprice = 5
 
 /obj/item/dildo/steel
 	color = "#9BADB7"
 	dildo_material = "steel"
-	sellprice = 10
 
 /obj/item/dildo/silver
 	color = "#C6D5E1"
 	dildo_material = "silver"
-	sellprice = 30
 
 /obj/item/dildo/gold
 	color = "#A0A075"
 	dildo_material = "golden"
-	sellprice = 50

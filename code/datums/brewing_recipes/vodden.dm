@@ -4,6 +4,7 @@
 	bottle_name = "voddena"
 	bottle_desc = "A bottle of locally-brewed voddena. Brewed from potatoes. It has a clean flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/voddena
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/voddena
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_items = list(/obj/item/reagent_containers/food/snacks/rogue/veg/potato_sliced = 12)
 	brewed_amount = 6

@@ -19,6 +19,7 @@
 				/mob/living/carbon/human/species/goblin/npc/ambush/cave = 30,
 				/mob/living/carbon/human/species/human/northern/bog_deserters/ambush = 15,
 				/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 10,
+				/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 5,
 				// Packs — big-ticket purchases for high budgets
 				new /datum/ambush_config/bog_guard_deserters = 50,
 				new /datum/ambush_config/bog_guard_deserters/hard = 25,
@@ -44,6 +45,8 @@
 
 	if(L in GLOB.active_hags)
 		return
+	
+	GLOB.bogged_players += L.real_name
 
 	if(recent_intruders[L] && recent_intruders[L] > world.time)
 		return
@@ -51,6 +54,20 @@
 	recent_intruders[L] = world.time + 1 MINUTES
 	for(var/mob/living/H in GLOB.active_hags)
 		to_chat(H, span_boldwarning("The roots of your sanctum shiver... a soul named [L.name] has stepped within [src.name]."))
+
+/area/rogue/outdoors/bog/Exited(atom/movable/AM)
+	. = ..()
+	if(!GLOB.active_hags.len)
+		return
+
+	var/mob/living/L = AM
+	if(!istype(L) || !L.client || L.stat == DEAD)
+		return
+
+	if(L in GLOB.active_hags)
+		return
+
+	GLOB.bogged_players -= L.real_name
 
 /area/rogue/indoors/shelter/bog
 	icon_state = "bog"
@@ -109,9 +126,25 @@
 	if(L in GLOB.active_hags)
 		return
 
+	GLOB.bogged_players += L.real_name
+	
 	if(recent_intruders[L] && recent_intruders[L] > world.time)
 		return
 
 	recent_intruders[L] = world.time + 1 MINUTES
 	for(var/mob/living/H in GLOB.active_hags)
 		to_chat(H, span_boldwarning("The roots of your sanctum shiver... a soul has stepped within [src.name]."))
+
+/area/rogue/indoors/shelter/bog_hag/Exited(atom/movable/AM)
+	. = ..()
+	if(!GLOB.active_hags.len)
+		return
+
+	var/mob/living/L = AM
+	if(!istype(L) || !L.client || L.stat == DEAD)
+		return
+
+	if(L in GLOB.active_hags)
+		return
+
+	GLOB.bogged_players -= L.real_name

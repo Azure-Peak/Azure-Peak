@@ -301,7 +301,7 @@
 	new /obj/item/reagent_containers/glass/bottle/alchemical(src)
 	new /obj/item/reagent_containers/glass/bottle/alchemical(src)
 	new /obj/item/needle(src)
-  
+
 /obj/item/storage/belt/rogue/pouch/zigarrete
 	name = "zig box"
 	desc = "Used to hold someone's zigs and flints."

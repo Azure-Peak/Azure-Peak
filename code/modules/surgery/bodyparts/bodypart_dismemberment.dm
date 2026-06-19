@@ -69,8 +69,10 @@
 			return FALSE
 
 	var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_CHEST)
-	if(affecting && dismember_wound)
+	if(affecting && dismember_wound && !isooze(C))
 		affecting.add_wound(dismember_wound)
+	else if(affecting && dismember_wound && isooze(C))
+		C.visible_message(span_danger("[C]'s wound closes rapidly to stem the flow of plasm."))
 	playsound(C, pick(dismemsound), 50, FALSE, -1)
 
 	var/stress2give = /datum/stressevent/viewdismember
@@ -87,8 +89,8 @@
 		// if they're already spinal-severed, THEN the head is removed.
 		// extra note: we only do this for mobs with a mind, aka not NPCS. npcs always get insta-decapped as before
 		if (owner?.client && !vorpal && !guillotine_execution && two_stage_death && !grievously_wounded)
-			if (owner?.construct)
-				C.visible_message(span_danger("<b>[C]'s wrought skull is <span class='crit'>CLEFT NIGH IN TWAIN</span> by a fearsome blow, crumbling into a <span class='crit'>CLOUD of DUST!</span></b>"))
+			if (HAS_TRAIT(owner, TRAIT_IRONMAN))
+				C.visible_message(span_danger("<B>[C] is <span class='crit'>[pick("ENDED", "TERMINATED", "DEPRECATED","SCRAPPED","DESTROYED","UNDONE","WRECKED","REKT","FRAGGED")]</span> as [C.p_their()] ravaged neck <span class='crit'>BLOSSOMS</span> into wisps of <span class='crit'>SCRAP and MAGIC DUST!</span></B>"))
 				C.death()
 				return
 
@@ -293,6 +295,8 @@
 /obj/item/bodypart/r_arm/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
+	if(isooze(C))
+		qdel(src)
 	if(C && !special)
 		if(C.handcuffed)
 			C.handcuffed.forceMove(drop_location())
@@ -312,6 +316,8 @@
 /obj/item/bodypart/l_arm/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
+	if(isooze(C))
+		qdel(src)
 	if(C && !special)
 		if(C.handcuffed)
 			C.handcuffed.forceMove(drop_location())
@@ -330,6 +336,8 @@
 /obj/item/bodypart/r_leg/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
+	if(isooze(C))
+		qdel(src)
 	if(C && !special)
 		if(C.legcuffed)
 			C.legcuffed.forceMove(C.drop_location()) //At this point bodypart is still in nullspace
@@ -344,6 +352,8 @@
 /obj/item/bodypart/l_leg/drop_limb(special) //copypasta
 	var/mob/living/carbon/C = owner
 	. = ..()
+	if(isooze(C))
+		qdel(src)
 	if(C && !special)
 		if(C.legcuffed)
 			C.legcuffed.forceMove(C.drop_location())

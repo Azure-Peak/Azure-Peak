@@ -7,8 +7,8 @@
 /datum/species/dullahan
 	name = "Revenant"
 	id = "revenant"
-	desc = "<b>Revenant</b><br>\
-	Revenants are those that have died, returning from death to continue 'living' in a manner to speak. Their origins are not entirely known, yet many strongly believe them to have originated from the rot and decay of Psydonia. \
+	desc_title = "Revenant"
+	desc = "Revenants are those that have died, returning from death to continue 'living' in a manner to speak. Their origins are not entirely known, yet many strongly believe them to have originated from the rot and decay of Psydonia. \
 	Unable to truly rest, yet entirely sane of mind. Capable of detaching their heads through unknown arcyne means, they are oft wanderers due to their unknown origins and being ostracized by both the Church and many of the common masses around the lands."
 	// Stat balancing. Per-server decision. Preferably keep neutral until analysis post testmerges.
 	//race_bonus = list(STAT_INTELLIGENCE = 1, STAT_CONSTITUTION = 1)
@@ -129,7 +129,7 @@
 		/datum/descriptor_choice/body,
 		/datum/descriptor_choice/face,
 		/datum/descriptor_choice/face_exp,
-		/datum/descriptor_choice/skin,
+		/datum/descriptor_choice/skin/rev,
 		/datum/descriptor_choice/voice,
 		/datum/descriptor_choice/prominent_one_wild,
 		/datum/descriptor_choice/prominent_two_wild,
@@ -141,6 +141,10 @@
 	)
 
 	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
+	mechanics_explanations = list("Can harmlessly detach their own head by aiming for the head and clicking themselves with an empty hand on TOUCH intent and on STRONG stance.",
+		"Others can remove their head (painfully) by GRABbing them aggressively by the head and TWISTing it.",
+		"Can put only their own head back on, (by themselves or with assistance).",
+		"Despite decapitation not being lethal for them, they are more easily decapitated than other races.")
 
 	stress_examine = TRUE
 	stress_desc = span_red("Accursed. I should keep my distance...")

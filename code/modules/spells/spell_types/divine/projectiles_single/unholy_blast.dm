@@ -26,6 +26,7 @@
 	associated_skill = /datum/skill/magic/holy
 	miracle = TRUE
 	devotion_cost = 25
+	human_req = TRUE
 
 
 /obj/projectile/energy/unholyblast

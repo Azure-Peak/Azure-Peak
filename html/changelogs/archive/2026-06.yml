@@ -1,0 +1,722 @@
+2026-06-01:
+  Baneuus:
+  - rscadd: New Vagabond class, "The Accursed"
+  KatTheFox:
+  - rscadd: THE ROOTS SEE ALL. THE ROOTS HEAR ALL. THE FEY KNOW ALL.
+  - rscadd: Hags will no longer be ambushed in the bog, regardless of whether they
+      are in true form
+  - rscadd: Added the Bogwalker boon, grants immunity to some (but not all) dangers
+      of the bog
+  - rscadd: Hag guidebook now has descriptions for all boons, not just some
+  - bugfix: Fixed several hag-related typos
+  - bugfix: Bushes, grass, thorns, and twigs now have their visual and sound cues
+      tied to whether or not you can actually ambushed from them
+  - bugfix: Woodwalker logic now actually works instead of being overridden when you
+      don't have Azure Native
+  - bugfix: Hag emotes are no longer silent while using the default voicepack
+  Ketrai:
+  - rscadd: Bronze weapons in the silverface
+  - bugfix: Antag polling is now functional & enabled for dreamwalkers.
+  Ryan180602:
+  - balance: ups fire res on armour
+  - rscadd: vakiova donor stuff
+  - bugfix: maesune donor stuff
+  - admin: PP can be filtered by voicedesc
+  SpadesNeil:
+  - bugfix: Kabuto helmet now has normal visibility.
+  - balance: Samsibsa scaleplate armor has 50 more points of integrity
+  - refactor: Removed some white space
+  - rscadd: Unfinished cheese wheel now tells you what to do next.
+  WeNeedMorePhoron:
+  - rscadd: Skeleton / Goblins siege no longer hardblock you from joining as other
+      roles
+  borneblood:
+  - rscadd: Physician's Apprentice starts with an Improv. Surgery Kit too.
+  - rscadd: Added some missing options to the Guild's Silverface.
+  - rscadd: Added new racial & features to Construct.
+  - balance: Modified their racial traits a little more, further enforced the no-magic-heal
+      policy. Constructs die super fast to electricity and are even more difficult
+      to heal mid combat.
+  - bugfix: Absolver WEEP and ABSOLVE are now working as intended, and compatible
+      with Construct.
+  - balance: Golgotha now deals a small amount of damage to NPCs in an area every
+      time it produces the fog.
+  changelingonberry:
+  - rscadd: Legionnaire, Ballistiare and Sapper classes for Necromancer Greater Skeletons
+  hazarawn:
+  - rscadd: antiquarian adv class
+  - rscadd: two spells and a secular barter, all with unique sprites
+  kbitykbitykbity:
+  - rscadd: Added a new species, murklings - they're slime people!
+  - rscadd: Added 'ooze' simplemobs that can ambush you in caves in the bog.
+  kiwedespars:
+  - bugfix: tailcoat armor is now leather
+  - rscadd: singleclap emote
+  - rscadd: slowclap emote
+  - bugfix: briar's curse now works on onehanded/unwieldable weapons
+2026-06-02:
+  FeniaFox:
+  - bugfix: Fixed various helmets not respecting trait locks properly.
+  - balance: Squire Errants now spawn with brush and polishing cream instead of tongs.
+  FreeStylaLT:
+  - rscadd: Added an animation for friendly waves.
+  WeNeedMorePhoron:
+  - rscadd: Improved UX of the Talkstatue
+  - rscadd: Allows you to dodge taxes at the ship fulfillment crate
+  - bugfix: Also fixed a critical bug where fulfillment crate were apparently charging
+      the treasury (??)
+  - rscadd: Ledger no longer magically reveal all transfer and transactions and only
+      those that directly concern the Crown's purse to make tax dodging audit requires
+      slightly more efforts.
+  - rscadd: Restore and rework arcyne barrage to fire piercing projectiles and less
+      of them for the same effect but hopefully way less lag.
+  - rscdel: Removed arcane aspect granting scrolls.
+  borneblood:
+  - bugfix: fixed an oversight on hellfyre wave, and they cannot be ignited now
+2026-06-03:
+  FeniaFox:
+  - bugfix: Stone/wooden tools now repair via the same skill used to make them (usually
+      crafting).
+  FreeStylaLT:
+  - rscadd: Added animations for beckon and shoo.
+  - balance: Trained & Ready's stashed weapon options have been split up.
+  - balance: Trained & Ready's Shield skill (and stashed shield) have been removed.
+  Ollanius:
+  - balance: 'Adjusts a wide, wide, wide variety of pretty much everything involving
+      the Inquisition. Check out PR #7308 on Azure Peak''s GitHub for the full changelog.'
+  Quinalion:
+  - bugfix: Fixed bandage sewing exploit so bandages are used correctly and cannot
+      be used infinitely for sewing.
+  - bugfix: Fixed Spellblade jump causing the player to hang in mid-air.
+  - code_imp: Added `forced = TRUE` to emotion invocation in several procs to prevent
+      trait bypass and ensure consistent emotion delivery.
+  WeNeedMorePhoron:
+  - balance: Sawblade Volley now slows you down a bit more and take longer to charge
+      up.
+  - balance: Arcyne Lance and Stygian now uses **STAB** instead of **PIERCING** damage,
+      to reinforce them being good vs shitty light and not so good vs plate
+  - balance: Leather and Padded armor reduced back to 2 pips vs burn damage after
+      I ran some DPS checks locally.
+2026-06-04:
+  Aisu9:
+  - rscadd: Mystic and Sage get to pick between "Medical" Healing(F.Vapors) and their
+      respective Miracle Healing
+  BurpleBineapple:
+  - bugfix: The militia goedendag uses polearms skill instead of staves.
+  FeniaFox:
+  - balance: buffed swashbuckler advent knife skill & jumping
+  - bugfix: berzerker wretch weapon option fix (no non-functional bodybuilder option,
+      yes now-functional greatsword option).
+  - rscadd: Added novice carpentry to Ruma Seonjang and Gun-in.
+  - balance: Rebalanced ruma sheaths to use carpentry to repair.
+  - bugfix: Fixed tanto sheath parrying functionality & integrity.
+  - bugfix: fixed stone axe/knife repairs not using crafting skill after merges
+  FreeStylaLT:
+  - balance: Combat actions will now reset stealth timers for particularly sneaky
+      folk.
+  Ketrai:
+  - bugfix: undead saiga speed
+  - balance: Deadite saiga health reduced.
+  - balance: Deadite wolf & fox & saiga infection chance heavily reduced.
+  - balance: Deadite wolf speed reduced.
+  Ollanius:
+  - bugfix: The Golgatha's blessing correctly applies Fortune, now.
+  - balance: Replaces the Cleric's Silver Longsword with the Crusader's Longsword,
+      an unsundering analogue that retains all of the Silver Longsword's other mechanical
+      quirks (ala higher defense, lower offense).
+  - rscadd: Adds a variant of the Blessed Longsword as a new Triumph reskin option
+      - the 'Anointed / Clerical Longsword'.
+  - rscadd: New sprites for all blastpowder-related explosives, courtesy of Cre77.
+  - code_imp: Minor adjustments to new dropshrink values.
+  - code_imp: Tweaks a lot of dropshrink values for a wide variety of items. Ping
+      @Dongwaiver on the 'cord if anything looks a little too off.
+  - rscadd: Restoration elixirs are now accessible via an Expert-level alchemic cauldron
+      recipe. These elixirs use gold dust, silver dust, and rosas to brew; in exchange,
+      they restore health and energy at the same time, at a rate halfway between regular-and-strong
+      potions.
+  - rscadd: Rosas can now be used to brew Luck potions, Antidotes, and Restoration
+      elixirs.
+  - code_imp: Gold dust and silver dust can no longer be used for Constitution potions
+      and Antidotes. There's still a wide variety of ingredients that can be used
+      for those two brews; though if it's an issue, do let me know.
+  OrbisAnima:
+  - balance: Gives the adventuring missionaries the same tailored bonuses their church
+      acolyte counterparts have, as those are balanced with their spellsets, without
+      giving them access to the powerful t4 spells acolytes have, nor their inherent
+      advantages, just the flavor provided by their gods. This does not include the
+      ascendants as I am not privvy to their balance.
+  Ryan180602:
+  - bugfix: optimise rain
+  WeNeedMorePhoron:
+  - rscadd: Renamed and repathed the old "Cooking" book, which was left unfinished,
+      to a Brewing book
+  - rscadd: Added a new cooking wiki which contains new food recipes, stew recipes,
+      and rewritten sections from the cooking wiki page where needed.
+  - rscadd: Overhauled the entirety of Parchment / TGUI styles to clear up a lot of
+      old code. I moved the font from Palatino Linotype to **Lora**, and the title
+      to **MedievalSharp**. I also cleared up a lot of italics that were unnecessary
+      and destroyed all cases of small-caps which was damaging readability.
+  - rscadd: Rewrote the existing text for "decent meagre snack" etc. to a much more
+      legible and understandable system. Now, 12 units of nutrient is defined as a
+      meal and every calculation stems from that - quarter of a meal, three meals,
+      etc.
+  - rscadd: Default parchment style is now Leatherbound
+  - rscadd: Forced crafting menu to use the new Parchment styles
+  - rscadd: Give a withdraw button to zadcote
+  - rscadd: Restored selling by bottles for DISTILLED spirits so that they are sellable
+      from distillery. My bad!
+  - rscadd: Added a single mini noticeboard to the inn wall on request to make it
+      more convenient for innkeeper to read food / victualling request and make money
+      off it.
+  - bugfix: Ship departing on its own should resolve favor correctly.
+  - balance: Purified alloy ingot reduced from 4x to 1x modifier, and now skeletons
+      taint their loot on death to prevent town making massive bucks from selling
+      skeleton gears
+  - rscdel: Cut down on abuse potential. Merchant, Shophand, Bathmaster and Bathhouse
+      Attendant can no longer hold the Alderman office.
+  borneblood:
+  - rscadd: 'Added a new playstyle for Monk: "Penance - Unarmored". Made with love
+      for the masochists or exibitionists out there.'
+  - rscadd: '''superagony'' emote, which bypasses pain immunity''s emote noise suppression'
+  - bugfix: Rituos won't stack with vampirism
+  - balance: Makes Golgatha less oppressive.
+  - bugfix: Incisions won't heal from Psydonite traits.
+  - bugfix: Organs can only be eaten if you are (or your patient is) not laying down.
+  - bugfix: fixed vice tracking, hopefully
+  changelingonberry:
+  - rscadd: Maestro Bard Wretch class
+  radarseas:
+  - balance: portal goblins are slightly tougher, can use specials and always spawn
+      with armor.
+  - balance: due to respawnability + no shutdown nor cap, latejoin goblins still have
+      worse stats.
+  - bugfix: no expert skill gobins from latejoining ancient issues. F U C K.
+  sakke03:
+  - balance: Maneaters are no longer revealed by walking over them in cases where
+      they won't attack
+  - bugfix: Maneaters no longer refuse to eat ambush NPCs
+2026-06-05:
+  KatTheFox:
+  - bugfix: Summoned golden spectacles can now be adjusted
+  Ollanius:
+  - rscadd: Four new stature-type descriptors and three new trait-type descriptors.
+  - balance: Increases the fire resistance value of bronze armor from LIGHT to HEAVY,
+      making it uniquely adept at protecting against incendiary attacks.
+  Quinalion:
+  - rscadd: Otavan Short Satchel.
+  - rscadd: Black Satchel is now obtainable.
+  - image: Black Satchel sprites.
+  Ryan180602:
+  - balance: gmace fits in gwstrap only.
+  - balance: gmace stab is now 1-tile.
+  - balance: spawning mobs on turfs with existing mobs won't work.
+  WeNeedMorePhoron:
+  - bugfix: 'THIS IS A BUG FIX: Arcyne Ward no longer stack on top of armor, this
+      is defined by any piece having real armor rating. When you put on armor, it
+      will remove the coverage again. Coverage does not restore until the cast of
+      regen / full cast happens. It will only ever **LOSE** coverage from you putting
+      on, or having had armor on during the initial cast'
+  - balance: For balance purpose due to multiple complaints about mid combat regeneration,
+      the conjure time for regen / conjuring ward has been changed from 6 seconds
+      to 10 seconds
+2026-06-06:
+  Ryan180602:
+  - bugfix: weeping cross now needs you to be a psydonite to work.
+2026-06-07:
+  FeniaFox:
+  - rscadd: Added leather helms to tailor silverface as sidegrade vs headbands, trading
+      integ to get nose coverage.
+  - rscadd: Added light arming jackets, with identical stats to current arming jacket.
+  - balance: rebalanced arming jackets to not just be worse gambesons, now they have
+      a noticable integ advantage to make up for lack of leg coverage. Adjusted role
+      starter gear to be untouched in effectiveness by this change.
+  KatTheFox:
+  - rscadd: Simplemobs can now be riposted with guard stance
+  - rscadd: Paladins who pick the spear loadout now get a greatweapon strap instead
+      of a shield
+  - rscadd: Hags now get some thematic languages for free, as well as a hand mirror
+      in their bag
+  - rscadd: New trait that exempts hags from PVE entirely
+  - rscdel: Removed counter counterspell boon, since that trait does literally nothing
+      - counterspell was removed from the game!
+  - bugfix: Hag scrying should no longer break when your target goes AFK or dies
+  Ollanius:
+  - rscadd: The Staker, a PVE-centric ranged weapon that can either be acquired by
+      the Exorcist or produced by the Artificer. Deals the lowest damage out of any
+      ranged weapon in the game, in exchange for minor anti-unholy properties, easier
+      handling, and a very easily-sourced type of ammunition.
+  - rscadd: Shotstakes, a new proprietary caliber exclusively used by the Staker.
+      Inherits the heavy penetration of regular crossbow bolts, but has the lowest
+      damage out of any ranged weapon in the game. These can be made by introducing
+      any stake (carved, sharpened, hand- or silver-tipped) to a brazier, hearth,
+      or campfire.
+  - balance: Adds the Silver Halberd, Executioner Sword, Knuckledusters, Hunting Knife,
+      Tomahawk, and Staker to the Exorcist's loadout.
+  - balance: Moved the Steel Broadsword to the Exorcist's sidearm options, alongside
+      the rest of the non-silvered weapons.
+  - balance: Partially restored the damage multiplier of most axes - chiefly, the
+      Silver Poleaxe - with the 'long-' chopping and cutting intents. These should
+      now match the Halberd's 1.3x damage modiifer.
+  - rscadd: The Roundface Bascinet, as donated by Noire.
+  PepegaSandwich:
+  - rscadd: Added wicker cloak to loadout
+  Randall:
+  - rscadd: Added the Stecher to Battlemaster's loadout options
+  WeNeedMorePhoron:
+  - rscadd: Added noc shine as a three steps distillation recipe
+  - rscdel: Removed the Z level swim feature and swimming tab. The two test ponds
+      has been restored to z levelless state.
+  - bugfix: Fix kinship not applying on roundstart merchant
+  - rscadd: Updated the agent mechanics to surface it better, and make sure Agent
+      have a banner telling them they can access Rosawood / Anthraxi with discount
+      as an agent instantly, and buy at 10% off.
+  - balance: SCREW YOU NO MORE LOCKING COMMISSIONER
+  - bugfix: Blacksteel Bar now show correct price from pricing engine. oops.
+  - rscadd: Tapster and Cook may now also access institutional inn fund
+  borneblood:
+  - balance: Deadites who are freshly raised go on an overdrive for a minute or so,
+      making them extremely dangerous.
+2026-06-08:
+  FreeStylaLT:
+  - rscadd: Added three new Taunt animations. (Rclicking someone with PUNCH intent.)
+  - refactor: You can now see your own rclick interaction animation.
+  - balance: Armament Rites now has its own cooldown separate from the general ritual
+      rites CD.
+  - rscadd: Graggar's War Ritual will now cause a blood rain.
+  - bugfix: Fixed uncanny beauty not working correctly for Revenants.
+  KatTheFox:
+  - rscdel: Removed (bugged) hag grand rite
+  Ketrai:
+  - balance: lowered fossilized clam rate significantly
+  Ollanius:
+  - code_imp: Atgrevi Kite Shields should now properly be offset when worn on the
+      back, instead of visibly floating off the wearer.
+  - bugfix: Roundface bascinets now properly display orles and greatplumes in the
+      correct order.
+  - code_imp: All crafting recipes for shotstake ammunition now list what crafting
+      station's used for each specific variation.
+  Ryan180602:
+  - balance: replace zpellblade Zizo longsword with arming sword.
+  - balance: change profane shard into a high pen, 100% embed instacast.
+  SomeDeviant:
+  - bugfix: fixed missing MentorHelp toggle
+  VanessaCoding:
+  - qol: autochiseling.
+  WeNeedMorePhoron:
+  - rscadd: You need to arc your projectiles (spells or bow) to shoot across elevations,
+      removing the z-level shooting functionalities that let you shoot straight across
+      Z level. Arced mode while you are looking at a z level below will also arc,
+      instead of arc symmetrically only works if you arc at an open space.
+  - rscadd: Fire Curtain, Ensnare and spells etc. can no longer be cast across Z level
+      by default. Projectiles can, excepting fetch / repel.
+  - rscadd: Being hit while climbing will interrupt the climb
+  - bugfix: Pricing engine now accounts for multiple output in income.
+  - rscadd: Repathed glass batch which was inheriting from clay, to avoid issues in
+      the stockpile and because it does not inherit any clay function and is meant
+      to be smelted. Rewrote the desc to make it obvious you should smelt them and
+      also made it more medieval (no reference to silica)
+  - rscadd: Keyrings and keys are now IS_IMPORTANT and cannot be sold by accident
+      at the navigator. Thank you downstream for report
+  - rscadd: Stockpiles now accept copper and tin ingots by default and there's demands
+      for them
+  - rscadd: Pork belly and ham added to stockpile. If this become too bloated I will
+      figure out. For now this is acceptable.
+  - rscadd: Scrapper / Rag Picker now scrap / pick the items pulled into them into
+      its results instead of having to manually scrap it. The Economy Will Go On
+  - rscadd: Scrapper / Rag Picker can now take a sack emptying into them and give
+      you reason for why it cannot take anymore.
+  - rscadd: Rag Picker now take cloth, fibers and leather again, but with lowered
+      price, because 95% of cloth items scrap into them and I overreacted to feedback
+      on these items being useless as they are unlikely to be sold as scrap ever.
+  - rscadd: Labourious Apprentice gives Expert Homesteader now
+  - rscadd: Fixes an issue with Shortage scaling to stockpile limit instead of regional
+      demands
+  - rscadd: Redid the stat panel again to improve performance. It can also select
+      the Leatherbound theme. Admin verbs and verbs in general has been rearranged
+      and reorganized to lower tab spam. For example, memory and IC has been consolidated
+      into one tab. Admin Preferences and such has been consolidated too. Suggestions
+      welcome on what verbs to remove and how to organize it better.
+  - rscadd: ' Rename "Atheism" in code to "Godless", which is the actual in game handler,
+      reflavored it and the description to fit with not following gods, and remove
+      anachronistic quotes and kept it as a fallback for no religion'
+  borneblood:
+  - balance: Snuff Lights works on Lights, but can't affect relic lights.
+  - rscadd: Ley Line unique spell for Hierophant-only.
+  - rscadd: Dissonance and Acceleration unique spells for Vizier-only.
+  - rscadd: 'Naledi Refugee merc-adjacent subclasses: Dropout/Ascetic/Wanderer.'
+  - rscadd: New animation for Restoration Origin Magic.
+  - balance: Slightly buffed Restoration, it now works on Constructs too.
+  - refactor: Removed a lot of spaghetti code repetitions and standardized Poke Spell
+      granting to a single centralized /proc.
+  radarseas:
+  - bugfix: you can no longer heal unintended vampire noises.
+  - balance: Nosferato is no longer the default vampire clan fallback, because why
+      was the hardest clan to play the default sire?
+  - balance: Torpor no longer is only useful for infinite vitae exploits, you no longer
+      gain vitae from but instead heal wounds/damage at an insanely fast rate.
+  - balance: journey -> expert unarmed for vamp arsonist
+  - balance: 1spd -> 2 spd for vamp physician
+  - code_imp: adjusted vampire stat codenotes to be truer. they're points not weighted
+      balance-wise. oops.
+  saltprjak:
+  - balance: Church Templars that receive patron daggers now have Journeyman skills
+      to use them.
+  scarrmu:
+  - rscadd: light armour option for sojourner + jman sneak
+2026-06-10:
+  BurpleBineapple:
+  - balance: The longsword's alt-grip intents have been modified. Daze and Impale
+      are now rigid intents that can be interrupted but not parried/dodged
+  - balance: Mordhau reduces your defense by -2. Mordhau now has a 0.8x penalty instead
+      of 0.6x on most swords.
+  - bugfix: Church longswords inherit from the base longsword's sharpness instead
+      of using outdated values.
+  Eagletanker:
+  - rscadd: astratan priests get a special robe. Because The Sun Tyrant Protects.
+  FreeStylaLT:
+  - bugfix: Fixed invisibility spells / miracles not working correctly.
+  - bugfix: Fixed rclick emotes not showing up on the user correctly.
+  KatTheFox:
+  - rscdel: Removed the hidden sixteenth god, Pesta
+  Ollanius:
+  - rscadd: RMBing the new Witch's Hat now allows you to adjust the brim, revealing
+      your eyeline from the southern face.
+  - rscadd: 'Ports over PR #4095''s stuff. All credit to Failgirl!'
+  - balance: Hookswords, quarterstaves and regular staves (that scale off the 'staves'
+      skill) now inherit a new intent, 'disarm'. This allows them to skillfully disarm
+      an opponent of their current weapon, if they're afflicted with the OFF-BALANCE
+      debuff.
+  Quinalion:
+  - bugfix: Joybringer debuff now clears all hallucination stacks when removed.
+  - balance: Joybringer debuff duration increased from 3 seconds to 15 seconds.
+  - rscadd: Rose Ring received a sprite and now removes the joybringer debuff when
+      worn.
+  Ryan180602:
+  - rscadd: off-fov footsteps to keen ears/blind
+  - bugfix: embedchances being inversed.
+  - bugfix: embedded projectiles sometimes disappearing
+  WeNeedMorePhoron:
+  - balance: Shock runes no longer hard stun and just applies the 6 seconds LBolt
+      plus a bit of lightning, Other runes no longer hard stun, have a longer slowdown,
+      Rebalanced Fire runes to be slightly stronger and frost rune to be slightly
+      weaker
+  - bugfix: NPC no longer turns gears on their body into scavenged on death, only
+      those they spawn with.
+  - server: Disabled non stall TD log dump
+  - rscadd: Splits Migrant Wave into two tracks of regular & special, which now roll
+      independently. Two additional track (Triumph Buy and Event) also exists
+  - rscadd: Greatly improved the migrant wave triumph buy interfaces and the user
+      experience in general
+  - rscadd: Removed the multiple manually defined downgrade waves. Instead, each wave
+      have required role(s), optional roles, and a minimum of required optional roles
+      to make it much cleaner in code
+  - rscadd: Each wave that is rolled will take 3 minutes to form up, and if it fails,
+      will refund any triumph buy or disband, no longer occupying the wave.
+  - rscadd: Simplified the migrant wave code.
+  - rscadd: Reduced alpha on dark vision so that those with less gamma on their monitors
+      can still see.
+  - balance: Goblin eyes no longer grant darkvision to pre-empt powerful gaming.
+  bearrrrrrrr:
+  - rscadd: sahir can now pick between two shamshir or a single staff
+  borneblood:
+  - balance: Adjusted adven Vizier values and limited choices.
+2026-06-11:
+  FreeStylaLT:
+  - balance: Wave Animation is now longer
+  Ryan180602:
+  - balance: poleaxe stab has 2-tile sweetspot and is delayed. but has 1x damfactor
+      instead of 0.9x.
+  TankTheBirb:
+  - bugfix: Made sure all witches get the scholars bag for ingredient gathering.
+  - bugfix: made Mystagogue and Old Magick witches properly spawn with their spellbooks.
+  - rscdel: removed chalk from godsblood witches because it was a choking hazard.
+  borneblood:
+  - bugfix: Fixes accel's deaccel having the wrong value
+  - bugfix: Restores a lost functionality from another PR
+  - bugfix: Raze no longer dusts alive mobs
+  changelingonberry:
+  - admin: flavor text button in player panel
+  kiwedespars:
+  - bugfix: miracles properly have cd against someone with an embed
+2026-06-12:
+  KatTheFox:
+  - rscadd: Revenants can now select from skin, fur, scale, feather, or chitin descriptors,
+      instead of just skin
+  Ollanius:
+  - bugfix: Atgervi shields now properly render when on the back slot. They have been
+      restricted to the right back slot, which shouldn't affect the ability to carry
+      other slot-restricted pieces (like the rucksack or backpack.)
+  OrbisAnima:
+  - bugfix: Melodic Dirges no longer affect dead mobs.
+  - bugfix: Fixes the exploit with Noc and Undivided spell selectors, preventing them
+      from being called infinite times for infinite spells.
+  borneblood:
+  - bugfix: Golgatha was instakilling carbon NPCs and not working on simplemobs.
+  clumsygoblinoid:
+  - qol: made triumph winter dress fit in cosmetic storage
+2026-06-13:
+  FeniaFox:
+  - balance: rebalanced bardiche mam/crafting costs to match its performance as a
+      sidegrade weapon to the steel halberd. Mam costs 45 -> 75, craft costs iron
+      -> steel ingots and apprentice -> journeyman weaponsmithing.
+  KatTheFox:
+  - rscadd: Gem staves now have unique sprites again
+  Ollanius:
+  - balance: Adds the 'Death's Door' debuff, which temporarily applies the 'DNR' trait
+      - and a heavy mood decrease - while active. It lasts for about ten-to-fifteen
+      minutes, and provides a modest mood increase (alongside removing the 'DNR' trait)
+      upon completion. Currently timed to expire alongside the 'Revival Sickness'
+      debuff.
+  - balance: Most forms of resurrection (barring Absolves and other certain methods)
+      now have an internal timer added to them. If the timer reaches five minutes
+      without the target-in-question dying again, a 'deathmark' is applied. Deathmarks
+      essentially act as conduits for the new 'Death's Door' debuff.
+  - balance: All resurrections now apply a fifteen-minute long debuff with a mild
+      stressor.
+  - rscadd: Being resurrected now lists a (mostly) unique, patron-related message
+      - courtesy of Kat and Chundoan!
+  - code_imp: Adds a safeguard with the new 'Death's Door' debuff and 'deathmark'
+      system, preventing unfortunate players from being permakilled due to ill-timed
+      blunders (such as malpractice and-or incompetence.) This can be individually
+      adjusted for each method of resurrection, if needed.
+  - rscadd: Renamed most debuffs that pertain to Lux, Resurrections, or anything similar
+      to those lines.
+  - rscadd: New sprites for most of the aforementioned debuffs.
+  - rscadd: Adds descriptions to certain debuffs, with further elaborations.
+  OrbisAnima:
+  - qol: Xylix Acolytes  / Missionaries get one instrument of choice.
+  - balance: Necran Missionaries get their (non) silver shovel / Scythe
+  Ryumi:
+  - qol: The visual presentation of race blurbs has been greatly improved. Now, upon
+      selecting a race, it will display all racial traits and explain (most) mechanics
+      unique to that race. All listed traits come with hover tooltips providing their
+      descriptions.
+  VanessaCoding:
+  - rscadd: Eorans now gain a 30% base heal boost on someone wearing flower crowns,
+      and a 15% base heal boost if they are wearing a flower crown.
+  WeNeedMorePhoron:
+  - rscdel: Replaced reference to the non existent Amazonia in chocolate's description,
+      which does not exist and is not full of buff women, with a reference to Etrusca,
+      which does exists and is full of buff men.
+  crunchypretzels:
+  - rscadd: New aasimar skintone.
+  radarseas:
+  - balance: sling ballistiares gets a shield + apprentice skill in shields to fit
+      them into the defensive-choice for ranged where their other picks of bows +
+      crossbow are more-fitted for offensive.
+  - balance: Legionnarie taking sling gets a wooden shield instead of ancient, slightly
+      less durability and 10% less ranged blocking sacrificed for being able to pressure
+      people at a distance poorly and be able to fight up-close.
+  - rscadd: New conjured summon NPCs for necromancers, slightly better skills + guarrenteed
+      gear loadout.
+  - rscadd: Necromancer skeletons can now pick features on summoning as well as their
+      body/name.
+  - rscadd: Necro skele talbards, these are surcoats and jupons without the colors
+      of an Exarch's empire that lich skeles get. Used for seige skeletons, unbound
+      skeletons and necromancer summons + skeletons.
+  - rscadd: Necro skeles can pick their helms + new loadout tuneups.
+  - rscadd: Necro skeles can now fly a cloak/tabard/toga of their choice!
+  - rscadd: Shattered bulwark, a weaker version of Necromancer's previous heavy armor.
+      Tough but shatters fast when the armor does.
+  - balance: Unbound death knight gets another helmet choice.
+  - balance: Unbound death knight gets three armor pick choices.
+  - balance: Lich skeleton spellblade gets bonemend so they don't die from their own
+      gameplay loop, lol.
+  - balance: Unbound skeles no longer get unintended items and poison daggers to do
+      reagent warfare. Play Malpractioner for that.
+  - balance: Most Necromancer skeles are now Medium trained instead of Heavy to substitute
+      for more numbers.
+  - balance: Necromancer sapper is now a proper lesser sapper, even getting some of
+      the lich ver, attire and speccing out a little more towards construction w/out,
+      the QOL/arcayne/wall exploding lich sappers get.
+  - balance: Unbound death knight gets more gilbranze choices for weaponry + slightly
+      better gear.
+  - balance: Unbound skeletons are capped to 10 CON + whatever INT/WIL they started
+      with for statpacks.
+  - balance: Unbound skeletons get additional context on the whole dusting thing,
+      yeah.
+  - balance: Unbound spellblade rag mask -> decrepid hijab for the true Tarichean
+      wannabie style akin to lich's version.
+  - balance: Necromancers now have message + mindlink for QOL of interacting with
+      their minions, or contacting wretches or assocates of whatever form from afar.
+  - balance: unbound skeletons now get salvaged gear + use combat_weird.ogg
+  - balance: Formation is now 3 seconds from 6 seconds to cast, given an extra 5 second
+      to cooldown.
+  - balance: Necromancers get Expert from Journeyman in medicine + misc skills rogue
+      mages previously got.
+  - balance: Conjure Guard is now 6 seconds from 3 seconds, with a 1 minute delay.
+  - balance: Conjured Guards now last 45 from 30 minutes, to make up for a slightly
+      slower summoning time + cooldown.
+  - balance: Necromancers have lost 1 speed point of their stats, a slight reduction
+      in excess combat skills and slightly worse alchemy.
+  - balance: Necromancers get a choice between plain robes and protective, new robes
+      exclusive to them to stand out and aura-farm.
+  - balance: Necromancer Player skeles 2 -> 6 total
+  - balance: 'Necromancer Maximal lux charges 2 -> 3 total
+
+      balance Necromancer Starting lux charges -> Unchanged.'
+  - rscadd: Added new combat music for bloodrage, credit given to Ben_19M, go check
+      em out. The Track is called "THE WHOLE BODY IS BULLETPROOF". Also a new message
+      on popping it for the user and it enables combat mode if its off.
+  - rscadd: you can also change your combat music to it, like everything else in the
+      game.
+2026-06-14:
+  KatTheFox:
+  - rscadd: I'm back in the fucking building (proofreading mines) again.
+  - rscadd: Faith icons such as amulets are now their own loadout category instead
+      of being in Accessories
+  - rscadd: Bronze and Gilbranze amulets added to loadout
+  - bugfix: Mirror transform now actually applies its effects to the target instead
+      of the caster
+  - rscadd: Spellbooks can now be renamed
+  - qol: Dying in an area with no deathsight message set will now give a message that
+      is more obviously a code error, and gives the name of the area so we can actually
+      fix reports of it.
+  Ollanius:
+  - rscadd: Adds a plethora of new Donator-exclusive items to the Loadout menu. These
+      items can be freely accessed by anyone that's registered as a Donator to the
+      server. I've added my own little funded garb, too!
+  - code_imp: Credit to Zydras, Dromkii, Darkinite, Desminus, Cre77, and Witty for
+      either spriting, licensing, or otherwise commissioning most of the added sprites
+      here. You're all wonderful.
+  - bugfix: Haubergeon and Hauberk sleeves should render as intended, once again.
+  - bugfix: Finalizes the renaming of Mailled Hauberk / Mailled Cuirass into Plate-And-Maille.
+  - bugfix: Clerical longswords (now 'anointed longswords') no longer have iffy sprites.
+  - code_imp: Reduces price of lesser perfumes from 2 to 1 on the Triumph shop.
+  - code_imp: Reorganized Triumph kits to follow the same naming convention as their
+      Donator equivalents, for more sorting cohesion.
+  - rscadd: Adds the Azurosa dyeshade, which closely matches the Azurosa palette.
+  - rscadd: Adds the Haubyrines, light-weight haubergeons that only cover the torso
+      with reduced coverage.
+  - rscadd: Adds wooden and golden amulets for every remaining deity. Wooden amulets
+      can be crafted with sticks and fibers, while golden amulets can be crafted with
+      a regular amulet and a golden ingot. Ornate variants are available via Triumphs.
+  - rscadd: Baothan and Matthiosite amulets - as the only two(?) native golden amulets
+      (besides the Undivided) - now require Expert-tier skills to make. Likewise,
+      forging it from gold will make an exclusive '/g'-forked version that can be
+      sold for a nice chunk of change. Loadout-specific variants remain the same.
+  - rscadd: Bronze and Ancient amulets are now available for a small amount of Triumphs.
+  - rscadd: Adds plaque belts and steel belts as a higher-end Triumph purchase.
+  OrbisAnima:
+  - rscadd: Ports the Loose Straps vice from Lokaka21, who Ported Free's original
+      Armor fling code. Its a vice that makes all armor be flung off 2-3 tiles on
+      integrity break, and makes it easier to strip you.  So free vice for bath attendants.
+2026-06-15:
+  BurpleBineapple:
+  - bugfix: Kazengunese dobo robes were incorrectly using ARMOR_MAILLE. They now use
+      ARMOR_PADDED.
+  FeniaFox:
+  - balance: Increased the integrity of heavy leather boots (and grenzelhoftian boots)
+      to match that of other heavy/hardened leather items (100 or 80 -> 250). Removed
+      from common NPCs to avoid easy scavenging.
+  - balance: Reduced the integrity of Ruma sandals to match that of other hardened
+      leather items (300 -> 250).
+  - qol: Renamed heavy leather gloves/boots to hardened leather gloves/boots, to match
+      other items with similar stats.
+  FreeStylaLT:
+  - rscadd: Added a bunch of new hair. Courtesy of Ratwood / Vanderlin.
+  KatTheFox:
+  - rscdel: Removed arcanic melds, replaced them with thematically-appropriate planar
+      materials. Artificer armor is now powered by an infernal core like the infernal
+      engines and infernal forge are.
+  - qol: Familiar-binding is now free, except for the most hubristic of pursuits.
+  OrbisAnima:
+  - qol: Made the Interarctions menu actions not spam over and over the same message,
+      only giving a new one anytime you change any of the speed, the intensity or
+      the action type.
+  - bugfix: Fixed Mage and God Hands from not working with the backdoor. Rejoice.
+  Ryumi:
+  - rscadd: Heretical items now have big, obvious highlights and tooltips making their
+      heretical / PVP-escalating nature clear, as well as brief explanations of how
+      and why.
+  borneblood:
+  - bugfix: fixed a few odd INDEXER interactions.
+  changelingonberry:
+  - rscdel: debug cat
+  radarseas:
+  - balance: woodcutting axe w/ battleaxe choices for regular heretics.
+  - balance: Psyheretics retain and only get the battleaxe choice as they did before
+      under "Axe"
+2026-06-16:
+  VanessaCoding:
+  - bugfix: autochisel fix
+  WeNeedMorePhoron:
+  - rscadd: Refactor the recipe system to support both pies and multiple recipes
+  - rscadd: Redid the examine text on food and added a view recipe links
+  - rscadd: Updated the cooking encyclopedia to massively expand coverage
+  - rscadd: Renamed all "giblets" to dried fruits and or raisins, giblets doesn't
+      really make sense and have an extremely specific meaning. Renamed caramel giblets
+      to just caramel etc. Fixed a lot of odd things. So help me god.
+  - rscadd: THERE IS NO SUCH THING AS FRIED CONGEE!!! AMBROSE!!!!!
+  - rscadd: 'Food & Culture Part 1 with sprites by 7erracota and original PR by Wildwestmars,
+      Items included: Egg dough, lasagna dough, griddle dough, wienerstick, pesto,
+      griddles (fruit, lemon, berry, poisonberry, apple, and with toppings), gridldewiener,
+      challah, pasta (spaghetti, sheet noodles, spgahetti and spaghetti w/ pesto),
+      and lasgna including redwhite, white, and lasagna with pesto.'
+  - rscadd: Renamed griddledog to griddlewiener to better fit periodical tone
+  - bugfix: You can fuel Hearth again.
+  - rscadd: Increase blockade TP from 72 / 104 to 90 / 120 again
+  - rscadd: Budget for raid increased to 200, bounty goons budget to 150
+  - rscadd: Raid / Bounty quest now drains 4 bands, from 3 bandst
+  - rscadd: Hard quest now get a +25 flat bonus to encourage more people to form a
+      party of two and take them on
+  - rscadd: Orc Warlord's excessive weight of 50 reduced to 30, should alleviate instance
+      of orc blockade looking trivially smal.
+  borneblood:
+  - bugfix: fixed an exploit with Smelting prompts
+  changelingonberry:
+  - bugfix: players getting stuck on class select screen as antag or bandit
+  radarseas:
+  - balance: necro legion gets flail skill
+  - bugfix: fixed necro legion NOT getting maces skill AT ALL despite getting a pick
+      for maces.
+2026-06-17:
+  Ketrai:
+  - bugfix: Removeallspells proc removes all spells again
+  nauticall:
+  - bugfix: Stairs are now properly buildable again.
+  - bugfix: Leaning on walls on RUN intent no longer builds Athletics XP.
+  - bugfix: Morphing elixirs on fencer's cuirasses (for Freifetchers) no longer compromise
+      Freifetcher dexterity.
+2026-06-18:
+  FreeStylaLT:
+  - rscadd: Adds Vocal Chirps.
+  - balance: Trees no longer grow branches at their base.
+  - refactor: Swapped around how the examine block is formatted, putting the headshot
+      & supplementary buttons / info at the bottom.
+  HeroWithYay:
+  - rscadd: A new Vagabond subclass. Abandoned Thrall.
+  KatTheFox:
+  - rscadd: Hunted vice now only makes you a target for gnolls, not assassins, no
+      matter what role you are.
+  - rscadd: A new vice, Targeted, that does exactly what hunted used to, but for assassins
+      only. Both Hunted and Targeted require another vice, and can be taken together
+      if you want the "classic hunted experience".
+  - bugfix: Hard antags can no longer take hunted/targeted. Could you fucking imagine
+      a hunted VL. The poor gnolls.
+  Ketrai:
+  - balance: Made territorial heartbeast attacks respect armor again, but damages
+      armor heavily.
+  Ryan180602:
+  - bugfix: optimise playsound
+  - bugfix: runtimes
+  - rscadd: Admin Sandbox gamemode.
+  - rscadd: Replace storytellers with gamemodes.
+  WeNeedMorePhoron:
+  - rscadd: Adrenaline rush have two mutually exclusive subtypes now. Melee and Ranged.
+      Melee Adr Rush grants +1 Wil and +1 Con, from +1 Wil. Ranged Adr Rush grants
+      +2 SPE. You gain this by deflecting spells.
+  - balance: No more adrenaline rush if you deflect a spell fired by yourself.
+  - rscadd: Reduce rural taxes income from 500 flat to 250 flat. Since Econ 3 added
+      a lot of economic activities, the Crown's passive taxation income has rose which
+      made the game kinda runs itself, so I am increasing the difficulties a bit to
+      make active steward gameplay more necessary. I will tune as needed.
+  - rscadd: Added proper category for arcane reagents selling to ship.
+  borneblood:
+  - bugfix: You can bathe with Skin Armor now. No need to take off your skin to bathe
+      anymore.
+  - bugfix: Summoned Skeletons no longer suffer PTSD.
+  kiwedespars:
+  - rscadd: silver monocle
+  - rscadd: onyxa spectacles
+  - balance: halfsword stab parriable/dodgable

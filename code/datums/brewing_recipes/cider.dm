@@ -4,6 +4,7 @@
 	bottle_name = "apple cider"
 	bottle_desc = "A bottle of locally-brewed apple cider. Has a sweet, crispy apple flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/cider
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/cider
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_crops = list(/obj/item/reagent_containers/food/snacks/grown/apple = 6)
 	brewed_amount = 6
@@ -15,6 +16,7 @@
 	bottle_name = "pear cider"
 	bottle_desc = "A bottle of locally-brewed pear cider. Has a sweet, subtle pear flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/cider/pear
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle
 	needed_crops = list(/obj/item/reagent_containers/food/snacks/grown/fruit/pear = 6)
 
 /datum/brewing_recipe/cider/strawberry
@@ -22,6 +24,7 @@
 	bottle_name = "strawberry cider"
 	bottle_desc = "A bottle of locally-brewed strawberry cider. Has a sweet, subtle strawberry flavor."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/cider/strawberry
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle
 	needed_crops = list(/obj/item/reagent_containers/food/snacks/grown/fruit/strawberry = 6)
 
 /datum/brewing_recipe/cider/ambrosia
@@ -30,6 +33,7 @@
 	bottle_name = "ambrosia"
 	bottle_desc = "A bottle of cider, faintly glowing with a golden hue. It holds the distilled essence of a divine fruit, made ludicrously intense for even the heartiest drinkers."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/cider/ambrosia
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle
 	needed_reagents = list(/datum/reagent/water = 198)
 	needed_crops = list(/obj/item/reagent_containers/food/snacks/grown/apple/gold = 1, /obj/item/reagent_containers/food/snacks/sugar = 5)
 	brewed_amount = 2

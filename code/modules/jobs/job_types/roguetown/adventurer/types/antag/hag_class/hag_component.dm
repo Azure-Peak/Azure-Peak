@@ -65,6 +65,8 @@
 			if(H.mind)
 				H.mind.i_know_person(hag_mob.mind)
 			found_any = TRUE
+			to_chat(H, span_boldnotice("A familiar rhythm pulses in the roots... [hag_mob.real_name] is walking the lands this week."))
+			to_chat(hag_mob, span_boldnotice("A familiar rhythm pulses in the roots... [H.real_name] is walking the lands this week."))
 	if(found_any)
 		to_chat(hag_mob, span_boldnotice("As your eyes adjust to the emerald gloom, the threads of the Mossmother's older puppets become visible to you..."))
 
@@ -365,7 +367,7 @@
 /datum/component/hag_curio_tracker/proc/handle_death(mob/living/carbon/L)
 	SIGNAL_HANDLER
 
-	L.visible_message(span_boldnotice("The corpse of [L.name] starts to dissolve into the soil"))
+	L.visible_message(span_boldnotice("The corpse of [L.name] starts to dissolve into the soil."))
 	addtimer(CALLBACK(src, PROC_REF(move_hag), L), 10 SECONDS)
 
 /datum/component/hag_curio_tracker/proc/move_hag(mob/living/L)

@@ -243,3 +243,23 @@
 	name = "Prosthetic Wood Leg (R)"
 	cost = 15
 	contains = list(/obj/item/bodypart/r_leg/prosthetic)
+
+/datum/supply_pack/rogue/tools/prbronze
+	name = "Prosthetic (Bronze)"
+	cost = 60
+	contains = list(/obj/item/contraption/bronzeprosthetic)
+
+/datum/supply_pack/rogue/tools/priron
+	name = "Prosthetic (Iron)"
+	cost = 60
+	contains = list(/obj/item/contraption/ironprosthetic)
+
+/datum/supply_pack/rogue/tools/prsteel
+	name = "Prosthetic (Steel)"
+	cost = 80
+	contains = list(/obj/item/contraption/steelprosthetic)
+
+/datum/supply_pack/rogue/tools/pot
+	name = "Iron Pot"
+	cost = 12
+	contains = list(/obj/item/reagent_containers/glass/bucket/pot)

@@ -7,6 +7,7 @@
 	max_integrity = 200
 	integrity_failure = ARMOR_INTEG_FAILURE
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	has_item_quality = TRUE
 	///What level of bright light protection item has.
 	var/flash_protect = FLASH_PROTECTION_NONE
 	var/tint = 0				//Sets the item's level of visual impairment tint, normally set to the same as flash_protect
@@ -55,8 +56,6 @@
 	var/armor_class = ARMOR_CLASS_NONE
 
 	var/blood_color = null
-
-	sellprice = 1
 	var/naledicolor = FALSE
 	var/chunkcolor = "#5e5e5e"
 	var/material_category = ARMOR_MAT_LEATHER
@@ -161,6 +160,9 @@
 			if(r_sleeve_status == SLEEVE_TORN)
 				to_chat(user, span_info("It's torn away."))
 				return
+			if(!salvage_result)
+				to_chat(user, span_warning("[src] cannot be torn."))
+				return
 			if(!do_after(user, 20, target = user))
 				return
 			if(prob(L.STASTR * 8))
@@ -183,6 +185,9 @@
 				return
 			if(l_sleeve_status == SLEEVE_TORN)
 				to_chat(user, span_info("It's torn away."))
+				return
+			if(!salvage_result)
+				to_chat(user, span_warning("[src] cannot be torn."))
 				return
 			if(!do_after(user, 20, target = user))
 				return
@@ -361,7 +366,7 @@
 		how_cool_are_your_threads += "</span>"
 		. += how_cool_are_your_threads.Join()
 */
-
+/// Proc that handles flinging off equipment when broken. NPCs have it happen to them way more frequently.
 /obj/item/clothing/proc/get_flung_off()
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
@@ -371,17 +376,28 @@
 		var/throwprob = (H.mind ? 8 : 80) + ((10 - H.STALUC))	// More FOR we have the less likely it is to happen.
 		if(!prob(throwprob))
 			return
-		if(H.dropItemToGround(src, silent = TRUE))
-			H.update_fov_angles()
-			if(material_category == ARMOR_MAT_PLATE || material_category == ARMOR_MAT_CHAINMAIL)
-				do_sparks(2, TRUE, get_turf(H))
-			var/turnangle = (prob(10) ? 180 : prob(50) ? 270 : 90)
-			var/turndir = turn(H.dir, turnangle)
-			var/dist = rand(1, max_range)
-			var/current_turf = get_turf(H)
-			var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
-			playsound(get_turf(H), 'sound/misc/obj_toss.ogg', 100, TRUE)
-			throw_at(target_turf, dist, 6, H, FALSE)
+		perform_fling(H, max_range)
+
+/// Proc mostly for admins to use that omits probabilities. We could use an arg in the proc above, but navigating proccall is simpler without them.
+/obj/item/clothing/proc/get_flung_off_forced()
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		var/max_range = rand(2, 3)
+		perform_fling(H, max_range)
+
+/// Actual proc for flinging the item off. This shouldn't really 'fail' if it is getting called.
+/obj/item/clothing/proc/perform_fling(mob/living/carbon/human/H, max_range)
+	if(H.dropItemToGround(src, silent = TRUE))
+		H.update_fov_angles()
+		if(material_category == ARMOR_MAT_PLATE || material_category == ARMOR_MAT_CHAINMAIL)
+			do_sparks(2, TRUE, get_turf(H))
+		var/turnangle = (prob(10) ? 180 : prob(50) ? 270 : 90)
+		var/turndir = turn(H.dir, turnangle)
+		var/dist = rand(1, max_range)
+		var/current_turf = get_turf(H)
+		var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
+		playsound(get_turf(H), 'sound/misc/obj_toss.ogg', 100, TRUE)
+		throw_at(target_turf, dist, 6, H, FALSE)
 
 /obj/item/clothing/obj_break(damage_flag)
 	original_armor = armor
@@ -390,6 +406,11 @@
 		if(armorlist[x] > 0)
 			armorlist[x] = 0
 	..()
+	if(!HAS_TRAIT(src, TRAIT_NODROP))
+		if(ishuman(loc))
+			var/mob/living/carbon/human/H = loc
+			if(HAS_TRAIT(H, TRAIT_ARMOR_BREAK))
+				get_flung_off_forced()
 	if(throw_on_break && !HAS_TRAIT(src, TRAIT_NODROP))
 		get_flung_off()
 
@@ -634,12 +655,25 @@ BLIND     // can't see anything
 	return examine_text
 
 /obj/item/clothing/generate_tooltip(examine_text)
+	var/examine_highlight_status = get_examine_highlight_status()
 	if(!armor)	// No armor
-		return examine_text
+		if(examine_highlight_status)
+			var/severity = examine_highlight_status[1]
+			var/labeled_string = get_examine_highlight_labeled_string(severity, examine_text)
+			var/tooltip_string = get_examine_highlight_tooltip_string(examine_highlight_status)
+			return SPAN_TOOLTIP_DANGEROUS_HTML(tooltip_string, labeled_string)
+		else
+			return examine_text
 
 	// Fake armor
 	if(armor.getRating("slash") == 0 && armor.getRating("stab") == 0 && armor.getRating("blunt") == 0 && armor.getRating("piercing") == 0)
-		return examine_text
+		if(examine_highlight_status)
+			var/severity = examine_highlight_status[1]
+			var/labeled_string = get_examine_highlight_labeled_string(severity, examine_text)
+			var/tooltip_string = get_examine_highlight_tooltip_string(examine_highlight_status)
+			return SPAN_TOOLTIP_DANGEROUS_HTML(tooltip_string, labeled_string)
+		else
+			return examine_text
 
 	var/str
 	str += "<b>ABSORPTION:</b> [colorgrade_rating("🔨 BLUNT", armor.blunt, elaborate = TRUE, max_tier = 5)]<br>"
@@ -656,8 +690,16 @@ BLIND     // can't see anything
 			resists += colorgrade_rating("🧪 ACID", armor.acid, elaborate = TRUE)
 		str += resists.Join(" | ")
 
-	//This makes it appear darker than the rest of examine text. Draws the cursor to it like to a Wetsquires.rt link.
-	examine_text = "<font color = '#808080'>[examine_text]</font>"
+	if(examine_highlight_status)
+		var/heresy_desc = get_examine_highlight_description(examine_highlight_status)
+		var/severity = examine_highlight_status[1]
+		if(heresy_desc)
+			str += "<br>" + heresy_desc
+			str += "<br>" + get_examine_highlight_explanation(severity)
+		examine_text = get_examine_highlight_labeled_string(severity, examine_text)
+	else
+		//This makes it appear darker than the rest of examine text. Draws the cursor to it like to a Wetsquires.rt link.
+		examine_text = "<font color = '#808080'>[examine_text]</font>"
 	return SPAN_TOOLTIP_DANGEROUS_HTML(str, examine_text)
 
 /obj/item/clothing/proc/get_armor_integ()

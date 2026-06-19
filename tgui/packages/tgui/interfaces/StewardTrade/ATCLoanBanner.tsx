@@ -2,7 +2,15 @@ import { useState } from 'react';
 import { Button, NumberInput } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
-import { bannerStyle, INK, INK_FAINT, SEAL_AMBER } from '../common/parchment';
+import {
+  bannerStyle,
+  FONT_BODY,
+  FONT_TITLE,
+  INK,
+  INK_FAINT,
+  SEAL_AMBER,
+  SEAL_RED_SOFT,
+} from '../common/parchment';
 import type { AtcLoanState, Data } from './types';
 
 export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
@@ -19,7 +27,7 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
     return null;
   }
 
-  const accent = atc_loan.arrears_consumed ? '#a8433a' : SEAL_AMBER;
+  const accent = atc_loan.arrears_consumed ? SEAL_RED_SOFT : SEAL_AMBER;
 
   return (
     <div
@@ -28,22 +36,19 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
         padding: '10px 14px',
         textAlign: 'left',
         fontVariant: 'normal',
-        letterSpacing: '0',
       }}
     >
       <div
         style={{
-          fontSize: '15px',
+          fontSize: FONT_TITLE,
           fontWeight: 'bold',
-          letterSpacing: '3px',
-          fontVariant: 'small-caps',
           marginBottom: '4px',
           color: accent,
         }}
       >
         Azurian Trading Company - Company Clerk's Bench
       </div>
-      <div style={{ fontStyle: 'italic', color: INK, marginBottom: '6px' }}>
+      <div style={{ color: INK, marginBottom: '6px' }}>
         {atc_loan.available ? (
           <>
             The clerk receives applications for emergency loan of{' '}
@@ -61,9 +66,8 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
       {!!atc_loan.arrears_consumed && (
         <div
           style={{
-            color: '#a8433a',
-            fontStyle: 'italic',
-            fontSize: '12px',
+            color: SEAL_RED_SOFT,
+            fontSize: FONT_BODY,
             marginBottom: '6px',
           }}
         >
@@ -74,7 +78,7 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
         </div>
       )}
       {atc_loan.loans_drawn > 0 && (
-        <div style={{ color: INK_FAINT, fontSize: '11px', marginBottom: '6px' }}>
+        <div style={{ color: INK_FAINT, fontSize: FONT_BODY, marginBottom: '6px' }}>
           Loans drawn this week: {atc_loan.loans_drawn}.
         </div>
       )}
@@ -105,7 +109,7 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
             onChange={(v: number) => setAmount(v)}
           />
           <span>m</span>
-          <span style={{ color: '#a8433a', fontStyle: 'italic' }}>
+          <span style={{ color: SEAL_RED_SOFT }}>
             (owe {Math.round(amount * (1 + atc_loan.interest_pct / 100))}m)
           </span>
           <Button.Confirm

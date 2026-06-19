@@ -55,20 +55,48 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	
 	if(H.mind)
-		var/weapons = list("lesser staff", "lesser wand", "Quarterstaff")
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
+
+	switch(H.patron?.type)
+		if(/datum/patron/divine/undivided)
+			var/list/heal = list("Greater Miracle (Miracle)", "Fortifying Vapors (Medical)")
+			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(highheal_options)
+				if("Greater Miracle (Divine)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+				if("Fortifying Vapors (Secular)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+
+		if(/datum/patron/old_god) // ENDVRE LIKE THE MAN(or woman, or nonbinary) YOU ARE SUPPOSED TO BE, CHUD!
+			to_chat(H, span_blue("No matter how much you pray, you weep, and you endure. HE does not answer... Your trial begins now."))
+			H.emote("cry")
+
+		else
+			var/list/heal = list("Miracle (Divine)", "Fortifying Vapors (Secular)")
+			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(heal_options)
+				if("Miracle (Divine)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
+				if("Fortifying Vapors (Secular)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+
+
+	if(H.mind)
+		var/weapons = list("Lesser Staff", "Lesser Wand", "Quarterstaff")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
-			if("lesser staff")
+			if("Lesser Staff")
 				r_hand = /obj/item/rogueweapon/woodstaff/implement
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE)
-			if("lesser wand")
+			if("Lesser Wand + Shield")
 				r_hand = /obj/item/rogueweapon/wand
 				l_hand = /obj/item/rogueweapon/shield/wood
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE)
-			if("quarterstaff")
+			if("Quarterstaff")
 				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE)
-
 
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
@@ -166,41 +194,47 @@
 		/obj/item/chalk = 1,
 		)
 
+	grant_poke_spell(H)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/stoneskin)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
-
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
-	var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
-	switch(poke_choice)
-		if("Spitfire")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
-		if("Frost Bolt")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
-		if("Arc Bolt")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
-		if("Greater Arcyne Bolt")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
-		if("Stygian Efflorescence")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
-		if("Arcyne Lance")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
-		if("Lesser Gravel Blast")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
-		if("Lesser Soulshot")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
+
+	switch(H.patron?.type)
+		if(/datum/patron/divine/undivided)
+			var/list/heal = list("Greater Miracle (Miracle)", "Fortifying Vapors (Medical)")
+			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(highheal_options)
+				if("Greater Miracle (Divine)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+				if("Fortifying Vapors (Secular)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+
+		if(/datum/patron/old_god) // ENDVRE LIKE THE MAN(or woman, or nonbinary) YOU ARE SUPPOSED TO BE, CHUD!
+			to_chat(H, span_blue("No matter how much you pray, you weep, and you endure. HE does not answer... Your trial begins now."))
+			H.emote("cry")
+
+		else
+			var/list/heal = list("Miracle (Divine)", "Fortifying Vapors (Secular)")
+			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(heal_options)
+				if("Miracle (Divine)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
+				if("Fortifying Vapors (Secular)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
 	if(H.mind)
-		var/weapons = list("lesser staff", "lesser wand")
+		var/weapons = list("Lesser Staff", "Lesser Wand + Shield")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
-			if("lesser staff")
+			if("Lesser Staff")
 				r_hand = /obj/item/rogueweapon/woodstaff/implement
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE)
-			if("lesser wand")
+			if("Lesser Wand + Shield")
 				r_hand = /obj/item/rogueweapon/wand
 				l_hand = /obj/item/rogueweapon/shield/wood
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 2, TRUE)
@@ -298,14 +332,14 @@
 	neck = /obj/item/clothing/neck/roguetown/coif/padded
 
 	if(H.mind)
-		var/weapons = list("Arming Sword", "Shortsword + shield", "Quarterstaff", "Mace + shield", "Spear") // you may want to upgrade for a better sword
+		var/weapons = list("Arming Sword", "Shortsword + Shield", "Mace + Shield", "Quarterstaff", "Spear") // you may want to upgrade for a better sword
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Arming Sword")
 				r_hand = /obj/item/rogueweapon/sword
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 3, TRUE)
-			if("Shortsword + shield")
+			if("Shortsword + Shield")
 				r_hand = /obj/item/rogueweapon/sword/short
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				backr = /obj/item/rogueweapon/shield/wood
@@ -313,8 +347,9 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
 			if("Quarterstaff")
 				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE)
-			if("Mace + shield")
+			if("Mace + Shield")
 				r_hand = /obj/item/rogueweapon/mace
 				backr = /obj/item/rogueweapon/shield/wood
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 3, TRUE)
@@ -331,25 +366,7 @@
 		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 		)
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
-	var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
-	switch(poke_choice)
-		if("Spitfire")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
-		if("Frost Bolt")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
-		if("Arc Bolt")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
-		if("Greater Arcyne Bolt")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
-		if("Stygian Efflorescence")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
-		if("Arcyne Lance")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
-		if("Lesser Gravel Blast")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
-		if("Lesser Soulshot")
-			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
+	grant_poke_spell(H)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
@@ -401,4 +418,3 @@
 		if(/datum/patron/divine/xylix)
 			id = /obj/item/clothing/neck/roguetown/luckcharm
 			H.cmode_music = 'sound/music/combat_jester.ogg'
-

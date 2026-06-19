@@ -1,48 +1,29 @@
-/obj/structure/roguemachine/noticeboard/proc/open_assembly_tgui(mob/user)
-	if(!ishuman(user))
-		return
-	var/datum/tgui/ui = SStgui.try_update_ui(user, src, null)
-	if(!ui)
-		ui = new(user, src, "CityAssembly")
-		ui.open()
+/datum/city_assembly_panel
+	var/obj/structure/roguemachine/noticeboard/host
 
-/obj/structure/roguemachine/noticeboard/proc/build_assembly_summary_html()
-	var/list/lines = list()
-	lines += "<h2>The City Assembly</h2>"
-	lines += "<hr></center>"
-	if(!SScity_assembly)
-		lines += "<i>The Assembly has not yet convened.</i>"
-		return lines.Join("")
-	var/mob/alderman = SScity_assembly.resolve_get_alderman()
-	lines += "<b>Alderman:</b> [alderman ? alderman.real_name : "(vacant)"]<br>"
-	var/datum/assembly_warrant/W = SScity_assembly.current_warrant
-	if(W)
-		lines += "<b>Trade Warrant:</b> [W.trade_remaining]m / [W.trade_daily_cap]m per day<br>"
-		lines += "<b>Defense Warrant:</b> [W.defense_remaining]p / [W.defense_daily_cap]p per day<br>"
-	lines += "<b>Session:</b> #[SScity_assembly.session_counter] - next resolution at [build_next_resolution_label()]<br>"
-	lines += "<hr>"
-	lines += "<a href='?src=[REF(src)];open_assembly=1'><b>&#91; Enter the Assembly Floor &#93;</b></a>"
-	lines += "<hr>"
-	if(length(SScity_assembly.history))
-		lines += "<h3>Previous Sessions</h3>"
-		var/start = max(1, length(SScity_assembly.history) - 2)
-		for(var/i in start to length(SScity_assembly.history))
-			var/list/entry = SScity_assembly.history[i]
-			lines += "<div style='margin-bottom:8px'><b>Session [entry["session"]]</b><br>"
-			lines += SScity_assembly.build_summary_text(entry)
-			lines += "</div><hr>"
-	return lines.Join("")
+/datum/city_assembly_panel/New(obj/structure/roguemachine/noticeboard/host)
+	src.host = host
 
-/obj/structure/roguemachine/noticeboard/ui_state(mob/user)
+/datum/city_assembly_panel/Destroy()
+	host = null
+	return ..()
+
+/datum/city_assembly_panel/ui_host(mob/user)
+	return host
+
+/datum/city_assembly_panel/ui_state(mob/user)
 	return GLOB.human_adjacent_state
 
-/obj/structure/roguemachine/noticeboard/ui_interact(mob/user, datum/tgui/ui)
+/datum/city_assembly_panel/ui_close(mob/user)
+	qdel(src)
+
+/datum/city_assembly_panel/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "CityAssembly")
 		ui.open()
 
-/obj/structure/roguemachine/noticeboard/ui_static_data(mob/user)
+/datum/city_assembly_panel/ui_static_data(mob/user)
 	return list(
 		"trade_brackets" = ASSEMBLY_TRADE_BRACKETS,
 		"defense_brackets" = ASSEMBLY_DEFENSE_BRACKETS,
@@ -53,7 +34,7 @@
 		"nae_veto_pct" = ASSEMBLY_NAE_VETO_PCT,
 	)
 
-/obj/structure/roguemachine/noticeboard/ui_data(mob/user)
+/datum/city_assembly_panel/ui_data(mob/user)
 	var/list/data = list()
 	data["day"] = GLOB.dayspassed
 	data["session_number"] = SScity_assembly?.session_counter || 0
@@ -126,13 +107,11 @@
 /// Real-world seconds until the next Assembly resolution. Before Session 1 fires, this is
 /// the countdown to the scheduled first-session timer; after, it's time until the next
 /// in-game dawn (when day-tick resolutions fire).
-/obj/structure/roguemachine/noticeboard/proc/build_next_resolution_seconds()
+/datum/city_assembly_panel/proc/build_next_resolution_seconds()
 	if(!SScity_assembly)
 		return 0
-	// Pre-first-session: use the first-session timer anchor if it's armed.
 	if(SScity_assembly.first_session_resolve_at > world.time)
 		return round((SScity_assembly.first_session_resolve_at - world.time) / 10)
-	// Otherwise countdown to the next dawn (when day-tick resolutions fire).
 	if(!SSnightshift || !SSticker)
 		return 0
 	var/current_station_time = station_time()
@@ -141,23 +120,22 @@
 	if(current_station_time < dawn_at)
 		game_ds_until_dawn = dawn_at - current_station_time
 	else
-		// Already past today's dawn; next dawn is tomorrow.
 		game_ds_until_dawn = (864000 - current_station_time) + dawn_at
 	var/rate = SSticker.station_time_rate_multiplier || 1
 	if(rate <= 0)
 		rate = 1
 	return round((game_ds_until_dawn / rate) / 10)
 
-/obj/structure/roguemachine/noticeboard/proc/build_next_resolution_label()
+/datum/city_assembly_panel/proc/build_next_resolution_label()
 	if(SScity_assembly?.first_session_resolve_at > world.time)
 		return "the first session (~[ASSEMBLY_FIRST_SESSION_MINUTES]m post roundstart)"
 	return "the next dawn"
 
-/obj/structure/roguemachine/noticeboard/ui_act(action, list/params)
+/datum/city_assembly_panel/ui_act(action, list/params)
 	. = ..()
 	if(.)
 		return
-	if(!usr.canUseTopic(src, BE_CLOSE))
+	if(!usr.canUseTopic(host, BE_CLOSE))
 		return TRUE
 	if(!SScity_assembly)
 		return TRUE
@@ -207,3 +185,9 @@
 				return TRUE
 			SStreasury.steward_machine.open_trade_tgui(usr)
 			return TRUE
+
+/obj/structure/roguemachine/noticeboard/proc/open_assembly_tgui(mob/user)
+	if(!ishuman(user))
+		return
+	var/datum/city_assembly_panel/panel = new(src)
+	panel.ui_interact(user)

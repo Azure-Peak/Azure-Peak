@@ -1,6 +1,10 @@
+/datum/food_recipe/seafood
+	abstract_type = /datum/food_recipe/seafood
+	book_category = FOOD_CAT_SEAFOOD
+
 // Cooked Sole + Butter -> Buttered Sole
-/datum/food_recipe/buttered_sole
-	name = "Buttered Sole"
+/datum/food_recipe/seafood/buttered_sole
+	name = "buttered sole"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/sole
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/butterslice
@@ -8,26 +12,26 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/buttersole
 
 // Cooked Cod + Ale -> Ale Cod
-/datum/food_recipe/ale_cod
-	name = "Ale Cod"
+/datum/food_recipe/seafood/ale_cod
+	name = "ale cod"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/cod
 	ingredients = list(
-		/datum/reagent/consumable/ethanol/beer = 1  // Requires 1 unit of beer reagent
+		/datum/reagent/consumable/ethanol/beer = 1
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/alecod
 
 // Cooked Lobster + Pepper -> Pepper Lobster
-/datum/food_recipe/pepper_lobster
-	name = "Pepper Lobster"
+/datum/food_recipe/seafood/pepper_lobster
+	name = "pepper lobster"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster
 	ingredients = list(
-		/datum/reagent/consumable/blackpepper = 1  // Requires 1 unit of black pepper
+		/datum/reagent/consumable/blackpepper = 1
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/pepperlobsta
 
 // Cooked Lobster + Butter -> Buttered Lobster Meal
-/datum/food_recipe/buttered_lobster
-	name = "Buttered Lobster"
+/datum/food_recipe/seafood/buttered_lobster
+	name = "buttered lobster"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/butterslice
@@ -35,8 +39,8 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster/meal
 
 // Cooked Salmon + Mentha -> Dendorsalmon (Mentha Salmon)
-/datum/food_recipe/mentha_salmon
-	name = "Mentha Salmon"
+/datum/food_recipe/seafood/mentha_salmon
+	name = "mentha salmon"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon
 	ingredients = list(
 		/obj/item/alch/mentha
@@ -44,8 +48,8 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/dendorsalmon
 
 // Cooked Salmon + Berries -> Berry Salmon
-/datum/food_recipe/berry_salmon
-	name = "Berry Salmon"
+/datum/food_recipe/seafood/berry_salmon
+	name = "berry salmon"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue
@@ -53,8 +57,8 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/berrysalmon
 
 // Cooked Plaice + Sliced Onion -> Onion Plaice
-/datum/food_recipe/onion_plaice
-	name = "Onion Plaice"
+/datum/food_recipe/seafood/onion_plaice
+	name = "onion plaice"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/plaice
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/veg/onion_sliced
@@ -62,8 +66,8 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/onionplaice
 
 // Cooked Bass + Garlic Clove -> Garlic Bass
-/datum/food_recipe/garlic_bass
-	name = "Garlic Bass"
+/datum/food_recipe/seafood/garlic_bass
+	name = "garlic bass"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/bass
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove
@@ -71,10 +75,10 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/garlickbass
 
 // Cooked Clam + Milk -> Milk Clam
-/datum/food_recipe/milk_clam
-	name = "Milk Clam"
+/datum/food_recipe/seafood/milk_clam
+	name = "milk clam"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/fryfish/clam
 	ingredients = list(
-		/datum/reagent/consumable/milk = 1  // Requires 1 unit of milk
+		/datum/reagent/consumable/milk = 1
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/milkclam

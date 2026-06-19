@@ -11,6 +11,11 @@
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
 // Steel Armor Section. Massive selection here so I am not going to include everything
+/datum/supply_pack/rogue/armor_steel/lightchainmail_steel
+	name = "Haubyrine"
+	cost = 50 // 1 Ingots
+	contains = list(/obj/item/clothing/suit/roguetown/armor/chainmail/light)
+
 /datum/supply_pack/rogue/armor_steel/haubergeon_steel
 	name = "Haubergeon"
 	cost = 50 // 1 Ingots
@@ -121,6 +126,11 @@
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/wrists/roguetown/bracers)
 
+/datum/supply_pack/rogue/armor_steel/bracers_chain
+	name = "Bracers, Chainmaille"
+	cost = 50 // 1 Steel
+	contains = list(/obj/item/clothing/wrists/roguetown/bracers/chain)
+
 /datum/supply_pack/rogue/armor_steel/helmet_nasal
 	name = "Helmet, Nasal"
 	cost = 50 // 1 Steel
@@ -172,14 +182,19 @@
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/barbute/great)
 
 /datum/supply_pack/rogue/armor_steel/helmet_pigface
-	name = "Helmet, Pigface"
+	name = "Helmet, Pigface Bascinet"
 	cost = 90 // 2 Steel
 	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/pigface)
 
 /datum/supply_pack/rogue/armor_steel/helmet_hounskull
-	name = "Helmet, Hounskull"
+	name = "Helmet, Hounskull Bascinet"
 	cost = 90 // 2 Steel
 	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull)
+
+/datum/supply_pack/rogue/armor_steel/helmet_roundface
+	name = "Helmet, Roundface Bascinet"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface)
 
 /datum/supply_pack/rogue/armor_steel/helmet_bascinet
 	name = "Helmet, Bascinet"
@@ -246,10 +261,15 @@
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/neck/roguetown/gorget/steel)
 
-/datum/supply_pack/rogue/armor_steel/boots_steel
+/datum/supply_pack/rogue/armor_steel/plateboots_steel
 	name = "Plated Boots"
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/shoes/roguetown/boots/armor)
+
+/datum/supply_pack/rogue/armor_iron/mailleboots_steel
+	name = "Maille Boots"
+	cost = 50
+	contains = list(/obj/item/clothing/shoes/roguetown/boots/maille)
 
 /datum/supply_pack/rogue/armor_steel/mask_steel
 	name = "Mask"

@@ -140,6 +140,7 @@
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/northern/border_reiver/midgear)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
 	if(organ_eyes)
@@ -147,7 +148,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 15 // Not much
+	head.sellprice = HEAD_BOUNTY_REIVER
 
 /datum/outfit/job/roguetown/human/northern/border_reiver/midgear/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -168,7 +169,7 @@
 	H.STAINT = rand(9,10)
 	//Chest Gear
 	add_random_reiver_cloak(H)
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	add_random_reiver_armor(H)
 	//Head Gear
 	neck = /obj/item/clothing/neck/roguetown/leather
@@ -239,6 +240,7 @@
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/northern/border_reiver/lowgear)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
 	if(organ_eyes)
@@ -246,7 +248,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 15 // Not much
+	head.sellprice = HEAD_BOUNTY_REIVER
 
 /datum/outfit/job/roguetown/human/northern/border_reiver/lowgear/pre_equip(mob/living/carbon/human/H)
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
@@ -268,7 +270,7 @@
 	H.STAINT = rand(8,9)
 	//Chest Gear
 	add_random_reiver_cloak(H)
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
 	//Head Gear
 	neck = /obj/item/clothing/neck/roguetown/leather
 	add_random_reiver_lowgearhelmet(H)
@@ -323,6 +325,7 @@
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/northern/border_reiver/highgear)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
 	if(organ_eyes)
@@ -330,7 +333,7 @@
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 15 // Not much
+	head.sellprice = HEAD_BOUNTY_REIVER
 
 /datum/outfit/job/roguetown/human/northern/border_reiver/highgear/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -352,7 +355,7 @@
 	H.STAINT = rand(10,11)
 	//Chest Gear
 	add_random_reiver_cloak(H)
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy
 	//Head Gear
 	neck = /obj/item/clothing/neck/roguetown/chaincoif

@@ -95,13 +95,19 @@
 	skill_weights = list(50, 30, 20, 15, 15, 10, 10) // Low static chance
 	bonus_animal_amount = 10
 	animals = list(
-		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead = 20,
+		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead = 50,
 		/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead = 10,
-		/mob/living/simple_animal/hostile/retaliate/smallrat = 1
+		/mob/living/simple_animal/hostile/retaliate/smallrat = 1,
+		/mob/living/simple_animal/hostile/retaliate/rogue/fox/undead = 10,
+		// Keep these rare, for they are very dangerous.
+		/mob/living/simple_animal/hostile/retaliate/rogue/boar/undead = 2,
+		/mob/living/simple_animal/hostile/retaliate/rogue/troll/undead = 2,
 	)
 	preferred_tracks = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead = "cervine",
 		/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead = "canine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/boar/undead = "suidae",
+		/mob/living/simple_animal/hostile/retaliate/rogue/fox/undead = "canine",
 	)
 	preferred_areas = list(
 		/area/rogue/outdoors/beach/forest = 1000,

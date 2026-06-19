@@ -72,11 +72,6 @@
 	if(has_buckled_mobs())
 		return
 
-	if(!aggroed)
-		START_PROCESSING(SSobj, src)
-	aggroed = world.time
-	update_icon()
-
 	if(!isliving(AM))
 		if(is_type_in_list(AM, eatablez))
 			last_eat = world.time
@@ -88,10 +83,15 @@
 	var/mob/living/victim = AM
 	if(victim == planter)
 		return
-	if(!victim.ambushable())
+	if(!victim.ambushable() && victim.mind)
 		return
 	if(victim.m_intent == MOVE_INTENT_SNEAK)
 		return
+
+	if(!aggroed)
+		START_PROCESSING(SSobj, src)
+	aggroed = world.time
+	update_icon()
 
 	buckle_mob(victim, TRUE, check_loc = FALSE)
 	playsound(loc, list('sound/vo/mobs/plant/attack (1).ogg','sound/vo/mobs/plant/attack (2).ogg','sound/vo/mobs/plant/attack (3).ogg','sound/vo/mobs/plant/attack (4).ogg'), 100, FALSE, -1)

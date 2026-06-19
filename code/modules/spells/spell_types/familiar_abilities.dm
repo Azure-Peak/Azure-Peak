@@ -246,12 +246,14 @@
 		return FALSE
 	target.fire_act(1,10) // shouldn't be oppressive by any means it's 1 stack every 10 seconds
 
-/obj/effect/proc_holder/spell/invoked/matthios_firebreath/infernal
+/datum/action/cooldown/spell/matthios/raze/infernal
 	name = "Hellfyre Wave"
-	desc = "Manifest your flames in a wave in front of you, burning down all in your path."
-	miracle = FALSE
-	devotion_cost = 0 // not a miracle
-	recharge_time = 30 SECONDS // on par with other familiar abilities. from inround testing this really is not strong enough to warrant a 2 min cd
+	desc = "Exhale a cone of hellfyre before you, scorching enemies and igniting the ground. These flames are also strong enough to turn unworthy corpses into ashes and dust."
+	fluff_desc = "The hellfyre is always within your lungs, for you have breathed it, lived in it. Exhaling that to profane this realm is no difficult task."
+	primary_resource_cost = 0
+	cooldown_time = 1 MINUTES
+	familiar = TRUE
+	required_items = null
 
 /obj/effect/proc_holder/spell/self/infernal_surge
 	name = "Infernal Surge"

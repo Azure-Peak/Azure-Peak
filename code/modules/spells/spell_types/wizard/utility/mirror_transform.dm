@@ -1,11 +1,11 @@
 /datum/action/cooldown/spell/mirror_transform
 	name = "Mirror Transform"
 	desc = "Temporarily grants you the ability to use mirrors to change your appearance."
-	button_icon = 'icons/mob/actions/roguespells.dmi'
+	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
 	button_icon_state = "mirror"
 	sound = 'sound/magic/whiteflame.ogg'
 
-	click_to_activate = FALSE
+	click_to_activate = TRUE
 	self_cast_possible = TRUE
 
 	primary_resource_type = SPELL_COST_STAMINA
@@ -29,7 +29,7 @@
 
 /datum/action/cooldown/spell/mirror_transform/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/carbon/human/H = owner
+	var/mob/living/carbon/human/H = cast_on
 	if(!istype(H))
 		return FALSE
 

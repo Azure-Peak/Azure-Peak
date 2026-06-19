@@ -15,15 +15,6 @@
 	force = 10
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
 
-/obj/item/ammo_casing/caseless/rogue/bolt/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 2,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-
 /obj/item/ammo_casing/caseless/rogue/bolt/light
 	name = "light bolt"
 	desc = "A lighter, far less sturdier bolt. Made for smaller crossbows."
@@ -68,6 +59,15 @@
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "regbolt"
 	icon_state = "bolt_holywater"
+
+/obj/item/ammo_casing/caseless/rogue/bolt/lightholy
+	name = "light sunderbolt"
+	desc = "A compact silver-tipped bolt, containing a small vial of holy water. Though it inflicts lesser wounds on living flesh, it exceeds when \
+	employed against the unholy; a snap and a crack, followed by a fiery surprise. </br>'One baptism for the remission of sins.'"
+	projectile_type = /obj/projectile/bullet/reusable/bolt/holy //Most of the effectiveness comes from the debuffs, rather than the damage itself. Simple, but sweet.
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
+	caliber = "lightbolt"
+	icon_state = "light_bolt_holywater"
 
 /obj/projectile/bullet/reusable/bolt
 	name = "bolt"
@@ -135,7 +135,7 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/holy
 	embedchance = 100
 	poisontype = /datum/reagent/water/blessed
-	poisonamount = 5
+	poisonamount = 7
 	is_silver_proj = TRUE //Uniquely deals a 'double whammy', in terms of both applying Sunder and some lingering post-impact damage.
 	npc_simple_damage_mult = 5 //175, compared to the regular bolt's 140. Slightly more damage, as to imitate its anti-unholy properties on mobs who aren't affected by any form of poison.
 
@@ -158,8 +158,7 @@
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "heabolt"
 	icon = 'icons/roguetown/weapons/ammo.dmi'
-	icon_state = "heavybolt" //NOTE!!! FIND A WAY TO MAKE BOLTS DEAL EXTRA DAMAGE TO BARRICADES AND STRUCTURES ASAP!!! IF YOU KNOW, FEEL FREE TO PR IT ASAP!!!
-	dropshrink = 0.8
+	icon_state = "heavybolt"
 	max_integrity = 15
 	force = 15
 	grid_height = 96 //Effectively as large as a shortsword. Two in a belt, four in a satchel. Unideal for carrying without a purpose-made pouch.
@@ -171,7 +170,7 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt
 	name = "heavy bolt"
-	damage = 90 // +20 damage over the regular bolt
+	damage = 90 // +20 damage over the regular bolt.
 	damage_type = BRUTE
 	armor_penetration = PEN_BSTEEL
 	object_damage_multiplier = 14 //Determines the multiplier that's applied to the bolt's damage value, when striking a structure. By default, it can destroy any wooden defense - a door, barricade, wall - in one shot.
@@ -206,7 +205,7 @@
 		M.visible_message(span_warning("[M] staggers back from the tremendous impact!"))
 		M.apply_status_effect(/datum/status_effect/debuff/staggered, 6 SECONDS)
 		M.apply_status_effect(/datum/status_effect/debuff/exposed, 6 SECONDS) //Done in conjunction with the new Feint testmerge - opens up for a single integrity-destroying attack.
-		M.Slowdown(6 SECONDS)
+		M.Slowdown(6)
 		M.OffBalance(1 SECONDS)
 		M.Immobilize(1 SECONDS)
 		return
@@ -278,7 +277,6 @@
 	icon_state = "bronzebolt_proj"
 	speed = 0.8
 
-
 /obj/item/ammo_casing/caseless/rogue/bolt/silver
 	name = "silver bolt"
 	desc = "A masterworked bolt of silver, fitted to a winged rod of boswellia wood. Expensive, yet uncompromisingly lethal; the \
@@ -322,22 +320,132 @@
 	is_silver_proj = TRUE
 	npc_simple_damage_mult = 10 //..or 1000 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
 
+// STAKE AMMO
+/obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake
+	name = "siegestake"
+	desc = "A large branch that has been broken off of a boswellia tree, sharpened to a fine point. Though its prodigious \
+	size - comparable to a fencepost in length and width - makes it cumbersome for hand-to-hand stakings, siegestakes like these are perfect for disrupting \
+	curses from afar. </br>'Vampyres, gargoyles, necromancers, they're all the same - best when cooked well.'"
+	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/stake
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
+	icon_state = "heavystake"
+	max_integrity = 15
+	force = 20
+
+/obj/projectile/bullet/reusable/heavy_bolt/stake
+	name = "siegestake"
+	damage = 60
+	armor_penetration = PEN_BSTEEL 
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake
+	icon_state = "heavystake_proj"
+	hitsound = 'sound/combat/hits/hi_bolt (2).ogg'
+	speed = 0.8
+	npc_simple_damage_mult = 10 //..or 750 damage against a mindless mob.
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 6 //Deals 60 BRUTE and 30 BURN, on top of some mild afterburn.
+
+/obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake_silver
+	name = "silver-tipped siegestake"
+	desc = "A large branch that has been broken off of a boswellia tree, sharpened to a fine point and tipped with blessed silver. Though its prodigious \
+	size - comparable to a fencepost in length and width - makes it cumbersome for hand-to-hand stakings, siegestakes like these are perfect for disrupting \
+	curses from afar.  </br>'Requiescat in pace..' - '..may thee rest in peace.'"
+	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/stake_silver
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
+	icon_state = "silvheavystake"
+	max_integrity = 15
+	force = 20
+	is_silver = TRUE
+	is_lesser_silver = TRUE
+
+/obj/projectile/bullet/reusable/heavy_bolt/stake_silver
+	name = "silver-tipped siegestake"
+	damage = 70 // In essence, a lesser version of the traditional silver siegebolts.
+	armor_penetration = PEN_BSTEEL 
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake_silver
+	icon_state = "silvheavystake_proj"
+	hitsound = 'sound/combat/hits/hi_bolt (2).ogg'
+	speed = 0.6
+	is_silver_proj = TRUE
+	npc_simple_damage_mult = 10 //..or 900 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 4 //Deals 70 BRUTE and 40 BURN, on top of some mild afterburn.
+
+//
+
+/obj/item/ammo_casing/caseless/rogue/stake
+	name = "shotstake"
+	desc = "A small branch that has been broken off a boswellia tree, and sharpened to a fine point. While imbalanced for hand-to-hand stakings, the \
+	heat-treated wood makes it perfect for being loaded-and-launched out of a staker."
+	projectile_type = /obj/projectile/bullet/reusable/stake
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
+	caliber = "stake"
+	icon_state = "stake"
+	dropshrink = 0.6
+	max_integrity = 15
+	force = 15
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
+
+/obj/projectile/bullet/reusable/stake
+	name = "shotstake"
+	damage = 25
+	damage_type = BRUTE
+	armor_penetration = PEN_HEAVY
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/stake
+	icon_state = "stake_proj"
+	hitsound = 'sound/combat/hits/hi_bolt (1).ogg'
+	npc_simple_damage_mult = 6 //..or 150 damage against a mindless mob.
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 3 //Deals 25 BRUTE and 15 BURN, on top of some mild afterburn.
+	range = 15
+	speed = 0.4
+	min_range = MIN_BOLT_RANGE - 1
+	max_range = MAX_BOLT_RANGE
+	dam_falloff_factor = DAM_FALLOFF_BOLT
+	embedchance = 100
+	woundclass = BCLASS_PIERCE
+
+/obj/item/ammo_casing/caseless/rogue/stake/silver
+	name = "silver-tipped shotstake"
+	desc = "A small branch that has been broken off a boswellia tree, sharpened to a fine point, and tipped with blessed silver. While imbalanced for \
+	hand-to-hand stakings, the heat-treated wood makes it perfect for being loaded-and-launched out of a staker. </br>'Requiescat in pace..' - '..may thee rest in peace.'"
+	projectile_type = /obj/projectile/bullet/reusable/stake/silver
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick)
+	icon_state = "silverstake"
+	max_integrity = 15
+	force = 20
+	is_silver = TRUE
+	is_lesser_silver = TRUE
+
+/obj/projectile/bullet/reusable/stake/silver
+	name = "silver-tipped shotstake"
+	damage = 40
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/stake/silver
+	icon_state = "silverstake_proj"
+	hitsound = 'sound/combat/hits/hi_bolt (1).ogg'
+	npc_simple_damage_mult = 6 //..or 300 damage against a mindless mob.
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 4 //Deals 40 BRUTE and 20 BURN, on top of some mild afterburn.
+	is_silver_proj = TRUE
+
 // PYRO AMMO
 /obj/item/ammo_casing/caseless/rogue/bolt/pyro
 	name = "pyroclastic bolt"
-	desc = "A bolt smeared with a flammable tincture."
+	desc = "A flint-tipped bolt, housed in a thin alloy and smeared with a flammable tincture. The lightest impact tends to violently crumple its alloyed blanket \
+	against the flint, spawning a flurry of sparks that turns its jellified accompaniment into a firestorm."
 	projectile_type = /obj/projectile/bullet/bolt/pyro
 	possible_item_intents = list(/datum/intent/mace/strike)
 	icon_state = "bolt_pyroclastic"
 
 /obj/projectile/bullet/bolt/pyro
 	name = "pyroclastic bolt"
-	desc = "A bolt smeared with a flammable tincture."
+	desc = "A flint-tipped bolt, housed in a thin alloy and smeared with a flammable tincture. The lightest impact tends to violently crumple its alloyed blanket \
+	against the flint, spawning a flurry of sparks that turns its jellified accompaniment into a firestorm."
 	damage = 20
 	icon_state = "boltpyro_proj"
 	hitsound = 'sound/blank.ogg'
 	embedchance = 0
 	woundclass = BCLASS_BLUNT
+	npc_simple_damage_mult = 4 //..or 100 damage against a mindless mob. Fairly mild, but also comes with the benefit of inducing heavy firestacks on impact.
 
 /obj/projectile/bullet/bolt/pyro/on_hit(target)
 	..()

@@ -33,6 +33,8 @@
 	attunement_school = ASPECT_NAME_TELOMANCY
 	spell_impact_intensity = SPELL_IMPACT_LOW
 
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
 /datum/action/cooldown/spell/projectile/seeker_volley/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
 	. = ..()
 	if(istype(to_fire, /obj/projectile/magic/seeker_orb))

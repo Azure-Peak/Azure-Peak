@@ -37,7 +37,7 @@
 	if(H.mind && !H.mind.has_antag_datum(/datum/antagonist/gnoll))
 		var/datum/antagonist/new_antag = new /datum/antagonist/gnoll()
 		H.mind.add_antag_datum(new_antag)
-		H.verbs |= /mob/living/carbon/human/proc/gnoll_inspect_skin
+		add_verb(H, /mob/living/carbon/human/proc/gnoll_inspect_skin)
 	H.set_species(/datum/species/gnoll)
 	H.skin_armor = new vamp_armor_type(H)
 	H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)

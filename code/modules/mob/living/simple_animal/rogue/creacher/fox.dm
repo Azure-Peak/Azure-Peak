@@ -36,8 +36,8 @@
 	faction = list(FACTION_WOLFS, FACTION_ZOMBIE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	remains_type = /obj/effect/decal/remains/fox
-	health = 100
-	maxHealth = 100				//Wolf is 120
+	health = FOX_HEALTH
+	maxHealth = FOX_HEALTH		//Wolf is 120
 	melee_damage_lower = 10		//Wolf is 19
 	melee_damage_upper = 20		//Wolf is 29
 	vision_range = 7
@@ -178,3 +178,8 @@
 			return pick('sound/vo/mobs/venard/fox1.ogg','sound/vo/mobs/venard/fox2.ogg','sound/vo/mobs/venard/fox3.ogg','sound/vo/mobs/venard/fox4.ogg','sound/vo/mobs/venard/fox5.ogg','sound/vo/mobs/venard/fox6.ogg','sound/vo/mobs/venard/fox7.ogg','sound/vo/mobs/venard/fox8.ogg','sound/vo/mobs/venard/fox9.ogg','sound/vo/mobs/venard/fox10.ogg','sound/vo/mobs/venard/fox11.ogg','sound/vo/mobs/venard/fox12.ogg','sound/vo/mobs/venard/fox13.ogg')
 		if("cidle")
 			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/death(gibbed)
+	. = ..()
+	if(!QDELETED(src) && !gibbed)
+		src.AddComponent(/datum/component/deadite_animal_reanimation)

@@ -5,6 +5,8 @@
 // MULTIBAR SMELTING WAS DISABLED FOR BALANCE REASONS
 // DO NOT RE-ENABLE IT UNTIL FURTHER NOTICE
 
+
+
 /obj/machinery/light/rogue/smelter
 	icon = 'icons/roguetown/misc/forge.dmi'
 	name = "stone furnace"
@@ -29,7 +31,7 @@
 	var/smelting_progress = 0
 
 	/// How many ticks of smelting necessary to get the finished product
-	var/smelting_ticks = 20
+	var/smelting_ticks = 10
 
 	/// Are we currently smelting?
 	var/actively_smelting = FALSE
@@ -259,7 +261,7 @@
 	anchored = TRUE
 	density = TRUE
 	max_contained_items = 4
-	smelting_ticks = 30
+	smelting_ticks = 15
 	climbable = FALSE
 
 /obj/machinery/light/rogue/smelter/great/handle_smelting()
@@ -342,7 +344,7 @@
 	anchored = TRUE
 	density = TRUE
 	max_contained_items = 4
-	smelting_ticks = 40
+	smelting_ticks = 20
 	climbable = FALSE
 
 /obj/machinery/light/rogue/smelter/bronze/handle_smelting()
@@ -395,5 +397,5 @@
 	anchored = TRUE
 	density = TRUE
 	max_contained_items = 6
-	smelting_ticks = 45
+	smelting_ticks = 22
 	climbable = FALSE

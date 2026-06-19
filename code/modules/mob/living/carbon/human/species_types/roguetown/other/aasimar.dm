@@ -7,16 +7,15 @@
 	origin_default = /datum/virtue/origin/otava
 	origin = "Otava"
 	base_name = "Godtouched"
-	desc = "<b>Aasimar</b><br>\
-	Aasimar are born of a rare union between Humens and Angels. \
+	desc_title = "Aasimar"
+	desc = "Aasimar are born of a rare union between Humens and Angels. \
 	They bear the mark of their celestial touch through their many varying physical features. \
 	Their looks resemble the traditional characteristics of whichever of the Gods their Angel parent was associated with. \
 	Most commonly, Aasimar are similar to Humens, albeit taller, and commonly possess an uncanny beauty. \
 	When compared to the average Humen, they have strangely colored skin and are more physically frail. \
 	Because of their upbringing, they make for natural conduits for godly powers. \
 	Azure Peak's populace holds them with a mixture of uneasy mixture of fear and respect. \
-	Due to their celestial nature, it is widely believed that an Aasimar's death is a bad omen...<br>\
-	(+1 FOR, +1 Stat of their choice, or Lack of Hunger & Thirst)"
+	Due to their celestial nature, it is widely believed that an Aasimar's death is a bad omen..."
 
 	max_age = "???"
 
@@ -92,6 +91,7 @@
 		"+1 PER" = STATKEY_PER,
 		"No Hunger & Thirst" = TRAIT_NOHUNGER
 	)
+	mechanics_explanations = list("Are the only race whose lux is already purified when extracted. However, their lux takes far longer to regrow than every other races.")
 
 /datum/species/aasimar/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	..()
@@ -119,6 +119,7 @@
 		"Olympia" = SKIN_COLOR_OLYMPIA,
 		"Necral" = SKIN_COLOR_NECRAL,
 		"Abyssal" = SKIN_COLOR_ABYSSAL,
+		"Figulus" = SKIN_COLOR_FIGULUS,
 	)
 
 /datum/species/aasimar/get_hairc_list()
@@ -153,3 +154,6 @@
 
 /datum/species/aasimar/random_surname()
 	return
+
+/datum/species/aasimar/get_string_bonus_stats(return_null_if_no_stats = FALSE, end_with_glue = FALSE)
+	return ..(TRUE, TRUE) + "CHOOSE: +1 bonus stat of your choosing, OR No Hunger & Thirst"

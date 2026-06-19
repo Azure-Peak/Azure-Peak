@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE)
 	allowed_sexes = list(MALE, FEMALE)
 	display_order = JDO_STEWARD
 	tutorial = "Coin, Coin, Coin! Oh beautiful coin: You're addicted to it, and you hold the position as the Grand Duke's personal treasurer of both coin and information. You know the power silver and gold has on a man's mortal soul, and you know just what lengths they'll go to in order to get even more. Keep your festering economy alive- for it is the only thing you can weigh any trust into anymore."
@@ -79,7 +79,7 @@
 	id = /obj/item/scomstone
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
-	H.verbs |= /mob/living/carbon/human/proc/adjust_taxes
+	add_verb(H, /mob/living/carbon/human/proc/adjust_taxes)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 	backpack_contents = list(
@@ -90,7 +90,7 @@
 
 /mob/living/carbon/human/proc/adjust_taxes()
 	set name = "Adjust Taxes"
-	set category = "Stewardry"
+	set category = "RoleUnique.Stewardry"
 	if(stat)
 		return
 	var/datum/taxsetter/taxsetter = new("The Diligent Steward Intervenes", "The Greedy Steward Imposes")

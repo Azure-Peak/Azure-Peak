@@ -88,6 +88,9 @@
 	damfactor = 0.9
 	item_d_type = "stab"
 
+/datum/intent/mace/rangedthrust/short
+	reach = 1
+
 /datum/intent/mace/bash
 	name = "bash"
 	blade_class = BCLASS_BLUNT
@@ -200,7 +203,7 @@
 	force_wielded = 30
 	name = "bell ringer"
 	desc = "Each man's death diminishes me, for I am involved in mankind. </br>Therefore, send not to know for whom the bell tolls. </br>It tolls for thee."
-	icon_state = "churchmace"
+	icon_state = "bellringer"
 	wbalance = WBALANCE_HEAVY
 	smeltresult = /obj/item/ingot/steel
 	wdefense = 3
@@ -208,6 +211,29 @@
 /obj/item/rogueweapon/mace/church/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("This mace can be used to ring the Church's bell, distinctly hearable by everyone within the Town's limits.")
+
+// Holy See equipment
+
+/obj/item/rogueweapon/mace/steel/holyseemace
+	name = "holy see mace"
+	desc = "A blessed mace, wielded by the Holy See's templars to drive the fiends in the dark back. \
+			Many within the See find the shedding of blood regrettable, thus did an ancient artificer be struck by divine inspiration. \
+			A holy bludgeon that would draw far less blood than its sharper cousins, but still capable of crushing steel, heretic and \
+			deadite both in righteous fury. When evil is at thy doorstep, grasp the Ten's gift in hand and be ever mindful. \
+			It's not what's in front of you that's important, it's what's behind you."
+	icon_state = "churchmace"
+	wdefense = 5
+
+/obj/item/rogueweapon/mace/steel/holyseemace/sunburst
+	name = "sunburst"
+	desc = "A luminous steeled mace with a lengthened handle, adorned with vibrant golden trimmings along a faintly silvered polished metal edge, \
+			the spikes that protrude from its heavy edge radiate with Astrata's glow upon the points. Often issued as a heavy-reminder of divine \
+			judgement to crash against the ever-growing legions of monsters that would dare stand against the weight of Astrata's fury and judgement."
+	icon = 'icons/roguetown/weapons/blunt32.dmi'
+	icon_state = "astratamace"
+	force_wielded = 35
+	max_integrity = 250
+	wdefense = 5
 
 /obj/item/rogueweapon/mace/steel
 	force = 25
@@ -258,6 +284,7 @@
 	smelt_bar_num = 1
 	sellprice = 150
 	is_silver = TRUE
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/steel/silver/decorated/ComponentInitialize()
 	AddComponent(\
@@ -279,9 +306,9 @@
 	max_integrity = 50
 	anvilrepair = null //Ceremonial. This should break comedically easily, but still have just enough toughness to work with a few strikes.
 	minstr = 11
-	sellprice = 300
 	smeltresult = /obj/item/ingot/gold
 	unenchantable = TRUE
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/woodclub
 	force = 15
@@ -428,9 +455,7 @@
 	desc = "A ceremonial rungu carved out of clam shell. Not intended for combat. Its used in various Sea and Coastal Elven rituals and ceremonies."
 	icon = 'icons/roguetown/gems/gem_shell.dmi'
 	icon_state = "rungu_shell"
-
 	max_integrity = 75
-	sellprice = 35
 
 /obj/item/rogueweapon/mace/cudgel/psy
 	name = "psydonic flanged mace"
@@ -540,6 +565,7 @@
 	force_wielded = 25
 	wbalance = WBALANCE_NORMAL
 	icon_state = "opsyflangedmacelegacy"
+	is_silver = FALSE
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/mace/cudgel/psyclassic/old/ComponentInitialize()
@@ -611,7 +637,7 @@
 	force = 15
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged) //Fluffed as either buttstroking with the Grand Mace, or ineffectually swinging it.
-	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/mace/rangedthrust, /datum/intent/effect/daze)
+	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/mace/rangedthrust/short, /datum/intent/effect/daze)
 	name = "goedendag"
 	desc = "Good morning."
 	icon_state = "goedendag"
@@ -620,6 +646,7 @@
 	//dropshrink = 0.75
 	wlength = WLENGTH_LONG
 	w_class = WEIGHT_CLASS_BULKY
+	slot_flags = null
 	associated_skill = /datum/skill/combat/maces
 	smeltresult = /obj/item/ash
 	swingsound = BLUNTWOOSH_LARGE
@@ -683,13 +710,12 @@
 	smeltresult = /obj/item/ingot/steelholy
 	smelt_bar_num = 2
 
-/obj/item/rogueweapon/mace/goden/kanabo
+/obj/item/rogueweapon/mace/goden/steel/kanabo
 	name = "kanabo"
 	desc = "A steel-banded wooden club, made to break the enemy in spirit as much as in flesh. One of the outliers among the many more elegant weapons of Kazengun."
 	icon_state = "kanabo"
 	slot_flags = ITEM_SLOT_BACK
 	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/smash/grand, /datum/intent/effect/daze)
-	max_integrity = 250 // it's strong wood, but it's still wood.
 
 /obj/item/rogueweapon/mace/goden/steel/ravox
 	name = "duel settler"
@@ -715,6 +741,17 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 0,\
+		added_int = 50,\
+		added_def = 1,\
+	)
+
+/obj/item/rogueweapon/mace/goden/psymace/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
 		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 0,\
@@ -760,9 +797,9 @@
 	desc = "Flowers, silk, and gold caress this carved-and-spiked log; a honored totem who's roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
 	icon_state = "bronzeclubdec"
 	smeltresult = /obj/item/ingot/gold
-	sellprice = 100
 	wdefense = 5
 	max_integrity = 250
+	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/mace/warhammer/alloy
 	name = "decrepit warhammer"
@@ -885,7 +922,7 @@
 	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	dropshrink = 0.6
+	//dropshrink = 0.6
 	bigboy = TRUE
 	gripsprite = TRUE
 	minstr_req = TRUE //You MUST have the required strength. No exceptions.
@@ -954,8 +991,10 @@
 	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/sweep, /datum/intent/mace/demolish, /datum/intent/effect/hobble)
 	desc = "A rune-forged maul inspired by dwarven rock-hammers. Created as the faithful's answer to heretics hiding behind walls, it provides the impure with a sermon of exceptional concussive clarity. A good hit with this is guaranteed to give even the most peppy of heretics some deserved 'respite', and in best scenarios, send them to confess directly to HIM."
 	icon_state = "psyhammer"
+	smeltresult = /obj/item/ingot/silverblessed
 	minstr = 8
 	wdefense_wbonus = 8
+	is_silver = TRUE
 	max_integrity = 600 // need a lil more cause destroying walls takes a bit of this
 
 /obj/item/rogueweapon/mace/maul/grand/psy/pickup(mob/living/user)

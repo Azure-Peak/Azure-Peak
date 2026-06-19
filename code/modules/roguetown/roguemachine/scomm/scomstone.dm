@@ -5,7 +5,7 @@
 	icon_state = "ring_scom"
 	desc = "A heavy ring made of metal. There is a gem embedded in the center - dim, but alive."
 	gripped_intents = null
-	dropshrink = 0.75
+	dropshrink = 0.6
 	possible_item_intents = list(INTENT_GENERIC)
 	force = 10
 	throwforce = 10
@@ -24,7 +24,6 @@
 	var/scomstone_number
 	var/hearrange = 1 // change to 0 if you want your special scomstone to be only hearable by wearer
 	drop_sound = 'sound/foley/coinphy (1).ogg'
-	sellprice = 100
 	grid_width = 32
 	grid_height = 32
 
@@ -137,7 +136,6 @@
 	desc = "A rusty shoddily-made metal ring. The gem embedded within is barely holding on."
 	icon_state = "ring_serfscom"
 	listening = FALSE
-	sellprice = 20
 
 /obj/item/scomstone/bad/attack_right(mob/user)
 	return
@@ -237,7 +235,6 @@
 	desc = "A basic metal ring. It has a well-cut, dismal gem embedded - bearing the mark of the Crown."
 	icon_state = "ring_houndscom"
 	listening = FALSE
-	sellprice = 20
 	messagereceivedsound = 'sound/misc/garrisonscom.ogg'
 	hearrange = 0
 

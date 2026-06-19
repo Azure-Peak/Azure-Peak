@@ -35,6 +35,15 @@
 	color = null
 	chunkcolor = null
 	allowed_sex = list(MALE, FEMALE)
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //50 more integ than a gamberson, at the cost of leg protection
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
+	name = "light arming jacket"
+	desc = "A lightweight collared jacket, purpose-woven for skirmishes and battle. The modest weight and streamlined form make it ideal for wearing under a cuirass or elegant halfplate."
+	icon_state = "dgamb"
+	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //50 more integrity and superior protection vs a light gamberson, and cheaper than a proper gamberson with the same integrity.
+
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/shadowrobe
 	name = "stalker robe"
@@ -47,15 +56,13 @@
 	desc = "A light and insulative jacket, hewn from cloth. Peasants tend to wear these in the colder months, though they've also been repurposed - by more desperate hands - as armor-padding."
 	armor = ARMOR_PADDED_BAD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
-	sellprice = 10
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
 	name = "padded arming jacket"
 	desc = "A collared jacket, intended to be worn underneath plate armor. The thicker padding ensures that any gaps left within its alloyed shell are thoroughly protected - lest an unforseen bowstrike, landing true, ruptures the vulnerable flesh beneath."
 	icon_state = "dgamb"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
-	armor = ARMOR_PADDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 75 //75 more integ than a padded gamberson, at the cost of leg protection
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy/silkjacket
 	name = "besilked jacket"
@@ -70,10 +77,12 @@
 	icon_state = "gambesonp"
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
-	sellprice = 25
 	color = "#976E6B"
 	var/shiftable = TRUE
 	var/shifted = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/holysee
+	color = "#d6dce6"
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/attack_right(mob/user)
 	if(!shiftable)
@@ -113,7 +122,6 @@
 	detail_color = "#e98738"
 	detail_tag = "_detail"
 	shiftable = FALSE
-	sellprice = 30
 	var/picked = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan/attack_right(mob/user)
@@ -155,7 +163,6 @@
 	var/shiftable = FALSE
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 35
-	sellprice = 25
 	blocksound = SOFTUNDERHIT
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
@@ -194,7 +201,6 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	color = "#1d1d22"
 	detail_color = "#FFFFFF"
-	sellprice = 40
 	var/picked = FALSE
 	shiftable = FALSE
 

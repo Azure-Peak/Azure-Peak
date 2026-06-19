@@ -7,7 +7,6 @@
 	item_state = "roguepants"
 	sewrepair = TRUE
 	armor = ARMOR_LEATHER
-	sellprice = 18
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'

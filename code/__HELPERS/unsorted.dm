@@ -148,6 +148,8 @@ Turf and target are separate in case you want to teleport some distance from a t
 	return destination
 
 /proc/getline(atom/M,atom/N)//Ultra-Fast Bresenham Line-Drawing Algorithm
+	if(!M || !N)
+		return list()
 	var/px=M.x		//starting x
 	var/py=M.y
 	var/line[] = list(locate(px,py,M.z))
@@ -669,67 +671,82 @@ will handle it, but:
 			qdel(E)
 
 /proc/wash_mob(mob/living/L, clean = CLEAN_WEAK)
-	SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, clean)
-	if(iscarbon(L))
-		var/mob/living/carbon/M = L
-		. = TRUE
+    SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, clean)
+    if(!iscarbon(L))
+        SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+        return
 
-		for(var/obj/item/I in M.held_items)
-			wash_obj(I)
+    var/mob/living/carbon/M = L
+    . = TRUE
 
-		if(M.back && wash_obj(M.back))
-			M.update_inv_back(0)
+    for(var/obj/item/I in M.held_items)
+        wash_obj(I, clean)
+    M.update_inv_hands()
 
-		var/list/obscured = M.check_obscured_slots()
+    if(M.back)
+        wash_obj(M.back, clean)
+        M.update_inv_back(0)
 
-		if(M.head && wash_obj(M.head,clean))
-			M.update_inv_head()
+    var/list/obscured = M.check_obscured_slots()
 
-		if(M.glasses && !(SLOT_GLASSES in obscured) && wash_obj(M.glasses,clean))
-			M.update_inv_glasses()
+    if(M.head)
+        wash_obj(M.head, clean)
+        M.update_inv_head()
 
-		if(M.wear_mask && !(SLOT_WEAR_MASK in obscured) && wash_obj(M.wear_mask,clean))
-			M.update_inv_wear_mask()
+    if(M.glasses && !(SLOT_GLASSES in obscured))
+        wash_obj(M.glasses, clean)
+        M.update_inv_glasses()
 
-		if(M.ears && !(HIDEEARS in obscured) && wash_obj(M.ears,clean))
-			M.update_inv_ears()
+    if(M.wear_mask && !(SLOT_WEAR_MASK in obscured))
+        wash_obj(M.wear_mask, clean)
+        M.update_inv_wear_mask()
 
-		if(M.wear_neck && !(SLOT_NECK in obscured) && wash_obj(M.wear_neck,clean))
-			M.update_inv_neck()
+    if(M.ears && !(HIDEEARS in obscured))
+        wash_obj(M.ears, clean)
+        M.update_inv_ears()
 
-		if(M.shoes && !(HIDESHOES in obscured) && wash_obj(M.shoes,clean))
-			M.update_inv_shoes()
+    if(M.wear_neck && !(SLOT_NECK in obscured))
+        wash_obj(M.wear_neck, clean)
+        M.update_inv_neck()
 
-		var/washgloves = FALSE
-		if(M.gloves && !(HIDEGLOVES in obscured))
-			washgloves = TRUE
+    if(M.shoes && !(HIDESHOES in obscured))
+        wash_obj(M.shoes, clean)
+        M.update_inv_shoes()
 
-		if(ishuman(M))
-			var/mob/living/carbon/human/H = M
+    if(M.gloves && !(HIDEGLOVES in obscured))
+        wash_obj(M.gloves, clean)
+        M.update_inv_gloves()
 
-			if(H.wear_armor && wash_obj(H.wear_armor,clean))
-				H.update_inv_armor()
-			else if(H.wear_shirt && wash_obj(H.wear_shirt,clean))
-				H.update_inv_shirt()
-			else if(H.wear_pants && wash_obj(H.wear_pants,clean))
-				H.update_inv_pants()
+    if(ishuman(M))
+        var/mob/living/carbon/human/H = M
 
-			if(washgloves)
-				SEND_SIGNAL(H, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+        if(H.wear_armor)
+            wash_obj(H.wear_armor, clean)
+            H.update_inv_armor()
+            
+        if(H.wear_shirt)
+            wash_obj(H.wear_shirt, clean)
+            H.update_inv_shirt()
+            
+        if(H.wear_pants)
+            wash_obj(H.wear_pants, clean)
+            H.update_inv_pants()
 
-			if(!H.is_mouth_covered())
-				H.lip_style = null
-				H.update_body()
+        if(!H.is_mouth_covered())
+            H.lip_style = null
+            H.update_body()
 
-			if(H.belt && wash_obj(H.belt,clean))
-				H.update_inv_belt()
+        if(H.belt)
+            wash_obj(H.belt, clean)
+            H.update_inv_belt()
 
-			if(H.cloak && wash_obj(H.cloak,clean))
-				H.update_inv_cloak()
-		else
-			SEND_SIGNAL(M, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
-	else
-		SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+        if(H.cloak)
+            wash_obj(H.cloak, clean)
+            H.update_inv_cloak()
+
+        SEND_SIGNAL(H, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+    else
+        SEND_SIGNAL(M, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
 
 /*
 Checks if that loc and dir has an item on the wall
@@ -1606,6 +1623,7 @@ GLOBAL_LIST_INIT(duplicate_forbidden_vars,list(
 		"Garrison" = GLOB.garrison_positions,
 		"Church" = GLOB.church_positions,
 		"Burgher" = GLOB.burgher_positions,
+		"Azurian Trading Company" = GLOB.atc_positions,
 		"Peasant" = GLOB.peasant_positions,
 		"Sidefolk" = GLOB.sidefolk_positions,
 		"Inquisition" = GLOB.inquisition_positions,

@@ -45,6 +45,7 @@
 		/datum/advclass/gnoll/templar,
 		/datum/advclass/gnoll/shaman,
 	)
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
 
 /datum/job/roguetown/gnoll/special_job_check(mob/dead/new_player/player)
 	if(is_storyteller_soft_antag_blocked())
@@ -64,8 +65,8 @@
 		if(H.mind && !H.mind.has_antag_datum(/datum/antagonist/gnoll))
 			var/datum/antagonist/new_antag = new /datum/antagonist/gnoll()
 			H.mind.add_antag_datum(new_antag)
-			H.verbs |= /mob/living/carbon/human/proc/gnoll_inspect_skin
-			H.verbs |= /mob/living/carbon/human/proc/gnoll_toggle_pelt_repair
+			add_verb(H, /mob/living/carbon/human/proc/gnoll_inspect_skin)
+			add_verb(H, /mob/living/carbon/human/proc/gnoll_toggle_pelt_repair)
 
 /datum/outfit/job/roguetown/gnoll/proc/don_pelt(mob/living/carbon/human/H)
 	if(H.mind)
@@ -107,6 +108,21 @@
 				if("Keep Current Name")
 					to_chat(H, span_notice("You keep your name as [H.real_name]."))
 
+/// Population-scaled gnoll count for a scaling mode, capped at the mode's maximum (DYNAMIC 3, FLAT 2, SINGLE 1,
+/// NONE 0). Scales with population like wretch slots (+1 per 10 players above 40), just clamped lower.
+/proc/gnoll_scaled_slots(mode)
+	var/max_slots = 0
+	switch(mode)
+		if(GNOLL_SCALING_DYNAMIC)
+			max_slots = 3
+		if(GNOLL_SCALING_FLAT)
+			max_slots = 2
+		if(GNOLL_SCALING_SINGLE)
+			max_slots = 1
+	if(max_slots <= 0)
+		return 0
+	return SSgamemode.storyteller_scale_slots(max_slots)
+
 /proc/gnollslot_calc()
 	var/list/result = list()
 	if(is_storyteller_soft_antag_blocked())
@@ -115,14 +131,8 @@
 	if(SSgamemode.current_storyteller?.preferred_gnoll_mode == GNOLL_SCALING_NONE)
 		result["final_slots"] = 0
 		return result
-	var/slots = 1
-	if(SSgnoll_scaling)
-		switch(SSgnoll_scaling.get_gnoll_scaling())
-			if(GNOLL_SCALING_FLAT)
-				slots = 2
-			if(GNOLL_SCALING_DYNAMIC)
-				slots = 3
-	result["final_slots"] = slots
+	var/mode = SSgnoll_scaling ? SSgnoll_scaling.get_gnoll_scaling() : GNOLL_SCALING_SINGLE
+	result["final_slots"] = gnoll_scaled_slots(mode)
 	return result
 
 /proc/gnollslot_update()
@@ -131,6 +141,11 @@
 		return
 	if(gnoll_job.admin_slot_override)
 		return
+	var/admin_slot = !SSgamemode.allow_vote ? SSgamemode.admin_slots["Gnoll"] : null
+	if(!isnull(admin_slot))
+		gnoll_job.total_positions = max(gnoll_job.current_positions, max(0, admin_slot))
+		gnoll_job.spawn_positions = max(gnoll_job.current_positions, max(0, admin_slot))
+		return
 	var/list/scaling = gnollslot_calc()
 	var/slots = max(0, scaling["final_slots"])
 	gnoll_job.total_positions = max(gnoll_job.current_positions, slots)
@@ -138,7 +153,7 @@
 
 /mob/living/carbon/human/proc/gnoll_inspect_skin()
 	set name = "Inspect Pelt"
-	set category = "Gnoll"
+	set category = "RoleUnique.Gnoll"
 	set desc = "Examine your gnoll skin armor"
 	if(!istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll))
 		to_chat(src, span_warning("You don't have any gnoll skin armor to inspect!"))

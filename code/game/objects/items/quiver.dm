@@ -11,7 +11,6 @@
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK
 	resistance_flags = FIRE_PROOF
 	max_integrity = 0
-	sellprice = 2 // Shouldn't have added value lmao
 	equip_sound = 'sound/blank.ogg'
 	bloody_icon_state = "bodyblood"
 	alternate_worn_layer = UNDER_CLOAK_LAYER
@@ -347,7 +346,6 @@
 	icon_state = "boltpouch0"
 	item_state = "boltpouch"
 	max_storage = 16
-	sellprice = 10
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt
 
 /obj/item/quiver/bolt/getonmobprop(tag)
@@ -461,6 +459,13 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/bolt/lightholy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/bolt/lightholy/A = new()
+		arrows += A
+	update_icon()
+
 /obj/item/quiver/bolt/pyro/Initialize()
 	..()
 	for(var/i in 1 to max_storage)
@@ -506,7 +511,6 @@
 	icon_state = "boltpouch0"
 	item_state = "boltpouch"
 	max_storage = 8
-	sellprice = 10
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
 
 /obj/item/quiver/bolt/heavy/attack_turf(turf/T, mob/living/user)
@@ -567,6 +571,62 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/bolt/heavy/stake/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/heavy/stake_silver/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/stake_silver/A = new()
+		arrows += A
+	update_icon()
+
+/////////////
+// STAKES  //
+/////////////
+
+/obj/item/quiver/bolt/stake
+	name = "shotstake pouch"
+	desc = "A light leather canister with specially-tailored hoops on the inside, made for carrying heat-treated shotstakes by the dozens."
+	icon_state = "stakepouch0"
+	item_state = "stakepouch"
+	max_storage = 24
+	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/stake
+
+/obj/item/quiver/bolt/stake/attack_turf(turf/T, mob/living/user)
+	if(get_current_weight() >= max_storage)
+		to_chat(user, span_warning("My [src.name] is full!"))
+		return
+	to_chat(user, span_notice("I begin to gather the ammunition..."))
+	for(var/obj/item/ammo_casing/caseless/rogue/stake in T.contents)
+		if(do_after(user, 5))
+			if(!eatarrow(stake))
+				break
+
+/obj/item/quiver/bolt/stake/update_icon()
+	if(arrows.len)
+		icon_state = "stakepouch1"
+	else
+		icon_state = "stakepouch0"
+
+/obj/item/quiver/bolt/stake/standard/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/stake/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/bolt/stake/silver/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/stake/silver/A = new()
+		arrows += A
+	update_icon()
+
 //////////////
 // JAVELINS //
 //////////////
@@ -577,7 +637,6 @@
 	icon_state = "javelinbag0"
 	item_state = "javelinbag"
 	max_storage = 20 // Javelins weigh 5 each, so 4 javelins at full capacity
-	sellprice = 10
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/javelin
 
 /obj/item/quiver/javelin/attack_turf(turf/T, mob/living/user)

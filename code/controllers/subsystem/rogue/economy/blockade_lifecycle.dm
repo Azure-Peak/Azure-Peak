@@ -41,11 +41,19 @@
 	var/fid = pick_blockade_faction_for(TR)
 	if(!fid)
 		return null
+	return place_blockade(chosen_id, fid)
+
+/datum/controller/subsystem/economy/proc/place_blockade(region_id, faction_id)
+	var/datum/economic_region/ER = GLOB.economic_regions[region_id]
+	if(!ER)
+		return null
+	if(find_blockade_for_region(region_id))
+		return null
 
 	var/datum/blockade/B = new()
-	B.region_id = chosen_id
+	B.region_id = region_id
 	B.threat_region_name = ER.threat_region_id
-	B.faction_id = fid
+	B.faction_id = faction_id
 	B.day_started = GLOB.dayspassed
 	GLOB.active_blockades += B
 	ER.is_region_blockaded = TRUE

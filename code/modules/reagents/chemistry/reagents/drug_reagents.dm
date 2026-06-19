@@ -68,7 +68,7 @@
 	addiction_threshold = 999
 	taste_description = "smoke"
 	trippy = FALSE
-	overdose_threshold=999
+	overdose_threshold = 999
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
 
 
@@ -353,7 +353,7 @@
 	name = "Mentha"
 	description = "Extract from the mentha herb. Produces a cooling sensation."
 	reagent_state = LIQUID
-	color = "#FFFFFF"
+	color = "#3eb489"
 	addiction_threshold = 999
 	taste_description = "mentha"
 	trippy = FALSE
@@ -382,7 +382,7 @@
 	name = "Blackberry"
 	description = "Extract from the blackberry. Produces a sweet-tart sensation."
 	reagent_state = LIQUID
-	color = "#FFFFFF"
+	color = "#4D0135"
 	addiction_threshold = 999
 	taste_description = "blackberry"
 	trippy = FALSE
@@ -411,7 +411,7 @@
 	name = "Apple"
 	description = "Extract from the apple. Produces a sourness and coolness sensation."
 	reagent_state = LIQUID
-	color = "#FFFFFF"
+	color = "#AF4D43"
 	addiction_threshold = 999
 	taste_description = "apple"
 	trippy = FALSE
@@ -440,7 +440,7 @@
 	name = "Chocolate"
 	description = "Extract from the chocolate. Produces a sourness and coolness sensation."
 	reagent_state = LIQUID
-	color = "#FFFFFF"
+	color = "#7B3F00"
 	addiction_threshold = 999
 	taste_description = "chocolate"
 	trippy = FALSE
@@ -469,7 +469,7 @@
 	name = "Strawberry"
 	description = "Extract from the strawberry. Produces a sourness and coolness sensation."
 	reagent_state = LIQUID
-	color = "#FFFFFF"
+	color = "#FC5A8D"
 	addiction_threshold = 999
 	taste_description = "strawberry"
 	trippy = FALSE
@@ -498,7 +498,7 @@
 	name = "Carrot"
 	description = "Extract from the carrot. Produces a sourness and coolness sensation."
 	reagent_state = LIQUID
-	color = "#FFFFFF"
+	color = "#ED9121"
 	addiction_threshold = 999
 	taste_description = "carrot"
 	trippy = FALSE
@@ -527,7 +527,7 @@
 	name = "Lime"
 	description = "Extract from the lime. Produces a sourness and coolness sensation."
 	reagent_state = LIQUID
-	color = "#FF33FF"
+	color = "#BFFF00"
 	addiction_threshold = 999
 	taste_description = "lime"
 	trippy = FALSE
@@ -601,7 +601,7 @@
 	if(prob(20))
 		M.drowsyness += 3
 		M.emote(pick("yawn"))
-		M.visible_message("<span class='danger'>[M]'s looks sleepy and relaxed</span>")
+		M.visible_message("<span class='notice'>[M]'s looks sleepy and relaxed</span>")
 	..()
 
 
@@ -646,36 +646,36 @@
 	..()
 	. = 1
 
-/datum/reagent/drug/ziggara
-	name = "Ziggara"
-	description = "Extract from the ziggara. Produces a causes sore throat and mild relaxation."
+/datum/reagent/drug/petun
+	name = "Petun"
+	description = "A highly concentrated form of nicotine. Produces a causes sore throat and mild relaxation."
 	reagent_state = LIQUID
-	color = "#0e0004"
+	color = "#7ed9ad"
 	addiction_threshold = 999
-	taste_description = "ziggara"
+	taste_description = "concentrated bitterness"
 	trippy = FALSE
 	overdose_threshold = 999
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
 
-/datum/reagent/drug/ziggara/on_mob_end_metabolize(mob/living/M)
+/datum/reagent/drug/petun/on_mob_end_metabolize(mob/living/M)
 	..()
 
-/datum/reagent/drug/ziggara/on_mob_metabolize(mob/living/M)
+/datum/reagent/drug/petun/on_mob_metabolize(mob/living/M)
 	var/mob/living/carbon/V = M
-	V.add_stress(/datum/stressevent/ziggarasmoke)
-	if(prob(13))
+	V.add_stress(/datum/stressevent/zweed)
+	if(prob(10))
 		M.emote(pick("drool","sigh"))
 	if(prob(5))
-		M.visible_message("<span class='danger'>[M]'s pleasantly relaxing</span>")
+		M.visible_message("<span class='notice'>[M]'s pleasantly relaxing.</span>")
 	..()
 
-/datum/reagent/drug/ziggara/on_mob_life(mob/living/carbon/M)
+/datum/reagent/drug/petun/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_TOXIMMUNE))
 		M.adjustToxLoss(0.1)
 	..()
 	. = 1
 
-/datum/reagent/drug/ziggara/overdose_process(mob/living/M)
+/datum/reagent/drug/petun/overdose_process(mob/living/M)
 	M.adjustToxLoss(0.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	M.adjustOxyLoss(1.1 * REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
@@ -685,7 +685,7 @@
 	name = "jacksberries"
 	description = "Extract from the jacksberries. Produces a causes sore throat and mild relaxation."
 	reagent_state = LIQUID
-	color = "#0e0004"
+	color = "#57628C"
 	addiction_threshold = 999
 	taste_description = "jacksberries"
 	trippy = FALSE
@@ -710,17 +710,11 @@
 	..()
 	. = 1
 
-/datum/reagent/drug/ziggara/overdose_process(mob/living/M)
-	M.adjustToxLoss(0.1*REAGENTS_EFFECT_MULTIPLIER, 0)
-	M.adjustOxyLoss(1.1*REAGENTS_EFFECT_MULTIPLIER, 0)
-	..()
-	. = 1
-	
 /datum/reagent/drug/abyss
 	name = "Abyss"
 	description = "Extract from the jacksberries. Produces a causes sore throat and mild relaxation."
 	reagent_state = LIQUID
-	color = "#0e0004"
+	color = "#5С0120"
 	addiction_threshold = 999
 	taste_description = "jacksberries"
 	trippy = FALSE
@@ -736,7 +730,7 @@
 	if(prob(10))
 		M.emote(pick("drool","gasp"))
 	if(prob(3))
-		M.visible_message("<span class='danger'>[M]'s feels slightly uneasy, <span class='danger'>[M]'s gaze appears puzzled and distant</span>")
+		M.visible_message("<span class='notice'>[M]'s feels slightly uneasy, <span class='notice'>[M]'s gaze appears puzzled and distant</span>")
 	..()
 
 /datum/reagent/drug/abyss/on_mob_life(mob/living/carbon/M)

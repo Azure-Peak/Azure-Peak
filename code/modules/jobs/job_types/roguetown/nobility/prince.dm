@@ -7,7 +7,7 @@
 	total_positions = 2
 	spawn_positions = 2
 	f_title = "Princess"
-	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED) //Maybe a system to force-pick lineage based on king and queen should be implemented. (No it shouldn't.)
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE)
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 	advclass_cat_rolls = list(CTAG_HEIR = 20)
@@ -33,7 +33,7 @@
 
 /datum/outfit/job/roguetown/heir/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.verbs |= /mob/living/carbon/human/proc/declarechampion
+	add_verb(H, /mob/living/carbon/human/proc/declarechampion)
 	has_loadout = TRUE
 
 /datum/outfit/job/roguetown/heir/choose_loadout(mob/living/carbon/human/H)
@@ -319,7 +319,7 @@
 
 /mob/living/carbon/human/proc/declarechampion()
 	set name = "Declare Champion"
-	set category = "Noble"
+	set category = "RoleUnique.Noble"
 
 
 	if(stat)

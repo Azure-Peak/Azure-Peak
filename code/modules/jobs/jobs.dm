@@ -130,7 +130,6 @@ GLOBAL_LIST_INIT(church_positions, list( //Church of the Ten
 ))
 
 GLOBAL_LIST_INIT(burgher_positions, list( //Artisans, store owners what have you.
-	"Merchant",
 	"Guildmaster",
 	"Guildsman",
 	"Tailor",
@@ -142,9 +141,25 @@ GLOBAL_LIST_INIT(burgher_positions, list( //Artisans, store owners what have you
 	"Magicians Associate",
 ))
 
+GLOBAL_LIST_INIT(atc_positions, list( //Azurian Trading Company - Merchant's chapter and their help.
+	"Merchant",
+	"Shophand",
+))
+
+// Semantic helper: "is this job town-economy" (Burghers + ATC). Use this for role checks
+// where Merchant and Shophand should be treated alongside artisans/Cityfolk.
+/proc/is_townfolk_job(job)
+	return (job in GLOB.burgher_positions) || (job in GLOB.atc_positions)
+
 GLOBAL_LIST_INIT(bathhouse_positions, list(
 	"Bathmaster",
 	"Bathhouse Attendant",
+))
+
+GLOBAL_LIST_INIT(tavern_positions, list(
+	"Innkeeper",
+	"Tapster",
+	"Cook",
 ))
 
 GLOBAL_LIST_INIT(peasant_positions, list( //Serfs / peasants / generic towners
@@ -152,7 +167,6 @@ GLOBAL_LIST_INIT(peasant_positions, list( //Serfs / peasants / generic towners
 	"Cook",
 	"Tapster",
 	"Servant",
-	"Shophand",
 	"Soilson",
 	"Towner",
 ))
@@ -229,6 +243,7 @@ GLOBAL_LIST_INIT(job_assignment_order, get_job_assignment_order())
 	sorting_order += GLOB.garrison_positions
 	sorting_order += GLOB.church_positions
 	sorting_order += GLOB.burgher_positions
+	sorting_order += GLOB.atc_positions
 	sorting_order += GLOB.peasant_positions
 	sorting_order += GLOB.sidefolk_positions
 	sorting_order += GLOB.antagonist_positions

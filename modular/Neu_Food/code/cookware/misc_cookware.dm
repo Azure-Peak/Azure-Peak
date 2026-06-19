@@ -39,7 +39,6 @@
 	desc = "A fancy silk tablecloth, laid out for diplomatic feasts and other important events."
 	icon = 'modular/Neu_Food/icons/cookware/misc.dmi'
 	icon_state = "tablecloth_silk"
-	sellprice = 40
 	w_class = WEIGHT_CLASS_NORMAL
 	grid_width = 32
 	grid_height = 64

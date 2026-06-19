@@ -24,6 +24,7 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/blood
 	cost = 3
+	human_req = TRUE
 
 /obj/projectile/magic/bloodsteal
 	name = "blood steal"

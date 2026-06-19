@@ -127,7 +127,7 @@
 		used_canvas.drawing_is_erasing = FALSE
 		used_canvas.shade_adjustment_mode = FALSE
 
-/obj/item/canvas/proc/update_drawing(x, y, current_color)
+/obj/item/canvas/proc/update_drawing(x, y, current_color, mob/user)
 	if("[x][y]" in overlay_to_index)
 		cut_overlay(overlay_to_index["[x][y]"])
 		overlay_to_index -= "[x][y]"
@@ -139,16 +139,18 @@
 	overlay_to_index |= "[x][y]"
 	overlay_to_index["[x][y]"] = MA
 	current_overlays++
-	if(current_overlays > 150)
-		icon = usr.client.RenderIcon(src)
+	if(current_overlays > 150 && user?.client)
+		icon = user.client.RenderIcon(src)
 		current_overlays = 0
 		cut_overlays()
 		overlay_to_index = list()
 
-/obj/item/canvas/proc/upload_painting()
+/obj/item/canvas/proc/upload_painting(mob/user)
 	if(!author || !title)
 		return
-	var/icon/rendered = usr.client.RenderIcon(src)
+	if(!user?.client)
+		return
+	var/icon/rendered = user.client.RenderIcon(src)
 	cut_overlays()
 	if(rendered)
 		icon = rendered
@@ -297,13 +299,13 @@
 				current_overlays++
 				overlay_to_index |= "[px][py]"
 				overlay_to_index["[px][py]"] = MA
-				if(current_overlays > 150)
+				if(current_overlays > 150 && usr?.client)
 					icon = usr.client.RenderIcon(src)
 					current_overlays = 0
 					cut_overlays()
 					overlay_to_index = list()
 
-				host.update_drawing(px, py, color)
+				host.update_drawing(px, py, color, usr)
 
 /atom/movable/screen/canvas/proc/draw_line(start_x, start_y, end_x, end_y, color, is_erasing)
 	// AI suggested implementing bresenham and it blew my mind because i hadn't done that shit since college lol - Ryan
@@ -474,12 +476,13 @@
 	return ..()
 
 /obj/item/paint_brush/AltRightClick(mob/user)
+	. = ..()
+	if(!istype(loc, /mob/living/carbon))
+		return
 	if(decrease_brush_size())
 		to_chat(user, span_notice("Brush size decreased to [brush_size]."))
 	else
 		to_chat(user, span_notice("Brush size is at minimum."))
-
-	return ..()
 
 /obj/item/paint_brush/attack_self(mob/user)
 	. = ..()

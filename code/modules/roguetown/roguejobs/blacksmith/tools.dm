@@ -174,57 +174,206 @@
 /obj/item/rogueweapon/hammer/attack(mob/living/M, mob/user)
 
 	if(!user.cmode)
-		hammerheal(M, user)
+		var/wCount = M.get_wounds()
+		if((M.getBruteLoss() + M.getFireLoss()) <= 0 && !length(wCount))
+			user.visible_message(
+				span_notice("[M] is good as new!"),
+				span_notice("I am good as new!")
+			)
+			playsound(user.loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+			if(prob(30))
+				M.emote("whimper") // robbit aboose
+			return	
+		else		
+			hammerheal(M, user)
 	else
 		. = ..() //normal hit
 
-/obj/item/rogueweapon/hammer/proc/hammerheal(mob/living/M, mob/user)
+/obj/item/rogueweapon/hammer/proc/hammerheal(mob/living/M, mob/living/user)
+	if(!user || !M)
+		return
+
 	if(!M.can_inject(user, TRUE))
 		return
+
 	if(!ishuman(M))
 		return
-	if(!M.construct)
-		to_chat(user, span_warning("I can't tinker on living flesh!"))
+
+	if(!HAS_TRAIT(M, TRAIT_IRONMAN))
+		to_chat(user, span_warning("They are not made of metal, you can't tinker with that."))
 		return
+
+	var/qualified = FALSE
+
+	if(user == M)
+		qualified = TRUE
+	else
+		if(user.get_skill_level(/datum/skill/craft/armorsmithing) >= SKILL_LEVEL_JOURNEYMAN)
+			qualified = TRUE
+		if(user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_JOURNEYMAN)
+			qualified = TRUE
+		if(user.get_skill_level(/datum/skill/craft/blacksmithing) >= SKILL_LEVEL_JOURNEYMAN)
+			qualified = TRUE
+
 	var/mob/living/carbon/human/H = M
-	var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
-	if(!affecting)
-		return
+
+	// BUILD PRIORITY LIST ONCE
+	var/list/priority_limbs = list()
+
+	for(var/obj/item/bodypart/BP in H.bodyparts)
+		if(!BP || QDELETED(BP))
+			continue
+
+		var/priority = BP.brute_dam + BP.burn_dam
+
+		for(var/datum/wound/W in BP.wounds)
+			if(W.severity >= WOUND_SEVERITY_MODERATE)
+				priority += 20
+			else
+				priority += 10
+
+		if(priority > 0)
+			priority_limbs[BP] = priority
+
+	// sort descending (highest priority first)
+	priority_limbs = sortTim(priority_limbs, GLOBAL_PROC_REF(cmp_numeric_dsc), TRUE)
 
 	do
-		var/used_time = 70
-		if(user.mind)
-			used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 10)
-		playsound(loc, 'sound/items/bsmith1.ogg', 100, FALSE)
-		if(!do_mob(user, M, used_time))
-			return
-		playsound(loc, 'sound/items/bsmith4.ogg', 100, FALSE)
-
-		var/list/wCount = H.get_wounds()
-		H.adjustBruteLoss(-10)
-		H.adjustFireLoss(-10)
-		H.update_damage_overlays()
-		if(wCount.len > 0)
-			if(M == user)
-				H.heal_wounds(2)
-			else
-				H.heal_wounds(10) // Other heal are far more powerful and can heal skullcrack in 15 hits instead of 75
-			H.update_damage_overlays()
-		if(M == user)
-			user.visible_message(span_notice("[user] hammers [user.p_their()] [affecting]."), span_notice("I hammer my [affecting]."))
-		else
-			user.visible_message(span_notice("[user] hammers [M]'s [affecting]."), span_notice("I hammer [M]'s [affecting]."))
-
-		if(wCount.len <= 0)
+		if(!user || !M || QDELETED(user) || QDELETED(M))
 			break
 
-	while(M.can_inject(user, TRUE))
+		if(user.stat != CONSCIOUS)
+			break
+
+		if(get_dist(user, M) > 1)
+			break
+
+		if(!priority_limbs.len)
+			break
+
+		var/obj/item/bodypart/affecting = priority_limbs[1]
+
+		if(!affecting || QDELETED(affecting))
+			priority_limbs.Cut(1,2)
+			continue
+
+		var/has_complex_wounds = FALSE
+		var/list/wCount = H.get_wounds()
+
+		for(var/datum/wound/W in wCount)
+			if(W.severity >= WOUND_SEVERITY_MODERATE)
+				has_complex_wounds = TRUE
+				break
+
+		var/has_tongs = FALSE
+		var/has_wrench = FALSE
+
+		for(var/obj/item/I in user.held_items)
+			if(!I || QDELETED(I))
+				continue
+
+			if(istype(I, /obj/item/rogueweapon/tongs))
+				has_tongs = TRUE
+
+			if(istype(I, /obj/item/contraption/linker))
+				has_wrench = TRUE
+
+		if(has_complex_wounds && !(has_tongs || has_wrench))
+			to_chat(user, span_warning("These injuries are too severe to repair with just a hammer! Either Tongs or a Wrench on your free hand are needed."))
+			return
+
+		var/used_time = 90 
+
+		if(user.mind)
+			used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 7)
+			used_time -= (user.get_skill_level(/datum/skill/craft/armorsmithing) * 2)
+			used_time -= (user.get_skill_level(/datum/skill/craft/blacksmithing) * 2)
+
+		if(has_tongs)
+			used_time *= 0.75
+
+		if(has_wrench)
+			used_time *= 0.25
+
+		used_time = round(max(used_time, 5))
+
+		if(has_complex_wounds)
+			playsound(user.loc, 'sound/misc/ratchet.ogg', 80, FALSE)
+		else
+			playsound(user.loc, 'sound/items/bsmith1.ogg', 100, FALSE)
+
+		if(!do_after(user, used_time, TRUE, M))
+			return
+
+		if(!user || !M || QDELETED(user) || QDELETED(M))
+			break
+
+		if(user.stat || get_dist(user, M) > 1)
+			break
+
+		playsound(user.loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+
+		var/brute_heal = (M == user) ? 10 : 25
+		var/fire_heal = (M == user) ? 10 : 25
+
+		if(!qualified)
+			var/current_total = M.getBruteLoss() + M.getFireLoss()
+			var/minimum_allowed = 300
+
+			if(current_total <= minimum_allowed)
+				user.visible_message(span_warning("[user] hesitates while working on [M], no longer knowing how to proceed."), span_warning("I don't know how to proceed from here..."))
+				break
+
+			if(prob(50))
+				user.visible_message(span_notice("[user] manages to hammer [M]'s [affecting.name] into better shape."),span_notice("I think that worked."))
+			else
+				user.visible_message(span_warning("[user] awkwardly tinkers with [M]'s [affecting.name], uncertain what to do."), span_warning("I'm not sure what I'm doing..."))
+				playsound(user.loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+				shake_camera(M, 2, 1)
+				shake_camera(user, 2, 1)
+
+				if(prob(30))
+					if(prob(50))
+						M.emote("whimper")
+					else
+						M.emote("cry")
+
+				continue
+
+			var/allowed_healing = current_total - minimum_allowed
+
+			brute_heal = min(brute_heal, allowed_healing)
+			fire_heal = min(fire_heal, allowed_healing)
+
+		affecting.heal_damage(brute_heal, fire_heal)
+
+		if(has_tongs || has_wrench)
+			H.heal_wounds(5)
+
+		H.update_damage_overlays()
+		user.mind.add_sleep_experience(/datum/skill/craft/engineering, (user.STAINT*2.5))
+
+		if(M == user)
+			user.visible_message(span_notice("[user] repairs [user.p_their()] [affecting.name]."), span_notice("I repair my [affecting.name]."))
+		else
+			user.visible_message(span_notice("[user] repairs [M]'s [affecting.name]."),	span_notice("I repair [M]'s [affecting.name]."))
+
+		// CHECK IF THIS LIMB IS DONE → MOVE TO NEXT
+		if((affecting.brute_dam + affecting.burn_dam) <= 0 && !length(affecting.wounds))
+			priority_limbs.Cut(1,2)
+
+		if((M.getBruteLoss() + M.getFireLoss()) <= 0 && !length(H.get_wounds()))
+			user.visible_message(span_notice("[M] is good as new!"), span_notice("I am good as new!"))
+			break
+
+	while(do_after(user, CLICK_CD_MELEE, TRUE, M))
 
 /obj/item/rogueweapon/hammer/wood	// wood hammer (mallet)
 	name = "wooden mallet"
 	desc = "A wooden mallet is an Artificer's second best friend! But it may also come in handy to a Blacksmith or Tailor.."
 	icon_state = "hammer_w"
 	force = 16
+	anvilrepair = /datum/skill/craft/crafting
 
 /obj/item/rogueweapon/hammer/stone	// stone hammer
 	name = "stone hammer"
@@ -232,6 +381,14 @@
 	icon_state = "hammer_r"
 	force = 18
 	max_integrity = 15
+	anvilrepair = /datum/skill/craft/crafting
+
+/obj/item/rogueweapon/hammer/paalloy
+	name = "ancient hammer"
+	desc = "A hammer of polished gilbronze. Remade masterfully upon a smooth handle, it shall make forth the armaments of Her legionnaries and great works.."
+	icon_state = "ahammer"
+	force = 21
+	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/rogueweapon/hammer/aalloy
 	name = "decrepit hammer"
@@ -302,7 +459,7 @@
 	force = 10
 	possible_item_intents = list(/datum/intent/mace/strike)
 	name = "tongs"
-	desc = "A pair of blacksteel tongs that'll hold onto Psydonia's hottest metal without ever warping. 'Tis a symbol of prestige."
+	desc = "A pair of iron tongs that'll hold onto Psydonia's hottest metal, betwixt a hammering and an anvil's song to forge masterworks of craft."
 	icon_state = "tongs"
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	sharpness = IS_BLUNT
@@ -430,6 +587,23 @@
 	auto_collect = FALSE
 
 /obj/item/rogueweapon/tongs/aalloy/update_icon()
+	. = ..()
+	if(!hingot)
+		icon_state = "atongs"
+	else
+		if(hott)
+			icon_state = "atongsi1"
+		else
+			icon_state = "atongsi0"
+
+/obj/item/rogueweapon/tongs/paalloy
+	name = "ancient tongs"
+	desc = "Wrought bronze pincers the molten alloy, putting it before the anvil and hammer. Soon, it will fashion a new legacy; one unmarred by this dogmatic millenia."
+	icon_state = "atongs"
+	smeltresult = null
+	auto_collect = TRUE
+
+/obj/item/rogueweapon/tongs/paalloy/update_icon()
 	. = ..()
 	if(!hingot)
 		icon_state = "atongs"

@@ -1,8 +1,8 @@
 /datum/advclass/mercenary/desert_rider_sahir
 	name = "Desert Rider Sahir"
-	tutorial = "You're a Sahir - a wisened Magi from the desert of Raneshen. You have spent your lyfe studying the arcyne arts, and also knows of of the way of the sword - a necessity when one happens upon monstrsities that are resilient to magyck in the desert."
+	tutorial = "You're a Sahir - a wisened Magi from the desert of Raneshen. You have spent your lyfe studying the arcyne arts. Some of your rank knows the way of the sword- a necessity when one happens upon monstrsities that are resilient to magyck in the desert."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_sahir
 	class_select_category = CLASS_CAT_RANESHENI
 	category_tags = list(CTAG_MERCENARY)
@@ -16,8 +16,8 @@
 		STATKEY_PER = 2
 	)
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
+	extra_context = "This subclass chooses between twin shamshirs or a more traditional staff."
 	subclass_skills = list(
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
@@ -35,7 +35,7 @@
 /datum/outfit/job/roguetown/mercenary/desert_rider_sahir/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	// Gear - same as Almah but 1x blade + scholar's pouch
+	// Gear - same as Almah, with a chosen martial focus + scholar's pouch
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/raneshen
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper
 	mask = /obj/item/clothing/mask/rogue/facemask/copper
@@ -47,10 +47,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shalal
 	belt = /obj/item/storage/belt/rogue/leather/shalal
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	beltl = /obj/item/rogueweapon/scabbard/sword
-	beltr = /obj/item/rogueweapon/scabbard/sword
-	r_hand = /obj/item/rogueweapon/sword/sabre/shamshir
-	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
+
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary,
 		/obj/item/rogueweapon/huntingknife/idagger/navaja,
@@ -60,4 +57,20 @@
 		/obj/item/flashlight/flare/torch,
 		/obj/item/storage/belt/rogue/pouch/coins/poor
 		)
+
+	if(H.mind)
+		var/weapons = list("Twin Shamshirs", "Greater Staff")
+		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		H.set_blindness(0)
+		switch(weapon_choice)
+			if("Twin Shamshirs")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				beltl = /obj/item/rogueweapon/scabbard/sword
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				r_hand = /obj/item/rogueweapon/sword/sabre/shamshir
+				l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
+			if("Greater Staff")
+				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
+
 	H.merctype = 4

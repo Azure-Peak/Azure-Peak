@@ -65,7 +65,7 @@
 			user.visible_message(span_warning("[user] emerges from [src]!"),span_alert("I emerge from [src]!"))
 
 /obj/structure/closet/dirthole/closed/loot
-	var/looted = FALSE
+	var/hole_looted = FALSE
 	var/lootroll = 0
 
 /obj/structure/closet/dirthole/closed/loot/Initialize()
@@ -73,8 +73,8 @@
 	lootroll = rand(1,6)
 
 /obj/structure/closet/dirthole/closed/loot/open()
-	if(!looted)
-		looted = TRUE
+	if(!hole_looted)
+		hole_looted = TRUE
 		switch(lootroll)
 			if(1)
 				new /mob/living/carbon/human/species/skeleton/npc/easy(mastert) //Let's go gambling

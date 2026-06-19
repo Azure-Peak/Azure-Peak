@@ -205,6 +205,20 @@
 	C.mmb_intent_change(QINTENT_SPECIAL)
 	return TRUE
 
+/datum/keybinding/carbon/cycle_mmb_intent
+	hotkey_keys = list()
+	name = "cycle_mmb_intent"
+	full_name = "Cycle MMB Intent"
+	description = "Cycles the middle-mouse-button intent through bite, jump, kick, special, and nothing."
+	category = CATEGORY_CARBON
+
+/datum/keybinding/carbon/cycle_mmb_intent/down(client/user)
+	if (!iscarbon(user.mob))
+		return FALSE
+	var/mob/living/carbon/C = user.mob
+	C.cycle_mmb_intent()
+	return TRUE
+
 /*
 
 /datum/keybinding/carbon/select_help_intent

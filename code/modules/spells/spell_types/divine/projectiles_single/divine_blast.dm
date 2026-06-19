@@ -26,6 +26,7 @@
 	associated_skill = /datum/skill/magic/holy
 	miracle = TRUE
 	devotion_cost = 25
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/projectile/divineblast/cast(list/targets, mob/user = user)
 	projectile_type = arc_mode ? projectile_type_arc : initial(projectile_type)

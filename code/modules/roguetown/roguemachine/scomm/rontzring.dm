@@ -1,11 +1,11 @@
 // MATTHIOSIAN SCOMCOIN
 
 /obj/item/mattcoin
-	name = "rontz ring"
+	name = "gilded ring"
 	icon_state = "mattcoin"
 	desc = "A faded coin with a ruby laid into its center."
 	gripped_intents = null
-	dropshrink = 0.75
+	dropshrink = 0.4
 	possible_item_intents = list(INTENT_GENERIC)
 	force = 10
 	throwforce = 10
@@ -20,25 +20,23 @@
 	sellprice = 0
 	grid_width = 32
 	grid_height = 32
+	var/fakename
 
-/obj/item/mattcoin/examine(mob/user)
-	. = ..()
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if(H.patron.type == /datum/patron/inhumen/matthios)
-			. += span_rose("It's said that these coins are born whenever the CROWNSTONEs of royalty are stolen and subjected to the Hoardmaster's flames. I can use it to communicate with my fellow freedmen on a specially-hijacked SCOMline.")
-			. += span_rose("A special hex has been cast on this ring by an Iconoclast, making it appear as nothing more than a mere 'gold ring' to those still shackled to tyranny. I should remain wary of eyes that pry for too long, however.")
+/obj/item/mattcoin/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Right-click the coin in your active hand to access a specially-hijacked SCOMline, allowing you to securely communicate with fellow freedmen.")
+    . += span_info("A special hex conceals this object from loyalist eyes. To anyone still shackled to tyranny, it will appear in examinations and inventory as a mere 'gold ring' or 'rontz ring'.")
 
 /obj/item/mattcoin/Initialize()
 	. = ..()
 	become_hearing_sensitive()
 	update_icon()
 	SSroguemachine.scomm_machines += src
-	name = pick("rontz ring", "gold ring")
+	fakename = pick("gold ring", "rontz ring")
 
 /obj/item/mattcoin/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_FREEMAN))
-		to_chat(user, "The coin turns to ash in my hands!")
+		to_chat(user, "[src] turns to ash in my hands!")
 		playsound(loc, 'sound/items/firesnuff.ogg', 100, FALSE, -1)
 		qdel(src)
 	..()
@@ -71,7 +69,7 @@
 	playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 	listening = !listening
 	speaking = !speaking
-	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the Matthiosian-SCOMstone"))
+	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the [src]."))
 	update_icon()
 
 /obj/item/mattcoin/Destroy()
@@ -85,7 +83,8 @@
 	if(tcolor)
 		voicecolor_override = tcolor
 	if(speaking && message)
-		playsound(loc, 'sound/foley/coins1.ogg', 20, TRUE, -1)
+		var/mob/living/carbon/human/wearer = loc
+		wearer.playsound_local(wearer, 'sound/foley/coins1.ogg', 50, TRUE)
 		say(message, language = message_language)
 	voicecolor_override = null
 
@@ -103,3 +102,10 @@
 		I.send_speech(message, 0, I, , spans, message_language=language)
 	else
 		send_speech(message, 0, src, , spans, message_language=language)
+
+/obj/item/mattcoin/equipped(mob/user, slot)
+	. = ..()
+	switch(slot)
+		if(SLOT_RING)
+			name = fakename
+	return TRUE

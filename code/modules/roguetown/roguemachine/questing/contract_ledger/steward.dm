@@ -87,6 +87,16 @@
 		out[qtype] = regions
 	return out
 
+/obj/structure/roguemachine/contractledger/proc/build_blockade_region_labels()
+	var/list/out = list()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		var/datum/economic_region/ER = B.get_region()
+		if(!ER)
+			continue
+		var/datum/threat_region/TR = B.get_threat_region()
+		out[ER.name] = TR ? "[ER.name] ([TR.region_name])" : ER.name
+	return out
+
 /obj/structure/roguemachine/contractledger/proc/commission_defense_from_tgui(mob/user, list/params)
 	if(!ishuman(user))
 		return

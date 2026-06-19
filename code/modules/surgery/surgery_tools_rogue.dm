@@ -209,7 +209,7 @@
 			user.visible_message("<span class='info'>[user] begins to smack [A] with a small hammer.</span>")
 		if(do_after(user, ((medskill > SKILL_LEVEL_EXPERT) ? 1 SECONDS : 2.5 SECONDS), target = A))
 			A.visible_message("<span class='info'>[A] jerks their knee after the hammer strikes!</span>")
-			if(prob(1))
+			if(prob(10))
 				playsound(user, 'sound/misc/bonk.ogg', 100, FALSE, -1)
 			var/mob/living/carbon/human/human_target = A
 			human_target.check_for_injuries(user)

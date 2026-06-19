@@ -49,6 +49,8 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_RICE = TG_SUPPLY_FOREIGN_GRAIN,
 		TRADE_GOOD_MEAT = TG_SUPPLY_MEAT_BULK,
 		TRADE_GOOD_PORK = TG_SUPPLY_MEAT_STAPLE,
+		TRADE_GOOD_HAM = TG_SUPPLY_MEAT_STAPLE,
+		TRADE_GOOD_PORK_BELLY = TG_SUPPLY_MEAT_STAPLE,
 		TRADE_GOOD_POULTRY = TG_SUPPLY_MEAT_STAPLE,
 		TRADE_GOOD_RABBIT = TG_SUPPLY_MEAT_STAPLE,
 		TRADE_GOOD_EGG = TG_SUPPLY_MEAT_BULK,
@@ -82,6 +84,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_POPPY = TG_DEMAND_SPECIALTY_HERB,
 		TRADE_GOOD_DENDOR_ESSENCE = 3, // literal: deliberately scarce, not category-bound
 		TRADE_GOOD_VISCERA = TG_DEMAND_SPECIALTY_HERB,
+		TRADE_GOOD_SINEW = TG_DEMAND_SPECIALTY_HERB,
 		TRADE_GOOD_HIDE = TG_DEMAND_LEATHER,
 		TRADE_GOOD_FUR = TG_DEMAND_LEATHER,
 		TRADE_GOOD_CURED_LEATHER = TG_DEMAND_LEATHER,
@@ -125,7 +128,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	name = "Rockhill"
 	subtitle = "The Orchards, Vintners and Herbalists of the Ridge"
 	description = "A cluster of orchards and herb gardens to the north of Azuria, sheltered by a ridge that makes the climate there milder than it has any right to be. The many rolling hills of the county make for poor grain land but excellent orchard land. Rockhill wine and liquor are renowned throughout Azuria, and some are exported beyond. It is a quiet, quaint, agricultural county, dotted with noble estates. Rockhill apple brandy is the realm's most counterfeited drink. Every other inn from Bleakcoast to Heartfelt claims to serve it, but perhaps only a third of them actually do. The county is also known for its many country manor, with perhaps three quarter of the noble houses of the realm owning at least one in Rockhill."
-	threat_region_id = THREAT_REGION_MOUNT_DECAP
+	threat_region_id = THREAT_REGION_AZUREAN_COAST
 	produces = list(
 		TRADE_GOOD_APPLE = TG_SUPPLY_LOCAL_FRUIT,
 		TRADE_GOOD_PEAR = TG_SUPPLY_LOCAL_FRUIT,
@@ -173,6 +176,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	produces = list(
 		TRADE_GOOD_SILK = TG_SUPPLY_SILK,
 		TRADE_GOOD_VISCERA = TG_SUPPLY_SPECIALTY_HERB,
+		TRADE_GOOD_SINEW = TG_SUPPLY_SPECIALTY_HERB,
 		TRADE_GOOD_DENDOR_ESSENCE = 1, // literal: deliberately scarce, not category-bound
 		TRADE_GOOD_CALENDULA = TG_SUPPLY_SPECIALTY_HERB,
 		TRADE_GOOD_CLAY = TG_SUPPLY_CHEAP_RAW_MAT,
@@ -221,9 +225,13 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	demands = list(
 		TRADE_GOOD_STEEL_INGOT = TG_DEMAND_REFINED_INGOTS,
 		TRADE_GOOD_IRON_INGOT = TG_DEMAND_REFINED_INGOTS,
+		TRADE_GOOD_COPPER_INGOT = TG_DEMAND_REFINED_INGOTS,
+		TRADE_GOOD_TIN_INGOT = TG_DEMAND_REFINED_INGOTS,
 		TRADE_GOOD_CLOTH = TG_DEMAND_CLOTH,
 		TRADE_GOOD_MEAT = TG_DEMAND_MEAT_BULK,
 		TRADE_GOOD_PORK = TG_DEMAND_MEAT_STAPLE,
+		TRADE_GOOD_HAM = TG_DEMAND_MEAT_STAPLE,
+		TRADE_GOOD_PORK_BELLY = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_POULTRY = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_EGG = TG_DEMAND_MEAT_BULK,
 		TRADE_GOOD_FAT = TG_DEMAND_MEAT_STAPLE,
@@ -253,6 +261,8 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	demands = list(
 		TRADE_GOOD_IRON_INGOT = TG_DEMAND_REFINED_INGOTS,
 		TRADE_GOOD_STEEL_INGOT = TG_DEMAND_REFINED_INGOTS,
+		TRADE_GOOD_COPPER_INGOT = TG_DEMAND_REFINED_INGOTS,
+		TRADE_GOOD_TIN_INGOT = TG_DEMAND_REFINED_INGOTS,
 		TRADE_GOOD_FUR = TG_DEMAND_LEATHER,
 		TRADE_GOOD_HIDE = TG_DEMAND_LEATHER,
 		TRADE_GOOD_CURED_LEATHER = TG_DEMAND_LEATHER,
@@ -261,6 +271,8 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_OATS = TG_DEMAND_LOCAL_GRAIN,
 		TRADE_GOOD_MEAT = TG_DEMAND_MEAT_BULK,
 		TRADE_GOOD_PORK = TG_DEMAND_MEAT_STAPLE,
+		TRADE_GOOD_HAM = TG_DEMAND_MEAT_STAPLE,
+		TRADE_GOOD_PORK_BELLY = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_POULTRY = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_BUTTER = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_CHEESE = TG_DEMAND_MEAT_STAPLE,

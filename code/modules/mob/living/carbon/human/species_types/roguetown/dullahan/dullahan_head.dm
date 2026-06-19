@@ -68,8 +68,8 @@
 
 // Remove head.
 /datum/species/dullahan/help(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
-	// Only do it if the precise selection is the head, to avoid mistakes.
-	if(target != user || user.zone_selected != BODY_ZONE_HEAD) 
+	// Only do it if the precise selection is the head, to avoid mistakes. Also STRONG intent because this is irritating to do on accident.
+	if(target != user || user.zone_selected != BODY_ZONE_HEAD || !istype(user.rmb_intent, /datum/rmb_intent/strong)) 
 		return ..()
 
 	if(headless)

@@ -191,16 +191,26 @@
 /proc/typecache_filter_list(list/atoms, list/typecache)
 	RETURN_TYPE(/list)
 	. = list()
+	if(!islist(typecache))
+		return
 	for(var/thing in atoms)
 		var/atom/A = thing
+		if(!A || !A.type)
+			stack_trace("typecache_filter_list got a null/typeless entry [thing] - fix the caller passing this list")
+			continue
 		if (typecache[A.type])
 			. += A
 
 /proc/typecache_filter_list_reverse(list/atoms, list/typecache)
 	RETURN_TYPE(/list)
 	. = list()
+	if(!islist(typecache))
+		return
 	for(var/thing in atoms)
 		var/atom/A = thing
+		if(!A || !A.type)
+			stack_trace("typecache_filter_list_reverse got a null/typeless entry [thing] - fix the caller passing this list")
+			continue
 		if(!typecache[A.type])
 			. += A
 

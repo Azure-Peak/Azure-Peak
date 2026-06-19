@@ -1,2 +1,16 @@
-#define RURAL_TAX 500 // Daily mint at dawn. Floor at/above RURAL_TAX_POP_HIGH effective players.
+#define RURAL_TAX 250 // Daily. Baseline to stop crown from going bankrupt too easily. Was 500, but passive income is higher now.
 #define TREASURY_TICK_AMOUNT 6 MINUTES
+
+#define HERMES_FREE_COOLDOWN (5 MINUTES)
+
+#define ESCROW_OPEN_EXPIRY_DAYS 3
+#define ESCROW_CLAIM_EXPIRY_DAYS 1
+#define ESCROW_PARTIAL_HAIRCUT_PERCENT 20
+#define ESCROW_DURABILITY_FLOOR 0.8
+
+#define SCRAPPER_BARK_INTERVAL (60 SECONDS)
+
+#define SCRAPPER_RECYCLE_OK 1
+#define SCRAPPER_RECYCLE_WORTHLESS 2
+#define SCRAPPER_RECYCLE_FULL 3
+#define SCRAPPER_RECYCLE_BROKE 4
