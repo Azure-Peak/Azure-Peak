@@ -220,7 +220,16 @@
 
 /datum/magic_item/superior/hubris/on_apply(var/obj/item/i)
 	. = ..()
+	var/oldinteg
 	i.force += 5
 	i.wdefense -= 5
 	if(i.wdefense <= 0)
 		i.wdefense = 0
+
+//DAMN, TEA CANT FUCKING CODE!!
+	i.obj_integrity = i.max_integrity
+	i.oldinteg = ((i.obj_integrity) / 2)
+	i.max_integrity = oldinteg
+	i.obj_integrity = max_integrity //OHHH MY GODDD
+	if(!i.obj_integrity == oldinteg)
+		i.obj_integrity = 100 //FUCK IT
