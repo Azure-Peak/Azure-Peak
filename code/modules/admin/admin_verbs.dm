@@ -806,7 +806,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 /client/proc/togglebuildmodeself()
 	set name = "Toggle Build Mode"
 	set category = "Admin.Special"
-	if (!(holder.rank.rights & R_BUILD))
+	if(!holder || !(holder.rank?.rights & R_BUILD))
 		return
 	if(src.mob)
 		togglebuildmode(src.mob)

@@ -12,6 +12,8 @@
 			modified = TRUE
 			for(var/storyteller_name in SSgamemode.storytellers)
 				var/datum/storyteller/initialized_storyteller = SSgamemode.storytellers[storyteller_name]
+				if(istype(initialized_storyteller, /datum/storyteller/gamemode))	// a stale preset entry in the json must not mark a preset ascendant
+					continue
 				if(initialized_storyteller?.name == god_name)
 					initialized_storyteller.ascendant = TRUE
 					adjust_storyteller_influence(initialized_storyteller.name, 400)
@@ -39,6 +41,8 @@
 	for(var/storyteller_name in SSgamemode.storytellers)
 		var/datum/storyteller/initialized_storyteller = SSgamemode.storytellers[storyteller_name]
 		if(!initialized_storyteller)
+			continue
+		if(istype(initialized_storyteller, /datum/storyteller/gamemode))
 			continue
 
 		if(initialized_storyteller.ascendant)

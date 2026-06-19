@@ -153,6 +153,9 @@
 			current_step = 1
 		return
 
+	if(!active_recipe)
+		return
+
 	playsound(src, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE)
 
 	if(ishuman(user))

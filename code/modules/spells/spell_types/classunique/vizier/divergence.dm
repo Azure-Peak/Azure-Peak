@@ -199,6 +199,8 @@
 
 /obj/effect/divergence_fragment/Crossed(atom/movable/AM)
 	. = ..()
+	if(!isliving(AM))
+		return
 	var/mob/living/L = AM
 	if(L.cmode)
 		to_chat(L, span_warning("I need a calm mind to properly match the simulacrum's frequency. Turn Combat Mode off!"))
@@ -207,6 +209,8 @@
 
 /obj/effect/divergence_fragment/Bumped(atom/movable/AM)
 	. = ..()
+	if(!isliving(AM))
+		return
 	var/mob/living/L = AM
 	if(L.cmode)
 		to_chat(L, span_warning("I need a calm mind to properly match the simulacrum's frequency. Turn Combat Mode off!"))

@@ -1,0 +1,4 @@
+author: "Kell-E"
+delete-after: True
+changes:
+  - bugfix: "Serving Hatches can no longer be bypassed by sneaking."

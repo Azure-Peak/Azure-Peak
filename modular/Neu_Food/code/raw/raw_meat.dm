@@ -390,3 +390,24 @@
 	name = "raw boar ham"
 	desc = "A bramblesnout that is no longer trying to end you. Raw and ready to be steamed."
 	icon_state = "ham_boar"
+
+// Raw mushroom from weird underdarky places
+/obj/item/reagent_containers/food/snacks/rogue/mushroom
+	eat_effect = null
+	//Not really filling uncooked.
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
+	bitesize = 3
+	name = "mushroom flesh"
+	desc = "A common piece of mushroom flesh. Often called Vesse-de-Vouivre by the drow of the underdark. It has a strong, earthy odor to it. Definitely better to cook this..."
+	icon = 'modular/Neu_Food/icons/raw/raw_meat.dmi'
+	icon_state = "mushroom"
+	slice_batch = TRUE
+	rotprocess = SHELFLIFE_DECENT
+	chopping_sound = TRUE
+	//can't believe it's not a vegetable.
+	foodtype = MEAT
+	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
+	cooked_smell = /datum/pollutant/food/fried_mushroom
+	tastes = list("wyvern" = 1, "natural gas" = 1)
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked

@@ -1,8 +1,8 @@
 /datum/species/orc
 	name = "Orc"
 	id = "orc"
-	origin_default = /datum/virtue/origin/gronn
-	origin = "Gronn"
+	origin_default = /datum/virtue/origin/avar
+	origin = "Avar"
 	base_name = "Ogroid"
 	desc_title = "Orc"
 	desc = "This is made for events. You shouldn't be able to use this as a normal person, \
@@ -24,8 +24,8 @@
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_male.dmi'
 	use_m = TRUE
-	soundpack_m = /datum/voicepack/male/elf
-	soundpack_f = /datum/voicepack/female/elf
+	soundpack_m = /datum/voicepack/male/warrior
+	soundpack_f = /datum/voicepack/female/warrior
 	offset_features = list(OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,1), OFFSET_WRISTS = list(0,1),\
 	OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,1), OFFSET_HEAD = list(0,1), \
 	OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), OFFSET_BACK = list(0,1), \

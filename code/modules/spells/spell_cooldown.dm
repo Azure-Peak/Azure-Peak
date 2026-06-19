@@ -749,6 +749,9 @@
 		build_all_button_icons()
 		return FALSE
 
+	if(QDELETED(src))
+		return TRUE
+
 	// Spell succeeded - do invocation and sound effects after cast
 	// Placed after cast() so failed casts don't trigger invocations
 	// Spells that need pre-cast invocation (e.g. teleports) should call spell_feedback() manually in cast()
@@ -1537,7 +1540,7 @@
 		// Charge complete — transition to "click to cast" mode
 		on_end_charge(TRUE)
 		charge_started_at = 0
-		UnregisterSignal(source, COMSIG_CLIENT_MOUSEUP)
+		UnregisterSignal(source, list(COMSIG_CLIENT_MOUSEUP, COMSIG_CLIENT_MOUSEDOWN))
 		RegisterSignal(source, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(cast_after_charge))
 		auto_cancel_timer = addtimer(CALLBACK(src, PROC_REF(cancel_casting)), 30 SECONDS, TIMER_STOPPABLE)
 		if(owner)
@@ -1586,6 +1589,7 @@
 		_target = resolve_out_of_view_click(source, params)
 		if(!_target)
 			// Re-register so they can try again
+			UnregisterSignal(source, COMSIG_CLIENT_MOUSEDOWN)
 			RegisterSignal(source, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(cast_after_charge))
 			return
 
@@ -1612,7 +1616,8 @@
 			else
 				playsound(get_turf(target), pick(target.parry_sound), 100)
 		target.apply_status_effect(/datum/status_effect/buff/parry_buffer)
-		target.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+		if(attacker != target)
+			target.apply_status_effect(/datum/status_effect/buff/adrenaline_rush/ranged)
 		guard.deflected_spell = TRUE
 		target.remove_status_effect(/datum/status_effect/buff/clash)
 		if(attacker && ishuman(attacker))

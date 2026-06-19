@@ -1,5 +1,6 @@
 /// Nutritionary defines. 12 = one full meal. Smaller values are fractions, larger values are multiples.
 #define NUTRITION_QUARTER_MEAL 3
+#define NUTRITION_THIRD_MEAL 4
 #define NUTRITION_HALF_MEAL 6
 #define NUTRITION_THREE_QUARTER_MEAL 9
 #define NUTRITION_FULL_MEAL 12

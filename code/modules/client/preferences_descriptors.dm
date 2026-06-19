@@ -13,6 +13,8 @@
 
 	for(var/datum/descriptor_entry/entry as anything in descriptor_entries)
 		var/datum/descriptor_choice/choice = DESCRIPTOR_CHOICE(entry.descriptor_choice_type)
+		if(!choice)
+			continue
 		if(entry.descriptor_type == null || !(entry.descriptor_type in choice.descriptors))
 			if(choice.default_descriptor)
 				entry.descriptor_type = choice.default_descriptor

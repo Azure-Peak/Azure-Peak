@@ -2040,6 +2040,15 @@
 				"westabove" = 0,
 				)
 
+/obj/item/rogueweapon/sword/long/undivided/absolutio
+	name = "absolutio"
+	desc = "This sword remains a testament to Astrata's all-encompassing radiance, rumor has it these blades are often ritualistically \
+			burned in a funeral pyre with their former wielder. If the blade's metal survives the pyre then it is by her divine decree; \
+			\"worthy to serve yet again\"."
+	icon_state = "astratalongsword"
+	item_state = "astratalongsword"
+	sheathe_icon = "eclipsum"
+
 /obj/item/rogueweapon/sword/long/kriegmesser
 	name = "kriegsmesser"
 	desc = "A large two-handed sword with a single-edged blade, a crossguard and a knife-like hilt. \

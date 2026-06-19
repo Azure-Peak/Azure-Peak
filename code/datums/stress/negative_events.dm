@@ -414,7 +414,7 @@
 	desc = span_red("Where is their head? What is that flame?!")
 	timer = 5 MINUTES
 
-/datum/stressevent/hunted // When a hunted character sees someone in a mask
+/datum/stressevent/targeted // When a targeted character sees someone in a mask
 	timer = 2 MINUTES
 	stressadd = 3
 	desc = span_boldred("I can't see their face! Have they found me? Is this the end?")

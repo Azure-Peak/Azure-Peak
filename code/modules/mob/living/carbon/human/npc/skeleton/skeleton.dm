@@ -1,3 +1,14 @@
+GLOBAL_LIST_INIT(skeleton_aggro, list(
+	",w Kill...",
+	",w Fight...",
+	",w Destroy...",
+	"*laugh",
+	"*laugh",
+	"*rage",
+	"*rage",
+	"*rage",
+)) //Single Words or noises, feral and empty of mind.
+
 /mob/living/carbon/human/species/skeleton
 	name = "skeleton"
 
@@ -22,6 +33,15 @@
 	skel_fragile = TRUE
 	blood_toll_bucket = STATS_KILLED_DEADITES
 
+/mob/living/carbon/human/species/skeleton/npc/after_creation()
+	..()
+	gender = pick(MALE, FEMALE)
+	dna.species.handle_body(src)
+	update_body()
+	src.grant_language(/datum/language/undead)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.skeleton_aggro, TRUE)
+	src.regenerate_icons() //Fixes the weird body with random genders for NPCs.
+
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE
 
@@ -35,6 +55,7 @@
 	..()
 	if(ai_controller)
 		AddComponent(/datum/component/ai_aggro_system)
+		ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	if(dna && dna.species)
 		dna.species.species_traits |= NOBLOOD
 		dna.species.soundpack_m = new /datum/voicepack/skeleton()
