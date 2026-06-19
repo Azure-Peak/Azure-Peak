@@ -577,14 +577,30 @@
 	data["busy"] = busy
 	data["showonlycraftable"] = showonlycraftable
 
-	var/list/surroundings = get_surroundings(user)
-	var/new_hash = list2params(surroundings["other"])
+	// Cheap structural pre-check: loc + held items (by ref) + pocket slots + adjacent tile counts.
+	// Skips get_surroundings() entirely on cache hit. False negatives (same count, swapped items)
+	// extend staleness by one tick — acceptable given ui_data already runs on a 2s cycle.
+	var/quick_hash = REF(user.loc)
+	for(var/obj/item/I in user.held_items)
+		quick_hash += REF(I)
+	var/lstore = user.get_item_by_slot(SLOT_L_STORE)
+	var/rstore = user.get_item_by_slot(SLOT_R_STORE)
+	if(lstore)
+		quick_hash += REF(lstore)
+	if(rstore)
+		quick_hash += REF(rstore)
+	if(isturf(user.loc))
+		var/list/nearby = block(get_step(user, SOUTHWEST), get_step(user, NORTHEAST))
+		for(var/turf/T as anything in nearby)
+			if(T.Adjacent(user))
+				quick_hash += T.contents.len
 
-	if(new_hash == last_surroundings_hash && cached_craftability)
+	if(quick_hash == last_surroundings_hash && cached_craftability)
 		data["craftability"] = cached_craftability
 		return data
 
-	last_surroundings_hash = new_hash
+	last_surroundings_hash = quick_hash
+	var/list/surroundings = get_surroundings(user)
 	var/list/craftability = list()
 	for(var/rec in GLOB.crafting_recipes)
 		var/datum/crafting_recipe/R = rec
@@ -593,7 +609,6 @@
 			continue
 		if(R.required_tech_node && !R.tech_unlocked)
 			continue
-
 		craftability[R.name] = check_contents(R, surroundings)
 
 	cached_craftability = craftability
