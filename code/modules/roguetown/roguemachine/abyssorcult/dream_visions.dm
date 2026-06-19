@@ -87,6 +87,7 @@
 	var/mob/target = target_ref?.resolve()
 	if(target)
 		to_chat(seeker, span_warning("You must say \"[quest.required_phrase]\" within two tiles of [target.real_name]."))
+		temporary_target_scry()
 	else
 		to_chat(seeker, span_warning("The vision's target has faded from this world..."))
 		qdel(src)
@@ -133,3 +134,25 @@
 	reward_rune_ref = null
 	seeker = null
 	return ..()
+
+/datum/component/vision_quest_tracker/proc/temporary_target_scry()
+	var/mob/living/carbon/human/target = target_ref?.resolve()
+	if(!target || target.stat == DEAD)
+		to_chat(seeker, span_warning("The vision is too faint to manifest..."))
+		return FALSE
+
+	var/turf/target_turf = get_turf(target)
+	if(!target_turf)
+		return FALSE
+
+	// Trigger the base scry method to detach consciousness
+	var/mob/dead/observer/rogue/arcaneeye/eye = seeker.scry(can_reenter_corpse = TRUE, force_respawn = FALSE)
+	if(!eye)
+		return FALSE
+
+	eye.forceMove(target_turf)
+	eye.scry_center_turf = target_turf
+	
+	to_chat(seeker, span_purple("Your mind pierces the veil to glimpse your target... You have 10 seconds."))
+	addtimer(CALLBACK(eye, /mob/dead/observer/rogue/arcaneeye/proc/cancel_scry), 10 SECONDS)
+	return TRUE

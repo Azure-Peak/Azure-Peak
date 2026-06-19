@@ -26,6 +26,10 @@
 	icon_state = "arcaneeye"
 	draw_icon = FALSE
 	hud_type = /datum/hud/eye
+	/// The central turf we are restricted to scrying around
+	var/turf/scry_center_turf
+	/// The maximum tile distance from the center turf allowed
+	var/scry_range = 2
 
 /mob/dead/observer/rogue/arcaneeye/proc/scry_tele()
 	set category = "RoleUnique.Arcane Eye"
@@ -123,6 +127,11 @@
 		to_chat(src, span_notice("I move down."))
 
 /mob/dead/observer/rogue/arcaneeye/Move(NewLoc, direct)
+	if(scry_center_turf)
+		var/turf/destination = NewLoc ? get_turf(NewLoc) : get_step(src, direct)
+		if(destination && get_dist(destination, scry_center_turf) > scry_range)
+			to_chat(src, span_warning("The vision's power binds you to this area!"))
+			return FALSE
 	if(updatedir)
 		setDir(direct)//only update dir if we actually need it, so overlays won't spin on base sprites that don't have directions of their own
 	if(NewLoc)
