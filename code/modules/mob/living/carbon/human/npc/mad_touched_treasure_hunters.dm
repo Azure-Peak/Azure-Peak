@@ -11,7 +11,7 @@
 	dodgetime = 15
 
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/ambush
-	threat_point = THREAT_ELITE
+	threat_point = THREAT_DANGEROUS
 	ambush_faction = "treasure_hunters"
 
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/Initialize()

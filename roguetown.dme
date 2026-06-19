@@ -3172,6 +3172,7 @@
 #include "code\modules\spells\spell_types\skills\invoked_single_target\fortifyingvapors.dm"
 #include "code\modules\spells\spell_types\skills\invoked_single_target\learn.dm"
 #include "code\modules\spells\spell_types\skills\invoked_single_target\massage.dm"
+#include "code\modules\spells\spell_types\skills\invoked_single_target\overclock.dm"
 #include "code\modules\spells\spell_types\skills\invoked_single_target\refocusstudies.dm"
 #include "code\modules\spells\spell_types\skills\invoked_single_target\takeapprentice.dm"
 #include "code\modules\spells\spell_types\skills\invoked_single_target\teach.dm"

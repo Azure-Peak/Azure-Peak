@@ -1480,7 +1480,7 @@ GLOBAL_LIST_INIT(freon_color_matrix, list("#2E5E69", "#60A2A8", "#A1AFB1", rgb(0
 	return FALSE
 
 /// Makes a client temporarily aware of an appearance via and invisible vis contents object.
-/mob/proc/send_appearance(mutable_appearance/appearance) as /atom/movable/screen
+/mob/proc/send_appearance(mutable_appearance/appearance, duration = 5 SECONDS) as /atom/movable/screen
 	RETURN_TYPE(/atom/movable/screen)
 	if(!hud_used || isnull(appearance))
 		return
@@ -1489,7 +1489,8 @@ GLOBAL_LIST_INIT(freon_color_matrix, list("#2E5E69", "#60A2A8", "#A1AFB1", rgb(0
 	container.appearance = appearance
 
 	hud_used.vis_holder.vis_contents += container
-	addtimer(CALLBACK(src, PROC_REF(remove_appearance), container), 5 SECONDS)
+	if(duration)
+		addtimer(CALLBACK(src, PROC_REF(remove_appearance), container), duration)
 
 	return container
 

@@ -35,6 +35,7 @@
 		var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
 		if(landmark)
 			Q.materialize(landmark)
+			Q.materialized = TRUE
 		update_quest_text()
 	opened = TRUE
 	update_icon_state()

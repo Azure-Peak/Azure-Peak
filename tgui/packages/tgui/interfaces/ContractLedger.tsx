@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from 'tgui-core/components';
+import { Button, Dialog } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
@@ -27,6 +27,7 @@ type Contract = {
   is_towner: BooleanLike;
   is_standing: BooleanLike;
   required_fellowship_size: number;
+  lapse_minutes: number;
 };
 
 type ActiveContract = {
@@ -58,6 +59,7 @@ type ContractLedgerData = {
   regions: string[];
   tax_rate: number;
   guild_cut_rate: number;
+  can_proxy_turnin: BooleanLike;
   dynamic_role: string | null;
   dynamic_roles?: string[];
   rumor_points?: number;
@@ -391,6 +393,12 @@ const ContractCard = (props: { contract: Contract }) => {
         <span className="ContractLedger__CardLabel">Deposit</span>
         <span className="ContractLedger__CardValue">{c.deposit}</span>
       </div>
+      <div className="ContractLedger__CardRow">
+        <span className="ContractLedger__CardLabel">Lapses</span>
+        <span className="ContractLedger__CardValue">
+          {c.lapse_minutes > 0 ? `~${c.lapse_minutes}m` : '<1m'}
+        </span>
+      </div>
       {c.threat_bands > 0 && (
         <div className="ContractLedger__CardRow">
           <span className="ContractLedger__CardLabel">Clears</span>
@@ -423,6 +431,7 @@ const ActiveStrip = (props: {
   balance: number;
 }) => {
   const { act, data } = useBackend<ContractLedgerData>();
+  const [showFellowshipHelp, setShowFellowshipHelp] = useState(false);
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
   const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
@@ -437,7 +446,7 @@ const ActiveStrip = (props: {
   const fellowshipNote =
     fellowshipBonus > 0
       ? `+${fellowshipBonus} from leading your Fellowship`
-      : 'Lead a Fellowship of 2+ for more contract slots (+1 at 2 members, +2 at 3+).';
+      : 'Form a Fellowship for more contract slots.';
   return (
     <div className="ContractLedger__ActiveStrip">
       <div className="ContractLedger__ActiveStripHeader">
@@ -453,12 +462,52 @@ const ActiveStrip = (props: {
           >
             {fellowshipNote}
           </span>
+          <Button
+            compact
+            ml={0.5}
+            icon="question-circle"
+            selected={showFellowshipHelp}
+            tooltip="Fellowship benefits"
+            onClick={() => setShowFellowshipHelp(true)}
+          />
         </span>
         <span>Balance: {props.balance} mammon</span>
       </div>
-      <div className="ContractLedger__FellowshipHint">
-        You can form a fellowship in the IC Tab
-      </div>
+      {!!data.can_proxy_turnin && (
+        <div
+          style={{
+            fontSize: '0.85em',
+            fontStyle: 'italic',
+            color: '#7a6a4a',
+            marginBottom: '4px',
+          }}
+        >
+          You may turn in any completed contract here on its holder&apos;s
+          behalf - the reward is credited to the holder, and you take no cut.
+        </div>
+      )}
+      {showFellowshipHelp && (
+        <Dialog
+          title="Form a Fellowship for more benefits"
+          width="420px"
+          onClose={() => setShowFellowshipHelp(false)}
+        >
+          <div style={{ padding: '10px 14px', fontSize: '0.95em' }}>
+            <div style={{ marginBottom: '6px' }}>
+              Open the IC tab to form a fellowship and invite people nearby.
+            </div>
+            <div style={{ marginBottom: '6px' }}>
+              Lead a fellowship of 2+ for more contract slots (+1 at 2 members,
+              +2 at 3+).
+            </div>
+            <div>
+              Fellowship members may turn in each other&apos;s contracts. It is
+              credited to the one turning it in, using their tax exemption
+              status, if any.
+            </div>
+          </div>
+        </Dialog>
+      )}
       {blockReason && (
         <div
           className="ContractLedger__ActiveRow"
