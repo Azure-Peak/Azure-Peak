@@ -52,8 +52,6 @@
 		return
 	GLOB.all_vision_quests = list(
 		new /datum/vision_quest/orthodox_hunt,
-		new /datum/vision_quest/knight_challenge,
-		new /datum/vision_quest/abyssor_follower,
 	)
 
 /obj/structure/roguemachine/ritual_rune/attackby(obj/item/I, mob/user, params)
@@ -73,6 +71,12 @@
 /obj/structure/roguemachine/ritual_rune/proc/attempt_vision_quest(mob/living/carbon/human/user, tier, obj/item/used_parchment)
 	populate_vision_quests()
 
+	var/datum/component/vision_quest_tracker/existing_quest = user.GetComponent(/datum/component/vision_quest_tracker)
+	if(existing_quest)
+		var/response = tgui_alert(user, "You already have a vision. Override it?", "Vision Active", list("Yes", "No"))
+		if(response != "Yes")
+			return
+
 	var/list/tiered_quests = list()
 	for(var/datum/vision_quest/Q in GLOB.all_vision_quests)
 		if(Q.required_tier <= tier)
@@ -83,7 +87,7 @@
 		return
 
 	shuffle(tiered_quests)
-	var/list/selected_quests = tiered_quests.Copy(1, min(4, length(tiered_quests) + 1))
+	var/list/selected_quests = tiered_quests.Copy(1, min(3, length(tiered_quests) + 1))
 
 	var/list/available_choices = list()
 	for(var/datum/vision_quest/Q in selected_quests)
@@ -95,28 +99,11 @@
 		to_chat(user, span_warning("The visions are there, but no suitable targets exist in the waking world."))
 		return
 
-	var/list/choice_names = list()
-	var/list/choice_map = list()
 	for(var/entry in available_choices)
 		var/datum/vision_quest/Q = entry["quest"]
-		var/mob/target_mob = entry["target"]
-		var/display = "[Q.name] (Target: [target_mob.real_name])"
-		choice_names += display
-		choice_map[display] = entry
-
-	var/selected = tgui_input_list(user, "Choose a vision to pursue:", "The Dream Pool", choice_names)
-	if(!selected || QDELETED(src) || QDELETED(user))
-		return
-
-	var/selected_entry = choice_map[selected]
-	if(!selected_entry)
-		return
-
-	var/datum/vision_quest/chosen_quest = selected_entry["quest"]
-	var/mob/living/carbon/human/chosen_target = selected_entry["target"]
-
-	qdel(used_parchment)
-	user.AddComponent(/datum/component/vision_quest_tracker, chosen_quest, chosen_target, src)
+		Q.required_phrase = pick(Q.possible_phrases)
+	
+	open_quest_selection_ui(user, available_choices, used_parchment)
 
 /obj/structure/roguemachine/ritual_rune/proc/find_valid_target_for_quest(datum/vision_quest/Q, mob/living/carbon/human/seeker)
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
@@ -140,3 +127,51 @@
 		if(Q.is_valid_target(H, seeker))
 			return H
 	return null
+
+/obj/structure/roguemachine/ritual_rune/proc/open_quest_selection_ui(mob/living/carbon/human/user, list/available_choices, used_parchment)
+	var/list/display_data = list()
+	for(var/entry in available_choices)
+		var/datum/vision_quest/Q = entry["quest"]
+		var/mob/target_mob = entry["target"]
+		
+		var/list/reward_options = list()
+		for(var/reward_path in Q.possible_rewards)
+			var/reward_name = Q.possible_rewards[reward_path]
+			reward_options += list(list(
+				"path" = "[reward_path]",
+				"name" = reward_name
+			))
+		var/list/bonus_options = list()
+		for(var/bonus_path in Q.possible_bonus_rewards)
+			var/bonus_name = Q.possible_bonus_rewards[bonus_path]
+			bonus_options += list(list(
+				"path" = "[bonus_path]",
+				"name" = bonus_name
+			))
+		
+		display_data += list(list(
+			"id" = "[Q.type]",
+			"name" = Q.name,
+			"summary" = Q.summary,
+			"description" = Q.description,
+			"target_name" = target_mob.real_name,
+			"target_description" = Q.target_description,
+			"required_tier" = Q.required_tier,
+			"rewards" = reward_options,
+			"bonus_rewards" = bonus_options,
+			"vision_text" = Q.vision_text
+		))
+	
+	var/datum/vision_quest_selection/selection = new()
+	selection.choices = display_data
+	selection.available_choices = available_choices
+	selection.user = user
+	selection.source_rune = src
+	selection.parchment_used = used_parchment
+	selection.selected_quest_id = null
+	selection.selected_reward_path = null
+	selection.selected_bonus_path = null
+	
+	// Proper TGUI interface opening
+	var/datum/tgui_module/vision_quest_selection/module = new(selection)
+	module.ui_interact(user)

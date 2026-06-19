@@ -28,3 +28,27 @@
 /obj/item/dream_material/parchment_dream
 	name = "imagined parchment"
 	icon_state = "tier3_open"
+
+/obj/item/dream_material/dream_ring
+	name = "gleaming ring"
+	icon_state = "ring"
+
+/obj/item/dream_material/dream_effigy
+	name = "glittering effigy"
+	icon_state = "effigy"
+
+/obj/item/dream_material/dream_fishes
+	name = "spiraling eels"
+	icon_state = "fishes"
+
+/obj/item/dream_material/dream_blade
+	name = "shattered blade"
+	icon_state = "blade"
+
+/obj/item/dream_material/dream_shards
+	name = "distant shards"
+	icon_state = "shards"
+
+/obj/item/dream_material/dream_star
+	name = "wronged star"
+	icon_state = "star"
