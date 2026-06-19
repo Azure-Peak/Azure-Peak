@@ -270,6 +270,10 @@ All foods are distributed among various categories. Use common sense.
 	// check to see if what we're eating is appropriate fare for our "social class" (aka nobles shouldn't be eating sticks of butter you troglodytes)
 	if (ishuman(eater))
 		var/mob/living/carbon/human/human_eater = eater
+
+		if(HAS_TRAIT(human_eater, TRAIT_BLACKBLOOD))
+			human_eater.apply_status_effect(/datum/status_effect/buff/foodhealing, faretype) // heals based on food quality and how hungry you are, so basically if you are foodless, you'll always get the minimum value
+
 		if(human_eater.culinary_preferences)
 			if(HAS_TRAIT(human_eater, TRAIT_ROTMAN)||HAS_TRAIT(human_eater, TRAIT_IRONMAN))
 				return

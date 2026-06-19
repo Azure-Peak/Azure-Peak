@@ -510,7 +510,7 @@
 		return
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
+		if(HAS_TRAIT(target, TRAIT_PSYDONITE) || HAS_TRAIT(target, TRAIT_BLACKBLOOD))
 			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)

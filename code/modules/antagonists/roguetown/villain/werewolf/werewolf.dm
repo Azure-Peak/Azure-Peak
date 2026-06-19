@@ -167,6 +167,9 @@
 		return
 	if(stat >= DEAD) //do shit the natural way i guess
 		return
+	if(HAS_TRAIT(src, TRAIT_BLACKBLOOD) && prob(20)) // since WWs are harder to infect, reducing this to just a fraction of the normal chance
+		to_chat(src, span_danger("I feel something churning within my body... No, not again...! Not this time!"))
+		return
 	to_chat(src, span_danger("I feel horrible... REALLY horrible..."))
 	mob_timers["puke"] = world.time
 	vomit(1, blood = TRUE, stun = FALSE)

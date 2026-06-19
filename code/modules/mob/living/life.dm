@@ -47,7 +47,7 @@
 		heal_wounds(1)
 
 	/// ENDVRE AS HE DOES.
-	if(!stat && HAS_TRAIT(src, TRAIT_PSYDONITE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
+	if(!stat && (HAS_TRAIT(src, TRAIT_PSYDONITE) && !HAS_TRAIT(src, TRAIT_PARALYSIS)))
 		handle_wounds()
 		//passively heal wounds, when you're in trouble..
 		if(blood_volume > BLOOD_VOLUME_SURVIVE)
@@ -55,6 +55,16 @@
 				if(wound?.severity <= WOUND_SEVERITY_MODERATE)
 					if(!istype(wound, /datum/wound/slash/incision))
 						wound.heal_wound(0.4)
+
+	if(!stat && HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
+		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+			return
+		handle_wounds()
+		if(blood_volume > BLOOD_VOLUME_SURVIVE && nutrition > NUTRITION_LEVEL_HUNGRY)
+			for(var/datum/wound/wound as anything in get_wounds())
+				if(!istype(wound, /datum/wound/slash/incision))
+					wound.heal_wound(1.2)
+					nutrition = max(0, nutrition - (NUTRITION_LEVEL_FULL * 0.01)) // drains 1% of your hunger per tick of wound healed
 
 	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
 		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
