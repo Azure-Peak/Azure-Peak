@@ -191,6 +191,7 @@
 	if(!isliving(user) || !isliving(target) || target == user)
 		return
 
+	var/mob/living/attacker = user
 	var/mob/living/defender = target
 	var/list/defender_stats = list(
 		STATKEY_STR = defender.get_stat(STATKEY_STR),
@@ -209,13 +210,13 @@
 			highest_stat = stat_key
 	if(!highest_stat)
 		return
-	user.apply_status_effect(/datum/status_effect/buff/adaptive_enchant, highest_stat)
-	to_chat(user, span_notice("[source] adapts to [defender], empowering my [highest_stat]!"))
+	attacker.apply_status_effect(/datum/status_effect/buff/adaptive_enchant, highest_stat)
+	to_chat(attacker, span_notice("[source] adapts to [defender], empowering my [highest_stat]!"))
 	last_used[source] = world.time
 
 /datum/magic_item/superior/hubris
 	name = "hubris"
-	description = "-and so the Worm said, 'kill everyone who is not us', and Caine listened."
+	description = "-and so the Worm said, 'kill everyone who is not us', and then did Cain become her first acolyte."
 	glow_color = "#B22222"
 
 /datum/magic_item/superior/hubris/on_apply(var/obj/item/i)
@@ -228,8 +229,8 @@
 
 //DAMN, TEA CANT FUCKING CODE!!
 	i.obj_integrity = i.max_integrity
-	i.oldinteg = ((i.obj_integrity) / 2)
+	oldinteg = ((i.obj_integrity) / 2)
 	i.max_integrity = oldinteg
-	i.obj_integrity = max_integrity //OHHH MY GODDD
+	i.obj_integrity = i.max_integrity //OHHH MY GODDD
 	if(!i.obj_integrity == oldinteg)
 		i.obj_integrity = 100 //FUCK IT
