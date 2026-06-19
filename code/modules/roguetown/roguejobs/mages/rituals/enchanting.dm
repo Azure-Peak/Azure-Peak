@@ -135,6 +135,22 @@
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/elemental/shard = 2)
 	result_atoms = list(/obj/item/enchantmentscroll/superior/smithing)
 
+/datum/runeritual/enchanting/adaptive
+	name = "Adaptive"
+	desc = "Adapts to a foe's greatest strength."
+	blacklisted = FALSE
+	tier = 2
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/voidstone = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/superior/adaptive)
+
+/datum/runeritual/enchanting/hubris
+	name = "Hubris"
+	desc = "Empowers a weapon at the expense of defense."
+	blacklisted = FALSE
+	tier = 2
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/infernal/fang = 2)
+	result_atoms = list(/obj/item/enchantmentscroll/superior/hubris)
+
 // ----- T3 Enchantments (1x T3 realm mat + cinnabar + scroll + leyline shard) -----
 
 /datum/runeritual/enchanting/lifesteal
@@ -184,6 +200,14 @@
 	tier = 3
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/leyline = 1, /obj/item/magic/infernal/core = 1)
 	result_atoms = list(/obj/item/enchantmentscroll/greater/archery)
+
+/datum/runeritual/enchanting/convalessence
+	name = "Convalessence"
+	desc = "Gently heals the wearer."
+	blacklisted = FALSE
+	tier = 3
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/voidstone = 1, /obj/item/magic/fae/heartwoodcore = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/greater/convalessence)
 
 // ----- T4 Enchantments (1x T4 realm mat + cinnabar + scroll + leyline shard) -----
 

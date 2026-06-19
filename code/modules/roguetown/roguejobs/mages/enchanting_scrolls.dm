@@ -254,6 +254,40 @@ T1 Enchantments below here*/
 		qdel(src)
 	else
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+
+/obj/item/enchantmentscroll/superior/adaptive
+	name = "enchanting scroll of adaptivity"
+	desc = "A scroll imbued with an enchantment of adaptivity. Upon striking a foe, copy a single point from their highest stat."
+	component = /datum/magic_item/superior/adaptive
+
+/obj/item/enchantmentscroll/superior/adaptive/attack_obj(obj/item/O, mob/living/user)
+	if(!..())
+		return
+	if(istype(O,/obj/item/rogueweapon))
+		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		var/magiceffect= new component
+		O.AddComponent(/datum/component/magic_item, magiceffect)
+		O.name += " of-all-trades"
+		qdel(src)
+	else
+		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+
+/obj/item/enchantmentscroll/superior/hubris
+	name = "enchanting scroll of hubris"
+	desc = "A scroll imbued with an enchantment of hubris. A weapon with this enchantment strikes harder, but defends badly, and has drastically lower durability. For those in the audience who think they are him."
+	component = /datum/magic_item/superior/hubris
+
+/obj/item/enchantmentscroll/superior/hubris/attack_obj(obj/item/O, mob/living/user)
+	if(!..())
+		return
+	if(istype(O,/obj/item/rogueweapon))
+		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		var/magiceffect= new component
+		O.AddComponent(/datum/component/magic_item, magiceffect)
+		O.name += " of hubris"
+		qdel(src)
+	else
+		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
 //T3 Enchantments below
 
 /obj/item/enchantmentscroll/greater/lifesteal
@@ -385,6 +419,23 @@ T1 Enchantments below here*/
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of archery"
+		qdel(src)
+	else
+		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+
+/obj/item/enchantmentscroll/greater/convalessence
+	name = "enchanting scroll of convalessence"
+	desc = "A scroll imbued with an enchantment of convalessence. Armor with this enchantment gently restores its wearer over time."
+	component = /datum/magic_item/greater/convalessence
+
+/obj/item/enchantmentscroll/greater/convalessence/attack_obj(obj/item/O, mob/living/user)
+	if(!..())
+		return
+	if(istype(O,/obj/item/clothing/suit/roguetown/armor))
+		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		var/magiceffect= new component
+		O.AddComponent(/datum/component/magic_item, magiceffect)
+		O.name += " of convalessence"
 		qdel(src)
 	else
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))

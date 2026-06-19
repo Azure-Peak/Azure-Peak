@@ -258,3 +258,38 @@
 		if(possible_turfs.len)
 			L.forceMove(pick(possible_turfs))
 		last_used[source] = world.time
+
+/datum/magic_item/greater/convalessence
+	name = "convalessence"
+	description = "Cool to the touch; "
+	glow_color = "#98FB98"
+	var/active_item = FALSE
+	var/mob/living/current_wearer
+	var/static/list/damage_heal_order = list(BRUTE, BURN, OXY)
+
+/datum/magic_item/greater/convalessence/on_equip(var/obj/item/i, var/mob/living/user, slot)
+	if(slot == ITEM_SLOT_HANDS)
+		return
+	if(active_item)
+		return
+	active_item = TRUE
+	current_wearer = user
+	to_chat(user, span_notice("RECREATE THE CONDITION OF AMNION; BE WHOLE AGAIN."))
+	addtimer(CALLBACK(src, PROC_REF(heal_wearer), i), 20 SECONDS)
+
+/datum/magic_item/greater/convalessence/on_drop(var/obj/item/i, var/mob/living/user)
+	if(active_item)
+		active_item = FALSE
+		current_wearer = null
+		to_chat(user, span_notice("Mammal and bird and lizard -embryon fade; warmth leaves."))
+
+/datum/magic_item/greater/convalessence/proc/heal_wearer(var/obj/item/i)
+	if(!active_item || QDELETED(i) || QDELETED(current_wearer)) //shouldn't be necessary but im scared of what happens if it will be
+		return
+	if(i.loc != current_wearer)
+		active_item = FALSE
+		current_wearer = null
+		return
+	if(current_wearer.stat != DEAD)
+		current_wearer.heal_ordered_damage(1, damage_heal_order)
+	addtimer(CALLBACK(src, PROC_REF(heal_wearer), i), 20 SECONDS)

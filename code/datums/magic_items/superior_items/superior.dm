@@ -176,3 +176,51 @@
 	.=..()
 	var/obj/item/rogueweapon/hammer/hammer = i
 	hammer.quality = hammer.quality *2
+
+/datum/magic_item/superior/adaptive
+	name = "adaptive"
+	description = "Who are you, that you do not know your own enemy?"
+	glow_color = "#6A5ACD"
+	var/list/last_used = list()
+
+/datum/magic_item/superior/adaptive/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag)
+		return
+	if(world.time < (src.last_used[source] + 2 MINUTES))
+		return
+	if(!isliving(user) || !isliving(target) || target == user)
+		return
+
+	var/mob/living/defender = target
+	var/list/defender_stats = list(
+		STATKEY_STR = defender.get_stat(STATKEY_STR),
+		STATKEY_PER = defender.get_stat(STATKEY_PER),
+		STATKEY_INT = defender.get_stat(STATKEY_INT),
+		STATKEY_CON = defender.get_stat(STATKEY_CON),
+		STATKEY_WIL = defender.get_stat(STATKEY_WIL),
+		STATKEY_SPD = defender.get_stat(STATKEY_SPD),
+		STATKEY_LCK = defender.get_stat(STATKEY_LCK),
+	)
+	var/highest_stat
+	var/highest_value = -999999
+	for(var/stat_key in defender_stats)
+		if(defender_stats[stat_key] > highest_value)
+			highest_value = defender_stats[stat_key]
+			highest_stat = stat_key
+	if(!highest_stat)
+		return
+	user.apply_status_effect(/datum/status_effect/buff/adaptive_enchant, highest_stat)
+	to_chat(user, span_notice("[source] adapts to [defender], empowering my [highest_stat]!"))
+	last_used[source] = world.time
+
+/datum/magic_item/superior/hubris
+	name = "hubris"
+	description = "-and so the Worm said, 'kill everyone who is not us', and Caine listened."
+	glow_color = "#B22222"
+
+/datum/magic_item/superior/hubris/on_apply(var/obj/item/i)
+	. = ..()
+	i.force += 5
+	i.wdefense -= 5
+	if(i.wdefense <= 0)
+		i.wdefense = 0
