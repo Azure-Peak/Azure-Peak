@@ -335,7 +335,6 @@
 	var/choosing_bundle = FALSE
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
-		/datum/action/cooldown/spell/noc/inspiration::name					= /datum/action/cooldown/spell/noc/inspiration,
 		/obj/effect/proc_holder/spell/invoked/spiderspeak::name				= /obj/effect/proc_holder/spell/invoked/spiderspeak,
 		/datum/action/cooldown/spell/noc/invisibility::name					= /datum/action/cooldown/spell/noc/invisibility,
 		/obj/effect/proc_holder/spell/targeted/blesscrop::name				= /obj/effect/proc_holder/spell/targeted/blesscrop,
@@ -344,7 +343,7 @@
 	)
 	var/list/miracle_acolyte_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/diagnose::name			= /obj/effect/proc_holder/spell/invoked/diagnose,
-		/datum/action/cooldown/spell/noc/blindness::name				= /datum/action/cooldown/spell/noc/blindness,
+		//datum/action/cooldown/spell/noc/blindness::name				= /datum/action/cooldown/spell/noc/blindness,
 		/obj/effect/proc_holder/spell/invoked/bless_food::name			= /obj/effect/proc_holder/spell/invoked/bless_food,
 		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
 		/obj/effect/proc_holder/spell/invoked/attach_bodypart::name		= /obj/effect/proc_holder/spell/invoked/attach_bodypart,
