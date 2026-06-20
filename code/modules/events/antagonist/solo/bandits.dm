@@ -9,7 +9,7 @@
 	antag_flag = ROLE_BANDIT
 	shared_occurence_type = SHARED_MINOR_THREAT
 	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
-	storyteller_guarantee_flags = STORYTELLER_FAVOR_BANDIT
+	storyteller_rumour_name = "bandits"
 
 	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
 	base_antags = 5
@@ -49,6 +49,7 @@
 				qdel(stale)
 
 		SSjob.AssignRole(H, "Bandit")
+		H.job = "Bandit"
 		SSmapping.retainer.bandits |= H
 		antag_mind.add_antag_datum(/datum/antagonist/bandit)
 

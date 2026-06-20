@@ -196,6 +196,11 @@
 /obj/item/roguemachine/zadcote/ui_state(mob/user)
 	return GLOB.human_adjacent_state
 
+/obj/item/roguemachine/zadcote/ui_status(mob/user, datum/ui_state/state)
+	if(isobserver(user))
+		return UI_CLOSE
+	return ..()
+
 /obj/item/roguemachine/zadcote/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)

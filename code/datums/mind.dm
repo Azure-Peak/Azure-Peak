@@ -603,7 +603,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/recall_targets(mob/recipient, window=1)
 	var/output = "<B>[recipient.real_name]'s Hitlist:</B><br>"
 	for(var/mob/living/carbon in GLOB.mob_living_list) // Iterate through all mobs in the world
-		if((carbon.real_name != recipient.real_name) && ((carbon.has_flaw(/datum/charflaw/hunted))  && (carbon.job in GLOB.hunted_protected_roles) && (!istype(carbon, /mob/living/carbon/human/dummy))))//To be on the list they must be hunted, not a protected role, not the user and not a dummy (There is a dummy that has all vices for some reason)
+		if((carbon.real_name != recipient.real_name) && (carbon.has_flaw(/datum/charflaw/targeted) && (!istype(carbon, /mob/living/carbon/human/dummy)))) //To be on the list they must be targeted, not the user and not a dummy (There is a dummy that has all vices for some reason)
 			output += "<br>[carbon.real_name]"
 			output += "<br>[carbon.real_name]"
 			if (carbon.job)
@@ -1081,6 +1081,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/RemoveAllSpells()
 	for(var/datum/S in spell_list)
 		RemoveSpell(S)
+	for(var/datum/SP in current.actions)
+		RemoveSpell(SP)
 
 /datum/mind/proc/transfer_martial_arts(mob/living/new_character)
 	if(!ishuman(new_character))

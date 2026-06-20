@@ -565,6 +565,12 @@
 	if(newforce > 1)
 		I.take_damage(1, BRUTE, I.d_type)
 
+	try_damage_pushback(user)
+
+	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_OBJ, I, user)
+	return TRUE
+
+/obj/proc/try_damage_pushback(mob/user)
 	if((obj_flags & CLAMP_BREAK) && !density && !anchored && isturf(loc))
 		var/sfx = 'sound/items/hit_normalobj.ogg'
 		if(isclothing(src))	// Lazy check for fluffy sparks
@@ -588,9 +594,6 @@
 		var/target_turf = get_ranged_target_turf(current_turf, throwdir, dist)
 		playsound(current_turf, sfx, 100, TRUE)
 		throw_at(target_turf, dist, 12, user, FALSE)
-
-	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_OBJ, I, user)
-	return TRUE
 
 /turf/proc/attacked_by(obj/item/I, mob/living/user, multiplier)
 	var/newforce = get_complex_damage(I, user, blade_dulling)

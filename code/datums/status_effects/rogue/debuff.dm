@@ -258,6 +258,17 @@
 	desc = "My muscles need some sleep to recover."
 	icon_state = "muscles"
 
+/datum/status_effect/debuff/sunder_stacks
+	id = "sundered"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/sunder_stacks
+	effectedstats = list(STATKEY_STR = -1, STATKEY_WIL = -1, STATKEY_CON = -1, STATKEY_SPD = -1, STATKEY_LCK = -1)	//Slightly punishing.
+	duration = 10 SECONDS	//Punishing and tied to the duration of your sundering stacks.
+
+/atom/movable/screen/alert/status_effect/debuff/sunder_stacks
+	name = "Sundered!"
+	desc = "Something has been taken from me, and it will take time to recover."
+	icon_state = "luxstrain"
+
 /datum/status_effect/debuff/devitalised
 	id = "devitalised"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/devitalised

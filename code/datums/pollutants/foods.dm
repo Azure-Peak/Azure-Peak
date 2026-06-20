@@ -80,6 +80,10 @@
 	name = "fresh baked pastry"
 	scent = "fresh baked pastry"
 
+/datum/pollutant/food/pasta
+	name = "boiling pasta"
+	scent = "boiling pasta"
+
 /datum/pollutant/food/pie_base
 	name = "fresh baked pie crust"
 	scent = "fresh baked pie crust"
@@ -247,3 +251,7 @@
 /datum/pollutant/food/rotten_meat
 	name = "rotten flesh"
 	scent = "rotten flesh"
+
+/datum/pollutant/food/fried_mushroom
+	name = "fried mushroom"
+	scent = "fried mushroom"

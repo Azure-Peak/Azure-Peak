@@ -17,6 +17,7 @@
 	var/amount = 4
 	var/lifetime = 5
 	var/opaque = 1 //whether the smoke can block the view when in enough amount
+	var/breathin = TRUE
 
 /obj/effect/particle_effect/smoke/proc/fade_out(frames = 16)
 	if(alpha == 0) //Handle already transparent case
@@ -64,7 +65,8 @@
 	if(istype(C.wear_mask, /obj/item/clothing/mask/rogue/facemask/steel/confessor))
 		return FALSE
 	if(HAS_TRAIT(C, TRAIT_NOBREATH) || HAS_TRAIT(C, TRAIT_NOMETABOLISM))
-		return FALSE
+		if(breathin)
+			return FALSE
 	C.smoke_delay++
 	addtimer(CALLBACK(src, PROC_REF(remove_smoke_delay), C), 10)
 	return TRUE
@@ -128,6 +130,7 @@
 	lifetime = 8
 
 /obj/effect/particle_effect/smoke/bad/smoke_mob(mob/living/carbon/M)
+	breathin = TRUE
 	if(..())
 		M.drop_all_held_items()
 		M.adjustOxyLoss(1)
@@ -147,6 +150,7 @@
 	lifetime = 10
 
 /obj/effect/particle_effect/smoke/poison_gas/smoke_mob(mob/living/carbon/M)
+	breathin = TRUE
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
 			return FALSE
@@ -167,6 +171,7 @@
   lifetime = 15
 
 /obj/effect/particle_effect/smoke/healing_gas/smoke_mob(mob/living/carbon/M)
+	breathin = TRUE
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
 			return FALSE
@@ -192,8 +197,9 @@
 	lifetime = 10
 
 /obj/effect/particle_effect/smoke/fire_gas/smoke_mob(mob/living/carbon/M)
+	breathin = FALSE
 	if(..())
-		M.adjustFireLoss(3, 0)
+		M.adjustFireLoss(6, 0)
 		M.adjust_fire_stacks(3)
 		M.ignite_mob()
 		M.emote("scream")
@@ -211,6 +217,7 @@
 	lifetime = 5
 
 /obj/effect/particle_effect/smoke/blind_gas/smoke_mob(mob/living/carbon/M)
+	breathin = FALSE
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
 			return FALSE
@@ -232,10 +239,11 @@
 	lifetime = 10
 
 /obj/effect/particle_effect/smoke/mute_gas/smoke_mob(mob/living/carbon/M)
+	breathin = FALSE
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
 			return FALSE
-		M.silent = max(M.silent, 8)
+		M.silent = max(M.silent, 20)
 		return TRUE
 
 /datum/effect_system/smoke_spread/mute_gas
@@ -250,6 +258,7 @@
 	lifetime = 10
 
 /obj/effect/particle_effect/smoke/sleeping/smoke_mob(mob/living/carbon/M)
+	breathin = TRUE
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
 			return FALSE

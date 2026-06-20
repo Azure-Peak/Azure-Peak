@@ -1,10 +1,6 @@
-// Storyteller scaling (roundstart, storyteller_scale_slots path):
-// scaling=2, min_players=20, default_cap=2
-//  Storyteller    | Cap | <20 | 20-40 | 41-50 | 51-60 | 61+
-//  Ravox          |  4  |  0  |   2   |   4   |   4   |  4
-//  Xylix          |  4  |  0  |   2   |   4   |   4   |  4
-//  Matthios       |  6  |  0  |   2   |   4   |   6   |  6
-//  Others         |  2  |  0  |   2   |   2   |   2   |  2
+// Roundstart scaling (storyteller_scale_slots): scaling=2, min_players=20, default_cap=2.
+// The Guaranteed Antag presets raise the cap so bandits scale with pop - 4 normally, 8 under the
+// aggressive No-Wretch preset (which also doubles the per-population step).
 /datum/antagonist/bandit
 	name = "Bandit"
 	roundend_category = "bandits"
@@ -20,15 +16,13 @@
 	rogue_enabled = TRUE
 	has_tempo = TRUE
 	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
-	storyteller_favor_flags = STORYTELLER_FAVOR_BANDIT
 	override_candidatereq = TRUE
 	storyteller_min_players = CHARACTER_INJECTION_MIN_POP
 	storyteller_slot_scaling = 2
 	storyteller_slot_default_cap = 2
 	storyteller_maxcaps = list(
-		/datum/storyteller/ravox = 4,
-		/datum/storyteller/xylix = 4,
-		/datum/storyteller/matthios = 6,
+		/datum/storyteller/gamemode/guaranteed_antag = 4,
+		/datum/storyteller/gamemode/guaranteed_antag/low_wretch = 6,
 	)
 	var/favor = 150
 	var/totaldonated = 0
@@ -50,6 +44,10 @@
 	var/mob/living/carbon/human/H = owner.current
 	if(!istype(H.patron, /datum/patron/inhumen))
 		H.set_patron(/datum/patron/inhumen/matthios)	//If you aren't a heretical worshiper, forces you to Matthios worship. (All bandits follow Matthios.)
+	for(var/datum/charflaw/cf in H.charflaws)
+		if(istype(cf, /datum/charflaw/hunted) || istype(cf, /datum/charflaw/targeted))
+			H.charflaws.Remove(cf)
+			QDEL_NULL(cf)
 	add_verb(H, /mob/proc/haltyell_exhausting)
 	ADD_TRAIT(H, TRAIT_BANDITCAMP, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)

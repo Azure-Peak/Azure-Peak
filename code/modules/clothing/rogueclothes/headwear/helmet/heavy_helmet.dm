@@ -1357,6 +1357,9 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 
+/obj/item/clothing/head/roguetown/helmet/heavy/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar
 	name = "vicious helmet"
 	desc = "Snarled teeth gnash the unholy bascinet's visor, drenched in scarlet. Your beluxed invocation; the dinnerbell for a feast of blood and steel."
@@ -1369,6 +1372,9 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "HELM", "RENDERED ASUNDER")
+
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/equipped(mob/living/user, slot)
 	. = ..()
@@ -1409,6 +1415,9 @@
 	material_category = ARMOR_MAT_PLATE
 	toggle_icon_state = TRUE
 	smeltresult = /obj/item/ingot/component/zizo
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
 	name = "avantyne froggemund"
@@ -1463,6 +1472,9 @@
 	armor = ARMOR_PLATE_BSTEEL
 	armor_class = ARMOR_CLASS_LIGHT
 
+/obj/item/clothing/head/roguetown/helmet/heavy/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+
 /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
 	name = "iron bucket helm"
 	desc = "A helmet that covers your entire head, offering good protection while making breathing a difficult ordeal."
@@ -1491,3 +1503,10 @@
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/holyseebarbute
+	name = "holy see barbute"
+	desc = "A polished plate of sheer silver curtains the barbute's front, its mirror-like sheen reflecting that which the Ten make of His Creation. \
+			\n\n'Look upon their works, ye mighty, and despair.'"
+	icon_state = "seebascinet"
+	item_state = "seebascinet"

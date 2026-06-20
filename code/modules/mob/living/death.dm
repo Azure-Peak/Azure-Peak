@@ -41,7 +41,8 @@ GLOBAL_LIST_EMPTY(last_words)
 #define DUST_ANIMATION_TIME 1.3 SECONDS
 
 /mob/living/dust(just_ash, drop_items, force)
-	death(TRUE)
+	if(stat != DEAD)
+		death(TRUE)
 
 	spill_embedded_objects()
 
@@ -181,4 +182,6 @@ GLOBAL_LIST_EMPTY(last_words)
 	var/area/A = get_area(src)
 	if(!A)
 		return "an unknown locale, wreathed in enigmatic fog" // fallback if we can't find the area somehow?? -- This was not clear enough for me ICly that it's somewhere I shouldn't care about, now it should
+	if(!A.deathsight_message)
+		return "[A.name], a place with no deathsight message set. Report this to the devs!"
 	return A.deathsight_message

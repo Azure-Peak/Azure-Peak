@@ -1,18 +1,20 @@
 /datum/action/cooldown/spell/minion_order
 	name = "Order Minions"
-	desc = "Issues commands to your summoned minions within 12 tiles. \
-	Cast on a turf to send them marching there, ignoring all else along the way. \
-	Cast on yourself to recall them - they will turn passive and follow you. \
-	Cast on an enemy to focus them; minions will pursue and attack that target. \
-	Cast on one of your own minions to toggle its stance: a passive minion becomes hostile and will hunt strangers on its own; a hostile minion calms down and reverts to follow-and-defend. \
-	Does not work on greater skeletons."
+	desc = "Issues commands to your summoned minions within 12 tiles.<br>\
+	<br>\
+	Cast on a turf: Order all nearby minions to move there.<br>\
+	Cast on yourself: Recall minions and set them to retaliate-only.<br>\
+	Cast on an enemy: Order all minions to attack that target.<br>\
+	Cast on one of your minions: Toggle its stance between retaliate-only and attack-all-strangers.<br>\
+	<br>\
+	Does not affect carbon mobs."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "raiseskele"
 	cast_range = 12
 	associated_skill = /datum/skill/misc/athletics
 	charge_required = FALSE
 	primary_resource_type = SPELL_COST_NONE
-	cooldown_time = 2 SECONDS
+	cooldown_time = 1 SECONDS
 	spell_requirements = SPELL_REQUIRES_SAME_Z
 	zizo_spell = TRUE
 	has_visual_effects = FALSE
@@ -70,25 +72,25 @@
 				switch(order_type)
 					if("goto")
 						minion.ai_controller.set_blackboard_key(BB_TRAVEL_DESTINATION, target_location)
-						msg = "go to [target_location]"
+						msg = "go to [target_location]."
 					if("follow")
 						minion.ai_controller.set_blackboard_key(BB_FOLLOW_TARGET, target)
 						msg = "follow you."
 					if("aggressive")
-						msg = "roam free."
+						msg = "act on their own."
 					if("attack")
 						minion.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
-						msg = "attack [target.name]"
+						msg = "attack [target.name] on sight."
 					if("toggle_stance")
 						if(minion == target)
 							if("neutral" in minion.faction)
 								minion.faction -= "neutral"
 								minion.pet_passive = FALSE
-								msg = "[minion.name] becomes hostile to nearby strangers."
+								msg = "attack non-marked on sight."
 							else
 								minion.faction += "neutral"
 								minion.pet_passive = TRUE
-								msg = "[minion.name] calms down."
+								msg = "only retaliate when attacked."
 	if(count > 0)
 		to_chat(owner, "Ordered [count] minions to [msg]")
 	else

@@ -44,6 +44,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	if(forced_preset)
 		preset = forced_preset
 	else
@@ -65,6 +66,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 			outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/matthios)
 		if ("zizo")
 			ADD_TRAIT(src, TRAIT_CABAL, TRAIT_GENERIC)
+			src.grant_language(/datum/language/undead)
 			outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/zizo)
 		if ("hedgeknight")
 			if(prob(50))
@@ -104,6 +106,33 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 
 	var/datum/bodypart_feature/hair/head/new_hair = new()
 
+	var/voice_choice = rand(1, 12)
+	switch(voice_choice)
+		if(1)
+			src.voice_color = "0bb1e4"
+		if(2)
+			src.voice_color = "d30c0c"
+		if(3)
+			src.voice_color = "4d4afc"
+		if(4)
+			src.voice_color = "da40c0"
+		if(5)
+			src.voice_color = "51e251"
+		if(6)
+			src.voice_color = "a059cf"
+		if(7)
+			src.voice_color = "8700c5"
+		if(8)
+			src.voice_color = "cfc886"
+		if(9)
+			src.voice_color = "ff9100"
+		if(10)
+			src.voice_color = "a0a0a0"
+		if(11)
+			src.voice_color = "797979"
+		if(12)
+			src.voice_color = "ff5e00"
+
 	if(gender == FEMALE)
 		new_hair.set_accessory_type(hairf, null, src)
 	else
@@ -142,9 +171,15 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 		else
 			say("Matthios, is this true?!", forced = TRUE, npc_speech = TRUE)
 	else if(preset == "zizo")
-		say("Zizo, forgive me!", forced = TRUE, npc_speech = TRUE)
+		if(prob(95))
+			say("Zizo, forgive me!", forced = TRUE, npc_speech = TRUE)
+		else
+			say("We lyve in a Zociety...", forced = TRUE, npc_speech = TRUE)
 	else if(preset == "graggar")
-		say("No more... Blood!", npc_speech = TRUE)
+		if(prob(95))
+			say("No more... Blood!", forced = TRUE, npc_speech = TRUE)
+		else
+			say("WHERE'S THE BLOOD?!!", forced = TRUE, npc_speech = TRUE)
 	emote("painscream")
 	. = ..()
 	if(!gibbed)
@@ -168,75 +203,104 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE) //No more swimming cheese
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+
+	if(prob(60))
+		var/voicepack_choice = rand(1, 6)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(2)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(3)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
+			if(4)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+			if(5)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+			if(6)
+				H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
+				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
 
 /datum/outfit/job/roguetown/quest_miniboss/matthios/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios
 	pants = /obj/item/clothing/under/roguetown/platelegs/matthios
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/matthios
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/matthios
 	gloves = /obj/item/clothing/gloves/roguetown/plate/matthios
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/matthios
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios
 	r_hand = /obj/item/rogueweapon/flail/peasantwarflail/matthios
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
+	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios //IS THIS TRVE?!
 
 /datum/outfit/job/roguetown/quest_miniboss/zizo/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
+	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	pants = /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo/heavy
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	r_hand = /obj/item/rogueweapon/sword/long/zizo
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
+	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/g //ZIZO. ZIZO. ZIZO. (golden inverted cross)
 
 /datum/outfit/job/roguetown/quest_miniboss/graggar/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
+	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
 	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
 	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	cloak = /obj/item/clothing/cloak/graggar
+	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar //SHATTER MY BINDS
 
 /datum/outfit/job/roguetown/quest_miniboss/blacksteel/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
+	belt = /obj/item/storage/belt/rogue/leather/steel
 	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern
 	gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel/modern
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	head = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	r_hand = /obj/item/rogueweapon/greatsword
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
+	r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel //I am evil, yes.
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 
 /datum/outfit/job/roguetown/quest_miniboss/hedge_knight/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	pants = /obj/item/clothing/under/roguetown/platelegs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	r_hand = /obj/item/rogueweapon/greatsword/grenz
-	mask = /obj/item/clothing/mask/rogue/facemask/steel
+	r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/rogueweapon/sword/long

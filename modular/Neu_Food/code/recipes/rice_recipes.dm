@@ -4,7 +4,7 @@
 
 // Cooked Rice + Fried Steak -> Rice and Beef
 /datum/food_recipe/rice/beef
-	name = "Rice and Beef"
+	name = "rice and beef"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/fried
@@ -13,7 +13,7 @@
 
 // Cooked Rice + Fatty Roast -> Rice and Pork
 /datum/food_recipe/rice/pork
-	name = "Rice and Pork"
+	name = "rice and pork"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
@@ -22,7 +22,7 @@
 
 // Cooked Rice + Shrimp -> Rice and Shrimp
 /datum/food_recipe/rice/shrimp
-	name = "Rice and Shrimp"
+	name = "rice and shrimp"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/fryfish/shrimp
@@ -31,7 +31,7 @@
 
 // Cooked Rice + Fried Poultry Cutlet -> Rice and Bird
 /datum/food_recipe/rice/bird
-	name = "Rice and Bird"
+	name = "rice and bird"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried
@@ -40,7 +40,7 @@
 
 // Cooked Rice + Cheddar Slice -> Rice and Cheese
 /datum/food_recipe/rice/cheese
-	name = "Rice and Cheese"
+	name = "rice and cheese"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/cheddarslice
@@ -49,7 +49,7 @@
 
 // Cooked Rice + Egg -> Rice and Egg
 /datum/food_recipe/rice/egg
-	name = "Rice and Egg"
+	name = "rice and egg"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/egg
@@ -58,7 +58,7 @@
 
 // Rice and Pork + Cucumber -> Rice and Pork Meal
 /datum/food_recipe/rice/pork_cucumber
-	name = "Rice and Pork Meal"
+	name = "rice and pork meal"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/ricepork
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/veg/cucumber_sliced
@@ -67,7 +67,7 @@
 
 // Rice and Beef + Baked Carrot -> Rice and Beef Meal
 /datum/food_recipe/rice/beef_carrot
-	name = "Rice and Beef Meal"
+	name = "rice and beef meal"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/ricebeef
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/preserved/carrot_baked
@@ -76,7 +76,7 @@
 
 // Rice and Shrimp + Baked Carrot -> Rice and Shrimp Meal
 /datum/food_recipe/rice/shrimp_carrot
-	name = "Rice and Shrimp Meal"
+	name = "rice and shrimp meal"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/riceshrimp
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/preserved/carrot_baked
@@ -85,7 +85,7 @@
 
 // Rice and Bird + Baked Carrot -> Rice and Bird Meal
 /datum/food_recipe/rice/bird_carrot
-	name = "Rice and Bird Meal"
+	name = "rice and bird meal"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/ricebird
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/preserved/carrot_baked
@@ -94,7 +94,7 @@
 
 // Rice and Egg + Cheddar Slice -> Rice with Egg and Cheese
 /datum/food_recipe/rice/egg_cheese
-	name = "Rice with Egg and Cheese"
+	name = "rice with egg and cheese"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/riceegg
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/cheddarslice
@@ -103,7 +103,7 @@
 
 // Rice and Cheese + Egg -> Rice with Egg and Cheese (alternative path)
 /datum/food_recipe/rice/cheese_egg
-	name = "Rice with Egg and Cheese (Alt)"
+	name = "rice with egg and cheese (alt)"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/ricecheese
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/egg

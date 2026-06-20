@@ -441,7 +441,7 @@
 		if(QDELETED(C) || C.mob?.listed_turf != src)
 			LAZYREMOVE(panel_listeners, C)
 			continue
-		C.update_listed_turf()
+		C.listedturf_dirty = TRUE
 
 /turf/open/Entered(atom/movable/AM)
 	..()

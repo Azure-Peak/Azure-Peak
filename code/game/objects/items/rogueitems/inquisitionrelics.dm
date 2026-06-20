@@ -574,7 +574,7 @@ Inquisitorial armory down here
     . += span_info("Left click someone else on the 'USE' intent, while its blade is extended, to begin gathering blood from them.")
     . += span_info("It takes several cycles to fill the INDEXER with blood - at which point, it will automatically retract the blade and seal itself. This may prove dangerous if used on someone who's already suffering from blood loss.")
     . += span_info("Once filled, left-clicking the INDEXER on a signed ACCUSATION or CONFESSION will combine them into a foldable package. This package can be then folded, stamped, and mailed back to Otava through the HERMES.")
-    . += span_info("Mailing an INDEXER reveals the worshipped pantheon of whoever's blood was gathered. More MARQUES are rewarded if the INDEXER was filled with the blood of an ASCENDANT, NITEBEASTE, or CURSEBORNED.")
+    . += span_info("Mailing an INDEXER reveals the worshipped pantheon of whoever's blood was gathered. More MARQUES are rewarded if the INDEXER was filled with the blood of an ASCENDANT, NITEBEASTE, or CURSEBOUND.")
 
 /obj/item/inqarticles/indexer/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -740,20 +740,81 @@ Inquisitorial armory down here
 		if(!active)
 			to_chat(user, span_warning("It's not primed."))
 			return
-		if(subject)
-			if(M != subject)
-				return
-		if(HAS_TRAIT(M, TRAIT_BLOODLOSS_IMMUNE))
-			to_chat(user, span_warning("They don't have any blood to sample."))		
-			return
-		if(istype(M, /mob/living/carbon/human/species/skeleton))
-			to_chat(user, span_warning("I don't think the Inquisition values marrow much these daes."))	
-			return		
-		if(!M.mind)		
-			return	
+
 		if(full)
 			to_chat(user, span_warning("It's full."))	
 			return	
+
+		if(subject)
+			if(M != subject)
+				return
+
+		if(istype(M, /mob/living/carbon/human/species/skeleton))
+			visible_message(span_warning("[user] goes to jab [M] with [src]!"))
+			if(do_after(user, 20, FALSE, M))
+				src.say("ERROR. BONE MARROW IS NOT A VALID INDEXING SUBSTANCE.")
+				to_chat(user, span_warning("I don't think that was wise. I hope nobody saw it..."))
+				playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+				return	
+			else
+				src.say("ERROR. BONE MARROW IS NOT A VALID INDEXING SUBSTANCE.")
+				to_chat(user, span_warning("I don't think that was wise. I hope nobody saw it..."))
+				playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+				return	
+
+		if(iscarbon(M))
+			visible_message(span_warning("[user] goes to jab [M] with [src]!"))
+			if(do_after(user, 20, FALSE, M))
+				var/mob/living/carbon/H = M
+				if(H.dna?.species && (NOBLOOD in H.dna.species.species_traits))
+					src.say("ERROR. NO BLOOD DETECTED.")
+					playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+					return
+			else
+				var/mob/living/carbon/H = M
+				if(H.dna?.species && (NOBLOOD in H.dna.species.species_traits))
+					src.say("ERROR. NO BLOOD DETECTED.")
+					playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+					return
+
+		if(M.blood_volume <= 0)
+			visible_message(span_warning("[user] goes to jab [M] with [src]!"))
+			if(do_after(user, 20, FALSE, M))
+				src.say("ERROR. THEY ARE COMPLETELY DEVOID OF BLOOD.")
+				playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+				return
+			else
+				src.say("ERROR. THEY ARE COMPLETELY DEVOID OF BLOOD.")
+				playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+				return
+
+		if(!M.mind)		
+			return	
+
+		if(M.stat == DEAD)
+			var/found_cursed = FALSE
+			if(M.mind.has_antag_datum(/datum/antagonist/werewolf, FALSE))
+				found_cursed = TRUE
+			if(M.mind.has_antag_datum(/datum/antagonist/werewolf/lesser, FALSE))
+				found_cursed = TRUE
+			if(M.mind.has_antag_datum(/datum/antagonist/vampire, FALSE))
+				found_cursed = TRUE
+			if(M.mind.has_antag_datum(/datum/antagonist/vampire))
+				found_cursed = TRUE
+			if(!found_cursed)
+				if(do_after(user, 20, FALSE, M))
+					playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+					src.say("EXTRACTION FAILED. NO LUX DETECTED.")
+					return
+				else
+					playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+					src.say("EXTRACTION FAILED. NO LUX DETECTED.")
+					return
+
+			src.say("SUSPICIOUS SUBSTANCE DETECTED. DIGGING THROUGH FLESH.")
+			takeblood(M, user)
+			return
+
 		visible_message(span_warning("[user] goes to jab [M] with [src]!"))
 		if(do_after(user, 20, FALSE, M))
 			takeblood(M, user)

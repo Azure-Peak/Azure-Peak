@@ -172,6 +172,14 @@
 		prefs.save_preferences()
 		to_chat(src, "You will see the red flashing effect [prefs.no_redflash ? "less" : "more"] frequently.")
 
+/client/verb/toggle_topexamine()
+	set category = "Preferences.Options"
+	set name = "Toggle Top Examine"
+	if(prefs)
+		prefs.top_examine = !prefs.top_examine
+		prefs.save_preferences()
+		to_chat(src, "Main Examines will be at the [prefs.top_examine ? "top" : "bottom"].")
+
 /client/verb/toggle_lobby_music()
 	set name = "Toggle Lobby Music"
 	set category = "Preferences.Options"
@@ -274,6 +282,15 @@
 		prefs.combat_toggles ^= XP_TEXT
 		prefs.save_preferences()
 	to_chat(src, "You will[prefs.combat_toggles & XP_TEXT ? "" : " not"] see XP pop ups.")
+
+/client/verb/vocal_barks()
+	set name = "Toggle Vocal Barks"
+	set category = "Preferences.Options"
+	set desc = ""
+	if(prefs)
+		prefs.mute_barks = !prefs.mute_barks
+		prefs.save_preferences()
+	to_chat(src, "You will [prefs.mute_barks ? "not " : ""]hear vocal barks.")
 
 /client/verb/toggle_hitzonetext() // Whether the user can see a text popup for where they got hit.
 	set category = "Preferences.Options"

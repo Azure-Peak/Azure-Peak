@@ -180,6 +180,10 @@
 	stressadd = 5
 	desc = span_red("<u>They</u> are here.")
 
+/datum/stressevent/sundercritted
+	stressadd = 5 //Its literally killing you, sire.
+	desc = span_boldred("I CAN FEEL MY SOUL TEARING APART FROM BLESSED FLAMES, I NEED TO GET AWAY!")
+
 /datum/stressevent/nocrowd
 	timer = 2 MINUTES
 	stressadd = 3
@@ -414,7 +418,7 @@
 	desc = span_red("Where is their head? What is that flame?!")
 	timer = 5 MINUTES
 
-/datum/stressevent/hunted // When a hunted character sees someone in a mask
+/datum/stressevent/targeted // When a targeted character sees someone in a mask
 	timer = 2 MINUTES
 	stressadd = 3
 	desc = span_boldred("I can't see their face! Have they found me? Is this the end?")

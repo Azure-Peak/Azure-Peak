@@ -14,7 +14,7 @@
 	var/category
 
 	if(ispath(path, /datum/crafting_recipe/roguetown/cooking))
-		category = FOOD_CAT_DRYING
+		category = initial(path:category) || FOOD_CAT_DRYING
 	else if(ispath(path, /datum/crafting_recipe))
 		temp_recipe = new path()
 		var/datum/crafting_recipe/r = temp_recipe
@@ -60,9 +60,21 @@
 		qdel(temp_recipe)
 	return category
 
+/proc/recipe_path_priority(path)
+	if(ispath(path, /datum/book_entry))
+		return initial(path:book_priority)
+	return 0
+
+/proc/cmp_wiki_recipe_entries(list/a, list/b)
+	if(a["priority"] != b["priority"])
+		return b["priority"] - a["priority"]
+	return sorttext(b["name"], a["name"])
+
 /proc/should_hide_recipe(path)
 	if(ispath(path, /datum/hag_boon))
 		return !initial(path:hag_is_valid)
+	if(ispath(path, /datum/crafting_recipe/roguetown/cooking) && ispath(initial(path:result), /obj/item/clothing))
+		return TRUE
 	if(ispath(path, /datum/crafting_recipe))
 		var/datum/crafting_recipe/recipe = path
 		if(initial(recipe.hides_from_books))
@@ -74,6 +86,10 @@
 	if(ispath(path, /datum/runeritual))
 		var/datum/runeritual/ritual = path
 		if(initial(ritual.blacklisted))
+			return TRUE
+	if(ispath(path, /datum/food_recipe))
+		var/datum/food_recipe/recipe = path
+		if(initial(recipe.hidden))
 			return TRUE
 	return FALSE
 
@@ -98,8 +114,17 @@
 	return categories
 
 /proc/generate_recipe_detail_html(path, mob/user)
+	if(istext(path) && SScooking?.auto_single_lookup[path])
+		var/datum/food_recipe/single_cook/auto = SScooking.auto_single_lookup[path]
+		return auto.build_entry_data()
 	if(!ispath(path))
 		return "<div class='recipe-content'><p>Invalid recipe selected.</p></div>"
+
+	if(ispath(path, /datum/food_recipe))
+		var/datum/food_recipe/r = new path()
+		var/list/entry_data = r.build_entry_data()
+		qdel(r)
+		return entry_data
 
 	var/html = "<div class='recipe-content'>"
 	var/recipe_name = "Unknown Recipe"
@@ -277,6 +302,10 @@
 	if(dfried && dfried != path)
 		var/atom/d = dfried
 		parts += "deep fries into [initial(d.name)]"
+	var/dboiled = initial(proto.boiled_type)
+	if(dboiled && dboiled != path)
+		var/atom/b = dboiled
+		parts += "boils into [initial(b.name)]"
 	if(!length(parts))
 		return ""
 	return "<br>Becomes: [parts.Join("; ")]."

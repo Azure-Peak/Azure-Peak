@@ -69,6 +69,10 @@
 		for(var/obj/structure/bars/B in T)
 			to_chat(user, span_warning("I can't fit down there with the bars in the way!"))
 			return
+		for(var/obj/structure/mineral_door/wood/deadbolt/shutter/b in T)
+			if(!b.door_opened)
+				to_chat(user, span_warning("I can't fit down there with the shutter in the way!"))
+				return
 		hideinside(user)
 		return
 	if(Adjacent(user) && user.pulling)
