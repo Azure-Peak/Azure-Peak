@@ -307,11 +307,11 @@
 /datum/action/cooldown/spell/noc/spellpack
 	name = "Arcyne Affinity"
 	desc = "Allows you to learn a set of spells. \n \
-	<b>MAGISTER</b>: Greater Arcyne Force Wall, Blink, Message, Create Campfire \n \
-	<b>ENCHANTER</b>: Gravel Blast, Mending, Arcyne Forge, Hawk Eyes, Stoneskin\n \
-	<b>SEER</b>: Giants Strength, Guidance, Haste, Fortitude, Mindlink"
+	<b>MAGISTER</b>: Greater Arcyne Bolt, Arc Bolt, Bestow Ward, Blink, Message, Campfire \n \
+	<b>ENCHANTER</b>: Stygian Efflorescence, Ensnare, Rune Ward, Forcewall, Hawks Eyes, Stoneskin \n \
+	<b>SEER</b>: Crush, Iron Skin, Fortitude, Guidance, Haste, Mindlink"
 	button_icon_state = "spellpack"
-
+//Magister = Generic magos, low utility mostly damage; Enchanter = Area denial beast, some utility; Seer = Full support with practically 0 offensive capacity.
 	click_to_activate = FALSE
 	primary_resource_cost = SPELLCOST_MIRACLE
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
@@ -324,24 +324,27 @@
 	var/choosing_bundle = FALSE
 	var/chosen_bundle
 	var/list/magister_bundle = list(
-		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt, //Offensive Tool
-		/datum/action/cooldown/spell/forcewall,
+		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt,
+		/datum/action/cooldown/spell/projectile/arc_bolt,
+		/datum/action/cooldown/spell/bestow_ward,
 		/datum/action/cooldown/spell/blink,
-		/datum/action/cooldown/spell/message, //Utility
-		/datum/action/cooldown/spell/create_campfire //Buff
+		/datum/action/cooldown/spell/message,
+		/datum/action/cooldown/spell/create_campfire
 	)
 	var/list/enchanter_bundle = list(
-		/datum/action/cooldown/spell/projectile/gravel_blast, //Offensive Tool
-		/datum/action/cooldown/spell/mending,
-		/datum/action/cooldown/spell/arcyne_forge, //Utility
+		/datum/action/cooldown/spell/projectile/stygian_efflorescence,
+		/datum/action/cooldown/spell/ensnare,
+		/datum/action/cooldown/spell/touch/rune_ward,
+		/datum/action/cooldown/spell/forcewall,
 		/datum/action/cooldown/spell/hawks_eyes,
-		/datum/action/cooldown/spell/stoneskin //Buff
+		/datum/action/cooldown/spell/stoneskin
 	)
 	var/list/seer_bundle = list(
-		/datum/action/cooldown/spell/giants_strength,
+		/datum/action/cooldown/spell/crush,
+		/datum/action/cooldown/spell/iron_skin,
+		/datum/action/cooldown/spell/fortitude,
 		/datum/action/cooldown/spell/guidance,
 		/datum/action/cooldown/spell/haste,
-		/datum/action/cooldown/spell/fortitude,
 		/datum/action/cooldown/spell/mindlink
 	)
 
