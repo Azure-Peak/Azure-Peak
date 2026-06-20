@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - qol: "Punching items on the floor in combat mode will now appropriately hit them rather than have the user try to pick them up."

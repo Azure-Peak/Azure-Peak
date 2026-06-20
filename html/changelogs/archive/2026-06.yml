@@ -779,3 +779,98 @@
   yyzsong:
   - spellcheck: The Undivided "Lesser Anastasis" miracle no longer mentions requiring
       gold ore in its description
+2026-06-20:
+  FreeStylaLT:
+  - rscadd: '*gulp, *facepalm, *crack, *salute emotes.'
+  - balance: Changed the fog sprite.
+  - rscadd: Added functionality for pre-emptively satisfying addiction vices. A smoker
+      who smokes without the addiction prompt will now delay it accordingly, but the
+      delay will be shorter than only smoking when prompted.
+  - balance: Alcoholic vice is now satisfied with the Drunk status effect, rather
+      than at an arbitrary later amount of drunkenness.
+  Juubo:
+  - rscadd: launchers can throw grenades, fireboms, and javelins
+  - rscadd: artificer table can charge devices and heal constructs when connted to
+      rotational power (128+)
+  - rscadd: copper still go faster when connected to  rotational power (32+)
+  - rscadd: mechanized quivers that pick up bolts and arrows and holsters them
+  - rscadd: prosthetic limbs have an over clock ability to give +1str per arm and
+      +1 speed per leg
+  - balance: infernal engine  stress reduction
+  - balance: fire bolts can be made in different amounts with fytrius, solar dust,
+      fire dust, and infernal dust
+  - balance: 10 arrows can be made with engineering using an ingot and boards
+  - balance: reduced the bolts made to 16
+  - balance: silience grenades now last 20 seconds (up from 6) and no longer take
+      iron dust
+  - balance: fire damage from fire gas belcers are doubled (up to 6 from 3)
+  - balance: (burning, blinding, and silence can now apply to anything without breathing,
+      meaning undead and constructs can be affected
+  - balance: upped the light impact damage of impact grenades to 3 from 2
+  - balance: removed a log in the portable alchemy table recipe and removed a bronze
+      bar in the portable cauldron recipe
+  - code_imp: optimized some of the launchers code based on vs code's recommendations
+  - code_imp: removed some commented out code to clean things up
+  - refactor: renamed "cogs" to "gears"
+  Ketrai:
+  - rscadd: Keepers can now be revenants
+  Ollanius:
+  - rscdel: Keepers can no longer be Revenants. Minor lore discrepancy - false alarm.
+  WeNeedMorePhoron:
+  - bugfix: Reordered a ..() properly on hearth so that it no longer get attacked
+      by pan when putting it on
+  - bugfix: Disabled legacy tg light spark on hearth / rogue fires in general that
+      ignites things nearby
+  - bugfix: Categorized alchemical ingredients in the alch & potions category
+  - bugfix: Fine food, which previously had no buff, now gives a buff to noble instead
+      of nothing. It is scaled at half the effectiveness of lavish food.
+  - rscdel: NO REPULSE FOR NOC GRIMOIRE!!!
+  - balance: Watcher no longer spew fire carpet around themselves making it one of
+      the **worst** mobs to ever engage in melee
+  - balance: Earth Elemental now yeet less often
+  - balance: Behemoth's rock now applies a slowdown of 4, not a 5 seconds paralyze
+      if you are hit
+  - balance: Leyline Lycan's move to step reduced from 1 to default (5) so they no
+      longer hit you like crack and nyoom across your entire screen
+  - balance: Sylph no longer drop glowshroom around themselves
+  - balance: Unnerfed Sylph's projectile so that it has a proper speed and can actually
+      threaten or hit kiter
+  - balance: Added a minimal range of 1 to sylph to reward you for sticking close
+  - rscadd: Optimize the statpanel further
+  - balance: Shield Coverage has been reduced to be roughly in line with before the
+      AOE intent PR moved them all up. Arcane Aegis dropped from 70 to 60
+  - rscadd: Madman Threat Point budget reduced from 50 points to 30 points, so that
+      blockade with them are not underwhelming
+  - bugfix: When you check a material off on the commissioner, it also excludes recipes
+      with it as a SECONDARY input
+  - balance: Rural Taxes reduced from 250 to 200
+  - rscadd: Blockade now replenishes between Day 2 and Day 5. Up to 2 blockades can
+      be replenished, based on pop. Blockade will never replenishes on Kingsfield
+      (So that Kingsfield is always a one off event)
+  - bugfix: Fixed quests being wiped out because of regeneration after the first tick
+      in round, which labels dozens of landmarks as "used" even if it didn't have
+      a quest assigned in preview state. Also staggers their regeneraiton and surface
+      their lapsing time so that quests would lapse on a more natural cadence instead
+      of just every 15 minutes at once.
+  - rscadd: Zadcote and HERMES is no longer interactalbe for gohsts
+  - rscadd: Fellowship members can turn in your contracts by proxy and have it credited
+      to THEIR ACCOUNT with THEIR TAX EXEMPTION STATUS. Steward / Clerk can also turn
+      in contracts by proxy for convenience (or just run to the inn)
+  - balance: Tuned down Quest & Head rewards by 25% because I believe that the contract
+      economy is running a bit too hot for my taste and a small downtune is needed.
+  changelingonberry:
+  - bugfix: biting now respects accuracy
+  radarseas:
+  - rscadd: Added some emote noises to skeles/zombies that were missing.
+  - rscadd: Silver sunders no longer instantly oneshot you pass a certain level of
+      fire damage without any regards for armor, Rocket Tag gameplay is dead once
+      more (not to say this can't onetap skeles with firecrit or severely weaken vampires
+      in their ability to even fight as it should.
+  - balance: Re-done silver sunders. 40 stacks are applied per hit, 100 allows old
+      Sunder kills. Sunderstacks apply debuffing effects as they build up. Bring numbers
+      + gear for monsters, not just blessed silver.
+  - balance: All forms of sundering flames disable your pain immunity, making you
+      subject to paincrit again and enabling you to feel pain. This only applies if
+      you're already silver weak.
+  yyzsong:
+  - spellcheck: progned -> pronged

@@ -334,6 +334,9 @@ All foods are distributed among various categories. Use common sense.
 							apply_effect = FALSE
 					if (FARE_FINE)
 						eater.remove_stress(/datum/stressevent/noble_bland_food)
+						eater.add_stress(/datum/stressevent/noble_fine_food)
+						if (prob(25))
+							to_chat(eater, span_green("A fine meal indeed."))
 					if (FARE_LAVISH)
 						eater.remove_stress(/datum/stressevent/noble_bland_food)
 						eater.add_stress(/datum/stressevent/noble_lavish_food)

@@ -17,13 +17,15 @@
 		return null
 	return pickweight(eligible)
 
-/datum/controller/subsystem/economy/proc/roll_blockade()
+/datum/controller/subsystem/economy/proc/roll_blockade(replenish = FALSE)
 	var/list/candidates = list()
 	for(var/region_id in GLOB.economic_regions)
 		var/datum/economic_region/ER = GLOB.economic_regions[region_id]
 		if(!ER.threat_region_id)
 			continue
 		if(ER.is_region_blockaded)
+			continue
+		if(replenish && !ER.blockade_replenish_eligible)
 			continue
 		if(ER.day_last_cleared >= 0 && (GLOB.dayspassed - ER.day_last_cleared) < BLOCKADE_RECLEAR_COOLDOWN)
 			continue
@@ -88,6 +90,19 @@
 	for(var/i in 1 to count)
 		if(!roll_blockade())
 			break
+
+/datum/controller/subsystem/economy/proc/tick_blockade_replenish()
+	if(GLOB.dayspassed < BLOCKADE_REPLENISH_FIRST_DAY || GLOB.dayspassed > BLOCKADE_REPLENISH_LAST_DAY)
+		return
+	if(length(GLOB.active_blockades) >= BLOCKADE_REPLENISH_FLOOR)
+		return
+	var/budget = clamp(BLOCKADE_REPLENISH_BUDGET_BASE + round(get_effective_player_count() * BLOCKADE_REPLENISH_BUDGET_PER_PLAYER), BLOCKADE_REPLENISH_BUDGET_BASE, BLOCKADE_REPLENISH_BUDGET_MAX)
+	if(blockade_replenish_spent >= budget)
+		return
+	if(!prob(BLOCKADE_REPLENISH_DAILY_CHANCE))
+		return
+	if(roll_blockade(replenish = TRUE))
+		blockade_replenish_spent++
 
 /datum/controller/subsystem/economy/proc/announce_blockade_start(datum/blockade/B)
 	var/datum/economic_region/ER = B.get_region()

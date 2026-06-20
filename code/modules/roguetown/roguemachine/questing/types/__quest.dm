@@ -43,6 +43,7 @@
 	var/list/datum/weakref/tracked_atoms = list()
 	/// Landmark picked at preview time; materialize() spawns content around it when claimed.
 	var/datum/weakref/pending_landmark_ref
+	var/materialized = FALSE
 	/// Threat region this quest's content lives in. Captured from the landmark at preview time.
 	var/region = ""
 	/// Quest faction id (see QUEST_FACTION_* defines). Captured at preview for kill / bounty quests.
@@ -71,12 +72,17 @@
 	var/writ_type = WRIT_TYPE_OUTLAWRY
 	var/circumstance_text = ""
 
+/datum/quest/proc/get_lapse_time()
+	var/window = (source == QUEST_SOURCE_POOL) ? QUEST_POOL_STALE_THRESHOLD : QUEST_PLAYER_STALE_THRESHOLD
+	return created_at + window
+
 /datum/quest/Destroy()
 	var/obj/effect/landmark/quest_spawner/held_landmark = pending_landmark_ref?.resolve()
 	if(held_landmark)
 		if(held_landmark.claimed_by?.resolve() == src)
 			held_landmark.claimed_by = null
-		held_landmark.cooldown_until = world.time + QUEST_LANDMARK_COOLDOWN
+		if(materialized)
+			held_landmark.cooldown_until = world.time + QUEST_LANDMARK_COOLDOWN
 
 	for(var/datum/weakref/tracked_weakref in tracked_atoms)
 		var/atom/target_atom = tracked_weakref.resolve()
@@ -207,7 +213,7 @@
 /datum/quest/proc/calculate_reward(turf/origin_turf, turf/target_turf)
 	var/base = get_base_reward()
 	var/additional = get_additional_reward(origin_turf, target_turf)
-	return base + additional + get_difficulty_bonus()
+	return round((base + additional + get_difficulty_bonus()) * QUEST_REWARD_GLOBAL_MULT)
 
 /// Flat reward sweetener keyed off difficulty, applied to every quest type at the reward chokepoint.
 /datum/quest/proc/get_difficulty_bonus()

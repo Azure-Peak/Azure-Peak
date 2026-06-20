@@ -9,6 +9,7 @@
 	duration = 5 MINUTES
 
 /datum/status_effect/buff/drunk/on_creation(mob/living/new_owner)
+	new_owner.sate_addiction(/datum/charflaw/addiction/alcoholic)
 	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
 		return FALSE
 	. = ..()
@@ -2651,3 +2652,32 @@
 	return ..()
 
 #undef INVIGORATION_FILTER
+
+
+//overclock buff for prosthetics
+/atom/movable/screen/alert/status_effect/buff/overclock
+	name = "Overclocked"
+	desc = "You are pushing your prosthetics to their limits. But you may break something..."
+	icon_state = "buff"
+
+/datum/status_effect/buff/overclock
+	id = "overclock"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/overclock
+	duration = 2 MINUTES
+	status_type = STATUS_EFFECT_REPLACE
+
+/datum/status_effect/buff/overclock/on_creation(mob/living/new_owner, prosthetic_arms, prosthetic_legs)
+	effectedstats = list()
+	if(prosthetic_arms > 0)
+		effectedstats[STATKEY_STR] = prosthetic_arms
+	if(prosthetic_legs > 0)
+		effectedstats[STATKEY_SPD] = prosthetic_legs
+	return ..()
+
+/datum/status_effect/buff/overclock/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("The interals of my prosthetics wind up faster, vibrating as they work harder for a little while."))
+
+/datum/status_effect/buff/overclock/on_remove()
+	. = ..()
+	to_chat(owner, span_notice("I feel the hum of my prosthetics slow down, they need time to recharge."))

@@ -242,7 +242,7 @@
 			continue
 		if(recipe_uses_excluded_material(AR))
 			continue
-		if(AR.req_bar in disabled_materials)
+		if(recipe_uses_disabled_material(AR))
 			continue
 		catalog += AR
 	for(var/datum/crafting_recipe/CR in GLOB.crafting_recipes)
@@ -254,23 +254,30 @@
 			continue
 		if(recipe_uses_excluded_material(CR))
 			continue
-		if(crafting_primary_req(CR) in disabled_materials)
+		if(recipe_uses_disabled_material(CR))
 			continue
 		catalog += CR
 	prune_unused_material_prices()
 	dirty_catalog_view()
 
-/obj/structure/roguemachine/escrow/proc/crafting_primary_req(datum/crafting_recipe/CR)
-	if(!islist(CR.reqs) || !length(CR.reqs))
-		return null
-	var/best_path
-	var/best_qty = 0
-	for(var/path in CR.reqs)
-		var/qty = CR.reqs[path]
-		if(qty > best_qty)
-			best_qty = qty
-			best_path = path
-	return best_path
+/obj/structure/roguemachine/escrow/proc/recipe_uses_disabled_material(datum/recipe)
+	if(!length(disabled_materials))
+		return FALSE
+	if(istype(recipe, /datum/anvil_recipe))
+		var/datum/anvil_recipe/AR = recipe
+		if(AR.req_bar in disabled_materials)
+			return TRUE
+		if(islist(AR.additional_items))
+			for(var/path in AR.additional_items)
+				if(path in disabled_materials)
+					return TRUE
+	else if(istype(recipe, /datum/crafting_recipe))
+		var/datum/crafting_recipe/CR = recipe
+		if(islist(CR.reqs))
+			for(var/path in CR.reqs)
+				if(path in disabled_materials)
+					return TRUE
+	return FALSE
 
 /obj/structure/roguemachine/escrow/proc/recipe_uses_excluded_material(datum/recipe)
 	if(!length(excluded_materials) && !length(excluded_material_parents))

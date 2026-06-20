@@ -1580,7 +1580,7 @@
 		_ensure_limb_vis(zone, gender_prefix)
 		var/has_bleed = _has_visible_bleed(BP)
 		var/damage = min(BP.burn_dam + BP.brute_dam, BP.max_damage)
-		if(HAS_TRAIT(H, TRAIT_NOPAIN))
+		if(HAS_TRAIT(H, TRAIT_NOPAIN) && !H.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) && !H.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
 			_apply_limb_state(zone, (damage || has_bleed) ? "#78a8ba" : null, 0, has_bleed)
 			return
 		var/wound_alpha = clamp(round((damage / BP.max_damage) * 510), 0, 255)

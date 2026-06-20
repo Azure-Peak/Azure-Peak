@@ -675,6 +675,7 @@
 	spill_embedded_objects()
 	set_heartattack(FALSE)
 	drunkenness = 0
+	sunder_stacks = 0
 	. = ..()
 	if(hud_used?.zone_select)
 		hud_used.zone_select.rebuild_limbs()
