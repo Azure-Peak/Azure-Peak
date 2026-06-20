@@ -676,3 +676,176 @@ GLOBAL_LIST_INIT(noc_scrolls, (list(
 	/obj/item/book/granter/spell/noc/blink,
 	/obj/item/book/granter/spell/noc/repulse
 	)))
+
+// =====================
+// Moonlight Component
+// =====================
+
+/datum/component/moonlight
+	var/mob/living/carbon/caster
+	var/duration = 60 SECONDS
+	var/adjacency_range = 1
+	var/next_process = 0
+	var/list/affected_mobs = list()
+	can_transfer = FALSE
+
+/datum/component/moonlight/Initialize(mob/living/carbon/caster_mob)
+	if(!istype(caster_mob, /mob/living/carbon))
+		return COMPONENT_INCOMPATIBLE
+
+	caster = caster_mob
+
+	// Start processing
+	START_PROCESSING(SSprocessing, src)
+	
+	// Apply visual effect to caster
+	caster.apply_status_effect(/datum/status_effect/moonlight, TRUE)
+
+	// Set expiration timer
+	addtimer(CALLBACK(src, .proc/remove_moonlight), duration)
+	
+	return ..()
+
+/datum/component/moonlight/process()
+	if(!istype(caster) || caster.stat != CONSCIOUS)
+		remove_moonlight()
+		return FALSE
+
+	if(world.time < next_process)
+		return TRUE
+	next_process = world.time + 1 SECONDS
+
+	var/list/current_adjacent = list()
+
+	// Check for adjacent mobs and apply moonlight to them
+	for(var/mob/living/L in range(adjacency_range, caster))
+		if(L == caster || L.stat == DEAD)
+			continue
+		current_adjacent[L] = TRUE
+		// Apply moonlight effect if they don't have it yet
+		if(!L.has_status_effect(/datum/status_effect/moonlight))
+			L.apply_status_effect(/datum/status_effect/moonlight, FALSE)
+
+	// Remove moonlight from mobs that are no longer adjacent
+	for(var/mob/living/L in affected_mobs)
+		if(QDELETED(L) || !current_adjacent[L])
+			L?.remove_status_effect(/datum/status_effect/moonlight)
+
+	affected_mobs = current_adjacent
+
+	return TRUE
+
+/datum/component/moonlight/proc/remove_moonlight()
+	if(!QDELETED(src))
+		for(var/mob/living/L in affected_mobs)
+			L?.remove_status_effect(/datum/status_effect/moonlight)
+		affected_mobs.Cut()
+		if(caster)
+			caster.remove_status_effect(/datum/status_effect/moonlight)
+			UnregisterSignal(caster, COMSIG_PARENT_QDELETING)
+		STOP_PROCESSING(SSprocessing, src)
+		qdel(src)
+
+// =====================
+// T4 - Moonlight - Grant antimagic to adjacent allies... and some other stuff.
+// =====================
+
+/datum/action/cooldown/spell/noc/moonlight
+	name = "Moonlight"
+	desc = "Bathe adjacent allies in moonlight, granting them protection against magic. Lasts one minute on the caster."
+	fluff_desc = "The wisdom of the night - a blessing that offers those most devout to the Moon a sliver of its power. As Noc reflects Astrata's light, so too can his champions reflect magicks away from themselves and their allies."
+	button_icon_state = "moonlight"
+	sound = 'sound/magic/astrata_choir.ogg'
+	spell_color = GLOW_COLOR_NOC
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+
+	click_to_activate = TRUE
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_MAJOR_PROJECTILE
+
+	invocations = list("The tolling of the moonlit bell calls the magicians to their knees!!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = 2 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 5 MINUTES
+
+	ignore_armor_penalty = TRUE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/datum/component/moonlight/moonlight_component
+
+/datum/action/cooldown/spell/noc/moonlight/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	// Remove previous moonlight effect if it exists
+	if(moonlight_component && !QDELETED(moonlight_component))
+		qdel(moonlight_component)
+
+	// Create and attach the moonlight component
+	var/datum/component/moonlight/component = H.AddComponent(/datum/component/moonlight, H)
+	moonlight_component = component
+
+	H.visible_message(span_blue("[H] is bathed in silvery moonlight, protection radiating outward!"))
+	return TRUE
+
+/datum/action/cooldown/spell/noc/moonlight/Destroy()
+	if(moonlight_component && !QDELETED(moonlight_component))
+		qdel(moonlight_component)
+	moonlight_component = null
+	return ..()
+
+// =====================
+// Moonlight Status Effect
+// =====================
+
+/atom/movable/screen/alert/status_effect/moonlight
+	name = "Moonlight"
+	desc = "I am protected by His moonlight, shielded from magick both miraculous and arcyne."
+	icon_state = "moonlight"
+
+/datum/status_effect/moonlight
+	id = "moonlight"
+	duration = -1
+	alert_type = /atom/movable/screen/alert/status_effect/moonlight
+	var/is_caster = FALSE
+
+/datum/status_effect/moonlight/on_creation(mob/living/new_owner, caster)
+	is_caster = caster
+	. = ..()
+
+/datum/status_effect/moonlight/on_apply()
+	// Grant the TRAIT_ANTIMAGIC
+	ADD_TRAIT(owner, TRAIT_ANTIMAGIC, "moonlight_spell")
+	
+	// Visual feedback
+	if(is_caster)
+		owner.visible_message(span_blue("[owner] is surrounded by a protective aura of silvery moonlight!"))
+	else
+		owner.visible_message(span_blue("[owner] is bathed in protective moonlight!"))
+	
+	return ..()
+
+/datum/status_effect/moonlight/on_remove()
+	// Remove the antimagic trait
+	REMOVE_TRAIT(owner, TRAIT_ANTIMAGIC, "moonlight_spell")
+	owner.visible_message(span_warning("[owner]'s protective aura fades!"))
+	
+	return ..()
+
