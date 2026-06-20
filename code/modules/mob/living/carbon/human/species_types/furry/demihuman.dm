@@ -43,7 +43,14 @@
 		OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		)
-	race_bonus = list(STAT_PERCEPTION = 1, STAT_WILLPOWER = 1)
+	race_bonus = list(STAT_WILLPOWER = 1)
+	custom_selection = list(
+		"+1 FOR" = STATKEY_LCK,
+		"+1 INT" = STATKEY_INT,
+		"+1 CON" = STATKEY_CON,
+		"+1 WIL" = STATKEY_WIL,
+		"+1 PER" = STATKEY_PER,
+	)
 	enflamed_icon = "widefire"
 	organs = list(
 		ORGAN_SLOT_BRAIN = /obj/item/organ/brain,
