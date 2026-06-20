@@ -593,7 +593,7 @@
 		var/list/nearby = block(get_step(user, SOUTHWEST), get_step(user, NORTHEAST))
 		for(var/turf/T as anything in nearby)
 			if(T.Adjacent(user))
-				quick_hash += T.contents.len
+				quick_hash += "[T.contents.len]"
 
 	if(quick_hash == last_surroundings_hash && cached_craftability)
 		data["craftability"] = cached_craftability

@@ -266,7 +266,7 @@ const CraftingCategory = (props: {
 
 export const MiaCraft = () => {
   const { act, data } = useBackend<Data>();
-  const craftability: Craftability = Object.entries(data.craftability);
+  const craftability: Craftability = Object.entries(data.craftability ?? {});
   const onlyCraftable = !!data.showonlycraftable;
   const [searchText, setSearchText] = useState('');
   const searchRef = useRef<HTMLInputElement>(null);
