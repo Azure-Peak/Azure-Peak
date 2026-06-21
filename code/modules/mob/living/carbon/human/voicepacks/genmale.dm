@@ -34,6 +34,8 @@
 				used = 'sound/vo/salute.ogg'
 			if("crack")
 				used = 'sound/vo/knuckles.ogg'
+			if("sniff")
+				used = list('sound/vo/sniff.ogg')
 			if("facepalm")
 				used = list('sound/vo/facepalm1.ogg', 'sound/vo/facepalm2.ogg')
 			if("clearthroat")

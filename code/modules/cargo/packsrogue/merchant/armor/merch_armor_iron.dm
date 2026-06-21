@@ -21,6 +21,16 @@
 	cost = 40
 	contains = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron)
 
+/datum/supply_pack/rogue/armor_iron/scalemail_iron
+	name = "Lamellar"
+	cost = 50
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/scale/iron)
+
+/datum/supply_pack/rogue/armor_iron/coatofplates_iron
+	name = "Coat of Plates, Iron"
+	cost = 50
+	contains = list(/obj/item/clothing/suit/roguetown/armor/brigandine/heavy/iron)
+
 /datum/supply_pack/rogue/armor_iron/brigandine_light//It's made with iron and melts into iron it's not steel.
 	name = "Brigandine, Light"
 	cost = 55 //1 Iron, 1 Leather

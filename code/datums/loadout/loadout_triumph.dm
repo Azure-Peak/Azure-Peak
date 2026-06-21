@@ -490,6 +490,30 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_armorkit_valorianiron
+	name = "Triumph Kit - Valorian Iron Armor"
+	path = /obj/item/enchantingkit/triumph_armorkit_iron
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_classicleathers
+	name = "Triumph Kit - Classic Leather Armor"
+	path = /obj/item/enchantingkit/triumph_armorkit_classicleather
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_classicironbreastplate
+	name = "Triumph Kit - Aged Iron Breastplate"
+	path = /obj/item/enchantingkit/triumph_armorkit_classiciron
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_transmutekit_armorkinis
+	name = "Transmutation Kit - Armorkinis"
+	path = /obj/item/enchantingkit/triumph_transmutekit_armorkinis
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 //////////////////
 //  PERFUMES !  //
 //////////////////

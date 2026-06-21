@@ -180,6 +180,15 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	item_state = "chainkinii"
 	icon_state = "chainkinii"
 
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/bronze/donator
+	name = "bronze maillekini"
+	desc = "A curious - and particularly revealing - variant of a bronze maille-aketon. It's said that the intentionally provocative design \
+	excels at diverting strikes that'd otherwise pierce the wearer's unprotected regions."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "chainkinib"
+	icon_state = "chainkinib"
+
 /obj/item/clothing/cloak/donator_goldmaillekini
 	name = "golden maillekini"
 	desc = "A curious - and particularly revealing - variant of a common maille-aketon, fashioned from interlinked rings of pure gold. Unlike \
@@ -213,6 +222,16 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 	item_state = "cropmaillei"
 	icon_state = "cropmaillei"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/bronze/donator
+	name = "cropped iron haubergeon"
+	desc = "A curious - and particularly revealing - variant of a bronze maille-garment. It's said that the intentionally provocative design \
+	excels at diverting strikes that'd otherwise pierce the wearer's unprotected regions."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	item_state = "cropmailleb"
+	icon_state = "cropmailleb"
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/donator_elven
 	name = "elven haubergeon"
@@ -251,6 +270,15 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	item_state = "heartplatei"
 	icon_state = "heartplatei"
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/bronze/donator
+	name = "bronze heartplate"
+	desc = "A curious - and particularly revealing - variant of a bronze cuirass. It's said that the intentionally provocative design \
+	excels at diverting strikes that'd otherwise pierce the wearer's unprotected regions."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "heartplateb"
+	icon_state = "heartplateb"
 
 /obj/item/clothing/suit/roguetown/armor/leather/donator
 	name = "leather heartplate"
@@ -297,6 +325,38 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	item_state = "leathercuirass"
 	icon_state = "leathercuirass"
 
+/obj/item/storage/belt/rogue/leather/donator_steelgirdle
+	name = "steel belted plackart"
+	desc = "A fine leather belt that carries a pair of segmented steel plates, providing minimal coverage to the lower stomach."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "plackarts"
+	icon_state = "plackarts"
+
+/obj/item/storage/belt/rogue/leather/donator_irongirdle
+	name = "iron belted plackart"
+	desc = "A fine leather belt that carries a pair of segmented iron plates, providing minimal coverage to the lower stomach."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "plackarti"
+	icon_state = "plackarti"
+
+/obj/item/storage/belt/rogue/leather/donator_bronzegirdle
+	name = "bronze belted plackart"
+	desc = "A fine leather belt that carries a pair of segmented bronze plates, providing minimal coverage to the lower stomach."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "plackartb"
+	icon_state = "plackartb"
+
+/obj/item/storage/belt/rogue/leather/donator_leathergirdle
+	name = "belted plackart"
+	desc = "A fine leather belt that's thickly padded at the front and back, providing minimal coverage to the lower stomach."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "plackartleather"
+	icon_state = "plackartleather"
+
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/donator_girdle
 	name = "steel plackart"
 	desc = "A curious - and particularly revealing - variant of a common cuirass. It's said that the intentionally provocative design \
@@ -323,6 +383,15 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	item_state = "plackartleather"
 	icon_state = "plackartleather"
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/bronze/donator_girdle
+	name = "bronzeplackart"
+	desc = "A curious - and particularly revealing - variant of an bronzecuirass. It's said that the intentionally provocative design \
+	excels at diverting strikes that'd otherwise pierce the wearer's unprotected regions."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "plackartb"
+	icon_state = "plackartb"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/donator_gothic
 	name = "gothic cuirass"
@@ -425,6 +494,33 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	req_table = TRUE
 	bypass_dupe_test = TRUE
 
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/donator
+	name = "steel heartplate"
+	desc = "A curious - and particularly revealing - variant of a common cuirass. It's said that the intentionally provocative design \
+	excels at diverting strikes that'd otherwise pierce the wearer's unprotected regions."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "heartplates"
+	icon_state = "heartplates"
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/donator_girdle
+	name = "steel plackart"
+	desc = "A curious - and particularly revealing - variant of a common cuirass. It's said that the intentionally provocative design \
+	excels at diverting strikes that'd otherwise pierce the wearer's unprotected regions."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "plackarts"
+	icon_state = "plackarts"
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/donator_gothic
+	name = "gothic fencing cuirass"
+	desc = "A magnificent steel cuirass, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
+	signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what truly matters in life."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "gcuirass"
+	icon_state = "gcuirass"
+
 /obj/item/storage/belt/rogue/leather/donator
 	name = "belt of caped leathers"
 	desc = "A fine leather belt that's been decorated with a skirt of thin leather strips."
@@ -457,58 +553,70 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	item_state = "chainbasei"
 	icon_state = "chainbasei"
 
-//
-//TEMPSTAGING
-/obj/item/clothing/shoes/roguetown/boots/armor/iron
-	name = "iron plated boots"
-	desc = "Antiquated sabatons, fitted to leather boots that've been reinforced with layers of iron maille. While it has largely fallen \
-	out of favor with Psydonia's knights since the advent of custom-fitted steel sabatons, it nevertheless remains an excellent choice \
-	for those who'd rather not catch an career-ending arrow to the knee."
-	body_parts_covered = FEET
-	icon_state = "iplateboots"
-	item_state = "iplateboots"
+/obj/item/storage/belt/rogue/leather/donator_bronze
+	name = "belt of bronze maille"
+	desc = "A fine leather belt that's been decorated with a skirt of bronze chainmail."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "chainbaseb"
+	icon_state = "chainbaseb"
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/donator_triheartfelt
+	name = "azurian plate armor"
+	desc = "A complete set of Heartfeltian-styled plate armor, decorated with a furred coif and a silk robe that's been dyed with \
+	dried azurosa powder. Most intimately associated with Azuria's diplomats and champions, these suits are traditionally restricted \
+	to the battlefields of garish noble courtrooms and balls."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	item_state = "triheartfelt"
+	icon_state = "triheartfelt"
+
+/obj/item/clothing/head/roguetown/decoration/orle
+	name = "noble striped decoration"
+	desc = "A delicate weaving of colored fabric, intended to be worn atop a helmet; a touch of elegance, indiscriminate of the alloy."
+	item_state = "d_stripes"
+	icon_state = "d_stripes"
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	worn_offsets = list("x" = 0, "y" = 7) // Allows for dynamic offsets, so that headpieces normally requiring a 64x .dmi can fit in a 32x .dmi.
 	color = null
-	blocksound = PLATEHIT
-	max_integrity = ARMOR_INT_SIDE_IRON
-	armor = ARMOR_PLATE
-	anvilrepair = /datum/skill/craft/armorsmithing
-	smeltresult = /obj/item/ingot/iron
 
-/obj/item/clothing/shoes/roguetown/boots/maille
-	name = "maille boots"
-	desc = "A pair of leather boots, reinforced with smaller steel plates along the feet and ankles. Woven into the top of each boot's cuff is a \
-	thick layer of chainmail, which further protects the wearer's lower legs from harm. A favorite amongst men-at-arms and clerics, alongside the \
-	occassional plucky squire that's a few sizes too short to properly wade in them."
-	body_parts_covered = FEET
-	icon_state = "shalfplateboots"
-	item_state = "shalfplateboots"
+
+	//Originally found in icons/roguetown/topadd/johnie/noldor.dmi. Full credit to Johnie, who - from what I might guess - was a very early contributor to Roguetown. Hi!
+	//Hatcheted implementation. If someone ever finds out how to use onmob offsets, use the sprites in onmob/donor_clothes with an offset of +7 Y instead.______qdel_list_wrapper(list/L)
+
+/obj/item/clothing/head/roguetown/decoration/orle/donator_oathkeeper
+	name = "oathkeeper's noble decoration"
+	desc = "A delicate weaving of colored fabric, intended to be worn atop a helmet; a touch of elegance, indiscriminate of the alloy. This weave is crested with a \
+	golden winged shield; an unofficial coat-of-arms used to represent Azuria's many noble houses. To wear such garments is to command respect from those that've come after you; hopefully, not undue."
+	item_state = "d_oathtaker"
+	icon_state = "d_oathtaker"
+	worn_offsets = list("x" = 0, "y" = 7) // X is a horizontal offset, Y is a vertical offset. In this case, it's offset to be seven pixels north.
+	alternate_worn_layer  = 8.9
+
+/obj/item/clothing/cloak/tabard/stabard/donator_oathkeeper
+	name = "oathkeeper's noble surcoat"
+	icon_state = "oa_fancy_short"
+	icon_state = "oa_fancy_short"
+	desc = "An elegant surcoat, toned in cadence with the unofficial coat-of-arms that's used to represent Azuria's many noble houses. One shoulder is decorated with a golden-laced \
+	sleeve, while the other supports a small ecranche. To wear such garments is to command respect from those that've come after you; hopefully, not undue."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 	color = null
-	max_integrity = ARMOR_INT_SIDE_STEEL
-	armor = ARMOR_MAILLE
-	resistance_flags = FIRE_PROOF
-	blocksound = CHAINHIT
-	break_sound = 'sound/foley/breaksound.ogg'
-	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
-	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	anvilrepair = /datum/skill/craft/armorsmithing
-	sewrepair = FALSE
-	smeltresult = /obj/item/ingot/steel
 
-/obj/item/clothing/shoes/roguetown/boots/maille/ComponentInitialize()
-	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
-	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
-
-/obj/item/clothing/shoes/roguetown/boots/maille/iron
-	name = "iron maille boots"
-	desc = "A pair of leather boots, reinforced with smaller iron plates along the feet and ankles. A thick layer of chainmail has been woven across \
-	the cuffs of each boot, and tastefully riveted into place. Colloquially known as 'soldier's boots', due to its widespread usage amongst Psydonia's \
-	oft-conscripted levies."
-	icon_state = "soldierboots"
-	item_state = "soldierboots"
-	max_integrity = ARMOR_INT_SIDE_IRON
-	smeltresult = /obj/item/ingot/iron
-//TEMPSTAGING
+/obj/item/clothing/cloak/tabard/stabard/surcoat/donator_oathkeeper
+	name = "oathkeeper's noble jupon"
+	icon_state = "oa_fancy_long"
+	icon_state = "oa_fancy_long"
+	desc = "An elegant jupon, toned in cadence with the unofficial coat-of-arms that's used to represent Azuria's many noble houses. One shoulder is decorated with a golden-laced \
+	sleeve, while the other supports a small ecranche. To wear such garments is to command respect from those that've come after you; hopefully, not undue."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	color = null
 
 /obj/item/clothing/shoes/roguetown/simpleshoes/heels
 	name = "high-heeled shoes"
@@ -567,7 +675,7 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "elegantjademask"
 	item_state = "elegantjademask"
-	smeltresult = /obj/item/ingot/aaslag
+	smeltresult = /obj/item/ingot/jadeslag
 
 /obj/item/clothing/mask/rogue/facemask/steel/donator
 	name = "jade halfmask"
@@ -576,7 +684,7 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "elegantjademask"
 	item_state = "elegantjademask"
-	smeltresult = /obj/item/ingot/aaslag
+	smeltresult = /obj/item/ingot/jadeslag
 
 /obj/item/clothing/mask/rogue/facemask/bronze/donator
 	name = "jade halfmask"
@@ -585,7 +693,7 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "elegantjademask"
 	item_state = "elegantjademask"
-	smeltresult = /obj/item/ingot/aaslag
+	smeltresult = /obj/item/ingot/jadeslag
 
 /obj/item/clothing/mask/rogue/facemask/carved/jademask/donator
 	name = "jade halfmask"
@@ -594,7 +702,22 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "elegantjademask"
 	item_state = "elegantjademask"
-	smeltresult = /obj/item/ingot/aaslag
+	smeltresult = /obj/item/ingot/jadeslag
+
+/obj/item/clothing/suit/roguetown/shirt/doublet
+	name = "doublet"
+	desc = "A snug-fitting tunic, favored by Azurians during the chillier daes of autumn."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "doublet"
+	item_state = "doublet"
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+	body_parts_covered = CHEST|VITALS
+
+/obj/item/clothing/suit/roguetown/shirt/apothshirt/donator
+	name = "doublet"
+	desc = "A snug-fitting tunic, favored by Azurians during the chillier daes of autumn. It has been dyed with a pale, green tone."
 
 //
 

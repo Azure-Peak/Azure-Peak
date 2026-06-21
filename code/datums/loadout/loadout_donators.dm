@@ -62,6 +62,10 @@
 	name = "Gift - High-Heeled Shoes, Silver"
 	path = /obj/item/clothing/shoes/roguetown/simpleshoes/heels/donator_silver
 
+/datum/loadout_item/donator/universal/cuirassplackart
+	name = "Gift - Kit, Armored Plackart"
+	path = /obj/item/enchantingkit/plackart
+
 /datum/loadout_item/donator/universal/jadehalfmask_donator
 	name = "Gift - Kit, Jade Halfask"
 	path = /obj/item/enchantingkit/jadehalfmask
@@ -78,10 +82,6 @@
 	name = "Gift - Kit, Heartplate"
 	path = /obj/item/enchantingkit/heartplate
 
-/datum/loadout_item/donator/universal/cuirass_plackart
-	name = "Gift - Kit, Plackart"
-	path = /obj/item/enchantingkit/plackart
-
 /datum/loadout_item/donator/universal/armor_gothic_iron
 	name = "Gift - Kit, Gothic Iron Armor"
 	path = /obj/item/enchantingkit/gothicironarmor
@@ -94,26 +94,74 @@
 	name = "Gift - Kit, Heroic Leather Cuirass"
 	path = /obj/item/enchantingkit/heroicleathercuirass
 
+/datum/loadout_item/donator/universal/armor_triheartfelt
+	name = "Gift - Kit, Azurian Plate Armor"
+	path = /obj/item/enchantingkit/triheartfelt
+
+/datum/loadout_item/donator/universal/headpiece_decoration
+	name = "Gift - Oathtaker's Decoration, Orle"
+	path = /obj/item/clothing/head/roguetown/decoration/orle
+
+/datum/loadout_item/donator/universal/cloak_oathkeeperlong
+	name = "Gift - Oathtaker's Noble Longcoat"
+	path = /obj/item/clothing/cloak/tabard/stabard/surcoat/donator_oathkeeper
+
+/datum/loadout_item/donator/universal/cloak_oathkeepershort
+	name = "Gift - Oathtaker's Noble Shortcoat"
+	path = /obj/item/clothing/cloak/tabard/stabard/donator_oathkeeper
+
+/datum/loadout_item/donator/universal/headpiece_oathkeeperdec
+	name = "Gift - Oathtaker's Decoration, Shieldcrest"
+	path = /obj/item/clothing/head/roguetown/decoration/orle/donator_oathkeeper
+
 //Brief explanation - as Spear found out, using a Morphing Elixir on a storage item works.. but permenantly deletes -anything- stored inside.
 //To prevent any chance of someone accidentally destroying a round-important item, I'm replacing the kits with the main thing..
 // ..for now(?). If someone else comes around and adds a check that prevents belts with stored items inside from being transformed, then they can -
 // - restore the original Morphing Elixir filepaths, saved below.______qdel_list_wrapper(list/L)
 
+/datum/loadout_item/donator/universal/doublet
+	name = "Gift - Doublet"
+	path = /obj/item/clothing/suit/roguetown/shirt/doublet
+
+/datum/loadout_item/donator/universal/doublet_apoth
+	name = "Gift - Doublet, Pale Green"
+	path = /obj/item/clothing/suit/roguetown/shirt/apothshirt/donator
+
 /datum/loadout_item/donator/universal/belt
-	name = "Gift - Kit, Belt of Caped Leather"
+	name = "Gift - Belt of Caped Leather"
 	path = /obj/item/storage/belt/rogue/leather/donator //If-or-when the aforementioned bug's fixed, replace this with /obj/item/enchantingkit/beltleather.
 
 /datum/loadout_item/donator/universal/belt_fur
-	name = "Gift - Kit, Belt of Caped Fur"
+	name = "Gift - Belt of Caped Fur"
 	path = /obj/item/storage/belt/rogue/leather/donator_fur //If-or-when the aforementioned bug's fixed, replace this with /obj/item/enchantingkit/beltfur.
 
+/datum/loadout_item/donator/universal/belt_bronze
+	name = "Gift - Belt of Bronze Maille"
+	path = /obj/item/storage/belt/rogue/leather/donator_bronze 
+
 /datum/loadout_item/donator/universal/belt_iron
-	name = "Gift - Kit, Belt of Iron Maille"
-	path = /obj/item/storage/belt/rogue/leather/donator_steel //If-or-when the aforementioned bug's fixed, replace this with /obj/item/enchantingkit/beltironmaille.
+	name = "Gift - Belt of Iron Maille"
+	path = /obj/item/storage/belt/rogue/leather/donator_iron //If-or-when the aforementioned bug's fixed, replace this with /obj/item/enchantingkit/beltironmaille.
 
 /datum/loadout_item/donator/universal/belt_steel
-	name = "Gift - Kit, Belt of Maille"
-	path = /obj/item/storage/belt/rogue/leather/donator_iron //If-or-when the aforementioned bug's fixed, replace this with /obj/item/enchantingkit/beltsteelmaille.
+	name = "Gift - Belt of Maille"
+	path = /obj/item/storage/belt/rogue/leather/donator_steel //If-or-when the aforementioned bug's fixed, replace this with /obj/item/enchantingkit/beltsteelmaille.
+
+/datum/loadout_item/donator/universal/belt_leathergirdle
+	name = "Gift - Belted Girdle of Leather"
+	path = /obj/item/storage/belt/rogue/leather/donator_leathergirdle
+
+/datum/loadout_item/donator/universal/belt_bronzegirdle
+	name = "Gift - Belted Plackart of Bronze"
+	path = /obj/item/storage/belt/rogue/leather/donator_bronzegirdle
+
+/datum/loadout_item/donator/universal/belt_irongirdle
+	name = "Gift - Belted Plackart of Iron"
+	path = /obj/item/storage/belt/rogue/leather/donator_irongirdle
+
+/datum/loadout_item/donator/universal/belt_steelgirdle
+	name = "Gift - Belted Plackart of Steel"
+	path = /obj/item/storage/belt/rogue/leather/donator_steelgirdle
 
 /////////////////////////////
 // ! Player / Donor Kits ! //

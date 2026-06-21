@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscadd: "Recruitment spells will now properly make you show your new job title on examine"
+  - rscadd: "Recruited servants can now access the vomitorium like roundstart servants - though they don't get the other traits"

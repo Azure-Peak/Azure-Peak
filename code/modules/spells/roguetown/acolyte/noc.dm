@@ -425,19 +425,17 @@
 	// Apply visual effect to caster
 	caster.apply_status_effect(/datum/status_effect/moonlight, TRUE)
 
-	// Set expiration timer
-	addtimer(CALLBACK(src, .proc/remove_moonlight), duration)
-	
-	return ..()
+	charge_required = FALSE
+	cooldown_time = 1 MINUTES
 
 /datum/component/moonlight/process()
 	if(!istype(caster) || caster.stat != CONSCIOUS)
 		remove_moonlight()
 		return FALSE
 
-	if(world.time < next_process)
-		return TRUE
-	next_process = world.time + 1 SECONDS
+	var/points_need = 10
+	var/alreadychoosing = FALSE
+	var/last_dreamcost = 0
 
 	var/list/current_adjacent = list()
 
@@ -450,10 +448,23 @@
 		if(!L.has_status_effect(/datum/status_effect/moonlight))
 			L.apply_status_effect(/datum/status_effect/moonlight, FALSE)
 
-	// Remove moonlight from mobs that are no longer adjacent
-	for(var/mob/living/L in affected_mobs)
-		if(QDELETED(L) || !current_adjacent[L])
-			L?.remove_status_effect(/datum/status_effect/moonlight)
+	. = ..()
+
+	if(GLOB.tod == "day" || GLOB.tod == "dawn")
+		to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
+		alreadychoosing = FALSE
+		return FALSE
+
+	var/feather_check = FALSE
+
+	for(var/obj/item/I in range(1, user))
+		if(istype(I, /obj/item/natural/feather))
+			feather_check = TRUE
+
+	if(feather_check == FALSE)
+		to_chat(user, "I need a feather!")
+		alreadychoosing = FALSE
+		return FALSE
 
 	affected_mobs = current_adjacent
 
@@ -555,14 +566,41 @@
 	if(is_caster)
 		owner.visible_message(span_blue("[owner] is surrounded by a protective aura of silvery moonlight!"))
 	else
-		owner.visible_message(span_blue("[owner] is bathed in protective moonlight!"))
-	
-	return ..()
+		for(var/obj/item/burn in books_burnt)
+			new /obj/effect/temp_visual/moon/spell(get_turf(burn))
+			qdel(burn)
+		last_dreamcost = item.dreamcost
+		user.mind.sleep_adv.sleep_adv_points -= last_dreamcost
+		var/obj/item/I = new item (get_turf(user))
+		user.put_in_hands(I)
+		alreadychoosing = FALSE
+		return TRUE
 
-/datum/status_effect/moonlight/on_remove()
-	// Remove the antimagic trait
-	REMOVE_TRAIT(owner, TRAIT_ANTIMAGIC, "moonlight_spell")
-	owner.visible_message(span_warning("[owner]'s protective aura fades!"))
-	
-	return ..()
+/datum/action/cooldown/spell/noc/grimoire/get_adjusted_cooldown()
+	switch(last_dreamcost)
+		if(-INFINITY to 2)
+			return 1 MINUTES
+		if(3 to 5)
+			return 5 MINUTES
+		if(6 to 8)
+			return 15 MINUTES
+		if(9 to INFINITY)
+			return 30 MINUTES
 
+/obj/effect/temp_visual/moon/spell
+	icon_state = "spellwarning"
+	duration = 2 SECONDS
+	layer = MASSIVE_OBJ_LAYER
+	light_outer_range = 3
+	color = "#1640d7ff"
+	light_color = "#1640d7ff"
+
+GLOBAL_LIST_INIT(noc_scrolls, (list(
+	/obj/item/book/granter/spell/noc/fireball, 
+	/obj/item/book/granter/spell/noc/lbolt, 
+	/obj/item/book/granter/spell/noc/boulderstrike, 
+	/obj/item/book/granter/spell/noc/message,
+	/obj/item/book/granter/spell/noc/mindlink,
+	/obj/item/book/granter/spell/noc/mending,
+	/obj/item/book/granter/spell/noc/blink,
+	)))

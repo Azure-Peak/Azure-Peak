@@ -26,6 +26,8 @@
 				used = 'sound/vo/female/gen/burp.ogg'
 			if("gulp")
 				used = list('sound/vo/gulp.ogg', 'sound/vo/gulp2.ogg')
+			if("sniff")
+				used = list('sound/vo/sniff.ogg')
 			if("salute")
 				used = 'sound/vo/salute.ogg'
 			if("crack")

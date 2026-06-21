@@ -28,36 +28,6 @@
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
-//
-
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy
-    name = "valorian cuirass"
-    desc = "A steel cuirass. Do you still remember the first time you tasted blood; that sanguine succor, dribbling from a busted lip?"
-    icon_state = "legacycuirass"
-    item_state = "legacycuirass"
-
-/obj/item/clothing/suit/roguetown/armor/plate/legacy
-    name = "valorian half-plate"
-    desc = "A padded steel cuirass, 'adventurer-fitted' with a pair of pauldrons. Before you is your weapon; when was the last time \
-	you had ever thought without its presence?"
-    icon_state = "legacyhalfplate"
-    item_state = "legacyhalfplate"
-
-/obj/item/clothing/suit/roguetown/armor/plate/full/legacy
-    name = "valorian plate armor"
-    desc = "A complete set of steel plate armor, fitted with tassets and bracers for additional coverage. When the kingdom comes \
-	crashing down, will you deliver its people from evil; or will you be the one to string up 'pon the pyre?"
-    icon_state = "legacyplate"
-    item_state = "legacyplate"
-
-/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy
-    name = "valorian fluted plate armor"
-    desc = "A resplendant set of steel plate armor, decorated with silver flutings. Blessed dreamer, accursed heathen, lowly \
-	fool; the curtain call is a mere heartbeat away. Are you ready for one last dance, before midnight calls?"
-    icon_state = "legacyornateplate"
-    item_state = "legacyornateplate"
-//
-
 /obj/item/clothing/suit/roguetown/armor/plate/iron
 	name = "iron half-plate"
 	desc = "A padded iron cuirass, bottomed with segmented tassets. It is inexpensive yet robust; a desirable combination, which \
@@ -69,6 +39,16 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_IRON
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/iron
+
+/obj/item/clothing/suit/roguetown/armor/plate/iron/bikini
+	name = "iron half-plate corslet"
+	desc = "A high breastplate and hip armor of iron. It allows flexibility and great protection, save for the stomach."
+	body_parts_covered = CHEST|GROIN
+	icon_state = "ihalfplatekini"
+	item_state = "ihalfplatekini"
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_IRON	
+	armor_class = ARMOR_CLASS_MEDIUM
+	smelt_bar_num = 2
 
 /obj/item/clothing/suit/roguetown/armor/plate/iron/banded
 	name = "banded iron armor"
@@ -359,7 +339,7 @@
 	name = "psydonic half-plate"
 	desc = "A beautiful steel cuirass, fitted with tassets and pauldrons for additional coverage. Lesser clerics of Psydon \
 	oft-decorate these sets with dyed cloths, so that those who're wounded can still find salvation in the madness of \
-	battle. </br>‎  </br>'..the thrumbing of madness, to think that your suffering was all-for-naught to Adonai's sacrifical lamb..'"
+	battle."
 	icon_state = "ornatehalfplate"
 	smeltresult = /obj/item/ingot/silverblessed
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET // Less durability than proper plate, more expensive to manufacture, and accurate to the sprite.
@@ -373,6 +353,7 @@
 	. = ..()
 	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
 	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
+	. += span_hypnophrase("'..the thrumbing of madness, to think that your suffering was all-for-naught to Adonai's sacrifical lamb..'")
 
 // HEAVY
 /obj/item/clothing/suit/roguetown/armor/plate/full
@@ -398,6 +379,17 @@
 	to don-and-doff, without a trusted Levyman's aid..'"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_CHEST_PLATE_IRON
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/iron/bikini
+	name = "iron full-plate corset"
+	desc = "Breastplate, pauldrons, couters, cuisses.. did you forget something?"
+	icon_state = "iplatekini"
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS
+	equip_delay_self = 8 SECONDS
+	unequip_delay_self = 8 SECONDS
+	equip_delay_other = 3 SECONDS
+	strip_delay = 6 SECONDS
+	smelt_bar_num = 3
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa
 	name = "samsibsa scaleplate"
@@ -443,7 +435,7 @@
 		add_overlay(pic)
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted
-	name = "fluted plate"
+	name = "fluted plate armor"
 	desc = "A suit of ornate plate armor, noble in both presentation and protection. Such resplendent maille is \
 	traditionally reserved for the higher echelons of nobility; seasoned knights, venerated kings, and pot-bellied \
 	councilmen that wish to flaunt their opulence towards the unwashed masses."
@@ -452,10 +444,10 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate
-	name = "psydonic plate"
+	name = "psydonic plate armor"
 	desc = "A suit of beautiful plate armor, meticulously fluted with blessed silver. This design's origins lay in \
 	the hands of a legendary armorsmith, who sought to mimic the heavenly maille that Psydon's angels once \
-	wore. </br>‎  </br>'..the refusal of despair, and the resolve to defend Psydonia in its darkest hour..'"
+	wore."
 	icon_state = "ornateplate"
 	smeltresult = /obj/item/ingot/silverblessed
 
@@ -473,6 +465,7 @@
 	. = ..()
 	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
 	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
+	. += span_hypnophrase("'..the refusal of despair, and the resolve to defend Psydonia in its darkest hour..'")
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/shadowplate
 	name = "scourge breastplate"
@@ -822,7 +815,7 @@
 	icon_state = "ornatecuirass"
 	desc = "A beautiful steel cuirass, fitted with tassets for additional coverage. Strips of blessed silver have been meticulously \
 	incorporated into the fluting; a laborous decoration that denotes it as originating from the Order of the Silver \
-	Psycross. </br>‎  </br>'..the feeling of Aeon's grasp upon your shoulders, imparting the world's burden unto flesh and bone..'"
+	Psycross."
 	smeltresult = /obj/item/ingot/silverblessed
 	smelt_bar_num = 1
 
@@ -830,6 +823,7 @@
 	. = ..()
 	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
 	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
+	. += span_hypnophrase("'..the feeling of Aeon's grasp upon your shoulders, imparting the world's burden unto flesh and bone..'")
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 	name = "iron breastplate"
@@ -841,7 +835,7 @@
 	smelt_bar_num = 2
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
-	name = "heart protector"
+	name = "copper heartplate"
 	desc = "Shingled copper disks, strapped together to ward the heart from harm. As discovered by its antiquital wearers, it is \
 	deceptively protective; yet, its straps can only sustain so much stress before snapping.."
 	icon_state = "copperchest"
@@ -872,7 +866,7 @@
 /obj/item/clothing/suit/roguetown/armor/plate/scale
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "scalemail"
-	desc = "Metal scales interwoven intricately to form flexible protection!"
+	desc = "Alloyed scales interwoven intricately to form flexible protection!"
 	body_parts_covered = COVERAGE_ALL_BUT_ARMFEET
 	allowed_sex = list(MALE, FEMALE)
 	icon_state = "lamellar"
@@ -882,6 +876,34 @@
 	equip_delay_self = 4 SECONDS
 	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 2
+
+/obj/item/clothing/suit/roguetown/armor/plate/scale/iron
+	name = "lamellar"
+	desc = "A coat of small iron plates, segmented together in a manner not unlike chainmail. This curious combination \
+	provides the best of both worlds; protection on par with more rigid sets of plate armor, but without all the weight."
+	icon_state = "ilamellar"
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_IRON
+	smeltresult = /obj/item/ingot/iron
+	armor_class = ARMOR_CLASS_MEDIUM
+
+/obj/item/clothing/suit/roguetown/armor/plate/scale/bronze
+	name = "bronze lamellar"
+	desc = "A coat of small bronze plates, segmented together in a manner not unlike chainmail. Divorced from the \
+	romanticized images of bare-chested legionnaires banishing nightmares from a pre-Syonic world, but venerable nevertheless."
+	icon_state = "blamellar"
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE
+	smeltresult = /obj/item/ingot/bronze
+	armor_class = ARMOR_CLASS_MEDIUM
+
+/obj/item/clothing/suit/roguetown/armor/plate/scale/copper
+	name = "copper lamellar"
+	desc = "A coat of small copper plates, segmented together in a manner not unlike chainmail. Rarely seen since the dawn of civilization, copper \
+	garbs like these were the undersung heroes of humenity's earliest daes; a story of vintage proportions, still fresh in the minds of only a few blessed Aasimarites."
+	icon_state = "clamellar"
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_SCALE
+	smeltresult = /obj/item/ingot/copper
+	armor_class = ARMOR_CLASS_MEDIUM
+	armor = ARMOR_LEATHER
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/marshal
 	name = "coat of the commander"
@@ -929,8 +951,7 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "inquisitorial duster"
 	desc = "A heavy longcoat with layers of maille hidden beneath the leather, donned by the Holy Psydonic Inquisition's \
-	finest. </br>A Psydonic Cuirass can be fitted with this longcoat, in order to ward off deadlier blows without compromising \
-	one's fashion sense."
+	finest."
 	sewrepair = TRUE
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	allowed_sex = list(MALE, FEMALE)
@@ -946,6 +967,10 @@
 	smeltresult = /obj/item/ingot/iron
 	smelt_bar_num = 2
 	blocksound = SOFTHIT
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("A Psydonic Cuirass can be fitted with this longcoat, in order to ward off deadlier blows without compromising one's fashion sense.")
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/ComponentInitialize()	//No movement rustle component.
 	return

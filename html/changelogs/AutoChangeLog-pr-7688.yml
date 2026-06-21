@@ -1,0 +1,4 @@
+author: "bearrrrrrrr"
+delete-after: True
+changes:
+  - bugfix: "metal constructs are no longer allowed to inherit the holy power of wealth directly into their souls (play tithebound)"

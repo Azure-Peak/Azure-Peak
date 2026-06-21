@@ -1,0 +1,7 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - rscadd: "Added an icon file for Mammonite."
+  - balance: "Decreases the cooldown of Mammonite from 45 to 25 seconds."
+  - bugfix: "Fixed a weird oversight that made Mammonite force you to get a bank account."
+  - refactor: "Polishes Mammonite's code, removing oddities and redundancies."

@@ -236,6 +236,7 @@
 #include "code\__HELPERS\calendar.dm"
 #include "code\__HELPERS\chat.dm"
 #include "code\__HELPERS\civic_class.dm"
+#include "code\__HELPERS\cloaksetup.dm"
 #include "code\__HELPERS\cmp.dm"
 #include "code\__HELPERS\config.dm"
 #include "code\__HELPERS\customization.dm"

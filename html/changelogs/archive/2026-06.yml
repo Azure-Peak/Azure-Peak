@@ -874,3 +874,93 @@
       you're already silver weak.
   yyzsong:
   - spellcheck: progned -> pronged
+2026-06-21:
+  BurpleBineapple:
+  - bugfix: Psyalmist gets the same knifebelt as confessors and inquisitors, as intended.
+  FreeStylaLT:
+  - balance: Removed Hack intent from various heavy-hitting greataxes.
+  - sound: Added *sniff sfx. Ported from Ratwood.
+  - balance: Altered Squire loadouts and Armory.
+  - qol: Punching items on the floor in combat mode will now appropriately hit them
+      rather than have the user try to pick them up.
+  KatTheFox:
+  - rscadd: Allows revenants to be witches (and only witches, no other towners)
+  Ollanius:
+  - bugfix: Bevors with adjustable flags no longer become invisible when adjusted.
+      Thanks to Quillian for pointing it out!
+  - code_imp: Fixes the male test sprite in all clothing-related .dmis. It should
+      no longer be inexplicably a pixel taller in certain directions.
+  - rscadd: Iron coat of plates and lamellar, alongside the classic breastplate and
+      a new Valorian-related line of throwback breastplates / half-plates / full-plates.
+      The latter can either be acquired via a Triumph potion (alongside the classic
+      breastplate) or imported-slash-forged.
+  - bugfix: Jade halfmasks should properly render now. Thanks, Noire!
+  - rscadd: Copper lamellar coats, alongside redone sprites for almost every copper-related
+      item. Tin, too.
+  - rscadd: Bronze lamellar coats, bronze chainmail, bronze maille sleeves, and bronze
+      maille coifs.
+  - rscadd: A repaletted version of the Heartfeltian armor sets, exclusive to Donators.
+  - rscadd: Complete reshading of 7erracotta's lovely gemstone sprites, alongside
+      a new dedicated gemstone weapon for all previously-untouched types.
+  - rscadd: Completely new and dedicated sprites for all Ascendant- and Vampire-type
+      secondary armor pieces.
+  - rscadd: Completely new sprites for all special ingots and smelting results.
+  - rscadd: Completely new sprite for the Vampire Lord's crown.
+  - bugfix: Properly adds full body support to the Vampire Lord's undermaille and
+      robe, alongside functioning sleeve sprites.
+  - rscadd: New donator-exclusive (for now?) garb, courtesy of Roguetown Beta sprites
+      from Johnie; two noble coats and two noble head decorations. Note that the latter
+      is currently intended to only work by SHIFT+RMBing them into helmet inventories,
+      until someone can figure out how to make onmob offsets work.
+  - rscadd: Full armorkini support, building off Lamasmaster's work. Male and dwarf
+      sprites are now custom-tailored, and they should now properly render on all
+      physiques. Oh, and you can now get them quicker via a special Triumph-purchasable
+      morphing elixir.
+  - code_imp: Removes the dropshrink from ingots and needles. Should probably be able
+      to more easily click this stuff.
+  - balance: Properly adds plate-tier protection to the gem bracelets, parity-matching
+      them with their masks. Likewise, they're exceptionally fragile.
+  - balance: Gemstone weapons are now largely forked off actual weapons, instead of
+      their stone equivalents. Note that their absurdly low integrity, sharpness,
+      and defense values remain in place.
+  - bugfix: Steel maille boots should properly render, now.
+  - rscadd: Doublets! Greyscaled apothecary shirts for donators, in essence.
+  - code_imp: Courtesy of Sigma, we now have a functioning 'worn_offset' variable.
+      This means we can now have larger headpieces without needing to migrate them
+      into a 64x64 .dmi. You can find an example of this in the 'donor_clothes.dm',
+      for the Oathkeeper's noble headpiece decorations.
+  - rscadd: Gambesoned kilts!
+  - code_imp: You can now apply classic skins to the original gambesons, alongside
+      their kilts, via RMB.
+  - bugfix: Wearing a headpiece with a coordinate-based offset now properly applies
+      said-offset, when worn in a helmet's cosmetic slot. Likewise, said-offset will
+      now properly be applied to any regular decorations placed in said-headpiece.
+      Thanks, Siggy!
+  OrbisAnima:
+  - bugfix: Restores T4 Noc's spell scroll crafting functionality. It has a variable
+      dream point and cooldown now, cannot be used during day, but can create more
+      than it used to (probably requires buff/nerf but this was a restore of functionality.)
+  Ryan180602:
+  - balance: thickblood/enduring/painless don't get arcyne potential benefits.
+  SpadesNeil:
+  - rscadd: Pottery items can now be fired in smelting furnaces in addition to baking
+      ovens.
+  - rscadd: Additional recipe for glass batch that uses bonemeal.
+  - qol: Changed the names and descriptions of many unfinished pottery items so players
+      can better understand what to do.
+  - balance: Glass batch no longer requires expert skill to make.
+  - balance: Glass statues can now be smelted back into glass.
+  - bugfix: alch_grind_recipe for horn was missing its name, this is now fixed.
+  crunchypretzels:
+  - bugfix: fixed incorrect paths on new glasses
+  kimesik:
+  - rscadd: 6 different specialisations for Wretch-Deserter (now called Militant)
+  - balance: no free mount, no Tracking and only Novice Riding for Militants without
+      a specialisation.
+  - balance: Militants get a medium helmet + a steel mask instead of a heavy helmet
+      + no mask.
+  radarseas:
+  - bugfix: Ancient hoplin shields now properly inherit their ranged resist values
+  - refactor: Ancient shield varients on lich_skeletons properly inheret their ranged
+      resist
+  - balance: slightly adjusted some values of the lich skele shields
