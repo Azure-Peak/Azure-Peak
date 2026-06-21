@@ -65,7 +65,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	armor = ARMOR_PADDED_BAD
 	max_integrity = ARMOR_INT_SIDE_LEATHER // 200 — small steel pieces, leather-tier durability
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/steel
 	unarmed_bonus = 8
 

@@ -26,6 +26,8 @@
 		),
 		TRAIT_SMITHING_EXPERT = list(
 			/datum/skill/craft/blacksmithing,
+			/datum/skill/craft/repairsmithing,
+			/datum/skill/craft/repairsmithing,
 			/datum/skill/craft/ceramics,
 			/datum/skill/craft/engineering,
 			/datum/skill/labor/mining

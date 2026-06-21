@@ -312,6 +312,7 @@ NECRO SKELETONS
 		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/repairsmithing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/smelting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/tanning = SKILL_LEVEL_NOVICE, //You /can/ do it, is the point here
 		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,

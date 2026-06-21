@@ -998,7 +998,7 @@
 	repairable = TRUE
 	repair_cost_first = /obj/item/ingot/iron
 	repair_cost_second = /obj/item/ingot/iron
-	repair_skill = /datum/skill/craft/blacksmithing
+	repair_skill = /datum/skill/craft/repairsmithing
 
 /obj/structure/mineral_door/barsold
 	name = "iron door"

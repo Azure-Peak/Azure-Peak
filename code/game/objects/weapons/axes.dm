@@ -7,7 +7,7 @@
 	icon_state = "dreamaxe"
 	minstr = 13
 	max_blade_int = 250
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = null
 	associated_skill = /datum/skill/combat/axes
 	wdefense = 5

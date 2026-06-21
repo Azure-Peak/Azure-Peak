@@ -66,7 +66,7 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/blacksmithing, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/repairsmithing, 2, TRUE)
 
 	H.change_stat(STATKEY_STR, 1)
 	H.change_stat(STATKEY_PER, 2)

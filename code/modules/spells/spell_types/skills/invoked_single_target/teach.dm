@@ -41,7 +41,7 @@
     /datum/skill/misc/music,
     /datum/skill/misc/medicine,
 
-
+	/datum/skill/craft/repairsmithing,
 
     /datum/skill/craft/sewing,
     /datum/skill/craft/smelting,

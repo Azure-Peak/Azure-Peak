@@ -11,7 +11,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	icon = 'icons/roguetown/items/lighting.dmi'
 	var/flintcd = 0
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	resistance_flags = FIRE_PROOF
 	grid_height = 32
 	grid_width = 32

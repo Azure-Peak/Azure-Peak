@@ -99,7 +99,7 @@
 	integrity_failure = 0.5
 	resistance_flags = FIRE_PROOF
 	body_parts_covered = EYES
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	adjustable = CAN_CADJUST
 	var/active_item = FALSE
 

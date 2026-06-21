@@ -19,7 +19,7 @@
 	dynamic_hair_suffix = null
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	sellprice = 50
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	no_loot_taint = TRUE
 
 /obj/item/clothing/head/roguetown/nyle
@@ -30,7 +30,7 @@
 	dynamic_hair_suffix = null
 	sellprice = 100
 	resistance_flags = FIRE_PROOF
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	no_loot_taint = TRUE
 
 /obj/item/clothing/head/roguetown/nyle/consortcrown

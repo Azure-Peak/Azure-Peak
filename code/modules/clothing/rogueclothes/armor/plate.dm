@@ -14,7 +14,7 @@
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_plate.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_plate.ogg'
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/steel
 	equip_delay_self = 4 SECONDS
 	unequip_delay_self = 4 SECONDS
@@ -592,7 +592,7 @@
 	nodismemsleeves = TRUE
 	blocking_behavior = null
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/steel
 	armor_class = ARMOR_CLASS_HEAVY
 	smelt_bar_num = 4
@@ -682,7 +682,7 @@
 	nodismemsleeves = TRUE
 	blocking_behavior = null
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/steel
 	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 1
@@ -857,7 +857,7 @@
 	armor = ARMOR_PLATE
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
 	allowed_sex = list(MALE, FEMALE)
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/steel
 	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 3
@@ -871,7 +871,7 @@
 	allowed_sex = list(MALE, FEMALE)
 	icon_state = "lamellar"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/steel
 	equip_delay_self = 4 SECONDS
 	armor_class = ARMOR_CLASS_MEDIUM
@@ -960,7 +960,7 @@
 	item_state = "inqcoat"
 	sleevetype = "shirt"
 	max_integrity = 300
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	equip_delay_self = 4 SECONDS
 	armor_class = ARMOR_CLASS_LIGHT
 	armor = ARMOR_LEATHER

@@ -21,7 +21,7 @@
 	blocksound = PLATEHIT
 	body_parts_covered = HEAD|HAIR
 	max_integrity = ARMOR_INT_HELMET_STEEL
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/head/roguetown/nightman
@@ -347,7 +347,7 @@
 	desc = ""
 	icon_state = "reqhat"
 	sellprice = 100
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 
 /obj/item/clothing/head/roguetown/headdress
 	name = "nemes"

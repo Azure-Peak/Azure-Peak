@@ -53,6 +53,7 @@
 		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/repairsmithing = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/smelting = SKILL_LEVEL_NOVICE,
 
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_APPRENTICE,

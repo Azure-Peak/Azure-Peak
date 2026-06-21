@@ -32,6 +32,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_MASTER,
+		/datum/skill/craft/repairsmithing = SKILL_LEVEL_MASTER,
 		/datum/skill/labor/mining = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/smelting = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN, //Literal Priest of Malum, but we don't want to step on the toes of heretics.

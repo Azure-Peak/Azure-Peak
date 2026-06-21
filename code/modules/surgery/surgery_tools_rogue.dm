@@ -16,7 +16,7 @@
 	max_integrity = 175
 	thrown_bclass = BCLASS_CUT
 	associated_skill = /datum/skill/combat/knives
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = null
 
 	grid_width = 32

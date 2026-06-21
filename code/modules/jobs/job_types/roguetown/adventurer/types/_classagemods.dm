@@ -403,6 +403,7 @@
 	target_age = AGE_OLD
 	skill_mods = list(
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/craft/repairsmithing = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/smelting = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN, // Worse than the real tailor, so can't steal their job right away
 		/datum/skill/craft/tanning = SKILL_LEVEL_JOURNEYMAN

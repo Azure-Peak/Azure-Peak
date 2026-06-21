@@ -383,6 +383,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/sewing, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/traps, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/blacksmithing, 3, TRUE) //Nessessities to work these better than virtue.
+	H.adjust_skillrank(/datum/skill/craft/repairsmithing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/smelting, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/engineering, 4, TRUE) //Artificer construction specialist, keep higher
 	H.adjust_skillrank(/datum/skill/labor/mining, 4, TRUE)

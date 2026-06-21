@@ -25,12 +25,12 @@
 		SKILLED_ENCHANT,
 	)
 	choice_tooltips = list(
-		SKILLED_BSMITH	= "Grants Expert Forgehand. Weaponsmithing, Armorsmithing, Blacksmithing and Smelting raised to Apprentice. Stashed Hammer and Tongs.",
+		SKILLED_BSMITH	= "Grants Expert Forgehand. Blacksmithing, Repairsmithing, and Smelting raised to Apprentice. Stashed Hammer and Tongs.",
 		SKILLED_TAILOR	= "Grants Expert Clothier. Butchering, Tanning raised to Apprentice. Sewing raised to Journeyman. Stashed Needle & Scissors.",
 		SKILLED_HUNTER	= "Grants Expert Survivalist. Trapping, Tracking, Butchering, Sewing and Tanning raised to Apprentice.",
 		SKILLED_PHYS	= "Grants Expert Physicker and Alchemist. Alchemy and Medicine raised to Apprentice. Grants secular diagnose, a stashed medicine pouch and an improvised surgery kit.",
 		SKILLED_FORESTER= "Cooking, Athletics, Farming, Fishing, Lumberjacking raised to Apprentice. Stashed hoe.",
-		SKILLED_ARTIF	= "Grants Expert Forgehand. Carpentry, Masonry, Engineering, Smelting and Ceramics raised to Apprentice. Stashed Hammer, Chisel and Hand Saw.",
+		SKILLED_ARTIF	= "Grants Expert Forgehand. Carpentry, Masonry, Engineering, Smelting, Repairsmithing, and Ceramics raised to Apprentice. Stashed Hammer, Chisel and Hand Saw.",
 		SKILLED_ENCHANT = "Grants Expert Enchanter and Alchemist. Allows you to do magical rituals. Alchemy, Engineering, Smelting, Blacksmithing and Arcane raised to Apprentice. Stashed Chalk, Mortar, and Pestle."
 	)
 
@@ -51,6 +51,7 @@
 		switch(choice)
 			if(SKILLED_BSMITH)
 				added_skills.Add(list(list(/datum/skill/craft/blacksmithing, 2, 2)))
+				added_skills.Add(list(list(/datum/skill/craft/repairsmithing, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/smelting, 2, 2)))
 				added_traits.Add(TRAIT_SMITHING_EXPERT)
 				recipient.mind?.special_items["Hammer"] = /obj/item/rogueweapon/hammer/iron
@@ -91,6 +92,7 @@
 				added_skills.Add(list(list(/datum/skill/craft/engineering, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/smelting, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/ceramics, 2, 2)))
+				added_skills.Add(list(list(/datum/skill/craft/repairsmithing, 2, 2)))
 				added_traits.Add(TRAIT_SMITHING_EXPERT)
 				recipient.mind?.special_items["Hammer"] = /obj/item/rogueweapon/hammer/wood
 				recipient.mind?.special_items["Chisel"] = /obj/item/rogueweapon/chisel
@@ -98,6 +100,7 @@
 			if(SKILLED_ENCHANT)
 				added_skills.Add(list(list(/datum/skill/craft/alchemy, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/blacksmithing, 2, 2)))
+				added_skills.Add(list(list(/datum/skill/craft/repairsmithing, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/engineering, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/smelting, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/magic/arcane, 2, 2)))

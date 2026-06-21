@@ -19,7 +19,7 @@
 	resistance_flags = FLAMMABLE
 	slot_flags = ITEM_SLOT_MOUTH
 	max_integrity = 20
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	tool_behaviour = TOOL_SUTURE
 	experimental_inhand = TRUE
 	/// Amount of uses left

@@ -70,7 +70,7 @@
 	name = "otherworldly spear"
 	desc = "A strange spear, who knows where it came from. It seems like it is made out of ancient bone."
 	icon_state = "dreamspear"
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = null
 	item_flags = DREAM_ITEM
 	wbalance = WBALANCE_HEAVY

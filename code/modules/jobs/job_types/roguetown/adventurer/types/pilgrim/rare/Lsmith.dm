@@ -35,6 +35,7 @@
 		/datum/skill/craft/masonry = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_LEGENDARY,
+		/datum/skill/craft/repairsmithing = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/craft/smelting = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)

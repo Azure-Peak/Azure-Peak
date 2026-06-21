@@ -13,7 +13,7 @@
 	var/lockid = null
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH|ITEM_SLOT_NECK
 	drop_sound = 'sound/items/gems (1).ogg'
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	resistance_flags = FIRE_PROOF
 	experimental_inhand = TRUE
 	is_important = TRUE
@@ -82,7 +82,7 @@
 	dropshrink = 0.7
 	drop_sound = 'sound/items/gems (2).ogg'
 	destroy_sound = 'sound/items/pickbreak.ogg'
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	associated_skill = /datum/skill/misc/lockpicking
 	var/material = "gold"
 

@@ -61,7 +61,7 @@
 	resistance_flags = FIRE_PROOF
 	body_parts_covered = EYES
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 //	block2add = FOV_BEHIND
 	grid_width = 32
 	grid_height = 32
@@ -83,7 +83,7 @@
 	resistance_flags = FIRE_PROOF
 	body_parts_covered = EYES
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	var/lensmoved = FALSE
 	grid_width = 32
 	grid_height = 32
@@ -137,7 +137,7 @@
 	integrity_failure = 0.5
 	resistance_flags = FIRE_PROOF
 	body_parts_covered = EYES
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	adjustable = CAN_CADJUST
 	var/active_item = FALSE
 
@@ -224,7 +224,7 @@
 	desc = "Half of your face turned gold."
 	icon_state = "lmask"
 	sellprice = 50
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/mask/rogue/lordmask/l
@@ -271,7 +271,7 @@
 	block2add = FOV_BEHIND
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	experimental_onhip = TRUE
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/iron
 	stack_fovs = TRUE
 
@@ -370,7 +370,7 @@
 	body_parts_covered = FACE
 	block2add = FOV_BEHIND
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/iron
 	stack_fovs = TRUE
 
@@ -697,7 +697,7 @@
 	block2add = FOV_BEHIND
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	max_integrity = ARMOR_INT_SIDE_CLOTH
-	anvilrepair = /datum/skill/craft/blacksmithing //Maybe these shouldn't be repairable, someone else can do that if they want.
+	anvilrepair = /datum/skill/craft/repairsmithing //Maybe these shouldn't be repairable, someone else can do that if they want.
 	clothing_flags = CANT_SLEEP_IN
 	sellprice = 70
 	smeltresult = null

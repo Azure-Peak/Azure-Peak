@@ -21,7 +21,7 @@
 /obj/item/rogueweapon/hammer/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click a damaged item made of metal - such as a weapon, armorpiece, or prosthetic - to repair it. Repairs work best when done on an anvil, but a regular old table can suffice in a pinch.")
-	. += span_info("Left-click a damaged structure to repair it. Like with repairing items, the chance to successfully repair some integrity on each strike scales with the appropriate skill; the Carpentry skill for structures, Weaponsmithing for weapons, etcetera.")
+	. += span_info("Left-click a damaged structure to repair it. Like with repairing items, the chance to successfully repair some integrity on each strike scales with the appropriate skill; the Carpentry skill for structures, Repairsmithing for weapons, etcetera.")
 
 /obj/item/rogueweapon/hammer/getonmobprop(tag)
 	. = ..()
@@ -210,7 +210,7 @@
 	else
 		if(user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_JOURNEYMAN)
 			qualified = TRUE
-		if(user.get_skill_level(/datum/skill/craft/blacksmithing) >= SKILL_LEVEL_JOURNEYMAN)
+		if(user.get_skill_level(/datum/skill/craft/repairsmithing) >= SKILL_LEVEL_JOURNEYMAN)
 			qualified = TRUE
 
 	var/mob/living/carbon/human/H = M

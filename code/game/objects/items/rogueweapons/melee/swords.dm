@@ -31,7 +31,7 @@
 	throwforce = 10
 	thrown_bclass = BCLASS_CUT
 	//dropshrink = 0.75
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/steel
 	minstr = 7
 	wdefense = 4

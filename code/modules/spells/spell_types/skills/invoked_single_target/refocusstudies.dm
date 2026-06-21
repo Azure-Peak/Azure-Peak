@@ -17,6 +17,7 @@
 	//skills alphabetically... this will be sloppy based on the descriptive name but easier for devs
 	/datum/skill/craft/crafting,
 	/datum/skill/craft/blacksmithing,
+	/datum/skill/craft/repairsmithing,
 	/datum/skill/craft/smelting,
 	/datum/skill/craft/carpentry,
 	/datum/skill/craft/masonry,

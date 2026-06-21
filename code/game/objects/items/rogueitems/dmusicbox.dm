@@ -34,7 +34,7 @@
 	var/loaded = TRUE
 	var/lastfilechange = 0
 	var/curvol = 100
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 
 /obj/item/dmusicbox/Initialize()
 	soundloop = new(src, FALSE)

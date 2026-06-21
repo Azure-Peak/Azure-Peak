@@ -257,7 +257,7 @@
 	ADD_TRAIT(character, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC) //Need to make trait improve hitting people with chairs, mugs, goblets.
 
 /datum/special_trait/mastercraftsmen
-	name = "Master Crasftman"
+	name = "Master Craftsman"
 	greet_text = "In my youth, I've decided I'd get a grasp on every trade, and pursued the 10 arts of the craft."
 	req_text = "Middle-aged or Old"
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD)
@@ -266,6 +266,7 @@
 /datum/special_trait/mastercraftsmen/on_apply(mob/living/carbon/human/character)
 	character.adjust_skillrank_up_to(/datum/skill/craft/crafting, 2, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing, 2, TRUE)
+	character.adjust_skillrank_up_to(/datum/skill/craft/repairsmithing, 2, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/craft/carpentry, 2, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/craft/masonry, 2, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/craft/traps, 2, TRUE)

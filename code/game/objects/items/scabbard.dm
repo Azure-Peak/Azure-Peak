@@ -11,7 +11,7 @@
 	parrysound = "parrywood"
 	attacked_sound = "parrywood"
 
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	sewrepair = TRUE
 
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK

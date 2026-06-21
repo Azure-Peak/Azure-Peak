@@ -76,7 +76,7 @@
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/steel
 	sewrepair = FALSE
 	salvage_result = null
@@ -105,7 +105,7 @@
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	anvilrepair = /datum/skill/craft/blacksmithing
+	anvilrepair = /datum/skill/craft/repairsmithing
 	smeltresult = /obj/item/ingot/steel
 	sewrepair = FALSE
 	salvage_result = null
