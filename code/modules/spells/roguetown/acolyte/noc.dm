@@ -425,17 +425,10 @@
 	// Apply visual effect to caster
 	caster.apply_status_effect(/datum/status_effect/moonlight, TRUE)
 
-	charge_required = FALSE
-	cooldown_time = 1 MINUTES
-
 /datum/component/moonlight/process()
 	if(!istype(caster) || caster.stat != CONSCIOUS)
 		remove_moonlight()
 		return FALSE
-
-	var/points_need = 10
-	var/alreadychoosing = FALSE
-	var/last_dreamcost = 0
 
 	var/list/current_adjacent = list()
 
@@ -449,22 +442,6 @@
 			L.apply_status_effect(/datum/status_effect/moonlight, FALSE)
 
 	. = ..()
-
-	if(GLOB.tod == "day" || GLOB.tod == "dawn")
-		to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
-		alreadychoosing = FALSE
-		return FALSE
-
-	var/feather_check = FALSE
-
-	for(var/obj/item/I in range(1, user))
-		if(istype(I, /obj/item/natural/feather))
-			feather_check = TRUE
-
-	if(feather_check == FALSE)
-		to_chat(user, "I need a feather!")
-		alreadychoosing = FALSE
-		return FALSE
 
 	affected_mobs = current_adjacent
 
@@ -566,26 +543,7 @@
 	if(is_caster)
 		owner.visible_message(span_blue("[owner] is surrounded by a protective aura of silvery moonlight!"))
 	else
-		for(var/obj/item/burn in books_burnt)
-			new /obj/effect/temp_visual/moon/spell(get_turf(burn))
-			qdel(burn)
-		last_dreamcost = item.dreamcost
-		user.mind.sleep_adv.sleep_adv_points -= last_dreamcost
-		var/obj/item/I = new item (get_turf(user))
-		user.put_in_hands(I)
-		alreadychoosing = FALSE
 		return TRUE
-
-/datum/action/cooldown/spell/noc/grimoire/get_adjusted_cooldown()
-	switch(last_dreamcost)
-		if(-INFINITY to 2)
-			return 1 MINUTES
-		if(3 to 5)
-			return 5 MINUTES
-		if(6 to 8)
-			return 15 MINUTES
-		if(9 to INFINITY)
-			return 30 MINUTES
 
 /obj/effect/temp_visual/moon/spell
 	icon_state = "spellwarning"
@@ -594,13 +552,3 @@
 	light_outer_range = 3
 	color = "#1640d7ff"
 	light_color = "#1640d7ff"
-
-GLOBAL_LIST_INIT(noc_scrolls, (list(
-	/obj/item/book/granter/spell/noc/fireball, 
-	/obj/item/book/granter/spell/noc/lbolt, 
-	/obj/item/book/granter/spell/noc/boulderstrike, 
-	/obj/item/book/granter/spell/noc/message,
-	/obj/item/book/granter/spell/noc/mindlink,
-	/obj/item/book/granter/spell/noc/mending,
-	/obj/item/book/granter/spell/noc/blink,
-	)))
