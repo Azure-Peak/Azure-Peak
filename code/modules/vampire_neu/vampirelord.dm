@@ -230,7 +230,7 @@
 	nodismemsleeves = TRUE
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	allowed_sex = list(MALE, FEMALE)
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/vampire
 	equip_delay_self = 40
 	armor_class = ARMOR_CLASS_HEAVY
@@ -268,7 +268,7 @@
 	max_integrity = ARMOR_INT_LEG_ANTAG
 	blocksound = PLATEHIT
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/vampire
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.

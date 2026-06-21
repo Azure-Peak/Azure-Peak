@@ -552,7 +552,7 @@
 	created_item = /obj/item/rogueweapon/sword/long/exe/cloth
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 	craftdiff = SKILL_LEVEL_MASTER
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Weapons"
 
 /datum/anvil_recipe/valuables/dragon
@@ -584,7 +584,7 @@
 	additional_items = list(/obj/item/rogueweapon/sword/long/exe/berserk)
 	created_item = /obj/item/rogueweapon/sword/long/exe/berserk/gnoll
 	display_category = ITEM_CAT_WEAPONS_SWORDS
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_LEGENDARY
 	bypass_dupe_test = TRUE // Smelting into a greatsword is fine.
@@ -607,7 +607,7 @@
 	additional_items = list(/obj/item/rogueweapon/sword/long/exe/berserk/gnoll, /obj/item/rogueweapon/greatsword/paalloy, /obj/item/ingot/draconic, /obj/item/ingot/weeping, /obj/item/riddleofsteel)
 	created_item = /obj/item/rogueweapon/sword/long/exe/berserk/dragonslayer
 	display_category = ITEM_CAT_WEAPONS_SWORDS
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_LEGENDARY
 	bypass_dupe_test = TRUE

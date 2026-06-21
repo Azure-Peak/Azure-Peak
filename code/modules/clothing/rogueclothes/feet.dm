@@ -74,7 +74,7 @@
 	armor = ARMOR_PLATE
 	pickup_sound = 'sound/foley/equip/equip_armor_plate.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_plate.ogg'
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/clothing/shoes/roguetown/boots/psydonboots
@@ -320,7 +320,7 @@
 	armor = ARMOR_PLATE
 	pickup_sound = 'sound/foley/equip/equip_armor_plate.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_plate.ogg'
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	sewrepair = FALSE
 	smeltresult = /obj/item/ingot/steel
 
@@ -340,7 +340,7 @@
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_SIDE_IRON
 	armor = ARMOR_PLATE
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/clothing/shoes/roguetown/boots/maille
@@ -360,7 +360,7 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	sewrepair = FALSE
 	smeltresult = /obj/item/ingot/steel
 
@@ -513,7 +513,7 @@
 	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_SIDE_IRON
 	armor = ARMOR_PLATE
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/kazengun

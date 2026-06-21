@@ -149,7 +149,7 @@
 	wdefense = 3
 	wbalance = WBALANCE_SWIFT
 	thrown_bclass = BCLASS_CUT
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/iron
 
 	grid_height = 64
@@ -944,7 +944,7 @@
 	max_blade_int = 50
 	wdefense = 3
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/rogueweapon/huntingknife/combat/opalknife
 	name = "opal knife"
@@ -956,7 +956,7 @@
 	max_blade_int = 50
 	wdefense = 1
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/elvish
 	name = "elvish dagger"

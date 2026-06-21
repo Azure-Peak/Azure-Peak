@@ -30,8 +30,6 @@
 		/datum/skill/craft/engineering = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_EXPERT,
-		/datum/skill/craft/armorsmithing = SKILL_LEVEL_EXPERT,
-		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/smelting = SKILL_LEVEL_EXPERT,
 	)
 	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round

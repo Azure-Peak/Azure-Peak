@@ -1,6 +1,6 @@
 /datum/anvil_recipe/weapons
 	abstract_type = /datum/anvil_recipe/weapons
-	appro_skill = /datum/skill/craft/weaponsmithing  // inheritance yay !!
+	appro_skill = /datum/skill/craft/blacksmithing  // inheritance yay !!
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/aalloy
@@ -1603,7 +1603,7 @@
 	additional_items = list(/obj/item/ingot/aaslag, /obj/item/ingot/aaslag, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/sword/broken
 	display_category = ITEM_CAT_WEAPONS_SWORDS
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_NOVICE
 
@@ -1613,7 +1613,7 @@
 	additional_items = list(/obj/item/ingot/aaslag, /obj/item/ingot/aaslag, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/sword/short/broken
 	display_category = ITEM_CAT_WEAPONS_SWORDS
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_NOVICE
 
@@ -1631,7 +1631,7 @@
 	additional_items = list(/obj/item/rogueore/iron, /obj/item/rogueore/iron, /obj/item/rogueore/iron, /obj/item/rogueore/iron)
 	created_item = /obj/item/ingot/component/heapofrawiron
 	display_category = ITEM_CAT_COMPONENTS
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_MASTER
 	bypass_dupe_test = TRUE
@@ -1642,7 +1642,7 @@
 	additional_items = list(/obj/item/rogueweapon/sword/long/exe, /obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
 	created_item = /obj/item/ingot/component/berserkswordgrip
 	display_category = ITEM_CAT_COMPONENTS
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_MASTER
 	bypass_dupe_test = TRUE
@@ -1653,7 +1653,7 @@
 	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/ingot/component/heapofrawiron)
 	created_item = /obj/item/ingot/component/berserkswordblade
 	display_category = ITEM_CAT_COMPONENTS
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_MASTER
 	bypass_dupe_test = TRUE
@@ -1664,7 +1664,7 @@
 	additional_items = list(/obj/item/ingot/component/berserkswordblade)
 	created_item = /obj/item/rogueweapon/sword/long/exe/berserk
 	display_category = ITEM_CAT_WEAPONS_SWORDS
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_MASTER
 
@@ -1674,7 +1674,7 @@
 	additional_items = list(/obj/item/ingot/component/berserkswordgrip)
 	created_item = /obj/item/rogueweapon/sword/long/exe/berserk
 	display_category = ITEM_CAT_WEAPONS_SWORDS
-	appro_skill = /datum/skill/craft/weaponsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_MASTER
 

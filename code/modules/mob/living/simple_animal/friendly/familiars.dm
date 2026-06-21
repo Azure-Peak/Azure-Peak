@@ -571,8 +571,6 @@
 // so they can actually do repairs
 /mob/living/simple_animal/pet/familiar/elemental/Initialize()
 	. = ..()
-	src.adjust_skillrank_up_to(/datum/skill/craft/armorsmithing, SKILL_LEVEL_APPRENTICE)
-	src.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_APPRENTICE)
 

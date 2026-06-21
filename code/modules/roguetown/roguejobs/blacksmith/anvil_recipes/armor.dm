@@ -1,6 +1,6 @@
 /datum/anvil_recipe/armor
 	abstract_type = /datum/anvil_recipe/armor
-	appro_skill = /datum/skill/craft/armorsmithing
+	appro_skill = /datum/skill/craft/blacksmithing
 	i_type = "Armor"
 
 // Material parent classes - same skill level as weapons

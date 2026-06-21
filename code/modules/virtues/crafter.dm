@@ -50,8 +50,6 @@
 	for(var/choice in picked_choices)
 		switch(choice)
 			if(SKILLED_BSMITH)
-				added_skills.Add(list(list(/datum/skill/craft/weaponsmithing, 2, 2)))
-				added_skills.Add(list(list(/datum/skill/craft/armorsmithing, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/blacksmithing, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/smelting, 2, 2)))
 				added_traits.Add(TRAIT_SMITHING_EXPERT)

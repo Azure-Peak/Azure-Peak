@@ -208,8 +208,6 @@
 	if(user == M)
 		qualified = TRUE
 	else
-		if(user.get_skill_level(/datum/skill/craft/armorsmithing) >= SKILL_LEVEL_JOURNEYMAN)
-			qualified = TRUE
 		if(user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_JOURNEYMAN)
 			qualified = TRUE
 		if(user.get_skill_level(/datum/skill/craft/blacksmithing) >= SKILL_LEVEL_JOURNEYMAN)
@@ -286,8 +284,7 @@
 
 		if(user.mind)
 			used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 7)
-			used_time -= (user.get_skill_level(/datum/skill/craft/armorsmithing) * 2)
-			used_time -= (user.get_skill_level(/datum/skill/craft/blacksmithing) * 2)
+			used_time -= (user.get_skill_level(/datum/skill/craft/blacksmithing) * 4)
 
 		if(has_tongs)
 			used_time *= 0.75

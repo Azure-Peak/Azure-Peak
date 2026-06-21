@@ -82,7 +82,7 @@
 	dropshrink = 0.7
 	drop_sound = 'sound/items/gems (2).ogg'
 	destroy_sound = 'sound/items/pickbreak.ogg'
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	associated_skill = /datum/skill/misc/lockpicking
 	var/material = "gold"
 

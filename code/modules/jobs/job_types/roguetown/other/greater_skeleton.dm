@@ -310,11 +310,8 @@ NECRO SKELETONS
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE, //For the alchemy mortar + pestle for explosives, remove once the recipe changes.
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/smelting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/tanning = SKILL_LEVEL_NOVICE, //You /can/ do it, is the point here
 		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,

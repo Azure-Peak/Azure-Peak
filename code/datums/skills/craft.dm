@@ -13,36 +13,18 @@
 	)
 	expert_name = "Crafter"
 
-/datum/skill/craft/weaponsmithing
-	name = "Weaponsmithing"
-	desc = "Determines whether you can smith various weapons. Required to repair weapons successfully on tables. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
-	dreams = list(
-		"...tempered in gold and void, sharpened only by the sun and moon, your creation is finally complete. This one... This one will pierce the heavens...",
-		"...sweat drips down your brow and your arms ache with every strike, but at last, the blade is forged. A masterpiece of steel and gold, adorned with rontz gems...",
-		"...an old hunter stands in front of your counter and demands two dozen arrows. He hands you a bundle of sticks with a smile on his face..."
-	)
-	expert_name = "Weaponsmith"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
-
-/datum/skill/craft/armorsmithing
-	name = "Armorsmithing"
-	desc = "Determines whether you can smith various armor. Required to repair armor successfully on tables. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
-	dreams = list(
-		"...you stand amidst the deadite horde, their tooth and claw unable to dent your armor. Your creation. Your masterpiece...",
-		"...the veteran's armor, battered beyond recognition, mirrors the scars upon his body. Yet, without your craft, he'd have fallen long ago. With skilled hands and a half a day's work, the armor is reborn - stronger than the day it was forged..."
-	)
-	expert_name = "Armorsmith"
-	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
-
 /datum/skill/craft/blacksmithing
 	name = "Blacksmithing"
-	desc = "Determines whether you can smith various non-weapons and armor items. Required to repair them successfully on table. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
+	desc = "Determines whether you can smith various items. Required to repair them successfully on a table or anvil. Quality scales with skill: Journeyman is reliably Standard, Expert guarantees Fine or better, Master guarantees Flawless or better, Legendary always produces Masterwork."
 	dreams = list(
 		"...you bow your head to the old master who scolds you for your wastefulness having left the forges unattended through the night...",
 		"...you hammer away at a strange blue metal. It tempts you, begging to be formed into a crown of secrets...",
-		"...the furnaces are lit and the forges roar. Today is a good day, and the lord of flame has blessed your smithy, the greatest in all the lands..."
+		"...the furnaces are lit and the forges roar. Today is a good day, and the lord of flame has blessed your smithy, the greatest in all the lands...",
+		"...tempered in gold and void, sharpened only by the sun and moon, your creation is finally complete. This one... This one will pierce the heavens...",
+		"...sweat drips down your brow and your arms ache with every strike, but at last, the blade is forged. A masterpiece of steel and gold, adorned with rontz gems...",
+		"...an old hunter stands in front of your counter and demands two dozen arrows. He hands you a bundle of sticks with a smile on his face...",
+		"...you stand amidst the deadite horde, their tooth and claw unable to dent your armor. Your creation. Your masterpiece...",
+		"...the veteran's armor, battered beyond recognition, mirrors the scars upon his body. Yet, without your craft, he'd have fallen long ago. With skilled hands and a half a day's work, the armor is reborn - stronger than the day it was forged..."
 	)
 	expert_name = "Blacksmith"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE

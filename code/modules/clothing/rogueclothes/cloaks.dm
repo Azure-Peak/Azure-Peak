@@ -1390,7 +1390,7 @@
 	sellprice = 666
 	static_price = TRUE
 	smeltresult = /obj/item/riddleofsteel
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	var/active_item = FALSE
 
 /obj/item/clothing/neck/roguetown/blkknight/equipped(mob/living/user, slot)

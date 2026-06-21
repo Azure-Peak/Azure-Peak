@@ -265,8 +265,6 @@
 
 /datum/special_trait/mastercraftsmen/on_apply(mob/living/carbon/human/character)
 	character.adjust_skillrank_up_to(/datum/skill/craft/crafting, 2, TRUE)
-	character.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, 2, TRUE)
-	character.adjust_skillrank_up_to(/datum/skill/craft/armorsmithing, 2, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing, 2, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/craft/carpentry, 2, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/craft/masonry, 2, TRUE)

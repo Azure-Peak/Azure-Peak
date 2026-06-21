@@ -40,7 +40,7 @@
 	desc = "An exquisite belt, decorated with studdings of gold."
 	icon_state = "goldplaque"
 	sewrepair = FALSE
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/storage/belt/rogue/leather/shalal
 	name = "shalal belt"
@@ -64,7 +64,7 @@
 	desc = "An exquisite belt, decorated with studdings of silver."
 	icon_state = "silverplaque"
 	sewrepair = FALSE
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/storage/belt/rogue/leather/battleskirt
 	name = "cloth military skirt"
@@ -125,14 +125,14 @@
 	desc = "A fine leather belt that's been sleeved within many segments of steel, protecting its delicate innards from prying hands-and-blades."
 	icon_state = "steelplaque"
 	sewrepair = FALSE
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/storage/belt/rogue/leather/steel/tasset
 	name = "tasseted belt"
 	desc = "A fine leather belt that's been sleeved within many segments of steel, and further reinforced with the tassets of a fluted cuirass."
 	icon_state = "steeltasset"
 	sewrepair = FALSE
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/storage/belt/rogue/leather/rope
 	name = "rope belt"

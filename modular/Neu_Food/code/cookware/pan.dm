@@ -21,7 +21,7 @@
 	wdefense = 2
 	grid_width = 32
 	grid_height = 64
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	obj_flags = CAN_BE_HIT
 
 /obj/item/cooking/pan/getonmobprop(tag)

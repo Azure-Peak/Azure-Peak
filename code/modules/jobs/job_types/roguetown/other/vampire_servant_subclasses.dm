@@ -115,8 +115,6 @@
 		/datum/skill/craft/engineering = SKILL_LEVEL_EXPERT, //semi-artificer too, didn't want to go all-in with arcayne skill since otherwise they might end up handing out enchantments to vamps, I don't want that to be common
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_MASTER, //higher intentionally, for profit making purposes in a round's time.
-		/datum/skill/craft/armorsmithing = SKILL_LEVEL_EXPERT,
-		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/smelting = SKILL_LEVEL_MASTER,
 		/datum/skill/labor/mining = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT, //Another niche in the field, they can disarm traps at least

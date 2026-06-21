@@ -16,8 +16,6 @@
 	var/list/datum/skill/skill_choices = list(
 	//skills alphabetically... this will be sloppy based on the descriptive name but easier for devs
 	/datum/skill/craft/crafting,
-	/datum/skill/craft/weaponsmithing,
-	/datum/skill/craft/armorsmithing,
 	/datum/skill/craft/blacksmithing,
 	/datum/skill/craft/smelting,
 	/datum/skill/craft/carpentry,

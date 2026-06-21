@@ -149,7 +149,7 @@
 	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish)
 	minstr = 11
 	wdefense = 0
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/whip/antique/psywhip/ComponentInitialize()

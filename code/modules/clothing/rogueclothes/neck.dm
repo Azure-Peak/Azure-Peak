@@ -142,7 +142,7 @@
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 	blocksound = CHAINHIT
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/neck/roguetown/chaincoif/ComponentInitialize()
@@ -189,7 +189,7 @@
 	name = "iron chain coif"
 	desc = "A maille-hood, fashioned from interlinked iron rings. Levymen oft-wear these atop a padded coif or beneath a kettle, depending on the nature of their rally; be it to defend their hearth-and-home from beastes or Bandits."
 	icon_state = "ichaincoif"
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_SIDE_IRON
 
@@ -197,7 +197,7 @@
 	name = "bronze chain coif"
 	desc = "A maille-hood, fashioned from interlinked bronze rings. As preached by the Pantheon, these maille-hoods were originally made in mimicry of what was worn by the earliest priests."
 	icon_state = "bchaincoif"
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 	armor = ARMOR_BRONZE
@@ -253,7 +253,7 @@
 	desc = "A steel neckguard, traditionally mounted to the collar of a cuirass. It restricts the head's motion, but ensures the absence of abuseable gaps."
 	icon_state = "bevor"
 	armor = ARMOR_PLATE
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 	equip_sound = 'sound/foley/equip/equip_armor.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
@@ -276,7 +276,7 @@
 	icon_state = "ibevor"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_SIDE_IRON
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/bevor/bronze
 	name = "bronze gorgette"
@@ -285,7 +285,7 @@
 	armor = ARMOR_BRONZE
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 	smeltresult = /obj/item/ingot/bronze
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/gorget
 	name = "gorget"
@@ -293,7 +293,7 @@
 	icon_state = "gorget"
 	armor = ARMOR_PLATE
 	smeltresult = /obj/item/ingot/iron
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	equip_sound = 'sound/foley/equip/equip_armor.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	max_integrity = ARMOR_INT_SIDE_IRON + ARMOR_INT_SIDE_COVERAGE_BONUS
@@ -339,7 +339,7 @@
 	icon_state = "fencercollar"
 	armor = ARMOR_PLATE
 	smeltresult = /obj/item/ingot/steel
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	max_integrity = ARMOR_INT_SIDE_STEEL + ARMOR_INT_SIDE_COVERAGE_BONUS
 	body_parts_inherent = NECK
 	resistance_flags = FIRE_PROOF
@@ -445,7 +445,7 @@
 	item_state = "cursed_collar"
 	armor = ARMOR_CLOTHING
 	smeltresult = /obj/item/ingot/iron
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	max_integrity = ARMOR_INT_SIDE_DECREPIT
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK
@@ -462,7 +462,7 @@
 	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
 	possible_item_intents = list(/datum/intent/use)
 	experimental_onhip = TRUE
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	grid_width = 32
 	grid_height = 32
 	/// Used to see whether or not we display the wrist icon or the neck icon regardless.
@@ -1118,7 +1118,7 @@
 	resistance_flags = FIRE_PROOF
 	allowed_race = CLOTHED_RACES_TYPES
 	sellprice = 70
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/horus
 	name = "amulet of appraisal"
@@ -1127,7 +1127,7 @@
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
 	sellprice = 80
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/horus/examine()
 	. = ..()
@@ -1155,7 +1155,7 @@
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
 	sellprice = 30		// what if the economy crashes...........
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/ornateamulet
 	name = "ornate amulet"
@@ -1163,7 +1163,7 @@
 	icon_state = "ornateamulet"
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	no_loot_taint = TRUE
 
 /obj/item/clothing/neck/roguetown/ornateamulet/noble
@@ -1192,7 +1192,7 @@
 	icon_state = "skullamulet"
 	//dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/neck/roguetown/psicross/naledi
 	name = "naledian psy-bracelet"
@@ -1293,7 +1293,7 @@
 	sellprice = 222
 	no_loot_taint = TRUE
 	smeltresult = /obj/item/roguegem/green
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	var/luckyskull = FALSE
 
 /obj/item/clothing/neck/roguetown/skullamulet/gemerald/Initialize()

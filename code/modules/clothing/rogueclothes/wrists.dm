@@ -38,7 +38,7 @@
 	max_integrity = ARMOR_INT_SIDE_STEEL
 	pickup_sound = 'sound/foley/equip/equip_armor_plate.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_plate.ogg'
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	sewrepair = FALSE
 	smeltresult = /obj/item/ingot/steel
 
@@ -91,7 +91,7 @@
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
 	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	sewrepair = FALSE
 	alternate_worn_layer = WRISTS_LAYER
 
@@ -284,7 +284,7 @@
 	armor = ARMOR_BRIGANDINE
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_STEEL
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/steel
 	w_class = WEIGHT_CLASS_NORMAL
 	resistance_flags = FIRE_PROOF
@@ -303,7 +303,7 @@
 	armor = ARMOR_BRIGANDINE //not plate armor, is leather + iron bits
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_IRON
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/iron
 	w_class = WEIGHT_CLASS_NORMAL
 	resistance_flags = FIRE_PROOF
@@ -317,7 +317,7 @@
 	item_state = "ibracers"
 	max_integrity = ARMOR_INT_SIDE_IRON
 	smeltresult = /obj/item/ingot/iron
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/wrists/roguetown/bracers/jackchain
 	name = "jack chains"
@@ -330,7 +330,7 @@
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	smeltresult = /obj/item/ingot/iron
-	anvilrepair = /datum/skill/craft/armorsmithing
+	anvilrepair = /datum/skill/craft/blacksmithing
 
 /obj/item/clothing/wrists/roguetown/bracers/jackchain/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
