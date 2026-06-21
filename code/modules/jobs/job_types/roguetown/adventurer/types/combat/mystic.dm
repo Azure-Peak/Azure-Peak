@@ -2,6 +2,7 @@
 	name = "Mystic"
 	tutorial = "I have spent my youth deepening my faith, only to be lured by the way of the magi, to the great regret of my family"
 	allowed_sexes = list(MALE, FEMALE)
+	allowed_patrons = list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/abyssor, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/eora, /datum/patron/divine/malum, /datum/patron/divine/ravox, /datum/patron/divine/xylix, /datum/patron/inhumen/zizo, /datum/patron/inhumen/baotha, /datum/patron/inhumen/graggar, /datum/patron/inhumen/matthios)
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/mystic
 	class_select_category = CLASS_CAT_MYSTIC
@@ -56,17 +57,8 @@
 	
 	if(H.mind)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
 
 	switch(H.patron?.type)
-		if(/datum/patron/divine/undivided)
-			var/list/heal = list("Greater Miracle (Miracle)", "Fortifying Vapors (Medical)")
-			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
-			switch(highheal_options)
-				if("Greater Miracle (Divine)")
-					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
-				if("Fortifying Vapors (Secular)")
-					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
 		if(/datum/patron/old_god) // ENDVRE LIKE THE MAN(or woman, or nonbinary) YOU ARE SUPPOSED TO BE, CHUD!
 			to_chat(H, span_blue("No matter how much you pray, you weep, and you endure. HE does not answer... Your trial begins now."))
@@ -101,8 +93,6 @@
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/undivided)
-			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
 		if(/datum/patron/divine/astrata)
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
 			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
@@ -150,6 +140,7 @@
 	name = "Sage"
 	tutorial = "I have spent my youth studying both the Arcyne and Miraculous ways, and developed my mastery of shielding and preserving lyfe under my care."
 	allowed_sexes = list(MALE, FEMALE)
+	allowed_patrons = list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/abyssor, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/eora, /datum/patron/divine/malum, /datum/patron/divine/ravox, /datum/patron/divine/xylix, /datum/patron/inhumen/zizo, /datum/patron/inhumen/baotha, /datum/patron/inhumen/graggar, /datum/patron/inhumen/matthios)
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/resilient
 	class_select_category = CLASS_CAT_MYSTIC
@@ -202,18 +193,9 @@
 	if(H.mind)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
+
 
 	switch(H.patron?.type)
-		if(/datum/patron/divine/undivided)
-			var/list/heal = list("Greater Miracle (Miracle)", "Fortifying Vapors (Medical)")
-			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
-			switch(highheal_options)
-				if("Greater Miracle (Divine)")
-					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
-				if("Fortifying Vapors (Secular)")
-					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
-
 		if(/datum/patron/old_god) // ENDVRE LIKE THE MAN(or woman, or nonbinary) YOU ARE SUPPOSED TO BE, CHUD!
 			to_chat(H, span_blue("No matter how much you pray, you weep, and you endure. HE does not answer... Your trial begins now."))
 			H.emote("cry")
@@ -242,8 +224,6 @@
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/undivided)
-			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
 		if(/datum/patron/divine/astrata)
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
 			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
@@ -291,6 +271,8 @@
 	name = "Luminary"
 	tutorial = "I have spent my youth deepening my faith and one day an azurcaephan was under my care at the church, ever since their recovery i became the pupil of the noccite priests and templars"
 	allowed_sexes = list(MALE, FEMALE)
+	allowed_patrons = list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/abyssor, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/eora, /datum/patron/divine/malum, /datum/patron/divine/ravox, /datum/patron/divine/xylix, /datum/patron/inhumen/zizo, /datum/patron/inhumen/baotha, /datum/patron/inhumen/graggar, /datum/patron/inhumen/matthios)
+
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/holyblade
 	class_select_category = CLASS_CAT_MYSTIC
@@ -374,8 +356,6 @@
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			id = /obj/item/clothing/neck/roguetown/psicross
-		if(/datum/patron/divine/undivided)
-			id = /obj/item/clothing/neck/roguetown/psicross/undivided
 		if(/datum/patron/divine/astrata)
 			id = /obj/item/clothing/neck/roguetown/psicross/astrata
 			H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
