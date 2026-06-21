@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/noc
 	background_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon = 'icons/mob/actions/nocmiracles.dmi'
-	spell_color = GLOW_COLOR_ILLUSION
+	spell_color = GLOW_COLOR_NOC
 
 	ignore_armor_penalty = TRUE
 
@@ -211,7 +211,7 @@
 	background_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon_state = "blindness"
-	spell_color = GLOW_COLOR_ILLUSION
+	spell_color = GLOW_COLOR_NOC
 	glow_intensity = GLOW_INTENSITY_LOW
 
 	projectile_type = /obj/projectile/magic/noc_owl
@@ -397,84 +397,9 @@
 		owner.mind?.RemoveSpell(src.type)
 
 
-//////////////////////////
-// T4 - Kytherian Shell //
-//////////////////////////
-
-/datum/action/cooldown/spell/noc/antimagic
-	name = "Kytherian Shell"
-	desc = "Create a shell of null magic around a target, preventing usage of spells and miracles on those affected by it - positive or negative."
-	sound = 'sound/magic/clang.ogg'
-	button_icon_state = "noc"
-
-	click_to_activate = TRUE
-
-	primary_resource_cost = SPELLCOST_MIRACLE_LEGENDARY*2
-
-	secondary_resource_cost = SPELLCOST_MIRACLE_LEGENDARY
-
-	invocation_type = INVOCATION_SHOUT
-	invocations = list("Deepest dreaming, scribe!")//Placeholder
-
-	charge_required = FALSE
-	cooldown_time = 5 SECONDS//Placeholder
-
-	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-/datum/action/cooldown/spell/noc/antimagic/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/carbon/human/H = owner
-	if(!istype(H))
-		return FALSE
-
-	H.visible_message("[H] mutters an incantation and a dim pulse of light radiates out from them.")
-	for(var/mob/living/L in range(1, H))
-		L.apply_status_effect(/datum/status_effect/antimagic)//Placeholder, it will be done better.
-
-	if(!item)
-		alreadychoosing = FALSE
-		return FALSE    // user canceled;
-	if(alert(user, "[item.desc]", "[item.name]", "Write", "Remind") == "Cancel") //gives a preview of the spell's description to let people know what a spell does
-		alreadychoosing = FALSE
-		return FALSE
-	if(item.dreamcost > user.mind.sleep_adv.sleep_adv_points)
-		to_chat(user,span_warning("You do not have enough dream-points to create this spell."))
-		alreadychoosing = FALSE
-		return FALSE		// not enough spell points
-	else
-		for(var/obj/item/burn in books_burnt)
-			new /obj/effect/temp_visual/moon/spell(get_turf(burn))
-			qdel(burn)
-		user.mind.sleep_adv.sleep_adv_points -= item.dreamcost
-/*		if(item.dreamcost == 3) // this doesnt fucking work. our code doesnt allow for custom recharges to be done 
-			cooldown_time = 5 MINUTES // in any convenient way. if you want to fix this later try using a status_effect
-		if(item.dreamcost == 6) // secondary charge system instead of this shit. 
-			cooldown_time = 15 MINUTES // kept in so the intent is understood.
-		if(item.dreamcost >= 9)
-			cooldown_time = 30 MINUTES*/
-		var/obj/item/I = new item (get_turf(user))
-		user.put_in_hands(I)
-		alreadychoosing = FALSE
-		return TRUE
-
-/obj/effect/temp_visual/moon/spell
-	icon_state = "spellwarning"
-	duration = 2 SECONDS
-	layer = MASSIVE_OBJ_LAYER
-	light_outer_range = 3
-	color = "#1640d7ff"
-	light_color = "#1640d7ff"
-
-GLOBAL_LIST_INIT(noc_scrolls, (list(
-	/obj/item/book/granter/spell/noc/fireball, 
-	/obj/item/book/granter/spell/noc/lbolt, 
-	/obj/item/book/granter/spell/noc/boulderstrike, 
-	/obj/item/book/granter/spell/noc/message,
-	/obj/item/book/granter/spell/noc/mindlink,
-	/obj/item/book/granter/spell/noc/mending,
-	/obj/item/book/granter/spell/noc/blink,
-	/obj/item/book/granter/spell/noc/repulse
-	)))
+//////////////////
+// T4 - Eclipse //
+//////////////////
 
 // =====================
 // Moonlight Component
@@ -550,21 +475,18 @@ GLOBAL_LIST_INIT(noc_scrolls, (list(
 // =====================
 
 /datum/action/cooldown/spell/noc/moonlight
-	name = "Moonlight"
+	name = "Eclipse"
 	desc = "Bathe adjacent allies in moonlight, granting them protection against magic. Lasts one minute on the caster."
 	fluff_desc = "The wisdom of the night - a blessing that offers those most devout to the Moon a sliver of its power. As Noc reflects Astrata's light, so too can his champions reflect magicks away from themselves and their allies."
-	button_icon_state = "moonlight"
-	sound = 'sound/magic/astrata_choir.ogg'
-	spell_color = GLOW_COLOR_NOC
+	button_icon_state = "noc"
+	sound = 'sound/magic/nocbell.ogg'
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 
 	click_to_activate = TRUE
 	self_cast_possible = TRUE
 
-	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
 
-	secondary_resource_type = SPELL_COST_STAMINA
 	secondary_resource_cost = SPELLCOST_MAJOR_PROJECTILE
 
 	invocations = list("The tolling of the moonlit bell calls the magicians to their knees!!")
@@ -577,10 +499,6 @@ GLOBAL_LIST_INIT(noc_scrolls, (list(
 	charge_sound = 'sound/magic/holycharging.ogg'
 	cooldown_time = 5 MINUTES
 
-	ignore_armor_penalty = TRUE
-	associated_stat = null
-	associated_skill = /datum/skill/magic/holy
-	spell_tier = 0
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
