@@ -194,8 +194,12 @@
 	cloak = /obj/item/clothing/cloak/chasuble
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
+		/obj/item/paper/clerical_info = 1,
 		/obj/item/needle/pestra = 1,
 		/obj/item/ritechalk = 1,
+		/obj/item/natural/worms/leech/cheele = 1, //migrant role, gets a little extra as a treat
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1, //Buy more off of the clinic or use water, stabilising people
+		/obj/item/natural/bundle/cloth/bandage/full = 1, //Needed to keep people from bleeding out dead
 	)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
