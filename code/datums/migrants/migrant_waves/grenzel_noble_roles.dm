@@ -194,7 +194,7 @@
 	cloak = /obj/item/clothing/cloak/chasuble
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/paper/clerical_info = 1,
+		/obj/item/paper/clerical_info/holysee = 1,
 		/obj/item/needle/pestra = 1,
 		/obj/item/ritechalk = 1,
 		/obj/item/natural/worms/leech/cheele = 1, //migrant role, gets a little extra as a treat
