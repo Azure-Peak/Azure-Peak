@@ -142,6 +142,11 @@
 	color = "#b9a286"
 	component_type = /datum/component/storage/concrete/roguetown/belt/cloth
 
+/obj/item/storage/belt/rogue/leather/rope/cleric //Given to clerics/acolytes/bishop to retain the sovlful look
+	name = "cleric rope belt"
+	desc = "A length of strong rope with some pouches underneath repurposed into a belt. For the healer with an oath of poverty that can't afford to sacrifice space."
+	component_type = /datum/component/storage/concrete/roguetown/belt
+
 /obj/item/storage/belt/rogue/leather/cloth
 	name = "cloth sash"
 	desc = "A strip of cloth tied together at the ends into a makeshift belt. It's better than nothing."

@@ -45,7 +45,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/cleric
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/priest
@@ -54,6 +54,9 @@
 	backpack_contents = list(
 		/obj/item/needle/pestra = 1,
 		/obj/item/ritechalk = 1,
+		/obj/item/natural/worms/leech/cheele = 1, //migrant role, gets a little extra as a treat
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1, //Buy more off of the clinic or use water, stabilising people
+		/obj/item/natural/bundle/cloth/bandage/full = 1, //Needed to keep people from bleeding out dead
 	)
 
 	if(H.age == AGE_OLD)
