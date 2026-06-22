@@ -9,7 +9,6 @@
 					/datum/action/cooldown/spell/ravox/tug					= CLERIC_T0,
 					/datum/action/cooldown/spell/ravox/provocation	       	= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 				= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle		= CLERIC_T1,
 					/datum/action/cooldown/spell/ravox/strikeoraegis		= CLERIC_T1,
 					/datum/action/cooldown/spell/ravox/withstand		   	= CLERIC_T2,
 					/datum/action/cooldown/spell/ravox/challenge			= CLERIC_T2,

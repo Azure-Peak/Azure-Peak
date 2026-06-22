@@ -8,7 +8,6 @@
 					/obj/effect/proc_holder/spell/invoked/baothavice				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/baothablessings			= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 						= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/insufflation					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/targeted/touch/loversruin			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/griefflower				= CLERIC_T1,

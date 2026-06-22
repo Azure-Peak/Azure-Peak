@@ -200,7 +200,6 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
 
@@ -370,7 +369,6 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			id = /obj/item/clothing/neck/roguetown/psicross

@@ -9,7 +9,6 @@
 					/obj/effect/proc_holder/spell/self/graggar_bloodrage				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/graggar_chainbreak				= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 							= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
 					/datum/action/cooldown/spell/graggar/graggar_battlecry		 		= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/graggar_blood_net 	= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/silence/graggar				= CLERIC_T2,
