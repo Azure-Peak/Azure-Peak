@@ -614,6 +614,7 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/recipe_book/survival = 1,
+		/obj/item/paper/clerical_info = 1, //some roles get anastasis, also a capable healer, might as well be a learner role for those without the PQ yet.
 		/obj/item/natural/bundle/cloth/bandage/full = 1, //Needed to keep people from bleeding out dead
 		/obj/item/needle/thorn/cleric = 1, //STILL unique to clerics, only clerics get this, its worse than a traditional iron needle.
 		)

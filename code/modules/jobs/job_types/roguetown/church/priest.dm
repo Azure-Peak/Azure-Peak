@@ -96,6 +96,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	backpack_contents = list(
 		/obj/item/needle/pestra = 1,
 		/obj/item/natural/worms/leech/cheele = 1, //little buddy
+		/obj/item/paper/clerical_info/holysee = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1, //Needed to keep people from bleeding out dead - No red, use your cheele sire.
 		/obj/item/ritechalk = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/holysee = 1,	//Unique knife from the Holy See
