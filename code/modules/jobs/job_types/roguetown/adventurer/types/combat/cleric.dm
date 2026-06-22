@@ -247,6 +247,7 @@
 		/obj/item/flashlight/flare/torch/metal = 1, 
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/natural/bundle/cloth/bandage/full = 1, //Needed to keep people from bleeding out dead. YOU ARE A CLERIC STILL.
 		)
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
 	switch(H.patron?.type)
@@ -465,6 +466,7 @@
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/recipe_book/survival = 1,
+		/obj/item/natural/bundle/cloth/bandage/full = 1, //Needed to keep people from bleeding out dead. YOU ARE A CLERIC STILL.
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
@@ -612,6 +614,8 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/recipe_book/survival = 1,
+		/obj/item/natural/bundle/cloth/bandage/full = 1, //Needed to keep people from bleeding out dead
+		/obj/item/needle/thorn/cleric = 1, //STILL unique to clerics, only clerics get this, its worse than a traditional iron needle.
 		)
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
 	switch(H.patron?.type)

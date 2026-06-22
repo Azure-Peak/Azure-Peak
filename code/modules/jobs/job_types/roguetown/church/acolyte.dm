@@ -66,11 +66,17 @@
 /datum/outfit/job/roguetown/monk/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/black //used to be rope, but they kinda need the space now they have to carry more healing supplies.
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltl = /obj/item/storage/keyring/acolyte
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(/obj/item/ritechalk, /obj/item/mini_flagpole/church)
+	backpack_contents = list(
+		/obj/item/ritechalk = 1, 
+		/obj/item/mini_flagpole/church = 1,
+		/obj/item/needle = 1, //Regular needle
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1, //Buy more off of the clinic or use water, stabilising people
+		/obj/item/natural/bundle/cloth/bandage/full = 1, //Needed to keep people from bleeding out dead
+		)
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // has to be defined here for the selection below to work. sm1 please rewrite cmusic to apply pre-equip.
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
