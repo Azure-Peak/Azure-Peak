@@ -306,8 +306,7 @@
 		Ensure your patient is fully stable and alwaes adminster water before reviving, once your patient is revived and given a health dosage of water they should recover swiftly.<br><br>
 		If all of these steps are done right and they aren't experiencing sudden poisoning from lack of a liver, then they are ready to set loose once more, ensure that they get some rest 
 		the Inn or prayer upon the pews is oft a good place of resting to ensure that they do not blunder into an early demise once more. <br><br> <br><br>
-		May the Gods watch over you and your flock.
-		</font>
+		May the Gods watch over you and your flock.</font>
 		"}
 
 /obj/item/paper/clerical_info/holysee //Same detail, different flavor
