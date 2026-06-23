@@ -95,6 +95,7 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	boss.faction |= "quest"
 	if(faction?.faction_tag)
 		boss.faction |= faction.faction_tag
+	boss.strip_head_bounty()
 	boss.AddComponent(/datum/component/quest_object/kill, src)
 	ADD_TRAIT(boss, TRAIT_FRESHSPAWN, "[type]")
 	addtimer(TRAIT_CALLBACK_REMOVE(boss, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
@@ -131,6 +132,7 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		goon.faction |= "quest"
 		if(faction?.faction_tag)
 			goon.faction |= faction.faction_tag
+		goon.strip_head_bounty()
 		ADD_TRAIT(goon, TRAIT_FRESHSPAWN, "[type]")
 		addtimer(TRAIT_CALLBACK_REMOVE(goon, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
 		spawn_effect.contained_atom = goon
@@ -149,6 +151,7 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		var/goon_path = pick(GLOB.quest_bounty_goblin_goons)
 		var/mob/living/goon = new goon_path(spawn_effect)
 		goon.faction |= "quest"
+		goon.strip_head_bounty()
 		ADD_TRAIT(goon, TRAIT_FRESHSPAWN, "[type]")
 		addtimer(TRAIT_CALLBACK_REMOVE(goon, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
 		spawn_effect.contained_atom = goon

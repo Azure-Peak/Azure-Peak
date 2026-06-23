@@ -1,0 +1,4 @@
+author: "Kell-E"
+delete-after: True
+changes:
+  - balance: "Food only buffs on the last bite. Meals & Snacks no longer stack."

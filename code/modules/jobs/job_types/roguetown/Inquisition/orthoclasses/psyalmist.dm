@@ -40,7 +40,7 @@
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon
+	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon_blessed
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/clothing/ring/signet/psy
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

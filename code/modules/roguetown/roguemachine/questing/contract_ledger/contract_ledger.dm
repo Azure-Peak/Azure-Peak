@@ -40,8 +40,11 @@
 	. += span_info("To <b>turn in</b> a completed contract, click the ledger while holding the quest scroll.")
 	. += span_info("Retrieval-quest items should be <b>dropped onto the marked tile</b> in front of the ledger.")
 	. += span_info("Abandoning a contract forfeits its deposit to the treasury and places you under a brief guild cooldown before you may abandon another.")
+	. += span_info("Heads taken from <b>contract targets</b> carry no bounty - the contract's reward is payment in full. Beasts and brigands you hunt outside a contract still fetch coin at a HEADEATER.")
 	. += span_info("The <b>Innkeeper and their tavern staff</b> (Cook, Tapster) may compose rumor contracts here, spending Rumor Points to seed retrieval, courier, and light kill jobs across the realm.")
 	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> may commission defense writs here - paid from the Burgher Pledge, the Crown's Purse, or issued as an unfunded Request. The Steward is the primary commissioner; the others substitute if the Steward is absent. A Regent sitting in the Lord's absence inherits commission authority for the duration of their regency.")
+	. += span_info("Your <b>fellowship</b> may turn in contracts you hold on your behalf, should you fall in battle. The reward and levy is credited to the one who turns it in, using their tax exempt status, if any.")
+	. += span_info("The <b>[english_list(GLOB.contract_proxy_officials)]</b> may turn in any completed contract on the holder's behalf, crediting the reward to the holder's own account. They take no cut.")
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	. = ..()
@@ -92,6 +95,7 @@
 	data["regions"] = build_region_listing()
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	data["guild_cut_rate"] = GUILD_REFERRAL_FEE_PCT
+	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
 	var/list/dynamic_roles = resolve_dynamic_roles(user)
 	data["dynamic_roles"] = dynamic_roles
 	data["dynamic_role"] = length(dynamic_roles) ? dynamic_roles[1] : null
@@ -144,6 +148,11 @@ GLOBAL_LIST_INIT(crown_authority_roles, list(
 	"Prince",
 ))
 
+GLOBAL_LIST_INIT(contract_proxy_officials, list(
+	"Steward",
+	"Clerk",
+))
+
 /// TRUE if the user has standing to commission defense writs - either by job, or by sitting as
 /// the current Regent (Regent inherits commission authority for the duration of their regency,
 /// so a Consort or Prince crowned by the Titan gains access they wouldn't otherwise have).
@@ -181,6 +190,7 @@ GLOBAL_LIST_INIT(crown_authority_roles, list(
 		if(istype(Q, /datum/quest/kill))
 			var/datum/quest/kill/KQ = Q
 			threat_bands = KQ.threat_bands_cleared
+		var/lapse_minutes = max(0, round((Q.get_lapse_time() - world.time) / 600, 1))
 		listing += list(list(
 			"ref" = REF(Q),
 			"title" = Q.title || "Unnamed Contract",
@@ -200,6 +210,7 @@ GLOBAL_LIST_INIT(crown_authority_roles, list(
 			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,
 			"is_standing" = Q.source == QUEST_SOURCE_RUMOR || Q.source == QUEST_SOURCE_DEFENSE || Q.source == QUEST_SOURCE_TOWNER,
 			"required_fellowship_size" = Q.required_fellowship_size,
+			"lapse_minutes" = lapse_minutes,
 		))
 	return listing
 

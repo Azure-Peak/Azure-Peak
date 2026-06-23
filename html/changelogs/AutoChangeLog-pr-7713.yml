@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - qol: "Eoran tree pruning now checks for the presence of snip intent, rather than scissors type path; which basically means 'anything that works like scissors can prune them now'"

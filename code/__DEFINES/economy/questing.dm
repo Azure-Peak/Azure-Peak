@@ -13,6 +13,10 @@
 #define QUEST_TOWNER_SMITH_CARAVAN "Smith Caravan"
 #define QUEST_TOWNER_MINER_OREVEIN "Ore Vein"
 
+#define QUEST_TURNIN_SELF 1
+#define QUEST_TURNIN_FELLOWSHIP 2
+#define QUEST_TURNIN_OFFICIAL 3
+
 #define TOWNER_POSTING_TIER_MEDIUM "medium"
 #define TOWNER_POSTING_TIER_HARD "hard"
 
@@ -77,6 +81,8 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_BANDS_BOUNTY 4
 #define QUEST_BANDS_RECOVERY 2
 
+#define QUEST_REWARD_GLOBAL_MULT 1
+
 // Flat reward base
 #define QUEST_REWARD_BASE_FLAT 10
 #define QUEST_REWARD_BASE_FETCH 15
@@ -111,6 +117,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 
 // Unclaimed listings past this threshold are rerolled in place, bypassing the per-tick cap.
 #define QUEST_POOL_STALE_THRESHOLD (20 MINUTES)
+#define QUEST_POOL_STALE_JITTER (10 MINUTES)
 // Player-issued listings (rumor/defense) get a longer window before reroll.
 #define QUEST_PLAYER_STALE_THRESHOLD (30 MINUTES)
 
@@ -164,6 +171,6 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define BLOCKADE_RECALL_WINDOW_DS (15 MINUTES)
 
 #define BLOCKADE_TOTAL_WAVES 3
-#define BLOCKADE_WAVE_1_TP 90
-#define BLOCKADE_WAVE_2_TP 90
-#define BLOCKADE_WAVE_3_TP 120
+#define BLOCKADE_WAVE_1_TP 120
+#define BLOCKADE_WAVE_2_TP 120
+#define BLOCKADE_WAVE_3_TP 150

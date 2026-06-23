@@ -120,8 +120,7 @@
 
 /obj/item/armorkit_empty
 	name = "empty metal kit"
-	desc = "An empty metal box that is suitable for storing various pieces of hardware and other scrap. \
-	Fill with iron objects to create a repair kit."
+	desc = "An empty metal box that is suitable for storing various pieces of hardware and other scrap. </br>Stuff this with three pieces of iron scrap, obtainable by destroying iron equipment, to create a metal repair kit."
 	icon_state = "armorkit_empty"
 	icon = 'icons/roguetown/items/misc.dmi'
 	grid_width = 64
@@ -153,7 +152,7 @@
 
 /obj/item/scrap
 	name = "iron scrap"
-	desc = "Shingles and scrap, born from violence upon iron. There may yet still be a use for these pieces.. </br>Iron scrap can be crafted into metal repair kits, which can repair damaged equipment without the need for a blacksmith's hammer."
+	desc = "Shingles and scrap, born from violence upon iron. There may yet still be a use for these pieces.. </br>Iron scrap can be crafted into metal repair kits, which - when stuffed with iron scrap - can repair damaged equipment without the need for a blacksmith's hammer."
 	icon_state = "scrap"
 	icon = 'icons/roguetown/items/misc.dmi'
 	grid_width = 32

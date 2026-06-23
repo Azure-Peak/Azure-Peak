@@ -52,6 +52,8 @@
 /obj/projectile/energy/unholyblast/on_hit(target)
 	if(isliving(target))
 		var/mob/living/H = target
+		if(out_of_effective_range())
+			return
 		if(H.mob_biotypes & MOB_UNDEAD)
 			damage += 20
 	if(ishuman(target))

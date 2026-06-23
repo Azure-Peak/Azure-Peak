@@ -1,0 +1,5 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added ENDURING BLAST to Psydonic Missionaries, its definitely not pulling a rock out of your boot, shhh, nope, nope."
+  - balance: "Psydonic missionaries can conjure rocks I mean-- ENDURING BLASTS for 25 devotion every 5 seconds for combat. Trust the plan."

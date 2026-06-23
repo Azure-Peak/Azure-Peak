@@ -1,0 +1,5 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - balance: "66% of devotee regen is now basekit for miracle classes with regen."
+  - balance: "Prayer is now far more effective for regaining devotion as it scales with miracle skill properly now."

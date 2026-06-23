@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - server: "Round should announces when it is extended now in restart annoucements"

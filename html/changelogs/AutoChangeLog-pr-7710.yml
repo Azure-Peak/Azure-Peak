@@ -1,0 +1,5 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - balance: "bites only roll for accuracy against activated combat mode"
+  - bugfix: "bites are as accurate as any unarmed"

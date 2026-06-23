@@ -1,0 +1,18 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "new cinematic for lich's death, be sure to keep your phylactory safe and hidden because it makes noise now resurrecting you."
+  - balance: "lich can now sleep, instead of being hard-locked to your skills or being softlocked indefinitely in burncrit, similar to how and why dreamwalker can now"
+  - balance: "lich has gained Lacrima/Eyebiter for consistancy with Necromancers"
+  - balance: "lich's statline adjusted slightly, they also have enough willpower to not be easy prey to silver"
+  - balance: "lich has a few additional traits for flavor"
+  - balance: "lich has some misc skills either for flavor, mobility, gimmics, resurrecting dead people properly or just jumpscaring people for aura"
+  - balance: "lich uses minimal skill uptos, ensuring their skills don't become too high, they will still be varied by job + job traits"
+  - balance: "lich has all of the labor traits their skeletons have"
+  - balance: "lich now has reinforced boots instead of regular"
+  - balance: "sapper outburst has a slightly shorter windup by (1) second to account for their (5) CON points often getting them killed too quickly"
+  - bugfix: "sapper outburst now correctly makes a noise on being primed instead of only on exploding"
+  - bugfix: "lich now spawns their ritual chalk + spelltome in their satchel upon rolling/resurrecting, so they don't lose it"
+  - bugfix: "lich now keeps their true name on resurrecting instead of becoming unknown"
+  - bugfix: "lich now preserves all stats as-intended and won't end up with 10 con"
+  - bugfix: "fixed lich exploding on shell outburst instead of the actual skeleton you cast it on, LMAO."

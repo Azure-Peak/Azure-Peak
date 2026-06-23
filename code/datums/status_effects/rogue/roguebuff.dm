@@ -9,6 +9,7 @@
 	duration = 5 MINUTES
 
 /datum/status_effect/buff/drunk/on_creation(mob/living/new_owner)
+	new_owner.sate_addiction(/datum/charflaw/addiction/alcoholic)
 	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
 		return FALSE
 	. = ..()
@@ -72,7 +73,9 @@
 /datum/status_effect/buff/snackbuff/on_apply() //can't stack two snack buffs, it'll keep the highest one
 	. = ..()
 	owner.add_stress(/datum/stressevent/goodsnack)
-	if(owner.has_status_effect(/datum/status_effect/buff/greatsnackbuff))
+	if(owner.has_status_effect(/datum/status_effect/buff/mealbuff))
+		owner.remove_status_effect(/datum/status_effect/buff/mealbuff)
+	if(owner.has_status_effect(/datum/status_effect/buff/greatsnackbuff) || owner.has_status_effect(/datum/status_effect/buff/greatmealbuff))
 		owner.remove_status_effect(/datum/status_effect/buff/snackbuff)
 
 
@@ -98,8 +101,11 @@
 /datum/status_effect/buff/greatsnackbuff/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/greatsnack)
-	if(owner.has_status_effect(/datum/status_effect/buff/snackbuff)) //most of the time you technically shouldn't need to check this, but otherwise you get runtimes, so keep it
+	if(owner.has_status_effect(/datum/status_effect/buff/mealbuff) || owner.has_status_effect(/datum/status_effect/buff/snackbuff))
+		owner.remove_status_effect(/datum/status_effect/buff/mealbuff)
 		owner.remove_status_effect(/datum/status_effect/buff/snackbuff)
+	if (owner.has_status_effect(/datum/status_effect/buff/greatmealbuff))
+		owner.remove_status_effect(/datum/status_effect/buff/greatsnackbuff)
 
 /datum/status_effect/buff/mealbuff
 	id = "meal"
@@ -123,7 +129,9 @@
 /datum/status_effect/buff/mealbuff/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/goodmeal)
-	if(owner.has_status_effect(/datum/status_effect/buff/greatmealbuff))
+	if(owner.has_status_effect(/datum/status_effect/buff/snackbuff))
+		owner.remove_status_effect(/datum/status_effect/buff/snackbuff)
+	if (owner.has_status_effect(/datum/status_effect/buff/greatsnackbuff) || owner.has_status_effect(/datum/status_effect/buff/greatmealbuff))
 		owner.remove_status_effect(/datum/status_effect/buff/mealbuff)
 
 /datum/status_effect/buff/greatmealbuff
@@ -148,8 +156,10 @@
 /datum/status_effect/buff/greatmealbuff/on_apply()
 	. = ..()
 	owner.add_stress(/datum/stressevent/greatmeal)
-	if(owner.has_status_effect(/datum/status_effect/buff/mealbuff))
-		owner.remove_status_effect(/datum/status_effect/buff/mealbuff) //can't stack two meal buffs, it'll keep the highest one
+	if(owner.has_status_effect(/datum/status_effect/buff/mealbuff) || owner.has_status_effect(/datum/status_effect/buff/snackbuff) || owner.has_status_effect(/datum/status_effect/buff/greatsnackbuff))
+		owner.remove_status_effect(/datum/status_effect/buff/mealbuff)
+		owner.remove_status_effect(/datum/status_effect/buff/snackbuff)
+		owner.remove_status_effect(/datum/status_effect/buff/greatsnackbuff)
 
 /datum/status_effect/buff/sweet
 	id = "sugar"
@@ -665,11 +675,10 @@
 /datum/status_effect/buff/campfire_stamina/tick()
 	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
-	var/stamheal = healing_on_tick
-	if(!owner.cmode)
-		stamheal *= 2
-	owner.energy_add(stamheal)
 	owner.adjust_bodytemperature(8)
+	if(owner.has_status_effect(/datum/status_effect/combat_tag))
+		return
+	owner.energy_add(healing_on_tick * 2)
 
 /datum/status_effect/buff/campfire_stamina/on_remove()
 	owner.remove_filter(CAMPFIRE_BASE_FILTER)
@@ -682,7 +691,7 @@
 	duration = 6 SECONDS
 
 /datum/status_effect/buff/campfire/tick()
-	if(owner.cmode)
+	if(owner.has_status_effect(/datum/status_effect/combat_tag))
 		return
 	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
@@ -2651,3 +2660,32 @@
 	return ..()
 
 #undef INVIGORATION_FILTER
+
+
+//overclock buff for prosthetics
+/atom/movable/screen/alert/status_effect/buff/overclock
+	name = "Overclocked"
+	desc = "You are pushing your prosthetics to their limits. But you may break something..."
+	icon_state = "buff"
+
+/datum/status_effect/buff/overclock
+	id = "overclock"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/overclock
+	duration = 2 MINUTES
+	status_type = STATUS_EFFECT_REPLACE
+
+/datum/status_effect/buff/overclock/on_creation(mob/living/new_owner, prosthetic_arms, prosthetic_legs)
+	effectedstats = list()
+	if(prosthetic_arms > 0)
+		effectedstats[STATKEY_STR] = prosthetic_arms
+	if(prosthetic_legs > 0)
+		effectedstats[STATKEY_SPD] = prosthetic_legs
+	return ..()
+
+/datum/status_effect/buff/overclock/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("The interals of my prosthetics wind up faster, vibrating as they work harder for a little while."))
+
+/datum/status_effect/buff/overclock/on_remove()
+	. = ..()
+	to_chat(owner, span_notice("I feel the hum of my prosthetics slow down, they need time to recharge."))

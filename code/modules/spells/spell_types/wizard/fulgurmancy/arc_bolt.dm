@@ -68,6 +68,8 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
+			if(out_of_effective_range())
+				return
 			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
 	else if(isatom(target))
 		var/atom/A = target

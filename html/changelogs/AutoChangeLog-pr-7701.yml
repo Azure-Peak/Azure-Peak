@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Improvised repair kits now only require Novice-level skills to create."
+  - rscadd: "Descriptions for metal repair kits and iron scrap are clarified to make it easier for newcomers to understand how it works."
+  - rscadd: "Improvised metal- and fabric-repair kits can now be purchased on the Triumph menu for 5 TRI each."

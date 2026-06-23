@@ -375,6 +375,8 @@
 	. = ..()
 	if(!istype(M))
 		return
+	if(out_of_effective_range())
+		return
 	if(target)
 		to_chat(target, span_warning("Gah! Something.. got in my - eyes.."))
 		M.blur_eyes(2)

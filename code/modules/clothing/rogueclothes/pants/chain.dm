@@ -108,7 +108,7 @@
 
 /obj/item/clothing/under/roguetown/chainlegs/kilt
 	name = "steel chain kilt"
-	desc = "Interlinked metal rings that drape down all the way to the ankles."
+	desc = "An ankle-length maille skirt, warding cuts against the thighs without slowing the feet."
 	icon_state = "chainkilt"
 	item_state = "chainkilt"
 	sleevetype = "chainkilt"
@@ -135,12 +135,22 @@
 
 /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	name = "iron chain kilt"
-	desc = "Interlinked metal rings that drape down all the way to the ankles."
+	desc = "An ankle-length iron maille skirt, warding cuts against the thighs without slowing the feet."
 	icon_state = "ichainkilt"
 	item_state = "ichainkilt"
 	sleevetype = "ichainkilt"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
 	alternate_worn_layer = (SHIRT_LAYER)
+
+/obj/item/clothing/under/roguetown/chainlegs/kilt/bronze
+	name = "bronze chain kilt"
+	desc = "An ankle-length bronze maille skirt, warding cuts against the thighs without slowing the feet."
+	icon_state = "bchainkilt"
+	item_state = "bchainkilt"
+	sleevetype = "bchainkilt"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
+	alternate_worn_layer = (SHIRT_LAYER)
+	smeltresult = /obj/item/ingot/bronze
 
 /obj/item/clothing/under/roguetown/chainlegs/banneret
 	name = "knight banneret's chausses"

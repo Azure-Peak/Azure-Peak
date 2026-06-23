@@ -58,3 +58,18 @@
 	name = "Valorian Fluted Full-Plate, Steel"
 	cost = 380
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacycuirass_iron
+	name = "Valorian Cuirass, Iron"
+	cost = 50
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyhalfplate_iron
+	name = "Valorian Half-Plate, Iron"
+	cost = 90
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/iron/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyfullplate_iron
+	name = "Valorian Full-Plate, Iron"
+	cost = 250
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/iron/legacy)

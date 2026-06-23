@@ -36,35 +36,27 @@
 
 /datum/job/roguetown/knight/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
-	if(!ishuman(L))
-		return
-	var/mob/living/carbon/human/H = L
-	if(istype(H.cloak, /obj/item/clothing/cloak/tabard/retinue))
-		var/obj/item/clothing/S = H.cloak
-		var/index = findtext(H.real_name, " ")
-		if(index)
-			index = copytext(H.real_name, 1,index)
-		if(!index)
-			index = H.real_name
-		S.name = "knight's tabard ([index])"
-	var/prev_real_name = H.real_name
-	var/prev_name = H.name
-	var/honorary = "Ser"
-	if(H.titles_pref == TITLES_F)
-		honorary = "Dame"
-	// check if they already have it to avoid stacking titles
-	if(findtextEx(H.real_name, "[honorary] ") == 0)
-		H.real_name = "[honorary] [prev_real_name]"
-		H.name = "[honorary] [prev_name]"
+	if(ishuman(L))
+		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, cloak_and_title_setup)), 50)
 
-	for(var/X in peopleknowme)
-		for(var/datum/mind/MF in get_minds(X))
-			if(MF.known_people)
-				MF.known_people -= prev_real_name
-				H.mind.person_knows_me(MF)
+		var/mob/living/carbon/human/H = L
+		var/prev_real_name = H.real_name
+		var/prev_name = H.name
+		var/honorary = "Ser"
+		if(H.titles_pref == TITLES_F)
+			honorary = "Dame"
+		// check if they already have it to avoid stacking titles
+		if(findtextEx(H.real_name, "[honorary] ") == 0)
+			H.real_name = "[honorary] [prev_real_name]"
+			H.name = "[honorary] [prev_name]"
+
+		for(var/X in peopleknowme)
+			for(var/datum/mind/MF in get_minds(X))
+				if(MF.known_people)
+					MF.known_people -= prev_real_name
+					H.mind.person_knows_me(MF)
 
 /datum/outfit/job/roguetown/knight
-	cloak = /obj/item/clothing/cloak/tabard/retinue
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	wrists = /obj/item/clothing/wrists/roguetown/bracers

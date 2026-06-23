@@ -1,0 +1,4 @@
+author: "hazarawn"
+delete-after: True
+changes:
+  - bugfix: "great flail uses flail skill instead of polearms"
