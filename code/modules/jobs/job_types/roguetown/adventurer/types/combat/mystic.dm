@@ -7,7 +7,7 @@
 	title = "Mystic and Sage"
 	faction = "Station"
 	virtue_restrictions = list(/datum/virtue/combat/combat_virtue, /datum/virtue/combat/crossbowman, /datum/virtue/combat/bowman)
-	job_subclasses = list(/datum/advclass/mystic/mystic, /datum/advclass/mystic/resilientsoul)
+	job_subclasses = list(/datum/advclass/mystic/, /datum/advclass/mystic/resilientsoul)
 
 /datum/advclass/mystic/
 	name = "Mystic"
