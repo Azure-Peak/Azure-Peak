@@ -183,8 +183,8 @@
 	return ..()
 
 /obj/effect/temp_visual/dream_shard/vampiric
-	name = "vampiric armor shard"
-	desc = "A piece of someone's armor, twisted to invigorate someone else instead."
+	name = "twisted armor shard"
+	desc = "A piece of someone's armor, twisted to invigorate someone else instead. Looks fragile and easily destructible as a result."
 	icon_state = "graggshard"
 	/// Weak reference to the player mob who spawned this shard
 	var/datum/weakref/creator_ref
