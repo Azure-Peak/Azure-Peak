@@ -281,23 +281,32 @@
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, TRUE)
 
-/obj/item/paper/clerical_info
+//Since acolytes are the mainstray of clerics, we'll keep the itemfile here.
+//Once this becomes more solid this'll be moved to its own file, likely with the quicksilver slip too in a small refactor.
+
+/obj/item/paper/clerical_info //TODO, Psydonic varient. Won't do ascendant, assume they infiltrated the golden/silver orders or something.
 	name = "Clerical Missive"
 	desc = "A letter from some holy Order. It smells of alchemical herbs and jackberries."
 	info = {"
 		<font face=\"Segoe Script\" color=#00000>Greetings to ye, distant missionaries in Azuria<br><br>This missive serves to inform of a the basics of your role under 
 		Pestra's service in the eyes of the Ten.<br><br>
 		You firstly will want to make sure that you sew up all of the patient's injuries, should you have an inspection hammer or your patronage hath blessed thou with 
-		Pestra's hallowed rite of inspection, you will want to check the patient's injuries, ensure that all of these are tended that all of their wounds are sewed tight, 
-		apply a vigorous dressing of sultures and miracles to ensure that all fractures and bleeding of the patient are dealt with, in the case they only stirr 
-		they are lykely a follower of Psydon, in which case proceede with regular surgery intervention.<br><br>
-		Should you have a surgery kit, proceed with a scapel, then apply a retractor and forecepts, you will then want to apply either another set of forecepts or a needle 
-		and begin to attend the applicable injuries at hand, during this time ensure no miracles are cast upon the patient, once fully tended you will want to cast anastasis.<br><br>
-		Cast it upon yourself to remynd yourself of the ritual at cost, your patron under the eyes of the Divine will be most benovolent, proof that the Ten undivided are O' so
+		Pestra's hallowed rite of inspection, you will want to check the patient's injuries. <br><br>
+		Remember, if the injuries are few and far between to grab their wounds to apply pressure, this will stem the flow of lyfesblood from their veins and in some cases assist with its clotting. <br><br>
+		Ensure that all of these are tended that all of their wounds are sewed tight, apply a vigorous dressing of sultures and miracles to ensure that all fractures and bleeding of the patient are dealt with. <br><br>
+		In the case they only stirr for a moment they are lykely a follower of Psydon, in which case proceede with regular surgery intervention.<br><br>
+		If you lack such a kit or medicine training, refer them to another more talented individual or should the case be outdoors 
+		in the wilderness where such is not safe, apply a bottle of greater or lesser lyfesblood, also known as health potions, or "red" as commonly nicknamed throughout Psydonia. <br><br>
+		Should you have a surgery kit and the training, proceed with a scapel, then apply a retractor and forecepts, you will then want to apply either another set of forecepts or a needle 
+		and begin to attend the applicable injuries at hand, during this time ensure no miracles are cast upon the patient, if the patient has fractures however, you will want to apply a bone-setter as well to set the bones. <br><br>
+		This may take a bit to properly set once the surgery is done, so make sure to try to set every limb, giving the patient tyme to recover once fully tended. <br><br> <br><br>
+		Now should you be capable of it, or another you will want to cast anastasis upon the fallen.<br><br>
+		Should you forget, remember to cast it upon yourself so the divine may remynd you of the ritual at cost, your patron under the eyes of the Divine will be most benovolent, proof that the Ten undivided are O' so
 		hallowed and humbled by such a duty as of yours, if however you worship the Undermaiden and know the rituals, proceed with a ritual of Necra and a toll.<br><br>
 		Ensure your patient is fully stable and alwaes adminster water before reviving, once your patient is revived and given a health dosage of water they should recover swiftly.<br><br>
 		If all of these steps are done right and they aren't experiencing sudden poisoning from lack of a liver, then they are ready to set loose once more, ensure that they get some rest 
-		the Inn or prayer upon the pews is oft a good place of resting to ensure that they do not blunder back into the cause of their demise once more.
+		the Inn or prayer upon the pews is oft a good place of resting to ensure that they do not blunder back into the cause of their demise once more. <br><br> <br><br>
+		May the Gods watch over you and your flock.
 		</font>
 		"}
 

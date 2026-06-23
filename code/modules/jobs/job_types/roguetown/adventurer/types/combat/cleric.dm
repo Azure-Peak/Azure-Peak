@@ -59,6 +59,7 @@
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/recipe_book/survival = 1,
+		/obj/item/paper/clerical_info = 1, //Still has useful information.
 		/obj/item/reagent_containers/food/snacks/rogue/meat/salami = 1,
 		/obj/item/reagent_containers/food/snacks/rogue/bread = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/beer = 1, //Plays into the classic stereotype of beer-loving monks and well-stocked pilgrims.
@@ -246,6 +247,7 @@
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/metal = 1, 
 		/obj/item/recipe_book/survival = 1,
+		/obj/item/paper/clerical_info = 1, //Still has useful information.
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1, //Needed to keep people from bleeding out dead. YOU ARE A CLERIC STILL.
 		)
@@ -466,6 +468,7 @@
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/recipe_book/survival = 1,
+		/obj/item/paper/clerical_info = 1, //Still has useful information.
 		/obj/item/natural/bundle/cloth/bandage/full = 1, //Needed to keep people from bleeding out dead. YOU ARE A CLERIC STILL.
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
