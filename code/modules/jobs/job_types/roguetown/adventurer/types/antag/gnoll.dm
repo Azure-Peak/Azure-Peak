@@ -78,6 +78,7 @@
 		H.regenerate_icons()
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/howl/gnoll)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/gnoll/consume)
 		H.AddComponent(/datum/component/gnoll_combat_tracker)
 
 		var/obj/effect/proc_holder/spell/invoked/gnoll_sniff/F = new()
@@ -163,7 +164,7 @@
 
 /mob/living/carbon/human/proc/gnoll_toggle_pelt_repair()
 	set name = "Toggle Pelt Repair From Shards"
-	set category = "Gnoll"
+	set category = "RoleUnique.Gnoll"
 	set desc = "Toggle whether vampiric shard consumption repairs your skin armor."
 
 	var/datum/component/vampiric_striker/vamp_comp = GetComponent(/datum/component/vampiric_striker)
