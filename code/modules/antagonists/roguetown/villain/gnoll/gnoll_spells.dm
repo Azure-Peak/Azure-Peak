@@ -332,6 +332,10 @@
 	cast_range = SPELL_RANGE_ADJACENT
 	// I like showing icons ok?
 	charge_time = 0.1 SECONDS
+	charge_required = TRUE
+	charge_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	spell_color = "#6d0000"
 
 	primary_resource_cost = NONE
 
@@ -350,7 +354,11 @@
 
 	if(isliving(cast_on) && !(cast_on == owner))
 		var/mob/living/corpse = cast_on
-		if(corpse.stat == DEAD && !corpse.ckey)
+		var/was_player = null
+		if(ishuman(corpse))
+			var/mob/living/carbon/human/C = cast_on
+			was_player = C.mind || C.last_mind || C.ckey
+		if(corpse.stat == DEAD && !was_player)
 			var/is_animal = istype(corpse, /mob/living/simple_animal)
 			if(is_animal)
 				var/mob/living/simple_animal/animal = corpse
@@ -391,13 +399,13 @@
 		if(QDELETED(meat_to_eat) || meat_to_eat.loc != owner && meat_to_eat != cast_on)
 			to_chat(owner, span_warning("You stop consuming - the meat is gone!"))
 			return FALSE
-		if(!do_after(owner, 1.5 SECONDS, owner))
+		if(!do_after(owner, 2 SECONDS, owner))
 			to_chat(owner, span_warning("You stop consuming the meat."))
 			return FALSE
 		consume_counter++
 
 		heal_gnoll(H)
-		restore_armor_integrity(H, 4)
+		restore_armor_integrity(H, 3)
 		var/obj/effect/temp_visual/heal/heal_effect = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 		heal_effect.color = "#FF0000"
 
@@ -411,7 +419,7 @@
 	consume_counter = 0
 	return TRUE
 
-/datum/action/cooldown/spell/gnoll/consume/proc/heal_gnoll(mob/living/carbon/human/H, heal_amt = 8)
+/datum/action/cooldown/spell/gnoll/consume/proc/heal_gnoll(mob/living/carbon/human/H, heal_amt = 7)
 	if(!H)
 		return
 
