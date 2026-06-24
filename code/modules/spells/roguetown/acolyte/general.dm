@@ -290,3 +290,6 @@
 			to_chat(owner, span_warning("The limb is free of wounds."))
 			return FALSE
 	return FALSE
+
+#undef BASE_HEALING_PER_TICK
+#undef MAX_BONUS_HEAL
