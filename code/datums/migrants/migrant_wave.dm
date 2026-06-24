@@ -126,6 +126,4 @@
 	required_roles = list(
 		/datum/migrant_role/gnoll = 1,
 	)
-	optional_roles = list(
-		/datum/migrant_role/gnoll = 3,
-	)
+	optional_roles = list()
