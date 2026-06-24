@@ -30,8 +30,8 @@
 /datum/outfit/job/roguetown/gnoll_impure
 	var/vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/impure
 	var/max_fury_stacks = 60
-	var/shard_threshold = 40
-	var/shard_repair_value = 16
+	var/shard_threshold = 50
+	var/shard_repair_value = 20
 
 /datum/outfit/job/roguetown/gnoll_impure/pre_equip(mob/living/carbon/human/H)
 	if(H.mind && !H.mind.has_antag_datum(/datum/antagonist/gnoll))

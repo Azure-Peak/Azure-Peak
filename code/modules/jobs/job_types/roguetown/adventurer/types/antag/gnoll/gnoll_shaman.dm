@@ -35,8 +35,8 @@
 /datum/outfit/job/roguetown/gnoll/shaman
 	vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/shaman
 	max_fury_stacks = 79
-	shard_threshold = 36
-	shard_repair_value = 16
+	shard_threshold = 45
+	shard_repair_value = 20
 
 /datum/outfit/job/roguetown/gnoll/shaman/pre_equip(mob/living/carbon/human/H)
 	if(H.mind)

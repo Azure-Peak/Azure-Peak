@@ -4,9 +4,9 @@
 	/// How much armor damage we have stripped from targets
 	var/accumulated_armor_damage = 0
 	/// How much armor damage we must deal to drop a shard
-	var/shard_threshold = 40
+	var/shard_threshold = 50
 	/// The value of the spawned shard
-	var/shard_repair_value = 16
+	var/shard_repair_value = 20
 	/// Type of shard to spawn
 	var/obj/effect/temp_visual/dream_shard/shard_type = /obj/effect/temp_visual/dream_shard/vampiric
 	/// The specific path type of armor we want to check for and repair
