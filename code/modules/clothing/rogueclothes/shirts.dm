@@ -844,6 +844,7 @@
 	item_state = "maiddressfancy"
 	detail_tag = "_detail"
 	detail_color = CLOTHING_DARK_GREY
+	salvage_amount = 1
 
 /obj/item/clothing/suit/roguetown/shirt/dress/maidservant
 	name = "maid gown"

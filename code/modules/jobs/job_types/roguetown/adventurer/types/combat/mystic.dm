@@ -60,7 +60,7 @@
 
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
-			var/list/heal = list("Greater Miracle (Miracle)", "Fortifying Vapors (Medical)")
+			var/list/heal = list("Greater Miracle (Divine)", "Fortifying Vapors (Secular)")
 			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
 			switch(highheal_options)
 				if("Greater Miracle (Divine)")

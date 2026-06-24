@@ -310,6 +310,13 @@
 	unenchantable = TRUE
 	no_loot_taint = TRUE
 
+/obj/item/rogueweapon/mace/woodclub/militia // it literally just has an aura, and demolish intent
+	name = "bogbark club"
+	desc = "A primitive cudgel carved of a stout piece of treefall, from the deepest parts of the Terrorbog. An unmistakable aura of power surrounds it. This thing looks dangerously strong."
+	aura_color = "#00ff00"
+	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/demolish)
+	w_class = WEIGHT_CLASS_NORMAL // it's just a stick, can put it in your backpack
+
 /obj/item/rogueweapon/mace/woodclub
 	force = 15
 	force_wielded = 18
@@ -1026,47 +1033,49 @@
 		added_def = 2,\
 	)
 
-/obj/item/rogueweapon/mace/maul/grand/psy/attack_obj(obj/O, mob/living/user)
+/obj/item/rogueweapon/mace/attack_turf(turf/T, mob/living/user, multiplier)
 	. = ..()
-	if(!.)
-		return
-	if(!istype(user?.used_intent, /datum/intent/mace/demolish))
-		return
-	if(QDELETED(O))
-		return
-	if(isnull(O.obj_integrity))
-		return
-	if(O.obj_integrity > 900)
-		to_chat(user, span_warning("Too hard!"))
-		return
-	var/bonus_damage = round(O.obj_integrity * 0.15)
-	if(prob(50))
-		bonus_damage += rand(1,10)
-	else
-		bonus_damage -= rand(1,10)
-	O.take_damage(bonus_damage, BRUTE, src.d_type, FALSE)
-	to_chat(user, span_warning("Your blow expertly crushes [O]! (+[bonus_damage])"))
+	if(. && istype(user?.used_intent, /datum/intent/mace/demolish))
+		demolish_turf(T, user)
 
-/obj/item/rogueweapon/mace/maul/grand/psy/attack_turf(turf/T, mob/living/user, multiplier)
+/obj/item/rogueweapon/mace/attack_obj(obj/O, mob/living/user)
 	. = ..()
-	if(!.)
-		return
-	if(!istype(user?.used_intent, /datum/intent/mace/demolish))
-		return
+	if(. && istype(user?.used_intent, /datum/intent/mace/demolish))
+		demolish_obj(O, user)
+
+/obj/item/rogueweapon/mace/proc/demolish_turf(turf/T, mob/living/user)
 	if(QDELETED(T))
-		return
+		return FALSE
+
 	if(isnull(T.max_integrity))
-		return
+		return FALSE
+
 	if(T.max_integrity > 3000)
-		to_chat(user, span_warning("Too hard!"))
-		return
+		to_chat(user, "Too hard, sire!")
+		return FALSE
+
 	var/bonus_damage = round(T.max_integrity * 0.15)
-	if(prob(50))
-		bonus_damage += rand(1,20)
-	else
-		bonus_damage -= rand(1,20)
-	T.take_damage(bonus_damage, BRUTE, src.d_type, 1)
+
+	T.take_damage(bonus_damage, BRUTE, d_type, 1)
 	to_chat(user, span_warning("Your blow expertly caves into [T]! (+[bonus_damage])"))
+	return TRUE
+
+/obj/item/rogueweapon/mace/proc/demolish_obj(obj/O, mob/living/user)
+	if(QDELETED(O))
+		return FALSE
+
+	if(isnull(O.max_integrity))
+		return FALSE
+
+	if(O.max_integrity > 3000)
+		to_chat(user, "Too hard, sire!")
+		return FALSE
+
+	var/bonus_damage = round(O.max_integrity * 0.15)
+
+	O.take_damage(bonus_damage, BRUTE, d_type, 1)
+	to_chat(user, span_warning("Your blow expertly caves into [O]! (+[bonus_damage])"))
+	return TRUE
 
 /datum/intent/mace/sweep
 	name = "sweeping strike"

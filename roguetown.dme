@@ -2082,6 +2082,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\seamstress.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\thug.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\townelder.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\towner_utils.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\witch.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\woodworker.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\rare\Lchef.dm"

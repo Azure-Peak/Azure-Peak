@@ -198,7 +198,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 		ignored_mobs = list(ignored_mobs)
 	if(!isnum(vision_distance))
 		vision_distance = DEFAULT_MESSAGE_RANGE
-	var/list/hearers = get_hearers_in_view(vision_distance, src) //caches the hearers and then removes ignored mobs.
+	var/list/hearers = hearers(vision_distance, src) //caches the hearers and then removes ignored mobs.
 	hearers -= ignored_mobs
 	if(self_message)
 		hearers -= src
@@ -234,7 +234,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * hearing_distance (optional) is the range, how many tiles away the message can be heard.
  */
 /atom/proc/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, runechat_message = null, log_seen = NONE, log_seen_msg = null, custom_spans = list("emote"), used_language = /datum/language/common)
-	var/list/hearers = get_hearers_in_view(hearing_distance, src)
+	var/list/hearers = hearers(hearing_distance, src)
 	if(self_message)
 		hearers -= src
 	for(var/mob/M in hearers)
@@ -254,7 +254,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 
 /atom/proc/loud_message(message, hearing_distance = DEFAULT_MESSAGE_RANGE, directional = TRUE)
-	var/list/listening = get_hearers_in_view(hearing_distance, src)
+	var/list/listening = hearers(hearing_distance, src)
 	for(var/_M in GLOB.player_list)
 		var/mob/M = _M
 		if(!M.client) //client is so that ghosts don't have to listen to mice

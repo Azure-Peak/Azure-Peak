@@ -1461,6 +1461,7 @@
 
 	to_chat(src, span_danger("I try to remove [who]'s [what.name]..."))
 	what.add_fingerprint(src)
+
 	var/strip_delayed = what.strip_delay
 	if(enhanced_strip)
 		strip_delayed = 0.1 SECONDS

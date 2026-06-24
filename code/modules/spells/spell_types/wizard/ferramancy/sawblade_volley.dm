@@ -68,6 +68,14 @@
 	var/hits = 0
 	var/max_hits = 3
 
+/obj/projectile/magic/sawblade/prehit(atom/target)
+	if(ismob(target))
+		var/mob/living/M = target
+		if(M.mob_timers[MT_SAWBLADE] && world.time < M.mob_timers[MT_SAWBLADE] + SAWBLADE_HIT_IMMUNITY)
+			return FALSE
+		M.mob_timers[MT_SAWBLADE] = world.time
+	return ..()
+
 /obj/projectile/magic/sawblade/on_hit(target)
 	if(ismob(target))
 		var/mob/living/M = target
@@ -76,11 +84,6 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		// Same-volley duplicate hit immunity
-		if(M.mob_timers[MT_SAWBLADE] && world.time < M.mob_timers[MT_SAWBLADE] + SAWBLADE_HIT_IMMUNITY)
-			qdel(src)
-			return BULLET_ACT_BLOCK
-		M.mob_timers[MT_SAWBLADE] = world.time
 		playsound(get_turf(target), hitsound, 80, TRUE)
 	. = ..()
 	if(!ismob(target))

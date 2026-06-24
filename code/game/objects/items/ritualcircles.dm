@@ -711,7 +711,7 @@
 			if(do_after(user, 50))
 				user.say("Deep Father, hear my call!")
 				if(do_after(user, 50))
-					user.say("I beg thee! A deluge upon your annointed!")
+					user.say("I beg thee! A deluge upon your anointed!")
 					if(do_after(user, 50))
 						icon_state = "abyssor_active"
 						user.say("Let your waters swallow the land!")
