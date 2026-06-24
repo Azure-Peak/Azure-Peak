@@ -151,6 +151,7 @@
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			helmets += list("Decorated Bucket Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gold/cleric,) // This is so stupid. - Just a little, but it does look cool!
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios, SLOT_RING, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 3, TRUE) //jman but no trait bcuz god of alchemy
 			H.change_stat(STATKEY_WIL, 2)
 			H.change_stat(STATKEY_STR, 1)
 		if(/datum/patron/inhumen/baotha)
@@ -211,7 +212,7 @@
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, 2, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 2, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 3, TRUE) //jman but no trait bcuz goddess of medicine
 		if(/datum/patron/divine/eora)
 			H.change_stat(STATKEY_INT, 2)
 			H.change_stat(STATKEY_PER, 2)
@@ -225,9 +226,7 @@
 			H.change_stat(STATKEY_PER, 2)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/noc, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/crusader/noc, SLOT_CLOAK, TRUE)
-			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
-			H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 		if(/datum/patron/divine/ravox)
@@ -426,6 +425,7 @@
 		if(/datum/patron/inhumen/matthios)
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios, SLOT_RING, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 3, TRUE) //jman but no trait bcuz god of alchemy
 		if(/datum/patron/inhumen/baotha)
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha, SLOT_RING, TRUE)
@@ -457,9 +457,8 @@
 		if(/datum/patron/divine/pestra)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/pestra, SLOT_RING, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, 2, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 2, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 3, TRUE) //jman but no trait bcuz goddess of medicine
 		if(/datum/patron/divine/eora)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/eora, SLOT_RING, TRUE)
 			ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)

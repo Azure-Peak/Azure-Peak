@@ -250,7 +250,6 @@
 			H.change_stat(STATKEY_CON, -1)
 
 			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 
 			if(H.mind)
 				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 4))
@@ -321,6 +320,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/crafting, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 			H.change_stat(STATKEY_INT, 2)
 			H.change_stat(STATKEY_LCK, 1)
@@ -329,7 +329,6 @@
 
 			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_MEDICINE_EXPERT, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 
 			if(H.mind)
 				var/spells = list("Avant Origin (Acceleration)", "Garde Origin (Divergence)")

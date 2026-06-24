@@ -31,7 +31,6 @@
 	From your desk in the SCOM atelier, you decide which words will thunder across the realm and which will die in the throats of petitioners who didn't pay enough ratfeed. \
 	In your upstairs studio, you host debates, recite gossip, and spin tales that will ripple through every corner of town. All ears are turned toward you - so speak wisely."
 	outfit = /datum/outfit/job/roguetown/loudmouth/basic
-	traits_applied = list(TRAIT_ALCHEMY_EXPERT)
 	subclass_languages = list(
 		/datum/language/elvish,
 		/datum/language/dwarvish,
@@ -58,7 +57,7 @@
 	age_mod = /datum/class_age_mod/archivist
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE, //idk why you have this but sure, drink some green so you can keep yapping you podcaster
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,

@@ -2,7 +2,7 @@
 	name = "Gnoll Shaman"
 	tutorial = "Leader in faith, often the main source of wisdom within a gnoll pack. Few are closer to Graggar himself as you are. You may chose to waylay the hunt, in order to nurture fallen oppponents back to health, so they may grow stronger, providing a true challenge in a future fight."
 	outfit = /datum/outfit/job/roguetown/gnoll/shaman
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT, TRAIT_ALCHEMY_EXPERT) // Surely this won't be broken.
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT) // Surely this won't be broken.
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_PER = 2,
@@ -25,7 +25,7 @@
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT,
 		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
 	)

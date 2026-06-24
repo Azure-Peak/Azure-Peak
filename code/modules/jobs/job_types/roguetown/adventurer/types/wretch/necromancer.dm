@@ -7,7 +7,7 @@
 	cmode_music = 'sound/music/combat_heretic.ogg'
 	class_select_category = CLASS_CAT_MAGE
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_ZOMBIE_IMMUNE, TRAIT_NOSTINK, TRAIT_GRAVEROBBER, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_MEDICINE_EXPERT)
+	traits_applied = list(TRAIT_ZOMBIE_IMMUNE, TRAIT_NOSTINK, TRAIT_GRAVEROBBER, TRAIT_ARCYNE, TRAIT_MEDICINE_EXPERT)
 	maximum_possible_slots = 2 // Skeles no longer count vs antag cap, however these are pretty strong mage roles with some inzane potental that can make them a fucking menace to deal with if they work for it. A la-wretch heretics.
 	//Slightly worse spread than rogue mage, trades off with a lot of summoning potental + pretty fucking decent armor choice that's more obvious long-term + player skeles with numbers + traits + medicine skill.
 	subclass_stats = list(

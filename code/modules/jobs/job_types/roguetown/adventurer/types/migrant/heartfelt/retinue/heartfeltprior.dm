@@ -13,7 +13,7 @@
 
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
-	traits_applied = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_HEARTFELT)
 
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -32,7 +32,7 @@
 	/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
-	/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+	/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 	/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
 	/datum/skill/magic/holy = SKILL_LEVEL_MASTER,
 	)

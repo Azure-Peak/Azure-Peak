@@ -1,4 +1,4 @@
-/datum/advclass/wretch/pyromaniac
+0/datum/advclass/wretch/pyromaniac
 	name = "Pyromaniac"
 	tutorial = "A notorious arsonist with a penchant for fire, you wield your own personal vendetta against the chaotic forces within Azuria. Bring mayhem and destruction with flame and misfortune! Just... try not to hit yourself with your explosives - you aren't fireproof, after all."
 	allowed_sexes = list(MALE, FEMALE)
@@ -7,7 +7,7 @@
 	cmode_music = 'sound/music/Iconoclast.ogg'
 	class_select_category = CLASS_CAT_ROGUE
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_EXPLOSIVE_SUPPLY)
 	subclass_stats = list(
 		STATKEY_WIL = 3,
 		STATKEY_CON = 3,

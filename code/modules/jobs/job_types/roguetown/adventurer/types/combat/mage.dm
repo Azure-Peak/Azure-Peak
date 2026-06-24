@@ -8,7 +8,7 @@
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	townie_contract_gate_exempt = TRUE
 	townie_contract_gate_hide_in_list = TRUE
-	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 2,
@@ -24,7 +24,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 	)

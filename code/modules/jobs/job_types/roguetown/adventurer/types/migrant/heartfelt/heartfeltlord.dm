@@ -101,7 +101,7 @@
 	outfit = /datum/outfit/job/heartfelt/lord/archmage
 	pickprob = 100
 	class_select_category = CLASS_CAT_HFT_COURT
-	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE, TRAIT_INTELLECTUAL, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE, TRAIT_INTELLECTUAL, TRAIT_HEARTFELT)
 
 	subclass_stashed_items = list("Heartfelt Caparison" = /obj/item/caparison/heartfelt)
 	subclass_virtues = list(
@@ -118,7 +118,7 @@
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,

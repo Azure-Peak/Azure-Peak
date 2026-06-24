@@ -38,7 +38,6 @@
 	The forest is the most comfortable place for you, toiling alongside soilsons and soilbrides...although sometimes what lies beyond the gates fills your soul with a feral yearning."
 	outfit = /datum/outfit/job/roguetown/druid/basic
 	category_tags = list(CTAG_DRUID)
-	traits_applied = list(TRAIT_ALCHEMY_EXPERT)
 	subclass_languages = list(/datum/language/beast)
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -54,7 +53,7 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/labor/farming = SKILL_LEVEL_JOURNEYMAN,

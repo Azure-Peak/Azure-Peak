@@ -4,7 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	
 	outfit = /datum/outfit/job/roguetown/vagabond/mage
-	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_ARCYNE)
 	category_tags = list(CTAG_VAGABOND)
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -16,6 +16,7 @@
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE
 	)
 	extra_context = "Contains randomized skills and stats."
 
@@ -44,7 +45,6 @@
 
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
-		H.adjust_skillrank(/datum/skill/craft/alchemy, rand(1,4), TRUE)
 		H.adjust_skillrank(/datum/skill/magic/arcane, rand(1,4), TRUE)
 		H.STAINT = rand(8, 20)
 		H.STACON = rand(5, 10)
