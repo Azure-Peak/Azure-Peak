@@ -365,7 +365,6 @@
 /datum/admins/proc/adjustpq(mob/living/M in GLOB.mob_list)
 	set name = "Adjust PQ of Anything"
 	set desc = "Adjust a player's PQ"
-	set category = "Game Master"
 	set hidden = 1
 
 	if(!check_rights())
@@ -567,7 +566,6 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Entering", "[GLOB.enter_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleAI()
-	set category = "Server"
 	set desc="People can't be AI"
 	set name="Toggle AI"
 	set hidden = 1
@@ -582,7 +580,6 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle AI", "[!alai ? "Disabled" : "Enabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleaban()
-	set category = "Server"
 	set desc="Respawn basically"
 	set name="Toggle Respawn"
 	set hidden = 1
@@ -732,7 +729,6 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Tinted Welding Helmets", "[GLOB.tinted_weldhelh ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleguests()
-	set category = "Server"
 	set desc="Guests can't enter"
 	set name="Toggle guests"
 	set hidden = 1

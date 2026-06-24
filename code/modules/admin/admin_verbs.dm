@@ -525,7 +525,6 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 /client/proc/stresstest_chat()
 	set name = "Stress Chat"
-	set category = "Debug"
 	set hidden = TRUE
 
 	if(!holder)
@@ -578,7 +577,6 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 /client/proc/secrets()
 	set name = "Secrets"
-	set category = "Admin.Admin"
 	set hidden = 1
 	if (holder)
 		holder.Secrets()
@@ -862,7 +860,6 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 /client/proc/toggle_AI_interact()
 	set name = "Toggle Admin AI Interact"
-	set category = "Admin.Admin"
 	set desc = ""
 	set hidden = 1
 
@@ -883,7 +880,6 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	to_chat(src, span_interface("Lobby OOC visibility is now [show_lobby_ooc ? "ON" : "OFF"]."))
 
 /client/proc/end_party()
-	set category = "Game Master"
 	set name = "EndPlaytest"
 	set hidden = 1
 	if(!holder)

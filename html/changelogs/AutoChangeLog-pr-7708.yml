@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - balance: "Holy steel recipes now require an amulet of the item's patron to complete, in order to reduce the amount of cases where Templar-specific items could be made by non-Templaric forces."

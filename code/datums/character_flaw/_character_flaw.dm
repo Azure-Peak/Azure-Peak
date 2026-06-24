@@ -36,6 +36,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/mind_broken::name = /datum/charflaw/mind_broken,
 	/datum/charflaw/noflaw::name = /datum/charflaw/noflaw,
 	/datum/charflaw/leprosy::name = /datum/charflaw/leprosy,
+	/datum/charflaw/wanted::name = /datum/charflaw/wanted,
 	/datum/charflaw/randflaw::name = /datum/charflaw/randflaw
 	))
 
@@ -194,6 +195,22 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/badsight/proc/apply_reading_skill(mob/living/carbon/human/H)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 
+/datum/charflaw/proc/get_nearby_humans(mob/user, range)
+	. = list()
+	for(var/mob/M in get_hearers_in_view(range, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
+		if(M == user)
+			continue
+		if(M.stat)
+			continue
+		var/mob/living/carbon/human/H = M
+		if(istype(H) && H.dna.species)
+			. += H
+		var/obj/shapeshift_holder/S = locate(/obj/shapeshift_holder) in M
+		if(S && ishuman(S.stored))
+			H = S.stored
+			if(H != user && H.dna.species)
+				. += H
+
 /datum/charflaw/paranoid
 	name = "Paranoid"
 	desc = "I'm even more anxious than most people. I'm extra paranoid of other races and the sight of blood."
@@ -206,11 +223,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		return
 	last_check = world.time
 	var/cnt = 0
-	for(var/mob/living/carbon/human/L in hearers(7, user))
-		if(L == src)
-			continue
-		if(L.stat)
-			continue
+	for(var/mob/living/carbon/human/L in get_nearby_humans(user, 7))
 		if(L.dna?.species)
 			if(ishuman(user))
 				var/mob/living/carbon/human/H = user
@@ -241,16 +254,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(is_active)
 		if(world.time > next_check)
 			next_check = world.time + interval
-			var/cnt = 0
-			for(var/mob/living/carbon/human/L in get_hearers_in_view(6, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
-				if(L == user)
-					continue
-				if(L.stat)
-					continue
-				if(L.dna.species)
-					cnt++
-				if(cnt > 3)
-					break
+			var/cnt = length(get_nearby_humans(user, 6))
 			var/mob/living/carbon/P = user
 			if(cnt > 3)
 				P.add_stress(/datum/stressevent/crowd)
@@ -279,18 +283,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(is_active && user.stat == CONSCIOUS)
 		if(world.time > next_check)
 			next_check = world.time + interval
-			var/cnt = 0
-			for(var/mob/living/carbon/human/L in get_hearers_in_view(7, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
-				if(L == user)
-					continue
-				if(L.stat)
-					continue
-				if(L.dna.species)
-					cnt++
-				if(cnt > 3)
-					break
 			var/mob/living/carbon/P = user
-			if(cnt <= 0)
+			if(length(get_nearby_humans(user, 7)) <= 0)
 				handle_stacks(P)
 			else
 				reset_stacks(P)
@@ -335,18 +329,22 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			next_check = world.time + interval
 			var/cnt = 0
 			var/distfound = FALSE
-			for(var/mob/living/carbon/human/L in get_hearers_in_view(2, user))
-				if(L == user)
-					continue
-				if(L.stat == DEAD)
-					continue
-				var/dist = get_dist(L, user)
-				if(dist <= 1)
-					distfound = TRUE
-					user.remove_stress(/datum/stressevent/nopeople)
-					break
-				if(L.dna.species)
+			for(var/mob/living/carbon/human/L in get_nearby_humans(user, 7)) // the distance check won't work if you're shapeshifted without some extra logic
+				var/obj/shapeshift_holder/S = locate(/obj/shapeshift_holder) in L
+				if(S && S.shape && S.stored)
+					if(get_dist(S.shape, user) <= 1)
+						distfound = TRUE
+						user.remove_stress(/datum/stressevent/nopeople)
+						break
 					cnt++
+				else
+					var/dist = get_dist(L, user)
+					if(dist <= 1)
+						distfound = TRUE
+						user.remove_stress(/datum/stressevent/nopeople)
+						break
+					if(L.dna.species)
+						cnt++
 				if(cnt >= 2)
 					user.remove_stress(/datum/stressevent/nopeople)
 					break
@@ -862,6 +860,29 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			active_since = world.time
 	if(is_active && user && !QDELETED(user))
 		addtimer(CALLBACK(src, PROC_REF(check_for_candidates), user), 5 SECONDS)
+
+/datum/charflaw/wanted
+	name = "Wanted (+2 TRI)"
+	desc = "You're a known criminal; your name can be found on the EXCIDIUM. Your crime may have been a misdeed worthy of a fine, or a great offense against the powers at play. Only Adventurers, Pilgrims (Migrants), Traders, Vagabonds and Lunatics may pick this vice and it requires another."
+	needs_extra_vice = TRUE
+
+/datum/charflaw/wanted/on_mob_creation(mob/user)
+	. = ..()
+	user.adjust_triumphs(2)
+	ADD_TRAIT(user, TRAIT_OUTLAW, "[type]")
+
+/datum/charflaw/wanted/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	addtimer(CALLBACK(src, PROC_REF(apply_bounty_when_ready), H), 5 SECONDS)
+
+/datum/charflaw/wanted/proc/apply_bounty_when_ready(mob/living/carbon/human/H)
+	if(H.advsetup)
+		addtimer(CALLBACK(src, PROC_REF(apply_bounty_when_ready), H), 5 SECONDS)
+		return
+	wretch_select_bounty(H)
 
 
 

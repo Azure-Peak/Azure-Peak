@@ -81,7 +81,7 @@ The priests will whisper that you follow the Sun-Thief. Frown, shake your head, 
 	backr = /obj/item/storage/backpack/rogue/satchel
 	if(should_wear_masc_clothes(H))
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-		H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
+		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
 	else if(should_wear_femme_clothes(H))
 		shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	if(H.mind)

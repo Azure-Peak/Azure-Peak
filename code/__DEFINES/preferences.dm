@@ -180,6 +180,14 @@ GLOBAL_LIST_INIT(voice_packs_list, list(
 	VOICE_PACK_FEM_HAUGHTY = /datum/voicepack/female/haughty,
 ))
 
+GLOBAL_LIST_INIT(voice_packs, build_voice_packs())
+
+/proc/build_voice_packs()
+	. = list()
+
+	for(var/path in typesof(/datum/voicepack))
+		.[path] = new path()
+
 #define ATTACK_BLIP_PREF_DEFAULT 50
 #define ATTACK_BLIP_PREF_RARELY 25
 #define ATTACK_BLIP_PREF_ALWAYS 100

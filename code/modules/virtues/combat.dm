@@ -18,7 +18,7 @@
 	if(!recipient.mind)
 		return
 	if(!LAZYLEN(recipient.mind.mage_aspect_config))
-		recipient.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 0))
+		recipient.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 0), grant_attunement = FALSE)
 	recipient.mind.mage_aspect_config["utilities"] += amount
 	recipient.mind.check_learnspell()
 	

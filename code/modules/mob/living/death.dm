@@ -118,6 +118,7 @@ GLOBAL_LIST_EMPTY(last_words)
 	set_drugginess(0)
 	set_disgust(0)
 	SetSleeping(0, 0)
+	set_sunder(0) //So deadites aren't PSzsghdhrfrliorfing almost post-death
 	reset_perspective(null)
 	reload_fullscreen()
 	update_mob_action_buttons()

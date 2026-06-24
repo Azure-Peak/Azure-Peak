@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Ported OV's improved loadout management of spells. Renamed \"Select Loadout\" to \"Loadout Manager\""

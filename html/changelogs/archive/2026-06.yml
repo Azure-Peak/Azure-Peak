@@ -992,3 +992,134 @@
   eirenxiv:
   - bugfix: 'excluded constructs from: Black Oaks, Grudgebearer an Anthraxi'
   - bugfix: excluded gnomes from Grudgebearers
+2026-06-23:
+  Oats:
+  - rscadd: Adds a Baker's Trough, used to knead large quantities of flour and water
+      into dough.
+  - rscadd: Adds a Baker's Peel, used to take items from tables and put them into
+      ovens and vice versa, with the added benefit of having a long reach due to its
+      long handle. Effective against pie thieves, if you have the skill.
+  - qol: Adds crafting recipes for turning wheat, rice, and oats into flour so that
+      people with the necessary cooking skill to mass produce flour can do so without
+      hurting their hands due to the repeated clicking and dropping necessary of the
+      usual method. You can still do it one handful of grain the old fashioned way
+      as well.
+  Ollanius:
+  - rscadd: At last, the Baothans now have access to their Rite of Armaments. Their
+      armor is the worst out of the bunch, but they receive a potent weapon (in the
+      form of the Swordspear) and two very useful traits (in the form of Painless
+      and Dodge Expert) in exchange. Credit to Dakken and Cre77 for commissioning
+      and creating the sprites, featured here.
+  - code_imp: Touches up the descriptions, names, and miscellaneous information of
+      in-menu patrons and ritual circles.
+  - bugfix: Added missing sprites to the Hand's unique bracer.
+  - rscadd: Gemstone amulets can now be worn on the wrists, similar to how psicrosses
+      work.
+  - rscadd: Touches up sprites for gemstone amulets, lances and copper spears.
+  - balance: Holy steel recipes now require an amulet of the item's patron to complete,
+      in order to reduce the amount of cases where Templar-specific items could be
+      made by non-Templaric forces.
+  PepegaSandwich:
+  - rscadd: New drinks! Made using a pot and either premade teamix craftable in Cooking,
+      or basic ingridients. Teas have properties according to their ingridients, while
+      they are much weaker, they dont require alchemical skill to be made.
+  - rscadd: Westleach tar brick (totaly not hash), slicable, smokable, compact. Naledi
+      gamer's must.
+  - image: added icons for tea mixes
+  Rannoooo:
+  - rscadd: option for slurbow added to outlaw wretch.
+  Ratvarr:
+  - rscadd: Kazengunite god-names now work for prayers! + A few others
+  Ryan180602:
+  - admin: alists now are supported in VV.
+  ToasterStrudes:
+  - bugfix: attempting to salvage Triumph items no longer runtimes.
+  WeNeedMorePhoron:
+  - balance: Remove headhunting from contracts (Both simple and non-simple mobs) to
+      prevent double dipping on rewards.
+  - balance: Raised contract rewards back to 100%, where it was before
+  - balance: Reduced the default headeater rate to 15%.
+  - balance: Increased Blink CD from 12 seconds to 24 seconds.
+  - rscadd: Ported OV's improved loadout management of spells. Renamed "Select Loadout"
+      to "Loadout Manager"
+  changelingonberry:
+  - rscadd: wanted vice, allows non-towners to be on the EXCIDIUM
+  - rscadd: custom descriptors for everything
+  radarseas:
+  - rscadd: Added a ton of new outfit picks for Astrocrat adv
+  - rscadd: Weaker version of the desert coat, exclusive to Raneshen Astrocrats
+  - rscadd: Astrocrat adv is now based around their proficencies, vs other advs they
+      are extremely specialised leader roles without the strength of town ones and
+      still weaker than a knight errant or battlemaster.
+  - balance: Astrocrats play out massively different depending on pick
+  - balance: Astrocrats get trait_nutcracker for sovl, in practice this'll rarely
+      be used anyway but its funny.
+  - balance: Otavian Routier gets an Otavian satchel instead of a regular one
+  - balance: Grenzel + Emir get interlectual trait for free as proper envoy nobility,
+      on-par with advisor hand and the likes.
+2026-06-24:
+  Antoonij:
+  - code_imp: simplify locate corpse
+  KatTheFox:
+  - qol: Eoran tree pruning now checks for the presence of snip intent, rather than
+      scissors type path; which basically means 'anything that works like scissors
+      can prune them now'
+  Kell-E:
+  - bugfix: Fluted Half-Plate has had its coverage corrected.
+  - balance: Food only buffs on the last bite. Meals & Snacks no longer stack.
+  Ketrai:
+  - bugfix: Made dream items less heretical on examine.
+  - balance: 66% of devotee regen is now basekit for miracle classes with regen.
+  - balance: Prayer is now far more effective for regaining devotion as it scales
+      with miracle skill properly now.
+  - rscadd: long pig from butchering humanoids, longpig mince and stew
+  - balance: butchering humanoids yields less meat
+  - image: new mince sprites.
+  - rscadd: Soilson & peasant secular bless crops
+  Ollanius:
+  - rscadd: Improvised repair kits now only require Novice-level skills to create.
+  - rscadd: Descriptions for metal repair kits and iron scrap are clarified to make
+      it easier for newcomers to understand how it works.
+  - rscadd: Improvised metal- and fabric-repair kits can now be purchased on the Triumph
+      menu for 5 TRI each.
+  WeNeedMorePhoron:
+  - server: Round should announces when it is extended now in restart annoucements
+  - rscadd: Sending letter to someone who don't exist reject letter on TGUI
+  changelingonberry:
+  - balance: bites only roll for accuracy against activated combat mode
+  - bugfix: bites are as accurate as any unarmed
+  hazarawn:
+  - bugfix: great flail uses flail skill instead of polearms
+  radarseas:
+  - rscadd: new cinematic for lich's death, be sure to keep your phylactory safe and
+      hidden because it makes noise now resurrecting you.
+  - balance: lich can now sleep, instead of being hard-locked to your skills or being
+      softlocked indefinitely in burncrit, similar to how and why dreamwalker can
+      now
+  - balance: lich has gained Lacrima/Eyebiter for consistancy with Necromancers
+  - balance: lich's statline adjusted slightly, they also have enough willpower to
+      not be easy prey to silver
+  - balance: lich has a few additional traits for flavor
+  - balance: lich has some misc skills either for flavor, mobility, gimmics, resurrecting
+      dead people properly or just jumpscaring people for aura
+  - balance: lich uses minimal skill uptos, ensuring their skills don't become too
+      high, they will still be varied by job + job traits
+  - balance: lich has all of the labor traits their skeletons have
+  - balance: lich now has reinforced boots instead of regular
+  - balance: sapper outburst has a slightly shorter windup by (1) second to account
+      for their (5) CON points often getting them killed too quickly
+  - bugfix: sapper outburst now correctly makes a noise on being primed instead of
+      only on exploding
+  - bugfix: lich now spawns their ritual chalk + spelltome in their satchel upon rolling/resurrecting,
+      so they don't lose it
+  - bugfix: lich now keeps their true name on resurrecting instead of becoming unknown
+  - bugfix: lich now preserves all stats as-intended and won't end up with 10 con
+  - bugfix: fixed lich exploding on shell outburst instead of the actual skeleton
+      you cast it on, LMAO.
+  - rscadd: Added ENDURING BLAST to Psydonic Missionaries, its definitely not pulling
+      a rock out of your boot, shhh, nope, nope.
+  - balance: Psydonic missionaries can conjure rocks I mean-- ENDURING BLASTS for
+      25 devotion every 5 seconds for combat. Trust the plan.
+  - bugfix: sunderstacks clear on death + revival + aheal + revives, you don't need
+      to varedit it away.
+  - balance: Werewolves are immune to pain even while doused in sunderflames.

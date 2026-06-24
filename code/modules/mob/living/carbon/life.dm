@@ -57,7 +57,8 @@
 
 /mob/living/carbon/handle_random_events()//BP/WOUND BASED PAIN
 	//Being sundered will shut off no_pain trait, until the sunder flames wear off.
-	if(HAS_TRAIT(src, TRAIT_NOPAIN) && (!has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || !has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
+	//Werewolves are exempt.
+	if(HAS_TRAIT(src, TRAIT_NOPAIN) && !HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && (!has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || !has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
 		return
 	if(!stat)
 		var/painpercent = get_complex_pain() / pain_threshold
@@ -88,7 +89,7 @@
 						addtimer(CALLBACK(src, PROC_REF(Stun), 110), 10)
 						addtimer(CALLBACK(src, PROC_REF(Knockdown), 110), 10)
 						mob_timers["painstun"] = world.time + 160
-					if(prob(probby) && HAS_TRAIT(src, TRAIT_NOPAINSTUN) && (has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
+					if(prob(probby) && HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !HAS_TRAIT(src, TRAIT_LYCANRESILENCE)  && (has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
 						Immobilize(10)
 						emote("painscream")
 						to_chat(src, span_userdanger("THE SACRED FLAMES, I FEEL PAIN AGAIN!"))

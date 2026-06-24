@@ -2,7 +2,7 @@
 	name = "Eora"
 	domain = "Goddess of Love, Life and Beauty"
 	desc = "Baotha's fairer half, made from blind, unconditional love. She is without a shred of hate in her heart and taught mankind that true love that even transcends Necra's grasp."
-	worshippers = "Lovers, the romantically inclined, and Doting Grandparents"
+	worshippers = "Lovers, the Romantically Inclined, and Doting Grandparents"
 	mob_traits = list(TRAIT_EMPATH, TRAIT_EXTEROCEPTION, TRAIT_MARRIAGE_CAPABLE)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/eora_blessing			= CLERIC_T0,

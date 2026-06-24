@@ -101,7 +101,7 @@
 
 /datum/outfit/job/roguetown/knight/heavy/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	add_verb(H, /mob/proc/haltyell)
 
 	H.adjust_blindness(-3)
@@ -209,7 +209,7 @@
 
 /datum/outfit/job/roguetown/knight/footknight/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	add_verb(H, /mob/proc/haltyell)
 
 	H.adjust_blindness(-3)
@@ -313,7 +313,7 @@
 
 /datum/outfit/job/roguetown/knight/mountedknight/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	add_verb(H, /mob/proc/haltyell)
 
 	if(H.mind)
@@ -436,7 +436,7 @@
 
 /datum/outfit/job/roguetown/knight/irregularknight/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	add_verb(H, /mob/proc/haltyell)
 
 	H.adjust_blindness(-3)
@@ -597,7 +597,7 @@
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 
 	add_verb(H, list(
 		/mob/living/carbon/human/proc/request_outlaw,

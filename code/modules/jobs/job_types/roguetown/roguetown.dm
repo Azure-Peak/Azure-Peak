@@ -1,5 +1,6 @@
 /datum/job/roguetown
 	display_order = JDO_LORD
+	vice_restrictions = list(/datum/charflaw/wanted)
 
 /datum/job/roguetown/New()
 	. = ..()

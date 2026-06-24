@@ -102,7 +102,7 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/recipe_book/survival = 1,
 		)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	H.set_blindness(0)
 	var/weapons = list("Longsword + Shield","Mace + Shield","Flail + Shield","Billhook","Lance + Kite Shield","Battle Axe","Greataxe")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons

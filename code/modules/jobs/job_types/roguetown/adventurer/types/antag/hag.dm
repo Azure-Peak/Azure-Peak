@@ -41,7 +41,7 @@
 		/datum/virtue/utility/feytouched, // They are already FAE
 		/datum/virtue/utility/riding, // Hags literally get a teleportation mechanic, it doesn't make much sense.
 		)
-	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted) // could you fucking imagine
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted) // could you fucking imagine
 	job_subclasses = list(
 		/datum/advclass/hag,
 	)

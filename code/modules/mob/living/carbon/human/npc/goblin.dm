@@ -247,8 +247,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_aggro, TRUE)
 	gender = MALE
 	if(src.dna && src.dna.species)
-		src.dna.species.soundpack_m = new /datum/voicepack/other/goblin()
-		src.dna.species.soundpack_f = new /datum/voicepack/other/goblin()
+		src.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/goblin]
+		src.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/other/goblin]
 		var/obj/item/headdy = get_bodypart("head")
 		if(headdy)
 			headdy.icon = 'icons/roguetown/mob/monster/goblins.dmi'

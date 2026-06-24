@@ -1,4 +1,0 @@
-author: "ToasterStrudes"
-delete-after: True
-changes:
-  - bugfix: "attempting to salvage Triumph items no longer runtimes."

@@ -27,6 +27,7 @@
 	var/atom/movable/holdingknife = null
 	salvage_amount = 1
 	armor = ARMOR_CLOTHING
+	salvage_result = /obj/item/natural/hide/cured
 
 /obj/item/clothing/shoes/roguetown/boots/examine(mob/user)
 	. = ..()
@@ -185,7 +186,8 @@
 	gender = PLURAL
 	icon_state = "sandals"
 	item_state = "sandals"
-	sewrepair = TRUE
+	salvage_amount = 1
+	salvage_result = /obj/item/natural/cloth
 
 /obj/item/clothing/shoes/roguetown/sandals/aalloy
 	name = "decrepit sandals"
@@ -203,11 +205,13 @@
 
 /obj/item/clothing/shoes/roguetown/shalal
 	name = "babouche"
-	desc = ""
+	desc = "A traditional, flat slipper of Ranesheri origin, typically made of soft leather or fabric and featuring an open back (no heel or quarters)."
 	gender = PLURAL
 	icon_state = "shalal"
 	item_state = "shalal"
 	sewrepair = TRUE
+	salvage_amount = 1
+	salvage_result = /obj/item/natural/hide/cured
 
 /obj/item/clothing/shoes/roguetown/boots/leather
 	name = "leather boots"
@@ -558,6 +562,8 @@
 	sewrepair = TRUE
 	detail_color = CLOTHING_WHITE
 	color = CLOTHING_AZURE
+	salvage_amount = 1
+	salvage_result = /obj/item/natural/cloth
 
 /obj/item/clothing/shoes/roguetown/jester/update_icon()
 	cut_overlays()
@@ -619,6 +625,8 @@
 	is_barefoot = TRUE
 	sewrepair = TRUE
 	armor = ARMOR_CLOTHING
+	salvage_amount = 2
+	salvage_result = /obj/item/natural/cloth
 
 /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	name = "inquisitorial boots"

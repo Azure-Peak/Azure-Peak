@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Removed the browserpanel_hidden_verbs build step"

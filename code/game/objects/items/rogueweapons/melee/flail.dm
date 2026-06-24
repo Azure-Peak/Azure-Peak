@@ -306,7 +306,7 @@
 	minstr = 9
 	wbalance = WBALANCE_HEAVY
 	smeltresult = /obj/item/ingot/iron
-	associated_skill = /datum/skill/combat/polearms
+	associated_skill = /datum/skill/combat/whipsflails
 	anvilrepair = /datum/skill/craft/carpentry
 	dropshrink = 0.9
 	wdefense = 4

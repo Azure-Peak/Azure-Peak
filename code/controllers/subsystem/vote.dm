@@ -342,6 +342,7 @@ SUBSYSTEM_DEF(vote)
 				if(. == "Continue Playing")
 					log_game("LOG VOTE: CONTINUE PLAYING AT [REALTIMEOFDAY]")
 					GLOB.round_timer = world.time + ROUND_EXTENSION_TIME
+					send2chat(new /datum/tgs_message_content("Round has been extended!"), CONFIG_GET(string/chat_announce_new_game))
 				else
 					log_game("LOG VOTE: ELSE  [REALTIMEOFDAY]")
 					log_game("LOG VOTE: ROUNDVOTEEND [REALTIMEOFDAY]")

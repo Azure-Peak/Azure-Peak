@@ -76,11 +76,17 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //50 more integrity and superior protection vs a light gamberson, and cheaper than a proper gamberson with the same integrity.
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/shadowrobe
-	name = "stalker robe"
-	desc = "A thick robe in royal purple, befitting the hand, while remaining easy for them to slip about in.."
+	name = "thin stalker robe"
+	desc = "A thick robe in royal purple, befitting a travelling noble, while remaining easy for them to slip about in.."
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	icon_state = "shadowrobe"
 	shiftable = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/raneshen
+	name = "thin desert coat"
+	desc = "A slim-fitting sherwani, a Ranesheni-styled coat meant to endure in the desert's climate. This one isn't padded, meant for a noble to wear."
+	icon_state = "sherwani"
+	color = "#eec39a"
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	name = "light gambeson"

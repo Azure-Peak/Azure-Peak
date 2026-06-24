@@ -6,13 +6,22 @@
 	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
 	confess_lines = list(
 		"I WILL LIVE ETERNAL!",
-		"I AM BEHIND SEVEN PHYLACTERIES!",
+		"I AM BEHIND COUNTLESS PHYLACTERIES!",
 		"YOU CANNOT KILL ME!",
 	)
 	rogue_enabled = TRUE
 
 	var/list/phylacteries = list()
 	var/out_of_lives = FALSE
+
+	//Save our entire statline here.
+	var/STASTR = 10
+	var/STASPD = 10
+	var/STACON = 10
+	var/STAINT = 10
+	var/STAWIL = 10
+	var/STAPER = 10
+	var/STALUC = 10
 
 	var/traits_lich = list(
 		TRAIT_INFINITE_STAMINA,
@@ -22,10 +31,12 @@
 		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
-		TRAIT_NOSLEEP,
 		TRAIT_LICHLAIR, //Ability to far travel to and from our lair.
 		TRAIT_NOMOOD,
 		TRAIT_NOLIMBDISABLE,
+		TRAIT_GRAVEROBBER,
+		TRAIT_ALCHEMY_EXPERT,
+		TRAIT_MEDICINE_EXPERT,
 		TRAIT_SHOCKIMMUNE,
 		TRAIT_LIMBATTACHMENT,
 		TRAIT_SEEPRICES,
@@ -34,18 +45,13 @@
 		TRAIT_CABAL,
 		TRAIT_DEATHSIGHT,
 		TRAIT_COUNTERCOUNTERSPELL,
+		TRAIT_INTELLECTUAL,
 		TRAIT_RITUALIST,
 		TRAIT_ARCYNE,
 		TRAIT_SELF_SUSTENANCE,
 		TRAIT_ALCHEMY_EXPERT,
 		TRAIT_SILVER_WEAK
 		)
-
-	var/STASTR = 10
-	var/STASPD = 10
-	var/STAINT = 10
-	var/STAWIL = 10
-	var/STAPER = 10
 
 /datum/antagonist/lich/get_antag_cap_weight()
 	return 3
@@ -56,8 +62,9 @@
 	owner.special_role = name
 	skele_look()
 	equip_lich()
-	greet()
 	save_stats()
+	set_stats()
+	greet()
 	return ..()
 
 /datum/antagonist/lich/greet()
@@ -69,16 +76,20 @@
 /datum/antagonist/lich/proc/save_stats()
 	STASTR = owner.current.STASTR
 	STAPER = owner.current.STAPER
+	STACON = owner.current.STACON
 	STAINT = owner.current.STAINT
 	STASPD = owner.current.STASPD
 	STAWIL = owner.current.STAWIL
+	STALUC = owner.current.STALUC
 
 /datum/antagonist/lich/proc/set_stats()
 	owner.current.STASTR = src.STASTR
 	owner.current.STAPER = src.STAPER
+	owner.current.STACON = src.STACON
 	owner.current.STAINT = src.STAINT
 	owner.current.STASPD = src.STASPD
 	owner.current.STAWIL = src.STAWIL
+	owner.current.STALUC = src.STALUC
 
 /datum/antagonist/lich/proc/skele_look()
 	var/mob/living/carbon/human/L = owner.current
@@ -107,62 +118,95 @@
 	for (var/obj/item/bodypart/B in L.bodyparts)
 		B.skeletonize(FALSE)
 
+	owner.current.forceMove(pick(GLOB.lich_starts)) // as opposed to spawning at their normal role spot as a skeleton; which is le bad
 	equip_and_traits()
 	L.equipOutfit(/datum/outfit/job/roguetown/lich)
 	L.set_patron(/datum/patron/inhumen/zizo)
-	owner.current.forceMove(pick(GLOB.lich_starts)) // as opposed to spawning at their normal role spot as a skeleton; which is le bad
 
 
 /datum/outfit/job/roguetown/lich/pre_equip(mob/living/carbon/human/H) //Equipment is located below
 	..()
+	//Skilled upto, so we don't have legendary wrestling crit resist fullplate lich or legendary riding lich that nobody can keep up with
+	//Some of these will be replaced by class, but its a much healthier lich balance, all in in.
 
-	H.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/alchemy, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/magic/arcane, 6, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/staves, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
+	//Our general combat skills
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE) //Always Master, they virtually always got this anyway
+	H.adjust_skillrank_up_to(/datum/skill/combat/staves, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 4, TRUE) //Always expert minimal. Tackle protection + Ability to Overpower most people.
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 4, TRUE) //Protection vs the dorpel floorkick.
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE) //Better than Skeles in swords, Zizo armor sets grant a sword.
+	H.adjust_skillrank_up_to(/datum/skill/combat/shields, 4, TRUE) //If they take medium set, they can use the shield, very well.
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 6, TRUE) //always gets legendary knives regardless of specialisation.
+
+	//Mobility Nessessities
+	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 3, TRUE) //Above bandits/wretch, despite infinite stamina.
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 5, TRUE) //Always master minimal, to climb walls most can't (you had infinite stamina anyway).
+	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE) //Doing flips and shit, because its badass. Otherwise misc skill.
+	H.adjust_skillrank_up_to(/datum/skill/misc/riding, 4, TRUE)
+
+	//QOL skillup minimals, adjust as-needed
+	H.adjust_skillrank_up_to(/datum/skill/craft/crafting, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/craft/carpentry, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/craft/masonry, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/craft/sewing, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/craft/engineering, 2, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/craft/smelting, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/labor/mining, 3, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/labor/lumberjacking, 3, TRUE)
+
+	//Misc skills for immersion/funny moments/repurposing dungeons
+	H.adjust_skillrank_up_to(/datum/skill/craft/traps, 4, TRUE) //Takeover dungeons by disabling traps.
+	H.adjust_skillrank_up_to(/datum/skill/misc/medicine, 4, TRUE) //Minimal for reviving with lux.
+	H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, 4, TRUE) //Lich under table jumpscare.
+	H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, 3, TRUE) //Keeping doors closed to summon out-of-sight to recover.
+	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 6, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 6, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 6, TRUE)
+
 	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE))
 	// Give it decent combat stats to make up for loss of 2 extra lives
+
 	H.change_stat(STATKEY_STR, 3)
-	H.change_stat(STATKEY_INT, 5)
+	H.change_stat(STATKEY_INT, 6) //Smarter than the court magos
 	H.change_stat(STATKEY_CON, 5)
 	H.change_stat(STATKEY_PER, 3)
 	H.change_stat(STATKEY_SPD, 1)
+	H.change_stat(STATKEY_LCK, 2) //Leadership + Antag role
+
+	H.change_stat(STATKEY_WIL, 7) //Only affects your ability to withstand keeling over from pain while sundered. Intended to be disgustingly high, as they're not supposed to easily fall over.
 
 	H.grant_language(/datum/language/undead)
 	// Grant a spellbook so the lich can pick aspects
-	new /obj/item/book/spellbook(get_turf(H))
+	H.equip_to_slot_or_del(new /obj/item/book/spellbook,SLOT_IN_BACKPACK, TRUE)
+	// Grant a chalk so the lich can do rituals
+	H.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 
 	if(H.mind)
-		// Lich-specific spells (not from aspects)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blood_bolt())
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+		// Our outburst version, its unique and a means to avoid softlocks
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb)
+		// Lich-specific spells (not from aspects)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blood_bolt())
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/remotebomb)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
+		// Other role required spells.
+		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/tame_undead)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite) //Zombifies dead people
+		// Our Utility Spells
+		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 		// This is probably a bad idea, but let's live a little.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/summon_terrorhog)
+		// Consistancy as they're basically a ruler in the hierarchy above Necromancers
+		H.mind.AddSpell(new /datum/action/cooldown/spell/eyebite)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/lacrima)
 	H.ambushable = FALSE
-	H.dna.species.soundpack_m = new /datum/voicepack/other/lich()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/lich]
 
 	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "LICH"), 5 SECONDS)
 
@@ -188,7 +232,7 @@
 /datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H)
 	..()
 	var/datum/antagonist/lich/lichman = H.mind.has_antag_datum(/datum/antagonist/lich)
-	// One phylactery instead of 3 so that they don't need to get chased down non-stop.
+	// One phylactery, one second chance.
 	var/obj/item/phylactery/new_phylactery = new(H.loc)
 	lichman.phylacteries += new_phylactery
 	new_phylactery.possessor = lichman
@@ -221,14 +265,13 @@
 		SLOT_BELT_R,
 		SLOT_BELT_L,
 		SLOT_HANDS,
-		SLOT_HANDS,
 		SLOT_BACK_L,
 		)
 
 	var/list/equipment_items = list(
 		/obj/item/clothing/head/roguetown/roguehood/unholy/lich,
 		/obj/item/clothing/under/roguetown/chainlegs,
-		/obj/item/clothing/shoes/roguetown/boots,
+		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced,
 		/obj/item/clothing/neck/roguetown/chaincoif,
 		/obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich,
 		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel,
@@ -239,8 +282,7 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/manapot,
 		/obj/item/rogueweapon/huntingknife/idagger/steel,
 		/obj/item/rogueweapon/woodstaff/implement/grand,
-		/obj/item/ritechalk,
-		/obj/item/storage/backpack/rogue/satchel,
+		/obj/item/storage/backpack/rogue/satchel/black,
 	)
 	for (var/i = 1, i <= equipment_slots.len, i++)
 		var/slot = equipment_slots[i]
@@ -264,12 +306,18 @@
 		new_body.charflaws.Remove(cf)
 		QDEL_NULL(cf)
 
-	new_body.real_name = old_body.name
+	new_body.real_name = old_body.real_name
 	new_body.dna.real_name = old_body.real_name
 	new_body.mob_biotypes |= MOB_UNDEAD
 	new_body.faction = list(FACTION_UNDEAD)
 	new_body.set_patron(/datum/patron/inhumen/zizo)
 	new_body.mind.grab_ghost(force = TRUE)
+	new_body.ambushable = FALSE
+	new_body.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/lich] //evil ass voice stays
+	// Grant a spellbook so the lich can pick aspects
+	new_body.equip_to_slot_or_del(new /obj/item/book/spellbook,SLOT_IN_BACKPACK, TRUE)
+	// Grant a chalk so the lich can do rituals
+	new_body.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 
 	for (var/obj/item/bodypart/body_part in new_body.bodyparts)
 		body_part.skeletonize(FALSE)
@@ -280,6 +328,11 @@
 	equip_and_traits()
 	// Delete the old body if it still exists
 	if (!QDELETED(old_body))
+		old_body.visible_message(
+			span_danger("[old_body] is pulled into an unnatural rift.")
+		)
+		new /obj/effect/temp_visual/bluespace_fissure(get_turf(old_body))
+		playsound(get_turf(old_body), 'sound/misc/portalopen.ogg', 100)
 		qdel(old_body)
 
 
@@ -308,16 +361,12 @@
 	. = ..()
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		if(H.patron.type == /datum/patron/inhumen/zizo)
+		if(H.patron.type == /datum/patron/inhumen/zizo) //DIVINITY. ASCENSION. ZIZO. ZIZO. ZIZO.
 			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
-		else if(H.patron.type == /datum/patron/divine/undivided)
-			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
-		else if(H.patron.type == /datum/patron/divine/astrata)
-			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
-		else if(H.patron.type == /datum/patron/divine/necra)
-			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
-		else if(H.patron.type == /datum/patron/old_god)
-			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
+		else if(H.patron.type == /datum/patron/divine/necra || H.patron.type == /datum/patron/divine/astrata || H.patron.type == /datum/patron/divine/undivided) //Tennites think Necra's getting your soul (hah) and in their eyes your divinity is false, because they're baised towards their masters.
+			. += span_rose("A crystalline fragment of false divinity, used by Lyches to thwart Necra's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
+		else if(H.patron.type == /datum/patron/old_god) //Psydonites are moderately neutral, as they are wildcards, your divinity is self-made. Interpretation is up to you.
+			. += span_rose("A crystalline fragment of self-made divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
 
 /obj/item/phylactery/proc/be_consumed(timer)
 	var/offset = prob(50) ? -2 : 2
@@ -327,6 +376,12 @@
 	spawn(timer)
 		possessor.owner.current.forceMove(get_turf(src))
 		possessor.rise_anew()
+		src.visible_message(
+			span_danger("the phylactery shatters violently as it tears open a rift and [possessor] steps out where it once was!")
+		)
+		new /obj/effect/temp_visual/bluespace_fissure(get_turf(src))
+		playsound(get_turf(src), 'sound/spellbooks/glass.ogg', 100)
+		playsound(get_turf(src), 'sound/misc/portalopen.ogg', 100)
 		qdel(src)
 
 /obj/effect/proc_holder/spell/self/lich_announce

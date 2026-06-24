@@ -112,5 +112,5 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/evil() //Aura
-	H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil] //Aura
+	H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]

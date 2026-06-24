@@ -818,6 +818,27 @@
 	nutriment_factor = 20
 	alpha = 250
 
+/datum/reagent/consumable/soup/stew/humanoid
+	name = "long pig stew"
+	color = "#ac5372"
+	taste_description = "sweet delicious; sweet delicious; sweet delicious"
+	nutriment_factor = 20
+	alpha = 250
+
+/datum/reagent/consumable/soup/stew/humanoid/on_mob_life(mob/living/carbon/M)
+	..()
+	if(HAS_TRAIT(M, TRAIT_NASTY_EATER) || HAS_TRAIT(M, TRAIT_WILD_EATER))
+		return
+	M.adjustToxLoss(1)
+	M.add_nausea(12) //Over 8 units will cause puking
+
+/datum/reagent/consumable/soup/stew/humanoid_spiced
+	name = "salted meat stew"
+	color = "#693346"
+	taste_description = "overwhelmingly salty, with hints of savoriness and meatiness"
+	nutriment_factor = 30
+	alpha = 250
+
 // Copy pasted from berry poison, but stew metabolizes much faster so it is less deadly. You CAN use it as a source of hydration / nutrition if you are desperate enough???
 /datum/reagent/consumable/soup/stew/berry_poisoned/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.09)

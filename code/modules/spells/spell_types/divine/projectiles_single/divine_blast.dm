@@ -57,6 +57,8 @@
 			playsound(get_turf(H), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
+		if(out_of_effective_range())
+			return
 		if(H.mob_biotypes & MOB_UNDEAD)
 			damage += 20
 	if(ishuman(target))

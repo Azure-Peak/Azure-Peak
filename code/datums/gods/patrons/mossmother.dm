@@ -1,6 +1,6 @@
 /datum/patron/mossmother
 	name = "The Mossmother"
-	domain = "Hags, primordial evyl, poisoned boons and eternal life."
+	domain = "Hags, Primordial Evyls, Poisoned Boons, and Eternal Lyfe"
 	desc = "The mother of all hags. Murmured by hags to have been defeated in times long past, but her spirit carries on in the soil. Old grievances will be settled."
 	worshippers = "Hags"
 	associated_faith = /datum/faith/mossmother

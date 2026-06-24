@@ -13,7 +13,7 @@
 /datum/advclass/grenzel_envoy
 	name = "Envoy"
 	outfit = /datum/outfit/job/roguetown/grenzel/envoy
-	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_INTELLECTUAL)
 	category_tags = list(CTAG_GRENZEL_ENVOY)
 	subclass_stats = list(
 		STATKEY_INT = 2,
