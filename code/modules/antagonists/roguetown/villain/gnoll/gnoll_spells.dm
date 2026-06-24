@@ -403,6 +403,8 @@
 			to_chat(owner, span_warning("You stop consuming the meat."))
 			return FALSE
 		consume_counter++
+		if(prob(40))
+			playsound(H.loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
 
 		heal_gnoll(H)
 		restore_armor_integrity(H, 3)
