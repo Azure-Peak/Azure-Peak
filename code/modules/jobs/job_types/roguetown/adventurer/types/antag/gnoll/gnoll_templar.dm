@@ -8,9 +8,10 @@
 	traits_applied = list(TRAIT_HEAVYARMOR)
 	reset_stats = TRUE
 	subclass_stats = list(
-		STATKEY_CON = 4,
+		STATKEY_CON = 3,
 		STATKEY_WIL = 2,
-		STATKEY_SPD = 2
+		STATKEY_SPD = 2,
+		STATKEY_STR = 1
 	)
 	subclass_skills = list(
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
@@ -37,9 +38,10 @@
 		H.set_species(/datum/species/gnoll)
 		H.skin_armor = new vamp_armor_type(H)
 		H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)
-		neck = /obj/item/storage/belt/rogue/pouch
+		neck = /obj/item/storage/belt/rogue/pouch/healing
 		wrists = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = FALSE)
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
+		H.mind?.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)

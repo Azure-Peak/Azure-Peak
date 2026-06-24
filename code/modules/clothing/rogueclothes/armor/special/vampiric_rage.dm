@@ -90,7 +90,7 @@
 	var/effective_stacks = min(stacks, 100)
 
 	var/spd_loss = round(effective_stacks / 20)
-	var/str_gain = round(effective_stacks / 20)
+	var/str_gain = round(effective_stacks / 25)
 	var/con_gain = round(effective_stacks / 25)
 	var/int_loss = round(effective_stacks / 50)
 

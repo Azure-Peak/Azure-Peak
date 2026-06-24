@@ -45,9 +45,10 @@
 		H.AddComponent(/datum/component/vampiric_striker, shard_threshold, shard_repair_value, max_fury_stacks)
 		var/obj/item/ritechalk/chalk = new /obj/item/ritechalk(H.loc)
 		H.put_in_r_hand(chalk)
-		neck = /obj/item/storage/belt/rogue/pouch/alchemy
+		neck = /obj/item/storage/belt/rogue/pouch/healing
 		wrists = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
+		H.mind?.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)

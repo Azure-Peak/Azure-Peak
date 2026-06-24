@@ -198,6 +198,10 @@
 		qdel(src)
 		return
 	if(AM != creator)
+		if(isliving(AM))
+			if(prob(40))
+				AM.visible_message(span_notice("[AM] crushes the [src] underfoot!"))
+			qdel(src)
 		return
 	if(!pickuppable || QDELETED(src))
 		return
@@ -209,9 +213,9 @@
 	vamp_comp.repair_from_shard(repair_value)
 	var/datum/status_effect/vampiric_fury/F = creator.has_status_effect(/datum/status_effect/vampiric_fury)
 	if(F)
-		F.add_stack(15)
+		F.add_stack(11)
 	else
-		creator.apply_status_effect(/datum/status_effect/vampiric_fury, 15, vamp_comp.fury_cap)
+		creator.apply_status_effect(/datum/status_effect/vampiric_fury, 11, vamp_comp.fury_cap)
 	var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(creator))
 	E.color = effect_color
 	playsound(creator, 'sound/magic/magic_nulled.ogg', 70, TRUE)
