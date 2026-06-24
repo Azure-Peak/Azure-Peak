@@ -7,73 +7,122 @@
 	id = "hungryt1"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/hungryt1
 	effectedstats = list(STATKEY_CON = -1)
-	duration = 100
+	duration = -1
 	needs_processing = FALSE
+	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/hungryt1
 	name = "Hungry"
-	desc = "Hunger weakens this living body."
+	desc = "My stomach growls and my body yearns for food."
 	icon_state = "hunger1"
 
 /datum/status_effect/debuff/hungryt2
 	id = "hungryt2"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/hungryt2
 	effectedstats = list(STATKEY_STR = -2, STATKEY_CON = -2, STATKEY_WIL = -1)
-	duration = 100
+	duration = -1
 	needs_processing = FALSE
+	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/hungryt2
 	name = "Hungry"
-	desc = "This living body suffers heavily from hunger."
+	desc = "Hunger gnaws at my strength. I should eat soon."
 	icon_state = "hunger2"
 
 /datum/status_effect/debuff/hungryt3
 	id = "hungryt3"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/hungryt3
 	effectedstats = list(STATKEY_STR = -5, STATKEY_CON = -3, STATKEY_WIL = -2)
-	duration = 100
+	duration = -1
 	needs_processing = FALSE
+	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/hungryt3
 	name = "Hungry"
-	desc = "My body can barely hold it!"
+	desc = "My body is beginning to fail from starvation!"
 	icon_state = "hunger3"
+
+
 
 /datum/status_effect/debuff/thirstyt1
 	id = "thirsty1"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/thirstyt1
 	effectedstats = list(STATKEY_WIL = -1)
-	duration = 100
+	duration = -1
 	needs_processing = FALSE
+	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/thirstyt1
 	name = "Thirsty"
-	desc = "I need water."
+	desc = "My mouth feels a little dry."
 	icon_state = "thirst1"
 
 /datum/status_effect/debuff/thirstyt2
 	id = "thirsty2"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/thirstyt2
 	effectedstats = list(STATKEY_SPD = -1, STATKEY_WIL = -2)
-	duration = 100
+	duration = -1
 	needs_processing = FALSE
+	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/thirstyt2
 	name = "Thirsty"
-	desc = "My mouth feels much drier."
+	desc = "My throat is dry, and it's harder to focus."
 	icon_state = "thirst2"
 
 /datum/status_effect/debuff/thirstyt3
 	id = "thirsty3"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/thirstyt3
 	effectedstats = list(STATKEY_STR = -1, STATKEY_SPD = -2, STATKEY_WIL = -3)
-	duration = 100
+	duration = -1
 	needs_processing = FALSE
+	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/thirstyt3
 	name = "Thirsty"
-	desc = "I urgently need water!"
+	desc = "I urgently need to drink something! Anything!"
 	icon_state = "thirst3"
+
+
+
+/datum/status_effect/debuff/vthirstt1
+	id = "vthirst1"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/vthirstt1
+	effectedstats = list(STATKEY_CON = -1)
+	duration = -1
+	needs_processing = FALSE
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/debuff/vthirstt1
+	name = "Blood Starved"
+	desc = "Food and drink brings no comfort. The thought of consuming blood lingers in my mind."
+	icon_state = "vblood1"
+
+/datum/status_effect/debuff/vthirstt2
+	id = "vthirst2"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/vthirstt2
+	effectedstats = list(STATKEY_CON = -2, STATKEY_LCK = -2)
+	duration = -1
+	needs_processing = FALSE
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/debuff/vthirstt2
+	name = "Blood Starved"
+	desc = "My fangs ache and I am twitchy. Every heartbeat nearby draws my attention."
+	icon_state = "vblood2"
+
+/datum/status_effect/debuff/vthirstt3
+	id = "vthirst3"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/vthirstt3
+	effectedstats = list(STATKEY_STR = 4, STATKEY_SPD = -2, STATKEY_CON = -4, STATKEY_LCK = -4)
+	duration = -1
+	needs_processing = FALSE
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/debuff/vthirstt3
+	name = "Blood Starved"
+	desc = "<font color='#ff0000'><b>I CAN'T TAKE IT ANYMORE!! BLOOD!! WHERE IS BLOOD?! I NEED BLOOD!! I WANT BLOOD!!</b></font>"
+	icon_state = "vblood3"
 
 /////////
 
