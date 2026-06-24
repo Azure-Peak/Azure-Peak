@@ -65,12 +65,11 @@
 
 	var/datum/component/vampiric_striker/vamp_comp = target.GetComponent(/datum/component/vampiric_striker)
 	// We don't really want gnolls to hit each other to pre-buff.
-	// For now, I'll allow NPCs, but should it become an issue in the future, we can add a mind/client check here.
 	if(vamp_comp)
 		return
 	if(!istype(target, /mob/living/carbon/human))
 		return
-	if(target.stat == DEAD)
+	if(target.stat == DEAD || !target.mind)
 		return
 	current_victim_ref = WEAKREF(target)
 	RegisterSignal(target, COMSIG_MOB_ARMOR_INTEGRITY_DAMAGED, .proc/handle_target_armor_shred)
