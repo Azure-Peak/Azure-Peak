@@ -88,7 +88,7 @@
 /datum/storyteller/gamemode/guaranteed_antag
 	name = "High Intensity"
 	vote_desc = "Guaranteed hard antagonist. Some soft antagonists remain."
-	desc = "Guaranteed roundstart hard antag. Wretches up to 9. Gnolls max 2. Hag present. Dreamwalker may roll."
+	desc = "Guaranteed roundstart hard antag. Wretches up to 9. Gnolls max 1. Hag present. Dreamwalker may roll."
 	welcome_text = "A cold dread settles over the town.."
 	color_theme = "#a43c3c"
 	preset_pool = GAMEMODE_POOL_GUARANTEED
