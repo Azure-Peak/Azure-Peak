@@ -81,9 +81,13 @@
 		return
 
 	// If we are using blunt to damage multiple layers, there are diminishing returns.
-	// Layer 2 only gives 50% the value anymore.
-	// Layer 3 only gives 33% the value anymore (Example, damaging MASK + COIF + HELM)
-	var/layer_modifier = 1 / current_layer
+	// Blunt damage already doesn't pierce through fully, but this is a further dampener, especially to prevent abuse when riposting.
+	// Layer 2 only gives 33% the value anymore.
+	// Layer 3 only gives 25% the value anymore. (Example, damaging MASK + COIF + HELM)
+	// Layer 4 only gives 20% the value anymore.
+	var/layer_modifier = 1
+	if(current_layer > 1)
+		layer_modifier = 1 / (current_layer + 1)
 	var/effective_damage = armor_damage_taken * layer_modifier
 
 	accumulated_armor_damage += effective_damage

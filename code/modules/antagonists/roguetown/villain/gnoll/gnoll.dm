@@ -50,8 +50,9 @@
 	name = "Gnoll Claw"
 	// We are smarter, we can use our solid, steel-like claws to defend ourselves.
 	wdefense = 5
-	force = 30
+	force = 26
 	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/smash/werewolf/gnoll, /datum/intent/mace/strike/gnoll)
+	special = /datum/special_intent/shin_swipe
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/right
 	icon_state = "claw_r"
