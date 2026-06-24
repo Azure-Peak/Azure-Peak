@@ -602,7 +602,7 @@
 	verbage = "mixes"
 	craftsound = 'sound/foley/scribble.ogg'
 	skillcraft = /datum/skill/craft/alchemy
-	craftdiff = 0
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/alch/magicdust
 	name = "pure essentia"
@@ -613,4 +613,4 @@
 	verbage = "mixes"
 	craftsound = 'sound/foley/scribble.ogg'
 	skillcraft = /datum/skill/craft/alchemy
-	craftdiff = 0
+	craftdiff = 2

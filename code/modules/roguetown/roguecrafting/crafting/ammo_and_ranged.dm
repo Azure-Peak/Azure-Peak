@@ -434,7 +434,7 @@
 		/obj/item/natural/clay = 1,
 	)
 	req_table = TRUE
-	craftdiff = 3
+	craftdiff = 2
 	skillcraft = /datum/skill/craft/alchemy
 	verbage_simple = "prepare"
 	verbage = "prepares"

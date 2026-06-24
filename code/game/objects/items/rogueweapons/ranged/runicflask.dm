@@ -6,7 +6,7 @@
 
 #define TINCTURE_MAX_CHARGES 20
 #define TINCTURE_REFUEL_AMOUNT 20
-#define TINCTURE_REFUEL_SKILL SKILL_LEVEL_JOURNEYMAN
+#define TINCTURE_REFUEL_SKILL SKILL_LEVEL_NONE
 
 /obj/item/runicflask
 	name = "runic tincture flask"

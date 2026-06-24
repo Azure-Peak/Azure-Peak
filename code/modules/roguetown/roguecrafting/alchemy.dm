@@ -98,7 +98,7 @@
 	category = "Table"
 	result = list(/obj/item/alch/transisdust)
 	reqs = list(/obj/item/herbseed/taraxacum = 1, /obj/item/herbseed/hypericum = 1, /obj/item/herbseed/salvia = 1)
-	craftdiff = 3
+	craftdiff = 2
 
 //Hard to craft but feasable, will give ONE vial but that has 10 units so, enough to cure 2 people if they ration it.
 /datum/crafting_recipe/roguetown/alchemy/curerot
