@@ -44,7 +44,7 @@
 	bonus_chance_outputs = list(/obj/item/alch/bonemeal = 50)
 
 /datum/alch_grind_recipe/horn
-
+	name = "Horn"
 	valid_input = /obj/item/alch/horn
 	valid_outputs = list(/obj/item/alch/earthdust = 1,/obj/item/alch/bonemeal = 2)
 	bonus_chance_outputs = list(/obj/item/alch/earthdust = 66)

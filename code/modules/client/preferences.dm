@@ -247,8 +247,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/averse_chosen_faction = "Inquisition"
 
-	var/datum/voicepack/temp_vp
-
 	var/mood_messages_in_chat
 
 	var/attack_blip_frequency = ATTACK_BLIP_PREF_DEFAULT
@@ -1878,12 +1876,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							to_chat(user, "<font color='red'>Your character will now audibly emote in accordance to their Voice Identity and any Racial / Class-specific voice packs.</font>")
 				if("voicepack_preview")
 					if(voice_pack != "Default")
-						var/datum/voicepack/VP = GLOB.voice_packs_list[voice_pack]
-						if(!istype(temp_vp, VP))
-							temp_vp = new VP()
-						var/voiceline = temp_vp.get_sound(pick(temp_vp.preview))
+						var/datum/voicepack/VP = GLOB.voice_packs[GLOB.voice_packs_list[voice_pack]]
+						var/voiceline = VP.get_sound(pick(VP.preview))
 						user.playsound_local(user, voiceline, 100)
-
 				if("taur_type")
 					var/list/species_taur_list = pref_species.get_taur_list()
 					if(!LAZYLEN(species_taur_list))

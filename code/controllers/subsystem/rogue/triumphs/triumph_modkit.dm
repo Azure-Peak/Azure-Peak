@@ -19,6 +19,16 @@
 		)
 	result_item = null
 
+/obj/item/enchantingkit/triumph_armorkit_iron
+	name = "'Valorian Iron Armor' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of an Iron Breastplate, an Iron Halfplate, or a set of Iron Plate Armor."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron 			= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate/iron 					= /obj/item/clothing/suit/roguetown/armor/plate/iron/legacy,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/iron	  			= /obj/item/clothing/suit/roguetown/armor/plate/full/iron/legacy
+		)
+	result_item = null
+
 /obj/item/enchantingkit/triumph_armorkit_drow
 	name = "'Drowcraft Armor' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a set of Hardened Leather Armor, or a set of Studded Leather Armor."
@@ -143,7 +153,7 @@
 	target_items = list(
 		/obj/item/rogueweapon/sword/sabre/shamshir = /obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_flame
 	)
-	
+
 /obj/item/enchantingkit/sci_sand
 	name = "'Sandlash' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Shamshir."
@@ -151,7 +161,39 @@
 		/obj/item/rogueweapon/sword/sabre/shamshir = /obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_sand
 	)
 
-//
+/obj/item/enchantingkit/triumph_armorkit_classiciron
+	name = "'Aged Iron Breastplate' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Breastplate."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/triumph
+	)
+
+/obj/item/enchantingkit/triumph_armorkit_classicleather
+	name = "'Classic Leathers' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Leather Coat, a set of Leather Armor, or a set of Hardened Leather Armor."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/leather/cuirass			= /obj/item/clothing/suit/roguetown/armor/leather/cuirass/triumph,
+		/obj/item/clothing/suit/roguetown/armor/leather					= /obj/item/clothing/suit/roguetown/armor/leather/triumph,
+		/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat		= /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/triumph
+		)
+	result_item = null
+
+/obj/item/enchantingkit/triumph_transmutekit_armorkinis
+	name = "'Armorkini' transmutation elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to turn a set of Hide Armor, Leather Armor, Studded Leather Armor, Haubergeon, or Plate Armor into their corseted equivalents."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/leather/hide					= /obj/item/clothing/suit/roguetown/armor/leather/hide/bikini,
+		/obj/item/clothing/suit/roguetown/armor/leather							= /obj/item/clothing/suit/roguetown/armor/leather/bikini,
+		/obj/item/clothing/suit/roguetown/armor/leather/studded					= /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini,
+		/obj/item/clothing/suit/roguetown/armor/chainmail/iron					= /obj/item/clothing/suit/roguetown/armor/chainmail/bikini,
+		/obj/item/clothing/suit/roguetown/armor/chainmail						= /obj/item/clothing/suit/roguetown/armor/chainmail/bikini,
+		/obj/item/clothing/suit/roguetown/armor/plate/iron						= /obj/item/clothing/suit/roguetown/armor/plate/iron/bikini,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/iron					= /obj/item/clothing/suit/roguetown/armor/plate/iron/bikini,
+		/obj/item/clothing/suit/roguetown/armor/plate							= /obj/item/clothing/suit/roguetown/armor/plate/bikini,
+		/obj/item/clothing/suit/roguetown/armor/plate/full						= /obj/item/clothing/suit/roguetown/armor/plate/full/bikini
+		)
+	result_item = null
+
 //'Skinned' variants. These are less thorough than the 'Replacement' variants, but are cleaner (and lead to a lot less extra instances that can clog up the spawning menu.)
 // Unlike the 'Replacement' variants, these basically just apply a new sprite onto the old item and call it a day. If you need to give custom onmobs to a certain weapon to make it look good, use the former method instead.
 
@@ -676,3 +718,69 @@
 	desc = "'Hail to the king, baby.'"
 	icon_state = "psyaxedouble"
 	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/clothing/suit/roguetown/armor/leather/cuirass/triumph
+	name = "leather cuirass"
+	icon_state = "legacyleather"
+	color = null
+
+/obj/item/clothing/suit/roguetown/armor/leather/triumph
+	name = "leather armor"
+	icon_state = "legacyroguearmor"
+	color = null
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/triumph
+	name = "hardened leather coat"
+	icon_state = "legacyroguearmor_coat"
+	color = null
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/triumph
+	name = "aged iron breastplate"
+	desc = "An aged iron cuirass. It looks to've been hewn from the same kind of low-quality iron that's traditionally reserved for \
+	cookware, long ago. Despite its ignoble origins, this cuirass has clearly outlived most of its far-more-expensive compatriots. Maybe \
+	there is some truth in the old adage of 'keeping it simple, stupid'."
+	icon_state = "legacyibreastplate"
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/legacy
+    name = "valorian cuirass"
+    desc = "A steel cuirass. Do you still remember the first time you tasted blood; that sanguine succor, dribbling from a busted lip?"
+    icon_state = "legacycuirass"
+    item_state = "legacycuirass"
+
+/obj/item/clothing/suit/roguetown/armor/plate/legacy
+    name = "valorian half-plate"
+    desc = "A padded steel cuirass, 'adventurer-fitted' with a pair of pauldrons. Before you is your weapon; when was the last time \
+	you had ever thought without its presence?"
+    icon_state = "legacyhalfplate"
+    item_state = "legacyhalfplate"
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/legacy
+    name = "valorian plate armor"
+    desc = "A complete set of steel plate armor, fitted with tassets and bracers for additional coverage. When the kingdom comes \
+	crashing down, will you deliver its people from evil; or will you be the one to string up 'pon the pyre?"
+    icon_state = "legacyplate"
+    item_state = "legacyplate"
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy
+    name = "valorian fluted plate armor"
+    desc = "A resplendant set of steel plate armor, decorated with silver flutings. Blessed dreamer, accursed heathen, lowly \
+	fool; the curtain call is a mere heartbeat away. Are you ready for one last dance, before midnight calls?"
+    icon_state = "legacyornateplate"
+    item_state = "legacyornateplate"
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/legacy
+	name = "valorian iron breastplate"
+	desc = "An iron cuirass. Where everyone else perished, you persevered; with every broken bone, did you still swear that you lyved?"
+	icon_state = "ilegacycuirass"
+
+/obj/item/clothing/suit/roguetown/armor/plate/iron/legacy
+	name = "valorian iron half-plate"
+	desc = "An padded iron cuirass, fitted with tassets for additional coverage. Will you let your past command the absolute fate of what \
+	is yet to come?"
+	icon_state = "ilegacytassetplate"
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/iron/legacy
+	name = "valorian iron plate armor"
+	desc = "A complete set of iron plate armor, fitted with tassets and bracers for additional coverage. Ask yourself one last question, before \
+	you twist the blade; is humenity still worth saving?"
+	icon_state = "ilegacyplate"

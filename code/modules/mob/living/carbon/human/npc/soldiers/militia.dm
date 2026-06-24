@@ -243,6 +243,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/staves, 2, TRUE)
@@ -258,17 +259,17 @@
 		var/voicepack_choice = rand(1, 4)
 		switch(voicepack_choice)
 			if(1)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
 			if(2)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 			if(3)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
 			if(4)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 
 /mob/living/carbon/human/species/human/northern/militia/ambush
 

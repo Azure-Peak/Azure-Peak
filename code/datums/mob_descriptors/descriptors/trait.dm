@@ -1,6 +1,7 @@
 /datum/mob_descriptor/trait
 	abstract_type = /datum/mob_descriptor/trait
 	slot = MOB_DESCRIPTOR_SLOT_TRAIT
+	prefix = "%ARE%"
 
 /datum/mob_descriptor/trait/moderate
 	name = "Moderate"
@@ -302,3 +303,17 @@
 /datum/mob_descriptor/trait/vainglorious
 	name = "Vainglorious"
 	prefix = "%ARE%"
+
+/datum/mob_descriptor/trait/custom
+	var/custom_index
+
+/datum/mob_descriptor/trait/custom/can_describe(mob/living/described)
+	return length(described.custom_descriptors) >= custom_index
+
+/datum/mob_descriptor/trait/custom/get_description(mob/living/described)
+	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
+	return entry.content_text
+
+/datum/mob_descriptor/trait/custom/twelve
+	name = "Custom Trait"
+	custom_index = 12

@@ -51,6 +51,8 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
+		if(out_of_effective_range())
+			return
 		if(ishuman(target))
 			var/mob/living/carbon/human/H = target
 			H.blood_volume = max(H.blood_volume-45, 0)

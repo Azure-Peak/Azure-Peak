@@ -52,7 +52,7 @@
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
 		/obj/item/chalk = 1,
 		)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
 	if(H.mind)
 		backr = choose_implement(H, "greater")
 		H.set_patron(/datum/patron/inhumen/zizo)

@@ -36,6 +36,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/mind_broken::name = /datum/charflaw/mind_broken,
 	/datum/charflaw/noflaw::name = /datum/charflaw/noflaw,
 	/datum/charflaw/leprosy::name = /datum/charflaw/leprosy,
+	/datum/charflaw/wanted::name = /datum/charflaw/wanted,
 	/datum/charflaw/randflaw::name = /datum/charflaw/randflaw
 	))
 
@@ -862,6 +863,29 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			active_since = world.time
 	if(is_active && user && !QDELETED(user))
 		addtimer(CALLBACK(src, PROC_REF(check_for_candidates), user), 5 SECONDS)
+
+/datum/charflaw/wanted
+	name = "Wanted (+2 TRI)"
+	desc = "You're a known criminal; your name can be found on the EXCIDIUM. Your crime may have been a misdeed worthy of a fine, or a great offense against the powers at play. Only Adventurers, Pilgrims (Migrants), Traders, Vagabonds and Lunatics may pick this vice and it requires another."
+	needs_extra_vice = TRUE
+
+/datum/charflaw/wanted/on_mob_creation(mob/user)
+	. = ..()
+	user.adjust_triumphs(2)
+	ADD_TRAIT(user, TRAIT_OUTLAW, "[type]")
+
+/datum/charflaw/wanted/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	addtimer(CALLBACK(src, PROC_REF(apply_bounty_when_ready), H), 5 SECONDS)
+
+/datum/charflaw/wanted/proc/apply_bounty_when_ready(mob/living/carbon/human/H)
+	if(H.advsetup)
+		addtimer(CALLBACK(src, PROC_REF(apply_bounty_when_ready), H), 5 SECONDS)
+		return
+	wretch_select_bounty(H)
 
 
 

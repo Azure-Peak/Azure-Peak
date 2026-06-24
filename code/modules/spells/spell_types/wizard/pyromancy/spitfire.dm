@@ -67,6 +67,8 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
+		if(out_of_effective_range())
+			return
 		if(has_frost_stacks(M))
 			remove_frost_stack(M)
 			visible_message(span_warning("The fire thaws the frost on [target]!"))

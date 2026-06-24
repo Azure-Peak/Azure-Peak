@@ -37,6 +37,17 @@
 	result = /obj/item/kitchen/rollingpin
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
+/datum/crafting_recipe/roguetown/survival/bakers_peel
+	name = "baker's peel"
+	category = "Houseware"
+	result = /obj/item/rogueweapon/bakers_peel
+	reqs = list(
+		/obj/item/grown/log/tree = 1,
+		/obj/item/grown/log/tree/small = 1,
+		)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = SKILL_LEVEL_NOVICE
+
 /datum/crafting_recipe/roguetown/survival/woodbucket
 	name = "wooden bucket"
 	display_category = ITEM_CAT_DECORATION

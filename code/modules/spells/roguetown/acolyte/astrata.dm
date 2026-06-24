@@ -240,6 +240,8 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
+			if(out_of_effective_range())
+				return
 			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
 			if(HAS_TRAIT(L, TRAIT_SILVER_WEAK))
 				L.adjust_fire_stacks(4, /datum/status_effect/fire_handler/fire_stacks/sunder)

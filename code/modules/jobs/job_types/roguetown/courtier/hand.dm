@@ -21,7 +21,7 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/cmode/nobility/combat_spymaster.ogg'
 	job_traits = list(TRAIT_NOBLE, TRAIT_EXPERT_HUNTER)
-	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
+	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible, /datum/charflaw/wanted) //Needs to use the throat - sometimes
 	job_subclasses = list(
 		/datum/advclass/hand/blademaster,
 		/datum/advclass/hand/spymaster,

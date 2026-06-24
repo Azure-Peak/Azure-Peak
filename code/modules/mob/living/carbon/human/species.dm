@@ -492,8 +492,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		fly = new
 		fly.Grant(C)
 
-	soundpack_m = new soundpack_m()
-	soundpack_f = new soundpack_f()
+	soundpack_m = GLOB.voice_packs[soundpack_m]
+	soundpack_f = GLOB.voice_packs[soundpack_f]
 
 	C.add_movespeed_modifier(MOVESPEED_ID_SPECIES, TRUE, 100, override=TRUE, multiplicative_slowdown=speedmod, movetypes=(~FLYING))
 

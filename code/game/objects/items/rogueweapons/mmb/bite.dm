@@ -7,6 +7,7 @@
 	swingdelay = 0
 	unarmed = TRUE
 	noaa = FALSE
+	blade_class = BCLASS_BITE
 	animname = "bite"
 	attack_verb = list("bites")
 
@@ -77,7 +78,11 @@
 		if(!lying_attack_check(user))
 			return FALSE
 
-	var/def_zone = melee_accuracy_check(user.zone_selected, user, src, /datum/skill/combat/unarmed, bitten, null)
+	var/def_zone
+	if(src.cmode)
+		def_zone = melee_accuracy_check(user.zone_selected, user, src, /datum/skill/combat/unarmed, bitten, null)
+	else
+		def_zone = user.zone_selected
 	var/obj/item/bodypart/affecting = get_bodypart(def_zone)
 	if(!affecting)
 		to_chat(user, span_warning("Nothing to bite."))

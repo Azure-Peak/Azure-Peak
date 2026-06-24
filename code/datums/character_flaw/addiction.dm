@@ -18,7 +18,7 @@
 			if(mob_vice.partial_sate < world.time)
 				mob_vice.partial_sate = world.time + (5 MINUTES)
 				to_chat(src, span_blue("<i>This will do... for now...</i>"))
-				mob_vice.next_sate = max((initial(mob_vice.time) / 2), 1)
+				mob_vice.next_sate = world.time + max((initial(mob_vice.time) / 2), 1)
 				remove_stress(/datum/stressevent/vice)	// These are just in case we ended up here w/ unsated vice debuffs
 				if(mob_vice.debuff)
 					remove_status_effect(mob_vice.debuff)

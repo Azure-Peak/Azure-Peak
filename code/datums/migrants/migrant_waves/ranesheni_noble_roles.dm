@@ -14,7 +14,7 @@
 /datum/advclass/ranesheni_emir
 	name = "Emir"
 	outfit = /datum/outfit/job/roguetown/ranesheni/emir
-	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_INTELLECTUAL)
 	category_tags = list(CTAG_RANESHENI_EMIR)
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -104,7 +104,7 @@
 		belt = /obj/item/storage/belt/rogue/leather/cloth/lady
 		head = /obj/item/clothing/head/roguetown/nyle
 		shirt = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch
-		id = /obj/item/scomstone/garrison
+		id = /obj/item/scomstone
 		shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	else if(should_wear_masc_clothes(H))
 		head = /obj/item/clothing/head/roguetown/nyle
@@ -114,7 +114,7 @@
 		shoes = /obj/item/clothing/shoes/roguetown/shortboots
 		belt = /obj/item/storage/belt/rogue/leather
 		backr = /obj/item/storage/backpack/rogue/satchel
-		id = /obj/item/clothing/ring/silver
+		id = /obj/item/scomstone
 	backl = /obj/item/storage/backpack/rogue/satchel/short
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,

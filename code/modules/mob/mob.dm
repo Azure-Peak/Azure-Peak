@@ -40,21 +40,16 @@ GLOBAL_VAR_INIT(mobids, 1)
 		for(var/M in observers)
 			var/mob/dead/observe = M
 			observe.reset_perspective(null)
-	qdel(hud_used)
-	for(var/cc in client_colours)
-		qdel(cc)
+	QDEL_NULL(hud_used)
+	QDEL_LIST(client_colours)
 	used_intent = null
-	used_rmb_intent = null
 	if(a_intent && a_intent.mastermob == src)
 		a_intent.mastermob = null
 	a_intent = null
 	o_intent = null
 	possible_mmb_intents = null
-	QDEL_LIST(possible_spell_intents)
 	QDEL_LIST(possible_a_intents)
 	QDEL_LIST(possible_offhand_intents)
-	QDEL_LIST(possible_rmb_intents)
-	QDEL_NULL(base_intents)
 	QDEL_NULL(mmb_intent)
 	QDEL_NULL(rmb_intent)
 	QDEL_NULL(unarmed_special)
@@ -68,7 +63,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 		var/datum/skill_holder/my_skill = skills
 		my_skill.current = null
 		QDEL_NULL(skills)
-	client_colours = null
 	if(active_storage)
 		active_storage.hide_from(src)
 	ghostize(drawskip=TRUE)
@@ -487,7 +481,6 @@ GLOBAL_VAR_INIT(mobids, 1)
   */
 /mob/verb/examinate(atom/A as mob|obj|turf in view()) //It used to be oview(12), but I can't really say why
 	set name = "Examine"
-	set category = "IC"
 	set hidden = 1
 
 	if(isturf(A) && !(sight & SEE_TURFS) && !(A in view(client ? client.view : world.view, src)))
@@ -621,7 +614,6 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/abandon_mob()
 	set name = "{ABANDON MOB}"
-	set category = "Preferences.Options"
 	set hidden = 1
 	if(!check_rights(0))
 		return

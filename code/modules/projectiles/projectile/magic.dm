@@ -9,12 +9,21 @@
 	flag = "fire"
 	reflectable = REFLECT_NORMAL
 	guard_deflectable = TRUE
+	dam_falloff_factor = 0.5
+	suppress_effects_past_range = TRUE
+	max_range = 7
 	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 	var/mob/living/carbon/human/sender
 	/// Impact visual intensity. SPELL_IMPACT_NONE / SPELL_IMPACT_LOW / SPELL_IMPACT_MEDIUM / SPELL_IMPACT_HIGH
 	var/spell_impact_intensity = SPELL_IMPACT_LOW
 	/// Override color for the impact effect. If null, uses light_color.
 	var/spell_impact_color
+
+/// Energy projectiles (divine and arcane bolts) are a separate base from /magic but share the same off-screen falloff.
+/obj/projectile/energy
+	dam_falloff_factor = 0.5
+	suppress_effects_past_range = TRUE
+	max_range = 7
 
 /obj/projectile/magic/on_hit(atom/target, blocked = FALSE)
 	. = ..()
@@ -301,6 +310,8 @@
 
 /obj/projectile/magic/sickness/on_hit(atom/target, blocked = FALSE)
 	. = ..()
+	if(out_of_effective_range())
+		return
 	if(iscarbon(target))
 		var/mob/living/carbon/M = target
 		M.reagents.add_reagent(/datum/reagent/toxin, 3)
@@ -375,8 +386,12 @@
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] vanishes into smoke on contact with [target]!"))
 			return BULLET_ACT_BLOCK
+		if(out_of_effective_range())
+			return
 		if(exp_fire)
 			M.adjust_fire_stacks(exp_fire*3)
+	else if(out_of_effective_range())
+		return
 	var/turf/T
 	if(isturf(target))
 		T = target
@@ -401,6 +416,8 @@
 		var/mob/living/M = target
 		if(M.anti_magic_check())
 			return BULLET_ACT_BLOCK
+	if(out_of_effective_range())
+		return
 	var/turf/T = get_turf(target)
 	for(var/i=0, i<50, i+=10)
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(explosion), T, -1, exp_heavy, exp_light, exp_flash, FALSE, FALSE, exp_fire), i)

@@ -210,23 +210,23 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 		var/voicepack_choice = rand(1, 6)
 		switch(voicepack_choice)
 			if(1)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
 			if(2)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 			if(3)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
 			if(4)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 			if(5)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
 			if(6)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
 
 /datum/outfit/job/roguetown/quest_miniboss/matthios/pre_equip(mob/living/carbon/human/H)
 	. = ..()

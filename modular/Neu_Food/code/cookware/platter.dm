@@ -125,7 +125,7 @@ What it does:
 /obj/item/cooking/platter/pewter
 	name = "pewter platter"
 	desc = "A tin plate that contains just a tinge of lead."
-	icon_state = "platter_tin"
+	icon_state = "platter_silver"
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 

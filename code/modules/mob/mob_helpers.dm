@@ -1162,7 +1162,7 @@
 		used_title =  J.display_title || J.title
 		if(J.f_title && (titles_pref == TITLES_F))
 			used_title = J.f_title
-		if(J.advjob_examine)
+		if(J.advjob_examine && !override_advclass_examine)
 			used_title = advjob
 	return used_title
 

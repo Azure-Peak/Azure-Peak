@@ -242,8 +242,8 @@
 	if(zombie.dna?.species)
 		soundpack_m = zombie.dna.species.soundpack_m
 		soundpack_f = zombie.dna.species.soundpack_f
-		zombie.dna.species.soundpack_m = new /datum/voicepack/zombie/m()
-		zombie.dna.species.soundpack_f = new /datum/voicepack/zombie/f()
+		zombie.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/zombie/m]
+		zombie.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/zombie/f]
 	base_intents = zombie.base_intents
 	zombie.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	zombie.update_a_intents()

@@ -161,9 +161,14 @@
 	var/max_range = 0
 	/// Falloff factor for damage. Multiplicative.
 	var/dam_falloff_factor = 1
+	var/suppress_effects_past_range = FALSE
 
 /obj/projectile/proc/handle_drop()
 	return
+
+
+/obj/projectile/proc/out_of_effective_range()
+	return suppress_effects_past_range && max_range && check_range(get_turf(src))
 
 /obj/projectile/Initialize()
 	. = ..()

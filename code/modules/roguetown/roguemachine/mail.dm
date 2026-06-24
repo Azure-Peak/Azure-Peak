@@ -254,6 +254,14 @@
 					to_chat(user, span_warning("Failed to send. Bad number?"))
 					qdel(P)
 			else
+				var/mob/living/carbon/human/mailrecipient = null
+				for(var/mob/living/carbon/human/H in GLOB.human_list)
+					if(H.real_name == send2place)
+						mailrecipient = H
+				if(!mailrecipient)
+					to_chat(user, span_warning("There's no one by that name to receive it."))
+					qdel(P)
+					return TRUE
 				if(SSroguemachine.hermailermaster)
 					var/obj/item/roguemachine/mastermail/X = SSroguemachine.hermailermaster
 					P.forceMove(X.loc)
@@ -262,10 +270,8 @@
 					X.new_mail = TRUE
 					X.update_icon()
 					send_ooc_note("New letter from <b>[sentfrom].</b>", name = send2place)
-					for(var/mob/living/carbon/human/H in GLOB.human_list)
-						if(H.real_name == send2place)
-							H.apply_status_effect(/datum/status_effect/ugotmail)
-							H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
+					mailrecipient.apply_status_effect(/datum/status_effect/ugotmail)
+					mailrecipient.playsound_local(mailrecipient, 'sound/misc/mail.ogg', 100, FALSE, -1)
 					log_mail_send(user, sentfrom, send2place)
 					visible_message(span_warning("[user] sends something."))
 					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
@@ -650,7 +656,8 @@
 				for(var/mob/living/carbon/human/H in GLOB.human_list)
 					if(H.real_name == send2place)
 						mailrecipient = H
-				if(!mailrecipient && (alert("Could not find recipient [send2place]. Still send the letter?", "", "YES", "NO") == "NO")) // ask player if they still want to send a letter to a non-found character
+				if(!mailrecipient)
+					to_chat(user, span_warning("There's no one by that name to receive it."))
 					return
 				var/findmaster
 				if(SSroguemachine.hermailermaster)

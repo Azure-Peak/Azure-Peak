@@ -121,3 +121,15 @@
 	desc = "I'm revealed. It will take me a while to regain my sense of surroundings."
 	icon_state = "revealed"
 	icon = 'icons/mob/screen_alert_combat.dmi'
+
+// Merge this into stealth status once FREE approves.
+/datum/status_effect/combat_tag
+	id = "combat_tag"
+	alert_type = /atom/movable/screen/alert/status_effect/combat_tag
+	duration = 10 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/combat_tag
+	name = "In Combat"
+	desc = "I was recently in active combat. I won't get a proper rest until I catch my breath."
+	icon_state = "clash"

@@ -29,6 +29,8 @@
 #define HERESYDESC_BAOTHA_ICON "It bears the icon of debauched Baotha"
 #define HERESYDESC_BAOTHA_MISC "A known design of Baotha"
 
+// Abyssor dream items
+#define HERESYDESC_DREAM_ITEM "A piece of Abyssor's dream. It is dangerous, and shouldn't be seen outside of capable, sanctified hands."
 // Dreamwalker items
 #define HERESYDESC_DREAMWALKER_WEAPON "A weapon of the enigmatic and violent Dreamwalkers"
 #define HERESYDESC_DREAMWALKER_ARMOR "An armor piece of the enigmatic and violent Dreamwalkers"

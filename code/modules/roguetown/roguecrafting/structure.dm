@@ -1119,6 +1119,16 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 
+/datum/crafting_recipe/roguetown/structure/bakers_trough
+	name = "baker's trough"
+	category = "Misc"
+	result = /obj/structure/bakers_trough
+	reqs = list(/obj/item/grown/log/tree/small = 2)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = SKILL_LEVEL_NOVICE
+
 /datum/crafting_recipe/roguetown/structure/fancytableblack
 	name = "fancy wooden table(black)"
 	category = "Tables"

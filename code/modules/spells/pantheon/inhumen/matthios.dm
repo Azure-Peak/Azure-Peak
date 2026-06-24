@@ -1017,55 +1017,38 @@
 
 ////////////////
 //T2 - Mammonite
-//Uses up to 100 Mammon to deal 100 damage with 75% armor penetration on your next strike. Can't get simpler than that.
+//Uses up to 200 Mammon to deal damage with equivalent armor penetration on your next strike. Can't get simpler than that.
+//if you toast more than 80 mammon (I.E, Strong stance), you have a chance to gib NPCs. Let's go gambling.
 
 /datum/action/cooldown/spell/mammonite
 	name = "Mammonite"
-	desc = "Invoke Matthios's name and invest 50 to 100 mammon of your own hoard into your next strike. The power of your offering mirrors the wealth spent, drawing even from your bank. Every coin fuels your glory.<br><br>Penetrates armor equal to 75% of the mammon spent."
+	desc = "Invoke Matthios's name and invest 10 to 200 mammon from your possessions and treasury into your next strike (based on your intent, min. 'Weak', max. 'Strong'). The attack penetrates armor equal to 75% of the mammon spent and grows stronger with the value of the offering. Offering over 80 mammon in one strike has a chance to obliterate the mindless."
+	fluff_desc = "The faithful tell of a merchant cornered by death, bereft of allies, steel, and hope. With nothing left but his fortune and his faith in Matthios, he offered both in desperate prayer. The coins vanished, and in their place came strength enough to fell those who would have slain him. Thus Mammonite serves as a reminder that wealth is never truly powerless in the hands of the devoted. Through greed, you proliferate His ambition, His name."
+
 	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	button_icon_state = "mammonite"
 	spell_color = "#d4af37"
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	click_to_activate = FALSE
 	self_cast_possible = TRUE
-	primary_resource_type = SPELL_COST_NONE
-	primary_resource_cost = 0
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = 25
+
 	invocation_type = "shout"
 	charge_required = FALSE
-	cooldown_time = 45 SECONDS
+	cooldown_time = 25 SECONDS
+
 	associated_skill = /datum/skill/magic/holy
 	spell_tier = 0
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
-	var/min_mammon = 25
-	var/max_mammon = 100
 
-/datum/action/cooldown/spell/mammonite/can_cast_spell(feedback = TRUE)
-	. = ..()
-	if(!.)
-		return FALSE
-	if(!ishuman(owner))
-		return FALSE
-
-	var/mob/living/carbon/human/H = owner
-	if(!H.cmode)
-		return FALSE
-
-	if(!SStreasury.has_account(H))
-		SStreasury.create_bank_account(H, 0)
-
-	var/bank = SStreasury.get_balance(H)
-	var/onhand = get_mammons_in_atom(H)
-	var/total = bank + onhand
-
-	if(total < min_mammon)
-		if(feedback)
-			to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor..."))
-		return FALSE
-
-	return TRUE
+	var/min_mammon = 10
+	var/max_mammon = 200
 
 /datum/action/cooldown/spell/mammonite/cast(atom/cast_on)
 	. = ..()
+
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
@@ -1078,25 +1061,32 @@
 		to_chat(H, span_warning("Matthios' truth already lays claim to my next strike."))
 		return FALSE
 
-	if(!SStreasury.has_account(H))
-		SStreasury.create_bank_account(H, 0)
+	var/bank = 0
+	if(SStreasury.has_account(H))
+		bank = SStreasury.get_balance(H)
 
-	var/bank = SStreasury.get_balance(H)
 	var/onhand = get_mammons_in_atom(H)
 	var/total = bank + onhand
 
-	if(total < min_mammon)
-		to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor..."))
+	var/list/range = get_investment_range(H)
+	var/min_invest = range[1]
+	var/max_invest = range[2]
+
+	if(total < min_invest)
+		to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor... ([min_invest] mammon needed for [H.rmb_intent.name] stance.)"))
 		return FALSE
 
-	var/mammon_used = clamp(total, min_mammon, max_mammon)
+	var/mammon_used = rand(min_invest, max_invest)
+	mammon_used = min(mammon_used, total)
 
 	var/list/invocations = list(
 		"Gold to glory, Matthios guide my hand!",
 		"Wealth be spent, and power be gained!",
 		"My hoard bleeds for strength, in His name!",
 		"Matthios! A king's ransom for a single blow!",
+		"Grant the weight of mine greed, Matthios!",
 	)
+
 	H.say(pick(invocations), forced = invocation_type)
 
 	var/remaining = mammon_used
@@ -1109,28 +1099,29 @@
 		from_inventory = remove_mammons_from_atom(H, drained_onhand)
 		remaining -= from_inventory
 
-	if(remaining > 0)
+	if(remaining > 0 && SStreasury.has_account(H))
 		from_bank = min(remaining, SStreasury.get_balance(H))
-		SStreasury.burn(SStreasury.get_account(H), from_bank, "matthios tribute")
+
+		if(from_bank > 0)
+			SStreasury.burn(SStreasury.get_account(H), from_bank, "Meister reports the Mammon is missing. Is this true?")
+
 		remaining -= from_bank
 
 	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)
 	if(E)
-		E.bonus_damage = round(mammon_used * 3) // jakk here
+		E.bonus_damage = round(mammon_used * 3)
+		E.cap = max_mammon
 
 	var/source_text = ""
 
 	if(from_inventory > 0 && from_bank > 0)
-		source_text = "MATTHIOS claims [from_inventory] from my possessions, [from_bank] from their wretched Treasury!"
+		source_text = "MATTHIOS claims [from_inventory] from my possessions and [from_bank] from my treasury!"
 	else if(from_inventory > 0)
-		source_text = "MATTHIOS, claim [from_inventory] from my possessions!"
+		source_text = "MATTHIOS claims [from_inventory] from my possessions!"
 	else if(from_bank > 0)
-		source_text = "MATTHIOS, [from_bank] from their wretched Treasury!"
+		source_text = "MATTHIOS claims [from_bank] from my treasury!"
 
-	H.visible_message(
-		span_danger("[H]'s weapon gleams with a greedy golden light!"),
-		span_notice("I invest [mammon_used] mammon into my next strike. ([source_text])")
-	)
+	H.visible_message(span_danger("[H]'s weapon gleams with a greedy golden light!"), span_notice("I invest [mammon_used] mammon into my next strike. [source_text]"))
 
 	playsound(get_turf(H), 'sound/magic/antimagic.ogg', 60, TRUE)
 

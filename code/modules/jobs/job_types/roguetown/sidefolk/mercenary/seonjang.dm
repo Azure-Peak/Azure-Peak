@@ -51,7 +51,7 @@
 	if(should_wear_masc_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 		cloak = /obj/item/clothing/cloak/eastcloak1
-		H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
+		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil]
 	else if(should_wear_femme_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
 	H.merctype = 9

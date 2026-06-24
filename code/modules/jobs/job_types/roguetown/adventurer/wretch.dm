@@ -140,7 +140,10 @@
 		d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%"
 	)
 	add_bounty(H.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, FALSE, my_crime, bounty_poster)
-	to_chat(H, span_danger("You are playing an Antagonist role. By choosing to spawn as a Wretch, you are expected to actively create conflict with other players. Failing to play this role with the appropriate gravitas may result in punishment for Low Roleplay standards."))
+	if(H.has_flaw(/datum/charflaw/wanted))
+		to_chat(H, span_danger("You are wanted; you have a price on your head. Expect conflict to find you whether you seek it or not."))
+	else
+		to_chat(H, span_danger("You are playing an Antagonist role. By choosing to spawn as a Wretch, you are expected to actively create conflict with other players. Failing to play this role with the appropriate gravitas may result in punishment for Low Roleplay standards."))
 
 /// Returns an assoc list with all intermediate wretch scaling values for admin display.
 /// If override_player_count is provided (e.g. from readied player count at roundstart), use that instead of the live joined list.

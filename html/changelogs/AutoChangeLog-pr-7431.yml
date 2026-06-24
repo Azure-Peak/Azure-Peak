@@ -1,6 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "Silver sunders no longer instantly oneshot you pass a certain level of fire damage without any regards for armor, Rocket Tag gameplay is dead once more (not to say this can't onetap skeles with firecrit or severely weaken vampires in their ability to even fight as it should."
-  - balance: "Re-done silver sunders. 40 stacks are applied per hit, 100 allows old Sunder kills. Sunderstacks apply debuffing effects as they build up. Bring numbers + gear for monsters, not just blessed silver."
-  - balance: "All forms of sundering flames disable your pain immunity, making you subject to paincrit again and enabling you to feel pain. This only applies if you're already silver weak."
