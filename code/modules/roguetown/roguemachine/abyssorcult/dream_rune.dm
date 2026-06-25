@@ -8,6 +8,10 @@
 	resistance_flags = INDESTRUCTIBLE
 	/// The specific dream pool this rune has permanently bonded with
 	var/obj/structure/roguemachine/dream_pool/linked_pool
+	// Holds the current user's session data: list(list("quest" = Q, "target" = T, "bonus" = B))
+	var/list/cached_choices
+	// Tracks the parchment item used to initialize the current batch of choices
+	var/obj/item/parchment_used
 
 /obj/structure/roguemachine/ritual_rune/proc/attempt_pool_link()
 	if(linked_pool)
@@ -45,6 +49,8 @@
 
 /obj/structure/roguemachine/ritual_rune/Destroy()
 	linked_pool = null
+	cached_choices = null
+	parchment_used = null
 	return ..()
 
 /obj/structure/roguemachine/ritual_rune/proc/populate_vision_quests()
@@ -79,33 +85,60 @@
 		if(response != "Yes")
 			return
 
-	var/list/tiered_quests = list()
-	for(var/datum/vision_quest/Q in GLOB.all_vision_quests)
-		if(Q.required_tier <= tier)
-			tiered_quests += Q
+	if(!cached_choices)
+		cached_choices = list()
 
-	if(!length(tiered_quests))
-		to_chat(user, span_warning("The pool shows only empty shadows. No vision is possible at this time."))
+	var/tier_key = "[tier]"
+	var/list/tier_choices = cached_choices[tier_key]
+	if(!length(tier_choices))
+		var/list/tiered_quests = list()
+		for(var/datum/vision_quest/Q in GLOB.all_vision_quests)
+			if(Q.required_tier <= tier)
+				tiered_quests += Q
+
+		if(!length(tiered_quests))
+			to_chat(user, span_warning("The pool shows only empty shadows. No vision is possible at this tier."))
+			return
+
+		shuffle(tiered_quests)
+		var/list/selected_quests = tiered_quests.Copy(1, min(3, length(tiered_quests) + 1))
+
+		tier_choices = list()
+		for(var/datum/vision_quest/Q in selected_quests)
+			var/mob/living/carbon/human/valid_target = find_valid_target_for_quest(Q, user)
+			if(!valid_target)
+				continue
+
+			Q.required_phrase = pick(Q.possible_phrases)
+			var/chosen_bonus_path = pick(Q.possible_bonus_rewards)
+
+			tier_choices += list(list(
+				"quest" = Q, 
+				"target" = valid_target, 
+				"bonus" = chosen_bonus_path
+			))
+		cached_choices[tier_key] = tier_choices
+		src.parchment_used = used_parchment
+	else
+		for(var/entry in tier_choices)
+			var/datum/vision_quest/Q = entry["quest"]
+			var/mob/living/carbon/human/target_mob = entry["target"]
+
+			if(!target_mob || target_mob.stat == DEAD || !(target_mob in GLOB.human_list)) 
+				var/mob/living/carbon/human/new_target = find_valid_target_for_quest(Q, user)
+				if(new_target)
+					entry["target"] = new_target
+				else
+					tier_choices -= list(entry)
+
+	if(!length(tier_choices))
+		to_chat(user, span_warning("The visions for this tier are there, but no suitable targets exist in the waking world."))
+		cached_choices -= tier_key // Clear this tier slot specifically so it can be re-rolled next attempt
+		if(!length(cached_choices)) // Clean up parent list if completely empty
+			src.parchment_used = null
 		return
 
-	shuffle(tiered_quests)
-	var/list/selected_quests = tiered_quests.Copy(1, min(3, length(tiered_quests) + 1))
-
-	var/list/available_choices = list()
-	for(var/datum/vision_quest/Q in selected_quests)
-		var/mob/living/carbon/human/valid_target = find_valid_target_for_quest(Q, user)
-		if(valid_target)
-			available_choices += list(list("quest" = Q, "target" = valid_target))
-
-	if(!length(available_choices))
-		to_chat(user, span_warning("The visions are there, but no suitable targets exist in the waking world."))
-		return
-
-	for(var/entry in available_choices)
-		var/datum/vision_quest/Q = entry["quest"]
-		Q.required_phrase = pick(Q.possible_phrases)
-	
-	open_quest_selection_ui(user, available_choices, used_parchment)
+	open_quest_selection_ui(user, tier_choices, src.parchment_used, tier)
 
 /obj/structure/roguemachine/ritual_rune/proc/find_valid_target_for_quest(datum/vision_quest/Q, mob/living/carbon/human/seeker)
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
@@ -130,26 +163,20 @@
 			return H
 	return null
 
-/obj/structure/roguemachine/ritual_rune/proc/open_quest_selection_ui(mob/living/carbon/human/user, list/available_choices, used_parchment)
+/obj/structure/roguemachine/ritual_rune/proc/open_quest_selection_ui(mob/living/carbon/human/user, list/available_choices, used_parchment, tier)
 	var/list/display_data = list()
 	for(var/entry in available_choices)
 		var/datum/vision_quest/Q = entry["quest"]
 		var/mob/target_mob = entry["target"]
-		
+		var/bonus_path = entry["bonus"]
 		var/list/reward_options = list()
 		for(var/reward_path in Q.possible_rewards)
-			var/reward_name = Q.possible_rewards[reward_path]
 			reward_options += list(list(
 				"path" = "[reward_path]",
-				"name" = reward_name
+				"name" = Q.possible_rewards[reward_path]
 			))
-		var/list/bonus_options = list()
-		for(var/bonus_path in Q.possible_bonus_rewards)
-			var/bonus_name = Q.possible_bonus_rewards[bonus_path]
-			bonus_options += list(list(
-				"path" = "[bonus_path]",
-				"name" = bonus_name
-			))
+
+		var/bonus_name = Q.possible_bonus_rewards[bonus_path]
 
 		display_data += list(list(
 			"id" = "[Q.type]",
@@ -160,8 +187,7 @@
 			"target_description" = Q.target_description,
 			"required_tier" = Q.required_tier,
 			"rewards" = reward_options,
-			"bonus_rewards" = bonus_options,
-			"vision_text" = Q.vision_text
+			"bonus_reward_name" = bonus_name
 		))
 
 	var/datum/vision_quest_selection/selection = new()
@@ -170,8 +196,7 @@
 	selection.user = user
 	selection.source_rune = src
 	selection.parchment_used = used_parchment
-	selection.selected_quest_id = null
-	selection.selected_reward_path = null
-	selection.selected_bonus_path = null
+	selection.selected_tier = tier
+
 	var/datum/tgui_module/vision_quest_selection/module = new(selection)
 	module.ui_interact(user)

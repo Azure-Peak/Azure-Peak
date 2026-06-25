@@ -16,8 +16,7 @@ type QuestChoice = {
   target_name: string;
   target_description: string;
   rewards: RewardOption[];
-  bonus_rewards: RewardOption[];
-  vision_text: string;
+  bonus_reward_name: string;
 };
 
 type Data = {
@@ -28,7 +27,6 @@ export const VisionQuestSelection = (props) => {
   const { act, data } = useBackend<Data>();
   const [selectedQuestId, setSelectedQuestId] = useState<string | null>(null);
   const [selectedReward, setSelectedReward] = useState<string | null>(null);
-  const [selectedBonus, setSelectedBonus] = useState<string | null>(null);
 
   const { choices = [] } = data;
   const selectedQuest = choices.find((q) => q.id === selectedQuestId);
@@ -36,26 +34,17 @@ export const VisionQuestSelection = (props) => {
   const handleSelectQuest = (questId: string) => {
     setSelectedQuestId(questId);
     setSelectedReward(null);
-    setSelectedBonus(null);
-    act('select_quest', { quest_id: questId });
   };
 
   const handleSelectReward = (path: string) => {
     setSelectedReward(path);
-    act('select_reward', { reward_path: path });
-  };
-
-  const handleSelectBonus = (path: string) => {
-    setSelectedBonus(path);
-    act('select_bonus', { bonus_path: path });
   };
 
   const handleConfirm = () => {
-    if (selectedQuest && selectedReward && selectedBonus) {
+    if (selectedQuest && selectedReward) {
       act('confirm_quest', {
         quest_id: selectedQuest.id,
         reward_path: selectedReward,
-        bonus_path: selectedBonus,
       });
     }
   };
@@ -103,9 +92,6 @@ export const VisionQuestSelection = (props) => {
                     <Box color="label" fontSize="0.9em">
                       Target: {selectedQuest.target_name} ({selectedQuest.target_description})
                     </Box>
-                    <Box mt={1} color="gray" italic>
-                      {selectedQuest.vision_text}
-                    </Box>
                   </Section>
 
                   <Section title="Choose Your Reward (x3)">
@@ -123,26 +109,17 @@ export const VisionQuestSelection = (props) => {
                     </Stack>
                   </Section>
 
-                  <Section title="Choose Your Bonus (x2)">
-                    <Stack wrap>
-                      {selectedQuest.bonus_rewards.map((bonus) => (
-                        <Stack.Item key={bonus.path}>
-                          <Button
-                            selected={selectedBonus === bonus.path}
-                            onClick={() => handleSelectBonus(bonus.path)}
-                          >
-                            {bonus.name}
-                          </Button>
-                        </Stack.Item>
-                      ))}
-                    </Stack>
+                  <Section title="Locked Bonus Reward">
+                    <NoticeBox info>
+                      <Icon name="gift" /> Pre-destined Bonus: <b>{selectedQuest.bonus_reward_name}</b>
+                    </NoticeBox>
                   </Section>
 
                   <Button
                     fluid
                     mt={1}
                     color="good"
-                    disabled={!selectedReward || !selectedBonus}
+                    disabled={!selectedReward}
                     onClick={handleConfirm}
                   >
                     Accept Vision
