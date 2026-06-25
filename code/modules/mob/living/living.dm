@@ -2157,13 +2157,6 @@
 						found_ping(get_turf(M), client, "hidden")
 
 		for(var/obj/O in view(7,src))
-			if("hiddenguy" in O.vars)
-				var/mob/living/M = O.vars["hiddenguy"]
-				if(M)
-					var/sneak = M.get_skill_level(/datum/skill/misc/sneaking)
-					var/effective_sneak = 8 + (sneak * 2)
-					if(STAPER >= effective_sneak) // skewed towards the hiding player because there's already a separate, guaranteed way to find hiders.
-						found_ping(get_turf(O), client, "hidden")
 			if(istype(O, /obj/item/restraints/legcuffs/beartrap))
 				var/obj/item/restraints/legcuffs/beartrap/M = O
 				if(isturf(M.loc) && M.armed)

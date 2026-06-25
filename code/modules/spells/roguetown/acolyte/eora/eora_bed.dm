@@ -5,7 +5,6 @@
 	debris = null
 	max_integrity = 50
 	icon_state = "eora"
-	hidingspot = FALSE
 	var/list/occupants = list()
 	var/next_heal_time = 0
 	var/heal_cooldown = 10 SECONDS
