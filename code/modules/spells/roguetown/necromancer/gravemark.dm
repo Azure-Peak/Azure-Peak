@@ -30,7 +30,7 @@
 	if(target == owner)
 		var/list/allies = list()
 
-		for(var/mob/living/M in world)
+		for(var/mob/living/M as anything in GLOB.mob_list)
 			if(M == owner)
 				continue
 

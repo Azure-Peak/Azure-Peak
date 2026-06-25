@@ -436,7 +436,7 @@
 	..()
 	to_chat(H, span_warning("You were a magos of old, ever since the embrace you've never had more time to practice your persuit of arcayne magicks, let alone revel in your taste for blood; now your master arises once more and your arcayne research shall see fruitation. Your lord's will be done."))
 	H.set_blindness(0)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard() //Every wizzard gotta have the evyl laugh, I don't make the rules, sire.
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard] //Every wizzard gotta have the evyl laugh, I don't make the rules, sire.
 	add_verb(H, /mob/proc/haltyell_exhausting) //Halting the charred corpse is too funny, we're keeping it. sovl.
 
 	cloak = /obj/item/clothing/cloak/tabard/stabard/vamp

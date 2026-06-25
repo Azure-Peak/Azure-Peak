@@ -2,6 +2,7 @@
 	name = "Bow-Hunter"
 	tutorial = "You are a hunter. With your bow you hunt the fauna of the glade, skinning what you kill and cooking any meat left over. The job is dangerous but important in the circulation of clothing and light armor."
 	allowed_sexes = list(MALE, FEMALE)
+	forbidden_races = list(RACES_DESPISED)
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/hunter
 	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_SURVIVAL_EXPERT, TRAIT_MASTERFUL_HUNTER)

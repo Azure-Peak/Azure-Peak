@@ -1,8 +1,8 @@
 /datum/patron/divine/undivided
 	name = "Undivided"
-	domain = "The Divine, Lyfe, Death, Existence."
+	domain = "The Divine, Lyfe, Death, Existence"
 	desc = "Ten Eternal, Divine Pantheon United, Bulwark against the Darkness. The Ten dilligently watch over their flock granting them potent boons, but not every man catches the attention of merely one. Take lessons from all from them all, for they are your masters and mentors."
-	worshippers = "Commonfolk, Grenzelhoft, Holy See Clergymen, Pragmatists of the Ten."
+	worshippers = "Commonfolk, Grenzelhoftians, Clergymen of the Holy See, and Pragmatists of the Ten"
 	mob_traits = list(TRAIT_UNDIVIDED)
 	miracles = list(/datum/action/cooldown/spell/touch/orison							= CLERIC_ORI,
 					/datum/action/cooldown/spell/astrata/ignition/undivided				= CLERIC_T0,
@@ -26,7 +26,7 @@
 	storyteller = /datum/storyteller/astrata // no unique storyteller for this one, since its so broad. No real reason to have a unique storyteller - Undivided contributes to ecah of the Ten's follower count.
 
 	titles = list(
-		"Ten" // having to put the actual word "Undivided" in your prayers is counterintuitive. they're the ten that's what people call them.
+		"Ten" // having to put the actual word "Undivided" in your prayers is counterintuitive. they're the ten that's what people call them. Also, for kazengunites, they don't have this concept. Sorryyyyy
 	)
 
 /datum/patron/divine/undivided/can_pray(mob/living/follower)

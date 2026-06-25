@@ -1,7 +1,7 @@
 /mob/proc/sate_addiction()
 	return
 
-/mob/living/carbon/human/sate_addiction(var/datum/charflaw/addiction/adc_vice)
+/mob/living/carbon/human/sate_addiction(datum/charflaw/addiction/adc_vice)
 	if(!adc_vice)
 		return
 
@@ -14,10 +14,30 @@
 	if(!mob_vice)
 		return
 	if(mob_vice.sated)
+		if(mob_vice.partial_sating)
+			if(mob_vice.partial_sate < world.time)
+				mob_vice.partial_sate = world.time + (5 MINUTES)
+				to_chat(src, span_blue("<i>This will do... for now...</i>"))
+				mob_vice.next_sate = world.time + max((initial(mob_vice.time) / 2), 1)
+				remove_stress(/datum/stressevent/vice)	// These are just in case we ended up here w/ unsated vice debuffs
+				if(mob_vice.debuff)
+					remove_status_effect(mob_vice.debuff)
+				sate_voyeurs(mob_vice)
 		return
 
 	to_chat(src, span_blue(mob_vice.sated_text))
 
+	sate_voyeurs(mob_vice)
+
+	mob_vice.sated = TRUE
+	mob_vice.time = initial(mob_vice.time) //reset roundstart sate offset to standard
+	mob_vice.partial_sate = world.time + (5 MINUTES)
+	mob_vice.next_sate = world.time + max(mob_vice.time, 1)
+	remove_stress(/datum/stressevent/vice)
+	if(mob_vice.debuff)
+		remove_status_effect(mob_vice.debuff)
+
+/mob/living/carbon/human/proc/sate_voyeurs(datum/charflaw/addiction/mob_vice)
 	for(var/mob/living/carbon/human/L in get_hearers_in_view(2, src, RECURSIVE_CONTENTS_CLIENT_MOBS))
 		if(src != L && !istype(mob_vice, /datum/charflaw/addiction/voyeur))	//Let's not have circular voyeur self-pleasing chains.
 			if(L.has_flaw(/datum/charflaw/addiction/voyeur))
@@ -26,27 +46,26 @@
 						L.sate_addiction(cf)
 						break
 
-	mob_vice.sated = TRUE
-	mob_vice.time = initial(mob_vice.time) //reset roundstart sate offset to standard
-	mob_vice.next_sate = world.time + max(mob_vice.time, 1)
-	remove_stress(/datum/stressevent/vice)
-	if(mob_vice.debuff)
-		remove_status_effect(mob_vice.debuff)
-
 /datum/charflaw/addiction
+	/// The world.time for our next sate proc.
 	var/next_sate = 0
+	/// The world.time snapshot for when we'll see a partial sate message again.
+	var/partial_sate = 0
+	/// Whether the vice is sated.
 	var/sated = TRUE
+	/// The delay between sate procs, partial sates can override this.
 	var/time = 5 MINUTES
 //	var/debuff = /datum/status_effect/debuff/addiction
 	var/debuff //so heroin junkies can have big problems
 	var/needsate_text
 	var/sated_text = "That's much better..."
 	var/unsate_time
+	var/partial_sating = TRUE
 
 
-/datum/charflaw/addiction/New()
-	..()
-	time = rand(6 MINUTES, 30 MINUTES)
+/datum/charflaw/addiction/on_mob_creation(mob/user)
+	. = ..()
+	time = rand(time - 5 MINUTES, time + 5 MINUTES)
 	next_sate = world.time + time
 
 /datum/charflaw/addiction/flaw_on_life(mob/user)
@@ -158,6 +177,7 @@
 	time = 40 MINUTES
 	needsate_text = "I need someone to HURT me."
 	voyeur_descriptor = "looking to be hurt"
+	partial_sating = FALSE
 
 /datum/charflaw/addiction/masochist/on_mob_creation(mob/living/living)
 	living.pain_threshold += 10
@@ -184,6 +204,7 @@
 	time = 20 MINUTES
 	needsate_text = "It's too quiet. Where's the yelling? The fighting?"
 	voyeur_descriptor = "soothed by noise"
+	partial_sating = FALSE
 
 /datum/charflaw/addiction/paranoid
 	name = "Paranoid"
@@ -191,6 +212,7 @@
 	time = 20 MINUTES
 	needsate_text = "Am I the only one of my kind left?"
 	voyeur_descriptor = "comforted by their own"
+	partial_sating = FALSE
 	var/chosen_faction
 
 /datum/charflaw/addiction/paranoid/apply_post_equipment(mob/user)
@@ -219,3 +241,4 @@
 	time = 30 MINUTES
 	needsate_text = "I must please someone."
 	voyeur_descriptor = "pleased by others"
+	partial_sating = FALSE

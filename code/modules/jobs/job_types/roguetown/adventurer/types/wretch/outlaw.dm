@@ -43,7 +43,6 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	backl = /obj/item/storage/backpack/rogue/satchel/short
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/steel
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
@@ -51,7 +50,6 @@
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	mask = /obj/item/clothing/mask/rogue/ragmask/black
-	beltr = /obj/item/quiver/bolt/standard
 	backpack_contents = list(
 		/obj/item/lockpickring/mundane = 1,
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
@@ -63,6 +61,8 @@
 	if(H.mind)
 		var/weapons = list("Rapier","Parrying Dagger", "Whip")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/rangedweapons = list("Slurbow", "Crossbow")
+		var/rangedweapon_choice = input(H,"Choose your BOW.", "TAKE AIM.") as anything in rangedweapons
 		var/specialization = list("Fleet-Footed","Marksmanship","Athleticism","Night-Burglar","Master-Tracker","Dualist")
 		var/specialization_choice = input(H, "Choose your talent.", "TAKE UP ARMS") as anything in specialization
 		H.set_blindness(0)
@@ -77,6 +77,13 @@
 			if ("Whip")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 				l_hand = /obj/item/rogueweapon/whip
+		switch(rangedweapon_choice)
+			if("Slurbow")
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
+				beltr = /obj/item/quiver/bolt/light
+			if("Crossbow")
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				beltr = /obj/item/quiver/bolt/standard
 		switch(specialization_choice)
 			if("Fleet-Footed")
 				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_LEGENDARY, TRUE)

@@ -69,6 +69,10 @@
 		for(var/obj/structure/bars/B in T)
 			to_chat(user, span_warning("I can't fit down there with the bars in the way!"))
 			return
+		for(var/obj/structure/mineral_door/wood/deadbolt/shutter/b in T)
+			if(!b.door_opened)
+				to_chat(user, span_warning("I can't fit down there with the shutter in the way!"))
+				return
 		hideinside(user)
 		return
 	if(Adjacent(user) && user.pulling)
@@ -99,6 +103,20 @@
 				user.visible_message(span_notice("[user] places [user.pulling] onto [src]."),
 					span_notice("I place [user.pulling] onto [src]."))
 				user.stop_pulling()
+	return ..()
+
+/obj/structure/table/attack_right(mob/user)
+	var/obj/item/held = user.get_active_held_item()
+	var/obj/item/rogueweapon/bakers_peel/peel
+	if(istype(held, /obj/item/rogueweapon/bakers_peel))
+		peel = held
+		if(peel.unload_onto_table(src, user))
+			return TRUE
+	held = user.get_inactive_held_item()
+	if(istype(held, /obj/item/rogueweapon/bakers_peel))
+		peel = held
+		if(peel.unload_onto_table(src, user))
+			return TRUE
 	return ..()
 
 /obj/structure/table/proc/hideinside(mob/living/user)
@@ -554,10 +572,12 @@
 	. += span_blue("Right-Click to fold the table.")
 
 /obj/structure/table/wood/folding/attack_right(mob/user)
+	if(..())
+		return TRUE
 	user.visible_message(span_notice("[user] folds [src]."), span_notice("You fold [src]."))
 	new /obj/item/folding_table_stored(drop_location())
 	qdel(src)
-	return ..()
+	return TRUE
 
 /*
  * Racks

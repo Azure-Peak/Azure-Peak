@@ -1722,6 +1722,10 @@ generate/load female uniform sprites matching all previously decided variables
 
 	standing = center_image(standing, isinhands ? inhand_x_dimension : worn_x_dimension, isinhands ? inhand_y_dimension : worn_y_dimension)
 
+	if(worn_offsets)
+		standing.pixel_x += worn_offsets["x"]
+		standing.pixel_y += worn_offsets["y"]
+
 	//Handle held offsets
 	var/mob/M = loc
 	if(istype(M))

@@ -63,8 +63,10 @@
 
 // Copper lamellar cap
 /obj/item/clothing/head/roguetown/helmet/coppercap
-	name = "lamellar cap"
-	desc = "A heavy lamellar cap made out of copper. Despite the primitive material, it's an effective design that keeps the head safe."
+	name = "copper lamellar helmet"
+	desc = "A cap of leather, graciously covered with a layer of small copper plates. Rarely seen since the dawn of civilization, copper \
+	garbs like these were the undersung heroes of humenity's earliest daes; a story of vintage proportions, still fresh in the minds of \
+	only a few blessed Aasimarites."
 	icon_state = "lamellar"
 	smeltresult = /obj/item/ingot/copper
 	armor = ARMOR_LEATHER

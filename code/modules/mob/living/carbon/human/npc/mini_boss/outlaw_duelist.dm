@@ -117,5 +117,5 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/evil() //Its a dodge build w/battleready sire, I know what had to be done.
-	H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil] //Its a dodge build w/battleready sire, I know what had to be done.
+	H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]

@@ -57,6 +57,8 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
+			if(out_of_effective_range())
+				return
 			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
 			if(!L.mob_timers[MT_LIGHTNING_ADAPTATION] || world.time > L.mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN)
 				L.Immobilize(0.5 SECONDS)

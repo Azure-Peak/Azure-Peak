@@ -52,8 +52,8 @@
 
 	// Skeleton voicepack
 	if(dna?.species)
-		dna.species.soundpack_m = new /datum/voicepack/skeleton()
-		dna.species.soundpack_f = new /datum/voicepack/skeleton()
+		dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/skeleton]
+		dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/skeleton]
 
 	// Undead language
 	grant_language(/datum/language/undead)

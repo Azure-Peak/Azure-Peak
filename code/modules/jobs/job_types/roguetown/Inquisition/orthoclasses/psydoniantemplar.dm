@@ -57,7 +57,7 @@
 	/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/lesser = 1,
 	/obj/item/clothing/ring/signet/psy = 1)
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2) //Capped to T2 miracles. ENDURE. WITH RESPITE.
 

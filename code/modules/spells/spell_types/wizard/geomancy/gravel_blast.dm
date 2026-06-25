@@ -80,6 +80,17 @@
 	damage = 20
 	arcshot = TRUE
 
+/obj/projectile/magic/gravel_blast/prehit(atom/target)
+	if(ismob(target))
+		var/mob/living/M = target
+		if(M == firer)
+			damage = round(damage / 2)
+		else if(M.mob_timers[MT_ROCKSHOT] && world.time < M.mob_timers[MT_ROCKSHOT] + ROCKSHOT_DR_DURATION)
+			damage = reduced_damage
+		else
+			M.mob_timers[MT_ROCKSHOT] = world.time
+	return ..()
+
 /obj/projectile/magic/gravel_blast/on_hit(target)
 	if(ismob(target))
 		var/mob/living/M = target
@@ -88,12 +99,6 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		if(M == firer)
-			damage = round(damage / 2)
-		else if(M.mob_timers[MT_ROCKSHOT] && world.time < M.mob_timers[MT_ROCKSHOT] + ROCKSHOT_DR_DURATION)
-			damage = reduced_damage
-		else
-			M.mob_timers[MT_ROCKSHOT] = world.time
 	. = ..()
 
 // --- Lesser Gravel Blast: 3-projectile variant for poke option picks ---

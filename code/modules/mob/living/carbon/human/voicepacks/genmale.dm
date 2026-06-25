@@ -28,6 +28,16 @@
 				used = 'sound/vo/male/gen/choke.ogg'
 			if("chuckle")
 				used = 'sound/vo/male/gen/chuckle.ogg'
+			if("gulp")
+				used = list('sound/vo/gulp.ogg', 'sound/vo/gulp2.ogg')
+			if("salute")
+				used = 'sound/vo/salute.ogg'
+			if("crack")
+				used = 'sound/vo/knuckles.ogg'
+			if("sniff")
+				used = list('sound/vo/sniff.ogg')
+			if("facepalm")
+				used = list('sound/vo/facepalm1.ogg', 'sound/vo/facepalm2.ogg')
 			if("clearthroat")
 				used = list('sound/vo/male/gen/clearthroat (1).ogg','sound/vo/male/gen/clearthroat (2).ogg','sound/vo/male/gen/clearthroat (3).ogg')
 			if("cough")

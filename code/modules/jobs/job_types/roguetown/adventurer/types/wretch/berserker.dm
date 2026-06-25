@@ -57,7 +57,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
 		)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	if(H.mind)
 		H.set_blindness(0)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/rage)

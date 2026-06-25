@@ -1,6 +1,6 @@
 // Conjure Aegis - Aegiscraft Minor Aspect
 // Conjures an arcyne shield designed to counter projectiles.
-// 200 durability, 70 coverage, 9 WDef.
+// 200 durability, 60 coverage, 9 WDef.
 
 /datum/action/cooldown/spell/conjure_aegis
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
@@ -79,7 +79,7 @@
 	pixel_x = -16
 	bigboy = TRUE
 	wdefense = 9
-	coverage = 70
+	coverage = 60
 	max_integrity = 200
 	force = 5
 	unenchantable = TRUE

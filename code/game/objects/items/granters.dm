@@ -318,45 +318,53 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	desc = "Teaches you how to cast Fireball."
 	spell = /datum/action/cooldown/spell/projectile/fireball
 	spellname = "Fireball"
+	dreamcost = 10
 
 /obj/item/book/granter/spell/noc/lbolt
 	name = "Scroll of Lighting Bolt"
 	desc = "Teaches you how to cast Lighting Bolt."
 	spell = /datum/action/cooldown/spell/projectile/lightning_bolt
 	spellname = "Lightning Bolt"
+	dreamcost = 6
 
 /obj/item/book/granter/spell/noc/boulderstrike
 	name = "Scroll of Boulder Strike"
 	desc = "Teaches you how to cast Boulder Strike."
 	spell = /datum/action/cooldown/spell/projectile/boulder_strike
 	spellname = "Boulder Strike"
+	dreamcost = 9
 
 /obj/item/book/granter/spell/noc/message
 	name = "Scroll of Message"
 	desc = "Teaches you how to cast Message."
 	spell = /datum/action/cooldown/spell/message
 	spellname = "Message"
+	dreamcost = 3
 
 /obj/item/book/granter/spell/noc/mindlink
 	name = "Scroll of Mindlink"
 	desc = "Teaches you how to cast Mindlink."
 	spell = /datum/action/cooldown/spell/mindlink
 	spellname = "Mindlink"
+	dreamcost = 4
 
 /obj/item/book/granter/spell/noc/mending
 	name = "Scroll of Mending"
 	desc = "Teaches you how to cast Mending."
 	spell = /datum/action/cooldown/spell/mending
 	spellname = "Mending"
+	dreamcost = 5
 
 /obj/item/book/granter/spell/noc/blink
 	name = "Scroll of Blink"
 	desc = "Teaches you how to cast Blink."
 	spell = /datum/action/cooldown/spell/blink
 	spellname = "Blink"
+	dreamcost = 8
 
 /obj/item/book/granter/spell/noc/repulse
 	name = "Scroll of Repulse"
 	desc = "Teaches you how to cast Repulse."
 	spell = /datum/action/cooldown/spell/repulse
 	spellname = "Repulse"
+	dreamcost = 6

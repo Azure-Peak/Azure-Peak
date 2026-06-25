@@ -45,7 +45,9 @@
 	
 	// whether this is actually a tool, like hoes and hammers, not a weapon proper. used to allow TRAIT_TINYPAWS users to conduct repairs and such
 	var/is_tool = FALSE
-
+	/// sigh
+	var/hoe_damage = null //the durability damage recieved for every work cycle
+	var/work_time = 3 SECONDS // the time it takes to make new soil or till soil
 
 /obj/item/rogueweapon/Initialize()
 	. = ..()

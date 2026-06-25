@@ -300,7 +300,7 @@
 			cloak = /obj/item/clothing/cloak/tabard/stabard/crusader/undivided
 			helmets += list("Decorated Sugarloaf Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader/gold/cleric)
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles.
 	if(H.mind)
@@ -760,10 +760,11 @@
 				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 	if(istype(H.patron, /datum/patron/divine))
-		// For now, only Tennites get this. Heretics can have a special treat later
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
 	if(istype(H.patron, /datum/patron/inhumen))
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
+	if(istype(H.patron, /datum/patron/old_god))
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/psydon/enduring_blast) //99% rock chance, 1% boulder, hilarious.
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross

@@ -154,7 +154,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/zizosquire)
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)

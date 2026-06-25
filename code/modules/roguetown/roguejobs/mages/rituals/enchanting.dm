@@ -87,14 +87,6 @@
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/fae/iridescentscale = 2)
 	result_atoms = list(/obj/item/enchantmentscroll/superior/nightvision)
 
-/datum/runeritual/enchanting/unbreaking
-	name = "Unbreaking"
-	desc = "Provides extra integrity!"
-	blacklisted = FALSE
-	tier = 2
-	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/elemental/shard = 2)
-	result_atoms = list(/obj/item/enchantmentscroll/superior/unbreaking)
-
 /datum/runeritual/enchanting/featherstep
 	name = "Feather Step"
 	desc = "Makes your step lighter and speedier!"
@@ -102,14 +94,6 @@
 	tier = 2
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/fae/iridescentscale = 2)
 	result_atoms = list(/obj/item/enchantmentscroll/superior/featherstep)
-
-/datum/runeritual/enchanting/fireresist
-	name = "Fire Resistance"
-	desc = "Provides resistance from fire!"
-	blacklisted = FALSE
-	tier = 2
-	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/infernal/fang = 2)
-	result_atoms = list(/obj/item/enchantmentscroll/superior/fireresist)
 
 /datum/runeritual/enchanting/climbing
 	name = "Spider movements"

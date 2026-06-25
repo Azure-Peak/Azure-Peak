@@ -372,6 +372,12 @@
 		return TRUE
 	return ..()
 
+/obj/item/reagent_containers/powder/flour/proc/make_wet()
+	name = "wet flour"
+	desc = "Destined for greatness, at your hands."
+	water_added = TRUE
+	color = "#d9d0cb"
+
 /obj/item/reagent_containers/powder/flour/proc/wet(obj/item/I, mob/living/user)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	var/obj/item/reagent_containers/R = I
@@ -390,12 +396,9 @@
 	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user, short_cooktime, target = src))
 		add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-		name = "wet flour"
-		desc = "Destined for greatness, at your hands."
 		if(is_container)
 			R.reagents.remove_reagent(/datum/reagent/water, 10)
-		water_added = TRUE
-		color = "#d9d0cb"
+		make_wet()
 	return TRUE
 
 /obj/item/reagent_containers/powder/flour/attack_hand(mob/living/user)

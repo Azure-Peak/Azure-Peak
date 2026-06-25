@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Covetous Crown no longer print money infinitely if balance is less than 10 draining money from literally nowhere. Also improved some of the texts you get on other failure condition, such as robbing a goat."

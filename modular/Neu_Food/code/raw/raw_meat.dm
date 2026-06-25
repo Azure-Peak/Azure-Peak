@@ -411,3 +411,24 @@
 	tastes = list("wyvern" = 1, "natural gas" = 1)
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked
+
+/* ............. Humanoid Meat ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/humanoid
+	name = "raw long pig"
+	desc = "Meat taken from some unfortunate individual. Why does it smell so right?"
+	icon_state = "longpig"
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/humanoid/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/humanoid/fried
+	cooked_smell = /datum/pollutant/food/humanoid
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid
+	name = "minced long pig"
+	desc = "Tasty mince! Wait a second..."
+	icon_state = "longpigmince"
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid_salted
+	name = "salted minced long pig"
+	desc = "Tasty mince! Wait a second..."
+	icon_state = "pigsalt"
+	rotprocess = SHELFLIFE_LONG

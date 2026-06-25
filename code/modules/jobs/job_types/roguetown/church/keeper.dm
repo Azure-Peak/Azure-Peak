@@ -6,10 +6,9 @@
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
-	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = ALL_AGES_LIST
 	allowed_patrons = list(/datum/patron/divine/pestra)
-
+	forbidden_races = list(RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/keeper
 	display_order = JDO_KEEPER
 	give_bank_account = TRUE
