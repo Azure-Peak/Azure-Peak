@@ -216,7 +216,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	ignore_stealth_reveal = TRUE
+	ignore_combat_tag = TRUE
 
 /datum/action/cooldown/spell/noc/invisibility/cast(atom/cast_on)
 	. = ..()
@@ -261,7 +261,7 @@
 	antimagic_allowed = TRUE
 	hide_charge_effect = TRUE
 	cost = 3 // Very useful
-	ignore_stealth_reveal = TRUE
+	ignore_combat_tag = TRUE
 
 /obj/effect/proc_holder/spell/invoked/invisibility/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
@@ -554,12 +554,13 @@
 	invocations = list("Deepest dreaming, scribe!")
 
 	charge_required = FALSE
-	cooldown_time = 45 MINUTES
+	cooldown_time = 1 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/points_need = 10
 	var/alreadychoosing = FALSE
+	var/last_dreamcost = 0
 
 /datum/action/cooldown/spell/noc/grimoire/cast(mob/living/carbon/human/user)
 	if(alreadychoosing)
@@ -569,13 +570,11 @@
 	alreadychoosing = TRUE
 
 	. = ..()
-	// commentened out until someone fixes the cooldown code. 
-	/*
+
 	if(GLOB.tod == "day" || GLOB.tod == "dawn")
 		to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
-		revert_cast()
 		alreadychoosing = FALSE
-		return FALSE*/
+		return FALSE
 
 	var/feather_check = FALSE
 
@@ -646,17 +645,23 @@
 		for(var/obj/item/burn in books_burnt)
 			new /obj/effect/temp_visual/moon/spell(get_turf(burn))
 			qdel(burn)
-		user.mind.sleep_adv.sleep_adv_points -= item.dreamcost
-/*		if(item.dreamcost == 3) // this doesnt fucking work. our code doesnt allow for custom recharges to be done 
-			cooldown_time = 5 MINUTES // in any convenient way. if you want to fix this later try using a status_effect
-		if(item.dreamcost == 6) // secondary charge system instead of this shit. 
-			cooldown_time = 15 MINUTES // kept in so the intent is understood.
-		if(item.dreamcost >= 9)
-			cooldown_time = 30 MINUTES*/
+		last_dreamcost = item.dreamcost
+		user.mind.sleep_adv.sleep_adv_points -= last_dreamcost
 		var/obj/item/I = new item (get_turf(user))
 		user.put_in_hands(I)
 		alreadychoosing = FALSE
 		return TRUE
+
+/datum/action/cooldown/spell/noc/grimoire/get_adjusted_cooldown()
+	switch(last_dreamcost)
+		if(-INFINITY to 2)
+			return 1 MINUTES
+		if(3 to 5)
+			return 5 MINUTES
+		if(6 to 8)
+			return 15 MINUTES
+		if(9 to INFINITY)
+			return 30 MINUTES
 
 /obj/effect/temp_visual/moon/spell
 	icon_state = "spellwarning"
@@ -674,5 +679,4 @@ GLOBAL_LIST_INIT(noc_scrolls, (list(
 	/obj/item/book/granter/spell/noc/mindlink,
 	/obj/item/book/granter/spell/noc/mending,
 	/obj/item/book/granter/spell/noc/blink,
-	/obj/item/book/granter/spell/noc/repulse
 	)))

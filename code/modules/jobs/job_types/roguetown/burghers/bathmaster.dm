@@ -82,7 +82,7 @@
 
 	if(should_wear_masc_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman
-		H.dna.species.soundpack_m = new /datum/voicepack/male/zeth()
+		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/zeth]
 	else if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/armordress/alt
 	if(H.mind)

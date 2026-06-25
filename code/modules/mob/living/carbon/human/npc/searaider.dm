@@ -256,8 +256,8 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-	H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+	H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
 
 /mob/living/carbon/human/species/human/northern/searaider/archer
 	ai_controller = /datum/ai_controller/human_npc/archer

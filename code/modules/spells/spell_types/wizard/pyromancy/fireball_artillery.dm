@@ -51,6 +51,8 @@
 	var/turf/fallzone = get_turf(target)
 	if(!fallzone)
 		return
+	if(out_of_effective_range())
+		return
 	for(var/turf/open/visual in view(cached_radius, fallzone))
 		var/obj/effect/temp_visual/lavastaff/Lava = new /obj/effect/temp_visual/lavastaff(visual)
 		animate(Lava, alpha = 255, time = 5)

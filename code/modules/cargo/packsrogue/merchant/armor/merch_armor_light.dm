@@ -136,6 +136,11 @@
 	cost = 20 // these are actually really easy to make, and have far worse protection and integ than other gambersons.
 	contains = list(/obj/item/clothing/suit/roguetown/armor/gambeson/light)
 
+/datum/supply_pack/rogue/light_armor/lightgambesonskirt
+	name = "Gambesoned Kilt, Light"
+	cost = 18
+	contains = list(/obj/item/clothing/under/roguetown/skirt/gambeson/light)
+
 /datum/supply_pack/rogue/light_armor/light_arming_jacket
 	name = "Arming Jacket, Light"
 	cost = 28 // gamberson equiv that trades leg protection to be cheaper.
@@ -146,6 +151,11 @@
 	cost = 32 // more expensive than clothes but not by a whole lot
 	contains = list(/obj/item/clothing/suit/roguetown/armor/gambeson)
 
+/datum/supply_pack/rogue/light_armor/gambeson_skirt
+	name = "Gambesoned Kilt"
+	cost = 28
+	contains = list(/obj/item/clothing/under/roguetown/skirt/gambeson)
+
 /datum/supply_pack/rogue/light_armor/arming_jacket
 	name = "Arming Jacket"
 	cost = 40 // gamberson equiv that trades leg protection and a third more price for 50 more integ (300 vs 250). Or padded gamberson that trades leg protection for being a third cheaper, to look at it another way.
@@ -155,6 +165,11 @@
 	name = "Gambeson, Padded"
 	cost = 60 // Base sellprice of 25
 	contains = list(/obj/item/clothing/suit/roguetown/armor/gambeson/heavy)
+
+/datum/supply_pack/rogue/light_armor/padded_gambeson_skirt
+	name = "Gambesoned Kilt, Padded"
+	cost = 50
+	contains = list(/obj/item/clothing/under/roguetown/skirt/gambeson/heavy)
 
 /datum/supply_pack/rogue/light_armor/padded_arming_jacket
 	name = "Arming Jacket, Padded"

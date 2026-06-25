@@ -40,6 +40,21 @@
 	cooktime = STEW_COOKING_TIME / 4
 
 // STANDARD
+/datum/stew_recipe/humanoid_whole_meat
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/humanoid)
+	output = /datum/reagent/consumable/soup/stew/humanoid
+	cooktime = STEW_COOKING_TIME * 3
+
+/datum/stew_recipe/humanoid
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid)
+	output = /datum/reagent/consumable/soup/stew/humanoid
+	cooktime = STEW_COOKING_TIME * 3
+
+/datum/stew_recipe/humanoid_spiced
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid_salted)
+	output = /datum/reagent/consumable/soup/stew/humanoid_spiced
+	cooktime = STEW_COOKING_TIME * 3
+
 /datum/stew_recipe/porridge
 	inputs = list(/obj/item/reagent_containers/food/snacks/grown/wheat, /obj/item/reagent_containers/powder/flour, /obj/item/reagent_containers/food/snacks/rogue/toastcrumbs, /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw, /obj/item/reagent_containers/food/snacks/rogue/breadslice, /obj/item/reagent_containers/food/snacks/rogue/bun, /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast)
 	output = /datum/reagent/consumable/soup/porridge

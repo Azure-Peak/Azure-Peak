@@ -29,6 +29,8 @@
 #define HERESYDESC_BAOTHA_ICON "It bears the icon of debauched Baotha"
 #define HERESYDESC_BAOTHA_MISC "A known design of Baotha"
 
+// Abyssor dream items
+#define HERESYDESC_DREAM_ITEM "A piece of Abyssor's dream. It is dangerous, and shouldn't be seen outside of capable, sanctified hands."
 // Dreamwalker items
 #define HERESYDESC_DREAMWALKER_WEAPON "A weapon of the enigmatic and violent Dreamwalkers"
 #define HERESYDESC_DREAMWALKER_ARMOR "An armor piece of the enigmatic and violent Dreamwalkers"
@@ -36,6 +38,9 @@
 // Misc items
 #define HERESYDESC_GRONN "A symbol of the North's archaic beliefs"
 
+#define VIBEDESC_FRIEND "A loyal ally of Azure Peak."
+#define VIBEDESC_FOE "A disloyal enemy of Azure Peak."
+#define VIBEDESC_CROWN "A relic anointed by Astrata."
 
 /**
 * -========= HERESY ITEM SEVERITY LEVELS =========-
@@ -65,18 +70,34 @@
 */
 #define EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD 3
 
+#define EXAMINEHIGHLIGHT_VIBE_FRIEND 4
+#define EXAMINEHIGHLIGHT_VIBE_FOE 5
+#define EXAMINEHIGHLIGHT_VIBE_CROWN 6
+
 // Heresy severity colors
 #define COLOR_HERESYSEVERITY_ALARMING "#c43535"
 #define COLOR_HERESYSEVERITY_SUSPICIOUS "#c49337"
 #define COLOR_HERESYSEVERITY_ODD "#c564c5"
+
+#define COLOR_VIBE_FRIEND "#6476c5"
+#define COLOR_VIBE_FOE "#c43535"
+#define COLOR_VIBE_CROWN "#ffdc7c"
 
 // Heresy severity descriptions
 #define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_ALARMING "<font color=[COLOR_HERESYSEVERITY_ALARMING]><b>This is a blatantly dangerous heretical item!</b></font><br>Carrying this out in the open is tantamount to declaring myself an enemy to Tennite and Psydonite faith. Those who serve the Ten and the One are likely to respond in kind."
 #define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_SUSPICIOUS "<font color=[COLOR_HERESYSEVERITY_SUSPICIOUS]><b>This is a suspicious heretical item!</b></font><br>It is considered heretical by Tennite and Psydonite faith. Those who serve the Ten and the One are likely to view me with suspicion and distrust <b>at best</b> if I am caught with it."
 #define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_ODD "<font color=[COLOR_HERESYSEVERITY_ODD]><b>An odd expression of faith...</b></font><br>It is not openly deemed heretical by Tennite and Psydonite faith. However, that does not stop it from being seen as unusual. I am likely to be given odd looks if I am seen with it and not much more, but more guarded (or paranoid) Tennites and Psydonites may not be so charitable."
 
+#define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_FRIEND "<font color=[COLOR_VIBE_FRIEND]><b>A loyal bearing.</b></font><br>This carries the look of one who stands with the Crown and its laws. Many subjects may view its bearer as a friend, servant, or ally of the realm."
+#define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_FOE "<font color=[COLOR_VIBE_FOE]><b>A disloyal bearing.</b></font><br>This carries the look of one who stands apart from the Crown and its laws. Many subjects may view its bearer with suspicion, seeing a potential rebel, outlaw, or enemy of the realm."
+#define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_CROWN "<font color=[COLOR_VIBE_CROWN]><b>Heavy the Crown is, and ever shall it be.</b></font><br>Such symbols are not lightly bestowed, for they signify authority exercised beneath Astrata's eternal light. This is a recognized mark of divine sovereignty, symbolizing the sacred right to rule granted by the Sun-Tyrant to a chosen bloodline. Most subjects should regard its bearer with reverence, recognizing a station and authority very few can claim."
+
 // Heresy severity symbols
 #define EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_SUSPICIOUS "!"
 /// Zcross unicode in HTML form
 #define EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_ALARMING "&#x16E3;"
 #define EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_ODD "?"
+
+#define SYMBOL_VIBE_FRIEND "&#x26E8;"
+#define SYMBOL_VIBE_FOE "&#x2694;"
+#define SYMBOL_VIBE_CROWN "&#x2654;"

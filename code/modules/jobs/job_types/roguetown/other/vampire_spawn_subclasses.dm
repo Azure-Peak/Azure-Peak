@@ -69,7 +69,7 @@
 	to_chat(H, span_warning("A knighted champion of a fallen and forgotten kingdom. You can almost remember the old tymes since your last great battle, your unmatched prowess, your elegence with any-would-be weapon and all the dread your mere presence brought; now you arise from a fallen kingdom in servitude to your lord, once more. Make their vision, become reality."))
 
 	add_verb(H, /mob/proc/haltyell_exhausting) //Knight gets to halt people
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight() //Aura
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight] //Aura
 
 	cloak = /obj/item/clothing/cloak/tabard/vamp
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk

@@ -26,7 +26,8 @@
 
 	titles = list(
 		"Sinistar",
-		"Dark Star"
+		"Dark Star",
+		"Gaiyuke" //Not properly a god worshiped by most kazengunites, but still
 	)
 
 /datum/patron/inhumen/graggar/on_lesser_heal(

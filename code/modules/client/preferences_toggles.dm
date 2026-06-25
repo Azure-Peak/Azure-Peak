@@ -14,7 +14,6 @@
 
 /datum/verbs/menu/Settings/verb/setup_character()
 	set name = "Game Preferences"
-	set category = "Preferences.Options"
 	set desc = ""
 	set hidden = 1
 	usr.client.prefs.current_tab = 1
@@ -613,7 +612,6 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 
 /client/verb/pick_ghost_customization()
 	set name = "Ghost Customization"
-	set category = "Preferences"
 	set desc = ""
 	set hidden = 1
 	if(!holder)
@@ -631,7 +629,6 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 
 /client/verb/pick_ghost_others()
 	set name = "Ghosts of Others"
-	set category = "Preferences"
 	set desc = ""
 	set hidden = 1
 	if(!holder)
@@ -652,7 +649,6 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 
 /client/verb/toggle_intent_style()
 	set name = "Toggle Intent Selection Style"
-	set category = "Preferences"
 	set desc = ""
 	set hidden = 1
 	if(!holder)
@@ -664,7 +660,6 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 
 /client/verb/toggle_ghost_hud_pref()
 	set name = "Toggle Ghost HUD"
-	set category = "Preferences"
 	set desc = ""
 	set hidden = 1
 	if(!holder)
@@ -679,7 +674,6 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 /client/verb/toggle_inquisition() // warning: unexpected inquisition
 	set name = "Toggle Inquisitiveness"
 	set desc = ""
-	set category = "Preferences"
 	set hidden = 1
 	if(!holder)
 		return
@@ -694,7 +688,6 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 //Admin Preferences
 /client/proc/toggleadminhelpsound()
 	set name = "Hear/Silence Adminhelps"
-	set category = "Admin.Preferences"
 	set desc = ""
 	set hidden = 1
 	if(!holder)
@@ -717,7 +710,6 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 
 /client/proc/toggle_hear_radio()
 	set name = "Show/Hide Radio Chatter"
-	set category = "Admin.Preferences"
 	set desc = ""
 	set hidden = 1
 	if(!holder)

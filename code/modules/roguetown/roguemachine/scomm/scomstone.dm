@@ -17,6 +17,7 @@
 	muteinmouth = TRUE
 	var/cooldown = 60 SECONDS
 	var/on_cooldown = FALSE
+	var/cooldown_end_time 
 	var/listening = TRUE
 	var/speaking = TRUE
 	var/loudmouth_listening = TRUE
@@ -26,6 +27,18 @@
 	drop_sound = 'sound/foley/coinphy (1).ogg'
 	grid_width = 32
 	grid_height = 32
+
+/obj/item/scomstone/proc/get_cooldown_text()
+	var/time_left = max(0, cooldown_end_time - world.time)
+
+	var/total_seconds = round(time_left / 10)
+	var/minutes = FLOOR(total_seconds / 60, 1)
+	var/seconds = total_seconds % 60
+
+	if(minutes)
+		return "[minutes] minute[minutes == 1 ? "" : "s"] and [seconds] second[seconds == 1 ? "" : "s"]"
+
+	return "[seconds] second[seconds == 1 ? "" : "s"]"
 
 /obj/item/scomstone/get_mechanics_examine(mob/user)
 	. = ..()
@@ -37,7 +50,7 @@
 
 /obj/item/scomstone/attack_right(mob/living/carbon/human/user)
 	if(on_cooldown)
-		to_chat(user, span_warning("The gemstone inside the ring radiates heat. It's still cooling down from its last use."))
+		to_chat(user, span_warning("The gemstone inside still radiates heat from its last transmission. It will cool in [get_cooldown_text()]."))
 		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
@@ -59,6 +72,7 @@
 		S.repeat_message(input_text, src, usedcolor)
 	SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
 	on_cooldown = TRUE
+	cooldown_end_time = world.time + cooldown
 	addtimer(CALLBACK(src, PROC_REF(reset_cooldown), user), cooldown)
 
 	//Log message to global broadcast list.
@@ -170,7 +184,7 @@
 /obj/item/scomstone/garrison/attack_right(mob/living/carbon/human/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	if(on_cooldown)
-		to_chat(user, span_warning("The gemstone inside \the [src] radiates heat. It's still cooling down from its last use."))
+		to_chat(user, span_warning("The gemstone inside still radiates heat from its last transmission. It will cool in [get_cooldown_text()]."))
 		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	if(!get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH, grabs = TRUE))
@@ -198,6 +212,7 @@
 				S.repeat_message(input_text, src, usedcolor)
 		SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
 		on_cooldown = TRUE
+		cooldown_end_time = world.time + cooldown
 		addtimer(CALLBACK(src, PROC_REF(reset_cooldown)), cooldown)
 		return
 	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
@@ -215,7 +230,7 @@
 	"tag"		= "CROWNSTONE #[scomstone_number]",
 	"timestamp" = station_time_timestamp("hh:mm:ss")
 	))
-
+	cooldown_end_time = world.time + cooldown
 	addtimer(CALLBACK(src, PROC_REF(reset_cooldown)), cooldown)
 
 /obj/item/scomstone/garrison/attack_self(mob/living/user)

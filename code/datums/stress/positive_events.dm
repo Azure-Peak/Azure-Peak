@@ -201,6 +201,11 @@
 	 Noc must find it impressive.")
 	timer = 15 MINUTES
 
+/datum/stressevent/noble_fine_food
+	stressadd = -2
+	desc = span_green("A fine meal, as befits my standing.")
+	timer = 20 MINUTES
+
 /datum/stressevent/noble_lavish_food
 	stressadd = -4
 	desc = span_green("Truly, a feast befitting my station.")

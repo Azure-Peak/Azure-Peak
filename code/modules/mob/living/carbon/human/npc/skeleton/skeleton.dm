@@ -58,8 +58,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 		ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	if(dna && dna.species)
 		dna.species.species_traits |= NOBLOOD
-		dna.species.soundpack_m = new /datum/voicepack/skeleton()
-		dna.species.soundpack_f = new /datum/voicepack/skeleton()
+		dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/skeleton]
+		dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/skeleton]
 	for(var/datum/charflaw/cf in charflaws)
 		charflaws.Remove(cf)
 		QDEL_NULL(cf)

@@ -236,3 +236,9 @@
 	if(!can_damage)
 		return
 	. = ..()
+
+/obj/machinery/light/rogue/broken_sparks(start_only = FALSE)
+	return
+
+/obj/machinery/light/rogue/break_light_tube(skip_sound_and_sparks = 0)
+	return ..(TRUE)

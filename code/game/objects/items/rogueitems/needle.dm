@@ -31,7 +31,7 @@
 	var/can_repair = TRUE
 	grid_width = 32
 	grid_height = 32
-	dropshrink = 0.75
+	//dropshrink = 0.75
 
 /obj/item/needle/examine()
 	. = ..()

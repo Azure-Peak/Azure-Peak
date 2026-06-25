@@ -1,0 +1,4 @@
+author: "bearrrrrrrr"
+delete-after: True
+changes:
+  - bugfix: "lifesvial can be used on nobles now"

@@ -81,7 +81,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_BANDS_BOUNTY 4
 #define QUEST_BANDS_RECOVERY 2
 
-#define QUEST_REWARD_GLOBAL_MULT 0.75
+#define QUEST_REWARD_GLOBAL_MULT 1
 
 // Flat reward base
 #define QUEST_REWARD_BASE_FLAT 10

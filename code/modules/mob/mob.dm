@@ -40,21 +40,16 @@ GLOBAL_VAR_INIT(mobids, 1)
 		for(var/M in observers)
 			var/mob/dead/observe = M
 			observe.reset_perspective(null)
-	qdel(hud_used)
-	for(var/cc in client_colours)
-		qdel(cc)
+	QDEL_NULL(hud_used)
+	QDEL_LIST(client_colours)
 	used_intent = null
-	used_rmb_intent = null
 	if(a_intent && a_intent.mastermob == src)
 		a_intent.mastermob = null
 	a_intent = null
 	o_intent = null
 	possible_mmb_intents = null
-	QDEL_LIST(possible_spell_intents)
 	QDEL_LIST(possible_a_intents)
 	QDEL_LIST(possible_offhand_intents)
-	QDEL_LIST(possible_rmb_intents)
-	QDEL_NULL(base_intents)
 	QDEL_NULL(mmb_intent)
 	QDEL_NULL(rmb_intent)
 	QDEL_NULL(unarmed_special)
@@ -68,7 +63,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 		var/datum/skill_holder/my_skill = skills
 		my_skill.current = null
 		QDEL_NULL(skills)
-	client_colours = null
 	if(active_storage)
 		active_storage.hide_from(src)
 	ghostize(drawskip=TRUE)
@@ -204,7 +198,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 		ignored_mobs = list(ignored_mobs)
 	if(!isnum(vision_distance))
 		vision_distance = DEFAULT_MESSAGE_RANGE
-	var/list/hearers = get_hearers_in_view(vision_distance, src) //caches the hearers and then removes ignored mobs.
+	var/list/hearers = hearers(vision_distance, src) //caches the hearers and then removes ignored mobs.
 	hearers -= ignored_mobs
 	if(self_message)
 		hearers -= src
@@ -240,7 +234,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * hearing_distance (optional) is the range, how many tiles away the message can be heard.
  */
 /atom/proc/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, runechat_message = null, log_seen = NONE, log_seen_msg = null, custom_spans = list("emote"), used_language = /datum/language/common)
-	var/list/hearers = get_hearers_in_view(hearing_distance, src)
+	var/list/hearers = hearers(hearing_distance, src)
 	if(self_message)
 		hearers -= src
 	for(var/mob/M in hearers)
@@ -260,7 +254,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 
 /atom/proc/loud_message(message, hearing_distance = DEFAULT_MESSAGE_RANGE, directional = TRUE)
-	var/list/listening = get_hearers_in_view(hearing_distance, src)
+	var/list/listening = hearers(hearing_distance, src)
 	for(var/_M in GLOB.player_list)
 		var/mob/M = _M
 		if(!M.client) //client is so that ghosts don't have to listen to mice
@@ -487,7 +481,6 @@ GLOBAL_VAR_INIT(mobids, 1)
   */
 /mob/verb/examinate(atom/A as mob|obj|turf in view()) //It used to be oview(12), but I can't really say why
 	set name = "Examine"
-	set category = "IC"
 	set hidden = 1
 
 	if(isturf(A) && !(sight & SEE_TURFS) && !(A in view(client ? client.view : world.view, src)))
@@ -621,7 +614,6 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/verb/abandon_mob()
 	set name = "{ABANDON MOB}"
-	set category = "Preferences.Options"
 	set hidden = 1
 	if(!check_rights(0))
 		return

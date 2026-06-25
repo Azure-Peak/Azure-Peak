@@ -47,6 +47,8 @@
 
 /obj/projectile/magic/acidsplash/on_hit(atom/target, blocked = FALSE)
 	. = ..()
+	if(out_of_effective_range())
+		return
 	var/turf/T = get_turf(src)
 	playsound(src, 'sound/misc/drink_blood.ogg', 100)
 

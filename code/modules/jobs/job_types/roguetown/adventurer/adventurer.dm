@@ -5,6 +5,7 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 
 /datum/job/roguetown/adventurer
 	title = "Adventurer"
+	vice_restrictions = list()
 	flag = ADVENTURER
 	department_flag = WANDERERS
 	faction = "Station"

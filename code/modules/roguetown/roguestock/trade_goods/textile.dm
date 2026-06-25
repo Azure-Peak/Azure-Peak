@@ -42,6 +42,7 @@
 	base_price = SELLPRICE_FUR
 	source_region_id = TRADE_REGION_ROSAWOOD
 	item_type = /obj/item/natural/fur
+	accept_subtypes = TRUE
 
 /datum/trade_good/cured_leather
 	id = TRADE_GOOD_CURED_LEATHER

@@ -6,8 +6,8 @@
 	icon_dead = "bat_dead"
 	icon_gib = "bat_dead"
 	turns_per_move = 1
-	response_help_continuous = "brushes aside"
-	response_help_simple = "brush aside"
+	response_help_continuous = "pets"
+	response_help_simple = "pet"
 	response_disarm_continuous = "flails at"
 	response_disarm_simple = "flail at"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST

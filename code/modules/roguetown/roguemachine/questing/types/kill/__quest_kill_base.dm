@@ -195,6 +195,7 @@
 		new_mob.faction |= "quest"
 		if(faction?.faction_tag)
 			new_mob.faction |= faction.faction_tag
+		new_mob.strip_head_bounty()
 		new_mob.AddComponent(/datum/component/quest_object/kill, src)
 		// Suppress AI scanning while dormant inside the spawn_effect — without this the AI tries
 		// to build a proximity field while not on a turf, fails, and stays catatonic forever.

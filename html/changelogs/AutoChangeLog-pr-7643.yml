@@ -1,5 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - rscadd: "Added functionality for pre-emptively satisfying addiction vices. A smoker who smokes without the addiction prompt will now delay it accordingly, but the delay will be shorter than only smoking when prompted."
-  - balance: "Alcoholic vice is now satisfied with the Drunk status effect, rather than at an arbitrary later amount of drunkenness."

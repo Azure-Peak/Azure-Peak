@@ -278,7 +278,7 @@
 	action_icon = 'icons/mob/actions/gnollmiracles.dmi'
 	overlay_state = "stalk"
 	action_icon_state = "stalk"
-	ignore_stealth_reveal = TRUE
+	ignore_combat_tag = TRUE
 
 /obj/effect/proc_holder/spell/invoked/invisibility/gnoll/cast(list/targets, mob/living/user)
 	var/mob/living/target = user

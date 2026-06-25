@@ -335,10 +335,13 @@ GLOBAL_LIST(teleport_runes)
 	can_be_scribed = FALSE
 
 /obj/effect/decal/cleanable/roguerune/arcyne/attack_hand(mob/living/user)
-	if(!isarcyne(user))
+	if(!can_use_arcyne_rune(user))
 		to_chat(user, span_warning("You aren't able to understand the words of [src]."))
 		return
 	. = ..()
+
+/obj/effect/decal/cleanable/roguerune/arcyne/proc/can_use_arcyne_rune(mob/living/user)
+	return HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT)
 
 
 
@@ -358,6 +361,9 @@ GLOBAL_LIST(teleport_runes)
 /obj/effect/decal/cleanable/roguerune/arcyne/enchantment/New()
 	. = ..()
 	rituals += GLOB.t3enchantmentrunerituallist
+
+/obj/effect/decal/cleanable/roguerune/arcyne/enchantment/can_use_arcyne_rune(mob/living/user)
+	return HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/enchantment/invoke(list/invokers, datum/runeritual/runeritual)
 	if(!..())	//VERY important. Calls parent and checks if it fails. parent/invoke has all the checks for ingredients
@@ -523,9 +529,9 @@ GLOBAL_LIST(teleport_runes)
 					fam.gender=NEUTER
 			// needs 2 be done here because we trans the gender mid-ritual
 			if(fam.gender == MALE)
-				fam.voice_pack = new /datum/voicepack/male
+				fam.voice_pack = GLOB.voice_packs[/datum/voicepack/male]
 			else
-				fam.voice_pack = new /datum/voicepack/female
+				fam.voice_pack = GLOB.voice_packs[/datum/voicepack/female]
 			src.visible_message(span_notice("[fam.summoning_emote]"))
 
 			if(isnewplayer(chosen))
@@ -829,7 +835,7 @@ GLOBAL_LIST(teleport_runes)
 	LAZYADD(GLOB.teleport_runes, src)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/teleport/attack_hand(mob/living/user)
-	if(!isarcyne(user))
+	if(!can_use_arcyne_rune(user))
 		to_chat(user, span_warning("You aren't able to understand the words of [src]."))
 		return
 	if(rune_in_use)

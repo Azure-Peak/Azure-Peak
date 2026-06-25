@@ -1,15 +1,18 @@
 #define VV_HTML_ENCODE(thing) ( sanitize ? html_encode(thing) : thing )
-/proc/debug_variable(name, value, level, datum/D, sanitize = TRUE)			//if D is a list, name will be index, and value will be assoc value.
+/proc/debug_variable(name, value, level, datum/D, sanitize = TRUE, alist_index)	// handles alists now too. so you get regular list() or k-v pair alist().
 	var/header
 	if(D)
 		if(islist(D))
 			var/list/debug_list = D
-			var/index = name
-			if (value)
-				name = debug_list[name] //name is really the index until this line
+			if(!isnull(alist_index))
+				header = "<li style='backgroundColor:white'>([VV_HREF_TARGET_1V(D, VV_HK_LIST_EDIT, "E", alist_index)]) ([VV_HREF_TARGET_1V(D, VV_HK_LIST_CHANGE, "C", alist_index)]) ([VV_HREF_TARGET_1V(D, VV_HK_LIST_REMOVE, "-", alist_index)]) "
 			else
-				value = debug_list[name]
-			header = "<li style='backgroundColor:white'>([VV_HREF_TARGET_1V(D, VV_HK_LIST_EDIT, "E", index)]) ([VV_HREF_TARGET_1V(D, VV_HK_LIST_CHANGE, "C", index)]) ([VV_HREF_TARGET_1V(D, VV_HK_LIST_REMOVE, "-", index)]) "
+				var/index = name
+				if (value)
+					name = debug_list[name]
+				else
+					value = debug_list[name]
+				header = "<li style='backgroundColor:white'>([VV_HREF_TARGET_1V(D, VV_HK_LIST_EDIT, "E", index)]) ([VV_HREF_TARGET_1V(D, VV_HK_LIST_CHANGE, "C", index)]) ([VV_HREF_TARGET_1V(D, VV_HK_LIST_REMOVE, "-", index)]) "
 		else
 			header = "<li style='backgroundColor:white'>([VV_HREF_TARGET_1V(D, VV_HK_BASIC_EDIT, "E", name)]) ([VV_HREF_TARGET_1V(D, VV_HK_BASIC_CHANGE, "C", name)]) ([VV_HREF_TARGET_1V(D, VV_HK_BASIC_MASSEDIT, "M", name)]) "
 	else
@@ -46,22 +49,29 @@
 	else if (islist(value))
 		var/list/L = value
 		var/list/items = list()
+		var/is_alist = istype(L, /alist)
+		var/list_label = is_alist ? "alist" : "list"
 
 		if (L.len > 0 && !(name == "underlays" || name == "overlays" || L.len > (IS_NORMAL_LIST(L) ? VV_NORMAL_LIST_NO_EXPAND_THRESHOLD : VV_SPECIAL_LIST_NO_EXPAND_THRESHOLD)))
-			for (var/i in 1 to L.len)
-				var/key = L[i]
-				var/val
-				if (IS_NORMAL_LIST(L) && !isnum(key))
-					val = L[key]
-				if (isnull(val))	// we still want to display non-null false values, such as 0 or ""
-					val = key
-					key = i
+			if (is_alist)
+				
+				for (var/akey, aval in L)
+					items += debug_variable(akey, aval, level + 1, sanitize = sanitize)
+			else
+				for (var/i in 1 to L.len)
+					var/key = L[i]
+					var/val
+					if (IS_NORMAL_LIST(L) && !isnum(key))
+						val = L[key]
+					if (isnull(val))	// we still want to display non-null false values, such as 0 or ""
+						val = key
+						key = i
 
-				items += debug_variable(key, val, level + 1, sanitize = sanitize)
+					items += debug_variable(key, val, level + 1, sanitize = sanitize)
 
-			item = "<a href='?_src_=vars;[HrefToken()];Vars=[REF(value)]'>[VV_HTML_ENCODE(name)] = /list ([L.len])</a><ul>[items.Join()]</ul>"
+			item = "<a href='?_src_=vars;[HrefToken()];Vars=[REF(value)]'>[VV_HTML_ENCODE(name)] = /[list_label] ([L.len])</a><ul>[items.Join()]</ul>"
 		else
-			item = "<a href='?_src_=vars;[HrefToken()];Vars=[REF(value)]'>[VV_HTML_ENCODE(name)] = /list ([L.len])</a>"
+			item = "<a href='?_src_=vars;[HrefToken()];Vars=[REF(value)]'>[VV_HTML_ENCODE(name)] = /[list_label] ([L.len])</a>"
 
 	else if (name in GLOB.bitfields)
 		var/list/flags = list()

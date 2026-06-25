@@ -30,7 +30,8 @@
 		"Fire-Thief",
 		"Thief-of-Fyre",
 		"Thief-of-Fire", // aaaaaaaa
-		"Lord" // catchall for various titles of his
+		"Lord", // catchall for various titles of his
+		"Matoko"
 	)
 
 // When near coin of at least 100 mammon, zchurch, bad-cross, or ritual talk

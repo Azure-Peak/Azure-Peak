@@ -71,6 +71,9 @@
 		qdel(src)
 		return BULLET_ACT_BLOCK
 
+	if(out_of_effective_range())
+		return
+
 	var/aoe_damage = round(damage * aoe_damage_ratio)
 	var/turf/epicenter = get_turf(target)
 

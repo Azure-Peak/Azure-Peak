@@ -296,17 +296,17 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		var/voicepack_choice = rand(1, 4)
 		switch(voicepack_choice)
 			if(1)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
 			if(2)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 			if(3)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
 			if(4)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 
 /datum/outfit/job/roguetown/human/species/human/northern/mount_reaver/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
