@@ -19,9 +19,20 @@
 	var/vision_text = "You see a vision of..."
 	/// List of possible phrases to generate
 	var/list/possible_phrases = list()
+	/// Optional list of job/role strings that are valid targets for this quest
+	var/list/valid_roles = list()
 
 /datum/vision_quest/proc/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
-	// Override in subtypes
+	if(!target || target == seeker) 
+		return FALSE
+	if(target.stat == DEAD)
+		return FALSE
+	if(!target.mind) 
+		return FALSE
+	if(length(valid_roles))
+		if(target.mind.assigned_role in valid_roles)
+			return TRUE
+		return FALSE
 	return TRUE
 
 /datum/component/vision_quest_tracker
