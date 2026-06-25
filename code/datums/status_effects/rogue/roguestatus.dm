@@ -109,7 +109,7 @@
 /datum/status_effect/stealth_revealed
 	id = "stealthreveal"
 	alert_type = /atom/movable/screen/alert/status_effect/stealth_revealed
-	duration = 10 SECONDS
+	duration = 30 SECONDS
 	status_type = STATUS_EFFECT_REFRESH
 
 /datum/status_effect/stealth_revealed/on_apply()
