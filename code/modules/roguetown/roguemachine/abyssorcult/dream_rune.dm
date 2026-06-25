@@ -58,6 +58,7 @@
 		return
 	GLOB.all_vision_quests = list(
 		new /datum/vision_quest/orthodox_hunt,
+		new /datum/vision_quest/wounded_tennite,
 	)
 
 /obj/structure/roguemachine/ritual_rune/attackby(obj/item/I, mob/user, params)
