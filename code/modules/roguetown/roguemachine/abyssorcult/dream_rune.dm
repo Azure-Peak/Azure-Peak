@@ -56,6 +56,8 @@
 
 /obj/structure/roguemachine/ritual_rune/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/dream_material/parchment_silver))
+		if(!linked_pool)
+			attempt_pool_link()
 		if(!linked_pool || linked_pool.linked_door?.gate_closed)
 			to_chat(user, span_warning("The dream pool gate must be open to receive visions."))
 			return
@@ -148,7 +150,7 @@
 				"path" = "[bonus_path]",
 				"name" = bonus_name
 			))
-		
+
 		display_data += list(list(
 			"id" = "[Q.type]",
 			"name" = Q.name,
@@ -161,7 +163,7 @@
 			"bonus_rewards" = bonus_options,
 			"vision_text" = Q.vision_text
 		))
-	
+
 	var/datum/vision_quest_selection/selection = new()
 	selection.choices = display_data
 	selection.available_choices = available_choices
@@ -171,7 +173,5 @@
 	selection.selected_quest_id = null
 	selection.selected_reward_path = null
 	selection.selected_bonus_path = null
-	
-	// Proper TGUI interface opening
 	var/datum/tgui_module/vision_quest_selection/module = new(selection)
 	module.ui_interact(user)
