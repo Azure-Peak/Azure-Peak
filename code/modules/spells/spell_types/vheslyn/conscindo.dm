@@ -1,7 +1,7 @@
 /* Conscindo - a perversion or perhaps even the original art of "Lacrima" used by zizites except, this one has a much more sinister purpose
 instead of just meaning tear, this means "tear and rend" which is actually pretty fucking cool if you know latin.
 Its a lethal version of Lacrima that works on the undead too, instead of giving you usable lux however
-you violently rend it asunder killing them, intended as a finisher to make these bastards scary, because murder is your creed.
+you violently rend it asunder and heal you instead, intended as a finisher to make these bastards scary, because murder is your creed.
 */
 /datum/action/cooldown/spell/vheslyn/conscindo
 	name = "Conscindo"
@@ -83,11 +83,15 @@ you violently rend it asunder killing them, intended as a finisher to make these
 		target.emote("agony")
 	playsound(user, 'sound/items/blackmirror_needle.ogg', 60, FALSE, 3)
 	playsound(user, 'sound/misc/lava_death.ogg', 100, TRUE) //You literally ripped their lux out and tore it apart + melted it to nothing.
-	user.visible_message(span_alert("[user] tears and rends apart the Lux in [target]'s heart, killing them!"))
-	target.death()
+	user.visible_message(span_alert("[user] tears and rends the Lux in [target]'s heart, turning it to violet flames that engulf them and restore their wounds!"))
 	target.adjust_fire_stacks(20, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks. we do a LOT of them, this ritual keeps people /down/.
 	target.ignite_mob()
-	to_chat(target, span_userdanger("[user] rips out my weary lux and tears it to peices!"))
+	target.apply_damage(70, BRUTE, BODY_ZONE_CHEST) //AGAIN, we tore most of their lux apart. THIS will HURT.
+	user.adjust_fire_stacks(10, /datum/status_effect/fire_handler/fire_stacks/vheslyn)
+	user.ignite_mob()
+	user.heal_overall_damage(80, 80) //Very hefty heal
+	user.heal_wounds(30) //Remove a good chunk of your wounds as well.
+	to_chat(target, span_userdanger("[user] rips a chunk of my weary lux and tears it to peices, reforming into into flames that sunder me and restore them!"))
 
 	//I would gib DNRs but its probably better to not permanently remove players in niche cases like the Weeping Psycross.
 
