@@ -31,6 +31,9 @@
 	)
 	spells = list()
 
+/datum/advclass/guildsman
+	tempo_capable = FALSE
+
 /datum/advclass/guildsman/blacksmith
 	name = "Guild Blacksmith"
 	tutorial = "You've studied for many yils under quite a number of master smiths. Whether it's cookware or tools of war, you're unmatched at the art of bending metal to your will."

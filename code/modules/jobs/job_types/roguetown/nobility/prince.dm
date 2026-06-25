@@ -30,6 +30,8 @@
 		/datum/advclass/heir/scamp
 	)
 
+/datum/advclass/heir
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/heir/pre_equip(mob/living/carbon/human/H)
 	..()

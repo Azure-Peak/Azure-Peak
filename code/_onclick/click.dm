@@ -54,6 +54,10 @@
 			parrydelay = num
 	hud_used?.defdelay?.mark_dirty()
 
+/mob/living/proc/changeNext_inCombat(num, override = FALSE)
+	in_combat_until = world.time + num
+	hud_used?.defdelay?.mark_dirty()
+
 /mob/living/proc/changeMaxDodge(num)
 	if(num < 0)
 		if(max_dodge <= MAX_DODGE_FLOOR)

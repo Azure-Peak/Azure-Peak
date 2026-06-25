@@ -1123,3 +1123,43 @@
   - bugfix: sunderstacks clear on death + revival + aheal + revives, you don't need
       to varedit it away.
   - balance: Werewolves are immune to pain even while doused in sunderflames.
+2026-06-25:
+  Clem-The-Duck:
+  - bugfix: Surcoat sprite
+  KatTheFox:
+  - bugfix: Clingy, Paranoid, Finicky, and Lonely vices now account for shapeshifted
+      players properly
+  - rscadd: You can now pet witches in zad and bat forms instead of only... every
+      other form they have
+  Ketrai:
+  - balance: capped lesser miracle conditional healing to a minor amount, base healing
+      slightly increased.
+  Ollanius:
+  - bugfix: Properly fixes the duplicated 'force_wielded' value on the Saccharine
+      Swordspear, ensuring that you properly deal full damage when two-handing it.
+  ShadowLarkens:
+  - refactor: Voicepacks are now global singletons, please report any bugs of incorrect
+      voicepacks.
+  WeNeedMorePhoron:
+  - rscadd: Fixes shotgun projectile not applying damage reduction to armor. Point
+      Blank GBlast / Sawblade / Stygian will no longer massively overperform at point
+      blank.
+  - rscadd: Ported Noelle's optimization of LobbyRefresh
+  - rscdel: Removed the browserpanel_hidden_verbs build step
+  - rscadd: Ported optimization of visible and audible message by Noelle
+  - rscadd: Ported an optimization for vision cone made by Sutures
+  - server: Added sendmaps profiling verb to debug verbs
+  bearrrrrrrr:
+  - bugfix: lifesvial can be used on nobles now
+  - bugfix: tithebound SUNSET now no longer fails on diagonals, or...just, in general.
+  borneblood:
+  - rscadd: Militia Scythe added, unique to Levy.
+  - rscadd: More Levy customization options during its spawn.
+  - rscadd: Levy Callouts! Ctrl+Shift+RMB at something with a fellow Levy unit to
+      bark out details of your pointing.
+  - bugfix: Dolabra's intents were not functional.
+  - balance: Increased Levy available slots from 3 to 5.
+  - balance: Adjusted Levy stats and gear to be more (Terrorbog-adjacent) PvE oriented.
+  - refactor: Refactors the Demolish intent to be usable by any mace, not just the
+      Psydonite Maul.
+  - bugfix: fixed a few extra things on Levy's unatomized

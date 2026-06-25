@@ -1,4 +1,0 @@
-author: "bearrrrrrrr"
-delete-after: True
-changes:
-  - bugfix: "tithebound SUNSET now no longer fails on diagonals, or...just, in general."

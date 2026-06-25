@@ -47,6 +47,9 @@
 	)
 	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
 
+/datum/advclass/gnoll
+	tempo_capable = FALSE
+
 /datum/job/roguetown/gnoll/special_job_check(mob/dead/new_player/player)
 	if(is_storyteller_soft_antag_blocked())
 		return FALSE
