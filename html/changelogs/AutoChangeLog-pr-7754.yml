@@ -1,0 +1,10 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Inquisitor subclass now gets Tempo. Ordinator does not."
+  - balance: "Gnolls no longer gain Tempo."
+  - balance: "Heretic Wretches no longer gain Tempo."
+  - balance: "Towners no longer have Tempo."
+  - balance: "Burghers no longer have Tempo. This includes Mage Associates."
+  - balance: "Bishop no longer have Tempo."
+  - balance: "Acolytes no longer have Tempo."

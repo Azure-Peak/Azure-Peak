@@ -1,0 +1,6 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - qol: "Moved the \"in combat\" and \"stealth revealed\" status effects to a red light on the UI instead."
+  - qol: "Being \"in combat\" no longer prevents the sneak button from activating at all. Invisibility will still be denied, however."
+  - balance: "Scaling for hiding in objects is now harsher, scaling up to Legendary rather than Expert."

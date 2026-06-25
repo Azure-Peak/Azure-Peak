@@ -1,5 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Clingy, Paranoid, Finicky, and Lonely vices now account for shapeshifted players properly"
-  - rscadd: "You can now pet witches in zad and bat forms instead of only... every other form they have"
