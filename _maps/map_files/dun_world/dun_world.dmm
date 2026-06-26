@@ -8839,18 +8839,49 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/underdark/north)
 "bOt" = (
-/obj/structure/closet/crate/chest/crate,
-/obj/item/natural/bundle/stick{
-	pixel_y = -6
+/obj/item/reagent_containers/glass/bowl/iron{
+	name = "pewter bowl";
+	sellprice = 30
 	},
-/obj/item/natural/bundle/stick{
-	pixel_y = -6
+/obj/item/reagent_containers/glass/bowl/iron{
+	name = "pewter bowl";
+	sellprice = 30
 	},
-/obj/item/natural/bundle/stick{
-	pixel_y = -6
+/obj/item/reagent_containers/glass/bowl/iron{
+	name = "pewter bowl";
+	sellprice = 30
 	},
-/obj/item/natural/bundle/stick{
-	pixel_y = -6
+/obj/item/reagent_containers/glass/bowl/iron{
+	name = "pewter bowl";
+	sellprice = 30
+	},
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter,
+/obj/item/cooking/platter/pewter,
+/obj/item/cooking/platter/pewter,
+/obj/item/reagent_containers/glass/bowl/silver{
+	pixel_x = 2
+	},
+/obj/item/reagent_containers/glass/bowl/silver{
+	pixel_x = 2
+	},
+/obj/item/reagent_containers/glass/bowl/silver{
+	pixel_x = 2
+	},
+/obj/item/reagent_containers/glass/bowl/gold,
+/obj/item/reagent_containers/glass/bowl/gold,
+/obj/item/reagent_containers/glass/bowl/gold,
+/obj/item/reagent_containers/glass/bowl,
+/obj/item/reagent_containers/glass/bowl,
+/obj/item/reagent_containers/glass/bowl,
+/obj/structure/closet/crate/roguecloset/inn,
+/obj/item/reagent_containers/glass/bucket/pot/teapot/fancy{
+	pixel_x = -1;
+	pixel_y = 7
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
@@ -22163,6 +22194,10 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/inq/basement)
+"euU" = (
+/obj/machinery/light/rogue/torchholder/c,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/town/basement/keep)
 "euV" = (
 /obj/machinery/light/roguestreet,
 /turf/open/floor/rogue/cobblerock,
@@ -30668,49 +30703,18 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
 "geE" = (
-/obj/item/reagent_containers/glass/bowl/iron{
-	name = "pewter bowl";
-	sellprice = 30
+/obj/structure/closet/crate/chest/crate,
+/obj/item/natural/bundle/stick{
+	pixel_y = -6
 	},
-/obj/item/reagent_containers/glass/bowl/iron{
-	name = "pewter bowl";
-	sellprice = 30
+/obj/item/natural/bundle/stick{
+	pixel_y = -6
 	},
-/obj/item/reagent_containers/glass/bowl/iron{
-	name = "pewter bowl";
-	sellprice = 30
+/obj/item/natural/bundle/stick{
+	pixel_y = -6
 	},
-/obj/item/reagent_containers/glass/bowl/iron{
-	name = "pewter bowl";
-	sellprice = 30
-	},
-/obj/item/cooking/platter,
-/obj/item/cooking/platter,
-/obj/item/cooking/platter,
-/obj/item/cooking/platter,
-/obj/item/cooking/platter,
-/obj/item/cooking/platter,
-/obj/item/cooking/platter/pewter,
-/obj/item/cooking/platter/pewter,
-/obj/item/reagent_containers/glass/bowl/silver{
-	pixel_x = 2
-	},
-/obj/item/reagent_containers/glass/bowl/silver{
-	pixel_x = 2
-	},
-/obj/item/reagent_containers/glass/bowl/silver{
-	pixel_x = 2
-	},
-/obj/item/reagent_containers/glass/bowl/gold,
-/obj/item/reagent_containers/glass/bowl/gold,
-/obj/item/reagent_containers/glass/bowl/gold,
-/obj/item/reagent_containers/glass/bowl,
-/obj/item/reagent_containers/glass/bowl,
-/obj/item/reagent_containers/glass/bowl,
-/obj/structure/closet/crate/roguecloset/inn,
-/obj/item/reagent_containers/glass/bucket/pot/teapot/fancy{
-	pixel_x = -1;
-	pixel_y = 7
+/obj/item/natural/bundle/stick{
+	pixel_y = -6
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
@@ -35322,6 +35326,10 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/inq/basement)
+"haC" = (
+/obj/structure/fluff/statue/knight/r,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/under/town/basement/keep)
 "haH" = (
 /turf/open/water/bath,
 /area/rogue/indoors/town/bath)
@@ -55233,6 +55241,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/royal,
 /obj/item/storage/backpack/rogue/satchel,
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward,
+/obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/manor)
 "kNT" = (
@@ -65890,8 +65899,13 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "mLY" = (
-/obj/machinery/light/rogue/candle/r,
-/turf/closed/wall/mineral/rogue/craftstone,
+/obj/structure/table/wood/poor,
+/obj/item/roguebin/water,
+/obj/item/natural/cloth{
+	pixel_y = 5;
+	pixel_x = 11
+	},
+/turf/open/floor/rogue/carpet,
 /area/rogue/under/town/basement/keep)
 "mMt" = (
 /obj/structure/bars/pipe,
@@ -95104,7 +95118,13 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison)
 "suH" = (
-/obj/structure/fluff/railing/border,
+/obj/structure/fluff/railing/border{
+	dir = 1
+	},
+/obj/machinery/light/rogue/candle/r{
+	pixel_x = 32;
+	pixel_y = -11
+	},
 /turf/open/transparent/openspace,
 /area/rogue/under/town/basement/keep)
 "suQ" = (
@@ -108585,10 +108605,12 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/inq/embassy)
 "vaU" = (
-/obj/structure/stairs{
-	dir = 8
+/obj/structure/mirror/fancy{
+	pixel_y = 0;
+	pixel_x = -32
 	},
-/turf/open/floor/carpet/royalblack,
+/obj/structure/chair/stool/rogue,
+/turf/open/floor/rogue/carpet,
 /area/rogue/under/town/basement/keep)
 "vaW" = (
 /obj/structure/fluff/psycross/astrata/golden,
@@ -111047,6 +111069,9 @@
 	},
 /obj/structure/fluff/railing/border{
 	dir = 5
+	},
+/obj/structure/fluff/railing/border{
+	dir = 6
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
@@ -123802,11 +123827,8 @@
 /turf/closed/mineral/random/rogue/high,
 /area/rogue/under/underdark)
 "ybK" = (
-/obj/structure/stairs{
-	dir = 8
-	},
 /obj/structure/fluff/railing/border{
-	dir = 6
+	dir = 4
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
@@ -194444,7 +194466,7 @@ iIF
 cPO
 iad
 iad
-iad
+cPO
 cPO
 iad
 qcz
@@ -194896,7 +194918,7 @@ wVM
 sEH
 iad
 mii
-vaU
+cPO
 cPO
 iad
 mEr
@@ -195801,7 +195823,7 @@ iad
 iad
 cPO
 cPO
-cPO
+haC
 iad
 iad
 iad
@@ -308349,8 +308371,8 @@ iad
 iad
 mdt
 aal
-aal
-qJZ
+vaU
+mLY
 iad
 reQ
 hFg
@@ -308801,7 +308823,7 @@ iad
 iad
 mdt
 aal
-aal
+qJZ
 aOv
 iad
 mEr
@@ -309252,7 +309274,7 @@ iad
 iad
 iad
 iad
-aal
+euU
 aal
 iad
 iad
@@ -310157,7 +310179,7 @@ iad
 iad
 iad
 vAo
-suH
+asJ
 xgW
 tUV
 wCC
@@ -310607,9 +310629,9 @@ rEF
 rTY
 iad
 iad
-mLY
-vAo
+iad
 suH
+asJ
 xgW
 wCC
 kYL
