@@ -199,11 +199,11 @@
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
-		spelltarget.visible_message(span_info("[spelltarget] stirs in pain, the miracle dissipates."), span_notice("You feel a singing pain shooting through your body..."))
+		spelltarget.visible_message(span_info("[target] recoils for a moment, the miracle dissipates."), span_notice("A dull warmth never meets your heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		spelltarget.emote("pain")
-		return FALSE
+		var/reaction = pick("pain","whimper")
+		spelltarget.emote(reaction)
 
 	owner.Beam(spelltarget,icon_state="lichbeam",time=1 SECONDS)
 
