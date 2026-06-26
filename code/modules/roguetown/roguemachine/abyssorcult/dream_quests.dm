@@ -76,3 +76,35 @@
 	if(!(target.patron.type in tennite_gods))
 		return FALSE
 	return TRUE
+
+/datum/vision_quest/royal_tick
+	name = "A Terrible Disease"
+	description = "The royal family, endangered. But they know naught."
+	required_tier = 1
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "a member of the royal family"
+	summary = "Leechticks are a danger to the world."
+	vision_text = "The mists part to reveal a tiny image of a creeping, crawling tick. \
+	It is too small to be observed by the naked eye, but you've seen the truth. \
+	Our great Azurean royalty, endangered by the smallest of foes. \
+	Between the toes, vile and unending, the tick seeks to suck out their lux. \
+	It is not the almighty hordes from the north. But one of the smallest pieces of divinity that threatens the realm. \
+	How was this evil left unnoticed for so long? Their grace ails, but all are blinded, all but you. \
+	Not the impurity of blood, the imbalancing of humors, but one of Pestra's most humble servants misguided"
+	possible_phrases = list(
+		"You must wash your left foot",
+		"You must wash your right foot",
+		"You must take a bath",
+		"The realm requires you cleanse yourself",
+		"A bath will save your life"
+	)
+	valid_roles = list("Grand Duke","Grand Duchess","Prince", "Princess")
