@@ -1508,6 +1508,18 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	sort = sortlist[sort]
 	profile_show(src, sort)
 
+/client/proc/show_sendmaps_profiling()
+	set category = "Debug.Profile"
+	set name = "Show SendMaps Profiling"
+	set desc = ""
+
+	if(!check_rights(R_DEBUG))
+		return
+
+	src << link("?debug=profile&type=sendmaps&window=test")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Show SendMaps Profiling")
+	log_admin("[key_name(src)] opened sendmaps profiling.")
+
 /client/proc/reload_configuration()
 	set category = "Debug"
 	set name = "Reload Configuration"

@@ -82,6 +82,8 @@
 		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
 
+	tempo_capable = TRUE
+
 /datum/outfit/job/roguetown/inquisitor/inspector/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
@@ -215,6 +217,7 @@
 	subclass_stashed_items = list(
 		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/inquisitor/ordinator/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -218,6 +218,11 @@
 	first_time_text = "THE OTAVAN INQUISITION"
 	detail_text = DETAIL_TEXT_INQUISITION_HQ
 
+/area/rogue/indoors/inq/embassy
+	name = "The Otavan Embassy"
+	icon_state = "chapel"
+	first_time_text = "THE OTAVAN EMBASSY"
+
 /area/rogue/indoors/inq/office
 	name = "The Inquisitor's Office"
 	icon_state = "chapel"
@@ -225,6 +230,11 @@
 /area/rogue/indoors/inq/basement
 	name = "The Inquisition's Basement"
 	icon_state = "chapel"
+
+/area/rogue/indoors/inq/chapel
+	name = "The Psydonic Chapel"
+	icon_state = "chapel"
+	first_time_text = "THE PSYDONIC CHAPEL"
 
 /area/rogue/indoors/town/warehouse/can_craft_here()
 	return FALSE

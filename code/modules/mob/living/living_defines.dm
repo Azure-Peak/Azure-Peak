@@ -235,3 +235,6 @@
 	var/hunger_stage
 	var/thirst_stage
 	var/vitae_stage
+
+	/// "In Combat" timer that is used to prevent stealth and a few other mechanics while active.
+	var/in_combat_until

@@ -1567,3 +1567,20 @@
 	stake.forceMove(drop_location())
 	stake = null
 	qdel(src)
+
+/obj/structure/bars/passage/shutter/bookcase
+	name = "Empty Bookcase"
+	desc = "Refuge for few, an irrelevance to most."
+	icon_state = "decoybookcase0"
+
+/obj/structure/bars/passage/shutter/bookcase/redstone_triggered()
+	if(obj_broken)
+		return
+	if(density)
+		icon_state = "decoybookcase1"
+		density = FALSE
+		opacity = FALSE
+	else
+		icon_state = "decoybookcase0"
+		density = TRUE
+		opacity = TRUE

@@ -538,6 +538,19 @@
 		held_items[P]["NAME"] = P.name
 		held_items[P]["PRICE"] = 0
 
+/obj/structure/roguemachine/vendor/inq_keys
+	keycontrol = "puritan"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/inq_keys/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/ortho_one, /obj/item/roguekey/ortho_two, /obj/item/roguekey/ortho_three))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
 // PEDDLER CARTS
 
 /obj/structure/roguemachine/vendor/mobile

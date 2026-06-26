@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Fixes shotgun projectile not applying damage reduction to armor. Point Blank GBlast / Sawblade / Stygian will no longer massively overperform at point blank."

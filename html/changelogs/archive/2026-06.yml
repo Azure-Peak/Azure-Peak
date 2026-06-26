@@ -1123,3 +1123,71 @@
   - bugfix: sunderstacks clear on death + revival + aheal + revives, you don't need
       to varedit it away.
   - balance: Werewolves are immune to pain even while doused in sunderflames.
+2026-06-25:
+  Clem-The-Duck:
+  - bugfix: Surcoat sprite
+  KatTheFox:
+  - bugfix: Clingy, Paranoid, Finicky, and Lonely vices now account for shapeshifted
+      players properly
+  - rscadd: You can now pet witches in zad and bat forms instead of only... every
+      other form they have
+  Ketrai:
+  - balance: capped lesser miracle conditional healing to a minor amount, base healing
+      slightly increased.
+  Ollanius:
+  - bugfix: Properly fixes the duplicated 'force_wielded' value on the Saccharine
+      Swordspear, ensuring that you properly deal full damage when two-handing it.
+  ShadowLarkens:
+  - refactor: Voicepacks are now global singletons, please report any bugs of incorrect
+      voicepacks.
+  WeNeedMorePhoron:
+  - rscadd: Fixes shotgun projectile not applying damage reduction to armor. Point
+      Blank GBlast / Sawblade / Stygian will no longer massively overperform at point
+      blank.
+  - rscadd: Ported Noelle's optimization of LobbyRefresh
+  - rscdel: Removed the browserpanel_hidden_verbs build step
+  - rscadd: Ported optimization of visible and audible message by Noelle
+  - rscadd: Ported an optimization for vision cone made by Sutures
+  - server: Added sendmaps profiling verb to debug verbs
+  bearrrrrrrr:
+  - bugfix: lifesvial can be used on nobles now
+  - bugfix: tithebound SUNSET now no longer fails on diagonals, or...just, in general.
+  borneblood:
+  - rscadd: Militia Scythe added, unique to Levy.
+  - rscadd: More Levy customization options during its spawn.
+  - rscadd: Levy Callouts! Ctrl+Shift+RMB at something with a fellow Levy unit to
+      bark out details of your pointing.
+  - bugfix: Dolabra's intents were not functional.
+  - balance: Increased Levy available slots from 3 to 5.
+  - balance: Adjusted Levy stats and gear to be more (Terrorbog-adjacent) PvE oriented.
+  - refactor: Refactors the Demolish intent to be usable by any mace, not just the
+      Psydonite Maul.
+  - bugfix: fixed a few extra things on Levy's unatomized
+2026-06-26:
+  FreeStylaLT:
+  - qol: Moved the "in combat" and "stealth revealed" status effects to a red light
+      on the UI instead.
+  - qol: Being "in combat" no longer prevents the sneak button from activating at
+      all. Invisibility will still be denied, however.
+  - balance: Scaling for hiding in objects is now harsher, scaling up to Legendary
+      rather than Expert.
+  - balance: Inquisitor subclass now gets Tempo. Ordinator does not.
+  - balance: Gnolls no longer gain Tempo.
+  - balance: Heretic Wretches no longer gain Tempo.
+  - balance: Towners no longer have Tempo.
+  - balance: Burghers no longer have Tempo. This includes Mage Associates.
+  - balance: Bishop no longer have Tempo.
+  - balance: Acolytes no longer have Tempo.
+  SomeDeviant:
+  - rscdel: Removed .transform check in wrestling spells to prevent sprite scale corruption
+  - bugfix: fixed runtime on interrupted timers in wrestling spells
+  WeNeedMorePhoron:
+  - rscdel: Excessive amount of baseturfs generated will no longer swap out for an
+      indestructible buggy tile and then tell you to report to your coder, because
+      I am tired of doing nothing and seeing 1 report every week.
+  - rscadd: Deathsight generic message no longer tell you to report to dev, since
+      it is useless. It is now logged in game log for future dev investigation. And
+      in addition, it give you a rough location of where the death occured. If this
+      becomes a problem I will revert to the generic fallback instead.
+  changelingonberry:
+  - bugfix: gulp, faceplam and crack knuckles go into the correct categories now

@@ -472,3 +472,6 @@ Medical defines
 
 #define MAX_DODGE_CEIL 5
 #define MAX_DODGE_FLOOR -15
+
+// How long we can't use stealth & other misc. things for
+#define IN_COMBAT_DELAY 10 SECONDS
