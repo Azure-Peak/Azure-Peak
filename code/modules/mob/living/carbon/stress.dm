@@ -226,7 +226,7 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 
 /mob/living/carbon/proc/stress_freakout()
 	var/determination = src.STAWIL * 4
-	if(HAS_TRAIT(src, TRAIT_NOMOOD))
+	if(HAS_TRAIT(src, TRAIT_NOMOOD) || stat != CONSCIOUS)
 		return
 	if(HAS_TRAIT(src, TRAIT_STEELHEARTED) || HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT) && prob(determination))
 		if(HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT))

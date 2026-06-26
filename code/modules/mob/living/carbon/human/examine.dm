@@ -692,8 +692,6 @@
 					. += span_warning("<i>[m1] battle-aware.</i>")
 				if(HAS_TRAIT(src, TRAIT_DEATHLESS) && !mind?.has_antag_datum(/datum/antagonist/vampire))
 					. += span_warning("<i>[m1] absent of lyfe. [t_He] will linger even without blood.</i>")
-				if(HAS_TRAIT(src, TRAIT_BLACKBLOOD))
-					. += span_artery("<i>[m1] scarred by the aftermath of intense, experimental surgeries.</i>")
 				if(HAS_TRAIT(user, TRAIT_COMBAT_AWARE))
 					var/userheld = user.get_active_held_item()
 					var/srcheld = get_active_held_item()
@@ -1068,6 +1066,11 @@
 		var/datum/antagonist/vampire/vamp_inspect = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(vamp_inspect && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
 			. += span_redtext("[m3] strange glowing eyes and fangs!")
+
+		if(HAS_TRAIT(src, TRAIT_INQUISITION) && HAS_TRAIT(user, TRAIT_BLACKBLOOD))
+			user.add_stress(/datum/stressevent/inq_trauma)
+			var/mob/living/carbon/carbs = user
+			carbs.stress_freakout()
 
 		// Shouldn't be able to tell they are unrevivable through a mask as a Necran
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
