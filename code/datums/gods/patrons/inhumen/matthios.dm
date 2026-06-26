@@ -9,6 +9,7 @@
 					/datum/action/cooldown/spell/matthios/freemans_tools		= CLERIC_T0,
 					/datum/action/cooldown/spell/matthios/raze					= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/layonhands				= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/matthios_transact		= CLERIC_T1, //It says it should be T1
 					/obj/effect/proc_holder/spell/self/skulduggery				= CLERIC_T1, // AAAAAAAAAAA
