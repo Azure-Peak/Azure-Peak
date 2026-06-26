@@ -8,6 +8,7 @@
 					/datum/action/cooldown/spell/noc/sight						= CLERIC_T0,
 					/datum/action/cooldown/spell/darkvision/miracle				= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/layonhands				= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/noc/enlightenment              = CLERIC_T1,
 					/datum/action/cooldown/spell/noc/inspiration       		    = CLERIC_T1,
