@@ -60,7 +60,7 @@
 	guaranteed_hard = FALSE
 	guarantees_roundstart_roleset = FALSE
 	roundstart_prob = 0
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE	// max 1
+	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
 	wretch_slot_cap = 12
 
 	starting_point_multipliers = list(
@@ -88,7 +88,7 @@
 /datum/storyteller/gamemode/guaranteed_antag
 	name = "High Intensity"
 	vote_desc = "Guaranteed hard antagonist. Some soft antagonists remain."
-	desc = "Guaranteed roundstart hard antag. Wretches up to 9. Gnolls max 1. Hag present. Dreamwalker may roll."
+	desc = "Guaranteed roundstart hard antag. Wretches up to 9. Gnolls max 2. Hag present. Dreamwalker may roll."
 	welcome_text = "A cold dread settles over the town.."
 	color_theme = "#a43c3c"
 	preset_pool = GAMEMODE_POOL_GUARANTEED
@@ -98,7 +98,7 @@
 	block_hard = FALSE
 	block_soft = FALSE
 	allow_dreamwalker = TRUE
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE	// max 1
+	preferred_gnoll_mode = pick(GNOLL_SCALING_SINGLE, GNOLL_SCALING_FLAT)	// Let it ride
 	wretch_slot_cap = 9
 
 /datum/storyteller/gamemode/guaranteed_antag/low_wretch
@@ -118,14 +118,14 @@
 /datum/storyteller/gamemode/no_antag	// DEFAULT
 	name = "Standard Intensity"
 	vote_desc = "No hard antagonists. Soft antagonists scale reasonably."
-	desc = "No hard antags. Wretches scale normally (5 -> 12). Gnolls max 1. Hag present. Dreamwalker may roll."
+	desc = "No hard antags. Wretches scale normally (5 -> 12). Gnolls max 2. Hag present. Dreamwalker may roll."
 	welcome_text = "The warmth of daelight rouses you from your slumber.."
 	color_theme = "#2b8c87"
 	preset_pool = GAMEMODE_POOL_NOANTAG
 	block_hard = TRUE
 	block_soft = FALSE
 	allow_dreamwalker = TRUE
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE	// max 1
+	preferred_gnoll_mode = pick(GNOLL_SCALING_SINGLE, GNOLL_SCALING_FLAT)	// Let it ride
 	wretch_slot_cap = 12
 	roundstart_prob = 50
 	guarantees_roundstart_roleset = FALSE
