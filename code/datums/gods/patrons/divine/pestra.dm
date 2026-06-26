@@ -8,6 +8,7 @@
 					/obj/effect/proc_holder/spell/invoked/diagnose				= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/pestra_leech			= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/layonhands				= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/infestation			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/pestilent_blade		= CLERIC_T2,
