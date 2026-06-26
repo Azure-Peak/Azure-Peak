@@ -9,6 +9,7 @@
 					/obj/effect/proc_holder/spell/invoked/ventriloquism			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/mimicry				= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/layonhands				= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/tipscales				= CLERIC_T1,
 					/datum/action/cooldown/spell/projectile/vicious_mockery		= CLERIC_T1,
