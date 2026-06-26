@@ -1163,3 +1163,31 @@
   - refactor: Refactors the Demolish intent to be usable by any mace, not just the
       Psydonite Maul.
   - bugfix: fixed a few extra things on Levy's unatomized
+2026-06-26:
+  FreeStylaLT:
+  - qol: Moved the "in combat" and "stealth revealed" status effects to a red light
+      on the UI instead.
+  - qol: Being "in combat" no longer prevents the sneak button from activating at
+      all. Invisibility will still be denied, however.
+  - balance: Scaling for hiding in objects is now harsher, scaling up to Legendary
+      rather than Expert.
+  - balance: Inquisitor subclass now gets Tempo. Ordinator does not.
+  - balance: Gnolls no longer gain Tempo.
+  - balance: Heretic Wretches no longer gain Tempo.
+  - balance: Towners no longer have Tempo.
+  - balance: Burghers no longer have Tempo. This includes Mage Associates.
+  - balance: Bishop no longer have Tempo.
+  - balance: Acolytes no longer have Tempo.
+  SomeDeviant:
+  - rscdel: Removed .transform check in wrestling spells to prevent sprite scale corruption
+  - bugfix: fixed runtime on interrupted timers in wrestling spells
+  WeNeedMorePhoron:
+  - rscdel: Excessive amount of baseturfs generated will no longer swap out for an
+      indestructible buggy tile and then tell you to report to your coder, because
+      I am tired of doing nothing and seeing 1 report every week.
+  - rscadd: Deathsight generic message no longer tell you to report to dev, since
+      it is useless. It is now logged in game log for future dev investigation. And
+      in addition, it give you a rough location of where the death occured. If this
+      becomes a problem I will revert to the generic fallback instead.
+  changelingonberry:
+  - bugfix: gulp, faceplam and crack knuckles go into the correct categories now

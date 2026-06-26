@@ -8,7 +8,7 @@
 	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/templarofpsydonia.ogg'
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_INQUISITION)
 	subclass_stats = list(
 		STATKEY_WIL = 3,
 		STATKEY_CON = 3,
