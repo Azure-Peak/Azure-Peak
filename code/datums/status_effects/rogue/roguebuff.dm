@@ -645,41 +645,25 @@
 
 #undef REWIND_AURA
 
+//lasts shorter than magic, one chomp every 3 seconds is good enough, let's not forget food can have multiple slices. This does not heal wounds, wounds are healed automatically like psydonitian trait, but it consumes 1% hunger a tick.
 #define CONSUME_AURA "consumehealing"
 
 /datum/status_effect/buff/foodhealing
 	id = "consumehealing"
+	status_type = STATUS_EFFECT_UNIQUE
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
-	duration = 2 SECONDS // lasts shorter than magic, one chomp every 3 seconds is good enough, let's not forget food can have multiple slices. This does not heal wounds, wounds are healed automatically like psydonitian trait, but it consumes 1% hunger a tick.
-	examine_text = "<font color='#8b8b8b'>SUBJECTPRONOUN is healing unnaturally fast!</font>"
-	status_type = STATUS_EFFECT_UNIQUE	
-	var/fare_power = null
+	duration = 3 SECONDS
+	examine_text = "<font color='#b3b3b3'>SUBJECTPRONOUN is healing unnaturally fast!</font>"
+	var/fare_power = 0
 	var/healing_on_tick = 1
 	var/outline_colour = "#8a8a8a"
 
 /datum/status_effect/buff/foodhealing/on_creation(mob/living/new_owner, new_healing_on_tick, new_fare_power)
 	if(!isnull(new_healing_on_tick))
 		healing_on_tick = new_healing_on_tick
-
 	if(!isnull(new_fare_power))
 		fare_power = new_fare_power
-
-	var/datum/status_effect/buff/foodhealing/existing = new_owner.has_status_effect(/datum/status_effect/buff/foodhealing)
-
-	if(existing && existing != src)
-		if(existing.fare_power == fare_power)
-			existing.duration += 2 SECONDS
-			qdel(src)
-			return
-
 	return ..()
-
-/datum/status_effect/proc/extend_duration(extra_time)
-	if(!owner)
-		return
-	duration += extra_time
-	if(defined(expire_at))
-		expire_at = world.time + duration
 
 /datum/status_effect/buff/foodhealing/on_apply()
 	var/filter = owner.get_filter(CONSUME_AURA)
