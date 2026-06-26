@@ -7,6 +7,7 @@
 	miracles = list(/datum/action/cooldown/spell/touch/orison							= CLERIC_ORI,
 					/datum/action/cooldown/spell/zizo/snuff_lights						= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal							= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/layonhands						= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
 					/datum/action/cooldown/spell/projectile/zizo/profane				= CLERIC_T1,
 					/datum/action/cooldown/spell/raise_undead_formation/zizo	 		= CLERIC_T2,
