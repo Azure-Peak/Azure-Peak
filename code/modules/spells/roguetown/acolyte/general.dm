@@ -1,5 +1,5 @@
-#define BASE_HEALING_PER_TICK 3
-#define MAX_BONUS_HEAL 0.5
+#define BASE_HEALING_PER_TICK 1.5
+#define MAX_BONUS_HEAL 1
 
 /datum/action/cooldown/spell/miracle
 	background_icon = 'icons/mob/actions/genericmiracles.dmi'
@@ -385,6 +385,76 @@
 		bloodbeam.End()
 		return TRUE
 	return FALSE
+
+//////////////////////////////////
+// MIRACLE - Lay on Hands //
+//////////////////////////////////
+
+/datum/action/cooldown/spell/miracle/layonhands
+	name = "Lay on Hands"
+	desc = "Call upon higher power to infuse an adjascent target with healing energy, increases in power gradually over 10 seconds of channeling"
+
+	button_icon_state = "heal"
+	sound = 'sound/magic/heal.ogg'
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_MINOR -5
+
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	invocation_type = INVOCATION_NONE
+
+	charge_required = FALSE
+	cooldown_time = 5 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/miracle/layonhands/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = cast_on
+	if(!istype(H))
+		return
+	
+	if(!isliving(H))
+		return FALSE
+
+	if(isconstruct(H))
+		H.visible_message(span_info("Divine warmth caress [H]'s shell before evaporating."))
+		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return FALSE
+	if(HAS_TRAIT(H,TRAIT_PSYDONITE))
+		H.visible_message(span_info("[H] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return FALSE
+
+	var/healingpower = 1
+
+	for(var/i in 1 to 9999)
+
+		if(do_after(owner, 1 SECONDS, TRUE))
+			H.heal_wounds(healingpower)
+			H.adjustBruteLoss(-healingpower, 0)
+			H.adjustFireLoss(-healingpower, 0)
+			H.adjustOxyLoss(-healingpower, 0)
+			H.adjustToxLoss(-healingpower, 0)
+			H.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healingpower)
+			H.adjustCloneLoss(-healingpower, 0)
+			if(H.blood_volume < BLOOD_VOLUME_OKAY)
+				H.blood_volume = min(H.blood_volume+healingpower, BLOOD_VOLUME_OKAY)
+			if(prob(40))
+				owner.playsound_local(owner, 'sound/magic/heal.ogg', 50, FALSE, -1)
+				playsound('sound/magic/heal.ogg', 50, FALSE - 1)
+				healingpower = min(3, 1+i/5) // maximum 3 HP healing after 10 seconds of channeling 
+			var/obj/effect/temp_visual/heal/F = new /obj/effect/temp_visual/heal_rogue(get_turf(H))
+			F.color = "#e7ac54"
+		else
+			return TRUE
 
 #undef BASE_HEALING_PER_TICK
 #undef MAX_BONUS_HEAL
