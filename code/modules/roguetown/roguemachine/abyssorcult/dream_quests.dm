@@ -108,3 +108,49 @@
 		"A bath will save your life"
 	)
 	valid_roles = list("Grand Duke","Grand Duchess","Prince", "Princess")
+
+/datum/vision_quest/abyssor_sleeping
+	name = "The Deepfather"
+	description = "He calls out from depths, you answer."
+	required_tier = 1
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "an abyssorite"
+	summary = "A beautiful sleeper."
+	vision_text = "Darkness envelops me. \
+	The light of the surface seems akin to a distant shimmer. \
+	I am in His presence, within his Realm. \
+	Roiling sands that undulate with the movements of His divine creatures. \
+	Plants that light up with the faces of those I know well, older aquaintances faded. \
+	Yet the stangeness pales in comparison to His form, as I float above to behold divinity. \
+	An old grizzled man, wrinkles akin to the very waves that dance above. Frozen in time. \
+	His body twists and turns, the waves above respond... A grand wave rising far above even castles. \
+	Some empty rock in the ocean enveloped, crumbling apart into the depth beneath. \
+	Abyssor turns once more, your heart sinks. You know those waters... Azure- \
+	All of them will drown. The seas will swallow up every last soul. Lux extinguished. \
+	Yet the light of the faithful burns bright like a lighthouse fire. Illuminating the waters. \
+	His sleeping grace pauses, a hand adjusting his path. Cautiously lowering Himself down. The seas remain still."
+	possible_phrases = list(
+		"The deepfather sees you",
+		"We are chosen by Abyssor",
+		"The waves will not harm us",
+		"The waves spare us for now"
+	)
+
+/datum/vision_quest/abyssor_sleeping/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+	if(!..())
+		return FALSE
+	if(!target.patron)
+		return FALSE
+	var/list/abyssor = list(/datum/patron/divine/abyssor)
+	if(!(target.patron.type in abyssor))
+		return FALSE
+	return TRUE

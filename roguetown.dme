@@ -2859,6 +2859,7 @@
 #include "code\modules\roguetown\roguemachine\abyssorcult\dream_materials.dm"
 #include "code\modules\roguetown\roguemachine\abyssorcult\dream_pool.dm"
 #include "code\modules\roguetown\roguemachine\abyssorcult\dream_quests.dm"
+#include "code\modules\roguetown\roguemachine\abyssorcult\dream_quests_t3.dm"
 #include "code\modules\roguetown\roguemachine\abyssorcult\dream_ritual_datums.dm"
 #include "code\modules\roguetown\roguemachine\abyssorcult\dream_rituals.dm"
 #include "code\modules\roguetown\roguemachine\abyssorcult\dream_rune.dm"
