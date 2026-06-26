@@ -8,6 +8,7 @@
 					/datum/action/cooldown/spell/astrata/ignition			= CLERIC_T0,
 					/datum/action/cooldown/spell/astrata/astrata_gaze		= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal		 		= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/layonhands			= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle		= CLERIC_T1,
 					/datum/action/cooldown/spell/projectile/sacred_flame	= CLERIC_T1,
 					/datum/action/cooldown/spell/astrata/bladeorfist		= CLERIC_T2,
