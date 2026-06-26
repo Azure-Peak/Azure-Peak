@@ -1,5 +1,4 @@
 /client/proc/forcerandomrotate()
-	set category = "Server"
 	set name = "Trigger Random Map Rotation"
 	set hidden = 1 // Only one map
 	var/rotate = alert("Force a random map rotation to trigger?", "Rotate map?", "Yes", "Cancel")

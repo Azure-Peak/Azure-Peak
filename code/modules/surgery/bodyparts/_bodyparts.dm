@@ -216,22 +216,21 @@
 				used_time -= (user.get_skill_level(/datum/skill/labor/butchering) * 30)
 			visible_message("[user] begins to butcher \the [src].")
 			playsound(src, 'sound/foley/gross.ogg', 100, FALSE)
-			var/steaks = 1
-			switch(user.get_skill_level(/datum/skill/labor/butchering))
-				if(3)
-					steaks = 2
-				if(4 to 5)
-					steaks = 3
-				if(6)
-					steaks = 4 // the steaks have never been higher
+
+			var/butcher_skill = user.get_skill_level(/datum/skill/labor/butchering)
 			var/amt2raise = user.STAINT/3
 			var/produced_steaks = list()
+
 			if(do_after(user, used_time, target = src))
-				for(steaks, steaks>0, steaks--)
-					var/obj/item/reagent_containers/food/snacks/rogue/meat/steak/new_steak = new(get_turf(src))
-					produced_steaks += new_steak
+				var/obj/item/reagent_containers/food/snacks/rogue/meat/steak/humanoid/new_steak = new(get_turf(src))
+				produced_steaks += new_steak
+				// 10% per level starting from apprentice
+				var/second_chance = max(0, (butcher_skill - 1) * 10)
+				if(prob(second_chance))
+					var/obj/item/reagent_containers/food/snacks/rogue/meat/steak/humanoid/second_steak = new(get_turf(src))
+					produced_steaks += second_steak
 				if(rotted)
-					for(var/obj/item/reagent_containers/food/snacks/rogue/meat/steak/putrid in produced_steaks)
+					for(var/obj/item/reagent_containers/food/snacks/rogue/meat/steak/humanoid/putrid in produced_steaks)
 						putrid.become_rotten()
 				var/datum/component/decal/blood/blood_decal = GetComponent(/datum/component/decal/blood)
 				new /obj/effect/decal/cleanable/blood/splatter(get_turf(src), blood_decal?.blood_color || BLOOD_COLOR_RED)

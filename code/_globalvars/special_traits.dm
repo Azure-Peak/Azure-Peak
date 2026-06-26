@@ -72,16 +72,17 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, null)
 		to_chat(H, span_warning("My limbs are too frail and my body too tough... the contradiction leaves me unable to resist critical wounds."))
 		
-	if((H.advjob != "Knight Banneret" && H.mind.assigned_role != "Court Agent" && H.mind.assigned_role != "Adventurer" && H.mind.assigned_role != "Prince" && H.mind.assigned_role != "Court Magician" && H.mind.assigned_role != "Inquisitor"))
+	var/datum/advclass/advclass = SSrole_class_handler.get_advclass_by_name(H.advjob)
+	if(advclass.tempo_capable && H.mind.assigned_role != "Court Agent" && H.mind.assigned_role != "Adventurer" && H.mind.assigned_role != "Towner") // (Easier to filter these out than apply the bool to every subclass)
 		if(!H.mind.has_antag_datum(/datum/antagonist/skeleton) && !H.mind.has_antag_datum(/datum/antagonist/lich) && !H.mind.has_antag_datum(/datum/antagonist/vampire) && !H.mind.has_antag_datum(/datum/antagonist/vampire/lord))
 			ADD_TRAIT(H, TRAIT_TEMPO, SPECIES_TRAIT)		
 	return TRUE
 
 /proc/apply_voicepacks(mob/living/carbon/human/character, client/player)
 	if(player.prefs.voice_pack != "Default")
-		var/datum/voicepack/VP = GLOB.voice_packs_list[player.prefs.voice_pack]
-		character.dna.species.soundpack_m = new VP()
-		character.dna.species.soundpack_f = new VP()
+		var/datum/voicepack/VP = GLOB.voice_packs[GLOB.voice_packs_list[player.prefs.voice_pack]]
+		character.dna.species.soundpack_m = VP
+		character.dna.species.soundpack_f = VP
 
 
 /proc/apply_prefs_virtue(mob/living/carbon/human/character, client/player)
@@ -196,9 +197,13 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	return FALSE
 
 /proc/apply_charflaw_equipment(mob/living/carbon/human/character, client/player)
+	var/has_extra_vice = FALSE
+	for(var/datum/charflaw/cf in character.charflaws) // if we didn't do this, someone could take hunted and targeted together and no other vice
+		if(!cf.needs_extra_vice)
+			has_extra_vice = TRUE
 	for(var/datum/charflaw/cf in character.charflaws)
 		cf.apply_post_equipment(character)
-		if(cf.needs_extra_vice && character.charflaws.len < 2)
+		if(cf.needs_extra_vice && !has_extra_vice)
 			var/datum/charflaw/randflaw/rf = new()
 			character.charflaws.Add(rf)
 			rf.apply_post_equipment(character)

@@ -88,6 +88,8 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
+		if(out_of_effective_range())
+			return
 		M.apply_status_effect(/datum/status_effect/debuff/seeker_marked)
 	. = ..()
 

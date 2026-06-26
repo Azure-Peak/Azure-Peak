@@ -319,6 +319,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		if(!step(H, dir_to_target))
 			landing_turf = current_turf
 			break
+		H.forceMove(next)
 
 	animate(H, pixel_z = prev_pixel_z, time = 1, easing = EASE_IN)
 	H.pass_flags = old_pass

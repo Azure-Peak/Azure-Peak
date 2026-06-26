@@ -2,7 +2,7 @@
 	name = "Malum"
 	domain = "God of Fire, Destruction and Rebirth"
 	desc = "Opinionless god of the crafts. He teaches that great works for killing or saving are great works, either way. The well-oiled guillotine and the well-sharpened axe are tools, and there is no good and evil to their craft."
-	worshippers = "Smiths, Miners, Engineers"
+	worshippers = "Smiths, Miners, and Engineers"
 	mob_traits = list(TRAIT_FORGEBLESSED, TRAIT_BETTER_SLEEP)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/restoration           = CLERIC_T0,
@@ -25,7 +25,10 @@
 
 	storyteller = /datum/storyteller/malum
 
-	titles = list() // people just kinda call him malum
+	titles = list(
+		"Forgefather",
+		"Mamuke"
+	) // people just kinda call him malum. And forgefather. I think.
 
 // Near a smelter, hearth, cross, within the smithy, or within the church
 /datum/patron/divine/malum/can_pray(mob/living/follower)

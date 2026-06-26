@@ -65,6 +65,8 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
+			if(out_of_effective_range())
+				return
 			if(L.on_fire)
 				L.adjust_fire_stacks(-1)
 				L.visible_message(span_warning("The frost dampens the flames on [L]!"))

@@ -16,7 +16,7 @@
 	wdefense = 1
 	max_integrity = 80
 	resistance_flags = FIRE_PROOF
-	associated_skill = /datum/skill/magic/arcane
+	associated_skill = /datum/skill/combat/staves
 	possible_item_intents = list(SPEAR_BASH)
 	sellprice = 34
 	implement_tier = IMPLEMENT_TIER_LESSER

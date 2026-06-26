@@ -173,6 +173,11 @@
 	color = "#1b1717ff"
 	detail_color = "#b68e37ff"
 
+/obj/item/clothing/head/roguetown/chaperon/noble/aristocratotava
+	desc = "A noble's chaperon made for a traveling noble from Otava. \"Purity afloat!\""
+	color = "#1f1818ff"
+	detail_color = "#dbe6e5ff"
+
 /obj/item/clothing/head/roguetown/chaperon/noble/hand
 	name = "hand's chaperon"
 	desc = "A noble's chaperon made for the right hand man. \"Heavy is the head that bears the crown.\""
@@ -389,6 +394,15 @@
 	detail_tag = "_detail"
 	detail_color = COLOR_SILVER
 
+/obj/item/clothing/head/roguetown/duelhat/aristocrat
+	name = "noble's feathered hat"
+	desc = "A feathered leather hat, with silken inseams and a silver trim, to show them all your superiority."
+	icon_state = "duelhat"
+	sewrepair = TRUE
+	color = COLOR_ORANGE
+	detail_tag = "_detail"
+	detail_color = COLOR_RED
+
 /obj/item/clothing/head/roguetown/wizhat
 	name = "wizard hat"
 	desc = "Used to distinguish dangerous wizards from senile old men."
@@ -461,6 +475,7 @@
 /obj/item/clothing/head/roguetown/witchhat
 	name = "witch hat"
 	desc = "Fair is foul, and foul is fair; Hover through the fog and filthy air."
+	adjustable = CAN_CADJUST
 	icon_state = "witch"
 	item_state = "witch"
 	detail_tag = "_detail"
@@ -469,6 +484,10 @@
 	sewrepair = TRUE
 	color = CLOTHING_BLACK
 	detail_color = CLOTHING_BROWN
+
+/obj/item/clothing/head/roguetown/witchhat/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, null, null, null, 'sound/foley/cloth_wipe (1).ogg', null, UPD_HEAD)
 
 /obj/item/clothing/head/roguetown/witchhat/mageblue
 	color = CLOTHING_MAGE_BLUE

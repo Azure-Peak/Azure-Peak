@@ -90,7 +90,20 @@
 						visible_message(span_warning("[src] pushes [AM]."))
 					changeNext_move(CLICK_CD_MELEE)
 					return
-		A.attack_hand(src, params)
+		if(cmode && used_intent.type == INTENT_HARM && isitem(A))
+			if(stamina_add(8))
+				var/dmg = get_punch_dmg()
+				var/obj/item/I = A
+				I.take_damage(dmg)
+				I.try_damage_pushback(src)
+				changeNext_move(CLICK_CD_MELEE)
+				var/verbu = pick(used_intent.attack_verb)
+				log_combat(src, I, "attacked with fists")
+				visible_message(span_danger("[src] [verbu] [I]!"))
+				var/tempsound = used_intent.hitsound
+				playsound(loc,  tempsound, 100, FALSE, -1)
+		else
+			A.attack_hand(src, params)
 		if(pulling)
 			changeNext_move(CLICK_CD_MELEE)
 

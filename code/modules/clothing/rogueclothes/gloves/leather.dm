@@ -13,7 +13,7 @@
 	sewrepair = TRUE
 	unarmed_bonus = 1
 	color = "#66584c"
-	salvage_result = null // Recipe makes 2 so we cannot make this salvageable
+	salvage_result = /obj/item/natural/hide/cured // this arbitrary nonsense was removed, only 1 glove is made per craft now
 	cold_protection = 3
 
 /obj/item/clothing/gloves/roguetown/leather/ComponentInitialize()

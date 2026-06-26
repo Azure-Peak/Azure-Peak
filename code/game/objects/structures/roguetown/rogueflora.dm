@@ -908,7 +908,8 @@
 	int_req = 0
 	special_examine = "You recall the gathering of wildsmasters recently. It hasn't been long, but these mushrooms were always believed to be happy and colorful. The spores of this one are rumoured to be the cause, it's like... they collectively made a decision to stop fooling humenkind."
 	static_debris = list(/obj/item/natural/fibers = 1,
-						 /obj/item/grown/log/tree/small = 1)
+						 /obj/item/grown/log/tree/small = 1,
+						 /obj/item/reagent_containers/food/snacks/rogue/mushroom = 2)
 	rare_mush_bonus_drop = /mob/living/simple_animal/hostile/rogue/mirespider_lurker/mushroom
 	mush_animate = FALSE
 
@@ -922,7 +923,7 @@
 	int_req = 20
 	max_integrity = 480
 	special_examine = "To the world of academics, it appears as if this mushroom has many eyes, one in each sore. Yet, upon dissection, it is as if the eyes have melted away."
-	static_debris = list(/obj/item/grown/log/tree = 1)
+	static_debris = list(/obj/item/grown/log/tree = 1, /obj/item/reagent_containers/food/snacks/rogue/mushroom = 1)
 	rare_mush_bonus_drop = /obj/item/rogueore/iron
 	mush_animate = TRUE
 
@@ -936,6 +937,7 @@
 	int_req = 10
 	special_examine = "This mushroom has an identical appearance to a highly murderous mushroom, called the weeping angel, but luckily that one isn't native to Azure."
 	static_debris = null
+	rare_mush_bonus_drop = /obj/item/reagent_containers/food/snacks/rogue/mushroom
 	mush_animate = FALSE
 
 /obj/structure/flora/rogueshroom/happy/random

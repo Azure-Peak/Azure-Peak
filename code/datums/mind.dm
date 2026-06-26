@@ -603,7 +603,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/recall_targets(mob/recipient, window=1)
 	var/output = "<B>[recipient.real_name]'s Hitlist:</B><br>"
 	for(var/mob/living/carbon in GLOB.mob_living_list) // Iterate through all mobs in the world
-		if((carbon.real_name != recipient.real_name) && ((carbon.has_flaw(/datum/charflaw/hunted))  && (carbon.job in GLOB.hunted_protected_roles) && (!istype(carbon, /mob/living/carbon/human/dummy))))//To be on the list they must be hunted, not a protected role, not the user and not a dummy (There is a dummy that has all vices for some reason)
+		if((carbon.real_name != recipient.real_name) && (carbon.has_flaw(/datum/charflaw/targeted) && (!istype(carbon, /mob/living/carbon/human/dummy)))) //To be on the list they must be targeted, not the user and not a dummy (There is a dummy that has all vices for some reason)
 			output += "<br>[carbon.real_name]"
 			output += "<br>[carbon.real_name]"
 			if (carbon.job)
@@ -948,8 +948,10 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(current)
 		to_chat(current, span_nicegreen("Tip: You can Ctrl-Click your hotkey bar to unlock it, then drag to rearrange your spells. Re-arranging them change which hotkeys they are bound to in order from left to right (Alt 1 to Alt 9 default). You can shift click your spells to learn more about them."))
 
-/datum/mind/proc/setup_mage_aspects(list/config)
+/datum/mind/proc/setup_mage_aspects(list/config, grant_attunement = TRUE)
 	mage_aspect_config = config
+	if(grant_attunement && current)
+		ADD_TRAIT(current, TRAIT_LEYLINE_ATTUNEMENT, TRAIT_GENERIC)
 	ensure_mage_basics()
 	check_learnspell()
 
@@ -1081,6 +1083,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/RemoveAllSpells()
 	for(var/datum/S in spell_list)
 		RemoveSpell(S)
+	for(var/datum/SP in current.actions)
+		RemoveSpell(SP)
 
 /datum/mind/proc/transfer_martial_arts(mob/living/new_character)
 	if(!ishuman(new_character))
@@ -1256,8 +1260,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 							var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item]
 							if(!LI?.triumph_cost)
 								I.sellprice = 0
-								I.smeltresult = null
-								I.salvage_result = null
+								I.smeltresult = /obj/item/ash
+								I.salvage_result = /obj/item/ash
 							// Apply metadata (color, custom name, custom desc)
 							if(metadata["color"])
 								I.add_atom_colour(metadata["color"], FIXED_COLOUR_PRIORITY)

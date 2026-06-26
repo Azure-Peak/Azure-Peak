@@ -49,6 +49,28 @@
 		return FALSE
 	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph))
 		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/reform/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/noc/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/abyssor/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/dendor/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/necra/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/pestra/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/ravox/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/malum/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/eora/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/xylix/g/triumph))
+		return FALSE
+	if(istype(I, /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/g/triumph))
+		return FALSE
 	if(istype(I, /obj/item/clothing/head/roguetown/circlet/triumph))
 		return FALSE
 	if(istype(I, /obj/item/clothing/mask/rogue/lordmask/triumph))

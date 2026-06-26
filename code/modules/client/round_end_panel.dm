@@ -54,6 +54,8 @@
 		var/datum/storyteller/initialized_storyteller = SSgamemode.storytellers[storyteller_name]
 		if(!initialized_storyteller)
 			continue
+		if(istype(initialized_storyteller, /datum/storyteller/gamemode))
+			continue
 
 		var/influence = SSgamemode.calculate_storyteller_influence(initialized_storyteller.type)
 		if(influence > max_influence)
@@ -292,6 +294,8 @@
 			for(var/storyteller_name in SSgamemode.storytellers)
 				var/datum/storyteller/S = SSgamemode.storytellers[storyteller_name]
 				if(!S)
+					continue
+				if(istype(S, /datum/storyteller/gamemode))
 					continue
 				sorted_gods += list(list(
 					"name" = S.name,
@@ -578,6 +582,8 @@
 
 			for(var/datum/antagonist/A in GLOB.antagonists)
 				if(A.owner && A.type != /datum/antagonist)
+					if(!(A.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN))
+						continue
 					var/should_exclude = FALSE
 					if(length(A.owner.antag_datums) == 1)
 						for(var/datum/team/T in all_teams)
@@ -687,6 +693,13 @@
 
 				if(all_antagonists.len)
 					data += "</div></div>"
+			if(length(SSgamemode.false_rumours))
+				data += "<div style='background: #14140a; border: 1px solid #5a5a3a; padding: 12px; border-radius: 4px; margin-bottom: 15px;'>"
+				data += "<div style='color: #cfcfa0; font-weight: bold; margin-bottom: 8px;'>Whispers and Rumours</div>"
+				data += "<div style='margin-left: 10px;'>"
+				for(var/rumour in SSgamemode.false_rumours)
+					data += "<div style='margin-bottom: 5px; font-style: italic; color: #b0b0a0;'>The rumours about [rumour] were false.</div>"
+				data += "</div></div>"
 
 		if("Outlaws")
 			data += "<div style='text-align: center; color: #ffd494; font-size: 1.2em; margin-bottom: 15px;'>WANTED OUTLAWS</div>"

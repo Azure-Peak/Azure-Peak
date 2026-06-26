@@ -203,7 +203,7 @@
 	force_wielded = 30
 	name = "bell ringer"
 	desc = "Each man's death diminishes me, for I am involved in mankind. </br>Therefore, send not to know for whom the bell tolls. </br>It tolls for thee."
-	icon_state = "churchmace"
+	icon_state = "bellringer"
 	wbalance = WBALANCE_HEAVY
 	smeltresult = /obj/item/ingot/steel
 	wdefense = 3
@@ -211,6 +211,29 @@
 /obj/item/rogueweapon/mace/church/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("This mace can be used to ring the Church's bell, distinctly hearable by everyone within the Town's limits.")
+
+// Holy See equipment
+
+/obj/item/rogueweapon/mace/steel/holyseemace
+	name = "holy see mace"
+	desc = "A blessed mace, wielded by the Holy See's templars to drive the fiends in the dark back. \
+			Many within the See find the shedding of blood regrettable, thus did an ancient artificer be struck by divine inspiration. \
+			A holy bludgeon that would draw far less blood than its sharper cousins, but still capable of crushing steel, heretic and \
+			deadite both in righteous fury. When evil is at thy doorstep, grasp the Ten's gift in hand and be ever mindful. \
+			It's not what's in front of you that's important, it's what's behind you."
+	icon_state = "churchmace"
+	wdefense = 5
+
+/obj/item/rogueweapon/mace/steel/holyseemace/sunburst
+	name = "sunburst"
+	desc = "A luminous steeled mace with a lengthened handle, adorned with vibrant golden trimmings along a faintly silvered polished metal edge, \
+			the spikes that protrude from its heavy edge radiate with Astrata's glow upon the points. Often issued as a heavy-reminder of divine \
+			judgement to crash against the ever-growing legions of monsters that would dare stand against the weight of Astrata's fury and judgement."
+	icon = 'icons/roguetown/weapons/blunt32.dmi'
+	icon_state = "astratamace"
+	force_wielded = 35
+	max_integrity = 250
+	wdefense = 5
 
 /obj/item/rogueweapon/mace/steel
 	force = 25
@@ -286,6 +309,13 @@
 	smeltresult = /obj/item/ingot/gold
 	unenchantable = TRUE
 	no_loot_taint = TRUE
+
+/obj/item/rogueweapon/mace/woodclub/militia // it literally just has an aura, and demolish intent
+	name = "bogbark club"
+	desc = "A primitive cudgel carved of a stout piece of treefall, from the deepest parts of the Terrorbog. An unmistakable aura of power surrounds it. This thing looks dangerously strong."
+	aura_color = "#00ff00"
+	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/demolish)
+	w_class = WEIGHT_CLASS_NORMAL // it's just a stick, can put it in your backpack
 
 /obj/item/rogueweapon/mace/woodclub
 	force = 15
@@ -1003,47 +1033,49 @@
 		added_def = 2,\
 	)
 
-/obj/item/rogueweapon/mace/maul/grand/psy/attack_obj(obj/O, mob/living/user)
+/obj/item/rogueweapon/mace/attack_turf(turf/T, mob/living/user, multiplier)
 	. = ..()
-	if(!.)
-		return
-	if(!istype(user?.used_intent, /datum/intent/mace/demolish))
-		return
-	if(QDELETED(O))
-		return
-	if(isnull(O.obj_integrity))
-		return
-	if(O.obj_integrity > 900)
-		to_chat(user, span_warning("Too hard!"))
-		return
-	var/bonus_damage = round(O.obj_integrity * 0.15)
-	if(prob(50))
-		bonus_damage += rand(1,10)
-	else
-		bonus_damage -= rand(1,10)
-	O.take_damage(bonus_damage, BRUTE, src.d_type, FALSE)
-	to_chat(user, span_warning("Your blow expertly crushes [O]! (+[bonus_damage])"))
+	if(. && istype(user?.used_intent, /datum/intent/mace/demolish))
+		demolish_turf(T, user)
 
-/obj/item/rogueweapon/mace/maul/grand/psy/attack_turf(turf/T, mob/living/user, multiplier)
+/obj/item/rogueweapon/mace/attack_obj(obj/O, mob/living/user)
 	. = ..()
-	if(!.)
-		return
-	if(!istype(user?.used_intent, /datum/intent/mace/demolish))
-		return
+	if(. && istype(user?.used_intent, /datum/intent/mace/demolish))
+		demolish_obj(O, user)
+
+/obj/item/rogueweapon/mace/proc/demolish_turf(turf/T, mob/living/user)
 	if(QDELETED(T))
-		return
+		return FALSE
+
 	if(isnull(T.max_integrity))
-		return
+		return FALSE
+
 	if(T.max_integrity > 3000)
-		to_chat(user, span_warning("Too hard!"))
-		return
+		to_chat(user, "Too hard, sire!")
+		return FALSE
+
 	var/bonus_damage = round(T.max_integrity * 0.15)
-	if(prob(50))
-		bonus_damage += rand(1,20)
-	else
-		bonus_damage -= rand(1,20)
-	T.take_damage(bonus_damage, BRUTE, src.d_type, 1)
+
+	T.take_damage(bonus_damage, BRUTE, d_type, 1)
 	to_chat(user, span_warning("Your blow expertly caves into [T]! (+[bonus_damage])"))
+	return TRUE
+
+/obj/item/rogueweapon/mace/proc/demolish_obj(obj/O, mob/living/user)
+	if(QDELETED(O))
+		return FALSE
+
+	if(isnull(O.max_integrity))
+		return FALSE
+
+	if(O.max_integrity > 3000)
+		to_chat(user, "Too hard, sire!")
+		return FALSE
+
+	var/bonus_damage = round(O.max_integrity * 0.15)
+
+	O.take_damage(bonus_damage, BRUTE, d_type, 1)
+	to_chat(user, span_warning("Your blow expertly caves into [O]! (+[bonus_damage])"))
+	return TRUE
 
 /datum/intent/mace/sweep
 	name = "sweeping strike"

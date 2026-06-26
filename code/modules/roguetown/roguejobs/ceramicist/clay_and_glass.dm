@@ -10,7 +10,7 @@
 	slot_flags = null
 	obj_flags = null
 	w_class = WEIGHT_CLASS_TINY
-	var/cooked_type = /obj/item/natural/stone // What does this item turn into when glazed in a kiln?
+	var/cooked_type = /obj/item/natural/stone // What does this item turn into when glazed in an oven?
 											  // A regular clay lump just becomes an ordinary stone.
 					// ...Possibly used to make bricks in a separate PR? Interesting way to integrate
 					// the mason's construction work with the new Potter profession. - SunriseOYH

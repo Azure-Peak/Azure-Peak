@@ -13,6 +13,10 @@
 #define QUEST_TOWNER_SMITH_CARAVAN "Smith Caravan"
 #define QUEST_TOWNER_MINER_OREVEIN "Ore Vein"
 
+#define QUEST_TURNIN_SELF 1
+#define QUEST_TURNIN_FELLOWSHIP 2
+#define QUEST_TURNIN_OFFICIAL 3
+
 #define TOWNER_POSTING_TIER_MEDIUM "medium"
 #define TOWNER_POSTING_TIER_HARD "hard"
 
@@ -54,18 +58,18 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Multipliers applied to the base TP for kill request rewards
 #define QUEST_KILL_THREAT_MULT 1.0
 // Bounty's main target is further multiplied  
-#define QUEST_BOUNTY_THREAT_MULT 2
+#define QUEST_BOUNTY_THREAT_MULT 1
 
 // Max mobs for kill request to avoid lagging
-#define QUEST_KILL_MAX_MOBS 15
+#define QUEST_KILL_MAX_MOBS 20
 // Floor for TP to avoid no TP mob from being spammed 
 #define QUEST_MOB_MIN_TP 10
 
 #define QUEST_TP_BUDGET_KILL_EASY 35
 #define QUEST_TP_BUDGET_CLEAR_OUT 80
-#define QUEST_TP_BUDGET_RAID 150
-#define QUEST_TP_BUDGET_BOUNTY_GOONS 100
-#define QUEST_TP_BUDGET_RECOVERY 60
+#define QUEST_TP_BUDGET_RAID 200
+#define QUEST_TP_BUDGET_BOUNTY_GOONS 150
+#define QUEST_TP_BUDGET_RECOVERY 80
 
 // TP budget variance
 #define QUEST_TP_BUDGET_VARIANCE 0.25
@@ -73,14 +77,21 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Bands of threat cleared on completion
 #define QUEST_BANDS_KILL_EASY 1
 #define QUEST_BANDS_CLEAR_OUT 2
-#define QUEST_BANDS_RAID 3
-#define QUEST_BANDS_BOUNTY 3
+#define QUEST_BANDS_RAID 4
+#define QUEST_BANDS_BOUNTY 4
 #define QUEST_BANDS_RECOVERY 2
+
+#define QUEST_REWARD_GLOBAL_MULT 1
 
 // Flat reward base
 #define QUEST_REWARD_BASE_FLAT 10
 #define QUEST_REWARD_BASE_FETCH 15
 #define QUEST_REWARD_BASE_RECOVERY 25
+
+// Flat bonus layered on by difficulty, on top of the base + tp/distance reward.
+#define QUEST_DIFFICULTY_BONUS_EASY 0
+#define QUEST_DIFFICULTY_BONUS_MEDIUM 0
+#define QUEST_DIFFICULTY_BONUS_HARD 25
 
 #define QUEST_DEPOSIT_EASY 5
 #define QUEST_DEPOSIT_MEDIUM 10
@@ -106,6 +117,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 
 // Unclaimed listings past this threshold are rerolled in place, bypassing the per-tick cap.
 #define QUEST_POOL_STALE_THRESHOLD (20 MINUTES)
+#define QUEST_POOL_STALE_JITTER (10 MINUTES)
 // Player-issued listings (rumor/defense) get a longer window before reroll.
 #define QUEST_PLAYER_STALE_THRESHOLD (30 MINUTES)
 
@@ -152,3 +164,13 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // 2.0× region (Terrorbog, Mt Decap, Underdark) adds the full amount.
 #define QUEST_DELIVERY_THREAT_BONUS 20
 
+#define BLOCKADE_FELLOWSHIP_REQUIREMENT 3
+#define BLOCKADE_WAVE_TIMER_DS (10 MINUTES)
+
+#define BLOCKADE_ARM_TIMEOUT_DS (30 MINUTES)
+#define BLOCKADE_RECALL_WINDOW_DS (15 MINUTES)
+
+#define BLOCKADE_TOTAL_WAVES 3
+#define BLOCKADE_WAVE_1_TP 120
+#define BLOCKADE_WAVE_2_TP 120
+#define BLOCKADE_WAVE_3_TP 150

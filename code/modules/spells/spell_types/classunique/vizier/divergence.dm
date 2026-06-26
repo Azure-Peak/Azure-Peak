@@ -8,8 +8,10 @@
 	self_cast_possible = TRUE
 	charge_required = FALSE
 	cooldown_time = 60 SECONDS
-	invocations = list("Naf'ir! Diverge, timeline!")
+	invocations = list("Iftiraq!")
 	invocation_type = INVOCATION_SHOUT
+	primary_resource_type = SPELL_COST_ENERGY
+	primary_resource_cost = 76
 
 /datum/action/cooldown/spell/vizier/divergence/cast(atom/cast_on)
 	. = ..()
@@ -197,6 +199,8 @@
 
 /obj/effect/divergence_fragment/Crossed(atom/movable/AM)
 	. = ..()
+	if(!isliving(AM))
+		return
 	var/mob/living/L = AM
 	if(L.cmode)
 		to_chat(L, span_warning("I need a calm mind to properly match the simulacrum's frequency. Turn Combat Mode off!"))
@@ -205,6 +209,8 @@
 
 /obj/effect/divergence_fragment/Bumped(atom/movable/AM)
 	. = ..()
+	if(!isliving(AM))
+		return
 	var/mob/living/L = AM
 	if(L.cmode)
 		to_chat(L, span_warning("I need a calm mind to properly match the simulacrum's frequency. Turn Combat Mode off!"))

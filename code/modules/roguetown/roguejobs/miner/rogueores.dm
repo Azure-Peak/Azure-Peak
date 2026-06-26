@@ -138,7 +138,6 @@
 	var/datum/anvil_recipe/currecipe
 	grid_width = 64
 	grid_height = 32
-	dropshrink = 0.8
 
 /obj/item/ingot/examine()
 	. += ..()
@@ -358,16 +357,21 @@
 /obj/item/ingot/bsslag
 	name = "blacksteel-speckled slag"
 	desc = "A mass of smoldered blacksteel, rendered lame from the forge's heat. It has taken its secrets to the grave." 
-	icon_state = "oreada"
+	icon_state = "blacksteelslag"
 	sellprice = 7
+
+/obj/item/ingot/jadeslag
+	name = "jade-speckled slag"
+	desc = "A mass of smoldered jade, rendered lame from the forge's heat. Heavenly beauty, left barely recognizable." 
+	icon_state = "jadeslag"
+	sellprice = 9
 
 //Anomalous Smeltings
 /obj/item/ingot/weeping
 	name = "enduring ingot"
 	desc = "A slab of metal, aged and bare. You finally know what it is, yet no word can be sired to describe it. </br>'..none will ever know the greatest truths; of Aeon's grasp, of Adonai's presence, of Psydon's fate..' </br>'..but, perhaps, that's for the better. The malaise is gone, but the evils of this world are still very real..' </br>'..find a way to give the remains a new lyfe; a new vessel that may yet make the Archdevil weep..'"
-	icon_state = "ingotsilv"
+	icon_state = "ingotenduring"
 	smeltresult = /obj/item/ingot/weeping
-	color = "#CECA9C"
 	sellprice = 222
 
 /obj/item/ingot/weeping/Initialize()
@@ -377,9 +381,8 @@
 /obj/item/ingot/draconic
 	name = "draconic ingot"
 	desc = "A slab of obsidian, crackling with energy. Your fingers blister from the sheer heat, radiating off of its glassy surface. </br>'..no man, be-they a saint or sinner, can truly withstand such power..' </br>'..but, perhaps, you are different..' </br>'..find a way to give the remains a new lyfe; a new vessel that may yet make the Archdevil weep..'"
-	icon_state = "ingotblacksteel"
+	icon_state = "ingotdraconic"
 	smeltresult = /obj/item/ingot/draconic
-	color = "#70b8ff"
 	sellprice = 333
 
 /obj/item/ingot/draconic/Initialize()
@@ -407,17 +410,30 @@
 /obj/item/ingot/drow
 	name = "skikudic ingot"
 	desc = "This ingot offers an alternative - if rarely-heard - solution to riddle of steel, courtesy of the Underdark's fungus-fueled forges. Sunlight refuses to illuminate its presence, no matter how bright its glare becomes. </br>'..perhaps, the forge's heat can scald away its fungal temperance..'"
-	icon_state = "ingotsteel"
+	icon_state = "ingotskikudic"
 	smeltresult = /obj/item/ingot/iron //Smelting the ingot again 'burns away' the fungal temperance, allowing it to be reused for said recipes.
-	color = "#bc9ab7"
 	sellprice = 30 //Rarer to obtain than iron, and feasible to sell off as salvage.
+
+/obj/item/ingot/vampire
+	name = "ancient ceremonial alloy"
+	desc = "An ingot of enchanted gilbranze, radiating with ceremonial authority. Chiseled into the surface is an intricate golden matrix; forbidden knowledge, long lost in the wake of Zizo's ascension."
+	icon_state = "ingotvampire"
+	smeltresult = /obj/item/ingot/purifiedaalloy
+	sellprice = 256
+
+/obj/item/ingot/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/ingot/avantyne
 	name = "avantyne wafer"
-	desc = "This ingot, though borne of unholy circumstance, rumbles with otherworldly potential. Chiseled onto the darksteel is a forbidden iteration of the psycross; a foreboding sign for those who bow to lesser gods."
+	desc = "This ingot, though born of unholy circumstance, rumbles with otherworldly potential. Chiseled onto the darksteel is a forbidden iteration of the psycross; a foreboding sign for those who bow to lesser gods."
 	icon_state = "ingotavantyne"
 	smeltresult = null
 	sellprice = 130
+
+/obj/item/ingot/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
 
 //Components!
 
@@ -469,7 +485,7 @@
 
 /obj/item/ingot/component/threadavantyne
 	name = "avantyne thread"
-	desc = "These strands, though borne of unholy circumstance, shimmer with otherworldly potential. Each wire of darksteel seem to twitch with vigor, whenever brought close to another alloy; like a parasite drawn to a host."
+	desc = "These strands, though born of unholy circumstance, shimmer with otherworldly potential. Each wire of darksteel seem to twitch with vigor, whenever brought close to another alloy; like a parasite drawn to a host."
 	icon_state = "component_avantynethread"
 	sellprice = 66
 
@@ -485,11 +501,17 @@
 	icon_state = "component_zizo"
 	dropshrink = 0.7
 
+/obj/item/ingot/component/zizo/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_AVANTYNE)
+
 /obj/item/ingot/component/graggar
 	name = "vicious fragment"
 	desc = "Bleeding fragments of an otherworldly alloy. </br>Murder is nothing more than justice without arbitration."
 	icon_state = "component_graggar"
 	dropshrink = 0.7
+
+/obj/item/ingot/component/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_MISC)
 
 /obj/item/ingot/component/matthios
 	name = "gilded fragment"
@@ -497,8 +519,14 @@
 	icon_state = "component_matthios"
 	dropshrink = 0.7
 
+/obj/item/ingot/component/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
+
 /obj/item/ingot/component/baotha
 	name = "saccharine fragment"
 	desc = "Aromatic fragments of an otherworldly alloy. </br>Despair is the gravest, most agonizing poison of them all."
 	icon_state = "component_baotha"
 	dropshrink = 0.7
+
+/obj/item/ingot/component/baotha/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_MISC)

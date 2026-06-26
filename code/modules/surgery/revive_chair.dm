@@ -288,14 +288,14 @@
 
 	// Prompt ghost
 	to_chat(occupant, span_ghostalert("You sense powerful energies attempting to pull you back to your body!"))
-	var/alert_result = alert(occupant, "They are calling for you. Are you ready?", "Reanimation", "I need to wake up", "Don't let me go")
+	var/alert_result = alert(occupant, "They are calling for you. Are you ready?", "LIGHTNING, GIFTING GRACE TO THE GRACELESS.", "I need to wake up!", "Don't let me go..")
 
 	// Verify occupant is still valid
 	if(occupant.stat != DEAD || occupant.loc != get_turf(src) || !occupant.buckled)
 		to_chat(H, span_warning("The subject is no longer properly buckled to the chair!"))
 		return
 
-	if(alert_result != "I need to wake up")
+	if(alert_result != "I need to wake up!")
 		to_chat(H, span_warning("[occupant] refuses to return."))
 		return
 
@@ -321,7 +321,13 @@
 		// Apply debuffs
 		occupant.mind.remove_antag_datum(/datum/antagonist/zombie)
 		occupant.apply_status_effect(/atom/movable/screen/alert/status_effect/debuff/revived)
-
-	return TRUE
+		addtimer(CALLBACK(src, PROC_REF(deathmark), occupant), 5 MINUTES) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
+		return TRUE
+	
+/obj/structure/chair/frankenstein/proc/deathmark(mob/living/victim)
+	if(victim.stat != DEAD)
+		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
+		victim.play_permadeath_indicator()
+		to_chat(victim, span_danger("You suddenly feel a deathly chill from within, as the lux begins to creep across your heart once more. The thread betwixt your soul and body remains thin; to succumb again so soon would ensure its total severance."))
 
 #undef WEATHER_RAIN

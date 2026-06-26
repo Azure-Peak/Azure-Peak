@@ -139,8 +139,7 @@
 		if(user.rogue_sneaking)
 			user.mob_timers[MT_FOUNDSNEAK] = world.time
 			user.update_sneak_invis(reset = TRUE)
-		if(user.get_skill_level(/datum/skill/misc/sneaking) >= SKILL_LEVEL_JOURNEYMAN || HAS_TRAIT(user, TRAIT_LIGHT_STEP))
-			user.apply_status_effect(/datum/status_effect/stealth_revealed)
+		user.changeNext_inCombat(IN_COMBAT_DELAY)
 		sprd = round((rand() - 0.5) * DUALWIELD_PENALTY_EXTRA_MULTIPLIER * (randomized_gun_spread + randomized_bonus_spread))
 		before_firing(target,user)
 		if(!chambered.fire_casing(target, user, params, , FALSE, zone_override, sprd, src))

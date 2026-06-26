@@ -191,6 +191,8 @@
 /proc/typecache_filter_list(list/atoms, list/typecache)
 	RETURN_TYPE(/list)
 	. = list()
+	if(!islist(typecache))
+		return
 	for(var/thing in atoms)
 		var/atom/A = thing
 		if(!A || !A.type)
@@ -202,6 +204,8 @@
 /proc/typecache_filter_list_reverse(list/atoms, list/typecache)
 	RETURN_TYPE(/list)
 	. = list()
+	if(!islist(typecache))
+		return
 	for(var/thing in atoms)
 		var/atom/A = thing
 		if(!A || !A.type)
@@ -852,9 +856,7 @@ Port of: https://github.com/Monkestation/Vanderlin/commit/84b8b6a716a80040145bb9
 		return values //baseturf things
 	// return values
 	if(length(values) > 10)
-		stack_trace("The baseturfs list of [baseturf_holder] at [baseturf_holder.x], [baseturf_holder.y], [baseturf_holder.z] is [length(values)], it should never be this long, investigate. I've set baseturfs to a flashing wall as a visual queue")
-		baseturf_holder.ChangeTurf(/turf/closed/indestructible/baseturfs_ded, list(/turf/closed/indestructible/baseturfs_ded), flags = CHANGETURF_FORCEOP)
-		return string_list(list(/turf/closed/indestructible/baseturfs_ded)) //I want this reported god damn it
+		stack_trace("The baseturfs list of [baseturf_holder] at [baseturf_holder.x], [baseturf_holder.y], [baseturf_holder.z] is [length(values)], it should never be this long, investigate.")
 
 	return string_list(values)
 

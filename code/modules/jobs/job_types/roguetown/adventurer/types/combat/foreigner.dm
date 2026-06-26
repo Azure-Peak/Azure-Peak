@@ -197,11 +197,6 @@
 
 /datum/outfit/job/roguetown/adventurer/refugee/pre_equip(mob/living/carbon/human/H)
 	..()
-	var/list/paths = list("Refugee (Default)", "Seminary Dropout (Hierophant)", "Desert Ascetic (Pontifex)", "Wandering Yogi (Vizier)")
-	var/list/hmm = list("I left for a reason... (Default)", "The Djinn could be anywhere! (Naledi Complex)")
-	var/path = input(H, "Choose your past.", "WHAT DID WAR TAKE FROM YOU?") as anything in paths
-	var/complex = input(H, "How tightly bound to traditions you are?", "I HATE DJINNS!") as anything in hmm
-
 	backl = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/clothing/neck/roguetown/psicross/naledi
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
@@ -213,15 +208,18 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/black
 	beltr = /obj/item/flashlight/flare/torch/lantern
 
+	var/choice = list("I left for a reason... (Default)", "The Djinn could be anywhere! (Naledi Complex)")
+	var/complex = input(H, "How tightly bound to traditions you are?", "I HATE DJINNS!") as anything in choice
 	switch(complex)
 		if("The Djinn could be anywhere! (Naledi Complex)")
 			ADD_TRAIT(H, TRAIT_NALEDI, TRAIT_GENERIC)
 			mask = /obj/item/clothing/mask/rogue/lordmask/naledi
 		else
 			mask = /obj/item/clothing/mask/rogue/lordmask/tarnished
-	
-	switch(path)
 
+	var/paths = list("Refugee (Default)", "Seminary Dropout (Hierophant)", "Desert Ascetic (Pontifex)", "Wandering Yogi (Vizier)")
+	var/path = input(H, "Choose your past.", "WHAT DID WAR TAKE FROM YOU?") as anything in paths
+	switch(path)
 		if("Refugee (Default)")
 			to_chat(H, span_warning("An asylum-seeker from the war-torn deserts of Naledi, \
 			driven north as your homeland continues to be ravaged by an endless conflict against the Djinn."))
@@ -334,11 +332,16 @@
 			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 
 			if(H.mind)
+				var/spells = list("Avant Origin (Acceleration)", "Garde Origin (Divergence)")
+				var/mastery = input(H, "Choose your Origin Mastery.", "FORWARD OR BACKWARD?") as anything in spells
 				grant_poke_spell(H)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/divergence)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
+				switch(mastery)
+					if("Garde Origin (Divergence)")
+						H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/divergence)
+					if("Avant Origin (Acceleration)")
+						H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide)

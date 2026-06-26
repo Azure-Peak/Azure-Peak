@@ -1,8 +1,8 @@
 // -------------- CHOCOLATE -----------------
 /obj/item/reagent_containers/food/snacks/chocolate
 	name = "chocolate ingot"
-	desc = "An unbelievably decadant slab of fudge, made with Amazonia's cocoa beans and Grenzelhoft's saiga milk. A \
-	recent trade agreement between the two nations has turned this once-expensive delicacy into a slightly-less-expensive \
+	desc = "An unbelievably decadant slab of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
+	recent trade agreement between the two realms has turned this once-expensive delicacy into a slightly-less-expensive \
 	treat for many. </br>Following a rather unfortunate diplomatic incident involving a Lupian nobleman and a box of chocolates, \
 	chocolate is also now-known to double as a potent 'humor rebalancer' for some of Dendor's children. </br>It looks like it can be \
 	split in half with a dagger."
@@ -41,8 +41,8 @@
 
 /obj/item/reagent_containers/food/snacks/chocolate/slice
 	name = "halved chocolate ingot"
-	desc = "An unbelievably decadant halve of fudge, made with Amazonia's cocoa beans and Grenzelhoft's saiga milk. A \
-	recent trade agreement between the two nations has turned this once-expensive delicacy into a slightly-less-expensive \
+	desc = "An unbelievably decadant halve of fudge, made with Etrusca's cocoa beans and Aavnr's saiga milk. A \
+	recent trade agreement between the two realms has turned this once-expensive delicacy into a slightly-less-expensive \
 	treat for many. </br>Following a rather unfortunate diplomatic incident involving a Lupian nobleman and a box of chocolates, \
 	chocolate is also now-known to double as a potent 'humor rebalancer' for some of Dendor's children. </br>When combined with \
 	pumpkin spice and tossed into a kettle, it makes for an absolutely divine drink."
@@ -142,7 +142,7 @@
 	eat_effect = /datum/status_effect/buff/sweet
 
 /obj/item/reagent_containers/food/snacks/caramel
-	name = "caramel giblets"
+	name = "caramel"
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "caramel3"
 	desc = "Glassy droppings of tallow-fried sugar, oft-divvied out amongst the youth by Psydonia's wisest and kindliest elders."
@@ -168,7 +168,7 @@
 	name = "dragée"
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "dragee3"
-	desc = "Glassy droppings of tallow-fried rocknuts, coated in sugary shells and laced with herbal medicine. Such giblets are popular \
+	desc = "Glassy droppings of tallow-fried rocknuts, coated in sugary shells and laced with herbal medicine. Such candies are popular \
 	amongst Psydonia's youth - both as a reward to Otavan children for remembering their scripture, and as a remedy to childhood ailments."
 	faretype = FARE_LAVISH
 	fried_type = null

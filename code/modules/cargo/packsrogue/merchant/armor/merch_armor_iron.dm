@@ -6,6 +6,11 @@
 	crate_name = "merchant guild's crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
+/datum/supply_pack/rogue/armor_iron/lightchainmail_iron
+	name = "Haubyrine"
+	cost = 25
+	contains = list(/obj/item/clothing/suit/roguetown/armor/chainmail/light/iron)
+
 /datum/supply_pack/rogue/armor_iron/chainmail_iron
 	name = "Haubergeon"
 	cost = 25
@@ -15,6 +20,16 @@
 	name = "Hauberk"
 	cost = 40
 	contains = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron)
+
+/datum/supply_pack/rogue/armor_iron/scalemail_iron
+	name = "Lamellar"
+	cost = 50
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/scale/iron)
+
+/datum/supply_pack/rogue/armor_iron/coatofplates_iron
+	name = "Coat of Plates, Iron"
+	cost = 50
+	contains = list(/obj/item/clothing/suit/roguetown/armor/brigandine/heavy/iron)
 
 /datum/supply_pack/rogue/armor_iron/brigandine_light//It's made with iron and melts into iron it's not steel.
 	name = "Brigandine, Light"
@@ -111,10 +126,15 @@
 	cost = 25
 	contains = list(/obj/item/clothing/mask/rogue/wildguard)
 
-/datum/supply_pack/rogue/armor_iron/boots_iron
+/datum/supply_pack/rogue/armor_iron/plateboots_iron
 	name = "Plated Boots"
 	cost = 25
 	contains = list(/obj/item/clothing/shoes/roguetown/boots/armor/iron)
+
+/datum/supply_pack/rogue/armor_iron/mailleboots_iron
+	name = "Maille Boots"
+	cost = 25
+	contains = list(/obj/item/clothing/shoes/roguetown/boots/maille/iron)
 
 /datum/supply_pack/rogue/armor_iron/skullcap_helmet
 	name = "Helmet, Skullcap"

@@ -28,7 +28,7 @@
 
 /obj/item/carvedgem/shell/rawshell
 	name = "clamshell"
-	desc = "A piece of a fossilized clamshell. Although not as valuable as other gems, it holds a special place in Coastal and Sea Elven cultures. The origin of these clams is still under heavy speculation."
+	desc = "A piece of a fossilized clamshell. Although not as valuable as other gems, it holds a special place in Sea and Coastal Elven cultures. The origin of these clams is still under heavy speculation."
 	icon_state = "raw_shell"
 	grid_height = 32
 	grid_width = 32
@@ -36,7 +36,7 @@
 
 /obj/item/carvedgem/shell/cameo
 	name = "shell cameo"
-	desc = "A cameo carved out of shell depicting...someone? Use your imagination on who it could be."
+	desc = "A cameo carved out of shell depicting depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_shell"
 	grid_height = 32
 	grid_width = 32
@@ -128,7 +128,7 @@
 //.....................Rose......................//
 /obj/item/carvedgem/rose/
 	name = "rose base"
-	desc = "if you are seeing this, it's a bug, report it to coders"
+	desc = "if you are seeing this, it's a bug, report it to coders!"
 	icon = 'icons/roguetown/gems/gem_rose.dmi'
 	icon_state = "raw_rose"
 	grid_height = 32
@@ -136,7 +136,7 @@
 
 /obj/item/carvedgem/rose/rawrose
 	name = "rosestone"
-	desc = "Pink and lustrous, these pearls produced by fossilized clamshells are valued by Eorans: and are usually gifted to expecting mothers and newlyweds."
+	desc = "Pink and lustrous, these pearls produced by fossilized clamshells are valued by Eorans; and are usually gifted to expecting mothers and newlyweds."
 	icon_state = "raw_rose"
 	grid_height = 32
 	grid_width = 32
@@ -144,7 +144,7 @@
 
 /obj/item/carvedgem/rose/cameo
 	name = "rosestone cameo"
-	desc = "A cameo carved out of rosestone depicting...someone? Use your imagination on who it could be."
+	desc = "A cameo carved out of rosestone depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_rose"
 	grid_height = 32
 	grid_width = 32
@@ -241,11 +241,24 @@
 	grid_height = 64
 	grid_width = 64
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/rondel/rose
+	name = "rosestone dagger"
+	desc = "A pristine dagger carved out of rosestone, intended for ceremonies over combat. Such a blade is famous amongst both Eorans and Baothans; the \
+	former cherishes it as a ceremonial means of ending one's suffering - the latter, a twisted representation of the sin that brought about their patron's fall from grace."
+	icon = 'icons/roguetown/gems/gem_rose.dmi'
+	icon_state = "misericorde_rose"
+	max_integrity = 75
+	max_blade_int = 50
+	wdefense = 3
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = null
+
 //.....................Jade......................//
 
 /obj/item/carvedgem/jade
 	name = "jade base"
-	desc =  "if you are seeing this, it's a bug, report it to coders"
+	desc =  "if you are seeing this, it's a bug, report it to coders!"
 	icon = 'icons/roguetown/gems/gem_jade.dmi'
 	icon_state = "cutgem_jade"
 	grid_height = 32
@@ -253,7 +266,7 @@
 
 /obj/item/carvedgem/jade/cameo
 	name = "jade cameo"
-	desc = "A cameo carved out of jade depicting...someone? Use your imagination on who it could be."
+	desc = "A cameo carved out of jade depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_jade"
 	grid_height = 32
 	grid_width = 32
@@ -337,7 +350,7 @@
 
 /obj/item/carvedgem/jade/wyrm
 	name = "jade wyrm"
-	desc = "A large sculpture of a wyrm made out of jade. Few wyrms remain in Faience, but their legacies continue to live on in the art of humens."
+	desc = "A large sculpture of a wyrm made out of jade. Few wyrms remain in Psydonia, but their legacies continue to live on in the art of humens."
 	icon_state = "dragon_jade"
 	grid_height = 64
 	grid_width = 32
@@ -346,7 +359,7 @@
 
 /obj/item/carvedgem/onyxa
 	name = "onyxa base"
-	desc = "if you are seeing this, it's a bug, report it to coders"
+	desc = "if you are seeing this, it's a bug, report it to coders!"
 	icon = 'icons/roguetown/gems/gem_onyxa.dmi'
 	icon_state = "cutgem_onyxa"
 	grid_height = 32
@@ -354,7 +367,7 @@
 
 /obj/item/carvedgem/onyxa/cameo
 	name = "onyxa cameo"
-	desc = "A cameo carved out of onyxa depicting...someone? Use your imagination on who it could be."
+	desc = "A cameo carved out of onyxa depicting depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_onyxa"
 	grid_height = 32
 	grid_width = 32
@@ -450,11 +463,24 @@
 	grid_height = 64
 	grid_width = 32
 
+/obj/item/rogueweapon/sword/short/messer/onyxa
+	name = "onyxa macuahuitl"
+	desc = "A resplendant macuahuitl carved out of onyxa, intended for ceremonies over combat. Traditionally made with shards of onyxa or \
+	obsidian, this paddle-like cleaver - though absurdly fragile - remains sharp enough to carve straight through a saiga's neck in one blow."
+	icon = 'icons/roguetown/gems/gem_onyxa.dmi'
+	icon_state = "macuahuitl_onyxa"
+	max_integrity = 75
+	max_blade_int = 50
+	wdefense = 3
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = null
+
 //.....................Cerulite......................//
 
 /obj/item/carvedgem/turq
 	name = "cerulite base"
-	desc = "if you are seeing this, it's a bug, report it to coders"
+	desc = "if you are seeing this, it's a bug, report it to coders!"
 	icon = 'icons/roguetown/gems/gem_turq.dmi'
 	icon_state = "cutgem_turq"
 	grid_height = 32
@@ -462,7 +488,7 @@
 
 /obj/item/carvedgem/turq/cameo
 	name = "cerulite cameo"
-	desc = "A cameo carved out of cerulite depicting...someone? Use your imagination on who it could be."
+	desc = "A cameo carved out of cerulite depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_turq"
 	grid_height = 32
 	grid_width = 32
@@ -559,6 +585,17 @@
 	grid_height = 64
 	grid_width = 64
 
+/obj/item/ammo_casing/caseless/rogue/javelin/turq
+	name = "cerulite spear"
+	desc = "A perfect spear carved out of cerulite, intended for ceremonies over combat. Before the advent of alloys, gemstone-tipped weapons \
+	were seen as the pinnacle of penetration; it didn't take a well-learned man to understand that one who held the shiniest article had the greatest authority."
+	max_integrity = 75
+	max_blade_int = 50
+	icon = 'icons/roguetown/gems/gem_turq.dmi'
+	icon_state = "spear_turq"
+	smeltresult = null
+	anvilrepair = /datum/skill/craft/weaponsmithing
+
 // heartstone //
 
 /obj/item/carvedgem/coral
@@ -571,7 +608,7 @@
 
 /obj/item/carvedgem/coral/cameo
 	name = "heartstone cameo"
-	desc = "A cameo carved out of heartstone depicting...someone? Use your imagination on who it could be.."
+	desc = "A cameo carved out of heartstone depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_coral"
 	grid_height = 32
 	grid_width = 32
@@ -655,7 +692,7 @@
 
 /obj/item/carvedgem/coral/jaw
 	name = "shark jaw statue"
-	desc = "A statue of a shark's jaw carved out of heartstone. Its probably best if you don't touch the teeth."
+	desc = "A statue of a shark's jaw carved out of heartstone. It's probably best if you don't touch the teeth."
 	icon_state = "jaw_coral"
 	grid_height = 64
 	grid_width = 64
@@ -667,21 +704,32 @@
 	grid_height = 64
 	grid_width = 64
 
+/obj/item/rogueweapon/stoneaxe/battle/coral
+	name = "heartstone nsapo"
+	desc = "An ornate nsapo carved out of heartstone, intended for ceremonies over combat. As gemstoned items were - and still are - seen as talismans that \
+	can invoke divine attention, it's only fitting that these hatchets serve a pivotal part in settling ancient feuds; through the rite of Ravox."
+	icon = 'icons/roguetown/gems/gem_coral.dmi'
+	icon_state = "nsapo_coral"
+	max_integrity = 75
+	max_blade_int = 50
+	wdefense = 3
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = null
+
 // amber //
 
 /obj/item/carvedgem/amber
 	name = "amber base"
-	desc = "if you are seeing this, it's a bug, report it to coders"
+	desc = "if you are seeing this, it's a bug, report it to coders!"
 	icon = 'icons/roguetown/gems/gem_amber.dmi'
 	icon_state = "cutgem_amber"
 	grid_height = 32
 	grid_width = 32
 
-
-
 /obj/item/carvedgem/amber/cameo
 	name = "amber cameo"
-	desc = "A cameo carved out of amber depicting... someone? Use your imagination on who it could be..."
+	desc = "A cameo carved out of amber depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_amber"
 	grid_height = 32
 	grid_width = 32
@@ -777,11 +825,24 @@
 	grid_height = 32
 	grid_width = 32
 
+/obj/item/rogueweapon/sword/amber
+	name = "amber kaskara"
+	desc = "A resplendant kaskara carved out of amber, intended for ceremonies over combat. It's believed that each piece of amber contains \
+	a sliver of Astrata's divine warmth; something that once made it invaluable to decorating the reigns of Psydonia's earliest kings."
+	icon = 'icons/roguetown/gems/gem_amber.dmi'
+	icon_state = "kaskara_amber"
+	max_integrity = 75
+	max_blade_int = 50
+	wdefense = 3
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = null
+
 // opal
 
 /obj/item/carvedgem/opal
 	name = "opal base"
-	desc = "if you are seeing this, it's a bug, report it to coders"
+	desc = "if you are seeing this, it's a bug, report it to coders!"
 	icon = 'icons/roguetown/gems/gem_opal.dmi'
 	icon_state = "cutgem_opal"
 	grid_height = 32
@@ -789,7 +850,7 @@
 
 /obj/item/carvedgem/opal/cameo
 	name = "opal cameo"
-	desc = "A cameo carved out of opal depicting...someone? Use your imagination on who it could be."
+	desc = "A cameo carved out of opal depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_opal"
 	grid_height = 32
 	grid_width = 32

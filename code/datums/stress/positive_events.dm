@@ -201,6 +201,11 @@
 	 Noc must find it impressive.")
 	timer = 15 MINUTES
 
+/datum/stressevent/noble_fine_food
+	stressadd = -2
+	desc = span_green("A fine meal, as befits my standing.")
+	timer = 20 MINUTES
+
 /datum/stressevent/noble_lavish_food
 	stressadd = -4
 	desc = span_green("Truly, a feast befitting my station.")
@@ -505,3 +510,8 @@
 	timer = 10 MINUTES // this will :) you for a while
 	stressadd = -2
 	desc = span_boldred("Long ago, XYLIX put up an extra star in the sky to anger NOC... seeing it is a FANTASTIC sign!")
+
+/datum/stressevent/permadeath_end
+	timer = 5 MINUTES
+	stressadd = -4
+	desc = span_boldgreen("<b>I feel whole, once more! Death shant claim me yet!</b>")

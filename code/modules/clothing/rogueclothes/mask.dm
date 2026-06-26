@@ -175,6 +175,16 @@
 /obj/item/clothing/mask/rogue/spectacles/golden/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
 
+/obj/item/clothing/mask/rogue/spectacles/monocle
+	name = "silver monocle"
+	icon_state = "monocle"
+	max_integrity = 35
+
+/obj/item/clothing/mask/rogue/spectacles/sglasses
+	name = "smokey onyxa spectacles"
+	desc = "Death has come to your little town, Sheriff. Now, you can either ignore it, or you can help me to stop it."
+	icon_state = "sglasses"
+
 /obj/item/clothing/mask/rogue/spectacles/Initialize()
 	..()
 	AddComponent(/datum/component/spill, null, 'sound/blank.ogg')
@@ -388,7 +398,7 @@
 /obj/item/clothing/mask/rogue/facemask/copper
 	name = "copper mask"
 	icon_state = "cmask"
-	desc = "A heavy copper mask that conceals and protects the face, though not very effectively."
+	desc = "A crass-looking mask of copper, befittingly paired with a small viewing slit that nearly spans its entire width."
 	armor = ARMOR_BRONZE
 	smeltresult = /obj/item/ingot/copper
 
@@ -434,6 +444,9 @@
 
 /obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+/obj/item/clothing/mask/rogue/facemask/steel/graggar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_ARMOR)
 
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy
 	name = "ancient mask"
@@ -683,6 +696,7 @@
 	body_parts_covered = FACE
 	block2add = FOV_BEHIND
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
+	max_integrity = ARMOR_INT_SIDE_CLOTH
 	anvilrepair = /datum/skill/craft/armorsmithing //Maybe these shouldn't be repairable, someone else can do that if they want.
 	clothing_flags = CANT_SLEEP_IN
 	sellprice = 70
@@ -692,42 +706,42 @@
 /obj/item/clothing/mask/rogue/facemask/carved/jademask
 	name = "jade mask"
 	icon_state = "mask_jade"
-	desc = "A jade mask that both conceals and protects the face."
+	desc = "A jade mask that both conceals and protects the face. It mimics the guise of a jubilant shaman."
 
 /obj/item/clothing/mask/rogue/facemask/carved/turqmask
 	name = "cerulite mask"
 	icon_state = "mask_turq"
-	desc = "A cerulite mask that both conceals and protects the face."
+	desc = "A cerulite mask that both conceals and protects the face. It mimics the guise of a ferocious lion."
 
 /obj/item/clothing/mask/rogue/facemask/carved/rosemask
 	name = "rosestone mask"
 	icon_state = "mask_rose"
-	desc = "A rosestone mask that both conceals and protects the face."
+	desc = "A rosestone mask that both conceals and protects the face. It mimics the guise of a contemplative monk."
 
 /obj/item/clothing/mask/rogue/facemask/carved/shellmask
 	name = "shell mask"
 	icon_state = "mask_shell"
-	desc = "A shell mask that both conceals and protects the face."
+	desc = "A shell mask that both conceals and protects the face. It mimics the guise of a stoic wanderer."
 
 /obj/item/clothing/mask/rogue/facemask/carved/coralmask
 	name = "heartstone mask"
 	icon_state = "mask_coral"
-	desc = "An heartstone mask that both conceals and protects the face."
+	desc = "An heartstone mask that both conceals and protects the face. It mimics the guise of a laughing spirit."
 
 /obj/item/clothing/mask/rogue/facemask/carved/ambermask
 	name = "amber mask"
 	icon_state = "mask_amber"
-	desc = "A amber mask that both conceals and protects the face."
+	desc = "A amber mask that both conceals and protects the face. It mimics the guise of a stalwart king."
 
 /obj/item/clothing/mask/rogue/facemask/carved/onyxamask
 	name = "onyxa mask"
 	icon_state = "mask_onyxa"
-	desc = "An onyxa mask that both conceals and protects the face."
+	desc = "An onyxa mask that both conceals and protects the face. It mimics the guise of a bulbous alchemist."
 
 /obj/item/clothing/mask/rogue/facemask/carved/opalmask
 	name = "opal mask"
 	icon_state = "mask_opal"
-	desc = "An opal mask that both conceals and protects the face."
+	desc = "An opal mask that both conceals and protects the face. It mimics the guise of a jubilant shaman."
 
 /obj/item/clothing/mask/rogue/xylixmask
 	name = "jester mask"

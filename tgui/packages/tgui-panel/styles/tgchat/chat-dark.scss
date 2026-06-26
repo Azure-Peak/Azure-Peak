@@ -465,6 +465,10 @@ h2.alert {
   color: #f1d669;
   font-size: 75%;
 }
+.bignotice {
+  color: #f1d669;
+  font-size: 120%;
+}
 .hear {
   color: #6685f5;
   font-style: italic;
@@ -771,6 +775,19 @@ h2.alert {
 .phobia {
   color: #dd0000;
   font-weight: bold;
+}
+
+.racialstatinfo {
+	color: #6a8cb7;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+	font-weight: bold;
+}
+
+.smallracialstatinfo {
+	color: #6a8cb7;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+	font-weight: bold;
+  font-size: 80%;
 }
 
 .icon {

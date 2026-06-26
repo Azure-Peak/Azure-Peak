@@ -1,4 +1,4 @@
-#define RURAL_TAX 500 // Daily mint at dawn. Floor at/above RURAL_TAX_POP_HIGH effective players.
+#define RURAL_TAX 200 // Cut to 200 to make economy not too easy.
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 
 #define HERMES_FREE_COOLDOWN (5 MINUTES)

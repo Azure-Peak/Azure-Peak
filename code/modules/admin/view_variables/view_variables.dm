@@ -20,7 +20,7 @@
 	var/icon/sprite
 	var/hash
 
-	var/type = islist? /list : D.type
+	var/type = islist? (istype(D, /alist) ? /alist : /list) : D.type
 	var/no_icon = FALSE
 
 	if(istype(D, /atom))
@@ -37,7 +37,7 @@
 	var/sprite_text
 	if(sprite)
 		sprite_text = no_icon? "\[NO ICON\]" : "<img src='vv[hash].png'></td><td>"
-	var/list/header = islist(D)? list("<b>/list</b>") : D.vv_get_header()
+	var/list/header = islist(D)? list("<b>/[istype(D, /alist) ? "alist" : "list"]</b>") : D.vv_get_header()
 
 	var/marked_line
 	if(holder && holder.marked_datum && holder.marked_datum == D)
@@ -77,12 +77,18 @@
 	var/list/variable_html = list()
 	if(islist)
 		var/list/L = D
-		for(var/i in 1 to L.len)
-			var/key = L[i]
-			var/value
-			if(IS_NORMAL_LIST(L) && IS_VALID_ASSOC_KEY(key))
-				value = L[key]
-			variable_html += debug_variable(i, value, 0, L)
+		if(istype(L, /alist))
+			var/alist_index = 0
+			for(var/akey, aval in L)
+				alist_index++
+				variable_html += debug_variable(akey, aval, 0, L, alist_index = alist_index)
+		else
+			for(var/i in 1 to L.len)
+				var/key = L[i]
+				var/value
+				if(IS_NORMAL_LIST(L) && IS_VALID_ASSOC_KEY(key))
+					value = L[key]
+				variable_html += debug_variable(i, value, 0, L)
 	else
 		names = sortList(names)
 		for(var/V in names)

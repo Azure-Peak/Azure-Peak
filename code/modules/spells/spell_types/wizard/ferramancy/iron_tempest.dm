@@ -69,6 +69,8 @@
 
 /obj/projectile/magic/iron_tempest_seed/on_hit(atom/target)
 	. = ..()
+	if(out_of_effective_range())
+		return
 	var/turf/impact = get_turf(target)
 	if(impact)
 		new /obj/effect/iron_tempest(impact, firer, spell_ref)

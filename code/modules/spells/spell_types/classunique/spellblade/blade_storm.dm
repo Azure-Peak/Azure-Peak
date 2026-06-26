@@ -236,6 +236,9 @@
 		playsound(get_turf(victim), 'sound/magic/magic_nulled.ogg', 100)
 		return BULLET_ACT_BLOCK
 
+	if(out_of_effective_range())
+		return
+
 	INVOKE_ASYNC(parent_spell, TYPE_PROC_REF(/datum/action/cooldown/spell/projectile/blade_storm, execute_storm), caster, victim, aoe_cuts, aoe_dmg, p_cuts, p_dmg, def_zone)
 	return BULLET_ACT_BLOCK
 

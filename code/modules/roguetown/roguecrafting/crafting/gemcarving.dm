@@ -194,7 +194,7 @@
 /datum/crafting_recipe/roguetown/gemcarving/jade/kukri
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	name = "jade kukri"
-	result = /obj/item/rogueweapon/huntingknife/stoneknife/kukri
+	result = /obj/item/rogueweapon/huntingknife/combat/jadekukri
 	reqs = list(/obj/item/roguegem/jade = 1)
 	tools = list(/obj/item/rogueweapon/huntingknife)
 	craftdiff = SKILL_LEVEL_MASTER
@@ -608,6 +608,14 @@
 	tools = list(/obj/item/rogueweapon/huntingknife)
 	craftdiff = SKILL_LEVEL_MASTER
 
+/datum/crafting_recipe/roguetown/gemcarving/rose/dagger
+	display_category = ITEM_CAT_WEAPONS_DAGGERS
+	name = "rosestone dagger"
+	result = /obj/item/rogueweapon/huntingknife/idagger/steel/rondel/rose
+	reqs = list(/obj/item/carvedgem/rose/rawrose = 1)
+	tools = list(/obj/item/rogueweapon/huntingknife)
+	craftdiff = SKILL_LEVEL_MASTER
+
 /datum/crafting_recipe/roguetown/gemcarving/onyxa/fork
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "onyxa fork"
@@ -809,6 +817,14 @@
 	tools = list(/obj/item/rogueweapon/huntingknife)
 	craftdiff = SKILL_LEVEL_MASTER
 
+/datum/crafting_recipe/roguetown/gemcarving/onyxa/macuahuitl
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+	name = "onyxa macuahuitl"
+	result = /obj/item/rogueweapon/sword/short/messer/onyxa
+	reqs = list(/obj/item/roguegem/onyxa = 1)
+	tools = list(/obj/item/rogueweapon/huntingknife)
+	craftdiff = SKILL_LEVEL_MASTER
+
 /datum/crafting_recipe/roguetown/gemcarving/turq/fork
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "cerulite fork"
@@ -991,6 +1007,14 @@
 /datum/crafting_recipe/roguetown/gemcarving/turq/scarab
 	name = "cerulite scarab"
 	result = /obj/item/carvedgem/turq/scarab
+	reqs = list(/obj/item/roguegem/turq = 1)
+	tools = list(/obj/item/rogueweapon/huntingknife)
+	craftdiff = SKILL_LEVEL_MASTER
+
+/datum/crafting_recipe/roguetown/gemcarving/turq/spear
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
+	name = "cerulite spear"
+	result = /obj/item/ammo_casing/caseless/rogue/javelin
 	reqs = list(/obj/item/roguegem/turq = 1)
 	tools = list(/obj/item/rogueweapon/huntingknife)
 	craftdiff = SKILL_LEVEL_MASTER
@@ -1189,6 +1213,14 @@
 	tools = list(/obj/item/rogueweapon/huntingknife)
 	craftdiff = SKILL_LEVEL_MASTER
 
+/datum/crafting_recipe/roguetown/gemcarving/coral/nsapo
+	display_category = ITEM_CAT_WEAPONS_AXES
+	name = "heartstone nsapo"
+	result = /obj/item/rogueweapon/stoneaxe/battle/coral
+	reqs = list(/obj/item/roguegem/coral = 1)
+	tools = list(/obj/item/rogueweapon/huntingknife)
+	craftdiff = SKILL_LEVEL_MASTER
+
 /datum/crafting_recipe/roguetown/gemcarving/amber/spoon
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "amber spoon"
@@ -1383,6 +1415,14 @@
 	tools = list(/obj/item/rogueweapon/huntingknife)
 	craftdiff = SKILL_LEVEL_MASTER
 
+/datum/crafting_recipe/roguetown/gemcarving/amber/kaskara
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+	name = "amber kaskara"
+	result = /obj/item/rogueweapon/sword/amber
+	reqs = list(/obj/item/roguegem/coral = 1)
+	tools = list(/obj/item/rogueweapon/huntingknife)
+	craftdiff = SKILL_LEVEL_MASTER
+
 /datum/crafting_recipe/roguetown/gemcarving/opal/spoon
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	name = "opal spoon"
@@ -1573,7 +1613,7 @@
 /datum/crafting_recipe/roguetown/gemcarving/opal/knife
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	name = "opal knife"
-	result = /obj/item/rogueweapon/huntingknife/stoneknife/opalknife
+	result = /obj/item/rogueweapon/huntingknife/combat/opalknife
 	reqs = list(/obj/item/roguegem/opal = 1)
 	tools = list(/obj/item/rogueweapon/huntingknife)
 	craftdiff = SKILL_LEVEL_MASTER
