@@ -1,5 +1,5 @@
 #define BASE_HEALING_PER_TICK 1.5
-#define MAX_BONUS_HEAL 1
+#define MAX_BONUS_HEAL 1.5
 
 /datum/action/cooldown/spell/miracle
 	background_icon = 'icons/mob/actions/genericmiracles.dmi'
