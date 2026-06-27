@@ -102,3 +102,6 @@
 			QDEL_NULL(thing)
 	QDEL_NULL(departing_mob)
 
+	for(var/obj/structure/roguemachine/goldface/face in GLOB.goldfaces)
+		face.recalc_should_markup()
+

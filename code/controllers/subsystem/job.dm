@@ -755,6 +755,9 @@ SUBSYSTEM_DEF(job)
 				M.client.holder.auto_deadmin()
 			else
 				handle_auto_deadmin_roles(M.client, rank)
+		
+		for(var/obj/structure/roguemachine/goldface/face in GLOB.goldfaces)
+			face.recalc_should_markup()
 
 //	if(job)
 //		to_chat(M, "<b>As the [rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>")

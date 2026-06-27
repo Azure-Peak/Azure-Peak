@@ -69,6 +69,7 @@
 	var/is_public = FALSE // Whether it is a public access vendor.
 	var/extra_fee = 0 // Public-tier Porters/Gnomes margin tacked onto base price. Meant to make publicface very unprofitable until Gnomes are unlocked and the margin flows to the Merchant Fund.
 	/// Running tally of Crown import tariff actually collected via this specific machine.
+	var/should_charge_extra = TRUE // Cache for whether there is an associated vendor role (merchant for silverface, guild folk for guildface, etc), for performance reasons
 	var/tariff_collected_here = 0
 	/// Running tally of Crown import tariff that WOULD have been owed but was dodged
 	/// via the NOTAX flag. Surfaced in-UI for audit transparency.
@@ -162,6 +163,7 @@
 /obj/structure/roguemachine/goldface/Initialize()
 	. = ..()
 	update_icon()
+	GLOB.goldfaces += src
 
 /obj/structure/roguemachine/goldface/examine(mob/user)
 	. = ..()
@@ -176,10 +178,18 @@
 			if(AKR)
 				. += span_info("As an Agent, you personally recognize <b>[AKR.name]</b> as kin - your goldface buys from their ships cost -[round((1 - KINSHIP_BUY_MULT) * 100)]%.")
 
+// if there's no associated vendor in round, no markup since there's no-one else to buy from
+/obj/structure/roguemachine/goldface/proc/recalc_should_markup()
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H.job in profit_id)
+			should_charge_extra = TRUE
+			return
+	should_charge_extra = FALSE
+
 /obj/structure/roguemachine/goldface/proc/get_effective_fee()
 	if(is_public && SSmerchant_trade?.gnome_automation_unlocked)
 		return SSmerchant_trade.silverface_margin_percent / 100
-	return extra_fee
+	return should_charge_extra ? extra_fee : 0 
 
 /obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA)
 	var/cost = PA.cost + PA.cost * get_effective_fee()
@@ -1069,10 +1079,12 @@
 
 /obj/structure/roguemachine/goldface/Destroy()
 	set_light(0)
+	GLOB.goldfaces -= src
 	return ..()
 
 /obj/structure/roguemachine/goldface/Initialize()
 	. = ..()
 	update_icon()
+	recalc_should_markup()
 
 #undef UPGRADE_NOTAX
