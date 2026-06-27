@@ -20,7 +20,7 @@
 	charge_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 60 SECONDS
+	cooldown_time = 90 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 1
@@ -61,6 +61,13 @@
 
 		var/message_color = "7246ff"
 		var/is_projection = FALSE
+
+		if(HL.stat == DEAD)
+			to_chat(user, span_userdanger("My thoughts brush against a cold, endless void. Something stares back. SOMETHING STARES BACK. WHERE DID THEIR MIND GO?!"))
+			user.freak_out()
+			user.playsound_local(user, pick('sound/misc/heroin_rush.ogg'), 80, 1)
+			user.playsound_local(user, pick('sound/vo/mobs/ghost/whisper (1).ogg','sound/vo/mobs/ghost/whisper (2).ogg','sound/vo/mobs/ghost/whisper (3).ogg'), 100, 1)
+			return FALSE
 
 		if(alert(user, "Transmit as a wordlessly projected vision or as a whispered message?", "", "Projection", "Message") == "Projection")
 			is_projection = TRUE
