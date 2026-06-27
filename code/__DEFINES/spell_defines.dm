@@ -74,6 +74,7 @@
 
 //Miracle costs in devotion used.
 #define SPELLCOST_MIRACLE_ORISON	 5
+#define SPELLCOST_MIRACLE_HANDS 	 10
 #define SPELLCOST_MIRACLE_MINOR		 15
 #define SPELLCOST_MIRACLE            30
 #define SPELLCOST_MIRACLE_MAJOR      60
