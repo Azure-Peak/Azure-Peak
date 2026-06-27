@@ -249,8 +249,7 @@
 							to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... It is rather traumatic. Best to avoid them.</i>"))
 					else
 						to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... But through your newfound faith in HIM, you ENDURE. You were but one wrong righted, after all.</i>"))
-					to_chat(recipient, span_danger("Disclaimer: This Second Choice sub-option exists to enrich character backstories and roleplay continuity. It is subject to increased scrutiny and is not intended to reduce the perceived threat or narrative weight of antagonistic roles such as vampires, werewolves, or similar entities. You are a tortured, abused and mentally-broken victim of the Otavan Inquisition's atrocities. Your very LUX fears them, regardless of what your character thinks or feels. Failure to uphold this standard may result in the removal of this Virtue option in future updates. Have fun and don't be cringe."))
-
+					to_chat(recipient, span_danger("DISCLAIMER: This Second Choice option exists to support roleplay and backstory continuity, not to diminish the threat or narrative weight of vampires, werewolves, or similar antagonistic entities. You are a tortured survivor of the Otavan Inquisition, and your very LUX fears them. Failure to roleplay this appropriately may result in this option's removal. Have fun and don't be cringe."))
 
 #undef SC_ROTCURED
 #undef SC_BLACKBLOOD
