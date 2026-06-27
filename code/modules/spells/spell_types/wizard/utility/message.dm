@@ -10,7 +10,7 @@
 	self_cast_possible = TRUE
 
 	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_CANTRIP
+	primary_resource_cost = SPELLCOST_CANTRIP + 30
 
 	invocations = list("Mens Dicta")
 	invocation_type = INVOCATION_WHISPER
@@ -26,7 +26,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
-	point_cost = 2
+	point_cost = 1
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
