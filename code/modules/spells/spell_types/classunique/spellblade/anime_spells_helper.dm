@@ -92,6 +92,9 @@ without going through the click pipeline, so spells can deliver weapon-style str
 				var/obj/item/bodypart/affecting = C.get_bodypart(check_zone(def_zone))
 				if(affecting)
 					affecting.bodypart_attacked_by(blade_class, wound_damage, user, def_zone, crit_message = TRUE, weapon = weapon)
+					var/dismember_chance = affecting.get_spell_dismemberment_chance(damage, blade_class, def_zone)
+					if(dismember_chance && prob(dismember_chance))
+						affecting.dismember(damage_type, blade_class, user, def_zone)
 			else
 				target.simple_woundcritroll(blade_class, wound_damage, user, def_zone, crit_message = TRUE)
 

@@ -49,6 +49,7 @@
 	H.forceMove(pick(GLOB.vlord_starts))
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) //They are ancient walking calamities, no take backs.
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
+	ADD_TRAIT(H, TRAIT_ARMOR_NOSPDCAP, TRAIT_GENERIC) //Their armor never weighs on their stride.
 	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Playing it safe, with the assumption that Vampire Lords already inherit any traits given to regular Vampires.
 	ADD_TRAIT(H, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
@@ -56,6 +57,7 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_SELF_SUSTENANCE, TRAIT_GENERIC) //Heavy-Antag Role, lets you repair your armor with tools + level to journeyman.
 	ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC) //Stops you getting moodnuked and dropping your weapon non-stop. I didn't want to have to give them this off-the-bat but after seeing this happen, yeaaaah.
+	H.update_move_intent_slowdown()
 
 /datum/antagonist/vampire/lord/greet()
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))

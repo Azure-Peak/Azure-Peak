@@ -170,7 +170,7 @@
 	invocation_type = INVOCATION_NONE
 
 	charge_required = FALSE
-	cooldown_time = 30 SECONDS
+	cooldown_time = 45 SECONDS
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
@@ -203,8 +203,9 @@
 	if(iscarbon(spelltarget) && !spelltarget.has_status_effect(/datum/status_effect/buff/fortify))
 		spelltarget.apply_status_effect(/datum/status_effect/buff/fortify)
 	else
-		spelltarget.adjustBruteLoss(-50)
-		spelltarget.adjustFireLoss(-50)
+		spelltarget.adjustBruteLoss(-25)
+		spelltarget.adjustFireLoss(-25)
+		spelltarget.adjustOxyLoss(-15)
 
 	return TRUE
 

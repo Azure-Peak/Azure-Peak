@@ -60,9 +60,7 @@
 			if(3)
 				head = /obj/item/clothing/head/roguetown/helmet/leather
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
-	// Stopgap: bow loadout (was option 4) removed because the ranged NPC AI is unreliable.
-	var/wepchoice = rand(1, 3)
-	switch(wepchoice)
+	switch(rand(1, 3))
 		if(1)
 			l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
 		if(2)

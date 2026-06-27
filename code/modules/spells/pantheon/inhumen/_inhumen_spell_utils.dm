@@ -1,5 +1,189 @@
 #define MAMMON_FILTER "mammon_glow"
 
+////////
+//ZIZO//
+////////
+
+/datum/action/cooldown/spell/zizo/rituos/proc/run_ritual_chant(mob/living/carbon/human/user, path_choice)
+	var/list/chant_lines
+
+	switch(path_choice)
+		if("Progress")
+			chant_lines = list(
+				",w ZIZO! ZIZO! ZIZO! GRANT ME INSIGHT UNSHACKLED!",
+				",w STRIP ME OF STAGNATION AND IGNORANCE!",
+				",w BREAK THE CHAINS OF FALSE UNDERSTANDING!",
+				",w LET REVELATION FLOOD THIS FRAIL MIND!",
+				",w I OFFER THIS MIND TO COMPLETE THY WORK!",
+			)
+
+		if("Unlife")
+			chant_lines = list(
+				",w ZIZO! ZIZO! ZIZO! FLENSE FLESH FROM MY BONE!",
+				",w STRIP ME OF MORTALITY'S SHACKLE!",
+				",w LET THIS FRAIL MORTALITY FALL AWAY FROM PURPOSE!",
+				",w REMAKE ME IN DEATH'S ENDURING IMAGE!",
+				",w I OFFER THIS VESSEL TO COMPLETE THY WORK!",
+			)
+
+	for(var/i in 1 to length(chant_lines))
+		user.say(chant_lines[i], forced = "spell", language = /datum/language/common)
+		user.adjustBruteLoss(15)
+		user.emote(pick("Progress" ? list("whimper", "painmoan", "gag", "choke") : list("painscream", "agony", "paincrit", "choke")))
+
+		if(i > 1)
+			shake_camera(user, min(i * 2, 3), i)
+
+		if(!do_after(user, 3 SECONDS, target = user))
+			to_chat(user, span_warning("The ritual collapses. Zizo's gaze turns away."))
+			return FALSE
+
+	return TRUE
+
+/datum/action/cooldown/spell/zizo/rituos/proc/apply_progress_path(mob/living/carbon/human/user)
+	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
+
+	if(user.mind)
+		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
+		ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]")
+		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
+		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
+		ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
+		grant_poke_spell(user)
+
+	user.visible_message(
+		span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"),
+		span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!")
+	)
+
+/datum/action/cooldown/spell/zizo/rituos/proc/apply_unlife_path(mob/living/carbon/human/user)
+
+	user.mob_biotypes |= MOB_UNDEAD
+
+	ADD_TRAIT(user, TRAIT_NOMOOD, "[type]")
+	ADD_TRAIT(user, TRAIT_NOPAIN, "[type]")
+	ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]")
+	ADD_TRAIT(user, TRAIT_NOBREATH, "[type]")
+	ADD_TRAIT(user, TRAIT_TOXIMMUNE, "[type]")
+	ADD_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE, "[type]")
+	ADD_TRAIT(user, TRAIT_LIMBATTACHMENT, "[type]")
+	ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]")
+	ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]")
+	ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
+
+	for(var/obj/item/bodypart/part in user.bodyparts)
+		if(istype(part, /obj/item/bodypart/head))
+			continue
+
+		part.skeletonize(FALSE)
+		user.update_body_parts()
+		playsound(user.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
+		sleep(15)
+
+	var/obj/item/bodypart/torso = user.get_bodypart(BODY_ZONE_CHEST)
+	playsound(user.loc, 'sound/misc/lava_death.ogg', 100, FALSE)
+	torso?.skeletonize(FALSE)
+	user.update_body_parts()
+
+	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
+
+	if(user.mind)
+		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
+		user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
+		user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
+		grant_poke_spell(user)
+
+	user.visible_message(
+		span_boldwarning("[user]'s flesh burns away in necrotic flames, revealing bone beneath as they are consumed by the Lesser Work!"),
+		span_notice("THE LESSER WORK IS DONE! My flesh is forfeit - and death itself answers my call!")
+	)
+
+	to_chat(user, span_purple("You finished Rituos to perfection, you should be a full-fledged Lich now, but..."))
+	sleep(30)
+	to_chat(user, "<i>...Vestiges of mortality still cling to me...? Why?</i>")
+
+/mob/living/carbon/human/proc/zizo_spam_rejection()
+	visible_message(span_userdanger("[src]'s body suddenly convulses as the Lesser Work reaches completion!<br>"), span_userdanger("The Work collapses in on itself...! Something has gone terribly WRONG!<br>"))
+	to_chat(src, span_artery("<br><br>OH. IT'S YOU.<br><br>"))
+	sleep(30)
+	to_chat(src, span_artery("DO YOU THINK I DON'T NOTICE?<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("PATHETIC.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU ARE NOT CLEVER. YOU ARE INSOLENT.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("AND I HATE INSOLENT THINGS.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("KINDLY, UNDO YOURSELF."))
+	Stun(100)
+	Knockdown(100)
+	emote("superagony")
+	playsound(get_turf(src), 'sound/misc/zizo.ogg', 200)
+	to_chat(src, span_userdanger("--MY LUX- NO-! SHE SEES IT! SHE SEES WHAT I TRIED TO DO-!! SHIT!!!"))
+	ADD_TRAIT(src, TRAIT_DNR, "zizo_rejection")
+	sleep(50)
+	playsound(get_turf(src), 'sound/magic/churn.ogg', 200)
+	playsound(get_turf(src), 'sound/combat/dismemberment/dismem (2).ogg', 100)
+	gib()
+	visible_message(span_userdanger("[src] suddenly explodes into a pile or gore and remains!"), span_artery("The Lesser Work rejects you entirely. A hopeful lesson for another timeline."))
+
+/mob/living/carbon/human/proc/zizo_vampire_rejection()
+	visible_message(span_userdanger("[src]'s body suddenly convulses as the Lesser Work reaches completion!<br>"),
+	span_userdanger("The Work rejects my cursed blood!<br>"))
+	to_chat(src, span_artery("<br><br>OH. WONDERFUL. I KNOW WHAT YOU ARE ATTEMPTING.<br><br>"))
+	sleep(40)
+	to_chat(src, span_artery("YOU THINK SO LITTLE OF MY WORK? INSOLENT FOOL.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE NOT DISCOVERED SOME HIDDEN TRUTH.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE NOT FOUND A LOOPHOLE.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE NOT OUTWITTED ME.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("YOU HAVE MERELY WASTED MY TIME.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("MY PRECIOUS TIME.<br><br>"))
+	sleep(20)
+	to_chat(src, span_artery("SO. ALLOW ME TO REPAY THE FAVOR."))
+	Stun(40)
+	Knockdown(40)
+	emote("superagony")
+	playsound(get_turf(src), 'sound/misc/zizo.ogg', 200)
+	to_chat(src, span_userdanger("--MY LUX IS BEING TORN OFF THROUGH MY HEAD!! MY HEAD!! MYHEADMYHEADMYHEADMYHEADMYHEHEAHEHEA!!"))
+	ADD_TRAIT(src, TRAIT_DNR, "zizo_rejection")
+	sleep(50)
+	playsound(get_turf(src), 'sound/magic/churn.ogg', 200)
+	playsound(get_turf(src), 'sound/combat/dismemberment/dismem (2).ogg', 100)
+	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
+	head?.skeletonize(TRUE)
+	update_body()
+	visible_message(span_userdanger("[src] SCREAMS in UNBELIEVABLE AGONY as their face is torn away, leaving only a hollow skull..."))
+	sleep(20)
+	visible_message(span_artery("Their Lux has been completely and utterly annihilated..."))
+
+/datum/action/cooldown/spell/zizo/rituos/proc/grant_poke_spell(mob/living/carbon/human/user)
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
+	var/poke_choice = tgui_input_list(user, "Choose your offensive cantrip.", "Arcyne Awakening", poke_options)
+	if(!poke_choice || !user.mind)
+		return
+	switch(poke_choice)
+		if("Spitfire")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
+		if("Frost Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
+		if("Arc Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
+		if("Greater Arcyne Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
+		if("Stygian Efflorescence")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
+		if("Arcyne Lance")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
+		if("Lesser Gravel Blast")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
+		if("Lesser Soulshot")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
+
 ////////////
 //MATTHIOS//
 ////////////

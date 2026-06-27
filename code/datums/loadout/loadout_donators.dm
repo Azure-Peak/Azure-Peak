@@ -460,6 +460,11 @@
 	path = /obj/item/enchantingkit/weapon/aeternum
 	ckeywhitelist = list("nauticall")
 
+/datum/loadout_item/donator/crown_hat
+	name = "Donator Item - Crown Hat"
+	path = /obj/item/clothing/head/roguetown/crown_hat
+	ckeywhitelist = list("nauticall")
+
 /datum/loadout_item/donator/porcelainmask
 	name = "Donator Item - Porcelain Mask"
 	path = /obj/item/clothing/mask/rogue/iamcrystalclear

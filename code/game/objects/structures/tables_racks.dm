@@ -120,8 +120,10 @@
 	return ..()
 
 /obj/structure/table/proc/hideinside(mob/living/user)
+	if(user.in_combat_until > world.time)
+		return
 	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
-	var/sneaktime = max(10, 50 - (sneak_level * 10)) // Hard caps at 1 second at Expert and above.
+	var/sneaktime = max(10, 45 - (sneak_level * 5))	// 1.5 seconds at Legendary. 
 	if(user.loc == src)
 		unhide(user)
 		return
@@ -176,6 +178,9 @@
 /obj/structure/table/proc/tablepush(mob/living/user, mob/living/pushed_mob)
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_danger("Throwing [pushed_mob] onto the table might hurt them!"))
+		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites are too stupid to do this.
+		to_chat(user, span_warning("...what?"))
 		return
 	var/added_passtable = FALSE
 	if(!(pushed_mob.pass_flags & PASSTABLE))

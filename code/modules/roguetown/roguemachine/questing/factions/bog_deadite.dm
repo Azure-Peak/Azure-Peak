@@ -7,5 +7,6 @@
 	can_blockade = TRUE
 	category = FACTION_CAT_UNDEAD
 	mob_types = list(
-		/mob/living/carbon/human/species/skeleton/npc/bogguard = 100,
+		/mob/living/carbon/human/species/skeleton/npc/bogguard = 75,
+		/mob/living/carbon/human/species/skeleton/npc/bogguard/archer = 25,
 	)

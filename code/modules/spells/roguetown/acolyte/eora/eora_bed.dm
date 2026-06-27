@@ -77,7 +77,6 @@
 	// Smoother than 10 seconds with the bed CD
 	duration = 11 SECONDS
 	healing_on_tick = 0.5
-	var/oxy_healing_on_tick = 5
 	outline_colour = "#d04ae2"
 
 /atom/movable/screen/alert/status_effect/buff/healing/eora_bed
@@ -90,20 +89,21 @@
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = outline_colour
+	var/bleeding = owner.bleed_rate > 1 ? TRUE : FALSE
 
 	owner.heal_wounds(healing_on_tick)
 	owner.adjustBruteLoss(-healing_on_tick, 0)
 	owner.adjustFireLoss(-healing_on_tick, 0)
 	owner.adjustToxLoss(-healing_on_tick, 0)
-
-	owner.adjustOxyLoss(-oxy_healing_on_tick, 0)
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.5)
-	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-		owner.blood_volume = min(owner.blood_volume+healing_on_tick, BLOOD_VOLUME_NORMAL)
+	if(owner.blood_volume < BLOOD_VOLUME_OKAY && !bleeding)
+		owner.blood_volume = min(owner.blood_volume+healing_on_tick, BLOOD_VOLUME_OKAY)
+	if(!bleeding)
+		owner.adjustOxyLoss(-healing_on_tick, 0)
 
 /datum/action/cooldown/spell/summon_bed
 	name = "Eora's Rest"
-	desc = "Summon a sacred Eoran bed to provide sanctuary and stabilize the wounded. \
+	desc = "Summon a sacred Eoran bed to provide sanctuary and soothe the wounded. \
 	You may only maintain a limited amount of beds at a time depending on miracle skill. Summoning a new one will cause the oldest one to vanish."
 	button_icon = 'icons/mob/actions/eoramiracles.dmi'
 	button_icon_state = "eorabed" // Replace with your icon state

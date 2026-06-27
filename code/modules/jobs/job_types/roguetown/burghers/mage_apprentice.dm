@@ -39,6 +39,9 @@
 	// Base gear defaults moved to each subclass pre_equip to avoid
 	// inheritance issues with adept's stoplag-based chant selection.
 
+/datum/advclass/wapprentice
+	tempo_capable = FALSE
+
 /datum/advclass/wapprentice/associate
 	name = "Magician's Associate"
 	tutorial = "No one could truly master the entirety of the arcyne arts. But commanding the fundamentals \

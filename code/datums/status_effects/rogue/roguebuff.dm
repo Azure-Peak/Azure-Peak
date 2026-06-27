@@ -676,7 +676,7 @@
 	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	owner.adjust_bodytemperature(8)
-	if(owner.has_status_effect(/datum/status_effect/combat_tag))
+	if(owner.in_combat_until > world.time)
 		return
 	owner.energy_add(healing_on_tick * 2)
 
@@ -691,21 +691,24 @@
 	duration = 6 SECONDS
 
 /datum/status_effect/buff/campfire/tick()
-	if(owner.has_status_effect(/datum/status_effect/combat_tag))
+	if(owner.in_combat_until > world.time)
 		return
 	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(owner))
 	H.color = "#c7aa5c"
-	if(owner.blood_volume < BLOOD_VOLUME_OKAY)
+	var/bleeding = owner.bleed_rate > 1 ? TRUE : FALSE
+	var/wound_heal = bleeding ? 1 : healing_on_tick
+	if(owner.blood_volume < BLOOD_VOLUME_OKAY && !bleeding)
 		owner.blood_volume = min(owner.blood_volume+healing_on_tick, BLOOD_VOLUME_OKAY)
 	var/list/wCount = owner.get_wounds()
 	if(length(wCount))
-		owner.heal_wounds(healing_on_tick, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic, /datum/wound/dislocation))
+		owner.heal_wounds(wound_heal, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic, /datum/wound/dislocation))
 		owner.update_damage_overlays()
 	owner.adjustBruteLoss(-healing_on_tick, 0)
 	owner.adjustFireLoss(-healing_on_tick, 0)
-	owner.adjustOxyLoss(-healing_on_tick, 0)
+	if(!bleeding)
+		owner.adjustOxyLoss(-healing_on_tick, 0)
 	owner.adjustToxLoss(-healing_on_tick, 0)
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
 	owner.adjustCloneLoss(-healing_on_tick, 0)
@@ -1605,6 +1608,11 @@
 	name = "Parry"
 	desc = span_notice("A brief window of deflection lingers from my guard.")
 	icon_state = "clash"
+
+/datum/status_effect/buff/emberward
+	id = "emberward"
+	duration = 1 SECONDS
+	alert_type = null
 
 /atom/movable/screen/alert/status_effect/buff/clash/limbguard
 	name = "Limb Guard"

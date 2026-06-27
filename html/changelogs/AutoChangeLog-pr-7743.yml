@@ -1,4 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - balance: "capped lesser miracle conditional healing to a minor amount, base healing slightly increased."

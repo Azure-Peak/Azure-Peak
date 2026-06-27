@@ -62,6 +62,7 @@ The priests will whisper that you follow the Sun-Thief. Frown, shake your head, 
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/merchant/basic/pre_equip(mob/living/carbon/human/H)
 	..()

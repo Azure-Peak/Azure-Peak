@@ -12,6 +12,7 @@
 	dam_falloff_factor = 0.5
 	suppress_effects_past_range = TRUE
 	max_range = 7
+	dismember_by_default = TRUE
 	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 	var/mob/living/carbon/human/sender
 	/// Impact visual intensity. SPELL_IMPACT_NONE / SPELL_IMPACT_LOW / SPELL_IMPACT_MEDIUM / SPELL_IMPACT_HIGH
@@ -24,6 +25,7 @@
 	dam_falloff_factor = 0.5
 	suppress_effects_past_range = TRUE
 	max_range = 7
+	dismember_by_default = TRUE
 
 /obj/projectile/magic/on_hit(atom/target, blocked = FALSE)
 	. = ..()

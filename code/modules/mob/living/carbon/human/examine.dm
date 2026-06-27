@@ -32,10 +32,13 @@
 	var/origin_name = "<a href='?src=[REF(src)];origin_lore=1'><u>[dna.species.origin]</u></A>"
 	var/datum/antagonist/maniac/maniac = user.mind?.has_antag_datum(/datum/antagonist/maniac)
 	var/datum/antagonist/skeleton/skeleton = user.mind?.has_antag_datum(/datum/antagonist/skeleton)
+	var/datum/antagonist/zombie/zombie = user.mind?.has_antag_datum(/datum/antagonist/zombie)
 	if(maniac && (user != src))
 		race_name = "disgusting pig"
 	if(skeleton && (user != src))
 		race_name = "[pick("shambling", "taut", "decrepit")]"
+	if(zombie && (user != src))
+		race_name = "[pick("shambling thing", "taut thing", "decrepit thing", "wyrd thing", "UHHHHHHH...")]" //UHHHHH... zombie has to think moment
 
 	var/m1 = "[t_He] [t_is]"
 	var/m2 = "[t_his]"
@@ -116,6 +119,13 @@
 		if(user != src)
 			if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 				guarded = TRUE
+
+	if(HAS_TRAIT(src, TRAIT_DEADITE)) //Zombies always show up as deadites to others even behind masks
+		. += span_userdanger("DEADITE!") //Below this is an OOC hint, it AIN'T METAGAMING, you can TELL very clearly what this abomination is.
+		. += span_warning("Uneasy steps, the sound of profane flesh and bone knitting itself and a stench of rot. A walking corpse!")
+
+	if(HAS_TRAIT(user, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && src.stat == CONSCIOUS) //Zombies get some messed up examines on non-zombie immune people that aren't KO'd.
+		. += span_narsie(pick("KILL IT. KILL IT", "FLESH. HUNGER.", "KILL. CONSUME.", "CONSUME.", "KILL THE RASPING THING.", "HUNGER.", "EAT IT.", "MUST HAVE FLESH."))
 
 	if(user != src)
 		var/datum/mind/Umind = user.mind
@@ -1246,8 +1256,6 @@
 				villain_text = span_notice("Free man!")
 			if(HAS_TRAIT(src,TRAIT_KNOWNCRIMINAL))
 				villain_text = span_userdanger("BANDIT!")
-		if(mind.special_role == "Deadite")
-			villain_text = span_userdanger("DEADITE!")
 		if(mind.assigned_role == "Lunatic")
 			villain_text += span_userdanger("LUNATIC!")
 

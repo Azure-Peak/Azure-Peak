@@ -75,6 +75,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/priest
 	job_bitflag = BITFLAG_HOLY_WARRIOR

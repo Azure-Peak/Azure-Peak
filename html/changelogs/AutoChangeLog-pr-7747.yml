@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Properly fixes the duplicated 'force_wielded' value on the Saccharine Swordspear, ensuring that you properly deal full damage when two-handing it."

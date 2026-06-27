@@ -78,6 +78,11 @@
 	if(attacker == victim)
 		return
 
+	var/mob/mob_attacker = attacker
+	if(mob_attacker.ai_controller && victim.faction_check_mob(mob_attacker))
+		AI_THINK(victim, "AGGRO: ignored friendly fire from faction-mate [attacker]")
+		return
+
 	// Base threat from being attacked
 	var/threat_to_add = 5
 

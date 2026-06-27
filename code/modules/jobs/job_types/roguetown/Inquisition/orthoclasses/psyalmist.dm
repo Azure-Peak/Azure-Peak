@@ -2,7 +2,7 @@
 	name = "Psyaltrist"
 	tutorial = "You spent some time with cathedral choirs and psyaltrists. Now you spend your days applying the musical arts to the practical on behalf of His most Holy of Inquisitions."
 	outfit = /datum/outfit/job/roguetown/psyaltrist
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_EMPATH)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_EMPATH, TRAIT_STEELHEARTED, TRAIT_INQUISITION)
 	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
 	subclass_stats = list(

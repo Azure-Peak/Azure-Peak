@@ -231,3 +231,6 @@
 	var/mid_climb = FALSE
 	/// This one's for when you're choking to death.
 	var/last_gasp
+
+	/// "In Combat" timer that is used to prevent stealth and a few other mechanics while active.
+	var/in_combat_until

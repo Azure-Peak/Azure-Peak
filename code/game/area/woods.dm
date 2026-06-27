@@ -19,6 +19,7 @@
 				/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 40,
 				/mob/living/carbon/human/species/skeleton/npc/easy = 10,
 				/mob/living/carbon/human/species/goblin/npc/ambush = 30,
+				/mob/living/carbon/human/species/goblin/npc/archer = 7,
 				/mob/living/carbon/human/species/human/northern/militia/deserter = 20,
 				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 10)
 	first_time_text = "THE AZURE GROVE"
@@ -45,6 +46,7 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 40,
 		/mob/living/carbon/human/species/skeleton/npc/easy = 20,
 		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
+		/mob/living/carbon/human/species/goblin/npc/archer = 7,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30)
 	threat_region = THREAT_REGION_AZURE_GROVE
 
@@ -57,6 +59,7 @@
 			/mob/living/carbon/human/species/skeleton/npc/easy = 10,
 			/mob/living/carbon/human/species/skeleton/npc/pirate = 10,
 			/mob/living/carbon/human/species/goblin/npc/ambush = 20,
+			/mob/living/carbon/human/species/goblin/npc/archer = 5,
 			/mob/living/carbon/human/species/goblin/npc/sea = 10,
 			/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30)
 	threat_region = THREAT_REGION_AZURE_GROVE
@@ -70,6 +73,7 @@
 		/mob/living/carbon/human/species/skeleton/npc/easy = 10,
 		/mob/living/carbon/human/species/skeleton/npc/pirate = 10,
 		/mob/living/carbon/human/species/goblin/npc/ambush = 20,
+		/mob/living/carbon/human/species/goblin/npc/archer = 5,
 		/mob/living/carbon/human/species/goblin/npc/sea = 10,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30)
 
@@ -82,6 +86,7 @@
 		/mob/living/carbon/human/species/skeleton/npc/medium = 10,
 		/mob/living/carbon/human/species/skeleton/npc/hard = 10,
 		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
+		/mob/living/carbon/human/species/goblin/npc/archer = 7,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 20)
 
 /area/rogue/outdoors/woods/southwest
@@ -93,6 +98,7 @@
 		/mob/living/carbon/human/species/skeleton/npc/medium = 10,
 		/mob/living/carbon/human/species/skeleton/npc/hard = 10,
 		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
+		/mob/living/carbon/human/species/goblin/npc/archer = 7,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 20)
 
 /area/rogue/outdoors/woods/northwest
@@ -104,6 +110,7 @@
 		/mob/living/carbon/human/species/skeleton/npc/medium = 10,
 		/mob/living/carbon/human/species/skeleton/npc/hard = 10,
 		/mob/living/carbon/human/species/goblin/npc/ambush = 30,
+		/mob/living/carbon/human/species/goblin/npc/archer = 7,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 20)
 
 /area/rogue/outdoors/woods/vampire_lair

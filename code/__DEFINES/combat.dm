@@ -143,6 +143,10 @@
 #define DISLOCATED_ADD_SLOWDOWN 2
 //slowdown for fractured limbs
 #define FRACTURED_ADD_SLOWDOWN 3
+//slowdown for armour class. movement speed only.
+#define AC_LIGHT_SPDCAP 20
+#define AC_MEDIUM_SPDCAP 13
+#define AC_HEAVY_SPDCAP 11
 
 //Attack types for checking shields/hit reactions
 #define MELEE_ATTACK 1
@@ -472,3 +476,6 @@ Medical defines
 
 #define MAX_DODGE_CEIL 5
 #define MAX_DODGE_FLOOR -15
+
+// How long we can't use stealth & other misc. things for
+#define IN_COMBAT_DELAY 10 SECONDS

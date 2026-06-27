@@ -72,9 +72,9 @@
 			pawn.swap_hand()
 	else if(!isweapon(held_item))
 		pawn.swap_hand()
-		for(var/slot in list(ITEM_SLOT_BACK, ITEM_SLOT_HIP, ITEM_SLOT_BELT, ITEM_SLOT_BACK_L, ITEM_SLOT_BACK_R))
-			if(!pawn.get_item_by_slot(slot))
-				if(pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE))
+		if(pawn.belt)
+			for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L))
+				if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE))
 					break
 
 	var/list/possible_intents = list()
