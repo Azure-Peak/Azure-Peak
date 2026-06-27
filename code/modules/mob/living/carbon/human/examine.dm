@@ -1078,9 +1078,19 @@
 			. += span_redtext("[m3] strange glowing eyes and fangs!")
 
 		if(HAS_TRAIT(src, TRAIT_INQUISITION) && HAS_TRAIT(user, TRAIT_BLACKBLOOD))
-			user.add_stress(/datum/stressevent/inq_trauma)
 			var/mob/living/carbon/carbs = user
-			carbs.stress_freakout()
+			if(!user.has_stress_event(/datum/stressevent/inq_trauma))
+				user.add_stress(/datum/stressevent/inq_trauma)
+				if(!(carbs.patron?.type != /datum/patron/old_god) || !(HAS_TRAIT(user, TRAIT_NOMOOD)) || !(HAS_TRAIT(user, TRAIT_STEELHEARTED)))
+					if(prob(20))
+						carbs.stress_freakout()
+					else if(prob(40))
+						carbs.freak_out()
+					else
+						carbs.emote("gulp")
+			if(!(carbs.patron?.type != /datum/patron/old_god) || !(HAS_TRAIT(user, TRAIT_NOMOOD)) || !(HAS_TRAIT(user, TRAIT_STEELHEARTED)))
+				carbs.Jitter(10)
+				carbs.stuttering += 25
 
 		// Shouldn't be able to tell they are unrevivable through a mask as a Necran
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)

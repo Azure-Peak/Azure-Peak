@@ -521,10 +521,15 @@
 /datum/stressevent/sun_sensitivity
 	timer = 2 MINUTES
 	stressadd = 4
-	desc = span_red("The sunlight burns my eyes and skin! It's too bright outside!")
+	desc = span_red("<b>The sunlight burns my eyes and skin! It's too bright outside!</b>")
+
+/datum/stressevent/lesser_sun_sensitivity
+	timer = 2 MINUTES
+	stressadd = 1
+	desc = span_red("I'm shielded from the the sunlight, but still! It's too bright outside!") // always a hater, aren't ya?! shame on u, astrata shames u
 
 /datum/stressevent/inq_trauma
-	timer = 1 MINUTES
+	timer = 3 MINUTES
 	stressadd = 4
 	desc = span_red("THE INQUISITION?! BY MY PATRON, NOT THEM!!")
 

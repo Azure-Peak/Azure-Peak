@@ -231,7 +231,7 @@
 					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.</font>")
 
 					// blackened blood, finally
-					recipient.dna?.species?.blood_color = "#4e1515"
+					recipient.dna.species.blood_color = "#4b2e2e"
 
 					// inquisition trauma goes here
 					if(!(recipient.patron?.type == /datum/patron/old_god))
@@ -249,6 +249,8 @@
 							to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... It is rather traumatic. Best to avoid them.</i>"))
 					else
 						to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... But through your newfound faith in HIM, you ENDURE. You were but one wrong righted, after all.</i>"))
+					to_chat(recipient, span_danger("Disclaimer: This Second Choice sub-option exists to enrich character backstories and roleplay continuity. It is subject to increased scrutiny and is not intended to reduce the perceived threat or narrative weight of antagonistic roles such as vampires, werewolves, or similar entities. You are a tortured, abused and mentally-broken victim of the Otavan Inquisition's atrocities. Your very LUX fears them, regardless of what your character thinks or feels. Failure to uphold this standard may result in the removal of this Virtue option in future updates. Have fun and don't be cringe."))
+
 
 #undef SC_ROTCURED
 #undef SC_BLACKBLOOD
