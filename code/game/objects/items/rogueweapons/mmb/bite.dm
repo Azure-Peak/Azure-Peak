@@ -71,10 +71,12 @@
 		return FALSE
 
 	if(src.cmode)
-		if(prob(50)) // static 50% failure chance if the other enemy's in combat.
-			visible_message(span_warning("<i>[user] lunges at [src] with a bite, but misses! They're off-balance!</i>"))
-			user.Immobilize(2 SECONDS)
-			user.OffBalance(4 SECONDS)
+		if(prob(25)) // static 25% failure chance if the other enemy's in combat. 25% chance afterwards for it to be a "critical miss".
+			visible_message(span_warning("<i>[user] lunges at [src] with a bite, but misses!</i>"))
+			if(prob(25))
+				visible_message(span_warning("<b>They're off-balance!</b>"))
+				user.Immobilize(2 SECONDS)
+				user.OffBalance(4 SECONDS)
 			return FALSE
 
 	var/datum/intent/bite/bitten = new()
@@ -292,6 +294,8 @@
 		return FALSE*/
 
 	user.changeNext_move(2 SECONDS) // One chew every 2 seconds is fair game.
+	user.Immobilize(1.25 SECONDS)
+	C.Immobilize(1.25 SECONDS)
 	var/mob/living/carbon/C = grabbed
 	var/damage = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
