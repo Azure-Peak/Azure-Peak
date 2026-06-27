@@ -432,6 +432,7 @@
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
+
 	var/healingpower = 1
 	var/no_embeds = TRUE
 	var/list/embeds = H.get_embedded_objects()
