@@ -294,9 +294,9 @@
 		return FALSE*/
 
 	user.changeNext_move(2 SECONDS) // One chew every 2 seconds is fair game.
+	var/mob/living/carbon/C = grabbed
 	user.Immobilize(1.25 SECONDS)
 	C.Immobilize(1.25 SECONDS)
-	var/mob/living/carbon/C = grabbed
 	var/damage = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2
