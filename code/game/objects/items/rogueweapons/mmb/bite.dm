@@ -355,7 +355,7 @@
 	log_combat(user, C, "limb chewed [sublimb_grabbed] ")
 
 //this is for carbon mobs being drink only
-/obj/item/grabbing/bite/proc/drinklimb(mob/living/user)
+/obj/item/grabbing/bite/proc/drinklimb(mob/living/user) //implies limb_grabbed and sublimb are things
 	while(src && user && grabbed)
 		if(!user.Adjacent(grabbed))
 			qdel(src)
