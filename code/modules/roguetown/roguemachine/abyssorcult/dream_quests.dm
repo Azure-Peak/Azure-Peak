@@ -28,7 +28,8 @@
 	O Psydon, why have you forsaken us so?"
 	possible_phrases = list(
 		"Psydon is dead",
-		"The seas sing a somber dirge for him"
+		"The seas sing a somber dirge for him",
+		"Psydon is dead, I saw it in a dream"
 	)
 	valid_roles = list("Orthodoxist","Inquisitor","Absolver")
 
