@@ -392,7 +392,7 @@
 
 /datum/action/cooldown/spell/miracle/layonhands
 	name = "Lay on Hands"
-	desc = "Call upon higher power to infuse an adjascent target with healing energy, increases in power gradually over 15 seconds of channelling. any movement from you or the receiving party will break concentration."
+	desc = "Call upon higher power to infuse an adjascent target with healing energy, increases in power gradually over 10 seconds of channelling. any movement from you or the receiving party will break concentration."
 
 	button_icon_state = "heal"
 	sound = 'sound/magic/heal.ogg'
@@ -464,7 +464,7 @@
 			if(prob(40))
 				owner.playsound_local(owner, 'sound/magic/heal.ogg', 50, FALSE, -1)
 				playsound('sound/magic/heal.ogg', 50, FALSE - 1)
-				healingpower = min(3, 1+i/5) // maximum 3 HP healing after 15 seconds of channeling 
+				healingpower = min(3, 1+i/5) // maximum 3 HP healing after 10 seconds of channeling since it's already starting at 1 
 			var/obj/effect/temp_visual/heal/F = new /obj/effect/temp_visual/heal_rogue(get_turf(H))
 			F.color = "#e7ac54"
 		else
