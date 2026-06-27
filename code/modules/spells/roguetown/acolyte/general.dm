@@ -392,7 +392,7 @@
 
 /datum/action/cooldown/spell/miracle/layonhands
 	name = "Lay on Hands"
-	desc = "Call upon higher power to infuse an adjascent target with healing energy, increases in power gradually over 10 seconds of channeling"
+	desc = "Call upon higher power to infuse an adjascent target with healing energy, increases in power gradually over 15 seconds of channelling. any movement from you or the receiving party will break concentration."
 
 	button_icon_state = "heal"
 	sound = 'sound/magic/heal.ogg'
