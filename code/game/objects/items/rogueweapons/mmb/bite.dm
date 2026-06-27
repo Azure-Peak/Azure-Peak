@@ -203,9 +203,6 @@
 		if(mind)
 			mind.attackedme[user.real_name] = world.time
 		log_combat(user, src, "bit")
-		
-	var/recoil = round(dam2do * 0.5) // biting someone returns 50% of the damage done to yourself right into your mouth. Yes, stronger bites mean you'll fuck yourself over worse, but it's the price for balance.
-	user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH)	
 	
 	return TRUE
 
