@@ -413,6 +413,26 @@
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
+/atom/movable/screen/alert/status_effect/buff/healingglow
+	name = "Healing Glow"
+	desc = "Holy energy seeps in me"
+	icon_state = "buff"
+
+#define LOH_BUFF_FILTER "Hybrid_Buff_Glow"
+
+/datum/status_effect/buff/healingglow
+	id = "healingglow"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/healingglow
+	duration = 3 SECONDS
+	var/outline_colour = "#e7ac54"
+
+/datum/status_effect/buff/healingglow/on_apply()
+	. = ..()
+	var/filter = owner.get_filter(LOH_BUFF_FILTER)
+	if (!filter)
+		owner.add_filter(LOH_BUFF_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	return TRUE
+
 /datum/action/cooldown/spell/miracle/layonhands/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = cast_on
@@ -462,6 +482,7 @@
 			H.adjustCloneLoss(-healingpower, 0)
 			if(H.blood_volume < BLOOD_VOLUME_OKAY)
 				H.blood_volume = min(H.blood_volume+healingpower, BLOOD_VOLUME_OKAY)
+			H.apply_status_effect(/datum/status_effect/buff/healingglow)
 			if(prob(40))
 				owner.playsound_local(owner, 'sound/magic/heal.ogg', 50, FALSE, -1)
 				playsound('sound/magic/heal.ogg', 50, FALSE - 1)
@@ -471,5 +492,10 @@
 		else
 			return TRUE
 
+/datum/status_effect/buff/healingglow/on_remove()
+	. = ..()
+	owner.remove_filter(LOH_BUFF_FILTER)
+
+#undef LOH_BUFF_FILTER
 #undef BASE_HEALING_PER_TICK
 #undef MAX_BONUS_HEAL
