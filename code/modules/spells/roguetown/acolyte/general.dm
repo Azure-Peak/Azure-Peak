@@ -437,7 +437,7 @@
 
 	for(var/i in 1 to 9999)
 
-		if(do_after(owner, 1 SECONDS, TRUE))
+		if(do_after(owner, 1 SECONDS, TRUE, target = H))
 			H.heal_wounds(healingpower)
 			H.adjustBruteLoss(-healingpower, 0)
 			H.adjustFireLoss(-healingpower, 0)
