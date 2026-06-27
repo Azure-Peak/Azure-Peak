@@ -437,7 +437,7 @@
 
 	for(var/i in 1 to 9999)
 
-		if(do_after(owner, 1 SECONDS, TRUE, target = H)) // surprisingly adding target = H was enough to entirely fix why the target kept receiving the effect of the spell after moving, now to figure if it is because they left the spell' range or because they move is yet to be determined
+		if(do_after(owner, 1 SECONDS, TRUE, target = H)) // surprisingly adding target = H was enough to entirely fix why the target kept receiving the effect of the spell after moving. it does indead make you stop channelling whenever the target is moved by any methods, by it on their own or after a kick.
 			H.heal_wounds(healingpower)
 			H.adjustBruteLoss(-healingpower, 0)
 			H.adjustFireLoss(-healingpower, 0)
