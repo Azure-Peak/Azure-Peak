@@ -68,7 +68,7 @@
 				if("Greater Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/layonhands)
-					H.mind.AddsSpell(new /datum/action/cooldown/spell/miracle/bloodmiracle)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/bloodmiracle)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
@@ -83,7 +83,7 @@
 				if("Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/layonhands)
-					H.mind.AddsSpell(new /datum/action/cooldown/spell/miracle/bloodmiracle)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/bloodmiracle)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
