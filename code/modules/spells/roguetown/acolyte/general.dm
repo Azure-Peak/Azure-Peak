@@ -432,12 +432,25 @@
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
-
 	var/healingpower = 1
+	var/no_embeds = TRUE
+	var/list/embeds = H.get_embedded_objects()
+
+	for(var/object in embeds)
+		if(istype(object, /obj/item/natural/worms/leech)) // Leeches and surgical cheeles are made an exception.
+			continue
+
+		no_embeds = FALSE
+		break
 
 	for(var/i in 1 to 9999)
 
 		if(do_after(owner, 1 SECONDS, TRUE, target = H)) // surprisingly adding target = H was enough to entirely fix why the target kept receiving the effect of the spell after moving. it does indead make you stop channelling whenever the target is moved by any methods, by it on their own or after a kick.
+			if(!no_embeds)
+				H.visible_message("The wounds tear and rip around the embedded objects!", "Agonising pain shoots through your body as magycks try to sew around the embedded objects!")
+				H.adjustBruteLoss(5)
+				playsound(H, 'sound/combat/dismemberment/dismem (2).ogg', 100)
+				break
 			H.heal_wounds(healingpower)
 			H.adjustBruteLoss(-healingpower, 0)
 			H.adjustFireLoss(-healingpower, 0)
