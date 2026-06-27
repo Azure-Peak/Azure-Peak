@@ -56,6 +56,8 @@
 	
 	if(H.mind)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/layonhands)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
 
 	switch(H.patron?.type)
@@ -65,6 +67,8 @@
 			switch(highheal_options)
 				if("Greater Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/layonhands)
+					H.mind.AddsSpell(new /datum/action/cooldown/spell/miracle/bloodmiracle)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
@@ -78,6 +82,8 @@
 			switch(heal_options)
 				if("Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/layonhands)
+					H.mind.AddsSpell(new /datum/action/cooldown/spell/miracle/bloodmiracle)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
@@ -202,6 +208,7 @@
 	if(H.mind)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/layonhands)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
 
 	switch(H.patron?.type)
@@ -211,6 +218,7 @@
 			switch(highheal_options)
 				if("Greater Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/layonhands)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
@@ -224,6 +232,7 @@
 			switch(heal_options)
 				if("Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/layonhands)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
