@@ -34,8 +34,7 @@
 	threat_point = THREAT_MODERATE
 
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize()
-	// Stopgap: archer outfit (was option 5) removed because the ranged NPC AI is unreliable.
-	var/outfit = rand(1, 4)
+	var/outfit = rand(1, 5)
 	switch(outfit)
 		if(1)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/supereasy
@@ -45,6 +44,8 @@
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
 		if(4)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
+		if(5)
+			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
 	..()
 
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
@@ -55,8 +56,7 @@
 	threat_point = THREAT_TOUGH
 
 /mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()
-	// Stopgap: archer outfit (was option 5) removed because the ranged NPC AI is unreliable.
-	var/outfit = rand(1,4)
+	var/outfit = rand(1,5)
 	switch(outfit)
 		if(1)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
@@ -66,6 +66,8 @@
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/pirate
 		if(4)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
+		if(5)
+			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
 	..()
 
 // For Tomb of Matthios/Tomb of Alothesos Supreme Difficulty:TM: encounters.
@@ -411,7 +413,7 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-	backl = /obj/item/quiver/arrows
+	backl = /obj/item/quiver/randomfill/skeleton
 	r_hand = /obj/item/rogueweapon/mace/alloy
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)

@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Transfix now gives actually-informative messages when it is cast on you, so you have any chance of knowing what is happening."
+  - balance: "Transfix cooldown increased, and arcyne skill is more effective at resisting it. You also can't transfix people if you or they are in combat mode."

@@ -1,0 +1,5 @@
+author: "kysovich-rus"
+delete-after: True
+changes:
+  - bugfix: "Some mimic chairs were magically turning their shape when dropped. Now they shouldn't."
+  - image: "added missing icons of chair items"

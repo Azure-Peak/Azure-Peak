@@ -9,6 +9,7 @@
 	faction = list(FACTION_MADMEN, FACTION_BANDITS) // Avoid them hitting bandits in dungeon
 	ambushable = FALSE
 	dodgetime = 15
+	var/mad_outfit = /datum/outfit/job/roguetown/human/species/human/northern/mad_touched_treasure_hunter
 
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/ambush
 	threat_point = THREAT_DANGEROUS
@@ -34,7 +35,7 @@
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/mad_touched_treasure_hunter)
+	equipOutfit(new mad_outfit)
 	gender = pick(MALE, FEMALE)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
@@ -248,6 +249,25 @@
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy/mad_touched/dropped(mob/user)
 	. = ..()
 	REMOVE_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/archer
+	ai_controller = /datum/ai_controller/human_npc/archer
+	mad_outfit = /datum/outfit/job/roguetown/human/species/human/northern/mad_touched_treasure_hunter/archer
+
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/archer/ambush
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "treasure_hunters"
+
+/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/archer/after_creation()
+	..()
+	job = "Mad-touched Marksman"
+
+/datum/outfit/job/roguetown/human/species/human/northern/mad_touched_treasure_hunter/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/quiver/randomfill/highwayman
+	beltr = /obj/item/quiver/randomfill/highwayman
+	H.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)
 
 /datum/ambush_config/solo_treasure_hunter
 	mob_types = list(

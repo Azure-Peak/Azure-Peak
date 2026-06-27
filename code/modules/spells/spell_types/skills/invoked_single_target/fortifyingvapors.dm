@@ -4,7 +4,7 @@
 	action_icon = 'icons/mob/actions/antiquarianspells.dmi'
 	overlay_icon = 'icons/mob/actions/antiquarianspells.dmi'
 	overlay_state = "fortifyingvapors"
-	releasedrain = 3 SECONDS
+	releasedrain = 3
 	chargedrain = 0
 	chargetime = 0
 	range = 2
@@ -15,7 +15,7 @@
 	invocations = list("wafts clarifying vapor from a tin of smoldering herbs.")
 	associated_skill = /datum/skill/misc/reading
 	antimagic_allowed = FALSE
-	recharge_time = 12 SECONDS
+	recharge_time = 20 SECONDS //Recharges as long as it lasts
 	miracle = FALSE
 	devotion_cost = 0
 	ignore_los = FALSE

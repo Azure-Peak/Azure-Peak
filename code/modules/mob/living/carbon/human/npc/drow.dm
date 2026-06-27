@@ -201,7 +201,6 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 		if(2)
 			neck = /obj/item/clothing/neck/roguetown/gorget
 			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron //So they have head armor
-	// Stopgap: archer roll removed because the ranged NPC AI is unreliable.
 	if(prob(45)) // whip
 		r_hand = /obj/item/rogueweapon/whip
 	else if(prob(50)) // dual falx

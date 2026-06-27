@@ -19,6 +19,7 @@
 	name = "Central Coast"
 	ambush_mobs = list(
 		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
+		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
 		/mob/living/simple_animal/hostile/rogue/deepone = 15,
 		new /datum/ambush_config/triple_deepone = 30,
@@ -31,7 +32,9 @@
 	name = "Northern Coast"
 	ambush_mobs = list(
 		/mob/living/carbon/human/species/human/northern/searaider/ambush = 10,
+		/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 3,
 		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
+		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/carbon/human/species/orc/npc/berserker = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 40
 	)
@@ -42,7 +45,9 @@
 	name = "Southern Coast"
 	ambush_mobs = list(
 		/mob/living/carbon/human/species/human/northern/searaider/ambush = 5,
+		/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 2,
 		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
+		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
 		/mob/living/simple_animal/hostile/rogue/deepone = 15,
 		new /datum/ambush_config/triple_deepone = 30,

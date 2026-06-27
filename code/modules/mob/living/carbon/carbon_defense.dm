@@ -39,8 +39,16 @@
 
 /mob/living/carbon/check_projectile_dismemberment(obj/projectile/P, def_zone)
 	var/obj/item/bodypart/affecting = get_bodypart(check_zone(def_zone))
-	if(affecting && affecting.dismemberable && affecting.get_damage() >= (affecting.max_damage - P.dismemberment))
-		affecting.dismember(P.damtype, P.woundclass)
+	if(!affecting || !affecting.dismemberable)
+		return
+	if(P.dismember_by_default && (P.woundclass == BCLASS_CUT || P.woundclass == BCLASS_CHOP))
+		var/dismember_chance = affecting.get_spell_dismemberment_chance(P.damage, P.woundclass, def_zone)
+		if(dismember_chance && prob(dismember_chance))
+			var/mob/living/shooter = isliving(P.firer) ? P.firer : null
+			affecting.dismember(P.damage_type, P.woundclass, shooter, def_zone)
+		return
+	if(P.dismemberment && (affecting.get_damage() >= (affecting.max_damage - P.dismemberment)))
+		affecting.dismember(P.damage_type, P.woundclass)
 
 /mob/living/carbon/proc/can_catch_item(skip_throw_mode_check)
 	. = FALSE

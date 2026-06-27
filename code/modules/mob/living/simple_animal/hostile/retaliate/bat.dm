@@ -21,7 +21,7 @@
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1)
-	pass_flags = PASSTABLE
+	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
 	faction = list(FACTION_HOSTILE)
 	attack_sound = 'sound/blank.ogg'
 	obj_damage = 0

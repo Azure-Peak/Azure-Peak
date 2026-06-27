@@ -96,6 +96,24 @@
 	rich in gold, and that its people look to the stars for divine knowledge of our world.<br> It is rumored that the Naledi Emir is over five hundred years old, owing his \
 	long lifespan to closely-guarded alchemical secrets."
 
+/datum/virtue/origin/naledi/apply_to_human(mob/living/carbon/human/H)
+	..()
+	var/list/choices = list("Normal (Default)", "Strict (Naledi Complex)")
+	var/complex = tgui_input_list(H, "How tightly bound to traditions are you? (Keep in mind, some roles will force you to hold a Naledi Complex.)", "Naledi Philosophy", choices)
+	if(!complex)
+		complex = "Normal (Default)"
+	var/mask_type
+	switch(complex)
+		if("Strict (Naledi Complex)")
+			ADD_TRAIT(H, TRAIT_NALEDI, TRAIT_GENERIC)
+			mask_type = /obj/item/clothing/mask/rogue/lordmask/naledi/lesser
+			H.apply_status_effect(/datum/status_effect/debuff/lost_naledi_mask)
+			H.add_stress(/datum/stressevent/naledimasklost)
+		else
+			mask_type = /obj/item/clothing/mask/rogue/lordmask/tarnished
+	H.mind.special_items["Naledian Mask"] = mask_type
+	to_chat(H, span_notice("Your Naledian Mask has been added to your Item Stash."))
+
 /datum/virtue/origin/kazengun
 	name = "Kazengunese"
 	origin_name = "Kazengun"

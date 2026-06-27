@@ -597,6 +597,10 @@
 /obj/item/clothing/mask/rogue/ragmask/black
 	color = CLOTHING_BLACK
 
+/obj/item/clothing/mask/rogue/lordmask/naledi/lesser
+	name = "naledian runed mask"
+	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Naledian psycross. Lightly armored to protect the wearer's face."
+
 /obj/item/clothing/mask/rogue/lordmask/naledi
 	name = "war scholar's mask"
 	item_state = "naledimask"
@@ -606,7 +610,7 @@
 	armor = ARMOR_PLATE
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	flags_inv = HIDEFACE|HIDESNOUT
-	sellprice = 0
+	sellprice = 10
 
 /obj/item/clothing/mask/rogue/lordmask/naledi/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_NALEDI, "naledi_mask")

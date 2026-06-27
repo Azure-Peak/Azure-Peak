@@ -336,6 +336,49 @@
 		arrows += A
 	update_icon()
 
+//////////// AI ARCHER QUIVERS ////////////
+/obj/item/quiver/randomfill
+	var/list/fill_table
+
+/obj/item/quiver/randomfill/Initialize()
+	. = ..()
+	if(length(fill_table))
+		for(var/i in 1 to max_storage)
+			var/arrow_type = pickweight(fill_table)
+			if(!arrow_type)
+				continue
+			var/obj/item/ammo_casing/caseless/rogue/arrow/A = new arrow_type()
+			arrows += A
+	update_icon()
+
+// Skeleton: Broadhead with occasional chance of bodkins
+/obj/item/quiver/randomfill/skeleton
+	fill_table = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy = 55, 
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy = 20,
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 5
+	)
+
+
+/obj/item/quiver/randomfill/highwayman
+	fill_table = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 70, 
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 15,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/thunder = 5,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/kinetic = 5,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/fire = 5
+	)
+
+// Slightly higher quality with weight toward kinetic and steel
+/obj/item/quiver/randomfill/reaver
+	fill_table = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 50,
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 30,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/thunder = 5,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/kinetic = 10,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/fire = 5
+	)
+
 //////////// Note - silver quivers and bolt pouches shouldn't be obtainable through normal circumstances.
 // BOLTS  // For now, they should only be available as uncraftable singles.
 ////////////

@@ -1191,3 +1191,16 @@
       becomes a problem I will revert to the generic fallback instead.
   changelingonberry:
   - bugfix: gulp, faceplam and crack knuckles go into the correct categories now
+2026-06-27:
+  EvenInDeathIStillServe:
+  - rscadd: You can export your preferences/characters using the "Export Preferences"
+      verb in the "OOC" panel. It will be saved as a file on your computer.
+  Happyowl93:
+  - bugfix: Changed nicotine mood message to be valid for both smoking and eating
+  WeNeedMorePhoron:
+  - balance: Reduce Zadcote Voyeur cost from 5 to 1 to encourage more usage, maybe?
+  - balance: Deflecting spells should make you immune to hotspots briefly (1 second)
+  borneblood:
+  - bugfix: Fixed an exploit with Rituos, again
+  nauticall:
+  - rscadd: Added a donor item, Shenara's hat.

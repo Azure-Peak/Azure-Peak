@@ -367,9 +367,16 @@
 			else
 				// Unarmed attacker
 				var/intdam = INTEG_PARRY_DECAY_UNARMED
+				var/sharp_loss = SHARPNESS_ONHIT_DECAY
+
+				if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+					sharp_loss += STRONG_SHP_BONUS
+					intdam += STRONG_INTG_BONUS
+
 				if(istype(used_weapon, /obj/item/rogueweapon/shield) && intenty)
 					intdam *= intenty.intent_intdamage_factor
 				used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
+				used_weapon.remove_bintegrity(sharp_loss, user)
 			if(mind)
 				dodgetime = CLAMP(dodgetime - 2, 0, CLICK_CD_DODGE)
 				changeMaxDodge(2)
@@ -391,11 +398,11 @@
 						H.mind?.add_sleep_experience(/datum/skill/combat/unarmed, max(round(STAINT*exp_multi), 0), FALSE)
 
 			if(unarmed_bracers)
-				unarmed_bracers.take_damage(INTEG_PARRY_DECAY_NOSHARP, "slash", armor_penetration = 100)
+				unarmed_bracers.take_damage(INTEG_PARRY_DECAY_NOSHARP, BRUTE)
 			else if(unarmed_knuckles)
-				unarmed_knuckles.take_damage(INTEG_PARRY_DECAY_NOSHARP, "slash", armor_penetration = 100)
+				unarmed_knuckles.take_damage(INTEG_PARRY_DECAY_NOSHARP, BRUTE)
 			else if(unarmed_bandages)
-				unarmed_bandages.take_damage(INTEG_PARRY_DECAY_NOSHARP, "slash", armor_penetration = 100)
+				unarmed_bandages.take_damage(INTEG_PARRY_DECAY_NOSHARP, BRUTE)
 			flash_fullscreen("blackflash2")
 			if(mind)
 				dodgetime = CLAMP(dodgetime - 2, 0, CLICK_CD_DODGE)

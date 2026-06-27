@@ -6,17 +6,21 @@
 	sound = list('sound/magic/haste.ogg')
 	cast_range = 6
 	charge_required = FALSE
-	cooldown_time = 1.25 MINUTES
+	cooldown_time = 45 SECONDS
 	invocations = list("Tasaru'!")
 	invocation_type = INVOCATION_SHOUT
 	primary_resource_type = SPELL_COST_ENERGY
-	primary_resource_cost = 76
+	primary_resource_cost = 75
 
 /datum/action/cooldown/spell/vizier/acceleration/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/target = cast_on
 
 	if(!istype(target))
+		return FALSE
+	if(target.has_status_effect(/datum/status_effect/buff/accel))
+		return FALSE
+	if(target.has_status_effect(/datum/status_effect/buff/haste))
 		return FALSE
 	var/obj/effect/temp_visual/origin_restoration/V = new
 	target.vis_contents += V
@@ -46,8 +50,7 @@
 	id = "acceleration"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/accel
 	effectedstats = list(STATKEY_SPD = 20)
-	duration = 4 SECONDS
-	tick_interval = 1 SECONDS
+	duration = 6 SECONDS
 	var/afterimage_active = FALSE
 
 /datum/status_effect/buff/accel/on_creation(mob/living/new_owner, new_duration = null)
@@ -57,7 +60,7 @@
 
 /datum/status_effect/buff/accel/on_apply()
 	. = ..()
-
+	ADD_TRAIT(owner, TRAIT_INFINITE_STAMINA, "naledi_cat_nonsense")
 	ADD_TRAIT(owner, TRAIT_GUIDANCE, "naledi_cat_nonsense")
 	ADD_TRAIT(owner, TRAIT_NOPAINSTUN, "naledi_cat_nonsense")
 	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, "naledi_cat_nonsense")
@@ -65,15 +68,11 @@
 	if(!afterimage_active)
 		owner.AddComponent(/datum/component/after_image)
 		afterimage_active = TRUE
-
 	to_chat(owner, span_green("My timeline races ahead of the present. I am unbound by time!"))
-
-/datum/status_effect/buff/accel/tick()
-	owner.stamina_add(-69)
 
 /datum/status_effect/buff/accel/on_remove()
 	. = ..()
-
+	REMOVE_TRAIT(owner, TRAIT_INFINITE_STAMINA, "naledi_cat_nonsense")
 	REMOVE_TRAIT(owner, TRAIT_GUIDANCE, "naledi_cat_nonsense")
 	REMOVE_TRAIT(owner, TRAIT_NOPAINSTUN, "naledi_cat_nonsense")
 	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, "naledi_cat_nonsense")
@@ -85,7 +84,6 @@
 		afterimage_active = FALSE
 
 	owner.apply_status_effect(/datum/status_effect/debuff/decel, 4 SECONDS)
-
 	to_chat(owner, span_red("Time catches up with me, with its toll."))
 
 /datum/status_effect/buff/accel/nextmove_modifier()
@@ -95,7 +93,7 @@
 	id = "deceleration"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/decel
 	effectedstats = list(STATKEY_SPD = -20)
-	duration = 4 SECONDS
+	duration = 3 SECONDS
 
 /datum/status_effect/debuff/decel/on_creation(mob/living/new_owner, new_duration = null)
 	if(new_duration)
@@ -106,7 +104,6 @@
 	. = ..()
 
 	ADD_TRAIT(owner, TRAIT_NODEF, "naledi_cat_nonsense")
-	owner.stamina_add(100)
 	to_chat(owner, span_red("Everything feels unbearably slow. I am defenseless!"))
 
 /datum/status_effect/debuff/decel/on_remove()
@@ -118,7 +115,6 @@
 
 /datum/status_effect/debuff/decel/nextmove_modifier()
 	return 2
-
 
 /obj/effect/temp_visual/origin_haste
 	icon = 'icons/effects/effects.dmi'

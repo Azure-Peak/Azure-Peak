@@ -7,8 +7,10 @@
 	can_blockade = TRUE
 	category = FACTION_CAT_BOG_DESERTER
 	mob_types = list(
-		/mob/living/carbon/human/species/human/northern/bog_deserters/ambush = 80,
-		/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 30,
+		/mob/living/carbon/human/species/human/northern/bog_deserters/ambush = 70,
+		/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 25,
+		/mob/living/carbon/human/species/human/northern/bog_deserters/archer/ambush = 30,
+		/mob/living/carbon/human/species/human/northern/bog_deserters/crossbowman/ambush = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 15,
 	)
 	boss_mob_types = list(
