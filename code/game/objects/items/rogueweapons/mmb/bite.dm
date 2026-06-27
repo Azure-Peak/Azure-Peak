@@ -368,10 +368,11 @@
 			to_chat(user, span_warning("They're not bleeding, I should chew."))
 			return
 
-		if(!do_after(user, 1.2 SECONDS, grabbed))
+		if(!do_after(user, 1 SECONDS, grabbed))
 			return // Interrupted or clicked again
 
 		if(QDELETED(src) || !user || !grabbed)
 			return
 
 		user.drinksomeblood(grabbed, sublimb_grabbed)
+		user.apply_status_effect(/datum/status_effect/debuff/vulnerable, 1.2 SECONDS)
