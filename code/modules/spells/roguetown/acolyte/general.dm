@@ -402,7 +402,7 @@
 	self_cast_possible = TRUE
 
 	primary_resource_type = SPELL_COST_DEVOTION
-	primary_resource_cost = SPELLCOST_MIRACLE_MINOR -5
+	primary_resource_cost = SPELLCOST_MIRACLE_ORISON
 
 	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
 
