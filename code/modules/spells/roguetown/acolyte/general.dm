@@ -437,7 +437,7 @@
 
 	for(var/i in 1 to 9999)
 
-		if(do_after(owner, 1 SECONDS, TRUE, target = H))
+		if(do_after(owner, 1 SECONDS, TRUE, target = H)) // surprisingly adding target = H was enough to entirely fix why the target kept receiving the effect of the spell after moving, now to figure if it is because they left the spell' range or because they move is yet to be determined
 			H.heal_wounds(healingpower)
 			H.adjustBruteLoss(-healingpower, 0)
 			H.adjustFireLoss(-healingpower, 0)
@@ -450,7 +450,7 @@
 			if(prob(40))
 				owner.playsound_local(owner, 'sound/magic/heal.ogg', 50, FALSE, -1)
 				playsound('sound/magic/heal.ogg', 50, FALSE - 1)
-				healingpower = min(3, 1+i/5) // maximum 3 HP healing after 10 seconds of channeling 
+				healingpower = min(3, 1+i/5) // maximum 3 HP healing after 15 seconds of channeling 
 			var/obj/effect/temp_visual/heal/F = new /obj/effect/temp_visual/heal_rogue(get_turf(H))
 			F.color = "#e7ac54"
 		else
