@@ -422,12 +422,13 @@
 	if(!isliving(H))
 		return FALSE
 
-	if(isconstruct(H))
+	if(isconstruct(H)) //check if the target is a construct
 		H.visible_message(span_info("Divine warmth caress [H]'s shell before evaporating."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
-	if(HAS_TRAIT(H,TRAIT_PSYDONITE))
+
+	if(HAS_TRAIT(H,TRAIT_PSYDONITE)) // check if the target has the psydonite devout trait
 		H.visible_message(span_info("[H] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
@@ -448,7 +449,7 @@
 
 		if(do_after(owner, 1 SECONDS, TRUE, target = H)) // surprisingly adding target = H was enough to entirely fix why the target kept receiving the effect of the spell after moving. it does indead make you stop channelling whenever the target is moved by any methods, by it on their own or after a kick.
 			if(!no_embeds)
-				H.visible_message("The wounds tear and rip around the embedded objects!", "Agonising pain shoots through your body as magycks try to sew around the embedded objects!")
+				H.visible_message("The wounds tear and rip around the embedded objects!", "Agonising pain shoots through your body as magycks try to sew around the embedded objects!") //part of the do_after loop, allowing any dexterious archers or tossblade players to interupt healing with a well embeded projectile
 				H.adjustBruteLoss(5)
 				playsound(H, 'sound/combat/dismemberment/dismem (2).ogg', 100)
 				break
