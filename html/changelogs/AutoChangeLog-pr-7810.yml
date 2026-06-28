@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Cancelling familiar-binding attempts no longer refunds materials you did not spend"

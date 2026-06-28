@@ -1,0 +1,4 @@
+author: "Happyowl93"
+delete-after: True
+changes:
+  - bugfix: "Chimeric heart rack should stay linked and work as advertised now."
