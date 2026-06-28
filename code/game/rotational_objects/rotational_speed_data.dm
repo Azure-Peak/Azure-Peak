@@ -29,10 +29,11 @@
 
 	if(rotation_structure && !QDELETED(src))
 		set_connection_dir()
-		find_rotation_network()
+		// Temporary disable
+		// find_rotation_network()
 
 /obj/structure/Destroy()
-	if(rotation_network)
+	if(rotation_network) // network is retired and never forms, so this is dead; kept for safety
 		var/datum/rotation_network/old_network = rotation_network
 		rotation_network.remove_connection(src)
 		old_network.reassess_group(src)
@@ -90,7 +91,7 @@
 			DIR:[rotation_direction == 4 ? "CW" : rotation_direction == 8 ? "CCW" : ""]</span>"}
 
 /obj/structure/setDir(newdir)
-	if(rotation_network)
+	if(rotation_network) // network is retired and never forms, so this branch is dead
 		if(!dpdir)
 			set_connection_dir()
 		var/datum/rotation_network/old_network = rotation_network

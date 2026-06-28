@@ -238,37 +238,7 @@
 	for(var/i = 1 to 4)
 		new /obj/item/rotation_contraption/minecart_rail/railbreak(src)
 
-/datum/crown_import/rotationalnetwork
-	name = "Rotational Network"
-	desc = "A crate of ten large gears, sixteen small gears, three gearboxes, three verticle gearboxes, and twenty shafts"
-	item_type = /obj/structure/closet/crate/chest/steward/rotationalnetwork
-	base_cost = 362
-	source_region_id = TRADE_REGION_DAFTSMARCH
-
-/obj/structure/closet/crate/chest/steward/rotationalnetwork/Initialize()
-	. = ..()
-	for(var/i = 1 to 10)
-		new /obj/item/rotation_contraption/large_cog(src)
-	for(var/i = 1 to 16)
-		new /obj/item/rotation_contraption/cog(src)
-	for(var/i = 1 to 3)
-		new /obj/item/rotation_contraption/horizontal(src)
-	for(var/i = 1 to 3)
-		new /obj/item/rotation_contraption/vertical(src)
-	for(var/i = 1 to 20)
-		new /obj/item/rotation_contraption/shaft(src)
-
-/datum/crown_import/waterwheels
-	name = "Waterwheels"
-	desc = "A crate of five waterwheels"
-	item_type = /obj/structure/closet/crate/chest/steward/waterwheels
-	base_cost = 75
-	source_region_id = TRADE_REGION_ROSAWOOD
-
-/obj/structure/closet/crate/chest/steward/waterwheels/Initialize()
-	. = ..()
-	for(var/i = 1 to 5)
-		new /obj/item/rotation_contraption/waterwheel(src)
+// "Rotational Network" and "Waterwheels" import crates retired with the rotational network.
 
 /datum/crown_import/stoneblocks
 	name = "Stoneblocks"

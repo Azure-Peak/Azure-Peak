@@ -23,6 +23,7 @@
 	icon = 'icons/obj/autosmithy.dmi'
 	icon_state = "1"
 	rotation_structure = TRUE
+	rotations_per_minute = AUTOSMITHER_VIRTUAL_RPM // self-powered: fixed rate, rotational network disabled
 	initialize_dirs = CONN_DIR_FORWARD | CONN_DIR_LEFT | CONN_DIR_FLIP | CONN_DIR_Z_DOWN
 	anchored = TRUE
 	density = TRUE
@@ -99,7 +100,7 @@
 /obj/structure/autosmither/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click it with an empty hand to open its control interface and manage its crafting queue.")
-	. += span_info("It crafts from the attached hopper chest and only works while connected to a powered rotational network with enough RPM.")
+	. += span_info("It crafts from the attached hopper chest while it is running.")
 	. += span_info("Use its interface to perform its start or stop sequence: pull the lever, push the buttons, and fiddle with the dials in the correct order.")
 	. += span_info("Open the hopper chest while the autosmithy is off, load materials into it, then close it before starting the machine.")
 	. += span_info("Each recipe consumes its required materials as soon as that recipe starts.")
@@ -342,14 +343,16 @@
 		soundloop.stop()
 
 /obj/structure/autosmither/proc/show_working_anim()
-	if(!working || !rotation_network || rotation_network?.overstressed || !rotations_per_minute)
+	if(!working)
+		return FALSE
+	if(!rotations_per_minute)
 		return FALSE
 	if(!current || !hopper || hopper.opened)
 		return FALSE
 	return current.rotations_required <= rotations_per_minute
 
 /obj/structure/autosmither/proc/has_power_flow()
-	return rotation_network && !rotation_network?.overstressed && rotations_per_minute
+	return rotations_per_minute // self-powered at a fixed rate; power is always available
 
 /obj/structure/autosmither/proc/status_text()
 	if(!working)

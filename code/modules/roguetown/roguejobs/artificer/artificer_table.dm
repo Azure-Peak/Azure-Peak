@@ -35,20 +35,15 @@
 	return ..()
 
 /obj/structure/artificer_table/process()
-	if(!rotation_network || rotation_network.overstressed || rotations_per_minute < RPM_SLOW)
-		charge_accumulator = 0
-		heal_accumulator = 0
-		return
-
-	var/is_fast = (rotations_per_minute >= RPM_FAST)
+	var/is_fast = FALSE 
 
 	// Charge interval: 1s at fast, 10s at slow
 	var/charge_interval = is_fast ? 1 : 10
 	// Heal interval: 10s at fast, 20s at slow
 	var/heal_interval = is_fast ? 10 : 20
 
-	charge_accumulator +=  world.time / 10
-	heal_accumulator   +=  world.time / 10
+	charge_accumulator += SSobj.wait / 10 // seconds elapsed since last process()
+	heal_accumulator   += SSobj.wait / 10
 
 	// --- Contraption charging ---
 	if(charge_accumulator >= charge_interval)
@@ -99,20 +94,11 @@
 
 /obj/structure/artificer_table/examine(mob/user)
 	. = ..()
-	if(rotation_network && !rotation_network.overstressed && rotations_per_minute)
-		if(rotations_per_minute >= RPM_FAST)
-			. += span_notice("It spins at [rotations_per_minute] RPM — charging contraptions every second and rapidly restoring constructs.")
-		else if(rotations_per_minute >= RPM_SLOW)
-			. += span_warning("It spins at [rotations_per_minute] RPM — charging contraptions every 10 seconds and slowly restoring constructs.")
-		else
-			. += span_warning("It hums faintly at [rotations_per_minute] RPM, but needs at least [RPM_SLOW] RPM to do anything useful.")
-	else
-		. += span_warning("It is not connected to any rotational power source.")
+	. += span_notice("Its mechanisms tick along on their own, slowly charging contraptions placed on it and restoring constructs that rest on it.")
 
 /obj/structure/artificer_table/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("At [RPM_SLOW]+ RPM: charges contraptions on it every 10 seconds and slowly repairs constructs resting on it.")
-	. += span_info("At [RPM_FAST]+ RPM: charges contraptions every second and rapidly repairs constructs.")
+	. += span_info("Charges contraptions placed on it every 10 seconds and slowly repairs constructs resting on it.")
 
 /obj/structure/artificer_table/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/storage/bag/tray))

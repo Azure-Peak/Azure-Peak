@@ -68,8 +68,8 @@
 /obj/structure/roller/LateInitialize()
 	. = ..()
 	set_connection_dir()
-	find_rotation_network()
 	build_roller_chain()
+	set_rotations_per_minute(ROLLER_VIRTUAL_RPM) // self-powered: rollers always run at a fixed speed
 
 /obj/structure/roller/Destroy()
 	for(var/obj/structure/roller/connected in connected_rollers)
@@ -230,7 +230,7 @@
 		update_animation_effect()
 
 /obj/structure/roller/update_animation_effect()
-	if(!rotation_network || rotation_network.overstressed || !rotations_per_minute)
+	if(!rotations_per_minute)
 		animate(src, icon_state = "roller", time = 1)
 		return
 	var/clamprpm = clamp(rotations_per_minute,0,32) //limiting RPM down

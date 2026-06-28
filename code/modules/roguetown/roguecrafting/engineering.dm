@@ -723,133 +723,8 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
-//rotational and minecart parts
-/datum/crafting_recipe/roguetown/engineering/shaft
-	name = "wooden shaft (6x)"
-	category = "Rotational"
-	display_category = ITEM_CAT_ENG_MACHINERY
-	result = list(
-		/obj/item/rotation_contraption/shaft,
-		/obj/item/rotation_contraption/shaft,
-		/obj/item/rotation_contraption/shaft,
-		/obj/item/rotation_contraption/shaft,
-		/obj/item/rotation_contraption/shaft,
-		/obj/item/rotation_contraption/shaft,
-	)
-	reqs = list(/obj/item/grown/log/tree/small = 1)
-	verbage_simple = "engineer"
-	verbage = "engineers"
-	skillcraft = /datum/skill/craft/engineering
-	tools = list(/obj/item/rogueweapon/huntingknife = 1)
-	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/engineering/stickshaft
-	name = "wooden shaft"
-	category = "Rotational"
-	display_category = ITEM_CAT_ENG_MACHINERY
-	result = list(/obj/item/rotation_contraption/shaft)
-	reqs = list(/obj/item/grown/log/tree/stick = 2)
-	verbage_simple = "engineer"
-	verbage = "engineers"
-	skillcraft = /datum/skill/craft/engineering
-	tools = list(/obj/item/rogueweapon/huntingknife = 1)
-	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/engineering/cog
-	name = "wooden cogwheel(4x)"
-	category = "Rotational"
-	display_category = ITEM_CAT_ENG_MACHINERY
-	result = list(
-		/obj/item/rotation_contraption/cog,
-		/obj/item/rotation_contraption/cog,
-		/obj/item/rotation_contraption/cog,
-		/obj/item/rotation_contraption/cog,
-	)
-	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
-		/obj/item/roguegear = 2,
-		/obj/item/grown/log/tree/stick = 2,
-	)
-	verbage_simple = "engineer"
-	verbage = "engineers"
-	skillcraft = /datum/skill/craft/engineering
-	tools = list(/obj/item/rogueweapon/huntingknife = 1)
-	craftdiff = 4
-
-
-/datum/crafting_recipe/roguetown/engineering/waterwheel
-	name = "wooden waterwheel (2x)"
-	category = "Rotational"
-	display_category = ITEM_CAT_ENG_MACHINERY
-	result = list(
-		/obj/item/rotation_contraption/waterwheel,
-		/obj/item/rotation_contraption/waterwheel,
-	)
-	reqs = list(
-		/obj/item/natural/wood/plank = 3,
-		/obj/item/grown/log/tree/stick = 2,
-	)
-	verbage_simple = "engineer"
-	verbage = "engineers"
-	skillcraft = /datum/skill/craft/engineering
-	tools = list(/obj/item/rogueweapon/huntingknife = 1)
-	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/engineering/large_cog
-	name = "large wooden cogwheel (2x)"
-	category = "Rotational"
-	display_category = ITEM_CAT_ENG_MACHINERY
-	result = list(
-		/obj/item/rotation_contraption/large_cog,
-		/obj/item/rotation_contraption/large_cog,
-	)
-	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
-		/obj/item/ingot/bronze = 1,
-		/obj/item/grown/log/tree/stick = 1,
-	)
-	verbage_simple = "engineer"
-	verbage = "engineers"
-	skillcraft = /datum/skill/craft/engineering
-	tools = list(/obj/item/rogueweapon/huntingknife = 1)
-	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/engineering/gearbox
-	name = "gearbox (2x)"
-	category = "Rotational"
-	display_category = ITEM_CAT_ENG_MACHINERY
-	result = list(
-		/obj/item/rotation_contraption/horizontal,
-		/obj/item/rotation_contraption/horizontal,
-	)
-	reqs = list(
-		/obj/item/roguegear = 2,
-		/obj/item/natural/stoneblock = 2,
-		/obj/item/grown/log/tree/stick = 2,
-	)
-	verbage_simple = "engineer"
-	verbage = "engineers"
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/engineering/vertical_gearbox
-	name = "vertical gearbox (2x)"
-	category = "Rotational"
-	display_category = ITEM_CAT_ENG_MACHINERY
-	result = list(
-		/obj/item/rotation_contraption/vertical,
-		/obj/item/rotation_contraption/vertical,
-	)
-	reqs = list(
-		/obj/item/roguegear = 2,
-		/obj/item/natural/stoneblock = 2,
-		/obj/item/grown/log/tree/stick = 2,
-	)
-	verbage_simple = "engineer"
-	verbage = "engineers"
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
-
+// Rotational gears/shafts/waterwheels retired with the rotational network; no longer craftable.
+// Minecart parts (rails + self-powered rollers) remain below.
 /datum/crafting_recipe/roguetown/engineering/rails
 	name = "minecart rails (20x)"
 	category = "Minecarts"
@@ -958,16 +833,7 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 5
 
-/datum/crafting_recipe/roguetown/engineering/infernalengine
-	name = "infernal engine"
-	req_table = FALSE
-	result = /obj/structure/infernalengine
-	reqs = list(
-		/obj/item/magic/infernal/core = 1,
-		/obj/item/ingot/steel = 1,
-	)
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 4
+// Infernal engine (rotational power generator) retired with the rotational network; not craftable.
 
 // ------------ Explosives expansion----------
 /datum/crafting_recipe/roguetown/engineering/tntbomb

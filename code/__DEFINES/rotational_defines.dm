@@ -1,3 +1,7 @@
+/// Temporarily retire the Rotational Network sytstem until lag is resolved
+#define AUTOSMITHER_VIRTUAL_RPM 16
+#define ROLLER_VIRTUAL_RPM 16
+
 #define COG_SMALL 1
 #define COG_LARGE 2 // keep at double of COG_SMALL
 
