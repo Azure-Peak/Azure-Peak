@@ -135,13 +135,13 @@
 
 		user.Immobilize(1 SECONDS)
 		src.Immobilize(1 SECONDS)
-		var/datum/antagonist/vampire/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
-		var/datum/antagonist/werewolf/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
+		var/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
+		var/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
 		if(!vamp && !wolf)
 			var/recoil_mult = armor_block ? 0.5 : 0.25
 			var/recoil = round(dam2do * recoil_mult)
 			user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 25% damage to your mouth if you bite flesh, and 50% if you bite armor
-		if(prob(50)) // half the time you'll overextend and be exposed, giving your opponent a room to strike back hard
+		if(prob(25)) // 1/4 of the time you'll overextend and be exposed, giving your opponent a room to strike back hard
 			user.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		if(!apply_damage(dam2do, BRUTE, def_zone, armor_block, user))
 			nodmg = TRUE
@@ -299,8 +299,8 @@
 		damage = damage*2
 	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = PEN_NONE, damage = damage)
 		
-	var/datum/antagonist/vampire/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
-	var/datum/antagonist/werewolf/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
+	var/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
+	var/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
 	if(!vamp && !wolf)
 		var/recoil_mult = armor_block ? 0.5 : 0.25
 		var/recoil = round(damage * recoil_mult)
@@ -360,27 +360,27 @@
 /obj/item/grabbing/bite/proc/drinklimb(mob/living/user)
 	if(sippy)
 		sippy = FALSE
-		to_chat(user, span_notice("You relax your mouth."))
+		to_chat(user, span_warning("You relax your mouth."))
 		return
 	sippy = TRUE
-	to_chat(user, span_notice("You tighten your lips and attempt to drink blood!"))
+	to_chat(user, span_warning("You tighten your lips and attempt to drink blood!"))
 
 	while(src && user && grabbed && sippy)
 		var/mob/living/carbon/C = grabbed
 		if(QDELETED(src) || !user || !grabbed || !sippy)
 			break
 		if(C.blood_volume <= 0)
-			to_chat(user, span_warning("There's no blood left to drink."))
+			to_chat(user, span_warning("--But there's no blood left to drink."))
 			break
 		if(!limb_grabbed.get_bleed_rate())
-			to_chat(user, span_warning("They're not bleeding, I should chew."))
+			to_chat(user, span_warning("--But they're not bleeding, I should chew."))
 			break
 		if(!user.Adjacent(grabbed))
 			qdel(src)
 			break
 
 		user.drinksomeblood(C, sublimb_grabbed)
-		if(!do_after(user, 1.2 SECONDS, grabbed))
+		if(!do_after(user, 2 SECONDS, grabbed))
 			break
 
 	sippy = FALSE
