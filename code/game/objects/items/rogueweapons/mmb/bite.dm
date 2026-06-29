@@ -359,27 +359,28 @@
 
 /obj/item/grabbing/bite/proc/drinklimb(mob/living/user)
 	if(sippy)
-		to_chat(user, span_warning("This is why we can't have nice things."))
+		sippy = FALSE
+		to_chat(user, span_notice("You relax your mouth."))
 		return
 	sippy = TRUE
+	to_chat(user, span_notice("You tighten your lips and attempt to drink blood!"))
 
-	while(src && user && grabbed)
-		if(!user.Adjacent(grabbed))
-			qdel(src)
+	while(src && user && grabbed && sippy)
+		var/mob/living/carbon/C = grabbed
+		if(QDELETED(src) || !user || !grabbed || !sippy)
+			break
+		if(C.blood_volume <= 0)
+			to_chat(user, span_warning("There's no blood left to drink."))
 			break
 		if(!limb_grabbed.get_bleed_rate())
 			to_chat(user, span_warning("They're not bleeding, I should chew."))
 			break
-		if(!do_after(user, 1.2 SECONDS, grabbed))
-			break
-		if(QDELETED(src) || !user || !grabbed)
+		if(!user.Adjacent(grabbed))
+			qdel(src)
 			break
 
-		var/mob/living/carbon/C = grabbed
-		if(!C.mind)
-			C.Stun(9, TRUE, TRUE)
-		if(C.blood_volume <= 0)
-			to_chat(user, span_warning("There's no blood left to drink."))
-			break
 		user.drinksomeblood(C, sublimb_grabbed)
+		if(!do_after(user, 1.2 SECONDS, grabbed))
+			break
+
 	sippy = FALSE
