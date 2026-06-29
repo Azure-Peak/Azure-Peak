@@ -191,6 +191,12 @@
 #define NECRA_NEUTRAL      3
 #define NECRA_APPROVES     4
 
+/proc/necra_repeat_arrow(arrow, count)
+	var/result = ""
+	for(var/i in 1 to count)
+		result += arrow
+	return result
+
 /obj/effect/proc_holder/spell/self/locate_dead
 	name = "Locate Corpse"
 	desc = "Invoke the Undermaiden's guidance to sense the direction of those within her domain who lack proper burial. She may also reveal the earthbound, though seeking those newly claimed risks her displeasure.<br><br>Costs 20 Devotion to use, and the sustain cost varies on corpse freshness."
@@ -456,7 +462,7 @@ var/global/mob/_corpse_sort_ref = null
 	user.necra_tracked_corpse = target
 	user.necra_score = score
 	user.necra_judgement = judgement
-	user.last_necra_ping = 0
+	user.last_necra_ping = world.time
 
 	switch(judgement)
 		if(NECRA_HATES)
@@ -584,22 +590,48 @@ var/global/mob/_corpse_sort_ref = null
 		return
 
 	var/direction_name = "unknown"
+	var/direction_arrow = "•"
 
 	switch(get_dir(src, necra_tracked_corpse))
-		if(NORTH) direction_name = "north"
-		if(SOUTH) direction_name = "south"
-		if(EAST) direction_name = "east"
-		if(WEST) direction_name = "west"
-		if(NORTHEAST) direction_name = "northeast"
-		if(NORTHWEST) direction_name = "northwest"
-		if(SOUTHEAST) direction_name = "southeast"
-		if(SOUTHWEST) direction_name = "southwest"
-		else direction_name = "here"
+		if(NORTH)
+			direction_name = "north"
+			direction_arrow = "↑"
+		if(SOUTH)
+			direction_name = "south"
+			direction_arrow = "↓"
+		if(EAST)
+			direction_name = "east"
+			direction_arrow = "→"
+		if(WEST)
+			direction_name = "west"
+			direction_arrow = "←"
+		if(NORTHEAST)
+			direction_name = "northeast"
+			direction_arrow = "↗"
+		if(NORTHWEST)
+			direction_name = "northwest"
+			direction_arrow = "↖"
+		if(SOUTHEAST)
+			direction_name = "southeast"
+			direction_arrow = "↘"
+		if(SOUTHWEST)
+			direction_name = "southwest"
+			direction_arrow = "↙"
+		else
+			direction_name = "here"
+			direction_arrow = "•"
 
 	var/z_hint
+	var/z_arrows
 
 	if(target_turf.z != user_turf.z)
-		z_hint = target_turf.z > user_turf.z ? "above" : "below"
+		var/z_diff = abs(target_turf.z - user_turf.z)
+		if(target_turf.z > user_turf.z)
+			z_hint = "above"
+			z_arrows = necra_repeat_arrow("⇧", z_diff)
+		else
+			z_hint = "below"
+			z_arrows = necra_repeat_arrow("⇩", z_diff)
 
 	// NECRA HATES
 	if(judgement == NECRA_HATES)
@@ -740,7 +772,7 @@ var/global/mob/_corpse_sort_ref = null
 					to_chat(src, span_red(pick(mixed_reactions)))
 
 		if(z_hint)
-			msg += " <b>([z_hint])</b>"
+			msg += " <b>([z_arrows] [z_hint])</b>"
 		msg += "."
 		return
 
@@ -796,15 +828,16 @@ var/global/mob/_corpse_sort_ref = null
 	// NECRA NEUTRAL / APPROVES
 	var/dist = get_dist(user_turf, target_turf)
 
-	var/msg = "The Undermaiden guides your hand <b>[direction_name]</b>"
+	var/msg
+	if(dist <= 0 || direction_name == "here")
+		msg = "Now to prepare the rites."
+	else
+		msg = "The Undermaiden guides your hand <b>[direction_arrow] [direction_name]</b>"
 
-	if(z_hint)
-		msg += " <b>([z_hint])</b>"
+		if(z_hint)
+			msg += " <b>([z_arrows] [z_hint])</b>"
 
-	if(judgement == NECRA_APPROVES)
-		msg += " - <b>[dist]</b> meters"
-	
-	msg += "."
+		msg += ". <b>[dist]</b> tiles away, in <b>[necra_tracked_corpse.prepare_deathsight_message(src)]</b>."
 
 	to_chat(src, span_warning(msg))
 
