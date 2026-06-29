@@ -837,7 +837,7 @@ var/global/mob/_corpse_sort_ref = null
 		if(z_hint)
 			msg += " <b>([z_arrows] [z_hint])</b>"
 
-		msg += ". <b>[dist]</b> tiles away, in <b>[necra_tracked_corpse.prepare_deathsight_message(src)]</b>."
+		msg += ". <b>[dist]</b> meters away, in <b>[necra_tracked_corpse.prepare_deathsight_message(src)]</b>."
 
 	to_chat(src, span_warning(msg))
 
