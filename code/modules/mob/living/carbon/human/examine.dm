@@ -1081,14 +1081,14 @@
 			var/mob/living/carbon/carbs = user
 			if(!user.has_stress_event(/datum/stressevent/inq_trauma))
 				user.add_stress(/datum/stressevent/inq_trauma)
-				if(!HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) || !HAS_TRAIT(user, TRAIT_NOMOOD) || !HAS_TRAIT(user, TRAIT_STEELHEARTED))
+				if(!(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) || HAS_TRAIT(user, TRAIT_NOMOOD)))
 					if(prob(20))
 						carbs.stress_freakout()
 					else if(prob(40))
 						carbs.freak_out()
 					else
 						carbs.emote("gulp")
-			if(!HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) || !HAS_TRAIT(user, TRAIT_NOMOOD) || !HAS_TRAIT(user, TRAIT_STEELHEARTED))
+			if(!(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) || HAS_TRAIT(user, TRAIT_NOMOOD) || HAS_TRAIT(user, TRAIT_STEELHEARTED)))
 				carbs.Jitter(10)
 				carbs.stuttering += 25
 

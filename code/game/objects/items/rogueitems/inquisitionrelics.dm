@@ -1660,18 +1660,30 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 	report_html += "Name: [H.real_name]<br>"
 	report_html += "Race: [H.dna?.species?.name]<br>"
 	report_html += "Sex: [capitalize(H.gender)]<br>"
-	if(H.job)
-		report_html += "Weekly Activity: [H.job]<br>"
+	var/static/list/job_aliases = list(
+		"Hag" = "Wanderer",
+		"Adventurer" = "Wanderer",
+		"Assassin" = "Wanderer",
+		"Gnoll" = "Outcast",
+		"Wretch" = "Outcast",
+		"Vagabond" = "Outcast",
+	)
+	var/display_job = job_aliases[H.job] || H.job
+	if(display_job)
+		report_html += "Weekly Activity: [display_job]<br>"
 	var/list/d = H.get_mob_descriptors()
 	report_html += "Height: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")]<br>"
 	report_html += "Build: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")]<br>"
 	report_html += "<hr>"
 	
 	report_html += "<b>LYFEBLOOD-LUX RESONATOR RESULTS</b><br><br>"
-	if(H.patron?.type in ALL_DIVINE_PATRONS)
+	if(HAS_TRAIT(H, TRAIT_ANCIENT_HAG))
+		report_html += "<font color='#1e8b61'><b><u>Anomalous Lux</b></u></font><br><br>"
+		report_html += "<i>No measurable corruption or hallowed overresonance could be detected through our devices, the nature of this sample cannot be traced to anything within our Grand Archives. It does not seem to be neither Divine nor Inhumen, yet it is not Pure either.</i><br><br>"
+	else if(H.patron?.type in ALL_DIVINE_PATRONS)
 		report_html += "<font color='#e8da5a'><b><u>Blessed Lux</b></u></font><br><br>"
 		report_html += "<i>Minor hallowed resonance permeates the subject's Lux. The sample bears evidence of covenant with saintly energies consistent with apostate worship and prolonged participation in rites associated with the <b>Ten Saints</b>.</i><br><br>"
-	else if(H.patron?.type in ALL_INHUMEN_PATRONS || H.patron?.type == /datum/patron/mossmother)
+	else if(H.patron?.type in ALL_INHUMEN_PATRONS)
 		report_html += "<font color='#8B1E1E'><b><u>Tainted Lux</b></u></font><br><br>"
 		report_html += "<i>The Lux has suffered measurable spiritual degradation. The sample carries contamination consistent with apostate worship and prolonged participation in rites associated with the <b>Inhumen</b>.</i><br><br>"
 	else
@@ -1703,6 +1715,10 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 			report_html += "<font color='#3D3D3D'><b>Stabilized Blackblood Tincture</b></font><br><br>"
 			report_html += "<i>Lethal concentrations of Atra Ferrum, Nigredo Salts, Vitriol Ash, and Coagulated Psyturnine Humours remain suspended throughout the sample. Complete melanization and abnormal viscosity are wholly consistent with recent radical purification treatments for Quicksilver-resistant subjects.</i><br><br>"
 			found = TRUE
+		else if(HAS_TRAIT(H, TRAIT_ANCIENT_HAG))
+			report_html += "<font color='#5C3A6E'><b>Anomalous Blood</b></font><br><br>"
+			report_html += "<i>The sample is laden with accursed humours and bears the unmistakable taint of ancient malisons. Though greatly withered by age, the blood yet clings to unnatural vigor, a condition recorded only in those sustained by profane sorceries and long familiarity with the Devil's arts.</i><br><br>"
+			found = TRUE
 		for(var/datum/antagonist/D in H.mind.antag_datums)
 			if(istype(D, /datum/antagonist/vampire))
 				found = TRUE
@@ -1713,6 +1729,11 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 				found = TRUE
 				report_html += "<font color='#6E4F2C'><b>Liquid Madness Corrosion</b></font><br><br>"
 				report_html += "<i>The sample displays extreme humoral instability, with recurrent fluctuations in viscosity, coloration, and saturation occurring during examination. Such volatility is consistent with advanced moonlit transmutative contamination. It carries traces of hallowed energy, however.</i><br><br>"
+				break
+			if(istype(D, /datum/antagonist/gnoll))
+				found = TRUE
+				report_html += "<font color='#6E4F2C'><b>Anthropophagic Corruption</b></font><br><br>"
+				report_html += "<i>The sample demonstrates irreversible haemological restructuring characterized by predatory adaptation, excessive ferric saturation, and biochemical residues consistent with prolonged consumption of human flesh. Such degeneration has historically been observed only in individuals subjected to advanced war-cults devoted to the Inhumen, whose champions abandon their humanity through ritual slaughter and cannibalism.</i><br><br>"
 				break
 		if(!found)
 			report_html += "<font color='#2D7A42'><b>Clean</b></font><br><br>"
