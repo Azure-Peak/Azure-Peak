@@ -37,6 +37,8 @@
 	var/response_time_threshold = 10 SECONDS // 10 second threshold for patient/impatient quirks
 
 	var/obj/structure/stone_rack/linked_rack
+	var/last_link_attempt = 0
+	var/link_attempt_interval = 30 SECONDS
 
 /datum/component/chimeric_heart_beast/Initialize()
 	. = ..()
@@ -191,6 +193,11 @@
 		process_environment_quirks()
 		last_environment_process = world.time
 
+	// Re-attempt linking to a rack periodically if we don't have one yet.
+	// (The rack may have been built/moved after our initial one-shot link timer.)
+	if(!linked_rack && world.time > last_link_attempt + link_attempt_interval)
+		link_to_racks()
+
 /datum/component/chimeric_heart_beast/proc/decay_happiness()
 	happiness = max(happiness - (max_happiness * 0.05), 0)
 
@@ -329,7 +336,8 @@
 	score = trigger_behavior_quirks(score, speaker, message)
 
 	// Determine success
-	linked_rack.advance_calibration()
+	if(linked_rack)
+		linked_rack.advance_calibration()
 	if(score >= 20) // Passing score
 		complete_task(score, speaker, quirk_effects)
 	else
@@ -341,7 +349,7 @@
 	// Calculate rewards
 	var/blood_reward = (max_blood_pool / 10) * reward_multiplier * (quirk_effects["blood_multiplier"] || 1)
 	// 8 - 16 - 32 - 64 Under perfect circumstances
-	var/rack_multiplier = linked_rack.update_rack_stats()
+	var/rack_multiplier = linked_rack ? linked_rack.update_rack_stats() : 0
 	var/tech_reward = (8 * (2 ** (language_tier - 1))) * reward_multiplier * ((quirk_effects["tech_multiplier"] || 1) * rack_multiplier)
 	var/happiness_reward = (max_happiness / 4) * reward_multiplier * (quirk_effects["happiness_multiplier"] || 1)
 	// 2 perfect answers, or 4 mediocre ones, 8 serviceable answers
@@ -495,6 +503,15 @@
 /datum/component/chimeric_heart_beast/proc/link_to_racks()
 	if(!heart_beast || !heart_beast.loc)
 		return
+
+	last_link_attempt = world.time
+
+	// Already linked - make sure the link is still valid (rack wasn't destroyed/moved).
+	if(linked_rack)
+		if(!istype(linked_rack) || !linked_rack.loc || linked_rack.heart_component != src)
+			linked_rack = null
+		else
+			return
 
 	//Range() might be better, but I couldn't find racks through walls so we're doing it this way
 	var/search_range = 7

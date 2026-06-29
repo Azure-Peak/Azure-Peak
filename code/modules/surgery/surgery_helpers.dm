@@ -120,6 +120,9 @@
 				return FALSE
 		if(ishuman(carbon_victim))
 			var/mob/living/carbon/human/human_victim = carbon_victim
+			var/obj/item/clothing/skin = human_victim.skin_armor
+			if(skin?.covers_in_skin_slot && zone2covered(location, skin.body_parts_covered_dynamic))
+				return FALSE
 			if(!skipundies)
 				if(human_victim.underwear)
 					covered_locations |= GROIN

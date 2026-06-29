@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - balance: "Lightning Bolt / Shock effects has been reworked to no longer impose clickCD for 6 seconds but instead also deduct your Int and Perception by -2 and applies Reverse Guidance (-20% parry / dodge chance) so it remains a powerful, but not completely agency robbing CC effects. In addition, all call sites like blood lightning, voltaic gloves, rune wards and enchantment is unified to use this proc and includes the adaptation effect to prevent chaining the CC."

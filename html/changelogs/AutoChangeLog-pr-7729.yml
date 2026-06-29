@@ -1,8 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Standing Order Bonus adjusted to 1.0 from 0.75 after reading a conversation about how smith order is not profitable enough. Since I changed to dynamic instead of fixed pricing I suspect smithing order became less relatively profitable so this should improve it again"
-  - rscadd: "Corpses from Contract should dust within 5 minutes if not butchered. Heads that are cut off will dust nearly instantly (without producing ash). Simple animals from contracts should no longer produce heads. This should help with massive amount of clutters since I made Quest Good Again"
-  - rscadd: "Spells and Arcyne Strike can now dismember people as I originally intended but somehow forgot, fully fulfilling the anime / swordcery fantasy I intend to enable later when I rework Ferramancy and also making Spellblade overly popular again"
-  - rscadd: "Underdark and Terrorbog Quest now have a relative 1.2x and 1.3x rewards multiplier to encourage people to clear out these problem spots more, if you are up for the challenge"
-  - rscadd: "Increased potion price, replaced strength potion (very hard to make) with sui dust in the potion standing order pool"

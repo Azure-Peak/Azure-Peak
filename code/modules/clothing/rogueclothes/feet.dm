@@ -60,6 +60,7 @@
 	name = "decrepit boots"
 	desc = "Frayed bronze greaves, shingled atop boots of rotted leather. The toebones of its former legionnaire remain within, rattling about with every step taken."
 	max_integrity = 40
+	armor = ARMOR_BRONZE
 	icon_state = "ancientboots"
 	smeltresult = /obj/item/ingot/aaslag
 	color = "#bb9696"
@@ -194,6 +195,7 @@
 	desc = "Frayed bronze platforms, curled about to cradle the feet. The beaches that these sandals once treaded are no more; pearly sands, long since turnt to glass from the Comet Syon's impact."
 	icon_state = "ancientsandals"
 	color = "#bb9696"
+	armor = ARMOR_LEATHER
 
 /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	name = "ancient sandals"
@@ -391,6 +393,7 @@
 	item_state = "bsoldierboots"
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 	smeltresult = /obj/item/ingot/bronze
+	armor = ARMOR_BRONZE
 
 /obj/item/clothing/shoes/roguetown/boots/maille/copper
 	name = "copper lamellar boots"
@@ -430,7 +433,7 @@
 	icon_state = "bronzegreaves"
 	body_parts_covered = FEET | LEGS
 	smeltresult = /obj/item/ingot/bronze
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 
 /obj/item/clothing/shoes/roguetown/boots/armor/graggar

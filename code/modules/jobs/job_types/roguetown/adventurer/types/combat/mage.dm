@@ -169,11 +169,8 @@
 					r_hand = /obj/item/rogueweapon/sword/short
 				if("Hwando")
 					r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog
-					shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
-					wrists = null
 					gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
-					neck = null
 					pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 					head = /obj/item/clothing/head/roguetown/mentorhat
 					backr = null
@@ -319,7 +316,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	neck = /obj/item/clothing/neck/roguetown/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltr = /obj/item/rogueweapon/huntingknife

@@ -41,7 +41,7 @@
 
 // STANDARD
 /datum/stew_recipe/humanoid_whole_meat
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/humanoid)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/humanoid)
 	output = /datum/reagent/consumable/soup/stew/humanoid
 	cooktime = STEW_COOKING_TIME * 3
 
@@ -374,6 +374,10 @@
 /datum/stew_recipe/saltmeat
 	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/salami, /obj/item/reagent_containers/food/snacks/rogue/meat/salami/slice, /obj/item/reagent_containers/food/snacks/rogue/meat/coppiette, /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet)
 	output = /datum/reagent/consumable/soup/stew/saltmeat_stew
+
+/datum/stew_recipe/mushstew
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/mushroom, /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked, /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked/fried)
+	output = /datum/reagent/consumable/soup/stew/mushroom
 
 // Don't alphabetically sort this list this is meant to be reached last. (You are free to change when you find a better way to do a fallback recipe)
 /datum/stew_recipe/meat
