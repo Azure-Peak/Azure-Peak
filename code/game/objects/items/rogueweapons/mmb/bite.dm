@@ -121,7 +121,7 @@
 
 	next_attack_msg.Cut()
 
-	user.do_attack_animation(src, "bite", null, FALSE)
+	user.do_attack_animation_simple(src, ATTACK_EFFECT_BITE)
 	playsound(user, 'sound/gore/flesh_eat_01.ogg', vol = 50, vary = FALSE, extrarange = -2, ignore_walls = FALSE, quiet = TRUE)
 	var/nodmg = FALSE
 	var/dam2do = 10*(user.STASTR/20)
@@ -132,11 +132,17 @@
 			nodmg = TRUE
 	if(!nodmg)
 		var/armor_block = run_armor_check(def_zone, "stab", armor_penetration = PEN_NONE, blade_dulling=BCLASS_BITE, damage = dam2do)
-		
-		var/recoil_mult = armor_block ? 0.5 : 0.25
-		var/recoil = round(dam2do * recoil_mult)
-		user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 30% damage to your mouth if you bite flesh, and 60% if you bite armor
-		
+
+		user.Immobilize(1 SECONDS)
+		src.Immobilize(1 SECONDS)
+		var/datum/antagonist/vampire/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
+		var/datum/antagonist/werewolf/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
+		if(!vamp && !wolf)
+			var/recoil_mult = armor_block ? 0.5 : 0.25
+			var/recoil = round(dam2do * recoil_mult)
+			user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 25% damage to your mouth if you bite flesh, and 50% if you bite armor
+		if(prob(50)) // half the time you'll overextend and be exposed, giving your opponent a room to strike back hard
+			user.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		if(!apply_damage(dam2do, BRUTE, def_zone, armor_block, user))
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
@@ -292,15 +298,18 @@
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2
 	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = PEN_NONE, damage = damage)
-	
-	var/recoil_mult = armor_block ? 0.5 : 0.25
-	var/recoil = round(damage * recoil_mult)
-	if(prob(50)) // divine comedy, fwe hee hee
+		
+	var/datum/antagonist/vampire/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
+	var/datum/antagonist/werewolf/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
+	if(!vamp && !wolf)
+		var/recoil_mult = armor_block ? 0.5 : 0.25
+		var/recoil = round(damage * recoil_mult)
+		user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 25% damage to your mouth if you bite flesh, and 50% if you bite armor
+	if(prob(50)) // half the time you'll overextend and be exposed, giving your opponent a room to strike back hard
 		user.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-	user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 30% damage to your mouth if you bite flesh, and 60% if you bite armor
 	
 	C.next_attack_msg.Cut()
-	user.do_attack_animation(C, "bite", null, FALSE)
+	user.do_attack_animation_simple(C, ATTACK_EFFECT_BITE)
 	if(C.apply_damage(damage, BRUTE, limb_grabbed, armor_block))
 		playsound(C.loc, "smallslash", vol = 50, vary = FALSE, extrarange = -1, ignore_walls = FALSE, quiet = TRUE)
 		var/datum/wound/caused_wound = limb_grabbed.bodypart_attacked_by(BCLASS_BITE, damage, user, sublimb_grabbed, crit_message = TRUE)
@@ -348,22 +357,29 @@
 
 	log_combat(user, C, "limb chewed [sublimb_grabbed] ")
 
-//this is for carbon mobs being drink only
-/obj/item/grabbing/bite/proc/drinklimb(mob/living/user) //implies limb_grabbed and sublimb are things
+/obj/item/grabbing/bite/proc/drinklimb(mob/living/user)
+	if(sippy)
+		to_chat(user, span_warning("This is why we can't have nice things."))
+		return
+	sippy = TRUE
+
 	while(src && user && grabbed)
 		if(!user.Adjacent(grabbed))
 			qdel(src)
-			return
-
+			break
 		if(!limb_grabbed.get_bleed_rate())
 			to_chat(user, span_warning("They're not bleeding, I should chew."))
-			return
-
-		if(!do_after(user, 1 SECONDS, grabbed))
-			return // Interrupted or clicked again
-
+			break
+		if(!do_after(user, 1.2 SECONDS, grabbed))
+			break
 		if(QDELETED(src) || !user || !grabbed)
-			return
+			break
 
-		user.drinksomeblood(grabbed, sublimb_grabbed)
-		user.apply_status_effect(/datum/status_effect/debuff/vulnerable, 1.2 SECONDS)
+		var/mob/living/carbon/C = grabbed
+		if(!C.mind)
+			C.Stun(9, TRUE, TRUE)
+		if(C.blood_volume <= 0)
+			to_chat(user, span_warning("There's no blood left to drink."))
+			break
+		user.drinksomeblood(C, sublimb_grabbed)
+	sippy = FALSE
