@@ -70,15 +70,6 @@
 		to_chat(user, span_warning("My mouth has something in it."))
 		return FALSE
 
-	if(src.cmode)
-		if(prob(25)) // static 25% failure chance if the other enemy's in combat. 25% chance afterwards for it to be a "critical miss".
-			visible_message(span_warning("<i>[user] lunges at [src] with a bite, but misses!</i>"))
-			if(prob(25))
-				visible_message(span_warning("<b>They're off-balance!</b>"))
-				user.Immobilize(2 SECONDS)
-				user.OffBalance(4 SECONDS)
-			return FALSE
-
 	var/datum/intent/bite/bitten = new()
 	if(checkdefense(bitten, user))
 		return FALSE
@@ -142,7 +133,7 @@
 	if(!nodmg)
 		var/armor_block = run_armor_check(def_zone, "stab", armor_penetration = PEN_NONE, blade_dulling=BCLASS_BITE, damage = dam2do)
 		
-		var/recoil_mult = armor_block ? 0.6 : 0.3
+		var/recoil_mult = armor_block ? 0.5 : 0.25
 		var/recoil = round(dam2do * recoil_mult)
 		user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 30% damage to your mouth if you bite flesh, and 60% if you bite armor
 		
@@ -293,18 +284,17 @@
 		to_chat(user, span_warning("My mouth has something in it."))
 		return FALSE*/
 
-	user.changeNext_move(2 SECONDS) // One chew every 2 seconds is fair game.
+	user.changeNext_move(1.2 SECONDS) // One chew every 1.2 seconds
 	var/mob/living/carbon/C = grabbed
-	user.Immobilize(1.25 SECONDS)
-	C.Immobilize(1.25 SECONDS)
+	user.Immobilize(1 SECONDS)
+	C.Immobilize(1 SECONDS)
 	var/damage = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2
 	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = PEN_NONE, damage = damage)
 	
-	var/recoil_mult = armor_block ? 0.6 : 0.3
+	var/recoil_mult = armor_block ? 0.5 : 0.25
 	var/recoil = round(damage * recoil_mult)
-	user.Immobilize(1 SECONDS)
 	if(prob(50)) // divine comedy, fwe hee hee
 		user.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 	user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 30% damage to your mouth if you bite flesh, and 60% if you bite armor
