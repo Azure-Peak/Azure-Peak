@@ -321,6 +321,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	armor = ARMOR_LEATHER
 	max_integrity = BASE_ARCYNE_INTEGRITY
+	covers_in_skin_slot = TRUE
 
 	blocksound = SOFTHIT
 

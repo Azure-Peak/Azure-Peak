@@ -37,7 +37,7 @@
 /datum/outfit/job/roguetown/disciple
 	job_bitflag = BITFLAG_HOLY_WARRIOR
 
-/obj/item/storage/belt/rogue/leather/rope/dark
+/obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 	color = "#505050"
 
 /datum/outfit/job/roguetown/disciple/pre_equip(mob/living/carbon/human/H, visualsOnly)
@@ -103,7 +103,7 @@
 
 	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1)
-	belt = /obj/item/storage/belt/rogue/leather/rope/dark
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	cloak = /obj/item/clothing/cloak/tabard/psydontabard/alt
 

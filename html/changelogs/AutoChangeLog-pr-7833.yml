@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Bronze-armored boots now properly have ARMOR_BRONZE as their protection tier, rather than ARMOR_PLATE."
+  - bugfix: "Adds missing light armor values to decrepit-tiered feetwear."

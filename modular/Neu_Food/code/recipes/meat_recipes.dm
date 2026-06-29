@@ -243,10 +243,18 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/wienerstick
 
-/datum/food_recipe/humanoid_salted
+/datum/food_recipe/humanoid_lazy_salted
 	name = "salted long pig mince"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid
 	ingredients = list(
 		/obj/item/reagent_containers/powder/coarse_salt
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid_salted
+
+/datum/food_recipe/humanoid_salted
+	name = "salted long pig mince"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid
+	ingredients = list(
+		/obj/item/reagent_containers/powder/salt
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid_salted

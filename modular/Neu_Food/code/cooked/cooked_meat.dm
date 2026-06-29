@@ -291,7 +291,7 @@
 	slice_path = FALSE
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	eat_effect = null
-	tastes = list("crispy chitin" = 1)
+	tastes = list("crispy and slimy insectoid" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/spider/surprise/cooked
 	name = "spider surprise"
@@ -302,7 +302,7 @@
 	slice_path = FALSE
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	eat_effect = null
-	tastes = list("crispy chitin" = 1, "venom innards" = 1)
+	tastes = list("ridiculously raw texture but well-cooked insectoid" = 1)
 	faretype = FARE_FINE
 
 /*	.............   Cooked Mushroom   ................ */
@@ -310,7 +310,7 @@
 	slices_num = 0
 	bitesize = 4
 	name = "baked mushroom"
-	desc = "Mushroom! It's tasty, but somehow you imagine it might taste even better fried."
+	desc = "Mushroom baked to perfection! It's tasty, but somehow you imagine it could taste even better if it was fried."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "mushroom"
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
@@ -330,7 +330,7 @@
 	tastes = list("mushroom grill" = 1)
 
 /* .............   Fried Humanoid   ................ */
-/obj/item/reagent_containers/food/snacks/rogue/meat/steak/humanoid/fried
+/obj/item/reagent_containers/food/snacks/rogue/meat/humanoid/fried
 	eat_effect = null
 	slices_num = 0
 	name = "fried long pig"

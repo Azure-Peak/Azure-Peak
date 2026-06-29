@@ -78,6 +78,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/body_parts_covered_dynamic = 0
 	var/body_parts_inherent	= 0 //bodypart coverage areas that are always covered (chest on torso armor, hands on gloves, head on helmets, etc)
 	var/surgery_cover = TRUE // binary, whether this item is considered covering its bodyparts in respect to surgery. Tattoos, etc. are false.
+	/// If TRUE, this item counts toward location-accessibility coverage (mouthgrabs, surgery, etc.) even while worn in the skin_armor slot, which get_equipped_items() doesn't enumerate.
+	var/covers_in_skin_slot = FALSE
 	var/gas_transfer_coefficient = 1 // for leaking gas from turf to mask and vice-versa (for masks right now, but at some point, i'd like to include space helmets)
 	var/permeability_coefficient = 1 // for chemicals/diseases
 	var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)

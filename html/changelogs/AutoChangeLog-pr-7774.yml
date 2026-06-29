@@ -1,9 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "All spellfists now have ward access (again), helping cover up shortage on places where they start with lackluster armor"
-  - rscadd: "Heretic Spellfist / Sojourner / Pontifex now have access to 1 locked minor aspect - Autowardry. No lesser augmentation / blink / self buff BS. This means their ward is significantly better than Adventurer. I cannot afford to give them more than 9 statweight (This will set a very bad precedent), or minmax by deducting speed and then increasing str / con (bad precedent) or Master (that'd be crazy), so I figured I would adjust the lever of their defensive stats"
-  - balance: "Adventurer Spellfist have significantly better starting armor, somewhat mirroring that of Spellblade"
-  - balance: "Adventurer Spellfist now have Expert skills."
-  - balance: "Adventurer Spellfist and H SFist now have access to shadowstep. I CBA gatekeeping them when the remaining 3 traits are Psydon coded in the first place."
-  - balance: "After receiving feedback that the speed / perception oriented statblock didn't work, I swapped it out for a STR / CON oriented statblock. Adv. Spellfist: 2 Str, 1 Wil, 2 Con. Pontifex / HFist / Soj: 2 Str, 2 Wil, 3 Con"
