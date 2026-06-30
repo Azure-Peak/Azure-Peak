@@ -26227,6 +26227,7 @@
 /obj/structure/mirror/fancy{
 	pixel_y = -32
 	},
+/obj/item/rogueweapon/huntingknife/scissors/steel,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/manor)
 "fkk" = (
@@ -43748,9 +43749,10 @@
 "iGh" = (
 /obj/structure/table/wood/long_table,
 /obj/item/candle/gold/lit{
-	pixel_y = 6;
-	pixel_x = 3
+	pixel_y = 16;
+	pixel_x = -6
 	},
+/obj/item/natural/fur,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/manor)
 "iGi" = (
@@ -91716,6 +91718,12 @@
 /area/rogue/outdoors/town)
 "rLl" = (
 /obj/structure/closet/crate/roguecloset,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/natural/feather,
+/obj/item/natural/feather,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/manor)
 "rLo" = (
@@ -423785,7 +423793,7 @@ xwF
 ruD
 dPn
 xwF
-aUM
+ruD
 dPn
 xwF
 bmd
