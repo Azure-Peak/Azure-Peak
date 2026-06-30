@@ -343,7 +343,7 @@
 	)
 	var/list/miracle_acolyte_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/diagnose::name			= /obj/effect/proc_holder/spell/invoked/diagnose,
-		//datum/action/cooldown/spell/noc/blindness::name				= /datum/action/cooldown/spell/noc/blindness,
+		/datum/action/cooldown/spell/projectile/moonscorch::name		= /datum/action/cooldown/spell/projectile/moonscorch,
 		/obj/effect/proc_holder/spell/invoked/bless_food::name			= /obj/effect/proc_holder/spell/invoked/bless_food,
 		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
 		/obj/effect/proc_holder/spell/invoked/attach_bodypart::name		= /obj/effect/proc_holder/spell/invoked/attach_bodypart,
