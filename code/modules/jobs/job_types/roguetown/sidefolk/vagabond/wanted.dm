@@ -41,5 +41,6 @@
 	
 	if(H.mind)
 		H.change_stat(STATKEY_LCK, rand(-2, 2))
-		vagabond_select_bounty(H)
+		if(!H.has_flaw(/datum/charflaw/wanted))
+			vagabond_select_bounty(H)
 		to_chat(H, span_notice("I'm on the run from the law, and there's a sum of mammons out on my head... better lay low."))

@@ -135,6 +135,7 @@
 	var/stamina = 0
 	var/jitter = 0
 	var/dismemberment = 0 //The higher the number, the greater the bonus to dismembering. 0 will not dismember at all.
+	var/dismember_by_default = FALSE
 	var/impact_effect_type //what type of impact effect to show when hitting something
 	var/log_override = FALSE //is this type spammed enough to not log? (KAs)
 
@@ -161,9 +162,14 @@
 	var/max_range = 0
 	/// Falloff factor for damage. Multiplicative.
 	var/dam_falloff_factor = 1
+	var/suppress_effects_past_range = FALSE
 
 /obj/projectile/proc/handle_drop()
 	return
+
+
+/obj/projectile/proc/out_of_effective_range()
+	return suppress_effects_past_range && max_range && check_range(get_turf(src))
 
 /obj/projectile/Initialize()
 	. = ..()

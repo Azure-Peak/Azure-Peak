@@ -25,9 +25,16 @@
 		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
+/datum/reagent/medicine/healthpot/zarum/bog // no changes, it's just more palatable :>
+	name = "Honeyed Zarum"
+	description = "A fermented sauce of fish innards, vinegar and honey, which gradually regenerates all types of damage while remaining surprisingly pleasant to the tastebuds."
+	color = "#dd9700"
+	taste_description = "sweet-sour fish-glazed honey"
+	scent_description = "sweet fermented pungence"
+
 /datum/reagent/medicine/healthpot/zarum
 	name = "Zarum"
-	description = "A fermented sauce of fish innards and vinegear, which gradually regenerates all types of damage."
+	description = "A fermented sauce of fish innards and vinegar, which gradually regenerates all types of damage."
 	reagent_state = LIQUID
 	color = "#891305"
 	var/nutriment_factor = 16

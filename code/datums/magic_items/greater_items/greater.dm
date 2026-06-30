@@ -51,19 +51,13 @@
 
 	if(isliving(target))
 		var/mob/living/L = target
-		L.Immobilize(0.5 SECONDS)
-		L.apply_status_effect(/datum/status_effect/debuff/clickcd, 6 SECONDS)
-		L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-		L.apply_status_effect(/datum/status_effect/buff/lightningstruck, 6 SECONDS)
+		L.lightning_shock(src)
 
 		for(var/mob/living/nearby in range(2, target))
 			if(nearby == target || nearby == user)
 				continue
 			if(prob(30))
-				nearby.Immobilize(0.5 SECONDS)
-				nearby.apply_status_effect(/datum/status_effect/debuff/clickcd, 6 SECONDS)
-				nearby.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-				nearby.apply_status_effect(/datum/status_effect/buff/lightningstruck, 6 SECONDS)
+				nearby.lightning_shock(src)
 				new /obj/effect/temp_visual/lightning(get_turf(target), get_turf(nearby))
 	last_used[source] = world.time
 

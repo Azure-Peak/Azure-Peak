@@ -50,7 +50,7 @@
 	active_background_icon_state = "spell1"
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "shieldsparkles"
-	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_PHASED
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_PHASED|AB_CHECK_IMMOBILE
 	panel = "Spells"
 	click_to_activate = TRUE
 	unset_after_click = FALSE
@@ -146,7 +146,7 @@
 	 * Total drain is: ([charge_time] / [process_time]) * charge_drain
 	 * process_time is currently 4 from SSfastprocess.
 	 */
-	var/charge_drain = 0
+	var/charge_drain = 1
 	/// Time to charge.
 	var/charge_time = 0
 	/// Slowdown while charging.
@@ -176,8 +176,8 @@
 	var/weapon_penalty_active = FALSE
 	/// If TRUE, this spell ignores armor cooldown penalties (for armored casters like Tithebound).
 	var/ignore_armor_penalty = FALSE
-	/// If TRUE, will -not- trigger stealth reveal mechanics after cast.
-	var/ignore_stealth_reveal = FALSE
+	/// If TRUE, casting will -not- apply the combat tag (skips stealth reveal and rest interruption).
+	var/ignore_combat_tag = FALSE
 	/// If TRUE, spell charges on button press, then waits for a separate middle-click to cast.
 	/// If FALSE (default), spell uses hold-and-release: hold middle-click to charge, release to cast.
 	var/charge_then_click = FALSE
@@ -891,9 +891,8 @@
 		if(H.has_status_effect(/datum/status_effect/buff/clash))
 			H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
 
-		if(!ignore_stealth_reveal)
-			if(H.get_skill_level(/datum/skill/misc/sneaking) >= SKILL_LEVEL_JOURNEYMAN || HAS_TRAIT(H, TRAIT_LIGHT_STEP))
-				H.apply_status_effect(/datum/status_effect/stealth_revealed)
+		if(!ignore_combat_tag)
+			H.changeNext_inCombat(IN_COMBAT_DELAY)
 
 	// Sparks and smoke can only occur if there's an owner to source them from.
 	if(sparks_amt)

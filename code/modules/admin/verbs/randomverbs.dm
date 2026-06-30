@@ -117,7 +117,6 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Modify Triumphs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_mod_pq(mob/M in GLOB.mob_list, operation)
-	set category = "Admin.Special"
 	set name = "Adjust PQ"
 	set hidden = 1
 
@@ -446,7 +445,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Create Command Report") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_change_command_name()
-	set category = "Admin.Special"
 	set name = "Change Command Name"
 	set hidden = 1 // May have uses?
 
@@ -618,7 +616,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 
 /client/proc/toggle_combo_hud()
-	set category = "Admin.Admin"
 	set name = "Toggle Combo HUD"
 	set desc = ""
 	set hidden = 1 // If somebody loves this, I'm sorry, you can unhide it
@@ -651,7 +648,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 
 /client/proc/run_weather()
-	set category = "Game Master"
 	set name = "Run Weather"
 	set desc = ""
 	set hidden = 1 //Replaced by particle weather

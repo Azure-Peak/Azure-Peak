@@ -54,14 +54,16 @@
 
 /obj/item/rogueweapon/pick/bronze
 	name = "dolabra"
-	desc = "A so-called 'legionnaire's tool'; antiquated, but nevertheless beloved by many for its verastility. It offers an answer for labors both above-and-below, courtesy of its bronze axhead-and-picktip."
+	desc = "A so-called 'legionnaire's tool'; antiquated, but nevertheless beloved by many for its versatility. It offers an answer for labors both above-and-below, courtesy of its bronze axhead-and-picktip."
 	force = 20
 	force_wielded = 25
 	icon_state = "bronzepick"
-	possible_item_intents = list(/datum/intent/pick/bad, /datum/intent/axe/cut, /datum/intent/mace/strike, /datum/intent/till)
-	gripped_intents = list(/datum/intent/pick, /datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/strike)
+	possible_item_intents = list(/datum/intent/pick/bad, /datum/intent/axe/chop, /datum/intent/axe/cut, MACE_STRIKE)
+	gripped_intents = list(/datum/intent/pick, /datum/intent/axe/chop, /datum/intent/till, /datum/intent/flail/thresh)
 	max_integrity = 500
 	max_blade_int = 225
+	is_tool = TRUE
+	sharpness = IS_SHARP
 	smeltresult = /obj/item/ingot/bronze
 
 /obj/item/rogueweapon/pick/blacksteel

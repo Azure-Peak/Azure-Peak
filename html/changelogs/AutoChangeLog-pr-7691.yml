@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "The description text for TRAIT_MARRIAGE_CAPABLE now properly reflects how it works"

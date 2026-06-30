@@ -148,6 +148,18 @@
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_metalrepairkit
+	name = "Repair Kit, Metal"
+	path = /obj/item/repair_kit/metal/bad
+	triumph_cost = 5
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_clothrepairkit
+	name = "Repair Kit, Cloth"
+	path = /obj/item/repair_kit/bad
+	triumph_cost = 5
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_scabbardnoble
 	name = "Decorated Scabbard, Silver"
 	path = /obj/item/rogueweapon/scabbard/sword/noble

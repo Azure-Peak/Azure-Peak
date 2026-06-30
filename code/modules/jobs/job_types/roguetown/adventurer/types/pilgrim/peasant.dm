@@ -28,7 +28,7 @@
 
 /datum/outfit/job/roguetown/adventurer/peasant/pre_equip(mob/living/carbon/human/H)
 	..()
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	pants = /obj/item/clothing/under/roguetown/trou
 	head = /obj/item/clothing/head/roguetown/cap
@@ -72,3 +72,4 @@
 			else
 				r_hand = seeds[seed_choice]
 		H.set_blindness(0)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/blesscrop/secular)

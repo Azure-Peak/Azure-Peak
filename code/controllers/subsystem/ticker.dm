@@ -423,6 +423,7 @@ SUBSYSTEM_DEF(ticker)
 	log_game("GAME SETUP: Game start took [(world.timeofday - init_start)/10]s")
 	round_start_time = world.time
 	round_start_irl = REALTIMEOFDAY
+	GLOB.tod = FALSE
 //	SSshuttle.emergency.startTime = world.time
 //	SSshuttle.emergency.setTimer(ROUNDTIMERBOAT)
 

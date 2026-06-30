@@ -10,9 +10,6 @@
 	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 
-	click_to_activate = FALSE
-	self_cast_possible = TRUE
-
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_SB_POKE
 
@@ -49,6 +46,8 @@
 		return FALSE
 
 	var/turf/center = get_turf(H)
+	if(!center)
+		return FALSE
 
 	var/empowered = FALSE
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)

@@ -201,7 +201,6 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 		if(2)
 			neck = /obj/item/clothing/neck/roguetown/gorget
 			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron //So they have head armor
-	// Stopgap: archer roll removed because the ranged NPC AI is unreliable.
 	if(prob(45)) // whip
 		r_hand = /obj/item/rogueweapon/whip
 	else if(prob(50)) // dual falx
@@ -231,17 +230,17 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 		var/voicepack_choice = rand(1, 4)
 		switch(voicepack_choice)
 			if(1)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
 			if(2)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/stern()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 			if(3)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/foppish()
-				H.dna.species.soundpack_f = new /datum/voicepack/female/dainty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
 			if(4)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/wizard() //Aura
-				H.dna.species.soundpack_f = new /datum/voicepack/female/haughty()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard] //Aura
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 
 /mob/living/carbon/human/species/elf/dark/drowraider/archer
 	ai_controller = /datum/ai_controller/human_npc/archer

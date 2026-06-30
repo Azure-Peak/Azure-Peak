@@ -1483,61 +1483,91 @@
 /obj/item/clothing/neck/roguetown/carved
 	name = "carved amulet"
 	desc = "You shouldn't be seeing this."
-	icon_state = "psycross_w"
-	item_state = "psycross_w"
-	slot_flags = ITEM_SLOT_NECK
+	icon_state = "amulet_jade"
+	item_state = "amulet_jade"
 	sellprice = 0
 	salvage_result = null
 	smeltresult = null
 	no_loot_taint = TRUE
+	resistance_flags = FIRE_PROOF
+	slot_flags = ITEM_SLOT_NECK|ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
+	possible_item_intents = list(/datum/intent/use)
+	experimental_onhip = TRUE
+	anvilrepair = /datum/skill/craft/armorsmithing
+	grid_width = 32
+	grid_height = 32
+	/// Used to see whether or not we display the wrist icon or the neck icon regardless.
+	var/wrist_display = FALSE
+
+/obj/item/clothing/neck/roguetown/carved/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	..()
+
+	if(slot == SLOT_WRISTS || (wrist_display && slot != SLOT_NECK))
+		mob_overlay_icon = 'icons/roguetown/clothing/onmob/wrists.dmi'
+		sleeved = 'icons/roguetown/clothing/onmob/wrists.dmi'
+	else
+		mob_overlay_icon = initial(mob_overlay_icon)
+		sleeved = initial(sleeved)
+
+	return TRUE
+
+/obj/item/clothing/neck/roguetown/carved/attack_right(mob/user)
+	if(!ismob(loc))
+		return ..()
+
+	wrist_display = !wrist_display
+	to_chat(user, span_info("You adjust \the [src] to [wrist_display ? "display on your wrists" : "display around your neck"]."))
+	if(wrist_display)
+		mob_overlay_icon = 'icons/roguetown/clothing/onmob/wrists.dmi'
+		sleeved = 'icons/roguetown/clothing/onmob/wrists.dmi'
+	else
+		mob_overlay_icon = initial(mob_overlay_icon)
+		sleeved = initial(sleeved)
+
+	if(isliving(loc))
+		var/mob/living/L = loc
+		L.regenerate_clothes()
+	return ..()
 
 /obj/item/clothing/neck/roguetown/carved/jadeamulet
 	name = "jade amulet"
-	desc = "An amulet carved from jade."
+	desc = "A beautiful amulet carved from jade, donnable on both the neck and wrist."
 	icon_state = "amulet_jade"
-	slot_flags = ITEM_SLOT_NECK
 
 /obj/item/clothing/neck/roguetown/carved/turqamulet
 	name = "cerulite amulet"
-	desc = "An amulet carved from cerulite."
+	desc = "A beautiful amulet carved from cerulite, donnable on both the neck and wrist."
 	icon_state = "amulet_turq"
-	slot_flags = ITEM_SLOT_NECK
 
 /obj/item/clothing/neck/roguetown/carved/onyxaamulet
 	name = "onyxa amulet"
-	desc = "An amulet carved from onyxa."
+	desc = "A beautiful amulet carved from onyxa, donnable on both the neck and wrist."
 	icon_state = "amulet_onyxa"
-	slot_flags = ITEM_SLOT_NECK
 
 /obj/item/clothing/neck/roguetown/carved/coralamulet
 	name = "heartstone amulet"
-	desc = "An amulet carved from heartstone."
+	desc = "A beautiful amulet carved from heartstone, donnable on both the neck and wrist."
 	icon_state = "amulet_coral"
-	slot_flags = ITEM_SLOT_NECK
 
 /obj/item/clothing/neck/roguetown/carved/amberamulet
 	name = "amber amulet"
-	desc = "An amulet carved from amber."
+	desc = "A beautiful amulet carved from amber, donnable on both the neck and wrist."
 	icon_state = "amulet_amber"
-	slot_flags = ITEM_SLOT_NECK
 
 /obj/item/clothing/neck/roguetown/carved/opalamulet
 	name = "opal amulet"
-	desc = "An amulet carved from opal."
+	desc = "A beautiful amulet carved from opal, donnable on both the neck and wrist."
 	icon_state = "amulet_opal"
-	slot_flags = ITEM_SLOT_NECK
 
 /obj/item/clothing/neck/roguetown/carved/roseamulet
 	name = "rosestone amulet"
-	desc = "An amulet carved from rosestone."
+	desc = "A beautiful amulet carved from rosestone, donnable on both the neck and wrist."
 	icon_state = "amulet_rose"
-	slot_flags = ITEM_SLOT_NECK
 
 /obj/item/clothing/neck/roguetown/carved/shellamulet
 	name = "shell amulet"
-	desc = "An amulet carved from shells."
+	desc = "A beautiful amulet carved from shells, donnable on both the neck and wrist."
 	icon_state = "amulet_shell"
-	slot_flags = ITEM_SLOT_NECK
 
 /obj/item/clothing/neck/roguetown/collar/prisoner
 	name = "castifico collar"

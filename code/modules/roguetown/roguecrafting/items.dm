@@ -29,25 +29,25 @@
 		/obj/item/natural/fibers = 2,
 		/obj/item/rope = 1,
 		)
-	craftdiff = 3
+	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/survival/repairkitmetalingot
-	name = "empty metal kit (iron bar)"
+	name = "empty metal repair kit (iron bar)"
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	result = /obj/item/armorkit_empty
 	reqs = list(
 		/obj/item/ingot/iron = 1,
 		)
-	craftdiff = 3
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/survival/repairkitmetalscrap
-	name = "empty metal kit (scrap)"
+	name = "empty metal repair kit (iron scrap)"
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	result = /obj/item/armorkit_empty
 	reqs = list(
 		/obj/item/scrap = 3,
 		)
-	craftdiff = 3
+	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/survival/repairkitcloth
 	name = "sewing kit"
@@ -79,6 +79,15 @@
 	verbage = "sews"
 	craftdiff = 0
 
+/datum/crafting_recipe/roguetown/survival/clothbelt/upgraded
+	name = "pouch-fitted cloth belt"
+	result = /obj/item/storage/belt/rogue/leather/cloth/upgraded
+	reqs = list(/obj/item/storage/belt/rogue/leather/cloth = 1,
+				/obj/item/storage/belt/rogue/pouch = 1)
+	craftdiff = 1
+	verbage_simple = "tie"
+	verbage = "tie"
+
 /datum/crafting_recipe/roguetown/survival/clothbelt
 	name = "cloth belt"
 	result = /obj/item/storage/belt/rogue/leather/cloth
@@ -107,6 +116,15 @@
 	result = /obj/item/storage/belt/rogue/leather/rope
 	reqs = list(/obj/item/rope = 1)
 	craftdiff = 0
+	verbage_simple = "tie"
+	verbage = "ties"
+
+/datum/crafting_recipe/roguetown/survival/ropebelt/upgraded
+	name = "pouch-fitted rope belt"
+	result = /obj/item/storage/belt/rogue/leather/rope/upgraded
+	reqs = list(/obj/item/storage/belt/rogue/leather/rope = 1,
+				/obj/item/storage/belt/rogue/pouch = 1)
+	craftdiff = 1
 	verbage_simple = "tie"
 	verbage = "ties"
 

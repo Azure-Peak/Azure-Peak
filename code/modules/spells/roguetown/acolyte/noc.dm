@@ -178,7 +178,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	ignore_stealth_reveal = TRUE
+	ignore_combat_tag = TRUE
 
 /datum/action/cooldown/spell/noc/invisibility/cast(atom/cast_on)
 	. = ..()

@@ -211,7 +211,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/miracle = FALSE
 	var/devotion_cost = 0
 	var/ignore_cockblock = FALSE //whether or not to ignore TRAIT_SPELLCOCKBLOCK
-	var/ignore_stealth_reveal = FALSE
+	var/ignore_combat_tag = FALSE
 	action_icon_state = "spell0"
 	action_icon = 'icons/mob/actions/roguespells.dmi'
 	action_background_icon_state = ""
@@ -605,9 +605,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			if(L.has_status_effect(/datum/status_effect/buff/clash))
 				var/mob/living/carbon/human/H = user
 				H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
-			if(!ignore_stealth_reveal)
-				if(L.get_skill_level(/datum/skill/misc/sneaking) >= SKILL_LEVEL_JOURNEYMAN || HAS_TRAIT(L, TRAIT_LIGHT_STEP))
-					L.apply_status_effect(/datum/status_effect/stealth_revealed)
+			if(!ignore_combat_tag)
+				L.changeNext_inCombat(IN_COMBAT_DELAY)
 		if(action)
 			action.build_all_button_icons()
 		return TRUE
@@ -927,6 +926,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			else
 				playsound(get_turf(target), pick(target.parry_sound), 100)
 		target.apply_status_effect(/datum/status_effect/buff/parry_buffer)
+		target.apply_status_effect(/datum/status_effect/buff/emberward)
 		if(attacker != target)
 			target.apply_status_effect(/datum/status_effect/buff/adrenaline_rush/ranged)
 		guard.deflected_spell = TRUE

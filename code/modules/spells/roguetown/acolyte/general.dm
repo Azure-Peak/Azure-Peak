@@ -1,3 +1,6 @@
+#define BASE_HEALING_PER_TICK 3
+#define MAX_BONUS_HEAL 0.5
+
 /datum/action/cooldown/spell/miracle
 	background_icon = 'icons/mob/actions/genericmiracles.dmi'
 	button_icon = 'icons/mob/actions/genericmiracles.dmi'
@@ -107,11 +110,11 @@
 
 	H.patron.on_lesser_heal(owner, spelltarget, &message_out, &message_self, &conditional_buff, &situational_bonus, &is_inhumen)
 
-	var/healing = 2.5
+	var/healing = BASE_HEALING_PER_TICK
 
 	if(conditional_buff)
 		to_chat(owner, "Channeling my patron's power is easier in these conditions!")
-		healing += situational_bonus
+		healing += min(MAX_BONUS_HEAL, situational_bonus)
 
 	if(!ishuman(spelltarget))
 		spelltarget.apply_status_effect(/datum/status_effect/buff/healing, healing, is_inhumen)
@@ -167,7 +170,7 @@
 	invocation_type = INVOCATION_NONE
 
 	charge_required = FALSE
-	cooldown_time = 30 SECONDS
+	cooldown_time = 45 SECONDS
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
@@ -200,8 +203,9 @@
 	if(iscarbon(spelltarget) && !spelltarget.has_status_effect(/datum/status_effect/buff/fortify))
 		spelltarget.apply_status_effect(/datum/status_effect/buff/fortify)
 	else
-		spelltarget.adjustBruteLoss(-50)
-		spelltarget.adjustFireLoss(-50)
+		spelltarget.adjustBruteLoss(-25)
+		spelltarget.adjustFireLoss(-25)
+		spelltarget.adjustOxyLoss(-15)
 
 	return TRUE
 
@@ -382,3 +386,6 @@
 		bloodbeam.End()
 		return TRUE
 	return FALSE
+
+#undef BASE_HEALING_PER_TICK
+#undef MAX_BONUS_HEAL

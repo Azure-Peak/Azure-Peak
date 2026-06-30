@@ -153,6 +153,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/goblinp,\
 	/datum/species/dullahan,\
 	/datum/species/dwarf/gnome,\
+	/datum/species/construct/metal,\
 	/datum/species/ooze,\
 
 // All but elves & half-elves.
@@ -177,6 +178,7 @@ Balloon Alert / Floating Text defines
 	/datum/species/goblinp,\
 	/datum/species/dullahan,\
 	/datum/species/dwarf/gnome,\
+	/datum/species/construct/metal,\
 	/datum/species/ooze,\
 
 // All but dwarves.
@@ -203,6 +205,8 @@ Balloon Alert / Floating Text defines
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
 	/datum/species/dullahan,\
+	/datum/species/dwarf/gnome,\
+	/datum/species/construct/metal,\
 	/datum/species/ooze,\
 
 // All but Dwarves, Gnomes, Kobolds, D. Elves, Oozes, Moths & Anthrosmall

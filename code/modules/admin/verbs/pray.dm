@@ -1,5 +1,4 @@
 /mob/verb/pray(msg as text)
-	set category = "IC"
 	set name = "Pray"
 	set hidden = 1
 	if(!usr.client.holder)

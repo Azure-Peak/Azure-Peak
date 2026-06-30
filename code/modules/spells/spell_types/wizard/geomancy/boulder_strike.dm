@@ -60,6 +60,8 @@
 
 /obj/projectile/magic/boulder/on_hit(target)
 	. = ..()
+	if(out_of_effective_range())
+		return
 	var/turf/impact = get_turf(src)
 	if(!impact)
 		return

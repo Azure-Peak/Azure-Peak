@@ -685,10 +685,16 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			if(rotstuff)
 				head_quality = -1
 			head.scale_butchering_quality(head_quality)
+			if(no_head_bounty)
+				head.sellprice = 0
 		to_chat(user, "<span class='notice'>I finish butchering: [butcher_summary(botch_count, normal_count, perfect_count, botch_chance, perfect_chance)].</span>")
 		if(user.mind)
 			user.mind.add_sleep_experience(/datum/skill/labor/butchering, user.STAINT * BUTCHERING_EXP_FINISH)
 		gib()
+
+/mob/living/simple_animal/mark_contract_spawned()
+	. = ..()
+	head_butcher = null
 
 /mob/living/proc/butcher_summary(botch_count, normal_count, perfect_count, botch_chance, perfect_chance)
     var/list/parts = list()

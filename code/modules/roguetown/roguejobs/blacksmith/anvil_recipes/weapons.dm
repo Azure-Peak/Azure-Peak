@@ -1690,40 +1690,41 @@
 // HOLY STEEL
 
 /datum/anvil_recipe/weapons/holysteel/church_longsword
-	name = "Longsword, Templaric"
+	name = "Longsword, Templaric (+1 Amulet of Ten)"
 	req_bar = /obj/item/ingot/steelholy
+	additional_items = /obj/item/clothing/neck/roguetown/psicross/undivided
 	created_item = /obj/item/rogueweapon/sword/long/church
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holysteel/church_spear
-	name = "Spear, Templaric (+1 Holy Steel)"
+	name = "Spear, Templaric (+1 Holy Steel, +1 Amulet of Ten)"
 	req_bar = /obj/item/ingot/steelholy
-	additional_items = list(/obj/item/ingot/steelholy)
+	additional_items = list(/obj/item/ingot/steelholy, /obj/item/clothing/neck/roguetown/psicross/undivided)
 	created_item = /obj/item/rogueweapon/spear/holysee
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holysteel/decasword
-	name = "Longsword, Decablessed (+1 Holy Steel)"
+	name = "Longsword, Decablessed (+1 Holy Steel, +1 Amulet of Ten)"
 	req_bar = /obj/item/ingot/steelholy
-	additional_items = list(/obj/item/ingot/steelholy)
+	additional_items = list(/obj/item/ingot/steelholy, /obj/item/clothing/neck/roguetown/psicross/undivided)
 	created_item = /obj/item/rogueweapon/sword/long/undivided
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holysteel/decashield
-	name = "Shield, Decablessed (+1 Holy Steel)"
+	name = "Shield, Decablessed (+1 Holy Steel, +1 Amulet of Ten)"
 	req_bar = /obj/item/ingot/steelholy
-	additional_items = list(/obj/item/ingot/steelholy)
+	additional_items = list(/obj/item/ingot/steelholy, /obj/item/clothing/neck/roguetown/psicross/undivided)
 	created_item = /obj/item/rogueweapon/shield/tower/holysee
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holysteel/malum_sword
-	name = "Malumite Flamberge (+2 Holy Steel)"
+	name = "Malumite Flamberge (+2 Holy Steel, +1 Amulet of Malum)"
 	req_bar = /obj/item/ingot/steelholy
-	additional_items = list(/obj/item/ingot/steelholy, /obj/item/ingot/steelholy)
+	additional_items = list(/obj/item/ingot/steelholy, /obj/item/ingot/steelholy, /obj/item/clothing/neck/roguetown/psicross/malum)
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/malum
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 	i_type = "Weapons"
@@ -1792,7 +1793,7 @@
 /datum/anvil_recipe/weapons/psy/cudgelmace
 	name = "Psydonic Handmace (+1 Small Log)"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/rogueweapon/mace/cudgel/psyclassic
+	created_item = /obj/item/rogueweapon/mace/cudgel/psy
 	display_category = ITEM_CAT_WEAPONS_MACES
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"
@@ -1897,7 +1898,7 @@
 /datum/anvil_recipe/weapons/psy/cudgelmace/inq
 	name = "Psydonic Handmace (+1 Small Log)"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/rogueweapon/mace/cudgel/psyclassic
+	created_item = /obj/item/rogueweapon/mace/cudgel/psy
 	display_category = ITEM_CAT_WEAPONS_MACES
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"
@@ -2045,6 +2046,13 @@
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/ruby, /obj/item/natural/silk)
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+
+/datum/anvil_recipe/weapons/blacksteel/longword
+	name = "Blacksteel Longsword (+1 Blacksteel, +1 Saffira, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/violet, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/sword/long/blacksteel
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 // AVANTYNE

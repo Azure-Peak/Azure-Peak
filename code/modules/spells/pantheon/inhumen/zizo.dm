@@ -188,6 +188,8 @@
 		qdel(src)
 		return BULLET_ACT_BLOCK
 
+	if(out_of_effective_range())
+		return
 	try_embed_target(L)
 	qdel(src)
 
@@ -265,167 +267,58 @@
 	primary_resource_cost = 100
 	secondary_resource_cost = 100
 	sound = 'sound/magic/swap.ogg'
-
+	var/exploit_this
 
 /datum/action/cooldown/spell/zizo/rituos/cast(atom/cast_on)
 	. = ..()
+
 	if(!ishuman(owner))
 		return FALSE
 
 	var/mob/living/carbon/human/user = owner
+
+	// exploit protection / backlash
+	if(exploit_this)
+		user.zizo_spam_rejection()
+		cooldown_time = 99 MINUTES
+		return TRUE
+
+	exploit_this = TRUE
+
 	var/path_choice = tgui_alert(user, "What path of the Lesser Work do you seek?", "THE LESSER WORK", list("Progress", "Unlife", "Cancel"))
+
 	if(!path_choice || path_choice == "Cancel")
 		reset_spell_cooldown()
+		exploit_this = FALSE
+		return TRUE
+	
+	if(user.stat != CONSCIOUS)
 		return FALSE
 
 	user.visible_message(span_boldwarning("[user] throws back [user.p_their()] head, arcyne energy crackling across [user.p_their()] body!"))
-
 	user.grant_language(/datum/language/undead)
 
-	var/list/chant_lines
-	switch(path_choice)
-		if("Progress")
-			chant_lines = list(
-				",w ZIZO! ZIZO! ZIZO! GRANT ME INSIGHT UNSHACKLED!",
-				",w STRIP ME OF STAGNATION AND IGNORANCE!",
-				",w BREAK THE CHAINS OF FALSE UNDERSTANDING!",
-				",w LET REVELATION FLOOD THIS FRAIL MIND!",
-				",w I OFFER THIS MIND TO COMPLETE THY WORK!",
-			)
-		if("Unlife")
-			chant_lines = list(
-				",w ZIZO! ZIZO! ZIZO! FLENSE FLESH FROM MY BONE!",
-				",w STRIP ME OF MORTALITY'S SHACKLE!",
-				",w LET THIS FRAIL MORTALITY FALL AWAY FROM PURPOSE!",
-				",w REMAKE ME IN DEATH'S ENDURING IMAGE!",
-				",w I OFFER THIS VESSEL TO COMPLETE THY WORK!",
-			)
-
-	for(var/i in 1 to length(chant_lines))
-		user.say(chant_lines[i], forced = "spell", language = /datum/language/common)
-		user.adjustBruteLoss(15)
-		if(path_choice == "Progress")
-			user.emote(pick("whimper", "painmoan", "gag", "choke"))
-		else
-			user.emote(pick("painscream", "agony", "paincrit", "choke"))
-		if(i > 1)
-			var/shakecap = min(i * 2, 3)
-			shake_camera(user, shakecap, i)
-		if(!do_after(user, 3 SECONDS, target = user))
-			to_chat(user, span_warning("The ritual collapses. Zizo's gaze turns away."))
-			return FALSE
+	if(!src.run_ritual_chant(user, path_choice))
+		exploit_this = FALSE
+		return TRUE
 
 	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
 
 	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
 		user.zizo_vampire_rejection()
-		return FALSE
+		exploit_this = FALSE
+		return TRUE
 
 	switch(path_choice)
-		if("Progress") // support path, your mind is twisted in Her design
-			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
-			if(user.mind)
-				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
-				ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]") // so you can commit atrocities with a smile
-				ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]") // the progress palooza to let you grind more efficiently
-				ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]") // also fitting for the progress vibe, way more balanced than the specialist traits IMO
-				ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]") // zizo is watching you now :)
-				grant_poke_spell(user)
-			user.visible_message(span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"), span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!"))
-
-		if("Unlife") // combat path, your body is now carries undeath resilience
-			user.mob_biotypes |= MOB_UNDEAD
-			ADD_TRAIT(user, TRAIT_NOMOOD, "[type]") // undead apathy
-			ADD_TRAIT(user, TRAIT_NOPAIN, "[type]") // you have no flesh
-			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]") // you have no stomach
-			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]") // you have no lungs
-			ADD_TRAIT(user, TRAIT_TOXIMMUNE, "[type]") // just in case NOBLOOD is not enough
-			ADD_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE, "[type]") // just in case NOBLOOD is not enough
-			ADD_TRAIT(user, TRAIT_LIMBATTACHMENT, "[type]") // cause old Rituos let you recreate your skeleton limbs, but since this one deletes the spell after use, this is the best way to make it level
-			ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]") // cause it makes no sense
-			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]") // must have
-			ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]") // zizo is watching you now :)
-			for(var/obj/item/bodypart/part as anything in user.bodyparts)
-				if(istype(part, /obj/item/bodypart/head))
-					continue
-				part.skeletonize(FALSE)
-				user.update_body_parts()
-				playsound(user.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
-				sleep(15)
-			var/obj/item/bodypart/torso = user.get_bodypart(BODY_ZONE_CHEST)
-			playsound(user.loc, 'sound/misc/lava_death.ogg', 100, FALSE)
-			torso?.skeletonize(FALSE)
-			user.update_body_parts()
-			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
-			if(user.mind)
-				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
-				user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
-				user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
-				grant_poke_spell(user)
-			user.visible_message(span_boldwarning("[user]'s skin and flesh burns away in necrotic flames, revealing bare bone beneath as [user.p_they()] [user.p_are()] consumed by the Lesser Work!"), span_notice("THE LESSER WORK IS DONE! My flesh is forfeit - and death itself answers my call!"))
-			to_chat(user, span_purple("You finished Rituos to perfection, you should be a full-fledged Lich now, but..."))
-			sleep(30)
-			to_chat(user, "<i>...Vestiges of mortality still cling to me...? Why?</i>")
+		if("Progress")
+			src.apply_progress_path(user)
+		if("Unlife")
+			src.apply_unlife_path(user)
 
 	user.mind?.RemoveSpell(src)
 	qdel(src)
+	exploit_this = FALSE
 	return TRUE
-
-/mob/living/carbon/human/proc/zizo_vampire_rejection()
-	visible_message(span_userdanger("[src]'s body suddenly convulses as the Lesser Work reaches completion!<br>"), span_userdanger("The Work rejects my cursed blood!<br>"))
-	to_chat(src, span_artery("<br><br>OH. WONDERFUL. I KNOW WHAT YOU ARE ATTEMPTING.<br><br>"))
-	sleep(40)
-	to_chat(src, span_artery("YOU THINK SO LITTLE OF MY WORK? INSOLENT FOOL.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("YOU HAVE NOT DISCOVERED SOME HIDDEN TRUTH.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("YOU HAVE NOT FOUND A LOOPHOLE.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("YOU HAVE NOT OUTWITTED ME.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("YOU HAVE MERELY WASTED MY TIME.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("MY PRECIOUS TIME.<br><br>"))
-	sleep(20)
-	to_chat(src, span_artery("SO. ALLOW ME TO REPAY THE FAVOR."))
-	Stun(40)
-	Knockdown(40)
-	emote("superagony")
-	playsound(get_turf(src), 'sound/misc/zizo.ogg', 200)
-	to_chat(src, span_userdanger("--MY LUX IS BEING TORN OFF THROUGH MY HEAD!! MY HEAD!! MYHEADMYHEADMYHEADMYHEADMYHEHEAHEHEA!!"))
-	ADD_TRAIT(src, TRAIT_DNR, "zizo_rejection")
-	sleep(50)
-	playsound(get_turf(src), 'sound/magic/churn.ogg', 200)
-	playsound(get_turf(src), 'sound/combat/dismemberment/dismem (2).ogg', 100)
-	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
-	head?.skeletonize(TRUE)
-	update_body()
-	visible_message(span_userdanger("[src] SCREAMS in UNBELIEVABLE AGONY as the flesh of [src.p_their()] face is TORN AWAY in a single horrific instant, leaving only an empty, grinning and limp skull..."),)
-	sleep(20)
-	visible_message(span_artery("Their Lux has been completely and utterly annihilated..."))
-
-/datum/action/cooldown/spell/zizo/rituos/proc/grant_poke_spell(mob/living/carbon/human/user)
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
-	var/poke_choice = tgui_input_list(user, "Choose your offensive cantrip.", "Arcyne Awakening", poke_options)
-	if(!poke_choice || !user.mind)
-		return
-	switch(poke_choice)
-		if("Spitfire")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
-		if("Frost Bolt")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
-		if("Arc Bolt")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
-		if("Greater Arcyne Bolt")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
-		if("Stygian Efflorescence")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
-		if("Arcyne Lance")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
-		if("Lesser Gravel Blast")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
-		if("Lesser Soulshot")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 
 /// T3: Bone Cataclysm - Pretty much pops your summons into sad remains of their former selves. Shouldn't do a lot of damage, but it frags someone with bone splinters if they're close enough.
 /datum/action/cooldown/spell/zizo/bone_cataclysm

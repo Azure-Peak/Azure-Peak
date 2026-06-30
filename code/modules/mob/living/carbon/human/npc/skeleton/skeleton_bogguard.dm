@@ -47,6 +47,19 @@
 	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
 
+/mob/living/carbon/human/species/skeleton/npc/bogguard/archer
+	threat_point = THREAT_LOW
+	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/archer
+
+/datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	name = "Skeleton Archer"
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/quiver/randomfill/skeleton
+	H.STAPER = 13
+	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+
 /mob/living/carbon/human/species/skeleton/npc/bogguard/master
 	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/master
 

@@ -355,7 +355,7 @@ All foods are distributed among various categories. Use common sense.
 					if (FARE_POOR to FARE_LAVISH)
 						eater.remove_stress(/datum/stressevent/noble_bland_food)
 
-	if(eat_effect && apply_effect)
+	if(eat_effect && apply_effect && bitecount >= bitesize)
 		eater.apply_status_effect(eat_effect)
 		if(extra_eat_effect)
 			eater.apply_status_effect(extra_eat_effect)

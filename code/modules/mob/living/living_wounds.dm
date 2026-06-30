@@ -62,7 +62,7 @@
 /mob/living/proc/heal_wounds(heal_amount, list/specific_types)
 	var/healed_any = FALSE
 	if(has_status_effect(/datum/status_effect/buff/fortify))
-		heal_amount *= 1.5
+		heal_amount *= 1.3
 	for(var/datum/wound/wound as anything in get_wounds())
 		if(isnull(wound))
 			continue

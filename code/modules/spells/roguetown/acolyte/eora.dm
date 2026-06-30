@@ -632,7 +632,7 @@
 		update_icon()
 		return TRUE
 
-	if(istype(I, /obj/item/rogueweapon/huntingknife/scissors))
+	if(/datum/intent/snip in I.possible_item_intents)
 		if(prune_count >= 4)
 			to_chat(user, span_warning("The tree has been fully pruned already!"))
 			return TRUE

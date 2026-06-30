@@ -57,6 +57,14 @@
 	armor = ARMOR_CLOTHING
 	grid_height = 64
 
+/obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph/azure
+	detail_color = COLOR_WHITE
+	color = COLOR_WHITE
+
+/obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph/raneshen
+	detail_color = COLOR_RED
+	color = COLOR_WHITE
+
 /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch //For the consort and apparently one migrant wave
 	desc = "A thick, padded, and comfortable dress to maintain both temperature and safety when leaving the keep."
 	armor = ARMOR_PADDED

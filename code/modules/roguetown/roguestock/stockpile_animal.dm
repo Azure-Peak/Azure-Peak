@@ -8,6 +8,86 @@
 	stockpile_limit = 50
 	category = "Animal"
 
+/datum/roguestock/stockpile/rat
+	name = "Lesser Meat"
+	desc = "Barely edible flesh harvested from rous."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rat
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/deer
+	name = "Venison"
+	desc = "Delicious and edible flesh harvested from saiga or deer."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/deer_ribs
+	name = "Venison Ribs"
+	desc = "Edible ribs harvested from saiga or deer."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/deer_loins
+	name = "Venison Loins"
+	desc = "Edible loins harvested from saiga or deer."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/volf
+	name = "Bushmeat"
+	desc = "Barely edible flesh harvested from volfs."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/bear
+	name = "Greater Bushmeat"
+	desc = "Barely edible flesh harvested from bears."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/spider
+	name = "Bogmeat"
+	desc = "Barely edible flesh harvested from mirelurkers."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/crabbo
+	name = "Crab Meat"
+	desc = "Edible flesh harvested from crabs."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/crab
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	category = "Seafood"
+
 /datum/roguestock/stockpile/poultry
 	name = "Bird Meat"
 	desc = "Edible flesh harvested from birds."
@@ -56,6 +136,16 @@
 	stockpile_limit = 25
 	category = "Animal"
 
+/datum/roguestock/stockpile/bones
+	name = "Bones"
+	desc = "A good stock for soup and other things."
+	item_type = /obj/item/natural/bone
+	trade_good_id = TRADE_GOOD_BONES
+	stockpile_amount = 0
+	importexport_amt = 0
+	stockpile_limit = 50
+	category = "Animal"
+
 /datum/roguestock/stockpile/fat
 	name = "Fat"
 	desc = "Greasy flesh from an animal."
@@ -73,6 +163,16 @@
 	trade_good_id = TRADE_GOOD_TALLOW
 	importexport_amt = 5
 	stockpile_limit = 25
+	category = "Animal"
+
+/datum/roguestock/stockpile/honey
+	name = "Honey"
+	desc = "Sweet delicious from a sweet place."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/honey
+	trade_good_id = TRADE_GOOD_HONEY
+	stockpile_amount = 1
+	importexport_amt = 5
+	stockpile_limit = 15
 	category = "Animal"
 
 /datum/roguestock/stockpile/egg

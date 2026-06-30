@@ -425,11 +425,6 @@
 	name = "Donator Kit - Decorated Sabre"
 	path = /obj/item/enchantingkit/weapon/maesune_sabre
 
-/datum/loadout_item/donator/nerocavalier
-	name = "Donator Kit - Blacksteel Longsword"
-	path = /obj/item/enchantingkit/weapon/noire_flsword
-	ckeywhitelist = list("nerocavalier")
-
 /datum/loadout_item/donator/walkthewaste
 	name = "Donator Item - Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/walkthewaste
@@ -446,7 +441,7 @@
 	ckeywhitelist = list("scidragon")
 
 /datum/loadout_item/donator/aisuwand
-    name = "Donator Kit - Crystalline Wand"
+    name = "Donator Kit - Crystalline Rapier"
     path = /obj/item/enchantingkit/aisuwand
     ckeywhitelist = list("aisu9")
 
@@ -458,6 +453,11 @@
 /datum/loadout_item/donator/aeternum
 	name = "Donator Item - Aeternum"
 	path = /obj/item/enchantingkit/weapon/aeternum
+	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/crown_hat
+	name = "Donator Item - Crown Hat"
+	path = /obj/item/clothing/head/roguetown/crown_hat
 	ckeywhitelist = list("nauticall")
 
 /datum/loadout_item/donator/porcelainmask
@@ -558,3 +558,14 @@
 	name = "Donator Kit - Shoulderless Haubergeon"
 	path = /obj/item/enchantingkit/ollanius_maille
 	ckeywhitelist = list("ollanius")
+
+/datum/loadout_item/donator/jade_guitar
+	name = "Donator Item - Gilbranzed Guitar"
+	path = /obj/item/rogue/instrument/guitar/jade_guitar
+	ckeywhitelist = list("jademanique")
+
+/datum/loadout_item/donator/olygsword
+    name = "Donator Kit - Gre'as'anto d'Shar"
+    path = /obj/item/enchantingkit/olygsword
+    ckeywhitelist = list("olympus7")
+	

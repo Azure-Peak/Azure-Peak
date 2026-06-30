@@ -807,7 +807,7 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
 //Strudles donator item - mage vest, xylix tabard, etruscan cloak, and formfitted gambeson
-/obj/item/clothing/suit/roguetown/shirt/sofiavest
+/obj/item/clothing/cloak/tabard/stabard/surcoat/sofiavest
 	name = "grenzelhoftian mages vest"
 	desc = "A vest often worn by those of the Grenzelhoftian mages college."
 	icon_state = "sofiavest"
@@ -1346,12 +1346,14 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_weapons.dmi'
 
 //NEROCAVALIER
+/* -- REMOVED BY REQUEST. KEPT FOR POSTERITY. NOW USED AS "BLACKSTEEL LONGSWORD".
 /obj/item/rogueweapon/nerocavalier/flsword
 	name = "blacksteel longsword"
 	desc = "A sleek blade of a dark, and burnished hue. A handle carved from a rosawood branch. A pairing that should sing a melody sweeter than any harp as it parts the air.. and yet, beautiful it may be, it is not worthy of song."
 	icon_state = "flsword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	bigboy = TRUE
+*/
 
 //WALKTHEWASTE
 /obj/item/clothing/head/roguetown/mentorhat/walkthewaste
@@ -1378,14 +1380,14 @@ As Excaliber."
 	. = ..()
 	AddComponent(/datum/component/ignitable/fluff/sci_sand)
 
-/obj/item/rogueweapon/wand/aisu
-	base_implement_name = "crystalline wand"
-	name = "crystalline wand"
-	desc = "A crystalline wand, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
+/obj/item/rogueweapon/sword/rapier/aisu
+	base_implement_name = "crystalline rapier"
+	name = "crystalline rapier"
+	desc = "A crystalline rapier, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
 	icon_state = "aisuwand"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 
-/obj/item/rogueweapon/wand/aisu/getonmobprop(tag)
+/obj/item/rogueweapon/rapier/aisu/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
@@ -1413,6 +1415,30 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "aeternum"
 	bigboy = TRUE
+
+/obj/item/clothing/head/roguetown/crown_hat
+	name = "crown hat"
+	desc = "Oft worn in place of a crown, this hat is the signature headwear of the Grand Duke. Its iconic feather stretches tall above its peers."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "shenara_hat"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_SCARLET
+	adjustable = CAN_CADJUST
+
+/obj/item/clothing/head/roguetown/crown_hat/Initialize()
+	. = ..()
+	AddComponent(/datum/component/adjustable_clothing, null, null, null, null, null, UPD_HEAD)
+	update_icon()
+
+/obj/item/clothing/head/roguetown/crown_hat/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 //KETRAI
 /obj/item/clothing/head/roguetown/octopus
@@ -1620,3 +1646,25 @@ As Excaliber."
 	item_state = "ollanius_hoeburk"
 	icon_state = "ollanius_hoeburk"
 	flags_inv = HIDEBOOB
+
+// JADEMANIQUE 
+
+/obj/item/rogue/instrument/guitar/jade_guitar
+	name = "Gilbranzed Guitar"
+	desc = "\"A sturdy guitar with gilded strings, as well as numerous nicks and scratches, poorly hidden under loving maintenance \
+	The gilbranze fastens seem to be of museum quality, with a touchmark in the form of the initials 'AWE' on one end.\""
+	icon = 'icons/obj/items/donor_music.dmi'
+	icon_state = "gilbranzeguitar"
+
+// OLYMPUS7
+/obj/item/rogueweapon/greatsword/olygsword
+    name = "Gre'as'anto d'Shar"
+    desc = "A profoundly lavish, late 14th century royal Yuethindrynn kriegsmesser, reforged with Hammerholdian bluntness into a \
+    greatsword impregnated with dark alloy threads    that knit together forming cracks.\
+    From the wielder’s perspective,<i>Dro'xun phor jal dkinoss.</i> is engraved as a reminder.\
+    The center piece of The crossguard features a clan emblem of a shattered symbol of progress held together by arcane energy, \
+    in place of the intersection of the cross is a slited eye within a halo, the arms of the cross are triangular.\
+    This is not a blade of faith or morals, it is a tool with a purpose to it's user."
+    icon = 'icons/obj/items/donor_weapons_64.dmi'
+    icon_state = "olygsword"
+    bigboy = TRUE

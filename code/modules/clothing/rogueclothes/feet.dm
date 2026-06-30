@@ -27,6 +27,7 @@
 	var/atom/movable/holdingknife = null
 	salvage_amount = 1
 	armor = ARMOR_CLOTHING
+	salvage_result = /obj/item/natural/hide/cured
 
 /obj/item/clothing/shoes/roguetown/boots/examine(mob/user)
 	. = ..()
@@ -59,6 +60,7 @@
 	name = "decrepit boots"
 	desc = "Frayed bronze greaves, shingled atop boots of rotted leather. The toebones of its former legionnaire remain within, rattling about with every step taken."
 	max_integrity = 40
+	armor = ARMOR_BRONZE
 	icon_state = "ancientboots"
 	smeltresult = /obj/item/ingot/aaslag
 	color = "#bb9696"
@@ -185,13 +187,15 @@
 	gender = PLURAL
 	icon_state = "sandals"
 	item_state = "sandals"
-	sewrepair = TRUE
+	salvage_amount = 1
+	salvage_result = /obj/item/natural/cloth
 
 /obj/item/clothing/shoes/roguetown/sandals/aalloy
 	name = "decrepit sandals"
 	desc = "Frayed bronze platforms, curled about to cradle the feet. The beaches that these sandals once treaded are no more; pearly sands, long since turnt to glass from the Comet Syon's impact."
 	icon_state = "ancientsandals"
 	color = "#bb9696"
+	armor = ARMOR_LEATHER
 
 /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	name = "ancient sandals"
@@ -203,11 +207,13 @@
 
 /obj/item/clothing/shoes/roguetown/shalal
 	name = "babouche"
-	desc = ""
+	desc = "A traditional, flat slipper of Ranesheri origin, typically made of soft leather or fabric and featuring an open back (no heel or quarters)."
 	gender = PLURAL
 	icon_state = "shalal"
 	item_state = "shalal"
 	sewrepair = TRUE
+	salvage_amount = 1
+	salvage_result = /obj/item/natural/hide/cured
 
 /obj/item/clothing/shoes/roguetown/boots/leather
 	name = "leather boots"
@@ -387,6 +393,7 @@
 	item_state = "bsoldierboots"
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 	smeltresult = /obj/item/ingot/bronze
+	armor = ARMOR_BRONZE
 
 /obj/item/clothing/shoes/roguetown/boots/maille/copper
 	name = "copper lamellar boots"
@@ -426,7 +433,7 @@
 	icon_state = "bronzegreaves"
 	body_parts_covered = FEET | LEGS
 	smeltresult = /obj/item/ingot/bronze
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 
 /obj/item/clothing/shoes/roguetown/boots/armor/graggar
@@ -558,6 +565,8 @@
 	sewrepair = TRUE
 	detail_color = CLOTHING_WHITE
 	color = CLOTHING_AZURE
+	salvage_amount = 1
+	salvage_result = /obj/item/natural/cloth
 
 /obj/item/clothing/shoes/roguetown/jester/update_icon()
 	cut_overlays()
@@ -619,6 +628,8 @@
 	is_barefoot = TRUE
 	sewrepair = TRUE
 	armor = ARMOR_CLOTHING
+	salvage_amount = 2
+	salvage_result = /obj/item/natural/cloth
 
 /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	name = "inquisitorial boots"
