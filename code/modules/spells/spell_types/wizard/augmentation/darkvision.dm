@@ -48,7 +48,7 @@
 /datum/action/cooldown/spell/darkvision/undivided
 	name = "Nitesight"
 	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	invocations = list("Nachtsicht.") //Night Sight
+	invocations = list("Noc, grant me clarity.") //Nachtsicht. Night Sight
 	button_icon_state = "darkvision"
 	point_cost = 0
 	spell_tier = 0
