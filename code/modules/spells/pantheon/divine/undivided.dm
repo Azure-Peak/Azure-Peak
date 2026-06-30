@@ -334,7 +334,6 @@
 	var/choosing_bundle = FALSE
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
-		/datum/action/cooldown/spell/noc/inspiration::name					= /datum/action/cooldown/spell/noc/inspiration,
 		/datum/action/cooldown/spell/darkvision/miracle/undivided::name		= /datum/action/cooldown/spell/darkvision/miracle/undivided,
 		/datum/action/cooldown/spell/noc/invisibility::name					= /datum/action/cooldown/spell/noc/invisibility,
 		/obj/effect/proc_holder/spell/targeted/blesscrop::name				= /obj/effect/proc_holder/spell/targeted/blesscrop,
