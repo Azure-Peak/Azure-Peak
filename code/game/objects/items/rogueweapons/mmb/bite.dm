@@ -135,29 +135,29 @@
 
 		user.Immobilize(1 SECONDS)
 		src.Immobilize(1 SECONDS)
-
 		var/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
 		var/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
 
 		if(!vamp && !wolf)
-			var/armor_class = C.get_armor_class(sublimb_grabbed, d_type)
+			var/armor_class = src.get_armor_class(def_zone, "stab")
 			var/recoil_mult
 
 			switch(armor_class)
 				if(ARMOR_CLASS_NONE)
-					recoil_mult = 0.05 // 5% damage returned - none
+					recoil_mult = 0.05
 				if(ARMOR_CLASS_LIGHT)
-					recoil_mult = 0.10 // 10% damage returned - light
+					recoil_mult = 0.10
 				if(ARMOR_CLASS_MEDIUM)
-					recoil_mult = 0.20 // 20% damage returned - med
+					recoil_mult = 0.20
 				if(ARMOR_CLASS_HEAVY)
-					recoil_mult = 0.40 // 40% damage returned - platecreechur
+					recoil_mult = 0.40
 				else
 					recoil_mult = 0.05
 
-			var/recoil = round(damage * recoil_mult)
-			user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH)
-
+			var/recoil = round(dam2do * recoil_mult)
+			user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH)// cleaner, basically! this will recoil 25% damage to your mouth if you bite flesh, and 50% if you bite armor
+		if(prob(25)) // 1/4 of the time you'll overextend and be exposed, giving your opponent a room to strike back hard
+			user.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		if(!apply_damage(dam2do, BRUTE, def_zone, armor_block, user))
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
@@ -309,11 +309,11 @@
 	var/mob/living/carbon/C = grabbed
 	user.Immobilize(1 SECONDS)
 	C.Immobilize(1 SECONDS)
-	
 	var/damage = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2
-
+	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = PEN_NONE, damage = damage)
+		
 	var/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
 	var/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
 
@@ -323,20 +323,19 @@
 
 		switch(armor_class)
 			if(ARMOR_CLASS_NONE)
-				recoil_mult = 0.05 // 5% damage returned - none
+				recoil_mult = 0.05
 			if(ARMOR_CLASS_LIGHT)
-				recoil_mult = 0.10 // 10% damage returned - light
+				recoil_mult = 0.10
 			if(ARMOR_CLASS_MEDIUM)
-				recoil_mult = 0.20 // 20% damage returned - med
+				recoil_mult = 0.20
 			if(ARMOR_CLASS_HEAVY)
-				recoil_mult = 0.40 // 40% damage returned - platecreechur
+				recoil_mult = 0.40
 			else
 				recoil_mult = 0.05
 
 		var/recoil = round(damage * recoil_mult)
-		user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH)
-
-	if(prob(25))
+		user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 25% damage to your mouth if you bite flesh, and 50% if you bite armor
+	if(prob(50)) // half the time you'll overextend and be exposed, giving your opponent a room to strike back hard
 		user.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 	
 	C.next_attack_msg.Cut()
