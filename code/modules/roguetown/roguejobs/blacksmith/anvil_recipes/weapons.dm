@@ -2048,6 +2048,13 @@
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
+/datum/anvil_recipe/weapons/blacksteel/longword
+	name = "Blacksteel Longsword (+1 Blacksteel, +1 Saffira, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/violet, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/sword/long/blacksteel
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+
 // AVANTYNE
 
 /datum/anvil_recipe/weapons/avantyne/dagger

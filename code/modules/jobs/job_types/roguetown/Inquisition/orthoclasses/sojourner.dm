@@ -78,7 +78,7 @@
 
 	switch(sidearm_selected)
 		if("katar")
-			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon(H))
 		if("knuckledusters")
 			H.put_in_hands(new /obj/item/rogueweapon/knuckledusters/psy(H))
 

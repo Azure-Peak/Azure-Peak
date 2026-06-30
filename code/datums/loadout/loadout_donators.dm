@@ -425,11 +425,6 @@
 	name = "Donator Kit - Decorated Sabre"
 	path = /obj/item/enchantingkit/weapon/maesune_sabre
 
-/datum/loadout_item/donator/nerocavalier
-	name = "Donator Kit - Blacksteel Longsword"
-	path = /obj/item/enchantingkit/weapon/noire_flsword
-	ckeywhitelist = list("nerocavalier")
-
 /datum/loadout_item/donator/walkthewaste
 	name = "Donator Item - Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/walkthewaste
