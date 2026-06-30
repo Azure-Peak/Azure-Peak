@@ -1658,6 +1658,8 @@
 /datum/status_effect/buff/clash/limbguard/on_creation(mob/living/new_owner, ...)
 	. = ..()
 	shield_origin = owner.get_active_held_item()
+	if(!shield_origin)
+		shield_origin = owner.get_inactive_held_item()
 
 /datum/status_effect/buff/clash/limbguard/on_apply()
 	. = ..()

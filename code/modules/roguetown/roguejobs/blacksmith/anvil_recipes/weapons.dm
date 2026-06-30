@@ -1793,7 +1793,7 @@
 /datum/anvil_recipe/weapons/psy/cudgelmace
 	name = "Psydonic Handmace (+1 Small Log)"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/rogueweapon/mace/cudgel/psyclassic
+	created_item = /obj/item/rogueweapon/mace/cudgel/psy
 	display_category = ITEM_CAT_WEAPONS_MACES
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"
@@ -1898,7 +1898,7 @@
 /datum/anvil_recipe/weapons/psy/cudgelmace/inq
 	name = "Psydonic Handmace (+1 Small Log)"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/rogueweapon/mace/cudgel/psyclassic
+	created_item = /obj/item/rogueweapon/mace/cudgel/psy
 	display_category = ITEM_CAT_WEAPONS_MACES
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"
@@ -2046,6 +2046,13 @@
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/ruby, /obj/item/natural/silk)
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+
+/datum/anvil_recipe/weapons/blacksteel/longword
+	name = "Blacksteel Longsword (+1 Blacksteel, +1 Saffira, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/violet, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/sword/long/blacksteel
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 // AVANTYNE

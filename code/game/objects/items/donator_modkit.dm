@@ -547,17 +547,19 @@
 	result_item = /obj/item/rogueweapon/maesune/sabre
 
 //NeroCavalier - Sword
+/* REMOVED BY REQUEST.
 /obj/item/enchantingkit/weapon/noire_flsword
 	name = "'Blacksteel Longsword' morphing elixir"
 	target_items = list(
 		/obj/item/rogueweapon/sword/long
 	)
 	result_item = /obj/item/rogueweapon/nerocavalier/flsword
+*/
 
 /obj/item/enchantingkit/aisuwand
-    name = "Crystalline Wand morphing elixir"
-    target_items = list(/obj/item/rogueweapon/wand)
-    result_item = /obj/item/rogueweapon/wand/aisu
+    name = "Crystalline Rapier morphing elixir"
+    target_items = list(/obj/item/rogueweapon/sword/rapier)
+    result_item = /obj/item/rogueweapon/sword/rapier/aisu
 
 /obj/item/enchantingkit/weapon/regnum
 	name = "'Regnum' morphing elixir"

@@ -8,9 +8,10 @@
 	outfit = /datum/outfit/job/roguetown/templar/noc_spellblade
 	category_tags = list(CTAG_TEMPLAR)
 	allowed_patrons = list(/datum/patron/divine/noc)
-	maximum_possible_slots = 1 // The Special Snowflake
+	maximum_possible_slots = 2 // The Special Snowflake And Their Friend
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE)
+	tempo_capable = FALSE
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_INT = 1, // Weighted 7 but a nice statblock

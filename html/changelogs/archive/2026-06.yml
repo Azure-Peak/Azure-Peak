@@ -1389,3 +1389,14 @@
   - balance: all non NPC/Vagabond/Lunatic roles that started w/ rope/cloth belts have
       recieved the upgraded storage varient.
   - bugfix: removes 3 lines of code that broke militant wretch
+2026-06-30:
+  Fixes roundface bascinet offset:
+  - bugfix: Fixes roundface bascinet offset
+  Ollanius:
+  - bugfix: The Rune of Storms should properly function once again.
+  - bugfix: Bronze-armored boots now properly have ARMOR_BRONZE as their protection
+      tier, rather than ARMOR_PLATE.
+  - bugfix: Adds missing light armor values to decrepit-tiered feetwear.
+  WeNeedMorePhoron:
+  - rscadd: Duel Settler now come with a gwstrap like other 2h weapon
+  - rscadd: Arcyne ward actually covers your mouth against mouthgrab
