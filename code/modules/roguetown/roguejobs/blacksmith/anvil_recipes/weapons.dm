@@ -1793,7 +1793,7 @@
 /datum/anvil_recipe/weapons/psy/cudgelmace
 	name = "Psydonic Handmace (+1 Small Log)"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/rogueweapon/mace/cudgel/psyclassic
+	created_item = /obj/item/rogueweapon/mace/cudgel/psy
 	display_category = ITEM_CAT_WEAPONS_MACES
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"
@@ -1898,7 +1898,7 @@
 /datum/anvil_recipe/weapons/psy/cudgelmace/inq
 	name = "Psydonic Handmace (+1 Small Log)"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/rogueweapon/mace/cudgel/psyclassic
+	created_item = /obj/item/rogueweapon/mace/cudgel/psy
 	display_category = ITEM_CAT_WEAPONS_MACES
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"

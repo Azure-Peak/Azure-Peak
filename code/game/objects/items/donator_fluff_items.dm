@@ -1378,14 +1378,14 @@ As Excaliber."
 	. = ..()
 	AddComponent(/datum/component/ignitable/fluff/sci_sand)
 
-/obj/item/rogueweapon/wand/aisu
-	base_implement_name = "crystalline wand"
-	name = "crystalline wand"
-	desc = "A crystalline wand, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
+/obj/item/rogueweapon/sword/rapier/aisu
+	base_implement_name = "crystalline rapier"
+	name = "crystalline rapier"
+	desc = "A crystalline rapier, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
 	icon_state = "aisuwand"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 
-/obj/item/rogueweapon/wand/aisu/getonmobprop(tag)
+/obj/item/rogueweapon/rapier/aisu/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)

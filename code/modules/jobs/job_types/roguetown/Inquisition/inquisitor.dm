@@ -158,10 +158,10 @@
 			H.equip_to_slot_or_del(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow, SLOT_BACK_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic Handmace - Swift-Balanced")
-			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/psyclassic/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/psy/preblessed(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Psydonic Flanged Mace - Heavy-Balanced")
-			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/psy/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/flanged/psy/preblessed(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
 		if("Your Faith (Expertise With Most Weapons)")
 			H.equip_to_slot_or_del(new /obj/item/quiver/bolt/standard, SLOT_BELT_R, TRUE)
@@ -293,18 +293,6 @@
 		if("Psydonic Grand Mace")
 			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/psymace/preblessed(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
-
-/obj/item/clothing/gloves/roguetown/chain/blk
-		color = CLOTHING_GREY
-
-/obj/item/clothing/under/roguetown/chainlegs/blk
-		color = CLOTHING_GREY
-
-/obj/item/clothing/suit/roguetown/armor/plate/blk
-		color = CLOTHING_GREY
-
-/obj/item/clothing/shoes/roguetown/boots/armor/blk
-		color = CLOTHING_GREY
 
 /mob/living/carbon/human/proc/faith_test()
 	set name = "Test Faith"

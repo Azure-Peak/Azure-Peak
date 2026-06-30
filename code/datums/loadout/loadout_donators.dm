@@ -446,7 +446,7 @@
 	ckeywhitelist = list("scidragon")
 
 /datum/loadout_item/donator/aisuwand
-    name = "Donator Kit - Crystalline Wand"
+    name = "Donator Kit - Crystalline Rapier"
     path = /obj/item/enchantingkit/aisuwand
     ckeywhitelist = list("aisu9")
 

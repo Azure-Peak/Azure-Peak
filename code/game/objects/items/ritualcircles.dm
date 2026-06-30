@@ -538,7 +538,7 @@
 		new /obj/item/ingot/steelholy(loc)
 
 /obj/structure/ritualcircle/abyssor
-	name = "Rune of Storm"
+	name = "Rune of Storms"
 	desc = "A holy rune of <font color='3769b8'>Abyssor.</font> </br> <i>You sense your mind getting pulled into the drawn spiral.</i>"
 	icon_state = "abyssor_chalky"
 	var/stormrites = list("Rite of the Tides")
