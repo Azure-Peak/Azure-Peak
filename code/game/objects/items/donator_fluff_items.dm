@@ -1668,3 +1668,11 @@ As Excaliber."
     icon = 'icons/obj/items/donor_weapons_64.dmi'
     icon_state = "olygsword"
     bigboy = TRUE
+
+// SPARTANBOBBY
+/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/spartanbobby
+	name = "holy astratan bascinet"
+	desc = "A silver bascinet with an ornate, golden klappvisier molded in HER image.</br>‎<font color='46bacf'>ASTRATA IMPRESSED.</font>"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "astrata_impressed"

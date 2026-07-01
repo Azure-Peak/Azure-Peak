@@ -1312,6 +1312,7 @@
 	req_bar = /obj/item/ingot/silver
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/scythe/silver
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
 
 // SHIELDS
 
@@ -1341,6 +1342,8 @@
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/great/paalloy
+	display_category = ITEM_CAT_WEAPONS_SHIELDS
+
 	craftdiff = 2
 
 /datum/anvil_recipe/weapons/alloy/greatshield
@@ -1348,6 +1351,8 @@
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/ingot/aalloy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/great/aalloy
+	display_category = ITEM_CAT_WEAPONS_SHIELDS
+
 	craftdiff = 2
 
 /datum/anvil_recipe/weapons/paalloy/hoplonshield
@@ -1355,12 +1360,16 @@
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/paalloy
+	display_category = ITEM_CAT_WEAPONS_SHIELDS
+
 
 /datum/anvil_recipe/weapons/aalloy/hoplonshield
 	name = "Hoplon Shield, Decrepit (+1 Alloy, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/aalloy
+	display_category = ITEM_CAT_WEAPONS_SHIELDS
+
 
 /datum/anvil_recipe/weapons/iron/towershield
 	name = "Tower Shield (+1 Small Log)"
@@ -2081,12 +2090,14 @@
 	req_bar = /obj/item/ingot/avantyne
 	additional_items = list(/obj/item/ingot/avantyne)
 	created_item = /obj/item/rogueweapon/sword/rapier/avantyne
+	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/avantyne/billhook
 	name = "Billhook, Avantyne (+1 Small Log)"
 	req_bar = /obj/item/ingot/avantyne
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear/billhook/avantyne
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
 
 /datum/anvil_recipe/weapons/avantyne/greatsword
 	name = "Greatsword, Avantyne (+2 A. Wafer)"

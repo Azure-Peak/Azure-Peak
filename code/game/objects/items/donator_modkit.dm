@@ -711,3 +711,9 @@
     name = "'Gre'as'anto d'Shar' morphing elixir"
     target_items = list(/obj/item/rogueweapon/greatsword)
     result_item = /obj/item/rogueweapon/greatsword/olygsword
+
+//SpartanBobby
+/obj/item/enchantingkit/bobby_helm
+    name = "'Holy Astratan Bascinet' morphing elixir"
+    target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/astratan)
+    result_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/spartanbobby

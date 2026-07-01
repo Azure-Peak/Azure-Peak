@@ -1,0 +1,56 @@
+2026-07-01:
+  Aisu9:
+  - bugfix: donator item pathing
+  BurpleBineapple:
+  - rscadd: SpartanBobby donor helmet
+  Dorodomki:
+  - rscadd: 'Added more goggles + new duelist goggles + new masks + their respective
+      recipes in smithy + sewing
+
+      :cl:'
+  FreeStylaLT:
+  - rscadd: Added 3 new chest markings, from Ratwood.
+  - rscadd: Added a Blacksteel Longsword. It has a unique feature allowing the user
+      to select a Special for the weapon out of a premade list. Requires 2 blacksteel
+      bars, saffira and silk.
+  KatTheFox:
+  - rscadd: Smiths can now make silver amulets and psycrosses, if given an amulet
+      as a base.
+  Kolibri-B:
+  - rscadd: Added the Ornate Silk Dress to the Triumph loadout menu
+  Lamasmaster:
+  - rscadd: Stocking sleeves and footwraps
+  Ollanius:
+  - bugfix: The Hand properly inherits their besilked haubergeon, once more.
+  - balance: Most primary weapons for the Inquisition no longer start with preblessings,
+      once again. Like before, these'll be reserved for the Inquisitor's relics and
+      the daggers given to certain Orthodoxists.
+  - rscadd: The Litany, a Marquette-purchasable script that can bless a single silver
+      weapon before destroying itself; a boon for lower-population Orthodoxists. It
+      can be refunded if an Absolver's presence makes it less-than-needed.
+  Quinalion:
+  - code_imp: Standardizes Psydonian maces code path for consistency.
+  WeNeedMorePhoron:
+  - rscadd: There's now two slots for Noccian Spellblade since it isn't that OP, actually.
+      They lost tempo access.
+  - rscadd: Ported Noelle's add better CPU usage diagnostics to the MC statpanel
+  - rscadd: Ported Prevent unnecessary processing on lights that don't use fuel
+  - rscadd: Make status_effects_by_id use an alist
+  - rscadd: TG's Controller Overview and surface it under the MC tab.
+  borneblood:
+  - balance: Nerfed Wandering Yogi a bit. Buffed Vizier a bit.
+  - bugfix: Fixed missing interactions with a particular meat, and some Stockpile
+      behavior/options.
+  - refactor: most custom meat paths no longer have /steak as precedent
+  - bugfix: fixed red thing to become green thing
+  radarseas:
+  - balance: redone most vamp guard subclasses again.
+  - balance: vampire magos rely on wards instead of starting w/ chest/head/arm armor
+  - bugfix: vampire magos could not pick a staff unlike every single other class that
+      could
+  - balance: vamp magos gets a chalk now
+  - balance: vamp footmen have more weapon choices + iron shields always + steel weapon
+      varients
+  - balance: vamp duelist apprentice -> expert sneak in line w/ their climbing skill
+  - balance: vamp arsonist has a heavy helm vs its miner helm before + different class
+      name now

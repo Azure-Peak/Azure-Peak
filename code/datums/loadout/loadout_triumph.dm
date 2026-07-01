@@ -117,6 +117,12 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_ornatesilkdress
+	name = "Ornate Silk Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 // -5 TRI
 /datum/loadout_item/triumph_shortsatchel
 	name = "Short Satchel"
