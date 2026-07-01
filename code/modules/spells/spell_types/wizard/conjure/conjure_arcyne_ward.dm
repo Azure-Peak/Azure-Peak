@@ -329,6 +329,7 @@
 	var/dismissed = FALSE
 	var/ward_color = GLOW_COLOR_ARCANE
 	var/arcyne_armor_tier = ARCYNE_WARD_TIER_BASE
+	var/yields_to_armor = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/proc/setup_ward(mob/living/carbon/human/H)
 	ward_owner = H
@@ -345,6 +346,11 @@
 		return
 
 	var/new_coverage = COVERAGE_FULL_BODY_ACTUAL
+
+	if(!yields_to_armor)
+		body_parts_covered_dynamic = new_coverage
+		return
+
 	var/mob/living/carbon/human/H = ward_owner
 
 	if(has_real_armor(H.head))

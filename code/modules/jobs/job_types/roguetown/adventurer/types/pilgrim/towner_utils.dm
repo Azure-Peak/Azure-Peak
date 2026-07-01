@@ -9,6 +9,9 @@
 	if(!client || !mind)
 		return
 
+	if(!HAS_TRAIT(src, TRAIT_LEVY))
+		return
+
 	if(istype(A, /obj/effect/temp_visual/point))
 		return
 

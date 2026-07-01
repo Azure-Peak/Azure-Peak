@@ -114,6 +114,7 @@
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hammer/paalloy
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	i_type = "Tools"
 
 /datum/anvil_recipe/tools/aalloy/sickle
@@ -135,6 +136,7 @@
 	name = "Tongs, Ancient"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/tongs/paalloy
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 	i_type = "Tools"
 
 /datum/anvil_recipe/tools/aalloy/pick

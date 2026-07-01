@@ -46,26 +46,40 @@
 	..()
 	to_chat(H, span_warning("You are a professional soldier, clad in maille, with years of experience in warfare and battle under your belt, far more than most mortals could claim. Your lord's will be done."))
 	if(H.mind)
-		var/weapons = list("Warhammer & Shield","Sabre & Shield","Axe & Shield","Billhook","Greataxe","Halberd")
+		var/weapons = list("Warhammer & Shield","Sabre & Shield","Longsword & Shield","Axe & Shield","Battleaxe","Billhook","Greataxe","Halberd")
 		var/weapon_choice = input(H, "Choose your weapon.", "ARMS TO HERALD THE NITE") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
-			if("Warhammer & Shield")
+			if("Warhammer & Shield") //Steel warhammer for armor + skull shatterer
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
-				beltr = /obj/item/rogueweapon/mace/warhammer
+				beltr = /obj/item/rogueweapon/mace/warhammer/steel
+				backl = /obj/item/rogueweapon/shield/iron
+			if("Flail & Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/flail/sflail
 				backl = /obj/item/rogueweapon/shield/iron
 			if("Sabre & Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				r_hand = /obj/item/rogueweapon/sword/sabre
-				backl = /obj/item/rogueweapon/shield/wood
-			if("Axe & Shield")
+				backl = /obj/item/rogueweapon/shield/iron
+			if("Longsword & Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
+				beltr = /obj/item/rogueweapon/sword/long
+				r_hand = /obj/item/rogueweapon/sword
+				backl = /obj/item/rogueweapon/shield/iron
+			if("Axe & Shield") //Shield + axe for armor shatterer
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 				backl = /obj/item/rogueweapon/shield/iron
+			if("Battleaxe") //Hack intent for no shield
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+				beltr = /obj/item/rogueweapon/stoneaxe/battle
 			if("Billhook")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/spear/billhook
@@ -74,25 +88,36 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/halberd
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
-			if("Greataxe")
+			if("Greataxe") //Two tile for no shield + Hack intent
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/greataxe
+				r_hand = /obj/item/rogueweapon/greataxe/steel
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
+		//The Spice of Lyfe
+		var/helmets = list(
+		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
+		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
+		"Bascinet Helmet"	= /obj/item/clothing/head/roguetown/helmet/bascinet,
+		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
+		"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
+		"None"
+		)
+		var/helmchoice = input(H, "Choose your Helm.", "A VISAGE IN THE NITE") as anything in helmets
+		if(helmchoice != "None")
+			head = helmets[helmchoice]
 
 	add_verb(H, /mob/proc/haltyell_exhausting) //Soldier gets to halt people
 
 	cloak = /obj/item/clothing/cloak/tabard/stabard/vamp
 	mask = /obj/item/clothing/mask/rogue/facemask/steel //so they don't get sundered in the face
-	head = /obj/item/clothing/head/roguetown/helmet/sallet
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
-	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron //Intended semi-weakspot 4 more unarmed damage
 
-	backr = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/storage/backpack/rogue/satchel/black
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/flashlight/flare/torch/lantern //we don't need it, but might as well play into the masquerade of a strange foreign retinue
 	backpack_contents = list(
@@ -153,7 +178,7 @@
 
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut //demolishing fortifications or setting them up.
-	backl = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rope/chain = 1
@@ -202,7 +227,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE, //Vampire duelists are okay trackers, less so to account for speed loss.
-		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT, //Assassin potental W/ the climbing.
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, //Keeping captives, alive. We're not a lich's army, we have standards.
 	)
 
@@ -251,7 +276,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
-	backl = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/storage/backpack/rogue/satchel/black
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
@@ -270,8 +295,8 @@
 
 // Puglist arson experiment class, replacement for adventurer bombardier. Still despite going all-in they actually perform worst as a puglist class when fighting themselves over just using bombs, this is intended.
 /datum/advclass/vampbomber
-	name = "Vampiric Arsonist"
-	tutorial = "There has been nothing more enchanting in unlyfe than the dance of flames upon an inferno of your alchemical mixes and the taste of blood. Now your master arises once more and your talents shall see use again. Your lord's will be done."
+	name = "Vampiric Fyre-Pugilist"
+	tutorial = "There has been nothing more enchanting in unlyfe than the dance of flames upon an inferno of your alchemical mixes and the taste of blood freshly beaten out of a victim with your bare hands. Now your master arises once more and your talents shall see use again. Your lord's will be done."
 	outfit = /datum/outfit/job/roguetown/other/vampbomber
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_MEDIUMARMOR, TRAIT_CIVILIZEDBARBARIAN,  TRAIT_BOMBER_EXPERT)
 	category_tags = list(CTAG_VAMPGUARD)
@@ -298,21 +323,20 @@
 
 /datum/outfit/job/roguetown/other/vampbomber/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("There has been nothing more enchanting in unlyfe than the dance of flames upon an inferno of your alchemical mixes and the taste of blood. Now your master arises once more and your talents shall see use again. Your lord's will be done."))
+	to_chat(H, span_warning("There has been nothing more enchanting in unlyfe than the dance of flames upon an inferno of your alchemical mixes and the taste of blood freshly beaten out of a victim with your bare hands. Now your master arises once more and your talents shall see use again. Your lord's will be done."))
 	H.set_blindness(0)
 
 	add_verb(H, /mob/proc/haltyell_exhausting) //Halting the charred corpse is too funny, we're keeping it. sovl.
 
-	mask = /obj/item/clothing/mask/rogue/ragmask/black
 	cloak = /obj/item/clothing/cloak/tabard/stabard/vamp
-	head = /obj/item/clothing/head/roguetown/helmet/kettle/minershelm //I can see it getting ditched but sovlful
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard //ancient-esc look
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	pants = /obj/item/clothing/under/roguetown/brigandinelegs
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy //Weaker to chest stabs, intentional, go upgrade your armor
-	backl = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/storage/backpack/rogue/satchel/black
 	backr = /obj/item/twstrap/bombstrap/firebomb
-	gloves = /obj/item/clothing/gloves/roguetown/plate/iron //weaker, intended
+	gloves = /obj/item/clothing/gloves/roguetown/plate //stronger vs footman, intended
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron //Ditto
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	belt = /obj/item/storage/belt/rogue/leather //A little bit of difference to other guards
@@ -367,7 +391,7 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	backr = /obj/item/rogueweapon/sword //OG sword
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
-	backl = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/storage/backpack/rogue/satchel/black
 	cloak = /obj/item/clothing/cloak/half/vamp //stays, obligary.
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
@@ -404,7 +428,8 @@
 			if("Flute")
 				l_hand = /obj/item/rogue/instrument/flute //You know what must be done.
 
-// Armored mage, basically vampire magos for the lord. Specialises in faster casting, as a sort of step-in replacement for the grenzelhoftian seige mage. They may be buffed, nerfed or replaced depending how they perform.
+// No-Armor mage, basically vampire magos for the lord. Specialises in faster casting, as a sort of step-in replacement for the grenzelhoftian seige mage. They may be buffed, nerfed or replaced depending how they perform.
+// Despite decent wards, stabbing them w/silver should make them fall over to pain pretty fast or straight dust them on the spot after a few critical sunders. Expect them to lose a fair bit of blue w/ reliance on wards + spam casting.
 /datum/advclass/vampseigemage
 	name = "Vampiric Battlemage"
 	tutorial = "You were a magos of old, ever since the embrace you've never had more time to practice your persuit of arcayne magicks, let alone revel in your taste for blood; now your master arises once more and your arcayne research shall see fruitation. Your lord's will be done."
@@ -413,17 +438,18 @@
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 	category_tags = list(CTAG_VAMPGUARD)
 	subclass_stats = list(
-		STATKEY_INT = 3, //You've had long to study, a lot to study as well
+		STATKEY_INT = 4, //You've had long to study, a lot to study as well
 		STATKEY_STR = -1,
-		STATKEY_WIL = 2,
+		STATKEY_WIL = 2, //1 less than Grenzel magos
 		STATKEY_PER = 3,
-		// 7 point statline, mostly put into perception + int, they lack on their baseline speed being slightly higher unlike most mages on top of weaker martal talent
+		// 8 point statline, mostly put into perception + int, they lack on their baseline speed being slightly higher unlike most mages on top of weaker martal talent
+		// Yeah vampire mages are pretty insanely strong with some clan potencies but rule of cool honestly.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
-		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER, //You've had a long, time to practice
+		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE, //Weaker vs grapples, compared to everyone else
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -439,22 +465,23 @@
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard] //Every wizzard gotta have the evyl laugh, I don't make the rules, sire.
 	add_verb(H, /mob/proc/haltyell_exhausting) //Halting the charred corpse is too funny, we're keeping it. sovl.
 
-	cloak = /obj/item/clothing/cloak/tabard/stabard/vamp
-	head = /obj/item/clothing/head/roguetown/witchhat //EVERY PALLY IN THE KINGDOM ON MA TAIL
-	mask = /obj/item/clothing/mask/rogue/facemask/
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson //Less protection, due to casting ability
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
+	//UNIQUELY relies on WARDS off-the-bat, vs wretches/advs/mercenaries. Has NO chest armor, or head armor, save for neck. Legs/Feet remain decently armored by intent. Go for their arms instead.
+	cloak = /obj/item/clothing/cloak/tabard/stabard/hoodvamp
+	head = /obj/item/clothing/head/roguetown/witchhat/vamp //EVERY PALLY IN THE KINGDOM ON MA TAIL
+	mask = /obj/item/clothing/mask/rogue/ragmask/black
+	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/white
+	armor = /obj/item/clothing/cloak/tabard/stabard/vamp
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy //Makes up for no gloves
 	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy //No head armor but good anti-decap armor, intended.
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt
 	beltl = /obj/item/book/spellbook
-	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff/implement/greater
+	backl = /obj/item/storage/backpack/rogue/satchel/black
+	backr = choose_implement(H, "greater")
 
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/chalk = 1, //Fast travel/wall runes. If advs can get it, if wretches can, if town can, if bandits can, fuck it the full antag vamp gets it too.
 		/obj/item/rope/chain = 1
 		)
 
@@ -463,6 +490,20 @@
 	color = CLOTHING_WHITE
 	detail_tag = "_quad"
 	detail_color = CLOTHING_RED
+
+/obj/item/clothing/head/roguetown/witchhat/vamp
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_RED
+
+/obj/item/clothing/cloak/tabard/stabard/hoodvamp
+	name = "silken magos mantle"
+	desc = "A fashionable Mantle in a checkered pattern of white fabrics and red silks, inlined seamlessly within with silks befit for one under a lord with true opulance, not any mere dull-blooded or otherwise, branded with a crest of a forgotten empire."
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_RED
+	detail_tag = "_spl"
+	icon_state = "guard_hood" // The same as the guard hood however to break it from using the lords colors it has been given its own item path
+	item_state = "guard_hood"
+	body_parts_covered = CHEST
 
 /obj/item/clothing/head/roguetown/duelhat/vamp
 	color = CLOTHING_WHITE

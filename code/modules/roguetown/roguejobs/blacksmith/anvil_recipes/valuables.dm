@@ -32,6 +32,46 @@
 
 //
 
+/datum/anvil_recipe/valuables/silver_psycross
+	name = "Silver Psycross (+1 Psycross)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	craftdiff = SKILL_LEVEL_EXPERT
+	created_item = /obj/item/clothing/neck/roguetown/psicross/silver
+	display_category = ITEM_CAT_VALUABLES_HOLY
+
+/datum/anvil_recipe/valuables/silver_amulet_ten
+	name = "Silver Amulet of Ten (+1 Any Tennite Amulet)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/clothing/neck/roguetown/psicross) // bandaid until someone makes proper silver amulet sprites for the other Ten
+	craftdiff = SKILL_LEVEL_EXPERT
+	created_item = /obj/item/clothing/neck/roguetown/psicross/silver/undivided
+	display_category = ITEM_CAT_VALUABLES_HOLY
+
+/datum/anvil_recipe/valuables/silver_amulet_noc
+	name = "Silver Amulet of Noc (+1 Amulet of Noc)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/clothing/neck/roguetown/psicross/noc)
+	craftdiff = SKILL_LEVEL_EXPERT
+	created_item = /obj/item/clothing/neck/roguetown/psicross/silver/noc
+	display_category = ITEM_CAT_VALUABLES_HOLY
+
+/datum/anvil_recipe/valuables/silver_amulet_astrata
+	name = "Silver Amulet of Astrata (+1 Amulet of Astrata)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	craftdiff = SKILL_LEVEL_EXPERT
+	created_item = /obj/item/clothing/neck/roguetown/psicross/silver/astrata
+	display_category = ITEM_CAT_VALUABLES_HOLY
+
+/datum/anvil_recipe/valuables/silver_amulet_necra
+	name = "Silver Amulet of Necra (+1 Amulet of Necra)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/clothing/neck/roguetown/psicross/necra)
+	craftdiff = SKILL_LEVEL_EXPERT
+	created_item = /obj/item/clothing/neck/roguetown/psicross/silver/necra
+	display_category = ITEM_CAT_VALUABLES_HOLY
+
 /datum/anvil_recipe/valuables/gold_reformcross
 	name = "Golden Reformist Psycross (+1 Reformist Cross)"
 	req_bar = /obj/item/ingot/gold

@@ -602,44 +602,6 @@
 	verbage_simple = "heat-treat"
 	verbage = "heat-treats"
 
-/datum/crafting_recipe/roguetown/survival/silverhandstake_campfire
-	name = "heat-treat silver handstake into silver shotstake, campfire"
-	result = list(
-				/obj/item/ammo_casing/caseless/rogue/stake/silver,
-				)
-	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/lesser = 1)
-	structurecraft = /obj/machinery/light/rogue/campfire
-	craftdiff = 0
-	craftsound = 'sound/misc/frying.ogg'
-	verbage_simple = "heat-treat"
-	verbage = "heat-treats"
-
-/datum/crafting_recipe/roguetown/survival/silverhandstake_hearth
-	name = "heat-treat silver handstake into silver shotstake, hearth"
-	result = list(
-				/obj/item/ammo_casing/caseless/rogue/stake/silver,
-				)
-	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/lesser = 1)
-	structurecraft = /obj/machinery/light/rogue/hearth
-	craftdiff = 0
-	craftsound = 'sound/misc/frying.ogg'
-	req_table = FALSE
-	verbage_simple = "heat-treat"
-	verbage = "heat-treats"
-
-/datum/crafting_recipe/roguetown/survival/silverhandstake_brazier
-	name = "heat-treat silver handstake into silver shotstake, brazier"
-	result = list(
-				/obj/item/ammo_casing/caseless/rogue/stake/silver,
-				)
-	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/lesser = 1)
-	structurecraft = /obj/machinery/light/rogue/firebowl
-	craftdiff = 0
-	craftsound = 'sound/misc/frying.ogg'
-	req_table = FALSE
-	verbage_simple = "heat-treat"
-	verbage = "heat-treats"
-
 /datum/crafting_recipe/roguetown/survival/sharpstake_campfire
 	name = "heat-treat sharpened stake into shotstakes, campfire (x3)"
 	result = list(

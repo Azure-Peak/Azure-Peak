@@ -47,6 +47,10 @@
 			to_chat(user, span_necrosis("Their humors rot unnaturally, as their body is quickly decaying."))
 		to_chat(user, span_infection("Their rot needs to be burned immediately!"))
 		to_chat(user, span_infection("==="))
+	if(HAS_TRAIT(human_target, TRAIT_DEADITE)) //IDK what you expected but hey, Pestra's looking out for you!
+		to_chat(user, span_necrosis("They are infected and have already turned into a DEADITE!"))
+		to_chat(user, span_infection("Their rot needs to be burned to prevent them from spreading their infection!"))
+		to_chat(user, span_infection("==="))
 	// suffocation levels are also 'free for all', since this is the highest cause of deaths in game right now, medics not knowing that sometimes you gotta get down and dirty with that non-con oxygen kiss.
 	//ofc, if you are expert or above, you get the exact number
 	if(is_high_tier)

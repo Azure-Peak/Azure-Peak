@@ -51,6 +51,7 @@
 /obj/item/clothing/head/roguetown/circlet/carvedgem
 	name = "generic carved gem circlet"
 	desc = "You shouldn't see this."
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
 	smeltresult = null
 	salvage_result = null
 

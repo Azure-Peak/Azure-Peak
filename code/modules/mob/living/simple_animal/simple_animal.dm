@@ -692,6 +692,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			user.mind.add_sleep_experience(/datum/skill/labor/butchering, user.STAINT * BUTCHERING_EXP_FINISH)
 		gib()
 
+/mob/living/simple_animal/mark_contract_spawned()
+	. = ..()
+	head_butcher = null
+
 /mob/living/proc/butcher_summary(botch_count, normal_count, perfect_count, botch_chance, perfect_chance)
     var/list/parts = list()
     if(botch_count)

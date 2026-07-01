@@ -42,6 +42,7 @@
 		TRAIT_SEEPRICES,
 		TRAIT_CRITICAL_RESISTANCE,
 		TRAIT_HEAVYARMOR,
+		TRAIT_ARMOR_NOSPDCAP, //Ancient dread; their armor never weighs on their stride.
 		TRAIT_CABAL,
 		TRAIT_DEATHSIGHT,
 		TRAIT_COUNTERCOUNTERSPELL,
@@ -291,6 +292,8 @@
 
 	for (var/trait in traits_lich)
 		ADD_TRAIT(body, trait, "[type]")
+
+	body.update_move_intent_slowdown()
 
 /datum/antagonist/lich/proc/rise_anew()
 	if (!owner.current.mind)

@@ -246,3 +246,11 @@
 					/obj/item/seeds/eggplant,
 					/obj/item/seeds/eggplant,
 				)
+
+/datum/supply_pack/rogue/seeds/cucumber
+	name = "Cucumber"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/cucumber,
+					/obj/item/seeds/cucumber,
+				)

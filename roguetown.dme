@@ -3159,7 +3159,6 @@
 #include "code\modules\spells\spell_types\classunique\spellfist\storm_of_psydon.dm"
 #include "code\modules\spells\spell_types\classunique\vizier\acceleration.dm"
 #include "code\modules\spells\spell_types\classunique\vizier\diminish.dm"
-#include "code\modules\spells\spell_types\classunique\vizier\divergence.dm"
 #include "code\modules\spells\spell_types\classunique\vizier\restoration.dm"
 #include "code\modules\spells\spell_types\classunique\vizier\reversion.dm"
 #include "code\modules\spells\spell_types\divine\psydonite_blast.dm"

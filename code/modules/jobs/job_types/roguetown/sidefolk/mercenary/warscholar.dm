@@ -98,16 +98,13 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/warscholar.ogg'
 	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE, TRAIT_NALEDI)
-	// Previous budget was kinda lopsided with negative per and con on a melee class (??) to give them a lot of str and speed. I took 6 points off and shifted it to wil and perception instead.
 	subclass_stats = list(
-		STATKEY_STR = 1,
-		STATKEY_SPD = 1,
+		STATKEY_STR = 2,
 		STATKEY_WIL = 2,
-		STATKEY_PER = 2,
-		STATKEY_CON = 1
+		STATKEY_CON = 3
 	)
 	subclass_skills = list(
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -119,7 +116,7 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 4, ward = TRUE, "locked_aspects" = list(/datum/magic_aspect/autowardry))
 
 /datum/outfit/job/roguetown/mercenary/warscholar_pontifex
 	var/detailcolor
@@ -289,13 +286,13 @@
 	if(H.mind)
 		detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
-		grant_poke_spell(H)
+		grant_poke_spell_ex(H)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diminish)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/divergence)		
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/reversion)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)	
+		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/guidance)		
 		H.mind.AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)

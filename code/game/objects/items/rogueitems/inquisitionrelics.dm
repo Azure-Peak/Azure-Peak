@@ -1526,4 +1526,29 @@ Inquisitorial armory down here
 
 /obj/item/inqarticles/spyglass/attack_self(mob/living/user)
 	. = ..()
-	
+
+/obj/item/inqarticles/litany
+	name = "litany"
+	desc = "A writ of religious anointment, printed on Otavan parchment. It bares the Absolver's 'rite of armaments' - a psalm dating back to the first crusades, recited \
+	to bless the faithful upon the eve of battle. Traditionally, these litanies are burned after recitement, and their ashes are smeared across a chosen weapon to consecrate \
+	them. </br>Unused litanies can be refunded through the HERMES."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "litany"
+	item_state = "litany"
+	possible_item_intents = list(/datum/intent/bless)
+
+/obj/item/inqarticles/litany/afterattack(atom/movable/A, mob/user, proximity)
+	. = ..()
+	if(isitem(A) && user.used_intent.type == /datum/intent/bless)
+		var/datum/component/silverbless/CP = A.GetComponent(/datum/component/silverbless)
+		if(CP)
+			if(!CP.is_blessed && (CP.silver_type & SILVER_PSYDONIAN))
+				playsound(user, 'sound/magic/censercharging.ogg', 100)
+				user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
+				if(do_after(user, 50, target = A))
+					CP.try_bless(BLESSING_PSYDONIAN)
+					user.visible_message(span_blue("[user] finishes their rite, anointing \the [A] with \the [src]!"))
+					new /obj/effect/temp_visual/censer_dust(get_turf(A))
+					qdel(src) //Deletes itself upon blessing a single weapon.
+			else
+				to_chat(user, span_info("It has already been blessed."))
