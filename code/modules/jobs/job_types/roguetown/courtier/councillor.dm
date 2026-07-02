@@ -139,6 +139,34 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
+/datum/advclass/councillor/scholar
+	name = "Slightly less introverted bookworm" // extremely temp name do not merge it like this
+	tutorial = "You may not rival an Archivist's knowledge, or a Court Magos's power, but you're certainly more learned than the average noble - and, unlike the Academy's oft-precarious position, you are firmly cemented within the nobility."
+	outfit = /datum/outfit/job/roguetown/councillor/scholar
+	category_tags = list(CTAG_COUNCILLOR)
+	// "hey what if we had a noble/mage sphere offrole that wasn't advent"
+	subclass_stats = list(
+		STATKEY_PER = 2,
+		STATKEY_INT = 2,
+		STATKEY_SPD = 1,
+		STATKEY_CON = -1
+	)
+	subclass_skills = list(
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		// /datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN, // once mage 3 pt 1 is merged
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
+	)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE) // slightly more util than mage-princess + ward. no major
+
 /datum/outfit/job/roguetown/councillor
 	job_bitflag = BITFLAG_ROYALTY
 
@@ -229,3 +257,28 @@
 	ADD_TRAIT(H, TRAIT_SEEPRICES, JOB_TRAIT)
 	// Level past Jman if they want to
 	ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, JOB_TRAIT)
+
+/datum/outfit/job/roguetown/councillor/scholar/pre_equip(mob/living/carbon/human/H)
+	..()
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
+	shirt = /obj/item/clothing/suit/roguetown/shirt/fancyjacket
+	pants = /obj/item/clothing/under/roguetown/trou/beltpants
+	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
+	backr = /obj/item/storage/backpack/rogue/satchel
+	backr = choose_implement(H, "lesser")
+	belt = /obj/item/storage/belt/rogue/leather
+	beltl = /obj/item/storage/keyring/steward
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
+	cloak = /obj/item/clothing/cloak/half/red
+	backpack_contents = list(
+		/obj/item/storage/keyring = 1,
+		/obj/item/book/spellbook = 1, // remove once mage 3 pt 1 is merged
+		/obj/item/chalk = 1,
+	)
+	if(H.mind)
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H) // bumped from lower-middle to match councillor floor
+	// give them the good see prices trait
+	ADD_TRAIT(H, TRAIT_SEEPRICES, JOB_TRAIT)
+	ADD_TRAIT(H, TRAIT_ARCYNE, JOB_TRAIT)
+	ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, JOB_TRAIT)
