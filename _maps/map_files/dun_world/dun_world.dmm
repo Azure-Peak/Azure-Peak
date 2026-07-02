@@ -33940,7 +33940,7 @@
 "gEO" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/pestra_sanctum)
+/area/rogue/under/town/sewer)
 "gEQ" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-n"
@@ -47904,6 +47904,9 @@
 /obj/structure/fermentation_keg,
 /turf/open/floor/rogue/grassred,
 /area/rogue/druidsgrove)
+"jkn" = (
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/town/sewer)
 "jkp" = (
 /obj/machinery/light/rogue/hearth,
 /turf/open/floor/rogue/naturalstone,
@@ -56595,7 +56598,7 @@
 /area/rogue/under/cave/peace)
 "kPd" = (
 /obj/structure/roguemachine/mail/r{
-	mailtag = "Head Physician"
+	mailtag = "Clinic"
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/physician)
@@ -58631,6 +58634,10 @@
 /mob/living/carbon/human/species/skeleton/npc/medium,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors)
+"lip" = (
+/obj/structure/bars/tough,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/town/sewer)
 "liu" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5;
@@ -58726,9 +58733,6 @@
 /obj/structure/fermentation_keg/water,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
-"ljF" = (
-/turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/pestra_sanctum)
 "ljG" = (
 /obj/structure/fluff/walldeco/customflag{
 	pixel_y = 32
@@ -63249,7 +63253,9 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/mazedungeon)
 "lYx" = (
-/obj/structure/chair/bench/church/smallbench,
+/obj/structure/chair/bench/church/smallbench{
+	dir = 1
+	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/physician)
 "lYy" = (
@@ -65096,7 +65102,7 @@
 "mqf" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
 /turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/pestra_sanctum)
+/area/rogue/under/town/sewer)
 "mqh" = (
 /obj/structure/fluff/walldeco/church/line,
 /obj/structure/fluff/walldeco/church/line{
@@ -88771,6 +88777,10 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town)
+"qQY" = (
+/obj/structure/chair/bench/church/smallbench,
+/turf/open/transparent/openspace,
+/area/rogue/outdoors/town/roofs)
 "qRb" = (
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/grasscold,
@@ -95987,6 +95997,13 @@
 /obj/effect/landmark/start/guardsman,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/garrison)
+"smF" = (
+/obj/structure/roguemachine/atm{
+	location_tag = "University";
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/tile,
+/area/rogue/indoors/town/magician)
 "smG" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -97699,6 +97716,15 @@
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
+"sBM" = (
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f"
+	},
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Head Physician"
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/physician)
 "sBN" = (
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/cobble/mossy,
@@ -101497,7 +101523,7 @@
 /obj/structure/flora/tinymushrooms,
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt,
-/area/rogue/indoors/town/pestra_sanctum)
+/area/rogue/under/town/sewer)
 "tnM" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/effect/spawner/lootdrop/general_loot_low/x3,
@@ -114658,6 +114684,13 @@
 /obj/structure/hotspring/border/four,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/rtfield/eora)
+"vPx" = (
+/obj/structure/mineral_door/bars{
+	locked = 1;
+	lockid = "keeper2"
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/town/sewer)
 "vPJ" = (
 /obj/effect/decal/cobbleedge{
 	dir = 4;
@@ -121455,7 +121488,9 @@
 /turf/open/water/river/flow/west,
 /area/rogue/under/cave)
 "xfd" = (
-/obj/structure/chair/bench/church/smallbench,
+/obj/structure/chair/bench/church/smallbench{
+	dir = 1
+	},
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/physician)
@@ -165679,10 +165714,10 @@ tuk
 jOq
 ixP
 ogs
-bcK
-bcK
-bcK
-bcK
+oxx
+oxx
+oxx
+oxx
 umQ
 bcK
 bcK
@@ -166131,10 +166166,10 @@ tum
 xRa
 jOq
 ixP
-bcK
+oxx
 gEO
-ljd
-qlI
+jkn
+lip
 ljd
 msi
 cyW
@@ -166583,10 +166618,10 @@ tum
 tum
 ixP
 ixP
-ljF
+daP
 mqf
-ljd
-bnY
+jkn
+vPx
 ljd
 lZy
 qij
@@ -167035,10 +167070,10 @@ bhJ
 tum
 ixP
 ixP
-oDn
+eMU
 tnC
-ljd
-qlI
+jkn
+lip
 ljd
 ljd
 qsn
@@ -167487,10 +167522,10 @@ bhJ
 bhJ
 bhJ
 ogs
-bcK
-bcK
-bcK
-bcK
+oxx
+oxx
+oxx
+oxx
 bcK
 nUT
 qsn
@@ -283182,7 +283217,7 @@ iot
 fGB
 iot
 iot
-sGj
+dkS
 dQG
 dQG
 dQG
@@ -291317,7 +291352,7 @@ exD
 nRv
 hiz
 iBY
-trr
+sBM
 tdb
 ciN
 dNq
@@ -298635,7 +298670,7 @@ oir
 oir
 oir
 bOG
-ukG
+smF
 nTJ
 jgM
 pSa
@@ -520945,7 +520980,7 @@ xeR
 bGf
 bGf
 bGf
-bGf
+qQY
 bGf
 bGf
 bGf
