@@ -134,7 +134,8 @@
 			if(L.anti_magic_check())
 				continue
 			if(source_spell?.spell_guard_check(L, FALSE, caster))
-				continue
+				qdel(src)
+				return
 			if(ishuman(L) && ishuman(caster))
 				var/target_zone = caster.zone_selected || BODY_ZONE_CHEST
 				arcyne_strike(caster, L, null, tick_damage, target_zone, \
