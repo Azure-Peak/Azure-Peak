@@ -79,6 +79,15 @@
 	verbage = "sews"
 	craftdiff = 0
 
+/datum/crafting_recipe/roguetown/survival/clothbelt/upgraded
+	name = "pouch-fitted cloth belt"
+	result = /obj/item/storage/belt/rogue/leather/cloth/upgraded
+	reqs = list(/obj/item/storage/belt/rogue/leather/cloth = 1,
+				/obj/item/storage/belt/rogue/pouch = 1)
+	craftdiff = 1
+	verbage_simple = "tie"
+	verbage = "tie"
+
 /datum/crafting_recipe/roguetown/survival/clothbelt
 	name = "cloth belt"
 	result = /obj/item/storage/belt/rogue/leather/cloth
@@ -107,6 +116,15 @@
 	result = /obj/item/storage/belt/rogue/leather/rope
 	reqs = list(/obj/item/rope = 1)
 	craftdiff = 0
+	verbage_simple = "tie"
+	verbage = "ties"
+
+/datum/crafting_recipe/roguetown/survival/ropebelt/upgraded
+	name = "pouch-fitted rope belt"
+	result = /obj/item/storage/belt/rogue/leather/rope/upgraded
+	reqs = list(/obj/item/storage/belt/rogue/leather/rope = 1,
+				/obj/item/storage/belt/rogue/pouch = 1)
+	craftdiff = 1
 	verbage_simple = "tie"
 	verbage = "ties"
 

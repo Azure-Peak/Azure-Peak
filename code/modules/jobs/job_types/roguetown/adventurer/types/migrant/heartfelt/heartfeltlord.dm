@@ -116,7 +116,8 @@
 
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
@@ -147,7 +148,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/recipe_book/alchemy,
-		/obj/item/book/spellbook,
+		/obj/item/rogueweapon/spellbook,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,

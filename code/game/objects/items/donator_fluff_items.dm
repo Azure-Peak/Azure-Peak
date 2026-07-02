@@ -904,8 +904,15 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 		
 //Bigfoot's donator item - steel great axe with gilded pattern
 /obj/item/rogueweapon/greataxe/steel/gilded
-	name = "gilded greataxe"
-	desc = "A gilded steel great axe, a long-handled axe with a single blade made for ruining someone's day beyond any measure.."
+	name = "Aureline"
+	desc = "An axe crafted of carefully forged steel, this weapon bears the mark of many hours toiling over a forge.  \
+	Inlaid with gold patterns depicting a side-facing griffon with interwoven vines of fabric trailing in a curve along the centre of the axe.   \
+	The axe head itself is a more darkened metal save for the edge of the blade itself, a strip of curved, deadly silver against the black and gold of the rest of the axe.   \
+	Not a single flaw is to be found in the metal itself, no matter how many times it is brought to wielded; not a chip in the blade nor loss of its bite.   \
+	Evidently it is a very well cared for piece. \n\
+	\n\
+	The handle itself is no less impressive, made of a darkened heartwood and banded with gold-appearing steel to both fasten the weapon and provide contrast along the bottom and top.  \
+	Inlaid at the bottom most band is the sigil of House Xulu, a long ago served house that is carried in remembrance of an Oath he is now released from."
 	icon_state = "orin"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
@@ -1346,12 +1353,14 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_weapons.dmi'
 
 //NEROCAVALIER
+/* -- REMOVED BY REQUEST. KEPT FOR POSTERITY. NOW USED AS "BLACKSTEEL LONGSWORD".
 /obj/item/rogueweapon/nerocavalier/flsword
 	name = "blacksteel longsword"
 	desc = "A sleek blade of a dark, and burnished hue. A handle carved from a rosawood branch. A pairing that should sing a melody sweeter than any harp as it parts the air.. and yet, beautiful it may be, it is not worthy of song."
 	icon_state = "flsword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	bigboy = TRUE
+*/
 
 //WALKTHEWASTE
 /obj/item/clothing/head/roguetown/mentorhat/walkthewaste
@@ -1378,14 +1387,14 @@ As Excaliber."
 	. = ..()
 	AddComponent(/datum/component/ignitable/fluff/sci_sand)
 
-/obj/item/rogueweapon/wand/aisu
-	base_implement_name = "crystalline wand"
-	name = "crystalline wand"
-	desc = "A crystalline wand, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
+/obj/item/rogueweapon/sword/rapier/aisu
+	base_implement_name = "crystalline rapier"
+	name = "crystalline rapier"
+	desc = "A crystalline rapier, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
 	icon_state = "aisuwand"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 
-/obj/item/rogueweapon/wand/aisu/getonmobprop(tag)
+/obj/item/rogueweapon/rapier/aisu/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
@@ -1666,3 +1675,11 @@ As Excaliber."
     icon = 'icons/obj/items/donor_weapons_64.dmi'
     icon_state = "olygsword"
     bigboy = TRUE
+
+// SPARTANBOBBY
+/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/spartanbobby
+	name = "holy astratan bascinet"
+	desc = "A silver bascinet with an ornate, golden klappvisier molded in HER image.</br>‎<font color='46bacf'>ASTRATA IMPRESSED.</font>"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "astrata_impressed"

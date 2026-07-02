@@ -292,3 +292,12 @@
 	)
 	result = /obj/item/storage/belt/rogue/leather/suspenders
 	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/leather/leathermask
+	name = "leather mask"
+	display_category = ITEM_CAT_ARMOR_MASKS
+	result = /obj/item/clothing/mask/rogue/leather
+	reqs = list(/obj/item/natural/hide/cured = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 1
+	sellprice = 10

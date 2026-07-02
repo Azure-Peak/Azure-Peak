@@ -142,6 +142,8 @@
 	var/temporary_unstoppable_movement = FALSE
 
 	var/woundclass = null
+	/// If TRUE, this projectile applies wounds but never rolls a critical hit.
+	var/no_crit = FALSE
 	var/embedchance = 0
 	var/obj/item/dropped = null
 	var/ammo_type

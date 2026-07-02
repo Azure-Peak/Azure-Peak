@@ -236,7 +236,7 @@
 	ckeywhitelist = list("bigfoot02")
 
 /datum/loadout_item/donator/bigfoot_axe
-	name = "Donator Kit - Gilded Greataxe"
+	name = "Donator Kit - Aureline"
 	path = /obj/item/enchantingkit/bigfoot_axe
 	ckeywhitelist = list("bigfoot02")
 
@@ -425,11 +425,6 @@
 	name = "Donator Kit - Decorated Sabre"
 	path = /obj/item/enchantingkit/weapon/maesune_sabre
 
-/datum/loadout_item/donator/nerocavalier
-	name = "Donator Kit - Blacksteel Longsword"
-	path = /obj/item/enchantingkit/weapon/noire_flsword
-	ckeywhitelist = list("nerocavalier")
-
 /datum/loadout_item/donator/walkthewaste
 	name = "Donator Item - Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/walkthewaste
@@ -446,7 +441,7 @@
 	ckeywhitelist = list("scidragon")
 
 /datum/loadout_item/donator/aisuwand
-    name = "Donator Kit - Crystalline Wand"
+    name = "Donator Kit - Crystalline Rapier"
     path = /obj/item/enchantingkit/aisuwand
     ckeywhitelist = list("aisu9")
 
@@ -574,3 +569,7 @@
     path = /obj/item/enchantingkit/olygsword
     ckeywhitelist = list("olympus7")
 	
+/datum/loadout_item/donator/bobby
+	name = "Donator Kit - Holy Astratan Bascinet"
+	path = /obj/item/enchantingkit/bobby_helm
+	ckeywhitelist = list("spartanbobby") 

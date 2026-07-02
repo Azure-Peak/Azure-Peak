@@ -98,6 +98,11 @@
 /datum/intent/spear/bash/ranged
 	reach = 2
 
+/datum/intent/spear/bash/staff
+	name = "staff bash"
+	damfactor = 1
+	reach = 2
+
 /datum/intent/spear/cut
 	name = "cut"
 	blade_class = BCLASS_CUT
@@ -216,27 +221,11 @@
 	damfactor = 1.3 // Adds up to be slightly stronger than an unenhanced ebeak strike.
 	clickcd = CLICK_CD_CHARGED
 
-/datum/intent/spear/disarm/quarterstaff
-	name = "disarm"
-	desc = "A precise, sweeping strike that aims for the target's weapon. While it deals no damage on its own, successfully striking the target while they're off-balanced will disarm them in a grand flourish."
-	icon_state = "intake"
-	animname = "strike"
-	attack_verb = list("sweeps", "disarms")
-	blade_class = BCLASS_DISARM
-	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg')
-	penfactor = PEN_NONE
-	swingdelay = 2	//Small delay to hook
-	damfactor = 0
-	clickcd = 22	//Can't spam this; long delay.
-	item_d_type = "blunt"
-
-//polearm objs ฅ^•ﻌ•^ฅ
-
 /obj/item/rogueweapon/woodstaff
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood, /datum/intent/spear/disarm/quarterstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged)
 	name = "wooden staff"
 	desc = "A solid dependable walking stick that allows one to traverse rough terrain with ease, keep the weight off an \
 	injured leg, or reliably fend off incoming blows. Perfect for beggars, pilgrims, and mages."
@@ -252,10 +241,11 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	wdefense = 5
-	wdefense_wbonus = 8	//11 when wielded.
+	wdefense_wbonus = 6	//11 when wielded.
 	bigboy = TRUE
 	gripsprite = TRUE
 	associated_skill = /datum/skill/combat/staves
+	special = /datum/special_intent/quarterstaff_sweep
 	anvilrepair = /datum/skill/craft/carpentry
 	resistance_flags = FLAMMABLE
 
@@ -1185,10 +1175,10 @@
 /obj/item/rogueweapon/woodstaff/quarterstaff
 	name = "wooden quarterstaff"
 	desc = "A staff that makes any journey easier. Durable and swift, capable of bludgeoning stray volves and ruffians alike. The prodigious length \
-	permits it to both incapacitate the villainous with blunted strikes, and to disarm the dastardly of their weapons."
+	permits it to both incapacitate the villainous with blunted strikes, and to keep snarling foes at staff's length."
 	force = 15
 	force_wielded = 20
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/spear/disarm/quarterstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
 	icon_state = "quarterstaff"
 	associated_skill = /datum/skill/combat/staves
 	max_integrity = 150
@@ -1198,14 +1188,14 @@
 	name = "shepherd's quarterstaff" //Reskinned iron quarterstaff without the smeltability-into-ingotry.
 	force = 16
 	force_wielded = 22
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/spear/disarm/quarterstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
 	icon_state = "quarterstaff_virtue"
 	max_integrity = 200
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 	name = "iron quarterstaff"
 	desc = "A quarterstaff reinforced with iron studdings and counterweights. The prodigious length \
-	permits it to both incapacitate the villainous with blunted strikes, and to disarm the dastardly of their weapons."
+	permits it to both incapacitate the villainous with blunted strikes, and to keep snarling foes at staff's length."
 	force = 16
 	force_wielded = 22
 	icon_state = "quarterstaff_iron"

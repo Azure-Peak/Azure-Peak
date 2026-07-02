@@ -82,6 +82,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_BANDS_RAID 4
 #define QUEST_BANDS_BOUNTY 4
 #define QUEST_BANDS_RECOVERY 2
+#define QUEST_BANDS_BLOCKADE 6
 
 #define QUEST_REWARD_GLOBAL_MULT 1
 

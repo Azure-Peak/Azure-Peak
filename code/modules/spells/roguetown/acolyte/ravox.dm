@@ -400,19 +400,11 @@
 
 	var/obj/item/rogueweapon/shield/ravox_aegis/S = new(H.drop_location())
 	S.linked_spell = src
-	S.caster_ref = WEAKREF(H)
-	S.AddComponent(/datum/component/conjured_item, null, TRUE)
+	S.AddComponent(/datum/component/conjured_item, null, TRUE, H, src)
 	H.put_in_hands(S)
 	conjured_shield = S
 	H.visible_message("[H] conjures a shimmering shield of arcyne energy!")
 	return TRUE
-
-/datum/action/cooldown/spell/ravox/aegis/Destroy()
-	if(conjured_shield && !QDELETED(conjured_shield))
-		conjured_shield.visible_message(span_warning("[conjured_shield] flickers and fades away!"))
-		qdel(conjured_shield)
-	conjured_shield = null
-	return ..()
 
 // The conjured shield item
 /obj/item/rogueweapon/shield/ravox_aegis
@@ -428,7 +420,6 @@
 	parrysound = list('sound/combat/parry/shield/magicshield (1).ogg', 'sound/combat/parry/shield/magicshield (2).ogg', 'sound/combat/parry/shield/magicshield (3).ogg')
 	associated_skill = /datum/skill/magic/holy
 	var/datum/action/cooldown/spell/ravox/aegis/linked_spell
-	var/datum/weakref/caster_ref
 
 /obj/item/rogueweapon/shield/ravox_aegis/getonmobprop(tag)
 	. = ..()
@@ -439,33 +430,11 @@
 			if("onback")
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-/obj/item/rogueweapon/shield/ravox_aegis/obj_break()
-	. = ..()
-	if(!QDELETED(src))
-		dispel()
-
-/obj/item/rogueweapon/shield/ravox_aegis/attack_hand(mob/living/user)
-	. = ..()
-	if(!QDELETED(src) && !(user.get_active_held_item() == src || user.get_inactive_held_item() == src))
-		dispel()
-
-/obj/item/rogueweapon/shield/ravox_aegis/dropped(mob/living/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	var/mob/caster = caster_ref?.resolve()
-	// Only dispel if dropped on the ground (not held by the caster)
-	if(!caster || loc != caster)
-		dispel()
-
-/obj/item/rogueweapon/shield/ravox_aegis/proc/dispel()
-	if(QDELETED(src))
-		return
-	visible_message(span_warning("[src] shatters into motes of divine light!"))
-	playsound(get_turf(src), 'sound/magic/magic_nulled.ogg', 80)
-	if(linked_spell)
+/obj/item/rogueweapon/shield/ravox_aegis/Destroy()
+	if(linked_spell && linked_spell.conjured_shield == src)
 		linked_spell.conjured_shield = null
-	qdel(src)
+	linked_spell = null
+	return ..()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // T2 - Withstand - Based on skill provides varying degrees of stun immunity and force push up. //

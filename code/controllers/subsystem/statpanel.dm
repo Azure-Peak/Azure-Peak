@@ -185,7 +185,9 @@ SUBSYSTEM_DEF(statpanels)
 
 /datum/controller/subsystem/statpanels/proc/generate_mc_data()
 	mc_data = list(
-		list("", "CPU:", world.cpu),
+		list("", "CPU:", "[world.cpu] ([world.map_cpu] map + [world.cpu - world.map_cpu] process)"),
+		list("", "Maptick Percent:", "[world.cpu ? round((world.map_cpu / world.cpu) * 100) : 0]%"),
+		list("", "Controller Overview:", "Click to view", "", "Controller-Overview"),
 		list("", "Instances:", "[num2text(world.contents.len, 10)]"),
 		list("", "World Time:", "[world.time]"),
 		list("", "Globals:", GLOB.stat_entry(), text_ref(GLOB)),

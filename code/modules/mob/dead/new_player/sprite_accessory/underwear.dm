@@ -179,3 +179,13 @@
 	name = "knee-high stockings - silk"
 	icon_state = "knee_silk"
 	legwear_type = /obj/item/legwears/knee_high_silk
+
+/datum/sprite_accessory/legwear/stockings/sleeve_knee_silk
+	name = "knee-high sleeves - silk"
+	icon_state = "sleeve_k_silk"
+	legwear_type = /obj/item/legwears/sleeve_knee_silk
+
+/datum/sprite_accessory/legwear/stockings/sleeve_stir_knee_silk
+	name = "knee-high sleeves (stirrup) - silk"
+	icon_state = "sleeve_ks_silk"
+	legwear_type = /obj/item/legwears/sleeve_stir_knee_silk

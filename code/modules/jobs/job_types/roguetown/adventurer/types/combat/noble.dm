@@ -177,7 +177,7 @@
 					armor = /obj/item/clothing/suit/roguetown/shirt/dress/velvetdress
 					gloves = /obj/item/clothing/gloves/roguetown/angle
 					cloak = /obj/item/clothing/cloak/raincloak/furcloak
-					belt = /obj/item/storage/belt/rogue/leather/cloth/lady
+					belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 				head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 				shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
 				pants = /obj/item/clothing/under/roguetown/trou/leather/gronn

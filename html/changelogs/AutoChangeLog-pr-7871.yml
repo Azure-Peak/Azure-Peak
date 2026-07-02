@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "New sprites for the Silver Warhammer, Mace, and Cudgels. The Cudgels in particular (chiefly familiar to the Confessors) are now designed to resemble classic bar maces."
+  - rscadd: "Sprite touchups for the Hurlbats, Urumi, and all Sling Bullet projectiles."
+  - rscadd: "New sprites for potentially Blacksteel- or Donator-exclusive weapons, depending on how we feel. Staged in the code for now."

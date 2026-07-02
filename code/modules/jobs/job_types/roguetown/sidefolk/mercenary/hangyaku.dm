@@ -41,7 +41,7 @@
 	has_loadout = TRUE
 	to_chat(H, span_warning("Rebel. Outlaw. Failure. Once, you served the upper echelons of Kazengun society as more than just a 'knight'- you were a champion, a beacon of virtue, a legend in the making. Now you wander distant Psydonia, seeking a fresh start... or fresh coin, at least."))
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/kabuto
-	belt = /obj/item/storage/belt/rogue/leather/cloth
+	belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/kazengun
 	cloak = /obj/item/clothing/cloak/kazengun
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/kazengun

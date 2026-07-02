@@ -461,7 +461,7 @@
 		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt, //Offensive Tool
 		/datum/action/cooldown/spell/forcewall,
 		/datum/action/cooldown/spell/conjure_arcyne_ward,
-		/datum/action/cooldown/spell/blink,
+		/datum/action/cooldown/spell/phase,
 		/datum/action/cooldown/spell/message, //Utility
 		/datum/action/cooldown/spell/create_campfire //Buff
 	)

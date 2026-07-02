@@ -1,8 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Restored Ranged AI logic, hopefully to one that is less prone to breaking"
-  - rscadd: "Changed normal bow / sling logic to no longer use a do after which is prone to breaking. Instead, they shoot and then set a delay before the next shot"
-  - rscadd: "Added support for crossbow using AI, which has a delayed reload and do after"
-  - rscadd: "Split up melee and ranged outfits into different subtypes, and special subtypes (Bottlebomber, to be specific)"
-  - rscadd: "Added ranged AI to contracts / regional faction / ambush spawns, where they naturally thrive"

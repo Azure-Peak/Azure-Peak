@@ -729,6 +729,8 @@ Inquisitorial armory down here
 					cursedblood = 2
 				if(M.mind.has_antag_datum(/datum/antagonist/vampire))
 					cursedblood = 3
+				if(HAS_TRAIT (M, TRAIT_BLACKBLOOD))
+					cursedblood = 0.1 // trolling the inquisition newbies
 			update_icon()
 			takeblood(M, user)
 		else
@@ -1526,4 +1528,251 @@ Inquisitorial armory down here
 
 /obj/item/inqarticles/spyglass/attack_self(mob/living/user)
 	. = ..()
+
+GLOBAL_LIST_INIT(inquisition_used_ids, list())
+
+/proc/generate_inquisition_id()
+	var/id
+	while(TRUE)
+		var/a = rand(0, 9)
+		var/b = ascii2text(rand(65, 90)) // A-Z
+		var/c = rand(0, 9)
+		var/d = ascii2text(rand(65, 90))
+		id = "[a][b][c][d]"
+		if(!(id in GLOB.inquisition_used_ids))
+			GLOB.inquisition_used_ids += id
+			return id
+
+/obj/item/paper/inquisition_report
+	name = "haemological report"
+	desc = "An official haemological report bearing the seal of the Holy Otavan Inquisition. A crystal-clear sign that an INDEXER has been properly sent back for further investigation, and this is the result of it."
+	icon_state = "confession_signed"
+	aura_color = "#00c3ff"
+	var/mob/living/carbon/human/subject
+	var/report_html = ""
+	var/report_id
+
+/obj/item/paper/inquisition_report/update_icon_state()
+	icon_state = "confession_signed"
+	slot_flags |= ITEM_SLOT_HIP
+	return
+
+/obj/item/paper/inquisition_report/attack_right(mob/user)
+	return
+
+/obj/item/paper/inquisition_report/attack_self(mob/user)
+	if(!report_html || !length(report_html))
+		to_chat(user, span_warning("The certificate appears to be... blank? Report this in an A-HELP or file a Bug Report, please!"))
+		return
+	var/html = {"
+	<html>
+	<head>
+		<title>Haemological Report</title>
+	</head>
+	<body bgcolor='#E8DFC4'>
+		<div style='
+			font-family: Georgia, Times New Roman, serif;
+			padding: 16px;
+			max-width: 800px;
+			margin: auto;
+			color: black;
+		'>
+			[report_html]
+		</div>
+	</body>
+	</html>
+	"}
+	user << browse(html, "window=inquisition_report;size=750x850;can_resize=1")
+
+/obj/item/paper/inquisition_report/proc/fill_report(mob/living/carbon/human/H, mob/writer)
+	if(!H)
+		return
+
+	subject = H
+
+	var/list/examiners = list(
+		"Brother Matthieu de Clairmont", "Brother Lucien Beaumont", "Sister Eloise d'Artois", "Brother Gautier Desrosiers", "Sister Amaury de Vienne", "Sister Cecile Montfort", "Brother Renaud Charbonneau", "Brother Bastien Moreau", "Brother Lucard Belmont", "Sister Serena Eclaire", "Sister Artoria d'Dragone", "Brother Adrien de Rochefort", "Brother Thibault de Vaillant", "Sister Marguerite de Chastel", "Brother Etienne Bellamy", "Sister Roseline de Valcourt", "Brother Armand Duplessis", "Sister Genevieve Beaumont", "Brother Roland de Sancerre", "Sister Vivienne Charbonneau", "Brother Olivier de Montreuil", "Sister Ysabeau de Clairvaux", "Brother Philippe d'Aurillac", "Sister Adele de Marquette", "Brother Gaspard Delacroix", "Sister Heloise de Vaugrenier", "Brother Tristan Morel", "Sister Lucienne de Brissac", "Brother Remy de Valois", "Sister Aveline de Rougemont", "Brother Benoît de Couronne", "Brother Amaury de Castelain", "Sister Julienne d'Aubigny", "Brother Corentin de Miremont", "Sister Odette de Vaucelles", "Brother Florent de Charny", "Sister Seraphine Bellanger", "Brother Alaric de Montbard", "Sister Colette de Verrières", "Brother Theodore de Saint-Clair", "Sister Isolde de Beaumont", "Brother Freestein D'Estyler", "Brother Hunsari D'Phorone", "Brother Ryone D'Reensvolfe", "Sister Saphir D'Eriye", "Brother Khet D'Railne"
+	)
+
+	var/examiner = pick(examiners)
+
+	var/list/opening = list(
+		"The accusation and accompanying INDEXER submitted by the Ambassy have been received beneath proper seal. The enclosed findings are certified and entered into the Grand Ledger of Prosecutions and Procurement.",
+		"The submitted blood sample has undergone full haemological examination by the Grand Bureau of Haemological Affairs. This certificate constitutes the Bureau's official findings regarding the indexed subject.",
+		"The accompanying accusation has been archived within the Holy Otavan Inquisition. Examination of the enclosed sample has concluded and the certified findings are returned herewith."
+	)
+
+	var/list/sample_notes = list(
+		"The INDEXER arrived under proper hermetic seal. No breach of vessel or wax was observed upon receipt at Otava.",
+		"The sanguine vessel bears correct inquisitorial puncture. Field extraction deemed doctrinally compliant.",
+		"The courier seal of the Holy Hermes remained unbroken. Sample accepted into processing without purification delay.",
+		"Minimal coagulation observed at neck of vessel. Sample remains suitable for Lux interrogation rites.",
+		"The INDEXER shows evidence of proper field restraint techniques. Subject control deemed adequate.",
+		"Trace external moisture present on parchment exterior; internal sample remains uncontaminated.",
+		"The vessel was overfilled beyond prescribed ecclesiastical measure. No disciplinary action recommended.",
+		"The sample exhibits slight agitation of humours consistent with extended transit under mortal conditions.",
+		"Wax seal correctly applied in field conditions. No sanguine leakage into secondary wrapping detected.",
+		"The INDEXER was inscribed with legible accusation markings. Identification remains unambiguous.",
+		"Proper invocation markings present upon sealing. Allfather's name was invoked correctly at point of closure.",
+		"The sample bears faint residue of incense smoke. This is deemed ritually acceptable.",
+		"Minor fracture stress observed in vessel glass; containment integrity not compromised.",
+		"Field extraction angle suggests experienced inquisitorial hand. No corrective instruction issued.",
+		"Blood volume within expected bounds for interrogation standard IX-VII.",
+		"The INDEXER retains full doctrinal traceability from subject to registry without interruption.",
+		"No signs of substitution, dilution, or false vesseling detected during reception.",
+		"Sample classified as 'stable mortal sanguine' pending Lux interrogation.",
+		"External handling marks suggest rough courier passage; internal sanctity preserved.",
+		"The INDEXER was accompanied by properly written accusation writ. All seals match registry expectation."
+	)
+
+	var/list/archive_notes = list(
+		"Filed into the Grand Ledger of Prosecutions and Procurement under Otavan Code: Dying Light.",
+		"Cross-indexed against Seventh Scarlet Archive and Null Heresy Register. No duplication found.",
+		"Subject assigned permanent Haemological Index prior to Lux interrogation cycle.",
+		"Entry confirmed under Castifico Warrant Registry where applicable.",
+		"Chain-of-custody verified through Hermes transit sigils. No deviation recorded.",
+		"Sample entered into sealed doctrinal custody pending full Psydonic evaluation.",
+		"Administrative classification assigned: FIELD BLOOD / HERESY PROXIMITY UNKNOWN.",
+		"Registry notes prior submission history for subject; continuity preserved.",
+		"Duplicate sample suppression active; prior entries retained for comparative judgement.",
+		"Record forwarded to Inner Inquisition Scribes for doctrinal annotation.",
+		"Entry marked for secondary review under anti-corruption protocol VIII: Silent Flame.",
+		"Sample placed under conditional observation for latent Inhumen resonance.",
+		"Cross-reference completed with regional heresy hunting ledgers.",
+		"Transit record confirms no interference by non-Otavan authorities.",
+		"Filed under PSYDON's Mandate Archive. All other divine attributions rejected as falsehoods.",
+		"Archival note: subject appears in minor peripheral inquiry logs unrelated to current case.",
+		"Record sealed under Inquisitorial Authority. Access restricted to sworn Hands of Psydon.",
+		"Administrative remark: repeated submissions from same sect logged; efficiency rating adjusted.",
+		"Final classification withheld pending Lux Resonance Determination."
+	)
+
+	var/mistake = rand(1,80)
+	var/error_chance = "For this INDEXED sample, a false-positive chance of [mistake]% must be accounted for."
 	
+	report_html = ""
+	report_html += "<center><font size=4><b>HOLY OTAVAN INQUISITION</b></font></center>"
+	report_html += "<center>Grand Bureau of Haemological Affairs<br>"
+	report_html += "Citadel of Eclair Lacroix, Holy Otava</center>"
+	report_html += "<hr>"
+	report_html += "<i>[pick(opening)]</i><br><br>"
+	report_html += "<b>INDEXED SUBJECT</b><br>"
+	report_html += "Name: [H.real_name]<br>"
+	report_html += "Race: [H.dna?.species?.name]<br>"
+	report_html += "Sex: [capitalize(H.gender)]<br>"
+	var/static/list/job_aliases = list(
+		"Hag" = "Wanderer",
+		"Adventurer" = "Wanderer",
+		"Assassin" = "Wanderer",
+		"Gnoll" = "Outcast",
+		"Wretch" = "Outcast",
+		"Vagabond" = "Outcast",
+	)
+	var/display_job = job_aliases[H.job] || H.job
+	if(display_job)
+		report_html += "Weekly Activity: [display_job]<br>"
+	var/list/d = H.get_mob_descriptors()
+	report_html += "Height: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")]<br>"
+	report_html += "Build: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")]<br>"
+	report_html += "<hr>"
+	
+	report_html += "<b>LYFEBLOOD-LUX RESONATOR RESULTS</b><br><br>"
+	if(HAS_TRAIT(H, TRAIT_ANCIENT_HAG))
+		report_html += "<font color='#1e8b61'><b><u>Anomalous Lux</b></u></font><br><br>"
+		report_html += "<i>No measurable corruption or hallowed overresonance could be detected through our devices, the nature of this sample cannot be traced to anything within our Grand Archives. It does not seem to be neither Divine nor Inhumen, yet it is not Pure either.</i><br><br>"
+	else if(H.patron?.type in ALL_DIVINE_PATRONS)
+		report_html += "<font color='#e8da5a'><b><u>Blessed Lux</b></u></font><br><br>"
+		report_html += "<i>Minor hallowed resonance permeates the subject's Lux. The sample bears evidence of covenant with saintly energies consistent with apostate worship and prolonged participation in rites associated with the <b>Ten Saints</b>.</i><br><br>"
+	else if(H.patron?.type in ALL_INHUMEN_PATRONS)
+		report_html += "<font color='#8B1E1E'><b><u>Tainted Lux</b></u></font><br><br>"
+		report_html += "<i>The Lux has suffered measurable spiritual degradation. The sample carries contamination consistent with apostate worship and prolonged participation in rites associated with the <b>Inhumen</b>.</i><br><br>"
+	else
+		report_html += "<font color='#00b7ff'><b><u>Pure Lux</b></u></font><br><br>"
+		report_html += "<i>No measurable corruption or hallowed overresonance could be detected through our devices. The subject's Lux is devoid of external influence.</i><br><br>"
+
+	report_html += "<b>CROSS-REFERENCED PUBLIC RECORDS</b><br><br>"
+	var/list/crimes = list()
+	var/total_bounty = 0
+	for(var/datum/bounty/B in GLOB.head_bounties)
+		if(B.target == H.real_name)
+			total_bounty += B.amount
+			crimes += "> <b>[B.amount] Mammon</b> — [B.reason]"
+	if(!crimes.len)
+		report_html += "<font color=#2D7A42><b>No Crimes on Record</b></font><br><br>"
+		report_html += "<i>No warrant, censure, proclamation of guilt, or writ of Castifico has been entered against this identity, nor within the ledgers of the Holy Otavan Inquisition.</i><br><br>"
+	else
+		report_html += "<font color=#8B1E1E><b>Active Criminal Record</b></font><br><br>"
+		report_html += "<i>The archives presently confirm <b>[crimes.len]</b> active writ[(crimes.len == 1) ? "" : "s"] against this individual.</i><br><br>"
+		for(var/entry in crimes)
+			report_html += "[entry]<br>"
+		report_html += "<br><b>Total Castifico Value:</b> [total_bounty] Mammon<br><br>"
+		report_html += "<i>Standing Instruction: Individuals bearing active OTAVAN writs may be surrendered to a CASTIFICO for disposition. In the absence of Otavan criminal record, this certificate alone shall not justify detention save in cases of suspected Heresy, Apostasy, witchcraft, or Inhumen corruption.</i><br><br>"
+
+	report_html += "<b>HAEMOLOGICAL FINDINGS</b><br><br>"
+	var/found = FALSE
+	if(H.mind)
+		if(HAS_TRAIT(H, TRAIT_BLACKBLOOD))
+			report_html += "<font color='#3D3D3D'><b>Stabilized Blackblood Tincture</b></font><br><br>"
+			report_html += "<i>Lethal concentrations of Atra Ferrum, Nigredo Salts, Vitriol Ash, and Coagulated Psyturnine Humours remain suspended throughout the sample. Complete melanization and abnormal viscosity are wholly consistent with recent radical purification treatments for Quicksilver-resistant subjects.</i><br><br>"
+			found = TRUE
+		else if(HAS_TRAIT(H, TRAIT_ANCIENT_HAG))
+			report_html += "<font color='#5C3A6E'><b>Anomalous Blood</b></font><br><br>"
+			report_html += "<i>The sample is laden with accursed humours and bears the unmistakable taint of ancient malisons. Though greatly withered by age, the blood yet clings to unnatural vigor, a condition recorded only in those sustained by profane sorceries and long familiarity with the Devil's arts.</i><br><br>"
+			found = TRUE
+		for(var/datum/antagonist/D in H.mind.antag_datums)
+			if(istype(D, /datum/antagonist/vampire))
+				found = TRUE
+				report_html += "<font color='#7B0000'><b>Porphylick Haemophilia</b></font><br><br>"
+				report_html += "<i>The sample exhibits severe depletion of natural Vitae alongside unusual sanguine persistence beyond expected mortal limits. Coagulation is markedly impaired, while traces of necrotic resonance permeate the blood. It cannot sustain itself, should fresh blood not be appended to it.</i><br><br>"
+				break
+			if(istype(D, /datum/antagonist/werewolf))
+				found = TRUE
+				report_html += "<font color='#6E4F2C'><b>Liquid Madness Corrosion</b></font><br><br>"
+				report_html += "<i>The sample displays extreme humoral instability, with recurrent fluctuations in viscosity, coloration, and saturation occurring during examination. Such volatility is consistent with advanced moonlit transmutative contamination. It carries traces of hallowed energy, however.</i><br><br>"
+				break
+			if(istype(D, /datum/antagonist/gnoll))
+				found = TRUE
+				report_html += "<font color='#6E4F2C'><b>Anthropophagic Corruption</b></font><br><br>"
+				report_html += "<i>The sample demonstrates irreversible haemological restructuring characterized by predatory adaptation, excessive ferric saturation, and biochemical residues consistent with prolonged consumption of human flesh. Such degeneration has historically been observed only in individuals subjected to advanced war-cults devoted to the Inhumen, whose champions abandon their humanity through ritual slaughter and cannibalism.</i><br><br>"
+				break
+		if(!found)
+			report_html += "<font color='#2D7A42'><b>Clean</b></font><br><br>"
+			report_html += "<i>No significant haemological abnormalities were identified. The sample falls within accepted physiological baselines for the INDEXED subject.</i><br><br>"
+
+	report_html += "<b>REGISTRAR'S NOTES</b><br>"
+	report_html += "> <b>IMPORTANT:</b> [error_chance]<br>"
+	report_html += "> [pick(sample_notes)]<br>"
+	report_html += "> [pick(archive_notes)]<br>"
+	report_html += "<i>This certificate records only the Bureau's haemological findings. Declarations of Heresy remain solely within the authority and jurisdiction of the Holy Otavan Inquisition's agents on the field.<i><br>"
+	report_html += "<hr>"
+	report_html += "<i>Certified beneath the seal of the Holy Otavan Inquisition and entered into the Grand Ledger of Prosecutions and Procurement.</i><br><br>"
+	report_html += "<font size=2>"
+	report_html += "Signed and entered into record by <b>[examiner]</b><br>"
+	report_html += "Grand Bureau of Haemological Affairs<br>"
+	report_html += "Citadel of Eclair Lacroix, Holy Otava, cir. 1513"
+	report_html += "</font>"
+/obj/item/inqarticles/litany
+	name = "litany"
+	desc = "A writ of religious anointment, printed on Otavan parchment. It bares the Absolver's 'rite of armaments' - a psalm dating back to the first crusades, recited \
+	to bless the faithful upon the eve of battle. Traditionally, these litanies are burned after recitement, and their ashes are smeared across a chosen weapon to consecrate \
+	them. </br>Unused litanies can be refunded through the HERMES."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "litany"
+	item_state = "litany"
+	possible_item_intents = list(/datum/intent/bless)
+
+/obj/item/inqarticles/litany/afterattack(atom/movable/A, mob/user, proximity)
+	. = ..()
+	if(isitem(A) && user.used_intent.type == /datum/intent/bless)
+		var/datum/component/silverbless/CP = A.GetComponent(/datum/component/silverbless)
+		if(CP)
+			if(!CP.is_blessed && (CP.silver_type & SILVER_PSYDONIAN))
+				playsound(user, 'sound/magic/censercharging.ogg', 100)
+				user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
+				if(do_after(user, 50, target = A))
+					CP.try_bless(BLESSING_PSYDONIAN)
+					user.visible_message(span_blue("[user] finishes their rite, anointing \the [A] with \the [src]!"))
+					new /obj/effect/temp_visual/censer_dust(get_turf(A))
+					qdel(src) //Deletes itself upon blessing a single weapon.
+			else
+				to_chat(user, span_info("It has already been blessed."))

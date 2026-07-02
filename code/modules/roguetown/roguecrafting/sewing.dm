@@ -320,6 +320,13 @@
 	reqs = list(/obj/item/natural/cloth = 3,)
 	craftdiff = 1
 
+/datum/crafting_recipe/roguetown/sewing/paddedmask
+	name = "padded mask"
+	category = "Hoods"
+	result = list(/obj/item/clothing/mask/rogue/padded)
+	reqs = list(/obj/item/natural/cloth = 3,)
+	craftdiff = 1
+
 /datum/crafting_recipe/roguetown/sewing/clothknapsack
 	name = "cloth knapsack"
 	category = "Container"
@@ -440,6 +447,13 @@
 		/obj/item/clothing/cloak/tabard = 1,
 		/obj/item/storage/belt/rogue/leather/black = 1
 	)
+	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/sewing/footwrap
+	name = "bandages, ankles"
+	category = ITEM_CAT_ARMOR_BOOTS
+	result = list(/obj/item/clothing/shoes/roguetown/footwraps)
+	reqs = list(/obj/item/natural/cloth = 3)
 	craftdiff = 1
 
 /* craftdif of 2+ */

@@ -49,25 +49,25 @@
 /datum/outfit/job/roguetown/confessor/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	if(H.mind)
-		var/weapons = list("Psydonic Rapier", "Psydonic Shortsword", "Psydonic Tomahawk", "Psydonic Handmace - Swift-Balanced", "Psydonic Flanged Mace - Heavy-Balanced")
+		var/weapons = list("Psydonic Rapier", "Psydonic Shortsword", "Psydonic Tomahawk", "Psydonic Cudgel", "Psydonic Flanged Mace")
 		var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
 		switch(weapon_choice)
 			if("Psydonic Rapier")
-				l_hand = /obj/item/rogueweapon/sword/rapier/psy/preblessed
+				l_hand = /obj/item/rogueweapon/sword/rapier/psy
 				r_hand = /obj/item/rogueweapon/scabbard/sword
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 			if("Psydonic Shortsword")
-				l_hand = /obj/item/rogueweapon/sword/short/psy/preblessed
+				l_hand = /obj/item/rogueweapon/sword/short/psy
 				r_hand = /obj/item/rogueweapon/scabbard/sword
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 			if("Psydonic Tomahawk")
-				l_hand = /obj/item/rogueweapon/stoneaxe/handaxe/psy/preblessed
+				l_hand = /obj/item/rogueweapon/stoneaxe/handaxe/psy
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
-			if("Psydonic Handmace - Swift-Balanced")
-				l_hand = /obj/item/rogueweapon/mace/cudgel/psyclassic/preblessed
+			if("Psydonic Cudgel")
+				l_hand = /obj/item/rogueweapon/mace/cudgel/psy
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
-			if("Psydonic Flanged Mace - Heavy-Balanced")
-				l_hand = /obj/item/rogueweapon/mace/cudgel/psy/preblessed
+			if("Psydonic Flanged Mace")
+				l_hand = /obj/item/rogueweapon/mace/cudgel/flanged/psy
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
 		var/armors = list("Confessor - Dodge Expert, Complete Coverage", "Arbalist - Master Crossbows, +III STR / -III SPD")
 		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors

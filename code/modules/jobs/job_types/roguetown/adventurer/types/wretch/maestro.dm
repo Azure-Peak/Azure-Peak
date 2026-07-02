@@ -127,8 +127,8 @@
 				ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 5))
-				r_hand = /obj/item/book/spellbook
-				var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
+				r_hand = /obj/item/rogueweapon/spellbook
+				var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 				var/poke_choice = input(H, "Choose your cantrip.", "Choose your cantrip") as anything in poke_options
 				switch(poke_choice)
 					if("Spitfire")
@@ -139,8 +139,6 @@
 						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
 					if("Greater Arcyne Bolt")
 						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
-					if("Stygian Efflorescence")
-						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
 					if("Arcyne Lance")
 						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 					if("Lesser Gravel Blast")

@@ -239,30 +239,6 @@
 
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_SUCCESS, M, user)
 	SEND_SIGNAL(M, COMSIG_ITEM_ATTACKED_SUCCESS, src, user)
-	if(user.zone_selected == BODY_ZONE_PRECISE_R_INHAND)
-		var/offh = 0
-		var/obj/item/W = M.held_items[1]
-		if(W)
-			if(!(M.mobility_flags & MOBILITY_STAND))
-				M.throw_item(get_step(M,turn(M.dir, 90)), offhand = offh)
-			else
-				M.dropItemToGround(W)
-			M.visible_message(span_notice("[user] disarms [M]!"), \
-							span_boldwarning("I'm disarmed by [user]!"))
-			return
-
-	if(user.zone_selected == BODY_ZONE_PRECISE_L_INHAND)
-		var/offh = 0
-		var/obj/item/W = M.held_items[2]
-		if(W)
-			if(!(M.mobility_flags & MOBILITY_STAND))
-				M.throw_item(get_step(M,turn(M.dir, 270)), offhand = offh)
-			else
-				M.dropItemToGround(W)
-			M.visible_message(span_notice("[user] disarms [M]!"), \
-							span_boldwarning("I'm disarmed by [user]!"))
-			return
-
 	if(M.attacked_by(src, user))
 		if(user.used_intent == cached_intent)
 			var/tempsound = user.used_intent.hitsound
@@ -334,7 +310,13 @@
 	for(var/mob/living/L in living_targets + dead_targets)
 		if(cleave.max_targets && cleave_targets_hit >= cleave.max_targets)
 			break
-		if(L.checkdefense(user.used_intent, user))
+		var/cleave_override
+		var/_receiver_signal = SEND_SIGNAL(L, COMSIG_MOB_ITEM_BEING_ATTACKED, L, user, src)
+		if(_receiver_signal & COMPONENT_ITEM_NO_ATTACK)
+			continue
+		else if(_receiver_signal & COMPONENT_ITEM_NO_DEFENSE)
+			cleave_override = ATTACK_OVERRIDE_NODEFENSE
+		if(cleave_override != ATTACK_OVERRIDE_NODEFENSE && L.checkdefense(user.used_intent, user))
 			continue
 		if(L.attacked_by(src, user))
 			cleave_targets_hit++
@@ -672,10 +654,6 @@
 		if(BODY_ZONE_PRECISE_STOMACH)
 			return "body"
 		if(BODY_ZONE_PRECISE_GROIN)
-			return "body"
-		if(BODY_ZONE_PRECISE_R_INHAND)
-			return "body"
-		if(BODY_ZONE_PRECISE_L_INHAND)
 			return "body"
 	return "body"
 

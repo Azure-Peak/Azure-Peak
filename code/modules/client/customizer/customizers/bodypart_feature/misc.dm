@@ -94,4 +94,6 @@
 		/datum/sprite_accessory/legwear/stockings/thigh_high_silk,
 		/datum/sprite_accessory/legwear/stockings/knee_high,
 		/datum/sprite_accessory/legwear/stockings/knee_high_silk,
+		/datum/sprite_accessory/legwear/stockings/sleeve_knee_silk,
+		/datum/sprite_accessory/legwear/stockings/sleeve_stir_knee_silk
 		)

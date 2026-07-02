@@ -57,6 +57,10 @@
 	/// Max mob targets before stopping
 	var/max_hits = 3
 
+/obj/projectile/magic/arcyne_lance/greatbow
+	damage = 90
+	max_hits = 5
+
 /obj/projectile/magic/arcyne_lance/arc
 	name = "arced arcyne lance"
 	damage = 50
