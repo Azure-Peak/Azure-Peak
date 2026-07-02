@@ -628,6 +628,12 @@
 			owner.balloon_alert(owner, "My magicka has left me...")
 		return FALSE
 
+	var/mob/living/living_owner = owner
+	if(istype(living_owner) && living_owner.has_status_effect(/datum/status_effect/debuff/exposed))
+		if(feedback)
+			owner.balloon_alert(owner, "Too exposed to focus!")
+		return FALSE
+
 	for(var/datum/action/cooldown/spell/spell in owner.actions)
 		if(spell == src)
 			continue
