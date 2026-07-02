@@ -55867,7 +55867,7 @@
 /area/rogue/indoors)
 "kSX" = (
 /obj/structure/bookcase,
-/obj/item/book/spellbook,
+/obj/item/rogueweapon/spellbook,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
 "kSY" = (
@@ -87103,7 +87103,7 @@
 /area/rogue/under/underdark/north)
 "qPo" = (
 /obj/structure/table/wood/fancy/black,
-/obj/item/spellbook_unfinished/pre_arcyne,
+/obj/item/rogueweapon/spellbook,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/mazedungeon)
 "qPr" = (
@@ -88926,7 +88926,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
 "rhL" = (
-/obj/item/spellbook_unfinished,
+/obj/item/rogueweapon/spellbook,
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/shelter)
 "rhN" = (

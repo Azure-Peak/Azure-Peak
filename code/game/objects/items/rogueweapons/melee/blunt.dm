@@ -537,7 +537,7 @@
 	wdefense = 5 
 	wbalance = WBALANCE_SWIFT
 	resistance_flags = FIRE_PROOF
-	icon_state = "psyflangedmacelegacy"
+	icon_state = "psycudgel"
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
@@ -569,7 +569,7 @@
 	force = 20
 	force_wielded = 25
 	wbalance = WBALANCE_NORMAL
-	icon_state = "opsyflangedmacelegacy"
+	icon_state = "opsycudgel"
 	is_silver = FALSE
 	smeltresult = /obj/item/ingot/steel
 

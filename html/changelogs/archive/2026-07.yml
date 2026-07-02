@@ -54,3 +54,8 @@
   - balance: vamp duelist apprentice -> expert sneak in line w/ their climbing skill
   - balance: vamp arsonist has a heavy helm vs its miner helm before + different class
       name now
+2026-07-02:
+  WeNeedMorePhoron:
+  - bugfix: Fixes a major issue stemming from an obsolete feature
+  eirenxiv:
+  - rscadd: Added new and amazing description to bigfoot02's donor item

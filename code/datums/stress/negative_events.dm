@@ -518,6 +518,21 @@
 	stressadd = 3
 	desc = span_red("I long for the shelter of wall and roofs. The sun and moon are too bright for me to bear!")
 
+/datum/stressevent/sun_sensitivity
+	timer = 2 MINUTES
+	stressadd = 4
+	desc = span_red("<b>The sunlight burns my eyes and skin! It's too bright outside!</b>")
+
+/datum/stressevent/lesser_sun_sensitivity
+	timer = 2 MINUTES
+	stressadd = 1
+	desc = span_red("I'm shielded from the the sunlight, but still! It's too bright outside!") // always a hater, aren't ya?! shame on u, astrata shames u
+
+/datum/stressevent/inq_trauma
+	timer = 3 MINUTES
+	stressadd = 4
+	desc = span_red("THE INQUISITION?! BY MY PATRON, NOT THEM!!")
+
 /datum/stressevent/water_splashed_noble
 	timer = 30 SECONDS
 	stressadd = 2

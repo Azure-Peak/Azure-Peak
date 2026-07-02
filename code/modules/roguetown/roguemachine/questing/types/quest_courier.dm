@@ -65,7 +65,7 @@
 			/obj/item/perfume/random,
 		),
 		/area/rogue/indoors/town/magician = list(
-			/obj/item/book/spellbook,
+			/obj/item/rogueweapon/spellbook,
 			/obj/item/roguegem/yellow,
 			/obj/item/reagent_containers/glass/bottle/rogue/manapot,
 		),

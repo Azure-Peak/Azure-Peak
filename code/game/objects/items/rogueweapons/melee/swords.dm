@@ -553,7 +553,7 @@
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
 	icon_state = "crucified"
 	sheathe_icon = "crucified"
-	item_state = "judgement"
+	item_state = "crucified"
 	smeltresult = /obj/item/ingot/steel
 	sellprice = 999
 	static_price = TRUE

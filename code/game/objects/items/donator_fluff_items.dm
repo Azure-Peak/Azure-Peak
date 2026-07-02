@@ -904,8 +904,15 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 		
 //Bigfoot's donator item - steel great axe with gilded pattern
 /obj/item/rogueweapon/greataxe/steel/gilded
-	name = "gilded greataxe"
-	desc = "A gilded steel great axe, a long-handled axe with a single blade made for ruining someone's day beyond any measure.."
+	name = "Aureline"
+	desc = "An axe crafted of carefully forged steel, this weapon bears the mark of many hours toiling over a forge.  \
+	Inlaid with gold patterns depicting a side-facing griffon with interwoven vines of fabric trailing in a curve along the centre of the axe.   \
+	The axe head itself is a more darkened metal save for the edge of the blade itself, a strip of curved, deadly silver against the black and gold of the rest of the axe.   \
+	Not a single flaw is to be found in the metal itself, no matter how many times it is brought to wielded; not a chip in the blade nor loss of its bite.   \
+	Evidently it is a very well cared for piece. \n\
+	\n\
+	The handle itself is no less impressive, made of a darkened heartwood and banded with gold-appearing steel to both fasten the weapon and provide contrast along the bottom and top.  \
+	Inlaid at the bottom most band is the sigil of House Xulu, a long ago served house that is carried in remembrance of an Oath he is now released from."
 	icon_state = "orin"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 

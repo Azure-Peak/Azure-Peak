@@ -24,6 +24,8 @@
 	var/projectiles_per_fire = 1
 	/// Whether this spell is currently set to fire in arc mode.
 	var/arc_mode = FALSE
+	/// If TRUE, a non-click (facing-direction) cast snaps the aim to the nearest cardinal direction.
+	var/cardinal_aim = FALSE
 
 /datum/action/cooldown/spell/projectile/generate_wiki_html(mob/user)
 	if(!displayed_damage && projectile_type)
@@ -39,7 +41,8 @@
 	var/atom/target = cast_on
 	// For non-click spells, resolve target in the caster's facing direction
 	if(!click_to_activate)
-		target = get_ranged_target_turf(owner, owner.dir, cast_range)
+		var/aim_dir = cardinal_aim ? angle2dir_cardinal(dir2angle(owner.dir)) : owner.dir
+		target = get_ranged_target_turf(owner, aim_dir, cast_range)
 
 	fire_projectile(target)
 	return TRUE

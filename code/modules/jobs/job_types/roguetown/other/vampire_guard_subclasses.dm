@@ -446,7 +446,8 @@
 		// Yeah vampire mages are pretty insanely strong with some clan potencies but rule of cool honestly.
 	)
 	subclass_skills = list(
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
@@ -475,7 +476,7 @@
 	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy //No head armor but good anti-decap armor, intended.
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt
-	beltl = /obj/item/book/spellbook
+	beltl = /obj/item/rogueweapon/spellbook/greater
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	backr = choose_implement(H, "greater")
 

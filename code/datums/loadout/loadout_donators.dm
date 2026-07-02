@@ -236,7 +236,7 @@
 	ckeywhitelist = list("bigfoot02")
 
 /datum/loadout_item/donator/bigfoot_axe
-	name = "Donator Kit - Gilded Greataxe"
+	name = "Donator Kit - Aureline"
 	path = /obj/item/enchantingkit/bigfoot_axe
 	ckeywhitelist = list("bigfoot02")
 

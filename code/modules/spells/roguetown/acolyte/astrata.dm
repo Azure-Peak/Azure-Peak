@@ -75,6 +75,7 @@
 			return TRUE
 		spelltarget.adjust_fire_stacks(2)
 		spelltarget.ignite_mob()
+		log_combat(owner, spelltarget, "ignited", addition="with the miracle [name]")
 		return TRUE
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +129,7 @@
 	.=..()
 
 /datum/status_effect/buff/astrata_gaze/on_apply()
-	// Reset base values because the miracle can 
+	// Reset base values because the miracle can
 	// now actually be recast at high enough skill and during day time
 	// This is a safeguard because buff code makes my head hurt
 	var/per_bonus = 0
@@ -311,7 +312,7 @@
 	if(!target || !target.Enter(owner) || is_type_in_list(target, turf_blacklist))
 		to_chat(owner, span_warning("This turf can't be on fiyaaaah! (It's blocked sire.)"))
 		return FALSE
-	
+
 	new /obj/machinery/light/rogue/campfire/miracle_pyre(target)
 
 	return TRUE
