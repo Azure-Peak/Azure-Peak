@@ -1,6 +1,6 @@
 #define BLADE_DANCE_RADIUS 1
 #define BLADE_DANCE_DURATION 10 SECONDS
-#define BLADE_DANCE_TICK_DAMAGE 30
+#define BLADE_DANCE_TICK_DAMAGE 15
 
 /datum/action/cooldown/spell/blade_dance
 	button_icon = 'icons/mob/actions/mage_ferramancy.dmi'
