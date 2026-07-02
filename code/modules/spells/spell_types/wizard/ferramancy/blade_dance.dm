@@ -1,12 +1,12 @@
 #define BLADE_DANCE_RADIUS 1
 #define BLADE_DANCE_DURATION 10 SECONDS
-#define BLADE_DANCE_TICK_DAMAGE 15
+#define BLADE_DANCE_TICK_DAMAGE 20
 
 /datum/action/cooldown/spell/blade_dance
 	button_icon = 'icons/mob/actions/mage_ferramancy.dmi'
 	name = "Blade Dance"
 	desc = "Wreathe yourself in a whirling storm of arcyne blades that moves with you, slashing everything in the tiles around you.\n\n\
-	Deals 30 brute damage per second for 10 seconds to everything in the tiles adjacent to you."
+	Deals 20 brute damage per second for 10 seconds to everything in the tiles adjacent to you."
 	button_icon_state = "blade_dance"
 	sound = 'sound/magic/scrapeblade.ogg'
 	spell_color = GLOW_COLOR_METAL
