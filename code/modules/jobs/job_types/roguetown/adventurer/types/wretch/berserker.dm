@@ -128,11 +128,11 @@
 						H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 						beltl = /obj/item/rogueweapon/mace
 
-		var/helmets = list("Berserker's Volfskulle Bascinet","Steel Kettle + Wildguard")
+		var/helmets = list("Bloodsoaked Headband","Steel Kettle + Wildguard")
 		var/helmet_choice = input(H, "Choose your HELMET.", "STEEL YOURSELF.") as anything in helmets
 		switch(helmet_choice)
-			if("Berserker's Volfskulle Bascinet")
-				head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker //Pseudoantagonistic-exclusive. Light AC with an on-wear trait for HELMBITING.
+			if("Bloodsoaked Headband")
+				head = /obj/item/clothing/head/roguetown/headband/bloodzerked
 			if("Steel Kettle + Wildguard")
 				head = /obj/item/clothing/head/roguetown/helmet/kettle
 				mask = /obj/item/clothing/mask/rogue/wildguard

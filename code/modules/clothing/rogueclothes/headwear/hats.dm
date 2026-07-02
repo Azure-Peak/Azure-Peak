@@ -253,6 +253,17 @@
 	//dropshrink = 0.75
 	dynamic_hair_suffix = null
 
+/obj/item/clothing/head/roguetown/headband/bloodzerked // the replacement of wolfskull for zerker i guess, crucify me later for dragonhide armor, it's mostly for the drip
+	name = "bloodsoaked headband"
+	desc = "A headband that's been soaked in the blood of many trials. The dried blood has stiffened the cloth, gifting it a texture not unlike malleable steel. Wearing this spiritually motivates your head to grit up and endure its future trials for blood and glory."
+	color = "#851a16"
+	resistance_flags = FIRE_PROOF
+	armor = ARMOR_DRAGONHIDE
+	max_integrity = ARMOR_INT_HELMET_HARDLEATHER + 25
+	body_parts_covered = NECK|NOSE|HAIR|EARS|HEAD
+	sewrepair = TRUE
+	dynamic_hair_suffix = null
+
 /obj/item/clothing/head/roguetown/headband/bloodied
 	name = "bloodied headband"
 	desc = "A headband that's been soaked in the blood of a terrible nitebeast. The coagulative properties of cursed blood has stiffened the cloth, gifting it a texture not unlike spongy leather. Wearing it emboldens you with determination."
