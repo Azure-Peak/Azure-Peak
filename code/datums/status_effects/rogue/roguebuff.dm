@@ -557,7 +557,7 @@
 /datum/status_effect/buff/healing/tick()
 	if(block_combat_mode && owner.cmode)
 		return
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN) || HAS_TRAIT(owner, TRAIT_BLACKBLOOD))
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN) || HAS_TRAIT(owner, TRAIT_BLACKBLOOD))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#FF0000"
@@ -756,7 +756,7 @@
 	return TRUE
 
 /datum/status_effect/buff/campfire_stamina/tick()
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	owner.adjust_bodytemperature(8)
 	if(owner.in_combat_until > world.time)
@@ -776,7 +776,7 @@
 /datum/status_effect/buff/campfire/tick()
 	if(owner.in_combat_until > world.time)
 		return
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(owner))
 	H.color = "#c7aa5c"
@@ -837,7 +837,7 @@
 	owner.remove_filter(MIRACLE_BLOODHEAL_FILTER)
 
 /datum/status_effect/buff/bloodheal/tick()
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_blood(get_turf(owner))
 	H.color = "#FF0000"
@@ -866,7 +866,7 @@
 	return TRUE
 
 /datum/status_effect/buff/healing/necras_vow/tick()
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#a5a5a5"
@@ -916,7 +916,7 @@
 	return TRUE
 
 /datum/status_effect/buff/psyhealing/tick()
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN)) 
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN)) 
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
 	H.color = "#d3d3d3"
@@ -981,7 +981,7 @@
 	return ..()
 
 /datum/status_effect/buff/oremuncher/tick()
-	if(!HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || !HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#ceb8a3"
@@ -1010,7 +1010,7 @@
 	return ..()
 
 /datum/status_effect/buff/ingotmuncher/tick()
-	if(!HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || !HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#ffffff"
@@ -1049,7 +1049,7 @@
 	return ..()
 
 /datum/status_effect/buff/gemmuncher/tick()
-	if(!HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || !HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/randomcolor = pick("#ff0000","#ffee00","#09ff00","#00f7ff","#0004ff","#ae00ff","#ff00dd")
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))

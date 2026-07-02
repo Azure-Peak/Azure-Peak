@@ -50,6 +50,7 @@
 	can_have_ai = FALSE
 	/// The typepath of the chest this mimic is mimicking.
 	var/obj/structure/closet/crate/chest/mimicking_chest = /obj/structure/closet/crate/chest
+	var/gas_released = FALSE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/Initialize(mapload)
 	. = ..()
@@ -96,11 +97,77 @@
 	icon = initial(icon)
 	icon_state = (stat == DEAD) ? icon_dead : icon_living
 
+// SURPRISE MODAFUCKA
+/mob/living/simple_animal/hostile/retaliate/rogue/mimic/proc/release_poison_gas()
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
+
+	visible_message(span_warning("[src] bursts open in a cloud of toxic gas and necrotic energies!"))
+	playsound(loc, 'sound/items/smokebomb.ogg', 50)
+	playsound(loc, pick('sound/misc/jumpscare (1).ogg','sound/misc/jumpscare (2).ogg','sound/misc/jumpscare (3).ogg','sound/misc/jumpscare (4).ogg'), 100)
+
+	var/datum/effect_system/smoke_spread/poison_gas/smoke = new
+	smoke.set_up(2, T) // jakk here
+	smoke.start()
+	for(var/mob/living/L in range(2, src))
+		if(L == src)
+			continue
+		L.apply_status_effect(/datum/status_effect/debuff/mimic_curse)
+
+/atom/movable/screen/alert/status_effect/debuff/mimic_curse
+	name = "Curse: Avarice Pox"
+	desc = "That foul creacher's fumes carried a primordial curse! I can't seem to naturally heal anymore!"
+	icon_state = "debuff"
+	alert_group = ALERT_DEBUFF
+
+/datum/status_effect/debuff/mimic_curse
+	id = "mimic_curse"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/mimic_curse
+	duration = 10 MINUTES
+	tick_interval = 1 SECONDS
+	var/static/mutable_appearance/curse_overlay = mutable_appearance('icons/roguetown/mob/rotten.dmi', "rotten")
+
+/datum/status_effect/debuff/mimic_curse/on_apply()
+	. = ..()
+	var/mob/living/L = owner
+	if(!L)
+		qdel(src)
+		return
+	to_chat(L, span_danger("A strange curse prevents my wounds from closing naturally!"))
+	ADD_TRAIT(L, TRAIT_NOREGEN, "mimic_curse")
+	L.add_overlay(curse_overlay)
+
+/datum/status_effect/debuff/mimic_curse/on_remove()
+	var/mob/living/L = owner
+	if(L)
+		REMOVE_TRAIT(L, TRAIT_NOREGEN, "mimic_curse")
+		L.cut_overlay(curse_overlay)
+	return ..()
+
+/datum/status_effect/debuff/mimic_curse/tick()
+	var/mob/living/L = owner
+	if(!L)
+		return
+	L.adjustBruteLoss(1)
+
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/Aggro()
 	..()
-	// go mask-off!
 	undisguise()
 	aggressive = TRUE
+	try_gas_release()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/mimic/proc/try_gas_release()
+	if(gas_released)
+		return
+	if(stat == DEAD)
+		return
+	src.Immobilize(1 SECONDS)
+	if(do_after(src, 1 SECONDS, src))
+		gas_released = TRUE
+		release_poison_gas()
+	else
+		addtimer(CALLBACK(src, PROC_REF(try_gas_release)), 5)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/death()
 	// Drop loot onto tile.

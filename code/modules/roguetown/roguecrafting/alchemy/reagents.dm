@@ -12,6 +12,8 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/healthpot, 2) //No overhealing.
 	var/list/wCount = M.get_wounds()
@@ -46,6 +48,8 @@
 	var/hydration = 4
 
 /datum/reagent/medicine/healthpot/zarum/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
+		return ..()
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
@@ -74,6 +78,8 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/stronghealth/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/stronghealth, 2) //No overhealing.
 	var/list/wCount = M.get_wounds()
@@ -131,6 +137,8 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/stronghealth, /datum/reagent/medicine/manapot, /datum/reagent/medicine/strongmana)
 
 /datum/reagent/medicine/restoration/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/restoration, 2) //No overhealing.
 	var/list/wCount = M.get_wounds()
@@ -343,6 +351,8 @@
 	can_synth = FALSE 
 
 /datum/reagent/ruined_potion/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NASTY_EATER))
+		return
 	if(volume > 0.99)
 		M.add_nausea(2) // Drinking ruined potions is unpleasant but not dangerous.
 	return ..()

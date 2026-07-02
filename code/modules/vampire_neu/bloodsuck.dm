@@ -68,10 +68,23 @@
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
 
-	src.adjust_hydration(10) // da sippy
+	src.reagents.add_reagent(/datum/reagent/blood, 5) // the smarter way to implement this, colorized
+
+	var/amount = min(5, victim.reagents.total_volume) // but also comes with the risk of drinking their current reagents, so if they're poisoned, you'll also get poisoned
+	var/total = victim.reagents.total_volume
+	if(total > 0)
+		for(var/datum/reagent/R in victim.reagents.reagent_list)
+			var/to_transfer = (R.volume / total) * amount
+			victim.reagents.remove_reagent(R.type, to_transfer)
+			src.reagents.add_reagent(R.type, to_transfer)
+
+	var/tox_drained = min(victim.getToxLoss(), 5) // also works for TOX damage, so you can suck the poison out of them!! no leeches? no problem!
+	if(tox_drained > 0)
+		victim.adjustToxLoss(-tox_drained)
+		src.adjustToxLoss(tox_drained)
 
 	if(VVictim)
-		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [victim].</b>"))
+		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [uppertext(victim)].</b>"))
 
 	var/blood_handle
 	if(victim.stat == DEAD)
@@ -91,7 +104,7 @@
 
 	if(victim.bloodpool > 0)
 		var/used_vitae = 150
-		victim.blood_volume = max(victim.blood_volume - 45, 0)
+		victim.blood_volume = max(victim.blood_volume - 45, 0) // good fucking lord vampires are hungy, 50 blood per cycle?
 		if(victim.bloodpool < used_vitae)  // We assume they're left with 250 vitae or less, so we take it all
 			used_vitae = victim.bloodpool
 			to_chat(src, span_warning("...But alas, only leftovers..."))

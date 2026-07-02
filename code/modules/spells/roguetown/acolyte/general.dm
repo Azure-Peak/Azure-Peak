@@ -98,6 +98,7 @@
 		spelltarget.visible_message(span_artery("[target] doesn't seem to be organic, the miracle dissipates."), span_artery("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return FALSE
 
 	if(spelltarget.has_status_effect(/datum/status_effect/buff/healing))
 		to_chat(owner, span_warning("They are already under the effects of a healing aura!"))

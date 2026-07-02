@@ -1697,6 +1697,8 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 	var/list/d = H.get_mob_descriptors()
 	report_html += "Height: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")]<br>"
 	report_html += "Build: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")]<br>"
+	if(HAS_TRAIT(H, TRAIT_BLACKBLOOD))
+		report_html += "<i>By decree of the Holy Otavan Inquisition, the subject is judged CURED and restored to the flock of commonfolk. Should they ever stray from the Allfather's Light and back to evil against humenkind, let His 'Final Mercy' be carried out in due diligence. <b>They shall NOT be granted another second chance</b>.</i><br>"
 	report_html += "<hr>"
 	
 	report_html += "<b>LYFEBLOOD-LUX RESONATOR RESULTS</b><br><br>"
