@@ -11,11 +11,10 @@
 	maximum_possible_slots = 2
 
 	subclass_stats = list(
-		STATKEY_STR = 1, //poopy adv-tier stats, the majority of it will be via selfbuff. abt 3 points of weighted stats
+		STATKEY_STR = 2, //poopy adv-tier stats, the majority of it will be via selfbuff. abt 3 points of weighted stats
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 		STATKEY_PER = 1,
-		STATKEY_SPD = -2
 	)
 	subclass_skills = list(
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
@@ -40,13 +39,12 @@
 /datum/outfit/job/roguetown/mercenary/lirvanmerc/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	if(should_wear_femme_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/shirt/desertbra
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/gold
 
 	cloak = /obj/item/clothing/cloak/ordinatorcape/lirvas
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/lirvas
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
-	beltr = /obj/item/rogueweapon/sword/sabre
+	beltr = /obj/item/rogueweapon/sword/long/dec
 	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/gold
 	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas
@@ -83,7 +81,7 @@
 |  |  |  |\ '-'  ||  |  |  |  `--'
 `--'  `--' `--`--'`--'  `--'  .--.
                               '--'
-shitcode stuff below this point; first, their regenerating skin which gives them a buff when broken, which works fine.
+shitcode stuff below this point; first, their regenerating skin.
 Second, a self-buff spell that buffs them depending on their total wealth including item sellvalue. I would have liked this to ideally been just a thing they got passively, but I can't fucking code, so...
 third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it looks cool though doesnt it. */
 
@@ -98,42 +96,14 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas //high and good armor, but full body, so constant dmg  U N G O D L Y  high regen time. get owned when it breaks or swap to a sidearm
 	name = "hardened scales"
-	desc = "Scales hardened by Lirvan rituo. When broken, my body crumbles, but the lack of encumberance is wildly freeing. </br> </br> Who is more worthy to inherit the wealth of the Sun than those who fly closest?"
+	desc = "Scales hardened by Lirvan rituo. </br> </br>Who is more worthy to inherit the wealth of the Sun than those who fly closest?"
 	repairmsg_begin = "My scales harden and begin mending."
 	repairmsg_continue = "Golden light seeps 'tween myne mending scales."
 	repairmsg_stop = "The onslaught stops my scales' regeneration!"
 	repairmsg_end = "My scales are as strong as stone once more!"
-	repair_time = 60 SECONDS
-	armor = ARMOR_PLATE //scalemail equivalent and ensures it takes dmg last
+	repair_time = 30 SECONDS
+	armor = ARMOR_PLATE
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | HANDS | FEET | COVERAGE_HEAD //all but eyes/nose, seems fair.
-	max_integrity = 500 //kinda snowflakey but after the armor rework, considering that this is full-body and will always absorb a hit; bc it's scale equivalent it will actually absorb nearly ALL of the dmg, so...
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas/Destroy() //this shouldn't happen, but just in case.....though maybe it'd be more sovl if it didn't...?
-	remove_broken_scales_buff()
-	return ..()
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
-	. = ..()
-	if(obj_integrity <= (initial(obj_integrity) * (0.11))) //UNBELIEVABLY SHIT CODE
-		apply_broken_scales_buff()
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas/armour_regen() //i...hope this works??
-	remove_broken_scales_buff()
-	return ..()
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas/proc/apply_broken_scales_buff()
-	if(!ishuman(loc))
-		return
-	var/mob/living/carbon/human/H = loc
-	if(!H.has_status_effect(/datum/status_effect/buff/lirvan_broken_scales))
-		H.apply_status_effect(/datum/status_effect/buff/lirvan_broken_scales)
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas/proc/remove_broken_scales_buff()
-	if(!ishuman(loc))
-		return
-	var/mob/living/carbon/human/H = loc
-	if(H.has_status_effect(/datum/status_effect/buff/lirvan_broken_scales))
-		H.remove_status_effect(/datum/status_effect/buff/lirvan_broken_scales)
 
 
 #define LIRVAN_BLING_FILTER "lirvan_titheaura"
@@ -156,7 +126,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	desc = "Draw strength from the wealth you carry. Armor, jewelry, and raw mammon counted equally. More WEALTH means more POWER. More POWER at 150, 200, 300, 400, and 700 mammon."
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
-	recharge_time = 3 MINUTES
+	recharge_time = 2 MINUTES
 	ignore_armor_penalty = TRUE
 	invocations = list("'s scales harden and glow softly!")
 	invocation_type = "emote"
@@ -177,7 +147,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	examine_text = "<font color='red'>SUBJECTPRONOUN radiates POWER.</font>"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/lirvan_tithe
 	status_type = STATUS_EFFECT_REFRESH
-	duration = 2 MINUTES
+	duration = 1 MINUTES
 	var/wealth_value = 0
 	var/outline_colour = "#f5d96c"
 	var/obj/effect/dummy/lighting_obj/moblight/lirvanlight
@@ -193,7 +163,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		if(!lirvanlight)
 			lirvanlight = owner.mob_light(7, 7, _color = outline_colour)
 		if(wealth_value < 120)
-			to_chat(owner, span_notice("WEALTH answers my call. Every single one of my- ONLY [src.wealth_value] MAMMON?!"))
+			to_chat(owner, span_notice("WEALTH answers my call. Every single one of my- ONLY [src.wealth_value] MAMMONS?!"))
 			owner.emote("whimper", forced = TRUE)
 			return
 		to_chat(owner, span_notice("WEALTH answers my call. Every single one of my [src.wealth_value] pieces of it."))
@@ -232,14 +202,14 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/effect/proc_holder/spell/invoked/saxtonhale
 	name = "SUNSET"
-	desc = "Channel but a mote of the power of a Drakkyn. Take to the skies, before crashing into the ground with a punishing slam after a delay. All caught within are damaged. Hit can be riposted. Center tile takes double damage."
+	desc = "Channel but a mote of the power of a Drakkyn. Take to the skies, before crashing into the ground with a punishing slam after a delay. All caught within are damaged. Hit can be riposted. Center tile takes triple damage."
 	clothes_req = FALSE
 	ignore_armor_penalty = TRUE
 	range = 5
 	overlay_state = "thunderstrike"
 	releasedrain = 30
 	chargedrain = 0
-	chargetime = 5
+	chargetime = 0
 	recharge_time = 20 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
@@ -249,19 +219,13 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	invocations = list("Drakkyr Voldta!") //draconic doesn't have any linguistic inspirations i think. 'dragon walk' if you want to be super literal abt the greek translation but like idk man im just a polyglot dont get mad at me
 	invocation_type = "shout"
 	gesture_required = TRUE
-	var/damage = 45
+	var/damage = 40
 	var/delay = 1 SECONDS
 	var/obj/effect/temp_visual/lirvan_sunset_dragon/dragon_afterimage
 
 /obj/effect/proc_holder/spell/invoked/saxtonhale/cast(list/targets, mob/living/user = usr)
 	var/mob/living/carbon/human/H = user
 	if(!istype(H))
-		revert_cast()
-		return FALSE
-
-	var/obj/item/held_weapon = H.get_active_held_item()
-	if(!held_weapon)
-		to_chat(H, span_warning("...with WHAT WEAPON?"))
 		revert_cast()
 		return FALSE
 
@@ -351,6 +315,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/effect/temp_visual/lirvan_sunset_dragon //SPECIAL EFFECTS DONE DIRT CHEAP
 	name = "sunfall dragon"
+	desc = "The fact that I'm focused on this instead of the guy that's just jumped like twenty feet into the air really says a lot about my priorities. Maybe I should stop fucking around. Hey, wait, how much can I think about this? Can I just keep thinking about this forever? Fucked up."
 	icon = 'modular/icons/mob/96x96/ratwood_dragon.dmi'
 	icon_state = "dragon_shadow"
 	randomdir = FALSE
