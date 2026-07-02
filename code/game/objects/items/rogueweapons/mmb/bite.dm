@@ -146,11 +146,11 @@
 				if(ARMOR_CLASS_NONE)
 					recoil_mult = 0.05
 				if(ARMOR_CLASS_LIGHT)
-					recoil_mult = 0.10
+					recoil_mult = 0.15
 				if(ARMOR_CLASS_MEDIUM)
-					recoil_mult = 0.20
+					recoil_mult = 0.30
 				if(ARMOR_CLASS_HEAVY)
-					recoil_mult = 0.40
+					recoil_mult = 0.50
 				else
 					recoil_mult = 0.05
 
@@ -325,11 +325,11 @@
 			if(ARMOR_CLASS_NONE)
 				recoil_mult = 0.05
 			if(ARMOR_CLASS_LIGHT)
-				recoil_mult = 0.10
+				recoil_mult = 0.15
 			if(ARMOR_CLASS_MEDIUM)
-				recoil_mult = 0.20
+				recoil_mult = 0.30
 			if(ARMOR_CLASS_HEAVY)
-				recoil_mult = 0.40
+				recoil_mult = 0.50
 			else
 				recoil_mult = 0.05
 
