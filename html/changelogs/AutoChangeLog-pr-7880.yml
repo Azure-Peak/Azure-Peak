@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Removed Chaos Storm Enchantment."
+  - rscdel: "Removed Voidtouched Enchantment."
+  - balance: "Phoenix Guard now have a 60 seconds instead of 20 seconds cooldown so you can't just keep setting your opponennt on fire."

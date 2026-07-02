@@ -88,6 +88,8 @@
 #define SPELLCOST_SB_MOBILITY 12 // Dashes / Teleports / Anchor
 #define SPELLCOST_SB_ULT 50 // Their ult
 
+#define SPELLCOST_FORM_BLADE 30
+
 // Standardized charge times — keeps poke/major/heavy spells consistent for balance passes
 #define CHARGETIME_POKE          0.5 SECONDS  // Staple poke spells
 #define CHARGETIME_MINOR         1 SECONDS    // Minor utility / support spells

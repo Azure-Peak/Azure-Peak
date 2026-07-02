@@ -194,9 +194,6 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE, //No free mount anymore; pick Cavalryman archetype for a mount and better Riding.
 	)
-	subclass_virtues = list(
-		null
-	) //Unlike Disgraced Knight, you don't get a free mount.
 /datum/outfit/job/roguetown/wretch/desertergeneric/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)

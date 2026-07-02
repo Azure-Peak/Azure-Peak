@@ -54,7 +54,7 @@
 	name = "fortifying vapors"
 	icon = 'icons/effects/miracle-healing.dmi'
 	icon_state = "bubbles"
-	duration = 15
+	duration = 20 //It lasts longer
 	plane = GAME_PLANE_UPPER
 	layer = ABOVE_ALL_MOB_LAYER
 

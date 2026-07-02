@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Special Scabbards - Kazengunese, Headphysician, Gold & Silver decorated one cannot be stripped by middle click anymore. To avoid accidental mending into stripping down your special 500 mams scabbard"

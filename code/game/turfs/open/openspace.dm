@@ -151,7 +151,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			if(ismob(pulling))
 				user.pulling.forceMove(target)
 			var/climber_armor_class = climber.highest_ac_worn()
-			if((climber_armor_class <= ARMOR_CLASS_LIGHT) && !(ismob(pulling))) // if our armour is not light or none OR we are pulling someone we eat shit and die and can't climb vertically at all, except for 'vaulting' aka we got a sold turf we can walk on in front of us
+			if((climber_armor_class <= ARMOR_CLASS_LIGHT) && !(ismob(pulling))) // if our armour is not light or none OR we are pulling someone OR we're a literal zombie we eat shit and die and can't climb vertically at all, except for 'vaulting' aka we got a sold turf we can walk on in front of us
 				user.movement_type |= FLYING
 			L.stamina_add(stamina_cost_final)
 			user.forceMove(target)
@@ -198,6 +198,9 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			var/pulling = climber.pulling
 			if(ismob(pulling)) // if you are grabbing someone then fuck off, could forceMove() both grabber and the grabee for fun doe
 				climber.visible_message(span_info("I can't get a good grip while dragging someone."))
+				return
+			if(HAS_TRAIT(climber, TRAIT_DEADITE)) //Zombies CANNOT use advanced climbing
+				to_chat(user, span_warning("...What?"))
 				return
 			if(!(climber.mobility_flags & MOBILITY_STAND))
 				climber.visible_message(span_info("I can't get a good grip while prone."))

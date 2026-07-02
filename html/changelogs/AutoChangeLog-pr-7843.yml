@@ -1,0 +1,14 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Reworked staves and wand and staves now have a special attack and is decently viable melee weapons. Wand no longer exist, replaced by tome in their role. Tome is now a viable one handed weapon with the arcyne descent (Read: uppercut) special."
+  - rscadd: "Adventurer level mages and missionaries / acolyte now have Jman staves, Merc level or so have Expert"
+  - rscadd: "Arcyne Armament skills added to all mages"
+  - rscadd: "Reworked, and removed Kastvyl. Added back Shatter and reworked Tremor on Macebearer to follow the new ferramantic telegraphed strike framework."
+  - rscadd: "Witch / Bookworm now get Jman / Apprentice staves / arcyne armament, respectively"
+  - rscadd: "Conjured items now reliably disappears when the user FT (or the spell is destroyed)"
+  - rscdel: "Removed wands"
+  - rscadd: "Reworked the Ferramancy school entirely to a melee based mageblade styles inspired by popular games"
+  - rscdel: "Remove the Lesser Kinesis minor aspect"
+  - rscdel: "Replaced Blink in the Displacement Minor Aspect with Phase, which is basically an arcane reflavor of Dagger Dash."
+  - rscdel: "Removed the Aegiscraft minor aspect"

@@ -1,0 +1,11 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added a few more \"herecy\" and a whole new \"very odd\" examine"
+  - rscadd: "Added a small extra bit of flavor on breaking the crankbox."
+  - rscadd: "Golgatha is properly shown in chat like a relic, including why its so important to many Psydonites usually."
+  - rscadd: "Tweaked some flavor, with Abyssorian artifacts, to make it more clear that Dreamwalkers are cursed by Abyssor and not just violent lunatics that make weaponry and armor for kicks and giggles."
+  - rscadd: "Inquisitional Listener has a bit more to its description to inform you that it should be worn like a ring."
+  - balance: "Vlord weapon + crown + armor is  marked under the new very weird examine, the Weeping Psicross and Inquisitional Listeners are (undisguised) as well."
+  - balance: "viewing an active crankbox makes its heretical nature blatently obvious if the massive mood debuffs and screams weren't enough."
+  - bugfix: "Soul churner now has an else, for undefined Patrons like Science, Mossmother, Etc. You will Still feel its effects"

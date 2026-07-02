@@ -230,11 +230,6 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman
-	name = "steel bogman's helmet"
-	desc = "A helmet featuring the face of a snarling goblin. Once worn by the Bogmen, now a relic of old Azuria."
-	icon_state = "guardhelm"
-
 /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
 	name = "decrepit savoyard"
 	desc = "Frayed bronze plates, molded into a ventilated casket. It reeks of fetid shit, and each breath - labored and strained - is laced with flaked metal."
@@ -1510,3 +1505,147 @@
 			\n\n'Look upon their works, ye mighty, and despair.'"
 	icon_state = "seebascinet"
 	item_state = "seebascinet"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/aventail
+	name = "hounskull with aventail"
+	desc = "A steel hounskull bascinet with a thick maille aventail secured to the inside. Just as a froggemund befits a knight in the tournaments, an \
+	aventailed bascinet befits a knight on the battlefield; unmatched in coverage, durability, and weight."
+	icon_state = "visaventail"
+	item_state = "visaventail"
+	adjustable = CAN_CADJUST
+	emote_environment = 3
+	body_parts_covered = FULL_HEAD|NECK
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
+	block2add = FOV_RIGHT|FOV_LEFT
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL + ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY //Froggemunds, galore!
+	smeltresult = /obj/item/ingot/steel
+	smelt_bar_num = 2
+	armor_class = ARMOR_CLASS_HEAVY //For the worthy - or in this case, the knightly.
+
+/obj/item/clothing/head/roguetown/helmet/heavy/aventail/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR|MOUTH|NECK), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/aventail/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/feather) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP + pridelist
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+	if(istype(W, /obj/item/natural/cloth) && !altdetail_tag)
+		var/choicealt = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		altdetail_color = COLOR_MAP[choicealt]
+		altdetail_tag = "_detailalt"
+		if(choicealt in pridelist)
+			detail_tag = "_detailp"
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/aventail/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/aventail/iron
+	name = "iron hounskull with aventail"
+	desc = "An iron hounskull bascinet with a thick maille aventail secured to the inside. Just as a froggemund befits a knight in the tournaments, an \
+	aventailed bascinet befits a knight on the battlefield; unmatched in coverage, durability, and weight."
+	icon_state = "iavenheavy"
+	item_state = "iavenheavy"
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON + ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY //Froggemunds, galore!
+	smeltresult = /obj/item/ingot/iron
+
+/obj/item/clothing/head/roguetown/helmet/heavy/beakhelm/iron
+	name = "beaked iron helmet"
+	desc = "No sacrifice is too great, when one is locked into the pursuit of dreams-most-divine."
+	icon_state = "ibeakhelmet"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
+
+/obj/item/clothing/head/roguetown/helmet/heavy/sheriff/iron
+	name = "barred iron helmet"
+	desc = "A helmet which offers good protection to the face at the expense of vision."
+	icon_state = "igatehelm"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
+
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/iron
+	name = "savoyard"
+	desc = "An iron helmet with a menacing visage."
+	icon_state = "isavoyard"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
+
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron
+	name = "bogman's helmet"
+	desc = "An iron helmet featuring the face of a snarling goblin. Once worn by the Bogmen, now a relic of old Azuria."
+	icon_state = "iguardhelm"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle/iron
+	name = "slitted iron kettle helm"
+	desc = "A reinforced iron Eisenhut that's been extended downwards to cover the face, fully protecting the wearer but limiting his field of view. Pairs well with a bevor."
+	icon_state = "iskettle"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
+
+/obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
+	name = "iron bucket helmet"
+	desc = "An iron greathelmet that offers excellent protection to the head, while also ensuring total coverage to its most vulnerable spots. It \
+	resembles an overturned bucket when worn - ergo, 'bucket helmet'. Owing to its simple-yet-robust design, the bucket helmet's venerability \
+	can still be observed todae, atop the shoulders of hedge-knights and paladins alike."
+	icon_state = "itopfhelm"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/iron
+	name = "iron armet"
+	desc = "Holy lamb, sacrificial hero, blessed idiot - Psydon endures. Will you endure alongside Him, as a knight of humenity, or crumble before temptation?"
+	icon_state = "iarmet"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY
+
+/obj/item/clothing/head/roguetown/helmet/heavy/volfplate/iron
+	name = "iron volf-face helm"
+	desc = "A steel bascinet helmet with a volfish visor protecting the head, ears, eyes, nose and mouth."
+	icon_state = "ivolfplate"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY
+
+/obj/item/clothing/head/roguetown/helmet/heavy/barbute/iron
+	name = "iron barbute"
+	desc = "A steel helmet that provides excellent coverage, while uniquely keeping its wearer's field-of-view almost entirely unrestricted. The cruciformic visor is \
+	an inherited design, borne from the earliest daes of Psydonia. Mounted on the back is a unique couplet, fit for adopting feathered greatplumes."
+	icon_state = "ibarbute"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY
+
+/obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/iron
+	name = "visored iron barbute"
+	desc = "A steel greathelm that provides excellent coverage, and whose cruciformic guise is further reinforced by a heavy visor. Valiant paladin, wretched bulwark, thoughtless worm; it \
+	won't be long until they're almost here. Will you cry all your tears, or will you face your fears? </br>Mounted on the back is a unique couplet, fit for adopting feathered greatplumes."
+	icon_state = "ibarbute_visor"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY

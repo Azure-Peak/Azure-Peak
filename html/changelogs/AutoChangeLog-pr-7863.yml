@@ -1,0 +1,8 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Fixed a bug where export was giving 2x the money because it minted twice"
+  - rscdel: "Removed the minting / stockpile treasure sell, now that we have Merchantry's ships which has an inbuilt guard vs using the same optimal strategy over and over. It is also a source of balance headache."
+  - rscadd: "Raised the commissioner price for cured leather goods which may remedy some issues."
+  - bugfix: "Blockades shouldn't roll on a place that can't hold blockades anymore"
+  - bugfix: "Refunded / invalid Alderman quest should refund to the proper budget"

@@ -49,7 +49,7 @@
 	animate(target, pixel_z = original_target_pixel_z + 16, time = 5)
 	
 	// Then drop back down after a short delay
-	var/drop_timer = addtimer(CALLBACK(src, PROC_REF(drop_target), target, original_target_pixel_z), 5)
+	var/drop_timer = addtimer(CALLBACK(src, PROC_REF(drop_target), target, original_target_pixel_z), 5, TIMER_STOPPABLE)
 
 
 

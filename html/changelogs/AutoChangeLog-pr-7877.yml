@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Bind Armament now takes 10 seconds and have a 60 seconds cooldown and massive charging slowdown"

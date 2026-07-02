@@ -169,7 +169,7 @@
 						/obj/item/clothing/mask/rogue/spectacles/golden = 1, //putting them in the bag because bad eye sight virtue strips these
 						/obj/item/contraption/linker = 1,
 						/obj/item/mini_flagpole/artificer = 1,
-						/obj/item/book/spellbook = 1,
+						/obj/item/rogueweapon/spellbook = 1,
 						)
 	// Not a real mage, no free spell point. Take Arcyne Potential if you want it.
 	if(H.mind)

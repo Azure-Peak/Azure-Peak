@@ -39,3 +39,5 @@ GLOBAL_VAR_INIT(glide_size_multiplier, 1.0)
 */
 ///Do we not use the priority system?
 #define MOVEMENT_LOOP_IGNORE_PRIORITY (1<<1)
+///Is the loop moving the movable outside its control, like it's an external force? e.g. footsteps won't play if enabled.
+#define MOVEMENT_LOOP_OUTSIDE_CONTROL (1<<4)

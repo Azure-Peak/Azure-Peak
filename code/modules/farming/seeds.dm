@@ -248,3 +248,7 @@
 /obj/item/seeds/eggplant
 	seed_identity = "eggplant seeds"
 	plant_def_type = /datum/plant_def/bush/eggplant
+
+/obj/item/seeds/cucumber
+	seed_identity = "cucumber seeds"
+	plant_def_type = /datum/plant_def/bush/cucumber

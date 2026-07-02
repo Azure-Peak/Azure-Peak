@@ -179,6 +179,9 @@
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_danger("Throwing [pushed_mob] onto the table might hurt them!"))
 		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites are too stupid to do this.
+		to_chat(user, span_warning("...what?"))
+		return
 	var/added_passtable = FALSE
 	if(!(pushed_mob.pass_flags & PASSTABLE))
 		added_passtable = TRUE

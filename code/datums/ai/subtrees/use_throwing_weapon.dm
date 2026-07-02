@@ -1,3 +1,5 @@
+#define THROW_WINDUP_TIME (0.7 SECONDS)
+
 /datum/ai_planning_subtree/use_throwable
 	var/max_throw_dist = 7 // Only throw if within this distance
 	var/min_throw_dist = 2 // Don't bother throwing at point blank
@@ -57,22 +59,37 @@
 		finish_action(controller, FALSE, consumable_key, target_key)
 		return
 
+	pawn.face_atom(target)
 	var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
-	if(pawn.get_active_held_item() != throwingknife)
+	var/windup_until = controller.blackboard[BB_THROW_WINDUP_UNTIL]
+
+	if(!windup_until)
 		var/obj/item/usable = inv?.draw_usable_item(throwingknife, AI_ITEM_THROWING)
 		if(!usable)
 			finish_action(controller, FALSE, consumable_key, target_key)
 			return
 		controller.set_blackboard_key(BB_HELD_CONSUMABLE, usable)
-		throwingknife = usable
+		controller.set_blackboard_key(BB_THROW_WINDUP_UNTIL, world.time + THROW_WINDUP_TIME)
+		controller.behavior_cooldowns[src] = world.time + THROW_WINDUP_TIME // re-perform to loose once wound up
+		return
 
-	pawn.face_atom(target)
+	if(world.time < windup_until)
+		controller.behavior_cooldowns[src] = windup_until
+		return
+
+	var/obj/item/in_hand = pawn.get_active_held_item()
+	if(!in_hand || !(in_hand.flags_ai_inventory & AI_ITEM_THROWING))
+		finish_action(controller, FALSE, consumable_key, target_key) // lost the throwable mid-windup, bail and restore
+		return
 	pawn.throw_item(get_turf(target))
 	finish_action(controller, TRUE, consumable_key, target_key)
 
 /datum/ai_behavior/use_throwable/finish_action(datum/ai_controller/controller, succeeded, consumable_key, target_key)
 	. = ..()
 	controller.clear_blackboard_key(consumable_key)
+	controller.clear_blackboard_key(BB_THROW_WINDUP_UNTIL)
 	// Restore hands to whatever they were holding before
 	var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
 	inv?.restore_hands()
+
+#undef THROW_WINDUP_TIME

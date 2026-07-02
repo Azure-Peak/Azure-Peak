@@ -218,3 +218,13 @@
 /obj/item/roguestatue/glass/Initialize()
 	. = ..()
 	icon_state = "statueglass[pick(1,2,3,4,5)]"
+
+/obj/item/roguestatue/glass/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
+	if(!..()) //was it caught by a mob?
+		new /obj/item/natural/glass_shard(get_turf(src))
+		pixel_x = rand(-3, 3)
+		pixel_y = rand(-3, 3)
+		new /obj/item/natural/glass_shard(get_turf(src))
+		new /obj/effect/decal/cleanable/debris/glassy(get_turf(src))
+		playsound(src, 'sound/foley/glassbreak.ogg', 95, TRUE)
+		qdel(src)

@@ -62,7 +62,7 @@
 /mob/living/proc/heal_wounds(heal_amount, list/specific_types)
 	var/healed_any = FALSE
 	if(has_status_effect(/datum/status_effect/buff/fortify))
-		heal_amount *= 1.5
+		heal_amount *= 1.3
 	for(var/datum/wound/wound as anything in get_wounds())
 		if(isnull(wound))
 			continue
@@ -114,10 +114,10 @@
 		qdel(wound)
 
 /// Simple version of crit rolling, attempts to do a critical hit on a mob that uses simple wounds - DO NOT CALL THIS ON CARBON MOBS, THEY HAVE BODYPARTS!
-/mob/living/proc/simple_woundcritroll(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = BODY_ZONE_CHEST, silent = FALSE, crit_message = FALSE)
+/mob/living/proc/simple_woundcritroll(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = BODY_ZONE_CHEST, silent = FALSE, crit_message = FALSE, no_crit = FALSE)
 	if(!bclass || !dam || (status_flags & GODMODE) || !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
 		return FALSE
-	var/do_crit = TRUE
+	var/do_crit = !no_crit
 	if(user)
 		if(user.goodluck(2))
 			dam += 10

@@ -209,6 +209,32 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	. = ..()
 	icon_state = "leverwall[toggled]"
 
+/obj/structure/lever/bookcase
+	name = "Bookcase"
+	desc = "Refuge for few, an irrelevance to most."
+	icon_state = "booklever0"
+
+/obj/structure/lever/bookcase/get_mechanics_examine(mob/user)
+	return
+
+/obj/structure/lever/bookcase/attack_hand(mob/user)
+	if(isliving(user))
+		var/mob/living/L = user
+		if(HAS_TRAIT(L, TRAIT_INQUISITION) || L.STAPER >= 15)
+			L.changeNext_move(CLICK_CD_MELEE)
+			var/used_time = 100 - (L.STASTR * 10)
+			user.visible_message(span_warning("[user] pulls the book out of place."))
+			log_game("[key_name(user)] pulled the lever with redstone id \"[redstone_id]\"")
+			if(do_after(user, used_time, target = user))
+				for(var/obj/structure/O in redstone_attached)
+					spawn(0) O.redstone_triggered()
+				toggled = !toggled
+				icon_state = "booklever[toggled]"
+				playsound(src, 'sound/foley/lever.ogg', 100, extrarange = 3)
+
+/obj/structure/lever/bookcase/onkick(mob/user)
+	return
+
 /obj/structure/lever/hidden
 	icon = null
 

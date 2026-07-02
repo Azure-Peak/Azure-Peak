@@ -93,6 +93,7 @@
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
 	blood_toll_bucket = STATS_KILLED_BOGMEN
+	var/deserter_outfit = /datum/outfit/job/roguetown/human/northern/bog_deserters
 
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/ambush
@@ -118,7 +119,7 @@
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
-	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters)
+	equipOutfit(new deserter_outfit)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
 	gender = pick(MALE, FEMALE)
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
@@ -647,4 +648,44 @@
 	add_random_deserter_weapon_hard(H)
 	add_random_deserter_beltl_stuff(H)
 	add_random_deserter_beltr_stuff(H)
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/archer
+	ai_controller = /datum/ai_controller/human_npc/archer
+	deserter_outfit = /datum/outfit/job/roguetown/human/northern/bog_deserters/archer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/archer/ambush
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/archer/after_creation()
+	..()
+	job = "Garrison Marksman"
+
+/datum/outfit/job/roguetown/human/northern/bog_deserters/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/quiver/arrows
+	beltr = /obj/item/quiver/arrows
+	H.STASTR = rand(10, 12)
+	H.STAPER = 14
+	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/crossbowman
+	ai_controller = /datum/ai_controller/human_npc/archer
+	deserter_outfit = /datum/outfit/job/roguetown/human/northern/bog_deserters/crossbowman
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/crossbowman/ambush
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/crossbowman/after_creation()
+	..()
+	job = "Garrison Crossbowman"
+
+/datum/outfit/job/roguetown/human/northern/bog_deserters/crossbowman/pre_equip(mob/living/carbon/human/H)
+	..()
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	backl = /obj/item/quiver/bolt/standard
+	H.STAPER = 13
+	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
 

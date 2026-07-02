@@ -161,6 +161,25 @@
 /obj/item/legwears/knee_high_silk/white
 	color = "#e6e5e5"
 
+//Sleeves - Knee-high
+/obj/item/legwears/sleeve_knee_silk
+	name = "silk knee-high sleeves"
+	desc = "A legwear for those who happen to possess sharp claws."
+	icon_state = "sleeve_k_silk"
+
+/obj/item/legwears/sleeve_knee_silk/white
+	color = "#e6e5e5"
+
+//Sleeves - Knee-high
+/obj/item/legwears/sleeve_stir_knee_silk
+	name = "silk knee-high sleeves (stirrup)"
+	desc = "A legwear for those who happen to possess sharp claws."
+	icon_state = "sleeve_k_silk"
+
+/obj/item/legwears/sleeve_stir_knee_silk/white
+	color = "#e6e5e5"
+
+
 // Supply
 
 /datum/supply_pack/rogue/wardrobe/suits/stockings_white
@@ -349,3 +368,17 @@
 	result = list(/obj/item/legwears/fishnet/white)
 	reqs = list(/obj/item/natural/fibers = 2)
 	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/sleeves_knee_silk_white
+	name = "silk sleeves - knee"
+	result = list(/obj/item/legwears/sleeve_knee_silk/white)
+	reqs = list(/obj/item/natural/silk = 1,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/sewing/sleeves_knee_silk_white
+	name = "silk sleeves - knee (stirrup)"
+	result = list(/obj/item/legwears/sleeve_stir_knee_silk/white)
+	reqs = list(/obj/item/natural/silk = 1,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 5

@@ -58,21 +58,24 @@
 		if(bucket && bucket != NAVIGATOR_BUCKET_REFUSED_FOOD && bucket != NAVIGATOR_BUCKET_REFUSED_BULK)
 			display_cat = bucket
 	var/list/quality_data = quality_examine_suffix()
-	var/quality_tag = quality_data ? " - [quality_data["text"]]" : ""
+	var/cat_tag = display_cat ? "<b>[display_cat]</b>" : ""
+
+	// The price traits gate ONLY the mammon value - category and quality are always shown.
+	var/value_line = "Value: Unknown"
 	if(HAS_TRAIT(user, TRAIT_SEEPRICES) || simpleton_price)
 		var/appraised_value = appraise_price()
 		if(appraised_value > 0)
-			var/cat_tag = display_cat ? " - <b>[display_cat]</b>" : ""
-			. += span_info("Value: [appraised_value] mammon[cat_tag][quality_tag].")
-			quality_data = null
+			value_line = "Value: [appraised_value] mammon"
 	else if(HAS_TRAIT(user, TRAIT_SEEPRICES_SHITTY))
 		var/real_value = appraise_price()
 		if(real_value > 0)
 			var/static/fumbling_seed = text2num(GLOB.rogue_round_id)
 			var/fumbled_value = max(1, round(real_value + (real_value * clamp(noise_hash(real_value, fumbling_seed) - 0.25, -0.25, 0.25)), 1))
-			var/cat_tag = display_cat ? " - <b>[display_cat]</b>" : ""
-			. += span_info("Value: ~[fumbled_value] mammon[cat_tag][quality_tag] (uncertain).")
-			quality_data = null
+			value_line = "Value: ~[fumbled_value] mammon (uncertain)"
+
+	// Category always rides along with the value line.
+	. += span_info("[value_line][cat_tag ? " - [cat_tag]" : ""].")
+
 	if(quality_data)
 		switch(quality_data["style"])
 			if("warning")
@@ -88,7 +91,7 @@
 	if(unmintable)
 		seals += "town-property stamp"
 	if(length(seals))
-		. += span_info("Marked with [english_list(seals)] - the stockpile minter and navigator will not take it.")
+		. += span_info("Marked with [english_list(seals)] - the navigator will not take it.")
 	else if(was_crafted)
 		. += span_info("It appears to be crafted by the hand of a local artisan.")
 	else if(is_carved)

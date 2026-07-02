@@ -2,7 +2,7 @@
 	name = "Psyaltrist"
 	tutorial = "You spent some time with cathedral choirs and psyaltrists. Now you spend your days applying the musical arts to the practical on behalf of His most Holy of Inquisitions."
 	outfit = /datum/outfit/job/roguetown/psyaltrist
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_EMPATH)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_EMPATH, TRAIT_STEELHEARTED, TRAIT_INQUISITION)
 	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
 	subclass_stats = list(
@@ -81,21 +81,21 @@
 			if("Shamisen")
 				backr = /obj/item/rogue/instrument/shamisen
 
-	var/weapons = list("Psydonic Whip", "Psydonic Shortsword", "Psydonic Handmace - Swift-Balanced", "Psydonic Flanged Mace - Heavy-Balanced")
+	var/weapons = list("Psydonic Whip", "Psydonic Shortsword", "Psydonic Cudgel", "Psydonic Flanged Mace")
 	var/weapon_choice = tgui_input_list(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 	switch(weapon_choice)
 		if("Psydonic Whip")
-			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Psydonic Shortsword")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy(H))
 			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
-		if("Psydonic Handmace - Swift-Balanced")
-			l_hand = /obj/item/rogueweapon/mace/cudgel/psyclassic/preblessed
+		if("Psydonic Cudgel")
+			l_hand = /obj/item/rogueweapon/mace/cudgel/psy
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
-		if("Psydonic Flanged Mace - Heavy-Balanced")
-			l_hand = /obj/item/rogueweapon/mace/cudgel/psy/preblessed
+		if("Psydonic Flanged Mace")
+			l_hand = /obj/item/rogueweapon/mace/cudgel/flanged/psy
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 /datum/outfit/job/roguetown/psyaltrist

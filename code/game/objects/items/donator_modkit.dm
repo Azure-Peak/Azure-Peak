@@ -295,8 +295,8 @@
 /obj/item/enchantingkit/strudel1
 	name = "'Grenzelhoft Mage Vest' morphing elixir"
 	target_items = list(/obj/item/clothing/suit/roguetown/shirt/robe,
-						/obj/item/clothing/suit/roguetown/shirt/robe)
-	result_item = /obj/item/clothing/suit/roguetown/shirt/sofiavest
+						/obj/item/clothing/suit/roguetown/shirt)
+	result_item = /obj/item/clothing/cloak/tabard/stabard/surcoat/sofiavest
 
 /obj/item/enchantingkit/strudel2
 	name = "'Xylixian Fasching Leotard' morphing elixir"
@@ -333,7 +333,7 @@
 
 //Bigfoot - Custom great axe type
 /obj/item/enchantingkit/bigfoot_axe
-	name = "'Gilded Great Axe' morphing elixir"
+	name = "'Aureline' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/greataxe/steel)
 	result_item = /obj/item/rogueweapon/greataxe/steel/gilded
 
@@ -547,17 +547,19 @@
 	result_item = /obj/item/rogueweapon/maesune/sabre
 
 //NeroCavalier - Sword
+/* REMOVED BY REQUEST.
 /obj/item/enchantingkit/weapon/noire_flsword
 	name = "'Blacksteel Longsword' morphing elixir"
 	target_items = list(
 		/obj/item/rogueweapon/sword/long
 	)
 	result_item = /obj/item/rogueweapon/nerocavalier/flsword
+*/
 
 /obj/item/enchantingkit/aisuwand
-    name = "Crystalline Wand morphing elixir"
-    target_items = list(/obj/item/rogueweapon/wand)
-    result_item = /obj/item/rogueweapon/wand/aisu
+    name = "Crystalline Rapier morphing elixir"
+    target_items = list(/obj/item/rogueweapon/sword/rapier)
+    result_item = /obj/item/rogueweapon/sword/rapier/aisu
 
 /obj/item/enchantingkit/weapon/regnum
 	name = "'Regnum' morphing elixir"
@@ -709,3 +711,9 @@
     name = "'Gre'as'anto d'Shar' morphing elixir"
     target_items = list(/obj/item/rogueweapon/greatsword)
     result_item = /obj/item/rogueweapon/greatsword/olygsword
+
+//SpartanBobby
+/obj/item/enchantingkit/bobby_helm
+    name = "'Holy Astratan Bascinet' morphing elixir"
+    target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/astratan)
+    result_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/spartanbobby

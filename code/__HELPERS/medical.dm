@@ -33,10 +33,6 @@
 			return "left eye"
 		if(BODY_ZONE_PRECISE_NOSE)
 			return "nose"
-		if(BODY_ZONE_PRECISE_R_INHAND)
-			return "right hand"
-		if(BODY_ZONE_PRECISE_L_INHAND)
-			return "left hand"
 		if(BODY_ZONE_PRECISE_SKULL)
 			return "skull"
 		if(BODY_ZONE_PRECISE_MOUTH)
