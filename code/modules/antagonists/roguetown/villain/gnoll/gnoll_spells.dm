@@ -385,7 +385,7 @@
 	var/obj/item/reagent_containers/food/snacks/rogue/meat_to_eat = null
 	var/meat_base_armor_heal = 3
 	var/meat_base_heal = 7
-	if(cast_on == owner && istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat) || istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat_rotten))
+	if(cast_on == owner && (istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat) || istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat_rotten)))
 		meat_to_eat = owner.get_active_held_item()
 	if(istype(meat_to_eat, /obj/item/reagent_containers/food/snacks/rogue/meat_rotten))
 		meat_base_armor_heal = 1.5
