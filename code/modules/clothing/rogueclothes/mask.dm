@@ -528,6 +528,11 @@
 /obj/item/clothing/mask/rogue/shepherd/shadowmask/delf
 	desc = "Tiny drops of white dye mark its front, not unlike teeth. A smile that leers from shadow."
 
+/obj/item/clothing/mask/rogue/shepherd/shadowmask/spymaster
+	name = "hand's halfmask"
+	icon_state = "handmask"
+	desc = "A sleek, contoured halfmask of silk."
+
 /obj/item/clothing/mask/rogue/physician
 	name = "plague mask"
 	desc = "What better laboratory than the blood-soaked battlefield?"

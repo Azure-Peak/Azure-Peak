@@ -34,6 +34,7 @@
 		/datum/action/cooldown/spell/forcewall,
 	)
 
+
 /datum/magic_aspect/displacement
 	name = "Displacement"
 	latin_name = "Minor Aspectus Translationis"

@@ -1041,17 +1041,24 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 	acted_explosions += ex_id
 	return TRUE
 
-//TODO: Better floating
 /atom/movable/proc/float(on)
 	if(throwing)
 		return
 	if(on && !(movement_type & FLOATING))
-		animate(src, pixel_y = pixel_y + 2, time = 1 SECONDS, loop = -1, flags = ANIMATION_RELATIVE)
-		animate(pixel_y = pixel_y - 2, time = 1 SECONDS, loop = -1, flags = ANIMATION_RELATIVE)
 		setMovetype(movement_type | FLOATING)
-	else if (!on && (movement_type & FLOATING))
-		animate(src, pixel_y = initial(pixel_y), time = 1 SECONDS)
+		INVOKE_ASYNC(src, PROC_REF(float_bob))
+	else if(!on && (movement_type & FLOATING))
 		setMovetype(movement_type & ~FLOATING)
+		animate(src, pixel_y = base_pixel_y, time = 5)
+
+// Oscillates pixel_y between base+2 and base-2 using absolute targets while FLOATING is set.
+// Absolute values prevent drift; the loop survives icon-state changes that cancel animate chains.
+/atom/movable/proc/float_bob()
+	var/bob_up = TRUE
+	while(!QDELETED(src) && (movement_type & FLOATING))
+		animate(src, pixel_y = base_pixel_y + (bob_up ? 2 : -2), time = 10, easing = SINE_EASING)
+		bob_up = !bob_up
+		sleep(10)
 
 /* Language procs */
 /atom/movable/proc/get_language_holder(shadow=TRUE)

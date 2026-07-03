@@ -40,6 +40,11 @@
 	icon_state = "shadowgloves"
 	allowed_race = NON_DWARVEN_RACE_TYPES
 
+/obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/spymaster
+	name = "hand's gloves"
+	desc = "Supple silk, cut at the fingertips to ensure absolute precision."
+	icon_state = "handgloves"
+
 /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock
 	name = "fingerless gloves"
 	desc = "Cloth gloves to absorb palm sweat while leaving the fingers free for fine manipulation."

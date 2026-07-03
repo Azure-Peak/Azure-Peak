@@ -1,5 +1,0 @@
-author: "shimmeristaken"
-delete-after: True
-changes:
-  - rscadd: "Added a new fluff bardic inspiration ability called Muse's Grace, forcing audience members to sing while it plays."
-  - bugfix: "Fixes capitalisation and punctuation while singing."

@@ -1,6 +1,0 @@
-author: "Aisu9"
-delete-after: True
-changes:
-  - balance: "picking Sage will reduce you STR by 1 additional point, increase you Con and Will by 1 point to keep the 6 weighted point balance."
-  - balance: "increase all mystic's classes's wrestling level to apprentice, making them ever so slightly less bullyable."
-  - balance: "picking Luminary no longer increase your STR by 1 point but will increase you Per, Con and Will 2, raising the weighted point balance to 7(the maximum adventurer class are supposed to have)."

@@ -237,8 +237,7 @@
 /obj/item/carvedgem/rose/carp
 	name = "rosestone carp statue"
 	desc = "A medium-sized carving of a carp made out of rosestone. The fish have been selectively bred by Eorans to bring out beautiful patterns in their scales, but have become invasive in some regions due to carelessness."
-	icon_state = "fish_rose"
-	dropshrink = 1.5
+	icon_state = "carp_rose"
 	grid_height = 64
 	grid_width = 64
 
@@ -586,13 +585,12 @@
 	grid_height = 64
 	grid_width = 64
 
-/obj/item/ammo_casing/caseless/rogue/javelin/turq
+/obj/item/rogueweapon/spear/turq
 	name = "cerulite spear"
 	desc = "A perfect spear carved out of cerulite, intended for ceremonies over combat. Before the advent of alloys, gemstone-tipped weapons \
 	were seen as the pinnacle of penetration; it didn't take a well-learned man to understand that one who held the shiniest article had the greatest authority."
 	max_integrity = 75
 	max_blade_int = 50
-	icon = 'icons/roguetown/gems/gem_turq.dmi'
 	icon_state = "spear_turq"
 	smeltresult = null
 	anvilrepair = /datum/skill/craft/weaponsmithing

@@ -32,12 +32,14 @@
 		return
 	
 	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
-		if(buff >= 6) // self and 5 other persons, 6 total affected target(or a full fellowship)
-			buff = 0 // after reaching the expected limit re-define the value to origine value
-			break // a return true or false doesn't call out of the spell incantation, animation and sound
-		if(H.mind) // will target any entities with a player mind(H.mind) attached to them with the effects specified written under
-			H.apply_status_effect(/datum/status_effect/buff/lesser_guidance)
-			H.apply_status_effect(/datum/status_effect/buff/healingaura)
+		if(buff >= 6)
+			buff = 0
+			break
+		if(!owner.faction_check_mob(target))
+			continue
+		if(H.mind)
+			target.apply_status_effect(/datum/status_effect/buff/lesser_guidance)
+			target.apply_status_effect(/datum/status_effect/buff/healingaura)
 			buff++
 	return TRUE
 

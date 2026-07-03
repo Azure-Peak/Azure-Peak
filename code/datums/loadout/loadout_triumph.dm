@@ -130,6 +130,12 @@
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_blackshortsatchel
+	name = "Short Satchel, Black"
+	path = /obj/item/storage/backpack/rogue/satchel/short/black
+	triumph_cost = 5
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_waterskin
 	name = "Waterskin"
 	path = /obj/item/reagent_containers/glass/bottle/waterskin

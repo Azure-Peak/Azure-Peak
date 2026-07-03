@@ -80,6 +80,7 @@
 	desc = "A thick robe in royal purple, befitting a travelling noble, while remaining easy for them to slip about in.."
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	icon_state = "shadowrobe"
+	color = null
 	shiftable = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/raneshen
@@ -303,6 +304,7 @@
 	desc = "A robe-like gambeson of moth-eaten cloth and cheap purple dye. No self-respecting elf would be seen wearing this."
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	icon_state = "shadowrobe"
+	color = null
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 30 //280
 
@@ -315,9 +317,23 @@
 	icon_state = "handgambeson"
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/hand.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	color = null
 	detail_tag = "_detail"
 	detail_color = "#6e423a"
 	shiftable = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/advisor
 	detail_color = "#6678c9"

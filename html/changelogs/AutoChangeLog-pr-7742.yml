@@ -1,6 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "Added undivided clerical/devotee robes."
-  - balance: "undivided Holy See hood takes the same crafting difficulty as the robes. -> Expert"
-  - bugfix: "fixed pathing with pestra tabard crafting."

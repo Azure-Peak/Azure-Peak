@@ -1,8 +1,0 @@
-author: "Juubo"
-delete-after: True
-changes:
-  - qol: "easier to make rotational items"
-  - balance: "increased recipe values to help make up for roller changes and encourage more builds"
-  - balance: "less decay on minecart tracks"
-  - balance: "upped damage cap on minecarts"
-  - bugfix: "made rollers more consistent being powered on the side"

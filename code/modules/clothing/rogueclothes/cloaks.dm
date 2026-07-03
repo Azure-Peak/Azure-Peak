@@ -1288,6 +1288,11 @@
 	icon_state = "shadowcloak"
 	color = null
 
+/obj/item/clothing/cloak/half/shadowcloak/spymaster
+	name = "hand's cloak"
+	desc = "Crafted not for warmth, but to complete an imposing silhouette. It is tailored to shroud both the hilt of a hidden blade and the true intentions of its wearer from prying eyes."
+	icon_state = "handcloak"
+
 /obj/item/clothing/cloak/thief_cloak
 	name = "rapscallion's shawl"
 	desc = "A simple shawl clapsed with an ersatz fastener. Practical and functional, though the fabric is rough and wearing bare."
@@ -1427,6 +1432,9 @@
 	smeltresult = /obj/item/riddleofsteel
 	anvilrepair = /datum/skill/craft/armorsmithing
 	var/active_item = FALSE
+
+/obj/item/clothing/neck/roguetown/blkknight/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ICON)
 
 /obj/item/clothing/neck/roguetown/blkknight/equipped(mob/living/user, slot)
 	. = ..()

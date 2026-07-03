@@ -259,6 +259,11 @@
 	item_state = "satchelshort"
 	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP //Implement a check in the future that prevents more than one being worn at once.
 
+/obj/item/storage/backpack/rogue/satchel/short/black
+	name = "black short satchel"
+	icon_state = "bsatchelshort"
+	item_state = "bsatchelshort"
+
 /obj/item/storage/backpack/rogue/satchel/beltpack
 	name = "beltpack" //Satchel that fits on the cloak or belt slot. Should be exceptionally rare for on-spawn loadouts, unless a flag's added to make it incompatable with regular satchels.
 	desc = "A lighter satchel that rests against the rump, freeing the shoulders from any weight. It's traditionally worn in place of a belt or cloak."

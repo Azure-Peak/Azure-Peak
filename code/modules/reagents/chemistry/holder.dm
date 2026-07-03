@@ -460,11 +460,11 @@
 	return is_type_in_list(B, A.conflicting_reagent_types) || is_type_in_list(A, B.conflicting_reagent_types)
 
 /datum/reagents/proc/handle_reactions()
-	// Anti-stacking check, runs before NO_REACT so it works on kegs too.
-	handle_conflicting_reagents()
-
 	if(flags & NO_REACT)
 		return //Yup, no reactions here. No siree.
+
+	// Anti-stacking check for conflicting potions.
+	handle_conflicting_reagents()
 
 	var/list/cached_reagents = reagent_list
 	var/list/cached_reactions = GLOB.chemical_reactions_list
