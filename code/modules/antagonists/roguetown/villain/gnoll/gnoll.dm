@@ -49,8 +49,8 @@
 /obj/item/rogueweapon/werewolf_claw/gnoll
 	name = "Gnoll Claw"
 	// We are smarter, we can use our solid, steel-like claws to defend ourselves.
-	wdefense = 5
-	force = 26
+	wdefense = 6
+	force = 27
 	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/smash/werewolf/gnoll, /datum/intent/mace/strike/gnoll)
 	special = /datum/special_intent/shin_swipe
 
@@ -68,14 +68,18 @@
 	blade_class = BCLASS_CHOP
 	attack_verb = list("claws", "mauls", "eviscerates")
 	animname = "chop"
+	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	hitsound = "genslash"
-	penfactor = PEN_LIGHT
+	penfactor = PEN_MEDIUM
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
 	miss_sound = "bluntwooshlarge"
 	item_d_type = "slash"
-	damfactor = 1.2
+	damfactor = 1.4
+	swingdelay = 0.8 SECONDS
+	swingdelay_type = SWINGDELAY_PENALTY
+	clickcd = CLICK_CD_CHARGED
 
 /datum/intent/mace/smash/werewolf/gnoll
 	name = "thrash"
@@ -88,7 +92,7 @@
 /datum/intent/simple/gnoll_cut
 	name = "cutting claw"
 	hitsound = "genslash"
-	penfactor = PEN_MEDIUM
+	penfactor = PEN_LIGHT
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"

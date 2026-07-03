@@ -4,6 +4,7 @@
 #define FURY_TIER_4_THRESHOLD 100
 #define FURY_FILTER "fury_filter"
 #define FURY_GRACE_TIMER 15 SECONDS
+#define MOVESPEED_ID_FURY_SLOW "movespeed_fury_slow"
 
 /datum/status_effect/vampiric_fury
 	id = "vampiric_fury"
@@ -17,6 +18,7 @@
 	/// Time world when we can next decay a stack
 	var/decay_grace_timestamp = 0
 	var/outline_colour = "#860202"
+	var/movespeed_modifier_applied = FALSE
 
 /datum/status_effect/vampiric_fury/on_creation(mob/living/new_owner, initial_stacks = 15, custom_max_stacks = 100)
 	max_stacks = custom_max_stacks
@@ -89,7 +91,7 @@
 	// Stat boosts are capped, some classes can overcap just to have it decay more slowly
 	var/effective_stacks = min(stacks, 100)
 
-	var/spd_loss = round(effective_stacks / 20)
+	var/spd_loss = round(effective_stacks / 50)
 	var/str_gain = round(effective_stacks / 25)
 	var/con_gain = round(effective_stacks / 25)
 	var/int_loss = round(effective_stacks / 50)
@@ -104,6 +106,23 @@
 		effectedstats[STATKEY_INT] = -int_loss
 
 	reapply_effect(old_stats)
+	update_movespeed()
+
+/datum/status_effect/vampiric_fury/proc/update_movespeed()
+	if(!ishuman(owner))
+		return
+
+	var/mob/living/carbon/human/H = owner
+	var/effective_stacks = min(stacks, 100)
+	var/slow_stacks = round(effective_stacks / 33) // 0, 1, 2, or 3
+	var/slow_amount = SPEED_MOVSPD_MOD * slow_stacks
+
+	if(slow_amount > 0)
+		H.add_movespeed_modifier(MOVESPEED_ID_FURY_SLOW, update=TRUE, priority=10, multiplicative_slowdown=slow_amount)
+		movespeed_modifier_applied = TRUE
+	else if(movespeed_modifier_applied)
+		H.remove_movespeed_modifier(MOVESPEED_ID_FURY_SLOW)
+		movespeed_modifier_applied = FALSE
 
 /datum/status_effect/vampiric_fury/proc/check_thresholds()
 	var/new_tier = 0
@@ -182,10 +201,8 @@
 		REMOVE_TRAIT(H, TRAIT_NOPAINSTUN, SPECIES_TRAIT)
 		if(!HAS_TRAIT(H, TRAIT_LONGSTRIDER))
 			ADD_TRAIT(H, TRAIT_LONGSTRIDER, SPECIES_TRAIT)
-	
-	var/list/old_stats = effectedstats.Copy()
-	effectedstats = list()
-	reapply_effect(old_stats)
+
+	owner.remove_movespeed_modifier(MOVESPEED_ID_FURY_SLOW)
 
 	to_chat(owner, span_notice("The bloodlust leaves your body completely, your senses return."))
 	return ..()
@@ -201,3 +218,4 @@
 #undef FURY_TIER_4_THRESHOLD
 #undef FURY_FILTER
 #undef FURY_GRACE_TIMER
+#undef MOVESPEED_ID_FURY_SLOW

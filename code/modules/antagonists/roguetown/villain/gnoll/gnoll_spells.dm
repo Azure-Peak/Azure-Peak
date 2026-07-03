@@ -382,9 +382,14 @@
 			to_chat(owner, span_warning("You can only consume the soulless dead!"))
 			return FALSE
 	
-	var/obj/item/reagent_containers/food/snacks/rogue/meat/meat_to_eat = null
-	if(cast_on == owner && istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat))
+	var/obj/item/reagent_containers/food/snacks/rogue/meat_to_eat = null
+	var/meat_base_armor_heal = 3
+	var/meat_base_heal = 7
+	if(cast_on == owner && istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat) || istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat_rotten))
 		meat_to_eat = owner.get_active_held_item()
+	if(istype(meat_to_eat, /obj/item/reagent_containers/food/snacks/rogue/meat_rotten))
+		meat_base_armor_heal = 1.5
+		meat_base_heal = 3.5
 
 	if(!meat_to_eat)
 		to_chat(H, span_warning("You need to target corpses or yourself to eat meat in your active hand!"))
@@ -406,8 +411,8 @@
 		if(prob(40))
 			playsound(H.loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
 
-		heal_gnoll(H)
-		restore_armor_integrity(H, 3)
+		heal_gnoll(H, meat_base_heal)
+		restore_armor_integrity(H, meat_base_armor_heal)
 		var/obj/effect/temp_visual/heal/heal_effect = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 		heal_effect.color = "#FF0000"
 
