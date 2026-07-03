@@ -322,7 +322,7 @@
 
 /datum/action/cooldown/spell/gnoll/consume
 	name = "Consume"
-	desc = "Feast on flesh, bones, or bodies to recover from battle. Cast on yourself to consume items in hand, or on a corpse to begin to consume it. More effective on animal corpses."
+	desc = "Feast on flesh, bones, or bodies to recover from battle. Cast on yourself to consume items in hand, or on a corpse to begin to consume it. More effective on animal corpses. Can heal others when targeting them."
 	fluff_desc = "The hunger for flesh is eternal in Gnolls. They hunt to sate this desire, endlessly, for they are Graggar's chosen."
 	button_icon = 'icons/mob/actions/gnollmiracles.dmi'
 	button_icon_state = "consume"
