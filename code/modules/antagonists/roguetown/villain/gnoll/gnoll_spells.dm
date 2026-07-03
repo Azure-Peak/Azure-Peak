@@ -352,85 +352,116 @@
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 
+	// corpse eating
 	if(isliving(cast_on) && !(cast_on == owner))
 		var/mob/living/corpse = cast_on
 		var/was_player = null
 		if(ishuman(corpse))
 			var/mob/living/carbon/human/C = cast_on
 			was_player = C.mind || C.last_mind || C.ckey
+
+		// If it's a corpse and was not a player
 		if(corpse.stat == DEAD && !was_player)
 			var/is_animal = istype(corpse, /mob/living/simple_animal)
 			if(is_animal)
 				var/mob/living/simple_animal/animal = corpse
-				// If the animal had butcher results initially but now has fewer, it's been partially butchered
-				// Gotta prevent powergaming early aye?
 				if(animal.initial_butcher_count > 0 && length(animal.butcher_results) < animal.initial_butcher_count)
 					to_chat(owner, span_warning("This creature has already been partially butchered! There's not enough left to consume."))
 					return FALSE
+			
 			to_chat(owner, span_notice("You begin to consume [corpse.name]."))
 			if(do_after(owner, 20 SECONDS, corpse))
 				corpse.gib()
 				to_chat(owner, span_notice("You finish consuming [corpse.name], restoring your physical form."))
 				H.apply_status_effect(/datum/status_effect/buff/healing, 20)
 				if(is_animal)
-					heal_gnoll(H, 100) // 200 + 100 for animals
-					restore_armor_integrity(H, 80) // 80% for animals
+					heal_gnoll(H, 100) 
+					restore_armor_integrity(H, 80) 
 				else
 					restore_armor_integrity(H, 35)
 			return TRUE
-		else
-			to_chat(owner, span_warning("You can only consume the soulless dead!"))
-			return FALSE
-	
+
+	// Healing others and self.
 	var/obj/item/reagent_containers/food/snacks/rogue/meat_to_eat = null
 	var/meat_base_armor_heal = 3
 	var/meat_base_heal = 7
-	if(cast_on == owner && (istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat) || istype(owner.get_active_held_item(), /obj/item/reagent_containers/food/snacks/rogue/meat_rotten)))
-		meat_to_eat = owner.get_active_held_item()
+	var/obj/item/held_item = owner.get_active_held_item()
+	if(istype(held_item, /obj/item/reagent_containers/food/snacks/rogue/meat) || istype(held_item, /obj/item/reagent_containers/food/snacks/rogue/meat_rotten))
+		meat_to_eat = held_item
+
 	if(istype(meat_to_eat, /obj/item/reagent_containers/food/snacks/rogue/meat_rotten))
 		meat_base_armor_heal = 1.5
 		meat_base_heal = 3.5
 
 	if(!meat_to_eat)
-		to_chat(H, span_warning("You need to target corpses or yourself to eat meat in your active hand!"))
+		to_chat(H, span_warning("You need to target corpses, yourself, or an ally while holding meat to eat or feed!"))
 		return FALSE
 
+	var/mob/living/carbon/human/receiver = owner
+	if(ishuman(cast_on) && cast_on != owner)
+		receiver = cast_on
+
+	var/holy_level = owner.get_skill_level(/datum/skill/magic/holy)
+	var/heal_multiplier = 1
+
+	if(receiver != owner)
+		if(holy_level > 4)
+			heal_multiplier = 1.3
+		else if(holy_level > 2)
+			heal_multiplier = 1.0
+		else
+			heal_multiplier = 0.6
+	var/receiver_is_gnoll = (receiver.dna?.species?.type == /datum/species/gnoll)
+
 	if(consume_counter == 0)
-		to_chat(owner, span_notice("You begin to consume the [meat_to_eat.name], savoring the taste of fresh meat."))
+		if(receiver == owner)
+			to_chat(owner, span_notice("You begin to consume the [meat_to_eat.name], savoring the taste of fresh meat."))
+		else
+			to_chat(owner, span_notice("You begin feeding the [meat_to_eat.name] to [receiver.name]."))
+			to_chat(receiver, span_notice("[owner.name] begins feeding you [meat_to_eat.name]."))
 	else
 		to_chat(owner, span_notice("You continue consuming the [meat_to_eat.name]... ([consume_counter]/10)"))
 
 	while(consume_counter < 10)
-		if(QDELETED(meat_to_eat) || meat_to_eat.loc != owner && meat_to_eat != cast_on)
+		if(QDELETED(meat_to_eat) || (meat_to_eat.loc != owner && meat_to_eat != cast_on))
 			to_chat(owner, span_warning("You stop consuming - the meat is gone!"))
 			return FALSE
-		if(!do_after(owner, 2 SECONDS, owner))
-			to_chat(owner, span_warning("You stop consuming the meat."))
+		if(!do_after(owner, 2 SECONDS, receiver))
+			to_chat(owner, span_warning("The feeding process was interrupted."))
 			return FALSE
+
 		consume_counter++
 		if(prob(40))
-			playsound(H.loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
+			playsound(receiver.loc, 'sound/misc/eat.ogg', rand(30,60), TRUE)
 
-		heal_gnoll(H, meat_base_heal)
-		restore_armor_integrity(H, meat_base_armor_heal)
-		var/obj/effect/temp_visual/heal/heal_effect = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
+		heal_gnoll(receiver, meat_base_heal * heal_multiplier)
+		if(receiver_is_gnoll)
+			restore_armor_integrity(receiver, meat_base_armor_heal * heal_multiplier)
+
+		var/obj/effect/temp_visual/heal/heal_effect = new /obj/effect/temp_visual/heal_rogue(get_turf(receiver))
 		heal_effect.color = "#FF0000"
 
 		if(consume_counter < 10 && prob(25))
-			to_chat(owner, span_notice("You continue consuming the [meat_to_eat.name]..."))
+			if(receiver == owner)
+				to_chat(owner, span_notice("You continue consuming the [meat_to_eat.name]..."))
+			else
+				to_chat(owner, span_notice("You continue feeding [receiver.name]..."))
 
+	var/meat_name = meat_to_eat ? meat_to_eat.name : "meat"
 	if(!QDELETED(meat_to_eat))
 		qdel(meat_to_eat)
-	to_chat(owner, span_notice("You gluttonously gobble down the [meat_to_eat ? meat_to_eat.name : "meat"], feeling reinvigorated."))
+		
+	if(receiver == owner)
+		to_chat(owner, span_notice("You gluttonously gobble down the [meat_name], feeling reinvigorated."))
+	else
+		to_chat(owner, span_notice("You finish feeding the [meat_name] to [receiver.name]."))
+		to_chat(receiver, span_notice("[owner.name] finishes feeding you the [meat_name], leaving you reinvigorated."))
 
 	consume_counter = 0
 	return TRUE
 
 /datum/action/cooldown/spell/gnoll/consume/proc/heal_gnoll(mob/living/carbon/human/H, heal_amt = 7)
 	if(!H)
-		return
-
-	if(H.cmode)
 		return
 
 	if(H.blood_volume < BLOOD_VOLUME_NORMAL)
