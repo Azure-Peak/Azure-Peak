@@ -680,7 +680,6 @@
 /datum/status_effect/buff/foodhealing/tick()
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
 	H.color = "#bdbdbd"
-
 	// Base heal.
 	var/base_heal = healing_on_tick
 	// Fare: +10% healing per tier
@@ -689,42 +688,16 @@
 	var/effective_nutrition = clamp(owner.nutrition, 0, NUTRITION_LEVEL_FULL)
 	var/hunger_ratio = (NUTRITION_LEVEL_FULL - effective_nutrition) / NUTRITION_LEVEL_FULL
 	var/nutrition_mult = 0.75 + (hunger_ratio * 0.75)
-	
 	// Final healing
 	var/heal_amount = base_heal * fare_mult * nutrition_mult
-
-	if(ishuman(owner))
-		var/mob/living/carbon/human/HM = owner
-		var/obj/item/bodypart/most_damaged
-
-		for(var/obj/item/bodypart/BP in HM.bodyparts)
-			if(QDELETED(BP))
-				continue
-
-			if(!most_damaged || (BP.brute_dam + BP.burn_dam) > (most_damaged.brute_dam + most_damaged.burn_dam))
-				most_damaged = BP
-
-		if(most_damaged)
-			var/total_damage = most_damaged.brute_dam + most_damaged.burn_dam
-
-			if(total_damage > 0)
-				var/brute_heal = heal_amount
-				var/burn_heal = heal_amount
-
-				brute_heal += most_damaged.brute_dam * (0.08 * healing_mult)
-				burn_heal += most_damaged.burn_dam * (0.08 * healing_mult)
-
-				most_damaged.heal_damage(brute_heal, burn_heal)
-				HM.update_damage_overlays()
-
+	owner.adjustBruteLoss(-heal_amount, 0)
+	owner.adjustFireLoss(-heal_amount, 0)
 	owner.adjustOxyLoss(-heal_amount, 0)
 	owner.adjustToxLoss(-heal_amount, 0)
-
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -heal_amount)
 	owner.adjustCloneLoss(-heal_amount, 0)
-
-	owner.stamina_add(-6)
-	owner.energy_add(9)
+	owner.energy_add(10)
+	owner.update_damage_overlays()
 
 #undef CONSUME_AURA
 
