@@ -1,6 +1,6 @@
 /datum/roguestock/stockpile/meat
 	name = "Meat"
-	desc = "Edible flesh harvested from animals."
+	desc = "Edible flesh harvested from most animals."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak
 	trade_good_id = TRADE_GOOD_MEAT
 	importexport_amt = 10
@@ -26,26 +26,8 @@
 	importexport_amt = 5
 	stockpile_amount = 0
 	stockpile_limit = 20
-	category = "Animal"
-
-/datum/roguestock/stockpile/deer_ribs
-	name = "Venison Ribs"
-	desc = "Edible ribs harvested from saiga or deer."
-	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
-	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
-	importexport_amt = 5
-	stockpile_amount = 0
-	stockpile_limit = 20
-	category = "Animal"
-
-/datum/roguestock/stockpile/deer_loins
-	name = "Venison Loins"
-	desc = "Edible loins harvested from saiga or deer."
-	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins
-	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
-	importexport_amt = 5
-	stockpile_amount = 0
-	stockpile_limit = 20
+	payout_price = 8
+	withdraw_price = 16
 	category = "Animal"
 
 /datum/roguestock/stockpile/volf
@@ -56,6 +38,8 @@
 	importexport_amt = 5
 	stockpile_amount = 0
 	stockpile_limit = 20
+	payout_price = 2
+	withdraw_price = 4
 	category = "Animal"
 
 /datum/roguestock/stockpile/bear
@@ -66,6 +50,8 @@
 	importexport_amt = 5
 	stockpile_amount = 0
 	stockpile_limit = 20
+	payout_price = 6
+	withdraw_price = 9
 	category = "Animal"
 
 /datum/roguestock/stockpile/spider
@@ -80,17 +66,19 @@
 
 /datum/roguestock/stockpile/crabbo
 	name = "Crab Meat"
-	desc = "Edible flesh harvested from crabs."
+	desc = "Edible flesh carefully harvested from crabs."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/crab
 	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
 	importexport_amt = 5
 	stockpile_amount = 0
 	stockpile_limit = 20
+	payout_price = 4
+	withdraw_price = 8
 	category = "Seafood"
 
 /datum/roguestock/stockpile/poultry
 	name = "Bird Meat"
-	desc = "Edible flesh harvested from birds."
+	desc = "Edible flesh harvested from birds and fowl."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry
 	trade_good_id = TRADE_GOOD_POULTRY
 	importexport_amt = 5
@@ -138,7 +126,7 @@
 
 /datum/roguestock/stockpile/bones
 	name = "Bones"
-	desc = "A good stock for soup and other things."
+	desc = "Indescript leftovers that make a good stock for soup and other things."
 	item_type = /obj/item/natural/bone
 	trade_good_id = TRADE_GOOD_BONES
 	stockpile_amount = 0

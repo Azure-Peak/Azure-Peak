@@ -117,10 +117,22 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_ornatesilkdress
+	name = "Ornate Silk Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 // -5 TRI
 /datum/loadout_item/triumph_shortsatchel
 	name = "Short Satchel"
 	path = /obj/item/storage/backpack/rogue/satchel/short
+	triumph_cost = 5
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_blackshortsatchel
+	name = "Short Satchel, Black"
+	path = /obj/item/storage/backpack/rogue/satchel/short/black
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
@@ -526,6 +538,24 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_armorkit_valoriansteelhelm
+	name = "Triumph Kit - Valorian Steel Helmet"
+	path = /obj/item/enchantingkit/triumph_armorkit_oldhelmets
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_valorianironhelm
+	name = "Triumph Kit - Valorian Iron Helmet"
+	path = /obj/item/enchantingkit/triumph_armorkit_ironoldhelmets
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_agedskullcap
+	name = "Triumph Kit - Aged Skull Cap"
+	path = /obj/item/enchantingkit/triumph_armorkit_agedskullcap
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 //////////////////
 //  PERFUMES !  //
 //////////////////
@@ -607,4 +637,10 @@
 	desc = "A man thinks he's done, drinks a mouthful of this. Five minutes later he's back in the race."
 	path = /obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab
 	triumph_cost = 5
+	sort_category = "Triumphs"
+
+/datum/loadout_item/greatplumestandalone
+	name = "Helmet Decoration, Greatplume"
+	path = /obj/item/clothing/head/roguetown/decoration/greatplume
+	triumph_cost = 3
 	sort_category = "Triumphs"

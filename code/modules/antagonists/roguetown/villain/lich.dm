@@ -178,7 +178,7 @@
 
 	H.grant_language(/datum/language/undead)
 	// Grant a spellbook so the lich can pick aspects
-	H.equip_to_slot_or_del(new /obj/item/book/spellbook,SLOT_IN_BACKPACK, TRUE)
+	H.equip_to_slot_or_del(new /obj/item/rogueweapon/spellbook/grand,SLOT_IN_BACKPACK, TRUE)
 	// Grant a chalk so the lich can do rituals
 	H.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 
@@ -318,7 +318,7 @@
 	new_body.ambushable = FALSE
 	new_body.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/lich] //evil ass voice stays
 	// Grant a spellbook so the lich can pick aspects
-	new_body.equip_to_slot_or_del(new /obj/item/book/spellbook,SLOT_IN_BACKPACK, TRUE)
+	new_body.equip_to_slot_or_del(new /obj/item/rogueweapon/spellbook/grand,SLOT_IN_BACKPACK, TRUE)
 	// Grant a chalk so the lich can do rituals
 	new_body.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 

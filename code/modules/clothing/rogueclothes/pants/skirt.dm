@@ -43,6 +43,32 @@
 	icon_state = "desertskirt"
 	item_state = "desertskirt"
 
+/obj/item/clothing/under/roguetown/skirt/baotha
+	name = "saccharine fauldcoat"
+	desc = "Only did Belladona's haze clear, once She heard Eora's gasps and Ravox's fright; what else could She've done besides fleeing the heavens?"
+	armor = ARMOR_PADDED
+	icon_state = "baothaskirt"
+	chunkcolor = "#6d1c87"
+	resistance_flags = FIRE_PROOF
+	armor_class = ARMOR_CLASS_LIGHT
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
+	body_parts_covered = GROIN | LEGS
+	smeltresult = /obj/item/ingot/component/baotha
+
+/obj/item/clothing/under/roguetown/skirt/baotha/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "SKIRT")
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/under/roguetown/skirt/baotha/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/under/roguetown/skirt/baotha/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
+
 /obj/item/clothing/under/roguetown/skirt/courtphysician
 	name = "sanguine skirt"
 	desc = "An elegant velvet skirt that does you no good when running to someones aid."

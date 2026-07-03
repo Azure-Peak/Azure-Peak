@@ -1,4 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - code_imp: "Standardizes Psydonian maces code path for consistency."

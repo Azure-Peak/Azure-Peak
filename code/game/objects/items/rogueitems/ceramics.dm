@@ -139,6 +139,53 @@
 	desc = "A small flask fashioned from clay. It still needs to be fired to be useful."
 	smeltresult = /obj/item/reagent_containers/glass/cup/claycupclassic
 
+/obj/item/natural/clay/rawcup
+	name = "unfired clay cup"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelaincupraw"
+	cooked_type = /obj/item/reagent_containers/glass/cup/carved/porcelain
+	desc = "A small cup fashioned from clay. It still needs to be fired to be useful."
+	smeltresult = /obj/item/reagent_containers/glass/cup/carved/porcelain
+
+/obj/item/natural/clay/rawcupfancy
+	name = "unfired fancy clay goblet"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelaincupfancyraw"
+	cooked_type = /obj/item/reagent_containers/glass/cup/carved/porcelainfancy
+	desc = "A fancy goblet fashioned from clay. It still needs to be fired to be useful."
+	smeltresult = /obj/item/reagent_containers/glass/cup/carved/porcelainfancy
+
+/obj/item/natural/clay/rawbowl
+	name = "unfired clay bowl"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainbowlraw"
+	cooked_type = /obj/item/reagent_containers/glass/bowl/carved/porcelain
+	desc = "A fancy bowl fashioned from clay. It still needs to be fired to be useful."
+	smeltresult = /obj/item/reagent_containers/glass/bowl/carved/porcelain
+
+/obj/item/natural/clay/rawspoon
+	name = "unfired clay spoon"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainspoonraw"
+	cooked_type = /obj/item/kitchen/spoon/carved/porcelain
+	desc = "A fancy spoon fashioned from clay. It still needs to be fired to be useful."
+
+
+/obj/item/natural/clay/rawfork
+	name = "unfired clay fork"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainforkraw"
+	cooked_type = /obj/item/kitchen/fork/carved/porcelain 
+	desc = "A fancy fork fashioned from clay. It still needs to be fired to be useful."
+
+/obj/item/natural/clay/rawplatter
+	name = "unfired clay platter"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainplatterraw"
+	cooked_type = /obj/item/cooking/platter/carved/porcelain
+	desc = "A fancy platter fashioned from clay. It still needs to be fired to be useful."
+
+
 /obj/item/reagent_containers/glass/cup/claycup
 	name = "clay flask"
 	desc = "A small ceramic flask."
@@ -218,3 +265,260 @@
 /obj/item/roguestatue/glass/Initialize()
 	. = ..()
 	icon_state = "statueglass[pick(1,2,3,4,5)]"
+
+/obj/item/roguestatue/glass/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
+	if(!..()) //was it caught by a mob?
+		new /obj/item/natural/glass_shard(get_turf(src))
+		pixel_x = rand(-3, 3)
+		pixel_y = rand(-3, 3)
+		new /obj/item/natural/glass_shard(get_turf(src))
+		new /obj/effect/decal/cleanable/debris/glassy(get_turf(src))
+		playsound(src, 'sound/foley/glassbreak.ogg', 95, TRUE)
+		qdel(src)
+
+// LITERALLY EVERYTHING ELSE. ORGANIZATION BE DAMNED!
+
+/obj/item/natural/clay/rawbauble
+	name = "unfired clay bauble"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainbaubleraw"
+	desc = "A bauble fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/bauble
+	smeltresult = /obj/item/natural/clay/porcelain/bauble
+
+/obj/item/natural/clay/rawcameo
+	name = "unfired clay cameo"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelaincameoraw"
+	desc = "A cameo fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/cameo
+	smeltresult = /obj/item/natural/clay/porcelain/cameo
+
+/obj/item/natural/clay/rawbust
+	name = "unfired clay bust"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainbustraw"
+	desc = "A large bust fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/bust
+	smeltresult = /obj/item/natural/clay/porcelain/bust
+
+/obj/item/natural/clay/rawfigurine
+	name = "unfired clay figurine"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainfigurineraw"
+	desc = "A small figurine fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/figurine
+	smeltresult = /obj/item/natural/clay/porcelain/figurine
+
+/obj/item/natural/clay/rawurn
+	name = "unfired large clay urn"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainurnraw"
+	desc = "A large, lidded urn fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/urn
+	smeltresult = /obj/item/natural/clay/porcelain/urn
+
+/obj/item/natural/clay/rawstatuette
+	name = "unfired clay statuette"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainstatueraw"
+	desc = "A medium-sized statuette fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/statuette
+	smeltresult = /obj/item/natural/clay/porcelain/statuette
+
+/obj/item/natural/clay/rawobelisk
+	name = "unfired clay obelisk"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainobeliskraw"
+	desc = "A medium-sized obelisk fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/obelisk
+	smeltresult = /obj/item/natural/clay/porcelain/obelisk
+
+/obj/item/natural/clay/rawduck
+	name = "unfired clay duck"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainduckraw"
+	desc = "An adorable duck statue fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/duck
+	smeltresult = /obj/item/natural/clay/porcelain/duck
+
+/obj/item/natural/clay/rawcomb
+	name = "unfired clay comb"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelaincombraw"
+	desc = "A fashionable comb fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/comb
+	smeltresult = /obj/item/natural/clay/porcelain/comb
+
+/obj/item/natural/clay/rawtablet
+	name = "unfired clay tablet"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelaintabletraw"
+	desc = "A medium-sized tablet fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/tablet
+	smeltresult = /obj/item/natural/clay/porcelain/tablet
+
+/obj/item/natural/clay/rawturtle
+	name = "unfired clay turtle statuette"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainturtleraw"
+	desc = "A large turtle statuette fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/turtle
+	smeltresult = /obj/item/natural/clay/porcelain/turtle
+
+/obj/item/natural/clay/rawfish
+	name = "unfired clay fish figurine"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainfishraw"
+	desc = "A small fish figurine fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/fish
+	smeltresult = /obj/item/natural/clay/porcelain/fish
+
+/obj/item/natural/clay/rawmoon
+	name = "unfired clay moon"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainmoonraw"
+	desc = "A medium-sized moon statue fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/moon
+	smeltresult = /obj/item/natural/clay/porcelain/moon
+
+/obj/item/natural/clay/rawsun
+	name = "unfired clay sun"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainsunraw"
+	desc = "A medium-sized sun statue fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/sun
+	smeltresult = /obj/item/natural/clay/porcelain/sun
+
+/obj/item/natural/clay/rawheart
+	name = "unfired clay heart"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainheartraw"
+	desc = "A heart fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/heart
+	smeltresult = /obj/item/natural/clay/porcelain/heart
+
+/obj/item/natural/clay/rawdisplay
+	name = "unfired clay display stand"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainstandraw"
+	desc = "A small display stand fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/display
+	smeltresult = /obj/item/natural/clay/porcelain/display
+
+/obj/item/natural/clay/rawring
+	name = "unfired clay ring"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporeclainringraw"
+	desc = "A dainty ring fashioned out of clay."
+	cooked_type = /obj/item/clothing/ring/porcelain
+	smeltresult = /obj/item/clothing/ring/porcelain
+
+/obj/item/natural/clay/rawamulet
+	name = "unfired clay amulet"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainamuletraw"
+	desc = "A delicate amulet fashioned out of clay."
+	cooked_type = /obj/item/clothing/neck/roguetown/carved/porcelainamulet
+	smeltresult = /obj/item/clothing/neck/roguetown/carved/porcelainamulet
+
+/obj/item/natural/clay/rawcirclet
+	name = "unfired clay circlet"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelaincircletraw"
+	desc = "An elegant circlet fashioned out of clay."
+	cooked_type = /obj/item/clothing/head/roguetown/circlet/carvedgem/porcelain
+	smeltresult = /obj/item/clothing/head/roguetown/circlet/carvedgem/porcelain
+
+// THE COOKED ITEMS, AGAIN, ORGANIZATION BE DAMNED
+/obj/item/natural/clay/porcelain
+	name = "porcelain base"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainbauble"
+	desc = "This is a base item, if you are seeing this, it's a bug, report it lol."
+	dropshrink = FALSE
+	obj_flags = CAN_BE_HIT|UNIQUE_RENAME
+	
+/obj/item/natural/clay/porcelain/bauble
+	name = "porcelain bauble"
+	desc = "A small porcelain bauble."
+	icon_state = "clayporcelainbauble"
+	sellprice = 3
+/obj/item/natural/clay/porcelain/cameo
+	name = "porcelain cameo"
+	desc = "A small porcelain cameo."
+	icon_state = "clayporcelaincameo"
+	sellprice = 5
+	
+/obj/item/natural/clay/porcelain/bust
+	name = "porcelain bust"
+	desc = "A large porcelain bust."
+	icon_state = "clayporcelainbust"
+	sellprice = 25
+	
+/obj/item/natural/clay/porcelain/figurine
+	name = "porcelain figurine"
+	desc = "A small figurine made out of porcelain."
+	icon_state = "clayporcelainfigurine"
+	sellprice = 10
+/obj/item/natural/clay/porcelain/urn
+	name = "large porcelain urn"
+	desc = "A large, lidded urn made out of porcelain."
+	icon_state = "clayporcelainurn"
+	sellprice = 25
+/obj/item/natural/clay/porcelain/statuette
+	name = "porcelain statuette"
+	desc = "A medium-sized statuette made out of porcelain."
+	icon_state = "clayporcelainstatue"
+	sellprice = 20
+/obj/item/natural/clay/porcelain/obelisk
+	name = "porcelain obelisk"
+	desc = "A medium-sized obelisk made out of porcelain."
+	icon_state = "clayporcelainobelisk"
+	sellprice = 15
+/obj/item/natural/clay/porcelain/sun
+	name = "porcelain sun"
+	desc = "A medium-sized sun statue made out of porcelain."
+	icon_state = "clayporcelainsun"
+	sellprice = 15
+/obj/item/natural/clay/porcelain/moon
+	name = "porcelain moon"
+	desc = "A medium-sized moon statue made out of porcelain."
+	icon_state = "clayporcelainmoon"
+	sellprice = 20
+/obj/item/natural/clay/porcelain/heart
+	name = "porcelain heart"
+	desc = "A heart made out of porcelain."
+	icon_state = "clayporcelainheart"
+	sellprice = 10
+/obj/item/natural/clay/porcelain/display
+	name = "porcelain display stand"
+	desc = "A small display stand made out of porcelain."
+	icon_state = "clayporcelainstand"
+	sellprice = 10
+/obj/item/natural/clay/porcelain/fish
+	name = "porcelain fish figurine"
+	desc = "A small fish figurine made out of porcelain."
+	icon_state = "clayporcelainfish"
+	sellprice = 10
+/obj/item/natural/clay/porcelain/turtle
+	name = "porcelain turtle statuette"
+	desc = "A large turtle statuette made out of porcelain."
+	icon_state = "clayporcelainturtle"
+	sellprice = 25
+/obj/item/natural/clay/porcelain/duck
+	name = "porcelain duck statue"
+	desc = "An adorable duck statue made out of porcelain."
+	icon_state = "clayporcelainduck"
+	sellprice = 10
+/obj/item/natural/clay/porcelain/comb
+	name = "porcelain comb"
+	desc = "A fashionable comb made out of porcelain."
+	icon_state = "clayporcelaincomb"
+	sellprice = 15
+/obj/item/natural/clay/porcelain/tablet
+	name = "porcelain tablet"
+	desc = "A medium-sized tablet made out of porcelain."
+	icon_state = "clayporcelaintablet"
+	sellprice = 15
+	

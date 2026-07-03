@@ -59,16 +59,10 @@
 
 	var/obj/item/rogue/instrument/R = new instrument_choice(user.drop_location())
 	if(!QDELETED(R))
-		R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_ARCANE)
+		R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_ARCANE, FALSE, user, src)
 	user.put_in_hands(R)
 	src.conjured_instrument = R
 	return TRUE
 
 /datum/action/cooldown/spell/conjure_instrument/miracle
 	associated_skill = /datum/skill/magic/holy
-
-/datum/action/cooldown/spell/conjure_instrument/Destroy()
-	if(src.conjured_instrument)
-		conjured_instrument.visible_message(span_warning("The [conjured_instrument]'s borders begin to shimmer and fade, before it vanishes entirely!"))
-		qdel(src.conjured_instrument)
-	return ..()

@@ -41,7 +41,7 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 /atom/movable/proc/get_real_price()
 	if(sellprice == initial(sellprice))
 		randomize_price()
-	if(!sellprice && initial(sellprice) == 0)
+	if(!static_price && !sellprice && initial(sellprice) == 0)
 		var/derived = GLOB.derived_sellprices?[type]
 		if(!derived)
 			derived = lookup_derived_subtype_price(type)

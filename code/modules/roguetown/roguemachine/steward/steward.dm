@@ -1,7 +1,6 @@
 #define TAB_MAIN 1
 #define TAB_BANK 2
 #define TAB_IMPORT 3
-#define TAB_BOUNTIES 4
 #define TAB_FISCAL 6
 #define TAB_PAYDAY 7
 #define TAB_DEBT 8
@@ -355,34 +354,6 @@
 				to_chat(A, span_danger("My wages have been suspended by the Stewardry!"))
 	if(href_list["compact"])
 		compact = !compact
-	if(href_list["setbounty"])
-		// Bounty-only price setter (the TAB_BOUNTIES tab). Stockpile-good prices are
-		// managed via the StewardTrade TGUI now, not this Topic handler.
-		var/datum/roguestock/bounty/D = locate(href_list["setbounty"]) in SStreasury.stockpile_datums
-		if(!D || !istype(D))
-			return
-		if(!D.percent_bounty)
-			var/newtax = input(usr, "Set a new price for [D.name]", src, D.payout_price) as null|num
-			if(newtax)
-				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-					return
-				if(findtext(num2text(newtax), "."))
-					return
-				newtax = CLAMP(newtax, 0, 999)
-				if(newtax > D.payout_price)
-					scom_announce("The bounty for [D.name] was increased.")
-				D.payout_price = newtax
-		else
-			var/newtax = input(usr, "Set a new percent for [D.name]", src, D.payout_price) as null|num
-			if(newtax)
-				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-					return
-				if(findtext(num2text(newtax), "."))
-					return
-				newtax = CLAMP(newtax, 1, 99)
-				if(newtax > D.payout_price)
-					scom_announce("The bounty for [D.name] was increased.")
-				D.payout_price = newtax
 	if(href_list["trade_tgui"])
 		open_trade_tgui(usr)
 		return
@@ -650,7 +621,6 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_BANK]'>\[Bank\]</a><BR>"
 			contents += "<a href='?src=\ref[src];trade_tgui=1'>\[Trade & Stockpile\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_IMPORT]'>\[Import\]</a><BR>"
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_BOUNTIES]'>\[Bounties\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_FISCAL]'>\[Fiscal Ledger\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_DEBT]'>\[Debts &amp; Arrears\]</a><BR>"
@@ -775,19 +745,6 @@
 					var/blockade_tag_full = A.is_blockaded() ? " <font color='#c44'>(BLOCKADED - 2x COST)</font>" : ""
 					contents += "<b>[A.name][blockade_tag_full]</b> - <i>[A.desc]</i> "
 					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR>"
-		if(TAB_BOUNTIES)
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
-			contents += "<center>Bounties<BR>"
-			contents += "--------------<BR>"
-			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
-			for(var/datum/roguestock/bounty/A in SStreasury.stockpile_datums)
-				contents += "[A.name]<BR>"
-				contents += "[A.desc]<BR>"
-				contents += "Total Collected: [SStreasury.minted]<BR>"
-				if(A.percent_bounty)
-					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]%</a><BR><BR>"
-				else
-					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]</a><BR><BR>"
 		if(TAB_FISCAL)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			var/list/snap = SStreasury.compute_fiscal_snapshot()
@@ -817,8 +774,6 @@
 			contents += "<td>Headeater Levy</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]m</font></td></tr>"
 			contents += "<tr><td>Import Tariff</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]]m</font></td>"
 			contents += "<td>Export Duty</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]]m</font></td></tr>"
-			contents += "<tr><td>Treasure Minted (Gross)</td><td align='right'>[GLOB.azure_round_stats[STATS_MINTED_TREASURE_GROSS]]m</td>"
-			contents += "<td>Treasure Minted (Crown Cut)</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_MINTED_TREASURE_NET]]m</font></td></tr>"
 			contents += "</table><br>"
 
 			// Forgone Revenue (two-column, muted - what the Crown *could* have collected)
@@ -1020,7 +975,6 @@
 #undef TAB_MAIN
 #undef TAB_BANK
 #undef TAB_IMPORT
-#undef TAB_BOUNTIES
 #undef TAB_FISCAL
 #undef TAB_PAYDAY
 #undef TAB_DEBT

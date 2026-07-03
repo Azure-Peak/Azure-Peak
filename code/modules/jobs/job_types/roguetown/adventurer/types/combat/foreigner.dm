@@ -226,13 +226,14 @@
 			r_hand = /obj/item/rogueweapon/woodstaff/implement
 			head = /obj/item/clothing/head/roguetown/roguehood/hierophant
 			cloak = /obj/item/clothing/cloak/hierophant
-			backpack_contents += list(/obj/item/book/spellbook = 1)
+			backpack_contents += list(/obj/item/rogueweapon/spellbook = 1)
 			backpack_contents += list(/obj/item/chalk = 1)
 
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_NOVICE, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_NOVICE, TRUE)
 
@@ -279,12 +280,11 @@
 			if(H.mind)
 				grant_poke_spell(H)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration/lesser)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 6, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation)))
+				H.mind.setup_mage_aspects(list("ward" = TRUE, "mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 6, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation)))
 
 /datum/advclass/foreigner/slaver
 	name = "Ranesheni Slaver"

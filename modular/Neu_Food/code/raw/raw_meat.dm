@@ -137,29 +137,38 @@
 
 /* ............. Volf Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/wolf
+	ingredient_size = 2
+	slices_num = 2
+	slice_bclass = BCLASS_CHOP	
 	name = "raw volf meat"
 	icon_state = "volfstrip"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
 
 /* ............. Rous Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/rat
+	ingredient_size = 2
+	slices_num = 2
+	slice_bclass = BCLASS_CHOP
 	name = "raw rous meat"
 	desc = "A delicacy for some races, whilst others will turn up their nose at such... Sewer meat."
 	icon_state = "rat"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rat/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rat/fried
 
 /* ............. Bear Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/bear
+	ingredient_size = 2
+	slices_num = 2
+	slice_bclass = BCLASS_CHOP
 	name = "raw bear meat"
 	desc = "Grow some hair on yer chest lad!"
 	icon_state = "bear"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear/fried
 
 /* ............. Troll Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll
@@ -300,13 +309,16 @@
 	ingredient_size = 1
 
 /* ............. Volf Meat ................*/
-/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf
+/obj/item/reagent_containers/food/snacks/rogue/meat/wolf
+	ingredient_size = 2
+	slices_num = 2
+	slice_bclass = BCLASS_CHOP
 	name = "raw volf meat"
 	desc = "Meat taken from a volf. Stringy, tough, and gamey - but edible."
 	icon_state = "volfstrip"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
 
 // Do NOT add this to the stockpile, they have other uses and are unique in how they're obtained.
 /* ............. Gnoll Meat ................*/
@@ -414,6 +426,9 @@
 
 /* ............. Humanoid Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/humanoid
+	ingredient_size = 2
+	slices_num = 2
+	slice_bclass = BCLASS_CHOP
 	name = "raw long pig"
 	desc = "Perfect cut of swine flesh, raw and ready to be steamed. It seems oddly longer than a swine limb's length, however."
 	icon_state = "longpig"
@@ -421,7 +436,7 @@
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/humanoid/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/humanoid/fried
 	cooked_smell = /datum/pollutant/food/humanoid
-	tastes = list("bitter pork(?)" = 1)
+	tastes = list("pork(?)" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid
 	name = "minced long pig"

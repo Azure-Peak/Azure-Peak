@@ -218,19 +218,19 @@
 	output = /datum/reagent/consumable/soup/stew/rabbit
 
 /datum/stew_recipe/kingvolf
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick/cucumber)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick/cucumber)
 	output = /datum/reagent/consumable/soup/stew/kingvolf
 
 /datum/stew_recipe/veggiefryvolf
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick)
 	output = /datum/reagent/consumable/soup/stew/veggiefryvolf
 
 /datum/stew_recipe/fryvolf
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried)
 	output = /datum/reagent/consumable/soup/stew/fryvolf
 
 /datum/stew_recipe/volf
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf)
 	output = /datum/reagent/consumable/soup/stew/volf
 
 /datum/stew_recipe/fryspider

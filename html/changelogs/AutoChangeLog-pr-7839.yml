@@ -1,5 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - balance: "Most primary weapons for the Inquisition no longer start with preblessings, once again. Like before, these'll be reserved for the Inquisitor's relics and the daggers given to certain Orthodoxists."
-  - rscadd: "The Litany, a Marquette-purchasable script that can bless a single silver weapon before destroying itself; a boon for lower-population Orthodoxists. It can be refunded if an Absolver's presence makes it less-than-needed."

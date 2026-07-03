@@ -20,6 +20,7 @@
 	)
 	craftdiff = 3
 
+
 /datum/crafting_recipe/roguetown/survival/repairkitclothbad
 	name = "fabric patch" //9 fiber
 	display_category = ITEM_CAT_TOOLS_WORKSHOP
@@ -410,6 +411,25 @@
 		/obj/item/grown/log/tree/stick = 2,
 		)
 	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/survival/hotrock
+	name = "assemble stones into hotrock"
+	result = /obj/item/cooking/pan/stone
+	reqs =  list(/obj/item/natural/stone = 4)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/hotrock_whetstone
+	name = "combine whetstones into hotrock"
+	result = /obj/item/cooking/pan/stone
+	reqs =  list(/obj/item/natural/whetstone = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/survival/hotrock_boulder
+	name = "chisel boulder into hotrock"
+	result = /obj/item/cooking/pan/stone
+	reqs =  list(/obj/item/natural/rock = 1)
+	tools = list(/obj/item/rogueweapon/huntingknife)
+	craftdiff = 2
 
 // Unfortunately there's no good category for it, yet.
 // I don't want ration paper to be too expensive, making wrapped food underused

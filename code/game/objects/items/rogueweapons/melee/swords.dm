@@ -553,7 +553,7 @@
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
 	icon_state = "crucified"
 	sheathe_icon = "crucified"
-	item_state = "judgement"
+	item_state = "crucified"
 	smeltresult = /obj/item/ingot/steel
 	sellprice = 999
 	static_price = TRUE
@@ -595,6 +595,9 @@
 	. = ..()
 	SEND_GLOBAL_SIGNAL(COMSIG_NEW_ICHOR_FANG_SPAWNED, src)
 	RegisterSignal(SSdcs, COMSIG_NEW_ICHOR_FANG_SPAWNED, PROC_REF(on_recall))
+
+/obj/item/rogueweapon/sword/long/judgement/vlord/get_examine_highlight_status() //Its an unholy longsword sire, what did you expect?
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE_SWORD)
 
 /obj/item/rogueweapon/sword/long/judgement/vlord/proc/on_recall(obj/new_sword)
 	if(new_sword == src)

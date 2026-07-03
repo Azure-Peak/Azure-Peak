@@ -44,8 +44,8 @@
 	dodgetime = 30
 	aggressive = 1
 	eat_forever = TRUE
-	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/humanoid = 1, /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf = 1, /obj/item/alch/viscera = 1, /obj/item/alch/sinew = 1, /obj/item/natural/bone = 2)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf = 2,
+	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/humanoid = 1, /obj/item/reagent_containers/food/snacks/rogue/meat/wolf = 1, /obj/item/alch/viscera = 1, /obj/item/alch/sinew = 1, /obj/item/natural/bone = 2)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf = 2,
 						/obj/item/reagent_containers/food/snacks/rogue/meat/humanoid = 2,
 						/obj/item/natural/hide = 2,
 						/obj/item/alch/sinew = 2,
@@ -53,7 +53,7 @@
 						/obj/item/alch/viscera = 1,
 						/obj/item/natural/fur/wolf = 1,
 						/obj/item/natural/bone = 3)
-	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf = 2,
+	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf = 2,
 						/obj/item/reagent_containers/food/snacks/rogue/meat/humanoid = 2,
 						/obj/item/natural/hide = 2,
 						/obj/item/alch/sinew = 2,

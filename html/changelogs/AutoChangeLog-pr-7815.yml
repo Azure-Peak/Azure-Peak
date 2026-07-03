@@ -1,7 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Ported Noelle's add better CPU usage diagnostics to the MC statpanel"
-  - rscadd: "Ported Prevent unnecessary processing on lights that don't use fuel"
-  - rscadd: "Make status_effects_by_id use an alist"
-  - rscadd: "TG's Controller Overview and surface it under the MC tab."

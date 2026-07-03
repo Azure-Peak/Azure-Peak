@@ -266,7 +266,7 @@
 			return FALSE
 		if(bow.cock_sound)
 			playsound(pawn, bow.cock_sound, 100, FALSE)
-		if(!do_after(pawn, bow.get_npc_chargetime(pawn), pawn))
+		if(!do_after(pawn, bow.get_npc_chargetime(pawn), pawn, progress = FALSE))
 			return FALSE
 		bow.cocked = TRUE
 		bow.update_icon()

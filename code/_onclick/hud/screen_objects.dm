@@ -1175,38 +1175,24 @@
 		switch(icon_y)
 			if(1 to 3)
 				switch(icon_x)
-					if(5 to 7)
-						return BODY_ZONE_PRECISE_R_INHAND
 					if(17 to 28)
 						return BODY_ZONE_PRECISE_R_FOOT
 					if(38 to 49)
 						return BODY_ZONE_PRECISE_L_FOOT
-					if(59 to 61)
-						return BODY_ZONE_PRECISE_L_INHAND
 			if(4 to 5)
 				switch(icon_x)
-					if(5 to 7)
-						return BODY_ZONE_PRECISE_R_INHAND
 					if(17 to 28)
 						return BODY_ZONE_PRECISE_R_FOOT
 					if(38 to 49)
 						return BODY_ZONE_PRECISE_L_FOOT
-					if(59 to 61)
-						return BODY_ZONE_PRECISE_L_INHAND
 			if(6 to 15)
 				switch(icon_x)
-					if(5 to 7)
-						return BODY_ZONE_PRECISE_R_INHAND
 					if(20 to 29)
 						return BODY_ZONE_R_LEG
 					if(37 to 46)
 						return BODY_ZONE_L_LEG
-					if(59 to 61)
-						return BODY_ZONE_PRECISE_L_INHAND
 			if(16 to 21)
 				switch(icon_x)
-					if(5 to 7)
-						return BODY_ZONE_PRECISE_R_INHAND
 					if(12 to 18)
 						return BODY_ZONE_PRECISE_R_HAND
 					if(20 to 29)
@@ -1215,12 +1201,8 @@
 						return BODY_ZONE_L_LEG
 					if(48 to 54)
 						return BODY_ZONE_PRECISE_L_HAND
-					if(59 to 61)
-						return BODY_ZONE_PRECISE_L_INHAND
 			if(22 to 24)
 				switch(icon_x)
-					if(5 to 7)
-						return BODY_ZONE_PRECISE_R_INHAND
 					if(12 to 18)
 						return BODY_ZONE_PRECISE_R_HAND
 					if(20 to 29)
@@ -1231,8 +1213,6 @@
 						return BODY_ZONE_L_LEG
 					if(48 to 54)
 						return BODY_ZONE_PRECISE_L_HAND
-					if(59 to 61)
-						return BODY_ZONE_PRECISE_L_INHAND
 			if(25 to 29)
 				switch(icon_x)
 					if(16 to 22)
@@ -1298,28 +1278,18 @@
 		switch(icon_y)
 			if(1 to 7)
 				switch(icon_x)
-					if(12 to 14)
-						return BODY_ZONE_PRECISE_R_INHAND
 					if(26 to 32)
 						return BODY_ZONE_PRECISE_R_FOOT
 					if(34 to 40)
 						return BODY_ZONE_PRECISE_L_FOOT
-					if(52 to 54)
-						return BODY_ZONE_PRECISE_L_INHAND
 			if(8 to 16)
 				switch(icon_x)
-					if(12 to 14)
-						return BODY_ZONE_PRECISE_R_INHAND
 					if(24 to 31)
 						return BODY_ZONE_R_LEG
 					if(35 to 42)
 						return BODY_ZONE_L_LEG
-					if(52 to 54)
-						return BODY_ZONE_PRECISE_L_INHAND
 			if(17 to 20)
 				switch(icon_x)
-					if(12 to 14)
-						return BODY_ZONE_PRECISE_R_INHAND
 					if(20 to 23)
 						return BODY_ZONE_PRECISE_R_HAND
 					if(24 to 31)
@@ -1328,32 +1298,22 @@
 						return BODY_ZONE_L_LEG
 					if(43 to 46)
 						return BODY_ZONE_PRECISE_L_HAND
-					if(52 to 54)
-						return BODY_ZONE_PRECISE_L_INHAND
 			if(21)
 				switch(icon_x)
-					if(12 to 14)
-						return BODY_ZONE_PRECISE_R_INHAND
 					if(20 to 23)
 						return BODY_ZONE_PRECISE_R_HAND
 					if(30 to 36)
 						return BODY_ZONE_PRECISE_GROIN
 					if(43 to 46)
 						return BODY_ZONE_PRECISE_L_HAND
-					if(52 to 54)
-						return BODY_ZONE_PRECISE_L_INHAND
 			if(22 to 23)
 				switch(icon_x)
-					if(12 to 14)
-						return BODY_ZONE_PRECISE_R_INHAND
 					if(20 to 25)
 						return BODY_ZONE_R_ARM
 					if(30 to 36)
 						return BODY_ZONE_PRECISE_GROIN
 					if(41 to 46)
 						return BODY_ZONE_L_ARM
-					if(52 to 54)
-						return BODY_ZONE_PRECISE_L_INHAND
 			if(24 to 29)
 				switch(icon_x)
 					if(20 to 25)

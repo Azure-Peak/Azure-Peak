@@ -307,7 +307,7 @@
 /datum/action/cooldown/spell/noc/spellpack
 	name = "Arcyne Affinity"
 	desc = "Allows you to learn a set of spells. \n \
-	<b>MAGISTER</b>: Greater Arcyne Bolt, Arc Bolt, Bestow Ward, Blink, Message, Campfire \n \
+	<b>MAGISTER</b>: Greater Arcyne Bolt, Arc Bolt, Phase, Message, Campfire \n \
 	<b>ENCHANTER</b>: Stygian Efflorescence, Ensnare, Rune Ward, Forcewall, Hawks Eyes, Stoneskin \n \
 	<b>SEER</b>: Crush, Iron Skin, Fortitude, Guidance, Haste, Mindlink"
 	button_icon_state = "spellpack"
@@ -326,8 +326,7 @@
 	var/list/magister_bundle = list(
 		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt,
 		/datum/action/cooldown/spell/projectile/arc_bolt,
-		/datum/action/cooldown/spell/bestow_ward,
-		/datum/action/cooldown/spell/blink,
+		/datum/action/cooldown/spell/phase,
 		/datum/action/cooldown/spell/message,
 		/datum/action/cooldown/spell/create_campfire
 	)

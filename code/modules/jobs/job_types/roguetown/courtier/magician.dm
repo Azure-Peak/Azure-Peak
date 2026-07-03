@@ -52,7 +52,8 @@
 	)
 	age_mod = /datum/class_age_mod/court_magician
 	subclass_skills = list(
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
@@ -117,7 +118,7 @@
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/poison,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-		/obj/item/book/spellbook,
+		/obj/item/rogueweapon/spellbook/grand,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
 		/obj/item/chalk
 	)

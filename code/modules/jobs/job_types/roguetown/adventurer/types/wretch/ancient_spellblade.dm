@@ -71,7 +71,7 @@
 	// DO NOT GIVE THEM MAGE CHALK. This is a SKELETON. Please don't let them easily
 	// grind the gameplay loop (without putting in the efforts/virtue to acquire a chalk)
 	backpack_contents = list(
-		/obj/item/book/spellbook = 1,
+		/obj/item/rogueweapon/spellbook = 1,
 		/obj/item/natural/feather = 1, //For your helm
 		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1, //Hilarious
 		)
@@ -109,8 +109,8 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/kastvyl)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/telegraphed_strike/spellblade/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/telegraphed_strike/spellblade/tremor)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
 
