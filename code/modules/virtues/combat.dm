@@ -233,7 +233,7 @@
 					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.</font>")
 
 					// blackened blood, finally
-					recipient.dna.species.blood_color = "#4b2e2e"
+					recipient.dna.species.blood_color = "#530000"
 
 					// inquisition trauma goes here
 					if(!(recipient.patron?.type == /datum/patron/old_god))
