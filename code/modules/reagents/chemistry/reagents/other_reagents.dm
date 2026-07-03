@@ -63,6 +63,10 @@
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(12) // hydrates and restores blood, not as good as water due to needing to process it, however
+			if(HAS_TRAIT(Hu, TRAIT_BLACKBLOOD))
+				for(var/datum/wound/wound as anything in Hu.get_wounds())
+					if(!istype(wound, /datum/wound/slash/incision))
+						wound.heal_wound(1) // moved the bulk of the passive's wound heal over here, you monster
 		if(H.blood_volume < BLOOD_VOLUME_NORMAL)
 			H.blood_volume = min(H.blood_volume + 7, BLOOD_VOLUME_NORMAL)
 		return
@@ -76,7 +80,7 @@
 	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER))
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
-			Hu.adjust_hydration(12) // hydrates, but does not restore blood
+			Hu.adjust_hydration(12) // hydrates, but does not restore blood nor has any other special effect
 		return
 	H.add_nausea(18) //Do not drink dirty blood!
 

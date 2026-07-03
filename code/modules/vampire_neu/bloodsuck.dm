@@ -57,6 +57,18 @@
 	to_chat(src, span_warning("I drink from [victim]'s [parse_zone(sublimb_grabbed)]."))
 	log_combat(src, victim, "drank blood from ")
 
+	var/amount = min(5, victim.reagents.total_volume) // drink their current reagents, so if they're poisoned, you'll also get poisoned
+	var/total = victim.reagents.total_volume
+	if(total > 0)
+		for(var/datum/reagent/R in victim.reagents.reagent_list)
+			var/to_transfer = (R.volume / total) * amount
+			victim.reagents.remove_reagent(R.type, to_transfer)
+			src.reagents.add_reagent(R.type, to_transfer)
+	var/tox_drained = min(victim.getToxLoss(), 5) // also works for TOX damage, so you can suck the poison out of them!! no leeches? no problem!
+	if(tox_drained > 0)
+		victim.adjustToxLoss(-tox_drained)
+		src.adjustToxLoss(tox_drained)
+
 	if(!VDrinker)
 		if(!HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_NASTY_EATER))
 			to_chat(src, span_warning("I'm going to puke..."))
@@ -69,19 +81,6 @@
 		return
 
 	src.reagents.add_reagent(/datum/reagent/blood, 5) // the smarter way to implement this, colorized
-
-	var/amount = min(5, victim.reagents.total_volume) // but also comes with the risk of drinking their current reagents, so if they're poisoned, you'll also get poisoned
-	var/total = victim.reagents.total_volume
-	if(total > 0)
-		for(var/datum/reagent/R in victim.reagents.reagent_list)
-			var/to_transfer = (R.volume / total) * amount
-			victim.reagents.remove_reagent(R.type, to_transfer)
-			src.reagents.add_reagent(R.type, to_transfer)
-
-	var/tox_drained = min(victim.getToxLoss(), 5) // also works for TOX damage, so you can suck the poison out of them!! no leeches? no problem!
-	if(tox_drained > 0)
-		victim.adjustToxLoss(-tox_drained)
-		src.adjustToxLoss(tox_drained)
 
 	if(VVictim)
 		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [uppertext(victim)].</b>"))

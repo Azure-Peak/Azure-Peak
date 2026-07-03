@@ -270,7 +270,7 @@ All foods are distributed among various categories. Use common sense.
 	// check to see if what we're eating is appropriate fare for our "social class" (aka nobles shouldn't be eating sticks of butter you troglodytes)
 	if (ishuman(eater))
 		var/mob/living/carbon/human/human_eater = eater
-		if(!HAS_TRAIT(human_eater, TRAIT_NOREGEN) || human_eater.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || human_eater.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+		if(!HAS_TRAIT(human_eater, TRAIT_NOREGEN) || !(human_eater.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || human_eater.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
 			if(HAS_TRAIT(human_eater, TRAIT_BLACKBLOOD))
 				var/datum/status_effect/buff/foodhealing/H = eater.has_status_effect(/datum/status_effect/buff/foodhealing)
 				if(H)
