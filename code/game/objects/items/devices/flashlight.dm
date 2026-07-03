@@ -314,7 +314,6 @@
 	extinguishable = FALSE
 	weather_resistant = TRUE
 	experimental_onhip = FALSE //Looks a little wonky due to how belts overlay with hip items. Reenable if you wish, but be mindful of that fact.
-	dropshrink = 0.8
 
 /obj/item/flashlight/flare/torch/lantern/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()

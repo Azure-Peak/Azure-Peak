@@ -85,3 +85,8 @@
 /obj/item/kitchen/fork/carved/opal
 	name = "opal fork"
 	icon_state = "fork_opal"
+
+/obj/item/kitchen/fork/carved/porcelain
+	name = "porcelain fork"
+	icon_state = "fork_porcelain"
+	sellprice = 10

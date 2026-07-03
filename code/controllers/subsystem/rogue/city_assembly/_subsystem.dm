@@ -342,6 +342,17 @@ SUBSYSTEM_DEF(city_assembly)
 	log_game("CITY ASSEMBLY WARRANT: defense -[amount]p by [key_name(actor)] ([reason]). Remaining: [current_warrant.defense_remaining]p.")
 	return TRUE
 
+/datum/controller/subsystem/city_assembly/proc/refund_defense(amount, mob/actor, reason = "")
+	if(amount <= 0)
+		return FALSE
+	if(!current_warrant)
+		return FALSE
+	if(!resolve_get_alderman())
+		return FALSE
+	current_warrant.defense_remaining = min(current_warrant.defense_daily_cap, current_warrant.defense_remaining + amount)
+	log_game("CITY ASSEMBLY WARRANT: defense +[amount]p refunded by [key_name(actor)] ([reason]). Remaining: [current_warrant.defense_remaining]p.")
+	return TRUE
+
 /datum/controller/subsystem/city_assembly/proc/is_alderman(mob/user)
 	var/mob/current = resolve_get_alderman()
 	return current && current == user

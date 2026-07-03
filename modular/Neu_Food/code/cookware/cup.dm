@@ -158,6 +158,41 @@
 	force = 10
 	throwforce = 15
 
+/obj/item/reagent_containers/glass/cup/glass
+	name = "glass"
+	desc = "A tall glass, offering a clear glimpse into the tastes of those who can afford it."
+	icon_state = "glassgoblet"
+	force = 10
+	throwforce = 20 //Did you ever get a glass chucked at your head, before? It hurts!
+
+/obj/item/reagent_containers/glass/cup/glass/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum, do_splash = TRUE)
+	playsound(loc, 'sound/combat/hits/onglass/glassbreak (4).ogg', 100)
+	shatter(get_turf(src))
+	..()
+
+/obj/item/reagent_containers/glass/cup/glass/proc/shatter(turf/T)
+	if(istransparentturf(T))
+		shatter(GET_TURF_BELOW(T))
+		return 
+	new /obj/item/natural/glass_shard(get_turf(T))
+	new /obj/effect/decal/cleanable/debris/glassy(get_turf(T))
+	qdel(src)
+
+/obj/item/reagent_containers/glass/cup/glass/small
+	name = "small glass"
+	desc = "A short glass, abating the sorrows of royalty - one shot at a time."
+	icon_state = "glasscup"
+	dropshrink = 1
+	dropshrink = 0.85
+
+/obj/item/reagent_containers/glass/cup/glass/flute
+	name = "glass flute"
+	desc = "A tall glass with a narrower chamber, delighted by those who wish to savor the finer things in lyfe."
+	icon_state = "glassflute"
+	force = 10
+	throwforce = 20 //Did you ever get a glass chucked at your head, before? It hurts!
+	volume = 15
+
 /obj/item/reagent_containers/glass/cup/aalloymug
 	name = "decrepit mug"
 	desc = "Frayed bronze, coiled into a cup. Here, adventurers of centuries-past would laugh and legendize; but now, nothing but empty chairs and empty tables remain."
@@ -313,6 +348,12 @@
 	dropshrink = 1
 	icon_state = "cup_onyxa"
 
+/obj/item/reagent_containers/glass/cup/carved/porcelain
+	name = "porcelain cup"
+	desc = "A simple cup made out of porcelain."
+	dropshrink = 1
+	icon_state = "cup_porcelain"
+	sellprice = 5
 /obj/item/reagent_containers/glass/cup/carved/shell
 	name = "shell cup"
 	desc = "A simple cup carved out of shell."
@@ -378,3 +419,10 @@
 	desc = "A fancy cup carved out of onyxa."
 	dropshrink = 1
 	icon_state = "fancycup_onyxa"
+
+/obj/item/reagent_containers/glass/cup/carved/porcelainfancy
+	name = "fancy porcelain goblet"
+	desc = "A fancy goblet made out of porcelain."
+	dropshrink = 1
+	icon_state = "fancycup_porcelain"
+	sellprice = 15

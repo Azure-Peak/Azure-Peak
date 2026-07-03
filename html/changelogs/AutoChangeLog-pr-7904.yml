@@ -1,0 +1,4 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - bugfix: "Matthios items not counting as \"valid\""

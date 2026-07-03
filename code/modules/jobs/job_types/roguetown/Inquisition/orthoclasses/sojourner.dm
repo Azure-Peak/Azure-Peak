@@ -78,7 +78,7 @@
 
 	switch(sidearm_selected)
 		if("katar")
-			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon(H))
 		if("knuckledusters")
 			H.put_in_hands(new /obj/item/rogueweapon/knuckledusters/psy(H))
 
@@ -108,7 +108,7 @@
 		/obj/item/paper/inqslip/arrival/ortho = 1,
 		/obj/item/roguegem/amethyst/naledi = 1,
 		(naledi_book) = 1,
-		/obj/item/book/spellbook = 1,
+		/obj/item/rogueweapon/spellbook = 1,
 		)
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)

@@ -1,0 +1,8 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Copper spears now deal 18 - 22 damage instead of 13 - 18. For reference, this makes them slightly better than decrepit spears (due to having higher one-handed damage), and not one-to-one copies of stone spears."
+  - bugfix: "Copper and gemstone spears now use 64x sprites, meaning that their inhands no longer deform in unintended ways when held."
+  - bugfix: "Copper spears properly smelt into copper ingots once again."
+  - bugfix: "Obtaining a gemstone spear via a gem-related crafting recipe or loot spawner now gives a gemstone spear, instead of a regular iron javelin. Oopsie-doodles."
+  - code_imp: "Minor sprite updates to an unrelated weapon or two."

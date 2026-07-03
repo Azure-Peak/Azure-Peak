@@ -120,6 +120,7 @@
 	obj_flags = UNIQUE_RENAME
 	var/heavy_bow = FALSE //used for adding a STR check to the charge time of a bow
 	cartridge_articles = "an"
+	var/spill_ammo_on_drop = TRUE
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/get_mechanics_examine(mob/user)
 	. += span_info("Bows increase in damage and accuracy the higher your <b>PERCEPTION</b>.")
@@ -220,7 +221,7 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/dropped()
 	. = ..()
-	if(chambered)
+	if(chambered && spill_ammo_on_drop)
 		chambered = null
 		var/num_unloaded = 0
 		for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))

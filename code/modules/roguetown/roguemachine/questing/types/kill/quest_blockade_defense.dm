@@ -27,6 +27,7 @@
 	/// correct pot. Null for directives (which burned nothing).
 	var/datum/fund/funding_fund
 	var/funding_cost = 0
+	var/warrant_consumed = 0
 
 /// Faction is forced by the blockade, not rolled from threat weights.
 /datum/quest/kill/blockade_defense/preview(obj/effect/landmark/quest_spawner/landmark)
@@ -271,6 +272,9 @@
 		SStreasury.mint(funding_fund, funding_cost, "Blockade writ recall refund ([recaller ? recaller.real_name : "unknown"])")
 		if(funding_fund == SStreasury.burgher_pledge_fund)
 			record_round_statistic(STATS_PLEDGE_CONSUMED, -funding_cost)
+	if(warrant_consumed > 0)
+		SScity_assembly?.refund_defense(warrant_consumed, recaller, "blockade writ recall")
+		warrant_consumed = 0
 	var/obj/item/quest_writ/S = quest_scroll
 	if(S && !QDELETED(S))
 		qdel(S)

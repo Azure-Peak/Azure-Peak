@@ -12,6 +12,9 @@
 	/// Fatigue/mana cost for the Vizier's origin magic system.
 	var/cost
 
+/datum/action/cooldown/spell/vizier/restoration/lesser
+	cooldown_time = 24 SECONDS // w.Yogi gets double the cooldown of Vizier, who is a master at it, but there's a catch. INT gives CDR to this, so if you pick INT-based packs, Crystalhide, potions, etc. There may be a method to circumvent it being so high.
+
 /datum/action/cooldown/spell/vizier/restoration
 	name = "Restoration"
 	desc = "Uses Origin Magick to gradually rewind a target's body to a healthier state. The effects happen in order, and only one at a time. Removes embedded objects, stops bleeding, grants health regeneration and energy recovery. The nature of time-based manipulation allows this to work on most targets."
@@ -88,7 +91,7 @@
 				step_check = TRUE
 
 	if(step_check)
-		C.visible_message(span_info("Origin arts reverse [C]'s bleeding!"),	span_notice("My open wounds close, as if reverting in time!"))
+		C.visible_message(span_info("Origin arts reverse [C]'s bleeding!"),	span_notice("My bleeding wounds close, as if reverting in time!"))
 		return TRUE
 
 	// Healing

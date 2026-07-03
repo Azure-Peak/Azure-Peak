@@ -366,6 +366,24 @@
 	icon_state = "jadeslag"
 	sellprice = 9
 
+/obj/item/ingot/silverslag
+	name = "silver-speckled slag"
+	desc = "A mass of smoldered silver, rendered lame from the forge's heat. Holy might, marred and tarnished." 
+	icon_state = "silverslag"
+	sellprice = 9
+
+/obj/item/ingot/goldslag
+	name = "gold-speckled slag"
+	desc = "A mass of smoldered gold, rendered lame from the forge's heat. Haughty dreams, brought lower than low." 
+	icon_state = "goldslag"
+	sellprice = 12
+
+/obj/item/ingot/copperslag
+	name = "copper-speckled slag"
+	desc = "A mass of smoldered copper, rendered lame from the forge's heat. Primeval innovation, gnarled into rubble." 
+	icon_state = "copperslag"
+	sellprice = 3
+
 //Anomalous Smeltings
 /obj/item/ingot/weeping
 	name = "enduring ingot"

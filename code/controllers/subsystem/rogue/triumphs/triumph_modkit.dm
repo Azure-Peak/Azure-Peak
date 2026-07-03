@@ -2,7 +2,7 @@
 // ! TRIUMPH EXCLUSIVE KITS!   //
 /////////////////////////////////
 // Special enchanting kits that can be acquired via Triumphs. Refer to 'donator_modkits.dm' for more details and up-to-date examples.
-// Try to keep anything specifically acquired via Triumphs - instead of Donations - here.
+// Try to keep anything specifically acquired via Triumphs - instead of Donations - here, if possible.
 
 //'Replacement' variants. These specifically replace the item-in-question with a whole new instance. More bloatish, but ensures complete adherence to skin restrictions and allows for supplemental tweaks (like new onmobs.)
 // No harm in using these if you prefer, but it's strongly suggested to implement reskins via the 'Skinned' system, below. This works best for clothing (like plate armor) and special weapons (like silver or avantyne.)
@@ -109,6 +109,15 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Longsword."
 	target_items = list(/obj/item/rogueweapon/sword/long)
 	result_item = /obj/item/rogueweapon/sword/long/triumph
+
+/obj/item/enchantingkit/triumph_armorkit_agedskullcap
+	name = "'Aged Skull Cap' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Skull Cap."
+	target_items = list(
+		/obj/item/clothing/head/roguetown/helmet/skullcap/steel				= /obj/item/clothing/head/roguetown/helmet/skullcap/old,
+		/obj/item/clothing/head/roguetown/helmet/skullcap					= /obj/item/clothing/head/roguetown/helmet/skullcap/old
+		)
+	result_item = null
 
 /obj/item/enchantingkit/triumph_weaponkit_wide
 	name = "'Wideguard' morphing elixir"
@@ -301,11 +310,33 @@
 		)
 	result_item = /obj/item/rogueweapon/example/clericsword
 
+/obj/item/enchantingkit/triumph_armorkit_oldhelmets
+	name = "'Valorian Steel Helmet' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of a Steel Sallet, a Steel Visored Sallet, a Steel Kettlehelm, or a Steel Knight's Armet."
+	target_items = list(
+		/obj/item/clothing/head/roguetown/helmet/heavy/knight			= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
+		/obj/item/clothing/head/roguetown/helmet/sallet/visored 		= /obj/item/clothing/head/roguetown/helmet/sallet/visored/legacy,
+		/obj/item/clothing/head/roguetown/helmet/sallet					= /obj/item/clothing/head/roguetown/helmet/sallet/legacy,
+		/obj/item/clothing/head/roguetown/helmet/kettle	  				= /obj/item/clothing/head/roguetown/helmet/kettle/legacy
+		)
+	result_item = null
+
+/obj/item/enchantingkit/triumph_armorkit_ironoldhelmets
+	name = "'Valorian Iron Helmet' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of an Iron Sallet, an Iron Visored Sallet, an Iron Kettlehelm, or an Iron Knight's Armet."
+	target_items = list(
+		/obj/item/clothing/head/roguetown/helmet/heavy/knight/iron			= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron,
+		/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron 		= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/legacy,
+		/obj/item/clothing/head/roguetown/helmet/sallet/iron				= /obj/item/clothing/head/roguetown/helmet/sallet/iron/legacy,
+		/obj/item/clothing/head/roguetown/helmet/kettle/iron	  			= /obj/item/clothing/head/roguetown/helmet/kettle/iron/legacy
+		)
+	result_item = null
+
 //////////////////////////////
 // TRIUMPH-RESKIN EXAMPLES! //
 //////////////////////////////
 // Handles Triumph-specific variants of the items in enchanting_examples.dm. Refer to that file for more detailed instructions and up-to-date examples.
-// In essence, works like a 'reskin' that specifically changes the icon, name, and description (without having to further alter any mechanical details.)
+// In essence, it works like a 'reskin' that specifically changes the icon, name, and description (without having to further alter any mechanical details.)
 
 /obj/item/rogueweapon/example/valorian_sword
 	name = "valorian sword"
@@ -503,6 +534,7 @@
 				return list("shrink" = 0.4,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/rogueweapon/sword/long/triumph/psycrucifix
+	name = "valorian psycrucific longsword"
 	desc = "A lethal and perfectly balanced weapon, the longsword is the protagonist of endless tales and myths \
 	all across Psydonia. This particular variant has a psycruciformed crossguard; a masterwork, held in silent \
 	reverance by those who've vowed to never forget the ultimate sacrifice."
@@ -784,3 +816,38 @@
 	desc = "A complete set of iron plate armor, fitted with tassets and bracers for additional coverage. Ask yourself one last question, before \
 	you twist the blade; is humenity still worth saving?"
 	icon_state = "ilegacyplate"
+
+/obj/item/clothing/head/roguetown/helmet/kettle/legacy
+	name = "valorian kettle helmet"
+	desc = "A steel helmet which protects the top and sides of the head. Will you stand fast when the time to fight for your God and your Kingdom arise?"
+	icon_state = "kettleclassic"
+
+/obj/item/clothing/head/roguetown/helmet/sallet/legacy
+	name = "valorian sallet"
+	icon_state = "salletclassic"
+	desc = "A steel helmet which covers most of the head, offering superior coverage to the kettle helmet. Will you ever know what meal will be your last, before your heart falls still?"
+
+/obj/item/clothing/head/roguetown/helmet/sallet/visored/legacy
+	name = "valorian visored sallet"
+	desc = "A steel 'sallet'-styled helmet with an adjustable visor. Where do your loyalties lie; with thine Kingdom, or with thine God?"
+	icon_state = "salletclassic_visor"
+
+/obj/item/clothing/head/roguetown/helmet/kettle/iron/legacy
+	name = "valorian iron kettle helmet"
+	desc = "An iron helmet which protects the top and sides of the head. What can you do, when all you have are bows and arrows against the lightning?"
+	icon_state = "ikettleclassic"
+
+/obj/item/clothing/head/roguetown/helmet/sallet/iron/legacy
+	name = "valorian iron sallet"
+	icon_state = "isalletclassic"
+	desc = "An iron helmet which covers most of the head, offering superior coverage to the kettle helmet. March to the cadence, follow your betters into death; but why?"
+
+/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/legacy
+	name = "valorian iron visored sallet"
+	desc = "An iron 'sallet'-styled helmet with an adjustable visor. What will they remember of you, once the dust has settled?"
+	icon_state = "isalletclassic_visor"
+
+/obj/item/clothing/head/roguetown/helmet/skullcap/old
+	name = "aged skull cap"
+	desc = "An aged helmet which covers the top of the head."
+	icon_state = "skullcapold"

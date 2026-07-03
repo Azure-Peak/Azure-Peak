@@ -59,7 +59,7 @@
 			if(has_status_effect(/datum/status_effect/buff/iron_skin))
 				intdamage *= 0.75
 
-			if(istype(used_weapon) && used_weapon.is_silver && ((used.smeltresult in list(/obj/item/ingot/aaslag, /obj/item/ingot/aalloy, /obj/item/ingot/purifiedaalloy)) || used.GetComponent(/datum/component/cursed_item)))
+			if(istype(used_weapon) && used_weapon.is_silver && ((used.smeltresult in list(/obj/item/ingot/aaslag, /obj/item/ingot/aalloy, /obj/item/ingot/purifiedaalloy, /obj/item/ingot/component/zizo, /obj/item/ingot/component/graggar, /obj/item/ingot/component/matthios, /obj/item/ingot/component/baotha, /obj/item/ingot/avantyne, /obj/item/ingot/vampire)) || used.GetComponent(/datum/component/cursed_item)))
 				var/datum/component/silverbless/bless = used_weapon.GetComponent(/datum/component/silverbless)
 				if(bless.is_blessed)
 					intdamage = round(intdamage * bless.cursed_item_intdamage)
