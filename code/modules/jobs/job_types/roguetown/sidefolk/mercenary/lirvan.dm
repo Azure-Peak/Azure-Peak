@@ -11,7 +11,7 @@
 	maximum_possible_slots = 2
 
 	subclass_stats = list(
-		STATKEY_STR = 2, //poopy adv-tier stats, the majority of it will be via selfbuff. abt 3 points of weighted stats
+		STATKEY_STR = 2, //stats roughly equiv to adv, give or take one. when buff is active, they will have more than merc; when inactive, less
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 		STATKEY_PER = 1,
@@ -39,8 +39,6 @@
 /datum/outfit/job/roguetown/mercenary/lirvanmerc/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/gold
-
 	cloak = /obj/item/clothing/cloak/ordinatorcape/lirvas
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/lirvas
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
@@ -50,7 +48,6 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/gold
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
-	gloves = /obj/item/clothing/gloves/roguetown/angle
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	l_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/gold
 	r_hand = /obj/item/storage/belt/rogue/pouch/coins/mid
@@ -61,7 +58,24 @@
 
 	H.merctype = 16 //literally no idea what this does
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lirvan_tithe)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/saxtonhale)
+
+	var/list/weapon_choices = list("Staff", "Unarmed")
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapon_choices
+	switch(weapon_choice)
+		if("Staff")
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/saxtonhale)
+			gloves = /obj/item/clothing/gloves/roguetown/angle
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/gold
+		if("Unarmed")
+			if(H.gender == FEMALE)
+				shirt = /obj/item/clothing/suit/roguetown/shirt/desertbra
+			gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
+			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_BLOOD_RESISTANCE, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lirvan_ledger)
 
 	if(H.mind)
 		var/list/patron_choices = list("The ORDER and MONARCHY of Astrata", "The WEALTH and POWER of Matthios")
@@ -92,6 +106,9 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	color = "#f9a602"
 
 /obj/item/clothing/under/roguetown/chainlegs/kilt/gold
+	color = "#f9a602"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/gold
 	color = "#f9a602"
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas //high and good armor, but full body, so constant dmg  U N G O D L Y  high regen time. get owned when it breaks or swap to a sidearm
@@ -200,6 +217,72 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 4, STATKEY_LCK = 2, STATKEY_SPD = 2) //I'm hoping this doesn't happen often.
 
 
+/obj/effect/proc_holder/spell/self/lirvan_ledger
+	name = "LEDGER"
+	desc = "Gather a powerful concentration of wealth-fed magic in your hand. The next unarmed strike releases it, scaling with the wealth you carry."
+	antimagic_allowed = TRUE
+	clothes_req = FALSE
+	recharge_time = 30 SECONDS
+	ignore_armor_penalty = TRUE
+	invocations = list("'s hand burns with golden accountancy!")
+	invocation_type = "emote"
+
+/obj/effect/proc_holder/spell/self/lirvan_ledger/cast(mob/living/user)
+	if(!ishuman(user))
+		return FALSE
+	if(user.has_status_effect(/datum/status_effect/buff/lirvan_ledger))
+		to_chat(user, span_warning("My next strike is already entered in the LEDGER."))
+		return FALSE
+	user.apply_status_effect(/datum/status_effect/buff/lirvan_ledger)
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/lirvan_ledger
+	name = "LEDGER"
+	desc = "My next unarmed strike is empowered by my wealth."
+	icon_state = "buff"
+
+/datum/status_effect/buff/lirvan_ledger
+	id = "lirvan_ledger"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/lirvan_ledger
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 20 SECONDS
+	var/wealth_value = 0
+
+/datum/status_effect/buff/lirvan_ledger/on_apply()
+	. = ..()
+	wealth_value = get_moni_value(owner)
+	RegisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
+	owner.add_filter("lirvan_ledger_hand", 2, list("type" = "outline", "color" = "#f5d96c", "alpha" = 200, "size" = 2))
+	to_chat(owner, span_notice("I gather [wealth_value] mammon's worth of POWER into my hand."))
+
+/datum/status_effect/buff/lirvan_ledger/on_remove()
+	UnregisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK)
+	owner.remove_filter("lirvan_ledger_hand")
+	. = ..()
+
+/datum/status_effect/buff/lirvan_ledger/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
+	SIGNAL_HANDLER
+	if(!proximity || source != owner || !isliving(target) || target == owner)
+		return
+	var/mob/living/L = target
+	if(L.stat == DEAD)
+		return
+	INVOKE_ASYNC(src, PROC_REF(resolve_strike), L)
+	return COMPONENT_HAND_NO_ATTACK
+
+/datum/status_effect/buff/lirvan_ledger/proc/resolve_strike(mob/living/target)
+	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
+		return
+	var/mob/living/carbon/human/H = owner
+	var/unarmed_skill = istype(H) ? H.get_skill_level(/datum/skill/combat/unarmed) : 1
+	var/damage = clamp(round((wealth_value / 12) + (unarmed_skill * 8)), 20, 120)
+	var/apen = clamp(round(wealth_value / 8), 10, 100)
+	arcyne_strike(owner, target, null, damage, owner.zone_selected, BCLASS_SMASH, apen, "LEDGER", FALSE, FALSE, FALSE, BRUTE, 1, 1)
+	owner.visible_message(span_danger("[owner]'s golden fist cashes out against [target]!"), span_notice("The LEDGER balances in one perfect blow."))
+	mammon_coin_burst(get_turf(target))
+	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
+	owner.remove_status_effect(/datum/status_effect/buff/lirvan_ledger)
+
 /obj/effect/proc_holder/spell/invoked/saxtonhale
 	name = "SUNSET"
 	desc = "Channel but a mote of the power of a Drakkyn. Take to the skies, before crashing into the ground with a punishing slam after a delay. All caught within are damaged. Hit can be riposted. Center tile takes triple damage."
@@ -245,6 +328,13 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		to_chat(H, span_warning("I need open ground for my landing!"))
 		revert_cast()
 		return FALSE
+
+	var/obj/item/held_weapon = H.get_active_held_item()
+	if(!held_weapon)
+		to_chat(H, span_warning("...with WHAT WEAPON?"))
+		revert_cast()
+		return FALSE
+
 
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 
