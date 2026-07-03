@@ -445,6 +445,7 @@
 	H.adjustToxLoss(-heal_amt, 0)
 	H.adjustOrganLoss(ORGAN_SLOT_BRAIN, -heal_amt)
 	H.adjustCloneLoss(-heal_amt, 0)
+	H.energy_add(heal_amt * 2)
 
 /datum/action/cooldown/spell/gnoll/consume/proc/restore_armor_integrity(mob/living/carbon/human/H, percent)
 	if(!H)
