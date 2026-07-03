@@ -97,8 +97,6 @@
 	var/list/out = list()
 	out += chronicle_section_header("Treasury")
 	out += chronicle_kv("Starting treasury", "[GLOB.azure_round_stats[STATS_STARTING_TREASURY]]")
-	out += chronicle_kv("Treasure minted (gross)", "[GLOB.azure_round_stats[STATS_MINTED_TREASURE_GROSS]]")
-	out += chronicle_kv("Treasure minted (Crown cut)", "[GLOB.azure_round_stats[STATS_MINTED_TREASURE_NET]]")
 	out += chronicle_kv("Taxes collected", "[GLOB.azure_round_stats[STATS_TAXES_COLLECTED]]")
 	out += chronicle_kv("  Contract levy", "[GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY]]")
 	out += chronicle_kv("  Headeater levy", "[GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]")

@@ -73,3 +73,44 @@
 	name = "Valorian Full-Plate, Iron"
 	cost = 250
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/iron/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyhelmet_kettle_steel
+	name = "Valorian Helmet, Kettle, Steel"
+	cost = 50 
+	contains = list(/obj/item/clothing/head/roguetown/helmet/kettle/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyhelmet_sallet_steel
+	name = "Valorian Helmet, Sallet, Steel"
+	cost = 50 
+	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyhelmet_sallet_visor_steel
+	name = "Valorian Helmet, Sallet with Visor, Steel"
+	cost = 90
+	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyhelmet_knight_helmet_steel
+	name = "Valorian Helmet, Knight's Helmet, Steel"
+	cost = 90
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/old)
+
+/datum/supply_pack/rogue/armor_exotic/legacyhelmet_kettle_iron
+	name = "Valorian Helmet, Kettle, Iron"
+	cost = 25 
+	contains = list(/obj/item/clothing/head/roguetown/helmet/kettle/iron/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyhelmet_sallet_iron
+	name = "Valorian Helmet, Sallet, Iron"
+	cost = 40
+	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/iron/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyhelmet_sallet_visor_iron
+	name = "Valorian Helmet, Sallet with Visor, Iron"
+	cost = 40 
+	contains = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/legacy)
+
+/datum/supply_pack/rogue/armor_exotic/legacyhelmet_knight_helmet_iron
+	name = "Valorian Helmet, Knight's Helmet, Iron"
+	cost = 40 
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron)
+

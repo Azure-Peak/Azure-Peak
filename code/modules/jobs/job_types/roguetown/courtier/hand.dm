@@ -5,7 +5,6 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE)	//No noble constructs.
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/hand
@@ -29,11 +28,9 @@
 	)
 
 /datum/outfit/job/roguetown/hand
-	backr = /obj/item/storage/backpack/rogue/satchel/short
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/besilked
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/hand
-	belt = /obj/item/storage/belt/rogue/leather/steel
 	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/scomstone/garrison/hand
 	job_bitflag = BITFLAG_ROYALTY
@@ -59,7 +56,6 @@
 	name = "Blademaster"
 	tutorial = "You have played blademaster and strategist to the Noble-Family for so long that you are a master tactician, something you exploit with potent conviction. Let no man ever forget whose ear you whisper into. You've killed more men with swords than any spymaster could ever claim to."
 	outfit = /datum/outfit/job/roguetown/hand/blademaster
-
 	category_tags = list(CTAG_HAND)
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
@@ -88,6 +84,8 @@
 	)
 
 /datum/outfit/job/roguetown/hand/blademaster/pre_equip(mob/living/carbon/human/H)
+	backr = /obj/item/storage/backpack/rogue/satchel/short
+	belt = /obj/item/storage/belt/rogue/leather/steel
 	r_hand = /obj/item/rogueweapon/sword/long/hand
 	beltr = /obj/item/rogueweapon/scabbard/sword/royal
 	head = /obj/item/clothing/head/roguetown/chaperon/noble/hand
@@ -110,7 +108,6 @@
 	tutorial = " You have played spymaster and confidant to the Noble-Family for so long that you are a vault of intrigue, something you exploit with potent conviction. Let no man ever forget whose ear you whisper into. You've killed more men with those lips than any blademaster could ever claim to."
 	extra_context = "This subclass recieves 'Perfect Tracker' and 'Keen Ears' for free."
 	outfit = /datum/outfit/job/roguetown/hand/spymaster
-
 	category_tags = list(CTAG_HAND)
 	subclass_languages = list(/datum/language/thievescant)
 	traits_applied = list(TRAIT_KEENEARS, TRAIT_DODGEEXPERT, TRAIT_PERFECT_TRACKER)//Spy not a royal champion
@@ -139,27 +136,26 @@
 		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/hand/spymaster
-	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/spymaster
-
 //Spymaster start. More similar to the rogue adventurer - loses heavy armor and sword skills for more sneaky stuff.
 /datum/outfit/job/roguetown/hand/spymaster/pre_equip(mob/living/carbon/human/H)
+	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/spymaster
+	backr = /obj/item/storage/backpack/rogue/satchel/short/black
+	belt = /obj/item/storage/belt/rogue/leather/black
+	beltr = /obj/item/rogueweapon/scabbard/sheath/noble
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/dtace = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying/hand = 1,
-		/obj/item/rogueweapon/scabbard/sheath/noble = 1,
 		/obj/item/storage/keyring/lord = 1,
 		/obj/item/roguekey/skeleton = 1,
 		/obj/item/lockpickring/mundane = 1,
 	)
 	if(H.dna.species.type in NON_DWARVEN_RACE_TYPES)
-		cloak = /obj/item/clothing/cloak/half/shadowcloak
-		gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves
-		mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask
-		pants = /obj/item/clothing/under/roguetown/trou/shadowpants
+		cloak = /obj/item/clothing/cloak/half/shadowcloak/spymaster
+		gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/spymaster
+		mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask/spymaster
+		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/spymaster
 	else
 		cloak = /obj/item/clothing/cloak/raincloak/mortus //cool spymaster cloak
-		backr = /obj/item/storage/backpack/rogue/satchel/black
 		pants = /obj/item/clothing/under/roguetown/tights/black
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
@@ -169,7 +165,6 @@
 	name = "Advisor"
 	tutorial = " You have played researcher and confidant to the Noble-Family for so long that you are a vault of knowledge, something you exploit with potent conviction. Let no man ever forget the knowledge you wield. You've read more books than any blademaster or spymaster could ever claim to."
 	outfit = /datum/outfit/job/roguetown/hand/advisor
-
 	category_tags = list(CTAG_HAND)
 	traits_applied = list(TRAIT_ALCHEMY_EXPERT, TRAIT_ARCYNE)
 	subclass_stats = list(
@@ -200,7 +195,10 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
+
 /datum/outfit/job/roguetown/hand/advisor
+	backr = /obj/item/storage/backpack/rogue/satchel/short
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/advisor
 	r_hand = /obj/item/rogueweapon/sword/rapier/hand
 	beltr = /obj/item/rogueweapon/scabbard/sheath/courtphysician/hand

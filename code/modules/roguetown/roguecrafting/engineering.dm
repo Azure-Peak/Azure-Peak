@@ -756,10 +756,12 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/cog
-	name = "wooden cogwheel(4x)"
+	name = "wooden cogwheel(6x)"
 	category = "Rotational"
 	display_category = ITEM_CAT_ENG_MACHINERY
 	result = list(
+		/obj/item/rotation_contraption/cog,
+		/obj/item/rotation_contraption/cog,
 		/obj/item/rotation_contraption/cog,
 		/obj/item/rotation_contraption/cog,
 		/obj/item/rotation_contraption/cog,
@@ -796,10 +798,11 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/large_cog
-	name = "large wooden cogwheel (2x)"
+	name = "large wooden cogwheel (3x)"
 	category = "Rotational"
 	display_category = ITEM_CAT_ENG_MACHINERY
 	result = list(
+		/obj/item/rotation_contraption/large_cog,
 		/obj/item/rotation_contraption/large_cog,
 		/obj/item/rotation_contraption/large_cog,
 	)
@@ -851,10 +854,15 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/rails
-	name = "minecart rails (20x)"
+	name = "minecart rails (25x)"
 	category = "Minecarts"
 	display_category = ITEM_CAT_ENG_CONSTRUCTION
 	result = list(
+		/obj/item/rotation_contraption/minecart_rail,
+		/obj/item/rotation_contraption/minecart_rail,
+		/obj/item/rotation_contraption/minecart_rail,
+		/obj/item/rotation_contraption/minecart_rail,
+		/obj/item/rotation_contraption/minecart_rail,
 		/obj/item/rotation_contraption/minecart_rail,
 		/obj/item/rotation_contraption/minecart_rail,
 		/obj/item/rotation_contraption/minecart_rail,
@@ -926,10 +934,12 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/roller
-	name = "rollers (2x)"
+	name = "rollers (4x)"
 	category = "Minecarts"
 	display_category = ITEM_CAT_ENG_CONSTRUCTION
 	result = list(
+		/obj/item/rotation_contraption/roller,
+		/obj/item/rotation_contraption/roller,
 		/obj/item/rotation_contraption/roller,
 		/obj/item/rotation_contraption/roller,
 	)

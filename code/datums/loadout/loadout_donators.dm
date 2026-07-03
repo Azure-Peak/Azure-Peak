@@ -114,6 +114,10 @@
 	name = "Gift - Oathtaker's Decoration, Shieldcrest"
 	path = /obj/item/clothing/head/roguetown/decoration/orle/donator_oathkeeper
 
+/datum/loadout_item/donator/universal/headpiece_greatplume
+	name = "Gift - Helmet Cosmetic, Greatplume"
+	path = /obj/item/clothing/head/roguetown/decoration/greatplume
+
 //Brief explanation - as Spear found out, using a Morphing Elixir on a storage item works.. but permenantly deletes -anything- stored inside.
 //To prevent any chance of someone accidentally destroying a round-important item, I'm replacing the kits with the main thing..
 // ..for now(?). If someone else comes around and adds a check that prevents belts with stored items inside from being transformed, then they can -

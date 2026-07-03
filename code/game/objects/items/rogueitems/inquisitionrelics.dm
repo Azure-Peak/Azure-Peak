@@ -55,6 +55,7 @@
 	icon = 'icons/roguetown/items/misc.dmi'
 	w_class = WEIGHT_CLASS_HUGE
 	var/cranking = FALSE
+	var/cranking_true_nature = FALSE //Are we torturing the souls openly, or subtle in nature?
 	force = 15
 	max_integrity = 100
 	attacked_sound = 'sound/combat/hits/onwood/education2.ogg'
@@ -64,11 +65,18 @@
 	twohands_required = TRUE
 	var/datum/looping_sound/psydonmusicboxsound/soundloop
 
+/obj/item/psydonmusicbox/get_examine_highlight_status()
+	// If we are not crankin' that shit... its just a musical box, nothing weird.
+	if(cranking_true_nature == FALSE)
+		return null
+	// Otherwise, it's obvious this thing is torturing souls and is fucked up and evil.
+	else
+		return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_INQUIS_CHURNER)
 
 /obj/item/psydonmusicbox/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(usr, TRAIT_INQUISITION))
-		desc = "A relic from the bowels of the Grand Otavan Cathedral's thaumaturgical workshops. The spirits of fifteen heathens, bound within this infernal contraption, sign a haunting tune; one that disrupts the leylines, prevents the faithless from casting spells, and immunizing the faithful to all magicka. It would be wise to not teach outsiders of its true nature, and to only bring it to bear in dire circumstances."
+		desc = "A relic from the bowels of the Grand Otavan Cathedral's thaumaturgical workshops. The spirits of fifteen heathens, bound within this infernal contraption, sign a haunting tune; one that disrupts the leylines, prevents the faithless from casting spells, and immunizing the faithful to all magicka. <b>It would be wise to not teach outsiders of its true nature</b>, and to only bring it to bear in dire circumstances."
 	else
 		desc = "A cranked music box, bearing the seal of the Holy Otavan Inquisition on its side. It radiates with an inexplicable feeling of somberness."
 
@@ -78,14 +86,17 @@
 		user.add_stress(/datum/stressevent/soulchurnerhorror)
 		to_chat(user, (span_cultsmall("I FEEL SUFFERING WITH EVERY CRANK, WHAT AM I DOING?!")))
 	cranking = !cranking
+	cranking_true_nature = !cranking_true_nature
 	update_icon()
 	if(cranking)
 		if(!HAS_TRAIT(usr, TRAIT_INSPIRING_MUSICIAN))
+			cranking_true_nature = cranking_true_nature
 			user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)
 		else
 			if(alert("Harmonize the voices or let them scream?",, "Harmonize", "Scream") != "Scream")
 				user.apply_status_effect(/datum/status_effect/buff/quelling_soulchurner)
 			else
+				cranking_true_nature = cranking_true_nature
 				user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)	
 		soundloop.start()
 		var/songhearers = view(7, user)
@@ -105,6 +116,7 @@
 		QDEL_NULL(soundloop)
 	src.visible_message(span_cult("A great deluge of souls escapes the shattered box! Their wails of vengeance and peace coalesce into an ethereal swan song, as the spirits ascend into the sky.."))
 	src.visible_message(span_hypnophrase("..before, at last, their haunting symphony finally comes to a close."))
+	playsound(src, 'sound/misc/otavanlament.ogg', 70, TRUE, -1)
 	return ..()
 
 /obj/item/psydonmusicbox/update_icon()
@@ -139,7 +151,7 @@
 	var/effect_color
 	var/pulse = 0
 	var/ticks_to_apply = 10
-	var/undividedlines =list("THEY HAVE TRAPPED US HERE FOR ETERNITY!", "SAVE US, CHILD OF TEN! SHATTER THIS ACCURSED MUSIC BOX!", "DEATH TO THE PSYDONIAN, FREE US!")
+	var/undividedlines =list("'THEY HAVE TRAPPED US HERE FOR ETERNITY!'", "'SAVE US, CHILD OF TEN! SHATTER THIS ACCURSED MUSIC BOX!'", "'DEATH TO THE PSYDONIAN, FREE US!'")
 	var/astratanlines =list("'HER LIGHT HAS LEFT ME! WHERE AM I?!'", "'SHATTER THIS CONTRAPTION, SO I MAY FEEL HER WARMTH ONE LAST TIME!'", "'I am royal.. Why did they do this to me...?'")
 	var/noclines =list("'Colder than moonlight...'", "'No wisdom can reach me here...'", "'Please help me, I miss the stars...'")
 	var/necralines =list("'They snatched me from her grasp, for eternal torment...'", "'Necra! Please! I am so tired! Release me!'", "'I am lost, lost in a sea of stolen ends.'")
@@ -155,6 +167,7 @@
 	var/graggarlines =list("'ANOINTED! TEAR THIS OTAVAN'S HEAD OFF!'", "'ANOINTED! SHATTER THE BOX, AND WE WILL KILL THEM TOGETHER!'", "'GRAGGAR, GIVE ME STRENGTH TO BREAK MY BONDS!'")
 	var/baothalines =list("'I miss the warmth of ozium... There is no feeling in here for me...'", "'Debauched one, rescue me from this contraption, I have such things to share with you.'", "'MY PERFECTION WAS TAKEN FROM ME BY THESE OTAVAN MONSTERS!'")
 	var/psydonianlines =list("'FREE US! FREE US! WE HAVE SUFFERED ENOUGH!'", "'PLEASE, RELEASE US!", "WE MISS OUR FAMILIES!'", "'WHEN WE ESCAPE, WE ARE GOING TO CHASE YOU INTO YOUR GRAVE.'")
+	var/otherlines =list("'FREE US! FREE US!'", "'PLEASE, SAVE US!", "WE MISS OUR FAMILIES!'", "'NO MORE! NO MORE! NO MORE!'")
 /datum/status_effect/buff/cranking_soulchurner/on_creation(mob/living/new_owner, stress, colour)
 	effect_color = "#800000"
 	return ..()
@@ -269,6 +282,13 @@
 						H.add_stress(/datum/stressevent/soulchurner)
 						if(!H.has_status_effect(/datum/status_effect/buff/churnernegative))
 							H.apply_status_effect(/datum/status_effect/buff/churnernegative)
+					else
+						to_chat(H, (span_hypnophrase("A voice calls out from the song for you...")))
+						to_chat(H, (span_cultsmall(pick(otherlines))))
+						H.add_stress(/datum/stressevent/soulchurner)
+						if(!H.has_status_effect(/datum/status_effect/buff/churnernegative))
+							H.apply_status_effect(/datum/status_effect/buff/churnernegative)
+
 
 
 /atom/movable/screen/alert/status_effect/buff/quelling_soulchurner
@@ -338,6 +358,9 @@ Inquisitorial armory down here
 		. += span_warning("<font color='#00e1ff'>While active, Golgatha burns and weakens anyone who attacks its bearer. The effect persists only while the attacker remains within the relic's light. This feature requires the bearer to be Silverblessed, and inflicts extra damage to mindless foes.</font>")
 	if(fuel <= 0)
 		. += span_info("It is gone.")
+
+/obj/item/flashlight/flare/torch/lantern/psycenser/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_VIBE_GOLGATHA, VIBEDESC_GOLGATHA)
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/getonmobprop(tag)
 	. = ..()

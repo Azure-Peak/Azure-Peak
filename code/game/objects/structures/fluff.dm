@@ -1072,7 +1072,7 @@
 		/obj/item/carvedgem,  //Some of these aren't particularly worth much, but it'd be REALLY unintuitive for "valuables" to not actually be offerings
 		/obj/item/rogueweapon/huntingknife/combat/jadekukri,
 		/obj/item/rogueweapon/huntingknife/combat/opalknife,
-		/obj/item/ammo_casing/caseless/rogue/javelin,
+		/obj/item/rogueweapon/spear/turq,
 		/obj/item/rogueweapon/stoneaxe/battle/coral,
 		/obj/item/rogueweapon/sword/amber,
 		/obj/item/rogueweapon/sword/short/messer/onyxa,

@@ -86,7 +86,7 @@
 /obj/structure/closet/crate/miningcar/proc/smack(mob/living/smacked, damage_mod = 1, momentum_mod = 1.5)
 	ASSERT(momentum_mod >= 1)
 	var/cartdamage = damage_mod * momentum //we calculate the damage mod * the speed we're going
-	cartdamage = CLAMP(cartdamage, 0, 50) //we max the damage at 50
+	cartdamage = CLAMP(cartdamage, 0, 100) //we max the damage at 100
 	if(!smacked.apply_damage(cartdamage, BRUTE, BODY_ZONE_CHEST))
 		return
 	if(obj_integrity <= max_integrity * 0.05)
@@ -359,7 +359,7 @@
 			momentum = 0
 			return
 		check_powered()
-		momentum -= 1
+		momentum -= 0.25 //this controls the momentum decay rate. 
 
 	// No more momentum = STOP
 	if(momentum <= 0)

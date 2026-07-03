@@ -565,10 +565,24 @@
 
 // --------- SILVER -----------
 
+/datum/anvil_recipe/tools/silver/carafe
+	name = "Carafe, Silver (x2)"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/reagent_containers/glass/carafe/silver
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+	createditem_num = 2
+
 /datum/anvil_recipe/tools/silver/cups
 	name = "Goblet, Silver (x3)"
 	req_bar = /obj/item/ingot/silver
 	created_item = /obj/item/reagent_containers/glass/cup/silver
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+	createditem_num = 3
+
+/datum/anvil_recipe/tools/silver/smallcups
+	name = "Cup, Silver (x3)"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/reagent_containers/glass/cup/silver/small
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 3
 
@@ -579,6 +593,20 @@
 	created_item = /obj/item/rogueweapon/shovel/silver
 	display_category = ITEM_CAT_TOOLS_FIELD
 
+/datum/anvil_recipe/tools/silver/spoon
+	name = "Spoon, Silver (x3)"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/kitchen/spoon/silver
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+	createditem_num = 3
+
+/datum/anvil_recipe/tools/silver/fork
+	name = "Fork, Silver (x3)"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/kitchen/fork/silver
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+	createditem_num = 3
+
 // --------- GOLD RECIPES-----------
 
 /datum/anvil_recipe/tools/gold/cups
@@ -588,6 +616,33 @@
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 3
 
+/datum/anvil_recipe/tools/gold/carafe
+	name = "Carafe, Gold (x2)"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/reagent_containers/glass/carafe/gold
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+	createditem_num = 2
+
+/datum/anvil_recipe/tools/gold/smallcups
+	name = "Cup, Gold (x3)"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/reagent_containers/glass/cup/golden/small
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+	createditem_num = 3
+
+/datum/anvil_recipe/tools/gold/fork
+	name = "Fork, Gold (x3)"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/kitchen/fork/gold
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+	createditem_num = 3
+
+/datum/anvil_recipe/tools/gold/spoon
+	name = "Spoon, Gold (x3)"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/kitchen/spoon/gold
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+	createditem_num = 3
 
 // --------- COOKING RECIPES -----------
 /datum/anvil_recipe/tools/iron/pot
@@ -616,9 +671,16 @@
 	createditem_num = 2
 
 /datum/anvil_recipe/tools/tin/platter
-	name = "Platter, Tin (x2)"
+	name = "Platter, Pewter (x2)"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/cooking/platter/pewter
+	display_category = ITEM_CAT_TOOLS_COOKWARE
+	createditem_num = 2
+
+/datum/anvil_recipe/tools/tin/cup
+	name = "Cup, Pewter (x2)"
+	req_bar = /obj/item/ingot/tin
+	created_item = /obj/item/reagent_containers/glass/cup/silver/pewter
 	display_category = ITEM_CAT_TOOLS_COOKWARE
 	createditem_num = 2
 
@@ -644,7 +706,7 @@
 	createditem_num = 3
 
 /datum/anvil_recipe/tools/tin/spoon
-	name = "Spoon, Tin (x3)"
+	name = "Spoon, Pewter (x3)"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/kitchen/spoon/tin
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -658,7 +720,7 @@
 	createditem_num = 3
 
 /datum/anvil_recipe/tools/tin/fork
-	name = "Fork, Tin (x3)"
+	name = "Fork, Pewter (x3)"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/kitchen/fork/tin
 	display_category = ITEM_CAT_TOOLS_COOKWARE
@@ -673,7 +735,7 @@
 
 // --------- HEARTBEAST TOOLS -----------
 /datum/anvil_recipe/tools/heartbeast_vials
-	name = "Blood vials"
+	name = "Blood Vials"
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/heart_blood_vial
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
@@ -681,7 +743,7 @@
 	createditem_num = 5
 
 /datum/anvil_recipe/tools/heartbeast_canisters
-	name = "Blood canisters"
+	name = "Blood Canisters"
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/heart_blood_canister
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
@@ -689,7 +751,7 @@
 	createditem_num = 2
 
 /datum/anvil_recipe/tools/aspect_canisters
-	name = "Aspect canisters"
+	name = "Aspect Canisters"
 	req_bar = /obj/item/ingot/copper
 	created_item = /obj/item/heart_canister
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
@@ -703,7 +765,7 @@
 
 //black steel tools
 /datum/anvil_recipe/tools/blacksteel/hammer
-	name = "Blacksteel hammer (+1 Stick)"
+	name = "Blacksteel Hammer (+1 Stick)"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/hammer/blacksteel

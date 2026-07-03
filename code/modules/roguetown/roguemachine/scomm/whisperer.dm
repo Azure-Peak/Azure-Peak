@@ -1,6 +1,6 @@
 /obj/item/speakerinq
 	name = "secret whisperer"
-	desc = "Sweet secrets whispered so freely."
+	desc = "Sweet secrets whispered so freely, it looks like you could fit it onto your ring finger."
 	var/speaking = TRUE
 	sellprice = 20
 	icon = 'icons/roguetown/items/misc.dmi'
@@ -18,6 +18,20 @@
 	grid_width = 32
 	grid_height = 32
 	var/fakename = "psydonian signet ring"
+	var/active_equipped = FALSE //For our examine texts
+
+/obj/item/speakerinq/get_examine_highlight_status()
+	// If we are wearing it on our ring slot, it looks like a psydonian ring. Disguised...
+	if(active_equipped)
+		return null
+	// Otherwise, it's an undisguised and OBVIOUSLY weird and WRONG device. Very obvious.
+	else
+		return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_INQUIS_WHISPERER)
+
+/obj/item/speakerinq/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("A special enchantment conceals this object from the gazes of the masses-whom-need-not-know your work. While worn as a ring, this will look like a regular psydonian signet ring.")
+    . += span_info("Wearing it on your hip or leaving it in the open will make it examinable as a quite-obviously weird object that most will reasonably act on, due to its concerningly odd nature.")
 
 /obj/item/speakerinq/proc/repeat_message(message, atom/A, tcolor, message_language)
 	if(!ismob(loc))
@@ -50,12 +64,14 @@
 	switch(slot)
 		if(SLOT_RING)
 			name = fakename
+			active_equipped = TRUE
 	return TRUE
 
 
 /obj/item/speakerinq/dropped(mob/user, silent)
 	. = ..()
 	name = initial(name)
+	active_equipped = FALSE
 	sleeved = null
 	mob_overlay_icon = null
 

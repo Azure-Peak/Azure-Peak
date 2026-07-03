@@ -1,5 +1,5 @@
 /datum/intent/spear/thrust/lance
-	damfactor = 1.25 // Turns its base damage into 30 on the 2hand thrust. It keeps the spear thrust one handed.
+	damfactor = 1.25 // Turns its base damage into 30 on the two-hand thrust. It keeps the spear thrust one handed.
 
 /datum/intent/lance
 	name = "lance"

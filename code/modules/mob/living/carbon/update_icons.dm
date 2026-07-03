@@ -45,7 +45,8 @@
 		// Only reset pixel_x if we're not in a custom pixel shift
 		if(!is_shifted)
 			pixel_x = get_standard_pixel_x_offset()
-			pixel_y = get_standard_pixel_y_offset(lying)
+			if(!(movement_type & FLOATING))
+				pixel_y = get_standard_pixel_y_offset(lying)
 
 /mob/living
 	var/list/overlays_standing[TOTAL_LAYERS]

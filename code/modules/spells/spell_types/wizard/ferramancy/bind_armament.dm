@@ -17,8 +17,10 @@
 	invocations = list("Vinculum Ferri.")
 	invocation_type = INVOCATION_WHISPER
 
-	charge_required = FALSE
-	cooldown_time = 5 SECONDS
+	charge_required = TRUE
+	charge_time = 10 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
+	cooldown_time = 60 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 1

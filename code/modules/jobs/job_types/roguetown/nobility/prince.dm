@@ -310,7 +310,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman
-	cloak = /obj/item/clothing/cloak/half/shadowcloak
+	cloak = /obj/item/clothing/cloak/half
 
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,

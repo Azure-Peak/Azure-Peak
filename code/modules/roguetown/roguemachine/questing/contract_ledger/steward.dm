@@ -174,9 +174,7 @@
 			return
 
 	if(chosen_type == QUEST_BLOCKADE_DEFENSE)
-		commission_blockade_defense(steward, params, cost, source_fund, is_directive, bonus_pay_level)
-		if(is_alderman_acting)
-			SScity_assembly.consume_defense(cost, steward, "blockade defense commission")
+		commission_blockade_defense(steward, params, cost, source_fund, is_directive, bonus_pay_level, is_alderman_acting)
 		return
 
 	var/region_name = params["region"]
@@ -215,6 +213,9 @@
 			SStreasury.mint(source_fund, cost, "Defense commission refund (landmark failure)")
 			if(source_fund == SStreasury.burgher_pledge_fund)
 				record_round_statistic(STATS_PLEDGE_CONSUMED, -cost)
+		// Restore the Alderman's warrant too - it was consumed above but the commission never issued.
+		if(is_alderman_acting && cost > 0)
+			SScity_assembly.refund_defense(cost, steward, "[chosen_type] defense commission refund (landmark failure)")
 		SSquestpool.log_event("defense_refund", "landmark failure [chosen_type] in [chosen_region.region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could bear that commission. Funds refunded."))
 		return
@@ -252,7 +253,7 @@
 /// Blockade commissions bypass the threat-region picker entirely — region param is the
 /// economic region name, resolved to a live /datum/blockade. Multiple writs may be in
 /// circulation concurrently, one per blockaded region.
-/obj/structure/roguemachine/contractledger/proc/commission_blockade_defense(mob/living/carbon/human/steward, list/params, cost, datum/fund/source_fund, is_directive, bonus_pay_level = COMMISSION_BONUS_PAY_NONE)
+/obj/structure/roguemachine/contractledger/proc/commission_blockade_defense(mob/living/carbon/human/steward, list/params, cost, datum/fund/source_fund, is_directive, bonus_pay_level = COMMISSION_BONUS_PAY_NONE, is_alderman_acting = FALSE)
 	var/region_name = params["region"]
 	var/datum/blockade/chosen
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
@@ -280,6 +281,10 @@
 		SSquestpool.log_event("defense_refund", "landmark failure blockade [region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could bear that writ. Funds refunded."))
 		return
+	// Writ issued: only now dock the Alderman's warrant, and record it on the quest so a recall
+	// can hand it back. Pre-checked via can_consume_defense in the caller, so this should hold.
+	if(is_alderman_acting && cost > 0 && SScity_assembly.consume_defense(cost, steward, "blockade defense commission ([region_name])"))
+		Q.warrant_consumed = cost
 	var/bonus_mult = get_commission_bonus_pay_mult(bonus_pay_level)
 	if(bonus_mult != 1.0)
 		Q.reward_amount = round(Q.reward_amount * bonus_mult)
