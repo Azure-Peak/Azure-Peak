@@ -39,14 +39,8 @@
 			if(world.time > L.last_client_interact + 0.2 SECONDS)
 				return FALSE
 
-		var/electrodam = 30
-		if(world.time < (L.mob_timers["kneestinger"] + 30 SECONDS))
-			electrodam = 15
-
-		if(L.electrocute_act(electrodam, src))
-			L.mob_timers["kneestinger"] = world.time
-			src.take_damage(30)
-			L.consider_ambush(always = TRUE)
+		if(can_zap(mover))
+			do_zap(mover)
 			if(L.throwing)
 				L.throwing.finalize(FALSE)
 			if(mover.loc != loc && L.stat == CONSCIOUS)
@@ -135,13 +129,26 @@
 	qdel(src)
 
 /obj/structure/glowshroom/dendorite
-	var/timeleft = null //5 MINUTES //balancing factor no longer relevant, uncommoent if gay.
+	var/timeleft = 5 MINUTES
 
 /obj/structure/glowshroom/dendorite/Initialize()
 	. = ..()
 	if(timeleft)
-		QDEL_IN(src, timeleft)
+		addtimer(CALLBACK(src, PROC_REF(timed_out)), timeleft)
 
 /obj/structure/glowshroom/dendorite/attackby(obj/item/W, mob/user, params)
 	// Dendorite glowshrooms don't electrocute when hit
 	. = ..()
+
+/obj/structure/glowshroom/dendorite/do_zap(atom/movable/movable_victim)
+	visible_message(span_warning("[src] shocks [movable_victim]!"))
+	if(isliving(movable_victim))
+		var/mob/living/L = movable_victim
+		L.lightning_shock(src)
+	else if(isatom(movable_victim))
+		var/atom/A = movable_victim
+		A.fire_act()
+	qdel(src)
+
+/obj/structure/glowshroom/dendorite/proc/timed_out()
+	qdel(src)
