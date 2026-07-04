@@ -392,7 +392,7 @@
 
 /datum/action/cooldown/spell/miracle/layonhands
 	name = "Lay on Hands"
-	desc = "Channel a heal on self or adjacent target, healing power increases over the first 10 seconds of channelings, cancelled early by any movement and action."
+	desc = "Channel a heal on self or adjacent target, healing power increases over the first 10 seconds of channelling, cancelled early by any movement and action."
 
 	button_icon_state = "heal"
 	sound = 'sound/magic/heal.ogg'
