@@ -20,7 +20,49 @@
 	/// List of possible phrases to generate
 	var/list/possible_phrases = list()
 	/// Optional list of job/role strings that are valid targets for this quest
-	var/list/valid_roles = list()
+	// These are generic by default. Antags typically excluded to avoid meta reveals.
+	var/list/valid_roles = list(
+		"Orthodoxist",
+		"Absolver",
+		"Templar",
+		"Sergeant",
+		"Men-at-arms",
+		"Knight",
+		"Squire",
+		"Mercenary",
+		"Warden",
+		"Adventurer",
+		"Towner",
+		"Acolyte",
+		"Keeper",
+		"Bishop",
+		"Sexton",
+		"Martyr",
+		"Druid",
+		"Cook",
+		"Servant",
+		"Shophand",
+		"Soilson",
+		"Tapster",
+		"Councillor",
+		"Archivist",
+		"Clerk",
+		"Hand",
+		"Jester",
+		"Court Magician",
+		"Seneschal",
+		"Steward",
+		"Suitor",
+		"Apothecary",
+		"Town Crier",
+		"Guildmaster",
+		"Guildsman",
+		"Innkeeper",
+		"Magicians Associate",
+		"Merchant",
+		"Head Physician",
+		"Tailor"
+	)
 
 /datum/vision_quest/proc/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
 	if(!target || target == seeker) 

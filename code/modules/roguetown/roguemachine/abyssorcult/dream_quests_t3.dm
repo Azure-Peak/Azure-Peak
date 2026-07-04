@@ -34,4 +34,5 @@
 		"Some tumors are pure",
 		"His sleep is pained"
 	)
+	valid_roles = list()
 	// Any role is valid.
