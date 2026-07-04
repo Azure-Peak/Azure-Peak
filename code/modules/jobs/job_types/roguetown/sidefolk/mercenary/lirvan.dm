@@ -75,7 +75,7 @@
 			ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lirvan_ledger)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lirvan_talon)
 
 	if(H.mind)
 		var/list/patron_choices = list("The ORDER and MONARCHY of Astrata", "The WEALTH and POWER of Matthios")
@@ -217,71 +217,95 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 4, STATKEY_LCK = 2, STATKEY_SPD = 2) //I'm hoping this doesn't happen often.
 
 
-/obj/effect/proc_holder/spell/self/lirvan_ledger
-	name = "LEDGER"
-	desc = "Gather a powerful concentration of wealth-fed magic in your hand. The next unarmed strike releases it, scaling with the wealth you carry."
+/datum/intent/katar/lirvasbite //snowflake intent
+	name = "gouge"
+	icon_state = "instrike"
+	attack_verb = list("gouges", "bites into")
+	animname = "bite"
+	blade_class = BCLASS_BITE
+	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
+	penfactor = PEN_LIGHT
+	chargetime = 0
+	swingdelay = 0
+	damfactor = 1
+	clickcd = CLICK_CD_QUICK
+	item_d_type = "stab"
+
+/obj/effect/proc_holder/spell/self/lirvan_talon
+	name = "DRAKKYRMAW"
+	desc = "WEALTH TO POWER; the drakkyr's maw opens. Turn thy gluttony to wrath with"
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
-	recharge_time = 30 SECONDS
+	recharge_time = 120 SECONDS
 	ignore_armor_penalty = TRUE
-	invocations = list("'s hand burns with golden accountancy!")
+	invocations = list("'s wealth twists into a hungry golden blade!")
 	invocation_type = "emote"
+	var/obj/item/rogueweapon/katar/lirvan_talon/summoned_talon
 
-/obj/effect/proc_holder/spell/self/lirvan_ledger/cast(mob/living/user)
+/obj/effect/proc_holder/spell/self/lirvan_talon/Destroy()
+	if(summoned_talon && !QDELETED(summoned_talon))
+		UnregisterSignal(summoned_talon, COMSIG_PARENT_QDELETING)
+		QDEL_NULL(summoned_talon)
+	return ..()
+
+/obj/effect/proc_holder/spell/self/lirvan_talon/cast(mob/living/user)
 	if(!ishuman(user))
 		return FALSE
-	if(user.has_status_effect(/datum/status_effect/buff/lirvan_ledger))
-		to_chat(user, span_warning("My next strike is already entered in the LEDGER."))
+	if(summoned_talon && !QDELETED(summoned_talon))
+		qdel(summoned_talon)
+		to_chat(user, span_notice(""))
+		return TRUE
+
+	var/wealth_value = get_moni_value(user)
+	summoned_talon = new(user)
+	summoned_talon.attuned_owner = user
+	summoned_talon.attune_to_wealth(wealth_value)
+	RegisterSignal(summoned_talon, COMSIG_PARENT_QDELETING, PROC_REF(on_talon_destroyed))
+	if(!user.put_in_hands(summoned_talon))
+		qdel(summoned_talon)
+		if(user.get_num_arms() <= 0)
+			to_chat(user, span_userdanger("WITH WHAT FUCKING ARMS???"))
+			user.emote("cry", forced = TRUE)
+		else
+			to_chat(user, span_warning("My hands are full!"))
 		return FALSE
-	user.apply_status_effect(/datum/status_effect/buff/lirvan_ledger)
+	to_chat(user, span_notice("[wealth_value] TEETH ARRANGED IN MACABRE SMILE."))
 	return TRUE
 
-/atom/movable/screen/alert/status_effect/buff/lirvan_ledger
-	name = "LEDGER"
-	desc = "My next unarmed strike is empowered by my wealth."
-	icon_state = "buff"
+/obj/effect/proc_holder/spell/self/lirvan_talon/proc/on_talon_destroyed(datum/source)
+	SIGNAL_HANDLER
+	summoned_talon = null
 
-/datum/status_effect/buff/lirvan_ledger
-	id = "lirvan_ledger"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/lirvan_ledger
-	status_type = STATUS_EFFECT_UNIQUE
-	duration = 20 SECONDS
+/obj/item/rogueweapon/katar/lirvan_talon
+	name = "DRAKKYRMAW"
+	desc = "Goldmaw. Infinite teeth. Damage scales with wealth. You know what this is. <br> <br>Do you remember your first mammon?; the becoming of the -self tied to the wealthpulse of the world. In that moment, when you became part of the living beast of economy, did you realize its weight? Do you even remember it? Or has it been yet drowned out? No matter what, there is, of course, only one way to stay as part of the beast instead of its feed. Kill. Trade or tax or blade- kill."
+	icon_state = "drakkyrfist"
+	possible_item_intents = list(/datum/intent/katar/cut, /datum/intent/katar/thrust, /datum/intent/katar/lirvasbite)
+	max_blade_int = 999
+	max_integrity = 999
+	w_class = WEIGHT_CLASS_HUGE
+	can_parry = TRUE
+	var/mob/living/attuned_owner
 	var/wealth_value = 0
 
-/datum/status_effect/buff/lirvan_ledger/on_apply()
+/obj/item/rogueweapon/katar/lirvan_talon/proc/attune_to_wealth(new_wealth_value)
+	wealth_value = new_wealth_value
+	force = clamp(round(18 + (wealth_value / 25)), 20, 60)
+	throwforce = clamp(round(force / 2), 10, 30)
+	name = "[wealth_value]-toothed DRAKKYRMAW"
+
+/obj/item/rogueweapon/katar/lirvan_talon/examine(mob/user)
 	. = ..()
-	wealth_value = get_moni_value(owner)
-	RegisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
-	owner.add_filter("lirvan_ledger_hand", 2, list("type" = "outline", "color" = "#f5d96c", "alpha" = 200, "size" = 2))
-	to_chat(owner, span_notice("I gather [wealth_value] mammon's worth of POWER into my hand."))
+	. += span_notice(" [wealth_value] mammon. [force] teeth.") //idk if it's gonna show up properly on examine, so, safety til test
 
-/datum/status_effect/buff/lirvan_ledger/on_remove()
-	UnregisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK)
-	owner.remove_filter("lirvan_ledger_hand")
+/obj/item/rogueweapon/katar/lirvan_talon/dropped(mob/living/user, silent)
 	. = ..()
+	if(user == attuned_owner)
+		qdel(src)
 
-/datum/status_effect/buff/lirvan_ledger/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
-	SIGNAL_HANDLER
-	if(!proximity || source != owner || !isliving(target) || target == owner)
-		return
-	var/mob/living/L = target
-	if(L.stat == DEAD)
-		return
-	INVOKE_ASYNC(src, PROC_REF(resolve_strike), L)
-	return COMPONENT_HAND_NO_ATTACK
-
-/datum/status_effect/buff/lirvan_ledger/proc/resolve_strike(mob/living/target)
-	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
-		return
-	var/mob/living/carbon/human/H = owner
-	var/unarmed_skill = istype(H) ? H.get_skill_level(/datum/skill/combat/unarmed) : 1
-	var/damage = clamp(round((wealth_value / 12) + (unarmed_skill * 8)), 20, 120)
-	var/apen = clamp(round(wealth_value / 8), 10, 100)
-	arcyne_strike(owner, target, null, damage, owner.zone_selected, BCLASS_SMASH, apen, "LEDGER", FALSE, FALSE, FALSE, BRUTE, 1, 1)
-	owner.visible_message(span_danger("[owner]'s golden fist cashes out against [target]!"), span_notice("The LEDGER balances in one perfect blow."))
-	mammon_coin_burst(get_turf(target))
-	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
-	owner.remove_status_effect(/datum/status_effect/buff/lirvan_ledger)
+/obj/item/rogueweapon/katar/lirvan_talon/attack_self(mob/user)
+	qdel(src)
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/saxtonhale
 	name = "SUNSET"
