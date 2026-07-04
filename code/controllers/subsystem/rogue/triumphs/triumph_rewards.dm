@@ -144,7 +144,7 @@
 
 /obj/item/clothing/head/roguetown/grenzelhofthat/triumph
 	name = "grenzelhoft tellerbarret"
-	desc = "The latest in sixteenth-century fashionwear, stitched by the finest tailors in Grenzelhoft. </br>I can fit this onto a sallet, Etruscan bascinet, or Blacksteel armet for added protection."
+	desc = "The latest in sixteenth-century fashionwear, stitched by the finest tailors in Grenzelhoft. </br>I can fit this onto a sallet, Etruscan bascinet, or Blacksteel armet for added protection. Alternatively, I can nestle it onto my helmet's cosmetic inventory."
 	max_integrity = ARMOR_INT_HELMET_CLOTH
 	icon_state = "grenzelhat"
 	item_state = "grenzelhat"
@@ -153,9 +153,9 @@
 	detail_tag = "_detail"
 	altdetail_tag = "_detailalt"
 	dynamic_hair_suffix = ""
-	armor = ARMOR_PADDED_BAD
+	armor = null
 	resistance_flags = FLAMMABLE
-	color = "#262927"
+	color = "#007fff"
 	detail_color = "#FFFFFF"
 	altdetail_color = "#007fff"
 

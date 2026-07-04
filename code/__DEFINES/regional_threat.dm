@@ -21,7 +21,7 @@
 #define THREAT_HIGH 20       // Bog deserter (basic), deepone, orc footsoldier, mutated spider
 #define THREAT_TOUGH 25      // Upgraded bog deserter, hard skeleton, orc berserker/marauder, drow raider, deepone spit/wiz
 #define THREAT_DANGEROUS 30  // Troll, bog troll, minotaur, direbear, drider
-#define THREAT_ELITE 50      // Treasure hunter, mirespider lurker/paralytic, dwarf skeleton — boss-tier mobs
+#define THREAT_ELITE 50      // mirespider lurker/paralytic, dwarf skeleton — boss-tier mobs
 
 /// Conversion: one "band" in the Noticeboard IC description equals this many threat points.
 #define THREAT_POINTS_PER_BAND 50

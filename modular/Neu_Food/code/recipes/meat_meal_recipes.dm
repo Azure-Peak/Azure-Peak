@@ -157,9 +157,9 @@
 // Garlicked Fried Volf + Cucumber -> Hunter's Feast
 /datum/food_recipe/hunters_feast
 	name = "hunter's feast"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/veg/cucumber_sliced
 	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick/cucumber
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick/cucumber
 	time_per_step = 3 SECONDS

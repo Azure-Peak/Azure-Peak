@@ -270,6 +270,18 @@ All foods are distributed among various categories. Use common sense.
 	// check to see if what we're eating is appropriate fare for our "social class" (aka nobles shouldn't be eating sticks of butter you troglodytes)
 	if (ishuman(eater))
 		var/mob/living/carbon/human/human_eater = eater
+
+		if(HAS_TRAIT(human_eater, TRAIT_BLACKBLOOD))
+			var/datum/status_effect/buff/foodhealing/H = eater.has_status_effect(/datum/status_effect/buff/foodhealing)
+			if(H)
+				if(faretype > H.fare_power)
+					eater.remove_status_effect(/datum/status_effect/buff/foodhealing)
+					eater.apply_status_effect(/datum/status_effect/buff/foodhealing, faretype, faretype)
+				else if(faretype == H.fare_power)
+					H.duration += 2 SECONDS
+			else
+				eater.apply_status_effect(/datum/status_effect/buff/foodhealing, faretype, faretype)
+		
 		if(human_eater.culinary_preferences)
 			if(HAS_TRAIT(human_eater, TRAIT_ROTMAN)||HAS_TRAIT(human_eater, TRAIT_IRONMAN))
 				return
@@ -334,6 +346,9 @@ All foods are distributed among various categories. Use common sense.
 							apply_effect = FALSE
 					if (FARE_FINE)
 						eater.remove_stress(/datum/stressevent/noble_bland_food)
+						eater.add_stress(/datum/stressevent/noble_fine_food)
+						if (prob(25))
+							to_chat(eater, span_green("A fine meal indeed."))
 					if (FARE_LAVISH)
 						eater.remove_stress(/datum/stressevent/noble_bland_food)
 						eater.add_stress(/datum/stressevent/noble_lavish_food)
@@ -352,7 +367,7 @@ All foods are distributed among various categories. Use common sense.
 					if (FARE_POOR to FARE_LAVISH)
 						eater.remove_stress(/datum/stressevent/noble_bland_food)
 
-	if(eat_effect && apply_effect)
+	if(eat_effect && apply_effect && bitecount >= bitesize)
 		eater.apply_status_effect(eat_effect)
 		if(extra_eat_effect)
 			eater.apply_status_effect(extra_eat_effect)

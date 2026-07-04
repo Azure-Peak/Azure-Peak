@@ -412,9 +412,6 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return
 	if(HAS_TRAIT(target, TRAIT_DNR))
 		to_chat(user, span_danger("The Geald within the vial does not react to them at all. Strange."))
-		return	
-	if(HAS_TRAIT(target, TRAIT_NOBLE))
-		to_chat(user, span_notice("You have a feeling that Matthios would personally eviscerate you for trying this on them."))
 		return
 
 	to_chat(user, span_notice("You begin pouring the lyfestruth over [target.name]..."))
@@ -502,8 +499,8 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		var/obj/item/roguegem/G = I
 		return G.sellprice
 
-	if(istype(I, /obj/item/riddleofsteel))	
-		var/obj/item/riddleofsteel/R = I	
+	if(istype(I, /obj/item/riddleofsteel))
+		var/obj/item/riddleofsteel/R = I
 		return R.sellprice
 
 	return 0
@@ -817,7 +814,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		funny_smoke(src)
 		qdel(src)
 		return
-	
+
 	if(!ishungry && prob(80 - miraclecheck)) // bread troll
 		to_chat(user, span_warning("The mixture shifts... simplifying itself into something more befitting your greed."))
 		new /obj/item/reagent_containers/food/snacks/rogue/bread(get_turf(src))
@@ -827,7 +824,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		qdel(src)
 		return
 
-	if(ishungry && prob(25)) 
+	if(ishungry && prob(25))
 		to_chat(user, span_notice("Matthios takes pity on your mortal limitations. You compulsively shout in gratitude!"))
 		user.say(pick("PRAISE YOU, O' GENEROUS MATTHIOS!!","AT LAST, THE TRUE GOLD OF CULINARY ALCHEMY!!","BLESSED BE THY HANDS WHICH GRANT ME SUSTENANCE, MATTHIOS!!","I SHALL GIVE ALL FOR THY SMILE, LORD OF FREEDOM!!"), language = /datum/language/common)
 
@@ -848,7 +845,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/matthios_canister/goodnite
 	name = "vial of goodnite base"
 	desc = "A dim, cloudy fluid rests inside, barely moving. Occasionally, something viscous streaks through it— like diluted brain matter. The glass feels warm, almost comforting. Staring at too long makes your eyelids heavy, and you get an odd compulsion to drink it."
-	
+
 	var/max_ingredients = 5
 
 	required_ingredients = list(
@@ -954,7 +951,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return
 
 	if(target == user)
-		to_chat(user, span_notice("You begin administering the vial to [target.name]'s forehead..."))	
+		to_chat(user, span_notice("You begin administering the vial to [target.name]'s forehead..."))
 	else
 		to_chat(user, span_notice("You begin administering the vial to your own forehead..."))
 
@@ -1337,7 +1334,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			return TRUE
 
 		var/amount = min(20, R.reagents.total_volume)
-		
+
 		if(do_after(user, 2 SECONDS))
 			if(has_blood)
 				path = "blood"
@@ -1555,170 +1552,6 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		qdel(src)
 
 	return TRUE
-/*
-/obj/item/matthios_canister/truthsnuke
-	name = "gilded bomb canister"
-	desc = "A sealed vessel packed with gray ruin and glimmering excess. Ash churns endlessly within, swallowing light, while a single mote of gold refuses to be consumed. It does not yearn for the Crown— it rejects it. Matthios once stole Astrata's fire not to kneel, but to prove no throne was sacred. This vessel follows that truth, straining to break authority itself."
-	icon_state = "impact_grenade"
-	icon = 'icons/roguetown/items/misc.dmi'
-	aura_color = "#ffee01"
-
-	var/needed_ash = 200
-	var/current_ash = 0
-
-	var/needed_coaldust = 100
-	var/current_coaldust = 0
-
-	var/needed_fire = 50
-	var/current_fire = 0
-
-	var/has_crown = FALSE
-	var/has_flower = FALSE
-
-	required_ingredients = list(
-		/obj/item/ash,
-		/obj/item/alch/coaldust,
-		/obj/item/alch/firedust,
-		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius,
-		/obj/item/clothing/head/roguetown/crown/serpcrown
-	)
-
-	ingredient_colors = list(
-		/obj/item/ash = "#4a4a4a",
-		/obj/item/alch/coaldust = "#2b2b2b",
-		/obj/item/alch/firedust = "#ff4500",
-		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = "#ffae42",
-		/obj/item/clothing/head/roguetown/crown/serpcrown = "#ffd700"
-	)
-
-/obj/item/matthios_canister/truthsnuke/freeman_truth()
-	if(has_crown)
-		return "You did it. You stole her fire, just as He once did. Not begged, not granted. Taken. Hopefully. Let the crowns of this world tremble, for they were always a lie. A king is only a man who has not yet been defied."
-	else if(has_flower)
-		return "Fire is fire, no matter how it is kindled. Even a lie can burn. Still… you feel it, don't you? This is not the same. A shadow of the act. Perhaps next time, you take the real thing."
-	else
-		return "Matthios did not ask. He did not kneel. He reached into the heavens and took what was denied, and in doing so proved the truth: no throne is sacred, no ruler chosen. Power belongs to those who seize it. This work follows that path, but it is not yet complete."
-
-/obj/item/matthios_canister/truthsnuke/freeman_progress(mob/user)
-	return "Ash: [current_ash]/[needed_ash]\nCoal Dust: [current_coaldust]/[needed_coaldust]\nFire Essentia: [current_fire]/[needed_fire]\nAstrata's Ultimate Authority: [has_crown ? "present" : "missing"]\nFyritius Replacement: [has_flower ? "present" : "missing"]"
-
-/obj/item/matthios_canister/truthsnuke/attackby(obj/item/I, mob/user)
-	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
-		to_chat(user, span_warning("You can't begin to think where to start with this... insanity."))
-		return TRUE
-
-	if(istype(I, /obj/item/ash))
-		if(current_ash >= needed_ash)
-			to_chat(user, span_warning("The vessel can hold no more ruin."))
-			return TRUE
-
-		if(do_after(user, 1 SECONDS))
-			current_ash++
-			qdel(I)
-			current_color = ingredient_colors[/obj/item/ash]
-
-			to_chat(user, span_notice("The ash is swallowed. ([current_ash]/[needed_ash])"))
-			playsound(user, pick(da_bubbles), 30, FALSE)
-
-			update_icon()
-			check_completion(user)
-		return TRUE
-
-	if(istype(I, /obj/item/alch/coaldust))
-		if(current_coaldust >= needed_coaldust)
-			to_chat(user, span_warning("No more foundation can be laid."))
-			return TRUE
-
-		if(do_after(user, 1 SECONDS))
-			current_coaldust++
-			qdel(I)
-			current_color = ingredient_colors[/obj/item/alch/coaldust]
-
-			to_chat(user, span_notice("The dust settles into the mass. ([current_coaldust]/[needed_coaldust])"))
-			update_icon()
-			check_completion(user)
-		return TRUE
-
-	if(istype(I, /obj/item/alch/firedust))
-		if(current_fire >= needed_fire)
-			to_chat(user, span_warning("The essence within can grow no hotter."))
-			return TRUE
-
-		if(do_after(user, 1 SECONDS))
-			current_fire++
-			qdel(I)
-			current_color = ingredient_colors[/obj/item/alch/firedust]
-
-			to_chat(user, span_notice("The essence feeds the core. ([current_fire]/[needed_fire])"))
-			update_icon()
-			check_completion(user)
-		return TRUE
-
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius))
-		if(has_flower)
-			to_chat(user, span_warning("The vessel already bears a fire within."))
-			return TRUE
-
-		if(has_crown)
-			to_chat(user, span_warning("Why settle for a dream, when you already have the real deal?"))
-			return TRUE
-
-		if(do_after(user, 2 SECONDS))
-			has_flower = TRUE
-			qdel(I)
-			current_color = ingredient_colors[/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius]
-
-			to_chat(user, span_warning("The flower wilts… yet something answers. A lie, accepted."))
-			update_icon()
-			check_completion(user)
-		return TRUE
-
-	if(istype(I, /obj/item/clothing/head/roguetown/crown/serpcrown))
-		if(has_crown)
-			to_chat(user, span_warning("The vessel already bears true authority. But how can this be?"))
-			return TRUE
-
-		if(has_flower)
-			to_chat(user, span_warning("The false fire burns away as if to make way for the real deal."))
-			has_flower = FALSE
-
-		if(do_after(user, 2 SECONDS))
-			has_crown = TRUE
-			qdel(I)
-			current_color = ingredient_colors[/obj/item/clothing/head/roguetown/crown/serpcrown]
-
-			to_chat(user, span_notice("The Crown resists… and soon submits. The fire of Astrata is stolen once more. You feel HIS smile upon you."))
-			playsound(user, 'sound/misc/lava_death.ogg', 30, FALSE)
-
-			update_icon()
-			check_completion(user)
-		return TRUE
-
-	return TRUE
-
-/obj/item/matthios_canister/truthsnuke/check_completion(mob/user)
-	if(current_ash < needed_ash)
-		return
-	if(current_coaldust < needed_coaldust)
-		return
-	if(current_fire < needed_fire)
-		return
-
-	if(!has_crown && !has_flower)
-		return
-
-	alch_transform(user)
-
-/obj/item/matthios_canister/truthsnuke/alch_transform(mob/user)
-	to_chat(user, span_notice("The mixture collapses inward… then stabilizes."))
-
-	if(has_crown)
-		new /obj/item/impact_grenade/truthsnuke(get_turf(src))
-	else
-		new /obj/item/impact_grenade/truthsnuke/lesser(get_turf(src))
-	funny_smoke(src)
-	qdel(src)
-*/
 
 //EQUIPPABLES
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded
@@ -1736,7 +1569,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_FREEMAN) && stolen_fyre)
-		. += span_notice("<i>As coin begets coin, so too does Her pride beget ruin. She believes Her will absolute, yet She stands as anything but. The theft of Her fyre was merely the first proof. The future belongs to the free. To humenkind. Not to the rule of a weak tyrant and their blood-bound puppets.</i>")	
+		. += span_notice("<i>As coin begets coin, so too does Her pride beget ruin. She believes Her will absolute, yet She stands as anything but. The theft of Her fyre was merely the first proof. The future belongs to the free. To humenkind. Not to the rule of a weak tyrant and their blood-bound puppets.</i>")
 	if(HAS_TRAIT(user, TRAIT_FREEMAN))
 		. += span_warning("This amulet can be swapped into another form by using it on your hand.")
 
@@ -1759,7 +1592,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		icon_state = "matthios"
 		to_chat(user, span_warning("The gilded amulet settles back into familiar weight. You feel a grin, as He commends you for your boldness."))
 		playsound(user.loc, 'sound/magic/swap.ogg', 25, TRUE, -2)
-	
+
 	update_icon()
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/equipped(mob/living/carbon/human/user, slot)
@@ -1811,6 +1644,9 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_info("Like Him, my hands ready to grasp the impossible."))
 		ADD_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
 
+/obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
+
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(!active_item)
@@ -1830,7 +1666,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/clothing/mask/rogue/spectacles/matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
 	if(obj_broken || active_item)
-		return		
+		return
 	if(slot == SLOT_WEAR_MASK || slot == SLOT_HEAD)
 		if(HAS_TRAIT(user, TRAIT_FREEMAN))
 			active_item = TRUE
@@ -1839,6 +1675,9 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 				user.apply_status_effect(/datum/status_effect/buff/matthios_vision)
 		else
 			to_chat(user, span_warning("You look ridiculous and stupid. You are an amateur and a fool!"))
+
+/obj/item/clothing/mask/rogue/spectacles/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)
 
 /obj/item/clothing/mask/rogue/spectacles/matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
@@ -1923,6 +1762,9 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_info("Once again, I am under Her gaze."))
 		REMOVE_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
 		REMOVE_TRAIT(user, TRAIT_LIGHT_STEP, "matthiosboon")
+
+/obj/item/clothing/shoes/roguetown/boots/muffle_matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR) //These were always meant to be valid I don't get why this was forgotten about
 
 //THROWABLES
 /obj/item/impact_grenade/truthsnuke/lesser
@@ -2188,6 +2030,9 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	. = ..()
 	AddComponent(/datum/component/cursed_item, (TRAIT_FREEMAN||TRAIT_XYLIX), "BLESSED POUCH")
 
+/obj/item/storage/belt/rogue/pouch/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
+
 /obj/item/storage/backpack/rogue/backpack/matthios
 	name = "smuggling bag"
 	desc = "A sack tied with some 'blessed' rope. There is a carving of a grinning symbol within the side of it. It has a strange, gilded glow to it."
@@ -2201,16 +2046,22 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	. = ..()
 	AddComponent(/datum/component/cursed_item, (TRAIT_FREEMAN||TRAIT_XYLIX), "BLESSED RUCKSACK")
 
+/obj/item/storage/backpack/rogue/backpack/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
+
 /obj/item/rope/chain/matthios
 	name = "gilded chain"
-	desc = "A heavy, gilded chain that thrums with latent divine power. It resonates negatively with the essence of nobility, as if stirred by divine rebuke."	
+	desc = "A heavy, gilded chain that thrums with latent divine power. It resonates negatively with the essence of nobility, as if stirred by divine rebuke."
 	color = "#fdff86"
 	aura_color = "#fff385"
 	matthios_chains = TRUE
 	smeltresult = /obj/item/ash
 
+/obj/item/rope/chain/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)
+
 /obj/item/melee/touch_attack/lesserknock/matthios
-	name = "Gilded Lockpick"
+	name = "gilded lockpick"
 	desc = "A golden, glowing lockpick that appears to be held together by the truth of Matthios. To dispel it, simply use it on anything that isn't a door."
 	catchphrase = null
 	possible_item_intents = list(/datum/intent/use)
@@ -2224,3 +2075,6 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/melee/touch_attack/lesserknock/attack_self()
 	qdel(src)
+
+/obj/item/melee/touch_attack/lesserknock/matthios/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)

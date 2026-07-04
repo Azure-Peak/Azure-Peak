@@ -105,9 +105,25 @@
 				user.stop_pulling()
 	return ..()
 
+/obj/structure/table/attack_right(mob/user)
+	var/obj/item/held = user.get_active_held_item()
+	var/obj/item/rogueweapon/bakers_peel/peel
+	if(istype(held, /obj/item/rogueweapon/bakers_peel))
+		peel = held
+		if(peel.unload_onto_table(src, user))
+			return TRUE
+	held = user.get_inactive_held_item()
+	if(istype(held, /obj/item/rogueweapon/bakers_peel))
+		peel = held
+		if(peel.unload_onto_table(src, user))
+			return TRUE
+	return ..()
+
 /obj/structure/table/proc/hideinside(mob/living/user)
+	if(user.in_combat_until > world.time)
+		return
 	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
-	var/sneaktime = max(10, 50 - (sneak_level * 10)) // Hard caps at 1 second at Expert and above.
+	var/sneaktime = max(10, 45 - (sneak_level * 5))	// 1.5 seconds at Legendary. 
 	if(user.loc == src)
 		unhide(user)
 		return
@@ -162,6 +178,9 @@
 /obj/structure/table/proc/tablepush(mob/living/user, mob/living/pushed_mob)
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_danger("Throwing [pushed_mob] onto the table might hurt them!"))
+		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites are too stupid to do this.
+		to_chat(user, span_warning("...what?"))
 		return
 	var/added_passtable = FALSE
 	if(!(pushed_mob.pass_flags & PASSTABLE))
@@ -558,10 +577,12 @@
 	. += span_blue("Right-Click to fold the table.")
 
 /obj/structure/table/wood/folding/attack_right(mob/user)
+	if(..())
+		return TRUE
 	user.visible_message(span_notice("[user] folds [src]."), span_notice("You fold [src]."))
 	new /obj/item/folding_table_stored(drop_location())
 	qdel(src)
-	return ..()
+	return TRUE
 
 /*
  * Racks

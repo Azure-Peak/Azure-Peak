@@ -49,7 +49,7 @@
 #define STANDING_ORDER_POP_SCALE_PER_PLAYER 0
 #define STANDING_ORDER_POP_SCALE_MAX 3.0
 
-#define STANDING_ORDER_BASE_BONUS 0.75
+#define STANDING_ORDER_BASE_BONUS 1.0
 
 // Partial Fulfillment: Let players fulfill an order with 50% by VALUE for 85% payout
 // So that steward / towners are still soft encouraged to fulfill the whole order
@@ -122,6 +122,14 @@
 #define BLOCKADE_RECLEAR_COOLDOWN 1
 #define BLOCKADE_SCROLL_PLEDGE_COST 500
 #define BLOCKADE_SCROLL_REWARD 500
+
+#define BLOCKADE_REPLENISH_FLOOR 1
+#define BLOCKADE_REPLENISH_BUDGET_BASE 1
+#define BLOCKADE_REPLENISH_BUDGET_PER_PLAYER 0.02  // +1 per 50 active players
+#define BLOCKADE_REPLENISH_BUDGET_MAX 2
+#define BLOCKADE_REPLENISH_FIRST_DAY 2
+#define BLOCKADE_REPLENISH_LAST_DAY 5 // No last minute blockade
+#define BLOCKADE_REPLENISH_DAILY_CHANCE 50 // Chance to fire on an eligible day
 
 #define COMMISSION_BONUS_PAY_NONE 0
 #define COMMISSION_BONUS_PAY_LIGHT 1

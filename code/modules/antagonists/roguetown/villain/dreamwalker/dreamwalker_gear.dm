@@ -78,7 +78,7 @@
 	wdefense = 8
 
 /obj/item/rogueweapon/halberd/glaive/dreamscape/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_DREAM_ITEM)
 
 /obj/item/rogueweapon/halberd/glaive/dreamscape/active
 	desc = "A strange spear, who knows where it came from. Strange harmonious sounds ring out as wind passes through the holes."
@@ -87,6 +87,9 @@
 	wdefense = 9
 	force = 20
 	force_wielded = 35
+
+/obj/item/rogueweapon/halberd/glaive/dreamscape/active/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
 /obj/item/rogueweapon/greatsword/bsword/dreamscape
 	name = "otherworldly sword"
@@ -104,7 +107,7 @@
 	alt_grips = list(/datum/alt_grip/mordhau/broadsword/dream_broadsword)
 
 /obj/item/rogueweapon/greatsword/bsword/dreamscape/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_DREAM_ITEM)
 
 /obj/item/rogueweapon/greatsword/bsword/dreamscape/active
 	name = "otherworldly sword"
@@ -114,6 +117,9 @@
 	force = 30
 	force_wielded = 35
 	wdefense = 5
+
+/obj/item/rogueweapon/greatsword/bsword/dreamscape/active/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
 /obj/item/rogueweapon/spear/dreamscape_trident
 	name = "otherworldly trident"
@@ -133,7 +139,7 @@
 	var/shockwave_damage = FALSE
 
 /obj/item/rogueweapon/spear/dreamscape_trident/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_DREAM_ITEM)
 
 /obj/item/rogueweapon/spear/dreamscape_trident/active
 	name = "Iridescent trident"
@@ -147,6 +153,9 @@
 	shockwave_cooldown_interval = 30 SECONDS
 	shockwave_divisor = 2
 	shockwave_damage = TRUE
+
+/obj/item/rogueweapon/spear/dreamscape_trident/active/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
 // Update weapon initializations with specific effects
 /obj/item/rogueweapon/greataxe/dreamscape/active/Initialize()

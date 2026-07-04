@@ -181,8 +181,8 @@
 					continue
 				var/mutable_appearance/thing_appearance = thing.build_worn_icon(default_layer, default_icon_file, isinhands, femaleuniform, override_state, female, customi, sleeveindex, boobed_overlay, clip_mask)
 				thing_appearance.appearance_flags = RESET_COLOR
-				thing_appearance.pixel_x = -standing.pixel_x
-				thing_appearance.pixel_y = -standing.pixel_y
+				thing_appearance.pixel_x -= standing.pixel_x
+				thing_appearance.pixel_y -= standing.pixel_y
 				standing.add_overlay(thing_appearance)
 	return standing
 

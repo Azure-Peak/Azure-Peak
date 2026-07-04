@@ -41,7 +41,7 @@
 /datum/stressevent/pweed
 	timer = 1 MINUTES
 	stressadd = -2
-	desc = span_green("I've enjoyed a relaxing smoke.")
+	desc = span_green("A pleasant, stimulating buzz settles over me.")
 
 /datum/stressevent/weed
 	timer = 5 MINUTES
@@ -200,6 +200,11 @@
 	desc = span_boldgreen("I solved an extremely difficult puzzle. Xylix is smiling at me, and surely even \
 	 Noc must find it impressive.")
 	timer = 15 MINUTES
+
+/datum/stressevent/noble_fine_food
+	stressadd = -2
+	desc = span_green("A fine meal, as befits my standing.")
+	timer = 20 MINUTES
 
 /datum/stressevent/noble_lavish_food
 	stressadd = -4

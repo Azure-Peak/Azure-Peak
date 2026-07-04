@@ -7,5 +7,8 @@
 	can_blockade = FALSE
 	category = FACTION_CAT_GOBLINOID
 	mob_types = list(
-		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 100,
+		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 70,
+		/mob/living/carbon/human/species/goblin/npc/archer/sea = 15, // ~30% ranged/special mix
+		/mob/living/carbon/human/species/goblin/npc/slinger/sea = 7,
+		/mob/living/carbon/human/species/goblin/npc/bomber/sea = 8,
 	)

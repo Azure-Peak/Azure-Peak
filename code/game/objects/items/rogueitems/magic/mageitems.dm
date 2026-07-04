@@ -57,7 +57,7 @@
 	var/chosen_keyword
 
 /obj/item/chalk/attack_self(mob/living/carbon/human/user)
-	if(!isarcyne(user))
+	if(!HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT))
 		to_chat(user, span_cult("Nothing comes in mind to draw with the chalk."))
 		return
 
@@ -128,7 +128,7 @@
 	filter(type="drop_shadow", x=0, y=0, size=2, offset=1, color=rgb(128, 0, 128, 1))
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/attack_self(mob/living/carbon/human/user)
-	if(!isarcyne(user))
+	if(!HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT))
 		return
 	if(!is_bled)
 		playsound(loc, get_sfx("genslash"), 100, TRUE)
@@ -200,7 +200,6 @@
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "mimic_trinket"
 	possible_item_intents = list(/datum/intent/use)
-	dropshrink = 0.6
 	var/duration = 10 MINUTES
 	var/oldicon
 	var/oldicon_state

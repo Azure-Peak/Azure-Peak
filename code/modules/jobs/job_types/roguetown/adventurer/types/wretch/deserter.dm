@@ -44,7 +44,7 @@
 /datum/outfit/job/roguetown/wretch/deserter/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You were once a venerated and revered knight - now, a traitor who abandoned your liege. You lyve the lyfe of an outlaw, shunned and looked down upon by society."))
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	add_verb(H, list(/mob/living/carbon/human/mind/proc/setorders))
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)

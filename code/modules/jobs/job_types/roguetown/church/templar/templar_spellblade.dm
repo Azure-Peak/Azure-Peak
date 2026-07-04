@@ -8,9 +8,10 @@
 	outfit = /datum/outfit/job/roguetown/templar/noc_spellblade
 	category_tags = list(CTAG_TEMPLAR)
 	allowed_patrons = list(/datum/patron/divine/noc)
-	maximum_possible_slots = 1 // The Special Snowflake
+	maximum_possible_slots = 2 // The Special Snowflake And Their Friend
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE)
+	tempo_capable = FALSE
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_INT = 1, // Weighted 7 but a nice statblock
@@ -61,7 +62,7 @@
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
 		/obj/item/storage/keyring/acolyte = 1,
-		/obj/item/book/spellbook = 1,
+		/obj/item/rogueweapon/spellbook = 1,
 	)
 
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
@@ -98,8 +99,8 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/kastvyl)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/telegraphed_strike/spellblade/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/telegraphed_strike/spellblade/tremor)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
 

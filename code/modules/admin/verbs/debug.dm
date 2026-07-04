@@ -211,7 +211,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 
 /client/proc/cmd_admin_dress(mob/M in GLOB.mob_list)
 	set category = "Game Master"
-	set name = "Select Loadout"
+	set name = "Loadout Manager"
 	if(!(ishuman(M) || isobserver(M)))
 		alert("Invalid mob")
 		return
@@ -275,6 +275,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 	body += "<b>Apply Components:</b><br>"
 	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=apply_stats;target=[REF(H)]'>Apply Stats</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=apply_equipment_spells;target=[REF(H)]'>Apply Equipment/Spells</A> | "
+	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=add_remove_spell;target=[REF(H)]'>Add/Remove Spell</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=apply_skills;target=[REF(H)]'>Apply Skills</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=apply_traits;target=[REF(H)]'>Apply Traits</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];loadout_action=apply_examine_title;target=[REF(H)]'>Apply Examine Title</A><br>"
@@ -580,7 +581,9 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 			if(alert(usr, "This will reset [H.name] to a blank state, removing all equipment, skills, examine title, traits, and resetting stats. Continue?", "Confirm Clean Slate", "Yes", "No") == "Yes")
 				clean_slate_mob(H)
 				show_loadout_panel(H)
-	
+		if("add_remove_spell")
+			add_remove_spell(H)
+			show_loadout_panel(H)
 	return TRUE
 
 /client/proc/robust_dress_shop()
@@ -1119,7 +1122,7 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	
 	// Clear spells and aspect config if they have a mind
 	if(H.mind)
-		for(var/obj/effect/proc_holder/spell/S in H.mind.spell_list)
+		for(var/S in H.mind.spell_list)
 			H.mind.RemoveSpell(S)
 		H.mind.mage_aspect_config = null
 		H.mind.major_aspects = null
@@ -1505,6 +1508,18 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	sort = sortlist[sort]
 	profile_show(src, sort)
 
+/client/proc/show_sendmaps_profiling()
+	set category = "Debug.Profile"
+	set name = "Show SendMaps Profiling"
+	set desc = ""
+
+	if(!check_rights(R_DEBUG))
+		return
+
+	src << link("?debug=profile&type=sendmaps&window=test")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Show SendMaps Profiling")
+	log_admin("[key_name(src)] opened sendmaps profiling.")
+
 /client/proc/reload_configuration()
 	set category = "Debug"
 	set name = "Reload Configuration"
@@ -1513,3 +1528,36 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 		return
 	if(alert(usr, "Are you absolutely sure you want to reload the configuration from the default path on the disk, wiping any in-round modificatoins?", "Really reset?", "No", "Yes") == "Yes")
 		config.admin_reload()
+
+/client/proc/add_remove_spell(mob/living/carbon/human/H)	
+	switch(alert(usr, "Add or remove a spell from [H.name]?", "Add/Remove Spell", "Add", "Remove", "Cancel"))
+		if("Add")
+			var/list/spells = list()
+			for(var/path in subtypesof(/datum/action/cooldown/spell))
+				var/datum/action/cooldown/spell/S = path
+				spells["[initial(S.name)] ([path])"] = path
+			for(var/path in subtypesof(/obj/effect/proc_holder))
+				var/obj/effect/proc_holder/S = path
+				spells["[initial(S.name)] ([path])"] = path
+			var/selected = tgui_input_list(usr,"Select Spell to Add", "Spell Adder", sortList(spells))
+			if(!selected)
+				return
+			var/path = spells[selected]
+			var/spell = new path
+			if(spell)
+				H.mind.AddSpell(spell, H)
+				message_admins("[key_name_admin(usr)] has granted [selected] to [ADMIN_LOOKUPFLW(H)].")
+				log_admin("[key_name(usr)] has granted [selected] to [key_name(H)].")
+		if("Remove")
+			var/spell = tgui_input_list(usr,"Select Spell to Remove", "Spell Remover", H.mind.spell_list)
+			if(spell)
+				var/spell_name = null
+				if(istype(spell, /datum/action))
+					var/datum/action/S = spell
+					spell_name = S.name
+				else if(istype(spell, /obj))
+					var/obj/S = spell
+					spell_name = S.name
+				H.mind.RemoveSpell(spell)
+				message_admins("[key_name_admin(usr)] has removed [spell_name] from [ADMIN_LOOKUPFLW(H)].")
+				log_admin("[key_name(usr)] has removed [spell_name] from [key_name(H)].")

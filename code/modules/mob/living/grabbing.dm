@@ -514,7 +514,9 @@
 		var/obj/item/I = locate(sublimb_grabbed) in L.embedded_objects
 		if(QDELETED(I) || QDELETED(L) || !L.remove_embedded_object(I))
 			return FALSE
-		L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier*I.w_class) //It hurts to rip it out, get surgery you dingus.
+
+		if(!(HAS_TRAIT(M, TRAIT_LEECHRESIST) && istype(I, /obj/item/natural/worms/leech)))
+			L.receive_damage(I.embedding.embedded_unsafe_removal_pain_multiplier * I.w_class) //It hurts to rip it out, get surgery you dingus.
 		user.dropItemToGround(src) // this will unset vars like limb_grabbed
 		user.put_in_hands(I)
 		C.emote("paincrit", TRUE)

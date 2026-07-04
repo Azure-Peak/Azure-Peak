@@ -39,56 +39,87 @@ SUBSYSTEM_DEF(lighting)
 	if(!init_tick_checks)
 		MC_SPLIT_TICK
 
-	while(length(sources_queue))
-		var/datum/light_source/L = sources_queue[1]
-		sources_queue.Cut(1, 2)
-
-		if(!L || QDELETED(L))
-			continue
+	var/list/queue = sources_queue
+	// anything added while processing gets deferred to the next tick
+	var/current_index = 0
+	while(current_index < length(queue))
+		current_index += 1
+		var/datum/light_source/L = queue[current_index]
 
 		L.update_corners()
-		L.needs_update = LIGHTING_NO_UPDATE
+		// update_corners() can qdel(L) in certain conditions, and we don't count
+		// those for the cut because they're already removed from the queue
+		if(!QDELING(L))
+			L.needs_update = LIGHTING_NO_UPDATE
+		else
+			current_index -= 1
 
 		if(init_tick_checks)
-			CHECK_TICK
+			if(!TICK_CHECK)
+				continue
+			queue.Cut(1, current_index + 1)
+			current_index = 0
+			stoplag()
 		else if(MC_TICK_CHECK)
 			break
+	if(current_index)
+		queue.Cut(1, current_index + 1)
+		current_index = 0
 
 	if(!init_tick_checks)
 		MC_SPLIT_TICK
 
-	while(length(corners_queue))
-		var/datum/lighting_corner/C = corners_queue[1]
-		corners_queue.Cut(1, 2)
-
-		if(!C || QDELETED(C))
-			continue
+	queue = corners_queue
+	while(current_index < length(queue))
+		current_index += 1
+		var/datum/lighting_corner/C = queue[current_index]
 
 		C.update_objects()
-		C.needs_update = FALSE
+		C.needs_update = FALSE //update_objects() can call qdel if the corner is storing no data
+		if(QDELING(C))
+			current_index -= 1
 
 		if(init_tick_checks)
-			CHECK_TICK
+			if(!TICK_CHECK)
+				continue
+			queue.Cut(1, current_index + 1)
+			current_index = 0
+			stoplag()
 		else if(MC_TICK_CHECK)
 			break
+	if(current_index)
+		queue.Cut(1, current_index + 1)
+		current_index = 0
 
 	if(!init_tick_checks)
 		MC_SPLIT_TICK
 
-	while(length(objects_queue))
-		var/atom/movable/lighting_object/O = objects_queue[1]
-		objects_queue.Cut(1, 2)
+	queue = objects_queue
+	while(current_index < length(queue))
+		current_index += 1
+		var/atom/movable/lighting_object/O = queue[current_index]
 
-		if(!O || QDELETED(O))
+		if(QDELETED(O))
 			continue
 
+		// these can't delete themselves in update(), so nothing here is removed from the queue mid-loop
 		O.update()
 		O.needs_update = FALSE
 
 		if(init_tick_checks)
-			CHECK_TICK
+			if(!TICK_CHECK)
+				continue
+			queue.Cut(1, current_index + 1)
+			current_index = 0
+			stoplag()
 		else if(MC_TICK_CHECK)
 			break
+	if(current_index)
+		queue.Cut(1, current_index + 1)
+		current_index = 0
+
+	if(!init_tick_checks)
+		MC_SPLIT_TICK
 
 /datum/controller/subsystem/lighting/Recover()
 	if(SSlighting)

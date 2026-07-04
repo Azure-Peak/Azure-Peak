@@ -17,6 +17,7 @@
 				/mob/living/simple_animal/hostile/retaliate/rogue/spider = 40,
 				/mob/living/carbon/human/species/skeleton/npc/bogguard = 20,
 				/mob/living/carbon/human/species/goblin/npc/ambush/cave = 30,
+				/mob/living/carbon/human/species/goblin/npc/archer/cave = 7,
 				/mob/living/carbon/human/species/human/northern/bog_deserters/ambush = 15,
 				/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 10,
 				/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 5,

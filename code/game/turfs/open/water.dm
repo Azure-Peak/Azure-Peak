@@ -63,9 +63,8 @@
 	if(isliving(AM) && !AM.throwing)
 		var/mob/living/user = AM
 		if(isliving(user) && !user.is_floor_hazard_immune())
-			for(var/obj/structure/S in src)
-				if(S.obj_flags & BLOCK_Z_OUT_DOWN)
-					return
+			if(platform_atom_count > 0)
+				return
 			if(water_overlay)
 				if((get_dir(src, newloc) == SOUTH))
 					water_overlay.layer = BELOW_MOB_LAYER
@@ -124,9 +123,8 @@
 	if(!swimmer.check_armor_skill())
 		. += UNSKILLED_ARMOR_PENALTY
 	if(.) // this check is expensive so we only run it if we do expect to use stamina
-		for(var/obj/structure/S in src)
-			if(S.obj_flags & BLOCK_Z_OUT_DOWN)
-				return 0
+		if(platform_atom_count > 0)
+			return 0
 		for(var/D in GLOB.cardinals) //adjacent to a floor to hold onto
 			if(istype(get_step(src, D), /turf/open/floor))
 				return 0
@@ -164,9 +162,8 @@
 
 /turf/open/water/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
-	for(var/obj/structure/S in src)
-		if(S.obj_flags & BLOCK_Z_OUT_DOWN)
-			return
+	if(platform_atom_count > 0)
+		return
 	if(istype(AM, /obj/item/reagent_containers/food/snacks/fish))
 		var/obj/item/reagent_containers/food/snacks/fish/F = AM
 		if (F.sinkable)
@@ -180,6 +177,7 @@
 			L.visible_message(span_warning("[L] spasms violently upon touching the water!"), span_danger("The water... it burns me!"))
 			L.adjustFireLoss(25)
 			return
+
 		if (istype(src,/turf/open/water/bloody))
 			L.add_mob_blood(L)
 
@@ -252,6 +250,17 @@
 						user.add_stress(/datum/stressevent/sewertouched)
 					if (!HAS_TRAIT(L,TRAIT_LEECHIMMUNE) && !HAS_TRAIT(L,TRAIT_BOGWALKER)) // cleaning yourself in nasty water is a wonderful way to get leeches.
 						if (prob(20)) // 1 in 5 chance of getting leeched if you wash up in gross water.
+							
+							if(HAS_TRAIT(L, TRAIT_LEECHRESIST))
+								var/avoid_chance = 20
+								avoid_chance += (L.STASPD - 10) * 10
+								avoid_chance += (L.STALUC - 10) * 5
+								avoid_chance = clamp(avoid_chance, 0, 100)
+								if(prob(avoid_chance))
+									return
+								else
+									to_chat(L, span_notice("Ouch! I am being sucked off!!"))
+
 							var/list/zones = list(BODY_ZONE_CHEST, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_PRECISE_NECK, BODY_ZONE_HEAD)
 							var/zone = pick(zones)
 							var/obj/item/bodypart/BP = L.get_bodypart(zone)
@@ -433,6 +442,17 @@
 				return
 			if(C.blood_volume <= 0)
 				return
+
+			if(HAS_TRAIT(C, TRAIT_LEECHRESIST))
+				var/avoid_chance = 20
+				avoid_chance += (C.STASPD - 10) * 10
+				avoid_chance += (C.STALUC - 10) * 5
+				avoid_chance = clamp(avoid_chance, 0, 100)
+				if(prob(avoid_chance))
+					return
+				else
+					to_chat(C, span_notice("Ouch! I am being sucked off!!"))
+
 			var/list/zonee = list(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG, BODY_ZONE_CHEST)
 			for(var/i = 0, i <= zonee.len, i++)
 				var/zone = pick(zonee)
@@ -479,6 +499,16 @@
 
 			if(C.blood_volume <= 0)
 				return .
+
+			if(HAS_TRAIT(C, TRAIT_LEECHRESIST))
+				var/avoid_chance = 20
+				avoid_chance += (C.STASPD - 10) * 10
+				avoid_chance += (C.STALUC - 10) * 5
+				avoid_chance = clamp(avoid_chance, 0, 100)
+				if(prob(avoid_chance))
+					return
+				else
+					to_chat(C, span_notice("Ouch! I am being sucked off!!"))
 
 			var/list/zonee = list(BODY_ZONE_CHEST, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM)
 			for(var/i = 1; i <= zonee.len; i++)
@@ -547,7 +577,8 @@
 
 /turf/open/water/river/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
-	START_PROCESSING(SSrivers, src)
+	if(platform_atom_count <= 0)
+		START_PROCESSING(SSrivers, src)
 
 /turf/open/water/river/get_heuristic_slowdown(mob/traverser, travel_dir)
 	var/const/UPSTREAM_PENALTY = 4
@@ -556,9 +587,8 @@
 	. = ..()
 	if(traverser.is_floor_hazard_immune())
 		return
-	for(var/obj/structure/S in src)
-		if(S.obj_flags & BLOCK_Z_OUT_DOWN)
-			return
+	if(platform_atom_count > 0)
+		return
 	if(travel_dir == dir) // downriver
 		. += DOWNSTREAM_BONUS // faster!
 	else if(travel_dir == GLOB.reverse_dir[dir]) // upriver
@@ -567,16 +597,18 @@
 		. += SIDESTREAM_PENALTY // sidestream walking isn't free, bro
 
 /turf/open/water/river/proc/process_river()
+	if(platform_atom_count > 0)
+		STOP_PROCESSING(SSrivers, src)
+		return
 	var/found_movable = FALSE
 	for(var/atom/movable/A in contents)
-		found_movable = TRUE
-		for(var/obj/structure/S in src)
-			if(S.obj_flags & BLOCK_Z_OUT_DOWN)
-				return
-		if((A.loc == src))
-			A.ConveyorMove(dir)
+		if(!A.anchored)
+			found_movable = TRUE
+			if((A.loc == src))
+				A.ConveyorMove(dir)
 
-	if(found_movable)
+	// stop processing once there's nothing left to move
+	if(!found_movable)
 		STOP_PROCESSING(SSrivers, src)
 		return
 

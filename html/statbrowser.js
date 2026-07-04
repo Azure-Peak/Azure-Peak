@@ -421,6 +421,12 @@ function draw_mc() {
         'byond://?_src_=vars;admin_token=' + href_token + ';Vars=' + part[3];
       a.textContent = part[2];
       td2.appendChild(a);
+    } else if (part[4]) {
+      var a = document.createElement('a');
+      a.href = '#';
+      a.onclick = make_verb_onclick(part[4]);
+      a.textContent = part[2];
+      td2.appendChild(a);
     } else {
       td2.textContent = part[2];
     }
@@ -454,17 +460,23 @@ function iconError(e) {
   if (current_tab != turfname) {
     return;
   }
+  // Retry only the failed node in place. Rebuilding the whole grid here used to
+  // reset every node's data-attempts to 0, so the retry cap never accrued and N
+  // dead icons spun up N full-grid rebuilds every tick. Keeping the node lets the
+  // cap actually terminate.
+  var node = e.target;
   setTimeout(() => {
-    var node = e.target;
+    if (current_tab != turfname) {
+      return;
+    }
     var current_attempts = Number(node.getAttribute('data-attempts')) || 0;
     if (current_attempts > imageRetryLimit) {
       return;
     }
-    var src = node.src;
+    var src = node.src.split('#')[0];
     node.src = null;
     node.src = src + '#' + current_attempts;
     node.setAttribute('data-attempts', current_attempts + 1);
-    draw_listedturf();
   }, imageRetryDelay);
 }
 
@@ -514,7 +526,7 @@ function draw_listedturf() {
     row.onmousedown = clickfunc;
     row.oncontextmenu = suppress;
     if (iconsrc) {
-      if (storedimages[part[1]] == null) {
+      if (part[2]) {
         storedimages[part[1]] = part[2];
       }
       var img = document.createElement('img');
@@ -536,6 +548,7 @@ function draw_listedturf() {
 function remove_listedturf() {
   removePermanentTab(turfname);
   checkStatusTab();
+  storedimages = [];
   if (current_tab == turfname) {
     tab_change(defaultTab);
   }

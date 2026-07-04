@@ -30,7 +30,7 @@
 	SEND_SIGNAL(src, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, A, proximity)
 	var/rmb_stam_penalty = 1
 	if(istype(rmb_intent, /datum/rmb_intent/strong) || istype(rmb_intent, /datum/rmb_intent/swift))
-		rmb_stam_penalty = 1.5	//Uses a modifer instead of a flat addition, less than weapons no matter what rn. 50% extra stam cost basically.
+		rmb_stam_penalty = 6	//Uses a modifer instead of a flat addition. 6 swiftstam vs 10
 	if(isliving(A))
 		var/mob/living/L = A
 		if(!used_intent.noaa)
@@ -90,7 +90,20 @@
 						visible_message(span_warning("[src] pushes [AM]."))
 					changeNext_move(CLICK_CD_MELEE)
 					return
-		A.attack_hand(src, params)
+		if(cmode && used_intent.type == INTENT_HARM && isitem(A))
+			if(stamina_add(8))
+				var/dmg = get_punch_dmg()
+				var/obj/item/I = A
+				I.take_damage(dmg)
+				I.try_damage_pushback(src)
+				changeNext_move(CLICK_CD_MELEE)
+				var/verbu = pick(used_intent.attack_verb)
+				log_combat(src, I, "attacked with fists")
+				visible_message(span_danger("[src] [verbu] [I]!"))
+				var/tempsound = used_intent.hitsound
+				playsound(loc,  tempsound, 100, FALSE, -1)
+		else
+			A.attack_hand(src, params)
 		if(pulling)
 			changeNext_move(CLICK_CD_MELEE)
 

@@ -105,6 +105,12 @@
 	..()
 	if(crossfire)
 		if(on)
+			if(isliving(AM))
+				var/mob/living/L = AM
+				if(L.is_jumping)
+					return
+				if(L.movement_type & (FLYING|FLOATING))
+					return
 			AM.fire_act(1,5)
 
 /obj/machinery/light/rogue/spark_act()
@@ -236,3 +242,9 @@
 	if(!can_damage)
 		return
 	. = ..()
+
+/obj/machinery/light/rogue/broken_sparks(start_only = FALSE)
+	return
+
+/obj/machinery/light/rogue/break_light_tube(skip_sound_and_sparks = 0)
+	return ..(TRUE)

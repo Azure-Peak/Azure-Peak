@@ -1,8 +1,9 @@
 /datum/ai_planning_subtree/archer_base/proc/validate_archer_equipment(datum/ai_controller/controller)
+	var/mob/living/living_pawn = controller.pawn
 	if(world.time < controller.blackboard[BB_ARCHER_NPC_EQUIPMENT_CACHE_EXPIRY])
 		var/obj/item/gun/ballistic/revolver/grenadelauncher/cached_bow = controller.blackboard[BB_ARCHER_NPC_BOW]
 		var/obj/item/quiver/cached_quiver = controller.blackboard[BB_ARCHER_NPC_QUIVER]
-		if(QDELETED(cached_bow) || QDELETED(cached_quiver))
+		if(QDELETED(cached_bow) || QDELETED(cached_quiver) || cached_bow.loc != living_pawn || cached_quiver.loc != living_pawn)
 			_clear_equipment_cache(controller)
 			return FALSE
 		return TRUE
@@ -13,7 +14,6 @@
 	if(!inv)
 		return FALSE
 
-	var/mob/living/living_pawn = controller.pawn
 	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = inv.get_item(AI_ITEM_GUN)
 	// Note: bow variable typed as /grenadelauncher (base) - matches bows, crossbows, and slings
 	if(!bow)

@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Padded chausses now properly dye."

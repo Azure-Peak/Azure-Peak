@@ -1049,10 +1049,6 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
-"Cz" = (
-/obj/item/rogueweapon/sword/long/judgement/ascendant/tester,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
 "CB" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/trufflepig,
 /turf/open/floor/rogue/hay,
@@ -1633,21 +1629,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
-"UV" = (
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/obj/item/roguegem/jade,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
 "UX" = (
 /obj/item/natural/worms/leech,
 /obj/item/natural/worms/leech{
@@ -1671,10 +1652,6 @@
 /obj/structure/table/wood/poker,
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors)
-"Vm" = (
-/obj/item/rogueweapon/huntingknife,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
 "Vt" = (
 /obj/item/rogueweapon/tongs,
 /obj/item/rogueweapon/hammer/steel,
@@ -3268,7 +3245,7 @@ AX
 Va
 yK
 yK
-Cz
+rT
 rb
 rT
 rT
@@ -3373,8 +3350,8 @@ xy
 yK
 yK
 yK
-UV
-Vm
+rT
+rT
 rT
 rT
 rT

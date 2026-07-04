@@ -7,5 +7,6 @@
 	can_blockade = TRUE
 	category = FACTION_CAT_GRONN
 	mob_types = list(
-		/mob/living/carbon/human/species/human/northern/searaider/ambush = 100,
+		/mob/living/carbon/human/species/human/northern/searaider/ambush = 70,
+		/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 30, // ~30%
 	)

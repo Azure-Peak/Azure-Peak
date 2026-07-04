@@ -478,13 +478,14 @@
 	if(!on)
 		to_chat(user, span_notice("[src] is not lit."))
 		return
-	if(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+	while(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+		if(!on)
+			to_chat(user, span_notice("[src] is no longer lit."))
+			return
 		to_chat(user, span_info("I fan the flame on [src].")) // Until line combine is on by default gotta do this to avoid spam
 		try_cook(cooktime_divisor)
-		attack_right(user)
 
 /obj/machinery/light/rogue/hearth/attackby(obj/item/W, mob/living/user, params)
-	. = ..()
 	lastuser = user // For processing food
 	var/datum/skill/craft/cooking/cs = lastuser?.get_skill_level(/datum/skill/craft/cooking)
 	var/cooktime_divisor = get_cooktime_divisor(cs)
@@ -580,6 +581,7 @@
 							pot.reagents.remove_reagent(/datum/reagent/water, VOLUME_PER_STEW_COOK_AFTER) // Remove water first prevent overfill
 							pot.reagents.add_reagent(R.output, VOLUME_PER_STEW_COOK + VOLUME_PER_STEW_COOK_AFTER)
 							return
+	..()
 
 //////////////////////////////////
 

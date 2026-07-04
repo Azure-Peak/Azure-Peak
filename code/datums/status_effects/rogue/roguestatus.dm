@@ -104,6 +104,15 @@
 	desc = "THEY WILL JAB ME AND INTERRUPT THE ATTACK YOU GOBLINBRAINED WRETCH! LOOK AT THE ENEMY!!!"
 	icon_state = "swingdelay_disrupt"
 
+/datum/status_effect/swingdelay/penalty/committed
+	id = "swingdelay_committed"
+
+/datum/status_effect/swingdelay/penalty/committed/on_creation(mob/living/new_owner, newdur, apply_slow = FALSE)
+	if(apply_slow)
+		var/spd_mod = 10 - new_owner.get_true_stat(STATKEY_SPD)
+		effectedstats = list(STATKEY_SPD = spd_mod)
+	. = ..()
+
 
 // This is used to make sure we cannot do stealth mechanics mid-combat.
 /datum/status_effect/stealth_revealed
@@ -121,3 +130,15 @@
 	desc = "I'm revealed. It will take me a while to regain my sense of surroundings."
 	icon_state = "revealed"
 	icon = 'icons/mob/screen_alert_combat.dmi'
+
+// Merge this into stealth status once FREE approves.
+/datum/status_effect/combat_tag
+	id = "combat_tag"
+	alert_type = /atom/movable/screen/alert/status_effect/combat_tag
+	duration = 10 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/combat_tag
+	name = "In Combat"
+	desc = "I was recently in active combat. I won't get a proper rest until I catch my breath."
+	icon_state = "clash"

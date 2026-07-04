@@ -675,6 +675,7 @@
 	spill_embedded_objects()
 	set_heartattack(FALSE)
 	drunkenness = 0
+	sunder_stacks = 0
 	. = ..()
 	if(hud_used?.zone_select)
 		hud_used.zone_select.rebuild_limbs()
@@ -1138,9 +1139,9 @@
 		var/default_soundpack_m = initial(dna.species.soundpack_m)
 		var/default_soundpack_f = initial(dna.species.soundpack_f)
 		if(default_soundpack_m)
-			dna.species.soundpack_m = new default_soundpack_m()
+			dna.species.soundpack_m = GLOB.voice_packs[default_soundpack_m]
 		if(default_soundpack_f)
-			dna.species.soundpack_f = new default_soundpack_f()
+			dna.species.soundpack_f = GLOB.voice_packs[default_soundpack_f]
 
 	voice_color = client.prefs.voice_color
 	voice_pitch = client.prefs.voice_pitch

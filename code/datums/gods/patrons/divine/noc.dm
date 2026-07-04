@@ -2,7 +2,7 @@
 	name = "Noc"
 	domain = "God of the Moon, Nite, Knowledge and Arcyne"
 	desc = "The Nite-Scholar, brother and rival to Astrata. His wisdom paves the way in the moonlight. Tales of esoteric magicka at the destination are sung - in the words of decaying scripts."
-	worshippers = "Wizards and Scholars"
+	worshippers = "Wizards, Alchemists, and Scholars"
 	mob_traits = list(TRAIT_NIGHT_OWL)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/noc/sight						= CLERIC_T0,
@@ -28,7 +28,8 @@
 
 	titles = list(
 		"Nite-Scholar",
-		"Moon" // should match a bunch of variant titles like Brother Moon
+		"Moon", // should match a bunch of variant titles like Brother Moon
+		"Noishi"
 	)
 
 // In moonlight, church, cross, or ritual chalk

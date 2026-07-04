@@ -493,13 +493,13 @@
 /datum/reagent/consumable/soup/stew/viscera_broth
 	name = "offal stew"
 	color = "#B65571"
-	taste_description = "overpoweringly strange-tasting, with a mildly savory aftertaste"
+	taste_description = "deeply savory offal with a lingering iron tang"
 	nutriment_factor = 15
 
 /datum/reagent/consumable/soup/stew/slop
 	name = "slop"
 	color = "#18130E"
-	taste_description = "charred giblets with a gravely aftertaste, and just a pinch of regret"
+	taste_description = "awful and disgusting charred regret"
 	nutriment_factor = 10
 
 /datum/reagent/consumable/soup/stew/fish
@@ -816,6 +816,34 @@
 	color = "#693346"
 	taste_description = "overwhelmingly salty, with hints of savoriness and meatiness"
 	nutriment_factor = 20
+	alpha = 250
+
+/datum/reagent/consumable/soup/stew/mushroom
+	name = "mushroom stew"
+	color = "#795b4f"
+	taste_description = "earth and savory with a meaty, nutty depth"
+	nutriment_factor = 20
+	alpha = 250
+
+/datum/reagent/consumable/soup/stew/humanoid
+	name = "long pig stew"
+	color = "#ac5372"
+	taste_description = "sweet delicious, sweet delicious, sweet delicious pork"
+	nutriment_factor = 20
+	alpha = 250
+
+/datum/reagent/consumable/soup/stew/humanoid/on_mob_life(mob/living/carbon/M)
+	..()
+	if(HAS_TRAIT(M, TRAIT_NASTY_EATER) || HAS_TRAIT(M, TRAIT_ORGAN_EATER) || HAS_TRAIT(M, TRAIT_WILD_EATER))
+		return
+	M.adjustToxLoss(1)
+	M.add_nausea(12) //Over 8 units will cause puking
+
+/datum/reagent/consumable/soup/stew/humanoid_spiced
+	name = "salted meat stew"
+	color = "#693346"
+	taste_description = "overwhelmingly salty, with hints of savoriness and meatiness"
+	nutriment_factor = 30
 	alpha = 250
 
 // Copy pasted from berry poison, but stew metabolizes much faster so it is less deadly. You CAN use it as a source of hydration / nutrition if you are desperate enough???

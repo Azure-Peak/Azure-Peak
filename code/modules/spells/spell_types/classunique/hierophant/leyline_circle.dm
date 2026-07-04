@@ -62,7 +62,7 @@
 	if(!linked_circle || QDELETED(linked_circle))
 		return FALSE
 	if(get_dist(user, linked_circle) > max_range)
-		user.balloon_alert(user, "Too far from my ley line! Noooo! My ley lines!!")
+		user.balloon_alert(user, "Too far! Argh! My leylines!!")
 		return FALSE
 	var/turf/T = get_turf(linked_circle)
 	if(!T)
@@ -89,6 +89,7 @@
 /datum/status_effect/buff/circle_of_power/on_apply()
 	. = ..()
 	if(owner)
+		owner.balloon_alert_to_viewers("Can't Parry/Evade!", "Magic Haste! Can't Parry/Evade!")
 		ADD_TRAIT(owner, TRAIT_NODEF, "[id]")
 		ADD_TRAIT(owner, TRAIT_LEYLINE_HASTE, "[id]")
 

@@ -155,11 +155,12 @@ GLOBAL_LIST_INIT(voice_types_list, list(VOICE_TYPE_MASC, VOICE_TYPE_FEM, VOICE_T
 #define VOICE_PACK_DEFAULT	"Default"
 #define VOICE_PACK_MASC	"Masculine"
 #define VOICE_PACK_MASC_ELF "Elvish (Masc)"
-#define VOICE_PACK_MASC_DWARF "Dwarvish (Masc)"
 #define VOICE_PACK_FOP	"Foppish (Masc)"
 #define VOICE_PACK_STERN "Stern (Masc)"
 #define VOICE_PACK_KNIGHT "Knightly (Masc)"
 #define VOICE_PACK_WARRIOR "Warrior (Masc)"
+#define VOICE_PACK_WIZARD "Wizard (Masc)"
+#define VOICE_PACK_EVIL "Evil (Masc)"
 #define VOICE_PACK_FEM	"Feminine"
 #define VOICE_PACK_FEM_DAINTY "Dainty (Fem)"
 #define VOICE_PACK_FEM_HAUGHTY "Haughty (Fem)"
@@ -170,15 +171,27 @@ GLOBAL_LIST_INIT(voice_types_list, list(VOICE_TYPE_MASC, VOICE_TYPE_FEM, VOICE_T
 GLOBAL_LIST_INIT(voice_packs_list, list(
 	VOICE_PACK_DEFAULT = null,
 	VOICE_PACK_MASC = /datum/voicepack/male,
+	VOICE_PACK_MASC_ELF = /datum/voicepack/male/elf,
 	VOICE_PACK_FOP = /datum/voicepack/male/foppish,
 	VOICE_PACK_STERN = /datum/voicepack/male/stern,
 	VOICE_PACK_KNIGHT = /datum/voicepack/male/knight,
 	VOICE_PACK_WARRIOR = /datum/voicepack/male/warrior,
+	VOICE_PACK_WIZARD = /datum/voicepack/male/wizard,
+	VOICE_PACK_EVIL = /datum/voicepack/male/evil,
 	VOICE_PACK_FEM = /datum/voicepack/female,
+	VOICE_PACK_FEM = /datum/voicepack/female/elf,
 	VOICE_PACK_FEM_WARRIOR = /datum/voicepack/female/warrior,
 	VOICE_PACK_FEM_DAINTY = /datum/voicepack/female/dainty,
 	VOICE_PACK_FEM_HAUGHTY = /datum/voicepack/female/haughty,
 ))
+
+GLOBAL_LIST_INIT(voice_packs, build_voice_packs())
+
+/proc/build_voice_packs()
+	. = list()
+
+	for(var/path in typesof(/datum/voicepack))
+		.[path] = new path()
 
 #define ATTACK_BLIP_PREF_DEFAULT 50
 #define ATTACK_BLIP_PREF_RARELY 25

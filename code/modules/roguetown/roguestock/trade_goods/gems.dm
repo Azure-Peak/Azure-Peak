@@ -1,6 +1,5 @@
 /datum/trade_good/gem
 	behavior = TRADE_BEHAVIOR_GEM
-	mint_eligible = TRUE
 	crown_accepts = FALSE
 	source_region_id = null
 

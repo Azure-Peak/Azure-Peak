@@ -8,7 +8,7 @@ SUBSYSTEM_DEF(regionthreat)
 	// Lowpop tick = THREAT_LOWPOP_TICK_RATE (10%) of max_ambush.
 	// Basin & Grove & Terrorbog are fully tameable (min 0). Coast & Decap stay dangerous (min > 0).
 	// Budget = player_factor * pool * 3%. Solo combat budgets shown at max pool.
-	// Additive group drain: 5-man party drains at 3x/player_factor efficiency (0.5x per extra player).
+	// Additive group drain: 5-man party drains at 3x/player_factor efficiency (0.5x per extra player).s
 	var/list/threat_regions = list(
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZURE_BASIN,
@@ -68,6 +68,7 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
+			_payout_multiplier = 1.3,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN),
 			_kill_target_floor = 4,
 			_evergreen_target = 3
@@ -133,6 +134,7 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
+			_payout_multiplier = 1.2,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN),
 			_kill_target_floor = 3
 		)

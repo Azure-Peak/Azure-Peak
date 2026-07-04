@@ -59,13 +59,15 @@
 			wrists = /obj/item/clothing/neck/roguetown/psicross/undivided
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/undivided_alt
 			if(H.mind)
-				var/cloaks = list("Cloak", "Tabard")
+				var/cloaks = list("Cloak", "Regular Tabard", "Crusader Tabard")
 				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
 				switch(cloakchoice)
 					if("Cloak")
 						cloak = /obj/item/clothing/cloak/undivided
-					if("Tabard")
+					if("Regular Tabard")
 						cloak = /obj/item/clothing/cloak/templar/undivided_alt
+					if("Crusader Tabard")
+						cloak = /obj/item/clothing/cloak/tabard/stabard/crusader/undivided
 		if(/datum/patron/divine/astrata)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/astrata
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan
@@ -116,7 +118,7 @@
 	if(patron_dagger)
 		backpack_contents += patron_dagger
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)	//Capped to T2 miracles with paladin devotion.
 	if(H.mind)
@@ -221,6 +223,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 		if("Duel Settler")
 			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/steel/ravox(H))
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H), FALSE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 		if("Censure")
 			H.put_in_hands(new /obj/item/rogueweapon/greatsword/grenz/flamberge/ravox(H), TRUE)

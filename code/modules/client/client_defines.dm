@@ -145,6 +145,8 @@
 	var/list/panel_tabs = list()
 	/// Signature of the last listed-turf contents sent, to skip redundant rebuilds.
 	var/listedturf_sig
+	var/listedturf_dirty = FALSE
+	var/list/listedturf_appearances
 	/// Whether the living-only Stats tab is currently shown in the statbrowser.
 	var/statbrowser_stats_shown = FALSE
 

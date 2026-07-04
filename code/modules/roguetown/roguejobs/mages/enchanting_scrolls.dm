@@ -153,23 +153,6 @@ T1 Enchantments below here*/
 	else
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
 
-/obj/item/enchantmentscroll/superior/unbreaking
-	name = "enchanting scroll of unbreaking"
-	desc = "A scroll imbued with an enchantment of unbreakingt. Causes an enchanted item to be able to take more punishment.."
-	component = /datum/magic_item/superior/unbreaking
-
-/obj/item/enchantmentscroll/superior/unbreaking/attack_obj(obj/item/O, mob/living/user)
-	if(!..())
-		return
-	if(istype(O,/obj/item/clothing)|| istype(O,/obj/item/rogueweapon))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
-		var/magiceffect= new component
-		O.AddComponent(/datum/component/magic_item, magiceffect)
-		O.name += " of unbreaking"
-		qdel(src)
-	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
-
 /obj/item/enchantmentscroll/superior/featherstep
 	name = "enchanting scroll of featherstep"
 	desc = "A scroll imbued with an enchantment of featherstep. Makes you speedier, and makes your footfalls silent."
@@ -183,23 +166,6 @@ T1 Enchantments below here*/
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of featherstep"
-		qdel(src)
-	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
-
-/obj/item/enchantmentscroll/superior/fireresist
-	name = "enchanting scroll of fire resistance"
-	desc = "A scroll imbued with an enchantment of fire resistance. Prevents you from catching fire."
-	component = /datum/magic_item/superior/fireresist
-
-/obj/item/enchantmentscroll/superior/fireresist/attack_obj(obj/item/O, mob/living/user)
-	if(!..())
-		return
-	if(istype(O,/obj/item/clothing))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
-		var/magiceffect= new component
-		O.AddComponent(/datum/component/magic_item, magiceffect)
-		O.name += " of fire resistance"
 		qdel(src)
 	else
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
@@ -286,23 +252,6 @@ T1 Enchantments below here*/
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of lightning"
-		qdel(src)
-	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
-
-/obj/item/enchantmentscroll/greater/voidtouched
-	name = "enchanting scroll of voidtouched"
-	desc = "A scroll imbued with an enchantment of voidtouched. This enchantment pulls foes briefly into the void, and spits them out nearby."
-	component = /datum/magic_item/greater/void
-
-/obj/item/enchantmentscroll/greater/voidtouched/attack_obj(obj/item/O, mob/living/user)
-	if(!..())
-		return
-	if(istype(O,/obj/item/rogueweapon))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
-		var/magiceffect= new component
-		O.AddComponent(/datum/component/magic_item, magiceffect)
-		O.name += " of voidtouched"
 		qdel(src)
 	else
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
@@ -452,23 +401,6 @@ T1 Enchantments below here*/
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of briar's curse"
-		qdel(src)
-	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
-
-/obj/item/enchantmentscroll/mythic/chaos_storm
-	name = "enchanting scroll of chaos storm"
-	desc = "A scroll imbued with an enchantment of chaos. A weapon with this enchantment causes random effects."
-	component = /datum/magic_item/mythic/chaos_storm
-
-/obj/item/enchantmentscroll/mythic/chaos_storm/attack_obj(obj/item/O, mob/living/user)
-	if(!..())
-		return
-	if(istype(O,/obj/item/rogueweapon))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
-		var/magiceffect= new component
-		O.AddComponent(/datum/component/magic_item, magiceffect)
-		O.name += " of chaos storm"
 		qdel(src)
 	else
 		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))

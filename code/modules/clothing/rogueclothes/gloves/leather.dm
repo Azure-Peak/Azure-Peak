@@ -13,7 +13,7 @@
 	sewrepair = TRUE
 	unarmed_bonus = 1
 	color = "#66584c"
-	salvage_result = null // Recipe makes 2 so we cannot make this salvageable
+	salvage_result = /obj/item/natural/hide/cured // this arbitrary nonsense was removed, only 1 glove is made per craft now
 	cold_protection = 3
 
 /obj/item/clothing/gloves/roguetown/leather/ComponentInitialize()
@@ -39,6 +39,11 @@
 	desc = "Cloth gloves to absorb palm sweat while leaving the fingers free for fine manipulation."
 	icon_state = "shadowgloves"
 	allowed_race = NON_DWARVEN_RACE_TYPES
+
+/obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/spymaster
+	name = "hand's gloves"
+	desc = "Supple silk, cut at the fingertips to ensure absolute precision."
+	icon_state = "handgloves"
 
 /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock
 	name = "fingerless gloves"
@@ -164,3 +169,24 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+//
+
+/obj/item/clothing/gloves/roguetown/cloth
+	name = "padded mittens"
+	desc = "A pair of gloves, quilted from cloth. Warmth for the pilgrim, reassurance for the laborer, and protection for the militiaman."
+	icon_state = "paddedmitts"
+	armor = ARMOR_PADDED
+	max_integrity = ARMOR_INT_LEG_LEATHER
+	blocksound = SOFTUNDERHIT
+	break_sound = 'sound/foley/cloth_rip.ogg'
+	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
+	anvilrepair = null
+	sewrepair = TRUE
+	unarmed_bonus = 1
+	salvage_result = /obj/item/natural/cloth
+	cold_protection = 6
+
+/obj/item/clothing/gloves/roguetown/cloth/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)

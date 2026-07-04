@@ -1339,7 +1339,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	for(var/procpath/verb_to_init as anything in verbstoprocess)
 		if(!verb_to_init)
 			continue
-		if(GLOB.browserpanel_hidden_verbs["[verb_to_init]"])
+		if(verb_to_init.hidden)
 			continue
 		if(!istext(verb_to_init.category))
 			continue

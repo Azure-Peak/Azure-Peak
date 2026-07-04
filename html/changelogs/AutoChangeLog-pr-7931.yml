@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Fixes blockade writ ledger posting not working correctly, allowing it to be posted on the ledger. No longer have the feature to pin it against a noticeboard which I left in from a way earlier draft of my PR."
+  - balance: "Reduced TP budget of Bounty and Raid from 200 / 150 to 150 / 120 based on feedback"

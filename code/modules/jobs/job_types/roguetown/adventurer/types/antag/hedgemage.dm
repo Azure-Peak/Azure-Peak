@@ -21,6 +21,7 @@
 	age_mod = /datum/class_age_mod/court_magician
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
@@ -48,7 +49,7 @@
 					/obj/item/needle/thorn = 1,
 					/obj/item/natural/cloth = 1,
 					/obj/item/flashlight/flare/torch = 1,
-					/obj/item/book/spellbook = 1, // Spell resetting is a key identity of good mage
+					/obj/item/rogueweapon/spellbook = 1, // Spell resetting is a key identity of good mage
 					/obj/item/chalk = 1,
 					)
 	mask = /obj/item/clothing/mask/rogue/facemask/steel //idk if this makes it so they cant cast but i want all of the bandits to have the same mask

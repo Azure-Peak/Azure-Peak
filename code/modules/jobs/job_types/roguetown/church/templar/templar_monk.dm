@@ -99,7 +99,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy
 	pants = /obj/item/clothing/under/roguetown/tights/black
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltr = /obj/item/storage/keyring/acolyte
 	shoes = /obj/item/clothing/shoes/roguetown/sandals

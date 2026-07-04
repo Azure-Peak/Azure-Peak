@@ -58,8 +58,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 		ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	if(dna && dna.species)
 		dna.species.species_traits |= NOBLOOD
-		dna.species.soundpack_m = new /datum/voicepack/skeleton()
-		dna.species.soundpack_f = new /datum/voicepack/skeleton()
+		dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/skeleton]
+		dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/skeleton]
 	for(var/datum/charflaw/cf in charflaws)
 		charflaws.Remove(cf)
 		QDEL_NULL(cf)
@@ -68,6 +68,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	voice_type = VOICE_TYPE_MASC //So that "Unknown Man" properly substitutes in with face cover
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NO_VOICEPACK_OVERRIDE, TRAIT_GENERIC) //Yeah, no more daintly skeletons W/the moaning noises.
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)

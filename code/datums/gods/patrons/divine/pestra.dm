@@ -2,7 +2,7 @@
 	name = "Pestra"
 	domain = "Goddess of Decay, Disease and Medicine"
 	desc = "Goddess that blessed many a saint with healing hands, Pestra taught man the arts of medicine and its benefits."
-	worshippers = "Physicians, Apotecharies, The Sick"
+	worshippers = "Physicians, Apothecaries, and the Sick"
 	mob_traits = list(TRAIT_EMPATH, TRAIT_ROT_EATER)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/diagnose				= CLERIC_ORI,
@@ -26,7 +26,8 @@
 
 	titles = list(
 		"Lady of Pestilence", // yeah, i have no idea. what do people even call Pestra?
-		"Rot Mother"
+		"Rot Mother",
+		"Pesiko"
 	)
 
 // Near a well, cross, within the physicians, within the heartbeast's sanctum, or within the church

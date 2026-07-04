@@ -50,7 +50,7 @@
 	active_background_icon_state = "spell1"
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "shieldsparkles"
-	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_PHASED
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_PHASED|AB_CHECK_IMMOBILE
 	panel = "Spells"
 	click_to_activate = TRUE
 	unset_after_click = FALSE
@@ -146,7 +146,7 @@
 	 * Total drain is: ([charge_time] / [process_time]) * charge_drain
 	 * process_time is currently 4 from SSfastprocess.
 	 */
-	var/charge_drain = 0
+	var/charge_drain = 1
 	/// Time to charge.
 	var/charge_time = 0
 	/// Slowdown while charging.
@@ -176,8 +176,8 @@
 	var/weapon_penalty_active = FALSE
 	/// If TRUE, this spell ignores armor cooldown penalties (for armored casters like Tithebound).
 	var/ignore_armor_penalty = FALSE
-	/// If TRUE, will -not- trigger stealth reveal mechanics after cast.
-	var/ignore_stealth_reveal = FALSE
+	/// If TRUE, casting will -not- apply the combat tag (skips stealth reveal and rest interruption).
+	var/ignore_combat_tag = FALSE
 	/// If TRUE, spell charges on button press, then waits for a separate middle-click to cast.
 	/// If FALSE (default), spell uses hold-and-release: hold middle-click to charge, release to cast.
 	var/charge_then_click = FALSE
@@ -493,8 +493,8 @@
 
 	return Activate(target)
 
-/// Returns TRUE if the caster is holding a non-implement rogueweapon (not a shield) or ranged weapon in either hand,
-/// or recently had one.
+/// Returns TRUE if the caster is holding a penalized weapon in either hand, or recently had one.
+/// Staves and Arcyne Armaments are valid spell conduits and do not trigger this penalty.
 /datum/action/cooldown/spell/proc/check_weapon_in_hand()
 	if(!weapon_cast_penalized)
 		return FALSE
@@ -502,6 +502,8 @@
 		return FALSE
 	var/mob/living/carbon/human/H = owner
 	for(var/obj/item/held in list(H.get_active_held_item(), H.get_inactive_held_item()))
+		if(ispath(held?.associated_skill, /datum/skill/combat/staves) || ispath(held?.associated_skill, /datum/skill/combat/arcyne))
+			continue
 		if(istype(held, /obj/item/gun))
 			return TRUE
 		if(!istype(held, /obj/item/rogueweapon))
@@ -719,6 +721,8 @@
 			var/mob/living/carbon/human/wpn_check = owner
 			var/has_weapon_now = FALSE
 			for(var/obj/item/held in list(wpn_check.get_active_held_item(), wpn_check.get_inactive_held_item()))
+				if(ispath(held?.associated_skill, /datum/skill/combat/staves) || ispath(held?.associated_skill, /datum/skill/combat/arcyne))
+					continue
 				if(istype(held, /obj/item/gun) || (istype(held, /obj/item/rogueweapon) && !istype(held, /obj/item/rogueweapon/shield)))
 					has_weapon_now = TRUE
 					break
@@ -832,7 +836,7 @@
 		var/require_no_move = (spell_requirements & SPELL_REQUIRES_NO_MOVE)
 		on_start_charge()
 		var/success = TRUE
-		if(!do_after(owner, charge_time, needhand = FALSE, extra_checks = CALLBACK(src, PROC_REF(do_after_checks), owner, cast_on), no_interrupt = !require_no_move))
+		if(!do_after(owner, charge_time, needhand = FALSE, extra_checks = CALLBACK(src, PROC_REF(do_after_checks), owner, cast_on), no_interrupt = !require_no_move, allow_movement = !require_no_move))
 			success = FALSE
 			sig_return |= SPELL_CANCEL_CAST
 
@@ -891,9 +895,8 @@
 		if(H.has_status_effect(/datum/status_effect/buff/clash))
 			H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
 
-		if(!ignore_stealth_reveal)
-			if(H.get_skill_level(/datum/skill/misc/sneaking) >= SKILL_LEVEL_JOURNEYMAN || HAS_TRAIT(H, TRAIT_LIGHT_STEP))
-				H.apply_status_effect(/datum/status_effect/stealth_revealed)
+		if(!ignore_combat_tag)
+			H.changeNext_inCombat(IN_COMBAT_DELAY)
 
 	// Sparks and smoke can only occur if there's an owner to source them from.
 	if(sparks_amt)
@@ -1714,4 +1717,3 @@
 
 	if(spell_rune)
 		QDEL_NULL(spell_rune)
-

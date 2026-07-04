@@ -7,6 +7,32 @@
 			if(data[MOVESPEED_DATA_INDEX_FLAGS] & IGNORE_NOSLOW)
 				.[id] = data
 
+/mob/living/carbon/human/update_equipment_speed_mods()
+	. = ..()
+	update_move_intent_slowdown()
+
+/mob/living/carbon/human/get_effective_speed()
+	var/cap = get_ac_speed()
+	if(cap && STASPD > cap)
+		return cap
+	return STASPD
+
+/mob/living/carbon/human/proc/get_ac_speed()
+	if(HAS_TRAIT(src, TRAIT_ARMOR_NOSPDCAP))
+		return 0
+	var/highest_class = ARMOR_CLASS_NONE
+	for(var/obj/item/clothing/C in list(wear_armor, wear_shirt, wear_pants, head))
+		if(C.armor_class > highest_class)
+			highest_class = C.armor_class
+	switch(highest_class)
+		if(ARMOR_CLASS_LIGHT)
+			return AC_LIGHT_SPDCAP
+		if(ARMOR_CLASS_MEDIUM)
+			return AC_MEDIUM_SPDCAP
+		if(ARMOR_CLASS_HEAVY)
+			return AC_HEAVY_SPDCAP
+	return 0
+
 /mob/living/carbon/human/slip(knockdown_amount, obj/O, lube, paralyze, forcedrop)
 	if(HAS_TRAIT(src, TRAIT_NOSLIPALL))
 		return 0

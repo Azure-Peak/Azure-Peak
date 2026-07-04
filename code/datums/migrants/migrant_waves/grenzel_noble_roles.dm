@@ -13,7 +13,7 @@
 /datum/advclass/grenzel_envoy
 	name = "Envoy"
 	outfit = /datum/outfit/job/roguetown/grenzel/envoy
-	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_INTELLECTUAL)
 	category_tags = list(CTAG_GRENZEL_ENVOY)
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -187,7 +187,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/priest

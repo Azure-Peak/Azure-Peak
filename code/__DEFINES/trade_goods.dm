@@ -41,6 +41,8 @@
 #define TRADE_GOOD_DENDOR_ESSENCE "DENDOR_ESSENCE"
 #define TRADE_GOOD_VISCERA "VISCERA"
 #define TRADE_GOOD_SINEW "SINEW"
+#define TRADE_GOOD_TROLL_HORN "TROLL_HORN"
+#define TRADE_GOOD_TAIL_BONE "TAIL_BONE"
 
 #define TRADE_GOOD_FIBERS "FIBERS"
 #define TRADE_GOOD_CLOTH "CLOTH"
@@ -66,6 +68,10 @@
 #define TRADE_GOOD_CHEESE "CHEESE"
 #define TRADE_GOOD_FAT "FAT"
 #define TRADE_GOOD_TALLOW "TALLOW"
+#define TRADE_GOOD_HONEY "HONEY"
+#define TRADE_GOOD_BONES "BONES"
+#define TRADE_GOOD_MEAT_EXOTIC "MEAT_EXOTIC"
+#define TRADE_GOOD_MUSHROOM "MUSHROOM"
 #define TRADE_GOOD_SALUMOI "SALUMOI"
 #define TRADE_GOOD_SAUSAGE "SAUSAGE"
 #define TRADE_GOOD_DRIED_FISH "DRIED_FISH"
@@ -198,10 +204,10 @@
 #define TRADE_GOOD_STRONG_STAM_POTION "STRONG_STAM_POTION"
 #define TRADE_GOOD_ANTIDOTE_POTION "ANTIDOTE_POTION"
 #define TRADE_GOOD_STRONG_ANTIDOTE_POTION "STRONG_ANTIDOTE_POTION"
-#define TRADE_GOOD_STRENGTH_POTION "STRENGTH_POTION"
 #define TRADE_GOOD_PERCEPTION_POTION "PERCEPTION_POTION"
 #define TRADE_GOOD_INTELLIGENCE_POTION "INTELLIGENCE_POTION"
 #define TRADE_GOOD_SPEED_POTION "SPEED_POTION"
+#define TRADE_GOOD_TRANSIS_DUST "TRANSIS_DUST"
 
 // ---- Sellprices ----
 // Minerals
@@ -333,17 +339,16 @@
 // Potions (50dr bottle = one base unit). Priced below steel-ingot / armor pieces since
 // alchemy is faster and materially cheaper than smithing. The 1.75x order bonus brings
 // per-order payout into the same ballpark as a raw-goods basket.
-#define SELLPRICE_HEALTH_POTION 20
-#define SELLPRICE_STRONG_HEALTH_POTION 30
-#define SELLPRICE_MANA_POTION 20
-#define SELLPRICE_STRONG_MANA_POTION 35
-#define SELLPRICE_STAM_POTION 20
-#define SELLPRICE_STRONG_STAM_POTION 35
-#define SELLPRICE_ANTIDOTE_POTION 20
+#define SELLPRICE_HEALTH_POTION 25
+#define SELLPRICE_STRONG_HEALTH_POTION 35
+#define SELLPRICE_MANA_POTION 25
+#define SELLPRICE_STRONG_MANA_POTION 40
+#define SELLPRICE_STAM_POTION 25
+#define SELLPRICE_STRONG_STAM_POTION 40
+#define SELLPRICE_ANTIDOTE_POTION 25
 #define SELLPRICE_STRONG_ANTIDOTE_POTION 40
-// Stat-buff potions are showpiece alchemy. Uniform price - all four buff this round are
-// of equal mechanical weight, and pricing them differently invites min-maxing the petition.
-#define SELLPRICE_BUFF_POTION 48
+#define SELLPRICE_BUFF_POTION 60
+#define SELLPRICE_TRANSIS_DUST 60
 
 // Enchantment scrolls. Tier-priced — basic scrolls are a routine commission, greater
 // scrolls represent serious leyline-tier work. Mythics aren't shippable: they're bespoke

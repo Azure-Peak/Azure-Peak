@@ -41,6 +41,8 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 	var/reagent_weight = 1 //affects how far it travels when sprayed
 	var/metabolizing = FALSE
 	var/harmful = FALSE //is it bad for you? Currently only used for borghypo. C2s and Toxins have it TRUE by default.
+	/// Reagents that cannot be active at the same time as this one (e.g. weak + strong potions of the same family).
+	var/list/conflicting_reagent_types = null
 
 /datum/reagent/Destroy() // This should only be called by the holder, so it's already handled clearing its references
 	. = ..()

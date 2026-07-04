@@ -9,8 +9,8 @@
 	penfactor = PEN_LIGHT
 	chargetime = 0
 	swingdelay = 0
-	damfactor = 1.3
-	clickcd = CLICK_CD_FAST
+	damfactor = 1.2
+	clickcd = CLICK_CD_QUICK
 	item_d_type = "slash"
 
 /datum/intent/katar/thrust
@@ -23,7 +23,7 @@
 	penfactor = PEN_MEDIUM // This make them good vs other light armor users
 	// So they don't need extra bonus damage on top
 	chargetime = 0
-	clickcd = CLICK_CD_FAST
+	clickcd = CLICK_CD_QUICK
 	item_d_type = "stab"
 
 /datum/intent/axe/chop/arbelos
@@ -32,7 +32,7 @@
 
 /datum/intent/axe/cut/arbelos
 	damfactor = 1.15
-	clickcd = CLICK_CD_FAST //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
+	clickcd = CLICK_CD_QUICK //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
 
 /datum/intent/katar/thrust/arbelos
 	penfactor = PEN_LIGHT
@@ -61,39 +61,6 @@
 	icon_state = "insilence"
 	tranged = TRUE
 	noaa = TRUE
-
-/datum/intent/knuckles/sear
-	name = "sear"
-	blade_class = BCLASS_BURN
-	attack_verb = list("chars", "sears")
-	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
-	chargetime = 0
-	penfactor = PEN_NONE
-	clickcd = 8
-	swingdelay = 0
-	icon_state = "incrack"
-	item_d_type = BURN
-
-/datum/intent/knuckles/strike
-	name = "punch"
-	blade_class = BCLASS_BLUNT
-	attack_verb = list("punches", "clocks")
-	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
-	chargetime = 0
-	penfactor = PEN_NONE
-	clickcd = 8
-	swingdelay = 0
-	icon_state = "inpunch"
-	item_d_type = "blunt"
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR // This might be a mistake
-
-/datum/intent/knuckles/strike/wallop
-	name = "wallop"
-	blade_class = BCLASS_TWIST
-	attack_verb = list("wallops", "thwacks", "thwamps")
-	damfactor = 1.1
-	intent_intdamage_factor = 0.6
-	icon_state = "inbash"	// Wallop is too long for a button; placeholder.
 
 /// INTENT DATUMS	^
 
@@ -343,7 +310,7 @@
 	name = "barotrauma"
 	desc = "A gift from a creature of the sea. The claw is sharpened to a wicked edge."
 	icon_state = "abyssorclaw"
-	force = 27	//Its thrust will be able to pen 80 stab armor if the wielder has 17 STR. (With softcap)
+	force = 27
 	max_integrity = 80
 
 /obj/item/rogueweapon/katar/ravox
@@ -791,6 +758,13 @@
 			if("wielded")
 				return list("shrink" = 0.7,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 
+
+/obj/item/rogueweapon/scythe/militia
+	desc = "The bane of fields, the trimmer of grass, the harvester of wheat, and - depending on who you ask - the shepherd of souls to the afterlyfe. This one has been reinforced."
+	name = "militia scythe"
+	smeltresult = /obj/item/ingot/iron
+	force = 18
+	force_wielded = 28
 
 /obj/item/rogueweapon/scythe/silver
 	name = "silver scythe"

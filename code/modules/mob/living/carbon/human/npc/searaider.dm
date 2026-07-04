@@ -218,7 +218,6 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	if(prob(40))
 		gloves = /obj/item/clothing/gloves/roguetown/plate/iron/banded
-	// Stopgap: archer roll removed because the ranged NPC AI is unreliable.
 	switch(rand(1, 6))
 		if(1)
 			r_hand = /obj/item/rogueweapon/sword/iron
@@ -256,24 +255,31 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
-	H.dna.species.soundpack_f = new /datum/voicepack/female/warrior()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+	H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
 
 /mob/living/carbon/human/species/human/northern/searaider/archer
 	ai_controller = /datum/ai_controller/human_npc/archer
+	var/archer_outfit = /datum/outfit/job/roguetown/human/species/human/northern/searaider/archer
 
 /mob/living/carbon/human/species/human/northern/searaider/archer/ambush
 	threat_point = THREAT_MODERATE
 	ambush_faction = "raiders"
 
+/mob/living/carbon/human/species/human/northern/searaider/archer/ambush/reaver
+	archer_outfit = /datum/outfit/job/roguetown/human/species/human/northern/searaider/archer/reaver
+
 /mob/living/carbon/human/species/human/northern/searaider/archer/after_creation()
 	..()
+	STAPER = 12
+	STAINT = 8
+	STASTR = 12 // These are archers
 	for(var/obj/item/I in held_items)
 		qdel(I)
 	for(var/obj/item/I in get_equipped_items(FALSE))
 		if(istype(I, /obj/item/gun) || istype(I, /obj/item/quiver))
 			qdel(I)
-	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/searaider/archer)
+	equipOutfit(new archer_outfit)
 
 /datum/outfit/job/roguetown/human/species/human/northern/searaider/archer/pre_equip(mob/living/carbon/human/H)
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
@@ -303,3 +309,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+
+/datum/outfit/job/roguetown/human/species/human/northern/searaider/archer/reaver/pre_equip(mob/living/carbon/human/H)
+	..()
+	backl = /obj/item/quiver/randomfill/reaver

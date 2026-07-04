@@ -85,16 +85,7 @@
 /obj/structure/rune_ward/stun/rune_effect(mob/living/L)
 	to_chat(L, span_danger("<B>The rune erupts with arcyne lightning!</B>"))
 	playsound(src, 'sound/magic/lightning.ogg', 80, TRUE)
-	L.electrocute_act(1, src, 1, flags = SHOCK_NOSTUN)
-	if(!L.mob_timers[MT_LIGHTNING_ADAPTATION] || world.time > L.mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN)
-		L.Immobilize(0.5 SECONDS)
-		L.apply_status_effect(/datum/status_effect/debuff/clickcd, 6 SECONDS)
-		L.apply_status_effect(/datum/status_effect/buff/lightningstruck, 6 SECONDS)
-		L.balloon_alert_to_viewers("<font color='#ffcc00'>shocked! (6s)</font>")
-		L.mob_timers[MT_LIGHTNING_ADAPTATION] = world.time
-	else
-		var/remaining = round((L.mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN - world.time) / 10)
-		L.balloon_alert_to_viewers("<font color='#ffcc00'>shock adapted ([remaining]s)</font>")
+	L.lightning_shock(src)
 
 /obj/structure/rune_ward/fire
 	name = "flame rune"

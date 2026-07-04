@@ -1,16 +1,15 @@
 /datum/patron/divine/astrata
 	name = "Astrata"
-	domain = "Goddess of the Sun, Day, and Order"
-	desc = "The Tyrant of the Ten, sister and rival to Noc - and the eldest of them all. Her radiance keeps the evils at bay during the dae'. Nite', however, is a different tale."
-	worshippers = "The Noble Hearted, Zealots and Farmers"
+	domain = "Goddess of the Sun, Dae, and Order"
+	desc = "The Tyrant of the Ten, sister and rival to Noc - and the eldest of them all. Her radiance keeps the evils at bay during the dae. Nite, however, is a different tale."
+	worshippers = "Zealots, Farmers, and the Noble-Hearted"
 	mob_traits = list(TRAIT_APRICITY)
 	miracles = list(/datum/action/cooldown/spell/touch/orison				= CLERIC_ORI,
 					/datum/action/cooldown/spell/astrata/ignition			= CLERIC_T0,
-					/datum/action/cooldown/spell/astrata/astrata_gaze		= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal		 		= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle		= CLERIC_T1,
-					/datum/action/cooldown/spell/projectile/sacred_flame	= CLERIC_T1,
-					/datum/action/cooldown/spell/astrata/bladeorfist		= CLERIC_T2,
+					/datum/action/cooldown/spell/astrata/astrata_gaze		= CLERIC_T1,
+					/datum/action/cooldown/spell/projectile/sacred_flame	= CLERIC_T2,
 					/datum/action/cooldown/spell/miracle/fortify/astrata	= CLERIC_T2,
 					/datum/action/cooldown/spell/astrata/miracle_pyre    	= CLERIC_T3,
 					/datum/action/cooldown/spell/astrata/firecloak		    = CLERIC_T3,
@@ -27,6 +26,7 @@
 		"Tyrant",
 		"Overtyrant",
 		"Sun", // should match any sort of Sun(x) title
+		"Aisata"
 	)
 
 // In daylight, church, cross, or ritual chalk.

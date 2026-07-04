@@ -70,7 +70,7 @@
 				H.change_stat(STATKEY_CON, 2)
 				H.change_stat(STATKEY_SPD, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/evil() 	//Fits in my head all too well.
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil] 	//Fits in my head all too well.
 				var/masks = list(				
 				"Humen" 	= /obj/item/clothing/mask/rogue/facemask/steel/steppesman,
 				"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
@@ -107,7 +107,7 @@
 				H.change_stat(STATKEY_PER, 2)
 				H.change_stat(STATKEY_SPD, -2)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil]
 				var/masks = list(				
 				"Humen" 	= /obj/item/clothing/mask/rogue/facemask/steel/steppesman,
 				"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
@@ -169,6 +169,6 @@
 				H.change_stat(STATKEY_SPD, 2)
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()		//Semi-crazed warrior vibe.
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]		//Semi-crazed warrior vibe.
 		
 	H.merctype = 11

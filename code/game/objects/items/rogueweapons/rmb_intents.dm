@@ -36,6 +36,9 @@
 		return
 	if(user == target)
 		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites get extremely funny messages trying to do this.
+		to_chat(user, span_warning(pick("I stare uselessly at their weapon..", "I drool as I stare at their weapon..", "I stare at their weapon... and forgot what I was doing..")))
+		return
 	
 	var/mob/living/carbon/human/HT = target
 	var/mob/living/carbon/human/HU = user
@@ -139,6 +142,9 @@
 		return
 	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites get extremely funny messages trying to do this.
+		to_chat(user, span_warning(pick("I use the ancient technique... of nearly falling over..", "I muster all of my strength... and forgot what I was doing..", "I trip and stumble while wildly flailing around..", "I focus... and... feel too hungry to do so..", "I... feel suddenly very... what is stupid..?", "I focus... but the concept slipped my mind..")))
+		return
 
 	user.face_atom(target)
 
@@ -192,6 +198,10 @@
 		return
 	if(user.has_status_effect(/datum/status_effect/debuff/feintcd))
 		return
+	if(HAS_TRAIT(user, TRAIT_DEADITE)) //You're not even smart enough to know what you're doing to begin with.
+		to_chat(user, span_warning(pick("I... Prepare to lunge vaguely towards nothing in particular, then stumble..", "I claw at nothing in particular uselessly..", "I trip and flail wildly... nothing happens..", "I claw... at the air and stumble, this achieves nothing..", "I swing for a moment... then stop, what is a feint..?")))
+		return
+
 	var/mob/living/L = target
 	user.visible_message(span_danger("[user] feints an attack at [target]!"))
 	var/perc = 50
@@ -199,13 +209,16 @@
 	var/ourskill = 0
 	var/theirskill = 0
 	var/skill_factor = 0
-	if(I)
-		if(I.associated_skill)
-			ourskill = user.get_skill_level(I.associated_skill)
-		if(L.mind)
-			I = L.get_active_held_item()
-			if(I?.associated_skill)
-				theirskill = L.get_skill_level(I.associated_skill)
+	if(I?.associated_skill)
+		ourskill = user.get_skill_level(I.associated_skill)
+	else
+		ourskill = user.get_skill_level(/datum/skill/combat/unarmed)
+	if(L.mind)
+		I = L.get_active_held_item()
+		if(I?.associated_skill)
+			theirskill = L.get_skill_level(I.associated_skill)
+		else
+			theirskill = L.get_skill_level(/datum/skill/combat/unarmed)
 	perc += (ourskill - theirskill)*15 	//skill is of the essence
 	perc += (user.STAINT - L.STAINT)*10	//but it's also mostly a mindgame
 	skill_factor = (ourskill - theirskill)/2
@@ -282,9 +295,11 @@
 	bypasses_click_cd = TRUE
 
 /datum/rmb_intent/riposte/special_attack(mob/living/user, atom/target)
-	if(ishuman(user))
+	if(ishuman(user) && !HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites... are too stiff to even attempt this, let alone think to do this.
 		var/mob/living/carbon/human/H = user
 		H.try_guard()
+	if(HAS_TRAIT(user, TRAIT_DEADITE))
+		to_chat(user, span_warning("...What?")) //Item use, we're just using the default fallback. No humor here.
 
 /datum/rmb_intent/guard
 	name = "guarde"

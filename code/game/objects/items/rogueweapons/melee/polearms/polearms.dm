@@ -98,6 +98,11 @@
 /datum/intent/spear/bash/ranged
 	reach = 2
 
+/datum/intent/spear/bash/staff
+	name = "staff bash"
+	damfactor = 1
+	reach = 2
+
 /datum/intent/spear/cut
 	name = "cut"
 	blade_class = BCLASS_CUT
@@ -216,27 +221,11 @@
 	damfactor = 1.3 // Adds up to be slightly stronger than an unenhanced ebeak strike.
 	clickcd = CLICK_CD_CHARGED
 
-/datum/intent/spear/disarm/quarterstaff
-	name = "disarm"
-	desc = "A precise, sweeping strike that aims for the target's weapon. While it deals no damage on its own, successfully striking the target while they're off-balanced will disarm them in a grand flourish."
-	icon_state = "intake"
-	animname = "strike"
-	attack_verb = list("sweeps", "disarms")
-	blade_class = BCLASS_DISARM
-	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg')
-	penfactor = PEN_NONE
-	swingdelay = 2	//Small delay to hook
-	damfactor = 0
-	clickcd = 22	//Can't spam this; long delay.
-	item_d_type = "blunt"
-
-//polearm objs ฅ^•ﻌ•^ฅ
-
 /obj/item/rogueweapon/woodstaff
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood, /datum/intent/spear/disarm/quarterstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged)
 	name = "wooden staff"
 	desc = "A solid dependable walking stick that allows one to traverse rough terrain with ease, keep the weight off an \
 	injured leg, or reliably fend off incoming blows. Perfect for beggars, pilgrims, and mages."
@@ -252,10 +241,11 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	wdefense = 5
-	wdefense_wbonus = 8	//11 when wielded.
+	wdefense_wbonus = 6	//11 when wielded.
 	bigboy = TRUE
 	gripsprite = TRUE
 	associated_skill = /datum/skill/combat/staves
+	special = /datum/special_intent/quarterstaff_sweep
 	anvilrepair = /datum/skill/craft/carpentry
 	resistance_flags = FLAMMABLE
 
@@ -697,14 +687,13 @@
 /obj/item/rogueweapon/spear/stone/copper
 	name = "copper spear"
 	desc = "A simple spear with a copper tip. More durable than stone, but not much better."
-	pixel_y = 0
-	pixel_x = 0
+	force = 18
+	force_wielded = 22
 	max_integrity = 100
-	icon = 'icons/roguetown/weapons/misc32.dmi'
-	dam_icon = 'icons/effects/item_damage32.dmi'
 	icon_state = "cspear"
-	smeltresult = null
+	smeltresult = /obj/item/ingot/copperslag
 	anvilrepair = /datum/skill/craft/weaponsmithing
+	special = /datum/special_intent/polearm_backstep
 
 /obj/item/rogueweapon/fishspear
 	force = 20
@@ -1185,10 +1174,10 @@
 /obj/item/rogueweapon/woodstaff/quarterstaff
 	name = "wooden quarterstaff"
 	desc = "A staff that makes any journey easier. Durable and swift, capable of bludgeoning stray volves and ruffians alike. The prodigious length \
-	permits it to both incapacitate the villainous with blunted strikes, and to disarm the dastardly of their weapons."
+	permits it to both incapacitate the villainous with blunted strikes, and to keep snarling foes at staff's length."
 	force = 15
 	force_wielded = 20
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/spear/disarm/quarterstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
 	icon_state = "quarterstaff"
 	associated_skill = /datum/skill/combat/staves
 	max_integrity = 150
@@ -1198,14 +1187,14 @@
 	name = "shepherd's quarterstaff" //Reskinned iron quarterstaff without the smeltability-into-ingotry.
 	force = 16
 	force_wielded = 22
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/spear/disarm/quarterstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
 	icon_state = "quarterstaff_virtue"
 	max_integrity = 200
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 	name = "iron quarterstaff"
 	desc = "A quarterstaff reinforced with iron studdings and counterweights. The prodigious length \
-	permits it to both incapacitate the villainous with blunted strikes, and to disarm the dastardly of their weapons."
+	permits it to both incapacitate the villainous with blunted strikes, and to keep snarling foes at staff's length."
 	force = 16
 	force_wielded = 22
 	icon_state = "quarterstaff_iron"
@@ -1417,3 +1406,47 @@
 				return list("shrink" = 0.6,"sx" = -6,"sy" = 2,"nx" = 8,"ny" = 2,"wx" = -4,"wy" = 2,"ex" = 1,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 300,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 100,"wflip" = 8,"eflip" = 0)
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+/obj/item/rogueweapon/spear/partizan/baotha
+	name = "saccharine swordspear"
+	desc = "Keep the rest at arm's length, lest you're burdened with the pain of rememberance."
+	force = 25
+	force_wielded = 35
+	possible_item_intents = list(/datum/intent/sword/thrust/long, /datum/intent/sword/cut/long, /datum/intent/sword/strike, /datum/intent/sword/thrust/heavy)
+	gripped_intents = list(SPEAR_THRUST, /datum/intent/spear/cut, PARTIZAN_REND, /datum/intent/spear/cut/glaive/sweep)
+	icon_state = "swordstaff"
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	parrysound = list(
+	'sound/combat/parry/bladed/bladedmedium (1).ogg',
+	'sound/combat/parry/bladed/bladedmedium (2).ogg',
+	'sound/combat/parry/bladed/bladedmedium (3).ogg',
+	)
+	pickup_sound = 'sound/foley/equip/swordlarge1.ogg'
+	minstr = 4
+	thrown_bclass = BCLASS_PIERCE
+	max_blade_int = 400
+	max_integrity = 400
+	throwforce = 45 //Pierce the heavens!
+	wdefense = 4
+	wdefense_wbonus = 5
+	smeltresult = /obj/item/ingot/component/baotha
+	slot_flags = ITEM_SLOT_BACK //No need for a supplemental greatweapon strap.
+	equip_delay_self = 2 SECONDS
+	unequip_delay_self = 2 SECONDS
+	inv_storage_delay = 1 SECONDS
+	icon_angle_wielded = null
+
+/obj/item/rogueweapon/spear/partizan/baotha/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "SWORDSPEAR")
+
+/obj/item/rogueweapon/spear/partizan/baotha/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen") return list("shrink" = 0.7, "sx" = -14, "sy" = -8, "nx" = 9, "ny" = -6, "wx" = -6, "wy" = -6, "ex" = -1, "ey" = -4, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -10, "sturn" = 108, "wturn" = -72, "eturn" = -10, "nflip" = 1, "sflip" = 1, "wflip" = 8, "eflip" = 1)
+			if("wielded") return list("shrink" = 0.75, "sx" = 5, "sy" = -3, "nx" = -5, "ny" = -3, "wx" = -5, "wy" = -3, "ex" = 3, "ey" = -4, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = 6, "sturn" = -8, "wturn" = 10, "eturn"= -10, "nflip" = 8, "sflip" = 0, "wflip" = 8, "eflip" = 0)
+
+/obj/item/rogueweapon/spear/partizan/baotha/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_WEAPON)
+	

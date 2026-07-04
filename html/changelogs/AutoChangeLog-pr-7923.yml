@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Makes NPC properly recalculate their pain threshold according to their stats on initialize, instead of a stationary 100."

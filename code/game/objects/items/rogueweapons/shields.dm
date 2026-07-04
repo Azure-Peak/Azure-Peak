@@ -124,7 +124,7 @@
 	icon_state = "woodsh"
 	dropshrink = 0.8
 	anvilrepair = /datum/skill/craft/carpentry
-	coverage = 60
+	coverage = 30
 	max_integrity = 120
 	heraldry_x_offset = 1
 	heraldry_y_offset = -1 // 1px right and down to make it look centered
@@ -133,7 +133,7 @@
 	name = "ghastly shield"
 	desc = "A frail looking amalgamation of planks. Yet somehow, the very wood itself seem to be filling you with resolve."
 	icon_state = "deprived"
-	coverage = 60
+	coverage = 40
 	max_integrity = 200
 
 /// Returns list of heraldry names native to this shield type (stripped of prefix)
@@ -351,7 +351,7 @@
 	resistance_flags = FLAMMABLE
 	var/swapped = FALSE
 	wdefense = 10
-	coverage = 70
+	coverage = 55
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	max_integrity = 280
 	anvilrepair = /datum/skill/craft/weaponsmithing
@@ -410,7 +410,7 @@
 	resistance_flags = null
 	flags_1 = CONDUCT_1
 	wdefense = 12
-	coverage = 70
+	coverage = 55
 	heraldry_x_offset = 1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
@@ -634,7 +634,7 @@
 	force = 15
 	throwforce = 10
 	dropshrink = 0.8
-	coverage = 50
+	coverage = 30
 	attacked_sound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	max_integrity = 220
@@ -655,7 +655,7 @@
 	force = 20
 	throwforce = 25 // "I can do this all day."
 	dropshrink = 0.8
-	coverage = 50
+	coverage = 30
 	resistance_flags = null
 	flags_1 = CONDUCT_1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
@@ -703,7 +703,7 @@
 	force = 25
 	throwforce = 30 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!
 	dropshrink = 0.8 // Free free to add actual designs to this shield, too, if-or-whenever.
-	coverage = 60
+	coverage = 30
 	resistance_flags = null
 	flags_1 = CONDUCT_1
 	minstr = 11 //Particularly heavy to use as a melee weapon.

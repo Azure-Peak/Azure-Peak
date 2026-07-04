@@ -55,6 +55,25 @@
 	miracle = TRUE
 	devotion_cost = 20
 
+// What the blazes is a corn?
+// Given to soilsons and farmers.
+/obj/effect/proc_holder/spell/targeted/blesscrop/secular
+	miracle = FALSE
+	devotion_cost = 0
+	req_items = list()
+	// Slightly more since no psycross
+	releasedrain = 40
+	recharge_time = 33 SECONDS
+	invocations = list("Cow pie n' raw sod, makes th' rye! Drink it down an' kiss the sky!",
+					   "Cow pie n' raw sod, makes th' rye! That foul drink'll make ye cry!",
+					   "Cow pie n' raw sod, makes th' rye! By the gods, I'd rather die!",
+					   "Cow pie n' raw sod, makes th' rye! Even goats refuse to try!",
+					   "Compost rich n' dark as sin, makes the harvest rollin' in!",
+					   "Compost steamed in morning dew, makes the garden fresh an' new!",
+					   "Manure fresh from stable floor, makes the crops grow more an' more!",
+					   "Manure n' maggots, squirm n' crawl, makes the tallest cornstalks tall!",
+					   "Sludge n' slurry, thick n' brown, makes the greenest crop in town!")
+
 /obj/effect/proc_holder/spell/targeted/blesscrop/cast(list/targets,mob/user = usr)
 	. = ..()
 	var/growed = FALSE

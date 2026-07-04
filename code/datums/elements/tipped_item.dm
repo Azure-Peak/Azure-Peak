@@ -28,9 +28,13 @@
 	if(!(attacked_container.reagents.flags & DRAINABLE))
 		return
 	if(dipper.reagents.total_volume == dipper.reagents.maximum_volume)
-		return
+		// Blade is already saturated; don't attack/destroy the container for nothing.
+		to_chat(attacker, span_warning("\The [dipper] can't hold any more!"))
+		return COMPONENT_NO_ATTACK
 
 	INVOKE_ASYNC(src, PROC_REF(start_dipping), dipper, attacked_container, attacker)
+	// Cancel the normal attack chain so dipping doesn't ALSO damage the container.
+	return COMPONENT_NO_ATTACK
 
 
 /datum/element/tipped_item/proc/start_dipping(obj/item/dipper, obj/item/reagent_containers/attacked_container, mob/living/attacker, params)

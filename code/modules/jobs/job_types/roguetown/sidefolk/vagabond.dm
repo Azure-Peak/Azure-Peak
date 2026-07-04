@@ -1,5 +1,6 @@
 /datum/job/roguetown/vagabond
 	title = "Vagabond"
+	vice_restrictions = list()
 	flag = VAGABOND
 	department_flag = SIDEFOLK
 	faction = "Station"
