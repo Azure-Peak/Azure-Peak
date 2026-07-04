@@ -155,3 +155,39 @@
 	if(!(target.patron.type in abyssor))
 		return FALSE
 	return TRUE
+
+/datum/vision_quest/existential_crisis
+	name = "The Void"
+	description = "There's nothing."
+	required_tier = 1
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "unknown"
+	summary = "There are grander things out there."
+	vision_text = "The feeling surrounding me is familiar as I awaken. \
+	Ammonia in the air, warped walls like dripping paint. \
+	The Deepfather's realm. Oddly tranquil this time. No nightmares in sight. \
+	Just more of those trusted images. The town of Azure... The distant broiling of a full inn. \
+	Yet something is off. The darkened night sky seems to be crawling. \
+	Like a maggot burrowed under the skin, a facade for something else. \
+	Building shrink and wane at the edges of my sight, as the sky swells, the edges rippling like a puddle of water. \
+	Am I one with the town? No. We're smudged at the edge of the puddle. \
+	A single drop of swirling, diluted paint besides an infinity of uniform liquid. \
+	An ever looming shadow expands within the center of the puddle. \
+	Massive sharpened fangs part the surface one by one, whatever creature owns such a jaw... \
+	Ripples sent forth, as we drift further apart, further into the endless dark. \
+	Yet- a single crescent shape lights up the surface nearby. Noc's gaze. All is obscured at once."
+	possible_phrases = list(
+		"Ignorance is bliss",
+		"We are but a speck",
+		"Reality is greater than us",
+		"The serpent lurks"
+	)

@@ -71,6 +71,10 @@
 		return FALSE
 	if(!target.mind) 
 		return FALSE
+	// I'm- not sure how else to prevent abyssorites from seeing emotional roleplay too often.
+	// So we'll assume anyone wearing three items or less is doing emotional roleplay.
+	if(target.contents && target.contents.len < 4)
+		return FALSE
 	if(length(valid_roles))
 		if(target.mind.assigned_role in valid_roles)
 			return TRUE
