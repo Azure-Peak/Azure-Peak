@@ -89,6 +89,7 @@
 
 	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		spelltarget.emote("pain")
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
@@ -203,6 +204,7 @@
 
 	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		spelltarget.emote("pain")
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))

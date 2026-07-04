@@ -64,8 +64,15 @@
 		if(blood_volume > BLOOD_VOLUME_SURVIVE && nutrition > NUTRITION_LEVEL_STARVING && hydration > HYDRATION_LEVEL_DEHYDRATED) // starving is the minimal here, thirst also stops the regen now
 			for(var/datum/wound/wound as anything in get_wounds())
 				if(!istype(wound, /datum/wound/slash/incision))
-					wound.heal_wound(0.6)
-					nutrition = max(0, nutrition - (NUTRITION_LEVEL_FULL * 0.0025)) // drains 0.25% of your hunger to restore wounds
+					wound.heal_wound(0.5) // roughly half of what psydonite can heal up, after some tests (the above is 0.4, because 0.6 is in life() and death())
+					if(wound.bleed_rate > 0) // but we also slowly recover from bleeding now
+						var/bleed_heal = max(wound.bleed_rate * 0.1, 0.2)
+						wound.set_bleed_rate(max(wound.bleed_rate - bleed_heal, 0))
+						if(wound.bleed_rate <= 0)
+							if(wound.sew_threshold)
+								wound.sew_progress = wound.sew_threshold
+								wound.sew_wound() // it does not heal the wound, however! another nick and you're back to bleeding like a pig.
+					nutrition = max(0, nutrition - (NUTRITION_LEVEL_FULL * 0.0025)) // drains 0.25% of your hunger to restore all of above, still
 
 	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
 		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))

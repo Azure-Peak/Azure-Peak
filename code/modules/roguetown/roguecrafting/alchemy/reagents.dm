@@ -28,6 +28,13 @@
 		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
+/datum/reagent/medicine/healthpot/zarum/blood
+	name = "Blackened Sludge"
+	description = "A fairly disgusting, bubbling mess of an unknown origin that seems to be constantly fermenting onto itself, exhuding a foul smell."
+	color = "#241a1a"
+	taste_description = "sins of Otava"
+	scent_description = "dark darker yet darker"
+
 /datum/reagent/medicine/healthpot/zarum/bog // no changes, it's just more palatable :>
 	name = "Honeyed Zarum"
 	description = "A fermented sauce of fish innards, vinegar and honey, which gradually regenerates all types of damage while remaining surprisingly pleasant to the tastebuds."

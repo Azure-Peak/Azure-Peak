@@ -62,13 +62,9 @@
 	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER))
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
-			Hu.adjust_hydration(12)
+			Hu.adjust_hydration(8)
 			if(HAS_TRAIT(Hu, TRAIT_BLACKBLOOD))
-				for(var/datum/wound/wound as anything in Hu.get_wounds())
-					if(!istype(wound, /datum/wound/slash/incision))
-						wound.heal_wound(1)
-		if(H.blood_volume < BLOOD_VOLUME_NORMAL)
-			H.blood_volume = min(H.blood_volume + 7, BLOOD_VOLUME_NORMAL)
+				Hu.reagents.add_reagent(/datum/reagent/medicine/healthpot/zarum/blood, 0.5) // this is a fraction of a fraction in the end, I didn't heal too much from local tests, it's more for situations where you don't have food in pve
 		return
 	H.add_nausea(12)
 	H.adjustToxLoss(2)

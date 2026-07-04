@@ -730,10 +730,8 @@
 	return TRUE
 
 /datum/status_effect/buff/campfire_stamina/tick()
-	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(HAS_TRAIT(owner, TRAIT_NOREGEN) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
-	if(!HAS_TRAIT(owner, TRAIT_BLACKBLOOD) && HAS_TRAIT(owner, TRAIT_HALFHEAL))
-		healing_on_tick /= 2
 	owner.adjust_bodytemperature(8)
 	if(owner.in_combat_until > world.time)
 		return
