@@ -392,7 +392,7 @@
 
 /datum/action/cooldown/spell/miracle/layonhands
 	name = "Lay on Hands"
-	desc = "Call upon higher power to infuse an adjascent target with healing energy, increases in power gradually over 10 seconds of channelling. any movement from you or the receiving party will break concentration."
+	desc = "Channel a heal on self or adjacent target, healing power increases over the first 10 seconds of channelings, cancelled early by any movement and action."
 
 	button_icon_state = "heal"
 	sound = 'sound/magic/heal.ogg'
@@ -401,7 +401,6 @@
 	cast_range = SPELL_RANGE_ADJACENT
 	self_cast_possible = TRUE
 
-	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = SPELLCOST_MIRACLE_HANDS
 
 	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
@@ -448,11 +447,6 @@
 		playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
 
-	if(HAS_TRAIT(H,TRAIT_PSYDONITE)) // check if the target has the psydonite devout trait
-		H.visible_message(span_info("[H] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		return FALSE
 
 	var/healingpower = 1
 	var/no_embeds = TRUE
