@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Ported Noelle-Lavenza's optimization of the lighting system from Ratwood"

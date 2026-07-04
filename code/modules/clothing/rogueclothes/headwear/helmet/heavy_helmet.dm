@@ -414,7 +414,7 @@
 		This one used to be in the hands of a pale elf and may be fitted with a great plume atop, to bear heraldic colors."
 	icon_state = "armetowl"
 
-/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet/attackby(obj/item/W, mob/living/user, params)
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/owl/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(!(istype(W, /obj/item/natural/feather) && !detail_tag))
 		return

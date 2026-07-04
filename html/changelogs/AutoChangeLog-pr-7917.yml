@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Attempted to optimize in hand item overlays. Report any oddity especially with items that change states in your hand."

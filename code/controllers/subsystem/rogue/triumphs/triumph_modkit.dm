@@ -49,14 +49,15 @@
 
 /obj/item/enchantingkit/triumph_weaponkit_axedouble
 	name = "'Doublehead' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Axe, a Bronze Axe, a Steel Axe, a Battle Axe, a Silver War Axe, or a Psydonic War Axe."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Axe, a Bronze Axe, a Steel Axe, a Battle Axe, a Silver War Axe, a Psydonic War Axe, or a Blacksteel Axe."
 	target_items = list(
 		/obj/item/rogueweapon/stoneaxe/woodcut/steel					= /obj/item/rogueweapon/stoneaxe/woodcut/steel/triumph,
 		/obj/item/rogueweapon/stoneaxe/woodcut/bronze					= /obj/item/rogueweapon/stoneaxe/woodcut/bronze/triumph,
 		/obj/item/rogueweapon/stoneaxe/woodcut/silver					= /obj/item/rogueweapon/stoneaxe/woodcut/silver/triumph,
+		/obj/item/rogueweapon/stoneaxe/battle/blacksteel				= /obj/item/rogueweapon/stoneaxe/battle/blacksteel/triumph,
 		/obj/item/rogueweapon/stoneaxe/battle/psyaxe					= /obj/item/rogueweapon/stoneaxe/battle/psyaxe/triumph,
-		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead,
-		/obj/item/rogueweapon/stoneaxe/battle	  						= /obj/item/rogueweapon/stoneaxe/battle/triumph
+		/obj/item/rogueweapon/stoneaxe/battle	  						= /obj/item/rogueweapon/stoneaxe/battle/triumph,
+		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead
 		)
 	result_item = null
 
@@ -749,6 +750,12 @@
 	name = "double-headed psydonic axe"
 	desc = "'Hail to the king, baby.'"
 	icon_state = "psyaxedouble"
+	swingsound = BLADEWOOSH_HUGE
+
+/obj/item/rogueweapon/stoneaxe/battle/blacksteel/triumph
+	name = "double-headed blacksteel axe"
+	desc = "'Get away from them, you bitch!'"
+	icon_state = "bs_axedouble"
 	swingsound = BLADEWOOSH_HUGE
 
 /obj/item/clothing/suit/roguetown/armor/leather/cuirass/triumph

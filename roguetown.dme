@@ -3181,6 +3181,7 @@
 #include "code\modules\spells\spell_types\skills\invoked_single_target\overclock.dm"
 #include "code\modules\spells\spell_types\skills\invoked_single_target\refocusstudies.dm"
 #include "code\modules\spells\spell_types\skills\invoked_single_target\takeapprentice.dm"
+#include "code\modules\spells\spell_types\skills\invoked_single_target\takeprotege.dm"
 #include "code\modules\spells\spell_types\skills\invoked_single_target\teach.dm"
 #include "code\modules\spells\spell_types\skills\projectile\flashpowder.dm"
 #include "code\modules\spells\spell_types\undead\self\calcic_outburst.dm"

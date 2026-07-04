@@ -433,11 +433,6 @@
 	user.visible_message(span_yellow("[user] sharply exhales, breathing out a cloud of fyre!"))
 	user.Immobilize(15)
 
-	if(!familiar && !(islizard(user) || iskobold(user) || isdracon(user) || ishalfkin(user)))
-		user.adjust_fire_stacks(2)
-		user.ignite_mob()
-		to_chat(user, span_userdanger("Your mortal flesh struggles to withstand the draconic fyre coursing through you!"))
-
 	return TRUE
 
 /datum/action/cooldown/spell/matthios/raze/proc/ignite(turf/damage_turf)

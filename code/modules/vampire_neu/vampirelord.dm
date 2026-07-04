@@ -350,7 +350,7 @@
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
-/obj/item/clothing/wrists/roguetown/bracers/paalloy/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
+/obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire/get_examine_highlight_status() //best armor in the game, it shouldn't be worn lightly
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE)
 
 /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire

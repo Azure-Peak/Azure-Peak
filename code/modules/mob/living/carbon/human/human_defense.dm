@@ -688,7 +688,7 @@
 	else if(user)
 		m1 = "[p_they(TRUE)] [p_are()]"
 		if(!deep_examination)
-			deep_examination = HAS_TRAIT(user, TRAIT_EMPATH)
+			deep_examination = user.has_empath_for(src)
 		examination += span_notice("Let's see how [src] is doing.")
 		if(!user.stat && !silent)
 			user.visible_message(span_notice("[user] examines [src]."), \
@@ -754,7 +754,7 @@
 			visible_message(span_notice("[src] examines [p_their()] [parse_zone(choice)]."))
 	else if(user)
 		if(!deep_examination)
-			deep_examination = HAS_TRAIT(user, TRAIT_EMPATH)
+			deep_examination = user.has_empath_for(src)
 		examination += span_notice("Let's see how [src]'s [parse_zone(choice)] is doing.")
 		if(!user.stat && !silent)
 			visible_message(span_notice("[user] examines [src]'s [parse_zone(choice)]."))

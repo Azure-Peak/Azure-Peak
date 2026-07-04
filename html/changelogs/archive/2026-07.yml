@@ -203,3 +203,32 @@
   - rscadd: Added a new fluff bardic inspiration ability called Muse's Grace, forcing
       audience members to sing while it plays.
   - bugfix: Fixes capitalisation and punctuation while singing.
+2026-07-04:
+  7erracotta:
+  - rscadd: Added back the rosestone carp statue
+  Aisu9:
+  - qol: broaden the valid targeting for Divine Arcanum to faction,
+  Happyowl93:
+  - rscadd: Zad form can now sit down and caw
+  KatTheFox:
+  - bugfix: Certain wildshapes will no longer be swapped around by players moving
+      into them
+  Lamasmaster:
+  - rscadd: Thigh and Ankle variants of sleeve stirrup stockings
+  - bugfix: Matthios items not counting as "valid"
+  Ollanius:
+  - balance: Copper spears now deal 18 - 22 damage instead of 13 - 18. For reference,
+      this makes them slightly better than decrepit spears (due to having higher one-handed
+      damage), and not one-to-one copies of stone spears.
+  - bugfix: Copper and gemstone spears now use 64x sprites, meaning that their inhands
+      no longer deform in unintended ways when held.
+  - bugfix: Copper spears properly smelt into copper ingots once again.
+  - bugfix: Obtaining a gemstone spear via a gem-related crafting recipe or loot spawner
+      now gives a gemstone spear, instead of a regular iron javelin. Oopsie-doodles.
+  - code_imp: Minor sprite updates to an unrelated weapon or two.
+  SpartanBobby:
+  - rscadd: Changes stuff about spartanbobbys donor item
+  WeNeedMorePhoron:
+  - rscdel: Removed three loot pinata room from Alotheos.
+  radarseas:
+  - bugfix: Gives Iconoclast an Amulet so they can actually Play their Role.

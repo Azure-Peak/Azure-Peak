@@ -444,7 +444,7 @@
 		/obj/effect/proc_holder/spell/invoked/deaths_door::name				= /obj/effect/proc_holder/spell/invoked/deaths_door,
 		//Noc gets one after the rework passes.
 		//Pestra has actually nothing, son 😢
-		/datum/action/cooldown/spell/ravox/spirits::name					= /datum/action/cooldown/spell/ravox/spirits,
+		//Ravox will get something else.
 		/datum/action/cooldown/spell/undivided/undivided_battlecry::name	= /datum/action/cooldown/spell/undivided/undivided_battlecry,
 		/obj/effect/proc_holder/spell/invoked/abscond::name					= /obj/effect/proc_holder/spell/invoked/abscond
 	)

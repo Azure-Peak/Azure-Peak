@@ -11,6 +11,7 @@
 	pass_flags = PASSTABLE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	movement_type = FLYING
+	light_system = MOVABLE_LIGHT
 	//The sound this plays on impact.
 	var/hitsound = 'sound/blank.ogg'
 	var/hitsound_wall = ""

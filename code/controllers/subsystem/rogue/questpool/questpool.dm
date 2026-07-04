@@ -367,6 +367,7 @@ SUBSYSTEM_DEF(questpool)
 	scroll.update_quest_text()
 	steward.put_in_hands(scroll)
 	B.active_scroll_ref = WEAKREF(scroll)
+	B.active_quest_ref = WEAKREF(Q)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
 	log_event("generate", "blockade-defense in-hand for [ER.name] (faction [Q.faction_id], reward [Q.reward_amount])")
 	return Q

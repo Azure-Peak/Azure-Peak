@@ -9,7 +9,7 @@ LICH SKELETONS
 	tutorial = "You are bygone. Your will belongs to your master. Fulfil and kill."
 
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich
-	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted)
 
 /datum/outfit/job/roguetown/greater_skeleton/lich
 	belt = /obj/item/storage/belt/rogue/leather/black
