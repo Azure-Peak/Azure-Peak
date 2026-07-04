@@ -35,3 +35,40 @@
 		"Beware the voice that knows too much",
 		"A fiend wears His voice"
 	)
+
+/datum/vision_quest/orthodoxist_salvation
+	name = "Psydonic Vision"
+	description = "A psydonite stands in Abyssor's gaze. You are the prophet, you will deliver his missive."
+	required_tier = 2
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "an Orthodoxist"
+	summary = "A psydonite's faith in the light of a true vision."
+	vision_text = "The mists part to reveal someone clad in tattered, heretical rags, their broken icons cast aside. \
+	You see them mocking the faithful, their voice loud with false certainty. But beneath the arrogance, you smell their fear. \
+	Confront them, and let them feel the truth of the waves in the flesh. \
+	\n\nSuddenly, you find yourself deep beneath the earth. A grand chamber hollowed out in rock by Malum, like a sunlit cathedral. \
+	A large, elderly figure rests peacefully in a bed of gigantic, golden lilies. Soft petals embrace the skin, soothing old scars. \
+	Wounds knit closed. The life-giving sap of Psydonia rising into strong roots, carrying Dendor's vitality far and wide. \
+	The old god stirs... And you must bear witness, your calloused hands gently scaling a gigantic palm. \
+	It is effortless, a journey which feels like mere moments... gliding up bits of smooth skin like a grand staircase. \
+	As if the flesh wants to be scaled, even just the thought of turning back now feels wrong. \
+	Sides like a mountain, the torso rising and falling with deep, rhythmic breaths. Was He always this magnificent? Did your eyes deceive you before? Your memories fail to do Him justice. \
+	Then the jaws, parted slightly like the gate to a new dawn. With the apex in sight, the heavy air recedes, replaced by a soothing warmth. \
+	The silence you anticipate is shattered by a low, thundering breath, then the thumping heartbeat of a titan. \
+	Massive eyelids twitch, revealing a sliver of blinding radiance, basking you in His caring gaze. \
+	O Psydon, you are returning to us!"
+	possible_phrases = list(
+		"Psydon is alive",
+		"Dendor cares for Him",
+		"Psydon stirs"
+	)
+	valid_roles = list("Orthodoxist","Inquisitor","Absolver")
