@@ -6,8 +6,8 @@
 	icon_dead = "bat_dead"
 	icon_gib = "bat_dead"
 	turns_per_move = 1
-	response_help_continuous = "brushes aside"
-	response_help_simple = "brush aside"
+	response_help_continuous = "pets"
+	response_help_simple = "pet"
 	response_disarm_continuous = "flails at"
 	response_disarm_simple = "flail at"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
@@ -21,8 +21,8 @@
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1)
-	pass_flags = PASSTABLE
-	faction = list("hostile")
+	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
+	faction = list(FACTION_HOSTILE)
 	attack_sound = 'sound/blank.ogg'
 	obj_damage = 0
 	environment_smash = ENVIRONMENT_SMASH_NONE
@@ -34,8 +34,10 @@
 	sight = (SEE_TURFS|SEE_MOBS|SEE_OBJS|SEE_SELF)
 	see_in_dark = 8
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
+	STASTR = 1 // You are not charging or bumping anyone down
+	STACON = 1 // No charging!
 
-	var/fly_time = 5 //5 ticks because vampire bats are agile
+	fly_time = 5 //5 ticks because vampire bats are agile
 
 	var/max_co2 = 0 //to be removed once metastation map no longer use those for Sgt Araneus
 	var/min_oxy = 0
@@ -48,38 +50,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/bat/Initialize()
 	. = ..()
-	verbs += list(/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_up,
-	/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_down) 
-
-/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_up()
-	set category = "Winged Form"
-	set name = "Fly Up"
-
-	if(src.pulledby != null)
-		to_chat(src, span_notice("I can't fly away while being grabbed!"))
-		return
-	src.visible_message(span_notice("[src] begins to ascend!"), span_notice("You take flight..."))
-	if(do_after(src, fly_time, target))
-		if(src.pulledby == null)
-			src.zMove(UP, TRUE)
-			to_chat(src, span_notice("I fly up."))
-		else
-			to_chat(src, span_notice("I can't fly away while being grabbed!"))
-
-/mob/living/simple_animal/hostile/retaliate/bat/proc/fly_down()
-	set category = "Winged Form"
-	set name = "Fly Down"
-
-	if(src.pulledby != null)
-		to_chat(src, span_notice("I can't fly away while being grabbed!"))
-		return
-	src.visible_message(span_notice("[src] begins to descend!"), span_notice("You take flight..."))
-	if(do_after(src, fly_time, target))
-		if(src.pulledby == null)
-			src.zMove(DOWN, TRUE)
-			to_chat(src, span_notice("I fly down."))
-		else
-			to_chat(src, span_notice("I can't fly away while being grabbed!"))
+	add_verb(src, list(/mob/living/simple_animal/proc/fly_up,
+	/mob/living/simple_animal/proc/fly_down)) 
 
 /mob/living/simple_animal/hostile/retaliate/bat/crow
 	name = "zad"
@@ -97,6 +69,39 @@
 	remains_type = /obj/effect/decal/remains/crow
 	fly_time = 3 SECONDS // slowing down crow for witches
 	sight = 0
+	/// Whether the zad is perched (stationary sprite, cannot move) rather than flying.
+	var/sitting = FALSE
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/Initialize()
+	. = ..()
+	add_verb(src, list(/mob/living/simple_animal/hostile/retaliate/bat/crow/proc/change_stance,
+	/mob/living/simple_animal/hostile/retaliate/bat/crow/proc/emote_caw))
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/proc/change_stance()
+	set category = "RoleUnique.Winged Form"
+	set name = "Change Stance"
+	sitting = !sitting
+	update_icon()
+	//Hack to make sprite update after hitting the verb
+	setDir(EAST)
+	setDir(SOUTH)
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/update_icon_state()
+	icon_state = sitting ? "crow" : "crow_flying"
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/Move()
+	if(sitting)
+		return FALSE
+	return ..()
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/proc/emote_caw()
+	set category = "RoleUnique.Winged Form"
+	set name = "Caw"
+	emote("caw", intentional = TRUE, animal = TRUE)
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/get_sound(input)
+	if(input == "caw")
+		return pick('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_02.ogg', 'sound/vo/mobs/bird/CROW_03.ogg')
 
 /obj/effect/decal/remains/crow
 	name = "zad remains"

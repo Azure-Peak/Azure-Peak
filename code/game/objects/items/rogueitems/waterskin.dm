@@ -6,11 +6,9 @@
 	possible_transfer_amounts = list(5, 10)
 	volume = 75 // 3 cups
 	dropshrink = 1
-	sellprice = 10
-	closed = FALSE
+	closed = TRUE
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_BACK
 	obj_flags = CAN_BE_HIT
-	reagent_flags = OPENCONTAINER
 	w_class =  WEIGHT_CLASS_NORMAL
 	drinksounds = list('sound/items/drink_bottle (1).ogg','sound/items/drink_bottle (2).ogg')
 	fillsounds = list('sound/items/fillcup.ogg')
@@ -18,15 +16,30 @@
 	sewrepair = TRUE
 	desc_uncorked = "A leather waterskin. The cap on the mouth is off."
 
+/obj/item/reagent_containers/glass/bottle/waterskin/Initialize()
+	. = ..()
+	icon_state = initial(icon_state)
+	update_icon()
+
+/obj/item/reagent_containers/glass/bottle/waterskin/update_overlays()
+	. = ..()
+	if(closed)
+		. += "[icon_state]_cork"
+	else
+		. += "[icon_state]_uncork"
+
 /obj/item/reagent_containers/glass/bottle/waterskin/milk // Filled subtype used by the cheesemaker
 	list_reagents = list(/datum/reagent/consumable/milk = 64)
 
 /obj/item/reagent_containers/glass/bottle/waterskin/purifier
 	name = "purifying waterskin"
 	desc = "Bronze tubes spiral about from the mouth of this waterskin in complex, dizzying patterns."
-	icon_state = "water-purifier"
+	icon_state = "waterpurifier"
+	volume = 150 //doubling the amount due to the cost
 	desc_uncorked = "Bronze tubes spiral about from the mouth of this waterskin in complex, dizzying patterns. The cap on the mouth is off."
-	var/filtered_reagents = list(/datum/reagent/water/gross) // List of liquids it turns into drinkable water
+	var/filtered_reagents = list(/datum/reagent/water/gross, 
+								 /datum/reagent/water/bathwater,
+								 /datum/reagent/water/salty) // List of liquids it turns into drinkable water
 
 /obj/item/reagent_containers/glass/bottle/waterskin/purifier/onfill(obj/target, mob/user, silent = FALSE)
 	. = ..()

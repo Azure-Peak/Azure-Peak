@@ -8,8 +8,8 @@
 	friction               = 0.3  // shed 30% of velocity and drift every 0.1s
 	transform 			   = null // Rain is directional - so don't make it "3D"
 	//Weather effects, max values
-	maxSpawning            = 250
-	minSpawning            = 50
+	maxSpawning            = 150
+	minSpawning            = 40
 	wind                   = 2
 	spin                   = 0 // explicitly set spin to 0 - there is a bug that seems to carry generators over from old particle effects
 
@@ -38,7 +38,6 @@
 		L.add_stress(/datum/stressevent/graggarite_blood_rain)
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)
-	L.add_blood_DNA(list("Blood" = random_blood_type()), TRUE)
 
 /datum/particle_weather/blood_rain_storm
 	name = "Rain"
@@ -57,10 +56,8 @@
 	probability = 10
 	target_trait = PARTICLEWEATHER_BLOODRAIN
 
-//Makes you a bit chilly
 /datum/particle_weather/blood_rain_storm/weather_act(mob/living/L)
 	if(HAS_TRAIT(L, TRAIT_HORDE))
 		L.add_stress(/datum/stressevent/graggarite_blood_rain)
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)
-	L.add_blood_DNA(list("Blood" = random_blood_type()), TRUE, TRUE)

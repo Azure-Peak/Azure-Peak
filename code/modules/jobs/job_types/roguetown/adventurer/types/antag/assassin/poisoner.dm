@@ -2,10 +2,10 @@
 	name = "Assassin - Poisoner"
 	tutorial = "You've known you way around poisons, natural or man-made, for most of your life. From brewing antidotes, to creating lethal mixes. You blend in well in even noble courts as a medicine man, hiding your true inentions.."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/assassin/poisoner
 	category_tags = list(CTAG_ASSASSIN)
-	traits_applied = list(TRAIT_NOSTINK)	// Stinky Man - You get tossed a bone around rotting corpses. Plays into the poison and stuff.
+	traits_applied = list(TRAIT_NOSTINK, TRAIT_ALCHEMY_EXPERT)	// Stinky Man - You get tossed a bone around rotting corpses. Plays into the poison and stuff.
 	// Weighted 14
 	subclass_stats = list(
 		STATKEY_PER = 1,

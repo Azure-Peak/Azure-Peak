@@ -20,10 +20,10 @@
 		to_chat(src, span_warning("I can only drink blood from living, intelligent beings!"))
 		return
 	if(victim.dna?.species && (NOBLOOD in victim.dna.species.species_traits))
-		to_chat(src, span_warning("Sigh. No blood."))
+		to_chat(src, span_warning("They have no blood."))
 		return
 	if(victim.blood_volume <= 0)
-		to_chat(src, span_warning("Sigh. No blood."))
+		to_chat(src, span_warning("Sigh. No blood left."))
 		return
 
 	var/datum/antagonist/vampire/VDrinker = mind.has_antag_datum(/datum/antagonist/vampire)
@@ -31,8 +31,12 @@
 
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
-		if(VDrinker && istype(human_victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver))
-			to_chat(src, span_userdanger("SILVER! HISSS!!!"))
+		var/silvercross = FALSE
+		for(var/obj/item/clothing/neck/roguetown/psicross/silver/I in human_victim.contents)
+			silvercross = TRUE
+			break
+		if(VDrinker && silvercross)
+			to_chat(src, span_userdanger("SILVER CROSS! HISSS!!!"))
 			return
 		if(VDrinker && HAS_TRAIT(human_victim, TRAIT_SILVER_BLESSED))
 			to_chat(src, span_userdanger("SILVER IN THE BLOOD! HISSS!!!"))
@@ -45,7 +49,7 @@
 	victim.blood_volume = max(victim.blood_volume - 5, 0)
 	victim.handle_blood()
 
-	playsound(loc, 'sound/misc/drink_blood.ogg', 100, FALSE, -4)
+	playsound(loc, 'sound/misc/drink_blood.ogg', vol = 50, vary = FALSE, extrarange = -4, ignore_walls = FALSE, quiet = TRUE)
 
 	SEND_SIGNAL(src, COMSIG_LIVING_DRINKED_LIMB_BLOOD, victim)
 	victim.visible_message(span_danger("[src] drinks from [victim]'s [parse_zone(sublimb_grabbed)]!"), \
@@ -59,10 +63,12 @@
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
 
-	if(victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
+	if(HAS_TRAIT(victim, TRAIT_BLACKBLOOD) || victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
 		to_chat(src, span_danger("I'm going to puke..."))
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
+
+	src.adjust_hydration(10) // da sippy
 
 	if(VVictim)
 		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [victim].</b>"))
@@ -75,6 +81,8 @@
 
 	if(HAS_TRAIT(victim, TRAIT_CLERGY) || HAS_TRAIT(victim, TRAIT_INQUISITION))
 		blood_handle |= BLOOD_PREFERENCE_HOLY
+	if(HAS_TRAIT(victim, TRAIT_CLERGY) || HAS_TRAIT(victim, TRAIT_INQUISITION) || HAS_TRAIT(victim, TRAIT_NOBLE))
+		blood_handle |= BLOOD_PREFERENCE_FANCY //More variety
 	if(VVictim)
 		blood_handle |= BLOOD_PREFERENCE_KIN
 		blood_handle  &= ~BLOOD_PREFERENCE_LIVING
@@ -114,13 +122,13 @@
 
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
 		var/datum/antagonist/vampire/vdrinker = mind?.has_antag_datum(/datum/antagonist/vampire)
-		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation == GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
+		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation <= GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
 			to_chat(src, span_warning("I cannot sire thralls, my blood is too weak!"))
 		else
 			if(vdrinker.thrall_count >= vdrinker.max_thralls) //you've hit your max
 				to_chat(src, span_warning("I cannot sire anymore thralls.."))
 			else
-				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
+				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF ASTRATA", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
 					to_chat(src, span_warning("I decide [victim] is unworthy."))
 				else
 					visible_message(span_danger("[src] begins channeling their energies to [victim]!"))
@@ -130,6 +138,12 @@
 					if(HAS_TRAIT_FROM(victim, TRAIT_REFUSED_VAMP_CONVERT, REF(src)))
 						to_chat(src, span_warning("[victim] has already refused your offer to sire them."))
 						return
+
+					if(victim.stat == DEAD) // If you accept the prompt as a corpse, you get turned into a corpse vampire, which RR's you pretty much
+						return FALSE
+
+					if(HAS_TRAIT(victim, TRAIT_UNLYCKERABLE))
+						return FALSE
 
 					var/mob/living/carbon/human/H = victim
 					if(H.vampire_conversion_prompt_active)
@@ -157,8 +171,8 @@
 
 	var/vampire_choice = tgui_alert(
 		src,
-		"Would you like to rise as a vampire spawn? Warning: refusal may or may not mortally wound you.",
-		"THE CURSE OF KAIN",
+		"Would you like to rise as a lycker spawn? Warning: refusal may or may not mortally wound you.",
+		"THE CURSE OF ASTRATA",
 		list("MAKE IT SO", "I RESCIND"),
 		VAMP_CONVERT_TIMEOUT
 	)
@@ -208,7 +222,8 @@
 	mind?.remove_antag_datum(/datum/antagonist/zombie)
 
 	if(client)
-		client.verbs.Remove(GLOB.ghost_verbs)
+		remove_verb(client, GLOB.ghost_verbs)
+		client.init_verbs()
 
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
 	visible_message(span_red("[src] rises as a new spawn!"))

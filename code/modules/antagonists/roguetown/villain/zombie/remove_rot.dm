@@ -75,10 +75,21 @@
 
 ///Cure bodyparts
 /proc/clean_body_parts(mob/living/carbon/target)
+
 	for (var/obj/item/bodypart/bodypart in target.bodyparts)
 		bodypart.rotted = FALSE
 		bodypart.skeletonized = FALSE
 		bodypart.update_limb()
 		bodypart.update_disabled()
+
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+
+		if(H.client && H.client.prefs)
+			H.skin_tone = H.client.prefs.skin_tone
+
+		else if(H.original_skin_tone)
+			H.skin_tone = H.original_skin_tone
+			H.original_skin_tone = null
 
 	target.update_body()

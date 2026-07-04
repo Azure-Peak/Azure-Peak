@@ -34,6 +34,22 @@
 		setDir(set_dir)
 	. = ..()
 
+/obj/effect/temp_visual/necra_consecrate
+	layer = ABOVE_OPEN_TURF_LAYER
+	icon = 'icons/turf/necra_consecrate_overlay.dmi'
+	randomdir = FALSE
+
+/obj/effect/temp_visual/necra_consecrate/Initialize(mapload, set_dur)
+	if(set_dur)
+		duration = set_dur
+	if(prob(60))
+		icon_state = "burnt"
+	else if(prob(50))
+		icon_state = "cracked"
+	else
+		icon_state = "burnthole"
+	. = ..()
+
 /obj/effect/temp_visual/swingdelay
 	randomdir = FALSE
 	icon = 'icons/effects/effects.dmi'
@@ -61,6 +77,27 @@
 	plane = ABOVE_LIGHTING_PLANE
 
 /obj/effect/temp_visual/armor_chunk/Initialize(mapload, customdur, customcolor, customstate)
+	if(customdur)
+		duration = customdur
+	if(customstate)
+		icon_state = customstate
+	if(customcolor)
+		add_atom_colour(customcolor, FIXED_COLOUR_PRIORITY)
+	. = ..()
+
+/obj/effect/temp_visual/barter_fx
+	randomdir = FALSE
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "barter"
+	layer = HUD_LAYER
+	plane = ABOVE_LIGHTING_PLANE
+
+/obj/effect/temp_visual/special_intent/warning
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "warning"
+	alpha = 225
+
+/obj/effect/temp_visual/special_intent/warning/Initialize(mapload, customdur, customcolor, customstate)
 	if(customdur)
 		duration = customdur
 	if(customstate)

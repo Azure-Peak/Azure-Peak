@@ -4,3 +4,5 @@
 
 #define LANGUAGE_KNOWN "language_known"
 #define LANGUAGE_SHADOWED "language_shadowed"
+
+#define DEFAULT_PREFERRED_UI_LANGUAGE "en"

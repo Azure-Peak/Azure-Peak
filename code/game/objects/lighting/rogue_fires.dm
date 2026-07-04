@@ -3,6 +3,8 @@
 #define VOLUME_PER_STEW_COOK_AFTER 1 // Volume to deduct after the sleep is over
 #define DEEP_FRY_TIME 5 SECONDS // Default deep fry time
 #define OIL_CONSUMED 5 // Amount of oil consumed per deep fry (1 fat = 4 fry)
+#define BOILING_TIME 5 SECONDS // Default boiling time
+#define WATER_CONSUMED 5
 
 /obj/machinery/light/rogue/firebowl
 	name = "brazier"
@@ -21,6 +23,14 @@
 	crossfire = TRUE
 	fueluse = 0
 	no_refuel = TRUE
+	max_integrity = 200
+	can_damage = TRUE
+	flags_1 = NONE
+	damtype = BURN
+
+/obj/machinery/light/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("If extinguished, this can be rekindled by left-clicking it with a torch, lamptern, flint, or any other source of ignition. In a pinch, the sparks that're born from sharpening bladed weapons and hitting stones together can suffice.")
 
 /obj/machinery/light/rogue/firebowl/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSTABLE))
@@ -67,6 +77,7 @@
 	icon_state = "stumpfire1"
 	base_state = "stumpfire"
 	desc = "Somewhat crude, but it lights the long winding paths throughout the land."
+	max_integrity = 100
 
 /obj/machinery/light/rogue/firebowl/church
 	desc = "A wide metal bowl mounted on a stand for a healthy roaring flame."
@@ -88,6 +99,7 @@
 	bulb_colour = "#ff9648"
 	cookonme = FALSE
 	crossfire = FALSE
+	max_integrity = 80
 
 
 /obj/machinery/light/rogue/firebowl/standing/blue
@@ -203,7 +215,8 @@
 	bulb_colour = "#7b60f3"
 	icon_state = "wallcandleb1"
 	base_state = "wallcandleb"
-	desc = "Tiny bluish flames flicker gently like the stars themselves."
+	desc = "Tiny bluish flames flicker gently like the stars themselves. Mana-infused wax \
+	is rather expensive, but makes quite an impression!"
 
 /obj/machinery/light/rogue/candle/blue/r
 	pixel_y = 0
@@ -414,6 +427,8 @@
 	layer = TABLE_LAYER
 	climb_offset = 14
 	on = FALSE
+	max_integrity = 200
+	roundstart_forbid = TRUE
 	cookonme = TRUE
 	soundloop = /datum/looping_sound/fireloop
 	var/obj/item/attachment = null
@@ -463,10 +478,12 @@
 	if(!on)
 		to_chat(user, span_notice("[src] is not lit."))
 		return
-	if(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+	while(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+		if(!on)
+			to_chat(user, span_notice("[src] is no longer lit."))
+			return
 		to_chat(user, span_info("I fan the flame on [src].")) // Until line combine is on by default gotta do this to avoid spam
 		try_cook(cooktime_divisor)
-		attack_right(user)
 
 /obj/machinery/light/rogue/hearth/attackby(obj/item/W, mob/living/user, params)
 	lastuser = user // For processing food
@@ -474,7 +491,7 @@
 	var/cooktime_divisor = get_cooktime_divisor(cs)
 
 	if(!attachment)
-		if(istype(W, /obj/item/cooking/pan) || istype(W, /obj/item/reagent_containers/glass/bucket/pot ) || istype(W, /obj/item/reagent_containers/glass/crucible))
+		if(istype(W, /obj/item/cooking/pan) || istype(W, /obj/item/reagent_containers/glass/bucket/pot))
 			playsound(get_turf(user), 'sound/foley/dropsound/shovel_drop.ogg', 40, TRUE, -1)
 			attachment = W
 			user.doUnEquip(W)
@@ -482,23 +499,6 @@
 			update_icon()
 			return
 	else
-		if(istype(attachment, /obj/item/reagent_containers/glass/crucible))
-			var/obj/item/reagent_containers/glass/crucible/crucible = attachment
-			if(crucible.hot)
-				to_chat(user, span_warning("The crucible is too hot to add ingots! Wait for it to cool down."))
-				return
-
-			if(istype(W, /obj/item/ingot/iron) || istype(W, /obj/item/ingot/steel))
-				if(crucible.get_total_ingots() >= crucible.max_ingots)
-					to_chat(user, span_warning("The crucible is full."))
-					return
-
-				user.visible_message(span_info("[user] places an ingot into the crucible."))
-				if(do_after(user, 10, target = src))
-					var/ingot_type = W.type
-					if(crucible.add_ingot(ingot_type, user) > 0)
-						qdel(W)
-				return
 		if(istype(W, /obj/item/reagent_containers/glass/bowl))
 			to_chat(user, "<span class='notice'>Remove the pot from the hearth first.</span>")
 			return
@@ -525,6 +525,7 @@
 					playsound(src.loc, 'sound/misc/frying.ogg', 80, FALSE, extrarange = 5)
 					return
 // Stew + Deep Frying code - refactored!!
+// Now with 100% more boiling!
 		else if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
 			var/obj/item/reagent_containers/glass/bucket/pot = attachment
 			if(istype(W, /obj/item/reagent_containers/food/snacks))
@@ -542,7 +543,7 @@
 					if(!pot.reagents.has_reagent(/datum/reagent/consumable/oil/tallow, OIL_CONSUMED))
 						to_chat(user, span_notice("Not enough tallow."))
 						return
-					if(pot.reagents.has_reagent(/datum/reagent/water))
+					if(pot.reagents.has_reagent(/datum/reagent/water) && S.deep_fried_type && !S.boiled_type)
 						to_chat(user, span_warning("You can't deep fry in a pot with water!"))
 						return
 					if(do_after(user, DEEP_FRY_TIME / cooktime_divisor, target = src))
@@ -551,6 +552,14 @@
 						new S.deep_fried_type(src.loc)
 						qdel(S)
 						pot.reagents.remove_reagent(/datum/reagent/consumable/oil/tallow, OIL_CONSUMED)
+						return
+				if(pot.reagents.has_reagent(/datum/reagent/water) && S.boiled_type)
+					if(do_after(user, BOILING_TIME / cooktime_divisor, target = src))
+						user.visible_message(span_info("[user] boils [S] in the pot.</span>"))
+						add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+						new S.boiled_type(src.loc)
+						qdel(S)
+						pot.reagents.remove_reagent(/datum/reagent/water, WATER_CONSUMED)
 						return
 			for(var/datum/stew_recipe/R in GLOB.stew_recipes)
 				for(var/I in R.inputs)
@@ -572,7 +581,7 @@
 							pot.reagents.remove_reagent(/datum/reagent/water, VOLUME_PER_STEW_COOK_AFTER) // Remove water first prevent overfill
 							pot.reagents.add_reagent(R.output, VOLUME_PER_STEW_COOK + VOLUME_PER_STEW_COOK_AFTER)
 							return
-	. = ..()
+	..()
 
 //////////////////////////////////
 
@@ -580,7 +589,7 @@
 	cut_overlays()
 	icon_state = "[base_state][on]"
 	if(attachment)
-		if(istype(attachment, /obj/item/cooking/pan) || istype(attachment, /obj/item/reagent_containers/glass/bucket/pot)  || istype(attachment, /obj/item/reagent_containers/glass/crucible))
+		if(istype(attachment, /obj/item/cooking/pan) || istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
 			var/obj/item/I = attachment
 			I.pixel_x = 0
 			I.pixel_y = 0
@@ -608,7 +617,7 @@
 					attachment.forceMove(user.loc)
 				attachment = null
 				update_icon()
-		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot) || istype(attachment, /obj/item/reagent_containers/glass/crucible))
+		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
 			if(!user.put_in_active_hand(attachment))
 				attachment.forceMove(user.loc)
 			attachment = null
@@ -645,12 +654,6 @@
 		if(fueluse == 0)
 			burn_out()
 	if(attachment)
-		if(istype(attachment, /obj/item/reagent_containers/glass/crucible))
-			var/obj/item/reagent_containers/glass/crucible/crucible = attachment
-			if(crucible.get_total_ingots() > 0 && on)
-				crucible.heat_up(crucible.heat_rate)
-			else if(!on)
-				crucible.cool_down(crucible.cool_rate)
 		if(istype(attachment, /obj/item/cooking/pan))
 			if(food && on)
 				var/obj/item/C = food.cooking(20 * cooktime_divisor, 20, src)
@@ -790,6 +793,11 @@
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
 
+/obj/machinery/light/rogue/campfire/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Resting by a campfire gradually restores energy and stamina, while also healing wounds and dislocations. Sleeping next to a campfire further enhances the boons of a good nite's rest.")
+	. += span_info("If the fire is gone, then it may have simply ran out of fuel as well. Left-click it with something flammable, such as a book or stick, before rekindling to keep yourself warm.")
+
 /obj/machinery/light/rogue/campfire/process()
 	..()
 	if(isopenturf(loc))
@@ -801,7 +809,7 @@
 		var/list/hearers_in_range = get_hearers_in_LOS(healing_range, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 		for(var/mob/living/carbon/human/human in hearers_in_range)
 			var/distance = get_dist(src, human)
-			if(distance > healing_range || human.construct)
+			if(distance > healing_range || HAS_TRAIT(human, TRAIT_IRONMAN))
 				continue
 			if(!human.has_status_effect(/datum/status_effect/buff/campfire_stamina))
 				to_chat(human, span_info("The warmth of the fire comforts me, affording me a short rest. I would need to lie down on a bed to get a better rest."))
@@ -900,3 +908,5 @@
 
 #undef DEEP_FRY_TIME
 #undef OIL_CONSUMED
+#undef BOILING_TIME
+#undef WATER_CONSUMED

@@ -15,5 +15,3 @@
 		//datum/ai_planning_subtree/basic_melee_attack_subtree,
 		//datum/ai_planning_subtree/eat_food,
 	)
-
-	idle_behavior = /datum/idle_behavior/idle_crab_walk

@@ -56,6 +56,9 @@ ENABLE_LOCALHOST_RANK
 ## Uncomment to enable the age prompt system; It asks players for their date of birth upon entry and denies players below a certain age.
 #AGE_PROMPT_SYSTEM
 
+## Log all timers on timer auto reset
+# LOG_TIMERS_ON_BUCKET_RESET
+
 ## Uncomment this entry to have certain jobs require your account to be at least a certain number of days old to select. You can configure the exact age requirement for different jobs by editing
 ## the minimal_player_age variable in the files in folder /code/game/jobs/job/.. for the job you want to edit. Set minimal_player_age to 0 to disable age requirement for that job.
 ## REQUIRES the database set up to work. Keep it hashed if you don't have a database set up.
@@ -67,7 +70,7 @@ ENABLE_LOCALHOST_RANK
 #USE_ACCOUNT_AGE_FOR_JOBS
 
 ## Unhash this to track player playtime in the database. Requires database to be enabled.
-#USE_EXP_TRACKING
+USE_EXP_TRACKING
 ## Unhash this to enable playtime requirements for head jobs.
 #USE_EXP_RESTRICTIONS_HEADS
 ## Unhash this to override head jobs' playtime requirements with this number of hours.
@@ -88,6 +91,9 @@ LOG_LOOC
 
 ## log client Say
 LOG_SAY
+
+## log NPC Say
+LOG_NPC_SAY
 
 ## log admin actions
 LOG_ADMIN
@@ -512,6 +518,34 @@ RESUME_AFTER_INITIALIZATIONS
 ## Uncomment to set the number of /world/Reboot()s before the DreamDaemon restarts itself. 0 means restart every round. Requires tgstation server tools.
 ROUNDS_UNTIL_HARD_RESTART 0
 
+## Enable automatic profiling - Byond 513.1506 and newer only.
+AUTO_PROFILE
+
+## Clear the profile buffer after each dump. Each file then contains only the activity
+## since the previous dump (window mode), at the cost of not having a single cumulative round file.
+## Comment out to revert to cumulative-round dumps.
+PROFILE_CLEAR_ON_DUMP
+
+## Determines the interval between each saved profiler snapshot (in deciseconds).
+#PROFILER_INTERVAL 3000
+
+## Threshold (in deciseconds) for real time between ticks before we start dumping profiles
+DRIFT_DUMP_THRESHOLD 40
+
+## How long to wait (in deciseconds) after a profile dump before logging another tickdrift sourced one
+DRIFT_PROFILE_DELAY 150
+
+## Tick-dilation percentage over the last 1s above which we start the sustained-TD timer.
+## Measured as (drift growth per real second) × world.tick_lag × 100.
+## 20 means "game advancing <=80% as fast as wall-clock" — egregious by our standards.
+SUSTAINED_TD_THRESHOLD_PCT 20
+
+## How long (in deciseconds) TD% must stay above SUSTAINED_TD_THRESHOLD_PCT before we dump a profile.
+SUSTAINED_TD_DURATION 200
+
+## Minimum gap (in deciseconds) between sustained-TD profile dumps. Set long to avoid the dump itself worsening the stall.
+SUSTAINED_TD_DELAY 1200
+
 
 ##Default view size, in tiles.
 ##	By default, this is 15x15, which gets simplified to 7 by byond
@@ -534,3 +568,12 @@ DEFAULT_VIEW_SQUARE 15x15
 ## 1 Puts Border Control into 'learning mode' and will have it automatically whitelist new connections
 ## 2 Puts Border Control into 'enforcing mode' and will have it deny connections that are not already whitelisted.
 BORDER_CONTROL 0
+
+## Whether something with floating refs can be hard deleted
+#HARD_DELETES_ENABLED
+
+## How long in seconds after which a hard delete is treated as causing lag. This can be a float and supports a precision as low as nanoseconds.
+#HARD_DELETES_OVERRUN_THRESHOLD 0.5
+
+## Once a typepath causes overrun from hard deletes this many times, stop hard deleting it on garbage collection failures. (set to 0 to disable)
+#HARD_DELETES_OVERRUN_LIMIT 0

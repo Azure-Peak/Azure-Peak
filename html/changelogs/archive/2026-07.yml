@@ -1,0 +1,205 @@
+2026-07-01:
+  Aisu9:
+  - bugfix: donator item pathing
+  BurpleBineapple:
+  - rscadd: SpartanBobby donor helmet
+  Dorodomki:
+  - rscadd: 'Added more goggles + new duelist goggles + new masks + their respective
+      recipes in smithy + sewing
+
+      :cl:'
+  FreeStylaLT:
+  - rscadd: Added 3 new chest markings, from Ratwood.
+  - rscadd: Added a Blacksteel Longsword. It has a unique feature allowing the user
+      to select a Special for the weapon out of a premade list. Requires 2 blacksteel
+      bars, saffira and silk.
+  KatTheFox:
+  - rscadd: Smiths can now make silver amulets and psycrosses, if given an amulet
+      as a base.
+  Kolibri-B:
+  - rscadd: Added the Ornate Silk Dress to the Triumph loadout menu
+  Lamasmaster:
+  - rscadd: Stocking sleeves and footwraps
+  Ollanius:
+  - bugfix: The Hand properly inherits their besilked haubergeon, once more.
+  - balance: Most primary weapons for the Inquisition no longer start with preblessings,
+      once again. Like before, these'll be reserved for the Inquisitor's relics and
+      the daggers given to certain Orthodoxists.
+  - rscadd: The Litany, a Marquette-purchasable script that can bless a single silver
+      weapon before destroying itself; a boon for lower-population Orthodoxists. It
+      can be refunded if an Absolver's presence makes it less-than-needed.
+  Quinalion:
+  - code_imp: Standardizes Psydonian maces code path for consistency.
+  WeNeedMorePhoron:
+  - rscadd: There's now two slots for Noccian Spellblade since it isn't that OP, actually.
+      They lost tempo access.
+  - rscadd: Ported Noelle's add better CPU usage diagnostics to the MC statpanel
+  - rscadd: Ported Prevent unnecessary processing on lights that don't use fuel
+  - rscadd: Make status_effects_by_id use an alist
+  - rscadd: TG's Controller Overview and surface it under the MC tab.
+  borneblood:
+  - balance: Nerfed Wandering Yogi a bit. Buffed Vizier a bit.
+  - bugfix: Fixed missing interactions with a particular meat, and some Stockpile
+      behavior/options.
+  - refactor: most custom meat paths no longer have /steak as precedent
+  - bugfix: fixed red thing to become green thing
+  radarseas:
+  - balance: redone most vamp guard subclasses again.
+  - balance: vampire magos rely on wards instead of starting w/ chest/head/arm armor
+  - bugfix: vampire magos could not pick a staff unlike every single other class that
+      could
+  - balance: vamp magos gets a chalk now
+  - balance: vamp footmen have more weapon choices + iron shields always + steel weapon
+      varients
+  - balance: vamp duelist apprentice -> expert sneak in line w/ their climbing skill
+  - balance: vamp arsonist has a heavy helm vs its miner helm before + different class
+      name now
+2026-07-02:
+  WeNeedMorePhoron:
+  - bugfix: Fixes a major issue stemming from an obsolete feature
+  eirenxiv:
+  - rscadd: Added new and amazing description to bigfoot02's donor item
+2026-07-03:
+  7erracotta:
+  - rscadd: Added new pottery stuff
+  Aisu9:
+  - balance: picking Sage will reduce you STR by 1 additional point, increase you
+      Con and Will by 1 point to keep the 6 weighted point balance.
+  - balance: increase all mystic's classes's wrestling level to apprentice, making
+      them ever so slightly less bullyable.
+  - balance: picking Luminary no longer increase your STR by 1 point but will increase
+      you Per, Con and Will 2, raising the weighted point balance to 7(the maximum
+      adventurer class are supposed to have).
+  - qol: double lover's ruin production rate(effectively changes nothing because people
+      never use lover's ruin on barrel, they always were playing with the double production
+      bugged check), increase devotion cost by 50% to compensate
+  BurpleBineapple:
+  - image: Updated arming jacket sprite.
+  Happyowl93:
+  - bugfix: Potion seller won't have conflicting reagents reacting now.
+  - balance: potions with the same effect now react turning into odd water.
+  Juubo:
+  - qol: easier to make rotational items
+  - balance: increased recipe values to help make up for roller changes and encourage
+      more builds
+  - balance: less decay on minecart tracks
+  - balance: upped damage cap on minecarts
+  - bugfix: made rollers more consistent being powered on the side
+  KatTheFox:
+  - balance: Seneschals now get skincrafting as well as sewing skill, instead of just
+      the trait that lets them grind it
+  - rscadd: Knight-errant can now pick an arming sword + shield weapon set
+  Lamasmaster:
+  - balance: Bishop
+  - bugfix: Bishop miracle selector
+  Ollanius:
+  - rscadd: New sprites for the Silver Warhammer, Mace, and Cudgels. The Cudgels in
+      particular (chiefly familiar to the Confessors) are now designed to resemble
+      classic bar maces.
+  - rscadd: Sprite touchups for the Hurlbats, Urumi, and all Sling Bullet projectiles.
+  - rscadd: New sprites for potentially Blacksteel- or Donator-exclusive weapons,
+      depending on how we feel. Staged in the code for now.
+  - rscadd: Hoses! Courtesy of Dragonfruit's hardwork. Independantly dyeable with
+      two channels, and comes in two flavors; cloth and maille. These cover the feet
+      and legs, instead of the groin and legs; make sure to wear some smallclothes
+      as well, if you intend to rep these historically accurate garments.
+  - rscadd: Aventails, also fashioned by Dragonfruit! More coverage and durability
+      for bascinets at the cost of weight and field-of-view. Comes in both iron and
+      steel variants.
+  - rscadd: An iron bascinet!
+  - rscadd: Padded mittens and chausses, fashioned by Dragonfruit!
+  - rscadd: You can now wear all bedsheet variants on your belt slot, in order to
+      quickly cover up your character's less-than-saintly bits in a pinch. That, or
+      you could probably use it for a more form-fitting experience (while resting).
+  - rscadd: Likewise, you can now wear a silk tablecloth on your head.
+  - rscdel: Removes the old silk tablecloth-to-nurse veil crafting recipe, as you
+      can now directly wear the tablecloth like a veil.
+  - code_imp: Relocated all Baothan ritual equipment from the ritualcircles.dm to
+      their appropriate .dms.
+  - rscadd: Standalone greatplume helmet decorations, available either to donators
+      (for free) or for triumphees (for +3 TRI). Potential clipping issues with larger
+      helmets, or if used with non-metal helmets.
+  - rscadd: Standalone aventails; chain mantles with gorget-type durability, but inadjustability
+      and a medium AC.
+  - rscadd: Glass carafes, cups, and goblets! You can craft these with glass.
+  - rscadd: Silver and gold carafes!
+  - rscadd: Hotrocks; an alternative to the frying pan, for those who're savvy - and
+      desperate - enough with stones!
+  - bugfix: All bottles now properly show their corks being undone and redone.
+  - rscadd: Crafting recipes for all golden, silver, and pewter silverware that hadn't
+      already been added.
+  - rscadd: Legacy variants of the original Sallet, Visored Sallet, and Kettlehelm
+      in both Steel and Iron! Available at the TRI shop or as Valorian recipes.
+  - rscadd: Iron variants for most generic steel helmets.
+  - rscadd: Missing iron equipment's been added to the generic loot equipment spawner
+      tables.
+  WeNeedMorePhoron:
+  - bugfix: Fixed a bug where export was giving 2x the money because it minted twice
+  - rscdel: Removed the minting / stockpile treasure sell, now that we have Merchantry's
+      ships which has an inbuilt guard vs using the same optimal strategy over and
+      over. It is also a source of balance headache.
+  - rscadd: Raised the commissioner price for cured leather goods which may remedy
+      some issues.
+  - bugfix: Blockades shouldn't roll on a place that can't hold blockades anymore
+  - bugfix: Refunded / invalid Alderman quest should refund to the proper budget
+  - rscadd: Remove Merchantry Key from Steward
+  - balance: Bind Armament now takes 10 seconds and have a 60 seconds cooldown and
+      massive charging slowdown
+  - rscadd: AOE Attacks now respect riposte + Added NPC Guard Dummy for testing purpose
+  - rscadd: 'Reworked staves and wand and staves now have a special attack and is
+      decently viable melee weapons. Wand no longer exist, replaced by tome in their
+      role. Tome is now a viable one handed weapon with the arcyne descent (Read:
+      uppercut) special.'
+  - rscadd: Adventurer level mages and missionaries / acolyte now have Jman staves,
+      Merc level or so have Expert
+  - rscadd: Arcyne Armament skills added to all mages
+  - rscadd: Reworked, and removed Kastvyl. Added back Shatter and reworked Tremor
+      on Macebearer to follow the new ferramantic telegraphed strike framework.
+  - rscadd: Witch / Bookworm now get Jman / Apprentice staves / arcyne armament, respectively
+  - rscadd: Conjured items now reliably disappears when the user FT (or the spell
+      is destroyed)
+  - rscdel: Removed wands
+  - rscadd: Reworked the Ferramancy school entirely to a melee based mageblade styles
+      inspired by popular games
+  - rscdel: Remove the Lesser Kinesis minor aspect
+  - rscdel: Replaced Blink in the Displacement Minor Aspect with Phase, which is basically
+      an arcane reflavor of Dagger Dash.
+  - rscdel: Removed the Aegiscraft minor aspect
+  - rscdel: Removed Chaos Storm Enchantment.
+  - rscdel: Removed Voidtouched Enchantment.
+  - balance: Phoenix Guard now have a 60 seconds instead of 20 seconds cooldown so
+      you can't just keep setting your opponennt on fire.
+  - rscadd: Make NPC bow no longer use progress bar
+  - rscadd: Special Scabbards - Kazengunese, Headphysician, Gold & Silver decorated
+      one cannot be stripped by middle click anymore. To avoid accidental mending
+      into stripping down your special 500 mams scabbard
+  bearrrrrrrr:
+  - admin: astratan ignition now leaves logs
+  borneblood:
+  - rscadd: Second Chance (Rotcured, Pallid, Blackblood) as the reworked Virtue.
+  changelingonberry:
+  - rscadd: Fly spell
+  radarseas:
+  - rscadd: Added a few more "herecy" and a whole new "very odd" examine
+  - rscadd: Added a small extra bit of flavor on breaking the crankbox.
+  - rscadd: Golgatha is properly shown in chat like a relic, including why its so
+      important to many Psydonites usually.
+  - rscadd: Tweaked some flavor, with Abyssorian artifacts, to make it more clear
+      that Dreamwalkers are cursed by Abyssor and not just violent lunatics that make
+      weaponry and armor for kicks and giggles.
+  - rscadd: Inquisitional Listener has a bit more to its description to inform you
+      that it should be worn like a ring.
+  - balance: Vlord weapon + crown + armor is  marked under the new very weird examine,
+      the Weeping Psicross and Inquisitional Listeners are (undisguised) as well.
+  - balance: viewing an active crankbox makes its heretical nature blatently obvious
+      if the massive mood debuffs and screams weren't enough.
+  - bugfix: Soul churner now has an else, for undefined Patrons like Science, Mossmother,
+      Etc. You will Still feel its effects
+  - rscadd: Added undivided clerical/devotee robes.
+  - balance: undivided Holy See hood takes the same crafting difficulty as the robes.
+      -> Expert
+  - bugfix: fixed pathing with pestra tabard crafting.
+  shimmeristaken:
+  - rscadd: Added a new fluff bardic inspiration ability called Muse's Grace, forcing
+      audience members to sing while it plays.
+  - bugfix: Fixes capitalisation and punctuation while singing.

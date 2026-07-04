@@ -7,3 +7,5 @@
 	min_players = 3
 	req_omen = TRUE
 	todreq = list("dusk", "night", "dawn", "day")
+	announce_text = "Twisted vines sprout from the soil, hungering for flesh!"
+	announce_title = "Evil Vines"

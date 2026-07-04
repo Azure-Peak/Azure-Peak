@@ -1,5 +1,8 @@
 /obj/machinery/light/roguestreet
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
+	desc = "An ancient device once used across the realms to light roads and cities. A manner of \
+	artifice no longer common in all but the deepest and most forgotten parts of the world. It \
+	occasionally flickers with a spark of some bright energy."
 	icon_state = "slamp1"
 	base_state = "slamp"
 	brightness = 10

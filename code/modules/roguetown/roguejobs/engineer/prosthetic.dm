@@ -150,7 +150,6 @@
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "pr_arm"
 	item_state = "pr_arm"
-	limb_material = "wood"
 	resistance_flags = FLAMMABLE
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC	//allows removals
@@ -209,7 +208,6 @@
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "bp_arm"
 	prosthetic_prefix = "prs"
-	limb_material = "bronze"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -251,7 +249,6 @@
 	desc = "A right arm of wood."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "pr_arm"
-	limb_material = "wood"
 	resistance_flags = FLAMMABLE
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -310,14 +307,13 @@
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "bp_arm"
 	prosthetic_prefix = "prs"
-	limb_material = "bronze" // still need a different onmob sprite for bronze limbs brah
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
 	static_icon = TRUE			//returns icon to initial icon state after removal under get_limb_icon
 	brute_reduction = 0
 	burn_reduction = 0
-	max_damage = 220
+	max_damage = 110
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 350
 	sellprice = 30
@@ -413,7 +409,6 @@
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "bp_leg"
 	prosthetic_prefix = "prs"
-	limb_material = "bronze"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC
@@ -510,7 +505,6 @@
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "bp_leg"
 	prosthetic_prefix = "prs"
-	limb_material = "bronze"
 	resistance_flags = FIRE_PROOF
 	obj_flags = CAN_BE_HIT
 	status = BODYPART_ROBOTIC

@@ -1,5 +1,7 @@
 /area/rogue/under/cavewet
 	name = "The Undergrove"
+	loot_budget = LOOT_BUDGET_UNDERGROVE
+	loot_pool_key = "undergrove"
 	icon_state = "cavewet"
 	warden_area = TRUE
 	first_time_text = "The Undergrove"
@@ -52,6 +54,7 @@
 
 /area/rogue/under/cave/goblindungeon
 	name = "Goblin Camp"
+	loot_budget = LOOT_BUDGET_GOBLIN_DUNGEON
 	icon_state = "under"
 	first_time_text = "GOBLIN CAMP"
 	droning_sound = 'sound/music/area/dungeon.ogg'
@@ -63,6 +66,7 @@
 
 /area/rogue/under/cave/skeletoncrypt
 	name = "Skeleton Crypt"
+	loot_budget = LOOT_BUDGET_SKELETON_CRYPT
 	icon_state = "under"
 	first_time_text = "SKELETON CRYPT"
 	droning_sound = 'sound/music/area/dungeon.ogg'

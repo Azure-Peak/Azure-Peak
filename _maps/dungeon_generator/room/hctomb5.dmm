@@ -173,17 +173,9 @@
 /area/rogue/under/tomb)
 "uM" = (
 /obj/structure/table/wood,
-/obj/item/reagent_containers/food/snacks/rogue/meat/fatty{
-	pixel_x = -5;
-	pixel_y = 3
-	},
-/obj/item/reagent_containers/food/snacks/fat{
-	pixel_y = 13
-	},
-/obj/item/reagent_containers/food/snacks/rogue/truffles{
-	pixel_x = -5;
-	pixel_y = 5
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors/rest)
 "wk" = (

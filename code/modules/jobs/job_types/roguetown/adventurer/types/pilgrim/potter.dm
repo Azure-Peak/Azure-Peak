@@ -3,7 +3,8 @@
 	tutorial = "You are a skilled artisan in the manipulation of ceramics, \
 	and their fashioning into a multitude of different objects and valuables, including glass."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	forbidden_races = list(RACES_DESPISED)
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/potter
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
@@ -26,6 +27,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/ceramics = SKILL_LEVEL_MASTER,
 	)
+	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
 
 /datum/outfit/job/roguetown/adventurer/potter/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -46,7 +48,7 @@
 
 	backpack_contents = list(
 		/obj/item/natural/clay = 3,
-		/obj/item/natural/clay/glassbatch = 1,
+		/obj/item/natural/glassbatch = 1,
 		/obj/item/rogueore/coal = 1,
 		/obj/item/roguegear = 1,
 		/obj/item/dye_brush = 1,
@@ -57,4 +59,4 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/digclay)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)

@@ -46,9 +46,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/tgui_fancy = TRUE
 	var/tgui_lock = TRUE
 	var/tgui_theme = "azure_default"
+	var/parchment_skin = "leatherbound"
+	var/statbrowser_theme = "dark"
 	var/windowflashing = TRUE
 	var/toggles = TOGGLES_DEFAULT
-	var/floating_text_toggles = TOGGLES_TEXT_DEFAULT
+	var/ghost_toggles
+	var/combat_toggles = TOGGLES_TEXT_DEFAULT
 	var/admin_chat_toggles = TOGGLES_DEFAULT_CHAT_ADMIN
 	var/db_flags
 	var/chat_toggles = TOGGLES_DEFAULT_CHAT
@@ -62,6 +65,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/preferred_map = null
 	var/pda_style = MONO
 	var/pda_color = "#808000"
+	var/topjob = null
 
 	var/uses_glasses_colour = 0
 
@@ -70,11 +74,14 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/real_name						//our character's name
 	var/gender = MALE					//gender of character (well duh) (LETHALSTONE EDIT: this no longer references anything but whether the masculine or feminine model is used)
 	var/pronouns = HE_HIM				// LETHALSTONE EDIT: character's pronouns (well duh)
+	var/titles_pref = TITLES_M
+	var/clothes_pref = CLOTHES_M
 	var/voice_pack = "Default"
 	var/voice_type = VOICE_TYPE_MASC	// LETHALSTONE EDIT: the type of soundpack the mob should use
 	var/datum/statpack/statpack	= new /datum/statpack/wildcard/fated // LETHALSTONE EDIT: the statpack we're giving our char instead of racial bonuses
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
 	var/datum/virtue/virtuetwo = new /datum/virtue/none
+	var/datum/virtue/virtue_origin = new /datum/virtue/none
 	var/age = AGE_ADULT						//age of character
 	var/origin = "Default"
 	var/accessory = "Nothing"
@@ -90,6 +97,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/vampire_skin = null
 	var/vampire_eyes = null
 	var/vampire_hair = null
+	var/vampire_ears = null
 	var/extra_language = "None" // Extra language
 	var/voice_color = "a0a0a0"
 	var/voice_pitch = 1
@@ -128,14 +136,15 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/clientfps = 100//0 is sync
 
-	var/parallax
-
 	var/ambientocclusion = TRUE
 	var/auto_fit_viewport = FALSE
 	var/widescreenpref = TRUE
 
 	var/musicvol = 50
+	var/lobbymusicvol = 50
+	var/ambiencevol = 50
 	var/mastervol = 50
+	var/stopdroning = FALSE
 
 	var/anonymize = TRUE
 	var/masked_examine = FALSE
@@ -147,6 +156,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/no_language_fonts = FALSE
 	var/no_language_icon = FALSE
 	var/no_redflash = FALSE
+	var/no_storyteller_events = FALSE
+	var/top_examine = FALSE
 
 	var/lastclass
 
@@ -163,7 +174,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/domhand = 2
 	var/nickname = "Please Change Me"
 	var/highlight_color = "#FF0000"
-	var/datum/charflaw/charflaw
+	var/list/charflaws = list()
 
 	var/static/default_cmusic_type = /datum/combat_music/default
 	var/datum/combat_music/combat_music
@@ -193,13 +204,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/char_accent = "No accent"
 
-	var/datum/loadout_item/loadout
-	var/datum/loadout_item/loadout2
-	var/datum/loadout_item/loadout3
-
-	var/loadout_1_hex
-	var/loadout_2_hex
-	var/loadout_3_hex
+	var/list/gear_list = list()	// Assoc list: item_name = list("color"=..., "custom_name"=..., "custom_desc"=...)
 
 	var/flavortext
 	var/flavortext_cached
@@ -214,6 +219,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/erpprefs_cached
 
 	var/list/img_gallery = list()
+	var/list/nsfw_img_gallery = list()
 
 	var/datum/familiar_prefs/familiar_prefs
 
@@ -223,7 +229,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	/// Assoc list of culinary preferences, where the key is the type of the culinary preference, and value is food/drink typepath
 	var/list/culinary_preferences = list()
 
-	var/datum/advclass/preview_subclass
 
 	var/tgui_pref = TRUE
 
@@ -233,6 +238,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/preset_bounty_poster_key
 	var/preset_bounty_severity_key
 	var/preset_bounty_severity_b_key
+	var/preset_bounty_severity_v_key
 	var/preset_bounty_crime
 
 	var/rumour
@@ -241,9 +247,23 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/averse_chosen_faction = "Inquisition"
 
-	var/datum/voicepack/temp_vp
-
 	var/mood_messages_in_chat
+
+	var/attack_blip_frequency = ATTACK_BLIP_PREF_DEFAULT
+
+	/// Per-character theme override for examine panel viewers
+	var/examine_theme
+
+	/// Whether we can see the feint HUD bar.
+	var/feint_hud = FALSE 
+
+	// Vocal bark prefs
+	var/bark_id = "mutedc3"
+	var/bark_speed = 4
+	var/bark_pitch = 1
+	var/bark_variance = 0.2
+	COOLDOWN_DECLARE(bark_previewing)
+	var/mute_barks = FALSE
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -266,12 +286,35 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(check_nameban(C.ckey) || (C.blacklisted() == 1))
 				real_name = pref_species.random_name(gender,1)
 			return
+
 	//Set the race to properly run race setter logic
 	set_new_race(pref_species, null)
-	if(!charflaw)
-		charflaw = pick(GLOB.character_flaws)
-		charflaw = GLOB.character_flaws[charflaw]
-		charflaw = new charflaw()
+	virtue_origin = new pref_species.origin_default
+
+	// Charflaws
+	if(!charflaws.len)
+		var/list/cf_choices = list()
+		for(var/i = 1 to MAX_VICES)
+			cf_choices.Add(i)
+		var/num_vices = pick(cf_choices)
+		var/list/available = GLOB.character_flaws.Copy()
+
+		for(var/key in available)
+			if(available[key] == /datum/charflaw/noflaw)
+				available.Remove(key)
+				break
+		for(var/j = 1 to num_vices)
+			if(!available.len)
+				break
+			var/sel = pick(available)
+			var/flaw_type = available[sel]
+			available.Remove(sel)
+			var/datum/charflaw/cf = new flaw_type()
+			charflaws.Add(cf)
+
+		if(!charflaws.len)
+			var/datum/charflaw/no_flaw = new /datum/charflaw/noflaw()
+			charflaws.Add(no_flaw)
 	if(!selected_patron)
 		selected_patron = GLOB.patronlist[default_patron]
 	if(!combat_music)
@@ -290,8 +333,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	ResetJobs()
 	if(user)
 		if(pref_species.desc)
-			to_chat(user, "[pref_species.desc]")
-		to_chat(user, "<font color='red'>Classes reset.</font>")
+			var/bonus_stats = span_racialstatinfo(pref_species.get_string_bonus_stats())
+			var/traits_list = pref_species.get_string_bonus_traits()
+			var/bonus_traits = traits_list && length(traits_list) ? "<br>" + span_smallracialstatinfo(traits_list) : null
+			var/mechanics = pref_species.mechanics_explanations ? span_info(pref_species.get_string_mechanics_explanations()) : null
+			var/description2print  = fieldset_block(span_big("<b>[span_bignotice(pref_species.desc_title)]</b>"), "[pref_species.desc]<br><hr>[bonus_stats][bonus_traits][mechanics]", "speciesdesc_block")
+			to_chat(user, description2print)
+		to_chat(user, span_red("Classes reset."))
 	random_character(gender, FALSE, FALSE)
 	accessory = "Nothing"
 
@@ -300,7 +348,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	reset_all_customizer_accessory_colors()
 	randomize_all_customizer_accessories()
 	reset_descriptors()
+	virtue_origin = new pref_species.origin_default
 	taur_type = null
+	var/datum/charflaw/no_flaw = new /datum/charflaw/noflaw()
+	charflaws = list(no_flaw)
 
 #define APPEARANCE_CATEGORY_COLUMN "<td valign='top' width='14%'>"
 #define MAX_MUTANT_ROWS 4
@@ -317,12 +368,13 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	if(tabchoice == 4)
 		current_tab = 0
 
-//	dat += "<a href='?_src_=prefs;preference=tab;tab=0' [current_tab == 0 ? "class='linkOn'" : ""]>Character Sheet</a>"
-//	dat += "<a href='?_src_=prefs;preference=tab;tab=1' [current_tab == 1 ? "class='linkOn'" : ""]>Game Preferences</a>"
-//	dat += "<a href='?_src_=prefs;preference=tab;tab=2' [current_tab == 2 ? "class='linkOn'" : ""]>OOC Preferences</a>"
-//	dat += "<a href='?_src_=prefs;preference=tab;tab=3' [current_tab == 3 ? "class='linkOn'" : ""]>Keybinds</a>"
+	dat += "<a href='?_src_=prefs;preference=tab;tab=0' [current_tab == 0 ? "class='linkOn'" : ""]>Character</a>"
+	dat += "<a href='?_src_=prefs;preference=tab;tab=1' [current_tab == 1 ? "class='linkOn'" : ""]>Game Settings</a>"
+	dat += "<a href='?_src_=prefs;preference=tab;tab=2' [current_tab == 2 ? "class='linkOn'" : ""]>OOC</a>"
+	dat += "<a href='?_src_=prefs;preference=tab;tab=3' [current_tab == 3 ? "class='linkOn'" : ""]>Keybinds</a>"
 
 	dat += "</center>"
+	dat += "<br>"
 
 	var/used_title
 	switch(current_tab)
@@ -336,26 +388,20 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<td style='width:33%;text-align:left'>"
 			dat += "<a style='white-space:nowrap;' href='?_src_=prefs;preference=changeslot;'>Change Character</a>"
 			dat += "</td>"
-
 			dat += "<td style='width:33%;text-align:center'>"
 			dat += "<a href='?_src_=prefs;preference=job;task=menu'>Class Selection</a>"
 			dat += "</td>"
-
 			dat += "<td style='width:33%;text-align:right'>"
-			dat += "<a href='?_src_=prefs;preference=keybinds;task=menu'>Keybinds</a>"
 			dat += "</td>"
 			dat += "</tr>"
 
 			// ANOTHA ROW
 			dat += "<tr style='padding-top: 0px;padding-bottom:0px'>"
 			dat += "<td style='width:33%;text-align:left'>"
-			dat += "<a href='?_src_=prefs;preference=tgui_ui_prefs;task=menu'>[tgui_pref ? "TGUI" : "Legacy"]</a>"
 			dat += "</td>"
-
 			dat += "<td style='width:33%;text-align:center'>"
 			dat += "<a href='?_src_=prefs;preference=antag;task=menu'>Villain Selection</a>"
 			dat += "</td>"
-
 			dat += "<td style='width:33%;text-align:right'>"
 			dat += "<a href='?_src_=prefs;preference=changelog;task=menu'>Changelog</a>"
 			dat += "</td>"
@@ -363,13 +409,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 			dat += "<tr style='padding-top: 0px;padding-bottom:0px'>"
 			dat += "<td style='width:33%;text-align:left'>"
-			dat += "<a href='?_src_=prefs;preference=tgui_theme'>Theme: [get_tgui_theme_display_name()]</a>"
 			dat += "</td>"
-
 			dat += "<td style='width:33%;text-align:center'>"
-			dat += "<a href='?_src_=prefs;preference=lore_primer'>* Lore Primer *</a>"
+			dat += "<a href='?_src_=prefs;preference=lore_primer'>Lore Primer</a>"
 			dat += "</td>"
-
 			dat += "<td style='width:33%;text-align:right'>"
 			dat += "</td>"
 			dat += "</tr>"
@@ -421,7 +464,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Nickname:</b> "
 			dat += "<a href='?_src_=prefs;preference=nickname;task=input'>[nickname]</a><BR>"
 			// LETHALSTONE EDIT BEGIN: add pronoun prefs
-			dat += "<b>Pronouns:</b> <a href='?_src_=prefs;preference=pronouns;task=input'>[pronouns]</a><BR>"
+			dat += "<b>Pronouns:</b> <a href='?_src_=prefs;preference=pronouns;task=input'>[pronouns]</a> <b>Titles:</b> <a href='?_src_=prefs;preference=titles;task=input'>[titles_pref]</a><BR>"
+			dat += "<b>Clothing:</b><a href='?_src_=prefs;preference=clothespref;task=input'>[clothes_pref]</a><BR>"
 			// LETHALSTONE EDIT END
 			if(!voice_pack)
 				voice_pack = "Default"
@@ -431,20 +475,33 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Voice Pack</b>: <a href='?_src_=prefs;preference=voicepack;task=input'>[voice_pack]</a>[(voice_pack != "Default") ? "|<a href='?_src_=prefs;preference=voicepack_preview;task=input'>(Sample)</a>" : ""]<BR>"
 
 			dat += "<BR>"
-			dat += "<b>Race:</b> <a href='?_src_=prefs;preference=species;task=input'>[pref_species.name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
+			dat += "<b>Race:</b> <a href='?_src_=prefs;preference=species;task=input'>[pref_species.base_name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
+			dat += "<b>Subrace:</b> <a href='?_src_=prefs;preference=subspecies;task=input'>[pref_species.sub_name]</a>[spec_check(user) ? "" : " (!)"]<BR>"
+			if(istype(virtue_origin, /datum/virtue/none))
+				virtue_origin = GLOB.virtues[/datum/virtue/origin/unknown]
+			dat += "<b>Origin:</b> <a href='?_src_=prefs;preference=origin;task=input'>[virtue_origin]</a> <a href='?_src_=prefs;preference=originhelp;task=input'>❖</a><BR>"
 			if(length(pref_species.custom_selection))
 				var/race_bonus_display
 				if(race_bonus)
 					for(var/bonus in pref_species.custom_selection)
-						if(pref_species.custom_selection[bonus] == race_bonus)
+						if(bonus == race_bonus)
 							race_bonus_display = bonus
 							break
 				dat += "<b>Race Bonus:</b> <a href='?_src_=prefs;preference=race_bonus_select;task=input'>[race_bonus_display ? "[race_bonus_display]" : "None"]</a><BR>"
 			else
 				race_bonus = null
+			
+			var/datum/language/selected_lang
+			var/lang_output = "None"
+			if(ispath(extra_language, /datum/language))
+				selected_lang = extra_language
+				lang_output = initial(selected_lang.name)
+
+			dat += "["<b>Free Language: </b><a href='?_src_=prefs;preference=extra_language;task=input'>[lang_output]</a>"]<BR>"
 
 			// LETHALSTONE EDIT BEGIN: add statpack selection
 			dat += "<b>Statpack:</b> <a href='?_src_=prefs;preference=statpack;task=input'>[statpack.name]</a><BR>"
+			dat += "<BR>"
 //			dat += "<a href='?_src_=prefs;preference=species;task=random'>Random Species</A> "
 //			dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_SPECIES]'>Always Random Species: [(randomise[RANDOM_SPECIES]) ? "Yes" : "No"]</A><br>"
 
@@ -475,18 +532,96 @@ GLOBAL_LIST_EMPTY(chosen_names)
 //				dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_AGE_ANTAG]'>When Antagonist: [(randomise[RANDOM_AGE_ANTAG]) ? "Yes" : "No"]</A>"
 
 //			dat += "<b><a href='?_src_=prefs;preference=name;task=random'>Random Name</A></b><BR>"
+			if(!virtue)
+				virtue = GLOB.virtues[/datum/virtue/none]
+			if(!virtuetwo)
+				virtuetwo = GLOB.virtues[/datum/virtue/none]
+			var/virtue_html
 			if(length(pref_species.restricted_virtues))
 				if(virtue.type in pref_species.restricted_virtues)
 					virtue = GLOB.virtues[/datum/virtue/none]
 				if(virtuetwo.type in pref_species.restricted_virtues)
 					virtuetwo = GLOB.virtues[/datum/virtue/none]
-			dat += "<b>Virtue:</b> <a href='?_src_=prefs;preference=virtue;task=input'>[virtue]</a><BR>"
+			if(istype(virtue, virtuetwo) && !virtue.stackable)
+				virtuetwo = GLOB.virtues[/datum/virtue/none]
+			if(virtue.virtuous_only && !statpack.virtuous)
+				virtue = GLOB.virtues[/datum/virtue/none]
+			var/tricost_virt = 0
+			if(length(virtue.extra_choices) && length(virtue.picked_choices))
+				for(var/i in 1 to length(virtue.picked_choices))
+					tricost_virt += virtue.choice_costs[i]
+			virtue_html += "<b>Virtue[tricost_virt ? " <font color = '#d1c8bb'>([tricost_virt] TRI)</font>" : ""]:</b> <a href='?_src_=prefs;preference=virtue;task=input'><b><font color = '#cfa971'>[virtue]</font></b></a><BR>"
+			if(length(virtue.picked_choices))
+				for(var/i = 1 to virtue.picked_choices.len)
+					var/choice = virtue.picked_choices[i]
+					var/tooltip
+					var/choice_string = choice
+					var/dat_html = "   <a href='?_src_=prefs;preference=subvirtue;task=remove;index=[i]'><i>[choice_string]</i></a>"
+					if(LAZYACCESS(virtue.choice_tooltips, choice))
+						tooltip = TRUE
+					var/tooltip_html = tooltip ? "<a href='?_src_=prefs;preference=subvirtue;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"
+					virtue_html += "[dat_html][tooltip_html]"
+			if(length(virtue.picked_choices) < virtue.max_choices)
+				virtue_html += "   <a href='?_src_=prefs;preference=subvirtue;task=input'>[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "<font color = '#a08357'>" : ""]Pick Bonus[(virtue.choice_costs[(virtue.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtue.choice_costs[(virtue.picked_choices.len + 1)] > 0) ? "([virtue.choice_costs[(virtue.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			if(statpack.virtuous)
-				dat += "<b>Second Virtue:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'>[virtuetwo]</a><BR>"
+				tricost_virt = 0
+				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
+					for(var/i in 1 to length(virtuetwo.picked_choices))
+						tricost_virt += virtuetwo.choice_costs[i]
+				virtue_html += "<b>Second Virtue[tricost_virt ? " <font color = '#d1c8bb'>([tricost_virt] TRI)</font>" : ""]:</b> <a href='?_src_=prefs;preference=virtuetwo;task=input'><b><font color = '#cfa971'>[virtuetwo]</font></b></a><BR>"
+				if(length(virtuetwo.extra_choices) && length(virtuetwo.picked_choices))
+					for(var/i in 1 to length(virtuetwo.picked_choices))
+						var/choice = virtuetwo.picked_choices[i]
+						var/tooltip
+						var/choice_string = choice
+						var/dat_html = "   <a href='?_src_=prefs;preference=subvirtue_two;task=remove;index=[i]'><i>[choice_string]</i></a>"
+						if(LAZYACCESS(virtuetwo.choice_tooltips, choice))
+							tooltip = TRUE
+						var/tooltip_html = tooltip ? "<a href='?_src_=prefs;preference=subvirtue_two;task=tooltip;tooltip=[choice]'>(?)</a><br>" : "<br>"
+						virtue_html += "[dat_html][tooltip_html]"
+				if(length(virtuetwo.picked_choices) < virtuetwo.max_choices)
+					virtue_html += "   <a href='?_src_=prefs;preference=subvirtue_two;task=input'>[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] <= 0) ? "<font color = '#a08357'>" : ""]Pick Bonus[(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] <= 0) ? "</font>" : ""] [(virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)] > 0) ? "([virtuetwo.choice_costs[(virtuetwo.picked_choices.len + 1)]] TRI)" : ""] </a><br>"
 			else
 				virtuetwo = GLOB.virtues[/datum/virtue/none]
-			dat += "<b>Vice:</b> <a href='?_src_=prefs;preference=charflaw;task=input'>[charflaw]</a><BR>"
-			if(istype(charflaw, /datum/charflaw/averse))
+			var/virtue_fieldset
+			if(statpack.virtuous)
+				virtue_fieldset += "<fieldset style='border: 1px solid ["#a08357"]; display: inline'>"
+				virtue_fieldset += "<legend align='center' style='font-weight: bold; color: ["#a08357"]'>Virtues</legend>"
+			dat += virtue_fieldset ? virtue_fieldset : ""
+			dat += virtue_html
+			dat += virtue_fieldset ? "</fieldset>" : ""
+			dat += "<br>"
+			dat += "<b>Vices:</b>"
+			if(charflaws.len)
+				var/has_extra_vice = FALSE
+				for(var/i = 1 to charflaws.len)
+					var/datum/charflaw/cf = charflaws[i]
+					if(!cf)
+						continue
+					if(!cf.needs_extra_vice)
+						has_extra_vice = TRUE
+				for(var/i = 1 to charflaws.len)
+					var/datum/charflaw/cf = charflaws[i]
+					if(!cf)
+						continue
+					var/warning = ""
+					if(cf.needs_extra_vice && !has_extra_vice)
+						warning = "<font color = '#910505'>"
+					dat += "[warning] <a href='?_src_=prefs;preference=charflaw;task=remove;index=[i]'>[cf]</a>[warning ? " (Requires Extra Vice!)</font>" : ""]"
+					if(i < charflaws.len)
+						dat += " |"
+				dat += "<BR>"
+			if(charflaws.len < MAX_VICES)
+				dat += "<a href='?_src_=prefs;preference=charflaw;task=input'>Add Vice</a><BR>"
+
+			// Check if any averse vice is selected
+			var/has_averse = FALSE
+			for(var/datum/charflaw/cf in charflaws)
+				if(istype(cf, /datum/charflaw/averse))
+					has_averse = TRUE
+					break
+			
+			if(has_averse)
 				if(!averse_chosen_faction)
 					averse_chosen_faction = "Inquisition"
 				dat += "<b>Loathed Group:</b> <a href='?_src_=prefs;preference=charflaw_averse_choice;task=input'>[averse_chosen_faction]</a><BR>"
@@ -522,6 +657,15 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<a href='?_src_=prefs;preference=ai_core_icon;task=input'><b>Preferred AI Core Display:</b> [preferred_ai_core_display]</a><br>"
 			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security Department:</b> [prefered_security_department]</a><BR></td>"
 */
+			var/datum/bark/B = GLOB.bark_list[bark_id]
+			dat += "<br>"
+			dat += "<b>Vocal Bark Sound:</b><br>"
+			dat += "<a href='?_src_=prefs;preference=barksound;task=input'>[B ? initial(B.name) : "INVALID"]</a><br>"
+			dat += "<b>Vocal Bark Speed:</b> <a href='?_src_=prefs;preference=barkspeed;task=input'>[bark_speed]</a><br>"
+			dat += "<b>Vocal Bark Pitch:</b> <a href='?_src_=prefs;preference=barkpitch;task=input'>[bark_pitch]</a><br>"
+			dat += "<b>Vocal Bark Variance:</b> <a href='?_src_=prefs;preference=barkvary;task=input'>[bark_variance]</a><br>"
+			dat += "<b><a href='?_src_=prefs;preference=barkpreview;task=input'>Preview Bark</a></b><br>"
+			dat += "</td>"
 			dat += "</tr></table>"
 // 			-----------END OF IDENT TABLE-----------
 
@@ -535,6 +679,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 //			-----------START OF BODY TABLE-----------
 			dat += "<table width='100%'><tr><td width='1%' valign='top'>"
+			var/datum/job/highest_pref
+			for(var/job in job_preferences)
+				if(job_preferences[job] > highest_pref)
+					highest_pref = SSjob.GetJob(job)
 			dat += "<b>Update feature colors with change:</b> <a href='?_src_=prefs;preference=update_mutant_colors;task=input'>[update_mutant_colors ? "Yes" : "No"]</a><BR>"
 			var/use_skintones = pref_species.use_skintones
 			if(use_skintones)
@@ -550,12 +698,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<b>Mutant Color #2:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor2"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color2;task=input'>Change</a><BR>"
 				dat += "<b>Mutant Color #3:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor3"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color3;task=input'>Change</a><BR>"
 
-			var/datum/language/selected_lang
-			var/lang_output = "None"
-			if(ispath(extra_language, /datum/language))
-				selected_lang = extra_language
-				lang_output = initial(selected_lang.name)
-			dat += "<b>Extra Language: </b><a href='?_src_=prefs;preference=extra_language;task=input'>[lang_output]</a>"
 			//dat += "<br><b>Accent:</b> <a href='?_src_=prefs;preference=char_accent;task=input'>[char_accent]</a>"
 			dat += "<br><b>Features:</b> <a href='?_src_=prefs;preference=customizers;task=menu'>Change</a>"
 			dat += "<br><b>Sprite Scale:</b><a href='?_src_=prefs;preference=body_size;task=input'>[(features["body_size"] * 100)]%</a>"
@@ -565,6 +707,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<br><b>Headshot:</b> <a href='?_src_=prefs;preference=headshot;task=input'>Change</a>"
 			if(headshot_link != null)
 				dat += "<br><img src='[headshot_link]' width='100px' height='100px'>"
+
+			var/examine_theme_name = "None (Use Viewer's)"
+			if(examine_theme)
+				var/list/all_themes = get_tgui_themes()
+				examine_theme_name = all_themes[examine_theme] || examine_theme
+			dat += "<br><b>Examine Theme:</b> <a href='?_src_=prefs;preference=examine_theme;task=input'>[examine_theme_name]</a>"
 
 			dat += "<br><b>[(length(flavortext) < MINIMUM_FLAVOR_TEXT) ? "<font color = '#802929'>" : ""]Flavortext:[(length(flavortext) < MINIMUM_FLAVOR_TEXT) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=flavortext;task=input'>Change</a>"
 			dat += "<br><b>NSFW Flavortext:</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=nsfwflavortext;task=input'>Change</a>"
@@ -578,26 +726,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<a href='?_src_=prefs;preference=change_title;task=input'>Change Title</a>"
 			dat += "<a href='?_src_=prefs;preference=change_artist;task=input'>Change Artist</a>"
 			dat += "<br><B>Image Gallery:</b> <a href='?_src_=prefs;preference=img_gallery;task=input'>Add</a>"
-			dat+= "<a href='?_src_=prefs;preference=clear_gallery;task=input'>Clear Gallery</a>"
+			dat += "<a href='?_src_=prefs;preference=clear_gallery;task=input'>Clear Gallery</a>"
+			dat += "<br><B>NSFW Image Gallery:</b> <a href='?_src_=prefs;preference=nsfw_img_gallery;task=input'>Add</a>"
+			dat += "<a href='?_src_=prefs;preference=clear_nsfw_gallery;task=input'>Clear Gallery</a>"
 			dat += "<br><a href='?_src_=prefs;preference=ooc_preview;task=input'><b>Preview Examine</b></a>"
 
-			dat += "<br><b>Loadout Item I:</b> <a href='?_src_=prefs;preference=loadout_item;task=input'>[loadout ? loadout.name : "None"] </a>"
-			if (loadout_1_hex)
-				dat += "<a href='?_src_=prefs;preference=loadout1hex;task=input'> <span style='border: 1px solid #161616; background-color: [loadout_1_hex ? loadout_1_hex : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>"
-			else
-				dat += "<a href='?_src_=prefs;preference=loadout1hex;task=input'>(C)</a>"
-
-			dat += "<br><b>Loadout Item II:</b> <a href='?_src_=prefs;preference=loadout_item2;task=input'>[loadout2 ? loadout2.name : "None"] </a>"
-			if (loadout_2_hex)
-				dat += "<a href='?_src_=prefs;preference=loadout2hex;task=input'> <span style='border: 1px solid #161616; background-color: [loadout_2_hex ? loadout_2_hex : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>"
-			else
-				dat += "<a href='?_src_=prefs;preference=loadout2hex;task=input'>(C)</a>"
-
-			dat += "<br><b>Loadout Item III:</b> <a href='?_src_=prefs;preference=loadout_item3;task=input'>[loadout3 ? loadout3.name : "None"]</a>"
-			if (loadout_3_hex)
-				dat += "<a href='?_src_=prefs;preference=loadout3hex;task=input'><span style='border: 1px solid #161616; background-color: [loadout_3_hex ? loadout_3_hex : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>"
-			else
-				dat += "<a href='?_src_=prefs;preference=loadout3hex;task=input'>(C)</a>"
+			dat += "<br><b>Loadout:</b> <a href='?_src_=prefs;preference=open_loadout;task=input'>Open Menu</a>"
 			dat += "</td>"
 
 			dat += "</tr></table>"
@@ -606,106 +740,28 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "</tr>"
 			dat += "</table>"
 
-		if (1) // Game Preferences
-			used_title = "Options"
-			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
-			dat += "<h2>General Settings</h2>"
-//			dat += "<b>UI Style:</b> <a href='?_src_=prefs;task=input;preference=ui'>[UI_style]</a><br>"
+		if (1) // Game Settings
+			used_title = "Game Settings"
+			dat += "<table><tr><td width='340px' valign='top'>"
+			dat += "<h2>Display</h2>"
+			dat += "<b>TGUI Theme:</b> <a href='?_src_=prefs;preference=tgui_theme'>[get_tgui_theme_display_name()]</a><br>"
+			dat += "<b>Parchment Theme:</b> <a href='?_src_=prefs;preference=parchment_skin'>[get_parchment_skin_display_name()]</a><br>"
+			dat += "<b>Panel Theme:</b> <a href='?_src_=prefs;preference=statbrowser_theme'>[get_statbrowser_theme_display_name()]</a><br>"
+			dat += "<b>UI Mode:</b> <a href='?_src_=prefs;preference=tgui_ui_prefs;task=menu'>[tgui_pref ? "TGUI" : "Legacy"]</a><br>"
 			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(tgui_lock) ? "Primary" : "All"]</a><br>"
-//			dat += "<b>tgui Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(tgui_fancy) ? "Fancy" : "No Frills"]</a><br>"
-//			dat += "<b>Show Runechat Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[chat_on_map ? "Enabled" : "Disabled"]</a><br>"
-//			dat += "<b>Runechat message char limit:</b> <a href='?_src_=prefs;preference=max_chat_length;task=input'>[max_chat_length]</a><br>"
-//			dat += "<b>See Runechat for non-mobs:</b> <a href='?_src_=prefs;preference=see_chat_non_mob'>[see_chat_non_mob ? "Enabled" : "Disabled"]</a><br>"
-//			dat += "<br>"
-//			dat += "<b>Action Buttons:</b> <a href='?_src_=prefs;preference=action_buttons'>[(buttons_locked) ? "Locked In Place" : "Unlocked"]</a><br>"
-//			dat += "<b>Hotkey mode:</b> <a href='?_src_=prefs;preference=hotkeys'>[(hotkeys) ? "Hotkeys" : "Default"]</a><br>"
-//			dat += "<br>"
-//			dat += "<b>PDA Color:</b> <span style='border:1px solid #161616; background-color: [pda_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=pda_color;task=input'>Change</a><BR>"
-//			dat += "<b>PDA Style:</b> <a href='?_src_=prefs;task=input;preference=pda_style'>[pda_style]</a><br>"
-//			dat += "<br>"
-//			dat += "<b>Ghost Ears:</b> <a href='?_src_=prefs;preference=ghost_ears'>[(chat_toggles & CHAT_GHOSTEARS) ? "All Speech" : "Nearest Creatures"]</a><br>"
-//			dat += "<b>Ghost Radio:</b> <a href='?_src_=prefs;preference=ghost_radio'>[(chat_toggles & CHAT_GHOSTRADIO) ? "All Messages":"No Messages"]</a><br>"
-//			dat += "<b>Ghost Sight:</b> <a href='?_src_=prefs;preference=ghost_sight'>[(chat_toggles & CHAT_GHOSTSIGHT) ? "All Emotes" : "Nearest Creatures"]</a><br>"
-//			dat += "<b>Ghost Whispers:</b> <a href='?_src_=prefs;preference=ghost_whispers'>[(chat_toggles & CHAT_GHOSTWHISPER) ? "All Speech" : "Nearest Creatures"]</a><br>"
-//			dat += "<b>Ghost PDA:</b> <a href='?_src_=prefs;preference=ghost_pda'>[(chat_toggles & CHAT_GHOSTPDA) ? "All Messages" : "Nearest Creatures"]</a><br>"
-
-/*			if(unlock_content)
-				dat += "<b>Ghost Form:</b> <a href='?_src_=prefs;task=input;preference=ghostform'>[ghost_form]</a><br>"
-				dat += "<B>Ghost Orbit: </B> <a href='?_src_=prefs;task=input;preference=ghostorbit'>[ghost_orbit]</a><br>"
-
-			var/button_name = "If you see this something went wrong."
-			switch(ghost_accs)
-				if(GHOST_ACCS_FULL)
-					button_name = GHOST_ACCS_FULL_NAME
-				if(GHOST_ACCS_DIR)
-					button_name = GHOST_ACCS_DIR_NAME
-				if(GHOST_ACCS_NONE)
-					button_name = GHOST_ACCS_NONE_NAME
-
-			dat += "<b>Ghost Accessories:</b> <a href='?_src_=prefs;task=input;preference=ghostaccs'>[button_name]</a><br>"
-
-			switch(ghost_others)
-				if(GHOST_OTHERS_THEIR_SETTING)
-					button_name = GHOST_OTHERS_THEIR_SETTING_NAME
-				if(GHOST_OTHERS_DEFAULT_SPRITE)
-					button_name = GHOST_OTHERS_DEFAULT_SPRITE_NAME
-				if(GHOST_OTHERS_SIMPLE)
-					button_name = GHOST_OTHERS_SIMPLE_NAME
-
-			dat += "<b>Ghosts of Others:</b> <a href='?_src_=prefs;task=input;preference=ghostothers'>[button_name]</a><br>"
-			dat += "<br>"
-
-			dat += "<b>Income Updates:</b> <a href='?_src_=prefs;preference=income_pings'>[(chat_toggles & CHAT_BANKCARD) ? "Allowed" : "Muted"]</a><br>"
-			dat += "<br>"
-*/
+			dat += "<b>Ambient Occlusion:</b> <a href='?_src_=prefs;preference=ambientocclusion'>[ambientocclusion ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<b>Window Flashing:</b> <a href='?_src_=prefs;preference=winflash'>[(windowflashing) ? "Enabled":"Disabled"]</a><br>"
 			dat += "<b>FPS:</b> <a href='?_src_=prefs;preference=clientfps;task=input'>[clientfps]</a><br>"
-/*
-			dat += "<b>Parallax (Fancy Space):</b> <a href='?_src_=prefs;preference=parallaxdown' oncontextmenu='window.location.href=\"?_src_=prefs;preference=parallaxup\";return false;'>"
-			switch (parallax)
-				if (PARALLAX_LOW)
-					dat += "Low"
-				if (PARALLAX_MED)
-					dat += "Medium"
-				if (PARALLAX_INSANE)
-					dat += "Insane"
-				if (PARALLAX_DISABLE)
-					dat += "Disabled"
-				else
-					dat += "High"
-			dat += "</a><br>"
-*/
-//			dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[auto_fit_viewport ? "Auto" : "Manual"]</a><br>"
-//			if (CONFIG_GET(string/default_view) != CONFIG_GET(string/default_view_square))
-//				dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled ([CONFIG_GET(string/default_view)])" : "Disabled ([CONFIG_GET(string/default_view_square)])"]</a><br>"
-
-/*			if (CONFIG_GET(flag/maprotation))
-				var/p_map = preferred_map
-				if (!p_map)
-					p_map = "Default"
-					if (config.defaultmap)
-						p_map += " ([config.defaultmap.map_name])"
-				else
-					if (p_map in config.maplist)
-						var/datum/map_config/VM = config.maplist[p_map]
-						if (!VM)
-							p_map += " (No longer exists)"
-						else
-							p_map = VM.map_name
-					else
-						p_map += " (No longer exists)"
-				if(CONFIG_GET(flag/preference_map_voting))
-					dat += "<b>Preferred Map:</b> <a href='?_src_=prefs;preference=preferred_map;task=input'>[p_map]</a><br>"
-*/
-
-//			dat += "<b>Play Lobby Music:</b> <a href='?_src_=prefs;preference=lobby_music'>[(toggles & SOUND_LOBBY) ? "Enabled":"Disabled"]</a><br>"
-
-
-			dat += "</td><td width='400px' height='500px' valign='top'>"
+			dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[auto_fit_viewport ? "Auto" : "Manual"]</a><br>"
+			if (CONFIG_GET(string/default_view) != CONFIG_GET(string/default_view_square))
+				dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled ([CONFIG_GET(string/default_view)])" : "Disabled ([CONFIG_GET(string/default_view_square)])"]</a><br>"
+			dat += "<h2>Other</h2>"
+			dat += "<b>Be Voice:</b> <a href='?_src_=prefs;preference=schizo_voice'>[(toggles & SCHIZO_VOICE) ? "Enabled":"Disabled"]</a><br>"
+			dat += "</td><td width='400px' valign='top'>"
 			dat += "<h2>Special Role Settings</h2>"
 			if(is_banned_from(user.ckey, ROLE_SYNDICATE))
 				dat += "<font color=red><b>I am banned from antagonist roles.</b></font><br>"
 				src.be_special = list()
-
 
 			for (var/i in GLOB.special_roles_rogue)
 				if(is_banned_from(user.ckey, i))
@@ -719,33 +775,23 @@ GLOBAL_LIST_EMPTY(chosen_names)
 						dat += "<b>[capitalize(i)]:</b> <font color=red> \[IN [days_remaining] DAYS]</font><br>"
 					else
 						dat += "<b>[capitalize(i)]:</b> <a href='?_src_=prefs;preference=be_special;be_special_type=[i]'>[(i in be_special) ? "Enabled" : "Disabled"]</a><br>"
-//			dat += "<br>"
-//			dat += "<b>Midround Antagonist:</b> <a href='?_src_=prefs;preference=allow_midround_antag'>[(toggles & MIDROUND_ANTAG) ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<b>Storyteller:</b> <a href='?_src_=prefs;preference=storyteller'>[no_storyteller_events ? "Disabled" : "Enabled"]</a>"
+
 			dat += "</td></tr></table>"
 
 		if(2) //OOC Preferences
-			used_title = "ooc"
-			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
+			used_title = "OOC"
+			dat += "<table><tr><td width='340px' valign='top'>"
 			dat += "<h2>OOC Settings</h2>"
-			dat += "<b>Window Flashing:</b> <a href='?_src_=prefs;preference=winflash'>[(windowflashing) ? "Enabled":"Disabled"]</a><br>"
-			dat += "<br>"
-			dat += "<b>Play Admin MIDIs:</b> <a href='?_src_=prefs;preference=hear_midis'>[(toggles & SOUND_MIDI) ? "Enabled":"Disabled"]</a><br>"
-			dat += "<b>Play Lobby Music:</b> <a href='?_src_=prefs;preference=lobby_music'>[(toggles & SOUND_LOBBY) ? "Enabled":"Disabled"]</a><br>"
-			dat += "<b>See Pull Requests:</b> <a href='?_src_=prefs;preference=pull_requests'>[(chat_toggles & CHAT_PULLR) ? "Enabled":"Disabled"]</a><br>"
-			dat += "<br>"
-
 
 			if(user.client)
-				if(unlock_content)
-					dat += "<b>BYOND Membership Publicity:</b> <a href='?_src_=prefs;preference=publicity'>[(toggles & MEMBER_PUBLIC) ? "Public" : "Hidden"]</a><br>"
-
 				if(unlock_content || check_rights_for(user.client, R_ADMIN))
 					dat += "<b>OOC Color:</b> <span style='border: 1px solid #161616; background-color: [ooccolor ? ooccolor : GLOB.normal_ooc_colour];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=ooccolor;task=input'>Change</a><br>"
 
 			dat += "</td>"
 
 			if(user.client.holder)
-				dat +="<td width='300px' height='300px' valign='top'>"
+				dat +="<td width='300px' valign='top'>"
 
 				dat += "<h2>Admin Settings</h2>"
 
@@ -830,16 +876,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		dat += "<a href='?_src_=prefs;preference=save'>Save</a><br>"
 		dat += "<a href='?_src_=prefs;preference=load'>Undo</a><br>"
 
-	// well.... one empty slot here for something I suppose lol
-	dat += "<table width='100%'>"
-	dat += "<tr>"
-	dat += "<td width='33%' align='left'>"
-	dat += "<b>Ambient Occlusion:</b> <a href='?_src_=prefs;preference=ambientocclusion'>[ambientocclusion ? "Enabled" : "Disabled"]</a><br>"
-	dat += "</td>"
-	dat += "<td width='33%' align='center'>"
+	dat += "<center>"
 	var/mob/dead/new_player/N = user
 	if(istype(N))
-		//dat += "<a href='?_src_=prefs;preference=bespecial'><b>[next_special_trait ? "<font color='red'>SPECIAL</font>" : "Be Special"]</b></a><BR>"
 		if(SSticker.current_state <= GAME_STATE_PREGAME)
 			switch(N.ready)
 				if(PLAYER_NOT_READY)
@@ -857,14 +896,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += " - <a href='?_src_=prefs;preference=observe'>VOYEUR</a>"
 	else
 		dat += "<a href='?_src_=prefs;preference=finished'>DONE</a>"
-
-	dat += "</td>"
-	dat += "<td width='33%' align='right'>"
-	dat += "<b>Be voice:</b> <a href='?_src_=prefs;preference=schizo_voice'>[(toggles & SCHIZO_VOICE) ? "Enabled":"Disabled"]</a>"
-	dat += "<br><b>Toggle Admin Sounds:</b> <a href='?_src_=prefs;preference=hear_midis'>[(toggles & SOUND_MIDI) ? "Enabled":"Disabled"]</a>"
-	dat += "</td>"
-	dat += "</tr>"
-	dat += "</table>"
+	dat += "</center>"
 //	dat += "<a href='?_src_=prefs;preference=reset_all'>Reset Setup</a>"
 
 
@@ -872,13 +904,17 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		dat = list("<center>REGISTER!</center>")
 
 	winshow(user, "preferencess_window", TRUE)
-	winset(user, "preferencess_window", "size=820x850")
+	winset(user, "preferencess_window", "size=820x900")
 	winset(user, "preferencess_window", "pos=280,80")
 	var/datum/browser/noclose/popup = new(user, "preferences_browser", "<div align='center'>[used_title]</div>")
 	popup.set_window_options("can_close=0")
 	popup.set_content(dat.Join())
 	popup.open(FALSE)
-	update_preview_icon()
+	if(current_tab == 0)
+		winset(user, "preferencess_window.character_preview_map", "is-visible=true")
+		update_preview_icon()
+	else
+		winset(user, "preferencess_window.character_preview_map", "is-visible=false")
 //	onclose(user, "preferencess_window", src)
 
 #undef APPEARANCE_CATEGORY_COLUMN
@@ -909,7 +945,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	popup.open(FALSE)
 	onclose(user, "capturekeypress", src)
 
-/datum/preferences/proc/SetChoices(mob/user, limit = 14, list/splitJobs = list("Court Magician", "Bishop", "Merchant", "Archivist", "Towner", "Grenzelhoft Mercenary", "Beggar", "Prisoner", "Goblin King"), widthPerColumn = 295, height = 620) //295 620
+/datum/preferences/proc/SetChoices(mob/user, limit = 14, list/splitJobs = list("Court Magician", "Bishop", "Merchant", "Guildmaster", "Archivist", "Towner", "Grenzelhoft Mercenary", "Beggar", "Prisoner", "Goblin King"), widthPerColumn = 295, height = 620) //295 620
 	if(!SSjob)
 		return
 
@@ -941,7 +977,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		//The job before the current job. I only use this to get the previous jobs color when I'm filling in blank rows.
 		var/datum/job/lastJob
 		for(var/datum/job/job in sortList(SSjob.occupations, GLOBAL_PROC_REF(cmp_job_display_asc)))
-			if(!job.spawn_positions)
+			if(!job.spawn_positions && !job.always_show_on_latechoices)
 				continue
 
 			index += 1
@@ -962,7 +998,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			HTML += "<tr bgcolor='#000000'><td width='60%' align='right'>"
 			var/rank = job.title
 			var/used_name = job.display_title || job.title
-			if((pronouns == SHE_HER || pronouns == THEY_THEM_F) && job.f_title)
+			if((titles_pref == TITLES_F) && job.f_title)
 				used_name = "[job.f_title]"
 			lastJob = job
 			if(is_banned_from(user.ckey, rank))
@@ -977,47 +1013,44 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				HTML += "[used_name]</td> <td><font color=red> \[IN [(available_in_days)] DAYS\]</font></td></tr>"
 				continue
 			#ifdef USES_PQ
-			if(!job.required && !isnull(job.min_pq) && (get_playerquality(user.ckey) < job.min_pq))
+			if(!isnull(job.min_pq) && (get_playerquality(user.ckey) < job.min_pq))
 				HTML += "<font color=#a59461>[used_name] (Min PQ: [job.min_pq])</font></td> <td> </td></tr>"
 				continue
 			#endif
-			if(!job.required && !isnull(job.max_pq) && (get_playerquality(user.ckey) > job.max_pq))
+			if(!isnull(job.max_pq) && (get_playerquality(user.ckey) > job.max_pq))
 				HTML += "<font color=#a59461>[used_name] (Max PQ: [job.max_pq])</font></td> <td> </td></tr>"
 				continue
 			if(length(job.virtue_restrictions) && length(job.vice_restrictions))
-				var/name
+				var/list/restricted_list = list()
 				if(virtue.type in job.virtue_restrictions)
-					name = virtue.name
+					restricted_list.Add(virtue.name)
 				if(virtuetwo?.type in job.virtue_restrictions)
-					if(name)
-						name += ", "
-						name += virtuetwo.name
-					else
-						name = virtuetwo.name
-				if(charflaw.type in job.vice_restrictions)
-					if(name)
-						name += ", "
-						name += charflaw.name
-					else
-						name += charflaw.name
-				if(!isnull(name))
-					HTML += "<font color='#a561a5'>[used_name] (Disallowed by Virtues / Vice: [name])</font></td> <td> </td></tr>"
+					restricted_list.Add(virtuetwo.name)
+				for(var/datum/charflaw/cf in charflaws)
+					if(cf.type in job.vice_restrictions)
+						restricted_list.Add(cf.name)
+				if(length(restricted_list))
+					var/restrict_text = english_list(restricted_list)
+					HTML += "<font color='#a561a5'>[used_name] (Disallowed by Virtues / Vice: [restrict_text])</font></td> <td> </td></tr>"
+					continue
 			if(length(job.virtue_restrictions))
-				var/name
+				var/list/restricted_list = list()
 				if(virtue.type in job.virtue_restrictions)
-					name = virtue.name
+					restricted_list.Add(virtue.name)
 				if(virtuetwo?.type in job.virtue_restrictions)
-					if(name)
-						name += ", "
-						name += virtuetwo.name
-					else
-						name = virtuetwo.name
-				if(!isnull(name))
-					HTML += "<font color='#a59461'>[used_name] (Disallowed by Virtue: [name])</font></td> <td> </td></tr>"
+					restricted_list.Add(virtuetwo.name)
+				if(length(restricted_list))
+					var/restrict_text = english_list(restricted_list)
+					HTML += "<font color='#a59461'>[used_name] (Disallowed by Virtue: [restrict_text])</font></td> <td> </td></tr>"
 					continue
 			if(length(job.vice_restrictions))
-				if(charflaw.type in job.vice_restrictions)
-					HTML += "<font color='#a56161'>[used_name] (Disallowed by Vice: [charflaw.name])</font></td> <td> </td></tr>"
+				var/list/restricted_list = list()
+				for(var/datum/charflaw/cf in charflaws)
+					if(cf.type in job.vice_restrictions)
+						restricted_list.Add(cf.name)
+				if(length(restricted_list))
+					var/restrict_text = english_list(restricted_list)
+					HTML += "<font color='#a56161'>[used_name] (Disallowed by Vice: [restrict_text])</font></td> <td> </td></tr>"
 					continue
 			var/job_unavailable = JOB_AVAILABLE
 			if(isnewplayer(parent?.mob))
@@ -1098,6 +1131,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/mob/dead/new_player/P = user
 					if(istype(P))
 						P.topjob = job.title
+						topjob = job.title
 				if(JP_MEDIUM)
 					prefLevelLabel = "Medium"
 					prefLevelColor = "green"
@@ -1188,17 +1222,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		if(1)
 			jpval = JP_HIGH
 
-	#ifdef USES_PQ
-	if(job.required && !isnull(job.min_pq) && (get_playerquality(user.ckey) < job.min_pq))
-		if(job_preferences[job.title] == JP_LOW)
-			jpval = null
-		else
-			var/used_name = job.display_title || job.title
-			if((pronouns == SHE_HER || pronouns == THEY_THEM_F) && job.f_title)
-				used_name = "[job.f_title]"
-			to_chat(user, "<font color='red'>You have too low PQ for [used_name] (Min PQ: [job.min_pq]), you may only set it to low.</font>")
-			jpval = JP_LOW
-	#endif
 
 	SetJobPreferenceLevel(job, jpval)
 	SetChoices(user)
@@ -1319,6 +1342,11 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		dat += "<a href='?_src_=prefs;preference=vampire_hair;task=input'> <span style='border: 1px solid #161616; background-color: [vampire_hair ? vampire_hair : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=vampire_hair_clear;task=input'>clear</a></a>"
 	else
 		dat += "<a href='?_src_=prefs;preference=vampire_hair;task=input'>(C)</a>"
+	dat += "<br><b>Vampire Ear Color:</b> "
+	if (!isnull(vampire_ears))
+		dat += "<a href='?_src_=prefs;preference=vampire_ears;task=input'> <span style='border: 1px solid #161616; background-color: [vampire_ears ? vampire_ears : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=vampire_ears_clear;task=input'>clear</a></a>"
+	else
+		dat += "<a href='?_src_=prefs;preference=vampire_ears;task=input'>(C)</a>"
 	dat += "<BR><b>Quicksilver Resistant:</b> <a href='?_src_=prefs;preference=qsr;task=input'>[qsr_pref ? "Yes" : "No"]</a>"
 	dat += "</body>"
 
@@ -1340,6 +1368,11 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			[GLOB.bandit_severities[preset_bounty_severity_b_key] || "None"]\
 		</a>"
 
+		dat += "<br><b>Crime Severity (Vagabond):</b> "
+		dat += "<a href='?_src_=prefs;preference=preset_bounty_severity_v_key;task=input'>\
+			[GLOB.vagabond_severities[preset_bounty_severity_v_key] || "None"]\
+		</a>"
+
 		dat += "<br><b>Crime:</b> "
 		dat += "<a href='?_src_=prefs;preference=preset_bounty_crime;task=input'>\
 			[preset_bounty_crime || "None"]\
@@ -1349,6 +1382,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	if(preset_bounty_severity_b_key && !GLOB.bandit_severities[preset_bounty_severity_b_key])
 		preset_bounty_severity_b_key = null
+
+	if(preset_bounty_severity_v_key && !GLOB.vagabond_severities[preset_bounty_severity_v_key])
+		preset_bounty_severity_v_key = null
 
 	if(preset_bounty_poster_key && !GLOB.bounty_posters[preset_bounty_poster_key])
 		preset_bounty_poster_key = null
@@ -1446,6 +1482,98 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				SetAntag(user)
 	else if(href_list["preference"] == "tgui_ui_prefs")
 		tgui_pref = !tgui_pref
+
+	else if(href_list["preference"] == "subvirtue")
+		var/task = href_list["task"]
+		if(task == "input")
+			if(length(virtue.picked_choices) < virtue.max_choices)
+				var/list/subchoices = virtue.extra_choices.Copy()
+				for(var/choice in subchoices)
+					if(choice in virtue.picked_choices)
+						subchoices.Remove(choice)
+				var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES", subchoices)
+				if(result)
+					virtue.picked_choices.Add(result)
+		else if(task == "remove")
+			var/index = text2num(href_list["index"])
+			if(index && (index >= 1) && (index <= virtue.picked_choices.len))
+				var/v_to_remove = virtue.picked_choices[index]
+				virtue.picked_choices.Remove(v_to_remove)
+		else if(task == "tooltip")
+			var/tooltip = href_list["tooltip"]
+			to_chat(user, span_notice(virtue.choice_tooltips[tooltip]))
+
+	else if(href_list["preference"] == "subvirtue_two")
+		var/task = href_list["task"]
+		if(task == "input")
+			if(length(virtuetwo.picked_choices) < virtuetwo.max_choices)
+				var/list/subchoices = virtuetwo.extra_choices.Copy()
+				for(var/choice in subchoices)
+					if(choice in virtuetwo.picked_choices)
+						subchoices.Remove(choice)
+				var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES", subchoices)
+				if(result)
+					virtuetwo.picked_choices.Add(result)
+		else if(task == "remove")
+			var/index = text2num(href_list["index"])
+			if(index && (index >= 1) && (index <= virtuetwo.picked_choices.len))
+				var/v_to_remove = virtuetwo.picked_choices[index]
+				virtuetwo.picked_choices.Remove(v_to_remove)
+		else if(task == "tooltip")
+			var/tooltip = href_list["tooltip"]
+			to_chat(user, span_notice(virtuetwo.choice_tooltips[tooltip]))
+
+	else if(href_list["preference"] == "charflaw")
+		var/task = href_list["task"]
+		if(task == "input")
+			for(var/datum/charflaw/_existing in charflaws)
+				if(istype(_existing, /datum/charflaw/noflaw))
+					charflaws.Remove(_existing)
+					break
+
+			if(charflaws.len >= MAX_VICES)
+				to_chat(user, "I can't be any more flawed.")
+				return
+
+			var/list/cf_list = GLOB.character_flaws.Copy()
+
+			for(var/key in cf_list)
+				if(cf_list[key] == /datum/charflaw/noflaw)
+					cf_list.Remove(key)
+				else
+					var/datum/charflaw/cf = cf_list[key]
+					cf = new cf()
+					if(length(cf.restricted_species) && (pref_species.type in cf.restricted_species))
+						cf_list.Remove(key)
+
+			for(var/datum/charflaw/cf in charflaws)
+				for(var/key in cf_list)
+					if(cf_list[key] == cf.type && !istype(cf, /datum/charflaw/randflaw))
+						cf_list.Remove(key)
+						break
+
+			var/result = tgui_input_list(user, "What burden will you bear? (You can select up to 3 vices)", "FLAWS", cf_list)
+			if(result)
+				result = cf_list[result]
+				var/datum/charflaw/C = new result()
+				charflaws.Add(C)
+				if(C.desc)
+					to_chat(user, span_info(C.desc))
+
+		else if(task == "remove")
+			var/index = text2num(href_list["index"])
+			if(index && (index >= 1) && (index <= charflaws.len))
+				var/datum/charflaw/cf_to_remove = charflaws[index]
+				charflaws.Remove(cf_to_remove)
+				to_chat(user, span_notice("Vice removed: [cf_to_remove.name]."))
+
+			if(!charflaws.len)
+				var/datum/charflaw/no_flaw = new /datum/charflaw/noflaw()
+				charflaws.Add(no_flaw)
+				to_chat(user, span_info("No vices selected. 'No Flaw' has been automatically selected."))
+
+		ShowChoices(user)
+
 	else if(href_list["preference"] == "triumphs")
 		user.show_triumphs_list()
 
@@ -1644,6 +1772,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						else
 							to_chat(user, "<font color='red'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', . and ,.</font>")
 
+	
 				if("nickname")
 					var/new_name = tgui_input_text(user, "Choose your character's nickname (For Highlighting):", "NICKNAME",  encode = FALSE)
 					if(new_name)
@@ -1684,18 +1813,21 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				// LETHALSTONE EDIT: add statpack selection
 				if ("statpack")
 					var/list/statpacks_available = list()
+					var/list/statpack_descriptions = list()
 					for (var/path as anything in GLOB.statpacks)
 						var/datum/statpack/statpack = GLOB.statpacks[path]
 						if (!statpack.name)
 							continue
 						var/index = statpack.name
 						if(length(statpack.stat_array))
-							index += " \n[statpack.generate_modifier_string()]"
+							var/modifier_string = statpack.generate_modifier_string()
+							index += " [modifier_string]"
+							statpack_descriptions[index] = modifier_string
 						statpacks_available[index] = statpack
 
 					statpacks_available = sort_list(statpacks_available)
 
-					var/statpack_input = tgui_input_list(user, "How shall your strengths manifest?", "STATPACK", statpacks_available, statpack)
+					var/statpack_input = tgui_input_list(user, "How shall your strengths manifest?", "STATPACK", statpacks_available, statpack, descriptions = statpack_descriptions)
 					if (statpack_input)
 						var/datum/statpack/statpack_chosen = statpacks_available[statpack_input]
 						statpack = statpack_chosen
@@ -1714,6 +1846,19 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						to_chat(user, "<font color='red'>Your character's pronouns are now [pronouns].</font>")
 						to_chat(user, "<font color='red'><b>Your classes have been reset.</b></font>")
 
+				if ("titles")
+					if(titles_pref == TITLES_M)
+						titles_pref = TITLES_F
+					else
+						titles_pref = TITLES_M
+					to_chat(user, "<font color='red'>Your character's titles are now [titles_pref].</font>")
+
+				if ("clothespref")
+					if(clothes_pref == CLOTHES_M)
+						clothes_pref = CLOTHES_F
+					else
+						clothes_pref = CLOTHES_M
+					to_chat(user, "<font color='red'>Your character's titles are now [clothes_pref].</font>")
 				// LETHALSTONE EDIT: add voice type selection
 				if ("voicetype")
 					var voicetype_input = tgui_input_list(user, "Choose your character's voice type", "VOICE TYPE", GLOB.voice_types_list)
@@ -1731,12 +1876,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							to_chat(user, "<font color='red'>Your character will now audibly emote in accordance to their Voice Identity and any Racial / Class-specific voice packs.</font>")
 				if("voicepack_preview")
 					if(voice_pack != "Default")
-						var/datum/voicepack/VP = GLOB.voice_packs_list[voice_pack]
-						if(!istype(temp_vp, VP))
-							temp_vp = new VP()
-						var/voiceline = temp_vp.get_sound(pick(temp_vp.preview))
+						var/datum/voicepack/VP = GLOB.voice_packs[GLOB.voice_packs_list[voice_pack]]
+						var/voiceline = VP.get_sound(pick(VP.preview))
 						user.playsound_local(user, voiceline, 100)
-
 				if("taur_type")
 					var/list/species_taur_list = pref_species.get_taur_list()
 					if(!LAZYLEN(species_taur_list))
@@ -1827,12 +1969,14 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						/datum/language/hellspeak,
 						/datum/language/draconic,
 						/datum/language/celestial,
+						/datum/language/raneshi,
 						/datum/language/grenzelhoftian,
 						/datum/language/kazengunese,
+						/datum/language/lingyuese,
 						/datum/language/etruscan,
 						/datum/language/gronnic,
 						/datum/language/otavan,
-						/datum/language/aavnic
+						/datum/language/aavnic,
 					)
 					var/list/choices = list("None")
 					for(var/language in selectable_languages)
@@ -1855,6 +1999,60 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							to_chat(user, "<font color='red'>Value must be between [MIN_VOICE_PITCH] and [MAX_VOICE_PITCH].</font>")
 							return
 						voice_pitch = new_voice_pitch
+
+				if("barksound")
+					var/list/woof_woof = list()
+					for(var/path in GLOB.bark_list)
+						var/datum/bark/B = GLOB.bark_list[path]
+						if(initial(B.ignore))
+							continue
+						if(initial(B.ckeys_allowed))
+							var/list/allowed = initial(B.ckeys_allowed)
+							if(!allowed.Find(user.client.ckey))
+								continue
+						woof_woof[initial(B.name)] = initial(B.id)
+					var/new_bork = input(user, "Choose your desired vocal bark", "Character Preference") as null|anything in woof_woof
+					if(new_bork)
+						bark_id = woof_woof[new_bork]
+						var/datum/bark/B = GLOB.bark_list[bark_id] //Now we need sanitization to take into account bark-specific min/max values
+						bark_speed = round(clamp(bark_speed, initial(B.minspeed), initial(B.maxspeed)), 1)
+						bark_pitch = clamp(bark_pitch, initial(B.minpitch), initial(B.maxpitch))
+						bark_variance = clamp(bark_variance, initial(B.minvariance), initial(B.maxvariance))
+
+				if("barkspeed")
+					var/datum/bark/B = GLOB.bark_list[bark_id]
+					var/borkset = input(user, "Choose your desired bark speed (Higher is slower, lower is faster). Min: [initial(B.minspeed)]. Max: [initial(B.maxspeed)]", "Character Preference") as null|num
+					if(!isnull(borkset))
+						bark_speed = round(clamp(borkset, initial(B.minspeed), initial(B.maxspeed)), 1)
+
+				if("barkpitch")
+					var/datum/bark/B = GLOB.bark_list[bark_id]
+					var/borkset = input(user, "Choose your desired baseline bark pitch. Min: [initial(B.minpitch)]. Max: [initial(B.maxpitch)]", "Character Preference") as null|num
+					if(!isnull(borkset))
+						bark_pitch = clamp(borkset, initial(B.minpitch), initial(B.maxpitch))
+
+				if("barkvary")
+					var/datum/bark/B = GLOB.bark_list[bark_id]
+					var/borkset = input(user, "Choose your desired baseline bark pitch. Min: [initial(B.minvariance)]. Max: [initial(B.maxvariance)]", "Character Preference") as null|num
+					if(!isnull(borkset))
+						bark_variance = clamp(borkset, initial(B.minvariance), initial(B.maxvariance))
+
+				if("barkpreview")
+					if(SSticker.current_state == GAME_STATE_STARTUP) //Timers don't tick at all during game startup, so let's just give an error message
+						to_chat(user, "<span class='warning'>Bark previews can't play during initialization!</span>")
+						return
+					if(!COOLDOWN_FINISHED(src, bark_previewing))
+						return
+					if(!parent || !parent.mob)
+						return
+					COOLDOWN_START(src, bark_previewing, (5 SECONDS))
+					var/atom/movable/barkbox = new(get_turf(parent.mob))
+					barkbox.set_bark(bark_id)
+					var/total_delay = 0
+					for(var/i in 1 to (round((32 / bark_speed)) + 1))
+						addtimer(CALLBACK(barkbox, TYPE_PROC_REF(/atom/movable, bark), list(parent.mob), 7, 70, BARK_DO_VARY(bark_pitch, bark_variance)), total_delay)
+						total_delay += rand(DS2TICKS(bark_speed/4), DS2TICKS(bark_speed/4) + DS2TICKS(bark_speed/4)) TICKS
+					QDEL_IN(barkbox, total_delay)
 
 				if("highlight_color")
 					var/new_color = color_pick_sanitized(user, "Choose your character's nickname highlight color:", "Character Preference","#"+highlight_color)
@@ -1942,6 +2140,13 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					dat += "Minimum Flavortext: <b>[MINIMUM_FLAVOR_TEXT]</b> characters.<br>"
 					dat += "Minimum OOC Notes: <b>[MINIMUM_OOC_NOTES]</b> characters."
 					var/datum/browser/popup = new(user, "Formatting Help", nwidth = 400, nheight = 350)
+					popup.set_content(dat.Join())
+					popup.open(FALSE)
+				if("originhelp")
+					var/list/dat = list()
+					dat +="<b>Origin Description:</b><br>"
+					dat += "[virtue_origin.origin_desc]"
+					var/datum/browser/popup = new(user, "Race Help", nwidth = 600, nheight = 450)
 					popup.set_content(dat.Join())
 					popup.open(FALSE)
 				if("flavortext")
@@ -2066,6 +2271,34 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					to_chat(user, "<span class='notice'>Successfully added image to gallery.</span>")
 					log_game("[user] has added an image to their gallery: '[new_galleryimg]'.")
 
+				if("nsfw_img_gallery")
+
+					if(nsfw_img_gallery.len >= 3)
+						to_chat(user, "You already have three images in your NSFW gallery!")
+						return
+
+					to_chat(user, "<span class='notice'>Please use an explicit image ["<span class='bold'>of your character</span>"] only when it fits the character and server rules.</span>")
+					to_chat(user, "<span class='notice'>If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser.</span>")
+					to_chat(user, "<span class='notice'>Keep in mind that all three images are displayed next to eachother and justified to fill a horizontal rectangle. As such, vertical images work best.</span>")
+					to_chat(user, "<span class='notice'>You can only have a maximum of ["<span class='bold'>THREE IMAGES</span>"] in your NSFW gallery at a time.</span>")
+
+					var/new_galleryimg_nsfw = tgui_input_text(user, "Input the image link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "NSFW Gallery Image",  encode = FALSE)
+
+					if(new_galleryimg_nsfw == null)
+						return
+					if(new_galleryimg_nsfw == "")
+						new_galleryimg_nsfw = null
+						ShowChoices(user)
+						return
+					if(!valid_headshot_link(user, new_galleryimg_nsfw))
+						to_chat(user, "<span class='notice'>Invalid image link. Make sure it's a direct link from a valid host (gyazo, discord, lensdump, imgbox, catbox).</span>")
+						new_galleryimg_nsfw = null
+						ShowChoices(user)
+						return
+					nsfw_img_gallery += new_galleryimg_nsfw
+					to_chat(user, "<span class='notice'>Successfully added image to NSFW gallery.</span>")
+					log_game("[user] has added an image to their NSFW gallery: '[new_galleryimg_nsfw]'.")
+
 				if("clear_gallery")
 					if(!img_gallery.len)
 						to_chat(user, "You don't have any images in your gallery to clear!")
@@ -2077,6 +2310,39 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					img_gallery = list()
 					to_chat(user, "<span class='notice'>Successfully cleared image gallery.</span>")
 					log_game("[user] has cleared their image gallery.")
+
+				if("clear_nsfw_gallery")
+					if(!nsfw_img_gallery.len)
+						to_chat(user, "You don't have any images in your NSFW gallery to clear!")
+						return
+					var/dachoice_nsfw = tgui_alert(user, "Do you really want to clear your NSFW image gallery?", "Clear NSFW Gallery", list("Yae", "Nae"))
+					if(dachoice_nsfw == "Nae")
+						ShowChoices(user)
+						return
+					nsfw_img_gallery = list()
+					to_chat(user, "<span class='notice'>Successfully cleared NSFW image gallery.</span>")
+					log_game("[user] has cleared their NSFW image gallery.")
+
+				if("examine_theme")
+					var/list/all_themes = get_tgui_themes()
+					var/list/choices = list("None (Use Viewer's)")
+					for(var/theme_key in all_themes)
+						if(theme_key == "trey_liam")
+							continue
+						choices += all_themes[theme_key]
+					var/current_display = "None (Use Viewer's)"
+					if(examine_theme)
+						current_display = all_themes[examine_theme] || examine_theme
+					var/picked = tgui_input_list(user, "Choose the theme others see on your examine panel:", "Examine Theme", choices, current_display)
+					if(!picked)
+						return
+					if(picked == "None (Use Viewer's)")
+						examine_theme = null
+					else
+						for(var/theme_key in all_themes)
+							if(all_themes[theme_key] == picked)
+								examine_theme = theme_key
+								break
 
 				if("ooc_preview")
 					var/datum/examine_panel/preview_examine_panel = new(user)
@@ -2156,96 +2422,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("familiar_prefs")
 					familiar_prefs.fam_show_ui()
 
-				if("loadout_item")
-					var/list/loadouts_available = list("None")
-					for (var/path as anything in GLOB.loadout_items)
-						var/datum/loadout_item/loadout = GLOB.loadout_items[path]
-						var/donoritem = loadout.donoritem
-						if(donoritem && !loadout.donator_ckey_check(user.ckey))
-							continue
-						if (!loadout.name)
-							continue
-						loadouts_available[loadout.name] = loadout
-
-					var/loadout_input = tgui_input_list(user, "Choose an item for your character's stashed loadout. Your character can access their stash by right-clicking a tree, statue, or clock. If you have a stashed item with a listed Triumph cost, it'll automatically be purchased whenever your character joins the round.", "LOADOUT", loadouts_available)
-					if(loadout_input)
-						if(loadout_input == "None")
-							loadout = null
-							to_chat(user, "Who needs stuff anyway?")
-						else
-							loadout = loadouts_available[loadout_input]
-							to_chat(user, "<font color='yellow'><b>[loadout.name]</b></font>")
-							if(loadout.desc)
-								to_chat(user, "[loadout.desc]")
-				if("loadout_item2")
-					var/list/loadouts_available = list("None")
-					for (var/path as anything in GLOB.loadout_items)
-						var/datum/loadout_item/loadout2 = GLOB.loadout_items[path]
-						var/donoritem = loadout2.donoritem
-						if(donoritem && !loadout2.donator_ckey_check(user.ckey))
-							continue
-						if (!loadout2.name)
-							continue
-						loadouts_available[loadout2.name] = loadout2
-
-					var/loadout_input2 = tgui_input_list(user, "Choose an item for your character's stashed loadout. Your character can access their stash by right-clicking a tree, statue, or clock. If you have a stashed item with a listed Triumph cost, it'll automatically be purchased whenever your character joins the round.", "LOADOUT", loadouts_available)
-					if(loadout_input2)
-						if(loadout_input2 == "None")
-							loadout2 = null
-							to_chat(user, "Who needs stuff anyway?")
-						else
-							loadout2 = loadouts_available[loadout_input2]
-							to_chat(user, "<font color='yellow'><b>[loadout2.name]</b></font>")
-							if(loadout2.desc)
-								to_chat(user, "[loadout2.desc]")
-				if("loadout_item3")
-					var/list/loadouts_available = list("None")
-					for (var/path as anything in GLOB.loadout_items)
-						var/datum/loadout_item/loadout3 = GLOB.loadout_items[path]
-						var/donoritem = loadout3.donoritem
-						if(donoritem && !loadout3.donator_ckey_check(user.ckey))
-							continue
-						if (!loadout3.name)
-							continue
-						loadouts_available[loadout3.name] = loadout3
-
-					var/loadout_input3 = tgui_input_list(user, "Choose an item for your character's stashed loadout. Your character can access their stash by right-clicking a tree, statue, or clock. If you have a stashed item with a listed Triumph cost, it'll automatically be purchased whenever your character joins the round.", "LOADOUT", loadouts_available)
-					if(loadout_input3)
-						if(loadout_input3 == "None")
-							loadout3 = null
-							to_chat(user, "Who needs stuff anyway?")
-						else
-							loadout3 = loadouts_available[loadout_input3]
-							to_chat(user, "<font color='yellow'><b>[loadout3.name]</b></font>")
-							if(loadout3.desc)
-								to_chat(user, "[loadout3.desc]")
-				if("loadout1hex")
-					var/choice = input(user, "Choose a color.", "Loadout Item One Colour") as null|anything in COLOR_MAP
-					if (choice && COLOR_MAP[choice])
-						loadout_1_hex = COLOR_MAP[choice]
-						if (loadout)
-							to_chat(user, "The colour for your [loadout::name] has been set to <b>[choice]</b>.")
-					else
-						loadout_1_hex = null
-						to_chat(user, "The colour for your <b>first</b> loadout item has been cleared.")
-				if("loadout2hex")
-					var/choice = input(user, "Choose a color.", "Loadout Item Two Colour") as null|anything in COLOR_MAP
-					if (choice && COLOR_MAP[choice])
-						loadout_2_hex = COLOR_MAP[choice]
-						if (loadout2)
-							to_chat(user, "The colour for your [loadout2::name] has been set to <b>[choice]</b>.")
-					else
-						loadout_2_hex = null
-						to_chat(user, "The colour for your <b>second</b> loadout item has been cleared.")
-				if("loadout3hex")
-					var/choice = input(user, "Choose a color.", "Loadout Item Three Colour") as null|anything in COLOR_MAP
-					if (choice && COLOR_MAP[choice])
-						loadout_3_hex = COLOR_MAP[choice]
-						if (loadout3)
-							to_chat(user, "The colour for your [loadout3::name] has been set to <b>[choice]</b>.")
-					else
-						loadout_3_hex = null
-						to_chat(user, "The colour for your <b>third</b> loadout item has been cleared.")
+				if("open_loadout")
+					var/datum/loadout_menu/LM = new(user.client)
+					LM.ui_interact(user)
+					return
 				if("vampire_hair")
 					var/new_vampirehair = input(user, "Choose your character's vampire hair color:", "Character Preference","#"+vampire_hair) as color|null
 					if(new_vampirehair)
@@ -2258,12 +2438,18 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/new_vampireskin = input(user, "Choose your character's vampire skin color:", "Character Preference","#"+vampire_skin) as color|null
 					if(new_vampireskin)
 						vampire_skin = new_vampireskin
+				if("vampire_ears")
+					var/new_vampireears = input(user, "Choose your character's vampire ear color:", "Character Preference","#"+vampire_ears) as color|null
+					if(new_vampireears)
+						vampire_ears = new_vampireears
 				if("vampire_hair_clear")
 					vampire_hair = null
 				if("vampire_eyes_clear")
 					vampire_eyes = null
 				if("vampire_skin_clear")
 					vampire_skin = null
+				if("vampire_ears_clear")
+					vampire_ears = null
 				if("species")
 					var/list/species = list()
 					for(var/A in GLOB.roundstart_races)
@@ -2272,16 +2458,21 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if(user.client)
 							if(race.patreon_req > user.client.patreonlevel())
 								continue
+							if(race.is_subrace == TRUE)
+								continue
+							if(race.base_name == pref_species.base_name)
+								continue
 						else
 							continue
-						species += race
+						species[race.base_name] += race
 
-					species = sortNames(species)
+					species = sortList(species)
 
 					var/result = tgui_input_list(user, "By what shape are you bound?", "RACE", species)
 
 					if(result)
-						set_new_race(result, user)
+						var/datum/virtue/race_chosen = species[result]
+						set_new_race(race_chosen, user)
 				if("preset_bounty_toggle")
 					preset_bounty_enabled = !preset_bounty_enabled
 					return
@@ -2303,6 +2494,26 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						preset_bounty_severity_key = sev_choices[choice]
 					return
 
+				if("subspecies")
+					var/list/species = list()
+					for(var/A in GLOB.roundstart_races)
+						var/datum/species/race = GLOB.species_list[A]
+						race = new race()
+						if(user.client)
+							if(race.base_name != pref_species.base_name)
+								continue
+							if(race.sub_name == pref_species.sub_name)
+								continue
+						else
+							continue
+						species[race.sub_name] += race
+
+					var/result = tgui_input_list(user, "By what shape are you bound?", "SUBRACE", species)
+
+					if(result)
+						var/datum/virtue/subrace_chosen = species[result]
+						set_new_race(subrace_chosen, user)
+
 				if("preset_bounty_severity_b_key")
 					var/list/sev_choices = list()
 					for(var/key in GLOB.bandit_severities)
@@ -2310,6 +2521,15 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/choice = input(user, "How notorious are you?", "Bounty Amount") as null|anything in sev_choices
 					if(choice)
 						preset_bounty_severity_b_key = sev_choices[choice]
+					return
+
+				if("preset_bounty_severity_v_key")
+					var/list/sev_choices = list()
+					for(var/key in GLOB.vagabond_severities)
+						sev_choices[GLOB.vagabond_severities[key]] = key
+					var/choice = input(user, "How wanted are you?", "Meager Bounty Amount") as null|anything in sev_choices
+					if(choice)
+						preset_bounty_severity_v_key = sev_choices[choice]
 					return
 
 				if("preset_bounty_crime")
@@ -2330,10 +2550,18 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (!V.name)
 							continue
 						if ((V.name == virtue.name || V.name == virtuetwo.name) && !istype(V, /datum/virtue/none))
+							if(!V.stackable)
+								continue
+						if (istype(V, /datum/virtue/origin))
+							continue
+						if(V.unlisted)
 							continue
 						if (istype(V, /datum/virtue/heretic) && !istype(selected_patron, /datum/patron/inhumen))
 							continue
-						if(length(pref_species.restricted_virtues) && (V.type in pref_species.restricted_virtues))
+						if (V.restricted == TRUE)
+							if((pref_species.type in V.races))
+								continue
+						if(V.virtuous_only && !statpack.virtuous)
 							continue
 						virtue_choices[V.name] = V
 					virtue_choices = sort_list(virtue_choices)
@@ -2341,9 +2569,14 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
-						virtue = virtue_chosen
+						virtue = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
-
+						if(!istype(virtue, /datum/virtue/combat/second_chance) && !istype(virtuetwo, /datum/virtue/combat/second_chance))
+							if(skin_tone == SKIN_COLOR_ROT)
+								var/new_tone = random_skin_tone()
+								skin_tone = new_tone
+								features["mcolor"] = sanitize_hexcolor(new_tone)
+								try_update_mutant_colors()
 				if("virtuetwo")
 					var/list/virtue_choices = list()
 					for (var/path as anything in GLOB.virtues)
@@ -2351,32 +2584,58 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (!V.name)
 							continue
 						if ((V.name == virtue.name || V.name == virtuetwo.name) && !istype(V, /datum/virtue/none))
+							if(!V.stackable)
+								continue
+						if (istype(V, /datum/virtue/origin))
 							continue
-						if(length(pref_species.restricted_virtues) && (V.type in pref_species.restricted_virtues))
+						if(V.unlisted)
 							continue
 						if (istype(V, /datum/virtue/heretic) && !istype(selected_patron, /datum/patron/inhumen))
 							continue
+						if (V.restricted == TRUE)
+							if((pref_species.type in V.races))
+								continue
 						virtue_choices[V.name] = V
 					virtue_choices = sort_list(virtue_choices)
 					var/result = tgui_input_list(user, "What strength shall you wield?", "VIRTUES",virtue_choices)
 
 					if (result)
 						var/datum/virtue/virtue_chosen = virtue_choices[result]
-						virtuetwo = virtue_chosen
+						virtuetwo = new virtue_chosen.type
 						to_chat(user, process_virtue_text(virtue_chosen))
+						if(!istype(virtue, /datum/virtue/combat/second_chance) && !istype(virtuetwo, /datum/virtue/combat/second_chance))
+							if(skin_tone == SKIN_COLOR_ROT)
+								var/new_tone = random_skin_tone()
+								skin_tone = new_tone
+								features["mcolor"] = sanitize_hexcolor(new_tone)
+								try_update_mutant_colors()
 					/*	if (statpack.type != /datum/statpack/wildcard/virtuous)
 							statpack = new /datum/statpack/wildcard/virtuous
 							to_chat(user, span_purple("Your statpack has been set to virtuous (no stats) due to selecting a virtue.")) */
 
-				if("charflaw")
-					var/list/coom = GLOB.character_flaws.Copy()
-					var/result = tgui_input_list(user, "What burden will you bear?", "FLAWS",coom)
-					if(result)
-						result = coom[result]
-						var/datum/charflaw/C = new result()
-						charflaw = C
-						if(charflaw.desc)
-							to_chat(user, "<span class='info'>[charflaw.desc]</span>")
+				if("origin")
+					var/list/virtue_choices = list()
+					for (var/path as anything in GLOB.virtues)
+						var/datum/virtue/V = GLOB.virtues[path]
+						if (!V.name)
+							continue
+						if (V.name == virtue_origin.name)
+							continue
+						if (!istype(V, /datum/virtue/origin))
+							continue
+						if (V.restricted == TRUE)
+							if((pref_species.type in V.races))
+								continue
+						if (istype(V, /datum/virtue/origin/racial))
+							if(!(pref_species.type in V.races))
+								continue
+						virtue_choices[V.name] = V
+					var/result = tgui_input_list(user, "From where do you come?", "ORIGINS",virtue_choices)
+
+					if (result)
+						var/datum/virtue/virtue_chosen = virtue_choices[result]
+						virtue_origin = virtue_chosen
+						to_chat(user, process_virtue_text(virtue_chosen))
 
 				if("charflaw_averse_choice")
 					var/choice = tgui_input_list(user, "Who do you loathe?", "AVERSION", GLOB.averse_factions)
@@ -2387,7 +2646,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					if(length(pref_species.custom_selection))
 						var/choice = tgui_input_list(user, "What has fate blessed your race with?", "BONUS", pref_species.custom_selection)
 						if(choice)
-							race_bonus = pref_species.custom_selection[choice]
+							race_bonus = choice
 
 				if("body_size")
 					var/new_body_size = tgui_input_number(user, "Choose your desired sprite size:\n([BODY_SIZE_MIN*100]%-[BODY_SIZE_MAX*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100)
@@ -2433,6 +2692,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 */
 				if("s_tone")
 					var/listy = pref_species.get_skin_list()
+					if(istype(virtue, /datum/virtue/combat/second_chance) || istype(virtuetwo, /datum/virtue/combat/second_chance))
+						listy["Rotten"] = SKIN_COLOR_ROT
 					var/new_s_tone = tgui_input_list(user, "Choose your character's skin tone:", "SKINTONE", listy)
 					if(new_s_tone)
 						skin_tone = listy[new_s_tone]
@@ -2632,7 +2893,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("tgui_lock")
 					tgui_lock = !tgui_lock
 				if("tgui_theme")
-					setTguiStyle()
+					setTguiStyle(user)
+				if("parchment_skin")
+					cycle_parchment_skin()
+				if("statbrowser_theme")
+					cycle_statbrowser_theme()
+					user.client?.apply_statbrowser_theme()
 				if("winflash")
 					windowflashing = !windowflashing
 
@@ -2663,6 +2929,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						be_special -= be_special_type
 					else
 						be_special += be_special_type
+
+				if("storyteller")
+					no_storyteller_events = !no_storyteller_events
 
 				if("toggle_random")
 					var/random_type = href_list["random_type"]
@@ -2704,16 +2973,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 				if("allow_midround_antag")
 					toggles ^= MIDROUND_ANTAG
-
-				if("parallaxup")
-					parallax = WRAP(parallax + 1, PARALLAX_INSANE, PARALLAX_DISABLE + 1)
-					if (parent && parent.mob && parent.mob.hud_used)
-						parent.mob.hud_used.update_parallax_pref(parent.mob)
-
-				if("parallaxdown")
-					parallax = WRAP(parallax - 1, PARALLAX_INSANE, PARALLAX_DISABLE + 1)
-					if (parent && parent.mob && parent.mob.hud_used)
-						parent.mob.hud_used.update_parallax_pref(parent.mob)
 
 				if("ambientocclusion")
 					ambientocclusion = !ambientocclusion
@@ -2762,7 +3021,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					user << browse(null, "window=preferences") //closes job selection
 					user << browse(null, "window=mob_occupation")
 					user << browse(null, "window=latechoices") //closes late job selection
-					user << browse(null, "window=migration") // Closes migrant menu
+					migrant.hide_ui() // Closes migrant menu
 
 					SStriumphs.remove_triumph_buy_menu(user.client)
 
@@ -2787,14 +3046,22 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if(S)
 							for(var/i=1, i<=max_save_slots, i++)
 								var/name
+								var/suffix
 								S.cd = "/character[i]"
 								S["real_name"] >> name
+								S["topjob"] >> suffix
 								if(!name)
 									name = "Slot[i]"
+								if(suffix)
+									name += " — [suffix]"
 								choices[name] = i
 					var/choice = tgui_input_list(user, "CHOOSE A HERO","ROGUETOWN", choices)
 					if(choice)
 						choice = choices[choice]
+						// Close any open loadout menu before switching slots
+						for(var/datum/tgui/ui in user.tgui_open_uis)
+							if(istype(ui.src_object, /datum/loadout_menu))
+								ui.close()
 						if(!load_character(choice))
 							random_character(null, FALSE, FALSE)
 							save_character()
@@ -2808,15 +3075,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	ShowChoices(user)
 	return 1
 
-/datum/preferences/proc/resolve_loadout_to_color(item_path)
-	if (loadout && (item_path == loadout.path) && loadout_1_hex)
-		return loadout_1_hex
-	if (loadout2 && (item_path == loadout2.path) && loadout_2_hex)
-		return loadout_2_hex
-	if (loadout3 && (item_path == loadout3.path) && loadout_3_hex)
-		return loadout_3_hex
-
-	return FALSE
 
 /datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE)
 	if(randomise[RANDOM_SPECIES] && !character_setup)
@@ -2827,7 +3085,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		random_character(gender, antagonist)
 
 	// Bandaid to undo no arm flaw prosthesis
-	if(charflaw)
+	if(charflaws.len)
 		var/obj/item/bodypart/O = character.get_bodypart(BODY_ZONE_R_ARM)
 		if(O)
 			O.drop_limb()
@@ -2882,8 +3140,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.nickname = nickname
 
 	character.eye_color = eye_color
-	if(extra_language && extra_language != "None")
-		character.grant_language(extra_language)
 	character.voice_color = voice_color
 	character.voice_pitch = voice_pitch
 	var/obj/item/organ/eyes/organ_eyes = character.getorgan(/obj/item/organ/eyes)
@@ -2896,6 +3152,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.vampire_skin = vampire_skin
 	character.vampire_eyes = vampire_eyes
 	character.vampire_hair = vampire_hair
+	character.vampire_ears = vampire_ears
 	character.hairstyle = hairstyle
 	character.facial_hairstyle = facial_hairstyle
 	character.detail = detail
@@ -2904,9 +3161,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	character.jumpsuit_style = jumpsuit_style
 
-	if(charflaw)
-		character.charflaw = new charflaw.type()
-		character.charflaw.on_mob_creation(character)
+	if(charflaws.len)
+		character.charflaws = charflaws.Copy()
+		for(var/datum/charflaw/cf in character.charflaws)
+			cf.on_mob_creation(character)
 
 	character.dna.real_name = character.real_name
 
@@ -2930,7 +3188,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.erpprefs_cached = erpprefs_cached
 
 	character.img_gallery = img_gallery
+	character.nsfw_img_gallery = nsfw_img_gallery
 
+	character.examine_theme = examine_theme
 	character.ooc_extra = ooc_extra
 
 	character.song_title = song_title
@@ -2939,6 +3199,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	// LETHALSTONE ADDITION BEGIN: additional customizations
 
 	character.pronouns = pronouns
+	character.titles_pref = titles_pref
+	character.clothes_pref = clothes_pref
 	character.voice_type = voice_type
 
 	// LETHALSTONE ADDITION END
@@ -2947,6 +3209,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	// Rumours / Noble gossip
 	character.rumour = rumour
 	character.noble_gossip = noble_gossip
+
+	// Barks
+	character.set_bark(bark_id)
+	character.vocal_speed = bark_speed
+	character.vocal_pitch = bark_pitch
+	character.vocal_pitch_range = bark_variance
 
 	if(parent)
 		var/list/L = get_player_curses(parent.ckey)
@@ -2963,11 +3231,12 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	if(icon_updates)
 		character.update_body()
 		character.update_hair()
-		character.update_body_parts(redraw = TRUE)
+		character.update_body_parts(redraw = FALSE)
 
 	character.char_accent = char_accent
 
-	apply_customizers_to_character(character)
+	// Customizers are already applied inside set_species() (both the species-change path via
+	// on_species_gain, and the same-species short-circuit). Re-applying here doubled the work.
 
 	if(culinary_preferences)
 		apply_culinary_preferences(character)
@@ -3064,7 +3333,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 /datum/preferences/proc/is_active_migrant()
 	if(!migrant)
 		return FALSE
-	if(!migrant.active)
+	if(!migrant.queued_wave)
 		return FALSE
 	return TRUE
 
@@ -3073,7 +3342,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	if(V.desc)
 		dat += "<font size = 3>[span_purple(V.desc)]</font><br>"
 	if(length(V.added_skills))
-		dat += "<font color = '#a3e2ff'><font size = 3>This Virtue adds the following skills: <br>"
+		if(istype(V, /datum/virtue/origin))
+			dat += "<font color = '#a3e2ff'><font size = 3>This Origin adds the following skills: <br>"
+		else
+			dat += "<font color = '#a3e2ff'><font size = 3>This Virtue adds the following skills: <br>"
 		for(var/list/L in V.added_skills)
 			var/name
 			if(ispath(L[1],/datum/skill))
@@ -3082,28 +3354,43 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			dat += "["\Roman[L[2]]"] level[L[2] > 1 ? "s" : ""] of <b>[name]</b>[L[3] ? ", up to <b>[SSskills.level_names_plain[L[3]]]</b>" : ""] <br>"
 		dat += "</font>"
 	if(V.softcap)
-		dat += "<font color = '#a3e2ff'><font size = 3>This is a soft capped, and values will give only 1 level above the skill cap<br></font>"
+		dat += "<font color = '#a3e2ff'><font size = 3>This is soft capped, and values will give only 1 level above the skill cap<br></font>"
 	if(length(V.added_traits))
-		dat += "<font color = '#a3ffe0'><font size = 3>This Virtue grants the following traits: <br>"
+		if(istype(V, /datum/virtue/origin))
+			dat += "<font color = '#a3e2ff'><font size = 3>This Origin grants the following traits: <br>"
+		else
+			dat += "<font color = '#a3ffe0'><font size = 3>This Virtue grants the following traits: <br>"
 		for(var/TR in V.added_traits)
 			dat += "[TR] — <font size = 2>[GLOB.roguetraits[TR]]</font><br>"
 		dat += "</font>"
 	if(length(V.added_stashed_items))
-		dat += "<font color = '#eeffa3'><font size = 3>This Virtue adds the following items to your stash: <br>"
+		if(istype(V, /datum/virtue/origin))
+			dat += "<font color = '#a3e2ff'><font size = 3>This Origin adds the following items to your stash: <br>"
+		else
+			dat += "<font color = '#eeffa3'><font size = 3>This Virtue adds the following items to your stash: <br>"
 		for(var/I in V.added_stashed_items)
 			dat += "<i>[I]</i> <br>"
 		dat += "</font>"
+	if(length(V.added_languages))
+		dat += "<font color ='#a3e2ff'><font size = 3>This [istype(V, /datum/virtue/origin) ? "Origin" : "Virtue"] adds the following languages: <br>"
+		for(var/L in V.added_languages)
+			var/datum/language/lang = L
+			dat += "<i>[initial(lang.name)]</i> <br>"
+		dat += "</font>"
 	if(V.custom_text)
-		dat += "<font color = '#ffffff'><font size = 3>This Virtue has this special behaviour: <br>"
+		if(istype(V, /datum/virtue/origin))
+			dat += "<font color = '#a3e2ff'><font size = 3>This Origin has this special behaviour: <br>"
+		else
+			dat += "<font color = '#ffffff'><font size = 3>This Virtue has this special behaviour: <br>"
 		dat += "[V.custom_text]"
 		dat += "</font>"
+	if(V.stackable)
+		dat += "<font color = '#ffeea3'>This virtue can be picked twice using Virtuous.</font><br>"
 	return dat
 
 /datum/preferences/proc/LorePopup(mob/user)
 	if(!user || !user.client)
 		return
-	var/list/dat = list()
 	var/datum/browser/noclose/popup  = new(user, "lore_primer", "<div align='center'>Lore Primer</div>", 650, 900)
-	dat += GLOB.roleplay_readme
-	popup.set_content(dat.Join())
+	popup.set_content(build_lore_primer_content())
 	popup.open(FALSE)

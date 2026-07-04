@@ -24,6 +24,11 @@
 	var/datum/effect_system/spark_spread/spark_system
 	var/scraptype = /obj/item/scrap
 
+/obj/structure/trap/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-clicking the eye on your HUD allows you to check your surroundings for hidden threats, traps, and ambushes. The chance to spot each instance scales with your character's Perception.")
+	. += span_info("Most traps are almost completely invisible. Examining an adjacent trap by shift-clicking it will momentarily dispell the invisiblity, and temporarily disables it.")
+
 /obj/structure/trap/Initialize(mapload)
 	. = ..()
 	flare_message = span_warning("[src] flares brightly!")
@@ -297,7 +302,7 @@
 /obj/structure/trap/saw_blades/trap_effect(mob/living/L)
 	to_chat(L, span_danger("<B>A whirling blade erupts from beneath your feet!</B>"))
 	def_zone = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-	L.apply_damage(trap_damage, BRUTE, def_zone, L.run_armor_check(def_zone, "stab", damage = trap_damage))
+	L.apply_damage(trap_damage, BRUTE, def_zone, L.run_armor_check(def_zone, "stab", armor_penetration = PEN_NONE, damage = trap_damage))
 	playsound(src, 'sound/gore/flesh_eat_01.ogg', 70, TRUE)
 	var/obj/structure/sawblade_trap/saw = new(get_turf(src))
 	last_trigger = 0 // override to keep slicing you every time you step onto the trap
@@ -395,7 +400,7 @@
 /obj/projectile/magic/frostbolt/wall_projectile
 	speed = 6
 	damage = 20
-	armor_penetration = 5
+	armor_penetration = PEN_NONE
 
 /obj/structure/trap/wall_projectile/acidsplash
 	name = "acid plate trap"
@@ -415,7 +420,7 @@
 /obj/structure/trap/rock_fall/trap_effect(mob/living/L)
 	to_chat(L, span_danger("<B>The ground above you shakes violently!</B>"))
 	def_zone = BODY_ZONE_HEAD
-	L.apply_damage(trap_damage, BRUTE, def_zone, L.run_armor_check(def_zone, "stab", damage = trap_damage))
+	L.apply_damage(trap_damage, BRUTE, def_zone, L.run_armor_check(def_zone, "stab", armor_penetration = PEN_NONE, damage = trap_damage))
 	playsound(src, 'sound/foley/smash_rock.ogg', 70, TRUE)
 	L.set_blurriness(10)
 	var/obj/structure/flora/rock/giant_rock = new(get_turf(src))
@@ -458,7 +463,7 @@
 	to_chat(L, span_danger("<B>A cruel joke has been played on you!</B>"))
 	L.add_stress(/datum/stressevent/thefool)
 	playsound(src, 'sound/magic/mockery.ogg', 60, TRUE)
-	L.apply_status_effect(/datum/status_effect/debuff/viciousmockery)
+	L.apply_status_effect(/datum/status_effect/debuff/mockery_stack)
 
 /datum/stressevent/thefool
 	timer = 10 MINUTES

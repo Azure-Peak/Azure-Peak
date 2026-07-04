@@ -45,13 +45,13 @@
 	sewn_bleed_rate = 0.04
 	clotting_rate = 0.01
 	sewn_clotting_rate = 0.01
-	clotting_threshold = 0.2
+	clotting_threshold = 0.15
 	sewn_clotting_threshold = 0.1
 	sew_threshold = 20
 	mob_overlay = "cut"
 	can_sew = TRUE
 	can_cauterize = TRUE
-	severity_names = list(
+	severity_stages = list(
 		"shallow" = 3,
 		"deep" = 6,
 		"gnarly" = 9,
@@ -68,24 +68,24 @@
 #define PUNC_UPG_CLAMP_RAW 1.3
 #define PUNC_ARMORED_BLEED_CLAMP 7
 
-/datum/wound/dynamic/puncture/upgrade(dam, armor)
+/datum/wound/dynamic/puncture/upgrade(dam, armor, exposed, pen_info)
 	whp += (dam * PUNC_UPG_WHPRATE)
-	if(!armor)
+	if(!armor || exposed)
 		set_bleed_rate(bleed_rate + PUNC_UPG_CLAMP_RAW)
 	else
-		switch(dam)
-			if(1 to 9)
+		switch(pen_info)
+			if(1 to 2)
 				set_bleed_rate(bleed_rate + 0.3)
-			if(10 to 14)
+			if(3 to 4)
 				set_bleed_rate(bleed_rate + 0.4)
-			if(15 to 18)
+			if(5 to 6)
 				set_bleed_rate(bleed_rate + 0.5)
-			if(19 to 99)	//At 80 armor and 30 base damage this would require ~16 STR
+			if(7 to 8)
 				set_bleed_rate(bleed_rate + 0.75)
 	sew_threshold += (dam * PUNC_UPG_SEWRATE)
 	woundpain += (dam * PUNC_UPG_PAINRATE)
 	armor_check(armor, PUNC_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef PUNC_UPG_WHPRATE
@@ -108,7 +108,7 @@
 	mob_overlay = "cut"
 	can_sew = TRUE
 	can_cauterize = FALSE
-	severity_names = list(
+	severity_stages = list(
 		"shallow" = 2,
 		"deep" = 4,
 		"gnarly" = 8,
@@ -128,13 +128,16 @@
 #define GOUGE_UPG_CLAMP_RAW 0.5
 #define GOUGE_ARMORED_BLEED_CLAMP 4
 
-/datum/wound/dynamic/gouge/upgrade(dam, armor)
+/datum/wound/dynamic/gouge/upgrade(dam, armor, exposed)
 	whp += (dam * GOUGE_UPG_WHPRATE)
-	set_bleed_rate(bleed_rate + clamp((dam * GOUGE_UPG_BLEEDRATE), 0.1, ((armor > 0) ? GOUGE_UPG_CLAMP_ARMORED : GOUGE_UPG_CLAMP_RAW)))
+	var/clamp_max = ((armor > 0) ? GOUGE_UPG_CLAMP_ARMORED : GOUGE_UPG_CLAMP_RAW)
+	if(exposed)
+		clamp_max = GOUGE_UPG_CLAMP_RAW
+	set_bleed_rate(bleed_rate + clamp((dam * GOUGE_UPG_BLEEDRATE), 0.1, clamp_max))
 	sew_threshold += (dam * GOUGE_UPG_SEWRATE)
 	woundpain += (dam * GOUGE_UPG_PAINRATE)
 	armor_check(armor, GOUGE_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef GOUGE_UPG_BLEEDRATE

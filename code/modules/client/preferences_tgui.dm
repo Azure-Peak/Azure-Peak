@@ -1,24 +1,77 @@
-// Get the display names of the underlying TGUI themes
-/datum/preferences/proc/get_tgui_theme_display_name()
-    var/static/list/theme_names = list(
-        "azure_default" = "Ascendant",
-        "azure_green" = "Undivided",
-		"azure_lane" = "Azuria",
-		// "azure_gold" = "Lirvas",
+/proc/get_tgui_themes()
+	var/static/list/themes = list(
+		"azure_default" = "Ascendant",
+		"azure_ascendant" = "New Ascendant",
+		"azure_green" = "Oaken",
+		"azure_lane" = "Noccite",
 		"azure_purple" = "Raneshen",
-		// "azure_gilbranze" = "Gilbranze", - Coming soon :tm:
+		"azure_gilbranze" = "Gilbranze",
+		"azure_psydonic" = "Psydonic",
+		"azure_lingyue" = "Lingyue",
 		"trey_liam" = "Trey Liam"
-    )
-    return theme_names[tgui_theme] || tgui_theme
+	)
+	return themes
 
-// Cycle through TGUI styles
+/proc/get_parchment_skins()
+	var/static/list/skins = list(
+		"vellum" = "Vellum",
+		"parchment" = "Parchment",
+		"leatherbound" = "Leatherbound",
+	)
+	return skins
+
+/proc/sanitize_parchment_skin(value)
+	var/list/skins = get_parchment_skins()
+	if(value in skins)
+		return value
+	return "leatherbound"
+
+/datum/preferences/proc/get_parchment_skin_display_name()
+	var/list/skins = get_parchment_skins()
+	return skins[parchment_skin] || skins["leatherbound"]
+
+/datum/preferences/proc/cycle_parchment_skin()
+	var/list/skins = get_parchment_skins()
+	var/list/keys = list()
+	for(var/k in skins)
+		keys += k
+	var/idx = keys.Find(parchment_skin)
+	if(!idx)
+		idx = 1
+	parchment_skin = keys[(idx % keys.len) + 1]
+
+/proc/get_statbrowser_themes()
+	var/static/list/themes = list(
+		"dark" = "Matte Black",
+		"light" = "Leatherbound",
+	)
+	return themes
+
+/proc/sanitize_statbrowser_theme(value)
+	if(value in get_statbrowser_themes())
+		return value
+	return "dark"
+
+/datum/preferences/proc/get_statbrowser_theme_display_name()
+	var/list/themes = get_statbrowser_themes()
+	return themes[statbrowser_theme] || themes["dark"]
+
+/datum/preferences/proc/cycle_statbrowser_theme()
+	var/list/themes = get_statbrowser_themes()
+	var/list/keys = list()
+	for(var/k in themes)
+		keys += k
+	var/idx = keys.Find(statbrowser_theme)
+	if(!idx)
+		idx = 1
+	statbrowser_theme = keys[(idx % keys.len) + 1]
+
+// Get the display name of the current TGUI theme
+/datum/preferences/proc/get_tgui_theme_display_name()
+	var/list/themes = get_tgui_themes()
+	return themes[tgui_theme] || tgui_theme
+
+// Open the theme picker with live preview
 /datum/preferences/proc/setTguiStyle(mob/user)
-    var/static/list/styles = list("azure_default", "azure_green", "azure_lane", "azure_purple", "trey_liam")
-    var/current_index = styles.Find(tgui_theme)
-    if(!current_index)
-        current_index = 1
-    var/next_index = (current_index % styles.len) + 1
-    tgui_theme = styles[next_index]
-    to_chat(usr, "<span class='notice'>TGUI style set to [get_tgui_theme_display_name()].</span>")
-    save_preferences()
-	
+	var/datum/theme_picker/picker = new(user)
+	picker.ui_interact(user)

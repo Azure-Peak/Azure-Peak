@@ -1,3 +1,5 @@
+GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COLOR_GRAY, "Black" = COLOR_ALMOST_BLACK, "Brown" = COLOR_DARK_BROWN, "Chestnut" = COLOR_DARK_ORANGE))
+
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast
 	name = "fogbeast mare"
 	desc = "A distant cousin to the saiga, hailing from the mysterious islands of Kaizoku - rarer, but more strongly valued. Extensively used in the Steppes of Aavnr as pack animals and combat mounts."
@@ -7,6 +9,7 @@
 	icon_dead = "fogbeast_dead"
 	icon_gib = "saiga_gib"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_see = list("looks around.", "chews some leaves.", "neighs")
 	speak_chance = 1
 	turns_per_move = 5
@@ -27,7 +30,7 @@
 	bonus_tame_chance = 15
 	footstep_type = FOOTSTEP_MOB_SHOE
 	pooptype = /obj/item/natural/poo/horse
-	faction = list("horse")
+	faction = list(FACTION_HORSE)
 	attack_verb_continuous = "tramples"
 	attack_verb_simple = "kicks"
 	melee_damage_lower = 50
@@ -48,8 +51,18 @@
 	can_buckle = TRUE
 	buckle_lying = 0
 	can_saddle = TRUE
+	max_buckled_mobs = 2
 	aggressive = TRUE
 	remains_type = /obj/effect/decal/remains/saiga
+
+	var/fogbeast_color
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/Initialize(mapload, var/set_fogbeast_color)
+	. = ..()
+	fogbeast_color = set_fogbeast_color
+	if(!fogbeast_color)
+		fogbeast_color = pick(GLOB.valid_fogbeast_colors)
+	color = GLOB.valid_fogbeast_colors[fogbeast_color]
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tame
 	tame = TRUE
@@ -65,14 +78,8 @@
 	cut_overlays()
 	..()
 	if(stat != DEAD)
-		if(ssaddle)
-			var/mutable_appearance/saddlet = mutable_appearance(icon, "saddle-above", 4.3)
-			add_overlay(saddlet)
-			saddlet = mutable_appearance(icon, "saddle")
-			add_overlay(saddlet)
-		if(has_buckled_mobs())
-			var/mutable_appearance/mounted = mutable_appearance(icon, "[icon_state]_mounted", 4.3)
-			add_overlay(mounted)
+		add_saddleicon("saddle-above", "saddle")
+		add_ridericon("[icon_state]_mounted")
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/get_sound(input)
@@ -94,13 +101,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tamed()
 	..()
 	deaggroprob = 20
-	if(can_buckle)
-		var/datum/component/riding/D = LoadComponent(/datum/component/riding/no_ocean)
-		D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, 8), TEXT_SOUTH = list(0, 8), TEXT_EAST = list(-2, 8), TEXT_WEST = list(2, 8)))
-		D.set_vehicle_dir_layer(SOUTH, ABOVE_MOB_LAYER)
-		D.set_vehicle_dir_layer(NORTH, OBJ_LAYER)
-		D.set_vehicle_dir_layer(EAST, OBJ_LAYER)
-		D.set_vehicle_dir_layer(WEST, OBJ_LAYER)
+	setup_mount()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/death()
 	unbuckle_all_mobs()
@@ -151,10 +152,12 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/proc/check_sprint_dismount()
 	SIGNAL_HANDLER
 	for(var/mob/living/carbon/human/rider in buckled_mobs)
-		if(rider.m_intent == MOVE_INTENT_RUN)
-			var/rider_skill = rider.get_skill_level(/datum/skill/misc/riding)
-			if(rider_skill < SKILL_LEVEL_MASTER)
-				violent_dismount(rider)
+		if(rider.m_intent != MOVE_INTENT_RUN)
+			continue
+		var/rider_skill = rider.get_skill_level(/datum/skill/misc/riding)
+		if(rider_skill >= SKILL_LEVEL_MASTER)
+			continue
+		violent_dismount(rider)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/post_buckle_mob(mob/living/M)
 	. = ..()
@@ -229,7 +232,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = "punch_hard"
 	chargetime = 0
-	penfactor = 10
+	penfactor = PEN_NONE
 	swingdelay = 0
 	candodge = TRUE
 	canparry = TRUE

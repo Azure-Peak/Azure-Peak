@@ -17,10 +17,10 @@
 	if(ishuman(user))
 		if(istype(W, /obj/item/roguekey/psydonkey))
 			if(opened)
-				to_chat(user, span_info("The reliquary box has already been opened..."))
+				to_chat(user, span_info("The reliquary box has already been opened.."))
 				return
 			qdel(W)
-			to_chat(user, span_info("The reliquary lock takes my key as it opens, I take a moment to ponder what power was delivered to us..."))
+			to_chat(user, span_info("The reliquary lock takes my key as it opens, I take a moment to ponder what power was delivered to us.."))
 			playsound(loc, 'sound/foley/doors/lock.ogg', 60)
 			to_chat(user,)
 			var/relics = list("Melancholic Crankbox - Antimagic", "Daybreak - Silver Whip", "Stigmata - Silver Halberd", "Apocrypha - Silver Greatsword", "Golgatha - SYON Shard Censer")
@@ -55,6 +55,7 @@
 	icon = 'icons/roguetown/items/misc.dmi'
 	w_class = WEIGHT_CLASS_HUGE
 	var/cranking = FALSE
+	var/cranking_true_nature = FALSE //Are we torturing the souls openly, or subtle in nature?
 	force = 15
 	max_integrity = 100
 	attacked_sound = 'sound/combat/hits/onwood/education2.ogg'
@@ -64,13 +65,20 @@
 	twohands_required = TRUE
 	var/datum/looping_sound/psydonmusicboxsound/soundloop
 
+/obj/item/psydonmusicbox/get_examine_highlight_status()
+	// If we are not crankin' that shit... its just a musical box, nothing weird.
+	if(cranking_true_nature == FALSE)
+		return null
+	// Otherwise, it's obvious this thing is torturing souls and is fucked up and evil.
+	else
+		return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_INQUIS_CHURNER)
 
 /obj/item/psydonmusicbox/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(usr, TRAIT_INQUISITION))
-		desc = "A relic from the bowels of the Otavan cathedral's thaumaturgical workshops. Fourteen souls of heretics, all bound together, they will scream and protect us from magicks. It would be wise to not teach the heretics of its true nature, to only bring it to bear in dire circumstances."
+		desc = "A relic from the bowels of the Grand Otavan Cathedral's thaumaturgical workshops. The spirits of fifteen heathens, bound within this infernal contraption, sign a haunting tune; one that disrupts the leylines, prevents the faithless from casting spells, and immunizing the faithful to all magicka. <b>It would be wise to not teach outsiders of its true nature</b>, and to only bring it to bear in dire circumstances."
 	else
-		desc = "A cranked music box, it has the seal of the Otavan Inquisition on the side. It carries a somber feeling to it..."
+		desc = "A cranked music box, bearing the seal of the Holy Otavan Inquisition on its side. It radiates with an inexplicable feeling of somberness."
 
 /obj/item/psydonmusicbox/attack_self(mob/living/user)
 	. = ..()
@@ -78,19 +86,22 @@
 		user.add_stress(/datum/stressevent/soulchurnerhorror)
 		to_chat(user, (span_cultsmall("I FEEL SUFFERING WITH EVERY CRANK, WHAT AM I DOING?!")))
 	cranking = !cranking
+	cranking_true_nature = !cranking_true_nature
 	update_icon()
 	if(cranking)
 		if(!HAS_TRAIT(usr, TRAIT_INSPIRING_MUSICIAN))
+			cranking_true_nature = cranking_true_nature
 			user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)
 		else
 			if(alert("Harmonize the voices or let them scream?",, "Harmonize", "Scream") != "Scream")
 				user.apply_status_effect(/datum/status_effect/buff/quelling_soulchurner)
 			else
+				cranking_true_nature = cranking_true_nature
 				user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)	
 		soundloop.start()
 		var/songhearers = view(7, user)
 		for(var/mob/living/carbon/human/target in songhearers)
-			to_chat(target,span_cultsmall("[user] begins cranking the soul churner..."))
+			to_chat(target,span_cultsmall("[user] begins cranking the melancholic crankbox.."))
 	if(!cranking)
 		soundloop.stop()
 		user.remove_status_effect(/datum/status_effect/buff/cranking_soulchurner)
@@ -103,7 +114,9 @@
 /obj/item/psydonmusicbox/Destroy()
 	if(soundloop)
 		QDEL_NULL(soundloop)
-	src.visible_message(span_cult("A great deluge of souls escapes the shattered box!"))
+	src.visible_message(span_cult("A great deluge of souls escapes the shattered box! Their wails of vengeance and peace coalesce into an ethereal swan song, as the spirits ascend into the sky.."))
+	src.visible_message(span_hypnophrase("..before, at last, their haunting symphony finally comes to a close."))
+	playsound(src, 'sound/misc/otavanlament.ogg', 70, TRUE, -1)
 	return ..()
 
 /obj/item/psydonmusicbox/update_icon()
@@ -128,9 +141,9 @@
 				return list("shrink" = 0.6,"sx" = -1,"sy" = 0,"nx" = 11,"ny" = 1,"wx" = 0,"wy" = 1,"ex" = 4,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 15,"sturn" = 0,"wturn" = 0,"eturn" = 39,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 8)
 
 /atom/movable/screen/alert/status_effect/buff/cranking_soulchurner
-	name = "Cranking Soulchurner"
-	desc = "I am bringing the twisted device to life..."
-	icon_state = "buff"
+	name = "Soulchurning"
+	desc = "I am bringing the twisted device to life, letting their screams be heard!"
+	icon_state = "cranked"
 
 /datum/status_effect/buff/cranking_soulchurner
 	id = "crankchurner"
@@ -138,7 +151,7 @@
 	var/effect_color
 	var/pulse = 0
 	var/ticks_to_apply = 10
-	var/undividedlines =list("THEY HAVE TRAPPED US HERE FOR ETERNITY!", "SAVE US, CHILD OF TEN! SHATTER THIS ACCURSED MUSIC BOX!", "DEATH TO THE PSYDONIAN, FREE US!")
+	var/undividedlines =list("'THEY HAVE TRAPPED US HERE FOR ETERNITY!'", "'SAVE US, CHILD OF TEN! SHATTER THIS ACCURSED MUSIC BOX!'", "'DEATH TO THE PSYDONIAN, FREE US!'")
 	var/astratanlines =list("'HER LIGHT HAS LEFT ME! WHERE AM I?!'", "'SHATTER THIS CONTRAPTION, SO I MAY FEEL HER WARMTH ONE LAST TIME!'", "'I am royal.. Why did they do this to me...?'")
 	var/noclines =list("'Colder than moonlight...'", "'No wisdom can reach me here...'", "'Please help me, I miss the stars...'")
 	var/necralines =list("'They snatched me from her grasp, for eternal torment...'", "'Necra! Please! I am so tired! Release me!'", "'I am lost, lost in a sea of stolen ends.'")
@@ -154,6 +167,7 @@
 	var/graggarlines =list("'ANOINTED! TEAR THIS OTAVAN'S HEAD OFF!'", "'ANOINTED! SHATTER THE BOX, AND WE WILL KILL THEM TOGETHER!'", "'GRAGGAR, GIVE ME STRENGTH TO BREAK MY BONDS!'")
 	var/baothalines =list("'I miss the warmth of ozium... There is no feeling in here for me...'", "'Debauched one, rescue me from this contraption, I have such things to share with you.'", "'MY PERFECTION WAS TAKEN FROM ME BY THESE OTAVAN MONSTERS!'")
 	var/psydonianlines =list("'FREE US! FREE US! WE HAVE SUFFERED ENOUGH!'", "'PLEASE, RELEASE US!", "WE MISS OUR FAMILIES!'", "'WHEN WE ESCAPE, WE ARE GOING TO CHASE YOU INTO YOUR GRAVE.'")
+	var/otherlines =list("'FREE US! FREE US!'", "'PLEASE, SAVE US!", "WE MISS OUR FAMILIES!'", "'NO MORE! NO MORE! NO MORE!'")
 /datum/status_effect/buff/cranking_soulchurner/on_creation(mob/living/new_owner, stress, colour)
 	effect_color = "#800000"
 	return ..()
@@ -268,6 +282,13 @@
 						H.add_stress(/datum/stressevent/soulchurner)
 						if(!H.has_status_effect(/datum/status_effect/buff/churnernegative))
 							H.apply_status_effect(/datum/status_effect/buff/churnernegative)
+					else
+						to_chat(H, (span_hypnophrase("A voice calls out from the song for you...")))
+						to_chat(H, (span_cultsmall(pick(otherlines))))
+						H.add_stress(/datum/stressevent/soulchurner)
+						if(!H.has_status_effect(/datum/status_effect/buff/churnernegative))
+							H.apply_status_effect(/datum/status_effect/buff/churnernegative)
+
 
 
 /atom/movable/screen/alert/status_effect/buff/quelling_soulchurner
@@ -321,7 +342,7 @@ Inquisitorial armory down here
 	item_state = "psycenser"
 	light_outer_range = 8
 	light_color ="#70d1e2"
-	possible_item_intents = list(/datum/intent/mace/smash/flail/golgotha)
+	possible_item_intents = list(/datum/intent/flail/smash/golgotha)
 	fuel = 999 MINUTES
 	force = 30
 	var/next_smoke
@@ -330,10 +351,16 @@ Inquisitorial armory down here
 /obj/item/flashlight/flare/torch/lantern/psycenser/examine(mob/user)
 	. = ..()
 	if(fuel > 0)
-		. += span_info("If opened, it may bless Psydon weapons and those of Psydon faith.")
-		. += span_warning("Smashing a creature with it open will create a devastating explosion and render it useless.")
+		. += span_info("Activate in your hand to open it.")
+		. += span_info("When opened, the 'BLESS' intent can be used to anoint Psydonic silver weaponry. Blessing a Psydonic silver weapon greatly enhances the power of its critical hits and debuffs against sunderable opponents.")
+		. += span_info("Blessing someone else, who happens to be a worshipper of Psydon, will temporarily buff them with increased Willpower, Constitution, and Fortune.")
+		. += span_warning("If the 'SMASH' intent is used while it's opened, the residing shard will violently explode with unimaginable force.")
+		. += span_warning("<font color='#00e1ff'>While active, Golgatha burns and weakens anyone who attacks its bearer. The effect persists only while the attacker remains within the relic's light. This feature requires the bearer to be Silverblessed, and inflicts extra damage to mindless foes.</font>")
 	if(fuel <= 0)
 		. += span_info("It is gone.")
+
+/obj/item/flashlight/flare/torch/lantern/psycenser/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_VIBE_GOLGATHA, VIBEDESC_GOLGATHA)
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/getonmobprop(tag)
 	. = ..()
@@ -348,11 +375,11 @@ Inquisitorial armory down here
 	if(fuel > 0)
 		if(on)
 			turn_off()
-			possible_item_intents = list(/datum/intent/mace/smash/flail/golgotha)
+			possible_item_intents = list(/datum/intent/flail/smash/golgotha)
 			user.update_a_intents()
 		else
 			playsound(src.loc, 'sound/items/censer_on.ogg', 100)
-			possible_item_intents = list(/datum/intent/mace/smash/flail/golgotha, /datum/intent/bless)
+			possible_item_intents = list(/datum/intent/flail/smash/golgotha, /datum/intent/bless)
 			user.update_a_intents()
 			on = TRUE
 			update_brightness()
@@ -364,14 +391,16 @@ Inquisitorial armory down here
 				M.update_inv_hands()
 			START_PROCESSING(SSobj, src)
 	else if(fuel <= 0 && user.used_intent.type == /datum/intent/weep)
-		to_chat(user, span_info("It is gone. You weep."))
-		user.emote("cry")
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			to_chat(user, span_info("It is gone. You weep."))
+			user.emote("cry")
+		else
+			to_chat(user, span_info("It is gone. You feel nothing."))
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/process()
 	if(on && next_smoke < world.time)
 		new /obj/effect/temp_visual/censer_dust(get_turf(src))
 		next_smoke = world.time + smoke_interval
-		
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/turn_off()
 	playsound(src.loc, 'sound/items/censer_off.ogg', 100)
@@ -385,14 +414,14 @@ Inquisitorial armory down here
 		M.update_inv_belt()
 	damtype = BRUTE
 
-
 /obj/item/flashlight/flare/torch/lantern/psycenser/fire_act(added, maxstacks)
 	return
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()	//We smashed a guy with it turned on. Bad idea!
-	if(ismob(A) && on && (user.used_intent.type == /datum/intent/mace/smash/flail/golgotha) && user.cmode)
+	if(ismob(A) && on && (user.used_intent.type == /datum/intent/flail/smash/golgotha) && user.cmode)
 		user.visible_message(span_warningbig("[user] smashes the exposed [src], shattering the shard of SYON!"))
+		user.visible_message(span_blue(pick("WHY--!!","SYON BLAS--!!","ENDU--!!","ENDURE THI--!!","WHAT THE F--!!","OH MY ALLFA--!!","OH PSYDO--!!","KABOO--!!","MASHALLA--!!","OH ADONA--!!","OH SHI--!!","PSYDO--!!","PSYDON BLAS--!!")))
 		explosion(get_turf(A),devastation_range = 3, heavy_impact_range = 5, light_impact_range = 6, flame_range = 3, flash_range = 6, smoke = FALSE)
 		fuel = 0
 		turn_off()
@@ -400,7 +429,7 @@ Inquisitorial armory down here
 		possible_item_intents = list(/datum/intent/weep)
 		user.update_a_intents()
 		for(var/mob/living/carbon/human/H in view(get_turf(src)))
-			if(H.patron?.type == /datum/patron/old_god)	//Psydonites get VERY depressed seeing an artifact get turned into an ulapool caber.
+			if(H.patron?.type == /datum/patron/old_god)	//Psydonites get VERY depressed seeing an artifact get turned into an ullapool caber.
 				H.add_stress(/datum/stressevent/syoncalamity)
 		for(var/mob/living/carbon/human/H in range(1, get_turf(src)))
 			H.gib()
@@ -409,7 +438,7 @@ Inquisitorial armory down here
 		if(CP)
 			if(!CP.is_blessed && (CP.silver_type & SILVER_PSYDONIAN))
 				playsound(user, 'sound/magic/censercharging.ogg', 100)
-				user.visible_message(span_info("[user] holds \the [src] over \the [A]..."))
+				user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
 				if(do_after(user, 50, target = A))
 					CP.try_bless(BLESSING_PSYDONIAN)
 					new /obj/effect/temp_visual/censer_dust(get_turf(A))
@@ -420,10 +449,10 @@ Inquisitorial armory down here
 		if(H.patron?.type == /datum/patron/old_god)
 			if(!H.has_status_effect(/datum/status_effect/buff/censerbuff))
 				playsound(user, 'sound/magic/censercharging.ogg', 100)
-				user.visible_message(span_info("[user] holds \the [src] over \the [A]..."))
+				user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
 				if(do_after(user, 50, target = A))
 					H.apply_status_effect(/datum/status_effect/buff/censerbuff)
-					to_chat(H, span_notice("The comet dust invigorates you."))
+					to_chat(H, span_hypnophrase("The fragrance of SYON's shard invigorates you!"))
 					playsound(H, 'sound/magic/holyshield.ogg', 100)
 					new /obj/effect/temp_visual/censer_dust(get_turf(H))
 			else
@@ -432,6 +461,102 @@ Inquisitorial armory down here
 		else
 			to_chat(user, span_warning("They do not share our faith."))
 
+/mob/living/carbon/human/proc/has_active_golgatha()
+	for(var/obj/item/flashlight/flare/torch/lantern/psycenser/G in contents)
+		if(G.on)
+			return TRUE
+	return FALSE
+
+/mob/living/carbon/human/proc/process_golgatha_rebuke(mob/living/attacker)
+	if(!has_active_golgatha())
+		return
+	if(!HAS_TRAIT(src, TRAIT_SILVER_BLESSED)) // only people who is silverblessed can use golgatha's hidden feature
+		return
+	if(HAS_TRAIT(attacker, TRAIT_INQUISITION)) // wife abuse
+		return
+	new /obj/effect/temp_visual/censer_dust(get_turf(attacker))
+	new /obj/effect/temp_visual/censer_dust(get_turf(attacker))
+	new /obj/effect/temp_visual/frozen_mist_tile(get_turf(attacker))
+	if(issimple(attacker) || !attacker.mind)
+		attacker.apply_status_effect(/datum/status_effect/syonchurn, src)
+	
+	attacker.adjustFireLoss(10)
+
+#define SYONCHURN_FILTER "syonchurn glow"
+
+/atom/movable/screen/alert/status_effect/syonchurn
+	name = "Dying Light"
+	desc = "The shard of Syon rejects my hostility against Psydon's anointed! Luminous fragments scour my body and spirit!"
+	icon_state = "supersunder"
+
+/datum/status_effect/syonchurn
+	id = "syon_churned"
+	alert_type = /atom/movable/screen/alert/status_effect/syonchurn
+	duration = -1
+	tick_interval = 2 SECONDS
+	examine_text = "<font color='#00fff2'><b>SUBJECTPRONOUN is seared in body and soul by motes of lingering comet dust!</b></font>"
+	status_type = STATUS_EFFECT_REFRESH
+	effectedstats = list(STATKEY_LCK = -2, STATKEY_SPD = -2)
+	var/datum/weakref/debuffer
+	var/outline_colour = "#70d1e2"
+	var/intensity = 1
+	var/range = 4
+	var/damage_per_tick = 0.5
+	var/agony = 0
+
+/datum/status_effect/syonchurn/on_creation(mob/living/new_owner, mob/living/caster, potency)
+	if(potency)
+		intensity = potency
+	if(caster)
+		debuffer = WEAKREF(caster)
+	return ..()
+
+/datum/status_effect/syonchurn/on_apply()
+	var/filter = owner.get_filter(SYONCHURN_FILTER)
+	if(!filter)
+		owner.add_filter(SYONCHURN_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 200, "size" = 1))
+	to_chat(owner, span_warning("Brilliant fragments of comet-light burst around me, repelling my violent intent!"))
+	return TRUE
+
+/datum/status_effect/syonchurn/refresh()
+	. = ..()
+	if(intensity <= 10)
+		intensity++
+		if(prob(25))
+			to_chat(owner, span_boldwarning("The shard's radiance intensifies, scourging me for my aggression!"))
+
+/datum/status_effect/syonchurn/process()
+	. = ..()
+	if(!owner)
+		qdel(src)
+		return
+	var/mob/living/carbon/human/source = debuffer?.resolve()
+	if(!source)
+		qdel(src)
+		return
+	if(!source.has_active_golgatha())
+		to_chat(owner, span_blue("As the Golgatha is sealed, the searing dust fades into nothing."))
+		qdel(src)
+		return
+	if(get_dist(source, owner) > range)
+		to_chat(owner, span_blue("Away from the Golgatha's radiance, the searing dust fades into nothing."))
+		qdel(src)
+		return
+
+	owner.adjustFireLoss(damage_per_tick * intensity)
+
+	if(world.time >= agony)
+		agony = world.time + rand(5,15) SECONDS
+		to_chat(owner, span_blue("Blue motes of a dying light burn through my flesh and soul!"))
+		new /obj/effect/particle_effect/thick_steam(get_turf(owner))
+		if(prob(50) && !HAS_TRAIT(owner, TRAIT_NOPAIN))
+			owner.emote("pain")
+
+/datum/status_effect/syonchurn/on_remove()
+	owner.remove_filter(SYONCHURN_FILTER)
+
+#undef SYONCHURN_FILTER
+
 /obj/effect/temp_visual/censer_dust
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "extinguish"
@@ -439,7 +564,7 @@ Inquisitorial armory down here
 
 /obj/item/inqarticles/indexer
 	name = "\improper INDEXER"
-	desc = "A blessed ampoule with a retractable bladetip, intended to further information gathering through hematology. Siphon blood from an individual until the INDEXER clicks shut, then mail it back to Otava for cataloguing."
+	desc = "A blessed ampoule with a retractable bladetip, intended to further information gathering through hematology. Siphon blood from an individual until the INDEXER clicks shut, then mail it back to Otava for cataloguing. </br>The retractable bladetip is alloyed in a special variant of blessed silver, alchemically treated to excaberate the smallest differences in a worshipper's blood. While 'false positives' - especially from those who've recieved an Ascendant's miracles - are common, the device has discovered enough heathens and verebeastes to warrant its continued fundage by the Archbishop of Otava."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "indexer"
 	item_state = "indexer"
@@ -448,9 +573,9 @@ Inquisitorial armory down here
 	grid_height = 32
 	grid_width = 32
 	throwforce = 15
-	force = 4
+	force = 5
 	tool_behaviour = null
-	possible_item_intents = list(/datum/intent/use)
+	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust/quick) //Extremely low damage, blocked by anything sturdier than a cloth shirt. Quite funny to imagine it as a shiv, however.
 	slot_flags = ITEM_SLOT_HIP
 	sharpness = IS_SHARP
 	experimental_inhand = TRUE
@@ -465,6 +590,14 @@ Inquisitorial armory down here
 	var/full	
 	var/timestaken
 	var/working
+
+/obj/item/inqarticles/indexer/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Activate in your hand to toggle the retractable blade.")
+    . += span_info("Left click someone else on the 'USE' intent, while its blade is extended, to begin gathering blood from them.")
+    . += span_info("It takes several cycles to fill the INDEXER with blood - at which point, it will automatically retract the blade and seal itself. This may prove dangerous if used on someone who's already suffering from blood loss.")
+    . += span_info("Once filled, left-clicking the INDEXER on a signed ACCUSATION or CONFESSION will combine them into a foldable package. This package can be then folded, stamped, and mailed back to Otava through the HERMES.")
+    . += span_info("Mailing an INDEXER reveals the worshipped pantheon of whoever's blood was gathered. More MARQUES are rewarded if the INDEXER was filled with the blood of an ASCENDANT, NITEBEASTE, or CURSEBOUND.")
 
 /obj/item/inqarticles/indexer/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -574,7 +707,7 @@ Inquisitorial armory down here
 		full = TRUE
 		visible_message(span_warning("[src] finishes drawing blood!"))
 		active = FALSE
-		desc += span_notice(" It's full!")
+		desc += span_notice("It's full!")
 		if(cursedblood)
 			playsound(src, 'sound/items/indexer_cursed.ogg', 100, FALSE, 3)
 			possible_item_intents = list(/datum/intent/use)
@@ -619,6 +752,8 @@ Inquisitorial armory down here
 					cursedblood = 2
 				if(M.mind.has_antag_datum(/datum/antagonist/vampire))
 					cursedblood = 3
+				if(HAS_TRAIT (M, TRAIT_BLACKBLOOD))
+					cursedblood = 0.1 // trolling the inquisition newbies
 			update_icon()
 			takeblood(M, user)
 		else
@@ -630,20 +765,81 @@ Inquisitorial armory down here
 		if(!active)
 			to_chat(user, span_warning("It's not primed."))
 			return
-		if(subject)
-			if(M != subject)
-				return
-		if(HAS_TRAIT(M, TRAIT_BLOODLOSS_IMMUNE))
-			to_chat(user, span_warning("They don't have any blood to sample."))		
-			return
-		if(istype(M, /mob/living/carbon/human/species/skeleton))
-			to_chat(user, span_warning("I don't think the Inquisition values marrow much these daes."))	
-			return		
-		if(!M.mind)		
-			return	
+
 		if(full)
 			to_chat(user, span_warning("It's full."))	
 			return	
+
+		if(subject)
+			if(M != subject)
+				return
+
+		if(istype(M, /mob/living/carbon/human/species/skeleton))
+			visible_message(span_warning("[user] goes to jab [M] with [src]!"))
+			if(do_after(user, 20, FALSE, M))
+				src.say("ERROR. BONE MARROW IS NOT A VALID INDEXING SUBSTANCE.")
+				to_chat(user, span_warning("I don't think that was wise. I hope nobody saw it..."))
+				playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+				return	
+			else
+				src.say("ERROR. BONE MARROW IS NOT A VALID INDEXING SUBSTANCE.")
+				to_chat(user, span_warning("I don't think that was wise. I hope nobody saw it..."))
+				playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+				return	
+
+		if(iscarbon(M))
+			visible_message(span_warning("[user] goes to jab [M] with [src]!"))
+			if(do_after(user, 20, FALSE, M))
+				var/mob/living/carbon/H = M
+				if(H.dna?.species && (NOBLOOD in H.dna.species.species_traits))
+					src.say("ERROR. NO BLOOD DETECTED.")
+					playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+					return
+			else
+				var/mob/living/carbon/H = M
+				if(H.dna?.species && (NOBLOOD in H.dna.species.species_traits))
+					src.say("ERROR. NO BLOOD DETECTED.")
+					playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+					return
+
+		if(M.blood_volume <= 0)
+			visible_message(span_warning("[user] goes to jab [M] with [src]!"))
+			if(do_after(user, 20, FALSE, M))
+				src.say("ERROR. THEY ARE COMPLETELY DEVOID OF BLOOD.")
+				playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+				return
+			else
+				src.say("ERROR. THEY ARE COMPLETELY DEVOID OF BLOOD.")
+				playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+				return
+
+		if(!M.mind)		
+			return	
+
+		if(M.stat == DEAD)
+			var/found_cursed = FALSE
+			if(M.mind.has_antag_datum(/datum/antagonist/werewolf, FALSE))
+				found_cursed = TRUE
+			if(M.mind.has_antag_datum(/datum/antagonist/werewolf/lesser, FALSE))
+				found_cursed = TRUE
+			if(M.mind.has_antag_datum(/datum/antagonist/vampire, FALSE))
+				found_cursed = TRUE
+			if(M.mind.has_antag_datum(/datum/antagonist/vampire))
+				found_cursed = TRUE
+			if(!found_cursed)
+				if(do_after(user, 20, FALSE, M))
+					playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+					src.say("EXTRACTION FAILED. NO LUX DETECTED.")
+					return
+				else
+					playsound(M, 'sound/combat/hits/bladed/genstab (1).ogg', 30, FALSE, -1)
+					src.say("EXTRACTION FAILED. NO LUX DETECTED.")
+					return
+
+			src.say("SUSPICIOUS SUBSTANCE DETECTED. DIGGING THROUGH FLESH.")
+			takeblood(M, user)
+			return
+
 		visible_message(span_warning("[user] goes to jab [M] with [src]!"))
 		if(do_after(user, 20, FALSE, M))
 			takeblood(M, user)
@@ -651,93 +847,6 @@ Inquisitorial armory down here
 			return
 	else
 		to_chat(user, span_warning("I don't know how to use this."))		
-
-/obj/item/inqarticles/tallowpot
-	name = "tallowpot"
-	desc = "A small metal pot meant for holding waxes or melted redtallow. Convenient for coating signet rings and making an imprint. The warmth of a torch, lamptern, or candle should be enough to melt the redtallow for stamping writs."
-	icon = 'icons/roguetown/items/misc.dmi'
-	icon_state = "tallowpot"
-	item_state = "tallowpot"
-	dropshrink = 0.9
-	throw_speed = 1
-	throw_range = 3
-	throwforce = 5
-	possible_item_intents = list(/datum/intent/use)
-	grid_height = 32
-	grid_width = 32
-	obj_flags = CAN_BE_HIT
-	experimental_inhand = TRUE
-	w_class = WEIGHT_CLASS_SMALL
-	intdamage_factor = 0
-	embedding = null
-	var/tallow
-	var/remaining
-	var/heatedup
-	var/messageshown = 1
-	sellprice = 0
-
-/obj/item/inqarticles/tallowpot/Initialize(mapload)
-	. = ..()
-	START_PROCESSING(SSobj, src)	// For making sure it melts.
-
-/obj/item/inqarticles/tallowpot/Destroy()
-	. = ..()
-	STOP_PROCESSING(SSobj, src)	
-
-/obj/item/inqarticles/tallowpot/process()
-	if(heatedup > 0)
-		heatedup -= 4
-		remaining = max(remaining - -20, 0)
-		messageshown = 0
-	else
-		if(tallow)
-			if(!messageshown)
-				visible_message(span_info("The redtallow in [src] hardens again."))
-				messageshown = 1
-			update_icon()
-	if(remaining == 0)
-		qdel(tallow)
-		tallow = initial(tallow)
-		update_icon()
-	
-/obj/item/inqarticles/tallowpot/attacked_by(obj/item/I, mob/living/user)
-	. = ..()
-	if(istype(I, /obj/item/reagent_containers/food/snacks/tallow/red))
-		if(!tallow)
-			var/obj/item/reagent_containers/food/snacks/tallow/red/Q = I
-			tallow = Q
-			user.transferItemToLoc(Q, src, TRUE)
-			remaining = 300
-			update_icon()
-		else
-			to_chat(user, span_info("The [src] already has redtallow in it."))
-
-	if(istype(I, /obj/item/flashlight/flare/torch/))		
-		heatedup = 28
-		visible_message(span_info("[user] warms [src] with [I]."))
-		update_icon()
-
-	if(istype(I, /obj/item/candle/)) //Could optimize this, probably. Allows candles to be used in lighting up the tallow, too.	Remove if torches and lampterns suddenly stop working for this.
-		heatedup = 28
-		visible_message(span_info("[user] warms [src] with [I]."))
-		update_icon()
-
-	if(istype(I, /obj/item/clothing/ring/signet))	
-		if(tallow && heatedup)	
-			var/obj/item/clothing/ring/signet/ring = I
-			ring.tallowed = TRUE
-			ring.update_icon()	
-		
-
-/obj/item/inqarticles/tallowpot/update_icon()
-	. = ..()	
-	if(tallow)
-		icon_state = "[initial(icon_state)]_filled"
-		if(heatedup)
-			icon_state = "[initial(icon_state)]_melted"
-	else
-		icon_state = "[initial(icon_state)]"
-
 
 /obj/item/rope/inqarticles/inquirycord
 	name = "inquiry cordage"
@@ -791,7 +900,7 @@ Inquisitorial armory down here
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
 	experimental_inhand = TRUE
 	wieldsound = TRUE
-	max_integrity = 200
+	max_integrity = 300
 	w_class = WEIGHT_CLASS_SMALL
 	can_parry = FALSE
 	break_sound = 'sound/items/garrotebreak.ogg'
@@ -805,6 +914,14 @@ Inquisitorial armory down here
 	integrity_failure = 0.01
 	embedding = null
 	sellprice = 0
+
+/obj/item/inqarticles/garrote/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left click with the 'GRAB' intent, while targeting the neck, to lock someone else into a chokehold.")
+    . += span_info("Once locked into a chokehold, the 'CHOKE' intent can be used to rapidly choke the recipient into unconsciousness. Mindless recipients take far more damage when being choked.")
+    . += span_info("Integrity damage is primarily taken whenever the recipient attempts to resist out of a chokehold. Each attempt to resist removes a twelveth of the garrote's total integrity.")
+    . += span_info("Upon taking enough integrity damage, the garrote's cordage is snapped. Left-clicking a spool of inquisitorial cordage on the snapped garrote will fully repair it.")
+    . += span_info("Using this item takes longer than usual, if the handler lacks the necessary trait or training.")
 
 /obj/item/inqarticles/garrote/obj_break(damage_flag)
 	obj_broken = TRUE
@@ -1013,6 +1130,14 @@ Inquisitorial armory down here
 	var/bagging = FALSE
 	var/headgear
 
+/obj/item/clothing/head/inqarticles/blackbag/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left click while targeting the head to attempt a 'blackbagging', which - if successful - completely blinds the recipient.")
+    . += span_info("While worn, the recipient's head is completely immune to damage.")
+    . += span_info("Blackbagged recipients are subdued far quicker when choked with a garrote.")
+    . += span_info("Unconscious recipients can be blackbagged much faster than if they're fully conscious.")
+    . += span_info("Using this item takes longer than usual, if the handler lacks the necessary trait or training.")
+
 /obj/item/clothing/head/inqarticles/blackbag/proc/bagsound(mob/living/M)
 	if(bagging)
 		playsound(M, pick('sound/misc/blackbag.ogg','sound/misc/blackbag2.ogg','sound/misc/blackbag3.ogg','sound/misc/blackbag4.ogg','sound/misc/blackbag5.ogg'), 100, TRUE, 4)
@@ -1161,9 +1286,15 @@ Inquisitorial armory down here
 /obj/item/inqarticles/bmirror/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(usr, TRAIT_INQUISITION))
-		desc = "A mass-produced relic of the Otavan Inquisition. The exact method of the Black Mirror's operation remains a well-kept secret. One worth dying over, supposedly."
+		desc = "A hauntingly beautiful mirror, clasped within a blacksteeled clamshell. It is a hand-produced relic of the Holy Psydonic Inquisition. The exact method of the Black Mirror's operation remains a well-kept secret. One worth dying over, supposedly."
 	else
-		desc = ""
+		desc = "A hauntingly beautiful mirror, clasped within a blacksteeled clamshell. A lone spike awaits at the bottom; but, for what?"
+
+/obj/item/inqarticles/bmirror/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Right click to open or close the BLACK MIRROR.")
+    . += span_info("Once opened, left-clicking yourself with the BLACK MIRROR will anoint its spike in your blood. This can be dangerous, if used while you're already suffering from blood loss.")
+    . += span_info("Activate the BLACK MIRROR in your hand, once bloodied, to scry whoever's name you enter into the following prompt.")
 
 /obj/item/inqarticles/bmirror/proc/donefixating()
 	bloody = TRUE
@@ -1374,6 +1505,12 @@ Inquisitorial armory down here
 	icon_state = "scryingeye"
 	timeout = 8 SECONDS
 
+/atom/movable/screen/alert/hagscry
+	name = "THE ROOTS OBSERVE"
+	desc = "I SEE YOU."
+	icon_state = "scryingeye"
+	timeout = 8 SECONDS
+
 /atom/movable/screen/alert/blackmirror
 	name = "BLACK EYE"
 	desc = "LOOK AT ME. I SEE YOU."
@@ -1414,4 +1551,251 @@ Inquisitorial armory down here
 
 /obj/item/inqarticles/spyglass/attack_self(mob/living/user)
 	. = ..()
+
+GLOBAL_LIST_INIT(inquisition_used_ids, list())
+
+/proc/generate_inquisition_id()
+	var/id
+	while(TRUE)
+		var/a = rand(0, 9)
+		var/b = ascii2text(rand(65, 90)) // A-Z
+		var/c = rand(0, 9)
+		var/d = ascii2text(rand(65, 90))
+		id = "[a][b][c][d]"
+		if(!(id in GLOB.inquisition_used_ids))
+			GLOB.inquisition_used_ids += id
+			return id
+
+/obj/item/paper/inquisition_report
+	name = "haemological report"
+	desc = "An official haemological report bearing the seal of the Holy Otavan Inquisition. A crystal-clear sign that an INDEXER has been properly sent back for further investigation, and this is the result of it."
+	icon_state = "confession_signed"
+	aura_color = "#00c3ff"
+	var/mob/living/carbon/human/subject
+	var/report_html = ""
+	var/report_id
+
+/obj/item/paper/inquisition_report/update_icon_state()
+	icon_state = "confession_signed"
+	slot_flags |= ITEM_SLOT_HIP
+	return
+
+/obj/item/paper/inquisition_report/attack_right(mob/user)
+	return
+
+/obj/item/paper/inquisition_report/attack_self(mob/user)
+	if(!report_html || !length(report_html))
+		to_chat(user, span_warning("The certificate appears to be... blank? Report this in an A-HELP or file a Bug Report, please!"))
+		return
+	var/html = {"
+	<html>
+	<head>
+		<title>Haemological Report</title>
+	</head>
+	<body bgcolor='#E8DFC4'>
+		<div style='
+			font-family: Georgia, Times New Roman, serif;
+			padding: 16px;
+			max-width: 800px;
+			margin: auto;
+			color: black;
+		'>
+			[report_html]
+		</div>
+	</body>
+	</html>
+	"}
+	user << browse(html, "window=inquisition_report;size=750x850;can_resize=1")
+
+/obj/item/paper/inquisition_report/proc/fill_report(mob/living/carbon/human/H, mob/writer)
+	if(!H)
+		return
+
+	subject = H
+
+	var/list/examiners = list(
+		"Brother Matthieu de Clairmont", "Brother Lucien Beaumont", "Sister Eloise d'Artois", "Brother Gautier Desrosiers", "Sister Amaury de Vienne", "Sister Cecile Montfort", "Brother Renaud Charbonneau", "Brother Bastien Moreau", "Brother Lucard Belmont", "Sister Serena Eclaire", "Sister Artoria d'Dragone", "Brother Adrien de Rochefort", "Brother Thibault de Vaillant", "Sister Marguerite de Chastel", "Brother Etienne Bellamy", "Sister Roseline de Valcourt", "Brother Armand Duplessis", "Sister Genevieve Beaumont", "Brother Roland de Sancerre", "Sister Vivienne Charbonneau", "Brother Olivier de Montreuil", "Sister Ysabeau de Clairvaux", "Brother Philippe d'Aurillac", "Sister Adele de Marquette", "Brother Gaspard Delacroix", "Sister Heloise de Vaugrenier", "Brother Tristan Morel", "Sister Lucienne de Brissac", "Brother Remy de Valois", "Sister Aveline de Rougemont", "Brother Benoît de Couronne", "Brother Amaury de Castelain", "Sister Julienne d'Aubigny", "Brother Corentin de Miremont", "Sister Odette de Vaucelles", "Brother Florent de Charny", "Sister Seraphine Bellanger", "Brother Alaric de Montbard", "Sister Colette de Verrières", "Brother Theodore de Saint-Clair", "Sister Isolde de Beaumont", "Brother Freestein D'Estyler", "Brother Hunsari D'Phorone", "Brother Ryone D'Reensvolfe", "Sister Saphir D'Eriye", "Brother Khet D'Railne"
+	)
+
+	var/examiner = pick(examiners)
+
+	var/list/opening = list(
+		"The accusation and accompanying INDEXER submitted by the Ambassy have been received beneath proper seal. The enclosed findings are certified and entered into the Grand Ledger of Prosecutions and Procurement.",
+		"The submitted blood sample has undergone full haemological examination by the Grand Bureau of Haemological Affairs. This certificate constitutes the Bureau's official findings regarding the indexed subject.",
+		"The accompanying accusation has been archived within the Holy Otavan Inquisition. Examination of the enclosed sample has concluded and the certified findings are returned herewith."
+	)
+
+	var/list/sample_notes = list(
+		"The INDEXER arrived under proper hermetic seal. No breach of vessel or wax was observed upon receipt at Otava.",
+		"The sanguine vessel bears correct inquisitorial puncture. Field extraction deemed doctrinally compliant.",
+		"The courier seal of the Holy Hermes remained unbroken. Sample accepted into processing without purification delay.",
+		"Minimal coagulation observed at neck of vessel. Sample remains suitable for Lux interrogation rites.",
+		"The INDEXER shows evidence of proper field restraint techniques. Subject control deemed adequate.",
+		"Trace external moisture present on parchment exterior; internal sample remains uncontaminated.",
+		"The vessel was overfilled beyond prescribed ecclesiastical measure. No disciplinary action recommended.",
+		"The sample exhibits slight agitation of humours consistent with extended transit under mortal conditions.",
+		"Wax seal correctly applied in field conditions. No sanguine leakage into secondary wrapping detected.",
+		"The INDEXER was inscribed with legible accusation markings. Identification remains unambiguous.",
+		"Proper invocation markings present upon sealing. Allfather's name was invoked correctly at point of closure.",
+		"The sample bears faint residue of incense smoke. This is deemed ritually acceptable.",
+		"Minor fracture stress observed in vessel glass; containment integrity not compromised.",
+		"Field extraction angle suggests experienced inquisitorial hand. No corrective instruction issued.",
+		"Blood volume within expected bounds for interrogation standard IX-VII.",
+		"The INDEXER retains full doctrinal traceability from subject to registry without interruption.",
+		"No signs of substitution, dilution, or false vesseling detected during reception.",
+		"Sample classified as 'stable mortal sanguine' pending Lux interrogation.",
+		"External handling marks suggest rough courier passage; internal sanctity preserved.",
+		"The INDEXER was accompanied by properly written accusation writ. All seals match registry expectation."
+	)
+
+	var/list/archive_notes = list(
+		"Filed into the Grand Ledger of Prosecutions and Procurement under Otavan Code: Dying Light.",
+		"Cross-indexed against Seventh Scarlet Archive and Null Heresy Register. No duplication found.",
+		"Subject assigned permanent Haemological Index prior to Lux interrogation cycle.",
+		"Entry confirmed under Castifico Warrant Registry where applicable.",
+		"Chain-of-custody verified through Hermes transit sigils. No deviation recorded.",
+		"Sample entered into sealed doctrinal custody pending full Psydonic evaluation.",
+		"Administrative classification assigned: FIELD BLOOD / HERESY PROXIMITY UNKNOWN.",
+		"Registry notes prior submission history for subject; continuity preserved.",
+		"Duplicate sample suppression active; prior entries retained for comparative judgement.",
+		"Record forwarded to Inner Inquisition Scribes for doctrinal annotation.",
+		"Entry marked for secondary review under anti-corruption protocol VIII: Silent Flame.",
+		"Sample placed under conditional observation for latent Inhumen resonance.",
+		"Cross-reference completed with regional heresy hunting ledgers.",
+		"Transit record confirms no interference by non-Otavan authorities.",
+		"Filed under PSYDON's Mandate Archive. All other divine attributions rejected as falsehoods.",
+		"Archival note: subject appears in minor peripheral inquiry logs unrelated to current case.",
+		"Record sealed under Inquisitorial Authority. Access restricted to sworn Hands of Psydon.",
+		"Administrative remark: repeated submissions from same sect logged; efficiency rating adjusted.",
+		"Final classification withheld pending Lux Resonance Determination."
+	)
+
+	var/mistake = rand(1,80)
+	var/error_chance = "For this INDEXED sample, a false-positive chance of [mistake]% must be accounted for."
 	
+	report_html = ""
+	report_html += "<center><font size=4><b>HOLY OTAVAN INQUISITION</b></font></center>"
+	report_html += "<center>Grand Bureau of Haemological Affairs<br>"
+	report_html += "Citadel of Eclair Lacroix, Holy Otava</center>"
+	report_html += "<hr>"
+	report_html += "<i>[pick(opening)]</i><br><br>"
+	report_html += "<b>INDEXED SUBJECT</b><br>"
+	report_html += "Name: [H.real_name]<br>"
+	report_html += "Race: [H.dna?.species?.name]<br>"
+	report_html += "Sex: [capitalize(H.gender)]<br>"
+	var/static/list/job_aliases = list(
+		"Hag" = "Wanderer",
+		"Adventurer" = "Wanderer",
+		"Assassin" = "Wanderer",
+		"Gnoll" = "Outcast",
+		"Wretch" = "Outcast",
+		"Vagabond" = "Outcast",
+	)
+	var/display_job = job_aliases[H.job] || H.job
+	if(display_job)
+		report_html += "Weekly Activity: [display_job]<br>"
+	var/list/d = H.get_mob_descriptors()
+	report_html += "Height: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")]<br>"
+	report_html += "Build: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")]<br>"
+	report_html += "<hr>"
+	
+	report_html += "<b>LYFEBLOOD-LUX RESONATOR RESULTS</b><br><br>"
+	if(HAS_TRAIT(H, TRAIT_ANCIENT_HAG))
+		report_html += "<font color='#1e8b61'><b><u>Anomalous Lux</b></u></font><br><br>"
+		report_html += "<i>No measurable corruption or hallowed overresonance could be detected through our devices, the nature of this sample cannot be traced to anything within our Grand Archives. It does not seem to be neither Divine nor Inhumen, yet it is not Pure either.</i><br><br>"
+	else if(H.patron?.type in ALL_DIVINE_PATRONS)
+		report_html += "<font color='#e8da5a'><b><u>Blessed Lux</b></u></font><br><br>"
+		report_html += "<i>Minor hallowed resonance permeates the subject's Lux. The sample bears evidence of covenant with saintly energies consistent with apostate worship and prolonged participation in rites associated with the <b>Ten Saints</b>.</i><br><br>"
+	else if(H.patron?.type in ALL_INHUMEN_PATRONS)
+		report_html += "<font color='#8B1E1E'><b><u>Tainted Lux</b></u></font><br><br>"
+		report_html += "<i>The Lux has suffered measurable spiritual degradation. The sample carries contamination consistent with apostate worship and prolonged participation in rites associated with the <b>Inhumen</b>.</i><br><br>"
+	else
+		report_html += "<font color='#00b7ff'><b><u>Pure Lux</b></u></font><br><br>"
+		report_html += "<i>No measurable corruption or hallowed overresonance could be detected through our devices. The subject's Lux is devoid of external influence.</i><br><br>"
+
+	report_html += "<b>CROSS-REFERENCED PUBLIC RECORDS</b><br><br>"
+	var/list/crimes = list()
+	var/total_bounty = 0
+	for(var/datum/bounty/B in GLOB.head_bounties)
+		if(B.target == H.real_name)
+			total_bounty += B.amount
+			crimes += "> <b>[B.amount] Mammon</b> — [B.reason]"
+	if(!crimes.len)
+		report_html += "<font color=#2D7A42><b>No Crimes on Record</b></font><br><br>"
+		report_html += "<i>No warrant, censure, proclamation of guilt, or writ of Castifico has been entered against this identity, nor within the ledgers of the Holy Otavan Inquisition.</i><br><br>"
+	else
+		report_html += "<font color=#8B1E1E><b>Active Criminal Record</b></font><br><br>"
+		report_html += "<i>The archives presently confirm <b>[crimes.len]</b> active writ[(crimes.len == 1) ? "" : "s"] against this individual.</i><br><br>"
+		for(var/entry in crimes)
+			report_html += "[entry]<br>"
+		report_html += "<br><b>Total Castifico Value:</b> [total_bounty] Mammon<br><br>"
+		report_html += "<i>Standing Instruction: Individuals bearing active OTAVAN writs may be surrendered to a CASTIFICO for disposition. In the absence of Otavan criminal record, this certificate alone shall not justify detention save in cases of suspected Heresy, Apostasy, witchcraft, or Inhumen corruption.</i><br><br>"
+
+	report_html += "<b>HAEMOLOGICAL FINDINGS</b><br><br>"
+	var/found = FALSE
+	if(H.mind)
+		if(HAS_TRAIT(H, TRAIT_BLACKBLOOD))
+			report_html += "<font color='#3D3D3D'><b>Stabilized Blackblood Tincture</b></font><br><br>"
+			report_html += "<i>Lethal concentrations of Atra Ferrum, Nigredo Salts, Vitriol Ash, and Coagulated Psyturnine Humours remain suspended throughout the sample. Complete melanization and abnormal viscosity are wholly consistent with recent radical purification treatments for Quicksilver-resistant subjects.</i><br><br>"
+			found = TRUE
+		else if(HAS_TRAIT(H, TRAIT_ANCIENT_HAG))
+			report_html += "<font color='#5C3A6E'><b>Anomalous Blood</b></font><br><br>"
+			report_html += "<i>The sample is laden with accursed humours and bears the unmistakable taint of ancient malisons. Though greatly withered by age, the blood yet clings to unnatural vigor, a condition recorded only in those sustained by profane sorceries and long familiarity with the Devil's arts.</i><br><br>"
+			found = TRUE
+		for(var/datum/antagonist/D in H.mind.antag_datums)
+			if(istype(D, /datum/antagonist/vampire))
+				found = TRUE
+				report_html += "<font color='#7B0000'><b>Porphylick Haemophilia</b></font><br><br>"
+				report_html += "<i>The sample exhibits severe depletion of natural Vitae alongside unusual sanguine persistence beyond expected mortal limits. Coagulation is markedly impaired, while traces of necrotic resonance permeate the blood. It cannot sustain itself, should fresh blood not be appended to it.</i><br><br>"
+				break
+			if(istype(D, /datum/antagonist/werewolf))
+				found = TRUE
+				report_html += "<font color='#6E4F2C'><b>Liquid Madness Corrosion</b></font><br><br>"
+				report_html += "<i>The sample displays extreme humoral instability, with recurrent fluctuations in viscosity, coloration, and saturation occurring during examination. Such volatility is consistent with advanced moonlit transmutative contamination. It carries traces of hallowed energy, however.</i><br><br>"
+				break
+			if(istype(D, /datum/antagonist/gnoll))
+				found = TRUE
+				report_html += "<font color='#6E4F2C'><b>Anthropophagic Corruption</b></font><br><br>"
+				report_html += "<i>The sample demonstrates irreversible haemological restructuring characterized by predatory adaptation, excessive ferric saturation, and biochemical residues consistent with prolonged consumption of human flesh. Such degeneration has historically been observed only in individuals subjected to advanced war-cults devoted to the Inhumen, whose champions abandon their humanity through ritual slaughter and cannibalism.</i><br><br>"
+				break
+		if(!found)
+			report_html += "<font color='#2D7A42'><b>Clean</b></font><br><br>"
+			report_html += "<i>No significant haemological abnormalities were identified. The sample falls within accepted physiological baselines for the INDEXED subject.</i><br><br>"
+
+	report_html += "<b>REGISTRAR'S NOTES</b><br>"
+	report_html += "> <b>IMPORTANT:</b> [error_chance]<br>"
+	report_html += "> [pick(sample_notes)]<br>"
+	report_html += "> [pick(archive_notes)]<br>"
+	report_html += "<i>This certificate records only the Bureau's haemological findings. Declarations of Heresy remain solely within the authority and jurisdiction of the Holy Otavan Inquisition's agents on the field.<i><br>"
+	report_html += "<hr>"
+	report_html += "<i>Certified beneath the seal of the Holy Otavan Inquisition and entered into the Grand Ledger of Prosecutions and Procurement.</i><br><br>"
+	report_html += "<font size=2>"
+	report_html += "Signed and entered into record by <b>[examiner]</b><br>"
+	report_html += "Grand Bureau of Haemological Affairs<br>"
+	report_html += "Citadel of Eclair Lacroix, Holy Otava, cir. 1513"
+	report_html += "</font>"
+/obj/item/inqarticles/litany
+	name = "litany"
+	desc = "A writ of religious anointment, printed on Otavan parchment. It bares the Absolver's 'rite of armaments' - a psalm dating back to the first crusades, recited \
+	to bless the faithful upon the eve of battle. Traditionally, these litanies are burned after recitement, and their ashes are smeared across a chosen weapon to consecrate \
+	them. </br>Unused litanies can be refunded through the HERMES."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "litany"
+	item_state = "litany"
+	possible_item_intents = list(/datum/intent/bless)
+
+/obj/item/inqarticles/litany/afterattack(atom/movable/A, mob/user, proximity)
+	. = ..()
+	if(isitem(A) && user.used_intent.type == /datum/intent/bless)
+		var/datum/component/silverbless/CP = A.GetComponent(/datum/component/silverbless)
+		if(CP)
+			if(!CP.is_blessed && (CP.silver_type & SILVER_PSYDONIAN))
+				playsound(user, 'sound/magic/censercharging.ogg', 100)
+				user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
+				if(do_after(user, 50, target = A))
+					CP.try_bless(BLESSING_PSYDONIAN)
+					user.visible_message(span_blue("[user] finishes their rite, anointing \the [A] with \the [src]!"))
+					new /obj/effect/temp_visual/censer_dust(get_turf(A))
+					qdel(src) //Deletes itself upon blessing a single weapon.
+			else
+				to_chat(user, span_info("It has already been blessed."))

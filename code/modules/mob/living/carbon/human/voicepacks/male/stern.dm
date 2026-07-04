@@ -4,6 +4,8 @@
 /datum/voicepack/male/stern/get_sound(soundin, modifiers)
 	var/used
 	switch(soundin)
+		if("attack")
+			used = list('sound/vo/male/stern/attack (1).ogg', 'sound/vo/male/stern/attack (2).ogg', 'sound/vo/male/stern/attack (3).ogg', 'sound/vo/male/stern/attack (4).ogg', 'sound/vo/male/stern/attack (5).ogg', 'sound/vo/male/stern/attack (6).ogg', 'sound/vo/male/stern/attack (7).ogg', 'sound/vo/male/stern/attack (8).ogg', 'sound/vo/male/stern/attack (9).ogg')
 		if("jump")
 			used = list('sound/vo/male/stern/jump (1).ogg', 'sound/vo/male/stern/jump (2).ogg', 'sound/vo/male/stern/jump (3).ogg', 'sound/vo/male/stern/jump (4).ogg', 'sound/vo/male/stern/jump (5).ogg')
 		if("pain")

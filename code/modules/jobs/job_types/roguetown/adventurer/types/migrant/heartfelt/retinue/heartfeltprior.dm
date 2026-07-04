@@ -1,10 +1,10 @@
 
 /datum/advclass/heartfelt/retinue/prior
-	name = "Heartfeltian Priest"
+	name = "Heartfelt Priest"
 	tutorial = "The Priest of Heartfelt, you were destined for ascension within the Church. \
 	. Still guided by the blessings of Astrata, you journey to the Peak, determined to offer what aid and solace you can."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/heartfelt/prior
 	maximum_possible_slots = 1
 	pickprob = 100
@@ -13,7 +13,7 @@
 
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
-	traits_applied = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT)
+	traits_applied = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)
 
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -23,8 +23,8 @@
 	)
 
 	subclass_skills = list(
-	/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-	/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+	/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+	/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 	/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
 	/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
 	/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
@@ -45,9 +45,9 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 	cloak = /obj/item/clothing/cloak/chasuble
 	backl = /obj/item/storage/backpack/rogue/satchel

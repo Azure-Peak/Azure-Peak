@@ -6,6 +6,7 @@
 	anchored = TRUE
 	opacity = 0
 	density = FALSE
+	ai_path_weight = 8
 	icon = 'icons/roguetown/misc/foliage.dmi'
 	icon_state = "glowshroom1" //replaced in New
 	layer = SPACEVINE_LAYER //A bit high but keeps it from fucking layering UNDER EVERYTHING
@@ -31,7 +32,7 @@
 		var/throwdir = get_dir(src, mover)
 		var/mob/living/L = mover
 
-		if(HAS_TRAIT(L, TRAIT_KNEESTINGER_IMMUNITY)) //Dendor kneestinger immunity
+		if(HAS_TRAIT(L, TRAIT_KNEESTINGER_IMMUNITY) || HAS_TRAIT(L, TRAIT_BOGWALKER)) //Dendor kneestinger immunity
 			return TRUE
 
 		if(L.mind)
@@ -57,7 +58,7 @@
 	if(!isliving(movable_victim))
 		return FALSE
 	var/mob/living/victim = movable_victim
-	if(HAS_TRAIT(victim, TRAIT_KNEESTINGER_IMMUNITY)) //Dendor kneestinger immunity
+	if(HAS_TRAIT(victim, TRAIT_KNEESTINGER_IMMUNITY) || HAS_TRAIT(victim, TRAIT_BOGWALKER)) //Dendor kneestinger immunity
 		return FALSE
 	if(victim.mind)
 		if(world.time > victim.last_client_interact + 0.2 SECONDS)
@@ -104,7 +105,6 @@
 			var/mob/living/L = user
 			if(L.electrocute_act(30, src)) // The kneestingers will let you pass if you worship dendor, but they won't take your stupid ass hitting them.
 				L.emote("painscream")
-				L.consider_ambush(always = TRUE)
 				if(L.throwing)
 					L.throwing.finalize(FALSE)
 				return FALSE
@@ -135,7 +135,7 @@
 	qdel(src)
 
 /obj/structure/glowshroom/dendorite
-	var/timeleft = null //5 MINUTES //balancing factor no longer relevant, uncommoent if gay. 
+	var/timeleft = null //5 MINUTES //balancing factor no longer relevant, uncommoent if gay.
 
 /obj/structure/glowshroom/dendorite/Initialize()
 	. = ..()

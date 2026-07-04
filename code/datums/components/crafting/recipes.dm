@@ -26,17 +26,27 @@
 	var/wallcraft = FALSE
 	var/diagonal = FALSE //allows diagonal structures to have their direction chosen.
 	var/craftdiff = 1
+	var/xp_modifier = 1 // Multiplier for crafting XP. Set to 0 to disable XP (e.g. arcana recipes).
 	var/sellprice = 0
 	/// Whether this recipe will be hidden from recipe books
-	var/hides_from_books = FALSE 
+	var/hides_from_books = FALSE
+	// Does not imposes quality on the finished item, but take the lowest quality of input items to prevent any kind of quality transmutation exploit
+	var/skip_quality = FALSE
 	/// Whether this recipe will transmit a message in a 7x7 column around the source.
 	var/loud = FALSE
+	/// Whether this recipe will log for admins, use for structures and anything that can cause grief.
+	var/adminlog = FALSE
 	//crafting diff, every diff removes 25% chance to craft
 	var/required_tech_node = null // String ID of required tech node, or null if no tech required
 	var/tech_unlocked = TRUE // Set to TRUE when the required tech is unlocked
 	var/ignoredensity = FALSE //used on objects that we want to build into walls or atop other structures
  	// If TRUE, this recipe will be skipped by the nodupe tests
 	var/bypass_dupe_test = FALSE
+	//Hardcoded aliases, fill this in for things that have things like slang names. Real item alias names will be appended automatically during build_recipe_data
+	var/aliases = ""
+	var/list/cached_display_data
+	var/cached_category
+	var/display_category
 /*
 /datum/crafting_recipe/example
 	name = ""
@@ -48,6 +58,73 @@
 	category = CAT_NONE
 	subcategory = CAT_NONE
 */
+
+/datum/crafting_recipe/proc/build_display_cache()
+	var/list/data = list()
+	data["name"] = name
+	data["ref"] = "[REF(src)]"
+	data["path"] = type
+	var/resolved_sellprice = sellprice
+	var/result_path
+	if(islist(result))
+		var/list/result_list = result
+		if(result_list.len)
+			result_path = result_list[1]
+	else if(ispath(result, /atom/movable))
+		result_path = result
+	if(!resolved_sellprice && result_path)
+		resolved_sellprice = initial(result_path:sellprice)
+		if(!resolved_sellprice && GLOB.derived_sellprices)
+			resolved_sellprice = GLOB.derived_sellprices[result_path] || lookup_derived_subtype_price(result_path)
+	data["sellprice"] = resolved_sellprice
+	data["has_item_quality"] = result_path && ispath(result_path, /obj/item) ? initial(result_path:has_item_quality) : FALSE
+	data["craftingdifficulty"] = skill_to_string(craftdiff)
+
+	var/req_text = ""
+	for(var/a in reqs)
+		var/atom/A = a
+		req_text += " [reqs[A]] [initial(A.name)],"
+	if(req_text)
+		req_text = copytext(req_text, 1, length(req_text))
+	data["req_text"] = req_text
+
+	var/catalyst_text = ""
+	for(var/a in chem_catalysts)
+		var/atom/A = a
+		catalyst_text += " [chem_catalysts[A]] [initial(A.name)],"
+	if(catalyst_text)
+		catalyst_text = copytext(catalyst_text, 1, length(catalyst_text))
+	data["catalyst_text"] = catalyst_text
+
+	var/tool_text = ""
+	for(var/a in tools)
+		if(ispath(a, /obj/item))
+			var/obj/item/b = a
+			tool_text += " [initial(b.name)],"
+		else
+			tool_text += " [a],"
+	if(tool_text)
+		tool_text = copytext(tool_text, 1, length(tool_text))
+	data["tool_text"] = tool_text
+
+	var/alias_text = aliases
+	if(islist(result))
+		for(var/a in result)
+			var/atom/A = a
+			if(!(findtext(alias_text, A.name)))
+				alias_text += A.name + " "
+	else
+		var/atom/A = result
+		alias_text += A.name
+	data["aliases"] = alias_text
+
+	if(skillcraft)
+		var/datum/skill/S = skillcraft
+		cached_category = initial(S.name)
+	else
+		cached_category = "Other"
+
+	cached_display_data = data
 
 /datum/crafting_recipe/proc/generate_html(mob/user)
 	var/client/client = user
@@ -93,7 +170,8 @@
 			<body>
 			<div>
 				<h1>[icon2html(created_stuff, user)][name]</h1>
-				<h4>DESCRIPTION: [initial(created_stuff.desc)]</h4>
+				<h4>Description</h4>
+				<span>[initial(created_stuff.desc)]</span>
 				<div>
 			"}
 	if (!isnull(created_stationary))
@@ -106,7 +184,8 @@
 			<body>
 			<div>
 				<h1>[icon2html(created_stationary, user)][name]</h1>
-				<h4>DESCRIPTION: [initial(created_stationary.desc)]</h4>
+				<h4>Description</h4>
+				<span>[initial(created_stationary.desc)]</span>
 				<div>
 			"}
 	var/obj/item/clothing/suit/roguetown/armor/bookarmor = initial(created_stuff)
@@ -120,8 +199,6 @@
 			for(var/zone in body_parts_covered2organ_names(body_parts_covered2organ_names(C.body_parts_covered)))
 				html += "<b>[capitalize(zone)]</b> | "
 			html += "<br>"
-		if(!C.prevent_crits)
-			html += "\n<b>CRIT SUSCEPTIBLE!</b>"
 		html += "INTEGRITY: [bookarmor.max_integrity]<br>"
 		if(bookarmor.armor_class == ARMOR_CLASS_HEAVY)
 			html += "<b>AC: </b>HEAVY<br>"
@@ -158,8 +235,12 @@
 				if(WLENGTH_GREAT)
 					html += "Great<br>"
 
-		if(bookweapon.alt_intents)
-			html += "\n<b>GRIP: ALT-GRIP (right click while in hand)</b><br>"
+		if(!ispath(bookweapon) && bookweapon.has_altgrip_modes())
+			html += "\n<b>GRIP: ALT-GRIP (RCLICK/HOTKEY(B)/CTRL+SCRLWHL)</b><br>"
+			var/list/alt_grip_lines = bookweapon.get_altgrip_lines(src, user)
+			if(length(alt_grip_lines))
+				for(var/alt_grip_line in alt_grip_lines)
+					html += "[alt_grip_line]<br>"
 		if(bookweapon.gripped_intents)
 			html += "\n<b>TWO-HANDED: Yes</b><br>"
 
@@ -178,11 +259,12 @@
 			html += "\n<b>INTEGRITY DAMAGE:</b> [bookweapon.intdamage_factor * 100]%<br>"
 
 	if(craftdiff > 0)
-		html += "<h1></h1>For those of [SSskills.level_names_plain[craftdiff]] skills<br>"
+		html += "<br><b>Skills Required:</b> [capitalize(SSskills.level_names_plain[craftdiff])]<br>"
 	else
-		html += "<h1></h1>Suitable for all skills<br>"	
+		html += "<br><b>Skills Required:</b> None<br>"	
 
 	html += {"<div>
+		      <br>
 		      <strong>Requirements</strong>
 			  <br>"}
 
@@ -237,16 +319,16 @@
 
 	if(structurecraft)
 		var/obj/structure = structurecraft
-		html += "<strong class=class='scroll'>start the process next to a</strong> <br>[icon2html(new structurecraft, user)] <br> [initial(structure.name)]<br>"
+		html += "<br><strong>Start the process next to a:</strong><br>[icon2html(new structurecraft, user)] [initial(structure.name)]<br>"
 	if(req_table)
-		html += "<strong class=class='scroll'>start the process next to a table</strong> <br>"
+		html += "<br><strong>Start the process next to a table.</strong><br>"
 	if(wallcraft)
-		html += "<strong class=class='scroll'>start the process next to a wall</strong> <br>"
+		html += "<br><strong>Start the process next to a wall.</strong><br>"
 
 	if(final_sellprice)
-		html += "<strong class=class='scroll'>You can sell this for [final_sellprice] mammons at a normal quality</strong> <br>"
+		html += "<br><strong class=class='scroll'>You can sell this for [final_sellprice] mammons at a normal quality</strong> <br>"
 	else(
-		html += "<strong class=class='scroll'>This is worthless for export</strong> <br>"
+		html += "<br><strong class=class='scroll'>This is worthless for export</strong> <br>"
 	)
 
 	html += {"
@@ -256,6 +338,31 @@
 	</html>
 	"}
 	return html
+
+/datum/crafting_recipe/proc/get_altgrip_preview_item()
+	var/result_path
+	if(islist(result))
+		var/list/result_list = result
+		if(result_list.len)
+			result_path = result_list[1]
+	else
+		result_path = result
+	if(!ispath(result_path, /obj/item))
+		return null
+	var/obj/item/preview_item = new result_path()
+	if(!preview_item.has_altgrip_modes())
+		qdel(preview_item)
+		return null
+	return preview_item
+
+/datum/crafting_recipe/Topic(href, href_list)
+	. = ..()
+	if(href_list["showaltgrip"])
+		var/obj/item/preview_item = get_altgrip_preview_item()
+		if(!preview_item)
+			return
+		preview_item.show_altgrip(usr, href_list["showaltgrip"])
+		qdel(preview_item)
 
 /datum/crafting_recipe/proc/show_menu(mob/user)
 	user << browse(generate_html(user),"window=new_recipe;size=500x810")

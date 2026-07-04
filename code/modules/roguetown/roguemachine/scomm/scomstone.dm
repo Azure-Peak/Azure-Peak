@@ -5,7 +5,7 @@
 	icon_state = "ring_scom"
 	desc = "A heavy ring made of metal. There is a gem embedded in the center - dim, but alive."
 	gripped_intents = null
-	dropshrink = 0.75
+	dropshrink = 0.6
 	possible_item_intents = list(INTENT_GENERIC)
 	force = 10
 	throwforce = 10
@@ -13,10 +13,11 @@
 	obj_flags = null
 	icon = 'icons/roguetown/items/misc.dmi'
 	w_class = WEIGHT_CLASS_SMALL
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	muteinmouth = TRUE
 	var/cooldown = 60 SECONDS
 	var/on_cooldown = FALSE
+	var/cooldown_end_time 
 	var/listening = TRUE
 	var/speaking = TRUE
 	var/loudmouth_listening = TRUE
@@ -24,17 +25,36 @@
 	var/scomstone_number
 	var/hearrange = 1 // change to 0 if you want your special scomstone to be only hearable by wearer
 	drop_sound = 'sound/foley/coinphy (1).ogg'
-	sellprice = 100
 	grid_width = 32
 	grid_height = 32
 
+/obj/item/scomstone/proc/get_cooldown_text()
+	var/time_left = max(0, cooldown_end_time - world.time)
+
+	var/total_seconds = round(time_left / 10)
+	var/minutes = FLOOR(total_seconds / 60, 1)
+	var/seconds = total_seconds % 60
+
+	if(minutes)
+		return "[minutes] minute[minutes == 1 ? "" : "s"] and [seconds] second[seconds == 1 ? "" : "s"]"
+
+	return "[seconds] second[seconds == 1 ? "" : "s"]"
+
+/obj/item/scomstone/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most SCOMSTONEs function as handheld SCOMs. The only exception are HOUNDSTONES, which have access to an exclusive SCOMline for the Keep's royalty and guards.")
+	. += span_info("SCOMSTONEs, like their immobile forefathers, have a unique number attached to them. If someone knows this number, they can directly open a private SCOMline with the SCOMSTONE-in-question.")
+	. += span_info("Right-click a SCOMSTONE or CROWNSTONE to prepare a message. This message will be heard through every SCOM in the kingdom-and-abroad, but comes with a minor cooldown.")
+	. += span_info("Middle-click a SCOMSTONE to mute or unmute it.")
+	. += span_info("Activate a CROWNSTONE in your hand to swap between the general SCOMline and the royal SCOMline. The latter is denoted by crimson lettering, and is exclusively heard by those with either a HOUNDSTONE or retuned SCOM.")
+
 /obj/item/scomstone/attack_right(mob/living/carbon/human/user)
 	if(on_cooldown)
-		to_chat(user, span_warning("The gemstone inside the ring radiates heat. It's still cooling down from its last use."))
+		to_chat(user, span_warning("The gemstone inside still radiates heat from its last transmission. It will cool in [get_cooldown_text()]."))
 		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
-	visible_message(span_notice ("[user] presses their ring against their mouth."))
+	visible_message(span_notice ("[user] presses [user.p_their()] [src.name] against [user.p_their()] mouth."))
 	var/input_text = input(user, "Enter your message:", "Message")
 	if(!input_text)
 		return
@@ -52,6 +72,7 @@
 		S.repeat_message(input_text, src, usedcolor)
 	SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
 	on_cooldown = TRUE
+	cooldown_end_time = world.time + cooldown
 	addtimer(CALLBACK(src, PROC_REF(reset_cooldown), user), cooldown)
 
 	//Log message to global broadcast list.
@@ -129,7 +150,6 @@
 	desc = "A rusty shoddily-made metal ring. The gem embedded within is barely holding on."
 	icon_state = "ring_serfscom"
 	listening = FALSE
-	sellprice = 20
 
 /obj/item/scomstone/bad/attack_right(mob/user)
 	return
@@ -145,6 +165,13 @@
 	hearrange = 0
 	sellprice = 100
 
+/obj/item/scomstone/garrison/hand
+	name = "handpin"
+	desc = "A unique crownstone, perfect for long days and short lives, both honor and burden."
+	icon = 'icons/roguetown/clothing/special/hand.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	icon_state = "handpin"
+
 /obj/item/scomstone/garrison/equipped(mob/living/user, slot)
 	. = ..()
 	if(slot == SLOT_RING)
@@ -157,13 +184,13 @@
 /obj/item/scomstone/garrison/attack_right(mob/living/carbon/human/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	if(on_cooldown)
-		to_chat(user, span_warning("The gemstone inside the ring radiates heat. It's still cooling down from its last use."))
+		to_chat(user, span_warning("The gemstone inside still radiates heat from its last transmission. It will cool in [get_cooldown_text()]."))
 		playsound(loc, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	if(!get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH, grabs = TRUE))
 		to_chat(user, span_warning("My mouth is covered!"))
 		return
-	visible_message(span_notice ("[user] presses their ring against their mouth."))
+	visible_message(span_notice ("[user] presses [user.p_their()] [src.name] against [user.p_their()] mouth."))
 	var/input_text = input(user, "Enter your message:", "Message")
 	if(!input_text)
 		return
@@ -185,6 +212,7 @@
 				S.repeat_message(input_text, src, usedcolor)
 		SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
 		on_cooldown = TRUE
+		cooldown_end_time = world.time + cooldown
 		addtimer(CALLBACK(src, PROC_REF(reset_cooldown)), cooldown)
 		return
 	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
@@ -202,7 +230,7 @@
 	"tag"		= "CROWNSTONE #[scomstone_number]",
 	"timestamp" = station_time_timestamp("hh:mm:ss")
 	))
-
+	cooldown_end_time = world.time + cooldown
 	addtimer(CALLBACK(src, PROC_REF(reset_cooldown)), cooldown)
 
 /obj/item/scomstone/garrison/attack_self(mob/living/user)
@@ -222,7 +250,6 @@
 	desc = "A basic metal ring. It has a well-cut, dismal gem embedded - bearing the mark of the Crown."
 	icon_state = "ring_houndscom"
 	listening = FALSE
-	sellprice = 20
 	messagereceivedsound = 'sound/misc/garrisonscom.ogg'
 	hearrange = 0
 

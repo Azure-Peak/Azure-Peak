@@ -3,8 +3,8 @@
 ////////////
 
 /obj/item/construction/nail
-	name = "Nail"
-	desc = "A small nail, used for securing wood down to things"
+	name = "nail"
+	desc = "A sturdy rivet, poundable into wood to form a bond stronger than the love of a kingdom's arranged marriage."
 	icon = 'icons/roguetown/items/crafting.dmi'
 	icon_state = "nails1"
 	grid_width = 32
@@ -49,7 +49,7 @@
 
 /obj/item/construction/bundle/nail
 	name = "pile of nails"
-	desc = "Several nails in a pile."
+	desc = "Several nails gathered together in a pile."
 	icon_state = "nail1"
 	item_state = "plankbundle"
 	icon = 'icons/roguetown/items/crafting.dmi'

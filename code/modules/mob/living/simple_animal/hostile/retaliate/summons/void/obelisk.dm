@@ -2,7 +2,6 @@
 	. = ..()
 	ADD_TRAIT(src,TRAIT_NOFIRE, "[type]")
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_ANTIMAGIC, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
@@ -25,12 +24,12 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "voidstone obelisk"
-	desc = "A construct from another age. It is marked by glowing sigils and it's material seems to absorb magic!"
+	desc = "A construct from another age. It is marked by glowing sigils!"
 	icon_state = "obelisk-combined"
 	icon_living = "obelisk-combined"
 	icon_dead = "obelisk-combined"
 
-	faction = list("abberant")
+	faction = list(FACTION_ABBERANT)
 	emote_hear = null
 	emote_see = null
 	turns_per_move = 6
@@ -63,7 +62,7 @@
 	minimum_distance = 0
 	deaggroprob = 0
 	defprob = 35
-	retreat_health = 0.2
+	retreat_health = 0
 	food = 0
 	dodgetime = 17
 	aggressive = 1
@@ -89,7 +88,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = 'sound/combat/hits/onstone/wallhit.ogg'
 	chargetime = 0
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	swingdelay = 0
 	candodge = TRUE
 	canparry = TRUE
@@ -102,8 +101,8 @@
 	new /obj/item/magic/voidstone(deathspot)
 	spill_embedded_objects()
 	update_icon()
-	sleep(1)
-	qdel(src)
+	spawn(1)
+		qdel(src)
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk/MoveToTarget(list/possible_targets)

@@ -48,7 +48,7 @@
 		J?.tutorial = tutorial_adjust[job]
 	for(var/job as anything in species_adjust)
 		var/datum/job/J = SSjob.GetJobType(job)
-		J?.allowed_races = species_adjust[job]
+		J?.forbidden_races = species_adjust[job]
 	for(var/job as anything in sexes_adjust)
 		var/datum/job/J = SSjob.GetJobType(job)
 		J?.allowed_sexes = sexes_adjust[job]

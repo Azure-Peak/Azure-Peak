@@ -1,6 +1,7 @@
 /obj/effect/proc_holder/spell/invoked/order
 	name = ""
-	range = 1
+	range = 5
+	ignore_los = TRUE // this is an aoe
 	associated_skill = /datum/skill/misc/athletics
 	devotion_cost = 0
 	chargedrain = 1
@@ -25,12 +26,12 @@
 		else if(user.job == "Wretch")
 			affectedjobs = list("Brother")
 		else if(user.job == "Migrant")
-			affectedjobs = list("Heartfeltian Retinue", "Migrant")
+			affectedjobs = list("Heartfelt Retinue", "Migrant")
 		else //failsafe in case someone somehow gets the spells without a role that uses them
 			to_chat(user, span_alert("I don't have authority to order anyone!"))
 			revert_cast()
 			return FALSE
-		for(var/mob/living/carbon/target in view(5, get_turf(user)))
+		for(var/mob/living/carbon/target in view(range, get_turf(user)))
 			if(target.job in affectedjobs)
 				affectedtargets += target
 				continue
@@ -41,7 +42,7 @@
 			revert_cast()
 			return FALSE
 		else
-			user.say("[msg]")
+			user.say("[msg]", language = /datum/language/common)
 			for(var/mob/living/carbon/target in affectedtargets)
 				target.apply_status_effect(buff_given)
 			return TRUE
@@ -160,7 +161,7 @@
 			to_chat(user, span_alert("I cannot order myself!"))
 			revert_cast()
 			return
-		user.say("[msg]")
+		user.say("[msg]", language = /datum/language/common)
 		target.apply_status_effect(/datum/status_effect/buff/order/onfeet)
 		if(!(target.mobility_flags & MOBILITY_STAND))
 			target.SetUnconscious(0)
@@ -196,7 +197,7 @@
 //For good roles
 /mob/living/carbon/human/mind/proc/setorders()
 	set name = "Rehearse Orders"
-	set category = "Voice of Command"
+	set category = "RoleUnique.Voice of Command"
 	mind.movemovemovetext = input("Send a message.", "Move! Move! Move!") as text|null
 	if(!mind.movemovemovetext)
 		to_chat(src, "I must rehearse something for this order...")

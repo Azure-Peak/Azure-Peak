@@ -6,8 +6,7 @@
 	icon_state = "roguepants"
 	item_state = "roguepants"
 	sewrepair = TRUE
-	armor = ARMOR_LEATHER_GOOD
-	sellprice = 18
+	armor = ARMOR_LEATHER
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
@@ -35,6 +34,12 @@
 	name = "otavan leather trousers"
 	desc = "padded leather armor made by Otavan tailors, its quality is remarkable."
 	icon_state = "fencerpants"
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/shepherd
+	name = "shepherd's pants"
+	desc = "A pair of white pants decorated with red stripes and traditional patterning."
+	icon_state = "shepherdpants"
+	color = "#FFFFFF"
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	name = "fencing breeches"
@@ -120,6 +125,16 @@
 	desc = "Form-fitting legwear. Almost too form-fitting."
 	icon_state = "shadowpants"
 	allowed_race = NON_DWARVEN_RACE_TYPES
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
+	name = "custom-fit silk tights"
+	desc = "Form-fitting legwear. Almost too form-fitting. Custom-fit for its (now deceased) wearer."
+	allowed_race = list(/datum/species/elf/dark/raider)
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/spymaster
+	name = "hand's tights"
+	desc = "Tailored from fine, unreflective silk that clings close to the form."
+	icon_state = "handpants"
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	name = "bronze chain skirt"

@@ -7,17 +7,26 @@
 /datum/species/dullahan
 	name = "Revenant"
 	id = "revenant"
-	desc = "<b>Revenant</b><br>\
-	Revenants are those that have died, returning from death to continue 'living' in a manner to speak. Their origins are not entirely known, yet many strongly believe them to have originated from the rot and decay of Psydonia. \
+	desc_title = "Revenant"
+	desc = "Revenants are those that have died, returning from death to continue 'living' in a manner to speak. Their origins are not entirely known, yet many strongly believe them to have originated from the rot and decay of Psydonia. \
 	Unable to truly rest, yet entirely sane of mind. Capable of detaching their heads through unknown arcyne means, they are oft wanderers due to their unknown origins and being ostracized by both the Church and many of the common masses around the lands."
 	// Stat balancing. Per-server decision. Preferably keep neutral until analysis post testmerges.
 	//race_bonus = list(STAT_INTELLIGENCE = 1, STAT_CONSTITUTION = 1)
 	skin_tone_wording = "Catalyst"
+	use_skin_tone_wording_for_examine = FALSE
 	max_age = "???"
 
+	allowed_taur_types = list(
+		/obj/item/bodypart/taur/lamia,
+		/obj/item/bodypart/taur/spider,
+		/obj/item/bodypart/taur/horse,
+		/obj/item/bodypart/taur/goat,
+	)
+	base_name = "Godtouched"
+	is_subrace = TRUE
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS)
 	default_features = MANDATORY_FEATURE_LIST
-	inherent_traits = list(TRAIT_EASYDECAPITATION, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_ZOMBIE_IMMUNE) //Given the deathless traits inherently as part of their nature as pseudo-undead.
+	inherent_traits = list(TRAIT_EASYDECAPITATION, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_DEATHLESS, TRAIT_ZOMBIE_IMMUNE) //Given the deathless traits inherently as part of their nature as pseudo-undead.
 	use_skintones = TRUE
 	disliked_food = NONE
 	liked_food = NONE
@@ -112,6 +121,9 @@
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
 		/datum/body_marking/gradient,
+		/datum/body_marking/waist,
+		/datum/body_marking/womb_tattoo,
+		/datum/body_marking/butterfly
 	)
 	descriptor_choices = list(
 		/datum/descriptor_choice/trait,
@@ -120,7 +132,7 @@
 		/datum/descriptor_choice/body,
 		/datum/descriptor_choice/face,
 		/datum/descriptor_choice/face_exp,
-		/datum/descriptor_choice/skin,
+		/datum/descriptor_choice/skin/rev,
 		/datum/descriptor_choice/voice,
 		/datum/descriptor_choice/prominent_one_wild,
 		/datum/descriptor_choice/prominent_two_wild,
@@ -131,7 +143,11 @@
 		/datum/language/common,
 	)
 
-	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/deathless, /datum/virtue/utility/resident)
+	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
+	mechanics_explanations = list("Can harmlessly detach their own head by aiming for the head and clicking themselves with an empty hand on TOUCH intent and on STRONG stance.",
+		"Others can remove their head (painfully) by GRABbing them aggressively by the head and TWISTing it.",
+		"Can put only their own head back on, (by themselves or with assistance).",
+		"Despite decapitation not being lethal for them, they are more easily decapitated than other races.")
 
 	stress_examine = TRUE
 	stress_desc = span_red("Accursed. I should keep my distance...")
@@ -255,14 +271,15 @@
 	UnregisterSignal(user, COMSIG_MOB_SAY)
 	UnregisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS)
 	//UnregisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE) // TODO SEXCON2
-	if(my_head.owner ~= user)
+	if(my_head && my_head.owner ~= user)
 		// Give their head back instead?
 		// In TG Dullahan heads are always off, thus they give back heads.
 		// Warn that they're going to die?
 		if(!(user.status_flags & GODMODE))
 			user.death()
 
-	UnregisterSignal(my_head, COMSIG_QDELETING)
+	if(my_head)
+		UnregisterSignal(my_head, COMSIG_QDELETING)
 	my_head = null
 	soul_light_off()
 	mob_light_obj = null

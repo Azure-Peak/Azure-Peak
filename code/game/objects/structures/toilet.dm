@@ -1,6 +1,6 @@
 /obj/structure/toilet
 	name = "toilet"
-	desc = ""
+	desc = "Were you particularly desperate, you could probably hide something in this."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "toilet"
 	density = FALSE

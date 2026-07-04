@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/leather/container
 	abstract_type = /datum/crafting_recipe/roguetown/leather/container
+	display_category = ITEM_CAT_TAILOR_MISC
 	category = "Container"
 
 /datum/crafting_recipe/roguetown/leather/container/pouch
@@ -12,7 +13,7 @@
 	craftdiff = 0
 
 /datum/crafting_recipe/roguetown/leather/container/magepouch
-	name = "summoner's pouch"
+	name = "scholar's pouch"
 	reqs = list(
 		/obj/item/natural/hide/cured = 2,
 		/obj/item/natural/fibers = 1,
@@ -35,12 +36,21 @@
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fibers = 1)
 
+/datum/crafting_recipe/roguetown/leather/container/satchel/black
+	name = "black satchel"
+	result = /obj/item/storage/backpack/rogue/satchel/black
+	sellprice = 15
+
 /datum/crafting_recipe/roguetown/leather/container/satchelshort
 	name = "short satchel"
 	result = /obj/item/storage/backpack/rogue/satchel/short
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fibers = 1)
 	sellprice = 15
+
+/datum/crafting_recipe/roguetown/leather/container/satchelshort/black
+	name = "short black satchel"
+	result = /obj/item/storage/backpack/rogue/satchel/short
 
 /datum/crafting_recipe/roguetown/leather/container/backpack
 	name = "backpack"
@@ -66,6 +76,12 @@
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fibers = 1)
 
+/datum/crafting_recipe/roguetown/leather/container/stakepouch
+	name = "quiver, shotstake pouch"
+	result = /obj/item/quiver/bolt/stake
+	reqs = list(/obj/item/natural/hide/cured = 2,
+				/obj/item/natural/fibers = 1)
+
 /datum/crafting_recipe/roguetown/leather/container/heavyboltpouch
 	name = "quiver, heavy bolt pouch"
 	result = /obj/item/quiver/bolt/heavy
@@ -84,8 +100,14 @@
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/rope = 1)
 
-/datum/crafting_recipe/roguetown/leather/container/twstrap
+/datum/crafting_recipe/roguetown/leather/container/bandolier
 	name = "bandolier"
+	result = /obj/item/clothing/cloak/bandolier
+	reqs = list(/obj/item/natural/hide/cured = 2,
+				/obj/item/rope = 1)
+
+/datum/crafting_recipe/roguetown/leather/container/twstrap
+	name = "tossblade bandolier"
 	result = /obj/item/twstrap
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/rope = 1)
@@ -105,6 +127,12 @@
 /datum/crafting_recipe/roguetown/leather/container/belt/black
 	name = "black leather belt"
 	result = /obj/item/storage/belt/rogue/leather/black
+	reqs = list(/obj/item/natural/hide/cured = 2,
+				/obj/item/natural/fibers = 2)
+
+/datum/crafting_recipe/roguetown/leather/container/belt/double
+	name = "paired belts"
+	result = /obj/item/storage/belt/rogue/leather/double
 	reqs = list(/obj/item/natural/hide/cured = 2,
 				/obj/item/natural/fibers = 2)
 

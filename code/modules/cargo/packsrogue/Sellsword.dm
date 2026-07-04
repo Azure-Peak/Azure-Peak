@@ -163,7 +163,7 @@
 /datum/supply_pack/rogue/Sellsword/bolts
 	name = "Quiver of Bolts"
 	cost = 30
-	contains = list(/obj/item/quiver/bolts)
+	contains = list(/obj/item/quiver/bolt/standard)
 
 //////////////////////
 // EQUIPMENT CRATES //
@@ -224,8 +224,8 @@
 	new /obj/item/clothing/head/roguetown/helmet/heavy/volfplate(src)
 	new /obj/item/clothing/neck/roguetown/gorget/forlorncollar(src)
 	new /obj/item/clothing/suit/roguetown/armor/brigandine(src)
-	new /obj/item/clothing/wrists/roguetown/splintarms(src)
-	new /obj/item/clothing/under/roguetown/splintlegs(src)
+	new /obj/item/clothing/wrists/roguetown/bracers/brigandine(src)
+	new /obj/item/clothing/under/roguetown/brigandinelegs(src)
 	new /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/forlorn(src)
 
 /datum/supply_pack/rogue/Sellsword/Longswordcrate

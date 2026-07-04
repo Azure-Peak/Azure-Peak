@@ -4,7 +4,8 @@
 	As very skilled cook you come with some ingredients to make food and feed the masses. \
 	cook up some cuisine with food gathered from the local flora and fauna"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	forbidden_races = list(RACES_DESPISED)
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/cheesemaker
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
@@ -31,6 +32,7 @@
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
+	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
 
 /datum/outfit/job/roguetown/adventurer/cheesemaker/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -54,4 +56,4 @@
 		)
 	r_hand = /obj/item/flashlight/flare/torch
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)

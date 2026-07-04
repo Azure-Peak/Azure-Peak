@@ -15,7 +15,8 @@
 				src.icon_state = src.dna?.species?.custom_base_icon
 				H.update_inv_armor_special()
 		else
-			ntransform.TurnTo(lying_prev, lying)
+			ntransform.TurnTo(lying_prev , lying)
+		lying_prev = lying
 		if(!lying) //Lying to standing
 			final_pixel_y = get_standard_pixel_y_offset()
 		else //if(lying != 0)
@@ -44,7 +45,8 @@
 		// Only reset pixel_x if we're not in a custom pixel shift
 		if(!is_shifted)
 			pixel_x = get_standard_pixel_x_offset()
-			pixel_y = get_standard_pixel_y_offset(lying)
+			if(!(movement_type & FLOATING))
+				pixel_y = get_standard_pixel_y_offset(lying)
 
 /mob/living
 	var/list/overlays_standing[TOTAL_LAYERS]
@@ -63,74 +65,6 @@
 	if(client)
 		update_vision_cone()
 
-/// Schedule a deferred icon update - batches multiple calls in the same tick
-/mob/living/carbon/proc/queue_icon_update(update_type)
-	pending_icon_updates |= update_type
-	START_PROCESSING(SSiconupdates, src)
-
-/// Process all pending icon updates in a single batch
-/mob/living/carbon/proc/process_pending_icon_updates()
-	if(!pending_icon_updates)
-		return
-	var/updates = pending_icon_updates
-	pending_icon_updates = NONE
-
-	if(updates & PENDING_UPDATE_BODY)
-		update_body_parts()
-	if(updates & PENDING_UPDATE_HAIR)
-		update_hair()
-	if(updates & PENDING_UPDATE_DAMAGE)
-		update_damage_overlays()
-	if(updates & PENDING_UPDATE_INV_HANDS)
-		update_inv_hands()
-	if(updates & PENDING_UPDATE_INV_GLOVES)
-		update_inv_gloves_real()
-	if(updates & PENDING_UPDATE_INV_SHOES)
-		update_inv_shoes_real()
-	if(updates & PENDING_UPDATE_INV_HEAD)
-		update_inv_head_real()
-	if(updates & PENDING_UPDATE_INV_BELT)
-		update_inv_belt_real()
-	if(updates & PENDING_UPDATE_INV_BACK)
-		update_inv_back_real()
-	if(updates & PENDING_UPDATE_INV_ARMOR)
-		update_inv_armor_real()
-	if(updates & PENDING_UPDATE_INV_SHIRT)
-		update_inv_shirt_real()
-	if(updates & PENDING_UPDATE_INV_PANTS)
-		update_inv_pants_real()
-	if(updates & PENDING_UPDATE_INV_CLOAK)
-		update_inv_cloak_real()
-
-// Base implementations for carbon mobs - these are just stubs in case someone makes a non-human carbon mob some day
-// /mob/living/carbon/human will override these
-/mob/living/carbon/proc/update_inv_gloves_real()
-	return
-
-/mob/living/carbon/proc/update_inv_shoes_real()
-	return
-
-/mob/living/carbon/proc/update_inv_head_real()
-	return
-
-/mob/living/carbon/proc/update_inv_belt_real()
-	return
-
-/mob/living/carbon/proc/update_inv_back_real()
-	return
-
-/mob/living/carbon/proc/update_inv_armor_real()
-	return
-
-/mob/living/carbon/proc/update_inv_shirt_real()
-	return
-
-/mob/living/carbon/proc/update_inv_pants_real()
-	return
-
-/mob/living/carbon/proc/update_inv_cloak_real()
-	return
-
 /mob/living/carbon/regenerate_icons()
 	if(notransform)
 		return 1
@@ -147,7 +81,7 @@
 	return mutable_appearance(GLOB.inhand_icons[index], layer = -layer)
 
 /proc/generate_inhand_icon(/obj/item/I)
-	testing("GDC [index]")
+
 	if(sleevetype)
 		var/icon/dismembered		= icon("icon"=icon, "icon_state"=t_color)
 		var/icon/r_mask				= icon("icon"='icons/roguetown/clothing/onmob/helpers/dismemberment.dmi', "icon_state"="r_[sleevetype]")
@@ -161,7 +95,7 @@
 			if(3)
 				dismembered.Blend(r_mask, ICON_MULTIPLY)
 		dismembered 			= fcopy_rsc(dismembered)
-		testing("GDC added [index]")
+
 		GLOB.dismembered_clothing_icons[index] = dismembered*/
 
 /mob/living/carbon/update_inv_hands(hide_experimental = FALSE)
@@ -366,7 +300,7 @@
 	if(!get_bodypart(BODY_ZONE_HEAD)) //Decapitated
 		return
 
-	if(client && hud_used && hud_used.inv_slots[SLOT_BACK])
+	if(client && hud_used && hud_used.inv_slots[SLOT_HEAD])
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[SLOT_HEAD]
 		inv.update_icon()
 
@@ -402,13 +336,20 @@
 
 //mob HUD updates for items in our inventory
 
+/mob/living/carbon/proc/update_hud_hand_slot(held_index)
+	if(!held_index || !hud_used || !hud_used.hand_slots)
+		return
+	var/atom/movable/screen/inventory/hand/H = hud_used.hand_slots["[held_index]"]
+	if(H)
+		H.update_hand_vis()
+
 //update whether handcuffs appears on our hud.
 /mob/living/carbon/proc/update_hud_handcuffed()
 	if(hud_used)
 		for(var/hand in hud_used.hand_slots)
 			var/atom/movable/screen/inventory/hand/H = hud_used.hand_slots[hand]
 			if(H)
-				H.update_icon()
+				H.update_hand_vis()
 
 //update whether our head item appears on our hud.
 /mob/living/carbon/proc/update_hud_head(obj/item/I)

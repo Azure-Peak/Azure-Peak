@@ -1,6 +1,5 @@
 /mob/living/proc/update_stamina() //update hud and regen after last_fatigued delay on taking
-	max_stamina = max_energy / 10
-
+	calculate_stamina()
 	var/delay = 20
 	if(HAS_TRAIT(src, TRAIT_APRICITY))
 		switch(GLOB.tod)
@@ -8,7 +7,7 @@
 				delay = 13
 			if("night", "dusk")
 				delay = 16
-	if(world.time > last_fatigued + delay) //regen fatigue
+	if(world.time > last_fatigued + delay) //regen fatigue 
 		var/added = energy / max_energy
 		added = round(-10 + (added * - 40))
 		if(src.climbing) // no stam regen while climbing guh
@@ -24,10 +23,11 @@
 
 	update_health_hud()
 
+/mob/living/proc/calculate_stamina()
+	max_stamina = WILLPOWER_STARTING_STAMINA + ((STAWIL - 10) * WILLPOWER_MODIFIER)
+
 /mob/living/proc/update_energy()
-	var/athletics_skill = 0
-	athletics_skill = get_skill_level(/datum/skill/misc/athletics)
-	max_energy = (STAWIL + (athletics_skill/2 ) ) * 100
+	calculate_energy()
 	if(cmode)
 		if(!HAS_TRAIT(src, TRAIT_BREADY))
 			energy_add(-2)
@@ -40,6 +40,11 @@
 		else
 			energy_add(2) // Halve effectiveness for NPCs.
 
+/mob/living/proc/calculate_energy()
+	var/athletics_skill = 0
+	athletics_skill = get_skill_level(/datum/skill/misc/athletics)
+	max_energy = (STAWIL + (athletics_skill/2 ) ) * 100
+
 /mob/proc/energy_add(added as num)
 	return
 
@@ -48,6 +53,9 @@
 		return TRUE
 	if(HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
 		return TRUE
+	if(added < 0 && m_intent == MOVE_INTENT_RUN && (mobility_flags & MOBILITY_STAND))
+		if(isnull(buckled))
+			mind && mind.add_sleep_experience(/datum/skill/misc/athletics, (STAINT*0.02))
 	energy += added
 	if(energy > max_energy)
 		energy = max_energy
@@ -66,13 +74,9 @@
 
 /mob/living/proc/stamina_nutrition_mod(amt)
 	// to simulate exertion, we deduct a mob's nutrition whenever it takes an action that would give us fatigue.
-	var/nutrition_amount = amt * 0.15 // nutrition goes up to 1k at max (but constantly ticks down) so we need to work at a slightly bigger scale
-	var/athletics_skill = get_skill_level(/datum/skill/misc/athletics)
-	var/chip_amt = 2 + ceil(athletics_skill / 2)
+	var/nutrition_amount = amt * 0.075 // flat 1/2 of the old 0.15 rate
 
-	if (amt <= chip_amt)
-		if (athletics_skill && prob(athletics_skill * 16)) // 16% chance per athletics skill to straight up negate nutrition loss
-			return 0
+	if (amt <= 2)
 		if (amt == 2 && prob(STACON * 5)) // only sprinting knocks off 2 stamina at a time, so test this vs our con to see if we drop it
 			return 0
 
@@ -82,18 +86,10 @@
 
 	if (stamina >= (max_stamina * 0.7)) // if you've spent 70% of your max fatigue, the base amount you lose is doubled
 		nutrition_amount *= 2
-	if (STACON <= 9) // 10% extra nutrition loss for every CON below 9
-		var/low_end_malus = (10 - STACON) * 0.1
-		nutrition_amount *= (1 + low_end_malus)
-	if (STACON >= 11) // 5% less nutrition loss for every CON above 11
-		var/high_end_buff = (STACON - 10) * 0.05
-		nutrition_amount *= (1 - high_end_buff)
-	if (STASTR >= 11) // 7.5% increased nutrition loss for every STR above 11. the gainz don't come cheap
-		var/swole_malus = (10 - STASTR) * 0.075
+
+	if (STASTR >= 11) // 5% increased nutrition loss for every STR above 11. the gainz don't come cheap
+		var/swole_malus = (10 - STASTR) * 0.05
 		nutrition_amount *= (1 + swole_malus)
-	if (athletics_skill)
-		var/athletics_bonus = athletics_skill * 0.05 //each rank of athletics gives us 5% less nutrition loss
-		nutrition_amount *= (1 - athletics_bonus)
 
 	if (nutrition >= NUTRITION_LEVEL_WELL_FED) // we've only just eaten recently so just flat out reduce the total loss by half
 		nutrition_amount *= 0.5
@@ -165,6 +161,7 @@
 			emote("fatigue", forced = force_emote)
 		else
 			emote(emote_override, forced = force_emote)
+
 		blur_eyes(2)
 		last_fatigued = world.time + 3 SECONDS //extra time before fatigue regen sets in
 		stop_attack()
@@ -206,7 +203,7 @@
 		heart_attacking = TRUE
 		shake_camera(src, 1, 3)
 		blur_eyes(10)
-		var/stuffy = list("ZIZO GRABS MY WEARY HEART!","ARGH! MY HEART BEATS NO MORE!","NO... MY HEART HAS BEAT IT'S LAST!","MY HEART HAS GIVEN UP!","MY HEART BETRAYS ME!","THE METRONOME OF MY LIFE STILLS!")
+		var/stuffy = list("ZIZO GRABS MY WEARY HEART!","ARGH! MY HEART BEATS NO MORE!","NO... MY HEART HAS BEAT ITS LAST!","MY HEART HAS GIVEN UP!","MY HEART BETRAYS ME!","THE METRONOME OF MY LIFE STILLS!")
 		to_chat(src, span_userdanger("[pick(stuffy)]"))
 		emote("breathgasp", forced = TRUE)
 		addtimer(CALLBACK(src, PROC_REF(adjustOxyLoss), 110), 30)
@@ -214,14 +211,13 @@
 /mob/living/proc/freak_out()
 	return
 
-/mob/proc/do_freakout_scream()
-	emote("scream", forced=TRUE)
-
 /mob/living/carbon/freak_out() // currently solely used for vampire snowflake stuff
 	if(mob_timers["freakout"])
 		if(world.time < mob_timers["freakout"] + 10 SECONDS)
 			flash_fullscreen("stressflash")
 			return
+	if(HAS_TRAIT(src, TRAIT_NOMOOD))
+		return
 	mob_timers["freakout"] = world.time
 	shake_camera(src, 1, 3)
 	flash_fullscreen("stressflash")

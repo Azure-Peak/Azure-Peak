@@ -95,15 +95,32 @@
 	see_in_dark = 6
 	move_to_delay = 7
 	animal_species = /mob/living/simple_animal/hostile/retaliate/rogue/trufflepig
-	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 1,
-					/obj/item/reagent_containers/food/snacks/fat = 1,
-					/obj/item/natural/hide = 1)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2,
-						/obj/item/reagent_containers/food/snacks/fat = 2,
-						/obj/item/natural/hide = 1)
-	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 4, // Prev standard. Butcher has use and
-					/obj/item/reagent_containers/food/snacks/fat = 2,
-					/obj/item/natural/hide = 2)
+	botched_butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2,
+		/obj/item/alch/sinew = 2,
+		/obj/item/natural/bone = 4,
+		/obj/item/alch/viscera = 1,
+	)
+	butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 4,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly = 1,
+		/obj/item/reagent_containers/food/snacks/fat = 2,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 3,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2,
+	)
+	perfect_butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 6,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly = 2,
+		/obj/item/reagent_containers/food/snacks/fat = 4,
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 4,
+		/obj/item/alch/bone = 1,
+		/obj/item/alch/viscera = 2,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2,
+	)
 	base_intents = list(/datum/intent/simple/headbutt)
 	health = 80
 	maxHealth = 80

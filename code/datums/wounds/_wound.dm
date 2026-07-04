@@ -64,6 +64,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	var/disabling = FALSE
 	/// If TRUE, this is a crit wound
 	var/critical = FALSE
+	/// Some wounds cause instant death for SHATTER_KILL, which is basically critical weakness but softer
+	var/shatter_wound = FALSE
 	/// Some wounds cause instant death for CRITICAL_WEAKNESS
 	var/mortal = FALSE
 	/// Amount we heal passively while sleeping
@@ -76,8 +78,10 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	var/bypass_bloody_wound_check = FALSE
 	/// Some wounds make no sense on a dismembered limb and need to go
 	var/qdel_on_droplimb = FALSE
-	/// Severity names, assoc list.
-	var/list/severity_names = list()
+	/// Severity names, assoc list with severity stages. Make sure this list has at least !!5!! entries.
+	var/list/severity_stages = list()
+	/// What do we use for our severity type? Default is bleed rate (usually up to 20 -- artery equi.)
+	var/severity_type = SEVERITY_TYPE_BLEED
 	/// Whether miracles heal it.
 	var/healable_by_miracles = TRUE
 
@@ -94,6 +98,11 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	. = ..()
 	return QDEL_HINT_IWILLGC
 
+/datum/wound/New()
+	. = ..()
+	if(length(severity_stages) && length(severity_stages) < 5)
+		CRASH("[src] wound datum detected with severity stage list at less than 5. This will break severity scaling.")
+
 /// Description of this wound returned to the player when a bodypart is examined and such
 /datum/wound/proc/get_visible_name(mob/user)
 	if(!name)
@@ -108,6 +117,22 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 /// Description of this wound returned to the player when the bodypart is checked with check_for_injuries()
 /datum/wound/proc/get_check_name(mob/user)
 	return check_name
+
+/// 1:1 transfer from src to arg datum.
+/datum/wound/proc/copy_to(datum/wound/newwound, ratio = 1)
+	if(!newwound)
+		return FALSE
+	if(ratio < 0)
+		return FALSE
+	newwound.whp = whp
+	newwound.severity = severity
+	newwound.bleed_rate = bleed_rate
+	newwound.sew_threshold = sew_threshold
+	newwound.name = name
+	newwound.woundpain = woundpain
+	newwound.clotting_rate = clotting_rate
+	newwound.passive_healing = passive_healing
+	newwound.healable_by_miracles = healable_by_miracles
 
 /// Crit message that should be appended when this wound is applied in combat
 /datum/wound/proc/get_crit_message(mob/living/affected, obj/item/bodypart/affected_bodypart)
@@ -161,7 +186,10 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	sortTim(affected.wounds, GLOBAL_PROC_REF(cmp_wound_severity_dsc))
 	bodypart_owner = affected
 	owner = bodypart_owner.owner
-	bodypart_owner.bleeding += bleed_rate // immediately apply our base bleeding
+	var/initial_bleed = bleed_rate
+	bleed_rate = 0
+	if(initial_bleed)
+		set_bleed_rate(initial_bleed)
 	on_bodypart_gain(affected)
 	INVOKE_ASYNC(src, PROC_REF(on_mob_gain), affected.owner) //this is literally a fucking lint error like new species cannot possible spawn with wounds until after its ass
 	if(crit_message)
@@ -243,6 +271,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		werewolf_infect_attempt()
 	if(mortal && HAS_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS))
 		affected.death()
+	if(shatter_wound && HAS_TRAIT(affected, TRAIT_SHATTER_KILL))
+		affected.death()
 
 /// Removes this wound from a given, simpler than adding to a bodypart - No extra effects
 /datum/wound/proc/remove_from_mob()
@@ -261,12 +291,27 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Called on handle_wounds(), on the life() proc
 /datum/wound/proc/on_life()
+	if(!owner || QDELETED(owner))
+		qdel(src)
+		return FALSE
+
+	if(!owner.loc)
+		return FALSE
+
 	if(!isnull(clotting_threshold) && clotting_rate && (bleed_rate > clotting_threshold))
 		set_bleed_rate(max(clotting_threshold, bleed_rate - clotting_rate))
+		if(!owner || QDELETED(owner) || QDELETED(src))
+			return FALSE
+
 	if(HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
-		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive
-	if(owner.stat != DEAD && passive_healing) // passive healing is only called if we're like, you know, alive
+		if(!istype(src, /datum/wound/slash/incision))
+			heal_wound(0.6)
+		if(!owner || QDELETED(owner) || QDELETED(src))
+			return FALSE
+
+	if(passive_healing && owner && owner.stat != DEAD)
 		heal_wound(passive_healing)
+
 	return TRUE
 
 /// Called on handle_wounds(), on the life() proc
@@ -277,7 +322,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 	if (HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
 		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive
-	
+		if(!istype(src, /datum/wound/slash/incision))
+			heal_wound(0.6)
 	return TRUE
 
 /// Setter for any adjustments we make to our bleed_rate, propagating them to the host bodypart.
@@ -295,9 +341,15 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 			owner.simple_bleeding = 0
 			owner.bleed_rate = 0
 	else if(bodypart_owner)
+		var/was_bleeding = bodypart_owner.bleeding > 0
 		bodypart_owner.bleeding -= bleed_rate
 		bleed_rate = amount
 		bodypart_owner.bleeding += bleed_rate
+		var/now_bleeding = bodypart_owner.bleeding > 0
+		if(was_bleeding != now_bleeding && bodypart_owner.owner)
+			var/datum/hud/hud_used = bodypart_owner.owner.hud_used
+			if(hud_used?.zone_select)
+				hud_used.zone_select.update_limb(bodypart_owner.body_zone)
 
 /// Heals this wound by the given amount, and deletes it if it's healed completely
 /datum/wound/proc/heal_wound(heal_amount)
@@ -378,16 +430,27 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	SHOULD_CALL_PARENT(TRUE)	//Don't skip this if you're making new dynamic wounds.
 	return
 
-/datum/wound/proc/update_name()
+/datum/wound/proc/update_stage()
 	var/newname
 	var/oldname = name
-	if(length(severity_names))
-		for(var/sevname in severity_names)
-			if(!bleed_rate) //if it's a hematoma, use whp for naming
-				if(severity_names[sevname] <= whp)
-					newname = sevname
-			else if(severity_names[sevname] <= bleed_rate)
+	if(length(severity_stages))
+		var/checkval
+		var/severityval
+		switch(severity_type)
+			if(SEVERITY_TYPE_BLEED)
+				checkval = bleed_rate
+			if(SEVERITY_TYPE_WHP)
+				checkval = whp
+		for(var/sevname in severity_stages)
+			if(severity_stages[sevname] <= checkval)
 				newname = sevname
+		for(var/i in 1 to length(severity_stages))
+			if(severity_stages[i] == newname)
+				severityval = i
+		severityval = clamp(severityval, 0, 5)
+		if(severityval)
+			severity = severityval
+		
 	name = "[newname  ? "[newname] " : ""][initial(name)]"	//[adjective] [name], aka, "gnarly slash" or "slash"
 	if(name != oldname)
 		owner.visible_message(span_red("The [oldname] on [owner]'s [lowertext(bodyzone2readablezone(bodypart_to_zone(bodypart_owner)))] gets worse!"))
@@ -412,13 +475,14 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 					owner.visible_message(span_crit("The wound tears open from [bodypart_owner.owner]'s <b>[bodyzone2readablezone(bodypart_to_zone(bodypart_owner))]</b>, the armor won't let it go any further!"))
 					is_armor_maxed = TRUE
 
+
 #define CLOT_THRESHOLD_INCREASE_PER_HIT 0.1	//This raises the MINIMUM bleed the wound can clot to.
 #define CLOT_DECREASE_PER_HIT 0.05	//This reduces the amount of clotting the wound has.
 #define CLOT_RATE_ARTERY 0	//Artery exceptions. Essentially overrides the clotting threshold.
 #define CLOT_THRESHOLD_ARTERY 2
 
 /// Make sure this is called AFTER your child upgrade proc, unless you have a reason for the bleed rate to be above artery on a regular wound.
-/datum/wound/dynamic/upgrade(dam as num)
+/datum/wound/dynamic/upgrade(dam as num, armor, exposed = FALSE, pen_info)
 	if(!bodypart_owner.unlimited_bleeding)
 		if(bleed_rate >= ARTERY_LIMB_BLEEDRATE)
 			set_bleed_rate(ARTERY_LIMB_BLEEDRATE)
@@ -432,6 +496,11 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		clotting_rate = max(0.01, (clotting_rate - CLOT_DECREASE_PER_HIT))
 		clotting_threshold += CLOT_THRESHOLD_INCREASE_PER_HIT
 	..()
+
+/datum/wound/proc/handle_ooze_wound(obj/item/bodypart/affected)
+	if(bodypart_owner || owner || QDELETED(affected) || QDELETED(affected.owner))
+		return FALSE
+	return TRUE
 
 #undef CLOT_THRESHOLD_INCREASE_PER_HIT
 #undef CLOT_DECREASE_PER_HIT

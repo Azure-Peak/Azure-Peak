@@ -33,8 +33,13 @@
 	//How many players have this job
 	var/current_positions = 0
 
+	/// Admin-manual slot override set via Manage Job Slots for storyteller-capped roles.
+	var/admin_slot_override = FALSE
+
 	//Whether this job clears a slot when you get a rename prompt.
 	var/antag_job = FALSE
+	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
+	var/storyteller_midround_antag_flags = STORYTELLER_ANTAG_NONE
 
 	//Supervisors, who this person answers to directly
 	var/supervisors = ""
@@ -63,14 +68,11 @@
 	//can be overridden by antag_rep.txt config
 	var/antag_rep = 10
 
-	var/paycheck = PAYCHECK_MINIMAL
-	var/paycheck_department = ACCOUNT_CIV
-
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
 
 	//allowed sex/race for picking
 	var/list/allowed_sexes = list(MALE, FEMALE)
-	var/list/allowed_races = RACES_ALL_KINDS
+	var/list/forbidden_races
 	var/list/allowed_patrons
 	var/list/allowed_ages = ALL_AGES_LIST
 
@@ -170,16 +172,41 @@
 	var/is_quest_giver = FALSE
 
 	/// How many quests this job can take at once
-	var/max_active_quests = 3
+	var/max_active_quests = 2
+
+	var/townie_contract_gate_exempt = FALSE
+
+	///
+	var/quest_claim_barred = FALSE
+
+/proc/is_quest_claim_barred(mob/user)
+	if(!user?.mind)
+		return FALSE
+	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
+	return J?.quest_claim_barred ? TRUE : FALSE
+
+/proc/is_townie_contract_gate_exempt(mob/user)
+	if(!user?.mind)
+		return FALSE
+	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
+	if(J?.townie_contract_gate_exempt)
+		return TRUE
+	var/datum/advclass/AC = user.mind.picked_advclass
+	if(!QDELETED(AC) && AC.townie_contract_gate_exempt)
+		return TRUE
+	return FALSE
 
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE
 
+/datum/job/proc/uses_storyteller_slot_caps()
+	return title in list("Wretch", "Gnoll", "Assassin")
+
 /datum/job/proc/get_used_title(mob/player)
-	var/pronouns = player.pronouns
+	var/titles = player.titles_pref
 	var/used_name = display_title || title
-	if((pronouns == SHE_HER || pronouns == THEY_THEM_F) && f_title)
+	if((titles == TITLES_F) && f_title)
 		used_name = f_title
 	return used_name
 
@@ -242,10 +269,7 @@
 
 		if(H.mind)
 			H.mind?.special_items["Pouch of Coins"] = /obj/item/storage/belt/rogue/pouch/coins/readyuppouch
-			if (HAS_TRAIT(H, TRAIT_MEDIUMARMOR) || HAS_TRAIT(H, TRAIT_HEAVYARMOR))
-				H.mind?.special_items["Metal Scrap (Repair kit)"] = /obj/item/repair_kit/metal/bad
-			else
-				H.mind?.special_items["Fabric Patch (Repair kit)"] = /obj/item/repair_kit/bad
+			set_readyup_repair_kit(H)
 
 		to_chat(M, span_notice("Rising early, you made sure to pack a pouch of coins in your stash and eat a hearty breakfast before starting your day. A true TRIUMPH!"))
 
@@ -254,7 +278,7 @@
 
 	if(H.islatejoin && announce_latejoin)
 		var/used_title = display_title || title
-		if((H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F) && f_title)
+		if((H.titles_pref == TITLES_F) && f_title)
 			used_title = f_title
 		scom_announce("[H.real_name] the [used_title] arrives to Azure Peak.")
 
@@ -266,7 +290,7 @@
 
 		if(noble_income)
 			SStreasury.noble_incomes[H] = noble_income
-			SStreasury.give_money_account(noble_income, H, "Noble Estate")
+			SStreasury.grant_estate_income(H, noble_income, TRUE)
 
 	if(show_in_credits)
 		SScrediticons.processing += H
@@ -287,6 +311,24 @@
 		hugboxify_for_class_selection(H)
 
 	log_admin("[H.key]/([H.real_name]) has joined as [H.mind.assigned_role].")
+
+/// Sets the ready-up repair kit stash entry based on the mob's current armor traits.
+/// Safe to call multiple times — later calls overwrite earlier ones, so loadout-based armor picks can re-run this to upgrade the kit after choose_loadout finishes.
+/datum/job/proc/set_readyup_repair_kit(mob/living/carbon/human/H)
+	if(!H?.mind)
+		return
+	if(HAS_TRAIT(H, TRAIT_MEDIUMARMOR) || HAS_TRAIT(H, TRAIT_HEAVYARMOR))
+		H.mind.special_items -= "Fabric Patch (Repair kit)"
+		H.mind.special_items["Metal Scrap (Repair kit)"] = /obj/item/repair_kit/metal/bad
+	else
+		H.mind.special_items["Fabric Patch (Repair kit)"] = /obj/item/repair_kit/bad
+
+/// Called when a player permanently leaves the round (via returntolobby). Handles slot reopening and respawn delays.
+/datum/job/proc/on_round_removal(mob/M)
+	if(job_reopens_slots_on_death)
+		current_positions = max(0, current_positions - 1)
+	if(same_job_respawn_delay && M.ckey)
+		GLOB.job_respawn_delays[M.ckey] = world.time + same_job_respawn_delay
 
 /client/verb/set_mugshot()
 	set category = "OOC"
@@ -351,11 +393,6 @@
 		if((H.dna.species.id != "human") && (H.dna.species.id != "humen"))
 			H.set_species(/datum/species/human)
 			H.apply_pref_name("human", preference_source)
-	if(!visualsOnly)
-		var/datum/bank_account/bank_account = new(H.real_name, src)
-		bank_account.payday(STARTING_PAYCHECKS, TRUE)
-		H.account_id = bank_account.account_id
-
 	//Equip the rest of the gear
 	H.dna.species.before_equip_job(src, H, visualsOnly)
 	if(!outfit_override && visualsOnly && visuals_only_outfit)
@@ -484,16 +521,22 @@
 
 	if(length(statcl))
 		for(var/stat in statcl)
-			if(statcl[stat] < H.get_stat(stat))
-				H.change_stat(stat, (statcl[stat] - H.get_stat(stat)))
+			if(statcl[stat] < H.get_true_stat(stat))
+				H.change_stat(stat, (statcl[stat] - H.get_true_stat(stat)))
 				to_chat(H, "Your [stat] was reduced to \Roman[statcl[stat]] due to class limits.")
 
 // LETHALSTONE EDIT: Helper functions for pronoun-based clothing selection
 /proc/should_wear_masc_clothes(mob/living/carbon/human/H)
-	return (H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == SHE_HER_M || (H.pronouns == IT_ITS && H.gender == MALE))
+	if(!H.mind)
+		return (H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == IT_ITS)
+	else 
+		return (H.clothes_pref == CLOTHES_M)
 
 /proc/should_wear_femme_clothes(mob/living/carbon/human/H)
-	return (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || (H.pronouns == IT_ITS && H.gender == FEMALE))
+	if(!H.mind)
+		return (H.pronouns == SHE_HER)
+	else
+		return (H.clothes_pref == CLOTHES_F)
 // LETHALSTONE EDIT END
 
 /datum/job/proc/get_informed_title(mob/mob)
@@ -531,8 +574,30 @@
 					for(var/stat in adv_ref.adv_stat_ceiling)
 						dat += "["[capitalize(stat)]: <b>\Roman[adv_ref.adv_stat_ceiling[stat]]</b>"] | "
 					dat += "<i><br>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
-				if(adv_ref.subclass_spellpoints > 0)
-					dat += "<font color = '#a3a7e0'>Starting Spellpoints: <b>[adv_ref.subclass_spellpoints]</b></font>"
+				if(LAZYLEN(adv_ref.subclass_mage_aspects))
+					var/list/aspect_cfg = adv_ref.subclass_mage_aspects
+					dat += "<font color = '#a3a7e0'><b>Mage Aspects:</b><br>"
+					if(aspect_cfg["mastery"])
+						dat += "Mastery: <b>Unlocked</b><br>"
+					if(aspect_cfg["major"] > 0)
+						dat += "Major Aspects: <b>[aspect_cfg["major"]]</b><br>"
+					if(aspect_cfg["minor"] > 0)
+						dat += "Minor Aspects: <b>[aspect_cfg["minor"]]</b><br>"
+					if(aspect_cfg["utilities"] > 0)
+						dat += "Utility Slots: <b>[aspect_cfg["utilities"]]</b><br>"
+					if(LAZYLEN(aspect_cfg["locked_aspects"]))
+						dat += "Innate: "
+						var/list/locked = aspect_cfg["locked_aspects"]
+						for(var/aspect_path in locked)
+							var/datum/magic_aspect/A = aspect_path
+							dat += "<b>[initial(A.name)]</b> "
+						dat += "<br>"
+					if(islist(aspect_cfg["variants"]))
+						var/list/overrides = aspect_cfg["variants"]
+						for(var/aspect_path in overrides)
+							var/datum/magic_aspect/A = aspect_path
+							dat += "Tradition: <b>[capitalize(overrides[aspect_path])] [initial(A.name)]</b><br>"
+					dat += "</font>"
 				if(length(adv_ref.subclass_languages))
 					dat += "<details><summary><i>Known Languages</i></summary>"
 					for(var/i in 1 to length(adv_ref.subclass_languages))
@@ -651,6 +716,43 @@
 		popup.open(FALSE)
 		if(winexists(usr, "subclassslots"))
 			winset(usr, "subclassslots", "focus=true")
+	if(href_list["jobadvincomp"])
+		if(!usr)
+			return
+		if(!isdead(usr))
+			return
+		var/mob/dead/D = usr
+		var/client/player = D.client
+		var/list/dat = list()
+		for(var/adv in job_subclasses)
+			var/advdat = ""
+			var/datum/advclass/subclasspath = adv
+			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+			var/found_issue = FALSE
+			if(length(subclass.virtue_limits))
+				for(var/virtuetype in subclass.virtue_limits)
+					if(istype(player.prefs.virtue, virtuetype))
+						advdat += "[player.prefs.virtue.name]<br>"
+						found_issue = TRUE
+					if(istype(player.prefs.virtuetwo, virtuetype))
+						advdat += "[player.prefs.virtuetwo.name]<br>"
+						found_issue = TRUE
+
+			if(length(subclass.vice_limits))
+				for(var/vicetype in subclass.vice_limits)
+					for(var/vice in player.prefs.charflaws)
+						var/datum/charflaw/cf = vice
+						if(istype(vice, vicetype))
+							advdat += "[cf.name]<br>"
+							found_issue = TRUE
+			if(found_issue)
+				dat += "<font color = '#e4e1e1'><b>[subclass::name]</b></font><br>"
+				dat += advdat
+		var/datum/browser/popup = new(usr, "subclassslots", "<div style='text-align: center'>Subclass Incompatibilities</div>", nwidth = 200, nheight = 300)
+		popup.set_content(dat.Join())
+		popup.open(FALSE)
+		if(winexists(usr, "subclassslots"))
+			winset(usr, "subclassslots", "focus=true")
 	. = ..()
 
 /datum/job/proc/has_limited_subclasses()
@@ -661,3 +763,24 @@
 		if(initial(subclass.maximum_possible_slots) != -1)
 			return TRUE
 	return FALSE
+
+/datum/job/proc/prefs_subclass_compatibility(client/player)
+	if(!player)
+		return FALSE
+	if(!player.prefs)
+		return FALSE
+	if(!length(job_subclasses))
+		return FALSE
+	for(var/adv in job_subclasses)
+		var/datum/advclass/subclasspath = adv
+		var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+		if(length(subclass.virtue_limits))
+			for(var/virtuetype in subclass.virtue_limits)
+				if(istype(player.prefs.virtue, virtuetype) || istype(player.prefs.virtuetwo, virtuetype))
+					return TRUE
+
+		if(length(subclass.vice_limits))
+			for(var/vicetype in subclass.vice_limits)
+				for(var/vice in player.prefs.charflaws)
+					if(istype(vice, vicetype))
+						return TRUE

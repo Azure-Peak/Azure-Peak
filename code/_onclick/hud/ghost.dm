@@ -1,5 +1,6 @@
 /atom/movable/screen/ghost
 	icon = 'icons/mob/screen_ghost.dmi'
+	nomouseover = FALSE
 
 /atom/movable/screen/ghost/MouseEntered()
 //	flick(icon_state + "_anim", src)
@@ -26,7 +27,6 @@
 	icon = 'icons/mob/ghostspin.dmi'
 	icon_state = ""
 	screen_loc = "WEST-4,SOUTH+6"
-	nomouseover = FALSE
 
 /atom/movable/screen/ghost/orbit/rogue/Click(location, control, params)
 	var/mob/dead/observer/G = usr
@@ -38,15 +38,6 @@
 			if(istype(G, /mob/dead/observer/rogue/arcaneeye))
 				return
 			if(alert("Travel with the boatman?", "", "Yes", "No") == "Yes")
-				if(G.mind)
-					var/datum/job/target_job = SSjob.GetJob(G.mind.assigned_role)
-					if(target_job)
-						if(target_job.job_reopens_slots_on_death)
-							target_job.current_positions = max(0, target_job.current_positions - 1)
-						if(target_job.same_job_respawn_delay)
-							// Store the current time for the player
-							GLOB.job_respawn_delays[G.ckey] = world.time + target_job.same_job_respawn_delay
-
 				G.returntolobby(0)
 
 /atom/movable/screen/ghost/reenter_corpse
@@ -66,7 +57,7 @@
 	G.dead_tele()
 
 /atom/movable/screen/ghost/moveup
-	name = "move up"
+	name = "Move Up"
 	icon_state = "up"
 
 /atom/movable/screen/ghost/moveup/Click()
@@ -74,7 +65,7 @@
 	G.ghost_up()
 
 /atom/movable/screen/ghost/movedown
-	name = "move down"
+	name = "Move Down"
 	icon_state = "down"
 
 /atom/movable/screen/ghost/bigassuselessbutton
@@ -91,6 +82,18 @@
 /datum/hud/ghost/New(mob/owner)
 	..()
 	var/atom/movable/screen/using
+
+	using = new /atom/movable/screen/ghost/orbit(null, src)
+	using.screen_loc = ui_ghost_orbit
+	static_inventory += using
+
+	using = new /atom/movable/screen/ghost/reenter_corpse(null, src)
+	using.screen_loc = ui_ghost_reenter_corpse
+	static_inventory += using
+
+	using = new /atom/movable/screen/ghost/teleport(null, src)
+	using.screen_loc = ui_ghost_teleport
+	static_inventory += using
 
 	using =  new /atom/movable/screen/backhudl/ghost()
 	using.hud = src

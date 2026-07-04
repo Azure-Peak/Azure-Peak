@@ -24,7 +24,7 @@
 /turf/closed/wall/mineral/rogue/decostone/fluffstone,
 /area/rogue/under/tomb/cave)
 "m" = (
-/obj/item/rogueweapon/huntingknife/copper,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/item/rogueweapon/shield/buckler/palloy,
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/blocks/paving/vert,

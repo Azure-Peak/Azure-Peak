@@ -9,7 +9,8 @@
 	action_icon_state = "summons"
 	invocations = list("Evoca Telum")
 	invocation_type = "whisper"
-	spell_tier = 2 
+	spell_tier = 2
+	spell_impact_intensity = SPELL_IMPACT_NONE
 	cost = 1 // 1 Cost, I don't think this is amazing enough utility. Maybe.
 	var/obj/marked_item
 

@@ -767,8 +767,9 @@ world
 	var/render_icon = curicon
 
 	if (render_icon)
-		if(!icon_exists(curicon, curstate))
-			if(icon_exists(curicon, ""))
+		var/curstates = icon_states(curicon)
+		if(!(curstate in curstates))
+			if ("" in curstates)
 				curstate = ""
 			else
 				render_icon = FALSE
@@ -1050,7 +1051,7 @@ GLOBAL_LIST_EMPTY(friendly_animal_types)
 				new_item.flags_inv = item.flags_inv
 				new_item.body_parts_covered = item.body_parts_covered
 				new_item.color = item.color
-				body.equip_to_slot_if_possible(new_item, slot)
+				body.equip_to_slot_if_possible(new_item, slot, bypass_equip_delay_self = TRUE)
 
 			if(copy_appearance)
 				human_gear_override.dna.transfer_identity(body)
@@ -1068,7 +1069,6 @@ GLOBAL_LIST_EMPTY(friendly_animal_types)
 		var/icon/out_icon = icon('icons/effects/effects.dmi', "nothing")
 		for(var/D in showDirs)
 			body.setDir(D)
-			COMPILE_OVERLAYS(body)
 			var/icon/partial = getFlatIcon(body)
 			out_icon.Insert(partial,dir=D)
 
@@ -1480,7 +1480,7 @@ GLOBAL_LIST_INIT(freon_color_matrix, list("#2E5E69", "#60A2A8", "#A1AFB1", rgb(0
 	return FALSE
 
 /// Makes a client temporarily aware of an appearance via and invisible vis contents object.
-/mob/proc/send_appearance(mutable_appearance/appearance) as /atom/movable/screen
+/mob/proc/send_appearance(mutable_appearance/appearance, duration = 5 SECONDS) as /atom/movable/screen
 	RETURN_TYPE(/atom/movable/screen)
 	if(!hud_used || isnull(appearance))
 		return
@@ -1489,7 +1489,8 @@ GLOBAL_LIST_INIT(freon_color_matrix, list("#2E5E69", "#60A2A8", "#A1AFB1", rgb(0
 	container.appearance = appearance
 
 	hud_used.vis_holder.vis_contents += container
-	addtimer(CALLBACK(src, PROC_REF(remove_appearance), container), 5 SECONDS)
+	if(duration)
+		addtimer(CALLBACK(src, PROC_REF(remove_appearance), container), duration)
 
 	return container
 
@@ -1553,15 +1554,3 @@ GLOBAL_LIST_EMPTY(headshot_cache)
 		"html" = icon_html
 	)
 	return icon_html
-
-/proc/get_cached_damage_overlay(icon, icon_state, layer, pixel_x = 0, pixel_y = 0, overlay_color)
-	var/key = "[icon]|[icon_state]|[layer]|[pixel_x]|[pixel_y]|[overlay_color]"
-	var/mutable_appearance/cached = GLOB.damage_overlay_cache[key]
-	if(!cached)
-		cached = mutable_appearance(icon, icon_state, -layer)
-		cached.pixel_x = pixel_x
-		cached.pixel_y = pixel_y
-		if(overlay_color)
-			cached.color = overlay_color
-		GLOB.damage_overlay_cache[key] = cached
-	return cached

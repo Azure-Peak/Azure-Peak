@@ -4,28 +4,21 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 
 	race = /datum/species/dwarf/mountain
 	gender = MALE
-	faction = list("dundead")
+	faction = list(FACTION_DUNDEAD)
 	var/skel_outfit = /datum/outfit/job/roguetown/dwarfskeleton
 	ambushable = FALSE
-	mode = NPC_AI_IDLE
-	wander = FALSE
+	ai_controller = /datum/ai_controller/human_npc
 	cmode = 1
 	setparrytime = 30
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY //even in undeath dwarves parry. Dodging aint proper dorf behavior
 	selected_default_language = /datum/language/dwarvish
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL) //intents given in case of player controlled
-	possible_rmb_intents = list(/datum/rmb_intent/feint, /datum/rmb_intent/aimed, /datum/rmb_intent/strong, /datum/rmb_intent/weak)
 
 /mob/living/carbon/human/species/dwarfskeleton/ambush
-	aggressive=1
-	wander = TRUE
+	threat_point = THREAT_ELITE
+	ambush_faction = "undead"
 
-/mob/living/carbon/human/species/dwarfskeleton/retaliate(mob/living/L)
-	.=..()
-	if(prob(5))
-		say(pick(GLOB.dwarfskeleton_aggro))
-		pointed(target)
 
 /mob/living/carbon/human/species/dwarfskeleton/Initialize()
 	. = ..()
@@ -35,11 +28,14 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 
 /mob/living/carbon/human/species/dwarfskeleton/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.dwarfskeleton_aggro, TRUE)
 	if(src.dna && src.dna.species)
 		src.dna.species.species_traits |= NOBLOOD
-		src.dna.species.soundpack_m = new /datum/voicepack/skeleton()
-	if(src.charflaw)
-		QDEL_NULL(src.charflaw)
+		src.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/skeleton]
+	for(var/datum/charflaw/cf in charflaws)
+		charflaws.Remove(cf)
+		QDEL_NULL(cf)
 	mob_biotypes = MOB_UNDEAD
 	job = "Dwarf Skeleton"
 	real_name = "Dwarven Skeleton"
@@ -49,12 +45,15 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC) // We're moving away from infinite green, even on skeletons.
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOBURN_RESIST, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	var/obj/item/organ/eyes/eyes = src.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.Remove(src,1)
@@ -100,14 +99,15 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 		l_hand = /obj/item/rogueweapon/sword/short/gladius
 		r_hand = /obj/item/rogueweapon/shield/wood
 		if(prob(20))
-			l_hand = /obj/item/rogueweapon/knuckles/bronzeknuckles
+			gloves = /obj/item/clothing/gloves/roguetown/knuckles/bronze
 
 	H.STASTR = 12
 	H.STASPD = 11
-	H.STACON = 12
-	H.STAWIL = 12
+	H.STACON = 10
+	H.STAWIL = 10
 	H.STAPER = 14
 	H.STAINT = 11
+	H.grant_language(/datum/language/undead)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
@@ -138,10 +138,11 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 
 	H.STASTR = 16
 	H.STASPD = 11
-	H.STACON = 14
-	H.STAWIL = 14
+	H.STACON = 12
+	H.STAWIL = 12
 	H.STAPER = 14
 	H.STAINT = 11
+	H.grant_language(/datum/language/undead)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)

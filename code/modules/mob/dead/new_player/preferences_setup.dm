@@ -22,6 +22,7 @@
 		song_artist = null
 		headshot_link = null
 		img_gallery = null
+		nsfw_img_gallery = null
 	features = pref_species.get_random_features()
 	body_markings = pref_species.get_random_body_markings(features)
 	accessory = "Nothing"
@@ -41,12 +42,10 @@
 		return
 	if(parent.is_new_player())
 		return
-
-	// Set up the dummy for its photoshoot
 	var/mob/living/carbon/human/dummy/mannequin = generate_or_wait_for_human_dummy(DUMMY_HUMAN_SLOT_PREFERENCES)
 	copy_to(mannequin, 1, TRUE, TRUE)
 
-	COMPILE_OVERLAYS(mannequin)
+	mannequin.rebuild_obscured_flags()
 	parent.show_character_previews(new /mutable_appearance(mannequin))
 	unset_busy_human_dummy(DUMMY_HUMAN_SLOT_PREFERENCES)
 

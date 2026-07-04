@@ -145,8 +145,8 @@
 /datum/keybinding/living/toggle_compliance
 	hotkey_keys = list()
 	name = "toggle_compliance"
-	full_name = "Toggle Compliance"
-	description = "At-will toggle to fail defense rolls, both when getting grabbed/tackled, and when others resist out your grabs."
+	full_name = "Toggle Compliance Mode"
+	description = "At-will, silent toggle to fail defense rolls, both when getting grabbed/tackled, and when others resist out your grabs. Additionally speeds up restraining you and stripping you. Dangerous in combat!"
 
 /datum/keybinding/living/toggle_compliance/down(client/user)
 	var/mob/living/L = user.mob
@@ -276,6 +276,22 @@
 	if (isliving(L))
 		L.look_around()
 
+/datum/keybinding/living/alt_grip
+	hotkey_keys = list("B")
+	name = "alt_grip"
+	full_name = "Alt Grip"
+	description = "Switch to an alternate grip on the held weapon, such as mordhau."
+
+/datum/keybinding/living/alt_grip/down(client/user)
+	var/mob/living/L = user.mob
+	if(!isliving(L))
+		return FALSE
+	var/obj/item/I = L.get_active_held_item()
+	if(I)
+		I.rmb_self(L)
+		return TRUE
+	return FALSE
+
 //layer shifting
 
 /datum/keybinding/living/pixel_shift_layerup
@@ -287,6 +303,8 @@
 
 /datum/keybinding/living/pixel_shift_layerup/down(client/user)
 	var/mob/living/M = user.mob
+	if(!isliving(M))
+		return FALSE
 	if(M.pixelshift_layer <= 0.04)
 		M.is_shifted = TRUE
 		M.pixelshift_layer = M.pixelshift_layer + 0.01
@@ -302,6 +320,8 @@
 
 /datum/keybinding/living/pixel_shift_layerdown/down(client/user)
 	var/mob/living/M = user.mob
+	if(!isliving(M))
+		return FALSE
 	if(M.pixelshift_layer >= -0.04)
 		M.is_shifted = TRUE
 		M.pixelshift_layer = M.pixelshift_layer - 0.01

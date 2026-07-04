@@ -41,7 +41,8 @@ GLOBAL_LIST_EMPTY(last_words)
 #define DUST_ANIMATION_TIME 1.3 SECONDS
 
 /mob/living/dust(just_ash, drop_items, force)
-	death(TRUE)
+	if(stat != DEAD)
+		death(TRUE)
 
 	spill_embedded_objects()
 
@@ -84,13 +85,17 @@ GLOBAL_LIST_EMPTY(last_words)
 #undef DUST_ANIMATION_TIME
 
 /mob/living/proc/spawn_dust(just_ash = FALSE)
+	if(contract_spawned)
+		return
 	for(var/i in 1 to 3)
 		new /obj/item/ash(loc)
 
 
 /mob/living/death(gibbed, nocutscene = FALSE)
 	var/was_dead_before = stat == DEAD
-	stat = DEAD
+	if(blood_toll_bucket && !was_dead_before && !mind?.assigned_role && !client)
+		record_round_statistic(blood_toll_bucket)
+	set_stat(DEAD)
 	unset_machine()
 	timeofdeath = world.time
 	tod = station_time_timestamp()
@@ -115,9 +120,10 @@ GLOBAL_LIST_EMPTY(last_words)
 	set_drugginess(0)
 	set_disgust(0)
 	SetSleeping(0, 0)
+	set_sunder(0) //So deadites aren't PSzsghdhrfrliorfing almost post-death
 	reset_perspective(null)
 	reload_fullscreen()
-	update_action_buttons_icon()
+	update_mob_action_buttons()
 	update_damage_hud()
 	update_health_hud()
 	update_mobility()
@@ -139,7 +145,8 @@ GLOBAL_LIST_EMPTY(last_words)
 		mob_timers["lastdied"] = world.time
 //		addtimer(CALLBACK(client, PROC_REF(ghostize), 1, src), 150)
 		add_client_colour(/datum/client_colour/monochrome)
-		client.verbs.Add(GLOB.ghost_verbs)
+		add_verb(client, GLOB.ghost_verbs)
+		client.init_verbs()
 		if(last_words)
 			GLOB.last_words |= last_words
 
@@ -160,12 +167,12 @@ GLOBAL_LIST_EMPTY(last_words)
 	// AZURE EDIT BEGIN: necra acolyte/priest deathsight trait
 	// this was a player that just died, so do the honors
 	if (client)
-		if (!gibbed)
-			var/locale = prepare_deathsight_message()
+		if (!gibbed && !( (src.mind && src.mind.has_antag_datum(/datum/antagonist/zombie)) || (src.mind && src.mind.has_antag_datum(/datum/antagonist/skeleton)) || HAS_TRAIT(src, TRAIT_SECONDLIFE) )) // because I hate being jumpscared by "OOH SOMEONE DIED IN THE CHURCH" when they're just killing a deadite with burn rot to rez them
 			for (var/mob/living/player in GLOB.player_list)
 				if (player.stat == DEAD || isbrain(player))
 					continue
 				if (HAS_TRAIT(player, TRAIT_DEATHSIGHT))
+					var/locale = prepare_deathsight_message(player) // observer passed in so the fallback can describe direction/distance relative to them
 					if (HAS_TRAIT(player, TRAIT_CABAL))
 						to_chat(player, span_warning("I feel the faint passage of disjointed life essence as it flees [locale]."))
 					else
@@ -174,8 +181,35 @@ GLOBAL_LIST_EMPTY(last_words)
 
 	return TRUE
 
-/mob/living/proc/prepare_deathsight_message()
+/mob/living/proc/prepare_deathsight_message(mob/observer)
 	var/area/A = get_area(src)
 	if(!A)
-		return "a locale wreathed in enigmatic fog" // fallback if we can't find the area somehow??
+		return "an unknown locale, wreathed in enigmatic fog" // fallback if we can't find the area somehow?? -- This was not clear enough for me ICly that it's somewhere I shouldn't care about, now it should
+	if(!A.deathsight_message)
+		log_game("Deathsight: area [A.type] has no deathsight_message set. Death occurred at [AREACOORD(src)].")
+		return generate_relative_deathsight(observer) // area is misconfigured; give the watcher a rough bearing instead of a broken message
 	return A.deathsight_message
+
+/mob/living/proc/generate_relative_deathsight(mob/observer)
+	var/turf/death_turf = get_turf(src)
+	var/turf/observer_turf = get_turf(observer)
+	if(!death_turf || !observer_turf)
+		return "an unknown locale, wreathed in enigmatic fog"
+
+	var/list/parts = list()
+	var/paces = round(get_dist(observer_turf, death_turf), 20) // nearest 20 paces, so the bearing stays imprecise
+	var/dir_text = dir2text(get_dir(observer_turf, death_turf))
+	if(paces <= 0)
+		parts += "somewhere close at hand"
+	else if(dir_text)
+		parts += "roughly [paces] paces to the [dir_text]"
+	else
+		parts += "roughly [paces] paces away"
+
+	var/zdiff = death_turf.z - observer_turf.z
+	if(zdiff > 0)
+		parts += "[zdiff] level\s above me"
+	else if(zdiff < 0)
+		parts += "[abs(zdiff)] level\s below me"
+
+	return jointext(parts, ", ")

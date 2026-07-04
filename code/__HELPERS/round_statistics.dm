@@ -3,6 +3,7 @@
 #define STATS_ALIVE_DWARVES "alive_dwarves"
 #define STATS_ALIVE_DARK_ELVES "alive_dark_elves"
 #define STATS_ALIVE_WOOD_ELVES "alive_wood_elves"
+#define STATS_ALIVE_SUN_ELVES "alive_sun_elves"
 #define STATS_ALIVE_HALF_ELVES "alive_half_elves"
 #define STATS_ALIVE_HALF_ORCS "alive_half_orcs"
 #define STATS_ALIVE_GOBLINS "alive_goblins"
@@ -57,6 +58,7 @@
 #define STATS_WAGES_PAID "wages_paid"
 #define STATS_FINES_INCOME "fines_income"
 #define STATS_TRADE_VALUE_EXPORTED "trade_exported"
+#define STATS_TRADE_VALUE_EXPORTED_BM "trade_exported_bm"
 #define STATS_TRADE_VALUE_IMPORTED "trade_imported"
 #define STATS_GOLDFACE_VALUE_SPENT "goldface_spent"
 #define STATS_SILVERFACE_VALUE_SPENT "silverface_spent"
@@ -69,12 +71,57 @@
 #define STATS_STOCKPILE_IMPORTS_VALUE "stockpile_imports_value"
 #define STATS_STOCKPILE_EXPANSES "stockpile_expanses"
 #define STATS_STOCKPILE_REVENUE "stockpile_revenue"
+#define STATS_STOCKPILE_DIRECT_IMPORTS "stockpile_direct_imports"
 #define STATS_PEDDLER_REVENUE "peddler_revenue"
 #define STATS_MAMMONS_HELD "mammons_held"
 #define STATS_MAMMONS_DEPOSITED "mammons_deposited"
 #define STATS_MAMMONS_WITHDRAWN "mammons_withdrawn"
 #define STATS_STARTING_TREASURY "starting_treasury"
 #define STATS_RURAL_TAXES_COLLECTED "rural_taxes_collected" // Azure only. Lowpop safety
+#define STATS_LOANS_ISSUED "loans_issued"
+#define STATS_LOANS_DEFAULTED "loans_defaulted"
+#define STATS_POLL_TAX_COLLECTED "poll_tax_collected"
+// Poll tax revenue split by civic category, so tuning can see which classes are carrying the levy.
+#define STATS_POLL_TAX_NOBLE "poll_tax_noble"
+#define STATS_POLL_TAX_CLERGY "poll_tax_clergy"
+#define STATS_POLL_TAX_INQUISITION "poll_tax_inquisition"
+#define STATS_POLL_TAX_COURTIER "poll_tax_courtier"
+#define STATS_POLL_TAX_GARRISON "poll_tax_garrison"
+#define STATS_POLL_TAX_GUILDS "poll_tax_guilds"
+#define STATS_POLL_TAX_MERCHANT "poll_tax_merchant"
+#define STATS_POLL_TAX_BURGHER "poll_tax_burgher"
+#define STATS_POLL_TAX_ADVENTURER "poll_tax_adventurer"
+#define STATS_POLL_TAX_MERCENARY "poll_tax_mercenary"
+#define STATS_POLL_TAX_PEASANT "poll_tax_peasant"
+// Crown's Purse revenue breakdown by tax category (mammon actually collected by the Crown).
+#define STATS_REVENUE_CONTRACT_LEVY "revenue_contract_levy"
+#define STATS_REVENUE_HEADEATER_LEVY "revenue_headeater_levy"
+#define STATS_REVENUE_IMPORT_TARIFF "revenue_import_tariff"
+#define STATS_REVENUE_EXPORT_DUTY "revenue_export_duty"
+// Tax revenue forgone due to exemption (Charter, patronage, levy-exempt stamp). Per category.
+#define STATS_EXEMPTED_CONTRACT_LEVY "exempted_contract_levy"
+#define STATS_EXEMPTED_HEADEATER_LEVY "exempted_headeater_levy"
+#define STATS_EXEMPTED_IMPORT_TARIFF "exempted_import_tariff"
+#define STATS_EXEMPTED_EXPORT_DUTY "exempted_export_duty"
+#define STATS_EXEMPTED_FINE "exempted_fine"
+#define STATS_EXEMPTED_POLL_TAX "exempted_poll_tax"
+#define STATS_STANDING_ORDER_REVENUE "standing_order_revenue"
+#define STATS_STANDING_ORDERS_FULFILLED "standing_orders_fulfilled"
+#define STATS_STANDING_ORDERS_EXPIRED "standing_orders_expired"
+#define STATS_STANDING_ORDERS_PETITIONED "standing_orders_petitioned"
+#define STATS_PETITION_PLEDGE_SPENT "petition_pledge_spent"
+#define STATS_RUMOR_POINTS_GENERATED "rumor_points_generated"
+#define STATS_RUMOR_POINTS_CONSUMED "rumor_points_consumed"
+#define STATS_PLEDGE_GENERATED "pledge_generated"
+#define STATS_PLEDGE_CONSUMED "pledge_consumed"
+#define STATS_ECON_EVENTS_FIRED "econ_events_fired"
+#define STATS_ECON_EVENTS_EXPIRED "econ_events_expired"
+#define STATS_URGENT_ORDERS_SPAWNED "urgent_orders_spawned"
+#define STATS_SHORTAGES_ENDED "shortages_ended"
+#define STATS_BLOCKADES_FIRED "blockades_fired"
+#define STATS_BLOCKADES_CLEARED "blockades_cleared"
+#define STATS_BLOCKADE_CONTRACTS_FAILED "blockade_contracts_failed"
+#define STATS_BLOCKADE_REWARDS_PAID "blockade_rewards_paid"
 
 // Influence related statistics
 
@@ -90,6 +137,14 @@
 #define STATS_NOBLE_DEATHS "noble_deaths"
 #define STATS_ASTRATA_REVIVALS "astrata_revivals"
 #define STATS_TAXES_COLLECTED "taxes_collected"
+#define STATS_BANDITRY_LOSSES "banditry_losses"
+#define STATS_BANDITRY_DEBT_OUTSTANDING "banditry_debt_outstanding"
+#define STATS_TREASURY_DEBT_OUTSTANDING "treasury_debt_outstanding"
+#define STATS_TREASURY_DEBT_REPAID "treasury_debt_repaid"
+#define STATS_BANKRUPTCY_DECLARED "bankruptcy_declared"
+#define STATS_ARREARS_DECLARED "arrears_declared"
+#define STATS_FORFEITURE_AMOUNT "forfeiture_amount"
+#define STATS_FORFEITURE_COUNT "forfeiture_count"
 
 //Noc
 #define STATS_BOOKS_PRINTED "books_printed"
@@ -114,6 +169,7 @@
 //Dendor
 #define STATS_TREES_CUT "trees_cut"
 #define STATS_PLANTS_HARVESTED "plants_harvested"
+#define STATS_ANIMALS_TAMED "animals_tamed"
 #define STATS_WEREVOLVES "werevolves"
 #define STATS_FOREST_DEATHS "forest_deaths"
 
@@ -134,6 +190,7 @@
 #define STATS_MASTERWORKS_FORGED "masterworks_forged"
 #define STATS_ROCKS_MINED "ores_mined"
 #define STATS_CRAFT_SKILLS "craft_skills"
+#define STATS_CRAFTED_ITEMS "craft_items"
 #define STATS_BEARDS_SHAVED "beards_shaved"
 
 //Abyssor
@@ -181,6 +238,26 @@
 #define STATS_BANDITS "bandits"
 #define STATS_INDEBTED "indebt_people"
 
+//Guild Contracts (SSquestpool)
+#define STATS_CONTRACTS_GENERATED "contracts_generated"
+#define STATS_CONTRACTS_TAKEN "contracts_taken"
+#define STATS_CONTRACTS_COMPLETED "contracts_completed"
+#define STATS_CONTRACTS_ABANDONED "contracts_abandoned"
+#define STATS_CONTRACTS_REROLLED "contracts_rerolled"
+#define STATS_CONTRACT_MAMMONS_PAID "contract_mammons_paid"
+#define STATS_CONTRACT_MAMMONS_TAXED "contract_mammons_taxed"
+#define STATS_CONTRACT_MAMMONS_FORFEITED "contract_mammons_forfeited"
+/// Source-split contract stats. Aggregates above keep incrementing; these ones split by Q.source.
+#define STATS_CONTRACTS_GENERATED_POOL "contracts_generated_pool"
+#define STATS_CONTRACTS_GENERATED_RUMOR "contracts_generated_rumor"
+#define STATS_CONTRACTS_GENERATED_DEFENSE "contracts_generated_defense"
+#define STATS_CONTRACTS_TAKEN_POOL "contracts_taken_pool"
+#define STATS_CONTRACTS_TAKEN_RUMOR "contracts_taken_rumor"
+#define STATS_CONTRACTS_TAKEN_DEFENSE "contracts_taken_defense"
+#define STATS_CONTRACTS_COMPLETED_POOL "contracts_completed_pool"
+#define STATS_CONTRACTS_COMPLETED_RUMOR "contracts_completed_rumor"
+#define STATS_CONTRACTS_COMPLETED_DEFENSE "contracts_completed_defense"
+
 GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_DEATHS = 0,
 	STATS_NOBLE_DEATHS = 0,
@@ -200,12 +277,24 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_ITEMS_PICKPOCKETED = 0,
 	STATS_MASTERWORKS_FORGED = 0,
 	STATS_TAXES_COLLECTED = 0,
+	STATS_BANDITRY_LOSSES = 0,
+	STATS_HUMEN_DEATHS = 0,
+	STATS_LOANS_ISSUED = 0,
+	STATS_LOANS_DEFAULTED = 0,
+	STATS_BANDITRY_DEBT_OUTSTANDING = 0,
+	STATS_TREASURY_DEBT_OUTSTANDING = 0,
+	STATS_TREASURY_DEBT_REPAID = 0,
+	STATS_BANKRUPTCY_DECLARED = 0,
+	STATS_ARREARS_DECLARED = 0,
+	STATS_FORFEITURE_AMOUNT = 0,
+	STATS_FORFEITURE_COUNT = 0,
 	STATS_ORGANS_EATEN = 0,
 	STATS_KISSES_MADE = 0,
 	STATS_LAUGHS_MADE = 0,
 	STATS_POTIONS_BREWED = 0,
 	STATS_ASTRATA_REVIVALS = 0,
 	STATS_PLANTS_HARVESTED = 0,
+	STATS_ANIMALS_TAMED = 0,
 	STATS_LAWS_AND_DECREES_MADE = 0,
 	STATS_ALIVE_NOBLES = 0,
 	STATS_BOOKS_PRINTED = 0,
@@ -229,6 +318,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_CRITS_MADE = 0,
 	STATS_ROCKS_MINED = 0,
 	STATS_CRAFT_SKILLS = 0,
+	STATS_CRAFTED_ITEMS = 0,
 	STATS_ABYSSOR_REMEMBERED = 0,
 	STATS_LEECHES_EMBEDDED = 0,
 	STATS_HUGS_MADE = 0,
@@ -249,6 +339,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_ALIVE_DWARVES = 0,
 	STATS_ALIVE_DARK_ELVES = 0,
 	STATS_ALIVE_HALF_ELVES = 0,
+	STATS_ALIVE_SUN_ELVES = 0,
 	STATS_ALIVE_HALF_ORCS = 0,
 	STATS_ALIVE_GOBLINS = 0,
 	STATS_ALIVE_KOBOLDS = 0,
@@ -297,6 +388,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_VAULT_TOTAL_REVENUE = 0,
 	STATS_FINES_INCOME = 0,
 	STATS_TRADE_VALUE_EXPORTED = 0,
+	STATS_TRADE_VALUE_EXPORTED_BM = 0,
 	STATS_TRADE_VALUE_IMPORTED = 0,
 	STATS_GOLDFACE_VALUE_SPENT = 0,
 	STATS_PURITY_VALUE_SPENT = 0,
@@ -307,6 +399,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_STOCKPILE_IMPORTS_VALUE = 0,
 	STATS_STOCKPILE_EXPANSES = 0,
 	STATS_STOCKPILE_REVENUE = 0,
+	STATS_STOCKPILE_DIRECT_IMPORTS = 0,
 	STATS_PEDDLER_REVENUE = 0,
 	STATS_MAMMONS_HELD = 0,
 	STATS_MAMMONS_DEPOSITED = 0,
@@ -317,6 +410,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_WAGES_PAID = 0,
 	STATS_FINES_INCOME = 0,
 	STATS_TRADE_VALUE_EXPORTED = 0,
+	STATS_TRADE_VALUE_EXPORTED_BM = 0,
 	STATS_TRADE_VALUE_IMPORTED = 0,
 	STATS_GOLDFACE_VALUE_SPENT = 0,
 	STATS_SILVERFACE_VALUE_SPENT = 0,
@@ -329,11 +423,84 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_STOCKPILE_IMPORTS_VALUE = 0,
 	STATS_STOCKPILE_EXPANSES = 0,
 	STATS_STOCKPILE_REVENUE = 0,
+	STATS_STOCKPILE_DIRECT_IMPORTS = 0,
 	STATS_PEDDLER_REVENUE = 0,
 	STATS_MAMMONS_HELD = 0,
 	STATS_MAMMONS_DEPOSITED = 0,
 	STATS_MAMMONS_WITHDRAWN = 0,
 	STATS_STARTING_TREASURY = 0,
+	STATS_RURAL_TAXES_COLLECTED = 0,
+	STATS_CONTRACTS_GENERATED = 0,
+	STATS_CONTRACTS_TAKEN = 0,
+	STATS_CONTRACTS_COMPLETED = 0,
+	STATS_CONTRACTS_ABANDONED = 0,
+	STATS_CONTRACTS_REROLLED = 0,
+	STATS_CONTRACTS_GENERATED_POOL = 0,
+	STATS_CONTRACTS_GENERATED_RUMOR = 0,
+	STATS_CONTRACTS_GENERATED_DEFENSE = 0,
+	STATS_CONTRACTS_TAKEN_POOL = 0,
+	STATS_CONTRACTS_TAKEN_RUMOR = 0,
+	STATS_CONTRACTS_TAKEN_DEFENSE = 0,
+	STATS_CONTRACTS_COMPLETED_POOL = 0,
+	STATS_CONTRACTS_COMPLETED_RUMOR = 0,
+	STATS_CONTRACTS_COMPLETED_DEFENSE = 0,
+	STATS_CONTRACT_MAMMONS_PAID = 0,
+	STATS_CONTRACT_MAMMONS_TAXED = 0,
+	STATS_CONTRACT_MAMMONS_FORFEITED = 0,
+	STATS_POLL_TAX_COLLECTED = 0,
+	STATS_POLL_TAX_NOBLE = 0,
+	STATS_POLL_TAX_CLERGY = 0,
+	STATS_POLL_TAX_INQUISITION = 0,
+	STATS_POLL_TAX_COURTIER = 0,
+	STATS_POLL_TAX_GARRISON = 0,
+	STATS_POLL_TAX_GUILDS = 0,
+	STATS_POLL_TAX_MERCHANT = 0,
+	STATS_POLL_TAX_BURGHER = 0,
+	STATS_POLL_TAX_ADVENTURER = 0,
+	STATS_POLL_TAX_MERCENARY = 0,
+	STATS_POLL_TAX_PEASANT = 0,
+	STATS_REVENUE_CONTRACT_LEVY = 0,
+	STATS_REVENUE_HEADEATER_LEVY = 0,
+	STATS_REVENUE_IMPORT_TARIFF = 0,
+	STATS_REVENUE_EXPORT_DUTY = 0,
+	STATS_EXEMPTED_CONTRACT_LEVY = 0,
+	STATS_EXEMPTED_HEADEATER_LEVY = 0,
+	STATS_EXEMPTED_IMPORT_TARIFF = 0,
+	STATS_EXEMPTED_EXPORT_DUTY = 0,
+	STATS_EXEMPTED_FINE = 0,
+	STATS_EXEMPTED_POLL_TAX = 0,
+	STATS_STANDING_ORDER_REVENUE = 0,
+	STATS_STANDING_ORDERS_FULFILLED = 0,
+	STATS_STANDING_ORDERS_EXPIRED = 0,
+	STATS_STANDING_ORDERS_PETITIONED = 0,
+	STATS_PETITION_PLEDGE_SPENT = 0,
+	STATS_RUMOR_POINTS_GENERATED = 0,
+	STATS_RUMOR_POINTS_CONSUMED = 0,
+	STATS_PLEDGE_GENERATED = 0,
+	STATS_PLEDGE_CONSUMED = 0,
+	STATS_ECON_EVENTS_FIRED = 0,
+	STATS_ECON_EVENTS_EXPIRED = 0,
+	STATS_URGENT_ORDERS_SPAWNED = 0,
+	STATS_SHORTAGES_ENDED = 0,
+	STATS_BLOCKADES_FIRED = 0,
+	STATS_BLOCKADES_CLEARED = 0,
+	STATS_BLOCKADE_CONTRACTS_FAILED = 0,
+	STATS_BLOCKADE_REWARDS_PAID = 0,
+	STATS_KILLED_HIGHWAYMEN = 0,
+	STATS_KILLED_BOGMEN = 0,
+	STATS_KILLED_LESSER_BEASTS = 0,
+	STATS_KILLED_GREATER_BEASTS = 0,
+	STATS_KILLED_TROLLMINOTAUR = 0,
+	STATS_KILLED_DRAKKYN = 0,
+	STATS_KILLED_GOBLINS = 0,
+	STATS_KILLED_ORCS = 0,
+	STATS_KILLED_GRONNMEN = 0,
+	STATS_KILLED_DROWS = 0,
+	STATS_KILLED_DEADITES = 0,
+	STATS_KILLED_INFERNALS = 0,
+	STATS_KILLED_ELEMENTALS = 0,
+	STATS_KILLED_FAE = 0,
+	STATS_KILLED_LIVESTOCK = 0,
 ))
 
 GLOBAL_LIST_EMPTY(patron_follower_counts)
@@ -356,6 +523,8 @@ GLOBAL_LIST_EMPTY(patron_follower_counts)
 #define FEATURED_STATS_FARMERS "farmers"
 #define FEATURED_STATS_STORYTELLERS "storytellers"
 #define FEATURED_STATS_VIRTUES	"virtues"
+#define FEATURED_STATS_SUBVIRTUES	"subvirtues"
+#define FEATURED_STATS_ORIGINS	"origins"
 #define FEATURED_STATS_STATPACKS "statpacks"
 #define FEATURED_STATS_VICES	"vices"
 
@@ -463,15 +632,29 @@ GLOBAL_LIST_INIT(featured_stats, list(
 		"color" = "#6375c5",
 		"entries" = list(),
 		"object_stat" = TRUE
-	),	FEATURED_STATS_VIRTUES = list(
-		"name" = "TOP 10 Virtues",
+	),	
+	FEATURED_STATS_ORIGINS = list(
+		"name" = "TOP Origins",
+		"color" = "#602d91",
+		"entries" = list(),
+		"object_stat" = TRUE,
+	),
+	FEATURED_STATS_VIRTUES = list(
+		"name" = "TOP Virtues",
 		"color" = "#df5cb8",
 		"entries" = list(),
 		"object_stat" = TRUE,
 		"admin_only" = TRUE
 	),
+	FEATURED_STATS_SUBVIRTUES = list(
+		"name" = "TOP Subvirtues",
+		"color" = "#8d3c75",
+		"entries" = list(),
+		"object_stat" = TRUE,
+		"admin_only" = TRUE
+	),
 	FEATURED_STATS_STATPACKS = list(
-		"name" = "TOP 10 Statpacks",
+		"name" = "TOP Statpacks",
 		"color" = "#3aa4e2",
 		"entries" = list(),
 		"object_stat" = TRUE,
@@ -554,6 +737,9 @@ GLOBAL_LIST_EMPTY(chronicle_stats)
 
 /proc/cmp_stat_count_desc(list/a, list/b)
 	return b["count"] - a["count"]
+
+/proc/cmp_realm_hails_desc(list/a, list/b)
+	return b["hails"] - a["hails"]
 
 /proc/record_featured_stat(stat_category, mob/living/user, increment = 1)
 	if(SSticker.current_state == GAME_STATE_FINISHED)

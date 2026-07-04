@@ -40,6 +40,11 @@
 		hud_used.show_hud(hud_used.hud_version)
 		hud_used.update_ui_style(ui_style2icon(client.prefs.UI_style))
 
+	// Re-show any actions that were granted before the hud existed (e.g. during mind transfer)
+	for(var/datum/action/action as anything in actions)
+		if(!action.viewers[hud_used])
+			action.ShowTo(src)
+
 	next_move = 1
 
 	..()
@@ -90,7 +95,8 @@
 
 	SEND_SIGNAL(src, COMSIG_MOB_LOGIN)
 	log_message("Client [key_name(src)] has taken ownership of mob [src]([src.type])", LOG_OWNERSHIP)
-	enable_client_mobs_in_contents(client)
+	if(isliving(src))
+		enable_client_mobs_in_contents(client)
 	SEND_SIGNAL(src, COMSIG_MOB_CLIENT_LOGIN, client)
 
 /**

@@ -1,0 +1,251 @@
+:root {
+  color-scheme: light;
+  --bg: #efe5d0;
+  --panel: #fff8eb;
+  --panel-strong: #f5e7cc;
+  --ink: #2f2417;
+  --muted: #6a5642;
+  --accent: #9a4f22;
+  --accent-soft: #c9783d;
+  --line: #d3bea1;
+  --shadow: 0 10px 30px rgba(74, 46, 23, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, "Palatino Linotype", serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(255, 248, 235, 0.95), transparent 40%),
+    linear-gradient(180deg, #f8f1e2 0%, var(--bg) 100%);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.card {
+  background: linear-gradient(180deg, var(--panel) 0%, #fffef9 100%);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.toolbar {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.toolbar h1,
+.section-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.toolbar p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.toolbar-actions.compact {
+  justify-content: flex-end;
+}
+
+button,
+.buttonlike {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: var(--accent);
+  color: #fff9f0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button.secondary,
+.buttonlike.secondary {
+  background: var(--panel-strong);
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(340px, 440px) minmax(0, 1fr);
+  gap: 20px;
+}
+
+.left-column,
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right-column {
+  align-self: start;
+}
+
+.metadata-card,
+.controls-card,
+.preview-card,
+.output-card,
+.raw-card {
+  padding: 18px 20px 20px;
+}
+
+.meta-grid,
+.prop-controls {
+  display: grid;
+  gap: 12px;
+}
+
+.meta-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.prop-controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label > span,
+.preview-meta,
+figcaption,
+#sprite-source-status {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+#sprite-source-status {
+  margin: 12px 0 0;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fffdf7;
+  color: var(--ink);
+}
+
+textarea {
+  resize: vertical;
+  font-family: Consolas, "Courier New", monospace;
+  line-height: 1.4;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.toggle {
+  flex-direction: row;
+  align-items: center;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.preview-tile {
+  margin: 0;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(245, 231, 204, 0.5)),
+    repeating-linear-gradient(0deg, rgba(154, 79, 34, 0.05) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(154, 79, 34, 0.05) 0 1px, transparent 1px 28px);
+}
+
+.preview-card {
+  position: sticky;
+  top: 16px;
+  z-index: 2;
+}
+
+.preview-tile canvas {
+  width: 100%;
+  aspect-ratio: 1;
+  display: block;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255, 249, 240, 0.9), rgba(240, 228, 206, 0.65));
+}
+
+figcaption {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+.preview-meta {
+  margin-top: 10px;
+  min-height: 1.2em;
+}
+
+@media (max-width: 1080px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-card {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    padding: 14px;
+  }
+
+  .toolbar,
+  .section-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .meta-grid,
+  .prop-controls {
+    grid-template-columns: 1fr;
+  }
+}

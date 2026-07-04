@@ -2,14 +2,15 @@
 	name = "Eora"
 	domain = "Goddess of Love, Life and Beauty"
 	desc = "Baotha's fairer half, made from blind, unconditional love. She is without a shred of hate in her heart and taught mankind that true love that even transcends Necra's grasp."
-	worshippers = "Lovers, the romantically inclined, and Doting Grandparents"
-	mob_traits = list(TRAIT_EMPATH, TRAIT_EXTEROCEPTION)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
+	worshippers = "Lovers, the Romantically Inclined, and Doting Grandparents"
+	mob_traits = list(TRAIT_EMPATH, TRAIT_EXTEROCEPTION, TRAIT_MARRIAGE_CAPABLE)
+	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/eora_blessing			= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/bless_food            = CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/bud					= CLERIC_T1,
+					/datum/action/cooldown/spell/summon_bed						= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heartweave			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/eoracurse				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/pomegranate			= CLERIC_T4,
@@ -22,8 +23,12 @@
 	)
 	traits_tier = list(TRAIT_EORAN_CALM = CLERIC_T0, TRAIT_EORAN_SERENE = CLERIC_T2)
 	storyteller = /datum/storyteller/eora
+	titles = list(
+		"Mother", // have seen people call her this, or variants like 'Great Mother', ic. she doesn't really get titles though
+		"Eori"
+	)
 
-// Near a psycross, inside the church, holding poppy flowers, or has pacifism trait
+// Near a psycross, by an eoran sacred tree, inside the church, at the eoran shrine, holding poppy flowers, or has pacifism trait
 /datum/patron/divine/eora/can_pray(mob/living/follower)
 	. = ..()
 	// Allows prayer near psycross
@@ -32,8 +37,14 @@
 			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
 			return FALSE
 		return TRUE
+	// Allows prayer near eoran sacred tree
+	for(var/obj/structure/eoran_pomegranate_tree in view(4, get_turf(follower)))
+		return TRUE
 	// Allows prayer in the church
 	if(istype(get_area(follower), /area/rogue/indoors/town/church))
+		return TRUE
+	// Allows prayer at the eoran shrine
+	if(istype(get_area(follower), /area/rogue/outdoors/rtfield/eora))
 		return TRUE
 	// Allows Eorans to pray using flowers
 	var/obj/item/held_item = follower.get_active_held_item()
@@ -57,6 +68,13 @@
 	*message_out = span_info("An emanance of love blossoms around [target]!")
 	*message_self = span_notice("I'm filled with the restorative warmth of love!")
 
+	var/flower_crowns = list(
+		/obj/item/flowercrown/rosa,
+		/obj/item/flowercrown/salvia,
+		/obj/item/flowercrown/calendula,
+		/obj/item/flowercrown/matricaria,
+	)
+
 	var/bonus = 0
 
 	if(HAS_TRAIT(target, TRAIT_PACIFISM))
@@ -64,6 +82,17 @@
 
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		bonus += 1.5
+
+	var/target_head = target.get_item_by_slot(SLOT_HEAD)
+	var/user_head = user.get_item_by_slot(SLOT_HEAD)
+
+	for(var/crown in flower_crowns)
+		if(istype(target_head, crown))
+			bonus += 0.75
+			to_chat(user, span_good("[target.name]'s flower crown's blessing amplifies the healing!"))
+		if(istype(user_head, crown))
+			bonus += 0.375
+			to_chat(user, span_good("My flower crown's blessing amplifies the healing!"))
 
 	if(!bonus)
 		return

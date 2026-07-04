@@ -2,7 +2,7 @@
 
 /datum/intent/swing/sling
 	chargetime = 1 //used for edge cases only, /datum/intent/shoot/sling/get_chargetime handles the actual number
-	chargedrain = 2
+	chargedrain = 1.5
 	charging_slowdown = 3
 
 /datum/intent/swing/sling/can_charge(atom/clicked_object)
@@ -23,6 +23,9 @@
 		newtime = (newtime - (mastermob.get_skill_level(/datum/skill/combat/slings) * 1.5)) //each point of skill is -0.15 seconds, maximum -0.9 seconds
 		newtime = (newtime - (mastermob.STAPER / 2)) //each point of perception is -0.05 seconds, maximum -1.0 second
 		newtime = (newtime - (mastermob.STASTR / 5)) //each point of strength is -0.02 seconds, maximum -0.4 seconds
+		var/obj/item/gun/ballistic/gun = masteritem
+		if(istype(gun) && gun.chambered)
+			newtime *= gun.chambered.charge_time_mult
 		if(newtime > 0.5)
 			return newtime //final time to 'charge' the sling. for example, 10 STR, 14 PER, and expert skill equals 5 or 0.5 seconds
 		else
@@ -32,7 +35,7 @@
 
 /datum/intent/arc/sling
 	chargetime = 1
-	chargedrain = 2
+	chargedrain = 1.5
 	charging_slowdown = 3
 
 /datum/intent/arc/sling/can_charge(atom/clicked_object)
@@ -53,6 +56,9 @@
 		newtime = (newtime - (mastermob.get_skill_level(/datum/skill/combat/slings) * 1.5)) //each point of skill is -0.15 seconds, maximum -0.9 seconds
 		newtime = (newtime - (mastermob.STAPER / 2)) //each point of perception is -0.05 seconds, maximum -1.0 second
 		newtime = (newtime - (mastermob.STASTR / 5)) //each point of strength is -0.02 seconds, maximum -0.4 seconds
+		var/obj/item/gun/ballistic/gun = masteritem
+		if(istype(gun) && gun.chambered)
+			newtime *= gun.chambered.charge_time_mult
 		if(newtime > 0.5)
 			return newtime //final time to 'charge' the sling. for example, 10 STR, 14 PER, and expert skill equals 0.7 seconds
 		else
@@ -60,10 +66,17 @@
 	else
 		return chargetime //failsafe default value should the above conditions not be met
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/get_npc_chargetime(mob/living/user)
+	var/newtime = 20 - (user.get_skill_level(/datum/skill/combat/slings) * 1.5) - (user.STAPER / 2) - (user.STASTR / 5)
+	if(chambered)
+		newtime *= chambered.charge_time_mult
+	return max(ARCHER_NPC_MIN_SLING_CHARGETIME, newtime) * ARCHER_NPC_ROF_PENALTY
+
 //objs
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 	name = "sling"
+	flags_ai_inventory = AI_ITEM_GUN
 	desc = "Twisted fibers manifest into a strung pouch capable of hurling stones afar."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "sling"
@@ -77,7 +90,7 @@
 		)
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/sling
 	fire_sound = 'sound/combat/Ranged/sling-shot-01.ogg'
-	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BELT
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BELT | ITEM_SLOT_WRISTS
 	w_class = WEIGHT_CLASS_SMALL
 	randomspread = 0
 	spread = 0
@@ -178,7 +191,7 @@
 		else
 			spread = 150 - (150 * (user.client.chargedprog / 100))
 	else
-		spread = 0
+		spread = max(0, (15 - user.STAPER) * ARCHER_NPC_SPREAD_PER_POINT)
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		BB.embedchance = 0.1 //for some reason, if the embedchance is 0, the reusable projectile will not drop after hitting a mob. so it's a 1/1000 chance now
@@ -186,12 +199,11 @@
 		BB.bonus_accuracy += (user.STAPER - 8) // 8+ PER gives +1 per level. Does not decrease over range.
 		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/slings) * 5) // +5 per Sling level.
 		BB.damage *= damfactor
-		if(user.client.chargedprog < 100)
+		if(user.client && user.client.chargedprog < 100)
 			BB.damage = BB.damage - (BB.damage * (user.client.chargedprog / 100))
-		else
-			BB.damage = BB.damage
-		BB.damage = BB.damage * (((user.STAPER / 1.25) + (user.STASTR / 5)) / 10) * damfactor + bonus_stone_force
-		// each point of perception is 8% damage. each point of strength is 2% damage. 100% damage at 10 in both. the stone's bonus force is added as a flat amount
+		var/per_scaling = 1 + ((min(user.STAPER, RANGED_STAT_SOFTCAP) - 10) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
+		BB.damage = BB.damage * per_scaling + bonus_stone_force
+		// PER scales damage by 10% per point up to softcap, then 5% per point. Stone bonus force is added flat.
 		if (temp_stone != null) //reseting after stone ammo use
 			bonus_stone_force = 0 //stone is thrown, so the bonus is lost
 			temp_stone = null //stone is gone, forever.
@@ -202,7 +214,7 @@
 	cut_overlays()
 	if(chambered)
 		icon_state = "[initial(icon_state)]_ready"
-		var/mutable_appearance/ammo = mutable_appearance('icons/roguetown/weapons/ammo.dmi', chambered.icon_state)
+		var/mutable_appearance/ammo = mutable_appearance(chambered.icon, chambered.icon_state)
 		add_overlay(ammo)
 	if(!ismob(loc))
 		return
@@ -214,3 +226,55 @@
 	caliber = "slingbullet"
 	max_ammo = 1
 	start_empty = TRUE
+
+// RESKINS GO BELOW. THIS IS MOSTLY FOR FLAVOR/SOVL. P L E A S E DON'T MAKE THIS ANY DIFFERENT FROM YOUR NORMAL SLING, THANK YOU.
+
+/datum/intent/swing/sling/can_charge(atom/clicked_object)
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/sling/S = masteritem
+	if(!S?.chambered)
+		return FALSE
+
+	return ..()
+
+/datum/intent/swing/sling/wood/prewarning()
+	if(mastermob)
+		mastermob.visible_message(span_warning("[mastermob] draws [masteritem]!"))
+		playsound(mastermob, 'sound/combat/Ranged/bow-draw-01.ogg', 100, FALSE)
+
+/datum/intent/arc/sling/wood/prewarning()
+	if(mastermob)
+		mastermob.visible_message(span_warning("[mastermob] draws [masteritem] in an arc!"))
+		playsound(mastermob, 'sound/combat/Ranged/bow-draw-01.ogg', 100, FALSE)
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/wood/update_icon()
+	. = ..()
+
+	cut_overlays()
+
+	if(chambered)
+		icon_state = "[initial(icon_state)]_ready"
+	else
+		icon_state = initial(icon_state)
+
+	if(!ismob(loc))
+		return
+
+	var/mob/M = loc
+	M.update_inv_hands()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/wood // sling reskin that uses bow draw noise instead of swing overhead
+	name = "slingshot"
+	desc = "A forked branch fitted with braided cords and a leather cup. Favored by farmhands and village youths alike, it casts stones by drawing the cords taut and releasing them with a sharp snap. Crude in appearance, yet surprisingly effective in practiced hands."
+	icon_state = "altsling"
+	item_state = "altsling"
+	possible_item_intents = list(/datum/intent/swing/sling/wood, /datum/intent/arc/sling/wood, INTENT_GENERIC)
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BELT | ITEM_SLOT_NECK | ITEM_SLOT_BACK
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/bog/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This sling uses a forked frame instead of overhead rotation, allowing stones to be launched by drawing the cords back and releasing. This is just fluff, it behaves exactly as a sling should.")
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/wood/bog // aura farming
+	name = "bogbark slingshot"
+	desc = "A slingshot carved from bogbark wood, its dark frame warped by years spent drinking from the Terrorbog's foul waters. Old dents, scrapes, and dark stains mark its limbs. The weapon is said to have felled more than a few trolls before being recovered from the pulverized remains of a Levy deep within the mire. Whether the stories are true or not, the wood feels unnaturally sturdy in the hand."
+	aura_color = "#00ff00"

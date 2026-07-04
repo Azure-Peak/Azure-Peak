@@ -41,7 +41,7 @@
 
 /obj/structure/roguemachine/Hoardmaster/Topic(href, href_list)
 	. = ..()
-	if(!HAS_TRAIT(usr, TRAIT_COMMIE))
+	if(!HAS_TRAIT(usr, TRAIT_FREEMAN))
 		return
 	if(!usr.canUseTopic(src, BE_CLOSE))
 		return
@@ -80,7 +80,7 @@
 	return attack_hand(usr)
 
 /obj/structure/roguemachine/Hoardmaster/attack_hand(mob/living/user)
-	if(!HAS_TRAIT(user, TRAIT_COMMIE))
+	if(!HAS_TRAIT(user, TRAIT_FREEMAN))
 		return
 	var/datum/antagonist/bandit/B = usr.mind.has_antag_datum(/datum/antagonist/bandit)
 	. = ..()

@@ -72,7 +72,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 		return
 	target.forceMove(T)
 	playsound(get_turf(target), 'sound/misc/portalenter.ogg', 50, TRUE, -2, ignore_walls = TRUE)
-	target.visible_message(span_danger("[user] emerges from a thick deathly cold mist that clings to their form!"))
+	target.visible_message(span_purple("[user] emerges from a thick deathly cold mist that clings to their form!"))
 
 /proc/prompt_deaths_door_exit(mob/living/user, list/dests)
 	if(!length(dests))
@@ -207,11 +207,7 @@ GLOBAL_VAR_INIT(underworld_strands, 0)
 	if(spawn_timer)
 		deltimer(spawn_timer)
 
-	spawn_timer = addtimer(
-		CALLBACK(src, PROC_REF(try_spawn)),
-		40 MINUTES,
-		TIMER_STOPPABLE
-	)
+	spawn_timer = addtimer(CALLBACK(src, PROC_REF(try_spawn)), 40 MINUTES, TIMER_STOPPABLE)
 
 /obj/effect/landmark/underworldstrands/proc/try_spawn()
 	spawn_timer = null

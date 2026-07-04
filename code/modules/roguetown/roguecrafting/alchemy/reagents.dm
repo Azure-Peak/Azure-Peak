@@ -1,8 +1,3 @@
-// Catalyst. This reagent combined with normal potion reagent makes the strong potion reagent. Reactions defined by the end of this doccument
-/datum/reagent/additive
-	name = "additive"
-	reagent_state = LIQUID
-
 //Potions
 /datum/reagent/medicine/healthpot
 	name = "Health Potion"
@@ -14,21 +9,59 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/healthpot, 2) //No overhealing.
-	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+15, BLOOD_VOLUME_NORMAL)
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
-		M.heal_wounds(3) //at a motabalism of .5 U a tick this translates to 120WHP healing with 20 U Most wounds are unsewn 15-100. This is powerful on single wounds but rapidly weakens at multi wounds.
+		M.heal_wounds(3) //at a metabolism of .5 U a tick this translates to 120WHP healing with 20 U Most wounds are unsewn 15-100. This is powerful on single wounds but rapidly weakens at multi wounds.
 	if(volume > 0.99)
 		M.adjustBruteLoss(-1.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustFireLoss(-1.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-1.25, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-1.75  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1 * REAGENTS_EFFECT_MULTIPLIER)
+	..()
+
+/datum/reagent/medicine/healthpot/zarum/bog // no changes, it's just more palatable :>
+	name = "Honeyed Zarum"
+	description = "A fermented sauce of fish innards, vinegar and honey, which gradually regenerates all types of damage while remaining surprisingly pleasant to the tastebuds."
+	color = "#dd9700"
+	taste_description = "sweet-sour fish-glazed honey"
+	scent_description = "sweet fermented pungence"
+
+/datum/reagent/medicine/healthpot/zarum
+	name = "Zarum"
+	description = "A fermented sauce of fish innards and vinegar, which gradually regenerates all types of damage."
+	reagent_state = LIQUID
+	color = "#891305"
+	var/nutriment_factor = 16
+	metabolization_rate = 0.4
+	taste_description = "lip-puckeringly rich fishiness"
+	scent_description = "fermented pungence"
+	taste_mult = 8
+	var/hydration = 4
+
+/datum/reagent/medicine/healthpot/zarum/on_mob_life(mob/living/carbon/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
+			H.adjust_hydration(hydration)
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+			M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_NORMAL)
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(4) //Better than traditional lifeblood at sealing open wounds. Slightly weaker healing potency, in turn.
+	if(volume > 0.99)
+		M.adjustBruteLoss(-1.5  * REAGENTS_EFFECT_MULTIPLIER, 0) //Minor reduction of ~15%-ish potency.
+		M.adjustFireLoss(-1.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-1.25, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -3  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-1.5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
 /datum/reagent/medicine/stronghealth
@@ -37,22 +70,22 @@
 	color = "#820000be"
 	taste_description = "rich lifeblood"
 	scent_description = "metal"
-	metabolization_rate = REAGENTS_METABOLISM * 3
+	metabolization_rate = REAGENTS_METABOLISM * 2
+	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/stronghealth/on_mob_life(mob/living/carbon/M)
 	if(volume >= 60)
-		M.reagents.remove_reagent(/datum/reagent/medicine/healthpot, 2) //No overhealing.
-	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_NORMAL)
+		M.reagents.remove_reagent(/datum/reagent/medicine/stronghealth, 2) //No overhealing.
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
-		M.heal_wounds(6) //at a motabalism of .5 U a tick this translates to 240WHP healing with 20 U Most wounds are unsewn 15-100.
+		M.heal_wounds(4)
 	if(volume > 0.99)
-		M.adjustBruteLoss(-7  * REAGENTS_EFFECT_MULTIPLIER, 0)
-		M.adjustFireLoss(-7  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustBruteLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOxyLoss(-5, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
-		M.adjustCloneLoss(-7  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustCloneLoss(-5  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -2.5 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 	. = 1
 
@@ -66,6 +99,7 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
+	conflicting_reagent_types = list(/datum/reagent/medicine/strongmana, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/manapot/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
@@ -79,10 +113,38 @@
 	taste_description = "raw power"
 	scent_description = "berries"
 	metabolization_rate = REAGENTS_METABOLISM * 3
+	conflicting_reagent_types = list(/datum/reagent/medicine/manapot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/strongmana/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(120)
+	..()
+
+/datum/reagent/medicine/restoration
+	name = "Restoration Potion"
+	description = "Simultaneously regenerates health and energy. Inherits a higher potency than common lifeblood and manna, but remains inferior to stronger brews."
+	color = "#ff8da1"
+	taste_description = "reinvigorative creaminess"
+	scent_description = "strawberries in liqour"
+	metabolization_rate = REAGENTS_METABOLISM * 2
+	// Restoration is a hybrid of the health and mana families, so it conflicts with both.
+	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/stronghealth, /datum/reagent/medicine/manapot, /datum/reagent/medicine/strongmana)
+
+/datum/reagent/medicine/restoration/on_mob_life(mob/living/carbon/M)
+	if(volume >= 60)
+		M.reagents.remove_reagent(/datum/reagent/medicine/restoration, 2) //No overhealing.
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(3)
+	if(volume > 0.99)
+		M.adjustBruteLoss(-3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-3, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5  * REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-3  * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1.75 * REAGENTS_EFFECT_MULTIPLIER)
+	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
+		M.energy_add(60)
 	..()
 
 /datum/reagent/medicine/stampot
@@ -95,8 +157,11 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
+	conflicting_reagent_types = list(/datum/reagent/medicine/strongstam)
 
 /datum/reagent/medicine/stampot/on_mob_life(mob/living/carbon/M)
+	if(volume >= 60)
+		M.reagents.remove_reagent(/datum/reagent/medicine/stampot, 2) //No walking around having pre-buffed on it to have infinite stamina for Baothans.
 	if(volume > 0.99)
 		M.stamina_add(-20)
 	..()
@@ -109,8 +174,11 @@
 	taste_description = "sparkly static"
 	scent_description = "grass"
 	metabolization_rate = REAGENTS_METABOLISM
+	conflicting_reagent_types = list(/datum/reagent/medicine/stampot)
 
 /datum/reagent/medicine/strongstam/on_mob_life(mob/living/carbon/M)
+	if(volume >= 60)
+		M.reagents.remove_reagent(/datum/reagent/medicine/strongstam, 2) //No walking around having pre-buffed on it to have infinite stamina for Baothans.
 	if(volume > 0.99)
 		M.stamina_add(-50)
 	..()
@@ -124,12 +192,13 @@
 **/
 /datum/reagent/medicine/antidote
 	name = "Antidote"
-	description = ""
+	description = "Gradually purges any imbalanced humors and poisons within the bloodstream."
 	reagent_state = LIQUID
 	color = "#00ff00"
 	taste_description = "sickly sweet"
 	scent_description = "medicine"
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
+	conflicting_reagent_types = list(/datum/reagent/medicine/strong_antidote)
 
 /datum/reagent/medicine/antidote/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
@@ -144,12 +213,13 @@
 // About 3 time as potent as antidote
 /datum/reagent/medicine/strong_antidote
 	name = "Strong Antidote"
-	description = ""
+	description = "Rapidly purges any imbalanced humors and poisons within the bloodstream."
 	reagent_state = LIQUID
 	color = "#004200"
 	taste_description = "dirt"
 	scent_description = "medicine"
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
+	conflicting_reagent_types = list(/datum/reagent/medicine/antidote)
 
 /datum/reagent/medicine/strong_antidote/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
@@ -175,19 +245,15 @@
 	reagent_state = LIQUID
 	metabolization_rate = REAGENTS_METABOLISM * 0.1
 	overdose_threshold = 33
+	// All stat buffs conflict with each other: only one buff potion's effect can be active at a time.
+	// (Self is excluded by the purge logic, so a buff never purges itself despite matching its own parent type.)
+	conflicting_reagent_types = list(/datum/reagent/buff)
 
 /datum/reagent/buff/overdose_process(mob/living/carbon/M)
 	. = ..()
 	M.Jitter(2)
 	if(!HAS_TRAIT(M, TRAIT_CRACKHEAD)) // Baothan get to stack more of one potion in their body, but not multiple
 		M.adjustToxLoss(3)
-
-/datum/reagent/buff/on_mob_life(mob/living/carbon/M)
-	for(var/datum/reagent/R in M.reagents.reagent_list)
-		if(istype(R, /datum/reagent/buff) && R != src)
-			holder.remove_reagent(R.type, 10)
-			// Rapidly purge stacking buffs
-	..()
 
 /datum/reagent/buff/strength
 	name = STATKEY_STR
@@ -261,14 +327,24 @@
 	M.apply_status_effect(/datum/status_effect/buff/alch/fortunepot)
 	return ..()
 
-/datum/reagent/buff/tri //Keep this restricted to the TRI-locked alchemic reward.
-	name = "Distilled Triumphance"
-	color = "#74cde0"
-	taste_description = "sweet victory"
-	scent_description = "memories of a former triumph"
+/* Ruined Potion
+	When two conflicting potions end up in the same container (or the same body),
+	they neutralize each other into this useless sludge.
+*/
+/datum/reagent/ruined_potion
+	name = "Odd water"
+	description = "A foul mess of conflicting alchemical essences that tried to push nature too far. Utterly useless."
+	reagent_state = LIQUID
+	color = "#6b5d4f" // muddy brownish-green
+	taste_description = "bitter failure"
+	scent_description = "rancid alchemical waste"
+	metabolization_rate = REAGENTS_METABOLISM
+	overdose_threshold = 0
+	can_synth = FALSE 
 
-/datum/reagent/buff/tri/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/tripot)
+/datum/reagent/ruined_potion/on_mob_life(mob/living/carbon/M)
+	if(volume > 0.99)
+		M.add_nausea(2) // Drinking ruined potions is unpleasant but not dangerous.
 	return ..()
 
 //Poisons
@@ -355,10 +431,23 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 
 /datum/reagent/organpoison/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_ORGAN_EATER))
+		M.energy_add(10) //Slowly add energy back.
 	if(!HAS_TRAIT(M, TRAIT_NASTY_EATER) && !HAS_TRAIT(M, TRAIT_ORGAN_EATER))
 		M.add_nausea(9)
 		M.adjustToxLoss(2)
 	return ..()
+
+/datum/reagent/sleep_powder
+	name = "Sleep Poison"
+	description = ""
+	color = "#ddd3df" // rgb: 96, 165, 132
+	metabolization_rate = 1
+	taste_description = "numbing mintiness"
+
+/datum/reagent/sleep_powder/on_mob_metabolize(mob/living/carbon/M)
+	M.apply_status_effect(/datum/status_effect/debuff/knockout)
+	..()
 
 /datum/reagent/stampoison
 	name = "Stamina Poison"
@@ -406,42 +495,6 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 /datum/reagent/toxin/killersice/on_mob_life(mob/living/carbon/M)
 	M.adjustToxLoss(10, 0)
 	return ..()
-
-//Potion reactions
-/datum/chemical_reaction/alch/stronghealth
-	name = "Strong Health Potion"
-	id = /datum/reagent/medicine/stronghealth
-	results = list(/datum/reagent/medicine/stronghealth = 1)
-	required_reagents = list(/datum/reagent/medicine/healthpot = 1, /datum/reagent/additive = 1)
-	mix_message = "The cauldron glows for a moment."
-
-/datum/chemical_reaction/alch/strongmana
-	name = "Strong Mana Potion"
-	id = /datum/reagent/medicine/strongmana
-	results = list(/datum/reagent/medicine/strongmana = 1)
-	required_reagents = list(/datum/reagent/medicine/manapot = 1, /datum/reagent/additive = 1)
-	mix_message = "The cauldron glows for a moment."
-
-/datum/chemical_reaction/alch/strongstam
-	name = "Strong Stamina Potion"
-	id = /datum/reagent/medicine/strongstam
-	results = list(/datum/reagent/medicine/strongstam = 1)
-	required_reagents = list(/datum/reagent/medicine/stampot = 1, /datum/reagent/additive = 1)
-	mix_message = "The cauldron glows for a moment."
-
-/datum/chemical_reaction/alch/strongpoison
-	name = "Strong Health Poison"
-	id = /datum/reagent/strongpoison
-	results = list(/datum/reagent/strongpoison = 1)
-	required_reagents = list(/datum/reagent/berrypoison = 1, /datum/reagent/additive = 1)
-	mix_message = "The cauldron glows for a moment."
-
-/datum/chemical_reaction/alch/strongstampoison
-	name = "Strong Stamina Leech Potion"
-	id = /datum/reagent/strongstampoison
-	results = list(/datum/reagent/strongstampoison = 1)
-	required_reagents = list(/datum/reagent/stampoison = 1, /datum/reagent/additive = 1)
-	mix_message = "The cauldron glows for a moment."
 
 /datum/chemical_reaction/alch/vitae_essence
 	name = "Vitae Decoction"
@@ -529,8 +582,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	metabolization_rate = 0.1
 
 /datum/reagent/medicine/vitae_essence/on_mob_life(mob/living/carbon/M)
-	if(M.has_flaw(/datum/charflaw/addiction/junkie))
-		M.sate_addiction()
+	M.sate_addiction(/datum/charflaw/addiction/junkie)
 	if(M.has_status_effect(/datum/status_effect/debuff/ritualdefiled))
 		M.remove_status_effect(/datum/status_effect/debuff/ritualdefiled)
 	return ..()

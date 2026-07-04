@@ -5,8 +5,8 @@
 	desc = "Composite armour made according to an Etruscan tradition. It's a high-quality arched plate cuirass sewn with dyed leather and fitted with a wide skirt at the bottom to cover the groin."
 	icon_state = "brigandine"
 	blocksound = SOFTHIT
-	body_parts_covered = COVERAGE_ALL_BUT_LEGS
-	armor = ARMOR_PLATE
+	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
+	armor = ARMOR_BRIGANDINE
 	allowed_sex = list(MALE, FEMALE)
 	nodismemsleeves = TRUE
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE
@@ -17,6 +17,7 @@
 	sleeved_detail = FALSE
 	boobed_detail = FALSE
 	chunkcolor = "#7d9097"
+	material_category = ARMOR_MAT_PLATE
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/Initialize()
 	. = ..()
@@ -66,21 +67,6 @@
 	GLOB.lordcolor -= src
 	return ..()
 
-/obj/item/clothing/suit/roguetown/armor/brigandine/coatplates
-	name = "coat of plates"
-	desc = "A heavyweight coat-of-plates, adorned with a pair of steel vambraces and faulds."
-	icon_state = "coat_of_plates"
-	blocksound = PLATEHIT
-	smelt_bar_num = 2
-	armor_class = ARMOR_CLASS_HEAVY
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + 50
-
-/obj/item/clothing/suit/roguetown/armor/brigandine/retinue/coat
-	name = "coat of the commander"
-	desc = "A coat of plates concealed beneath a heavy leather surcoat. Only the most battle-hardened of Azuria's commanders can hope to bear its burden, both metaphorically and quite literally."
-	icon_state = "leathercoat"
-	item_state = "leathercoat"
-
 /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "lightweight brigandine"
@@ -88,12 +74,14 @@
 	icon_state = "light_brigandine"
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
-	armor = ARMOR_LEATHER_STUDDED
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
 	smeltresult = /obj/item/ingot/iron
 	equip_delay_self = 40
 	armor_class = ARMOR_CLASS_LIGHT//steel version of the studded leather armor now
 	w_class = WEIGHT_CLASS_BULKY
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/light/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/light/attack_right(mob/user)
 	if(detail_tag)
@@ -138,6 +126,25 @@
 	GLOB.lordcolor -= src
 	return ..()
 
+/obj/item/clothing/suit/roguetown/armor/brigandine/heavy
+	name = "coat of plates"
+	desc = "A heavyweight coat-of-plates, adorned with a pair of steel vambraces and faulds."
+	icon_state = "coat_of_plates"
+	blocksound = PLATEHIT
+	smelt_bar_num = 2
+	armor_class = ARMOR_CLASS_HEAVY
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/heavy/iron
+	name = "iron coat of plates"
+	desc = "A heavyweight coat-of-plates, adorned with a pair of iron vambraces and faulds."
+	icon_state = "icoat_of_plates"
+	blocksound = PLATEHIT
+	smelt_bar_num = 2
+	armor_class = ARMOR_CLASS_HEAVY
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE
+	smeltresult = /obj/item/ingot/iron
+
 /obj/item/clothing/suit/roguetown/armor/brigandine/banneret
 	name = "knight banneret's brigandine"
 	desc = "A resplendant coat-of-plates, gilded and veiled in dyeable silk. Only the finest of Azuria's Knights has been entrusted with this beautiful article."
@@ -150,7 +157,7 @@
 	blocksound = SOFTHIT
 	equip_delay_self = 4 SECONDS
 	unequip_delay_self = 4 SECONDS
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + 50
+	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
 	sellprice = 363 // On par w/ judgement and ichor fang cuz why not
 	smelt_bar_num = 2
 	armor_class = ARMOR_CLASS_HEAVY
@@ -164,6 +171,8 @@
 	detail_tag = "_detail"
 	color = "#FFFFFF"
 	detail_color = "#FFFFFF"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
+	sleeved_detail = TRUE
 	var/picked = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/haraate/attack_right(mob/user)

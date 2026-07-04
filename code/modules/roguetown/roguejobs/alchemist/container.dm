@@ -1,9 +1,15 @@
 
 /obj/item/reagent_containers/glass/bottle/rogue/healthpot
 	list_reagents = list(/datum/reagent/medicine/healthpot = 50)
+	flags_ai_inventory = AI_ITEM_HEALING_DRINK | AI_ITEM_DRINK
 
 /obj/item/reagent_containers/glass/bottle/rogue/healthpotnew
 	list_reagents = list(/datum/reagent/medicine/stronghealth = 50)
+	flags_ai_inventory = AI_ITEM_HEALING_DRINK | AI_ITEM_DRINK
+
+/obj/item/reagent_containers/glass/bottle/rogue/restoration
+	list_reagents = list(/datum/reagent/medicine/restoration = 50)
+	flags_ai_inventory = AI_ITEM_HEALING_DRINK | AI_ITEM_DRINK
 
 /obj/item/reagent_containers/glass/bottle/rogue/manapot
 	list_reagents = list(/datum/reagent/medicine/manapot = 50)
@@ -11,11 +17,26 @@
 /obj/item/reagent_containers/glass/bottle/rogue/poison
 	list_reagents = list(/datum/reagent/toxin/killersice = 1)
 
+/obj/item/reagent_containers/glass/bottle/rogue/sleep
+	list_reagents = list(/datum/reagent/sleep_powder = 50)
+
 /obj/item/reagent_containers/glass/bottle/rogue/water
 	list_reagents = list(/datum/reagent/water = 50)
 
 /obj/item/reagent_containers/glass/bottle/mercury
 	list_reagents = list(/datum/reagent/mercury = 50)
+
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum
+	name = "bottle of medicinal fish vinegar"
+	desc = "A bottle with a mudclay cork, tethered to the bottleneck via braided twine. Fermented innard-paste and herbs makes for a \
+	disgustingly cheap medicine; an ancient concoction, resurrected for usage within the gladitorial arenas of Lirvas and Raneshen. </br>A \
+	particular variant of this, made by fermenting zardines in the Terrorbog, happens to be a very popular condiment back in Rockhill."
+	list_reagents = list(/datum/reagent/medicine/healthpot/zarum = 50)
+
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum/bog
+	name = "bottle of medicinal fish honeygar"
+	desc = "A bottle with a mudclay cork, tethered to the bottleneck via braided twine. Fermented fish-paste, herbs and honey make for an unexpectedly palatable medicine. Developed by the Levy of Azure Peak from the Terrorbog fish-vinegar recipe, the added honey softens the brew's harsh bite and tempers its fishy aftertaste. It heals no better than ordinary fish vinegar, but goes down with considerably less suffering."
+	list_reagents = list(/datum/reagent/medicine/healthpot/zarum/bog = 50)
 
 //vanderlin potion stuff//
 /obj/item/reagent_containers/glass/bottle/rogue/strongmanapot
@@ -51,7 +72,7 @@
 /obj/item/reagent_containers/glass/bottle/alchemical/perpot
 	list_reagents = list(/datum/reagent/buff/perception = 30)
 
-/obj/item/reagent_containers/glass/bottle/alchemical/endpot
+/obj/item/reagent_containers/glass/bottle/alchemical/willpot
 	list_reagents = list(/datum/reagent/buff/endurance = 30)
 
 /obj/item/reagent_containers/glass/bottle/alchemical/conpot
@@ -84,6 +105,9 @@
 /obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab
 	list_reagents = list(/datum/reagent/fermented_crab = 15)
 
+/obj/item/reagent_containers/glass/bottle/alchemical/restoration
+	list_reagents = list(/datum/reagent/medicine/restoration = 30)
+
 //////////////////////////
 /// ALCOHOLIC BOTTLES ///
 //////////////////////////
@@ -96,10 +120,20 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 50)
 	desc = "A bottle that contains a generic housebrewed small-beer. It has an improvised corkseal made of hardened clay."
 
-/obj/item/reagent_containers/glass/bottle/rogue/triumphbeer
-	name = "bottle of beer"
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 50)
-	desc = "A glass bottle with a laced cork-seal. It swishes with fizzled goodness; a cure to the parched throat, a remedy to the sleepless nites, and a toast for the journey ahead."
+/obj/item/reagent_containers/glass/bottle/rogue/spicedwine
+	name = "bottle of spiced wine"
+	list_reagents = list(/datum/reagent/consumable/ethanol/spicedwine = 50)
+	desc = "A glass bottle with a waxed cork-seal. Keen eyes can spot the dizzying amount of bubbles constantly frothing to the top of its tangerine-hued treasures."
+
+/obj/item/reagent_containers/glass/bottle/rogue/spicedwineaged
+	name = "bottle of aged spiced wine"
+	list_reagents = list(/datum/reagent/consumable/ethanol/spicedwine/aged = 50)
+	desc = "A glass bottle with a waxed cork-seal, and secured with cloth lacing. Errant light turns its tangerine hues into a golden-amber surprise."
+
+/obj/item/reagent_containers/glass/bottle/rogue/spicedwinedelectable
+	name = "bottle of delectable spiced wine"
+	list_reagents = list(/datum/reagent/consumable/ethanol/spicedwine/delectable = 50)
+	desc = "A glass bottle with a waxed cork-seal, further laced with silk cordage. Not even its seals can save your nostrils from imbuing a sliver of its impossibly aromatic supply."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/zagul
 	name = "bottle of Zagul"
@@ -129,7 +163,7 @@
 	name = "bottle of Aurorian Herbal Beer"
 	icon_state = "beer"
 	list_reagents = list(/datum/reagent/consumable/ethanol/aurorian = 50)
-	desc = "A bottle with the aurorian brewhouse cork-seal. An Elvish beer brewed from an herbal gruit."
+	desc = "A bottle with the Aurorian Brewhouse cork-seal. An Elvish beer brewed from a herbal gruit."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/fireleaf
 	name = "bottle of Fireleaf"
@@ -157,12 +191,13 @@
 	desc = "A bottle with the House Stoutenson cork-seal. This strange liquid is considered as the most spicy and alcoholic drink in all the Mountainhomes. Bought by nobles of all ages, mostly those with a deathwish."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/voddena
+	name = "bottle of Norwandine Voddena"
 	list_reagents = list(/datum/reagent/consumable/ethanol/voddena = 50)
 	desc = "A bottle with the City of Norwandine cork-seal. It contains a respectably pure, clean voddena."
 
 // WINES - Expensive, Nobleblooded
 /obj/item/reagent_containers/glass/bottle/rogue/wine
-	name = "bottle of wine"
+	name = "bottle of Ranesheni wine"
 	icon = 'icons/obj/alcohol.dmi'
 	icon_state = "red_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/wine = 50)
@@ -204,7 +239,7 @@
 
 //AZURE DRINKS
 /obj/item/reagent_containers/glass/bottle/rogue/beer/jagdtrunk
-	name = "bottle of Schnapps"
+	name = "bottle of Jagdtrunk Herbal Schnapps"
 	icon_state = "red_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/jagdtrunk = 50)
 	desc = "A bottle with a Saigabuck cork-seal. This dark liquid is the strongest alcohol coming out of Grenzelhoft available. A herbal schnapps, sure to burn out any disease."
@@ -214,6 +249,12 @@
 	icon_state = "ale"
 	list_reagents = list(/datum/reagent/consumable/ethanol/apfelweinheim = 50)
 	desc = "A bottle with the Apfelweinheim cork-seal. A cider from the Grenzelhoftian town of Apfelweinheim. Well received for its addition of pear, alongside crisp apples."
+
+/obj/item/reagent_containers/glass/bottle/rogue/beer/limoncello
+	name = "bottle of Limoncello"
+	icon_state = "plum_wine"
+	list_reagents = list(/datum/reagent/consumable/ethanol/limoncello = 50)
+	desc = "A bottle with a golden lemon-printed cork-seal. An Etruscan distillate of sun-cured lemons and grain spirit. Sweet on the tongue, devastating to the throat."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/rtoper
 	name = "bottle of Lirvas Cider"
@@ -234,13 +275,13 @@
 	desc = "A bottle with a Shieldmaiden Berewrey cork-seal. A deep red honey-wine, refined with the red berries native to Gronns highlands."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/avarmead
-	name = "bottle of Golden Mead"
+	name = "bottle of Zögiin Bal Mead"
 	icon_state = "plum_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/avarmead = 50)
 	desc = "A bottle with a simple cork-seal. A golden honey-wine brewed in the Avar Steppes. Manages to keep a proper taste while staying strong."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/avarrice
-	name = "bottle of Aavnic White"
+	name = "bottle of Makkolir"
 	icon_state = "white_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/avarrice = 50)
 	desc = "A bottle with a simple cork-seal. A murky, white wine made from rice grown in the steppes of Avar."
@@ -258,13 +299,13 @@
 	desc = "A bottle with a Yamaguchi Brewery cork-seal. A pale lager brewed in the far-away lands of Kazengun, refined with green tea for an unique flavour-profile. Even lighter than elven-brew!"
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/kgunsake
-	name = "bottle of Golden Swan Sake"
+	name = "bottle of Junmai-Ginjo"
 	icon_state = "white_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/kgunsake = 50)
 	desc = "A bottle with a Golden Swan cork-seal. A translucient, pale-blue liquid made from rice. A favourite drink of the warlords and nobles of Kazengun."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/kgunplum
-	name = "bottle of Golden Swan Plum Wine"
+	name = "bottle of Umeshu"
 	icon_state = "plum_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/kgunplum = 50)
 	desc = "A bottle with a Golden Swan cork-seal. A reddish-golden alcohol made from a fruit commonly found on the Kazengun-isles. A favourite of the commoners."
@@ -275,7 +316,7 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/kgunshochu = 50)
 	desc = "A bottle with a Golden Swan cork-seal. A clean alcohol made by distilling rice. With a dry and clean finish. Popular amongst the warrior caste of Kazengun."
 
-// Zhongese Drinks
+// Lingyuese Drinks
 /obj/item/reagent_containers/glass/bottle/rogue/beer/huangjiu
 	name = "bottle of Huangjiu Rice Wine"
 	icon_state = "rice_wine"
@@ -292,13 +333,13 @@
 	name = "bottle of Yaojiu Rice Wine"
 	icon_state = "rice_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/yaojiu = 50)
-	desc = "A bottle with a red seal. A strong, sweet rice wine infused with medicinal herbs, including Ginseng. Often prescribed as a medicine on the Zhongese mainland."
+	desc = "A bottle with a red seal. A strong, sweet rice wine infused with medicinal herbs, including Ginseng. Often prescribed as a medicine on the Lingyuese mainland."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/shejiu
 	name = "bottle of Shejiu Rice Wine"
 	icon_state = "rice_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/shejiu = 50)
-	desc = "A bottle with a red seal. A strong rice wine with a dead snake inside. In the land of Zhong, It is believed that drinking this will improve one's virility and blood circulation."
+	desc = "A bottle with a red seal. A strong rice wine with a dead snake inside. In the land of Lingyue, it is believed that drinking this will improve one's virility and blood circulation."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/murkwine
 	name = "bottle of Possumtail Swampweed Wine"
@@ -318,11 +359,11 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/whipwine = 50)
 	desc = "A strange bottle with a concerningly brown color. It bears the seal of a snake's head over a leaf. Markings indicate the contents are supposed to be good for health..."
 
-/obj/item/reagent_containers/glass/bottle/rogue/beer/komuchisake
-	name = "bottle of Komuchi Sake"
+/obj/item/reagent_containers/glass/bottle/rogue/beer/truewhipwine
+	name = "bottle of Divine Snake Wine"
 	icon_state = "rice_wine"
-	list_reagents = list(/datum/reagent/consumable/ethanol/komuchisake = 50)
-	desc = "A dusty, ancient bottle with a red-ochre coloring. It bears an intricately detailed golden skull seal, and the markings on it are clearly of the Shogunate. It looks to be filled with herbs inside."
+	list_reagents = list(/datum/reagent/consumable/ethanol/truewhipwine = 50)
+	desc = "A weighty, lacquered bottle stamped with the coiled-serpent seal of an old Lingyuese apothecary house. Through the dark glass one can dimly see the silhouette of a long-dead snake suspended in the wine, surrounded by herbs. The True Form of the Whipwine - the recipe that the common Magickal Whip-Wine is a poor imitation of."
 
 		//////////////////////////
 		/// CLAY BOTTLES ///
@@ -352,12 +393,30 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/whitewine = 75)
 	desc = "A bottle with the Otavan Merchant Guild cork-seal. This one appears to be labelled as a sweet wine from the colder northern regions."
 
+/obj/item/reagent_containers/glass/bottle/claybottleclassic/water
+	list_reagents = list(/datum/reagent/water = 75)
+	desc = "A clay bottle bearing the cork-seal of Kingsfield Abbey, an institution known to \
+	bottle and sell water drawn from natural springs under its ownership. While the water inside \
+	these is said to carry particular health benefits, most agree that all water is quite alike."
 
-		///////////////////////////
-		// TRIUMPH-EXCLUSIVE !   //
-		///////////////////////////
+/obj/item/reagent_containers/glass/bottle/clayvaseclassic/water
+	list_reagents = list(/datum/reagent/water = 65)
+	desc = "A finely crafted ceramic vase designed to carry water; you wonder if it's \
+	good to drink, or if it has been sitting there for weeks."
 
-/obj/item/reagent_containers/glass/bottle/alchemical/tripot
-	name = "vial of distilled triumphance"
-	desc = "The fruits of your labor, distilled into a sparkling pittance that shimmers with Azurian light. Even after the vial's emptying, it still retains that otherworldly glitterance."
-	list_reagents = list(/datum/reagent/buff/tri = 10)
+/obj/item/reagent_containers/glass/bottle/clayvaseclassic/holy_water
+	list_reagents = list(/datum/reagent/water/holywater = 65)
+	desc = "A richly ornamented ceramic vase. The circular cross of the Ten Undivided \
+	adorns its side; whatever is inside must be sacred."
+
+/obj/item/reagent_containers/glass/bottle/clayfancyvaseclassic/water
+	list_reagents = list(/datum/reagent/water = 65)
+	desc = "A broad, large ceramic vase intended to carry water. A classic piece of \
+	ornamentation for any household that wishes to call back to the old Imperial era."
+
+/obj/item/reagent_containers/glass/bottle/clayfancyvaseclassic/sanctified_oil
+	list_reagents = list(/datum/reagent/sanctified_oil = 65)
+	desc = "A fancy ceramic vase. Going off the smell, and the thin film of oil which \
+	seems to cling to its surface, this probably contains oil sanctified for liturgical \
+	- or magical - purposes."
+

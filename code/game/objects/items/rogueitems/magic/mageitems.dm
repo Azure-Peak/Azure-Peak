@@ -38,29 +38,10 @@
 		w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/storage/magebag/associate
-	populate_contents = list(
-		/obj/item/magic/manacrystal,
-		/obj/item/magic/manacrystal,
-		/obj/item/magic/manacrystal,
-		/obj/item/magic/obsidian,
-		/obj/item/magic/obsidian,
-		/obj/item/magic/obsidian,
-		/obj/item/reagent_containers/food/snacks/grown/manabloom,
-		/obj/item/reagent_containers/food/snacks/grown/manabloom,
-		/obj/item/reagent_containers/food/snacks/grown/manabloom
-	)
+	populate_contents = list()
+
 /obj/item/storage/magebag/starter
-	populate_contents = list(
-		/obj/item/magic/manacrystal,
-		/obj/item/magic/manacrystal,
-		/obj/item/magic/manacrystal,
-		/obj/item/magic/obsidian,
-		/obj/item/magic/obsidian,
-		/obj/item/magic/obsidian,
-		/obj/item/reagent_containers/food/snacks/grown/manabloom,
-		/obj/item/reagent_containers/food/snacks/grown/manabloom,
-		/obj/item/reagent_containers/food/snacks/grown/manabloom
-	)
+	populate_contents = list()
 /obj/item/chalk
 	name = "stick of chalk"
 	desc = "A stark-white stick of chalk, possibly made from quicksilver. "
@@ -72,34 +53,18 @@
 	damtype = BRUTE
 	force = 1
 	w_class = WEIGHT_CLASS_TINY
-	var/rune_to_scribe = null
-	var/amount = 8
-
-/obj/item/chalk/examine(mob/user)
-	. = ..()
-	desc += "It has [amount] uses left."
-
-/obj/item/chalk/attackby(obj/item/M, mob/user, params)
-	if(istype(M,/obj/item/rogueore/cinnabar))
-		if(amount < 8)
-			amount = 8
-			to_chat(user, span_notice("I press arcyne magic into the [M] and the red crystals within melt into quicksilver, quickly sinking into the [src]."))
-	else
-		return ..()
-
+	var/obj/effect/decal/cleanable/roguerune/rune_to_scribe = null
+	var/chosen_keyword
 
 /obj/item/chalk/attack_self(mob/living/carbon/human/user)
-	if(!isarcyne(user))
+	if(!HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT))
 		to_chat(user, span_cult("Nothing comes in mind to draw with the chalk."))
 		return
 
 	var/obj/effect/decal/cleanable/roguerune/pickrune
 	var/runenameinput
 
-	if(HAS_TRAIT(user, TRAIT_ARCYNE_T1))
-		runenameinput = input(user, "Runes", "Tier 1 Runes") as null|anything in GLOB.t1rune_types
-	else
-		runenameinput = input(user, "Runes", "Tier 1 & 2 Runes") as null|anything in GLOB.t2rune_types
+	runenameinput = input(user, "Runes", "Runes") as null|anything in GLOB.t3rune_types
 
 	pickrune = GLOB.rune_types[runenameinput]
 	rune_to_scribe = pickrune
@@ -113,6 +78,18 @@
 	if(structures_in_way == TRUE)
 		to_chat(user, span_cult("There is a structure, rune or wall in the way."))
 		return
+	if(initial(rune_to_scribe.requires_leyline))
+		var/found_leyline = FALSE
+		for(var/obj/structure/leyline/L in range(5, user))
+			found_leyline = TRUE
+			break
+		if(!found_leyline)
+			to_chat(user, span_warning("This matrix must be drawn within reach of a leyline."))
+			return
+	if(initial(rune_to_scribe.req_keyword))
+		chosen_keyword = stripped_input(user, "Keyword for the new rune", "Runes", max_length = MAX_NAME_LEN)
+		if(!chosen_keyword)
+			return
 	var/crafttime = (100 - ((user.get_skill_level(/datum/skill/magic/arcane))*5))
 
 	user.visible_message(span_notice("\The [user] begins to drag [user.p_their()] [name] over \the [Turf], inscribing intricate symbols and sigils inside a circle."), span_notice("I start to drag my [name] over \the [Turf], inscribing intricate symbols and sigils on a circle."))
@@ -120,10 +97,7 @@
 	if(do_after(user, crafttime, target = src))
 		user.visible_message(span_warning("[user] draws an arcyne rune with [user.p_their()] [name]!"), \
 		span_notice("I finish tracing ornate symbols and circles with my [name], leaving behind a ritual rune."))
-		src.amount --
-		new rune_to_scribe(Turf)
-	if(amount == 0)
-		qdel(src)
+		new rune_to_scribe(Turf, chosen_keyword)
 
 /obj/item/chalk/proc/check_for_structures_and_closed_turfs(loc, var/obj/effect/decal/cleanable/roguerune/rune_to_scribe)
 	for(var/turf/T in range(loc, rune_to_scribe.runesize))
@@ -144,6 +118,7 @@
 /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	name = "arcyne silver dagger"
 	desc = "This dagger glows a faint purple. Quicksilver runs across its blade."
+	icon_state = "arcynedagger"
 	var/is_bled = FALSE
 	var/obj/effect/decal/cleanable/roguerune/rune_to_scribe = null
 	var/chosen_keyword
@@ -152,21 +127,8 @@
 	. = ..()
 	filter(type="drop_shadow", x=0, y=0, size=2, offset=1, color=rgb(128, 0, 128, 1))
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/attackby(obj/item/M, mob/user, params)
-	if(istype(M,/obj/item/rogueore/cinnabar))
-		var/crafttime = (6 SECONDS - ((user.get_skill_level(/datum/skill/magic/arcane))* 0.5 SECONDS))
-		if(do_after(user, crafttime, target = src))
-			playsound(loc, 'sound/magic/scrapeblade.ogg', 100, TRUE)
-			to_chat(user, span_notice("I press arcyne magic into the blade and it throbs in a deep purple..."))
-			var/obj/arcyne_knife = new /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
-			qdel(M)
-			qdel(src)
-			user.put_in_active_hand(arcyne_knife)
-	else
-		return ..()
-
 /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/attack_self(mob/living/carbon/human/user)
-	if(!isarcyne(user) || HAS_TRAIT(user, TRAIT_ARCYNE_T1))
+	if(!HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT))
 		return
 	if(!is_bled)
 		playsound(loc, get_sfx("genslash"), 100, TRUE)
@@ -178,7 +140,7 @@
 		is_bled = TRUE
 		return
 	var/obj/effect/decal/cleanable/roguerune/pickrune
-	var/runenameinput = input(user, "Runes", "T4 Runes") as null|anything in GLOB.t4rune_types
+	var/runenameinput = input(user, "Runes", "All Runes") as null|anything in GLOB.t4rune_types
 
 	pickrune = GLOB.rune_types[runenameinput]
 	rune_to_scribe = pickrune
@@ -192,6 +154,14 @@
 	if(structures_in_way)
 		to_chat(user, span_cult("There is a structure, rune or wall in the way."))
 		return
+	if(initial(rune_to_scribe.requires_leyline))
+		var/found_leyline = FALSE
+		for(var/obj/structure/leyline/L in range(5, user))
+			found_leyline = TRUE
+			break
+		if(!found_leyline)
+			to_chat(user, span_warning("This matrix must be drawn within reach of a leyline."))
+			return
 	if(initial(rune_to_scribe.req_keyword))
 		chosen_keyword = stripped_input(user, "Keyword for the new rune", "T4 Runes", max_length = MAX_NAME_LEN)
 		if(!chosen_keyword)
@@ -397,105 +367,3 @@
 	. = ..()
 	var/datum/magic_item/mundane/nomagic/effect = new
 	AddComponent(/datum/component/magic_item, effect)
-
-/obj/item/rope/chain/bindingshackles
-	name = "planar binding shackles"
-	desc = "arcane shackles imbued to bind other-planar creatures intelligence to this plane. They will not be under your thrall and a deal will need to be made."
-	var/mob/living/fam
-	var/tier = 1
-	var/being_used = FALSE
-	var/sentience_type = SENTIENCE_ORGANIC
-	var/chosen_name
-	var/binding = FALSE
-
-/obj/item/rope/chain/bindingshackles/Initialize()
-	. = ..()
-	src.filters += filter(type="drop_shadow", x=0, y=0, size=1, offset=2, color=rgb(rand(1,255),rand(1,255),rand(1,255)))
-
-/obj/item/rope/chain/bindingshackles/t2
-	name = "greater planar binding shackles"
-	tier = 2
-
-/obj/item/rope/chain/bindingshackles/t3
-	name = "woven planar binding shackles"
-	tier = 3
-
-/obj/item/rope/chain/bindingshackles/t4
-	name = "confluent planar binding shackles"
-	tier = 4
-
-/obj/item/rope/chain/bindingshackles/t5
-	name = "abberant planar binding shackles"
-	tier = 5
-
-/obj/item/rope/chain/bindingshackles/attack(mob/living/simple_animal/hostile/retaliate/rogue/captive, mob/living/user)
-	var/list/summon_types = list(
-		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp,
-		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound,
-		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher,
-		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend,
-		/mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler,
-		/mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden,
-		/mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth,
-		/mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus,
-		/mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite,
-		/mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing,
-		/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad,
-		/mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph,
-		/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk,
-		/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon)
-
-	if(!(captive.type in summon_types))
-		to_chat(user, span_warning("[captive] cannot be bound by these shackles!"))
-		return
-	if(captive.summon_tier > tier)
-		to_chat(user, span_warning("[src] is not strong enough to bind [captive]!"))
-		return
-
-	var/mob/living/simple_animal/hostile/retaliate/rogue/target = captive
-	target.visible_message(span_warning("[src] is trying to bind [target.real_name]"))
-	if(do_after(user, 50, target = src) && binding == FALSE)
-		if(!target.ckey) //player is not inside body or has refused, poll for candidates
-			to_chat(user, span_notice("You attempt to bind the targetted summon to this plane."))
-			binding = TRUE
-			target.visible_message(span_warning("[target.real_name]'s body is entangled by glowing chains..."), runechat_message = TRUE)
-			var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's summon?", null, null, null, 100, target, POLL_IGNORE_MAGE_SUMMON)
-
-			// theres at least one candidate
-			if(LAZYLEN(candidates))
-				var/mob/C = pick(candidates)
-				target.awaken_summon(user, C.ckey)
-				target.visible_message(span_warning("[target.real_name]'s eyes light up with an intelligence as it awakens fully on this plane."), runechat_message = TRUE)
-				custom_name(user,target)
-				target.name = chosen_name
-				binding = FALSE
-			//no candidates, raise as npc
-			else
-				to_chat(user, span_notice("The [captive] stares at you with mindless hate. The binding attempt failed to draw out it's intelligence!"))
-				binding = FALSE
-		else
-			target.visible_message(span_notice("This summon is already bound to this plane."))
-			return FALSE
-		return FALSE
-	return FALSE
-
-/mob/living/simple_animal/hostile/retaliate/rogue/proc/awaken_summon(mob/living/carbon/human/master, ckey)
-	if(!master)
-		return FALSE
-	if(ckey) //player
-		src.ckey = ckey
-
-	to_chat(src, span_userdanger("My summoner is [master.real_name]. They will need to convince me to obey them."))
-	to_chat(src, span_notice("[summon_primer]"))
-
-	see_in_dark = 8
-	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE//easiest way to give mage summons proper darksight, although I'm wracking my brain for other angles since admin-spawned guys might happen
-
-/obj/item/rope/chain/bindingshackles/proc/custom_name(mob/awakener, var/mob/chosen_one, iteration = 1)
-	if(iteration > 5)
-		return  // The spirit of indecision
-	chosen_name = sanitize_name(stripped_input(chosen_one, "What are you named?"))
-	if(!chosen_name) // with the way that sanitize_name works, it'll actually send the error message to the awakener as well.
-		to_chat(awakener, span_warning("Your summon did not select a valid name! Please wait as they try again.")) // more verbose than what sanitize_name might pass in it's error message
-		return custom_name(awakener, iteration++)
-	return chosen_name

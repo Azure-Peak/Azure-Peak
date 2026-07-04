@@ -8,6 +8,8 @@
 	roundstart = TRUE
 	antag_flag = ROLE_BANDIT
 	shared_occurence_type = SHARED_MINOR_THREAT
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_rumour_name = "bandits"
 
 	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
 	base_antags = 5
@@ -23,22 +25,41 @@
 /datum/round_event/antagonist/solo/bandits
 	var/leader = FALSE
 
+/datum/round_event_control/antagonist/solo/bandits/preRunEvent()
+	if(is_storyteller_villain_blocked())
+		return EVENT_CANT_RUN
+	return ..()
+
 /datum/round_event/antagonist/solo/bandits/start()
 	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
 	bandit_job.total_positions = length(setup_minds)
 	bandit_job.spawn_positions = length(setup_minds)
 	SSmapping.retainer.bandit_goal = rand(200,400) + (length(setup_minds) * rand(200,400))
 	for(var/datum/mind/antag_mind as anything in setup_minds)
-		var/datum/job/J = SSjob.GetJob(antag_mind.current?.job)
+		var/mob/living/carbon/human/H = antag_mind.current
+		if(!H)
+			continue
+		var/datum/job/J = SSjob.GetJob(H.job)
 		J?.current_positions = max(J?.current_positions-1, 0)
-		antag_mind.current.unequip_everything()
-		SSjob.AssignRole(antag_mind.current, "Bandit")
-		SSmapping.retainer.bandits |= antag_mind.current
+
+		if(H.client)
+			var/datum/class_select_handler/stale = SSrole_class_handler.class_select_handlers[H.client.ckey]
+			if(stale)
+				SSrole_class_handler.class_select_handlers.Remove(H.client.ckey)
+				qdel(stale)
+
+		SSjob.AssignRole(H, "Bandit")
+		H.job = "Bandit"
+		SSmapping.retainer.bandits |= H
 		antag_mind.add_antag_datum(/datum/antagonist/bandit)
 
-		SSrole_class_handler.setup_class_handler(antag_mind.current, list(CTAG_BANDIT = 20))
-		antag_mind.current:advsetup = TRUE
-		antag_mind.current.hud_used?.set_advclass()
+		var/datum/antagonist/bandit/bandit_datum = antag_mind.has_antag_datum(/datum/antagonist/bandit)
+		bandit_datum?.move_to_spawnpoint()
+		H.unequip_everything()
+
+		SSrole_class_handler.setup_class_handler(H, list(CTAG_BANDIT = 20))
+		H.advsetup = TRUE
+		H.hud_used?.set_advclass()
 
 	SSrole_class_handler.bandits_in_round = TRUE
 

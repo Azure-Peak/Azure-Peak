@@ -11,6 +11,7 @@
 
 	grid_width = 64
 	grid_height = 32
+	throw_on_break = TRUE
 
 /obj/item/clothing/mask/attack_self(mob/user)
 	if(CHECK_BITFIELD(clothing_flags, VOICEBOX_TOGGLABLE))
@@ -72,4 +73,4 @@
 			slot_flags = adjusted_flags
 	if(user)
 		user.wear_mask_update(src, toggle_off = mask_adjusted)
-		user.update_action_buttons_icon() //when mask is adjusted out, we update all buttons icon so the user's potential internal tank correctly shows as off.
+		user.update_mob_action_buttons() //when mask is adjusted out, we update all buttons icon so the user's potential internal tank correctly shows as off.

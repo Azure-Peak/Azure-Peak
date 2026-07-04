@@ -12,14 +12,28 @@
 			used = getfsilenced(soundin)
 	if(!used)
 		switch(soundin)
+			if("attack")
+				used = list('sound/vo/female/gen/attack (1).ogg', 'sound/vo/female/gen/attack (2).ogg', 'sound/vo/female/gen/attack (3).ogg', 'sound/vo/female/gen/attack (4).ogg', 'sound/vo/female/gen/attack (5).ogg', 'sound/vo/female/gen/attack (6).ogg', 'sound/vo/female/gen/attack (7).ogg', 'sound/vo/female/gen/attack (8).ogg', 'sound/vo/female/gen/attack (9).ogg', 'sound/vo/female/gen/attack (10).ogg', 'sound/vo/female/gen/attack (11).ogg')
 			if("deathgurgle")
 				used = pick('sound/vo/female/gen/deathgurgle (1).ogg','sound/vo/female/gen/deathgurgle (2).ogg','sound/vo/female/gen/deathgurgle (3).ogg')
 			if("agony")
+				used = list('sound/vo/female/gen/agony (1).ogg','sound/vo/female/gen/agony (2).ogg','sound/vo/female/gen/agony (3).ogg')
+			if("superagony") // to bypass painless override, use responsibly
 				used = list('sound/vo/female/gen/agony (1).ogg','sound/vo/female/gen/agony (2).ogg','sound/vo/female/gen/agony (3).ogg')
 			if("breathgasp")
 				used = 'sound/vo/female/gen/breathgasp.ogg'
 			if("burp")
 				used = 'sound/vo/female/gen/burp.ogg'
+			if("gulp")
+				used = list('sound/vo/gulp.ogg', 'sound/vo/gulp2.ogg')
+			if("sniff")
+				used = list('sound/vo/sniff.ogg')
+			if("salute")
+				used = 'sound/vo/salute.ogg'
+			if("crack")
+				used = 'sound/vo/knuckles.ogg'
+			if("facepalm")
+				used = list('sound/vo/facepalm1.ogg', 'sound/vo/facepalm2.ogg')
 			if("choke")
 				used = list('sound/vo/female/gen/choke (1).ogg','sound/vo/female/gen/choke (2).ogg','sound/vo/female/gen/choke (3).ogg')
 			if("chuckle")
@@ -98,6 +112,10 @@
 				used = 'sound/vo/psst.ogg'
 			if("clap")
 				used = list('sound/vo/clap (1).ogg','sound/vo/clap (2).ogg','sound/vo/clap (3).ogg','sound/vo/clap (4).ogg')
+			if("slowclap")
+				used = list('sound/vo/slowclap.ogg')
+			if("clap1")
+				used = list('sound/vo/claponce.ogg')
 			if("sexmoanlight")
 				used = list('sound/vo/female/gen/se/sexlight (1).ogg','sound/vo/female/gen/se/sexlight (2).ogg','sound/vo/female/gen/se/sexlight (3).ogg','sound/vo/female/gen/se/sexlight (4).ogg','sound/vo/female/gen/se/sexlight (5).ogg','sound/vo/female/gen/se/sexlight (6).ogg','sound/vo/female/gen/se/sexlight (7).ogg')
 			if("sexmoanhvy")

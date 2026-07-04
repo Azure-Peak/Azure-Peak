@@ -62,6 +62,16 @@
 	/// the angle of impact must be within this many degrees of the struck surface, set to 0 to allow any angle
 	var/ricochet_incidence_leeway = 40
 
+	// Demo mod
+	/// Multiplier for damage dealt to objects of all types. 1 is no multiplier. 0.5 is 50% less. 1.5 is 50% more.
+	var/object_damage_multiplier = 1
+	/// Whether or not our projectile can damage walls
+	var/damages_turf_walls = FALSE
+	/// Chance for our projectile to break upon impacting a wall for reusable projectiles.
+	var/wall_impact_break_probability = 0
+	/// Hit state used to track whether or not we hit a turf for reusable projectiles.
+	var/hit_wall = FALSE
+
 	///If the object being hit can pass ths damage on to something else, it should not do it for this bullet
 	var/force_hit = FALSE
 
@@ -102,12 +112,16 @@
 	var/nodamage = FALSE //Determines if the projectile will skip any damage inflictions
 	var/flag = "piercing" //Defines what armor to use when it hits things. Setting this to "blunt" might result in unexpected behavior (i.e. knockout on hit, figure out the root causes and excise it)
 	///How much armor this projectile pierces.
-	var/armor_penetration = 0
+	var/armor_penetration = PEN_NONE
+	/// Multiplier for integrity damage dealt to armor. 1 is default. Higher = harder on armor.
+	var/intdamfactor = 1
 	var/projectile_type = /obj/projectile
 	var/range = 50 //This will de-increment every step. When 0, it will deletze the projectile.
 	var/decayedRange			//stores original range
 	var/reflect_range_decrease = 5			//amount of original range that falls off when reflecting, so it doesn't go forever
 	var/reflectable = NONE // Can it be reflected or not?
+	/// Whether this projectile can be deflected by Guard (clash status). Opt-in per subtype.
+	var/guard_deflectable = FALSE
 		//Effects
 	var/stun = 0
 	var/knockdown = 0
@@ -121,19 +135,22 @@
 	var/stamina = 0
 	var/jitter = 0
 	var/dismemberment = 0 //The higher the number, the greater the bonus to dismembering. 0 will not dismember at all.
+	var/dismember_by_default = FALSE
 	var/impact_effect_type //what type of impact effect to show when hitting something
 	var/log_override = FALSE //is this type spammed enough to not log? (KAs)
 
 	var/temporary_unstoppable_movement = FALSE
 
 	var/woundclass = null
+	/// If TRUE, this projectile applies wounds but never rolls a critical hit.
+	var/no_crit = FALSE
 	var/embedchance = 0
 	var/obj/item/dropped = null
 	var/ammo_type
 
 	var/arcshot = FALSE
-	var/diagonal_step = 0
-	var/diagonal_target_z = 0
+	// Is this projectile blacklisted from crossing z-level
+	var/cannot_cross_z = 0
 	var/poisontype
 	var/poisonamount
 	var/poisonfeel
@@ -141,52 +158,45 @@
 	var/accuracy = 65 //How likely the project will hit it's intended target area. Decreases over distance moved, increased from perception.
 	var/bonus_accuracy = 0 //bonus accuracy that cannot be affected by range drop off.
 
-	var/target_z = 0
+	/// Min tile distance for full damage/AP.
+	var/min_range = 0
+	/// Max tile distance for full damage/AP.
+	var/max_range = 0
+	/// Falloff factor for damage. Multiplicative.
+	var/dam_falloff_factor = 1
+	var/suppress_effects_past_range = FALSE
 
 /obj/projectile/proc/handle_drop()
 	return
+
+
+/obj/projectile/proc/out_of_effective_range()
+	return suppress_effects_past_range && max_range && check_range(get_turf(src))
 
 /obj/projectile/Initialize()
 	. = ..()
 	permutated = list()
 	decayedRange = range
 
-/obj/projectile/proc/get_nearest_open_turf(turf/center, max_range)
-	for(var/i in 0 to max_range)
-		for(var/turf/T in range(i, center))
-			if(!T.density && !has_dense_content(T))
-				return T
-	return null
-
-/obj/projectile/proc/has_dense_content(turf/T)
-	for(var/atom/A in T)
-		if(A.density && A != src && A != firer)
-			return TRUE
-	return FALSE
-
 /obj/projectile/proc/Range()
 	range--
-	if(diagonal_step && diagonal_target_z && z != diagonal_target_z)
-		if((decayedRange - range) >= diagonal_step)
-			var/turf/T = locate(x, y, diagonal_target_z)
-			if(T)
-				if(T.density || has_dense_content(T))
-					T = get_nearest_open_turf(T, 3)
-				
-				if(T)
-					trajectory_ignore_forcemove = TRUE
-					forceMove(T)
-					trajectory_ignore_forcemove = FALSE
-					if(trajectory)
-						trajectory.z = T.z
-				else
-					qdel(src)
-					return
-
 	if(accuracy > 20) //so there is always a somewhat prevalent chance to hit the target, despite distance.
 		accuracy -= 10
 	if(range <= 0 && loc)
 		on_range()
+
+/obj/projectile/proc/check_range(turf/T)
+	if(!starting)
+		return FALSE
+	if(!istype(T))
+		T = get_turf(src)
+	if(!istype(T))
+		return FALSE
+	if(T.z != starting.z)
+		return FALSE
+	var/distance = get_dist(T, starting)
+	if((min_range && distance < min_range) || (max_range && distance > max_range))
+		return TRUE
 
 /obj/projectile/proc/on_range() //if we want there to be effects when they reach the end of their range
 //	on_hit(get_turf(src))
@@ -211,6 +221,7 @@
 /obj/projectile/proc/on_hit(atom/target, blocked = FALSE)
 	if(fired_from)
 		SEND_SIGNAL(fired_from, COMSIG_PROJECTILE_ON_HIT, firer, target, Angle)
+	SEND_SIGNAL(src, COMSIG_PROJECTILE_SELF_ON_HIT, firer, target, Angle)
 	var/turf/target_loca = get_turf(target)
 
 	var/hitx
@@ -222,12 +233,16 @@
 		hitx = target.pixel_x + rand(-8, 8)
 		hity = target.pixel_y + rand(-8, 8)
 
-	if(!nodamage && (damage_type == BRUTE || damage_type == BURN) && iswallturf(target_loca) && prob(75))
+	if(!nodamage && (damage_type == BRUTE || damage_type == BURN) && iswallturf(target_loca))
 		var/turf/closed/wall/W = target_loca
-		if(impact_effect_type && !hitscan)
-			new impact_effect_type(target_loca, hitx, hity)
+		hit_wall = TRUE
+		if(prob(75))
+			if(impact_effect_type && !hitscan)
+				new impact_effect_type(target_loca, hitx, hity)
+			W.add_dent(WALL_DENT_SHOT, hitx, hity)
 
-		W.add_dent(WALL_DENT_SHOT, hitx, hity)
+		if(damages_turf_walls)
+			W.take_damage(damage, damage_type, flag, TRUE, object_damage_multiplier)
 
 		return BULLET_ACT_HIT
 
@@ -238,14 +253,13 @@
 
 	var/mob/living/L = target
 
-	if (!L.mind && istype(L, /mob/living/simple_animal))
-		damage *= npc_simple_damage_mult // bonus damage against simple.
 	if(blocked != 100) // not completely blocked
 		if(damage && L.blood_volume && damage_type == BRUTE)
 			var/splatter_dir = dir
 			if(starting)
 				splatter_dir = get_dir(starting, target_loca)
-			new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_loca, splatter_dir)
+			var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(target_loca, splatter_dir)
+			splatter.set_blood_color(L.get_blood_color())
 			if(prob(33))
 				L.add_splatter_floor(target_loca)
 
@@ -264,6 +278,10 @@
 		log_combat(firer, L, "shot", src, reagent_note)
 	else
 		L.log_message("has been shot by [firer] with [src]", LOG_ATTACK, color="orange")
+
+	if((min_range || max_range) && !check_range(target_loca) && isliving(target))
+		var/obj/effect/temp_visual/dir_setting/attack_effect/atk_effrange = new(target_loca, target.dir)
+		atk_effrange.icon_state = "effrange"
 
 	return BULLET_ACT_HIT
 
@@ -289,6 +307,55 @@
 
 	if(unlucky_sob)
 		setAngle(Get_Angle(src, unlucky_sob.loc))
+
+/// Redirects this projectile back toward its origin point with slight scatter.
+/// Sets firer to the reflector so the projectile won't re-hit them.
+/// Returns TRUE if reflection succeeded, FALSE if conditions weren't met (no starting turf, reflector not on turf).
+/obj/projectile/proc/reflect_back(mob/living/reflector)
+	if(!starting || !isturf(reflector.loc))
+		return FALSE
+	var/new_x = starting.x + pick(0, 0, 0, 0, 0, -1, 1, -2, 2)
+	var/new_y = starting.y + pick(0, 0, 0, 0, 0, -1, 1, -2, 2)
+	var/turf/curloc = get_turf(reflector)
+	original = locate(new_x, new_y, z)
+	starting = curloc
+	firer = reflector
+	yo = new_y - curloc.y
+	xo = new_x - curloc.x
+	var/new_angle_s = Angle + rand(120, 240)
+	while(new_angle_s > 180)
+		new_angle_s -= 360
+	setAngle(new_angle_s)
+	return TRUE
+
+/// Called when a guarding mob deflects this projectile.
+/// Return TRUE for successful deflection (guard consumed cleanly, projectile reflected).
+/// Return FALSE if the projectile overpowers the guard (guard disrupted with bad_guard penalty).
+/// Override on subtypes for custom behavior.
+/// silent: if TRUE, skip chat messages (used by parry buffer for multi-projectile spells).
+/obj/projectile/proc/on_guard_deflect(mob/living/defender, silent = FALSE)
+	if(!silent)
+		var/verb_text = hitscan ? "dispels" : "deflects"
+		if(isarcyne(defender))
+			defender.visible_message(span_danger("[defender] [verb_text] [src] with a reactive ward!"))
+			to_chat(defender, span_notice("My ward [verb_text] the incoming spell!"))
+			playsound(get_turf(defender), pick('sound/combat/parry/shield/magicshield (1).ogg', 'sound/combat/parry/shield/magicshield (2).ogg', 'sound/combat/parry/shield/magicshield (3).ogg'), 100)
+		else
+			var/martial_msg = hitscan ? "[defender] [verb_text] [src]!" : "[defender] [verb_text] [src] back at its caster!"
+			defender.visible_message(span_danger("[martial_msg]"))
+			to_chat(defender, span_notice("My guard [verb_text] the incoming spell!"))
+			var/obj/item/held = defender.get_active_held_item()
+			if(held?.parrysound)
+				playsound(get_turf(defender), pick(held.parrysound), 100)
+			else
+				playsound(get_turf(defender), pick(defender.parry_sound), 100)
+	if(hitscan || !reflect_back(defender))
+		qdel(src) // Hitscan can't visually reflect; also fallback if reflect_back fails
+	else
+		// Keep projectile alive through process_hit's qdel check
+		temporary_unstoppable_movement = TRUE
+		ENABLE_BITFIELD(movement_type, UNSTOPPABLE)
+	return TRUE
 
 /obj/projectile/proc/store_hitscan_collision(datum/point/pcache)
 	beam_segments[beam_index] = pcache
@@ -336,7 +403,11 @@
 #define DO_NOT_QDEL 2		//Pass through.
 #define FORCE_QDEL 3		//Force deletion.
 
-/obj/projectile/proc/process_hit(turf/T, atom/target, qdel_self, hit_something = FALSE)		//probably needs to be reworked entirely when pixel movement is done.
+/obj/projectile/proc/process_hit(turf/T, atom/target, qdel_self, hit_something = FALSE) 	//probably needs to be reworked entirely when pixel movement is done.
+	if(check_range(T))
+		if(damage)
+			damage = round(damage * dam_falloff_factor)
+
 	if(QDELETED(src) || !T || !target)		//We're done, nothing's left.
 		if((qdel_self == FORCE_QDEL) || ((qdel_self == QDEL_SELF) && !temporary_unstoppable_movement && !CHECK_BITFIELD(movement_type, UNSTOPPABLE)))
 			qdel(src)
@@ -345,7 +416,9 @@
 	if(!prehit(target))
 		return process_hit(T, select_target(T), qdel_self, hit_something)		//Hit whatever else we can since that didn't work.
 	SEND_SIGNAL(target, COMSIG_PROJECTILE_PREHIT, args)
+
 	var/result = target.bullet_act(src, def_zone)
+
 	if(result == BULLET_ACT_FORCE_PIERCE)
 		if(!CHECK_BITFIELD(movement_type, UNSTOPPABLE))
 			temporary_unstoppable_movement = TRUE
@@ -426,6 +499,7 @@
 	last_process = world.time
 	if(!loc || !fired || !trajectory)
 		fired = FALSE
+		qdel(src)
 		return PROCESS_KILL
 	if(paused || !isturf(loc))
 		last_projectile_move += world.time - last_process		//Compensates for pausing, so it doesn't become a hitscan projectile when unpaused from charged up ticks.
@@ -512,7 +586,13 @@
 	if(zc)
 		after_z_change(old, target)
 
-/obj/projectile/proc/after_z_change(atom/olcloc, atom/newloc)
+/obj/projectile/proc/after_z_change(atom/oldloc, atom/newloc)
+	if(!isturf(oldloc) || !isturf(newloc))
+		return
+	if(newloc.z < oldloc.z)
+		visible_message(span_warning("[src] comes arcing down from above!"))
+	else if(newloc.z > oldloc.z)
+		visible_message(span_warning("[src] comes arcing up from below!"))
 
 /obj/projectile/proc/before_z_change(atom/oldloc, atom/newloc)
 
@@ -585,25 +665,9 @@
 		else if(T != loc)
 			step_towards(src, T)
 			hitscan_last = loc
-		
-		if(arcshot && starting && target_z && z > target_z)
-			var/tx = starting.x + xo
-			var/ty = starting.y + yo
-			
-			if(get_dist(loc, locate(tx, ty, z)) == 0)
-				var/turf/below = locate(x, y, target_z)
-				if(below)
-					var/old = loc
-					before_z_change(loc, below)
-					trajectory_ignore_forcemove = TRUE
-					forceMove(below)
-					trajectory_ignore_forcemove = FALSE
-					after_z_change(old, loc)
-					if(trajectory)
-						trajectory.z = below.z
-					forcemoved = TRUE
-					hitscan_last = loc
 
+	if(QDELETED(src) || !trajectory)
+		return
 	if(!hitscanning && !forcemoved)
 		pixel_x = trajectory.return_px() - trajectory.mpx * trajectory_multiplier * SSprojectiles.global_iterations_per_move
 		pixel_y = trajectory.return_py() - trajectory.mpy * trajectory_multiplier * SSprojectiles.global_iterations_per_move
@@ -666,6 +730,8 @@
 				return FALSE
 	return TRUE
 
+#define BUCKLE_PENALTY 0.5
+
 //Spread is FORCED!
 /obj/projectile/proc/preparePixelProjectile(atom/target, atom/source, params, spread = 0)
 	var/turf/curloc = get_turf(source)
@@ -673,25 +739,31 @@
 	var/turf/start_loc = curloc
 
 	if(targloc && curloc)
-		target_z = targloc.z
-		if(arcshot)
-			if(targloc.z > curloc.z)
-				var/turf/above = get_step_multiz(curloc, UP)
-				if(above)
-					curloc = above
-					start_loc = above
-		else
-			if(targloc.z != curloc.z)
-				var/dist = get_dist_euclidian(curloc, targloc)
-				diagonal_step = max(1, round(dist / 2))
-				diagonal_target_z = targloc.z
+		if(arcshot && targloc.z > curloc.z)
+			var/turf/above = get_step_multiz(curloc, UP)
+			if(above)
+				curloc = above
+				start_loc = above
+		else if(arcshot && targloc.z < curloc.z)
+			var/turf/hole = locate(targloc.x, targloc.y, curloc.z)
+			if(istype(hole, /turf/open/transparent/openspace))
+				target = hole
+				targloc = hole
 
 	trajectory_ignore_forcemove = TRUE
 	forceMove(start_loc)
 	trajectory_ignore_forcemove = FALSE
 	starting = start_loc
 	original = target
-	if(targloc || !params)
+
+	// mounted penalty
+	if(isliving(source))
+		var/mob/living/shooter = source
+		if(shooter.buckled)
+			accuracy = max(5, accuracy * BUCKLE_PENALTY)
+			bonus_accuracy = max(0, bonus_accuracy * BUCKLE_PENALTY)
+
+	if(targloc && !params)
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
 		setAngle(Get_Angle(src, targloc) + spread)
@@ -709,6 +781,8 @@
 	else
 		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
 		qdel(src)
+
+#undef BUCKLE_PENALTY
 
 /proc/calculate_projectile_angle_and_pixel_offsets(mob/user, params)
 	var/list/mouse_control = params2list(params)
@@ -760,15 +834,20 @@
 /obj/projectile/Destroy()
 	if(hitscan)
 		finalize_hitscan_and_generate_tracers()
+	permutated = null
+	firer = null
+	fired_from = null
+	original = null
+	starting = null
 	STOP_PROCESSING(SSprojectiles, src)
 	cleanup_beam_segments()
-	qdel(trajectory)
+	QDEL_NULL(trajectory)
 	return ..()
 
 /obj/projectile/proc/cleanup_beam_segments()
 	QDEL_LIST_ASSOC(beam_segments)
 	beam_segments = list()
-	qdel(beam_index)
+	QDEL_NULL(beam_index)
 
 /obj/projectile/proc/finalize_hitscan_and_generate_tracers(impacting = TRUE)
 	if(trajectory && beam_index)

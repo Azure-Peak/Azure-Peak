@@ -66,6 +66,7 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	var/atom/movable/screen/stamina/stamina
 	var/atom/movable/screen/energy/energy
 	var/atom/movable/screen/bloodpool/bloodpool
+	var/atom/movable/screen/feint_bar
 
 	var/image/object_overlay
 	var/atom/movable/screen/overlay_curloc
@@ -230,7 +231,6 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	screenmob.update_action_buttons(1)
 	reorganize_alerts()
 	screenmob.reload_fullscreen()
-	update_parallax_pref(screenmob)
 
 	// ensure observers get an accurate and up-to-date view
 	if (!viewmob)
@@ -306,12 +306,16 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 		hand_box.name = mymob.get_held_index_name(i)
 		hand_box.icon = ui_style
 		hand_box.icon_state = "hand_[mymob.held_index_to_dir(i)]"
+		if(isliving(mymob))
+			var/mob/living/liv_mymob = mymob
+			if(i == liv_mymob.domhand)
+				hand_box.icon_state += "_dom"
 		hand_box.screen_loc = ui_hand_position(i)
 		hand_box.held_index = i
 		hand_slots["[i]"] = hand_box
 		hand_box.hud = src
 		static_inventory += hand_box
-		hand_box.update_icon()
+		hand_box.update_hand_vis()
 
 	var/i = 1
 	for(var/atom/movable/screen/swap_hand/SH in static_inventory)

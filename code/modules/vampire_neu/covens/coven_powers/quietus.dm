@@ -68,11 +68,15 @@
 			proximity_field.add_affected_mob(target)
 
 /datum/coven_power/quietus/silence_of_death/proc/should_affect_target(mob/living/carbon/human/target)
+	if(!owner || !target)
+		return FALSE
 	if(target == owner)
 		return FALSE
-	if(target.clan_position?.is_subordinate_to(owner))
+	if(!owner.clan_position || !target.clan_position)
+		return TRUE
+	if(target.clan_position.is_subordinate_to(owner.clan_position))
 		return FALSE
-	if(target.clan_position?.is_superior_to(owner))
+	if(target.clan_position.is_superior_to(owner.clan_position))
 		return FALSE
 	return TRUE
 
@@ -225,7 +229,7 @@
 
 /obj/projectile/magic/acidsplash/quietus
 	damage = 80
-	flag = "magic"
+	flag = "fire"
 	speed = 2
 
 //DAGON'S CALL

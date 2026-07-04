@@ -6,6 +6,8 @@
 	name = "light armor spawner"
 	icon_state = "larmor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_LIGHT_ARMOR
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5, /obj/item/ash = 3)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/leather = 6,
 		/obj/item/clothing/suit/roguetown/armor/leather/cuirass = 4,
@@ -14,7 +16,6 @@
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy = 1,
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat = 1,
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket = 1,
-		/obj/item/clothing/suit/roguetown/armor/leather/trophyfur = 1,
 		/obj/item/clothing/suit/roguetown/armor/silkcoat = 1,
 		/obj/item/clothing/suit/roguetown/shirt/robe/spellcasterrobe = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper = 1,
@@ -29,15 +30,20 @@
 	name = "medium armor spawner"
 	icon_state = "marmor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_MEDIUM_ARMOR
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5, /obj/item/ash = 3)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail = 3,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/iron = 6,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1,
+		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron = 4,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron = 2,
 		/obj/item/clothing/suit/roguetown/armor/plate/scale = 1,
+		/obj/item/clothing/suit/roguetown/armor/plate/scale/iron = 2,
 		/obj/item/clothing/suit/roguetown/armor/brigandine/light = 2,
+		/obj/item/clothing/suit/roguetown/armor/plate/iron = 10,
 		/obj/item/clothing/under/roguetown/chainlegs = 3,
 		/obj/item/clothing/under/roguetown/splintlegs = 2,
 		/obj/item/clothing/under/roguetown/chainlegs/iron = 6,
@@ -49,23 +55,35 @@
 	name = "heavy armor spawner"
 	icon_state = "harmor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_HEAVY_ARMOR
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5, /obj/item/ash = 3)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/plate = 6,
 		/obj/item/clothing/suit/roguetown/armor/plate/fluted = 3,
 		/obj/item/clothing/suit/roguetown/armor/plate/full = 2,
 		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted = 1,
 		/obj/item/clothing/suit/roguetown/armor/brigandine = 6,
-		/obj/item/clothing/suit/roguetown/armor/brigandine/coatplates = 4,
+		/obj/item/clothing/suit/roguetown/armor/brigandine/heavy = 4,
+		/obj/item/clothing/suit/roguetown/armor/brigandine/heavy/iron = 5,
 		/obj/item/clothing/under/roguetown/platelegs = 6, //how is there only one nonunique heavy leg armor
+		/obj/item/clothing/under/roguetown/platelegs/iron = 8, //No longer!
+		/obj/item/clothing/suit/roguetown/armor/plate/full/iron = 8,
+		/obj/item/clothing/suit/roguetown/armor/plate/iron/banded = 7,
+		/obj/item/clothing/head/roguetown/helmet/heavy/aventail = 3,
+		/obj/item/clothing/head/roguetown/helmet/heavy/aventail/iron = 4,
 	)
 
 /obj/effect/spawner/lootdrop/helmet_spawner
 	name = "helmet spawner"
 	icon_state = "helmetarmor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_HELMET
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/ash = 5)
 	loot = list(
 		/obj/item/clothing/head/roguetown/helmet/coppercap = 10,
 		/obj/item/clothing/head/roguetown/helmet/skullcap = 8,
+		/obj/item/clothing/head/roguetown/helmet/skullcap/steel = 7,
+		/obj/item/clothing/head/roguetown/helmet/sallet/iron/banded = 4,
 		/obj/item/clothing/head/roguetown/helmet/horned = 8,
 		/obj/item/clothing/head/roguetown/helmet/winged = 3,
 		/obj/item/clothing/head/roguetown/helmet/kettle = 3,
@@ -84,30 +102,47 @@
 		/obj/item/clothing/head/roguetown/helmet/leather/volfhelm = 3,
 		/obj/item/clothing/head/roguetown/helmet/leather/saiga = 3,
 		/obj/item/clothing/head/roguetown/helmet/leather/advanced = 5,
+		/obj/item/clothing/head/roguetown/helmet/winged/iron = 7,
+		/obj/item/clothing/head/roguetown/helmet/kettle/iron = 6,
+		/obj/item/clothing/head/roguetown/helmet/sallet/iron = 6,
+		/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron = 5,
+		/obj/item/clothing/head/roguetown/helmet/heavy/guard/iron = 4,
+		/obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron = 4,
+		/obj/item/clothing/head/roguetown/helmet/bascinet/iron = 5,
+		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/iron = 4,
+		/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/iron = 4,
 	)
 
 /obj/effect/spawner/lootdrop/armored_gloves_spawner
 	name = "armored gloves spawner"
 	icon_state = "glovearmor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_GLOVES
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/ash = 5)
 	loot = list(
-		/obj/item/clothing/gloves/roguetown/leather = 6,
-		/obj/item/clothing/gloves/roguetown/angle = 2,
+		/obj/item/clothing/gloves/roguetown/leather = 8,
+		/obj/item/clothing/gloves/roguetown/angle = 6,
 		/obj/item/clothing/gloves/roguetown/fingerless_leather = 3,
-		/obj/item/clothing/gloves/roguetown/chain = 1,
-		/obj/item/clothing/gloves/roguetown/chain/iron = 3,
+		/obj/item/clothing/gloves/roguetown/chain = 4,
+		/obj/item/clothing/gloves/roguetown/chain/iron = 6,
 		/obj/item/clothing/gloves/roguetown/plate = 1,
+		/obj/item/clothing/gloves/roguetown/plate/iron = 3,
+		/obj/item/clothing/gloves/roguetown/plate/iron/banded = 2,
 	)
 
 /obj/effect/spawner/lootdrop/armored_boots_spawner
 	name = "armored boots spawner"
 	icon_state = "bootarmor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_BOOTS
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/ash = 5)
 	loot = list(
 		/obj/item/clothing/shoes/roguetown/boots = 10,
 		/obj/item/clothing/shoes/roguetown/boots/nobleboot = 5,
 		/obj/item/clothing/shoes/roguetown/boots/leather = 8,
 		/obj/item/clothing/shoes/roguetown/boots/armor = 1,
+		/obj/item/clothing/shoes/roguetown/boots/maille = 3,
+		/obj/item/clothing/shoes/roguetown/boots/maille/iron = 6,
 		/obj/item/clothing/shoes/roguetown/boots/armor/iron = 4,
 		/obj/item/clothing/shoes/roguetown/boots/furlinedboots = 2,
 	)
@@ -116,24 +151,33 @@
 	name = "armored wrists spawner"
 	icon_state = "wristarmor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_WRISTS
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/ash = 5)
 	loot = list(
 		/obj/item/clothing/wrists/roguetown/bracers = 1,
+		/obj/item/clothing/wrists/roguetown/bracers/chain = 2,
+		/obj/item/clothing/wrists/roguetown/bracers/iron = 4,
+		/obj/item/clothing/wrists/roguetown/bracers/iron/chain = 6,
 		/obj/item/clothing/wrists/roguetown/bracers/leather = 8,
 		/obj/item/clothing/wrists/roguetown/bracers/leather/heavy = 6,
 		/obj/item/clothing/wrists/roguetown/bracers/copper = 10,
-		/obj/item/clothing/wrists/roguetown/splintarms = 1,
+		/obj/item/clothing/wrists/roguetown/bracers/brigandine = 1,
 	)
 
 /obj/effect/spawner/lootdrop/horny_armor_spawner
 	name = "horny armor spawner"
 	icon_state = "hornyarmor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_HORNY_ARMOR
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/leather/bikini = 6,
 		/obj/item/clothing/suit/roguetown/armor/leather/studded/bikini = 6,
 		/obj/item/clothing/suit/roguetown/armor/leather/hide/bikini = 6,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/bikini = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/bikini = 1,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/iron/bikini = 1,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/bikini = 1,
 		/obj/item/clothing/under/roguetown/brayette = 6,
 		/obj/item/clothing/under/roguetown/chainlegs/skirt = 1,
 		/obj/item/clothing/under/roguetown/platelegs/skirt = 1,
@@ -143,6 +187,8 @@
 	name = "peasant weapon spawner"
 	icon_state = "pweapon"
 	lootcount = 1
+	loot_value = LOOT_VALUE_PEASANT_WEAPON
+	junk_loot = list(/obj/item/natural/bundle/stick = 5, /obj/item/natural/stone = 3)
 	loot = list(
 		/obj/item/rogueweapon/flail/peasantwarflail = 3,
 		/obj/item/rogueweapon/flail/militia = 2,
@@ -159,7 +205,11 @@
 	name = "iron+copper weapon spawner"
 	icon_state = "icweapon"
 	lootcount = 1
+	loot_value = LOOT_VALUE_IRON_COPPER_WEAPON
+	junk_loot = list(/obj/item/natural/bundle/stick = 5, /obj/item/natural/stone = 3)
 	loot = list(
+		/obj/item/rogueweapon/sword/short/broken = 9,
+		/obj/item/rogueweapon/sword/broken = 8,
 		/obj/item/rogueweapon/sword/iron = 1,
 		/obj/item/rogueweapon/sword/short/iron = 3,
 		/obj/item/rogueweapon/sword/short/gladius = 1,
@@ -176,6 +226,7 @@
 		/obj/item/rogueweapon/greatsword/zwei = 2,
 		/obj/item/rogueweapon/huntingknife = 2,
 		/obj/item/rogueweapon/huntingknife/idagger = 3,
+		/obj/item/rogueweapon/huntingknife/combat/iron = 2,
 		/obj/item/rogueweapon/huntingknife/throwingknife = 1,
 		/obj/item/rogueweapon/huntingknife/scissors = 1,
 		/obj/item/rogueweapon/flail = 3,
@@ -187,12 +238,15 @@
 		/obj/item/rogueweapon/stoneaxe/handaxe/copper = 2,
 		/obj/item/rogueweapon/stoneaxe/handaxe = 1,
 		/obj/item/rogueweapon/greataxe = 1,
+		/obj/item/rogueweapon/sword/short/iron/banded = 2,
 	)
 
 /obj/effect/spawner/lootdrop/steel_weapon_spawner
 	name = "steel weapon spawner"
 	icon_state = "steelweapon"
 	lootcount = 1
+	loot_value = LOOT_VALUE_STEEL_WEAPON
+	junk_loot = list(/obj/item/natural/bundle/stick = 5, /obj/item/rope/chain = 3)
 	loot = list(
 		/obj/item/rogueweapon/sword = 3,
 		/obj/item/rogueweapon/sword/short/falchion = 1,
@@ -205,7 +259,7 @@
 		/obj/item/rogueweapon/sword/cutlass = 3,
 		/obj/item/rogueweapon/katar = 1,
 		/obj/item/rogueweapon/katar/punchdagger = 1,
-		/obj/item/rogueweapon/knuckles = 2,
+		/obj/item/clothing/gloves/roguetown/knuckles = 2,
 		/obj/item/rogueweapon/estoc = 1,
 		/obj/item/rogueweapon/woodstaff/quarterstaff/steel = 1,
 		/obj/item/rogueweapon/spear/billhook = 1,
@@ -235,10 +289,12 @@
 	name = "silver weapon spawner"
 	icon_state = "silverweapon"
 	lootcount = 1
+	loot_value = LOOT_VALUE_SILVER_WEAPON
+	junk_loot = list(/obj/item/rope/chain = 5, /obj/item/ash = 3)
 	loot = list(
 		/obj/item/rogueweapon/sword/silver = 1,
 		/obj/item/rogueweapon/mace/steel/silver = 1,
-		/obj/item/rogueweapon/greataxe/silver = 1,
+		/obj/item/rogueweapon/greataxe/steel/knight/silver = 1,
 		/obj/item/rogueweapon/flail/sflail/silver = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/silver = 3,
 		/obj/item/rogueweapon/mace/warhammer/steel/silver = 1,
@@ -250,16 +306,23 @@
 		/obj/item/rogueweapon/sword/rapier/silver = 1,
 		/obj/item/rogueweapon/whip/silver = 1,
 		/obj/item/rogueweapon/woodstaff/quarterstaff/silver = 1,
+		/obj/item/rogueweapon/sword/long/exe/silver = 1,
+		/obj/item/rogueweapon/greatsword/silver = 1,
+		/obj/item/rogueweapon/handclaw/gronn/silver = 1,
+		/obj/item/rogueweapon/katar/silver = 1,
 	)
 
 /obj/effect/spawner/lootdrop/decrepit_equipment_spawner
 	name = "decrepit equipment spawner"
 	icon_state = "dweapon/armor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_DECREPIT_EQUIPMENT
+	junk_loot = list(/obj/item/natural/stone = 5, /obj/item/ash = 5)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail/aalloy = 1,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy = 1,
+		/obj/item/clothing/wrists/roguetown/bracers/aalloy/chain = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/aalloy = 1,
 		/obj/item/clothing/shoes/roguetown/boots/aalloy = 1,
 		/obj/item/clothing/shoes/roguetown/sandals/aalloy = 1,
@@ -275,7 +338,7 @@
 		/obj/item/rogueweapon/sword/short/ashort = 1,
 		/obj/item/rogueweapon/sword/short/gladius/agladius = 1,
 		/obj/item/rogueweapon/sword/sabre/alloy = 1,
-		/obj/item/rogueweapon/knuckles/aknuckles = 1,
+		/obj/item/clothing/gloves/roguetown/knuckles/decrepit = 1,
 		/obj/item/rogueweapon/spear/aalloy = 1,
 		/obj/item/rogueweapon/halberd/bardiche/aalloy = 1,
 		/obj/item/rogueweapon/greatsword/aalloy = 1,
@@ -292,10 +355,13 @@
 	name = "ancient equipment spawner"
 	icon_state = "paweapon/armor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_ANCIENT_EQUIPMENT
+	junk_loot = list(/obj/item/natural/stone = 5, /obj/item/ash = 5)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail/paalloy = 1,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy = 1,
+		/obj/item/clothing/wrists/roguetown/bracers/paalloy/chain = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/paalloy = 1,
 		/obj/item/clothing/gloves/roguetown/plate/paalloy = 1,
 		/obj/item/clothing/gloves/roguetown/chain/paalloy = 1,
@@ -322,13 +388,16 @@
 	name = "elven equipment spawner"
 	icon_state = "eweapon/armor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_ELVEN_EQUIPMENT
+	junk_loot = list(/obj/item/natural/feather = 5, /obj/item/ash = 3)
 	loot = list(
-		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/elven = 1,
+		/obj/item/clothing/suit/roguetown/armor/plate/elven_plate/light = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/elven_plate = 1,
 		/obj/item/clothing/shoes/roguetown/boots/elven_boots = 1,
 		/obj/item/clothing/gloves/roguetown/elven_gloves = 1,
 		/obj/item/rogueweapon/sword/sabre/elf = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/elvish = 1,
+		/obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/light = 1,
 		/obj/item/clothing/head/roguetown/helmet/heavy/elven_helm = 1,
 		/obj/item/clothing/head/roguetown/helmet/elvenbarbute = 1,
 		/obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged = 1,
@@ -338,12 +407,14 @@
 	name = "blacksteel equipment spawner"
 	icon_state = "bsweapon/armor"
 	lootcount = 1
+	loot_value = LOOT_VALUE_BLACKSTEEL_EQUIPMENT
+	junk_loot = list(/obj/item/rope/chain = 5, /obj/item/ash = 3)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel = 1,
-		/obj/item/clothing/shoes/roguetown/boots/blacksteel/plateboots = 1,
-		/obj/item/clothing/gloves/roguetown/blacksteel/plategloves = 1,
-		/obj/item/clothing/head/roguetown/helmet/blacksteel/bucket = 1,
+		/obj/item/clothing/shoes/roguetown/boots/armor/blacksteel = 1,
+		/obj/item/clothing/gloves/roguetown/plate/blacksteel = 1,
+		/obj/item/clothing/head/roguetown/helmet/blacksteel = 1,
 		/obj/item/clothing/under/roguetown/platelegs/blacksteel = 1,
 		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel = 1,
 	)

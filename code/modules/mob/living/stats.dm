@@ -27,6 +27,25 @@
 	var/list/statindex = list()
 	var/datum/patron/patron = /datum/patron/godless
 
+/mob/living/get_stats_tab_items()
+	return list(
+		"STR: \Roman[STASTR]",
+		"PER: \Roman[STAPER]",
+		"INT: \Roman[STAINT]",
+		"CON: \Roman[STACON]",
+		"WIL: \Roman[STAWIL]",
+		"SPD: \Roman[STASPD]",
+		"FOR: \Roman[STALUC]",
+		"PATRON: [patron]",
+	)
+
+/mob/living/carbon/human/get_stats_tab_items()
+	. = ..()
+	if(mind)
+		var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
+		if(VD)
+			. += "Vitae: [bloodpool]"
+
 /mob/living/proc/init_faith()
 	set_patron(/datum/patron/godless)
 
@@ -43,11 +62,6 @@
 	new_patron.on_gain(src)
 	return TRUE
 
-/datum/species
-	// Associative list of stat (STAT_STRENGTH, etc) bonuses used to differentiate each race. They should ALWAYS be positive.
-	var/list/race_bonus = list()
-	var/construct = 0
-	var/gibs_on_shapeshift = FALSE
 
 /mob/living/proc/roll_stats(mob/dead/new_player/new_player)
 	STASTR = 10

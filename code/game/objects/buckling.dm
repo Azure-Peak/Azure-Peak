@@ -12,15 +12,19 @@
 /atom/movable/attack_hand(mob/living/user)
 	. = ..()
 	if(.)
-		return
-	if(can_buckle && has_buckled_mobs())
-		if(buckled_mobs.len > 1)
-			var/unbuckled = input(user, "Who do you wish to remove?","?") as null|mob in sortNames(buckled_mobs)
-			if(user_unbuckle_mob(unbuckled,user))
-				return 1
-		else
-			if(user_unbuckle_mob(buckled_mobs[1],user))
-				return 1
+		return // This return the parent's value. Do not change to explicit FALSE!
+	if(!can_buckle || !has_buckled_mobs())
+		return FALSE
+	if(user.buckled == src)
+		user_unbuckle_mob(user, user)
+		return TRUE
+	if(buckled_mobs && buckled_mobs.len > 1)
+		var/unbuckled = input(user, "Who do you wish to remove?","?") as null|mob in sortNames(buckled_mobs)
+		if(unbuckled && user_unbuckle_mob(unbuckled,user))
+			return TRUE
+	else if(buckled_mobs && buckled_mobs.len)
+		if(user_unbuckle_mob(buckled_mobs[1],user))
+			return TRUE
 
 /atom/movable/MouseDrop_T(mob/living/M, mob/living/user)
 	. = ..()

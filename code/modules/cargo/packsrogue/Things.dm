@@ -77,6 +77,11 @@
 	cost = 50
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/strongstampot)
 
+/datum/supply_pack/rogue/Things/goldenapple
+	name = "Apple Of Ambrosia"
+	cost = 60
+	contains = list(/obj/item/reagent_containers/food/snacks/grown/apple/gold)
+
 ///////////
 // DRUGS //
 ///////////
@@ -145,7 +150,7 @@
 /////////////
 
 /datum/supply_pack/rogue/Things/rubyband
-	name = "Matthiosian SCOMSTONE" //What is a MATTHIAN????
+	name = "Rontz Ring - A Hijacked SCOMSTONE"
 	cost = 20
 	contains = list(/obj/item/mattcoin)
 

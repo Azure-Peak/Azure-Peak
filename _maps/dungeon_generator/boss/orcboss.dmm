@@ -61,26 +61,18 @@
 /obj/item/roguegem/diamond{
 	pixel_y = -5
 	},
-/obj/item/roguegem/violet{
-	pixel_y = 7;
-	pixel_x = -9
-	},
+/obj/effect/spawner/lootdrop/random_gem,
 /obj/item/roguegem/ruby{
 	pixel_y = -6;
 	pixel_x = -9
 	},
-/obj/item/roguegem/green{
-	pixel_y = -5;
-	pixel_x = 11
-	},
-/obj/item/roguegem/blue{
-	pixel_y = 12
-	},
+/obj/effect/spawner/lootdrop/random_gem,
+/obj/effect/spawner/lootdrop/random_gem,
 /obj/item/roguegem/amethyst{
 	pixel_y = 11;
 	pixel_x = 14
 	},
-/obj/item/roguegem/random,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue)
 "qW" = (

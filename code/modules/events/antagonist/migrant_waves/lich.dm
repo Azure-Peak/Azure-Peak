@@ -13,9 +13,15 @@
 		TAG_VILLIAN,
 	)
 
+/datum/round_event_control/antagonist/migrant_wave/lich/preRunEvent()
+	if(is_storyteller_villain_blocked())
+		return EVENT_CANT_RUN
+	return ..()
+
 /datum/migrant_wave/lich
 	name = "Wandering Lich"
-	roles = list(
+	track = MIGRANT_TRACK_EVENT
+	required_roles = list(
 		/datum/migrant_role/lich = 1,
 	)
 	can_roll = FALSE

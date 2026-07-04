@@ -1,6 +1,6 @@
 /obj/item/natural/glass
 	name = "glass"
-	desc = "Windowpanes for construction work."
+	desc = "Glimmering panes that offer a slightly tinted glimpse into the outside world, while keeping the wind-and-weather at bay. Fit for fashioning windows, just be mindful not to drop them."
 	icon = 'icons/roguetown/items/crafting.dmi'
 	icon_state = "glasspane"
 	dropshrink = 0.8
@@ -80,6 +80,7 @@
 	icon1step = 2
 	icon2 = "glasspane2"
 	icon2step = 3
+	dropshrink = 0.9
 
 /obj/item/natural/bundle/glass/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
 	if(!..()) //was it caught by a mob?
@@ -94,7 +95,7 @@
 //................	Glass shard	............... //
 /obj/item/natural/glass_shard
 	name = "shard"
-	desc = "A sharp shard of glass."
+	desc = "A sharp shard of glass. Mind the jagged edge, especially if you lack a tough sole."
 	icon = 'icons/roguetown/items/crafting.dmi'
 	experimental_inhand = FALSE
 	icon_state = "shard1"
@@ -108,6 +109,7 @@
 	attack_verb = list("stabbed", "slashed", "sliced", "cut")
 	max_integrity = 40
 	smeltresult = /obj/item/natural/glass
+	dropshrink = 0.8
 
 /obj/item/natural/glass_shard/Initialize()
 	. = ..()

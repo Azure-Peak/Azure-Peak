@@ -295,3 +295,7 @@
 /datum/sprite_accessory/wings/large/gargoyle
 	name = "Gargoyle"
 	icon_state = "gargoyle"
+
+/datum/sprite_accessory/wings/pinioned
+	name = "Pinioned Wings"
+	icon_state = "pinioned"

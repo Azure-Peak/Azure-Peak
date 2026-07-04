@@ -5,7 +5,7 @@
 	cost = 3
 	xp_gain = TRUE
 	school = "transmutation"
-	releasedrain = 60
+	releasedrain = SPELLCOST_ULTIMATE
 	chargedrain = 0
 	chargetime = 5 SECONDS
 	recharge_time = 10 SECONDS
@@ -14,10 +14,12 @@
 	movement_interrupt = TRUE
 	charging_slowdown = 2
 	spell_tier = 4 // CM / Antag / Lich exclusive
+	spell_impact_intensity = SPELL_IMPACT_NONE
 	invocations = list("Pulso!")
 	invocation_type = "shout"
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
+	human_req = TRUE
 
 /obj/effect/proc_holder/spell/invoked/knock/cast(list/targets, mob/user = usr)
 	playsound(get_turf(user), 'sound/misc/chestopen.ogg', 100, TRUE, -1)

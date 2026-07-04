@@ -12,9 +12,13 @@
 			used = getmsilenced(soundin)
 	if(!used)
 		switch(soundin)
+			if("attack")
+				used = list('sound/vo/male/gen/attack (1).ogg', 'sound/vo/male/gen/attack (2).ogg', 'sound/vo/male/gen/attack (3).ogg', 'sound/vo/male/gen/attack (4).ogg', 'sound/vo/male/gen/attack (5).ogg', 'sound/vo/male/gen/attack (6).ogg', 'sound/vo/male/gen/attack (7).ogg', 'sound/vo/male/gen/attack (8).ogg', 'sound/vo/male/gen/attack (9).ogg', 'sound/vo/male/gen/attack (10).ogg', 'sound/vo/male/gen/attack (11).ogg', 'sound/vo/male/gen/attack (12).ogg', 'sound/vo/male/gen/attack (13).ogg')
 			if("deathgurgle")
 				used = pick('sound/vo/male/gen/deathgurgle (1).ogg','sound/vo/male/gen/deathgurgle (2).ogg','sound/vo/male/gen/deathgurgle (3).ogg')
 			if("agony")
+				used = list('sound/vo/male/gen/agony (1).ogg','sound/vo/male/gen/agony (2).ogg','sound/vo/male/gen/agony (4).ogg','sound/vo/male/gen/agony (5).ogg','sound/vo/male/gen/agony (6).ogg','sound/vo/male/gen/agony (7).ogg','sound/vo/male/gen/agony (8).ogg','sound/vo/male/gen/agony (9).ogg','sound/vo/male/gen/agony (10).ogg','sound/vo/male/gen/agony (3).ogg','sound/vo/male/gen/agony (11).ogg','sound/vo/male/gen/agony (12).ogg','sound/vo/male/gen/agony (13).ogg')
+			if("superagony") // to bypass painless override, use responsibly
 				used = list('sound/vo/male/gen/agony (1).ogg','sound/vo/male/gen/agony (2).ogg','sound/vo/male/gen/agony (4).ogg','sound/vo/male/gen/agony (5).ogg','sound/vo/male/gen/agony (6).ogg','sound/vo/male/gen/agony (7).ogg','sound/vo/male/gen/agony (8).ogg','sound/vo/male/gen/agony (9).ogg','sound/vo/male/gen/agony (10).ogg','sound/vo/male/gen/agony (3).ogg','sound/vo/male/gen/agony (11).ogg','sound/vo/male/gen/agony (12).ogg','sound/vo/male/gen/agony (13).ogg')
 			if("breathgasp")
 				used = list('sound/vo/male/gen/breathgasp (1).ogg','sound/vo/male/gen/breathgasp (2).ogg','sound/vo/male/gen/breathgasp (3).ogg')
@@ -24,6 +28,16 @@
 				used = 'sound/vo/male/gen/choke.ogg'
 			if("chuckle")
 				used = 'sound/vo/male/gen/chuckle.ogg'
+			if("gulp")
+				used = list('sound/vo/gulp.ogg', 'sound/vo/gulp2.ogg')
+			if("salute")
+				used = 'sound/vo/salute.ogg'
+			if("crack")
+				used = 'sound/vo/knuckles.ogg'
+			if("sniff")
+				used = list('sound/vo/sniff.ogg')
+			if("facepalm")
+				used = list('sound/vo/facepalm1.ogg', 'sound/vo/facepalm2.ogg')
 			if("clearthroat")
 				used = list('sound/vo/male/gen/clearthroat (1).ogg','sound/vo/male/gen/clearthroat (2).ogg','sound/vo/male/gen/clearthroat (3).ogg')
 			if("cough")
@@ -51,6 +65,8 @@
 				used = list('sound/vo/male/gen/groan (1).ogg','sound/vo/male/gen/groan (2).ogg','sound/vo/male/gen/groan (3).ogg','sound/vo/male/gen/groan (4).ogg','sound/vo/male/gen/groan (5).ogg','sound/vo/male/gen/groan (6).ogg')
 			if("grumble")
 				used = 'sound/vo/male/gen/grumble.ogg'
+			if("giggle")
+				used = list('sound/vo/male/gen/giggle (1).ogg','sound/vo/male/gen/giggle (2).ogg')
 			if("haltyell")
 				used = list('sound/vo/male/gen/haltyell (1).ogg','sound/vo/male/gen/haltyell (2).ogg')
 				if(prob(3))
@@ -101,6 +117,10 @@
 				used = 'sound/vo/attn.ogg'
 			if("clap")
 				used = list('sound/vo/clap (1).ogg','sound/vo/clap (2).ogg','sound/vo/clap (3).ogg','sound/vo/clap (4).ogg')
+			if("slowclap")
+				used = list('sound/vo/slowclap.ogg')
+			if("clap1")
+				used = list('sound/vo/claponce.ogg')
 			if("psst")
 				used = 'sound/vo/psst.ogg'
 			if("meow")

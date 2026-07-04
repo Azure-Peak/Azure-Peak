@@ -96,11 +96,26 @@
 		SSblackbox.record_feedback("tally", "ic_blocked_words", 1, lowertext(config.ic_filter_regex.match))
 		return
 
-	var/language = owner.get_random_understood_language()
+	var/list/available_languages = list()
+	var/datum/language_holder/H = owner.get_language_holder()
+
+	for(var/L in H.languages)
+		var/datum/language/lang = L
+		if(owner.can_speak_in_language(lang))
+			available_languages[initial(lang.name)] = lang
+
+	if(!length(available_languages))
+		return
+
+	var/choice = input(owner, "Choose language for projected voice") as null|anything in available_languages
+	if(!choice)
+		return
+
+	var/datum/language/language = available_languages[choice]
 	var/message = owner.compose_message(owner, language, input_message, , list())
 	to_chat(target, "<span class='purple'><i>You hear someone's voice in your head...</i></span>")
 	target.Hear(message, target, language, input_message, , , )
-	to_chat(owner, span_notice("You project your voice to [target]'s ears."))
+	to_chat(owner, span_notice("You project your voice to [target]'s ears in [initial(language.name)]."))
 
 //MADRIGAL
 /datum/coven_power/siren/madrigal

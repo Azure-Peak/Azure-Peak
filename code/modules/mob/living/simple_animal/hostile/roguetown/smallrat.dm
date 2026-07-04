@@ -90,7 +90,7 @@
 	if(dead)
 		..()
 	else
-		if(!isturf(loc))
+		if(isturf(loc))
 			if(isliving(user))
 				var/mob/living/L = user
 				if(prob(L.STASPD * 1.5))

@@ -2,9 +2,9 @@
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(MACE_STRIKE)
-	gripped_intents = list(/datum/intent/flailthresh,MACE_STRIKE)
+	gripped_intents = list(/datum/intent/flail/thresh, /datum/intent/flail/smash, MACE_STRIKE) 
 	name = "thresher"
-	desc = "A shredding tool for farmers."
+	desc = "A soilson's lyfeline, chiseled into a studded halflog that's tethered to a staff. It crushes produce into seeds, turns stalks into food, and melds the skulls of thieves into powdery debris."
 	icon_state = "flail"
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	item_state = "mace_greyscale"
@@ -17,9 +17,12 @@
 	gripsprite = TRUE
 	drop_sound = 'sound/foley/dropsound/wooden_drop.ogg'
 	smeltresult = /obj/item/ingot/iron
+	swingsound = BLUNTWOOSH_LARGE
+	is_tool = TRUE
 
-/datum/intent/flailthresh
+/datum/intent/flail/thresh
 	name = "thresh"
+	desc = "Throttle stalks into fiber-and-food with a swift blow."
 	icon_state = "inthresh"
 	chargetime = 0
 	noaa = TRUE
@@ -27,9 +30,10 @@
 	misscost = 0
 	no_attack = TRUE
 
-/obj/item/rogueweapon/thresher/examine(mob/user)
+/obj/item/rogueweapon/thresher/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_notice("Use on STRIKE intent to break up produce for seeds. THRESH on stalks to beat out grains.")
+	. += span_notice("Left-click a piece of produce with the 'STRIKE' intent to mash it into seeds, which can be used to plant more crops.")
+	. += span_notice("Left-click harvested stalks with the 'THRESH' intent to shuck them, turning them into piles of useable fibers, grains, oats, and rice.")
 
 /obj/item/rogueweapon/thresher/getonmobprop(tag)
 	. = ..()
@@ -39,8 +43,8 @@
 			if("wielded") return list("shrink" = 0.8,"sx" = 4,"sy" = -8,"nx" = -3,"ny" = -9,"wx" = -2,"wy" = -6,"ex" = 7,"ey" = -7,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = -6,"wturn" = 7,"eturn" = -21,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onbelt") return list("shrink" = 0.7,"sx" = 5,"sy" = 2,"nx" = -1,"ny" = 2,"wx" = 0,"wy" = 4,"ex" = 1,"ey" = 3,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-/obj/item/rogueweapon/thresher/afterattack(obj/target, mob/user, proximity)
-	if(user.used_intent.type == /datum/intent/flailthresh)
+/obj/item/rogueweapon/afterattack(obj/target, mob/user, proximity)
+	if(user.used_intent.type == /datum/intent/flail/thresh)
 		if(isturf(target.loc))
 			var/turf/T = target.loc
 			var/found = FALSE
@@ -90,10 +94,11 @@
 	slot_flags = ITEM_SLOT_HIP
 	max_blade_int = 300
 	smeltresult = /obj/item/ingot/iron
+	is_tool = TRUE
 
 /obj/item/rogueweapon/sickle/examine(mob/user)
 	. = ..()
-	. += span_notice("Use on any plant to instantly harvest it. HERBS turn to fiber when attacked.")
+	. += span_notice("Left-click a crop, plant, or bushel of herbs to instantly harvest them. Lone herbs can be left-clicked again to turn them into fibers.")
 
 /obj/item/rogueweapon/sickle/getonmobprop(tag)
 	. = ..()
@@ -127,9 +132,9 @@
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(/datum/intent/pick)
-	gripped_intents = list(/datum/intent/pick,SPEAR_BASH,TILL_INTENT)
+	gripped_intents = list(TILL_INTENT, /datum/intent/pick, SPEAR_BASH)
 	name = "hoe"
-	desc = "A tool for tiling soil. It's all dirty and worn."
+	desc = "A humble tool for humble tillage. Would you be more concerned if it wasn't dirty and worn?"
 	icon_state = "hoe"
 	slot_flags = ITEM_SLOT_BACK
 	icon = 'icons/roguetown/weapons/tools.dmi'
@@ -141,8 +146,9 @@
 	wlength = WLENGTH_NORMAL
 	drop_sound = 'sound/foley/dropsound/wooden_drop.ogg'
 	smeltresult = /obj/item/ingot/iron
-	var/hoe_damage = null //the durability damage recieved for every work cycle
-	var/work_time = 3 SECONDS // the time it takes to make new soil or till soil
+	hoe_damage = null //the durability damage recieved for every work cycle
+	work_time = 3 SECONDS // the time it takes to make new soil or till soil
+	is_tool = TRUE
 
 /obj/item/rogueweapon/hoe/aalloy
 	name = "decrepit hoe"
@@ -170,7 +176,7 @@
 	force = 7
 	force_wielded = 12
 	name = "stone hoe"
-	desc = "A makeshift hoe made out of stone, brittle."
+	desc = "A makeshift hoe made out of stone, aeons late to the art of cultivation."
 	icon_state = "stonehoe"
 	//dropshrink = 0.8
 	smeltresult = null
@@ -178,10 +184,12 @@
 	max_integrity = 100
 	hoe_damage = 25
 	work_time = 15 SECONDS
+	anvilrepair = /datum/skill/craft/crafting
 
-/obj/item/rogueweapon/hoe/examine(mob/user)
+/obj/item/rogueweapon/hoe/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_notice("TILT intent allows you to make new plots for plants. Using it (on any intent) on a plot that already has something planted removes WEEDS.")
+	. += span_notice("Left-clicking a patch of dirt on the 'TILL' intent allows you to make a new plot, fit for planting-and-farming crops.")
+	. += span_notice("Left-clicking a plot with crops already planted on it will attempt to remove any weeds present. A deweeded crop is a healthy crop!")
 
 /obj/item/rogueweapon/hoe/getonmobprop(tag)
 	. = ..()
@@ -234,7 +242,7 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/hoe/attack_turf(turf/T, mob/living/user)
+/obj/item/rogueweapon/attack_turf(turf/T, mob/living/user)
 	if(user.used_intent.type == /datum/intent/till)
 		if(user.get_skill_level(/datum/skill/labor/farming) == SKILL_LEVEL_LEGENDARY) //check if the user has legendary farming skill
 			work_time = 0.5 SECONDS //if legendary skill, do_afters take half a second instead of 3
@@ -281,6 +289,7 @@
 
 /datum/intent/till
 	name = "hoe"
+	desc = "Till dirt into soil, and tear weeds from crops with a swift motion."
 	icon_state = "inhoe"
 	chargetime = 0
 	noaa = TRUE
@@ -311,9 +320,9 @@
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(SPEAR_BASH,SPEAR_THRUST,DUMP_INTENT)
+	gripped_intents = list(DUMP_INTENT, SPEAR_BASH, SPEAR_THRUST)
 	name = "pitchfork"
-	desc = "Iron tines on a sturdy shaft essential for farmlike labour."
+	desc = "A thrice-pronged staff that scoops crops, nitesoil, and refuse without further dirtying one's hands. It pairs quite nicely with a lit torch, whenever the need to hunt vile creechers and lords arises."
 	icon_state = "pitchfork"
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	item_state = "pitchfork"
@@ -327,10 +336,13 @@
 	slot_flags = ITEM_SLOT_BACK
 	drop_sound = 'sound/foley/dropsound/wooden_drop.ogg'
 	smeltresult = /obj/item/ingot/iron
+	is_tool = TRUE
 
-/obj/item/rogueweapon/pitchfork/examine(mob/user)
+/obj/item/rogueweapon/pitchfork/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_notice("Use RIGHT CLICK to flip compost in the bin. While wielded SCOOP intent allows you to pick up large amount (19) stalks.")
+	. += span_notice("Right-click a composter to flip it around. This helps to accelerate the transformation of compost into fertilizer, which can be used to improve the health of many crops.")
+	. += span_notice("Left-click with the 'SCOOP' intent selected to gather stalks. A single pitchfork can hold up to nineteen pieces of such at any given time.")
+	. += span_notice("Once gathered, left-clicking an adjacent tile or unwielding the pitchfork will dump all gathered stalks out onto it.")
 
 /obj/item/rogueweapon/pitchfork/getonmobprop(tag)
 	. = ..()
@@ -364,6 +376,7 @@
 
 /datum/intent/pforkdump
 	name = "scoop"
+	desc = "Gather stalks, compost, and other refuse without needing to get your hands dirty."
 	icon_state = "inscoop"
 	chargetime = 0
 	noaa = TRUE

@@ -12,6 +12,7 @@
 	attacked_sound = "parrywood"
 
 	anvilrepair = /datum/skill/craft/blacksmithing
+	sewrepair = TRUE
 
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK
 	possible_item_intents = list(SHIELD_BASH)
@@ -34,20 +35,44 @@
 	/// Specific weapons that are not allowed. Bypassed valid_blade
 	var/list/obj/item/rogueweapon/invalid_blades = list()
 
-	/// Stores weapon
-	var/obj/item/rogueweapon/sheathed
+	/// Stores the holster component
+	var/datum/component/holster/hol_comp
 
 	var/sheathe_time = 0.1 SECONDS
 	var/sheathe_sound = 'sound/foley/equip/scabbard_holster.ogg'
+	/// If true, this weapon's examine highlights (see `get_examine_highlight_status()`) will not reveal the weapon stored in it.
+	var/hides_weapon = TRUE
+	// Prevent special scabbards from being stripped
+	var/cant_strip = FALSE
 
 /obj/item/rogueweapon/scabbard/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left click to sheath a weapon, or to draw a sheathed weapon. Will only draw if held in hand, belt, or back.")
 	. += span_info("Right click to draw a sheathed weapon.")
+	. += span_info("Middle click to transform it into a strap, which allows for a weapon to be openly carried without any delays to drawing or sheathing.")
+	. += span_info("Straps cannot be transformed back into scabbards or sheaths.")
+
+/obj/item/rogueweapon/scabbard/Initialize()
+	. = ..()
+
+	hol_comp = GetComponent(/datum/component/holster)
 
 /obj/item/rogueweapon/scabbard/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/holster, (valid_blade ? valid_blade : null), (length(valid_blades) ? valid_blades : null), (length(invalid_blades) ? invalid_blades : null))
+
+/obj/item/rogueweapon/scabbard/get_examine_highlight_status()
+	if(hides_weapon)
+		return null
+	// If we have a weapon holstered, return the status of the weapon instead
+	var/obj/item/sheathed_weapon = hol_comp?.sheathed
+	var/list/highlight_status = sheathed_weapon?.get_examine_highlight_status()
+	if(!sheathed_weapon || !highlight_status)
+		return null
+	// Change the wording of the status a bit to specify that it's the sheathed weapon being highlighted!
+	var/sheathed_desc = highlight_status[2]
+	sheathed_desc = "It holds \a [sheathed_weapon.name]: [sheathed_desc]"
+	return list(highlight_status[1], sheathed_desc)
 
 /obj/item/rogueweapon/scabbard/attack_obj(obj/O, mob/living/user)
 	return FALSE
@@ -87,9 +112,9 @@
 					"sturn" = 0,
 					"wturn" = 0,
 					"eturn" = 0,
-					"nflip" = 1,
+					"nflip" = 4,
 					"sflip" = 0,
-					"wflip" = 1,
+					"wflip" = 8,
 					"eflip" = 0
 				)
 			if("onback")
@@ -148,8 +173,7 @@
 
 /obj/item/rogueweapon/scabbard/sheath
 	name = "dagger sheath"
-	desc = "A slingable sheath made of leather, meant to host surprises in smaller sizes. </br>By middle-clicking the sheath while it's unoccupied, I can strip off the coverings and turn it into a light weapon strap."
-	sewrepair = TRUE
+	desc = "A slingable sheath made of leather, meant to host surprises in smaller sizes."
 
 	icon_state = "sheath"
 	item_state = "sheath"
@@ -163,7 +187,6 @@
 
 	force = 3
 	max_integrity = 500
-	sellprice = 2
 
 	invalid_blades = list(
 		/obj/item/rogueweapon/huntingknife/idagger/stake,
@@ -248,15 +271,16 @@
 				)
 
 /obj/item/rogueweapon/scabbard/sheath/MiddleClick(mob/user)
-	if(sheathed)
+	if(hol_comp.sheathed)
 		to_chat(user, span_notice("There's something inside!"))
-		return
+		return FALSE
 	to_chat(user, span_notice("I start to strip the sheath down..."))
-	if(do_after(user, 5 SECONDS, src))
-		var/obj/item/S = new /obj/item/rogueweapon/scabbard/sheath/strap
-		qdel(src)
-		user.put_in_hands(S)
-		return TRUE
+	if(!do_after(user, 5 SECONDS, src))
+		return FALSE
+	var/obj/item/S = new /obj/item/rogueweapon/scabbard/sheath/strap
+	qdel(src)
+	user.put_in_hands(S)
+	return TRUE
 
 /obj/item/rogueweapon/scabbard/sheath/strap
 	name = "dagger strap"
@@ -265,9 +289,9 @@
 	item_state = "beltstrapl"
 
 /obj/item/rogueweapon/scabbard/sheath/strap/update_icon(mob/living/user)
-	if(sheathed)
-		icon = sheathed.icon
-		icon_state = sheathed.icon_state
+	if(hol_comp.sheathed)
+		icon = hol_comp.sheathed.icon
+		icon_state = hol_comp.sheathed.icon_state
 		experimental_onback = TRUE
 		experimental_onhip = TRUE
 	else
@@ -367,9 +391,9 @@
 	associated_skill = /datum/skill/combat/shields
 	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
+	sewrepair = FALSE
 	wdefense = 2
 	max_integrity = 50
-	sellprice = 50
 	resistance_flags = null
 
 /obj/item/rogueweapon/scabbard/sheath/royal
@@ -379,8 +403,8 @@
 	associated_skill = /datum/skill/combat/shields
 	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
+	sewrepair = FALSE
 	wdefense = 4
-	sellprice = 100
 	resistance_flags = null
 
 ///////////////////////
@@ -389,12 +413,11 @@
 
 /obj/item/rogueweapon/scabbard/sword
 	name = "simple scabbard"
-	desc = "The natural evolution to the advent of longblades. </br>By middle-clicking the scabbard while it's unoccupied, I can strip off the coverings and turn it into a weapon strap."
+	desc = "The natural evolution to the advent of longblades."
 
 	icon_state = "scabbard"
 	item_state = "scabbard"
 
-	sewrepair = TRUE
 
 	valid_blade = /obj/item/rogueweapon/sword
 	invalid_blades = list(
@@ -405,10 +428,11 @@
 
 	force = 7
 	max_integrity = 750
-	sellprice = 3
 
 /obj/item/rogueweapon/scabbard/sword/MiddleClick(mob/user)
-	if(sheathed)
+	if(cant_strip)
+		return FALSE
+	if(hol_comp.sheathed)
 		to_chat(user, span_notice("There's something inside!"))
 		return
 	to_chat(user, span_notice("I start to strip the scabbard down..."))
@@ -427,7 +451,6 @@
 
 /obj/item/rogueweapon/scabbard/sword/strap/ComponentInitialize()
 	AddComponent(/datum/component/holster/simplestrap, (valid_blade ? valid_blade : null), (length(valid_blades) ? valid_blades : null), (length(invalid_blades) ? invalid_blades : null))
-	
 
 /obj/item/rogueweapon/scabbard/sword/strap/getonmobprop(tag)
 	..()
@@ -514,10 +537,11 @@
 	associated_skill = /datum/skill/combat/shields
 	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
+	sewrepair = FALSE
 	wdefense = 4
 	max_integrity = 75
-	sellprice = 50
 	resistance_flags = null
+	cant_strip = TRUE
 
 /obj/item/rogueweapon/scabbard/sword/royal
 	name = "gold-decorated scabbard"
@@ -526,10 +550,11 @@
 	associated_skill = /datum/skill/combat/shields
 	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
+	sewrepair = FALSE
 	wdefense = 6
 	max_integrity = 150
-	sellprice = 100
 	resistance_flags = null
+	cant_strip = TRUE
 
 //
 
@@ -539,13 +564,18 @@
 	icon_state = "kazscab"
 	item_state = "kazscab"
 
+	force = 20
 	valid_blade = /obj/item/rogueweapon/sword/sabre/mulyeog
-	associated_skill = /datum/skill/combat/shields
-	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	associated_skill = /datum/skill/combat/swords
+	possible_item_intents = list(SHIELD_BASH, SHIELD_SMASH)
 	can_parry = TRUE
+	sewrepair = FALSE
+	anvilrepair = /datum/skill/craft/carpentry
 	wdefense = 8
+	special = /datum/special_intent/limbguard
+	cant_strip = TRUE
 
-	max_integrity = 0
+	max_integrity = 200
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/noparry
 	name = "ceremonial kazengun scabbard"
@@ -553,6 +583,9 @@
 
 	valid_blade = /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo
 	can_parry = FALSE
+	sewrepair = TRUE
+	special = null
+	max_integrity = 0
 
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/steel
@@ -561,6 +594,7 @@
 	icon_state = "kazscab_steel"
 	item_state = "kazscab_steel"
 	valid_blade = /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
+	max_integrity = 220
 
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/gold
@@ -569,7 +603,8 @@
 	icon_state = "kazscab_gold"
 	item_state = "kazscab_gold"
 	valid_blade = /obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
-	sellprice = 10
+	max_integrity = 220
+	sellprice = 50
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
 	name = "plain lacquer scabbard"
@@ -577,7 +612,8 @@
 	icon_state = "kazscabyuruku"
 	item_state = "kazscabyuruku"
 	valid_blade = /obj/item/rogueweapon/sword/short/kazengun
-	wdefense = 4
+	wdefense = 7
+	special = null
 
 /obj/item/rogueweapon/scabbard/sheath/kazengun
 	name = "plain lacquer sheath"
@@ -585,12 +621,14 @@
 	icon_state = "kazscabdagger"
 	item_state = "kazscabdagger"
 	valid_blade = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
-	associated_skill = /datum/skill/combat/shields
+	associated_skill = /datum/skill/combat/knives
 	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
-	wdefense = 3
+	sewrepair = FALSE
+	anvilrepair = /datum/skill/craft/carpentry
+	wdefense = 4
+	max_integrity = 220
 
-	max_integrity = 0
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician
 	name = "fancy cane"
@@ -599,6 +637,7 @@
 	item_state = "doccanesheath"
 	valid_blade = /obj/item/rogueweapon/sword/rapier/courtphysician
 	sellprice = 45
+	cant_strip = TRUE
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician/getonmobprop(tag)
 	. = ..()
@@ -655,6 +694,22 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
+/obj/item/rogueweapon/scabbard/sheath/courtphysician/hand
+	name = "velvet sister"
+	desc = "Sleek, fashionable and deadly. Traits shared by both staff and the one holding it. Never let yourself be outdone, never rely on merely one trick.\
+	The rontz embedded in the handle serves as focus for arcyne arts."
+	icon = 'icons/roguetown/weapons/special/hand32.dmi'
+	icon_state = "staffsheath"
+	item_state = "staffsheath"
+	valid_blade = /obj/item/rogueweapon/sword/rapier/hand
+	implement_tier = IMPLEMENT_TIER_GREATER
+	implement_refund = IMPLEMENT_REFUND_GREATER
+	sellprice = 100
+
+/obj/item/rogueweapon/scabbard/sheath/courtphysician/hand/ComponentInitialize()
+	AddComponent(/datum/component/holster/handstaff, valid_blade, null, null, sheathe_time)
+
+
 ///////////////////////
 //	GREATWEP. STRAPS //
 ///////////////////////
@@ -678,7 +733,6 @@
 	resistance_flags = NONE
 	experimental_onback = FALSE
 	bigboy = TRUE
-	sewrepair = TRUE
 
 	equip_delay_self = 5 SECONDS
 	unequip_delay_self = 5 SECONDS
@@ -686,17 +740,17 @@
 	sheathe_time = 2 SECONDS
 
 	max_integrity = 0
-	sellprice = 15
 
 /obj/item/rogueweapon/scabbard/gwstrap/ComponentInitialize()
 	AddComponent(/datum/component/holster/gwstrap, FALSE, FALSE, FALSE, sheathe_time)
 
 /obj/item/rogueweapon/scabbard/gwstrap/getonmobprop(tag)
 	..()
-	var/datum/component/holster/HC = GetComponent(/datum/component/holster)
-	if(!HC.sheathed)
+	if(!hol_comp)
 		return
-	if(istype(HC.sheathed, /obj/item/rogueweapon/estoc) || istype(HC.sheathed, /obj/item/rogueweapon/greatsword))
+	if(!hol_comp.sheathed)
+		return
+	if(istype(hol_comp.sheathed, /obj/item/rogueweapon/estoc) || istype(hol_comp.sheathed, /obj/item/rogueweapon/greatsword))
 		switch(tag)
 			if("onback")
 				return list(

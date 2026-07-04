@@ -33,7 +33,7 @@
 	if(obj_broken || !Adjacent(user))
 		return
 
-	if(!HAS_TRAIT(H, TRAIT_MIRROR_MAGIC))
+	if(!HAS_TRAIT(H, TRAIT_MIRROR_MAGIC) && !HAS_TRAIT(H, TRAIT_EDIT_DESCRIPTORS))
 		to_chat(H, span_warning("You look into the mirror but see only your normal reflection."))
 		if(HAS_TRAIT(user, TRAIT_BEAUTIFUL))
 			H.add_stress(/datum/stressevent/beautiful)
@@ -286,7 +286,7 @@
 
 	var/mob/living/carbon/human/H = user
 
-	if(HAS_TRAIT(H, TRAIT_MIRROR_MAGIC))
+	if(HAS_TRAIT(H, TRAIT_MIRROR_MAGIC) || HAS_TRAIT(H, TRAIT_EDIT_DESCRIPTORS))
 		to_chat(H, span_info("You tilt your jaw from side to side, concentrating on the glamoring magicks limning your form..."))
 		if(do_after(H, 3 SECONDS))
 			perform_mirror_transform(H)

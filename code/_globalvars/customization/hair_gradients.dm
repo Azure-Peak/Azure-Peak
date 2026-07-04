@@ -8,7 +8,7 @@ GLOBAL_LIST_INIT(hair_gradients, build_hair_gradients())
 		gradients[path] = new path()
 	return gradients
 
-/proc/hair_gradient_name_to_type_list()
+/proc/hair_gradient_types()
 	var/list/return_list = list()
 	for(var/type in GLOB.hair_gradients)
 		var/datum/hair_gradient/gradient = HAIR_GRADIENT(type)

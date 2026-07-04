@@ -27,6 +27,8 @@
 	var/display_craftable_only = TRUE
 	var/display_compact = TRUE
 	var/showonlycraftable = TRUE
+	var/last_surroundings_hash
+	var/list/cached_craftability
 
 
 
@@ -164,9 +166,13 @@
 	return TRUE
 
 /atom/proc/OnCrafted(dirin, mob/user)
-	SEND_SIGNAL(user, COMSIG_ITEM_CRAFTED, user, type)
+	if(user)
+		SEND_SIGNAL(user, COMSIG_ITEM_CRAFTED, user, type)
+		record_featured_stat(FEATURED_STATS_CRAFTERS, user)
+
 	dir = dirin
 	record_featured_stat(FEATURED_STATS_CRAFTERS, user)
+	record_round_statistic(STATS_CRAFTED_ITEMS)
 	record_featured_object_stat(FEATURED_STATS_CRAFTED_ITEMS, name)
 	return
 
@@ -218,7 +224,8 @@
 		return
 	var/list/contents = get_surroundings(user)
 //	var/send_feedback = 1
-	var/turf/T = get_step(user, user.dir)
+	var/build_dir = user.dir
+	var/turf/T = get_step(user, build_dir)
 	if(isopenturf(T) && R.wallcraft)
 		to_chat(user, span_warning("Need to craft this on a wall."))
 		return
@@ -286,45 +293,74 @@
 						var/mob/living/L = user
 						if(L.STAINT > 10)
 							prob2craft += ((10-L.STAINT)*-1)*2
+						if(HAS_TRAIT(L, TRAIT_INTELLECTUAL) && L.STAINT > 8)
+							prob2craft += 5
 					prob2craft = CLAMP(prob2craft, 0, 99)
+					if(i == 100 && prob2craft > 0)
+						prob2craft = 100
 					if(!prob(prob2craft))
 						if(user.client?.prefs.showrolls)
 							to_chat(user, span_danger("I've failed to craft \the [R.name]... [prob2craft]%"))
 							continue
 						to_chat(user, span_danger("I've failed to craft \the [R.name]."))
 						continue
-					var/list/parts = del_reqs(R, user)
+					var/list/quality_capture = R.skip_quality ? list() : null
+					var/list/parts = del_reqs(R, user, quality_capture)
+					var/inherited_quality = quality_capture?["min_quality"]
 					if(islist(R.result))
 						var/list/L = R.result
 						for(var/IT in L)
 							var/atom/movable/I = new IT(T)
 							I.CheckParts(parts, R)
-							I.OnCrafted(user.dir, user)
+							I.OnCrafted(build_dir, user)
+							if(isitem(I))
+								var/obj/item/CI = I
+								CI.was_crafted = TRUE
+								if(CI.has_item_quality)
+									if(R.skip_quality)
+										if(inherited_quality != null)
+											CI.apply_quality(null, null, inherited_quality)
+									else
+										CI.apply_quality(user, R.skillcraft)
 							I.add_fingerprint(user)
 					else
 						if(ispath(R.result, /turf))
 							var/turf/X = T.PlaceOnTop(R.result)
 							if(X)
-								X.OnCrafted(user.dir, user)
+								X.OnCrafted(build_dir, user)
 								X.add_fingerprint(user)
 								if(R.loud)
 									X.loud_message("Construction sounds can be heard")
+									if(R.adminlog)
+										log_craft("[user.real_name], ([user.ckey]) has built [X] at [AREACOORD(X)]") //We log this too
+								if(R.adminlog)
+									log_craft("[user.real_name], ([user.ckey]) has built [X] at [AREACOORD(X)]")
 						else
 							var/atom/movable/I = new R.result (T)
 							I.CheckParts(parts, R)
 							if(R.diagonal)
 								I.OnCrafted(I.SelectDiagDirection(), user)
 							else
-								I.OnCrafted(user.dir, user)
+								I.OnCrafted(build_dir, user)
+							if(isitem(I))
+								var/obj/item/CI = I
+								CI.was_crafted = TRUE
+								if(CI.has_item_quality)
+									if(R.skip_quality)
+										if(inherited_quality != null)
+											CI.apply_quality(null, null, inherited_quality)
+									else
+										CI.apply_quality(user, R.skillcraft)
 							I.add_fingerprint(user)
 					user.visible_message(span_notice("[user] [R.verbage] \a [R.name]!"), \
 										span_notice("I [R.verbage_simple] \a [R.name]!"))
-					if(user.mind && R.skillcraft)
+					if(user.mind && R.skillcraft && R.xp_modifier > 0)
 						if(isliving(user))
 							var/mob/living/L = user
 							var/amt2raise = L.STAINT * 2// its different over here
 							if(R.craftdiff > 0) //difficult recipe
 								amt2raise += (R.craftdiff * 10) // also gets more
+							amt2raise = round(amt2raise * R.xp_modifier)
 							if(amt2raise > 0)
 								user.mind.add_sleep_experience(R.skillcraft, amt2raise, FALSE)
 					return TRUE
@@ -370,7 +406,7 @@
 	del_reqs return the list of parts resulting object will receive as argument of CheckParts proc, on the atom level it will add them all to the contents, on all other levels it calls ..() and does whatever is needed afterwards but from contents list already
 */
 
-/datum/component/personal_crafting/proc/del_reqs(datum/crafting_recipe/R, mob/user)
+/datum/component/personal_crafting/proc/del_reqs(datum/crafting_recipe/R, mob/user, list/quality_out)
 	var/list/surroundings
 	var/list/Deletion = list()
 	. = list()
@@ -423,34 +459,52 @@
 						surroundings -= RC
 			else if(ispath(A, /obj/item/natural) || A == /obj/item/grown/log/tree/stick)
 				while(amt > 0)
-					for(var/obj/item/natural/bundle/B in get_environment(user))
-						if(B.stacktype == A)
-							if(B.amount > amt)
-								B.amount -= amt
-								B.update_bundle()
-								switch(B.amount)
-									if(1)
-										var/mob/living/carbon/old_loc = B.loc
-										qdel(B)
-										var/new_item = new B.stacktype(old_loc)
-										// Put in the person's hands if there were holding it.
-										if(ishuman(old_loc))
-											old_loc.put_in_hands(new_item)
-									if(0)
-										qdel(B)
-								amt = 0
-								continue main_loop
-							else
-								qdel(B)
-								amt -= B.amount
-						else
+					var/found_bundle = FALSE
+					for(var/obj/item/natural/bundle/B in surroundings)
+						if(!B.stacktype || !ispath(B.stacktype, A))
 							continue
-					var/atom/movable/I
-					while(amt > 0)
-						I = locate(A) in surroundings
-						Deletion += I
+						if(!R.subtype_reqs && (B.stacktype in subtypesof(A)))
+							continue 
+						if(R.blacklist.Find(B.stacktype))
+							continue
+						found_bundle = TRUE
+						surroundings -= B
+						if(B.amount > amt)
+							var/stacktype = B.stacktype
+							B.amount -= amt
+							B.update_bundle()
+							switch(B.amount)
+								if(1)
+									var/atom/old_loc = B.loc
+									qdel(B)
+									var/obj/item/new_item = new stacktype(old_loc)
+									if(ishuman(old_loc))
+										var/mob/living/carbon/human/H = old_loc
+										H.put_in_hands(new_item) 
+								if(0)
+									qdel(B)
+							amt = 0
+							continue main_loop
+						else
+							var/used_amount = B.amount
+							amt -= used_amount
+							qdel(B)
+							if(amt <= 0)
+								continue main_loop
+							break
+					if(!found_bundle)
+						break
+				var/atom/movable/I
+				while(amt > 0)
+					I = locate(A) in surroundings
+					if(!I)
+						break
+					if(R.blacklist.Find(I.type))
 						surroundings -= I
-						amt--
+						continue
+					Deletion += I
+					surroundings -= I
+					amt--
 			else if(ispath(A, /obj/item/reagent_containers/glass)) //Don't eat bottles with reagents in them
 				var/atom/movable/I
 				while(amt > 0)
@@ -486,6 +540,25 @@
 				. += AM
 				Deletion -= AM
 				partlist[A] -= 1
+	if(quality_out)
+		var/min_q = null
+		for(var/atom/movable/AM in Deletion)
+			if(!isitem(AM))
+				continue
+			var/obj/item/IT = AM
+			if(!IT.has_item_quality)
+				continue
+			if(min_q == null || IT.item_quality < min_q)
+				min_q = IT.item_quality
+		for(var/atom/movable/AM in .)
+			if(!isitem(AM))
+				continue
+			var/obj/item/IT = AM
+			if(!IT.has_item_quality)
+				continue
+			if(min_q == null || IT.item_quality < min_q)
+				min_q = IT.item_quality
+		quality_out["min_quality"] = min_q
 	while(Deletion.len)
 		var/DL = Deletion[Deletion.len]
 		Deletion.Cut(Deletion.len)
@@ -502,8 +575,16 @@
 /datum/component/personal_crafting/ui_data(mob/user)
 	var/list/data = list()
 	data["busy"] = busy
+	data["showonlycraftable"] = showonlycraftable
 
 	var/list/surroundings = get_surroundings(user)
+	var/new_hash = list2params(surroundings["other"])
+
+	if(new_hash == last_surroundings_hash && cached_craftability)
+		data["craftability"] = cached_craftability
+		return data
+
+	last_surroundings_hash = new_hash
 	var/list/craftability = list()
 	for(var/rec in GLOB.crafting_recipes)
 		var/datum/crafting_recipe/R = rec
@@ -515,33 +596,24 @@
 
 		craftability[R.name] = check_contents(R, surroundings)
 
+	cached_craftability = craftability
 	data["craftability"] = craftability
-	data["showonlycraftable"] = showonlycraftable
 	return data
 
 /datum/component/personal_crafting/ui_static_data(mob/user)
 	var/list/data = list()
 
 	var/list/crafting_recipes = list()
-	for(var/rec in GLOB.crafting_recipes)
-		var/datum/crafting_recipe/R = rec
-
-		if(R.name == "") //This is one of the invalid parents that sneaks in
+	for(var/datum/crafting_recipe/R as anything in GLOB.crafting_recipes)
+		if(!R.name)
 			continue
-
-		if(!R.always_availible && !(R.type in user?.mind?.learned_recipes)) //User doesn't actually know how to make this.
+		if(!R.always_availible && !(R.type in user?.mind?.learned_recipes))
 			continue
 		if(R.required_tech_node && !R.tech_unlocked)
 			continue
-		var/category
-		if(R.skillcraft)
-			var/datum/skill/S = R.skillcraft
-			category = initial(S.name)
-		else
-			category = "Other"
-		if(isnull(crafting_recipes[category]))
-			crafting_recipes[category] = list()
-		crafting_recipes[category] += list(build_recipe_data(R))
+		if(isnull(crafting_recipes[R.cached_category]))
+			crafting_recipes[R.cached_category] = list()
+		crafting_recipes[R.cached_category] += list(R.cached_display_data)
 
 	data["crafting_recipes"] = crafting_recipes
 	return data
@@ -580,44 +652,6 @@
 
 
 
-/datum/component/personal_crafting/proc/build_recipe_data(datum/crafting_recipe/R)
-	var/list/data = list()
-	data["name"] = R.name
-	data["ref"] = "[REF(R)]"
-	data["path"] = R.type
-	data["sellprice"] = R.sellprice
-	var/req_text = ""
-	var/tool_text = ""
-	var/catalyst_text = ""
-
-	for(var/a in R.reqs)
-		//We just need the name, so cheat-typecast to /atom for speed (even tho Reagents are /datum they DO have a "name" var)
-		//Also these are typepaths so sadly we can't just do "[a]"
-		var/atom/A = a
-		req_text += " [R.reqs[A]] [initial(A.name)],"
-	req_text = replacetext(req_text,",","",-1)
-	data["req_text"] = req_text
-
-	for(var/a in R.chem_catalysts)
-		var/atom/A = a //cheat-typecast
-		catalyst_text += " [R.chem_catalysts[A]] [initial(A.name)],"
-	catalyst_text = replacetext(catalyst_text,",","",-1)
-	data["catalyst_text"] = catalyst_text
-
-	for(var/a in R.tools)
-		if(ispath(a, /obj/item))
-			var/obj/item/b = a
-			tool_text += " [initial(b.name)],"
-		else
-			tool_text += " [a],"
-	tool_text = replacetext(tool_text,",","",-1)
-	data["tool_text"] = tool_text
-
-	data["craftingdifficulty"] = skill_to_string(R.craftdiff)
-
-
-	return data
-
 //Mind helpers
 
 /datum/mind/proc/teach_crafting_recipe(R)
@@ -630,71 +664,4 @@
 		return
 	learned_recipes -= R
 
-// new crafting button interaction
-
-/datum/component/personal_crafting/proc/roguecraft(location, control, params, mob/user)
-
-	if(user.doing)
-		return
-	var/area/A = get_area(user)
-	if(!A.can_craft_here())
-		to_chat(user, span_warning("I can't craft here."))
-		return
-
-	var/list/data = list()
-	var/list/catty = list()
-	var/list/surroundings = get_surroundings(user)
-	for(var/rec in GLOB.crafting_recipes)
-		var/datum/crafting_recipe/R = rec
-		if(!R.always_availible && !(R.type in user?.mind?.learned_recipes)) //User doesn't actually know how to make this.
-			continue
-		if(R.required_tech_node && !R.tech_unlocked)
-			continue
-
-		if(check_contents(R, surroundings))
-			if(R.name)
-				data += R
-				if(R.skillcraft)
-					var/datum/skill/S = new R.skillcraft()
-					catty |= S.name
-				else
-					catty |= "Other"
-	if(!data.len)
-		to_chat(user, span_warning("There is nothing I can craft."))
-		return
-	if(!catty.len)
-		return
-	var/t
-	if(catty.len > 1)
-		t=input(user, "CHOOSE SKILL") as null|anything in catty
-	else
-		t=pick(catty)
-	if(t)
-		var/list/realdata = list()
-		for(var/datum/crafting_recipe/X in data)
-			if(X.skillcraft)
-				var/datum/skill/S = new X.skillcraft()
-				if(t == S.name)
-					realdata += X
-			else
-				if(t == "Other")
-					realdata += X
-		if(realdata.len)
-			realdata = sortNames(realdata)
-			var/r = input(user, "What should I craft?") as null|anything in realdata
-			if(r)
-				construct_item_repeatable(user, r)
-				user.mind.lastrecipe = r
-
-
-
-
-/client/verb/toggle_legacycraft()
-	set name = "Toggle legacy craft"
-	set category = "Options"
-	set desc = "Toggles between legacy and miacraft"
-	usr.client.legacycraft = !legacycraft
-
-/client
-	var/legacycraft = FALSE
 

@@ -81,7 +81,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	return new_msg
 
-/mob/living/say(message, bubble_type,list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, message_mode = null)
+/mob/living/say(message, bubble_type,list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, message_mode = null, npc_speech = FALSE)
 	var/static/list/crit_allowed_modes = list(MODE_WHISPER = TRUE, MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
 	var/static/list/unconscious_allowed_modes = list(MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
 	var/talk_key = get_key(message)
@@ -127,14 +127,18 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			client.dsay(message)
 		return
 
-	if(message_mode == MODE_SING)
+	// autopunctuation
+	if(!client?.prefs?.no_autopunctuate)
+		message = autopunct_bare(message)
+
+	if(message_mode == MODE_SING || HAS_TRAIT(src, TRAIT_MUSES_GRACE))
 	#if DM_VERSION < 513
 		var/randomnote = "~"
 	#else
 		var/randomnote = pick("&#9835;", "&#9834;", "&#9836;")
 	#endif
 		spans |= SPAN_SINGING
-		message = "[randomnote] [message] [randomnote]"
+		message = "[randomnote] [capitalize(message)] [randomnote]"
 
 	if(stat == DEAD)
 		say_dead(original_message)
@@ -170,7 +174,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	if(!language)
 		language = get_default_language()
-
 	// Detection of language needs to be before inherent channels, because
 	// AIs use inherent channels for the holopad. Most inherent channels
 	// ignore the language argument however.
@@ -198,7 +201,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if((InCritical() && !fullcrit) || message_mode == MODE_WHISPER)
 		message_range = 1
 		message_mode = MODE_WHISPER
-		src.log_talk(message, LOG_WHISPER)
+		var/whisper_log_type = npc_speech ? LOG_NPC_SAY : LOG_WHISPER
+		src.log_talk(message, whisper_log_type)
 		if(fullcrit)
 			var/health_diff = round(-HEALTH_THRESHOLD_DEAD + health)
 			// If we cut our message short, abruptly end it with a-..
@@ -209,7 +213,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			message_mode = MODE_WHISPER_CRIT
 			succumbed = TRUE
 	else
-		src.log_talk(message, LOG_SAY, forced_by=forced)
+		var/log_type = npc_speech ? LOG_NPC_SAY : LOG_SAY
+		src.log_talk(message, log_type, forced_by=forced)
 
 	if(client)
 		last_words = message
@@ -244,12 +249,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		message = uppertext(message)
 	if(!message)
 		return
-
-	// autopunctuation
-	if(!client?.prefs?.no_autopunctuate)
-		var/ending = copytext(message, length(message), (length(message) + 1))
-		if(ending && !GLOB.correct_punctuation[ending])
-			message += "."
 
 	if(D.flags & SIGNLANG)
 		send_speech_sign(message, message_range, src, bubble_type, spans, language, message_mode, original_message)
@@ -332,6 +331,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		mob_color = H.voice_color
+		if(H.voicecolor_override)
+			mob_color = H.voicecolor_override
 	var/chatmsg = "<font color = #[mob_color]><b>[src]</b></font> " + sign_verb + "."
 	visible_message(chatmsg, runechat_message = sign_verb, log_seen = SEEN_LOG_EMOTE, ignored_mobs = understanders)
 
@@ -523,7 +524,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 				if(Zs_all)
 					chance += 20
 				if(prob(chance))
-					H.sate_addiction()
+					H.sate_addiction(/datum/charflaw/addiction/clamorous)
 		var/atom/movable/tocheck = AM
 		if(isdullahan(AM))
 			var/mob/living/carbon/human/target = AM
@@ -546,6 +547,23 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	var/image/I = image('icons/mob/talk.dmi', src, "[bubble_type][say_test(message)]", FLY_LAYER)
 	I.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
 	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(flick_overlay), I, speech_bubble_recipients, 30)
+
+	//Listening gets trimmed here if a vocal bark's present. If anyone ever makes this proc return listening, make sure to instead initialize a copy of listening in here to avoid wonkiness
+	if(SEND_SIGNAL(src, COMSIG_MOVABLE_QUEUE_BARK, listening, args) || vocal_bark || vocal_bark_id)
+		for(var/mob/M in listening)
+			if(!M.client)
+				continue
+			if((M.client.prefs.mute_barks))
+				listening -= M
+		var/is_yell = Zs_yell || Zs_all
+		var/barks = min(round((LAZYLEN(message) / vocal_speed)) + 1, BARK_MAX_BARKS)
+		var/total_delay = 0
+		vocal_current_bark = world.time
+		for(var/i in 1 to barks)
+			if(total_delay > BARK_MAX_TIME)
+				break
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/movable, bark), listening, message_range, (vocal_volume * (is_yell ? 1.5 : 1)), BARK_DO_VARY(vocal_pitch, vocal_pitch_range), vocal_current_bark), total_delay)
+			total_delay += rand(DS2TICKS(vocal_speed / BARK_SPEED_BASELINE), DS2TICKS(vocal_speed / BARK_SPEED_BASELINE) + DS2TICKS((vocal_speed / BARK_SPEED_BASELINE) * (is_yell ? 0.5 : 1))) TICKS
 
 /mob/proc/binarycheck()
 	return FALSE
@@ -648,7 +666,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		. = "stammers"
 	else if(derpspeech)
 		. = "gibbers"
-	else if(message_mode == MODE_SING)
+	else if(message_mode == MODE_SING || HAS_TRAIT(src, TRAIT_MUSES_GRACE))
 		. = verb_sing
 	else
 		. = ..()

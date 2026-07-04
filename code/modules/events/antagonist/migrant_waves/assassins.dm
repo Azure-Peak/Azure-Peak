@@ -13,6 +13,11 @@
 		TAG_VILLIAN,
 	)
 
+/datum/round_event_control/antagonist/migrant_wave/assassins/preRunEvent()
+	if(is_storyteller_soft_antag_blocked())
+		return EVENT_CANT_RUN
+	return ..()
+
 /datum/round_event/migrant_wave/assassins/start()
 	var/datum/job/assassin_job = SSjob.GetJob("Assassin")
 	assassin_job.total_positions = min(assassin_job.total_positions + 1, 2)

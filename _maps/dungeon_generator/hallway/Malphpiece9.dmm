@@ -90,7 +90,7 @@
 /mob/living/simple_animal/hostile/retaliate/bat{
 	dir = 4
 	},
-/obj/item/roguegem/random,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/tomb/cave)
 "v" = (

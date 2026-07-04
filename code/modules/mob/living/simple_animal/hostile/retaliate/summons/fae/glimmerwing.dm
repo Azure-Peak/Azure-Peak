@@ -17,7 +17,8 @@
 	move_to_delay = 6
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list()
-	faction = list("fae")
+	death_loot = list(/obj/item/magic/fae/iridescentscale = 2)
+	faction = list(FACTION_FAE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 270
 	maxHealth = 270
@@ -41,7 +42,7 @@
 	defprob = 40
 	candodge = TRUE
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
+	retreat_health = 0
 	food = 0
 	attack_sound = 'sound/blank.ogg'
 	dodgetime = 40
@@ -54,15 +55,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/death(gibbed)
 	..()
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

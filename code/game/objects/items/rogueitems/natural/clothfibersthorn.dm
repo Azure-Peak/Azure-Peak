@@ -2,7 +2,7 @@
 	name = "fibers"
 	icon_state = "fibers"
 	possible_item_intents = list(/datum/intent/use)
-	desc = "Plant fibers. Peasants make their living turning these into clothing."
+	desc = "Plant fibers. Peasants make their living turning these into clothing, courtesy of a needle-and-thread."
 	force = 0
 	throwforce = 0
 	obj_flags = null
@@ -15,9 +15,18 @@
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	sellprice = 2
 	bundletype = /obj/item/natural/bundle/fibers
+
+/obj/item/natural/fibers/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Fibers can be acquired by cutting grass or by foraging through bushes, alongside thorns. Likewise, two fibers can be crafted into a piece of cloth, once you have a needle.")
+	. += span_info("A thorn and fiber can be combined into a needle, by left-clicking the 'CRAFT' button on your HUD's upper-left corner and selecting the 'needle' recipe.")
+	. += span_info("Crafting recipes can require certain tools, stations, and skills. Your chances to successfully craft an item are reducable if you don't match the minimum skill requirement.")
+	. += span_info("Having a high Intelligence bonus or partial skills in whatever's required can increase your chance to successfully craft an item that's beyond your current skill level.")
+	. += span_info("Fibers can also be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
+	. += span_info("'Slapcrafts' for fibers include tools, bows, torches, amulets, bouquets, needles, bags, and flower crowns.")
 
 /obj/item/natural/fibers/Initialize()
 	. = ..()
@@ -106,7 +115,7 @@
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	bundletype = /obj/item/natural/bundle/silk
 
 /obj/item/natural/silk/attack_right(mob/user)
@@ -130,7 +139,7 @@
 #ifdef TESTSERVER
 
 /client/verb/bloodnda()
-	set category = "DEBUGTEST"
+	set category = "Debug.Test"
 	set name = "bloodnda"
 	set desc = ""
 
@@ -151,6 +160,7 @@
 	desc = "A bolt of woven fibers. Useful as bandages and in dozens upon dozens of crafts."
 	force = 0
 	throwforce = 0
+	flags_ai_inventory = AI_ITEM_BANDAGE
 	obj_flags = null
 	bundling_time = 2 SECONDS
 	firefuel = 5 MINUTES
@@ -162,8 +172,9 @@
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	bundletype = /obj/item/natural/bundle/cloth
+	dropshrink = 0.9
 	sellprice = 4
 	detail_tag = "_soaked"
 	var/wet = 0
@@ -176,6 +187,15 @@
 	/// If the bandage is soaked in some kind of medicine.
 	var/medicine_quality
 	var/medicine_amount = 0
+
+/obj/item/natural/cloth/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-clicking a washbin or pool of water allows you to soak the cloth, which can then clean up various stains-and-dirtiness by left-clicking them.")
+	. += span_info("Left-clicking someone will banadage the targeted limb. Examine yourself - or click the heart on your HUD - to check your limbs, and click any highlighted mentions of the bandaging to remove it.")
+	. += span_info("Bandaged limbs will bleed much slower. If the underlying wounds are severe enough, however, the bandagings'll eventually bleed through and negate its effectiveness.")
+	. += span_info("This scales with the bandaged individual's Constitution. The higher their Constitution is, the longer it'll take for the effects of blood loss to be felt.")
+	. += span_info("Drinking water and, to a lesser extent, lifeblood can help counteract the effects of blood loss. Lifeblood, needles, cauteries, and miracles can stop a wound from bleeding.")
+	. += span_info("Target someone's mouth and left-click them with an open hand on the 'WEAK' intent to manually breathe into them. This counteracts the onset of suffocation that comes with critical blood loss.")
 
 /obj/item/natural/cloth/Initialize()
 	. = ..()
@@ -318,6 +338,15 @@
 			desc += " It has been soaked in blessed water."
 			detail_color = "#6a9295"
 			update_icon()
+	if(C.reagents.has_reagent(/datum/reagent/water/medicine, 10) && !medicine_amount)
+		to_chat(user, span_notice("You start soaking the [src] in Pestran Medicine..."))
+		if(do_after(user, 3 SECONDS, target = src))
+			C.reagents.remove_reagent(/datum/reagent/water/medicine, 10)
+			medicine_quality = 0.6 //cheap yet not very common
+			medicine_amount += 30 // medicine_amount is equal to half the medication duration on a bandage, this will heal a total of 36 on a targeted area
+			desc += " It has been soaked in Pestran Medicine."
+			detail_color = "#428b42"
+			update_icon()
 
 /obj/item/natural/cloth/update_icon()
 	cut_overlays()
@@ -394,6 +423,13 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 20
 
+/obj/item/natural/thorn/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Thorns can be acquired by foraging through bushes, alongside fibers.")
+	. += span_info("A thorn and fiber can be combined into a needle, by left-clicking the 'CRAFT' button on your HUD's upper-left corner and selecting the 'needle' recipe.")
+	. += span_info("Crafting recipes can require certain tools, stations, and skills. Your chances to successfully craft an item are reducable if you don't match the minimum skill requirement.")
+	. += span_info("Having a high Intelligence bonus or partial skills in whatever's required can increase your chance to successfully craft an item that's beyond your current skill level.")
+
 /obj/item/natural/thorn/Initialize()
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
@@ -419,13 +455,13 @@
 		if(L.m_intent == MOVE_INTENT_RUN)
 			prob2break = 100
 		if(prob(prob2break))
-			if(!(HAS_TRAIT(L, TRAIT_AZURENATIVE) || (HAS_TRAIT(L, TRAIT_WOODWALKER)) && L.m_intent != MOVE_INTENT_RUN))
+			if(L.m_intent == MOVE_INTENT_RUN || !(HAS_TRAIT(L, TRAIT_AZURENATIVE) || HAS_TRAIT(L, TRAIT_NOPVE) || HAS_TRAIT(L, TRAIT_WOODWALKER) || (HAS_TRAIT(L, TRAIT_BOGWALKER) && istype(get_area(L), /area/rogue/outdoors/bog))))
 				playsound(src,'sound/items/seedextract.ogg', 100, FALSE)
-			qdel(src)
-			if (L.alpha == 0 && L.rogue_sneaking) // not anymore you're not
-				L.update_sneak_invis(TRUE)
-			if(!HAS_TRAIT(L, TRAIT_WOODWALKER))
-				L.consider_ambush()
+				qdel(src)
+				if (L.alpha == 0 && L.rogue_sneaking) // not anymore you're not
+					L.update_sneak_invis(TRUE)
+				if(!HAS_TRAIT(L, TRAIT_WOODWALKER))
+					L.consider_ambush()
 
 /obj/item/natural/bundle/fibers
 	name = "fiber bundle"
@@ -444,7 +480,7 @@
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	stacktype = /obj/item/natural/fibers
 	icon1step = 3
 	icon2step = 6
@@ -456,6 +492,13 @@
 	amount = 6
 	firefuel = 30 MINUTES
 	grid_width = 64
+
+/obj/item/natural/bundle/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-click a bundle with a free hand to take a single portion of whatever's been bundled up.")
+	. += span_info("Left-click a bundle with a free hand to take a specified amount of whatever's been bundled up.")
+	. += span_info("When holding a bundle, left-click a matching portion to automatically add it into the bundle. Alternatively, left-click the tile to start automatically collecting any-and-all matching portions on it.")
+	. += span_info("The more portions that've been stacked into a bundle, the larger the bundle becomes. Larger bundles take up more space, when stored within inventories.")
 
 /obj/item/natural/bundle/silk
 	name = "silken weave"
@@ -473,7 +516,7 @@
 	max_integrity = 20
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
-	spitoutmouth = FALSE
+	spitoutmouth = TRUE
 	stacktype = /obj/item/natural/silk
 	icon1step = 3
 	icon2step = 6
@@ -491,7 +534,7 @@
 	resistance_flags = FLAMMABLE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	stacktype = /obj/item/natural/cloth
 	stackname = "cloth"
 	icon1 = "clothroll1"
@@ -500,6 +543,7 @@
 	icon2step = 10
 	grid_width = 32
 	grid_height = 32
+	dropshrink = 0.9
 
 /obj/item/natural/bundle/stick
 	name = "bundle of sticks"
@@ -514,7 +558,7 @@
 	resistance_flags = FLAMMABLE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	stacktype = /obj/item/grown/log/tree/stick
 	stackname = "sticks"
 	icon1 = "stickbundle1"
@@ -522,6 +566,9 @@
 	icon2 = "stickbundle2"
 	icon2step = 7
 	icon3 = "stickbundle3"
+
+/obj/item/natural/bundle/stick/full
+	amount = 10
 
 /obj/item/natural/bundle/stick/attackby(obj/item/W, mob/living/user)
 	. = ..()
@@ -574,7 +621,7 @@
 	muteinmouth = TRUE
 	w_class = WEIGHT_CLASS_TINY
 	spitoutmouth = FALSE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	stacktype = /obj/item/natural/bone
 	stackname = "bones"
 	icon1 = "bonestack1"

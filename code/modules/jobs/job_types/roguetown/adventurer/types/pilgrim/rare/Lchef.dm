@@ -6,7 +6,8 @@
 	With noble origins, you were taught by cooking masters in the secretive League of Fine Dining in exotic meals from all around the world \
 	Now you wander, free to experiment, cook exotic dishes and gourmet meals, worthy for a king"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	forbidden_races = list(RACES_DESPISED)
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/masterchef
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
@@ -16,9 +17,19 @@
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_CON = 2,
+		STATKEY_WIL = 1
 	)
 	subclass_skills = list(
-		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/maces = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/axes = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
@@ -36,7 +47,7 @@
 	cloak = /obj/item/clothing/cloak/apron
 	head = /obj/item/clothing/head/roguetown/chef
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
-	backr = /obj/item/storage/backpack/rogue/backpack
+	backl = /obj/item/storage/backpack/rogue/backpack
 	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	beltr = /obj/item/cooking/pan
@@ -90,3 +101,5 @@
 				/obj/item/reagent_containers/food/snacks/rogue/handpie = 1,
 				/obj/item/book/rogue/yeoldecookingmanual = 1,
 				)
+	if(H.mind)
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)

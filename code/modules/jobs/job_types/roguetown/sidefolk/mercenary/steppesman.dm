@@ -2,7 +2,7 @@
 	name = "Steppesman"
 	tutorial = "Once serving a Hetmen from the frontiers, you have been rented out as a mercenary in the distant realm of Azuria to bring coin home. There are three things you value most; saigas, freedom, and money."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/mercenary/steppesman
 	class_select_category = CLASS_CAT_AAVNR
 	category_tags = list(CTAG_MERCENARY)
@@ -25,7 +25,6 @@
 
 /datum/outfit/job/roguetown/mercenary/steppesman/pre_equip(mob/living/carbon/human/H)
 	..()
-
 	//Universal gear
 	belt = /obj/item/storage/belt/rogue/leather/black
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
@@ -39,13 +38,11 @@
 		/obj/item/rogueweapon/whip/nagaika,
 		/obj/item/rogueweapon/scabbard/sheath
 		)
-
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/classes = list("Szabrista - Saber Veteran", "Árkász - Elite Sapper", "Druzhina - Light Archer","Kozak - Light Infantry")
 		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
-
 		switch(classchoice)
 			if("Szabrista - Saber Veteran")	//Tl;dr - medium armor class for Mount and Blade larpers who still get a saiga. Akin to Vaquero with specific drip.
 				H.set_blindness(0)
@@ -73,7 +70,7 @@
 				H.change_stat(STATKEY_CON, 2)
 				H.change_stat(STATKEY_SPD, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/evil() 	//Fits in my head all too well.
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil] 	//Fits in my head all too well.
 				var/masks = list(				
 				"Humen" 	= /obj/item/clothing/mask/rogue/facemask/steel/steppesman,
 				"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
@@ -82,7 +79,6 @@
 				var/maskchoice = input("What fits your face?", "MASK SELECTION") as anything in masks
 				if(maskchoice != "None")
 					mask = masks[maskchoice]
-
 			if("Árkász - Elite Sapper")	//Tl;dr - medium armor sappers with less mobility in exchange for their different statblock and equipment.
 				H.set_blindness(0)
 				to_chat(H, span_warning("The Árkászi are frontline sappers specialized in sowing chaos and confusion in tandem with the Szabristas, focused on raw strength and will over the company's swordsmen and archers."))
@@ -111,7 +107,7 @@
 				H.change_stat(STATKEY_PER, 2)
 				H.change_stat(STATKEY_SPD, -2)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/evil()
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/evil]
 				var/masks = list(				
 				"Humen" 	= /obj/item/clothing/mask/rogue/facemask/steel/steppesman,
 				"Beast"		= /obj/item/clothing/mask/rogue/facemask/steel/steppesman/anthro,
@@ -120,7 +116,6 @@
 				var/maskchoice = input("What fits your face?", "MASK SELECTION") as anything in masks
 				if(maskchoice != "None")
 					mask = masks[maskchoice]
-
 			if("Druzhina - Light Archer")	//Tl;dr - light armor class for Tatar-style archery. Has 'Druzhina' as a name cus czech/polish influence, couldn't think of better one.
 				H.set_blindness(0)
 				to_chat(H, span_warning("A Druzhina, a commoner of the Aavnic steppes made into a professional soldier. Hunters, herders, and various nomads from all walks of life. Equal in service, equal behind their bow, and ready to fight."))
@@ -174,6 +169,6 @@
 				H.change_stat(STATKEY_SPD, 2)
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
-				H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()		//Semi-crazed warrior vibe.
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]		//Semi-crazed warrior vibe.
 		
 	H.merctype = 11

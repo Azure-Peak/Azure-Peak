@@ -75,13 +75,21 @@
 	facepull = FALSE
 
 /client/Move(n, direct)
-	if(world.time < move_delay) //do not move anything ahead of this check please
+	if(istype(mob, /mob/dead/observer))
+		var/mob/dead/observer/observer = mob
+		if(world.time < observer.next_gmove)
+			return FALSE
+	else if(world.time < move_delay) //do not move anything ahead of this check please
 		return FALSE
-	else
-		next_move_dir_add = 0
-		next_move_dir_sub = 0
+	next_move_dir_add = 0
+	next_move_dir_sub = 0
 	var/old_move_delay = move_delay
-	move_delay = world.time + world.tick_lag //this is here because Move() can now be called mutiple times per tick
+	if(istype(mob, /mob/dead/observer))
+		var/mob/dead/observer/observer = mob
+		observer.next_gmove = world.time + (world.tick_lag * GLOB.observer_move_delay_multiplier)
+		move_delay = world.time
+	else
+		move_delay = world.time + world.tick_lag //this is here because Move() can now be called mutiple times per tick
 	if(!mob || !mob.loc)
 		return FALSE
 	if(!n || !direct)
@@ -575,6 +583,8 @@
 
 //* Updates a mob's sneaking status, rendering them invisible or visible in accordance to their status. TODO:Fix people bypassing the sneak fade by turning, and add a proc var to have a timer after resetting visibility.
 /mob/living/update_sneak_invis(reset = FALSE) //Why isn't this in mob/living/living_movements.dm? Why, I'm glad you asked!
+	if(in_combat_until > world.time && !reset)
+		return
 	if(!reset && world.time < mob_timers[MT_INVISIBILITY]) // Check if the mob is affected by the invisibility spell
 		rogue_sneaking = TRUE
 		return
@@ -598,10 +608,20 @@
 		used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 0)
 		light_threshold += (get_skill_level(/datum/skill/misc/sneaking) / 200)
 
+	if(!reset && m_intent != MOVE_INTENT_SNEAK && alpha != initial(alpha)) // prevents funny bugs with getting stuck transparent
+		if(!wallpressed)
+			animate(src, alpha = initial(alpha), time = 10)
+			spawn(10) regenerate_icons()
+		else
+			animate(src, alpha = 255, time = 10)
+
+		rogue_sneaking = FALSE
+		return		
+
 	if(rogue_sneaking || reset) //If sneaking, check if they should be revealed
 		var/should_reveal = FALSE
 		// are we crit, sleeping, been recently discovered, have no turf, force-revealed or not in sneak intent? then we should be revealed, end of.
-		if((stat > SOFT_CRIT) || IsSleeping() || (world.time < mob_timers[MT_FOUNDSNEAK] + 30 SECONDS) || !T || reset || (m_intent != MOVE_INTENT_SNEAK))
+		if((stat > SOFT_CRIT) || IsSleeping() || (world.time < mob_timers[MT_FOUNDSNEAK] + 10 SECONDS) || !T || reset || (m_intent != MOVE_INTENT_SNEAK))
 			should_reveal = TRUE
 
 		// are we in a area of light that should reveal us?
@@ -612,19 +632,48 @@
 
 		if (should_reveal)
 			used_time = round(clamp((50 - (used_time*1.75)), 5, 50),1)
-			animate(src, alpha = initial(alpha), time =	used_time) //sneak skill makes you reveal slower but not as drastic as disappearing speed
-			spawn(used_time) regenerate_icons()
+			if(!wallpressed) // so we can stay partially invisible if wallpressed
+				animate(src, alpha = initial(alpha), time =	used_time) //sneak skill makes you reveal slower but not as drastic as disappearing speed
+				spawn(used_time) regenerate_icons()
+			else
+				if(src.alpha != 255)
+					animate(src, alpha = 255, time = used_time)
 			rogue_sneaking = FALSE
+			SEND_SIGNAL(src, COMSIG_MOB_BREAK_SNEAK)
 			return
 
 	else //not currently sneaking, check if we can sneak
 		if (m_intent == MOVE_INTENT_SNEAK) // we were not sneaking and are now trying to.
+			if(wallpressed)
+				update_wallpress_slowdown()
+			var/target_alpha = 255
+			if(lying)
+				target_alpha = get_lying_alpha()
+			if(target_alpha != alpha)
+				if(!wallpressed)
+					animate(src, alpha = target_alpha, time = used_time)
+					spawn(used_time + 5) regenerate_icons()
+			if(world.time < mob_timers[MT_FOUNDSNEAK] + 10 SECONDS) // recently discovered or broke stealth, can't re-sneak yet
+				return
 			light_amount = T.get_lumcount()  // as above, this is moderately expensive, so only check it if we need to.
 			if(light_amount < light_threshold)
 				animate(src, alpha = 0, time = used_time)
 				spawn(used_time + 5) regenerate_icons()
 				rogue_sneaking = TRUE
 	return
+
+/mob/living/proc/get_lying_alpha()
+	var/skill_level = src.get_skill_level(/datum/skill/misc/sneaking)
+
+	switch(skill_level)
+		if(1) return 178 //30%
+		if(2) return 140 //45%
+		if(3) return 128 //50%
+		if(4) return 102 //60%
+		if(5) return 77 //70%
+		if(6) return 51 //80%
+
+	return 255
 
 ///Checked whenever a mob tries to change their movement intent
 /mob/proc/toggle_rogmove_intent(intent, silent = FALSE)
@@ -653,14 +702,13 @@
 	if(!is_mounted)
 		switch(intent)
 			if(MOVE_INTENT_SNEAK)
-				m_intent = MOVE_INTENT_SNEAK
-				if(isliving(src))
-					var/mob/living/L = src
-					if((/datum/mob_descriptor/prominent/prominent_bottom in L.mob_descriptors) || (/datum/mob_descriptor/prominent/prominent_thighs in L.mob_descriptors))
-						L.loud_sneaking = TRUE
-					else
-						L.loud_sneaking = FALSE
-				update_sneak_invis()
+				var/mob/living/L = src
+				if(L.has_status_effect(/datum/status_effect/buff/fly))
+					to_chat(src, span_warning("I can't sneak while flying!"))
+				else
+					m_intent = MOVE_INTENT_SNEAK
+					if(L.in_combat_until < world.time)
+						update_sneak_invis()
 
 			if(MOVE_INTENT_WALK)
 				m_intent = MOVE_INTENT_WALK
@@ -678,6 +726,7 @@
 					if(ishuman(L))
 						var/mob/living/carbon/human/H = L
 						if(!H.check_armor_skill() || H.legcuffed)
+							to_chat(H, span_warning("My armor is too heavy to run effectively!"))
 							return
 
 				m_intent = MOVE_INTENT_RUN
@@ -730,29 +779,24 @@
 					return FALSE
 	return TRUE
 
-/mob/living/proc/check_dodge_skill()
+/mob/living/proc/check_dodge_skill(check_trait = TRUE)
 	return TRUE
 
-/mob/living/carbon/human/check_dodge_skill()
-	if(!HAS_TRAIT(src, TRAIT_DODGEEXPERT))
-		return FALSE
+/mob/living/carbon/human/check_dodge_skill(check_trait = TRUE)
+	if(check_trait)
+		if(!HAS_TRAIT(src, TRAIT_DODGEEXPERT))
+			return FALSE
 	if(istype(src.wear_armor, /obj/item/clothing))
 		var/obj/item/clothing/CL = src.wear_armor
-		if(CL.armor_class == ARMOR_CLASS_HEAVY)
-			return FALSE
-		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
+		if(CL.armor_class > ARMOR_CLASS_LIGHT)
 			return FALSE
 	if(istype(src.wear_shirt, /obj/item/clothing))
 		var/obj/item/clothing/CL = src.wear_shirt
-		if(CL.armor_class == ARMOR_CLASS_HEAVY)
-			return FALSE
-		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
+		if(CL.armor_class > ARMOR_CLASS_LIGHT)
 			return FALSE
 	if(istype(src.wear_pants, /obj/item/clothing))
 		var/obj/item/clothing/CL = src.wear_pants
-		if(CL.armor_class == ARMOR_CLASS_HEAVY)
-			return FALSE
-		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
+		if(CL.armor_class > ARMOR_CLASS_LIGHT)
 			return FALSE
 	if(istype(src.head, /obj/item/clothing))
 		var/obj/item/clothing/CL = src.head
@@ -764,45 +808,6 @@
 				if(!HAS_TRAIT(src, TRAIT_MEDIUMARMOR))
 					return FALSE
 	return TRUE
-
-/mob/living/proc/check_mage_armor()
-	return TRUE
-
-/mob/living/carbon/human/check_mage_armor()
-	if(!HAS_TRAIT(src, TRAIT_MAGEARMOR))
-		return FALSE
-	if(istype(src.wear_armor, /obj/item/clothing))
-		var/obj/item/clothing/CL = src.wear_armor
-		if(CL.armor_class == ARMOR_CLASS_HEAVY)
-			return FALSE
-		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
-			return FALSE
-	if(istype(src.wear_shirt, /obj/item/clothing))
-		var/obj/item/clothing/CL = src.wear_shirt
-		if(CL.armor_class == ARMOR_CLASS_HEAVY)
-			return FALSE
-		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
-			return FALSE
-	if(istype(src.wear_pants, /obj/item/clothing))
-		var/obj/item/clothing/CL = src.wear_pants
-		if(CL.armor_class == ARMOR_CLASS_HEAVY)
-			return FALSE
-		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
-			return FALSE
-	if(istype(src.head, /obj/item/clothing))
-		var/obj/item/clothing/CL = src.head
-		if(CL.armor_class == ARMOR_CLASS_HEAVY)
-			if(!HAS_TRAIT(src, TRAIT_HEAVYARMOR))
-				return FALSE
-		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
-			if(!HAS_TRAIT(src, TRAIT_HEAVYARMOR))
-				if(!HAS_TRAIT(src, TRAIT_MEDIUMARMOR))
-					return FALSE
-	if(src.magearmor == 0)
-		src.magearmor = 1
-		src.apply_status_effect(/datum/status_effect/buff/magearmor)
-		return TRUE
-
 
 
 /mob/proc/toggle_eye_intent(mob/user) //clicking the fixeye button either makes you fixeye or clears your target

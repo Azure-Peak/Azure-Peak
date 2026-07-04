@@ -6,7 +6,7 @@
 /datum/stressevent/seeblessed
 	timer = 30 MINUTES
 	stressadd = -2
-	desc = span_green("Regular visits to Church center my spirit.")
+	desc = span_green("I feel joy within these halls.")
 
 /datum/stressevent/viewsinpunish
 	timer = 5 MINUTES
@@ -41,7 +41,7 @@
 /datum/stressevent/pweed
 	timer = 1 MINUTES
 	stressadd = -2
-	desc = span_green("I've enjoyed a relaxing smoke.")
+	desc = span_green("A pleasant, stimulating buzz settles over me.")
 
 /datum/stressevent/weed
 	timer = 5 MINUTES
@@ -82,7 +82,7 @@
 /datum/stressevent/sweet
 	timer = 8 MINUTES
 	stressadd = -2
-	desc = span_green("Sweets raise even the lowest of moods!")
+	desc = span_green("Sweet treats like these can raise even the lowest of moods!")
 
 /datum/stressevent/hydrated
 	timer = 10 MINUTES
@@ -175,6 +175,11 @@
 	desc = span_green("The warmth of the fire is comforting.")
 	timer = 5 MINUTES
 
+/datum/stressevent/astrata_pyre
+	stressadd = -3
+	desc = span_green("I feel safe under Her watch.")
+	timer = 5 MINUTES
+
 /datum/stressevent/puzzle_easy
 	stressadd = -1
 	desc = span_green("That puzzle was a nice distraction from this drudgery.")
@@ -195,6 +200,11 @@
 	desc = span_boldgreen("I solved an extremely difficult puzzle. Xylix is smiling at me, and surely even \
 	 Noc must find it impressive.")
 	timer = 15 MINUTES
+
+/datum/stressevent/noble_fine_food
+	stressadd = -2
+	desc = span_green("A fine meal, as befits my standing.")
+	timer = 20 MINUTES
 
 /datum/stressevent/noble_lavish_food
 	stressadd = -4
@@ -417,3 +427,91 @@
 	desc = span_aiprivradio("The standard calls out to me! It knows we're to see victory!")
 	timer = 3 MINUTES
 
+// Effects for zigs
+
+/datum/stressevent/menthasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_boldgreen("A cooling feeling in my throat."))
+
+/datum/stressevent/blackberrysmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A sweet-tart sensation on the tongue."))
+	
+/datum/stressevent/applesmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A feeling of sourness and coolness on the tongue."))
+
+/datum/stressevent/chocolatesmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_purple("A pleasant feeling of rawness and bitterness on the tongue."))
+	
+/datum/stressevent/strawberrysmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of sourness and sweetness on the tongue."))
+	
+/datum/stressevent/carrotsmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of very carrot on the tongue."))
+	
+/datum/stressevent/limesmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling of sweet and refreshing on the tongue."))
+	
+/datum/stressevent/salviasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling spicy, earthy and bitter on the tongue."))
+	
+/datum/stressevent/valerianasmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("A pleasant feeling bitter-spicy and tart on the tongue."))
+	
+/datum/stressevent/zweed
+	timer = 5 MINUTES
+	stressadd = -2
+	desc = list(span_blue("You feel a pleasant bitterness that burns and scratches your throat. Nicotine and the taste of oak bark leave a pleasant aftertaste in your mouth."))
+
+/datum/stressevent/jacksberriessmoke
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_blue("You feel a pleasant slight sourness and sweetnesson the tongue."))
+
+/datum/stressevent/abysssmoke
+	timer = 1 MINUTES
+	stressadd = 0
+	desc = list(span_blue("A pleasant feeling slight sourness and sweetnesson... and salty on the tongue? You feel an unpleasant chill run down your spine. You can't shake the feeling of someone staring from behind you..."))
+
+//
+
+/datum/stressevent/kytherian_blessing
+	timer = 5 MINUTES
+	stressadd = -2
+	desc = span_rose("Kytheria is beautiful...")
+
+/datum/stressevent/see_zuranus/zizoite
+	timer = 5 MINUTES
+	stressadd = -2
+	desc = span_purple("...Zuranus is visible, surely, a sign of our continued Progress! ZIZO, ZIZO, ZIZO!")
+
+/datum/stressevent/see_zuranus/graggarite
+	timer = 5 MINUTES
+	stressadd = -2
+	desc = span_purple("JOVE! ANOTHER SYMBOL OF GRAGGAR'S DOMINANCE! HE REIGNS IN THE NOCMOS!")
+
+/datum/stressevent/xylix_star/xylixian
+	timer = 10 MINUTES // this will :) you for a while
+	stressadd = -2
+	desc = span_boldred("Long ago, XYLIX put up an extra star in the sky to anger NOC... seeing it is a FANTASTIC sign!")
+
+/datum/stressevent/permadeath_end
+	timer = 5 MINUTES
+	stressadd = -4
+	desc = span_boldgreen("<b>I feel whole, once more! Death shant claim me yet!</b>")

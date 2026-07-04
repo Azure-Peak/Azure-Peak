@@ -32,15 +32,8 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 				if(D.buried && D.funeral)
 					D.returntolobby()
 					return
-
-				var/datum/job/target_job = SSjob.GetJob(D.mind.assigned_role)
-				if(target_job)
-					if(target_job.job_reopens_slots_on_death)
-						target_job.current_positions = max(0, target_job.current_positions - 1)
-					if(target_job.same_job_respawn_delay)
-						// Store the current time for the player
-						GLOB.job_respawn_delays[src.ckey] = world.time + target_job.same_job_respawn_delay
-			verbs -= GLOB.ghost_verbs
+			remove_verb(src, GLOB.ghost_verbs)
+			init_verbs()
 			mob.returntolobby()
 		if("No")
 			usr << "You have second thoughts."
@@ -49,9 +42,17 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 	set category = "Spirit"
 	set name = "Leave Your Body"
 
-	if(mob.stat == DEAD && isliving(mob))
-		message_admins("[key_name_admin(usr)] is ghosting from their dead body.")
-		mob.ghostize(TRUE, ignore_zombie = TRUE)
+	if(!(mob.stat == DEAD && isliving(mob)))
+		return
+
+	var/response = alert(src, "Are you sure you want to leave your body?", "Leave Your Body", "Leave Body", "Stay")
+	if(response != "Leave Body")
+		return
+	if(!(mob.stat == DEAD && isliving(mob)))
+		return
+
+	message_admins("[key_name_admin(usr)] is ghosting from their dead body.")
+	mob.ghostize(TRUE, ignore_zombie = TRUE)
 
 /client/proc/reenter_corpse()
 	set category = "Spirit"
@@ -63,11 +64,16 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 
 /mob/verb/returntolobby()
 	set name = "{RETURN TO LOBBY}"
-	set category = "Options"
 	set hidden = 1
 
 	if(key)
 		GLOB.respawntimes[key] = world.time
+
+	// Notify the job datum that this player is permanently leaving the round
+	if(mind?.assigned_role)
+		var/datum/job/my_job = SSjob.GetJob(mind.assigned_role)
+		if(my_job)
+			my_job.on_round_removal(src)
 
 	log_game("[key_name(usr)] respawned from underworld")
 
@@ -93,7 +99,9 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 		qdel(M)
 		return
 
-	client?.verbs -= GLOB.ghost_verbs
+	if(client)
+		remove_verb(client, GLOB.ghost_verbs)
+	client?.init_verbs()
 	M.key = key
 	if(istype(src, /mob/dead/observer)) //Be rid of clogging ghost shades
 		qdel(src)

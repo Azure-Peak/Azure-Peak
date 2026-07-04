@@ -38,7 +38,7 @@
 		if(fisherman.STALUC > 10)
 			var/trait_bonus = 0
 			if(HAS_TRAIT(fisherman, TRAIT_CAUTIOUS_FISHER))
-				trait_bonus = 0.20
+				trait_bonus = 0.30
 			var/tier1_bonus = min(fisherman.STALUC - 10, 5) // 5% bonus per point up until 15
 			var/tier2_bonus = max(fisherman.STALUC - 15, 0) // 1% bonus per point past 15
 			var/total_bonus = ((tier1_bonus * 0.05) + (tier2_bonus * 0.01) + (trait_bonus)) * skill_power

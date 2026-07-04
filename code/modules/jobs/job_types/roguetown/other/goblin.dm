@@ -9,7 +9,7 @@
 	max_pq = null
 
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	tutorial = "Make Graggar proud or die trying."
 
 	outfit = /datum/outfit/job/roguetown/npc/goblin
@@ -30,20 +30,20 @@
 			M.mind.current.job = null
 		if(H.dna && H.dna.species)
 			H.dna.species.species_traits |= NOBLOOD
-			H.dna.species.soundpack_m = new /datum/voicepack/other/goblin()
-			H.dna.species.soundpack_f = new /datum/voicepack/other/goblin()
+			H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/goblin]
+			H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/other/goblin]
 		var/obj/item/headdy = H.get_bodypart("head")
 		if(headdy)
 			headdy.icon = 'icons/roguetown/mob/monster/goblins.dmi'
 			headdy.icon_state = "[H.dna.species.id]_head"
-			headdy.sellprice = rand(7,20)
+			headdy.sellprice = rand(HEAD_BOUNTY_GOBLIN_JOB_MIN, HEAD_BOUNTY_GOBLIN_JOB_MAX)
 		H.regenerate_limb(BODY_ZONE_R_ARM)
 		H.regenerate_limb(BODY_ZONE_L_ARM)
-		H.remove_all_languages()
 		H.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw)
 		H.update_a_intents()
 		H.set_patron(/datum/patron/inhumen/graggar)
-
+		H.cmode_music = 'sound/music/combat_shaman2.ogg' //GRAGGAR. GRAGGAR. GRAGGAR. (Different to Gnolls/Heretics, you're just a barbaric goblin shocktrooper)
+		to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
 		var/obj/item/organ/eyes/eyes = H.getorganslot(ORGAN_SLOT_EYES)
 		if(eyes)
 			eyes.Remove(H,1)
@@ -52,12 +52,26 @@
 		eyes.Insert(H)
 		H.ambushable = FALSE
 		H.underwear = "Nude"
-		if(H.charflaw)
-			QDEL_NULL(H.charflaw)
+		for(var/datum/charflaw/cf in H.charflaws)
+			H.charflaws.Remove(cf)
+			QDEL_NULL(cf)
 		H.update_body()
-		H.faction = list("orcs")
+		H.faction = list(FACTION_ORCS)
 		H.name = "goblin"
 		H.real_name = "goblin"
 		ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_NOHUNGER, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+		//Ensures we get journeyman skills
+		H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/maces, 3, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/axes, 3, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/swords, 3, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 3, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/combat/knives, 3, TRUE) //Give players a way to use their stone knives, NPCs hit better.
+		H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 3, TRUE) //So players can break dorpels, NPCs hit better.
+
+		if(H.mind)
+			H.mind.add_antag_datum(new /datum/antagonist/goblin()) //Ensures we are in fact, a goblin (so friend/foe examines + admin antag tracking)
+		H.choose_name_popup("Goblin") //This is so dumb but funny

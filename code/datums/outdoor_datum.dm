@@ -19,10 +19,6 @@ Sunlight System
 				     Emits light to SKY_BLOCKED tiles, and fully white to display the overlay color
 
 */
-/obj
-	var/object_slowdown = 0
-	var/weatherproof = FALSE
-	var/weather = FALSE
 
 /obj/proc/weather_act_on(weather_trait, severity)
 	return
@@ -220,7 +216,16 @@ Sunlight System
 /// Do this turf and all the turfs above it in the z-stack allow sunlight through?
 /turf/proc/is_sky_visible()
 	// rare for this to be true but it overrides everything else
-	return FALSE
+	if (pseudo_roof)
+		return FALSE
+	var/turf/ceiling = _GET_TURF_ABOVE_UNSAFE(src)
+	if(ceiling)
+		return ceiling.is_sky_visible_through()
+	else
+		var/area/turf_area = loc
+		if(!turf_area.outdoors)
+			return FALSE
+	return TRUE
 
 /turf/proc/is_sky_visible_through()
 	if(!istransparentturf(src))

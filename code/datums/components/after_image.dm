@@ -93,6 +93,12 @@
 	var/active = FALSE
 	var/last_appearance_ref
 
+/obj/effect/after_image/Cross(atom/movable/AM)
+	return TRUE
+
+/obj/effect/after_image/CanPass(atom/movable/mover, turf/target)
+	return TRUE
+
 /obj/effect/after_image/New(_loc, min_x = -3, max_x = 3, min_y = -3, max_y = 3, time_a = 0.5 SECONDS, time_b = 3 SECONDS, finalized_alpha = 100)
 	. = ..()
 	src.finalized_alpha = finalized_alpha

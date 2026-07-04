@@ -116,3 +116,17 @@
 	var/mob/living/carbon/human/H = user.mob
 	H.toggle_eye_intent(H)
 	return TRUE
+
+/datum/keybinding/human/set_pose
+	hotkey_keys = list("Unbound")
+	name = "set_pose"
+	full_name = "Set Pose"
+	description = "Set your pose."
+
+/datum/keybinding/human/set_pose/down(client/user)
+	. = ..()
+	if(!.)
+		return FALSE
+	var/mob/living/carbon/human/H = user.mob
+	H.set_pose(H)
+	return TRUE

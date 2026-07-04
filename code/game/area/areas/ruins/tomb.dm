@@ -6,6 +6,9 @@
 /area/rogue/under/tomb
 	name = "Tomb of Alotheos"
 	icon_state = "basement"
+	loot_budget = LOOT_BUDGET_TOMB_OF_ALOTHEOS
+	loot_pool_key = "tomb_of_alotheos"
+	loot_pool_deferred = TRUE
 	first_time_text = "THE TOMB OF ALOTHEOS"
 	soundenv = 5
 	ambientsounds = AMB_BASEMENT

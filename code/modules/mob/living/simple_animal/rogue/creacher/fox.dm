@@ -15,6 +15,8 @@
 	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/volf)	//Same as volf, simplicity is key
 	aggressive = 1
+	threat_point = THREAT_TRASH
+	ambush_faction = "wildlife"
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1, /obj/item/alch/viscera = 1, /obj/item/natural/bone = 3)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 						/obj/item/natural/hide = 1,
@@ -29,13 +31,13 @@
 						/obj/item/alch/bone = 1,
 						/obj/item/alch/viscera = 1,
 						/obj/item/natural/fur/fox = 2,
-						/obj/item/natural/bone = 4,
-						/obj/item/natural/head/fox = 1)
-	faction = list("wolfs", "zombie")
+						/obj/item/natural/bone = 4)
+	head_butcher = /obj/item/natural/head/fox
+	faction = list(FACTION_WOLFS, FACTION_ZOMBIE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	remains_type = /obj/effect/decal/remains/fox
-	health = 100
-	maxHealth = 100				//Wolf is 120
+	health = FOX_HEALTH
+	maxHealth = FOX_HEALTH		//Wolf is 120
 	melee_damage_lower = 10		//Wolf is 19
 	melee_damage_upper = 20		//Wolf is 29
 	vision_range = 7
@@ -71,6 +73,10 @@
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
 	melee_cooldown = WOLF_ATTACK_SPEED
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/Initialize()
+	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 
 /obj/effect/decal/remains/fox
 	name = "remains"
@@ -172,3 +178,8 @@
 			return pick('sound/vo/mobs/venard/fox1.ogg','sound/vo/mobs/venard/fox2.ogg','sound/vo/mobs/venard/fox3.ogg','sound/vo/mobs/venard/fox4.ogg','sound/vo/mobs/venard/fox5.ogg','sound/vo/mobs/venard/fox6.ogg','sound/vo/mobs/venard/fox7.ogg','sound/vo/mobs/venard/fox8.ogg','sound/vo/mobs/venard/fox9.ogg','sound/vo/mobs/venard/fox10.ogg','sound/vo/mobs/venard/fox11.ogg','sound/vo/mobs/venard/fox12.ogg','sound/vo/mobs/venard/fox13.ogg')
 		if("cidle")
 			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/death(gibbed)
+	. = ..()
+	if(!QDELETED(src) && !gibbed)
+		src.AddComponent(/datum/component/deadite_animal_reanimation)

@@ -25,6 +25,9 @@
 	BB.original = target
 	BB.firer = user
 	BB.arcshot = user?.used_intent?.arc_check()
+	if(!BB.arcshot && istype(fired_from, /obj/item/gun/ballistic/revolver/grenadelauncher))
+		var/obj/item/gun/ballistic/revolver/grenadelauncher/launcher = fired_from
+		BB.arcshot = launcher.npc_force_arc
 	if(BB.arcshot)
 		BB.range = get_dist_euclidian(target, user)
 	BB.fired_from = fired_from

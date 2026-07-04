@@ -1,6 +1,6 @@
 GLOBAL_LIST_EMPTY(chosen_music)
 
-GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town,/area/rogue/outdoors/town,/area/rogue/under/town)) //hey
+GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors/town, /area/rogue/outdoors/town, /area/rogue/under/town)))
 
 /area/rogue
 	name = "roguetown"
@@ -23,9 +23,18 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	var/drow_area = FALSE
 	var/necra_area = FALSE
 	var/ceiling_protected = FALSE //Prevents tunneling into these from above
+	/// Loot pool budget for this area. Spawners compete for mammons - when budget runs out, remaining spawners get junk. 0 = no pool (spawners fire normally).
+	var/loot_budget = 0
+	/// Pool key for grouping multiple sub-areas into one shared pool. Areas with the same key share one budget. Defaults to own type path.
+	var/loot_pool_key
+	/// If TRUE, this area's pool is not auto-processed at SSatoms init. Use for areas built incrementally by the dungeon generator - call process_deferred_loot_pools() once generation finishes.
+	var/loot_pool_deferred = FALSE
 
-/area/rogue/Entered(mob/living/carbon/human/guy)
+/area/rogue/Entered(atom/movable/AM)
 	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/guy = AM
 	if((src.town_area == TRUE) && HAS_TRAIT(guy, TRAIT_GUARDSMAN) && !guy.has_status_effect(/datum/status_effect/buff/guardbuffone)) //man at arms
 		guy.apply_status_effect(/datum/status_effect/buff/guardbuffone)
 	if((src.tavern_area == TRUE) && HAS_TRAIT(guy, TRAIT_TAVERN_FIGHTER) && !guy.has_status_effect(/datum/status_effect/buff/innkeeperbuff)) // THE FIGHTER
@@ -61,12 +70,25 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 /area/rogue/indoors/banditcamp
 	name = "Bandit Camp"
 	droning_sound = 'sound/music/area/banditcamp.ogg'
-	droning_sound_dusk = 'sound/music/area/banditcamp.ogg'
-	droning_sound_night = 'sound/music/area/banditcamp.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
 
-/area/rogue/indoors/vampire_manor
+/area/rogue/indoors/vampire_manor //Sovlnuke with a track we didn't use previous.
+	first_time_text = "FORGOTTEN MANOR"
 	name = "Vampire Manor"
-	droning_sound = 'sound/music/area/manor2.ogg'
+	droning_sound = 'sound/music/area/sargoth.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+
+/area/rogue/indoors/lich_start //Quieter so our droning noise doesn't cut out the on-spawn stinger, not yet. I want this experience to be thematic
+	name = "Lich Lair"
+	droning_sound = 'sound/ambience/creepywind.ogg' //Ominiously quiet starting room, let them build up a bit.
+	droning_sound_dusk = null
+	droning_sound_night = null
+
+/area/rogue/indoors/lich_start/lich_lair //Sovlnuke with a unique track we didn't use previous I think?
+	first_time_text = "FORGOTTEN KEEP"
+	droning_sound = 'sound/music/area/morosewaters.ogg'
 
 /area/rogue/indoors/ravoxarena
 	name = "Ravox's Arena"
@@ -82,6 +104,10 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 
 /area/rogue/indoors/eventarea
 	name = "Event Area"
+	deathsight_message = "a place shielded from mortal eyes"
+
+/area/rogue/indoors/eventarea/multiz
+	name = "Event Area Multiz"
 	deathsight_message = "a place shielded from mortal eyes"
 
 ///// OUTDOORS AREAS //////
@@ -147,9 +173,9 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	soundenv = 19
 	ambush_times = list("night")
 	ambush_mobs = list(
-				/mob/living/simple_animal/hostile/retaliate/rogue/wolf/badger = 10,
-				/mob/living/simple_animal/hostile/retaliate/rogue/wolf/raccoon = 25,
-				/mob/living/simple_animal/hostile/retaliate/rogue/wolf/bobcat = 20,
+				/mob/living/simple_animal/hostile/retaliate/rogue/badger = 10,
+				/mob/living/simple_animal/hostile/retaliate/rogue/raccoon = 25,
+				/mob/living/simple_animal/hostile/retaliate/rogue/bobcat = 20,
 				/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 30,
 				/mob/living/simple_animal/hostile/retaliate/rogue/fox = 30,
 				/mob/living/carbon/human/species/skeleton/npc/supereasy = 30)
@@ -231,6 +257,8 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 
 /area/rogue/under/cave/licharena
 	name = "lich's domain"
+	loot_budget = LOOT_BUDGET_LICH_ARENA
+	loot_pool_key = "lich_arena"
 	icon_state = "under"
 	first_time_text = "LICH'S DOMAIN"
 	droning_sound = 'sound/music/area/dragonden.ogg'
@@ -248,6 +276,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 
 /area/rogue/under/cave/undeadmanor
 	name = "skelemansion"
+	loot_budget = LOOT_BUDGET_UNDEAD_MANOR
 	icon_state = "spidercave"
 	first_time_text = "ABANDONED MANOR"
 	droning_sound = 'sound/music/area/dungeon2.ogg'
@@ -326,6 +355,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	first_time_text = "The Dwarven Quarter"
 	soundenv = 16
 	converted_type = /area/rogue/indoors/shelter/town/dwarf
+
 /area/rogue/indoors/shelter/town/dwarf
 	icon_state = "dwarf"
 	droning_sound = 'sound/music/area/dwarf.ogg'
@@ -345,12 +375,13 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	name = "dream realm"
 	icon_state = "dream"
 	first_time_text = "Abyssal Dream"
+	deathsight_message = "a vast, endless dreamscape"
 
 
 
 /area/rogue/indoors/deathsedge
 	name = "Death's Precipice"
-	deathsight_message = "an place bordering necra's grasp"
+	deathsight_message = "a place bordering necra's grasp"
 	necra_area = TRUE
 	droning_sound = 'sound/music/area/underworlddrone.ogg'
 	droning_sound_dusk = null

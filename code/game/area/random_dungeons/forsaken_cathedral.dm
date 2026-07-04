@@ -1,5 +1,6 @@
 /area/rogue/under/cave/inhumen
 	name = "forsaken cathedral"
+	loot_budget = LOOT_BUDGET_FORSAKEN_CATHEDRAL
 	icon_state = "cave"
 	first_time_text = "FORSAKEN CATHEDRAL"
 	droning_sound = 'sound/music/unholy.ogg'

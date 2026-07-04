@@ -30,7 +30,7 @@
 	SEND_SIGNAL(src, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, A, proximity)
 	var/rmb_stam_penalty = 1
 	if(istype(rmb_intent, /datum/rmb_intent/strong) || istype(rmb_intent, /datum/rmb_intent/swift))
-		rmb_stam_penalty = 1.5	//Uses a modifer instead of a flat addition, less than weapons no matter what rn. 50% extra stam cost basically.
+		rmb_stam_penalty = 6	//Uses a modifer instead of a flat addition. 6 swiftstam vs 10
 	if(isliving(A))
 		var/mob/living/L = A
 		if(!used_intent.noaa)
@@ -43,6 +43,9 @@
 			var/obj/item/IM = L.get_active_held_item()
 			H.process_clash(src, IM)
 			return
+		if(ishuman(L))
+			var/mob/living/carbon/human/H = L
+			H.process_golgatha_rebuke(src)
 		if(mob_biotypes & MOB_UNDEAD)
 			if(L.has_status_effect(/datum/status_effect/buff/necras_vow))
 				if(isnull(mind))
@@ -58,7 +61,7 @@
 
 		if(L.checkmiss(src))
 			return
-		if(!L.checkdefense(used_intent, src))
+		if(HAS_TRAIT(src, TRAIT_EMPOWERED_UNARMED) || !L.checkdefense(used_intent, src))
 			L.attack_hand(src, params)
 		return
 	else
@@ -87,7 +90,20 @@
 						visible_message(span_warning("[src] pushes [AM]."))
 					changeNext_move(CLICK_CD_MELEE)
 					return
-		A.attack_hand(src, params)
+		if(cmode && used_intent.type == INTENT_HARM && isitem(A))
+			if(stamina_add(8))
+				var/dmg = get_punch_dmg()
+				var/obj/item/I = A
+				I.take_damage(dmg)
+				I.try_damage_pushback(src)
+				changeNext_move(CLICK_CD_MELEE)
+				var/verbu = pick(used_intent.attack_verb)
+				log_combat(src, I, "attacked with fists")
+				visible_message(span_danger("[src] [verbu] [I]!"))
+				var/tempsound = used_intent.hitsound
+				playsound(loc,  tempsound, 100, FALSE, -1)
+		else
+			A.attack_hand(src, params)
 		if(pulling)
 			changeNext_move(CLICK_CD_MELEE)
 
@@ -315,9 +331,10 @@
 		if(ishuman(ML))
 			var/mob/living/carbon/human/H = ML
 			affecting = H.get_bodypart(ran_zone(dam_zone))
-		var/armor = ML.run_armor_check(affecting, "stab")
+		var/bite_damage = rand(1,3)
+		var/armor = ML.run_armor_check(affecting, "stab", armor_penetration = PEN_NONE, damage = bite_damage)
 		if(prob(75))
-			ML.apply_damage(rand(1,3), BRUTE, affecting, armor)
+			ML.apply_damage(bite_damage, BRUTE, affecting, armor)
 			ML.visible_message(span_danger("[name] bites [ML]!"), \
 							span_danger("[name] bites you!"), span_hear("I hear a chomp!"), COMBAT_MESSAGE_RANGE, name)
 			to_chat(name, span_danger("I bite [ML]!"))
@@ -352,6 +369,8 @@
 */
 
 /mob/living/simple_animal/hostile/UnarmedAttack(atom/A)
+	if(A == src)
+		return
 	target = A
 	if(dextrous && !ismob(A))
 		..()

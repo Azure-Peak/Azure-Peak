@@ -8,6 +8,11 @@
 	bloody_icon_state = "bloodyhands"
 	sleevetype = "shirt"
 	max_heat_protection_temperature = 361
-	experimental_inhand = FALSE
-	/// Unarmed damage multiplier (for pure fists / wrestling only)
-	var/unarmed_bonus = 1
+	experimental_inhand = TRUE
+	/// Flat unarmed damage bonus (for pure fists / wrestling only)
+	var/unarmed_bonus = 0
+
+/obj/item/clothing/gloves/roguetown/get_mechanics_examine(mob/user)
+	. = ..()
+	if(unarmed_bonus > 0)
+		. += span_notice("Unarmed damage bonus: +[unarmed_bonus] (flat, applied after strength scaling).")

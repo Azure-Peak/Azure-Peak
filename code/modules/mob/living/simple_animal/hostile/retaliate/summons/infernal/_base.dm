@@ -1,5 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal
 	obj_damage = 75
+	blood_toll_bucket = STATS_KILLED_INFERNALS
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/Initialize()
 	. = ..()

@@ -10,15 +10,18 @@
 	var/rock_damage = 40
 
 /datum/action/cooldown/mob_cooldown/stone_throw/Activate(atom/target)
+	if(!target || target == owner)
+		return FALSE
 	var/dist = get_dist(owner, target)
 	if(can_see(owner, target, range) && dist < range && dist > 1) //can see, in range and not adjacent
 		owner.visible_message(span_alert("[owner] reaches towards the ground, eyeing [target]."))
-		disable_cooldown_actions()
 		addtimer(CALLBACK(src, PROC_REF(prepare_stone), target), cast_time)
 		StartCooldown()
 	return TRUE
 
 /datum/action/cooldown/mob_cooldown/stone_throw/proc/prepare_stone(atom/target, mob/living/L)
+	if(!target || target == owner || QDELETED(target))
+		return
 	owner.visible_message(span_alert("[owner] digs into the ground and grabs a massive rock!"))
 	playsound(owner, 'sound/items/dig_shovel.ogg', 100, TRUE)
 	sleep(20)
@@ -39,7 +42,7 @@
 			if(ismob(target))
 				var/mob/living/victim = target
 				def_zone = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_CHEST, BODY_ZONE_HEAD)
-				victim.apply_damage(rock_damage, BRUTE, def_zone, victim.run_armor_check(def_zone, "stab", damage = rock_damage))
+				victim.apply_damage(rock_damage, BRUTE, def_zone, victim.run_armor_check(def_zone, "stab", armor_penetration = PEN_NONE, damage = rock_damage))
 				victim.Paralyze(5)
 				to_chat(target, span_userdanger("You're hit by a big rock!"))
 				playsound(target, 'sound/foley/smash_rock.ogg', 100, TRUE)

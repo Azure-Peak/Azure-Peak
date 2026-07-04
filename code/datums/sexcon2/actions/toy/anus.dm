@@ -3,6 +3,7 @@
 	stamina_cost = 1.0
 	intensity = 1
 	masturbation = TRUE
+	debug_erp_panel_verb = FALSE
 
 /datum/sex_action/toy/anus/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
@@ -28,23 +29,12 @@
 		return FALSE
 	return TRUE
 
-
 /datum/sex_action/toy/anus/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
 	user.visible_message(span_warning("[user] starts riding a dildo using [user.p_their()] butt..."))
 
 /datum/sex_action/toy/anus/get_start_sound(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg')
-
-/datum/sex_action/toy/anus/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	var/obj/item/dildo/used_item = user.get_active_held_item()
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] fucks [user.p_their()] butt with a dildo!"))
-	playsound(target, sex_session.get_force_sound(), 50, TRUE, -2, ignore_walls = FALSE)
-	do_onomatopoeia(target)
-
-	sex_session.perform_sex_action(user, 2, used_item.pleasure, TRUE)
-	sex_session.handle_passive_ejaculation()
 
 /datum/sex_action/toy/anus/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
@@ -53,3 +43,16 @@
 /datum/sex_action/toy/anus/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
 	sex_locks |= new /datum/sex_session_lock(user, ORGAN_SLOT_ANUS)
+
+/datum/sex_action/toy/anus/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] fucks [user.p_their()] butt with a dildo!"))
+
+/datum/sex_action/toy/anus/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/obj/item/dildo/used_item = user.get_active_held_item()
+	playsound(target, sex_session.get_force_sound(), 50, TRUE, -2, ignore_walls = FALSE)
+	do_onomatopoeia(target)
+
+	sex_session.perform_sex_action(user, 2, used_item.pleasure, TRUE)
+	sex_session.handle_passive_ejaculation()

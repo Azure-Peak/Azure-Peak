@@ -9,13 +9,8 @@
 
 	var/damtype = BRUTE
 	var/force = 0
-	/// a modifier to an item's damage against structures
-	var/demolition_mod = 1
 
 	var/datum/armor/armor
-	var/last_peeled_limb
-	var/peel_count = 0
-	var/peel_threshold = 3
 	var/obj_integrity	//defaults to max_integrity
 	var/max_integrity = 500
 	var/integrity_failure = 0 //0 if we have no special broken behavior, otherwise is a percentage of at what point the obj breaks. 0.5 being 50%
@@ -44,7 +39,7 @@
 
 	var/drag_slowdown // Amont of multiplicative slowdown applied if pulled. >1 makes you slower, <1 makes you faster.
 
-	var/blade_dulling = DULLING_BASHCHOP
+	var/blade_dulling = FALSE
 
 	var/debris = null
 	var/static_debris = null
@@ -57,6 +52,15 @@
 
 	/// Icon to use as a 32x32 preview in crafting menus and such
 	var/icon_state_preview
+
+	var/attacked_sound = 'sound/blank.ogg'
+	var/component_block = FALSE
+	var/object_slowdown = 0
+	/// Extra AI pathfinding cost for this object. Higher values make NPCs avoid this tile.
+	var/ai_path_weight = 0
+	var/weatherproof = FALSE
+	var/weather = FALSE
+	var/fire_burn_start //make us not burn that long
 
 	vis_flags = VIS_INHERIT_PLANE
 

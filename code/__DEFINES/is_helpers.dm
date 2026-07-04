@@ -82,6 +82,7 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 #define iself(A) (is_species(A, /datum/species/elf))
 #define isdarkelf(A) (is_species(A, /datum/species/elf/dark))
 #define iswoodelf(A) (is_species(A, /datum/species/elf/wood))
+#define issunelf(A) (is_species(A, /datum/species/elf/sun))
 #define ishalfelf(A) (is_species(A, /datum/species/human/halfelf))
 #define istiefling(A) (is_species(A, /datum/species/tieberian))
 #define isdullahan(A) (is_species(A, /datum/species/dullahan))
@@ -100,6 +101,8 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 #define ismoth(A) (is_species(A, /datum/species/moth))
 #define istabaxi(A) (is_species(A, /datum/species/tabaxi))
 #define isvulp(A) (is_species(A, /datum/species/vulpkanin))
+#define isooze(A) (is_species(A, /datum/species/ooze))
+#define isgnoll(A) (is_species(A, /datum/species/gnoll))
 
 
 //more carbon mobs
@@ -155,6 +158,12 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 
 #define isitem(A) (istype(A, /obj/item))
 
+#define isweapon(A) (istype(A, /obj/item/rogueweapon))
+
+#define isammo(A) (istype(A, /obj/item/ammo_casing))
+
+#define isreagentcontainer(A) (istype(A, /obj/item/reagent_containers))
+
 #define isidcard(I) (istype(I, /obj/item/card/id))
 
 #define isstructure(A) (istype(A, /obj/structure))
@@ -193,3 +202,4 @@ GLOBAL_VAR_INIT(magic_appearance_detecting_image, new /image) // appearances are
 #define isimage(thing) (istype(thing, /image))
 #define isappearance(thing) (!isimage(thing) && !ispath(thing) && istype(GLOB.magic_appearance_detecting_image, thing))
 #define isappearance_or_image(thing) (isimage(thing) || (!ispath(thing) && istype(GLOB.magic_appearance_detecting_image, thing)))
+#define is_ooze_wound(A) (istype(A, /datum/wound/fracture) || istype(A, /datum/wound/dislocation)) //Defines what kinds of wounds cause ooze limbs to melt.

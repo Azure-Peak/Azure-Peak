@@ -4,11 +4,34 @@
 	damage = 0
 	damage_type = OXY
 	nodamage = TRUE
-	armor_penetration = 100
+	armor_penetration = PEN_NONE // We shouldn't allow any projectile that forget to set to pen all
 	pass_flags = PASSTABLE | PASSGRILLE
-	flag = "magic"
+	flag = "fire"
+	reflectable = REFLECT_NORMAL
+	guard_deflectable = TRUE
+	dam_falloff_factor = 0.5
+	suppress_effects_past_range = TRUE
+	max_range = 7
+	dismember_by_default = TRUE
 	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 	var/mob/living/carbon/human/sender
+	/// Impact visual intensity. SPELL_IMPACT_NONE / SPELL_IMPACT_LOW / SPELL_IMPACT_MEDIUM / SPELL_IMPACT_HIGH
+	var/spell_impact_intensity = SPELL_IMPACT_LOW
+	/// Override color for the impact effect. If null, uses light_color.
+	var/spell_impact_color
+
+/// Energy projectiles (divine and arcane bolts) are a separate base from /magic but share the same off-screen falloff.
+/obj/projectile/energy
+	dam_falloff_factor = 0.5
+	suppress_effects_past_range = TRUE
+	max_range = 7
+	dismember_by_default = TRUE
+
+/obj/projectile/magic/on_hit(atom/target, blocked = FALSE)
+	. = ..()
+	if(spell_impact_intensity > SPELL_IMPACT_NONE)
+		var/impact_color = spell_impact_color || light_color || "#FFFFFF"
+		new /obj/effect/temp_visual/spell_impact(get_turf(target), impact_color, spell_impact_intensity)
 
 /obj/projectile/magic/death
 	name = "bolt of death"
@@ -119,7 +142,7 @@
 	icon_state = "lavastaff"
 	damage = 15
 	damage_type = BURN
-	flag = "magic"
+	flag = "fire"
 	dismemberment = 50
 	nodamage = FALSE
 
@@ -138,8 +161,8 @@
 	damage = 20
 	damage_type = BURN
 	nodamage = FALSE
-	armor_penetration = 0
-	flag = "magic"
+	armor_penetration = PEN_NONE
+	flag = "fire"
 	hitsound = 'sound/blank.ogg'
 
 /obj/projectile/magic/arcane_barrage/on_hit(target)
@@ -156,7 +179,7 @@
 	name = "locker bolt"
 	icon_state = "locker"
 	nodamage = TRUE
-	flag = "magic"
+	flag = "fire"
 	var/weld = TRUE
 	var/created = FALSE //prevents creation of more then one locker if it has multiple hits
 	var/locker_suck = TRUE
@@ -277,40 +300,20 @@
 			return BULLET_ACT_BLOCK
 		L.apply_status_effect(STATUS_EFFECT_ANTIMAGIC)
 
-/obj/projectile/magic/fetch
-	name = "bolt of fetching"
-	icon_state = "cursehand0"
-	range = 15
 
-/obj/projectile/magic/fetch/on_hit(target)
-	. = ..()
-	var/atom/throw_target = get_step(firer, get_dir(firer, target))
-	if(isliving(target))
-		var/mob/living/L = target
-		if(L.anti_magic_check() || !firer)
-			L.visible_message(span_warning("[src] vanishes on contact with [target]!"))
-			return BULLET_ACT_BLOCK
-		L.throw_at(throw_target, 200, 4)
-	else
-		if(isitem(target))
-			var/obj/item/I = target
-			var/mob/living/carbon/human/carbon_firer
-			if (ishuman(firer))
-				carbon_firer = firer
-				if (carbon_firer?.can_catch_item())
-					throw_target = get_turf(firer)
-			I.throw_at(throw_target, 200, 3)
 
 /obj/projectile/magic/sickness
 	name = "Bolt of Sickness"
 	icon_state = "xray"
 	damage = 10
 	damage_type = BURN
-	flag = "magic"
+	flag = "fire"
 	range = 15
 
 /obj/projectile/magic/sickness/on_hit(atom/target, blocked = FALSE)
 	. = ..()
+	if(out_of_effective_range())
+		return
 	if(iscarbon(target))
 		var/mob/living/carbon/M = target
 		M.reagents.add_reagent(/datum/reagent/toxin, 3)
@@ -385,8 +388,12 @@
 		if(M.anti_magic_check())
 			visible_message(span_warning("[src] vanishes into smoke on contact with [target]!"))
 			return BULLET_ACT_BLOCK
+		if(out_of_effective_range())
+			return
 		if(exp_fire)
 			M.adjust_fire_stacks(exp_fire*3)
+	else if(out_of_effective_range())
+		return
 	var/turf/T
 	if(isturf(target))
 		T = target
@@ -411,6 +418,8 @@
 		var/mob/living/M = target
 		if(M.anti_magic_check())
 			return BULLET_ACT_BLOCK
+	if(out_of_effective_range())
+		return
 	var/turf/T = get_turf(target)
 	for(var/i=0, i<50, i+=10)
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(explosion), T, -1, exp_heavy, exp_light, exp_flash, FALSE, FALSE, exp_fire), i)

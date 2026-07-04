@@ -30,7 +30,7 @@
 	body += "html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }"
 	body += "#container { display: flex; flex-direction: row; align-items: flex-start; width: 100%; overflow-x: hidden; flex-wrap: nowrap; }"
 	body += "#left { flex: 2; padding-right: 10px; min-width: 0; }"
-	body += "#skills-section, #languages-section, #stats-section { display: none; background: white; border: 1px solid black; padding: 10px; width: 100%; box-sizing: border-box; max-width: 100%; overflow-x: hidden; word-wrap: break-word; }"
+	body += "#skills-section, #languages-section, #stats-section, #patron-section { display: none; background: white; border: 1px solid black; padding: 10px; width: 100%; box-sizing: border-box; max-width: 100%; overflow-x: hidden; word-wrap: break-word; }"
 	body += "#right { flex: 1; border-left: 2px solid black; padding-left: 10px; max-height: 500px; overflow-y: auto; width: 250px; min-width: 250px; box-sizing: border-box; position: relative; }"
 	body += "#right-header { display: flex; justify-content: space-around; padding: 5px; background: white; border-bottom: 2px solid black; position: sticky; top: 0; z-index: 10; }"
 	body += "#right-header button { flex: 1; margin: 2px; padding: 5px; cursor: pointer; font-weight: bold; border: none; background-color: #ddd; border-radius: 5px; }"
@@ -44,6 +44,7 @@
 	body += "    document.getElementById('skills-section').style.display = (section === 'skills') ? 'block' : 'none';"
 	body += "    document.getElementById('languages-section').style.display = (section === 'languages') ? 'block' : 'none';"
 	body += "	 document.getElementById('stats-section').style.display = (section === 'stats') ? 'block' : 'none';"
+	body += "    document.getElementById('patron-section').style.display = (section === 'patron') ? 'block' : 'none';"
 	body += "}"
 
 	body += "function refreshAndKeepSection(section) {"
@@ -67,7 +68,7 @@
 		body += " played by <b>[M.client]</b> "
 		body += "\[<A href='?_src_=holder;[HrefToken()];editrights=[(GLOB.admin_datums[M.client.ckey] || GLOB.deadmins[M.client.ckey]) ? "rank" : "add"];key=[M.key]'>[M.client.holder ? M.client.holder.rank : "Player"]</A>\]"
 		if(CONFIG_GET(flag/use_exp_tracking))
-			body += "\[<A href='?_src_=holder;[HrefToken()];getplaytimewindow=[REF(M)]'>" + M.client.get_exp_living() + "</a>\]"
+			body += " \[<A href='?_src_=holder;[HrefToken()];getplaytimewindow=[REF(M)]'>View Playtime</A>\]"
 
 	if(isnewplayer(M))
 		body += " <B>Hasn't Entered Game</B> "
@@ -94,6 +95,10 @@
 			var/mob/living/living = M
 			patron = initial(living.patron.name)
 		body += "<br><br>Current Patron: [patron]"
+
+		// Role and Advclass display
+		body += "<br>Role: [M.job ? M.job : "None"]"
+		body += "<br>Advclass: [M.advjob ? M.advjob : "None"]"
 
 		var/idstatus = "<br>ID Status: "
 		if(!M.ckey)
@@ -163,8 +168,11 @@
 	body += "<br><br>"
 	body += "<A href='?_src_=holder;[HrefToken()];traitor=[REF(M)]'>Traitor panel</A> | "
 	body += "<A href='?_src_=holder;[HrefToken()];narrateto=[REF(M)]'>Narrate to</A> | "
-	body += "<A href='?_src_=holder;[HrefToken()];subtlemessage=[REF(M)]'>Subtle message</A> | "
+	body += "<A href='?_src_=holder;[HrefToken()];subtlemessage=[REF(M)]'>Subtle message</A>"
 	//body += "<A href='?_src_=holder;[HrefToken()];languagemenu=[REF(M)]'>Language Menu</A>"
+	body += "<br><A href='?_src_=holder;[HrefToken()];heal_panel=[REF(M)]'>Heal Panel</A> | "
+	body += "<A href='?_src_=holder;[HrefToken()];inventory_panel=[REF(M)]'>Inventory Panel</A> |"
+	body += "<A href='?_src_=holder;[HrefToken()];examine_player=[REF(M)]'>Flavor Text</A>"
 
 	body += "</div>"
 
@@ -173,6 +181,7 @@
 	body += "<button onclick=\"toggleSection('skills')\">Skills</button>"
 	body += "<button onclick=\"toggleSection('languages')\">Languages</button>"
 	body += "<button onclick=\"toggleSection('stats')\">Stats</button>"
+	body += "<button onclick=\"toggleSection('patron')\">Patron</button>"
 	body += "</div>"
 
 
@@ -180,10 +189,10 @@
 	body += "<h3>Skills</h3><ul>"
 	for(var/skill_type in SSskills.all_skills)
 		var/datum/skill/skill = GetSkillRef(skill_type)
+		var/skill_level = 0
 		if(skill in M.skills?.known_skills)
-			body += "<li>[initial(skill.name)]: [M.skills?.known_skills[skill]] "
-		else
-			body += "<li>[initial(skill.name)]: 0"
+			skill_level = M.skills?.known_skills[skill]
+		body += "<li>[initial(skill.name)]: <a href='?_src_=holder;[HrefToken()];set_skill=[REF(M)];skill=[skill.type]'>[skill_level]</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];increase_skill=[REF(M)];skill=[skill.type]'>+</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];decrease_skill=[REF(M)];skill=[skill.type]'>-</a></li>"
 	body += "</ul></div>"
@@ -203,35 +212,53 @@
 	body += "<h3>Stats</h3><ul>"
 	if(isliving(M)) // Ensure M is a living mob
 		var/mob/living/living = M // Explicitly cast M to /mob/living
-		body += "<li>Strength: [living.STASTR] "
+		body += "<li>Strength: <a href='?_src_=holder;[HrefToken()];set_stat=[REF(M)];stat=strength'>[living.STASTR]</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=strength'>+</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=strength'>-</a></li>"
 
-		body += "<li>Perception: [living.STAPER] "
+		body += "<li>Perception: <a href='?_src_=holder;[HrefToken()];set_stat=[REF(M)];stat=perception'>[living.STAPER]</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=perception'>+</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=perception'>-</a></li>"
 
-		body += "<li>Willpower: [living.STAWIL] "
+		body += "<li>Willpower: <a href='?_src_=holder;[HrefToken()];set_stat=[REF(M)];stat=willpower'>[living.STAWIL]</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=willpower'>+</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=willpower'>-</a></li>"
 
-		body += "<li>Constitution: [living.STACON] "
+		body += "<li>Constitution: <a href='?_src_=holder;[HrefToken()];set_stat=[REF(M)];stat=constitution'>[living.STACON]</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=constitution'>+</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=constitution'>-</a></li>"
 
-		body += "<li>Intelligence: [living.STAINT] "
+		body += "<li>Intelligence: <a href='?_src_=holder;[HrefToken()];set_stat=[REF(M)];stat=intelligence'>[living.STAINT]</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=intelligence'>+</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=intelligence'>-</a></li>"
 
-		body += "<li>Speed: [living.STASPD] "
+		body += "<li>Speed: <a href='?_src_=holder;[HrefToken()];set_stat=[REF(M)];stat=speed'>[living.STASPD]</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=speed'>+</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=speed'>-</a></li>"
 
-		body += "<li>Luck: [living.STALUC] "
+		body += "<li>Luck: <a href='?_src_=holder;[HrefToken()];set_stat=[REF(M)];stat=fortune'>[living.STALUC]</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=fortune'>+</a> "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=fortune'>-</a></li>"
 		body += "</ul>"
-
+		body += "</div>"
+		
+		// Patron Section
+		body += "<div id='patron-section'>"
+		body += "<h3>Patron</h3>"
+		body += "<p>Current: [living.patron ? initial(living.patron.name) : "None"]</p>"
+		body += "<ul>"
+		for(var/patron_type in GLOB.patronlist)
+			// Skip Undivided and Science patrons
+			if(patron_type == /datum/patron/divine/undivided || patron_type == /datum/patron/godless)
+				continue
+			var/datum/patron/P = GLOB.patronlist[patron_type]
+			// Skip if patron is null or has no name
+			if(!P || !initial(P.name))
+				continue
+			body += "<li>[initial(P.name)] "
+			body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];set_patron=[REF(M)];patron=[patron_type]'>Set</a></li>"
+		body += "</ul></div>"
+		
 
 		body += "</div>"
 		body += "</div>"
@@ -246,7 +273,7 @@
 /datum/admins/proc/admin_heal(mob/living/M in GLOB.mob_list)
 	set name = "Mob - Heal"
 	set desc = "Heal a mob to full health"
-	set category = "-GameMaster-"
+	set category = "Game Master"
 
 	if(!check_rights())
 		return
@@ -256,7 +283,7 @@
 	log_admin("[key_name(usr)] healed [key_name(M)].")
 
 /datum/admins/proc/show_player_panel(mob/M in GLOB.mob_list)
-	set category = "-GameMaster-"
+	set category = "Game Master"
 	set name = "Show Player Panel"
 	set desc="Edit player (respawn, ban, heal, etc)"
 
@@ -271,7 +298,7 @@
 /datum/admins/proc/admin_revive(mob/living/M in GLOB.mob_list)
 	set name = "Mob - Revive"
 	set desc = "Resuscitate a mob"
-	set category = "-GameMaster-"
+	set category = "Game Master"
 
 	if(!check_rights())
 		return
@@ -297,7 +324,7 @@
 /datum/admins/proc/admin_sleep(mob/living/M in GLOB.mob_list)
 	set name = "Toggle Sleeping"
 	set desc = "Toggle a mob's sleeping state"
-	set category = "-GameMaster-"
+	set category = "Game Master"
 
 	if(!check_rights())
 		return
@@ -315,7 +342,7 @@
 /datum/admins/proc/start_vote()
 	set name = "Start Vote"
 	set desc = "Start a vote"
-	set category = "-Server-"
+	set category = "Server"
 
 	if(!check_rights(R_POLL))
 		to_chat(usr, span_warning("You do not have the rights to start a vote."))
@@ -338,7 +365,6 @@
 /datum/admins/proc/adjustpq(mob/living/M in GLOB.mob_list)
 	set name = "Adjust PQ of Anything"
 	set desc = "Adjust a player's PQ"
-	set category = "-GameMaster-"
 	set hidden = 1
 
 	if(!check_rights())
@@ -399,7 +425,7 @@
 
 
 /datum/admins/proc/restart()
-	set category = "-Server-"
+	set category = "Server"
 	set name = "Reboot World"
 	set desc="Restarts the world immediately"
 	if (!usr.client.holder)
@@ -434,7 +460,7 @@
 					world.TgsEndProcess()
 
 /datum/admins/proc/end_round()
-	set category = "-Server-"
+	set category = "Server"
 	set name = "End Round"
 	set desc = ""
 
@@ -449,7 +475,7 @@
 
 
 /datum/admins/proc/announce()
-	set category = "-Special Verbs-"
+	set category = "Admin.Special"
 	set name = "Announce"
 	set desc="Announce your desires to the world"
 	if(!check_rights(0))
@@ -464,7 +490,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Announce") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/set_admin_notice()
-	set category = "-Server-"
+	set category = "Server"
 	set name = "Set Admin Notice"
 	set desc ="Set an announcement that appears to everyone who joins the server. Only lasts this round"
 	if(!check_rights(0))
@@ -487,7 +513,7 @@
 	return
 
 /datum/admins/proc/toggleooc()
-	set category = "-Server-"
+	set category = "Server"
 	set desc="Toggle dis bitch"
 	set name="Toggle OOC"
 	toggle_ooc()
@@ -496,7 +522,7 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle OOC", "[GLOB.ooc_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleoocdead()
-	set category = "-Server-"
+	set category = "Server"
 	set desc="Toggle dis bitch"
 	set name="Toggle Dead OOC"
 	toggle_dooc()
@@ -506,7 +532,7 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Dead OOC", "[GLOB.dooc_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/startnow()
-	set category = "-Server-"
+	set category = "Server"
 	set desc="Start the round RIGHT NOW"
 	set name="Start Now"
 	if(SSticker.current_state == GAME_STATE_PREGAME || SSticker.current_state == GAME_STATE_STARTUP)
@@ -526,7 +552,7 @@
 	return 0
 
 /datum/admins/proc/toggleenter()
-	set category = "-Server-"
+	set category = "Server"
 	set desc="People can't enter"
 	set name="Toggle Entering"
 	GLOB.enter_allowed = !( GLOB.enter_allowed )
@@ -540,7 +566,6 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Entering", "[GLOB.enter_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleAI()
-	set category = "-Server-"
 	set desc="People can't be AI"
 	set name="Toggle AI"
 	set hidden = 1
@@ -555,7 +580,6 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle AI", "[!alai ? "Disabled" : "Enabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleaban()
-	set category = "-Server-"
 	set desc="Respawn basically"
 	set name="Toggle Respawn"
 	set hidden = 1
@@ -571,7 +595,7 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Respawn", "[!new_nores ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/delay()
-	set category = "-Server-"
+	set category = "Server"
 	set desc="Delay the game start"
 	set name="Delay pre-game"
 
@@ -591,7 +615,7 @@
 		SSblackbox.record_feedback("tally", "admin_verb", 1, "Delay Game Start") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/unprison(mob/M in GLOB.mob_list)
-	set category = "-Admin-"
+	set category = "Admin.Admin"
 	set name = "Unprison"
 	if (is_centcom_level(M.z))
 		SSjob.SendToLateJoin(M)
@@ -604,7 +628,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////ADMIN HELPER PROCS
 
 /datum/admins/proc/spawn_atom(object as text)
-	set category = "-GameMaster-"
+	set category = "Game Master"
 	set desc = ""
 	set name = "Spawn..."
 
@@ -676,7 +700,7 @@
 
 
 /datum/admins/proc/show_traitor_panel(mob/M in GLOB.mob_list)
-	set category = "-Admin-"
+	set category = "Admin.Admin"
 	set desc = ""
 	set name = "Show Traitor Panel"
 
@@ -705,7 +729,6 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Tinted Welding Helmets", "[GLOB.tinted_weldhelh ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleguests()
-	set category = "-Server-"
 	set desc="Guests can't enter"
 	set name="Toggle guests"
 	set hidden = 1
@@ -835,7 +858,7 @@
 
 
 /client/proc/returntolobby()
-	set category = "-Special Verbs-"
+	set category = "Admin.Special"
 	set name = "Back to Lobby"
 
 	var/mob/living/carbon/human/H = mob
@@ -864,7 +887,7 @@
 
 /datum/admins/proc/sleep_view()
 	set name = "inview Sleep"
-	set category = "-GameMaster-"
+	set category = "Game Master"
 	set hidden = FALSE
 
 	if(!check_rights(R_ADMIN))
@@ -879,7 +902,7 @@
 
 /datum/admins/proc/wake_view()
 	set name = "inview Wake"
-	set category = "-GameMaster-"
+	set category = "Game Master"
 	set hidden = FALSE
 
 	if(!check_rights(R_ADMIN))
@@ -899,7 +922,7 @@
 GLOBAL_VAR_INIT(extend_round_timestamp, 0)
 /datum/admins/proc/extend_round()
 	set name = "Extend Round"
-	set category = "-Server-"
+	set category = "Server"
 	set hidden = FALSE
 
 	if(!check_rights(R_ADMIN))

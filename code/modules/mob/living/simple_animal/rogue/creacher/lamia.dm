@@ -6,6 +6,7 @@
 	icon_living = "lamia_f"
 	icon_dead = "lamia_dead"
 	gender = FEMALE
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
@@ -22,7 +23,7 @@
 						/obj/item/alch/sinew = 2,
 						/obj/item/alch/bone = 1,
 						/obj/item/natural/hide = 1)
-	faction = list("orcs")
+	faction = list(FACTION_ORCS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST|MOB_REPTILE
 	health = 200
 	maxHealth = 200

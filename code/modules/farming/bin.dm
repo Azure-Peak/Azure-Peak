@@ -1,6 +1,6 @@
 /obj/item/roguebin
 	name = "wood bin"
-	desc = "A washbin, a trashbin, a bloodbin... Your choices are limitless."
+	desc = "A washbin, a trashbin, a bloodbin... your choices are truly limitless."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "washbin1"
 	var/base_state
@@ -15,6 +15,13 @@
 	throw_range = 1
 	blade_dulling = DULLING_BASHCHOP
 	obj_flags = CAN_BE_HIT
+
+/obj/item/roguebin/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_notice("Right-click the washbin to begin cleaning whatever item is in your active hand.")
+	. += span_notice("Right-click the washbin without anything in your active hand to wash yourself. Depending on the stainage, you might need to further strip down to completely clean everything on your person.")
+	. += span_notice("Washbins need to be filled with water, in order to clean. This can be done by left-clicking it with another container on the 'FEED' intent, or leaving it out in the rain. Using a washbin will pollute the water inside, making it unsafe to drink.")
+	. += span_notice("Middle-clicking the washbin with the 'KICK' subintent selected will knock it over.")
 
 /obj/item/roguebin/weather_trigger(W)
 	if(W==/datum/weather/rain)
@@ -151,44 +158,83 @@
 		return ..()
 	if(istype(I, /obj/item/rogueweapon/tongs))
 		var/obj/item/rogueweapon/tongs/T = I
-		if(T.hingot && istype(T.hingot, /obj/item/ingot))
-			var/obj/item/ingot/ingot = T.hingot
-
-			var/datum/component/anvil_quenchable/existing = ingot.GetComponent(/datum/component/anvil_quenchable)
-			if(!existing)
-				to_chat(user, span_warning("This item isn't finished yet, it requires more work."))
-				return
-
-			if(!T.hott)
-				to_chat(user, span_warning("The ingot must be hot to temper the metal."))
-				return
-
-			// Check if we have enough water
+		if(T.hingot && istype(T.hingot))
 			var/removereg = /datum/reagent/water
 			if(!reagents.has_reagent(/datum/reagent/water, 5))
 				removereg = /datum/reagent/water/gross
 				if(!reagents.has_reagent(/datum/reagent/water/gross, 5))
 					to_chat(user, span_warning("Need more water to quench in."))
 					return
-
-			SEND_SIGNAL(ingot, COMSIG_ITEM_QUENCHED, user, src.loc)
-
-			// Play sound and consume water
-			playsound(src, pick('sound/items/quench_barrel1.ogg','sound/items/quench_barrel2.ogg'), 100, FALSE)
+			if(!T.hingot.currecipe)
+				to_chat(user, span_warning("Huh?"))
+				return
+			if(T.hingot.currecipe.progress < T.hingot.currecipe.max_progress)
+				to_chat(user, span_warning("It's not finished yet."))
+				return
+			if(!T.hott)
+				to_chat(user, span_warning("I need to heat it to temper the metal."))
+				return
+			var/used_turf = user.loc
+			if(!isturf(used_turf))
+				used_turf = get_turf(src)
+			var/datum/anvil_recipe/R = T.hingot.currecipe
+			var/obj/item/crafteditem = R.created_item
+			if(R.createditem_num > 1)
+				R.createditem_num--
+				var/obj/item/IT = new crafteditem(used_turf)
+				R.handle_creation(IT)
+				var/newname = IT.name
+				var/newmaxinteg = IT.max_integrity
+				var/newinteg = IT.obj_integrity
+				var/newprice = IT.sellprice
+				var/obj/item/lockpick/L = IT
+				var/newpicklvl = L.picklvl
+				var/obj/item/rogueweapon/W = IT
+				var/newforce = W.force
+				var/newthrow = W.throwforce
+				var/newblade = W.blade_int
+				var/newmaxblade = W.max_blade_int
+				var/newap = W.armor_penetration
+				var/newdef = W.wdefense
+				var/obj/item/clothing/C = IT
+				var/newdamdef = C.damage_deflection
+				var/newintegfail = C.integrity_failure
+				var/newarmor = C.armor
+				var/newdelay = C.equip_delay_self
+				while(R.createditem_num)
+					R.createditem_num--
+					var/obj/item/editme = new crafteditem(used_turf)
+					editme.name = newname
+					editme.max_integrity = newmaxinteg
+					editme.obj_integrity = newinteg
+					editme.sellprice = newprice
+					if(istype(editme, /obj/item/lockpick))
+						editme.picklvl = newpicklvl
+					if(istype(editme, /obj/item/rogueweapon))
+						editme.force = newforce
+						editme.throwforce = newthrow
+						editme.blade_int = newblade
+						editme.max_blade_int = newmaxblade
+						editme.armor_penetration = newap
+						editme.wdefense = newdef
+					if(istype(IT, /obj/item/clothing))
+						editme.damage_deflection = newdamdef
+						editme.integrity_failure = newintegfail
+						editme.armor = newarmor
+						editme.equip_delay_self = newdelay
+			else // Just make one buddy
+				var/obj/item/IT = new crafteditem(used_turf)
+				R.handle_creation(IT)
+			playsound(src,pick('sound/items/quench_barrel1.ogg','sound/items/quench_barrel2.ogg'), 100, FALSE)
+			QDEL_NULL(T.hingot)
+			T.update_icon()
 			reagents.remove_reagent(removereg, 5)
-
-			// Dirty the water if it was clean
 			var/datum/reagent/water_to_dirty = reagents.has_reagent(/datum/reagent/water, 5)
 			if(water_to_dirty)
 				var/amount_to_dirty = water_to_dirty.volume
 				if(amount_to_dirty)
 					reagents.remove_reagent(/datum/reagent/water, amount_to_dirty)
 					reagents.add_reagent(/datum/reagent/water/gross, amount_to_dirty)
-
-			// Clear the tongs
-			T.hingot = null
-			T.hott = null
-			T.update_icon()
 			update_icon()
 			return
 	. = ..()

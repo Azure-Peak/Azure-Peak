@@ -6,12 +6,19 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	allowed_sexes = list(MALE, FEMALE)
 	display_order = JDO_PHYSICIAN
-	tutorial = "You are a master physician and the current head of the clinic. \
-		Oversee your clinic and the apothecaries under you. \
-		As a member of the upper class, expect to treat nobility. You have access to accommodate this."
+	tutorial = "You are the Head Physician, master of the city clinic of Azure Peak \
+		and overseer of all medical practice and learning within the University of \
+		Azuria. You share authority within the University with the Court Magician - \
+		your authority over mundane and medical matters is supreme, whereas they \
+		have total authority over all matters of magic and arcane practice. \
+		You have also an arrangement with the Keepers of Pestra beneath the University \
+		courtyard, enabling you and your subordinates to access the heartbeast, source of \
+		the heartsblood vital for your craft. Oversee your clinic and your subordinate \
+		apothecaries, ensure the continued health of your community, and embody the \
+		ideals of Pestra wherever you go."
 	outfit = /datum/outfit/job/roguetown/physician
 	whitelist_req = TRUE
 	advclass_cat_rolls = list(CTAG_COURTPHYS = 2)
@@ -31,9 +38,16 @@
 
 /datum/advclass/physician
 	name = "Head Physician"
-	tutorial = "You are a master physician and the current head of the clinic. \
-		Oversee your clinic and the apothecaries under you. \
-		As a member of the upper class, expect to treat nobility. You have access to accommodate this."
+	tutorial = "You are the Head Physician, master of the city clinic of Azure Peak \
+		and overseer of all medical practice and learning within the University of \
+		Azuria. You share authority within the University with the Court Magician - \
+		your authority over mundane and medical matters is supreme, whereas they \
+		have total authority over all matters of magic and arcane practice. \
+		You have also an arrangement with the Keepers of Pestra beneath the University \
+		courtyard, enabling you and your subordinates to access the heartbeast, source of \
+		the heartsblood vital for your craft. Oversee your clinic and your subordinate \
+		apothecaries, ensure the continued health of your community, and embody the \
+		ideals of Pestra wherever you go."
 	outfit = /datum/outfit/job/roguetown/physician/basic
 	category_tags = list(CTAG_COURTPHYS)
 	subclass_stats = list(
@@ -56,6 +70,7 @@
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_LEGENDARY,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/physician
 	job_bitflag = BITFLAG_ROYALTY
@@ -81,8 +96,9 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 2,
 		/obj/item/natural/worms/leech/cheele = 1, //little buddy
 		/obj/item/reagent_containers/glass/bottle/waterskin = 1,
-		/obj/item/recipe_book/alchemy = 1,)
-	if(H.pronouns == SHE_HER)
+		/obj/item/recipe_book/alchemy = 1,
+		/obj/item/mini_flagpole/apothecary = 1,)
+	if(should_wear_femme_clothes(H))
 		head = /obj/item/clothing/head/roguetown/courtphysician/female
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female
 		shirt = /obj/item/clothing/suit/roguetown/shirt/courtphysician/female
@@ -99,4 +115,4 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)

@@ -21,8 +21,6 @@
 	/// Lazy, since this case is semi rare
 	var/list/open_uis
 
-	/// Active timers with this datum as the target
-	var/list/active_timers
 	/// Status traits attached to this datum
 	var/list/status_traits
 
@@ -52,11 +50,16 @@
 	*/
 	var/list/cooldowns
 	var/abstract_type = /datum
+	var/list/_active_timers
 
 #ifdef TESTING
 	var/running_find_references
 	var/last_find_references = 0
 #endif
+
+	// If we have called dump_harddel_info already. Used to avoid duped calls (since we call it immediately in some cases on failure to process)
+	// Create and destroy is weird and I wanna cover my bases
+	var/harddel_deets_dumped = FALSE
 
 #ifdef DATUMVAR_DEBUGGING_MODE
 	var/list/cached_vars
@@ -93,13 +96,13 @@
 	datum_flags &= ~DF_USE_TAG //In case something tries to REF us
 	weak_reference = null	//ensure prompt GCing of weakref.
 
-	var/list/timers = active_timers
-	active_timers = null
-	for(var/thing in timers)
-		var/datum/timedevent/timer = thing
-		if (timer.spent)
-			continue
-		qdel(timer)
+	if(_active_timers)
+		var/list/timers = _active_timers
+		_active_timers = null
+		for(var/datum/timedevent/timer as anything in timers)
+			if(timer.spent && !(timer.flags & TIMER_DELETE_ME))
+				continue
+			qdel(timer)
 
 	//BEGIN: ECS SHIT
 	signal_enabled = FALSE
@@ -131,9 +134,15 @@
 			if(length(comps))
 				for(var/i in comps)
 					var/datum/component/comp = i
+					if(!comp)
+						stack_trace("null entry in comp_lookup\[[sig]\] on [type] during clear_signal_refs - upstream RegisterSignal/UnregisterSignal corruption")
+						continue
 					comp.UnregisterSignal(src, sig)
 			else
 				var/datum/component/comp = comps
+				if(!comp)
+					stack_trace("null scalar in comp_lookup\[[sig]\] on [type] during clear_signal_refs - upstream RegisterSignal/UnregisterSignal corruption")
+					continue
 				comp.UnregisterSignal(src, sig)
 		comp_lookup = lookup = null
 
@@ -265,3 +274,16 @@
 /// Returns whether a type is an abstract type.
 /proc/is_abstract(datum/datum_type)
 	return (initial(datum_type.abstract_type) == datum_type)
+
+/// Return text from this proc to provide extra context to hard deletes that happen to it
+/// Optional, you should use this for cases where replication is difficult and extra context is required
+/// Can be called more then once per object, use harddel_deets_dumped to avoid duplicate calls (I am so sorry)
+/datum/proc/dump_harddel_info()
+	return
+
+///images are pretty generic, this should help a bit with tracking harddels related to them
+/image/dump_harddel_info()
+	if(harddel_deets_dumped)
+		return
+	harddel_deets_dumped = TRUE
+	return "Image icon: [icon] - icon_state: [icon_state] [loc ? "loc: [loc] ([loc.x],[loc.y],[loc.z])" : ""]"

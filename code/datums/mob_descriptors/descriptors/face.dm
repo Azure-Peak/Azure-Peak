@@ -59,6 +59,33 @@
 /datum/mob_descriptor/face/full
 	name = "Full"
 
+/datum/mob_descriptor/face/punchable
+	name = "Punchable"
+
+/datum/mob_descriptor/face/custom
+	prefix = null
+	var/custom_index
+
+/datum/mob_descriptor/face/custom/can_describe(mob/living/described)
+	return length(described.custom_descriptors) >= custom_index
+
+/datum/mob_descriptor/face/custom/get_description(mob/living/described)
+	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
+	return entry.content_text
+
+/datum/mob_descriptor/face/custom/get_pre_string(mob/living/described)
+	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
+	switch(entry.prefix_type)
+		if(CUSTOM_PREFIX_HAS_A)
+			return "a "
+		if(CUSTOM_PREFIX_HAS_AN)
+			return "an "
+	return null
+
+/datum/mob_descriptor/face/custom/five
+	name = "Custom Face"
+	custom_index = 5
+
 /datum/mob_descriptor/face_exp
 	abstract_type = /datum/mob_descriptor/face_exp
 	suffix = "face"
@@ -101,7 +128,7 @@
 	name = "Salacious"
 
 /datum/mob_descriptor/face_exp/contemptous
-	name = "Contemptous"
+	name = "Contemptuous"
 
 /datum/mob_descriptor/face_exp/mocking
 	name = "Mocking"
@@ -153,3 +180,17 @@
 
 /datum/mob_descriptor/face_exp/smug
 	name = "Smug"
+
+/datum/mob_descriptor/face_exp/custom
+	var/custom_index
+
+/datum/mob_descriptor/face_exp/custom/can_describe(mob/living/described)
+	return length(described.custom_descriptors) >= custom_index
+
+/datum/mob_descriptor/face_exp/custom/get_description(mob/living/described)
+	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
+	return entry.content_text
+
+/datum/mob_descriptor/face_exp/custom/six
+	name = "Custom Expression"
+	custom_index = 6

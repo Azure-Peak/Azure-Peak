@@ -58,7 +58,7 @@
 
 /client/proc/reload_admins()
 	set name = "Reload Admins"
-	set category = "-Server-"
+	set category = "Server"
 
 	if(!src.holder)
 		return
@@ -73,7 +73,7 @@
 
 /client/proc/reload_whitelist()
 	set name = "Reload Whitelist"
-	set category = "-Server-"
+	set category = "Server"
 
 	if(!src.holder)
 		return

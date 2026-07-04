@@ -17,10 +17,7 @@
 			stop_moving_towards(controller)
 			continue
 
-		if(!isturf(movable_pawn.loc)) //No moving if not on a turf
-			continue
-
-		if(controller.ai_traits & STOP_MOVING_WHEN_PULLED && movable_pawn.pulledby)
+		if(!controller.can_move())
 			continue
 
 		var/minimum_distance = controller.max_target_distance
@@ -59,6 +56,10 @@
 
 			COOLDOWN_START(controller, repath_cooldown, 2 SECONDS)
 			controller.movement_path = get_path_to(movable_pawn, controller.current_movement_target, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d), max_path_distance, max_path_distance, minimum_distance, adjacent = TYPE_PROC_REF(/turf, reachableTurftest3d), id=controller.get_access())
+			// Astar gives source turf so we will want to strip out the first to prevent 
+			// repeated pathfinding failure
+			if(length(controller.movement_path) && controller.movement_path[1] == get_turf(movable_pawn))
+				controller.movement_path.Cut(1, 2)
 
 /datum/ai_movement/astar/start_moving_towards(datum/ai_controller/controller, atom/current_movement_target)
 	controller.movement_path = null

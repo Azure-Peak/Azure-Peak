@@ -11,6 +11,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	anvilrepair = /datum/skill/craft/armorsmithing
 	visual_replacement = /obj/item/clothing/head/roguetown/crown/fakecrown
+	no_loot_taint = TRUE
 	var/listening = TRUE
 	var/speaking = TRUE
 	var/loudmouth_listening = TRUE
@@ -18,6 +19,9 @@
 	var/messagereceivedsound = 'sound/misc/scom.ogg'
 	var/hearrange = 0 // Only hearable by wearer
 	is_important = TRUE
+
+/obj/item/clothing/head/roguetown/crown/serpcrown/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_VIBE_CROWN, VIBEDESC_CROWN)
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/Initialize()
 	. = ..()
@@ -43,9 +47,10 @@
 	SSroguemachine.crown = null //Do not harddel.
 	qdel(src) //Anti-stall
 
+
 /obj/item/clothing/head/roguetown/crown/serpcrown/attack_right(mob/living/carbon/human/user)
 	user.changeNext_move(CLICK_CD_MELEE)
-	visible_message(span_notice ("[user] presses their hands against their crown."))
+	visible_message(span_notice ("[user] presses [user.p_their()] hands against the [src]."))
 	var/input_text = input(user, "Enter your ducal message:", "Crown SCOM")
 	if(input_text)
 		var/usedcolor = user.voice_color

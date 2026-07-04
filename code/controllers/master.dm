@@ -33,8 +33,16 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	var/init_timeofday
 	var/init_time
 	var/tickdrift = 0
+	/// Tickdrift as of last tick, w no averaging going on
+	var/olddrift = 0
 
 	var/sleep_delta = 1
+
+	/// The last decisecond we force dumped profiling information
+	/// Used to avoid spamming profile reads since they can be expensive (string memes)
+	var/last_profiled = 0
+	/// REALTIMEOFDAY when SStime_track.time_dilation_avg_fast first crossed the sustained threshold, 0 if currently below
+	var/td_elevated_since = 0
 
 	var/make_runtime = 0
 
@@ -61,6 +69,13 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	//current tick limit, assigned before running a subsystem.
 	//used by CHECK_TICK as well so that the procs subsystems call can obey that SS's tick limits
 	var/static/current_ticklimit = TICK_LIMIT_RUNNING
+
+	/// Whether the Overview UI will update as fast as possible for viewers.
+	var/overview_fast_update = FALSE
+	/// Enables rolling usage averaging
+	var/use_rolling_usage = FALSE
+	/// How long to run our rolling usage averaging
+	var/rolling_usage_length = 5 SECONDS
 
 /datum/controller/master/New()
 	if(!config)
@@ -104,6 +119,115 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		log_world("Shutting down [ss.name] subsystem...")
 		ss.Shutdown()
 	log_world("Shutdown complete")
+
+/client/proc/cmd_controller_view_ui()
+	set category = "Debug"
+	set name = "Controller Overview"
+	set desc = "View the current states of the Subsystem Controllers."
+	if(!check_rights(R_SERVER|R_DEBUG))
+		return
+	Master.ui_interact(usr)
+
+/datum/controller/master/ui_status(mob/user, datum/ui_state/state)
+	if(!user.client?.holder?.check_for_rights(R_SERVER|R_DEBUG))
+		return UI_CLOSE
+	return UI_INTERACTIVE
+
+/datum/controller/master/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(isnull(ui))
+		ui = new /datum/tgui(user, src, "ControllerOverview")
+		ui.open()
+		use_rolling_usage = TRUE
+
+/datum/controller/master/ui_close(mob/user)
+	var/valid_found = FALSE
+	for(var/datum/tgui/open_ui as anything in open_uis)
+		if(open_ui.user == user)
+			continue
+		valid_found = TRUE
+	if(!valid_found)
+		use_rolling_usage = FALSE
+	return ..()
+
+/datum/controller/master/ui_data(mob/user)
+	var/list/data = list()
+
+	var/list/subsystem_data = list()
+	for(var/datum/controller/subsystem/subsystem as anything in subsystems)
+		var/list/rolling_usage = subsystem.rolling_usage
+		subsystem.prune_rolling_usage()
+
+		var/sum = 0
+		for(var/i in 2 to length(rolling_usage) step 2)
+			sum += rolling_usage[i]
+		var/average = sum / DS2TICKS(rolling_usage_length)
+
+		subsystem_data += list(list(
+			"name" = subsystem.name,
+			"ref" = REF(subsystem),
+			"init_order" = subsystem.init_order,
+			"last_fire" = subsystem.last_fire,
+			"next_fire" = subsystem.next_fire,
+			"can_fire" = subsystem.can_fire,
+			"doesnt_fire" = !!(subsystem.flags & SS_NO_FIRE),
+			"cost_ms" = subsystem.cost,
+			"tick_usage" = subsystem.tick_usage,
+			"usage_per_tick" = average,
+			"overtime" = subsystem.tick_overrun,
+			"initialized" = subsystem.initialized,
+			"initialization_failure_message" = subsystem.initialization_failure_message,
+		))
+	data["subsystems"] = subsystem_data
+	data["world_time"] = world.time
+	data["map_cpu"] = world.map_cpu
+	data["fast_update"] = overview_fast_update
+	data["rolling_length"] = rolling_usage_length
+
+	return data
+
+/datum/controller/master/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	if(..())
+		return TRUE
+
+	switch(action)
+		if("toggle_fast_update")
+			overview_fast_update = !overview_fast_update
+			return TRUE
+
+		if("set_rolling_length")
+			var/length = text2num(params["rolling_length"])
+			if(!length || length < 0)
+				return
+			rolling_usage_length = length SECONDS
+			return TRUE
+
+		if("view_variables")
+			if(!check_rights_for(ui.user.client, R_DEBUG))
+				message_admins("[key_name(ui.user)] tried to view master controller variables while having improper rights, this is potentially a malicious exploit and worth noting.")
+				return
+
+			var/datum/controller/subsystem/subsystem = locate(params["ref"]) in subsystems
+			if(isnull(subsystem))
+				to_chat(ui.user, span_warning("Failed to locate subsystem."))
+				return
+
+			ui.user.client.debug_variables(subsystem)
+			return TRUE
+
+/datum/controller/master/proc/check_and_perform_fast_update()
+	PRIVATE_PROC(TRUE)
+	set waitfor = FALSE
+
+	if(!overview_fast_update)
+		return
+
+	var/static/already_updating = FALSE
+	if(already_updating)
+		return
+	already_updating = TRUE
+	SStgui.update_uis(src)
+	already_updating = FALSE
 
 // Returns 1 if we created a new mc, 0 if we couldn't due to a recent restart,
 //	-1 if we encountered a runtime trying to recreate it
@@ -314,8 +438,26 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	//the actual loop.
 
 	while (1)
-		tickdrift = max(0, MC_AVERAGE_FAST(tickdrift, (((REALTIMEOFDAY - init_timeofday) - (world.time - init_time)) / world.tick_lag)))
+		var/newdrift = ((REALTIMEOFDAY - init_timeofday) - (world.time - init_time)) / world.tick_lag
+		tickdrift = max(0, MC_AVERAGE_FAST(tickdrift, newdrift))
 		var/starting_tick_usage = TICK_USAGE
+
+		if(newdrift - olddrift >= CONFIG_GET(number/drift_dump_threshold))
+			AttemptProfileDump(CONFIG_GET(number/drift_profile_delay), "stall", "drift grew [round(newdrift - olddrift,0.1)] ticks in one MC iteration")
+		olddrift = newdrift
+
+		// Sustained elevated tick dilation: catches the "15-40% TD sustained for N seconds" case.
+		// Uses SStime_track.time_dilation_avg_fast (already a percentage, smoothed over ~few seconds).
+		var/sustained_td_threshold = CONFIG_GET(number/sustained_td_threshold_pct)
+		if(sustained_td_threshold > 0 && SStime_track && SStime_track.time_dilation_avg_fast >= sustained_td_threshold)
+			if(!td_elevated_since)
+				td_elevated_since = REALTIMEOFDAY
+			else if(REALTIMEOFDAY - td_elevated_since >= CONFIG_GET(number/sustained_td_duration))
+				AttemptProfileDump(CONFIG_GET(number/sustained_td_delay), "sustainedTD", "[round(SStime_track.time_dilation_avg_fast,0.1)]% TD sustained for [round((REALTIMEOFDAY - td_elevated_since) * 0.1,1)]s")
+				td_elevated_since = 0
+		else
+			td_elevated_since = 0
+
 		if (processing <= 0)
 			current_ticklimit = TICK_LIMIT_RUNNING
 			sleep(10)
@@ -399,6 +541,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		current_ticklimit = TICK_LIMIT_RUNNING
 		if (processing * sleep_delta <= world.tick_lag)
 			current_ticklimit -= (TICK_LIMIT_RUNNING * 0.25) //reserve the tail 1/4 of the next tick for the mc if we plan on running next tick
+		check_and_perform_fast_update()
 		sleep(world.tick_lag * (processing * sleep_delta))
 
 
@@ -504,6 +647,10 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 			var/state = queue_node.ignite(queue_node_paused)
 			tick_usage = TICK_USAGE - tick_usage
 
+			if(use_rolling_usage)
+				queue_node.prune_rolling_usage()
+				queue_node.rolling_usage += list(DS2TICKS(world.time), tick_usage)
+
 			if (state == SS_RUNNING)
 				state = SS_IDLE
 			current_tick_budget -= queue_node_priority
@@ -599,12 +746,9 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 
 
-/datum/controller/master/stat_entry()
-	if(!statclick)
-		statclick = new/obj/effect/statclick/debug(null, "Initializing...", src)
-
-	stat("Byond:", "(FPS:[world.fps]) (TickCount:[world.time/world.tick_lag]) (TickDrift:[round(Master.tickdrift,1)]([round((Master.tickdrift/(world.time/world.tick_lag))*100,0.1)]%))")
-	stat("Master Controller:", statclick.update("(TickRate:[Master.processing]) (Iteration:[Master.iteration])"))
+/datum/controller/master/stat_entry(msg)
+	msg = "(TickRate:[Master.processing]) (Iteration:[Master.iteration]) (TickLimit: [round(Master.current_ticklimit, 0.1)])"
+	return msg
 
 /datum/controller/master/StartLoadingMap()
 	//disallow more than one map to load at once, multithreading it will just cause race conditions
@@ -635,3 +779,17 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	for(var/thing in subsystems)
 		var/datum/controller/subsystem/SS = thing
 		SS.OnConfigLoad()
+
+/// Attempts to dump our current profile info into a file, triggered if the MC thinks shit is going down
+/// Accepts a delay in deciseconds of how long ago our last dump can be, this saves causing performance problems ourselves
+/// `reason_tag` is a short filename-safe identifier (e.g. "stall", "sustainedTD").
+/// `reason_detail` is the human-readable explanation shown in logs and admin chat.
+/datum/controller/master/proc/AttemptProfileDump(delay, reason_tag = "emergency", reason_detail = "unspecified")
+	if(REALTIMEOFDAY - last_profiled <= delay)
+		return FALSE
+	last_profiled = REALTIMEOFDAY
+	var/msg = "MC: Emergency profile dump ([reason_tag]: [reason_detail]) at world.time [world.time]"
+	log_world(msg)
+	log_game(msg)
+	message_admins("<span class='boldannounce'>\[PERF] [msg]</span>")
+	SSprofiler.DumpFile(allow_yield = FALSE, reason = reason_tag)

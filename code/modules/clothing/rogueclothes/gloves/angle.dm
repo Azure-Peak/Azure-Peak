@@ -1,13 +1,11 @@
 /obj/item/clothing/gloves/roguetown/angle
-	name = "heavy leather gloves"
+	name = "hardened leather gloves"
 	desc = "A pair of heavy leather gloves, padded with the fur of a forest-dwelling beaste. The lengthened cuffs help to catch unseen bites from prowling monsters; a blessing, when even a single gnash can spread curses-most-foul."
 	icon_state = "angle"
-	armor = ARMOR_LEATHER_GOOD
+	armor = ARMOR_LEATHER
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
-	sellprice = 12
-	blade_dulling = DULLING_BASHCHOP
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
@@ -31,9 +29,28 @@
 	name = "forge gauntlets"
 	color = "#ffffff"
 
-/obj/item/clothing/gloves/roguetown/angle/pontifex
+/obj/item/clothing/gloves/roguetown/bandages/pontifex
 	name = "rune-scrybed wrappings"
 	desc = "Paper and cloth bandages enscrybed with powerful naledian runes. They do an ample job of protecting their user's hands in combat."
-	icon_state = "clothwraps"
-	item_state = "clothwraps"
 	color = "#ffffff"
+	unarmed_bonus = 5
+
+/obj/item/clothing/gloves/roguetown/angle/freifechter
+	name = "fencing gloves"
+	desc = "A pair of hardened leather gloves used by fencers who aren't exactly convinced of losing a finger to a particularly strong feder cut. The inside is padded for extra durability."
+	icon_state = "freigloves"
+	item_state = "freigloves"
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + 50
+	color = null
+
+/obj/item/clothing/gloves/roguetown/angle/feld
+	name = "feldsher's gloves"
+	desc = "And when he woke up, his whole skeleton was missing, and the physicker was never heard of again! </br>Ah, anyways; that's how I lost my writ of practice."
+	icon_state = "feldgloves"
+	item_state = "feldgloves"
+
+/obj/item/clothing/gloves/roguetown/angle/phys
+	name = "physicker's gloves"
+	desc = "Are you sure this will work?! </br>I have no idea!"
+	icon_state = "surggloves"
+	item_state = "surggloves"

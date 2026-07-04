@@ -15,7 +15,6 @@
 		BB_RETALIATE_COOLDOWN = 0,
 		BB_MAIN_TARGET = null
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/assassin/ancient
 	movement_delay = ANCIENT_DREAMFIEND_MOVEMENT_SPEED
@@ -35,7 +34,6 @@
 		BB_RETALIATE_COOLDOWN = 0,
 		BB_MAIN_TARGET = null
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_planning_subtree/basic_melee_attack_subtree/abyssal
 	melee_attack_behavior = /datum/ai_behavior/basic_melee_attack/abyssal
@@ -195,6 +193,7 @@
 		else
 			if((stander && target.stamina >= target.max_stamina) || target.IsOffBalanced()) //if you are kicked while fatigued, you are knocked down no matter what
 				target.Knockdown(target.IsOffBalanced() ? SHOVE_KNOCKDOWN_SOLID : 100)
+				target.drop_all_held_items()
 				target.visible_message(span_danger("[user.name] charges [target.name], knocking them down!"),
 				span_danger("I'm knocked down from a devestating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
 				log_combat(user, target, "kicked", "knocking them down")
@@ -214,17 +213,20 @@
 						break
 		if((!target_table && !target_collateral_mob) || directional_blocked)
 			target.Knockdown(SHOVE_KNOCKDOWN_SOLID)
+			target.drop_all_held_items()
 			target.visible_message(span_danger("[user.name] charges [target.name], knocking them down!"),
 			span_danger("I'm knocked down from a devestating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
 			log_combat(user, target, "kicked", "knocking them down")
 		else if(target_table)
 			target.Knockdown(SHOVE_KNOCKDOWN_TABLE)
+			target.drop_all_held_items()
 			target.visible_message(span_danger("[user.name] charges [target.name] onto \the [target_table]!"),
 			span_danger("I'm knocked down from a devestating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
 			target.throw_at(target_table, 1, 1, null, FALSE) //1 speed throws with no spin are basically just forcemoves with a hard collision check
 			log_combat(user, target, "kicked", "onto [target_table] (table)")
 		else if(target_collateral_mob)
 			target.Knockdown(SHOVE_KNOCKDOWN_HUMAN)
+			target.drop_all_held_items()
 			target_collateral_mob.Knockdown(SHOVE_KNOCKDOWN_COLLATERAL)
 			target.visible_message(span_danger("[user.name] charges [target.name] into [target_collateral_mob.name]!"),
 			span_danger("I'm knocked down from a devestating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
@@ -272,27 +274,24 @@
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
 	planning_subtrees = list(
-		/datum/ai_planning_subtree/simple_find_target/closest,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/blink_if_far,
-		/datum/ai_planning_subtree/target_retaliate,
+		/datum/ai_planning_subtree/aggro_find_target,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree
 	)
 	blackboard = list(
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
 		BB_BASIC_MOB_RETALIATE_LIST = list(),
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/dreamfiend_unbound_ancient
 	movement_delay = MINOR_DREAMFIEND_MOVEMENT_SPEED
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
 	planning_subtrees = list(
-        /datum/ai_planning_subtree/simple_find_target/closest,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/blink_if_far,
-		/datum/ai_planning_subtree/target_retaliate,
+		/datum/ai_planning_subtree/aggro_find_target,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
 		/datum/ai_planning_subtree/kick
 	)
@@ -300,4 +299,3 @@
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
 		BB_BASIC_MOB_RETALIATE_LIST = list(),
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk

@@ -84,6 +84,7 @@
 	qdel(src)
 
 /obj/item/toy/cards
+	desc = "A source of moral decay, says the church."
 	resistance_flags = FLAMMABLE
 	max_integrity = 50
 	no_use_cd = TRUE
@@ -107,7 +108,8 @@
 
 /obj/item/toy/cards/deck
 	name = "deck of cards"
-	desc = ""
+	desc = "A deck of simple printing cards, belted out in immense quantities from a \
+	printing press somewhere. An esteemed method to kill time."
 	icon = 'icons/obj/toy.dmi'
 	deckstyle = "syndicate"
 	icon_state = "deck_syndicate_full"
@@ -451,5 +453,12 @@
 			cards += "[i] of [suit]"
 		for(var/person in list("Page", "Knight", "Queen", "King"))
 			cards += "[person] of [suit]"
-	for(var/trump in list("The Magician", "The High Priestess", "The Empress", "The Emperor", "The Hierophant", "The Lover", "The Chariot", "Justice", "The Hermit", "The Wheel of Fortune", "Strength", "The Hanged Man", "Death", "Temperance", "The Devil", "The Tower", "The Star", "The Moon", "The Sun", "Judgement", "The World", "The Fool"))
+	for(var/trump in list("The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor", "The Hierophant", "The Lover", "The Chariot", "Justice", "The Hermit", "The Wheel of Fortune", "Strength", "The Hanged Man", "Death", "Temperance", "The Devil", "The Tower", "The Star", "The Moon", "The Sun", "Judgement", "The World"))
+		cards += trump
+
+/obj/item/toy/cards/deck/tarot/majorarcana
+
+/obj/item/toy/cards/deck/tarot/majorarcana/populate_deck()
+	icon_state = "deck_[deckstyle]_full"
+	for(var/trump in list("The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor", "The Hierophant", "The Lover", "The Chariot", "Justice", "The Hermit", "The Wheel of Fortune", "Strength", "The Hanged Man", "Death", "Temperance", "The Devil", "The Tower", "The Star", "The Moon", "The Sun", "Judgement", "The World"))
 		cards += trump

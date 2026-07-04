@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/survival/spoon
 	name = "spoon (x3)"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = list(
 		/obj/item/kitchen/spoon,
@@ -10,6 +11,7 @@
 
 /datum/crafting_recipe/roguetown/survival/fork
 	name = "fork (x3)"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = list(
 		/obj/item/kitchen/fork,
@@ -20,6 +22,7 @@
 
 /datum/crafting_recipe/roguetown/survival/platter
 	name = "platter (x2)"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = list(
 		/obj/item/cooking/platter,
@@ -29,12 +32,25 @@
 
 /datum/crafting_recipe/roguetown/survival/rollingpin
 	name = "rollingpin"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = /obj/item/kitchen/rollingpin
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
+/datum/crafting_recipe/roguetown/survival/bakers_peel
+	name = "baker's peel"
+	category = "Houseware"
+	result = /obj/item/rogueweapon/bakers_peel
+	reqs = list(
+		/obj/item/grown/log/tree = 1,
+		/obj/item/grown/log/tree/small = 1,
+		)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = SKILL_LEVEL_NOVICE
+
 /datum/crafting_recipe/roguetown/survival/woodbucket
 	name = "wooden bucket"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = /obj/item/reagent_containers/glass/bucket
 	reqs = list(/obj/item/grown/log/tree/small = 1)
@@ -43,6 +59,7 @@
 
 /datum/crafting_recipe/roguetown/survival/woodcup
 	name = "wooden cups (x3)"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = list(
 		/obj/item/reagent_containers/glass/cup/wooden/crafted,
@@ -54,8 +71,56 @@
 /obj/item/reagent_containers/glass/cup/wooden/crafted
 	sellprice = 3
 
+/datum/crafting_recipe/roguetown/survival/woodtankard
+	name = "tankards, wooden (x3)"
+	display_category = ITEM_CAT_DECORATION
+	category = "Houseware"
+	result = list(
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
+		)
+	reqs = list(/obj/item/grown/log/tree/small = 2, /obj/item/ingot/iron = 1)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/survival/silvtankard
+	name = "tankards, silver (x2)"
+	display_category = ITEM_CAT_DECORATION
+	category = "Houseware"
+	result = list(
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/silver,
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/silver,
+		)
+	reqs = list(/obj/item/grown/log/tree/small = 2, /obj/item/ingot/silver = 1)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/survival/blcktankard
+	name = "tankards, blacksteel (x1)"
+	display_category = ITEM_CAT_DECORATION
+	category = "Houseware"
+	result = list(
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/blacksteel
+		)
+	reqs = list(/obj/item/grown/log/tree/small = 2, /obj/item/ingot/blacksteel = 1)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 6
+
+/datum/crafting_recipe/roguetown/survival/peppermill
+	name = "peppermill"
+	display_category = ITEM_CAT_DECORATION
+	category = "Houseware"
+	result = list(
+		/obj/item/reagent_containers/peppermill
+		)
+	reqs = list(/obj/item/grown/log/tree/small = 1, /obj/item/natural/whetstone = 1, /obj/item/reagent_containers/food/snacks/pepper = 5) //Currently unrefillable, so see this as an equal exchange.
+	skillcraft = /datum/skill/craft/carpentry //If this feels a bit too oppressive, try reducing the difficulty level a bit. Remember that it shouldn't be easier to obtain than importing, otherwise.
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/survival/woodtray
 	name = "wooden trays (x2)"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = list(
 		/obj/item/storage/bag/tray,
@@ -65,6 +130,7 @@
 
 /datum/crafting_recipe/roguetown/survival/woodbowl
 	name = "wooden bowls (x3)"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = list(
 		/obj/item/reagent_containers/glass/bowl,
@@ -75,12 +141,14 @@
 
 /datum/crafting_recipe/roguetown/survival/pot
 	name = "stone pot"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = /obj/item/reagent_containers/glass/bucket/pot/stone
 	reqs = list(/obj/item/natural/stone = 2)
 
 /datum/crafting_recipe/roguetown/survival/soap
 	name = "soap (3x)"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = list(
 		/obj/item/soap,
@@ -91,6 +159,7 @@
 
 /datum/crafting_recipe/roguetown/survival/candle
 	name = "candle (x3)"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = list(
 		/obj/item/candle/yellow,
@@ -101,6 +170,7 @@
 
 /datum/crafting_recipe/roguetown/survival/candle/eora
 	name = "eora's candle (x3)"
+	display_category = ITEM_CAT_DECORATION
 	category = "Houseware"
 	result = list(
 		/obj/item/candle/eora,

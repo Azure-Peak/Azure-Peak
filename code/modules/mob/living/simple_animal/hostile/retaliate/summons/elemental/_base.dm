@@ -1,5 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental
 	obj_damage = 75
+	blood_toll_bucket = STATS_KILLED_ELEMENTALS
 
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/Initialize()
 	. = ..()

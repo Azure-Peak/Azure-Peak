@@ -8,14 +8,15 @@
 	remains_type = /obj/effect/decal/remains/cabbit
 	speak = list("Meow!", "Chk!", "Purr!", "Chrr!")
 	speak_emote = list("chirrups", "meows")
-	faction = list("cabbits")	//Snowflake code
+	faction = list(FACTION_CABBITS)	//Snowflake code
 	emote_hear = list("meows.", "clucks.")
 	emote_see = list("brings their ears alert.", "scratches their ear with a hindleg.")
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit = 2)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit = 3, 
 							/obj/item/alch/sinew = 1,
 							/obj/item/alch/bone = 1,
-							/obj/item/natural/fur/rabbit = 1)
+							/obj/item/natural/fur/rabbit = 1,
+							/obj/item/natural/rabbitsfoot = 0)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit = 4, 
 							/obj/item/alch/sinew = 1,
 							/obj/item/alch/bone = 1,
@@ -37,3 +38,8 @@
 	gender = PLURAL
 	icon = 'icons/roguetown/mob/cabbit.dmi'
 	icon_state = "cabbit_remains"
+
+/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/death(gibbed)
+	. = ..()
+	if(!QDELETED(src) && !gibbed)
+		src.AddComponent(/datum/component/deadite_animal_reanimation)

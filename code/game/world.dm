@@ -45,6 +45,8 @@ GLOBAL_VAR(restart_counter)
 
 	make_datum_references_lists()	//initialises global lists for referencing frequently used datums (so that we only ever do it once)
 
+	init_pricing_engine()
+
 	TgsNew(minimum_required_security_level = TGS_SECURITY_TRUSTED)
 
 	GLOB.revdata = new
@@ -90,6 +92,8 @@ GLOBAL_VAR(restart_counter)
 
 	load_patreons()
 
+	load_calendar_events()
+
 //	GLOB.timezoneOffset = text2num(time2text(0,"hh")) * 36000
 
 	GLOB.timezoneOffset = world.timezone * 36000
@@ -120,7 +124,7 @@ GLOBAL_VAR(restart_counter)
 #else
 	cb = VARSET_CALLBACK(SSticker, force_ending, TRUE)
 #endif
-	SSticker.OnRoundstart(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(addtimer), cb, 10 SECONDS))
+	SSticker.OnRoundstart(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_addtimer), cb, 10 SECONDS))
 
 /world/proc/SetupExternalRSC()
 #if (PRELOAD_RSC == 0)
@@ -281,6 +285,7 @@ GLOBAL_VAR(restart_counter)
 		'sound/roundend/rest.ogg',
 		'sound/roundend/gather.ogg',
 		'sound/roundend/dwarfs.ogg',
+		'sound/roundend/happiness.ogg',
 	)
 	for(var/client/thing in GLOB.clients)
 		if(!thing)
@@ -457,7 +462,7 @@ GLOBAL_VAR(restart_counter)
 /*
 #ifdef TESTING
 /client/verb/maxzcdec()
-	set category = "DEBUGTEST"
+	set category = "Debug.Test"
 	set name = "decr"
 	set desc = ""
 	world.decrementMaxZ()

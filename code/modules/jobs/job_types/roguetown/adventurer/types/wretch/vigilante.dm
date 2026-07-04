@@ -2,9 +2,10 @@
 	name = "Masked Lunatic"
 	tutorial = "You were a disenfranchised pauper, sickened by the rampant corruption of the garrison - or perhaps, just a crazed vagrant in a costume? Whether those brutalized 'thieves' were justified in their acts is up to YOU to decide, not them! You specialize in utilizing your various gadgets and thrown projectiles to dote out JUSTICE, however you see it fit."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/wretch/vigilante
 	cmode_music = 'sound/music/combatmaniac.ogg'
+	class_select_category = CLASS_CAT_ROGUE
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_DECEIVING_MEEKNESS, TRAIT_PERFECT_TRACKER)
 	maximum_possible_slots = 1 // There can only be one. 
@@ -21,6 +22,9 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, //You WILL be getting neckstabbed A LOT. 
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT, //SNIFF OUT JUSTICE.
 	)
+	subclass_stashed_items = list(
+        "Sewing Kit" =  /obj/item/repair_kit,
+    )
 
 /datum/outfit/job/roguetown/wretch/vigilante/pre_equip(mob/living/carbon/human/H)
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/ //So your skull isn't caved in if you decide to wear a cool hat. 
@@ -59,6 +63,10 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/heavyhood
 	cloak = /obj/item/clothing/cloak/thief_cloak
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick) // their batman they get all of them
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
 	H.change_stat(STATKEY_STR, 2)
 	H.change_stat(STATKEY_CON, 3)
 	H.change_stat(STATKEY_WIL, 3)
@@ -74,7 +82,7 @@
 			if("JUSTICE DISPENSED THROUGH KNUCKLE AND BLADE!")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE) //No Civbarb. 
 				l_hand = /obj/item/rogueweapon/katar
-				r_hand = /obj/item/rogueweapon/knuckles
+				r_hand = /obj/item/clothing/gloves/roguetown/knuckles
 	wretch_select_bounty(H)
 
 /datum/outfit/job/roguetown/wretch/vigilante/proc/owl_equip(mob/living/carbon/human/H)
@@ -119,9 +127,8 @@
 	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 2, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/medicine, 2, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/craft/cooking, 1, TRUE)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick) //Trust the plan. 
-	ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) // You LITERALLY get no weapon skills. You're throwing shit at enemies. 
+	H.mind.AddSpell(new /datum/action/cooldown/spell/magicians_brick) //Trust the plan. 
+	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) // You LITERALLY get no weapon skills. You're throwing shit at enemies.
 	H.change_stat(STATKEY_SPD, 2)
 	H.change_stat(STATKEY_WIL, 1)
 	H.change_stat(STATKEY_INT, 4) //Hilarious

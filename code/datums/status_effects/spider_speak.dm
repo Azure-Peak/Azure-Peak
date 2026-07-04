@@ -7,10 +7,10 @@
 	id = "spider_speak"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/spider_speak
 	duration = 2700 SECONDS
-	examine_text = "SUBJECTPRONOUN occasionally clicks their tongue quietly"
 
 /datum/status_effect/buff/spider_speak/on_apply()
 	owner.faction += "spiders"
+	examine_text = "SUBJECTPRONOUN occasionally clicks [owner.p_their(FALSE)] tongue quietly."
 	return TRUE
 
 /datum/status_effect/buff/spider_speak/on_remove()

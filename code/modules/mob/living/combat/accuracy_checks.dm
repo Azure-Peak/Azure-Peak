@@ -1,5 +1,5 @@
-#define ULTRA_PRECISE_ZONE 1 
-#define PRECISE_ZONE 2 
+#define ULTRA_PRECISE_ZONE 1
+#define PRECISE_ZONE 2
 #define NO_PENALTY_ZONE 3
 #define PRECISE_FACE_ZONE 4
 #define RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE 50 // No matter what max 50% chance to hit
@@ -8,83 +8,108 @@
 #define RANGED_MAX_PRECISE_HIT_CHANCE 75 // No matter what max 75% chance to hit
 #define RANGED_PRECISE_HIT_PENALTY -10 // -10 - THEN we clamp.
 
-/proc/accuracy_check(zone, mob/living/user, mob/living/target, associated_skill, datum/intent/used_intent, obj/item/I)
+/// Shared zone resolution used by melee and weapon specials
+/proc/resolve_aimed_zone(zone, mob/living/user, mob/living/target, accuracy_bonus = 0)
 	if(!zone)
-		return
+		return BODY_ZONE_CHEST
 	if(user == target)
 		return zone
 	if(zone == BODY_ZONE_CHEST)
 		return zone
-	if(HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN) && (zone == BODY_ZONE_L_LEG || zone == BODY_ZONE_R_LEG))
-		return zone
-	if(target.pulledby || target.pulling)
-		return zone
-	if(!(target.mobility_flags & MOBILITY_STAND))
-		return zone
-	// If you're floored, you will aim feet and legs easily. There's a check for whether the victim is laying down already.
-	if(!(user.mobility_flags & MOBILITY_STAND) && (zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_L_FOOT)))
-		return zone
-	if( (target.dir == turn(get_dir(target,user), 180)))
+	if(target.stat >= UNCONSCIOUS)
 		return zone
 
 	var/chance2hit = 0
 
-	if(check_zone(zone) == zone)	//Are we targeting a big limb or chest?
+	if(check_zone(zone) == zone)
 		chance2hit += 10
 
-	if(check_face_subzone(zone) && used_intent.blade_class != BCLASS_PEEL && target.mind)	//Are we targeting the face of a player mob?
-		chance2hit -= 24	// -3 PER, feel free to adjust if face attacks get too real.
-
-	chance2hit += (user.get_skill_level(associated_skill) * 8)
-
-	if(used_intent)
-		if(used_intent.blade_class == BCLASS_STAB)
-			chance2hit += 10
-		if(used_intent.blade_class == BCLASS_PEEL)
-			chance2hit += 25
-		if(used_intent.blade_class == BCLASS_CUT)
-			chance2hit += 6
-		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well
-			chance2hit -= 10
-		if(used_intent.accuracy_modifier)
-			chance2hit += used_intent.accuracy_modifier
-
-	if(I)
-		if(I.wlength == WLENGTH_SHORT)
-			chance2hit += 10
+	if(check_face_subzone(zone) && target.mind)
+		chance2hit -= 24
 
 	if(user.STAPER > 10)
-		chance2hit += (min((user.STAPER-10)*8, 40))
+		chance2hit += (min((user.STAPER - 10) * 8, 40))
 
 	if(user.STAPER < 10)
-		chance2hit -= ((10-user.STAPER)*10)
+		chance2hit -= ((10 - user.STAPER) * 10)
 
-	if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
-		chance2hit += 20
-	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
-		chance2hit -= 20
-	
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		chance2hit -= 40
 
-	chance2hit = CLAMP(chance2hit, 5, 93)
+	if(target.pulledby || target.pulling)
+		chance2hit += target.pulledby?.grab_state > GRAB_PASSIVE ? 20 : 10
+
+	if(!(target.mobility_flags & MOBILITY_STAND))
+		chance2hit += 30
+
+	if(target.has_status_effect(/datum/status_effect/debuff/exposed) || target.has_status_effect(/datum/status_effect/debuff/vulnerable))
+		chance2hit += 20
+
+	if(!(user.mobility_flags & MOBILITY_STAND) && (zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_L_FOOT)))
+		chance2hit += 5
+	if(HAS_TRAIT(user, TRAIT_GUIDANCE))
+		chance2hit += FULL_GUIDANCE_ACCURACY
+	else if(HAS_TRAIT(user, TRAIT_LESSER_GUIDANCE))
+		chance2hit += LESSER_GUIDANCE_ACCURACY
+
+	if(HAS_TRAIT(user, TRAIT_REVERSE_GUIDANCE))
+		chance2hit -= FULL_GUIDANCE_ACCURACY
+	else if(HAS_TRAIT(user, TRAIT_LESSER_REVERSE_GUIDANCE))
+		chance2hit -= LESSER_GUIDANCE_ACCURACY
+
+	chance2hit += accuracy_bonus
+
+	chance2hit = CLAMP(chance2hit, 5, 95)
 
 	if(prob(chance2hit))
 		return zone
 	else
-		if(prob(chance2hit+(user.STAPER - 10)))
+		if(prob(chance2hit + (user.STAPER - 10)))
 			if(check_zone(zone) == zone)
 				return zone
-			to_chat(user, span_warning("Accuracy fail! [chance2hit]%"))
+			if(user.client?.prefs.showrolls)
+				to_chat(user, span_warning("Accuracy fail! [chance2hit]%"))
 			if(user.STAPER >= 11)
-				if(user.client?.prefs.showrolls)
-					return check_zone(zone)
+				return check_zone(zone)
 			else
 				return BODY_ZONE_CHEST
 		else
 			if(user.client?.prefs.showrolls)
 				to_chat(user, span_warning("Double accuracy fail! [chance2hit]%"))
 			return BODY_ZONE_CHEST
+
+/// Melee accuracy check. Computes weapon/intent-specific modifiers and delegates to resolve_aimed_zone().
+/proc/melee_accuracy_check(zone, mob/living/user, mob/living/target, associated_skill, datum/intent/used_intent, obj/item/I)
+	if(!zone)
+		return
+	var/bonus = 0
+
+	bonus += (user.get_skill_level(associated_skill) * 8)
+
+	if(used_intent)
+		if(used_intent.blade_class == BCLASS_STAB)
+			bonus += 10
+		if(used_intent.blade_class == BCLASS_PICK)
+			bonus += 15
+		if(used_intent.blade_class == BCLASS_CUT)
+			bonus += 6
+		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well
+			bonus -= 10
+		if(used_intent.accuracy_modifier)
+			bonus += used_intent.accuracy_modifier
+
+	if(I)
+		if(I.wlength == WLENGTH_SHORT)
+			bonus += 10
+	else if(used_intent?.unarmed) // Unarmed is inherently short-range
+		bonus += 10
+
+	if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
+		bonus += 20
+	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
+		bonus -= 20
+
+	return resolve_aimed_zone(zone, user, target, bonus)
 
 /mob/living/proc/checkmiss(mob/living/user)
 	if(user == src)

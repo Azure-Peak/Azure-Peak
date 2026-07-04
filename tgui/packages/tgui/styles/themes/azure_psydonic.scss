@@ -1,0 +1,25 @@
+@use 'azure_base' as *;
+
+// Psydonic — primordial god palette (cold stone silver)
+.theme-azure_psydonic:root {
+  @include azure-theme((
+    'base':            #0e0e12,
+    'base-light':      #161620,
+    'base-dark':       #0a0a0e,
+    'section':         rgba(30, 30, 42, 0.45),
+    'section-title':   #a0a8b8,
+    'text':            #c0c4d0,
+    'label':           #909498,
+    'accent':          #606878,
+    'accent-bright':   #788090,
+    'border':          #3a3a48,
+    'btn-text':        #c0c4d0,
+    'btn-selected':    #505868,
+    'btn-disabled':    #484850,
+    'scrollbar-thumb': #606878,
+    'glow':            rgba(96, 104, 120, 0.2),
+    'link':            #a0a8b8,
+    'link-visited':    #d0d4e0,
+    'link-hover':      #c0c4d0,
+  ), '../assets/azure_default/topbar_red.svg');
+}

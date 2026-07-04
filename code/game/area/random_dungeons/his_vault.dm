@@ -1,5 +1,7 @@
 /area/rogue/under/cave/his_vault
 	name = "his vault"
+	loot_budget = LOOT_BUDGET_HIS_VAULT
+	loot_pool_key = "his_vault"
 	icon_state = "under"
 	first_time_text = "HIS VAULT"
 	droning_sound = 'sound/music/area/dragonden.ogg'

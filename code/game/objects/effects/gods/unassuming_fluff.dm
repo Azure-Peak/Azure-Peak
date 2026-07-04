@@ -24,18 +24,19 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 	stressadd = 20
 	desc = span_userdanger("WHAT IS THAT THING?!")
 
-/proc/teleport_to_dream(mob/living/carbon/human/user, base_probability = 10000, probability = 10, weapons = TRUE)
+/proc/teleport_to_dream(mob/living/carbon/human/user, base_probability = 10000, probability = 10, weapons = TRUE, duration = 2 MINUTES, force = FALSE)
 	if(!ishuman(user))
 		return
 
-	var/effective_probability = probability
-	if(user.patron.type == /datum/patron/divine/abyssor)
-		effective_probability *= 5
+	if(!force)
+		var/effective_probability = probability
+		if(user.patron.type == /datum/patron/divine/abyssor)
+			effective_probability *= 5
 
-	// Look kids, if you want accurate probability, don't use fractional numbers. Pickweight is safer and more accurate than prob() here.
-	var/list/options = list("teleport" = effective_probability, "no_teleport" = base_probability - effective_probability)
-	if(pickweight(options) == "no_teleport")
-		return
+		// Look kids, if you want accurate probability, don't use fractional numbers. Pickweight is safer and more accurate than prob() here.
+		var/list/options = list("teleport" = effective_probability, "no_teleport" = max(1, base_probability - effective_probability))
+		if(pickweight(options) == "no_teleport")
+			return
 
 	var/area/dream_area = GLOB.areas_by_type[/area/rogue/underworld/dream]
 	if(!dream_area)
@@ -82,7 +83,7 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 			new /obj/effect/spawner/lootdrop/roguetown/abyssor(weapon_turf)
 
 	// Schedule return
-	user.apply_status_effect(/datum/status_effect/dream_teleport, original_turf)
+	user.apply_status_effect(/datum/status_effect/dream_teleport, original_turf, duration)
 	return TRUE
 
 /proc/return_from_dream(mob/living/carbon/human/user, turf/original_turf)
@@ -169,7 +170,9 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 	desc = "The air feels humid, the floor cold and the void whispers to me. Where am I?"
 	icon_state = "abyssal"
 
-/datum/status_effect/dream_teleport/on_creation(mob/living/new_owner, turf/origin)
+/datum/status_effect/dream_teleport/on_creation(mob/living/new_owner, turf/origin, new_duration = 2 MINUTES)
+	if(new_duration)
+		duration = new_duration
 	. = ..()
 	if(!.)
 		return

@@ -379,18 +379,9 @@
 /obj/structure/table/church{
 	dir = 1
 	},
-/obj/item/reagent_containers/food/snacks/rogue/crackerscooked{
-	pixel_x = 8;
-	pixel_y = 12
-	},
-/obj/item/reagent_containers/food/snacks/rogue/crackerscooked{
-	pixel_x = 2;
-	pixel_y = 4
-	},
-/obj/item/reagent_containers/food/snacks/rogue/crackerscooked{
-	pixel_x = -7;
-	pixel_y = 11
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors)
 "ZN" = (

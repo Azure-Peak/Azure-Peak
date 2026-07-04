@@ -6,7 +6,7 @@
 	cmode_music = 'sound/music/combat_vaquero.ogg'
 	category_tags = list(CTAG_MERCENARY)
 	subclass_languages = list(/datum/language/etruscan)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_INT = 2,
@@ -64,13 +64,11 @@
 					/obj/item/roguekey/mercenary = 1,
 					/obj/item/rogueweapon/scabbard/sheath = 1
 					)
-	var/datum/inspiration/I = new /datum/inspiration(H)
-	I.grant_inspiration(H, bard_tier = BARD_T1)
 	if(H.mind)
-		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute", "Psyaltery")
-		var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
+		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
+		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
 		H.set_blindness(0)
-		switch(weapon_choice)
+		switch(instrument_choice)
 			if("Harp")
 				backr = /obj/item/rogue/instrument/harp
 			if("Lute")
@@ -85,8 +83,20 @@
 				backr = /obj/item/rogue/instrument/viola
 			if("Vocal Talisman")
 				backr = /obj/item/rogue/instrument/vocals
-			if("Flute")
-				backr = /obj/item/rogue/instrument/flute
 			if("Psyaltery")
 				backr = /obj/item/rogue/instrument/psyaltery
+			if("Flute")
+				backr = /obj/item/rogue/instrument/flute
+			if("Drum")
+				backr = /obj/item/rogue/instrument/drum
+			if("Shamisen")
+				backr = /obj/item/rogue/instrument/shamisen
+		var/weapons = list("Maille Training","Bardic Inspiration")
+		var/weapon_choice = input(H, "Choose your discipline.", "TAKE A PATH") as anything in weapons
+		switch(weapon_choice)
+			if("Maille Training")
+				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+			if("Bardic Inspiration")
+				var/datum/inspiration/I = new /datum/inspiration(H)
+				I.grant_inspiration(H, bard_tier = BARD_T1)
 	H.merctype = 13

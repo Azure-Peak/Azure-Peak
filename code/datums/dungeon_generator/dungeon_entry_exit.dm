@@ -43,6 +43,9 @@ GLOBAL_LIST_INIT(dungeon_exits, list())
 
 /obj/structure/dungeon_entry/Initialize()
 	. = ..()
+	link_dungeon_exits()
+
+/obj/structure/dungeon_entry/proc/link_dungeon_exits()
 	if(dungeon_id)
 		var/linked = FALSE
 		for(var/obj/structure/dungeon_exit/exit as anything in GLOB.dungeon_exits)
@@ -104,6 +107,8 @@ GLOBAL_LIST_INIT(dungeon_exits, list())
 /obj/structure/dungeon_entry/proc/use(mob/user, is_ghost)
 	if(!is_ghost && !can_enter)
 		return
+	if(!length(dungeon_exits))
+		link_dungeon_exits()
 	if(!length(dungeon_exits))
 		return
 	var/atom/exit = pick(dungeon_exits)

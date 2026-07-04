@@ -5,10 +5,11 @@
 	icon_state = "pestle"
 	force = 7
 	dropshrink = 0.9
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
+	w_class = WEIGHT_CLASS_SMALL
 
 	grid_width = 32
-	grid_height = 64
+	grid_height = 32
 
 /obj/item/reagent_containers/glass/mortar
 	name = "alchemical mortar"
@@ -18,12 +19,12 @@
 	dropshrink = 0.75
 	amount_per_transfer_from_this = 10
 	volume = 100
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	reagent_flags = OPENCONTAINER|REFILLABLE|DRAINABLE
 	spillable = TRUE
 	var/obj/item/to_grind
 
-	grid_width = 64
+	grid_width = 32
 	grid_height = 32
 
 /obj/item/reagent_containers/glass/mortar/examine()

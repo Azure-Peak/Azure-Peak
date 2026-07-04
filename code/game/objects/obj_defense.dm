@@ -1,5 +1,5 @@
 ///the essential proc to call when an obj must receive damage of any kind.
-/obj/proc/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE, attack_dir, armor_penetration = 0)
+/obj/proc/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE, attack_dir, armor_penetration = 0, object_damage_multiplier = 1)
 	if(QDELETED(src))
 		stack_trace("[src] taking damage after deletion")
 		return
@@ -7,12 +7,20 @@
 		play_attack_sound(damage_amount, damage_type, damage_flag)
 	if((resistance_flags & INDESTRUCTIBLE) || !max_integrity)
 		return
-	damage_amount = run_obj_armor(damage_amount, damage_type, damage_flag, attack_dir, armor_penetration)
+	damage_amount = run_obj_armor(damage_amount, damage_type, damage_flag, attack_dir, armor_penetration, object_damage_multiplier)
 	SEND_SIGNAL(src, COMSIG_OBJ_TAKE_DAMAGE, damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
 
 	if(damage_amount < DAMAGE_PRECISION)
 		return
 	. = damage_amount
+	if(obj_flags & CLAMP_BREAK)
+		var/break_threshold = (integrity_failure * max_integrity)
+		if(obj_integrity > break_threshold)
+			if((obj_integrity - damage_amount) <= break_threshold)
+				obj_integrity = break_threshold
+		if(obj_broken || (integrity_failure && obj_integrity == break_threshold))	// We're either broken or we will be broken
+			if(damage_type != BURN)
+				damage_amount = 1
 	obj_integrity = max(obj_integrity - damage_amount, 0)
 	if(animate_dmg)
 		var/oldx = pixel_x
@@ -27,9 +35,16 @@
 
 		obj_destruction(damage_flag)
 
+//forces the object to reach the integrity failure and break if it has one
+/obj/proc/force_obj_break(damage_flag = "")
+	if(!obj_broken && integrity_failure)
+		obj_integrity = integrity_failure * max_integrity
+		obj_break(damage_flag)
+
 
 ///returns the damage value of the attack after processing the obj's various armor protections
-/obj/proc/run_obj_armor(damage_amount, damage_type, damage_flag = 0, attack_dir, armor_penetration = 0)
+/obj/proc/run_obj_armor(damage_amount, damage_type, damage_flag = 0, attack_dir, armor_penetration = 0, object_damage_multiplier = 1)
+	damage_amount = round(damage_amount * object_damage_multiplier, DAMAGE_PRECISION)
 	if((damage_flag == "blunt" || damage_flag == "slash" || damage_flag == "stab") && damage_amount < damage_deflection)
 
 		return 1
@@ -42,9 +57,6 @@
 	if(armor_protection)		//Only apply weak-against-armor/hollowpoint effects if there actually IS armor.
 		armor_protection = CLAMP(armor_protection - armor_penetration, min(armor_protection, 0), 100)
 	return round(damage_amount * (100 - armor_protection)*0.01, DAMAGE_PRECISION)
-
-/obj
-	var/attacked_sound = 'sound/blank.ogg'
 
 ///the sound played when the obj is damaged.
 /obj/proc/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
@@ -62,10 +74,6 @@
 
 /obj/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum, damage_flag = "blunt")
 	..()
-	var/damage_taken = AM.throwforce
-	if(isitem(AM))
-		var/obj/item/as_item = AM
-		damage_taken *= as_item.demolition_mod
 	take_damage(AM.throwforce*0.1, BRUTE, damage_flag, 1, get_dir(src, AM))
 
 /obj/ex_act(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
@@ -100,7 +108,7 @@
 	playsound(src.loc, P.hitsound, 50, TRUE)
 	visible_message(span_danger("[src] is hit by \a [P]!"), null, null, COMBAT_MESSAGE_RANGE)
 	if(!QDELETED(src)) //Bullet on_hit effect might have already destroyed this object
-		take_damage(P.damage, P.damage_type, P.flag, 0, turn(P.dir, 180), P.armor_penetration)
+		take_damage(P.damage, P.damage_type, P.flag, 0, turn(P.dir, 180), P.armor_penetration, P.object_damage_multiplier)
 	P.handle_drop() //AZURE PEAK: Make sure reusable projectiles don't disappear on hit
 
 /obj/proc/attack_generic(mob/user, damage_amount = 0, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, armor_penetration = 0) //used by attack_alien, attack_animal, and attack_slime

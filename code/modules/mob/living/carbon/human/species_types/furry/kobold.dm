@@ -4,9 +4,12 @@
 /datum/species/kobold
 	name = "Kobold"
 	id = "kobold"
-	desc = "<b>Kobold</b><br>\
-	Short in stature and typically scrawny, these little lizards make up for it in their natural agility. People typically stereotype them as thieves, though...<br>\
-	(+1 Fortune)"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/lirvas
+	origin = "Lirvas"
+	base_name = "Zard"
+	desc_title = "Kobold"
+	desc = "Short in stature and typically scrawny, these little lizards make up for it in their natural agility. People typically stereotype them as thieves, though..."
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -32,6 +35,15 @@
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES = list(0,-4), OFFSET_UNDIES_F = list(0,-4), \
 		)
 	race_bonus = list(STAT_FORTUNE = 1)
+
+	custom_selection = list(
+		"+1 FOR" = STATKEY_LCK,
+		"+1 INT" = STATKEY_INT,
+		"+1 CON" = STATKEY_CON,
+		"+1 WIL" = STATKEY_WIL,
+		"+1 PER" = STATKEY_PER,
+	)
+
 	enflamed_icon = "widefire"
 	attack_verb = "slash"
 	attack_sound = 'sound/blank.ogg'

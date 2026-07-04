@@ -1,7 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - balance: "Broadswords are now more clearly defined as sidegrades to the Longsword and Axe. Chopping, thrusting, and impaling deals more damage, but comes with uncontestable swing delays: make sure your footwork's up-to-par, or else you won't be hitting anything."
-  - balance: "Executioner Swords now inherit variants of the Broadsword's chopping and thrusting intents, at the cost of peeling. This extends to the Solar Judge, Berserker Sword, and a certain secret item."
-  - bugfix: "The Steel Broadsword now properly uses the Steel Broadsword icon."
-  - bugfix: "Judgement- and Valorian-type swords now properly scale when wielded with both hands."

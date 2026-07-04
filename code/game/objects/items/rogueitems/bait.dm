@@ -9,11 +9,11 @@
 	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	var/check_counter = 0
-	var/list/attracted_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 10,
-										/mob/living/simple_animal/hostile/retaliate/rogue/goat = 33,
-									/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = 33,
-									/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = 33,
-									/mob/living/simple_animal/hostile/retaliate/rogue/chicken = 55)
+	var/list/attracted_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 50,
+										/mob/living/simple_animal/hostile/retaliate/rogue/goat = 10,
+									/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = 10,
+									/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = 50,
+									/mob/living/simple_animal/hostile/retaliate/rogue/chicken = 10)
 	var/attraction_chance = 100
 	var/deployed = 0
 	var/deploy_speed = 2 SECONDS
@@ -21,6 +21,14 @@
 	resistance_flags = FLAMMABLE
 	grid_height = 32
 	grid_width = 32
+
+/obj/item/bait/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Activate the bait in your hand to plant it down. Left-click it, once planted, to gather it back up.")
+	. += span_info("Planted bait can attract various creechers for hunting, but only if it is left alone for long enough. Ensure no one is within seven paces of the bait, or can otherwise see it without obstruction.")
+	. += span_info("The deeper that bait is planted within the wilderness, the less time it'll take for it to attract more creechers. For the best results, hunters traditionally nestle it amongst the trees and tallgrass.")
+	. += span_info("Certain types of bait attract certain kinds of creechers. Sweeter treats allure calmer creechers, while meatier treats allure harsher creechers.")
+	. += span_info("More bait can be crafted by combining sacks with jackberries, raw meat, and more.")
 
 /obj/item/bait/Initialize()
 	. = ..()
@@ -107,24 +115,24 @@
 	name = "bag of sweetbait"
 	desc = "This bait doesn't smell as bad as the others. I might even try a bite..."
 	icon_state = "baitp"
-	attracted_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/goat = 33,
-							/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = 33,
-							/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = 40, 	// Rabbits love sweet things
-							/mob/living/simple_animal/hostile/retaliate/rogue/saiga = 20,
-							/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck = 20,
-							/mob/living/simple_animal/hostile/retaliate/rogue/fox = 20,				//Scavenger, so lower chance
-							/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 10,			//Scavenger, so lower chance
-							/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 5)				//Predator, doesn't eat berries but attacted to prey
+	attracted_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/goat = 10,
+							/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = 10,
+							/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = 50, 	// Rabbits love sweet things
+							/mob/living/simple_animal/hostile/retaliate/rogue/saiga = 10,
+							/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck = 10,
+							/mob/living/simple_animal/hostile/retaliate/rogue/fox = 30,				//Scavenger, so lower chance
+							/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 30,			//Scavenger, so lower chance
+							/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 10)			//Predator, doesn't eat berries but attacted to prey
 
 
 /obj/item/bait/bloody
 	name = "bag of bloodbait"
-	desc = "Imagine if vampires got attracted to these!"
+	desc = "Imagine if vampyres got attracted to these!"
 	icon_state = "baitb"
-	attracted_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 35,
-							/mob/living/simple_animal/hostile/retaliate/rogue/mole = 20,
-							/mob/living/simple_animal/hostile/retaliate/rogue/fox = 20,	
-							/mob/living/simple_animal/hostile/retaliate/rogue/wolf/bobcat = 15,		//Annoying bastards
+	attracted_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 50,
+							/mob/living/simple_animal/hostile/retaliate/rogue/mole = 10,
+							/mob/living/simple_animal/hostile/retaliate/rogue/fox = 50,	
+							/mob/living/simple_animal/hostile/retaliate/rogue/bobcat = 50,		//Annoying bastards
 							/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
 							/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 5)			//RUH-ROH
 
@@ -136,9 +144,13 @@
 
 /obj/item/bait/leech
 	name = "bag of leechbait"
-	desc = "Bait that might attract a little pestran friend."
+	desc = "Bait that might attract a little Pestran friend."
 	icon_state = "baitb"
 	refund_bag = FALSE
 	attracted_types = list(/obj/item/leechtick = 43,
 							/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 5,
 							/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 2)
+
+/obj/item/bait/leech/perfect
+	desc = "Bait that will attract a little Pestran friend. Seems expertly crafted"
+	attracted_types = list(/obj/item/leechtick = 1)

@@ -9,6 +9,11 @@
 /// Used in show_hud(); Please ensure this is the same as the maximum index.
 #define HUD_VERSIONS 3
 
+/// Screen object is in its default position
+#define SCRN_OBJ_DEFAULT "default"
+/// Screen object is in a list (e.g. action palette)
+#define SCRN_OBJ_IN_LIST "list"
+
 //1:1 HUD layout stuff
 #define UI_BOXCRAFT "EAST-4:22,SOUTH+1:6"
 #define UI_BOXAREA "EAST-4:6,SOUTH+1:6"

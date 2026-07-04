@@ -1,5 +1,5 @@
 /mob/living/simple_animal/hostile
-	faction = list("hostile")
+	faction = list(FACTION_HOSTILE)
 	stop_automated_movement_when_pulled = 0
 	obj_damage = 40
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES //Bitflags. Set to ENVIRONMENT_SMASH_STRUCTURES to break closets,tables,racks, etc; ENVIRONMENT_SMASH_WALLS for walls; ENVIRONMENT_SMASH_RWALLS for rwalls
@@ -17,7 +17,7 @@
 	var/projectiletype	//set ONLY it and NULLIFY casingtype var, if we have ONLY projectile
 	var/projectilesound
 	var/casingtype		//set ONLY it and NULLIFY projectiletype, if we have projectile IN CASING
-	var/move_to_delay = 3 //delay for the automated movement.
+	move_to_delay = 3 //delay for the automated movement.
 	var/list/friends = list()
 	var/list/emote_taunt = list()
 	var/taunt_chance = 0
@@ -70,6 +70,12 @@
 	wanted_objects = typecacheof(wanted_objects)
 
 /mob/living/simple_animal/hostile/Destroy()
+	if(AIStatus != AI_OFF)
+		toggle_ai(AI_OFF)
+
+	if(target)
+		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	target = null
 	targets_from = null
 	return ..()
 
@@ -85,6 +91,12 @@
 		return 0
 
 /mob/living/simple_animal/hostile/handle_automated_action()
+	if(QDELETED(src) || !loc)
+		return FALSE
+
+	if(!targets_from || QDELETED(targets_from) || !targets_from.loc)
+		targets_from = src
+
 	if(AIStatus == NPC_AI_OFF)
 		return 0
 	if(del_on_deaggro && last_aggro_loss && (world.time >= last_aggro_loss + del_on_deaggro))
@@ -100,7 +112,7 @@
 		EscapeConfinement()
 
 	if(AICanContinue(possible_targets))
-		if(!QDELETED(target) && !targets_from.Adjacent(target))
+		if(!QDELETED(target) && targets_from && targets_from.loc && !targets_from.Adjacent(target))
 			DestroyPathToTarget()
 		if(!MoveToTarget(possible_targets))     //if we lose our target
 			if(AIShouldSleep(possible_targets))	// we try to acquire a new one
@@ -273,14 +285,26 @@
 	return FALSE
 
 /mob/living/simple_animal/hostile/proc/GiveTarget(new_target)//Step 4, give us our selected target
-
+	if(target)
+		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
 	target = new_target
+	if(target)
+		RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(handle_target_del))
 	LosePatience()
 	if(target != null)
 		GainPatience()
 		last_aggro_loss = 0
 		Aggro()
 		return 1
+
+/mob/living/simple_animal/hostile/proc/handle_target_del(datum/source)
+	SIGNAL_HANDLER
+	last_aggro_loss = world.time
+	target = null
+	approaching_target = FALSE
+	in_melee = FALSE
+	walk(src, 0)
+	LoseAggro()
 
 //What we do after closing in
 /mob/living/simple_animal/hostile/proc/MeleeAction(patience = TRUE)
@@ -367,7 +391,7 @@
 	. = ..()
 	if(!ckey && !stat && search_objects < 3 && . > 0)//Not unconscious, and we don't ignore mobs
 		if(search_objects)//Turn off item searching and ignore whatever item we were looking at, we're more concerned with fight or flight
-			target = null
+			GiveTarget(null)
 			LoseSearchObjects()
 		if(AIStatus != AI_ON && AIStatus != NPC_AI_OFF)
 			toggle_ai(AI_ON)
@@ -377,6 +401,8 @@
 
 
 /mob/living/simple_animal/hostile/proc/AttackingTarget()
+	if(target == src)
+		return FALSE
 	if(SEND_SIGNAL(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, target) & COMPONENT_HOSTILE_NO_PREATTACK)
 		return FALSE //but more importantly return before attack_animal called
 	SEND_SIGNAL(src, COMSIG_HOSTILE_ATTACKINGTARGET, target)
@@ -387,10 +413,12 @@
 
 /mob/living/simple_animal/hostile/proc/Aggro()
 	vision_range = aggro_vision_range
-	if(target && emote_taunt.len && prob(taunt_chance))
-		emote("me", 1, "[pick(emote_taunt)] at [target].")
-		taunt_chance = max(taunt_chance-7,2)
-	emote("aggro")
+	if(world.time >= (mob_timers["npc_chatter"] + 15 SECONDS))
+		if(target && emote_taunt.len && prob(taunt_chance))
+			emote("me", 1, "[pick(emote_taunt)] at [target].")
+			taunt_chance = max(taunt_chance-7,2)
+		emote("aggro")
+		mob_timers["npc_chatter"] = world.time
 
 
 /mob/living/simple_animal/hostile/proc/LoseAggro()
@@ -401,6 +429,7 @@
 /mob/living/simple_animal/hostile/proc/LoseTarget()
 	if(target)
 		last_aggro_loss = world.time
+		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
 	target = null
 	approaching_target = FALSE
 	in_melee = FALSE
@@ -488,8 +517,7 @@
 /mob/living/simple_animal/hostile/Move(atom/newloc, dir , step_x , step_y)
 	if(dodging && approaching_target && prob(dodge_prob) && moving_diagonally == 0 && isturf(loc) && isturf(newloc) && !incapacitated())
 		return dodge(newloc,dir)
-	else
-		return ..()
+	return ..()
 
 /mob/living/simple_animal/hostile/proc/dodge(moving_to,move_direction)
 	//Assuming we move towards the target we want to swerve toward them to get closer
@@ -518,6 +546,25 @@
 
 /mob/living/simple_animal/hostile/proc/DestroyPathToTarget()
 	var/dir_to_target = get_dir(targets_from, target)
+	// Prefer climbing climbable obstacles over smashing them.
+	// Both /obj/structure (tables) and /obj/machinery (hearths) define climbable separately.
+	var/turf/next_turf = get_step(src, dir_to_target)
+	for(var/obj/structure/S in next_turf)
+		if(S.climbable)
+			S.climb_structure(src)
+			return
+	for(var/obj/machinery/M in next_turf)
+		if(M.climbable)
+			M.climb_structure(src)
+			return
+	for(var/obj/structure/S in get_turf(src))
+		if(S.climbable)
+			S.climb_structure(src)
+			return
+	for(var/obj/machinery/M in get_turf(src))
+		if(M.climbable)
+			M.climb_structure(src)
+			return
 	if(environment_smash)
 		var/turf/V = get_turf(src)
 		for (var/obj/structure/O in V.contents)	//check for if a direction dense structure is on the same tile as the mob
@@ -534,10 +581,6 @@
 			dir_list += dir_to_target
 		for(var/direction in dir_list) //now we hit all of the directions we got in this fashion, since it's the only directions we should actually need
 			DestroyObjectsInDirection(direction)
-	for(var/obj/structure/O in get_step(src,dir_to_target))
-		if(O.density && O.climbable)
-			O.climb_structure(src)
-			break
 
 /mob/living/simple_animal/hostile/proc/DestroySurroundings() // for use with megafauna destroying everything around them
 	if(environment_smash)
@@ -566,7 +609,7 @@
 
 /mob/living/simple_animal/hostile/RangedAttack(atom/A, params) //Player firing
 	if(ranged && ranged_cooldown <= world.time)
-		target = A
+		GiveTarget(A)
 		OpenFire(A)
 	..()
 

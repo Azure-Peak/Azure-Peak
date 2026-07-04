@@ -4,6 +4,10 @@
 /datum/species/dwarf/mountain
 	name = "Dwarf"
 	id = "dwarfm"
+	psydonic = TRUE
+	origin_default = /datum/virtue/origin/hammerhold
+	origin = "Hammerhold"
+	sub_name = "Mountain Dwarf"
 	clothes_id = "dwarf"
 	desc = "<b>Dwarf</b><br>\
 	A proud and robust race of short mountain folk, \
@@ -18,8 +22,7 @@
 	leads their kind towards technological advacement as they continue \
 	to improve their crafts, both in engineering workshops and the forges. \
 	Dwarves are hearty, but are not known for their speed or eyesight... \
-	Each dwarf hails from a ancient fortress named after the most plentiful mineral.<br>\
-	(+1 Constitution, +1 Willpower)"
+	Each dwarf hails from a ancient fortress named after the most plentiful mineral."
 
 	skin_tone_wording = "Dwarf Fortress"
 

@@ -1,15 +1,15 @@
 /datum/patron/divine/abyssor
 	name = "Abyssor"
-	domain = "The great dreamer, primordial father of the tides. The ancient one, the most warped and potent of the ten."
-	desc = "The strongest of the Ten; when awakened, the world flooded for a thousand daes and a thousand nights before he was put to slumber. Resting fitfully did Dendor split from his skull like a gaping wound. Communes rarely with his followers, only offering glimpses in dreams. Gifted primordial Man water. "
-	worshippers = "Men of the Sea, Primitive Aquatics"
+	domain = "God of the Sea, Dreams, and The Unknown"
+	desc = "The strongest of the Ten; when awakened, the world flooded for a thousand daes and a thousand nights before He was put to slumber. Resting fitfully did Dendor split from his skull like a gaping wound, blessing the primodal men with the first taste of water - and in their dreams, the first nightmares."
+	worshippers = "Sailors, Seapeople, and Sages"
 	mob_traits = list(TRAIT_ABYSSOR_SWIM, TRAIT_SEA_DRINKER)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
+	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/aquatic_compulsion	= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/abyssor_wind				= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/abyssor_bends			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/abyssor_undertow		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/abyssheal				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/call_mossback			= CLERIC_T3,
@@ -21,6 +21,11 @@
 		"ABYSSOR COMMANDS THE WAVES!",
 		"THE OCEAN'S FURY IS ABYSSOR'S WILL!",
 		"I AM DRAWN BY THE PULL OF THE TIDE!",
+	)
+	titles = list(
+		"Dreamer",
+		"Forgotten One",
+		"Abysawa"
 	)
 
 	storyteller = /datum/storyteller/abyssor

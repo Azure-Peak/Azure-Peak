@@ -8,6 +8,12 @@
 	anchored = TRUE
 	max_integrity = 999999
 
+/obj/structure/roguemachine/bounty/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Click to interact with the bounty system.")
+	. += span_info("You can consult active bounties, set new bounties, print a list, or remove your own bounties.")
+	. += span_info("Setting a bounty costs mammon from your bank account.")
+
 /datum/bounty
 	var/target
 	var/target_race
@@ -130,12 +136,12 @@
 		return
 
 	// Has user a bank account?
-	if(!(user in SStreasury.bank_accounts))
+	if(!SStreasury.has_account(user))
 		say("You have no bank account.")
 		return
 
 	// Has user enough money?
-	if(SStreasury.bank_accounts[user] < amount)
+	if(SStreasury.get_balance(user) < amount)
 		say("Insufficient balance funds.")
 		return
 
@@ -147,15 +153,9 @@
 	var/confirm = input(user, "Do you dare unleash this darkness upon the world? Your name will be known.", src) as null|anything in list("Yes", "No")
 	if(isnull(confirm) || confirm == "No") return
 
-	// Deduct money from user
-	SStreasury.bank_accounts[user] -= round(amount)
-
-	//Deduct royal tax from amount
-	var/royal_tax = round(amount * 0.1)
-	SStreasury.treasury_value += royal_tax
-	SStreasury.log_entries += "+[royal_tax] to treasury (bounty tax)"
-
-	amount -= royal_tax
+	var/datum/fund/user_account = SStreasury.get_account(user)
+	amount = round(amount)
+	SStreasury.burn(user_account, amount, "bounty placement - [target.real_name]")
 
 	var/race = target.dna.species
 	var/gender = target.gender
@@ -223,17 +223,15 @@
 	if(choice != "Yes")
 		return
 
-	if(!(user in SStreasury.bank_accounts))
+	if(!SStreasury.has_account(user))
 		say("You have no bank account.")
 		return
 
-	if(SStreasury.bank_accounts[user] < cost)
+	if(SStreasury.get_balance(user) < cost)
 		say("Insufficient funds. [cost] mammons required.")
 		return
 
-	SStreasury.bank_accounts[user] -= cost
-	SStreasury.treasury_value += cost
-	SStreasury.log_entries += "+[cost] to treasury (bounty scroll fee)"
+	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, cost, "bounty scroll fee")
 
 	var/obj/item/paper/scroll/bounty/scroll = new(get_turf(src))
 	scroll.update_bounty_text()
@@ -263,7 +261,8 @@
 
 /obj/structure/chair/freedomchair
 	name = "LIBERTAS"
-	desc = "A chair-shaped machine normally used to place cursed masks onto a prisoner's head. This one's been tampered with, and now does the opposite - re-purposed to remove those wretched iron masks."
+	desc = "A chair-shaped machine normally used to place cursed collars onto a prisoner's neck. \
+	This one's been tampered with, and now does the opposite - re-purposed to remove those wretched iron collars."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "evilchair"
 	blade_dulling = DULLING_BASH
@@ -271,8 +270,13 @@
 	item_chair = null
 	anchored = TRUE
 
+/obj/structure/chair/freedomchair/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Buckle a collared prisoner to the chair, then right-click to remove their castifico collar.")
+	. += span_info("Crafted versions are unstable and will explode when used on a prisoner.")
+
 /obj/structure/chair/freedomchair/crafted
-	desc = "A chair-shaped machine normally used to place cursed masks onto a prisoner's head. This one's clearly been tampered with, and looks suspicious."
+	desc = "A chair-shaped machine normally used to place cursed collars onto a prisoner's neck. This one's clearly been tampered with, and looks suspicious."
 
 /obj/structure/chair/freedomchair/crafted/attack_right(mob/living/carbon/human/A)
 	var/mob/living/carbon/human/M = null
@@ -293,16 +297,16 @@
 	playsound(src.loc, 'sound/items/pickgood1.ogg', 100, TRUE, -1)
 	M.Paralyze(3 SECONDS)
 
-	var/obj/item/clothing/mask/old_mask = M.get_item_by_slot(SLOT_WEAR_MASK)
+	var/obj/item/clothing/neck/old_mask = M.get_item_by_slot(SLOT_NECK)
 	if(old_mask)
-		if(istype(old_mask, /obj/item/clothing/mask/rogue/facemask/prisoner))
+		if(istype(old_mask, /obj/item/clothing/neck/roguetown/collar/prisoner))
 			say("ERROR: UNLAWFUL SYSTEM TAMPERING DETECTED... ENGAGING SELF DESTRUCT...")
 			sleep(1 SECONDS)
 			explosion(src, light_impact_range = 1, flame_range = 1)
 			M.dropItemToGround(old_mask, TRUE)
 			qdel(src)
 	else
-		say("ANALYSIS COMPLETE. NO CURSED MASK FOUND. ABORT.")
+		say("ANALYSIS COMPLETE. NO CURSED COLLAR FOUND. ABORT.")
 		return
 
 /obj/structure/chair/freedomchair/attack_right(mob/living/carbon/human/A)
@@ -324,13 +328,13 @@
 	playsound(src.loc, 'sound/items/pickgood1.ogg', 100, TRUE, -1)
 	M.Paralyze(3 SECONDS)
 
-	var/obj/item/clothing/mask/old_mask = M.get_item_by_slot(SLOT_WEAR_MASK)
+	var/obj/item/clothing/neck/old_mask = M.get_item_by_slot(SLOT_NECK)
 	if(old_mask)
-		if(istype(old_mask, /obj/item/clothing/mask/rogue/facemask/prisoner))
-			say("MASK DISCARDED. FREEDOM, AT LAST...")
+		if(istype(old_mask, /obj/item/clothing/neck/roguetown/collar/prisoner))
+			say("COLLAR DISCARDED. FREEDOM, AT LAST...")
 			M.dropItemToGround(old_mask, TRUE)
 	else
-		say("ANALYSIS COMPLETE. NO CURSED MASK FOUND. ABORT.")
+		say("ANALYSIS COMPLETE. NO CURSED COLLAR FOUND. ABORT.")
 		return
 
 /obj/structure/chair/arrestchair
@@ -343,6 +347,13 @@
 	anchored = TRUE
 	var/submission = TRUE
 	max_integrity = 999999
+
+/obj/structure/chair/arrestchair/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Buckle a bounty target to the chair, then right-click to process them.")
+	. += span_info("If they have an active bounty, they will be fitted with a pacification collar and you will receive a reward.")
+	. += span_info("The target can choose to submit or perish - resistance is fatal.")
+	. += span_info("Outlaws cannot operate this machine.")
 
 /obj/structure/chair/arrestchair/attack_right(mob/living/carbon/human/A)
 	. = ..()
@@ -358,7 +369,7 @@
 			A.flash_fullscreen("redflash3")
 			A.Stun(10)
 			A.apply_damage(10, BRUTE, def_zone)
-			A.emote("whimper")
+			A.emote("whimper", forced = TRUE)
 			return
 	if(!ismob(M))
 		say("Unable to comply without a subject. Aborting...")
@@ -420,14 +431,14 @@
 
 	if(correct_head)
 		say("A bounty has been sated.")
-		budget2change((reward_amount))
+		budget2change(reward_amount, A, putinhands = FALSE)
 
-		var/obj/item/clothing/mask/old_mask = M.get_item_by_slot(SLOT_WEAR_MASK)
+		var/obj/item/clothing/neck/old_mask = M.get_item_by_slot(SLOT_NECK)
 		if(old_mask)
 			M.dropItemToGround(old_mask, TRUE)
-		var/obj/item/clothing/mask/rogue/facemask/prisoner/prisonmask = new(get_turf(M))
+		var/obj/item/clothing/neck/roguetown/collar/prisoner/prisonmask = new(get_turf(M))
 		prisonmask.bounty_amount = reward_amount
-		M.equip_to_slot_or_del(prisonmask, SLOT_WEAR_MASK, TRUE)
+		M.equip_to_slot_or_del(prisonmask, SLOT_NECK, TRUE)
 		playsound(src.loc, 'sound/items/beartrap.ogg', 100, TRUE, -1)
 	else
 		say("This head carries no reward, you fool.")
@@ -441,6 +452,8 @@
 			message_admins("[M.real_name] was killed by the EXCIDIUM.")
 			log_admin("[M.real_name] was killed by the EXCIDIUM.")
 			playsound(src, 'sound/combat/vite.ogg', 100, FALSE, -1)
+			M.emote("superagony")
+			M.visible_message(span_warningbig("The CASTIFICO begins GRUESOMELY SHAVING OUT every bit and ounce of [M]'s FLESH on their HEAD, leaving only a grinning, bleeding skull behind. Justice has been served."))
 			victim_head.skeletonize()
 			submission = TRUE
 	else
@@ -455,53 +468,3 @@
 		log_admin("[M.real_name] opted to die to the EXCIDIUM.")
 		if(M.Adjacent(src))	//No buffering this for later
 			submission = FALSE
-
-/obj/structure/chair/arrestchair/proc/budget2change(budget, mob/user, specify)
-	var/turf/T
-	if(!user || (!ismob(user)))
-		T = get_turf(src)
-	else
-		T = get_turf(user)
-	if(!budget || budget <= 0)
-		return
-	budget = floor(budget)
-	var/type_to_put
-	var/zenars_to_put
-	if(specify)
-		switch(specify)
-			if("GOLD")
-				zenars_to_put = budget/10
-				type_to_put = /obj/item/roguecoin/gold
-			if("SILVER")
-				zenars_to_put = budget/5
-				type_to_put = /obj/item/roguecoin/silver
-			if("BRONZE")
-				zenars_to_put = budget
-				type_to_put = /obj/item/roguecoin/copper
-	else
-		var/highest_found = FALSE
-		var/zenars = floor(budget/10)
-		if(zenars)
-			budget -= zenars * 10
-			highest_found = TRUE
-			type_to_put = /obj/item/roguecoin/gold
-			zenars_to_put = zenars
-		zenars = floor(budget/5)
-		if(zenars)
-			budget -= zenars * 5
-			if(!highest_found)
-				highest_found = TRUE
-				type_to_put = /obj/item/roguecoin/silver
-				zenars_to_put = zenars
-			else
-				new /obj/item/roguecoin/silver(T, zenars)
-		if(budget >= 1)
-			if(!highest_found)
-				type_to_put = /obj/item/roguecoin/copper
-				zenars_to_put = budget
-			else
-				new /obj/item/roguecoin/copper(T, budget)
-	if(!type_to_put || zenars_to_put < 1)
-		return
-	new type_to_put(T, floor(zenars_to_put))
-	playsound(T, 'sound/misc/coindispense.ogg', 100, FALSE, -1)

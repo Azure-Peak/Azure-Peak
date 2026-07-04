@@ -6,21 +6,20 @@ SUBSYSTEM_DEF(lighting)
 	init_order = INIT_ORDER_LIGHTING
 	flags = SS_TICKER
 	priority = FIRE_PRIORITY_DEFAULT
-	var/static/list/sources_queue = list() // List of lighting sources queued for update.
-	var/static/list/corners_queue = list() // List of lighting corners queued for update.
-	var/static/list/objects_queue = list() // List of lighting objects queued for update.
+	var/static/list/sources_queue = list()
+	var/static/list/corners_queue = list()
+	var/static/list/objects_queue = list()
 	processing_flag = PROCESSING_LIGHTING
 
 /datum/controller/subsystem/lighting/stat_entry()
-	..("L:[length(sources_queue)]|C:[length(corners_queue)]|O:[length(objects_queue)]")
-
+	return ..("L:[length(sources_queue)]|C:[length(corners_queue)]|O:[length(objects_queue)]")
 
 /datum/controller/subsystem/lighting/Initialize(timeofday)
 	if(!initialized)
-		if (CONFIG_GET(flag/starlight))
+		if(CONFIG_GET(flag/starlight))
 			for(var/I in GLOB.sortedAreas)
 				var/area/A = I
-				if (A.dynamic_lighting == DYNAMIC_LIGHTING_IFSTARLIGHT)
+				if(A.dynamic_lighting == DYNAMIC_LIGHTING_IFSTARLIGHT)
 					A.luminosity = 0
 
 		create_all_lighting_objects()
@@ -36,65 +35,96 @@ SUBSYSTEM_DEF(lighting)
 
 /datum/controller/subsystem/lighting/fire(resumed, init_tick_checks)
 	MC_SPLIT_TICK_INIT(3)
+
 	if(!init_tick_checks)
 		MC_SPLIT_TICK
+
 	var/list/queue = sources_queue
-	var/i = 0
-	for (i in 1 to length(queue))
-		var/datum/light_source/L = queue[i]
+	// anything added while processing gets deferred to the next tick
+	var/current_index = 0
+	while(current_index < length(queue))
+		current_index += 1
+		var/datum/light_source/L = queue[current_index]
 
 		L.update_corners()
-
-		L.needs_update = LIGHTING_NO_UPDATE
+		// update_corners() can qdel(L) in certain conditions, and we don't count
+		// those for the cut because they're already removed from the queue
+		if(!QDELING(L))
+			L.needs_update = LIGHTING_NO_UPDATE
+		else
+			current_index -= 1
 
 		if(init_tick_checks)
-			CHECK_TICK
-		else if (MC_TICK_CHECK)
+			if(!TICK_CHECK)
+				continue
+			queue.Cut(1, current_index + 1)
+			current_index = 0
+			stoplag()
+		else if(MC_TICK_CHECK)
 			break
-	if (i)
-		queue.Cut(1, i+1)
-		i = 0
+	if(current_index)
+		queue.Cut(1, current_index + 1)
+		current_index = 0
 
 	if(!init_tick_checks)
 		MC_SPLIT_TICK
 
 	queue = corners_queue
-	for (i in 1 to length(queue))
-		var/datum/lighting_corner/C = queue[i]
+	while(current_index < length(queue))
+		current_index += 1
+		var/datum/lighting_corner/C = queue[current_index]
 
 		C.update_objects()
-		C.needs_update = FALSE
-		if(init_tick_checks)
-			CHECK_TICK
-		else if (MC_TICK_CHECK)
-			break
-	if (i)
-		queue.Cut(1, i+1)
-		i = 0
+		C.needs_update = FALSE //update_objects() can call qdel if the corner is storing no data
+		if(QDELING(C))
+			current_index -= 1
 
+		if(init_tick_checks)
+			if(!TICK_CHECK)
+				continue
+			queue.Cut(1, current_index + 1)
+			current_index = 0
+			stoplag()
+		else if(MC_TICK_CHECK)
+			break
+	if(current_index)
+		queue.Cut(1, current_index + 1)
+		current_index = 0
 
 	if(!init_tick_checks)
 		MC_SPLIT_TICK
 
 	queue = objects_queue
-	for (i in 1 to length(queue))
-		var/atom/movable/lighting_object/O = queue[i]
+	while(current_index < length(queue))
+		current_index += 1
+		var/atom/movable/lighting_object/O = queue[current_index]
 
-		if (QDELETED(O))
+		if(QDELETED(O))
 			continue
 
+		// these can't delete themselves in update(), so nothing here is removed from the queue mid-loop
 		O.update()
 		O.needs_update = FALSE
-		if(init_tick_checks)
-			CHECK_TICK
-		else if (MC_TICK_CHECK)
-			break
-	if (i)
-		queue.Cut(1, i+1)
 
+		if(init_tick_checks)
+			if(!TICK_CHECK)
+				continue
+			queue.Cut(1, current_index + 1)
+			current_index = 0
+			stoplag()
+		else if(MC_TICK_CHECK)
+			break
+	if(current_index)
+		queue.Cut(1, current_index + 1)
+		current_index = 0
+
+	if(!init_tick_checks)
+		MC_SPLIT_TICK
 
 /datum/controller/subsystem/lighting/Recover()
-	initialized = SSlighting.initialized
+	if(SSlighting)
+		initialized = SSlighting.initialized
+
 	..()
 
 #undef LIGHTING_INITIAL_FIRE_DELAY

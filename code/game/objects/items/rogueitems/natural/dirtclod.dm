@@ -25,7 +25,7 @@
 	icon_state = "clod[rand(1,2)]"
 	..()
 
-	var/datum/element/slapcrafting/E = AddElement(/datum/element/slapcrafting)
+	var/datum/element/slapcrafting/E = AddElement(/datum/element/slapcrafting, slapcraft_recipe_list)
 	if(E)
 		E.slapcraft_recipes = slapcraft_recipe_list
 

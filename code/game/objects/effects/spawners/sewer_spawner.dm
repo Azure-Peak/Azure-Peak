@@ -1,6 +1,8 @@
 /obj/effect/spawner/lootdrop/roguetown/sewers
 	name = "sewer spawner"
 	lootcount = 3
+	loot_value = LOOT_VALUE_SEWERS
+	junk_loot = list(/obj/item/ash = 5, /obj/item/natural/glass_shard = 5, /obj/item/natural/stone = 3)
 	loot = list(
 		// Materials
 		/obj/item/natural/bundle/stick = 4,

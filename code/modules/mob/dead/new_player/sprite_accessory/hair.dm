@@ -113,6 +113,10 @@
 	name = "Braid (Floorlength)"
 	icon_state = "braid"
 
+/datum/sprite_accessory/hair/head/braided_sidetail
+	name = "Braided Sidetail"
+	icon_state = "braided_sidetail"
+
 /datum/sprite_accessory/hair/head/front_braid
 	name = "Braided Front"
 	icon_state = "braid-front"
@@ -766,6 +770,14 @@
 	name = "Wisp"
 	icon_state = "wisp"
 
+/datum/sprite_accessory/hair/head/wispy
+	name = "Wispy"
+	icon_state = "wispy"
+
+/datum/sprite_accessory/hair/head/taro
+	name = "Taro"
+	icon_state = "taro"
+
 /datum/sprite_accessory/hair/head/hyenamane
 	name = "Hyena Mane"
 	icon_state = "hyenamane"
@@ -929,6 +941,10 @@
 /datum/sprite_accessory/hair/head/fluffyshort
 	name = "Fluffy (Short)"
 	icon_state = "fluffyshort"
+
+/datum/sprite_accessory/hair/head/fluffyovereye
+	name = "Fluffy (Over Eye)"
+	icon_state = "fluffy_overeye"
 
 /datum/sprite_accessory/hair/head/fluffylong
 	name = "Fluffy (Long)"
@@ -1181,6 +1197,46 @@
 /datum/sprite_accessory/hair/head/heiress
 	name = "Heiress"
 	icon_state = "heiress"
+
+/datum/sprite_accessory/hair/head/longbraids
+	name = "Long Braids"
+	icon_state = "long_braids"
+
+/datum/sprite_accessory/hair/head/knots
+	name = "Tulip Knots"
+	icon_state = "knots"
+
+/datum/sprite_accessory/hair/head/mediumlocs
+	name = "Medium-Length Locs"
+	icon_state = "medium_locs"
+
+/datum/sprite_accessory/hair/head/shortlocs
+	name = "Short Locs"
+	icon_state = "short_locs"
+
+/datum/sprite_accessory/hair/head/poofycurls
+	name = "Poofy Curls"
+	icon_state = "poofy_curls"
+
+/datum/sprite_accessory/hair/head/messylocs
+	name = "Messy Locs"
+	icon_state = "messy_locs"
+
+/datum/sprite_accessory/hair/head/dualtwists
+	name = "Dual Twists"
+	icon_state = "dual_twists"
+
+/datum/sprite_accessory/hair/head/twistbun
+	name = "Dual Twists (with bun)"
+	icon_state = "twists_bun"
+
+/datum/sprite_accessory/hair/head/kandake
+	name = "Kandake"
+	icon_state = "longest_curls"
+
+/datum/sprite_accessory/hair/head/sidebraid
+	name = "Side Braid"
+	icon_state = "side_braid"
 
 /datum/sprite_accessory/hair/head/playful
 	name = "Playful"
@@ -1565,6 +1621,95 @@
 /datum/sprite_accessory/hair/head/alsoprotagonist
 	name = "Alsoprotagonist"
 	icon_state = "alsoprotagonist"
+
+/datum/sprite_accessory/hair/head/scruffy
+	name = "Scruffy"
+	icon_state = "scruffy"
+
+/datum/sprite_accessory/hair/head/puffdouble
+	name = "Puff Double"
+	icon_state = "puffdouble"
+
+/datum/sprite_accessory/hair/head/puffleft
+	name = "Puff Left"
+	icon_state = "puffleft"
+
+/datum/sprite_accessory/hair/head/puffright
+	name = "Puff Right"
+	icon_state = "puffright"
+
+
+/datum/sprite_accessory/hair/head/alchemist
+	name = "Alchemist"
+	icon_state = "alchemist"
+
+/datum/sprite_accessory/hair/head/fortuneteller
+	name = "Fortuneteller"
+	icon_state = "fortuneteller"
+
+/datum/sprite_accessory/hair/head/kajam
+	name = "Kajam"
+	icon_state = "kajam"
+
+/datum/sprite_accessory/hair/head/mermaid
+	name = "Mermaid"
+	icon_state = "mermaid"
+
+/datum/sprite_accessory/hair/head/phoenix
+	name = "Phoenix"
+	icon_state = "phoenix"
+
+/datum/sprite_accessory/hair/head/phoenix_half_shaven
+	name = "Phoenix Half Shaven"
+	icon_state = "phoenix_half_shaven"
+
+/datum/sprite_accessory/hair/head/shorthair4
+	name = "Short Hair 4"
+	icon_state = "shorthair4"
+
+/datum/sprite_accessory/hair/head/slightlymessy
+	name = "Slightly Messy"
+	icon_state = "slightlymessy"
+
+/datum/sprite_accessory/hair/head/flatpressed
+	name = "Flat Pressed"
+	icon_state = "flatpressed"
+
+/datum/sprite_accessory/hair/head/unkempt_curls
+	name = "Unkempt Curls"
+	icon_state = "unkempt_curls"
+
+/datum/sprite_accessory/hair/head/shrine_priestess
+	name = "Shrine Priestess"
+	icon_state = "shrine_priestess"
+
+/datum/sprite_accessory/hair/head/beachwave
+	name = "Beach Wave"
+	icon_state = "beachwave"
+
+/datum/sprite_accessory/hair/head/wolfcut
+	name = "Wolfcut"
+	icon_state = "wolfcut"
+
+/datum/sprite_accessory/hair/head/triplebuns
+	name = "Triple Buns"
+	icon_state = "triplebuns"
+
+/datum/sprite_accessory/hair/head/nest
+	name = "Nest"
+	icon_state = "nest"
+
+/datum/sprite_accessory/hair/head/strand
+	name = "Strand"
+	icon_state = "strand"
+
+/datum/sprite_accessory/hair/head/sodden
+	name = "Sodden"
+	icon_state = "sodden"
+
+/datum/sprite_accessory/hair/head/lizbeth
+	name = "Lizbeth"
+	icon_state = "lizbeth"
 
 /datum/sprite_accessory/hair/head/vulpkian
 	abstract_type = /datum/sprite_accessory/hair/head/vulpkian

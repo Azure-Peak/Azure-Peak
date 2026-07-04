@@ -8,7 +8,7 @@ GLOBAL_LIST_INIT(bunker_bypasses, load_bypasses_from_file())
 	return FALSE
 
 /client/proc/bunker_bypass()
-	set category = "-Server-"
+	set category = "Server"
 	set name = "Add Bunker Bypass"
 
 	var/selection = input("Who would you like to let in?", "CKEY", "") as text|null

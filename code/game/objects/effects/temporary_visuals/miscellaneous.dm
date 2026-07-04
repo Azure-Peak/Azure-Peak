@@ -6,6 +6,12 @@
 	layer = BELOW_MOB_LAYER
 	plane = GAME_PLANE_FOV_HIDDEN
 	var/splatter_type = "splatter"
+	var/blood_color
+
+/obj/effect/temp_visual/dir_setting/bloodsplatter/proc/set_blood_color(new_blood_color)
+	blood_color = new_blood_color
+	icon = initial(icon)
+	color = blood_color || initial(color)
 
 /obj/effect/temp_visual/dir_setting/bloodsplatter/Initialize(mapload, set_dir)
 	icon_state = "[splatter_type][rand(1, 6)]"
@@ -325,11 +331,7 @@
 	icon_state = "explosion"
 	pixel_x = -32
 	pixel_y = -32
-	duration = 8
-
-/obj/effect/temp_visual/explosion/fast
-	icon_state = "explosionfast"
-	duration = 4
+	duration = 20
 
 /obj/effect/temp_visual/blob
 	name = "blob"
@@ -414,6 +416,28 @@
 	I.alpha = 255
 	I.appearance_flags = RESET_ALPHA
 	animate(I, alpha = 0, time = duration)
+
+/obj/effect/temp_visual/keen_footstep
+	name = "footsteps"
+	desc = "WHAT ARE THOOOOOOOOOOOOOOOOOOOOOOOOOSE"
+	icon = 'icons/effects/footprints.dmi'
+	icon_state = null
+	randomdir = FALSE
+
+/obj/effect/temp_visual/keen_footstep/timed_out()
+	return
+
+/obj/effect/temp_visual/keen_footstep/Initialize(mapload, mob/living/seer, step_dir = SOUTH)
+	. = ..()
+	if(!seer)
+		return INITIALIZE_HINT_QDEL
+
+	var/image/I = image(icon = 'icons/effects/footprints.dmi', icon_state = "keen1", loc = src, dir = step_dir)
+	I.plane = vision_obscured(seer) ? (FULLSCREEN_PLANE + 1) : ABOVE_LIGHTING_PLANE
+	I.layer = ABOVE_MOB_LAYER
+	I.alpha = 200
+	I.appearance_flags = RESET_ALPHA|RESET_COLOR
+	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/onePerson, "keen_footstep_[REF(src)]", I, seer)
 
 // NOCTRA STUFF
 /obj/effect/temp_visual/heart/sex_effects

@@ -1,0 +1,464 @@
+.Layout__content.VampireClanSelection {
+  background-image: none;
+}
+
+.VampireClanSelection {
+  background:
+    radial-gradient(circle at top, rgba(90, 0, 0, 0.28), transparent 34%),
+    linear-gradient(180deg, #15100f 0%, #080707 100%);
+  color: #e6dcc8;
+  font-family: Georgia, serif;
+  height: 100%;
+
+  &__shell {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    height: 100%;
+    min-height: 0;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  &__header {
+    display: grid;
+    grid-template-columns: 84px minmax(220px, 1fr) auto auto;
+    column-gap: 16px;
+    align-items: center;
+    min-height: 86px;
+    padding: 10px 18px;
+    border: 1px solid #4a3023;
+    background:
+      linear-gradient(90deg, rgba(70, 0, 0, 0.42), transparent 38%),
+      rgba(10, 8, 8, 0.92);
+    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.8);
+  }
+
+  &__crest {
+    width: 64px;
+    height: 64px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 35%, #5b0d10 0%, #1a0606 70%, #0a0303 100%);
+    border: 1px solid #8f1d19;
+    box-shadow:
+      0 0 14px rgba(155, 0, 0, 0.55),
+      inset 0 0 12px rgba(0, 0, 0, 0.7);
+    clip-path: polygon(
+      50% 0%,
+      100% 18%,
+      100% 70%,
+      50% 100%,
+      0% 70%,
+      0% 18%
+    );
+  }
+
+  &__crestInner {
+    color: #f0c460;
+    font-size: 28px;
+    text-shadow:
+      0 0 10px #d82034,
+      0 0 4px #000;
+  }
+
+  &__titleBlock {
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: 32px;
+    line-height: 36px;
+    color: #f1e7d2;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px #000;
+  }
+
+  &__subtitle {
+    color: #c9a766;
+    font-size: 15px;
+  }
+
+  &__windowControls {
+    display: flex;
+    align-items: center;
+  }
+
+  &__windowButton {
+    border: 1px solid rgba(232, 208, 160, 0.4);
+    color: #e0c090;
+    font-weight: 700;
+    background: rgba(20, 5, 8, 0.6);
+
+    &:hover {
+      background: rgba(70, 10, 14, 0.6);
+    }
+  }
+
+  &__flavor {
+    color: #b7a481;
+    font-size: 13px;
+    font-style: italic;
+    text-align: right;
+    line-height: 1.3;
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: minmax(260px, 32%) minmax(0, 1fr);
+    gap: 8px;
+    min-height: 0;
+  }
+
+  &__leftPanel,
+  &__rightPanel {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &__clanCard {
+    min-height: 64px;
+    padding: 6px 8px;
+    border: 1px solid #31251f;
+    background: linear-gradient(90deg, #151111, #0d0b0b);
+    color: #e6dcc8;
+    text-align: left;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.65);
+
+    &:hover {
+      border-color: #7a2a22;
+      background: linear-gradient(90deg, #221313, #100c0c);
+    }
+
+    &--selected {
+      border-color: #b63128;
+      box-shadow:
+        inset 0 0 12px rgba(80, 0, 0, 0.75),
+        0 0 8px rgba(180, 20, 20, 0.38);
+    }
+  }
+
+  &__number {
+    width: 26px;
+    height: 26px;
+    border: 1px solid #4f3b2b;
+    background:
+      linear-gradient(180deg, #1a1109, #0b0707);
+    color: #d8c09a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+  }
+
+  &__cardSigil {
+    width: 38px;
+    height: 38px;
+    margin: 0 8px;
+    border: 1px solid #5d4630;
+    background: radial-gradient(circle, #2a0c0d 0%, #120808 80%);
+    color: #c4392f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(45deg);
+    box-shadow:
+      0 0 6px rgba(140, 20, 20, 0.45),
+      inset 0 0 8px rgba(0, 0, 0, 0.75);
+
+    > i,
+    > svg {
+      transform: rotate(-45deg);
+    }
+
+    &--custom {
+      color: #c9a766;
+      border-color: #6b5538;
+      background: radial-gradient(circle, #211a10 0%, #0a0805 80%);
+      box-shadow:
+        0 0 6px rgba(160, 130, 70, 0.35),
+        inset 0 0 8px rgba(0, 0, 0, 0.75);
+    }
+  }
+
+  &__clanName {
+    font-size: 17px;
+    color: #f0e4ce;
+  }
+
+  &__tagline {
+    margin-top: 2px;
+    color: #a99a82;
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  &__details {
+    padding: 4px 8px 12px;
+  }
+
+  &__selectedName {
+    font-size: 38px;
+    line-height: 1;
+    color: #f0e4ce;
+    text-shadow: 0 0 10px #000;
+  }
+
+  &__divider {
+    height: 1px;
+    margin: 8px 0 14px;
+    background: linear-gradient(90deg, transparent, #85623d, transparent);
+  }
+
+  &__infoBlock {
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(130, 90, 55, 0.38);
+  }
+
+  &__infoTitle {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    color: #c64a3f;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  &__infoIcon {
+    margin-right: 8px;
+    color: #d7b56d;
+    text-shadow: 0 0 8px rgba(180, 30, 30, 0.5);
+  }
+
+  &__infoText {
+    color: #d8cbb4;
+    line-height: 1.4;
+  }
+
+  &__customNameInput {
+    margin-top: 4px;
+    border: 1px solid #7a2a22;
+    background: #0c0807;
+    color: #f0e4ce;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+
+    input {
+      background: transparent;
+      color: #f0e4ce;
+      font-family: Georgia, serif;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  &__lordTitleLine {
+    margin-bottom: 8px;
+    color: #d8cbb4;
+    font-size: 13px;
+    font-style: italic;
+
+    b {
+      color: #f0e4ce;
+      font-style: normal;
+    }
+  }
+
+  &__lordFormCard {
+    margin-bottom: 8px;
+    padding: 8px 10px;
+    border: 1px solid #5b1b1f;
+    background:
+      linear-gradient(90deg, rgba(70, 8, 8, 0.45), rgba(12, 10, 10, 0.85));
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+  }
+
+  &__lordFormTitle {
+    display: flex;
+    align-items: center;
+    color: #e8c478;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  &__formIcon {
+    margin-right: 8px;
+    color: #b63128;
+  }
+
+  &__lordFormDesc {
+    margin-top: 3px;
+    color: #d8cbb4;
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.35;
+  }
+
+  &__traitList {
+    margin-top: 4px;
+  }
+
+  &__traitListLabel {
+    margin-bottom: 4px;
+    color: #c64a3f;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__traitRow {
+    display: grid;
+    grid-template-columns: minmax(120px, 32%) minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: baseline;
+    padding: 4px 6px;
+    border-bottom: 1px dashed rgba(130, 90, 55, 0.22);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  &__traitName {
+    color: #f0e4ce;
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+  &__traitDesc {
+    color: #c8b99a;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  &__covenCard {
+    margin-bottom: 6px;
+    border: 1px solid #2f231d;
+    background: linear-gradient(90deg, #120e0d, #0a0808);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
+  }
+
+  &__covenHeader {
+    padding: 8px 10px;
+    background: transparent;
+    color: #e6dcc8;
+    text-align: left;
+    border: 0;
+
+    &:hover {
+      background: linear-gradient(90deg, rgba(80, 10, 10, 0.42), transparent 70%);
+    }
+  }
+
+  &__covenChevron {
+    width: 18px;
+    color: #c9a766;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  &__covenName {
+    color: #f0e4ce;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  &__covenDesc {
+    margin-top: 1px;
+    color: #a99a82;
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  &__powerList {
+    padding: 6px 12px 10px 30px;
+    border-top: 1px solid rgba(130, 90, 55, 0.25);
+    background: rgba(8, 6, 6, 0.55);
+  }
+
+  &__powerItem {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    column-gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px dashed rgba(130, 90, 55, 0.22);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  &__powerLevel {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #6a3a2c;
+    background:
+      radial-gradient(circle at 50% 35%, #2a0d0d 0%, #0c0606 80%);
+    color: #e8c478;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 0 4px rgba(180, 30, 30, 0.35),
+      inset 0 0 6px rgba(0, 0, 0, 0.7);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+
+  &__powerBody {
+    min-width: 0;
+  }
+
+  &__powerName {
+    color: #f0e4ce;
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+  &__powerDesc {
+    margin-top: 2px;
+    color: #c8b99a;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  &__footer {
+    padding: 10px 14px;
+    border: 1px solid #3a2b22;
+    background: rgba(8, 7, 7, 0.92);
+    box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.7);
+  }
+
+  &__warning {
+    margin-bottom: 8px;
+    color: #bca783;
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  &__footerAccept {
+    border: 1px solid #d82034;
+    background: linear-gradient(180deg, #6b0e15, #2a0405);
+    color: #f4e3c4;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(216, 32, 52, 0.35);
+  }
+
+  &__footerClose {
+    border: 1px solid rgba(160, 130, 80, 0.4);
+    color: #c9a766;
+    letter-spacing: 0.5px;
+  }
+}

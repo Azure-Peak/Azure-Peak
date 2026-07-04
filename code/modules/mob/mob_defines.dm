@@ -110,14 +110,13 @@
 	var/datum/rmb_intent/rmb_intent //Living
 	var/datum/intent/used_intent
 	var/datum/intent/mmb_intent
-	var/datum/intent/used_rmb_intent
 	/// List of possible intents a mob can have
 	var/list/possible_mmb_intents = list()
-	var/list/possible_spell_intents = list()
 	var/list/possible_a_intents = list()//Living
 	var/list/possible_offhand_intents = list()//Living
 	var/list/possible_rmb_intents = list()
 	var/list/base_intents = list() //bare hand intents
+	var/datum/special_intent/unarmed_special //fallback special intent when no weapon is held
 	var/l_index = 1
 	var/r_index = 1
 	var/r_ua_index = 1
@@ -168,7 +167,7 @@
 	var/advjob = null
 
 	/// A list of factions that this mob is currently in, for hostile mob targetting, amongst other things
-	var/list/faction = list("neutral")
+	var/list/faction = list(FACTION_NEUTRAL)
 
 	/// The current client inhabiting this mob. Managed by login/logout
 	/// This exists so we can do cleanup in logout for occasions where a client was transfere rather then destroyed
@@ -222,6 +221,10 @@
 	///Allows a datum to intercept all click calls this mob is the source of
 	var/datum/click_intercept
 
+	///Currently-channeling spell_cooldown datum, set by on_start_charge() and cleared by end_charging().
+	///Cached so checkdefense() can block parry without iterating /actions on every incoming swing.
+	var/datum/action/cooldown/spell/channeling_spell
+
 	///For storing what do_after's someone has, key = string, value = amount of interactions of that type happening.
 	var/list/do_afters
 
@@ -238,6 +241,7 @@
 	var/datum/hSB/sandbox = null
 
 	var/bloody_hands = 0
+	var/bloody_hands_color
 
 	var/datum/focus //What receives our keyboard inputs. src by default
 
@@ -272,12 +276,18 @@
 	var/dodgecd = FALSE
 
 	var/setparrytime = 12
-	var/dodgetime = 12
+	var/dodgetime = 0
+	var/max_dodge = MAX_DODGE_CEIL
+	var/parrydelay = 12
 	var/magearmor = 0
 
 	var/last_dodge = 0
 	var/last_parry = 0
+
 	var/last_used_double_attack = 0 //Used for Dual Wielder virtue, holds the timer since the double attack was last used
+	var/dualwieldpitythreshhold = 2 //dual attack every 3rd
+	var/dualwieldpitystacks = 0 //used to count dual wield attacks
+
 	var/next_emote = 0
 	var/next_me_emote = 0
 	var/lastpoint = 0
@@ -285,7 +295,7 @@
 	var/mobid = 0 //incremented on spawn
 
 	var/cmode = 0
-	var/d_intent = INTENT_DODGE
+	var/d_intent = INTENT_PARRY
 	var/islatejoin = FALSE
 	var/obj/effect/proc_holder/ranged_ability //Any ranged ability the mob has, as a click override
 
@@ -302,17 +312,18 @@
 	///////TYPING INDICATORS///////
 	/// Set to true if we want to show typing indicators.
 	var/typing_indicator_enabled = FALSE
-	/// Default icon_state of our typing indicator. Currently only supports paths (because anything else is, as of time of typing this, unnecesary.
-	var/typing_indicator_state = /obj/effect/overlay/typing_indicator
 	/// The timer that will remove our indicator for early aborts (like when an user finishes their message)
 	var/typing_indicator_timerid
-	/// Current state of our typing indicator. Used for cut overlay, DO NOT RUNTIME ASSIGN OTHER THAN FROM SHOW/CLEAR. Used to absolutely ensure we do not get stuck overlays.
-	var/mutable_appearance/typing_indicator_current
+	/// The shared typing indicator currently attached to our vis_contents, or null if not typing. DO NOT RUNTIME ASSIGN OTHER THAN FROM SHOW/CLEAR.
+	var/obj/effect/overlay/typing_indicator/typing_indicator_current
+	/// TRUE if we set KEEP_TOGETHER on the mob to make the indicator follow our transform (and need to clear it on stop).
+	var/typing_indicator_added_keep_together = FALSE
 
 	// The last tick where we manually moved, or clicked on something in-world. Useful for preventing abuse of mobs with AFK players.
 	var/last_client_interact = 0
 
 	var/datum/weakref/offered_item_ref
+
 
 	/// cooldown for the next time this person can offer
 	COOLDOWN_DECLARE(offer_cooldown)

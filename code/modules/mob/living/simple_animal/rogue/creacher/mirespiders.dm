@@ -13,21 +13,23 @@
 	see_in_dark = 10
 	move_to_delay = 3
 
-	faction = list("zombie", "spiders")
+	faction = list(FACTION_ZOMBIE, FACTION_SPIDERS)
+	threat_point = THREAT_TRASH
+	ambush_faction = "mirespiders"
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
 
 	base_intents = list(/datum/intent/simple/bite/mirespider)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 1,
 						/obj/item/natural/hide = 1,
-						/obj/item/natural/silk = 1, 
-						/obj/item/alch/viscera = 1,
-						/obj/item/natural/head/mirespider = 1)
+						/obj/item/natural/silk = 1,
+						/obj/item/alch/viscera = 1)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 1,
 						/obj/item/natural/hide = 1,
-						/obj/item/natural/silk = 2, 
-						/obj/item/alch/viscera = 1,
-						/obj/item/natural/head/mirespider = 1)
+						/obj/item/natural/silk = 2,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
+						/obj/item/alch/viscera = 1)
+	head_butcher = /obj/item/natural/head/mirespider
 
 	health = MIRESPIDER_CRAWLER_HEALTH
 	maxHealth = MIRESPIDER_CRAWLER_HEALTH
@@ -54,8 +56,9 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider/Initialize()
 	. = ..()
-	update_icon()
+	AddComponent(/datum/component/ai_aggro_system)
 	AddElement(/datum/element/ai_retaliate)
+	update_icon()
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
 
@@ -152,8 +155,12 @@
 	icon_state = "lurker"
 	icon_living = "lurker"
 	icon_dead = "lurker_dead"
+	response_help_continuous = "pets"
+	response_help_simple = "pet"
 
-	faction = list("zombie", "spiders")
+	faction = list(FACTION_ZOMBIE, FACTION_SPIDERS)
+	threat_point = THREAT_ELITE
+	ambush_faction = "mirespiders"
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
 
 	base_intents = list(/datum/intent/simple/bite/mirespider_lurker)
@@ -163,14 +170,15 @@
 						/obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
 						/obj/item/natural/hide = 3,
-						/obj/item/natural/silk = 3, 
-						/obj/item/alch/viscera = 4,
-						/obj/item/natural/head/mirelurker = 1)
+						/obj/item/natural/silk = 3,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
+						/obj/item/alch/viscera = 4)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
 						/obj/item/natural/hide = 4,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 2,
 						/obj/item/natural/silk = 5, // You killed the mire lurker. You get all the figgy pudding . . .
-						/obj/item/alch/viscera = 4,
-						/obj/item/natural/head/mirelurker = 1)
+						/obj/item/alch/viscera = 4)
+	head_butcher = /obj/item/natural/head/mirelurker
 
 	health = MIRESPIDER_LURKER_HEALTH
 	maxHealth = MIRESPIDER_LURKER_HEALTH
@@ -198,7 +206,9 @@
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker/mushroom
 	icon = 'icons/mob/mirespider_shroom.dmi'
-	desc = "Mushroom!"
+	desc = "While recognizable as a mire lurker, this specimen appears to suffer a gigantic \
+	fungal growth over its rear end. It reeks of the smell of mold, and tar-like secretions \
+	drip from its mandibles. Something here is horribly wrong."
 	name = "mire lurker?"
 	icon_state = "mushroom"
 	icon_living = "mushroom"
@@ -215,20 +225,23 @@
 						/obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
 						/obj/item/natural/hide = 3,
-						/obj/item/natural/silk = 3, 
+						/obj/item/natural/silk = 3,
 						/obj/item/reagent_containers/powder/ozium = 2,
-						/obj/item/alch/viscera = 4,
-						/obj/item/natural/head/mirelurker = 1)
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
+						/obj/item/alch/viscera = 4)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 4,
 						/obj/item/natural/hide = 4,
 						/obj/item/natural/silk = 5, // You killed the mire lurker. You get all the figgy pudding . . .
 						/obj/item/reagent_containers/powder/ozium = 2,
 						/obj/item/reagent_containers/powder/herozium = 1,
-						/obj/item/alch/viscera = 4,
-						/obj/item/natural/head/mirelurker = 1)
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
+						/obj/item/alch/viscera = 4)
+	head_butcher = /obj/item/natural/head/mirelurker
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
+	AddElement(/datum/element/ai_retaliate)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
 	// I'll replace this with something better later. Stopgap for now to make killing them more than just a nuisance.
@@ -263,11 +276,15 @@
 /mob/living/simple_animal/hostile/rogue/mirespider_paralytic
 	icon = 'icons/mob/mirespider_small.dmi'
 	name = "aragn"
+	desc = "A gigantic species of spider accompanied always by a strong sulphuric stench. Its fangs carry \
+	a dangerous paralytic; a danger for the common traveller, and an opportunity to any aspiring poisoner."
 	icon_state = "aragn"
 	icon_living = "aragn"
 	icon_dead = "aragn_dead"
 
-	faction = list("zombie", "spiders")
+	faction = list(FACTION_ZOMBIE, FACTION_SPIDERS)
+	threat_point = THREAT_ELITE
+	ambush_faction = "mirespiders"
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
 
 	base_intents = list(/datum/intent/simple/bite/mirespider_paralytic)
@@ -276,16 +293,17 @@
 						/obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 2,
 						/obj/item/natural/hide = 1,
-						/obj/item/natural/silk = 1, 
+						/obj/item/natural/silk = 1,
 						/obj/item/alch/viscera = 1,
-						/obj/item/reagent_containers/spidervenom_inert = 1, 
-						/obj/item/natural/head/mirespider_paralytic = 1)
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
+						/obj/item/reagent_containers/spidervenom_inert = 1)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 2,
 						/obj/item/natural/hide = 1,
-						/obj/item/natural/silk = 1, 
-						/obj/item/alch/viscera = 1, 
-						/obj/item/reagent_containers/spidervenom_inert = 2, 
-						/obj/item/natural/head/mirespider_paralytic = 1)
+						/obj/item/natural/silk = 1,
+						/obj/item/alch/viscera = 1,
+						/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
+						/obj/item/reagent_containers/spidervenom_inert = 2)
+	head_butcher = /obj/item/natural/head/mirespider_paralytic
 
 	health = MIRESPIDER_ARAGN_HEALTH
 	maxHealth = MIRESPIDER_ARAGN_HEALTH
@@ -303,6 +321,11 @@
 
 /datum/intent/simple/bite/mirespider_paralytic
 	clickcd = ARAGN_ATTACK_SPEED
+
+/mob/living/simple_animal/hostile/rogue/mirespider_paralytic/Initialize()
+	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
+	AddElement(/datum/element/ai_retaliate)
 
 /mob/living/simple_animal/hostile/rogue/mirespider_paralytic/AttackingTarget()
 	. = ..()
@@ -329,10 +352,10 @@
 	qdel(src)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider/angry
-	faction = list("mad", "zombie")
+	faction = list(FACTION_MAD, FACTION_ZOMBIE)
 
 /mob/living/simple_animal/hostile/rogue/mirespider_paralytic/angry
-	faction = list("mad", "zombie")
+	faction = list(FACTION_MAD, FACTION_ZOMBIE)
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker/angry
-	faction = list("mad", "zombie")
+	faction = list(FACTION_MAD, FACTION_ZOMBIE)

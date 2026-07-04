@@ -5,6 +5,8 @@
 			used = pick('sound/vo/mobs/skel/skeleton_rage (1).ogg','sound/vo/mobs/skel/skeleton_rage (2).ogg','sound/vo/mobs/skel/skeleton_rage (3).ogg')
 		if("rage")
 			used = pick('sound/vo/mobs/skel/skeleton_rage (1).ogg','sound/vo/mobs/skel/skeleton_rage (2).ogg','sound/vo/mobs/skel/skeleton_rage (3).ogg')
+		if ("warcry")
+			used = list('sound/vo/mobs/skel/skeleton_rage (1).ogg','sound/vo/mobs/skel/skeleton_rage (2).ogg','sound/vo/mobs/skel/skeleton_rage (3).ogg') //RAGE AGAINST THE LYVING
 		if("laugh")
 			used = pick('sound/vo/mobs/skel/skeleton_laugh.ogg')
 		if("deathgurgle")
@@ -17,6 +19,30 @@
 			used = pick('sound/vo/mobs/skel/skeleton_scream (1).ogg','sound/vo/mobs/skel/skeleton_scream (2).ogg','sound/vo/mobs/skel/skeleton_scream (3).ogg','sound/vo/mobs/skel/skeleton_scream (4).ogg','sound/vo/mobs/skel/skeleton_scream (5).ogg')
 		if("scream")
 			used = pick('sound/vo/mobs/skel/skeleton_scream (1).ogg','sound/vo/mobs/skel/skeleton_scream (2).ogg','sound/vo/mobs/skel/skeleton_scream (3).ogg','sound/vo/mobs/skel/skeleton_scream (4).ogg','sound/vo/mobs/skel/skeleton_scream (5).ogg')
-
-
+		if("agony") //Close enough
+			used = list('sound/vo/mobs/skel/skeleton_pain (1).ogg','sound/vo/mobs/skel/skeleton_pain (2).ogg','sound/vo/mobs/skel/skeleton_pain (3).ogg','sound/vo/mobs/skel/skeleton_pain (4).ogg','sound/vo/mobs/skel/skeleton_pain (5).ogg')
+		if("superagony") // to bypass painless override, use responsibly
+			used = list('sound/vo/mobs/skel/skeleton_pain (1).ogg','sound/vo/mobs/skel/skeleton_pain (2).ogg','sound/vo/mobs/skel/skeleton_pain (3).ogg','sound/vo/mobs/skel/skeleton_pain (4).ogg','sound/vo/mobs/skel/skeleton_pain (5).ogg')
+		if("snap")
+			used = list('sound/vo/fsnap1.ogg')
+		if("snap2")
+			used = list('sound/vo/fsnap2.ogg')
+		if("snap3")
+			used = list('sound/vo/fsnap3.ogg')
+		if("clap")
+			used = list('sound/vo/clap (1).ogg','sound/vo/clap (2).ogg','sound/vo/clap (3).ogg','sound/vo/clap (4).ogg')
+		if("slowclap")
+			used = list('sound/vo/slowclap.ogg')
+		if("clap1")
+			used = list('sound/vo/claponce.ogg')
+		if("blink")
+			used = list('sound/vo/blink.ogg')
+		if("stomp")
+			used = list('sound/foley/brickdrop.ogg')
+		if("salute")
+			used = 'sound/vo/salute.ogg'
+		if("crack")
+			used = 'sound/vo/knuckles.ogg'
+		if("facepalm")
+			used = list('sound/vo/facepalm1.ogg', 'sound/vo/facepalm2.ogg')
 	return used

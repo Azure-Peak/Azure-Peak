@@ -18,7 +18,9 @@
 							/obj/structure/flora/tinymushrooms = 20,
 							/obj/structure/roguerock = 25,
 							/obj/item/natural/rock = 25,
-							/obj/structure/vine = 5)
+							/obj/structure/vine = 5,
+							/obj/effect/hunting_track = 5,
+							/obj/structure/zizo_bane = 5)
 
 /datum/mapGeneratorModule/underdarkmud
 	clusterCheckFlags = CLUSTER_CHECK_SAME_ATOMS
@@ -31,4 +33,6 @@
 							/obj/structure/flora/rogueshroom = 20,
 							/obj/structure/flora/tinymushrooms = 20,
 							/obj/structure/flora/roguegrass = 30,
-							/obj/structure/flora/roguegrass/herb/random = 5)
+							/obj/structure/flora/roguegrass/herb/random = 5,
+							/obj/effect/hunting_track = 5,
+							/obj/structure/zizo_bane = 5)

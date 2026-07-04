@@ -34,6 +34,8 @@
 	dat += " | "
 	dat += individual_logging_panel_link(M, INDIVIDUAL_SAY_LOG, LOGSRC_MOB, "Say Log", source, ntype)
 	dat += " | "
+	dat += individual_logging_panel_link(M, INDIVIDUAL_NPC_SAY_LOG, LOGSRC_MOB, "NPC Say", source, ntype)
+	dat += " | "
 	dat += individual_logging_panel_link(M, INDIVIDUAL_EMOTE_LOG, LOGSRC_MOB, "Emote Log", source, ntype)
 	dat += " | "
 	dat += individual_logging_panel_link(M, INDIVIDUAL_COMMS_LOG, LOGSRC_MOB, "Comms Log", source, ntype)

@@ -166,11 +166,11 @@ GLOBAL_LIST_EMPTY(tennite_schisms)
 			D.passive_devotion_gain = 1
 			D.passive_progression_gain = 1
 			START_PROCESSING(SSobj, D)
-		selected_priest.verbs |= /mob/living/carbon/human/proc/devotionreport
-		selected_priest.verbs |= /mob/living/carbon/human/proc/clericpray
-		selected_priest.verbs |= /mob/living/carbon/human/proc/churchexcommunicate
+		add_verb(selected_priest, /mob/living/carbon/human/proc/devotionreport)
+		add_verb(selected_priest, /mob/living/carbon/human/proc/clericpray)
+		add_verb(selected_priest, /mob/living/carbon/human/proc/churchexcommunicate)
 		//selected_priest.verbs |= /mob/living/carbon/human/proc/churchcurse	- Add this back seperate later in a seperate PR. Good feature, PR too big tho.
-		selected_priest.verbs |= /mob/living/carbon/human/proc/churchannouncement
+		add_verb(selected_priest, /mob/living/carbon/human/proc/churchannouncement)
 
 		priority_announce("[challenger.name] has selected [selected_priest.real_name] as a new Bishop! Power sharing begins!", "Bishop rises", 'sound/magic/inspire_02.ogg')
 
@@ -287,7 +287,7 @@ GLOBAL_LIST_EMPTY(tennite_schisms)
 
 	if(uses_remaining <= 0)
 		if(action)
-			action.UpdateButtonIcon()
+			action.build_all_button_icons()
 		to_chat(user, span_boldnotice("Your allegiance in the schism is now final."))
 	return TRUE
 

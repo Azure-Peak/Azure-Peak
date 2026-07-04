@@ -98,7 +98,7 @@
 /datum/supply_pack/rogue/Brigand/splintbracers
 	name = "Brigandine Rerebraces"
 	cost = 20
-	contains = list(/obj/item/clothing/wrists/roguetown/splintarms)
+	contains = list(/obj/item/clothing/wrists/roguetown/bracers/brigandine)
 
 /datum/supply_pack/rogue/Brigand/bracers
 	name = "Steel Bracers"
@@ -117,7 +117,7 @@
 /datum/supply_pack/rogue/Brigand/splintlegs
 	name = "Brigandine Chausses"
 	cost = 20
-	contains = list(/obj/item/clothing/under/roguetown/splintlegs)
+	contains = list(/obj/item/clothing/under/roguetown/brigandinelegs)
 
 /datum/supply_pack/rogue/Brigand/chainlegs
 	name = "Steel Chain Chausses"

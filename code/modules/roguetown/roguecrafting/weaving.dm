@@ -1,4 +1,6 @@
 /datum/crafting_recipe/roguetown/weaving
+	abstract_type = /datum/crafting_recipe/roguetown/weaving
+	display_category = ITEM_CAT_GARMENT_COMMON
 	structurecraft = /obj/machinery/loom
 	skillcraft = /datum/skill/craft/sewing
 	subtype_reqs = TRUE		//For subtypes of fur
@@ -28,6 +30,7 @@
 /datum/crafting_recipe/roguetown/weaving/puritan
 
 	name = "puritan's cape"
+	display_category = ITEM_CAT_GARMENT_FINE
 	result = list(/obj/item/clothing/cloak/cape/puritan)
 	reqs = list(/obj/item/natural/silk = 4)
 	craftdiff = 3
@@ -35,6 +38,7 @@
 
 /datum/crafting_recipe/roguetown/weaving/shirt
 	name = "formal silks"
+	display_category = ITEM_CAT_GARMENT_FINE
 	result = list(/obj/item/clothing/suit/roguetown/shirt/undershirt/puritan)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 3
@@ -42,15 +46,40 @@
 
 /datum/crafting_recipe/roguetown/weaving/shepardmask
 	name = "half-mask"
+	display_category = ITEM_CAT_CLOTH_MASK
 	result = list(/obj/item/clothing/mask/rogue/shepherd)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/silk = 1)
 	craftdiff = 1
 	sellprice = 30
 
+/datum/crafting_recipe/roguetown/weaving/undividedrobe
+	name = "undivided robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/undivided)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/silk = 1)
+	craftdiff = 4
+	sellprice = 25
+
+/datum/crafting_recipe/roguetown/weaving/undividedclericrobe
+	name = "undivided devotee robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/undividedcleric)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/silk = 1)
+	craftdiff = 3
+	sellprice = 20
+
 /datum/crafting_recipe/roguetown/weaving/astratarobe
 	name = "astrata robes"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/astrata)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/silk = 1)
+	craftdiff = 4
+	sellprice = 25
+
+/datum/crafting_recipe/roguetown/weaving/ravoxrobe
+	name = "ravox robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/ravox)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	craftdiff = 4
@@ -64,6 +93,22 @@
 	craftdiff = 4
 	sellprice = 25
 
+/datum/crafting_recipe/roguetown/weaving/undividedclerichood
+	name = "undivided devotee hood"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/undividedcleric)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 1)
+	craftdiff = 3
+	sellprice = 25
+
+/datum/crafting_recipe/roguetown/weaving/undividedhood
+	name = "undivided hood"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/undivided)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 1)
+	craftdiff = 4 //On par w/robes, clergy gear shouldn't be easily obtainable
+	sellprice = 25
+
 /datum/crafting_recipe/roguetown/weaving/abyssorhood
 	name = "abyssor hood"
 	result = list(/obj/item/clothing/head/roguetown/roguehood/abyssor)
@@ -75,6 +120,14 @@
 /datum/crafting_recipe/roguetown/weaving/astratahood
 	name = "solar hood"
 	result = list(/obj/item/clothing/head/roguetown/roguehood/astrata)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 1)
+	craftdiff = 3
+	sellprice = 25
+
+/datum/crafting_recipe/roguetown/weaving/ravoxhood
+	name = "ravox hood"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/ravox)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
@@ -130,6 +183,7 @@
 
 /datum/crafting_recipe/roguetown/weaving/innkeeper
 	name = "bar dress"
+	display_category = ITEM_CAT_GARMENT_FINE
 	result = list (/obj/item/clothing/suit/roguetown/shirt/dress)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 2)
@@ -138,6 +192,7 @@
 
 /datum/crafting_recipe/roguetown/weaving/silkdress
 	name = "chemise"
+	display_category = ITEM_CAT_GARMENT_FINE
 	result = list (/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/random)
 	reqs = list(/obj/item/natural/fibers = 2,
 				/obj/item/natural/silk = 3)
@@ -146,6 +201,7 @@
 
 /datum/crafting_recipe/roguetown/weaving/silkcoat
 	name = "silk coat"
+	display_category = ITEM_CAT_GARMENT_FINE
 	result = list (/obj/item/clothing/suit/roguetown/armor/silkcoat)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/silk = 3,
@@ -156,6 +212,7 @@
 //Eora content from Stonekeep
 /datum/crafting_recipe/roguetown/weaving/eoramask
 	name = "eora mask"
+	display_category = ITEM_CAT_ARMOR_MASKS
 	result = list(/obj/item/clothing/head/roguetown/eoramask)
 	reqs = list(/obj/item/ingot/silver,
 				/obj/item/natural/silk = 4)
@@ -163,8 +220,16 @@
 	sellprice = 20
 
 /datum/crafting_recipe/roguetown/weaving/eorarobes
-	name = "eora robes"
+	name = "eoran robes"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/eora)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 1)
+	craftdiff = 3
+	sellprice = 20
+
+/datum/crafting_recipe/roguetown/weaving/openeorarobes
+	name = "open eoran robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/eora/alt)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3

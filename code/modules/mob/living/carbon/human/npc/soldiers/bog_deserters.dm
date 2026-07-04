@@ -84,105 +84,190 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 
 /mob/living/carbon/human/species/human/northern/bog_deserters
-	aggressive=1
-	rude = TRUE
-	mode = NPC_AI_IDLE
-	faction = list("viking", "station")
+	ai_controller = /datum/ai_controller/human_npc
+	faction = list(FACTION_BANDITS)
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 30
-	flee_in_pain = TRUE
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
-	possible_rmb_intents = list(
-		/datum/rmb_intent/feint,\
-		/datum/rmb_intent/aimed,\
-		/datum/rmb_intent/strong,\
-		/datum/rmb_intent/riposte,\
-		/datum/rmb_intent/weak
-	)
-	var/is_silent = FALSE /// Determines whether or not we will scream our funny lines at people.
-	npc_max_jump_stamina = 0
+	blood_toll_bucket = STATS_KILLED_BOGMEN
+	var/deserter_outfit = /datum/outfit/job/roguetown/human/northern/bog_deserters
 
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/ambush
-	aggressive=1
-	wander = TRUE
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
 
-/mob/living/carbon/human/species/human/northern/bog_deserters/retaliate(mob/living/L)
-	var/newtarg = target
-	.=..()
-	if(target)
-		aggressive=1
-		wander = TRUE
-		if(!is_silent && target != newtarg)
-			say(pick(GLOB.highwayman_aggro))
-			pointed(target)
 
-/mob/living/carbon/human/species/human/northern/bog_deserters/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/Initialize()
 	. = ..()
 	set_species(/datum/species/human/northern)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-	is_silent = TRUE
 
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
 	job = "Garrison Deserter"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC) //For when they're just kinda patrolling around/ambushes
-	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	equipOutfit(new deserter_outfit)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
+	gender = pick(MALE, FEMALE)
+	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+	var/hairf = pick(list(
+						/datum/sprite_accessory/hair/head/lowbraid,
+						/datum/sprite_accessory/hair/head/countryponytailalt,
+						/datum/sprite_accessory/hair/head/gloomy,
+						/datum/sprite_accessory/hair/head/zone,
+						/datum/sprite_accessory/hair/head/hime,
+						/datum/sprite_accessory/hair/head/stacy,
+						/datum/sprite_accessory/hair/head/sabitsuki,
+						/datum/sprite_accessory/hair/head/sabitsuki_ponytail, 
+						/datum/sprite_accessory/hair/head/kusanagi_alt,
+						/datum/sprite_accessory/hair/head/fluffy,
+						/datum/sprite_accessory/hair/head/fluffylong))
+	var/hairm = pick(list(
+						/datum/sprite_accessory/hair/head/ponytailwitcher,
+						/datum/sprite_accessory/hair/head/bowlcut, 
+						/datum/sprite_accessory/hair/head/bowlcut2,
+						/datum/sprite_accessory/hair/head/lowbraid,
+						/datum/sprite_accessory/hair/head/emo,
+						/datum/sprite_accessory/hair/head/sabitsuki,
+						/datum/sprite_accessory/hair/head/sabitsuki_ponytail, 
+						/datum/sprite_accessory/hair/head/rogue))
+	var/beard = pick(list(/datum/sprite_accessory/hair/facial/stubble,
+						/datum/sprite_accessory/hair/facial/manly,
+						/datum/sprite_accessory/hair/facial/fiveoclockmoustache,
+						/datum/sprite_accessory/hair/facial/sevenoclockm,
+						/datum/sprite_accessory/hair/facial/chinlessbeard,
+						/datum/sprite_accessory/hair/facial/fullbeard,
+						/datum/sprite_accessory/hair/facial/chinstrap,
+						/datum/sprite_accessory/hair/facial/longbeard))
+	head.sellprice = HEAD_BOUNTY_DESERTER
+	AddComponent(/datum/component/npc_death_line, null, 25)
+	//Random voices, this can probably be more random-ish but it'll do for now
+	var/voice_choice = rand(1, 12)
+	switch(voice_choice)
+		if(1)
+			src.voice_color = "0bb1e4"
+		if(2)
+			src.voice_color = "d30c0c"
+		if(3)
+			src.voice_color = "4d4afc"
+		if(4)
+			src.voice_color = "da40c0"
+		if(5)
+			src.voice_color = "51e251"
+		if(6)
+			src.voice_color = "a059cf"
+		if(7)
+			src.voice_color = "8700c5"
+		if(8)
+			src.voice_color = "cfc886"
+		if(9)
+			src.voice_color = "ff9100"
+		if(10)
+			src.voice_color = "a0a0a0"
+		if(11)
+			src.voice_color = "797979"
+		if(12)
+			src.voice_color = "ff5e00"
+	//Next up, we add hair
+	var/datum/bodypart_feature/hair/head/new_hair = new()
+	var/datum/bodypart_feature/hair/facial/new_facial = new()
+
+	if(gender == FEMALE)
+		new_hair.set_accessory_type(hairf, null, src)
+	else
+		new_hair.set_accessory_type(hairm, null, src)
+		new_facial.set_accessory_type(beard, null, src)
+
+	var/haircolor_choice = rand(1, 4)
+	switch(haircolor_choice)
+		if(1)
+			new_hair.accessory_colors = "#C1A287"
+			new_hair.hair_color = "#C1A287"
+			new_facial.accessory_colors = "#C1A287"
+			new_facial.hair_color = "#C1A287"
+			hair_color = "#C1A287"
+		if(2)
+			new_hair.accessory_colors = "#A56B3D"
+			new_hair.hair_color = "#A56B3D"
+			new_facial.accessory_colors = "#A56B3D"
+			new_facial.hair_color = "#A56B3D"
+			hair_color = "#A56B3D"
+		if(3) //Black
+			new_hair.accessory_colors = "#030107"
+			new_hair.hair_color = "#030107"
+			new_facial.accessory_colors = "#030107"
+			new_facial.hair_color = "#030107"
+			hair_color = "#030107"
+		if(4) //Red
+			new_hair.accessory_colors = "#a53d3d"
+			new_hair.hair_color = "#a53d3d"
+			new_facial.accessory_colors = "#a53d3d"
+			new_facial.hair_color = "#a53d3d"
+			hair_color = "#a53d3d"
+	//Now we take skin-tone picks
+	var/skintone_choice = rand(1, 7) //Heavily simplified
+	switch(skintone_choice)
+		if(1)
+			skin_tone = "SKIN_COLOR_GRENZELHOFT"
+		if(2)
+			skin_tone = "SKIN_COLOR_AVAR"
+		if(3)
+			skin_tone = "SKIN_COLOR_OTAVA"
+		if(4)
+			skin_tone = "SKIN_COLOR_SHALVISTINE"
+		if(5)
+			skin_tone = "SKIN_COLOR_LALVESTINE"
+		if(6)
+			skin_tone = "SKIN_COLOR_NALEDI"
+		if(7)
+			skin_tone = "SKIN_COLOR_KAZENGUN"
+	//Add our hair bodypart features
+	head.add_bodypart_feature(new_hair)
+	head.add_bodypart_feature(new_facial)
+
+	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
+	dna.species.handle_body(src)
+	//eye picks, we have four-cause its easier to work with. Don't ask me why it randomly breaks to white eyes but sovlful NGL
 	if(organ_eyes)
-		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
+		var/eye_choice = rand(1, 4)
+		switch(eye_choice)
+			if(1)
+				organ_eyes.eye_color = "#336699"
+				organ_eyes.accessory_colors = "#336699#336699"
+			if(2)
+				organ_eyes.eye_color = "#339933"
+				organ_eyes.accessory_colors = "#339933#339933"
+			if(3)
+				organ_eyes.eye_color = "#995333"
+				organ_eyes.accessory_colors = "#995333#995333"
+			if(3)
+				organ_eyes.eye_color = "#131313" //Souless greytider look
+				organ_eyes.accessory_colors = "#131313#131313"
+
+	if(gender == FEMALE)
+		real_name = pick(world.file2list("strings/names/first_female.txt"))
+	else
+		real_name = pick(world.file2list("strings/names/first_male.txt"))
 	update_hair()
 	update_body()
-	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 50 // Big sellprice for these guys since they're deserters
+	src.regenerate_icons() //Fixes the weird body
 
-/mob/living/carbon/human/species/human/northern/bog_deserters/npc_idle()
-	if(m_intent == MOVE_INTENT_SNEAK)
-		return
-	if(world.time < next_idle)
-		return
-	next_idle = world.time + rand(30, 70)
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(20))
-			var/turf/T = get_step(loc,pick(GLOB.cardinals))
-			if(!istype(T, /turf/open/transparent/openspace))
-				Move(T)
-		else
-			face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(!wander && prob(10))
-		face_atom(get_step(src,pick(GLOB.cardinals)))
-
-/mob/living/carbon/human/species/human/northern/bog_deserters/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		if(prob(2)) // do not make this big or else they NEVER SHUT UP
-			emote("laugh")
-	. = ..()
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/pre_equip(mob/living/carbon/human/H)
 	..()
-	//Body Stuff
-	H.eye_color = "27becc"
-	H.hair_color = "61310f"
-	H.facial_hair_color = H.hair_color
-	if(H.gender == FEMALE)
-		H.hairstyle =  "Messy (Rogue)"
-	else
-		H.hairstyle = "Messy"
-		H.facial_hairstyle = "Beard (Manly)"
 	//skill Stuff
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE) //NPCs do not get these skills unless a mind takes them over, hopefully in the future someone can fix
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
@@ -197,8 +282,8 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	H.STASTR = rand(12,14)
 	H.STASPD = 11
-	H.STACON = rand(11,13)
-	H.STAWIL = 13
+	H.STACON = 8
+	H.STAWIL = 8
 	H.STAPER = 11
 	H.STAINT = 10
 	//Chest Gear
@@ -212,65 +297,166 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	//Lower Gear
-	belt = /obj/item/storage/belt/rogue/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	//Weapons
-	add_random_deserter_weapon(H)
+	if(prob(30)) // ranged
+		belt = /obj/item/storage/belt/rogue/leather
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+		backl = /obj/item/quiver/arrows
+		r_hand = /obj/item/rogueweapon/sword/iron
+		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+		H.STASTR -= 2
+		H.STAPER += 3
+	else if(prob(25)) // tossblade
+		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+		H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+		add_random_deserter_weapon(H)
+	else
+		belt = /obj/item/storage/belt/rogue/leather
+		add_random_deserter_weapon(H)
 	add_random_deserter_beltl_stuff(H)
 	add_random_deserter_beltr_stuff(H)
 
+	if(prob(30))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
+			if(2)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
+			if(3)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
+
 /mob/living/carbon/human/species/human/northern/bog_deserters/better_gear
-	aggressive=1
-	rude = TRUE
-	mode = NPC_AI_IDLE
-	faction = list("viking", "station")
+	ai_controller = /datum/ai_controller/human_npc
+	faction = list(FACTION_BANDITS, FACTION_STATION)
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 30
-	flee_in_pain = TRUE
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
-	possible_rmb_intents = list(
-		/datum/rmb_intent/feint,\
-		/datum/rmb_intent/aimed,\
-		/datum/rmb_intent/strong,\
-		/datum/rmb_intent/riposte,\
-		/datum/rmb_intent/weak
-	)
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush
-	aggressive=1
-	wander = TRUE
+	threat_point = THREAT_DANGEROUS
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/after_creation()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Garrison Deserter"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC) //For when they're just kinda patrolling around/ambushes
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters/better_gear)
 	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
+	gender = pick(MALE, FEMALE)
+	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+	var/hairf = pick(list(/datum/sprite_accessory/hair/head/lowbraid,
+						/datum/sprite_accessory/hair/head/countryponytailalt))
+	var/hairm = pick(list(/datum/sprite_accessory/hair/head/ponytailwitcher,
+						/datum/sprite_accessory/hair/head/lowbraid))
+	var/beard = pick(list(/datum/sprite_accessory/hair/facial/stubble,
+						/datum/sprite_accessory/hair/facial/manly,
+						/datum/sprite_accessory/hair/facial/fiveoclockmoustache,
+						/datum/sprite_accessory/hair/facial/sevenoclockm,
+						/datum/sprite_accessory/hair/facial/chinlessbeard,
+						/datum/sprite_accessory/hair/facial/fullbeard,
+						/datum/sprite_accessory/hair/facial/chinstrap,
+						/datum/sprite_accessory/hair/facial/longbeard))
+	head.sellprice = HEAD_BOUNTY_DESERTER
+	AddComponent(/datum/component/npc_death_line, null, 25)
+
+	var/datum/bodypart_feature/hair/head/new_hair = new()
+	var/datum/bodypart_feature/hair/facial/new_facial = new()
+
+	if(gender == FEMALE)
+		new_hair.set_accessory_type(hairf, null, src)
+	else
+		new_hair.set_accessory_type(hairm, null, src)
+		new_facial.set_accessory_type(beard, null, src)
+
+	var/haircolor_choice = rand(1, 4)
+	switch(haircolor_choice)
+		if(1)
+			new_hair.accessory_colors = "#C1A287"
+			new_hair.hair_color = "#C1A287"
+			new_facial.accessory_colors = "#C1A287"
+			new_facial.hair_color = "#C1A287"
+			hair_color = "#C1A287"
+		if(2)
+			new_hair.accessory_colors = "#A56B3D"
+			new_hair.hair_color = "#A56B3D"
+			new_facial.accessory_colors = "#A56B3D"
+			new_facial.hair_color = "#A56B3D"
+			hair_color = "#A56B3D"
+		if(3) //Black
+			new_hair.accessory_colors = "#030107"
+			new_hair.hair_color = "#030107"
+			new_facial.accessory_colors = "#030107"
+			new_facial.hair_color = "#030107"
+			hair_color = "#030107"
+		if(4) //Red
+			new_hair.accessory_colors = "#a53d3d"
+			new_hair.hair_color = "#a53d3d"
+			new_facial.accessory_colors = "#a53d3d"
+			new_facial.hair_color = "#a53d3d"
+			hair_color = "#a53d3d"
+
+	head.add_bodypart_feature(new_hair)
+	head.add_bodypart_feature(new_facial)
+
+	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
+	dna.species.handle_body(src)
+
 	if(organ_eyes)
-		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
+		var/eye_choice = rand(1, 4)
+		switch(eye_choice)
+			if(1)
+				organ_eyes.eye_color = "#336699"
+				organ_eyes.accessory_colors = "#336699#336699"
+			if(2)
+				organ_eyes.eye_color = "#339933"
+				organ_eyes.accessory_colors = "#339933#339933"
+			if(3)
+				organ_eyes.eye_color = "#995333"
+				organ_eyes.accessory_colors = "#995333#995333"
+			if(3)
+				organ_eyes.eye_color = "#131313" //Souless greytider look
+				organ_eyes.accessory_colors = "#131313#131313"
+
+	var/skintone_choice = rand(1, 7) //Heavily simplified
+	switch(skintone_choice)
+		if(1)
+			skin_tone = "SKIN_COLOR_GRENZELHOFT"
+		if(2)
+			skin_tone = "SKIN_COLOR_AVAR"
+		if(3)
+			skin_tone = "SKIN_COLOR_OTAVA"
+		if(4)
+			skin_tone = "SKIN_COLOR_SHALVISTINE"
+		if(5)
+			skin_tone = "SKIN_COLOR_LALVESTINE"
+		if(6)
+			skin_tone = "SKIN_COLOR_NALEDI"
+		if(7)
+			skin_tone = "SKIN_COLOR_KAZENGUN"
+
+	if(gender == FEMALE)
+		real_name = pick(world.file2list("strings/names/first_female.txt"))
+	else
+		real_name = pick(world.file2list("strings/names/first_male.txt"))
 	update_hair()
 	update_body()
-	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	head.sellprice = 50 // Big sellprice for these guys since they're deserters
+	src.regenerate_icons() //Fixes the weird body but lets check performance first
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/better_gear/pre_equip(mob/living/carbon/human/H)
-	//Body Stuff
-	H.eye_color = "27becc"
-	H.hair_color = "61310f"
-	H.facial_hair_color = H.hair_color
-	if(H.gender == FEMALE)
-		H.hairstyle =  "Messy (Rogue)"
-	else
-		H.hairstyle = "Messy"
-		H.facial_hairstyle = "Beard (Manly)"
 	//skill Stuff
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE) //NPCs do not get these skills unless a mind takes them over, hopefully in the future someone can fix
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
@@ -285,8 +471,8 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	H.STASTR = rand(12,14)
 	H.STASPD = 11
-	H.STACON = rand(11,13)
-	H.STAWIL = 13
+	H.STACON = 10
+	H.STAWIL = 10
 	H.STAPER = 11
 	H.STAINT = 10
 	//Chest Gear
@@ -304,6 +490,202 @@
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	//Weapons
+	if(prob(50)) // tossblade
+		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+		H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+		add_random_deserter_weapon_hard(H)
+	else
+		belt = /obj/item/storage/belt/rogue/leather
+		add_random_deserter_weapon_hard(H)
+	add_random_deserter_beltl_stuff(H)
+	add_random_deserter_beltr_stuff(H)
+
+	if(prob(30))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
+			if(2)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
+			if(3)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
+			if(4)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
+
+//Tosser variants - always spawn with tossblade belt and archer AI
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser
+	ai_controller = /datum/ai_controller/human_npc/archer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/ambush
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/after_creation()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
+	job = "Garrison Deserter"
+	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters/tosser)
+	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+	head.sellprice = HEAD_BOUNTY_DESERTER
+
+/datum/outfit/job/roguetown/human/northern/bog_deserters/tosser/pre_equip(mob/living/carbon/human/H)
+	//skill Stuff
+	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+	H.STASTR = rand(12,14)
+	H.STASPD = 11
+	H.STACON = 8
+	H.STAWIL = 8
+	H.STAPER = 11
+	H.STAINT = 10
+	//Chest Gear
+	add_random_deserter_cloak(H)
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+	//Head Gear
+	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
+	//wrist Gear
+	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	//Lower Gear
+	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+	//Weapons - guaranteed tossblade + melee
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+	add_random_deserter_weapon(H)
+	add_random_deserter_beltl_stuff(H)
+	add_random_deserter_beltr_stuff(H)
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/better_gear
+	ai_controller = /datum/ai_controller/human_npc/archer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/better_gear/ambush
+	threat_point = THREAT_DANGEROUS
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/better_gear/after_creation()
+	AddComponent(/datum/component/ai_aggro_system)
+	job = "Garrison Deserter"
+	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters/tosser/better_gear)
+	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
+	if(organ_eyes)
+		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
+	update_hair()
+	update_body()
+	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+	head.sellprice = HEAD_BOUNTY_DESERTER
+
+/datum/outfit/job/roguetown/human/northern/bog_deserters/tosser/better_gear/pre_equip(mob/living/carbon/human/H)
+	//Body Stuff
+	H.eye_color = "27becc"
+	H.hair_color = "61310f"
+	H.facial_hair_color = H.hair_color
+	if(H.gender == FEMALE)
+		H.hairstyle =  "Messy (Rogue)"
+	else
+		H.hairstyle = "Messy"
+		H.facial_hairstyle = "Beard (Manly)"
+	//skill Stuff
+	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+	H.STASTR = rand(12,14)
+	H.STASPD = 11
+	H.STACON = 10
+	H.STAWIL = 10
+	H.STAPER = 11
+	H.STAINT = 10
+	//Chest Gear
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+	add_random_deserter_armor_hard(H)
+	add_random_deserter_cloak(H)
+	//Head Gear
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/full
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
+	//wrist Gear
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	//Lower Gear
+	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+	//Weapons - guaranteed tossblade + melee
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	add_random_deserter_weapon_hard(H)
 	add_random_deserter_beltl_stuff(H)
 	add_random_deserter_beltr_stuff(H)
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/archer
+	ai_controller = /datum/ai_controller/human_npc/archer
+	deserter_outfit = /datum/outfit/job/roguetown/human/northern/bog_deserters/archer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/archer/ambush
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/archer/after_creation()
+	..()
+	job = "Garrison Marksman"
+
+/datum/outfit/job/roguetown/human/northern/bog_deserters/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/quiver/arrows
+	beltr = /obj/item/quiver/arrows
+	H.STASTR = rand(10, 12)
+	H.STAPER = 14
+	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/crossbowman
+	ai_controller = /datum/ai_controller/human_npc/archer
+	deserter_outfit = /datum/outfit/job/roguetown/human/northern/bog_deserters/crossbowman
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/crossbowman/ambush
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/crossbowman/after_creation()
+	..()
+	job = "Garrison Crossbowman"
+
+/datum/outfit/job/roguetown/human/northern/bog_deserters/crossbowman/pre_equip(mob/living/carbon/human/H)
+	..()
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+	backl = /obj/item/quiver/bolt/standard
+	H.STAPER = 13
+	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
+

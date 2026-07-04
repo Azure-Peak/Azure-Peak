@@ -32,6 +32,8 @@
 	var/static/list/accessory_icon_cache = list()
 	/// Whether this specific accessory doesn't allow for coloring
 	var/color_disabled = FALSE
+	/// Whether or not this accessory shows on skeletons for skele-customization
+	var/persists_through_skeletonize = FALSE
 
 /datum/sprite_accessory/New()
 	if(color_keys > 1)

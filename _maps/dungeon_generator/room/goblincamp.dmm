@@ -370,7 +370,7 @@
 /turf/open/floor/rogue/grasscold,
 /area/rogue/under/tomb/wilds)
 "RK" = (
-/obj/item/rogueweapon/mace/woodclub,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/under/tomb/wilds)
 "Sc" = (
@@ -418,7 +418,7 @@
 "Yd" = (
 /obj/structure/closet/crate/chest/wicker,
 /obj/machinery/light/rogue/candle,
-/obj/item/roguegem/random,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/indoors)
 "Ys" = (

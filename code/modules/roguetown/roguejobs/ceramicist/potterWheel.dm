@@ -1,5 +1,5 @@
 /obj/structure/fluff/ceramicswheel
-	name = "Potter's Wheel"
+	name = "potter's wheel"
 	desc = "A rotating platform used by skilled artisans to mold and shape clay."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "potwheel"

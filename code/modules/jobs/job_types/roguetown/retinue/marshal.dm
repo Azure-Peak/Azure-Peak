@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_NO_CONSTRUCT
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	display_order = JDO_MARSHAL
 	selection_color = JCOLOR_RETINUE
@@ -25,7 +25,7 @@
 	cmode_music = 'sound/music/combat_knight.ogg'
 	advclass_cat_rolls = list (CTAG_MARSHAL = 20)
 
-	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_PERFECT_TRACKER)
+	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_PERFECT_TRACKER, TRAIT_EXPERT_HUNTER)
 	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
 	job_subclasses = list(
 		/datum/advclass/marshal/classic,
@@ -50,10 +50,10 @@
 		/obj/item/signal_horn = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)
-	H.verbs |= /mob/proc/haltyell
-	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/living/carbon/human/proc/request_law, /mob/living/carbon/human/proc/request_law_removal, /mob/living/carbon/human/proc/request_purge)
+	add_verb(H, /mob/proc/haltyell)
+	add_verb(H, list(/mob/living/carbon/human/proc/request_outlaw, /mob/living/carbon/human/proc/request_law, /mob/living/carbon/human/proc/request_law_removal, /mob/living/carbon/human/proc/request_purge))
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
 /datum/advclass/marshal/classic
 	name = "Marshal"
@@ -82,6 +82,7 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/marshal/classic/pre_equip(mob/living/carbon/human/H)
@@ -120,10 +121,11 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/marshal/kcommander/pre_equip(mob/living/carbon/human/H)
-	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/retinue/coat
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/marshal
 	backr = /obj/item/rogueweapon/sword/long/oathkeeper
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
@@ -132,7 +134,7 @@
 
 /mob/living/carbon/human/proc/request_law()
 	set name = "Request Law"
-	set category = "Voice of Command"
+	set category = "RoleUnique.Voice of Command"
 	if(stat)
 		return
 	var/inputty = input("Write a new law", "SHERIFF") as text|null
@@ -148,7 +150,7 @@
 
 /mob/living/carbon/human/proc/request_law_removal()
 	set name = "Request Law Removal"
-	set category = "Voice of Command"
+	set category = "RoleUnique.Voice of Command"
 	if(stat)
 		return
 	var/inputty = input("Remove a law", "SHERIFF") as text|null
@@ -165,7 +167,7 @@
 
 /mob/living/carbon/human/proc/request_purge()
 	set name = "Request Purge"
-	set category = "Voice of Command"
+	set category = "RoleUnique.Voice of Command"
 	if(stat)
 		return
 	if(hasomen(OMEN_NOLORD))
@@ -179,7 +181,7 @@
 
 /mob/living/carbon/human/proc/request_outlaw()
 	set name = "Request Outlaw"
-	set category = "Voice of Command"
+	set category = "RoleUnique.Voice of Command"
 	if(stat)
 		return
 	var/inputty = input("Outlaw a person", "SHERIFF") as text|null
@@ -238,12 +240,12 @@
 
 /mob/proc/haltyell()
 	set name = "HALT!"
-	set category = "Noises"
+	set category = "Emotes.Noises"
 	emote("haltyell")
 
 /mob/proc/haltyell_exhausting()
 	set name = "HALT!"
-	set category = "Noises"
+	set category = "Emotes.Noises"
 
 	emote("haltyell")
 	stamina_add(rand(5,15))

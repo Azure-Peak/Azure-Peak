@@ -27,14 +27,24 @@
 
 /obj/structure/fluff/walldeco/wantedposter
 	name = "bandit notice"
-	desc = "A place for posters displaying the faces of roving bandits. Let's see if there are any this week..."
+	desc = "A place for posters displaying the faces of roving bandits, and a lesser assortment of villainous ne'er-do-wells. Let's see if there are any this week.. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	icon_state = "wanted1"
 	layer = BELOW_MOB_LAYER
 	pixel_y = 32
 
+/obj/structure/fluff/walldeco/wantedposter/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("The kingdom is often beset with antagonists, both lesser and greater. Their presence is greatly influenced by the round's chosen storyteller, the whims of many higher powers, and pure circumstance-and-chance.")
+	. += span_info("Clicking the 'Villain Selection' tab in the character creation menu allows you to opt into being a villain at the round's start, yourself. Such include bandits, vampyres, liches, verebeasts, usurpers, and more.")
+	. += span_info("Ghosts, voyeurs, and those still in the lobby can intermittently receive prompts to spawn in as a lesser villan or an arcyne-summoned familiar. These roles are usually less independant, and are oft-beheld to another's command.")
+	. += span_info("Uniquely, the 'Wretch' role functions as a static slot for villainy. While Wretches can spawn in nearly all rounds, they're also held to a higher standard and have a customizable bounty planted on their heads.")
+	. += span_info("With all that being said, however, villainy isn't restricted to just the antagonists. All roles can indulge in villainy, both lesser and greater, so long as it can be justified beyond 'meaningless violence' or 'witless kleptomania.'")
+	. += span_info("Remember that you are ultimately an actor in this virtual theatre, alongside everyone else. Working with the tempo-and-tact of others is the key to making a memorable - and enjoyable - experience for everyone involved.")
+
 /obj/structure/fluff/walldeco/wantedposter/r
 	pixel_y = 0
 	pixel_x = 32
+
 /obj/structure/fluff/walldeco/wantedposter/l
 	pixel_y = 0
 	pixel_x = -32
@@ -55,22 +65,49 @@
 
 /obj/structure/fluff/walldeco/innsign
 	name = "skull sign"
-	desc = "A placard sign with a skull and crossbones."
+	desc = "A placard sign with a skull and crossbones. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	icon_state = "bar"
 	layer = ABOVE_MOB_LAYER
 
+/obj/structure/fluff/walldeco/innsign/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("With little exception, your character still needs to eat, drink, and sleep.")
+	. += span_info("Eating food not only fills you up, but can also improve your character's mood and stats. Be careful, however, as eating improperly-prepared or poisoned food can have ill consequences.")
+	. += span_info("Drinking follows the same tune. Middle-clicking puddles of water with the 'BITE' subintent selected can let you drink straight from the source, in a pinch. Be mindful of where you sip, however.")
+	. += span_info("Neglecting to eat, drink, or sleep will negatively impact your character's mood and stats before long. Hunger saps Strength, thirst saps Willpower, and restlessness leaves you too exhausted to do much at all.")
+	. += span_info("Remember, however, that a cool pint and a crisp frybird's leg tastes much better when enjoyed with the company of others. You'd be surprised what kinds of friends and enemies you can make, within a stocked inn.")
+	. += span_info("Likewise, the inn - and the bathhouse, traditionally located beneath it - is the finest place to satiate many of mankind's most prominent vices.")
+
 /obj/structure/fluff/walldeco/steward
 	name = "steward's sign"
-	desc = "A sign depicting the office of the local steward."
+	desc = "A sign depicting the office of the local steward. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	icon_state = "steward"
 	layer = ABOVE_MOB_LAYER
 
+/obj/structure/fluff/walldeco/steward/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Mammons reign as the primary form of currency within the kingdom, with bargaining and trading as a lesser alternative. There are three types of mammons; ZENNIES, ZILIQUAE, and ZENARII.")
+	. += span_info("ZENNIES, or simply referred to as MAMMONS, are the backbone of the kingdom's economy. A pouch of TEN zennies can usually afford a decent meal with liqour at the inn, or some lesser supplies.")
+	. += span_info("ZILIQUAE, better known as SILVER, are each worth FIVE MAMMONS. A stack of TEN ziliquae can usually afford a freshly-forged longsword of steel, or enough supplies for a dae's adventure.")
+	. += span_info("ZENARII, better known as GOLD, are each worth TEN MAMMONS. A palmful of TEN zenarii can usuaully afford a well-mountable saiga, high-end lodging for the week, or most items on the market.")
+	. += span_info("Your character almost always spawns with mammons; either in pouches, or inside their MEISTER's account. Earning more can be as simple as laboring, adventuring, or otherwise driving a hard bargain.")
+
 /obj/structure/fluff/walldeco/bsmith
 	name = "smith's sign"
-	desc = "A sign depicting the workplace of the local smith."
+	desc = "A sign depicting the workplace of the local smith. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "bsmith"
 	layer = ABOVE_MOB_LAYER
+
+/obj/structure/fluff/walldeco/bsmith/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most roles naturally rely on weapons and armor, either to protect themselves from those who'd do harm or to better leverage their position in an ongoing story.")
+	. += span_info("Left-clicking the 'SKILLS' button in your HUD will show whatever skills your character currently has. Right-clicking it will instead show their traits, and - if applicable - their armor training.")
+	. += span_info("Skills determine how proficent you are in a given field. There are six levels to every skill; NOVICE, APPRENTICE, JOURNEYMAN, EXPERT, MASTER, and LEGENDARY. For weapons, JOURNEYMAN is considered the baseline.")
+	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")	
+	. += span_info("Armor is simpler, for the most part. There are three weight classes; LIGHT, MEDIUM (for the 'Maille Training' trait), and HEAVY (for the 'Plate Training' trait). Wearing armor you aren't trained in leaves you sluggish and open for attacks.")
+	. += span_info("Certain armor types provide better protection to certain attacks than others. A cloth gambeson, for example, thwarts piercing and blunt damage. A steel cuirass, on the other hand, stops slashing and clawing damage dead in its tracks.")
+	. += span_info("Using armor and weapons as intended will gradually wear their integrity down. Once it breaks, they can no longer be used or provide protection. Blacksmiths, tailors, repair kits, and certain tools can amend this.")
 
 /obj/structure/fluff/walldeco/goblet
 	name = "goblet sign"
@@ -88,17 +125,39 @@
 
 /obj/structure/fluff/walldeco/barbersign
 	name = "barberpole"
-	desc = "The iconic swirl of the barber surgeon."
+	desc = "The iconic swirl of the barber surgeon. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "barbersign"
 	layer = ABOVE_MOB_LAYER
 
+/obj/structure/fluff/walldeco/barbersign/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Your character can be wounded, and mended, in a wide variety of ways. Their reaction to such injuries depends on their Willpower and Constitution.")
+	. += span_info("Willpower determines how much energy and stamina your character has, represented by the blue and green bars on your HUD. Likewise, it also determines how much pain you can withstand before incapacitation.")
+	. += span_info("Constitution determines how much health your character has. The higher your Constitution, the more injuries you can withstand before suffering critical hits and-or dying.")
+	. += span_info("Critical hits can be inflicted on limbs that're no longer protected by armor, and have already been severely damaged. These injuries are all debilitating, and can be fatal not treated.")
+	. += span_info("Lifeblood, otherwise known as 'red' or 'health', heals most injuries. Needles, cloth, and bandages can stop bleeding. Water can restore lost blood. Bedrest and sleeping can fix most things with time.")
+	. += span_info("Examining someone can show how much blood loss they've suffered; from being pale, to very pale, to extremely pale and sickly. If someone is barely conscious, this means they're critically wounded and will die without assistance.")
+	. += span_info("Target someone's mouth and left-click them with an open hand on the 'WEAK' intent to manually breathe into them. This counteracts the onset of suffocation that comes with critical blood loss and other fatal wounds.")
+	. += span_info("With that being said, members of the Church and Apothecarium are the most well-equipped for healing most wounds. Miracles and surgery can often be the only way to save your character from critical injuries and death.")
+
 /obj/structure/fluff/walldeco/barbersignreverse
 	name = "barberpole"
-	desc = "The iconic swirl of the barber surgeon."
+	desc = "The iconic swirl of the barber surgeon. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "barbersignflip"
 	layer = ABOVE_MOB_LAYER
+
+/obj/structure/fluff/walldeco/barbersignreverse/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Your character can be wounded, and mended, in a wide variety of ways. Their reaction to such injuries depends on their Willpower and Constitution.")
+	. += span_info("Willpower determines how much energy and stamina your character has, represented by the blue and green bars on your HUD. Likewise, it also determines how much pain you can withstand before incapacitation.")
+	. += span_info("Constitution determines how much health your character has. The higher your Constitution, the more injuries you can withstand before suffering critical hits and-or dying.")
+	. += span_info("Critical hits can be inflicted on limbs that're no longer protected by armor, and have already been severely damaged. These injuries are all debilitating, and can be fatal not treated.")
+	. += span_info("Lifeblood, otherwise known as 'red' or 'health', heals most injuries. Needles, cloth, and bandages can stop bleeding. Water can restore lost blood. Bedrest and sleeping can fix most things with time.")
+	. += span_info("Examining someone can show how much blood loss they've suffered; from being pale, to very pale, to extremely pale and sickly. If someone is barely conscious, this means they're critically wounded and will die without assistance.")
+	. += span_info("Target someone's mouth and left-click them with an open hand on the 'WEAK' intent to manually breathe into them. This counteracts the onset of suffocation that comes with critical blood loss and other fatal wounds.")
+	. += span_info("With that being said, members of the Church and Apothecarium are the most well-equipped for healing most wounds. Miracles and surgery can often be the only way to save your character from critical injuries and death.")
 
 /obj/structure/fluff/walldeco/sparrowflag
 	name = "sparrow flag"
@@ -119,8 +178,18 @@
 /obj/structure/fluff/walldeco/artificerflag
 	name = "Artificer's Guild"
 	desc = "Fine fabric bears the symbol of a square and compass, heraldry of the Guild of Craft. Artisans of beautiful \
-	works, and jealous protectors of the monopoly of their business."
+	works, and jealous protectors of the monopoly of their business. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	icon_state = "artificer"
+
+/obj/structure/fluff/walldeco/artificerflag/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most roles naturally rely on weapons and armor, either to protect themselves from those who'd do harm or to better leverage their position in an ongoing story.")
+	. += span_info("Left-clicking the 'SKILLS' button in your HUD will show whatever skills your character currently has. Right-clicking it will instead show their traits, and - if applicable - their armor training.")
+	. += span_info("Skills determine how proficent you are in a given field. There are six levels to every skill; NOVICE, APPRENTICE, JOURNEYMAN, EXPERT, MASTER, and LEGENDARY. For weapons, JOURNEYMAN is considered the baseline.")
+	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")	
+	. += span_info("Armor is simpler, for the most part. There are three weight classes; LIGHT, MEDIUM (for the 'Maille Training' trait), and HEAVY (for the 'Plate Training' trait). Wearing armor you aren't trained in leaves you sluggish and open for attacks.")
+	. += span_info("Certain armor types provide better protection to certain attacks than others. A cloth gambeson, for example, thwarts piercing and blunt damage. A steel cuirass, on the other hand, stops slashing and clawing damage dead in its tracks.")
+	. += span_info("Using armor and weapons as intended will gradually wear their integrity down. Once it breaks, they can no longer be used or provide protection. Blacksmiths, tailors, repair kits, and certain tools can amend this.")
 
 /obj/structure/fluff/walldeco/maidendrape
 	name = "black drape"
@@ -138,18 +207,70 @@
 /obj/structure/fluff/walldeco/sign/merchantsign
 	name = "merchant shop sign"
 	icon_state = "shopsign_merchant_right"
+	desc = "For the lord of coinage and commerce, look no further. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	plane = -1
 	pixel_y = 16
+
+/obj/structure/fluff/walldeco/sign/merchantsign/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Mammons reign as the primary form of currency within the kingdom, with bargaining and trading as a lesser alternative. There are three types of mammons; ZENNIES, ZILIQUAE, and ZENARII.")
+	. += span_info("ZENNIES, or simply referred to as MAMMONS, are the backbone of the kingdom's economy. A pouch of TEN zennies can usually afford a decent meal with liqour at the inn, or some lesser supplies.")
+	. += span_info("ZILIQUAE, better known as SILVER, are each worth FIVE MAMMONS. A stack of TEN ziliquae can usually afford a freshly-forged longsword of steel, or enough supplies for a dae's adventure.")
+	. += span_info("ZENARII, better known as GOLD, are each worth TEN MAMMONS. A palmful of TEN zenarii can usuaully afford a well-mountable saiga, high-end lodging for the week, or most items on the market.")
+	. += span_info("Your character almost always spawns with mammons; either in pouches, or inside their MEISTER's account. Earning more can be as simple as laboring, adventuring, or otherwise driving a hard bargain.")
 
 /obj/structure/fluff/walldeco/sign/merchantsign/left
 	icon_state = "shopsign_merchant_left"
 
 /obj/structure/fluff/walldeco/psybanner
-	name = "banner"
+	name = "psydonic banner"
+	desc = "A banner of fine fabric bearing the symbol of Psydon, the Weeping God, creator of the world. \
+	Flown frequently by both Psydonite and Tennite authorities. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	icon_state = "Psybanner-PURPLE"
 
 /obj/structure/fluff/walldeco/psybanner/red
 	icon_state = "Psybanner-RED"
+
+/obj/structure/fluff/walldeco/psybanner/tennite
+	name = "ten undivided banner"
+	icon_state = "unibanner_purple"
+	desc = "A banner depicting a circle over a cross; the symbolism of the Ten Undivided, the sphere of \
+	Tennite religious practice dedicated to the entirety of the pantheon without favour or preference. \
+	Particularly strongly associated with the Grenzelhoftian Holy See."
+
+/obj/structure/fluff/walldeco/psybanner/tennite/red
+	icon_state = "unibanner_red"
+
+/obj/structure/fluff/walldeco/psybanner/astrata
+	name = "astratan banner"
+	icon_state = "astratabanner_purple"
+	desc = "The six-pronged cross of Astrata, embroidered upon fine fabric. It is Her will that \
+	suspends the heavens and the earth, and it is Her light that maintains life upon the abandoned \
+	surface of Psydonia. An image associated with the nobility of all lands, and with the \
+	highest echelons of church leadership."
+
+/obj/structure/fluff/walldeco/psybanner/astrata/red
+	icon_state = "astratabanner_red"
+
+/obj/structure/fluff/walldeco/psybanner/zizo
+	name = "zizite banner"
+	icon_state = "zizobanner_purple"
+	desc = "A carefully made banner bearing the inverted cross of Zizo, Dame of Progress. Banners such \
+	as this one are wildly dangerous to fly in any Tennite or Psydonite nation, in which the worship \
+	of the progenitor of undeath is harshly criminalised, but may be commonly found in more remote \
+	areas of the world."
+
+/obj/structure/fluff/walldeco/psybanner/zizo/red
+	icon_state = "zizobanner_red"
+
+/obj/structure/fluff/walldeco/psybanner/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Faith is the most important aspect of lyfe, no matter if you're a peasant or a lord. Those with differing faiths oft-clash, both metaphorically and very literally.")
+	. += span_info("Your character can choose from a wide variety of patrons to worship. The three most relevant groups, as of todae, are the PANTHEON, the ASCENDANTS, and GENESISM.")
+	. += span_info("The PANTHEON, as the Church's official religion, is considered the 'status quo' within Azuria. They worship ONE of TEN GODS, all embodying certain aspects and virtues of humenity.")
+	. += span_info("The ASCENDANTS are considered 'heathens' by the PANTHEON, and are actively hunted if made apparent within Azuria. They worship ONE of FOUR MORTALS-TURNED-GODS, who seek to usurp the 'status quo'.")
+	. += span_info("At last, GENESISM is considered 'archaic' by both the PANTHEON and ASCENDANTS. They worship PSYDON; the SAVIOR of this world who's presence is all-but-gone. They are, for lack of a better term, a 'wild card'.")
+	. += span_info("Irregardless of the chosen patron, your character is free - within reason - to interpret and worship their GOD in whatever way they see fit. After all, who's to say they aren't the only one that knows the TRUTH?")
 
 /obj/structure/fluff/walldeco/stone
 	name = ""
@@ -160,16 +281,27 @@
 /obj/structure/fluff/walldeco/stone/bronze
 	color = "#ff9c1a"
 
+/obj/structure/fluff/walldeco/stone/stone2
+	icon_state = "walldec2"
+
+/obj/structure/fluff/walldeco/stone/stone3
+	icon_state = "walldec3"
+
+/obj/structure/fluff/walldeco/stone/stone4
+	icon_state = "walldec4"
+
+/obj/structure/fluff/walldeco/stone/stone5
+	icon_state = "walldec5"
+
+/obj/structure/fluff/walldeco/stone/stone6
+	icon_state = "walldec6"
+
 /obj/structure/fluff/walldeco/church/line
 	name = ""
 	desc = ""
 	icon_state = "churchslate"
 	mouse_opacity = 0
 	layer = BELOW_MOB_LAYER+0.1
-
-/obj/structure/fluff/walldeco/stone/Initialize()
-	icon_state = "walldec[rand(1,6)]"
-	..()
 
 /obj/structure/fluff/walldeco/maidensigil
 	name = "stone sigil"
@@ -243,7 +375,9 @@
 	add_overlay(M)
 
 /obj/structure/fluff/walldeco/moon
-	name = "banner"
+	name = "noccite banner"
+	desc = "An embroidered banner depicting Noc, the Brother Moon, brother of Astrata and progenitor of \
+	all knowledge. A favourite decoration of magicians and learned folk."
 	icon_state = "moon"
 
 /obj/structure/fluff/walldeco/rpainting
@@ -262,65 +396,135 @@
 /obj/structure/fluff/walldeco/med
 	name = "diagram"
 	icon_state = "medposter"
-	desc = "A medical diagram depicting the interior structure of a humanoid hand."
+	desc = "A medical diagram depicting the interior structure of a humanoid hand. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
+
+/obj/structure/fluff/walldeco/med/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Your character can be wounded, and mended, in a wide variety of ways. Their reaction to such injuries depends on their Willpower and Constitution.")
+	. += span_info("Willpower determines how much energy and stamina your character has, represented by the blue and green bars on your HUD. Likewise, it also determines how much pain you can withstand before incapacitation.")
+	. += span_info("Constitution determines how much health your character has. The higher your Constitution, the more injuries you can withstand before suffering critical hits and-or dying.")
+	. += span_info("Critical hits can be inflicted on limbs that're no longer protected by armor, and have already been severely damaged. These injuries are all debilitating, and can be fatal not treated.")
+	. += span_info("Lifeblood, otherwise known as 'red' or 'health', heals most injuries. Needles, cloth, and bandages can stop bleeding. Water can restore lost blood. Bedrest and sleeping can fix most things with time.")
+	. += span_info("Examining someone can show how much blood loss they've suffered; from being pale, to very pale, to extremely pale and sickly. If someone is barely conscious, this means they're critically wounded and will die without assistance.")
+	. += span_info("Target someone's mouth and left-click them with an open hand on the 'WEAK' intent to manually breathe into them. This counteracts the onset of suffocation that comes with critical blood loss and other fatal wounds.")
+	. += span_info("With that being said, members of the Church and Apothecarium are the most well-equipped for healing most wounds. Miracles and surgery can often be the only way to save your character from critical injuries and death.")
 
 /obj/structure/fluff/walldeco/med2
 	name = "diagram"
 	icon_state = "medposter2"
-	desc = "A medical diagram depicting an interior section of a humanoid body."
+	desc = "A medical diagram depicting an interior section of a humanoid body. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
+
+/obj/structure/fluff/walldeco/med2/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Your character can be wounded, and mended, in a wide variety of ways. Their reaction to such injuries depends on their Willpower and Constitution.")
+	. += span_info("Willpower determines how much energy and stamina your character has, represented by the blue and green bars on your HUD. Likewise, it also determines how much pain you can withstand before incapacitation.")
+	. += span_info("Constitution determines how much health your character has. The higher your Constitution, the more injuries you can withstand before suffering critical hits and-or dying.")
+	. += span_info("Critical hits can be inflicted on limbs that're no longer protected by armor, and have already been severely damaged. These injuries are all debilitating, and can be fatal not treated.")
+	. += span_info("Lifeblood, otherwise known as 'red' or 'health', heals most injuries. Needles, cloth, and bandages can stop bleeding. Water can restore lost blood. Bedrest and sleeping can fix most things with time.")
+	. += span_info("Examining someone can show how much blood loss they've suffered; from being pale, to very pale, to extremely pale and sickly. If someone is barely conscious, this means they're critically wounded and will die without assistance.")
+	. += span_info("Target someone's mouth and left-click them with an open hand on the 'WEAK' intent to manually breathe into them. This counteracts the onset of suffocation that comes with critical blood loss and other fatal wounds.")
+	. += span_info("With that being said, members of the Church and Apothecarium are the most well-equipped for healing most wounds. Miracles and surgery can often be the only way to save your character from critical injuries and death.")
 
 /obj/structure/fluff/walldeco/med3
 	name = "diagram"
 	icon_state = "medposter3"
-	desc = "A medical diagram depicting an interior section of a humanoid body."
+	desc = "A medical diagram depicting an interior section of a humanoid body. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
+
+/obj/structure/fluff/walldeco/med3/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Your character can be wounded, and mended, in a wide variety of ways. Their reaction to such injuries depends on their Willpower and Constitution.")
+	. += span_info("Willpower determines how much energy and stamina your character has, represented by the blue and green bars on your HUD. Likewise, it also determines how much pain you can withstand before incapacitation.")
+	. += span_info("Constitution determines how much health your character has. The higher your Constitution, the more injuries you can withstand before suffering critical hits and-or dying.")
+	. += span_info("Critical hits can be inflicted on limbs that're no longer protected by armor, and have already been severely damaged. These injuries are all debilitating, and can be fatal not treated.")
+	. += span_info("Lifeblood, otherwise known as 'red' or 'health', heals most injuries. Needles, cloth, and bandages can stop bleeding. Water can restore lost blood. Bedrest and sleeping can fix most things with time.")
+	. += span_info("Examining someone can show how much blood loss they've suffered; from being pale, to very pale, to extremely pale and sickly. If someone is barely conscious, this means they're critically wounded and will die without assistance.")
+	. += span_info("Target someone's mouth and left-click them with an open hand on the 'WEAK' intent to manually breathe into them. This counteracts the onset of suffocation that comes with critical blood loss and other fatal wounds.")
+	. += span_info("With that being said, members of the Church and Apothecarium are the most well-equipped for healing most wounds. Miracles and surgery can often be the only way to save your character from critical injuries and death.")
 
 /obj/structure/fluff/walldeco/med4
 	name = "diagram"
 	icon_state = "medposter4"
-	desc = "A medical diagram depicting a humanoid heart."
+	desc = "A medical diagram depicting a humanoid heart. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
+
+/obj/structure/fluff/walldeco/med4/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Sometimes, all the medicine and miracles in the world might just not be enough to save your character from dying.")
+	. += span_info("Death, though unpleasant, will nevertheless be encountered - in one form or another, personal or external - during the course of a round. With that being said, death is rarely the end.")
+	. += span_info("Those who've died beyond Azuria's walls will eventually become deadites; the lyving dead. Shambling back to the Town might offer them a second chance at lyfe, if they aren't laid to rest first.")
+	. += span_info("Likewise, your head is the tether to your soul. So long as it is attached to a body of any sort, it can be resurrected through many means; the rites of Anastasis, the implantation of Lux, the ZRONKMACHINE, and much more.")
+	. += span_info("If you prefer to stay dead, however, clicking the 'Leave Body' verb in the 'Spirit' tab will allow you to persist as a boundless spirit. Left-clicking the massive skull on your left will allow you to respawn as a new character.")
+	. += span_info("While death can spell the end of one's story, it can also kindle the beginning of another one. Courtesy in both killing and being killed leads to a more pleasant experience for all.")
 
 /obj/structure/fluff/walldeco/med5
 	name = "diagram"
 	icon_state = "medposter5"
-	desc = "A medical diagram depicting a humanoid heart."
+	desc = "A medical diagram depicting a humanoid heart. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
+
+/obj/structure/fluff/walldeco/med5/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Sometimes, all the medicine and miracles in the world might just not be enough to save your character from dying.")
+	. += span_info("Death, though unpleasant, will nevertheless be encountered - in one form or another, personal or external - during the course of a round. With that being said, death is rarely the end.")
+	. += span_info("Those who've died beyond Azuria's walls will eventually become deadites; the lyving dead. Shambling back to the Town might offer them a second chance at lyfe, if they aren't laid to rest first.")
+	. += span_info("Likewise, your head is the tether to your soul. So long as it is attached to a body of any sort, it can be resurrected through many means; the rites of Anastasis, the implantation of Lux, the ZRONKMACHINE, and much more.")
+	. += span_info("If you prefer to stay dead, however, clicking the 'Leave Body' verb in the 'Spirit' tab will allow you to persist as a boundless spirit. Left-clicking the massive skull on your left will allow you to respawn as a new character.")
+	. += span_info("While death can spell the end of one's story, it can also kindle the beginning of another one. Courtesy in both killing and being killed leads to a more pleasant experience for all.")
 
 /obj/structure/fluff/walldeco/med6
 	name = "diagram"
 	icon_state = "medposter6"
-	desc = "A medical diagram depicting a humanoid head."
+	desc = "A medical diagram depicting a humanoid head. </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
+
+/obj/structure/fluff/walldeco/med6/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Sometimes, all the medicine and miracles in the world might just not be enough to save your character from dying.")
+	. += span_info("Death, though unpleasant, will nevertheless be encountered - in one form or another, personal or external - during the course of a round. With that being said, death is rarely the end.")
+	. += span_info("Those who've died beyond Azuria's walls will eventually become deadites; the lyving dead. Shambling back to the Town might offer them a second chance at lyfe, if they aren't laid to rest first.")
+	. += span_info("Likewise, your head is the tether to your soul. So long as it is attached to a body of any sort, it can be resurrected through many means; the rites of Anastasis, the implantation of Lux, the ZRONKMACHINE, and much more.")
+	. += span_info("If you prefer to stay dead, however, clicking the 'Leave Body' verb in the 'Spirit' tab will allow you to persist as a boundless spirit. Left-clicking the massive skull on your left will allow you to respawn as a new character.")
+	. += span_info("While death can spell the end of one's story, it can also kindle the beginning of another one. Courtesy in both killing and being killed leads to a more pleasant experience for all.")
 
 /obj/structure/fluff/walldeco/alarm
-	name = "le réveil murmure"
+	name = "réveil murmure"
 	icon_state = "alarm"
-	desc = "This est un wall-mounted système d'alarme, designed dans les ."
+	desc = "Ceci est une wall-mounted sentinelle."
 	pixel_y = 32
 	var/next_yap = 0
 	var/onoff = 1 //Init on
+	var/last_steak = 0
+#define STEAK_ALARM_DISABLE_TIME 2 MINUTES // How long does the alarm stay silent.
 
-/obj/structure/fluff/walldeco/alarm/attack_hand(mob/living/user)
+/obj/structure/fluff/walldeco/alarm/attacked_by(obj/item/I, mob/living/user)
+	. = ..()
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/peppersteak))
+		say("... une petite sieste s'impose...")
+		to_chat(user, span_smallnotice("You stuff a piece of steak into the alarm, quietening it for a while..."))
+		last_steak = world.time
+		qdel(I)
+	if(istype(I, /obj/item/roguekey/lord) || istype(I, /obj/item/roguekey/skeleton))
+		playsound(src, 'sound/misc/bug.ogg', 100, FALSE, -1)
+		if(onoff == 0)
+			onoff = 1
+			icon_state = "alarm"
+			say("Bonjour, la sentinelle est active.")
+			next_yap = 0 //They won't believe us unless we yap again
+			return
+		if(onoff == 1)
+			onoff = 0
+			icon_state = "face"
+			say("A moment's rest, merci, au revoir!")
+			return
+		else //failsafe
+			onoff = 1
+			icon_state = "alarm"
+
+/obj/structure/fluff/walldeco/alarm/attack_hand(mob/living/user) //We shock anyone that touches it without appropriate key.
 
 	user.changeNext_move(CLICK_CD_MELEE)
 
-	if(!(HAS_TRAIT(user, TRAIT_NOBLE)))
-		playsound(src, 'sound/misc/machineno.ogg', 100, TRUE, -1)
-		say("REMOVE THINE HAND FROM THE ALARM, CREATURE!")
-		return
-
-	playsound(src, 'sound/misc/bug.ogg', 100, FALSE, -1)
-	if(onoff == 0)
-		onoff = 1
-		icon_state = "alarm"
-		say("Bonjour, le sentinelle est active.")
-		next_yap = 0 //They won't believe us unless we yap again
-		return
-	if(onoff == 1)
-		onoff = 0
-		icon_state = "face"
-		say("A moment's rest, merci! Bonne nuit.")
-		return
-	else //failsafe
-		onoff = 1
-		icon_state = "alarm"
+	playsound(src, 'sound/misc/machineno.ogg', 100, TRUE, -1)
+	say("RETIRE THINE HAND FROM THE ALARM, CREECHER!")
+	user.electrocute_act(12, src)
+	return
 
 /obj/structure/fluff/walldeco/alarm/Crossed(mob/living/user)
 
@@ -330,38 +534,61 @@
 	if(next_yap > world.time) //Yap cooldown
 		return
 
+	if(last_steak && (last_steak + STEAK_ALARM_DISABLE_TIME >= world.time))
+		return
+
 	if(ishuman(user)) //are we a person?
 		var/mob/living/carbon/human/HU = user
 
 		if(HU.anti_magic_check()) //are we shielded?
 			return
 
-		if(!(HU in SStreasury.bank_accounts)) //first off- do we not have an account? we'll ALWAYS scream if that's the case
+		if(!SStreasury.has_account(HU)) //first off- do we not have an account? we'll ALWAYS scream if that's the case
 			playsound(loc, 'sound/misc/gold_license.ogg', 100, TRUE, -1)
-			say("UNKNOWN PERSON IN SECURE AREA- ARRETZ-VOUZ!!")
+			say("INTRUS! ARRESTEZ-VOUS! GARDES! GARDES! MAROUFLE A MORTIR!!")
 			next_yap = world.time + 6 SECONDS
 			return
 
-		if(HAS_TRAIT(user, TRAIT_NOBLE))
-			say("Salut, [user.real_name] de Sommet. Thirty-breths silence period active por votre grace.")
+		if(user.job in GLOB.noble_positions) //Ducal Family
+			say( "[user.job] [user.real_name], vostre seigneurie, j'avions pour vous tout temps par tout temps")
 			playsound(loc, 'sound/misc/gold_menu.ogg', 100, TRUE, -1)
 			next_yap = world.time + 30 SECONDS
 			return
 
-		if((HU in SStreasury.bank_accounts)) //do we not have an account?
+		if((user.job in GLOB.courtier_positions) || (user.job in GLOB.retinue_positions)) //Courtiers and Keepites
+			say("Salut au bon [user.real_name], [user.job] du Castel, who is logged entering ceste zone securisee.")
 			playsound(loc, 'sound/misc/gold_menu.ogg', 100, TRUE, -1)
-			say("Bourgeois [user.real_name] logged entering zone securisee.")
+			next_yap = world.time + 30 SECONDS
+			return
+
+		if((user.job in GLOB.burgher_positions) || (user.job in GLOB.garrison_positions) || (user.job in GLOB.church_positions) || (user.job == "Merchant")) //Cityfolk and Garrison and Church
+			say("Salutations, [user.real_name]. Thirty-breths silence period active por votre grace.")
+			playsound(loc, 'sound/misc/gold_menu.ogg', 100, TRUE, -1)
+			next_yap = world.time + 30 SECONDS
+			return
+
+		if((user.job in GLOB.peasant_positions) || (user.job in GLOB.sidefolk_positions) || (user.job in GLOB.inquisition_positions) || (user.job == "Shophand")) //Peasants and unimportant people to the crown.
+			say("Salutations, [user.real_name]. I can spare some time por votre gueuserie.")
+			playsound(loc, 'sound/misc/gold_menu.ogg', 100, TRUE, -1)
+			next_yap = world.time + 30 SECONDS
+			return
+
+		if(SStreasury.has_account(HU)) //Anyone else
+			playsound(loc, 'sound/misc/gold_menu.ogg', 100, TRUE, -1)
+			say("[user.real_name] logged entering zone securisee.")
 			return
 
 		else //?????
 			playsound(loc, 'sound/misc/gold_license.ogg', 100, TRUE, -1)
-			say("UNAUTHORIZED PERSON IN SECURE AREA- ARRETZ-VOUZ!!")
+			say("INTRUS! ARRESTEZ-VOUS! GARDES! GARDES! MAROUFLE A MORTIR!!")
 			next_yap = world.time + 6 SECONDS
 
 	else
 		playsound(loc, 'sound/misc/gold_license.ogg', 100, TRUE, -1)
-		say("UNKNOWN CREATURE IN SECURE AREA- ARRETZ-VOUS!!")
+		say("INTRUS! ARRESTEZ-VOUS! GARDES! GARDES! MAROUFLE A MORTIR!!")
 		next_yap = world.time + 6 SECONDS
+
+#undef STEAK_ALARM_DISABLE_TIME
 
 /obj/structure/fluff/walldeco/vinez // overlay vines for more flexibile mapping
 	icon_state = "vinez"
@@ -431,10 +658,20 @@
 
 /obj/structure/fluff/walldeco/sign/saiga
 	name = "The Drunken Saiga"
+	desc = "Well, that's what comes from too much spice and liqour! </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	icon_state = "shopsign_inn_saiga_right"
 	plane = -1
 	pixel_x = 3
 	pixel_y = 16
+
+/obj/structure/fluff/walldeco/sign/saiga/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("With little exception, your character still needs to eat, drink, and sleep.")
+	. += span_info("Eating food not only fills you up, but can also improve your character's mood and stats. Be careful, however, as eating improperly-prepared or poisoned food can have ill consequences.")
+	. += span_info("Drinking follows the same tune. Middle-clicking puddles of water with the 'BITE' subintent selected can let you drink straight from the source, in a pinch. Be mindful of where you sip, however.")
+	. += span_info("Neglecting to eat, drink, or sleep will negatively impact your character's mood and stats before long. Hunger saps Strength, thirst saps Willpower, and restlessness leaves you too exhausted to do much at all.")
+	. += span_info("Remember, however, that a cool pint and a crisp frybird's leg tastes much better when enjoyed with the company of others. You'd be surprised what kinds of friends and enemies you can make, within a stocked inn.")
+	. += span_info("Likewise, the inn - and the bathhouse, traditionally located beneath it - is the finest place to satiate many of mankind's most prominent vices.")
 
 /obj/structure/fluff/walldeco/sign/saiga/left
 	icon_state = "shopsign_inn_saiga_left"

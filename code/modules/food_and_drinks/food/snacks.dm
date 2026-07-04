@@ -58,6 +58,7 @@ All foods are distributed among various categories. Use common sense.
 	var/portable = TRUE
 	var/fried_type = null	//instead of becoming
 	var/deep_fried_type = null
+	var/boiled_type = null
 	var/filling_color = "#FFFFFF" //color to use when added to custom food.
 	var/custom_food_type = null  //for food customizing. path of the custom food to create
 	var/junkiness = 0  //for junk food. used to lower human satiety.
@@ -113,7 +114,7 @@ All foods are distributed among various categories. Use common sense.
 /obj/item/reagent_containers/food/snacks/Initialize()
 	if(rotprocess)
 		SSticker.OnRoundstart(CALLBACK(src, PROC_REF(begin_rotting)))
-	if(cooked_type || fried_type)
+	if((cooked_type || fried_type) && !cooktime)
 		cooktime = 30 SECONDS
 	..()
 
@@ -141,6 +142,10 @@ All foods are distributed among various categories. Use common sense.
 	return ..()
 
 /obj/item/reagent_containers/food/snacks/proc/become_rotten(to_color = TRUE, to_rename = TRUE)
+	if(QDELETED(src) || !loc)
+		return FALSE
+
+	var/turf/fallback_turf = get_turf(src)
 	if(isturf(loc) && istype(get_area(src),/area/rogue/under/town/sewer))
 		if(!istype(src,/obj/item/reagent_containers/food/snacks/smallrat))
 			new /obj/item/reagent_containers/food/snacks/smallrat(loc)
@@ -151,11 +156,17 @@ All foods are distributed among various categories. Use common sense.
 		else
 			var/obj/item/reagent_containers/NU = new become_rot_type(loc)
 			var/atom/movable/location = loc
-			NU.reagents.clear_reagents()
-			reagents.trans_to(NU.reagents, reagents.maximum_volume)
+			if(NU.reagents)
+				NU.reagents.clear_reagents()
+			if(reagents && NU.reagents)
+				reagents.trans_to(NU.reagents, reagents.maximum_volume)
 			qdel(src)
 			if(!location || !SEND_SIGNAL(location, COMSIG_TRY_STORAGE_INSERT, NU, null, TRUE, TRUE))
-				NU.forceMove(get_turf(NU.loc))
+				var/turf/T = fallback_turf || get_turf(location)
+				if(T)
+					NU.forceMove(T)
+				else
+					qdel(NU)
 			record_round_statistic(STATS_FOOD_ROTTED)
 			return TRUE
 	else
@@ -206,7 +217,7 @@ All foods are distributed among various categories. Use common sense.
 			result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
 		initialize_cooked_food(result, 1)
 		return result
-	if(istype(A,/obj/machinery/light/rogue/hearth) || istype(A,/obj/machinery/light/rogue/firebowl) || istype(A,/obj/machinery/light/rogue/campfire) || istype(A,/obj/machinery/light/rogue/hearth/mobilestove))
+	if(istype(A,/obj/machinery/light/rogue/hearth) || istype(A,/obj/machinery/light/rogue/firebowl) || istype(A,/obj/machinery/light/rogue/campfire) || istype(A,/obj/machinery/light/rogue/hearth/mobilestove) || istype(A,/mob/living/simple_animal/pet/familiar/infernal))
 		var/obj/item/result
 		if(fried_type)
 			result = new fried_type(A)
@@ -259,7 +270,21 @@ All foods are distributed among various categories. Use common sense.
 	// check to see if what we're eating is appropriate fare for our "social class" (aka nobles shouldn't be eating sticks of butter you troglodytes)
 	if (ishuman(eater))
 		var/mob/living/carbon/human/human_eater = eater
+
+		if(HAS_TRAIT(human_eater, TRAIT_BLACKBLOOD))
+			var/datum/status_effect/buff/foodhealing/H = eater.has_status_effect(/datum/status_effect/buff/foodhealing)
+			if(H)
+				if(faretype > H.fare_power)
+					eater.remove_status_effect(/datum/status_effect/buff/foodhealing)
+					eater.apply_status_effect(/datum/status_effect/buff/foodhealing, faretype, faretype)
+				else if(faretype == H.fare_power)
+					H.duration += 2 SECONDS
+			else
+				eater.apply_status_effect(/datum/status_effect/buff/foodhealing, faretype, faretype)
+		
 		if(human_eater.culinary_preferences)
+			if(HAS_TRAIT(human_eater, TRAIT_ROTMAN)||HAS_TRAIT(human_eater, TRAIT_IRONMAN))
+				return
 			var/favorite_food_type = human_eater.culinary_preferences[CULINARY_FAVOURITE_FOOD]
 			if(favorite_food_type == type)
 				if(human_eater.add_stress(/datum/stressevent/favourite_food))
@@ -311,14 +336,19 @@ All foods are distributed among various categories. Use common sense.
 						else
 							if (eater.has_stress_event(/datum/stressevent/noble_impoverished_food))
 								eater.add_stress(/datum/stressevent/noble_desperate)
-							apply_effect = FALSE
+							if(eat_effect != /datum/status_effect/debuff/rotfood && eat_effect != /datum/status_effect/debuff/burnedfood && eat_effect != /datum/status_effect/debuff/uncookedfood)
+								apply_effect = FALSE
 					if (FARE_POOR to FARE_NEUTRAL)
 						eater.add_stress(/datum/stressevent/noble_bland_food)
 						if (prob(25))
 							to_chat(eater, span_red("This is rather bland. I deserve better food than this..."))
-						apply_effect = FALSE
+						if(eat_effect != /datum/status_effect/debuff/rotfood && eat_effect != /datum/status_effect/debuff/burnedfood && eat_effect != /datum/status_effect/debuff/uncookedfood)
+							apply_effect = FALSE
 					if (FARE_FINE)
 						eater.remove_stress(/datum/stressevent/noble_bland_food)
+						eater.add_stress(/datum/stressevent/noble_fine_food)
+						if (prob(25))
+							to_chat(eater, span_green("A fine meal indeed."))
 					if (FARE_LAVISH)
 						eater.remove_stress(/datum/stressevent/noble_bland_food)
 						eater.add_stress(/datum/stressevent/noble_lavish_food)
@@ -330,13 +360,14 @@ All foods are distributed among various categories. Use common sense.
 				switch (faretype)
 					if (FARE_IMPOVERISHED)
 						eater.add_stress(/datum/stressevent/noble_bland_food)
-						apply_effect = FALSE
+						if(eat_effect != /datum/status_effect/debuff/rotfood && eat_effect != /datum/status_effect/debuff/burnedfood && eat_effect != /datum/status_effect/debuff/uncookedfood)
+							apply_effect = FALSE
 						if (prob(25))
 							to_chat(eater, span_red("This is rather bland. I deserve better food than this..."))
 					if (FARE_POOR to FARE_LAVISH)
 						eater.remove_stress(/datum/stressevent/noble_bland_food)
 
-	if(eat_effect && apply_effect)
+	if(eat_effect && apply_effect && bitecount >= bitesize)
 		eater.apply_status_effect(eat_effect)
 		if(extra_eat_effect)
 			eater.apply_status_effect(extra_eat_effect)
@@ -356,8 +387,11 @@ All foods are distributed among various categories. Use common sense.
 
 
 /obj/item/reagent_containers/food/snacks/attack(mob/living/M, mob/living/user, def_zone)
-	if(user.used_intent.type == INTENT_HARM)
+	if(user.used_intent.type == INTENT_HARM || user.cmode)
 		return ..()
+	if(istype(src, /obj/item/reagent_containers/food/snacks/organ) && M.lying)
+		to_chat(user, span_warning("[M] can't eat this while lying down. What even?"))
+		return FALSE
 	if(!eatverb)
 		eatverb = pick("bite","chew","nibble","gnaw","gobble","chomp")
 	if(iscarbon(M))
@@ -415,7 +449,7 @@ All foods are distributed among various categories. Use common sense.
 					var/mob/living/carbon/C = M
 					var/obj/item/bodypart/CH = C.get_bodypart(BODY_ZONE_HEAD)
 					if(C.cmode)
-						if(!CH.grabbedby)
+						if(CH && !CH.grabbedby)
 							to_chat(user, span_info("[C.p_they(TRUE)] steals [C.p_their()] face from it."))
 							return FALSE
 				if(!do_mob(user, M, double_progress = TRUE, can_move = FALSE))
@@ -469,49 +503,73 @@ All foods are distributed among various categories. Use common sense.
 	var/nutrition = get_nutrition()
 	switch(nutrition)
 		if(0)
-			return "an inedible item"
-		if(1 to BASE_NUTRIMENT_NUTRITION * SNACK_POOR)
-			return "a poor snack"
-		if(BASE_NUTRIMENT_NUTRITION * SNACK_POOR to BASE_NUTRIMENT_NUTRITION * SNACK_DECENT)
-			return "a decent snack"
-		if(BASE_NUTRIMENT_NUTRITION * SNACK_DECENT to BASE_NUTRIMENT_NUTRITION * SNACK_NUTRITIOUS)
-			return "a nutritious snack"
-		if(BASE_NUTRIMENT_NUTRITION * SNACK_NUTRITIOUS to BASE_NUTRIMENT_NUTRITION * SNACK_CHUNKY)
-			return "a chunky snack"
-		if(BASE_NUTRIMENT_NUTRITION * SNACK_CHUNKY to BASE_NUTRIMENT_NUTRITION * MEAL_MEAGRE)
-			return "a meagre meal"
-		if(BASE_NUTRIMENT_NUTRITION * MEAL_MEAGRE to BASE_NUTRIMENT_NUTRITION * MEAL_AVERAGE)
-			return "an adequate meal"
-		if(BASE_NUTRIMENT_NUTRITION * MEAL_AVERAGE to BASE_NUTRIMENT_NUTRITION * MEAL_FILLING)
-			return "a good meal"
+			return "An inedible item"
+		if(1 to BASE_NUTRIMENT_NUTRITION * NUTRITION_QUARTER_MEAL)
+			return "A quarter of a meal"
+		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_QUARTER_MEAL to BASE_NUTRIMENT_NUTRITION * NUTRITION_HALF_MEAL)
+			return "Half a meal"
+		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_HALF_MEAL to BASE_NUTRIMENT_NUTRITION * NUTRITION_THREE_QUARTER_MEAL)
+			return "Three-quarters of a meal"
+		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_THREE_QUARTER_MEAL to BASE_NUTRIMENT_NUTRITION * NUTRITION_FULL_MEAL)
+			return "A full meal"
+		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_FULL_MEAL to BASE_NUTRIMENT_NUTRITION * NUTRITION_MEAL_AND_QUARTER)
+			return "A meal and a quarter"
+		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_MEAL_AND_QUARTER to BASE_NUTRIMENT_NUTRITION * NUTRITION_MEAL_AND_HALF)
+			return "A meal and a half"
+		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_MEAL_AND_HALF to BASE_NUTRIMENT_NUTRITION * NUTRITION_TWO_MEALS)
+			return "Two meals"
+		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_TWO_MEALS to BASE_NUTRIMENT_NUTRITION * NUTRITION_TWO_AND_HALF_MEALS)
+			return "Two-and-a-half meals"
+		if(BASE_NUTRIMENT_NUTRITION * NUTRITION_TWO_AND_HALF_MEALS to BASE_NUTRIMENT_NUTRITION * NUTRITION_THREE_AND_HALF_MEALS)
+			return "Three-and-a-half meals"
 		else
-			return "a lavish, filling meal"
+			return "Five meals or more"
 
-/obj/item/reagent_containers/food/snacks/proc/rotprocess_to_text()
-	var/rot_text = ""
+/obj/item/reagent_containers/food/snacks/proc/food_examine_lines(mob/user)
+	var/list/parts = list()
+	switch(faretype)
+		if(FARE_IMPOVERISHED) parts += "Quality: Impoverished"
+		if(FARE_POOR)         parts += "Quality: Poor"
+		if(FARE_NEUTRAL)      parts += "Quality: Neutral"
+		if(FARE_FINE)         parts += "Quality: Fine"
+		if(FARE_LAVISH)       parts += "Quality: Lavish"
+	parts += "Nutrition: [get_nutrition_to_text()]"
+	if(!portable)
+		parts += "Table: Required (For Nobles)"
 	if(!rotprocess)
-		return "This food does not rot."
-	switch(initial(rotprocess))
-		if(0 to SHELFLIFE_TINY)
-			rot_text = "This food will rot in less than a third of a dae."
-		if(SHELFLIFE_TINY to SHELFLIFE_SHORT)
-			rot_text = "This food will rot in half a dae."
-		if(SHELFLIFE_SHORT to SHELFLIFE_DECENT)
-			rot_text = "This food will last about a dae."
-		if(SHELFLIFE_DECENT to SHELFLIFE_LONG)
-			rot_text = "This food will last a dae and a half."
-		if(SHELFLIFE_LONG to SHELFLIFE_EXTREME)
-			rot_text = "This food will last three daes."
-	switch(-1 * warming / initial(rotprocess))
-		if(-INFINITY to 0.25)
-			rot_text += " It is very fresh."
-		if(0.25 to 0.5)
-			rot_text += " It is fairly fresh."
-		if(0.5 to 0.75)
-			rot_text += " It is starting to go stale."
-		if(0.75 to 1)
-			rot_text += " It is about to rot."
-	return rot_text
+		parts += "Rot: None"
+	else
+		var/rot_label
+		switch(initial(rotprocess))
+			if(0 to SHELFLIFE_TINY)               rot_label = "Rot: Rots quickly"
+			if(SHELFLIFE_TINY to SHELFLIFE_SHORT)  rot_label = "Rot: Lasts about half a dae"
+			if(SHELFLIFE_SHORT to SHELFLIFE_DECENT) rot_label = "Rot: Lasts a dae"
+			if(SHELFLIFE_DECENT to SHELFLIFE_LONG)  rot_label = "Rot: Lasts ~a dae and a half"
+			if(SHELFLIFE_LONG to SHELFLIFE_EXTREME) rot_label = "Rot: Lasts ~three daes"
+			else rot_label = "Rot: long shelf life"
+		switch(-1 * warming / initial(rotprocess))
+			if(-INFINITY to 0.25) rot_label += " - very fresh"
+			if(0.25 to 0.5)       rot_label += " - fairly fresh"
+			if(0.5 to 0.75)       rot_label += " - going stale"
+			if(0.75 to 1)         rot_label += " - about to rot"
+		parts += rot_label
+	switch(eat_effect)
+		if(/datum/status_effect/buff/snackbuff, /datum/status_effect/buff/mealbuff)
+			parts += "looks good"
+		if(/datum/status_effect/buff/greatsnackbuff, /datum/status_effect/buff/greatmealbuff)
+			parts += "looks great"
+
+	var/list/lines = list()
+	var/info = parts.Join(" | ")
+	lines += span_smallnotice("[info].")
+	switch(eat_effect)
+		if(/datum/status_effect/debuff/uncookedfood)
+			lines += span_smallred("It is raw!")
+		if(/datum/status_effect/debuff/rotfood)
+			lines += span_smallred("It is rotten!")
+		if(/datum/status_effect/debuff/burnedfood)
+			lines += span_smallred("It is burned!")
+	return lines
 
 /obj/item/reagent_containers/food/snacks/examine(mob/user)
 	. = ..()
@@ -524,38 +582,7 @@ All foods are distributed among various categories. Use common sense.
 				. += span_smallnotice("[src] was bitten [bitecount] times!\n")
 			else
 				. += span_smallnotice("[src] was bitten multiple times!\n")
-	switch(faretype)
-		if(FARE_IMPOVERISHED)
-			. += span_smallnotice("It is food fit for the desperate.")
-		if(FARE_POOR)
-			. += span_smallnotice("It is food fit for the poor.")
-		if(FARE_NEUTRAL)
-			. += span_smallnotice("It is decent food.")
-		if(FARE_FINE)
-			. += span_smallnotice("It is fine food.")
-		if(FARE_LAVISH)
-			. += span_smallnotice("It is lavish food.")
-	if(portable)
-		. += span_smallnotice("It can be eaten without a table.")
-	else
-		. += span_smallnotice("Eating this without a table would be disgraceful for a noble.")
-	. += span_smallnotice("It looks like [get_nutrition_to_text()]")
-	switch(eat_effect)
-		if(/datum/status_effect/debuff/uncookedfood)
-			. += span_smallred("It is raw!")
-		if(/datum/status_effect/debuff/rotfood)
-			. += span_smallred("It is rotten!")
-		if(/datum/status_effect/debuff/burnedfood)
-			. += span_smallred("It is burned!")
-		if(/datum/status_effect/buff/snackbuff)
-			. += span_smallnotice("It looks good!")
-		if(/datum/status_effect/buff/greatsnackbuff)
-			. += span_smallnotice("It looks great!!")
-		if(/datum/status_effect/buff/mealbuff)
-			. += span_smallnotice("It looks good!")
-		if(/datum/status_effect/buff/greatmealbuff)
-			. += span_smallnotice("It looks great!!")
-	. += span_smallnotice("[rotprocess_to_text()]")
+	. += food_examine_lines(user)
 
 /obj/item/reagent_containers/food/snacks/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/kitchen/fork))
@@ -719,7 +746,11 @@ All foods are distributed among various categories. Use common sense.
 	STOP_PROCESSING(SSobj, src)
 	if(contents)
 		for(var/atom/movable/something in contents)
-			something.forceMove(drop_location())
+			var/atom/dest = drop_location() || get_turf(src)
+			if(dest)
+				something.forceMove(dest)
+			else
+				qdel(something)
 	return ..()
 
 /obj/item/reagent_containers/food/snacks/attack_animal(mob/M)
@@ -788,7 +819,7 @@ All foods are distributed among various categories. Use common sense.
 
 /obj/item/reagent_containers/food/snacks/badrecipe
 	name = "burned mess"
-	desc = ""
+	desc = "A craggled affront to the culinary arts."
 	icon_state = "badrecipe"
 	list_reagents = list(/datum/reagent/toxin/bad_food = 30)
 	filling_color = "#8B4513"

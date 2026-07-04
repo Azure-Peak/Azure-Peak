@@ -6,9 +6,15 @@
 	total_positions = 2
 	spawn_positions = 2
 
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 
-	tutorial = "You are an accomplished physician, trained and practiced in the art of medicine. You answer to the Head Physician, who enables your practice. Woe betide the one who suffers your scalpel."
+	tutorial = "You are a fully trained and accomplished physician, well-practiced \
+	in the arts of medicine and alchemy. You are quartered within the University of \
+	Azuria under the authority of the Head Physician, who has graciously negotiated your \
+	access to the heartbeast beneath the University - while you would do well to treat \
+	it with caution, it is a source of vital heartsblood. Treat the sick and wounded, \
+	gather herbs as is necessary to peddle your potions, and walk with Pestra's light. \
+	Woe betide the one who suffers your scalpel."
 
 	outfit = /datum/outfit/job/roguetown/apothecary
 
@@ -30,7 +36,13 @@
 
 /datum/advclass/apothecary
 	name = "Apothecary"
-	tutorial = "You are an accomplished physician, trained and practiced in the art of medicine. You answer to the Head Physician, who enables your practice. Woe betide the one who suffers your scalpel."
+	tutorial = "You are a fully trained and accomplished physician, well-practiced \
+	in the arts of medicine and alchemy. You are quartered within the University of \
+	Azuria under the authority of the Head Physician, who has graciously negotiated your \
+	access to the heartbeast beneath the University - while you would do well to treat \
+	it with caution, it is a source of vital heartsblood. Treat the sick and wounded, \
+	gather herbs as is necessary to peddle your potions, and walk with Pestra's light. \
+	Woe betide the one who suffers your scalpel."
 	outfit = /datum/outfit/job/roguetown/apothecary/basic
 	category_tags = list(CTAG_APOTH)
 	subclass_stats = list(
@@ -47,8 +59,9 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/apothecary/basic/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -57,10 +70,10 @@
 	pants = /obj/item/clothing/under/roguetown/trou/apothecary
 	shirt = /obj/item/clothing/suit/roguetown/shirt/apothshirt
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/storage/belt/rogue/surgery_bag/full/physician
-	beltr = /obj/item/roguekey/physician
+	beltr = /obj/item/storage/keyring/apothecary
 	id = /obj/item/scomstone/bad
 	r_hand = /obj/item/rogueweapon/woodstaff/
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
@@ -69,10 +82,9 @@
 		/obj/item/natural/worms/leech/cheele = 1,
 		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/clothing/mask/rogue/physician = 1,
-		/obj/item/storage/keyring = 1,
-		/obj/item/roguekey/keeper = 1
+		/obj/item/mini_flagpole/apothecary = 1,
 	)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H)

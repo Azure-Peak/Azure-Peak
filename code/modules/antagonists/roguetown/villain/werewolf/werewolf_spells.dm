@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/self/howl
 	name = "Howl"
-	desc = "Howl to the moon to communicate with my fellow wolves. Do beware, those versed in beasttongue may be listening."
+	desc = "Howl to the moon to communicate with my fellow volves. Do beware, those versed in beasttongue may be listening."
 	overlay_state = "howl"
 	antimagic_allowed = TRUE
 	recharge_time = 600 //1 minute
@@ -43,13 +43,14 @@
 
 /obj/effect/proc_holder/spell/self/claws
 	name = "Lupine Claws"
-	desc = "Unsheathe your claws"
+	desc = "Unsheathe your claws."
 	overlay_state = "claws"
 	antimagic_allowed = TRUE
 	recharge_time = 20 //2 seconds
 	ignore_cockblock = TRUE
 	var/list/extended_claw_record = list(FALSE, FALSE)
 	var/claw_type = /obj/item/rogueweapon/werewolf_claw
+	range = -1
 
 /obj/effect/proc_holder/spell/self/claws/cast(list/targets, mob/user)
 	. = ..()
@@ -108,16 +109,14 @@
 		extended_claw_record[claw_index] = FALSE
 
 
-/obj/effect/proc_holder/spell/invoked/repulse/werewolf
+/datum/action/cooldown/spell/repulse/werewolf
 	name = "Terrifying Howl"
 	desc = "Let loose a howl of dread, repelling anyone around you."
-	overlay_state = "howl"
-	recharge_time = 6 MINUTES
-	ignore_cockblock = TRUE
-	chargetime = 0
-	warnie = null
+	button_icon_state = "howl"
+	cooldown_time = 6 MINUTES
+	charge_required = FALSE
 	showsparkles = FALSE
-	chargedloop = null
-	invocations = null 
-	invocation_type = "none"
-	sound = list('sound/vo/mobs/wwolf/roar.ogg')
+	invocations = null
+	invocation_type = INVOCATION_NONE
+	sound = 'sound/vo/mobs/wwolf/roar.ogg'
+	spell_requirements = NONE

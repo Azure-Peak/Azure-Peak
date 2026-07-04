@@ -7,6 +7,7 @@
 
 	race = /datum/species/orc
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_ORCS
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
 					 /obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
 	ambushable = FALSE
@@ -15,15 +16,15 @@
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
-	possible_rmb_intents = list(/datum/rmb_intent/feint, /datum/rmb_intent/aimed, /datum/rmb_intent/strong, /datum/rmb_intent/weak, /datum/rmb_intent/swift, /datum/rmb_intent/riposte)
 
 /mob/living/carbon/human/species/orc/npc
-	faction = list("orcs", "station")
-	aggressive = 1
-	rude = TRUE
-	mode = NPC_AI_IDLE
-	wander = FALSE
+	faction = list(FACTION_ORCS, FACTION_STATION)
+	ai_controller = /datum/ai_controller/human_npc
 	cmode_music = FALSE
+
+/mob/living/carbon/human/species/orc/npc/archer
+	threat_point = THREAT_MODERATE // squishier ranged orc; keeps it affordable so warband budgets seat it
+	orc_outfit = /datum/outfit/job/roguetown/orc/npc/archer
 
 /mob/living/carbon/human/species/orc/npc/Initialize()
 	. = ..()
@@ -32,6 +33,7 @@
 
 /mob/living/carbon/human/species/orc/npc/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Savage Orc"
 	equipOutfit(new orc_outfit)
 	gender = pick(MALE, FEMALE)
@@ -43,13 +45,14 @@
 	var/beard = pick(list(/datum/sprite_accessory/hair/facial/viking,
 						/datum/sprite_accessory/hair/facial/manly,
 						/datum/sprite_accessory/hair/facial/longbeard))
-	head.sellprice = 30
+	head.sellprice = HEAD_BOUNTY_ORC
 
 	src.set_patron(/datum/patron/inhumen/graggar)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 
 	var/datum/bodypart_feature/hair/head/new_hair = new()
 	var/datum/bodypart_feature/hair/facial/new_facial = new()
@@ -80,6 +83,33 @@
 	new_facial.hair_color = "#31302E"
 	hair_color = "#31302E"
 
+	var/voice_choice = rand(1, 12)
+	switch(voice_choice)
+		if(1)
+			src.voice_color = "0bb1e4"
+		if(2)
+			src.voice_color = "d30c0c"
+		if(3)
+			src.voice_color = "4d4afc"
+		if(4)
+			src.voice_color = "da40c0"
+		if(5)
+			src.voice_color = "51e251"
+		if(6)
+			src.voice_color = "a059cf"
+		if(7)
+			src.voice_color = "8700c5"
+		if(8)
+			src.voice_color = "cfc886"
+		if(9)
+			src.voice_color = "ff9100"
+		if(10)
+			src.voice_color = "a0a0a0"
+		if(11)
+			src.voice_color = "797979"
+		if(12)
+			src.voice_color = "ff5e00"
+
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
 	dna.species.handle_body(src)
 	if(gender == FEMALE)
@@ -98,10 +128,10 @@
 	r_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
 	l_hand = /obj/item/rogueweapon/shield/wood
 
-	H.STASTR = 16
+	H.STASTR = 12
 	H.STASPD = 8
-	H.STACON = 15
-	H.STAWIL = 15
+	H.STACON = 8
+	H.STAWIL = 8
 	H.STAINT = 6
 
 	//light labor skills for armor repairs and such, equipment is so-so, with good stats

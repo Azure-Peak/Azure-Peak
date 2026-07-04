@@ -70,23 +70,12 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave)
-"K" = (
-/obj/item/reagent_containers/food/snacks/rogue/meat/sausage{
-	pixel_x = 4;
-	pixel_y = 3
-	},
-/obj/item/grown/log/tree/stake,
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/tomb/cave)
 "P" = (
 /obj/structure/ladder/earth,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave)
 "V" = (
-/obj/item/reagent_containers/food/snacks/rogue/meat/sausage{
-	pixel_x = 6;
-	pixel_y = 4
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/item/grown/log/tree/stake,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave)
@@ -190,7 +179,7 @@ s
 s
 l
 G
-K
+V
 l
 l
 l

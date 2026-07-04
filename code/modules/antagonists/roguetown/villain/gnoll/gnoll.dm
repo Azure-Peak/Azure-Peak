@@ -9,7 +9,6 @@
 	body_parts_inherent = FULL_BODY
 	//slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	armor = ARMOR_GNOLL_STANDARD
-	prevent_crits = PREVENT_CRITS_ALL
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
@@ -19,16 +18,23 @@
 	auto_repair_mode = TRUE
 	relative_repair_interval = 15 SECONDS
 	interrupt_damount = 15
+	blue_to_integ_ratio = 0.6
 
+// Scaling: No storyteller slot caps or solo event. Gnoll slots come from:
+//  - The Gnoll job's gnollslot_update() (storyteller-driven job slot scaling)
+//  - Migrant waves (+2 slots, capped by storyteller maxcap)
 /datum/antagonist/gnoll
 	name = "Gnoll"
 	roundend_category = "Gnolls"
 	antagpanel_category = "Gnolls"
 	job_rank = ROLE_GNOLL
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
 
 /datum/antagonist/gnoll/on_gain()
 	greet()
 	owner.special_role = "Gnoll"
+	if(ishuman(owner.current))
+		ADD_TRAIT(owner.current, TRAIT_OUTLAW, TRAIT_GENERIC)
 
 	return ..()
 
@@ -66,7 +72,7 @@
 	name = "Gnoll Claw"
 	// We are smarter, we can use our solid, steel-like claws to defend ourselves.
 	wdefense = 5
-	force = 28
+	force = 30
 	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/smash/werewolf/gnoll, /datum/intent/mace/strike/gnoll)
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/right
@@ -84,7 +90,7 @@
 	attack_verb = list("claws", "mauls", "eviscerates")
 	animname = "chop"
 	hitsound = "genslash"
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
@@ -98,12 +104,12 @@
 	icon_state = "insmash"
 	maxrange = 5
 	chargetime = 1
-	penfactor = 0
+	penfactor = PEN_NONE
 
 /datum/intent/simple/gnoll_cut
 	name = "cutting claw"
 	hitsound = "genslash"
-	penfactor = 70
+	penfactor = PEN_MEDIUM
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"

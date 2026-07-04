@@ -39,7 +39,7 @@
 /area/rogue/under/tomb)
 "p" = (
 /obj/item/clothing/suit/roguetown/armor/plate/scale,
-/obj/item/rogueweapon/spear,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb)
 "q" = (
@@ -107,7 +107,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb)
 "I" = (
-/obj/item/rogueweapon/spear,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb)
 "M" = (
@@ -115,7 +115,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb)
 "Q" = (
-/obj/item/rogueweapon/spear,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /mob/living/carbon/human/species/skeleton/npc,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb)

@@ -48,6 +48,10 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		return 0
 	// RATWOOD EDIT END
 
+	if(href_list["statbrowser_calendar"])
+		open_calendar_ui()
+		return
+
 	// asset_cache
 	var/asset_cache_job
 	if(href_list["asset_cache_confirm_arrival"])
@@ -92,6 +96,8 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		return
 	if(href_list["reload_tguipanel"])
 		nuke_chat()
+	if(href_list["reload_statbrowser"])
+		stat_panel.reinitialize()
 	//Logs all hrefs, except chat pings
 	if(!(href_list["_src_"] == "chat" && href_list["proc"] == "ping" && LAZYLEN(href_list) == 2))
 		log_href("[src] (usr:[usr]\[[COORD(usr)]\]) : [hsrc ? "[hsrc] " : ""][href]")
@@ -146,6 +152,11 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		show_chronicle(tab)
 		return
 
+	if(href_list["vieweconomics"])
+		var/datum/economic_chronicle/chronicle = get_economic_chronicle()
+		chronicle.ui_interact(mob)
+		return
+
 	if(href_list["commandbar_typing"])
 		handle_commandbar_typing(href_list)
 
@@ -186,6 +197,17 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	set category = "OOC"
 
 	show_round_stats(pick_assoc(GLOB.featured_stats))
+
+/client/proc/cmd_admin_view_chronicle()
+	set category = "Debug"
+	set name = "View Chronicle"
+	set desc = "Open the Chronicle / roundend statistics panel without waiting for round end."
+
+	if(!check_rights(R_ADMIN|R_DEBUG))
+		return
+	show_round_stats(pick_assoc(GLOB.featured_stats))
+	log_admin("[key_name(src)] opened the Chronicle preview.")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "View Chronicle")
 
 /client/proc/is_content_unlocked()
 	if(!prefs.unlock_content)
@@ -268,6 +290,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	GLOB.clients += src
 	GLOB.directory[ckey] = src
 
+	stat_panel = new(src, "statbrowser")
+	stat_panel.subscribe(src, PROC_REF(on_stat_panel_message))
+
 	initialize_commandbar_spy()
 
 	GLOB.ahelp_tickets.ClientLogin(src)
@@ -280,7 +305,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		holder.owner = src
 		connecting_admin = TRUE
 	else if(GLOB.deadmins[ckey])
-		verbs += /client/proc/readmin
+		add_verb(src, /client/proc/readmin)
 		connecting_admin = TRUE
 	if(CONFIG_GET(flag/autoadmin))
 		if(!GLOB.admin_datums[ckey])
@@ -298,6 +323,8 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		if(isnull(address) || (address in localhost_addresses))
 			var/datum/admin_rank/localhost_rank = new("!localhost!", R_EVERYTHING, R_DBRANKS, R_EVERYTHING) //+EVERYTHING -DBRANKS *EVERYTHING
 			new /datum/admins(localhost_rank, ckey, 1, 1)
+	check_localhost_command_bar()
+
 	//preferences datum - also holds some persistent data for the client (because we may as well keep these datums to a minimum)
 	prefs = GLOB.preferences_datums[ckey]
 	if(prefs)
@@ -312,12 +339,14 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	prefs.last_ip = address				//these are gonna be used for banning
 	prefs.last_id = computer_id			//these are gonna be used for banning
 	fps = prefs.clientfps
+	preferred_ui_language = sanitize_preferred_ui_language(prefs.preferred_ui_language)
+	prefs.preferred_ui_language = preferred_ui_language
 
 	// Instantiate tgui panel
 	tgui_panel = new(src, "browseroutput")
 
 	if(fexists(roundend_report_file()))
-		verbs += /client/proc/show_previous_roundend_report
+		add_verb(src, /client/proc/show_previous_roundend_report)
 
 	var/full_version = "[byond_version].[byond_build ? byond_build : "xxx"]"
 	log_access("Login: [key_name(src)] from [address ? address : "localhost"]-[computer_id] || BYOND v[full_version]")
@@ -335,7 +364,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 				var/matches
 				if( (C.address == address) )
 					matches += "IP ([address])"
-				if( (C.computer_id == computer_id) )
+				if( (C.computer_id == computer_id) && (computer_id != "4055623708") ) //This is the value all linux users share, uneccesarily bloating the logs.
 					if(matches)
 						matches += " and "
 					matches += "ID ([computer_id])"
@@ -392,6 +421,13 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			alert(mob, "You have logged in already with another key this round, please log out of this one NOW or risk being banned!")
 
 	tgui_panel.initialize()
+	stat_panel.initialize(
+		inline_html = file("html/statbrowser.html"),
+		inline_js = file("html/statbrowser.js"),
+		inline_css = file("html/statbrowser.css"),
+	)
+	apply_statbrowser_theme()
+	addtimer(CALLBACK(src, PROC_REF(check_panel_loaded)), 30 SECONDS)
 
 	connection_time = world.time
 	connection_realtime = world.realtime
@@ -444,16 +480,16 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		add_admin_verbs()
 		to_chat(src, get_message_output("memo"))
 		adminGreet()
-	if(mob && reconnecting)
-		var/area/joined_area = get_area(mob.loc)
-		if(joined_area)
-			joined_area.reconnect_game(mob)
-	else if(!BC_IsKeyAllowedToConnect(ckey))
+	if(!BC_IsKeyAllowedToConnect(ckey))
 		src << "Sorry, but the server is currently only accepting whitelisted players.  Please see the discord to be whitelisted."
 		message_admins("[ckey] was denied a connection due to not being whitelisted.")
 		log_admin("[ckey] was denied a connection due to not being whitelisted.")
 		qdel(src)
 		return 0
+	if(mob && reconnecting)
+		var/area/joined_area = get_area(mob.loc)
+		if(joined_area)
+			joined_area.reconnect_game(mob)
 
 	add_verbs_from_config()
 	var/cached_player_age = set_client_age_from_db(tdata) //we have to cache this because other shit may change it and we need it's current value now down below.
@@ -583,13 +619,11 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	GLOB.clients -= src
 	QDEL_NULL(tgui_panel)
 	QDEL_LIST_ASSOC_VAL(char_render_holders)
-	if(movingmob != null)
-		movingmob.client_mobs_in_contents -= mob
-		UNSETEMPTY(movingmob.client_mobs_in_contents)
 	Master.UpdateTickRate()
 	return ..()
 
 /client/Destroy()
+	SSmouse_entered.hovers -= src
 	. = ..() //Even though we're going to be hard deleted there are still some things that want to know the destroy is happening
 	QDEL_NULL(droning_sound)
 	last_droning_sound = null
@@ -895,7 +929,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			qdel(query_get_notes)
 			return
 	qdel(query_get_notes)
-	create_message("note", key, system_ckey, message, null, null, 0, 0, null, 0, 0)
+	create_message("note", key, system_ckey, message, logged = FALSE, note_severity = "none")
 
 
 /client/proc/check_ip_intel()
@@ -916,6 +950,21 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	var/dragged = L["drag"]
 	if(dragged && !L[dragged])
 		return
+	var/atom/click_object = object
+	var/catcher_params
+	if(istype(object, /atom/movable/screen/click_catcher))
+		var/turf/catcher_turf = params2turf(L["screen-loc"], get_turf(eye ? eye : mob), src)
+		if(catcher_turf)
+			click_object = catcher_turf
+			catcher_params = "[params]&catcher=1"
+	if(lmb_skipclick(object, L))
+		return
+
+	if(mob && L["left"] && !L["right"] && mob.atkswinging == "left")
+		var/obj/item/held_item = mob.get_active_held_item()
+		if(mob.lmb_farclick(click_object, held_item, L, get_turf(mob)))
+			mob.atkswinging = null
+			return
 
 	if (object && object == middragatom && L["left"])
 		ab = max(0, 5 SECONDS-(world.time-middragtime)*0.1)
@@ -966,13 +1015,48 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	else
 		winset(src, null, "input.focus=true command=activeInput input.background-color=[COLOR_INPUT_ENABLED] input.text-color = #EEEEEE")
 
+	var/list/old_mods = mob?.click_mods
+	var/old_params = mob?.click_params
+	if(catcher_params)
+		L["catcher"] = TRUE
+		if(mob)
+			mob.click_mods = L
+			mob.click_params = catcher_params
+		click_object.Click(location, control, catcher_params)
+		if(mob)
+			mob.click_mods = old_mods
+			mob.click_params = old_params
+		return
+
+	if(mob)
+		mob.click_mods = L
+		mob.click_params = params
 	..()
+	if(mob)
+		mob.click_mods = old_mods
+		mob.click_params = old_params
+
+/client/proc/lmb_skipclick(atom/object, list/modifiers)
+	if(!mob || !modifiers["left"] || modifiers["right"] || modifiers["shift"])
+		return FALSE
+	if(istype(object, /atom/movable/screen) && !istype(object, /atom/movable/screen/click_catcher))
+		return FALSE
+	if(world.time <= mob.next_click)
+		return TRUE
+	if(mob.next_move > world.time)
+		return TRUE
+	if(blocked_lmb)
+		return TRUE
+	if(mob.atkswinging != "left")
+		return FALSE
+	var/cooldown = (mob.active_hand_index == 1) ? mob.next_lmove : mob.next_rmove
+	return cooldown > world.time
 
 /client/proc/add_verbs_from_config()
 	if(CONFIG_GET(flag/see_own_notes))
-		verbs += /client/proc/self_notes
+		add_verb(src, /client/proc/self_notes)
 	if(CONFIG_GET(flag/use_exp_tracking))
-		verbs += /client/proc/self_playtime
+		add_verb(src, /client/proc/self_playtime)
 
 
 #undef UPLOAD_LIMIT
@@ -1207,16 +1291,19 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	// If admin (holder) always keep OOC for moderation.
 	if(holder)
 		if(!( /client/verb/ooc in verbs))
-			verbs += /client/verb/ooc
+			add_verb(src, /client/verb/ooc)
+		init_verbs()
 		return
 
 	// Non-admins: only lobby new_player retains OOC verb.
 	if(istype(mob, /mob/dead/new_player))
 		if(!( /client/verb/ooc in verbs))
-			verbs += /client/verb/ooc
+			add_verb(src, /client/verb/ooc)
 	else
 		if(/client/verb/ooc in verbs)
-			verbs -= /client/verb/ooc
+			remove_verb(src, /client/verb/ooc)
+
+	init_verbs()
 
 #undef LIMITER_SIZE
 #undef CURRENT_SECOND
@@ -1224,3 +1311,60 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 #undef CURRENT_MINUTE
 #undef MINUTE_COUNT
 #undef ADMINSWARNED_AT
+
+/client/proc/check_panel_loaded()
+	if(stat_panel.is_ready())
+		return
+	to_chat(src, span_userdanger("Statpanel failed to load, click <a href='byond://?src=[REF(src)];reload_statbrowser=1'>here</a> to reload the panel "))
+
+/client/proc/apply_statbrowser_theme()
+	if(!prefs)
+		return
+	if(stat_panel)
+		stat_panel.send_message("set_theme", prefs.statbrowser_theme)
+	if(tgui_panel)
+		tgui_panel.set_chat_theme(prefs.statbrowser_theme)
+
+/// compiles a full list of verbs and sends it to the browser
+/client/proc/init_verbs()
+	if(IsAdminAdvancedProcCall())
+		return
+	var/list/verblist = list()
+	var/list/verbstoprocess = verbs.Copy()
+	if(mob)
+		verbstoprocess += mob.verbs
+		for(var/atom/movable/thing as anything in mob.contents)
+			verbstoprocess += thing.verbs
+	panel_tabs.Cut() // panel_tabs get reset in init_verbs on JS side anyway
+	for(var/procpath/verb_to_init as anything in verbstoprocess)
+		if(!verb_to_init)
+			continue
+		if(verb_to_init.hidden)
+			continue
+		if(!istext(verb_to_init.category))
+			continue
+		panel_tabs |= verb_to_init.category
+		verblist[++verblist.len] = list(verb_to_init.category, verb_to_init.name)
+	stat_panel.send_message("init_verbs", list(panel_tabs = panel_tabs, verblist = verblist))
+
+/client/verb/fix_stat_panel()
+	set name = "Fix Stat Panel"
+	set hidden = TRUE
+	init_verbs()
+
+/**
+ * Handles incoming messages from the stat-panel TGUI.
+ */
+/client/proc/on_stat_panel_message(type, payload)
+	switch(type)
+		if("Update-Verbs")
+			init_verbs()
+		if("Remove-Tabs")
+			panel_tabs -= payload["tab"]
+		if("Send-Tabs")
+			panel_tabs |= payload["tab"]
+		if("Reset-Tabs")
+			panel_tabs = list()
+		if("Set-Tab")
+			stat_tab = payload["tab"]
+			SSstatpanels.immediate_send_stat_data(src)

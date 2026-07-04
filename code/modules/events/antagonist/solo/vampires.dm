@@ -8,6 +8,9 @@
 	roundstart = TRUE
 	antag_flag = ROLE_NBEAST
 	shared_occurence_type = SHARED_HIGH_THREAT
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_pill_label = "Vampire Lord"
+	storyteller_rumour_name = "lycker lords"
 
 	weight = 4
 	max_occurrences = 1
@@ -15,7 +18,7 @@
 	denominator = 80
 
 	base_antags = 1
-	maximum_antags = 2
+	maximum_antags = 1
 
 	earliest_start = 0 SECONDS
 
@@ -23,6 +26,11 @@
 	antag_datum = /datum/antagonist/vampire
 
 	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
+
+/datum/round_event_control/antagonist/solo/vampires/preRunEvent()
+	if(is_storyteller_villain_blocked())
+		return EVENT_CANT_RUN
+	return ..()
 
 /datum/round_event/antagonist/solo/vampire
 	var/leader = FALSE

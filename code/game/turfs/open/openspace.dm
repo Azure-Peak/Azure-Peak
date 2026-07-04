@@ -134,7 +134,10 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			playsound(user, 'sound/foley/climb.ogg', 100, TRUE)
 		user.visible_message(span_warning("[user] starts to climb down."), span_warning("I start to climb down."))
 		var/climber2wall_dir = get_dir(src, L)
-		if(do_after(L, (HAS_TRAIT(L, TRAIT_WOODWALKER) ? 15 : 30), target = src))
+		L.mid_climb = TRUE
+		var/climbed = do_after(L, (HAS_TRAIT(L, TRAIT_WOODWALKER) ? 15 : 30), target = src)
+		L.mid_climb = FALSE
+		if(climbed)
 			if(user.m_intent != MOVE_INTENT_SNEAK)
 				playsound(user, 'sound/foley/climb.ogg', 100, TRUE)
 			var/pulling = user.pulling
@@ -148,7 +151,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			if(ismob(pulling))
 				user.pulling.forceMove(target)
 			var/climber_armor_class = climber.highest_ac_worn()
-			if((climber_armor_class <= ARMOR_CLASS_LIGHT) && !(ismob(pulling))) // if our armour is not light or none OR we are pulling someone we eat shit and die and can't climb vertically at all, except for 'vaulting' aka we got a sold turf we can walk on in front of us
+			if((climber_armor_class <= ARMOR_CLASS_LIGHT) && !(ismob(pulling))) // if our armour is not light or none OR we are pulling someone OR we're a literal zombie we eat shit and die and can't climb vertically at all, except for 'vaulting' aka we got a sold turf we can walk on in front of us
 				user.movement_type |= FLYING
 			L.stamina_add(stamina_cost_final)
 			user.forceMove(target)
@@ -196,6 +199,9 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			if(ismob(pulling)) // if you are grabbing someone then fuck off, could forceMove() both grabber and the grabee for fun doe
 				climber.visible_message(span_info("I can't get a good grip while dragging someone."))
 				return
+			if(HAS_TRAIT(climber, TRAIT_DEADITE)) //Zombies CANNOT use advanced climbing
+				to_chat(user, span_warning("...What?"))
+				return
 			if(!(climber.mobility_flags & MOBILITY_STAND))
 				climber.visible_message(span_info("I can't get a good grip while prone."))
 				return
@@ -227,7 +233,10 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 				var/baseline_stamina_cost = 15
 				if(climber.m_intent == MOVE_INTENT_SNEAK)
 					climb_along_delay = climb_along_delay * 1.5
-				if(do_after(climber, climb_along_delay, wall_for_message))
+				climber.mid_climb = TRUE
+				var/climbed = do_after(climber, climb_along_delay, wall_for_message)
+				climber.mid_climb = FALSE
+				if(climbed)
 					climber.visible_message(span_info("[climber] climbs along [wall_for_message]..."))
 					climber_armor_class = climber.highest_ac_worn()
 					if(!(climber_armor_class <= ARMOR_CLASS_LIGHT))
@@ -309,10 +318,11 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 		return
 
 /turf/open/transparent/openspace/bullet_act(obj/projectile/P)
+	if(!P.arcshot)
+		return ..()
 	if(P.original && (P.x == P.original.x && P.y == P.original.y))
 		var/turf/target = get_step_multiz(src, DOWN)
 		if(target)
-			testing("canztrav")
 			P.forceMove(target)
 			P.original = target
 			P.process_hit(target, P.select_target(target))

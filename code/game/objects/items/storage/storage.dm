@@ -7,6 +7,12 @@
 	obj_flags = CAN_BE_HIT
 	var/preload = FALSE
 
+/obj/item/storage/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click with an empty hand to open its inventory. Alternatively, left-clicking with an item will attempt to store it inside; pouches, belts, and packs have different limits to what they can carry.")
+	. += span_info("Click-drag onto an empty hand's slot to take it off. You can take pouches, belts, and packs off other people by click-dragging them onto yourself and selecting the item-in-question on the resulting interface.")
+	. += span_info("While hovering over an open inventory slot with an item in your active hand, right-clicking will rotate the item's 'space'. As most inventories use a grid system, doing this can let you further optimize your storage.")
+
 /obj/item/storage/get_dumping_location(obj/item/storage/source, mob/user)
 	return src
 

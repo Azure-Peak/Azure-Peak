@@ -3,6 +3,10 @@
 	switch(soundin)
 		if("idle")
 			used = pick('sound/vo/mobs/zombie/idle (1).ogg','sound/vo/mobs/zombie/idle (2).ogg','sound/vo/mobs/zombie/idle (3).ogg')
+		if("groan")
+			used = pick('sound/vo/mobs/zombie/idle (1).ogg','sound/vo/mobs/zombie/idle (2).ogg','sound/vo/mobs/zombie/idle (3).ogg')
+		if("sigh")
+			used = pick('sound/vo/mobs/zombie/idle (1).ogg','sound/vo/mobs/zombie/idle (2).ogg','sound/vo/mobs/zombie/idle (3).ogg')
 		if("deathgurgle")
 			used = pick('sound/vo/mobs/zombie/death (1).ogg','sound/vo/mobs/zombie/death (2).ogg','sound/vo/mobs/zombie/death (3).ogg')
 		if("firescream")
@@ -15,12 +19,38 @@
 			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
 		if("rage")
 			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
+		if("warcry") //Close enough
+			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
+		if("clap")
+			used = list('sound/vo/slowclap.ogg') //HILARIOUS
+		if("slowclap")
+			used = list('sound/vo/slowclap.ogg')
+		if("clap1")
+			used = list('sound/vo/claponce.ogg')
+		if("snap")
+			used = list('sound/vo/fsnap1.ogg')
+		if("snap2")
+			used = list('sound/vo/fsnap2.ogg')
+		if("snap3")
+			used = list('sound/vo/fsnap3.ogg')
+		if("blink")
+			used = list('sound/vo/blink.ogg')
+		if("stomp")
+			used = list('sound/foley/brickdrop.ogg')
+		if("salute")
+			used = 'sound/vo/salute.ogg'
+		if("crack")
+			used = 'sound/vo/knuckles.ogg'
 	return used
 
 /datum/voicepack/zombie/f/get_sound(soundin, modifiers)
 	var/used
 	switch(soundin)
 		if("idle")
+			used = pick('sound/vo/mobs/zombie/f/idle (1).ogg','sound/vo/mobs/zombie/f/idle (2).ogg','sound/vo/mobs/zombie/f/idle (3).ogg')
+		if("groan")
+			used = pick('sound/vo/mobs/zombie/f/idle (1).ogg','sound/vo/mobs/zombie/f/idle (2).ogg','sound/vo/mobs/zombie/f/idle (3).ogg')
+		if("sigh")
 			used = pick('sound/vo/mobs/zombie/f/idle (1).ogg','sound/vo/mobs/zombie/f/idle (2).ogg','sound/vo/mobs/zombie/f/idle (3).ogg')
 		if("deathgurgle")
 			used = pick('sound/vo/mobs/zombie/f/death (1).ogg','sound/vo/mobs/zombie/f/death (2).ogg','sound/vo/mobs/zombie/f/death (3).ogg')
@@ -34,4 +64,28 @@
 			used = pick('sound/vo/mobs/zombie/f/firescream (1).ogg','sound/vo/mobs/zombie/f/firescream (2).ogg','sound/vo/mobs/zombie/f/firescream (3).ogg')
 		if("rage")
 			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
+		if("warcry") //Close enough
+			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
+		if("clap")
+			used = list('sound/vo/slowclap.ogg') //HILARIOUS
+		if("slowclap")
+			used = list('sound/vo/slowclap.ogg')
+		if("clap1")
+			used = list('sound/vo/claponce.ogg')
+		if("snap")
+			used = list('sound/vo/fsnap1.ogg')
+		if("snap2")
+			used = list('sound/vo/fsnap2.ogg')
+		if("snap3")
+			used = list('sound/vo/fsnap3.ogg')
+		if("blink")
+			used = list('sound/vo/blink.ogg')
+		if("stomp")
+			used = list('sound/foley/brickdrop.ogg')
+		if("salute")
+			used = 'sound/vo/salute.ogg'
+		if("crack")
+			used = 'sound/vo/knuckles.ogg'
+		if("facepalm")
+			used = list('sound/vo/facepalm1.ogg', 'sound/vo/facepalm2.ogg')
 	return used

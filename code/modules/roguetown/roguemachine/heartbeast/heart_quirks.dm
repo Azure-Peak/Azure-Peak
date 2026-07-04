@@ -353,7 +353,7 @@
 							has_meat = TRUE
 							break
 						else
-							beast.heart_beast.visible_message(span_infection("The beast touches the meat with one of it's tentacles, and recoils. Maybe it isn't fresh enough?"))
+							beast.heart_beast.visible_message(span_infection("The beast touches the meat with one of its tentacles, and recoils. Maybe it isn't fresh enough?"))
 
 				if(has_meat)
 					attack_cooldown = 20 SECONDS

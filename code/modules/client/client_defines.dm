@@ -42,6 +42,8 @@
 		///////////////
 		//SOUND STUFF//
 		///////////////
+	///Active balloon alert count, used to vertically stack concurrent balloons so they don't overlap.
+	var/active_balloon_count = 0
 	///Currently playing ambience sound
 	var/ambience_playing = null
 	///Whether an ambience sound has been played and one shouldn't be played again, unset by a callback
@@ -81,6 +83,8 @@
 	var/mouse_up_icon = null
 	///used to make a special mouse cursor, this one for mouse up icon
 	var/mouse_down_icon = null
+	/// world.time of last intercepted mouse-up, used to prevent double-clicks after signal intercept
+	var/click_intercept_time = 0
 
 	///Used for ip intel checking to identify evaders, disabled because of issues with traffic
 	var/ip_intel = "Disabled"
@@ -134,6 +138,17 @@
 
 	var/list/current_weathers = list()
 	var/last_lighting_update = 0
+	/// our current tab
+	var/stat_tab
+
+	/// list of all tabs
+	var/list/panel_tabs = list()
+	/// Signature of the last listed-turf contents sent, to skip redundant rebuilds.
+	var/listedturf_sig
+	var/listedturf_dirty = FALSE
+	var/list/listedturf_appearances
+	/// Whether the living-only Stats tab is currently shown in the statbrowser.
+	var/statbrowser_stats_shown = FALSE
 
 	var/list/open_popups = list()
 

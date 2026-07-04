@@ -180,6 +180,7 @@
 			L.visible_message(span_warning("[L] spasms violently upon touching the water!"), span_danger("The water... it burns me!"))
 			L.adjustFireLoss(25)
 			return
+
 		if (istype(src,/turf/open/water/bloody))
 			L.add_mob_blood(L)
 
@@ -219,7 +220,7 @@
 			playsound(user, 'sound/foley/drawwater.ogg', 100, FALSE)
 			if(do_after(user, 8, target = src))
 				user.changeNext_move(CLICK_CD_MELEE)
-				C.reagents.add_reagent(water_reagent, 200)
+				C.reagents.add_reagent(water_reagent, C.reagents.maximum_volume)
 				to_chat(user, span_notice("I fill [C] from [src]."))
 				// If the user is filling a water purifier and the water isn't already clean...
 				if (istype(C, /obj/item/reagent_containers/glass/bottle/waterskin/purifier) && water_reagent != water_reagent_purified)
@@ -250,8 +251,19 @@
 				if(istype(src,/turf/open/water/sewer) || istype(src,/turf/open/water/swamp) || istype(src, /turf/open/water/sewer))
 					if (istype(src, /turf/open/water/sewer))
 						user.add_stress(/datum/stressevent/sewertouched)
-					if (!HAS_TRAIT(L,TRAIT_LEECHIMMUNE)) // cleaning yourself in nasty water is a wonderful way to get leeches.
+					if (!HAS_TRAIT(L,TRAIT_LEECHIMMUNE) && !HAS_TRAIT(L,TRAIT_BOGWALKER)) // cleaning yourself in nasty water is a wonderful way to get leeches.
 						if (prob(20)) // 1 in 5 chance of getting leeched if you wash up in gross water.
+							
+							if(HAS_TRAIT(L, TRAIT_LEECHRESIST))
+								var/avoid_chance = 20
+								avoid_chance += (L.STASPD - 10) * 10
+								avoid_chance += (L.STALUC - 10) * 5
+								avoid_chance = clamp(avoid_chance, 0, 100)
+								if(prob(avoid_chance))
+									return
+								else
+									to_chat(L, span_notice("Ouch! I am being sucked off!!"))
+
 							var/list/zones = list(BODY_ZONE_CHEST, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_PRECISE_NECK, BODY_ZONE_HEAD)
 							var/zone = pick(zones)
 							var/obj/item/bodypart/BP = L.get_bodypart(zone)
@@ -414,7 +426,9 @@
 
 /turf/open/water/swamp/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
-	if(HAS_TRAIT(AM, TRAIT_LEECHIMMUNE))
+	if(!oldLoc)
+		return
+	if(HAS_TRAIT(AM, TRAIT_LEECHIMMUNE) || HAS_TRAIT(AM, TRAIT_BOGWALKER))
 		return
 	if(isliving(AM) && !AM.throwing)
 		if(ishuman(AM))
@@ -431,6 +445,17 @@
 				return
 			if(C.blood_volume <= 0)
 				return
+
+			if(HAS_TRAIT(C, TRAIT_LEECHRESIST))
+				var/avoid_chance = 20
+				avoid_chance += (C.STASPD - 10) * 10
+				avoid_chance += (C.STALUC - 10) * 5
+				avoid_chance = clamp(avoid_chance, 0, 100)
+				if(prob(avoid_chance))
+					return
+				else
+					to_chat(C, span_notice("Ouch! I am being sucked off!!"))
+
 			var/list/zonee = list(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG, BODY_ZONE_CHEST)
 			for(var/i = 0, i <= zonee.len, i++)
 				var/zone = pick(zonee)
@@ -454,31 +479,49 @@
 
 /turf/open/water/swamp/deep/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
-	if(HAS_TRAIT(AM, TRAIT_LEECHIMMUNE))
-		return
+	if(!oldLoc)
+		return .
+
+	if(HAS_TRAIT(AM, TRAIT_LEECHIMMUNE) ||  HAS_TRAIT(AM, TRAIT_BOGWALKER))
+		return .
+
 	if(isliving(AM) && !AM.throwing)
 		if(ishuman(AM))
 			var/mob/living/carbon/human/C = AM
-			// check if we're riding a boat or a mount (we can presume a living mob is a mount), no leeches if so
 			if(istype(C.buckled, /obj/vehicle/ridden) || isliving(C.buckled))
-				return
+				return .
+
 			var/chance = 6
 			if(C.m_intent == MOVE_INTENT_RUN)
 				chance = 12		//yikes
-			if(C.m_intent == MOVE_INTENT_SNEAK)
+			else if(C.m_intent == MOVE_INTENT_SNEAK)
 				chance = 2
+
 			if(!prob(chance))
-				return
+				return .
+
 			if(C.blood_volume <= 0)
-				return
-			var/list/zonee = list(BODY_ZONE_CHEST,BODY_ZONE_R_LEG,BODY_ZONE_L_LEG,BODY_ZONE_R_ARM,BODY_ZONE_L_ARM)
-			for(var/i = 0, i <= zonee.len, i++)
+				return .
+
+			if(HAS_TRAIT(C, TRAIT_LEECHRESIST))
+				var/avoid_chance = 20
+				avoid_chance += (C.STASPD - 10) * 10
+				avoid_chance += (C.STALUC - 10) * 5
+				avoid_chance = clamp(avoid_chance, 0, 100)
+				if(prob(avoid_chance))
+					return
+				else
+					to_chat(C, span_notice("Ouch! I am being sucked off!!"))
+
+			var/list/zonee = list(BODY_ZONE_CHEST, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM)
+			for(var/i = 1; i <= zonee.len; i++)
 				var/zone = pick(zonee)
 				var/obj/item/bodypart/BP = C.get_bodypart(zone)
 				if(!BP)
 					continue
 				if(BP.skeletonized)
 					continue
+
 				var/obj/item/natural/worms/leech/I = new(C)
 				BP.add_embedded_object(I, silent = TRUE)
 				return .
@@ -487,7 +530,7 @@
 	name = "water"
 	desc = "Clear and shallow water, what a blessing!"
 	icon = 'icons/turf/roguefloor.dmi'
-	icon_state = "rockw2"
+	icon_state = "rockw3"
 	water_level = 2
 	slowdown = 3
 	wash_in = TRUE
@@ -510,7 +553,7 @@
 	swimdir = TRUE
 
 /turf/open/water/river/flow
-	icon_state = "rockwd"
+	icon_state = "rockwd2"
 
 /turf/open/water/river/flow/west
 	dir = 8

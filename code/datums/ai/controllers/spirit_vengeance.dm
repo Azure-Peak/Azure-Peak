@@ -11,5 +11,3 @@
 		/datum/ai_planning_subtree/being_a_minion,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
 	)
-
-	idle_behavior = /datum/idle_behavior/idle_random_walk

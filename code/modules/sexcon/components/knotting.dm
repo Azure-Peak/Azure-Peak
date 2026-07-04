@@ -318,7 +318,7 @@
 
 	if(!btm.IsStun())
 		if(prob(5))
-			btm.emote("groan")
+			btm.emote("groan", forced = TRUE)
 			var/datum/component/arousal/btm_arousal = btm.GetComponent(/datum/component/arousal)
 			btm_arousal?.try_do_pain_effect(PAIN_MED_EFFECT, FALSE)
 			btm.Stun(15)
@@ -358,7 +358,7 @@
 	// Regular movement penalties
 	if(!btm.IsStun())
 		if(prob(10))
-			btm.emote("groan")
+			btm.emote("groan", forced = TRUE)
 			//! TODO: replace this with a sginal I'mtired boss
 			var/datum/component/arousal/btm_arousal = btm.GetComponent(/datum/component/arousal)
 			btm_arousal?.try_do_pain_effect(PAIN_MED_EFFECT, FALSE)

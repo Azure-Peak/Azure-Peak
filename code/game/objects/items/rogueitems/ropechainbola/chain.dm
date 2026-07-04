@@ -2,7 +2,7 @@
 	name = "strike"
 	blade_class = BCLASS_BLUNT
 	attack_verb = list("whips", "strikes", "smacks")
-	penfactor = 0 //40
+	penfactor = PEN_NONE
 	chargetime = 5
 	item_d_type = "slash"
 
@@ -21,10 +21,10 @@
 	cuffsound = 'sound/misc/chains.ogg'
 	possible_item_intents = list(/datum/intent/tie, /datum/intent/whips)
 	firefuel = null
-	smeltresult = /obj/item/ingot/iron
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/blacksmithing
 	resistance_flags = FIRE_PROOF
+	dropshrink = null

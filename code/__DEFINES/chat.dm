@@ -60,6 +60,9 @@
 /// Adds a generic box around whatever message you're sending in chat. Really makes things stand out.
 #define examine_block(str) ("<div class='examine_block'>" + str + "</div>")
 
+/// Allows the chat headshot image to zoom in when moused over
+#define chat_headshot(str) ("<div class='chat_headshot'><img src='" + str + "'/></div>")
+
 // For deadchat control
 #define DEMOCRACY_MODE "democracy"
 #define ANARCHY_MODE "anarchy"

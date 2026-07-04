@@ -290,6 +290,15 @@
 	desc = "A canister full of viscous blood, despite being closed it somehow still exudes a putrid smell. Highly valued, due to their ability to purify lux."
 	icon_state = "blood_canister_filled"
 
+/obj/item/heart_blood_canister/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Cures black rot partially. Cures more rot than a vial.")
+	. += span_info("Black rot can be cured surgically with a knife, by touching calyxes, or by drinking heartblood.")
+	. += span_info("Can be applied to self or others to restore some energy.")
+	. += span_info("More effective when low on energy.")
+	. += span_info("Restores the same energy as a vial, but twice as fast.")
+	. += span_info("Takes longer to apply than vials, but is more potent.")
+
 /obj/item/heart_blood_vial
 	name = "Heartblood vial"
 	desc = "An empty vial yearning to be filled with chimeric heartbeast blood."
@@ -302,6 +311,15 @@
 	name = "Full heartblood vial"
 	desc = "A vial full of viscous blood, despite being closed it somehow still exudes a putrid smell. Highly valued, due to their ability to purify lux."
 	icon_state = "blood_vial_filled"
+
+/obj/item/heart_blood_vial/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Cures black rot partially. Cures less rot than a canister.")
+	. += span_info("Black rot can be cured surgically with a knife, by touching calyxes, or by drinking heartblood.")
+	. += span_info("Can be applied to self or others to restore some energy.")
+	. += span_info("More effective when low on energy.")
+	. += span_info("Restores the same energy as a canister, but half as fast.")
+	. += span_info("Takes less time to apply than canisters, but is less potent.")
 
 /obj/item/heart_canister/ui_interact(mob/user, datum/tgui/ui)
 	if(!isliving(user))
@@ -386,17 +404,21 @@
 		.["aspect_data"] = aspect_data
 	return .
 
+/obj/item/proc/spill_heart_contents()
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
+	playsound(T, 'sound/foley/glassbreak.ogg', 75, TRUE)
+	new /obj/effect/decal/cleanable/heart_shards(T)
+	if(istype(src, /obj/item/heart_blood_canister/filled))
+		new /obj/effect/decal/cleanable/heart_blood(T)
+	else if(istype(src, /obj/item/heart_blood_vial/filled))
+		new /obj/effect/decal/cleanable/heart_blood/small(T)
+
 /obj/item/proc/break_fancy_container(obj/item/container)
 	if(!container)
 		return
-	var/turf/T = get_turf(container)
-	playsound(T, 'sound/foley/glassbreak.ogg', 75, TRUE)
-	new /obj/effect/decal/cleanable/heart_shards(T)
-	if(istype(container, /obj/item/heart_blood_canister/filled) || istype(container, /obj/item/heart_blood_vial/filled))
-		if(istype(container, /obj/item/heart_blood_canister/filled))
-			new /obj/effect/decal/cleanable/heart_blood(T)
-		else if(istype(container, /obj/item/heart_blood_vial/filled))
-			new /obj/effect/decal/cleanable/heart_blood/small(T)
+	container.spill_heart_contents()
 	qdel(container)
 	return TRUE
 
@@ -425,24 +447,25 @@
 	break_fancy_container(src)
 
 /obj/item/heart_blood_canister/obj_destruction(damage_flag)
-	break_fancy_container(src)
+	spill_heart_contents()
+	return ..()
 
 /obj/item/heart_blood_vial/obj_destruction(damage_flag)
-	break_fancy_container(src)
+	spill_heart_contents()
+	return ..()
 
 /obj/item/heart_blood_canister/filled/attack(mob/living/target, mob/living/user)
 	if(istype(target))
 		var/datum/status_effect/black_rot/rot = target.has_status_effect(/datum/status_effect/black_rot)
-		if(!rot)
-			to_chat(user, span_infection("[target] isn't infected with black rot currently."))
-			return
-		if(!do_mob(user, target, 0.6 SECONDS, FALSE))
+		if(!do_mob(user, target, 0.8 SECONDS, FALSE))
 			return
 		if(target == user)
 			target.visible_message(span_notice("[user] drinks some heartblood."), span_notice("I drink the heartblood, feeling it fight the rot within."))
 		else
 			target.visible_message(span_notice("[user] feeds [target] some heartblood."), span_notice("[user] feeds you some heartblood."))
-		rot.remove_stack(2)
+		if(rot)
+			target.apply_status_effect(/datum/status_effect/buff/rot_cleansing, 67, 1)
+		target.apply_status_effect(/datum/status_effect/buff/invigoration, 10 SECONDS, 25, 15)
 		qdel(src)
 		return TRUE
 	return ..()
@@ -450,16 +473,15 @@
 /obj/item/heart_blood_vial/filled/attack(mob/living/target, mob/living/user)
 	if(istype(target))
 		var/datum/status_effect/black_rot/rot = target.has_status_effect(/datum/status_effect/black_rot)
-		if(!rot)
-			to_chat(user, span_infection("[target] isn't infected with black rot currently."))
-			return
-		if(!do_mob(user, target, 0.6 SECONDS, FALSE))
+		if(!do_mob(user, target, 0.4 SECONDS, FALSE))
 			return
 		if(target == user)
 			target.visible_message(span_notice("[user] drinks some heartblood."), span_notice("I drink the heartblood, feeling it fight the rot within."))
 		else
 			target.visible_message(span_notice("[user] feeds [target] some heartblood."), span_notice("[user] feeds you some heartblood."))
-		rot.remove_stack(1)
+		if(rot)
+			target.apply_status_effect(/datum/status_effect/buff/rot_cleansing, 34, 1)
+		target.apply_status_effect(/datum/status_effect/buff/invigoration, 20 SECONDS, 25, 15)
 		qdel(src)
 		return TRUE
 	return ..()

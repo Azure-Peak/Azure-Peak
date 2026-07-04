@@ -10,6 +10,12 @@
 	sleepy = 0.5
 //	pixel_y = 10
 	layer = OBJ_LAYER
+	hidingspot = TRUE
+	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
+
+/obj/structure/chair/bench/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
 
 /obj/structure/chair/bench/church
 	icon_state = "church_benchleft"
@@ -33,6 +39,41 @@
 	else
 		layer = OBJ_LAYER
 		plane = GAME_PLANE
+
+/obj/structure/chair/bench/attack_hand(mob/user)
+	if(isliving(user))
+		if(user.m_intent == MOVE_INTENT_SNEAK)
+			hideinside(user)
+			return
+		return ..()
+
+/obj/structure/chair/bench/proc/hideinside(mob/living/user)
+	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
+	var/sneaktime = max(10, 50 - (sneak_level * 10)) // Hard caps at 1 second at Expert and above.
+	if(user.loc == src)
+		unhide(user)
+		return
+	if(occupied)
+		to_chat(user, span_warning("Someone is already hiding under [src]!"))
+		return
+	if(!do_after(user, sneaktime, src))
+		return
+	user.forceMove(src)
+	occupied = TRUE
+	hiddenguy = user
+	to_chat(user, span_warning("I hide under [src]!"))
+
+/obj/structure/chair/bench/proc/unhide(mob/living/user)
+	var/turf/T = get_turf(src)
+	if(!T) return
+	user.forceMove(T)
+	occupied = FALSE
+	hiddenguy = null
+	to_chat(user, span_warning("I come out from under [src]!"))
+
+/obj/structure/chair/bench/relaymove(mob/user)
+	if(user.loc == src)
+		unhide(user)
 
 /obj/structure/chair/bench/post_buckle_mob(mob/living/M)
 	..()
@@ -132,7 +173,7 @@
 /obj/structure/chair/wood/rogue/chair3
 	icon_state = "chair3"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	item_chair = /obj/item/chair/rogue
+	item_chair = /obj/item/chair/rogue/chair3
 	blade_dulling = DULLING_BASHCHOP
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
@@ -140,7 +181,7 @@
 /obj/structure/chair/wood/rogue/chair4
 	icon_state = "chair4"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	item_chair = /obj/item/chair/rogue
+	item_chair = /obj/item/chair/rogue/chair4
 	blade_dulling = DULLING_BASHCHOP
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
@@ -148,7 +189,7 @@
 /obj/structure/chair/wood/rogue/chair5
 	icon_state = "chair5"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	item_chair = /obj/item/chair/rogue
+	item_chair = /obj/item/chair/rogue/chair5
 	blade_dulling = DULLING_BASHCHOP
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
@@ -179,16 +220,25 @@
 	obj_flags = CAN_BE_HIT
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
+	associated_skill = /datum/skill/combat/unarmed
+	swingsound = BLUNTWOOSH_LARGE
+
+/obj/item/chair/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Click-dragging yourself onto a seat, while on the same tile, will 'buckle' you in; this represents your character sitting down. Sitting down gradually restores energy, and can be used to prop up people who'd normally be unable to stand.")
+	. += span_info("Left-click on the seat to 'unbuckle' yourself; this represents your character getting up. You can alternatively get up by pressing the 'RESIST' hotkey.")
+	. += span_info("This can be done to other people, as well. Click-dragging someone onto a seat will sit them down, and left-clicking the seat will 'unbuckle' them once more.")
+	. += span_info("Restrained people are unable to 'unbuckle' themeselves, or otherwise get up from whatever they're tied to. Pressing the 'RESIST' hotkey will allow them to start struggling out of their restraints. The time needed to accomplish this scales with the character's Strength.")
+	. += span_info("Some chairs and stools can be used as improvised weapons, by click-dragging them onto yourself. Activating a chair or stool in your hand will set it down in whatever direction you're facing.")
 
 /obj/item/chair/rogue/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
-			if("wieldedl")
-				return list("shrink" = 0.7,"sx" = 2,"sy" = 1,"nx" = -17,"ny" = 0,"wx" = -11,"wy" = 0,"ex" = 2,"ey" = 0,"westabove" = 1,"eastbehind" = 0,"nturn" = 9,"sturn" = -42,"wturn" = 21,"eturn" = -27,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.7,"sx" = 2,"sy" = 1,"nx" = -17,"ny" = 0,"wx" = -11,"wy" = 0,"ex" = 2,"ey" = 0,"westabove" = 1,"eastbehind" = 0,"nturn" = 9,"sturn" = -42,"wturn" = 21,"eturn" = -27,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,)
-	..()
+			if("gen") 
+				return list("shrink" = 0.7,"sx" = -1,"sy" = 0,"nx" = 11,"ny" = 1,"wx" = 0,"wy" = 1,"ex" = 4,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 15,"sturn" = 0,"wturn" = 0,"eturn" = 39,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 8)
+			if("wielded") 
+				return list("shrink" = 0.7,"sx" = -9,"sy" = 4,"nx" = -7,"ny" = 0,"wx" = -7,"wy" = 2,"ex" = 8,"ey" = 5,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -42,"sturn" = 190,"wturn" = -170,"eturn" = -10,"nflip" = -8,"sflip" = 1,"wflip" = 1,"eflip" = 0)
 
 /obj/structure/chair/wood/rogue/CanPass(atom/movable/mover, turf/target)
 	if(isliving(mover))
@@ -209,6 +259,8 @@
 /obj/structure/chair/wood/rogue/onkick(mob/user)
 	if(!user)
 		return
+	if(!item_chair)
+		return
 	if(isturf(loc))
 		playsound(loc, 'sound/foley/chairfall.ogg', 100, FALSE)
 		var/obj/item/I = new item_chair(loc)
@@ -218,19 +270,21 @@
 		return FALSE
 
 /obj/structure/chair/wood/rogue/proc/on_exit(datum/source, atom/movable/leaving, atom/new_location)
-	SIGNAL_HANDLER
-	if(!isliving(leaving))
-		return
-	var/mob/living/M = leaving
-	if(!(M.mobility_flags & MOBILITY_STAND))
-		return
-	if(get_dir(leaving.loc, new_location) == REVERSE_DIR(dir))
-		playsound(loc, 'sound/foley/chairfall.ogg', 100, FALSE)
-		var/obj/item/I = new item_chair(loc)
-		item_chair = null
-		I.dir = dir
-		qdel(src)
-		return COMPONENT_ATOM_BLOCK_EXIT
+    SIGNAL_HANDLER
+    if(!isliving(leaving))
+        return
+    var/mob/living/M = leaving
+    if(!(M.mobility_flags & MOBILITY_STAND))
+        return
+    if(get_dir(leaving.loc, new_location) == REVERSE_DIR(dir))
+        if(!item_chair)
+            return
+        playsound(loc, 'sound/foley/chairfall.ogg', 100, FALSE)
+        var/obj/item/I = new item_chair(loc)
+        item_chair = null
+        I.dir = dir
+        qdel(src)
+        return COMPONENT_ATOM_BLOCK_EXIT
 
 /obj/structure/chair/wood/rogue/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
 	if(damage_amount > 5 && item_chair != null)
@@ -249,6 +303,18 @@
 /obj/item/chair/rogue/fancy
 	icon_state = "chair1"
 	origin_type = /obj/structure/chair/wood/rogue/fancy
+
+/obj/item/chair/rogue/chair3
+	icon_state = "chair3"
+	origin_type = /obj/structure/chair/wood/rogue/chair3
+
+/obj/item/chair/rogue/chair4
+	icon_state = "chair4"
+	origin_type = /obj/structure/chair/wood/rogue/chair4
+
+/obj/item/chair/rogue/chair5
+	icon_state = "chair5"
+	origin_type = /obj/structure/chair/wood/rogue/chair5
 
 /obj/structure/chair/wood/rogue/attack_right(mob/user)
 	var/datum/component/simple_rotation/rotcomp = GetComponent(/datum/component/simple_rotation)
@@ -298,15 +364,21 @@
 	obj_flags = CAN_BE_HIT
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
+	associated_skill = /datum/skill/combat/unarmed
+	swingsound = BLUNTWOOSH_LARGE
+
+/obj/item/chair/stool/bar/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Some chairs and stools can be used as improvised weapons, by click-dragging them onto yourself. Activating a chair or stool in your hand will set it down in whatever direction you're facing.")
 
 /obj/item/chair/stool/bar/rogue/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
-			if("wieldedl")
-				return list("shrink" = 0.8,"sx" = 3,"sy" = -8,"nx" = -19,"ny" = -6,"wx" = -13,"wy" = -7,"ex" = 1,"ey" = -5,"westabove" = 1,"eastbehind" = 0,"nturn" = 30,"sturn" = -18,"wturn" = 30,"eturn" = -24,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.8,"sx" = -20,"sy" = -6,"nx" = 0,"ny" = -7,"wx" = -18,"wy" = -5,"ex" = -4,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -42,"sturn" = 33,"wturn" = 33,"eturn" = -21,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("gen") 
+				return list("shrink" = 0.7,"sx" = -1,"sy" = 0,"nx" = 11,"ny" = 1,"wx" = 0,"wy" = 1,"ex" = 4,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 15,"sturn" = 0,"wturn" = 0,"eturn" = 39,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 8)
+			if("wielded") 
+				return list("shrink" = 0.7, "sx" = -12, "sy" = -8, "nx" = 13, "ny" = -7, "wx" = -10, "wy" = -5, "ex" = 7, "ey" = -6, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -13, "sturn" = 110, "wturn" = -60, "eturn" = -30, "nflip" = 1, "sflip" = 1, "wflip" = 8, "eflip" = 1)
 
 /obj/structure/bed/rogue
 	icon_state = "bed"
@@ -316,28 +388,58 @@
 	buckle_lying = 90
 	sleepy = 3
 	debris = list(/obj/item/grown/log/tree/small = 1)
-	var/broken_matress = FALSE
-	var/broken_percentage = 0
+	hidingspot = TRUE
+	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
 
-/obj/structure/bed/rogue/proc/damage_bed(dam_value)
-	if(sleepy <= 2) // the bed is already pretty awful and broken (i.e: straw bed/bedroll), so don't break it even further
-		return
-	broken_percentage += dam_value
-	if(!broken_matress && (broken_percentage >= 100))
-		broken_matress = TRUE
-		sleepy = 1 //Worse than a bedroll, better than nothing
-		visible_message(span_warning("\The [src] gives a violent snap. It looks broken!"))
-		playsound(src, 'sound/misc/mat/bed break.ogg', 50, TRUE, ignore_walls = FALSE)
-		desc += " The bed looks stained and has seen better days."
-	else if(broken_percentage >= 100)
-		broken_percentage = 100
-	else
-		playsound(src, pick(list('sound/misc/mat/bed squeak (1).ogg','sound/misc/mat/bed squeak (2).ogg','sound/misc/mat/bed squeak (3).ogg')), 30, TRUE, ignore_walls = FALSE)
+/obj/structure/bed/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Click-dragging yourself onto a bed, while on the same tile, will 'buckle' you in; this represents your character laying down. Laying down gradually restores energy, and allows your character to begin sleeping.")
+	. += span_info("Once laying down on a bed, you can close your eyes by clicking the small arrows that border the top-and-bottom of your HUD's eye. If your eyes are closed and you're laying down, you'll begin to drift off into sleep.")
+	. += span_info("Most people can't sleep while wearing helmets and chestpieces. Left-click the items-in-question in your inventory to take them off. You can either press the 'Z' key to drop them, or left-click a table or opened closet to set them aside.")
+	. += span_info("If you aren't interrupted, you'll fall asleep after a bit. Sleeping clears the daily 'Tired' debuff and allows you to further learn more skills. The higher your Intelligence is, the more skills - and skill points - you'll earn with each sleep.")
+	. += span_info("Sleeping will gradually heal most wounds and damages, over time. This can be further enhanced by sleeping next to a lit campfire or fireplace. To begin waking back up, click the arrows that border the HUD's eye once again. If you can see the eye, that means you'll wake up soon.")
+	. += span_info("Once awake, hit the 'RESIST' hotkey or left-click the bed to 'unbuckle' yourself. Once unbuckled, pressing the 'V' key will allow you to fully rise up.")
+	. += span_info("Note that you can still sleep anywhere you wish, even without a bed, by simply laying down and closing your eyes. While this can work in a pinch to stave off tiredness or bolster your characters to survive a critical wound, it's much less ideal.")
+	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
 
 /obj/structure/bed/rogue/OnCrafted(dirin)
 	dirin = turn(dirin, 180)
 	. = ..(dirin)
 	update_icon()
+
+/obj/structure/bed/rogue/attack_hand(mob/living/user)
+	if(user.m_intent == MOVE_INTENT_SNEAK)
+		hideinside(user)
+		return
+	return ..()
+
+/obj/structure/bed/rogue/proc/hideinside(mob/living/user)
+	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
+	var/sneaktime = max(10, 50 - (sneak_level * 10)) // Hard caps at 1 second at Expert and above.
+	if(user.loc == src)
+		unhide(user)
+		return
+	if(occupied)
+		to_chat(user, span_warning("Someone is already hiding under [src]!"))
+		return
+	if(!do_after(user, sneaktime, src))
+		return
+	user.forceMove(src)
+	occupied = TRUE
+	hiddenguy = user
+	to_chat(user, span_warning("I hide under [src]!"))
+
+/obj/structure/bed/rogue/proc/unhide(mob/living/user)
+	var/turf/T = get_turf(src)
+	if(!T) return
+	user.forceMove(T)
+	occupied = FALSE
+	hiddenguy = null
+	to_chat(user, span_warning("I come out from under [src]!"))
+
+/obj/structure/bed/rogue/relaymove(mob/user)
+	if(user.loc == src)
+		unhide(user)
 
 /obj/structure/bed/rogue/attack_right(mob/user)
 	var/datum/component/simple_rotation/rotcomp = GetComponent(/datum/component/simple_rotation)
@@ -383,6 +485,10 @@
 	grid_width = 32
 	grid_height = 64
 
+/obj/item/bedroll/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Activate the bedroll in your hand to set it down, and left-click the placed-down bedroll to pick it back up.")
+
 /obj/item/bedroll/attack_self(mob/user, params)
 	..()
 	var/turf/T = get_turf(loc)
@@ -401,6 +507,15 @@
 		var/obj/structure/bed/rogue/bedroll/new_bedroll = new /obj/structure/bed/rogue/bedroll(get_turf(src))
 		new_bedroll.color = src.color
 		qdel(src)
+
+/obj/item/bedroll/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -1,"sy" = -1,"nx" = 7,"ny" = -1,"wx" = 0,"wy" = -1,"ex" = 4,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 15,"sturn" = 0,"wturn" = 0,"eturn" = 39,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 8)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/structure/bed/rogue/inn
 	icon_state = "inn_bed"

@@ -9,6 +9,7 @@
 	list_reagents = list(/datum/reagent/vitae = 5)
 	grind_results = list(/datum/reagent/vitae = 5)
 	sellprice = 90
+	dropshrink = 0.7
 
 /datum/reagent/vitae
 	name = "Vitae"
@@ -24,8 +25,7 @@
 	. = 1
 
 /datum/reagent/vitae/on_mob_life(mob/living/carbon/M)
-	if(M.has_flaw(/datum/charflaw/addiction/junkie))
-		M.sate_addiction()
+	M.sate_addiction(/datum/charflaw/addiction/junkie)
 	M.apply_status_effect(/datum/status_effect/buff/vitae)
 	..()
 
@@ -36,3 +36,13 @@
 	icon_state = "lux_impure"
 	item_state = "lux_impure"
 	sellprice = 15
+	dropshrink = 0.7
+
+/obj/item/reagent_containers/lux_moss
+	name = "corrupted lux"
+	desc = "Something is amiss with this piece of lifeforce. You can see a faint glimpse of a rock piece hurling through the sky."
+	icon = 'icons/roguetown/items/hag/hag_items.dmi'
+	icon_state = "mosslux"
+	item_state = "mosslux"
+	sellprice = 1
+	dropshrink = 0.7

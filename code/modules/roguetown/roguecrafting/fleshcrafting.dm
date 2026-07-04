@@ -129,6 +129,36 @@
 	subtype_reqs = TRUE
 	structurecraft = null
 
+/datum/crafting_recipe/roguetown/fleshcrafting/leechbait_leech
+	name = "leechbait (from bag - with tick)"
+	craftdiff = 1
+	result = list(
+		/obj/item/bait/leech,
+		/obj/item/bait/leech,
+		/obj/item/bait/leech,
+		)
+	reqs = list(
+		/obj/item/storage/roguebag = 1,
+		/obj/item/leechtick_bloated = 1,
+		)
+	subtype_reqs = TRUE
+	structurecraft = null
+
+/datum/crafting_recipe/roguetown/fleshcrafting/leechbaitcloth_leech
+	name = "leechbait (from cloth - with tick)"
+	craftdiff = 1
+	result = list(
+		/obj/item/bait/leech,
+		/obj/item/bait/leech,
+		/obj/item/bait/leech,
+		)
+	reqs = list(
+		/obj/item/natural/cloth = 2,
+		/obj/item/leechtick_bloated = 1,
+		)
+	subtype_reqs = TRUE
+	structurecraft = null
+
 /datum/crafting_recipe/roguetown/fleshcrafting/imperfect_gnoll
 	name = "vilespawn flesh"
 	craftdiff = 1
@@ -138,6 +168,19 @@
 	reqs = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll = 1,
 		/obj/item/roguegem/blood_diamond = 1,
+		)
+	subtype_reqs = TRUE
+	structurecraft = null
+
+/datum/crafting_recipe/roguetown/fleshcrafting/imperfect_gnoll_alt
+	name = "vilespawn flesh (from crystallized glut)"
+	craftdiff = 1
+	result = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/vilespawn
+		)
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll = 1,
+		/obj/item/ingot/component/glutcrystal = 1,
 		)
 	subtype_reqs = TRUE
 	structurecraft = null

@@ -2,8 +2,49 @@
 /obj/item/bodypart/proc/can_dismember(obj/item/I)
 	return dismemberable
 
+/obj/item/bodypart/proc/get_spell_dismemberment_chance(force, bclass, zone_precise = src.body_zone)
+	if(!can_dismember())
+		return 0
+	if(bclass != BCLASS_CUT && bclass != BCLASS_CHOP)
+		return 0
+	if(bclass == BCLASS_CHOP)
+		force *= 1.1
+	return dismemberment_chance_from_force(force, zone_precise)
+
+/obj/item/bodypart/proc/dismemberment_chance_from_force(nuforce, zone_precise = src.body_zone)
+	if(nuforce < 10)
+		return 0
+	var/total_dam = get_damage()
+	var/probability = nuforce * (total_dam / max_damage)
+	var/hard_dismember = HAS_TRAIT(src, TRAIT_HARDDISMEMBER)
+	var/easy_dismember = rotted || skeletonized || HAS_TRAIT(src, TRAIT_EASYDISMEMBER)
+	var/easy_decapitation = HAS_TRAIT(src, TRAIT_EASYDECAPITATION)
+	if(owner)
+		if(!hard_dismember)
+			hard_dismember = HAS_TRAIT(owner, TRAIT_HARDDISMEMBER)
+		if(!easy_dismember)
+			easy_dismember = HAS_TRAIT(owner, TRAIT_EASYDISMEMBER)
+		if(!easy_decapitation)
+			easy_decapitation = HAS_TRAIT(owner, TRAIT_EASYDECAPITATION)
+	if((total_dam <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD)) && !easy_dismember)
+		return 0
+	if(easy_decapitation && zone_precise == BODY_ZONE_PRECISE_NECK)
+		return probability * 1.5
+	if(hard_dismember)
+		return min(probability, 5)
+	else if(easy_dismember)
+		return probability * 1.5
+	return probability
+
 /obj/item/bodypart/proc/can_disable(obj/item/I)
 	return disableable
+
+/// Returns TRUE if this bodypart is any kind of prosthetic limb
+/obj/item/bodypart/proc/is_prosthetic_limb()
+	return istype(src, /obj/item/bodypart/l_arm/prosthetic) || \
+	       istype(src, /obj/item/bodypart/r_arm/prosthetic) || \
+	       istype(src, /obj/item/bodypart/l_leg/prosthetic) || \
+	       istype(src, /obj/item/bodypart/r_leg/prosthetic)
 
 /obj/item/bodypart
 	/// Wound we get when surgically reattached
@@ -20,51 +61,59 @@
 	)
 
 //Dismember a limb
-/obj/item/bodypart/proc/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE)
+/obj/item/bodypart/proc/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE, skip_checks = FALSE)
 	if(!owner)
 		return FALSE
 	var/mob/living/carbon/C = owner
 	if(!dismemberable)
 		return FALSE
-	if(user && (body_zone == BODY_ZONE_HEAD))
-		if(zone_precise != BODY_ZONE_PRECISE_NECK)
-			return FALSE
-		if(!HAS_TRAIT(C, TRAIT_CRITICAL_WEAKNESS) && !HAS_TRAIT(C, TRAIT_EASYDISMEMBER))	//People with these traits can be decapped standing, or buckled, or however.
-			var/has_mind = TRUE  // DEBUG: Temporarily forced to TRUE for testing
-			var/not_buckled = !C.buckled
 
-			// Check if currently standing OR within grace period after being knocked down
-			var/can_stand = (C.mobility_flags & MOBILITY_STAND)
-			if(!can_stand && C.mob_timers && C.mob_timers["last_standing"])
-				// Within 2 seconds of being knocked down? Still count as standing
-				if(world.time < C.mob_timers["last_standing"] + STANDING_DECAP_GRACE_PERIOD)
-					can_stand = TRUE
-
-			if(has_mind && can_stand && not_buckled) //Only allows upright decapitations if it's not a player. Unless they're buckled.
+	if(!skip_checks)
+		if(user && (body_zone == BODY_ZONE_HEAD))
+			if(zone_precise != BODY_ZONE_PRECISE_NECK)
 				return FALSE
+			if(!HAS_TRAIT(C, TRAIT_CRITICAL_WEAKNESS) && !HAS_TRAIT(C, TRAIT_EASYDISMEMBER))	//People with these traits can be decapped standing, or buckled, or however.
+				var/has_mind = TRUE  // DEBUG: Temporarily forced to TRUE for testing
+				var/not_buckled = !C.buckled
 
-	if(body_zone != BODY_ZONE_HEAD)
-		var/mob/living/carbon/human/victim = owner
-		var/d_type = "slash"
-		if(victim.run_armor_check(zone_precise, d_type, damage = damage))
-			to_chat(victim, span_warning("My armour just saved me from losing my [C.get_bodypart(body_zone).name]!"))
-			return FALSE
+				// Check if currently standing OR within grace period after being knocked down
+				var/can_stand = (C.mobility_flags & MOBILITY_STAND)
+				if(!can_stand && C.mob_timers && C.mob_timers["last_standing"])
+					// Within 2 seconds of being knocked down? Still count as standing
+					if(world.time < C.mob_timers["last_standing"] + STANDING_DECAP_GRACE_PERIOD)
+						can_stand = TRUE
+
+				if(has_mind && can_stand && not_buckled) //Only allows upright decapitations if it's not a player. Unless they're buckled.
+					return FALSE
+
+		if(body_zone != BODY_ZONE_HEAD)
+			var/mob/living/carbon/human/victim = owner
+			var/d_type = "slash"
+			if(victim.run_armor_check(zone_precise, d_type, armor_penetration = PEN_NONE, damage = damage))
+				to_chat(victim, span_warning("My armour just saved me from losing my [C.get_bodypart(body_zone).name]!"))
+				return FALSE
 
 	if(C.status_flags & GODMODE)
 		return FALSE
 	if(HAS_TRAIT(C, TRAIT_NODISMEMBER))
 		return FALSE
+	if(user)
+		if(zone_precise in list(BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_PRECISE_L_HAND) && C.mind)
+			return FALSE //No dismemberment on hand/feet on humans, but we do mobs.
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_DISMEMBER, src) & COMPONENT_CANCEL_DISMEMBER)
 		return FALSE //signal handled the dropping
-	
-	if(C.try_resist_critical())
-		C.visible_message(span_danger("Critical resistance! [C]'s [src.name] hangs on by a thread!</span>"))
-		return FALSE
+
+	if(!skip_checks)
+		if(C.try_resist_critical())
+			C.visible_message(span_danger("Critical resistance! [C]'s [src.name] hangs on by a thread!</span>"))
+			return FALSE
 
 	var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_CHEST)
-	if(affecting && dismember_wound)
+	if(affecting && dismember_wound && !isooze(C))
 		affecting.add_wound(dismember_wound)
+	else if(affecting && dismember_wound && isooze(C))
+		C.visible_message(span_danger("[C]'s wound closes rapidly to stem the flow of plasm."))
 	playsound(C, pick(dismemsound), 50, FALSE, -1)
 
 	var/stress2give = /datum/stressevent/viewdismember
@@ -81,18 +130,18 @@
 		// if they're already spinal-severed, THEN the head is removed.
 		// extra note: we only do this for mobs with a mind, aka not NPCS. npcs always get insta-decapped as before
 		if (owner?.client && !vorpal && !guillotine_execution && two_stage_death && !grievously_wounded)
-			if (owner?.construct)
-				C.visible_message(span_danger("<b>[C]'s wrought skull is <span class='crit'>CLEFT NIGH IN TWAIN</span> by a fearsome blow, crumbling into a <span class='crit'>CLOUD of DUST!</span></b>"))
+			if (HAS_TRAIT(owner, TRAIT_IRONMAN))
+				C.visible_message(span_danger("<B>[C] is <span class='crit'>[pick("ENDED", "TERMINATED", "DEPRECATED","SCRAPPED","DESTROYED","UNDONE","WRECKED","REKT","FRAGGED")]</span> as [C.p_their()] ravaged neck <span class='crit'>BLOSSOMS</span> into wisps of <span class='crit'>SCRAP and MAGIC DUST!</span></B>"))
 				C.death()
 				return
-			
+
 			if (skeletonized)
 				C.visible_message(span_danger("<b>[C]'s bony skull is <span class='crit'>MULCHED</span> by a fearsome blow, spalling into a <span class='crit'>CLOUD of SHARDS!</span></b>"))
 				C.death()
 				return
 			else
-				C.visible_message(span_danger("<B>[C] is <span class='crit'>[pick("ENDED", "SLAIN", "SLAUGHTERED","MURDERED","SNUFFED","BUTCHERED","FELLED","FINISHED","FRAGGED")]</span> as their ravaged neck <span class='crit'>BLOSSOMS</span> into petals of <span class='crit'>GORE and BONE!</span></B>"))
-				add_wound(/datum/wound/grievous/pre_decapitation) // this causes a bigass wound, marks the limb as greviously wounded and instantly kills the affected user.
+				C.visible_message(span_danger("<B>[C] is <span class='crit'>[pick("ENDED", "SLAIN", "SLAUGHTERED","MURDERED","SNUFFED","BUTCHERED","FELLED","FINISHED","FRAGGED")]</span> as [C.p_their()] ravaged neck <span class='crit'>BLOSSOMS</span> into petals of <span class='crit'>GORE and BONE!</span></B>"))
+				add_wound(/datum/wound/grievous/pre_decapitation_sharp) // this causes a bigass wound, marks the limb as greviously wounded and instantly kills the affected user.
 				return
 		else
 			// we're greviously wounded OR we don't give a shit about two-stage death (guillotines, npcs, etc)
@@ -159,10 +208,9 @@
 		if(new_turf.density)
 			break
 	throw_at(target_turf, throw_range, throw_speed)
-	owner = C
 	return TRUE
 
-/obj/item/bodypart/chest/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE)
+/obj/item/bodypart/chest/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE, skip_checks = FALSE)
 	if(!owner)
 		return FALSE
 	var/mob/living/carbon/C = owner
@@ -224,15 +272,13 @@
 	was_owner.bodyparts -= src
 	owner = null
 
-	if(ishuman(was_owner))
-		var/mob/living/carbon/human/H = was_owner
-		H.body_overlay_cache_key = null
-		H.damage_overlay_cache_key = null
-		H.icon_render_key = null
-
 	update_icon_dropped()
 	was_owner.update_health_hud() //update the healthdoll
-	was_owner.queue_icon_update(PENDING_UPDATE_BODY)
+	var/datum/hud/hud_used = was_owner.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.rebuild_limbs()
+	was_owner.update_body()
+	was_owner.update_hair()
 	was_owner.update_mobility()
 
 	// drop_location = null happens when a "dummy human" used for rendering icons on prefs screen gets its limbs replaced.
@@ -290,6 +336,8 @@
 /obj/item/bodypart/r_arm/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
+	if(isooze(C))
+		qdel(src)
 	if(C && !special)
 		if(C.handcuffed)
 			C.handcuffed.forceMove(drop_location())
@@ -299,7 +347,7 @@
 		if(C.hud_used)
 			var/atom/movable/screen/inventory/hand/R = C.hud_used.hand_slots["[held_index]"]
 			if(R)
-				R.update_icon()
+				R.update_hand_vis()
 		if(C.gloves && (C.get_num_arms(FALSE) < 1))
 			C.dropItemToGround(C.gloves, force = TRUE)
 		C.update_inv_gloves() //to remove the bloody hands overlay
@@ -309,6 +357,8 @@
 /obj/item/bodypart/l_arm/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
+	if(isooze(C))
+		qdel(src)
 	if(C && !special)
 		if(C.handcuffed)
 			C.handcuffed.forceMove(drop_location())
@@ -318,7 +368,7 @@
 		if(C.hud_used)
 			var/atom/movable/screen/inventory/hand/L = C.hud_used.hand_slots["[held_index]"]
 			if(L)
-				L.update_icon()
+				L.update_hand_vis()
 		if(C.gloves && (C.get_num_arms(FALSE) < 1))
 			C.dropItemToGround(C.gloves, force = TRUE)
 		C.update_inv_gloves() //to remove the bloody hands overlay
@@ -327,6 +377,8 @@
 /obj/item/bodypart/r_leg/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
+	if(isooze(C))
+		qdel(src)
 	if(C && !special)
 		if(C.legcuffed)
 			C.legcuffed.forceMove(C.drop_location()) //At this point bodypart is still in nullspace
@@ -341,6 +393,8 @@
 /obj/item/bodypart/l_leg/drop_limb(special) //copypasta
 	var/mob/living/carbon/C = owner
 	. = ..()
+	if(isooze(C))
+		qdel(src)
 	if(C && !special)
 		if(C.legcuffed)
 			C.legcuffed.forceMove(C.drop_location())
@@ -421,7 +475,7 @@
 		if(C.hud_used)
 			var/atom/movable/screen/inventory/hand/hand = C.hud_used.hand_slots["[held_index]"]
 			if(hand)
-				hand.update_icon()
+				hand.update_hand_vis()
 		C.update_inv_gloves()
 
 	if(special) //non conventional limb attachment
@@ -445,23 +499,16 @@
 
 	update_bodypart_damage_state()
 
-	if(ishuman(C))
-		var/mob/living/carbon/human/H = C
-		H.body_overlay_cache_key = null
-		H.damage_overlay_cache_key = null
-		// Clear limb cache entries for both old and new states in an attempt to prevent orphaned aux_zone overlays >:/
-		var/old_key = H.icon_render_key
-		if(old_key)
-			H.limb_icon_cache -= old_key
-		H.icon_render_key = null
-		var/new_key = H.generate_icon_render_key()
-		H.limb_icon_cache -= new_key
-
 	if(organ_slowdown)
 		C.add_movespeed_modifier("[src.type]_slow", update=TRUE, priority=100, flags=NONE, override=FALSE, multiplicative_slowdown=organ_slowdown, movetypes=GROUND, blacklisted_movetypes=NONE, conflict=FALSE)
 	C.updatehealth()
-	C.queue_icon_update(PENDING_UPDATE_BODY | PENDING_UPDATE_HAIR | PENDING_UPDATE_DAMAGE)	
+	C.update_body()
+	C.update_hair()
+	C.update_damage_overlays()
 	C.update_mobility()
+	var/datum/hud/hud_used = C.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.rebuild_limbs()
 	return TRUE
 
 /obj/item/bodypart/head/attach_limb(mob/living/carbon/C, special)
@@ -524,3 +571,62 @@
 
 		L.attach_limb(src, 1)
 		return 1
+
+/// Grants or removes the overclock spell based on current prosthetic count
+/obj/item/bodypart/proc/sync_overclock_spell(mob/living/carbon/human/H)
+	if(!ishuman(H) || !H.mind)
+		return
+
+	var/has_prosthetic = FALSE
+	for(var/obj/item/bodypart/BP in H.bodyparts)
+		if(BP.is_prosthetic_limb())
+			has_prosthetic = TRUE
+			break
+
+	var/already_has_spell = H.mind.has_spell(/obj/effect/proc_holder/spell/invoked/overlock)
+
+	if(has_prosthetic && !already_has_spell)
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/overlock)
+		to_chat(H, span_notice("AS the prosthetic attachs I can feel I can push them beyond their limits if I focus."))
+	else if(!has_prosthetic && already_has_spell)
+		H.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/overlock)
+		H.remove_status_effect(/datum/status_effect/buff/overclock)
+		to_chat(H, span_warning("Without any prosthetics, I can no longer overclock them."))
+
+	
+//adding this in seperate to add the overclock skill if we add an attachment
+/obj/item/bodypart/attach_limb(mob/living/carbon/C, special)
+	. = ..()
+	if(!.)
+		return
+	if(!is_prosthetic_limb())
+		return
+	if(!ishuman(C))
+		return
+	var/mob/living/carbon/human/H = C
+	sync_overclock_spell(H)
+
+//we check each prosthetic on limb removal rather than organic limbs
+/obj/item/bodypart/l_arm/prosthetic/drop_limb(special)
+	var/mob/living/carbon/human/was_owner = owner
+	. = ..()
+	if(ishuman(was_owner))
+		sync_overclock_spell(was_owner)
+
+/obj/item/bodypart/r_arm/prosthetic/drop_limb(special)
+	var/mob/living/carbon/human/was_owner = owner
+	. = ..()
+	if(ishuman(was_owner))
+		sync_overclock_spell(was_owner)
+
+/obj/item/bodypart/l_leg/prosthetic/drop_limb(special)
+	var/mob/living/carbon/human/was_owner = owner
+	. = ..()
+	if(ishuman(was_owner))
+		sync_overclock_spell(was_owner)
+
+/obj/item/bodypart/r_leg/prosthetic/drop_limb(special)
+	var/mob/living/carbon/human/was_owner = owner
+	. = ..()
+	if(ishuman(was_owner))
+		sync_overclock_spell(was_owner)

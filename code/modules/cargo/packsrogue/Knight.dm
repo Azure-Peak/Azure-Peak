@@ -31,7 +31,7 @@
 /datum/supply_pack/rogue/Knight/mblkstelarmet
 	name = "Blacksteel Armet"
 	cost = 200
-	contains = list(/obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet)
+	contains = list(/obj/item/clothing/head/roguetown/helmet/blacksteel/modern)
 
 //////////
 // NECK //
@@ -118,7 +118,7 @@
 /datum/supply_pack/rogue/Knight/mblkplategaunt
 	name = "Blacksteel Plate Gauntlets"
 	cost = 100
-	contains = list(/obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves)
+	contains = list(/obj/item/clothing/gloves/roguetown/plate/blacksteel/modern)
 
 ///////////////
 // LEGS/FEET //
@@ -147,7 +147,7 @@
 /datum/supply_pack/rogue/Knight/mblkplateboots
 	name = "Blacksteel Plated boots"
 	cost = 80
-	contains = list(/obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots)
+	contains = list(/obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern)
 
 /////////////
 // WEAPONS //

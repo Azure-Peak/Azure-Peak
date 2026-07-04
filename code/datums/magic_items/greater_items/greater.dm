@@ -1,7 +1,10 @@
+#define PHOENIX_GUARD_COOLDOWN 60 SECONDS
+
 ///T3 Enchantmentsdatum
 /datum/magic_item/greater/lifesteal
 	name = "life steal"
 	description = "It seems bloodthirsty."
+	glow_color = "#8B0000"
 	var/last_used
 	var/flat_heal = 10
 	var/static/list/damage_heal_order = list(BRUTE, BURN, OXY)
@@ -39,6 +42,7 @@
 /datum/magic_item/greater/lightning
 	name = "lightning"
 	description = "It has small arcs of electricity dance across it"
+	glow_color = "#FFFF00"
 	var/list/last_used = list()
 
 /datum/magic_item/greater/lightning/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
@@ -49,25 +53,20 @@
 
 	if(isliving(target))
 		var/mob/living/L = target
-		L.Immobilize(0.5 SECONDS)
-		L.apply_status_effect(/datum/status_effect/debuff/clickcd, 6 SECONDS)
-		L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-		L.apply_status_effect(/datum/status_effect/buff/lightningstruck, 6 SECONDS)
+		L.lightning_shock(src)
 
 		for(var/mob/living/nearby in range(2, target))
 			if(nearby == target || nearby == user)
 				continue
 			if(prob(30))
-				nearby.Immobilize(0.5 SECONDS)
-				nearby.apply_status_effect(/datum/status_effect/debuff/clickcd, 6 SECONDS)
-				nearby.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-				nearby.apply_status_effect(/datum/status_effect/buff/lightningstruck, 6 SECONDS)
+				nearby.lightning_shock(src)
 				new /obj/effect/temp_visual/lightning(get_turf(target), get_turf(nearby))
 	last_used[source] = world.time
 
 /datum/magic_item/greater/frostveil
-	name = "frostveil"
+	name = "lesser freezing"
 	description = "It feels rather cold."
+	glow_color = "#87CEEB"
 	var/last_used
 
 /datum/magic_item/greater/frostveil/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
@@ -92,10 +91,11 @@
 /datum/magic_item/greater/phoenixguard
 	name = "phoenixguard"
 	description = "It gives off radiant heat."
+	glow_color = "#FF4500"
 	var/last_used
 
 /datum/magic_item/greater/phoenixguard/on_hit_response(var/obj/item/I, var/mob/living/carbon/human/owner, var/mob/living/carbon/human/attacker)
-	if(world.time < src.last_used + 20 SECONDS)
+	if(world.time < src.last_used + PHOENIX_GUARD_COOLDOWN)
 		return
 	if(isliving(attacker) && attacker != owner)
 		attacker.adjust_fire_stacks(5)
@@ -106,6 +106,7 @@
 /datum/magic_item/greater/woundclosing
 	name = "wound closing"
 	description = "It pulses with healing magick."
+	glow_color = "#A0E65C"
 	var/active_item = FALSE
 
 /datum/magic_item/greater/woundclosing/on_equip(var/obj/item/i, var/mob/living/user, slot)
@@ -127,6 +128,7 @@
 /datum/magic_item/greater/returningweapon
 	name = "returning weapon"
 	description = "It glows with arcane sigils."
+	glow_color = "#20B2AA"
 	var/active_item = FALSE
 
 /datum/magic_item/greater/returningweapon/on_equip(var/obj/item/i, var/mob/living/user, slot)
@@ -148,6 +150,7 @@
 /datum/magic_item/greater/archery
 	name = "archery"
 	description = "It has the imprint of a bowstring."
+	glow_color = "#DC143C"
 	var/active_item = FALSE
 	var/masterbow = FALSE
 	var/legendbow = FALSE
@@ -162,8 +165,8 @@
 	if(active_item)
 		return
 	else
-		//stat boost
-		user.change_stat(STATKEY_PER, 2)
+		//stat boost — indexed to prevent stacking
+		user.change_stat(STATKEY_PER, 2, "archery_enchant")
 
 		//Bow boost
 		if (user.get_skill_level(/datum/skill/combat/bows) == 6)
@@ -204,25 +207,25 @@
 /datum/magic_item/greater/archery/on_drop(var/obj/item/i, var/mob/living/user)
 	if(active_item)
 		active_item = FALSE
-		user.change_stat(STATKEY_PER, -2)
+		user.change_stat(STATKEY_PER, 0, "archery_enchant")
 		//correct bows
 		if (!legendbow)
 			if (masterbow)
-				user.adjust_skillrank(/datum/skill/combat/bows -1, TRUE)
+				user.adjust_skillrank(/datum/skill/combat/bows, -1, TRUE)
 			else
 				user.adjust_skillrank(/datum/skill/combat/bows, -2, TRUE)
 
 		//correct crossbows
 		if (!legendcrossbow)
 			if (mastercrossbow)
-				user.adjust_skillrank(/datum/skill/combat/crossbows -1, TRUE)
+				user.adjust_skillrank(/datum/skill/combat/crossbows, -1, TRUE)
 			else
 				user.adjust_skillrank(/datum/skill/combat/crossbows, -2, TRUE)
 
 		//correct slings
 		if (!legendsling)
 			if (mastersling)
-				user.adjust_skillrank(/datum/skill/combat/slings -1, TRUE)
+				user.adjust_skillrank(/datum/skill/combat/slings, -1, TRUE)
 			else
 				user.adjust_skillrank(/datum/skill/combat/slings, -2, TRUE)
 
@@ -231,6 +234,7 @@
 /datum/magic_item/greater/void
 	name = "void touched"
 	description = "It seems to absorb light around it, existing partially outside reality."
+	glow_color = "#9400D3"
 	var/list/last_used = list()
 
 /datum/magic_item/greater/void/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
@@ -250,3 +254,5 @@
 		if(possible_turfs.len)
 			L.forceMove(pick(possible_turfs))
 		last_used[source] = world.time
+
+#undef PHOENIX_GUARD_COOLDOWN

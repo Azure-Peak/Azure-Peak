@@ -9,7 +9,7 @@
 	display_order = 6
 	min_pq = 0
 	selection_color = JCOLOR_BURGHER
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	display_order = JDO_TAILOR
 	job_traits = list(TRAIT_SEWING_EXPERT)
 	outfit = /datum/outfit/job/roguetown/tailor
@@ -44,13 +44,14 @@
 		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/tailor/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/tights
-	belt = /obj/item/storage/belt/rogue/leather/cloth
+	belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltl = /obj/item/rogueweapon/huntingknife/scissors/steel
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
@@ -60,7 +61,10 @@
 		/obj/item/storage/keyring/tailor,
 		/obj/item/dye_brush,
 		/obj/item/recipe_book/sewing,
-		/obj/item/recipe_book/leatherworking
+		/obj/item/recipe_book/leatherworking,
+		/obj/item/mini_flagpole/tailor,
+		/obj/item/rogueweapon/hammer/wood,
+		/obj/item/storage/belt/rogue/pouch/tailorscrap,
 		)
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress
@@ -69,5 +73,31 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fittedclothing)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
-	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H) //There is a better way to do this, do I care for it - of course not.
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/naledisash)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/halfrobe)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/monkrobe)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/monkleather)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/desertgown)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/baggyleatherpants)//Naledi
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/otavangambeson)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/otavanleathergloves)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/otavanleatherpants)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/otavanboots)//Otavan
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/grenzelhat)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/grenzelshirt)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/grenzelgloves)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/grenzelpants)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/grenzelboots)//Grenzel
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/fencingbreeches)//Aanvr
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/openrobes)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/gronngloves)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/gronnpants)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/gronnboots)//Gronn
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/furlinedjacket)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/artipants)//Artificer
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/buckleshoes)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/winterjacket)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leatherunique/gladsandals)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/leather/unique/monkrobes)//Generic
+//All in all if you add mercenary / unique stuff to sewing make the tailor start with it.

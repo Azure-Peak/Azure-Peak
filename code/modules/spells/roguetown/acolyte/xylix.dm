@@ -7,7 +7,7 @@
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
-	range = 1
+	range = 7
 	no_early_release = TRUE
 	associated_skill = /datum/skill/magic/holy
 	recharge_time = 15 SECONDS
@@ -16,7 +16,7 @@
 	if(isobj(targets[1]))
 		var/obj/target = targets[1]
 		var/input_message = input(usr, "What shall [target] say?", src) as null|text
-		target.say("[input_message]")
+		target.say("[input_message]", language = /datum/language/common)
 		return TRUE
 	revert_cast()
 	return FALSE
@@ -31,7 +31,7 @@
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 0
-	range = 1
+	range = 3
 	no_early_release = TRUE
 	movement_interrupt = FALSE
 	chargedloop = /datum/looping_sound/invokeholy
@@ -40,6 +40,7 @@
 	recharge_time = 30 SECONDS
 	var/firstcast = TRUE
 	var/icon/clone_icon
+	ignore_combat_tag = TRUE
 
 /obj/effect/proc_holder/spell/invoked/mastersillusion/cast(list/targets, mob/living/carbon/human/user = usr)
 	if(firstcast)
@@ -88,74 +89,6 @@
 	name = copycat.name
 	
 
-/obj/effect/proc_holder/spell/invoked/mockery
-	name = "Vicious Mockery"
-	desc = "Mock your target, reducing their INT, SPD, STR and WIL for a time."
-	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
-	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
-	overlay_state = "mockery"
-	releasedrain = 50
-	associated_skill = /datum/skill/misc/music
-	recharge_time = 2 MINUTES
-	range = 7
-
-/obj/effect/proc_holder/spell/invoked/mockery/cast(list/targets, mob/user = usr)
-	playsound(get_turf(user), 'sound/magic/mockery.ogg', 40, FALSE)
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		if(target.anti_magic_check(TRUE, TRUE))
-			return FALSE
-		if(!target.can_hear()) // Vicious mockery requires people to be able to hear you.
-			revert_cast()
-			return FALSE
-		target.apply_status_effect(/datum/status_effect/debuff/viciousmockery)
-		SEND_SIGNAL(user, COMSIG_VICIOUSLY_MOCKED, target)
-		record_round_statistic(STATS_PEOPLE_MOCKED)
-		return TRUE
-	revert_cast()
-	return FALSE
-
-/obj/effect/proc_holder/spell/invoked/mockery/invocation(mob/user = usr)
-	if(ishuman(user))
-		switch(pick(1,2,3,4,5,6,7,8,9,10,11,12,13))
-			if(1)
-				user.say("Your mother was a Rous, and your father smelled of jacksberries!", forced = "spell")
-			if(2)
-				user.say("What are you going to do for a face when the Archdevil wants his arse back?!", forced = "spell")
-			if(3)
-				user.say("Wandought thine blades stand, much like thine loving parts!", forced = "spell")
-			if(4)
-				user.say("That's a face not even Eora could love!", forced = "spell")
-			if(5)
-				user.say("Your breath smells like raw butter and cheap beer!.", forced = "spell")
-			if(6)
-				user.say("I bite mine thumb, ser!", forced = "spell")
-			if(7)
-				user.say("But enough talk- have at thee!", forced = "spell")
-			if(8)
-				user.say("My grandmother fights better than you!", forced = "spell")
-			if(9)
-				user.say("Need you borrow mine spectacles? Come get them!", forced = "spell")
-			if(10)
-				user.say("How much sparring did it take to become this awful?!", forced = "spell")
-			if(11)
-				user.say("You may need a smith- for you seem ill-equipped for a battle of wits!", forced = "spell")
-			if(12)
-				user.say("Looks as if thou art PSY-DONE! No? Too soon? Alright.", forced = "spell")
-			if(13)
-				user.say("Ravox bring justice to your useless mentor, ser!", forced = "spell")
-
-/datum/status_effect/debuff/viciousmockery
-	id = "viciousmockery"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/viciousmockery
-	duration = 600 // One minute
-	effectedstats = list(STATKEY_STR = -1, STATKEY_SPD = -1,STATKEY_WIL = -1, STATKEY_INT = -3)
-
-/atom/movable/screen/alert/status_effect/debuff/viciousmockery
-	name = "Vicious Mockery"
-	desc = "<span class='warning'>THAT ARROGANT BARD! ARGH!</span>\n"
-	icon_state = "mockery"
-
 /obj/effect/proc_holder/spell/self/xylixslip
 	name = "Xylixian Slip"
 	desc = "Jumps you up to 3 tiles away."
@@ -172,6 +105,8 @@
 	recharge_time = 12 SECONDS
 	devotion_cost = 30
 	miracle = TRUE
+	range = 3
+	ignore_los = 1 // uses weird shit for range
 	var/leap_dist = 4	//3 tiles (+1 to account for origin tile)
 	var/static/list/sounds = list('sound/magic/xylix_slip1.ogg','sound/magic/xylix_slip2.ogg','sound/magic/xylix_slip3.ogg','sound/magic/xylix_slip4.ogg')
 
@@ -363,6 +298,7 @@
 	gesture_required = FALSE // Slippery
 	devotion_cost = 100
 	miracle = TRUE
+	ignore_los = TRUE
 	var/area_of_effect = 1
 	var/max_range = 4
 	var/turf/destination_turf
@@ -553,7 +489,7 @@
 
 /obj/effect/proc_holder/spell/invoked/vendetta
 	name = "Vendetta"
-	desc = "Cast upon your foe a Vendetta, your battle will be dramatic. Both you and your opponent will clash more dramaically for the next two minutes."
+	desc = "Cast upon your foe a Vendetta, your battle will be dramatic. Both you and your opponent will clash more dramatically for the next two minutes."
 	overlay_icon = 'icons/mob/actions/xylixmiracles.dmi'
 	action_icon = 'icons/mob/actions/xylixmiracles.dmi'
 	overlay_state = "vendetta"
@@ -616,8 +552,8 @@
 	overlay_state = "tipscale"
 	releasedrain = 10
 	chargedrain = 0
-	chargetime = 1 SECONDS
-	range = 1
+	chargetime = 1 SECONDS // moodnuke shouldnt be off screen
+	range = 5
 	no_early_release = TRUE
 	movement_interrupt = TRUE
 	chargedloop = /datum/looping_sound/invokeholy

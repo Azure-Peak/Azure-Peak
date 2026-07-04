@@ -32,7 +32,7 @@
 	emote_taunt = list("howls")
 	speak_emote = list("clatters")
 
-	faction = list("mimic", "hostile")
+	faction = list(FACTION_MIMIC, FACTION_HOSTILE)
 	stop_automated_movement = 1
 	wander = 0
 	stat_attack = UNCONSCIOUS
@@ -53,13 +53,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	if(mapload)//load objects into chest.
 		for(var/obj/item/I in loc)
 			I.forceMove(src)
 	name = mimicking_chest::name
 	icon = mimicking_chest::icon
 	icon_state = mimicking_chest::icon_state
-	AddComponent(/datum/component/anti_magic, TRUE, TRUE, TRUE, null, null, FALSE)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/examine(mob/user)
 	if(aggressive)

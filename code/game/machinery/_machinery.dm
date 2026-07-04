@@ -18,9 +18,6 @@
 	var/speed_process = FALSE // Process as fast as possible?
 
 	var/interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_SET_MACHINE
-	var/fair_market_price = 69
-	var/market_verb = "Customer"
-	var/payment_department = ACCOUNT_ENG
 
 	var/climb_time = 0
 	var/climb_stun = 0
@@ -292,15 +289,23 @@
 		. = step(A,get_dir(A,src.loc))
 		density = TRUE
 
+// Mirrors /obj/structure: A* may path through a climbable dense machinery (hearth, etc.).
+// Without this, A* routes around climbable machinery and the climb-on-step-fail fallback never fires.
+/obj/machinery/CanAStarPass(ID, to_dir, caller)
+	. = climbable || ..()
+
 /obj/machinery/proc/climb_structure(mob/living/user)
 	src.add_fingerprint(user)
 	var/adjusted_climb_time = climb_time
 	if(user.restrained()) //climbing takes twice as long when restrained.
 		adjusted_climb_time *= 2
+	if(!ishuman(user))
+		adjusted_climb_time = 0 //simple mobs instantly climb
 	adjusted_climb_time -= user.STASPD * 2
 	adjusted_climb_time = max(adjusted_climb_time, 0)
 
 	structureclimber = user
+	user.mid_climb = TRUE
 	if(do_mob(user, user, adjusted_climb_time))
 		if(src.loc) //Checking if structure has been destroyed
 			if(do_climb(user))
@@ -314,4 +319,5 @@
 				. = 1
 			else
 				to_chat(user, "<span class='warning'>I fail to climb onto [src].</span>")
+	user.mid_climb = FALSE
 	structureclimber = null

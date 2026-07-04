@@ -3,7 +3,7 @@
 	name = "spellsinger robes"
 	desc = "A set of reinforced, leather-padded robes worn by spellblades."
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	armor_class = ARMOR_CLASS_LIGHT
 	icon_state = "spellcasterrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
@@ -15,16 +15,16 @@
 
 /obj/item/clothing/suit/roguetown/armor/basiceast
 	name = "simple dobo robe"
-	desc = "A dirty dobo robe with white lapels. Can be upgraded through the use of a tailor to increase its integrity and protection."
+	desc = "An eastern-style dōbō robe with white lapels. Its fabric is said to be folded and woven a thousand times to turn aside cuts and stabs alike, though it is notoriously prone to unraveling beneath heavy blunt force."
 	icon_state = "eastsuit3"
 	item_state = "eastsuit3"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_PADDED
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
 	blocksound = SOFTHIT
-	blade_dulling = DULLING_BASHCHOP
 	sewrepair = TRUE
 	nodismemsleeves = TRUE
 	sellprice = 20
@@ -40,42 +40,47 @@
 
 /obj/item/clothing/suit/roguetown/armor/basiceast/crafteast
 	name = "decorated dobo robe"
-	desc = "A dobo robe with a red tassel. Leather inlays are sewn in. It looks sturdier than a simple robe."
+	desc = "An eastern-style dōbō robe adorned with a crimson tassel. Its layered fabric seems reinforced by carefully sewn leather inlays along the chest, sleeves, and waist. Though retaining the flowing silhouette of a traditional robe, its construction is unmistakably martial. Heavier, tougher, and made to last more than ceremony or travel. It stands notably sturdier than your average dōbō."
 	icon_state = "eastsuit2"
 	item_state = "eastsuit2"
-	armor = ARMOR_LEATHER_STUDDED // Makes it the equivalence of studded with less integrity and better armor 
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
 //craftable variation of eastsuit, essentially requiring the presence of a tailor with relevant materials
 //still weak against blunt
 
 /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit
 	name = "old dobo robe"
-	desc = "The scars on your body were once stories of strength and bravado."
+	desc = "A timeworn dōbō robe, faded by years of battle, travel, and discipline. Though plain and carefully mended, it bears the quiet dignity of an old master."
 	icon_state = "eastsuit1"
 	item_state = "eastsuit1"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
-	armor = ARMOR_LEATHER_STUDDED 
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
+/obj/item/clothing/suit/roguetown/armor/plate/full/dwarven
+	name = "grudgebearer dwarven plate"
+	desc = "A sturdy set of dwarven plate armor, forged in the old ways. It cannot be worked on without intrinsic dwarven knowledge."
+	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
+	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
+	icon_state = "dwarfchest"
+	item_state = "dwarfchest"
+	smelt_bar_num = 4
 
-/obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe
-	name = "foreign robes"
-	desc = "Flower-styled robes, said to have been infused with magical protection. The Merchant Guild says that this is from the southern Kazengite region."
-	icon_state = "eastsuit4"
-	item_state = "eastsuit4"
-	armor = ARMOR_LEATHER_STUDDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 25 // Head Honcho gets a buff
-	sellprice = 25
-
-// this robe spawns on a role that offers no leg protection nor further upgrades to the loadout, in exchange for better roundstart gear
+/obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/smith
+	name = "grudgebearer splint apron"
+	desc = "A mixture of plate and maille, worn by dwarven smiths. It cannot be worked on without intrinsic dwarven knowledge."
+	icon_state = "dsmithchest"
+	item_state = "dsmithchest"
+	armor_class = ARMOR_CLASS_MEDIUM
+	body_parts_covered = CHEST|GROIN|VITALS|LEGS
+	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
+	smelt_bar_num = 3
 
 /obj/item/clothing/suit/roguetown/armor/plate/elven_plate
 	name = "woad elven plate"
-	desc = "Woven by song and tool of the oldest elven druids. It still creaks and weeps with forlorn reminiscence of a bygone era. It looks like only Elves can fit in it."
-	allowed_race = list(/datum/species/elf/wood, /datum/species/human/halfelf, /datum/species/elf/dark, /datum/species/elf)
+	desc = "An assembly of thickly woven trunk, bound together by ancient song and tool of the oldest elven druids. It still creaks and weeps with forlorn reminiscence of a bygone era. It looks like only Elves can fit in it."
+	allowed_race = list(/datum/species/elf/wood, /datum/species/human/halfelf, /datum/species/elf/dark)
 	armor = ARMOR_BLACKOAK
-	prevent_crits = PREVENT_CRITS_ALL
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
@@ -85,8 +90,16 @@
 	smeltresult = /obj/item/rogueore/coal
 	smelt_bar_num = 4
 	blocksound = SOFTHIT
-	armor_class = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/suit/roguetown/armor/plate/elven_plate/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_WOOD_ARMOR, 10)
+
+/obj/item/clothing/suit/roguetown/armor/plate/elven_plate/light
+	name = "woad elven maille"
+	desc = "An assembly of woven trunk, bound together by ancient song and tool of the oldest elven druids. It still creaks and weeps with forlorn reminiscence of a bygone era. It looks like only Elves can fit in it."
+	icon_state = "welfchestalt"
+	item_state = "welfchestalt"
+	armor_class = ARMOR_CLASS_LIGHT
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //-27 % durability hit
+	body_parts_covered = CHEST | VITALS | LEGS

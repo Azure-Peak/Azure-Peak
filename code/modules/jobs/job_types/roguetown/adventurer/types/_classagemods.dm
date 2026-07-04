@@ -2,7 +2,9 @@
 	var/target_age = null
 	var/list/stat_mods = list()
 	var/list/skill_mods = list()
-	var/sp_mod = 0
+	var/list/traits_added = list()
+	var/minor_mod = 0
+	var/utility_mod = 0
 
 /datum/class_age_mod/proc/apply_age_mod(mob/living/carbon/human/H)
 	if(H.age == target_age)
@@ -13,8 +15,16 @@
 			for(var/S in skill_mods)
 				var/datum/skill/skill = S
 				H.adjust_skillrank_up_to(skill, skill_mods[S], TRUE)
-		if(sp_mod)
-			H.mind?.adjust_spellpoints(sp_mod)
+		if(length(traits_added))
+			for(var/trait in traits_added)
+				ADD_TRAIT(H, trait, TRAIT_GENERIC)
+		if(LAZYLEN(H.mind?.mage_aspect_config))
+			if(minor_mod)
+				H.mind.mage_aspect_config["minor"] += minor_mod
+			if(utility_mod)
+				H.mind.mage_aspect_config["utilities"] += utility_mod
+			if(minor_mod || utility_mod)
+				H.mind.check_learnspell()
 
 /datum/class_age_mod/proc/get_preview_string()
 	if(!target_age)
@@ -30,8 +40,10 @@
 			var/datum/skill/skill = S
 			str += "<br><font color ='#ad9152'>[initial(skill.name)] — [SSskills.level_names[skill_mods[S]]]</font>"
 		str += "<br><font color ='#7a4d0a'>-----</font>"
-	if(sp_mod)
-		str += "<br><font color = '#4b4f7c'>Additional Spellpoints: <b>[sp_mod]</b></font>"
+	if(minor_mod)
+		str += "<br><font color = '#a3a7e0'>Additional Minor Aspects: <b>[minor_mod]</b></font>"
+	if(utility_mod)
+		str += "<br><font color = '#a3a7e0'>Additional Utility Points: <b>[utility_mod]</b></font>"
 
 	return str
 
@@ -51,12 +63,24 @@
 
 //--- WRETCHES ---
 
+/datum/class_age_mod/wretch/maestro
+	target_age = AGE_OLD
+	skill_mods = list(
+		/datum/skill/misc/reading  = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/music = SKILL_LEVEL_LEGENDARY,
+	)
+	stat_mods = list(
+		STATKEY_LCK = 1,
+		STATKEY_WIL = 1,
+	)
+
 /datum/class_age_mod/wretch/rogue_mage
 	target_age = AGE_OLD
 	skill_mods = list(
 		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER
 	)
-	sp_mod = 6 
+	minor_mod = 1
+	utility_mod = 3
 
 // --- VETERAN ---
 /datum/class_age_mod/veteran
@@ -148,7 +172,7 @@
 		STATKEY_STR = -1,
 		STATKEY_SPD = -1,
 	)
-	sp_mod = 3
+	utility_mod = 3
 
 /datum/class_age_mod/hand_spymaster
 	target_age = AGE_OLD
@@ -168,7 +192,16 @@
 		STATKEY_INT = 1,
 		STATKEY_SPD = -1
 	)
-	sp_mod = 6
+	minor_mod = 1
+	utility_mod = 3
+
+/datum/class_age_mod/pontifex
+	target_age = AGE_OLD
+	utility_mod = 6
+
+/datum/class_age_mod/vizier
+	target_age = AGE_OLD
+	utility_mod = 6
 
 /datum/class_age_mod/apprentice_associate
 	target_age = AGE_OLD
@@ -179,19 +212,20 @@
 		STATKEY_INT = 1,
 		STATKEY_SPD = -1
 	)
-	sp_mod = 6
+	minor_mod = 1
+	utility_mod = 3
 
 /datum/class_age_mod/apprentice_apprentice
 	target_age = AGE_OLD
 	skill_mods = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN
 	)
 	stat_mods = list(
 		STATKEY_INT = 1,
 		STATKEY_SPD = -1
 	)
-	sp_mod = 3
+	minor_mod = 1
+	utility_mod = 3
 
 /datum/class_age_mod/apprentice_alchemist
 	target_age = AGE_OLD
@@ -215,14 +249,28 @@
 		STATKEY_STR = -1,
 		STATKEY_CON = -2
 	)
-	sp_mod = 3
+	minor_mod = 1
+	utility_mod = 3
 
 /datum/class_age_mod/adv_mage
 	target_age = AGE_OLD
 	skill_mods = list(
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT
 	)
-	sp_mod = 6
+	minor_mod = 1
+	utility_mod = 3
+
+/datum/class_age_mod/mystic
+	target_age = AGE_OLD
+	skill_mods = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN
+	)
+	stat_mods = list(
+		STATKEY_INT = 1,
+		STATKEY_SPD = -1,
+	)
+	minor_mod = 1
+	utility_mod = 2
 
 /datum/class_age_mod/exorcist
 	target_age = AGE_OLD
@@ -231,13 +279,17 @@
 		STATKEY_CON = -2,
 	)
 	skill_mods = list(
+		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 	)
+	//It says in warrior.dm that exorcist should get Expert only in knives and their selected weapon, but it actually gives it to EVERY weapon skill..? Not sure if it needs fixing.
 
 /datum/class_age_mod/barber_surgeon
 	target_age = AGE_OLD
@@ -260,6 +312,7 @@
 		STATKEY_INT= 1,
 		STATKEY_SPD = -1
 	)
+	minor_mod = 1
 
 /datum/class_age_mod/druid
 	target_age = AGE_OLD
@@ -336,7 +389,8 @@
 		STATKEY_INT = 1,
 		STATKEY_SPD = -1
 	)
-	sp_mod = 3
+	minor_mod = 1
+	utility_mod = 3
 
 /datum/class_age_mod/innkeeper
 	target_age = AGE_OLD
@@ -366,7 +420,8 @@
 		STATKEY_INT = 1,
 		STATKEY_SPD = -1
 	)
-	sp_mod = 6
+	minor_mod = 1
+	utility_mod = 3
 
 /datum/class_age_mod/court_physician
 	target_age = AGE_OLD

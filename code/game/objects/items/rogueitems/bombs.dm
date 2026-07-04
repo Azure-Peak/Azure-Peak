@@ -4,16 +4,23 @@
 	desc = "A fiery explosion waiting to be coaxed from its glass prison."
 	icon_state = "bbomb"
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_NORMAL
+	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.5
+	flags_ai_inventory = AI_ITEM_THROWING
 	var/fuze = null
 	var/lit = FALSE
 	var/prob2fail = 5
 	var/PVE_damage = 160
+	var/spawn_shard = TRUE
 	grid_width = 32
 	grid_height = 64
+
+/obj/item/bomb/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click with a torch, lamptern, flint, or another ignitioneer to light its fuse. Alternatively, the fuse can be lit by using it on a hearth, brazier, scone, or another source of ignition.")
+	. += span_info("Once lit, most bombs will detonate after a very short period of time.")
 
 /obj/item/bomb/Initialize()
 	..()
@@ -66,9 +73,13 @@
 	qdel(src)
 	playsound(T, 'sound/items/firesnuff.ogg', 100)
 	for(var/mob/living/target in range(1, T))
-		if(!target.mind || istype(target, /mob/living/simple_animal))
-			target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
-	new /obj/item/natural/glass_shard(T)
+		if(istype(target, /mob/living/simple_animal))
+			var/mob/living/simple_animal/SA = target
+			if(SA.can_buckle) // rideable/saddleborn animals are excluded
+				continue
+			target.adjustFireLoss(PVE_damage)
+	if(spawn_shard)
+		new /obj/item/natural/glass_shard(T)
 	explosion(T, light_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 	return TRUE
 
@@ -124,6 +135,9 @@
 		span_notice("I finish setting up [trip]. I can extend it by one step longer.")
 	)
 	return
+
+/obj/item/bomb/noshard
+	spawn_shard = FALSE
 
 /obj/item/bomb/tripbomb
 	name = "trip bomb"
@@ -246,7 +260,7 @@
 	desc = "A soft sphere with an alchemical mixture and a dispersion mechanism hidden inside. Any pressure will detonate it."
 	icon_state = "smokebomb"
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_NORMAL
+	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.5
@@ -407,7 +421,9 @@
 
 /obj/item/satchel_bomb
 	name = "blastpowder satchel"
-	desc = "A bewicked satchel, stuffed with a multitude of explosive-filled sticks. Too heavy to throw, and too powerful to withstand - for nothing but dust and echoes will remain, once the shockwave abates."
+	desc = "A bewicked satchel, stuffed with a multitude of explosive-filled sticks. Too heavy to throw, and too powerful to withstand - for nothing but dust and echoes will remain, once \
+	the shockwave abates. </br>'When the fuse reaches its zenith, the blastpowder will detonate. The explosion will generate a temperature of almost one hundred million thermes. Don't be \
+	here when it blows.'"
 	icon_state = "satchel_bomb"
 	var/lit_state = "satchel_bomb-lit"
 	icon = 'icons/roguetown/items/misc.dmi'
@@ -420,6 +436,27 @@
 	var/lit = FALSE
 	var/prob2fail = 1 
 	var/PVE_damage = 300
+	grid_width = 256
+	grid_height = 256
+
+//admin only mega bomb, should never be made craftable
+/obj/item/satchel_bomb/mega
+	name = "mega blastpowder satchel"
+	desc = "An overfilled satchel of blastpowder originally made by Lubbin Bleat, Otava's famed sheep-kin bathhouse attendant and ruler of the slumberbeat.. \
+	</br>This bomb has been outlawed by all of Psydonia's kingdoms, and labled as a threat by both the Churches of the Pantheon and Orthodoxy. \
+	</br> <font color='FF0000'>IF YOU SEE A LIT WICK, YOU BEST RUN AWAY QUICK!</font>"
+	icon_state = "satchel_bomb"
+	lit_state = "satchel_bomb-lit"
+	icon = 'icons/roguetown/items/misc.dmi'
+	w_class = WEIGHT_CLASS_BULKY 
+	dropshrink = 5
+	throwforce = 0
+	throw_range = 1
+	throw_speed = 0.3
+	fuze = 50
+	lit = FALSE
+	prob2fail = 0 
+	PVE_damage = 500
 	grid_width = 256
 	grid_height = 256
 
@@ -465,14 +502,22 @@
 			if(!skipprob && prob(prob2fail))
 				snuff()
 			else
-				for(var/mob/living/target in range(3, T))
-					if(!target.mind || istype(target, /mob/living/simple_animal))
+				if (istype(src, /obj/item/satchel_bomb/mega)) //removing restrictions, may the gods have mercy on you all
+					for(var/mob/living/target in range(3, T))
 						target.adjustFireLoss(PVE_damage) //summary 500
-				for(var/mob/living/target in range(8, T))
-					if(!target.mind || istype(target, /mob/living/simple_animal))
+					for(var/mob/living/target in range(8, T))
 						target.adjustFireLoss(PVE_damage - 100)
-				explosion(T, devastation_range = 2, heavy_impact_range = 3, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
-				qdel(src)
+					explosion(T, devastation_range = 10, heavy_impact_range = 15, light_impact_range = 40, adminlog = TRUE, ignorecap = TRUE, flame_range = 10, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg')) //5 times the size
+					qdel(src)
+				else
+					for(var/mob/living/target in range(3, T))
+						if(!target.mind || istype(target, /mob/living/simple_animal))
+							target.adjustFireLoss(PVE_damage) //summary 500
+					for(var/mob/living/target in range(8, T))
+						if(!target.mind || istype(target, /mob/living/simple_animal))
+							target.adjustFireLoss(PVE_damage - 100)
+					explosion(T, devastation_range = 2, heavy_impact_range = 3, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+					qdel(src)
 
 		else
 			if(prob(prob2fail))
@@ -610,7 +655,7 @@
 		for(var/mob/living/target in range(2, T))
 			if(!target.mind || istype(target, /mob/living/simple_animal))
 				target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
-		explosion(T, heavy_impact_range = 1, light_impact_range = 2, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+		explosion(T, heavy_impact_range = 1, light_impact_range = 3, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 		qdel(src)
 
 /obj/item/smokeshell
@@ -633,7 +678,6 @@
 	var/datum/effect_system/smoke_spread/smoke_type = /datum/effect_system/smoke_spread
 	grid_width = 32
 	grid_height = 32
-
 
 /obj/item/impact_grenade/smoke/explodes()
 	var/turf/T = get_turf(src)

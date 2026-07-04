@@ -4,13 +4,16 @@
 /datum/species/vulpkanin		//These should technically not exist, but completely exploding people's savefiles is too high a price to pay for some minor race bloat.
 	name = "Venardine"
 	id = "vulpkanin"
-	desc = "<b>Venardine</b><br>\
-	Based on the writings of the living Fietje von Zenitstadt: A subspecies of the more common \"Lupian\", found almost exclusively in thick forests.\
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/grenzelhoft
+	origin = "Grenzelhoft"
+	base_name = "Beastvolk"
+	desc_title = "Venardine"
+	desc = "Based on the writings of the living Fietje von Zenitstadt: A subspecies of the more common \"Lupian\", found almost exclusively in thick forests.\
 	They are usually shorter and meeker, but in turn more perceptive than their Volf-like brethren. \
 	Their name is quite obvious, coming from the Venards they closely resemble. \
 	Venardines are often much more solitary than Lupians, lacking the fervent pack mentality of their parent race. \
-	To this dae, their origin is heavily disputed by few archivists across Psydonia - though the rest, perhaps for sanity's sake, consider them to be just Lupians.<br>\
-	(+1 Perception, +1 Intelligence)"
+	To this dae, their origin is heavily disputed by few archivists across Psydonia - though the rest, perhaps for sanity's sake, consider them to be just Lupians."
 	default_color = "444"
 	species_traits = list(
 		MUTCOLORS,
@@ -99,6 +102,9 @@
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
 		/datum/body_marking/gradient,
+		/datum/body_marking/waist,
+		/datum/body_marking/womb_tattoo,
+		/datum/body_marking/butterfly
 	)
 	descriptor_choices = list(
 		/datum/descriptor_choice/trait,

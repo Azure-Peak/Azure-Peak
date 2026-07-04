@@ -8,7 +8,7 @@
 			grabstate = l_grab.grab_state
 	return grabstate
 
-/proc/do_thrust_animate(atom/movable/user, atom/movable/target, datum/sex_session/sex_session, pixels = 4, time = 2.7)
+/proc/do_thrust_animate(atom/movable/user, atom/movable/target, pixels = 4, time = 2.7)
 	var/oldx = user.pixel_x
 	var/oldy = user.pixel_y
 	var/target_x = oldx
@@ -36,23 +36,6 @@
 	// thirty five yils without a jinglejob...
 	SEND_SIGNAL(user, COMSIG_SEX_JOSTLE, target)
 	SEND_SIGNAL(target, COMSIG_SEX_JOSTLE, user)
-
-	if(sex_session?.bed && sex_session?.force > SEX_FORCE_MID)
-		if(QDELETED(sex_session.bed))
-			sex_session.find_bed()
-		if(QDELETED(sex_session.bed))
-			return
-		oldy = sex_session.bed.pixel_y
-		target_y = oldy-1
-		time /= 2
-		animate(sex_session.bed, pixel_y = target_y, time = time)
-		animate(pixel_y = oldy, time = time)
-		if(sex_session.target_on_bed && target)
-			oldy = target.pixel_y
-			target_y = oldy-1
-			animate(target, pixel_y = target_y, time = time)
-			animate(pixel_y = oldy, time = time)
-		sex_session.bed.damage_bed(sex_session.force > SEX_FORCE_HIGH ? 0.5 : 0.25)
 
 /mob/living/proc/start_sex_session(mob/living/target)
 	if(!target)
@@ -140,9 +123,6 @@
 /mob/living/carbon/human/has_hands() // technically should be an and but i'll replicate original behavior
 	return get_bodypart(BODY_ZONE_L_ARM) || get_bodypart(BODY_ZONE_R_ARM)
 
-/mob/living/carbon/human/Initialize()
-	. = ..()
-	AddComponent(/datum/component/arousal)
 
 /mob/living/proc/return_character_information()
 	var/list/data = list()

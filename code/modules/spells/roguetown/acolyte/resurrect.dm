@@ -1,5 +1,9 @@
 /obj/effect/proc_holder/spell/invoked/resurrect
 	name = "Anastasis"
+	desc = "Resurrects the chosen target, bringing them back from the dead. </br>Depending on the patron, there might be supplementary requirements or caveats that \
+	come with resurrecting the chosen target. </br>Casting this on an undead or unholy target will smite them with explosive results. </br>Depending on how far gone \
+	the spirit is, the 'Anastasis' blessing might need to be casted multiple times before successfully resurrecting them. </br>Unlike a regular Healing miracle, this \
+	can affect - and resurrect - devout Psydonians as well."
 	overlay_state = "revive"
 	releasedrain = 90
 	chargedrain = 0
@@ -24,6 +28,8 @@
 	var/debuff_type = /datum/status_effect/debuff/revived
 	var/structure_range = 1
 	var/harms_undead = TRUE
+	var/zizo = FALSE
+	var/matthios = FALSE
 	priest_excluded = TRUE
 
 /obj/effect/proc_holder/spell/invoked/resurrect/start_recharge()
@@ -49,41 +55,45 @@
 			to_chat(user, span_warning("[validation_result] on the floor next to or on top of [target]."))
 			revert_cast()
 			return FALSE
+		if(!zizo)
+			var/found_structure = FALSE
+			var/list/search_area = oview(structure_range, target)
 
-		var/found_structure = FALSE
-		var/list/search_area = oview(structure_range, target)
+			for(var/atom/A in search_area)
+				// Check if the atom itself is the required structure type
+				if(istype(A, required_structure))
+					found_structure = TRUE
+					break
 
-		for(var/atom/A in search_area)
-			// Check if the atom itself is the required structure type
-			if(istype(A, required_structure))
-				found_structure = TRUE
-				break
+				if(istype(A, /turf))
+					var/turf/T = A
+					for(var/obj/O in T.contents)
+						if(istype(O, required_structure))
+							found_structure = TRUE
+							break // Found it in the turf, no need to check further
+				if(found_structure)
+					break
 
-			if(istype(A, /turf))
-				var/turf/T = A
-				for(var/obj/O in T.contents)
-					if(istype(O, required_structure))
-						found_structure = TRUE
-						break // Found it in the turf, no need to check further
-			if(found_structure)
-				break
-
-		if(!found_structure)
-			var/atom/temp_structure = required_structure
-			to_chat(user, span_warning("I need a holy [initial(temp_structure.name)] near [target]."))
-			revert_cast()
-			return FALSE
+			if(!found_structure)
+				var/atom/temp_structure = required_structure
+				to_chat(user, span_warning("I need a holy [initial(temp_structure.name)] near [target]."))
+				revert_cast()
+				return FALSE
 		if(!target.check_revive(user))
 			revert_cast()
 			return FALSE
+
 		if(target.mob_biotypes & MOB_UNDEAD && harms_undead) //positive energy harms the undead
-			target.visible_message(
-				span_danger("[target] is unmade by divine magic!"), 
-				span_userdanger("I'm unmade by divine magic!")
-			)
-			target.gib()
+			if(alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", "PURGE THE UNCLEAN!", "Stop") != "PURGE THE UNCLEAN!")
+				to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
+				revert_cast()
+				return FALSE
+			target.visible_message(span_danger("[target] is unmade by divine magic!"), span_userdanger("Holy power tears my undead form apart!"))
+			playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
+			target.dust()
 			return TRUE
-		if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+
+		if(alert(target, "They are calling for you. Are you ready?", "TEETERING BETWEEN PARADISE AND PERDITION.", "I need to wake up!", "Don't let me go..") != "I need to wake up!")
 			target.visible_message(span_notice("Nothing happens. They are not being let go."))
 			return FALSE
 		target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
@@ -111,18 +121,44 @@
 			target.apply_status_effect(debuff_type)	//Temp debuff on revive, your stats get hit temporarily. Doubly so if having rotted.
 		//Due to an increased cost and cooldown, these revival types heal quite a bit.
 		target.apply_status_effect(/datum/status_effect/buff/healing, 14)
+		addtimer(CALLBACK(src, PROC_REF(deathmark), target), 5 MINUTES)
 		consume_items(target)
 		return TRUE
 	revert_cast()
 	return FALSE
 
-/obj/effect/proc_holder/spell/invoked/resurrect/cast_check(skipcharge = 0,mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/resurrect/proc/deathmark(mob/living/victim)
+	if(victim.stat != DEAD)
+		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark in question. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
+		victim.play_permadeath_indicator()
+		to_chat(victim, span_danger("You suddenly feel a deathly chill from within, as the lux begins to creep across your heart once more. The thread betwixt your soul and body remains thin; to succumb again so soon would ensure its total severance."))
+
+/obj/effect/proc_holder/spell/invoked/resurrect/cast_check(skipcharge, mob/user = usr)
 	if(!..())
 		to_chat(user, span_warning("The miracle fizzles."))
 		return FALSE
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/resurrect/proc/validate_items(atom/center)
+	// Zizo revivals require nearby bleeding sacrifice instead of items
+	if(zizo)
+		for(var/mob/living/L in range(1, center))
+			if(L == center)
+				continue
+			if(QDELETED(L))
+				continue
+			if(L.stat == DEAD)
+				continue
+
+			if(L.get_bleed_rate() > 0)
+				return ""
+
+		return "A living, bleeding victim"
+
+	if(matthios)
+	// Matthios revivals will drain mammon actively now
+		return ""
+
 	var/list/current_required_items = get_current_required_items()
 	var/list/available_items = list()
 	var/list/missing_items = list()
@@ -140,14 +176,14 @@
 		if(have < needed) {
 			var/obj/item/I = item_type
 			var/amount_needed = needed - have
-			missing_items += "[amount_needed] [initial(I.name)][amount_needed > 1 ? "s" : ""] "
+			missing_items += "[amount_needed] [initial(I.name)][amount_needed > 1 ? "s" : ""]"
 		}
 
 	if(length(missing_items))
 		var/string = ""
 		for(var/item in missing_items)
-			string += item 
-		return "Missing components: [string]."
+			string += item
+		return "Missing components: [string]"
 	return ""
 
 /obj/effect/proc_holder/spell/invoked/resurrect/proc/consume_items(atom/center)
@@ -163,14 +199,15 @@
 				qdel(I)
 
 /obj/effect/proc_holder/spell/invoked/resurrect/abyssor
-	name = "Abyssal Revival"
-	desc = "Revive the target at a cost, cast on yourself to check.<br>a dreamfiend will stalk the target and sap their stats until confronted by them."
+	name = "Abyssal Rite of Anastasis"
+	desc = "Resurrects the chosen target, bringing them back from the dead. </br>Unlike the 'Anastasis' blessing, this requires a certain type of fish to cast. Cast \
+	the blessing on yourself to check what's needed. </br>The resurrected target will not be brought back, alone; a fierce dreamfriend will be tethered to their spirit, \
+	stalking and sapping their strength. Slaying this dreamfiend will fully restore their strength. </br>Unlike a regular Healing miracle, this can affect - and resurrect - devout Psydonians as well."
 	sound = 'sound/magic/whale.ogg'
-	//A medley of common ocean fish, totalling 10
+	//A medley of common ocean fish, totalling 6
 	required_items = list(
-		/obj/item/reagent_containers/food/snacks/fish/sole = 3,
-		/obj/item/reagent_containers/food/snacks/fish/cod = 3,
-		/obj/item/reagent_containers/food/snacks/fish/bass = 2,
+		/obj/item/reagent_containers/food/snacks/fish/sole = 2,
+		/obj/item/reagent_containers/food/snacks/fish/cod = 2,
 		/obj/item/reagent_containers/food/snacks/fish/plaice = 1,
 		/obj/item/reagent_containers/food/snacks/fish/lobster = 1,
 	)
@@ -181,7 +218,8 @@
 	debuff_type = /datum/status_effect/debuff/dreamfiend_curse
 	//This will be Abyssor's statue soon.
 	required_structure = /turf/open/water/ocean
-	overlay_state = "terrors"
+	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
 
 /datum/status_effect/debuff/dreamfiend_curse
 	id = "dreamfiend_curse"
@@ -235,7 +273,9 @@
 /obj/effect/proc_holder/spell/invoked/summon_dreamfiend_curse
 	name = "Confront Terror"
 	desc = "Summon the dreamfiend haunting you to confront it directly"
-	overlay_state = "terrors"
+	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_state = "revive"
 	chargetime = 0
 	invocations = list(span_danger("begins to smell of saltwater. You can hear waves crashing nearby..."))
 	invocation_type = "emote"
@@ -331,7 +371,9 @@
 /obj/effect/proc_holder/spell/invoked/resurrect/xylix
 	//Cheap, but wildly unpretictable with possibly far worse effects than other methods.
 	name = "Anastasis?"
-	desc = "Revives the target? Grants them a random debuff from other revivals, small change to be worse or better."
+	desc = "Resurrects the chosen target, bringing them back from the dead. Side effects may include crippling weaknesses from other godly rites, ending up \
+	butt-naked in the middle of the kingdom's throne room, and much, much, more. </br>Unlike a regular Healing miracle, \
+	this can affect - and resurrect - devout Psydonians as well."
 	debuff_type = /datum/status_effect/debuff/random_revival
 	alt_required_items = list(
 		/obj/item/clothing/neck/roguetown/psicross/wood = 1
@@ -416,7 +458,7 @@
 
 /atom/movable/screen/alert/status_effect/random_revival
 	name = "Strange Aftereffects"
-	desc = "The revival has left you with unexpected consequences..."
+	desc = "The revival has left you with unexpected consequences.."
 
 //Dendor, Malum, Ravox, Noc
 //Fairly generic for now, I might give these more unique effects later!
@@ -434,7 +476,7 @@
 
 /atom/movable/screen/alert/status_effect/malum_revival
 	name = "Malum's Burden"
-	desc = "Your body feels heavy and slow to recover."
+	desc = "Your body feels heavy and slow to recover.."
 	icon_state = "malum_burden"
 
 /datum/status_effect/debuff/ravox_revival
@@ -451,7 +493,7 @@
 
 /atom/movable/screen/alert/status_effect/ravox_revival
 	name = "Ravox's Weakness"
-	desc = "Your muscles feel feeble and movements sluggish."
+	desc = "Your muscles feel feeble and your movements feel sluggish.."
 	icon_state = "ravox_weakness"
 
 /datum/status_effect/debuff/dendor_revival
@@ -468,7 +510,7 @@
 
 /atom/movable/screen/alert/status_effect/dendor_revival
 	name = "Dendor's Sluggishness"
-	desc = "Your movements are weighted by invisible roots and your body feels fragile."
+	desc = "Your movements are weighted by invisible roots and your body feels fragile.."
 	icon_state = "dendor_sluggish"
 
 /datum/status_effect/debuff/noc_revival
@@ -533,8 +575,10 @@
 	icon_state = "noc_curse"
 
 /obj/effect/proc_holder/spell/invoked/resurrect/malum
-	name = "Diligent Revival"
-	desc = "Revive the target at a cost, cast on yourself to check.<br>Targets willpower and strength will be sapped for a time."
+	name = "Diligent Rite of Anastasis"
+	desc = "Resurrects the chosen target, bringing them back from the dead. </br>Unlike the 'Anastasis' blessing, this requires a certain type of ingot to cast. Cast \
+	the blessing on yourself to check what's needed. </br>Successfully resurrected targets will suffer a strong malus to Strength and Willpower, for some time, before \
+	fully recovering. </br>Unlike a regular Healing miracle, this can affect - and resurrect - devout Psydonians as well."
 	required_items = list(
 		/obj/item/ingot/iron = 3
 	)
@@ -545,8 +589,10 @@
 	sound = 'sound/magic/clang.ogg'
 
 /obj/effect/proc_holder/spell/invoked/resurrect/ravox
-	name = "Just Revival"
-	desc = "Revive the target at a cost, cast on yourself to check.<br>Targets strength and speed will be sapped for a time."
+	name = "Just Rite of Anastasis"
+	desc = "Resurrects the chosen target, bringing them back from the dead. </br>Unlike the 'Anastasis' blessing, this requires the bones of defeated creechers to cast. Cast \
+	the blessing on yourself to check what's needed. </br>Successfully resurrected targets will suffer a strong malus to Strength and Constitution for some time, before \
+	fully recovering. </br>Unlike a regular Healing miracle, this can affect - and resurrect - devout Psydonians as well."
 	// The items here are somewhat hard to pick as it still has to be something a ravox acolyte would reasonably obtain.
 	// Bones insinuate that mayhaps, they went out there to delete some skeletons for justice?
 	required_items = list(
@@ -556,10 +602,15 @@
 		/obj/item/natural/bone = 7
 	)
 	debuff_type = /datum/status_effect/debuff/ravox_revival
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_state = "revive"
 
 /obj/effect/proc_holder/spell/invoked/resurrect/dendor
-	name = "Wild Revival"
-	desc = "Revive the target at a cost, cast on yourself to check.<br>Targets speed and constitution will be sapped for a time."
+	name = "Wild Rite of Anastasis"
+	desc = "Resurrects the chosen target, bringing them back from the dead. </br>Unlike the 'Anastasis' blessing, this requires a certain type of herb, swampweed, and steak to cast. Cast \
+	the blessing on yourself to check what's needed. </br>Successfully resurrected targets will suffer a strong malus to Constitution and Speed, for some time, before \
+	fully recovering. </br>Unlike a regular Healing miracle, this can affect - and resurrect - devout Psydonians as well."
 	//Herbs that have to do with intelligence mostly. Easier to remember.
 	required_items = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 3,
@@ -575,8 +626,10 @@
 	sound = 'sound/magic/birdsong.ogg'
 
 /obj/effect/proc_holder/spell/invoked/resurrect/noc
-	name = "Moonlit Revival"
-	desc = "Revive the target at a cost, cast on yourself to check.<br>Targets intelligence will be sapped for a time, in addition they will be burned by moonlight."
+	name = "Moonlit Rite of Anastasis"
+	desc = "Resurrects the chosen target, bringing them back from the dead. </br>Unlike the 'Anastasis' blessing, this requires a certain type of parchment to cast. Cast \
+	the blessing on yourself to check what's needed. </br>Successfully resurrected targets will suffer a strong malus to Intelligence, for some time, before \
+	fully recovering. </br>Unlike a regular Healing miracle, this can affect - and resurrect - devout Psydonians as well."
 	required_items = list(
 		/obj/item/paper/scroll = 15
 	)
@@ -584,15 +637,20 @@
 		/obj/item/paper = 15
 	)
 	debuff_type = /datum/status_effect/debuff/noc_revival
-	overlay_state = "noc_revive"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "revive"
 	sound = 'sound/magic/owlhoot.ogg'
 
-
 /obj/effect/proc_holder/spell/invoked/resurrect/undivided
-	name = "Decagram Revival"
-	desc = "Revive the target at a cost, cast on yourself to check."
-	required_items = list(
-		/obj/item/rogueore/gold = 1 // Was thinking Eclipsum combo of gold/silver but that'd probably be *too* expensive. Probably the costliest revival, while having a anastasis equal debuff.
-	)
+	name = "Lesser Anastasis"
+	desc = "Resurrects the chosen target, bringing them back from the dead. Casting this on an undead or unholy target will smite them with explosive results. </br>Depending on how far gone \
+	the spirit is, the 'Anastasis' blessing might need to be casted multiple times before successfully resurrecting them. </br>Unlike a regular Healing miracle, this \
+	can affect - and resurrect - devout Psydonians as well."
+	recharge_time = 20 MINUTES //Double the cooldown, no more gold cost, it simply doesn't work with the new economy and transmutation changes.
+	required_items = list()
 	debuff_type = /datum/status_effect/debuff/revived
 	sound = 'sound/magic/revive.ogg'
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "revive"

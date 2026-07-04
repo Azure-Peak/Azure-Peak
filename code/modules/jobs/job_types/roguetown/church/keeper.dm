@@ -2,14 +2,13 @@
 	title = "Keeper"
 	tutorial = "Disfigured, shunned, or simply filled with purpose and dedication for Pestra. Some of you are horrifically mutated, disfigured, or diseased. No matter, even the pretty ones feel the toll as it leaves their strength atrophied. Someone has to harvest the holy blood required to purify lux and perpetuate Pestra's gift of medicine. Unfortunately, that's you. That's correct, I'm the one tasked with protecting the sacred Heart Beast of Pestra here. To study it and empower it so that Pestra's medicine may blossom even in the furthest reaches of Azure. Keep in mind you are NOT directly affiliated with the church of the see, the local bishop is not your boss. You answer to the sect of Pestra foremost."
 	flag = KEEPER
-	department_flag = CHURCHMEN
+	department_flag = SIDEFOLK // A little awkward, but they aren't attached to the church anymore.
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
-	allowed_races = ACCEPTED_RACES
 	allowed_ages = ALL_AGES_LIST
 	allowed_patrons = list(/datum/patron/divine/pestra)
-
+	forbidden_races = list(RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/keeper
 	display_order = JDO_KEEPER
 	give_bank_account = TRUE
@@ -66,25 +65,26 @@
 	neck = /obj/item/clothing/neck/roguetown/psicross/pestra
 	cloak = /obj/item/clothing/cloak/templar/pestran
 	gloves = /obj/item/clothing/gloves/roguetown/leather
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/pestran
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/pestran/keeper
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
+	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/pestrasickle/keeper
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/backpack
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/parrying = 1,
+							 /obj/item/rogueweapon/scabbard/sheath = 1,
 							 /obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 							 /obj/item/heart_canister = 2,
 							 /obj/item/heart_blood_vial/filled = 2,
 							 /obj/item/heart_blood_canister/filled = 1,
 							 /obj/item/heart_blood_vial = 5,
 							 /obj/item/heart_blood_canister = 1,
-							 /obj/item/rogueweapon/huntingknife/idagger/steel/parrying = 1,
 							 /obj/item/storage/keyring/keeper = 1)
 	H.put_in_hands(new /obj/item/storage/belt/rogue/surgery_bag/full/physician(H))
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Church Funding.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H)

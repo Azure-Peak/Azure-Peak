@@ -3,6 +3,7 @@
 	desc = "Made to hold everything a people-butcher will need. Contains a list of implements... what even IS a Sisrat?"
 	icon = 'icons/roguetown/clothing/storage.dmi'
 	mob_overlay_icon = null
+	dropshrink = 0.9
 	icon_state = "surgery_bag"
 	slot_flags = ITEM_SLOT_HIP
 	w_class = WEIGHT_CLASS_NORMAL
@@ -40,6 +41,16 @@
 /obj/item/storage/belt/rogue/surgery_bag/get_types_to_preload()
 	return populate_contents
 
+/obj/item/storage/belt/rogue/surgery_bag/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This bag can contain plenty of tools, useful for advanced medical techniques and surgeries.")
+
+/obj/item/rogueweapon/surgery/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This tool can be used to perform surgeries and other medical treatments. Click on the 'FEINT' button in your HUD and select the 'WEAK' intent, when performing such techniques, to ensure the highest chance of success.")
+	. += span_info("The chance of successfully performing a step in surgery-or-treatment scales with your character's Medicine skill, and whether the recipient has been properly sedated or not. Ozium, poppymilk, and being unconscious are popular choices for sedation.")
+	. += span_info("Most surgeries and techniques require the recipient to be laying down, at the bare minimum. Resting them on a bed or cot will greatly improve your chances, while also reducing the chance of infection.")
+
 /obj/item/storage/belt/rogue/surgery_bag/full/physician
 	populate_contents = list(
 	/obj/item/rogueweapon/surgery/scalpel,
@@ -74,4 +85,22 @@
 	)
 
 /obj/item/storage/belt/rogue/pouch/medicine/get_types_to_preload()
+	return populate_contents
+
+/obj/item/storage/belt/rogue/surgery_bag/full/bad
+	populate_contents = list(
+	/obj/item/rogueweapon/huntingknife/stoneknife,
+	/obj/item/rogueweapon/surgery/saw/improv,
+	/obj/item/rogueweapon/surgery/hemostat/improv,
+	/obj/item/rogueweapon/surgery/hemostat/improv,
+	/obj/item/rogueweapon/surgery/retractor/improv,
+	/obj/item/rogueweapon/surgery/retractor/improv,
+	/obj/item/rogueweapon/surgery/hammer,
+	/obj/item/reagent_containers/glass/bottle/rogue/beer,
+	/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab,
+	/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum,
+	/obj/item/needle/thorn
+	)
+
+/obj/item/storage/belt/rogue/surgery_bag/full/bad/get_types_to_preload()
 	return populate_contents

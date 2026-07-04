@@ -30,7 +30,7 @@
 	limb_destroyer = 1
 	d_intent = INTENT_PARRY
 	defprob = 50
-	faction = list("psy_vault_guard")
+	faction = list(FACTION_PSY_VAULT_GUARD)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = FALSE
 
@@ -41,6 +41,10 @@
 
 	projectiletype = /obj/projectile/magic/zardman_jailer_mage/lightning
 	projectilesound = list('sound/magic/charged.ogg')
+
+/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage/Initialize()
+	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 
 /obj/projectile/magic/zardman_jailer_mage/lightning/on_hit(target)
 	. = ..()
@@ -53,6 +57,8 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
+			if(out_of_effective_range())
+				return
 			L.Immobilize(1, src)
 			playsound(get_turf(src), pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
 	qdel(src)
@@ -69,7 +75,7 @@
 	damage_type = BURN
 	nodamage = FALSE
 	speed = 0.3
-	flag = "magic"
+	flag = "fire"
 	light_color = "#ffffff"
 /obj/projectile/magic/zardman_jailer_mage/lightning/on_hit(target)
 	. = ..()
@@ -82,6 +88,8 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
+			if(out_of_effective_range())
+				return
 			L.Immobilize(1, src)
 			playsound(get_turf(src), pick('sound/misc/elec (1).ogg', 'sound/misc/elec (2).ogg', 'sound/misc/elec (3).ogg'), 100, FALSE)
 	qdel(src)

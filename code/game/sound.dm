@@ -2,7 +2,7 @@
 	var/list/played_loops = list() //uses dlink to link to the sound
 
 
-/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE, quiet = FALSE)
+/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE, quiet = FALSE, pref_toggle)
 	if(isarea(source))
 		CRASH("playsound(): source is an area")
 
@@ -36,8 +36,8 @@
 		extrarange = 1
 	var/maxdistance = (world.view + extrarange)
 	var/source_z = turf_source.z
-	var/list/listeners = SSmobs.clients_by_zlevel[source_z].Copy()
 	var/list/muffled_listeners = list()
+	var/list/listeners
 
 	var/turf/above_turf = GET_TURF_ABOVE(turf_source)
 	var/turf/below_turf = GET_TURF_BELOW(turf_source)
@@ -46,18 +46,29 @@
 		ping_sound(source)
 
 	if(!ignore_walls) //these sounds don't carry through walls or vertically
-		listeners = listeners & get_hearers_in_view(maxdistance,turf_source)
+		listeners = get_hearers_in_view(maxdistance, turf_source, RECURSIVE_CONTENTS_CLIENT_MOBS)
 	else
+		listeners = get_hearers_in_range(maxdistance, turf_source, RECURSIVE_CONTENTS_CLIENT_MOBS)
 		if(above_turf)
-			muffled_listeners += SSmobs.clients_by_zlevel[above_turf.z]
-			muffled_listeners += SSmobs.dead_players_by_zlevel[above_turf.z]
-
+			var/list/above_hearers = get_hearers_in_range(maxdistance, above_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
+			listeners += above_hearers
+			muffled_listeners += above_hearers
 		if(below_turf)
-			muffled_listeners += SSmobs.clients_by_zlevel[below_turf.z]
-			muffled_listeners += SSmobs.dead_players_by_zlevel[below_turf.z]
+			var/list/below_hearers = get_hearers_in_range(maxdistance, below_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
+			listeners += below_hearers
+			muffled_listeners += below_hearers
 
 	listeners += SSmobs.dead_players_by_zlevel[source_z]
-	listeners += muffled_listeners
+	if(ignore_walls)
+		if(above_turf)
+			var/list/above_dead = SSmobs.dead_players_by_zlevel[above_turf.z]
+			listeners += above_dead
+			muffled_listeners += above_dead
+		if(below_turf)
+			var/list/below_dead = SSmobs.dead_players_by_zlevel[below_turf.z]
+			listeners += below_dead
+			muffled_listeners += below_dead
+
 	. = list()
 
 	for(var/mob/M as anything in listeners)
@@ -68,7 +79,7 @@
 			var/datum/species/dullahan/dullahan = human.dna.species
 			if(dullahan.headless)
 				turf_check = get_turf(dullahan.my_head)
-		
+
 		if(quiet)
 			if(turf_check.z != turf_source.z)
 				continue
@@ -79,6 +90,11 @@
 			if(animal_pref)
 				if(M.client?.prefs?.mute_animal_emotes)
 					continue
+
+			if(pref_toggle)	//We check for its absence, mostly because the default state of relevant prefs here is "ON" rather than off.
+				if(!(M.client?.prefs?.toggles & pref_toggle))
+					continue
+
 			var/is_muffled = (M in muffled_listeners)
 			if(M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S, repeat, is_muffled))
 				. += M
@@ -90,6 +106,7 @@
 		return
 	I.pixel_y = 6
 	I.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	I.appearance_flags = RESET_COLOR
 	flick_overlay(I, GLOB.clients, 6)
 
 /proc/ping_sound_through_walls(turf/T)
@@ -105,11 +122,6 @@
 	pixel_x = -224
 	pixel_y = -218
 
-/*
-/obj/effect/temp_visual/soundping/Initialize()
-	. = ..()
-	animate(src, alpha = 0, time = duration, easing = EASE_IN)
-*/
 /mob/proc/playsound_local(atom/turf_source, soundin, vol as num, vary, frequency, falloff, channel, pressure_affected = TRUE, sound/S, repeat, muffled)
 	if(!client || !can_hear())
 		return FALSE
@@ -328,7 +340,7 @@
 	UNTIL(SSticker.login_music) //wait for SSticker init to set the login music
 
 	if(prefs && (prefs.toggles & SOUND_LOBBY))
-		SEND_SOUND(src, sound(SSticker.login_music, repeat = 1, wait = 0, volume = prefs.musicvol, channel = CHANNEL_LOBBYMUSIC)) // MAD JAMS
+		SEND_SOUND(src, sound(SSticker.login_music, repeat = 1, wait = 0, volume = prefs.lobbymusicvol, channel = CHANNEL_LOBBYMUSIC)) // MAD JAMS
 
 /proc/get_rand_frequency()
 	return rand(43100, 45100) //Frequency stuff only works with 45kbps oggs.

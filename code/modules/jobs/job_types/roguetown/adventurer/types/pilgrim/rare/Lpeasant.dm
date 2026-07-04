@@ -4,9 +4,10 @@
 	You, a simple peasent, through sheer determination have conquered nature \
 	and made it bow before your green thumb."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	forbidden_races = list(RACES_DESPISED)
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/farmermaster
-	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
+	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_SEEDKNOW)
 
 	maximum_possible_slots = 1
 	pickprob = 5
@@ -33,7 +34,7 @@
 	
 /datum/outfit/job/roguetown/adventurer/farmermaster/pre_equip(mob/living/carbon/human/H)
 	..()
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	pants = /obj/item/clothing/under/roguetown/trou
 	head = /obj/item/clothing/head/roguetown/strawhat
@@ -44,7 +45,7 @@
 	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 	armor = /obj/item/clothing/suit/roguetown/armor/workervest
 	mouth = /obj/item/clothing/mask/cigarette/pipe/westman
-	if(H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F)
+	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 		pants = null
@@ -59,3 +60,5 @@
 	beltl = /obj/item/rogueweapon/sickle
 	beltr = /obj/item/flint
 	backr = /obj/item/rogueweapon/hoe
+	if(H.mind)
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)

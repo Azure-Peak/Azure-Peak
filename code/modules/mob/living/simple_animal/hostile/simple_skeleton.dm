@@ -7,6 +7,7 @@
 	icon_dead = "skeleton_dead"
 	gender = MALE
 	mob_biotypes = MOB_UNDEAD|MOB_HUMANOID
+	blood_toll_bucket = STATS_KILLED_DEADITES
 	robust_searching = 1
 	turns_per_move = 1
 	move_to_delay = 3
@@ -32,7 +33,7 @@
 	defprob = 50
 	speak_emote = list("grunts")
 	loot = list(/obj/item/natural/bone,	/obj/item/natural/bone, /obj/item/natural/bone,	/obj/item/skull)
-	faction = list("undead")
+	faction = list(FACTION_UNDEAD)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = TRUE
 	var/start_take_damage = FALSE
@@ -47,6 +48,7 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/Initialize(mapload, mob/user, cabal_affine, is_summoned)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 
 /mob/living/simple_animal/hostile/rogue/skeleton/axe
@@ -116,25 +118,29 @@
 		if("idle")
 			return pick('sound/vo/mobs/skel/skeleton_idle (1).ogg','sound/vo/mobs/skel/skeleton_idle (2).ogg','sound/vo/mobs/skel/skeleton_idle (3).ogg')
 
-
 /mob/living/simple_animal/hostile/rogue/skeleton/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
 	. = ..()
+
 	if(user)
 		if(user.mind && user.mind.current)
 			summoner = user.mind.current.real_name
 		else
 			summoner = user.name
-	if (is_summoned || cabal_affine)
-		faction = list("cabal") //No mix undead faction and cabal, summoned skeletons can attack any undead, mark your friends
-	// adds the name of the summoner to the faction, to avoid the hooded "Unknown" bug with Skeleton IDs
+
+	if(is_summoned || cabal_affine)
+		faction = list(FACTION_CABAL)
+
 	if(user && user.mind && user.mind.current)
-		faction = list("[user.mind.current.real_name]_faction") //if you summon this, he not affected on cabal. This skeletons can attack any undead and other zizo affected characters
-		// lich also gets to have friendlies, as a treat
+		faction = user.mind.current.faction.Copy()
+		faction += "[user.mind.current.real_name]_faction"
 		var/datum/antagonist/lich/lich_antag = user.mind.has_antag_datum(/datum/antagonist/lich)
 		if(lich_antag && user.real_name)
-			faction = list("undead", "[user.mind.current.real_name]_faction", "[user.real_name]_faction") //no changes. Undead faction + lich_name faction
+			faction += FACTION_UNDEAD
+			faction += "[user.real_name]_faction"
+
 	damage_check = world.time
-	if(is_summoned) //check, if it NOT summoned skeleton, he lifetime - infinity. For mapping-spawned skeltons
+
+	if(is_summoned)
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), 1 MINUTES)
 
 /mob/living/simple_animal/hostile/rogue/skeleton/proc/deathtime()
@@ -160,7 +166,7 @@
 		return FALSE
 	if (!(user.name in friends))
 		return FALSE
-	
+
 	return TRUE
 
 /mob/living/simple_animal/hostile/rogue/skeleton/beckoned(mob/user)
@@ -188,7 +194,7 @@
 	animname = "cut"
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	chargetime = 2
-	penfactor = 5
+	penfactor = PEN_NONE
 	swingdelay = 8
 
 /obj/item/skull
@@ -203,7 +209,7 @@
 
 /datum/intent/simple/claw/skeleton
 	clickcd = SKELETON_ATTACK_SPEED
-	
+
 /datum/intent/simple/spear/skeleton
 	reach = 2
 	clickcd = SKELETON_ATTACK_SPEED * 1.2
@@ -232,55 +238,3 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/bow/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
     . = ..(mapload, user, cabal_affine, is_summoned)
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost
-	name = "Warrior Soul"
-	desc = ""
-	icon = 'icons/roguetown/mob/monster/ravoxghost.dmi'
-	icon_state = "rghost"
-	icon_living = "rghost"
-	STACON = 14
-	STASTR = 13
-	STASPD = 8
-	maxHealth = 50
-	health = 50
-	pixel_x = -16
-	pixel_y = -16
-	harm_intent_damage = 10
-	melee_damage_lower = 25
-	melee_damage_upper = 30
-	icon_dead = ""
-	loot = list(/obj/item/ash,	/obj/item/ash)
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
-	var/buffed_r = FALSE
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear
-	icon_state = "rghost_s"
-	icon_living = "rghost_s"
-	attack_sound = 'sound/foley/pierce.ogg'
-	base_intents = list(/datum/intent/simple/spear/skeleton)
-	ai_controller = /datum/ai_controller/skeleton_spear
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/axe
-	icon_state = "rghost_a"
-	icon_living = "rghost_a"
-	base_intents = list(/datum/intent/simple/axe/skeleton)
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword
-	icon_state = "rghost_sw"
-	icon_living = "rghost_sw"
-	base_intents = list(/datum/intent/simple/axe/skeleton)
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/get_sound(input)
-	switch(input)
-		if("laugh")
-			return pick('sound/vo/mobs/ghost/laugh (1).ogg','sound/vo/mobs/ghost/laugh (2).ogg','sound/vo/mobs/ghost/laugh (3).ogg','sound/vo/mobs/ghost/laugh (4).ogg','sound/vo/mobs/ghost/laugh (5).ogg','sound/vo/mobs/ghost/laugh (6).ogg')
-		if("moan")
-			return pick('sound/vo/mobs/ghost/moan (1).ogg','sound/vo/mobs/ghost/laugh (2).ogg','sound/vo/mobs/ghost/laugh (3).ogg')
-		if("death")
-			return 'sound/vo/mobs/ghost/death.ogg'
-		if("whisper")
-			return pick('sound/vo/mobs/ghost/whisper (1).ogg','sound/vo/mobs/ghost/whisper (2).ogg','sound/vo/mobs/ghost/whisper (3).ogg')
-		if("aggro")
-			return pick('sound/vo/mobs/ghost/aggro (1).ogg','sound/vo/mobs/ghost/aggro (2).ogg','sound/vo/mobs/ghost/aggro (3).ogg','sound/vo/mobs/ghost/aggro (4).ogg','sound/vo/mobs/ghost/aggro (5).ogg','sound/vo/mobs/ghost/aggro (6).ogg')

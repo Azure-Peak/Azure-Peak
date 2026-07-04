@@ -27,7 +27,12 @@ GLOBAL_LIST_INIT(time_change_tips, world.file2list("strings/rt/timechangetips.tx
 GLOBAL_VAR_INIT(tod, FALSE)
 GLOBAL_VAR_INIT(forecast, FALSE)
 GLOBAL_VAR_INIT(todoverride, FALSE)
-GLOBAL_VAR_INIT(dayspassed, FALSE)
+GLOBAL_VAR_INIT(dayspassed, 0)
+
+GLOBAL_VAR_INIT(date_override_enabled, FALSE)
+GLOBAL_VAR_INIT(date_override_day, 1)
+GLOBAL_VAR_INIT(date_override_month, 1)
+GLOBAL_VAR_INIT(date_override_offset, 0)
 
 /proc/settod()
 	var/time = station_time()
@@ -72,7 +77,7 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 			if(GLOB.forecast != SSParticleWeather?.runningWeather?.target_trait)
 				switch(GLOB.forecast)
 					if(PARTICLEWEATHER_RAIN)
-						SSParticleWeather?.run_weather(pick(/datum/particle_weather/rain_gentle, /datum/particle_weather/rain_storm,/datum/particle_weather/fog,/datum/particle_weather/fog/swamp))
+						SSParticleWeather?.run_weather(pick(/datum/particle_weather/rain_gentle, /datum/particle_weather/rain_storm,/datum/particle_weather/fog))
 					if(PARTICLEWEATHER_LEAVES)
 						SSParticleWeather?.run_weather(pick(/datum/particle_weather/leaves_gentle, /datum/particle_weather/leaves_storm))
 					if(PARTICLEWEATHER_BLOODRAIN)
@@ -91,12 +96,18 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 					GLOB.forecast = null
 
 	if(GLOB.tod != oldtod)
-		if(GLOB.tod == "dawn")
+		if(GLOB.tod == "dawn" && SSticker?.current_state == GAME_STATE_PLAYING)
 			GLOB.dayspassed++
-			if(GLOB.dayspassed == 8)
-				GLOB.dayspassed = 1
-			SStreasury.distribute_estate_incomes()
-			SStreasury.distribute_daily_payments()
+			scom_announce_new_dawn()
+			if(SStreasury?.initialized)
+				SStreasury.tick_rural_tax()
+				SStreasury.distribute_estate_incomes()
+				SStreasury.distribute_daily_payments()
+				SStreasury.tick_burgher_pledge()
+				SStreasury.tick_rumor_points()
+				SStreasury.tick_loans()
+				SStreasury.tick_poll_tax()
+			SScity_assembly?.on_day_tick()
 		for(var/mob/living/player in GLOB.mob_list)
 			if(player.stat != DEAD && player.client)
 				player.do_time_change()
@@ -114,27 +125,33 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 	if(!mind)
 		return
 	if(GLOB.tod == "dawn")
-		var/text_to_show
-		switch(GLOB.dayspassed)
+		var/weekday_line
+		var/day_number = get_current_day_of_week()
+		switch(day_number)
 			if(1)
-				text_to_show = "DAWN OF THE FIRST DAE\nMOON'S DAE"
+				weekday_line = "DAWN OF THE FIRST DAE\nMOON'S DAE"
 			if(2)
-				text_to_show = "DAWN OF THE SECOND DAE\nTIW'S DAE"
+				weekday_line = "DAWN OF THE SECOND DAE\nTRUCE'S DAE"
 			if(3)
-				text_to_show = "DAWN OF THE THIRD DAE\nWEDDING'S DAE"
+				weekday_line = "DAWN OF THE THIRD DAE\nWEDDING'S DAE"
 			if(4)
-				text_to_show = "DAWN OF THE FOURTH DAE\nTOLL'S DAE"
+				weekday_line = "DAWN OF THE FOURTH DAE\nTHUNDER'S DAE"
 			if(5)
-				text_to_show = "DAWN OF THE FIFTH DAE\nFREYJA'S DAE"
+				weekday_line = "DAWN OF THE FIFTH DAE\nFEAST'S DAE"
 			if(6)
-				text_to_show = "DAWN OF THE SIXTH DAE\nSATURN'S DAE"
+				weekday_line = "DAWN OF THE SIXTH DAE\nPSYDON'S DAE"
 			if(7)
-				text_to_show = "DAWN OF THE SEVENTH DAE\nSUN'S DAE"
-		if(!text_to_show)
+				weekday_line = "DAWN OF THE SEVENTH DAE\nSUN'S DAE"
+		if(!weekday_line)
 			return
-		if(text_to_show in mind.areas_entered)
+		var/text_to_show = "[weekday_line]\n[uppertext(get_ic_date_short_as_string())]"
+		var/list/active_titles = get_active_calendar_event_titles()
+		if(length(active_titles))
+			text_to_show += "\n- [uppertext(active_titles.Join(" & "))] -"
+		var/dedup_key = "calendar_dawn_[GLOB.dayspassed]"
+		if(dedup_key in mind.areas_entered)
 			return
-		mind.areas_entered += text_to_show
+		mind.areas_entered += dedup_key
 		var/atom/movable/screen/area_text/T = new()
 		client.screen += T
 		T.maptext = {"<span style='vertical-align:top; text-align:center;

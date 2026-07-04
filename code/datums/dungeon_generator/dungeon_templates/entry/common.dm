@@ -14,6 +14,17 @@
 	east_offset = 8
 	west_offset = 8
 
+/datum/map_template/dungeon/entry/tented_entrance
+	name = "Tented Entrance"
+	mappath = "_maps/dungeon_generator/entry/tented_entrance.dmm"
+	width = 15
+	height = 15
+	
+	north_offset = 7
+	south_offset = 7
+	west_offset = 7
+	east_offset = 7
+
 /datum/map_template/dungeon/entry/eastentrance
 	mappath = "_maps/dungeon_generator/entry/eastentrance.dmm"
 	id = "eastentrance"

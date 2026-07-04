@@ -11,7 +11,6 @@
 	dynamic_hair_suffix = ""
 	max_integrity = 80
 	armor = ARMOR_CLOTHING
-	prevent_crits = list(BCLASS_TWIST)
 	anvilrepair = null
 	sewrepair = TRUE
 	blocksound = SOFTHIT
@@ -106,6 +105,9 @@
 	name = "executioners hood"
 	icon_state = "dungeoneer"
 	color = null
+
+/obj/item/clothing/head/roguetown/menacing/executioner/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_JAILOR, "dungeoneer")
 
 /obj/item/clothing/head/roguetown/jester
 	name = "jester's hat"

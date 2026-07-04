@@ -42,6 +42,8 @@
 #define FORCE_MAP "_maps/roguetest.json"
 #endif
 
+// #define NO_DUNGEON //comment this to load dungeons.
+
 //Update this whenever you need to take advantage of more recent byond features
 #define MIN_COMPILER_VERSION 514
 #if DM_VERSION < MIN_COMPILER_VERSION
@@ -69,10 +71,6 @@
 
 // Uncomment this for NPCs to display their 'thoughts' (AI planning steps) above their heads. Useful for debugging NPC logic.
 // #define NPC_THINK_DEBUG
-
-// A reasonable number of maximum overlays an object needs
-// If you think you need more, rethink it
-#define MAX_ATOM_OVERLAYS 100
 
 // Comment this to remove the PQ system
 #define USES_PQ

@@ -1,12 +1,20 @@
-#define T1SELLPRICE 2
-#define T2SELLPRICE 15
-#define T3SELLPRICE 50
+#define T1SELLPRICE 4
+#define T2SELLPRICE 20
+#define T3SELLPRICE 60
 #define T4SELLPRICE 250
+// Meld prices: 3x input tier + small crafting premium
+#define T1MELDSELLPRICE 15  // 3xT1(4) = 12 + 3
+#define T2MELDSELLPRICE 65  // 3xT2(20) = 60 + 5
+#define T3MELDSELLPRICE 190 // 3xT3(60) = 180 + 10
+#define T4MELDSELLPRICE 775 // 3xT4(250) = 750 + 25
+#define T5MELDSELLPRICE 800 // T4 meld(775) + voidstone(40), tiny premium
+// Mapfetchable sell prices
+#define LEYLINE_SELLPRICE 30
+#define VOIDSTONE_SELLPRICE 40
 
 // Magical resources for the Ratwood ported Mage Gameplay Loop system
 // Chose to not use /natural typepath because it didn't make much sense and this
 // Let me use another .dmi
-// Since the enchanting / summoning system is not here yet, sellprice has been adjusted.
 /obj/item/magic
 	name = "magic resource"
 	desc = "You shouldn't be seeing this."
@@ -16,44 +24,32 @@
 	grid_width = 32
 	grid_height = 32
 	var/tier = 0 //used for determining potency for mob healing
+	dropshrink = 0.85
 
-// MELD
-/obj/item/magic/melded
-	name = "arcane meld"
-	icon_state = "wessence"
-	desc = "You should not be seeing this"
-	w_class = WEIGHT_CLASS_SMALL
-	sellprice = T1SELLPRICE
+/obj/item/magic/familiar
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	var/mob/living/simple_animal/pet/familiar/stored_familiar
 
-/obj/item/magic/melded/t1
-	name = "arcanic meld"
-	icon_state = "meld"
-	desc = "A melding of infernal ash, fairy dust and elemental mote."
-	sellprice = T1SELLPRICE
+/obj/item/magic/familiar/dropped(mob/user, silent)
+	. = ..()
+	if(stored_familiar)
+		stored_familiar.reset_perspective()
 
-/obj/item/magic/melded/t2
-	name = "dense arcanic meld"
-	icon_state = "dmeld"
-	desc = "A melding of hellhound fang, iridescent scales and elemental shard."
-	sellprice = T2SELLPRICE
-
-/obj/item/magic/melded/t3
-	name = "sorcerous weave"
-	icon_state = "weave"
-	desc = "A melding of infernal core, heartwood core and elemental fragment."
-	sellprice = T3SELLPRICE
-
-/obj/item/magic/melded/t4
-	name = "magical confluence"
-	icon_state = "confluence"
-	desc = "A melding of abyssal flame, sylvan essence and elemental relic."
-	sellprice = T4SELLPRICE
-
-/obj/item/magic/melded/t5
-	name = "arcanic aberation"
+// vestige - needed to revive a familiar. sort of like a carbon's head, but magic-style
+/obj/item/magic/familiar/familiar_vestige
+	name = "Planar Vestige"
 	icon_state = "abberant"
-	desc = "A melding of arcane fusion and voidstone. It pulses erratically, power coiled tightly within and dangerous. Many would be afraid of going near this, let alone holding it."
-	sellprice = T4SELLPRICE * 2
+	desc = "The vestige of a planar creature, departed from this plane. Likely worth a lot to the magos that summoned them!"
+
+// familiar (item form): familiars can transform into this for portability and sovl
+/obj/item/magic/familiar/familiar_spirit
+	name = "Familiar Spirit"
+	icon = 'icons/roguetown/mob/familiars.dmi'
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_RING // little pendant-esque thing
+
+/obj/item/magic/familiar/familiar_spirit/Initialize()
+	. = ..()
+	src.filters += filter(type = "drop_shadow", x=0, y=0, size=1, offset = 2, color = GLOW_COLOR_ARCANE)
 
 //mapfetchable items
 /obj/item/magic/obsidian
@@ -67,6 +63,7 @@
 	name = "leyline shards"
 	icon_state = "leyline"
 	desc = "A shard of a fractured leyline, it glows with lost power."
+	sellprice = LEYLINE_SELLPRICE
 
 /obj/item/reagent_containers/food/snacks/grown/manabloom
 	name = "mana bloom"
@@ -91,6 +88,7 @@
 	icon_state = "runedartifact"
 	desc = "An old stone from age long ago, marked with glowing sigils."
 	w_class = WEIGHT_CLASS_SMALL
+	dropshrink = 0.8
 
 /obj/item/magic/artifact/Initialize()
 	.=..()
@@ -103,6 +101,7 @@
 	icon_state = "voidstone"
 	desc = "A piece of blackstone, it feels off to stare at it for long."
 	w_class = WEIGHT_CLASS_SMALL
+	sellprice = VOIDSTONE_SELLPRICE
 
 // INFERNAL
 /obj/item/magic/infernal
@@ -151,28 +150,28 @@
 	. = ..()
 	. += span_notice("It can be used to heal Fae summons.")
 
-/obj/item/magic/fairydust	//T1 mage summon loot
+/obj/item/magic/fae/fairydust	//T1 mage summon loot
     name = "fairy dust"
     icon_state = "fairy_dust"
     desc = "A glittering powder from a fae sprite."
     sellprice = T1SELLPRICE
     tier = 1
 
-/obj/item/magic/iridescentscale	//T2 mage summon loot
+/obj/item/magic/fae/iridescentscale	//T2 mage summon loot
     name = "iridescent scales"
     icon_state = "iridescent_scale"
     desc = "Tiny, colorful scales from a glimmerwing, they shine with inate magic"
     sellprice = T2SELLPRICE
     tier = 2
 
-/obj/item/magic/heartwoodcore	//T3 mage summon loot
+/obj/item/magic/fae/heartwoodcore	//T3 mage summon loot
     name = "heartwood core"
     icon_state = "heartwood_core"
     desc = "A piece of enchanted wood imbued with the dryad’s essence. Merely holding it transports one's mind to ancient times."
     sellprice = T3SELLPRICE
     tier = 3
 
-/obj/item/magic/sylvanessence	//T4 mage summon loot
+/obj/item/magic/fae/sylvanessence	//T4 mage summon loot
     name = "sylvan essence"
     icon_state = "sylvanessence"
     desc = "A swirling, multicolored liquid with emitting a dizzying array of lights."
@@ -219,3 +218,10 @@
 #undef T2SELLPRICE
 #undef T3SELLPRICE
 #undef T4SELLPRICE
+#undef T1MELDSELLPRICE
+#undef T2MELDSELLPRICE
+#undef T3MELDSELLPRICE
+#undef T4MELDSELLPRICE
+#undef T5MELDSELLPRICE
+#undef LEYLINE_SELLPRICE
+#undef VOIDSTONE_SELLPRICE

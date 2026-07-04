@@ -4,6 +4,11 @@
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "ash"
 	w_class = WEIGHT_CLASS_TINY
+	var/being_deleted = FALSE
+
+/obj/item/ash/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Ash can be used as fertilizer, in order to improve a crop's health. To do so, left-click the crop or its soil while holding the ash.")
 
 /obj/item/ash/Initialize()
 	. = ..()
@@ -26,3 +31,14 @@
 			prob2break = 100
 		if(prob(prob2break))
 			qdel(src)
+
+/obj/item/ash/attack_self(mob/living/user)
+	user.visible_message(span_warning("[user] scatters [src]."))
+	if(being_deleted || QDELETED(src))
+		return
+	being_deleted = TRUE
+	qdel(src)
+
+/obj/item/ash/Destroy()
+	being_deleted = TRUE
+	return ..()

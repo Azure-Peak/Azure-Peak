@@ -255,6 +255,7 @@
 			output += "</div></div>"
 		var/list/long_job_lists = list("Peasants" = GLOB.peasant_positions,
 									"Burghers" = GLOB.burgher_positions,
+									"ATC" = GLOB.atc_positions,
 									"Sidefolk" = GLOB.sidefolk_positions,
 									"Ghost and Other Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT),
 									"Antagonist Positions" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL),
@@ -503,7 +504,7 @@
 	if(applies_to_admins)
 		send2irc("BAN ALERT","[kn] [msg]")
 	if(player_ckey)
-		create_message("note", player_ckey, admin_ckey, note_reason, null, null, 0, 0, null, 0, severity)
+		create_message("note", player_ckey, admin_ckey, note_reason, logged = FALSE, note_severity = severity)
 	var/client/C = GLOB.directory[player_ckey]
 	var/datum/admin_help/AH = admin_ticket_log(player_ckey, "[kna] [msg]")
 	var/appeal_url = "No ban appeal url set!"

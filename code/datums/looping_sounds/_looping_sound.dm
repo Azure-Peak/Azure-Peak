@@ -63,6 +63,8 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 	var/channel
 	var/datum/sound_group/sound_group
 	var/starttime // A world.time snapshot of when the loop was started.
+	/// Which bitflag pref we check for when playing this to listeners, if any. This will check for its ABSENCE, not its presence.
+	var/filter_pref	
 
 /datum/looping_sound/New(_parent, start_immediately=FALSE, _direct=FALSE, _channel = 0)
 /*	if(!mid_sounds)
@@ -169,9 +171,12 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 	if(direct)
 		if(ismob(thing))
 			var/mob/mob = thing
+			if(filter_pref && mob.client)
+				if(!(mob.client.prefs.toggles & filter_pref))
+					return
 			mob.playsound_local(mob, S, volume, vary, frequency, falloff, repeat = src, channel = channel)
 	else
-		var/list/R = playsound(thing, S, volume, vary, extra_range, falloff, frequency, channel, ignore_walls = ignore_walls, repeat = src)
+		var/list/R = playsound(thing, S, volume, vary, extra_range, falloff, frequency, channel, ignore_walls = ignore_walls, repeat = src, pref_toggle = (filter_pref ? filter_pref : null))
 		if(!R || !R.len)
 			R = list()
 		for(var/datum/weakref/listener_ref in thingshearing)
@@ -240,7 +245,9 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 		var/mob/M = C.mob
 		if(!M)
 			continue
-
+		if(filter_pref)
+			if(!(C.prefs.toggles & filter_pref))
+				continue
 		M.playsound_local(null, soundfile, 0, vary, frequency, falloff, channel, FALSE, null, src) 
 
 /datum/looping_sound/proc/begin_loop()

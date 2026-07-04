@@ -66,6 +66,7 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .userdanger				{color: #c71d76;	font-weight: bold;	font-size: 120%;}
 .danger					{color: #b9322b;	font-weight: bold;}
 .warning				{color: #bb4e28;	font-size: 75%;}
+.warningbig 			{color: #ad1f1a;	font-size: 110%;}
 .boldwarning			{color: #bb4e28;	font-weight: bold}
 .announce				{color: #c51e1e;	font-weight: bold;}
 .boldannounce			{color: #c51e1e;	font-weight: bold;}
@@ -134,6 +135,7 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .sandwauk				{font-family: "Almalik", Pterra; font-size: 100%;}
 .human					{font-family: "Honoka Mincho", Pterra;}
 .elf					{font-family: "Dauphin", cursive, Pterra;}
+.oldazure				{font-family: "BaggageMasterText79 ttcon", Pterra; font-size: 110%;}
 .dwarf					{font-family: "MasonAlternate", Pterra;}
 .sandspeak				{font-family: "Arabolical", Pterra;}
 .delf					{font-family: "Dauphin", Pterra;}
@@ -144,10 +146,12 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .reptile				{font-family: "Kingthings Petrock", Pterra; font-size: 120%;}
 .grenzelhoftian			{font-family: "Emperialisme", Pterra; font-size: 120%;}
 .kazengunese 			{font-family: "Yuji Boku", Pterra;}
-.otavan					{font-family: "Notredame", "Pterra"; font-size: 200%;}
+.lingyuese				{font-family: "ZCOOL XiaoWei", Pterra;}
+.otavan					{font-family: "ArkansasDB", "Pterra"; font-size: 120%;}
 .etruscan				{font-family: "Feronia", "Pterra"; font-size: 100%;}
 .gronnic				{font-family: "Jorvik Informal", "Pterra"; font-size: 100%;}
 .aavnic					{font-family: "Romeodn", "Pterra"; font-size: 100%;}
+.undercommon			{font-family: "Evil Bible", "Pterra"; font-size: 100%;}
 
 .torture				{color: #42ff20}
 
@@ -161,7 +165,7 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .redtext				{color: #FF0000;}
 .clown					{color: #FF69Bf;	font-size: 3;	font-family: "Comic Sans MS", cursive, sans-serif;	font-weight: bold;}
 .his_grace				{color: #15D512;	font-family: "Courier New", cursive, sans-serif;	font-style: italic;}
-.hypnophrase			{color: #3bb5d3;	font-weight: bold;	animation: hypnocolor 1500ms infinite;}
+.hypnophrase			{color: #3bb5d3;	font-weight: bold;	animation: hypnocolor 1500 ms infinite;}
 
 .phobia					{color: #dd0000;	font-weight: bold;}
 
@@ -179,7 +183,7 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 
 .monkeyhive				{color: #774704;}
 .monkeylead				{color: #774704;	font-size: 2;}
-
+.racialstatinfo			{color: #6a8cb7;	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;	font-weight: bold;}
 .dead					{color: #b280df;}
 .bloody					{color: #cc0f0f;}
 .artery					{color: #9B5455;}

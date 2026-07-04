@@ -26,14 +26,16 @@
 		in_sunlight = FALSE
 		return
 
-	if(HAS_TRAIT(H, TRAIT_WEATHER_PROTECTED))
-		to_chat(H, span_danger("I am shielded from the Sun-Tyrant's scorn."))
-		return
-
 	// Check if outside and in light
 	if(isturf(H.loc))
 		var/turf/T = H.loc
 		if(T.can_see_sky())
+			if(HAS_TRAIT(H, TRAIT_WEATHER_PROTECTED))
+				if(!in_sunlight)
+					in_sunlight = TRUE
+					to_chat(H, span_danger("I am shielded from the Sun-Tyrant's scorn."))
+				return
+
 			if(!in_sunlight)
 				in_sunlight = TRUE
 				to_chat(H, span_danger("The sunlight burns my flesh!"))

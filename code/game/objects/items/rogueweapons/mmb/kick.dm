@@ -47,13 +47,14 @@
 			return FALSE
 		if(!M.Adjacent(src))
 			return FALSE
-		if(incapacitated())
+		if(incapacitated(ignore_restraints = TRUE))
 			return FALSE
 		if(M.checkmiss(src))
 			return FALSE
 		SEND_SIGNAL(M, COMSIG_MOB_KICKED)
 		if(M.checkdefense(mmb_intent, src))
 			return FALSE
+		SEND_SIGNAL(M, COMSIG_MOB_KICKED_SUCCESSFUL, src)
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
 			H.dna.species.kicked(src, H)

@@ -3,7 +3,6 @@
 	desc = "Carries carts along the track."
 	icon = 'icons/obj/track.dmi'
 	icon_state = "track"
-	//layer = TRAM_RAIL_LAYER
 	plane = FLOOR_PLANE
 	anchored = TRUE
 	move_resist = INFINITY
@@ -27,8 +26,6 @@
 
 /obj/structure/minecart_rail/Initialize(mapload)
 	. = ..()
-	//AddElement(/datum/element/give_turf_traits, string_list(list(TRAIT_TURF_IGNORE_SLOWDOWN)))
-	//AddElement(/datum/element/footstep_override, footstep = FOOTSTEP_CATWALK)
 	set_minecart_dirs(initial = TRUE)
 
 /obj/structure/minecart_rail/LateInitialize()
@@ -120,7 +117,6 @@
 		return
 	playsound(src, 'sound/misc/ratchet.ogg', 20, TRUE)
 	secondary_direction = directions[triggeredchoice]
-	//setDir(directions[triggeredchoice])
 
 
 /obj/structure/minecart_rail/proc/rotate_direction(mob/user)
@@ -156,7 +152,8 @@
 				if(!structure.try_network_merge(src))
 					rotation_break()
 			else
-				if(!structure.try_connect(src))
+				var/result = structure.try_connect(src)
+				if(result == FALSE)
 					rotation_break()
 
 	if(!rotation_network)
@@ -170,13 +167,10 @@
 		return list()
 	. = ..()
 
-/obj/structure/minecart_rail/find_and_propagate(list/checked, first = FALSE)
-	if(!length(checked))
-		checked = list()
-	checked |= src
+/obj/structure/minecart_rail/propagate_rotation_to_network(new_direction, new_rpm)
 	if(ISDIAGONALDIR(dir))
-		return checked
-	. = ..()
+		return
+	..()
 
 /obj/structure/minecart_rail/set_rotations_per_minute(speed)
 	. = ..()
@@ -189,6 +183,12 @@
 	. += rail_examine()
 	if(secondary_direction)
 		. += span_smallnotice("When activated, this rail will switch to [dir2text(secondary_direction)].")
+
+/obj/structure/minecart_rail/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Powered rails pass rotational force into minecarts that travel over them.")
+	. += span_info("Right-click the rail with an engineering wrench to change its facing or set a triggered facing.")
+	. += span_info("Straight rails can join rotational networks. Diagonal rails guide carts but do not transmit rotation.")
 
 /obj/structure/minecart_rail/proc/rail_examine()
 	return span_notice("Connect this rail to shafts to give momentum to carts that pass over.")
@@ -206,7 +206,11 @@
 	can_buckle = TRUE
 	buckle_requires_restraints = TRUE
 	var/force_disabled = FALSE
-	//buckle_lying = NO_BUCKLE_LYING
+
+/obj/structure/minecart_rail/railbreak/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Brake rails stop carts that pass over them while they are powered.")
+	. += span_info("A redstone trigger toggles the brake rail between its normal state and its forced disabled state.")
 
 /obj/structure/minecart_rail/railbreak/rail_examine()
 	return span_notice("Connect this rail to shafts to stop carts that pass over it. Currently [force_disabled ? "disabled" : (rotations_per_minute ? "powered" : "unpowered")].")

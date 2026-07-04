@@ -169,7 +169,7 @@
 
 /datum/supply_pack/rogue/Alchemist/healing_gas
 	name = "Healing smoke grenade"
-	cost = 30
+	cost = 50
 	contains = list(/obj/item/impact_grenade/smoke/healing_gas)
 
 /////////////
@@ -239,10 +239,10 @@
 	cost = 30
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/conpot)
 
-/datum/supply_pack/rogue/Alchemist/endpot
+/datum/supply_pack/rogue/Alchemist/willpot
 	name = "Willpower Potion"
 	cost = 30
-	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/endpot)
+	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/willpot)
 
 /datum/supply_pack/rogue/Alchemist/spdpot
 	name = "Speed Potion"
@@ -268,6 +268,11 @@
 	name = "Rotcure Potion"
 	cost = 250
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/rogue/rotcure)
+
+/datum/supply_pack/rogue/Alchemist/goldenapplecheap
+	name = "Apple Of Ambrosia - Alchemist's Discount"
+	cost = 40
+	contains = list(/obj/item/reagent_containers/food/snacks/grown/apple/gold)
 
 /////////////////
 // PROSTHETICS //

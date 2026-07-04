@@ -14,6 +14,14 @@
 	var/use_icons = TRUE
 
 
+/datum/component/holster/Destroy()
+	if(istype(parent, /obj/item/rogueweapon/scabbard))
+		var/obj/item/rogueweapon/scabbard/S = parent
+		S.hol_comp = null
+	if(sheathed)
+		QDEL_NULL(sheathed)
+	return ..()
+
 /datum/component/holster/Initialize(obj/item/rogueweapon/arg_validblade, list/arg_valid_blades, list/arg_invalid_blades, arg_sheathe_time)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
@@ -79,6 +87,7 @@
 		return FALSE
 	if(!move_after(user, sheathe_time, target = user))
 		return FALSE
+	I.clear_grip_state()
 
 	A.forceMove(src)
 	sheathed = A
@@ -138,6 +147,8 @@
 		puke_sword(user)
 
 /datum/component/holster/proc/attack_by(atom/source, obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/needle) || istype(I, /obj/item/rogueweapon/hammer))
+		return
 	if(!sheathed)
 		if(!eat_sword(user, I))
 			return
@@ -157,10 +168,7 @@
 		else
 			I.icon_state = "[initial(I.icon_state)]"
 
-		if(user)
-			user.update_inv_hands()
-			user.update_inv_belt()
-			user.update_inv_back()
+		I.update_slot_icon()
 
 	I.getonmobprop(tag)
 
@@ -219,3 +227,9 @@
 		user.update_inv_belt()
 
 	I.getonmobprop(tag)
+
+/datum/component/holster/handstaff/puke_sword(mob/living/user)
+	. = ..()
+
+/datum/component/holster/handstaff/eat_sword(mob/living/user, obj/A)
+	. = ..()

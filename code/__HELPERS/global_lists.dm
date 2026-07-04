@@ -25,6 +25,8 @@
 	GLOB.emote_list = init_emote_list()
 
 	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes)
+	for(var/datum/crafting_recipe/R as anything in GLOB.crafting_recipes)
+		R.build_display_cache()
 
 	init_subtypes(/datum/anvil_recipe, GLOB.anvil_recipes)
 
@@ -67,6 +69,7 @@
 	for (var/path in subtypesof(/datum/loadout_item))
 		var/datum/loadout_item/loadout_item = new path()
 		GLOB.loadout_items[path] = loadout_item
+		GLOB.loadout_items_by_name[loadout_item.name] = loadout_item
 
 
 	// Combat Music Overrides

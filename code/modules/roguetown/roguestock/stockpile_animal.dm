@@ -1,131 +1,212 @@
 /datum/roguestock/stockpile/meat
 	name = "Meat"
-	desc = "Edible flesh harvested from animals."
+	desc = "Edible flesh harvested from most animals."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak
-	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
-	transport_fee = 2
-	export_price = 8
+	trade_good_id = TRADE_GOOD_MEAT
 	importexport_amt = 10
+	stockpile_amount = 5
 	stockpile_limit = 50
-	passive_generation = 2
 	category = "Animal"
+
+/datum/roguestock/stockpile/rat
+	name = "Lesser Meat"
+	desc = "Barely edible flesh harvested from rous."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rat
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/deer
+	name = "Venison"
+	desc = "Delicious and edible flesh harvested from saiga or deer."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	payout_price = 8
+	withdraw_price = 16
+	category = "Animal"
+
+/datum/roguestock/stockpile/volf
+	name = "Bushmeat"
+	desc = "Barely edible flesh harvested from volfs."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	payout_price = 2
+	withdraw_price = 4
+	category = "Animal"
+
+/datum/roguestock/stockpile/bear
+	name = "Greater Bushmeat"
+	desc = "Barely edible flesh harvested from bears."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	payout_price = 6
+	withdraw_price = 9
+	category = "Animal"
+
+/datum/roguestock/stockpile/spider
+	name = "Bogmeat"
+	desc = "Barely edible flesh harvested from mirelurkers."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/crabbo
+	name = "Crab Meat"
+	desc = "Edible flesh carefully harvested from crabs."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/crab
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	payout_price = 4
+	withdraw_price = 8
+	category = "Seafood"
 
 /datum/roguestock/stockpile/poultry
 	name = "Bird Meat"
-	desc = "Edible flesh harvested from birds."
+	desc = "Edible flesh harvested from birds and fowl."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry
-	held_items = list(0, 0)
-	payout_price = 4
-	withdraw_price = 4
-	transport_fee = 2
-	export_price = 8
+	trade_good_id = TRADE_GOOD_POULTRY
 	importexport_amt = 5
+	stockpile_amount = 2
 	stockpile_limit = 25
-	passive_generation = 1
 	category = "Animal"
 
 /datum/roguestock/stockpile/rabbit
 	name = "Cabbit Meat"
 	desc = "Edible flesh harvested from cabbits."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit
-	held_items = list(0, 0)
-	payout_price = 3
-	withdraw_price = 3
-	transport_fee = 1
-	export_price = 5
+	trade_good_id = TRADE_GOOD_RABBIT
 	importexport_amt = 5
+	stockpile_amount = 2
 	stockpile_limit = 25
-	passive_generation = 2
 	category = "Animal"
 
 /datum/roguestock/stockpile/pork
 	name = "Pork"
 	desc = "Edible flesh harvested from swines."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty
-
-	held_items = list(0, 0)
-	held_random_upper = 5
-	held_random_lower = 1
-	nothing_chance = 40
-	export_only = TRUE
-
-	payout_price = 5
-	withdraw_price = 8
-	transport_fee = 8
-	export_price = 7
+	trade_good_id = TRADE_GOOD_PORK
+	stockpile_amount = 2
 	importexport_amt = 5
 	stockpile_limit = 25
-	passive_generation = 0
+	category = "Animal"
+
+/datum/roguestock/stockpile/ham
+	name = "Ham"
+	desc = "A prime cut of swine flesh, raw and ready for steaming."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham
+	trade_good_id = TRADE_GOOD_HAM
+	importexport_amt = 5
+	stockpile_limit = 25
+	category = "Animal"
+
+/datum/roguestock/stockpile/pork_belly
+	name = "Pork Belly"
+	desc = "A fatty slab of swine belly, raw and ready to be cured into bacon."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly
+	trade_good_id = TRADE_GOOD_PORK_BELLY
+	importexport_amt = 5
+	stockpile_limit = 25
+	category = "Animal"
+
+/datum/roguestock/stockpile/bones
+	name = "Bones"
+	desc = "Indescript leftovers that make a good stock for soup and other things."
+	item_type = /obj/item/natural/bone
+	trade_good_id = TRADE_GOOD_BONES
+	stockpile_amount = 0
+	importexport_amt = 0
+	stockpile_limit = 50
 	category = "Animal"
 
 /datum/roguestock/stockpile/fat
 	name = "Fat"
 	desc = "Greasy flesh from an animal."
 	item_type = /obj/item/reagent_containers/food/snacks/fat
-	held_items = list(0, 0)
-	payout_price = 3
-	withdraw_price = 3
-	transport_fee = 1
-	export_price = 5
+	trade_good_id = TRADE_GOOD_FAT
+	stockpile_amount = 10
 	importexport_amt = 5
-	stockpile_limit = 25
-	passive_generation = 2
+	stockpile_limit = 50
 	category = "Animal"
 
 /datum/roguestock/stockpile/tallow
 	name = "Tallow"
 	desc = "Shelf-stabilized fatty tissue."
 	item_type = /obj/item/reagent_containers/food/snacks/tallow
-	held_items = list(0, 0)
-	payout_price = 1
-	withdraw_price = 1
-	transport_fee = 1
-	export_price = 2
+	trade_good_id = TRADE_GOOD_TALLOW
 	importexport_amt = 5
 	stockpile_limit = 25
-	passive_generation = 2
+	category = "Animal"
+
+/datum/roguestock/stockpile/honey
+	name = "Honey"
+	desc = "Sweet delicious from a sweet place."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/honey
+	trade_good_id = TRADE_GOOD_HONEY
+	stockpile_amount = 1
+	importexport_amt = 5
+	stockpile_limit = 15
 	category = "Animal"
 
 /datum/roguestock/stockpile/egg
 	name = "Egg"
 	desc = "Egg laid by a hen."
 	item_type = /obj/item/reagent_containers/food/snacks/egg
-	held_items = list(0, 0)
-	payout_price = 2
-	withdraw_price = 2
-	transport_fee = 1
-	export_price = 3
+	trade_good_id = TRADE_GOOD_EGG
+	stockpile_amount = 4
 	importexport_amt = 5
 	stockpile_limit = 25
-	passive_generation = 2
 	category = "Animal"
 
 /datum/roguestock/stockpile/butter
 	name = "Butter"
 	desc = "The product of milk and salt."
 	item_type = /obj/item/reagent_containers/food/snacks/butter
-	held_items = list(0, 0)
-	payout_price = 9
-	withdraw_price = 9
-	transport_fee = 3
-	export_price = 13
+	trade_good_id = TRADE_GOOD_BUTTER
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
-	passive_generation = 1
 	category = "Animal"
 
 /datum/roguestock/stockpile/cheese
 	name = "Cheese"
 	desc = "The product of milk and salt."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/cheese
-	held_items = list(0, 0)
-	payout_price = 3
-	withdraw_price = 3
-	transport_fee = 2
-	export_price = 5
+	trade_good_id = TRADE_GOOD_CHEESE
+	stockpile_amount = 5
 	importexport_amt = 5
 	stockpile_limit = 25
-	passive_generation = 1
+	category = "Animal"
+
+/datum/roguestock/stockpile/salumoi
+	name = "Salumoi"
+	desc = "Dwarven smoked sausage, cured against ten yils of spoilage."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/salami
+	trade_good_id = TRADE_GOOD_SALUMOI
+	importexport_amt = 3
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/sausage
+	name = "Sausage"
+	desc = "Cooked flesh stuffed into intestine casing, shelf-stable for the season."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
+	trade_good_id = TRADE_GOOD_SAUSAGE
+	importexport_amt = 3
+	stockpile_limit = 20
 	category = "Animal"

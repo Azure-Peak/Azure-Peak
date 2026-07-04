@@ -22,9 +22,13 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Messages' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a1a, #1a120a); border: 1px solid #5a4a3a; border-bottom: 2px solid #8a7a6a; color: #d4c4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>WHISPERS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=The Realm' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #2a2a3a, #0a0a1a); border: 1px solid #4a4a5a; border-bottom: 2px solid #7a7a8a; color: #c4c4d4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>THE REALM</a>"
 	data += "<a href='byond://?src=[REF(src)];viewstats=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a0a, #1a1200); border: 1px solid #5a4a1a; border-bottom: 2px solid #8a7a3a; color: #dec97a; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>STATISTICS</a>"
+	data += "<a href='byond://?src=[REF(src)];vieweconomics=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #4a3a1a, #2a1a08); border: 1px solid #7a5a2a; border-bottom: 2px solid #b89a4a; color: #f0c759; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>ECONOMICS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Heroes' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a4a5a, #1a1b2a); border: 1px solid #6a7b8a; border-bottom: 2px solid #8f9caa; color: #c0c0d0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>HEROES</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
+	data += "</div>"
+	data += "<div style='width: 100%; text-align: center; margin: 18px 0 15px 0;'>"
+	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Blood Toll' style='display: inline-block; width: 140px; padding: 7px 12px; margin: 0 5px; background: linear-gradient(to bottom, #8a1010, #3a0606); border: 1px solid #c43030; border-bottom: 2px solid #ff5a5a; color: #ffe0e0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.85em; letter-spacing: 0.08em; box-shadow: 0 1px 4px rgba(180,30,30,0.4);'>BLOOD TOLL</a>"
 	data += "</div>"
 
 	// Content
@@ -49,6 +53,8 @@
 	for(var/storyteller_name in SSgamemode.storytellers)
 		var/datum/storyteller/initialized_storyteller = SSgamemode.storytellers[storyteller_name]
 		if(!initialized_storyteller)
+			continue
+		if(istype(initialized_storyteller, /datum/storyteller/gamemode))
 			continue
 
 		var/influence = SSgamemode.calculate_storyteller_influence(initialized_storyteller.type)
@@ -198,7 +204,7 @@
 	// Right column	- Way too many races, so they've been thrown together.
 	data += "<div style='display: table-cell; width: 50%; vertical-align: top; padding: 0 10px;'>"
 	data += "<font color='#808080'><span class='bold'>Dwarves:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_DWARVES]]<br>"
-	data += "<font color='#87CEEB'><span class='bold'>Pure & Half-Elves:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_WOOD_ELVES] + GLOB.azure_round_stats[STATS_ALIVE_HALF_ELVES]]<br>"
+	data += "<font color='#87CEEB'><span class='bold'>Pure & Half-Elves:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_WOOD_ELVES] + GLOB.azure_round_stats[STATS_ALIVE_SUN_ELVES] + GLOB.azure_round_stats[STATS_ALIVE_HALF_ELVES]]<br>"
 	data += "<font color='#7729af'><span class='bold'>Dark Elves:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_DARK_ELVES]]<br>"
 	data += "<font color='#e7e3d9'><span class='bold'>Aasimars:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_AASIMAR]]<br>"
 	data += "<font color='#DC143C'><span class='bold'>Tieflings:</span></font> [GLOB.azure_round_stats[STATS_ALIVE_TIEFLINGS]]<br>"
@@ -245,9 +251,13 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Messages' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a1a, #1a120a); border: 1px solid #5a4a3a; border-bottom: 2px solid #8a7a6a; color: #d4c4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>WHISPERS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=The Realm' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #2a2a3a, #0a0a1a); border: 1px solid #4a4a5a; border-bottom: 2px solid #7a7a8a; color: #c4c4d4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>THE REALM</a>"
 	data += "<a href='byond://?src=[REF(src)];viewstats=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a0a, #1a1200); border: 1px solid #5a4a1a; border-bottom: 2px solid #8a7a3a; color: #dec97a; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>STATISTICS</a>"
+	data += "<a href='byond://?src=[REF(src)];vieweconomics=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #4a3a1a, #2a1a08); border: 1px solid #7a5a2a; border-bottom: 2px solid #b89a4a; color: #f0c759; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>ECONOMICS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Heroes' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a4a5a, #1a1b2a); border: 1px solid #6a7b8a; border-bottom: 2px solid #8f9caa; color: #c0c0d0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>HEROES</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
+	data += "</div>"
+	data += "<div style='width: 100%; text-align: center; margin: 18px 0 15px 0;'>"
+	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Blood Toll' style='display: inline-block; width: 140px; padding: 7px 12px; margin: 0 5px; background: linear-gradient(to bottom, #8a1010, #3a0606); border: 1px solid #c43030; border-bottom: 2px solid #ff5a5a; color: #ffe0e0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.85em; letter-spacing: 0.08em; box-shadow: 0 1px 4px rgba(180,30,30,0.4);'>BLOOD TOLL</a>"
 	data += "</div>"
 
 	// Content
@@ -284,6 +294,8 @@
 			for(var/storyteller_name in SSgamemode.storytellers)
 				var/datum/storyteller/S = SSgamemode.storytellers[storyteller_name]
 				if(!S)
+					continue
+				if(istype(S, /datum/storyteller/gamemode))
 					continue
 				sorted_gods += list(list(
 					"name" = S.name,
@@ -387,9 +399,14 @@
 			data += "</div>"
 
 		if("The Realm")
+			// Portraits call getFlatIcon 8 times — expensive enough to stall the server mid-round.
+			// Only render them once the round has actually ended.
+			var/show_portraits = (SSticker.current_state == GAME_STATE_FINISHED)
 			data += "<div style='text-align: center;'>"
 			data += "<div style='color: #e6a962; font-size: 1.2em; margin-bottom: 15px; text-transform: uppercase;'>NOTABLE PEOPLE</div>"
 			data += "<div style='border-top: 1.5px solid #e6a962; margin: 0 auto 25px auto; width: 90%;'></div>"
+			if(!show_portraits)
+				data += "<div style='color: #aaaaaa; font-style: italic; margin: 0 auto 20px auto; width: 80%;'>Portraits are sealed until the Chronicle closes at round's end.</div>"
 
 			data += "<div style='display: inline-block; margin: 0 5%; width: 90%;'>"
 			data += "<div style='display: table; width: 100%;'>"
@@ -402,7 +419,8 @@
 			data += "<div style='margin-bottom: 15px;'><font color='#bd1717'>STRONGMAN</font></div>"
 			data += "<div style='margin: 10px 0;'>"
 			if(strongest)
-				data += get_headshot_icon(strongest)
+				if(show_portraits)
+					data += get_headshot_icon(strongest)
 				data += "<div style='margin: 10px 0;'><font color='#e6a962'>[strongest.real_name]</font><br><i>[strongest.job]</i><br>(with <font color='#bd1717'>[strongest.STASTR] strength</font>)</div>"
 			else
 				data += "Nobody"
@@ -413,7 +431,8 @@
 			data += "<div style='margin: 30px 0 15px 0;'><font color='#54d6c2'>SPEEDSTER</font></div>"
 			data += "<div style='margin: 10px 0;'>"
 			if(fastest)
-				data += get_headshot_icon(fastest)
+				if(show_portraits)
+					data += get_headshot_icon(fastest)
 				data += "<div style='margin: 10px 0;'><font color='#e6a962'>[fastest.real_name]</font><br><i>[fastest.job]</i><br>(with <font color='#54d6c2'>[fastest.STASPD] speed</font>)</div>"
 			else
 				data += "Nobody"
@@ -427,7 +446,8 @@
 			data += "<div style='margin-bottom: 15px;'><font color='#5eb6e6'>GENIUS</font></div>"
 			data += "<div style='margin: 10px 0;'>"
 			if(wisest)
-				data += get_headshot_icon(wisest)
+				if(show_portraits)
+					data += get_headshot_icon(wisest)
 				data += "<div style='margin: 10px 0;'><font color='#e6a962'>[wisest.real_name]</font><br><i>[wisest.job]</i><br>(with <font color='#5eb6e6'>[wisest.STAINT] intelligence</font>)</div>"
 			else
 				data += "Nobody"
@@ -438,7 +458,8 @@
 			data += "<div style='margin: 30px 0 15px 0;'><font color='#e67e22'>IDIOT</font></div>"
 			data += "<div style='margin: 10px 0;'>"
 			if(dumbest)
-				data += get_headshot_icon(dumbest)
+				if(show_portraits)
+					data += get_headshot_icon(dumbest)
 				data += "<div style='margin: 10px 0;'><font color='#e6a962'>[dumbest.real_name]</font><br><i>[dumbest.job]</i><br>(with <font color='#e67e22'>[dumbest.STAINT] intelligence</font>)</div>"
 			else
 				data += "Nobody"
@@ -452,7 +473,8 @@
 			data += "<div style='margin-bottom: 15px;'><font color='#d8dd90'>MAGNATE</font></div>"
 			data += "<div style='margin: 10px 0;'>"
 			if(richest)
-				data += get_headshot_icon(richest)
+				if(show_portraits)
+					data += get_headshot_icon(richest)
 				data += "<div style='margin: 10px 0;'><font color='#e6a962'>[richest.real_name]</font><br><i>[richest.job]</i><br>(with <font color='#d8dd90'>[get_mammons_in_atom(richest)] mammons</font>)</div>"
 			else
 				data += "Nobody"
@@ -463,7 +485,8 @@
 			data += "<div style='margin: 30px 0 15px 0;'><font color='#a569bd'>TURTLE</font></div>"
 			data += "<div style='margin: 10px 0;'>"
 			if(slowest)
-				data += get_headshot_icon(slowest)
+				if(show_portraits)
+					data += get_headshot_icon(slowest)
 				data += "<div style='margin: 10px 0;'><font color='#e6a962'>[slowest.real_name]</font><br><i>[slowest.job]</i><br>(with <font color='#a569bd'>[slowest.STASPD] speed</font>)</div>"
 			else
 				data += "Nobody"
@@ -477,7 +500,8 @@
 			data += "<div style='margin-bottom: 15px;'><font color='#54d666'>LUCKY DEVIL</font></div>"
 			data += "<div style='margin: 10px 0;'>"
 			if(luckiest)
-				data += get_headshot_icon(luckiest)
+				if(show_portraits)
+					data += get_headshot_icon(luckiest)
 				data += "<div style='margin: 10px 0;'><font color='#e6a962'>[luckiest.real_name]</font><br><i>[luckiest.job]</i><br>(with <font color='#54d666'>[luckiest.STALUC] luck</font>)</div>"
 			else
 				data += "Nobody"
@@ -488,7 +512,8 @@
 			data += "<div style='margin: 30px 0 15px 0;'><font color='#e74c3c'>WALKING DISASTER</font></div>"
 			data += "<div style='margin: 10px 0;'>"
 			if(unluckiest)
-				data += get_headshot_icon(unluckiest)
+				if(show_portraits)
+					data += get_headshot_icon(unluckiest)
 				data += "<div style='margin: 10px 0;'><font color='#e6a962'>[unluckiest.real_name]</font><br><i>[unluckiest.job]</i><br>(with <font color='#e74c3c'>[unluckiest.STALUC] luck</font>)</div>"
 			else
 				data += "Nobody"
@@ -497,72 +522,7 @@
 
 			data += "</div></div></div>"
 
-			data += "<div style='height: 20px;'></div>"
-
-			// Treasury Section
-			data += "<div style='text-align: center; color: #e6b327; font-size: 1.2em; margin: 15px 0; text-transform: uppercase;'>Realm's Treasury: [SStreasury.treasury_value]</div>"
-			data += "<div style='border-top: 1.5px solid #e6b327; margin: 0 auto 20px auto; width: 75%;'></div>"
-
-			data += "<div style='width: 100%; margin: 0 auto; position: relative;'>"
-			data += "<div style='display: flex; justify-content: space-between; gap: 0;'>"
-
-			// Left column (Revenue)
-			data += "<div style='width: 44%; display: flex; justify-content: flex-end;'>"
-			data += "<div style='text-align: left; padding-right: 20px;'>"
-			data += "<div style='margin-bottom: 4px;'><font color='#f0c759'>Starting Treasury: </font>[GLOB.azure_round_stats[STATS_STARTING_TREASURY]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#e67e22'>Noble Estates Revenue: </font>[GLOB.azure_round_stats[STATS_NOBLE_INCOME_TOTAL]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#ce9d15'>Rural Taxes Collected: </font>[GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#f5c02e'>Royal Taxes Collected: </font>[GLOB.azure_round_stats[STATS_TAXES_COLLECTED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#8fa36a'>Mammons Deposited: </font>[GLOB.azure_round_stats[STATS_MAMMONS_DEPOSITED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#90b34f'>Stockpile Exports: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#a2b337'>Bought from Stockpile: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE]]</div>"
-			data += "<div style='border-top: 1px solid #555; margin: 8px 0;'></div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#23ba30'>Total Revenue: </font>[GLOB.azure_round_stats[STATS_STARTING_TREASURY]  + GLOB.azure_round_stats[STATS_NOBLE_INCOME_TOTAL] + GLOB.azure_round_stats[STATS_TAXES_COLLECTED] + GLOB.azure_round_stats[STATS_MAMMONS_DEPOSITED] + GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] + GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] + GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED]]</div>"
-			data += "</div></div>"
-
-			// Right column (Expenses)
-			data += "<div style='width: 44%; display: flex; justify-content: flex-start;'>"
-			data += "<div style='text-align: left; padding-left: 20px;'>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c95555'>Mammons Withdrawn: </font>[GLOB.azure_round_stats[STATS_MAMMONS_WITHDRAWN]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#db853d'>Stockpile Imports: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE]]</div>"
-			data += "<div style='border-top: 1px solid #555; margin: 8px 0;'></div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c44731'>Total Expenses: </font>[GLOB.azure_round_stats[STATS_MAMMONS_WITHDRAWN] + GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE]]</div>"
-			data += "</div></div>"
-
-			data += "</div></div>"
-
-			// Economy Section
-			data += "<div style='text-align: center; color: #e6b327; font-size: 1.2em; margin: 15px 0; text-transform: uppercase; margin-top: 35px;'>ECONOMY</div>"
-			data += "<div style='border-top: 1.5px solid #e6b327; margin: 0 auto 20px auto; width: 75%;'></div>"
-
-			data += "<div style='width: 100%; margin: 0 auto; position: relative;'>"
-			data += "<div style='display: flex; justify-content: space-between; gap: 0;'>"
-
-			// Left column
-			data += "<div style='width: 44%; display: flex; justify-content: flex-end;'>"
-			data += "<div style='text-align: left; padding-right: 20px;'>"
-			data += "<div style='margin-bottom: 4px;'><font color='#caa64a'>Bathmatron Vault Revenue: </font>[GLOB.azure_round_stats[STATS_BATHMATRON_VAULT_TOTAL_REVENUE]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c57e62'>Sold to Stockpile: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_EXPANSES]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#b6a17f'>Salary Payments: </font>[GLOB.azure_round_stats[STATS_WAGES_PAID]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#aac484'>Treasury Transfers: </font>[GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c78445'>Royal Fines Collected: </font>[GLOB.azure_round_stats[STATS_FINES_INCOME]]</div>"
-			data += "<div><font color='#e74c3c'>Royal Taxes Evaded: </font>[GLOB.azure_round_stats[STATS_TAXES_EVADED]]</div>"
-			data += "</div></div>"
-
-			// Right column
-			data += "<div style='width: 44%; display: flex; justify-content: flex-start;'>"
-			data += "<div style='text-align: left; padding-left: 20px;'>"
-			data += "<div style='margin-bottom: 4px;'><font color='#ebbf49'>Mammons Circulating: </font>[GLOB.azure_round_stats[STATS_MAMMONS_HELD]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#db9a59'>Trade Value Exported: </font>[GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#dfbf57'>Trade Value Imported: </font>[GLOB.azure_round_stats[STATS_TRADE_VALUE_IMPORTED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c0b283'>GOLDFACE Imports: </font>[GLOB.azure_round_stats[STATS_GOLDFACE_VALUE_SPENT]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c0c0c0'>SILVERFACE Imports: </font>[GLOB.azure_round_stats[STATS_SILVERFACE_VALUE_SPENT]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#b87333'>COPPERFACE Imports: </font>[GLOB.azure_round_stats[STATS_COPPERFACE_VALUE_SPENT]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#b5a642'>PURITY Imports: </font>[GLOB.azure_round_stats[STATS_PURITY_VALUE_SPENT]]</div>"
-			data += "<div><font color='#7495d3'>Peddler Revenue: </font>[GLOB.azure_round_stats[STATS_PEDDLER_REVENUE]]</div>"
-			data += "</div></div>"
-
-			data += "</div></div>"
+			data += "</div>"
 
 		if("Heroes")
 			data += "<div style='text-align: center; color: #e6e6e6; font-size: 1.2em; margin-bottom: 15px;'>HEROES OF THE REALM</div>"
@@ -622,6 +582,8 @@
 
 			for(var/datum/antagonist/A in GLOB.antagonists)
 				if(A.owner && A.type != /datum/antagonist)
+					if(!(A.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN))
+						continue
 					var/should_exclude = FALSE
 					if(length(A.owner.antag_datums) == 1)
 						for(var/datum/team/T in all_teams)
@@ -731,6 +693,13 @@
 
 				if(all_antagonists.len)
 					data += "</div></div>"
+			if(length(SSgamemode.false_rumours))
+				data += "<div style='background: #14140a; border: 1px solid #5a5a3a; padding: 12px; border-radius: 4px; margin-bottom: 15px;'>"
+				data += "<div style='color: #cfcfa0; font-weight: bold; margin-bottom: 8px;'>Whispers and Rumours</div>"
+				data += "<div style='margin-left: 10px;'>"
+				for(var/rumour in SSgamemode.false_rumours)
+					data += "<div style='margin-bottom: 5px; font-style: italic; color: #b0b0a0;'>The rumours about [rumour] were false.</div>"
+				data += "</div></div>"
 
 		if("Outlaws")
 			data += "<div style='text-align: center; color: #ffd494; font-size: 1.2em; margin-bottom: 15px;'>WANTED OUTLAWS</div>"
@@ -852,6 +821,9 @@
 					"}
 
 				data += "</div>"
+
+		if("Blood Toll")
+			data += render_blood_toll_chronicle()
 	data += "</div>"
 
 	src.mob << browse(null, "window=vanderlin_influences")
@@ -885,9 +857,13 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Messages' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a1a, #1a120a); border: 1px solid #5a4a3a; border-bottom: 2px solid #8a7a6a; color: #d4c4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>WHISPERS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=The Realm' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #2a2a3a, #0a0a1a); border: 1px solid #4a4a5a; border-bottom: 2px solid #7a7a8a; color: #c4c4d4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>THE REALM</a>"
 	data += "<a href='byond://?src=[REF(src)];viewstats=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a2a0a, #1a1200); border: 1px solid #5a4a1a; border-bottom: 2px solid #8a7a3a; color: #dec97a; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>STATISTICS</a>"
+	data += "<a href='byond://?src=[REF(src)];vieweconomics=1' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #4a3a1a, #2a1a08); border: 1px solid #7a5a2a; border-bottom: 2px solid #b89a4a; color: #f0c759; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>ECONOMICS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Heroes' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a4a5a, #1a1b2a); border: 1px solid #6a7b8a; border-bottom: 2px solid #8f9caa; color: #c0c0d0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>HEROES</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
+	data += "</div>"
+	data += "<div style='width: 100%; text-align: center; margin: 18px 0 15px 0;'>"
+	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Blood Toll' style='display: inline-block; width: 140px; padding: 7px 12px; margin: 0 5px; background: linear-gradient(to bottom, #8a1010, #3a0606); border: 1px solid #c43030; border-bottom: 2px solid #ff5a5a; color: #ffe0e0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.85em; letter-spacing: 0.08em; box-shadow: 0 1px 4px rgba(180,30,30,0.4);'>BLOOD TOLL</a>"
 	data += "</div>"
 
 	// Content

@@ -1,4 +1,16 @@
 #define MAX_FARM_ANIMALS 20
+// How long it takes to start butchering as an unskilled person
+#define BUTCHERING_UNSKILLED_PRE_TIME 0.5 SECONDS
+// Time pre calculations
+#define BUTCHERING_BASE_TIME_PER_STEP 2 SECONDS
+// Max time per butchering step
+#define BUTCHERING_MAX_TIME_PER_STEP 1.8 SECONDS
+// Time per step reduction per skill level
+#define BUTCHERING_TIME_REDUCTION_PER_SKILL 0.3 SECONDS
+// EXP per int per step
+#define BUTCHERING_EXP_PER_STEP 0.4
+// EXP for fully finishing a butchering process per int
+#define BUTCHERING_EXP_FINISH 2
 
 GLOBAL_VAR_INIT(farm_animals, FALSE)
 
@@ -44,6 +56,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/obj/item/handcuffed = null //Whether or not the mob is handcuffed
 	var/obj/item/legcuffed = null  //Same as handcuffs but for legs. Bear traps use this.
+
+	var/blood_color = BLOOD_COLOR_RED
 
 	///When someone interacts with the simple animal.
 	///Help-intent verb in present continuous tense.
@@ -101,6 +115,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	///LETS SEE IF I CAN SET SPEEDS FOR SIMPLE MOBS WITHOUT DESTROYING EVERYTHING. Higher speed is slower, negative speed is faster.
 	var/speed = 1
+	///Delay for movement and riding logic across the simple-animal hierarchy.
+	var/move_to_delay = 3
 
 	///Hot simple_animal baby making vars.
 	var/list/childtype = null
@@ -181,6 +197,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/botched_butcher_results
 	var/perfect_butcher_results
+	/// Path of head to drop upon butchering. Guaranteed but value scales with butchering skill.
+	var/head_butcher
 	var/list/inherent_spells = list()
 
 	///What distance should we be checking for interesting things when considering idling/deidling? Defaults to AI_DEFAULT_INTERESTING_DIST
@@ -189,6 +207,23 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/datum/cell_tracker/our_cells
 
 	var/obj/item/caparison/ccaparison
+	var/obj/item/clothing/barding/bbarding
+	var/caparison_over_barding = FALSE
+	var/barding_speed_mult = 1
+	var/do_footstep = FALSE
+	var/fly_time = 3 SECONDS //default fly delay
+
+/mob/living/simple_animal/get_mechanics_examine(mob/user)
+	. = ..()
+	if(can_buckle && max_buckled_mobs)
+		. += span_info("This can carry up to [max_buckled_mobs] rider[max_buckled_mobs == 1 ? "" : "s"].")
+		. += span_info("To mount an incapacitated or tied up mob, a rider must be present on the mount.")
+		. += span_info("To dismount an incapacitated or tied up mob, all riders must dismount, first.")
+		if(ssaddle)
+			. += span_info("Use middle-mouse button on the mount to open its inventory.")
+
+/mob/living/simple_animal/get_blood_color()
+	return blood_color
 
 /mob/living/simple_animal/Initialize()
 	. = ..()
@@ -209,7 +244,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		AddSpell(newspell)
 
 /mob/living/simple_animal/Destroy()
-	GLOB.simple_animals[AIStatus] -= src
+	for(var/list/SA_list in GLOB.simple_animals)
+		SA_list -= src
 	SSnpcpool.currentrun -= src
 
 	if(nest)
@@ -223,6 +259,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(ccaparison)
 		QDEL_NULL(ccaparison)
 		ccaparison = null
+
+	if(bbarding)
+		QDEL_NULL(bbarding)
+		bbarding = null
 
 	var/turf/T = get_turf(src)
 	if (T && AIStatus == AI_Z_OFF)
@@ -239,6 +279,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		. += span_notice("This animal is saddled: ([ssaddle.name]).")
 	if(ccaparison)
 		. += span_notice("This animal is wearing a caparison: ([ccaparison.name]).")
+	if(bbarding)
+		. += span_notice("This animal is wearing a bard: ([bbarding.name]).")
 
 /mob/living/simple_animal/attackby(obj/item/O, mob/user, params)
 	if(!is_type_in_list(O, food_type))
@@ -257,6 +299,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			if(realchance)
 				if(prob(realchance))
 					tamed(user)
+					record_round_statistic(STATS_ANIMALS_TAMED)
 				else
 					tame_chance += bonus_tame_chance
 
@@ -271,6 +314,21 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		ccaparison = null
 		C.forceMove(get_turf(src))
 		user.put_in_hands(C)
+		update_icon()
+		return
+	else if(bbarding)
+		user.visible_message(span_notice("[user] is removing the bard from [src]..."), span_notice("I start removing the bard from [src]..."))
+		if(!do_after(user, 10 SECONDS, TRUE, src))
+			return
+		playsound(loc, 'sound/foley/saddledismount.ogg', 100, FALSE)
+		user.visible_message(span_notice("[user] removes the bard from [src]."), span_notice("I remove the bard from [src]."))
+		var/obj/item/clothing/barding/B = bbarding
+		bbarding = null
+		// Reset any movement slowdown from barding when it is removed
+		barding_speed_mult = 1
+		updatehealth()
+		B.forceMove(get_turf(src))
+		user.put_in_hands(B)
 		update_icon()
 		return
 	else if(ssaddle)
@@ -290,11 +348,44 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/update_icon()
 	cut_overlays()
 	. = ..()
-	if(ccaparison && stat == CONSCIOUS && !resting)
-		var/caparison_overlay = ccaparison.female_caparison_state && gender == FEMALE ? ccaparison.female_caparison_state : ccaparison.caparison_state
-		var/mutable_appearance/caparison_above_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay + "-above", 4.31)
-		add_overlay(icon(ccaparison.caparison_icon, caparison_overlay))
-		add_overlay(caparison_above_overlay)
+	var/barding_layer = 6
+	var/caparison_layer = 5
+	if(caparison_over_barding)
+		caparison_layer = 6
+		barding_layer = 5
+
+	if(stat == CONSCIOUS && !resting)
+		if(ccaparison)
+			var/caparison_overlay_string = ccaparison.female_caparison_state && gender == FEMALE ? ccaparison.female_caparison_state : ccaparison.caparison_state
+
+			var/mutable_appearance/caparison_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay_string, caparison_layer)
+			caparison_overlay.color = ccaparison.color
+			caparison_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+			add_overlay(caparison_overlay)
+			if(ccaparison.detail_state)
+				var/mutable_appearance/detail_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay_string + "_" + ccaparison.detail_state, caparison_layer)
+				detail_overlay.color = ccaparison.detail_color
+				detail_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+				add_overlay(detail_overlay)
+
+			var/mutable_appearance/caparison_above_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay_string + "-above", caparison_layer - 0.69)
+			caparison_above_overlay.color = ccaparison.color
+			caparison_above_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+			add_overlay(caparison_above_overlay)
+			if(ccaparison.detail_state)
+				var/mutable_appearance/detail_above_overlay = mutable_appearance(ccaparison.caparison_icon, caparison_overlay_string + "_" + ccaparison.detail_state + "-above", caparison_layer - 0.69)
+				detail_above_overlay.color = ccaparison.detail_color
+				detail_above_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+				add_overlay(detail_above_overlay)
+
+		if(bbarding)
+			var/barding_overlay = bbarding.female_barding_state && gender == FEMALE ? bbarding.female_barding_state : bbarding.barding_state
+			var/mutable_appearance/barding_base_overlay = mutable_appearance(bbarding.barding_icon, barding_overlay, barding_layer)
+			barding_base_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+			var/mutable_appearance/barding_above_overlay = mutable_appearance(bbarding.barding_icon, barding_overlay + "-above", barding_layer - 0.69)
+			barding_above_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+			add_overlay(barding_base_overlay)
+			add_overlay(barding_above_overlay)
 
 ///Extra effects to add when the mob is tamed, such as adding a riding component
 /mob/living/simple_animal/proc/tamed(mob/user)
@@ -304,6 +395,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(user)
 		owner = user
 		SEND_SIGNAL(user, COMSIG_ANIMAL_TAMED, src)
+	pet_passive = TRUE
 
 //mob/living/simple_animal/examine(mob/user)
 //	. = ..()
@@ -334,13 +426,16 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(HAS_TRAIT(src, TRAIT_RIGIDMOVEMENT))
 		return
 	if(HAS_TRAIT(src, TRAIT_IGNOREDAMAGESLOWDOWN))
-		move_to_delay = initial(move_to_delay)
+		var/base_delay = initial(move_to_delay)
+		move_to_delay = base_delay * barding_speed_mult
 		return
 	var/health_deficiency = getBruteLoss() + getFireLoss()
 	if(health_deficiency >= ( maxHealth - (maxHealth*0.50) ))
-		move_to_delay = initial(move_to_delay) + 2
+		var/damaged_delay = initial(move_to_delay) + 2
+		move_to_delay = damaged_delay * barding_speed_mult
 	else
-		move_to_delay = initial(move_to_delay)
+		var/normal_delay = initial(move_to_delay)
+		move_to_delay = normal_delay * barding_speed_mult
 
 /mob/living/simple_animal/hostile/forceMove(turf/T)
 	var/list/BM = list()
@@ -455,11 +550,11 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		var/obj/item/held_item = user.get_active_held_item()
 		if(held_item)
 			if((butcher_results || guaranteed_butcher_results) && ((held_item.get_sharpness() && held_item.wlength == WLENGTH_SHORT) || istype(held_item, /obj/item/contraption/shears)))
-				var/used_time = 3 SECONDS
+				var/used_time = BUTCHERING_UNSKILLED_PRE_TIME
 				var/on_meathook = FALSE
 				if((src.buckled && istype(src.buckled, /obj/structure/meathook))|| istype(held_item, /obj/item/contraption/shears))
 					on_meathook = TRUE //will work efficiently if they are using autosheers as well
-					used_time -= 3 SECONDS
+					used_time -= BUTCHERING_UNSKILLED_PRE_TIME
 					visible_message("[user] begins to efficiently butcher [src]...")
 				else
 					visible_message("[user] begins to butcher [src]...")
@@ -469,6 +564,24 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 				if(used_time <= 0 || do_after(user, used_time, target = src))
 					butcher(user, on_meathook)
 
+	else if (stat != DEAD && istype(ssaddle, /obj/item/natural/saddle) && bbarding && ccaparison)
+		var/pick = alert(user, "What would you like to do?", "[src.name]", "Adjust caparison", "Look through the saddle bags")
+		if(!pick)
+			pick = "Look through the saddle bags"
+		switch(pick)
+			if("Adjust caparison")
+				caparison_over_barding = !caparison_over_barding
+				to_chat(user, span_info("I [caparison_over_barding ? "adjust [ccaparison] to cover [bbarding]" : "adjust [ccaparison] to be under [bbarding]"]."))
+				update_icon()
+			if("Look through the saddle bags")
+				var/datum/component/storage/saddle_storage = ssaddle.GetComponent(/datum/component/storage)
+				var/access_time = (user in buckled_mobs) ? 10 : 30
+				if (do_after(user, access_time, target = src))
+					saddle_storage.show_to(user)
+	else if(bbarding && ccaparison)
+		caparison_over_barding = !caparison_over_barding
+		to_chat(user, span_info("I [caparison_over_barding ? "adjust [ccaparison] to cover [bbarding]" : "adjust [ccaparison] to be under [bbarding]"]."))
+		update_icon()
 	else if (stat != DEAD && istype(ssaddle, /obj/item/natural/saddle))		//Fallback saftey for saddles
 		var/datum/component/storage/saddle_storage = ssaddle.GetComponent(/datum/component/storage)
 		var/access_time = (user in buckled_mobs) ? 10 : 30
@@ -482,7 +595,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		ssaddle = null
 
 	var/butchery_skill_level = user.get_skill_level(/datum/skill/labor/butchering)
-	var/time_per_cut = max(5, 30 - butchery_skill_level * 5) // 3 seconds for no skill, 5 ticks for master
+	var/time_per_cut = min(BUTCHERING_MAX_TIME_PER_STEP, BUTCHERING_BASE_TIME_PER_STEP - butchery_skill_level * BUTCHERING_TIME_REDUCTION_PER_SKILL) // 1.8 seconds for no skill, 0.2 seconds for legendary
 	if(on_meathook)
 		time_per_cut *= 0.75
 	var/botch_chance = 0
@@ -549,12 +662,39 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 					var/obj/item/reagent_containers/food/snacks/F = I
 					F.become_rotten()
 
-		if(user.mind)
-			user.mind.add_sleep_experience(/datum/skill/labor/butchering, user.STAINT * 0.5)
+		if(user.mind && !isemptylist(butcher_results))
+			user.mind.add_sleep_experience(/datum/skill/labor/butchering, user.STAINT * BUTCHERING_EXP_PER_STEP)
 		playsound(src, 'sound/foley/gross.ogg', 100, FALSE)
 	if(isemptylist(butcher_results))
+		if(head_butcher)
+			var/head_path = head_butcher
+			head_butcher = null
+			var/obj/item/natural/head/head = new head_path(Tsec)
+			var/head_quality = 0
+			switch(butchery_skill_level)
+				if(SKILL_LEVEL_NONE to SKILL_LEVEL_NOVICE)
+					head_quality = 0
+				if(SKILL_LEVEL_APPRENTICE)
+					head_quality = 1
+					if(prob(user.STALUC))
+						head_quality = 2
+				if(SKILL_LEVEL_JOURNEYMAN)
+					head_quality = 2
+				if(SKILL_LEVEL_EXPERT to INFINITY)
+					head_quality = 3
+			if(rotstuff)
+				head_quality = -1
+			head.scale_butchering_quality(head_quality)
+			if(no_head_bounty)
+				head.sellprice = 0
 		to_chat(user, "<span class='notice'>I finish butchering: [butcher_summary(botch_count, normal_count, perfect_count, botch_chance, perfect_chance)].</span>")
+		if(user.mind)
+			user.mind.add_sleep_experience(/datum/skill/labor/butchering, user.STAINT * BUTCHERING_EXP_FINISH)
 		gib()
+
+/mob/living/simple_animal/mark_contract_spawned()
+	. = ..()
+	head_butcher = null
 
 /mob/living/proc/butcher_summary(botch_count, normal_count, perfect_count, botch_chance, perfect_chance)
     var/list/parts = list()
@@ -598,10 +738,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		remove_movespeed_modifier(MOVESPEED_ID_SIMPLEMOB_VARSPEED, TRUE)
 	add_movespeed_modifier(MOVESPEED_ID_SIMPLEMOB_VARSPEED, TRUE, 100, multiplicative_slowdown = speed, override = TRUE)
 
-/mob/living/simple_animal/Stat()
-	..()
-	return //RTCHANGE
-
 /mob/living/simple_animal/proc/drop_loot()
 	for(var/i in loot) // If someone puts a turf in this list I'm going to kill you.
 		new i(loc)
@@ -615,7 +751,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(dextrous)
 		drop_all_held_items()
 	if(!gibbed)
-		emote("death", forced = TRUE)
+		play_death_emote()
 	layer = layer-0.1
 	if(del_on_death)
 		..()
@@ -735,7 +871,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		walk(src, 0) //stop mid walk
 
 	update_transform()
-	update_action_buttons_icon()
+	update_mob_action_buttons()
 
 /mob/living/simple_animal/update_transform()
 	var/matrix/ntransform = matrix(transform) //aka transform.Copy()
@@ -768,8 +904,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	if(client.eye != src)
 		var/atom/A = client.eye
-		if(A.update_remote_sight(src)) //returns 1 if we override all other sight updates.
-			return
+		if(hascall(A, "update_remote_sight"))
+			if(A.update_remote_sight(src))
+				return
 	sync_lighting_plane_alpha()
 
 /mob/living/simple_animal/can_hold_items()
@@ -812,10 +949,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		var/atom/movable/screen/inventory/hand/H
 		H = hud_used.hand_slots["[hand_index]"]
 		if(H)
-			H.update_icon()
+			H.update_hand_vis()
 		H = hud_used.hand_slots["[oindex]"]
 		if(H)
-			H.update_icon()
+			H.update_hand_vis()
 	return TRUE
 
 /mob/living/simple_animal/put_in_hands(obj/item/I, del_on_fail = FALSE, merge_stacks = TRUE)
@@ -839,17 +976,62 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 //ANIMAL RIDING
 
-/mob/living/simple_animal/hostile/user_unbuckle_mob(mob/living/M, mob/user)
-	if(user != M)
-		return
+/mob/living/simple_animal/proc/get_mount_time(mob/living/M, default_fail)
 	var/time2mount = 12
 	if(M.mind)
 		var/amt = M.get_skill_level(/datum/skill/misc/riding)
 		if(amt)
 			if(amt > 3)
-				time2mount = 0
+				return 0
 		else
-			time2mount = 30
+			return default_fail
+	return time2mount
+
+/mob/living/simple_animal/proc/setup_mount(list/riding_offsets = list(TEXT_NORTH = list(0, 8), TEXT_SOUTH = list(0, 8), TEXT_EAST = list(-2, 8), TEXT_WEST = list(2, 8)), south_layer = ABOVE_MOB_LAYER, north_layer = OBJ_LAYER, east_layer = OBJ_LAYER, west_layer = OBJ_LAYER)
+	if(!can_buckle)
+		return
+	var/datum/component/riding/D = LoadComponent(/datum/component/riding/no_ocean)
+	D.set_riding_offsets(RIDING_OFFSET_ALL, riding_offsets)
+	D.set_vehicle_dir_layer(SOUTH, south_layer)
+	D.set_vehicle_dir_layer(NORTH, north_layer)
+	D.set_vehicle_dir_layer(EAST, east_layer)
+	D.set_vehicle_dir_layer(WEST, west_layer)
+
+/mob/living/simple_animal/proc/add_saddleicon(saddle_above_state, saddle_state, overlay_layer = 4.3)
+	if(!ssaddle)
+		return
+	var/mutable_appearance/saddle_overlay = mutable_appearance(icon, saddle_above_state, overlay_layer)
+	saddle_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+	add_overlay(saddle_overlay)
+	saddle_overlay = mutable_appearance(icon, saddle_state, overlay_layer)
+	saddle_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+	add_overlay(saddle_overlay)
+
+/mob/living/simple_animal/proc/add_ridericon(mounted_state, overlay_layer = 4.3)
+	if(!has_buckled_mobs())
+		return
+	var/mutable_appearance/mounted_overlay = mutable_appearance(icon, mounted_state, overlay_layer)
+	mounted_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+	add_overlay(mounted_overlay)
+
+/mob/living/simple_animal/proc/adjust_speed(mob/living/driver)
+	var/delay = vars["move_to_delay"]
+	if(!isnum(delay))
+		delay = 3
+	if(driver?.m_intent == MOVE_INTENT_RUN)
+		delay -= 1
+	if(driver?.mind)
+		var/amt = driver.get_skill_level(/datum/skill/misc/riding)
+		if(amt)
+			delay -= 5 + amt/6
+		else
+			delay -= 3
+	return max(delay, 1)
+
+/mob/living/simple_animal/user_unbuckle_mob(mob/living/M, mob/user)
+	if(user != M)
+		return
+	var/time2mount = get_mount_time(M, 30)
 	if(ssaddle)
 		playsound(src, 'sound/foley/saddledismount.ogg', 100, TRUE)
 	if(!move_after(M,time2mount, target = src))
@@ -860,88 +1042,138 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	..()
 	update_icon()
 
-/mob/living/simple_animal/hostile/user_buckle_mob(mob/living/M, mob/user)
+/mob/living/simple_animal/user_buckle_mob(mob/living/M, mob/user)
 	if(user != M)
-		return
-	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
-	if(riding_datum)
-		var/time2mount = 12
-		riding_datum.vehicle_move_delay = move_to_delay
-		if(M.mind)
-			var/amt = M.get_skill_level(/datum/skill/misc/riding)
-			if(amt)
-				if(amt > 3)
-					time2mount = 0
-			else
-				time2mount = 50
+		return ..()
 
-		if(!move_after(M,time2mount, target = src))
-			return
-		if(user.incapacitated())
-			return
-//		for(var/atom/movable/A in get_turf(src))
-//			if(A != src && A != M && A.density)
-//				return
-		M.forceMove(get_turf(src))
-		if(ssaddle)
-			playsound(src, 'sound/foley/saddlemount.ogg', 100, TRUE)
+	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
+	if(!riding_datum)
+		return
+	var/time2mount = get_mount_time(M, 50)
+	riding_datum.vehicle_move_delay = adjust_speed(M)
+	if(!move_after(M,time2mount, target = src))
+		return
+	if(user.incapacitated())
+		return
+	M.forceMove(get_turf(src))
+	if(ssaddle)
+		playsound(src, 'sound/foley/saddlemount.ogg', 100, TRUE)
 	..()
 	update_icon()
 
-/mob/living/simple_animal/hostile
-	var/do_footstep = FALSE
+/mob/living/simple_animal/hostile/user_buckle_mob(mob/living/M, mob/user)
+	if(user != M)
+		if(!has_buckled_mobs())
+			return FALSE
+		var/mob/living/driver = buckled_mobs[1]
+		if(driver == user)
+			to_chat(user, span_warning("I need someone else's help to hoist [M]!"))
+			return FALSE
+		if(buckled_mobs.len >= max_buckled_mobs)
+			to_chat(user, span_warning("[src] has no more room!"))
+			return FALSE
+		if(!M || M == src)
+			return FALSE
+		if(!in_range(M, src))
+			return FALSE
+		if(!M.restrained(TRUE) && !M.incapacitated(FALSE, TRUE))
+			to_chat(user, span_warning("[M] needs to be incapacitated or chained!"))
+			return FALSE
+		if(M.buckled || M.anchored)
+			return FALSE
+		if(M.loc != loc)
+			var/turf/T = get_turf(src)
+			if(!T)
+				return FALSE
+			M.forceMove(T)
+		if(!buckle_mob(M, FALSE, FALSE))
+			return FALSE
+		M.visible_message(span_warning("[user] hoists [M] onto [src]!"),\
+			span_warning("[user] hoists me onto [src]!"))
+		return TRUE
+	return ..()
 
-/mob/living/simple_animal/hostile/relaymove(mob/user, direction)
+/mob/living/simple_animal/hostile/proc/dismount_incap()
+	if(!has_buckled_mobs())
+		return
+	if(LAZYLEN(buckled_mobs) != 1)
+		return
+	var/mob/living/L = buckled_mobs[1]
+	if(!istype(L))
+		return
+	if(!L.restrained(TRUE) && !L.incapacitated(FALSE, TRUE))
+		return
+	unbuckle_mob(L, TRUE)
+
+/mob/living/simple_animal/hostile/post_buckle_mob(mob/living/M)
+	. = ..()
+	dismount_incap()
+
+/mob/living/simple_animal/hostile/post_unbuckle_mob(mob/living/M)
+	. = ..()
+	dismount_incap()
+
+/mob/living/simple_animal/relaymove(mob/user, direction)
 	if (stat == DEAD)
 		return
 	var/oldloc = loc
 	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
-	if(tame && riding_datum)
-		if(riding_datum.handle_ride(user, direction))
-			riding_datum.vehicle_move_delay = move_to_delay
-			if(user.m_intent == MOVE_INTENT_RUN)
-				riding_datum.vehicle_move_delay -= 1
-				if(loc != oldloc)
-					var/turf/open/T = loc
-					if(!do_footstep && T.footstep)
-						do_footstep = TRUE
-						playsound(loc,pick('sound/foley/footsteps/hoof/horserun (1).ogg','sound/foley/footsteps/hoof/horserun (2).ogg','sound/foley/footsteps/hoof/horserun (3).ogg'), 100, TRUE)
-					else
-						do_footstep = FALSE
-			else
-				if(loc != oldloc)
-					var/turf/open/T = loc
-					if(!do_footstep && T.footstep)
-						do_footstep = TRUE
-						playsound(loc,pick('sound/foley/footsteps/hoof/horsewalk (1).ogg','sound/foley/footsteps/hoof/horsewalk (2).ogg','sound/foley/footsteps/hoof/horsewalk (3).ogg'), 100, TRUE)
-					else
-						do_footstep = FALSE
-			if(user.mind)
-				var/amt = user.get_skill_level(/datum/skill/misc/riding)
-				if(amt)
-					riding_datum.vehicle_move_delay -= 5 + amt/6
-				else
-					riding_datum.vehicle_move_delay -= 3
+	if(!tame || !riding_datum)
+		return
+
+	var/mob/living/driver = null
+	if(buckled_mobs && buckled_mobs.len)
+		driver = buckled_mobs[1]
+	if(!driver || user != driver)
+		return
+
+	riding_datum.vehicle_move_delay = adjust_speed(driver)
+	if(riding_datum.handle_ride(driver, direction))
+		riding_datum.vehicle_move_delay = adjust_speed(driver)
+		if(driver && user == driver && driver.m_intent == MOVE_INTENT_RUN)
 			if(loc != oldloc)
-				var/obj/structure/mineral_door/MD = locate() in loc
-				if(MD && !MD.ridethrough)
-					if(!HAS_TRAIT(user, TRAIT_EQUESTRIAN))
-						violent_dismount(user)
+				var/turf/open/T = loc
+				if(!do_footstep && T.footstep)
+					do_footstep = TRUE
+					playsound(loc,pick('sound/foley/footsteps/hoof/horserun (1).ogg','sound/foley/footsteps/hoof/horserun (2).ogg','sound/foley/footsteps/hoof/horserun (3).ogg'), 100, TRUE)
+				else
+					do_footstep = FALSE
+		else
+			if(loc != oldloc)
+				var/turf/open/T = loc
+				if(!do_footstep && T.footstep)
+					do_footstep = TRUE
+					playsound(loc,pick('sound/foley/footsteps/hoof/horsewalk (1).ogg','sound/foley/footsteps/hoof/horsewalk (2).ogg','sound/foley/footsteps/hoof/horsewalk (3).ogg'), 100, TRUE)
+				else
+					do_footstep = FALSE
+		if(loc != oldloc)
+			var/obj/structure/mineral_door/MD = locate() in loc
+			if(MD && !MD.ridethrough)
+				for(var/mob/living/carbon/mountee in buckled_mobs)
+					if(HAS_TRAIT(mountee, TRAIT_EQUESTRIAN))
+						continue
+					violent_dismount(mountee)
 
 /mob/living/simple_animal/proc/violent_dismount(mob/living/user)
-	if(isliving(user))
-		var/mob/living/L = user
-		unbuckle_mob(L)
-		L.Paralyze(50)
-		L.Stun(50)
-		playsound(L.loc, 'sound/foley/zfall.ogg', 100, FALSE)
-		L.visible_message(span_danger("[L] falls off [src]!"))
+	if(!isliving(user))
+		return FALSE
+
+	var/mob/living/L = user
+	unbuckle_mob(L)
+	L.Paralyze(5 SECONDS)
+	L.Stun(5 SECONDS)
+	playsound(L.loc, 'sound/foley/zfall.ogg', 100, FALSE)
+	L.visible_message(span_danger("[L] falls off [src]!"))
+
+	return TRUE
 
 /mob/living/simple_animal/buckle_mob(mob/living/buckled_mob, force = 0, check_loc = 1)
 	. = ..()
 	LoadComponent(/datum/component/riding)
 
 /mob/living/simple_animal/proc/toggle_ai(togglestatus)
+	if(QDELETED(src))
+		return
 	if(!can_have_ai && (togglestatus != AI_OFF))
 		return
 	if (AIStatus != togglestatus)
@@ -980,12 +1212,19 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		SSidlenpcpool.idle_mobs_by_zlevel[old_z] -= src
 		toggle_ai(initial(AIStatus))
 
-/mob/living/simple_animal/Move()
-	if(binded)
-		return FALSE
-	. = ..()
-//	if(!stat)
-//		eat_plants()
+/mob/living/simple_animal/Move(NewLoc, Dir, step_x, step_y)
+    if(binded)
+        return FALSE
+    var/oldloc = loc
+    . = ..()
+    if(. && loc != oldloc)
+        if(client)
+            // Player
+            set_glide_size(DELAY_TO_GLIDE_SIZE(world.tick_lag))
+        else
+            // AI
+            set_glide_size(DELAY_TO_GLIDE_SIZE(move_to_delay))
+    return .
 
 /mob/living/simple_animal/proc/eat_plants()
 
@@ -1059,4 +1298,42 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		RegisterSignal(new_grid, SPATIAL_GRID_CELL_EXITED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_exit))
 	consider_wakeup()
 
+//Flight related procs foy flying simple_animals
+/mob/living/simple_animal/proc/fly_up()
+	set category = "RoleUnique.Winged Form"
+	set name = "Fly Up"
+
+	if(src.pulledby != null)
+		to_chat(src, span_notice("I can't fly away while being grabbed!"))
+		return
+	src.visible_message(span_notice("[src] begins to ascend!"), span_notice("You take flight..."))
+	if(do_after(src, fly_time))
+		if(src.pulledby == null)
+			src.zMove(UP, TRUE)
+			to_chat(src, span_notice("I fly up."))
+		else
+			to_chat(src, span_notice("I can't fly away while being grabbed!"))
+
+/mob/living/simple_animal/proc/fly_down()
+	set category = "RoleUnique.Winged Form"
+	set name = "Fly Down"
+
+	if(src.pulledby != null)
+		to_chat(src, span_notice("I can't fly away while being grabbed!"))
+		return
+	src.visible_message(span_notice("[src] begins to descend!"), span_notice("You take flight..."))
+	if(do_after(src, fly_time))
+		if(src.pulledby == null)
+			src.zMove(DOWN, TRUE)
+			to_chat(src, span_notice("I fly down."))
+		else
+			to_chat(src, span_notice("I can't fly away while being grabbed!"))
+//End flight
+
 #undef MAX_FARM_ANIMALS
+#undef BUTCHERING_UNSKILLED_PRE_TIME
+#undef BUTCHERING_BASE_TIME_PER_STEP
+#undef BUTCHERING_MAX_TIME_PER_STEP
+#undef BUTCHERING_TIME_REDUCTION_PER_SKILL
+#undef BUTCHERING_EXP_PER_STEP
+#undef BUTCHERING_EXP_FINISH

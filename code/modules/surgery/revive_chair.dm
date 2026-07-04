@@ -2,8 +2,9 @@
 
 // The immovable chair structure
 /obj/structure/chair/frankenstein
-	name = "Fulmenor chair"
-	desc = "A nightmarish contraption of pipes, and sparking electrodes. It seems permanently fixed to the ground. Affectionately known as the ZRONK device."
+	name = "Fulmenor Chair"
+	desc = "A nightmarish contraption of pipes, and sparking electrodes. It seems permanently fixed to the ground. Affectionately \
+	known as the ZRONK device."
 	icon = 'icons/roguetown/misc/struc48x48.dmi'
 	icon_state = "frankenchair0"
 	anchored = TRUE
@@ -13,13 +14,14 @@
 	item_chair = null // Cannot be picked up
 	buildstacktype = null
 	buildstackamount = 0
+	layer = OBJ_LAYER
 
 	// Chair state variables
 	var/charge = 0
 	var/max_charge = 100
-	var/brew_required = 48
+	var/brew_required = 50
 	var/current_brew = 0
-	var/max_brew = 96
+	var/max_brew = 100
 	var/chair_skill_level = 4
 
 	var/static/list/brew_overlays = list(
@@ -34,7 +36,7 @@
 
 /obj/structure/chair/frankenstein/zizo
 	chair_skill_level = 2
-	current_brew = 48
+	current_brew = 50
 
 /obj/structure/chair/frankenstein/Initialize()
 	. = ..()
@@ -94,8 +96,8 @@
 
 			// Animate filling
 			user.visible_message(
-				span_notice("[user] begins filling [src] with [container]."), 
-				span_notice("You begin filling [src] with [container].")
+				span_notice("[user] begins filling the [src] with [container]."), 
+				span_notice("You begin filling the [src] with [container].")
 			)
 
 			var/skill_mod = get_user_skill(H)
@@ -165,10 +167,10 @@
 /obj/item/reagent_containers/glass/bottle/frankenbrew
 	name = "vial of Reanimation Elixir"
 	desc = "A volatile chemical mixture that helps the deceased conduct electricity. Looks expensive..."
-	list_reagents = list(/datum/reagent/frankenbrew = 48)
+	list_reagents = list(/datum/reagent/frankenbrew = 50)
 
 /obj/item/reagent_containers/glass/bottle/frankenbrew/third
-	list_reagents = list(/datum/reagent/frankenbrew = 16)
+	list_reagents = list(/datum/reagent/frankenbrew = 34) // round up
 
 /obj/structure/chair/frankenstein/proc/start_cranking_animation()
 	if(cranking)
@@ -276,20 +278,24 @@
 		to_chat(H, span_warning("Insufficient charge!"))
 		return
 
+	// Tell the user WE HAVE FLIPPED THE SWITCH.
+	H.visible_message(span_warning("[user] PULLS THE FULMEN-LEVER! Wait for it...!"), span_warning("You pull the FULMEN-LEVER! Wait for it...!"))
+	// We actually want to call it BEFORE the check because otherwise you still wont know if you actually pulled it 1/2 the time.
+
 	// Check if occupant is valid
 	if(!occupant.check_revive(user))
 		return
 
 	// Prompt ghost
 	to_chat(occupant, span_ghostalert("You sense powerful energies attempting to pull you back to your body!"))
-	var/alert_result = alert(occupant, "They are calling for you. Are you ready?", "Reanimation", "I need to wake up", "Don't let me go")
+	var/alert_result = alert(occupant, "They are calling for you. Are you ready?", "LIGHTNING, GIFTING GRACE TO THE GRACELESS.", "I need to wake up!", "Don't let me go..")
 
 	// Verify occupant is still valid
 	if(occupant.stat != DEAD || occupant.loc != get_turf(src) || !occupant.buckled)
 		to_chat(H, span_warning("The subject is no longer properly buckled to the chair!"))
 		return
 
-	if(alert_result != "I need to wake up")
+	if(alert_result != "I need to wake up!")
 		to_chat(H, span_warning("[occupant] refuses to return."))
 		return
 
@@ -315,7 +321,13 @@
 		// Apply debuffs
 		occupant.mind.remove_antag_datum(/datum/antagonist/zombie)
 		occupant.apply_status_effect(/atom/movable/screen/alert/status_effect/debuff/revived)
-
-	return TRUE
+		addtimer(CALLBACK(src, PROC_REF(deathmark), occupant), 5 MINUTES) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
+		return TRUE
+	
+/obj/structure/chair/frankenstein/proc/deathmark(mob/living/victim)
+	if(victim.stat != DEAD)
+		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
+		victim.play_permadeath_indicator()
+		to_chat(victim, span_danger("You suddenly feel a deathly chill from within, as the lux begins to creep across your heart once more. The thread betwixt your soul and body remains thin; to succumb again so soon would ensure its total severance."))
 
 #undef WEATHER_RAIN

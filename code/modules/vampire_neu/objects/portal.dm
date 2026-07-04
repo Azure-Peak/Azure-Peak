@@ -1,7 +1,13 @@
 /obj/structure/vampire/portalmaker
 	name = "Rift Gate"
 	icon_state = "obelisk"
+	desc = "A large ominious oblisk of unknown and impossible design, runic letters and shapes flicker before your eyes within an endless void, sometimes stare long enough into the void within <font color='FF0000'>...and something will stare back.</font>"
 	var/sending = FALSE
+
+/obj/structure/vampire/portalmaker/examine(mob/user) //Currently unusable but it still gets text on how it /would/ have been. PLACEHOLDERY for now until someone else fixes this since I don't want to cobble together shitcode that might not work lol. //Sradar
+	. = ..()
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+		. += span_bloody("Your means of transport through the edge of reality itself and back, through creating portal rifts that anyone can walk through for 1000 Vitae.")
 
 /obj/structure/vampire/portalmaker/attack_hand(mob/living/user)
 	var/list/possibleportals = list()

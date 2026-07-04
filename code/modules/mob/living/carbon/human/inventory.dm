@@ -156,7 +156,7 @@
 				update_inv_shirt()
 			if(wear_armor.breakouttime) //when equipping a straightjacket
 				stop_pulling() //can't pull if restrained
-				update_action_buttons_icon() //certain action buttons will no longer be usable.
+				update_mob_action_buttons() //certain action buttons will no longer be usable.
 			update_inv_armor()
 		if(SLOT_PANTS)
 
@@ -248,7 +248,7 @@
 			dropItemToGround(s_store, TRUE, silent = silent) //It makes no sense for your suit storage to stay on you if you drop your suit.
 		if(wear_armor.breakouttime) //when unequipping a straightjacket
 			drop_all_held_items() //suit is restraining
-			update_action_buttons_icon() //certain action buttons may be usable again.
+			update_mob_action_buttons() //certain action buttons may be usable again.
 		wear_armor = null
 		if(!QDELETED(src)) //no need to update we're getting deleted anyway
 			if(I.flags_inv & HIDEJUMPSUIT)
@@ -349,6 +349,10 @@
 		if(!QDELETED(src))
 			update_inv_mouth()
 
+	// Armor class warning — must run after slot vars are nulled so check_armor_skill() sees the correct state
+	if(!QDELETED(src) && istype(I, /obj/item/clothing))
+		var/obj/item/clothing/C = I
+		C.warn_armor_class(src, removed = TRUE)
 
 //	if(!QDELETED(src))
 //		if(I.eweight)
@@ -388,7 +392,18 @@
 	if(!O)
 		return 0
 
-	return O.equip(src, visualsOnly)
+	. = O.equip(src, visualsOnly)
+	if(!visualsOnly)
+		if(!client && !mind)
+			taints_loot = TRUE
+		if(taints_loot)
+			flag_worn_as_looted()
+
+/mob/living/carbon/human/proc/flag_worn_as_looted()
+	for(var/obj/item/I in get_equipped_items(TRUE) + held_items)
+		if(I.no_loot_taint)
+			continue
+		I.mark_as_looted()
 
 
 //delete all equipment without dropping anything
@@ -433,7 +448,7 @@
 		return
 	if(istype(stored, /obj/item/rogueweapon/scabbard))
 		var/obj/item/rogueweapon/scabbard/scab = stored
-		if(scab.sheathed)
+		if(scab.hol_comp.sheathed)
 			stored.attack_right(src)
 			return
 	stored.attack_hand(src) // take out thing from backpack
@@ -473,7 +488,7 @@
 		return
 	if(istype(stored, /obj/item/rogueweapon/scabbard))
 		var/obj/item/rogueweapon/scabbard/scab = stored
-		if(scab.sheathed)
+		if(scab.hol_comp.sheathed)
 			stored.attack_right(src)
 			return
 	stored.attack_hand(src) // take out thing from belt
@@ -513,7 +528,7 @@
         return
     if(istype(stored, /obj/item/rogueweapon/scabbard))
         var/obj/item/rogueweapon/scabbard/scab = stored
-        if(scab.sheathed)
+        if(scab.hol_comp.sheathed)
             stored.attack_right(src)
             return
     stored.attack_hand(src) // take out thing from cloak

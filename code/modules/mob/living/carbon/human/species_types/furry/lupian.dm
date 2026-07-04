@@ -4,13 +4,16 @@
 /datum/species/lupian
 	name = "Lupian"
 	id = "lupian"
-	desc = "<b>Lupian</b><br>\
-	As written by an Archivist from times before yours: Lupians, known by many as Volfmen, are a very prominent type of Beastkin that is easily found all across Psydonia. \
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/hammerhold
+	origin = "Hammerhold"
+	base_name = "Beastvolk"
+	desc_title = "Lupian"
+	desc = "As written by an Archivist from times before yours: Lupians, known by many as Volfmen, are a very prominent type of Beastkin that is easily found all across Psydonia. \
 	They are oft tall and slim, carrying with them a coat of discoloured short or medium length fur. \
 	Their bodies are naturally resilient and their minds as sharp as a Humen's own. \
 	A Lupian will usually display loyalty to a fault, as they are quite factional beings. \
-	Tales of old claim that they came to be when Noc stole Dendor’s curse to create lyfe of his own in an attempt to replicate Psydon’s, instead giving birth to a flawed beast-people.<br>\
-	(+1 Constitution, +1 Intelligence)"
+	Tales of old claim that they came to be when Noc stole Dendor’s curse to create lyfe of his own in an attempt to replicate Psydon’s, instead giving birth to a flawed beast-people."
 	skin_tone_wording = "Ascendance"
 	species_traits = list(
 		MUTCOLORS,
@@ -55,11 +58,7 @@
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
 		ORGAN_SLOT_TAIL = /obj/item/organ/tail/lupian,
-		ORGAN_SLOT_SNOUT = /obj/item/organ/snout/lupian,
-		//ORGAN_SLOT_TESTICLES = /obj/item/organ/testicles,
-		//ORGAN_SLOT_PENIS = /obj/item/organ/penis/knotted,
-		//ORGAN_SLOT_BREASTS = /obj/item/organ/breasts,
-		//ORGAN_SLOT_VAGINA = /obj/item/organ/vagina,
+		ORGAN_SLOT_SNOUT = /obj/item/organ/snout/lupian
 		)
 	bodypart_features = list(
 		/datum/bodypart_feature/hair/head,
@@ -110,6 +109,9 @@
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
 		/datum/body_marking/gradient,
+		/datum/body_marking/waist,
+		/datum/body_marking/womb_tattoo,
+		/datum/body_marking/butterfly
 	)
 	descriptor_choices = list(
 		/datum/descriptor_choice/trait,

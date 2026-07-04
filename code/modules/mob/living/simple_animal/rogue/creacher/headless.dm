@@ -23,7 +23,7 @@
 						/obj/item/reagent_containers/food/snacks/fat = 2,
 						/obj/item/alch/sinew = 2,
 						/obj/item/alch/bone = 1)
-	faction = list("orcs")
+	faction = list(FACTION_ORCS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST|MOB_REPTILE
 	health = 350
 	maxHealth = 350
@@ -62,6 +62,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/headless/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, retreat_health)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/headless/AttackingTarget()

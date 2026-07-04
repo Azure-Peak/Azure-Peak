@@ -86,7 +86,7 @@
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/tomb/indoors/church)
 "bH" = (
-/obj/item/rogueweapon/mace/wsword,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/tomb/indoors)
 "bO" = (
@@ -1181,13 +1181,6 @@
 /mob/living/carbon/human/species/skeleton/npc/mediumspread,
 /turf/open/floor/rogue/church,
 /area/rogue/under/tomb/indoors/church)
-"qp" = (
-/obj/item/reagent_containers/food/snacks/rogue/meat/sausage,
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
-	},
-/turf/open/floor/rogue/tile/checker,
-/area/rogue/under/tomb/indoors)
 "qx" = (
 /obj/structure/flora/roguegrass/bush/wall/tall,
 /turf/open/floor/rogue/grass,
@@ -1727,7 +1720,7 @@
 /obj/item/candle/yellow/lit{
 	pixel_y = 8
 	},
-/obj/item/roguegem/random,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/tomb/indoors/church)
 "yj" = (
@@ -2110,7 +2103,7 @@
 /area/rogue/under/tomb/cave)
 "Eh" = (
 /obj/structure/closet/crate/chest/gold,
-/obj/item/roguegem/green,
+/obj/effect/spawner/lootdrop/random_gem,
 /obj/effect/spawner/lootdrop/general_loot_low,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/tomb/indoors)
@@ -3079,7 +3072,7 @@
 	pixel_y = 9
 	},
 /obj/effect/spawner/lootdrop/general_loot_hi,
-/obj/item/roguegem/green,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/tomb/indoors/church)
 "Sn" = (
@@ -3273,7 +3266,7 @@
 /area/rogue/under/tomb/indoors)
 "Vl" = (
 /obj/structure/rack/rogue/shelf/biggest,
-/obj/item/rogueweapon/mace/wsword,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
 "Vn" = (
@@ -3431,7 +3424,7 @@
 /area/rogue/under/tomb/indoors/royal)
 "XE" = (
 /obj/machinery/light/rogue/candle/l,
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood/crafted{
 	icon_state = "longtable";
 	dir = 4
@@ -4353,7 +4346,7 @@ ba
 ba
 ba
 jm
-qp
+YH
 WU
 cK
 hr

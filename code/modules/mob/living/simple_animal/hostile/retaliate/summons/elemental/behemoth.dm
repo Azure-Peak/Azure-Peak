@@ -18,10 +18,12 @@
 	move_to_delay = 15
 	base_intents = list(/datum/intent/simple/elementalt2_unarmed)
 	butcher_results = list()
-	faction = list("elemental")
+	death_loot = list(/obj/item/magic/elemental/fragment = 1)
+	faction = list(FACTION_ELEMENTAL)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 800
 	maxHealth = 800
+	threat_point = 80
 	melee_damage_lower = 55
 	melee_damage_upper = 80
 	vision_range = 7
@@ -38,7 +40,7 @@
 	canparry = TRUE
 	defprob = 40
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
+	retreat_health = 0
 	food = 0
 	attack_sound = 'sound/combat/hits/onstone/wallhit.ogg'
 	dodgetime = 30
@@ -50,6 +52,7 @@
 	STASPD = 5
 
 	var/rock_cd
+	var/yeet_cd
 	inherent_spells = list(/obj/effect/proc_holder/spell/invoked/ele_quake)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth/Initialize()
@@ -58,16 +61,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth/death(gibbed)
 	..()
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/elemental/fragment(deathspot)
-	new /obj/item/magic/elemental/fragment(deathspot)
-	new /obj/item/magic/elemental/shard(deathspot)
-	new /obj/item/magic/elemental/shard(deathspot)
-	new /obj/item/magic/elemental/mote(deathspot)
-	new /obj/item/magic/elemental/mote(deathspot)
-	new /obj/item/magic/elemental/mote(deathspot)
-	new /obj/item/magic/elemental/mote(deathspot)
-	new /obj/item/magic/melded/t1(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)
@@ -77,11 +70,12 @@
 		return FALSE //but more importantly return before attack_animal called
 	SEND_SIGNAL(src, COMSIG_HOSTILE_ATTACKINGTARGET, target)
 	in_melee = TRUE
-	if(!target)
+	if(QDELETED(target))
 		return
-	addtimer(CALLBACK(src,PROC_REF(yeet),target), 1 SECONDS)
-	if(!QDELETED(target))
-		return target.attack_animal(src)
+	. = target.attack_animal(src)
+	if(. && world.time >= yeet_cd)
+		yeet_cd = world.time + 8 SECONDS
+		addtimer(CALLBACK(src, PROC_REF(yeet), target), 1 SECONDS)
 
 /obj/effect/temp_visual/marker
 	icon = 'icons/effects/effects.dmi'
@@ -161,7 +155,7 @@
 		shake_camera(screenshaken, 5, 5)
 	for (var/mob/living/shaken in view(1, focalpoint))
 		to_chat(shaken, span_danger("<B>The ground ruptures beneath your feet!</B>"))
-		shaken.Paralyze(50)
+		shaken.Slowdown(4)
 		var/obj/structure/flora/rock/giant_rock = new(get_turf(shaken))
 		QDEL_IN(giant_rock, 200)
 	return TRUE

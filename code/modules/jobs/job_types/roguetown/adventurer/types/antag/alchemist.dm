@@ -2,7 +2,7 @@
 	name = "Hedge Alchemist"
 	tutorial = "Where most devotees greedily take from others you create your own wealth out of nothing, expert in both medicine and alchemical matters you are true menace to society - as your old Lord found out the hard way."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/bandit/hedgealchemist
 	category_tags = list(CTAG_BANDIT)
 	maximum_possible_slots = 2

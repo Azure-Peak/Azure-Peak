@@ -2,7 +2,7 @@
 	name = "Town Elder"
 	maximum_possible_slots = 1
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_OLD)
 	tutorial = "You are as venerable and ancient as the trees themselves, wise even for your years spent with the first Wardens. The people look up to you both as a teacher and a guide to solve lesser issues before violence is involved. Not everything must end in bloodshed, no matter how much the retinue wish it were the case. Lead your fellow townsfolk in these troubling times lest they incur wrath of the nobility with their ignorance."
 	outfit = /datum/outfit/job/roguetown/elder
@@ -18,7 +18,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_MASTER,
@@ -44,10 +44,11 @@
 	..()
 	cloak = /obj/item/clothing/cloak/tabard/stabard/guardhood/elder
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/white
+	neck = /obj/item/roguekey/manor
+	backr = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 	pants = /obj/item/clothing/under/roguetown/tights
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/rogueweapon/mace
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/scomstone/bad
@@ -55,7 +56,6 @@
 	if(should_wear_femme_clothes(H))
 		head = /obj/item/clothing/head/roguetown/chaperon/greyscale/elder
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress
-		backr = /obj/item/clothing/cloak/raincloak/furcloak
 	else if(should_wear_masc_clothes(H))
 		head = /obj/item/clothing/head/roguetown/chaperon/greyscale/elder
 		shirt = /obj/item/clothing/suit/roguetown/shirt/tunic

@@ -12,12 +12,8 @@
 	var/dpdir
 	/// Bitflags of relative directional SHAFT connections. See \code\_DEFINES\rotation_defines.dm
 	var/initialize_dirs
-
-/* //we're not include waterpumps right now
-	var/obj/structure/water_pipe/input
-	var/obj/structure/water_pipe/output
-*/
 	var/datum/rotation_network/rotation_network
+	var/datum/rotation_segment/segment
 
 /obj/structure/Initialize()
 	. = ..()
@@ -35,10 +31,6 @@
 	if(rotation_structure && !QDELETED(src))
 		set_connection_dir()
 		find_rotation_network()
-/*//we're not include waterpumps right now
-	if(accepts_water_input)
-		setup_water()
-*/
 
 /obj/structure/Destroy()
 	if(rotation_network)
@@ -46,17 +38,13 @@
 		rotation_network.remove_connection(src)
 		old_network.reassess_group(src)
 	rotation_network = null
-/*//we're not include waterpumps right now
-	input = null
-	output = null
-*/
 	return ..()
 
 /obj/structure/MiddleClick(mob/user, params)
 	. = ..()
 	if(!user.Adjacent(src))
 		return
-	if(!rotation_structure) //&& !istype(src, /obj/structure/water_pipe)) //we're not include waterpumps right now
+	if(!rotation_structure)
 		return
 	var/obj/item/contraption/linker/linker = user.get_active_held_item()
 	if(!istype(linker))
@@ -66,6 +54,21 @@
 		if(type == initial(item.placed_type))
 			start_deconstruct(user, item)
 			return
+
+/obj/structure/attack_right(mob/user, list/modifiers)
+	. = ..()
+	if(.)
+		return
+	if(!rotation_structure || !user?.Adjacent(src))
+		return
+	var/obj/item/contraption/linker/linker = user.get_active_held_item()
+	if(!istype(linker))
+		return
+	var/datum/component/simple_rotation/rotcomp = GetComponent(/datum/component/simple_rotation)
+	if(!rotcomp)
+		return
+	rotcomp.HandRot(rotcomp, user, ROTATION_CLOCKWISE)
+	return TRUE
 
 /obj/structure/proc/start_deconstruct(mob/living/user, obj/item/rotation_contraption/type)
 	user.visible_message(span_notice("[user] starts to disassemble [src]."), span_notice("You start to disassemble [src]."))
@@ -123,23 +126,10 @@
 
 /obj/structure/proc/setup_water()
 	return
-/*
-	for(var/direction in GLOB.cardinals)
-		var/turf/cardinal_turf = get_step(src, direction)
-		for(var/obj/structure/water_pipe/structure in cardinal_turf)
-			if(!valid_water_connection(REVERSE_DIR(direction), structure))
-				continue
-			structure.set_connection(get_dir(structure, src))
-*/
 
 /obj/structure/proc/update_animation_effect()
 	return
 
-/* //we're not include waterpumps right now
-///reminder this is the direction coming from the pipe to src.
-/obj/structure/proc/valid_water_connection(direction, obj/structure/water_pipe/pipe)
-	return TRUE
-*/
 /obj/structure/proc/use_water_pressure(pressure)
 	return
 
@@ -158,7 +148,8 @@
 				if(!structure.try_network_merge(src))
 					rotation_break()
 			else
-				if(!structure.try_connect(src))
+				var/result = structure.try_connect(src)
+				if(result == FALSE)
 					rotation_break()
 
 	if(!rotation_network)
@@ -170,15 +161,11 @@
 /obj/structure/proc/set_rotational_direction_and_speed(direction, speed)
 	set_rotations_per_minute(speed)
 	rotation_direction = direction
-	find_and_propagate(first = TRUE)
-	rotation_network.check_stress()
-	rotation_network.update_animation_effect()
+	rotation_network.rebuild_group()
 
 /obj/structure/proc/set_rotational_speed(speed)
 	set_rotations_per_minute(speed)
-	find_and_propagate(first = TRUE)
-	rotation_network.check_stress()
-	rotation_network.update_animation_effect()
+	rotation_network.rebuild_group()
 
 // DOES NOT UPDATE NETWORK ANIMATION
 /obj/structure/proc/set_stress_generation(amount, check_network = TRUE)
@@ -198,95 +185,116 @@
 		rotation_network?.check_stress()
 
 /obj/structure/proc/try_connect(obj/structure/connector)
-	if(can_connect(connector))
-		rotation_network.add_connection(connector)
-		pass_rotation_data(connector)
-		if(connector.stress_use)
-			connector.set_stress_use(connector.stress_use)
-		return TRUE
-	return FALSE
+	if(can_connect(connector) == FALSE)
+		return FALSE
+	if(connector.can_connect(src) == FALSE)
+		return null
+	rotation_network.add_connection(connector)
+	if(connector.stress_use)
+		connector.set_stress_use(connector.stress_use, check_network = FALSE)
+	rotation_network.rebuild_group()
+	return TRUE
 
 /obj/structure/proc/can_connect(obj/structure/connector)
 	if(connector.rotation_direction && rotation_direction && (connector.rotation_direction != rotation_direction))
 		if(connector.rotations_per_minute && rotations_per_minute)
-			return FALSE
-	return TRUE
+			return FALSE // direction conflict
+	return TRUE // compatible
 
 /obj/structure/proc/try_network_merge(obj/structure/connector)
-	if(!can_connect(connector))
+	if(can_connect(connector) == FALSE)
+		return FALSE
+	if(connector.can_connect(src) == FALSE)
 		return FALSE
 	if(!rotation_network)
 		return FALSE
 	if(src in connector.rotation_network.connected)
 		return FALSE
-	var/connector_stress = connector.rotation_network.total_stress
-	for(var/obj/structure/child in connector.rotation_network.connected)
+	var/list/to_migrate = connector.rotation_network.connected.Copy()
+	for(var/obj/structure/child in to_migrate)
 		if(src == child)
 			return FALSE
 		connector.rotation_network.remove_connection(child)
 		rotation_network.add_connection(child)
-		if(child.stress_use) // remove_connection resets last_stress_added
+		if(child.stress_use)
 			child.set_stress_use(child.stress_use, check_network = FALSE)
 		if(child.stress_generator)
-			rotation_network.total_stress += child.last_stress_generation // this is undone in set_stress_generation
+			rotation_network.total_stress += child.last_stress_generation
 			child.set_stress_generation(child.last_stress_generation, check_network = FALSE)
-	if(!connector_stress)
-		propagate_rotation_change(connector)
-	rotation_network.rebuild_group() // <=-- this is dumb as hell but for some reason if you perform a fucking dark ritual or someshit you can trick the game into lobotomizing itself.
+	rotation_network.rebuild_group()
 	return TRUE
 
-/obj/structure/proc/propagate_rotation_change(obj/structure/connector, list/checked, first = FALSE)
-	if(!length(checked))
-		checked = list()
-	checked |= src
-
-	if(connector.last_stress_generation && connector.rotation_direction && rotation_direction && (connector.rotation_direction != rotation_direction))
-		rotation_break()
+/obj/structure/proc/propagate_rotation_to_network(new_direction, new_rpm)
+	if(!rotation_network)
 		return
-	connector.rotation_direction = rotation_direction
-	if(!connector.stress_generator)
-		connector.set_rotations_per_minute(rotations_per_minute)
+	var/list/to_visit = list(src)
+	var/list/visited = list()
+	visited[src] = TRUE
+	var/list/node_direction = list()
+	var/list/node_rpm = list()
+	node_direction[src] = new_direction
+	node_rpm[src] = new_rpm
 
-	connector.find_and_propagate(checked, FALSE)
-	if(first)
-		connector.update_animation_effect()
+	while(length(to_visit))
+		var/obj/structure/current = to_visit[1]
+		to_visit.Cut(1, 2)
+		var/cur_dir = node_direction[current]
+		var/cur_rpm = node_rpm[current]
 
-/obj/structure/proc/find_and_propagate(list/checked, first = FALSE)
-	if(!length(checked))
-		checked = list()
-	checked |= src
-
-	for(var/direction in GLOB.cardinals_multiz)
-		if(!(direction & dpdir))
-			continue
-		var/turf/step_forward = get_step_multiz(src, direction)
-		if(step_forward)
-			for(var/obj/structure/structure in step_forward.contents)
-				if(structure in checked)
+		for(var/direction in GLOB.cardinals_multiz)
+			var/turf/T = get_step_multiz(current, direction)
+			if(!T)
+				continue
+			for(var/obj/structure/neighbor in T.contents)
+				if(visited[neighbor])
 					continue
-				if(!structure.rotation_network || !structure.dpdir)
+				if(!(neighbor in rotation_network.connected))
 					continue
-				if(!(structure in rotation_network.connected))
+
+				var/neighbor_dir
+				var/neighbor_rpm
+				var/edge_dir = get_dir(current, neighbor)
+				var/is_shaft_connection = (edge_dir & current.dpdir) && (REVERSE_DIR(edge_dir) & neighbor.dpdir)
+				var/is_cog_connection = !is_shaft_connection && \
+					(istype(neighbor, /obj/structure/rotation_piece/cog)) && \
+					(neighbor.dir == current.dir || neighbor.dir == REVERSE_DIR(current.dir))
+
+				if(!is_shaft_connection && !is_cog_connection)
 					continue
-				if(!(REVERSE_DIR(direction) & structure.dpdir))
-					continue
-				propagate_rotation_change(structure, checked, FALSE)
 
-	if(first)
-		rotation_network?.update_animation_effect()
+				if(is_cog_connection)
+					neighbor_dir = REVERSE_DIR(cur_dir)
+					if(istype(current, /obj/structure/rotation_piece/cog))
+						var/obj/structure/rotation_piece/cog/cog = current
+						neighbor_rpm = istype(neighbor, /obj/structure/rotation_piece/cog) ? cog.get_speed_mod(neighbor) : cur_rpm
+					else
+						neighbor_rpm = cur_rpm
+				else
+					if(neighbor.stress_generator && neighbor.rotation_direction && cur_dir && neighbor.rotation_direction != cur_dir)
+						rotation_break()
+						return
+					neighbor_dir = cur_dir
+					neighbor_rpm = cur_rpm
 
-/obj/structure/proc/pass_rotation_data(obj/structure/connector, list/checked)
-	if(!length(checked))
-		checked = list()
-	checked |= src
+				visited[neighbor] = TRUE
+				node_direction[neighbor] = neighbor_dir
+				node_rpm[neighbor] = neighbor_rpm
+				to_visit += neighbor
 
+	for(var/obj/structure/node in visited)
+		node.rotation_direction = node_direction[node]
+		if(!node.stress_generator)
+			node.set_rotations_per_minute(node_rpm[node])
+	rotation_network?.update_animation_effect()
+
+/obj/structure/proc/pass_rotation_data(obj/structure/connector)
 	if(connector.rotations_per_minute == rotations_per_minute)
 		return
-
+	// Just pick the authoritative source and do one BFS from it
 	if(connector.rotations_per_minute > rotations_per_minute)
-		connector.propagate_rotation_change(src, first = TRUE)
+		connector.propagate_rotation_to_network(connector.rotation_direction, connector.rotations_per_minute)
 	else
-		propagate_rotation_change(connector, checked, TRUE)
+		propagate_rotation_to_network(rotation_direction, rotations_per_minute)
 
 /obj/structure/proc/rotation_break()
 	visible_message(span_warning("[src] breaks apart from the opposing directions!"))

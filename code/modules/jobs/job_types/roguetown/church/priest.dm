@@ -18,14 +18,23 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	spawn_positions = 1
 	selection_color = JCOLOR_CHURCH
 	f_title = "Bishop"
-	allowed_races = RACES_NO_CONSTRUCT		//Too recent arrivals to ascend to priesthood.
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE)		//Too recent arrivals to ascend to priesthood.
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "The Divine is all that matters in a world of the immoral. The Weeping God abandoned us, and in his stead the TEN rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See."
 	whitelist_req = FALSE
 	cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 
-	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk, /obj/effect/proc_holder/spell/invoked/projectile/divineblast, /obj/effect/proc_holder/spell/invoked/wound_heal, /obj/effect/proc_holder/spell/invoked/takeapprentice)
+	spells = list(
+	 /datum/action/cooldown/spell/miracle/fortify,
+	 /obj/effect/proc_holder/spell/invoked/cure_rot,
+	 /datum/action/cooldown/spell/miracle/intervention,
+	 /obj/effect/proc_holder/spell/invoked/revive,
+	 /datum/action/cooldown/spell/miracle/bishop_pack,
+	 /obj/effect/proc_holder/spell/self/convertrole/templar,
+	 /obj/effect/proc_holder/spell/self/convertrole/monk,
+	 /obj/effect/proc_holder/spell/invoked/convert_heretic_priest
+	)
 	outfit = /datum/outfit/job/roguetown/priest
 	display_order = JDO_BISHOP
 	give_bank_account = TRUE
@@ -35,21 +44,19 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
-	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_CLERGY)
+	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_CLERGY, TRAIT_MARRIAGE_CAPABLE)
 	advclass_cat_rolls = list(CTAG_BISHOP = 2)
-	job_subclasses = list(
-		/datum/advclass/bishop
-	)
+	job_subclasses = list(/datum/advclass/bishop)
 
 /datum/advclass/bishop
 	name = "Bishop"
 	tutorial = "The Divine is all that matters in a world of the immoral. \
 	The Weeping God abandoned us, and in his stead the TEN rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. \
-	It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See. \
-	My closest patron may have blessed me, yet my allegiance remains true in harmonizing all 10 faiths."
+	It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See."
 	outfit = /datum/outfit/job/roguetown/priest/basic
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	category_tags = list(CTAG_BISHOP)
+	traits_applied = list(TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 2,
@@ -75,6 +82,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/priest
 	job_bitflag = BITFLAG_HOLY_WARRIOR
@@ -86,10 +94,10 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	H.adjust_blindness(-3)
 	head = /obj/item/clothing/head/roguetown/priestmask
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
-	pants = /obj/item/clothing/under/roguetown/tights/black
-	shoes = /obj/item/clothing/shoes/roguetown/shortboots
+	wrists = /obj/item/clothing/wrists/roguetown/wrappings
+	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	beltl = /obj/item/storage/keyring/church
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	id = /obj/item/clothing/ring/active/nomag
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -99,155 +107,65 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		/obj/item/ritechalk = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/holysee = 1,	//Unique knife from the Holy See
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/clothing/neck/roguetown/psicross/undivided = 1
+		/obj/item/clothing/neck/roguetown/psicross/undivided = 1,
+		/obj/item/mini_flagpole/church = 1,
 	)
 	H.AddComponent(/datum/component/wise_tree_alert)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron) // This creates the cleric holder used for devotion spells
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
 
-	H.verbs |= /mob/living/carbon/human/proc/coronate_lord
-	H.verbs |= /mob/living/carbon/human/proc/churchannouncement
-	H.verbs |= /mob/living/carbon/human/proc/churchexcommunicate //your button against clergy
-	H.verbs |= /mob/living/carbon/human/proc/churchpriestcurse //snowflake priests button. Will not sacrifice them
-	H.verbs |= /mob/living/carbon/human/proc/churcheapostasy //punish the lamb reward the wolf
-	H.verbs |= /mob/living/carbon/human/proc/completesermon
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic_priest)
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/revive)
+	add_verb(H, /mob/living/carbon/human/proc/coronate_lord)
+	add_verb(H, /mob/living/carbon/human/proc/churchannouncement)
+	add_verb(H, /mob/living/carbon/human/proc/churchexcommunicate) //your button against clergy
+	add_verb(H, /mob/living/carbon/human/proc/churchpriestcurse) //snowflake priests button. Will not sacrifice them
+	add_verb(H, /mob/living/carbon/human/proc/churcheapostasy) //punish the lamb reward the wolf
+	add_verb(H, /mob/living/carbon/human/proc/completesermon)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Church Funding.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
 			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/white
-			cloak = /obj/item/clothing/cloak/undivided
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undivided
 		if(/datum/patron/divine/astrata)
-			l_hand = /obj/item/clothing/head/roguetown/roguehood/astrata
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
-			cloak = /obj/item/clothing/cloak/undivided
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/priest //these are literally the robes made for them
 		if(/datum/patron/divine/noc)
-			l_hand = /obj/item/clothing/head/roguetown/roguehood/nochood
 			neck = /obj/item/clothing/neck/roguetown/psicross/noc
-			wrists = /obj/item/clothing/wrists/roguetown/nocwrappings
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/noc
-			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
-			cloak = /obj/item/clothing/cloak/undivided
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		if(/datum/patron/divine/abyssor)
-			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			pants = /obj/item/clothing/under/roguetown/tights
 			neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor
-			cloak = /obj/item/clothing/cloak/undivided
-			l_hand = /obj/item/clothing/head/roguetown/roguehood/abyssor
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		if(/datum/patron/divine/dendor)
-			l_hand = /obj/item/clothing/head/roguetown/dendormask
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
-			cloak = /obj/item/clothing/cloak/undivided
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		if(/datum/patron/divine/necra)
-			l_hand = /obj/item/clothing/head/roguetown/necrahood
 			neck = /obj/item/clothing/neck/roguetown/psicross/necra
-			shoes = /obj/item/clothing/shoes/roguetown/boots
-			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
-			shirt = /obj/item/clothing/suit/roguetown/armor/leather/vest/black
-			cloak = /obj/item/clothing/cloak/undivided
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		if(/datum/patron/divine/pestra)
 			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/phys
-			l_hand = /obj/item/clothing/head/roguetown/roguehood/phys
-			shoes = /obj/item/clothing/shoes/roguetown/boots
-			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
-			cloak = /obj/item/clothing/cloak/undivided
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		if(/datum/patron/divine/eora)
-			l_hand = /obj/item/clothing/head/roguetown/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora
-			cloak = /obj/item/clothing/cloak/undivided
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
 		if(/datum/patron/divine/malum)
-			l_hand = /obj/item/clothing/head/roguetown/roguehood
 			neck = /obj/item/clothing/neck/roguetown/psicross/malum
-			shoes = /obj/item/clothing/shoes/roguetown/boots
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
-			pants = /obj/item/clothing/under/roguetown/trou
-			cloak = /obj/item/clothing/cloak/undivided
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
+			armor = /obj/item/clothing/cloak/templar/malumite
 		if(/datum/patron/divine/ravox)
-			l_hand = /obj/item/clothing/head/roguetown/roguehood
 			neck = /obj/item/clothing/neck/roguetown/psicross/ravox
-			cloak = /obj/item/clothing/cloak/undivided
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
-			shoes = /obj/item/clothing/shoes/roguetown/boots
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/white
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/ravox
 		if(/datum/patron/divine/xylix)
-			l_hand = /obj/item/clothing/head/roguetown/roguehood
-			cloak = /obj/item/clothing/cloak/undivided
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe
-			neck = /obj/item/clothing/neck/roguetown/luckcharm // For good luck, as Xylix would intend
+			neck = /obj/item/clothing/neck/roguetown/psicross/xylix
+			armor = /obj/item/clothing/cloak/templar/xylixian
 			H.cmode_music = 'sound/music/combat_jester.ogg'
 			var/datum/inspiration/I = new /datum/inspiration(H)
-			I.grant_inspiration(H, bard_tier = BARD_T2)
-			r_hand = /obj/item/clothing/suit/roguetown/shirt/robe/priest
+			I.grant_inspiration(H, bard_tier = BARD_T1)
 		else
-			l_hand = /obj/item/clothing/head/roguetown/roguehood/astrata
-			neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			wrists = /obj/item/clothing/wrists/roguetown/wrappings
-			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
-			cloak = /obj/item/clothing/cloak/undivided
+			neck = /obj/item/clothing/neck/roguetown/psicross/undivided
+			armor = /obj/item/clothing/suit/roguetown/shirt/robe/undivided
 
 /datum/outfit/job/roguetown/priest/basic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/t3_count = 2
-	var/list/t4 = list()
-	var/list/t3 = list()
-	for(var/path as anything in GLOB.patrons_by_faith[/datum/faith/divine])
-		var/datum/patron/patron = GLOB.patronlist[path]
-		if(!patron || !patron.name)
-			continue
-		for(var/miracle in patron.miracles)
-			var/obj/effect/proc_holder/checked_miracle = miracle
-			if(patron.miracles[checked_miracle] == CLERIC_T4 && (initial(checked_miracle.priest_excluded) == FALSE))
-				t4[initial(checked_miracle.name)] = checked_miracle
-			if(patron.miracles[checked_miracle] == CLERIC_T3 && (initial(checked_miracle.priest_excluded) == FALSE))
-				t3[initial(checked_miracle.name)] = checked_miracle
-	for(var/miracle in t4)
-		if(H.mind?.has_spell(t4[miracle]))
-			t4.Remove(miracle)
-	for(var/miracle in t3)
-		if(H.mind?.has_spell(t3[miracle]))
-			t3.Remove(miracle)
-	var/t4_choice = input(H,"Choose your Tier Four Miracle.", "TAKE UP KNAWLEDGE") as anything in t4
-	if(t4_choice)
-		var/obj/effect/proc_holder/chosen_miracle = t4[t4_choice]
-		H.mind?.AddSpell(new chosen_miracle)
 
-	for(var/i in 1 to t3_count)
-		var/t3_choice = input(H,"Choose your Tier Three Miracle.", "TAKE UP KNAWLEDGE ([t3_count] CHOICES REMAIN)") as anything in t3
-		if(t3_choice)
-			var/obj/effect/proc_holder/chosen_miracle = t3[t3_choice]
-			H.mind?.AddSpell(new chosen_miracle)
-			t3.Remove(t3_choice)
-			t3_count--
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/undivided)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -255,10 +173,10 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 		H.cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 	if(H.patron?.type == /datum/patron/divine/noc)
-		H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE)
+		H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
 		if(H.mind)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-		ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
+		ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 	if(H.patron?.type == /datum/patron/divine/abyssor)
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 		H.grant_language(/datum/language/abyssal)
@@ -287,7 +205,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 /mob/living/carbon/human/proc/coronate_lord()
 	set name = "Coronate"
-	set category = "Priest"
+	set category = "RoleUnique.Priest"
 	if(!mind)
 		return
 	if(world.time < 30 MINUTES)
@@ -307,13 +225,13 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			continue
 
 		//Abdicate previous King
+		var/emeritus_title = "[SSticker.rulertype || "Duke"] Emeritus"
 		for(var/mob/living/carbon/human/HL in GLOB.human_list)
 			if(HL.mind)
 				if(HL.mind.assigned_role == "Grand Duke")
 					HL.mind.assigned_role = "Towner" //So they don't get the innate traits of the king
-			//would be better to change their title directly, but that's not possible since the title comes from the job datum
 			if(HL.job == "Grand Duke")
-				HL.job = "Duke Emeritus"
+				HL.job = emeritus_title
 
 		//Coronate new King (or Queen)
 		HU.mind.assigned_role = "Grand Duke"
@@ -322,16 +240,18 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		SSticker.set_ruler_mob(HU)
 		SSticker.regentmob = null
 		var/dispjob = mind.assigned_role
+		var/realm = SSticker.realm_name || "Azure Peak"
+		var/ruler_title = SSticker.rulertype || "Grand Duke"
 		removeomen(OMEN_NOLORD)
-		say("By the authority of the gods, I pronounce you Ruler of all Azuria!")
-		priority_announce("[real_name] the [dispjob] has named [HU.real_name] the inheritor of AZURE PEAK!", title = "Long Live [HU.real_name]!", sound = 'sound/misc/bell.ogg')
+		say("By the authority of the gods, I pronounce you [ruler_title] of [realm]!")
+		priority_announce("[real_name] the [dispjob] has named [HU.real_name] the [ruler_title] of [realm]!", title = "Long Live [HU.real_name]!", sound = 'sound/misc/bell.ogg')
 		var/datum/job/roguetown/nomoredukes = SSjob.GetJob("Grand Duke")
 		if(nomoredukes)
 			nomoredukes.total_positions = -1000 //We got what we got now.
 
 /mob/living/carbon/human/proc/churchannouncement()
 	set name = "Announcement"
-	set category = "Priest"
+	set category = "RoleUnique.Priest"
 
 	if(stat)
 		return
@@ -348,10 +268,12 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		if (!COOLDOWN_FINISHED(src, priest_announcement))
 			to_chat(src, span_warning("You must wait before speaking again."))
 			return
-		visible_message(span_warning("[src] takes a deep breath, preparing to make an announcement.."))
+		visible_message(span_warning("[src] takes a deep breath, preparing to make an announcement."))
 		if(do_after(src, 15 SECONDS, target = src)) // Reduced to 15 seconds from 30 on the original Herald PR. 15 is well enough time for sm1 to shove you.
 			say(announcementinput)
-			priority_announce("[announcementinput]", "The Bishop Preaches", 'sound/misc/bell.ogg', sender = src)
+			var/sanitized_input = trim(copytext(sanitize(announcementinput), 1, MAX_MESSAGE_LEN))
+			var/treated_input = treat_message(sanitized_input, /datum/language/common)
+			priority_announce("[treated_input]", "The Bishop Preaches", 'sound/misc/bell.ogg', sender = src)
 			COOLDOWN_START(src, priest_announcement, PRIEST_ANNOUNCEMENT_COOLDOWN)
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
@@ -377,7 +299,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 /mob/living/carbon/human/proc/completesermon()
 	set name = "Sermon"
-	set category = "Priest"
+	set category = "RoleUnique.Priest"
 
 	if (!mind)
 		return
@@ -446,7 +368,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 /mob/living/carbon/human/proc/churcheapostasy(var/mob/living/carbon/human/H in GLOB.player_list)
 	set name = "Apostasy"
-	set category = "Priest"
+	set category = "RoleUnique.Priest"
 
 	if (stat)
 		return
@@ -518,7 +440,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 /mob/living/carbon/human/proc/churchexcommunicate(var/mob/living/carbon/human/H in GLOB.player_list)
 	set name = "Excommunicate"
-	set category = "Priest"
+	set category = "RoleUnique.Priest"
 
 	if (stat)
 		return
@@ -591,7 +513,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep that updated if this gets any changes.*/
 /mob/living/carbon/human/proc/churchpriestcurse(var/mob/living/carbon/human/H in GLOB.player_list)
 	set name = "Divine Curse"
-	set category = "Priest"
+	set category = "RoleUnique.Priest"
 
 	if (stat)
 		return

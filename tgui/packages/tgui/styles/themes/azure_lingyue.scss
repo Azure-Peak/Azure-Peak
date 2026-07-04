@@ -1,0 +1,25 @@
+@use 'azure_base' as *;
+
+// Lingyue — Chinese-inspired palette (cinnabar red & gold)
+.theme-azure_lingyue:root {
+  @include azure-theme((
+    'base':            #140a0a,
+    'base-light':      #221210,
+    'base-dark':       #0e0606,
+    'section':         rgba(48, 18, 18, 0.45),
+    'section-title':   #c8a040,
+    'text':            #d4c8b0,
+    'label':           #b0a088,
+    'accent':          #8b3535,
+    'accent-bright':   #a04040,
+    'border':          #4a2520,
+    'btn-text':        #d4c8b0,
+    'btn-selected':    #6b2828,
+    'btn-disabled':    #584040,
+    'scrollbar-thumb': #8b3535,
+    'glow':            rgba(139, 53, 53, 0.2),
+    'link':            #c8a040,
+    'link-visited':    #e0d0a0,
+    'link-hover':      #d4c8b0,
+  ), '../assets/azure_default/topbar_red.svg');
+}

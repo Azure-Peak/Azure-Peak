@@ -278,7 +278,9 @@
 						if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
 							item = H.get_item_by_slot(SLOT_BELT)
 							if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
-								addtimer(CALLBACK(PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
+								item = H.get_item_by_slot(SLOT_CLOAK)
+								if(!item || !SEND_SIGNAL(item, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+									addtimer(CALLBACK(src, PROC_REF(move_storage), new_item, H.loc), 3 SECONDS)
 
 	post_equip(H, visualsOnly)
 
@@ -292,9 +294,10 @@
 	return TRUE
 
 /datum/outfit/proc/move_storage(obj/item/new_item, turf/T)
-	if(new_item.forceMove(T))
-		return TRUE
-	return FALSE
+	if(!new_item || !T || QDELETED(new_item))
+		return FALSE
+	new_item.forceMove(T)
+	return TRUE
 
 /client/proc/test_spawn_outfits()
 	for(var/path in subtypesof(/datum/outfit/job/roguetown))
@@ -478,3 +481,21 @@
 				preload += type_to_load
 
 	return preload
+
+/datum/outfit/proc/change_origin(mob/living/carbon/human/H, new_origin = /datum/virtue/none, wording = "Custom")
+	var/client/player = H?.client
+	if(player?.prefs)
+		var/origin_memory = player.prefs.virtue_origin
+		player.prefs.virtue_origin = new new_origin
+		H.dna.species.skin_tone_wording = wording
+		player.prefs.virtue_origin.job_origin = TRUE
+		player.prefs.virtue_origin.last_origin = origin_memory
+		player.prefs.virtue_origin.apply_to_human(H)
+		if(length(player.prefs.virtue_origin.added_languages))
+			for(var/L in player.prefs.virtue_origin.added_languages)
+				H.grant_language(L)
+		if(length(player.prefs.virtue_origin.last_origin.added_languages))
+			for(var/L in player.prefs.virtue_origin.last_origin.added_languages)
+				if(L != player.prefs.extra_language)
+					H.remove_language(L)
+		H.grant_language(player.prefs.extra_language)

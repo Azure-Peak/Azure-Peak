@@ -1,10 +1,7 @@
 /datum/advclass/mercenary/trollslayer
 	name = "Trollslayer" // barbarian-like subclass with soft-nudist (no armor) and no Fast Reflexes, supposed to soak up damage with their con and skinarmor and chop shit up with class-exclusive axes
 	tutorial = "Atop the windy peaks of the dwarven Mountainhomes, you swore an Oath, vowing to cleanse the land of monsters or die trying. You give yourself wholly to the Battlefather’s judgment, bearing your devotion as armor and your rage as a weapon. No creacher upon this world is safe from your divine wrath."
-	allowed_races = list(
-		/datum/species/dwarf,
-		/datum/species/dwarf/mountain
-		)
+	forbidden_races = list(RACES_GRUDGE)
 	outfit = /datum/outfit/job/roguetown/mercenary/trollslayer
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
@@ -66,7 +63,7 @@
 	name = "slayer axe"
 	desc = "A marvel of craftsdwarfship, this ornate handaxe attunes itself to those who have sworn the Oath."
 	force = 26
-	possible_item_intents = list(/datum/intent/axe/cut/battle, /datum/intent/axe/chop/battle, /datum/intent/axe/bash)
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
 	gripped_intents = null
 	icon_state = "slayer_axe"
 	icon = 'icons/roguetown/weapons/axes32.dmi'
@@ -87,7 +84,7 @@
 	force = 20
 	force_wielded = 34 // Slightly weaker than the double bladed greataxe, but the edge doesn't dull quickly.
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH)
-	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, SPEAR_BASH)
 	icon_state = "slayer"
 	icon = 'icons/roguetown/weapons/axes64.dmi'
 	dropshrink = 0.6
@@ -122,13 +119,12 @@
 	name = "rough skin"
 	desc = ""
 	icon_state = null
-	armor = ARMOR_RUMACLAN
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
+	armor = ARMOR_MAILLE
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
-	body_parts_inherent = COVERAGE_ALL_BUT_HANDFEET
+	body_parts_covered = COVERAGE_NEARLY_FULL
+	body_parts_inherent = COVERAGE_NEARLY_FULL
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	allowed_race = list(

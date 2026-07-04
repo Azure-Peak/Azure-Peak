@@ -4,8 +4,12 @@
 /datum/species/elf/dark
 	name = "Dark Elf"
 	id = "elfd"
-	desc = "<b>Dark Elf</b><br>\
-	\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace their \
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/racial/underdark
+	origin = "Underdark"
+	base_name = "Elf"
+	desc_title = "Dark Elf"
+	desc = "\"Elf\" is a catch-all term used for tall, pointy-eared humanoids who can trace their \
 	heritage to the ancient and mysterious Snow Elves. This species of elf, less frequently \
 	seen, are also referred to by some as \"drow,\" and have several key differences \
 	that set them apart from their more well-known and surface-dwelling kin. Chief among these \
@@ -19,8 +23,7 @@
 	to the surface. The reasons for each dark elf fleeing the Underdark vary depending on the \
 	individual, such as a kinder heart fleeing from a brutal society that scorns them for their \
 	less cruel nature. However, not every dark elf seen on the surface can be safely assumed as \
-	kind, for some leave the Underdark simply to find their own greater heights of power.<br>\
-	(+1 Intellect, +1 Perception)"
+	kind, for some leave the Underdark simply to find their own greater heights of power."
 
 /*
 	Former RT Desc: These guys were undead which doesn't really fit considering now you have a ton of them walking around.
@@ -37,7 +40,8 @@
 	without careful upkeep...\
 	They typically trace their beginnings to how their progenator died before being raised."
 */
-	skin_tone_wording = "Origin City-State"
+	skin_tone_wording = "City-State"
+	use_skin_tone_wording_for_examine = FALSE
 	max_age = 850
 
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,OLDGREY)
@@ -117,12 +121,21 @@
 		/datum/body_marking/nose,
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
+		/datum/body_marking/waist,
+		/datum/body_marking/womb_tattoo,
+		/datum/body_marking/butterfly
 	)
 
 
 	gender_swapping = TRUE
 	stress_examine = TRUE
 	stress_desc = span_red("A loathesome dark elf.")
+
+/datum/species/elf/dark/raider
+	name = "Dark Elf Raider"
+	id = "elfd_raider"
+	is_subrace = FALSE
+	desc = "A hardened dark elf adapted for ruthless Underdark raids."
 
 
 /datum/species/elf/dark/get_span_language(datum/language/message_language)

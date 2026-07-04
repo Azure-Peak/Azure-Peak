@@ -53,7 +53,12 @@ body {
 
 @font-face {
 	font-family: "Furqan";
-	src: url("sand.ttf");
+	src: url("celestial.ttf");
+}
+
+@font-face {
+	font-family: "Furqan";
+	src: url("raneshi.ttf");
 }
 
 @font-face {
@@ -87,8 +92,23 @@ body {
 }
 
 @font-face {
-	font-family: "Notredame";
+	font-family: "ZCOOL XiaoWei";
+	src: url("lingyuese.ttf");
+}
+
+@font-face {
+	font-family: "Evil Bible";
+	src: url("undercommon.ttf");
+}
+
+@font-face {
+	font-family: "ArkansasDB";
 	src: url("otavan.ttf");
+}
+
+@font-face {
+	font-family: "BaggageMasterText79 ttcon";
+	src: url("oldazure.ttf");
 }
 
 @font-face {
@@ -599,6 +619,12 @@ h2.alert {
 	color: #bb4e28;
 	font-size: 75%;
 }
+
+.warningbig {
+	color: #ad1f1a;
+	font-size: 110%;
+}
+
 .boldwarning {
 	color: #bb4e28;
 	font-weight: bold;
@@ -820,6 +846,10 @@ h2.alert {
 .elf {
 	font-family: "Dauphin", cursive, "Pterra";
 }
+.oldazure{
+	font-family: "BaggageMasterText79 ttcon", "Pterra";
+	font-size: 110%;
+}
 .dwarf {
 	font-family: "MasonAlternate", "Pterra";
 }
@@ -853,6 +883,9 @@ h2.alert {
 .kazengunese {
 	font-family: "Yuji Boku", Pterra;
 }
+.lingyuese {
+	font-family: "ZCOOL XiaoWei", Pterra;
+}
 .orc {
 	font-family: "Thief by The Riddler", "Pterra";
 }
@@ -864,8 +897,8 @@ h2.alert {
 	font-size: 120%;
 }
 .otavan {
-	font-family: "Notredame", "Pterra";
-	font-size: 200%;
+	font-family: "ArkansasDB", "Pterra";
+	font-size: 120%;
 }
 .etruscan {
 	font-family: "Feronia", "Pterra";
@@ -933,6 +966,12 @@ h2.alert {
 
 .phobia {
 	color: #dd0000;
+	font-weight: bold;
+}
+
+.racialstatinfo {
+	color: #6a8cb7;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 	font-weight: bold;
 }
 
@@ -1015,6 +1054,15 @@ h2.alert {
 }
 .love_extreme {
 	color: #d146f5;
+	font-size: 75%;
+}
+
+.astrata {
+	color: #FFCC33;
+	font-size: 75%;
+}
+.undivided {
+	color: #28908C;
 	font-size: 75%;
 }
 /*

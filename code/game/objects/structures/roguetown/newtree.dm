@@ -17,6 +17,14 @@
 	//If the tree has been burn beforehand.
 	var/burnt = FALSE
 
+/obj/structure/flora/newtree/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Most trees can be toppled by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Nothing chops trees and foliage better, or quicker, than a good old fashioned axe.")
+	. += span_info("Left-clicking a tree while you're next to it will allow you to climb it. The higher your Climbing skill is, the quicker you can finish climbing up a level. Buckling yourself to an uprighted chair can help, too.")
+	. += span_info("Your Climbing skill determines the tier of wall you can scale, as well. Most people can climb trees and rock walls without trouble, but mossy walls and fortifications can only be surmounted by a few.")
+	. += span_info("Press the 'Shift' button and the 'F' key at the same time to look up a level. If there's nothing to stand on - like a branch or unoccupied tile - adjacent to your direction, climbing up might cause you to fall back down.")
+	. += span_info("Note that this behavior mostly applies to trees and walls that're only one level tall. Those with higher Climbing skills can 'cling' to higher walls, allowing them to scale multiple levels without falling.")
+
 /obj/structure/flora/newtree/fire_act(added, maxstacks)
 	. = ..()
 	if(.)
@@ -100,7 +108,10 @@
 			used_time = max(70 - (myskill * 10) - (L.STASPD * 3), (HAS_TRAIT(L, TRAIT_WOODWALKER) ? 15 : 30))
 		playsound(user, 'sound/foley/climb.ogg', 100, TRUE)
 		user.visible_message(span_warning("[user] starts to climb [src]."), span_warning("I start to climb [src]..."))
-		if(do_after(L, used_time, target = src))
+		L.mid_climb = TRUE
+		var/climbed = do_after(L, used_time, target = src)
+		L.mid_climb = FALSE
+		if(climbed)
 			var/pulling = user.pulling
 			if(ismob(pulling))
 				user.pulling.forceMove(target)
@@ -118,20 +129,18 @@
 			record_featured_stat(FEATURED_STATS_TREE_FELLERS, user)
 			record_round_statistic(STATS_TREES_CUT)
 
-/obj/structure/flora/newtree/update_icon()
-	icon_state = ""
+/obj/structure/flora/newtree/update_icon_state()
+	icon_state = burnt ? "burnt" : ""
+
+/obj/structure/flora/newtree/update_overlays()
+	. = ..()
 	if(burnt)
-		icon_state = "burnt"
-		cut_overlays()
 		return
-	cut_overlays()
-	var/mutable_appearance/M
 	if(base_state)
-		M = mutable_appearance(icon, "[base_state]")
-		add_overlay(M)
-	M = mutable_appearance(icon, "tree[tree_type]")
+		. += mutable_appearance(icon, "[base_state]")
+	var/mutable_appearance/M = mutable_appearance(icon, "tree[tree_type]")
 	M.dir = dir
-	add_overlay(M)
+	. += M
 
 /obj/structure/flora/newtree/Initialize()
 	. = ..()
@@ -152,6 +161,8 @@
 		T.update_icon()
 
 /obj/structure/flora/newtree/proc/build_branches()
+	if(istype(get_turf(src), /turf/open/floor) && prob(90)) // We only want branches in the upper layers
+		return
 	for(var/D in GLOB.cardinals)
 		var/turf/NT = get_step(src, D)
 		if(istype(NT, /turf/open/transparent/openspace))
@@ -191,12 +202,93 @@
 				var/obj/structure/flora/newleaf/corner/T = new(NT)
 				T.dir = D
 
+#define ZTAG_UP "up"
+#define ZTAG_TOP "top"
+
+/obj/structure/flora/newtree/attackby(obj/item/I, mob/user, params)
+	if(user.mind && ishuman(user) && I)
+		var/mob/living/L = user
+		if(L.used_intent && L.used_intent.blade_class == BCLASS_CHOP && I.force_dynamic >= 25)
+			var/list/goobers
+			var/turf/Tsource = get_turf(src)
+			var/turf/Tzup = get_step_multiz(Tsource, UP)
+			var/turf/Tztop
+			if(Tzup)
+				Tztop = get_step_multiz(Tzup, UP)
+			if(Tzup)
+				goobers = list()
+				for(var/mob/living/carbon/human/H in get_hearers_in_range(2, Tzup, RECURSIVE_CONTENTS_CLIENT_MOBS))
+					if(!H || !ishuman(H))
+						continue
+					goobers[H] = ZTAG_UP
+			if(Tztop)
+				for(var/mob/living/carbon/human/H in get_hearers_in_range(2, Tztop, RECURSIVE_CONTENTS_CLIENT_MOBS))
+					if(!H || !ishuman(H))
+						continue
+					goobers[H] = ZTAG_TOP
+
+			if(length(goobers))
+				for(var/mob/living/carbon/human/H in goobers)
+					var/worn_ac = H.highest_ac_worn(FALSE, FALSE)
+					if(HAS_TRAIT(H, TRAIT_WOODWALKER) && worn_ac > 0)
+						var/turf/T = get_turf(H)
+						var/tossed = FALSE
+						for(var/leaf in T.contents)
+							if(istype(leaf, /obj/structure/flora/newleaf))
+								toss_a_guy(H)
+								tossed = TRUE
+								to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+								break
+						if(tossed)
+							continue
+					if(HAS_TRAIT(H, TRAIT_WOODWALKER) && worn_ac < ARMOR_CLASS_MEDIUM)
+						continue
+					if(goobers[H] == ZTAG_TOP)
+						if(worn_ac <= ARMOR_CLASS_MEDIUM && prob(30 + (10 * (H.STALUC - 10))))
+							continue
+						toss_a_guy(H)
+						to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+					if(goobers[H] == ZTAG_UP)
+						if(worn_ac == ARMOR_CLASS_HEAVY)
+							if(prob(10))
+								continue
+							if(prob(30))
+								toss_a_guy(H)
+								to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+							else
+								H.Immobilize(2 SECONDS)
+								H.OffBalance(3 SECONDS)
+								to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+						if(worn_ac == ARMOR_CLASS_MEDIUM)
+							if(prob(40))
+								continue
+							if(prob(10))
+								toss_a_guy(H)
+								to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+							else
+								H.Immobilize(1 SECONDS)
+								H.OffBalance(1 SECONDS)
+								to_chat(user, span_nicegreen("The tree stirs! Someone is up there!"))
+	. = ..()
+
+#undef ZTAG_UP
+#undef ZTAG_TOP
+
+/obj/structure/flora/newtree/proc/toss_a_guy(mob/living/carbon/human/H)
+	H.Knockdown(2 SECONDS)
+	H.Stun(2 SECONDS)
+	var/dir = pick(GLOB.alldirs)
+	var/range = rand(2, 3)
+	var/turf/T_throw = get_ranged_target_turf(H, dir, range)
+	H.safe_throw_at(T_throw, range, 1, H, force = MOVE_FORCE_EXTREMELY_STRONG)
+	to_chat(H, span_boldwarning("THE TREE SHIFTS UNDERNEATH! I LOST MY BALANCE!"))
 
 ///BRANCHES
 
 /obj/structure/flora/newbranch
 	name = "branch"
-	desc = "A stable branch, should be safe to walk on."
+	desc = "A branch of a tree. It looks stable enough to walk on, and could \
+	alternately make for good firewood."
 	icon = 'icons/roguetown/misc/tree.dmi'
 	icon_state = "branch-end1"
 	attacked_sound = 'sound/misc/woodhit.ogg'
@@ -208,17 +300,19 @@
 	density = FALSE
 	max_integrity = 30
 
-/obj/structure/flora/newbranch/update_icon()
+/obj/structure/flora/newbranch/update_icon_state()
 	icon_state = ""
-	cut_overlays()
+
+/obj/structure/flora/newbranch/update_overlays()
+	. = ..()
 	var/mutable_appearance/M
 	if(base_state)
 		M = mutable_appearance(icon, "[base_state]")
 		M.dir = pick(GLOB.cardinals)
-		add_overlay(M)
+		. += M
 	M = mutable_appearance(icon, "branch-end[rand(1,2)]")
 	M.dir = dir
-	add_overlay(M)
+	. += M
 
 /obj/structure/flora/newbranch/Initialize()
 	. = ..()
@@ -230,27 +324,31 @@
 /obj/structure/flora/newbranch/connector
 	icon_state = "branch-extend"
 
-/obj/structure/flora/newbranch/connector/update_icon()
+/obj/structure/flora/newbranch/connector/update_icon_state()
 	icon_state = ""
-	cut_overlays()
+
+/obj/structure/flora/newbranch/connector/update_overlays()
+	. = ..()
 	var/mutable_appearance/M
 	if(base_state)
 		M = mutable_appearance(icon, "[base_state]")
 		M.dir = pick(GLOB.cardinals)
-		add_overlay(M)
+		. += M
 	M = mutable_appearance(icon, "branch-extend")
 	M.dir = dir
-	add_overlay(M)
+	. += M
 
 /obj/structure/flora/newbranch/leafless
 	base_state = FALSE
 
-/obj/structure/flora/newbranch/leafless/update_icon()
+/obj/structure/flora/newbranch/leafless/update_icon_state()
 	icon_state = ""
-	cut_overlays()
+
+/obj/structure/flora/newbranch/leafless/update_overlays()
+	. = ..()
 	var/mutable_appearance/M = mutable_appearance(icon, "branch-end[rand(1,2)]")
 	M.dir = dir
-	add_overlay(M)
+	. += M
 
 /// LEAF
 

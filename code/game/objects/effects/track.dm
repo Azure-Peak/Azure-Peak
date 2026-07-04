@@ -95,10 +95,6 @@
 
 //Probabilities end (albeit mud is handled seperately).
 
-//For highlighting tracks
-/mob/living/carbon/human
-	var/mob/living/current_mark
-
 //Analysis levels depending on skillcheck during reveal.
 #define ANALYSIS_TERRIBLE 1
 #define ANALYSIS_BAD 2
@@ -147,6 +143,11 @@
 	var/markable = TRUE
 	///Base difficulty for noticing these tracks
 	var/base_diff = 11
+
+/obj/effect/track/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-clicking the eye on your HUD allows you to check for tracks, alongside hidden ambushes and traps. The effectiveness of each check scales with your character's Perception and Tracking skill.")
+	. += span_info("The higher your Tracking skill is, the more likely you can discover older and hidden tracks. Likewise, higher levels also let you determine how old the tracks are, which direction they've went, and what kinds of footwear or soles made them.")
 
 /obj/effect/track/Initialize()
 	. = ..()

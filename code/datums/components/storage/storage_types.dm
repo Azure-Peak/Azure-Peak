@@ -27,6 +27,7 @@
 	/obj/item/needle,
 	/obj/item/natural/worms/leech,
 	/obj/item/reagent_containers/lux,
+	/obj/item/reagent_containers/lux_impure,
 	/obj/item/natural/bundle/cloth/bandage,
 	/obj/item/natural/cloth))
 
@@ -145,6 +146,8 @@
 		/obj/item/alch/sinew,
 		/obj/item/alch/viscera,
 		/obj/item/alch/bone,
+		/obj/item/alch/horn,
+		/obj/item/reagent_containers/spidervenom_inert,
 		/obj/item/natural/head // this only works for animal heads
 		))
 
@@ -231,42 +234,7 @@
 
 /datum/component/storage/concrete/grid/orestore/New(datum/P, ...)
 	. = ..()
-	set_holdable(
-		typecacheof(list(/obj/item/rogueore,
-						 /obj/item/rogueore/gold,
-						 /obj/item/rogueore/silver,
-						 /obj/item/rogueore/iron,
-						 /obj/item/rogueore/copper,
-						 /obj/item/rogueore/tin,
-						 /obj/item/rogueore/coal,
-						 /obj/item/rogueore/coal/charcoal,
-						 /obj/item/rogueore/cinnabar,
-						 /obj/item/ingot,
-						 /obj/item/ingot/gold,
-						 /obj/item/ingot/iron,
-						 /obj/item/ingot/copper,
-						 /obj/item/ingot/tin,
-						 /obj/item/ingot/bronze,
-						 /obj/item/ingot/silver,
-						 /obj/item/ingot/steel,
-						 /obj/item/ingot/blacksteel,
-						 /obj/item/ingot/steelholy,
-						 /obj/item/ingot/silverblessed,
-						 /obj/item/ingot/aalloy,
-						 /obj/item/ingot/purifiedaalloy,
-						 /obj/item/ingot/aaslag,
-						 /obj/item/roguegem,
-						 /obj/item/roguegem/green,
-						 /obj/item/roguegem/blue,
-						 /obj/item/roguegem/yellow,
-						 /obj/item/roguegem/violet,
-						 /obj/item/roguegem/ruby,
-						 /obj/item/roguegem/diamond,
-						 /obj/item/roguegem/amethyst,
-						 /obj/item/riddleofsteel,
-						 /obj/item/pearl,
-						 /obj/item/pearl/blue)
-	))
+	set_holdable(list(/obj/item/rogueore, /obj/item/ingot, /obj/item/roguegem, /obj/item/riddleofsteel, /obj/item/pearl))
 
 /datum/component/storage/concrete/grid/orestore/bronze
 	screen_max_rows = 10
@@ -287,6 +255,9 @@
 	screen_max_columns = 2
 	max_w_class = WEIGHT_CLASS_SMALL
 	not_while_equipped = FALSE
+	click_gather = TRUE
+	allow_quick_empty = TRUE
+	allow_quick_gather = TRUE // idk if this is needed w/ click gather but it seems standard practice(?)
 
 /datum/component/storage/concrete/roguetown/zig_box/New(datum/P, ...)
 	. = ..()
@@ -299,6 +270,9 @@
 	screen_max_rows = 8
 	screen_max_columns = 3
 	max_w_class = WEIGHT_CLASS_SMALL
+	click_gather = TRUE
+	allow_quick_empty = TRUE
+	allow_quick_gather = TRUE
 
 /datum/component/storage/concrete/roguetown/zig_bandolier/New(datum/P, ...)
 	. = ..()
@@ -306,3 +280,8 @@
 		/obj/item/clothing/mask/cigarette/rollie,
 		/obj/item/flint,
 		))
+
+/datum/component/storage/concrete/grid/anvil_bin
+	max_w_class = WEIGHT_CLASS_HUGE
+	screen_max_rows = 8
+	screen_max_columns = 4

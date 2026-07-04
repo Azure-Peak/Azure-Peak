@@ -6,7 +6,7 @@
 	overlay_state = "rune0"
 	range = 7
 	sound = list('sound/magic/magnet.ogg')
-	releasedrain = 40
+	releasedrain = SPELLCOST_CONJURE
 	chargetime = 60
 	warnie = "spellwarning"
 	no_early_release = TRUE
@@ -14,6 +14,7 @@
 	refundable = FALSE
 	cost = 6 // 6 points seems relatively fair for a low potency tank simplemobs.
 	spell_tier = 3 // Mage tier
+	spell_impact_intensity = SPELL_IMPACT_NONE
 	chargedloop = /datum/looping_sound/invokegen
 	gesture_required = TRUE // Summon spell
 	associated_skill = /datum/skill/magic/arcane
@@ -23,12 +24,18 @@
 	var/spellsgranted = FALSE
 /obj/effect/proc_holder/spell/invoked/conjure_primordial/cast(list/targets, mob/living/user)
 	. = ..()
+
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
+		revert_cast()
+		return
+
 	if(length(conjured_mobs) >= 2)
 		to_chat(user, span_warning("You can not possibly maintain your focus on any more primordials!"))
 		revert_cast()
 		return
 	var/turf/T = get_turf(targets[1])
-	if(!isopenturf(T))
+	if(!isopenturf(T) || T.is_blocked_turf())
 		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
 		revert_cast()
 		return
@@ -97,18 +104,18 @@
 		if(target.mind && target.mind.current)
 			if (faction_tag in target.mind?.current.faction)
 				target.mind?.current.faction -= faction_tag
-				user.say("Hostis declaratus es.")
+				user.say("Hostis declaratus es.", language = /datum/language/common)
 			else
 				target.mind?.current.faction += faction_tag
-				user.say("Amicus declaratus es.")
+				user.say("Amicus declaratus es.", language = /datum/language/common)
 				target.notify_faction_change()
 		else if(istype(target, /mob/living/simple_animal))
 			if (faction_tag in target.faction)
 				target.faction -= faction_tag
-				user.say("Hostis declaratus es.")
+				user.say("Hostis declaratus es.", language = /datum/language/common)
 			else
 				target.faction |= faction_tag
-				user.say("Amicus declaratus es.")
+				user.say("Amicus declaratus es.", language = /datum/language/common)
 				target.notify_faction_change()
 		return TRUE
 	else if(isturf(targets[1]))

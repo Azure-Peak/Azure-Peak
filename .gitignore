@@ -221,6 +221,9 @@ tools/MapAtmosFixer/MapAtmosFixer/bin/*
 # ezdb
 /db/
 
+#ai stuffs
+.claude/
+
 # Ignore everything in the config folder, but NOT the example or music jukeboxes.
 # Also ignore custom music and title screens (amend as appropriate)
 /config/*

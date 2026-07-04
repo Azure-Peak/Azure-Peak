@@ -20,8 +20,13 @@
 /obj/effect/proc_holder/spell/invoked/raise_undead/cast(list/targets, mob/living/user)
 	..()
 
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
+		revert_cast()
+		return FALSE
+
 	var/turf/T = get_turf(targets[1])
-	if(!isopenturf(T))
+	if(!isopenturf(T) || T.is_blocked_turf())
 		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
 		revert_cast()
 		return FALSE
@@ -31,7 +36,7 @@
 		var/message = "The depths are hollow."
 		if(user.cmode)
 			message += " A decrepit skeleton rises instead."
-			backup_summon(T)
+			backup_summon(T, user)
 		to_chat(user, span_warning(message))
 		return TRUE
 
@@ -51,15 +56,18 @@
 	target.visible_message(span_warning("[target]'s eyes light up with an eerie glow!"))
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "FORTIFIED SKELETON"), 3 SECONDS)
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, select_skeleton_features)), 7 SECONDS)
 	target.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/raise_undead/proc/backup_summon(var/turf/T)
+/obj/effect/proc_holder/spell/invoked/raise_undead/proc/backup_summon(var/turf/T, mob/living/user)
 	var/skeleton_roll = rand(1, 3)
+	var/mob/living/skeletonnew
 	// 66% chance of medium 33% of heavy
 	switch(skeleton_roll)
 		if(1 to 2) // 66% chance
-			new /mob/living/carbon/human/species/skeleton/npc/medium(T)
+			skeletonnew = new /mob/living/carbon/human/species/skeleton/npc/medium(T)
 		if(3) // 33% chance
-			new /mob/living/carbon/human/species/skeleton/npc/hard(T)
+			skeletonnew = new /mob/living/carbon/human/species/skeleton/npc/hard(T)
+	apply_mob_lifespan(skeletonnew, user)
 	return TRUE

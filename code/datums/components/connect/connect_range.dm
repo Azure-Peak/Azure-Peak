@@ -69,6 +69,8 @@
 	qdel(src)
 
 /datum/component/connect_range/proc/update_signals(atom/target, atom/old_loc)
+	if(!parent)
+		return
 	var/turf/current_turf = get_turf(target)
 	if(isnull(current_turf))
 		unregister_signals(old_loc, turfs)
@@ -96,6 +98,8 @@
 			parent.RegisterSignal(target_turf, signal, connections[signal])
 
 /datum/component/connect_range/proc/unregister_signals(atom/location, list/remove_from)
+	if(!parent)
+		return
 	//The location is null or is a container and the component shouldn't have register signals on it
 	if(isnull(location) || (!works_in_containers && !isturf(location)))
 		return
@@ -104,8 +108,6 @@
 		for(var/atom/movable/target as anything in (get_nested_locs(location) + location))
 			UnregisterSignal(target, COMSIG_MOVABLE_MOVED)
 
-	if(!length(remove_from))
-		return
 	if(!length(remove_from))
 		return
 	for(var/turf/target_turf as anything in remove_from)

@@ -4,18 +4,21 @@
 /datum/species/tabaxi
 	name = "Tabaxi"
 	id = "tabaxi"
-
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/raneshen
+	origin = "Raneshen"
+	base_name = "Beastvolk"
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | SLIME_EXTRACT
-	desc = "<b>Tabaxi</b><br>\
-		Tabaxi are taller than most humans at six to seven feet. \
+	desc_title = "Tabaxi"
+	desc = "Tabaxi are taller than most humans at six to seven feet. \
 		Their bodies are slender and covered in spotted or striped fur. \
 		Like most felines, Tabaxi have long tails and retractable claws. \
 		Tabaxi fur color ranges from light yellow to brownish red. \
 		Tabaxi eyes are slit-pupilled and usually green or yellow. \
 		Tabaxi are competent swimmers and climbers as well as speedy runners. \
-		They have a good sense of balance and an acute sense of smell.<br>\
-		(+1 Speed)"
+		They have a good sense of balance and an acute sense of smell."
 	skin_tone_wording = "Fur Colors"
+	use_skin_tone_wording_for_examine = FALSE
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE, MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mta.dmi'
@@ -109,6 +112,9 @@
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
 		/datum/body_marking/gradient,
+		/datum/body_marking/waist,
+		/datum/body_marking/womb_tattoo,
+		/datum/body_marking/butterfly
 	)
 	languages = list(
 		/datum/language/common

@@ -18,6 +18,7 @@
 
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_obj_examine))
 
 /datum/component/skill_blessed/proc/on_equip()
 	SIGNAL_HANDLER
@@ -60,6 +61,11 @@
 
 	remove_skill(original_user)
 
+/datum/component/skill_blessed/proc/on_obj_examine(datum/source, mob/M)
+	if(!HAS_TRAIT(M, required_trait))
+		return
+	to_chat(M, span_green("[parent] and I are well acquainted. ([required_trait])"))
+
 
 /datum/component/skill_blessed/proc/give_skill(mob/user)
 	if(!HAS_TRAIT(user, required_trait))
@@ -68,7 +74,7 @@
 		to_chat(user, span_warning("My mind is already focused on a different weapon."))
 		return
 
-	to_chat(user, span_info("[parent] and I are old friends. ([required_trait])"))
+	to_chat(user, span_info("I'm well acquainted with [parent]. ([required_trait])"))
 	original_skill = user.get_skill_level(weapon_skill)
 	user.adjust_skillrank_up_to(weapon_skill, skill_amount, silent = TRUE)
 	ADD_TRAIT(user, TRAIT_SKILLBLESSED, TRAIT_GENERIC)

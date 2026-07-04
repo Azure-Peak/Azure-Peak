@@ -146,7 +146,7 @@
 	if(entry.accessory_type && !sprite_accessories)
 		entry.accessory_type = null
 		entry.accessory_colors = null
-	else if (sprite_accessories && !(entry.accessory_type in sprite_accessories))
+	else if (sprite_accessories && (!entry.accessory_type || !(entry.accessory_type in sprite_accessories)))
 		set_accessory_type(prefs, default_accessory, entry)
 	/// Validate colors
 	if(entry.accessory_type)

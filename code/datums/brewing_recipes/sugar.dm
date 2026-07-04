@@ -7,7 +7,7 @@
 	needed_items = list(/obj/item/reagent_containers/food/snacks/sugar = 6)
 	brewed_amount = 6
 	brew_time = 3 MINUTES
-	sell_value = 30
+	sell_value = 60
 
 /datum/brewing_recipe/rum
 	name = "Rum"
@@ -15,8 +15,9 @@
 	bottle_name = "rum"
 	bottle_desc = "A bottle of locally-distilled rum. Has a sweet flavor with a hints of caramel and vanilla."
 	reagent_to_brew = /datum/reagent/consumable/ethanol/rum
+	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle/rum
 	pre_reqs = /datum/reagent/consumable/sugar/molasses
 	brewed_amount = 4
 	brew_time = 4 MINUTES
-	sell_value = 90
+	sell_value = 100
 	heat_required = 380

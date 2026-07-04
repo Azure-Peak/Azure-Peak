@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Certain wildshapes will no longer be swapped around by players moving into them"

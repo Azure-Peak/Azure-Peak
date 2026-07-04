@@ -1355,6 +1355,12 @@
 		if("show_hierarchy")
 			show_hierarchy()
 
+		if("show_clan_hierarchy_json")
+			show_hierarchy_json()
+
+		if("import_clan_hierarchy_json")
+			import_hierarchy_prompt()
+
 		if("refresh_clan_menu")
 			generate_interface()
 

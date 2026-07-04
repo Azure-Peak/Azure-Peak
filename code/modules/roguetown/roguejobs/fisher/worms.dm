@@ -27,6 +27,10 @@
 	drop_sound = 'sound/foley/dropsound/food_drop.ogg'
 	var/amt = 1
 
+/obj/item/natural/worms/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Like many wriggling things, this can be used as bait for fishing. Its friends can be found by digging holes in wet dirt.")
+
 /obj/item/natural/worms/grubs
 	name = "grub"
 	desc = "Bait for the desperate, or the daring."

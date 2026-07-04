@@ -2,9 +2,9 @@
 	name = "Exiled Apprentice"
 	tutorial = "Your master found you talentless, and cast you from their tower with nothing but your staff and dreams of what could've been."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/vagabond/mage
-	traits_applied = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_VAGABOND)
 	subclass_stats = list(
 		STATKEY_INT = 2,
@@ -12,10 +12,12 @@
 		STATKEY_WIL = -2,
 		STATKEY_SPD = -1
 	)
-	subclass_spellpoints = 9
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 2, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
 	)
 	extra_context = "Contains randomized skills and stats."
 
@@ -36,9 +38,14 @@
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
 
 	r_hand = /obj/item/rogueweapon/woodstaff
+	l_hand = /obj/item/rogueweapon/spellbook
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+	/obj/item/chalk = 1
+	)
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, rand(1,4), TRUE)
 		H.adjust_skillrank(/datum/skill/magic/arcane, rand(1,4), TRUE)
 		H.STAINT = rand(8, 20)

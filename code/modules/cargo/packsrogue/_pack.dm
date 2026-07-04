@@ -18,6 +18,8 @@
 	var/DropPodOnly = FALSE//only usable by the Bluespace Drop Pod via the express cargo console
 	var/admin_spawned = FALSE
 	var/small_item = FALSE //Small items can be grouped into a single crate.
+	var/ship_qty_min = 1
+	var/ship_qty_max = 1
 
 /datum/supply_pack/New()
 	..()
@@ -26,11 +28,11 @@
 	if(cost < 1)
 		cost = 1
 
-/datum/supply_pack/proc/generate(atom/A, datum/bank_account/paying_account)
+/datum/supply_pack/proc/generate(atom/A, datum/fund/paying_account)
 	var/obj/structure/closet/crate/C
 	if(paying_account)
 		C = new /obj/structure/closet/crate(A)
-		C.name = "[crate_name] - Purchased by [paying_account.account_holder]"
+		C.name = "[crate_name] - Purchased by [paying_account.name]"
 	else
 		C = new crate_type(A)
 		C.name = crate_name

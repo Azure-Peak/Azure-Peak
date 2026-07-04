@@ -21,6 +21,7 @@
 	icon_state = "[initial(icon_state)]"
 	slowdown = initial(slowdown)
 	body_parts_covered = initial(body_parts_covered)
+	body_parts_covered_dynamic = body_parts_covered
 	flags_inv = initial(flags_inv)
 	flags_cover = initial(flags_cover)
 	block2add = initial(block2add)
@@ -88,7 +89,7 @@
 		return
 
 	if(H.head)
-		to_chat(H, span_warning("I need to take off my [H.head] first."))
+		to_chat(H, span_warning("I need to take off my [H.head.name] first."))
 		return
 
 	var/obj/item/clothing/head/hooded/new_hood = new hoodtype()
@@ -179,7 +180,7 @@
 	usr.update_inv_wear_suit()
 	for(var/X in actions)
 		var/datum/action/A = X
-		A.UpdateButtonIcon()
+		A.build_all_button_icons()
 
 /obj/item/clothing/suit/toggle/examine(mob/user)
 	. = ..()

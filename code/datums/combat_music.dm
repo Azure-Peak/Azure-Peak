@@ -5,7 +5,7 @@
 	As of writing they are never directly applied to mobs themselves, only the name and musicpath are.
 	Deleting these datums or renaming subtypes will not break preferences; invalid saves get redirected to /default.
 	When adding new songs, add a shortname around ~12 characters for the game preferences menu.
-	
+
 	IMPORTANT! Be careful about adding songs to this list that aren't used anywhere else, lest you needlessly inflate the RSC.
 */
 
@@ -19,7 +19,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 		return
 	if(!track.name)
 		LAZYREMOVE(GLOB.cmode_tracks_by_type, track.type)
-		CRASH("CMODE MUSIC: type [track.type] has no name!") 
+		CRASH("CMODE MUSIC: type [track.type] has no name!")
 	if(GLOB.cmode_tracks_by_name[track.name])
 		LAZYREMOVE(GLOB.cmode_tracks_by_type, track.type)
 		CRASH("CMODE MUSIC: type [track.type] has duplicate name \"[track.name]\"!")
@@ -73,14 +73,14 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	desc = ""
 	shortname = "Adv. 3"
 	credits = "T-87 SULFURHEAD - MORTEM OBIRE (https://www.youtube.com/@T87-Sulfurhead)"
-	musicpath = list('sound/music/cmode/adventurer/combat_outlander3.ogg') 
+	musicpath = list('sound/music/cmode/adventurer/combat_outlander3.ogg')
 
 /datum/combat_music/adventurer_4
 	name = "Adventurer 4"
 	desc = ""
 	shortname = "Adv. 4"
 	credits = "T-87 SULFURHEAD - Snicker Snacker (https://www.youtube.com/@T87-Sulfurhead)"
-	musicpath = list('sound/music/cmode/adventurer/combat_outlander4.ogg') 
+	musicpath = list('sound/music/cmode/adventurer/combat_outlander4.ogg')
 
 /datum/combat_music/ascended
 	name = "Ascended"
@@ -88,6 +88,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	shortname = "Ascended"
 	credits = "TO PIERCE THE BLACK SKY /// ENVY INTERLUDE - UNFORTUNATE DEVELOPMENT"
 	musicpath = list('sound/music/combat_ascended.ogg')
+
+/datum/combat_music/ascendedsavior
+	name = "Ascended ('Savior' Mix)"
+	desc = "Blessed idiot, sacrificial hero, lowly fool - will you save your world, or will you watch the birth of a new one?"
+	shortname = "Savior"
+	credits = "DON'T BLINK /// OUTCOME MEMORIES - LAST MAN STANDING"
+	musicpath = list('sound/music/combat_savior.ogg')
 
 /datum/combat_music/astrata
 	name = "Astratan Light"
@@ -244,6 +251,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "T87-Sulfurhead - Black Powder (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_graggar.ogg')
 
+/datum/combat_music/graggar_bloodrage
+	name = "Graggarite Psychosis"
+	desc = "BLOOD AND FURY SPLITTING MY SKULL! LAMBS TO THE SLAUGHTER!"
+	shortname = "Bloodrage"
+	credits = "Ben_19M - THE WHOLE BODY IS BULLETPROOF (https://www.youtube.com/@Ben_19M)"
+	musicpath = list('sound/music/combat_bloodrage.ogg')
+
 /datum/combat_music/heretic_baotha
 	name = "Heretic - Baotha"
 	desc = ""
@@ -259,17 +273,24 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	musicpath = list('sound/music/Iconoclast.ogg')
 
 /datum/combat_music/inquisitor
-	name = "Inquisitor (Monster Hunter/Spellbreaker)"
-	desc = ""
+	name = "Inquisitor ('Exorcist' Mix)"
+	desc = "To have memories of those you have loved and lost is perhaps harder than to have no memories at all."
 	shortname = "Inquisitor"
 	credits = "Hellsing OST RAID Track 15: Survival on the Street of Insincerity"
 	musicpath = list('sound/music/inquisitorcombat.ogg')
 
 /datum/combat_music/inquis_ordinator
-	name = "Inquisitor - Ordinator"
+	name = "Inquisitor ('Ordinator' Mix)"
 	desc = ""
-	shortname = "Ordinator"
+	shortname = "Inq. Ordinator" 
 	musicpath = list('sound/music/combat_inqordinator.ogg')
+	
+/datum/combat_music/inquis_commander
+	name = "Inquisitor ('Commander' Mix)"
+	desc = "One last parlay at the end of the world. Finish the fight, no matter the odds."
+	shortname = "Inq. Commander"
+	credits = "Summit - TimG"
+	musicpath = list('sound/music/combat_inqcommander.ogg')
 
 /datum/combat_music/jester
 	name = "Jester"
@@ -283,6 +304,24 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	desc = ""
 	shortname = "Kazengite"
 	musicpath = list('sound/music/combat_kazengite.ogg')
+
+/datum/combat_music/firestorm
+	name = "Firestorm (Kazengun)"
+	desc = ""
+	shortname = "Firestorm"
+	musicpath = list('sound/music/combat_Kazengun_Firestorm.ogg')
+
+/datum/combat_music/overlord
+	name = "Overlord (Kazengun)"
+	desc = ""
+	shortname = "Overlord"
+	musicpath = list('sound/music/combat_Kazengun_Overlord.ogg')
+
+/datum/combat_music/runaway_chariot
+	name = "Runaway Chariot (Kazengun)"
+	desc = ""
+	shortname = "Runaway Chariot"
+	musicpath = list('sound/music/combat_Kazengun_Runaway_Chariot.ogg')
 
 /datum/combat_music/knight
 	name = "Knight (Noble)"
@@ -415,7 +454,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	name = "Steppesman"
 	desc = ""
 	shortname = "Steppe"
-	credits = "Tatar Theme (Hellish Quart OST)"
+	credits = "MusicImaginary - Tatars"
 	musicpath = list('sound/music/combat_steppe.ogg')
 
 /datum/combat_music/town_dirt
@@ -481,10 +520,65 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "T87-Sulfurhead - Good Men Die Young (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/combat_veteran.ogg')
 
-
 /datum/combat_music/warscholar
 	name = "Warscholar, Naledi"
 	desc = ""
 	shortname = "Warscholar"
 	credits = "Butcher's Boulevard - Kristjan Thomas Haaristo"
 	musicpath = list('sound/music/warscholar.ogg')
+
+/datum/combat_music/freifencer
+	name = "Freifechter, Fencer"
+	desc = "God is dead, yet I follow his word! No fire made by any man will snuff out the Reformation! Paradise awaits!"
+	shortname = "Fencer"
+	credits = "MusicImaginary - Old Church"
+	musicpath = list('sound/music/frei_fencer.ogg')
+
+/datum/combat_music/freilancer
+	name = "Freifechter, Lancer"
+	desc = "Etruscan pike companies are some of Psydonia's most sought-after mercenaries - but you're not one of those. You're a master."
+	shortname = "Lancer"
+	credits = "Lucas Gitano - The Mask of Zorro (Fingerstyle Acoustic Cover)"
+	musicpath = list('sound/music/frei_lancer.ogg')
+
+/datum/combat_music/freisabrist
+	name = "Freifechter, Sabrist"
+	desc = "So long as we still lyve, what the foreign powers have seized from us, we shall recapture with a sabre in hand."
+	shortname = "Sabrist"
+	credits = "MusicImaginary - Lyra"
+	musicpath = list('sound/music/frei_sabre.ogg')
+
+/datum/combat_music/aavshepherd
+	name = "Aavnic Shepherd"
+	desc = "\"No saber in hand, they crush bones with their fokos!\""
+	shortname = "Shepherd"
+	credits = "MusicImaginary - Yendrek"
+	musicpath = list('sound/music/frei_shepherd.ogg')
+
+/datum/combat_music/thespian
+	name = "Thespian-Errant"
+	desc = "Witness us! We, who are about to die, salute thee!"
+	shortname = "Thespian"
+	credits = "Swords And Sandals, Spartacus - Title Theme"
+	musicpath = list('sound/music/combat_thespian.ogg')
+
+/datum/combat_music/dying_world
+	name = "Chant Against a Dying World (Neu Verevolf)"
+	desc = "\"DENDOR! FATHER! SPIRIT GUIDE! LET ME-- VINDICATE MY PRIDE!\""
+	shortname = "Dying World (VOCAL)"
+	credits = "T-87 SULFURHEAD - CHANT AGAINST A DYING WORLD (https://www.youtube.com/watch?v=uf3Iqn-i6EM)"
+	musicpath = list('sound/music/cmode/antag/combat_dying_world.ogg')
+
+/datum/combat_music/dying_world_instrumental
+	name = "Chant Against a Dying World (Instrumental)"
+	desc = "The more common form of the song, lacks the lyrics. Recommended for long-term use."
+	shortname = "Dying World (INSTR)"
+	credits = "T-87 SULFURHEAD - CHANT AGAINST A DYING WORLD INSTRUMENTAL (https://www.youtube.com/watch?v=M0gmFhgPaV8)"
+	musicpath = list('sound/music/cmode/antag/combat_dying_world_instrumental.ogg')
+
+/datum/combat_music/ready_to_die
+	name = "I'M READY TO DIE, ARE YOU?"
+	desc = "\"I REMEMBER A TIME NOT THAT LONG AGO, WHEN WE HAD VAMPIRES AND DUNPEALS BOTH AROUND HERE...\"" // yes it's "dunpeals". ask hunter d not me
+	shortname = "Ready to Die"
+	credits = "T-87 SULFURHEAD - I'M READY TO DIE, ARE YOU? (https://www.youtube.com/watch?v=cJpAxIvd8_g)"
+	musicpath = list('sound/music/cmode/combat_ready_to_die.ogg')

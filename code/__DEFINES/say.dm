@@ -63,23 +63,27 @@
 #define SPAN_DWARF "dwarf"
 #define SPAN_ABYSS "abyssal"
 #define SPAN_ELF "elf"
-#define SPAN_SAND "sandspeak"
+#define SPAN_CELESTIAL "celestial"
+#define SPAN_RANESHI "raneshi"
 #define SPAN_DELF "delf"
 #define SPAN_HELL "hellspeak"
 #define SPAN_GRENZELHOFTIAN "grenzelhoftian"
 #define SPAN_OTAVAN "otavan"
 #define SPAN_ETRUSCAN "etruscan"
 #define SPAN_GRONNIC "gronnic"
+#define SPAN_OLDAZURE "oldazure"
 #define SPAN_BEAST "beast"
 #define SPAN_ORC "orc"
 #define SPAN_DRACONIC "reptile"
 #define SPAN_KAZENGUNESE "kazengunese"
+#define SPAN_LINGYUESE "lingyuese"
 #define SPAN_AAVNIC "aavnic"
+#define SPAN_UNDERCOMMON "undercommon"
 #define SPAN_UNDEAD "undead"
 #define SPAN_CAT "cat"		 //nyi but file found
 #define SPAN_PULSEDEATH "pulsedeath"
 
-#define LANGUAGE_SPANS list(SPAN_GEN,SPAN_ORATOR, SPAN_DWARF, SPAN_ABYSS, SPAN_ELF, SPAN_SAND, SPAN_DELF, SPAN_HELL, SPAN_GRENZELHOFTIAN, SPAN_OTAVAN, SPAN_ETRUSCAN, SPAN_GRONNIC, SPAN_BEAST, SPAN_ORC, SPAN_DRACONIC, SPAN_KAZENGUNESE, SPAN_AAVNIC, SPAN_UNDEAD, SPAN_CAT, SPAN_PULSEDEATH)
+#define LANGUAGE_SPANS list(SPAN_GEN,SPAN_ORATOR, SPAN_DWARF, SPAN_ABYSS, SPAN_ELF, SPAN_CELESTIAL, SPAN_RANESHI, SPAN_DELF, SPAN_HELL, SPAN_GRENZELHOFTIAN, SPAN_OTAVAN, SPAN_ETRUSCAN, SPAN_GRONNIC, SPAN_BEAST, SPAN_ORC, SPAN_DRACONIC, SPAN_KAZENGUNESE, SPAN_LINGYUESE, SPAN_AAVNIC, SPAN_UNDEAD, SPAN_CAT, SPAN_PULSEDEATH, SPAN_OLDAZURE, SPAN_UNDERCOMMON)
 
 //bitflag #defines for return value of the radio() proc.
 #define ITALICS 1

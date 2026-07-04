@@ -22,6 +22,320 @@
 	if(!CheckAdminHref(href, href_list))
 		return
 
+	// Open Heal Panel from Player Panel
+	if(href_list["heal_panel"])
+		var/mob/living/M = locate(href_list["heal_panel"])
+		if(M)
+			show_heal_panel(M)
+		return
+
+	// Open Inventory Panel from Player Panel
+	if(href_list["inventory_panel"])
+		var/mob/living/M = locate(href_list["inventory_panel"])
+		if(M)
+			show_inventory_panel(M)
+		return
+
+	// Heal panel actions
+	if(href_list["heal_target"])
+		var/mob/living/M = locate(href_list["heal_target"])
+		if(M)
+			M.fully_heal(admin_revive = TRUE)
+			message_admins("[key_name_admin(usr)] fully healed [key_name_admin(M)].")
+			log_admin("[key_name(usr)] fully healed [key_name(M)].")
+			show_heal_panel(M)
+		return
+
+	if(href_list["heal_revive"])
+		var/mob/living/M = locate(href_list["heal_revive"])
+		if(M)
+			M.revive(full_heal = FALSE, admin_revive = TRUE)
+			message_admins("[key_name_admin(usr)] revived [key_name_admin(M)].")
+			log_admin("[key_name(usr)] revived [key_name(M)].")
+			show_heal_panel(M)
+		return
+
+	if(href_list["heal_refresh"])
+		var/mob/living/M = locate(href_list["heal_refresh"])
+		if(M)
+			show_heal_panel(M)
+		return
+
+	if(href_list["heal_modify_organs"])
+		var/mob/living/carbon/M = locate(href_list["heal_modify_organs"])
+		if(M)
+			usr.client.manipulate_organs(M)
+			show_heal_panel(M)
+		return
+
+	if(href_list["heal_blood_add100"])
+		var/mob/living/M = locate(href_list["heal_blood_add100"])
+		if(M && ishuman(M))
+			var/mob/living/carbon/human/H = M
+			H.blood_volume = min(H.blood_volume + 100, BLOOD_VOLUME_MAXIMUM)
+			message_admins("[key_name_admin(usr)] added 100 blood to [key_name_admin(M)].")
+			log_admin("[key_name(usr)] added 100 blood to [key_name(M)].")
+			show_heal_panel(M)
+		return
+
+	if(href_list["heal_blood_add50"])
+		var/mob/living/M = locate(href_list["heal_blood_add50"])
+		if(M && ishuman(M))
+			var/mob/living/carbon/human/H = M
+			H.blood_volume = min(H.blood_volume + 50, BLOOD_VOLUME_MAXIMUM)
+			message_admins("[key_name_admin(usr)] added 50 blood to [key_name_admin(M)].")
+			log_admin("[key_name(usr)] added 50 blood to [key_name(M)].")
+			show_heal_panel(M)
+		return
+
+	if(href_list["heal_blood_sub50"])
+		var/mob/living/M = locate(href_list["heal_blood_sub50"])
+		if(M && ishuman(M))
+			var/mob/living/carbon/human/H = M
+			H.blood_volume = max(H.blood_volume - 50, 0)
+			message_admins("[key_name_admin(usr)] removed 50 blood from [key_name_admin(M)].")
+			log_admin("[key_name(usr)] removed 50 blood from [key_name(M)].")
+			show_heal_panel(M)
+		return
+
+	if(href_list["heal_blood_sub100"])
+		var/mob/living/M = locate(href_list["heal_blood_sub100"])
+		if(M && ishuman(M))
+			var/mob/living/carbon/human/H = M
+			H.blood_volume = max(H.blood_volume - 100, 0)
+			message_admins("[key_name_admin(usr)] removed 100 blood from [key_name_admin(M)].")
+			log_admin("[key_name(usr)] removed 100 blood from [key_name(M)].")
+			show_heal_panel(M)
+		return
+
+	if(href_list["heal_blood_set"])
+		var/mob/living/M = locate(href_list["heal_blood_set"])
+		if(M && ishuman(M))
+			var/mob/living/carbon/human/H = M
+			var/new_amount = input(usr, "Set blood volume to:", "Blood Volume", H.blood_volume) as num|null
+			if(new_amount != null)
+				H.blood_volume = clamp(new_amount, 0, BLOOD_VOLUME_MAXIMUM)
+				message_admins("[key_name_admin(usr)] set [key_name_admin(M)]'s blood volume to [new_amount].")
+				log_admin("[key_name(usr)] set [key_name(M)]'s blood volume to [new_amount].")
+				show_heal_panel(M)
+		return
+
+	if(href_list["heal_edit_simple"])
+		var/mob/living/M = locate(href_list["heal_edit_simple"])
+		if(M && !ishuman(M))
+			var/damage_type = href_list["damage_type"]
+			var/current_value = 0
+			if(damage_type == "brute")
+				current_value = M.getBruteLoss()
+			else if(damage_type == "burn")
+				current_value = M.getFireLoss()
+			else if(damage_type == "toxin")
+				current_value = M.getToxLoss()
+			else if(damage_type == "oxy")
+				current_value = M.getOxyLoss()
+			
+			var/new_value = input(usr, "Set [damage_type] damage:", "Edit Damage", current_value) as num|null
+			if(new_value != null)
+				new_value = max(0, new_value)
+				if(damage_type == "brute")
+					M.adjustBruteLoss(new_value - current_value)
+				else if(damage_type == "burn")
+					M.adjustFireLoss(new_value - current_value)
+				else if(damage_type == "toxin")
+					M.adjustToxLoss(new_value - current_value)
+				else if(damage_type == "oxy")
+					M.adjustOxyLoss(new_value - current_value)
+				message_admins("[key_name_admin(usr)] set [damage_type] damage to [new_value] on [key_name_admin(M)].")
+				log_admin("[key_name(usr)] set [damage_type] damage to [new_value] on [key_name(M)].")
+				show_heal_panel(M)
+		return
+
+	if(href_list["heal_edit_overall"])
+		var/mob/living/M = locate(href_list["heal_edit_overall"])
+		if(M && ishuman(M))
+			var/mob/living/carbon/human/H = M
+			var/damage_type = href_list["damage_type"]
+			var/current_value = 0
+			if(damage_type == "toxin")
+				current_value = H.getToxLoss()
+			else if(damage_type == "oxy")
+				current_value = H.getOxyLoss()
+			
+			var/new_value = input(usr, "Set [damage_type] damage:", "Edit Damage", current_value) as num|null
+			if(new_value != null)
+				new_value = max(0, new_value)
+				if(damage_type == "toxin")
+					H.setToxLoss(new_value)
+				else if(damage_type == "oxy")
+					H.setOxyLoss(new_value)
+				message_admins("[key_name_admin(usr)] set [damage_type] damage to [new_value] on [key_name_admin(M)].")
+				log_admin("[key_name(usr)] set [damage_type] damage to [new_value] on [key_name(M)].")
+				show_heal_panel(M)
+		return
+
+	if(href_list["heal_edit_damage"])
+		var/mob/living/M = locate(href_list["heal_edit_damage"])
+		var/obj/item/bodypart/BP = locate(href_list["bodypart"])
+		if(M && BP && ishuman(M))
+			var/damage_type = href_list["damage_type"]
+			var/current_value = 0
+			if(damage_type == "brute")
+				current_value = BP.brute_dam
+			else if(damage_type == "burn")
+				current_value = BP.burn_dam
+			
+			var/new_value = input(usr, "Set [damage_type] damage for [BP.name]:", "Edit Damage", current_value) as num|null
+			if(new_value != null)
+				new_value = max(0, new_value)
+				if(damage_type == "brute")
+					BP.brute_dam = new_value
+				else if(damage_type == "burn")
+					BP.burn_dam = new_value
+				BP.update_limb()
+				message_admins("[key_name_admin(usr)] set [BP.name] [damage_type] damage to [new_value] on [key_name_admin(M)].")
+				log_admin("[key_name(usr)] set [BP.name] [damage_type] damage to [new_value] on [key_name(M)].")
+				show_heal_panel(M)
+		return
+
+	if(href_list["heal_fix_bodypart"])
+		var/mob/living/M = locate(href_list["heal_fix_bodypart"])
+		var/obj/item/bodypart/BP = locate(href_list["bodypart"])
+		if(M && BP && ishuman(M))
+			BP.brute_dam = 0
+			BP.burn_dam = 0
+			BP.update_limb()
+			message_admins("[key_name_admin(usr)] healed [BP.name] on [key_name_admin(M)].")
+			log_admin("[key_name(usr)] healed [BP.name] on [key_name(M)].")
+			show_heal_panel(M)
+		return
+
+	if(href_list["heal_add_wound"])
+		var/mob/living/M = locate(href_list["heal_add_wound"])
+		var/obj/item/bodypart/BP = locate(href_list["bodypart"])
+		if(M && BP && ishuman(M))
+			var/list/wound_types = list(
+				"Fracture" = /datum/wound/fracture,
+				"Slash" = /datum/wound/slash,
+				"Puncture" = /datum/wound/puncture,
+				"Bruise" = /datum/wound/bruise,
+				"Artery" = /datum/wound/artery,
+				"Integrity" = /datum/wound/integrity,
+				"Bite" = /datum/wound/bite,
+				"Dislocation" = /datum/wound/dislocation
+			)
+			var/wound_choice = input(usr, "Select wound type:", "Add Wound") as null|anything in wound_types
+			if(wound_choice)
+				var/wound_path = wound_types[wound_choice]
+				// Apply body-part-specific wound variants
+				
+				if(wound_choice == "Fracture")
+					if(BP.body_zone == BODY_ZONE_HEAD)
+						wound_path = /datum/wound/fracture/head
+					else if(BP.body_zone == BODY_ZONE_CHEST)
+						wound_path = /datum/wound/fracture/chest
+				
+				else if(wound_choice == "Artery")
+					if(BP.body_zone == BODY_ZONE_HEAD)
+						wound_path = /datum/wound/artery/neck
+					else if(BP.body_zone == BODY_ZONE_CHEST)
+						wound_path = /datum/wound/artery/chest
+				
+				else if(wound_choice == "Integrity")
+					if(BP.body_zone == BODY_ZONE_HEAD)
+						wound_path = /datum/wound/integrity/neck
+					else if(BP.body_zone == BODY_ZONE_CHEST)
+						wound_path = /datum/wound/integrity/chest
+				
+				else if(wound_choice == "Dislocation")
+					if(BP.body_zone == BODY_ZONE_HEAD)
+						wound_path = /datum/wound/dislocation/neck
+				
+				// Check for wound subtypes (like small/large punctures, small/large slashes, etc.)
+				var/list/wound_subtypes = list()
+				for(var/subtype in subtypesof(wound_path))
+					var/datum/wound/W = subtype
+					var/wound_name = initial(W.name)
+					if(wound_name && wound_name != initial(wound_path:name))
+						wound_subtypes[wound_name] = subtype
+				
+				// If there are subtypes, let the user choose
+				if(wound_subtypes.len > 0)
+					var/subtype_choice = input(usr, "Select wound severity:", "Wound Tier") as null|anything in wound_subtypes
+					if(subtype_choice)
+						wound_path = wound_subtypes[subtype_choice]
+					else
+						show_heal_panel(M)
+						return
+				
+				BP.add_wound(wound_path)
+				var/datum/wound/applied_wound = wound_path
+				var/wound_display_name = initial(applied_wound:name)
+				message_admins("[key_name_admin(usr)] added [wound_display_name] wound to [BP.name] on [key_name_admin(M)].")
+				log_admin("[key_name(usr)] added [wound_display_name] wound to [BP.name] on [key_name(M)].")
+			show_heal_panel(M)
+		return
+
+	if(href_list["heal_remove_bodypart"])
+		var/mob/living/M = locate(href_list["heal_remove_bodypart"])
+		var/obj/item/bodypart/BP = locate(href_list["bodypart"])
+		if(M && BP && ishuman(M))
+			// Special case for chest - just gib them
+			if(BP.body_zone == BODY_ZONE_CHEST)
+				var/confirm = alert(usr, "Removing the chest will gib [M.name], leaving behind all body parts except the chest. Continue?", "Gib Mob", "Yes", "Cancel")
+				if(confirm == "Yes")
+					message_admins("[key_name_admin(usr)] gibbed [key_name_admin(M)] by removing the chest.")
+					log_admin("[key_name(usr)] gibbed [key_name(M)] by removing the chest.")
+					M.gib(no_brain = FALSE, no_organs = FALSE, no_bodyparts = FALSE)
+				return
+			// Special case for head - properly remove it
+			else if(BP.body_zone == BODY_ZONE_HEAD)
+				var/removal_type = alert(usr, "How to remove [BP.name]?", "Remove Bodypart", "Chop", "Safely Amputate", "Cancel")
+				if(removal_type == "Chop")
+					BP.drop_limb()
+					message_admins("[key_name_admin(usr)] chopped off [BP.name] from [key_name_admin(M)].")
+					log_admin("[key_name(usr)] chopped off [BP.name] from [key_name(M)].")
+				else if(removal_type == "Safely Amputate")
+					BP.drop_limb()
+					message_admins("[key_name_admin(usr)] safely amputated [BP.name] from [key_name_admin(M)].")
+					log_admin("[key_name(usr)] safely amputated [BP.name] from [key_name(M)].")
+				show_heal_panel(M)
+			// All other limbs
+			else
+				var/removal_type = alert(usr, "How to remove [BP.name]?", "Remove Bodypart", "Chop", "Safely Amputate", "Cancel")
+				if(removal_type == "Chop")
+					// Use admin-only dismember that bypasses all armor checks
+					BP.dismember(skip_checks = TRUE)
+					message_admins("[key_name_admin(usr)] chopped off [BP.name] from [key_name_admin(M)].")
+					log_admin("[key_name(usr)] chopped off [BP.name] from [key_name(M)].")
+				else if(removal_type == "Safely Amputate")
+					BP.drop_limb()
+					message_admins("[key_name_admin(usr)] safely amputated [BP.name] from [key_name_admin(M)].")
+					log_admin("[key_name(usr)] safely amputated [BP.name] from [key_name(M)].")
+				show_heal_panel(M)
+		return
+
+	if(href_list["heal_remove_wound"])
+		var/mob/living/M = locate(href_list["heal_remove_wound"])
+		var/datum/wound/W = locate(href_list["wound"])
+		if(M && W && ishuman(M))
+			var/mob/living/carbon/human/H = M
+			for(var/obj/item/bodypart/BP in H.bodyparts)
+				if(W in BP.wounds)
+					BP.remove_wound(W)
+					message_admins("[key_name_admin(usr)] removed wound [W.name] from [key_name_admin(M)].")
+					log_admin("[key_name(usr)] removed wound [W.name] from [key_name(M)].")
+					break
+			show_heal_panel(M)
+		return
+
+	if(href_list["inventory_action"])
+		if(handle_inventory_panel_topic(href_list))
+			return
+
+	if(href_list["loadout_action"])
+		if(usr.client.handle_loadout_action(href_list))
+			return
+
 	if(href_list["ahelp"])
 		if(!check_rights(R_ADMIN, TRUE))
 			return
@@ -46,7 +360,7 @@
 		if(!M)
 			to_chat(usr, span_danger("ERROR: Mob not found."))
 			return
-		cmd_show_exp_panel(M.client)
+		show_exp_panel(M.client)
 
 	else if(href_list["toggleexempt"])
 		if(!check_rights(R_ADMIN))
@@ -204,39 +518,39 @@
 		if(!check_rights(R_BAN))
 			return
 		var/target_key = href_list["addmessage"]
-		create_message("message", target_key, secret = 0)
+		create_message(type = "message", target_key = target_key)
 
 	else if(href_list["addnote"])
 		if(!check_rights(R_BAN))
 			return
 		var/target_key = href_list["addnote"]
-		create_message("note", target_key)
+		create_message(type = "note", target_key = target_key)
 
 	else if(href_list["addwatch"])
 		if(!check_rights(R_BAN))
 			return
 		var/target_key = href_list["addwatch"]
-		create_message("watchlist entry", target_key, secret = 1)
+		create_message(type = "watchlist entry", target_key = target_key)
 
 	else if(href_list["addmemo"])
 		if(!check_rights(R_BAN))
 			return
-		create_message("memo", secret = 0, browse = 1)
+		create_message(type = "memo", browse = TRUE)
 
 	else if(href_list["addmessageempty"])
 		if(!check_rights(R_BAN))
 			return
-		create_message("message", secret = 0)
+		create_message(type = "message")
 
 	else if(href_list["addnoteempty"])
 		if(!check_rights(R_BAN))
 			return
-		create_message("note")
+		create_message(type = "note")
 
 	else if(href_list["addwatchempty"])
 		if(!check_rights(R_BAN))
 			return
-		create_message("watchlist entry", secret = 1)
+		create_message(type = "watchlist entry")
 
 	else if(href_list["deletemessage"])
 		if(!check_rights(R_BAN))
@@ -264,7 +578,7 @@
 		if(!check_rights(R_BAN))
 			return
 		var/message_id = href_list["editmessageempty"]
-		edit_message(message_id, browse = 1)
+		edit_message(message_id, browse = TRUE)
 
 	else if(href_list["editmessageexpiry"])
 		if(!check_rights(R_BAN))
@@ -276,7 +590,7 @@
 		if(!check_rights(R_BAN))
 			return
 		var/message_id = href_list["editmessageexpiryempty"]
-		edit_message_expiry(message_id, browse = 1)
+		edit_message_expiry(message_id, browse = TRUE)
 
 	else if(href_list["editmessageseverity"])
 		if(!check_rights(R_BAN))
@@ -322,7 +636,7 @@
 	else if(href_list["showwatchfilter"])
 		if(!check_rights(R_BAN))
 			return
-		browse_messages("watchlist entry", filter = 1)
+		browse_messages("watchlist entry", filter = TRUE)
 
 	else if(href_list["showmessageckey"])
 		if(!check_rights(R_BAN))
@@ -335,7 +649,7 @@
 
 	else if(href_list["showmessageckeylinkless"])
 		var/target = href_list["showmessageckeylinkless"]
-		browse_messages(target_ckey = target, linkless = 1)
+		browse_messages(target_ckey = target, linkless = TRUE)
 
 	else if(href_list["messageedits"])
 		if(!check_rights(R_BAN))
@@ -487,7 +801,7 @@
 		if(!M.client)
 			to_chat(usr, span_warning("[M] doesn't seem to have an active client."))
 			return
-		var/datum/job/mob_job = SSjob.GetJob(M.mind.assigned_role)
+		var/datum/job/mob_job
 		var/target_job = SSrole_class_handler.get_advclass_by_name(M.advjob)
 		if(M.mind)
 			mob_job = SSjob.GetJob(M.mind.assigned_role)
@@ -651,6 +965,9 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Add)
 				job.total_positions += 1
+				job.spawn_positions = job.total_positions
+				if(job.uses_storyteller_slot_caps())
+					job.admin_slot_override = TRUE
 				break
 
 		src.manage_free_slots()
@@ -669,8 +986,14 @@
 				if(!newtime)
 					to_chat(src.owner, "Setting to amount of positions filled for the job")
 					job.total_positions = job.current_positions
+					job.spawn_positions = job.total_positions
+					if(job.uses_storyteller_slot_caps())
+						job.admin_slot_override = TRUE
 					break
 				job.total_positions = newtime
+				job.spawn_positions = newtime
+				if(job.uses_storyteller_slot_caps())
+					job.admin_slot_override = TRUE
 
 		src.manage_free_slots()
 
@@ -683,6 +1006,9 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Remove && job.total_positions - job.current_positions > 0)
 				job.total_positions -= 1
+				job.spawn_positions = job.total_positions
+				if(job.uses_storyteller_slot_caps())
+					job.admin_slot_override = TRUE
 				break
 
 		src.manage_free_slots()
@@ -696,6 +1022,9 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Unlimit)
 				job.total_positions = -1
+				job.spawn_positions = -1
+				if(job.uses_storyteller_slot_caps())
+					job.admin_slot_override = TRUE
 				break
 
 		src.manage_free_slots()
@@ -709,6 +1038,9 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Limit)
 				job.total_positions = job.current_positions
+				job.spawn_positions = job.total_positions
+				if(job.uses_storyteller_slot_caps())
+					job.admin_slot_override = TRUE
 				break
 
 		src.manage_free_slots()
@@ -777,6 +1109,21 @@
 		log_admin("[usr] decreased [M]'s [initial(skill.name)] skill.")
 		show_player_panel_next(M, "skills")
 
+	else if(href_list["set_skill"])
+		var/mob/M = locate(href_list["set_skill"])
+		var/skill_path = text2path(href_list["skill"])
+		var/datum/skill/skill = GetSkillRef(skill_path)
+		var/current_level = M.get_skill_level(skill_path)
+		var/new_level = input(usr, "Set [skill.name] to (0-6):", "Set Skill", current_level) as num|null
+		if(new_level != null && M)
+			new_level = clamp(new_level, 0, 6)
+			var/difference = new_level - current_level
+			if(difference != 0)
+				M.adjust_skillrank(skill_path, difference, TRUE)
+				message_admins(span_danger("Admin [key_name_admin(usr)] set [key_name_admin(M)]'s [skill.name] to [new_level] (was [current_level])"))
+				log_admin("[usr] set [M]'s [skill.name] skill to [new_level] (was [current_level]).")
+			show_player_panel_next(M, "skills")
+
 	else if(href_list["add_language"])
 		var/mob/M = locate(href_list["add_language"])
 		var/datum/language/lang = text2path(href_list["language"])
@@ -809,6 +1156,65 @@
 		log_admin("[usr] decreased [M]'s [statkey].")
 		show_player_panel_next(M, "stats")
 
+	else if(href_list["set_stat"])
+		var/mob/living/M = locate(href_list["set_stat"])
+		var/statkey = href_list["stat"]
+		var/current_value = M.get_stat(statkey)
+		var/new_value = input(usr, "Set [statkey] to:", "Set Stat", current_value) as num|null
+		if(new_value != null && M)
+			var/difference = new_value - current_value
+			if(difference != 0)
+				M.change_stat(statkey, difference)
+				message_admins(span_danger("Admin [key_name_admin(usr)] set [key_name_admin(M)]'s [statkey] to [new_value] (was [current_value])"))
+				log_admin("[usr] set [M]'s [statkey] to [new_value] (was [current_value]).")
+			show_player_panel_next(M, "stats")
+
+	else if(href_list["set_patron"])
+		if(!check_rights(R_ADMIN))
+			return
+		var/mob/living/M = locate(href_list["set_patron"])
+		if(!isliving(M))
+			to_chat(usr, span_warning("Target must be a living mob."))
+			return
+		var/patron_type = text2path(href_list["patron"])
+		if(!patron_type)
+			return
+		
+		// For divine spellcasters (those with devotion), we need to handle spells specially
+		var/is_divine_caster = FALSE
+		if(ishuman(M))
+			var/mob/living/carbon/human/H = M
+			if(H.devotion)
+				is_divine_caster = TRUE
+		
+		// Remove old patron bonuses/spells
+		if(M.patron)
+			M.patron.on_loss(M)
+			
+			// For divine casters, remove devotion spells from old patron
+			if(is_divine_caster && ishuman(M))
+				var/mob/living/carbon/human/H = M
+				if(H.devotion && M.patron.miracles)
+					for(var/spell_type in M.patron.miracles)
+						if(H.mind?.has_spell(spell_type))
+							H.mind.RemoveSpell(spell_type)
+		
+		// Set new patron
+		M.set_patron(patron_type)
+		
+		// For divine casters, grant new patron's devotion spells
+		if(is_divine_caster && ishuman(M))
+			var/mob/living/carbon/human/H = M
+			if(H.devotion)
+				// Reinitialize devotion with new patron
+				H.devotion.patron = M.patron
+				// Update the level to trigger spell granting
+				H.devotion.try_add_spells(silent = FALSE)
+		
+		message_admins(span_danger("Admin [key_name_admin(usr)] changed [key_name_admin(M)]'s patron to [initial(M.patron.name)]"))
+		log_admin("[usr] changed [M]'s patron to [initial(M.patron.name)].")
+		show_player_panel_next(M, "patron")
+
 	else if(href_list["sendmob"])
 		if(!check_rights(R_ADMIN))
 			return
@@ -840,6 +1246,17 @@
 			return
 
 		show_individual_logging_panel(M, href_list["log_src"], href_list["log_type"])
+	else if(href_list["examine_player"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		var/mob/living/target = locate(href_list["examine_player"]) in GLOB.mob_list
+		if(!isliving(target))
+			return
+
+		var/datum/examine_panel/mob_examine_panel = new(target)
+		mob_examine_panel.viewing = usr
+		mob_examine_panel.ui_interact(usr)
 	else if(href_list["languagemenu"])
 		if(!check_rights(R_ADMIN))
 			return
@@ -942,12 +1359,30 @@
 		if(obj_dir && !(obj_dir in list(1,2,4,8,5,6,9,10)))
 			obj_dir = null
 		var/obj_name = sanitize(href_list["object_name"])
+		var/quality_raw = href_list["object_quality"]
+		var/obj_quality = null
+		var/obj_quality_set = FALSE
+		if(length(quality_raw))
+			obj_quality = text2num(quality_raw)
+			if(obj_quality != null && obj_quality >= ITEM_QUALITY_RUINED && obj_quality <= ITEM_QUALITY_MASTERWORK)
+				obj_quality_set = TRUE
+			else
+				obj_quality = null
 
 
 		var/atom/target //Where the object will be spawned
 		var/where = href_list["object_where"]
 		if (!( where in list("onfloor","frompod","inhand","inmarked") ))
 			where = "onfloor"
+
+		var/faction_override
+		var/faction_preset = href_list["faction_preset"]
+		if(faction_preset == "__custom__")
+			var/custom = trim(href_list["faction_custom"])
+			if(length(custom))
+				faction_override = sanitize(custom)
+		else if(length(faction_preset))
+			faction_override = faction_preset
 
 
 		switch(where)
@@ -997,11 +1432,44 @@
 							O.flags_1 |= ADMIN_SPAWNED_1
 							if(obj_dir)
 								O.setDir(obj_dir)
+							if(obj_quality_set && istype(O, /obj/item))
+								var/obj/item/spawned_item = O
+								if(istype(spawned_item, /obj/item/ingot))
+									var/obj/item/ingot/ING = spawned_item
+									ING.apply_smelt_quality(obj_quality)
+								else if(spawned_item.has_item_quality)
+									spawned_item.item_quality = obj_quality
+									if(initial(spawned_item.sellprice) > 0)
+										spawned_item.sellprice = max(1, round(initial(spawned_item.sellprice) * ITEM_QUALITY_MULT(obj_quality)))
 							if(obj_name)
 								O.name = obj_name
 								if(ismob(O))
 									var/mob/M = O
 									M.real_name = obj_name
+							if(href_list["disable_ai"] && ismob(O))
+								var/mob/spawned_mob = O
+								if(isanimal(spawned_mob))
+									var/mob/living/simple_animal/SA = spawned_mob
+									SA.toggle_ai(AI_OFF)
+									SA.can_have_ai = FALSE
+								if(spawned_mob.ai_controller)
+									QDEL_NULL(spawned_mob.ai_controller)
+							if(faction_override && ismob(O))
+								var/mob/spawned_mob = O
+								spawned_mob.faction = list(faction_override)
+							if((href_list["dust_on_death"] || href_list["dust_leave_head"] || href_list["dust_delete_gear"]) && isliving(O))
+								var/mob/living/living_mob = O
+								ADD_TRAIT(living_mob, TRAIT_DUSTABLE, TRAIT_GENERIC)
+								if(href_list["dust_leave_head"])
+									ADD_TRAIT(living_mob, TRAIT_DUST_LEAVE_HEAD, TRAIT_GENERIC)
+								if(href_list["dust_delete_gear"])
+									ADD_TRAIT(living_mob, TRAIT_DUST_DELETE_GEAR, TRAIT_GENERIC)
+							if(ishuman(O))
+								var/mob/living/carbon/human/spawned_human = O
+								spawned_human.taints_loot = !!href_list["taints_loot"]
+								if(!spawned_human.taints_loot)
+									for(var/obj/item/I in spawned_human.get_equipped_items(TRUE) + spawned_human.held_items)
+										I.unmark_as_looted()
 							if(where == "inhand" && isliving(usr) && isitem(O))
 								var/mob/living/L = usr
 								var/obj/item/I = O
@@ -1010,12 +1478,13 @@
 		if(pod)
 			new /obj/effect/DPtarget(target, pod)
 
+		var/faction_suffix = faction_override ? " with faction [faction_override]" : ""
 		if (number == 1)
-			log_admin("[key_name(usr)] created a [english_list(paths)]")
-			spawn_message_admins("[key_name_admin(usr)] created a [english_list(paths)]")
+			log_admin("[key_name(usr)] created a [english_list(paths)][faction_suffix]")
+			spawn_message_admins("[key_name_admin(usr)] created a [english_list(paths)][faction_suffix]")
 		else
-			log_admin("[key_name(usr)] created [number]ea [english_list(paths)]")
-			spawn_message_admins("[key_name_admin(usr)] created [number]ea [english_list(paths)]")
+			log_admin("[key_name(usr)] created [number]ea [english_list(paths)][faction_suffix]")
+			spawn_message_admins("[key_name_admin(usr)] created [number]ea [english_list(paths)][faction_suffix]")
 		return
 
 	else if(href_list["secrets"])

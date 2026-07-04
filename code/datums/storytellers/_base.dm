@@ -1,9 +1,8 @@
-/// Standard follower modifier for storytellers, ie. how many points they get for each follower
+/// Standard follower modifier, ie. how many influence points a storyteller gets for each follower.
 #define STANDARD_FOLLOWER_MODIFIER 20
-/// Lower follower modifier for special storytellers such as Astrata, who is a default patron
-#define LOWER_FOLLOWER_MODIFIER STANDARD_FOLLOWER_MODIFIER - 2
+/// Lower follower modifier for special storytellers such as Astrata, who is a default patron.
+#define LOWER_FOLLOWER_MODIFIER (STANDARD_FOLLOWER_MODIFIER - 2)
 
-///The storyteller datum. He operates with the SSgamemode data to run events
 /datum/storyteller
 	/// Name of our storyteller.
 	var/name = "Badly coded storyteller"
@@ -46,8 +45,8 @@
 	/// Variance in the budget of roundstart points.
 	var/roundstart_points_variance = 15
 
-	/// Whether the storyteller guaranteed a roleset roll (antag) on roundstart. (Still needs to pass pop check)
-	var/guarantees_roundstart_roleset = TRUE
+	/// Whether the preset guarantees a roleset roll (antag) on roundstart. (Still needs to pass pop check)
+	var/guarantees_roundstart_roleset = FALSE
 
 	/// Whether the storyteller has the distributions disabled. Important for ghost storytellers
 	var/disable_distribution = FALSE
@@ -70,24 +69,43 @@
 	var/always_votable = FALSE
 	///weight this has of being picked for random storyteller/showing up in the vote if not always_votable
 	var/weight = 0
-	/// List of all influence sets. One factor is picked from each set during initialization to create the final influence factors. Example: "Set 1" = list(STATS1 = list("points" = 0.015, "capacity" = 90), STATS2 = list("points" = 8, "capacity" = 50))
+	// --- Legacy influence/devotion plumbing (inert under the preset system, kept for compile compatibility) ---
+	/// List of all influence sets. Presets leave this empty.
 	var/list/influence_sets = list()
-	/// Chosen influence factors, which are used to calculate storyteller influence. List of lists, which looks like RELEVANT_STATS = list(point gain, max capacity)
+	/// Chosen influence factors, used by the (now inert) influence calculation. RELEVANT_STATS = list(point gain, max capacity)
 	var/influence_factors = list()
 	/// Point modifier to all influence factors including the follower count, default is 1 (100%)
 	var/influence_modifier = 1
-	/// How many influence points storyteller gets for each follower
+	/// How many influence points a storyteller gets for each follower.
 	var/follower_modifier = STANDARD_FOLLOWER_MODIFIER
-	/// Thematic color of the storyteller, used in statistics menu
-	var/color_theme
-	/// How many times has this storyteller been chosen to lead the round
+	/// How many times this preset/storyteller has been chosen to lead the round.
 	var/times_chosen = 0
-	/// Bonus points to the storyteller total influence
+	/// Bonus points to the storyteller total influence.
 	var/bonus_points = 0
-	/// If the storyteller is ascendant this round, that is if he reached over 100 points in rankings of the gods
+	/// Whether this storyteller (god) reached ascendant rankings this round. Inert for presets.
 	var/ascendant = FALSE
-	/// Which kind of gnoll scaling this storyteller prefers, default is 1 gnoll spawn.
+	/// Thematic color of the preset, used in the vote/panel UI.
+	var/color_theme
+	/// Which kind of gnoll scaling this preset prefers, default is 1 gnoll spawn.
 	var/preferred_gnoll_mode = GNOLL_SCALING_SINGLE
+	/// Hard cap on wretch job slots this preset will ever open. Default 10 = T1 max - lower clamps T1 and skips T2.
+	var/wretch_slot_cap = 10
+
+	// --- Gamemode preset configuration ---
+	/// Which vote pool this preset belongs to (GAMEMODE_POOL_*). Presets sharing a pool are excluded together the round after one wins.
+	var/preset_pool
+	/// If TRUE, a roundstart hard antag (Bandit/Lich/Werewolf/Vampire Lord) is guaranteed to roll (still needs pop >= HARD_ANTAG_MIN_POP).
+	var/guaranteed_hard = FALSE
+	/// Multiplier applied to hard-antag slot scaling. >1 scales hard antag counts more aggressively with pop.
+	var/hard_mult = 1
+	/// Whether the Dreamwalker roundstart event is allowed to roll under this preset.
+	var/allow_dreamwalker = FALSE
+	/// How many Hag slots this preset opens (0 or 1).
+	var/hag_slots = 0
+	/// If TRUE, all hard (villain) antags are blocked at roundstart.
+	var/block_hard = FALSE
+	/// If TRUE, all soft antags (wretch/gnoll/assassin) are blocked.
+	var/block_soft = FALSE
 
 /datum/storyteller/New()
 	. = ..()
@@ -96,15 +114,14 @@
 		var/selected_stat = pick(current_set)
 		influence_factors[selected_stat] = current_set[selected_stat]
 
-
 /datum/storyteller/process()
 	if(!round_started || disable_distribution) // we are differing roundstarted ones until base roundstart so we can get cooler stuff
 		return
 
-	if(!guarantees_roundstart_roleset && prob(roundstart_prob) && !roundstart_checks)
+	if(!is_roundstart_roles_blocked_storyteller() && !guarantees_roundstart_roleset && prob(roundstart_prob) && !roundstart_checks)
 		roundstart_checks = TRUE
 
-	if(SSgamemode.current_roundstart_event && !SSgamemode.ran_roundstart && (guarantees_roundstart_roleset || roundstart_checks))
+	if(!is_roundstart_roles_blocked_storyteller() && SSgamemode.current_roundstart_event && !SSgamemode.ran_roundstart && (guarantees_roundstart_roleset || roundstart_checks))
 		buy_event(SSgamemode.current_roundstart_event, EVENT_TRACK_CHARACTER_INJECTION, TRUE)
 		if(EVENT_TRACK_CHARACTER_INJECTION in SSgamemode.forced_next_events)
 			SSgamemode.forced_next_events[EVENT_TRACK_CHARACTER_INJECTION] = null
@@ -161,24 +178,56 @@
 			return
 		calculate_weights(track)
 		var/list/valid_events = list()
+		var/list/invalid_reasons = list()
+		var/roundstart_players_amt = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 		// Determine which events are valid to pick
 		for(var/datum/round_event_control/event as anything in mode.event_pools[track])
-			var/players_amt = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+			var/players_amt = roundstart_players_amt
 			if(forced)
 				if(QDELETED(event))
 					message_admins("[event.name] was deleted!")
+					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+						invalid_reasons[event] = "deleted"
 					continue
-				valid_events[event] = round(event.calculated_weight * 10)
+				var/forced_weight = mode.storyteller_event_weight(event, round(event.calculated_weight * 10))
+				if(forced_weight <= 0)
+					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+						invalid_reasons[event] = mode.antag_roll_reason(event, players_amt)
+					continue
+				valid_events[event] = forced_weight
 			else if(event.canSpawnEvent(players_amt))
 				if(QDELETED(event))
 					message_admins("[event.name] was deleted!")
+					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+						invalid_reasons[event] = "deleted"
 					continue
-				valid_events[event] = round(event.calculated_weight * 10) //multiply weight by 10 to get first decimal value
+				var/adjusted_weight = mode.storyteller_event_weight(event, round(event.calculated_weight * 10))
+				if(adjusted_weight <= 0)
+					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+						invalid_reasons[event] = mode.antag_roll_reason(event, players_amt)
+					continue
+				valid_events[event] = adjusted_weight //multiply weight by 10 to get first decimal value
+			else if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted() && istype(event, /datum/round_event_control/antagonist/solo))
+				invalid_reasons[event] = event.return_failure_string(players_amt) || "canSpawnEvent failed"
+				if(event.storyteller_rumour_name && (event.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN) && !is_storyteller_villain_blocked())
+					mode.false_rumours |= event.storyteller_rumour_name
+		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+			mode.log_roundstart_antag_pool(valid_events, invalid_reasons)
 		///If we didn't get any events, remove the points inform admins and dont do anything
 		if(!length(valid_events))
 			message_admins("Storyteller failed to pick an event for track of [track].")
 			mode.event_track_points[track] *= TRACK_FAIL_POINT_PENALTY_MULTIPLIER
 			return
+		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+			var/list/guaranteed_events = mode.storyteller_guaranteed_events(valid_events)
+			if(length(guaranteed_events))
+				var/list/filtered_out_events = list()
+				for(var/datum/round_event_control/antagonist/solo/event as anything in valid_events)
+					if(event in guaranteed_events)
+						continue
+					filtered_out_events[event] = "filtered by guaranteed-only roll"
+				mode.log_roundstart_antag_pool(guaranteed_events, filtered_out_events, guaranteed_only = TRUE)
+				valid_events = guaranteed_events
 		picked_event = pickweight(valid_events)
 		if(!picked_event)
 			if(length(valid_events))
@@ -193,6 +242,8 @@
 				stack_trace("WARNING: Storyteller picked a null from event pool.")
 				SSgamemode.event_track_points[track] = 0
 				return
+		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted() && istype(picked_event, /datum/round_event_control/antagonist/solo))
+			mode.log_roundstart_antag_pick(picked_event, roundstart_players_amt, "weighted roundstart pool")
 	buy_event(picked_event, track, are_forced)
 	. = TRUE
 

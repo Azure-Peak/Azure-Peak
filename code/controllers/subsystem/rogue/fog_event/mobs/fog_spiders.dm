@@ -25,7 +25,7 @@
 	STASTR = 7
 	STASPD = 13
 
-	faction = list("revenants", "spiders")
+	faction = list(FACTION_REVENANTS, FACTION_SPIDERS)
 	base_intents = list(/datum/intent/simple/bite/mirespider)
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
 
@@ -63,7 +63,7 @@
 	ranged_cooldown_time = 100
 	check_friendly_fire = 1
 
-	faction = list("revenants", "spiders")
+	faction = list(FACTION_REVENANTS, FACTION_SPIDERS)
 	base_intents = list(/datum/intent/simple/bite/mirespider_lurker)
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
 

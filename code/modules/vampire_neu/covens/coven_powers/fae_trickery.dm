@@ -96,7 +96,7 @@
 		var/mob/living/carbon/C = user
 		var/used_hand_zone = C.used_hand == 1 ? BODY_ZONE_PRECISE_L_HAND : BODY_ZONE_PRECISE_R_HAND
 		to_chat(user, span_warning("[src] bites!"))
-		if(!C.apply_damage(5, BRUTE, used_hand_zone, C.run_armor_check(used_hand_zone, "stab", damage = 5)))
+		if(!C.apply_damage(5, BRUTE, used_hand_zone, C.run_armor_check(used_hand_zone, "stab", armor_penetration = PEN_NONE, damage = 5)))
 			to_chat(user, VISMSG_ARMOR_BLOCKED)
 		playsound(get_turf(src), pick('sound/vo/mobs/gob/aggro (1).ogg','sound/vo/mobs/gob/aggro (2).ogg','sound/vo/mobs/gob/aggro (3).ogg','sound/vo/mobs/gob/aggro (4).ogg'), 100, FALSE, -1)
 		return
@@ -227,7 +227,7 @@
 	if(iscarbon(loc))
 		var/mob/living/carbon/C = loc
 		to_chat(C, span_warning("[src] is eating your face!"))
-		if(!C.apply_damage(5, BRUTE, BODY_ZONE_HEAD, C.run_armor_check(BODY_ZONE_HEAD, "stab", damage = 5)))
+		if(!C.apply_damage(5, BRUTE, BODY_ZONE_HEAD, C.run_armor_check(BODY_ZONE_HEAD, "stab", armor_penetration = PEN_NONE, damage = 5)))
 			to_chat(C, VISMSG_ARMOR_BLOCKED)
 
 /obj/fae_trickery_trap

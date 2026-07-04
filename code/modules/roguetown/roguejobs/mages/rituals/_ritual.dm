@@ -6,10 +6,10 @@ GLOBAL_LIST_INIT(t3summoningrunerituallist, generate_t3summoning_rituallist())
 GLOBAL_LIST_INIT(t4summoningrunerituallist, generate_t4summoning_rituallist())
 GLOBAL_LIST_INIT(t2wallrunerituallist, generate_t2wall_rituallist())
 GLOBAL_LIST_INIT(t4wallrunerituallist, generate_t4wall_rituallist())
-GLOBAL_LIST_INIT(buffrunerituallist, generate_buff_rituallist())
-GLOBAL_LIST_INIT(t2buffrunerituallist, generate_t2buff_rituallist())
 GLOBAL_LIST_INIT(t2enchantmentrunerituallist,generate_t2enchantment_rituallist())
+GLOBAL_LIST_INIT(t3enchantmentrunerituallist,generate_t3enchantment_rituallist())
 GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist())
+GLOBAL_LIST_INIT(familiarbindingrituallist, generate_familiarbinding_rituallist())
 
 /proc/generate_runeritual_types()	//debug list
 	RETURN_TYPE(/list)
@@ -21,14 +21,14 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()
 	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual))
-		if(istype(runeritual, /datum/runeritual/summoning || /datum/runeritual/other/wall))
+		if(istype(runeritual, /datum/runeritual/summoning) || istype(runeritual, /datum/runeritual/other/wall) || istype(runeritual, /datum/runeritual/binding))
 			continue
 		if(runeritual.blacklisted)
 			continue
 		runerituals[initial(runeritual.name)] = runeritual
 	return runerituals
 
-/proc/generate_t1summoning_rituallist()	//list of all rituals for player use
+/proc/generate_t1summoning_rituallist()
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()
 	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/summoning))
@@ -39,7 +39,7 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 		runerituals[initial(runeritual.name)] = runeritual
 	return runerituals
 
-/proc/generate_t2summoning_rituallist()	//list of all rituals for player use
+/proc/generate_t2summoning_rituallist()
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()
 	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/summoning))
@@ -50,7 +50,7 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 		runerituals[initial(runeritual.name)] = runeritual
 	return runerituals
 
-/proc/generate_t3summoning_rituallist()	//list of all rituals for player use
+/proc/generate_t3summoning_rituallist()
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()
 	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/summoning))
@@ -61,14 +61,16 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 		runerituals[initial(runeritual.name)] = runeritual
 	return runerituals
 
-/proc/generate_t4summoning_rituallist()	//list of all rituals for player use
+/proc/generate_t4summoning_rituallist()
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()
 	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/summoning))
+		if(runeritual.blacklisted)
+			continue
 		runerituals[initial(runeritual.name)] = runeritual
 	return runerituals
 
-/proc/generate_t2wall_rituallist()	//list of all rituals for player use
+/proc/generate_t2wall_rituallist()
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()
 	for(var/datum/runeritual/runeritual as anything in typesof(/datum/runeritual/other/wall))
@@ -88,26 +90,6 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 		runerituals[initial(runeritual.name)] = runeritual
 	return runerituals
 
-/proc/generate_buff_rituallist()	//list of all rituals for player use
-	RETURN_TYPE(/list)
-	var/list/runerituals = list()
-	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/buff))
-		if(runeritual.tier > 1)
-			continue
-		if(runeritual.blacklisted)
-			continue
-		runerituals[initial(runeritual.name)] = runeritual
-	return runerituals
-
-/proc/generate_t2buff_rituallist()	//list of all rituals for player use
-	RETURN_TYPE(/list)
-	var/list/runerituals = list()
-	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/buff))
-		if(runeritual.blacklisted)
-			continue
-		runerituals[initial(runeritual.name)] = runeritual
-	return runerituals
-
 /proc/generate_t2enchantment_rituallist()	//list of all rituals for player use
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()
@@ -119,10 +101,30 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 		runerituals[initial(runeritual.name)] = runeritual
 	return runerituals
 
+/proc/generate_t3enchantment_rituallist()
+	RETURN_TYPE(/list)
+	var/list/runerituals = list()
+	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/enchanting))
+		if(runeritual.blacklisted)
+			continue
+		if(runeritual.tier > 3)
+			continue
+		runerituals[initial(runeritual.name)] = runeritual
+	return runerituals
+
 /proc/generate_t4enchantment_rituallist()	//list of all rituals for player use
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()
 	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/enchanting))
+		if(runeritual.blacklisted)
+			continue
+		runerituals[initial(runeritual.name)] = runeritual
+	return runerituals
+
+/proc/generate_familiarbinding_rituallist()
+	RETURN_TYPE(/list)
+	var/list/runerituals = list()
+	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/binding))
 		if(runeritual.blacklisted)
 			continue
 		runerituals[initial(runeritual.name)] = runeritual
@@ -139,13 +141,14 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 	var/mob_to_summon
 	var/blacklisted = FALSE
 	var/tier = 0				/// Tier var is used for 'tier' of ritual, if the ritual has tiers. EX: Summoning rituals. If it doesn't have tiers, set tier to 0.
+	var/req_invokers = 1		/// Minimum number of invokers required to perform this ritual. 1 = solo.
 
 /datum/runeritual/proc/show_menu(mob/user)
 	user << browse(generate_html(user),"window=recipe;size=500x810")
 
 /datum/runeritual/proc/generate_html(mob/user)
 	var/client/client = user
-	var/tool = tier >= 2 ? "Arcyne Silver Dagger" : "Arcyne Chalk"
+	var/tool = tier >= 4 ? "Arcyne Silver Dagger" : "Arcyne Chalk or Arcyne Silver Dagger"
 	if(!istype(client))
 		client = user.client
 	user << browse_rsc('html/book.png')
@@ -159,6 +162,7 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 		  <div>
 		    <h1>[name]</h1>
 		    <div>
+			  [desc ? "<div class='recipe-desc'>[desc]</div>" : ""]
 			  <h2>Complexity Tier: [tier] </h2>
 			  <br>
 			  <h2>Requirements</h2>
@@ -173,9 +177,12 @@ GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist()
 				html += "- [FLOOR(count, 1)] [UNIT_FORM_STRING(FLOOR(count, 1))] of [initial(R.name)]<br>"
 			else
 				html += "- [count] counts of [initial(path.name)]<br>"
-
-	html += "<h1>Steps</h1>"
-	html += "To start any ritual draw the required rune with [tool], then supply with the above items."
+		html += "<h1>Steps</h1>"
+		html += "To start any ritual draw the required rune with [tool], then supply with the above items."
+	else
+		html += "<strong>No items required.</strong><br>"
+		html += "<h1>Steps</h1>"
+		html += "Draw the required rune with [tool] near a leyline, then invoke it."
 	html += {"
 		</div>
 		</div>

@@ -9,3 +9,8 @@
 /code/modules/mob/living/carbon/human @ChungusGamer666
 /code/modules/mob/living/carbon/spirit @NGGJamie
 /code/modules/underworld @NGGJamie
+# TGS
+/code/__DEFINES/tgs.dm @izac112
+/code/__DEFINES/tgs.config.dm @izac112
+/code/modules/discord/tgs_commands.dm @izac112
+/code/modules/tgs/ @izac112

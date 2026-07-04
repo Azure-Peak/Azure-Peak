@@ -4,7 +4,7 @@
 
 /mob/living
 	/// ass list [id] = /datum/status_effect. ATTENTION THE CODER IS A RETARD THIS IS NOT SUPPOSED TO BE HERE I REPEART!!!!!!
-	var/list/status_effects_by_id
+	var/alist/status_effects_by_id
 
 /datum/status_effect
 	/// The ID of the effect. ID is used in adding and removing effects to check for duplicates, among other things.
@@ -61,7 +61,8 @@
 	if(owner)
 		// ass list
 		LAZYINITLIST(owner.status_effects)
-		LAZYINITLIST(owner.status_effects_by_id)
+		if(!length(owner.status_effects_by_id))
+			owner.status_effects_by_id = alist()
 		LAZYADD(owner.status_effects, src)
 		owner.status_effects_by_id[id] = src
 
@@ -83,7 +84,7 @@
 	if(duration != -1)
 		duration = world.time + duration
 	tick_interval = world.time + tick_interval
-	if(alert_type)
+	if(alert_type && owner && !QDELETED(owner) && !QDELING(owner))
 		var/atom/movable/screen/alert/status_effect/A = owner.throw_alert(id, alert_type)
 		A?.attached_effect = src //so the alert can reference us, if it needs to
 		linked_alert = A //so we can reference the alert, if we need to
@@ -120,6 +121,9 @@
 		tick_interval = world.time + initial(tick_interval)
 	if(duration != -1 && duration < world.time)
 		qdel(src)
+		return
+	if(linked_alert && duration != -1)
+		linked_alert.update_countdown(max(duration - world.time, 0))
 
 /datum/status_effect/proc/on_apply() //Called whenever the buff is applied; returning FALSE will cause it to autoremove itself.
 	for(var/S in effectedstats)
@@ -206,7 +210,8 @@
 /mob/living/proc/apply_status_effect(effect, ...)
 	. = FALSE
 	LAZYINITLIST(status_effects)
-	LAZYINITLIST(status_effects_by_id)
+	if(!length(status_effects_by_id))
+		status_effects_by_id = alist()
 
 	var/datum/status_effect/template = effect
 	var/effect_id = initial(template.id)

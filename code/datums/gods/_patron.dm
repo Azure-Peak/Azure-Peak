@@ -9,6 +9,8 @@ GLOBAL_LIST_EMPTY(prayers)
 /datum/patron
 	/// Name of the god
 	var/name
+	/// Common titles of the god - used for prayers
+	var/list/titles = list()
 	/// Domain of the god, such as earth, fire, water, murder etc
 	var/domain = "Bad coding practices"
 	/// Description of the god
@@ -39,16 +41,16 @@ GLOBAL_LIST_EMPTY(prayers)
 	for(var/trait in mob_traits)
 		ADD_TRAIT(pious, trait, "[type]")
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))
-		pious.grant_language(/datum/language/thievescant)
-		pious.verbs += /mob/living/carbon/human/proc/emote_ffsalute
-	if (HAS_TRAIT(pious, TRAIT_CABAL))
+		pious.grant_language(/datum/language/tricksterscant)
+		add_verb(pious, /mob/living/carbon/human/proc/emote_ffsalute)
+	if(HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction |= "cabal"
 
 /datum/patron/proc/on_loss(mob/living/pious)
 	if (HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction -= "cabal"
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))
-		pious.remove_language(/datum/language/thievescant)
+		pious.remove_language(/datum/language/tricksterscant)
 	for(var/trait in mob_traits)
 		REMOVE_TRAIT(pious, trait, "[type]")
 
@@ -109,8 +111,10 @@ GLOBAL_LIST_EMPTY(prayers)
     GLOB.prayers |= prayer
     record_round_statistic(STATS_PRAYERS_MADE)
 
-    if(findtext(prayer, name))
-        reward_prayer(follower)
+    for(var/title in (follower.patron.titles + patron_name))
+        if(findtext(prayer, title))
+            reward_prayer(follower)
+            return . 
 
 /// The follower has somehow offended the patron and is now being punished.
 /datum/patron/proc/punish_prayer(mob/living/follower)

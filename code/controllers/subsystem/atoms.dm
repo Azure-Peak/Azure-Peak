@@ -55,6 +55,8 @@ SUBSYSTEM_DEF(atoms)
 
 		late_loaders.Cut()
 
+	process_all_loot_pools()
+
 /datum/controller/subsystem/atoms/proc/InitAtom(atom/A, list/arguments)
 	var/the_type = A.type
 	if(QDELING(A))

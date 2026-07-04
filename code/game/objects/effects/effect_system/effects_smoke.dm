@@ -17,6 +17,7 @@
 	var/amount = 4
 	var/lifetime = 5
 	var/opaque = 1 //whether the smoke can block the view when in enough amount
+	var/breathin = TRUE
 
 /obj/effect/particle_effect/smoke/proc/fade_out(frames = 16)
 	if(alpha == 0) //Handle already transparent case
@@ -49,25 +50,26 @@
 	lifetime--
 	if(lifetime < 1)
 		kill_smoke()
-		return 0
+		return FALSE
 	for(var/mob/living/L in range(0,src))
 		smoke_mob(L)
-	return 1
+	return TRUE
 
 /obj/effect/particle_effect/smoke/proc/smoke_mob(mob/living/carbon/C)
 	if(!istype(C))
-		return 0
+		return FALSE
 	if(lifetime<1)
-		return 0
+		return FALSE
 	if(C.smoke_delay)
-		return 0
+		return FALSE
 	if(istype(C.wear_mask, /obj/item/clothing/mask/rogue/facemask/steel/confessor))
-		return 0
+		return FALSE
 	if(HAS_TRAIT(C, TRAIT_NOBREATH) || HAS_TRAIT(C, TRAIT_NOMETABOLISM))
-		return 0
+		if(breathin)
+			return FALSE
 	C.smoke_delay++
 	addtimer(CALLBACK(src, PROC_REF(remove_smoke_delay), C), 10)
-	return 1
+	return TRUE
 
 /obj/effect/particle_effect/smoke/proc/remove_smoke_delay(mob/living/carbon/C)
 	if(C)
@@ -128,11 +130,12 @@
 	lifetime = 8
 
 /obj/effect/particle_effect/smoke/bad/smoke_mob(mob/living/carbon/M)
+	breathin = TRUE
 	if(..())
 		M.drop_all_held_items()
 		M.adjustOxyLoss(1)
 		M.emote("cough")
-		return 1
+		return TRUE
 
 
 /datum/effect_system/smoke_spread/bad
@@ -147,12 +150,13 @@
 	lifetime = 10
 
 /obj/effect/particle_effect/smoke/poison_gas/smoke_mob(mob/living/carbon/M)
+	breathin = TRUE
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
-			return 0
+			return FALSE
 		M.adjustToxLoss(20, 0)
 		M.emote("cough")
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/poison_gas
 	effect_type = /obj/effect/particle_effect/smoke/poison_gas
@@ -167,15 +171,18 @@
   lifetime = 15
 
 /obj/effect/particle_effect/smoke/healing_gas/smoke_mob(mob/living/carbon/M)
+	breathin = TRUE
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
-			return 0
+			return FALSE
 		M.adjustBruteLoss(-5, 0)
 		M.adjustFireLoss(-2, 0)
 		M.adjustOxyLoss(-1, 0)
 		M.adjustToxLoss(-1, 0)
+		for(var/datum/wound/wound as anything in M.get_wounds())
+			wound.remove_from_bodypart() //closing up all wounds
 		M.emote("cough")
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/healing_gas
 	effect_type = /obj/effect/particle_effect/smoke/healing_gas
@@ -190,12 +197,13 @@
 	lifetime = 10
 
 /obj/effect/particle_effect/smoke/fire_gas/smoke_mob(mob/living/carbon/M)
+	breathin = FALSE
 	if(..())
-		M.adjustFireLoss(-3, 0)
+		M.adjustFireLoss(6, 0)
 		M.adjust_fire_stacks(3)
 		M.ignite_mob()
 		M.emote("scream")
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/fire_gas
 	effect_type = /obj/effect/particle_effect/smoke/fire_gas
@@ -209,13 +217,14 @@
 	lifetime = 5
 
 /obj/effect/particle_effect/smoke/blind_gas/smoke_mob(mob/living/carbon/M)
+	breathin = FALSE
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
-			return 0
+			return FALSE
 		M.adjust_blurriness(3)
 		M.adjust_blindness(3)
 		M.emote("cry")
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/blind_gas
 	effect_type = /obj/effect/particle_effect/smoke/blind_gas
@@ -230,11 +239,12 @@
 	lifetime = 10
 
 /obj/effect/particle_effect/smoke/mute_gas/smoke_mob(mob/living/carbon/M)
+	breathin = FALSE
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
-			return 0
-		M.silent = max(M.silent, 8)
-		return 1
+			return FALSE
+		M.silent = max(M.silent, 20)
+		return TRUE
 
 /datum/effect_system/smoke_spread/mute_gas
 	effect_type = /obj/effect/particle_effect/smoke/mute_gas
@@ -248,12 +258,13 @@
 	lifetime = 10
 
 /obj/effect/particle_effect/smoke/sleeping/smoke_mob(mob/living/carbon/M)
+	breathin = TRUE
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
-			return 0
+			return FALSE
 		M.Sleeping(200)
 		M.emote("cough")
-		return 1
+		return TRUE
 
 /datum/effect_system/smoke_spread/sleeping
 	effect_type = /obj/effect/particle_effect/smoke/sleeping
@@ -278,17 +289,17 @@
 			reagents.reaction(AM, TOUCH, fraction)
 
 		reagents.reaction(T, TOUCH, fraction)
-		return 1
+		return TRUE
 
 /obj/effect/particle_effect/smoke/chem/smoke_mob(mob/living/carbon/M)
 	if(lifetime<1)
-		return 0
+		return FALSE
 	if(!istype(M))
-		return 0
+		return FALSE
 	var/fraction = 1/initial(lifetime)
 	reagents.copy_to(M, fraction*reagents.total_volume)
 	reagents.reaction(M, INGEST, fraction)
-	return 1
+	return TRUE
 
 
 
@@ -379,3 +390,32 @@
 /obj/effect/particle_effect/smoke/fast
 	lifetime = 1
 
+/*====================
+Zizo Bane sleep powder
+====================*/
+
+/datum/effect_system/smoke_spread/zizosleep
+	effect_type = /obj/effect/particle_effect/smoke/zizosleep
+
+/obj/effect/particle_effect/smoke/zizosleep/smoke_mob(mob/living/carbon/M)
+	if(..())
+		M.emote("cough")
+		M.apply_status_effect(/datum/status_effect/debuff/knockout)
+		return 1
+
+/obj/effect/particle_effect/smoke/zizosleep
+	name = "sleep spores"
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "sleep"
+	pixel_x = 0
+	pixel_y = 0
+	opacity = 0
+	layer = FLY_LAYER
+	plane = GAME_PLANE_UPPER
+	anchored = TRUE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	animate_movement = 0
+	amount = 4
+	lifetime = 8
+	density = 0
+	opaque = 0 //whether the smoke can block the view when in enough amount

@@ -24,9 +24,16 @@
 		/mob/living/carbon/human/species/wildshape/saiga,
 		/mob/living/carbon/human/species/wildshape/spider
 	)
+	var/list/disallowed_equipment_type = list(/obj/item/storage, /obj/item/rogueweapon)
+	var/list/allowed_equipment_type = list(/obj/item/rogueweapon/woodstaff, /obj/item/storage/belt)
 
 /obj/effect/proc_holder/spell/self/wildshape/cast(list/targets, mob/living/carbon/human/user = usr)
 	. = ..()
+
+	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
+		to_chat(user, span_userdanger("I tried to transform, but something rebukes me! This challenge is for my current vessel only!"))
+		revert_cast()
+		return FALSE
 
 	if(user.has_status_effect(/datum/status_effect/debuff/submissive))
 		to_chat(user, span_warning("Your will is too broken to change form."))
@@ -59,7 +66,7 @@
 
 	user.Stun(30)
 	user.Knockdown(30)
-	INVOKE_ASYNC(user, TYPE_PROC_REF(/mob/living/carbon/human, wildshape_transformation), GLOB.wildshapes[new_wildshape_type])
+	INVOKE_ASYNC(user, TYPE_PROC_REF(/mob/living/carbon/human, wildshape_transformation), GLOB.wildshapes[new_wildshape_type], allowed_equipment_type, disallowed_equipment_type)
 
 	return TRUE
 
@@ -72,6 +79,7 @@
 
 	var/wildshape_icon
 	var/wildshape_icon_state
+	var/untransform_on_death = TRUE
 
 /mob/living/carbon/human/species/wildshape/proc/gain_inherent_skills()
 	if(src.mind)

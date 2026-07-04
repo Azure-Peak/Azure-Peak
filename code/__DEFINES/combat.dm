@@ -1,5 +1,22 @@
 /*ALL DEFINES RELATED TO COMBAT GO HERE*/
 
+// Guidance system - used by parry.dm, dodge.dm, accuracy_checks.dm, and bardic songs
+#define FULL_GUIDANCE_CHANCE 20 // % parry/dodge bypass and parry/dodge chance (mage Guidance, Bard Fantasia/Requiem)
+#define LESSER_GUIDANCE_CHANCE 12 // % parry/dodge bypass and parry/dodge chance (Cantor/Spellsinger songs)
+#define FULL_GUIDANCE_ACCURACY 8 // Accuracy bonus from guidance (equivalent to 1 skill level)
+#define LESSER_GUIDANCE_ACCURACY 5 // Accuracy bonus from lesser guidance
+
+/// Alternate attack defines. Return these at the end of procs like afterattack_secondary.
+/// Calls the normal attack proc. For example, if returned in afterattack_secondary, will call afterattack.
+/// Will continue the chain depending on the return value of the non-alternate proc, like with normal attacks.
+#define SECONDARY_ATTACK_CALL_NORMAL 1
+
+/// Cancels the attack chain entirely.
+#define SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN 2
+
+/// Proceed with the attack chain, but don't call the normal methods.
+#define SECONDARY_ATTACK_CONTINUE_CHAIN 3
+
 //Damage and status effect defines
 
 //Damage defines //TODO: merge these down to reduce on defines
@@ -49,22 +66,30 @@
 
 #define HEALTH_THRESHOLD_NEARDEATH -90 //Not used mechanically, but to determine if someone is so close to death they hear the other side
 
-// Actually a divisor. Where 1 / this * 100% value of burn damage on lethal zones (Chest & Head) causes you to enter hardcrit. 
-#define FIRE_HARDCRIT_DIVISOR 106 // 106 = 94.5% burn damage = hardcrit
-#define FIRE_HARDCRIT_DIVISOR_MINDLESS 200 // 200 = 50% burn damage = hardcrit for mindless mobs  
+#define FIRE_HARDCRIT_BASE 300 //Total burn damage across all bodyparts to hardcrit a player
+#define FIRE_HARDCRIT_NOPAIN_MULT 1.5 //NOPAIN/NOPAINSTUN increases threshold by 50% (450)
+
 #define STRENGTH_SOFTCAP 14	//STR value past which we get diminishing returns in our damage calculations.
 #define STRENGTH_MULT 0.1	//STR multiplier per STR point up to the softcap. Works as a %-age. 0.1 = 10% per point.
-#define STRENGTH_CAPPEDMULT 0.034	//STR multiplier per STR point past the softcap
+#define STRENGTH_CAPPEDMULT 0.05	//STR multiplier per STR point past the softcap
+#define RANGED_STAT_SOFTCAP 15	//PER value past which ranged damage scaling has diminishing returns.
+#define RANGED_STAT_MULT 0.1	//PER multiplier per point up to the softcap. 0.1 = 10% per point.
+#define RANGED_STAT_CAPPEDMULT 0.05	//PER multiplier per point past the softcap. 0.05 = 5% per point.
 //Actual combat defines
 
 //click cooldowns, in tenths of a second, used for various combat actions
 #define CLICK_CD_EXHAUSTED 60
 #define CLICK_CD_TRACKING 30
+#define CLICK_CD_WRESTLING 30
 #define CLICK_CD_SLEUTH 10
-#define CLICK_CD_HEAVY 16
-#define CLICK_CD_CHARGED 14
-#define CLICK_CD_MELEE 12
-#define CLICK_CD_FAST 8
+#define CLICK_CD_GLACIAL 20	// Tier: Glacial
+#define CLICK_CD_MASSIVE 18	// Tier: Extremely Sluggish
+#define CLICK_CD_HEAVY 16		// Tier: Very Sluggish
+#define CLICK_CD_DODGE 16
+#define CLICK_CD_CHARGED 14	// Tier: Sluggish
+#define CLICK_CD_MELEE 12		// Tier: Normal (baseline)
+#define CLICK_CD_QUICK 10		// Tier: Quick
+#define CLICK_CD_FAST 8		// Tier: Very Quick
 #define CLICK_CD_INTENTCAP 6
 #define CLICK_CD_RANGE 4
 #define CLICK_CD_RAPID 2
@@ -73,6 +98,7 @@
 #define CLICK_CD_HANDCUFFED 10
 #define CLICK_CD_RESIST 20
 #define CLICK_CD_GRABBING 10
+#define CLICK_CD_GRAB_RESIST 5
 
 //Aimed / Swift defines
 #define EXTRA_STAMDRAIN_SWIFSTRONG 10
@@ -94,6 +120,12 @@
 #define EFF_RANGE_ABOVE 2
 #define EFF_RANGE_BELOW 3
 
+// Swingdelay presets
+#define SWINGDELAY_NORMAL 1	//No penalties, we just swing.
+#define SWINGDELAY_PENALTY 2 //We suffer a defensive penalty if struck during it. Otherwise, normal.
+#define SWINGDELAY_CANCEL 3 //We have -no- defense during it, and it can be interrupted if we are hit.
+#define SWINGDELAY_CANCELSLOW 4	//Same as cancel but our speed is also hardset to 10 for the delay.
+
 //Grab levels
 #define GRAB_PASSIVE				0
 #define GRAB_AGGRESSIVE				1
@@ -111,6 +143,10 @@
 #define DISLOCATED_ADD_SLOWDOWN 2
 //slowdown for fractured limbs
 #define FRACTURED_ADD_SLOWDOWN 3
+//slowdown for armour class. movement speed only.
+#define AC_LIGHT_SPDCAP 20
+#define AC_MEDIUM_SPDCAP 13
+#define AC_HEAVY_SPDCAP 11
 
 //Attack types for checking shields/hit reactions
 #define MELEE_ATTACK 1
@@ -142,6 +178,7 @@
 //Intent blade class for dismember class
 #define BCLASS_BLUNT		"blunt"
 #define BCLASS_SMASH		"smashing"
+#define BCLASS_DRILL		"drilling"
 #define BCLASS_CUT			"slash"
 #define BCLASS_CHOP			"chopping"
 #define BCLASS_STAB			"stabbing"
@@ -152,10 +189,10 @@
 #define BCLASS_PUNCH		"punch"
 #define BCLASS_BITE			"bite"
 #define BCLASS_BURN			"charring"
-#define BCLASS_PEEL			"peel"
 #define BCLASS_PUNISH		"punish"
 #define BCLASS_EFFECT		"effect"
 #define BCLASS_SUNDER       "sunder"
+#define BCLASS_DISARM		"disarm"
 
 //Material class (what material is striking)
 #define MCLASS_GENERIC		1
@@ -292,9 +329,9 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 //We will round to this value in damage calculations.
 #define DAMAGE_PRECISION 0.1
 
-#define STRONG_STANCE_DMG_BONUS 0.1
-#define STRONG_SHP_BONUS 2
-#define STRONG_INTG_BONUS 2
+#define STRONG_STANCE_DMG_BONUS 0.15
+#define STRONG_SHP_BONUS 3
+#define STRONG_INTG_BONUS 3
 
 //bullet_act() return values
 #define BULLET_ACT_HIT				"HIT"		//It's a successful hit, whatever that means in the context of the thing it's hitting.
@@ -304,19 +341,22 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BULLET_ACT_MISS				"MISS"
 
 //Weapon values
-#define BLUNT_DEFAULT_PENFACTOR		-100
 #define NONBLUNT_BLUNT_DAMFACTOR 0.6 // Damage factor when a non blunt weapon is used with blunt intent. Meant to make it worse than a real one.
 #define BLUNT_DEFAULT_INT_DAMAGEFACTOR 1.6 // Universal blunt intent integrity damage factor. Replaces Roguepen
-
+#define PUNCH_INT_DAMAGEFACTOR 1.2 // Reduced integrity damage for unarmed punches cuz they're really fast
 // Integrity & Sharpness Value
 #define INTEG_PARRY_DECAY			1	//Default integrity decay on parry.
 #define INTEG_PARRY_DECAY_NOSHARP	5	//Integrity decay on parry for weapons with no sharpness OR for off-hand parries.
 #define SHARPNESS_ONHIT_DECAY		3	//Sharpness decay on parry.
+#define RIPOSTE_SHARPNESS_FACTOR	0.15	//Fraction of blade_int lost on riposte (15%). Heavy weapons add +0.05.
+#define INTEG_PARRY_DECAY_UNARMED	5	//Integrity decay on parry when the attacker is unarmed (fists still wear down shields).
+#define RIPOSTE_INTEG_DIVISOR		5	//max_integrity / this = integrity damage on riposte for non-bladed weapons.
 #define SHARPNESS_TIER1_THRESHOLD	0.8	//%-age threshold when damage starts to fall off -- mainly damfactor and STR factor. NOT base damage value.
 #define SHARPNESS_TIER1_FLOOR		0.45//%-age threshold when damfactors and STR factors become 0.
 #define SHARPNESS_TIER2_THRESHOLD	0.2 //%-age threshold when damage *really* falls off. Base damage value included.
 
-#define UNARMED_DAMAGE_DEFAULT		12
+#define UNARMED_DAMAGE_DEFAULT		15
+#define UNARMED_DAMAGE_CIVILBARB	5
 
 /// Damage multiplier of silver weapons against mobs with TRAIT_SIMPLE_WOUNDS
 #define SILVER_SIMPLEMOB_DAM_MULT 3
@@ -327,9 +367,28 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 
 #define BASE_PARRY_STAMINA_DRAIN 5 // Unmodified stamina drain for parry, now a var instead of setting on simplemobs
 #define BAD_GUARD_FATIGUE_DRAIN 20 //Percentage of your green bar lost on letting a guard expire.
-#define GUARD_PEEL_REDUCTION 2	//How many Peel stacks to lose if a Guard is hit.
-#define BAIT_PEEL_REDUCTION 1	//How many Peel stacks to lose if we perfectly bait.
+#define EXPOSED_INTEG_MOD 2.5	//Multiplier for integrity damage if we hit an Exposed target.
+#define VULN_INTEG_MOD 1.3		//Multiplier for integrity damage if we hit a Vulnerable target.
 #define BASE_RCLICK_CD 30 SECONDS
+#define BAIT_RCLICK_CD 20 SECONDS
+#define BIND_CD 15 SECONDS
+#define FEINT_RCLICK_CD 20 SECONDS
+
+/* BIND DEFINES */
+
+#define BIND_HAND_L 1
+#define BIND_HAND_R 2
+#define BIND_FOOT_L 3
+#define BIND_FOOT_R 4
+#define BIND_HEAD 5
+#define BIND_TORSO 6
+#define BIND_NECK 7
+
+/* SWIFT BALANCE DEFINES */
+#define SWIFTCAP_CHEST 10
+#define SWIFTCAP_LIMBS 25
+#define SWIFTCAP_PRECISE 45
+#define STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL -2
 
 /* TEMPO DEFINES */
 #define TEMPO_CULL_DELAY 	12 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO
@@ -345,26 +404,43 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TEMPO_TAG_STAMLOSS_DODGE "dodge"
 #define TEMPO_TAG_ARMOR_INTEGFACTOR "integ"
 #define TEMPO_TAG_NOLOS_PARRY "nolosparry"
+#define TEMPO_TAG_NOLOS_DODGE "nolosdodge"
 #define TEMPO_TAG_DEF_SHARPNESSFACTOR "sharpness"
 #define TEMPO_TAG_DEF_INTEGFACTOR "parryinteg"
 #define TEMPO_TAG_PARRYCD_BONUS	"parrycd"
 #define TEMPO_TAG_RCLICK_CD_BONUS "rclickcd"
+#define TEMPO_TAG_FEINTBAIT_FOV "feintbaitfov"
 #define TEMPO_TAG_DEF_BONUS	"defbonus"
+#define TEMPO_TAG_DODGE_LOSS "dodgeloss"
+	#define TEMPO_DODGE_LOSS_NORMAL 0
+	#define TEMPO_DODGE_LOSS_LESS 1
+	#define TEMPO_DODGE_LOSS_NONE 2
+#define TEMPO_TAG_BINDABLE "defbindable"
+#define TEMPO_TAG_EQUIPTOSS "equiptoss"
 
+#define TEMPO_FACTION_KEEP (1 << 0)
+#define TEMPO_FACTION_WRETCH (1 << 1)
+#define TEMPO_FACTION_CHURCH (1 << 2)
 
 /*
 Medical defines
 */
 #define ARTERY_LIMB_BLEEDRATE 20	//This is used as a reference point for dynamic wounds, so it's better off as a define.
-#define CONSTITUTION_BLEEDRATE_MOD 0.1	//How much slower we'll be bleeding for every CON point. 0.1 = 10% slower.
-#define CONSTITUTION_BLEEDRATE_CAP 15	//The CON value up to which we get a bleedrate reduction.
+#define CONSTITUTION_BLEEDRATE_MOD 0.05	//How much slower we'll be bleeding for every CON point. 0.1 = 10% slower.
+#define CONSTITUTION_BLEEDRATE_CAP 20	//The CON value up to which we get a bleedrate reduction.
+
+#define WILLPOWER_STARTING_STAMINA 135	//Starting stamina (green bar) value. Before major changes this would represent Expert Athletics + ~11.5 WIL 
+#define WILLPOWER_MODIFIER	5	//How much stamina (flat value) we gain (or lose) for every WIL above / below 10.
+
+#define SPEED_MOVSPD_MOD 0.075	//Multiplicative modifier for our speed, per point (for both <10 and >10 values)
 
 /*
  Misc. Category. Spin it out if needed
 */
-#define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.75 // 75% damage threshold for dismemberment / crit
+#define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.7 // 90% damage threshold for dismemberment / crit
 #define STANDING_DECAP_GRACE_PERIOD 2 SECONDS // Time after falling prone where you still count as standing for decap purpose
 #define INT_NOISE_DELAY 1 SECONDS
+#define CRIT_ARMOUR_THRESHOLD 0.35 // ratio of obj_integrity and max_integrity for zone armour. Beyond this, crits are prevented.
 
 /*
 	Critical Resistance Defines 
@@ -375,10 +451,6 @@ Medical defines
 #define CRIT_RESISTANCE_STACKS_OP 1 // Noblood / Revenant etc.
 #define CRIT_RESISTANCE_EFFECTIVE_BLEEDRATE 0.5 // How much CR reduce bleedrate by
 #define CRIT_RESISTANCE_TIMER_CD 30 SECONDS // Cooldown between guaranteed CR procs. DOES NOT APPLY TO DISMEMBERMENT.
-
-#define PREVENT_CRITS_NONE	0
-#define PREVENT_CRITS_MOST	1
-#define PREVENT_CRITS_ALL	2
 
 #define BLOOD_RESISTANCE_EFFECTIVE_BLEEDRATE 0.5
 
@@ -398,3 +470,12 @@ Medical defines
 #define VISMSG_ARMOR_INT_STAGEONE "<span class='armoralert'><i> Dented.</i></span>"
 #define VISMSG_ARMOR_INT_STAGETWO "<span class='armoralert'> Damaged.</span>"
 #define VISMSG_ARMOR_INT_STAGETHREE "<span class='armoralert'><b> Crumbling!</b></span>"
+
+#define PROB_ATTACK_EMOTE_PLAYER 10
+#define PROB_ATTACK_EMOTE_NPC 10
+
+#define MAX_DODGE_CEIL 5
+#define MAX_DODGE_FLOOR -15
+
+// How long we can't use stealth & other misc. things for
+#define IN_COMBAT_DELAY 10 SECONDS

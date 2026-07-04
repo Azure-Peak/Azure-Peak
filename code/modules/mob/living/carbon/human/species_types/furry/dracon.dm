@@ -4,9 +4,12 @@
 /datum/species/dracon
 	name = "Drakian"
 	id = "dracon"
-	desc = "<b>Drakian</b><br>\
-	Mighty scaled individuals who claim to be descendants of the dragons of yore.<br>\
-	(+1 Strength)"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/lirvas
+	origin = "Lirvas"
+	base_name = "Zard"
+	desc_title = "Drakian"
+	desc = "Mighty scaled individuals who claim to be descendants of the dragons of yore."
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -111,6 +114,9 @@
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
 		/datum/body_marking/gradient,
+		/datum/body_marking/waist,
+		/datum/body_marking/womb_tattoo,
+		/datum/body_marking/butterfly
 	)
 	languages = list(
 		/datum/language/common,

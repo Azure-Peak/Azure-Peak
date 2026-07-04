@@ -1,5 +1,7 @@
 /area/rogue/under/underdark
 	name = "Central Underdark" // Northern is Sunken City
+	loot_budget = LOOT_BUDGET_UNDERDARK
+	loot_pool_key = "underdark"
 	icon_state = "cavewet"
 	warden_area = FALSE
 	drow_area = TRUE
@@ -15,14 +17,18 @@
 	ambush_mobs = list(
 				/mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated = 20,
 				/mob/living/carbon/human/species/elf/dark/drowraider/ambush = 10,
+				/mob/living/carbon/human/species/elf/dark/drowraider/archer/ambush = 3,
 				/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 25,
 				/mob/living/carbon/human/species/goblin/npc/ambush/moon = 30,
+				/mob/living/carbon/human/species/goblin/npc/archer/moon = 7,
 				/mob/living/simple_animal/hostile/retaliate/rogue/troll = 15,
 				/mob/living/simple_animal/hostile/retaliate/rogue/drider = 10,
+				/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 20
 	)
 	converted_type = /area/rogue/outdoors/caves
 	deathsight_message = "an acid-scarred depths"
 	detail_text = DETAIL_TEXT_UNDERDARK
+	threat_region = THREAT_REGION_UNDERDARK
 
 /area/rogue/under/underdark/south
 	name = "Southern Underdark"
@@ -31,6 +37,8 @@
 
 /area/rogue/under/underdark/north
 	name = "Melted Undercity"
+	loot_budget = LOOT_BUDGET_MELTED_UNDERCITY
+	loot_pool_key = "melted_undercity"
 	first_time_text = "MELTED UNDERCITY"
 	spookysounds = SPOOKY_MYSTICAL
 	spookynight = SPOOKY_MYSTICAL

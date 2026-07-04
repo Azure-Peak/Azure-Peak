@@ -107,7 +107,7 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/tomb/indoors/magic)
 "oT" = (
-/obj/item/roguegem/green,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/under/tomb/indoors/magic)
 "qJ" = (

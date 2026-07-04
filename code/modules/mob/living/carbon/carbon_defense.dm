@@ -39,8 +39,16 @@
 
 /mob/living/carbon/check_projectile_dismemberment(obj/projectile/P, def_zone)
 	var/obj/item/bodypart/affecting = get_bodypart(check_zone(def_zone))
-	if(affecting && affecting.dismemberable && affecting.get_damage() >= (affecting.max_damage - P.dismemberment))
-		affecting.dismember(P.damtype, P.woundclass)
+	if(!affecting || !affecting.dismemberable)
+		return
+	if(P.dismember_by_default && (P.woundclass == BCLASS_CUT || P.woundclass == BCLASS_CHOP))
+		var/dismember_chance = affecting.get_spell_dismemberment_chance(P.damage, P.woundclass, def_zone)
+		if(dismember_chance && prob(dismember_chance))
+			var/mob/living/shooter = isliving(P.firer) ? P.firer : null
+			affecting.dismember(P.damage_type, P.woundclass, shooter, def_zone)
+		return
+	if(P.dismemberment && (affecting.get_damage() >= (affecting.max_damage - P.dismemberment)))
+		affecting.dismember(P.damage_type, P.woundclass)
 
 /mob/living/carbon/proc/can_catch_item(skip_throw_mode_check)
 	. = FALSE
@@ -72,21 +80,19 @@
 /mob/living/carbon/check_projectile_wounding(obj/projectile/P, def_zone, blocked)
 	var/obj/item/bodypart/BP = get_bodypart(check_zone(def_zone))
 	if(BP)
-
-		var/newdam = P.damage * (100-blocked)/100
-		BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE, weapon = P)
+		var/newdam = max(0, P.damage - blocked)
+		BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE, weapon = P, no_crit = P.no_crit)
 		return TRUE
 
 /mob/living/carbon/check_projectile_embed(obj/projectile/P, def_zone, blocked)
 	var/obj/item/bodypart/BP = get_bodypart(check_zone(def_zone))
 	if(!BP)
 		return FALSE
-	var/newdam = P.damage * (100-blocked)/100
+	var/newdam = max(0, P.damage - blocked)
 	if(newdam <= 8)
 		return FALSE
 	if(prob(P.embedchance) && P.dropped)
-		BP.add_embedded_object(P.dropped, silent = FALSE, crit_message = TRUE, ranged = TRUE)
-		return TRUE
+		return BP.add_embedded_object(P.dropped, silent = FALSE, crit_message = TRUE, ranged = TRUE)
 	return FALSE
 
 /mob/living/carbon/send_pull_message(mob/living/target)
@@ -226,7 +232,8 @@
 				if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 					user.add_mob_blood(src)
 				var/splatter_dir = get_dir(user, src)
-				new /obj/effect/temp_visual/dir_setting/bloodsplatter(loc, splatter_dir)
+				var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(loc, splatter_dir)
+				splatter.set_blood_color(get_blood_color())
 				if(affecting.body_zone == BODY_ZONE_HEAD)
 					if(wear_mask)
 						wear_mask.add_mob_blood(src)

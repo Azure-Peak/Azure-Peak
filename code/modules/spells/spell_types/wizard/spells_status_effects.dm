@@ -45,6 +45,9 @@
 /datum/status_effect/buff/frostbite/tick()
 	var/mob/living/target = owner
 	target.stamina_add(5)
+	// When stamcrit, removes it to prevent it from chaining too hard
+	if(target.stamina >= target.max_stamina)
+		target.remove_status_effect(/datum/status_effect/buff/frostbite)
 
 /datum/status_effect/buff/frostbite/on_remove()
 	var/mob/living/target = owner
@@ -82,11 +85,11 @@
 	id = "lightningstruck"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/lightningstruck
 	duration = 6 SECONDS
-	effectedstats = list("speed" = -2)
+	effectedstats = list(STATKEY_SPD = -2, STATKEY_PER = -2, STATKEY_INT = -2)
 
 /atom/movable/screen/alert/status_effect/buff/lightningstruck
 	name = "Lightning Struck"
-	desc = "I can feel the electricity coursing through me."
+	desc = "Shocked, slowed, and disoriented. I can't swing my blade or think properly."
 	icon_state = "debuff"
 	color = "#ffff00"
 
@@ -95,15 +98,36 @@
 	var/mob/living/target = owner
 	target.update_vision_cone()
 	target.add_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, update=TRUE, priority=100, multiplicative_slowdown=4, movetypes=GROUND)
+	target.stamina_add(25)
+	ADD_TRAIT(target, TRAIT_REVERSE_GUIDANCE, TRAIT_STATUS_EFFECT)
 
 /datum/status_effect/buff/lightningstruck/on_remove()
 	. = ..()
 	var/mob/living/target = owner
 	target.update_vision_cone()
 	target.remove_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, TRUE)
+	REMOVE_TRAIT(target, TRAIT_REVERSE_GUIDANCE, TRAIT_STATUS_EFFECT)
 
+/datum/status_effect/buff/lightningstruck/minor
+	duration = 3 SECONDS
+	effectedstats = list("speed" = -1)
 
+/datum/status_effect/buff/lightningstruck/minor/on_apply()
+	. = ..()
+	var/mob/living/target = owner
+	target.add_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, update=TRUE, priority=100, multiplicative_slowdown=1, movetypes=GROUND)
 
+/mob/living/proc/lightning_shock(source)
+	electrocute_act(1, source, 1, SHOCK_NOSTUN)
+	if(!mob_timers[MT_LIGHTNING_ADAPTATION] || world.time > mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN)
+		Immobilize(0.5 SECONDS)
+		apply_status_effect(/datum/status_effect/buff/lightningstruck)
+		balloon_alert_to_viewers("<font color='#ffcc00'>shocked! (6s)</font>")
+		mob_timers[MT_LIGHTNING_ADAPTATION] = world.time
+		return TRUE
+	var/remaining = round((mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN - world.time) / 10)
+	balloon_alert_to_viewers("<font color='#ffcc00'>shock adapted ([remaining]s)</font>")
+	return FALSE
 
 
 // arcane marks plus helper procs
@@ -141,7 +165,7 @@
 /datum/status_effect/debuff/arcanemark
 	id = "arcanemark"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/arcanemark
-	duration = 15 SECONDS //15 sec - combo spells are on an 8-10 sec cd so if you miss two you drop your combo. seems fair?
+	duration = 10 SECONDS //seems better
 	status_type = STATUS_EFFECT_REFRESH
 	var/outline_colour = "#c203fc"
 	var/stacks = 1

@@ -371,8 +371,8 @@
 /obj/item/organ/stomach,
 /obj/item/organ/heart,
 /obj/item/organ/liver,
-/obj/item/reagent_containers/food/snacks/rogue/meat/fatty,
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/tomb/indoors)
 "nB" = (
@@ -664,7 +664,7 @@
 /area/rogue/under/tomb/indoors)
 "yP" = (
 /obj/structure/trap/curse/hidden,
-/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge/aged,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "zg" = (
@@ -699,7 +699,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "Ap" = (
-/obj/item/roguegem/green,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
 "Ay" = (
@@ -805,22 +805,10 @@
 /area/rogue/under/tomb/indoors)
 "Es" = (
 /obj/effect/decal/cleanable/blood/old,
-/obj/item/reagent_containers/powder/salt{
-	pixel_x = -5;
-	pixel_y = 6
-	},
-/obj/item/reagent_containers/powder/salt{
-	pixel_x = -7;
-	pixel_y = -13
-	},
-/obj/item/reagent_containers/powder/salt{
-	pixel_x = -2;
-	pixel_y = -4
-	},
-/obj/item/reagent_containers/powder/salt{
-	pixel_x = -10;
-	pixel_y = 13
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "EL" = (
@@ -1031,8 +1019,8 @@
 /area/rogue/under/tomb/indoors)
 "OC" = (
 /obj/structure/closet/crate/chest/neu,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/item/alch/bone,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/tomb/indoors)

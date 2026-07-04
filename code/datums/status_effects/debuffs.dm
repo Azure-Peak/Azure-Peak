@@ -265,7 +265,9 @@
 	var/turf/T = get_turf(owner)
 	new /obj/effect/temp_visual/bleed/explode(T)
 	for(var/d in GLOB.alldirs)
-		new /obj/effect/temp_visual/dir_setting/bloodsplatter(T, d)
+		var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(T, d)
+		var/mob/living/L = owner
+		splatter.set_blood_color(L?.get_blood_color())
 	playsound(T, "desceration", 100, TRUE, -1)
 
 /datum/status_effect/neck_slice
@@ -776,7 +778,7 @@
 /datum/status_effect/debuff/baited
 	id = "bait"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/baited
-	duration = 20 SECONDS
+	duration = 15 SECONDS
 
 /atom/movable/screen/alert/status_effect/debuff/baited
 	name = "Baited"
@@ -791,7 +793,7 @@
 /datum/status_effect/debuff/baitcd
 	id = "baitcd"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/baitedcd
-	duration = 30 SECONDS
+	duration = BAIT_RCLICK_CD
 
 /datum/status_effect/debuff/baitcd/on_creation(mob/living/new_owner, new_dur)
 	if(new_dur)
@@ -853,7 +855,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/exposed
 	name = "Exposed"
-	desc = "My defenses are exposed. I can be hit through my parry and dodge!"
+	desc = "My defenses are completely exposed. I can be hit through my parry and dodge to great effect!"
 	icon_state = "exposed"
 
 /datum/status_effect/debuff/exposed
@@ -868,6 +870,26 @@
 	if(new_dur)
 		duration = new_dur
 	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/vulnerable
+	name = "Vulnerable"
+	desc = "A mistake. I can be hit through my parry and dodge to a lighter effect!"
+	icon_state = "vulnerable"
+	icon = 'icons/mob/screen_alert_combat.dmi'
+
+/datum/status_effect/debuff/vulnerable
+	id = "nofeintlite"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/vulnerable
+	duration = 10 SECONDS
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_vulnerable"
+	mob_effect_layer = MOB_EFFECT_LAYER_VULNERABLE
+
+/datum/status_effect/debuff/vulnerable/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
 
 /datum/status_effect/debuff/feintcd
 	id = "feintcd"
@@ -906,8 +928,16 @@
 /datum/status_effect/debuff/clickcd/on_creation(mob/living/new_owner, new_dur)
 	if(new_dur)
 		duration = new_dur
+	RegisterSignal(new_owner, COMSIG_MOB_CLICKON, PROC_REF(onclick))
 	new_owner.changeNext_move(duration)
 	return ..()
+
+/datum/status_effect/debuff/clickcd/proc/onclick()
+	return COMSIG_MOB_CANCEL_CLICKON
+
+/datum/status_effect/debuff/clickcd/on_remove()
+	UnregisterSignal(owner, COMSIG_MOB_CLICKON)
+	. = ..()
 
 /atom/movable/screen/alert/status_effect/debuff/clickcd
 	name = "Action Delayed"
@@ -951,6 +981,21 @@
 	name = "Knockback Cooldown"
 	desc = "I have been knocked back recently by an attack and cannot be knocked back again"
 	icon_state = "debuff" // Placeholder
+
+/datum/status_effect/debuff/bindcd
+	id = "bindcd"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/bindcd
+	duration = 15 SECONDS
+
+/datum/status_effect/debuff/bindcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/bindcd
+	name = "Bind Cooldown"
+	desc = "Can't expect the magic to work every time."
+	icon_state = "bindcd"
 
 /datum/status_effect/debuff/specialcd
 	id = "specialcd"

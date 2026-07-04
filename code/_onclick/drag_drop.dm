@@ -68,6 +68,7 @@
 	var/charge_start_timeofday = 0
 	var/last_cooldown_warn = 0
 	var/charge_was_blocked_by_cooldown = FALSE
+	var/blocked_lmb = FALSE
 
 /atom
 	var/blockscharging = FALSE
@@ -78,15 +79,30 @@
 /client/MouseDown(object, location, control, params)
 	charge_was_blocked_by_cooldown = FALSE
 	var/list/modifiers = params2list(params)
+	var/lmb_blocked = FALSE
+
+	if(modifiers["left"])
+		lmb_blocked = lmb_noface(object, modifiers)
+		if(!lmb_blocked && (!modifiers["shift"] || mob.BehindAtom(object, mob.dir)))
+			mob.face_atom(object, location, control, params)
 
 	if(mob.incapacitated())
 		return
+
+	var/signal_result = SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEDOWN, object, location, control, params)
 
 	if(mob.stat != CONSCIOUS)
 		mob.atkswinging = null
 		charging = null
 		STOP_PROCESSING(SSmousecharge, src)
 		mouse_pointer_icon = 'icons/effects/mousemice/human.dmi'
+		return
+
+	// New spell system intercepted this click — skip old cursor/intent handling
+	if(signal_result & COMPONENT_CLIENT_MOUSEDOWN_INTERCEPT)
+		return
+
+	if(lmb_blocked)
 		return
 
 	tcompare = object
@@ -174,14 +190,14 @@
 			mouse_pointer_icon = mob.mmb_intent.pointer
 
 /client/proc/handle_left_click(atom/object, location, control, params, list/modifiers)
-	if(!modifiers["shift"] || mob.BehindAtom(object, mob.dir))
-		mob.face_atom(object, location, control, params)
+	var/cooldown = (mob.active_hand_index == 1) ? mob.next_lmove : mob.next_rmove
+
 	if(modifiers["right"])
 		return
 
-	var/cooldown = (mob.active_hand_index == 1) ? mob.next_lmove : mob.next_rmove
 	if(cooldown > world.time)
 		charge_was_blocked_by_cooldown = TRUE
+		blocked_lmb = TRUE
 		return
 
 	mob.atkswinging = "left"
@@ -191,13 +207,35 @@
 	else
 		mouse_pointer_icon = 'icons/effects/mousemice/human_attack.dmi'
 
+/client/proc/lmb_noface(atom/object, list/modifiers)
+	if(!modifiers["left"])
+		return FALSE
+	if(blocked_lmb)
+		return TRUE
+	if(modifiers["right"])
+		return FALSE
+	var/cooldown = (mob.active_hand_index == 1) ? mob.next_lmove : mob.next_rmove
+	if(cooldown > world.time)
+		charge_was_blocked_by_cooldown = TRUE
+		blocked_lmb = TRUE
+		return TRUE
+	return FALSE
+
 /mob
 	var/datum/intent/curplaying
+	var/obj/effect/spell_rune_under/spell_rune
 
 /atom/proc/should_click_on_mouse_up(var/atom/original_object)
 	return TRUE
 
 /client/MouseUp(object, location, control, params)
+	var/list/modifiers = params2list(params)
+	if(modifiers["left"])
+		blocked_lmb = FALSE
+
+	if(SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEUP, object, location, control, params) & COMPONENT_CLIENT_MOUSEUP_INTERCEPT)
+		click_intercept_time = world.time
+
 	if(charging && isliving(mob))
 		update_to_mob(mob, 0)
 
@@ -221,7 +259,6 @@
 	if(!mob.atkswinging)
 		return
 
-	var/list/modifiers = params2list(params)
 	if(modifiers["left"])
 		if(mob.atkswinging != "left")
 			mob.atkswinging = null
@@ -283,6 +320,9 @@
 
 /client/Destroy()
 	STOP_PROCESSING(SSmousecharge, src)
+	if(mob?.listed_turf)
+		LAZYREMOVE(mob.listed_turf.panel_listeners, src)
+	clear_listedturf_appearances()
 	return ..()
 
 /client/process(seconds_per_tick)
@@ -380,10 +420,12 @@
 			middragtime = 0
 			middragatom = null
 
-	if(mob.buckled)
-		mob.buckled.face_atom(over_object, over_location, over_control, params)
-	else
-		mob.face_atom(over_object, over_location, over_control, params)
+	var/block_lmb_facing = lmb_noface(over_object, L)
+	if(!block_lmb_facing)
+		if(mob.buckled)
+			mob.buckled.face_atom(over_object, over_location, over_control, params)
+		else
+			mob.face_atom(over_object, over_location, over_control, params)
 
 	mouseParams = params
 	mouseLocation = over_location
@@ -394,6 +436,7 @@
 		selected_target[2] = params
 	if(active_mousedown_item)
 		active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+	SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEDRAG, src_object, over_object, src_location, over_location, src_control, over_control, params)
 
 
 /obj/item/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)

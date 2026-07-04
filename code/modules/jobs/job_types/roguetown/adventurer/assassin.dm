@@ -9,13 +9,14 @@
 	min_pq = 10		// was going to put this higher but realized bandit's only 3 pq and wretch is fucking 10 so whatever
 	max_pq = null
 	antag_job = TRUE
-	allowed_races = RACES_ALL_KINDS
+	
 	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
 
 	outfit = null
 	outfit_female = null
 
 	obsfuscated_job = TRUE
+	give_bank_account = FALSE
 
 	display_order = JDO_ASSASSIN
 	announce_latejoin = FALSE
@@ -44,6 +45,8 @@
 		/datum/advclass/assassin_poisoner,
 		/datum/advclass/assassin_hitman,
 	)
+
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
 
 /datum/job/roguetown/assassin/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()

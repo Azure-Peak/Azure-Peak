@@ -27,6 +27,12 @@
 	else
 		..()
 
+/obj/item/fishingrod/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-clicking a fishing rod with bait will prepare it for a cast. Worms, leeches, and many other wriggling creechers can attract different fishes to catch.")
+	. += span_info("Once baited, left click the water to begin fishing.")
+	. += span_info("The chances of you catching nothing at all, having your bait stolen, or getting a 'biter' depends on how high your Fishing skill is.")
+	. += span_info("Whenever you get a 'biter', interrupt the ensuing timed action before it can complete to successfully catch a fish.")
 
 /obj/item/fishingrod/attackby(obj/item/I, mob/user, params)
 	if(baited)
@@ -73,6 +79,9 @@
 		return ..()
 
 	if(istype(target, /turf/open/water))
+		if(user.get_skill_level(/datum/skill/labor/fishing) >= SKILL_LEVEL_EXPERT)
+			if(!baited)
+				find_bait(user)
 		if(user.used_intent.type == ROD_CAST && !user.doing)
 			if(target in range(user,5))
 				user.visible_message("<span class='warning'>[user] casts a line!</span>", \
@@ -136,6 +145,19 @@
 				else
 					to_chat(user, "<span class='warning'>I must stand still to fish.</span>")
 			update_icon()
+
+/obj/item/fishingrod/proc/find_bait(mob/user)
+	if(!user)
+		return
+	var/turf/T = get_turf(user)
+	if(!T)
+		return
+	for(var/obj/item/I in view(1, T))
+		if(I.isbait)
+			src.attackby(I, user)
+			user.playsound_local(T, 'sound/combat/vite.ogg', 100, TRUE)
+			break
+
 
 /obj/item/fishingrod/update_icon()
 	cut_overlays()

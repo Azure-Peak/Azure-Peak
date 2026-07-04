@@ -200,12 +200,8 @@
 /area/rogue/under/tomb/indoors)
 "Vl" = (
 /obj/structure/rack/rogue,
-/obj/item/rogueweapon/shield/wood{
-	pixel_x = -5
-	},
-/obj/item/rogueweapon/shield/wood{
-	pixel_x = 8
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/item/rogueweapon/shield/tower,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)

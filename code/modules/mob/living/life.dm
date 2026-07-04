@@ -2,7 +2,9 @@
 	set waitfor = FALSE
 	set invisibility = 0
 
-	if(!client && ai_controller && ai_controller.ai_status == AI_STATUS_OFF)
+	// Sleep gate: skip Life() for AI-off NPCs to save cycles, but only if fully conscious.
+	// If not conscious, we must keep running Life() so wounds bleed, blood drops, and update_stat() can transition us.
+	if(!client && stat == CONSCIOUS && ai_controller && ai_controller.ai_status == AI_STATUS_OFF)
 		return
 
 	SEND_SIGNAL(src, COMSIG_LIVING_LIFE, seconds, times_fired)
@@ -45,13 +47,24 @@
 		heal_wounds(1)
 
 	/// ENDVRE AS HE DOES.
-	if(!stat && HAS_TRAIT(src, TRAIT_PSYDONITE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
+	if(!stat && (HAS_TRAIT(src, TRAIT_PSYDONITE) && !HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS)))
 		handle_wounds()
 		//passively heal wounds, when you're in trouble..
 		if(blood_volume > BLOOD_VOLUME_SURVIVE)
 			for(var/datum/wound/wound as anything in get_wounds())
 				if(wound?.severity <= WOUND_SEVERITY_MODERATE)
-					wound.heal_wound(0.4)
+					if(!istype(wound, /datum/wound/slash/incision))
+						wound.heal_wound(0.4)
+
+	if(!stat && HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
+		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+			return
+		handle_wounds()
+		if(blood_volume > BLOOD_VOLUME_SURVIVE && nutrition > NUTRITION_LEVEL_STARVING) // only hunger dictates here, thirst isn't relevant for regen but it is penalized too. Furthermore, after tests, lmfao, starving mid combat is a death sentence, holy shit.
+			for(var/datum/wound/wound as anything in get_wounds())
+				if(!istype(wound, /datum/wound/slash/incision))
+					wound.heal_wound(1.2)
+					nutrition = max(0, nutrition - (NUTRITION_LEVEL_FULL * 0.005)) // drains 0.5% of your hunger per tick of wound healed. After some testing, holy shit, this drains fast, for being percent-based. Thirst drain was too much to slap on top. Maybe it'll be back after the bite adjustments get polished a lil more.
 
 	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
 		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
@@ -59,7 +72,19 @@
 		handle_wounds()
 		if(blood_volume > BLOOD_VOLUME_SURVIVE)
 			for(var/datum/wound/wound as anything in get_wounds())
-				wound.heal_wound(3)		
+				if(!istype(wound, /datum/wound/slash/incision))
+					wound.heal_wound(3)
+
+	if(!stat && HAS_TRAIT(src, TRAIT_DEADITE)) //Deadites are always regenerating unless under the effects of ANY KIND OF firestacks. Finish them off or restrain them.
+		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+			return
+		handle_wounds()
+		heal_overall_damage(3, 2) //Brute heals better than our burns.
+		for(var/datum/wound/wound as anything in get_wounds())
+			wound.heal_wound(0.5) //Skullcracks and severe wounds keep us down longer. BUT WE STILL GET BACK UP.
+
+	if(blood_volume <= BLOOD_VOLUME_SURVIVE && stat)
+		handle_passive_blood()
 
 	if (QDELETED(src)) // diseases can qdel the mob via transformations
 		return
@@ -81,6 +106,28 @@
 
 	if(stat != DEAD)
 		return 1
+
+/mob/living/proc/handle_passive_blood()
+	#define MAX_PASSIVE_BLOOD_HEAL	10
+	#define MIN_PASSIVE_BLOOD_HEAL	0
+
+	var/passive_regen_rate = MIN_PASSIVE_BLOOD_HEAL
+	if(nutrition <= NUTRITION_LEVEL_HUNGRY)
+		passive_regen_rate -= 5
+	else
+		passive_regen_rate += 5
+
+	if(hydration <= HYDRATION_LEVEL_THIRSTY)
+		passive_regen_rate -= 5
+	else
+		passive_regen_rate += 5
+
+	passive_regen_rate = CLAMP(passive_regen_rate, MIN_PASSIVE_BLOOD_HEAL, MAX_PASSIVE_BLOOD_HEAL)
+
+	blood_volume += passive_regen_rate
+
+	#undef MAX_PASSIVE_BLOOD_HEAL
+	#undef MIN_PASSIVE_BLOOD_HEAL
 
 /mob/living/proc/check_drowning()
 	if(istype(loc, /turf/open/water))
@@ -132,6 +179,7 @@
 					sleep(10)
 					Stun(110)
 					Knockdown(110)
+					drop_all_held_items()
 
 /mob/living/proc/handle_environment()
 	return

@@ -1,15 +1,7 @@
-
-
 /datum/supply_pack/rogue/luxury
 	group = "Luxury"
 	crate_name = "merchant guild's crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
-
-/datum/supply_pack/rogue/luxury/sigs
-	name = "Pipe Weed Zig"
-	cost = 3
-	contains = list(/obj/item/clothing/mask/cigarette/rollie/nicotine)
-	not_in_public = TRUE // go to the PURITY
 
 /datum/supply_pack/rogue/luxury/ozium
 	name = "Ozium"
@@ -50,7 +42,7 @@
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/astrata)
 
 /datum/supply_pack/rogue/luxury/silvertencross
-	name = "Silver Amulet of the Pantheon"
+	name = "Silver Amulet of Ten"
 	cost = 250
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/undivided)
 
@@ -60,7 +52,7 @@
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/necra)
 
 /datum/supply_pack/rogue/luxury/silvernoccross
-	name = "Silver Amulet of Noc"
+	name = "Blessed Amulet of Noc"
 	cost = 250
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/noc)
 
@@ -110,15 +102,6 @@
 	cost = 220
 	contains = list(/obj/item/clothing/ring/signet)
 
-/datum/supply_pack/rogue/luxury/obsidianfragment
-	name = "Obsidian Fragments"
-	cost = 55
-	contains = list(
-			/obj/item/magic/obsidian,
-			/obj/item/magic/obsidian,
-			/obj/item/magic/obsidian,
-			)
-
 /datum/supply_pack/rogue/luxury/manaflower
 	name = "Manabloom Flowers"
 	cost = 55
@@ -126,15 +109,6 @@
 			/obj/item/reagent_containers/food/snacks/grown/manabloom,
 			/obj/item/reagent_containers/food/snacks/grown/manabloom,
 			/obj/item/reagent_containers/food/snacks/grown/manabloom,
-			)
-
-/datum/supply_pack/rogue/luxury/manacrystal
-	name = "Mana Crystals"
-	cost = 55
-	contains = list(
-			/obj/item/magic/manacrystal,
-			/obj/item/magic/manacrystal,
-			/obj/item/magic/manacrystal,
 			)
 
 /datum/supply_pack/rogue/luxury/merctoken
@@ -171,3 +145,13 @@
 	name = "Fine Parasol"
 	cost = 65
 	contains = list(/obj/item/rogueweapon/mace/parasol/noble)
+
+/datum/supply_pack/rogue/luxury/stamppot
+	name = "Tallowpot"
+	cost = 100
+	contains = list(/obj/item/tallowpot)
+
+/datum/supply_pack/rogue/luxury/stampstuff
+	name = "Lump of Blacktallow"
+	cost = 50
+	contains = list(/obj/item/reagent_containers/food/snacks/tallow/black)

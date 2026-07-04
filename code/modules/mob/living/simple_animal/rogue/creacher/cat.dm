@@ -37,7 +37,7 @@
 	minimum_distance = 1
 
 	// Behavior
-	faction = list("rogueanimal")
+	faction = list(FACTION_ROGUEANIMAL)
 	deaggroprob = 15
 	defprob = 30
 	dodgetime = 10

@@ -52,7 +52,11 @@
 					(isnull(magic) ? src.magic : magic))
 
 /datum/armor/proc/getRating(rating)
-	return vars[rating]
+	switch(rating)
+		if("blunt", "slash", "stab", "piercing", "fire", "acid", "magic")
+			return vars[rating]
+	stack_trace("getRating called with unknown rating key [rating] — fix the caller")
+	return 0
 
 /datum/armor/proc/getList()
 	return list("blunt" = blunt, "slash" = slash, "stab" = stab, "piercing" = piercing, "fire" = fire, "acid" = acid, "magic" = magic)

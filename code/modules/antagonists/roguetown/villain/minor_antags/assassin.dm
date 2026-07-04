@@ -1,4 +1,8 @@
 // Assassin, cultist of graggar. Normally found as a drifter.
+// Requires at least one living player with the Hunted flaw, otherwise no assassins spawn.
+// Roundstart scaling (storyteller_scale_slots): scaling=1, min_players=20, default_cap=2.
+//  Cap | <20 | 20-49 | 50+
+//   2  |  0  |   1   |  2
 /datum/antagonist/assassin
 	name = "Assassin"
 	roundend_category = "assassins"
@@ -6,6 +10,11 @@
 	antag_hud_type = ANTAG_HUD_TRAITOR
 	antag_hud_name = "assassin"
 	show_name_in_check_antagonists = TRUE
+	storyteller_antag_flags = STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_SOFT
+	override_candidatereq = TRUE
+	storyteller_min_players = CHARACTER_INJECTION_MIN_POP
+	storyteller_slot_scaling = 1
+	storyteller_slot_default_cap = 2
 	confess_lines = list(
 		"MY CREED IS BLOOD!",
 		"THE DAGGER TOLD ME WHO TO CUT!",
@@ -30,7 +39,7 @@
 
 /mob/living/carbon/human/proc/who_targets() // Verb for the assassin to remember their targets.
 	set name = "Remember Targets"
-	set category = "Graggar"
+	set category = "RoleUnique.Graggar"
 	if(!mind)
 		return
 	mind.recall_targets(src)
@@ -44,7 +53,7 @@
 	if(!user)
 		return
 	var/mob/living/carbon/human/H = user
-	H.verbs |= /mob/living/carbon/human/proc/who_targets
+	add_verb(H, /mob/living/carbon/human/proc/who_targets)
 
 /datum/antagonist/assassin/roundend_report()
 	var/traitorwin = FALSE

@@ -1,5 +1,6 @@
 /datum/job/roguetown/lunatic
 	title = "Lunatic"
+	vice_restrictions = list()
 	flag = LUNATIC
 	department_flag = SIDEFOLK
 	faction = "Station"
@@ -9,14 +10,16 @@
 	var/list/traits_applied
 	traits_applied = list(TRAIT_PSYCHOSIS, TRAIT_NOSTINK, TRAIT_MANIAC_AWOKEN, TRAIT_HOMESTEAD_EXPERT) // Maniac_Awoken no longer has any function other than the flavor text and trait
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ACCEPTED_RACES
+
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	outfit = /datum/outfit/job/roguetown/lunatic
 	bypass_lastclass = TRUE
 	bypass_jobban = FALSE
 	min_pq = 100 //the magic of an allowlist server.
 	max_pq = null
-	tutorial = "The Lunatic, shunned by society and a magnet for misfortune. Your task is simple yet perilous: survive by any means, though your very existence invites danger from every corner. It is said that Azure Peak drives those most familiar with it, the most insane."
+	tutorial = "The Lunatic, shunned by society and a magnet for misfortune. Your task is simple yet perilous: survive by \
+	any means, though your very existence invites danger from every corner. It is said that Azure Peak drives those most \
+	familiar with it, the most insane."
 	display_order = JDO_LUNATIC
 	selection_color = JCOLOR_SIDEFOLK
 
@@ -31,7 +34,9 @@
 
 /datum/advclass/lunatic
 	name = "Lunatic"
-	tutorial = "The Lunatic, shunned by society and a magnet for misfortune. Your task is simple yet perilous: survive by any means, though your very existence invites danger from every corner. It is said that Azure Peak drives those most familiar with it, the most insane."
+	tutorial = "The Lunatic, shunned by society and a magnet for misfortune. Your task is simple yet perilous: survive by \
+	any means, though your very existence invites danger from every corner. It is said that Azure Peak drives those most \
+	familiar with it, the most insane."
 	outfit = /datum/outfit/job/roguetown/lunatic/basic
 	category_tags = list(CTAG_LUNATIC)
 	subclass_stats = list(

@@ -1,13 +1,13 @@
 /datum/advclass/gnoll_impure
 	name = "Impure Gnoll"
-	allowed_races = RACES_NO_CONSTRUCT
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	tutorial = "You have proven yourself worthy to Graggar, and he's granted you his blessing most divine. Now you hunt for worthy opponents, seeking out those strong enough to make you bleed."
 	min_pq = 0
 	reset_stats = TRUE
 
 	category_tags = list(CTAG_GNOLL_IMPURE)
 	outfit = /datum/outfit/job/roguetown/gnoll_impure
-	traits_applied = list(TRAIT_DODGEEXPERT) // Surely this won't be broken.
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_UNLYCKERABLE) // Surely this won't be broken.
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -1,
@@ -23,6 +23,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 	cmode_music = 'sound/music/combat_graggar.ogg'
 
@@ -32,7 +33,7 @@
 	if(H.mind && !H.mind.has_antag_datum(/datum/antagonist/gnoll))
 		var/datum/antagonist/new_antag = new /datum/antagonist/gnoll()
 		H.mind.add_antag_datum(new_antag)
-		H.verbs |= /mob/living/carbon/human/proc/gnoll_inspect_skin
+		add_verb(H, /mob/living/carbon/human/proc/gnoll_inspect_skin)
 	H.set_species(/datum/species/gnoll)
 	H.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/impure(H)
 	don_pelt(H)

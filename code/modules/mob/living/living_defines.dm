@@ -12,6 +12,8 @@
 	var/lastattacker = null
 	var/lastattackerckey = null
 	var/datum/weakref/lastattacker_weakref = null
+	/// Blood Toll bucket key (STATS_KILLED_*); set on NPC subtypes that should tally on death. See code/__HELPERS/blood_toll.dm
+	var/blood_toll_bucket = null
 
 	//Health and life related vars
 	var/maxHealth = 100 //Maximum health that should be possible.
@@ -141,9 +143,17 @@
 	var/last_ps = 0
 
 	var/ambushable = 0
+	var/threat_point = 0 // Threat Point cost for the ambush budget system. Set on NPC subtypes.
+	var/ambush_faction = "" // Faction tag for ambush same/wrong-faction purchasing. Separate from mob faction list.
 
+	var/datum/fellowship/current_fellowship
+	var/list/incoming_fellowship_invites = list() // list of /datum/weakref to /datum/fellowship; kept in sync with fellowship.pending_invites
+
+	// Tracks whether mob is in surrendering state (right-click combat button)
 	var/surrendering = 0
-	var/compliance = 0 // whether we are choosing to auto-resist grabs and stuff
+
+	// Tracks whether mob is in compliance mode (middle-click combat button)
+	var/compliance = 0
 
 	var/defprob = 50 //base chance to defend against this mob's attacks, for simple mob combat
 	var/encumbrance = 0
@@ -160,6 +170,8 @@
 	///The NAME (not the reference) of the mob's summoner and probable master.
 	var/summoner = null
 
+	/// This is for highlighting marks in track.dm
+	var/mob/living/current_mark
 
 	var/datum/component/personal_crafting/craftingthing
 
@@ -192,6 +204,8 @@
 
 	var/domhand = 0
 
+	var/pet_passive = FALSE
+
 	var/cmode_music_override = list() // set by prefs or the verb, ignored if empty
 	var/cmode_music_override_name // solely for autoselecting as a spawned-in mob
 	var/last_heard_raw_message //to prevent repeated messages from spamming
@@ -202,7 +216,21 @@
 	/// Parry timer for projectiles post-attack. Hooks into the attack animation, so is fairly clunky.
 	var/projectile_parry_timer
 
+	var/tempatarget = null
+	var/pegleg = 0			//Handles check & slowdown for peglegs. Fuckin' bootleg, literally, but hey it at least works.
+	var/burialrited = FALSE
+
 	/// Toggle delay for Specials, or really anything else that you don't want input spam to instantly cycle through.
 	var/toggle_delay = 1 SECONDS
 	/// Toggle timer for Specials, or really anything else that you don't want input spam to instantly cycle through.
 	var/toggle_timer
+
+	/// Whether we are in a swingdelay, used to check for disrupted swingdelays.
+	var/swing_state = FALSE
+	/// Whether we are mid-climb-action, so an incoming attack can disrupt it. Distinct from climbing (wall hang).
+	var/mid_climb = FALSE
+	/// This one's for when you're choking to death.
+	var/last_gasp
+
+	/// "In Combat" timer that is used to prevent stealth and a few other mechanics while active.
+	var/in_combat_until

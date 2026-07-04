@@ -14,8 +14,12 @@
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
 	)
 
-	idle_behavior = /datum/idle_behavior/idle_random_walk
-
 
 /datum/ai_controller/undead/wolf
-    movement_delay = WOLF_MOVEMENT_SPEED
+    movement_delay = WOLF_UNDEAD_MOVEMENT_SPEED
+
+/datum/ai_controller/undead/fox
+	movement_delay = FOX_MOVEMENT_SPEED
+
+/datum/ai_controller/undead/cabbit
+	movement_delay = CABBIT_UNDEAD_MOVEMENT_SPEED

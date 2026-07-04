@@ -1,6 +1,6 @@
 /obj/structure/plough
 	name = "plough"
-	desc = "A wooden plough with iron blades to till the earth for crops."
+	desc = "A heftsome cart with an undercarriage of sloped metal, allowing even the simplest laborers to turn grass-and-dirt into fields of tilled-and-fertile soil."
 	icon = 'icons/obj/structures/plough.dmi'
 	icon_state = "plough"
 	density = TRUE
@@ -10,9 +10,11 @@
 	facepull = FALSE
 	drag_slowdown = 2
 
-/obj/structure/plough/examine(mob/user)
+/obj/structure/plough/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_notice("TILTS any dirt/grass tile it's dragged over - requires user to drag it while having SNEAK active.")
+	. += span_notice("Control-click the till to grab it. Toggling the 'SNEAK' button while dragging the plough over grass and dirt will automatically turn it into fertile soil, perfect for agricultural work.")
+	. += span_notice("If already tilled, dragging the till over such a tile will instantly create a plot for planting crops. Tilling with a plough is always instantaneous, and doesn't require the Farming skill to perform.")
+	. += span_notice("Tilling gradually drains your character's stamina with each successfully-tilled tile.")
 
 /obj/structure/plough/Moved(oldLoc, movement_dir)
 	. = ..()

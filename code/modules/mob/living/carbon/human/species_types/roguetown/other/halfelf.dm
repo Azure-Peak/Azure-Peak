@@ -4,8 +4,11 @@
 /datum/species/human/halfelf
 	name = "Half-Elf"
 	id = "helf"
-	desc = "<b>Half Elf</b><br>\
-	The child of an Elf and Humen, Half-Elves are generally frowned \
+	psydonic = TRUE
+	is_subrace = TRUE
+	base_name = "Humen"
+	desc_title = "Half Elf"
+	desc = "The child of an Elf and Humen, Half-Elves are generally frowned \
 	upon by the more conservatively minded. However, as racial tensions lower, \
 	the rate of Half-Elf births has continues to increase. So common has it become that some scholars \
 	worry that someday it may be impossible to distinguish the Humens and Elves from one another. \
@@ -14,10 +17,9 @@
 	embodies the term \"melting pot\" quite like the Half-Elves. Due to their half-breed nature, their physical \
 	characteristics can be either more Elvish or more Humen, depending on which of their parents' genes \
 	are more predominant. In terms of cultural identity, a Half-Elf will typically choose to lean more \
-	towards either their Humen or Elvish heritages.<br>\
-	(+1 Constitution, +1 Perception)" 
+	towards either their Humen or Elvish heritages."
 
-	skin_tone_wording = "Identity"
+	skin_tone_wording = "Ancestry"
 	max_age = 250
 
 	default_color = "FFFFFF"
@@ -54,7 +56,7 @@
 		ORGAN_SLOT_HEART = /obj/item/organ/heart,
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes/halfelf,
-		ORGAN_SLOT_EARS = /obj/item/organ/ears/elf,
+		ORGAN_SLOT_EARS = /obj/item/organ/ears,//Because they can be way more than just mostly elf
 		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
@@ -89,6 +91,9 @@
 		/datum/body_marking/tonage,
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
+		/datum/body_marking/waist,
+		/datum/body_marking/womb_tattoo,
+		/datum/body_marking/butterfly
 	)
 	languages = list(
 		/datum/language/common,
@@ -164,7 +169,6 @@
 			randname = pick( world.file2list("strings/rt/names/elf/elfwm.txt") )
 		if(gender == FEMALE)
 			randname = pick( world.file2list("strings/rt/names/elf/elfwf.txt") )
-	randname += " Halfelven"
 	return randname
 
 /datum/species/human/halfelf/random_surname()

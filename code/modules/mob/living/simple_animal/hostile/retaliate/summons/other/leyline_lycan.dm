@@ -3,7 +3,6 @@
 	source = portal
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/leylinelycan
 	icon = 'icons/mob/summonable/32x32.dmi'
@@ -13,16 +12,16 @@
 	icon_living = "leycreature"
 	icon_dead = "leycreature"
 
-	faction = list("leyline")
+	faction = list(FACTION_LEYLINE)
 	emote_hear = null
 	emote_see = null
 	turns_per_move = 8
 	see_in_dark = 9
-	move_to_delay = 1
 	vision_range = 9
 	aggro_vision_range = 9
 
 	butcher_results = list()
+	death_loot = list(/obj/item/magic/leyline = 1)
 
 	health = 240
 	maxHealth = 240
@@ -42,7 +41,7 @@
 	minimum_distance = 0
 	deaggroprob = 0
 	defprob = 35
-	retreat_health = 0.4
+	retreat_health = 0
 	food = 0
 	dodgetime = 30
 	aggressive = 1
@@ -58,7 +57,7 @@
 		return 0
 	if(target in possible_targets)
 		var/target_distance = get_dist(targets_from,target)
-		if(world.time >= teleport_cooldown)
+		if(target_distance > 4 && world.time >= teleport_cooldown)
 			leyline_teleport(target)
 		if(ranged) //We ranged? Shoot at em
 			if(!target.Adjacent(targets_from) && ranged_cooldown <= world.time) //But make sure they're not in range for a melee attack and our range attack is off cooldown
@@ -91,9 +90,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/leylinelycan/death(gibbed)
 	..()
-	source.guardian = null
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/leyline(deathspot)
+	if(source)
+		source.guardian = null
 	spill_embedded_objects()
 	update_icon()
 	qdel(src)
@@ -104,12 +102,10 @@
 	duration = 3
 
 /mob/living/simple_animal/hostile/retaliate/rogue/leylinelycan/proc/leyline_teleport(target)
-	var/turf/turf_target = get_step(get_step(get_turf(target), src.dir), src.dir)
-	if(!(turf_target in view(12, src)))
-		return
-	if(!isopenturf(turf_target))
-		return
 	teleport_cooldown = world.time + 70
+	var/turf/turf_target = get_step(get_turf(target), get_dir(target, src))
+	if(!isopenturf(turf_target) || !(turf_target in view(12, src)))
+		return
 	var/turf/source = get_turf(src)
 	new /obj/effect/temp_visual/lycan(turf_target, src)
 	new /obj/effect/temp_visual/lycan(source, src)
@@ -124,4 +120,4 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/leylinelycan/proc/leyline_teleport_3(turf/T)
 	forceMove(T)
 	animate(src, alpha = 255, time = 2, easing = EASE_IN) //fade IN
-	visible_message(span_warning("[src] tears it's way out of the leyline rift!"))
+	visible_message(span_warning("[src] tears its way out of the leyline rift!"))

@@ -1,16 +1,20 @@
 /datum/patron/old_god
 	name = "Psydon"
 	domain = "Otava, Naledi, Rockhill, and most of Psydonia's outermost fiefs."
-	desc = "  </br>''God. The manifestation of maximal good, and the father of all.'' </br>''He, who created reality for His children to frollick within.'' </br>''He, who breathed lyfe into the Pantheon to shepherd His virtues.'' </br>''He, who sacrificed His strength to strike down the Archdevil with the Comet Syon.'' </br>''He, who yet slumbers to this dae; and who may yet still return.''"
-	worshippers = "Commonfolk, Zealots, Heroes, and the Esoteric."
+	desc = "  </br>''God. The manifestation of maximal good, and the father of all.'' \
+	</br>''He, who created reality for His children to frollick within.'' \
+	</br>''He, who breathed lyfe into the Pantheon to shepherd His virtues.'' \
+	</br>''He, who sacrificed His strength to strike down the Archdevil with the Comet Syon.'' \
+	</br>''He, who yet slumbers to this dae; and who may yet still return.''"
+	worshippers = "Commonfolk, Zealots, Heroes, Villains, and the Esoteric"
 	associated_faith = /datum/faith/old_god
 	mob_traits = list(TRAIT_PSYDONIAN_GRIT) //Assigned to all mobs with Psydon as the chosen patron. Gives a Willpower-scaling chance to resist succumbing to pain.
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/self/check_boot				= CLERIC_T0, //Personal spell - summons a completely random item upon use. Your mileage might vary.
-					/obj/effect/proc_holder/spell/invoked/psydonendure			= CLERIC_T1, //External spell - seals bleeding wounds and helps to save people who've been critically injured.
-					/obj/effect/proc_holder/spell/self/psydonprayer				= CLERIC_T1, //Internal spell - minor self-regeneration, repeatedly casted while still.
-					/obj/effect/proc_holder/spell/self/psydonrespite			= CLERIC_T2, //Ditto, but stronger. The original variant, intended for dedicated - non-Adventuring - combat classes.
-					/obj/effect/proc_holder/spell/self/psydonpersist			= CLERIC_T3, //Ditto-ditto. Intended for non-combative devotee classes, such as the Missionary and Absolver.
+	miracles = list(/datum/action/cooldown/spell/touch/orison		= CLERIC_ORI,
+					/datum/action/cooldown/spell/psydon/bootcheck	= CLERIC_T0, //Personal spell - summons a completely random item upon use. Your mileage might vary.
+					/datum/action/cooldown/spell/psydon/endure		= CLERIC_T1, //External spell - seals bleeding wounds and helps to save people who've been critically injured.
+					/datum/action/cooldown/spell/psydon/prayer		= CLERIC_T1, //Internal spell - minor self-regeneration, repeatedly casted while still.
+					/datum/action/cooldown/spell/psydon/respite		= CLERIC_T2, //Ditto, but stronger. The original variant, intended for dedicated - non-Adventuring - combat classes.
+					/datum/action/cooldown/spell/psydon/persist		= CLERIC_T3, //Ditto-ditto. Intended for non-combative devotee classes, such as the Missionary and Absolver.
 	)
 	traits_tier = list(TRAIT_PSYDONITE = CLERIC_T0) //Requires a minimal holy skill or the 'Devotee' virtue to unlock. Offers passive wound regeneration, but prevents healing from most miracles.
 	confess_lines = list(
@@ -22,6 +26,10 @@
 		"WITNESS ME, PSYDON; THE SACRIFICE MADE MANIFEST!",
 	)
 
+	titles = list(
+		"God", // people call him this for. some reason. he has a name, y'all
+		"Saidon"
+	)
 
 /////////////////////////////////
 // Does God Hear Your Prayer ? //
@@ -38,8 +46,15 @@
 			return FALSE
 		return TRUE
 	// Allows prayer if raining and outside. Psydon weeps.
-	if(GLOB.forecast == PARTICLEWEATHER_RAIN)
+	// this is a gpt'd fix after we updated our weather system. im pretty sure i get how it works, just didnt know how to call the SSParticleWeather.
+	var/datum/particle_weather/W = SSParticleWeather?.runningWeather
+	if(istype(W, /datum/particle_weather/rain_gentle) || istype(W, /datum/particle_weather/rain_storm))
 		if(istype(get_area(follower), /area/rogue/outdoors))
+			return TRUE
+	if(istype(W, /datum/particle_weather/blood_rain_gentle) || istype(W, /datum/particle_weather/blood_rain_storm))
+		if(istype(get_area(follower), /area/rogue/outdoors))
+			follower.add_stress(/datum/stressevent/something_stirs)
+			follower.playsound_local(follower, 'sound/magic/psydonbleeds.ogg', 40, TRUE)
 			return TRUE
 	// Allows prayer if bleeding.
 	if(follower.bleed_rate > 0)

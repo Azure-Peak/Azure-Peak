@@ -16,6 +16,8 @@
 			pixel_y = -3
 		if(is_species(owner,/datum/species/kobold))
 			pixel_y = -3
+		if(is_species(owner,/datum/species/anthromorphsmall))
+			pixel_y = -4
 		if(is_species(owner,/datum/species/goblinp))
 			pixel_y = -4
 		if(is_species(owner,/datum/species/elf) && owner.gender == MALE)

@@ -4,8 +4,12 @@
 /datum/species/halforc
 	name = "Half Orc"
 	id = "halforc"
-	desc = "<b>Half Orcs</b><br>\
-	With the Ironmask clan on a centuries-long warpath to consolidate all orcs beneath their banner, \
+	origin_default = /datum/virtue/origin/avar
+	origin = "Aavnr"
+	base_name = "Humen"
+	is_subrace = TRUE
+	desc_title = "Half Orc"
+	desc = "With the Ironmask clan on a centuries-long warpath to consolidate all orcs beneath their banner, \
 	crushed orc tribes have lost their menfolk, and war-widows have been scattered to the hinterlands. \
 	Between humen civilization and orc savagery, orc-women opting for exile over dishonor have become \
 	more common visitors to fur trading posts and prospecting camps, eventually leading to half-orcs \
@@ -13,8 +17,7 @@
 	to the Ironmask. True orcs would kill you on sight, seeing you as a mongrel dog, and non-orcish \
 	people cannot decide between regarding you with either mere distrust or outright disgust. Yet \
 	somehow your wandering feet came to Azure Peak, where half-orcs ply muscle and their hardiness \
-	in the rough underbelly or outer reaches of society.<br>\
-	(+1 Strength)"
+	in the rough underbelly or outer reaches of society."
 
 	skin_tone_wording = "Clan"
 
@@ -72,6 +75,9 @@
 		/datum/body_marking/flushed_cheeks,
 		/datum/body_marking/eyeliner,
 		/datum/body_marking/tonage,
+		/datum/body_marking/waist,
+		/datum/body_marking/womb_tattoo,
+		/datum/body_marking/butterfly
 	)
 	customizers = list(
 		/datum/customizer/organ/eyes/humanoid,

@@ -16,7 +16,7 @@
 /area/rogue/under/tomb/indoors)
 "i" = (
 /obj/structure/bed/rogue/shit,
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/carbon/human/species/skeleton/npc/easy,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/indoors)
 "l" = (

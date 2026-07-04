@@ -19,6 +19,6 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear,
 		/mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mole,
-		/mob/living/simple_animal/hostile/retaliate/rogue/wolf/bobcat,
+		/mob/living/simple_animal/hostile/retaliate/rogue/bobcat,
 		/mob/living/simple_animal/hostile/retaliate/rogue/fox,
 	)

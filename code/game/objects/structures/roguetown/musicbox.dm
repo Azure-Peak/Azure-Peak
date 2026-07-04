@@ -61,6 +61,10 @@
 	var/curvol = 50 // The current volume at which audio is played. MAPPERS MAY TOUCH THIS.
 	var/playuponspawn = FALSE // Does the music box start playing music when it first spawns in? MAPPERS MAY TOUCH THIS.
 
+/obj/structure/roguemachine/musicbox/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click the music box to open its interface. If the music box is currently off, selecting a new song to play will automatically turn it back on.")
+
 /obj/structure/roguemachine/musicbox/Initialize()
 	. = ..()
 	curfile = pick(init_curfile)

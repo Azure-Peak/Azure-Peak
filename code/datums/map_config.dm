@@ -22,9 +22,6 @@
 	var/space_ruin_levels = 7
 	var/space_empty_levels = 1
 
-	/// Anything but null will load matthios dungeon
-	var/matthios_dungeon = FALSE
-
 	/// List of unit tests that are skipped when running this map
 	var/list/skipped_tests
 
@@ -129,13 +126,6 @@
 		space_empty_levels = temp
 	else if (!isnull(temp))
 		log_world("map_config space_empty_levels is not a number!")
-		return
-
-	temp = json["matthios_dungeon"]
-	if(isnum(temp))
-		matthios_dungeon = temp
-	else if(!isnull(temp))
-		log_world("map_config matthios_dungeon is not a number!")
 		return
 
 	allow_custom_shuttles = json["allow_custom_shuttles"] != FALSE

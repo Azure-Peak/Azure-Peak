@@ -1,37 +1,71 @@
 /mob/proc/sate_addiction()
 	return
 
-/mob/living/carbon/human/sate_addiction()
-	if(istype(charflaw, /datum/charflaw/addiction))
-		var/datum/charflaw/addiction/A = charflaw
-		if(!A.sated)
-			to_chat(src, span_blue(A.sated_text))
-			
-			for(var/mob/living/L in get_hearers_in_view(2, src, RECURSIVE_CONTENTS_CLIENT_MOBS))
-				if(src != L && !istype(charflaw, /datum/charflaw/addiction/voyeur))	//Let's not have circular voyeur self-pleasing chains.
-					if(L.has_flaw(/datum/charflaw/addiction/voyeur))
-						L.sate_addiction()
-		A.sated = TRUE
-		A.time = initial(A.time) //reset roundstart sate offset to standard
-		A.next_sate = world.time + A.time
-		remove_stress(/datum/stressevent/vice)
-		if(A.debuff)
-			remove_status_effect(A.debuff)
+/mob/living/carbon/human/sate_addiction(datum/charflaw/addiction/adc_vice)
+	if(!adc_vice)
+		return
+
+	var/datum/charflaw/addiction/mob_vice = null
+	for(var/datum/charflaw/vice in charflaws)
+		if(adc_vice.type == vice.type)
+			mob_vice = vice
+			break
+
+	if(!mob_vice)
+		return
+	if(mob_vice.sated)
+		if(mob_vice.partial_sating)
+			if(mob_vice.partial_sate < world.time)
+				mob_vice.partial_sate = world.time + (5 MINUTES)
+				to_chat(src, span_blue("<i>This will do... for now...</i>"))
+				mob_vice.next_sate = world.time + max((initial(mob_vice.time) / 2), 1)
+				remove_stress(/datum/stressevent/vice)	// These are just in case we ended up here w/ unsated vice debuffs
+				if(mob_vice.debuff)
+					remove_status_effect(mob_vice.debuff)
+				sate_voyeurs(mob_vice)
+		return
+
+	to_chat(src, span_blue(mob_vice.sated_text))
+
+	sate_voyeurs(mob_vice)
+
+	mob_vice.sated = TRUE
+	mob_vice.time = initial(mob_vice.time) //reset roundstart sate offset to standard
+	mob_vice.partial_sate = world.time + (5 MINUTES)
+	mob_vice.next_sate = world.time + max(mob_vice.time, 1)
+	remove_stress(/datum/stressevent/vice)
+	if(mob_vice.debuff)
+		remove_status_effect(mob_vice.debuff)
+
+/mob/living/carbon/human/proc/sate_voyeurs(datum/charflaw/addiction/mob_vice)
+	for(var/mob/living/carbon/human/L in get_hearers_in_view(2, src, RECURSIVE_CONTENTS_CLIENT_MOBS))
+		if(src != L && !istype(mob_vice, /datum/charflaw/addiction/voyeur))	//Let's not have circular voyeur self-pleasing chains.
+			if(L.has_flaw(/datum/charflaw/addiction/voyeur))
+				for(var/datum/charflaw/cf in L.charflaws)
+					if(istype(cf, /datum/charflaw/addiction/voyeur))
+						L.sate_addiction(cf)
+						break
 
 /datum/charflaw/addiction
+	/// The world.time for our next sate proc.
 	var/next_sate = 0
+	/// The world.time snapshot for when we'll see a partial sate message again.
+	var/partial_sate = 0
+	/// Whether the vice is sated.
 	var/sated = TRUE
+	/// The delay between sate procs, partial sates can override this.
 	var/time = 5 MINUTES
 //	var/debuff = /datum/status_effect/debuff/addiction
 	var/debuff //so heroin junkies can have big problems
 	var/needsate_text
 	var/sated_text = "That's much better..."
 	var/unsate_time
+	var/partial_sating = TRUE
 
 
-/datum/charflaw/addiction/New()
-	..()
-	time = rand(6 MINUTES, 30 MINUTES)
+/datum/charflaw/addiction/on_mob_creation(mob/user)
+	. = ..()
+	time = rand(time - 5 MINUTES, time + 5 MINUTES)
 	next_sate = world.time + time
 
 /datum/charflaw/addiction/flaw_on_life(mob/user)
@@ -44,9 +78,8 @@
 	var/mob/living/carbon/human/H = user
 	var/oldsated = sated
 	if(oldsated)
-		if(next_sate)
-			if(world.time > next_sate)
-				sated = FALSE
+		if(next_sate && world.time >= next_sate)
+			sated = FALSE
 	if(sated != oldsated)
 		unsate_time = world.time
 		if(needsate_text)
@@ -78,15 +111,17 @@
 	desc = "Drinking alcohol is my favorite thing."
 	time = 40 MINUTES
 	needsate_text = "Time for a drink."
+	voyeur_descriptor = "quite the drinker"
 
 
 /// KLEPTOMANIAC
 
 /datum/charflaw/addiction/kleptomaniac
-	name = "Thief-borne"
+	name = "Thief-born"
 	desc = "As a child I had to rely on theft to survive. Whether that changed or not, I just can't get over it."
 	time = 30 MINUTES
 	needsate_text = "I need to STEAL something! I'll die if I don't!"
+	voyeur_descriptor = "quick-fingered"
 
 
 /// JUNKIE
@@ -96,6 +131,7 @@
 	desc = "I need a REAL high to take the pain of this rotten world away."
 	time = 40 MINUTES
 	needsate_text = "Time to get really high."
+	voyeur_descriptor = "eager for a high"
 
 /// Smoker
 
@@ -104,6 +140,16 @@
 	desc = "I need to smoke something to take the edge off."
 	time = 40 MINUTES
 	needsate_text = "Time for a flavorful smoke."
+	voyeur_descriptor = "eager for a smoke"
+
+/// CAFFIEND
+
+/datum/charflaw/addiction/caffiend
+	name = "Caffiend"
+	desc = "I can't start my day without a cup of tea or coffee."
+	time = 40 MINUTES
+	needsate_text = "I need a hot brew."
+	voyeur_descriptor = "in need of a brew"
 
 /// GOD-FEARING
 
@@ -112,6 +158,7 @@
 	desc = "I need to pray to my Patron in their realm, it will make me and my prayers stronger."
 	time = 40 MINUTES
 	needsate_text = "Time to pray to my Patron."
+	voyeur_descriptor = "quite devout"
 
 /// SADIST
 
@@ -120,6 +167,7 @@
 	desc = "There is no greater pleasure than the suffering of another."
 	time = 40 MINUTES
 	needsate_text = "I need to hear someone whimper."
+	voyeur_descriptor = "looking to hurt"
 
 /// MASOCHIST
 
@@ -128,6 +176,8 @@
 	desc = "I love the feeling of pain, so much I can't get enough of it."
 	time = 40 MINUTES
 	needsate_text = "I need someone to HURT me."
+	voyeur_descriptor = "looking to be hurt"
+	partial_sating = FALSE
 
 /datum/charflaw/addiction/masochist/on_mob_creation(mob/living/living)
 	living.pain_threshold += 10
@@ -139,24 +189,30 @@
 	desc = "I must make love!"
 	time = 90 MINUTES
 	needsate_text = "I'm feeling randy."
+	voyeur_descriptor = "looking lovesick"
 
 /datum/charflaw/addiction/thrillseeker
 	name = "Thrillseeker"
 	desc = "Only fighting brings me pleasure."
 	time = 40 MINUTES
 	needsate_text = "I need a FIGHT!"
+	voyeur_descriptor = "eager for a fight"
 
 /datum/charflaw/addiction/clamorous
 	name = "Clamorous"
 	desc = "The noise of people and fights drowns out my misery."
 	time = 20 MINUTES
 	needsate_text = "It's too quiet. Where's the yelling? The fighting?"
+	voyeur_descriptor = "soothed by noise"
+	partial_sating = FALSE
 
 /datum/charflaw/addiction/paranoid
 	name = "Paranoid"
 	desc = "I only feel comfortable around one of my own kind."
 	time = 20 MINUTES
 	needsate_text = "Am I the only one of my kind left?"
+	voyeur_descriptor = "comforted by their own"
+	partial_sating = FALSE
 	var/chosen_faction
 
 /datum/charflaw/addiction/paranoid/apply_post_equipment(mob/user)
@@ -184,3 +240,5 @@
 	desc = "Seeing others be happy... it makes me happy, too."
 	time = 30 MINUTES
 	needsate_text = "I must please someone."
+	voyeur_descriptor = "pleased by others"
+	partial_sating = FALSE

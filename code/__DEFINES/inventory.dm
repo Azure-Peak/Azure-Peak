@@ -178,6 +178,7 @@
 #define BLOCKPANTS		(1<<5)
 #define BLOCKCLOAK		(1<<6)
 #define BULKYBLOCKS		(1<<7)
+#define SAMEWEAR		(1<<8)
 
 //bitflags for clothing coverage - also used for limbs
 #define HEAD		(1<<0)
