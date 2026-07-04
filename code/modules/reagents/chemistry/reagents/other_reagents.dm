@@ -16,7 +16,7 @@
 	taste_description = "rancid iron"
 	taste_mult = 1.5
 	glass_name = "glass of dirty tomato juice"
-
+/*
 /datum/reagent/blood/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if(iscarbon(L))
 		var/mob/living/carbon/C = L
@@ -40,7 +40,7 @@
 		if(data["blood_DNA"] != mix_data["blood_DNA"])
 			data["cloneable"] = 0 //On mix, consider the genetic sampling unviable for pod cloning if the DNA sample doesn't match.
 	return 1
-
+*/
 /datum/reagent/blood/reaction_turf(turf/T, reac_volume)//splash the blood all over the place
 	if(!istype(T))
 		return
@@ -57,20 +57,21 @@
 	if(method == INGEST) // Make sure you DRANK the blood before giving damage
 		..()
 
-/datum/reagent/blood/on_mob_life(mob/living/carbon/H)//I hate you
+/datum/reagent/blood/on_mob_life(mob/living/carbon/H)
 	..()
 	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER))
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
-			Hu.adjust_hydration(12) // hydrates and restores blood, not as good as water due to needing to process it, however
+			Hu.adjust_hydration(12)
 			if(HAS_TRAIT(Hu, TRAIT_BLACKBLOOD))
 				for(var/datum/wound/wound as anything in Hu.get_wounds())
 					if(!istype(wound, /datum/wound/slash/incision))
-						wound.heal_wound(1) // moved the bulk of the passive's wound heal over here, you monster
+						wound.heal_wound(1)
 		if(H.blood_volume < BLOOD_VOLUME_NORMAL)
 			H.blood_volume = min(H.blood_volume + 7, BLOOD_VOLUME_NORMAL)
 		return
-	H.add_nausea(12) //Over 8 units will cause puking
+	H.add_nausea(12)
+	H.adjustToxLoss(2)
 
 /datum/reagent/blood/shitty/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if (method == INGEST)
@@ -83,6 +84,7 @@
 			Hu.adjust_hydration(12) // hydrates, but does not restore blood nor has any other special effect
 		return
 	H.add_nausea(18) //Do not drink dirty blood!
+	H.adjustToxLoss(4)
 
 /datum/reagent/blood/green
 	color = "#05af01"

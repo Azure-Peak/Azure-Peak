@@ -162,8 +162,8 @@
 		return
 	if(stat == DEAD)
 		return
-	src.Immobilize(1 SECONDS)
-	if(do_after(src, 1 SECONDS, src))
+	src.Immobilize(1.25 SECONDS)
+	if(do_after(src, 1.25 SECONDS, src))
 		gas_released = TRUE
 		release_poison_gas()
 	else
