@@ -15,6 +15,7 @@
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/piebottom
 	cook_method = COOK_BAKE
 	required_station = null
+	inline_ancestry = TRUE
 
 /datum/food_recipe/pie/bottom
 	name = "pie bottom"

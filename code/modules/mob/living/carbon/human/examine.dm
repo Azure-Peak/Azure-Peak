@@ -551,12 +551,12 @@
 					msg += "[m1] a shitfaced, slobbering wreck."
 
 			//Deadened
-			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_DETACHED))
+			if(user.has_empath_for(src) && HAS_TRAIT(src, TRAIT_DETACHED))
 				msg += "[m1] completely hollow inside, radiating a deep, tragic silence."
 
 			//Stress
 			var/stress = get_stress_amount()
-			if(HAS_TRAIT(user, TRAIT_EMPATH))
+			if(user.has_empath_for(src))
 				switch(stress)
 					if(20 to INFINITY)
 						msg += "[m1] extremely stressed."

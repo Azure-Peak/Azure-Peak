@@ -97,16 +97,16 @@
 	/// Cleave pattern for hitting secondary targets on normal attacks. Null = no cleave.
 	var/datum/cleave_pattern/cleave
 
-	var/list/static/bonk_animation_types = list(
+	var/static/list/bonk_animation_types = list(
 		BCLASS_BLUNT,
 		BCLASS_SMASH,
 		BCLASS_DRILL,
 	)
-	var/list/static/swipe_animation_types = list(
+	var/static/list/swipe_animation_types = list(
 		BCLASS_CUT,
 		BCLASS_CHOP,
 	)
-	var/list/static/thrust_animation_types = list(
+	var/static/list/thrust_animation_types = list(
 		BCLASS_STAB,
 		BCLASS_PICK,
 	)

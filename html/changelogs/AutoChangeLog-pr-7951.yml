@@ -1,0 +1,4 @@
+author: "Guidesu"
+delete-after: True
+changes:
+  - bugfix: "The boat loop sound respect your sound preferences."

@@ -159,51 +159,50 @@
 		hairstyle = "Bald"
 		facial_hairstyle = "Shaved"
 		lip_style = null
+		return ..() // skip everything else
+	var/mob/living/carbon/human/H = C
+	if(!H.dna || !H.dna.species)
+		return ..()
+	var/datum/species/S = H.dna.species
 
-	else if(!animal_origin)
-		var/mob/living/carbon/human/H = C
-		if(!H.dna || !H.dna.species)
-			return ..()
-		var/datum/species/S = H.dna.species
-
-		//Facial hair
-		if(H.facial_hairstyle && (FACEHAIR in S.species_traits))
-			facial_hairstyle = H.facial_hairstyle
-			if(S.hair_color)
-				if(S.hair_color == "mutcolor")
-					facial_hair_color = H.dna.features["mcolor"]
-				else
-					facial_hair_color = S.hair_color
+	//Facial hair
+	if(H.facial_hairstyle && (FACEHAIR in S.species_traits))
+		facial_hairstyle = H.facial_hairstyle
+		if(S.hair_color)
+			if(S.hair_color == "mutcolor")
+				facial_hair_color = H.dna.features["mcolor"]
 			else
-				facial_hair_color = H.facial_hair_color
-			hair_alpha = S.hair_alpha
+				facial_hair_color = S.hair_color
 		else
-			facial_hairstyle = "Shaved"
-			facial_hair_color = "000"
-			hair_alpha = 255
-		//Hair
-		if(H.hairstyle && (HAIR in S.species_traits))
-			hairstyle = H.hairstyle
-			if(S.hair_color)
-				if(S.hair_color == "mutcolor")
-					hair_color = H.dna.features["mcolor"]
-				else
-					hair_color = S.hair_color
+			facial_hair_color = H.facial_hair_color
+		hair_alpha = S.hair_alpha
+	else
+		facial_hairstyle = "Shaved"
+		facial_hair_color = "000"
+		hair_alpha = 255
+	//Hair
+	if(H.hairstyle && (HAIR in S.species_traits))
+		hairstyle = H.hairstyle
+		if(S.hair_color)
+			if(S.hair_color == "mutcolor")
+				hair_color = H.dna.features["mcolor"]
 			else
-				hair_color = H.hair_color
-			hair_alpha = S.hair_alpha
+				hair_color = S.hair_color
 		else
-			hairstyle = "Bald"
-			hair_color = "000"
-			hair_alpha = initial(hair_alpha)
-		// lipstick
-		if(H.lip_style && (LIPS in S.species_traits))
-			lip_style = H.lip_style
-			lip_color = H.lip_color
-		else
-			lip_style = null
-			lip_color = "white"
-	..()
+			hair_color = H.hair_color
+		hair_alpha = S.hair_alpha
+	else
+		hairstyle = "Bald"
+		hair_color = "000"
+		hair_alpha = initial(hair_alpha)
+	// lipstick
+	if(H.lip_style && (LIPS in S.species_traits))
+		lip_style = H.lip_style
+		lip_color = H.lip_color
+	else
+		lip_style = null
+		lip_color = "white"
+	return ..()
 
 /obj/item/bodypart/head/update_icon_dropped()
 	var/list/standing = get_limb_icon(1)
@@ -248,13 +247,3 @@
 /obj/item/bodypart/head/MiddleClick(mob/living/user, params)
 	to_chat(user, span_notice("You contemplate carving what little scraps of meat you can from \the [src], but then think better of it. Probably worth something to someone, somewhere..."))
 	return
-
-/obj/item/bodypart/head/monkey
-	icon = 'icons/mob/animal_parts.dmi'
-	icon_state = "default_monkey_head"
-	animal_origin = MONKEY_BODYPART
-
-/obj/item/bodypart/head/devil
-	dismemberable = 0
-	max_damage = 5000
-	animal_origin = DEVIL_BODYPART

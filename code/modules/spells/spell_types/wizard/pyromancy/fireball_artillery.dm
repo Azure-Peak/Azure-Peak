@@ -2,7 +2,7 @@
 	name = "Artillery Fireball"
 	desc = "An artillery fireball that destroys structures with ease and creates a large impact of smoke and flame. \
 	Damage is increased by 140% versus simple-minded creechurs.\n\
-	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
+	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
 	button_icon_state = "fireball_artillery"
 
 	projectile_type = /obj/projectile/magic/aoe/fireball/rogue/artillery

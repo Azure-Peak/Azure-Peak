@@ -72,6 +72,17 @@
 
 	return list(new_members, former_members)
 
+/// Returns a list of spatial grid managed objects of type [type] in our tracked cells
+/datum/cell_tracker/proc/get_type_members(type)
+	. = list()
+	switch(type)
+		if(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS)
+			for(var/datum/spatial_grid_cell/cell as anything in member_cells)
+				. += cell.client_contents
+		if(SPATIAL_GRID_CONTENTS_TYPE_HEARING)
+			for(var/datum/spatial_grid_cell/cell as anything in member_cells)
+				. += cell.hearing_contents
+
 /// Recalculates our member list, returns a list in the form list(new members, old members) for reaction
 /// Accepts the turf to use as our "center"
 /datum/cell_tracker/proc/recalculate_cells(turf/center)

@@ -79,8 +79,6 @@
 	var/datum/looping_sound/torchloop/soundloop
 	max_integrity = 200
 	fuel = 10 MINUTES
-	light_depth = 0
-	light_height = 0
 
 /obj/item/flashlight/flare/light5e/getonmobprop(tag)
 	. = ..()

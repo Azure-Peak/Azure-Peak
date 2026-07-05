@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_fulgurmancy.dmi'
 	name = "Arc Bolt"
 	desc = "Fire a quick jolt of lightning at a target. Deals less damage than most other minor offensive spells, but strikes instantly. \
-	Toggle arc mode (Ctrl+G) to lob over obstacles at reduced damage. \
+	Toggle arc mode (Shift+G) to lob over obstacles at reduced damage. \
 	Damage is increased by 100% versus simple-minded creechurs."
 	button_icon_state = "shock"
 	sound = 'sound/magic/lightning.ogg'

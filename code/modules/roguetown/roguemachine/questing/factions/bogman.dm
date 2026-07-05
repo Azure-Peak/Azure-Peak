@@ -11,6 +11,7 @@
 		/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 25,
 		/mob/living/carbon/human/species/human/northern/bog_deserters/archer/ambush = 30,
 		/mob/living/carbon/human/species/human/northern/bog_deserters/crossbowman/ambush = 10,
+		/mob/living/carbon/human/species/human/northern/bog_deserters/marshal/ambush = 8,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 15,
 	)
 	boss_mob_types = list(

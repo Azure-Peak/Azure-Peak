@@ -1705,7 +1705,7 @@
 	vis_contents |= wave
 	wave.color = spell_color
 
-/// Override on spells that have an alt mode (e.g. cycling ward types). Called by the Alt Mode keybind (Ctrl+G).
+/// Override on spells that have an alt mode (e.g. cycling ward types). Called by the Alt Mode keybind (Shift+G).
 /// Return TRUE if handled.
 /datum/action/cooldown/spell/proc/toggle_alt_mode(mob/user)
 	return FALSE

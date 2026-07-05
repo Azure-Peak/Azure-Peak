@@ -14,6 +14,11 @@
 	path = /obj/item/clothing/under/roguetown/trou/leathertights
 	sort_category = "Pants"
 
+/datum/loadout_item/trousershorts
+	name = "Trouser Shorts"
+	path = /obj/item/clothing/under/roguetown/tights/shorts
+	sort_category = "Pants"
+
 /datum/loadout_item/trou
 	name = "Work Trousers"
 	path = /obj/item/clothing/under/roguetown/trou

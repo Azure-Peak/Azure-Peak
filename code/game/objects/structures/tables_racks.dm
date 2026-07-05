@@ -60,9 +60,6 @@
 	qdel(src)
 	new /obj/structure/table/wood(A)
 
-/obj/structure/table/attack_paw(mob/user)
-	return attack_hand(user)
-
 /obj/structure/table/attack_hand(mob/living/user)
 	if(user.m_intent == MOVE_INTENT_SNEAK)
 		var/turf/T = get_turf(src)
@@ -646,9 +643,6 @@
 				W.pixel_x = initial(W.pixel_x) + CLAMP(pixel_x + text2num(click_params["icon-x"]) - 16, pixel_x + -(world.icon_size/2), pixel_x + world.icon_size/2)
 				W.pixel_y = initial(W.pixel_y) + CLAMP(pixel_y + text2num(click_params["icon-y"]) - 16, pixel_y + -(world.icon_size/2), pixel_y + world.icon_size/2)
 				return 1
-
-/obj/structure/rack/attack_paw(mob/living/user)
-	attack_hand(user)
 
 
 

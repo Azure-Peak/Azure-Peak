@@ -15,7 +15,6 @@
 					/datum/action/cooldown/spell/ravox/challenge			= CLERIC_T2,
 					/datum/action/cooldown/spell/ravox/persistence			= CLERIC_T3,
 					/datum/action/cooldown/spell/ravox/battlecry			= CLERIC_T3,
-					/datum/action/cooldown/spell/ravox/spirits 				= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/ravox	= CLERIC_T4,
 	)
 	confess_lines = list(

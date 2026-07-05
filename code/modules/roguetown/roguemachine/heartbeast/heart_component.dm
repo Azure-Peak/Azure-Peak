@@ -72,7 +72,7 @@
 	for(var/turf/T in dense_turfs)
 		if(T)
 			T.density = TRUE
-			T.opacity = FALSE
+			T.set_opacity(FALSE)
 
 	heart_beast.dense_turfs = dense_turfs
 

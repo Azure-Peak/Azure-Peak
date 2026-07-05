@@ -258,3 +258,13 @@
 				return  "It appears heavily damaged."
 			if(1 to 25)
 				return  span_warning("It's falling apart!")
+
+/obj/structure/proc/set_climbable(new_climbable)
+	if(new_climbable == climbable)
+		return
+	var/turf/our_turf = get_turf(src)
+	climbable = new_climbable
+	if(climbable)
+		our_turf.climbable_atom_count++
+	else
+		our_turf.climbable_atom_count--

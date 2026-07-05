@@ -9,4 +9,5 @@
 	mob_types = list(
 		/mob/living/carbon/human/species/human/northern/searaider/ambush = 70,
 		/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 30, // ~30%
+		/mob/living/carbon/human/species/human/northern/searaider/huscarl/ambush = 12,
 	)

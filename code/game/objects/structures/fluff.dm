@@ -435,11 +435,11 @@
 	if(density)
 		icon_state = "shutter1"
 		density = FALSE
-		opacity = FALSE
+		set_opacity(FALSE)
 	else
 		icon_state = "shutter0"
 		density = TRUE
-		opacity = TRUE
+		set_opacity(TRUE)
 
 /obj/structure/bars/passage/shutter/open
 	icon_state = "shutter1"
@@ -501,7 +501,8 @@
 	if(togg)
 
 		icon_state = "floorgrilleopen"
-		obj_flags = CAN_BE_HIT
+		set_is_platform(FALSE)
+		obj_flags &= ~BLOCK_Z_IN_UP
 		var/turf/T = loc
 		if(istype(T))
 			for(var/mob/living/M in loc)
@@ -509,7 +510,8 @@
 	else
 
 		icon_state = "floorgrille"
-		obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
+		set_is_platform(TRUE)
+		obj_flags |= BLOCK_Z_IN_UP
 
 /obj/structure/bars/grille/attackby(obj/item/I, mob/user, params)
 	. = ..()
@@ -1579,8 +1581,8 @@
 	if(density)
 		icon_state = "decoybookcase1"
 		density = FALSE
-		opacity = FALSE
+		set_opacity(FALSE)
 	else
 		icon_state = "decoybookcase0"
 		density = TRUE
-		opacity = TRUE
+		set_opacity(TRUE)

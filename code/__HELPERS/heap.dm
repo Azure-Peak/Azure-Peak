@@ -1,71 +1,62 @@
 
 //////////////////////
-//datum/Heap object
+//datum/path_minheap object
 //////////////////////
 
-/datum/Heap
-	var/list/L
-	var/cmp
+/datum/path_minheap
+	var/list/datum/PathNode/L
 
-/datum/Heap/New(compare)
+/datum/path_minheap/New(compare)
 	L = new()
-	cmp = compare
-
-/datum/Heap/proc/IsEmpty()
-	return !L.len
 
 //Insert and place at its position a new node in the heap
-/datum/Heap/proc/Insert(atom/A)
+/datum/path_minheap/proc/Insert(atom/A)
 
 	L.Add(A)
-	Swim(L.len)
+	Swim(length(L))
 
 //removes and returns the first element of the heap
 //(i.e the max or the min dependant on the comparison function)
-/datum/Heap/proc/Pop()
-	if(!L.len)
+/datum/path_minheap/proc/Pop()
+	if(!length(L))
 		return 0
 	. = L[1]
 
-	L[1] = L[L.len]
-	L.Cut(L.len)
-	if(L.len)
+	L[1] = L[length(L)]
+	L.Cut(length(L))
+	if(length(L))
 		Sink(1)
 
 //Get a node up to its right position in the heap
-/datum/Heap/proc/Swim(index)
+/datum/path_minheap/proc/Swim(index)
 	var/parent = round(index * 0.5)
-
-	while(parent > 0 && (call(cmp)(L[index],L[parent]) > 0))
+	while(parent > 0 && ((L[parent].f - L[index].f) > 0))
 		L.Swap(index,parent)
 		index = parent
 		parent = round(index * 0.5)
 
 //Get a node down to its right position in the heap
-/datum/Heap/proc/Sink(index)
-	var/g_child = GetGreaterChild(index)
+/datum/path_minheap/proc/Sink(index)
+	. = index * 2
+	var/heap_len = length(L)
+	if(. > heap_len)
+		. = 0
+	else if(. + 1 > heap_len) { ;; } // . = index * 2, no-op
+	else if((L[. + 1].f - L[.].f) < 0)
+		. += 1
 
-	while(g_child > 0 && (call(cmp)(L[index],L[g_child]) < 0))
-		L.Swap(index,g_child)
-		index = g_child
-		g_child = GetGreaterChild(index)
-
-//Returns the greater (relative to the comparison proc) of a node children
-//or 0 if there's no child
-/datum/Heap/proc/GetGreaterChild(index)
-	if(index * 2 > L.len)
-		return 0
-
-	if(index * 2 + 1 > L.len)
-		return index * 2
-
-	if(call(cmp)(L[index * 2],L[index * 2 + 1]) < 0)
-		return index * 2 + 1
-	else
-		return index * 2
+	while(. > 0 && (L[.].f - L[index].f) < 0)
+		L.Swap(index,.) // preserves length so no need to recalculate heap_len
+		index = .
+		. = index * 2
+		if(. > heap_len)
+			. = 0
+		else if(. + 1 > heap_len) { ;; } // . = index * 2, no-op
+		else if((L[. + 1].f - L[.].f) < 0)
+			. += 1
 
 //Replaces a given node so it verify the heap condition
-/datum/Heap/proc/ReSort(atom/A)
+/datum/path_minheap/proc/ReSort(atom/A)
 	var/index = L.Find(A)
 	if(!index)
 		return
@@ -73,6 +64,6 @@
 	Swim(index)
 	Sink(index)
 
-/datum/Heap/proc/List()
+/datum/path_minheap/proc/List()
 	. = L.Copy()
 
