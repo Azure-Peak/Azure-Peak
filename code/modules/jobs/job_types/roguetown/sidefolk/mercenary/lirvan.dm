@@ -222,23 +222,23 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	icon_state = "instrike"
 	attack_verb = list("gouges", "bites into")
 	animname = "bite"
-	blade_class = BCLASS_BITE
+	blade_class = BCLASS_BITE //i really hope this shit's going to work well
 	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
-	penfactor = PEN_LIGHT
-	chargetime = 0
-	swingdelay = 0
-	damfactor = 1
-	clickcd = CLICK_CD_QUICK
+	penfactor = PEN_MEDIUM
+	swingdelay = 1 SECONDS
+	swingdelay_type = SWINGDELAY_CANCEL
+	damfactor = 1.5 //bites you bites you bites yo
+	clickcd = CLICK_CD_MASSIVE
 	item_d_type = "stab"
 
 /obj/effect/proc_holder/spell/self/lirvan_talon
 	name = "DRAKKYRMAW"
-	desc = "WEALTH TO POWER; the drakkyr's maw opens. Turn thy gluttony to wrath with"
+	desc = "WEALTH TO POWER; the drakkyr's maw opens. Turn thy gluttony to wrath. Damage scales with wealth."
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
 	recharge_time = 120 SECONDS
 	ignore_armor_penalty = TRUE
-	invocations = list("'s wealth twists into a hungry golden blade!")
+	invocations = list("draws 'pon DRAKKYRMAW.")
 	invocation_type = "emote"
 	var/obj/item/rogueweapon/katar/lirvan_talon/summoned_talon
 
@@ -253,7 +253,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		return FALSE
 	if(summoned_talon && !QDELETED(summoned_talon))
 		qdel(summoned_talon)
-		to_chat(user, span_notice(""))
+		to_chat(user, span_danger("WHY STOP NOW?"))
 		return TRUE
 
 	var/wealth_value = get_moni_value(user)
@@ -269,7 +269,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		else
 			to_chat(user, span_warning("My hands are full!"))
 		return FALSE
-	to_chat(user, span_notice("[wealth_value] TEETH ARRANGED IN MACABRE SMILE."))
+	to_chat(user, span_danger("[wealth_value] TEETH ARRANGED IN MACABRE SMILE."))
 	return TRUE
 
 /obj/effect/proc_holder/spell/self/lirvan_talon/proc/on_talon_destroyed(datum/source)
@@ -302,10 +302,6 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	. = ..()
 	if(user == attuned_owner)
 		qdel(src)
-
-/obj/item/rogueweapon/katar/lirvan_talon/attack_self(mob/user)
-	qdel(src)
-	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/saxtonhale
 	name = "SUNSET"
