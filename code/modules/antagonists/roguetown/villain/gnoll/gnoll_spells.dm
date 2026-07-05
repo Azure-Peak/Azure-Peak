@@ -333,7 +333,6 @@
 	// I like showing icons ok?
 	charge_time = 0.1 SECONDS
 	charge_required = TRUE
-	charge_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	spell_color = "#6d0000"
 
