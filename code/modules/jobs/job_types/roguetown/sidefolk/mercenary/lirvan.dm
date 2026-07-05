@@ -74,7 +74,8 @@
 			ADD_TRAIT(H, TRAIT_BLOOD_RESISTANCE, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
-			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lirvan_talon)
 
 	if(H.mind)
@@ -143,7 +144,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	desc = "Draw strength from the wealth you carry. Armor, jewelry, and raw mammon counted equally. More WEALTH means more POWER. More POWER at 150, 200, 300, 400, and 700 mammon."
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
-	recharge_time = 2 MINUTES
+	recharge_time = 90 SECONDS
 	ignore_armor_penalty = TRUE
 	invocations = list("'s scales harden and glow softly!")
 	invocation_type = "emote"
@@ -270,6 +271,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 			to_chat(user, span_warning("My hands are full!"))
 		return FALSE
 	to_chat(user, span_danger("[wealth_value] TEETH ARRANGED IN MACABRE SMILE."))
+	QDEL_IN(summoned_talon, 60 SECONDS)
 	return TRUE
 
 /obj/effect/proc_holder/spell/self/lirvan_talon/proc/on_talon_destroyed(datum/source)
@@ -283,20 +285,22 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	possible_item_intents = list(/datum/intent/katar/cut, /datum/intent/katar/thrust, /datum/intent/katar/lirvasbite)
 	max_blade_int = 999
 	max_integrity = 999
+	wdefense = 6 //lil boost
 	w_class = WEIGHT_CLASS_HUGE
 	can_parry = TRUE
+	special = /datum/special_intent/drakkyrmaw_bite
 	var/mob/living/attuned_owner
 	var/wealth_value = 0
 
 /obj/item/rogueweapon/katar/lirvan_talon/proc/attune_to_wealth(new_wealth_value)
 	wealth_value = new_wealth_value
 	force = clamp(round(18 + (wealth_value / 25)), 20, 60)
-	throwforce = clamp(round(force / 2), 10, 30)
+	throwforce = clamp(round(force / 2), 10, 30) //if this ever becomes relevant lol
 	name = "[wealth_value]-toothed DRAKKYRMAW"
 
 /obj/item/rogueweapon/katar/lirvan_talon/examine(mob/user)
 	. = ..()
-	. += span_notice(" [wealth_value] mammon. [force] teeth.") //idk if it's gonna show up properly on examine, so, safety til test
+	. += span_notice(" [wealth_value] teeth. [force] force.") //idk if it's gonna show up properly on examine, so, safety til test
 
 /obj/item/rogueweapon/katar/lirvan_talon/dropped(mob/living/user, silent)
 	. = ..()
