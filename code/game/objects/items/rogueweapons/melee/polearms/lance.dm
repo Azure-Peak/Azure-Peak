@@ -1,5 +1,5 @@
 /datum/intent/spear/thrust/lance
-	damfactor = 1.25 // Turns its base damage into 30 on the 2hand thrust. It keeps the spear thrust one handed.
+	damfactor = 1.25 // Turns its base damage into 30 on the two-hand thrust. It keeps the spear thrust one handed.
 
 /datum/intent/lance
 	name = "lance"
@@ -37,5 +37,6 @@
 	max_blade_int = 200 // Better sharpness
 	possible_item_intents = list(SPEAR_THRUST, /datum/intent/lance/onehand, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/spear/thrust/lance, /datum/intent/lance, SPEAR_BASH)
+	special = /datum/special_intent/charge
 	resistance_flags = null
 	smeltresult = /obj/item/ingot/steel

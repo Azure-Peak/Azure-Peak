@@ -127,10 +127,24 @@
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/armorsmithing
 
+/obj/item/storage/belt/rogue/leather/iron
+	name = "iron belt"
+	desc = "A fine leather belt that's been sleeved within many segments of iron, protecting its delicate innards from prying hands-and-blades."
+	icon_state = "ironplaque"
+	sewrepair = FALSE
+	anvilrepair = /datum/skill/craft/armorsmithing
+
 /obj/item/storage/belt/rogue/leather/steel/tasset
 	name = "tasseted belt"
 	desc = "A fine leather belt that's been sleeved within many segments of steel, and further reinforced with the tassets of a fluted cuirass."
 	icon_state = "steeltasset"
+	sewrepair = FALSE
+	anvilrepair = /datum/skill/craft/armorsmithing
+
+/obj/item/storage/belt/rogue/leather/iron/tasset
+	name = "tasseted iron belt"
+	desc = "A fine leather belt that's been sleeved within many segments of iron, and further reinforced with the tassets of a fluted cuirass."
+	icon_state = "irontasset"
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/armorsmithing
 
@@ -142,9 +156,9 @@
 	color = "#b9a286"
 	component_type = /datum/component/storage/concrete/roguetown/belt/cloth
 
-/obj/item/storage/belt/rogue/leather/rope/cleric //Given to clerics/acolytes/bishop to retain the sovlful look
-	name = "cleric rope belt"
-	desc = "A length of strong rope with some pouches underneath repurposed into a belt. For the healer with an oath of poverty that can't afford to sacrifice space."
+/obj/item/storage/belt/rogue/leather/rope/upgraded
+	name = "pouch-fitted rope belt"
+	desc = "A length of strong rope repurposed into a belt, fitted with a pouch for the same space as a leather belt."
 	component_type = /datum/component/storage/concrete/roguetown/belt
 
 /obj/item/storage/belt/rogue/leather/cloth
@@ -153,7 +167,12 @@
 	icon_state = "cloth"
 	component_type = /datum/component/storage/concrete/roguetown/belt/cloth
 
-/obj/item/storage/belt/rogue/leather/cloth/lady
+/obj/item/storage/belt/rogue/leather/cloth/upgraded
+	name = "pouch-fitted cloth sash"
+	desc = "A strip of cloth tied together at the ends into a makeshift belt, fitted with a pouch for the same space as a leather belt."
+	component_type = /datum/component/storage/concrete/roguetown/belt
+
+/obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 	color = "#575160"
 
 /obj/item/storage/belt/rogue/leather/cloth/bandit
@@ -239,6 +258,11 @@
 	icon_state = "satchelshort"
 	item_state = "satchelshort"
 	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP //Implement a check in the future that prevents more than one being worn at once.
+
+/obj/item/storage/backpack/rogue/satchel/short/black
+	name = "black short satchel"
+	icon_state = "bsatchelshort"
+	item_state = "bsatchelshort"
 
 /obj/item/storage/backpack/rogue/satchel/beltpack
 	name = "beltpack" //Satchel that fits on the cloak or belt slot. Should be exceptionally rare for on-spawn loadouts, unless a flag's added to make it incompatable with regular satchels.

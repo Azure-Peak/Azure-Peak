@@ -260,7 +260,7 @@
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				belt = /obj/item/storage/belt/rogue/leather/steel //similar to spymaster hand
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-				mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask //hidden face
+				mask = /obj/item/clothing/mask/rogue/lordmask //hidden face
 				r_hand = /obj/item/rogueweapon/scabbard/sword/noble
 				ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 			if("Suitor/Consort (Medium Armor)") //lose a free trait for better armor starting off.

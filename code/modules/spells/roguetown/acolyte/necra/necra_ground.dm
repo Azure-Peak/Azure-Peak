@@ -15,7 +15,7 @@
 	cast_range = 1
 
 	charge_required = TRUE
-	charge_drain = 3
+	hold_drain = 3
 	charge_slowdown = 3
 
 	sparks_amt = 3

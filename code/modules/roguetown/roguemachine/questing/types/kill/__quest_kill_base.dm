@@ -12,6 +12,7 @@
 	/// progress_required to match spawn count. Recovery sets this FALSE — kills are just the gate,
 	/// the parcel delivery is the real progress driver.
 	var/kills_count_progress = TRUE
+	var/failed = FALSE
 	var/hunt_timer_id
 	var/hunt_warn_2m_id
 	var/hunt_warn_30s_id
@@ -59,6 +60,7 @@
 	if(complete)
 		return
 	hunt_timer_id = null
+	failed = TRUE
 	announce_to_bearer("<b>The quarry has slipped away.</b> The writ smolders and crumbles in your grip.")
 	despawn_live_hunt_mobs()
 	var/obj/item/quest_writ/S = quest_scroll

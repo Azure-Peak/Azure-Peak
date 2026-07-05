@@ -1,14 +1,16 @@
 /mob/living/carbon/Initialize()
 	..()
 
-	pain_threshold = STAWIL * 10
-
-	if(HAS_TRAIT(src, TRAIT_NOPAIN))
-		pain_threshold = 250
+	recalculate_pain_threshold()
 
 	create_reagents(1000)
 	update_body_parts() //to update the carbon's new bodyparts appearance
 	GLOB.carbon_list += src
+
+/mob/living/carbon/proc/recalculate_pain_threshold()
+	pain_threshold = STAWIL * 10
+	if(HAS_TRAIT(src, TRAIT_NOPAIN))
+		pain_threshold = 250
 
 /mob/living/carbon/Destroy()
 	//This must be done first, so the mob ghosts correctly before DNA etc is nulled

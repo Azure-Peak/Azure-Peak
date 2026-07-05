@@ -145,8 +145,6 @@
 	var/should_self_destruct = TRUE
 	max_integrity = 50
 	fuel = 30 MINUTES
-	light_depth = 0
-	light_height = 0
 	grid_width = 32
 	grid_height = 32
 	experimental_onhip = TRUE
@@ -314,7 +312,6 @@
 	extinguishable = FALSE
 	weather_resistant = TRUE
 	experimental_onhip = FALSE //Looks a little wonky due to how belts overlay with hip items. Reenable if you wish, but be mindful of that fact.
-	dropshrink = 0.8
 
 /obj/item/flashlight/flare/torch/lantern/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()

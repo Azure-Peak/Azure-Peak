@@ -257,5 +257,5 @@
 	scent = "fried mushroom"
 
 /datum/pollutant/food/humanoid
-	name = "sweet delicious"
-	scent = "sweet delicious"
+	name = "sweet delicious bacon"
+	scent = "sweet delicious bacon"

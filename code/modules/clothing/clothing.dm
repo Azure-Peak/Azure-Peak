@@ -497,7 +497,7 @@ BLIND     // can't see anything
 	if(..())
 		return 1
 
-	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
+	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE))
 		return
 	else
 		if(attached_accessory)

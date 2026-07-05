@@ -21,7 +21,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
-	charge_drain = 1
+	hold_drain = 1
 	// Very high slowdown to make it offensively less useful
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY 
 	charge_sound = 'sound/magic/charging.ogg'

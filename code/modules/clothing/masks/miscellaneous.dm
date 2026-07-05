@@ -8,14 +8,6 @@
 	gas_transfer_coefficient = 0.9
 	equip_delay_other = 20
 
-/obj/item/clothing/mask/muzzle/attack_paw(mob/user)
-	if(iscarbon(user))
-		var/mob/living/carbon/C = user
-		if(src == C.wear_mask)
-			to_chat(user, "<span class='warning'>I need help taking this off!</span>")
-			return
-	..()
-
 /obj/item/clothing/mask/pig
 	name = "pig mask"
 	desc = ""

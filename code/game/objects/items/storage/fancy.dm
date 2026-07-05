@@ -128,7 +128,7 @@
 	. += "<span class='notice'>Alt-click to extract contents.</span>"
 
 /obj/item/storage/fancy/cigarettes/AltClick(mob/living/carbon/user)
-	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
+	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE))
 		return
 	var/obj/item/clothing/mask/cigarette/W = locate(/obj/item/clothing/mask/cigarette) in contents
 	if(W && contents.len > 0)

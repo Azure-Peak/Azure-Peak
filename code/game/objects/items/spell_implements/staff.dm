@@ -8,8 +8,11 @@
 	implement_refund = IMPLEMENT_REFUND_LESSER
 	resistance_flags = FIRE_PROOF
 	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
-	max_integrity = 150
+	gripped_intents = list(/datum/intent/spear/bash/staff, /datum/intent/mace/smash/wood/ranged)
+	force = 10
+	force_wielded = 20
+	max_integrity = 200
+	special = /datum/special_intent/quarterstaff_sweep
 	sellprice = 34
 
 /obj/item/rogueweapon/woodstaff/implement/amethyst
@@ -22,7 +25,8 @@
 	icon_state = "emeraldstaff"
 	implement_tier = IMPLEMENT_TIER_GREATER
 	implement_refund = IMPLEMENT_REFUND_GREATER
-	max_integrity = 200
+	force_wielded = 22
+	max_integrity = 250
 	sellprice = 42
 
 /obj/item/rogueweapon/woodstaff/implement/greater/ruby
@@ -41,7 +45,8 @@
 	icon_state = "diamondstaff"
 	implement_tier = IMPLEMENT_TIER_GRAND
 	implement_refund = IMPLEMENT_REFUND_GRAND
-	max_integrity = 250
+	force_wielded = 25
+	max_integrity = 280
 	sellprice = 121
 
 /obj/item/rogueweapon/woodstaff/implement/grand/riddle
@@ -65,7 +70,7 @@
 	name = "\improper Staff of the Court Magos"
 	icon_state = "courtstaff"
 	possible_item_intents = list(SPEAR_BASH, /datum/intent/magos_electrocute)
-	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood, /datum/intent/magos_electrocute)
+	gripped_intents = list(/datum/intent/spear/bash/staff, /datum/intent/mace/smash/wood/ranged, /datum/intent/magos_electrocute)
 	COOLDOWN_DECLARE(magosstaff)
 
 /obj/item/rogueweapon/woodstaff/implement/grand/magos/afterattack(atom/target, mob/user, flag)
@@ -102,29 +107,20 @@
 /obj/item/rogueweapon/woodstaff/implement/greater/blacksteel
 	base_implement_name = "blacksteel staff"
 	name = "blacksteel staff"
-	desc = "A fine wood staff that is reinforced with blacksteel rivets and furnishings often used by War-Magos that have graduated from the Celestial Academy of Magos. Perched atop it is a less efficient though equally beautiful alchemical Dorpel. Perhaps it could be enhanced with a better Dorpel?"
+	desc = "A fine wood staff reinforced with blacksteel rivets and furnishings, carried by War-Magos who graduated from the Celestial Academy of Magos. Placed atop it is a less efficient though equally beautiful alchemical Dorpel. Perhaps its power can be enhanced by a gemerald?"
 	icon_state = "blacksteelstaff"
-	max_integrity = 250
 
 /obj/item/rogueweapon/woodstaff/implement/grand/blacksteel
 	base_implement_name = "refined blacksteel staff"
 	name = "refined blacksteel staff"
-	desc = "A fine wood staff that is reinforced with blacksteel rivets and furnishings often used by War-Magos that have graduated from the Celestial Academy of Magos. Perched atop it is a beautiful Dorpel that shimmers with magical energies."
+	desc = "A fine wood staff reinforced with blacksteel rivets and furnishings, carried by War-Magos who graduated from the Celestial Academy of Magos. Perched atop it is a beautiful Dorpel that shimmers with magical energies."
 	icon_state = "blacksteelstaff"
-	max_integrity = 300
 
 /obj/item/rogueweapon/woodstaff/implement/grand/naledi
 	base_implement_name = "naledian warstaff"
 	name = "naledian warstaff"
 	desc = "A staff carrying the crescent moon of Psydon's knowledge, as well as the black and gold insignia of the war scholars."
 	icon_state = "naledistaff"
-	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged)
-	force = 18
-	force_wielded = 22
-	max_integrity = 300
-	resistance_flags = FIRE_PROOF
-	sellprice = 40
 
 /obj/item/rogueweapon/woodstaff/implement/grand/naledi/getonmobprop(tag)
 	. = ..()

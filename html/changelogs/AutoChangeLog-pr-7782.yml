@@ -1,8 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "Added an agony scream for lich, on top since it lacked one proper."
-  - rscadd: "Added FOUR new voicepacks to be selectable."
-  - bugfix: "Removed the ability for skeletons to take voicepacks, this was never intended to happen."
-  - bugfix: "Gnolls have their own voicepacks and no longer use prefloaded ones."
-  - code_imp: "Added TRAIT_NO_VOICEPACK_OVERRIDE, used for Gnolls/Skeletons. This Prevents your prefloaded voicepack taking over."

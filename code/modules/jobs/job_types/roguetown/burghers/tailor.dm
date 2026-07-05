@@ -51,7 +51,7 @@
 	H.adjust_blindness(-3)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/tights
-	belt = /obj/item/storage/belt/rogue/leather/cloth
+	belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltl = /obj/item/rogueweapon/huntingknife/scissors/steel
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots

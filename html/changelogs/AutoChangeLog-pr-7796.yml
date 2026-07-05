@@ -1,5 +1,0 @@
-author: "ToasterStrudes"
-delete-after: True
-changes:
-  - bugfix: "fixed the \"Form-fitted Gambeson\" donator sprites west face"
-  - refactor: "Changes the \"Grenzelhoftian Vest\" donator item from a shirt to a jupon"

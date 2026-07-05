@@ -1,4 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - balance: "Campfires, rejuvination song healing, and eoran bed no longer stabilizes dying people by itself, they require active treatment now."

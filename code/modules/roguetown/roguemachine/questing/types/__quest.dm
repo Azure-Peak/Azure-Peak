@@ -239,6 +239,9 @@
 			return QUEST_DEPOSIT_HARD
 	return 0
 
+/datum/quest/proc/get_scroll_type()
+	return /obj/item/quest_writ
+
 /// Get icon for scroll based on difficulty
 /datum/quest/proc/get_scroll_icon()
 	switch(quest_difficulty)

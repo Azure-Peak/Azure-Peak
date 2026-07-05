@@ -63,6 +63,8 @@
 		return
 	if(implement_refund)
 		return
+	if(ispath(associated_skill, /datum/skill/combat/staves) || ispath(associated_skill, /datum/skill/combat/arcyne))
+		return
 	if(isliving(user))
 		var/mob/living/L = user
 		L.apply_status_effect(/datum/status_effect/recent_weapon)

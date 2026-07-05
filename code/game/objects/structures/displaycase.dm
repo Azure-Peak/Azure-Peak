@@ -118,9 +118,6 @@
 	open = !open
 	update_icon()
 
-/obj/structure/displaycase/attack_paw(mob/user)
-	return attack_hand(user)
-
 /obj/structure/displaycase/attack_hand(mob/user)
 	. = ..()
 	if(.)

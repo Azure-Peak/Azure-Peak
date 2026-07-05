@@ -53,7 +53,7 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/armordress/alt
 		else
 			armor = /obj/item/clothing/suit/roguetown/armor/armordress
-	belt = /obj/item/storage/belt/rogue/leather/cloth/lady
+	belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/silver
 	id = /obj/item/clothing/ring/silver

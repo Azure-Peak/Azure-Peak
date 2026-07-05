@@ -162,7 +162,7 @@
 	visible_message(span_artery("Their Lux has been completely and utterly annihilated..."))
 
 /datum/action/cooldown/spell/zizo/rituos/proc/grant_poke_spell(mob/living/carbon/human/user)
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 	var/poke_choice = tgui_input_list(user, "Choose your offensive cantrip.", "Arcyne Awakening", poke_options)
 	if(!poke_choice || !user.mind)
 		return
@@ -175,8 +175,6 @@
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
 		if("Greater Arcyne Bolt")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
-		if("Stygian Efflorescence")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
 		if("Arcyne Lance")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 		if("Lesser Gravel Blast")

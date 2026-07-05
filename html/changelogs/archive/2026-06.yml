@@ -1204,3 +1204,199 @@
   - bugfix: Fixed an exploit with Rituos, again
   nauticall:
   - rscadd: Added a donor item, Shenara's hat.
+2026-06-28:
+  Happyowl93:
+  - bugfix: cucumbers drop seeds now.
+  - qol: Handcarts can now transport kegs (3 in the unupgraded version)
+  - bugfix: Chimeric heart rack should stay linked and work as advertised now.
+  - bugfix: Dipping blade into poison bottle no longer attacks it too.
+  KatTheFox:
+  - bugfix: Cancelling familiar-binding attempts no longer refunds materials you did
+      not spend
+  - bugfix: Gemcarved circlets are no longer invisible
+  - bugfix: Transfix now gives actually-informative messages when it is cast on you,
+      so you have any chance of knowing what is happening.
+  - balance: Transfix cooldown increased, and arcyne skill is more effective at resisting
+      it. You also can't transfix people if you or they are in combat mode.
+  Ketrai:
+  - balance: Campfires, rejuvination song healing, and eoran bed no longer stabilizes
+      dying people by itself, they require active treatment now.
+  Lamasmaster:
+  - balance: Astrata/Undivided miracles
+  Ryan180602:
+  - rscadd: movement speed delay for armour classes.
+  ToasterStrudes:
+  - bugfix: fixed the "Form-fitted Gambeson" donator sprites west face
+  - refactor: Changes the "Grenzelhoftian Vest" donator item from a shirt to a jupon
+  WeNeedMorePhoron:
+  - balance: Lightning Bolt / Shock effects has been reworked to no longer impose
+      clickCD for 6 seconds but instead also deduct your Int and Perception by -2
+      and applies Reverse Guidance (-20% parry / dodge chance) so it remains a powerful,
+      but not completely agency robbing CC effects. In addition, all call sites like
+      blood lightning, voltaic gloves, rune wards and enchantment is unified to use
+      this proc and includes the adaptation effect to prevent chaining the CC.
+  - rscadd: All spellfists now have ward access (again), helping cover up shortage
+      on places where they start with lackluster armor
+  - rscadd: Heretic Spellfist / Sojourner / Pontifex now have access to 1 locked minor
+      aspect - Autowardry. No lesser augmentation / blink / self buff BS. This means
+      their ward is significantly better than Adventurer. I cannot afford to give
+      them more than 9 statweight (This will set a very bad precedent), or minmax
+      by deducting speed and then increasing str / con (bad precedent) or Master (that'd
+      be crazy), so I figured I would adjust the lever of their defensive stats
+  - balance: Adventurer Spellfist have significantly better starting armor, somewhat
+      mirroring that of Spellblade
+  - balance: Adventurer Spellfist now have Expert skills.
+  - balance: Adventurer Spellfist and H SFist now have access to shadowstep. I CBA
+      gatekeeping them when the remaining 3 traits are Psydon coded in the first place.
+  - balance: 'After receiving feedback that the speed / perception oriented statblock
+      didn''t work, I swapped it out for a STR / CON oriented statblock. Adv. Spellfist:
+      2 Str, 1 Wil, 2 Con. Pontifex / HFist / Soj: 2 Str, 2 Wil, 3 Con'
+  - rscadd: Ported lighting subsystem fire() optimization by Noelle
+  - rscadd: Restored Ranged AI logic, hopefully to one that is less prone to breaking
+  - rscadd: Changed normal bow / sling logic to no longer use a do after which is
+      prone to breaking. Instead, they shoot and then set a delay before the next
+      shot
+  - rscadd: Added support for crossbow using AI, which has a delayed reload and do
+      after
+  - rscadd: Split up melee and ranged outfits into different subtypes, and special
+      subtypes (Bottlebomber, to be specific)
+  - rscadd: Added ranged AI to contracts / regional faction / ambush spawns, where
+      they naturally thrive
+  - rscadd: Jumping / flying / floating over fire / campfires no longer set you on
+      fire
+  - rscadd: Standing Order Bonus adjusted to 1.0 from 0.75 after reading a conversation
+      about how smith order is not profitable enough. Since I changed to dynamic instead
+      of fixed pricing I suspect smithing order became less relatively profitable
+      so this should improve it again
+  - rscadd: Corpses from Contract should dust within 5 minutes if not butchered. Heads
+      that are cut off will dust nearly instantly (without producing ash). Simple
+      animals from contracts should no longer produce heads. This should help with
+      massive amount of clutters since I made Quest Good Again
+  - rscadd: Spells and Arcyne Strike can now dismember people as I originally intended
+      but somehow forgot, fully fulfilling the anime / swordcery fantasy I intend
+      to enable later when I rework Ferramancy and also making Spellblade overly popular
+      again
+  - rscadd: Underdark and Terrorbog Quest now have a relative 1.2x and 1.3x rewards
+      multiplier to encourage people to clear out these problem spots more, if you
+      are up for the challenge
+  - rscadd: Increased potion price, replaced strength potion (very hard to make) with
+      sui dust in the potion standing order pool
+  - rscadd: You can see category of items without see prices
+  borneblood:
+  - rscdel: Removed the Divergence spell.
+  - balance: Adjusted Accelerate to increase its tactical usage and remove a few abuse
+      cases with it.
+  - code_imp: Naledi Mask & Complex are no longer unique to Naledi Refugee, it now
+      is prompted when you create a Naledian.
+  kiwedespars:
+  - bugfix: unarmed now properly lowers sharpness
+  - bugfix: strong intent now benefits unarmed
+  - bugfix: unarmed fails riposte if they punch during it
+  - bugfix: punches now give dodge back on hits to skin
+  - bugfix: fixes unarmed not pausing skinarmor regen
+  - bugfix: feint cares about unarmed now (no free +60% to being feinted)
+  - bugfix: bracers/knuckles now take damage properly when parrying with unarmed
+  - balance: stomps have 100% accuracy again
+  - balance: swift/strongcost for unarmed 1.5 -> 6
+  - balance: misscost for unarmed 3 -> 1
+  - balance: katar cut 1.3 -> 1.2. katar clickdelay for both intents 8 -> 10
+  - balance: grab cost reduced to account for swiftcost adjustment
+  - balance: riposting unarmed grants normal riposte counter
+  kysovich-rus:
+  - bugfix: Some mimic chairs were magically turning their shape when dropped. Now
+      they shouldn't.
+  - image: added missing icons of chair items
+  radarseas:
+  - rscadd: divine/unholy blasts have a flavor message for EVERY PATRON.
+  - balance: redone most divine blasts, Malum no longer skyrockets you into burncrit,
+      Necra smites all deathless abominations, Zizo doesn't sunder undead but sunders
+      the living, werewolves and Necrans.
+  - balance: Astratan Divine blast does (1) Extra firestack on Matthiosians. ANCIENT
+      ENEMY I DO NOT FEAR YOU.
+  - balance: the rest of the Four that aren't Zizo still smite the unlyving like they
+      currently do.
+  - balance: you no longer yell incantations so loud people can hear you off-screen
+      as an ascendant casting unholy blast but instead say them normally like most
+      clerics.
+  - balance: non-Astrata/Matthios divine blasts do Divine firestacks instead of regular.
+  - balance: less damage to undead (they usually worship Zizo anyway) unless they're
+      nearby to Necran crosses in which case they get hit with the full damage amount.
+  - balance: divine blasts are fixed and can now set silverweak people on fire with
+      divine flames instead of sunderflames that put you into paincrit.
+  - balance: divine blasts do divine firestacks instead of sundering because re-enabling
+      pain on a ranged miracle that can do this through armor is wackshit insane.
+  - bugfix: fixed divine bolts not setting silverweak on fire as intended but also
+      giving you invisible sunderstacks that would nuke you instantly.
+  - image: added unholy blast sprites
+  - rscadd: added zombie antag huds
+  - rscadd: a small short-lived horrifying transformation sequence when people turn
+      into deadites from zombification infection or from rotting too long
+  - qol: zombies are automatically put into combat mode once they finish their transformation
+      so you can deal with the immedate attempts to grapple pin/attack you
+  - balance: diagnosis spell now shows completely turned deadites (if you couldn't
+      tell already) and how to deal with that
+  - balance: zombies can no longer table slam/throw
+  - balance: zombies can now re-attach limbs and are able to do so on themselves without
+      the need of surgery skill
+  - balance: zombies can now sprint and have stamina
+  - balance: zombies can no longer climb (excluding basic rock surfaces)
+  - balance: zombies can no longer use woodwalker/puglist/fall immunity in any shape
+      or form
+  - balance: zombies have their stats pre-set now, excluding fortune
+  - balance: zombies no longer lose their masks/helmets on turning
+  - balance: zombies can now passively heal off injuries/wounds unless they're sundered/set
+      on fire. restrain them or finish them because they won't stay down if you don't.
+  - balance: being infected by a zombie/deadite animal now only shows messages every
+      40 seconds but also makes your ambience music creepy, its UI icon is fixed and
+      shows up now.
+  - balance: zombies can be examined through any and all gear regardless
+  - balance: zombies fall over when landing from a leap
+  - balance: zombies can no longer use unintended special intents, doing so will usually
+      give you a comedic message instead
+  - balance: deadites can tell concious/living targets that lack trait_zombie_immune,
+      constructs/necromancers/rituos users/sun elves/reverents/rotmen and other such
+      will not render this message to zombies, this DOES NOT MEAN THEY WILL NOT MAUL
+      YOU.
+  - qol: zombies get HUD Icons to tell their own, since they basically can be examined
+      by everyone though all of their gear.
+  - bugfix: zombies can no longer use specials/fients/baits/ripostes
+  - rscadd: Added an agony scream for lich, on top since it lacked one proper.
+  - rscadd: Added FOUR new voicepacks to be selectable.
+  - bugfix: Removed the ability for skeletons to take voicepacks, this was never intended
+      to happen.
+  - bugfix: Gnolls have their own voicepacks and no longer use prefloaded ones.
+  - code_imp: Added TRAIT_NO_VOICEPACK_OVERRIDE, used for Gnolls/Skeletons. This Prevents
+      your prefloaded voicepack taking over.
+  saltprjak:
+  - balance: Battlewardry's Bestowed Ward now functions as an additional layer.
+2026-06-29:
+  Happyowl93:
+  - bugfix: Stops repair miracle from malum from stripping armour values.
+  KatTheFox:
+  - bugfix: Gemcarved teapots now hold 120 drams instead of 99
+  WeNeedMorePhoron:
+  - rscadd: Round should not start on tuesday anymore
+  - balance: Reduce Blockade Band of Threat cleared to 6
+  - rscadd: Let Hwando Spellblade Adventurer starts with the leather bracers, chain
+      coif and proper gambeson every other spellblade starts with
+  - bugfix: Failing contracts no longer clear threat.
+  borneblood:
+  - code_imp: Edited a bit some flavortext. Made it so Stockpile can actually stock
+      different types of meat so we can draw out wolf meat or rat meat, etc.
+  radarseas:
+  - rscadd: Added Pouch Fitted Rope/Cloth belts, these are crafted with their belts
+      + a pouch respectively.
+  - balance: all non NPC/Vagabond/Lunatic roles that started w/ rope/cloth belts have
+      recieved the upgraded storage varient.
+  - bugfix: removes 3 lines of code that broke militant wretch
+2026-06-30:
+  Fixes roundface bascinet offset:
+  - bugfix: Fixes roundface bascinet offset
+  Ollanius:
+  - bugfix: The Rune of Storms should properly function once again.
+  - bugfix: Bronze-armored boots now properly have ARMOR_BRONZE as their protection
+      tier, rather than ARMOR_PLATE.
+  - bugfix: Adds missing light armor values to decrepit-tiered feetwear.
+  WeNeedMorePhoron:
+  - rscadd: Duel Settler now come with a gwstrap like other 2h weapon
+  - rscadd: Arcyne ward actually covers your mouth against mouthgrab

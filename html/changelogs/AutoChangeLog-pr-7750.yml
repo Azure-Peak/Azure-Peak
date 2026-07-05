@@ -1,6 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - rscdel: "Removed the Divergence spell."
-  - balance: "Adjusted Accelerate to increase its tactical usage and remove a few abuse cases with it."
-  - code_imp: "Naledi Mask & Complex are no longer unique to Naledi Refugee, it now is prompted when you create a Naledian."

@@ -34,7 +34,7 @@
 	
 /datum/outfit/job/roguetown/adventurer/farmermaster/pre_equip(mob/living/carbon/human/H)
 	..()
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	pants = /obj/item/clothing/under/roguetown/trou
 	head = /obj/item/clothing/head/roguetown/strawhat

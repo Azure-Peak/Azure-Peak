@@ -3,7 +3,7 @@
 	name = "Boulder Strike"
 	desc = "Hurl a massive boulder at a target. On impact, it shatters into a cloud of stone fragments. \
 	Deals 2x damage to structures. \
-	Toggle arc mode (Ctrl+G) while the spell is active to lob it over obstacles. Arced boulders deal reduced damage and produce fewer fragments."
+	Toggle arc mode (Shift+G) while the spell is active to lob it over obstacles. Arced boulders deal reduced damage and produce fewer fragments."
 	button_icon_state = "boulder_strike"
 	sound = 'sound/combat/hits/onstone/stonedeath.ogg'
 	spell_color = GLOW_COLOR_EARTHEN
@@ -23,7 +23,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MAJOR
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging_fire.ogg'
 	cooldown_time = 15 SECONDS

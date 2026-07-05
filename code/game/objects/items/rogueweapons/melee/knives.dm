@@ -217,10 +217,10 @@
 
 /obj/item/rogueweapon/huntingknife/copper
 	name = "copper knife"
-	desc = "A knife made of copper. Lacking in durability."
+	desc = "A knife made of copper, lacking in durability."
 	icon_state = "cdagger"
 	max_integrity = 75
-	smeltresult = null // TODO: We don't have partial melt so coping time
+	smeltresult = /obj/item/ingot/copperslag
 
 /obj/item/rogueweapon/huntingknife/bronze
 	name = "bronze knife"
@@ -923,22 +923,12 @@
 		added_def = 0,\
 	)
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/lesser
-	name = "silver-tipped handstake"
-	desc = "A smaller branch that has been broken off of an Otavan boswellia tree, sharpened to a fine point and tipped with blessed silver. It can lay most unholy creechers to rest, but only by piercing their hearts."
+/obj/item/rogueweapon/huntingknife/idagger/stake/inq
+	name = "otavan stake"
+	desc = "A smaller branch that has been broken off of an Otavan boswellia tree, sharpened to a fine point. It can lay most unholy creechers to rest, but only by piercing their hearts."
 	force = 15
-	icon_state = "stake_silver"
-
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/lesser/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 100,\
-		added_int = 0,\
-		added_def = 0,\
-	)
+	throwforce = 15
+	icon_state = "stake_otavan"
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
 	name = "psydonic dagger"

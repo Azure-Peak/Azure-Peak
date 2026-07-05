@@ -63,6 +63,40 @@
 		/datum/skill/labor/mining = SKILL_LEVEL_NOVICE
 	)
 	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
+	var/list/custom_title_options = list(
+		"Artisan",
+		"Artisana",
+		"Craftswoman",
+		"Devotee",
+		"Devotess",
+		"Fieldworker",
+		"Forager",
+		"Freeholder",
+		"Gardener",
+		"Handiworker",
+		"Hedgefolk",
+		"Herbalist",
+		"Homesteadress",
+		"Housekeeper",
+		"Householder",
+		"Househusband",
+		"Housewife",
+		"Hunter",
+		"Laborer",
+		"Nurse",
+		"Nun",
+		"Pioneer",
+		"Prospector",
+		"Scholar",
+		"Settler",
+		"Shepherd",
+		"Varlet",
+		"Villager",
+		"Weaver",
+		"Woodsman",
+		"Woodswoman",
+		"Chirurgeon"
+	)
 
 /datum/outfit/job/roguetown/homesteader/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -130,6 +164,79 @@
 		H.mind.special_items["Fishing Rod"] = /obj/item/fishingrod/crafted
 		H.mind.special_items["Pan for Frying"] = /obj/item/cooking/pan
 
+		H.adaptive_name_title = "Homesteader"
+		add_verb(H, /datum/advclass/homesteader/proc/choose_homesteader_title)
+
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
+
+//==========
+
+//=========
+/datum/advclass/homesteader/proc/get_skill_title_options()
+	var/list/skill_titles = list()
+	for(var/title in custom_title_options)
+		if(title && !(title in skill_titles))
+			skill_titles += title
+	for(var/skill_path in subclass_skills)
+		if(ispath(skill_path, /datum/skill/combat))
+			continue
+		var/datum/skill/skill = skill_path
+		var/title = initial(skill.expert_name)
+		if(title && !(title in skill_titles))
+			skill_titles += title
+	return sortList(skill_titles)
+
+/datum/advclass/homesteader/proc/choose_title(mob/living/carbon/human/H)
+	if(!H?.client)
+		return FALSE
+	var/list/title_modes = list("Homesteader", "Single Skill Title", "Adaptive Skill Titles")
+	var/default_mode = "Homesteader"
+	if(!H.adaptive_name_title)
+		default_mode = "Adaptive Skill Titles"
+	else if(H.adaptive_name_title != name)
+		default_mode = "Single Skill Title"
+
+	var/title_mode = input(H, "How should I be known?", "Homesteader Title", default_mode) as null|anything in title_modes
+	if(!title_mode)
+		return FALSE
+	switch(title_mode)
+		if("Homesteader")
+			H.adaptive_name_title = name
+			H.advjob = name
+		if("Single Skill Title")
+			var/list/title_options = get_skill_title_options()
+			if(!length(title_options))
+				to_chat(H, span_warning("I do not have any titles to choose from."))
+				return FALSE
+			var/default_title = (H.adaptive_name_title && H.adaptive_name_title != name) ? H.adaptive_name_title : title_options[1]
+			var/title_choice = input(H, "Which title should I use?", "Homesteader Title", default_title) as null|anything in title_options
+			if(!title_choice)
+				return FALSE
+			H.adaptive_name_title = title_choice
+			H.advjob = title_choice
+		if("Adaptive Skill Titles")
+			H.adaptive_name_title = null
+			H.advjob = name
+			H.update_adaptive_name()
+	to_chat(H, span_notice("I will be known as [H.advjob]."))
+	return TRUE
+
+/datum/advclass/homesteader/proc/choose_homesteader_title()
+	set name = "Choose Homesteader Title"
+	set category = "IC"
+
+	if(!ishuman(usr))
+		return
+	var/mob/living/carbon/human/H = usr
+	if(!istype(H.mind?.picked_advclass, /datum/advclass/homesteader))
+		to_chat(H, span_warning("I am not a homesteader."))
+		remove_verb(H, /datum/advclass/homesteader/proc/choose_homesteader_title)
+		return
+	if(world.time < H.next_homesteader_title_change)
+		to_chat(H, span_warning("I must wait [round((H.next_homesteader_title_change - world.time)/600, 1)] minutes before changing my title again."))
+		return
+	var/datum/advclass/homesteader/homesteader_class = H.mind.picked_advclass
+	if(homesteader_class.choose_title(H))
+		H.next_homesteader_title_change = world.time + HOMESTEADER_TITLE_COOLDOWN

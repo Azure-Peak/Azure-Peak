@@ -37,6 +37,7 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
+	id = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios //IS THIS TRVE? WE NEED TO USE MIRACLES SIRE.
 	backpack_contents = list(
 					/obj/item/needle/thorn = 1,
 					/obj/item/natural/cloth = 1,

@@ -107,6 +107,12 @@
 	desc = "A ring of evershifting hues."
 	icon_state = "ring_opal"
 
+/obj/item/clothing/ring/porcelain
+	name = "porcelain ring"
+	desc = "A ring of shining porcelain."
+	icon_state = "ring_porcelain"
+	sellprice = 10
+
 /obj/item/clothing/ring/active
 	var/active = FALSE
 	desc = "A golden ring that bares a runic enigma, capable of nullifying all incoming magicka. The runic enigma pulsates with crimson light, rendering me invulnerable to arcynic violence!"

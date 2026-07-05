@@ -1,0 +1,6 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added more random voice/skintone/races to NPCs, rejoice!"
+  - bugfix: "fixed random white eye NPCs because I re-used the same number twice 3-3 WHOOPS."
+  - refactor: "re-did the entirety of NPC code (again) now it should be far more readable -> look to npc_procs for the code on randomisation past race and shit that's done on baseline NPCs."
