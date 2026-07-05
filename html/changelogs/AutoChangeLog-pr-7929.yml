@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Deadites and werevolfs can no longer use teleportation runes (or any other mage runes)"

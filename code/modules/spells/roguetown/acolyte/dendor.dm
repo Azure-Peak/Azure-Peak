@@ -130,43 +130,6 @@
 			to_chat(usr, "With Dendor's aide, you soothe [animal] of their anger.")
 	return tamed
 
-//////////////////////////////
-// T3 - Fungal Illumination //
-//////////////////////////////
-
-/obj/effect/proc_holder/spell/targeted/conjure_glowshroom
-	name = "Fungal Illumination"
-	desc = "Summons glowing mushrooms that shock people that try moving into them. Dendorites are immune."
-	range = 1
-	action_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_state = "blesscrop"
-	releasedrain = 30
-	recharge_time = 30 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	max_targets = 0
-	cast_without_targets = TRUE
-	sound = 'sound/items/dig_shovel.ogg'
-	associated_skill = /datum/skill/magic/holy
-	invocations = list("Treefather light the way.")
-	invocation_type = "whisper" //can be none, whisper, emote and shout
-	devotion_cost = 30
-
-/obj/effect/proc_holder/spell/targeted/conjure_glowshroom/cast(list/targets, mob/user = usr)
-	..()
-	to_chat(user, span_notice("I begin enriching the soil around me!"))
-	if(!do_after(user, 0.5 SECONDS, progress = TRUE))
-		revert_cast()
-		return FALSE
-
-	var/turf/T = user.loc
-	for(var/X in GLOB.cardinals)
-		var/turf/TT = get_step(T, X)
-		if(!isclosedturf(TT) && !locate(/obj/structure/glowshroom) in TT)
-			new /obj/structure/glowshroom(TT)
-	return TRUE
-
-
 //////////////////////
 // T3 - Vine Sprout //
 //////////////////////

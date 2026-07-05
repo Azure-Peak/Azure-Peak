@@ -11,6 +11,7 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/spaghetti
 	time_per_step = 3 SECONDS
+	inline_ancestry = TRUE
 
 // Noodles + Pesto -> Pesto Spaghetti
 /datum/food_recipe/boiled/spaghetti_pesto
@@ -21,3 +22,4 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/spaghetti_pesto
 	time_per_step = 3 SECONDS
+	inline_ancestry = TRUE

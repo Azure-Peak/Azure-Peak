@@ -45,7 +45,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
-		/obj/item/rogueweapon/spellbook = 1,
+		/obj/item/rogueweapon/spellbook/greater = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/necro_relics/necro_crystal = 1,

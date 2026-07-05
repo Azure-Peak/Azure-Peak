@@ -54,7 +54,6 @@
 		)
 	var/reload_cost = 25
 	var/lance_energy = 50
-	var/held_slowdown = 2
 	var/reload_time = 2 SECONDS
 	var/reloading = FALSE
 	var/lance_cooldown = 10 SECONDS
@@ -63,18 +62,6 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow/Initialize()
 	. = ..()
 	chamber_round()
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow/equipped(mob/user, slot)
-	. = ..()
-	if(user.is_holding(src))
-		user.add_movespeed_modifier("ferramancy_greatbow", TRUE, 100, override = TRUE, multiplicative_slowdown = held_slowdown)
-	else
-		user.remove_movespeed_modifier("ferramancy_greatbow")
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow/dropped(mob/user)
-	. = ..()
-	if(user)
-		user.remove_movespeed_modifier("ferramancy_greatbow")
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
 	if(istype(user.used_intent, /datum/intent/shoot/bow/ferramancy/lance))

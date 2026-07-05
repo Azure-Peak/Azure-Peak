@@ -20,7 +20,7 @@
 		return FALSE
 	if(target.has_status_effect(/datum/status_effect/buff/accel))
 		return FALSE
-	if(target.has_status_effect(/datum/status_effect/buff/haste))
+	if(target.has_status_effect(/datum/status_effect/buff/attune_haste))
 		return FALSE
 	var/obj/effect/temp_visual/origin_restoration/V = new
 	target.vis_contents += V

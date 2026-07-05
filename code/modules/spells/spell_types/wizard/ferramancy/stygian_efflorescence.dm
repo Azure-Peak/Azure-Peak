@@ -32,7 +32,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE // Use it with an arcyne armament noob 
 	charge_time = CHARGETIME_MINOR
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 20 SECONDS // Not meant to be the thing you relies on for damage or a staple poke spell, it is something to be mixed in in melee

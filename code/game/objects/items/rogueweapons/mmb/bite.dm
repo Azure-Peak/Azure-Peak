@@ -83,6 +83,37 @@
 		def_zone = melee_accuracy_check(user.zone_selected, user, src, /datum/skill/combat/unarmed, bitten, null)
 	else
 		def_zone = user.zone_selected
+
+	switch(def_zone) // redirects that to where it makes sense, because I hate how soulless it is atm
+		if(BODY_ZONE_PRECISE_R_EYE)
+			def_zone = BODY_ZONE_HEAD
+
+		if(BODY_ZONE_PRECISE_L_EYE)
+			def_zone = BODY_ZONE_HEAD
+
+		if(BODY_ZONE_PRECISE_SKULL)
+			def_zone = BODY_ZONE_HEAD
+
+		if(BODY_ZONE_PRECISE_MOUTH)
+			def_zone = BODY_ZONE_PRECISE_NECK
+
+		if(BODY_ZONE_PRECISE_STOMACH)
+			def_zone = BODY_ZONE_CHEST
+
+	if(src.cmode) // no more hands/feet biting in combat, ser
+		switch(def_zone)
+			if(BODY_ZONE_PRECISE_R_HAND)
+				def_zone = BODY_ZONE_R_ARM
+
+			if(BODY_ZONE_PRECISE_L_HAND)
+				def_zone = BODY_ZONE_L_ARM
+
+			if(BODY_ZONE_PRECISE_R_FOOT)
+				def_zone = BODY_ZONE_R_LEG
+
+			if(BODY_ZONE_PRECISE_L_FOOT)
+				def_zone = BODY_ZONE_L_LEG
+
 	var/obj/item/bodypart/affecting = get_bodypart(def_zone)
 	if(!affecting)
 		to_chat(user, span_warning("Nothing to bite."))
@@ -90,7 +121,7 @@
 
 	next_attack_msg.Cut()
 
-	user.do_attack_animation(src, "bite")
+	user.do_attack_animation_simple(src, ATTACK_EFFECT_BITE)
 	playsound(user, 'sound/gore/flesh_eat_01.ogg', vol = 50, vary = FALSE, extrarange = -2, ignore_walls = FALSE, quiet = TRUE)
 	var/nodmg = FALSE
 	var/dam2do = 10*(user.STASTR/20)
@@ -101,6 +132,32 @@
 			nodmg = TRUE
 	if(!nodmg)
 		var/armor_block = run_armor_check(def_zone, "stab", armor_penetration = PEN_NONE, blade_dulling=BCLASS_BITE, damage = dam2do)
+
+		user.Immobilize(1 SECONDS)
+		src.Immobilize(1 SECONDS)
+		var/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
+		var/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
+
+		if(!vamp && !wolf)
+			var/armor_class = src.get_armor_class(def_zone, "stab")
+			var/recoil_mult
+
+			switch(armor_class)
+				if(ARMOR_CLASS_NONE)
+					recoil_mult = 0.05
+				if(ARMOR_CLASS_LIGHT)
+					recoil_mult = 0.15
+				if(ARMOR_CLASS_MEDIUM)
+					recoil_mult = 0.30
+				if(ARMOR_CLASS_HEAVY)
+					recoil_mult = 0.50
+				else
+					recoil_mult = 0.05
+
+			var/recoil = round(dam2do * recoil_mult)
+			user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH)// cleaner, basically! this will recoil 25% damage to your mouth if you bite flesh, and 50% if you bite armor
+		if(prob(25)) // 1/4 of the time you'll overextend and be exposed, giving your opponent a room to strike back hard
+			user.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		if(!apply_damage(dam2do, BRUTE, def_zone, armor_block, user))
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
@@ -131,7 +188,7 @@
 					to_chat(user, span_warning("BLEH! [bite_victim] tastes of SILVER! My gift cannot take hold."))
 				else
 					caused_wound?.werewolf_infect_attempt()
-					if(prob(30))
+					if(prob(50))
 						user.werewolf_feed(bite_victim, 10)
 			if(istype(user.dna.species, /datum/species/gnoll))
 				if(prob(30))
@@ -160,6 +217,7 @@
 		if(mind)
 			mind.attackedme[user.real_name] = world.time
 		log_combat(user, src, "bit")
+	
 	return TRUE
 
 // Checking if the unit can bite
@@ -247,14 +305,41 @@
 		to_chat(user, span_warning("My mouth has something in it."))
 		return FALSE*/
 
-	user.changeNext_move(CLICK_CD_GRABBING)
+	user.changeNext_move(1.2 SECONDS) // One chew every 1.2 seconds
 	var/mob/living/carbon/C = grabbed
+	user.Immobilize(1 SECONDS)
+	C.Immobilize(1 SECONDS)
 	var/damage = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2
 	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = PEN_NONE, damage = damage)
+		
+	var/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
+	var/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
+
+	if(!vamp && !wolf)
+		var/armor_class = C.get_armor_class(sublimb_grabbed, d_type)
+		var/recoil_mult
+
+		switch(armor_class)
+			if(ARMOR_CLASS_NONE)
+				recoil_mult = 0.05
+			if(ARMOR_CLASS_LIGHT)
+				recoil_mult = 0.15
+			if(ARMOR_CLASS_MEDIUM)
+				recoil_mult = 0.30
+			if(ARMOR_CLASS_HEAVY)
+				recoil_mult = 0.50
+			else
+				recoil_mult = 0.05
+
+		var/recoil = round(damage * recoil_mult)
+		user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 25% damage to your mouth if you bite flesh, and 50% if you bite armor
+	if(prob(50)) // half the time you'll overextend and be exposed, giving your opponent a room to strike back hard
+		user.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+	
 	C.next_attack_msg.Cut()
-	user.do_attack_animation(C, "bite")
+	user.do_attack_animation_simple(C, ATTACK_EFFECT_BITE)
 	if(C.apply_damage(damage, BRUTE, limb_grabbed, armor_block))
 		playsound(C.loc, "smallslash", vol = 50, vary = FALSE, extrarange = -1, ignore_walls = FALSE, quiet = TRUE)
 		var/datum/wound/caused_wound = limb_grabbed.bodypart_attacked_by(BCLASS_BITE, damage, user, sublimb_grabbed, crit_message = TRUE)
@@ -263,7 +348,7 @@
 				WEREWOLF CHEW.
 			*/
 			if(istype(user.dna.species, /datum/species/werewolf))
-				if(prob(30))
+				if(prob(50))
 					user.werewolf_feed(C)
 
 			/*
@@ -299,16 +384,33 @@
 					span_userdanger("[user] bites my [parse_zone(sublimb_grabbed)]![C.next_attack_msg.Join()]"), span_hear("I hear a sickening sound of chewing!"), COMBAT_MESSAGE_RANGE, user)
 	to_chat(user, span_danger("I bite [C]'s [parse_zone(sublimb_grabbed)].[C.next_attack_msg.Join()]"))
 	C.next_attack_msg.Cut()
+
 	log_combat(user, C, "limb chewed [sublimb_grabbed] ")
 
-//this is for carbon mobs being drink only
-/obj/item/grabbing/bite/proc/drinklimb(mob/living/user) //implies limb_grabbed and sublimb are things
-	if(!user.Adjacent(grabbed))
-		qdel(src)
+/obj/item/grabbing/bite/proc/drinklimb(mob/living/user)
+	if(sippy)
+		sippy = FALSE
+		to_chat(user, span_warning("You relax your mouth."))
 		return
+	sippy = TRUE
+	to_chat(user, span_warning("You tighten your lips and attempt to drink blood!"))
 
-	if(!limb_grabbed.get_bleed_rate())
-		to_chat(user, span_warning("Sigh. It's not bleeding."))
-		return
+	while(src && user && grabbed && sippy)
+		var/mob/living/carbon/C = grabbed
+		if(QDELETED(src) || !user || !grabbed || !sippy)
+			break
+		if(C.blood_volume <= 0)
+			to_chat(user, span_warning("--But there's no blood left to drink."))
+			break
+		if(!limb_grabbed.get_bleed_rate())
+			to_chat(user, span_warning("--But they're not bleeding, I should chew."))
+			break
+		if(!user.Adjacent(grabbed))
+			qdel(src)
+			break
 
-	user.drinksomeblood(grabbed, sublimb_grabbed)
+		user.drinksomeblood(C, sublimb_grabbed)
+		if(!do_after(user, 2 SECONDS, grabbed))
+			break
+
+	sippy = FALSE

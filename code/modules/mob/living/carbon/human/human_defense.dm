@@ -322,50 +322,6 @@
 		var/mob/living/carbon/human/H = user
 		dna.species.spec_attack_hand(H, src)
 
-/mob/living/carbon/human/attack_paw(mob/living/carbon/monkey/M)
-	var/dam_zone = pick(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-	var/obj/item/bodypart/affecting = get_bodypart(ran_zone(dam_zone))
-	if(!affecting)
-		affecting = get_bodypart(BODY_ZONE_CHEST)
-	if(M.used_intent.type == INTENT_HELP)
-		..() //shaking
-		return 0
-
-	if(M.used_intent.type == INTENT_DISARM) //Always drop item in hand, if no item, get stunned instead.
-		var/obj/item/I = get_active_held_item()
-		if(I && dropItemToGround(I, silent = FALSE))
-			playsound(loc, 'sound/blank.ogg', 25, TRUE, -1)
-			visible_message(span_danger("[M] disarmed [src]!"), \
-							span_danger("[M] disarmed you!"), span_hear("I hear aggressive shuffling!"), null, M)
-			to_chat(M, span_danger("I disarm [src]!"))
-		else if(!M.client || prob(5)) // only natural monkeys get to stun reliably, (they only do it occasionaly)
-			playsound(loc, 'sound/blank.ogg', 25, TRUE, -1)
-			if (src.IsKnockdown() && !src.IsParalyzed())
-				Paralyze(40)
-				log_combat(M, src, "pinned")
-				visible_message(span_danger("[M] pins [src] down!"), \
-								span_danger("[M] pins you down!"), span_hear("I hear shuffling and a muffled groan!"), null, M)
-				to_chat(M, span_danger("I pin [src] down!"))
-			else
-				Knockdown(30)
-				log_combat(M, src, "tackled")
-				visible_message(span_danger("[M] tackles [src] down!"), \
-								span_danger("[M] tackles you down!"), span_hear("I hear aggressive shuffling followed by a loud thud!"), null, M)
-				to_chat(M, span_danger("I tackle [src] down!"))
-
-	if(M.limb_destroyer)
-		dismembering_strike(M, affecting.body_zone)
-
-	if(can_inject(M, 1, affecting))//Thick suits can stop monkey bites.
-		if(..()) //successful monkey bite, this handles disease contraction.
-			var/damage = rand(1, 3)
-			if(check_shields(M, damage, "the [M.name]"))
-				return 0
-			if(stat != DEAD)
-				apply_damage(damage, BRUTE, affecting, run_armor_check(affecting, "slash", armor_penetration = PEN_NONE, damage = damage))
-		return 1
-
-
 /mob/living/carbon/human/attack_animal(mob/living/simple_animal/M)
 	. = ..()
 	if(.)

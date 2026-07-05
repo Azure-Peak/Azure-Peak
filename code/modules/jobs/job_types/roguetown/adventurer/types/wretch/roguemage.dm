@@ -56,8 +56,8 @@
 	beltl = /obj/item/storage/magebag
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(
-		/obj/item/rogueweapon/spellbook = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
+		/obj/item/rogueweapon/spellbook/greater = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/rope/chain = 1,
 		/obj/item/chalk = 1,

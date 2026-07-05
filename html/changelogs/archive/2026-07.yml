@@ -232,3 +232,51 @@
   - rscdel: Removed three loot pinata room from Alotheos.
   radarseas:
   - bugfix: Gives Iconoclast an Amulet so they can actually Play their Role.
+2026-07-05:
+  Happyowl93:
+  - bugfix: pot can fill containers now.
+  KatTheFox:
+  - bugfix: Unarmored corset is no longer erroneously considered armor
+  - bugfix: Deadites and werevolfs can no longer use teleportation runes (or any other
+      mage runes)
+  Lamasmaster:
+  - rscdel: Ravox T4
+  - balance: Raze self damage
+  Ollanius:
+  - bugfix: Padded chausses now properly dye.
+  - rscadd: Triumph-rewarded Grenzelhoftian berets can now be worn on the helmet's
+      cosmetic slot.
+  - rscadd: Shoulderguards, cosmetic items that can be worn on the cosmetic slot of
+      either a helmet or cloak-slash-armorpiece.
+  - rscadd: A shard. A fragment. A donator reskin of no particular note.
+  SomeDeviant:
+  - bugfix: fixed Sojourner minor amount for autowardry
+  WeNeedMorePhoron:
+  - rscadd: Attempted to optimize in hand item overlays. Report any oddity especially
+      with items that change states in your hand.
+  - rscadd: Ported Noelle-Lavenza's optimization of the lighting system from Ratwood
+  - rscadd: Ported Noelle's optimizations of progress bar from Ratwood.
+  - rscadd: Slightly improved the MC interface
+  - rscadd: Added the tutorial for merchant / shophand to the advanced class proper,
+      so that it shows on preview too.
+  - rscadd: Ported Noelle-Lavenza's optimization of pathfinding from Ratwood.
+  - rscadd: Fixes blockade writ ledger posting not working correctly, allowing it
+      to be posted on the ledger. No longer have the feature to pin it against a noticeboard
+      which I left in from a way earlier draft of my PR.
+  - balance: Reduced TP budget of Bounty and Raid from 200 / 150 to 150 / 120 based
+      on feedback
+  - balance: Makes NPC properly recalculate their pain threshold according to their
+      stats on initialize, instead of a stationary 100.
+  changelingonberry:
+  - rscadd: "knights can take squires as prot\xE9g\xE9s for a mutual mood buff, while\
+      \ near each other, also empath for the knight\n:cl:\n<!-- Both :cl:'s are required\
+      \ for the changelog to work! You can put your name to the right of the first\
+      \ :cl: if you want to overwrite your GitHub username as author ingame. -->\n\
+      <!-- You can use multiple of the same prefix (they're only used for the icon\
+      \ ingame) and delete the unneeded ones. Despite some of the tags, changelogs\
+      \ should generally represent how a player might be affected by the changes rather\
+      \ than a summary of the PR's contents. -->"
+  - bugfix: wanted vice role availability
+  radarseas:
+  - bugfix: fixed oversight w/ancient bracers being EXCEPTIONALLY ODD and not VLORD
+      BRACERS only as intended.

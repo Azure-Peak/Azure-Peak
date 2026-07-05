@@ -382,11 +382,16 @@
 	)
 	result_item = /obj/item/rogueweapon/eirenxiv/eirensword
 
-//pretzel - custom steel greatsword. PSYDON LYVES. PSYDON ENDVRES.
+//waffai - silver for monsters, steel for men
 /obj/item/enchantingkit/weapon/waff
 	name = "'Weeper's Lathe' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/greatsword)
-	result_item = /obj/item/rogueweapon/example/waffai_greatsword
+	target_items = list(/obj/item/rogueweapon/sword/long/kriegmesser/silver)
+	result_item = /obj/item/rogueweapon/example/waffai_broadsword // silver broadsword is actually a kriegmesser subtype, who knew?
+
+/obj/item/enchantingkit/weapon/wafflamberge
+	name = "'Xenolalia' morphing elixir"
+	target_items = list(/obj/item/rogueweapon/greatsword/grenz/flamberge)
+	result_item = /obj/item/rogueweapon/example/waffai_flamberge
 
 //inverserun claymore
 /obj/item/enchantingkit/weapon/inverserun

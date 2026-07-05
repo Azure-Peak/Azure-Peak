@@ -123,7 +123,7 @@
 
 	eater.apply_status_effect(/datum/status_effect/buff/healing, (quality + (skill / 5)) * bitesize_mod)
 	if(skill > 4 && patron.type == /datum/patron/divine/eora)
-		eater.apply_status_effect(/datum/status_effect/buff/haste, 15 SECONDS)
+		eater.apply_status_effect(/datum/status_effect/buff/attune_haste, 15 SECONDS)
 
 /obj/effect/proc_holder/spell/invoked/bless_food
 	name = "Bless Food"

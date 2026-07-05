@@ -2,7 +2,7 @@
 	name = "Unholy Blast"
 	desc = "Channel unholy power and sunder the unbelievers. Deals additional damage to wretched conformists and Psydonites! \n\
 	Damage is increased by 100% versus simple-minded creechurs.\n\
-	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
+	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
 	clothes_req = FALSE
 	range = 12
 	overlay_state = "unholy_blast"

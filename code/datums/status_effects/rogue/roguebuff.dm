@@ -1138,7 +1138,7 @@
 /datum/status_effect/buff/reversion
 	id = "stasis"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/stasis
-	duration = 15 SECONDS
+	duration = 25 SECONDS
 
 #define CRANKBOX_FILTER "crankboxbuff_glow"
 /atom/movable/screen/alert/status_effect/buff/churnerprotection

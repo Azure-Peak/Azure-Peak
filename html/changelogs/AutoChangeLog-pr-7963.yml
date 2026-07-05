@@ -1,0 +1,4 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscdel: "unintended order tabard for clergy. They only get Holy See tabards now. FUCK."

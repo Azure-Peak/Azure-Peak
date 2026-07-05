@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Brings bracers parry to 8 instead of 7 WDEF so people stop asking for +1 Skill Level over armed classes."
+  - rscadd: "Spellfist Unarmed Expert -> Jman"
+  - rscadd: "Storm of Psydon charge time reduced to 1s from 2s charge time, no longer eat your momentum on whiff, and **aims for the targeted zone you use it on**"

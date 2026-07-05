@@ -266,9 +266,6 @@
 /obj/structure/roguewindow/attackby(obj/item/W, mob/user, params)
 	return ..()
 
-/obj/structure/roguewindow/attack_paw(mob/living/user)
-	attack_hand(user)
-
 /obj/structure/roguewindow/attack_hand(mob/living/user)
 	. = ..()
 	if(.)

@@ -57,7 +57,7 @@
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/poison = 1,
 		/obj/item/recipe_book/alchemy = 1,
-		/obj/item/rogueweapon/spellbook = 1,
+		/obj/item/rogueweapon/spellbook/greater = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne = 1,
 		/obj/item/scrying = 1,
 		/obj/item/chalk = 1,
