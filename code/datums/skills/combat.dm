@@ -141,6 +141,7 @@
 /datum/skill/combat/arcyne
 	name = "Arcyne Armament"
 	desc = "Increases your chance to successfully parry and bypass your opponent's parry by 20% with conjured or arcyne-bound weapons, and your chance to bypass dodge by 10%."
+	learnable_in_sleep = FALSE
 	dreams = list(
 	"...you form your conduits into the shape of blades, your blood flows with the feelings of iron, and you have created over a thousand blades, knowing the weight and edge of everyone of them. You have not practiced their forms, yet they flows like water in your hand...",
 	"...no weapon is a stranger to your hand, a slash with a khopesh, a thrust with a spear, a figure eight with a greatsword, the squires in the yard flow from one strike to another, you, from one weapon to another...7",

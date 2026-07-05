@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/bind_armament
 	name = "Bind Armament"
-	desc = "Bind a weapon, changing its skills to Arcyne Armament instead of its original skill. Once it is unbound, it returns to the original skill. Cast with an empty hand to release the bond."
+	desc = "Bind a weapon, changing its skills to Arcyne Armament instead of its original skill. Once it is unbound, it returns to the original skill. Cast with an empty hand to release the bond. If another takes up the weapon, the bond snaps."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "bind_weapon"
 	spell_color = GLOW_COLOR_ARCANE
@@ -18,13 +18,14 @@
 	invocation_type = INVOCATION_WHISPER
 
 	charge_required = TRUE
-	charge_time = 10 SECONDS
-	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
-	cooldown_time = 60 SECONDS
+	charge_time = CHARGETIME_MINOR
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	cooldown_time = 3 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
+	point_cost = 2
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 	var/bind_skill = /datum/skill/combat/arcyne
@@ -41,6 +42,12 @@
 			qdel(existing)
 	bound = null
 
+/datum/action/cooldown/spell/bind_armament/proc/get_bound_weapon()
+	if(bound && !QDELETED(bound) && bound.GetComponent(/datum/component/skill_bind))
+		return bound
+	bound = null
+	return null
+
 /datum/action/cooldown/spell/bind_armament/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
@@ -48,14 +55,12 @@
 		return FALSE
 	var/obj/item/weapon = H.get_active_held_item()
 	if(!weapon)
-		if(bound && !QDELETED(bound))
-			to_chat(H, span_notice("The arcyne bond on [bound] fades."))
+		var/obj/item/current_bound = get_bound_weapon()
+		if(current_bound)
+			to_chat(H, span_notice("The arcyne bond on [current_bound] fades."))
 			release_bind()
 			return TRUE
 		to_chat(H, span_warning("I have no bound weapon to release!"))
-		return FALSE
-	if(istype(weapon, /obj/item/rogueweapon/shield))
-		to_chat(H, span_warning("Shields are specifically blacklisted from arcyne binding."))
 		return FALSE
 	if(!istype(weapon, /obj/item/rogueweapon) || !ispath(weapon.associated_skill, /datum/skill/combat))
 		to_chat(H, span_warning("[weapon] is not something my arts can guide."))
@@ -64,7 +69,7 @@
 		to_chat(H, span_warning("[weapon] already carries an arcyne bond."))
 		return FALSE
 	release_bind()
-	weapon.AddComponent(/datum/component/skill_bind, bind_skill)
+	weapon.AddComponent(/datum/component/skill_bind, bind_skill, H)
 	bound = weapon
 	to_chat(H, span_notice("I lay an arcyne bond on [weapon]; it answers to my conjurer's training now."))
 	playsound(get_turf(H), 'sound/magic/charged.ogg', 50, TRUE)

@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/selfbuff
 	name = "Divine Arcanum"
-	desc = "Improves the reflexes and wrap yourself and up to 5 nearby humens with soothing arcyne light"
+	desc = "Improves the reflexes and wrap yourself and up to 3 nearby fellowship party members with soothing arcyne light(you need to be part of a fellowship to receive the effect of this spell, even alone)"
 	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
 	button_icon_state = "guidance"
 	sound = 'sound/magic/undivided_perserverance.ogg'
@@ -32,12 +32,10 @@
 		return
 	
 	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
-		if(buff >= 6)
+		if(buff >= 4)
 			buff = 0
 			break
-		if(!owner.faction_check_mob(target))
-			continue
-		if(H.mind)
+		if(shares_fellowship(H,target)) //shares the same fellowship, also target self
 			target.apply_status_effect(/datum/status_effect/buff/lesser_guidance)
 			target.apply_status_effect(/datum/status_effect/buff/healingaura)
 			buff++

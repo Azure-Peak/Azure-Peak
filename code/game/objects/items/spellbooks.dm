@@ -7,7 +7,7 @@ Intended to be a reward or a goal for pure mage, allowing them to rebind their a
 	var/open = FALSE
 	icon = 'icons/roguetown/items/books.dmi'
 	icon_state = "spellbookbrown_0"
-	slot_flags = ITEM_SLOT_HIP
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	grid_width = 32
 	grid_height = 32
 	var/base_icon_state = "spellbookbrown"
