@@ -28,8 +28,8 @@
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE, //pity. your staff is incredibly fragile
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT //awww yeah
+		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE //awww yeah
 	)
 	extra_context = "This subclass is race-limited to: Drakian, Zardman, and Kobold. This subclass locks you to Matthios or Astrata-worship."
 
@@ -49,7 +49,6 @@
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/gold
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	l_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/gold
 	r_hand = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
@@ -63,9 +62,12 @@
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapon_choices
 	switch(weapon_choice)
 		if("Staff")
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/saxtonhale)
 			gloves = /obj/item/clothing/gloves/roguetown/angle
 			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/gold
+			l_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/gold
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/saxtonhale)
 		if("Unarmed")
 			if(H.gender == FEMALE)
 				shirt = /obj/item/clothing/suit/roguetown/shirt/desertbra

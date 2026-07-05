@@ -945,7 +945,7 @@ SPECIALS START HERE
 
 /datum/special_intent/drakkyrmaw_bite
 	name = "Drakkyrmaw: Hoardbite"
-	desc = "The golden maw snaps shut in a short, delayed bite-line. Victims are dragged closer, hobbled, exposed, and burned. Always targets the aimed zone."
+	desc = "The golden maw snaps shut in a short, delayed bite-line. Victims are dragged closer, exposed, and burned. Always targets the aimed zone."
 	tile_coordinates = list(list(0,0), list(0,1, 0.15 SECONDS), list(0,2, 0.3 SECONDS))
 	post_icon_state = "stab"
 	pre_icon_state = "trap"
@@ -982,7 +982,6 @@ SPECIALS START HERE
 		if(L.mobility_flags & MOBILITY_STAND)
 			apply_generic_weapon_damage(L, dam, "stab", get_aimed_zone(L), bclass = BCLASS_BITE, full_pen = TRUE)
 		L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-		L.apply_status_effect(/datum/status_effect/debuff/hobbled)
 	playsound(T, sfx_post_delay, 100, TRUE)
 	..()
 
@@ -1007,7 +1006,7 @@ SPECIALS START HERE
 
 /datum/special_intent/gilded_dragon_sweep/process_attack()
 	var/obj/item/rogueweapon/W = iparent
-	dam = W.force_dynamic * max((howner.STASTR / 10), 0.5)
+	dam = W.force_dynamic * max((howner.STASTR / 10), 0.5) //i really dunno if this is too much, this is more or less copypasted
 	. = ..()
 
 /datum/special_intent/gilded_dragon_sweep/on_create()
