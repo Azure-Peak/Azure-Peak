@@ -210,9 +210,11 @@
 			if(skeletonized)
 				to_chat(user, span_warning("There's not even a sliver of flesh on this!"))
 				return
-			var/used_time = 210
+			var/used_time = 5 SECONDS
 			if(user.mind)
-				used_time -= (user.get_skill_level(/datum/skill/labor/butchering) * 30)
+				used_time -= (user.get_skill_level(/datum/skill/labor/butchering))
+			if(used_time < 1 SECONDS)
+				used_time = 1 SECONDS
 			visible_message("[user] begins to butcher \the [src].")
 			playsound(src, 'sound/foley/gross.ogg', 100, FALSE)
 
