@@ -242,3 +242,4 @@
 	if(can_frenzy_move())
 		set_glide_size(DELAY_TO_GLIDE_SIZE(total_multiplicative_slowdown()))
 		step_towards(src, step_to, 99)
+
