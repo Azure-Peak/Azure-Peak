@@ -11,9 +11,8 @@
 		/mob/living/carbon/human/species/orc/npc/archer = 31, // ~30% of the orc humanoid line
 		/mob/living/carbon/human/species/orc/npc/berserker = 22,
 		/mob/living/carbon/human/species/orc/npc/marauder = 18,
-		/mob/living/simple_animal/hostile/retaliate/rogue/troll/axe = 10,
-		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 7,
-		/mob/living/carbon/human/species/orc/npc/warlord = 3,
+		/mob/living/carbon/human/species/orc/npc/warlord = 6,
+		/mob/living/carbon/human/species/orc/npc/juggernaut = 6, 
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/orc/npc/warlord = 100,

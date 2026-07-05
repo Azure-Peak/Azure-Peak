@@ -287,6 +287,7 @@
 	created_item = /obj/item/rogueweapon/huntingknife/copper
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	createditem_num = 2
+	bypass_dupe_test = TRUE //Smelts into slag, which can be recombined into copper for a one-to-one translation; no duping, but this still freaks the system out.
 
 /datum/anvil_recipe/weapons/copper/cmesser
 	name = "Messer, Copper"
@@ -301,6 +302,7 @@
 	created_item = /obj/item/rogueweapon/spear/stone/copper
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
 	createditem_num = 2
+	bypass_dupe_test = TRUE //Ditto.
 
 /datum/anvil_recipe/weapons/copper/crhomphaia
 	name = "Rhomphaia, Copper (+1 Copper)"

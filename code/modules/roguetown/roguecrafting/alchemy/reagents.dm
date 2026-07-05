@@ -9,6 +9,7 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
 	if(volume >= 60)
@@ -70,6 +71,7 @@
 	taste_description = "rich lifeblood"
 	scent_description = "metal"
 	metabolization_rate = REAGENTS_METABOLISM * 2
+	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/stronghealth/on_mob_life(mob/living/carbon/M)
 	if(volume >= 60)
@@ -97,6 +99,7 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
+	conflicting_reagent_types = list(/datum/reagent/medicine/strongmana, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/manapot/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
@@ -110,6 +113,7 @@
 	taste_description = "raw power"
 	scent_description = "berries"
 	metabolization_rate = REAGENTS_METABOLISM * 3
+	conflicting_reagent_types = list(/datum/reagent/medicine/manapot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/strongmana/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
@@ -123,6 +127,8 @@
 	taste_description = "reinvigorative creaminess"
 	scent_description = "strawberries in liqour"
 	metabolization_rate = REAGENTS_METABOLISM * 2
+	// Restoration is a hybrid of the health and mana families, so it conflicts with both.
+	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/stronghealth, /datum/reagent/medicine/manapot, /datum/reagent/medicine/strongmana)
 
 /datum/reagent/medicine/restoration/on_mob_life(mob/living/carbon/M)
 	if(volume >= 60)
@@ -151,6 +157,7 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
+	conflicting_reagent_types = list(/datum/reagent/medicine/strongstam)
 
 /datum/reagent/medicine/stampot/on_mob_life(mob/living/carbon/M)
 	if(volume >= 60)
@@ -167,6 +174,7 @@
 	taste_description = "sparkly static"
 	scent_description = "grass"
 	metabolization_rate = REAGENTS_METABOLISM
+	conflicting_reagent_types = list(/datum/reagent/medicine/stampot)
 
 /datum/reagent/medicine/strongstam/on_mob_life(mob/living/carbon/M)
 	if(volume >= 60)
@@ -190,6 +198,7 @@
 	taste_description = "sickly sweet"
 	scent_description = "medicine"
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
+	conflicting_reagent_types = list(/datum/reagent/medicine/strong_antidote)
 
 /datum/reagent/medicine/antidote/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
@@ -210,6 +219,7 @@
 	taste_description = "dirt"
 	scent_description = "medicine"
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
+	conflicting_reagent_types = list(/datum/reagent/medicine/antidote)
 
 /datum/reagent/medicine/strong_antidote/on_mob_life(mob/living/carbon/M)
 	if(volume > 0.99)
@@ -235,19 +245,15 @@
 	reagent_state = LIQUID
 	metabolization_rate = REAGENTS_METABOLISM * 0.1
 	overdose_threshold = 33
+	// All stat buffs conflict with each other: only one buff potion's effect can be active at a time.
+	// (Self is excluded by the purge logic, so a buff never purges itself despite matching its own parent type.)
+	conflicting_reagent_types = list(/datum/reagent/buff)
 
 /datum/reagent/buff/overdose_process(mob/living/carbon/M)
 	. = ..()
 	M.Jitter(2)
 	if(!HAS_TRAIT(M, TRAIT_CRACKHEAD)) // Baothan get to stack more of one potion in their body, but not multiple
 		M.adjustToxLoss(3)
-
-/datum/reagent/buff/on_mob_life(mob/living/carbon/M)
-	for(var/datum/reagent/R in M.reagents.reagent_list)
-		if(istype(R, /datum/reagent/buff) && R != src)
-			holder.remove_reagent(R.type, 10)
-			// Rapidly purge stacking buffs
-	..()
 
 /datum/reagent/buff/strength
 	name = STATKEY_STR
@@ -319,6 +325,26 @@
 
 /datum/reagent/buff/fortune/on_mob_life(mob/living/carbon/M)
 	M.apply_status_effect(/datum/status_effect/buff/alch/fortunepot)
+	return ..()
+
+/* Ruined Potion
+	When two conflicting potions end up in the same container (or the same body),
+	they neutralize each other into this useless sludge.
+*/
+/datum/reagent/ruined_potion
+	name = "Odd water"
+	description = "A foul mess of conflicting alchemical essences that tried to push nature too far. Utterly useless."
+	reagent_state = LIQUID
+	color = "#6b5d4f" // muddy brownish-green
+	taste_description = "bitter failure"
+	scent_description = "rancid alchemical waste"
+	metabolization_rate = REAGENTS_METABOLISM
+	overdose_threshold = 0
+	can_synth = FALSE 
+
+/datum/reagent/ruined_potion/on_mob_life(mob/living/carbon/M)
+	if(volume > 0.99)
+		M.add_nausea(2) // Drinking ruined potions is unpleasant but not dangerous.
 	return ..()
 
 //Poisons

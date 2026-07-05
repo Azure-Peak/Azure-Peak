@@ -1,3 +1,5 @@
+#define PHOENIX_GUARD_COOLDOWN 60 SECONDS
+
 ///T3 Enchantmentsdatum
 /datum/magic_item/greater/lifesteal
 	name = "life steal"
@@ -93,7 +95,7 @@
 	var/last_used
 
 /datum/magic_item/greater/phoenixguard/on_hit_response(var/obj/item/I, var/mob/living/carbon/human/owner, var/mob/living/carbon/human/attacker)
-	if(world.time < src.last_used + 20 SECONDS)
+	if(world.time < src.last_used + PHOENIX_GUARD_COOLDOWN)
 		return
 	if(isliving(attacker) && attacker != owner)
 		attacker.adjust_fire_stacks(5)
@@ -252,3 +254,5 @@
 		if(possible_turfs.len)
 			L.forceMove(pick(possible_turfs))
 		last_used[source] = world.time
+
+#undef PHOENIX_GUARD_COOLDOWN

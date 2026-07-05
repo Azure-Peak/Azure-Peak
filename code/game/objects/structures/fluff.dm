@@ -435,11 +435,11 @@
 	if(density)
 		icon_state = "shutter1"
 		density = FALSE
-		opacity = FALSE
+		set_opacity(FALSE)
 	else
 		icon_state = "shutter0"
 		density = TRUE
-		opacity = TRUE
+		set_opacity(TRUE)
 
 /obj/structure/bars/passage/shutter/open
 	icon_state = "shutter1"
@@ -501,7 +501,8 @@
 	if(togg)
 
 		icon_state = "floorgrilleopen"
-		obj_flags = CAN_BE_HIT
+		set_is_platform(FALSE)
+		obj_flags &= ~BLOCK_Z_IN_UP
 		var/turf/T = loc
 		if(istype(T))
 			for(var/mob/living/M in loc)
@@ -509,7 +510,8 @@
 	else
 
 		icon_state = "floorgrille"
-		obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
+		set_is_platform(TRUE)
+		obj_flags |= BLOCK_Z_IN_UP
 
 /obj/structure/bars/grille/attackby(obj/item/I, mob/user, params)
 	. = ..()
@@ -1072,7 +1074,7 @@
 		/obj/item/carvedgem,  //Some of these aren't particularly worth much, but it'd be REALLY unintuitive for "valuables" to not actually be offerings
 		/obj/item/rogueweapon/huntingknife/combat/jadekukri,
 		/obj/item/rogueweapon/huntingknife/combat/opalknife,
-		/obj/item/ammo_casing/caseless/rogue/javelin,
+		/obj/item/rogueweapon/spear/turq,
 		/obj/item/rogueweapon/stoneaxe/battle/coral,
 		/obj/item/rogueweapon/sword/amber,
 		/obj/item/rogueweapon/sword/short/messer/onyxa,
@@ -1579,8 +1581,8 @@
 	if(density)
 		icon_state = "decoybookcase1"
 		density = FALSE
-		opacity = FALSE
+		set_opacity(FALSE)
 	else
 		icon_state = "decoybookcase0"
 		density = TRUE
-		opacity = TRUE
+		set_opacity(TRUE)

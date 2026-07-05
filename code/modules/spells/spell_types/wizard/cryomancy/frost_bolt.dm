@@ -4,7 +4,7 @@
 	desc = "A shard of frozen energy that slows and damages a target. \
 	Applies one stack of frost on hit. \
 	Damage is increased by 100% versus simple-minded creechurs. \
-	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
+	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
 	button_icon_state = "frost_bolt"
 	sound = 'sound/spellbooks/icicle.ogg'
 	spell_color = GLOW_COLOR_ICE

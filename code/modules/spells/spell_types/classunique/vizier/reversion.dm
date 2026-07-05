@@ -1,15 +1,15 @@
 // Reversion - Origin Magic (Vizier)
 // The Vizier marks an adjacent ally or themselves, snapshotting their state and position.
 // Leaves a mark on the ground - that they can then activate at will to teleport back
-// It expires after 15 seconds
+// It expires after 25 seconds
 
-#define REVERSION_MARK_DURATION (15 SECONDS)
+#define REVERSION_MARK_DURATION (25 SECONDS)
 
 /datum/action/cooldown/spell/vizier/reversion
 	button_icon = 'icons/mob/actions/classuniquespells/vizier.dmi'
 	name = "Reversion"
-	desc = "Marks an adjacent ally's body and position for 15 seconds, allowing them to return to their marked state at will.<br><br>If used on a target that has died within the last minute, the Vizier may instead rewind their death at the cost of their own Lux. Anything beyond that cannot be rewound."
-	fluff_desc = "Among the most demanding applications of Origin Magick, this art does not merely restore a prior state. It preserves one. For a fleeting moment, a Vizier anchors a person's place within the tapestry of time, allowing it to retrace its own history and reclaim a body, position, and condition once held. While it is theoretically possible to use the same principles to reclaim a soul that has only just departed, Naledi's seminaries traditionally frown upon such acts. Death is regarded as a boundary not to be crossed lightly, and those who make a habit of doing so rarely earn the respect of their peers."
+	desc = "Marks an adjacent ally's body and position for 25 seconds, allowing them to return to their marked state at will."
+	fluff_desc = "Among the most demanding applications of Origin Magick, this art does not merely restore a prior state. It preserves one. For a fleeting moment, a Vizier anchors a person's place within the tapestry of time, allowing it to retrace its own history and reclaim a body, position, and condition once held."
 	button_icon_state = "reversion"
 	sound = 'sound/magic/timeforward.ogg'
 	spell_color = GLOW_COLOR_ARCANE
@@ -65,32 +65,6 @@
 	if(!istype(target))
 		return FALSE
 
-	// Reverse a recently departed soul. Must be done within 1 minute. Obs: This interaction will be removed if Death's Door PR is removed.
-	if(target.stat == DEAD)
-		if(!H.has_status_effect(/datum/status_effect/debuff/devitalised))
-			if(target.timeofdeath && (world.time - target.timeofdeath) <= 1 MINUTES)
-				if(alert(owner, "[target] has very recently departed. Sacrifice your Lux to rewind their soul back?", "Origin Restoration", "Restore Them", "Leave Them") == "Restore Them")
-					var/obj/effect/temp_visual/origin_restoration/V = new
-					target.vis_contents += V
-					var/turf/user_turf = get_turf(owner)
-					new /obj/effect/temp_visual/origin_restoration_burst(user_turf, NORTHEAST)
-					new /obj/effect/temp_visual/origin_restoration_burst(user_turf, NORTHWEST)
-					new /obj/effect/temp_visual/origin_restoration_burst(user_turf, SOUTHEAST)
-					new /obj/effect/temp_visual/origin_restoration_burst(user_turf, SOUTHWEST)
-					playsound(target.loc, 'sound/magic/regression1.ogg')				
-					H.apply_status_effect(/datum/status_effect/debuff/devitalised/lesser)
-					target.say("Telos!")
-					target.setOxyLoss(0)
-					if(target.revive(full_heal = FALSE))
-						target.grab_ghost(force = TRUE)
-						target.emote("gasp")
-						target.Jitter(100)
-						if(target.mind)
-							target.mind.remove_antag_datum(/datum/antagonist/zombie)
-						target.apply_status_effect(/datum/status_effect/debuff/revived)
-						target.visible_message(span_blue("[owner]'s Lux is forcefully torn away as [target]'s soul is rewound back into their body!"),	span_blue("A distant darkness releases its grip on me. I wake once more, feeling the remnants of a dying light..."))
-					return TRUE
-
 	// Snapshot the target's current state
 	var/datum/action/cooldown/spell/vizier/reversion_trigger/trigger = new
 	trigger.origin = get_turf(target)
@@ -118,13 +92,16 @@
 	// Audio + visual feedback on the target
 	playsound(target.loc, 'sound/magic/timeforward.ogg', 50, FALSE)
 	target.apply_status_effect(/datum/status_effect/buff/reversion)
+	target.balloon_alert(target, "marked for reversion")
+	if(target != H)
+		target.balloon_alert(H, "marked for reversion")
 
 	// Feedback
 	if(target == H)
-		to_chat(H, span_notice("I mark myself for reversion. I can activate the revert at will."))
+		to_chat(H, span_purple("I mark myself for reversion. I can activate the revert at will."))
 	else
-		to_chat(target, span_warning("I feel a part of me was left behind... I can choose to revert back."))
-		to_chat(H, span_notice("I mark [target] for reversion. They can activate the revert at will."))
+		to_chat(target, span_purple("I feel a part of me was left behind... I can choose to revert back."))
+		to_chat(H, span_purple("I mark [target] for reversion. They can activate the revert at will."))
 
 	return TRUE
 
@@ -146,7 +123,7 @@
 	invocation_type = INVOCATION_NONE
 
 	charge_required = TRUE
-	charge_time = 0.5 SECONDS
+	charge_time = 0 // Instant cuz do after already exists
 	charge_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
@@ -175,6 +152,8 @@
 	var/expiry_timer
 	/// Ground marker effect at the origin point.
 	var/obj/effect/reversion_marker/ground_marker
+	/// TRUE while the revert channel is running - blocks re-entry and marks us as committed.
+	var/reverting = FALSE
 
 /datum/action/cooldown/spell/vizier/reversion_trigger/Grant(mob/grant_to)
 	. = ..()
@@ -191,6 +170,38 @@
 	var/mob/living/carbon/target = owner
 	if(!istype(target))
 		return FALSE
+
+	if(reverting)
+		return FALSE
+	reverting = TRUE
+
+	if(expiry_timer)
+		deltimer(expiry_timer)
+		expiry_timer = null
+
+
+	target.balloon_alert(target, "reverting...")
+	target.visible_message(span_purple("[target]'s body begins to flicker, slipping out of the present moment..."))
+	var/datum/progressbar/progbar = new(target, 2 SECONDS, target)
+	var/endtime = world.time + 2 SECONDS
+	var/starttime = world.time
+	while(world.time < endtime)
+		stoplag(1)
+		if(QDELETED(src) || QDELETED(target))
+			break
+		progbar.update(world.time - starttime)
+	qdel(progbar)
+
+
+	if(QDELETED(src) || QDELETED(target) || target != owner)
+		reverting = FALSE
+		return FALSE
+
+	var/turf/departure = get_turf(target)
+	target.visible_message(span_purple("[target] flickers and warps away, snapping backwards through time!"), span_purple("Time reverses - my body snaps back!"))
+	if(departure)
+		departure.balloon_alert_to_viewers("warps away!")
+		playsound(departure, 'sound/magic/timereverse.ogg', 100, FALSE)
 
 	// Teleport back
 	do_teleport(target, origin, no_effects = TRUE)
@@ -217,8 +228,9 @@
 		else
 			target.simple_remove_wound(wound)
 
+	// Announce the arrival at the return point
 	playsound(target.loc, 'sound/magic/timereverse.ogg', 100, FALSE)
-	to_chat(target, span_warning("Time reverses - my body snaps back!"))
+	target.balloon_alert_to_viewers("snaps into place!", "I snap back!")
 
 	// Remove the status effect and clean up
 	target.remove_status_effect(/datum/status_effect/buff/reversion)
@@ -227,10 +239,13 @@
 
 /// Called when the mark expires without being used.
 /datum/action/cooldown/spell/vizier/reversion_trigger/proc/expire()
+	// A revert is already committed and channeling - let it finish, don't tear down under it.
+	if(reverting)
+		return
 	if(!owner)
 		qdel(src)
 		return
-	to_chat(owner, span_notice("The reversion mark fades."))
+	to_chat(owner, span_purple("The reversion mark fades."))
 	var/mob/living/L = owner
 	L.remove_status_effect(/datum/status_effect/buff/reversion)
 	cleanup()

@@ -131,6 +131,11 @@
 	desc = "Form-fitting legwear. Almost too form-fitting. Custom-fit for its (now deceased) wearer."
 	allowed_race = list(/datum/species/elf/dark/raider)
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/spymaster
+	name = "hand's tights"
+	desc = "Tailored from fine, unreflective silk that clings close to the form."
+	icon_state = "handpants"
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	name = "bronze chain skirt"
 	desc = "A knee-length maille skirt, made with hundreds of small bronze rings. It wards cuts against the thighs without slowing the feet."

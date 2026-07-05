@@ -278,16 +278,14 @@
 		"Chalybs, ad quietem redire!",
 	)
 	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/sawblade_volley,
-		/datum/action/cooldown/spell/blade_burst,
-		/datum/action/cooldown/spell/projectile/iron_tempest,
-		/datum/action/cooldown/spell/iron_skin,
-		/datum/action/cooldown/spell/arcyne_forge,
-		/datum/action/cooldown/spell/readomen,
-	)
-	choice_spells = list(
+		/datum/action/cooldown/spell/ferramancy_strike/falling_crescent,
+		/datum/action/cooldown/spell/ferramancy_strike/sorcerers_lance,
+		/datum/action/cooldown/spell/ferramancy_strike/heavens_hammer,
 		/datum/action/cooldown/spell/projectile/stygian_efflorescence,
-		/datum/action/cooldown/spell/projectile/arcyne_lance,
+		/datum/action/cooldown/spell/form_blade,
+		/datum/action/cooldown/spell/bind_armament,
+		/datum/action/cooldown/spell/arcyne_forge,
+		/datum/action/cooldown/spell/mending,
 	)
 	variants = list(
 		"mastery" = list(

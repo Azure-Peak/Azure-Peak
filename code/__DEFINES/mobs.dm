@@ -89,8 +89,6 @@
 #define DEFAULT_BODYPART_ICON_ORGANIC 'icons/mob/human_parts_greyscale.dmi'
 #define DEFAULT_BODYPART_ICON_ROBOTIC 'icons/mob/augmentation/augments.dmi'
 
-#define MONKEY_BODYPART "monkey"
-#define DEVIL_BODYPART "devil"
 /*see __DEFINES/inventory.dm for bodypart bitflag defines*/
 
 // Health/damage defines for carbon mobs
@@ -289,14 +287,6 @@
 #define INCORPOREAL_MOVE_BASIC 1
 #define INCORPOREAL_MOVE_SHADOW 2 // leaves a trail of shadows
 #define INCORPOREAL_MOVE_JAUNT 3 // is blocked by holy water/salt
-
-//Secbot and ED209 judgement criteria bitflag values
-#define JUDGE_EMAGGED		(1<<0)
-#define JUDGE_IDCHECK		(1<<1)
-#define JUDGE_WEAPONCHECK	(1<<2)
-#define JUDGE_RECORDCHECK	(1<<3)
-//ED209's ignore monkeys
-#define JUDGE_IGNOREMONKEYS	(1<<4)
 
 #define MEGAFAUNA_DEFAULT_RECOVERY_TIME 5
 

@@ -13,7 +13,8 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_NO_MOVE
 	click_to_activate = FALSE
 	self_cast_possible = TRUE
-	charge_message = "<font color='#ffae00'>Prjperi! Connect! Se-Djed!"
+	invocations = list("Prjperi! Connect! Se-Djed!")
+	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
 	charge_time = 1.5 SECONDS
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
@@ -50,7 +51,8 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_NO_MOVE
 	click_to_activate = FALSE
 	self_cast_possible = TRUE
-	charge_message = "<font color='#ffae00'>Se-Khep! Return! Khai!"
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Se-Khep! Return! Khai!")
 	var/obj/structure/leyline_circle/linked_circle
 	var/max_range = 9
 
@@ -177,13 +179,10 @@
 		qdel(src)
 		return
 	if(get_turf(owner) == get_turf(src))
-		if(owner.cmode)
-			if(!owner.has_status_effect(/datum/status_effect/buff/circle_of_power))
-				var/datum/status_effect/buff/circle_of_power/B = owner.apply_status_effect(/datum/status_effect/buff/circle_of_power)
-				if(B)
-					B.source_circle = src
-		else
-			owner.apply_status_effect(/datum/status_effect/buff/invigoration, 5 SECONDS, 25, 15)
+		if(!owner.has_status_effect(/datum/status_effect/buff/circle_of_power))
+			var/datum/status_effect/buff/circle_of_power/B = owner.apply_status_effect(/datum/status_effect/buff/circle_of_power)
+			if(B)
+				B.source_circle = src
 		if(!length(active_beams))
 			create_beams()
 	else

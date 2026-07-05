@@ -34,23 +34,6 @@
 		/datum/action/cooldown/spell/forcewall,
 	)
 
-/datum/magic_aspect/aegiscraft
-	name = "Aegiscraft"
-	latin_name = "Minor Aspectus Aegidis"
-	desc = "TODO"
-	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_ARCANE
-	binding_chants = list(
-		"Let me the shield that will protect me.",
-		"Aegis, mihi adesse!",
-	)
-	unbinding_chants = list(
-		"I set aside the shield, peace be with me.",
-		"Aegis, me relinquere!",
-	)
-	choice_spells = list(
-		/datum/action/cooldown/spell/conjure_aegis,
-	)
 
 /datum/magic_aspect/displacement
 	name = "Displacement"
@@ -67,7 +50,7 @@
 		"Translatio, me relinquere!",
 	)
 	fixed_spells = list(
-		/datum/action/cooldown/spell/blink,
+		/datum/action/cooldown/spell/phase,
 	)
 
 /datum/magic_aspect/autowardry
@@ -87,25 +70,6 @@
 	choice_spells = list(
 		/datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
 		/datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
-	)
-
-/datum/magic_aspect/lesser_kinesis
-	name = "Lesser Kinesis"
-	latin_name = "Minor Aspectus Vis"
-	desc = "TODO"
-	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_KINESIS
-	binding_chants = list(
-		"Let me push and pull at the threads of force.",
-		"Vis Minor, mihi adesse!",
-	)
-	unbinding_chants = list(
-		"I release the threads of force.",
-		"Vis Minor, me relinquere!",
-	)
-	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/fetch,
-		/datum/action/cooldown/spell/projectile/repel,
 	)
 
 /datum/magic_aspect/lesser_augmentation

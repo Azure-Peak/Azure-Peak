@@ -156,6 +156,9 @@
 		return FALSE
 	if(HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE))
 		return FALSE
+	if(HAS_TRAIT(src, TRAIT_BLACKBLOOD) && prob(80))
+		to_chat(src, span_danger("I feel something churning within my body... Luckily, it doesn't take hold."))
+		return FALSE
 	var/datum/status_effect/zombie_infection/infection = has_status_effect(/datum/status_effect/zombie_infection)
 	if(infection)
 		var/time_remaining = infection.transformation_time - world.time

@@ -48,10 +48,42 @@
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	. = ..()
+	if(istype(P, /obj/item/quest_writ/blockade))
+		post_blockade_writ(user, P)
+		return
 	if(istype(P, /obj/item/quest_writ))
 		turn_in_contract(user, P)
 		return
 	return
+
+/obj/structure/roguemachine/contractledger/proc/post_blockade_writ(mob/living/carbon/human/user, obj/item/quest_writ/blockade/writ)
+	var/datum/quest/kill/blockade_defense/Q = writ.assigned_quest
+	if(!istype(Q))
+		return
+	if(Q.is_directive)
+		to_chat(user, span_warning("A Steward's Request is not for public posting - it must be handed directly to the bearer."))
+		return
+	if(Q.quest_receiver_reference)
+		to_chat(user, span_warning("This writ has already been taken up - it cannot be pinned."))
+		return
+	if(Q in SSquestpool.pool)
+		to_chat(user, span_warning("This writ is already pinned to the ledger."))
+		return
+	if(!Q.blockade_ref?.resolve())
+		to_chat(user, span_warning("The blockade this writ answers has already been lifted."))
+		return
+	Q.required_fellowship_size = BLOCKADE_FELLOWSHIP_REQUIREMENT
+	Q.created_at = world.time
+	Q.quest_scroll = null
+	Q.quest_scroll_ref = null
+	writ.assigned_quest = null
+	SSquestpool.pool += Q
+	var/datum/blockade/B = Q.blockade_ref.resolve()
+	if(B)
+		B.active_scroll_ref = null
+	playsound(src, 'sound/items/inqslip_sealed.ogg', 50, TRUE, -1)
+	to_chat(user, span_notice("You pin the [writ.name] to the ledger. It now calls for a Fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] to answer."))
+	qdel(writ)
 
 /obj/structure/roguemachine/contractledger/attack_hand(mob/living/carbon/human/user)
 	if(!ishuman(user))
@@ -206,9 +238,9 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"levy_exempt" = Q.levy_exempt,
 			"guild_cut_exempt" = Q.guild_cut_exempt,
 			"is_rumor" = Q.source == QUEST_SOURCE_RUMOR,
-			"is_defense" = Q.source == QUEST_SOURCE_DEFENSE,
+			"is_defense" = Q.source == QUEST_SOURCE_DEFENSE || Q.source == QUEST_SOURCE_BLOCKADE,
 			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,
-			"is_standing" = Q.source == QUEST_SOURCE_RUMOR || Q.source == QUEST_SOURCE_DEFENSE || Q.source == QUEST_SOURCE_TOWNER,
+			"is_standing" = Q.source == QUEST_SOURCE_RUMOR || Q.source == QUEST_SOURCE_DEFENSE || Q.source == QUEST_SOURCE_TOWNER || Q.source == QUEST_SOURCE_BLOCKADE,
 			"required_fellowship_size" = Q.required_fellowship_size,
 			"lapse_minutes" = lapse_minutes,
 		))

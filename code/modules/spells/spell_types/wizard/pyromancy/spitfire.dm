@@ -3,7 +3,7 @@
 	name = "Spitfire"
 	desc = "Shoot out a low-powered ball of fire that ignites a target with a small amount of fire on impact. \
 	Damage is increased by 100% versus simple-minded creechurs. \
-	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
+	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
 	button_icon_state = "spitfire"
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_color = GLOW_COLOR_FIRE

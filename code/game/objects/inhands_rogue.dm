@@ -32,10 +32,12 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 	if(HAS_BLOOD_DNA(src))
 		used_index += "_b"
 	var/static/list/onmob_sprites = list()
-	var/icon/onmob = onmob_sprites["[tag][behind][mirrored][used_index]"]
+	var/cache_key = "[type]|[tag]|[behind]|[mirrored]|[used_index]"
+	var/icon/onmob = onmob_sprites[cache_key]
 	if(!onmob || force_reupdate_inhand)
 		onmob = fcopy_rsc(generateonmob(tag, prop, behind, mirrored))
-		onmob_sprites["[tag][behind][mirrored][used_index]"] = onmob
+		onmob_sprites[cache_key] = onmob
+		force_reupdate_inhand = FALSE
 	return onmob
 
 /obj/item/proc/get_extra_onmob_index()

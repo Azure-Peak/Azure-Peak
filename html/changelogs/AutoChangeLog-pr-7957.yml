@@ -1,0 +1,4 @@
+author: "kiwedespars"
+delete-after: True
+changes:
+  - bugfix: "fortitude stam regen now works properly"

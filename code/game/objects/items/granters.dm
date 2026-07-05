@@ -216,6 +216,26 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		/datum/crafting_recipe/roguetown/leather/unique/gronnboots//Gronn
 	)
 
+/obj/item/book/granter/spell/fly
+	name = "Scroll of Fly"
+	desc = "Teaches you how to cast Fly."
+	spell = /datum/action/cooldown/spell/fly
+	spellname = "Fly"
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scrolldarkred"
+	oneuse = TRUE
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	remarks = list("Volāre supra terram..", "Levitas mentis..", "Ascéndere in aethera..")
+
+/obj/item/book/granter/spell/fly/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse)
+		name = "siphoned scroll"
+		desc = "A scroll once inscribed with magical scripture. The surface is now barren of knowledge, siphoned by someone else. It's utterly useless."
+		icon_state = "scroll"
+		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
+
 /obj/item/book/granter/spell/bonechill
 	name = "Scroll of Bone Chill"
 	spell = /datum/action/cooldown/spell/bonechill

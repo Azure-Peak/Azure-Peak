@@ -2,7 +2,7 @@
 	name = "Greater Fireball"
 	desc = "Shoot out an immense ball of fire that explodes on impact, scorching and slowing all nearby targets in a wide radius. \
 	Damage is increased by 100% versus simple-minded creechurs.\n\
-	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
+	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
 	button_icon_state = "fireball_greater"
 	glow_intensity = GLOW_INTENSITY_VERY_HIGH
 

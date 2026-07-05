@@ -1,6 +1,7 @@
 /datum/food_recipe/cake
 	abstract_type = /datum/food_recipe/cake
 	book_category = FOOD_CAT_CAKES
+	inline_ancestry = TRUE
 
 /datum/food_recipe/cake/frosting
 	name = "frosting"
