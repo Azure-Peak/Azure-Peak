@@ -264,6 +264,10 @@
 	. = ..()
 	set_quantity(rand(4,19))
 
+/obj/item/roguecoin/aalloy/pile/rich/Initialize()
+	. = ..()
+	set_quantity(rand(8,19)) //Hilarious
+
 /obj/item/roguecoin/copper/pile/Initialize()
 	. = ..()
 	set_quantity(rand(4,19))

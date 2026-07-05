@@ -28,7 +28,7 @@
 
 	charge_required = TRUE
 	charge_time = 0.5 SECONDS
-	charge_drain = 0
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 60 SECONDS
@@ -124,7 +124,7 @@
 
 	charge_required = TRUE
 	charge_time = 0 // Instant cuz do after already exists
-	charge_drain = 0
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 0

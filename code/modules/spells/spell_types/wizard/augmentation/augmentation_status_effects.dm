@@ -5,75 +5,81 @@
 
 // ---- HASTE ----
 
-/atom/movable/screen/alert/status_effect/buff/haste
-	name = "Haste"
-	desc = "I am magically hastened."
+/atom/movable/screen/alert/status_effect/buff/attune_haste
+	name = "Attune: Haste"
+	desc = "My limbs move with uncanny swiftness. (+3 Speed, 0.85x Action Cooldown, Guidance)"
 	icon_state = "buff"
 
 #define HASTE_FILTER "haste_glow"
 
-/datum/status_effect/buff/haste
+/datum/status_effect/buff/attune_haste
 	var/outline_colour ="#F0E68C" // Hopefully not TOO yellow
 	id = "haste"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/haste
+	alert_type = /atom/movable/screen/alert/status_effect/buff/attune_haste
 	effectedstats = list(STATKEY_SPD = 3)
 	duration = STAT_BUFF_SELF_DURATION
 
-/datum/status_effect/buff/haste/on_creation(mob/living/new_owner, var/new_duration = null)
+/datum/status_effect/buff/attune_haste/on_creation(mob/living/new_owner, var/new_duration = null)
 	if(new_duration)
 		duration = new_duration
 	. = ..()
 
-/datum/status_effect/buff/haste/on_apply()
+/datum/status_effect/buff/attune_haste/on_apply()
 	. = ..()
+	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>attune: haste (+3 spd, guidance)!</font>")
 	var/filter = owner.get_filter(HASTE_FILTER)
 	if (!filter)
 		owner.add_filter(HASTE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 25, "size" = 1))
 	to_chat(owner, span_warning("My limbs move with uncanny swiftness."))
+	ADD_TRAIT(owner, TRAIT_GUIDANCE, id)
 
-/datum/status_effect/buff/haste/on_remove()
+/datum/status_effect/buff/attune_haste/on_remove()
 	. = ..()
 	owner.remove_filter(HASTE_FILTER)
 	to_chat(owner, span_warning("My body moves slowly again..."))
+	REMOVE_TRAIT(owner, TRAIT_GUIDANCE, id)
 
 #undef HASTE_FILTER
 
-/datum/status_effect/buff/haste/nextmove_modifier()
+/datum/status_effect/buff/attune_haste/nextmove_modifier()
 	return 0.85
 
 // ---- GIANT'S STRENGTH ----
 
 #define GIANTSSTRENGTH_FILTER "giantsstrength_glow"
 
-/atom/movable/screen/alert/status_effect/buff/giants_strength
-	name = "Giant's Strength"
-	desc = "My muscles are strengthened. (+3 Strength)"
+/atom/movable/screen/alert/status_effect/buff/attune_giant
+	name = "Attune: Giant"
+	desc = "My muscles are strengthened. (+4 Strength, Guidance)"
 	icon_state = "buff"
 
-/datum/status_effect/buff/giants_strength
+/datum/status_effect/buff/attune_giant
 	var/outline_colour ="#8B0000" // Different from strength potion cuz red = strong
 	id = "giantstrength"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/giants_strength
-	effectedstats = list(STATKEY_STR = 3)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/attune_giant
+	effectedstats = list(STATKEY_STR = 4)
 	duration = STAT_BUFF_SELF_DURATION
 
-/datum/status_effect/buff/giants_strength/on_creation(mob/living/new_owner, var/new_duration = null)
+/datum/status_effect/buff/attune_giant/on_creation(mob/living/new_owner, var/new_duration = null)
 	if(new_duration)
 		duration = new_duration
 	. = ..()
 
-/datum/status_effect/buff/giants_strength/on_apply()
+/datum/status_effect/buff/attune_giant/on_apply()
 	. = ..()
+	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>attune: giant (+4 str, guidance)!</font>")
 	var/filter = owner.get_filter(GIANTSSTRENGTH_FILTER)
 	if (!filter)
 		owner.add_filter(GIANTSSTRENGTH_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))
 	to_chat(owner, span_warning("My muscles strengthen."))
+	ADD_TRAIT(owner, TRAIT_GUIDANCE, id)
 
 
-/datum/status_effect/buff/giants_strength/on_remove()
+/datum/status_effect/buff/attune_giant/on_remove()
 	. = ..()
 	to_chat(owner, span_warning("My strength fades away..."))
 	owner.remove_filter(GIANTSSTRENGTH_FILTER)
+	REMOVE_TRAIT(owner, TRAIT_GUIDANCE, id)
 
 #undef GIANTSSTRENGTH_FILTER
 
@@ -101,6 +107,7 @@
 
 /datum/status_effect/buff/stoneskin/on_apply()
 	. = ..()
+	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>stoneskin (+5 con)!</font>")
 	var/filter = owner.get_filter(STONESKIN_FILTER)
 	if (!filter)
 		owner.add_filter(STONESKIN_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))
@@ -117,35 +124,38 @@
 
 #define HAWKSEYES_FILTER "hawkseyes_glow"
 
-/atom/movable/screen/alert/status_effect/buff/hawks_eyes
-	name = "Hawk's Eyes"
-	desc = "My vision is sharpened. (+5 Perception)"
+/atom/movable/screen/alert/status_effect/buff/attune_hawk
+	name = "Attune: Hawk"
+	desc = "My vision is sharpened. (+1 Strength, +4 Perception, Guidance)"
 	icon_state = "buff"
 
-/datum/status_effect/buff/hawks_eyes
+/datum/status_effect/buff/attune_hawk
 	var/outline_colour ="#ffff00" // Same color as perception potion
 	id = "hawkseyes"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/hawks_eyes
-	effectedstats = list(STATKEY_PER = 5)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/attune_hawk
+	effectedstats = list(STATKEY_STR = 1, STATKEY_PER = 4)
 	duration = STAT_BUFF_SELF_DURATION
 
-/datum/status_effect/buff/hawks_eyes/on_creation(mob/living/new_owner, var/new_duration = null)
+/datum/status_effect/buff/attune_hawk/on_creation(mob/living/new_owner, var/new_duration = null)
 	if(new_duration)
 		duration = new_duration
 	. = ..()
 
-/datum/status_effect/buff/hawks_eyes/on_apply()
+/datum/status_effect/buff/attune_hawk/on_apply()
 	. = ..()
+	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>attune: hawk (+1 str, +4 per, guidance)!</font>")
 	var/filter = owner.get_filter(HAWKSEYES_FILTER)
 	if (!filter)
 		owner.add_filter(HAWKSEYES_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 25, "size" = 1))
 	to_chat(owner, span_warning("My vision sharpens, like that of a hawk."))
+	ADD_TRAIT(owner, TRAIT_GUIDANCE, id)
 
 
-/datum/status_effect/buff/hawks_eyes/on_remove()
+/datum/status_effect/buff/attune_hawk/on_remove()
 	. = ..()
 	to_chat(owner, span_warning("My vision blurs, losing its unnatural keenness."))
 	owner.remove_filter(HAWKSEYES_FILTER)
+	REMOVE_TRAIT(owner, TRAIT_GUIDANCE, id)
 
 #undef HAWKSEYES_FILTER
 
@@ -171,6 +181,7 @@
 
 /datum/status_effect/buff/guidance/on_apply()
 	. = ..()
+	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>guidance (+20% parry/dodge)!</font>")
 	var/filter = owner.get_filter(GUIDANCE_FILTER)
 	if (!filter)
 		owner.add_filter(GUIDANCE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))
@@ -207,6 +218,7 @@
 
 /datum/status_effect/buff/fortitude/on_apply()
 	. = ..()
+	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>fortitude (-50% stam)!</font>")
 	var/filter = owner.get_filter(FORTITUDE_FILTER)
 	if (!filter)
 		owner.add_filter(FORTITUDE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))

@@ -1,52 +1,66 @@
 /mob/living/carbon/human/species/npc/deadite
-	ai_controller = /datum/ai_controller/human_npc
-	d_intent = INTENT_PARRY
-	dodgetime = 8
+	d_intent = INTENT_PARRY //Test if stuff breaks because make_deadite() should override this.
+	dodgetime = 30
 	ambushable = FALSE
-	infected = TRUE
 
 /mob/living/carbon/human/species/npc/deadite/Initialize()
 	. = ..()
+	//picked from a list because 1: Races that look better w/deaditing here 2: We need deadite infectable races for immersion's sake I.E not sun elves 3: we can bias towards common azurian races
+	//Yes it requires spamming the list with several entries to weight it, if you can do better. please do so. this sucks.
 	var/species = list(
 		/datum/species/human/northern,
-		/datum/species/dwarf/mountain,
-		/datum/species/elf/dark,
+		/datum/species/human/northern,
+		/datum/species/human/northern,
+		/datum/species/human/northern,
+		/datum/species/elf/wood, //Extra bias towards humens and elves/half elves Because deadites are locals likely
 		/datum/species/elf/wood,
-		/datum/species/goblinp,
-		/datum/species/aasimar,
+		/datum/species/elf/wood,
+		/datum/species/elf/wood,
 		/datum/species/human/halfelf,
+		/datum/species/human/halfelf,
+		/datum/species/human/halfelf,
+		/datum/species/human/halfelf,
+		/datum/species/dwarf/mountain, //Racial bias ticks of w/other races from here on
+		/datum/species/goblinp,
+		/datum/species/elf/dark,
+		/datum/species/aasimar,
 		/datum/species/halforc,
+		/datum/species/tieberian,
+		/datum/species/anthromorph,
+		/datum/species/anthromorphsmall,
+		/datum/species/demihuman,
+		/datum/species/akula,
+		/datum/species/moth,
+		/datum/species/tabaxi,
+		/datum/species/vulpkanin,
+		/datum/species/vulpkanin,
+		/datum/species/dracon,
 	)
 
 	set_species(pick(species))
 	gender = pick(MALE, FEMALE)
+	dna.species.handle_body(src)
+	dna.species.random_character(src)
+	//Random voices, this can probably be more random-ish but it'll do for now
+	random_voice_NPC()
+	random_hair_NPC()
 
-	var/obj/item/organ/ears/organ_ears = getorgan(/obj/item/organ/ears)
 	var/list/deadite_firstnames = world.file2list("strings/rt/names/other/deaditenpcfirst.txt")
 	var/list/deadite_lastnames  = world.file2list("strings/rt/names/other/deaditenpclast.txt")
-	
-	if(organ_ears)
-		organ_ears.accessory_colors = "#868e79"
+
 
 	real_name = "[pick(deadite_firstnames)] [pick(deadite_lastnames)]"
 
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS) //A second delay, let us race up first
 
 /mob/living/carbon/human/species/npc/deadite/after_creation()
 	. = ..()
-	src.mind_initialize()
-	mob_biotypes |= MOB_UNDEAD
-	var/datum/antagonist/zombie/zombie_antag = src.mind.add_antag_datum(/datum/antagonist/zombie, team = FALSE, admin_panel = TRUE)
-	if(zombie_antag && !zombie_antag.has_turned)
-		zombie_antag.transform_zombie()
-		zombie_antag.has_turned = TRUE
 	equipOutfit(new /datum/outfit/job/roguetown/deadite)
-	//Make sure deadite NPCs don't show up in the antag listings
-	GLOB.antagonists -= zombie_antag
-	update_body()
+	make_deadite()
 
 /datum/outfit/job/roguetown/deadite/pre_equip(mob/living/carbon/human/H)
 	..()
+	//We simulate being a """deadite""" here
 	head = null
 	beltr = null
 	beltl = null
@@ -69,9 +83,6 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 		if(prob(50))
 			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
-
-	r_hand = null
-	l_hand = null
 
 /mob/living/carbon/human/proc/deadite_get_aimheight(victim)
 	if(!(mobility_flags & MOBILITY_STAND))
