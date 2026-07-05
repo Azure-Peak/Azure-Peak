@@ -45,7 +45,7 @@
 		keys_held.Cut(1,2)
 	keys_held[_key] = TRUE
 	var/movement = movement_keys[_key]
-	if(!(next_move_dir_sub & movement) && !keys_held["Ctrl"])
+	if(!(next_move_dir_sub & movement))
 		next_move_dir_add |= movement
 
 	// Client-level keybindings are ones anyone should be able to do at any time
