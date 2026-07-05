@@ -201,6 +201,8 @@
 			QDEL_NULL(src)
 			return
 
+		ADD_TRAIT(recipient, TRAIT_TOXIC_BLOOD, TRAIT_VIRTUE) // you're either undead or some other nite-creechur, if deadites can't be drained for vitae neither can you
+
 		for(var/choice in picked_choices)
 			switch(choice)
 				if(SC_ROTCURED)

@@ -222,6 +222,7 @@
 #define TRAIT_LEPROSY "Leprosy"
 #define TRAIT_NUDE_SLEEPER "Nude Sleeper"
 #define TRAIT_SILVER_BLESSED "Silverblessed"
+#define TRAIT_TOXIC_BLOOD "Cursed Blood"
 #define TRAIT_UNLYCKERABLE "Lycker Immunity"
 #define TRAIT_OUTLAW "Outlaw"
 #define TRAIT_ALDERMAN "Alderman of the Assembly"
@@ -468,6 +469,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_LESSER_REVERSE_GUIDANCE = span_warning("Something faintly hinders me in battle, my strikes and defenses feel slightly imprecise."),
 	TRAIT_DEPRAVED = span_info("The languid scent of Her debauchery is known to me."),
 	TRAIT_SILVER_BLESSED = span_info("I have been baptized in fire. Blessed silverdust flows through my blood, protecting me from both vampyrism and lycanthropy."),
+	TRAIT_TOXIC_BLOOD = span_info("The curse nestled deep within my lux has rendered my vitae toxic."),
 	TRAIT_UNLYCKERABLE = span_info("My kind cannot bear the Sun curse for it already has another."),
 	TRAIT_GOODTRAINER = span_info("I am a good teacher, and when it comes to weaponry I can train others to be just as skilled as I am."),
 	TRAIT_BADTRAINER = span_info("I've spent yils studying the art of a single weapon, but unfortunately I've no patience to train anyone else. Everyone learning from me will only learn up to two skill levels below mine."),
