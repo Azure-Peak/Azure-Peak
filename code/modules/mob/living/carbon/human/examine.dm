@@ -721,6 +721,9 @@
 					else
 						. += "<font size = 3><i>[skilldiff_report(skilldiff)] in my wielded skill than they are in theirs.</i></font>"
 
+	if(user != src && user.mind?.has_antag_datum(/datum/antagonist/vampire) && (HAS_TRAIT(src, TRAIT_TOXIC_BLOOD) || mind?.has_antag_datum(/datum/antagonist/werewolf) || mind?.has_antag_datum(/datum/antagonist/zombie)))
+		. += span_warning("[p_their(TRUE)] vitae is tainted. Consuming it is likely unwise.")
+
 	if(lip_style)
 		switch(lip_color)
 			if("red")
