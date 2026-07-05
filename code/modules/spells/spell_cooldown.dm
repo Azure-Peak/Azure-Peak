@@ -551,9 +551,9 @@
 /// Adjust the cooldown time based on associated_stat and armor.
 /datum/action/cooldown/spell/proc/get_adjusted_cooldown()
 	if(!isliving(owner))
-		return initial(cooldown_time)
+		return cooldown_time
 	var/mob/living/living_owner = owner
-	var/base = initial(cooldown_time)
+	var/base = cooldown_time
 	var/newcd = base
 
 	// Stat scaling
@@ -1354,7 +1354,7 @@
 			stats += span_info(" <font color='#8c00ff'>(Swiftcast)</font>")
 
 	// Cooldown
-	var/base_cd = initial(cooldown_time)
+	var/base_cd = cooldown_time
 	if(base_cd)
 		var/dynamic_cd = user ? get_adjusted_cooldown() : base_cd
 		if(abs(dynamic_cd - base_cd) > 0.5) // Meaningful change threshold
@@ -1418,7 +1418,7 @@
 /// Breakdown of cooldown modifiers for examine.
 /datum/action/cooldown/spell/proc/get_cooldown_breakdown(mob/living/user)
 	var/list/breakdown = list()
-	var/base = initial(cooldown_time)
+	var/base = cooldown_time
 	var/stat_value = get_caster_stat(user)
 	var/stat_label = get_stat_label()
 	if(stat_value > SPELL_SCALING_THRESHOLD)
