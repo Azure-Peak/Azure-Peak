@@ -454,7 +454,6 @@
 	var/list/miracle_bishop_t3 = list(
 		/obj/effect/proc_holder/spell/invoked/call_dreamfiend::name			= /obj/effect/proc_holder/spell/invoked/call_dreamfiend,
 		/datum/action/cooldown/spell/astrata/firecloak::name				= /datum/action/cooldown/spell/astrata/firecloak,
-		/obj/effect/proc_holder/spell/targeted/conjure_glowshroom::name		= /obj/effect/proc_holder/spell/targeted/conjure_glowshroom,
 		/obj/effect/proc_holder/spell/invoked/eoracurse::name				= /obj/effect/proc_holder/spell/invoked/eoracurse,
 		/datum/action/cooldown/spell/malum_blessing::name					= /datum/action/cooldown/spell/malum_blessing,
 		/obj/effect/proc_holder/spell/invoked/bless_cross::name				= /obj/effect/proc_holder/spell/invoked/bless_cross,

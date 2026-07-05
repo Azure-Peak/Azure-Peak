@@ -298,6 +298,11 @@
 	path = /obj/item/clothing/head/roguetown/duelhat/pretzel
 	ckeywhitelist = list("waffai")
 
+/datum/loadout_item/donator/waff3
+	name = "Donator Kit - Xenolalia"
+	path = /obj/item/enchantingkit/weapon/wafflamberge
+	ckeywhitelist = list("waffai")
+
 /datum/loadout_item/donator/inverserun
 	name = "Donator Kit - Votive Thorns"
 	path = /obj/item/enchantingkit/weapon/inverserun

@@ -36,7 +36,6 @@
 #define ROLE_CULTIST			"Cultist"
 #define ROLE_BLOB				"Blob"
 #define ROLE_NINJA				"Space Ninja"
-#define ROLE_MONKEY				"Monkey"
 #define ROLE_ABDUCTOR			"Abductor"
 #define ROLE_REVENANT			"Revenant"
 #define ROLE_DEVIL				"Devil"

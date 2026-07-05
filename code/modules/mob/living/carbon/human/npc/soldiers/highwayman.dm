@@ -367,3 +367,103 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	backl = /obj/item/quiver/bolt/standard
 	H.STAPER += 3
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
+
+/mob/living/carbon/human/species/human/northern/highwayman/road_knight
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/highwayman/road_knight/after_creation()
+	..()
+	job = "Road Knight"
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_BADTRAINER, TRAIT_GENERIC)
+	for(var/obj/item/old in get_equipped_items() + held_items)
+		qdel(old)
+	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman/road_knight)
+	add_downgrade_to_slot(SLOT_ARMOR, /obj/item/clothing/suit/roguetown/armor/plate/iron)
+	add_downgrade_to_slot(SLOT_HEAD, /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron)
+	add_downgrade_to_slot(SLOT_GLOVES, /obj/item/clothing/gloves/roguetown/plate/iron)
+	regenerate_icons()
+	for(var/obj/item/gear in get_equipped_items() + held_items)
+		lock_gear_piece(gear, "road_knight_gear")
+
+/mob/living/carbon/human/species/human/northern/highwayman/road_knight/death(gibbed, nocutscene = FALSE)
+	. = ..()
+	for(var/obj/item/gear in get_equipped_items() + held_items)
+		REMOVE_TRAIT(gear, TRAIT_NODROP, "road_knight_gear")
+
+/datum/outfit/job/roguetown/human/species/human/northern/highwayman/road_knight/pre_equip(mob/living/carbon/human/H)
+	armor = /obj/item/clothing/suit/roguetown/armor/plate
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
+	gloves = /obj/item/clothing/gloves/roguetown/plate
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+	belt = /obj/item/storage/belt/rogue/leather
+	r_hand = /obj/item/rogueweapon/sword/iron
+	l_hand = /obj/item/rogueweapon/shield/heater
+	H.STASTR = 14
+	H.STASPD = 10
+	H.STACON = 10
+	H.STAWIL = 10
+	H.STAPER = 10
+	H.STAINT = 8
+	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+
+/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter
+	ai_controller = /datum/ai_controller/human_npc/archer
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter/after_creation()
+	..()
+	job = "Highwayman Sharpshooter"
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_BADTRAINER, TRAIT_GENERIC)
+	for(var/obj/item/old in get_equipped_items() + held_items)
+		qdel(old)
+	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman/sharpshooter)
+	add_downgrade_to_slot(SLOT_ARMOR, /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron)
+	add_downgrade_to_slot(SLOT_HEAD, /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron)
+	regenerate_icons()
+	for(var/obj/item/gear in get_equipped_items())
+		if(gear == backr || gear == backl)
+			continue
+		lock_gear_piece(gear, "sharpshooter_gear")
+
+/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter/death(gibbed, nocutscene = FALSE)
+	. = ..()
+	for(var/obj/item/gear in get_equipped_items())
+		REMOVE_TRAIT(gear, TRAIT_NODROP, "sharpshooter_gear")
+
+/datum/outfit/job/roguetown/human/species/human/northern/highwayman/sharpshooter/pre_equip(mob/living/carbon/human/H)
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+	cloak = /obj/item/clothing/cloak/raincloak/green
+	belt = /obj/item/storage/belt/rogue/leather
+	beltl = /obj/item/quiver/randomfill/reaver
+	beltr = /obj/item/rogueweapon/sword/short/iron
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/quiver/randomfill/reaver
+	H.STASTR = 12
+	H.STASPD = 10
+	H.STACON = 8
+	H.STAWIL = 9
+	H.STAPER = 15
+	H.STAINT = 8
+	H.adjust_skillrank(/datum/skill/combat/bows, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)

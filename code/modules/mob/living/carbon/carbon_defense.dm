@@ -297,14 +297,6 @@
 	return FALSE
 
 
-/mob/living/carbon/attack_paw(mob/living/carbon/monkey/M)
-	if(M.used_intent.type == INTENT_HELP)
-		help_shake_act(M)
-		return 0
-
-	if(..()) //successful monkey bite.
-		return 1
-
 /mob/living/carbon/proc/dismembering_strike(mob/living/attacker, dam_zone)
 	if(!attacker.limb_destroyer)
 		return dam_zone

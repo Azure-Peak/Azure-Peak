@@ -312,7 +312,7 @@
 					if(!HAS_TRAIT(U, TRAIT_GOODTRAINER))
 						skill_target -= SKILL_LEVEL_NOVICE
 					if(HAS_TRAIT(U, TRAIT_BADTRAINER))
-						skill_target -= SKILL_LEVEL_APPRENTICE
+						skill_target -= SKILL_LEVEL_NOVICE
 					if (can_train_combat_skill(src, used_weapon.associated_skill, skill_target))
 						mind.add_sleep_experience(used_weapon.associated_skill, max(round(STAINT*exp_multi), 0), FALSE)
 
@@ -322,8 +322,8 @@
 						var/skill_target = defender_skill
 						if(!HAS_TRAIT(src, TRAIT_GOODTRAINER))
 							skill_target -= SKILL_LEVEL_NOVICE
-						if(HAS_TRAIT(U, TRAIT_BADTRAINER))
-							skill_target -= SKILL_LEVEL_APPRENTICE
+						if(HAS_TRAIT(src, TRAIT_BADTRAINER))
+							skill_target -= SKILL_LEVEL_NOVICE
 						if (can_train_combat_skill(U, attacker_skill_type, skill_target))
 							U.mind.add_sleep_experience(attacker_skill_type, max(round(STAINT*exp_multi), 0), FALSE)
 

@@ -168,17 +168,23 @@
 				return
 		
 		if(M.has_status_effect(/datum/status_effect/debuff/integrity_rig))
-			to_chat(user, span_warning("The jury rigged integrity repairs are still holding, for now..."))
+			to_chat(user, span_warning("The jury rigged integrity repairs are still holding, for now... If you nail it with a hammer it might fix something?"))
 			return
 
 		if(I.type == /obj/item/grown/log/tree/stick)
 			var/obj/item/grown/log/tree/stick/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 3 MINUTES)
 			playsound(M, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
-			user.visible_message(
-				span_notice("[user] wedges [I] into [M]'s damaged lattice, crudely pinning it in place."),
-				span_notice("A weak brace holds my damaged integrity together. It might not last")
-			)
+			if(user == M)
+				M.visible_message(
+					span_notice("[M] wedges [I] into their damaged lattice, crudely pinning it in place."),
+					span_notice("I wedge [I] into my damaged lattice. A weak brace holds my damaged integrity together. It might not last.")
+				)
+			else
+				M.visible_message(
+					span_notice("[user] wedges [I] into [M]'s damaged lattice, crudely pinning it in place."),
+					span_notice("[user] wedges [I] into my damaged lattice. A weak brace holds my damaged integrity together. It might not last.")
+				)
 			qdel(S)
 			return TRUE
 
@@ -186,10 +192,16 @@
 			var/obj/item/grown/log/tree/small/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 6 MINUTES)
 			playsound(M, 'sound/combat/hits/blunt/woodblunt (1).ogg', 100, TRUE)
-			user.visible_message(
-				span_notice("[user] jams [I] into [M]'s exposed conduit, safely reinforcing the fracture."),
-				span_notice("The wooden brace steadies my damaged integrity.")
-			)
+			if(user == M)
+				M.visible_message(
+					span_notice("[M] jams [I] into their exposed conduit, safely reinforcing the fracture."),
+					span_notice("I jam [I] into my exposed conduit. The wooden brace steadies my damaged integrity.")
+				)
+			else
+				M.visible_message(
+					span_notice("[user] jams [I] into [M]'s exposed conduit, safely reinforcing the fracture."),
+					span_notice("[user] jams [I] into my exposed conduit. The wooden brace steadies my damaged integrity.")
+				)
 			qdel(S)
 			return TRUE
 
@@ -197,10 +209,16 @@
 			var/obj/item/natural/stone/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 9 MINUTES)
 			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
-			user.visible_message(
-				span_warning("[user] forces [I] into [M]'s ruptured lattice. Sparks violently erupt!"),
-				span_notice("A dense mineral brace locks my damaged integrity into place.")
-			)
+			if(user == M)
+				M.visible_message(
+					span_warning("[M] forces [I] into their ruptured lattice. Sparks violently erupt!"),
+					span_notice("I force [I] into my ruptured lattice. A dense mineral brace locks my damaged integrity into place.")
+				)
+			else
+				M.visible_message(
+					span_warning("[user] forces [I] into [M]'s ruptured lattice. Sparks violently erupt!"),
+					span_notice("[user] forces [I] into my ruptured lattice. A dense mineral brace locks my damaged integrity into place.")
+				)
 			explosion(M, 0, 0, 0, 0, FALSE, FALSE, 0, FALSE, FALSE)
 			for(var/mob/living/L in range(2, M))
 				L.electrocute_act(10, L)
@@ -212,10 +230,16 @@
 			var/obj/item/scrap/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 9 MINUTES)
 			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
-			user.visible_message(
-				span_warning("[user] forces [I] into [M]'s ruptured lattice. Sparks violently erupt, a bit safely!"),
-				span_notice("Odds bits and pieces locks my damaged integrity into place.")
-			)
+			if(user == M)
+				M.visible_message(
+					span_warning("[M] forces [I] into their ruptured lattice. Sparks violently erupt, but safely!"),
+					span_notice("I force [I] into my ruptured lattice. Sparks violently erupt, but my damaged integrity locks back into place.")
+				)
+			else
+				M.visible_message(
+					span_warning("[user] forces [I] into [M]'s ruptured lattice. Sparks violently erupt, but safely!"),
+					span_notice("[user] forces [I] into my ruptured lattice. Sparks violently erupt, but my damaged integrity locks back into place.")
+				)
 			explosion(M, 0, 0, 0, 0, FALSE, FALSE, 0, FALSE, FALSE)
 			qdel(S)
 			return TRUE
@@ -224,10 +248,16 @@
 			qdel(I)
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 20 MINUTES)
 			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
-			user.visible_message(
-				span_warning("[user] appends [I] into [M]'s ruptured lattice, stabilizing it properly."),
-				span_notice("A refined mineral brace locks my damaged integrity into place, for now.")
-			)
+			if(user == M)
+				M.visible_message(
+					span_warning("[M] appends [I] into their ruptured lattice, stabilizing it properly."),
+					span_notice("I append [I] into my ruptured lattice. A refined mineral brace locks my damaged integrity into place, for now.")
+				)
+			else
+				M.visible_message(
+					span_warning("[user] appends [I] into [M]'s ruptured lattice, stabilizing it properly."),
+					span_notice("[user] appends [I] into my ruptured lattice. A refined mineral brace locks my damaged integrity into place, for now.")
+				)
 			return TRUE
 
 		to_chat(user, span_warning("That material cannot stabilize exposed integrity damage."))
@@ -240,7 +270,16 @@
 				return FALSE
 		power = 5 + I.sellprice * 1.5
 		M.apply_status_effect(/datum/status_effect/buff/ingotmuncher, power)
-		user.visible_message(span_notice("[user] presses [I] on [M]. It fuses seamlessly, spreading throughout their shell."))
+		if(user == M)
+			M.visible_message(
+				span_notice("[M] presses [I] against their shell. It fuses seamlessly, spreading throughout it."),
+				span_notice("I press [I] against my shell. It fuses seamlessly, spreading throughout it.")
+			)
+		else
+			M.visible_message(
+				span_notice("[user] presses [I] on [M]. It fuses seamlessly, spreading throughout their shell."),
+				span_notice("[user] presses [I] against my shell. It fuses seamlessly, spreading throughout it.")
+			)
 		playsound(user.loc, 'sound/magic/swap.ogg', 40)
 		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
 		qdel(I)
@@ -253,7 +292,16 @@
 				return FALSE
 		power = I.sellprice * 2
 		M.apply_status_effect(/datum/status_effect/buff/gemmuncher, power)
-		user.visible_message(span_notice("[user] embeds [I] on [M]. It cracks and fuses, rapidly spreading throughout their shell."))
+		if(user == M)
+			M.visible_message(
+				span_notice("[M] embeds [I] into their shell. It cracks and fuses, rapidly spreading throughout it."),
+				span_notice("I embed [I] into my shell. It cracks and fuses, rapidly spreading throughout my shell.")
+			)
+		else
+			M.visible_message(
+				span_notice("[user] embeds [I] on [M]. It cracks and fuses, rapidly spreading throughout their shell."),
+				span_notice("[user] embeds [I] onto my shell. It cracks and fuses, rapidly spreading throughout it.")
+			)
 		qdel(I)
 		playsound(user.loc, 'sound/magic/swap.ogg', 40)
 		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
@@ -283,10 +331,16 @@
 		M.energy_add(5 + (S.magic_power * 10))
 		M.adjustBruteLoss(-brute_heal)
 		M.adjustFireLoss(-fire_heal)
-		user.visible_message(
-			span_notice("[user] offers [I] to [M]'s mouth, and they crunch it down instinctively."),
-			span_notice("I crunch [I] down and swallow it effortlessly.")
-		)
+		if(user == M)
+			M.visible_message(
+				span_notice("[M] crunches [I] down and swallows it effortlessly."),
+				span_notice("I crunch [I] down and swallow it effortlessly.")
+			)
+		else
+			M.visible_message(
+				span_notice("[user] offers [I] to [M]'s mouth, and they crunch it down instinctively."),
+				span_notice("I crunch [I] down and swallow it effortlessly.")
+			)
 		playsound(M.loc, 'sound/misc/eat.ogg', rand(60,100), TRUE)
 		sleep(4)
 		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
@@ -297,10 +351,16 @@
 	// === SCRAP === 
 	if(I.type == /obj/item/scrap)
 		var/obj/item/scrap/L = I
-		user.visible_message(
-			span_notice("[user] offers [L] to [M]'s mouth, and they blow arcyne steam at it!"),
-			span_notice("I puff arcyne steam at [L], combusting it into usable slag!")
-		)
+		if(user == M)
+			M.visible_message(
+				span_notice("[M] blows arcyne steam at [L], combusting it into usable slag!"),
+				span_notice("I puff arcyne steam at [L], combusting it into usable slag!")
+			)
+		else
+			M.visible_message(
+				span_notice("[user] offers [L] to [M]'s mouth, and they blow arcyne steam at it!"),
+				span_notice("I puff arcyne steam at [L], combusting it into usable slag!")
+			)
 		new /obj/effect/particle_effect/thick_steam(get_turf(user))
 		playsound(user.loc, 'sound/items/steamrelease.ogg', 50, FALSE, -1)
 		sleep(4)
@@ -312,10 +372,16 @@
 	// === WOOD === 
 	if(I.type == /obj/item/grown/log/tree/small)
 		var/obj/item/grown/log/tree/small/L = I
-		user.visible_message(
-			span_notice("[user] offers [L] to [M]'s mouth, and they blow arcyne steam at it!"),
-			span_notice("I puff arcyne steam at [L], combusting it into charcoal!")
-		)
+		if(user == M)
+			M.visible_message(
+				span_notice("[M] blows arcyne steam onto [L], combusting it into charcoal!"),
+				span_notice("I puff arcyne steam at [L], combusting it into charcoal!")
+			)
+		else
+			M.visible_message(
+				span_notice("[user] offers [L] to [M]'s mouth, and they blow arcyne steam at it!"),
+				span_notice("I puff arcyne steam at [L], combusting it into charcoal!")
+			)
 		new /obj/effect/particle_effect/thick_steam(get_turf(user))
 		playsound(user.loc, 'sound/items/steamrelease.ogg', 50, FALSE, -1)
 		sleep(4)
@@ -331,10 +397,16 @@
 	// === LOG === 
 	if(I.type == /obj/item/grown/log/tree)
 		var/obj/item/grown/log/tree/L = I
-		user.visible_message(
-			span_notice("[user] presses [L] to [M]'s arms, and they crush it in two!"),
-			span_notice("I crush [L] down, splitting it in two!")
-		)
+		if(user == M)
+			M.visible_message(
+				span_notice("[M] presses [L] against their arms and crushes it in two!"),
+				span_notice("I crush [L] down, splitting it in two!")
+			)
+		else
+			M.visible_message(
+				span_notice("[user] presses [L] to [M]'s arms, and they crush it in two!"),
+				span_notice("I crush [L] down, splitting it in two!")
+			)
 		playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
 		sleep(4)
 		playsound(user, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
@@ -347,10 +419,16 @@
 	// === ROCK === 
 	if(istype(I, /obj/item/natural/rock))
 		var/obj/item/natural/rock/S = I
-		user.visible_message(
-			span_notice("[user] presses [I] to [M]'s arms, and they crush it in two!"),
-			span_notice("I crush [S] down, breaking it to fine smithereens!")
-		)
+		if(user == M)
+			M.visible_message(
+				span_notice("[M] crushes [I] in their arms, breaking it in two!"),
+				span_notice("I crush [I] down, breaking it to fine smithereens!")
+			)
+		else
+			M.visible_message(
+				span_notice("[user] presses [I] to [M]'s arms, and they crush it in two!"),
+				span_notice("I crush [I] down, breaking it to fine smithereens!")
+			)
 		playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
 		sleep(4)
 		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
@@ -363,10 +441,16 @@
 	if(istype(I, /obj/item/rogueore))
 		power = 5 + I.sellprice * 1.25
 		M.apply_status_effect(/datum/status_effect/buff/oremuncher, power)
-		user.visible_message(
-			span_notice("[user] offers [I] to [M]'s mouth, and they bite it down, munching!"),
-			span_notice("I crunch [I] down and swallow it effortlessly.<br>This is good stuff!")
-		)
+		if(user == M)
+			M.visible_message(
+				span_notice("[M] crunches [I] down and swallows it effortlessly!"),
+				span_notice("I crunch [I] down and swallow it effortlessly.<br>This is good stuff!")
+			)
+		else
+			M.visible_message(
+				span_notice("[user] offers [I] to [M]'s mouth, and they bite it down, munching!"),
+				span_notice("I crunch [I] down and swallow it effortlessly.<br>This is good stuff!")
+			)
 		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
 		sleep(4)
 		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)

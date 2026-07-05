@@ -1,4 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - bugfix: "fixed oversight w/ancient bracers being EXCEPTIONALLY ODD and not VLORD BRACERS only as intended."

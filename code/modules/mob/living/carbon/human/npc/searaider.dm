@@ -313,3 +313,55 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 /datum/outfit/job/roguetown/human/species/human/northern/searaider/archer/reaver/pre_equip(mob/living/carbon/human/H)
 	..()
 	backl = /obj/item/quiver/randomfill/reaver
+
+/mob/living/carbon/human/species/human/northern/searaider/huscarl
+	threat_point = THREAT_DANGEROUS
+
+/mob/living/carbon/human/species/human/northern/searaider/huscarl/ambush
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "raiders"
+
+/mob/living/carbon/human/species/human/northern/searaider/huscarl/after_creation()
+	..()
+	job = "Sea Raider Huscarl"
+	ADD_TRAIT(src, TRAIT_BADTRAINER, TRAIT_GENERIC)
+	for(var/obj/item/old in get_equipped_items() + held_items)
+		qdel(old)
+	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/searaider/huscarl)
+	for(var/obj/item/rogueweapon/greatsword/blade in held_items)
+		blade.AddComponent(/datum/component/item_on_drop/downgrade, /obj/item/rogueweapon/greatsword/iron)
+	regenerate_icons()
+	for(var/obj/item/gear in get_equipped_items() + held_items)
+		lock_gear_piece(gear, "searaider_huscarl_gear")
+
+/mob/living/carbon/human/species/human/northern/searaider/huscarl/death(gibbed, nocutscene = FALSE)
+	. = ..()
+	for(var/obj/item/gear in get_equipped_items() + held_items)
+		REMOVE_TRAIT(gear, TRAIT_NODROP, "searaider_huscarl_gear")
+
+/datum/outfit/job/roguetown/human/species/human/northern/searaider/huscarl/pre_equip(mob/living/carbon/human/H)
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+	belt = /obj/item/storage/belt/rogue/leather
+	r_hand = /obj/item/rogueweapon/greatsword
+	H.STASTR = 15
+	H.STASPD = 9
+	H.STACON = 10
+	H.STAWIL = 9
+	H.STAPER = 9
+	H.STAINT = 8
+	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+	H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]

@@ -1,4 +1,4 @@
 author: "WeNeedMorePhoron"
 delete-after: True
 changes:
-  - rscadd: "Slightly improved the MC interface"
+  - rscadd: "Ported subtle LOOC from RW"

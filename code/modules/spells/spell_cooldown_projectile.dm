@@ -139,5 +139,5 @@
 		else
 			stats += span_info("Damage: [proj_damage]")
 	if(projectile_type_arc)
-		stats += span_info("Arc Mode (toggle with Ctrl+G): lobs the shot across elevations - aim at a target a level above or below, or at an opening over them.")
+		stats += span_info("Arc Mode (toggle with Shift+G): lobs the shot across elevations - aim at a target a level above or below, or at an opening over them.")
 	return stats

@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Added the tutorial for merchant / shophand to the advanced class proper, so that it shows on preview too."

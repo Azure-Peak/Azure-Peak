@@ -299,7 +299,7 @@
 
 /obj/item/twohanded/required/kirbyplants/random
 	icon_state = "random_plant"
-	var/list/static/states
+	var/static/list/states
 
 /obj/item/twohanded/required/kirbyplants/random/Initialize()
 	. = ..()

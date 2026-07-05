@@ -6,7 +6,7 @@
 	name = "Ice Burst"
 	desc = "Launch a burst of frozen energy that shatters on impact, freezing and burning all nearby targets in a small area. \
 	Applies one stack of frost to all targets in the blast radius. \
-	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
+	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
 	button_icon_state = "ice_burst"
 	sound = 'sound/spellbooks/crystal.ogg'
 	spell_color = GLOW_COLOR_ICE

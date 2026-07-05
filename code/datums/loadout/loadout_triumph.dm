@@ -647,6 +647,6 @@
 
 /datum/loadout_item/shoulderguardstandalone
 	name = "Standalone Decoration, Shoulderguard"
-	path = /datum/loadout_item/donator/universal/armorpiece_shoulderguard
+	path = /obj/item/clothing/cloak/tabard/stabard/donator_shoulderguard
 	triumph_cost = 3
 	sort_category = "Triumphs"

@@ -112,9 +112,6 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 /turf/open/transparent/openspace/proc/CanBuildHere()
 	return can_build_on
 
-/turf/open/transparent/openspace/attack_paw(mob/user)
-	return attack_hand(user)
-
 /turf/open/transparent/openspace/attack_hand(mob/user)
 	if(isliving(user))
 		var/mob/living/L = user

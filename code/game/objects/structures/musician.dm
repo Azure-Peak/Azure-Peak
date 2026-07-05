@@ -364,9 +364,6 @@
 		return
 	interact(user)
 
-/obj/structure/piano/attack_paw(mob/user)
-	return attack_hand(user)
-
 /obj/structure/piano/interact(mob/user)
 	if(!user || !anchored)
 		return

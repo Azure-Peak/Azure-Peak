@@ -27,6 +27,7 @@
 				/mob/living/carbon/human/species/orc/npc/berserker = 10,
 				/mob/living/carbon/human/species/orc/npc/marauder = 10,
 				/mob/living/carbon/human/species/goblin/npc/ambush/sea = 40,
+				/mob/living/carbon/human/species/hobgoblin/npc/ambush = 12,
 				/mob/living/carbon/human/species/goblin/npc/archer/sea = 10)
 	first_time_text = "THE AZURE COAST"
 	converted_type = /area/rogue/indoors/shelter/woods

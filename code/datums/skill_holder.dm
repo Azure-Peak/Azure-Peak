@@ -29,6 +29,25 @@
 /mob/proc/print_levels()
 	return ensure_skills().print_levels(src)
 
+/mob/living/carbon/human/proc/update_adaptive_name()
+	if(!adaptive_name)
+		return
+	if(adaptive_name_title)
+		advjob = adaptive_name_title
+		return
+
+	var/list/jobnames = list()
+	for(var/skillt in SSskills.all_skills)
+		var/datum/skill/sk = GetSkillRef(skillt)
+		var/title = initial(sk.expert_name)
+		if(!title)
+			continue
+		if(get_skill_level(sk.type) >= SKILL_LEVEL_EXPERT)
+			jobnames.Add(title)
+	if(!length(jobnames))
+		return
+	advjob = jointext(jobnames, "-")
+
 /mob/proc/get_mentor()
 	return ensure_skills().mentor
 
@@ -251,22 +270,7 @@
 	if(ishuman(current))
 		var/mob/living/carbon/human/H = current
 		if(H.adaptive_name)
-			var/str
-			var/list/jobnames = list()
-			for(var/skillt in SSskills.all_skills)
-				var/datum/skill/sk = GetSkillRef(skillt)
-				if(current.get_skill_level(sk.type) >= SKILL_LEVEL_EXPERT)
-					jobnames.Add(initial(sk.expert_name))
-			if(length(jobnames))
-				if(length(jobnames) == 1)
-					current.advjob = jobnames[1]
-				else
-					for(var/i in 1 to length(jobnames))
-						if(i == 1)
-							str += "[jobnames[i]]"
-						else
-							str += "-[jobnames[i]]"
-					current.advjob = str
+			H.update_adaptive_name()
 
 /datum/skill_holder/proc/get_skill_speed_modifier(skill)
 	var/datum/skill/S = GetSkillRef(skill)
