@@ -45,7 +45,6 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 1.5 MINUTES
@@ -90,7 +89,6 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	charge_then_click = TRUE
@@ -334,13 +332,13 @@
 		/datum/action/cooldown/spell/ensnare,
 		/datum/action/cooldown/spell/touch/rune_ward,
 		/datum/action/cooldown/spell/forcewall,
-		/datum/action/cooldown/spell/hawks_eyes,
+		/datum/action/cooldown/spell/augment_buff/stoneskin,
 	)
 	var/list/seer_bundle = list(
-		/datum/action/cooldown/spell/fortitude,
-		/datum/action/cooldown/spell/stoneskin,
-		/datum/action/cooldown/spell/guidance,
-		/datum/action/cooldown/spell/haste,
+		/datum/action/cooldown/spell/augment_buff/attune_giant,
+		/datum/action/cooldown/spell/augment_buff/guidance,
+		/datum/action/cooldown/spell/augment_buff/attune_haste,
+		/datum/action/cooldown/spell/augment_buff/fortitude,
 		/datum/action/cooldown/spell/mindlink
 	)
 
@@ -478,7 +476,6 @@
 
 	charge_required = TRUE
 	charge_time = 2 SECONDS
-	charge_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/holycharging.ogg'
 	cooldown_time = 5 MINUTES
