@@ -209,7 +209,6 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 3
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/holycharging.ogg'
 	cooldown_time = 1 MINUTES
@@ -309,7 +308,6 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 3
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/holycharging.ogg'
 	cooldown_time = 1.5 MINUTES
@@ -386,7 +384,6 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 3
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/holycharging.ogg'
 	cooldown_time = 1 MINUTES
@@ -470,15 +467,15 @@
 		/datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
 		/datum/action/cooldown/spell/mending,
 		/datum/action/cooldown/spell/arcyne_forge, //Utility
-		/datum/action/cooldown/spell/hawks_eyes,
-		/datum/action/cooldown/spell/stoneskin //Buff
+		/datum/action/cooldown/spell/augment_buff/attune_hawk,
+		/datum/action/cooldown/spell/augment_buff/stoneskin //Buff
 	)
 	var/list/seer_bundle = list(
 		/datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
-		/datum/action/cooldown/spell/giants_strength,
-		/datum/action/cooldown/spell/guidance,
-		/datum/action/cooldown/spell/haste,
-		/datum/action/cooldown/spell/fortitude,
+		/datum/action/cooldown/spell/augment_buff/attune_giant,
+		/datum/action/cooldown/spell/augment_buff/guidance,
+		/datum/action/cooldown/spell/augment_buff/attune_haste,
+		/datum/action/cooldown/spell/augment_buff/fortitude,
 		/datum/action/cooldown/spell/mindlink
 	)
 

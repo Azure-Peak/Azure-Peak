@@ -24,7 +24,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
 	charge_time = 1
-	charge_drain = 0
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 12 SECONDS

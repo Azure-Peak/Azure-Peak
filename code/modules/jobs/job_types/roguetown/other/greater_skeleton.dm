@@ -246,7 +246,7 @@ NECRO SKELETONS
 	H.STAINT = 1
 
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron/chain
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy
 	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l

@@ -294,7 +294,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/reversion)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/guidance)		
+		H.mind.AddSpell(new /datum/action/cooldown/spell/augment_buff/guidance)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)

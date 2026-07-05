@@ -148,7 +148,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel // Paper and Feather
 	backpack_contents = list(
 		/obj/item/recipe_book/alchemy,
-		/obj/item/rogueweapon/spellbook,
+		/obj/item/rogueweapon/spellbook/grand,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
 		/obj/item/natural/feather = 1,
 		/obj/item/paper/scroll = 1,
