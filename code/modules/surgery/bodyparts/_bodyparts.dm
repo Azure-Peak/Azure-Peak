@@ -212,7 +212,7 @@
 				return
 			var/used_time = 5 SECONDS
 			if(user.mind)
-				used_time -= (user.get_skill_level(/datum/skill/labor/butchering))
+				used_time -= (user.get_skill_level(/datum/skill/labor/butchering) * 1 SECONDS)
 			if(used_time < 1 SECONDS)
 				used_time = 1 SECONDS
 			visible_message("[user] begins to butcher \the [src].")
