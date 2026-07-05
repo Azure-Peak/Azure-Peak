@@ -27,6 +27,9 @@
 
 	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
 
+/datum/round_event_control/antagonist/solo/vampires/canSpawnEvent(players_amt, gamemode, fake_check)
+	return FALSE
+
 /datum/round_event_control/antagonist/solo/vampires/preRunEvent()
 	if(is_storyteller_villain_blocked())
 		return EVENT_CANT_RUN
