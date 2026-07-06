@@ -23,11 +23,8 @@
 /obj/structure/roguemachine/contractledger/proc/build_blockade_recall_list()
 	var/list/out = list()
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
-		var/obj/item/quest_writ/S = B.active_scroll_ref?.resolve()
-		if(!S || QDELETED(S))
-			continue
-		var/datum/quest/kill/blockade_defense/Q = S.assigned_quest
-		if(!istype(Q))
+		var/datum/quest/kill/blockade_defense/Q = B.active_quest_ref?.resolve()
+		if(!istype(Q) || QDELETED(Q))
 			continue
 		var/datum/economic_region/ER = B.get_region()
 		var/reason = Q.recall_blocker()
@@ -174,9 +171,7 @@
 			return
 
 	if(chosen_type == QUEST_BLOCKADE_DEFENSE)
-		commission_blockade_defense(steward, params, cost, source_fund, is_directive, bonus_pay_level)
-		if(is_alderman_acting)
-			SScity_assembly.consume_defense(cost, steward, "blockade defense commission")
+		commission_blockade_defense(steward, params, cost, source_fund, is_directive, bonus_pay_level, is_alderman_acting)
 		return
 
 	var/region_name = params["region"]
@@ -215,6 +210,9 @@
 			SStreasury.mint(source_fund, cost, "Defense commission refund (landmark failure)")
 			if(source_fund == SStreasury.burgher_pledge_fund)
 				record_round_statistic(STATS_PLEDGE_CONSUMED, -cost)
+		// Restore the Alderman's warrant too - it was consumed above but the commission never issued.
+		if(is_alderman_acting && cost > 0)
+			SScity_assembly.refund_defense(cost, steward, "[chosen_type] defense commission refund (landmark failure)")
 		SSquestpool.log_event("defense_refund", "landmark failure [chosen_type] in [chosen_region.region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could bear that commission. Funds refunded."))
 		return
@@ -252,7 +250,7 @@
 /// Blockade commissions bypass the threat-region picker entirely — region param is the
 /// economic region name, resolved to a live /datum/blockade. Multiple writs may be in
 /// circulation concurrently, one per blockaded region.
-/obj/structure/roguemachine/contractledger/proc/commission_blockade_defense(mob/living/carbon/human/steward, list/params, cost, datum/fund/source_fund, is_directive, bonus_pay_level = COMMISSION_BONUS_PAY_NONE)
+/obj/structure/roguemachine/contractledger/proc/commission_blockade_defense(mob/living/carbon/human/steward, list/params, cost, datum/fund/source_fund, is_directive, bonus_pay_level = COMMISSION_BONUS_PAY_NONE, is_alderman_acting = FALSE)
 	var/region_name = params["region"]
 	var/datum/blockade/chosen
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
@@ -280,6 +278,10 @@
 		SSquestpool.log_event("defense_refund", "landmark failure blockade [region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could bear that writ. Funds refunded."))
 		return
+	// Writ issued: only now dock the Alderman's warrant, and record it on the quest so a recall
+	// can hand it back. Pre-checked via can_consume_defense in the caller, so this should hold.
+	if(is_alderman_acting && cost > 0 && SScity_assembly.consume_defense(cost, steward, "blockade defense commission ([region_name])"))
+		Q.warrant_consumed = cost
 	var/bonus_mult = get_commission_bonus_pay_mult(bonus_pay_level)
 	if(bonus_mult != 1.0)
 		Q.reward_amount = round(Q.reward_amount * bonus_mult)
@@ -287,6 +289,9 @@
 		Q.reward_amount = 0
 		Q.is_directive = TRUE
 		directives_issued_today++
+	var/levy_exempt = (!is_directive && !is_alderman_acting && params["levy_exempt"]) ? TRUE : FALSE
+	if(levy_exempt)
+		Q.levy_exempt = TRUE
 	var/funding = is_directive ? "directive" : (source_fund == SStreasury.discretionary_fund ? "crown" : "pledge")
 	var/bonus_label_text = get_commission_bonus_pay_label(bonus_pay_level)
 	SStreasury.defense_log += list(list(
@@ -295,16 +300,16 @@
 		"region" = region_name,
 		"cost" = cost,
 		"in_hands" = TRUE,
-		"levy_exempt" = FALSE,
+		"levy_exempt" = levy_exempt,
 		"bonus_pay_level" = bonus_pay_level,
 		"funding" = funding,
 		"day" = GLOB.dayspassed,
 	))
-	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned blockade defense on [region_name] (faction [Q.faction_id]) for [cost]m ([funding])[bonus_label_text ? " ([bonus_label_text])" : ""]")
+	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned blockade defense on [region_name] (faction [Q.faction_id]) for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][bonus_label_text ? " ([bonus_label_text])" : ""]")
 	scom_announce("A blockade defense writ has been issued for [region_name][bonus_label_text ? " - [bonus_label_text] attached" : ""].")
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/source_label = is_directive ? "as a Request" : (funding == "crown" ? "from Crown's Purse" : "from the Pledge")
-	to_chat(steward, span_notice("Blockade writ drafted [source_label] to your hand: <b>[Q.get_title()]</b>[bonus_label_text ? " - <i>[bonus_label_text]</i>" : ""]."))
+	to_chat(steward, span_notice("Blockade writ drafted [source_label] to your hand: <b>[Q.get_title()]</b>[levy_exempt ? " - <i>levy-exempt</i>" : ""][bonus_label_text ? " - <i>[bonus_label_text]</i>" : ""]."))
 
 /// Steward recall: cancels a still-armed writ within the recall window and refunds the draft.
 /// Region param is the economic region name — same selector used for issuance.
@@ -331,13 +336,9 @@
 	if(!chosen)
 		to_chat(steward, span_warning("That region is not currently blockaded."))
 		return
-	var/obj/item/quest_writ/S = chosen.active_scroll_ref?.resolve()
-	if(!S || QDELETED(S))
+	var/datum/quest/kill/blockade_defense/Q = chosen.active_quest_ref?.resolve()
+	if(!istype(Q) || QDELETED(Q))
 		to_chat(steward, span_warning("No writ is in circulation for that blockade."))
-		return
-	var/datum/quest/kill/blockade_defense/Q = S.assigned_quest
-	if(!istype(Q))
-		to_chat(steward, span_warning("That writ cannot be recalled."))
 		return
 	var/blocker = Q.recall_blocker()
 	if(blocker)

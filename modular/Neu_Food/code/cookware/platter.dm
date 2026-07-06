@@ -190,3 +190,9 @@ What it does:
 	name = "cerulite platter"
 	desc = "A fancy platter carved out of cerulite."
 	icon_state = "platter_turq"
+
+/obj/item/cooking/platter/carved/porcelain
+	name = "porcelain platter"
+	desc = "A fancy platter made out of porcelain."
+	icon_state = "platter_porcelain"
+	sellprice = 10

@@ -166,6 +166,11 @@
 	path = /obj/item/storage/belt/rogue/leather/black
 	sort_category = "Accessories"
 
+/datum/loadout_item/suspenders
+	name = "Suspenders"
+	path = /obj/item/storage/belt/rogue/leather/suspenders
+	sort_category = "Accessories"
+
 /datum/loadout_item/chaperon
 	name = "Chaperon (Normal)"
 	path = /obj/item/clothing/head/roguetown/chaperon

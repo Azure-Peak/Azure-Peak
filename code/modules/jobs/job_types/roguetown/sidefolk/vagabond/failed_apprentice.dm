@@ -16,6 +16,8 @@
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
 	)
 	extra_context = "Contains randomized skills and stats."
 
@@ -36,7 +38,7 @@
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
 
 	r_hand = /obj/item/rogueweapon/woodstaff
-	l_hand = /obj/item/book/spellbook
+	l_hand = /obj/item/rogueweapon/spellbook
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 	/obj/item/chalk = 1

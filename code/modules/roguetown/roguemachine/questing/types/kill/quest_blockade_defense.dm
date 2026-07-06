@@ -27,6 +27,10 @@
 	/// correct pot. Null for directives (which burned nothing).
 	var/datum/fund/funding_fund
 	var/funding_cost = 0
+	var/warrant_consumed = 0
+
+/datum/quest/kill/blockade_defense/get_scroll_type()
+	return /obj/item/quest_writ/blockade
 
 /// Faction is forced by the blockade, not rolled from threat weights.
 /datum/quest/kill/blockade_defense/preview(obj/effect/landmark/quest_spawner/landmark)
@@ -220,6 +224,7 @@
 	var/datum/blockade/B = blockade_ref?.resolve()
 	if(B)
 		B.active_scroll_ref = null
+		B.active_quest_ref = null
 	despawn_live_wave_mobs()
 	quest_scroll?.update_quest_text()
 	var/obj/item/quest_writ/S = quest_scroll
@@ -267,13 +272,20 @@
 	var/datum/blockade/B = blockade_ref?.resolve()
 	if(B)
 		B.active_scroll_ref = null
+		B.active_quest_ref = null
 	if(funding_fund && funding_cost > 0)
 		SStreasury.mint(funding_fund, funding_cost, "Blockade writ recall refund ([recaller ? recaller.real_name : "unknown"])")
 		if(funding_fund == SStreasury.burgher_pledge_fund)
 			record_round_statistic(STATS_PLEDGE_CONSUMED, -funding_cost)
+	if(warrant_consumed > 0)
+		SScity_assembly?.refund_defense(warrant_consumed, recaller, "blockade writ recall")
+		warrant_consumed = 0
 	var/obj/item/quest_writ/S = quest_scroll
 	if(S && !QDELETED(S))
 		qdel(S)
+	else
+		SSquestpool.pool -= src
+		qdel(src)
 	return TRUE
 
 /datum/quest/kill/blockade_defense/proc/despawn_live_wave_mobs()
@@ -297,6 +309,7 @@
 	var/datum/blockade/B = blockade_ref?.resolve()
 	if(B)
 		B.active_scroll_ref = null
+		B.active_quest_ref = null
 		SSeconomy.clear_blockade(B, "cleared")
 	var/mob/lead = quest_receiver_reference?.resolve()
 	var/payout = reward_amount

@@ -61,7 +61,8 @@
 
 	SSquestpool.mark_taken(user)
 
-	var/obj/item/quest_writ/spawned_scroll = new(get_turf(src))
+	var/scroll_type = Q.get_scroll_type()
+	var/obj/item/quest_writ/spawned_scroll = new scroll_type(get_turf(src))
 	user.put_in_hands(spawned_scroll)
 	log_quest(user.ckey, user.mind, user, "Sign [Q.quest_type]")
 	spawned_scroll.base_icon_state = Q.get_scroll_icon()

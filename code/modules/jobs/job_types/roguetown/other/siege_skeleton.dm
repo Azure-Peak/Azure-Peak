@@ -154,7 +154,7 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 	//intentionally decrepit gear, you're going to die rapidly. You're just here to start some fights and do some shennagions.
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
@@ -215,10 +215,6 @@
 
 	//intentionally decrepit gear, you're going to die rapidly. You're just here to start some fights and do some shennagions.
 	cloak = /obj/item/clothing/cloak/tabard/blkknight
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/aalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 	neck = /obj/item/clothing/neck/roguetown/gorget/aalloy
@@ -234,6 +230,19 @@
 		if("Grand Mace")
 			r_hand = /obj/item/rogueweapon/mace/goden/aalloy
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+	var/armors = list("Sayovard + Cuirass & Hauberk", "Bascinet + Heavy Hauberk")
+	var/armor_choice = input(H, "Choose your PLATE.", "SHRUG OFF THINE BLOWS.") as anything in armors
+	switch(armor_choice)
+		if("Sayovard + Cuirass & Hauberk")
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
+		if("Bascinet + Heavy Hauberk")
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy/chain
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)

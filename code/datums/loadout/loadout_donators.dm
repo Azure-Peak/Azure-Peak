@@ -114,6 +114,10 @@
 	name = "Gift - Oathtaker's Decoration, Shieldcrest"
 	path = /obj/item/clothing/head/roguetown/decoration/orle/donator_oathkeeper
 
+/datum/loadout_item/donator/universal/headpiece_greatplume
+	name = "Gift - Helmet Cosmetic, Greatplume"
+	path = /obj/item/clothing/head/roguetown/decoration/greatplume
+
 //Brief explanation - as Spear found out, using a Morphing Elixir on a storage item works.. but permenantly deletes -anything- stored inside.
 //To prevent any chance of someone accidentally destroying a round-important item, I'm replacing the kits with the main thing..
 // ..for now(?). If someone else comes around and adds a check that prevents belts with stored items inside from being transformed, then they can -
@@ -162,6 +166,10 @@
 /datum/loadout_item/donator/universal/belt_steelgirdle
 	name = "Gift - Belted Plackart of Steel"
 	path = /obj/item/storage/belt/rogue/leather/donator_steelgirdle
+
+/datum/loadout_item/donator/universal/armorpiece_shoulderguard
+	name = "Gift - Armor Cosmetic, Shoulderguard"
+	path = /obj/item/clothing/cloak/tabard/stabard/donator_shoulderguard
 
 /////////////////////////////
 // ! Player / Donor Kits ! //
@@ -288,6 +296,11 @@
 /datum/loadout_item/donator/waff2
 	name = "Donator Item - Graverobber's Hat"
 	path = /obj/item/clothing/head/roguetown/duelhat/pretzel
+	ckeywhitelist = list("waffai")
+
+/datum/loadout_item/donator/waff3
+	name = "Donator Kit - Xenolalia"
+	path = /obj/item/enchantingkit/weapon/wafflamberge
 	ckeywhitelist = list("waffai")
 
 /datum/loadout_item/donator/inverserun
@@ -573,3 +586,8 @@
 	name = "Donator Kit - Holy Astratan Bascinet"
 	path = /obj/item/enchantingkit/bobby_helm
 	ckeywhitelist = list("spartanbobby") 
+
+/datum/loadout_item/donator/ollanius_sword
+	name = "Donator Kit - Azurosa-Wrapped Sword"
+	path = /obj/item/enchantingkit/weapon/ollanius
+	ckeywhitelist = list("ollanius")

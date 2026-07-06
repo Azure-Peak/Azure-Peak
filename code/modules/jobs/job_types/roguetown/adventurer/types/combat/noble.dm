@@ -454,13 +454,19 @@
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Lance + Shield","Billhook","Battle Axe","Greataxe","Greatflail")
+		var/weapons = list("Longsword","Arming Sword + Shield","Mace + Shield","Flail + Shield","Lance + Shield","Billhook","Battle Axe","Greataxe","Greatflail")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Longsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/sword/long
 				r_hand = /obj/item/rogueweapon/scabbard/sword/noble
+			if("Arming Sword + Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				beltr = /obj/item/rogueweapon/sword
+				r_hand = /obj/item/rogueweapon/scabbard/sword/noble
+				backr = /obj/item/rogueweapon/shield/tower/metal
 			if("Mace + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)

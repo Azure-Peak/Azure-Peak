@@ -100,7 +100,7 @@
 					if("Cloak")
 						cloak = /obj/item/clothing/cloak/undivided
 					if("Tabard")
-						cloak = /obj/item/clothing/cloak/templar/undivided
+						cloak = /obj/item/clothing/cloak/templar/undivided_alt
 				var/helms = list("Sallet", "Barbute")
 				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
 				switch(helmchoice)

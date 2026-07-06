@@ -1,76 +1,3 @@
-// Conjure Aegis - Aegiscraft Minor Aspect
-// Conjures an arcyne shield designed to counter projectiles.
-// 200 durability, 60 coverage, 9 WDef.
-
-/datum/action/cooldown/spell/conjure_aegis
-	button_icon = 'icons/mob/actions/mage_conjure.dmi'
-	name = "Conjure Aegis"
-	desc = "Conjure an Arcyne Aegis - a projected shield of arcyne energy designed to counter projectiles.\n\
-	Less effective against deliberate melee strikes, but excellent against ranged attacks.\n\
-	The shield vanishes when broken or when a new one is conjured.\n\
-	While channeling this spell, I cannot parry or dodge - my focus is entirely on the conjuration."
-	button_icon_state = "conjure_aegis"
-	sound = 'sound/magic/whiteflame.ogg'
-	spell_color = GLOW_COLOR_ARCANE
-	glow_intensity = GLOW_INTENSITY_MEDIUM
-
-	click_to_activate = TRUE
-	self_cast_possible = TRUE
-
-	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_CONJURE
-
-	invocations = list("Clipeum Arcanum!")
-	invocation_type = INVOCATION_SHOUT
-
-	charge_required = TRUE
-	charge_time = 3 SECONDS
-	charge_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
-	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 90 SECONDS
-	blocks_defense_while_channeling = TRUE
-
-	associated_skill = /datum/skill/combat/shields
-	spell_tier = 2
-	spell_impact_intensity = SPELL_IMPACT_NONE
-
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-	var/obj/item/rogueweapon/shield/arcyne_aegis/conjured_shield
-
-/datum/action/cooldown/spell/conjure_aegis/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/carbon/human/H = owner
-	if(!istype(H))
-		return FALSE
-
-	if(H.get_num_arms() <= 0)
-		to_chat(H, span_warning("I don't have any usable hands!"))
-		return FALSE
-
-	// Destroy previous conjured shield
-	if(conjured_shield && !QDELETED(conjured_shield))
-		conjured_shield.visible_message(span_warning("[conjured_shield] flickers and fades away!"))
-		qdel(conjured_shield)
-
-	var/obj/item/rogueweapon/shield/arcyne_aegis/S = new(H.drop_location())
-	S.linked_spell = src
-	S.caster_ref = WEAKREF(H)
-	S.AddComponent(/datum/component/conjured_item, null, TRUE)
-	H.put_in_hands(S)
-	conjured_shield = S
-	H.visible_message("[H] conjures a shimmering shield of arcyne energy!")
-	return TRUE
-
-/datum/action/cooldown/spell/conjure_aegis/Destroy()
-	if(conjured_shield && !QDELETED(conjured_shield))
-		conjured_shield.visible_message(span_warning("[conjured_shield] flickers and fades away!"))
-		qdel(conjured_shield)
-	conjured_shield = null
-	return ..()
-
-// The conjured shield item
 /obj/item/rogueweapon/shield/arcyne_aegis
 	name = "arcyne aegis"
 	desc = "A rare hunk of arcyne energy projected in front of the caster. Slower and more deliberate movement by blades and melee weapons easily pierce through to the squishy Magi behind."
@@ -83,36 +10,45 @@
 	max_integrity = 200
 	force = 5
 	unenchantable = TRUE
+	sellprice = 0
+	static_price = TRUE
 	anvilrepair = /datum/skill/magic/arcane
 	parrysound = list('sound/combat/parry/shield/magicshield (1).ogg', 'sound/combat/parry/shield/magicshield (2).ogg', 'sound/combat/parry/shield/magicshield (3).ogg')
 	associated_skill = /datum/skill/combat/shields
-	var/datum/action/cooldown/spell/conjure_aegis/linked_spell
-	var/datum/weakref/caster_ref
 
-/obj/item/rogueweapon/shield/arcyne_aegis/obj_break()
+/obj/item/rogueweapon/shield/arcyne_aegis/obj_break(damage_flag)
 	. = ..()
 	if(!QDELETED(src))
-		dispel()
+		visible_message(span_warning("[src] shatters!"))
+		playsound(get_turf(src), 'sound/magic/magic_nulled.ogg', 80)
+		qdel(src)
 
-/obj/item/rogueweapon/shield/arcyne_aegis/attack_hand(mob/living/user)
-	. = ..()
-	if(!QDELETED(src) && !(user.get_active_held_item() == src || user.get_inactive_held_item() == src))
-		dispel()
+/obj/item/rogueweapon/shield/arcyne_aegis/tome
+	name = "arcyne aegis"
+	desc = "A shield of arcyne energy projected from a tome. It holds its shape until dispelled, its tome unmade, or its caster is gone."
+	wdefense = 10
+	coverage = 30
+	max_integrity = 120
+	associated_skill = /datum/skill/combat/arcyne
+	var/datum/weakref/linked_tome
 
-/obj/item/rogueweapon/shield/arcyne_aegis/dropped(mob/living/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	var/mob/caster = caster_ref?.resolve()
-	// Only dispel if dropped on the ground (not held by the caster)
-	if(!caster || loc != caster)
-		dispel()
+/obj/item/rogueweapon/shield/arcyne_aegis/tome/greater
+	name = "greater arcyne aegis"
+	wdefense = 10
+	coverage = 40
+	max_integrity = 220
 
-/obj/item/rogueweapon/shield/arcyne_aegis/proc/dispel()
-	if(QDELETED(src))
-		return
-	visible_message(span_warning("[src] shatters into motes of arcyne light!"))
-	playsound(get_turf(src), 'sound/magic/magic_nulled.ogg', 80)
-	if(linked_spell)
-		linked_spell.conjured_shield = null
-	qdel(src)
+/obj/item/rogueweapon/shield/arcyne_aegis/tome/grand
+	name = "grand arcyne aegis"
+	wdefense = 11
+	coverage = 60
+	max_integrity = 260
+
+/obj/item/rogueweapon/shield/arcyne_aegis/tome/proc/link_tome(obj/item/rogueweapon/spellbook/T)
+	linked_tome = WEAKREF(T)
+
+/obj/item/rogueweapon/shield/arcyne_aegis/tome/Destroy()
+	var/obj/item/rogueweapon/spellbook/T = linked_tome?.resolve()
+	if(T && T.conjured_aegis == src)
+		T.conjured_aegis = null
+	return ..()

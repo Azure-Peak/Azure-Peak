@@ -90,9 +90,9 @@ const StepRow = ({ step }: { step: RecipeStep }) => {
   }
   return (
     <>
+      {step.kind === 'tool' ? 'Apply ' : 'Add '}
       <InlineIcon icon={step.icon} icon_state={step.icon_state} />
       {step.name}
-      {step.kind === 'tool' ? ' (tool)' : ''}
     </>
   );
 };

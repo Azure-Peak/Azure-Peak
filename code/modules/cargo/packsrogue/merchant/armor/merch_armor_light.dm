@@ -136,6 +136,16 @@
 	cost = 20 // these are actually really easy to make, and have far worse protection and integ than other gambersons.
 	contains = list(/obj/item/clothing/suit/roguetown/armor/gambeson/light)
 
+/datum/supply_pack/rogue/light_armor/paddedchausses
+	name = "Chausses, Padded"
+	cost = 18
+	contains = list(/obj/item/clothing/under/roguetown/tights/clothlegs)
+
+/datum/supply_pack/rogue/light_armor/paddedmittens
+	name = "Mittens, Padded"
+	cost = 15
+	contains = list(/obj/item/clothing/gloves/roguetown/cloth)
+
 /datum/supply_pack/rogue/light_armor/lightgambesonskirt
 	name = "Gambesoned Kilt, Light"
 	cost = 18

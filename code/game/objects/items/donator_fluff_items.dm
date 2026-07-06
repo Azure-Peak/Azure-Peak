@@ -1,4 +1,4 @@
-mas//Lazily shoving all donator fluff items in here for now. Feel free to make this a sub-folder or something, I think it's just easier to keep a list here and just modify as needed.
+//Lazily shoving all donator fluff items in here for now. Feel free to make this a sub-folder or something, I think it's just easier to keep a list here and just modify as needed.
 
 ///////////////////
 // UNIVERSAL     //
@@ -583,7 +583,6 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	worn_offsets = list("x" = 0, "y" = 7) // Allows for dynamic offsets, so that headpieces normally requiring a 64x .dmi can fit in a 32x .dmi.
 	color = null
 
-
 	//Originally found in icons/roguetown/topadd/johnie/noldor.dmi. Full credit to Johnie, who - from what I might guess - was a very early contributor to Roguetown. Hi!
 	//Hatcheted implementation. If someone ever finds out how to use onmob offsets, use the sprites in onmob/donor_clothes with an offset of +7 Y instead.______qdel_list_wrapper(list/L)
 
@@ -594,7 +593,32 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	item_state = "d_oathtaker"
 	icon_state = "d_oathtaker"
 	worn_offsets = list("x" = 0, "y" = 7) // X is a horizontal offset, Y is a vertical offset. In this case, it's offset to be seven pixels north.
-	alternate_worn_layer  = 8.9
+	alternate_worn_layer = 8.9
+
+/obj/item/clothing/head/roguetown/decoration/greatplume
+	name = "helmet's greatplume"
+	desc = "A magnificent plume, intended to be worn atop a helmet; a touch of flamboyance, indiscriminate of the alloy."
+	item_state = "greatplume" //Won't look perfect on some helmets (due to the lack of direction-specific clipping), but it'll do.
+	icon_state = "greatplume"
+	slot_flags = ITEM_SLOT_HEAD //Not designed to be worn outside of a helmet's cosmetic inventory. Going to see how this goes.
+	worn_offsets = list("x" = 0, "y" = 2)
+	color = null
+
+/obj/item/clothing/cloak/tabard/stabard/donator_shoulderguard
+	name = "ecranche"
+	desc = "An alloyed shoulderguard, strapped to the shoulder. While traditionally fielded in tournaments to serve as protective targets for \
+	jousts on saigaback, it isn't uncommon to see them fielded in battle as well - though the effectiveness is dubious, at best."
+	item_state = "shoulderguard"
+	icon_state = "shoulderguard"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	color = null
+	custom_design = TRUE
+	slot_flags = ITEM_SLOT_HEAD | ITEM_SLOT_CLOAK
+	storage = FALSE
+	grid_width = 32
+	grid_height = 32
 
 /obj/item/clothing/cloak/tabard/stabard/donator_oathkeeper
 	name = "oathkeeper's noble surcoat"
@@ -606,6 +630,7 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 	color = null
+	custom_design = TRUE
 
 /obj/item/clothing/cloak/tabard/stabard/surcoat/donator_oathkeeper
 	name = "oathkeeper's noble jupon"
@@ -617,6 +642,7 @@ mas//Lazily shoving all donator fluff items in here for now. Feel free to make t
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 	color = null
+	custom_design = TRUE
 
 /obj/item/clothing/shoes/roguetown/simpleshoes/heels
 	name = "high-heeled shoes"
@@ -1654,8 +1680,22 @@ As Excaliber."
 	icon_state = "ollanius_hoeburk"
 	flags_inv = HIDEBOOB
 
-// JADEMANIQUE 
+/obj/item/rogueweapon/ollanius_sword
+	name = "azurosa-wrapped sword"
+	desc = "<font color='007FFF'>LIED TO YOU? TRICKED YOU? NOT I.</font> \
+    </br>‎ <font color='007FFF'>FOR I ANSWERED STRAIGHT. I TOLD YOU TRUE..</font> \
+    </br>‎ <font color='007FFF'>THE SCAFFOLD HAS BEEN RAISED FOR NONE BUT YOU.</font> \
+    </br>‎ <font color='007FFF'>FOR WHO HAS SERVED MORE FAITHFULLY THAN YOU?</font> \
+    </br>‎ <font color='007FFF'>AND WHERE ARE THE OTHERS THAT HAVE STOOD BY YOUR SIDE..</font> \
+    </br>‎ <font color='007FFF'>..ON YOUR SIDE, IN THE COMMON GOOD?</font> \
+    </br>‎ <font color='007FFF'>DEAD.</font> \
+	</br>‎ <font color='007FFF'>MURDERED.</font> \
+    </br>‎ <font color='007FFF'>I DID NO MORE THAN YOU LET ME DO.</font>"
+	icon_state = "ollanius_sword"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	sheathe_icon = "gensaber"
 
+// JADEMANIQUE 
 /obj/item/rogue/instrument/guitar/jade_guitar
 	name = "Gilbranzed Guitar"
 	desc = "\"A sturdy guitar with gilded strings, as well as numerous nicks and scratches, poorly hidden under loving maintenance \

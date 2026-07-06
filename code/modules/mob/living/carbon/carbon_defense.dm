@@ -81,7 +81,7 @@
 	var/obj/item/bodypart/BP = get_bodypart(check_zone(def_zone))
 	if(BP)
 		var/newdam = max(0, P.damage - blocked)
-		BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE, weapon = P)
+		BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE, weapon = P, no_crit = P.no_crit)
 		return TRUE
 
 /mob/living/carbon/check_projectile_embed(obj/projectile/P, def_zone, blocked)
@@ -296,14 +296,6 @@
 	*/
 	return FALSE
 
-
-/mob/living/carbon/attack_paw(mob/living/carbon/monkey/M)
-	if(M.used_intent.type == INTENT_HELP)
-		help_shake_act(M)
-		return 0
-
-	if(..()) //successful monkey bite.
-		return 1
 
 /mob/living/carbon/proc/dismembering_strike(mob/living/attacker, dam_zone)
 	if(!attacker.limb_destroyer)

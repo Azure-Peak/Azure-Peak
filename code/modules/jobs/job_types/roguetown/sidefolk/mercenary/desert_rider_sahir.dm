@@ -53,7 +53,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/navaja,
 		/obj/item/rogueweapon/scabbard/sheath,
 		/obj/item/clothing/neck/roguetown/shalal,
-		/obj/item/book/spellbook,
+		/obj/item/rogueweapon/spellbook/greater,
 		/obj/item/flashlight/flare/torch,
 		/obj/item/storage/belt/rogue/pouch/coins/poor
 		)
@@ -71,6 +71,7 @@
 				l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 			if("Greater Staff")
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
 
 	H.merctype = 4

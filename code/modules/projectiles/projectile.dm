@@ -11,6 +11,7 @@
 	pass_flags = PASSTABLE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	movement_type = FLYING
+	light_system = MOVABLE_LIGHT
 	//The sound this plays on impact.
 	var/hitsound = 'sound/blank.ogg'
 	var/hitsound_wall = ""
@@ -142,6 +143,8 @@
 	var/temporary_unstoppable_movement = FALSE
 
 	var/woundclass = null
+	/// If TRUE, this projectile applies wounds but never rolls a critical hit.
+	var/no_crit = FALSE
 	var/embedchance = 0
 	var/obj/item/dropped = null
 	var/ammo_type
