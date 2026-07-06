@@ -118,20 +118,6 @@
 	desc = "Slows the rate at which one's blades dull."
 	points = 20
 
-/datum/hag_boon/trait/guidance
-	name = "Trait - Guidance"
-	desc = "Sharpens the bearer's senses, permanently heightening their perception. (+3 Perception)"
-	points = 60
-
-/datum/hag_boon/trait/guidance/apply_boon_effect(mob/living/L)
-	L.change_stat(STATKEY_PER, 3)
-	to_chat(L, span_notice("Your senses sharpen."))
-	. = ..()
-
-/datum/hag_boon/trait/guidance/remove_boon_effect(mob/living/L)
-	L.change_stat(STATKEY_PER, -3)
-	. = ..()
-
 /datum/hag_boon/trait/good_trainer
 	name = "Trait - Good Trainer"
 	trait_to_apply = TRAIT_GOODTRAINER
