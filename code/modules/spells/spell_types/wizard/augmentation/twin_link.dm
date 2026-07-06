@@ -75,8 +75,6 @@ GLOBAL_LIST_EMPTY(twin_links)
 			return /datum/status_effect/buff/twinlink/hawk
 		if(/datum/status_effect/buff/stoneskin)
 			return /datum/status_effect/buff/twinlink/stoneskin
-		if(/datum/status_effect/buff/fortitude)
-			return /datum/status_effect/buff/twinlink/fortitude
 		if(/datum/status_effect/buff/guidance)
 			return /datum/status_effect/buff/twinlink/guidance
 	return null
@@ -84,7 +82,7 @@ GLOBAL_LIST_EMPTY(twin_links)
 /datum/action/cooldown/spell/twin_link
 	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
 	name = "Twin Link"
-	desc = "Bind a single ally to yourself. While the two of you remain in sight of one another, any augmentation placed on either of you echoes to the other - stat buffs at half strength, and Guidance or Fortitude as a lesser form. \
+	desc = "Bind a single ally to yourself. While the two of you remain in sight of one another, any augmentation placed on either of you echoes to the other - stat buffs at half strength, and Guidance as a lesser form. \
 	Casting again re-links to a new ally. The bond ends if either of you dies."
 	button_icon_state = "guidance"
 	sound = 'sound/magic/haste.ogg'
@@ -198,11 +196,6 @@ GLOBAL_LIST_EMPTY(twin_links)
 /datum/status_effect/buff/twinlink/stoneskin
 	id = "twinlink_stoneskin"
 	effectedstats = list(STATKEY_CON = 2)
-
-/datum/status_effect/buff/twinlink/fortitude
-	id = "twinlink_fortitude"
-	echo_trait = TRAIT_LESSER_FORTITUDE
-	echo_trait_label = "Lesser Fortitude"
 
 /datum/status_effect/buff/twinlink/guidance
 	id = "twinlink_guidance"
