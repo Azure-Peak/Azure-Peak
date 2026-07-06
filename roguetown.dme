@@ -3202,7 +3202,7 @@
 #include "code\modules\spells\spell_types\wizard\augmentation\nondetection.dm"
 #include "code\modules\spells\spell_types\wizard\augmentation\precognition.dm"
 #include "code\modules\spells\spell_types\wizard\augmentation\readomen.dm"
-#include "code\modules\spells\spell_types\wizard\augmentation\stoneskin.dm"
+#include "code\modules\spells\spell_types\wizard\augmentation\blood_rush.dm"
 #include "code\modules\spells\spell_types\wizard\augmentation\twin_link.dm"
 #include "code\modules\spells\spell_types\wizard\augmentation\surge.dm"
 #include "code\modules\spells\spell_types\wizard\battlewardry\arcyne_fortress.dm"
