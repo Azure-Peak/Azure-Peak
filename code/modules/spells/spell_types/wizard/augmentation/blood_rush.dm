@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/augment_buff/blood_rush
 	name = "Blood Rush"
 	desc = "Flood the target's veins with a surge of vigor, quickening their body for a short burst."
-	button_icon_state = "adrenaline_surge"
+	button_icon_state = "blood_rush"
 
 	cooldown_time = 60 SECONDS
 
