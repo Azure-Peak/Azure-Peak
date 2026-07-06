@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/precognition
 	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
 	name = "Precognition"
-	desc = "Peer a few moments into the future for yourself or an ally, readying them before the moment arrives. Cuts 30 seconds from the remaining cooldown of the target's Defend, Feint, Bait, and Special."
+	desc = "Peer a few moments into the future for yourself or an ally, readying them before the moment arrives. Cuts 30 seconds from the remaining cooldown of the target's Defend and Special."
 	button_icon_state = "readomen"
 	sound = 'sound/magic/haste.ogg'
 	spell_color = GLOW_COLOR_BUFF
@@ -23,12 +23,12 @@
 	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 90 SECONDS
+	cooldown_time = 75 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 
-	point_cost = 2
+	point_cost = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
