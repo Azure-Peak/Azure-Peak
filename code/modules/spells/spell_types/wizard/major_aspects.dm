@@ -219,7 +219,6 @@
 		"Augmentum, a me discedere!",
 	)
 	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/basic_offensive,
 		/datum/action/cooldown/spell/bestow_ward,
 	)
 	choice_spells = list(
