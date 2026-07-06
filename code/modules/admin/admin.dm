@@ -863,7 +863,7 @@
 
 	var/mob/living/carbon/human/H = mob
 	var/datum/job/mob_job
-	var/target_job = SSrole_class_handler.get_advclass_by_name(H.advjob)
+	var/datum/advclass/target_job = H.get_advclass_datum()
 
 	if(H.mind)
 		mob_job = SSjob.GetJob(H.mind.assigned_role)

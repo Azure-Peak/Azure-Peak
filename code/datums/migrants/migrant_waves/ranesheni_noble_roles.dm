@@ -101,7 +101,7 @@
 /datum/outfit/job/roguetown/ranesheni/amirah/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(should_wear_femme_clothes(H))
-		belt = /obj/item/storage/belt/rogue/leather/cloth/lady
+		belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 		head = /obj/item/clothing/head/roguetown/nyle
 		shirt = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch
 		id = /obj/item/scomstone

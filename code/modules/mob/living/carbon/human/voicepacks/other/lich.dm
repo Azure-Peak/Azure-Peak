@@ -13,6 +13,8 @@
 			used = list('sound/vo/lich/rage (1).ogg') //Close enough
 		if("deathgurgle")
 			used = pick('sound/vo/lich/deathgurgle (1).ogg')
+		if("agony")
+			used = 'sound/vo/lich/firescream (2).ogg'
 		if("hmm")
 			used = 'sound/vo/lich/hmm.ogg'
 		if("groan")

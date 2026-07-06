@@ -484,7 +484,7 @@ GLOBAL_LIST_INIT(all_radial_directions, list(
 
 
 		if(mover_old_area != mover_new_area)
-			mover_old_area.Exited(mover, movement_direction)
+			mover_old_area.Exited(mover, mover_new_loc)
 			mover_new_area.Entered(mover, mover_new_area)
 
 		mover.Moved(mover_old_loc, movement_direction, TRUE, null, FALSE)
@@ -671,12 +671,6 @@ GLOBAL_LIST_INIT(all_radial_directions, list(
 		return
 	if(!radial_travel)
 		return
-
-	return open_lift_radial(user)
-
-/obj/structure/industrial_lift/attack_paw(mob/user, list/modifiers)
-	if(!radial_travel)
-		return ..()
 
 	return open_lift_radial(user)
 

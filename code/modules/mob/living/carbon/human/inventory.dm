@@ -394,6 +394,9 @@
 
 	. = O.equip(src, visualsOnly)
 	if(!visualsOnly)
+		// Recalculate pain threshold for NPC since they set STAWIL directly
+		if(ai_controller)
+			recalculate_pain_threshold()
 		if(!client && !mind)
 			taints_loot = TRUE
 		if(taints_loot)

@@ -85,6 +85,8 @@ GLOBAL_LIST_EMPTY(last_words)
 #undef DUST_ANIMATION_TIME
 
 /mob/living/proc/spawn_dust(just_ash = FALSE)
+	if(contract_spawned)
+		return
 	for(var/i in 1 to 3)
 		new /obj/item/ash(loc)
 

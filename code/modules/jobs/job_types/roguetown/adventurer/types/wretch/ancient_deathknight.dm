@@ -29,7 +29,7 @@
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 	)
 
-	adv_stat_ceiling = list(STAT_INTELLIGENCE = 8, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + decent skills vs vamp
+	adv_stat_ceiling = list(STAT_INTELLIGENCE = 8, STAT_SPEED = 9, STAT_CONSTITUTION = 10, STAT_WILLPOWER = 12) //infinite fatigue + decent skills vs vamp
 	extra_context = "This class is unable to be revived and all forms of death will dust you."
 
 /datum/outfit/job/roguetown/wretch/ancient_deathknight/pre_equip(mob/living/carbon/human/H)
@@ -46,14 +46,13 @@
 
 	H.cmode_music = 'sound/music/combat_weird.ogg'
 
-	// Equipment — gilbranze loadout loosely matching lich skeleton death knight
+	// Equipment — gilbranze loadout loosely matching lich skeleton death knight/bulwark -> helm picks and stuff come later
 	belt = /obj/item/storage/belt/rogue/leather/black
 	pants = /obj/item/clothing/under/roguetown/platelegs/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/plate/paalloy
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
-	backr = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/storage/backpack/rogue/satchel/black
 
 	H.taints_loot = TRUE //For that shitty-ass reanimated corpse gear look.
 
@@ -72,12 +71,15 @@
 		if("Halfplate")
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/paalloy
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 		if("Cuirass & Haulberk")
 			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 		if("Heavy Haulberk")
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
 			
 	var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in list("Longsword + Shield", "Ancient Greatsword", "Ancient Axe + Shield", "Ancient Mace + Shield", "Ancient Warhammer + Shield", "Bardiche", "Grand Mace")
 	switch(weapon_choice)

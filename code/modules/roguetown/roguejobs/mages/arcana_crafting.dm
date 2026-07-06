@@ -215,10 +215,3 @@
 	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/silver = 1,
 				/obj/item/rogueore/cinnabar = 1)
 
-/datum/crafting_recipe/roguetown/arcana/pre_arcyne_spellbook
-	name = "tome in waiting"
-	display_category = ITEM_CAT_BOOK_WRIT
-	result = /obj/item/spellbook_unfinished/pre_arcyne
-	reqs = list(/obj/item/natural/hide = 1,
-				/obj/item/paper/scroll = 6)
-

@@ -361,6 +361,11 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		to_chat(user, span_warning("My magicka has left me..."))
 		return FALSE
 
+	var/mob/living/living_user = user
+	if(istype(living_user) && living_user.has_status_effect(/datum/status_effect/debuff/exposed))
+		to_chat(user, span_warning("I'm too exposed to focus on casting!"))
+		return FALSE
+
 	if(!antimagic_allowed)
 		var/antimagic = user.anti_magic_check(TRUE, FALSE, FALSE, 0, TRUE)
 		if(antimagic)
@@ -926,6 +931,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			else
 				playsound(get_turf(target), pick(target.parry_sound), 100)
 		target.apply_status_effect(/datum/status_effect/buff/parry_buffer)
+		target.apply_status_effect(/datum/status_effect/buff/emberward)
 		if(attacker != target)
 			target.apply_status_effect(/datum/status_effect/buff/adrenaline_rush/ranged)
 		guard.deflected_spell = TRUE

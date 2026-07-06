@@ -33,6 +33,16 @@
 	stockpile_limit = 50
 	category = "Vegetable"
 
+/datum/roguestock/stockpile/mushroom
+	name = "Mushroom"
+	desc = "A fungi that goes well in soups or grilled."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom
+	trade_good_id = TRADE_GOOD_MUSHROOM
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 25
+	category = "Vegetable"
+
 /datum/roguestock/stockpile/cabbage
 	name = "Cabbage"
 	desc = "A leafy vegetable."

@@ -114,6 +114,10 @@
 	name = "Gift - Oathtaker's Decoration, Shieldcrest"
 	path = /obj/item/clothing/head/roguetown/decoration/orle/donator_oathkeeper
 
+/datum/loadout_item/donator/universal/headpiece_greatplume
+	name = "Gift - Helmet Cosmetic, Greatplume"
+	path = /obj/item/clothing/head/roguetown/decoration/greatplume
+
 //Brief explanation - as Spear found out, using a Morphing Elixir on a storage item works.. but permenantly deletes -anything- stored inside.
 //To prevent any chance of someone accidentally destroying a round-important item, I'm replacing the kits with the main thing..
 // ..for now(?). If someone else comes around and adds a check that prevents belts with stored items inside from being transformed, then they can -
@@ -162,6 +166,10 @@
 /datum/loadout_item/donator/universal/belt_steelgirdle
 	name = "Gift - Belted Plackart of Steel"
 	path = /obj/item/storage/belt/rogue/leather/donator_steelgirdle
+
+/datum/loadout_item/donator/universal/armorpiece_shoulderguard
+	name = "Gift - Armor Cosmetic, Shoulderguard"
+	path = /obj/item/clothing/cloak/tabard/stabard/donator_shoulderguard
 
 /////////////////////////////
 // ! Player / Donor Kits ! //
@@ -236,7 +244,7 @@
 	ckeywhitelist = list("bigfoot02")
 
 /datum/loadout_item/donator/bigfoot_axe
-	name = "Donator Kit - Gilded Greataxe"
+	name = "Donator Kit - Aureline"
 	path = /obj/item/enchantingkit/bigfoot_axe
 	ckeywhitelist = list("bigfoot02")
 
@@ -288,6 +296,11 @@
 /datum/loadout_item/donator/waff2
 	name = "Donator Item - Graverobber's Hat"
 	path = /obj/item/clothing/head/roguetown/duelhat/pretzel
+	ckeywhitelist = list("waffai")
+
+/datum/loadout_item/donator/waff3
+	name = "Donator Kit - Xenolalia"
+	path = /obj/item/enchantingkit/weapon/wafflamberge
 	ckeywhitelist = list("waffai")
 
 /datum/loadout_item/donator/inverserun
@@ -425,11 +438,6 @@
 	name = "Donator Kit - Decorated Sabre"
 	path = /obj/item/enchantingkit/weapon/maesune_sabre
 
-/datum/loadout_item/donator/nerocavalier
-	name = "Donator Kit - Blacksteel Longsword"
-	path = /obj/item/enchantingkit/weapon/noire_flsword
-	ckeywhitelist = list("nerocavalier")
-
 /datum/loadout_item/donator/walkthewaste
 	name = "Donator Item - Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/walkthewaste
@@ -446,7 +454,7 @@
 	ckeywhitelist = list("scidragon")
 
 /datum/loadout_item/donator/aisuwand
-    name = "Donator Kit - Crystalline Wand"
+    name = "Donator Kit - Crystalline Rapier"
     path = /obj/item/enchantingkit/aisuwand
     ckeywhitelist = list("aisu9")
 
@@ -458,6 +466,11 @@
 /datum/loadout_item/donator/aeternum
 	name = "Donator Item - Aeternum"
 	path = /obj/item/enchantingkit/weapon/aeternum
+	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/crown_hat
+	name = "Donator Item - Crown Hat"
+	path = /obj/item/clothing/head/roguetown/crown_hat
 	ckeywhitelist = list("nauticall")
 
 /datum/loadout_item/donator/porcelainmask
@@ -569,3 +582,12 @@
     path = /obj/item/enchantingkit/olygsword
     ckeywhitelist = list("olympus7")
 	
+/datum/loadout_item/donator/bobby
+	name = "Donator Kit - Holy Astratan Bascinet"
+	path = /obj/item/enchantingkit/bobby_helm
+	ckeywhitelist = list("spartanbobby") 
+
+/datum/loadout_item/donator/ollanius_sword
+	name = "Donator Kit - Azurosa-Wrapped Sword"
+	path = /obj/item/enchantingkit/weapon/ollanius
+	ckeywhitelist = list("ollanius")

@@ -181,7 +181,7 @@
 
 /mob/living/carbon/human/verb/gulp()
 	set name = "Gulp"
-	set category = "Noises"
+	set category = "Emotes.Noises"
 
 	emote("gulp", intentional = TRUE)
 
@@ -194,7 +194,7 @@
 
 /mob/living/carbon/human/verb/crack()
 	set name = "Knuckles"
-	set category = "Noises"
+	set category = "Emotes.Noises"
 
 	emote("crack", intentional = TRUE)
 
@@ -207,7 +207,7 @@
 
 /mob/living/carbon/human/verb/facepalm()
 	set name = "Facepalm"
-	set category = "Noises"
+	set category = "Emotes.Noises"
 
 	emote("facepalms", intentional = TRUE)
 

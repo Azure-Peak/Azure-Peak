@@ -205,6 +205,14 @@
 	produce_amount_min = 2
 	produce_amount_max = 4
 
+/datum/plant_def/bush/cucumber
+	name = "cucumber vines"
+	icon = 'icons/roguetown/misc/crops.dmi'
+	icon_state = "cucumber"
+	produce_type = /obj/item/reagent_containers/food/snacks/grown/cucumber
+	produce_amount_min = 2
+	produce_amount_max = 4
+
 /datum/plant_def/sugarcane
 	name = "sugarcane"
 	icon_state = "sugarcane"

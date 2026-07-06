@@ -41,7 +41,7 @@
 /datum/stressevent/pweed
 	timer = 1 MINUTES
 	stressadd = -2
-	desc = span_green("I've enjoyed a relaxing smoke.")
+	desc = span_green("A pleasant, stimulating buzz settles over me.")
 
 /datum/stressevent/weed
 	timer = 5 MINUTES

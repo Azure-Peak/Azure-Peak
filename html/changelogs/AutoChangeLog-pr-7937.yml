@@ -1,0 +1,15 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added chain sleaves to certain skeleton + NPC skeleton loadouts that didn't use them before."
+  - rscadd: "Pirate skeletons sometimes take swords instead of unarmed (this can be reverted when the AI doesn't break and runtime w/out weapons)"
+  - balance: "Pirate skeletons have more chance of amulets, these will usually be Abyssorian amulets."
+  - balance: "certain unbound deathknight/bulwark/siege bulwark armor choices have chain sleaves instead of bracers."
+  - balance: "siege feral bulwarks can pick armor choice like lich skele ones (the armor is still absolutely awful, you're a disposable antagonist sire.)"
+  - balance: "unbound spellblade uses the slightly weaker gilbranze hoplon shield, it has slightly better ranged resist (5%ish) in exchange for less durability."
+  - balance: "unbound skeletons are speed-capped to their starting speed level at maximal."
+  - balance: "elite lich skeletons get a rich-varient of the palloy coin pouches for kicks and giggles, these ones have 3 piles of higher-mincapped ancient alloy coins."
+  - balance: "NPC skeleton knights can no longer sprint (hopefully) this should stop them leaping and falling over losing their weapons."
+  - balance: "NPC skele knights can carry armor repair kits sometimes."
+  - balance: "NPC skeletons randomly have pouches of ancient alloy coin."
+  - balance: "Venerated lich deathknights have mending + bonemending."

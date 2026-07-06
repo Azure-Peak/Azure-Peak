@@ -81,7 +81,7 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy/random
 		pants = /obj/item/clothing/under/roguetown/skirt/brown
-		belt =	/obj/item/storage/belt/rogue/leather/cloth/lady
+		belt =	/obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 	else
 		belt = /obj/item/storage/belt/rogue/leather
 		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shorts
@@ -145,7 +145,7 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/gen/sexy/random
 		armor = /obj/item/clothing/suit/roguetown/armor/corset
 		pants = /obj/item/clothing/under/roguetown/skirt/brown
-		belt =	/obj/item/storage/belt/rogue/leather/cloth/lady
+		belt =	/obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 	else
 		belt = /obj/item/storage/belt/rogue/leather
 		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shorts
@@ -212,7 +212,7 @@
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/silkydress/random
 		shirt = /obj/item/clothing/suit/roguetown/armor/corset
-		belt = /obj/item/storage/belt/rogue/leather/cloth/lady
+		belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 		shoes = /obj/item/clothing/shoes/roguetown/anklets
 	else
 		shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/random

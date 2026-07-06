@@ -199,8 +199,7 @@
 	var/static/list/languages_possible_alien = typecacheof(list(
 		/datum/language/xenocommon,
 		/datum/language/common,
-		/datum/language/draconic,
-		/datum/language/monkey))
+		/datum/language/draconic))
 
 /obj/item/organ/tongue/alien/Initialize(mapload)
 	. = ..()

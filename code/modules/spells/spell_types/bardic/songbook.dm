@@ -13,6 +13,8 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 	/datum/action/cooldown/spell/song/discordant_dirge,
 	/datum/action/cooldown/spell/song/enervating_elegy,
 	/datum/action/cooldown/spell/song/rattling_requiem,
+	// Fluff Songs
+	/datum/action/cooldown/spell/song/muses_grace
 ))
 
 /mob/living/carbon/human/proc/open_songbook()

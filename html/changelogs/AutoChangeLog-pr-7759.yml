@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Deathsight generic message no longer tell you to report to dev, since it is useless. It is now logged in game log for future dev investigation. And in addition, it give you a rough location of where the death occured. If this becomes a problem I will revert to the generic fallback instead."

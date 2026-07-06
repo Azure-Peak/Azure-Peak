@@ -40,7 +40,7 @@
 	if(src.conjured_brick)
 		qdel(conjured_brick)
 	var/obj/item/rogueweapon/R = new /obj/item/rogueweapon/magicbrick(user.drop_location())
-	R.AddComponent(/datum/component/conjured_item)
+	R.AddComponent(/datum/component/conjured_item, null, FALSE, user, src)
 
 	if(user.STAINT > 10)
 		var/int_scaling = user.STAINT - 10
@@ -50,12 +50,6 @@
 	user.put_in_hands(R)
 	src.conjured_brick = R
 	return TRUE
-
-/datum/action/cooldown/spell/magicians_brick/Destroy()
-	if(src.conjured_brick)
-		conjured_brick.visible_message(span_warning("The [conjured_brick]'s borders begin to shimmer and fade, before it vanishes entirely!"))
-		qdel(conjured_brick)
-	return ..()
 
 /obj/item/rogueweapon/magicbrick
 	name = "magician's brick"

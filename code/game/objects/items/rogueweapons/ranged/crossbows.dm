@@ -1,9 +1,9 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_npc_chargetime(mob/living/user)
-	var/newtime = 40 - (user.get_skill_level(/datum/skill/combat/crossbows) * 4.25) - user.STAPER
+	var/newtime = max(20, reloadtime - user.STASTR - (user.get_skill_level(/datum/skill/combat/crossbows) * 2))
 	if(chambered)
 		newtime *= chambered.charge_time_mult
-	return max(1, newtime)
+	return max(ARCHER_NPC_MIN_CROSSBOW_CHARGETIME, newtime) * ARCHER_NPC_ROF_PENALTY
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	has_item_quality = TRUE
@@ -36,6 +36,7 @@
 	var/hasloadedsprite = FALSE
 	force = 15
 	var/cocked = FALSE
+	var/cock_sound = 'sound/combat/Ranged/crossbow_medium_reload-01.ogg'
 	cartridge_wording = "bolt"
 	load_sound = 'sound/foley/nockarrow.ogg'
 	fire_sound = 'sound/combat/Ranged/crossbow-small-shot-02.ogg'

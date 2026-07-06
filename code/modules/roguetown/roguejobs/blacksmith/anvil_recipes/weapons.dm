@@ -287,6 +287,7 @@
 	created_item = /obj/item/rogueweapon/huntingknife/copper
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	createditem_num = 2
+	bypass_dupe_test = TRUE //Smelts into slag, which can be recombined into copper for a one-to-one translation; no duping, but this still freaks the system out.
 
 /datum/anvil_recipe/weapons/copper/cmesser
 	name = "Messer, Copper"
@@ -301,6 +302,7 @@
 	created_item = /obj/item/rogueweapon/spear/stone/copper
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
 	createditem_num = 2
+	bypass_dupe_test = TRUE //Ditto.
 
 /datum/anvil_recipe/weapons/copper/crhomphaia
 	name = "Rhomphaia, Copper (+1 Copper)"
@@ -1312,6 +1314,7 @@
 	req_bar = /obj/item/ingot/silver
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/scythe/silver
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
 
 // SHIELDS
 
@@ -1341,6 +1344,8 @@
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/great/paalloy
+	display_category = ITEM_CAT_WEAPONS_SHIELDS
+
 	craftdiff = 2
 
 /datum/anvil_recipe/weapons/alloy/greatshield
@@ -1348,6 +1353,8 @@
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/ingot/aalloy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/great/aalloy
+	display_category = ITEM_CAT_WEAPONS_SHIELDS
+
 	craftdiff = 2
 
 /datum/anvil_recipe/weapons/paalloy/hoplonshield
@@ -1355,12 +1362,16 @@
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/paalloy
+	display_category = ITEM_CAT_WEAPONS_SHIELDS
+
 
 /datum/anvil_recipe/weapons/aalloy/hoplonshield
 	name = "Hoplon Shield, Decrepit (+1 Alloy, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/aalloy
 	additional_items = list(/obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/aalloy
+	display_category = ITEM_CAT_WEAPONS_SHIELDS
+
 
 /datum/anvil_recipe/weapons/iron/towershield
 	name = "Tower Shield (+1 Small Log)"
@@ -1793,7 +1804,7 @@
 /datum/anvil_recipe/weapons/psy/cudgelmace
 	name = "Psydonic Handmace (+1 Small Log)"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/rogueweapon/mace/cudgel/psyclassic
+	created_item = /obj/item/rogueweapon/mace/cudgel/psy
 	display_category = ITEM_CAT_WEAPONS_MACES
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"
@@ -1898,7 +1909,7 @@
 /datum/anvil_recipe/weapons/psy/cudgelmace/inq
 	name = "Psydonic Handmace (+1 Small Log)"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/rogueweapon/mace/cudgel/psyclassic
+	created_item = /obj/item/rogueweapon/mace/cudgel/psy
 	display_category = ITEM_CAT_WEAPONS_MACES
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"
@@ -2048,6 +2059,13 @@
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
+/datum/anvil_recipe/weapons/blacksteel/longword
+	name = "Blacksteel Longsword (+1 Blacksteel, +1 Saffira, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/violet, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/sword/long/blacksteel
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+
 // AVANTYNE
 
 /datum/anvil_recipe/weapons/avantyne/dagger
@@ -2074,12 +2092,14 @@
 	req_bar = /obj/item/ingot/avantyne
 	additional_items = list(/obj/item/ingot/avantyne)
 	created_item = /obj/item/rogueweapon/sword/rapier/avantyne
+	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/avantyne/billhook
 	name = "Billhook, Avantyne (+1 Small Log)"
 	req_bar = /obj/item/ingot/avantyne
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/spear/billhook/avantyne
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
 
 /datum/anvil_recipe/weapons/avantyne/greatsword
 	name = "Greatsword, Avantyne (+2 A. Wafer)"

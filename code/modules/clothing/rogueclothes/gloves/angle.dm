@@ -41,6 +41,7 @@
 	icon_state = "freigloves"
 	item_state = "freigloves"
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + 50
+	color = null
 
 /obj/item/clothing/gloves/roguetown/angle/feld
 	name = "feldsher's gloves"

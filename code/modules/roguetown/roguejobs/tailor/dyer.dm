@@ -31,7 +31,17 @@ var/list/used_colors
 			/obj/item/reagent_containers/glass/cup/claycup,
 			/obj/item/reagent_containers/glass/bottle/claybottle,
 			/obj/item/roguestatue/clay,
-			/obj/item/roguestatue/glass
+			/obj/item/roguestatue/glass,
+			/obj/item/natural/clay/porcelain,
+			/obj/item/clothing/neck/roguetown/carved/porcelainamulet,
+			/obj/item/clothing/ring/porcelain,
+			/obj/item/clothing/head/roguetown/circlet/carvedgem/porcelain,
+			/obj/item/reagent_containers/glass/cup/carved/porcelainfancy,
+			/obj/item/reagent_containers/glass/cup/carved/porcelain,
+			/obj/item/reagent_containers/glass/bowl/carved/porcelain,
+			/obj/item/kitchen/spoon/carved/porcelain,
+			/obj/item/kitchen/fork/carved/porcelain,
+			/obj/item/cooking/platter/carved/porcelain
 			)
 
 /obj/machinery/gear_painter/Initialize()

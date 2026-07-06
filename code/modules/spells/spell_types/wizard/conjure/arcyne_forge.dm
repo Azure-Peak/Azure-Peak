@@ -23,7 +23,7 @@
 
 	charge_required = TRUE
 	charge_time = 2 SECONDS
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 5 MINUTES
@@ -97,7 +97,7 @@
 	R.fiber_salvage = FALSE
 
 	// Conjured glow
-	R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_ARCANE)
+	R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_ARCANE, FALSE, H, src)
 
 	H.put_in_hands(R)
 	conjured_item = R

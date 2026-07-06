@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Admins can toggle on and off hearing subtle LOOC. It defaults to off."

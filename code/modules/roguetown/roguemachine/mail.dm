@@ -396,6 +396,16 @@
 				if(I.broken)
 					to_chat(user, (span_warning("Clean it first.")))
 
+	if(istype(P, /obj/item/inqarticles/litany))		
+		if((HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_PURITAN)))	
+			var/obj/item/inqarticles/litany/I = P
+			visible_message(span_warning("[user] sends something."))
+			budget2change(6, user, "MARQUE") //Orthodoxist-centric. The number represents how much marques are restored to the Marquette upon refunding it.
+			qdel(I) //Design idea's that it costs 3/4ths of an Orthodoxist's free marque payout (8, in this case), and allows them to bless one weapon of their choosing.
+			record_round_statistic(STATS_MARQUES_MADE, 6) //It deletes itself after use, but can alternatively be saved to be refunded if an Absolver arrives later.
+			playsound(loc, 'sound/misc/otavanlament.ogg', 100, FALSE, -1)
+			playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)	
+
 	if(istype(P, /obj/item/paper/inqslip/confession))
 		if((HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_PURITAN)))	
 			var/obj/item/paper/inqslip/confession/I = P
@@ -518,23 +528,29 @@
 			return				
 
 	if(istype(P, /obj/item/paper/inqslip/accusation))
-		if((HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_PURITAN)))	
+		if(HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_PURITAN))
 			var/obj/item/paper/inqslip/accusation/I = P
-			if(I.paired)
-				if(I.signee && I.paired.full && I.paired.subject)
-					var/no
-					var/specialno
-					var/stopfarming
-					var/indexed
-					var/bonuses = 4
-					var/correct
-					var/cursedblood
-					var/selfreport
+			var/has_signature = !!I.signee
+			var/has_indexer = I.paired && I.paired.full && I.paired.subject
+			if(has_signature || has_indexer)
+				var/no
+				var/specialno
+				var/stopfarming
+				var/indexed
+				var/bonuses = 0
+				var/correct
+				var/cursedblood
+				var/selfreport
+
+				if(has_signature && has_indexer)
+					bonuses = 4
+
+				if(has_indexer)
 					if(HAS_TRAIT(I.paired.subject, TRAIT_INQUISITION))
 						selfreport = TRUE
 					if(HAS_TRAIT(I.paired.subject, TRAIT_CABAL) || HAS_TRAIT(I.paired.subject, TRAIT_HORDE) || HAS_TRAIT(I.paired.subject, TRAIT_DEPRAVED) || HAS_TRAIT(I.paired.subject, TRAIT_FREEMAN))
 						correct = TRUE
-					if(I.paired.subject.name in GLOB.excommunicated_players)	
+					if(I.paired.subject.name in GLOB.excommunicated_players)
 						correct = TRUE
 					if(GLOB.indexed && !selfreport)
 						if(HAS_TRAIT(I.paired.subject.mind, TRAIT_INDEXED))
@@ -545,7 +561,8 @@
 								GLOB.indexed += ", [I.paired.subject]"
 							else
 								GLOB.indexed += "[I.paired.subject]"
-					if(I.paired.cursedblood)		
+
+					if(I.paired.cursedblood)
 						if(HAS_TRAIT(I.paired.subject.mind, TRAIT_CBLOOD))
 							stopfarming = TRUE
 						if(!stopfarming)
@@ -554,7 +571,8 @@
 							if(GLOB.cursedsamples.len)
 								GLOB.cursedsamples += ", [I.paired.subject.mind]"
 							else
-								GLOB.cursedsamples += "[I.paired.subject.mind]"								
+								GLOB.cursedsamples += "[I.paired.subject.mind]"
+
 					if(GLOB.accused && !selfreport)
 						if(HAS_TRAIT(I.paired.subject.mind, TRAIT_ACCUSED))
 							no = TRUE
@@ -564,17 +582,20 @@
 								GLOB.accused += ", [I.paired.subject]"
 							else
 								GLOB.accused += "[I.paired.subject]"
+
 					if(GLOB.confessors && !selfreport)
 						if(HAS_TRAIT(I.paired.subject.mind, TRAIT_CONFESSED))
 							no = TRUE
-							specialno = TRUE	
-					if(cursedblood)	
+							specialno = TRUE
+
+					if(cursedblood)
 						bonuses = bonuses + bonuses * I.paired.cursedblood
 						if(I.waxed)
 							bonuses += 4
 						budget2change(bonuses, user, "MARQUE")
 						record_round_statistic(STATS_MARQUES_MADE, bonuses)
-					if(no || selfreport || stopfarming)		
+
+					if(no || selfreport || stopfarming)
 						qdel(I.paired)
 						qdel(I)
 						visible_message(span_warning("[user] sends something."))
@@ -590,35 +611,41 @@
 							else if(stopfarming)
 								to_chat(user, span_notice("We've already collected a sample of their accursed blood."))
 							else
-								to_chat(user, span_notice("They've already been accused."))	
+								to_chat(user, span_notice("They've already been accused."))
 						return
-					else
-						if(!indexed && !correct && !cursedblood)
-							(I.marquevalue -= 4) += bonuses 
-							budget2change(I.marquevalue, user, "MARQUE")
-							record_round_statistic(STATS_MARQUES_MADE, I.marquevalue)
-						if(correct)
-							if(!indexed)
-								I.marquevalue += bonuses
-							budget2change(I.marquevalue, user, "MARQUE")
-							record_round_statistic(STATS_MARQUES_MADE, I.marquevalue)
-						qdel(I.paired)
-						qdel(I)
-						visible_message(span_warning("[user] sends something."))
-						playsound(loc, 'sound/misc/otavanlament.ogg', 100, FALSE, -1)
-						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-						return
-				else
-					if(!I.paired.full)		
-						to_chat(user, span_warning("[I.paired] needs to be full of the accused's blood."))
-						return
-					else	
-						to_chat(user, span_warning("[I] is missing a signature."))	
-						return
+
+					if(!indexed && !correct && !cursedblood)
+						I.marquevalue += bonuses
+						budget2change(I.marquevalue, user, "MARQUE")
+						record_round_statistic(STATS_MARQUES_MADE, I.marquevalue)
+
+					if(correct && !indexed)
+						I.marquevalue += bonuses
+						budget2change(I.marquevalue, user, "MARQUE")
+						record_round_statistic(STATS_MARQUES_MADE, I.marquevalue)
+
+					var/obj/item/paper/inquisition_report/R = new
+					var/id = generate_inquisition_id()
+					R.report_id = id
+					R.name = "haemological report (#[id])"
+					R.fill_report(I.paired.subject, user)
+					user.put_in_hands(R)
+
+					qdel(I.paired)
+					qdel(I)
+					visible_message(span_warning("[user] sends something."))
+					visible_message(span_warning("[user] receives a mysterious piece of parchment, after a few minutes..."))
+					playsound(loc, 'sound/misc/otavanlament.ogg', 100, FALSE, -1)
+					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+					return
+
 			else
-				to_chat(user, span_warning("[I] is missing an INDEXER."))
-				return							
-		
+				if(I.paired && !I.paired.full)
+					to_chat(user, span_warning("[I.paired] needs to be full of the accused's blood."))
+				else
+					to_chat(user, span_warning("[I] requires either a signature, or an INDEXER with their blood."))
+				return
+
 	if(istype(P, /obj/item/paper) || istype(P, /obj/item/smallDelivery))
 		if(inqcoins)
 			to_chat(user, span_warning("The machine doesn't respond."))

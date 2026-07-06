@@ -295,8 +295,8 @@
 /obj/item/enchantingkit/strudel1
 	name = "'Grenzelhoft Mage Vest' morphing elixir"
 	target_items = list(/obj/item/clothing/suit/roguetown/shirt/robe,
-						/obj/item/clothing/suit/roguetown/shirt/robe)
-	result_item = /obj/item/clothing/suit/roguetown/shirt/sofiavest
+						/obj/item/clothing/suit/roguetown/shirt)
+	result_item = /obj/item/clothing/cloak/tabard/stabard/surcoat/sofiavest
 
 /obj/item/enchantingkit/strudel2
 	name = "'Xylixian Fasching Leotard' morphing elixir"
@@ -333,7 +333,7 @@
 
 //Bigfoot - Custom great axe type
 /obj/item/enchantingkit/bigfoot_axe
-	name = "'Gilded Great Axe' morphing elixir"
+	name = "'Aureline' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/greataxe/steel)
 	result_item = /obj/item/rogueweapon/greataxe/steel/gilded
 
@@ -382,11 +382,16 @@
 	)
 	result_item = /obj/item/rogueweapon/eirenxiv/eirensword
 
-//pretzel - custom steel greatsword. PSYDON LYVES. PSYDON ENDVRES.
+//waffai - silver for monsters, steel for men
 /obj/item/enchantingkit/weapon/waff
 	name = "'Weeper's Lathe' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/greatsword)
-	result_item = /obj/item/rogueweapon/example/waffai_greatsword
+	target_items = list(/obj/item/rogueweapon/sword/long/kriegmesser/silver)
+	result_item = /obj/item/rogueweapon/example/waffai_broadsword // silver broadsword is actually a kriegmesser subtype, who knew?
+
+/obj/item/enchantingkit/weapon/wafflamberge
+	name = "'Xenolalia' morphing elixir"
+	target_items = list(/obj/item/rogueweapon/greatsword/grenz/flamberge)
+	result_item = /obj/item/rogueweapon/example/waffai_flamberge
 
 //inverserun claymore
 /obj/item/enchantingkit/weapon/inverserun
@@ -547,17 +552,19 @@
 	result_item = /obj/item/rogueweapon/maesune/sabre
 
 //NeroCavalier - Sword
+/* REMOVED BY REQUEST.
 /obj/item/enchantingkit/weapon/noire_flsword
 	name = "'Blacksteel Longsword' morphing elixir"
 	target_items = list(
 		/obj/item/rogueweapon/sword/long
 	)
 	result_item = /obj/item/rogueweapon/nerocavalier/flsword
+*/
 
 /obj/item/enchantingkit/aisuwand
-    name = "Crystalline Wand morphing elixir"
-    target_items = list(/obj/item/rogueweapon/wand)
-    result_item = /obj/item/rogueweapon/wand/aisu
+    name = "Crystalline Rapier morphing elixir"
+    target_items = list(/obj/item/rogueweapon/sword/rapier)
+    result_item = /obj/item/rogueweapon/sword/rapier/aisu
 
 /obj/item/enchantingkit/weapon/regnum
 	name = "'Regnum' morphing elixir"
@@ -704,8 +711,29 @@
 	target_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail)
 	result_item = /obj/item/clothing/suit/roguetown/armor/chainmail/ollanius_maille
 
+/obj/item/enchantingkit/weapon/ollanius
+	name = "'azurosa-wrapped sword' morphing elixer"
+	target_items = list(
+		/obj/item/rogueweapon/sword/short/messer,
+		/obj/item/rogueweapon/sword/short,
+		/obj/item/rogueweapon/sword/sabre,
+		/obj/item/rogueweapon/sword
+	)
+	result_item = /obj/item/rogueweapon/ollanius_sword
+
 //Olympus7
 /obj/item/enchantingkit/olygsword
     name = "'Gre'as'anto d'Shar' morphing elixir"
     target_items = list(/obj/item/rogueweapon/greatsword)
     result_item = /obj/item/rogueweapon/greatsword/olygsword
+
+//SpartanBobby
+/obj/item/enchantingkit/bobby_helm
+	name = "'Holy Astratan Bascinet' morphing elixir"
+	target_items = list(
+		/obj/item/clothing/head/roguetown/helmet/heavy/astratan,
+		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
+		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface
+
+	)
+	result_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/spartanbobby
