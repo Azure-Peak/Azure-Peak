@@ -232,7 +232,7 @@
 	)
 	pointbuy_budget = 12
 	pointbuy_spells = list(
-		/datum/action/cooldown/spell/augment_buff/stoneskin,
+		/datum/action/cooldown/spell/augment_buff/blood_rush,
 		/datum/action/cooldown/spell/augment_buff/guidance,
 		/datum/action/cooldown/spell/augment_buff/attune_hawk,
 		/datum/action/cooldown/spell/augment_buff/attune_giant,
