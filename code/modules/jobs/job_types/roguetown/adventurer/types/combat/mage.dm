@@ -188,6 +188,7 @@
 			switch(spear_choice)
 				if("Spear")
 					r_hand = /obj/item/rogueweapon/spear
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Dory")
 					r_hand = /obj/item/rogueweapon/spear/spellblade
 				if("Naginata")
@@ -209,11 +210,13 @@
 					r_hand = /obj/item/rogueweapon/mace/warhammer
 				if("Goedendag")
 					r_hand = /obj/item/rogueweapon/mace/goden
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Iron Axe")
 					r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
 					picked_axe = TRUE
 				if("Greataxe")
 					r_hand = /obj/item/rogueweapon/greataxe
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 					picked_axe = TRUE
 			if(picked_axe)
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
