@@ -806,7 +806,7 @@
 		target.visible_message(span_info("An ethereal, mushroom infested arm carresses [target]!"), span_notice("I feel a caring touch!"))
 		target.apply_status_effect(/datum/status_effect/buff/divine_rebirth_healing)
 		SEND_SIGNAL(user, COMSIG_DIVINE_REBIRTH_CAST, target)
-		return 
+		return TRUE
 	revert_cast()
 	return FALSE
 

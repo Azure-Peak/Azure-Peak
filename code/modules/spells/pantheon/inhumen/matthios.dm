@@ -519,7 +519,8 @@
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target
 			var/datum/status_effect/buff/healing/heal_effect = C.apply_status_effect(/datum/status_effect/buff/healing)
-			heal_effect.healing_on_tick = helditemvalue / 2
+			if(heal_effect)
+				heal_effect.healing_on_tick = helditemvalue / 2
 			playsound(user, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
 			if(istype(held_item, /obj/item/rogueweapon))
 				to_chat(user, "<font color='yellow'>[held_item] melts at its very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
