@@ -1053,7 +1053,6 @@ SPECIALS START HERE
 	charger.pass_flags = old_pass
 	charger.throwing = old_throwing
 	apply_cooldown(cooldown)
->>>>>>> .theirs
 
 /datum/special_intent/drakkyrmaw_bite/on_create()
 	. = ..()
