@@ -537,6 +537,8 @@
 		return
 	if(!user.get_active_held_item())
 		return
+	if(istype(used_weapon.associated_skill, /datum/skill/combat/unarmed))
+		return
 	if(get_skill_level(used_weapon.associated_skill) < SKILL_LEVEL_JOURNEYMAN)
 		return
 	if(has_status_effect(/datum/status_effect/debuff/bindcd))

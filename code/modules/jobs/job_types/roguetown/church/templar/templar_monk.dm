@@ -8,9 +8,9 @@
 	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
-		STATKEY_CON = 2,
+		STATKEY_CON = 1,
 		STATKEY_WIL = 2,
-		STATKEY_SPD = 2
+		STATKEY_SPD = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,

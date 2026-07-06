@@ -50,7 +50,7 @@
 	name = "Egg"
 	base_price = SELLPRICE_EGG
 	source_region_id = TRADE_REGION_KINGSFIELD
-	item_type = /obj/item/reagent_containers/food/snacks/egg
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/egg
 
 /datum/trade_good/animal_fresh/butter
 	id = TRADE_GOOD_BUTTER

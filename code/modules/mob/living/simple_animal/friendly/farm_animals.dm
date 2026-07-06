@@ -243,7 +243,7 @@
 	speak_chance = 2
 	turns_per_move = 3
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat = 1)
-	var/egg_type = /obj/item/reagent_containers/food/snacks/egg
+	var/egg_type = /obj/item/reagent_containers/food/snacks/rogue/egg
 	food_type = list(/obj/item/reagent_containers/food/snacks/grown/wheat, /obj/item/reagent_containers/food/snacks/grown/oat)
 	response_help_continuous = "pets"
 	response_help_simple = "pet"
@@ -311,8 +311,8 @@
 			if(chicken_count < MAX_CHICKENS && prob(25))
 				START_PROCESSING(SSobj, E)
 
-/obj/item/reagent_containers/food/snacks/egg/var/amount_grown = 0
-/obj/item/reagent_containers/food/snacks/egg/process()
+/obj/item/reagent_containers/food/snacks/rogue/egg/var/amount_grown = 0
+/obj/item/reagent_containers/food/snacks/rogue/egg/process()
 	..()
 	if(fertile)
 		if(isturf(loc))

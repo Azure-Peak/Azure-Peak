@@ -122,6 +122,11 @@
 	. = ..()
 	QDEL_IN(src, SHELTER_DURATION)
 
+/obj/structure/forcefield_weak/shelter_wall/CanPass(atom/movable/mover, turf/target)
+	if(mover == caster)
+		return TRUE
+	return ..()
+
 /obj/structure/bed/rogue/conjured
 	name = "arcyne bed"
 	desc = "A bed conjured from arcyne force. It looks uncomfortable, but functional."

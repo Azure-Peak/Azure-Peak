@@ -1,7 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - balance: "Lowered dreamwalker speed"
-  - balance: "Dreamwalker & Malum shards can be crushed underfoot now"
-  - balance: "Dreamwalker shards restore 20% less armor."
-  - balance: "Dreamwalker blink CD increased singificantly."

@@ -497,3 +497,20 @@
 #undef MIN_BOLT_RANGE
 #undef MAX_BOLT_RANGE
 #undef DAM_FALLOFF_BOLT
+
+/obj/item/ammo_casing/caseless/rogue/bolt/blacksteel
+	name = "blacksteel bolt"
+	desc = "A magnificent bolt of blacksteel, sharp enough to pierce straight through plate armor."
+	projectile_type = /obj/projectile/bullet/reusable/bolt/blacksteel
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
+	caliber = "regbolt"
+	icon_state = "blacksteelbolt"
+
+/obj/projectile/bullet/reusable/bolt/blacksteel
+	name = "blacksteel bolt"
+	damage = 70
+	armor_penetration = PEN_BSTEEL
+	icon_state = "blacksteelbolt_proj"
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/blacksteel
+	embedchance = 80
+	npc_simple_damage_mult = 6 //..or 420 damage against a mindless mob.

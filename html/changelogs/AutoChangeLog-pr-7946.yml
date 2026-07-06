@@ -1,5 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "Added silken magos kilt -> vamp magos guard - no more leg armor off-the-bat for style, your ward will suffice anyway + vamp potencies"
-  - balance: "Vampire battlemages now lose their leg armor for a swanky kilt, knocking them down to finish off should be a bit easier until they invest into armor."

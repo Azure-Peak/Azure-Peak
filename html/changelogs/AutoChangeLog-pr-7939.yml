@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Greatly improved recipes display with final product displaying every steps in line in most case for recipes like spaghetti, pies, noodles, griddles etc."
