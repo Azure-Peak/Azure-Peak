@@ -146,6 +146,33 @@
 	to_chat(recipient, span_notice("Though you failed to become a knight, your training in equipment maintenance and repair remains useful."))
 	to_chat(recipient, span_notice("You can retrieve your hammer and polishing tools from a tree, statue, or clock."))
 
+/datum/virtue/utility/failed_attendant
+	name = "Failed Attendant"
+	desc = "I was once a bathhouse attendant, but for one reason or another failed to find a permanent position. I have stashed away some cosmetics and still have a little talent in taking care of others."
+	max_choices = 2
+	added_traits = list(TRAIT_BEAUTIFUL, TRAIT_GOODLOVER, TRAIT_NUTCRACKER, TRAIT_EMPATH)
+	choice_costs = list(0, 0)
+	extra_choices = list(
+	"Red Lipstick" = /obj/item/lipstick,
+	"Purple Lipstick" = /obj/item/lipstick/purple,
+	"Jade Lipstick" = /obj/item/lipstick/jade,
+	"Black Lipstick" = /obj/item/lipstick/black,
+	"Lavender Perfume" = /obj/item/perfume/lavender,
+	"Cherry Perfume" = /obj/item/perfume/cherry,
+	"Rose Perfume" = /obj/item/perfume/rose,
+	"Jasmine Perfume" = /obj/item/perfume/jasmine,
+	"Mint Perfume" = /obj/item/perfume/mint,
+	"Vanilla Perfume" = /obj/item/perfume/vanilla,
+	"Pear Perfume" = /obj/item/perfume/pear,
+	"Strawberry Perfume" = /obj/item/perfume/strawberry,
+	"Cinnamon Perfume" = /obj/item/perfume/cinnamon,
+	)
+	
+/datum/virtue/utility/failed_attendant/apply_to_human(mob/living/carbon/human/recipient)
+	for(var/choice in picked_choices)
+		if(ispath(extra_choices[choice], /obj/item))
+			recipient.mind?.special_items[choice] = extra_choices[choice]
+
 /datum/virtue/utility/intellectual
 	name = "Intellectual"
 	desc = "I've spent my life surrounded by various books or sophisticated foreigners, be it through travel or other fortunes beset on my life. I've picked up several tongues and wits, and keep a journal closeby. I can tell people's exact prowess."
