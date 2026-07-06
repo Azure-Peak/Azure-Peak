@@ -93,5 +93,5 @@
 
 /datum/action/cooldown/spell/augment_buff/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
-	stats += span_info("Fellowship Mode (toggle with Ctrl+G): an off-target cast snaps the buff to your nearest fellowship member in range.")
+	stats += span_info("Fellowship Mode (toggle with Shift+G): an off-target cast snaps the buff to your nearest fellowship member in range.")
 	return stats

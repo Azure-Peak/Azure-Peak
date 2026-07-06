@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/projectile/basic_offensive
 	button_icon = 'icons/mob/actions/mage_shared.dmi'
 	name = "Basic Offensive Magic"
-	desc = "Fundamental attack magyck. Used for centuries. Toggle firing mode (Ctrl+G) while the spell is active: \
+	desc = "Fundamental attack magyck. Used for centuries. Toggle firing mode (Shift+G) while the spell is active: \
 	Arcyne Bolt strikes a single target, Arced Bolt lobs over obstacles, and Soulshot fires a piercing beam through several foes. \
 	Deals 50% increased damage to simple-minded creechurs."
 	button_icon_state = "greater_arcyne_bolt"
@@ -80,5 +80,5 @@
 		if(findtext(i, "Arc Mode"))
 			stats -= i
 			break
-	stats += span_info("Firing mode (toggle with Ctrl+G): Arcyne Bolt (direct) / Arced Bolt (lobbed over cover) / Soulshot (piercing beam).")
+	stats += span_info("Firing mode (toggle with Shift+G): Arcyne Bolt (direct) / Arced Bolt (lobbed over cover) / Soulshot (piercing beam).")
 	return stats

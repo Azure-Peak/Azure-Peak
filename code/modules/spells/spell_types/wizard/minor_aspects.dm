@@ -96,9 +96,9 @@
 		/datum/action/cooldown/spell/augment_buff/enlarge,
 		/datum/action/cooldown/spell/leap,
 		/datum/action/cooldown/spell/nondetection,
-		/datum/action/cooldown/spell/surge,
-		/datum/action/cooldown/spell/precognition,
-		/datum/action/cooldown/spell/grasp,
+		/datum/action/cooldown/spell/augment_buff/surge,
+		/datum/action/cooldown/spell/augment_buff/precognition,
+		/datum/action/cooldown/spell/augment_buff/grasp,
 		// 1-cost utility filler
 		/datum/action/cooldown/spell/light,
 		/datum/action/cooldown/spell/mending,
