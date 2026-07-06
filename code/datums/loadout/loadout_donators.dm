@@ -167,6 +167,10 @@
 	name = "Gift - Belted Plackart of Steel"
 	path = /obj/item/storage/belt/rogue/leather/donator_steelgirdle
 
+/datum/loadout_item/donator/universal/armorpiece_shoulderguard
+	name = "Gift - Armor Cosmetic, Shoulderguard"
+	path = /obj/item/clothing/cloak/tabard/stabard/donator_shoulderguard
+
 /////////////////////////////
 // ! Player / Donor Kits ! //
 /////////////////////////////
@@ -292,6 +296,11 @@
 /datum/loadout_item/donator/waff2
 	name = "Donator Item - Graverobber's Hat"
 	path = /obj/item/clothing/head/roguetown/duelhat/pretzel
+	ckeywhitelist = list("waffai")
+
+/datum/loadout_item/donator/waff3
+	name = "Donator Kit - Xenolalia"
+	path = /obj/item/enchantingkit/weapon/wafflamberge
 	ckeywhitelist = list("waffai")
 
 /datum/loadout_item/donator/inverserun
@@ -577,3 +586,8 @@
 	name = "Donator Kit - Holy Astratan Bascinet"
 	path = /obj/item/enchantingkit/bobby_helm
 	ckeywhitelist = list("spartanbobby") 
+
+/datum/loadout_item/donator/ollanius_sword
+	name = "Donator Kit - Azurosa-Wrapped Sword"
+	path = /obj/item/enchantingkit/weapon/ollanius
+	ckeywhitelist = list("ollanius")

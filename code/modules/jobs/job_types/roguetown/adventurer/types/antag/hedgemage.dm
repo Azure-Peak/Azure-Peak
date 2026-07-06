@@ -49,7 +49,7 @@
 					/obj/item/needle/thorn = 1,
 					/obj/item/natural/cloth = 1,
 					/obj/item/flashlight/flare/torch = 1,
-					/obj/item/rogueweapon/spellbook = 1, // Spell resetting is a key identity of good mage
+					/obj/item/rogueweapon/spellbook/grand = 1, // Spell resetting is a key identity of good mage
 					/obj/item/chalk = 1,
 					)
 	mask = /obj/item/clothing/mask/rogue/facemask/steel //idk if this makes it so they cant cast but i want all of the bandits to have the same mask

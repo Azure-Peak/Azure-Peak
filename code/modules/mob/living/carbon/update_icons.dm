@@ -464,8 +464,6 @@
 				. += "digitigrade_full"
 			if(SQUISHED_DIGITIGRADE)
 				. += "digitigrade_squashed"
-		if(BP.animal_origin)
-			. += BP.animal_origin
 		. += (BP.status == BODYPART_ORGANIC) ? "organic" : "robotic"
 
 	if(HAS_TRAIT(src, TRAIT_HUSK))

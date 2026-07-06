@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Lycker cannot be mages (Naledi Refugee / Antiquarian) anymore"

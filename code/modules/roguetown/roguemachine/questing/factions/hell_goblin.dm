@@ -11,6 +11,8 @@
 		/mob/living/carbon/human/species/goblin/npc/archer/hell = 9, // ~30% ranged/special mix
 		/mob/living/carbon/human/species/goblin/npc/slinger/hell = 4,
 		/mob/living/carbon/human/species/goblin/npc/bomber/hell = 4,
+		/mob/living/carbon/human/species/goblin/npc/large/hell = 5,
+		/mob/living/carbon/human/species/hobgoblin/npc/ambush = 12,
 		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp = 15,
 		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound = 12,
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 10,

@@ -12,7 +12,9 @@
 
 /mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/Initialize()
 	. = ..()
-	set_species(/datum/species/human/northern)
+	set_species(pick(NPC_RACES_TYPES))
+	gender = pick(MALE, FEMALE)
+	dna.species.random_character(src) //Now we just randomise here, MUST be called after both race + gender
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
 
@@ -73,10 +75,11 @@
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/northern/heretical_fiend_no_gear/zizo_cultist)
-	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
-	if(organ_eyes)
-		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
 	patron = /datum/patron/inhumen/zizo
+	random_voice_NPC()
+	random_hair_NPC()
+	random_eye_color_NPC()
+	correct_features_NPC()
 	update_hair()
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)

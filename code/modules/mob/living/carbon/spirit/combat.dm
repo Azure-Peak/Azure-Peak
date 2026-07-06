@@ -7,7 +7,7 @@
 	var/list/enemies = list()
 	var/mob/living/target
 	var/obj/item/pickupTarget
-	var/mode = MONKEY_IDLE
+	var/mode = SPIRIT_IDLE
 	var/list/myPath = list()
 	var/list/blacklistItems = list()
 	var/maxStepsTick = 6
@@ -117,7 +117,7 @@
 		return TRUE
 
 	// target non-monkey mobs when aggressive, with a small probability of monkey v monkey
-	if(aggressive && (!istype(L, /mob/living/carbon/spirit/) || prob(MONKEY_AGGRESSIVE_MVM_PROB)))
+	if(aggressive && (!istype(L, /mob/living/carbon/spirit/) || prob(SPIRIT_AGGRESSIVE_INFIGHT_PROB)))
 		return TRUE
 
 	return FALSE
@@ -127,7 +127,7 @@
 	if(pulling)
 		stop_pulling()
 
-	mode = MONKEY_IDLE
+	mode = SPIRIT_IDLE
 	target = null
 	a_intent = INTENT_HELP
 	frustration = 0

@@ -24,21 +24,6 @@
 		SSmerchant_trade.unregister_market_watcher(src)
 	return ..()
 
-/obj/structure/roguemachine/noticeboard/attackby(obj/item/P, mob/living/carbon/human/user, params)
-	if(istype(P, /obj/item/quest_writ/blockade))
-		var/obj/item/quest_writ/blockade/B = P
-		if(B.assigned_quest?.is_directive)
-			to_chat(user, span_warning("A Steward's request is not for public posting - it must be handed directly to the bearer."))
-			return
-		if(B.assigned_quest?.required_fellowship_size >= BLOCKADE_FELLOWSHIP_REQUIREMENT)
-			to_chat(user, span_warning("This writ is already posted publicly."))
-			return
-		B.promote_to_board_gated()
-		to_chat(user, span_notice("You pin the [B.name] to the board. Any who take it must have a fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT]."))
-		playsound(src, 'sound/items/inqslip_sealed.ogg', 50, TRUE, -1)
-		return
-	return ..()
-
 /obj/structure/roguemachine/noticeboard/wall
 	icon = 'icons/roguetown/structure/noticeboard32.dmi'
 	density = FALSE

@@ -94,15 +94,13 @@
 		if(/datum/patron/divine/undivided)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/undivided
 			if(H.mind)
-				var/cloaks = list("Cloak", "Regular Tabard", "Crusader Tabard")
+				var/cloaks = list("Cloak", "Tabard")
 				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
 				switch(cloakchoice)
 					if("Cloak")
 						cloak = /obj/item/clothing/cloak/undivided
-					if("Regular Tabard")
+					if("Tabard")
 						cloak = /obj/item/clothing/cloak/templar/undivided_alt
-					if("Crusader Tabard")
-						cloak = /obj/item/clothing/cloak/tabard/stabard/crusader/undivided
 				var/helms = list("Sallet", "Barbute")
 				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
 				switch(helmchoice)

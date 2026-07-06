@@ -5,18 +5,6 @@
 	else
 		..()
 
-/mob/living/carbon/spirit/attack_paw(mob/living/M)
-	if(..()) //successful monkey bite.
-		var/dam_zone = pick(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-		var/obj/item/bodypart/affecting = get_bodypart(ran_zone(dam_zone))
-		if(!affecting)
-			affecting = get_bodypart(BODY_ZONE_CHEST)
-		if(M.limb_destroyer)
-			dismembering_strike(M, affecting.body_zone)
-		if(stat != DEAD)
-			var/dmg = rand(1, 5)
-			apply_damage(dmg, BRUTE, affecting)
-
 /mob/living/carbon/spirit/attack_hand(mob/living/carbon/human/M)
 	if(..())	//To allow surgery to return properly.
 		return

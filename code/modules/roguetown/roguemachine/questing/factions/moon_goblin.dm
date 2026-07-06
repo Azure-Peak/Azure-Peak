@@ -11,6 +11,8 @@
 		/mob/living/carbon/human/species/goblin/npc/archer/moon = 12, // ~30% ranged/special mix
 		/mob/living/carbon/human/species/goblin/npc/slinger/moon = 6,
 		/mob/living/carbon/human/species/goblin/npc/bomber/moon = 6,
+		/mob/living/carbon/human/species/goblin/npc/large/moon = 5,
+		/mob/living/carbon/human/species/hobgoblin/npc/ambush = 15,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 10,
 	)

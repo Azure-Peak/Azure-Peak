@@ -189,27 +189,6 @@
 			L.change_bodypart_status(BODYPART_ROBOTIC)
 	. = L
 
-/mob/living/carbon/monkey/newBodyPart(zone, robotic, fixed_icon)
-	var/obj/item/bodypart/L
-	switch(zone)
-		if(BODY_ZONE_L_ARM)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/l_arm/monkey)
-		if(BODY_ZONE_R_ARM)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/r_arm/monkey)
-		if(BODY_ZONE_HEAD)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/head/monkey)
-		if(BODY_ZONE_L_LEG)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/l_leg/monkey)
-		if(BODY_ZONE_R_LEG)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/r_leg/monkey)
-		if(BODY_ZONE_CHEST)
-			L = SSwardrobe.provide_type(/obj/item/bodypart/chest/monkey)
-	if(L)
-		L.update_limb(fixed_icon, src)
-		if(robotic)
-			L.change_bodypart_status(BODYPART_ROBOTIC)
-	. = L
-
 /mob/living/carbon/proc/Digitigrade_Leg_Swap(swap_back)
 	var/body_plan_changed = FALSE
 	for(var/X in bodyparts)

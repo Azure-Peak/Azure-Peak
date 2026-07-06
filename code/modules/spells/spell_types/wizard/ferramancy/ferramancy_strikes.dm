@@ -48,14 +48,14 @@
 /datum/action/cooldown/spell/ferramancy_strike/sorcerers_lance
 	name = "Sorcerer's Lance"
 	desc = "Wind up a couched lance, then drive it forward in a straight line, skewering everything up to five tiles ahead. You are slowed and left wide open as you wind it up, but once begun it cannot be stopped - only stepped clear of.\n\n\
-	Deals 25 brute damage to everything caught in the line, piercing through even heavy armor."
+	Deals 35 brute damage to everything caught in the line, piercing through even heavy armor."
 	button_icon_state = "sorcerers_lance"
 	invocations = list("Hasta Perforans!")
 	blade_class = BCLASS_STAB
 	strike_armor_pen = PEN_HEAVY
 	windup_time = TELEGRAPH_HIGH_IMPACT
 	stop_at_dense = TRUE
-	damage = 25
+	damage = 35
 	var/line_length = 5
 
 /datum/action/cooldown/spell/ferramancy_strike/sorcerers_lance/get_pattern_offsets()

@@ -6,7 +6,7 @@
 	name = "Gravel Blast"
 	desc = "Spray a volley of stones at a target. Stones ricochet off walls. Subsequent hits on the same target deal reduced damage. \
 	Stones are particularly effective at degrading armor. Deals 2x damage to structures. \
-	Toggle arc mode (Ctrl+G) to lob over obstacles at reduced damage."
+	Toggle arc mode (Shift+G) to lob over obstacles at reduced damage."
 	button_icon_state = "gravel_blast"
 	sound = 'sound/combat/hits/onstone/wallhit.ogg'
 	spell_color = GLOW_COLOR_EARTHEN
@@ -26,7 +26,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging_fire.ogg'
 	cooldown_time = 5.5 SECONDS
@@ -107,7 +107,7 @@
 	name = "Lesser Gravel Blast"
 	desc = "Spray a trio of stones at a target. Stones ricochet off walls. Subsequent hits on the same target deal reduced damage. \
 	Stones are particularly effective at degrading armor. Deals 2x damage to structures. \
-	Toggle arc mode (Ctrl+G) to lob over obstacles at reduced damage."
+	Toggle arc mode (Shift+G) to lob over obstacles at reduced damage."
 	button_icon_state = "gravel_blast"
 	projectiles_per_fire = 3
 	attunement_school = null

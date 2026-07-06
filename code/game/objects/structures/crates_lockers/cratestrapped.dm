@@ -10,7 +10,7 @@
 	var/trap_damage = 50 // baseline trap damage, reduced by armor checks. Wear your PPE in dungeons
 	var/def_zone = BODY_ZONE_CHEST
 	var/used_time = 14 // interaction time for disabling traps, scales down with trap skill
-	var/list/static/ignore_typecache 
+	var/static/list/ignore_typecache 
 
 /obj/structure/closet/crate/chest/trapped/Initialize()
 	. = ..()

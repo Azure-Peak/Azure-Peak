@@ -677,9 +677,9 @@ SPECIALS START HERE
 		var/throwdir = get_dir(howner, L)
 		var/turf/throwtarget = get_ranged_target_turf(get_turf(L), throwdir, 1)
 		L.safe_throw_at(throwtarget, 1, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
-		L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_dur)
 		var/hit_zone = get_aimed_zone(L)
 		apply_generic_weapon_damage(L, dam, "blunt", hit_zone, bclass = BCLASS_BLUNT, no_pen = TRUE)
+		L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_dur)
 	..()
 
 #define AXE_SWING_GRID_DEFAULT 	list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.4 SECONDS))

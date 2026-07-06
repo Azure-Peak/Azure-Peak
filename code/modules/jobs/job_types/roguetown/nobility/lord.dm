@@ -248,7 +248,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
@@ -270,6 +270,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/outfit/job/roguetown/lord/mage/pre_equip(mob/living/carbon/human/H)
 	..()
+	l_hand = /obj/item/rogueweapon/lordscepter
 	backr = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rogueweapon/spellbook = 1, /obj/item/blueprint/mace_mushroom = 1, /obj/item/chalk = 1, /obj/item/hunting_map/white_stag = 1,)

@@ -3,7 +3,7 @@
 	steps = list(
 		/datum/surgery_step/add_prosthetic,
 	)
-	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	target_mobtypes = list(/mob/living/carbon/human)
 	possible_locs = list(
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_L_ARM,
@@ -20,7 +20,7 @@
 	implements = list(
 		/obj/item/bodypart/taur = 80, 
 	)
-	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	target_mobtypes = list(/mob/living/carbon/human)
 	time = 3 SECONDS
 	requires_bodypart = FALSE
 	requires_missing_bodypart = FALSE
@@ -41,13 +41,6 @@
 
 /datum/surgery_step/add_taur/preop(mob/user, mob/living/target, target_zone, obj/item/bodypart/taur/bodypart, datum/intent/intent)
 	target_zone = BODY_ZONE_TAUR
-
-	if(ismonkey(target) && bodypart.animal_origin != MONKEY_BODYPART)
-		to_chat(user, span_warning("[bodypart] doesn't match the patient's morphology."))
-		return FALSE
-	else if(bodypart.animal_origin)
-		to_chat(user, span_warning("[bodypart] doesn't match the patient's morphology."))
-		return FALSE
 
 	if(bodypart.original_owner != target)
 		if(target.has_status_effect(/datum/status_effect/buff/necras_vow) || HAS_TRAIT(target, TRAIT_NECRAS_VOW))	//Status effects are cleared upon death, just in case you want to... attach a permakilled corpse's limbs.
@@ -74,7 +67,7 @@
 	implements = list(
 		/obj/item/bodypart = 80,
 	)
-	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	target_mobtypes = list(/mob/living/carbon/human)
 	possible_locs = list(
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_L_ARM,
@@ -98,13 +91,6 @@
 
 /datum/surgery_step/add_prosthetic/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	var/obj/item/bodypart/bodypart = tool
-	if(ismonkey(target) && bodypart.animal_origin != MONKEY_BODYPART)
-		to_chat(user, span_warning("[bodypart] doesn't match the patient's morphology."))
-		return FALSE
-	else if(bodypart.animal_origin)
-		to_chat(user, span_warning("[bodypart] doesn't match the patient's morphology."))
-		return FALSE
-
 	if(target_zone != bodypart.body_zone) //so we can't replace a leg with an arm, or a human arm with a monkey arm.
 		to_chat(user, span_warning("[tool] isn't the right type for [parse_zone(target_zone)]."))
 		return FALSE
@@ -142,7 +128,7 @@
 	steps = list(
 		/datum/surgery_step/remove_prosthetic
 	)
-	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	target_mobtypes = list(/mob/living/carbon/human)
 	possible_locs = list(
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_L_ARM,
@@ -157,7 +143,7 @@
 	implements = list(
 		TOOL_SAW = 90,
 	)
-	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	target_mobtypes = list(/mob/living/carbon/human)
 	possible_locs = list(
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_L_ARM,

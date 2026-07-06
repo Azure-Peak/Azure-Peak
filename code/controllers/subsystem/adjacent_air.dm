@@ -54,7 +54,6 @@ SUBSYSTEM_DEF(adjacent_air)
 	var/obj/effect/abstract/liquid_turf/liquids
 	var/liquid_height = 0
 	var/turf_height = 0
-	var/path_weight = 0
 
 /turf/open
 	var/obj/effect/hotspot/active_hotspot

@@ -76,7 +76,7 @@
 		ADD_TRAIT(body, trait, "[type]")
 	if(body.mind)
 		body.mind.RemoveAllSpells()
-		body.mind.AddSpell(new /datum/action/cooldown/spell/blink)
+		body.mind.AddSpell(new /datum/action/cooldown/spell/blink/dreamwalker)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mark_target)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/jaunt)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dream_bind)
@@ -113,7 +113,7 @@
 	H.change_stat(STATKEY_INT, 2)
 	H.change_stat(STATKEY_CON, 2)
 	H.change_stat(STATKEY_PER, 2)
-	H.change_stat(STATKEY_SPD, 2)
+	H.change_stat(STATKEY_SPD, 1)
 	H.change_stat(STATKEY_WIL, 2)
 
 	if(H.mind)

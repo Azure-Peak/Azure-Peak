@@ -1,12 +1,12 @@
 #define BLADE_DANCE_RADIUS 1
 #define BLADE_DANCE_DURATION 10 SECONDS
-#define BLADE_DANCE_TICK_DAMAGE 30
+#define BLADE_DANCE_TICK_DAMAGE 20
 
 /datum/action/cooldown/spell/blade_dance
 	button_icon = 'icons/mob/actions/mage_ferramancy.dmi'
 	name = "Blade Dance"
 	desc = "Wreathe yourself in a whirling storm of arcyne blades that moves with you, slashing everything in the tiles around you.\n\n\
-	Deals 30 brute damage per second for 10 seconds to everything in the tiles adjacent to you."
+	Deals 20 brute damage per second for 10 seconds to everything in the tiles adjacent to you."
 	button_icon_state = "blade_dance"
 	sound = 'sound/magic/scrapeblade.ogg'
 	spell_color = GLOW_COLOR_METAL
@@ -25,7 +25,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_HEAVY
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 60 SECONDS
@@ -118,6 +118,11 @@
 
 /obj/effect/blade_dance_zone/process(delta_time)
 	if(ticks_remaining <= 0 || QDELETED(caster) || caster.stat != CONSCIOUS)
+		qdel(src)
+		return
+
+	if(caster.IsKnockdown() || caster.IsStun() || caster.IsParalyzed() || caster.has_status_effect(/datum/status_effect/debuff/exposed))
+		caster.visible_message(span_boldwarning("[caster]'s storm of blades scatters!"), span_warning("My blade dance is broken!"))
 		qdel(src)
 		return
 

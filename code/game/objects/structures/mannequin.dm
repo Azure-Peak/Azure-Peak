@@ -117,9 +117,6 @@
 		return
 	tryEquip(user)
 
-/obj/structure/mannequin/attack_paw(mob/user)
-	return attack_hand(user)
-
 /*
 * Taken from paperbin code. Its a bit immersion breaking
 * but easier to use.

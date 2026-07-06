@@ -2,7 +2,7 @@
 These mirror the species.dm melee attack flow (armor check -> apply_damage -> bodypart_attacked_by)
 without going through the click pipeline, so spells can deliver weapon-style strikes. */
 
-/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, npc_simple_damage_mult = 1, intdamage_factor)
+/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, npc_simple_damage_mult = 1, intdamage_factor, exact_zone = FALSE)
 	if(!user || !target || QDELETED(user) || QDELETED(target))
 		return FALSE
 
@@ -36,7 +36,8 @@ without going through the click pipeline, so spells can deliver weapon-style str
 	// Base accuracy from PER/INT: 60 base + 10 per point of PER above 10 + 10 per point of INT above 10
 	// Below 10 penalizes instead. A class-intended spellblade (PER ~12, INT ~12) gets ~100 base accuracy.
 	// This feeds into bullet_hit_accuracy_check which caps ultra-precise at 50%, precise at 75%, face at 30%.
-	if(def_zone != BODY_ZONE_CHEST && isliving(target))
+	// exact_zone bypasses the roll entirely, striking precisely where the caster aimed.
+	if(!exact_zone && def_zone != BODY_ZONE_CHEST && isliving(target))
 		var/base_accuracy = 60
 		base_accuracy += (user.STAPER - 10) * 10
 		base_accuracy += (user.STAINT - 10) * 10
