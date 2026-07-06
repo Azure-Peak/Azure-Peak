@@ -945,14 +945,13 @@ SPECIALS START HERE
 
 /datum/special_intent/drakkyrmaw_bite
 	name = "Drakkyrmaw: Hoardbite"
-	desc = "The golden maw snaps shut in a short, delayed bite-line. Victims are dragged closer, exposed, and burned. Always targets the aimed zone."
-	tile_coordinates = list(list(0,0), list(0,1, 0.15 SECONDS), list(0,2, 0.3 SECONDS))
-	post_icon_state = "stab"
-	pre_icon_state = "trap"
-	sfx_pre_delay = 'sound/combat/wooshes/bladed/wooshsmall (1).ogg'
-	sfx_post_delay = 'sound/combat/hits/bladed/smallslash (1).ogg'
+	desc = "The golden maw snaps shut in a four-pace bite-line. Bite marks appear one-by-one before the whole line activates at once. Victims are dragged closer, exposed, and burned. Always targets the aimed zone."
+	tile_coordinates = list(list(0,0), list(0,1, 0.15 SECONDS), list(0,2, 0.3 SECONDS), list(0,3, 0.45 SECONDS))
+	post_icon_state = "bite"
+	pre_icon_state = "bite"
 	respect_adjacency = FALSE
-	delay = 0.4 SECONDS
+	delay = 0.85 SECONDS
+	custom_delays = list(0.85 SECONDS, 0.7 SECONDS, 0.55 SECONDS, 0.4 SECONDS)
 	cooldown = 30 SECONDS
 	stamcost = 20
 	var/dam = 0
@@ -965,8 +964,9 @@ SPECIALS START HERE
 
 /datum/special_intent/drakkyrmaw_bite/on_create()
 	. = ..()
-	howner.Immobilize(0.6 SECONDS)
-	howner.apply_status_effect(/datum/status_effect/debuff/clickcd, 0.6 SECONDS)
+	howner.Immobilize(0.9 SECONDS)
+	howner.apply_status_effect(/datum/status_effect/debuff/clickcd, 0.9 SECONDS)
+	playsound(howner, 'sound/combat/rend_start.ogg', 100, TRUE)
 	to_chat(howner, span_warning("YOU KNOW WHAT TO DO."))
 
 /datum/special_intent/drakkyrmaw_bite/apply_hit(turf/T)
@@ -982,7 +982,8 @@ SPECIALS START HERE
 		if(L.mobility_flags & MOBILITY_STAND)
 			apply_generic_weapon_damage(L, dam, "stab", get_aimed_zone(L), bclass = BCLASS_BITE, full_pen = TRUE)
 		L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
-	playsound(T, sfx_post_delay, 100, TRUE)
+	var/sfx = pick('sound/combat/sp_axe_swing1.ogg','sound/combat/sp_axe_swing2.ogg','sound/combat/sp_axe_swing3.ogg')
+	playsound(T, sfx, 100, TRUE)
 	..()
 
 /datum/special_intent/gilded_dragon_sweep

@@ -296,8 +296,9 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/item/rogueweapon/katar/lirvan_talon/proc/attune_to_wealth(new_wealth_value)
 	wealth_value = new_wealth_value
-	force = clamp(round(18 + (wealth_value / 25)), 20, 60)
+	force = clamp(round(15 + (wealth_value / 25)), 20, 32)
 	throwforce = clamp(round(force / 2), 10, 30) //if this ever becomes relevant lol
+	update_force_dynamic()
 	name = "[wealth_value]-toothed DRAKKYRMAW"
 
 /obj/item/rogueweapon/katar/lirvan_talon/examine(mob/user)
