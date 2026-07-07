@@ -110,6 +110,9 @@
 				//End bloody footprints
 				S.step_action()
 		if(mouth)
+			if(mouth.spitoutmouth && prob(5))
+				visible_message(span_warning("[src] spits out [mouth]."))
+				dropItemToGround(mouth, silent = FALSE)
 			if(src.mind?.has_antag_datum(/datum/antagonist/zombie) && (!src.handcuffed) && prob(50))
 				visible_message(span_warning("[src] spits out [mouth]."))
 				dropItemToGround(mouth, silent = FALSE)
