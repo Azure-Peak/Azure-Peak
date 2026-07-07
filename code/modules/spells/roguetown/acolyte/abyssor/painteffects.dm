@@ -123,10 +123,12 @@
 	effectedstats = list(STATKEY_SPD = 1)
 	// Makes it ever so slightly easier to sprint around the map with this.
 	owner.adjust_nutrition(1)
+	owner.energy_add(1)
 	return ..()
 
 /datum/status_effect/buff/ink_surge/refresh()
 	owner.adjust_nutrition(1)
+	owner.energy_add(1)
 	return ..()
 
 /datum/status_effect/debuff/ink_clog
