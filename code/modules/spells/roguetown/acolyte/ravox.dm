@@ -46,7 +46,7 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/holycharging.ogg'
 	cooldown_time = 1 MINUTES
@@ -127,7 +127,7 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 0
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/holycharging.ogg'
 	cooldown_time = 1 MINUTES
@@ -368,7 +368,7 @@
 
 	charge_required = TRUE
 	charge_time = 3 SECONDS
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 90 SECONDS
@@ -519,7 +519,7 @@
 
 	charge_required = TRUE
 	charge_time = 3 SECONDS
-	charge_drain = 0
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/holycharging.ogg'
 	cooldown_time = 10 MINUTES
@@ -827,187 +827,3 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	name = "Ravox's Call to Arms"
 	desc = "His voice keeps ringing in your ears, rocking your soul.."
 	icon_state = "call_to_arms_negative"
-
-////////////////////////////////////////////////////////////////////
-// T4 - Warrior Spirit - Summon warrior spirits to fight for you. //
-////////////////////////////////////////////////////////////////////
-
-/datum/action/cooldown/spell/ravox/spirits
-	name = "Justicar's Spirit"
-	desc = "Tear out part of your spirit, and manifest it into a spectral warrior!"
-	button_icon_state = "warriors"
-	sound = 'sound/magic/magnet.ogg'
-
-	click_to_activate = TRUE
-	cast_range = SPELL_RANGE_GROUND
-	self_cast_possible = FALSE
-
-	primary_resource_cost = SPELLCOST_MIRACLE_LEGENDARY
-
-	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
-
-	invocation_type = INVOCATION_SHOUT
-	invocations = list("Ravox calls upon you once more!")
-
-	charge_required = TRUE
-	charge_time = 3 SECONDS
-	charge_drain = 0
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_sound = 'sound/magic/holycharging.ogg'
-	cooldown_time = 5 MINUTES
-
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-/datum/action/cooldown/spell/ravox/spirits/cast(atom/cast_on)
-	. = ..()
-
-	var/mob/living/carbon/human/user = owner
-	if(!istype(user))
-		return FALSE
-
-	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
-		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
-		return FALSE
-
-	if(!("[user.mind.current.real_name]_faction" in user.faction))
-		user.faction |= "[user.mind.current.real_name]_faction"
-
-	if(!locate(/datum/action/cooldown/spell/gravemark) in user.mind?.spell_list) //OFF VVV
-		user.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark/no_sprite)
-
-	if(!locate(/datum/action/cooldown/spell/minion_order) in user.mind?.spell_list)  //SPELLGRANT IN CLASS FILE
-		user.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
-
-	var/time = 1 MINUTES
-
-	if(isliving(cast_on))
-		var/mob/living/target = cast_on
-		var/turf/spawn_turf = get_step(user, user.dir)
-		if(!spawn_turf)
-			spawn_turf = get_turf(user)
-		new /mob/living/carbon/human/species/human/northern/ravox_spirit(spawn_turf, user)
-		for(var/mob/living/carbon/human/species/human/northern/ravox_spirit/swarm in view(3, user))
-			swarm.faction |= list("ravox_spirit", "[user.mind.current.real_name]_faction")
-			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
-			swarm.ai_controller.set_blackboard_key(BB_MAIN_TARGET, target)
-			swarm.ai_controller.insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, target)
-			swarm.visible_message(span_notice("A [swarm] manifests following after [target]... !"))
-			if(swarm.buffed_r == FALSE)
-				addtimer(CALLBACK(swarm, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), time)
-				swarm.buffed_r = TRUE
-				swarm.name = "[user.real_name]'s Spirit"
-		return TRUE
-	return FALSE
-
-/*
- * Justicar's Spirit
-*/
-
-GLOBAL_LIST_INIT(ravox_aggro, world.file2list("strings/rt/ravoxspiritlines.txt"))
-
-/mob/living/carbon/human/species/human/northern/ravox_spirit
-	ai_controller = /datum/ai_controller/human_npc
-	d_intent = INTENT_PARRY
-	faction = list(FACTION_DUNDEAD)
-	ambushable = FALSE
-	dodgetime = 30
-	var/buffed_r = FALSE
-	var/mob/living/spirit_owner = null
-
-/mob/living/carbon/human/species/human/northern/ravox_spirit/Initialize(mob/user)
-	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-	if(isliving(user))
-		spirit_owner = user
-
-/mob/living/carbon/human/species/human/northern/ravox_spirit/death(gibbed, nocutscene)
-	say("Ravox, I return to you...", forced = TRUE, npc_speech = TRUE)
-	emote("painscream")
-	. = ..()
-	if(!gibbed)
-		dust(FALSE, FALSE, TRUE)
-
-/mob/living/carbon/human/species/human/northern/ravox_spirit/proc/outfit_ravoxspirit(datum/outfit/outfit)
-	if(!outfit)
-		return
-	equipOutfit(outfit)
-	// Apply dust-on-drop to all equipped gear so it can't be looted via dismemberment or stripping.
-	// TRAIT_NODROP on held items prevents grab disarming.
-	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
-		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
-	for(var/obj/item/held_item in held_items)
-		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
-
-/mob/living/carbon/human/species/human/northern/ravox_spirit/after_creation()
-	..()
-	AddComponent(/datum/component/ai_aggro_system)
-	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.ravox_aggro, TRUE)
-	job = "Ravoxian Spirit"
-	patron = /datum/patron/divine/ravox
-	gender = MALE
-	
-	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
-	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_BATTLEMASTER, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_GOODLOVER, TRAIT_GENERIC)//Eoran Influence
-	outfit_ravoxspirit(/datum/outfit/job/roguetown/ravox_spirit)
-
-	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
-	var/obj/item/organ/ears/organ_ears = getorgan(/obj/item/organ/ears)
-
-	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
-	dna.species.handle_body(src)
-
-	if(organ_eyes)
-		organ_eyes.eye_color = "#0f70b1"
-		organ_eyes.accessory_colors = "#FFBF00#FFBF00"
-
-	if(organ_ears)
-		organ_ears.accessory_colors = "e9d298"
-
-	skin_tone = "e9d298"
-
-	update_hair()
-	update_body()
-	update_overlays()
-	regenerate_icons()
-
-	def_intent_change(INTENT_PARRY)
-
-/datum/outfit/job/roguetown/ravox_spirit/pre_equip(mob/living/carbon/human/H, visualsOnly)
-	. = ..()
-	H.STASTR = 15
-	H.STASPD = 14
-	H.STACON = 12
-	H.STAWIL = 12
-	H.STAPER = 12
-	H.STAINT = 12
-	H.STALUC = 10
-
-	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 6, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
-
-/datum/outfit/job/roguetown/ravox_spirit/pre_equip(mob/living/carbon/human/H)
-	. = ..()
-	l_hand = /obj/item/rogueweapon/sword/long/ravox_spirit
-	r_hand = /obj/item/rogueweapon/sword/long/ravox_spirit
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm 
-	mask = /obj/item/clothing/head/roguetown/roguehood/ravoxgorget
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	cloak = /obj/item/clothing/cloak/templar/ravox
-	armor = /obj/item/clothing/suit/roguetown/armor/plate
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	gloves = /obj/item/clothing/gloves/roguetown/plate
-	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
-	beltr = /obj/item/clothing/neck/roguetown/psicross/ravox
-	pants = /obj/item/clothing/under/roguetown/platelegs
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor

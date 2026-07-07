@@ -40,7 +40,7 @@
 		mob_job = SSjob.GetJob(departing_mob.mind.assigned_role)
 		if(mob_job)
 			mob_job.current_positions = max(0, mob_job.current_positions - 1)
-			var/target_job = SSrole_class_handler.get_advclass_by_name(user.advjob)
+			var/datum/advclass/target_job = departing_mob.get_advclass_datum()
 			if(target_job)
 				SSrole_class_handler.adjust_class_amount(target_job, -1)
 	if(!length(departing_mob.contents))
@@ -101,4 +101,3 @@
 		for(var/thing in embeds)
 			QDEL_NULL(thing)
 	QDEL_NULL(departing_mob)
-

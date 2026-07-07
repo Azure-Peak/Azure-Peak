@@ -1,42 +1,14 @@
-// Guidance — Augmentation buff spell (new action system)
-// Status effect kept in buffs_debuffs/guidance.dm
-/datum/action/cooldown/spell/guidance
-	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
+/datum/action/cooldown/spell/augment_buff/guidance
 	name = "Guidance"
-	desc = "Makes one's hand travel true, blessing them with arcyne luck in combat. (+20% chance to bypass parry / dodge, +20% chance to parry / dodge)\nCasting on another person extends the duration."
+	desc = "Sharpens the senses with arcyne focus, honing the target's awareness. (+3 Perception)"
 	button_icon_state = "guidance"
-	sound = 'sound/magic/haste.ogg'
-	spell_color = GLOW_COLOR_BUFF
-	glow_intensity = GLOW_INTENSITY_LOW
-	attunement_school = ASPECT_NAME_AUGMENTATION
-
-	click_to_activate = TRUE
-	cast_range = SPELL_RANGE_GROUND
-	self_cast_possible = TRUE
-
-	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_STAT_BUFF
 
 	invocations = list("Ducere")
-	invocation_type = INVOCATION_WHISPER
+	cooldown_time = 90 SECONDS
 
-	charge_required = TRUE
-	charge_time = 1 SECONDS
-	charge_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_sound = 'sound/magic/charging.ogg'
-	charge_then_click = TRUE
-	cooldown_time = 2 MINUTES
+	point_cost = 1
 
-	associated_skill = /datum/skill/magic/arcane
-	spell_tier = 2
-
-	point_cost = 2
-	spell_impact_intensity = SPELL_IMPACT_NONE
-
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-/datum/action/cooldown/spell/guidance/cast(atom/cast_on)
+/datum/action/cooldown/spell/augment_buff/guidance/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
@@ -50,10 +22,8 @@
 
 	if(spelltarget != H)
 		H.visible_message("[H] mutters an incantation and [spelltarget] briefly shines orange.")
-		to_chat(H, span_notice("With another person as a conduit, my spell's duration is extended."))
-		spelltarget.apply_status_effect(/datum/status_effect/buff/guidance, STAT_BUFF_ALLY_DURATION)
 	else
 		H.visible_message("[H] mutters an incantation and they briefly shine orange.")
-		spelltarget.apply_status_effect(/datum/status_effect/buff/guidance, STAT_BUFF_SELF_DURATION)
+	apply_buff_to(spelltarget, /datum/status_effect/buff/guidance, STAT_BUFF_SELF_DURATION)
 
 	return TRUE

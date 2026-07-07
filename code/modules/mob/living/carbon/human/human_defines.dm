@@ -171,6 +171,10 @@
 
 	/// Whether our job title is adaptive to our skills.
 	var/adaptive_name
+	/// Fixed title to show instead of composing every expert skill into the adaptive name. Resulting into a MESS.
+	var/adaptive_name_title
+	/// Next world.time where Homesteaders can change their chosen title.
+	var/next_homesteader_title_change = 0
 
 	/// Ref to orison-like sunder object
 	var/sunder_light_obj = null

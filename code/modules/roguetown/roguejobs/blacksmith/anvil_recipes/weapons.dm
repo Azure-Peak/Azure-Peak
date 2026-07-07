@@ -1241,7 +1241,7 @@
 	req_bar = /obj/item/ingot/silver
 	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/woodstaff/quarterstaff/silver
-	display_category = ITEM_CAT_WEAPONS_SWORDS
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
 
 /datum/anvil_recipe/weapons/silver/spear
 	name = "Spear, Silver (+3 Small Logs)"
@@ -1273,7 +1273,7 @@
 	createditem_num = 4
 
 /datum/anvil_recipe/weapons/silver/javelin
-	name = "Javelins, Silver (+1 Small Log)"
+	name = "Javelin, Silver (+1 Small Log) (x2)"
 	req_bar = /obj/item/ingot/silver
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/ammo_casing/caseless/rogue/javelin/silver
@@ -2052,6 +2052,13 @@
 	created_item = /obj/item/rogueweapon/sword/blacksteel/decorated
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
+/datum/anvil_recipe/weapons/blacksteel/longword
+	name = "Blacksteel Longsword (+1 Blacksteel, +1 Saffira, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/violet, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/sword/long/blacksteel
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+
 /datum/anvil_recipe/weapons/blacksteel/flamberge
 	name = "Blacksteel Flamberge (+1 Blacksteel, +1 Rontz, +1 Silk)"
 	req_bar = /obj/item/ingot/blacksteel
@@ -2059,12 +2066,184 @@
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
-/datum/anvil_recipe/weapons/blacksteel/longword
-	name = "Blacksteel Longsword (+1 Blacksteel, +1 Saffira, +1 Silk)"
+/datum/anvil_recipe/weapons/blacksteel/rapier
+	name = "Blacksteel Rapier (+1 Blacksteel, +1 Gemerald, +1 Silk)"
 	req_bar = /obj/item/ingot/blacksteel
-	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/violet, /obj/item/natural/silk)
-	created_item = /obj/item/rogueweapon/sword/long/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/green, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/sword/rapier/blacksteel
 	display_category = ITEM_CAT_WEAPONS_SWORDS
+
+/datum/anvil_recipe/weapons/blacksteel/messer
+	name = "Blacksteel Messer (+1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/sword/short/messer/blacksteel
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+
+/datum/anvil_recipe/weapons/blacksteel/lance
+	name = "Blacksteel Lance (+1 Blacksteel, +1 Small Log, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/grown/log/tree/small, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/spear/lance/blacksteel
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
+
+/datum/anvil_recipe/weapons/blacksteel/halberd
+	name = "Blacksteel Halberd (+1 Blacksteel, +1 Blortz, +1 Small Log, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/blue, /obj/item/grown/log/tree/small, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/halberd/blacksteel
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
+
+/datum/anvil_recipe/weapons/blacksteel/polehammer
+	name = "Blacksteel Polehammer (+1 Blacksteel, +1 Toper, +1 Small Log, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/yellow, /obj/item/grown/log/tree/small, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/eaglebeak/blacksteel
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
+
+/datum/anvil_recipe/weapons/blacksteel/mace
+	name = "Blacksteel Mace (+1 Blacksteel, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/mace/blacksteel
+	display_category = ITEM_CAT_WEAPONS_MACES
+
+/datum/anvil_recipe/weapons/blacksteel/warhammer
+	name = "Blacksteel Warhammer (+1 Silk, +1 Stick)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/grown/log/tree/stick)
+	created_item = /obj/item/rogueweapon/mace/warhammer/blacksteel
+	display_category = ITEM_CAT_WEAPONS_MACES
+
+/datum/anvil_recipe/weapons/blacksteel/knuckles
+	name = "Blacksteel Knuckles (+1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/natural/silk)
+	created_item = /obj/item/clothing/gloves/roguetown/knuckles/blacksteel
+	display_category = ITEM_CAT_WEAPONS_MACES
+
+/datum/anvil_recipe/weapons/blacksteel/hurlbat
+	name = "Blacksteel Hurlbat (+1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/stoneaxe/hurlbat/blacksteel
+	display_category = ITEM_CAT_WEAPONS_AXES
+
+/datum/anvil_recipe/weapons/blacksteel/axe
+	name = "Blacksteel Axe (+1 Blacksteel, +1 Silk, +1 Stick)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/natural/silk, /obj/item/grown/log/tree/stick)
+	created_item = /obj/item/rogueweapon/stoneaxe/battle/blacksteel
+	display_category = ITEM_CAT_WEAPONS_AXES
+
+/datum/anvil_recipe/weapons/blacksteel/greataxe
+	name = "Blacksteel Greataxe (+1 Blacksteel, +1 Small Log, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/grown/log/tree/small, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/greataxe/blacksteel
+	display_category = ITEM_CAT_WEAPONS_AXES
+
+/datum/anvil_recipe/weapons/blacksteel/whip
+	name = "Whip, Blacksteel-Tipped (+1 Leather Whip, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/rogueweapon/whip, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/whip/blacksteel
+	display_category = ITEM_CAT_WEAPONS_FLAILS
+
+/datum/anvil_recipe/weapons/blacksteel/flail
+	name = "Blacksteel Flail (+1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/flail/blacksteel
+	display_category = ITEM_CAT_WEAPONS_FLAILS
+
+/datum/anvil_recipe/weapons/blacksteel/dagger
+	name = "Blacksteel Dagger (+1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/huntingknife/idagger/blacksteel
+	display_category = ITEM_CAT_WEAPONS_DAGGERS
+
+/datum/anvil_recipe/weapons/blacksteel/misericorde
+	name = "Blacksteel Misericorde (+1 Blacksteel, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/huntingknife/idagger/blacksteel/heavy
+	display_category = ITEM_CAT_WEAPONS_DAGGERS
+
+/datum/anvil_recipe/weapons/blacksteel/tossblades
+	name = "Blacksteel Tossblades (+1 Silk) (x3)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/huntingknife/throwingknife/blacksteel
+	display_category = ITEM_CAT_WEAPONS_DAGGERS
+	createditem_num = 3
+
+/datum/anvil_recipe/weapons/blacksteel/javelins
+	name = "Javelin, Blacksteel (+1 Small Log, +1 Silk) (x2)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/natural/silk)
+	created_item = /obj/item/ammo_casing/caseless/rogue/javelin/blacksteel
+	display_category = ITEM_CAT_WEAPONS_AMMO
+	createditem_num = 2
+
+/datum/anvil_recipe/weapons/blacksteel/bolts
+	name = "Crossbow Bolts, Blacksteel (+1 Stick, +1 Silk) (x5)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/natural/silk)
+	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/blacksteel
+	display_category = ITEM_CAT_WEAPONS_AMMO
+	createditem_num = 5
+
+/datum/anvil_recipe/weapons/blacksteel/arrows
+	name = "Arrows, Blacksteel (+2 Sticks, +1 Silk) (x5)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick, /obj/item/natural/silk)
+	created_item = /obj/item/ammo_casing/caseless/rogue/arrow/blacksteel
+	display_category = ITEM_CAT_WEAPONS_AMMO
+	createditem_num = 5
+
+/datum/anvil_recipe/weapons/blacksteel/scattershot
+	name = "Scattershot, Blacksteel (x10)"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/ammo_casing/caseless/rogue/sling_bullet/bs_scattershot
+	display_category = ITEM_CAT_WEAPONS_AMMO
+	createditem_num = 10
+
+/datum/anvil_recipe/weapons/blacksteel/slingbullet
+	name = "Sling Bullet, Blacksteel (x10)"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/ammo_casing/caseless/rogue/sling_bullet/blacksteel
+	display_category = ITEM_CAT_WEAPONS_AMMO
+	createditem_num = 10
+
+/datum/anvil_recipe/weapons/blacksteel/shield
+	name = "Blacksteel Shield (+1 Blacksteel, +1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/shield/tower/metal/blacksteel
+	display_category = ITEM_CAT_WEAPONS_SHIELDS
+
+/datum/anvil_recipe/weapons/blacksteel/handclaws
+	name = "Blacksteel Claws (+1 Silk)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/natural/silk)
+	created_item = /obj/item/rogueweapon/handclaw/blacksteel
+	display_category = ITEM_CAT_SMITHING_MISC
+
+/datum/anvil_recipe/weapons/blacksteel/quarterstaff
+	name = "Quarterstaff, Blacksteel (+3 Small Logs)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/woodstaff/quarterstaff/blacksteel
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
+
+/datum/anvil_recipe/weapons/blacksteel/spear
+	name = "Spear, Blacksteel (+2 Small Logs)"
+	req_bar = /obj/item/ingot/blacksteel
+	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/spear/blacksteel
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
 
 // AVANTYNE
 

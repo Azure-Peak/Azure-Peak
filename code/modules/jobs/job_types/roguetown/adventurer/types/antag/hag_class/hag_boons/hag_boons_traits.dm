@@ -118,12 +118,6 @@
 	desc = "Slows the rate at which one's blades dull."
 	points = 20
 
-/datum/hag_boon/trait/guidance
-	name = "Trait - Guidance"
-	trait_to_apply = TRAIT_GUIDANCE
-	desc = "Enhances the bearer's combat abilities, functioning as an extra level in their skill with whatever weapon they wield."
-	points = 60
-
 /datum/hag_boon/trait/good_trainer
 	name = "Trait - Good Trainer"
 	trait_to_apply = TRAIT_GOODTRAINER

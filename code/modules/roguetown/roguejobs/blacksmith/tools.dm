@@ -184,7 +184,20 @@
 			if(prob(30))
 				M.emote("whimper") // robbit aboose
 			return	
-		else		
+		else
+			if(M.has_status_effect(/datum/status_effect/debuff/integrity_rig))
+				if(M == user)
+					to_chat(user, span_warning("I can't get the right angle to fix this, I need help from someone else!"))
+					return
+				user.visible_message(span_warning("[user] begins lining up a decisive strike onto the Jury Rig!"))
+				if(!do_after(user, 4 SECONDS))
+					return
+				M.remove_status_effect(/datum/status_effect/debuff/integrity_rig)
+				playsound(M.loc, 'sound/misc/bonk.ogg', 100, FALSE, -1) // satisfying
+				for(var/datum/wound/W in wCount)
+					if(W.severity >= WOUND_SEVERITY_CRITICAL)
+						qdel(W)
+						break
 			hammerheal(M, user)
 	else
 		. = ..() //normal hit
@@ -636,7 +649,7 @@
 
 /obj/item/rogueweapon/tongs/blacksteel
 	name = "blacksteel tongs"
-	desc = "A pair of blacksteel jaws almost certainly used as a sign of prestige."
+	desc = "A pair of blacksteel jaws, almost certainly used as a sign of prestige."
 	icon_state = "bs_tongs"
 	wdefense = 6
 	icon = 'icons/roguetown/weapons/tools.dmi'

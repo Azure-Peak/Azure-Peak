@@ -308,7 +308,6 @@
 				attempted_wounds += /datum/wound/artery
 
 	if(bclass in GLOB.whipping_bclasses)
-		used = round(damage_dividend * 20 + (dam / 3))
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			dam += 10
 		if(HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
@@ -316,8 +315,6 @@
 				attempted_wounds += /datum/wound/integrity	
 			else
 				attempted_wounds += /datum/wound/artery		//basically does sword-tier wounds.
-		if(prob(used))
-			attempted_wounds += /datum/wound/scarring
 	if((bclass in GLOB.sunder_bclasses))
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			used = round(damage_dividend * 20 + (dam / 2))
@@ -406,8 +403,6 @@
 					attempted_wounds += /datum/wound/integrity/chest
 				else
 					attempted_wounds += /datum/wound/artery/chest
-			else
-				attempted_wounds += /datum/wound/scarring
 	if(bclass in GLOB.sunder_bclasses)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			used = round(damage_dividend * 20 + (dam / 2))

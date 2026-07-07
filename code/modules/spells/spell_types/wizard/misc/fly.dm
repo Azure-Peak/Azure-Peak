@@ -20,7 +20,7 @@
 
 	charge_required = TRUE
 	charge_time = 10 SECONDS
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 5 MINUTES

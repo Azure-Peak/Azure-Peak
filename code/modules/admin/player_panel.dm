@@ -223,8 +223,6 @@
 				if(iscarbon(M)) //Carbon stuff
 					if(ishuman(M))
 						M_job = M.get_role_title()
-					else if(ismonkey(M))
-						M_job = "Monkey"
 					else
 						M_job = "Carbon-based"
 

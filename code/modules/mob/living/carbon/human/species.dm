@@ -2522,3 +2522,24 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return jointext(bonuses, " | ")
 	else
 		return null
+
+/datum/species/proc/get_string_languages()
+	var/list/ret_languages = list()
+	for (var/language_type in languages)
+		var/datum/language/lang = GLOB.language_datum_instances[language_type]
+		if(!lang)
+			continue
+		var/lang_name = initial(lang.name)
+		// Everyone knows Imperial, therefore it's redundant to list. So we'll skip over it
+		if(lang_name == "Imperial")
+			continue
+		var/lang_desc = initial(lang.desc)
+		// If it has a description, give it a tooltip and underline to indicate said tooltip being there
+		if(length(lang_desc))
+			ret_languages.Add(SPAN_TOOLTIP(lang_desc, "\[<u>[lang_name]</u>\]"))
+		else
+			ret_languages.Add("\[[lang_name]\]")
+	if(length(ret_languages))
+		return jointext(ret_languages, " | ")
+	else
+		return null

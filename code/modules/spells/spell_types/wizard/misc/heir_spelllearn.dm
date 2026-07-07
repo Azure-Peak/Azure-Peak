@@ -17,8 +17,8 @@
 		/datum/action/cooldown/spell/projectile/arcyne_lance
 	)
 	var/list/buff_bundle = list( //Support a knight, maybe. Or like, ERP harder without stamcritting.
-		/datum/action/cooldown/spell/stoneskin,
-		/datum/action/cooldown/spell/fortitude
+		/datum/action/cooldown/spell/augment_buff/blood_rush,
+		/datum/action/cooldown/spell/augment_buff/fortitude
 	)
 /obj/effect/proc_holder/spell/self/heir_spell_bundle/cast(list/targets, mob/user)
 	. = ..()

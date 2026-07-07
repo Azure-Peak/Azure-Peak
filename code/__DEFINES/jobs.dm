@@ -19,6 +19,8 @@
 
 #define JOB_DISPLAY_ORDER_DEFAULT 0
 
+#define HOMESTEADER_TITLE_COOLDOWN (15 MINUTES)
+
 #define NOBLEMEN			(1<<0)
 
 #define LORD		(1<<0)

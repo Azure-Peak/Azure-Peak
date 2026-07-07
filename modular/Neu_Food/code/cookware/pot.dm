@@ -51,7 +51,8 @@
 		playsound(user, pick('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg'), 70, FALSE)
 		if(do_after(user,2 SECONDS, target = src))
 			reagents.trans_to(I, reagents.total_volume)
-	return TRUE
+		return TRUE
+	. = ..()
 
 /obj/item/reagent_containers/glass/bucket/pot/aalloy
 	name = "decrepit pot"

@@ -17,7 +17,7 @@
 	var/used_time = 14 // interaction time for disabling traps, scales down with trap skill
  
 
-	var/list/static/ignore_typecache
+	var/static/list/ignore_typecache
 	var/list/mob/immune_minds = list() //unused and a bit weird, helpful for making mobs immune to the traps without TRAIT_LIGHT_STEP
 
 	var/sparks = TRUE

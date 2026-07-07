@@ -26,7 +26,7 @@
 	html += "<b>Raw Shellfish / Crab Meat</b> - Cut shucked oysters, a lobster, shrimp, or a crab on a table.<br>"
 
 	html += "<h2>Other Staples</h2>"
-	html += "<b>Egg</b> - Chickens lay these when fed. Eggs from chickens are sometimes fertile and may hatch.[describe_item_transforms(/obj/item/reagent_containers/food/snacks/egg)]<br>"
+	html += "<b>Egg</b> - Chickens lay these when fed. Eggs from chickens are sometimes fertile and may hatch.[describe_item_transforms(/obj/item/reagent_containers/food/snacks/rogue/egg)]<br>"
 	html += "<b>Honey</b> - Harvested from bee combs. Spiderhoney is produced by tame or corpse-fed beespiders.<br>"
 	html += "<b>Fresh / Dried Rosa Petals</b> - Grind a rosa flower in a millstone for fresh petals. Craft at a drying rack to dry them.<br>"
 

@@ -12,8 +12,8 @@
 	The bearer is enjoined to travel to the blockaded region and break three successive waves \
 	of raiders - each wave must fall within seven minutes, and the writ lapses entirely if the \
 	bearer dawdles too long before reaching the blockade. Hand this writ over to a \
-	fellow-adventurer and they may initiate the contract; post it on a notice board and it \
-	will demand a full Fellowship of three."
+	fellow-adventurer and they may initiate the contract; pin it to the Grand Contract Ledger and \
+	it will demand a full Fellowship of three."
 	icon_state = "scroll_quest_info"
 	base_icon_state = "scroll_quest"
 	var/last_arrival_check = 0
@@ -67,9 +67,3 @@
 	if(!found_bearer)
 		return
 	Q.check_arrival(bearer)
-
-/obj/item/quest_writ/blockade/proc/promote_to_board_gated()
-	if(!assigned_quest)
-		return
-	assigned_quest.required_fellowship_size = BLOCKADE_FELLOWSHIP_REQUIREMENT
-	update_quest_text()

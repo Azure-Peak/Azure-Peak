@@ -61,15 +61,15 @@
 #define SPELLCOST_MINOR_AOE          15
 #define SPELLCOST_MAJOR_AOE          30
 #define SPELLCOST_SINGLE_CC          30
-#define SPELLCOST_UTILITY_BUFF       20
-#define SPELLCOST_STAT_BUFF          40
+#define SPELLCOST_UTILITY_BUFF       5 // See below
+#define SPELLCOST_STAT_BUFF          5 // With new Augmentation design we don't really need to gate this hard anymore
 #define SPELLCOST_CONJURE            20	
 #define SPELLCOST_TELEPORT           15
 #define SPELLCOST_MINOR_SUMMON       30
 #define SPELLCOST_MAJOR_SUMMON       50
 // Buff duration tiers
 #define STAT_BUFF_SELF_DURATION      1 MINUTES
-#define STAT_BUFF_ALLY_DURATION      2.5 MINUTES
+#define STAT_BUFF_ALLY_DURATION      1 MINUTES
 #define UTILITY_AOE_BUFF_DURATION    15 MINUTES
 
 //Miracle costs in devotion used.

@@ -20,7 +20,7 @@
 		return FALSE
 	if(target.has_status_effect(/datum/status_effect/buff/accel))
 		return FALSE
-	if(target.has_status_effect(/datum/status_effect/buff/haste))
+	if(target.has_status_effect(/datum/status_effect/buff/attune_haste))
 		return FALSE
 	var/obj/effect/temp_visual/origin_restoration/V = new
 	target.vis_contents += V
@@ -49,7 +49,7 @@
 /datum/status_effect/buff/accel
 	id = "acceleration"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/accel
-	effectedstats = list(STATKEY_SPD = 20)
+	effectedstats = list(STATKEY_SPD = 20, STATKEY_PER = 3)
 	duration = 6 SECONDS
 	var/afterimage_active = FALSE
 
@@ -61,7 +61,6 @@
 /datum/status_effect/buff/accel/on_apply()
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_INFINITE_STAMINA, "naledi_cat_nonsense")
-	ADD_TRAIT(owner, TRAIT_GUIDANCE, "naledi_cat_nonsense")
 	ADD_TRAIT(owner, TRAIT_NOPAINSTUN, "naledi_cat_nonsense")
 	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, "naledi_cat_nonsense")
 
@@ -73,7 +72,6 @@
 /datum/status_effect/buff/accel/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_INFINITE_STAMINA, "naledi_cat_nonsense")
-	REMOVE_TRAIT(owner, TRAIT_GUIDANCE, "naledi_cat_nonsense")
 	REMOVE_TRAIT(owner, TRAIT_NOPAINSTUN, "naledi_cat_nonsense")
 	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, "naledi_cat_nonsense")
 

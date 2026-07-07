@@ -104,58 +104,40 @@
 	playsound(T, pick(footstep_sounds[turf_footstep][1]), footstep_sounds[turf_footstep][2], FALSE, footstep_sounds[turf_footstep][3] + e_range)
 
 /datum/component/footstep/proc/play_humanstep()
-	var/turf/open/T = prepare_step()
-	if(!T)
+	var/turf/open/step_location = prepare_step()
+	if(!step_location)
 		return
 	if(HAS_TRAIT(parent, TRAIT_SILENT_FOOTSTEPS))
 		return
-	var/mob/living/carbon/human/H = parent
-	var/feetCover = (H.wear_armor && (H.wear_armor.body_parts_covered & FEET)) || (H.wear_pants && (H.wear_pants.body_parts_covered & FEET))
-
-	/// The specific footstep sound file picked to play.
+	var/mob/living/carbon/human/human_parent = parent
+	var/feetCover = (human_parent.wear_armor?.body_parts_covered | human_parent.wear_pants?.body_parts_covered) & FEET
 	var/used_sound
-	/// Sound files for surface.
 	var/list/used_footsteps
-	/// Mobs that actually heard this step, returned by playsound.
-	var/list/heard
-	/// If the stepper got their hogs out. Used for sounds.
-	var/obj/item/clothing/shoes/humshoes = H.shoes
-
-	if((istype(humshoes) && !humshoes?.is_barefoot) || feetCover) //are we wearing shoes, and do they actually cover the sole
-		//SANITY CHECK, WILL NOT PLAY A SOUND IF THE LIST IS INVALID
-		if(!GLOB.footstep[T.footstep] || (LAZYLEN(GLOB.footstep[T.footstep]) < 3))
-			return
-		used_footsteps = GLOB.footstep[T.footstep][1]
-		used_footsteps = used_footsteps.Copy()
-		used_sound = pick_n_take(used_footsteps)
-		if(used_sound == last_sound)
-			if(used_footsteps.len)
-				used_sound = pick(used_footsteps)
-		if(!used_sound)
-			used_sound = last_sound
-		last_sound = used_sound
-		heard = playsound(T, used_sound,
-			GLOB.footstep[T.footstep][2],
-			FALSE,
-			GLOB.footstep[T.footstep][3] + e_range)
-	else
-		//SANITY CHECK, WILL NOT PLAY A SOUND IF THE LIST IS INVALID
-		if(!GLOB.barefootstep[T.barefootstep] || (LAZYLEN(GLOB.barefootstep[T.barefootstep]) < 3))
-			return
-		used_footsteps = GLOB.barefootstep[T.barefootstep][1]
-		used_footsteps = used_footsteps.Copy()
-		used_sound = pick_n_take(used_footsteps)
-		if(used_sound == last_sound)
-			used_sound = pick(used_footsteps)
-		if(!used_sound)
-			used_sound = last_sound
-		last_sound = used_sound
-		heard = playsound(T, used_sound,
-			GLOB.barefootstep[T.barefootstep][2],
-			TRUE,
-			GLOB.barefootstep[T.barefootstep][3] + e_range)
-
-	reveal_footstep(T, heard)
+	var/obj/item/clothing/shoes/humshoes = human_parent.shoes
+	var/used_volume = 0
+	var/used_extra_range = 0
+	var/do_vary = FALSE
+	var/feet_covered = ((istype(humshoes) && !humshoes?.is_barefoot) || feetCover)
+	// decide between normal or bare step sounds based on shoe and armor coverage
+	var/list/used_step_list = feet_covered ? GLOB.footstep : GLOB.barefootstep
+	var/turf_used_step = feet_covered ? step_location.footstep : step_location.barefootstep
+	var/list/step_data = used_step_list[turf_used_step]
+	//SANITY CHECK, WILL NOT PLAY A SOUND IF THE LIST IS INVALID
+	if((LAZYLEN(step_data) < 3))
+		testing("SOME silly guy GAVE AN INVALID [feet_covered ? "FOOTSTEP" : "BAREFOOTSTEP"] VALUE ([turf_used_step]) TO [step_location.type]!!! FIX THIS SHIT!!!")
+		return
+	used_footsteps = step_data[1]
+	used_volume = step_data[2]
+	used_extra_range = step_data[3]
+	do_vary = !feet_covered // only barefoot gets the pitch variation
+	// this is fine without an explicit copy because it doesn't mutate the existing list
+	used_sound = pick(used_footsteps - last_sound) || last_sound
+	last_sound = used_sound
+	var/list/heard = playsound(step_location, used_sound,
+		volume * used_volume,
+		do_vary,
+		used_extra_range + e_range)
+	reveal_footstep(step_location, heard)
 
 /datum/component/footstep/proc/reveal_footstep(turf/T, list/heard)
 	clear_prints()

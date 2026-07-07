@@ -290,11 +290,11 @@
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 	color = "#2ba6b2"
 
-/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/dreamwalker/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
-/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/dreamwalker/get_examine_highlight_status()
+/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker
@@ -469,8 +469,8 @@
 	// Gotta be able to attack it!
 	mouse_opacity = 1
 	duration = 5 SECONDS
-	var/repair_value = 50
-	var/health = 25
+	var/repair_value = 40
+	var/health = 15
 	var/pickuppable = TRUE
 	var/dream_check = TRUE
 	var/effect_color = "#005180"
@@ -518,9 +518,13 @@
 	if(ishuman(AM))
 		var/mob/living/carbon/human/H = AM
 		if(HAS_TRAIT(H, TRAIT_DREAMWALKER) && dream_check)
-			consume_shard(H)
+			if(!consume_shard(H))
+				crush_shard(AM)
 		else if (!dream_check)
-			consume_shard(H)
+			if(!consume_shard(H))
+				crush_shard(AM)
+		else
+			crush_shard(AM)
 
 /obj/effect/temp_visual/dream_shard/proc/consume_shard(mob/living/carbon/human/H)
 	if(!pickuppable || QDELETED(src))
@@ -532,6 +536,9 @@
 		E.color = effect_color
 		playsound(H, 'sound/magic/magic_nulled.ogg', 70, TRUE)
 		qdel(src)
+		return TRUE
+	else
+		return FALSE
 
 /obj/effect/temp_visual/dream_shard/proc/move_to_dest(turf/target_turf)
 	if(src && target_turf)
@@ -539,3 +546,29 @@
 		pixel_x = 0
 		pixel_y = 0
 		pickuppable = TRUE
+
+/obj/effect/temp_visual/dream_shard/attack_hand(mob/living/carbon/human/user, list/modifiers)
+	. = ..()
+	if(.)
+		return
+
+	if(HAS_TRAIT(user, TRAIT_DREAMWALKER) && dream_check)
+		consume_shard(user)
+		return TRUE
+	else if (!dream_check)
+		if(consume_shard(user))
+			return TRUE
+
+	var/unarmed_damage = user.get_punch_dmg() || 5
+	health -= unarmed_damage
+	user.visible_message(span_danger("[user] smashes the [src] with their bare hands!"))
+	playsound(get_turf(src), 'sound/foley/breaksound.ogg', 80, TRUE)
+
+	if(health <= 0)
+		qdel(src)
+	return TRUE
+
+/obj/effect/temp_visual/dream_shard/proc/crush_shard(atom/movable/AM)
+	AM.visible_message(span_notice("[AM] crushes the [src] underfoot!"))
+	playsound(get_turf(src), 'sound/foley/breaksound.ogg', 80, TRUE)
+	qdel(src)

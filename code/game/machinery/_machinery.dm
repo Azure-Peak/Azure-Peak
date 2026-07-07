@@ -124,15 +124,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/machinery/attack_paw(mob/living/user)
-	if(user.used_intent.type != INTENT_HARM)
-		return attack_hand(user)
-	else
-		user.changeNext_move(CLICK_CD_MELEE)
-//		user.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
-		user.visible_message("<span class='danger'>[user.name] smashes against \the [src.name] with its paws.</span>", null, null, COMBAT_MESSAGE_RANGE)
-		take_damage(4, BRUTE, "blunt", 1)
-
 /obj/machinery/_try_interact(mob/user)
 	return ..()
 

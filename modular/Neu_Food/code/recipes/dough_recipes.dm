@@ -79,7 +79,7 @@
 	name = "cake base"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/butterdough
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/egg
+		/obj/item/reagent_containers/food/snacks/rogue/egg
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/cake_base
 	time_per_step = 3 SECONDS
@@ -437,7 +437,7 @@
 	name = "eggdough"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/dough
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/egg
+		/obj/item/reagent_containers/food/snacks/rogue/egg
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdough
 	book_category = FOOD_CAT_DOUGHS
@@ -460,8 +460,6 @@
 /datum/food_recipe/dough/sheet_noodles
 	name = "uncooked sheet noodles"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/eggdoughslice
-	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/rogue/eggdoughslice
-	)
+	ingredients = list(/obj/item/reagent_containers/food/snacks/rogue/eggdoughslice)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles
 	book_category = FOOD_CAT_DOUGHS

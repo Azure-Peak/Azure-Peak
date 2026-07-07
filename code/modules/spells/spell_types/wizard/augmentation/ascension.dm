@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
 	name = "Ascension"
 	desc = "Channel all of your arcyne potential into another, granting them every augmentation at once - \
-	Haste, Stoneskin, Giant's Strength, Fortitude, Hawk's Eyes, and Guidance. \
+	the Attunements of Giant, Hawk, and Haste, plus Fortitude and Guidance. \
 	This spell drains an enormous amount of energy from the caster and cannot be used on oneself."
 	button_icon_state = "stoneskin"
 	sound = 'sound/magic/charging.ogg'
@@ -24,7 +24,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_HEAVY
-	charge_drain = 1
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 120 SECONDS
@@ -52,12 +52,11 @@
 		to_chat(H, span_warning("This power is too great to channel into myself!"))
 		return FALSE
 
-	target.apply_status_effect(/datum/status_effect/buff/haste, buff_duration)
-	target.apply_status_effect(/datum/status_effect/buff/stoneskin, buff_duration)
-	target.apply_status_effect(/datum/status_effect/buff/giants_strength, buff_duration)
-	target.apply_status_effect(/datum/status_effect/buff/fortitude, buff_duration)
-	target.apply_status_effect(/datum/status_effect/buff/hawks_eyes, buff_duration)
-	target.apply_status_effect(/datum/status_effect/buff/guidance, buff_duration)
+	apply_buff_to(target, /datum/status_effect/buff/attune_haste, buff_duration)
+	apply_buff_to(target, /datum/status_effect/buff/attune_giant, buff_duration)
+	apply_buff_to(target, /datum/status_effect/buff/fortitude, buff_duration)
+	apply_buff_to(target, /datum/status_effect/buff/attune_hawk, buff_duration)
+	apply_buff_to(target, /datum/status_effect/buff/guidance, buff_duration)
 
 	to_chat(target, span_notice("Arcyne power surges through every fiber of my being!"))
 	to_chat(H, span_notice("I channel everything into [target] - ascending them beyond mortal limits!"))

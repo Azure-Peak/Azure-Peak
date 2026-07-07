@@ -1,6 +1,7 @@
 /datum/food_recipe/cake
 	abstract_type = /datum/food_recipe/cake
 	book_category = FOOD_CAT_CAKES
+	inline_ancestry = TRUE
 
 /datum/food_recipe/cake/frosting
 	name = "frosting"
@@ -208,4 +209,31 @@
 		/obj/item/reagent_containers/food/snacks/grown/apple
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/applenutcake
+	time_per_step = 3 SECONDS
+
+/datum/food_recipe/cake/corncake
+	name = "corn cake"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/corndough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/egg
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/corncake_uncooked
+	time_per_step = 3 SECONDS
+
+/datum/food_recipe/cake/corncake_lemon
+	name = "lemon corn cake"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/corncake_uncooked
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/fruit/lemon
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/corncake_uncooked_lemon
+	time_per_step = 3 SECONDS
+
+/datum/food_recipe/cake/corncake_lime
+	name = "lime corn cake"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/corncake_uncooked
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/fruit/lime
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/corncake_uncooked_lime
 	time_per_step = 3 SECONDS
