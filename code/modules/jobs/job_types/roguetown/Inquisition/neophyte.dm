@@ -7,7 +7,6 @@
 	spawn_positions = 2
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
-	allowed_patrons = list(/datum/patron/old_god)
 	tutorial = "The stories of old must be Transcribed. You are a Neophyte, an apprentice and page for the local inquisitorial embassy. As you are not a combatant like most of this troupe, your responsibilities are little, but so are your obligations. Accompany the Absolver in spreading His Love, or follow the Inquisitor to seek stories to scribe."
 	selection_color = JCOLOR_INQUISITION
 	outfit = /datum/outfit/job/roguetown/neophyte/
@@ -30,7 +29,6 @@
 		/datum/virtue/utility/woodwalker,
 		/datum/virtue/combat/crossbowman,
 		/datum/virtue/combat/bowman,
-		/datum/virtue/combat/guarded,
 		/datum/virtue/combat/sharp,
 		/datum/virtue/combat/combat_aware,
 		)
@@ -54,7 +52,6 @@
 		STATKEY_SPD = 1 
 	)
 	subclass_skills = list(
-		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_EXPERT,
@@ -82,7 +79,6 @@
 	H.adjust_blindness(-3)
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
 	cloak = /obj/item/clothing/cloak/tabard/psydontabard/black
-	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	mask = /obj/item/clothing/head/roguetown/roguehood/psydon/black
 	neck = /obj/item/roguekey/inquisitionmanor
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -94,12 +90,17 @@
 	id = /obj/item/clothing/ring/signet/psy
 	backpack_contents = list(
 		/obj/item/paper/inqslip/arrival/neophyte = 1,//a pitiful three Marques
-		/obj/item/book/rogue/bibble/psy = 2,
+		/obj/item/book/rogue/bibble/psy = 1,
 		/obj/item/paper/scroll = 3,
 		/obj/item/paper/inqslip/confession = 1,
 		/obj/item/paper/inqslip/accusation = 2,
 		)
 
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T0, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1)	//Capped to T0 miracles. Boot check!
-	change_origin(H, /datum/virtue/origin/otava, "Holy order")
+	switch(H.patron?.type)
+		if(/datum/patron/old_god)
+			wrists = /obj/item/clothing/neck/roguetown/psicross/silver
+			H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_APPRENTICE, TRUE)
+			var/datum/devotion/C = new /datum/devotion(H, H.patron)
+			C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
+		else
+			wrists = /obj/item/clothing/neck/roguetown/psicross
