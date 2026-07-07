@@ -224,7 +224,6 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "acf" = (
-/obj/structure/zizo_bane,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/town/physician)
 "acp" = (

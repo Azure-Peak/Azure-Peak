@@ -1334,7 +1334,6 @@
 #include "code\game\objects\items\rogueitems\natural\poo.dm"
 #include "code\game\objects\items\rogueitems\natural\stones.dm"
 #include "code\game\objects\items\rogueitems\natural\wood.dm"
-#include "code\game\objects\items\rogueitems\natural\zizobane.dm"
 #include "code\game\objects\items\rogueitems\ropechainbola\chain.dm"
 #include "code\game\objects\items\rogueitems\ropechainbola\net.dm"
 #include "code\game\objects\items\rogueitems\ropechainbola\rope.dm"
