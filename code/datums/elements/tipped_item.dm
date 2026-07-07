@@ -3,7 +3,7 @@
 
 	//Reagent blacklist.
 	var/list/blacklisted_reagents = list(
-		/datum/reagent/sleep_powder
+		/datum/reagent/toxin/killersice,
 	)
 
 /datum/element/tipped_item/Attach(atom/movable/target, amount)
