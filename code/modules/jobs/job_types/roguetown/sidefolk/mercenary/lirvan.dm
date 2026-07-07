@@ -143,7 +143,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/effect/proc_holder/spell/self/lirvan_tithe
 	name = "INVOKE"
-	desc = "Draw strength from the wealth you carry. Armor, jewelry, and raw mammon counted equally. More WEALTH means more POWER. More POWER at 250, 400, 600, 900, 1300, 1800, and 2500 mammon."
+	desc = "Draw strength from the wealth you carry. Armor, jewelry, and raw mammon counted equally. More WEALTH means more POWER. More POWER at 250, 400, 600, 700, 1000, 1200, 1400, and 1600 mammon."
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
 	recharge_time = 90 SECONDS
@@ -218,9 +218,9 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 4, STATKEY_LCK = 2, STATKEY_SPD = 2, STATKEY_PER = 1)
 	else if(wealth_value < 1200)
 		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 4, STATKEY_LCK = 2, STATKEY_SPD = 2, STATKEY_PER = 2)
-	else if(wealth_value < 1600)
+	else if(wealth_value < 1400)
 		effectedstats = list(STATKEY_STR = 4, STATKEY_CON = 4, STATKEY_LCK = 2, STATKEY_SPD = 2, STATKEY_PER = 2)
-	else if(wealth_value < 2000)
+	else if(wealth_value < 1600)
 		effectedstats = list(STATKEY_STR = 4, STATKEY_CON = 5, STATKEY_LCK = 3, STATKEY_SPD = 2, STATKEY_PER = 2)
 	else
 		effectedstats = list(STATKEY_STR = 5, STATKEY_CON = 5, STATKEY_LCK = 3, STATKEY_SPD = 3, STATKEY_PER = 2)

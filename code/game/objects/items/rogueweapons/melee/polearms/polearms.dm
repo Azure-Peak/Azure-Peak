@@ -1275,7 +1275,7 @@
 	force = 23
 	force_wielded = 30
 	special = /datum/special_intent/gilded_dragon_sweep
-	sellprice = 50
+	sellprice = 80
 	no_loot_taint = TRUE
 	max_integrity = 250 //equal to psydonite; putting it at half of this was a neat little experiment but agonizing
 
