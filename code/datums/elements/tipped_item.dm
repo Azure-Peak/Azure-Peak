@@ -45,8 +45,8 @@
 	for(var/datum/reagent/R as anything in attacked_container.reagents.reagent_list)
 	attacked_container.reagents.trans_to(dipper, 1, transfered_by = attacker)
 		if(is_type_in_list(R, blacklisted_reagents))
-		to_chat(attacker, span_warning("[R.name] is too caustic to apply to \the [dipper] safely!"))
-		return
+			to_chat(attacker, span_warning("[R.name] is too caustic to apply to \the [dipper] safely!"))
+			return
 	attacker.visible_message(span_danger("[attacker] dips \the [dipper] in \the [attacked_container]!"), "You dip \the [dipper] in \the [attacked_container]!", vision_distance = 2)
 	log_combat(attacker, dipper, "dipped", addition="with [reagentlog]")
 
