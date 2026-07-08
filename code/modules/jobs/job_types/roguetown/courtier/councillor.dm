@@ -29,7 +29,9 @@
 		/datum/advclass/councillor/herald,
 		/datum/advclass/councillor/huntmaster,
 		/datum/advclass/councillor/cofferer,
-		/datum/advclass/councillor/castellan
+		/datum/advclass/councillor/castellan,
+		/datum/advclass/councillor/hexer,
+		/datum/advclass/councillor/baron,
 	)
 
 /datum/advclass/councillor/herald
@@ -229,3 +231,154 @@
 	ADD_TRAIT(H, TRAIT_SEEPRICES, JOB_TRAIT)
 	// Level past Jman if they want to
 	ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, JOB_TRAIT)
+
+/datum/advclass/councillor/hexer
+	name = "Hexer"
+	tutorial = "You are a retired Witch whose loyalty has earned you a humble place within the Duke's retinue. Either age or comfort has long since robbed you of the strength to wield greater magics, but necessity has honed your mastery of the old ways. Few can match your talent for seeing, learning and going where others cannot."
+	outfit = /datum/outfit/job/roguetown/councillor/hexer
+	category_tags = list(CTAG_COUNCILLOR)
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_SPD = 2,
+		STATKEY_CON = -1,
+		STATKEY_LCK = 1,
+	)
+	subclass_skills = list(
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+	)
+
+/datum/outfit/job/roguetown/councillor/hexer
+	job_bitflag = BITFLAG_ROYALTY
+
+/datum/outfit/job/roguetown/councillor/hexer/pre_equip(mob/living/carbon/human/H)
+	..()
+	head = /obj/item/clothing/head/roguetown/witchhat
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/phys
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
+	gloves = /obj/item/clothing/gloves/roguetown/leather/black
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/shortboots
+	belt = /obj/item/storage/belt/rogue/leather
+	beltl = /obj/item/storage/keyring/steward
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+		/obj/item/storage/keyring = 1,
+		/obj/item/chalk = 1,
+		/obj/item/pestle = 1,
+		/obj/item/reagent_containers/glass/mortar = 1,
+		/obj/item/rogueweapon/spellbook = 1,
+	)
+	ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, JOB_TRAIT)
+	ADD_TRAIT(H, TRAIT_SEEPRICES, JOB_TRAIT)
+	ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
+	H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
+
+	var/shapeshifts = list("Zad", "Cat", "Cat (Black)", "Bat", "Lesser Volf", "Cabbit", "Small Rous", "Lesser Venard")
+	var/shapeshiftchoice = input(H, "What form does your second skin take?", "THE OLD WAYS") as anything in shapeshifts
+	if(H.mind)
+		switch (shapeshiftchoice)
+			if("Zad")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/crow)
+			if("Cat")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cat)
+			if("Cat (Black)")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cat/black)
+			if("Bat")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/bat)
+			if("Lesser Volf")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/lesser_wolf)
+			if("Lesser Venard")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/lesser_vernard)
+			if("Small Rous")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/rous)
+			if("Cabbit")
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cabbit)
+	
+	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonechill) // or else the 'hexer' deal wouldn't sell
+		H.mind.AddSpell(new /datum/action/cooldown/spell/wither) // ditto from above
+		H.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge) // mostly to have a swiss knife out of your pocket
+		H.mind.AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide) // the moment this breaks you're history, mr. -2 CON
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H)
+		// NO poke spells for you, ser, keep asking! psydon is dead, your prayers wont reach him
+		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 6, "ward" = FALSE)) // no majors, no minors, no fbi(!!!), ward is there mostly as a consolation prize really
+	// now you may ask "but kunai where is mystagogue and godsblood?!", my response is: "behind u!!!! *disappears*", also known as "your greed will be your downfall" also known as "your greed SICKENS me"
+
+/datum/advclass/councillor/baron
+	name = "Baron"
+	tutorial = "Your title may grant you a seat at court, but so does your bladework earn respect. A skilled duelist and noble advisor, you represent your house through wit, honor, and steel. After all, a Baron's name is only as strong as the hand that defends it. Given your highest standing among other Councillors, you can even grant titles."
+	outfit = /datum/outfit/job/roguetown/councillor/baron
+	category_tags = list(CTAG_COUNCILLOR)
+	// equivalent of a Daring Twit but weaker, as your role is to sit down and be pretty
+	subclass_stats = list(
+		STATKEY_STR = 1,
+		STATKEY_INT = 2,
+		STATKEY_SPD = 1,
+		STATKEY_WIL = -1, // ur a lil fat, actually
+	)
+
+	subclass_skills = list(
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+	)
+
+/datum/outfit/job/roguetown/councillor/baron
+	job_bitflag = BITFLAG_ROYALTY
+
+/datum/outfit/job/roguetown/councillor/baron/pre_equip(mob/living/carbon/human/H)
+	..()
+	head = /obj/item/clothing/head/roguetown/circlet
+	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
+	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
+	pants = /obj/item/clothing/under/roguetown/trou/beltpants
+	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
+	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
+	beltl = /obj/item/storage/keyring/steward
+	beltr = /obj/item/rogueweapon/scabbard/sword/royal
+	backl = /obj/item/storage/backpack/rogue/satchel
+	cloak = /obj/item/clothing/cloak/half/red
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
+	)
+	if(H.mind)
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/grant_title) // you can do the duke thingy too!
+	ADD_TRAIT(H, TRAIT_SEEPRICES, JOB_TRAIT)
+	has_loadout = TRUE
+
+/datum/outfit/job/roguetown/councillor/baron/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	var/weapons = list( // copypaste from daring twit sure why not
+	"Sabre",
+	"Rapier",
+	"Arming Sword"
+	)
+	var/weapon_choice = input(H, "Choose your weapon.", "ARMS TO INVITE ENVY") as anything in weapons
+	switch(weapon_choice)
+		if("Sabre")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/dec)
+		if("Rapier")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/dec)
+		if("Arming Sword")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/decorated)
