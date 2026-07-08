@@ -166,7 +166,7 @@ GLOBAL_LIST_EMPTY(last_words)
 	if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE)) //Vheslynites explode violently upon death out of pure spite and malice.
 		src.flash_fullscreen("redflash3")
 		src.visible_message(span_danger("[src] explodes violently as they are unmade in unholy fire!"))
-	//Handle our mood debuffs for being witnessed within 7 tiles - left this not indented as ETERNAL SHAME because my dumbass got this TM'd first without remembering to indent it, AAAAAA.
+	//Handle our mood debuffs for being witnessed within 7 tiles - left this codenote not indented as ETERNAL SHAME because my dumbass got this TM'd first without remembering to indent it, AAAAAA.
 		for(var/mob/living/carbon/stresstarget in view(7, src))
 			if(!HAS_TRAIT(stresstarget, TRAIT_UNFORGIVABLE) && !HAS_TRAIT(stresstarget, TRAIT_INQUISITION)) //Non inquis get heftier stress
 				stresstarget.add_stress(/datum/stressevent/witnessvheslyn)
