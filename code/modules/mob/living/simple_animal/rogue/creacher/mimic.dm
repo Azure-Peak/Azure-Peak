@@ -20,7 +20,7 @@
 	aggro_vision_range = 2
 	see_in_dark = 6
 
-	damage_coeff = list(BRUTE = 1, BURN = 0, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
+
 	harm_intent_damage = 5
 	melee_damage_lower = 30
 	melee_damage_upper = 40

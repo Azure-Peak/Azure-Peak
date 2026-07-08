@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/song/fervor_song
 	name = "Fervorous Fantasia"
-	desc = "Inspire the rhythm of battle, granting your allies guidance in combat!"
+	desc = "Inspire the rhythm of battle, sharpening your allies' senses in combat!"
 	button_icon_state = "bardsong_t2_base"
 	invocations = list("plays a bombastic, rhythmic march! The world feels grounded!")
 	song_effect = /datum/status_effect/buff/playing_melody/fervor
@@ -22,10 +22,10 @@
 	id = "fervor"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/fervor
 	duration = 15 SECONDS
-	var/guidance_trait = TRAIT_LESSER_GUIDANCE
+	effectedstats = list(STATKEY_PER = 2)
 
 /datum/status_effect/buff/song/fervor/full
-	guidance_trait = TRAIT_GUIDANCE
+	effectedstats = list(STATKEY_PER = 3)
 
 /datum/status_effect/buff/song/fervor/on_apply()
 	. = ..()
@@ -33,12 +33,10 @@
 	if (!filter)
 		owner.add_filter(FERVOR_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))
 	to_chat(owner, span_warning("I feel as if I truly understand combat! This is a tune worth fighting for!"))
-	ADD_TRAIT(owner, guidance_trait, MAGIC_TRAIT)
 
 /datum/status_effect/buff/song/fervor/on_remove()
 	. = ..()
 	to_chat(owner, span_warning("The buzzing in my head softens, as does my adrenaline."))
 	owner.remove_filter(FERVOR_FILTER)
-	REMOVE_TRAIT(owner, guidance_trait, MAGIC_TRAIT)
 
 #undef FERVOR_FILTER

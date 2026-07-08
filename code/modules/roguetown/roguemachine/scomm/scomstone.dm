@@ -20,7 +20,6 @@
 	var/cooldown_end_time 
 	var/listening = TRUE
 	var/speaking = TRUE
-	var/loudmouth_listening = TRUE
 	var/messagereceivedsound = 'sound/misc/scom.ogg'
 	var/scomstone_number
 	var/hearrange = 1 // change to 0 if you want your special scomstone to be only hearable by wearer
@@ -75,13 +74,6 @@
 	cooldown_end_time = world.time + cooldown
 	addtimer(CALLBACK(src, PROC_REF(reset_cooldown), user), cooldown)
 
-	//Log message to global broadcast list.
-	GLOB.broadcast_list += list(list(
-	"message"   = input_text,
-	"tag"		= "SCOMSTONE #[scomstone_number]",
-	"timestamp" = station_time_timestamp("hh:mm:ss")
-	))
-
 /obj/item/scomstone/proc/reset_cooldown(mob/living/carbon/human/user)
 	to_chat(user, span_notice("[src] is ready for use again."))
 	playsound(loc, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
@@ -92,16 +84,10 @@
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	if(loudmouth_listening)
-		to_chat(user, span_info("I quell the Loudmouth's prattling on the scomstone. It may be muted entirely still."))
-		loudmouth_listening = FALSE
-	else
-		listening = !listening
-		speaking = !speaking
-		to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the scomstone."))
-		if(listening)
-			loudmouth_listening = TRUE
-		update_icon()
+	listening = !listening
+	speaking = !speaking
+	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the scomstone."))
+	update_icon()
 
 /obj/item/scomstone/Destroy()
 	SSroguemachine.scomm_machines -= src
@@ -224,12 +210,6 @@
 	SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
 	on_cooldown = TRUE
 
-	//Log messages that aren't sent on the garrison line.
-	GLOB.broadcast_list += list(list(
-	"message"   = input_text,
-	"tag"		= "CROWNSTONE #[scomstone_number]",
-	"timestamp" = station_time_timestamp("hh:mm:ss")
-	))
 	cooldown_end_time = world.time + cooldown
 	addtimer(CALLBACK(src, PROC_REF(reset_cooldown)), cooldown)
 

@@ -43,22 +43,21 @@
 
 /atom/movable/screen/alert/status_effect/buff/lesser_guidance
 	name = "Awakening"
-	desc = "Arcyne energy quickens the Mynd. (+12% chance to bypass parry / dodge, +12% chance to parry / dodge)"
+	desc = "Arcyne energy quickens the Mynd. (+2 Perception)"
 	icon_state = "buff"
 
 /datum/status_effect/buff/lesser_guidance
 	id = "lesser_guidance"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/lesser_guidance
+	effectedstats = list(STATKEY_PER = 2)
 	duration = 60 SECONDS
 
 /datum/status_effect/buff/lesser_guidance/on_apply()
 	. = ..()
-	ADD_TRAIT(owner, TRAIT_LESSER_GUIDANCE, MAGIC_TRAIT)
 	to_chat(owner, span_warning("Blessed Arcynes guides me true!"))
 
 /datum/status_effect/buff/lesser_guidance/on_remove()
 	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_LESSER_GUIDANCE, MAGIC_TRAIT)
 	to_chat(owner, span_warning("Blessed Arcynes seeps out of my control!"))
 
 /atom/movable/screen/alert/status_effect/buff/healingaura

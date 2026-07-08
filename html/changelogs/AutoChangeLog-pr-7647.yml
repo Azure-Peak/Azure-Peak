@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Town Crier role has undergone euthanasia after a long and agonizing 9 months death."
+  - rscdel: "Town crier related mechanics like loudmouth channel and streetpipes has been removed"
+  - rscdel: "Town Crier house repurposed temporarily into a generic towner house for future mapping purpose"

@@ -359,3 +359,43 @@
 	cooked_type = null
 	fried_type = null
 	cooked_smell = /datum/pollutant/food/strange_meat
+
+/* .............  Rocknut Rub Venison Steak  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga/cooked/rubbed
+	name = "forest purity"
+	desc = "A delicious slab of grilled venison. Prepared with love, and rocknut powder. Whether rocknut spice tastes like love hasn't been concluded as of yet."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "saiga_heart"
+	tastes = list("spicy venison" = 1, "love" = 1)
+	faretype = FARE_FINE
+	eat_effect = /datum/status_effect/buff/mealbuff
+
+/* .............  Pale Medallions (Stag venison)  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w/cooked/medal
+	name = "royal medallions"
+	desc = "Praise yourself for slaying me. For next time, you might not be so lucky."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "saiga_medal"
+	tastes = list("stolen valour" = 1)
+	faretype = FARE_LAVISH
+	eat_effect = /datum/status_effect/buff/greatmealbuff
+
+/* .............  Pale Tartar (Stag venison)  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w/cooked/tartar
+	name = "royal tartar"
+	desc = "A collection of finely ground murder. Prepared by a murderer. Covered with the entrails of various plants and the unborn child of a majestic avian."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "saiga_tartar"
+	tastes = list("guilt" = 1)
+	faretype = FARE_LAVISH
+	eat_effect = /datum/status_effect/buff/greatmealbuff
+
+/* .............  Pale ribs (Stag venison)  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_w/cooked/ribs
+	name = "royal bones"
+	desc = "Ribs faintly smelling of coffee. Yet the fluid seems to have been fully absorbed by the flesh. Dark brown greedily supped by hanks that bear sharpened ribs. As if coated in old blood, as if poised to strike anew."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "saiga_ribs"
+	tastes = list("doom" = 1)
+	faretype = FARE_LAVISH
+	eat_effect = /datum/status_effect/buff/greatmealbuff

@@ -304,7 +304,6 @@ SUBSYSTEM_DEF(city_assembly)
 		"[prefix]The Alderman's seat has been vacated - the citizenry must choose anew at the next session.",
 		ASSEMBLY_ANNOUNCE_TITLE,
 		'sound/misc/royal_decree.ogg',
-		"Town Crier",
 	)
 
 /datum/controller/subsystem/city_assembly/proc/refresh_warrant()
@@ -363,6 +362,5 @@ SUBSYSTEM_DEF(city_assembly)
 		body,
 		ASSEMBLY_ANNOUNCE_TITLE,
 		'sound/misc/royal_decree.ogg',
-		"Town Crier",
 		strip_html = FALSE,
 	)

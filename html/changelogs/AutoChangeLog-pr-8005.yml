@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Adds missing recipe for blacksteel fishing rods."

@@ -393,3 +393,100 @@
       FUCK.
   yyzsong:
   - spellcheck: Corrects and updates description of Arcyne Affinity miracle
+2026-07-07:
+  7erracotta:
+  - rscadd: changed sprites
+  Ketrai:
+  - rscadd: New saiga & stag meat dishes.
+  Ollanius:
+  - rscadd: Blacksteel weapons and tools. All of them.
+  - balance: Blacksteel weapons that require a gemstone to craft - the longsword,
+      flamberge, polehammer, halberd and rapier - now use a lesser version of Free's
+      'special maneuver' system. The longsword can access eight (flailsweeping and
+      charges added) maneuvers, while the rest (including the flamberge) can access
+      four.
+  - rscadd: Blacksteel chisels and saws.
+  - rscadd: Blacksteel gorgets and bracers for both armor variations.
+  - code_imp: Blacksteel equipment-slash-loot spawners now properly roll for all major
+      blacksteel armor- and weapon-pieces.
+  - rscadd: Triumph-exclusive berets can now be worn on helmet cosmetic slots.
+  - rscadd: Donator- and triumph-exclusive shoulderguards, which can be worn on either
+      helmet- or cloak cosmetic slots.
+  - rscadd: Donator- and triumph-exclusive orles, wearable on the helmet slots and
+      dyeable in two different shades.
+  - rscadd: Donator-exclusive reskins of nearly every generic steel weapon, alongside
+      multiple others.
+  - rscadd: Azure's classic daggers, courtesy of Kavrick, now available once more
+      as a Triumph-exclusive reksin.
+  Ryumi:
+  - qol: Race descriptions now include any bonus languages that a race grants.
+  - bugfix: Fixed Humen race descriptions not displaying quite the same as other races.
+  WeNeedMorePhoron:
+  - rscadd: Encyclopedia's existence is now aggressively pushed to you whenever you
+      join.
+  - rscadd: NPC with steel gears no longer magically transmute it into iron (because
+      they wear iron)
+  - rscadd: Raises the amount of time a NPC will focus a zone by 3x. It now ranges
+      from 9 to 18 attacks.
+  - balance: Augmentation buffs last a minute, as nintended.
+  - balance: -Soulshot damage reduced to 80, CD raised to 10. Soulshot now gain 0.75x
+      instead of 0.5x damage after piercing the first target, to solidify its identity
+      as a piercing death beam in compensation for losing some single target potential.
+  - balance: Arcyne Strike and Projectile no longer have damage multiplied when interacting
+      with vulnerable / exposed because some scales very very high. Instead, vulnerable
+      will inflict a flat 20 on integrity, and exposed 45. This prevent case like
+      scaled up bow, sling, mage projectiles (boulder strike), soulshot etc. from
+      obliterating armor when used with exposed.
+  - rscadd: Cleaned up Tremor and Shatter's description, gave GWstrap to two handed
+      loadout for spellblade where appropriate
+  - balance: Augmentation lost its Basic Offensive Magyck Options
+  - balance: Forcewall is no longer passthrough for its caster. Too cheesy.
+  - balance: Fortitude now applies a 25%, not 50% stamina cost reduction. Lesser Fortitude
+      shot and it no longer twin link echoes.
+  - balance: Precognition cost reduced to 1 pt, it no longer reset feint and bait
+      cooldown, and only defend and special.
+  - balance: Enlarge only applies to ally in your fellowship or yourself, to prevent
+      you from enlarging an enemy to make them easier to click.
+  - balance: 'Stoneskin, the con check master, has been removed in favor of Blood
+      Rush, which is on a 60 seconds cooldown and apply the effect of Adrenaline Surge
+      to yourself or your ally. This is not echoed
+
+      balance:Guidance has been removed, replaced with +2 / +3 Perception, across
+      the board, for multiple classes. Same for Reverse Guidance, across multiple
+      classes including bards and hag etc. Replacement is basically 1 to 1'
+  - balance: Precognition is considered a type of Augmentation Buff spells and can
+      access Fellowship Snap Mode for casting.
+  - balance: Snap Mode now also snap to yourself where appropriate.
+  - rscadd: Added Maize and Corn products including corn frybread and cornbread and
+      corncakes, sprited by 7erracota
+  - rscadd: Added Omelette made by adding an egg to an egg which can be fried and
+      eaten on its own or have onion and green added or minced meat added to make
+      different omelette.
+  radarseas:
+  - balance: transfix 1 minute -> 20 seconds cooldown.
+  - balance: transfix no longer works on full-supernatural antagonists (true deadites).
+  - balance: transfix also doesn't affect werewolves (because they're on the clock
+      and you sort of shouldn't be knocking them out)
+  - balance: transfix only force-closes your eyes when it actually knocks you out,
+      to make it less annoying to deal with.
+2026-07-08:
+  Dorodomki:
+  - rscadd: 'Added 2 new flower hats, one is a rosa with thorns, the other is a easily
+      dyeable flower crown.
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Fixed an exploit where conjured weapons/tools could be maid permanent
+      by applying a donor kit
+  WeNeedMorePhoron:
+  - rscadd: Uses correct python version for install.bat
+  - rscadd: Reversion on Vizier now grants a **Pull Reversion** spell **if** the target
+      is in the same fellowship, allowing you to trigger the spell on them without
+      them explicitly doing so, presuming they are a friend so that would be used
+      in good faith
+  - rscadd: Also removed Stygian from poke spells selection because the new Stygian
+      is a nerfed version designed to work with Ferra in a package and not on its
+      own anymore
+  radarseas:
+  - rscdel: T5 Presence ability 'Majesty' is gone, I physically can't save this one.
+      Sorry chief.

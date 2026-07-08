@@ -219,7 +219,6 @@
 		"Augmentum, a me discedere!",
 	)
 	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/basic_offensive,
 		/datum/action/cooldown/spell/bestow_ward,
 	)
 	choice_spells = list(
@@ -233,16 +232,16 @@
 	)
 	pointbuy_budget = 12
 	pointbuy_spells = list(
-		/datum/action/cooldown/spell/augment_buff/stoneskin,
+		/datum/action/cooldown/spell/augment_buff/blood_rush,
 		/datum/action/cooldown/spell/augment_buff/guidance,
 		/datum/action/cooldown/spell/augment_buff/attune_hawk,
 		/datum/action/cooldown/spell/augment_buff/attune_giant,
 		/datum/action/cooldown/spell/augment_buff/attune_haste,
 		/datum/action/cooldown/spell/augment_buff/fortitude,
 		/datum/action/cooldown/spell/bind_armament,
-		/datum/action/cooldown/spell/surge,
-		/datum/action/cooldown/spell/precognition,
-		/datum/action/cooldown/spell/grasp,
+		/datum/action/cooldown/spell/augment_buff/surge,
+		/datum/action/cooldown/spell/augment_buff/precognition,
+		/datum/action/cooldown/spell/augment_buff/grasp,
 		/datum/action/cooldown/spell/forcewall,
 		/datum/action/cooldown/spell/featherfall,
 		/datum/action/cooldown/spell/augment_buff/enlarge,

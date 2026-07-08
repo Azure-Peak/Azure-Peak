@@ -166,7 +166,7 @@
 /datum/roguestock/stockpile/egg
 	name = "Egg"
 	desc = "Egg laid by a hen."
-	item_type = /obj/item/reagent_containers/food/snacks/egg
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/egg
 	trade_good_id = TRADE_GOOD_EGG
 	stockpile_amount = 4
 	importexport_amt = 5

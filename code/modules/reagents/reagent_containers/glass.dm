@@ -205,8 +205,8 @@
 		reagents.expose_temperature(hotness)
 		to_chat(user, span_notice("I heat [name] with [I]!"))
 
-	if(istype(I, /obj/item/reagent_containers/food/snacks/egg)) //breaking eggs
-		var/obj/item/reagent_containers/food/snacks/egg/E = I
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg)) //breaking eggs
+		var/obj/item/reagent_containers/food/snacks/rogue/egg/E = I
 		if(reagents)
 			if(reagents.total_volume >= reagents.maximum_volume)
 				to_chat(user, span_notice("[src] is full."))

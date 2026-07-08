@@ -130,6 +130,12 @@
 	seed_identity = "rice seeds"
 	plant_def_type = /datum/plant_def/rice
 
+/obj/item/seeds/maize
+	seed_identity = "maize kernels"
+	plant_def_type = /datum/plant_def/maize
+	icon = 'modular/Neu_Food/icons/raw/raw_corn.dmi'
+	icon_state = "corn_seed"
+
 /obj/item/seeds/apple
 	seed_identity = "apple seeds"
 	plant_def_type = /datum/plant_def/tree/apple

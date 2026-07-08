@@ -664,13 +664,6 @@
 	icon_state = "stewardtunic"
 	item_state = "stewardtunic"
 
-/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/loudmouth
-	color = null
-	name = "crier's garb"
-	desc = "A robe that speaks volumes!"
-	icon_state = "loudmouthrobe"
-	item_state = "loudmouthrobe"
-
 //WEDDING CLOTHES
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/weddingdress
 	name = "wedding silk dress"
