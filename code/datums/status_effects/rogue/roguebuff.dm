@@ -1130,7 +1130,7 @@
 	id = "diminish"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/diminish
 	duration = 1 MINUTES
-	effectedstats = list(STATKEY_STR = -2, STATKEY_CON = -2)
+	effectedstats = list(STATKEY_STR = -2, STATKEY_CON = -2, STATKEY_PER = -3)
 
 /datum/status_effect/debuff/diminish/on_apply()
 	. = ..()
@@ -1139,12 +1139,10 @@
 	var/filter = owner.get_filter(DIMINISH_FILTER)
 	if(!filter)
 		owner.add_filter(DIMINISH_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))
-	ADD_TRAIT(owner, TRAIT_REVERSE_GUIDANCE, MAGIC_TRAIT)
 
 /datum/status_effect/debuff/diminish/on_remove()
 	. = ..()
 	owner.remove_filter(DIMINISH_FILTER)
-	REMOVE_TRAIT(owner, TRAIT_REVERSE_GUIDANCE, MAGIC_TRAIT)
 #undef DIMINISH_FILTER
 
 /datum/status_effect/buff/reversion
@@ -2657,7 +2655,7 @@
 	if(tier > NECRACON_TIER_NORMAL)	//expert
 		ADD_TRAIT(owner, TRAIT_FORTITUDE, TRAIT_NECRACON)
 		if(HAS_TRAIT(owner, TRAIT_DNR))
-			ADD_TRAIT(owner, TRAIT_GUIDANCE, TRAIT_NECRACON)
+			owner.change_stat(STATKEY_PER, 3)
 	if(tier > NECRACON_TIER_EXPERT && HAS_TRAIT(owner, TRAIT_DNR))	//master+
 		ADD_TRAIT(owner, TRAIT_NOPAIN, TRAIT_NECRACON)
 
@@ -2667,7 +2665,8 @@
 	REMOVE_TRAIT(owner, TRAIT_ADRENALINE_RUSH, TRAIT_NECRACON)
 	if(tier > NECRACON_TIER_NORMAL)
 		REMOVE_TRAIT(owner, TRAIT_FORTITUDE, TRAIT_NECRACON)
-		REMOVE_TRAIT(owner, TRAIT_GUIDANCE, TRAIT_NECRACON)
+		if(HAS_TRAIT(owner, TRAIT_DNR))
+			owner.change_stat(STATKEY_PER, -3)
 	if(tier > NECRACON_TIER_EXPERT)
 		REMOVE_TRAIT(owner, TRAIT_NOPAIN, TRAIT_NECRACON)
 

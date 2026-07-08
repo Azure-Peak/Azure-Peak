@@ -1,4 +1,4 @@
 author: "WeNeedMorePhoron"
 delete-after: True
 changes:
-  - rscadd: "Ported subtle LOOC from RW"
+  - rscadd: "Mimic no longer immune to fire damage"

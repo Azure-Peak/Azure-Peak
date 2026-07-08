@@ -159,6 +159,17 @@
 	path = /obj/item/flowercrown/rosa
 	sort_category = "Hats"
 
+/datum/loadout_item/thorn_rosa_crown
+	name = "Rosa Crown with Thorns"
+	path = /obj/item/flowercrown/rosa/thorns
+	sort_category = "Hats"
+
+/datum/loadout_item/dyeable_crown
+	name = "Rosa Crown"
+	path = /obj/item/flowercrown/rosa/dyecrown
+	sort_category = "Hats"
+
+
 /datum/loadout_item/salvia_crown
 	name = "Salvia Crown"
 	path = /obj/item/flowercrown/salvia

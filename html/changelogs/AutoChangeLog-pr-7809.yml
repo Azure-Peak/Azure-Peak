@@ -1,6 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - qol: "Drink now loops automatically, but you'll be left vulnerable and off-balanced while doing so."
-  - balance: "Bite/Chew have been adjusted to have counterplay, such as making the biter vulnerable and off-balanced. Bite has a static fail rate. Bite/Chew also deal recoil damage to your mouth, based if you're biting into armor or not."
-  - bugfix: "There was a weird iteration that made biting display your main weapon's attack animation. Fixed."

@@ -73,10 +73,6 @@ GLOBAL_LIST_EMPTY(twin_links)
 			return /datum/status_effect/buff/twinlink/giant
 		if(/datum/status_effect/buff/attune_hawk)
 			return /datum/status_effect/buff/twinlink/hawk
-		if(/datum/status_effect/buff/stoneskin)
-			return /datum/status_effect/buff/twinlink/stoneskin
-		if(/datum/status_effect/buff/fortitude)
-			return /datum/status_effect/buff/twinlink/fortitude
 		if(/datum/status_effect/buff/guidance)
 			return /datum/status_effect/buff/twinlink/guidance
 	return null
@@ -84,7 +80,7 @@ GLOBAL_LIST_EMPTY(twin_links)
 /datum/action/cooldown/spell/twin_link
 	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
 	name = "Twin Link"
-	desc = "Bind a single ally to yourself. While the two of you remain in sight of one another, any augmentation placed on either of you echoes to the other - stat buffs at half strength, and Guidance or Fortitude as a lesser form. \
+	desc = "Bind a single ally to yourself. While the two of you remain in sight of one another, any augmentation placed on either of you echoes to the other at half strength. \
 	Casting again re-links to a new ally. The bond ends if either of you dies."
 	button_icon_state = "guidance"
 	sound = 'sound/magic/haste.ogg'
@@ -154,57 +150,30 @@ GLOBAL_LIST_EMPTY(twin_links)
 	alert_type = /atom/movable/screen/alert/status_effect/buff/twinlink
 	duration = STAT_BUFF_ALLY_DURATION
 	var/outline_colour = "#3aa8ff"
-	var/echo_trait
-	var/echo_trait_label
 
 /datum/status_effect/buff/twinlink/on_apply()
 	. = ..()
-	if(echo_trait)
-		ADD_TRAIT(owner, echo_trait, id)
 	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>[echo_description()]</font>")
-
-/datum/status_effect/buff/twinlink/on_remove()
-	if(echo_trait)
-		REMOVE_TRAIT(owner, echo_trait, id)
-	. = ..()
 
 /datum/status_effect/buff/twinlink/proc/echo_description()
 	var/list/parts = list()
 	for(var/statkey in effectedstats)
 		var/amount = effectedstats[statkey]
 		parts += "[amount > 0 ? "+" : ""][amount] [capitalize(statkey)]"
-	if(echo_trait_label)
-		parts += echo_trait_label
 	return "twin echo: [parts.Join(", ")]"
 
 /datum/status_effect/buff/twinlink/haste
 	id = "twinlink_haste"
 	effectedstats = list(STATKEY_SPD = 2)
-	echo_trait = TRAIT_LESSER_GUIDANCE
-	echo_trait_label = "Lesser Guidance"
 
 /datum/status_effect/buff/twinlink/giant
 	id = "twinlink_giant"
 	effectedstats = list(STATKEY_STR = 2)
-	echo_trait = TRAIT_LESSER_GUIDANCE
-	echo_trait_label = "Lesser Guidance"
 
 /datum/status_effect/buff/twinlink/hawk
 	id = "twinlink_hawk"
 	effectedstats = list(STATKEY_PER = 2)
-	echo_trait = TRAIT_LESSER_GUIDANCE
-	echo_trait_label = "Lesser Guidance"
-
-/datum/status_effect/buff/twinlink/stoneskin
-	id = "twinlink_stoneskin"
-	effectedstats = list(STATKEY_CON = 2)
-
-/datum/status_effect/buff/twinlink/fortitude
-	id = "twinlink_fortitude"
-	echo_trait = TRAIT_LESSER_FORTITUDE
-	echo_trait_label = "Lesser Fortitude"
 
 /datum/status_effect/buff/twinlink/guidance
 	id = "twinlink_guidance"
-	echo_trait = TRAIT_LESSER_GUIDANCE
-	echo_trait_label = "Lesser Guidance"
+	effectedstats = list(STATKEY_PER = 2)

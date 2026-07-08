@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Fluted armor properly requires +1 Steel Ingot, now, instead of +1 Iron Ingot."

@@ -408,6 +408,23 @@
 	name = "stone arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
 
+/obj/item/ammo_casing/caseless/rogue/arrow/blacksteel
+	name = "blacksteel arrow"
+	icon_state = "blacksteelarrow"
+	desc = "A magnificent arrow of blacksteel. It shreds flesh, pierces armor, and \
+	always lands where one aims; perfect, yet marred by a prohibitively high cost."
+	projectile_type = /obj/projectile/bullet/reusable/arrow/blacksteel
+
+/obj/projectile/bullet/reusable/arrow/blacksteel
+	name = "blacksteel arrow"
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/blacksteel
+	damage = 50
+	armor_penetration = PEN_HEAVY
+	icon_state = "blacksteelarrow_proj"
+	embedchance = 80
+	npc_simple_damage_mult = 7 //..or 350 damage against a mindless mob.
+	accuracy = 100
+
 #undef MIN_ARROW_RANGE
 #undef MAX_ARROW_RANGE
 #undef DAM_FALLOFF_ARROW

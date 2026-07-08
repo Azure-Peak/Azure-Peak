@@ -585,14 +585,6 @@
 	..()
 	AddComponent(/datum/component/adjustable_clothing, (NECK|HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD|UPD_MASK))	
 
-/obj/item/clothing/head/roguetown/veiled/loudmouth
-	name = "loudmouth's headcover"
-	desc = "Said to be worn by only the loudest and proudest. The mask is adjustable."
-	icon_state = "loudmouth"
-	item_state = "loudmouth"
-	color = CLOTHING_RED
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
-
 /obj/item/clothing/head/roguetown/maidhead
 	name = "maid headdress"
 	desc = "A decorative cloth headband clearly indicating the wearer as a maid."

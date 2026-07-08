@@ -52,7 +52,7 @@
 	name = "rice and egg"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/egg
+		/obj/item/reagent_containers/food/snacks/rogue/egg
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/riceegg
 
@@ -106,6 +106,6 @@
 	name = "rice with egg and cheese (alt)"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/ricecheese
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/egg
+		/obj/item/reagent_containers/food/snacks/rogue/egg
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/riceeggcheese

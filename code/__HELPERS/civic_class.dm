@@ -23,7 +23,7 @@
 			return "TOWN_TRANSIENT"
 		if("Peasant", "Towner", "Sidefolk", "Serf", "Vagabond", "Bathhouse Attendant", "Cook", "Tapster", "Soilson")
 			return "TOWN_PEASANT"
-		if("Innkeeper", "Guildsman", "Archivist", "Apothecary", "Tailor", "Town Crier", "Physician", "Tradesmith", "Magicians Associate", "Jester", "Burgher", "Resident", "Keeper")
+		if("Innkeeper", "Guildsman", "Archivist", "Apothecary", "Tailor", "Physician", "Tradesmith", "Magicians Associate", "Jester", "Burgher", "Resident", "Keeper")
 			return "TOWN_BURGHER"
 		if("Priest", "Vice Priest", "Acolyte", "Druid", "Sexton", "Templar", "Martyr", "Clergy")
 			return "TOWN_CLERGY"

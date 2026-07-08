@@ -69,13 +69,13 @@
 	righthand_file = 'icons/mob/inhands/misc/food_righthand.dmi'
 	name = "egg box"
 	desc = ""
-	spawn_type = /obj/item/reagent_containers/food/snacks/egg
+	spawn_type = /obj/item/reagent_containers/food/snacks/rogue/egg
 
 /obj/item/storage/fancy/egg_box/ComponentInitialize()
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 12
-	STR.set_holdable(list(/obj/item/reagent_containers/food/snacks/egg))
+	STR.set_holdable(list(/obj/item/reagent_containers/food/snacks/rogue/egg))
 
 /*
  * Candle Box

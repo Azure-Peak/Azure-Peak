@@ -197,7 +197,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry,
 	)
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/egg
+		/obj/item/reagent_containers/food/snacks/rogue/egg
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/tartar
 	time_per_step = 3 SECONDS

@@ -1,0 +1,5 @@
+author: "7erracotta"
+delete-after: True
+changes:
+  - rscadd: "added new sprites"
+  - bugfix: "fixed the handles of the macauhuitls"

@@ -8,7 +8,7 @@
 	name = "nitzel"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/nitzel
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/egg,
+		/obj/item/reagent_containers/food/snacks/rogue/egg,
 		/obj/item/reagent_containers/food/snacks/rogue/toastcrumbs,
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/nitzel
@@ -21,7 +21,7 @@
 	name = "schnitzel"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/schnitzel
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/egg,
+		/obj/item/reagent_containers/food/snacks/rogue/egg,
 		/obj/item/reagent_containers/food/snacks/rogue/toastcrumbs,
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/nitzel/schnitzel
@@ -34,7 +34,7 @@
 	name = "tender frybird"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/chickentender
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/egg,
+		/obj/item/reagent_containers/food/snacks/rogue/egg,
 		/obj/item/reagent_containers/food/snacks/rogue/toastcrumbs,
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/chickentender
@@ -47,7 +47,7 @@
 	name = "wiener nitzel"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/wienernitzel
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/egg,
+		/obj/item/reagent_containers/food/snacks/rogue/egg,
 		/obj/item/reagent_containers/food/snacks/rogue/toastcrumbs,
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/nitzel/wiener

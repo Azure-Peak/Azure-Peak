@@ -7,7 +7,6 @@ PROCESSING_SUBSYSTEM_DEF(roguemachine)
 	var/list/hermailers = list()
 	var/list/cameras = list()
 	var/list/scomm_machines = list()
-	var/list/broadcaster_machines = list()
 	var/list/stock_machines = list()
 	var/list/noticeboards = list()
 	var/hermailermaster

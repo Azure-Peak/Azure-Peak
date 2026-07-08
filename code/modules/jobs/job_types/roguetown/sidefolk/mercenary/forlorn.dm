@@ -42,7 +42,7 @@
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	neck = /obj/item/clothing/neck/roguetown/gorget/forlorncollar
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/light
 	pants = /obj/item/clothing/under/roguetown/brigandinelegs		// They're brigandinejaks. ergo have them start w/the whole thing
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine		// They're brigandinejaks. ergo have them start w/the whole thing

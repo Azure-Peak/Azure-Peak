@@ -39,14 +39,14 @@
 	name = "Egg"
 	cost = 20
 	contains = list(
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
-					/obj/item/reagent_containers/food/snacks/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
+					/obj/item/reagent_containers/food/snacks/rogue/egg,
 				)
 
 /datum/supply_pack/rogue/food/coffee

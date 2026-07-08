@@ -29,6 +29,12 @@
 // Both are INT-scaled via AI_INT_SCALE_PROB — dumber NPCs whiff more and track less.
 #define HUMAN_NPC_WHIFF_FLOOR_CHANCE         8   // % chance to whiff even when target is stationary
 #define HUMAN_NPC_TRACK_CEILING_CHANCE       40  // % chance to still land a hit when target moved off the snapshot
+// Consecutive swings an NPC commits to the same body zone before re-picking.
+
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE         9
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN   12
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT       15
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER       18
 
 
 //Note alot of this is just adapted from old code so its probably not the best
@@ -296,14 +302,14 @@
 	var/skill_level = SKILL_LEVEL_NONE
 	if(held?.associated_skill)
 		skill_level = pawn.get_skill_level(held.associated_skill)
-	var/switch_threshold = 3
+	var/switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE
 	switch(skill_level)
 		if(SKILL_LEVEL_JOURNEYMAN)
-			switch_threshold = 4
+			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN
 		if(SKILL_LEVEL_EXPERT)
-			switch_threshold = 5
+			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT
 		if(SKILL_LEVEL_MASTER to INFINITY)
-			switch_threshold = 6
+			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER
 
 	var/counter = controller.blackboard[BB_HUMAN_NPC_ATTACK_ZONE_COUNTER]
 	if(counter < switch_threshold)
@@ -594,3 +600,7 @@
 #undef HUMAN_NPC_REACTION_PER_STAT_POINT
 #undef HUMAN_NPC_WHIFF_FLOOR_CHANCE
 #undef HUMAN_NPC_TRACK_CEILING_CHANCE
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER
