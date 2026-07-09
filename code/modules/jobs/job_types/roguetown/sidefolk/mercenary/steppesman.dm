@@ -88,7 +88,7 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe
 				wrists = /obj/item/clothing/wrists/roguetown/bracers
 				backl = /obj/item/rogueweapon/shield/iron/steppesman
-				l_hand = /obj/item/rogueweapon/stoneaxe/battle/steppesman
+				l_hand = /obj/item/rogueweapon/axe/battle/steppesman
 				neck = /obj/item/clothing/neck/roguetown/chaincoif
 				H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
 				H.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)

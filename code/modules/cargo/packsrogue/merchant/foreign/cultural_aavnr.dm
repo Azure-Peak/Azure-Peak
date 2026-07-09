@@ -21,7 +21,7 @@
 /datum/supply_pack/rogue/aavnr/steppe_axe
 	name = "Steppesman Battle Axe"
 	cost = 95
-	contains = list(/obj/item/rogueweapon/stoneaxe/battle/steppesman)
+	contains = list(/obj/item/rogueweapon/axe/battle/steppesman)
 	ship_qty_min = 1
 	ship_qty_max = 2
 
