@@ -570,7 +570,7 @@
 			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
 			beltl = /obj/item/quiver/bolt/standard
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	backl = /obj/item/rogueweapon/stoneaxe/woodcut/pick
+	backl = /obj/item/rogueweapon/axe/pulaski
 	belt = /obj/item/storage/belt/rogue/leather/black
 	cloak = /obj/item/clothing/cloak/half/vet
 	backpack_contents = list(

@@ -84,7 +84,7 @@
 			H.equip_to_slot_or_del(new /obj/item/quiver/bolt/standard, SLOT_BELT_L, TRUE)
 		if("Path of the Pick - Pulaski Axe")
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/woodcut/pick)
+			H.put_in_hands(new /obj/item/rogueweapon/axe/pulaski)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)	//Minor regen, is pre-emptively leveled up to T4 to avoid grind and support.
 	wretch_select_bounty(H)

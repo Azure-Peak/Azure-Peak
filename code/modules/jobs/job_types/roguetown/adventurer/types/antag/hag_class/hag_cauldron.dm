@@ -71,7 +71,7 @@
 		/obj/item/rogueweapon/stoneaxe/woodcut = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/stoneaxe/woodcut/steel = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/axe/steel/woodcutter = /obj/item/hag_catalyst/synth_base,
-		/obj/item/rogueweapon/stoneaxe/woodcut/pick = /obj/item/hag_catalyst/synth_base,
+		/obj/item/rogueweapon/axe/pulaski = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/axe/warden = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/stoneaxe/battle = /obj/item/hag_catalyst/synth_base,
 		/obj/item/rogueweapon/stoneaxe/handaxe = /obj/item/hag_catalyst/synth_base,

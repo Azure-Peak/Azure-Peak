@@ -48,7 +48,7 @@
 /datum/supply_pack/rogue/merc_weapons/pulaxe
 	name = "Pulaski Axe"
 	cost = 140
-	contains = list(/obj/item/rogueweapon/stoneaxe/woodcut/pick)
+	contains = list(/obj/item/rogueweapon/axe/pulaski)
 
 /datum/supply_pack/rogue/merc_weapons/nagaika
 	name = "Nagaika Whip"
