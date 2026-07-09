@@ -100,7 +100,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	head = /obj/item/clothing/head/roguetown/helmet/leather
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
-	r_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
+	r_hand = /obj/item/rogueweapon/axe/boneaxe
 	l_hand = /obj/item/rogueweapon/shield/wood
 
 	H.STASTR = 12

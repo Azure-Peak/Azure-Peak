@@ -34,7 +34,7 @@
 	speak_emote = list("grunts")
 	speak = list("WAAAGH!", "KRUSH AND KILL!", "Never should have come here!", "Slaughter them all!", "Kill everything!", "Hahaha! Die!")
 	loot = list(/obj/effect/mob_spawn/human/orc/corpse/savageorc,
-			/obj/item/rogueweapon/stoneaxe/boneaxe,
+			/obj/item/rogueweapon/axe/boneaxe,
 			/obj/effect/decal/cleanable/blood)
 	faction = list(FACTION_ORCS)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
@@ -57,7 +57,7 @@
 	icon_living = "savageorc2"
 	icon_dead = "savageorc2"
 	loot = list(/obj/effect/mob_spawn/human/orc/corpse/savageorc2,
-			/obj/item/rogueweapon/stoneaxe/boneaxe,
+			/obj/item/rogueweapon/axe/boneaxe,
 			/obj/effect/decal/cleanable/blood)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/orc/orc_marauder

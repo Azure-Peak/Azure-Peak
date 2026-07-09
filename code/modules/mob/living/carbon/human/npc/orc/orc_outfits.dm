@@ -2,7 +2,7 @@
 	..()
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	backl = /obj/item/quiver/arrows
-	l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
+	l_hand = /obj/item/rogueweapon/axe/boneaxe
 	r_hand = null
 	H.STASTR -= 2
 	H.STAPER += 3
@@ -62,7 +62,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	switch(rand(1, 3))
 		if(1)
-			l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
+			l_hand = /obj/item/rogueweapon/axe/boneaxe
 		if(2)
 			l_hand = /obj/item/rogueweapon/spear/bonespear
 			r_hand = /obj/item/rogueweapon/shield/wood // Help preserve integrity

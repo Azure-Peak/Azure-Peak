@@ -430,7 +430,7 @@
 		/obj/item/rogueweapon/sword/blacksteel = 4,
 		/obj/item/rogueweapon/sword/rapier/blacksteel = 1,
 		/obj/item/rogueweapon/sword/short/messer/blacksteel = 3,
-		/obj/item/rogueweapon/stoneaxe/hurlbat/blacksteel = 3,
+		/obj/item/rogueweapon/axe/hurlbat/blacksteel = 3,
 		/obj/item/rogueweapon/stoneaxe/battle/blacksteel = 4,
 		/obj/item/rogueweapon/greataxe/blacksteel = 3,
 		/obj/item/rogueweapon/spear/lance/blacksteel = 4,

@@ -717,7 +717,7 @@
 /datum/anvil_recipe/weapons/steel/hurlbat
 	name = "Hurlbat"
 	req_bar = /obj/item/ingot/steel
-	created_item = /obj/item/rogueweapon/stoneaxe/hurlbat
+	created_item = /obj/item/rogueweapon/axe/hurlbat
 	display_category = ITEM_CAT_WEAPONS_AXES
 
 /datum/anvil_recipe/weapons/steel/rapier
@@ -2126,7 +2126,7 @@
 	name = "Blacksteel Hurlbat (+1 Silk)"
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/natural/silk)
-	created_item = /obj/item/rogueweapon/stoneaxe/hurlbat/blacksteel
+	created_item = /obj/item/rogueweapon/axe/hurlbat/blacksteel
 	display_category = ITEM_CAT_WEAPONS_AXES
 
 /datum/anvil_recipe/weapons/blacksteel/axe

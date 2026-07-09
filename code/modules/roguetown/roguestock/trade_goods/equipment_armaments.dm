@@ -78,7 +78,7 @@
 /datum/trade_good/equipment/crafted/hurlbat
 	id = TRADE_GOOD_HURLBAT
 	name = "hurlbat"
-	item_type = /obj/item/rogueweapon/stoneaxe/hurlbat
+	item_type = /obj/item/rogueweapon/axe/hurlbat
 
 // ============================================================================
 // WEAPONS - STEEL (3+ ingot tier)

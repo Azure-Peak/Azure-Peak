@@ -544,7 +544,7 @@
 	name = "bone axe"
 	display_category = ITEM_CAT_WEAPONS_AXES
 	category = "Tools"
-	result = /obj/item/rogueweapon/stoneaxe/boneaxe
+	result = /obj/item/rogueweapon/axe/boneaxe
 	reqs = list(
 		/obj/item/grown/log/tree/small = 1,
 		/obj/item/natural/bone = 2,

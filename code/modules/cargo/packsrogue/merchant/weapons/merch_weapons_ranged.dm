@@ -26,7 +26,7 @@
 /datum/supply_pack/rogue/ranged_weapons/hurlbat
 	name = "Hurlbat"
 	cost = 50 // 1 Steel Ingot, but a pretty strong weapon.
-	contains = list(/obj/item/rogueweapon/stoneaxe/hurlbat)
+	contains = list(/obj/item/rogueweapon/axe/hurlbat)
 
 /datum/supply_pack/rogue/ranged_weapons/crossbow
 	name = "Crossbow"
