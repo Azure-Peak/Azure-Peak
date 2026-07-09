@@ -300,3 +300,80 @@
 	if(target.get_skill_level(/datum/skill/magic/holy) > 0)
 		return FALSE
 	return TRUE
+
+/datum/vision_quest/dull_blade
+	name = "The Dull Blade"
+	description = "A warrior has forgotten how to do anything but fight."
+	required_tier = 1
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "a warrior"
+	summary = "Even the sharpest blade needs a sheath."
+	vision_text = "The mists part to reveal a workshop. \
+	Tools hang on the walls. Hammers, saws, chisels, each one well-worn and cared for. \
+	A figure stands at the workbench, but it is not a warrior. It is... you. \
+	Your hands are covered in sawdust and wood shavings, and you are carving something delicate, something that has nothing to do with battle.\
+	A small fish carving... \
+	You blink. The workshop is gone, replaced by a battlefield littered with bodies. \
+	A warrior stands among them, their sword dripping with blood. \
+	They always win, you can tell it from their gait, their gaze. \
+	But the weight of their victories lies heavy on them.\
+	They look down at their rough, calloused... Deadly hands. \
+	They know only the grip of a weapon. They have forgotten the feel of anything else. \
+	Your voice, gentle and amused, speaks from the mist. \
+	'You have honed your edge so finely that you have become a weapon and nothing more. \
+	But even the sharpest sword grows dull if it never rests. Tell me, warrior, when was the last time you made something? \
+	When was the last time you planted a seed, baked a loaf, or carved a simple wooden toy?' \
+	The battlefield crumbles, and you stand with them in a garden. \
+	A single flower blooms at their feet, its petals soft and fragile. \
+	They reach down to touch it, fingers shaking in hesitation. 'I don't know how to be gentle anymore'. \
+	'That' you say, 'is why you are here. Not to fight. But to remember how to grow.'"
+	possible_phrases = list(
+		"when have you last baked a loaf",
+		"even the sharpest blade needs a sheath",
+		"a true warrior creates",
+		"flowers will wilt in your rough grip",
+		"there is a world beyond battle",
+		"when have you last planted a seed"
+	)
+
+/datum/vision_quest/dull_blade/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+	if(!..())
+		return FALSE
+
+	// All non-combat skills that represent hobbies/crafts/labor
+	var/static/list/hobby_skills = list(
+		/datum/skill/labor/farming,
+		/datum/skill/labor/mining,
+		/datum/skill/labor/fishing,
+		/datum/skill/labor/butchering,
+		/datum/skill/labor/lumberjacking,
+		/datum/skill/craft/crafting,
+		/datum/skill/craft/weaponsmithing,
+		/datum/skill/craft/armorsmithing,
+		/datum/skill/craft/blacksmithing,
+		/datum/skill/craft/smelting,
+		/datum/skill/craft/carpentry,
+		/datum/skill/craft/masonry,
+		/datum/skill/craft/traps,
+		/datum/skill/craft/engineering,
+		/datum/skill/craft/cooking,
+		/datum/skill/craft/sewing,
+		/datum/skill/craft/tanning,
+		/datum/skill/craft/ceramics,
+		/datum/skill/craft/alchemy,
+		/datum/skill/misc/music,
+		/datum/skill/misc/hunting
+	)
+	for(var/skill_type in hobby_skills)
+		if(target.get_skill_level(skill_type) > SKILL_LEVEL_APPRENTICE)
+			return FALSE
+	return TRUE
