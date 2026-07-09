@@ -382,6 +382,15 @@
 		added_def = 2,\
 	)
 
+/obj/item/rogueweapon/shovel/blacksteel
+	force = 27
+	name = "blacksteel shovel"
+	desc = "So much for being served on a silver platter."
+	icon_state = "blacksteelshovel"
+	smeltresult = /obj/item/ingot/blacksteel
+	max_blade_int = 450
+	max_integrity = 450
+
 /obj/item/rogueweapon/shovel/zoe_silence
 	name = "Silence"
 	desc = "This relic, bestowed on the Order of the Veiled Lady, is cold to the touch. Faint whispers of the lost and the damned can be heard in its presence, and an inscription on the handle reads the Order's motto: \"Rest to the Restless, Death to the Deathless\""

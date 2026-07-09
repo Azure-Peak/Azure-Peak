@@ -40,6 +40,11 @@
 	sort_category = "Accessories"
 	cost = 2
 
+/datum/loadout_item/beltshawl
+	name = "Belt Shawl"
+	path = /obj/item/storage/belt/rogue/leather/beltshawl
+	sort_category = "Accessories"
+	
 /datum/loadout_item/ragmask
 	name = "Rag Mask"
 	path = /obj/item/clothing/mask/rogue/ragmask

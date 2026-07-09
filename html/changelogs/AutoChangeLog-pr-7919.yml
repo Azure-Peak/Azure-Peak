@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Ported 7 optimizations PR by Noelle / Sutures from Ratwood. Report oddity about lighting, animal food, footsteps, sound loops (especially instruments)"

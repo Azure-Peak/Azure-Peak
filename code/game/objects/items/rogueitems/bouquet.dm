@@ -56,6 +56,45 @@
 	item_state = "rosa_crown"
 	icon_state = "rosa_crown"
 
+/obj/item/flowercrown/rosa/thorns
+	name = "crown of rosas with thorns"
+	desc = "Beauty is pain, Suffering is beautiful."
+	item_state = "rosecirclet"
+	icon_state = "rosecirclet"
+
+/obj/item/flowercrown/rosa/thorns/pickup(mob/living/user)
+	. = ..()
+	to_chat(user, span_warning ("The thorns prick me, but it feels good."))
+	user.adjustBruteLoss(4)
+
+/obj/item/flowercrown/rosa/dyecrown
+	name = "crown of flowers"
+	desc = "A simple crown of flowers, they seem to be easily dyed."
+	item_state = "flower"
+	icon_state = "flower"
+
+/obj/item/flowercrown/rosa/dyecrown/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/thorn) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Thorns.") as anything in COLOR_MAP
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/flowercrown/rosa/dyecrown/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
 /obj/item/flowercrown/salvia
 	name = "crown of salvia"
 	item_state = "salvia_crown"

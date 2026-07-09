@@ -100,7 +100,7 @@
 
 /obj/item/clothing/gloves/roguetown/knuckles/psydon/attack_self(mob/living/user)
 	. = ..()
-	user.visible_message(span_warning("[user] starts adjusting their grip on[src]."))
+	user.visible_message(span_warning("[user] starts adjusting their grip on [src]."))
 	if(do_after(user, 3 SECONDS))
 		var/obj/item/clothing/gloves/roguetown/knuckles/psydon/P = new /obj/item/rogueweapon/knuckledusters/psy(get_turf(src.loc))
 		if(user.is_holding(src))
@@ -133,7 +133,7 @@
 
 /obj/item/clothing/gloves/roguetown/knuckles/silver/attack_self(mob/living/user)
 	. = ..()
-	user.visible_message(span_warning("[user] starts adjusting their grip on[src]."))
+	user.visible_message(span_warning("[user] starts adjusting their grip on [src]."))
 	if(do_after(user, 3 SECONDS))
 		var/obj/item/clothing/gloves/roguetown/knuckles/silver/P = new /obj/item/rogueweapon/knuckledusters/silver(get_turf(src.loc))
 		if(user.is_holding(src))
@@ -155,7 +155,7 @@
 
 /obj/item/clothing/gloves/roguetown/knuckles/psydon/old/attack_self(mob/living/user)
 	. = ..()
-	user.visible_message(span_warning("[user] starts adjusting their grip on[src]."))
+	user.visible_message(span_warning("[user] starts adjusting their grip on [src]."))
 	if(do_after(user, 3 SECONDS))
 		var/obj/item/clothing/gloves/roguetown/knuckles/psydon/old/P = new /obj/item/rogueweapon/knuckledusters/enduring(get_turf(src.loc))
 		if(user.is_holding(src))
@@ -174,7 +174,7 @@
 	name = "decrepit knuckles"
 	desc = "A set of knuckles made of ancient metals, Aeon's grasp withers their form."
 	icon_state = "aknuckle"
-	max_integrity = 50 //Extra fragile — ancient and degraded.
+	max_integrity = 50 //Extra fragile - ancient and degraded.
 	smeltresult = /obj/item/ingot/aalloy
 	unarmed_bonus = 4
 
@@ -191,3 +191,11 @@
 	icon_state = "eoraknuckle"
 	max_integrity = 150
 	unarmed_bonus = 10//So they are better how they used to be
+
+/obj/item/clothing/gloves/roguetown/knuckles/blacksteel
+	name = "blacksteel knuckles"
+	desc = "Take that, taste the pain!"
+	icon_state = "bsknuckle"
+	max_integrity = 200
+	unarmed_bonus = 12
+	smeltresult = /obj/item/ingot/blacksteel

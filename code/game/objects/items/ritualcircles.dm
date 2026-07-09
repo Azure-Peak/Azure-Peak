@@ -133,7 +133,7 @@
 	name = "Rune of the Moon"
 	icon_state = "noc_chalky"
 	desc = "A holy rune of <font color='bae6ed'>Noc.</font> </br> <i>Moonlight shines upon thee.</i>"
-	var/lunarrites = list("Moonlight Dance") // list for more to be added later
+	var/lunarrites = list("Moonlight Dance", "Moonlight Inspiration") // list for more to be added later
 
 /obj/structure/ritualcircle/noc/attack_hand(mob/living/user)
 	if(!..())
@@ -163,11 +163,30 @@
 			playsound(loc, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
 			moonlightdance(src)
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+		if("Moonlight Inspiration")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("I seek the guidance of the Moon!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("Grant us your wisdom!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("Place your gaze upon me, oh wise one!!")
+			to_chat(user,span_cultsmall("The waning half of the Twin-God carries but one eye. With some effort, it can be drawn upon supplicants."))
+			playsound(loc, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
+			mooninspiration(src)
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 
 /obj/structure/ritualcircle/noc/proc/moonlightdance(src)
 	var/ritualtargets = view(7, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/moonlightdance)
+
+/obj/structure/ritualcircle/noc/proc/mooninspiration(src)
+	var/ritualtargets = view(2, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		target.mind.sleep_adv.sleep_adv_points += 3
 
 /obj/structure/ritualcircle/xylix
 	name = "Rune of Trickery"

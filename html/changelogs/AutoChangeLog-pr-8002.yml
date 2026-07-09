@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - rscadd: "Mimics jumpscare you now."

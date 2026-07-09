@@ -241,13 +241,14 @@
 		/datum/special_intent/piercing_lunge,
 		/datum/special_intent/polearm_backstep,
 		/datum/special_intent/limbguard,
-		/datum/special_intent/dagger_dash
+		/datum/special_intent/dagger_dash,
+		/datum/special_intent/flail_sweep,
 		)
 
 /obj/item/rogueweapon/sword/long/blacksteel/examine(mob/user)
 	. = ..()
 	if(!used)
-		. += span_notice("The Special Manoeuvre of this weapon can be changed. RCLICK it with a free hand to select one. This can only be done once.")
+		. += span_notice("The Special Manoeuvre of this weapon can be changed. Right-click it with a free hand to select one. This can only be done once.")
 
 /obj/item/rogueweapon/sword/long/blacksteel/attack_right(mob/user)
 	. = ..()
@@ -1289,6 +1290,18 @@
 	max_integrity = 150
 	sheathe_icon = "kopis"
 
+/obj/item/rogueweapon/sword/short/messer/blacksteel
+	name = "blacksteel messer"
+	desc = "A magnificent shortsword of blacksteel. Divorced from the labors that originally warranted its creation, yet no-less-adept at cleaving \
+	whatever might trouble one's morning strolls."
+	force = 27
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/axe/chop, /datum/intent/sword/cut/sabre/heavy)
+	smeltresult = /obj/item/ingot/blacksteel
+	icon_state = "bs_messer"
+	sheathe_icon = "bs_messer"
+	max_blade_int = 300
+	wbalance = WBALANCE_SWIFT
+
 /obj/item/rogueweapon/sword/sabre
 	name = "sabre"
 	desc = "A very popular backsword made for cavalrymen that originated in Naledi and spread its influence further north, reaching Aavnr as a \"Szablya\" and \
@@ -1625,6 +1638,47 @@
 	icon_state = "decrapier"
 	sheathe_icon = "decrapier"
 	no_loot_taint = TRUE
+
+/obj/item/rogueweapon/sword/rapier/blacksteel
+	name = "blacksteel rapier"
+	desc = "A magnificent rapier of blacksteel. Despite originating from the matrimony of cutting-edge swordsmanship techniques and metallurgy, it \
+	doesn't actually have a cutting edge to call its own. Not like that matters as much, of course, when it can pierce straight through plate armor."
+	force = 27
+	smeltresult = /obj/item/ingot/blacksteel
+	icon_state = "blacksteelrapier"
+	sheathe_icon = "blacksteelrapier"
+	max_blade_int = 400
+	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/thrust/rapier/lunge)
+	wdefense = 9 //Absurdly high defense, but no added integrity; for the discerning duelmaster.
+	var/used = FALSE
+	var/list/selection = list(
+		/datum/special_intent/piercing_lunge,
+		/datum/special_intent/polearm_backstep,
+		/datum/special_intent/dagger_dash,
+		/datum/special_intent/limbguard
+		)
+
+/obj/item/rogueweapon/sword/rapier/blacksteel/examine(mob/user)
+	. = ..()
+	if(!used)
+		. += span_notice("The Special Manoeuvre of this weapon can be changed. Right-click it with a free hand to select one. This can only be done once.")
+
+/obj/item/rogueweapon/sword/rapier/blacksteel/attack_right(mob/user)
+	. = ..()
+	if(used)
+		return
+		
+	var/list/special_options = list()
+	for(var/intent in selection)
+		var/datum/special_intent/S = intent // Hate this DM quirk.
+		special_options[S::name] = S
+	
+	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
+	if(choice)
+		qdel(special)
+		var/datum/special_intent/S = special_options[choice]
+		special = new S()
+		used = TRUE
 
 /obj/item/rogueweapon/sword/rapier/silver
 	name = "silver rapier"
@@ -2459,7 +2513,6 @@
 	wdefense = 4
 	minstr = 10
 	force = 7	//This sword gets its real damage values from its intents. IYKYK.
-	sellprice = 25
 	blade_int = 350	//You're gonna cut. A lot.
 	max_integrity = 110	//Iron arming sword + 10
 	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'

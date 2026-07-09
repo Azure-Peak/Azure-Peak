@@ -1125,8 +1125,9 @@
 			H.update_inv_head()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
-	name = "volf-face helm"
-	desc = "A steel bascinet helmet with a volfish visor protecting the head, ears, eyes, nose and mouth."
+	name = "heavy volfskulle bascinet"
+	desc = "A steel bascinet helmet with a snarling visor that protects the entire head and face. It mimics the \
+	guise of a terrible nitebeast; intimidating to the levyman, inspiring to the hunter."
 	icon_state = "volfplate"
 	item_state = "volfplate"
 	adjustable = CAN_CADJUST
@@ -1136,20 +1137,18 @@
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/steel
 	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY
-	armor_class = null	//Needs no armor class, snowflake merc gear.
 
 /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
-/obj/item/clothing/head/roguetown/helmet/heavy/volfplate/puritan
+/obj/item/clothing/head/roguetown/helmet/heavy/volfplate/light
 	name = "volfskulle bascinet"
-	desc = "A steel bascinet helmet with a snarling visor that protects the entire head and face. It mimics the \
-	guise of a terrible nitebeast; intimidating to the levyman, inspiring to the hunter."
+	armor_class = null	//Needs no armor class, snowflake merc gear.
 
 /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/berserker
-	name = "volfskulle bascinet"
+	name = "stripped volfskulle bascinet"
 	desc = "A steel bascinet helmet with a snarling visor that protects the entire head and face. Just like the nitebeasts it mimics, so too does the helmet's teeth glisten with flesh-sundering sharpness."
 	armor_class = ARMOR_CLASS_LIGHT //Pseudoantagonist-exclusive. Gives them an edge over traditional pugilists and barbarians.
 	var/active_item = FALSE
@@ -1628,8 +1627,9 @@
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY
 
 /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/iron
-	name = "iron volf-face helm"
-	desc = "A steel bascinet helmet with a volfish visor protecting the head, ears, eyes, nose and mouth."
+	name = "iron volfskulle bascinet"
+	desc = "An iron bascinet helmet with a snarling visor that protects the entire head and face. It mimics the \
+	guise of a terrible nitebeast; intimidating to the levyman, inspiring to the hunter."
 	icon_state = "ivolfplate"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY

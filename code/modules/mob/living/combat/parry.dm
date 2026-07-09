@@ -196,26 +196,6 @@
 					return TRUE	//Tentative, might be better if it only increased parry chance on the initial binding rather than a full block.
 
 	// --- Weapon Binding End! ---
-
-	if(HAS_TRAIT(src, TRAIT_GUIDANCE))
-		prob2defend += FULL_GUIDANCE_CHANCE
-	else if(HAS_TRAIT(src, TRAIT_LESSER_GUIDANCE))
-		prob2defend += LESSER_GUIDANCE_CHANCE
-
-	if(HAS_TRAIT(user, TRAIT_GUIDANCE))
-		prob2defend -= FULL_GUIDANCE_CHANCE
-	else if(HAS_TRAIT(user, TRAIT_LESSER_GUIDANCE))
-		prob2defend -= LESSER_GUIDANCE_CHANCE
-
-	if(HAS_TRAIT(src, TRAIT_REVERSE_GUIDANCE))
-		prob2defend -= FULL_GUIDANCE_CHANCE
-	else if(HAS_TRAIT(src, TRAIT_LESSER_REVERSE_GUIDANCE))
-		prob2defend -= LESSER_GUIDANCE_CHANCE
-
-	if(HAS_TRAIT(user, TRAIT_REVERSE_GUIDANCE))
-		prob2defend += FULL_GUIDANCE_CHANCE
-	else if(HAS_TRAIT(user, TRAIT_LESSER_REVERSE_GUIDANCE))
-		prob2defend += LESSER_GUIDANCE_CHANCE
 	
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		prob2defend -= 40

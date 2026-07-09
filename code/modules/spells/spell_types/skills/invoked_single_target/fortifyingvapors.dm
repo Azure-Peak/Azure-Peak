@@ -50,6 +50,7 @@
 /datum/status_effect/buff/fortifyingvapors
 	id = "fortifyingvapors"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/fortifyingvapors
+	effectedstats = list(STATKEY_CON = 1)
 	duration = 20 SECONDS
 	examine_text = "SUBJECTPRONOUN is surrounded by subtle, heady vapors."
 	var/healing_on_tick = 0.5 //half of miracle, twice the duration

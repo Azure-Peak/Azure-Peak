@@ -90,7 +90,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/zombified
 
 /datum/status_effect/buff/zombified/on_apply()
-	owner.visible_message(span_warning("[owner] DEBUG - had zombification added."))
   /*So how does this work, simply put - we check if you have X stat, if not we take our number and take away your stat from this
 
   That means we always have the stat change number as our buff/debuff to change your stats to this, its quite a fussy thing to work with
@@ -119,7 +118,6 @@
 
 /datum/status_effect/buff/zombified/on_remove()
 	. = ..()
-	owner.visible_message(span_warning("[owner] DEBUG - had zombification removed."))
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
