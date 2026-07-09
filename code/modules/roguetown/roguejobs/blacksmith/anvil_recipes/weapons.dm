@@ -1867,7 +1867,7 @@
 /datum/anvil_recipe/weapons/psy/tomahawk
 	name = "Psydonic Tomahawk (+1 Small Log)"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/rogueweapon/stoneaxe/handaxe/psy
+	created_item = /obj/item/rogueweapon/axe/handaxe/psy
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"
 	display_category = ITEM_CAT_WEAPONS_AXES
@@ -2023,7 +2023,7 @@
 /datum/anvil_recipe/weapons/psy/tomahawk/inq
 	name = "Psydonic Tomahawk (+1 Small Log)"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/rogueweapon/stoneaxe/handaxe/psy
+	created_item = /obj/item/rogueweapon/axe/handaxe/psy
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"
 	display_category = ITEM_CAT_WEAPONS_AXES
