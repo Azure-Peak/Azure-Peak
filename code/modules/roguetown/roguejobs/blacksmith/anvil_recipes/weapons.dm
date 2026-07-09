@@ -577,7 +577,7 @@
 	name = "Woodcutting Handaxe, Iron (+1 Small Log)"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/grown/log/tree/small)
-	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/woodcutter
+	created_item = /obj/item/rogueweapon/axe/woodcutter
 	display_category = ITEM_CAT_WEAPONS_AXES
 
 /datum/anvil_recipe/weapons/iron/greataxe

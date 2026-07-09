@@ -115157,7 +115157,7 @@
 /obj/structure/fluff/wallclock/l,
 /obj/structure/rack/rogue,
 /obj/item/rogueweapon/shovel,
-/obj/item/rogueweapon/stoneaxe/woodcut/woodcutter{
+/obj/item/rogueweapon/axe/woodcutter{
 	pixel_x = 3;
 	pixel_y = -1
 	},
@@ -122887,7 +122887,7 @@
 	},
 /obj/item/clothing/cloak/templar/malumite,
 /obj/item/clothing/cloak/templar/malumite,
-/obj/item/rogueweapon/stoneaxe/woodcut/woodcutter{
+/obj/item/rogueweapon/axe/woodcutter{
 	pixel_x = 1;
 	pixel_y = 36
 	},
@@ -123904,7 +123904,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "xzZ" = (
-/obj/item/rogueweapon/stoneaxe/woodcut/woodcutter{
+/obj/item/rogueweapon/axe/woodcutter{
 	pixel_x = 2;
 	pixel_y = 14
 	},
@@ -127622,7 +127622,7 @@
 /obj/structure/rack/rogue/shelf,
 /obj/structure/rack/rogue,
 /obj/item/rogueweapon/shovel,
-/obj/item/rogueweapon/stoneaxe/woodcut/woodcutter,
+/obj/item/rogueweapon/axe/woodcutter,
 /obj/item/reagent_containers/food/snacks/rogue/cheddarwedge/aged{
 	pixel_x = -1;
 	pixel_y = 40
