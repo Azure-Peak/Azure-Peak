@@ -235,7 +235,7 @@
 		/obj/item/rogueweapon/mace/goden = 1,
 		/obj/item/rogueweapon/mace/warhammer = 1,
 		/obj/item/rogueweapon/stoneaxe/woodcut = 1,
-		/obj/item/rogueweapon/stoneaxe/handaxe/copper = 2,
+		/obj/item/rogueweapon/axe/handaxe/copper = 2,
 		/obj/item/rogueweapon/stoneaxe/handaxe = 1,
 		/obj/item/rogueweapon/greataxe = 1,
 		/obj/item/rogueweapon/sword/short/iron/banded = 2,

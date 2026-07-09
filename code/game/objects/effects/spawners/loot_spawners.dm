@@ -272,7 +272,7 @@
 		/obj/item/rogueweapon/greatsword/paalloy = 1,
 		/obj/item/rogueweapon/woodstaff/quarterstaff/iron = 1,
 		/obj/item/rogueweapon/greataxe = 1,
-		/obj/item/rogueweapon/stoneaxe/handaxe/copper = 1,
+		/obj/item/rogueweapon/axe/handaxe/copper = 1,
 		/obj/item/rogueweapon/stoneaxe/handaxe = 1,
 		//tools
 		/obj/item/rogueweapon/shovel = 2,

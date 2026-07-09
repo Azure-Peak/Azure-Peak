@@ -271,7 +271,7 @@
 	name = "Hatchet, Copper (+1 Copper)"
 	req_bar = /obj/item/ingot/copper
 	additional_items = list(/obj/item/ingot/copper)
-	created_item = /obj/item/rogueweapon/stoneaxe/handaxe/copper
+	created_item = /obj/item/rogueweapon/axe/handaxe/copper
 	display_category = ITEM_CAT_WEAPONS_AXES
 
 /datum/anvil_recipe/weapons/copper/cbludgeon

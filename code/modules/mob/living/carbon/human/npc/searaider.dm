@@ -129,8 +129,8 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 		if(5)
 			r_hand = /obj/item/rogueweapon/greatsword/iron
 		if(6) //GRAGGAR, LET ME BE WITNESSED
-			r_hand = /obj/item/rogueweapon/stoneaxe/handaxe/copper
-			l_hand = /obj/item/rogueweapon/stoneaxe/handaxe/copper
+			r_hand = /obj/item/rogueweapon/axe/handaxe/copper
+			l_hand = /obj/item/rogueweapon/axe/handaxe/copper
 			ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC) //lets them actually use it, not just for show, sire.
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
