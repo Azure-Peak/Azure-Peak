@@ -196,7 +196,7 @@
 					qdel(H.get_item_by_slot(SLOT_BACK_R))
 					H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap(H), SLOT_BACK_R, TRUE)
 				if("Battle Axe")
-					H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/holyseeaxe(H))
+					H.put_in_hands(new /obj/item/rogueweapon/axe/battle/holyseeaxe(H))
 					picked_axe = TRUE
 				if("Steel Greataxe")
 					H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel(H))
