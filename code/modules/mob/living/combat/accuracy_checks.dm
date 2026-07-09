@@ -47,16 +47,6 @@
 
 	if(!(user.mobility_flags & MOBILITY_STAND) && (zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_L_FOOT)))
 		chance2hit += 5
-	if(HAS_TRAIT(user, TRAIT_GUIDANCE))
-		chance2hit += FULL_GUIDANCE_ACCURACY
-	else if(HAS_TRAIT(user, TRAIT_LESSER_GUIDANCE))
-		chance2hit += LESSER_GUIDANCE_ACCURACY
-
-	if(HAS_TRAIT(user, TRAIT_REVERSE_GUIDANCE))
-		chance2hit -= FULL_GUIDANCE_ACCURACY
-	else if(HAS_TRAIT(user, TRAIT_LESSER_REVERSE_GUIDANCE))
-		chance2hit -= LESSER_GUIDANCE_ACCURACY
-
 	chance2hit += accuracy_bonus
 
 	chance2hit = CLAMP(chance2hit, 5, 95)

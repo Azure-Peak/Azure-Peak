@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Removed legacy monkey code to optimize limb icons, ported from RW, made by Noelle"

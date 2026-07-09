@@ -1,0 +1,5 @@
+author: "Dorodomki"
+delete-after: True
+changes:
+  - rscadd: "Added new fur boots to loadout"
+  - bugfix: "fixed a typo on the flower crown for loadout\n:cl:"

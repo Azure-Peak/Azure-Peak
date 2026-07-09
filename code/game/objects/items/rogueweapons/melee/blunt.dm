@@ -245,6 +245,17 @@
 	wdefense = 3
 	smelt_bar_num = 2
 
+/obj/item/rogueweapon/mace/blacksteel
+	force = 30
+	force_wielded = 35
+	max_integrity = 300
+	name = "blacksteel mace"
+	desc = "A magnificent mace of blacksteel. Tied around the handle is crimson silk, which was the style at the tyme."
+	icon_state = "bs_mace"
+	smeltresult = /obj/item/ingot/blacksteel
+	wdefense = 3
+	smelt_bar_num = 2
+
 /obj/item/rogueweapon/mace/steel/palloy
 	name = "ancient alloy mace"
 	desc = "Polished gilbranze, perched atop a reinforced shaft. Break the unenlightened into naught-but-giblets; like a potter's vessels, dashed against the rocks."
@@ -394,7 +405,7 @@
 	attack_verb = list("twamps", "thwacks", "wallops")
 	damfactor = 1.3		// High damage mod to give high chance of dislocation against unarmored targets.
 	intent_intdamage_factor = 0.4	// Purposefully bad at damaging armor. Specifically deals -60% integrity damage, irregardless of the previous intent's modifiers.
-	icon_state = "inbash"	// Wallop is too long for a button; placeholder.
+	icon_state = "inthresh"	// Wallop is too long for a button; placeholder.
 	desc = "A quick and sudden thwack that can cripple unarmored limbs with tremendous force. </br>Deals TWIST damage instead of BLUNT damage. Critical hits cause DISLOCATIONS, instead of FRACTURES. </br>DISLOCATED ARMS and HANDS cannot wield, grab, or use anything. </br>DISLOCATED LEGS and FEET prevent the target from standing."
 
 // (I'm evil. Slight swing delay.)
@@ -842,6 +853,17 @@
 	desc = "A macehead of polished gilbranze, spiked and perched atop a reinforced shaft. An elegant weapon from a more civilized age; when Man lived in harmony with one-another, and when 'the undying' was nothing more than a nitemare's thought."
 	icon_state = "awarhammer"
 	smeltresult = /obj/item/ingot/aaslag
+
+/obj/item/rogueweapon/mace/warhammer/blacksteel
+	name = "blacksteel warhammer"
+	desc = "A magnificent warhammer of blacksteel. Ornamental, resplendant, and - above all else - lethal; the ideal sidearm for a knight in the sixteenth century."
+	icon_state = "bs_hammer"
+	force = 30
+	minstr = 10
+	max_integrity = 350
+	smeltresult = /obj/item/ingot/blacksteel
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab)
+	special = /datum/special_intent/ground_smash
 
 /obj/item/rogueweapon/mace/warhammer/steel/silver
 	name = "silver warhammer"

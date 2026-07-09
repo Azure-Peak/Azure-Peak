@@ -439,7 +439,7 @@
 	name = "Arcyne Affinity"
 	desc = "Allows you to learn a set of spells. \n \
 	<b>MAGISTER</b>: Greater Arcyne Bolt, Forcewall, Arcyne Ward, Phase, Message, Create Campfire \n \
-	<b>ENCHANTER</b>: Gravel Blast, Dragonhide Ward, Mending, Arcyne Forge, Hawk's Eyes, Stoneskin\n \
+	<b>ENCHANTER</b>: Gravel Blast, Dragonhide Ward, Mending, Arcyne Forge, Hawk's Eyes, Blood Rush\n \
 	<b>SEER</b>: Crystalhide Ward, Giant's Strength, Guidance, Haste, Fortitude, Mindlink"
 	button_icon_state = "spellpack"
 
@@ -468,7 +468,7 @@
 		/datum/action/cooldown/spell/mending,
 		/datum/action/cooldown/spell/arcyne_forge, //Utility
 		/datum/action/cooldown/spell/augment_buff/attune_hawk,
-		/datum/action/cooldown/spell/augment_buff/stoneskin //Buff
+		/datum/action/cooldown/spell/augment_buff/blood_rush //Buff
 	)
 	var/list/seer_bundle = list(
 		/datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,

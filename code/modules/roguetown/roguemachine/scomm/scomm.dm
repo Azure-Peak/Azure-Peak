@@ -16,7 +16,6 @@
 	var/next_decree = 0
 	var/listening = TRUE
 	var/speaking = TRUE
-	var/loudmouth_listening = TRUE
 	var/dictating = FALSE
 	var/scom_number
 	var/scom_tag
@@ -130,15 +129,9 @@
 		listening = !listening
 		to_chat(user, span_info("I [listening ? "unmute" : "mute"] the input on the SCOM."))
 		return
-	if(loudmouth_listening)
-		to_chat(user, span_info("I quell the Loudmouth's prattling on the SCOM. It may be muted entirely still."))
-		loudmouth_listening = FALSE
-	else
-		listening = !listening
-		speaking = listening
-		to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the SCOM."))
-		if(listening)
-			loudmouth_listening = TRUE
+	listening = !listening
+	speaking = listening
+	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the SCOM."))
 	update_icon()
 
 /obj/structure/roguemachine/scomm/attackby(obj/item/W, mob/user, params)
@@ -287,9 +280,6 @@
 		icon_state = "scomm1"
 	else
 		icon_state = "scomm0"
-	if(listening)
-		if(!loudmouth_listening)
-			icon_state = "scomm3"
 
 /obj/structure/roguemachine/scomm/Destroy()
 	lose_hearing_sensitivity()

@@ -90,15 +90,15 @@
 	pointbuy_budget = 3
 	pointbuy_spells = list(
 		/datum/action/cooldown/spell/darkvision,
-		/datum/action/cooldown/spell/augment_buff/stoneskin,
+		/datum/action/cooldown/spell/augment_buff/blood_rush,
 		/datum/action/cooldown/spell/augment_buff/guidance,
 		/datum/action/cooldown/spell/featherfall,
 		/datum/action/cooldown/spell/augment_buff/enlarge,
 		/datum/action/cooldown/spell/leap,
 		/datum/action/cooldown/spell/nondetection,
-		/datum/action/cooldown/spell/surge,
-		/datum/action/cooldown/spell/precognition,
-		/datum/action/cooldown/spell/grasp,
+		/datum/action/cooldown/spell/augment_buff/surge,
+		/datum/action/cooldown/spell/augment_buff/precognition,
+		/datum/action/cooldown/spell/augment_buff/grasp,
 		// 1-cost utility filler
 		/datum/action/cooldown/spell/light,
 		/datum/action/cooldown/spell/mending,

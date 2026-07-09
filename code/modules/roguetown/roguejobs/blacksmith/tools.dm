@@ -411,7 +411,6 @@
 	max_integrity = 10
 	smeltresult = /obj/item/ingot/aaslag
 	color = "#bb9696"
-	sellprice = 15
 
 /obj/item/rogueweapon/hammer/bronze
 	name = "bronze hammer"
@@ -596,7 +595,6 @@
 	smeltresult = null
 	max_integrity = 10
 	color = "#bb9696"
-	sellprice = 5
 	auto_collect = FALSE
 
 /obj/item/rogueweapon/tongs/aalloy/update_icon()
@@ -649,7 +647,7 @@
 
 /obj/item/rogueweapon/tongs/blacksteel
 	name = "blacksteel tongs"
-	desc = "A pair of blacksteel jaws almost certainly used as a sign of prestige."
+	desc = "A pair of blacksteel jaws, almost certainly used as a sign of prestige."
 	icon_state = "bs_tongs"
 	wdefense = 6
 	icon = 'icons/roguetown/weapons/tools.dmi'

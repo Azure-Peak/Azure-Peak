@@ -23,3 +23,10 @@
 	base_price = SELLPRICE_RICE
 	source_region_id = TRADE_REGION_KINGSFIELD
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rice
+
+/datum/trade_good/grain/maize
+	id = TRADE_GOOD_MAIZE
+	name = "Maize"
+	base_price = SELLPRICE_MAIZE
+	source_region_id = TRADE_REGION_KINGSFIELD
+	item_type = /obj/item/reagent_containers/food/snacks/grown/maize

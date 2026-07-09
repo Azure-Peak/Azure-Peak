@@ -1094,9 +1094,9 @@
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/steel/halfplate/fluted
-	name = "Fluted Half-Plate, Steel (+2 Steel, +1 Iron, +1 Cured Leather)"
+	name = "Fluted Half-Plate, Steel (+3 Steel, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/iron, /obj/item/natural/hide/cured)
+	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/fluted
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
@@ -1115,16 +1115,16 @@
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/steel/fullplate_fluted
-	name = "Fluted Full-Plate, Steel (+3 Steel, +1 Iron, +1 Cured Leather)"
+	name = "Fluted Full-Plate, Steel (+4 Steel, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/iron, /obj/item/natural/hide/cured)
+	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/steel/fullplate/fluted_legacy
-	name = "Valorian Fluted Full-Plate, Steel (+3 Steel, +1 Iron, +1 Cured Leather)"
+	name = "Valorian Fluted Full-Plate, Steel (+4 Steel, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/steel
-	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/iron, /obj/item/natural/hide/cured)
+	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
@@ -1980,6 +1980,18 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/blacksteel/modern/bracers
+	name = "Bracers, Blacksteel"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/blacksteel/modern
+	display_category = ITEM_CAT_ARMOR_BRACERS
+
+/datum/anvil_recipe/armor/blacksteel/modern/neckguard
+	name = "Neckguard, Blacksteel"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/neck/roguetown/bevor/blacksteel/modern
+	display_category = ITEM_CAT_ARMOR_NECK
+
 /datum/anvil_recipe/armor/blacksteel/modern/plateboots
 	name = "Plate Boots, Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
@@ -2034,6 +2046,18 @@
 	req_bar = /obj/item/ingot/blacksteel
 	created_item = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel
 	display_category = ITEM_CAT_ARMOR_BOOTS
+
+/datum/anvil_recipe/armor/blacksteel/bracers
+	name = "Ancient Blacksteel Bracers"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/blacksteel
+	display_category = ITEM_CAT_ARMOR_BRACERS
+
+/datum/anvil_recipe/armor/blacksteel/neckguard
+	name = "Ancient Blacksteel Neckguard"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/neck/roguetown/bevor/blacksteel
+	display_category = ITEM_CAT_ARMOR_NECK
 
 // AVANTYNE
 

@@ -133,8 +133,6 @@
 	if(!nodmg)
 		var/armor_block = run_armor_check(def_zone, "stab", armor_penetration = PEN_NONE, blade_dulling=BCLASS_BITE, damage = dam2do)
 
-		user.Immobilize(1 SECONDS)
-		src.Immobilize(1 SECONDS)
 		var/vamp = user.mind?.has_antag_datum(/datum/antagonist/vampire)
 		var/wolf = user.mind?.has_antag_datum(/datum/antagonist/werewolf)
 
@@ -307,8 +305,6 @@
 
 	user.changeNext_move(1.2 SECONDS) // One chew every 1.2 seconds
 	var/mob/living/carbon/C = grabbed
-	user.Immobilize(1 SECONDS)
-	C.Immobilize(1 SECONDS)
 	var/damage = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2

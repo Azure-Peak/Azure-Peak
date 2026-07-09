@@ -652,7 +652,7 @@
 					if("Visored Sallet")
 						head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 					if("Volfskulle Bascinet")
-						head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/puritan
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/light
 					if("Fluted Armet")
 						head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/fluted
 					if("Fluted Armet With Greatplume")

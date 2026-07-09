@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/telegraphed_strike/spellblade/tremor
 	name = "Tremor"
-	desc = "The earth answers. Wind up a strike, then erupt the ground in a ring around you, hurling back everyone adjacent a tile. The ring follows you as you wind it up and takes after your bound weapon - a blunt head smashes, a cutting edge scythes for slightly more. \
+	desc = "The earth answers. Wind up a strike, then erupt the ground in a ring around you, hurling back everyone adjacent a tile. The ring follows you as you wind up your weapon, and follow your weapon's damage type. \
 		Builds 1 momentum on hit. At 3+ momentum: consumes 3 to double damage. Can be deflected by Defend stance."
 	button_icon_state = "tremor"
 	sound = null

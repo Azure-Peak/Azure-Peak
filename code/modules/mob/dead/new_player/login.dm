@@ -53,6 +53,7 @@
 			if(5)
 				shown_patreon_level = "Lord"
 		to_chat(src, span_info("Donator Level: [shown_patreon_level]"))
+		to_chat(src, span_notice("New to the server? The <a href='byond://?src=[REF(client)];open_encyclopedia=1'>Encyclopaedia Azurea</a> holds recipes, and guides - you can also find it under the OOC tab."))
 
 	if(GLOB.admin_notice)
 		to_chat(src, span_notice("<b>Admin Notice:</b>\n \t [GLOB.admin_notice]"))
