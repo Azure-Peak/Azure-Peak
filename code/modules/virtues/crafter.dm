@@ -127,7 +127,7 @@
 	extra_choices = list(
 		"Mining Skill (+3, Up to Legendary)" = list(/datum/skill/labor/mining, TRAIT_SMITHING_EXPERT),
 		"Lumberjacking Skill (+3, Up to Legendary)" = /datum/skill/labor/lumberjacking,
-		"Stashed Steel Axe" = /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter,
+		"Stashed Steel Axe" = /obj/item/rogueweapon/axe/steel/woodcutter,
 		"Stashed Steel Pickaxe" = /obj/item/rogueweapon/pick/steel,
 		"Stashed Bronze Dolabra" = /obj/item/rogueweapon/pick/bronze ///Less force & integ than the others, but can perform both roles
 	)

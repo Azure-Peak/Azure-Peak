@@ -72,7 +72,7 @@
 				r_hand = /obj/item/rogueweapon/mace/warhammer/steel
 			if ("Axe") // classic. i killed paul allen with one of these
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-				l_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter
+				l_hand = /obj/item/rogueweapon/axe/steel/woodcutter
 		switch(specialization_choice)
 			if("Fast (Dodge Expert, Sneaking, +2 SPD)") //youfuckinghitmewithaPHONE, DICK!
 				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_MASTER, TRUE)
