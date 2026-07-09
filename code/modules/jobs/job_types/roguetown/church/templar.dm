@@ -274,7 +274,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
 		if("Tidecleaver")
-			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/abyssoraxe(H))
+			H.put_in_hands(new /obj/item/rogueweapon/axe/battle/abyssoraxe(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 		if("Absolutio")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/undivided/absolutio(H))
