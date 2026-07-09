@@ -69,7 +69,7 @@
 /datum/supply_pack/rogue/bronze_weapons/battleaxe
 	name = "Bronze War Axe"
 	cost = 54 // 2 Bronze Ingots (10% discount)
-	contains = list(/obj/item/rogueweapon/stoneaxe/woodcut/bronzebattleaxe)
+	contains = list(/obj/item/rogueweapon/axe/bronzebattleaxe)
 
 /datum/supply_pack/rogue/bronze_weapons/axe
 	name = "Bronze Axe"

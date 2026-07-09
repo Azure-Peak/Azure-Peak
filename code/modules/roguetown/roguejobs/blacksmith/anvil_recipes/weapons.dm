@@ -393,7 +393,7 @@
 	name = "War Axe, Bronze (+1 Bronze)"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/ingot/bronze)
-	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/bronzebattleaxe
+	created_item = /obj/item/rogueweapon/axe/bronzebattleaxe
 	display_category = ITEM_CAT_WEAPONS_AXES
 
 /datum/anvil_recipe/weapons/bronze/battlemace
