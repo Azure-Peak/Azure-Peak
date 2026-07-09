@@ -3,8 +3,8 @@
 	flag = NEOPHYTE
 	department_flag = INQUISITION
 	faction = "Station"
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 1
+	spawn_positions = 1
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 	tutorial = "The stories of old must be Transcribed. You are a Neophyte, an apprentice and page for the local inquisitorial embassy. As you are not a combatant like most of this troupe, your responsibilities are little, but so are your obligations. Accompany the Absolver in spreading His Love, or follow the Inquisitor to seek stories to scribe."
