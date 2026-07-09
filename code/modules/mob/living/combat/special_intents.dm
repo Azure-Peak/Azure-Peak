@@ -1423,7 +1423,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 /datum/special_intent/permafrost/on_create()
 	. = ..()
 	howner.visible_message(span_warning("[iparent]'s blade forms a layer of ice in [howner]'s grasp!"))
-	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
+	var/obj/item/rogueweapon/axe/battle/ice/W = iparent
 	active_timer = addtimer(CALLBACK(src, PROC_REF(effect_expire)), 20 SECONDS, TIMER_STOPPABLE)
 	W.icon_state = "iceaxeactive"
 	W.override_state = "iceaxeactive"
@@ -1437,7 +1437,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/permafrost/proc/effect_expire()
 	howner.visible_message(span_warning("The ice covering [iparent]'s blade thaws out!"))
-	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
+	var/obj/item/rogueweapon/axe/battle/ice/W = iparent
 	W.icon_state = "iceaxe"
 	W.override_state = null
 	W.possible_item_intents = W.inactive_intents
