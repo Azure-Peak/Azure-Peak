@@ -1745,7 +1745,7 @@
 /datum/anvil_recipe/weapons/psy/axe
 	name = "Psydonic War Axe (+1 Blessed Silver, +1 Stick)"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/rogueweapon/stoneaxe/battle/psyaxe
+	created_item = /obj/item/rogueweapon/axe/battle/psyaxe
 	display_category = ITEM_CAT_WEAPONS_AXES
 	additional_items = list(/obj/item/ingot/silverblessed, /obj/item/grown/log/tree/stick)
 	i_type = "Weapons"
@@ -1893,7 +1893,7 @@
 /datum/anvil_recipe/weapons/psy/axe/inq
 	name = "Psydonic War Axe (+1 Blessed Silver, +1 Stick)"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/rogueweapon/stoneaxe/battle/psyaxe
+	created_item = /obj/item/rogueweapon/axe/battle/psyaxe
 	display_category = ITEM_CAT_WEAPONS_AXES
 	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/grown/log/tree/stick)
 	i_type = "Weapons"

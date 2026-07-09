@@ -258,7 +258,7 @@
 			if("onback")
 				return list("shrink" = 0.6,"sx" = -16,"sy" = -16,"nx" = -16,"ny" = -16,"wx" = -16,"wy" = -16,"ex" = -16,"ey" = -16,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-/obj/item/rogueweapon/stoneaxe/woodcut/steel/atgervi
+/obj/item/rogueweapon/axe/steel/atgervi
 	name = "bearded axe"
 	desc = "A large axe easily wielded in one hand or two, with a large, hooked axehead, designed for the brutal ripping and tearing of flesh and armor alike."
 	icon_state = "atgervi_axe"
@@ -272,7 +272,7 @@
 	force = 26
 	force_wielded = 33
 
-/obj/item/rogueweapon/stoneaxe/woodcut/steel/atgervi/getonmobprop(tag)
+/obj/item/rogueweapon/axe/steel/atgervi/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)

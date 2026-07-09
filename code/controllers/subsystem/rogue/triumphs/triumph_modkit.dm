@@ -55,7 +55,7 @@
 		/obj/item/rogueweapon/stoneaxe/woodcut/bronze					= /obj/item/rogueweapon/stoneaxe/woodcut/bronze/triumph,
 		/obj/item/rogueweapon/stoneaxe/woodcut/silver					= /obj/item/rogueweapon/stoneaxe/woodcut/silver/triumph,
 		/obj/item/rogueweapon/stoneaxe/battle/blacksteel				= /obj/item/rogueweapon/stoneaxe/battle/blacksteel/triumph,
-		/obj/item/rogueweapon/stoneaxe/battle/psyaxe					= /obj/item/rogueweapon/stoneaxe/battle/psyaxe/triumph,
+		/obj/item/rogueweapon/axe/battle/psyaxe					= /obj/item/rogueweapon/axe/battle/psyaxe/triumph,
 		/obj/item/rogueweapon/stoneaxe/battle	  						= /obj/item/rogueweapon/stoneaxe/battle/triumph,
 		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead
 		)
@@ -765,7 +765,7 @@
 	icon_state = "silveraxedouble"
 	swingsound = BLADEWOOSH_HUGE
 
-/obj/item/rogueweapon/stoneaxe/battle/psyaxe/triumph
+/obj/item/rogueweapon/axe/battle/psyaxe/triumph
 	name = "double-headed psydonic axe"
 	desc = "'Hail to the king, baby.'"
 	icon_state = "psyaxedouble"

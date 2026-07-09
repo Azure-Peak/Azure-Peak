@@ -278,7 +278,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, 4, TRUE)
 		if("Relic, 'Covenant' (Greatshield) + Psydonic War Axe")
-			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe(H))
+			H.put_in_hands(new /obj/item/rogueweapon/axe/battle/psyaxe(H))
 			H.put_in_hands(new /obj/item/rogueweapon/shield/tower/metal/psy(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, 4, TRUE)

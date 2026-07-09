@@ -113,7 +113,7 @@
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic War Axe")
-			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe(H))
+			H.put_in_hands(new /obj/item/rogueweapon/axe/battle/psyaxe(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
 		if("Psydonic Whip")
