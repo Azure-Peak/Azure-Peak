@@ -1,7 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - balance: "Vizier no longer get a free Crystalhide Ward on top of what they are getting"
-  - balance: "Vizier's Reversion can no longer revive anyone. Please, no revival on a merc."
-  - balance: "Increased the duration of Reversion from 15 seconds to 25 seconds to emphasize usage of their unique abilities. Revert now have no charge time, however, it has an uninterruptible 2 seconds doafter and balloon alerts where appropriate to indicate to people wailing on the target what just happened."
-  - rscadd: "Leylines now use invocation shout properly, and no longer grants blue regeneration. It no longer has a cmode gate for its signature effects."

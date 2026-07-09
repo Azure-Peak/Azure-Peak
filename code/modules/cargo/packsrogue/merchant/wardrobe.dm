@@ -125,6 +125,13 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 		/obj/item/clothing/head/roguetown/veiled,
 	)
 
+/datum/supply_pack/rogue/wardrobe/hat/loudmouth_headgear
+	name = "Loudmouth's Headcover"
+	cost = 25
+	contains = list(
+		/obj/item/clothing/head/roguetown/veiled/loudmouth
+	)
+
 /datum/supply_pack/rogue/wardrobe/hat/chaperon
 	name = "Chaperon"
 	cost = 25
@@ -416,6 +423,13 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	contains = list(
 					/obj/item/clothing/suit/roguetown/shirt/undershirt/puritan,
 					/obj/item/clothing/suit/roguetown/shirt/undershirt/puritan,
+				)
+
+/datum/supply_pack/rogue/wardrobe/suits/loudmouth_robes
+	name = "Crier's Garb"
+	cost = 40
+	contains = list(
+					/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/loudmouth
 				)
 
 //////////////////////////////////////////////////////////////////////////////

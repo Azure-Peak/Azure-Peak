@@ -1,9 +1,9 @@
-/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor, used_weapon, pen_info)
+/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor, used_weapon, pen_info, flat_integ = FALSE)
 	var/armorval = 0
 	var/organnum = 0
 
 	if(def_zone)
-		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon, pen_info)
+		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon, pen_info, flat_integ)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
 	//If you don't specify a bodypart, it checks ALL my bodyparts for protection, and averages out the values
@@ -14,7 +14,7 @@
 	return (armorval/max(organnum, 1))
 
 
-/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor = 1, obj/item/used_weapon, pen_info)
+/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor = 1, obj/item/used_weapon, pen_info, flat_integ = FALSE)
 	if(!d_type)
 		return 0
 	if(isbodypart(def_zone))
@@ -69,14 +69,21 @@
 				intdamage *= tempo_bonus
 
 			if(consume_debuff)
+				var/use_flat = flat_integ || istype(used_weapon, /obj/projectile)
 				if(has_status_effect(/datum/status_effect/debuff/exposed))
-					intdamage *= EXPOSED_INTEG_MOD
+					if(use_flat)
+						intdamage += EXPOSED_INTEG_FLAT
+					else
+						intdamage *= EXPOSED_INTEG_MOD
 					playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
 					visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
 					remove_status_effect(/datum/status_effect/debuff/exposed)
 					emote("pain", forced = TRUE)
 				else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
-					intdamage *= VULN_INTEG_MOD
+					if(use_flat)
+						intdamage += VULN_INTEG_FLAT
+					else
+						intdamage *= VULN_INTEG_MOD
 					playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
 					visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
 					remove_status_effect(/datum/status_effect/debuff/vulnerable)

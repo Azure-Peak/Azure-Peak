@@ -196,7 +196,7 @@
 		)
 
 	grant_poke_spell(H)
-	H.mind.AddSpell(new /datum/action/cooldown/spell/augment_buff/stoneskin)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/augment_buff/blood_rush)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)

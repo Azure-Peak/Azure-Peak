@@ -422,6 +422,17 @@
 	)
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/sewing/beltshawl
+	name = "belt shawl"
+	category = "Misc"
+	display_category = ITEM_CAT_ARMOR_BELTS
+	result = list(/obj/item/storage/belt/rogue/leather/beltshawl)
+	reqs = list(
+		/obj/item/natural/cloth = 3
+	)
+	craftdiff = 2
+
+
 /datum/crafting_recipe/roguetown/sewing/breechclothbeltalt
 	name = "belt with breechcloth, black"
 	category = "Misc"
@@ -2420,3 +2431,20 @@
 		/obj/item/natural/fibers = 2
 	)
 	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/loudmouth_robes
+	name = "crier's garb"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/loudmouth)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 2,
+				/obj/item/natural/silk = 2)
+	craftdiff = 3
+	sellprice = 10
+
+/datum/crafting_recipe/roguetown/sewing/loudmouth_headgear
+	name = "loudmouth's headcover"
+	result = list(/obj/item/clothing/head/roguetown/veiled/loudmouth)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+	sellprice = 5

@@ -150,7 +150,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/raisins = 3,
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 1,
 		/obj/item/reagent_containers/powder/salt = 3,
-		/obj/item/reagent_containers/food/snacks/egg = 1,
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 1,
 	)
 
 /obj/effect/spawner/lootdrop/general_loot_mid
@@ -317,7 +317,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/raisins = 3,
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 1,
 		/obj/item/reagent_containers/powder/salt = 3,
-		/obj/item/reagent_containers/food/snacks/egg = 1,
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 1,
 	)
 
 /obj/effect/spawner/lootdrop/general_loot_hi

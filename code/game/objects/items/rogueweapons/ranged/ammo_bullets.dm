@@ -114,7 +114,6 @@
 	projectile_type = /obj/projectile/bullet/reusable/sling_bullet/bronze
 	icon_state = "bronze_sling_bullet"
 
-
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
 	name = "decrepit sling bullet"
 	desc = "A pellet of frayed bronze. The alloy flakes apart in your grasp, staining the palm with flecks of brown-and-red."
@@ -212,23 +211,26 @@
 	name = "decrepit sling bullet"
 	damage = 22
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
+	icon_state = "ancientslingbullet_proj"
 
 /obj/projectile/bullet/reusable/sling_bullet/bronze
 	name = "bronze sling bullet"
 	damage = 45
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze
 	speed = 0.25 // Faster! 
+	icon_state = "bronzeslingbullet_proj"
 
 /obj/projectile/bullet/reusable/sling_bullet/iron
 	name = "iron sling bullet"
 	damage = 40
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/iron
-
+	icon_state = "ironslingbullet_proj"
 
 /obj/projectile/bullet/reusable/sling_bullet/paalloy
 	name = "ancient sling bullet"
 	damage = 40
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy
+	icon_state = "ancientslingbullet_proj"
 
 // SCATTERSHOT - Steel pellets that shatter on impact. Non-recoverable.
 // No minimum range, extra ricochets, but short max range. Better DPS if all pellets land.
@@ -250,6 +252,42 @@
 	min_range = MIN_SCATTER_RANGE
 	max_range = 5
 	dam_falloff_factor = DAM_FALLOFF_BULLET
+
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/bs_scattershot
+	name = "blacksteel scattershot"
+	desc = "An elegant cluster of blacksteel pellets packed into a pouch. They scatter on release, destroying anything nearby - but they won't fly far."
+	projectile_type = /obj/projectile/bullet/sling_bullet/bs_scattershot
+	icon_state = "bs_scattershot"
+	pellets = 5
+	variance = 30
+
+/obj/projectile/bullet/sling_bullet/bs_scattershot
+	name = "blacksteel scattershot"
+	icon = 'icons/roguetown/weapons/ranged/sling_proj.dmi'
+	icon_state = "bsscatter_proj"
+	damage = 30
+	ricochets_max = 1
+	ricochet_chance = 25
+	min_range = MIN_SCATTER_RANGE
+	max_range = 5
+	dam_falloff_factor = DAM_FALLOFF_BULLET
+
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/blacksteel
+	name = "blacksteel sling bullet"
+	desc = "An elegant sphere of blacksteel. While much lighter than traditional sling bullets, this alloy's unusual properties means that it \
+	has an extraordinarily high chance to ricochet multiple times in sequence. Once it's reached terminal velocity, you might want to duck."
+	projectile_type = /obj/projectile/bullet/sling_bullet/blacksteel
+	icon_state = "bs_sling_bullet"
+
+/obj/projectile/bullet/sling_bullet/blacksteel
+	name = "blacksteel sling bullet"
+	icon = 'icons/roguetown/weapons/ranged/sling_proj.dmi'
+	icon_state = "blacksteelslingbullet_proj"
+	damage = 30
+	ricochets_max = 5
+	ricochet_chance = 100
+	ricochet_decay_damage = 0
+	ricochet_decay_chance = 0
 
 // HEAVY SLING BULLET - Big slow CC projectile. Staggers and slows on hit, takes 3 weight in the pouch.
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet

@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
 	name = "Ascension"
 	desc = "Channel all of your arcyne potential into another, granting them every augmentation at once - \
-	the Attunements of Giant, Hawk, and Haste, plus Stoneskin, Fortitude, and Guidance. \
+	the Attunements of Giant, Hawk, and Haste, plus Fortitude and Guidance. \
 	This spell drains an enormous amount of energy from the caster and cannot be used on oneself."
 	button_icon_state = "stoneskin"
 	sound = 'sound/magic/charging.ogg'
@@ -53,7 +53,6 @@
 		return FALSE
 
 	apply_buff_to(target, /datum/status_effect/buff/attune_haste, buff_duration)
-	apply_buff_to(target, /datum/status_effect/buff/stoneskin, buff_duration)
 	apply_buff_to(target, /datum/status_effect/buff/attune_giant, buff_duration)
 	apply_buff_to(target, /datum/status_effect/buff/fortitude, buff_duration)
 	apply_buff_to(target, /datum/status_effect/buff/attune_hawk, buff_duration)

@@ -170,6 +170,35 @@
 	max_blade_int = 200
 	smeltresult = /obj/item/ingot/blacksteel
 	smelt_bar_num = 2 // Okay you CAN get a refund on the blacksteel
+	var/used = FALSE
+	var/list/selection = list(
+		/datum/special_intent/greatsword_swing,
+		/datum/special_intent/vicious_swipe,
+		/datum/special_intent/side_sweep,
+		/datum/special_intent/limbguard
+		)
+
+/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel/examine(mob/user)
+	. = ..()
+	if(!used)
+		. += span_notice("The Special Manoeuvre of this weapon can be changed. Right-click it with a free hand to select one. This can only be done once.")
+
+/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel/attack_right(mob/user)
+	. = ..()
+	if(used)
+		return
+		
+	var/list/special_options = list()
+	for(var/intent in selection)
+		var/datum/special_intent/S = intent // Hate this DM quirk.
+		special_options[S::name] = S
+	
+	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
+	if(choice)
+		qdel(special)
+		var/datum/special_intent/S = special_options[choice]
+		special = new S()
+		used = TRUE
 
 /obj/item/rogueweapon/greatsword/silver
 	name = "silver greatsword"

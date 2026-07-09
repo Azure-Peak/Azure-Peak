@@ -737,3 +737,111 @@
 	bitesize = 2
 	eat_effect = /datum/status_effect/buff/snackbuff
 	rotprocess = SHELFLIFE_LONG
+
+/obj/item/reagent_containers/food/snacks/rogue/corncake_uncooked
+	name = "uncooked corn cake"
+	desc = "Sweet corn batter, ready for the oven."
+	icon = 'modular/Neu_Food/icons/raw/raw_cakes.dmi'
+	icon_state = "uncookedcorncake"
+	foodtype = GRAIN
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/corncake
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/corncake_uncooked_lemon
+	name = "uncooked lemon corn cake"
+	desc = "Corn batter brightened with lemon, ready for the oven."
+	icon = 'modular/Neu_Food/icons/raw/raw_cakes.dmi'
+	icon_state = "uncookedlemoncake"
+	foodtype = GRAIN | FRUIT
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/corncake_lemon
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/corncake_uncooked_lime
+	name = "uncooked lime corn cake"
+	desc = "Corn batter brightened with lime, ready for the oven."
+	icon = 'modular/Neu_Food/icons/raw/raw_cakes.dmi'
+	icon_state = "uncookedlimecake"
+	foodtype = GRAIN | FRUIT
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/corncake_lime
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/corncake
+	name = "corn cake"
+	desc = "A golden cake of sweetened cornmeal."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
+	icon_state = "cookedcorncake"
+	foodtype = GRAIN
+	faretype = FARE_NEUTRAL
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
+	rotprocess = SHELFLIFE_DECENT
+	slices_num = 2
+	slice_batch = TRUE
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/corncake_slice
+	slice_sound = TRUE
+	eat_effect = /datum/status_effect/buff/snackbuff
+	tastes = list("corn cake" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/corncake_slice
+	name = "corn cake slice"
+	desc = "A slice of golden corn cake."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
+	icon_state = "ccorncakeslice"
+	foodtype = GRAIN
+	faretype = FARE_NEUTRAL
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
+	rotprocess = SHELFLIFE_DECENT
+	tastes = list("corn cake" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/corncake_lemon
+	name = "lemon corn cake"
+	desc = "A corn cake zested with lemon - tart and sweet at once."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
+	icon_state = "cookedlemoncake"
+	foodtype = GRAIN | FRUIT
+	faretype = FARE_FINE
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
+	rotprocess = SHELFLIFE_DECENT
+	slices_num = 2
+	slice_batch = TRUE
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/corncake_lemon_slice
+	slice_sound = TRUE
+	eat_effect = /datum/status_effect/buff/snackbuff
+	tastes = list("corn cake" = 1, "lemon" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/corncake_lemon_slice
+	name = "lemon corn cake slice"
+	desc = "A tart, sweet slice of lemon corn cake."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
+	icon_state = "lemoncakeslice"
+	foodtype = GRAIN | FRUIT
+	faretype = FARE_FINE
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
+	rotprocess = SHELFLIFE_DECENT
+	tastes = list("corn cake" = 1, "lemon" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/corncake_lime
+	name = "lime corn cake"
+	desc = "A corn cake zested with lime - tart and sweet at once."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
+	icon_state = "cookedlimecake"
+	foodtype = GRAIN | FRUIT
+	faretype = FARE_FINE
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
+	rotprocess = SHELFLIFE_DECENT
+	slices_num = 2
+	slice_batch = TRUE
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/corncake_lime_slice
+	slice_sound = TRUE
+	eat_effect = /datum/status_effect/buff/snackbuff
+	tastes = list("corn cake" = 1, "lime" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/corncake_lime_slice
+	name = "lime corn cake slice"
+	desc = "A tart, sweet slice of lime corn cake."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_cakes.dmi'
+	icon_state = "limecakeslice"
+	foodtype = GRAIN | FRUIT
+	faretype = FARE_FINE
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
+	rotprocess = SHELFLIFE_DECENT
+	tastes = list("corn cake" = 1, "lime" = 1)

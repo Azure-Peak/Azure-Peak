@@ -1,0 +1,4 @@
+author: "TankTheBirb"
+delete-after: True
+changes:
+  - bugfix: "Forlorn Hope goedendag loadout now boosts correct polearm skill instead of staves"

@@ -1,5 +1,0 @@
-author: "SomeDeviant"
-delete-after: True
-changes:
-  - bugfix: "fixed Bad trainer Trait check to src instead of user"
-  - bugfix: "fixed Bad trainer Trait targeting -3 levels below instead of -2"

@@ -722,6 +722,7 @@ LICH SKELETONS
 			switch(weapon_choice)
 				if("Ancient Spear")
 					r_hand = /obj/item/rogueweapon/spear/paalloy
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Bardiche")
 					r_hand = /obj/item/rogueweapon/halberd/bardiche/paalloy
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
@@ -737,11 +738,13 @@ LICH SKELETONS
 					beltr = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
 				if("Ancient Grand Mace")
 					r_hand = /obj/item/rogueweapon/mace/goden/steel/paalloy
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Alloy Axe")
 					beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 					picked_axe = TRUE
 				if("Steel Greataxe")
 					r_hand = /obj/item/rogueweapon/greataxe/steel
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 					picked_axe = TRUE
 			if(picked_axe)
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)

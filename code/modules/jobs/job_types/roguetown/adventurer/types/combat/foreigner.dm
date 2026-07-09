@@ -183,7 +183,8 @@
 	cmode_music = 'sound/music/warscholar.ogg'
 	traits_applied = list(TRAIT_STEELHEARTED)
 	forbidden_races = list()
-	
+	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+
 	subclass_stats = list(STATKEY_SPD = 2, STATKEY_PER = 1, STATKEY_WIL = 1)
 	
 	subclass_skills = list(

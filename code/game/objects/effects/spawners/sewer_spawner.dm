@@ -113,6 +113,6 @@
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 3,
 		/obj/item/reagent_containers/food/snacks/butterslice = 6, //ew
 		/obj/item/reagent_containers/powder/salt = 6,
-		/obj/item/reagent_containers/food/snacks/egg = 6,
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 6,
 
 	)

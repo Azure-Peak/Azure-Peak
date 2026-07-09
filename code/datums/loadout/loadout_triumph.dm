@@ -556,6 +556,13 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_weaponkit_classicdaggers
+	name = "Triumph Kit - Classic Daggers"
+	path = /obj/item/enchantingkit/triumph_weaponkit_classicdaggers
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+
 //////////////////
 //  PERFUMES !  //
 //////////////////
@@ -648,5 +655,11 @@
 /datum/loadout_item/shoulderguardstandalone
 	name = "Standalone Decoration, Shoulderguard"
 	path = /obj/item/clothing/cloak/tabard/stabard/donator_shoulderguard
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/orlestandalone
+	name = "Standalone Decoration, Orle"
+	path = /obj/item/clothing/head/roguetown/decoration/orle/donator_dyeable
 	triumph_cost = 3
 	sort_category = "Triumphs"

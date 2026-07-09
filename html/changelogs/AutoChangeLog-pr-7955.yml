@@ -1,7 +1,0 @@
-author: "Guidesu"
-delete-after: True
-changes:
-  - rscadd: "Homesteader title selection system with 30+ custom cosmetic titles and 15-minute cooldown"
-  - rscadd: "Title change verb for homesteaders with mode selection (fixed/single/adaptive(Old Way)"
-  - refactor: "Moved adaptive name logic into single human proc"
-  - refactor: "Replaced scattered advclass lookups with new get_advclass_datum() helper"
