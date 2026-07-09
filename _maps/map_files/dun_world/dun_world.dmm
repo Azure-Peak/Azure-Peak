@@ -16261,7 +16261,7 @@
 /turf/open/floor/rogue/snow,
 /area/rogue/outdoors/beach/forest/south)
 "diw" = (
-/obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe{
+/obj/item/rogueweapon/axe/steel/paaxe{
 	pixel_x = 1;
 	pixel_y = -8
 	},

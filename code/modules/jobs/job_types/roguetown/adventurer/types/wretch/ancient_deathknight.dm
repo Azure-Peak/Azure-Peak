@@ -92,7 +92,7 @@
 			r_hand = /obj/item/rogueweapon/greatsword/paalloy
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Ancient Axe + Shield")
-			beltl = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
+			beltl = /obj/item/rogueweapon/axe/steel/paaxe
 			backl = /obj/item/rogueweapon/shield/tower/metal/palloy
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
 		if("Ancient Mace + Shield")

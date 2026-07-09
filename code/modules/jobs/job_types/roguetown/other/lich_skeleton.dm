@@ -86,7 +86,7 @@ LICH SKELETONS
 			beltr = /obj/item/rogueweapon/sword/short/pashortsword
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Axe")
-			beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
+			beltr = /obj/item/rogueweapon/axe/steel/paaxe
 			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 		if("Flail")
 			beltr = /obj/item/rogueweapon/flail/sflail/paflail
@@ -410,7 +410,7 @@ LICH SKELETONS
 		/obj/item/dye_brush = 1
 	)
 
-	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
+	beltr = /obj/item/rogueweapon/axe/steel/paaxe
 	beltl = /obj/item/rogueweapon/pick/paalloy
 
 	H.adjust_blindness(-3)
@@ -740,7 +740,7 @@ LICH SKELETONS
 					r_hand = /obj/item/rogueweapon/mace/goden/steel/paalloy
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Alloy Axe")
-					beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
+					beltr = /obj/item/rogueweapon/axe/steel/paaxe
 					picked_axe = TRUE
 				if("Steel Greataxe")
 					r_hand = /obj/item/rogueweapon/greataxe/steel

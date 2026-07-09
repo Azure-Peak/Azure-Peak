@@ -138,7 +138,7 @@
 /datum/anvil_recipe/weapons/paalloy/handaxe
 	name = "Axe, Ancient"
 	req_bar = /obj/item/ingot/purifiedaalloy
-	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
+	created_item = /obj/item/rogueweapon/axe/steel/paaxe
 	display_category = ITEM_CAT_WEAPONS_AXES
 
 /datum/anvil_recipe/weapons/aalloy/mace

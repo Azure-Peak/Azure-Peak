@@ -172,7 +172,7 @@
 					r_hand = /obj/item/rogueweapon/mace/goden/steel/paalloy
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Alloy Axe")
-					beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
+					beltr = /obj/item/rogueweapon/axe/steel/paaxe
 					picked_axe = TRUE
 				if("Steel Greataxe")
 					r_hand = /obj/item/rogueweapon/greataxe/steel

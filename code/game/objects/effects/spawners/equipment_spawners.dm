@@ -381,7 +381,7 @@
 		/obj/item/rogueweapon/mace/steel/palloy = 1,
 		/obj/item/rogueweapon/mace/goden/steel/paalloy = 1,
 		/obj/item/rogueweapon/mace/warhammer/steel/paalloy = 1,
-		/obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe = 1,
+		/obj/item/rogueweapon/axe/steel/paaxe = 1,
 	)
 
 /obj/effect/spawner/lootdrop/elven_equipment_spawner
