@@ -377,3 +377,33 @@
 		if(target.get_skill_level(skill_type) > SKILL_LEVEL_APPRENTICE)
 			return FALSE
 	return TRUE
+
+/datum/vision_quest/weight_of_chains
+	name = "The Weight of Chains"
+	description = "A knight bears chains they forged themselves."
+	required_tier = 1
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "a penitent"
+	summary = "Penance is a weight you must learn to carry."
+	vision_text = "A knight kneels in a circle of stones, chains draped across their shoulders. \
+    They forged each link themselves... From the armor of allies they failed to protect. \
+    Each clink is a reminder, the weight a sin given form. \
+    They have worn them for so long that the rust has liquefied parts of their armor, fusing to skin. \
+    They try to rise. The chains hold them down. They try to pray but metal is coiled tightly around the lips. \
+    'I cannot bear this weight forever' Words do not leave their mouth, you simply read their gaze. \
+    The very winds themselves answer. 'You will not have to. But you must carry it until you are absolved through penance.' \
+    The chains do not grow lighter. But the knight's back straightens, just slightly."
+	possible_phrases = list(
+		"you forged these chains yourself",
+		"learn to carry your sins"
+	)
+	valid_roles = list("Templar", "Knight", "Sergeant", "Men-at-arms", "Squire", "Mercenary", "Warden")
