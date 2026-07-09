@@ -990,70 +990,6 @@ SPECIALS START HERE
 	var/dam = 0
 	var/fire_stacks = 2
 
-/datum/special_intent/charge
-	name = "Charge"
-	desc = "Lower your weapon and charge several tiles forward, punching straight through anyone in your path - driving them back and leaving them vulnerable. Aims for the targeted zone."
-	cooldown = 20 SECONDS
-	stamcost = 25
-	requires_wielding = TRUE
-	var/charge_dist = 4
-	var/dam = 40
-	var/step_delay = 1
-	var/telegraph_time = 0.25 SECONDS
-	var/vuln_dur = 3 SECONDS
-	var/knockback_dist = 1
-
-/datum/special_intent/drakkyrmaw_bite/process_attack()
-	var/obj/item/rogueweapon/W = iparent
-	dam = W.force_dynamic * max((howner.STASTR + howner.STASPD) / 20, 0.5) //i really dunno if this is too much, this is more or less copypasted
-	. = ..()
-
-/datum/special_intent/charge/process_attack()
-	SHOULD_CALL_PARENT(FALSE)
-	var/mob/living/charger = howner
-	if(!charger)
-		return
-	var/obj/item/rogueweapon/W = iparent
-	var/facing = charger.dir
-	charger.emote("warcry", forced = TRUE)
-	charger.balloon_alert_to_viewers("Charging!")
-	playsound(charger, pick('sound/combat/wooshes/bladed/wooshlarge (1).ogg', 'sound/combat/wooshes/bladed/wooshlarge (2).ogg'), 80, TRUE)
-	sleep(telegraph_time)
-	var/old_pass = charger.pass_flags
-	var/old_throwing = charger.throwing
-	charger.pass_flags |= PASSMOB
-	charger.throwing = TRUE
-	var/list/gored = list()
-	for(var/i in 1 to charge_dist)
-		if(charger.stat != CONSCIOUS || charger.IsParalyzed() || charger.IsStun() || QDELETED(charger))
-			break
-		var/turf/next = get_step(get_turf(charger), facing)
-		if(!next || next.density)
-			break
-		var/blocked = FALSE
-		for(var/obj/structure/S in next.contents)
-			if(S.density && !S.climbable)
-				blocked = TRUE
-				break
-		if(blocked)
-			break
-		if(!step(charger, facing))
-			break
-		for(var/mob/living/L in get_turf(charger))
-			if(L == charger || (L in gored) || L.stat == DEAD)
-				continue
-			gored += L
-			if(istype(W))
-				apply_generic_weapon_damage(L, dam, "stab", get_aimed_zone(L), bclass = BCLASS_STAB)
-			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, vuln_dur)
-			var/turf/throwtarget = get_edge_target_turf(L, facing)
-			L.safe_throw_at(throwtarget, knockback_dist, 1, charger, force = MOVE_FORCE_EXTREMELY_STRONG)
-		if(i < charge_dist)
-			sleep(step_delay)
-	charger.pass_flags = old_pass
-	charger.throwing = old_throwing
-	apply_cooldown(cooldown)
-
 /datum/special_intent/drakkyrmaw_bite/on_create()
 	. = ..()
 	howner.Immobilize(0.9 SECONDS)
@@ -1114,8 +1050,7 @@ SPECIALS START HERE
 			continue
 		var/throwtarget = get_edge_target_turf(howner, get_dir(howner, get_step_away(L, howner)))
 		L.safe_throw_at(throwtarget, 1, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
-		L.Slowdown(4)
-		L.OffBalance(3 SECONDS)
+		L.Slowdown(2 SECONDS)
 		L.adjust_fire_stacks(2)
 		L.ignite_mob()
 		apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
