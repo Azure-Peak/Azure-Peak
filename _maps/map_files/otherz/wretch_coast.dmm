@@ -9144,7 +9144,7 @@
 /area/rogue/indoors/vampire_manor)
 "Mm" = (
 /obj/structure/ritualcircle/graggar,
-/obj/item/rogueweapon/stoneaxe/boneaxe,
+/obj/item/rogueweapon/axe/boneaxe,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "Mn" = (
