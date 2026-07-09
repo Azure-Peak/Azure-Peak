@@ -228,36 +228,75 @@
 	valid_roles = list("Jester")
 
 /datum/vision_quest/bottomless_maw
-    name = "The Bottomless Maw"
-    description = "A mortal forgets their place at the table."
-    required_tier = 1
-    possible_rewards = list(
-        /obj/item/dream_material/dream_spike = "spikes",
-        /obj/item/dream_material/dream_seed = "seeds",
-        /obj/item/dream_material/parchment_raw = "parchment"
-    )
-    possible_bonus_rewards = list(
-        /obj/item/dream_material/dream_spike = "spikes",
-        /obj/item/dream_material/dream_seed = "seeds",
-        /obj/item/dream_material/parchment_raw = "parchment"
-    )
-    target_description = "a starving soul"
-    summary = "A reminder of the hunger that waits below."
-    vision_text = "The mists part to reveal a table groaning under the weight of rotten meats and gold plates. \
-    You see someone stuffing their face, ever bloating as morsels threaten to squeeze their gullet shut. \
-    Suddenly, you are staring into an endless abyss. There's only the impending glint of something collosal at the bottom, and you're sinking so swiftly that water occupies every last bit of your lungs. \
-    At the bottom, a colossal golden maw opens, catching the debris of the world. Every scrap, every hapless fool, hopes and dreams are no exception. \
-    It never fills. Yet it desires more. Crying out with an everlasting hunger that draws others such as yourself. \
-    Your flesh rotten, putrid like your lux. The maw cares not."
-    possible_phrases = list(
-        "you are hunger itself",
-        "feast not so greedily",
-        "You starve in a palace of plenty"
-    )
+	name = "The Bottomless Maw"
+	description = "A mortal forgets their place at the table."
+	required_tier = 1
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "a starving soul"
+	summary = "A reminder of the hunger that waits below."
+	vision_text = "The mists part to reveal a table groaning under the weight of rotten meats and gold plates. \
+	You see someone stuffing their face, ever bloating as morsels threaten to squeeze their gullet shut. \
+	Suddenly, you are staring into an endless abyss. There's only the impending glint of something collosal at the bottom, and you're sinking so swiftly that water occupies every last bit of your lungs. \
+	At the bottom, a colossal golden maw opens, catching the debris of the world. Every scrap, every hapless fool, hopes and dreams are no exception. \
+	It never fills. Yet it desires more. Crying out with an everlasting hunger that draws others such as yourself. \
+	Your flesh rotten, putrid like your lux. The maw cares not."
+	possible_phrases = list(
+		"you are hunger itself",
+		"feast not so greedily",
+		"you starve in a palace of plenty"
+	)
 
 /datum/vision_quest/bottomless_maw/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
-    if(!..())
-        return FALSE
-    if(target.nutrition > 350)
-        return FALSE
-    return TRUE
+	if(!..())
+		return FALSE
+	if(target.nutrition > 350)
+		return FALSE
+	return TRUE
+
+/datum/vision_quest/wandering_doubter
+	name = "Too little faith"
+	description = "A soul seeks proof of the Gods."
+	required_tier = 1
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "a doubter"
+	summary = "Doubt is the root of evil."
+	vision_text = "The mists part to reveal a barren plain, stretching endlessly in all directions. \
+	A figure wanders, their feet bare, their clothes torn, their eyes scanning the horizon for a sign that never comes. \
+	They carry a tattered book, its pages filled with crumbling, fading hymns. \
+	They have walked for days. No. Years, for proof of the divine. \
+	You approach, and they stop. 'I have asked the Gods to speak,' they say, their voice cracking. \
+	'I have offered my blood, my tears, my lux. And they remain silent. Is there anyone there?' \
+	You silence them with a finger. Letting the sands pass through your fingers. \
+	'Malum shaped these sands. You seek with open eyes, ears poised for a sign. Yet you are deafened and blinded by your own ignorance.' \
+	in the dark. The doubter weeps. 'I have been waiting for a sign' they say. 'But really, I'm just a fool.' \
+	Eyes did not close again. Ears ever alert. The wanderer perked up, hearing the song of the gods once more."
+	possible_phrases = list(
+		"the work of the gods surrounds us",
+		"doubt is the root of evil",
+		"the ten shaped these lands"
+	)
+
+/datum/vision_quest/wandering_doubter/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+	if(!..())
+		return FALSE
+	if(target.get_skill_level(/datum/skill/magic/holy) > 0)
+		return FALSE
+	return TRUE
