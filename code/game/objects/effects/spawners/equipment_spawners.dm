@@ -298,7 +298,7 @@
 		/obj/item/rogueweapon/flail/sflail/silver = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/silver = 3,
 		/obj/item/rogueweapon/mace/warhammer/steel/silver = 1,
-		/obj/item/rogueweapon/stoneaxe/woodcut/silver = 1,
+		/obj/item/rogueweapon/axe/battle/silver = 1,
 		/obj/item/rogueweapon/spear/silver = 1,
 		/obj/item/rogueweapon/sword/long/silver = 1,
 		/obj/item/rogueweapon/sword/long/kriegmesser/silver = 1,
