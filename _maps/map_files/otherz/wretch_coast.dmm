@@ -1996,7 +1996,7 @@
 /area/rogue/indoors/vampire_manor)
 "iK" = (
 /obj/structure/flora/roguetree/stump,
-/obj/item/rogueweapon/stoneaxe/woodcut/wardenpick,
+/obj/item/rogueweapon/axe/warden,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/banditcamp)
 "iL" = (

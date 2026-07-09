@@ -124869,11 +124869,11 @@
 /area/rogue/indoors/inq/basement)
 "xKw" = (
 /obj/structure/rack/rogue,
-/obj/item/rogueweapon/stoneaxe/woodcut/wardenpick,
-/obj/item/rogueweapon/stoneaxe/woodcut/wardenpick,
-/obj/item/rogueweapon/stoneaxe/woodcut/wardenpick,
-/obj/item/rogueweapon/stoneaxe/woodcut/wardenpick,
-/obj/item/rogueweapon/stoneaxe/woodcut/wardenpick,
+/obj/item/rogueweapon/axe/warden,
+/obj/item/rogueweapon/axe/warden,
+/obj/item/rogueweapon/axe/warden,
+/obj/item/rogueweapon/axe/warden,
+/obj/item/rogueweapon/axe/warden,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "xKz" = (

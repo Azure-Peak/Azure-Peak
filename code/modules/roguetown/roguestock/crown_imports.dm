@@ -339,7 +339,7 @@
 	new /obj/item/clothing/gloves/roguetown/fingerless_leather(src)
 	new /obj/item/clothing/under/roguetown/trou/leather(src)
 	new /obj/item/clothing/shoes/roguetown/boots/leather/reinforced(src)
-	new /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick(src)
+	new /obj/item/rogueweapon/axe/warden(src)
 	new /obj/item/rogueweapon/huntingknife/idagger/warden_machete(src)
 	new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden(src)
 	new /obj/item/quiver/arrows(src)

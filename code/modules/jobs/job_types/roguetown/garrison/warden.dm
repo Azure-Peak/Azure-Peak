@@ -35,7 +35,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
+	beltl = /obj/item/rogueweapon/axe/warden
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes

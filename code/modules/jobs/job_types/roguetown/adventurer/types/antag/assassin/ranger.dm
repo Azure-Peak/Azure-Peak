@@ -58,7 +58,7 @@
 	neck = /obj/item/clothing/neck/roguetown/coif
 	head = /obj/item/clothing/head/roguetown/helmet/kettle
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
-	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
+	beltr = /obj/item/rogueweapon/axe/warden
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/weapons = list("Yew Longbow","Crossbow")
