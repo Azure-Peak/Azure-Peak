@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - rscadd: "Underdweller Origin can choose Sunlight Sensitivity, similar to Naledi Complex."

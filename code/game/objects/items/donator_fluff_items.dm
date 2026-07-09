@@ -1770,6 +1770,31 @@ As Excaliber."
 	resistance_flags = FIRE_PROOF
 	sellprice = 30
 
+//spaz - Armet/Hounskull/Barbute
+/obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/spaz
+	name = "hound-nosed bascinet"
+	desc = "A sturdy bascinet that seems to have been fitten with a long visor."
+	icon_state = "spaz_helm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	bloody_icon = 'icons/effects/blood64.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/spaz
+	name = "hound-nosed bascinet"
+	desc = "A sturdy bascinet that seems to have been fitten with a long visor."
+	icon_state = "spaz_helm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/spaz
+	name = "hound-nosed bascinet"
+	desc = "A sturdy bascinet that seems to have been fitten with a long visor."
+	icon_state = "spaz_helm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
 /obj/item/clothing/head/roguetown/octopus/ComponentInitialize()
 	..()
 	AddComponent(/datum/component/adjustable_clothing, \
