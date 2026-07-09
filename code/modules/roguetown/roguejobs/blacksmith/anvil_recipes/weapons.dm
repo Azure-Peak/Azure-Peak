@@ -132,7 +132,7 @@
 /datum/anvil_recipe/weapons/aalloy/handaxe
 	name = "Axe, Decrepit"
 	req_bar = /obj/item/ingot/aalloy
-	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
+	created_item = /obj/item/rogueweapon/axe/aaxe
 	display_category = ITEM_CAT_WEAPONS_AXES
 
 /datum/anvil_recipe/weapons/paalloy/handaxe

@@ -97,7 +97,7 @@
 			beltr = /obj/item/rogueweapon/sword/sabre/alloy
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Axe")
-			beltr = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
+			beltr = /obj/item/rogueweapon/axe/aaxe
 			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 		if("Flail")
 			r_hand = /obj/item/rogueweapon/flail/aflail

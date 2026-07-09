@@ -112,7 +112,7 @@
 	var/weapon_choice = rand(1, 5)
 	switch(weapon_choice)
 		if(1)
-			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
+			r_hand = /obj/item/rogueweapon/axe/aaxe
 		if(2)
 			r_hand = /obj/item/rogueweapon/sword/short/ashort
 		if(3)
@@ -169,7 +169,7 @@
 	var/weapon_choice = rand(1, 4)
 	switch(weapon_choice)
 		if(1)
-			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
+			r_hand = /obj/item/rogueweapon/axe/aaxe
 		if(2)
 			r_hand = /obj/item/rogueweapon/sword/short/ashort
 		if(3)
@@ -279,7 +279,7 @@
 	var/weapon_choice = rand(1, 5)
 	switch(weapon_choice) //Also covers shoes, for a bit of immersion
 		if(1)
-			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
+			r_hand = /obj/item/rogueweapon/axe/aaxe
 			if(prob(20)) // 20% chance of replacing this with a decently okay shield
 				l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy
 			shoes = /obj/item/clothing/shoes/roguetown/sandals/aalloy //Legionnarie look

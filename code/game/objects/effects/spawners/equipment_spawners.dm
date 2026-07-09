@@ -348,7 +348,7 @@
 		/obj/item/rogueweapon/mace/alloy = 1,
 		/obj/item/rogueweapon/mace/goden/aalloy = 1,
 		/obj/item/rogueweapon/mace/warhammer/alloy = 1,
-		/obj/item/rogueweapon/stoneaxe/woodcut/aaxe = 1,
+		/obj/item/rogueweapon/axe/aaxe = 1,
 	)
 
 /obj/effect/spawner/lootdrop/ancient_equipment_spawner

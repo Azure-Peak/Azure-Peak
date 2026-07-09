@@ -5993,7 +5993,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/vampire_manor)
 "zm" = (
-/obj/item/rogueweapon/stoneaxe/woodcut/aaxe,
+/obj/item/rogueweapon/axe/aaxe,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/vampire_lair)
 "zn" = (
