@@ -17,7 +17,7 @@
 	melee_damage_upper = 70
 	base_intents = list(/datum/intent/simple/troll_axe)
 	attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg','sound/combat/wooshes/blunt/wooshhuge (3).ogg')
-	loot = list(/obj/item/rogueweapon/stoneaxe/woodcut/troll)
+	loot = list(/obj/item/rogueweapon/axe/troll)
 
 /datum/intent/simple/troll_axe
 	name = "troll axe"
