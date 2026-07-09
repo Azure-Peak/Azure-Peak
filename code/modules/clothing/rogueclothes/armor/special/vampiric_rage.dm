@@ -211,6 +211,7 @@
 	name = "Blood Fury"
 	desc = "Primal bloodlust powers your muscles."
 	icon_state = "fury1"
+	icon = 'icons/mob/screenalerts/gnoll_alerts.dmi'
 
 #undef FURY_TIER_1_THRESHOLD
 #undef FURY_TIER_2_THRESHOLD
