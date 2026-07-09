@@ -218,10 +218,46 @@
 	There's no one like us, no one dances so gracefully. With such... mesmerizing fervor! \
 	Even the very history recorded upon the ancient tomes will be just us. \
 	Just us dancing. Showing Psydonia, showing everyone how it's done. \
-	Abyssor?"
+	Abyssor? Does it please thee?"
 	possible_phrases = list(
 		"Take my hand and dance",
 		"We are meant to be",
 		"You and I, two peas in a pie",
 		"Saigas wish they had our moves"
 	)
+	valid_roles = list("Jester")
+
+/datum/vision_quest/bottomless_maw
+    name = "The Bottomless Maw"
+    description = "A mortal forgets their place at the table."
+    required_tier = 1
+    possible_rewards = list(
+        /obj/item/dream_material/dream_spike = "spikes",
+        /obj/item/dream_material/dream_seed = "seeds",
+        /obj/item/dream_material/parchment_raw = "parchment"
+    )
+    possible_bonus_rewards = list(
+        /obj/item/dream_material/dream_spike = "spikes",
+        /obj/item/dream_material/dream_seed = "seeds",
+        /obj/item/dream_material/parchment_raw = "parchment"
+    )
+    target_description = "a starving soul"
+    summary = "A reminder of the hunger that waits below."
+    vision_text = "The mists part to reveal a table groaning under the weight of rotten meats and gold plates. \
+    You see someone stuffing their face, ever bloating as morsels threaten to squeeze their gullet shut. \
+    Suddenly, you are staring into an endless abyss. There's only the impending glint of something collosal at the bottom, and you're sinking so swiftly that water occupies every last bit of your lungs. \
+    At the bottom, a colossal golden maw opens, catching the debris of the world. Every scrap, every hapless fool, hopes and dreams are no exception. \
+    It never fills. Yet it desires more. Crying out with an everlasting hunger that draws others such as yourself. \
+    Your flesh rotten, putrid like your lux. The maw cares not."
+    possible_phrases = list(
+        "you are hunger itself",
+        "feast not so greedily",
+        "You starve in a palace of plenty"
+    )
+
+/datum/vision_quest/bottomless_maw/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+    if(!..())
+        return FALSE
+    if(target.nutrition > 350)
+        return FALSE
+    return TRUE
