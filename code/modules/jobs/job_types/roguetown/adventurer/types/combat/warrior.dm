@@ -543,7 +543,7 @@
 				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/silver
 			if("Silver Tomahawk")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/stoneaxe/handaxe/silver
+				r_hand = /obj/item/rogueweapon/axe/handaxe/silver/
 			if("Silver Poleaxe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/greataxe/steel/knight/silver

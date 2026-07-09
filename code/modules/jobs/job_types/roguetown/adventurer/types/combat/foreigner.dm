@@ -380,7 +380,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shepherd
 	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
 	belt = /obj/item/storage/belt/rogue/leather/sash
-	beltl = /obj/item/rogueweapon/stoneaxe/battle/steppesman/chupa
+	beltl = /obj/item/rogueweapon/axe/battle/steppesman/chupa
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/shepherd
 	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter

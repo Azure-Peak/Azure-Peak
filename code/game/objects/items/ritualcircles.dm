@@ -2021,7 +2021,7 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar/heavy
-	r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
+	r_hand = /obj/item/rogueweapon/axe/steel/graggar
 	l_hand = /obj/item/rogueweapon/shield/iron/graggar
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)

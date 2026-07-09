@@ -1283,7 +1283,7 @@
 /datum/anvil_recipe/weapons/silver/tomahawk
 	name = "Tomahawk, Silver (+1 Small Log)"
 	req_bar = /obj/item/ingot/silver
-	created_item = /obj/item/rogueweapon/stoneaxe/handaxe/silver
+	created_item = /obj/item/rogueweapon/axe/handaxe/silver
 	additional_items = list(/obj/item/grown/log/tree/small)
 	i_type = "Weapons"
 	display_category = ITEM_CAT_WEAPONS_AXES
