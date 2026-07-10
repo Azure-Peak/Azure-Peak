@@ -20,7 +20,7 @@
 	armor = ARMOR_PADDED
 
 /datum/outfit/job/roguetown/gnoll
-	var/shard_threshold = 50
+	var/shard_threshold = 46
 	var/shard_repair_value = 25
 	var/max_fury_stacks = 150
 	var/vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll

@@ -30,7 +30,7 @@
 /datum/outfit/job/roguetown/gnoll/templar
 	vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/templar
 	max_fury_stacks = 100
-	shard_threshold = 50
+	shard_threshold = 44
 	shard_repair_value = 20
 
 /datum/outfit/job/roguetown/gnoll/templar/pre_equip(mob/living/carbon/human/H)

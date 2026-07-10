@@ -3,7 +3,7 @@
 #define FURY_TIER_3_THRESHOLD 40
 #define FURY_TIER_4_THRESHOLD 100
 #define FURY_FILTER "fury_filter"
-#define FURY_GRACE_TIMER 15 SECONDS
+#define FURY_GRACE_TIMER 20 SECONDS
 #define MOVESPEED_ID_FURY_SLOW "movespeed_fury_slow"
 
 /datum/status_effect/vampiric_fury
