@@ -8,6 +8,7 @@
 					/datum/action/cooldown/spell/miracle/ignition/malum		= CLERIC_T0,
 					/datum/action/cooldown/spell/malum/reconstruction       = CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 				= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/layonhands			= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle		= CLERIC_T1,
 					/datum/action/cooldown/spell/malum/vigorousexchange		= CLERIC_T1,
 					/datum/action/cooldown/spell/arcyne_forge/miracle		= CLERIC_T1,
