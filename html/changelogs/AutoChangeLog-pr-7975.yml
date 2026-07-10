@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Raises the amount of time a NPC will focus a zone by 3x. It now ranges from 9 to 18 attacks."

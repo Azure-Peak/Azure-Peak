@@ -37,7 +37,6 @@
 	max_blade_int = 200 // Better sharpness
 	possible_item_intents = list(/datum/intent/spear/thrust, /datum/intent/lance/onehand, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/spear/thrust/lance, /datum/intent/lance, SPEAR_BASH)
-	special = /datum/special_intent/charge
 	resistance_flags = null
 	smeltresult = /obj/item/ingot/steel
 

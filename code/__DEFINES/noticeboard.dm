@@ -13,7 +13,6 @@
 	"Merchant", \
 	"Innkeeper", \
 	"Court Magician", \
-	"Town Crier", \
 	"Keeper", \
 	"Steward", \
 	"Grand Duke", \

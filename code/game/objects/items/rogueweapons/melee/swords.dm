@@ -243,7 +243,6 @@
 		/datum/special_intent/limbguard,
 		/datum/special_intent/dagger_dash,
 		/datum/special_intent/flail_sweep,
-		/datum/special_intent/charge
 		)
 
 /obj/item/rogueweapon/sword/long/blacksteel/examine(mob/user)
@@ -2514,7 +2513,6 @@
 	wdefense = 4
 	minstr = 10
 	force = 7	//This sword gets its real damage values from its intents. IYKYK.
-	sellprice = 25
 	blade_int = 350	//You're gonna cut. A lot.
 	max_integrity = 110	//Iron arming sword + 10
 	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'

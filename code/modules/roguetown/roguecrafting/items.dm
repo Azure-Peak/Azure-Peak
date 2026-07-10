@@ -172,7 +172,6 @@
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
 /obj/item/clothing/mask/cigarette/pipe/crafted
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/survival/broom
 	name = "broom"

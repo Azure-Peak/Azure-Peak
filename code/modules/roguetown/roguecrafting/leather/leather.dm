@@ -136,7 +136,6 @@
 	reqs = list(/obj/item/natural/hide/cured = 2,/obj/item/natural/fur = 1)
 
 /obj/item/clothing/cloak/raincloak/furcloak/crafted
-	sellprice = 55
 
 /datum/crafting_recipe/roguetown/leather/papakha
 	name = "papakha hat"

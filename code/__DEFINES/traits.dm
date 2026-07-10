@@ -295,6 +295,7 @@
 #define TRAIT_REGROW_LIMBS "Regrow Limbs"
 #define TRAIT_LEVY "Azurean Militia"
 #define TRAIT_MUSES_GRACE	"Muses Grace"
+#define TRAIT_SUNLIGHT_SENSITIVE "Sunlight Sensitivity"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 #define TRAIT_BLACKOAK "Heritage Vision"
@@ -607,6 +608,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
 	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry."),
 	TRAIT_MUSES_GRACE = span_info("I feel a sudden and powerful urge to break out into song."),
+	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!")
 ))
 
 // trait accessor defines

@@ -225,8 +225,6 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	for(var/obj/item/old in get_equipped_items() + held_items)
 		qdel(old)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/searaider/huscarl)
-	for(var/obj/item/rogueweapon/greatsword/blade in held_items)
-		blade.AddComponent(/datum/component/item_on_drop/downgrade, /obj/item/rogueweapon/greatsword/iron)
 	regenerate_icons()
 	for(var/obj/item/gear in get_equipped_items() + held_items)
 		lock_gear_piece(gear, "searaider_huscarl_gear")
@@ -247,7 +245,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
 	belt = /obj/item/storage/belt/rogue/leather
-	r_hand = /obj/item/rogueweapon/greatsword
+	r_hand = /obj/item/rogueweapon/greatsword/iron
 	H.STASTR = 15
 	H.STASPD = 9
 	H.STACON = 10

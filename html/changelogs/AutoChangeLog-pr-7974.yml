@@ -1,7 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - balance: "transfix 1 minute -> 20 seconds cooldown."
-  - balance: "transfix no longer works on full-supernatural antagonists (true deadites)."
-  - balance: "transfix also doesn't affect werewolves (because they're on the clock and you sort of shouldn't be knocking them out)"
-  - balance: "transfix only force-closes your eyes when it actually knocks you out, to make it less annoying to deal with."

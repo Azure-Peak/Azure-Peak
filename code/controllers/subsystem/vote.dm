@@ -373,7 +373,13 @@ SUBSYSTEM_DEF(vote)
 	return .
 
 /datum/controller/subsystem/vote/proc/can_client_vote(client/C)
-	return !isnull(C)
+	if(isnull(C))
+		return FALSE
+	if(istype(C.mob, /mob/dead/new_player))
+		var/mob/dead/new_player/NP = C.mob
+		if(NP.ready != PLAYER_READY_TO_PLAY)
+			return FALSE
+	return TRUE
 
 /datum/controller/subsystem/vote/proc/get_vote_power(mob/voter)
 	var/vote_power = 1
@@ -647,6 +653,8 @@ SUBSYSTEM_DEF(vote)
 			. += "<h2>Vote: [mode == "storyteller" ? "Gamemode" : capitalize(mode)]</h2>"
 		. += "Time Left: [time_remaining] s<hr>"
 		var/can_vote = can_client_vote(C)
+		if(!can_vote && istype(C.mob, /mob/dead/new_player))
+			. += "<div style='color:#e06b75;font-weight:bold;margin-bottom:6px;'>(READY UP TO VOTE)</div>"
 		if(mode == "storyteller")
 			if(!length(storyteller_vote_log))
 				load_storyteller_vote_log()

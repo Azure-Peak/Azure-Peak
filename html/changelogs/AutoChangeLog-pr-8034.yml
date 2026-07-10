@@ -1,0 +1,4 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - bugfix: "Fixes Briar curse to deal true brute damate to the user instead of the target, on top of adding 10 extra force to regular and wielded. Reduced the true damage dealt to 5 from 10."

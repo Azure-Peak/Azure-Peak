@@ -520,7 +520,6 @@
 	icon_state = "spice_good"
 	tastes = list("fragrant spices" = 1, "a pleasantly complex aroma" = 1) //Very low nutritional content, but can be applied to add a very solid moodboost to broths. Futurecoders could add it to meals, later, too.
 	list_reagents = list(/datum/reagent/consumable/allspice = 1)
-	sellprice = 30
 
 /obj/item/reagent_containers/food/snacks/grown/vegetable/turnip
 	name = "turnip"

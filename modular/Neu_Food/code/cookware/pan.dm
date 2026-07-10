@@ -49,7 +49,6 @@
 	desc = "Frayed bronze, wrought into a handheld griddle. Just a little oil's more than enough to slicken the surprisingly-unmarred surface."
 	icon_state = "apan"
 	color = "#bb9696"
-	sellprice = 25
 
 /obj/item/cooking/pan/bronze
 	name = "bronze pan"

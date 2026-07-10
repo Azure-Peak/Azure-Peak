@@ -37,6 +37,8 @@ SUBSYSTEM_DEF(nightshift)
 	if(world.time - SSticker.round_start_time < nightshift_first_check)
 		return
 	check_nightshift()
+	if(SSticker?.sunscorched)
+		process_sunscorch()
 
 /datum/controller/subsystem/nightshift/proc/announce(message)
 	priority_announce(message, sound='sound/misc/bell.ogg')
@@ -70,6 +72,21 @@ SUBSYSTEM_DEF(nightshift)
 		A.update_tod(GLOB.tod)
 	for(var/mob/living/M in GLOB.mob_list)
 		M.update_tod(GLOB.tod)
+
+/datum/controller/subsystem/nightshift/proc/process_sunscorch()
+	if(world.time < SSticker.sunscorch_burn_start_time)
+		return
+	if(!SSticker.sunscorch_burn_warning_sent)
+		SSticker.sunscorch_burn_warning_sent = TRUE
+		to_chat(world, span_userdanger("THE WORM CONSUMES THE SUN. Deadly radiance falls on Azuria. Those outside will be unmade. The back of my amygdala itches."))
+	for(var/mob/living/M as anything in GLOB.mob_living_list)
+		if(M.stat == DEAD || !isturf(M.loc))
+			continue
+		var/turf/current_turf = M.loc
+		if(!current_turf.can_see_sky())
+			continue
+		M.fire_act(1, 5)
+		CHECK_TICK
 
 /obj/proc/update_tod(todd)
 	return

@@ -572,6 +572,15 @@
 	item_state = "triheartfelt"
 	icon_state = "triheartfelt"
 
+/obj/item/clothing/wrists/roguetown/bracers/armharness
+	name = "plate arm harness"
+	desc = "A pair of interlocked steel plate arm harnesses, composed of pauldrons, rerebraces, couters, and vambraces - all snugly latched around the limb and secured to one another thanks to a series of leather straps, metal aglets, and sliding rivets. The engineering is so meticulous that flexibility of the limb is hardly impeded."
+	item_state = "armharness"
+	icon_state = "armharness"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
 /obj/item/clothing/head/roguetown/decoration/orle
 	name = "noble striped decoration"
 	desc = "A delicate weaving of colored fabric, intended to be worn atop a helmet; a touch of elegance, indiscriminate of the alloy."
@@ -1760,6 +1769,31 @@ As Excaliber."
 	armor = null 
 	resistance_flags = FIRE_PROOF
 	sellprice = 30
+
+//spaz - Armet/Hounskull/Barbute
+/obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/spaz
+	name = "hound-nosed bascinet"
+	desc = "A sturdy bascinet that seems to have been fitten with a long visor."
+	icon_state = "spaz_helm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	bloody_icon = 'icons/effects/blood64.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/spaz
+	name = "hound-nosed bascinet"
+	desc = "A sturdy bascinet that seems to have been fitten with a long visor."
+	icon_state = "spaz_helm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/spaz
+	name = "hound-nosed bascinet"
+	desc = "A sturdy bascinet that seems to have been fitten with a long visor."
+	icon_state = "spaz_helm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
 /obj/item/clothing/head/roguetown/octopus/ComponentInitialize()
 	..()

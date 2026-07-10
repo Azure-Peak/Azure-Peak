@@ -1,5 +1,0 @@
-author: "Ryumi"
-delete-after: True
-changes:
-  - qol: "Race descriptions now include any bonus languages that a race grants."
-  - bugfix: "Fixed Humen race descriptions not displaying quite the same as other races."

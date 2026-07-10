@@ -97,6 +97,7 @@
 	min_round_time = 45 MINUTES
 	is_raid = TRUE
 	spawn_landmark = "Bandit"
+	can_roll = FALSE
 	required_roles = list(
 		/datum/migrant_role/bandit = 1,
 	)
