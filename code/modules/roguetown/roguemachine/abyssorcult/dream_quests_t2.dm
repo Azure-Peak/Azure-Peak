@@ -72,3 +72,45 @@
 		"Psydon stirs"
 	)
 	valid_roles = list("Orthodoxist","Inquisitor","Absolver")
+
+/datum/vision_quest/orthodoxist_salvation
+	name = "Shal'Ghur"
+	description = "Chittering and crawling creatures dwell in the city of shades."
+	required_tier = 2
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "unknown"
+	summary = "Shal'ghur's streets are paved with forgotten souls"
+	vision_text = "Long bending streets that turn in spirals. Buildings that rise up, seemingly convening into a singular point. \
+	The further you walk, the more the realm seems to grow back to normalcy, except... \
+	The dredges of the past, long, dark figures. \
+	You follow the procession, taking the long paces as the needle of a spire rises slowly out of the horizon. \
+	A truly gargantuan spire, which refuses to stand resolute, angled towards the eye of the storm instead. \
+	Twisted maelstorm of souls and sorrow, far in the sky. Where the swirling wisps of clouds should intercept, large teeth glimmer instead. \
+	Some take the slow journey up the spire, but the majority of spirits settle at the base. \
+	Stalls from various reaches of Psydonia, strangely familiar. The oddly pleasant scent trying to defy your dread. \
+	Yet each dish, each souvenir... Carries an object it shouldn't. \
+	Memos, trinkets from the past. An old doll embedded in a bottle of wine. A letter from a concerned father with the very ink fighting with vibrant Grenzelhoftian paints. \
+	An eerie writhing sensation drags past your side. The maddening sight of an oozing mass as you turn to behold the creature. \
+	It is lines with the feature of various creatures, bones hanging broken, sticking from pieces of flesh. \
+	You avert your gaze, compulsed to regard your own forearm as the flesh stings and itches. \
+	Words bubble forth upon the skin, slowly clarifying into whole sentences of boiling ink. \
+	'A mortal?' \
+	You wish the creature wouldn't inch the words out, as your skin flares up again and again, yet you cannot stop reading. \
+	'The gifts of Shal'ghur are not for the likes of you.'\
+	'Begone, you are not of his dream.' \
+	The words cutting to sever the tether of your sleep, as you tumble into the sky."
+	possible_phrases = list(
+		"we gave them the city",
+		"shal'ghur trades",
+		"the damned of shal'ghur endure",
+		"we abandoned them"
+	)
