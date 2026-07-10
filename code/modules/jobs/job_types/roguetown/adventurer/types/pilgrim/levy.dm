@@ -220,7 +220,6 @@
 	if(H.mind)
 		var/list/specialties = list(
 			"AN AVERAGE JOE, SER!!",
-			"A VAGABOND, SER!!",
 			"A TOUGH SOD, SER!!",
 			"A SKINNY WIMP, SER!!",
 			"A SMART COOKIE, SER!!",
