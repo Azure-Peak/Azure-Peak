@@ -88,7 +88,7 @@
 		/obj/item/dream_material/parchment_raw = "parchment"
 	)
 	target_description = "unknown"
-	summary = "Shal'ghur's streets are paved with forgotten souls"
+	summary = "Shal'ghur's streets are paved with forgotten souls, the market awaits"
 	vision_text = "Long bending streets that turn in spirals. Buildings that rise up, seemingly convening into a singular point. \
 	The further you walk, the more the realm seems to grow back to normalcy, except... \
 	The dredges of the past, long, dark figures. \
