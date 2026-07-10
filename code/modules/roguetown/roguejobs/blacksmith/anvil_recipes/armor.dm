@@ -1980,6 +1980,18 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
+/datum/anvil_recipe/armor/blacksteel/modern/bracers
+	name = "Bracers, Blacksteel"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/blacksteel/modern
+	display_category = ITEM_CAT_ARMOR_BRACERS
+
+/datum/anvil_recipe/armor/blacksteel/modern/neckguard
+	name = "Neckguard, Blacksteel"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/neck/roguetown/bevor/blacksteel/modern
+	display_category = ITEM_CAT_ARMOR_NECK
+
 /datum/anvil_recipe/armor/blacksteel/modern/plateboots
 	name = "Plate Boots, Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
@@ -2034,6 +2046,18 @@
 	req_bar = /obj/item/ingot/blacksteel
 	created_item = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel
 	display_category = ITEM_CAT_ARMOR_BOOTS
+
+/datum/anvil_recipe/armor/blacksteel/bracers
+	name = "Ancient Blacksteel Bracers"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/wrists/roguetown/bracers/blacksteel
+	display_category = ITEM_CAT_ARMOR_BRACERS
+
+/datum/anvil_recipe/armor/blacksteel/neckguard
+	name = "Ancient Blacksteel Neckguard"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/neck/roguetown/bevor/blacksteel
+	display_category = ITEM_CAT_ARMOR_NECK
 
 // AVANTYNE
 

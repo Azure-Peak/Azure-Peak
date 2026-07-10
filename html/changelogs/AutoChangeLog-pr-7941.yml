@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Ports Hobgoblin from our downstream Ochre Valley, originally from Caustic Cove, also a downstream. Taller and stronger goblins, now present in all faction. A bit stronger (for a goblin)."
-  - rscadd: "Improved NPC diversities in the high tier by adding in some very welll-armored and statted opponents to all complex factions including orcs, highwaymen and variations thereof. They have a component that turns their armor to iron on death so that there isn't major steel inflation (hopefully)."
-  - rscadd: "Added big goblin to the pool of goblins that can spawn for goblins faction"

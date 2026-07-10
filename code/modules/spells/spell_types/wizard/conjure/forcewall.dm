@@ -89,8 +89,6 @@
 		QDEL_IN(src, timeleft)
 
 /obj/structure/forcefield_weak/CanPass(atom/movable/mover, turf/target)
-	if(mover == caster)
-		return TRUE
 	if(ismob(mover))
 		var/mob/M = mover
 		if(M.anti_magic_check(chargecost = 0))

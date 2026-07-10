@@ -445,6 +445,18 @@
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 5
 
+/datum/crafting_recipe/roguetown/survival/quarterstaff_blacksteel
+	name = "blacksteel-reinforced quarterstaff"
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
+	category = "Tools"
+	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/blacksteel)
+	reqs = list(
+		/obj/item/rogueweapon/woodstaff/quarterstaff = 1,
+		/obj/item/ingot/blacksteel = 1,
+		)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 5
+
 /datum/crafting_recipe/roguetown/survival/woodsword
 	name = "wooden sword (x2)"
 	display_category = ITEM_CAT_WEAPONS_SWORDS

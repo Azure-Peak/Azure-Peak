@@ -944,6 +944,68 @@
 	icon_state = "ancient_bardiche"
 	smeltresult = /obj/item/ingot/aaslag
 
+/obj/item/rogueweapon/halberd/blacksteel
+	name = "blacksteel halberd"
+	desc = "A magnificent halberd of blacksteel. It is the finest arm-of-war that a sixteenth-century knight could ask for, especially \
+	when it comes to attracting fair maidens in the highest courts. Wrap a length of cloth around the shaft to bare your heraldry."
+	icon_state = "bs_halberd"
+	smeltresult = /obj/item/ingot/blacksteel
+	force = 20
+	force_wielded = 35
+	max_blade_int = 400
+	wdefense_wbonus = 3 //+3 over the traditional spear, once wielded.
+	var/used = FALSE
+	var/list/selection = list(
+		/datum/special_intent/polearm_backstep,
+		/datum/special_intent/quarterstaff_sweep,
+		/datum/special_intent/axe_swing,
+		/datum/special_intent/vicious_swipe,
+		)
+
+/obj/item/rogueweapon/halberd/blacksteel/examine(mob/user)
+	. = ..()
+	if(!used)
+		. += span_notice("The Special Manoeuvre of this weapon can be changed. Right-click it with a free hand to select one. This can only be done once.")
+
+/obj/item/rogueweapon/halberd/blacksteel/attack_right(mob/user)
+	. = ..()
+	if(used)
+		return
+		
+	var/list/special_options = list()
+	for(var/intent in selection)
+		var/datum/special_intent/S = intent // Hate this DM quirk.
+		special_options[S::name] = S
+	
+	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
+	if(choice)
+		qdel(special)
+		var/datum/special_intent/S = special_options[choice]
+		special = new S()
+		used = TRUE
+
+/obj/item/rogueweapon/halberd/blacksteel/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Banner") as anything in COLOR_MAP
+		user.visible_message(span_warning("[user] adds a banner to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "detail"
+		update_icon()
+
+/obj/item/rogueweapon/halberd/blacksteel/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/rogueweapon/halberd/blacksteel/attack_self(mob/living/user)
+	. = ..()
+	update_icon()
 
 /obj/item/rogueweapon/halberd/bardiche/scythe
 	name = "summer scythe"
@@ -1112,6 +1174,70 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
+/obj/item/rogueweapon/eaglebeak/blacksteel
+	name = "blacksteel polehammer"
+	desc = "A magnificent polehammer of blacksteel. Purpose-made for killing plate-armored opponents, it features a maillebreaker's point and a \
+	flared macehead; excellent for piercing and shattering alloys, respectively. Wrap a length of cloth around the shaft to bare your heraldry."
+	possible_item_intents = list(/datum/intent/spear/bash/polehammer, /datum/intent/mace/smash/eaglebeak, /datum/intent/spear/thrust/bad)
+	gripped_intents = list(/datum/intent/spear/bash/polehammer, /datum/intent/mace/smash/eaglebeak, /datum/intent/spear/thrust)
+	icon_state = "bs_eaglebeak"
+	smeltresult = /obj/item/ingot/blacksteel
+	force = 20
+	force_wielded = 35
+	wdefense_wbonus = 3 //+3 over the traditional spear, once wielded.
+	max_integrity = 350 //Basic idea - blacksteel blunt weapons get more integrity, blacksteel edged weapons get more sharpness. Minimal overlap?
+	var/used = FALSE
+	var/list/selection = list(
+		/datum/special_intent/polearm_backstep,
+		/datum/special_intent/flail_sweep,
+		/datum/special_intent/quarterstaff_sweep,
+		/datum/special_intent/ground_smash
+		)
+
+/obj/item/rogueweapon/eaglebeak/blacksteel/examine(mob/user)
+	. = ..()
+	if(!used)
+		. += span_notice("The Special Manoeuvre of this weapon can be changed. Right-click it with a free hand to select one. This can only be done once.")
+
+/obj/item/rogueweapon/eaglebeak/blacksteel/attack_right(mob/user)
+	. = ..()
+	if(used)
+		return
+		
+	var/list/special_options = list()
+	for(var/intent in selection)
+		var/datum/special_intent/S = intent // Hate this DM quirk.
+		special_options[S::name] = S
+	
+	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
+	if(choice)
+		qdel(special)
+		var/datum/special_intent/S = special_options[choice]
+		special = new S()
+		used = TRUE
+
+/obj/item/rogueweapon/eaglebeak/blacksteel/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Banner") as anything in COLOR_MAP
+		user.visible_message(span_warning("[user] adds a banner to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "detail"
+		update_icon()
+
+/obj/item/rogueweapon/eaglebeak/blacksteel/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/rogueweapon/eaglebeak/blacksteel/attack_self(mob/living/user)
+	. = ..()
+	update_icon()
 
 /obj/item/rogueweapon/eaglebeak/lucerne
 	name = "lucerne"
@@ -1211,6 +1337,17 @@
 	icon_state = "quarterstaff_steel"
 	max_integrity = 200
 	smeltresult = /obj/item/ingot/steel
+
+/obj/item/rogueweapon/woodstaff/quarterstaff/blacksteel
+	name = "blacksteel quarterstaff"
+	desc = "A quarterstaff reinforced with blacksteel tips. One might imagine that the elegance of such a design hardly befits the people \
+	who'd traditionally wield such a weapon; then again, who are we to judge?"
+	force = 20
+	force_wielded = 30
+	icon_state = "quarterstaff_blacksteel"
+	max_integrity = 350
+	smeltresult = /obj/item/ingot/blacksteel
+	wdefense_wbonus = 7	//12 when wielded.
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/silver
 	name = "silver quarterstaff"
@@ -1315,6 +1452,17 @@
 	wdefense = 6 // A little bit extra
 	max_blade_int = 200
 	smeltresult = /obj/item/ingot/steel
+
+/obj/item/rogueweapon/spear/blacksteel
+	name = "blacksteel spear"
+	desc = "A magnificent winged spear of blacksteel; 'nuff said."
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	icon_state = "blacksteelspear"
+	force_wielded = 35
+	wdefense = 6
+	wdefense_wbonus = 3
+	max_blade_int = 400
+	smeltresult = /obj/item/ingot/blacksteel
 
 /obj/item/rogueweapon/spear/boar/frei
 	name = "Aavnic lándzsa"

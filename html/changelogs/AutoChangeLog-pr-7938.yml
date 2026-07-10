@@ -1,5 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - balance: "Jury Rig is now also a setup for deep repairs rather than just integrity decay prevention with a massive debuff."
-  - bugfix: "Construct flufftexts were using the wrong actors for its output."

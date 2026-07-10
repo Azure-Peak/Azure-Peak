@@ -1,10 +1,10 @@
 /datum/action/cooldown/spell/augment_buff/guidance
 	name = "Guidance"
-	desc = "Makes one's hand travel true, blessing them with arcyne luck in combat. (+20% chance to bypass parry / dodge, +20% chance to parry / dodge)"
+	desc = "Sharpens the senses with arcyne focus, honing the target's awareness. (+3 Perception)"
 	button_icon_state = "guidance"
 
 	invocations = list("Ducere")
-	cooldown_time = 60 SECONDS // 100% uptime, by design
+	cooldown_time = 90 SECONDS
 
 	point_cost = 1
 
