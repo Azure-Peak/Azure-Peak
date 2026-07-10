@@ -124,7 +124,7 @@
 
 	var/list/obj/effect/proc_holder/abilities = list()
 
-	var/can_be_held = FALSE	//whether this can be picked up and held.
+	var/item_state // iconstate for when we get turned into an item
 
 	var/ventcrawl_layer = PIPING_LAYER_DEFAULT
 	var/losebreath = 0

@@ -936,7 +936,6 @@ SUBSYSTEM_DEF(economy)
 	var/export_label = user ? "Manual Export" : "Auto Export"
 	SStreasury.dirty_market_view()
 	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "[export_label]: [quantity] [tg.name] to [region.name][actor_suffix]")
-	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "Manual Export: [quantity] [tg.name] to [region.name]")
 	SStreasury.total_export += total_revenue
 	SStreasury.economic_output += total_revenue
 	credit_economic_event_saturation(good_id, quantity)

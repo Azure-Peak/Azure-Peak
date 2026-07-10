@@ -62,13 +62,15 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 
 // Max mobs for kill request to avoid lagging
 #define QUEST_KILL_MAX_MOBS 20
-// Floor for TP to avoid no TP mob from being spammed 
+// Floor for TP to avoid no TP mob from being spammed
 #define QUEST_MOB_MIN_TP 10
+#define QUEST_MOB_DUST_DELAY (5 MINUTES)
+#define QUEST_HEAD_DUST_DELAY (5 SECONDS)
 
 #define QUEST_TP_BUDGET_KILL_EASY 35
 #define QUEST_TP_BUDGET_CLEAR_OUT 80
-#define QUEST_TP_BUDGET_RAID 200
-#define QUEST_TP_BUDGET_BOUNTY_GOONS 150
+#define QUEST_TP_BUDGET_RAID 150
+#define QUEST_TP_BUDGET_BOUNTY_GOONS 120
 #define QUEST_TP_BUDGET_RECOVERY 80
 
 // TP budget variance
@@ -80,6 +82,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_BANDS_RAID 4
 #define QUEST_BANDS_BOUNTY 4
 #define QUEST_BANDS_RECOVERY 2
+#define QUEST_BANDS_BLOCKADE 6
 
 #define QUEST_REWARD_GLOBAL_MULT 1
 

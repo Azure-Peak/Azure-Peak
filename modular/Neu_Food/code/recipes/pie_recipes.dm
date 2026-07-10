@@ -3,7 +3,7 @@
 	/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge,\
 	/obj/item/reagent_containers/food/snacks/rogue/veg/potato_sliced,\
 	/obj/item/reagent_containers/food/snacks/rogue/cheese,\
-	/obj/item/reagent_containers/food/snacks/egg,\
+	/obj/item/reagent_containers/food/snacks/rogue/egg,\
 	/obj/item/reagent_containers/food/snacks/rogue/meat/bacon,\
 	/obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry,\
 	/obj/item/reagent_containers/food/snacks/fat\
@@ -15,6 +15,7 @@
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/piebottom
 	cook_method = COOK_BAKE
 	required_station = null
+	inline_ancestry = TRUE
 
 /datum/food_recipe/pie/bottom
 	name = "pie bottom"
@@ -85,7 +86,7 @@
 			/obj/item/reagent_containers/food/snacks/rogue/preserved/pumpkin_mashed,
 		),
 		/obj/item/reagent_containers/food/snacks/rogue/cheese,
-		/obj/item/reagent_containers/food/snacks/egg,
+		/obj/item/reagent_containers/food/snacks/rogue/egg,
 		/obj/item/reagent_containers/food/snacks/sugar,
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pumpkin

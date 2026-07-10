@@ -336,6 +336,57 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/blacksteelarrows/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/arrow/blacksteel/A = new()
+		arrows += A
+	update_icon()
+
+
+//////////// AI ARCHER QUIVERS ////////////
+/obj/item/quiver/randomfill
+	var/list/fill_table
+
+/obj/item/quiver/randomfill/Initialize()
+	. = ..()
+	if(length(fill_table))
+		for(var/i in 1 to max_storage)
+			var/arrow_type = pickweight(fill_table)
+			if(!arrow_type)
+				continue
+			var/obj/item/ammo_casing/caseless/rogue/arrow/A = new arrow_type()
+			arrows += A
+	update_icon()
+
+// Skeleton: Broadhead with occasional chance of bodkins
+/obj/item/quiver/randomfill/skeleton
+	fill_table = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy = 55, 
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy = 20,
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 5
+	)
+
+
+/obj/item/quiver/randomfill/highwayman
+	fill_table = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 70, 
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 15,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/thunder = 5,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/kinetic = 5,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/fire = 5
+	)
+
+// Slightly higher quality with weight toward kinetic and steel
+/obj/item/quiver/randomfill/reaver
+	fill_table = list(
+		/obj/item/ammo_casing/caseless/rogue/arrow/iron = 50,
+		/obj/item/ammo_casing/caseless/rogue/arrow/steel = 30,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/thunder = 5,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/kinetic = 10,
+		/obj/item/ammo_casing/caseless/rogue/arrow/elemental/fire = 5
+	)
+
 //////////// Note - silver quivers and bolt pouches shouldn't be obtainable through normal circumstances.
 // BOLTS  // For now, they should only be available as uncraftable singles.
 ////////////
@@ -494,10 +545,10 @@
 		arrows += A
 	update_icon()
 
-/obj/item/quiver/bolt/silver/Initialize()
+/obj/item/quiver/bolt/blacksteel/Initialize()
 	..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/bolt/bronze/A = new()
+		var/obj/item/ammo_casing/caseless/rogue/bolt/blacksteel/A = new()
 		arrows += A
 	update_icon()
 
@@ -683,6 +734,13 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/javelin/blacksteel/Initialize()
+	..()
+	for(var/i in 1 to 4)
+		var/obj/item/ammo_casing/caseless/rogue/javelin/blacksteel/A = new()
+		arrows += A
+	update_icon()
+
 ////////////
 // SLINGS //
 ////////////
@@ -795,7 +853,21 @@
 		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/fire_pot/A = new()
 		arrows += A
 	update_icon()
-	
+
+/obj/item/quiver/sling/blacksteel/Initialize()
+	. = ..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/blacksteel/A = new()
+		arrows += A
+	update_icon()
+
+/obj/item/quiver/sling/bs_scattershot/Initialize()
+	. = ..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/sling_bullet/bs_scattershot/A = new()
+		arrows += A
+	update_icon()
+
 // ============================================================
 // MECHANIZED QUIVERS
 // Three variants: bow, crossbow, siegebow

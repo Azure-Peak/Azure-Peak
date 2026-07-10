@@ -1,11 +1,5 @@
 /*ALL DEFINES RELATED TO COMBAT GO HERE*/
 
-// Guidance system - used by parry.dm, dodge.dm, accuracy_checks.dm, and bardic songs
-#define FULL_GUIDANCE_CHANCE 20 // % parry/dodge bypass and parry/dodge chance (mage Guidance, Bard Fantasia/Requiem)
-#define LESSER_GUIDANCE_CHANCE 12 // % parry/dodge bypass and parry/dodge chance (Cantor/Spellsinger songs)
-#define FULL_GUIDANCE_ACCURACY 8 // Accuracy bonus from guidance (equivalent to 1 skill level)
-#define LESSER_GUIDANCE_ACCURACY 5 // Accuracy bonus from lesser guidance
-
 /// Alternate attack defines. Return these at the end of procs like afterattack_secondary.
 /// Calls the normal attack proc. For example, if returned in afterattack_secondary, will call afterattack.
 /// Will continue the chain depending on the return value of the non-alternate proc, like with normal attacks.
@@ -143,6 +137,10 @@
 #define DISLOCATED_ADD_SLOWDOWN 2
 //slowdown for fractured limbs
 #define FRACTURED_ADD_SLOWDOWN 3
+//slowdown for armour class. movement speed only.
+#define AC_LIGHT_SPDCAP 20
+#define AC_MEDIUM_SPDCAP 13
+#define AC_HEAVY_SPDCAP 11
 
 //Attack types for checking shields/hit reactions
 #define MELEE_ATTACK 1
@@ -363,8 +361,10 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 
 #define BASE_PARRY_STAMINA_DRAIN 5 // Unmodified stamina drain for parry, now a var instead of setting on simplemobs
 #define BAD_GUARD_FATIGUE_DRAIN 20 //Percentage of your green bar lost on letting a guard expire.
-#define EXPOSED_INTEG_MOD 2.5	//Multiplier for integrity damage if we hit an Exposed target.
-#define VULN_INTEG_MOD 1.3		//Multiplier for integrity damage if we hit a Vulnerable target.
+#define EXPOSED_INTEG_MOD 2.5	//Multiplier for melee integrity / simple-mob damage if we hit an Exposed target.
+#define VULN_INTEG_MOD 1.3		//Multiplier for melee integrity / simple-mob damage if we hit a Vulnerable target.
+#define EXPOSED_INTEG_FLAT 45	//Flat integrity damage added when hitting an Exposed target.
+#define VULN_INTEG_FLAT 20		//Flat integrity damage added when hitting a Vulnerable target.
 #define BASE_RCLICK_CD 30 SECONDS
 #define BAIT_RCLICK_CD 20 SECONDS
 #define BIND_CD 15 SECONDS

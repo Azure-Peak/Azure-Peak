@@ -54,12 +54,20 @@
 	. += span_info("MMB will reveal my character's hair from underneath \the [src].")
 
 /obj/item/clothing/head/roguetown/helmet/skullcap
-	name = "skull cap"
+	name = "iron skull cap"
 	desc = "An iron helmet which covers the top of the head."
-	icon_state = "skullcap"
+	icon_state = "iskullcap"
 	body_parts_covered = HEAD|HAIR
 	max_integrity = ARMOR_INT_HELMET_IRON
 	smeltresult = /obj/item/ingot/iron
+
+/obj/item/clothing/head/roguetown/helmet/skullcap/steel
+	name = "skull cap"
+	desc = "A steel helmet which covers the top of the head."
+	icon_state = "skullcap"
+	body_parts_covered = HEAD|HAIR
+	max_integrity = ARMOR_INT_HELMET_STEEL
+	smeltresult = /obj/item/ingot/steel
 
 // Copper lamellar cap
 /obj/item/clothing/head/roguetown/helmet/coppercap
@@ -403,6 +411,34 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/aventail
+	name = "bascinet with aventail"
+	desc = "A steel bascinet helmet, further protected with a thick maille aventail. Burdensome on the shoulders of those not trained to carry \
+	maille, yet excellent in both coverage and durability."
+	icon_state = "aventail"
+	item_state = "aventail"
+	body_parts_covered = HEAD|HAIR|EARS|MOUTH|NECK
+	block2add = FOV_BEHIND
+	armor_class = ARMOR_CLASS_MEDIUM
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/iron
+	name = "iron bascinet"
+	desc = "An iron bascinet helmet, and the basis for many-a-visored greathelm. Though it lacks a visor, it still protects the head and ears."
+	icon_state = "ibascinet"
+	item_state = "ibascinet"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_IRON
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/iron/aventail
+	name = "iron bascinet with aventail"
+	desc = "An iron bascinet helmet, further protected with a thick maille aventail. Burdensome on the shoulders of those not trained to carry \
+	maille, yet excellent in both coverage and durability."
+	icon_state = "iaventail"
+	item_state = "iaventail"
+	body_parts_covered = HEAD|HAIR|EARS|MOUTH|NECK
+	block2add = FOV_BEHIND
+	armor_class = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface
 	name = "pigface bascinet"
@@ -758,3 +794,65 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
 	smeltresult = /obj/item/ingot/iron
+
+/obj/item/clothing/head/roguetown/helmet/baotha
+	name = "saccharine sallet"
+	desc = "Lo', the twins of beauty; Eora and Belladoth, they sought a prize which but one may have.."
+	icon_state = "baothahelm"
+	item_state = "baothahelm"
+	body_parts_covered = HEAD | HAIR | EARS | MOUTH | EYES
+	armor_class = ARMOR_CLASS_LIGHT
+	max_integrity = ARMOR_INT_HELMET_ANTAG - 300 //Halved durability, compared to traditional Ascendant-tier armor.
+	smeltresult = /obj/item/ingot/component/baotha
+
+/obj/item/clothing/head/roguetown/helmet/baotha/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "HELMET")
+
+/obj/item/clothing/head/roguetown/helmet/baotha/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
+
+/obj/item/clothing/head/roguetown/helmet/nasal
+	name = "nasal helmet"
+
+/obj/item/clothing/head/roguetown/helmet/nasal/iron
+	name = "iron nasal helmet"
+	icon_state = "inasal"
+	desc = "An iron helmet that doesn't get any more simple in design."
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_IRON
+
+/obj/item/clothing/head/roguetown/helmet/winged/iron
+	name = "iron winged helmet"
+	desc = "A helmet with two wings on its sides."
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_IRON
+	icon_state = "iwingedcap"
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/iron
+	name = "iron pigface bascinet"
+	desc = "An iron bascinet helmet with a pigface visor that protects the entire head and face. Add a feather to show the colors of your family or allegiance."
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_IRON
+	icon_state = "ipigface"
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/iron
+	name = "iron hounskull bascinet"
+	desc = "An iron bascinet with a conical visor, favored by those with snouts and whiskers. Nestle a feather or length of cloth onto the rim to display your allegiance."
+	icon_state = "ihounskull"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_IRON
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/iron
+	name = "iron roundface bascinet"
+	desc = "An iron bascinet with a conical visor, favored by those without snouts and whiskers. Nestle a feather or length of cloth onto the rim to display your allegiance."
+	icon_state = "iroundface"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_IRON
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/iron
+	name = "iron klappvisier bascinet"
+	desc = "An iron bascinet helmet with a straight visor, or \"klappvisier\", which can greatly reduce visibility. Though it was first developed in Etrusca, it is also widely used in Grenzelhoft."
+	icon_state = "iklappvisier"
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_HELMET_IRON

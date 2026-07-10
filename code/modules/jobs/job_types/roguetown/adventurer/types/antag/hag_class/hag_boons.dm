@@ -92,7 +92,6 @@
 		/datum/hag_boon/trait/civil_barbarian,
 		/datum/hag_boon/trait/water_breathing,
 		/datum/hag_boon/trait/sharper_blades,
-		/datum/hag_boon/trait/guidance,
 		/datum/hag_boon/trait/good_trainer,
 		// /datum/hag_boon/trait/counter_counterspell,
 		/datum/hag_boon/trait/keen_ears,

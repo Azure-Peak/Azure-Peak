@@ -660,6 +660,32 @@
 		return
 	qdel(src)
 
+/obj/item/clothing/wrists/roguetown/bracers/leather/baotha
+	name = "saccharine cuffs"
+	desc = "A betrayal without compare, and a sin without redemption; or so, She believed.."
+	icon_state = "baothabracers"
+	chunkcolor = "#6d1c87"
+	armor = ARMOR_PADDED
+	resistance_flags = FIRE_PROOF
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
+	smeltresult = /obj/item/ingot/component/baotha
+
+/obj/item/clothing/wrists/roguetown/bracers/leather/baotha/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "BRACERS")
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/wrists/roguetown/bracers/leather/baotha/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/wrists/roguetown/bracers/leather/baotha/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
+
+//
+
 /obj/item/clothing/wrists/roguetown/bracers/hand
 	name = "hand's bracers"
 	desc = "Discretion had always been the better part of valour, and nobody understands that better than the one holding an ace up their sleeve."

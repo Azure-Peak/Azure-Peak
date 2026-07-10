@@ -82,10 +82,22 @@
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_PSYDONITE))
-		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		spelltarget.visible_message(span_artery("[spelltarget] stirs for a moment, the miracle dissipates."), span_artery("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
+
+	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
+		spelltarget.visible_message(span_artery("[spelltarget] stirs in discomfort, the miracle dissipates."), span_artery("A dull warmth spreads through your body, only to fade as quickly as it arrived."))
+		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		spelltarget.emote("pain")
+		return FALSE
+
+	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
+		spelltarget.visible_message(span_artery("[target] doesn't seem to be organic, the miracle dissipates."), span_artery("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
+		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 
 	if(spelltarget.has_status_effect(/datum/status_effect/buff/healing))
 		to_chat(owner, span_warning("They are already under the effects of a healing aura!"))
@@ -170,7 +182,7 @@
 	invocation_type = INVOCATION_NONE
 
 	charge_required = FALSE
-	cooldown_time = 30 SECONDS
+	cooldown_time = 45 SECONDS
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
@@ -186,7 +198,20 @@
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_PSYDONITE))
-		spelltarget.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		spelltarget.visible_message(span_artery("[spelltarget] stirs for a moment, the miracle dissipates."), span_artery("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return FALSE
+
+	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
+		spelltarget.visible_message(span_artery("[spelltarget] stirs in pain, the miracle dissipates."), span_artery("You feel a dull pain spreading through your body, only to fade as quickly as it arrived."))
+		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		spelltarget.emote("pain")
+		return FALSE
+
+	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
+		spelltarget.visible_message(span_artery("[target] doesn't seem to be organic, the miracle dissipates."), span_artery("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
@@ -203,8 +228,9 @@
 	if(iscarbon(spelltarget) && !spelltarget.has_status_effect(/datum/status_effect/buff/fortify))
 		spelltarget.apply_status_effect(/datum/status_effect/buff/fortify)
 	else
-		spelltarget.adjustBruteLoss(-50)
-		spelltarget.adjustFireLoss(-50)
+		spelltarget.adjustBruteLoss(-25)
+		spelltarget.adjustFireLoss(-25)
+		spelltarget.adjustOxyLoss(-15)
 
 	return TRUE
 
@@ -232,7 +258,7 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 0
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	cooldown_time = 2 MINUTES
 
@@ -493,3 +519,156 @@
 #undef LOH_BUFF_FILTER
 #undef BASE_HEALING_PER_TICK
 #undef MAX_BONUS_HEAL
+
+////////////////////////
+// MIRACLE - IGNITION //
+////////////////////////
+
+/datum/action/cooldown/spell/miracle/ignition
+	name = "Ignition"
+	desc = "Ignites target, living or object."
+	fluff_desc = "The first gift to men, a sliver of Her radiance at fingertips of those devoted to Her wae of lyfe. Some sae it was Matthios who forced Astrata's hand in relinquishing such force to lowly mortals."
+	button_icon_state = "ignite"
+	sound = 'sound/items/firelight.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
+	sparks_amt = 2
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_AURA
+	self_cast_possible = FALSE //Why are you trying to set YOURSELF on fire.
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
+
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	invocation_type = INVOCATION_NONE //It has seperate message ON USE
+
+	charge_required = FALSE
+	cooldown_time = 10 SECONDS
+
+	spell_flags = SPELL_PSYDON
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/miracle/ignition/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/mob/living/spelltarget = cast_on
+
+	if(!isliving(spelltarget))
+		if(spelltarget.fire_act())
+			owner.visible_message("<font color='yellow'>[owner] engulfs [spelltarget] in sacred flame!</font>")
+			spelltarget.fire_act()
+			return TRUE
+		else
+			to_chat(owner, span_warning("You attempt to ignite [spelltarget], but it fails to catch fire."))
+			return FALSE
+	else
+		owner.visible_message("<font color='yellow'>[owner] engulfs [spelltarget] in sacred flame!</font>")
+		if(spelltarget.anti_magic_check(TRUE, TRUE))
+			return FALSE
+		if(spell_guard_check(spelltarget, TRUE))
+			spelltarget.visible_message(span_warning("[spelltarget] shields against the divine flame!"))
+			return TRUE
+		if(spelltarget.fire_stacks < 1)
+			spelltarget.adjust_fire_stacks(2)
+			spelltarget.ignite_mob()
+			log_combat(owner, spelltarget, "ignited", addition="with the miracle [name]")
+			return TRUE
+		else
+			spelltarget.visible_message(span_warning("[spelltarget] is already engulfed in flames!"))
+			return TRUE
+
+/////////////////////////////////
+// MIRACLE - SACRED ASCENDANCE //
+/////////////////////////////////
+
+/datum/action/cooldown/spell/miracle/bishop_pack
+	name = "Sacred Ascendance"
+	desc = "Allows you to select miracles out of packs Focus (1 T4) or Diversity (2 T3) from static list."
+	fluff_desc = "They protect against the enroaching darkness, when He abandoned us we wept a thousand tears in His name. They liberated us from the sorrow, gave us a path to absolution denied to us - for this we will be grateful and obedient to Their machinations."
+	button_icon_state = "spellpack"
+	sound = 'sound/magic/undivided_bless.ogg'
+	glow_intensity = 0
+
+	click_to_activate = FALSE
+	primary_resource_cost = SPELLCOST_MIRACLE
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+	invocation_type = INVOCATION_NONE
+	charge_required = FALSE
+	cooldown_time = 5 SECONDS
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	/// var we use to flag we are currently choosing a bundle.
+	var/choosing_bundle = FALSE
+	var/chosen_bundle
+	var/list/miracle_bishop_t4 = list(
+		/obj/effect/proc_holder/spell/invoked/abyssal_infusion::name		= /obj/effect/proc_holder/spell/invoked/abyssal_infusion,
+		/obj/effect/proc_holder/spell/invoked/immolation::name				= /obj/effect/proc_holder/spell/invoked/immolation,
+		/obj/effect/proc_holder/spell/self/howl/call_of_the_moon::name		= /obj/effect/proc_holder/spell/self/howl/call_of_the_moon,
+		/obj/effect/proc_holder/spell/invoked/pomegranate::name				= /obj/effect/proc_holder/spell/invoked/pomegranate,
+		//Malum lacks one for the time being.
+		/obj/effect/proc_holder/spell/invoked/deaths_door::name				= /obj/effect/proc_holder/spell/invoked/deaths_door,
+		//Noc gets one after the rework passes.
+		//Pestra has actually nothing, son 😢
+		//Ravox will get something else.
+		/datum/action/cooldown/spell/undivided/undivided_battlecry::name	= /datum/action/cooldown/spell/undivided/undivided_battlecry,
+		/obj/effect/proc_holder/spell/invoked/abscond::name					= /obj/effect/proc_holder/spell/invoked/abscond
+	)
+	var/list/miracle_bishop_t3 = list(
+		/obj/effect/proc_holder/spell/invoked/call_dreamfiend::name			= /obj/effect/proc_holder/spell/invoked/call_dreamfiend,
+		/datum/action/cooldown/spell/astrata/firecloak::name				= /datum/action/cooldown/spell/astrata/firecloak,
+		/obj/effect/proc_holder/spell/invoked/eoracurse::name				= /obj/effect/proc_holder/spell/invoked/eoracurse,
+		/datum/action/cooldown/spell/malum_blessing::name					= /datum/action/cooldown/spell/malum_blessing,
+		/obj/effect/proc_holder/spell/invoked/bless_cross::name				= /obj/effect/proc_holder/spell/invoked/bless_cross,
+		//Noc is fine as is
+		//Pestra has actually nothing, son 😢
+		/datum/action/cooldown/spell/ravox/battlecry::name					= /datum/action/cooldown/spell/ravox/battlecry,
+		/datum/action/cooldown/spell/undivided/gallow_humor::name			= /datum/action/cooldown/spell/undivided/gallow_humor,
+		/obj/effect/proc_holder/spell/targeted/touch/parlor_trick::name		= /obj/effect/proc_holder/spell/targeted/touch/parlor_trick
+	)
+
+/datum/action/cooldown/spell/miracle/bishop_pack/cast(atom/cast_on)
+	. = ..()
+
+	if(choosing_bundle)
+		return FALSE
+	var/choice = chosen_bundle
+	if(!chosen_bundle)
+		choosing_bundle = TRUE
+		choice = alert(owner, "Which path did your studies lead you down?", "CHOOSE PATH", "Focus - T4", "Diversity - T3")
+		chosen_bundle = choice
+		choosing_bundle = FALSE
+	switch(choice)
+		if("Focus - T4")
+			add_spells(owner, miracle_bishop_t4, choice_count = 1)
+			owner.mind?.RemoveSpell(src.type)
+			return TRUE
+		if("Diversity - T3")
+			add_spells(owner, miracle_bishop_t3, choice_count = 2)
+			owner.mind?.RemoveSpell(src.type)
+			return TRUE
+	return FALSE
+
+/datum/action/cooldown/spell/miracle/bishop_pack/proc/add_spells(mob/owner, list/spells, choice_count = 1, grant_all = FALSE)
+	for(var/spell_type in spells)
+		if(owner?.mind.has_spell(spells[spell_type]))
+			spells.Remove(spell_type)
+	if(!grant_all)
+		var/choice_count_visual = choice_count
+		for(var/i in 1 to choice_count)
+			var/choice = input(owner, "Choose a spell! Choices remaining: [choice_count_visual]") as anything in spells
+			if(!isnull(choice))
+				var/picked_spell = spells[choice]
+				var/obj/effect/proc_holder/spell/new_spell = new picked_spell
+				owner?.mind.AddSpell(new_spell)
+				choice_count_visual--
+				spells.Remove(choice)
+	else
+		for(var/spell_type in spells)
+			var/obj/effect/proc_holder/spell/new_spell = new spell_type
+			owner?.mind.AddSpell(new_spell)
+	if(!length(spells))
+		owner.mind?.RemoveSpell(src.type)

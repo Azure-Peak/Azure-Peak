@@ -60,6 +60,7 @@
 	name = "decrepit boots"
 	desc = "Frayed bronze greaves, shingled atop boots of rotted leather. The toebones of its former legionnaire remain within, rattling about with every step taken."
 	max_integrity = 40
+	armor = ARMOR_BRONZE
 	icon_state = "ancientboots"
 	smeltresult = /obj/item/ingot/aaslag
 	color = "#bb9696"
@@ -72,6 +73,7 @@
 	blocksound = PLATEHIT
 	resistance_flags = FIRE_PROOF
 	max_integrity = ARMOR_INT_SIDE_STEEL
+	color = "#bb9696"
 	armor = ARMOR_PLATE
 	pickup_sound = 'sound/foley/equip/equip_armor_plate.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_plate.ogg'
@@ -83,6 +85,7 @@
 	desc = "Blacksteel-heeled boots. The leather refuses to be worn down, no matter how far you march through these lands."
 	icon_state = "psydonboots"
 	item_state = "psydonboots"
+	color = null
 	sewrepair = TRUE
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER //170 extra hp. stop footfragging my orthos. 
@@ -194,6 +197,7 @@
 	desc = "Frayed bronze platforms, curled about to cradle the feet. The beaches that these sandals once treaded are no more; pearly sands, long since turnt to glass from the Comet Syon's impact."
 	icon_state = "ancientsandals"
 	color = "#bb9696"
+	armor = ARMOR_LEATHER
 
 /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	name = "ancient sandals"
@@ -250,6 +254,7 @@
 	body_parts_covered = FEET
 	icon_state = "fencerboots"
 	item_state = "fencerboots"
+	color = null
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 	armor = ARMOR_LEATHER
@@ -391,6 +396,7 @@
 	item_state = "bsoldierboots"
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 	smeltresult = /obj/item/ingot/bronze
+	armor = ARMOR_BRONZE
 
 /obj/item/clothing/shoes/roguetown/boots/maille/copper
 	name = "copper lamellar boots"
@@ -430,7 +436,7 @@
 	icon_state = "bronzegreaves"
 	body_parts_covered = FEET | LEGS
 	smeltresult = /obj/item/ingot/bronze
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	max_integrity = ARMOR_INT_SIDE_BRONZE
 
 /obj/item/clothing/shoes/roguetown/boots/armor/graggar
@@ -504,6 +510,30 @@
 
 /obj/item/clothing/shoes/roguetown/boots/armor/avantyne/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+
+/obj/item/clothing/shoes/roguetown/boots/armor/baotha
+	name = "saccharine heels"
+	desc = "..yet, even as She indulges and mourns beneath the stars, one must wonder; is She truly damned by the Pantheon, or by Herself alone?"
+	icon_state = "baothaboots"
+	item_state = "baothaboots"
+	chunkcolor = "#6d1c87"
+	max_integrity = ARMOR_INT_SIDE_ANTAG - 250
+	armor_class = ARMOR_CLASS_LIGHT
+	smeltresult = /obj/item/ingot/component/baotha
+
+/obj/item/clothing/shoes/roguetown/boots/armor/baotha/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "BOOTS")
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/shoes/roguetown/boots/armor/baotha/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/shoes/roguetown/boots/armor/baotha/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	name = "iron plated boots"
@@ -782,3 +812,11 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/shoes/roguetown/footwraps
+	name = "cloth footwraps"
+	desc = "Thickly-woven bandages that've been wrapped around the ankles to protect from any unwanted shattered teeth from sticking in your precious legs."
+	gender = PLURAL
+	icon_state = "footwraps"
+	sewrepair = TRUE
+	salvage_result = /obj/item/natural/cloth

@@ -125,7 +125,6 @@
 	desc = "Sturdy, durable, flexible. A comfortable and reliable hood made of hardened leather."
 	icon_state = "leatherhelm"
 	max_integrity = ARMOR_INT_HELMET_HARDLEATHER
-	sellprice = 15
 	body_parts_covered = HEAD|EARS|HAIR|NOSE
 	armor = ARMOR_LEATHER
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP

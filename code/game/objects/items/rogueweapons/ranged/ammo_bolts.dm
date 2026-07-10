@@ -212,7 +212,11 @@
 
 	var/turf/T = target
 	if(isturf(target))
-		explosion(T, heavy_impact_range = 0, light_impact_range = 1, flame_range = 0, smoke = FALSE, soundin = pick('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg'))
+		explosion(T, heavy_impact_range = 0, light_impact_range = 0, flame_range = 0, smoke = FALSE, soundin = pick('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg'))
+		loud_message("A loud crash echoes", hearing_distance = 14)
+		if(istype(T, /turf/closed/mineral/rogue/bedrock))
+			return
+		T.turf_integrity -= 1100
 		return
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt
@@ -497,3 +501,20 @@
 #undef MIN_BOLT_RANGE
 #undef MAX_BOLT_RANGE
 #undef DAM_FALLOFF_BOLT
+
+/obj/item/ammo_casing/caseless/rogue/bolt/blacksteel
+	name = "blacksteel bolt"
+	desc = "A magnificent bolt of blacksteel, sharp enough to pierce straight through plate armor."
+	projectile_type = /obj/projectile/bullet/reusable/bolt/blacksteel
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
+	caliber = "regbolt"
+	icon_state = "blacksteelbolt"
+
+/obj/projectile/bullet/reusable/bolt/blacksteel
+	name = "blacksteel bolt"
+	damage = 70
+	armor_penetration = PEN_BSTEEL
+	icon_state = "blacksteelbolt_proj"
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/blacksteel
+	embedchance = 80
+	npc_simple_damage_mult = 6 //..or 420 damage against a mindless mob.

@@ -16,8 +16,6 @@
 	. += span_info("Left-clicking the machine with an item will load it into the stockpile, rewarding you coinage in turn. Make sure to register an account with the MEISTER, first, or you won't receive any coinage.")
 	. += span_info("Right-clicking the machine will automatically load all adjacent items into the stockpile at once.")
 	. += span_info("The vomitorium's stockpile naturally refills over time. Loaded items are added to the stockpile's quantities, which can then be vended by others or exported by the Steward for profit.")
-	. += span_info("The vomitorium can also accept treasures, gemstones, and many other valuables that're particularly expensive; a portion of it is always taxed and returned to the Steward's treasury.")
-
 /obj/structure/roguemachine/stockpile/Initialize()
 	. = ..()
 	SSroguemachine.stock_machines += src
@@ -101,14 +99,9 @@
 		))
 	data["stocks"] = rows
 
-	var/list/bounties = list()
-	for(var/datum/roguestock/bounty/B in SStreasury.stockpile_datums)
-		bounties += list(list(
-			"name" = B.name,
-			"payout_price" = B.payout_price,
-			"percent" = B.percent_bounty ? TRUE : FALSE,
-		))
-	data["bounties"] = bounties
+	// The treasure-mint bounty was removed; no bounty datums remain. Keep the key so the
+	// Stockpile TGUI's bounty section simply stays hidden (it gates on bounties.length).
+	data["bounties"] = list()
 	return data
 
 /obj/structure/roguemachine/stockpile/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -233,7 +226,7 @@
 					if(message)
 						say("The Crown has no interest in [R.name] at this time.")
 					return
-				if(below_floor && !R.mint_item)
+				if(below_floor)
 					if(message)
 						say("The Crown's ledger is thin. No purchases today.")
 					return
@@ -267,48 +260,17 @@
 		else if(istype(I,R.item_type))
 			if(!R.check_item(I))
 				continue
-			if(R.mint_item && I.unmintable)
-				if(message)
-					say("This is town property, it cannot be minted here.")
-				return
-			if(R.mint_item && I.atc_sealed)
-				if(message)
-					say("This bears an Azurian Trading Company seal. The Crown will not mint Company stock.")
-				return
-			// Steward-controlled accept toggle.
-			// - For mint_eligible goods (gems): falls through to the /bounty/treasure datum later in
-			//   the loop, so rejected gems still mint as treasure instead of bouncing back to the player.
-			// - For other goods (raw, refined, alchemy): refuses with a message. Item stays in hand.
+			// Steward-controlled accept toggle. Refuses with a message; item stays in hand.
 			if(!R.accept_toggle_enabled)
-				var/datum/trade_good/tg_reject = R.trade_good_id ? GLOB.trade_goods[R.trade_good_id] : null
-				if(tg_reject && tg_reject.mint_eligible)
-					continue
 				if(message)
 					say("The Crown has no interest in [R.name] at this time.")
 				return
-			// Treasure / mint items bypass the purchase floor - they generate mammon rather than spending it.
-			if(below_floor && !R.mint_item)
+			if(below_floor)
 				if(message)
 					say("The Crown's ledger is thin. No purchases today.")
 				return
-			// Trade-good overflow mint branch. If this entry is linked to a mint_eligible
-			// trade good (gems) and the stockpile is at limit, overflow mints to Crown's Purse
-			// using the existing treasure-mint path. Takes precedence over no-pay overflow.
-			if(R.trade_good_id && !R.mint_item && R.stockpile_amount >= R.stockpile_limit)
-				var/datum/trade_good/tg_overflow = GLOB.trade_goods[R.trade_good_id]
-				if(tg_overflow && tg_overflow.mint_eligible)
-					var/mint_amt = round(tg_overflow.base_price * SStreasury.mint_multiplier)
-					SStreasury.minted += mint_amt
-					SStreasury.mint(SStreasury.discretionary_fund, mint_amt, "Gem overflow mint: [tg_overflow.name]")
-					record_round_statistic(STATS_MINTED_TREASURE_GROSS, mint_amt)
-					qdel(I)
-					if(sound == TRUE)
-						playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-					say("[tg_overflow.name] overflow - minted to Crown's Purse.")
-					return
 			var/auto_exported = FALSE
-			var/full_on_arrival = (!R.mint_item && R.stockpile_amount >= R.stockpile_limit)
+			var/full_on_arrival = (R.stockpile_amount >= R.stockpile_limit)
 			if(full_on_arrival)
 				R.stockpile_amount += 1
 				if(try_auto_export_units(R, 1) <= 0)
@@ -323,7 +285,6 @@
 			var/crown_delta = settlement["crown_delta"]
 			var/quality_baseline = settlement["baseline"]
 			var/true_value = I.get_real_price()
-			var/mint_amt = 0
 			if(message && I.has_item_quality && I.item_quality != ITEM_QUALITY_STANDARD)
 				var/flavor = quality_delta_flavor(I.item_quality)
 				if(flavor)
@@ -333,33 +294,18 @@
 				SStreasury.mint(SStreasury.discretionary_fund, crown_delta, "Quality premium: [I.name] (+[crown_delta]m)")
 			else if(crown_delta < 0)
 				SStreasury.burn(SStreasury.discretionary_fund, -crown_delta, "Quality penalty: [I.name] ([crown_delta]m)")
-			if(!R.mint_item)
-				if(!full_on_arrival)
-					R.stockpile_amount += 1
-				R.stockpile_amount += 1 //stacked logs need to check for multiple
-				SStreasury.dirty_market_view()
-				qdel(I)
-				if(message == TRUE)
-					stock_announce("[R.name] has been stockpiled.")
-				if(sound == TRUE)
-					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-			else
-				var/pool = round(SStreasury.mint_multiplier * true_value)
-				mint_amt = max(0, pool - amt)
-				if(pool > 0)
-					SStreasury.minted += pool
-					SStreasury.mint(SStreasury.discretionary_fund, pool, "Minting - [I.name]")
-				record_round_statistic(STATS_MINTED_TREASURE_GROSS, pool)
-				record_round_statistic(STATS_MINTED_TREASURE_NET, mint_amt)
-				qdel(I)
-				if(sound == TRUE)
-					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+			if(!full_on_arrival)
+				R.stockpile_amount += 1
+			R.stockpile_amount += 1 //stacked logs need to check for multiple
+			SStreasury.dirty_market_view()
+			qdel(I)
+			if(message == TRUE)
+				stock_announce("[R.name] has been stockpiled.")
+			if(sound == TRUE)
+				playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 			if(amt)
 				SStreasury.economic_output += true_value
 				var/bounty_msg = "+[amt] from [R.name] bounty"
-				if(R.mint_item)
-					bounty_msg = "+[amt] from [R.name] bounty (Crown's share: +[mint_amt]m)"
 				if(crown_delta != 0)
 					var/seller_delta = amt - quality_baseline
 					var/seller_sign = seller_delta > 0 ? "+" : ""

@@ -64,6 +64,12 @@
 	desc = "A bowl carved out of rosestone."
 	icon_state = "bowl_rose"
 
+/obj/item/reagent_containers/glass/bowl/carved/porcelain
+	name = "porcelain bowl"
+	desc = "A bowl made out of porcelain."
+	icon_state = "bowl_porcelain"
+	sellprice = 10
+
 /obj/item/reagent_containers/glass/bowl/carved/amber
 	name = "amber bowl"
 	desc = "A bowl carved out of amber."

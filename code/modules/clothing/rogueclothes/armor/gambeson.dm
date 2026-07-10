@@ -80,6 +80,7 @@
 	desc = "A thick robe in royal purple, befitting a travelling noble, while remaining easy for them to slip about in.."
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	icon_state = "shadowrobe"
+	color = null
 	shiftable = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/raneshen
@@ -303,6 +304,7 @@
 	desc = "A robe-like gambeson of moth-eaten cloth and cheap purple dye. No self-respecting elf would be seen wearing this."
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	icon_state = "shadowrobe"
+	color = null
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 30 //280
 
@@ -315,12 +317,58 @@
 	icon_state = "handgambeson"
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/hand.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	color = null
 	detail_tag = "_detail"
 	detail_color = "#6e423a"
 	shiftable = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/advisor
 	detail_color = "#6678c9"
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/spymaster
 	detail_color = "#742277"
+
+//I'm feeling quite hungry!
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/baotha
+	name = "saccharine vestments"
+	desc = "A gemmed chalice, Eora's own, swilled with Psydonia's most noxious venoms - and but a simple sip was enough to bring Her to death's door.."
+	icon_state = "baothagamb"
+	armor_class = ARMOR_CLASS_LIGHT
+	armor = ARMOR_PADDED
+	color = null
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
+	armor_class = ARMOR_CLASS_LIGHT
+	resistance_flags = FIRE_PROOF
+	body_parts_covered = CHEST | GROIN | ARMS
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	smeltresult = /obj/item/ingot/component/baotha
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "VESTMENTS")
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)

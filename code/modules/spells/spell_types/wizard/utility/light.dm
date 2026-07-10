@@ -18,7 +18,7 @@
 
 	charge_required = TRUE
 	charge_time = 0.5 SECONDS
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 30 SECONDS
@@ -79,8 +79,6 @@
 	var/datum/looping_sound/torchloop/soundloop
 	max_integrity = 200
 	fuel = 10 MINUTES
-	light_depth = 0
-	light_height = 0
 
 /obj/item/flashlight/flare/light5e/getonmobprop(tag)
 	. = ..()

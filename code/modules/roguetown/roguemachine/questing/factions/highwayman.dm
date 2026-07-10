@@ -7,8 +7,12 @@
 	can_blockade = TRUE
 	category = FACTION_CAT_HUMANOID
 	mob_types = list(
-		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 70,
-		/mob/living/carbon/human/species/human/northern/militia/deserter = 30,
+		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 50,
+		/mob/living/carbon/human/species/human/northern/militia/deserter = 20,
+		/mob/living/carbon/human/species/human/northern/highwayman/archer = 19, // archer+crossbowman+sharpshooter ~30% of highwaymen (ranged)
+		/mob/living/carbon/human/species/human/northern/highwayman/crossbowman = 7,
+		/mob/living/carbon/human/species/human/northern/highwayman/road_knight = 8,
+		/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter = 8,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 100,

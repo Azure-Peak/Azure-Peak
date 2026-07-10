@@ -329,8 +329,8 @@ a.choose-btn:hover {
 <div class="abilities">
 <h4>Abilities</h4>
 <ul>
-<li><b>Kastvyl</b> — Hurl a phantom thrown weapon that ricochets between up to 4 victims, seeking new targets after each strike. The same target can be struck twice (the second blow at half damage), but never thrice. Wound type follows your active intent. Empowered: greatly increased damage.</li>
-<li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent 1 tile. Empowered: doubles damage.</li>
+<li><b>Shatter</b> — Wind up a blow, then strike a line straight ahead, hurling those struck back a tile. Cuts or smashes to match your weapon - the blunt head hits a little softer. Stops at walls but batters structures in its path. Empowered: doubles damage.</li>
+<li><b>Tremor</b> — Wind up a strike, then erupt the ground in a ring around you, hurling back everyone adjacent. Follows you as you wind it up; cuts or smashes to match your weapon. Empowered: doubles damage.</li>
 <li><b>Charge!</b> — Instantly dash forward 4 paces, shoving everyone in the path to the sides. Deals no damage — pure mobility and disruption.</li>
 <li><b>Cataclysm</b> — Conjure and hurl an arcyne hammer at a target area. Crushes a 5x5 area and leaves victims Vulnerable. Bonus damage at max momentum.</li>
 </ul>

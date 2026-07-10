@@ -133,7 +133,7 @@
 	name = "Rune of the Moon"
 	icon_state = "noc_chalky"
 	desc = "A holy rune of <font color='bae6ed'>Noc.</font> </br> <i>Moonlight shines upon thee.</i>"
-	var/lunarrites = list("Moonlight Dance") // list for more to be added later
+	var/lunarrites = list("Moonlight Dance", "Moonlight Inspiration") // list for more to be added later
 
 /obj/structure/ritualcircle/noc/attack_hand(mob/living/user)
 	if(!..())
@@ -163,11 +163,30 @@
 			playsound(loc, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
 			moonlightdance(src)
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+		if("Moonlight Inspiration")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("I seek the guidance of the Moon!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("Grant us your wisdom!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("Place your gaze upon me, oh wise one!!")
+			to_chat(user,span_cultsmall("The waning half of the Twin-God carries but one eye. With some effort, it can be drawn upon supplicants."))
+			playsound(loc, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
+			mooninspiration(src)
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 
 /obj/structure/ritualcircle/noc/proc/moonlightdance(src)
 	var/ritualtargets = view(7, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/moonlightdance)
+
+/obj/structure/ritualcircle/noc/proc/mooninspiration(src)
+	var/ritualtargets = view(2, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		target.mind.sleep_adv.sleep_adv_points += 3
 
 /obj/structure/ritualcircle/xylix
 	name = "Rune of Trickery"
@@ -400,95 +419,11 @@
 /obj/structure/ritualcircle/dendor/proc/lesservolf(mob/living/carbon/human/target) // IS proc
 	target.apply_status_effect(/datum/status_effect/buff/lesserwolf) // applies status effect
 
-/* -- THESE RITUALS ARE CURRENTLY DEFUNCT -- Not shifting these for now. All they do is allow non-dendorites to shapeshift into a specific form (in theory)
-* You just need to move it over to the section as above. -- CODEATHON
-/datum/runeritual/borrowed_madness
-	name = "Borrowed Madness"
-
-/datum/runeritual/borrowed_madness/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
-	if(!do_after(user, 5 SECONDS))
-		return
-	
-	user.say("I pray for strength...")
-	playsound(loc, 'sound/vo/mobs/vw/idle (1).ogg', 100, FALSE, -1)
-
-	if(!do_after(user, 5 SECONDS))
-		return
-	
-	user.say("I pray for pain...")
-	playsound(loc, 'sound/vo/mobs/vw/idle (4).ogg', 100, FALSE, -1)
-
-	if(!do_after(user, 5 SECONDS))
-		return
-	
-	loc.visible_message(span_warning("[user] produces an eerie as they titter quietly, softly weeping. Their body twitches ever so slightly..."))
-	playsound(loc, 'sound/vo/mobs/vw/bark (1).ogg', 100, FALSE, -1)
-
-	if(!do_after(user, 3 SECONDS))
-		return
-
-	loc.visible_message(span_warning("[user] suddenly snaps their head upward, letting out a twisted howl!"))
-	playsound(loc, 'sound/vo/mobs/wwolf/howl (2).ogg', 100, FALSE, -1)
-
-	for(var/mob/living/carbon/human/target in range(0, loc))
-		if(!istype(target.patron, /datum/patron/divine/dendor))
-			to_chat(target, span_warning("The ritual's power does not recognize me..."))
-			continue
-		
-		to_chat(target, span_userdanger("Do you like hurting other people?"))
-		target.flash_fullscreen("redflash3")
-		target.emote("agony")
-		target.Unconscious(200)
-		target.Knockdown(200)
-		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/dendormole)
-
-	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-
-	return TRUE
-
-/datum/runeritual/spider_kinship
-	name = "Spider Kinship"
-
-/datum/runeritual/spider_kinship/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
-	if(!do_after(user, 5 SECONDS))
-		return
-
-	user.say("I call to the ruthless wilds,")
-	playsound(loc, 'sound/vo/mobs/spider/idle (1).ogg', 100, FALSE, -1)
-
-	if(!do_after(user, 5 SECONDS))
-		return
-
-	user.say("... grant me an agile form of your dominion..!")
-	playsound(loc, 'sound/vo/mobs/spider/idle (3).ogg', 100, FALSE, -1)
-
-	if(!do_after(user, 3 SECONDS))
-		return
-
-	loc.visible_message(span_warning("[user] seizes up, suddenly covered in a mess of silky webs, which then slough away into a sticky pile!"))
-	playsound(loc, 'sound/vo/mobs/spider/pain.ogg', 100, FALSE, -1)
-
-	for(var/mob/living/carbon/human/target in range(0, loc))
-		if(!istype(target.patron, /datum/patron/divine/dendor))
-			to_chat(target, span_warning("The ritual's power does not recognize me..."))
-			continue
-
-		to_chat(target, span_userdanger("The webs of madness and nature whisper to me. The webs are eternal. Long live the Nest!"))
-		target.flash_fullscreen("redflash3")
-		target.emote("agony")
-		target.Unconscious(100)
-		target.Knockdown(200)
-		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/mireboi)
-
-	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-
-	return TRUE
-*/
 /obj/structure/ritualcircle/malum
 	name = "Rune of Forge"
 	desc = "A holy rune of <font color='ff9933'>Malum.</font> </br> <i>A hammer and heat, to fix any imperfections with.</i>"
 	icon_state = "malum_chalky"
-	var/forgerites = list("Ritual of Blessed Reforgance")
+	var/forgerites = list("Bestow Blessing")
 
 /obj/structure/ritualcircle/malum/attack_hand(mob/living/user)
 	if(!..())
@@ -504,41 +439,36 @@
 		return
 	var/riteselection = input(user, "Rituals of Creation", src) as null|anything in forgerites
 	switch(riteselection) // put ur rite selection here
-		if("Ritual of Blessed Reforgance")
+		if("Bestow Blessing")
+			var/mob/living/target = null
+			var/turf/T = get_turf(src)
+			for(var/mob/living/person in T.contents)
+				if(!ishuman(person))
+					continue
+				if(user != person)
+					continue
+				target = person
+			if(!target)
+				to_chat(user, span_warning("I need to be standing on the rune for this to work."))
+				return
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("God of craft and heat of the forge!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Take forth these metals and rebirth them in your furnaces!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Grant unto me the metals in which to forge great works!")
-			to_chat(user,span_danger("You feel a sudden heat rising within you, burning within your chest.."))
 			if(!do_after(user, 3 SECONDS))
 				return
-			icon_state = "malum_active"
-			user.say("From your forge, may these creations be remade!!")
-			loc.visible_message(span_warning("A wave of heat rushes out from the ritual circle before [user]. The metal is reforged in a flash of light!"))
-			playsound(loc, 'sound/magic/churn.ogg', 100, FALSE, -1)
-			holyreforge(src)
+			loc.visible_message(span_warning("[user] becomes engulfed in divine glow!"))
+			playsound(loc, 'sound/magic/magearmorup.ogg', 100, FALSE, -1)
+			malumblessing(target) // starts proc
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			spawn(120)
-				icon_state = "malum_chalky"
 
-/obj/structure/ritualcircle/malum/proc/holyreforge(src)
-	var/ritualtargets = view(7, loc)
-	for(var/mob/living/carbon/human/target in ritualtargets)
-		target.flash_fullscreen("whiteflash") //Cool effect!
-	for (var/obj/item/ingot/silver/I in loc)
-		qdel(I)
-		new /obj/item/ingot/silverblessed(loc)
-	for (var/obj/item/ingot/steel/I in loc)
-		qdel(I)
-		new /obj/item/ingot/steelholy(loc)
+/obj/structure/ritualcircle/malum/proc/malumblessing(mob/living/carbon/human/target)
+	target.apply_status_effect(/datum/status_effect/buff/malumritual)
 
 /obj/structure/ritualcircle/abyssor
-	name = "Rune of Storm"
+	name = "Rune of Storms"
 	desc = "A holy rune of <font color='3769b8'>Abyssor.</font> </br> <i>You sense your mind getting pulled into the drawn spiral.</i>"
 	icon_state = "abyssor_chalky"
 	var/stormrites = list("Rite of the Tides")
@@ -2148,213 +2078,6 @@
 	backr = /obj/item/rogueweapon/spear/partizan/baotha
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
-
-//
-
-/obj/item/clothing/head/roguetown/helmet/baotha
-	name = "saccharine sallet"
-	desc = "Lo', the twins of beauty; Eora and Belladoth, they sought a prize which but one may have.."
-	icon_state = "baothahelm"
-	item_state = "baothahelm"
-	body_parts_covered = HEAD | HAIR | EARS | MOUTH | EYES
-	armor_class = ARMOR_CLASS_LIGHT
-	max_integrity = ARMOR_INT_HELMET_ANTAG - 300 //Halved durability, compared to traditional Ascendant-tier armor.
-	smeltresult = /obj/item/ingot/component/baotha
-
-/obj/item/clothing/head/roguetown/helmet/baotha/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "HELMET")
-
-/obj/item/clothing/head/roguetown/helmet/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
-
-/obj/item/clothing/neck/roguetown/coif/baotha
-	name = "saccharine veil"
-	desc = "And yet, their methods differed; Belladoth proposed with Her lust and temptation, Eora with Her love and warmth.."
-	icon_state = "baothacoif"
-	item_state = "baothacoif"
-	armor = ARMOR_PADDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
-	body_parts_covered = NECK | HAIR | EARS | HEAD | NOSE
-	armor_class = ARMOR_CLASS_LIGHT
-	adjustable = CAN_CADJUST
-	toggle_icon_state = TRUE
-	resistance_flags = FIRE_PROOF
-	blocksound = SOFTHIT
-	color = null
-	chunkcolor = "#645567"
-	smeltresult = /obj/item/ingot/component/baotha
-
-/obj/item/clothing/neck/roguetown/coif/baotha/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "VEIL")
-	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/cloth_wipe (1).ogg', null, (UPD_HEAD|UPD_MASK|UPD_NECK))
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/neck/roguetown/coif/baotha/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-/obj/item/clothing/neck/roguetown/coif/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
-
-/obj/item/clothing/suit/roguetown/armor/plate/fluted/baotha
-	name = "saccharine plate armor"
-	desc = "Is it not obvious what Ravox would've chosen? Yet upon the dae of His choice, She refused to gift any chance to Her sister.."
-	icon_state = "baothaplate"
-	item_state = "baothaplate"
-	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG - 350 //Halved durability, compared to traditional Ascendant-tier armor.
-	armor_class = ARMOR_CLASS_LIGHT //The big, big thing.
-	color = null
-	chunkcolor = "#dd2166"
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
-	smeltresult = /obj/item/ingot/component/baotha
-
-/obj/item/clothing/suit/roguetown/armor/plate/fluted/baotha/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "ARMOR")
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/suit/roguetown/armor/plate/fluted/baotha/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-/obj/item/clothing/suit/roguetown/armor/plate/fluted/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
-
-/obj/item/clothing/suit/roguetown/armor/gambeson/baotha
-	name = "saccharine vestments"
-	desc = "A gemmed chalice, Eora's own, swilled with Psydonia's most noxious venoms - and but a simple sip was enough to bring Her to death's door.."
-	icon_state = "baothagamb"
-	armor_class = ARMOR_CLASS_LIGHT
-	armor = ARMOR_PADDED
-	color = null
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
-	armor_class = ARMOR_CLASS_LIGHT
-	resistance_flags = FIRE_PROOF
-	body_parts_covered = CHEST | GROIN | ARMS
-	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	smeltresult = /obj/item/ingot/component/baotha
-
-/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "VESTMENTS")
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-/obj/item/clothing/suit/roguetown/armor/gambeson/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
-
-/obj/item/clothing/wrists/roguetown/bracers/leather/baotha
-	name = "saccharine cuffs"
-	desc = "A betrayal without compare, and a sin without redemption; or so, She believed.."
-	icon_state = "baothabracers"
-	chunkcolor = "#6d1c87"
-	armor = ARMOR_PADDED
-	resistance_flags = FIRE_PROOF
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
-	smeltresult = /obj/item/ingot/component/baotha
-
-/obj/item/clothing/wrists/roguetown/bracers/leather/baotha/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "BRACERS")
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/wrists/roguetown/bracers/leather/baotha/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-/obj/item/clothing/wrists/roguetown/bracers/leather/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
-
-/obj/item/clothing/under/roguetown/skirt/baotha
-	name = "saccharine fauldcoat"
-	desc = "Only did Belladona's haze clear, once She heard Eora's gasps and Ravox's fright; what else could She've done besides fleeing the heavens?"
-	armor = ARMOR_PADDED
-	icon_state = "baothaskirt"
-	chunkcolor = "#6d1c87"
-	resistance_flags = FIRE_PROOF
-	armor_class = ARMOR_CLASS_LIGHT
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 150
-	body_parts_covered = GROIN | LEGS
-	smeltresult = /obj/item/ingot/component/baotha
-
-/obj/item/clothing/under/roguetown/skirt/baotha/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "SKIRT")
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/under/roguetown/skirt/baotha/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-/obj/item/clothing/under/roguetown/skirt/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
-
-/obj/item/clothing/gloves/roguetown/plate/baotha
-	name = "saccharine gauntlets"
-	desc = "Belladonna's ego died on that dae, and Baotha's venomous id rose in Her stead; for it was better to numb the regret than to face the guilt.."
-	icon_state = "baothagloves"
-	item_state = "baothagloves"
-	chunkcolor = "#6d1c87"
-	max_integrity = ARMOR_INT_SIDE_ANTAG - 250
-	armor_class = ARMOR_CLASS_LIGHT
-	smeltresult = /obj/item/ingot/component/baotha
-
-/obj/item/clothing/gloves/roguetown/plate/baotha/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "GLOVES")
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/gloves/roguetown/plate/baotha/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-/obj/item/clothing/gloves/roguetown/plate/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
-
-/obj/item/clothing/shoes/roguetown/boots/armor/baotha
-	name = "saccharine heels"
-	desc = "..yet, even as She indulges and mourns beneath the stars, one must wonder; is She truly damned by the Pantheon, or by Herself alone?"
-	icon_state = "baothaboots"
-	item_state = "baothaboots"
-	chunkcolor = "#6d1c87"
-	max_integrity = ARMOR_INT_SIDE_ANTAG - 250
-	armor_class = ARMOR_CLASS_LIGHT
-	smeltresult = /obj/item/ingot/component/baotha
-
-/obj/item/clothing/shoes/roguetown/boots/armor/baotha/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "BOOTS")
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/shoes/roguetown/boots/armor/baotha/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-/obj/item/clothing/shoes/roguetown/boots/armor/baotha/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_ARMOR)
-
-//
 
 /obj/effect/decal/cleanable/roguerune/god/psydon
 	name = "Rune of Perseverance"

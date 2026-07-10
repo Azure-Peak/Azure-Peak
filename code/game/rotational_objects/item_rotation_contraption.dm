@@ -76,7 +76,7 @@
 			return
 
 	visible_message("[user] starts placing down [src].", "You start to place [src].")
-	if(!do_after(user, 1.2 SECONDS - user?.get_skill_level(/datum/skill/craft/engineering), T))
+	if(!do_after(user, 1 SECONDS - user?.get_skill_level(/datum/skill/craft/engineering), T))
 		return
 	if(QDELETED(stack_target) && ispath(placed_type, /obj/structure/rotation_piece))
 		stack_target = locate(placed_type) in T

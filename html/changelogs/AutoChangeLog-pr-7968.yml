@@ -1,0 +1,5 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added a few catagories to the wretch shop, exclusive to wretches. This is mostly up-priced black market stuff and down-priced prosthetics so you can de-nugget your fellow soft-antag back into being able to play the round without medical skill."
+  - balance: "Wretches can buy more supplies from camp + Get Bronze/weaponry, for gimmiciness"

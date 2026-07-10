@@ -11,6 +11,7 @@
 	pass_flags = PASSTABLE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	movement_type = FLYING
+	light_system = MOVABLE_LIGHT
 	//The sound this plays on impact.
 	var/hitsound = 'sound/blank.ogg'
 	var/hitsound_wall = ""
@@ -135,12 +136,15 @@
 	var/stamina = 0
 	var/jitter = 0
 	var/dismemberment = 0 //The higher the number, the greater the bonus to dismembering. 0 will not dismember at all.
+	var/dismember_by_default = FALSE
 	var/impact_effect_type //what type of impact effect to show when hitting something
 	var/log_override = FALSE //is this type spammed enough to not log? (KAs)
 
 	var/temporary_unstoppable_movement = FALSE
 
 	var/woundclass = null
+	/// If TRUE, this projectile applies wounds but never rolls a critical hit.
+	var/no_crit = FALSE
 	var/embedchance = 0
 	var/obj/item/dropped = null
 	var/ammo_type

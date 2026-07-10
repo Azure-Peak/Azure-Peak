@@ -47,7 +47,7 @@
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	backr = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather/rope // more wild look + aura
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark // more wild look + aura
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding //Used to be a reinforced leather coif, but crit resist kinda leaves your head open to shit
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/combat = 1, //Steel variant of the hunting knife. Pseudoantagonist-tier, plus an avenue to hack limbs with.

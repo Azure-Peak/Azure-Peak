@@ -217,10 +217,10 @@
 
 /obj/item/rogueweapon/huntingknife/copper
 	name = "copper knife"
-	desc = "A knife made of copper. Lacking in durability."
+	desc = "A knife made of copper, lacking in durability."
 	icon_state = "cdagger"
 	max_integrity = 75
-	smeltresult = null // TODO: We don't have partial melt so coping time
+	smeltresult = /obj/item/ingot/copperslag
 
 /obj/item/rogueweapon/huntingknife/bronze
 	name = "bronze knife"
@@ -749,6 +749,38 @@
 	sellprice = 200
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/rogueweapon/huntingknife/idagger/blacksteel
+	name = "blacksteel dagger"
+	desc = "A magnificent dagger of blacksteel. The epitome of elegance, without the woes that such weapons traditionally inherit."
+	icon_state = "bs_dagger"
+	sheathe_icon = "bs_dagger"
+	force = 22
+	max_blade_int = 250
+	smeltresult = /obj/item/ingot/blacksteel
+
+/obj/item/rogueweapon/huntingknife/idagger/blacksteel/heavy
+	name = "blacksteel misericorde"
+	desc = "A magnificent armor-piercing dagger of blacksteel. The curved handle is said to naturally improve one's aim, while locked in a \
+	lyfe-or-death struggle with plate-armored opponents."
+	icon_state = "bs_misericorde"
+	sheathe_icon = "bs_misericorde"
+	force = 25
+	wdefense = 4
+	max_blade_int = 300
+
+/obj/item/rogueweapon/huntingknife/throwingknife/blacksteel
+	name = "blacksteel tossblade"
+	desc = "A magnificent tossblade of blacksteel. Unorthodox, but nevertheless beloved by assassins who can afford the price - and can't leave anything to chance. </br>This dagger can be stowed away inside a pair of boots, permitting it to be quickly drawn when needed."
+	item_state = "throw_knifebs"
+	max_integrity = 50
+	max_blade_int = 200
+	force = 16
+	throwforce = 28
+	armor_penetration = PEN_HEAVY //Inherits the throwforce of steel and the penetration of silver.
+	icon_state = "throw_knifebs"
+	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 0)
+	smeltresult = null
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/rondel
 	name = "rondel dagger"
 	desc = "This is the traditional sidearm of a knight: a lightweight dagger of solid steel, well-balanced for delivering rapid thrusts that can shuck grapplers like oysters."
@@ -923,22 +955,12 @@
 		added_def = 0,\
 	)
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/lesser
-	name = "silver-tipped handstake"
-	desc = "A smaller branch that has been broken off of an Otavan boswellia tree, sharpened to a fine point and tipped with blessed silver. It can lay most unholy creechers to rest, but only by piercing their hearts."
+/obj/item/rogueweapon/huntingknife/idagger/stake/inq
+	name = "otavan stake"
+	desc = "A smaller branch that has been broken off of an Otavan boswellia tree, sharpened to a fine point. It can lay most unholy creechers to rest, but only by piercing their hearts."
 	force = 15
-	icon_state = "stake_silver"
-
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/lesser/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 100,\
-		added_int = 0,\
-		added_def = 0,\
-	)
+	throwforce = 15
+	icon_state = "stake_otavan"
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
 	name = "psydonic dagger"

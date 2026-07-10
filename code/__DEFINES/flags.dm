@@ -92,6 +92,9 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 /// When moving, will Bump()/Cross() everything, but won't be stopped.
 #define UNSTOPPABLE		(1<<4)
 
+#define MOVETYPES_NOT_TOUCHING_GROUND (FLOATING | FLYING)
+#define MOVETYPES_FLOATING_ANIMATION (FLOATING | FLYING)
+
 //Fire and Acid stuff, for resistance_flags
 #define LAVA_PROOF		(1<<0)
 /// 100% immune to fire damage (but not necessarily to lava or heat)

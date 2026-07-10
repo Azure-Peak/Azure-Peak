@@ -70,6 +70,13 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	//used by CHECK_TICK as well so that the procs subsystems call can obey that SS's tick limits
 	var/static/current_ticklimit = TICK_LIMIT_RUNNING
 
+	/// Whether the Overview UI will update as fast as possible for viewers.
+	var/overview_fast_update = FALSE
+	/// Enables rolling usage averaging
+	var/use_rolling_usage = FALSE
+	/// How long to run our rolling usage averaging
+	var/rolling_usage_length = 5 SECONDS
+
 /datum/controller/master/New()
 	if(!config)
 		config = new
@@ -112,6 +119,115 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		log_world("Shutting down [ss.name] subsystem...")
 		ss.Shutdown()
 	log_world("Shutdown complete")
+
+/client/proc/cmd_controller_view_ui()
+	set category = "Debug"
+	set name = "Controller Overview"
+	set desc = "View the current states of the Subsystem Controllers."
+	if(!check_rights(R_SERVER|R_DEBUG))
+		return
+	Master.ui_interact(usr)
+
+/datum/controller/master/ui_status(mob/user, datum/ui_state/state)
+	if(!user.client?.holder?.check_for_rights(R_SERVER|R_DEBUG))
+		return UI_CLOSE
+	return UI_INTERACTIVE
+
+/datum/controller/master/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(isnull(ui))
+		ui = new /datum/tgui(user, src, "ControllerOverview")
+		ui.open()
+		use_rolling_usage = TRUE
+
+/datum/controller/master/ui_close(mob/user)
+	var/valid_found = FALSE
+	for(var/datum/tgui/open_ui as anything in open_uis)
+		if(open_ui.user == user)
+			continue
+		valid_found = TRUE
+	if(!valid_found)
+		use_rolling_usage = FALSE
+	return ..()
+
+/datum/controller/master/ui_data(mob/user)
+	var/list/data = list()
+
+	var/list/subsystem_data = list()
+	for(var/datum/controller/subsystem/subsystem as anything in subsystems)
+		var/list/rolling_usage = subsystem.rolling_usage
+		subsystem.prune_rolling_usage()
+
+		var/sum = 0
+		for(var/i in 2 to length(rolling_usage) step 2)
+			sum += rolling_usage[i]
+		var/average = sum / DS2TICKS(rolling_usage_length)
+
+		subsystem_data += list(list(
+			"name" = subsystem.name,
+			"ref" = REF(subsystem),
+			"init_order" = subsystem.init_order,
+			"last_fire" = subsystem.last_fire,
+			"next_fire" = subsystem.next_fire,
+			"can_fire" = subsystem.can_fire,
+			"doesnt_fire" = !!(subsystem.flags & SS_NO_FIRE),
+			"cost_ms" = subsystem.cost,
+			"tick_usage" = subsystem.tick_usage,
+			"usage_per_tick" = average,
+			"overtime" = subsystem.tick_overrun,
+			"initialized" = subsystem.initialized,
+			"initialization_failure_message" = subsystem.initialization_failure_message,
+		))
+	data["subsystems"] = subsystem_data
+	data["world_time"] = world.time
+	data["map_cpu"] = world.map_cpu
+	data["fast_update"] = overview_fast_update
+	data["rolling_length"] = rolling_usage_length
+
+	return data
+
+/datum/controller/master/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	if(..())
+		return TRUE
+
+	switch(action)
+		if("toggle_fast_update")
+			overview_fast_update = !overview_fast_update
+			return TRUE
+
+		if("set_rolling_length")
+			var/length = text2num(params["rolling_length"])
+			if(!length || length < 0)
+				return
+			rolling_usage_length = length SECONDS
+			return TRUE
+
+		if("view_variables")
+			if(!check_rights_for(ui.user.client, R_DEBUG))
+				message_admins("[key_name(ui.user)] tried to view master controller variables while having improper rights, this is potentially a malicious exploit and worth noting.")
+				return
+
+			var/datum/controller/subsystem/subsystem = locate(params["ref"]) in subsystems
+			if(isnull(subsystem))
+				to_chat(ui.user, span_warning("Failed to locate subsystem."))
+				return
+
+			ui.user.client.debug_variables(subsystem)
+			return TRUE
+
+/datum/controller/master/proc/check_and_perform_fast_update()
+	PRIVATE_PROC(TRUE)
+	set waitfor = FALSE
+
+	if(!overview_fast_update)
+		return
+
+	var/static/already_updating = FALSE
+	if(already_updating)
+		return
+	already_updating = TRUE
+	SStgui.update_uis(src)
+	already_updating = FALSE
 
 // Returns 1 if we created a new mc, 0 if we couldn't due to a recent restart,
 //	-1 if we encountered a runtime trying to recreate it
@@ -425,6 +541,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		current_ticklimit = TICK_LIMIT_RUNNING
 		if (processing * sleep_delta <= world.tick_lag)
 			current_ticklimit -= (TICK_LIMIT_RUNNING * 0.25) //reserve the tail 1/4 of the next tick for the mc if we plan on running next tick
+		check_and_perform_fast_update()
 		sleep(world.tick_lag * (processing * sleep_delta))
 
 
@@ -529,6 +646,10 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 			tick_usage = TICK_USAGE
 			var/state = queue_node.ignite(queue_node_paused)
 			tick_usage = TICK_USAGE - tick_usage
+
+			if(use_rolling_usage)
+				queue_node.prune_rolling_usage()
+				queue_node.rolling_usage += list(DS2TICKS(world.time), tick_usage)
 
 			if (state == SS_RUNNING)
 				state = SS_IDLE

@@ -19,7 +19,9 @@
 //Gods - Tennite
 #define GLOW_COLOR_UNDIVIDED "#28908C" //Undivided Cyan
 #define GLOW_COLOR_ASTRATA "#F9B362" //Astratan Yellow/Orange
+#define GLOW_COLOR_NOC "#9acdff" //Noc's lightbulb
 #define GLOW_COLOR_RAVOX "#7A1E30" //Ravox Crimson
+#define GLOW_COLOR_MALUM "#884610" //Malum Orange
 
 //Gods - Ascendant
 #define GLOW_COLOR_GRAGGAR "#19345E" //Graggar Dark Blue
@@ -61,15 +63,15 @@
 #define SPELLCOST_MINOR_AOE          15
 #define SPELLCOST_MAJOR_AOE          30
 #define SPELLCOST_SINGLE_CC          30
-#define SPELLCOST_UTILITY_BUFF       20
-#define SPELLCOST_STAT_BUFF          40
+#define SPELLCOST_UTILITY_BUFF       5 // See below
+#define SPELLCOST_STAT_BUFF          5 // With new Augmentation design we don't really need to gate this hard anymore
 #define SPELLCOST_CONJURE            20	
 #define SPELLCOST_TELEPORT           15
 #define SPELLCOST_MINOR_SUMMON       30
 #define SPELLCOST_MAJOR_SUMMON       50
 // Buff duration tiers
 #define STAT_BUFF_SELF_DURATION      1 MINUTES
-#define STAT_BUFF_ALLY_DURATION      2.5 MINUTES
+#define STAT_BUFF_ALLY_DURATION      1 MINUTES
 #define UTILITY_AOE_BUFF_DURATION    15 MINUTES
 
 //Miracle costs in devotion used.
@@ -88,6 +90,8 @@
 #define SPELLCOST_SB_POKE 12 // Roughly 3 attacks worth
 #define SPELLCOST_SB_MOBILITY 12 // Dashes / Teleports / Anchor
 #define SPELLCOST_SB_ULT 50 // Their ult
+
+#define SPELLCOST_FORM_BLADE 30
 
 // Standardized charge times — keeps poke/major/heavy spells consistent for balance passes
 #define CHARGETIME_POKE          0.5 SECONDS  // Staple poke spells

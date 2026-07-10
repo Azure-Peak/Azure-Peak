@@ -1,4 +1,0 @@
-author: "EvenInDeathIStillServe"
-delete-after: True
-changes:
-  - rscadd: "You can export your preferences/characters using the \"Export Preferences\" verb in the \"OOC\" panel. It will be saved as a file on your computer."

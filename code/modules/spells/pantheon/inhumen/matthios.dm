@@ -433,11 +433,6 @@
 	user.visible_message(span_yellow("[user] sharply exhales, breathing out a cloud of fyre!"))
 	user.Immobilize(15)
 
-	if(!familiar && !(islizard(user) || iskobold(user) || isdracon(user) || ishalfkin(user)))
-		user.adjust_fire_stacks(2)
-		user.ignite_mob()
-		to_chat(user, span_userdanger("Your mortal flesh struggles to withstand the draconic fyre coursing through you!"))
-
 	return TRUE
 
 /datum/action/cooldown/spell/matthios/raze/proc/ignite(turf/damage_turf)
@@ -510,7 +505,7 @@
 		return
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
+		if(HAS_TRAIT(target, TRAIT_PSYDONITE) || HAS_TRAIT(target, TRAIT_BLACKBLOOD))
 			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)

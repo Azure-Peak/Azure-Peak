@@ -74,7 +74,7 @@
 		head = /obj/item/clothing/head/roguetown/fisherhat
 		backr = /obj/item/storage/backpack/rogue/satchel
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
-		belt = /obj/item/storage/belt/rogue/leather/rope
+		belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 		beltr = /obj/item/fishingrod
 		beltl = /obj/item/rogueweapon/huntingknife
 		backpack_contents = list(

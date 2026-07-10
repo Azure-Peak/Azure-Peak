@@ -238,7 +238,7 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/book/spellbook = 1,
+		/obj/item/rogueweapon/spellbook/greater = 1,
 		/obj/item/chalk = 1,
 		)
 
@@ -274,8 +274,8 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/kastvyl)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/telegraphed_strike/spellblade/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/telegraphed_strike/spellblade/tremor)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
 
@@ -323,11 +323,13 @@
 					r_hand = /obj/item/rogueweapon/mace/warhammer/steel
 				if("Grand Mace")
 					r_hand = /obj/item/rogueweapon/mace/goden/steel
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Battle Axe")
 					r_hand = /obj/item/rogueweapon/stoneaxe/battle
 					picked_axe = TRUE
 				if("Steel Greataxe")
 					r_hand = /obj/item/rogueweapon/greataxe/steel
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 					picked_axe = TRUE
 			if(picked_axe)
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)

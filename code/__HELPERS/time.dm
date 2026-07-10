@@ -96,7 +96,7 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 					GLOB.forecast = null
 
 	if(GLOB.tod != oldtod)
-		if(GLOB.tod == "dawn")
+		if(GLOB.tod == "dawn" && SSticker?.current_state == GAME_STATE_PLAYING)
 			GLOB.dayspassed++
 			scom_announce_new_dawn()
 			if(SStreasury?.initialized)

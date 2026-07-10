@@ -1014,7 +1014,7 @@
 /datum/crafting_recipe/roguetown/gemcarving/turq/spear
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
 	name = "cerulite spear"
-	result = /obj/item/ammo_casing/caseless/rogue/javelin
+	result = /obj/item/rogueweapon/spear/turq
 	reqs = list(/obj/item/roguegem/turq = 1)
 	tools = list(/obj/item/rogueweapon/huntingknife)
 	craftdiff = SKILL_LEVEL_MASTER

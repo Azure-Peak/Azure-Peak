@@ -309,7 +309,7 @@ export const CityAssembly = () => {
 
           <BracketRow
             label="Trade"
-            hint="Set the Alderman's daily Crown spending cap."
+            hint="Set the Alderman's daily Crown spending cap. (Taken from the Crowns' Purse, not the Burgher's Pledge.)"
             motion={MOTION_TRADE}
             brackets={data.trade_brackets}
             suffix="m"

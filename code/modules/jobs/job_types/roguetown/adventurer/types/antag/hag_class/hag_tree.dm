@@ -365,6 +365,7 @@
 	icon_state = "moss_blank"
 	icon = 'icons/roguetown/items/hag/hag_items.dmi'
 	color = "#00e2d7"
+	sellprice = 1
 
 /obj/item/alch/hag_moss
 	name = "Generic moss"

@@ -351,6 +351,42 @@ Balloon Alert / Floating Text defines
 	/datum/species/dullahan,\
 	/datum/species/ooze,\
 )
+
+/*Used for races that won't break the game completely if an NPC picks from this listing - Or look terrible like, really, really terrible.
+
+HARD NOS:
+-> Reverents (Head/Body issues + NPCs can't use this properly)
+-> Constructs (Meant to be RARE, keep them solely limited to NPC types MEANT for them)
+-> Assimar (Pure lux via lux extraction, balance issues)
+
+
+Notable but possible races
+-> Drow axed for now to avoid extra checks until I proc the voice + hair stuff properly in a refactor to make their hair white + yellow/red/green eye colors more often
+-> Murklings as well because y'know, hair is supposed to be body-colored since they're just gloop of some assimulated fool
+-> Anthromorphs/lizards look poor without their snouts, like really, really goofy af.
+
+-> some other races look bad but they're semi-acceptable for now I.E teiflings/halfkin since they don't come w/ears and tails randomly.
+
+Regards: Shadows
+PS: You may also wanna split this list for regional stuff + weight stuff in future.
+We also might want a proper NPC randomise set of verbs for less copypasting shit over and over, I've been meaning for that but not gotten to it yet.
+
+To avoid TOO much conflicts w/random char parts, consider a proc that checks if we have X race and applies features out of a listing. Its kinda janky but its an idea.
+
+*/
+#define NPC_RACES_TYPES list(\
+	/datum/species/human/northern,\
+	/datum/species/human/halfelf,\
+	/datum/species/elf/wood,\
+	/datum/species/elf/sun,\
+	/datum/species/dwarf/mountain,\
+	/datum/species/tieberian,\
+	/datum/species/demihuman,\
+	/datum/species/halforc,\
+	/datum/species/goblinp,\
+	/datum/species/dwarf/gnome\
+)
+
 #define ALL_CLERIC_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora, /datum/patron/divine/undivided) // Currently unused.
 
 #define ALL_PALADIN_PATRONS list(/datum/patron/divine/undivided, /datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/abyssor, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora, /datum/patron/divine/xylix, /datum/patron/old_god) // Currently unused.
@@ -507,7 +543,6 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_MERCH			"CAT_MERCH"
 #define CTAG_SHOPHAND		"CAT_SHOPHAND"
 #define CTAG_ARCHIVIST		"CAT_ARCHIVIST"
-#define CTAG_TOWNCRIER		"CAT_TOWNCRIER"
 #define CTAG_KEEPER			"CAT_KEEPER"
 #define CTAG_TAILOR			"CAT_TAILOR"
 #define CTAG_SOILBRIDE		"CAT_SOILBRIDE"

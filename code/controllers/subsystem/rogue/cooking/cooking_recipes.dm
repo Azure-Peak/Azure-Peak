@@ -32,6 +32,8 @@
 	var/restricted_message = null
 	var/list/extra_steps = list()
 	var/result_smell = null
+	/// If TRUE, the encyclopedia inlines this recipe's entire prerequisite chain as one step list instead of linking out to each prior recipe.
+	var/inline_ancestry = FALSE
 
 /datum/food_recipe/proc/user_can_make(mob/user)
 	return TRUE
@@ -89,7 +91,7 @@
 		return "<li>Add one of: [options.Join(", ")]</li>"
 	if(ingredients[entry] == COOKSTEP_TOOL) // non-consumed tool
 		var/atom/A = entry
-		return "<li>Use [icon2html(new A, user)] [initial(A.name)]</li>"
+		return "<li>Apply [icon2html(new A, user)] [initial(A.name)]</li>"
 	var/atom/A = entry
 	return "<li>Add [icon2html(new A, user)] [initial(A.name)]</li>"
 
@@ -107,19 +109,41 @@
 		return "<li><b>Cook</b> it over a hearth, or in an oven</li>"
 	return ""
 
-/datum/food_recipe/proc/build_journey(mob/user, depth = 0)
+/datum/food_recipe/proc/cook_step_data()
+	var/cook_label
+	switch(cook_method)
+		if(COOK_BAKE)
+			cook_label = "Bake it in an oven"
+		if(COOK_FRY)
+			cook_label = "Fry it in a pan over a hearth"
+		if(COOK_DEEPFRY)
+			cook_label = "Deep-fry it in a pot of hot oil"
+		if(COOK_BOIL)
+			cook_label = "Boil it in a pot of water"
+	if(!cook_label && needs_cooking)
+		cook_label = "Cook it over a hearth, or in an oven"
+	if(!cook_label)
+		return null
+	return list("kind" = "cook", "label" = cook_label)
+
+/datum/food_recipe/proc/build_journey(mob/user, depth = 0, full = FALSE)
+	full ||= inline_ancestry
 	var/list/steps = list()
 	var/atom/base = islist(base_item) ? base_item[1] : base_item
 	if(depth < 10)
 		var/datum/food_recipe/pre = SScooking?.get_producing_recipe(base)
-		if(pre && pre.hidden && pre != src)
-			var/list/pre_data = pre.build_journey(user, depth + 1)
+		if(pre && pre != src && (full || pre.hidden))
+			var/list/pre_data = pre.build_journey(user, depth + 1, full)
 			base = pre_data["base"]
 			steps += pre_data["steps"]
 	for(var/i in 1 to length(ingredients))
 		steps += render_step_li(ingredients[i], user)
 	for(var/note in extra_steps)
 		steps += "<li>[note]</li>"
+	if(depth > 0)
+		var/cook_li = cook_step_li()
+		if(cook_li)
+			steps += cook_li
 	return list("base" = base, "steps" = steps)
 
 /datum/food_recipe/proc/generate_html(mob/user)
@@ -190,19 +214,24 @@
 		"name" = initial(A.name)
 	)
 
-/datum/food_recipe/proc/build_journey_data(depth = 0)
+/datum/food_recipe/proc/build_journey_data(depth = 0, full = FALSE)
+	full ||= inline_ancestry
 	var/list/steps = list()
 	var/base_type = islist(base_item) ? base_item[1] : base_item
 	if(depth < 10)
 		var/datum/food_recipe/pre = SScooking?.get_producing_recipe(base_type)
-		if(pre && pre.hidden && pre != src)
-			var/list/pre_data = pre.build_journey_data(depth + 1)
+		if(pre && pre != src && (full || pre.hidden))
+			var/list/pre_data = pre.build_journey_data(depth + 1, full)
 			base_type = pre_data["base"]
 			steps += pre_data["steps"]
 	for(var/i in 1 to length(ingredients))
 		steps += list(render_step_data(ingredients[i]))
 	for(var/note in extra_steps)
 		steps += list(list("kind" = "text", "label" = note))
+	if(depth > 0)
+		var/list/cook_step = cook_step_data()
+		if(cook_step)
+			steps += list(cook_step)
 	return list("base" = base_type, "steps" = steps)
 
 /datum/food_recipe/proc/build_entry_data()
@@ -226,21 +255,9 @@
 	data["bases"] = bases
 
 	var/list/steps = journey["steps"]
-	if(cook_method)
-		var/cook_label
-		switch(cook_method)
-			if(COOK_BAKE)
-				cook_label = "Bake it in an oven"
-			if(COOK_FRY)
-				cook_label = "Fry it in a pan over a hearth"
-			if(COOK_DEEPFRY)
-				cook_label = "Deep-fry it in a pot of hot oil"
-			if(COOK_BOIL)
-				cook_label = "Boil it in a pot of water"
-		if(cook_label)
-			steps += list(list("kind" = "cook", "label" = cook_label))
-	else if(needs_cooking)
-		steps += list(list("kind" = "cook", "label" = "Cook it over a hearth, or in an oven"))
+	var/list/cook_step = cook_step_data()
+	if(cook_step)
+		steps += list(cook_step)
 	data["steps"] = steps
 
 	if(result_type)

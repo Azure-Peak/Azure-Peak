@@ -276,6 +276,7 @@
 	pixel_x = 20
 	light_outer_range =  5
 	light_color = "#3FBAFD"
+	light_system = MOVABLE_LIGHT
 
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "wisp"

@@ -1,0 +1,4 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "gnoll migrants are disabled on psydon gamemodes. if a gamemode isn't meant to have gnolls"

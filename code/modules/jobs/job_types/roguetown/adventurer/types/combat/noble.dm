@@ -177,7 +177,7 @@
 					armor = /obj/item/clothing/suit/roguetown/shirt/dress/velvetdress
 					gloves = /obj/item/clothing/gloves/roguetown/angle
 					cloak = /obj/item/clothing/cloak/raincloak/furcloak
-					belt = /obj/item/storage/belt/rogue/leather/cloth/lady
+					belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 				head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 				shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
 				pants = /obj/item/clothing/under/roguetown/trou/leather/gronn
@@ -423,6 +423,7 @@
 			"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 			"Visored Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor,
 			"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
+			"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 			"None"
 			)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -454,13 +455,19 @@
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Longsword","Mace + Shield","Flail + Shield","Lance + Shield","Billhook","Battle Axe","Greataxe","Greatflail")
+		var/weapons = list("Longsword","Arming Sword + Shield","Mace + Shield","Flail + Shield","Lance + Shield","Billhook","Battle Axe","Greataxe","Greatflail")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Longsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/sword/long
 				r_hand = /obj/item/rogueweapon/scabbard/sword/noble
+			if("Arming Sword + Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				beltr = /obj/item/rogueweapon/sword
+				r_hand = /obj/item/rogueweapon/scabbard/sword/noble
+				backr = /obj/item/rogueweapon/shield/tower/metal
 			if("Mace + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)

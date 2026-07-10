@@ -19,6 +19,8 @@
 
 #define JOB_DISPLAY_ORDER_DEFAULT 0
 
+#define HOMESTEADER_TITLE_COOLDOWN (15 MINUTES)
+
 #define NOBLEMEN			(1<<0)
 
 #define LORD		(1<<0)
@@ -69,7 +71,6 @@
 #define APOTHECARY	(1<<5)
 #define INNKEEPER	(1<<6)
 #define BATHMASTER	(1<<7)
-#define CRIER		(1<<8)
 #define APPRENTICE	(1<<9) //Readd the mage part if you are going to add any other role that uses this tag or use ASSOCIATE to avoid weird spacing.
 
 #define PEASANTS			(1<<6)
@@ -187,7 +188,6 @@
 #define JDO_APOTHECARY 6.5
 #define JDO_INNKEEPER 6.6
 #define JDO_BATHMASTER 6.7
-#define JDO_CRIER 6.8
 #define JDO_APPRENTICE 6.9
 
 // Town Serfs - Peasants

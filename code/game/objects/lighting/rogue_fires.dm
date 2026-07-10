@@ -478,10 +478,12 @@
 	if(!on)
 		to_chat(user, span_notice("[src] is not lit."))
 		return
-	if(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+	while(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+		if(!on)
+			to_chat(user, span_notice("[src] is no longer lit."))
+			return
 		to_chat(user, span_info("I fan the flame on [src].")) // Until line combine is on by default gotta do this to avoid spam
 		try_cook(cooktime_divisor)
-		attack_right(user)
 
 /obj/machinery/light/rogue/hearth/attackby(obj/item/W, mob/living/user, params)
 	lastuser = user // For processing food
@@ -503,7 +505,7 @@
 		if(istype(attachment, /obj/item/cooking/pan))
 			if(W.type in subtypesof(/obj/item/reagent_containers/food/snacks))
 				var/obj/item/reagent_containers/food/snacks/S = W
-				if(istype(W, /obj/item/reagent_containers/food/snacks/egg)) // added
+				if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/egg)) // added
 					if(W.icon_state != "rawegg")
 						playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
 						sleep(25) // to get egg crack before frying hiss

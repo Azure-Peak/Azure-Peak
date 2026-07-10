@@ -14,7 +14,6 @@
 	no_loot_taint = TRUE
 	var/listening = TRUE
 	var/speaking = TRUE
-	var/loudmouth_listening = TRUE
 	var/garrisonline = TRUE
 	var/messagereceivedsound = 'sound/misc/scom.ogg'
 	var/hearrange = 0 // Only hearable by wearer
@@ -68,12 +67,6 @@
 				S.repeat_message(input_text, src, usedcolor)
 			SSroguemachine.crown?.repeat_message(input_text, src, usedcolor)
 
-			GLOB.broadcast_list += list(list(
-			"message"   = input_text,
-			"tag"		= "The Crown of Azuria",
-			"timestamp" = station_time_timestamp("hh:mm:ss")
-			))
-
 		if(garrisonline)
 			input_text = "<big><span style='color: [GARRISON_CROWN_COLOR]'>[input_text]</span></big>" // Prettying up for Garrison line
 			for(var/obj/item/scomstone/bad/garrison/S in SSroguemachine.scomm_machines)
@@ -98,15 +91,9 @@
 		return
 	user.changeNext_move(CLICK_CD_MELEE)
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	if(loudmouth_listening)
-		to_chat(user, span_info("I quell the Loudmouth's prattling on the scomstone. It may be muted entirely still."))
-		loudmouth_listening = FALSE
-	else
-		listening = !listening
-		speaking = !speaking
-		to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the crown's SCOM capabilities."))
-		if(listening)
-			loudmouth_listening = TRUE
+	listening = !listening
+	speaking = !speaking
+	to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the crown's SCOM capabilities."))
 	update_icon()
 
 /obj/item/clothing/head/roguetown/crown/serpcrown/proc/repeat_message(message, atom/A, tcolor, message_language)

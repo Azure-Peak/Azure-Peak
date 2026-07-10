@@ -142,7 +142,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	name = "Wheat Blight"
 	description = "A black rot has crept through the grain stores of the Kingsfield farmsteads."
 	announcement = "<font color='#c44'>WHEAT BLIGHT: Grain and oats rot in the silos. Bread prices soar.</font>"
-	affected_goods = list(TRADE_GOOD_GRAIN, TRADE_GOOD_OATS)
+	affected_goods = list(TRADE_GOOD_GRAIN, TRADE_GOOD_OATS, TRADE_GOOD_RICE, TRADE_GOOD_MAIZE)
 	price_mod = ECON_SHORTAGE_SEVERE
 	event_type = ECON_EVENT_SHORTAGE
 
@@ -187,7 +187,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	name = "Bumper Harvest"
 	description = "Kingsfield reports its finest grain harvest - granaries overflow."
 	announcement = "<font color='#5cb85c'>BUMPER HARVEST: Grain and oats flood the markets. Prices collapse.</font>"
-	affected_goods = list(TRADE_GOOD_GRAIN, TRADE_GOOD_OATS)
+	affected_goods = list(TRADE_GOOD_GRAIN, TRADE_GOOD_OATS, TRADE_GOOD_RICE, TRADE_GOOD_MAIZE)
 	price_mod = ECON_OVERSUPPLY_SEVERE
 	event_type = ECON_EVENT_OVERSUPPLY
 

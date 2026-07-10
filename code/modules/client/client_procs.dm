@@ -157,6 +157,11 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		chronicle.ui_interact(mob)
 		return
 
+	if(href_list["open_encyclopedia"])
+		var/datum/recipe_wiki/wiki = get_recipe_wiki()
+		wiki.show_library(mob)
+		return
+
 	if(href_list["commandbar_typing"])
 		handle_commandbar_typing(href_list)
 

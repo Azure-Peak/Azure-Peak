@@ -9,8 +9,8 @@
 	penfactor = PEN_LIGHT
 	chargetime = 0
 	swingdelay = 0
-	damfactor = 1.3
-	clickcd = CLICK_CD_FAST
+	damfactor = 1.2
+	clickcd = CLICK_CD_QUICK
 	item_d_type = "slash"
 
 /datum/intent/katar/thrust
@@ -23,7 +23,7 @@
 	penfactor = PEN_MEDIUM // This make them good vs other light armor users
 	// So they don't need extra bonus damage on top
 	chargetime = 0
-	clickcd = CLICK_CD_FAST
+	clickcd = CLICK_CD_QUICK
 	item_d_type = "stab"
 
 /datum/intent/axe/chop/arbelos
@@ -32,7 +32,7 @@
 
 /datum/intent/axe/cut/arbelos
 	damfactor = 1.15
-	clickcd = CLICK_CD_FAST //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
+	clickcd = CLICK_CD_QUICK //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
 
 /datum/intent/katar/thrust/arbelos
 	penfactor = PEN_LIGHT
@@ -61,39 +61,6 @@
 	icon_state = "insilence"
 	tranged = TRUE
 	noaa = TRUE
-
-/datum/intent/knuckles/sear
-	name = "sear"
-	blade_class = BCLASS_BURN
-	attack_verb = list("chars", "sears")
-	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
-	chargetime = 0
-	penfactor = PEN_NONE
-	clickcd = 8
-	swingdelay = 0
-	icon_state = "incrack"
-	item_d_type = BURN
-
-/datum/intent/knuckles/strike
-	name = "punch"
-	blade_class = BCLASS_BLUNT
-	attack_verb = list("punches", "clocks")
-	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
-	chargetime = 0
-	penfactor = PEN_NONE
-	clickcd = 8
-	swingdelay = 0
-	icon_state = "inpunch"
-	item_d_type = "blunt"
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR // This might be a mistake
-
-/datum/intent/knuckles/strike/wallop
-	name = "wallop"
-	blade_class = BCLASS_TWIST
-	attack_verb = list("wallops", "thwacks", "thwamps")
-	damfactor = 1.1
-	intent_intdamage_factor = 0.6
-	icon_state = "inbash"	// Wallop is too long for a button; placeholder.
 
 /// INTENT DATUMS	^
 
@@ -343,7 +310,7 @@
 	name = "barotrauma"
 	desc = "A gift from a creature of the sea. The claw is sharpened to a wicked edge."
 	icon_state = "abyssorclaw"
-	force = 27	//Its thrust will be able to pen 80 stab armor if the wielder has 17 STR. (With softcap)
+	force = 27
 	max_integrity = 80
 
 /obj/item/rogueweapon/katar/ravox
@@ -908,7 +875,7 @@
 
 /obj/item/rogueweapon/handclaw
 	slot_flags = ITEM_SLOT_HIP
-	name = "Iron Hound Claws"
+	name = "iron hound claws"
 	desc = "A pair of heavily curved claws, styled after beasts of the wilds for rending bare flesh, \
 			A show of the continual worship and veneration of beasts of strength in Gronn."
 	icon_state = "ironclaws"
@@ -935,8 +902,8 @@
 	grid_width = 32
 
 /obj/item/rogueweapon/handclaw/steel
-	name = "Steel Mantis Claws"
-	desc = "A pair of steel claws, An uncommon sight in Gronn as they do not forge their own steel, \
+	name = "steel mantis claws"
+	desc = "A pair of steel claws. An uncommon sight in Gronn as they do not forge their own steel, \
 			Their longer blades offer a superior defence option but their added weight slows them down."
 	icon_state = "steelclaws"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
@@ -950,10 +917,10 @@
 	sharpness_mod = 2
 
 /obj/item/rogueweapon/handclaw/gronn
-	name = "Gronn Beast Claws"
+	name = "gronn beast claws"
 	desc = "A pair of uniquely reinforced iron claws forged with the addition of bone by the Iskarn shamans of the Northern Empty. \
 			Their unique design aids them in slipping between the plates in armor and their light weight supports rapid aggressive slashes. \
-			'To see the claws of the four, Is to see the true danger of the north. Not man, Not land but beast. We are all prey in their eyes.'"
+			</br>'To see the claws of the four, Is to see the true danger of the north. Not man, Not land but beast. We are all prey in their eyes.'"
 	icon_state = "gronnclaws"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
 	wdefense = 3
@@ -964,11 +931,11 @@
 	max_integrity = 200
 
 /obj/item/rogueweapon/handclaw/gronn/silver
-	name = "Silver Ravager Claws"
+	name = "silver ravager claws"
 	desc = "A trinity of silver claws, forged in defiant reverence of the Old Ways that still permeate throughout the Northern Empty. \
 			The psicruciformic edge shreds through the hide of thralls; resurrected corpses from Fjallic antiquity, said to've been born through faithlessness and despair. \
 			Few shamen hold the strength to wield it, and fewer will speak of what they, alone, know - the true fate of the Weeping Father. \
-			'Here we stand, to turn and face the odds; sacrifice yourself, or bow to lesser gods!'"
+			</br>'Here we stand, to turn and face the odds; sacrifice yourself, or bow to lesser gods!'"
 	smeltresult = /obj/item/ingot/silver
 	icon_state = "silverclaws"
 	wdefense = 5
@@ -987,6 +954,22 @@
 		added_def = 2,\
 	)
 
+/obj/item/rogueweapon/handclaw/blacksteel
+	name = "blacksteel eagle claws"
+	desc = "A magnificent pair of blacksteel claws. While the Northern Empty is unfamiliar with blacksteel, they are familiar with an alloy of \
+			startingly similar repute; blacker-than-black, impossibly strong, and purported to've been the remains of divine matter. Such were wielded by \
+			a legendary champion of the Fjall - one whose valor, though forgotten by tyme, still echoes throughout the world they saved. \
+			</br>'Here in the wake, I know when the noose was set, but the truth is that I regret what I have left!'"
+	icon_state = "bskatarclaw"
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	wdefense = 1
+	force = 35
+	possible_item_intents = list(/datum/intent/claw/cut/gronn, /datum/intent/claw/lunge/gronn, /datum/intent/claw/rend)
+	wbalance = WBALANCE_HEAVY
+	max_blade_int = 350
+	smeltresult = /obj/item/ingot/blacksteel
+	sharpness_mod = 2
+
 /obj/item/rogueweapon/handclaw/getonmobprop(tag)
 	. = ..()
 	if(tag)
@@ -1004,6 +987,7 @@
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	item_d_type = "stab"
+
 /datum/intent/claw/lunge/iron
 	damfactor = 1.2
 	swingdelay = 8
@@ -1114,7 +1098,6 @@
 /obj/item/rogueweapon/knuckledusters/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_notice("Knuckledusters, similar to Katars, can still parry oncoming blows. Note that their fragility makes this a bit more of a daunting process, however, for unskilled swingers.")
-	//. += span_notice("Activate - while held in your current hand - to turn these into knuckles, which can be worn as gloves to greatly improve your unarmed damage and parrying chances.")
 
 /obj/item/rogueweapon/knuckledusters/silver
 	name = "silver knuckledusters"
@@ -1127,7 +1110,7 @@
 /obj/item/rogueweapon/knuckledusters/silver/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
-		pre_blessed = BLESSING_TENNITE,\
+		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_TENNITE,\
 		added_force = 0,\
 		added_blade_int = 0,\
@@ -1159,7 +1142,7 @@
 /obj/item/rogueweapon/knuckledusters/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
+		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 0,\
@@ -1191,7 +1174,7 @@
 
 /obj/item/rogueweapon/knuckledusters/enduring/attack_self(mob/living/user)
 	. = ..()
-	user.visible_message(span_warning("[user] starts adjusting their grip on[src]."))
+	user.visible_message(span_warning("[user] starts adjusting their grip on [src]."))
 	if(do_after(user, 3 SECONDS))
 		var/obj/item/rogueweapon/knuckledusters/enduring/P = new /obj/item/clothing/gloves/roguetown/knuckles/psydon/old(get_turf(src.loc))
 		if(user.is_holding(src))

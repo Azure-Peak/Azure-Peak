@@ -38,10 +38,6 @@
 			zone = BODY_ZONE_CHEST
 		if(BODY_ZONE_PRECISE_STOMACH)
 			zone = BODY_ZONE_CHEST
-		if(BODY_ZONE_PRECISE_R_INHAND)
-			zone = BODY_ZONE_R_ARM
-		if(BODY_ZONE_PRECISE_L_INHAND)
-			zone = BODY_ZONE_L_ARM
 
 	return zone
 

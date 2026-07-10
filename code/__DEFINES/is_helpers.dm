@@ -105,9 +105,6 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 #define isgnoll(A) (is_species(A, /datum/species/gnoll))
 
 
-//more carbon mobs
-#define ismonkey(A) (istype(A, /mob/living/carbon/monkey))
-
 //Simple animals
 #define isanimal(A) (istype(A, /mob/living/simple_animal))
 

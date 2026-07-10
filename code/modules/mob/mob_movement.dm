@@ -703,9 +703,12 @@
 		switch(intent)
 			if(MOVE_INTENT_SNEAK)
 				var/mob/living/L = src
-				m_intent = MOVE_INTENT_SNEAK
-				if(L.in_combat_until < world.time)
-					update_sneak_invis()
+				if(L.has_status_effect(/datum/status_effect/buff/fly))
+					to_chat(src, span_warning("I can't sneak while flying!"))
+				else
+					m_intent = MOVE_INTENT_SNEAK
+					if(L.in_combat_until < world.time)
+						update_sneak_invis()
 
 			if(MOVE_INTENT_WALK)
 				m_intent = MOVE_INTENT_WALK

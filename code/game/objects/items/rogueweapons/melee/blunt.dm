@@ -245,6 +245,17 @@
 	wdefense = 3
 	smelt_bar_num = 2
 
+/obj/item/rogueweapon/mace/blacksteel
+	force = 30
+	force_wielded = 35
+	max_integrity = 300
+	name = "blacksteel mace"
+	desc = "A magnificent mace of blacksteel. Tied around the handle is crimson silk, which was the style at the tyme."
+	icon_state = "bs_mace"
+	smeltresult = /obj/item/ingot/blacksteel
+	wdefense = 3
+	smelt_bar_num = 2
+
 /obj/item/rogueweapon/mace/steel/palloy
 	name = "ancient alloy mace"
 	desc = "Polished gilbranze, perched atop a reinforced shaft. Break the unenlightened into naught-but-giblets; like a potter's vessels, dashed against the rocks."
@@ -394,7 +405,7 @@
 	attack_verb = list("twamps", "thwacks", "wallops")
 	damfactor = 1.3		// High damage mod to give high chance of dislocation against unarmored targets.
 	intent_intdamage_factor = 0.4	// Purposefully bad at damaging armor. Specifically deals -60% integrity damage, irregardless of the previous intent's modifiers.
-	icon_state = "inbash"	// Wallop is too long for a button; placeholder.
+	icon_state = "inthresh"	// Wallop is too long for a button; placeholder.
 	desc = "A quick and sudden thwack that can cripple unarmored limbs with tremendous force. </br>Deals TWIST damage instead of BLUNT damage. Critical hits cause DISLOCATIONS, instead of FRACTURES. </br>DISLOCATED ARMS and HANDS cannot wield, grab, or use anything. </br>DISLOCATED LEGS and FEET prevent the target from standing."
 
 // (I'm evil. Slight swing delay.)
@@ -464,20 +475,80 @@
 	icon_state = "rungu_shell"
 	max_integrity = 75
 
-/obj/item/rogueweapon/mace/cudgel/psy
+/obj/item/rogueweapon/mace/cudgel/flanged/psy
 	name = "psydonic flanged mace"
 	desc = "A flanged mace of blessed silver, wielded by His children. The rosewood handle's curved nature beckons your fingers to curl along its grooves, and to never let go; \
     no matter the weather nor odds. </br>'Please do not wait for me..' \ </br>'For though I depart, my magic will never die..' </br>'Listen to my laughter in the babbling brook..' \
 	</br>'Hear my song being sung by the bards..' </br>'Feel my warmth in the rays of the morning sun..' </br>'See my light in the twinkling stars at night..' \
 	</br>'..and know that my spirit will always be with you..' </br>'..woven into the very fabric of the world we cherished together.'"
 	force = 30
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/dislocate, /datum/intent/effect/daze, /datum/intent/mace/warhammer/stab)
-	gripped_intents = null //One-handed. Pseudo-sidegrade between the Mace and Warhammer. Exchanges smashing for dislocation.
 	minstr = 9
 	wdefense = 5
 	resistance_flags = FIRE_PROOF
-	swingsound = BLUNTWOOSH_LARGE
 	icon_state = "psyflangedmace"
+	swingsound = BLUNTWOOSH_LARGE
+	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silverblessed
+
+/obj/item/rogueweapon/mace/cudgel/flanged/psy/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 50,\
+		added_def = 1,\
+	)
+
+/obj/item/rogueweapon/mace/cudgel/flanged/psy/preblessed/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_PSYDONIAN,\
+		silver_type = SILVER_PSYDONIAN,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 50,\
+		added_def = 1,\
+	)
+
+/obj/item/rogueweapon/mace/cudgel/flanged/psy/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -11,"sy" = -8,"nx" = 12,"ny" = -8,"wx" = -5,"wy" = -8,"ex" = 6,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.4,"sx" = -3,"sy" = -4,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 70,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 1,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/rogueweapon/mace/cudgel/flanged/psy/old
+	name = "enduring flanged mace"
+	desc = "A flanged mace, weathered by tyme's gaze. It radiates a strange energy; distant, fleeting, but ever-so-familiar. </br>'Please do not wait for me..' \
+	</br>'For though I depart, my magic will never die..' </br>'Listen to my laughter in the babbling brook..' </br>'Hear my song being sung by the bards..' \
+	</br>'Feel my warmth in the rays of the morning sun..' </br>'See my light in the twinkling stars at night..' </br>'..and know that my spirit will always be with you..' \
+	</br>'..woven into the very fabric of the world we cherished together.'"
+	force_wielded = 25
+	wbalance = WBALANCE_NORMAL
+	icon_state = "opsyflangedmace"
+	smeltresult = /obj/item/ingot/iron
+
+/obj/item/rogueweapon/mace/cudgel/flanged/psy/old/ComponentInitialize()
+	return
+
+//
+
+/obj/item/rogueweapon/mace/cudgel/psy
+	name = "psydonic handmace"
+	desc = "A shorter variant of the flanged silver mace, rebalanced for one-handed usage. It isn't uncommon for these sidearms to mysteriously 'vanish' from an Adjudicator's belt, only to be 'rediscovered' - and subsequently kept - by a Confessor."
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop, /datum/intent/mace/smash, /datum/intent/effect/daze)
+	force = 25
+	force_wielded = 30
+	minstr = 7
+	wdefense = 5 
+	wbalance = WBALANCE_SWIFT
+	resistance_flags = FIRE_PROOF
+	icon_state = "psycudgel"
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
@@ -503,79 +574,17 @@
 		added_def = 1,\
 	)
 
-/obj/item/rogueweapon/mace/cudgel/psy/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.6,"sx" = -11,"sy" = -8,"nx" = 12,"ny" = -8,"wx" = -5,"wy" = -8,"ex" = 6,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.4,"sx" = -3,"sy" = -4,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 70,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 1,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-
 /obj/item/rogueweapon/mace/cudgel/psy/old
-	name = "enduring flanged mace"
-	desc = "A flanged mace, weathered by tyme's gaze. It radiates a strange energy; distant, fleeting, but ever-so-familiar. </br>'Please do not wait for me..' \
-	</br>'For though I depart, my magic will never die..' </br>'Listen to my laughter in the babbling brook..' </br>'Hear my song being sung by the bards..' \
-	</br>'Feel my warmth in the rays of the morning sun..' </br>'See my light in the twinkling stars at night..' </br>'..and know that my spirit will always be with you..' \
-	</br>'..woven into the very fabric of the world we cherished together.'"
-	force_wielded = 25
-	wbalance = WBALANCE_NORMAL
-	icon_state = "opsyflangedmace"
-	smeltresult = /obj/item/ingot/iron
-
-/obj/item/rogueweapon/mace/cudgel/psy/old/ComponentInitialize()
-	return
-
-//
-
-/obj/item/rogueweapon/mace/cudgel/psyclassic
-	name = "psydonic handmace"
-	desc = "A shorter variant of the flanged silver mace, rebalanced for one-handed usage. It isn't uncommon for these sidearms to mysteriously 'vanish' from an Adjudicator's belt, only to be 'rediscovered' - and subsequently kept - by a Confessor."
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop)
-	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop, /datum/intent/mace/smash, /datum/intent/effect/daze)
-	force = 25
-	force_wielded = 30
-	minstr = 7
-	wdefense = 5 
-	wbalance = WBALANCE_SWIFT
-	resistance_flags = FIRE_PROOF
-	icon_state = "psyflangedmacelegacy"
-	is_silver = TRUE
-	smeltresult = /obj/item/ingot/silverblessed
-
-/obj/item/rogueweapon/mace/cudgel/psyclassic/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 100,\
-		added_int = 50,\
-		added_def = 1,\
-	)
-
-/obj/item/rogueweapon/mace/cudgel/psyclassic/preblessed/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 100,\
-		added_int = 50,\
-		added_def = 1,\
-	)
-
-/obj/item/rogueweapon/mace/cudgel/psyclassic/old
 	name = "enduring handmace"
 	desc = "A flanged mace, well-balanced for usage in one hand. It radiates with a strange energy: familiar, yet ever-so-distant."
 	force = 20
 	force_wielded = 25
 	wbalance = WBALANCE_NORMAL
-	icon_state = "opsyflangedmacelegacy"
+	icon_state = "opsycudgel"
 	is_silver = FALSE
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/rogueweapon/mace/cudgel/psyclassic/old/ComponentInitialize()
+/obj/item/rogueweapon/mace/cudgel/psy/old/ComponentInitialize()
 	return
 
 //
@@ -844,6 +853,17 @@
 	desc = "A macehead of polished gilbranze, spiked and perched atop a reinforced shaft. An elegant weapon from a more civilized age; when Man lived in harmony with one-another, and when 'the undying' was nothing more than a nitemare's thought."
 	icon_state = "awarhammer"
 	smeltresult = /obj/item/ingot/aaslag
+
+/obj/item/rogueweapon/mace/warhammer/blacksteel
+	name = "blacksteel warhammer"
+	desc = "A magnificent warhammer of blacksteel. Ornamental, resplendant, and - above all else - lethal; the ideal sidearm for a knight in the sixteenth century."
+	icon_state = "bs_hammer"
+	force = 30
+	minstr = 10
+	max_integrity = 350
+	smeltresult = /obj/item/ingot/blacksteel
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab)
+	special = /datum/special_intent/ground_smash
 
 /obj/item/rogueweapon/mace/warhammer/steel/silver
 	name = "silver warhammer"

@@ -421,6 +421,12 @@ function draw_mc() {
         'byond://?_src_=vars;admin_token=' + href_token + ';Vars=' + part[3];
       a.textContent = part[2];
       td2.appendChild(a);
+    } else if (part[4]) {
+      var a = document.createElement('a');
+      a.href = '#';
+      a.onclick = make_verb_onclick(part[4]);
+      a.textContent = part[2];
+      td2.appendChild(a);
     } else {
       td2.textContent = part[2];
     }

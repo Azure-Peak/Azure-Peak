@@ -1,0 +1,4 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - bugfix: "Abyssorite ritualists can once again draw storm runes."
