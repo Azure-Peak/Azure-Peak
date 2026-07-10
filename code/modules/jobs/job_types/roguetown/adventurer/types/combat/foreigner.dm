@@ -20,7 +20,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE, 
@@ -72,9 +72,8 @@
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
-		STATKEY_PER = 1,
-		STATKEY_WIL = 1,
-	)
+		STATKEY_PER = 1, //7 point statblock, expert skills, dexpert, excellent stealth, low will because its an assassin meant to kill quick
+	) //pretty sure this was a devbaby
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
@@ -83,7 +82,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
 	)
@@ -138,12 +137,12 @@
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	forbidden_races = list()
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_NOPAINSTUN)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_NOPAINSTUN, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_BLOOD_RESISTANCE)
 	subclass_stats = list(
 		STATKEY_CON = 3,
 		STATKEY_SPD = -1,
-		STATKEY_STR = -1,
-		STATKEY_WIL = 3,
+		STATKEY_STR = 1,
+		STATKEY_WIL = 3, //6 point statblock, expert skills, enough str for upgraded whips, pain resistance and slow bleed because no armor with whips is brutal
 	)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
@@ -351,15 +350,16 @@
 	traits_applied = list()
 	cmode_music = 'sound/music/frei_shepherd.ogg'
 	subclass_stats = list(
+		STATKEY_STR = 1,
 		STATKEY_WIL = 1,
-		STATKEY_PER = 2,
-		STATKEY_CON = 2,
+		STATKEY_PER = 1,
+		STATKEY_CON = 2, //seven point statblock, expert skills, unique weapon instead of medium armor or dexpert, has some craft skills to skip the grind
 	)
 
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_NOVICE,
@@ -369,6 +369,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
 	)
 
@@ -387,6 +388,7 @@
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(
 						/obj/item/flashlight/flare/torch = 1,
+						/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 						)
 
 /datum/advclass/foreigner/fencerguy
@@ -403,6 +405,8 @@
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 3,
+		STATKEY_WIL = 1,
+		STATKEY_CON = 1, //seven point statblock, expert skills, fencer's dexterity instead of medium armor or dexpert
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
@@ -412,7 +416,8 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/adventurer/fencerguy/pre_equip(mob/living/carbon/human/H)
