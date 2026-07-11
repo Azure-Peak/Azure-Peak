@@ -459,6 +459,9 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 
 	var/is_tennite = istype(caster.patron, /datum/patron/divine)
 
+	if(caster == new_convert)
+		return FALSE
+
 	if(!ishuman(caster))
 		return FALSE
 	if(!ishuman(new_convert))
