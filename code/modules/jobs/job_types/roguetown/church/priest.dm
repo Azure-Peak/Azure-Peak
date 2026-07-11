@@ -32,8 +32,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	 /obj/effect/proc_holder/spell/invoked/revive,
 	 /datum/action/cooldown/spell/miracle/bishop_pack,
 	 /obj/effect/proc_holder/spell/self/convertrole/templar,
-	 /obj/effect/proc_holder/spell/self/convertrole/monk,
-	 /obj/effect/proc_holder/spell/invoked/convert_heretic_priest
+	 /obj/effect/proc_holder/spell/self/convertrole/monk
 	)
 	outfit = /datum/outfit/job/roguetown/priest
 	display_order = JDO_BISHOP
