@@ -1,5 +1,0 @@
-author: "Kell-E"
-delete-after: True
-changes:
-  - balance: "Siegebows are now louder and deal significant damage to any terrain they collide with."
-  - bugfix: "Siegebows no longer delete (any) turf on contact."

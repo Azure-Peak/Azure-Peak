@@ -1,144 +1,243 @@
-/obj/effect/proc_holder/spell/invoked/vigorousexchange
+/datum/action/cooldown/spell/malum
+	background_icon = 'icons/mob/actions/malummiracles.dmi'
+	button_icon = 'icons/mob/actions/malummiracles.dmi'
+	spell_color = GLOW_COLOR_MALUM
+	sparks_amt = 3 //God of fire
+
+	attunement_school = null
+
+	primary_resource_type = SPELL_COST_DEVOTION
+
+	secondary_resource_type = SPELL_COST_STAMINA
+
+	ignore_armor_penalty = TRUE
+
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+
+	spell_tier = 0
+	point_cost = 0
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/malum, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
+
+/////////////////
+// T0 - Ignite //
+/////////////////
+
+/datum/action/cooldown/spell/miracle/ignition/malum
+	background_icon = 'icons/mob/actions/malummiracles.dmi'
+	button_icon = 'icons/mob/actions/malummiracles.dmi'
+	spell_color = GLOW_COLOR_MALUM
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/malum, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
+
+/////////////////////////
+// T0 - Reconstruction //
+/////////////////////////
+
+/datum/action/cooldown/spell/malum/reconstruction
+	name = "Reconstruction"
+	desc = "Restore integrity of any structure."
+	button_icon_state = "restoration"
+	sound = 'sound/magic/timestop.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = FALSE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR - 10
+
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	//invocations = list("Repair!")
+	invocation_type = INVOCATION_NONE
+
+	charge_required = FALSE
+	cooldown_time = 20 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/malum/reconstruction/cast(atom/cast_on)
+	. = ..()
+	//var/mob/living/carbon/human/H = owner
+	var/skill = owner.get_skill_level(/datum/skill/magic/holy)
+	var/repair_points = 50 * skill
+	var/starget = cast_on
+	if(isobj(starget))
+		if(istype(starget, /obj/item))
+			return FALSE
+		var/obj/structure/S = starget
+		if(S.obj_integrity >= S.max_integrity)
+			return FALSE
+		if(istype(S, /obj/structure/mineral_door/))
+			var/obj/structure/mineral_door/door = S
+			//to_chat(owner, span_warning("[door.obj_integrity]"))
+			owner.visible_message(span_notice("[owner] starts concentrating on [door.name]."),
+			span_notice("I start concentrating on [door.name]."))
+			playsound(owner, 'sound/misc/wood_saw.ogg', 100, TRUE)
+			if(!do_after(owner, (150 / skill), target = door))
+				return
+			playsound(owner, 'sound/misc/wood_saw.ogg', 100, TRUE)
+			door.icon_state = "[door.base_state]"
+			door.density = TRUE
+			door.set_opacity(TRUE)
+			door.brokenstate = FALSE
+			door.obj_broken = FALSE
+			door.repair_state = 0								
+			if((S.obj_integrity + repair_points) > S.max_integrity)
+				var/need_points = (S.max_integrity - S.obj_integrity)
+				S.obj_integrity += need_points
+			else
+				S.obj_integrity += repair_points
+			owner.visible_message(span_notice("[owner] point on [door.name] and repair this."), \
+			span_notice("I point on [door.name]. Malum blessing!"))	
+			return TRUE
+
+		if(istype(S, /obj/structure/roguewindow/))
+			var/obj/structure/roguewindow/window = S
+			if(window.obj_integrity < window.max_integrity)
+				//to_chat(owner, span_warning("[window.obj_integrity]"))	
+				owner.visible_message(span_notice("[owner] starts concentrating on [window.name]."),
+				span_notice("I start concentrating on [window.name]."))
+				playsound(owner, 'sound/misc/wood_saw.ogg', 100, TRUE)
+				if(!do_after(owner, (150 / skill), target = window))
+					return
+				playsound(owner, 'sound/misc/wood_saw.ogg', 100, TRUE)
+				window.icon_state = "[window.base_state]"
+				window.density = TRUE
+				window.brokenstate = FALSE
+				window.obj_broken = FALSE
+				if((S.obj_integrity + repair_points) > S.max_integrity)
+					var/need_points = (S.max_integrity - S.obj_integrity)
+					S.obj_integrity += need_points
+				else
+					S.obj_integrity += repair_points					
+				owner.visible_message(span_notice("[owner] point on [window.name] and repair this."), \
+				span_notice("I point on [window.name]. Malum blessing!"))	
+				return TRUE
+		else
+			if(!do_after(owner, (150 / skill), target = S))
+				return
+			if((S.obj_integrity + repair_points) > S.max_integrity)
+				var/need_points = (S.max_integrity - S.obj_integrity)
+				S.obj_integrity += need_points
+			else
+				S.obj_integrity += repair_points
+			return TRUE
+	if(get_turf(starget))
+		var/turf/closed/wall/mineral/W = cast_on
+		if(W.turf_integrity >= W.max_integrity)
+			return FALSE
+		if(!do_after(owner, (150 / skill), target = W))
+			return
+		if((W.turf_integrity + repair_points) > W.max_integrity)
+			var/need_points = (W.max_integrity - W.turf_integrity)
+			W.turf_integrity += need_points
+		else
+			W.turf_integrity += repair_points
+		return TRUE
+	return FALSE
+
+//////////////////////////////
+// T1 - Vigorious Exchange. //
+//////////////////////////////
+
+/datum/action/cooldown/spell/malum/vigorousexchange
 	name = "Vigorous Exchange"
 	desc = "Restores the target's Energy, twice as effective on someone else."
-	action_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_state = "vigorousexchange"
-	releasedrain = 0
-	chargedrain = 0
-	chargetime = 0
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	no_early_release = TRUE
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/items/bsmithfail.ogg'
-	invocations = list("Through flame and ash, let vigor rise, by Malum’s hand, let strength reprise!")
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	recharge_time = 3 MINUTES
-	chargetime = 2 SECONDS
-	miracle = TRUE
-	charging_slowdown = 3
-	chargedloop = /datum/looping_sound/invokegen
-	devotion_cost = 30
+	fluff_desc = "Behind every great work is a hard-working master, dilligent and patient yet not immune from intricacies of lyfe. Even Malum has once fallen to such after losing His hammer, exhausted and weak he was nursed back to health by Pestra so that even he may continue on. Now Their shared gift fuels the forges of Psydonia for no great work shall go unfinished so long as They maintain vigil."
+	button_icon_state = "vigorousexchange"
+	sound = 'sound/magic/undivided_recuperation.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
 
-/obj/effect/proc_holder/spell/invoked/heatmetal
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	//invocations = list("Through flame and ash, let vigor rise, by Malum’s hand, let strength reprise!")
+	invocation_type = INVOCATION_NONE
+
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 2 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/malum/vigorousexchange/cast(atom/cast_on)
+	. = ..()
+	var/const/energytoregen = 200
+
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/mob/living/spelltarget = cast_on
+
+	if (!isliving(spelltarget))
+		show_visible_message(owner, "You can only cast this on living beings.")
+		return FALSE
+	if (spelltarget == H)
+		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) / 2)//You only get half
+		show_visible_message(owner, "<font color='orange'>As [owner] intones the incantation, vibrant flames swirl around them.", "<font color='orange'>As you intone the incantation, vibrant flames swirl around you. You feel refreshed.")
+	else if (H.energy > (energytoregen))
+		owner.energy_add(-(energytoregen * (owner.get_skill_level(associated_skill))))
+		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) * 2)
+		show_visible_message(spelltarget, "<font color='orange'>As [owner] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [spelltarget].", "<font color='orange'>As [owner] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
+
+/////////////////////
+// T2 - Heat Metal //
+/////////////////////
+
+/datum/action/cooldown/spell/malum/heatmetal
 	name = "Heat Metal"
 	desc= "Damages Armor, forces target to drop a metallic weapon, heats up an ingot in tongs or smelts a single item."
-	action_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_state = "heatmetal"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 15
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	no_early_release = TRUE
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	button_icon_state = "heatmetal"
 	sound = 'sound/items/bsmithfail.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = FALSE //Why are you trying to set YOURSELF on fire.
+
+	primary_resource_cost = SPELLCOST_MIRACLE + 10
+
+	secondary_resource_cost = SPELLCOST_MIRACLE
+
 	invocations = list("With heat I wield, with flame I claim, Let metal serve in Malum's name!")
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	recharge_time = 2 MINUTES
-	chargetime = 2 SECONDS
-	miracle = TRUE
-	charging_slowdown = 3
-	chargedloop = /datum/looping_sound/invokegen
-	devotion_cost = 40
+	invocation_type = INVOCATION_SHOUT //It has seperate message ON USE
 
-/obj/effect/proc_holder/spell/invoked/hammerfall
-	name = "Hammerfall"
-	desc = "Damages structures in an area while possibly knocking down mobs in the area."
-	action_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_state = "hammerfall"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 15
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	no_early_release = TRUE
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/items/bsmithfail.ogg'
-	invocations = list("By molten might and hammer's weight, in Malum’s flame, the earth shall quake!")
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 5 MINUTES
-	chargetime = 3 SECONDS // Used to be 2 seconds but we don't want a race condition and chain casting
-	miracle = TRUE
-	charging_slowdown = 3
-	chargedloop = /datum/looping_sound/invokegen
-	devotion_cost = 80
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 2 MINUTES
 
-/obj/effect/proc_holder/spell/invoked/hammerfall/cast(list/targets, mob/user = usr)
-	var/turf/fallzone = null
-	var/skill = user.get_skill_level(/datum/skill/magic/holy)
-	var/damage = 150 + (skill * 100) //So weak damage for this cooldown. Upped
-	var/const/radius = 1 //Radius of the spell
-	var/const/shakeradius = 7 //Radius of the quake
-	var/diceroll = 0
-	var/const/dc = 42 //Code will roll 2d20 and add target's perception and Speed then compare to this to see if they fall down or not. 42 Means they need to roll 2x 20 with Speed and Perception at I
-	var/const/delay = 2 SECONDS // Delay between the ground marking appearing and the effect playing.
-	fallzone = get_turf(targets[1])
-	if(!fallzone)
-		return
-	else
-		show_visible_message(usr, "[usr] raises their arm, conjuring a hammer wreathed in molten fire. As they hurl it toward the ground, the earth trembles under its impact, shaking its very foundations!", "You raise your arm, conjuring a hammer wreathed in molten fire. As you hurl it toward the ground, the earth trembles under its impact, shaking its very foundations!")
-	for (var/turf/open/visual in view(radius, fallzone))
-		var/obj/effect/temp_visual/lavastaff/Lava = new /obj/effect/temp_visual/lavastaff(visual)
-		animate(Lava, alpha = 255, time = 5)
-	sleep(delay)
-	for (var/mob/living/carbon/screenshaken in view(shakeradius, fallzone))
-		shake_camera(screenshaken, 5, 5)
-	for (var/mob/living/carbon/shaken in view(radius, fallzone))
-		if(spell_guard_check(shaken, TRUE))
-			shaken.visible_message(span_warning("[shaken] braces against the quake!"))
-			continue
-		diceroll = roll(2,20) + shaken.STAPER + shaken.STASPD
-		if (diceroll > dc)
-			shaken.apply_effect(1 SECONDS, EFFECT_IMMOBILIZE, 0)
-			show_visible_message(shaken, null, "The ground quakes but I manage to keep my footing.")
-		else
-			shaken.apply_effect(1 SECONDS, EFFECT_KNOCKDOWN, 0)		
-			show_visible_message(shaken, null, "The ground quakes, making me fall over.")
-	for (var/obj/structure/damaged in view(radius, fallzone))
-		if(!istype(damaged, /obj/structure/flora/newbranch))
-			damaged.take_damage(damage,BRUTE,"blunt",1)
-	for (var/turf/closed/wall/damagedwalls in view(radius, fallzone))
-		damagedwalls.take_damage(damage,BRUTE,"blunt",1)
-	for (var/turf/closed/mineral/aoemining in view(radius, fallzone))
-		aoemining.lastminer = usr
-		aoemining.take_damage(damage,BRUTE,"blunt",1)
-	return TRUE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-/obj/effect/temp_visual/lavastaff
-	icon_state = "lavastaff_warn"
-	duration = 50
-
-/obj/effect/proc_holder/spell/invoked/heatmetal/cast(list/targets, mob/user = usr)
+/datum/action/cooldown/spell/malum/heatmetal/cast(atom/cast_on)
 	. = ..()
 	var/list/nosmeltore = list(/obj/item/rogueore/coal)
 	var/datum/effect_system/spark_spread/sparks = new()
-	var/target
-	for(var/i in targets)
-		target = i
-	if (!target)
-		return
-	if(target in nosmeltore)
-		return
-	if (istype(target, /obj/item))
-		handle_item_smelting(target, user, sparks, nosmeltore)
-	else if (iscarbon(target))
-		if(spell_guard_check(target, TRUE))
-			var/mob/living/carbon/C = target
-			C.visible_message(span_warning("[target] resists the searing heat!"))
-			return
-		handle_living_entity(target, user, nosmeltore)
+	if (!cast_on)
+		return FALSE
+	if(cast_on in nosmeltore)
+		return FALSE
+	if (istype(cast_on, /obj/item))
+		handle_item_smelting(cast_on, owner, sparks, nosmeltore)
+	else if (iscarbon(cast_on))
+		if(spell_guard_check(cast_on, TRUE))
+			var/mob/living/carbon/C = cast_on
+			C.visible_message(span_warning("[cast_on] resists the searing heat!"))
+			return TRUE
+		handle_living_entity(cast_on, owner, nosmeltore)
 
 /proc/show_visible_message(mob/user, text, selftext)
 	var/text_to_send = addtext("<font color='yellow'>", text, "</font>")
@@ -271,351 +370,255 @@
 			sparks.start()
 	}
 
-/obj/effect/proc_holder/spell/invoked/vigorousexchange/cast(list/targets, mob/living/carbon/user = usr)
-	. = ..()
-	var/const/starminatoregen = 500 // How much stamina should the spell give back to the caster.
-	var/mob/target = targets[1]
-	if (!iscarbon(target)) 
-		return
-	if (target == user)
-		target.energy_add(starminatoregen)
-		show_visible_message(usr, "As [user] intones the incantation, vibrant flames swirl around them.", "As you intone the incantation, vibrant flames swirl around you. You feel refreshed.")
-	else if (user.energy > (starminatoregen * 2))
-		user.energy_add(-(starminatoregen * 2))
-		target.energy_add(starminatoregen * 2)
-		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
+/////////////////////
+// T2 - Hammerfall //
+/////////////////////
 
-//T0
+/datum/action/cooldown/spell/malum/hammerfall
+	name = "Hammerfall"
+	desc = "Heave a conjured maul overhead, then bring it crashing down on the ground before you, leaving any struck stumbling.\n\n\
+	Deals 50 brute damage and applies Immobilizes to everything in the smash. Against structures does triple damage."
+	background_icon = 'icons/mob/actions/malummiracles.dmi'
+	button_icon = 'icons/mob/actions/malummiracles.dmi'
+	button_icon_state = "hammerfall"
+	blade_class = BCLASS_BLUNT
+	windup_time = TELEGRAPH_HIGH_IMPACT
+	damage = 50
+	structure_damage = 150
+	sweep_step = 0
+	impact_delay = 4
+	detonate_sound = null
+	immobilize_on_hit = 2 SECONDS
+	var/hammer_scale = 1.9
 
-/*/obj/effect/proc_holder/spell/invoked/rework //this whole thing, barely works and fixing it causes only further issues
-	name = "Rework"
-	desc = "Burn a piece of equipment to create a blessing for the appropriate type of equipment. Cast once more on another item to bless it."
-	action_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_state = "rework"
-	releasedrain = 15
-	chargedrain = 0
-	chargetime = 0
-	range = 15
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	chargedloop = null
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/heal.ogg'
-	invocations = list("Rework.")
-	invocation_type = "whisper"
+	parent_type = /datum/action/cooldown/spell/telegraphed_strike
+	sound = 'sound/magic/scrapeblade.ogg'
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR + 20
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_MIRACLE//Dunno it's not properly inhereting for some reason.
+
+	invocations = list("By molten might and hammer's weight, in Malum’s flame, the earth shall quake!")
+	invocation_type = INVOCATION_SHOUT
+
+	cooldown_time = 45 SECONDS
+	charging_slowdown = 1
+
+	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 5 SECONDS
-	miracle = TRUE
-	devotion_cost = 100
-	var/order_type = null
-	var/current_bonus = null
-	var/current_duration = null
-	var/list/itemblacklist = list(/obj/item/rogueweapon/hoe,
-		/obj/item/rogueweapon/thresher,
-		/obj/item/rogueweapon/sickle,
-		/obj/item/rogueweapon/pitchfork,
-		/obj/item/rogueweapon/tongs,
-		/obj/item/rogueweapon/hammer/iron,
-		/obj/item/rogueweapon/shovel,
-		/obj/item/fishingrod,
+
+	telegraph_type = /obj/effect/temp_visual/trap/hammerfall
+
+/datum/action/cooldown/spell/malum/hammerfall/get_pattern_offsets()
+	return list(
+		list(-1, 1), list(0, 1), list(1, 1),
+		list(-1, 2), list(0, 2), list(1, 2),
+		list(-1, 3), list(0, 3), list(1, 3),
 	)
 
-/obj/effect/proc_holder/spell/invoked/rework/cast(list/targets, mob/user = usr)
+/datum/action/cooldown/spell/malum/hammerfall/do_blade_animation(mob/living/carbon/human/H, facing)
+	var/obj/effect/temp_visual/ferramancy_hammer/malum/hammer = new(null)
+	hammer.vis_holder = H
+	H.vis_contents += hammer
+	var/rest_y = round(6.5 * hammer_scale - 4)
+	var/fwd_x = 0
+	var/fwd_y = 0
+	switch(facing)
+		if(NORTH)
+			fwd_y = 32
+		if(SOUTH)
+			fwd_y = -32
+		if(EAST)
+			fwd_x = 32
+		if(WEST)
+			fwd_x = -32
+	var/matrix/upright = matrix()
+	upright.Scale(hammer_scale)
+	upright.Turn(180)
+	var/matrix/airborne = matrix()
+	airborne.Scale(hammer_scale, hammer_scale * 1.4)
+	airborne.Turn(180)
+	hammer.transform = airborne
+	hammer.pixel_x = fwd_x
+	hammer.pixel_y = fwd_y + rest_y + 176
+	hammer.alpha = 0
+	animate(hammer, pixel_y = fwd_y + rest_y, transform = upright, time = impact_delay, easing = CUBIC_EASING | EASE_IN)
+	animate(hammer, alpha = 255, time = 1, flags = ANIMATION_PARALLEL)
+	return hammer
+
+/datum/action/cooldown/spell/malum/hammerfall/on_impact(mob/living/carbon/human/H, facing, atom/movable/visual)
+	var/turf/T = get_step(get_turf(H), facing) || get_turf(H)
+	if(!T)
+		return
+	playsound(T, pick('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg'), 90, TRUE, 4)
+	playsound(T, 'sound/magic/repulse.ogg', 55, TRUE, 3)
+	for(var/mob/M in range(5, T))
+		shake_camera(M, 2, 1)
+	new /obj/effect/temp_visual/spell_impact(T, spell_color, SPELL_IMPACT_HIGH)
+	if(QDELETED(visual))
+		return
+	var/rest = visual.pixel_y
+	animate(visual, pixel_y = rest + 4, time = 1, easing = SINE_EASING | EASE_OUT)
+	animate(pixel_y = rest, time = 1, easing = SINE_EASING | EASE_IN)
+	animate(alpha = 0, time = 3)
+
+/obj/effect/temp_visual/trap/hammerfall
+	color = GLOW_COLOR_MALUM
+	light_color = GLOW_COLOR_MALUM
+	duration = 3 SECONDS
+
+/obj/effect/temp_visual/ferramancy_hammer/malum
+	icon = 'icons/mob/actions/malummiracles.dmi'
+	icon_state = "hammer_of_malum"
+
+/obj/effect/temp_visual/lavastaff
+	icon_state = "lavastaff_warn"
+	duration = 50
+
+//////////////////
+// T3 - Reforge //
+//////////////////
+
+/datum/action/cooldown/spell/malum/reforge
+	name = "Reforge"
+	desc = "Progressively repair all metal items on a target."
+	button_icon_state = "repair"
+	sound = null
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = FALSE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	secondary_resource_cost = SPELLCOST_MIRACLE
+
+	invocation_type = INVOCATION_NONE
+
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_sound = 'sound/magic/holycharging.ogg'
+	cooldown_time = 2 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
+
+/datum/action/cooldown/spell/malum/reforge/cast(atom/cast_on)
 	. = ..()
-	if(ishuman(targets[1]))
-		var/mob/living/carbon/human/H = targets[1]
-		if(H == user)
-			to_chat(user, "I purge all blessing options!")
-			order_type = null
-			current_bonus = null
-			current_duration = null
-	if(isobj(targets[1]))
-		var/obj/item/O = targets[1]
-		var/bonus = 0
-		var/quality = 0
-		var/skill = usr.get_skill_level(/datum/skill/magic/holy)
-		var/skill_debuff = 6 - skill
-		if(!order_type)
-			switch(O.smeltresult)
-				if(/obj/item/ingot/iron)
-					bonus = 0
-				if(/obj/item/ingot/bronze)
-					bonus = 1.5
-				if(/obj/item/ingot/steel)
-					bonus = 2
-				if(/obj/item/ingot/blacksteel)
-					bonus = 3
-			if(istype(O, /obj/item/rogueweapon))
-				var/obj/item/rogueweapon/W = O
-				for(W in itemblacklist)
-					revert_cast()
-					return FALSE
-				order_type = "weapon"
-				overlay_state = order_type
-				quality = ((W.max_integrity / W.obj_integrity) * W.force) / 2 //full health (150) item with 25 foce = 150/150(1) * 25(25) / 2(12.5)
-				current_bonus = floor((quality + bonus - skill_debuff) / 2)
-				current_duration = ((quality / 2) + bonus) MINUTES
-				var/view_time = floor((current_duration/10)/60)
-				to_chat(user, "<font color='purple'>Current Blessing: [order_type], additional [current_bonus] force for [view_time] minutes.</font>")
-				devotion_cost = 10
-				qdel(W)
-				revert_cast()
-				return TRUE
-			if(istype(O, /obj/item/clothing))
-				if(O.smeltresult == /obj/item/ash)
-					revert_cast()
-					return FALSE
-				var/obj/item/clothing/A = O
-				quality = (A.max_integrity / A.obj_integrity) * 100
-				order_type = "armor"
-				overlay_state = order_type
-				current_bonus = (bonus*100) - (skill_debuff * 10)
-				current_duration = ((quality / 10) + bonus) MINUTES
-				var/view_time = floor((current_duration/10)/60)
-				if(current_bonus < 0)
-					current_bonus *= -1
-				to_chat(user, "<font color='purple'>Current Blessing: [order_type], additional max integrity [current_bonus] for [view_time] minutes.</font>")
-				devotion_cost = 10
-				qdel(A)
-				revert_cast()
-				return TRUE
-			if(O.smeltresult != /obj/item/ash && O.smeltresult != /obj/item/rogueore/coal)
-				quality = (O.max_integrity / O.obj_integrity) * 200
-				order_type = "forge"
-				overlay_state = order_type
-				current_bonus = (quality + (bonus * 100)) - (skill_debuff * 20)
-				current_duration = null
-				to_chat(user, "<font color='purple'>Current Blessing: [order_type], fixes [current_bonus] item integrity.</font>")
-				devotion_cost = 10
-				qdel(O)
-				revert_cast()
-				return TRUE
-			revert_cast()
-			return FALSE
-
-		else if(order_type == "weapon")
-			if(istype(O, /obj/item/rogueweapon))
-				var/obj/item/rogueweapon/W = O
-				if(W.malumblessed_w == TRUE)
-					to_chat(user, "The [W.name] already blessed!")
-					revert_cast()
-					return FALSE
-				W.force = W.force + current_bonus
-				W.malumblessed_w = TRUE
-				var/view_time = floor((current_duration/10)/60)
-				to_chat(user, "<font color='purple'>The [W.name] gain additional [current_bonus] force!</font>")
-				to_chat(user, "<font color='purple'>This bonus active [view_time] Minutes!</font>")
-				addtimer(CALLBACK(W, TYPE_PROC_REF(/obj/item/rogueweapon, unbuff), TRUE), current_duration)
-
-		else if(order_type == "armor")
-			if(istype(O, /obj/item/clothing))
-				var/obj/item/clothing/A = O
-				if(A.malumblessed_c == TRUE)
-					to_chat(user, "The [A.name] already blessed!")
-					revert_cast()
-					return FALSE
-				A.max_integrity = A.max_integrity + current_bonus
-				A.malumblessed_c = TRUE
-				var/view_time = floor((current_duration/10)/60)
-				to_chat(user, "<font color='purple'>The [A.name] gain additional [current_bonus] integrity!</font>")
-				to_chat(user, "<font color='purple'>This bonus active [view_time] Minutes!</font>")
-				addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/item/clothing, unbuff), TRUE), current_duration)
-
-		else if(order_type == "forge")
-			if((O.obj_integrity + current_bonus) > O.max_integrity)
-				var/need_points = (O.max_integrity - O.obj_integrity)
-				O.obj_integrity += need_points
-				to_chat(user, "<font color='purple'>A [need_points] integrity for [O.name] has been fixed!</font>")
-			else
-				O.obj_integrity += current_bonus
-				to_chat(user, "<font color='purple'>A [current_bonus] integrity for [O.name] has been fixed!</font>")
-
-		overlay_state = "rework"
-		devotion_cost = 100
-		order_type = null
-		current_bonus = null
-		current_duration = null
-		return TRUE
-
-	revert_cast()
-	return FALSE
-
-/obj/item/rogueweapon/proc/unbuff()
-	force = initial(force)
-	malumblessed_w = FALSE
-	visible_message("<font color='purple'>A holy blessing no longer affects [name]!</font>")
-
-/obj/item/clothing/proc/unbuff()
-	max_integrity = initial(max_integrity)
-	obj_integrity = max_integrity/2
-	malumblessed_c = FALSE
-	visible_message("<font color='purple'>A holy blessing no longer affects [name]!</font>")*/
-
-/obj/effect/proc_holder/spell/self/repair
-	name = "Order: Repair"
-	desc = "Repairs metal items on your person." //it literally repairs everything
-	action_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_state = "repair"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 0
-	warnie = "sydwarning"
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
-	invocations = list("Repair!")
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 20 SECONDS
-	miracle = TRUE
-	devotion_cost = 30
-	var/rrange = 0
-	ignore_los = 1 // this uses some other weird shit for range
-
-/obj/effect/proc_holder/spell/self/repair/cast(mob/living/carbon/human/user)
-	var/skill = user.get_skill_level(/datum/skill/magic/holy)
+	var/skill = owner.get_skill_level(/datum/skill/magic/holy)
 	var/repair_points = 200 * skill
 	var/one_fix_points = 50 + (skill * 10)
-	var/cost = 40 - (skill * 5)
-	for(var/obj/item/I in range(rrange, user)) //items on usertill and user
-		var/dist = get_dist(I, user)
+	for(var/obj/item/I)
 		if(repair_points <= 0 || (repair_points - one_fix_points) <= 0)
 			repair_points = 0
 			return FALSE
-		if(dist > 1)
-			continue
 		if(!I.smeltresult) //only metal items.
 			continue
 		if(I.smeltresult == /obj/item/ash && I.smeltresult == /obj/item/rogueore/coal) //not cloth and wood.
 			continue
 		if(I.max_integrity <= I.obj_integrity)
 			continue
-		if(!do_after(user, 50))
+		if(!owner.Adjacent(cast_on))
+			return TRUE
+		if(!do_after(owner, 2 SECONDS))
 			repair_points = 0
 			return FALSE
 		I.obj_integrity = min(I.obj_integrity + one_fix_points, I.max_integrity)
 		I.visible_message(span_info("[I] glows in a faint mending light."))
-		user.devotion?.update_devotion(-cost)
-		if(cost != 0)
-			to_chat(user, "<font color='purple'>I lose [cost] devotion!</font>")
+		playsound(cast_on, 'sound/magic/magearmorup.ogg', 10)
 		if(I.max_integrity <= I.obj_integrity)
 			if(I.obj_broken) // obj_fix() strips armor ratings/class when called on intact armor; only call it on items that were actually broken.
 				I.obj_fix()
 			I.repair_coverage()
 			I.visible_message(span_info("[I] mend together, completely."))
+			playsound(cast_on, 'sound/magic/magearmorup.ogg', 50)
 			continue
-		if((user.devotion?.devotion - cost) < 0)
-			to_chat(user, span_warning("I do not have enough devotion!"))
-			return FALSE
-		cast(user)
-	revert_cast()
+		cast(cast_on)
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/restoration
-	name = "Order: Restoration"
-	desc = "Restore integrity of any structure."
-	action_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
-	overlay_state = "restoration"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 7
-	warnie = "sydwarning"
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
-	invocations = list("Repair!")
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 20 SECONDS
-	miracle = TRUE
-	devotion_cost = 50
+///////////////////
+// T4 - Fortress //
+///////////////////
 
-/obj/effect/proc_holder/spell/invoked/restoration/cast(list/targets, mob/living/user)
-	var/skill = user.get_skill_level(/datum/skill/magic/holy)
-	var/repair_points = 50 * skill
-	var/starget = targets[1]
-	if(isobj(starget))
-		if(istype(starget, /obj/item))
-			revert_cast()
-			return FALSE
-		var/obj/structure/S = starget
-		if(S.obj_integrity >= S.max_integrity)
-			revert_cast()
-			return FALSE
-		if(istype(S, /obj/structure/mineral_door/))
-			var/obj/structure/mineral_door/door = S
-			to_chat(user, span_warning("[door.obj_integrity]"))
-			user.visible_message(span_notice("[user] starts concentrating on [door.name]."),
-			span_notice("I start concentrating on [door.name]."))
-			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-			if(!do_after(user, (150 / skill), target = door))
-				return
-			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-			door.icon_state = "[door.base_state]"
-			door.density = TRUE
-			door.set_opacity(TRUE)
-			door.brokenstate = FALSE
-			door.obj_broken = FALSE
-			door.repair_state = 0								
-			if((S.obj_integrity + repair_points) > S.max_integrity)
-				var/need_points = (S.max_integrity - S.obj_integrity)
-				S.obj_integrity += need_points
-			else
-				S.obj_integrity += repair_points
-			user.visible_message(span_notice("[user] point on [door.name] and repair this."), \
-			span_notice("I point on [door.name]. Malum blessing!"))	
-			return TRUE
+/datum/action/cooldown/spell/malum/fortress
+	name = "Fortress"
+	desc = "Channel an immense surge of arcyne energy to erect a 5x5 fortress of arrow wards around yourself. \
+	Each wall segment blocks incoming projectiles from the outside while allowing you and allies to shoot out freely. \
+	The fortress lasts until its cooldown expires or until the walls are destroyed."
+	button_icon_state = "fortress"
+	sound = 'sound/magic/whiteflame.ogg'
+	glow_intensity = GLOW_INTENSITY_VERY_HIGH
 
-		if(istype(S, /obj/structure/roguewindow/))
-			var/obj/structure/roguewindow/window = S
-			if(window.obj_integrity < window.max_integrity)
-				to_chat(user, span_warning("[window.obj_integrity]"))	
-				user.visible_message(span_notice("[user] starts concentrating on [window.name]."),
-				span_notice("I start concentrating on [window.name]."))
-				playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-				if(!do_after(user, (150 / skill), target = window))
-					return
-				playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-				window.icon_state = "[window.base_state]"
-				window.density = TRUE
-				window.brokenstate = FALSE
-				window.obj_broken = FALSE
-				if((S.obj_integrity + repair_points) > S.max_integrity)
-					var/need_points = (S.max_integrity - S.obj_integrity)
-					S.obj_integrity += need_points
-				else
-					S.obj_integrity += repair_points					
-				user.visible_message(span_notice("[user] point on [window.name] and repair this."), \
-				span_notice("I point on [window.name]. Malum blessing!"))	
-				return TRUE
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_LEGENDARY
+
+	secondary_resource_cost = SPELLCOST_ULTIMATE
+
+	invocations = list("Sanctuary!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = CHARGETIME_HEAVY
+	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 90 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/malum/fortress/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/turf/center = get_turf(H)
+	if(!center)
+		return FALSE
+
+	// 5x5 perimeter - outer ring at range 2 from caster
+	var/list/perimeter_data = list() // list of list(turf, outward_dir)
+	for(var/turf/T in range(2, center))
+		var/dx = T.x - center.x
+		var/dy = T.y - center.y
+		if(abs(dx) != 2 && abs(dy) != 2)
+			continue
+		if(T.density)
+			continue
+		// Determine outward-facing direction based on which edge the tile is on
+		var/outward_dir = 0
+		if(abs(dx) == 2 && abs(dy) == 2)
+			// Corners face diagonally outward
+			outward_dir = get_dir(center, T)
+		else if(abs(dx) == 2)
+			// Left/right edges face east/west
+			outward_dir = dx > 0 ? EAST : WEST
 		else
-			if(!do_after(user, (150 / skill), target = S))
-				return
-			if((S.obj_integrity + repair_points) > S.max_integrity)
-				var/need_points = (S.max_integrity - S.obj_integrity)
-				S.obj_integrity += need_points
-			else
-				S.obj_integrity += repair_points
-			return TRUE
-	if(get_turf(starget))
-		var/turf/closed/wall/mineral/W = targets[1]
-		if(W.turf_integrity >= W.max_integrity)
-			revert_cast()
-			return FALSE
-		if(!do_after(user, (150 / skill), target = W))
-			return
-		if((W.turf_integrity + repair_points) > W.max_integrity)
-			var/need_points = (W.max_integrity - W.turf_integrity)
-			W.turf_integrity += need_points
-		else
-			W.turf_integrity += repair_points
-		return TRUE
-	revert_cast()
-	return FALSE
+			// Top/bottom edges face north/south
+			outward_dir = dy > 0 ? NORTH : SOUTH
+		perimeter_data += list(list(T, outward_dir))
 
+	if(!length(perimeter_data))
+		return FALSE
+
+	H.visible_message(span_boldwarning("[H] channels a massive ward inscription - the air crackles with arcyne energy!"), span_notice("I erect the Arcyne Fortress!"))
+	playsound(center, 'sound/magic/whiteflame.ogg', 80, TRUE, 5)
+
+	for(var/list/entry in perimeter_data)
+		var/turf/T = entry[1]
+		var/outward_dir = entry[2]
+		var/obj/structure/arrow_ward/malum/wall = new(T, H, cooldown_time)
+		wall.set_shield_dir(outward_dir)
+
+	return TRUE
+
+/obj/structure/arrow_ward/malum
+	icon_state = "malum_ward"
+	max_integrity = 200

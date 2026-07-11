@@ -85,7 +85,7 @@
 	var/skeletonized = FALSE
 
 	var/fingers = TRUE
-	var/organ_slowdown = 0 // Its here because this is first shared definition between two leg organ paths
+	var/organ_slowdown = 0 // Its here because this is first shared definition between two leg organ paths // NOTE for future: The value starts at 0, example flavor of -10% is 0.1, so on.
 	var/is_prosthetic = FALSE
 
 	/// Visaul markings to be rendered alongside the bodypart

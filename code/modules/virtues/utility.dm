@@ -342,30 +342,33 @@
 
 /datum/virtue/utility/bronzelimbs/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
-	if(triumph_check(recipient))
-		var/obj/item/bodypart/to_attach
-		var/zone
-		for(var/choice in picked_choices)
-			switch(choice)
-				if("Right Arm")
-					to_attach = /obj/item/bodypart/r_arm/prosthetic/bronzeright
-					zone = BODY_ZONE_R_ARM
-				if("Left Arm")
-					to_attach = /obj/item/bodypart/l_arm/prosthetic/bronzeleft
-					zone = BODY_ZONE_L_ARM
-				if("Right Leg")
-					to_attach = /obj/item/bodypart/r_leg/prosthetic/bronzeright
-					zone = BODY_ZONE_R_LEG
-				if("Left Leg")
-					to_attach = /obj/item/bodypart/l_leg/prosthetic/bronzeleft
-					zone = BODY_ZONE_L_LEG
-			var/obj/item/bodypart/O = recipient.get_bodypart(zone)
-			if(O)
-				O.drop_limb()
-				qdel(O)
-			if(recipient.charflaws.len)
-				var/obj/item/bodypart/BP = new to_attach()
-				BP.attach_limb(recipient)
+	if(!triumph_check(recipient))
+		to_chat(recipient, span_warning("Sorry Ser, we don't \"give\" credit. Come back when you're a little, mmmmm... TRIUMPHant."))
+		return
+	for(var/choice in picked_choices)
+		var/to_attach = null
+		var/zone = null
+		switch(choice)
+			if("Right Arm")
+				to_attach = /obj/item/bodypart/r_arm/prosthetic/bronzeright
+				zone = BODY_ZONE_R_ARM
+			if("Left Arm")
+				to_attach = /obj/item/bodypart/l_arm/prosthetic/bronzeleft
+				zone = BODY_ZONE_L_ARM
+			if("Right Leg")
+				to_attach = /obj/item/bodypart/r_leg/prosthetic/bronzeright
+				zone = BODY_ZONE_R_LEG
+			if("Left Leg")
+				to_attach = /obj/item/bodypart/l_leg/prosthetic/bronzeleft
+				zone = BODY_ZONE_L_LEG
+		if(!to_attach || !zone)
+			continue
+		var/obj/item/bodypart/old_limb = recipient.get_bodypart(zone)
+		if(old_limb)
+			old_limb.drop_limb()
+			qdel(old_limb)
+		var/obj/item/bodypart/new_limb = new to_attach()
+		new_limb.attach_limb(recipient)
 
 /datum/virtue/utility/woodwalker
 	name = "Woodwalker"

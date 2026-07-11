@@ -217,6 +217,7 @@
 	foodtype = FRUIT
 	faretype = FARE_POOR
 	rotprocess = SHELFLIFE_DECENT
+	chopping_sound = TRUE
 	splat_type = /obj/effect/decal/cleanable/food/plant_smudge
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/pear
@@ -354,7 +355,8 @@
 	name = "split tomato"
 	seed = /obj/item/seeds/tomato
 	desc = "Split halves of a plump, red fruit with juicy flesh and a balanced sweet-tart flavor. Ruptured skin cradles a deliciously silky surprise, merely a palm away from being smeared into sauce atop flatdough or put through a millstone for marinara."
-	icon_state = "tomato_split"
+	icon = 'modular/Neu_Food/icons/raw/raw_fruit.dmi'
+	icon_state = "tomato_sliced"
 	tastes = list("to" = 1, "mato" = 1)
 	splat_color = "#CD5320"
 	mill_result = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
@@ -363,7 +365,7 @@
 	name = "tomato sauce"
 	seed = null
 	desc = "A smooth, ready-made sauce of crushed tomato. Its juicy, sweet-tart flavor pairs perfectly with noodles - second only to pesto."
-	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
+	icon = 'modular/Neu_Food/icons/raw/raw_fruit.dmi'
 	icon_state = "tomato_sauce"
 	tastes = list("to" = 1, "ma" = 1)
 	splat_color = "#CD5320"

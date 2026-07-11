@@ -209,3 +209,8 @@
 	name = "Corset"
 	path = /obj/item/clothing/suit/roguetown/armor/corset
 	sort_category = "Shirts"
+
+/datum/loadout_item/saree
+	name = "Saree"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/saree
+	sort_category = "Shirts"

@@ -235,6 +235,26 @@
 	to_chat(owner, span_warning("The darkness returns to normal."))
 	REMOVE_TRAIT(owner, TRAIT_DARKVISION, MAGIC_TRAIT)
 
+/atom/movable/screen/alert/status_effect/buff/nitevision
+	name = "Nitevision"
+	desc = "I can see in the dark."
+	icon_state = "darkvision"
+
+/datum/status_effect/buff/nitevision
+	id = "nitevision"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/nitevision
+	duration = UTILITY_AOE_BUFF_DURATION
+
+/datum/status_effect/buff/nitevision/on_apply(mob/living/new_owner)
+	. = ..()
+	to_chat(owner, span_warning("The darkness fades."))
+	ADD_TRAIT(owner, TRAIT_NITEVISION, MAGIC_TRAIT)
+
+/datum/status_effect/buff/nitevision/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("The darkness returns to normal."))
+	REMOVE_TRAIT(owner, TRAIT_NITEVISION, MAGIC_TRAIT)
+
 // ---- IRON SKIN ----
 
 #define IRON_SKIN_FILTER "iron_skin_glow"
@@ -268,4 +288,3 @@
 	owner.remove_filter(IRON_SKIN_FILTER)
 
 #undef IRON_SKIN_FILTER
-
