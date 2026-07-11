@@ -2,7 +2,7 @@
 	name = "Artillery Fireball"
 	desc = "An artillery fireball that destroys structures with ease and creates a large impact of smoke and flame. \
 	Damage is increased by 140% versus simple-minded creechurs.\n\
-	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
+	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
 	button_icon_state = "fireball_artillery"
 
 	projectile_type = /obj/projectile/magic/aoe/fireball/rogue/artillery
@@ -50,6 +50,8 @@
 		return
 	var/turf/fallzone = get_turf(target)
 	if(!fallzone)
+		return
+	if(out_of_effective_range())
 		return
 	for(var/turf/open/visual in view(cached_radius, fallzone))
 		var/obj/effect/temp_visual/lavastaff/Lava = new /obj/effect/temp_visual/lavastaff(visual)

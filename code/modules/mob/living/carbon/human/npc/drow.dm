@@ -71,6 +71,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/elf/dark/drowraider)
 	if(prob(40))
 		gender = MALE
@@ -92,7 +93,8 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 						/datum/sprite_accessory/hair/head/sabitsuki_ponytail))
 
 	var/datum/bodypart_feature/hair/head/new_hair = new()
-
+	random_voice_NPC()
+	//Next up, we add hair
 	if(gender == FEMALE)
 		new_hair.set_accessory_type(hairf, null, src)
 	else
@@ -107,10 +109,22 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
 	dna.species.handle_body(src)
-
+	//eye picks, we have four-cause its easier to work with. Don't ask me why it randomly breaks to white eyes but sovlful NGL
 	if(organ_eyes)
-		organ_eyes.eye_color = "#FFBF00"
-		organ_eyes.accessory_colors = "#FFBF00#FFBF00"
+		var/eye_choice = rand(1, 4)
+		switch(eye_choice)
+			if(1)
+				organ_eyes.eye_color = "#FFBF00"
+				organ_eyes.accessory_colors = "#FFBF00#FFBF00"
+			if(2)
+				organ_eyes.eye_color = "#e60000"
+				organ_eyes.accessory_colors = "#e60000#e60000"
+			if(3)
+				organ_eyes.eye_color = "#96fc9e"
+				organ_eyes.accessory_colors = "#96fc9e#96fc9e"
+			if(3)
+				organ_eyes.eye_color = "#bb68ff"
+				organ_eyes.accessory_colors = "#bb68ff#bb68ff"
 
 	if(organ_ears)
 		organ_ears.accessory_colors = "#5f5f70"
@@ -127,15 +141,40 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	if(prob(40)) //40% cloak chance
+		var/cloak_choice = rand(1, 3)
+		switch(cloak_choice)
+			if(1)
+				cloak = /obj/item/clothing/cloak/raincloak/mortus
+			if(2)
+				cloak = /obj/item/clothing/cloak/half/rider/red
+			if(3)
+				cloak = /obj/item/clothing/cloak/half
+
+	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	mask = /obj/item/clothing/mask/rogue/facemask
-	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
-	// Stopgap: archer roll removed because the ranged NPC AI is unreliable.
+	var/mask_choice = rand(1, 5)
+	switch(mask_choice)
+		if(1 to 2)
+			mask = /obj/item/clothing/mask/rogue/facemask
+		if(3 to 4)
+			mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask/delf
+		if(5)
+			mask = /obj/item/clothing/mask/rogue/xylixmask //WHY SO SERIOUS?!
+	var/neck_choice = rand(1, 3)
+	switch(neck_choice)
+		if(1)
+			neck = /obj/item/clothing/neck/roguetown/coif/heavypadding //SOVL
+		if(2)
+			neck = /obj/item/clothing/neck/roguetown/leather
+			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron //So they have head armor
+		if(2)
+			neck = /obj/item/clothing/neck/roguetown/gorget
+			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron //So they have head armor
 	if(prob(45)) // whip
 		r_hand = /obj/item/rogueweapon/whip
 	else if(prob(50)) // dual falx
@@ -161,6 +200,22 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
+	if(prob(50))
+		var/voicepack_choice = rand(1, 4)
+		switch(voicepack_choice)
+			if(1)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
+			if(2)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
+			if(3)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
+			if(4)
+				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard] //Aura
+				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
+
 /mob/living/carbon/human/species/elf/dark/drowraider/archer
 	ai_controller = /datum/ai_controller/human_npc/archer
 
@@ -178,7 +233,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/archer)
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/archer/pre_equip(mob/living/carbon/human/H)
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider

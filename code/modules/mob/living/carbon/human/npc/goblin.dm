@@ -41,6 +41,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /mob/living/carbon/human/species/goblin/npc/after_creation()
 	..()
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	AddComponent(/datum/component/ai_aggro_system)
 
 /mob/living/carbon/human/species/goblin/npc/ambush
@@ -52,6 +53,33 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /mob/living/carbon/human/species/goblin/npc/slinger
 	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/slinger
+
+/mob/living/carbon/human/species/goblin/npc/archer/cave
+	race = /datum/species/goblin/cave
+/mob/living/carbon/human/species/goblin/npc/archer/sea
+	race = /datum/species/goblin/sea
+/mob/living/carbon/human/species/goblin/npc/archer/moon
+	race = /datum/species/goblin/moon
+/mob/living/carbon/human/species/goblin/npc/archer/hell
+	race = /datum/species/goblin/hell
+
+/mob/living/carbon/human/species/goblin/npc/slinger/cave
+	race = /datum/species/goblin/cave
+/mob/living/carbon/human/species/goblin/npc/slinger/sea
+	race = /datum/species/goblin/sea
+/mob/living/carbon/human/species/goblin/npc/slinger/moon
+	race = /datum/species/goblin/moon
+/mob/living/carbon/human/species/goblin/npc/slinger/hell
+	race = /datum/species/goblin/hell
+
+/mob/living/carbon/human/species/goblin/npc/bomber/cave
+	race = /datum/species/goblin/cave
+/mob/living/carbon/human/species/goblin/npc/bomber/sea
+	race = /datum/species/goblin/sea
+/mob/living/carbon/human/species/goblin/npc/bomber/moon
+	race = /datum/species/goblin/moon
+/mob/living/carbon/human/species/goblin/npc/bomber/hell
+	race = /datum/species/goblin/hell
 
 /mob/living/carbon/human/species/goblin/hell
 	name = "hell goblin"
@@ -246,8 +274,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_aggro, TRUE)
 	gender = MALE
 	if(src.dna && src.dna.species)
-		src.dna.species.soundpack_m = new /datum/voicepack/other/goblin()
-		src.dna.species.soundpack_f = new /datum/voicepack/other/goblin()
+		src.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/goblin]
+		src.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/other/goblin]
 		var/obj/item/headdy = get_bodypart("head")
 		if(headdy)
 			headdy.icon = 'icons/roguetown/mob/monster/goblins.dmi'
@@ -268,6 +296,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	faction = list(FACTION_ORCS)
 	if(is_species(src, /datum/species/goblin/hell))
 		faction += FACTION_INFERNAL
+		ADD_TRAIT(src, TRAIT_FIRE_RESIST, TRAIT_GENERIC) //50% less fire damage.
 	name = "goblin"
 	real_name = "goblin"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
@@ -355,19 +384,27 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 /datum/outfit/job/roguetown/npc/goblin/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 8
-	if(is_species(H, /datum/species/goblin/moon))
+	if(is_species(H, /datum/species/goblin/moon) || is_species(H, /datum/species/goblin/hell))
 		H.STASPD = 16
 	else
 		H.STASPD = 14
-	H.STACON = 4
+	if(is_species(H, /datum/species/goblin/hell))
+		H.STACON = 6
+		if(prob(5)) //5% on ALL loadouts to be a pyromancer
+			neck = /obj/item/storage/belt/rogue/pouch/bombs
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			H.name = "goblin pyromancer"
+			H.real_name = "goblin pyromancer"
+			SEND_SIGNAL(H, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
+	else
+		H.STACON = 4
 	H.STAWIL = 4
 	H.STAPER = 8
 	if(is_species(H, /datum/species/goblin/moon))
 		H.STAINT = 8
 	else
 		H.STAINT = 4
-	// Stopgap: bow (was 6) and slinger (was 7) loadouts removed from the random pool because the ranged NPC AI is unreliable. Bomber moved into the freed slot.
-	var/loadout = rand(1,6)
+	var/loadout = rand(1,5)
 	switch(loadout)
 		if(1) //tribal spear
 			r_hand = /obj/item/rogueweapon/spear/stone
@@ -390,6 +427,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 			if(prob(23))
 				r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 				l_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC) //I am a cruel god
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/goblin
 			if(prob(80))
 				head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
@@ -409,13 +447,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 			if(prob(20))
 				r_hand = /obj/item/rogueweapon/flail
 				l_hand = /obj/item/rogueweapon/shield/wood
-		if(6) // bottle bomber
-			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
-			neck = /obj/item/storage/belt/rogue/pouch/bombs
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			H.name = "goblin pyromancer"
-			H.real_name = "goblin pyromancer"
-			SEND_SIGNAL(H, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 2, TRUE)
@@ -449,6 +480,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	neck = /obj/item/quiver/sling/stone
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 
 /mob/living/carbon/human/species/goblin/npc/bomber
 	name = "goblin pyromancer"

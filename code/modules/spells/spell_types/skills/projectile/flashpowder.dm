@@ -33,6 +33,8 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
+		if(out_of_effective_range())
+			return
 		M.apply_status_effect(/datum/status_effect/debuff/flashpowder)
 		M.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 		if(iscarbon(target))

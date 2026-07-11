@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_fulgurmancy.dmi'
 	name = "Arc Bolt"
 	desc = "Fire a quick jolt of lightning at a target. Deals less damage than most other minor offensive spells, but strikes instantly. \
-	Toggle arc mode (Ctrl+G) to lob over obstacles at reduced damage. \
+	Toggle arc mode (Shift+G) to lob over obstacles at reduced damage. \
 	Damage is increased by 100% versus simple-minded creechurs."
 	button_icon_state = "shock"
 	sound = 'sound/magic/lightning.ogg'
@@ -22,7 +22,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 6.5 SECONDS
@@ -68,6 +68,8 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
+			if(out_of_effective_range())
+				return
 			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
 	else if(isatom(target))
 		var/atom/A = target

@@ -75,6 +75,11 @@
 	name = "opal spoon"
 	icon_state = "spoon_opal"
 
+/obj/item/kitchen/spoon/carved/porcelain
+	name = "porcelain spoon"
+	icon_state = "spoon_porcelain"
+	sellprice = 10
+
 // NUKE THIS FUCKING TYPEPATH WHEN WE HAVE TIME
 /obj/item/kitchen/spoon/plastic
 	name = "wooden spoon"

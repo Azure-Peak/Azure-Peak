@@ -230,6 +230,7 @@ GLOBAL_LIST_EMPTY(species_list)
 	var/titles_pref = null
 	var/clothes_pref = CLOTHES_M
 	var/obscured_flags = NONE
+	var/override_advclass_examine = FALSE // if you get converted to a different role like servant with advjob_examine set to true, your title won't change on examine bcs your advclass hasn't actually changed - so we override that setting
 
 /**
  * Timed action involving one mob user. Target is optional.
@@ -251,7 +252,7 @@ GLOBAL_LIST_EMPTY(species_list)
  * interrupt - whether to interrupt a prior do_after or not
 */
 
-/proc/do_after(mob/user, delay, needhand = TRUE, atom/target = null, progress = TRUE, datum/callback/extra_checks = null, same_direction = FALSE, no_interrupt = FALSE)
+/proc/do_after(mob/user, delay, needhand = TRUE, atom/target = null, progress = TRUE, datum/callback/extra_checks = null, same_direction = FALSE, no_interrupt = FALSE, allow_movement = FALSE)
 	if(!user)
 		return FALSE
 
@@ -292,7 +293,7 @@ GLOBAL_LIST_EMPTY(species_list)
 		if (progress)
 			progbar.update(world.time - starttime)
 
-		if(QDELETED(user) || user.stat || (!drifting && user.loc != Uloc) || (extra_checks && !extra_checks.Invoke()) || (same_direction && user.dir != original_dir))
+		if(QDELETED(user) || user.stat || (!drifting && !allow_movement && user.loc != Uloc) || (extra_checks && !extra_checks.Invoke()) || (same_direction && user.dir != original_dir))
 			. = FALSE
 			break
 
@@ -643,7 +644,7 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(check_rights(R_WATCH, FALSE))
 		observer = new /mob/dead/observer/admin(src)
 	else
-		observer = new /mob/dead/observer/rogue/nodraw(src)
+		observer = new /mob/dead/observer/nodraw(src)
 	if(!existing)
 		lobbyer.spawning = TRUE
 

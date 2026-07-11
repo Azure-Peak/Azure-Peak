@@ -108,24 +108,24 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/proc/find_food()
 	if(food > 50 && !eat_forever)
 		return
-	var/list/around = view(1, src)
 	var/list/foundfood = list()
-	if(stat)
+	if(stat || !food_typecache)
 		return
-	for(var/obj/item/F in around)
-		if(is_type_in_list(F, food_type))
+	for(var/obj/item/F in view(1, src))
+		if(!food_typecache[F.type])
+			continue
+		if(!src.Adjacent(F))
 			foundfood += F
-			if(src.Adjacent(F))
-				face_atom(F)
-				playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
-				qdel(F)
-				food = max(food + 30, 100)
-				return TRUE
+			continue
+		face_atom(F)
+		playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
+		qdel(F)
+		food = max(food + 30, 100)
+		return TRUE
 	for(var/obj/item/F in foundfood)
-		if(is_type_in_list(F, food_type))
-			var/turf/T = get_turf(F)
-			Goto(T,move_to_delay,0)
-			return TRUE
+		var/turf/T = get_turf(F)
+		Goto(T,move_to_delay,0)
+		return TRUE
 	return FALSE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/AttackingTarget()
@@ -289,7 +289,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/food_tempted(obj/item/O, mob/user)
 
-	if(is_type_in_list(O, food_type) && !stop_automated_movement)
+	if(food_typecache?[O.type] && !stop_automated_movement)
 
 		stop_automated_movement = TRUE
 		Goto(user,move_to_delay)

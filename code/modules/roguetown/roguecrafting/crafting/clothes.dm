@@ -251,6 +251,33 @@
 	verbage_simple = "tied"
 	verbage = "ties"
 
+/datum/crafting_recipe/roguetown/survival/flowercrown_rosa_thorns
+	name = "rosa crown with thorns"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/flowercrown/rosa/thorns
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/natural/thorn = 2,
+		/obj/item/alch/rosa = 3,
+		)
+	craftdiff = 0
+	verbage_simple = "tied"
+	verbage = "ties"
+
+/datum/crafting_recipe/roguetown/survival/flowercrown_rosa_gray
+	name = "gray flower crown"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/flowercrown/rosa/dyecrown
+	reqs = list(
+		/obj/item/natural/fibers = 2
+		)
+	craftdiff = 0
+	verbage_simple = "tied"
+	verbage = "ties"
+
+
 // Amulet
 /datum/crafting_recipe/roguetown/survival/pearlcross
 	name = "amulet (pearls)"
@@ -309,6 +336,166 @@
 	display_category = ITEM_CAT_GARMENT_COMMON
 	category = "Clothes"
 	result = /obj/item/clothing/neck/roguetown/psicross/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodreformcross
+	name = "wooden reformist psycross"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/reform/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodzcross
+	name = "wooden inverted psycross"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/inhumen/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodmatthioscross
+	name = "wooden amulet of Matthios"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodgraggarcross
+	name = "wooden amulet of Graggar"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodbaothacross
+	name = "wooden amulet of Baotha"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodtencross
+	name = "wooden amulet of Ten"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/undivided/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodastratacross
+	name = "wooden amulet of Astrata"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/astrata/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodnoccross
+	name = "wooden amulet of Noc"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/noc/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodabyssorcross
+	name = "wooden amulet of Abyssor"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/abyssor/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/wooddendorcross
+	name = "wooden amulet of Dendor"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/dendor/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodnecracross
+	name = "wooden amulet of Necra"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/necra/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodpestracross
+	name = "wooden amulet of Pestra"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/pestra/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodravoxcross
+	name = "wooden amulet of Ravox"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/ravox/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodmalumcross
+	name = "wooden amulet of Malum"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/malum/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodeoracross
+	name = "wooden amulet of Eora"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/eora/wood
+	reqs = list(
+		/obj/item/natural/fibers = 2,
+		/obj/item/grown/log/tree/stick = 2,
+		)
+
+/datum/crafting_recipe/roguetown/survival/woodxylixcross
+	name = "wooden amulet of Xylix"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/clothing/neck/roguetown/psicross/xylix/wood
 	reqs = list(
 		/obj/item/natural/fibers = 2,
 		/obj/item/grown/log/tree/stick = 2,

@@ -30,8 +30,11 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	/// If TRUE, this area's pool is not auto-processed at SSatoms init. Use for areas built incrementally by the dungeon generator - call process_deferred_loot_pools() once generation finishes.
 	var/loot_pool_deferred = FALSE
 
-/area/rogue/Entered(mob/living/carbon/human/guy)
+/area/rogue/Entered(atom/movable/AM)
 	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/guy = AM
 	if((src.town_area == TRUE) && HAS_TRAIT(guy, TRAIT_GUARDSMAN) && !guy.has_status_effect(/datum/status_effect/buff/guardbuffone)) //man at arms
 		guy.apply_status_effect(/datum/status_effect/buff/guardbuffone)
 	if((src.tavern_area == TRUE) && HAS_TRAIT(guy, TRAIT_TAVERN_FIGHTER) && !guy.has_status_effect(/datum/status_effect/buff/innkeeperbuff)) // THE FIGHTER
@@ -352,6 +355,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	first_time_text = "The Dwarven Quarter"
 	soundenv = 16
 	converted_type = /area/rogue/indoors/shelter/town/dwarf
+
 /area/rogue/indoors/shelter/town/dwarf
 	icon_state = "dwarf"
 	droning_sound = 'sound/music/area/dwarf.ogg'
@@ -371,12 +375,13 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	name = "dream realm"
 	icon_state = "dream"
 	first_time_text = "Abyssal Dream"
+	deathsight_message = "a vast, endless dreamscape"
 
 
 
 /area/rogue/indoors/deathsedge
 	name = "Death's Precipice"
-	deathsight_message = "an place bordering necra's grasp"
+	deathsight_message = "a place bordering necra's grasp"
 	necra_area = TRUE
 	droning_sound = 'sound/music/area/underworlddrone.ogg'
 	droning_sound_dusk = null

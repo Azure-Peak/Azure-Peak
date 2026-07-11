@@ -1,5 +1,5 @@
 /obj/item/clothing/gloves/roguetown/angle
-	name = "heavy leather gloves"
+	name = "hardened leather gloves"
 	desc = "A pair of heavy leather gloves, padded with the fur of a forest-dwelling beaste. The lengthened cuffs help to catch unseen bites from prowling monsters; a blessing, when even a single gnash can spread curses-most-foul."
 	icon_state = "angle"
 	armor = ARMOR_LEATHER
@@ -41,6 +41,7 @@
 	icon_state = "freigloves"
 	item_state = "freigloves"
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + 50
+	color = null
 
 /obj/item/clothing/gloves/roguetown/angle/feld
 	name = "feldsher's gloves"

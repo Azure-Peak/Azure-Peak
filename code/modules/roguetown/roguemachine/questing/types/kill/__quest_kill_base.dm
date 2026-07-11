@@ -12,6 +12,7 @@
 	/// progress_required to match spawn count. Recovery sets this FALSE — kills are just the gate,
 	/// the parcel delivery is the real progress driver.
 	var/kills_count_progress = TRUE
+	var/failed = FALSE
 	var/hunt_timer_id
 	var/hunt_warn_2m_id
 	var/hunt_warn_30s_id
@@ -59,6 +60,7 @@
 	if(complete)
 		return
 	hunt_timer_id = null
+	failed = TRUE
 	announce_to_bearer("<b>The quarry has slipped away.</b> The writ smolders and crumbles in your grip.")
 	despawn_live_hunt_mobs()
 	var/obj/item/quest_writ/S = quest_scroll
@@ -195,6 +197,7 @@
 		new_mob.faction |= "quest"
 		if(faction?.faction_tag)
 			new_mob.faction |= faction.faction_tag
+		new_mob.mark_contract_spawned()
 		new_mob.AddComponent(/datum/component/quest_object/kill, src)
 		// Suppress AI scanning while dormant inside the spawn_effect — without this the AI tries
 		// to build a proximity field while not on a turf, fails, and stays catatonic forever.
@@ -216,7 +219,7 @@
 
 /// Spend tp_budget picking weighted mob types from faction.mob_types. Returns flat list of mob
 /// type paths to spawn. Mirrors ambush.dm purchase loop (first-pick sets tone, subsequent picks
-/// may go cheaper to stay under budget). Hard cap of 15 spawns.
+/// may go cheaper to stay under budget). Hard cap of QUEST_KILL_MAX_MOBS spawns.
 /datum/quest/kill/proc/compose_warband()
 	var/list/result = list()
 	if(!faction || !length(faction.mob_types) || tp_budget <= 0)

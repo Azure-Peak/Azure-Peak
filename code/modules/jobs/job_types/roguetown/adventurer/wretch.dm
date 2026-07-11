@@ -140,7 +140,10 @@
 		d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%"
 	)
 	add_bounty(H.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, FALSE, my_crime, bounty_poster)
-	to_chat(H, span_danger("You are playing an Antagonist role. By choosing to spawn as a Wretch, you are expected to actively create conflict with other players. Failing to play this role with the appropriate gravitas may result in punishment for Low Roleplay standards."))
+	if(H.has_flaw(/datum/charflaw/wanted))
+		to_chat(H, span_danger("You are wanted; you have a price on your head. Expect conflict to find you whether you seek it or not."))
+	else
+		to_chat(H, span_danger("You are playing an Antagonist role. By choosing to spawn as a Wretch, you are expected to actively create conflict with other players. Failing to play this role with the appropriate gravitas may result in punishment for Low Roleplay standards."))
 
 /// Returns an assoc list with all intermediate wretch scaling values for admin display.
 /// If override_player_count is provided (e.g. from readied player count at roundstart), use that instead of the live joined list.
@@ -149,38 +152,13 @@
 	var/player_count = override_player_count || length(GLOB.joined_player_list)
 	result["player_count"] = player_count
 	var/cap = SSgamemode.current_storyteller?.wretch_slot_cap
+	if(!SSgamemode.allow_vote && !isnull(SSgamemode.admin_slots["Wretch"]))
+		cap = max(0, SSgamemode.admin_slots["Wretch"])
 	if(isnull(cap))
 		cap = 10
 	result["cap"] = cap
-	if(is_storyteller_soft_antag_blocked())
-		result["tier1_slots"] = 0
-		result["major_antag_active"] = FALSE
-		result["garrison"] = SSgamemode.garrison
-		result["holy_warrior"] = SSgamemode.holy_warrior
-		result["acolyte"] = SSgamemode.half_combatant
-		result["combat_total"] = SSgamemode.garrison + SSgamemode.holy_warrior + FLOOR(SSgamemode.half_combatant * 0.5, 1)
-		result["tier2_extra"] = 0
-		result["final_slots"] = 0
-		return result
 
-	// Tier 1: Population scaling, +1 per 10 players above 40, capped per pantheon
-	var/slots = 5
-	if(player_count > 40)
-		slots += floor((player_count - 40) / 10)
-	slots = min(slots, cap)
-	result["tier1_slots"] = slots
-
-	// Check for major round antagonists (lich, vampire lord, any bandits) — hard cap at tier 1
-	var/major_antag_active = FALSE
-	for(var/datum/antagonist/antag as anything in GLOB.antagonists)
-		if(QDELETED(antag) || QDELETED(antag.owner))
-			continue
-		if(istype(antag, /datum/antagonist/lich) || istype(antag, /datum/antagonist/vampire/lord) || istype(antag, /datum/antagonist/bandit))
-			major_antag_active = TRUE
-			break
-	result["major_antag_active"] = major_antag_active
-
-	// Tier 2: Garrison-gated expansion above 10, bounded by per-pantheon cap.
+	// Combat population (garrison + holy warriors + half-weight acolytes) - used for tier 2 and the readout.
 	var/garrison_count = SSgamemode.garrison
 	var/holy_count = SSgamemode.holy_warrior
 	var/acolyte_count = SSgamemode.half_combatant
@@ -190,6 +168,38 @@
 	result["acolyte"] = acolyte_count
 	result["combat_total"] = combat_count
 
+	if(is_storyteller_soft_antag_blocked())
+		result["tier1_slots"] = 0
+		result["major_antag_active"] = FALSE
+		result["tier2_extra"] = 0
+		result["final_slots"] = 0
+		return result
+
+	// Check for major round antagonists (lich, vampire lord, any bandits) — they lock tier 2.
+	var/major_antag_active = FALSE
+	for(var/datum/antagonist/antag as anything in GLOB.antagonists)
+		if(QDELETED(antag) || QDELETED(antag.owner))
+			continue
+		if(istype(antag, /datum/antagonist/lich) || istype(antag, /datum/antagonist/vampire/lord) || istype(antag, /datum/antagonist/bandit))
+			major_antag_active = TRUE
+			break
+	result["major_antag_active"] = major_antag_active
+
+	// Admin disabled soft scaling: wretches are fixed at the admin's chosen number (the cap), no pop scaling.
+	if(!SSgamemode.allow_vote && !SSgamemode.soft_scaling)
+		result["tier1_slots"] = cap
+		result["tier2_extra"] = 0
+		result["final_slots"] = cap
+		return result
+
+	// Tier 1: base 5, +1 per 10 players above 40, clamped to cap. (Unchanged preset scaling.)
+	var/slots = 5
+	if(player_count > 40)
+		slots += floor((player_count - 40) / 10)
+	slots = min(slots, cap)
+	result["tier1_slots"] = slots
+
+	// Tier 2: Garrison-gated expansion above 10, bounded by the cap.
 	var/tier2_max = 0
 	if(slots >= 10 && cap > 10 && !major_antag_active)
 		tier2_max = min(max(0, combat_count - 10), 5, cap - slots)
@@ -205,6 +215,7 @@
 		return
 	if(wretch_job.admin_slot_override)
 		return
+	// Admin fine-tuning (the Wretch slot as a scaling cap) is handled inside calculate_wretch_scaling().
 	var/list/scaling = calculate_wretch_scaling(override_player_count)
 	var/slots = max(0, scaling["final_slots"])
 	// Never reduce below current occupancy

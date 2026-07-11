@@ -195,9 +195,8 @@ export const ConfigPanel = (props: {
         }}
       >
         Per unit. Recipe price = (material cost) × (1 + percent margin / 100) +
-        flat margin. The checkbox gates only the recipe's PRIMARY material -
-        recipes whose main ingredient is disabled drop out of the catalog;
-        secondary ingredients still apply at the listed price.
+        flat margin. Disabling a material drops every recipe that uses it from
+        the catalog - whether it is a primary or secondary ingredient.
       </div>
       <MaterialColumns materials={data.materials} act={act} />
     </>

@@ -86,7 +86,7 @@
 	return TRUE
 
 /datum/keybinding/carbon/toggle_arc_mode
-	hotkey_keys = list("CtrlG")
+	hotkey_keys = list("ShiftG")
 	name = "toggle_arc_mode"
 	full_name = "Toggle Spell Alt Mode"
 	description = "Toggle alt mode on the currently active spell - arc mode for projectiles, ward type cycling, etc."

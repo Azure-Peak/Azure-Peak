@@ -82,6 +82,7 @@
 /datum/action/cooldown/spell/apply_malum
 	name = "Invoke Malum Reinforcement"
 	desc = "Call upon the Malum energy gifted to you to reinforce your armor."
+	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon_state = "invoke_malum"
 
@@ -115,19 +116,26 @@
 	name = "Gift of Malum"
 	desc = "Grant a target the ability to invoke Malum armor reinforcement. \
 	Armor reinforcements causes pickuppable armor repair shards to be dropped when the target's armor is damaged."
+	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon_state = "malum_gift"
 	sound = 'sound/magic/bless.ogg'
 	spell_color = "#330000"
 
 	primary_resource_type = SPELL_COST_DEVOTION
-	devotion_cost = 50
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR + 20
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_MIRACLE
+
+	ignore_armor_penalty = TRUE
 	cooldown_time = 10 MINUTES
 	charge_time = 0.1 SECONDS
 
 	invocations = list("Malum's hand will heed you from harm!")
 	invocation_type = INVOCATION_SHOUT
 	cast_range = SPELL_RANGE_GROUND
+	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
 
 /datum/action/cooldown/spell/malum_blessing/cast(atom/cast_on)

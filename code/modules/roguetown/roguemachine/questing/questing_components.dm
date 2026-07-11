@@ -147,6 +147,8 @@
 		return
 	var/datum/quest/kill/KQ = Q
 	if(istype(KQ))
+		if(KQ.failed)
+			return
 		KQ.on_guardian_killed()
 		if(!KQ.kills_count_progress)
 			return

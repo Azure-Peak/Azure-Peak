@@ -85,25 +85,24 @@
 	id = "lightningstruck"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/lightningstruck
 	duration = 6 SECONDS
-	effectedstats = list("speed" = -2)
+	effectedstats = list(STATKEY_SPD = -2, STATKEY_PER = -3, STATKEY_INT = -2)
 
 /atom/movable/screen/alert/status_effect/buff/lightningstruck
 	name = "Lightning Struck"
-	desc = "I can feel the electricity coursing through me."
+	desc = "Shocked, slowed, and disoriented. I can't swing my blade or think properly."
 	icon_state = "debuff"
 	color = "#ffff00"
 
 /datum/status_effect/buff/lightningstruck/on_apply()
 	. = ..()
 	var/mob/living/target = owner
-	ADD_TRAIT(target, TRAIT_SPELLCOCKBLOCK, TRAIT_STATUS_EFFECT)
 	target.update_vision_cone()
 	target.add_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, update=TRUE, priority=100, multiplicative_slowdown=4, movetypes=GROUND)
+	target.stamina_add(25)
 
 /datum/status_effect/buff/lightningstruck/on_remove()
 	. = ..()
 	var/mob/living/target = owner
-	REMOVE_TRAIT(target, TRAIT_SPELLCOCKBLOCK, TRAIT_STATUS_EFFECT)
 	target.update_vision_cone()
 	target.remove_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, TRUE)
 
@@ -115,6 +114,18 @@
 	. = ..()
 	var/mob/living/target = owner
 	target.add_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, update=TRUE, priority=100, multiplicative_slowdown=1, movetypes=GROUND)
+
+/mob/living/proc/lightning_shock(source)
+	electrocute_act(1, source, 1, SHOCK_NOSTUN)
+	if(!mob_timers[MT_LIGHTNING_ADAPTATION] || world.time > mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN)
+		Immobilize(0.5 SECONDS)
+		apply_status_effect(/datum/status_effect/buff/lightningstruck)
+		balloon_alert_to_viewers("<font color='#ffcc00'>shocked! (6s)</font>")
+		mob_timers[MT_LIGHTNING_ADAPTATION] = world.time
+		return TRUE
+	var/remaining = round((mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN - world.time) / 10)
+	balloon_alert_to_viewers("<font color='#ffcc00'>shock adapted ([remaining]s)</font>")
+	return FALSE
 
 
 // arcane marks plus helper procs

@@ -649,6 +649,39 @@ SPECIALS START HERE
 		playsound(howner, 'sound/combat/flail_sweep_hit_major.ogg', 100, TRUE)
 	victim.safe_throw_at(throwtarget, CLAMP(1, 5, victim_count), 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
+/datum/special_intent/quarterstaff_sweep
+	name = "Quarterstaff Sweep"
+	desc = "Sweep a five-tile frontal arc, knocking foes back and exposing them. Aims for the targeted zone."
+	tile_coordinates = list(list(-1,-1), list(1,-1), list(-1,0), list(0,0), list(1,0))
+	post_icon_state = "sweep_fx"
+	pre_icon_state = "trap"
+	sfx_pre_delay = 'sound/combat/wooshes/blunt/wooshmed (1).ogg'
+	sfx_post_delay = 'sound/combat/hits/blunt/woodblunt (1).ogg'
+	delay = 0.6 SECONDS
+	cooldown = 15 SECONDS
+	requires_wielding = TRUE
+	stamcost = 20
+	var/exposed_dur = 3 SECONDS
+	var/dam
+
+/datum/special_intent/quarterstaff_sweep/process_attack()
+	var/obj/item/rogueweapon/W = iparent
+	if(istype(W))
+		dam = W.force_dynamic * max((max(howner.STASTR, howner.STAPER) / 10), 0.5)
+	. = ..()
+
+/datum/special_intent/quarterstaff_sweep/apply_hit(turf/T)
+	for(var/mob/living/L in get_hearers_in_view(0, T))
+		if(L == howner)
+			continue
+		var/throwdir = get_dir(howner, L)
+		var/turf/throwtarget = get_ranged_target_turf(get_turf(L), throwdir, 1)
+		L.safe_throw_at(throwtarget, 1, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
+		var/hit_zone = get_aimed_zone(L)
+		apply_generic_weapon_damage(L, dam, "blunt", hit_zone, bclass = BCLASS_BLUNT, no_pen = TRUE)
+		L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_dur)
+	..()
+
 #define AXE_SWING_GRID_DEFAULT 	list(list(-1,0), list(0,0, 0.2 SECONDS), list(1,0, 0.4 SECONDS))
 #define AXE_SWING_GRID_MIRROR	list(list(-1,0, 0.4 SECONDS), list(0,0, 0.2 SECONDS), list(1,0))
 
@@ -942,14 +975,6 @@ SPECIALS START HERE
 				apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_CHEST, bclass = BCLASS_BLUNT, no_pen = TRUE)
 				L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 				L.safe_throw_at(throwtarget, push_dist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
-
-
-
-
-
-
-
-
 
 
 /* 				EXAMPLES
@@ -1260,6 +1285,67 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 	..()
 
+/datum/special_intent/arcyne_descent // Tome finisher, reverse of upper cut visually. It is functionally an uppercut
+	name = "Arcyne Descent"
+	desc = "Rise with arcyne force, then crash down on the target. If the target is Exposed or Vulnerable, they will fall over and be flung back with tremendous damage; otherwise they are pushed slightly back."
+	tile_coordinates = list(list(0,0))
+	post_icon_state = "kick_fx"
+	pre_icon_state = "trap"
+	respect_adjacency = TRUE
+	delay = 1.2 SECONDS
+	cooldown = 30 SECONDS
+	stamcost = 25
+	var/KD_dur = 1 SECONDS
+	var/self_immob_dur = 1.5 SECONDS
+	var/dam = 50
+	var/prev_pixel_z
+	var/prev_transform
+
+/datum/special_intent/arcyne_descent/on_create()
+	. = ..()
+
+	howner.OffBalance(self_immob_dur)
+	howner.Immobilize(self_immob_dur)
+	dam = initial(dam)
+	prev_pixel_z = howner.pixel_z
+	prev_transform = howner.transform
+	howner.visible_message(span_warning("[howner] rises on a surge of arcyne force!"), span_warning("I rise on a surge of arcyne force!"))
+	playsound(howner, 'sound/magic/charging.ogg', 100, TRUE)
+	if(!HAS_TRAIT(howner, TRAIT_BIGGUY))
+		animate(howner, pixel_z = prev_pixel_z + 16, time = 4)
+
+/datum/special_intent/arcyne_descent/apply_hit(turf/T)
+	playsound(T, 'sound/magic/whiteflame.ogg', 100, TRUE)
+	if(!HAS_TRAIT(howner, TRAIT_BIGGUY))
+		animate(howner, pixel_z = prev_pixel_z - 2, time = 2)
+		animate(pixel_z = prev_pixel_z, transform = prev_transform, time = 2)
+
+	for(var/mob/living/L in get_hearers_in_view(0, T))
+		if(L == howner)
+			continue
+
+		var/throwtarget = get_edge_target_turf(howner, get_dir(howner, get_step_away(L, howner)))
+		var/throwdist = 1
+		var/target_zone = get_aimed_zone(L)
+		var/hit_damage = dam
+
+		if(L.has_status_effect(/datum/status_effect/debuff/exposed) || L.has_status_effect(/datum/status_effect/debuff/vulnerable))
+			L.Knockdown(KD_dur)
+			throwdist = rand(2,4)
+			hit_damage = 200
+			target_zone = BODY_ZONE_HEAD
+			playsound(howner, 'sound/misc/meteorimpact.ogg', 100, TRUE)
+			if(istype(iparent, /obj/item/rogueweapon/spellbook))
+				new /obj/effect/temp_visual/thunderstrike_actual(T)
+			L.remove_status_effect(/datum/status_effect/debuff/exposed)
+			L.remove_status_effect(/datum/status_effect/debuff/vulnerable)
+
+		apply_generic_weapon_damage(L, hit_damage, "blunt", target_zone, bclass = BCLASS_BLUNT, no_pen = TRUE)
+		L.safe_throw_at(throwtarget, throwdist, 1, howner, force = MOVE_FORCE_EXTREMELY_STRONG)
+		playsound(howner, 'sound/combat/hits/punch/punch_hard (2).ogg', 100, TRUE)
+
+	..()
+
 /datum/special_intent/dagger_dash
 	name = "Dagger Dash"
 	desc = "Become quicker on your feet and pass through other beings for a short time. Boost scales with worn armor."
@@ -1359,4 +1445,3 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	howner.update_a_intents()
 	howner.regenerate_icons()
 	playsound(W.loc, 'sound/foley/waterenter.ogg', 100)
-

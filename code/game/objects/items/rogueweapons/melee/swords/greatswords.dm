@@ -170,6 +170,35 @@
 	max_blade_int = 200
 	smeltresult = /obj/item/ingot/blacksteel
 	smelt_bar_num = 2 // Okay you CAN get a refund on the blacksteel
+	var/used = FALSE
+	var/list/selection = list(
+		/datum/special_intent/greatsword_swing,
+		/datum/special_intent/vicious_swipe,
+		/datum/special_intent/side_sweep,
+		/datum/special_intent/limbguard
+		)
+
+/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel/examine(mob/user)
+	. = ..()
+	if(!used)
+		. += span_notice("The Special Manoeuvre of this weapon can be changed. Right-click it with a free hand to select one. This can only be done once.")
+
+/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel/attack_right(mob/user)
+	. = ..()
+	if(used)
+		return
+		
+	var/list/special_options = list()
+	for(var/intent in selection)
+		var/datum/special_intent/S = intent // Hate this DM quirk.
+		special_options[S::name] = S
+	
+	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
+	if(choice)
+		qdel(special)
+		var/datum/special_intent/S = special_options[choice]
+		special = new S()
+		used = TRUE
 
 /obj/item/rogueweapon/greatsword/silver
 	name = "silver greatsword"
@@ -335,7 +364,7 @@
 
 /obj/item/rogueweapon/greatsword/avantyne
 	name = "avantyne-threaded greatsword"
-	desc = "Malediction made manifest; the greatweapon of an otherworldly champion, unphased by the thickest plates nor the toughest flesh. Let no one stop the \
+	desc = "Malediction made manifest; the greatweapon of an otherworldly champion, unfazed by the thickest plates and the toughest flesh. Let no one stop the \
 	march of Her disciples, towards the filament's sputtering wound. Take thine birthright and ascend to the heavens beyond, or die trying."
 	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/thrust/estoc, /datum/intent/sword/cut/zwei/cleave, /datum/intent/sword/cut/zwei/sweep)
 	icon_state = "zizogsw"
@@ -344,6 +373,9 @@
 	max_blade_int = 500
 	max_integrity = 500
 	smeltresult = /obj/item/ingot/avantyne
+
+/obj/item/rogueweapon/greatsword/avantyne/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/rogueweapon/estoc
 	name = "estoc"

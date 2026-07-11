@@ -55,6 +55,25 @@
 	miracle = TRUE
 	devotion_cost = 20
 
+// What the blazes is a corn?
+// Given to soilsons and farmers.
+/obj/effect/proc_holder/spell/targeted/blesscrop/secular
+	miracle = FALSE
+	devotion_cost = 0
+	req_items = list()
+	// Slightly more since no psycross
+	releasedrain = 40
+	recharge_time = 33 SECONDS
+	invocations = list("Cow pie n' raw sod, makes th' rye! Drink it down an' kiss the sky!",
+					   "Cow pie n' raw sod, makes th' rye! That foul drink'll make ye cry!",
+					   "Cow pie n' raw sod, makes th' rye! By the gods, I'd rather die!",
+					   "Cow pie n' raw sod, makes th' rye! Even goats refuse to try!",
+					   "Compost rich n' dark as sin, makes the harvest rollin' in!",
+					   "Compost steamed in morning dew, makes the garden fresh an' new!",
+					   "Manure fresh from stable floor, makes the crops grow more an' more!",
+					   "Manure n' maggots, squirm n' crawl, makes the tallest cornstalks tall!",
+					   "Sludge n' slurry, thick n' brown, makes the greenest crop in town!")
+
 /obj/effect/proc_holder/spell/targeted/blesscrop/cast(list/targets,mob/user = usr)
 	. = ..()
 	var/growed = FALSE
@@ -110,43 +129,6 @@
 				animal.ai_controller.set_blackboard_key(BB_BASIC_MOB_TAMED, TRUE)
 			to_chat(usr, "With Dendor's aide, you soothe [animal] of their anger.")
 	return tamed
-
-//////////////////////////////
-// T3 - Fungal Illumination //
-//////////////////////////////
-
-/obj/effect/proc_holder/spell/targeted/conjure_glowshroom
-	name = "Fungal Illumination"
-	desc = "Summons glowing mushrooms that shock people that try moving into them. Dendorites are immune."
-	range = 1
-	action_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_state = "blesscrop"
-	releasedrain = 30
-	recharge_time = 30 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	max_targets = 0
-	cast_without_targets = TRUE
-	sound = 'sound/items/dig_shovel.ogg'
-	associated_skill = /datum/skill/magic/holy
-	invocations = list("Treefather light the way.")
-	invocation_type = "whisper" //can be none, whisper, emote and shout
-	devotion_cost = 30
-
-/obj/effect/proc_holder/spell/targeted/conjure_glowshroom/cast(list/targets, mob/user = usr)
-	..()
-	to_chat(user, span_notice("I begin enriching the soil around me!"))
-	if(!do_after(user, 0.5 SECONDS, progress = TRUE))
-		revert_cast()
-		return FALSE
-
-	var/turf/T = user.loc
-	for(var/X in GLOB.cardinals)
-		var/turf/TT = get_step(T, X)
-		if(!isclosedturf(TT) && !locate(/obj/structure/glowshroom) in TT)
-			new /obj/structure/glowshroom(TT)
-	return TRUE
-
 
 //////////////////////
 // T3 - Vine Sprout //

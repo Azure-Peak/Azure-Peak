@@ -3,6 +3,7 @@
 	tutorial = "As a Peasant, you are a skilled farmer, able to grow a variety of crops \
 	Join the local Soilsmen at their farm, or make your own little orchard."
 	allowed_sexes = list(MALE, FEMALE)
+	forbidden_races = list(RACES_DESPISED)
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/peasant
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
@@ -27,7 +28,7 @@
 
 /datum/outfit/job/roguetown/adventurer/peasant/pre_equip(mob/living/carbon/human/H)
 	..()
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	pants = /obj/item/clothing/under/roguetown/trou
 	head = /obj/item/clothing/head/roguetown/cap
@@ -71,3 +72,4 @@
 			else
 				r_hand = seeds[seed_choice]
 		H.set_blindness(0)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/blesscrop/secular)

@@ -1,5 +1,6 @@
 /*	........   Drying Rack recipes   ................ */
 /datum/crafting_recipe/roguetown/cooking/salami
+	category = FOOD_CAT_PRESERVED
 	name = "salumoi"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -10,6 +11,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/cooking/coppiette
+	category = FOOD_CAT_PRESERVED
 	name = "coppiette"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -20,6 +22,7 @@
 	structurecraft = /obj/machinery/tanningrack
 
 /datum/crafting_recipe/roguetown/cooking/salo
+	category = FOOD_CAT_PRESERVED
 	name = "salo"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -30,6 +33,7 @@
 	structurecraft = /obj/machinery/tanningrack
 
 /datum/crafting_recipe/roguetown/cooking/brothbrique
+	category = FOOD_CAT_PRESERVED
 	name = "brothbrique"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -41,6 +45,7 @@
 	structurecraft = /obj/machinery/tanningrack
 
 /datum/crafting_recipe/roguetown/cooking/brothbriquealt
+	category = FOOD_CAT_PRESERVED
 	name = "brothbrique, alternate"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -52,6 +57,7 @@
 	structurecraft = /obj/machinery/tanningrack
 
 /datum/crafting_recipe/roguetown/cooking/salotack
+	category = FOOD_CAT_PRESERVED
 	name = "salotack"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -63,7 +69,8 @@
 	structurecraft = /obj/machinery/tanningrack
 
 /datum/crafting_recipe/roguetown/cooking/raisins
-	name = "raisins"
+	category = FOOD_CAT_DRIED_FRUIT
+	name = "dried, raisins"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
 	parts = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
@@ -73,7 +80,8 @@
 	subtype_reqs = TRUE
 
 /datum/crafting_recipe/roguetown/cooking/raisinsraspberry
-	name = "raisins, raspberries"
+	category = FOOD_CAT_DRIED_FRUIT
+	name = "dried, raspberries"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/fruit/raspberry = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/raisins/raspberry
@@ -81,7 +89,8 @@
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/cooking/raisinsblackberry
-	name = "raisins, blackberries"
+	category = FOOD_CAT_DRIED_FRUIT
+	name = "dried, blackberries"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/raisins/blackberry
@@ -89,7 +98,8 @@
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/cooking/raisinsstrawberry
-	name = "raisins, strawberry"
+	category = FOOD_CAT_DRIED_FRUIT
+	name = "dried, strawberry"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/fruit/strawberry = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/raisins/strawberry
@@ -97,7 +107,8 @@
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/cooking/raisinsplum
-	name = "raisins, plum"
+	category = FOOD_CAT_DRIED_FRUIT
+	name = "dried, plum"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/fruit/plum = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/raisins/plum
@@ -105,7 +116,8 @@
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/cooking/raisinspear
-	name = "raisins, pear"
+	category = FOOD_CAT_DRIED_FRUIT
+	name = "dried, pear"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/fruit/pear = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/raisins/pear
@@ -113,7 +125,8 @@
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/cooking/raisinstangerine
-	name = "raisins, tangerine"
+	category = FOOD_CAT_DRIED_FRUIT
+	name = "dried, tangerine"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/fruit/tangerine = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/raisins/tangerine
@@ -121,7 +134,8 @@
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/cooking/raisinslemon
-	name = "raisins, lemon"
+	category = FOOD_CAT_DRIED_FRUIT
+	name = "dried, lemon"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/fruit/lemon = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/raisins/lemon
@@ -129,7 +143,8 @@
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/cooking/raisinslime
-	name = "raisins, lime"
+	category = FOOD_CAT_DRIED_FRUIT
+	name = "dried, lime"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/fruit/lime = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/raisins/lime
@@ -137,6 +152,7 @@
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/cooking/trailmix
+	category = FOOD_CAT_PRESERVED
 	name = "trail-mix"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -150,6 +166,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/cooking/fish
+	category = FOOD_CAT_PRESERVED
 	name = "dried fish filet"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -160,6 +177,7 @@
 	structurecraft = /obj/machinery/tanningrack
 
 /datum/crafting_recipe/roguetown/cooking/frybirdbucket
+	category = FOOD_CAT_PRESERVED
 	name = "frybird bucket"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -413,6 +431,7 @@
     time = 10 SECONDS
 
 /datum/crafting_recipe/roguetown/cooking/lemonystickets
+	category = FOOD_CAT_PRESERVED
 	name = "lemony stickets"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -440,6 +459,7 @@
 	craftdiff = 4 //A true chef never reveals his secrets!
 
 /datum/crafting_recipe/roguetown/cooking/sugartangerine
+	category = FOOD_CAT_SUGARWORK
 	name = "smothered tangerines"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -451,6 +471,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/cooking/sugarblackberry
+	category = FOOD_CAT_SUGARWORK
 	name = "smothered blackberries"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -462,6 +483,7 @@
 	req_table = TRUE
 
 /datum/crafting_recipe/roguetown/cooking/sugarrocknut
+	category = FOOD_CAT_SUGARWORK
 	name = "smothered rocknuts"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -474,6 +496,7 @@
 	req_table = TRUE
 
 /datum/crafting_recipe/roguetown/cooking/sugarrocknutalt
+	category = FOOD_CAT_SUGARWORK
 	name = "smothered rocknuts, alternate"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -532,6 +555,7 @@
 
 //SUGARCRAFTING!!!
 /datum/crafting_recipe/roguetown/cooking/sugarshapedmarkd
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, ducal mark"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -544,6 +568,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedmarkp
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, psydonic mark"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -556,6 +581,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedmarkz
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, zizonic mark"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -568,6 +594,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedmarka
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, holy mark"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -580,6 +607,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedmarks
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, skull mark"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -592,6 +620,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedmarkh
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, heart mark"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -604,6 +633,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedstatuek
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, knightly statue"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -616,6 +646,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedstatuer
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, ducal statue"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -628,6 +659,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedstatuey
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, yeomannic statue"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -640,6 +672,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedstatuel
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, lordly statue"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -652,6 +685,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedarch
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, bridge"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -664,6 +698,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedarchway
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, archway"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -676,6 +711,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedtower
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, tower"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -688,6 +724,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedtowers
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, small tower"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -700,6 +737,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedcastle
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, castle"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -712,6 +750,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedflag
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, flag"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -724,6 +763,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedhouse
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, house"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(
@@ -736,6 +776,7 @@
 	structurecraft = /obj/structure/table
 
 /datum/crafting_recipe/roguetown/cooking/sugarshapedtree
+	category = FOOD_CAT_SUGARWORK
 	name = "sugarshape, tree"
 	display_category = ITEM_CAT_FOODSTUFF_PRESERVED
 	reqs = list(

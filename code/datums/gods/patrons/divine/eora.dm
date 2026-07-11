@@ -2,7 +2,7 @@
 	name = "Eora"
 	domain = "Goddess of Love, Life and Beauty"
 	desc = "Baotha's fairer half, made from blind, unconditional love. She is without a shred of hate in her heart and taught mankind that true love that even transcends Necra's grasp."
-	worshippers = "Lovers, the romantically inclined, and Doting Grandparents"
+	worshippers = "Lovers, the Romantically Inclined, and Doting Grandparents"
 	mob_traits = list(TRAIT_EMPATH, TRAIT_EXTEROCEPTION, TRAIT_MARRIAGE_CAPABLE)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/eora_blessing			= CLERIC_T0,
@@ -24,7 +24,8 @@
 	traits_tier = list(TRAIT_EORAN_CALM = CLERIC_T0, TRAIT_EORAN_SERENE = CLERIC_T2)
 	storyteller = /datum/storyteller/eora
 	titles = list(
-		"Mother" // have seen people call her this, or variants like 'Great Mother', ic. she doesn't really get titles though
+		"Mother", // have seen people call her this, or variants like 'Great Mother', ic. she doesn't really get titles though
+		"Eori"
 	)
 
 // Near a psycross, by an eoran sacred tree, inside the church, at the eoran shrine, holding poppy flowers, or has pacifism trait
@@ -67,6 +68,13 @@
 	*message_out = span_info("An emanance of love blossoms around [target]!")
 	*message_self = span_notice("I'm filled with the restorative warmth of love!")
 
+	var/flower_crowns = list(
+		/obj/item/flowercrown/rosa,
+		/obj/item/flowercrown/salvia,
+		/obj/item/flowercrown/calendula,
+		/obj/item/flowercrown/matricaria,
+	)
+
 	var/bonus = 0
 
 	if(HAS_TRAIT(target, TRAIT_PACIFISM))
@@ -74,6 +82,17 @@
 
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		bonus += 1.5
+
+	var/target_head = target.get_item_by_slot(SLOT_HEAD)
+	var/user_head = user.get_item_by_slot(SLOT_HEAD)
+
+	for(var/crown in flower_crowns)
+		if(istype(target_head, crown))
+			bonus += 0.75
+			to_chat(user, span_good("[target.name]'s flower crown's blessing amplifies the healing!"))
+		if(istype(user_head, crown))
+			bonus += 0.375
+			to_chat(user, span_good("My flower crown's blessing amplifies the healing!"))
 
 	if(!bonus)
 		return

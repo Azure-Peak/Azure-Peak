@@ -515,7 +515,7 @@
 	var/list/statcl
 	if(length(stat_ceilings))
 		statcl = stat_ceilings
-	var/datum/advclass/advclass = SSrole_class_handler.get_advclass_by_name(H.advjob)
+	var/datum/advclass/advclass = H.get_advclass_datum()
 	if(advclass && length(advclass.adv_stat_ceiling))
 		statcl = advclass.adv_stat_ceiling
 

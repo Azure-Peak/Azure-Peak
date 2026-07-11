@@ -171,7 +171,8 @@
 	body += "<A href='?_src_=holder;[HrefToken()];subtlemessage=[REF(M)]'>Subtle message</A>"
 	//body += "<A href='?_src_=holder;[HrefToken()];languagemenu=[REF(M)]'>Language Menu</A>"
 	body += "<br><A href='?_src_=holder;[HrefToken()];heal_panel=[REF(M)]'>Heal Panel</A> | "
-	body += "<A href='?_src_=holder;[HrefToken()];inventory_panel=[REF(M)]'>Inventory Panel</A>"
+	body += "<A href='?_src_=holder;[HrefToken()];inventory_panel=[REF(M)]'>Inventory Panel</A> |"
+	body += "<A href='?_src_=holder;[HrefToken()];examine_player=[REF(M)]'>Flavor Text</A>"
 
 	body += "</div>"
 
@@ -364,7 +365,6 @@
 /datum/admins/proc/adjustpq(mob/living/M in GLOB.mob_list)
 	set name = "Adjust PQ of Anything"
 	set desc = "Adjust a player's PQ"
-	set category = "Game Master"
 	set hidden = 1
 
 	if(!check_rights())
@@ -566,7 +566,6 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Entering", "[GLOB.enter_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleAI()
-	set category = "Server"
 	set desc="People can't be AI"
 	set name="Toggle AI"
 	set hidden = 1
@@ -581,7 +580,6 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle AI", "[!alai ? "Disabled" : "Enabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleaban()
-	set category = "Server"
 	set desc="Respawn basically"
 	set name="Toggle Respawn"
 	set hidden = 1
@@ -731,7 +729,6 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Tinted Welding Helmets", "[GLOB.tinted_weldhelh ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/toggleguests()
-	set category = "Server"
 	set desc="Guests can't enter"
 	set name="Toggle guests"
 	set hidden = 1
@@ -866,7 +863,7 @@
 
 	var/mob/living/carbon/human/H = mob
 	var/datum/job/mob_job
-	var/target_job = SSrole_class_handler.get_advclass_by_name(H.advjob)
+	var/datum/advclass/target_job = H.get_advclass_datum()
 
 	if(H.mind)
 		mob_job = SSjob.GetJob(H.mind.assigned_role)

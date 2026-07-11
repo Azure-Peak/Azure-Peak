@@ -259,8 +259,8 @@
 /obj/item/paper/inqslip/accusation/get_mechanics_examine(mob/user)
     . = ..()
     . += span_info("ACCUSATIONS are used by the Holy Psydonic Inquisition to mail INDEXERS back to Otava, either for cataloguing or for further haemological faith-testing.")
-    . += span_info("Left click yourself, while bleeding from anywhere on the body, to sign the ACCUSATION.")
-    . += span_info("Once signed, left-clicking the ACCUSATION with a filled INDEXER will combine them into a foldable package.")
+    . += span_info("Left click yourself, while bleeding from anywhere on the body, to sign the ACCUSATION. This is OPTIONAL.")
+    . += span_info("If or if not signed, left-clicking the ACCUSATION with a filled INDEXER will combine them into a foldable package.")
     . += span_info("Activate in your hand, once packaged together, to fold the ACCUSATION-INDEXER into a letter. This letter can then be mailed to Otava through the HERMES.")
     . += span_info("Stamping a folded letter with redtallow will increase the amount of MARQUES that're rewarded upon mailage.")
     . += span_info("The amount of rewarded MARQUES are determined by whether the INDEXEE is revealed to be a PANTHEONIST, ASCENDANT, or NITEBEASTE.")
@@ -352,18 +352,27 @@
 		attemptsign(M, user)
 
 /obj/item/paper/inqslip/attack_self(mob/user)
-	if(!signed)
-		to_chat(user, span_warning("It hasn't been signed yet. Why would I seal it?"))
-		return
 	if(waxed)
-		to_chat(user, span_notice("It's been sealed. It's ready to send back to Otava."))
+		to_chat(user, span_notice("It's been sealed. It's ready to send back to Otava through a HERMES."))
 		return
-	else if(!sealed)
-		sealed = TRUE
-		update_icon()
-	else
+
+	if(sealed)
 		sealed = FALSE
 		update_icon()
+		return
+
+	if(sliptype == 0) // ACCUSATION do be this now
+		if(!signed && !paired)
+			to_chat(user, span_warning("It requires either a signature or a filled INDEXER before it can be sealed."))
+			return
+
+	else
+		if(!signed)
+			to_chat(user, span_warning("It hasn't been signed yet. Why would I seal it?"))
+			return
+
+	sealed = TRUE
+	update_icon()
 
 /obj/item/paper/inqslip/attack_right(mob/user)
 	. = ..()

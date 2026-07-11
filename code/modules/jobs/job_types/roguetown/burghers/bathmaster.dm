@@ -59,6 +59,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/bathmaster/basic/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -82,7 +83,7 @@
 
 	if(should_wear_masc_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman
-		H.dna.species.soundpack_m = new /datum/voicepack/male/zeth()
+		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/zeth]
 	else if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/armor/armordress/alt
 	if(H.mind)

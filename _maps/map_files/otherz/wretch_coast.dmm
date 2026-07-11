@@ -266,7 +266,7 @@
 /obj/structure/fluff/walldeco/chains{
 	icon_state = "chains8"
 	},
-/obj/effect/decal/cleanable/roguerune/god/baotha,
+/obj/structure/ritualcircle/baotha,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "bd" = (
@@ -3814,12 +3814,6 @@
 "pZ" = (
 /turf/closed/wall/mineral/rogue/wooddark/end/west,
 /area/rogue/under/cave/inhumen)
-"qa" = (
-/mob/living/simple_animal/pet/cat/rogue{
-	name = "vampire lord manor - debug cat for teleporting to"
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/woods/vampire_lair)
 "qb" = (
 /obj/structure/fluff/railing/corner/north_east,
 /obj/structure/flora/ausbushes/lavendergrass,
@@ -5786,7 +5780,7 @@
 /obj/structure/fluff/statue/femalestatue{
 	pixel_y = 0
 	},
-/obj/effect/decal/cleanable/roguerune/god/baotha,
+/obj/structure/ritualcircle/baotha,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "yl" = (
@@ -6859,7 +6853,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/vampire_manor)
 "Cz" = (
-/obj/effect/decal/cleanable/roguerune/god/baotha,
+/obj/structure/ritualcircle/baotha,
 /obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
@@ -11599,7 +11593,7 @@
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
 "Xy" = (
-/obj/effect/decal/cleanable/roguerune/god/baotha,
+/obj/structure/ritualcircle/baotha,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "Xz" = (
@@ -12169,7 +12163,7 @@
 /area/rogue/under/cave/inhumen)
 "ZJ" = (
 /obj/structure/fluff/walldeco/chains,
-/obj/effect/decal/cleanable/roguerune/god/baotha,
+/obj/structure/ritualcircle/baotha,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "ZK" = (
@@ -39848,7 +39842,7 @@ PI
 PI
 PI
 St
-qa
+St
 St
 St
 St

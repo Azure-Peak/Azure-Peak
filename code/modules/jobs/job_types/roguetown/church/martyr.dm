@@ -511,7 +511,7 @@
 	//No undeath-adjacent virtues for a role that can sacrifice itself. The Ten like their sacrifices 'pure'. (I actually didn't want to code returning those virtue traits post-sword use)
 	//They get those traits during sword activation, anyway.
 	//Dual wielder is there to stand-in for ambidextrous in case they activate their sword in their off-hand.
-	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/rotcured, /datum/virtue/utility/hollow, /datum/virtue/combat/dualwielder, /datum/virtue/heretic/zchurch_keyholder)
+	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/second_chance, /datum/virtue/utility/hollow, /datum/virtue/combat/dualwielder, /datum/virtue/heretic/zchurch_keyholder)
 
 	advclass_cat_rolls = list(CTAG_MARTYR = 2)
 	job_subclasses = list(
@@ -579,7 +579,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/mini_flagpole/church,
 		)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	H.AddComponent(/datum/component/wise_tree_alert)
 	if(H.mind)
 		var/helmets = list("Holy Silver Bascinet","Holy Silver Armet")
@@ -597,15 +597,12 @@
 /obj/item/rogueweapon/sword/long/martyr
 	force = 30
 	force_wielded = 36
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
 	icon_state = "martyrsword"
 	item_state = "martyrsword"
 	lefthand_file = 'icons/mob/inhands/weapons/roguemartyr_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/roguemartyr_righthand.dmi'
 	name = "divine longsword"
 	desc = "A relic from the Holy See's own vaults; a blessed silver longsword, marked with the ten-pointed sigil of Astrata's undivided might. </br>It simmers with godly energies, and will only yield to the hands of those who have taken the Oath."
-	max_blade_int = 200
 	parrysound = "bladedmedium"
 	swingsound = BLADEWOOSH_LARGE
 	pickup_sound = 'sound/foley/equip/swordlarge2.ogg'
@@ -625,6 +622,7 @@
 	override_state = null
 	is_important = TRUE
 	special = /datum/special_intent/martyr_blazing_sweep_sword
+	alt_grips = list(/datum/alt_grip/mordhau/sword/lesser, /datum/alt_grip/halfsword/lesser)
 
 /obj/item/rogueweapon/sword/long/martyr/ComponentInitialize()
 	AddComponent(\
@@ -681,7 +679,7 @@
 			H.adjust_fire_stacks(5)
 			H.ignite_mob()
 		return FALSE
-	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
+	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]."))
 	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
@@ -787,7 +785,7 @@
 			H.adjust_fire_stacks(5)
 			H.ignite_mob()
 		return FALSE
-	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
+	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]."))
 	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
@@ -876,7 +874,7 @@
 			H.adjust_fire_stacks(5)
 			H.ignite_mob()
 		return FALSE
-	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
+	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]."))
 	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
@@ -967,7 +965,7 @@
 			H.adjust_fire_stacks(5)
 			H.ignite_mob()
 		return FALSE
-	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
+	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]."))
 	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
@@ -1029,7 +1027,7 @@
 			H.adjust_fire_stacks(5)
 			H.ignite_mob()
 		return FALSE
-	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
+	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]."))
 	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
@@ -1071,7 +1069,7 @@
 			H.adjust_fire_stacks(5)
 			H.ignite_mob()
 		return FALSE
-	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
+	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]."))
 	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
@@ -1114,7 +1112,7 @@
 			H.adjust_fire_stacks(5)
 			H.ignite_mob()
 		return FALSE
-	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
+	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]."))
 	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
@@ -1156,7 +1154,7 @@
 			H.adjust_fire_stacks(5)
 			H.ignite_mob()
 		return FALSE
-	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
+	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]."))
 	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
@@ -1202,7 +1200,7 @@
 			H.adjust_fire_stacks(5)
 			H.ignite_mob()
 		return FALSE
-	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
+	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]."))
 	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE

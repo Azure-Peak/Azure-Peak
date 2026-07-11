@@ -77,6 +77,9 @@
 	max_blade_int = 200
 	wdefense = 8
 
+/obj/item/rogueweapon/halberd/glaive/dreamscape/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_DREAM_ITEM)
+
 /obj/item/rogueweapon/halberd/glaive/dreamscape/active
 	desc = "A strange spear, who knows where it came from. Strange harmonious sounds ring out as wind passes through the holes."
 	icon_state = "dreamspearactive"
@@ -84,6 +87,9 @@
 	wdefense = 9
 	force = 20
 	force_wielded = 35
+
+/obj/item/rogueweapon/halberd/glaive/dreamscape/active/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
 /obj/item/rogueweapon/greatsword/bsword/dreamscape
 	name = "otherworldly sword"
@@ -100,6 +106,9 @@
 	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop, /datum/intent/sword/thrust/estoc/lunge, /datum/intent/sword/thrust/estoc)
 	alt_grips = list(/datum/alt_grip/mordhau/broadsword/dream_broadsword)
 
+/obj/item/rogueweapon/greatsword/bsword/dreamscape/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_DREAM_ITEM)
+
 /obj/item/rogueweapon/greatsword/bsword/dreamscape/active
 	name = "otherworldly sword"
 	desc = "A strange sword made out of a strange reflective metal. It oozes sickening sludge."
@@ -108,6 +117,9 @@
 	force = 30
 	force_wielded = 35
 	wdefense = 5
+
+/obj/item/rogueweapon/greatsword/bsword/dreamscape/active/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
 /obj/item/rogueweapon/spear/dreamscape_trident
 	name = "otherworldly trident"
@@ -126,6 +138,9 @@
 	var/shockwave_divisor = 3
 	var/shockwave_damage = FALSE
 
+/obj/item/rogueweapon/spear/dreamscape_trident/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_DREAM_ITEM)
+
 /obj/item/rogueweapon/spear/dreamscape_trident/active
 	name = "Iridescent trident"
 	desc = "A strange trident glimmering with an oily hue. The air shimmers around it."
@@ -138,6 +153,9 @@
 	shockwave_cooldown_interval = 30 SECONDS
 	shockwave_divisor = 2
 	shockwave_damage = TRUE
+
+/obj/item/rogueweapon/spear/dreamscape_trident/active/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_WEAPON)
 
 // Update weapon initializations with specific effects
 /obj/item/rogueweapon/greataxe/dreamscape/active/Initialize()
@@ -184,6 +202,9 @@
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
+/obj/item/clothing/suit/roguetown/armor/plate/full/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
+
 /obj/item/clothing/under/roguetown/platelegs/dreamwalker
 	max_integrity = ARMOR_INT_LEG_ANTAG
 	name = "otherworldly legplate"
@@ -196,6 +217,9 @@
 /obj/item/clothing/under/roguetown/platelegs/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
+
+/obj/item/clothing/under/roguetown/platelegs/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/dreamwalker
 	max_integrity = ARMOR_INT_SIDE_ANTAG
@@ -210,6 +234,9 @@
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
+/obj/item/clothing/shoes/roguetown/boots/armor/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
+
 /obj/item/clothing/gloves/roguetown/plate/dreamwalker
 	name = "otherworldly gauntlets"
 	desc = "Strange iridescent plated gauntlets. It reflects light as if covered in shiny oil."
@@ -221,6 +248,9 @@
 /obj/item/clothing/gloves/roguetown/plate/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
+
+/obj/item/clothing/gloves/roguetown/plate/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /obj/item/clothing/neck/roguetown/bevor/dreamwalker
 	name = "otherworldly bevor"
@@ -234,6 +264,9 @@
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
+/obj/item/clothing/neck/roguetown/bevor/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
+
 // Uses hauberk's int value as I don't want to make them TOO armored either!!
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/dreamwalker
 	name = "otherworldly hauberk"
@@ -246,6 +279,9 @@
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
 
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
+
 // Ditto!! I don't want them TOO armored!!!
 /obj/item/clothing/wrists/roguetown/bracers/dreamwalker
 	name = "otherworldly bracers"
@@ -254,9 +290,12 @@
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 	color = "#2ba6b2"
 
-/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/dreamwalker/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
+
+/obj/item/clothing/wrists/roguetown/bracers/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker
 	name = "otherworldly squid helm"
@@ -277,6 +316,9 @@
 /obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
+
+/obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /datum/component/dreamwalker_repair
 	/// List of dream items being repaired
@@ -427,8 +469,8 @@
 	// Gotta be able to attack it!
 	mouse_opacity = 1
 	duration = 5 SECONDS
-	var/repair_value = 50
-	var/health = 25
+	var/repair_value = 40
+	var/health = 15
 	var/pickuppable = TRUE
 	var/dream_check = TRUE
 	var/effect_color = "#005180"
@@ -476,9 +518,13 @@
 	if(ishuman(AM))
 		var/mob/living/carbon/human/H = AM
 		if(HAS_TRAIT(H, TRAIT_DREAMWALKER) && dream_check)
-			consume_shard(H)
+			if(!consume_shard(H))
+				crush_shard(AM)
 		else if (!dream_check)
-			consume_shard(H)
+			if(!consume_shard(H))
+				crush_shard(AM)
+		else
+			crush_shard(AM)
 
 /obj/effect/temp_visual/dream_shard/proc/consume_shard(mob/living/carbon/human/H)
 	if(!pickuppable || QDELETED(src))
@@ -490,6 +536,9 @@
 		E.color = effect_color
 		playsound(H, 'sound/magic/magic_nulled.ogg', 70, TRUE)
 		qdel(src)
+		return TRUE
+	else
+		return FALSE
 
 /obj/effect/temp_visual/dream_shard/proc/move_to_dest(turf/target_turf)
 	if(src && target_turf)
@@ -497,3 +546,29 @@
 		pixel_x = 0
 		pixel_y = 0
 		pickuppable = TRUE
+
+/obj/effect/temp_visual/dream_shard/attack_hand(mob/living/carbon/human/user, list/modifiers)
+	. = ..()
+	if(.)
+		return
+
+	if(HAS_TRAIT(user, TRAIT_DREAMWALKER) && dream_check)
+		consume_shard(user)
+		return TRUE
+	else if (!dream_check)
+		if(consume_shard(user))
+			return TRUE
+
+	var/unarmed_damage = user.get_punch_dmg() || 5
+	health -= unarmed_damage
+	user.visible_message(span_danger("[user] smashes the [src] with their bare hands!"))
+	playsound(get_turf(src), 'sound/foley/breaksound.ogg', 80, TRUE)
+
+	if(health <= 0)
+		qdel(src)
+	return TRUE
+
+/obj/effect/temp_visual/dream_shard/proc/crush_shard(atom/movable/AM)
+	AM.visible_message(span_notice("[AM] crushes the [src] underfoot!"))
+	playsound(get_turf(src), 'sound/foley/breaksound.ogg', 80, TRUE)
+	qdel(src)

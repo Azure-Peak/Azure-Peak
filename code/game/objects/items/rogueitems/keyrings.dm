@@ -390,7 +390,7 @@
 /////////////////
 
 /obj/item/storage/keyring/inquisitor //All access to inquisition manor
-	keys = list(/obj/item/roguekey/inquisitor, /obj/item/roguekey/inquisitionmanor)
+	keys = list(/obj/item/roguekey/inquisitor, /obj/item/roguekey/inquisitionmanor, /obj/item/roguekey/absolverskey, /obj/item/roguekey/ortho_one, /obj/item/roguekey/ortho_two, /obj/item/roguekey/ortho_three)
 
 /////////////////
 // ANTAGONISTS //

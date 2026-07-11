@@ -30,8 +30,8 @@
 			M.mind.current.job = null
 		if(H.dna && H.dna.species)
 			H.dna.species.species_traits |= NOBLOOD
-			H.dna.species.soundpack_m = new /datum/voicepack/other/goblin()
-			H.dna.species.soundpack_f = new /datum/voicepack/other/goblin()
+			H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/goblin]
+			H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/other/goblin]
 		var/obj/item/headdy = H.get_bodypart("head")
 		if(headdy)
 			headdy.icon = 'icons/roguetown/mob/monster/goblins.dmi'

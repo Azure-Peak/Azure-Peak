@@ -317,6 +317,27 @@
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
 
+/obj/item/clothing/head/roguetown/roguehood/undividedcleric
+	name = "undivided clerical hood"
+	desc = "A hood of those devoted to guiding those with deca-divinity across Psydonia."
+	color = "#999999"
+	icon_state = "monkhood"
+	item_state = "monkhood"
+	icon = 'icons/roguetown/clothing/head.dmi'
+	body_parts_covered = NECK
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	hidesnoutADJ = FALSE
+	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACIALHAIR	//Does not hide face.
+	block2add = null
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 180
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
+
 // UN-Holy Hoods!
 /obj/item/clothing/head/roguetown/roguehood/unholy
 	name = "foreboding hood"
@@ -335,7 +356,6 @@
 /obj/item/clothing/head/roguetown/roguehood/unholy/enchanted
 	name = "ominously enchanted hood"
 	desc = "An otherworldly veil, amythortz-woven and crackling with the unignorable truths of a runic enigma. She watches over you; and Her grin is crooked into one of eternal malice."
-	max_integrity = ARMOR_INT_HELMET_ANTAG
 	armor = ARMOR_LEATHER
 	item_state = "ewarlockhood"
 	icon_state = "ewarlockhood"

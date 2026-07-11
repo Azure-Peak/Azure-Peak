@@ -5,10 +5,25 @@
 
 	associated_skill = /datum/skill/magic/blood
 
-	range = 7
+	range = 6
 	chargetime = 0
 	releasedrain = 100
-	recharge_time = 15 SECONDS
+	recharge_time = 20 SECONDS //Do not increase this, allow me to explain:
+
+/* Transfix currently, how it works:
+- You cast the spell, it gives you a list of everyone nearby
+- You transfix someone, after typing sufficent characters (10+ letters)
+- If they/you have cmode on, you full stop cannot use it. Yes, you have to play along with this to start with.
+- They can just walk away, seriously, this is a thing and why I want this short again.
+- Surprisingly, yes. Drowsiness wears off over time so we need to account for that.
+- It builds in stacks, lickers and thinbloods have it as a 3-4 tap move if RNG is nice to you. So-> 60 (1 minute) -> 80 (1 minute, 20 seconds)
+
+- Vampires, are all inherently antagonistic and need a non-frag way to take people out and drink them/turn them potentally.
+- Currently people deathgasp through all Z levels which can be heard afar, this probably isn't intended but yes.
+
+- If you rework transfix to something else entirely or our combat system de-neuters grabs to the point of absolutely useless, then feel free to. Don't touch it for now.
+- Even wretchpires need to being able to take people out before others show up, that's why it's short.
+*/
 
 	/// Ignore crosses and give a different message
 	var/powerful = FALSE
@@ -28,6 +43,19 @@
 			continue
 		if(target.mind.has_antag_datum(/datum/antagonist/vampire))
 			continue
+		if(target.mind.has_antag_datum(/datum/antagonist/zombie))
+			continue
+		if(target.mind.has_antag_datum(/datum/antagonist/skeleton))
+			continue
+		if(target.mind.has_antag_datum(/datum/antagonist/werewolf))
+			continue
+		if(target.mind.has_antag_datum(/datum/antagonist/lich))
+			continue
+		//Full-antagonists only and supernatural ones only too.
+		//Yes, Gnolls aren't immune. They can just use cmode, but this gives hunted vampires a card to play to maybe get (1/2 free escapes)
+
+		//Again, do not give it to virtues. Not blackblooded, not rotcured. Period. This is your quiet take-a-person-down unsuspectingly ability. If you want protection get a silver cross.
+		//Do not give people inherent and unexplainable protection, period. Not even constructs/reverents, it doesn't need to make sense or realistic here. Its a mechanical nessessity.
 		selection += target
 
 	if(!selection.len)
@@ -37,6 +65,11 @@
 	perform(selection, user=user)
 
 /obj/effect/proc_holder/spell/targeted/transfix_neu/cast(list/targets, mob/user = usr)
+	if(user.cmode)
+		to_chat(user, span_warning("I can't focus on that right now!"))
+		revert_cast(user)
+		return
+
 	if(!length(targets))
 		to_chat(user, span_warning("There are no mortals nearby..."))
 		revert_cast(user)
@@ -62,12 +95,12 @@
 		user.visible_message("<font color='red'>[user]'s eyes glow a ghastly red as they project their will outwards!</font>")
 
 	for(var/mob/living/carbon/human/target as anything in targets)
-		var/current_will_dice = will_dice
 		if(target.cmode)
-			current_will_dice += 1
+			to_chat(user, span_userdanger("[target] is far too tense for that!"))
+			break
 
 		var/willpower = round(target.STAINT / int_divisor, 1)
-		var/willroll = roll(willpower, current_will_dice)
+		var/willroll = roll(willpower, will_dice)
 
 		// If the vampire failed badly
 		var/knowledgable = (willroll - bloodroll) >= 3
@@ -77,7 +110,7 @@
 				var/extra = "!"
 				if(knowledgable)
 					extra = ", I sense the caster was [user]!"
-				to_chat(target, "<font color='white'>The silver psycross shines and protect me from unholy magic[extra]</font>")
+				to_chat(target, "<font color='white'>The silver psycross shines and protects me from unholy magic[extra]</font>")
 				to_chat(user, span_userdanger("[target] has my BANE! It causes me to fail to ensnare their mind!"))
 				break
 
@@ -85,22 +118,17 @@
 			target.drowsyness = min(target.drowsyness + 50, 150)
 			switch(target.drowsyness)
 				if(0 to 50)
-					to_chat(target, "You feel like a curtain is coming over your mind.")
+					to_chat(target, "You feel slightly drowsy, as though a curtain is coming over your mind.")
 					to_chat(user, "The mind of [target] gives way slightly.")
 					target.Slowdown(20)
 				if(51 to 90)
-					to_chat(target, "Your eyelids force themselves shut as you feel intense lethargy.")
+					to_chat(target, "Your eyelids weigh heavy as you feel intense lethargy.")
 					to_chat(user, "[target] will not be able to resist much more.")
-					target.eyesclosed = TRUE
-					target.become_blind("eyelids")
-					if(target.hud_used)
-						for(var/atom/movable/screen/eye_intent/eyet in target.hud_used.static_inventory)
-							eyet.update_icon(target)
-					target.Slowdown(50)
+					target.Slowdown(30)
 				if(91 to INFINITY)
-					to_chat(target, span_userdanger("You can't take it anymore. Your legs give out as you fall into the dreamworld."))
+					to_chat(target, span_userdanger("You can't take it anymore. Your legs give out as you collapse into a long slumber."))
 					to_chat(user, "[target] is mine now.")
-					target.eyesclosed = TRUE
+					target.eyesclosed = TRUE //You're pretty much FUCKED at this point, we make it obvious
 					target.become_blind("eyelids")
 					if(target.hud_used)
 						for(var/atom/movable/screen/eye_intent/eyet in target.hud_used.static_inventory)
@@ -111,10 +139,9 @@
 
 		if(!powerful)
 			var/holypower = target.get_skill_level(/datum/skill/magic/holy)
-			var/magicpower = round(target.get_skill_level(/datum/skill/magic/arcane) * 0.6, 1)
+			var/magicpower = target.get_skill_level(/datum/skill/magic/arcane)
 			var/roll = roll(1 + holypower + magicpower, 5)
 			if(roll > bloodroll)
-				to_chat(target, "I feel like the unholy magic came from [user]. I should use my magic or miracles on them.")
+				to_chat(target, "I sense fell, mind-altering magicks emanate from [user], but I remain steadfast.")
 
 		to_chat(user, span_userdanger("I fail to ensnare the mind of [target]!"))
-		to_chat(target, span_userdanger("Something is wrong in this place."))

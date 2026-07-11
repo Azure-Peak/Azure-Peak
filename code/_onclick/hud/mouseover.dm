@@ -51,6 +51,8 @@
 		return FALSE
 	if(p.client)
 		var/atom/AT = get_turf(p.client.eye)
+		if(!AT)
+			return FALSE
 		if(!p.client.mouseovertext)
 			p.client.genmouseobj()
 			return FALSE
@@ -139,6 +141,8 @@
 		return FALSE
 	if(p.client)
 		var/atom/AT = get_turf(p.client.eye)
+		if(!AT)
+			return FALSE
 		if(!p.client.mouseovertext)
 			p.client.genmouseobj()
 			return FALSE
@@ -163,6 +167,8 @@
 		return FALSE
 	if(p.client)
 		var/atom/AT = get_turf(p.client.eye)
+		if(!AT)
+			return FALSE
 		if(!p.client.mouseovertext)
 			p.client.genmouseobj()
 			return FALSE
@@ -182,6 +188,8 @@
 		return FALSE
 	if(p.client)
 		var/atom/AT = get_turf(p.client.eye)
+		if(!AT)
+			return FALSE
 		if(!p.client.mouseovertext)
 			p.client.genmouseobj()
 			return FALSE

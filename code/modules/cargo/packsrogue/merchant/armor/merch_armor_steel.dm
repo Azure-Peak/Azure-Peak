@@ -11,6 +11,11 @@
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
 // Steel Armor Section. Massive selection here so I am not going to include everything
+/datum/supply_pack/rogue/armor_steel/lightchainmail_steel
+	name = "Haubyrine"
+	cost = 75
+	contains = list(/obj/item/clothing/suit/roguetown/armor/chainmail/light)
+
 /datum/supply_pack/rogue/armor_steel/haubergeon_steel
 	name = "Haubergeon"
 	cost = 50 // 1 Ingots
@@ -100,6 +105,11 @@
 	name = "Chausses, Chain"
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/under/roguetown/chainlegs)
+	
+/datum/supply_pack/rogue/armor_steel/chainhose_steel
+	name = "Hosen, Chain"
+	cost = 50 // 1 Steel
+	contains = list(/obj/item/clothing/under/roguetown/chainlegs/hose)
 
 /datum/supply_pack/rogue/armor_steel/platelegs
 	name = "Chausses, Plate"
@@ -130,6 +140,11 @@
 	name = "Helmet, Nasal"
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/head/roguetown/helmet)
+
+/datum/supply_pack/rogue/armor_steel/helmet_skullcap
+	name = "Helmet, Skullcap"
+	cost = 50 // 1 Steel
+	contains = list(/obj/item/clothing/head/roguetown/helmet/skullcap/steel)
 
 /datum/supply_pack/rogue/armor_steel/helmet_winged
 	name = "Helmet, Winged"
@@ -256,10 +271,20 @@
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/neck/roguetown/gorget/steel)
 
-/datum/supply_pack/rogue/armor_steel/boots_steel
+/datum/supply_pack/rogue/armor_steel/aventail_steel
+	name = "Aventail"
+	cost = 90 // 2 Steel
+	contains = list(/obj/item/clothing/neck/roguetown/gorget/aventail)
+
+/datum/supply_pack/rogue/armor_steel/plateboots_steel
 	name = "Plated Boots"
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/shoes/roguetown/boots/armor)
+
+/datum/supply_pack/rogue/armor_iron/mailleboots_steel
+	name = "Maille Boots"
+	cost = 50
+	contains = list(/obj/item/clothing/shoes/roguetown/boots/maille)
 
 /datum/supply_pack/rogue/armor_steel/mask_steel
 	name = "Mask"
@@ -275,3 +300,23 @@
 	name = "Belt, Tasseted"
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/storage/belt/rogue/leather/steel/tasset)
+
+/datum/supply_pack/rogue/armor_steel/helmet_aventailbascinet
+	name = "Helmet, Bascinet, Aventailed"
+	cost = 90 
+	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/aventail)
+
+/datum/supply_pack/rogue/armor_steel/helmet_heavyaventailbascinet
+	name = "Helmet, Visored Bascinet, Aventailed"
+	cost = 140
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/aventail)
+
+/datum/supply_pack/rogue/armor_steel/helmet_frogmouth
+	name = "Helmet, Froggemund"
+	cost = 140
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/frogmouth)
+
+/datum/supply_pack/rogue/armor_steel/refitkit_slimarmor_steel
+	name = "Refitter's Kit, Slim Plated Armor"
+	cost = 50 // 1 Ingots
+	contains = list(/datum/anvil_recipe/armor/steel/refitkit_slimmedsteel)

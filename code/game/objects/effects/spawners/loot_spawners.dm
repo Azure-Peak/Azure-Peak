@@ -150,7 +150,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/raisins = 3,
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 1,
 		/obj/item/reagent_containers/powder/salt = 3,
-		/obj/item/reagent_containers/food/snacks/egg = 1,
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 1,
 	)
 
 /obj/effect/spawner/lootdrop/general_loot_mid
@@ -317,7 +317,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/raisins = 3,
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 1,
 		/obj/item/reagent_containers/powder/salt = 3,
-		/obj/item/reagent_containers/food/snacks/egg = 1,
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 1,
 	)
 
 /obj/effect/spawner/lootdrop/general_loot_hi
@@ -402,7 +402,7 @@
 		/obj/item/rogueweapon/stoneaxe/woodcut/steel = 1,
 		/obj/item/rogueweapon/sword/silver = 1,
 		/obj/item/rogueweapon/mace/steel/silver = 1,
-		/obj/item/rogueweapon/greataxe/silver = 1,
+		/obj/item/rogueweapon/greataxe/steel/knight/silver = 1,
 		/obj/item/rogueweapon/flail/sflail/silver = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/silver = 3,
 		/obj/item/rogueweapon/mace/warhammer/steel/silver = 1,

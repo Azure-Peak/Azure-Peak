@@ -216,12 +216,14 @@
 	if(!proximity_flag)	//Not adjacent
 		return
 	if(!ishuman(target)) //We're not robbing goats with this
+		to_chat(user, span_warning("You can't rob a non-humen with this!!"))
 		return
 	if(is_active)		//We're already draining
-		to_chat(user,span_info("It's already extracting!"))
+		to_chat(user, span_warning("It's already extracting!"))
 		return
 	var/mob/living/carbon/human/H = target
 	if(!H.client)	//The target's DCed or bugged out or is an NPC
+		to_chat(user, span_info("Try a target that is not fogged or of higher intelligence."))
 		return
 	if(H.stat)	//They're dead
 		to_chat(user,span_info("Their blood is still. You need someone living for this."))
@@ -234,6 +236,9 @@
 		return
 	if(SStreasury.has_account(H))
 		if(SStreasury.get_balance(H) > 0)
+			if(SStreasury.get_balance(H) < 10)
+				to_chat(user,span_info("There's too little in their veins to bother extracting."))
+				return
 			var/turf/T = get_turf(H)
 			var/sum
 			var/choice = alert(user,"How would you like to take it? Fast and Loud or Slow and Quiet?","CHOOSE","Fast","Slow","Nevermind")
@@ -249,9 +254,16 @@
 					to_chat(H,span_info("<font color ='red'>Sharp claws dig into your skull. There's a warmth trickling down your head.</font>"))
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 25))
-							SStreasury.burn(SStreasury.get_account(H), fast_drain, "Coveter Crown - Freefolk")
-							sum += fast_drain
-							new /obj/item/roguecoin/gold(T, fast_drain / 10)
+							var/coins = floor(min(fast_drain, SStreasury.get_balance(H)) / 10)
+							if(coins <= 0 || !SStreasury.burn(SStreasury.get_account(H), coins * 10, "Coveter Crown - Freefolk"))
+								playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)
+								is_active = FALSE
+								to_chat(H,span_info("<font color ='red'>You feel very drained.</font>"))
+								if(sum)
+									send_ooc_note("A parasite of the Freefolk has siphoned [H.real_name] of [sum] from the Nervemaster's veins.", job = list("Grand Duke", "Steward", "Clerk"))
+								break
+							sum += coins * 10
+							new /obj/item/roguecoin/gold(T, coins)
 							if(prob(needed_cycles*2))
 								drain_effect_fast(H)
 							if(i == needed_cycles)	//Last cycle.
@@ -278,9 +290,14 @@
 					H.apply_damage(10, BRUTE, head)
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 10))
-							SStreasury.burn(SStreasury.get_account(H), slow_drain, "Coveter Crown - Freefolk")
-							sum += slow_drain
-							new /obj/item/roguecoin/gold(T, slow_drain / 10)
+							var/coins = floor(min(slow_drain, SStreasury.get_balance(H)) / 10)
+							if(coins <= 0 || !SStreasury.burn(SStreasury.get_account(H), coins * 10, "Coveter Crown - Freefolk"))
+								is_active = FALSE
+								if(sum)
+									send_ooc_note("A parasite of the Freefolk has siphoned [H.real_name] of [sum] from the Nervemaster's veins.", job = list("Grand Duke", "Steward", "Clerk"))
+								break
+							sum += coins * 10
+							new /obj/item/roguecoin/gold(T, coins)
 							if(prob(needed_cycles*2))
 								drain_effect_fast(H)
 							if(i == needed_cycles)	//Last cycle.

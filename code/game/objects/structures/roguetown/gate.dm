@@ -108,9 +108,9 @@ GLOBAL_LIST_EMPTY(biggates)
 	layer = initial(layer)
 	sleep(15)
 	density = FALSE
-	opacity = FALSE
+	set_opacity(FALSE)
 	for(var/obj/gblock/B in blockers)
-		B.opacity = FALSE
+		B.set_opacity(FALSE)
 		B.density = FALSE
 	isSwitchingStates = FALSE
 	update_icon()
@@ -144,10 +144,10 @@ GLOBAL_LIST_EMPTY(biggates)
 				L.apply_damage(90, BRUTE, def_zone)
 				L.Paralyze(80)
 	density = initial(density)
-	opacity = initial(opacity)
+	set_opacity(initial(opacity))
 	layer = initial(layer)
 	for(var/obj/gblock/B in blockers)
-		B.opacity = TRUE
+		B.set_opacity(TRUE)
 		B.density = TRUE
 	isSwitchingStates = FALSE
 	update_icon()

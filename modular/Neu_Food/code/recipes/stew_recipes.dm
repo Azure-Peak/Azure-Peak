@@ -33,6 +33,28 @@
 
 // DO NOT SORT the list unless you know what you're doing (refactor it) - I ordered specific recipe before generic one for a reason!!
 
+// DONATOR
+/datum/stew_recipe/azurosa_tea
+	inputs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_dried/azure)
+	output = /datum/reagent/water/azurosa_tea
+	cooktime = STEW_COOKING_TIME / 4
+
+// STANDARD
+/datum/stew_recipe/humanoid_whole_meat
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/humanoid)
+	output = /datum/reagent/consumable/soup/stew/humanoid
+	cooktime = STEW_COOKING_TIME * 3
+
+/datum/stew_recipe/humanoid
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid)
+	output = /datum/reagent/consumable/soup/stew/humanoid
+	cooktime = STEW_COOKING_TIME * 3
+
+/datum/stew_recipe/humanoid_spiced
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid_salted)
+	output = /datum/reagent/consumable/soup/stew/humanoid_spiced
+	cooktime = STEW_COOKING_TIME * 3
+
 /datum/stew_recipe/porridge
 	inputs = list(/obj/item/reagent_containers/food/snacks/grown/wheat, /obj/item/reagent_containers/powder/flour, /obj/item/reagent_containers/food/snacks/rogue/toastcrumbs, /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw, /obj/item/reagent_containers/food/snacks/rogue/breadslice, /obj/item/reagent_containers/food/snacks/rogue/bun, /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast)
 	output = /datum/reagent/consumable/soup/porridge
@@ -49,12 +71,12 @@
 	cooktime = STEW_COOKING_TIME * 3 //Simmers the longest, so that you have enough time to plop everything else in. Cooking-wise? Well, it's common sense to let spices stew for a long while to draw the flavor out!
 
 /datum/stew_recipe/breadpudding
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/rbread_half, /obj/item/reagent_containers/food/snacks/rogue/abread_half, /obj/item/reagent_containers/food/snacks/rogue/applebreadslice, /obj/item/reagent_containers/food/snacks/rogue/raisinbreadslice, /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinloaf_raw, /obj/item/reagent_containers/food/snacks/rogue/pumpkinloafslice, /obj/item/reagent_containers/food/snacks/rogue/pumpkinball, /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinball_raw)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/rbread_half, /obj/item/reagent_containers/food/snacks/rogue/applebreadslice, /obj/item/reagent_containers/food/snacks/rogue/raisinbreadslice, /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinloaf_raw, /obj/item/reagent_containers/food/snacks/rogue/pumpkinloafslice, /obj/item/reagent_containers/food/snacks/rogue/pumpkinball, /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinball_raw)
 	output = /datum/reagent/consumable/soup/porridge/pudding
 	cooktime = STEW_COOKING_TIME
 
 /datum/stew_recipe/thickbreadpudding
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/rbreaduncooked, /obj/item/reagent_containers/food/snacks/rogue/raisinbread, /obj/item/reagent_containers/food/snacks/rogue/abreaduncooked, /obj/item/reagent_containers/food/snacks/rogue/applebread, /obj/item/reagent_containers/food/snacks/rogue/pumpkinloaf)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/rbreaduncooked, /obj/item/reagent_containers/food/snacks/rogue/raisinbread, /obj/item/reagent_containers/food/snacks/rogue/applebread, /obj/item/reagent_containers/food/snacks/rogue/pumpkinloaf)
 	output = /datum/reagent/consumable/soup/porridge/thickpudding
 	cooktime = STEW_COOKING_TIME * 2
 
@@ -103,11 +125,6 @@
 	output = /datum/reagent/consumable/soup/porridge/congee
 	cooktime = STEW_COOKING_TIME / 2 
 
-/datum/stew_recipe/frycongee
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked)
-	output = /datum/reagent/consumable/soup/porridge/frycongee
-	cooktime = STEW_COOKING_TIME / 2 
-
 /datum/stew_recipe/purebutter
 	inputs = list(/obj/item/reagent_containers/food/snacks/squiresdelight)
 	output = /datum/reagent/consumable/soup/purebutter
@@ -152,7 +169,7 @@
 
 /datum/stew_recipe/thickfrycabbage
 	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/preserved/cabbage_fried)
-	output = /datum/reagent/consumable/soup/veggie/thickcabbage
+	output = /datum/reagent/consumable/soup/veggie/thickfrycabbage
 	cooktime = STEW_COOKING_TIME * 2
 
 /datum/stew_recipe/thickturnip
@@ -201,19 +218,19 @@
 	output = /datum/reagent/consumable/soup/stew/rabbit
 
 /datum/stew_recipe/kingvolf
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick/cucumber)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick/cucumber)
 	output = /datum/reagent/consumable/soup/stew/kingvolf
 
 /datum/stew_recipe/veggiefryvolf
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick)
 	output = /datum/reagent/consumable/soup/stew/veggiefryvolf
 
 /datum/stew_recipe/fryvolf
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried)
 	output = /datum/reagent/consumable/soup/stew/fryvolf
 
 /datum/stew_recipe/volf
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf)
 	output = /datum/reagent/consumable/soup/stew/volf
 
 /datum/stew_recipe/fryspider
@@ -358,6 +375,10 @@
 	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat/salami, /obj/item/reagent_containers/food/snacks/rogue/meat/salami/slice, /obj/item/reagent_containers/food/snacks/rogue/meat/coppiette, /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet)
 	output = /datum/reagent/consumable/soup/stew/saltmeat_stew
 
+/datum/stew_recipe/mushstew
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/mushroom, /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked, /obj/item/reagent_containers/food/snacks/rogue/mushroom/cooked/fried)
+	output = /datum/reagent/consumable/soup/stew/mushroom
+
 // Don't alphabetically sort this list this is meant to be reached last. (You are free to change when you find a better way to do a fallback recipe)
 /datum/stew_recipe/meat
 	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/meat)
@@ -420,7 +441,7 @@
 	output = /datum/reagent/consumable/soup/stew/fryegg
 
 /datum/stew_recipe/egg
-	inputs = list(/obj/item/reagent_containers/food/snacks/egg, /obj/item/reagent_containers/food/snacks/rogue/stuffedegg)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/egg, /obj/item/reagent_containers/food/snacks/rogue/stuffedegg)
 	output = /datum/reagent/consumable/soup/stew/egg
 
 /datum/stew_recipe/garlick_soup
@@ -475,7 +496,7 @@
 	output = /datum/reagent/consumable/soup/tangerine_marmalade
 
 /datum/stew_recipe/squash_soup
-	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced, /obj/item/reagent_containers/food/snacks/rogue/preserved/pumpkin_mashed)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced)
 	output = /datum/reagent/consumable/soup/stew/squash_soup
 
 /datum/stew_recipe/frysquash_soup

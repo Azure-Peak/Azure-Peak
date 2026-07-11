@@ -2,8 +2,12 @@
 
 #define PRICING_ENGINE_DEFAULT_MARKUP 1.2
 #define PRICING_ENGINE_COMMISSIONER_MARKUP 1
-#define PRICING_ENGINE_MIN_DERIVED_PRICE 1
+// Make it 0 or else we are in exploit city
+#define PRICING_ENGINE_MIN_DERIVED_PRICE 0
 #define PRICING_ENGINE_FOOD_RECIPE_MAX_PASSES 6
+
+
+#define COMMISSIONER_CURED_LEATHER_PRICE 10
 
 // Toggle on CSV dump for pricing engine audit. Use this to help find out the reasons for odd auto pricing.
 // #define PRICING_ENGINE_DUMP_AUDITS

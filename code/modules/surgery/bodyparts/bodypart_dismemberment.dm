@@ -2,8 +2,49 @@
 /obj/item/bodypart/proc/can_dismember(obj/item/I)
 	return dismemberable
 
+/obj/item/bodypart/proc/get_spell_dismemberment_chance(force, bclass, zone_precise = src.body_zone)
+	if(!can_dismember())
+		return 0
+	if(bclass != BCLASS_CUT && bclass != BCLASS_CHOP)
+		return 0
+	if(bclass == BCLASS_CHOP)
+		force *= 1.1
+	return dismemberment_chance_from_force(force, zone_precise)
+
+/obj/item/bodypart/proc/dismemberment_chance_from_force(nuforce, zone_precise = src.body_zone)
+	if(nuforce < 10)
+		return 0
+	var/total_dam = get_damage()
+	var/probability = nuforce * (total_dam / max_damage)
+	var/hard_dismember = HAS_TRAIT(src, TRAIT_HARDDISMEMBER)
+	var/easy_dismember = rotted || skeletonized || HAS_TRAIT(src, TRAIT_EASYDISMEMBER)
+	var/easy_decapitation = HAS_TRAIT(src, TRAIT_EASYDECAPITATION)
+	if(owner)
+		if(!hard_dismember)
+			hard_dismember = HAS_TRAIT(owner, TRAIT_HARDDISMEMBER)
+		if(!easy_dismember)
+			easy_dismember = HAS_TRAIT(owner, TRAIT_EASYDISMEMBER)
+		if(!easy_decapitation)
+			easy_decapitation = HAS_TRAIT(owner, TRAIT_EASYDECAPITATION)
+	if((total_dam <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD)) && !easy_dismember)
+		return 0
+	if(easy_decapitation && zone_precise == BODY_ZONE_PRECISE_NECK)
+		return probability * 1.5
+	if(hard_dismember)
+		return min(probability, 5)
+	else if(easy_dismember)
+		return probability * 1.5
+	return probability
+
 /obj/item/bodypart/proc/can_disable(obj/item/I)
 	return disableable
+
+/// Returns TRUE if this bodypart is any kind of prosthetic limb
+/obj/item/bodypart/proc/is_prosthetic_limb()
+	return istype(src, /obj/item/bodypart/l_arm/prosthetic) || \
+	       istype(src, /obj/item/bodypart/r_arm/prosthetic) || \
+	       istype(src, /obj/item/bodypart/l_leg/prosthetic) || \
+	       istype(src, /obj/item/bodypart/r_leg/prosthetic)
 
 /obj/item/bodypart
 	/// Wound we get when surgically reattached
@@ -530,3 +571,62 @@
 
 		L.attach_limb(src, 1)
 		return 1
+
+/// Grants or removes the overclock spell based on current prosthetic count
+/obj/item/bodypart/proc/sync_overclock_spell(mob/living/carbon/human/H)
+	if(!ishuman(H) || !H.mind)
+		return
+
+	var/has_prosthetic = FALSE
+	for(var/obj/item/bodypart/BP in H.bodyparts)
+		if(BP.is_prosthetic_limb())
+			has_prosthetic = TRUE
+			break
+
+	var/already_has_spell = H.mind.has_spell(/obj/effect/proc_holder/spell/invoked/overlock)
+
+	if(has_prosthetic && !already_has_spell)
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/overlock)
+		to_chat(H, span_notice("AS the prosthetic attachs I can feel I can push them beyond their limits if I focus."))
+	else if(!has_prosthetic && already_has_spell)
+		H.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/overlock)
+		H.remove_status_effect(/datum/status_effect/buff/overclock)
+		to_chat(H, span_warning("Without any prosthetics, I can no longer overclock them."))
+
+	
+//adding this in seperate to add the overclock skill if we add an attachment
+/obj/item/bodypart/attach_limb(mob/living/carbon/C, special)
+	. = ..()
+	if(!.)
+		return
+	if(!is_prosthetic_limb())
+		return
+	if(!ishuman(C))
+		return
+	var/mob/living/carbon/human/H = C
+	sync_overclock_spell(H)
+
+//we check each prosthetic on limb removal rather than organic limbs
+/obj/item/bodypart/l_arm/prosthetic/drop_limb(special)
+	var/mob/living/carbon/human/was_owner = owner
+	. = ..()
+	if(ishuman(was_owner))
+		sync_overclock_spell(was_owner)
+
+/obj/item/bodypart/r_arm/prosthetic/drop_limb(special)
+	var/mob/living/carbon/human/was_owner = owner
+	. = ..()
+	if(ishuman(was_owner))
+		sync_overclock_spell(was_owner)
+
+/obj/item/bodypart/l_leg/prosthetic/drop_limb(special)
+	var/mob/living/carbon/human/was_owner = owner
+	. = ..()
+	if(ishuman(was_owner))
+		sync_overclock_spell(was_owner)
+
+/obj/item/bodypart/r_leg/prosthetic/drop_limb(special)
+	var/mob/living/carbon/human/was_owner = owner
+	. = ..()
+	if(ishuman(was_owner))
+		sync_overclock_spell(was_owner)

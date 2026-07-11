@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - bugfix: "frei swords can now block projectiles on halfsword intent's block"

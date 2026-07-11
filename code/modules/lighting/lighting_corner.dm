@@ -8,7 +8,6 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 /datum/lighting_corner
 	var/list/turf/masters
 	var/list/datum/light_source/affecting // Light sources affecting us.
-	var/active                            = FALSE  // TRUE if one of our masters has dynamic lighting.
 
 	var/x     = 0
 	var/y     = 0
@@ -73,21 +72,10 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 		i            = GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
 		T.corners[i] = src
 
-	update_active()
-
-/datum/lighting_corner/proc/update_active()
-	active = FALSE
-	var/turf/T
-	var/thing
-	for (thing in masters)
-		T = thing
-		if (T.lighting_object)
-			active = TRUE
-
 // God that was a mess, now to do the rest of the corner code! Hooray!
 /datum/lighting_corner/proc/update_lumcount(delta_r, delta_g, delta_b)
 
-	if ((abs(delta_r)+abs(delta_g)+abs(delta_b)) == 0)
+	if (!delta_r || !delta_g || !delta_b)
 		return
 
 	lum_r += delta_r
@@ -129,6 +117,9 @@ GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST,
 				T.lighting_object.needs_update = TRUE
 				SSlighting.objects_queue += T.lighting_object
 
+/datum/lighting_corner/proc/vis_update()
+	for (var/datum/light_source/light_source as anything in affecting)
+		light_source.vis_update()
 
 /datum/lighting_corner/dummy/New()
 	return

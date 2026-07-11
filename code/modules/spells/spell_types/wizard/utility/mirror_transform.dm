@@ -16,7 +16,7 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = 3
 	charge_sound = null
 	cooldown_time = 300 SECONDS
@@ -29,7 +29,7 @@
 
 /datum/action/cooldown/spell/mirror_transform/cast(atom/cast_on)
 	. = ..()
-	var/mob/living/carbon/human/H = owner
+	var/mob/living/carbon/human/H = cast_on
 	if(!istype(H))
 		return FALSE
 

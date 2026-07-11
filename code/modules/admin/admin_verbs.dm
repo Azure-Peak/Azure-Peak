@@ -9,6 +9,7 @@ GLOBAL_PROTECT(admin_verbs_default)
 	/client/proc/adjust_pq,
 	/client/proc/hearallasghost,
 	/client/proc/hearglobalLOOC,
+	/client/proc/hearsubtleLOOC,
 	/client/proc/togglespawnmessages,
 	/client/proc/toggle_aghost_invis,
 	/client/proc/admin_ghost,
@@ -169,6 +170,7 @@ GLOBAL_PROTECT(admin_verbs_server)
 //	/datum/admins/proc/toggleAI,
 	/client/proc/cmd_admin_delete,		/*delete an instance/object/mob/etc*/
 	/client/proc/cmd_debug_del_all,
+	/client/proc/cmd_controller_view_ui,
 	/client/proc/toggle_random_events,
 	/client/proc/forcerandomrotate,
 	/client/proc/adminchangemap,
@@ -185,6 +187,7 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	return list(
 	/client/proc/debug_variables,		/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
 	/client/proc/restart_controller,
+	/client/proc/cmd_controller_view_ui,
 	/client/proc/cmd_admin_list_open_jobs,
 	/client/proc/Debug2,
 	/client/proc/cmd_debug_mob_lists,
@@ -218,6 +221,7 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/datum/admins/proc/create_or_modify_area,
 	/client/proc/returntolobby,
 	/client/proc/set_tod_override,
+	/client/proc/set_station_time,
 	/client/proc/stresstest_chat,
 	/client/proc/performance_stress_test, // Uncomment these if you tick the performance stress test .dm file
 	/client/proc/cleanup_stress_test_mobs,
@@ -274,6 +278,7 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 //	/client/proc/everyone_random,
 	/datum/admins/proc/toggleAI,
 	/client/proc/restart_controller,
+	/client/proc/cmd_controller_view_ui,
 	/client/proc/cmd_admin_list_open_jobs,
 	/client/proc/callproc,
 	/client/proc/callproc_datum,
@@ -505,9 +510,25 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		world << "[ckey] has disabled the time of day override."
 	settod()
 
+/client/proc/set_station_time()
+	set category = "Debug"
+	set name = "SetStationTime"
+	var/hour = input(usr, "Hour (0-23)", "Set Station Time") as null|num
+	if(isnull(hour))
+		return
+	var/minute = clamp((input(usr, "Minute (0-59)", "Set Station Time") as null|num) || 0, 0, 59)
+	hour = clamp(hour, 0, 23)
+	var/target = (hour * 36000) + (minute * 600)
+	var/elapsed = (world.time - SSticker.round_start_time) * SSticker.station_time_rate_multiplier
+	SSticker.gametime_offset = ((target - elapsed) % 864000 + 864000) % 864000
+	SSnightshift.check_nightshift()
+	SSoutdoor_effects.get_time_of_day()
+	for(var/atom/movable/screen/fullscreen/lighting_backdrop/sunlight/SP in SSoutdoor_effects.sunlighting_planes)
+		SSoutdoor_effects.transition_sunlight_color(SP)
+	world << "[ckey] set the station time to [hour]:[minute < 10 ? "0[minute]" : minute]."
+
 /client/proc/stresstest_chat()
 	set name = "Stress Chat"
-	set category = "Debug"
 	set hidden = TRUE
 
 	if(!holder)
@@ -560,7 +581,6 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 /client/proc/secrets()
 	set name = "Secrets"
-	set category = "Admin.Admin"
 	set hidden = 1
 	if (holder)
 		holder.Secrets()
@@ -788,7 +808,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 /client/proc/togglebuildmodeself()
 	set name = "Toggle Build Mode"
 	set category = "Admin.Special"
-	if (!(holder.rank.rights & R_BUILD))
+	if(!holder || !(holder.rank?.rights & R_BUILD))
 		return
 	if(src.mob)
 		togglebuildmode(src.mob)
@@ -844,7 +864,6 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 /client/proc/toggle_AI_interact()
 	set name = "Toggle Admin AI Interact"
-	set category = "Admin.Admin"
 	set desc = ""
 	set hidden = 1
 
@@ -865,7 +884,6 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	to_chat(src, span_interface("Lobby OOC visibility is now [show_lobby_ooc ? "ON" : "OFF"]."))
 
 /client/proc/end_party()
-	set category = "Game Master"
 	set name = "EndPlaytest"
 	set hidden = 1
 	if(!holder)

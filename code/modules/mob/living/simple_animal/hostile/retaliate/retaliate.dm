@@ -49,6 +49,9 @@
 /mob/living/simple_animal/hostile/retaliate
 	var/aggressive = 0
 
+/mob/living/simple_animal/hostile/retaliate/can_be_held(mob/by)
+	return ..() && !aggressive && !(WEAKREF(by) in enemies)
+
 /mob/living/simple_animal/hostile/retaliate/ListTargets()
 	if(!(AIStatus == NPC_AI_OFF))
 		if(aggressive)

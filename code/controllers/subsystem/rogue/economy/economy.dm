@@ -8,6 +8,7 @@ SUBSYSTEM_DEF(economy)
 	var/list/daily_report_diff = null
 	var/last_petition_day = -1
 	var/petitions_today = 0
+	var/blockade_replenish_spent = 0
 	var/list/event_path_cooldowns = list()
 	var/list/goods_with_producers = list()
 	var/list/goods_with_demand = list()
@@ -226,6 +227,7 @@ SUBSYSTEM_DEF(economy)
 
 	expire_economic_events()
 	roll_economic_events()
+	tick_blockade_replenish()
 	tick_banditry_drain()
 
 	// Runs after events/blockades so auto-import sees the day's fresh price_mods, blockade
@@ -934,7 +936,6 @@ SUBSYSTEM_DEF(economy)
 	var/export_label = user ? "Manual Export" : "Auto Export"
 	SStreasury.dirty_market_view()
 	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "[export_label]: [quantity] [tg.name] to [region.name][actor_suffix]")
-	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "Manual Export: [quantity] [tg.name] to [region.name]")
 	SStreasury.total_export += total_revenue
 	SStreasury.economic_output += total_revenue
 	credit_economic_event_saturation(good_id, quantity)

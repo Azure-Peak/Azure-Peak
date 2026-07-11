@@ -125,7 +125,7 @@ What it does:
 /obj/item/cooking/platter/pewter
 	name = "pewter platter"
 	desc = "A tin plate that contains just a tinge of lead."
-	icon_state = "platter_tin"
+	icon_state = "platter_silver"
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 
@@ -190,3 +190,9 @@ What it does:
 	name = "cerulite platter"
 	desc = "A fancy platter carved out of cerulite."
 	icon_state = "platter_turq"
+
+/obj/item/cooking/platter/carved/porcelain
+	name = "porcelain platter"
+	desc = "A fancy platter made out of porcelain."
+	icon_state = "platter_porcelain"
+	sellprice = 10

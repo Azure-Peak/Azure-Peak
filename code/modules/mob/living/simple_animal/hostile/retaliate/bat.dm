@@ -2,12 +2,13 @@
 	name = "bat"
 	desc = ""
 	icon_state = "bat"
+	item_state = "bat_dead" // looks enough like a bat just chilling out that it makes more sense than the animated one
 	icon_living = "bat"
 	icon_dead = "bat_dead"
 	icon_gib = "bat_dead"
 	turns_per_move = 1
-	response_help_continuous = "brushes aside"
-	response_help_simple = "brush aside"
+	response_help_continuous = "pets"
+	response_help_simple = "pet"
 	response_disarm_continuous = "flails at"
 	response_disarm_simple = "flail at"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
@@ -21,7 +22,7 @@
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1)
-	pass_flags = PASSTABLE
+	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
 	faction = list(FACTION_HOSTILE)
 	attack_sound = 'sound/blank.ogg'
 	obj_damage = 0
@@ -58,6 +59,7 @@
 	desc = ""
 	icon = 'icons/roguetown/mob/monster/crow.dmi'
 	icon_state = "crow_flying"
+	item_state = "crow"
 	icon_living = "crow_flying"
 	icon_dead = "crow1"
 	icon_gib = "crow1"
@@ -69,6 +71,46 @@
 	remains_type = /obj/effect/decal/remains/crow
 	fly_time = 3 SECONDS // slowing down crow for witches
 	sight = 0
+	/// Whether the zad is perched (stationary sprite, cannot move) rather than flying.
+	var/sitting = FALSE
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/Initialize()
+	. = ..()
+	add_verb(src, list(/mob/living/simple_animal/hostile/retaliate/bat/crow/proc/change_stance,
+	/mob/living/simple_animal/hostile/retaliate/bat/crow/proc/emote_caw))
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/proc/change_stance()
+	set category = "RoleUnique.Winged Form"
+	set name = "Change Stance"
+	sitting = !sitting
+	update_icon()
+	//Hack to make sprite update after hitting the verb
+	setDir(EAST)
+	setDir(SOUTH)
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/update_icon_state()
+	icon_state = sitting ? "crow" : "crow_flying"
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/Move()
+	if(sitting)
+		return FALSE
+	return ..()
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/proc/emote_caw()
+	set category = "RoleUnique.Winged Form"
+	set name = "Caw"
+	emote("caw", intentional = TRUE, animal = TRUE)
+
+/mob/living/simple_animal/hostile/retaliate/bat/crow/get_sound(input)
+	if(input == "caw")
+		return pick('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_02.ogg', 'sound/vo/mobs/bird/CROW_03.ogg')
+
+// lets you wear them on your HEAD...
+/mob/living/simple_animal/hostile/retaliate/bat/crow/set_item_sprite(obj/item/mob_item/orb)
+	..()
+	orb.mob_overlay_icon = orb.icon
+	orb.worn_offsets = list("x" = 0, "y" = 22)
+	orb.alternate_worn_layer = BODY_UNDER_LAYER // so it looks like they're perching on your head and not clipping through
 
 /obj/effect/decal/remains/crow
 	name = "zad remains"

@@ -9,7 +9,7 @@
 	min_pq = null //no pq
 	max_pq = null
 	announce_latejoin = FALSE
-	vice_restrictions = list(/datum/charflaw/hunted)
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
 
 	//Unlike most roles of skeletons, these ones just dust. Rids you instantly out of the round so you can respawn.
 	//These are exclusive to skeleton sieges, they're a threat in numbers but advs can usually kill them with some effort solo by design.
@@ -106,15 +106,17 @@
 			beltr = /obj/item/rogueweapon/mace/alloy
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 
-	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak")
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/lich
+			cloak = /obj/item/clothing/cloak/tabard/necro
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
@@ -152,7 +154,7 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 	//intentionally decrepit gear, you're going to die rapidly. You're just here to start some fights and do some shennagions.
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
@@ -163,15 +165,17 @@
 	backl = /obj/item/quiver/broadhead_aalloy
 	//Knife is default softlock protection sidearm, difference is you don't suck at it here as much.
 
-	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak")
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/lich
+			cloak = /obj/item/clothing/cloak/tabard/necro
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
@@ -211,10 +215,6 @@
 
 	//intentionally decrepit gear, you're going to die rapidly. You're just here to start some fights and do some shennagions.
 	cloak = /obj/item/clothing/cloak/tabard/blkknight
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/aalloy
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
 	pants = /obj/item/clothing/under/roguetown/platelegs/aalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 	neck = /obj/item/clothing/neck/roguetown/gorget/aalloy
@@ -230,15 +230,30 @@
 		if("Grand Mace")
 			r_hand = /obj/item/rogueweapon/mace/goden/aalloy
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
-	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak")
+	var/armors = list("Sayovard + Cuirass & Hauberk", "Bascinet + Heavy Hauberk")
+	var/armor_choice = input(H, "Choose your PLATE.", "SHRUG OFF THINE BLOWS.") as anything in armors
+	switch(armor_choice)
+		if("Sayovard + Cuirass & Hauberk")
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
+		if("Bascinet + Heavy Hauberk")
+			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy/chain
+			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
-			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
 		if("Black Tabard")
-			cloak = /obj/item/clothing/cloak/tabard/lich
+			cloak = /obj/item/clothing/cloak/tabard/necro
 		if("Black Cloak")
 			cloak = /obj/item/clothing/cloak/half/lich
+		if("Black Toga")
+			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity

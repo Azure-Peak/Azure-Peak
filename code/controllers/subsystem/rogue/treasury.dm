@@ -24,14 +24,12 @@ SUBSYSTEM_DEF(treasury)
 	priority = FIRE_PRIORITY_WATER_LEVEL
 	var/list/tax_rates = list(
 		TAX_CATEGORY_CONTRACT_LEVY = 0.20,
-		TAX_CATEGORY_HEADEATER_LEVY = 0.30,
+		TAX_CATEGORY_HEADEATER_LEVY = 0.15,
 		TAX_CATEGORY_IMPORT_TARIFF = 0.15,
 		TAX_CATEGORY_EXPORT_DUTY = 0.15,
 		TAX_CATEGORY_FINE = 1.0,
 	)
 	var/trade_spread = 0.10
-	var/mint_multiplier = 0.8
-	var/minted = 0
 	var/autoexport_percentage = 0.6
 	var/list/bank_accounts = list()
 	var/datum/fund/discretionary_fund
@@ -147,9 +145,6 @@ SUBSYSTEM_DEF(treasury)
 		stockpile_datums += D
 		if(D.trade_good_id)
 			stockpile_by_trade_good[D.trade_good_id] = D
-	for(var/path in subtypesof(/datum/roguestock/bounty))
-		var/datum/D = new path
-		stockpile_datums += D
 	autoset_stockpile_limits()
 	return ..()
 
@@ -732,7 +727,7 @@ SUBSYSTEM_DEF(treasury)
 		return POLL_TAX_CAT_GUILDS
 	if(H.job == "Merchant")
 		return POLL_TAX_CAT_MERCHANT
-	if((H.job in list("Innkeeper", "Head Physician", "Apothecary", "Bathmaster", "Town Crier", "Magicians Associate")) || HAS_TRAIT(H, TRAIT_RESIDENT))
+	if((H.job in list("Innkeeper", "Head Physician", "Apothecary", "Bathmaster", "Magicians Associate")) || HAS_TRAIT(H, TRAIT_RESIDENT))
 		return POLL_TAX_CAT_BURGHER
 	if(H.job in GLOB.wanderer_positions)
 		return POLL_TAX_CAT_ADVENTURER

@@ -81,6 +81,26 @@
 		boon_html += "</details>"
 		. += boon_html
 
+/obj/effect/proc_holder/spell/invoked/transmutation_rite/get_spell_statistics(mob/living/user)
+	. = ..()
+	. += "THE ART OF GIVING AND TAKING"
+	. += "═══════════════════════════"
+	. += "BOON CAPACITY:"
+	. += "  • Tier 1: Up to 60 points of boons"
+	. += "  • Tier 2: Up to 85 points of boons"
+	. += "  • Tier 3: Up to 110 points of boons"
+	. += ""
+	. += "PROGRESSION:"
+	. += "  • Curse 1 person → Tier 2 (Requires 20 points)"
+	. += "  • Curse 2 people → Tier 3 (Requires 60 points total)"
+	. += ""
+	. += "AFFECTED TARGETS:"
+	. += "  • Positive Boons: 4/5/6 people (scales with tier)"
+	. += ""
+	. += "Use this rite to view the boons that you have granted to allies,"
+	. += "or twist your gifts into curses against your enemies."
+	. += "<span class='notice'>Alt-click to reskin it.</span>"
+
 /obj/effect/proc_holder/spell/invoked/transmutation_rite
 	name = "Transmutation"
 	//var/mob/living/target_victim

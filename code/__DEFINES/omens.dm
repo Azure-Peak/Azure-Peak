@@ -4,6 +4,7 @@
 #define OMEN_INQUISITORDEATH "inquisitordeath"
 #define OMEN_NOBLEDEATH "nobledeath"
 #define OMEN_SUNSTEAL "sunsteal"
+#define OMEN_SUNSCORCH "sunscorch"
 #define OMEN_SKELETONSIEGE "skeletonsiege"
 #define ASCEND_FIRST "ascendantone"
 #define ASCEND_WAKENING "ascendanttwo"

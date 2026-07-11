@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	name = "Fireball"
 	desc = "Shoot out a ball of fire that explodes on impact, scorching and slowing nearby targets. \
-	Toggle arc mode (Ctrl+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
+	Toggle arc mode (Shift+G) while the spell is active to fire it over intervening mobs. Arced attacks deal 25% less damage."
 	button_icon_state = "fireball"
 	sound = 'sound/magic/fireball.ogg'
 	spell_color = GLOW_COLOR_FIRE
@@ -24,7 +24,6 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MAJOR
-	charge_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging_fire.ogg'
 	cooldown_time = 16 SECONDS
@@ -73,6 +72,9 @@
 		playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 		qdel(src)
 		return BULLET_ACT_BLOCK
+
+	if(out_of_effective_range())
+		return
 
 	if(M)
 		M.adjust_fire_stacks(1)
