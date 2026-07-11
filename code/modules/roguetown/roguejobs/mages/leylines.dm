@@ -117,6 +117,8 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	var/counts = list(0,0,0,0)
 	var/list/candidates = list()
 	for(var/mob/dead/observer/G in GLOB.player_list)
+		if(isscryeye(G))
+			continue
 		candidates += G
 
 	for(var/mob/living/carbon/spirit/bigchungus in GLOB.player_list)

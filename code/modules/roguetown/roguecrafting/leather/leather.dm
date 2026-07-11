@@ -136,7 +136,6 @@
 	reqs = list(/obj/item/natural/hide/cured = 2,/obj/item/natural/fur = 1)
 
 /obj/item/clothing/cloak/raincloak/furcloak/crafted
-	sellprice = 55
 
 /datum/crafting_recipe/roguetown/leather/papakha
 	name = "papakha hat"
@@ -291,6 +290,17 @@
 		/obj/item/natural/fibers = 1,
 	)
 	result = /obj/item/storage/belt/rogue/leather/suspenders
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/leather/belt_alt
+	name = "pouched suspenders"
+	display_category = ITEM_CAT_ARMOR_CHESTPIECES
+	reqs = list(
+		/obj/item/natural/hide/cured = 1,
+		/obj/item/natural/cloth = 2,
+		/obj/item/storage/belt/rogue/pouch = 1,
+	)
+	result = /obj/item/clothing/cloak/suspenders
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/leather/leathermask

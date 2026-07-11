@@ -54,7 +54,7 @@
 /datum/supply_pack/rogue/armor_iron/aventail_iron
 	name = "Aventail"
 	cost = 50
-	contains = list(/obj/item/clothing/neck/roguetown/chaincoif/iron/aventail)
+	contains = list(/obj/item/clothing/neck/roguetown/gorget/aventail/iron)
 
 /datum/supply_pack/rogue/armor_iron/chaincoif_iron
 	name = "Full Chain Coif"

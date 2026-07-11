@@ -155,6 +155,33 @@ TRAIT UNIQUE PROCS
 			REMOVE_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)
 		return
 
+	if(HAS_TRAIT(user, TRAIT_ARCYNE))
+		if(!positive)
+			user.dropItemToGround(parent, TRUE, TRUE)
+			to_chat(user, span_warning("It may be light, but this armor chafes my focus far too much. I couldn't hope to channel my magicka, while wearing it."))
+			if(!HAS_TRAIT(user, TRAIT_ARMOUR_DISLIKED))
+				return
+			REMOVE_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)
+		return
+
+	if(HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
+		if(!positive)
+			user.dropItemToGround(parent, TRUE, TRUE)
+			to_chat(user, span_warning("It may be light, but this armor chafes my focus far too much. I couldn't hope to hone my techniques, while wearing it."))
+			if(!HAS_TRAIT(user, TRAIT_ARMOUR_DISLIKED))
+				return
+			REMOVE_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)
+		return
+
+	if(HAS_TRAIT(user, TRAIT_DODGEEXPERT))
+		if(!positive)
+			user.dropItemToGround(parent, TRUE, TRUE)
+			to_chat(user, span_warning("It may be light, but this armor chafes my focus far too much. I couldn't hope to keep my reflexes sharp, while wearing it."))
+			if(!HAS_TRAIT(user, TRAIT_ARMOUR_DISLIKED))
+				return
+			REMOVE_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)
+		return
+
 	if(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) && id == "ornate_plate")
 		if(positive)
 			user.apply_status_effect(/datum/status_effect/buff/psydonic_endurance)

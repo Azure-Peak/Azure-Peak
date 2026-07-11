@@ -243,7 +243,6 @@
 		/datum/special_intent/limbguard,
 		/datum/special_intent/dagger_dash,
 		/datum/special_intent/flail_sweep,
-		/datum/special_intent/charge
 		)
 
 /obj/item/rogueweapon/sword/long/blacksteel/examine(mob/user)
@@ -461,6 +460,30 @@
 	when drawn, a symbol of distress. Ad pacem servandam."
 	sheathe_icon = "reform"
 	icon_state = "reformistsword"
+
+/obj/item/rogueweapon/sword/long/etruscan/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the projectile", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+	SEND_SIGNAL(src, COMSIG_ITEM_HIT_REACT, args)
+	var/mob/attacker
+	var/obj/item/I
+	if(attack_type == THROWN_PROJECTILE_ATTACK)
+		if(istype(hitby, /obj/item)) // can't trust mob -> item assignments
+			I = hitby
+		if(I?.thrownby)
+			attacker = I.thrownby
+	if(attack_type == PROJECTILE_ATTACK)
+		var/obj/projectile/P = hitby
+		if(P?.firer)
+			attacker = P.firer
+	if(attacker && istype(attacker))
+		if (!owner.can_see_cone(attacker))
+			return FALSE
+		if(obj_broken)
+			return FALSE
+		if((owner.client?.chargedprog == 100 && owner.used_intent?.tranged) || prob(40)) // let's give it a 40% coverage, it's still something thinner than a shield
+			owner.visible_message(span_danger("[owner] expertly blocks [hitby] with [src]!"))
+			src.take_damage(floor(damage / 4))
+			return TRUE
+	return FALSE
 
 /obj/item/rogueweapon/sword/long/fencerguy
 	name = "grenzelhoftian longsword"
@@ -2514,7 +2537,6 @@
 	wdefense = 4
 	minstr = 10
 	force = 7	//This sword gets its real damage values from its intents. IYKYK.
-	sellprice = 25
 	blade_int = 350	//You're gonna cut. A lot.
 	max_integrity = 110	//Iron arming sword + 10
 	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'

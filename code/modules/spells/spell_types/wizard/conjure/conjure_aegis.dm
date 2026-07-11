@@ -12,7 +12,6 @@
 	unenchantable = TRUE
 	sellprice = 0
 	static_price = TRUE
-	anvilrepair = /datum/skill/magic/arcane
 	parrysound = list('sound/combat/parry/shield/magicshield (1).ogg', 'sound/combat/parry/shield/magicshield (2).ogg', 'sound/combat/parry/shield/magicshield (3).ogg')
 	associated_skill = /datum/skill/combat/shields
 

@@ -469,3 +469,158 @@
       and you sort of shouldn't be knocking them out)
   - balance: transfix only force-closes your eyes when it actually knocks you out,
       to make it less annoying to deal with.
+2026-07-08:
+  Dorodomki:
+  - rscadd: 'Added 2 new flower hats, one is a rosa with thorns, the other is a easily
+      dyeable flower crown.
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Fixed an exploit where conjured weapons/tools could be maid permanent
+      by applying a donor kit
+  WeNeedMorePhoron:
+  - rscadd: Uses correct python version for install.bat
+  - rscadd: Reversion on Vizier now grants a **Pull Reversion** spell **if** the target
+      is in the same fellowship, allowing you to trigger the spell on them without
+      them explicitly doing so, presuming they are a friend so that would be used
+      in good faith
+  - rscadd: Also removed Stygian from poke spells selection because the new Stygian
+      is a nerfed version designed to work with Ferra in a package and not on its
+      own anymore
+  radarseas:
+  - rscdel: T5 Presence ability 'Majesty' is gone, I physically can't save this one.
+      Sorry chief.
+2026-07-09:
+  7erracotta:
+  - rscadd: added new sprites for the loincloth, also added the belt shawl
+  - rscadd: added new sprites
+  - bugfix: fixed the handles of the macauhuitls
+  Ollanius:
+  - rscadd: Adds missing recipe for blacksteel fishing rods.
+  - balance: Silver and Psydonic Knuckledusters no longer spawn with blessings.
+  - balance: Fluted armor properly requires +1 Steel Ingot, now, instead of +1 Iron
+      Ingot.
+  Ryan180602:
+  - rscadd: volfhelm bascinet to paladin, ke, knightly journey knight, knight
+  SomeDeviant:
+  - rscdel: Removed error-causing trait string from drown check
+  - bugfix: Drowning runtime
+  SpartanBobby, litepurple, Castortroy:
+  - rscadd: Plate Arm Harness universal donor item for the steel bracers
+  THE GRAND DUKE OF AZURE PEAK:
+  - bugfix: heater shield silverface item will no longer dispense wooden one
+  - bugfix: griddlewiener should show up now. or is it griddleweiner. griddlewieiner.
+  WeNeedMorePhoron:
+  - rscdel: Town Crier role has undergone euthanasia after a long and agonizing 9
+      months death.
+  - rscdel: Town crier related mechanics like loudmouth channel and streetpipes has
+      been removed
+  - rscdel: Town Crier house repurposed temporarily into a generic towner house for
+      future mapping purpose
+  - rscdel: Zizo's bane sleep gas only activate if you step on it with low for / attack
+      it
+  - rscadd: Mimic no longer immune to fire damage
+  - rscdel: Remove lance special
+  borneblood:
+  - balance: Removes the mutual Immobilize from Bite.
+  mumblemancer:
+  - bugfix: you can no longer hide under bedrolls or eoran flowerbeds
+  radarseas:
+  - rscdel: DEBUG - Zombification (whatever goes here) tochat
+2026-07-10:
+  Dorodomki:
+  - rscadd: Added new fur boots to loadout
+  - bugfix: 'fixed a typo on the flower crown for loadout
+
+      :cl:'
+  Kell-E:
+  - balance: Siegebows are now louder and deal significant damage to any terrain they
+      collide with.
+  - bugfix: Siegebows no longer delete (any) turf on contact.
+  Lamasmaster:
+  - balance: Noc Miracles Overhaul
+  OrbisAnima:
+  - bugfix: Fixes Briar curse to deal true brute damate to the user instead of the
+      target, on top of adding 10 extra force to regular and wielded. Reduced the
+      true damage dealt to 5 from 10.
+  Ryan180602:
+  - rscadd: let people vote only when readied up
+  - balance: rebalanced gamemodes.
+  TankTheBirb:
+  - bugfix: Forlorn Hope goedendag loadout now boosts correct polearm skill instead
+      of staves
+  WeNeedMorePhoron:
+  - rscadd: Fixed various exploits and such that leads to overly easy crafting money
+      making
+  bearrrrrrrr:
+  - rscadd: vheslyn ultrasun event
+  borneblood:
+  - rscadd: Mimics jumpscare you now.
+  - rscadd: Underdweller Origin can choose Sunlight Sensitivity, similar to Naledi
+      Complex.
+  mumblemancer:
+  - rscadd: loudmouth gear now available thru various means
+  string-thing:
+  - rscadd: added CON buff of 1 to fortifying vapors
+  yyzsong:
+  - spellcheck: Removes extraneous right square bracket in Martyr weapon touch interactions
+  - code_imp: Corrects bed proc typepath typo
+2026-07-11:
+  Happyowl93:
+  - rscadd: Added autogrinder for the rotational network
+  KatTheFox:
+  - rscadd: Small, non-hostile animals can now be picked up; they can be worn on the
+      head or, for flying mobs, perch on your shoulder.
+  - rscdel: Familiar transform ability has been removed, as they have been migrated
+      to the new mob pickup system
+  Ketrai:
+  - rscadd: Hag moss autoharvest.
+  - qol: Hag transmutation now explains the boon tiers better.
+  - bugfix: Abyssorite ritualists can once again draw storm runes.
+  Lamasmaster:
+  - balance: Malum Miracles and Passives
+  Ollanius:
+  - bugfix: Orles can now be properly dyed in two altering variants.
+  - rscadd: Reshades the dyeable orle to match the greyscaled tabard.
+  - rscadd: Headbands and undervestments can now be adjusted via RMB.
+  - rscadd: Slimmed-down versions of steel plate armor, available via Triumph elixirs
+      or a craftable tool.
+  - bugfix: Fixes a potential exploit that could allow Enchanting Kit-forked tools
+      to upgrade lesser forms of armor.
+  - rscadd: Gilded versions of steel plat earmor, available via the 'Decorated' smithing
+      tier. Entirely cosmetic.
+  Ryan180602:
+  - bugfix: gnoll migrants are disabled on psydon gamemodes. if a gamemode isn't meant
+      to have gnolls
+  WeNeedMorePhoron:
+  - rscadd: Raised the per client topic limit to 200 and no longer count the statpanel
+      to hopefully alleviates issues
+  - rscadd: 'Shuffle some south terrorbog quest spots around/:cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  borneblood:
+  - bugfix: Apothecary gets staves instead of polearms
+  - bugfix: Fixed a racial boon choice not working.
+  - bugfix: fixed mannequins not having pants slot
+  - bugfix: fixed being able to punch your own gear
+  - refactor: Reworked Dual Wielder virtue.
+  - bugfix: fixed light sunderbolts
+  - bugfix: fixed prosthetics having the wrong speed malus value, and weirdness with
+      Bronze Limbs virtue
+  plsleavemealon:
+  - bugfix: fixed clockwork drill wielded force
+  radarseas:
+  - rscadd: Added a few catagories to the wretch shop, exclusive to wretches. This
+      is mostly up-priced black market stuff and down-priced prosthetics so you can
+      de-nugget your fellow soft-antag back into being able to play the round without
+      medical skill.
+  - balance: Wretches can buy more supplies from camp + Get Bronze/weaponry, for gimmiciness
+  string-thing:
+  - bugfix: fixed con buff on fort. vapours

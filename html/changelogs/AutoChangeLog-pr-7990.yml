@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Fixed an exploit where conjured weapons/tools could be maid permanent by applying a donor kit"

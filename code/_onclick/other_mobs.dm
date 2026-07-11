@@ -90,7 +90,7 @@
 						visible_message(span_warning("[src] pushes [AM]."))
 					changeNext_move(CLICK_CD_MELEE)
 					return
-		if(cmode && used_intent.type == INTENT_HARM && isitem(A))
+		if(cmode && used_intent.type == INTENT_HARM && isitem(A) && !ismob(A.loc))
 			if(stamina_add(8))
 				var/dmg = get_punch_dmg()
 				var/obj/item/I = A

@@ -101,10 +101,10 @@
 	.=..()
 	if(!proximity_flag)
 		return
-	if(isliving(target))
-		var/mob/living/carbon/targeted = target
-		targeted.adjustBruteLoss(10)
-		to_chat(target, span_notice("[source] gouges you with its sharp edges!"))
+	if(isliving(user))
+		var/mob/living/carbon/targeted = user
+		targeted.adjustBruteLoss(5)
+		to_chat(user, span_notice("[source] gouges you with its sharp edges!"))
 
 /datum/magic_item/mythic/rewind
 	name = "Temporal Rewind"

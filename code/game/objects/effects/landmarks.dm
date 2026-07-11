@@ -151,10 +151,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Towner"
 	icon_state = "arrow"
 
-/obj/effect/landmark/start/crier
-	name = "Town Crier"
-	icon_state = "arrow"
-
 /obj/effect/landmark/start/keeper
 	name = "Keeper"
 	icon_state = "arrow"

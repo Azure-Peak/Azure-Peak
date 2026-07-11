@@ -133,7 +133,7 @@
 	name = "Rune of the Moon"
 	icon_state = "noc_chalky"
 	desc = "A holy rune of <font color='bae6ed'>Noc.</font> </br> <i>Moonlight shines upon thee.</i>"
-	var/lunarrites = list("Moonlight Dance") // list for more to be added later
+	var/lunarrites = list("Moonlight Dance", "Moonlight Inspiration") // list for more to be added later
 
 /obj/structure/ritualcircle/noc/attack_hand(mob/living/user)
 	if(!..())
@@ -163,11 +163,30 @@
 			playsound(loc, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
 			moonlightdance(src)
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+		if("Moonlight Inspiration")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("I seek the guidance of the Moon!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("Grant us your wisdom!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("Place your gaze upon me, oh wise one!!")
+			to_chat(user,span_cultsmall("The waning half of the Twin-God carries but one eye. With some effort, it can be drawn upon supplicants."))
+			playsound(loc, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
+			mooninspiration(src)
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 
 /obj/structure/ritualcircle/noc/proc/moonlightdance(src)
 	var/ritualtargets = view(7, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/moonlightdance)
+
+/obj/structure/ritualcircle/noc/proc/mooninspiration(src)
+	var/ritualtargets = view(2, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		target.mind.sleep_adv.sleep_adv_points += 3
 
 /obj/structure/ritualcircle/xylix
 	name = "Rune of Trickery"
@@ -400,95 +419,11 @@
 /obj/structure/ritualcircle/dendor/proc/lesservolf(mob/living/carbon/human/target) // IS proc
 	target.apply_status_effect(/datum/status_effect/buff/lesserwolf) // applies status effect
 
-/* -- THESE RITUALS ARE CURRENTLY DEFUNCT -- Not shifting these for now. All they do is allow non-dendorites to shapeshift into a specific form (in theory)
-* You just need to move it over to the section as above. -- CODEATHON
-/datum/runeritual/borrowed_madness
-	name = "Borrowed Madness"
-
-/datum/runeritual/borrowed_madness/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
-	if(!do_after(user, 5 SECONDS))
-		return
-	
-	user.say("I pray for strength...")
-	playsound(loc, 'sound/vo/mobs/vw/idle (1).ogg', 100, FALSE, -1)
-
-	if(!do_after(user, 5 SECONDS))
-		return
-	
-	user.say("I pray for pain...")
-	playsound(loc, 'sound/vo/mobs/vw/idle (4).ogg', 100, FALSE, -1)
-
-	if(!do_after(user, 5 SECONDS))
-		return
-	
-	loc.visible_message(span_warning("[user] produces an eerie as they titter quietly, softly weeping. Their body twitches ever so slightly..."))
-	playsound(loc, 'sound/vo/mobs/vw/bark (1).ogg', 100, FALSE, -1)
-
-	if(!do_after(user, 3 SECONDS))
-		return
-
-	loc.visible_message(span_warning("[user] suddenly snaps their head upward, letting out a twisted howl!"))
-	playsound(loc, 'sound/vo/mobs/wwolf/howl (2).ogg', 100, FALSE, -1)
-
-	for(var/mob/living/carbon/human/target in range(0, loc))
-		if(!istype(target.patron, /datum/patron/divine/dendor))
-			to_chat(target, span_warning("The ritual's power does not recognize me..."))
-			continue
-		
-		to_chat(target, span_userdanger("Do you like hurting other people?"))
-		target.flash_fullscreen("redflash3")
-		target.emote("agony")
-		target.Unconscious(200)
-		target.Knockdown(200)
-		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/dendormole)
-
-	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-
-	return TRUE
-
-/datum/runeritual/spider_kinship
-	name = "Spider Kinship"
-
-/datum/runeritual/spider_kinship/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
-	if(!do_after(user, 5 SECONDS))
-		return
-
-	user.say("I call to the ruthless wilds,")
-	playsound(loc, 'sound/vo/mobs/spider/idle (1).ogg', 100, FALSE, -1)
-
-	if(!do_after(user, 5 SECONDS))
-		return
-
-	user.say("... grant me an agile form of your dominion..!")
-	playsound(loc, 'sound/vo/mobs/spider/idle (3).ogg', 100, FALSE, -1)
-
-	if(!do_after(user, 3 SECONDS))
-		return
-
-	loc.visible_message(span_warning("[user] seizes up, suddenly covered in a mess of silky webs, which then slough away into a sticky pile!"))
-	playsound(loc, 'sound/vo/mobs/spider/pain.ogg', 100, FALSE, -1)
-
-	for(var/mob/living/carbon/human/target in range(0, loc))
-		if(!istype(target.patron, /datum/patron/divine/dendor))
-			to_chat(target, span_warning("The ritual's power does not recognize me..."))
-			continue
-
-		to_chat(target, span_userdanger("The webs of madness and nature whisper to me. The webs are eternal. Long live the Nest!"))
-		target.flash_fullscreen("redflash3")
-		target.emote("agony")
-		target.Unconscious(100)
-		target.Knockdown(200)
-		target.mind?.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/mireboi)
-
-	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-
-	return TRUE
-*/
 /obj/structure/ritualcircle/malum
 	name = "Rune of Forge"
 	desc = "A holy rune of <font color='ff9933'>Malum.</font> </br> <i>A hammer and heat, to fix any imperfections with.</i>"
 	icon_state = "malum_chalky"
-	var/forgerites = list("Ritual of Blessed Reforgance")
+	var/forgerites = list("Bestow Blessing")
 
 /obj/structure/ritualcircle/malum/attack_hand(mob/living/user)
 	if(!..())
@@ -504,38 +439,33 @@
 		return
 	var/riteselection = input(user, "Rituals of Creation", src) as null|anything in forgerites
 	switch(riteselection) // put ur rite selection here
-		if("Ritual of Blessed Reforgance")
+		if("Bestow Blessing")
+			var/mob/living/target = null
+			var/turf/T = get_turf(src)
+			for(var/mob/living/person in T.contents)
+				if(!ishuman(person))
+					continue
+				if(user != person)
+					continue
+				target = person
+			if(!target)
+				to_chat(user, span_warning("I need to be standing on the rune for this to work."))
+				return
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("God of craft and heat of the forge!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Take forth these metals and rebirth them in your furnaces!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Grant unto me the metals in which to forge great works!")
-			to_chat(user,span_danger("You feel a sudden heat rising within you, burning within your chest.."))
 			if(!do_after(user, 3 SECONDS))
 				return
-			icon_state = "malum_active"
-			user.say("From your forge, may these creations be remade!!")
-			loc.visible_message(span_warning("A wave of heat rushes out from the ritual circle before [user]. The metal is reforged in a flash of light!"))
-			playsound(loc, 'sound/magic/churn.ogg', 100, FALSE, -1)
-			holyreforge(src)
+			loc.visible_message(span_warning("[user] becomes engulfed in divine glow!"))
+			playsound(loc, 'sound/magic/magearmorup.ogg', 100, FALSE, -1)
+			malumblessing(target) // starts proc
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			spawn(120)
-				icon_state = "malum_chalky"
 
-/obj/structure/ritualcircle/malum/proc/holyreforge(src)
-	var/ritualtargets = view(7, loc)
-	for(var/mob/living/carbon/human/target in ritualtargets)
-		target.flash_fullscreen("whiteflash") //Cool effect!
-	for (var/obj/item/ingot/silver/I in loc)
-		qdel(I)
-		new /obj/item/ingot/silverblessed(loc)
-	for (var/obj/item/ingot/steel/I in loc)
-		qdel(I)
-		new /obj/item/ingot/steelholy(loc)
+/obj/structure/ritualcircle/malum/proc/malumblessing(mob/living/carbon/human/target)
+	target.apply_status_effect(/datum/status_effect/buff/malumritual)
 
 /obj/structure/ritualcircle/abyssor
 	name = "Rune of Storms"
@@ -855,7 +785,7 @@
 	var/max_fiends = 3
 	// Holds all the turf data so it can be unconverted.
 	var/list/turf_data = list()
-	var/expansion_timer = 3 MINUTES
+	var/expansion_timer = 2 MINUTES
 	var/next_expansion_time = 0
 	var/spawn_timer = 45 SECONDS
 	var/next_fiend_time = 0
@@ -878,7 +808,7 @@
 	icon_state = "crystal_spire_tidal"
 	max_integrity = 300
 	max_fiends = 0
-	turf_to_use = /turf/open/water/ocean/deep
+	turf_to_use = /turf/open/water/ocean/abyssal
 
 /obj/structure/crystal_spire/Initialize()
 	. = ..()
@@ -913,6 +843,42 @@
 			awakened = TRUE
 		expand_radius()
 		next_expansion_time = world.time + expansion_timer
+
+/obj/structure/crystal_spire/tidal/convert_surroundings()
+	start_conversion()
+	var/turf/center = get_turf(src)
+	var/radius_sq = current_radius * current_radius
+
+	for(var/turf/T in spiral_range_turfs(current_radius, center))
+		// Skip if already converted
+		if(istype(T, turf_to_use) || istype(T, /turf/open/water/ocean/deep/dark))
+			continue
+		if(T.density)
+			continue
+		if(istransparentturf(T))
+			continue
+
+		var/dx = abs(T.x - center.x)
+		var/dy = abs(T.y - center.y)
+		var/dist_sq = dx*dx + dy*dy
+
+		if(dist_sq <= radius_sq)
+			turf_data[T] = T.type
+
+			// Inner rings become abyssal ocean
+			if(current_radius <= 3)
+				T.ChangeTurf(turf_to_use, flags = CHANGETURF_IGNORE_AIR)
+			// Outer ring becomes deep ocean
+			else
+				T.ChangeTurf(/turf/open/water/ocean/deep/dark, flags = CHANGETURF_IGNORE_AIR)
+
+			playsound(T, 'sound/magic/fleshtostone.ogg', 30, TRUE)
+			sleep(5)
+
+	// Stop processing if fully expanded
+	if(current_radius >= max_radius)
+		STOP_PROCESSING(SSobj, src)
+	end_conversion()
 
 /obj/structure/crystal_spire/Destroy()
 	for(var/turf/T in turf_data)
@@ -983,41 +949,8 @@
 
 	end_conversion()
 
-/obj/structure/crystal_spire/tidal/convert_surroundings()
-	start_conversion()
-	var/turf/center = get_turf(src)
-	var/radius_sq = current_radius * current_radius
-
-	for(var/turf/T in spiral_range_turfs(current_radius, center))
-		// Skip if already converted
-		// Additionally, we don't want this to be a reliable breaching tool, so ignore dense stuff and open spaces!
-		if(istype(T, turf_to_use))
-			continue
-		if(T.density)
-			continue
-		if(istransparentturf(T))
-			continue
-
-		// Calculate distance from center
-		var/dx = abs(T.x - center.x)
-		var/dy = abs(T.y - center.y)
-		var/dist_sq = dx*dx + dy*dy
-
-		// Convert all tiles within circular radius. More circular than normal spires.
-		if(dist_sq <= radius_sq)
-			turf_data[T] = T.type
-			T.ChangeTurf(turf_to_use, flags = CHANGETURF_IGNORE_AIR)
-			playsound(T, 'sound/magic/fleshtostone.ogg', 30, TRUE)
-			//Faster since it's less harmful.
-			sleep(5)
-
-	// Stop processing if fully expanded
-	if(current_radius >= max_radius)
-		STOP_PROCESSING(SSobj, src)
-	end_conversion()
-
 /obj/structure/crystal_spire/proc/expand_radius()
-	if(current_radius >= max_radius)
+	if(converting || current_radius >= max_radius)
 		return
 
 	current_radius++

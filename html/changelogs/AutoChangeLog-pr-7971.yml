@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Reversion on Vizier now grants a **Pull Reversion** spell **if** the target is in the same fellowship, allowing you to trigger the spell on them without them explicitly doing so, presuming they are a friend so that would be used in good faith"
-  - rscadd: "Also removed Stygian from poke spells selection because the new Stygian is a nerfed version designed to work with Ferra in a package and not on its own anymore"

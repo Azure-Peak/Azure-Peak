@@ -27,14 +27,14 @@
 // T0 - Enkindle - Undivided Ignition. //
 /////////////////////////////////////////
 
-/datum/action/cooldown/spell/astrata/ignition/undivided
+/datum/action/cooldown/spell/miracle/ignition/undivided
 	name = "Enkindle"
 	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon_state = "enkindle"
 	spell_color = GLOW_COLOR_UNDIVIDED
 
-	cast_range = SPELL_RANGE_GROUND - 2
+	cast_range = SPELL_RANGE_AURA - 1
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MINOR + 5
 
@@ -78,7 +78,7 @@
 
 /datum/action/cooldown/spell/undivided/recuperation/cast(atom/cast_on)
 	. = ..()
-	var/const/energytoregen = 50
+	var/const/energytoregen = 100
 
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
@@ -90,10 +90,10 @@
 		show_visible_message(owner, "You can only cast this on living beings.")
 		return FALSE
 	if (spelltarget == H)
-		spelltarget.energy_add(energytoregen * (owner.get_skill_level(associated_skill)))//200 for templar, 300 for acolyte
+		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) / 2)//You only get half
 		spelltarget.apply_status_effect(/datum/status_effect/buff/recuperation)
 		show_visible_message(owner, "<font color='cyan'>As [owner] intones the incantation, vibrant flames swirl around them.", "<font color='cyan'>As you intone the incantation, vibrant flames swirl around you. You feel refreshed.")
-	else if (H.energy > (energytoregen * 2))
+	else if (H.energy > (energytoregen))
 		owner.energy_add(-(energytoregen * (owner.get_skill_level(associated_skill))))
 		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) * 2)
 		spelltarget.apply_status_effect(/datum/status_effect/buff/recuperation/other)
@@ -333,16 +333,15 @@
 	var/choosing_bundle = FALSE
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
-		/datum/action/cooldown/spell/noc/inspiration::name					= /datum/action/cooldown/spell/noc/inspiration,
-		/datum/action/cooldown/spell/darkvision/miracle/undivided::name		= /datum/action/cooldown/spell/darkvision/miracle/undivided,
-		/datum/action/cooldown/spell/noc/invisibility::name					= /datum/action/cooldown/spell/noc/invisibility,
-		/obj/effect/proc_holder/spell/targeted/blesscrop::name				= /obj/effect/proc_holder/spell/targeted/blesscrop,
-		/obj/effect/proc_holder/spell/invoked/eora_blessing::name			= /obj/effect/proc_holder/spell/invoked/eora_blessing,
-		/datum/action/cooldown/spell/arcyne_forge/miracle::name				= /datum/action/cooldown/spell/arcyne_forge/miracle,
+		/datum/action/cooldown/spell/darkvision/undivided::name		= /datum/action/cooldown/spell/darkvision/undivided,
+		/datum/action/cooldown/spell/noc/invisibility::name			= /datum/action/cooldown/spell/noc/invisibility,
+		/obj/effect/proc_holder/spell/targeted/blesscrop::name		= /obj/effect/proc_holder/spell/targeted/blesscrop,
+		/obj/effect/proc_holder/spell/invoked/eora_blessing::name	= /obj/effect/proc_holder/spell/invoked/eora_blessing,
+		/datum/action/cooldown/spell/arcyne_forge/miracle::name		= /datum/action/cooldown/spell/arcyne_forge/miracle,
 	)
 	var/list/miracle_acolyte_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/diagnose::name			= /obj/effect/proc_holder/spell/invoked/diagnose,
-		/datum/action/cooldown/spell/noc/blindness::name				= /datum/action/cooldown/spell/noc/blindness,
+		/datum/action/cooldown/spell/projectile/moonscorch::name		= /datum/action/cooldown/spell/projectile/moonscorch,
 		/obj/effect/proc_holder/spell/invoked/bless_food::name			= /obj/effect/proc_holder/spell/invoked/bless_food,
 		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
 		/obj/effect/proc_holder/spell/invoked/attach_bodypart::name		= /obj/effect/proc_holder/spell/invoked/attach_bodypart,
@@ -350,7 +349,7 @@
 	var/list/miracle_templar_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name 		= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
 		/datum/action/cooldown/spell/ravox/withstand::name 					= /datum/action/cooldown/spell/ravox/withstand,
-		/obj/effect/proc_holder/spell/invoked/heatmetal::name 				= /obj/effect/proc_holder/spell/invoked/heatmetal,
+		/datum/action/cooldown/spell/malum/heatmetal::name 					= /datum/action/cooldown/spell/malum/heatmetal,
 		/datum/action/cooldown/spell/noc/enlightenment::name 				= /datum/action/cooldown/spell/noc/enlightenment,
 		/obj/effect/proc_holder/spell/invoked/vendetta::name 				= /obj/effect/proc_holder/spell/invoked/vendetta,
 	)

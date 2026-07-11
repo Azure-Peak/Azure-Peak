@@ -552,7 +552,6 @@ GLOBAL_LIST(teleport_runes)
 			fam.client?.init_verbs()
 			mind_datum.RemoveAllSpells()
 			mind_datum.AddSpell(new /datum/action/cooldown/spell/message_summoner())
-			mind_datum.AddSpell(new /datum/action/cooldown/spell/familiar_transform())
 			user.mind?.AddSpell(new /datum/action/cooldown/spell/message_familiar())
 
 			if(fam.inherent_spell)

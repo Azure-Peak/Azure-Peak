@@ -26,7 +26,7 @@
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 5 MINUTES
+	cooldown_time = 1 MINUTES
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
@@ -39,18 +39,8 @@
 	var/obj/item/conjured_item
 
 	var/list/conjure_options = list(
-		// Weapons
-		"Short Sword" = /obj/item/rogueweapon/sword/short/iron,
-		"Hunting Sword" = /obj/item/rogueweapon/sword/short/messer/iron,
-		"Arming Sword" = /obj/item/rogueweapon/sword/iron,
-		"Cudgel" = /obj/item/rogueweapon/mace/cudgel,
-		"Warhammer" = /obj/item/rogueweapon/mace/warhammer,
 		"Dagger" = /obj/item/rogueweapon/huntingknife/idagger,
 		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
-		"Flail" = /obj/item/rogueweapon/flail,
-		"Whip" = /obj/item/rogueweapon/whip,
-		"Wooden Shield" = /obj/item/rogueweapon/shield/wood,
-		// Tools
 		"Pickaxe" = /obj/item/rogueweapon/pick,
 		"Hoe" = /obj/item/rogueweapon/hoe,
 		"Thresher" = /obj/item/rogueweapon/thresher,
@@ -111,7 +101,12 @@
 	return ..()
 
 /datum/action/cooldown/spell/arcyne_forge/miracle
+	name = "Divine Forge"
+	background_icon = 'icons/mob/actions/malummiracles.dmi'
+	button_icon = 'icons/mob/actions/malummiracles.dmi'
+	button_icon_state = "forge"
 	invocations = list("Malum, grant me your tool!")//Old incantation
 	point_cost = 0
 	spell_tier = 0
+	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
