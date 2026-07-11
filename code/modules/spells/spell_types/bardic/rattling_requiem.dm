@@ -20,15 +20,7 @@
 	id = "rattling_requiem"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/song/rattling_requiem
 	duration = 15 SECONDS
-	var/guidance_trait = TRAIT_LESSER_REVERSE_GUIDANCE
+	effectedstats = list(STATKEY_PER = -2)
 
 /datum/status_effect/debuff/song/rattling_requiem/full
-	guidance_trait = TRAIT_REVERSE_GUIDANCE
-
-/datum/status_effect/debuff/song/rattling_requiem/on_apply()
-	. = ..() // Base handles the outline filter
-	ADD_TRAIT(owner, guidance_trait, MAGIC_TRAIT)
-
-/datum/status_effect/debuff/song/rattling_requiem/on_remove()
-	. = ..() // Base handles filter cleanup
-	REMOVE_TRAIT(owner, guidance_trait, MAGIC_TRAIT)
+	effectedstats = list(STATKEY_PER = -3)

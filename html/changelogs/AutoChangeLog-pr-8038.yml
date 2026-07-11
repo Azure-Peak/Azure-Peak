@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "painting crashes + other bugs"
+  - bugfix: "errant hair editor bugs"

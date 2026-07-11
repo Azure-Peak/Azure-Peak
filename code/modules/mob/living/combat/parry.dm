@@ -1,6 +1,6 @@
 // Unarmed base weapon defense equivalents — fed into the same (skill * 20) + (wdef * 10) formula as weapons
 #define UNARMED_BASE_WDEF_BARE 2		// Bare fists — still bad, but not hopeless
-#define UNARMED_BASE_WDEF_EQUIPPED 7	// Bracers / knuckles / bandages — matches a rapier
+#define UNARMED_BASE_WDEF_EQUIPPED 8	// Bracers / knuckles / bandages — 80 base parry for expert pugilists
 
 /mob/living/proc/attempt_parry(datum/intent/intenty, mob/living/user)
 	var/prob2defend = user.defprob
@@ -188,7 +188,7 @@
 
 	if(has_status_effect(/datum/status_effect/buff/weapon_binded))
 		prob2defend += 20
-	if(used_weapon)
+	if(used_weapon && !allow_unarmed_fallback)
 		if(!has_status_effect(/datum/status_effect/buff/weapon_binded) && !has_status_effect(/datum/status_effect/debuff/weapon_binded))
 			if(ishuman(src) && user.get_tempo_bonus(TEMPO_TAG_BINDABLE) && mind)
 				var/mob/living/carbon/human/HL = src
@@ -196,26 +196,6 @@
 					return TRUE	//Tentative, might be better if it only increased parry chance on the initial binding rather than a full block.
 
 	// --- Weapon Binding End! ---
-
-	if(HAS_TRAIT(src, TRAIT_GUIDANCE))
-		prob2defend += FULL_GUIDANCE_CHANCE
-	else if(HAS_TRAIT(src, TRAIT_LESSER_GUIDANCE))
-		prob2defend += LESSER_GUIDANCE_CHANCE
-
-	if(HAS_TRAIT(user, TRAIT_GUIDANCE))
-		prob2defend -= FULL_GUIDANCE_CHANCE
-	else if(HAS_TRAIT(user, TRAIT_LESSER_GUIDANCE))
-		prob2defend -= LESSER_GUIDANCE_CHANCE
-
-	if(HAS_TRAIT(src, TRAIT_REVERSE_GUIDANCE))
-		prob2defend -= FULL_GUIDANCE_CHANCE
-	else if(HAS_TRAIT(src, TRAIT_LESSER_REVERSE_GUIDANCE))
-		prob2defend -= LESSER_GUIDANCE_CHANCE
-
-	if(HAS_TRAIT(user, TRAIT_REVERSE_GUIDANCE))
-		prob2defend += FULL_GUIDANCE_CHANCE
-	else if(HAS_TRAIT(user, TRAIT_LESSER_REVERSE_GUIDANCE))
-		prob2defend += LESSER_GUIDANCE_CHANCE
 	
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		prob2defend -= 40
@@ -244,18 +224,16 @@
 		drained = drained + 5							//More stamina usage for not being trained in the armor you're using.
 		untrained_armor = TRUE
 
-	//Dual Wielding
-	var/defender_dualw
-	var/extradefroll
+	var/parry_status = FALSE
+	var/text
 
-	//Dual Wielder defense disadvantage
-	if(HAS_TRAIT(src, TRAIT_DUALWIELDER) && (istype(offhand, mainhand) || istype(mainhand, offhand)))
-		extradefroll = prob(prob2defend)
-		defender_dualw = TRUE
+	text += "Roll to parry... [HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "???" : prob2defend]%"
 
-	var/text = "Roll to parry... [HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "???" : prob2defend]%"
-	if(defender_dualw)
-		text += " Twice! Disadvantage! [!HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "([(prob2defend / 100) * (prob2defend / 100) * 100]%)" : ""]"
+	// Dual wield drawback (-5%)
+	var/dualwield_penalty = HAS_TRAIT(src, TRAIT_DUALWIELDER) && src.can_dualwield(mainhand, offhand)
+	if(dualwield_penalty)
+		prob2defend = clamp(prob2defend - 5, 5, 90)
+		text += " (-5%)"
 
 	if(has_status_effect(/datum/status_effect/swingdelay/penalty))
 		prob2defend = clamp(prob2defend - 50, 5, 90)
@@ -263,13 +241,8 @@
 	if(HAS_TRAIT(src, TRAIT_NODEF))
 		prob2defend = 0
 
-	var/parry_status = FALSE
-	if(defender_dualw)
-		if(prob(prob2defend) && extradefroll)
-			parry_status = TRUE
-	else
-		if(prob(prob2defend))
-			parry_status = TRUE
+	if(prob(prob2defend))
+		parry_status = TRUE
 
 	if(parry_status)
 		if(!has_status_effect(/datum/status_effect/buff/weapon_binded))

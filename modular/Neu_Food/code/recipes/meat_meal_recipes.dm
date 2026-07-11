@@ -163,3 +163,44 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick/cucumber
 	time_per_step = 3 SECONDS
+
+/datum/food_recipe/venison_steak_rubbed
+	name = "spiced venison steak"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga
+	ingredients = list(
+		/obj/item/reagent_containers/powder/rocknut
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga/cooked/rubbed
+	time_per_step = 1 SECONDS
+	needs_cooking = TRUE
+
+/datum/food_recipe/stag_medals
+	name = "pale medallions"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w
+	ingredients = list(
+		/obj/item/reagent_containers/powder/moondust
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w/cooked/medal
+	time_per_step = 1 SECONDS
+	needs_cooking = TRUE
+
+/datum/food_recipe/stag_tartar
+	name = "pale tartar"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/egg,
+		/obj/item/alch/mentha
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w/cooked/tartar
+	time_per_step = 1 SECONDS
+	needs_cooking = TRUE
+
+/datum/food_recipe/stag_ribs
+	name = "pale ribs"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_w
+	ingredients = list(
+		/datum/reagent/consumable/caffeine/coffee = 10
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_w/cooked/ribs
+	time_per_step = 1 SECONDS
+	needs_cooking = TRUE

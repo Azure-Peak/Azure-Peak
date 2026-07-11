@@ -254,9 +254,6 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	for(var/obj/item/old in get_equipped_items() + held_items)
 		qdel(old)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman/road_knight)
-	add_downgrade_to_slot(SLOT_ARMOR, /obj/item/clothing/suit/roguetown/armor/plate/iron)
-	add_downgrade_to_slot(SLOT_HEAD, /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron)
-	add_downgrade_to_slot(SLOT_GLOVES, /obj/item/clothing/gloves/roguetown/plate/iron)
 	regenerate_icons()
 	for(var/obj/item/gear in get_equipped_items() + held_items)
 		lock_gear_piece(gear, "road_knight_gear")
@@ -267,9 +264,9 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		REMOVE_TRAIT(gear, TRAIT_NODROP, "road_knight_gear")
 
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/road_knight/pre_equip(mob/living/carbon/human/H)
-	armor = /obj/item/clothing/suit/roguetown/armor/plate
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
-	gloves = /obj/item/clothing/gloves/roguetown/plate
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/iron
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
@@ -303,8 +300,6 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	for(var/obj/item/old in get_equipped_items() + held_items)
 		qdel(old)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/highwayman/sharpshooter)
-	add_downgrade_to_slot(SLOT_ARMOR, /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron)
-	add_downgrade_to_slot(SLOT_HEAD, /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron)
 	regenerate_icons()
 	for(var/obj/item/gear in get_equipped_items())
 		if(gear == backr || gear == backl)
@@ -317,8 +312,8 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		REMOVE_TRAIT(gear, TRAIT_NODROP, "sharpshooter_gear")
 
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/sharpshooter/pre_equip(mob/living/carbon/human/H)
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	gloves = /obj/item/clothing/gloves/roguetown/leather

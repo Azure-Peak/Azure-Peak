@@ -441,7 +441,7 @@
 	output = /datum/reagent/consumable/soup/stew/fryegg
 
 /datum/stew_recipe/egg
-	inputs = list(/obj/item/reagent_containers/food/snacks/egg, /obj/item/reagent_containers/food/snacks/rogue/stuffedegg)
+	inputs = list(/obj/item/reagent_containers/food/snacks/rogue/egg, /obj/item/reagent_containers/food/snacks/rogue/stuffedegg)
 	output = /datum/reagent/consumable/soup/stew/egg
 
 /datum/stew_recipe/garlick_soup

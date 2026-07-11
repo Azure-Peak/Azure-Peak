@@ -147,7 +147,7 @@
 			to_chat(src, self_msg, type = MESSAGE_TYPE_OOC)
 
 	for(var/client/C in GLOB.admins)
-		if(seen[C] || !(C.prefs.admin_chat_toggles & CHAT_ADMINLOOC) || !(C.prefs.chat_toggles & CHAT_OOC))
+		if(seen[C] || !(C.prefs.admin_chat_toggles & CHAT_ADMIN_SLOOC) || !(C.prefs.chat_toggles & CHAT_OOC))
 			continue
 
 		to_chat(C, msg_rem, type = MESSAGE_TYPE_OOC)

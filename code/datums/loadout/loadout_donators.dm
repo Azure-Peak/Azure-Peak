@@ -62,6 +62,30 @@
 	name = "Gift - High-Heeled Shoes, Silver"
 	path = /obj/item/clothing/shoes/roguetown/simpleshoes/heels/donator_silver
 
+/datum/loadout_item/donator/universal/elegant_armory
+	name = "Gift - Kit, Elegant Armory"
+	path = /obj/item/enchantingkit/donator_universal_armory
+
+/datum/loadout_item/donator/universal/elegant_whip
+	name = "Gift - Kit, Elegant Whip"
+	path = /obj/item/enchantingkit/weapon/donator_universal_whips
+
+/datum/loadout_item/donator/universal/elegant_urumi
+	name = "Gift - Kit, Elegant Urumi"
+	path = /obj/item/enchantingkit/weapon/donator_universal_urumi
+
+/datum/loadout_item/donator/universal/elegant_shield
+	name = "Gift - Kit, Elegant Shield"
+	path = /obj/item/enchantingkit/donator_universal_shield
+
+/datum/loadout_item/donator/universal/grenzshortsword
+	name = "Gift - Kit, Katzbalger Shortsword"
+	path = /obj/item/enchantingkit/weapon/donator_universal_grenzshortsword
+
+/datum/loadout_item/donator/universal/grenzrapier
+	name = "Gift - Kit, Smallsword-Style Rapier"
+	path = /obj/item/enchantingkit/donator_universal_grenzrapier
+
 /datum/loadout_item/donator/universal/cuirassplackart
 	name = "Gift - Kit, Armored Plackart"
 	path = /obj/item/enchantingkit/plackart
@@ -99,7 +123,7 @@
 	path = /obj/item/enchantingkit/triheartfelt
 
 /datum/loadout_item/donator/universal/headpiece_decoration
-	name = "Gift - Oathtaker's Decoration, Orle"
+	name = "Gift - Oathtaker's Orle"
 	path = /obj/item/clothing/head/roguetown/decoration/orle
 
 /datum/loadout_item/donator/universal/cloak_oathkeeperlong
@@ -117,6 +141,14 @@
 /datum/loadout_item/donator/universal/headpiece_greatplume
 	name = "Gift - Helmet Cosmetic, Greatplume"
 	path = /obj/item/clothing/head/roguetown/decoration/greatplume
+
+/datum/loadout_item/donator/universal/armorpiece_shoulderguard
+	name = "Gift - Armor Cosmetic, Shoulderguard"
+	path = /obj/item/clothing/cloak/tabard/stabard/donator_shoulderguard
+
+/datum/loadout_item/donator/universal/headpiece_orle
+	name = "Gift - Helmet Cosmetic, Orle"
+	path = /obj/item/clothing/head/roguetown/decoration/orle/donator_dyeable
 
 //Brief explanation - as Spear found out, using a Morphing Elixir on a storage item works.. but permenantly deletes -anything- stored inside.
 //To prevent any chance of someone accidentally destroying a round-important item, I'm replacing the kits with the main thing..
@@ -170,6 +202,10 @@
 /datum/loadout_item/donator/universal/armorpiece_shoulderguard
 	name = "Gift - Armor Cosmetic, Shoulderguard"
 	path = /obj/item/clothing/cloak/tabard/stabard/donator_shoulderguard
+
+/datum/loadout_item/donator/universal/armorpiece_armharness
+	name = "Gift - Armor Cosmetic, Arm Harness"
+	path = /obj/item/enchantingkit/donator_universal_armharness
 
 /////////////////////////////
 // ! Player / Donor Kits ! //
@@ -572,6 +608,11 @@
 	path = /obj/item/enchantingkit/ollanius_maille
 	ckeywhitelist = list("ollanius")
 
+/datum/loadout_item/donator/ollanius_sword
+	name = "Donator Kit - Azurosa-Wrapped Sword"
+	path = /obj/item/enchantingkit/weapon/ollanius
+	ckeywhitelist = list("ollanius")
+
 /datum/loadout_item/donator/jade_guitar
 	name = "Donator Item - Gilbranzed Guitar"
 	path = /obj/item/rogue/instrument/guitar/jade_guitar
@@ -591,3 +632,13 @@
 	name = "Donator Kit - Azurosa-Wrapped Sword"
 	path = /obj/item/enchantingkit/weapon/ollanius
 	ckeywhitelist = list("ollanius")
+
+/datum/loadout_item/donator/spaz_helm
+	name = "Donator Kit - Hound-Nosed Bascinet"
+	path = /obj/item/enchantingkit/spaz_helm
+	ckeywhitelist = list("seniorspaz")
+
+/datum/loadout_item/donator/gazelleskull
+	name = "Donator Item - Gazelle Skull"
+	path = /obj/item/clothing/head/roguetown/decoration/gazelleskull
+	ckeywhitelist = list("shiroseschnee")

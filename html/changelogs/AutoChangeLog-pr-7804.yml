@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Haubyrines no longer inherit unintended coverage of the groin."
+  - balance: "Haubyrines cannot be worn by those with TRAIT_ARCYNE or TRAIT_CIVILIZEDBARBARIAN; magicka casters and dedicated pugilists, more plainly."
+  - code_imp: "Added new tags in armour_filtering.dm that allows for tagged items to be unwearable by those with TRAIT_ARCYNE, TRAIT_CIVILIZEDBARBARIAN, or TRAIT_DODGEEXPERT-- independently or all together. Check out chainmail.dm for an example of how to add multiple tags to the same armor-filtering component."

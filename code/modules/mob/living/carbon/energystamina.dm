@@ -106,8 +106,6 @@
 	var/true_added = added
 	if(added > 0)
 		if(HAS_TRAIT(src, TRAIT_FORTITUDE))
-			added = added * 0.5
-		else if(HAS_TRAIT(src, TRAIT_LESSER_FORTITUDE))
 			added = added * 0.75
 
 	if(added < 0 && HAS_TRAIT(src, TRAIT_FROZEN_STAMINA))
@@ -237,6 +235,64 @@
 				continue
 			animate(whole_screen, transform = newmatrix, time = 1, easing = QUAD_EASING)
 			animate(transform = -newmatrix, time = 30, easing = QUAD_EASING)
+
+/mob/living/carbon/proc/freak_out_targeted(mob/target)
+	if(mob_timers["freakout"])
+		if(world.time < mob_timers["freakout"] + 10 SECONDS)
+			flash_fullscreen("stressflash")
+			return
+	if(HAS_TRAIT(src, TRAIT_NOMOOD))
+		return
+	mob_timers["freakout"] = world.time
+	shake_camera(src, 1, 3)
+	flash_fullscreen("stressflash")
+	changeNext_move(CLICK_CD_EXHAUSTED)
+	add_stress(/datum/stressevent/freakout)
+	emote("fatigue", forced = TRUE)
+	if(hud_used)
+		var/turf/T = get_turf(target)
+		var/target_x = (loc.x - T.x) * 32
+		var/target_y = (loc.y - T.y) * 32
+		var/matrix/skew = matrix(target_x, target_y, MATRIX_TRANSLATE)
+		skew.Scale(2.5)
+		var/matrix/newmatrix = skew
+		for(var/C in hud_used.plane_masters)
+			var/atom/movable/screen/plane_master/whole_screen = hud_used.plane_masters[C]
+			if(whole_screen.plane == HUD_PLANE)
+				continue
+			animate(whole_screen, transform = newmatrix, time = 3, easing = QUAD_EASING)
+			animate(transform = -newmatrix, time = 40, easing = QUAD_EASING)
+
+/mob/living/carbon/proc/freak_out_mimic(mob/target)
+	if(mob_timers["freakout"])
+		if(world.time < mob_timers["freakout"] + 10 SECONDS)
+			flash_fullscreen("stressflash")
+			return
+	if(HAS_TRAIT(src, TRAIT_NOMOOD))
+		return
+	mob_timers["freakout"] = world.time
+	shake_camera(src, 1, 3)
+	flash_fullscreen("stressflash")
+	changeNext_move(CLICK_CD_EXHAUSTED)
+	add_stress(/datum/stressevent/mimic_jumpscare)
+	if(hud_used)
+		var/turf/T = get_turf(target)
+		var/target_x = (loc.x - T.x) * 32
+		var/target_y = (loc.y - T.y) * 32
+		var/matrix/skew = matrix(target_x, target_y, MATRIX_TRANSLATE)
+		skew.Scale(2.5)
+		var/matrix/newmatrix = skew
+		for(var/C in hud_used.plane_masters)
+			var/atom/movable/screen/plane_master/whole_screen = hud_used.plane_masters[C]
+			if(whole_screen.plane == HUD_PLANE)
+				continue
+			animate(whole_screen, transform = newmatrix, time = 3, easing = QUAD_EASING)
+			animate(transform = -newmatrix, time = 40, easing = QUAD_EASING)
+	var/randdelay = rand(5, 150)
+	var/balloon_text = pick("<font color='#ffffff'>WHAT IS THAT?!</font>","<font color='#ffffff'>WTF?!</font>","<font color='#ffffff'>WHAT?!</font>","<font color='#ffffff'>WHAT THE-?!</font>","<font color='#ffffff'>MIMIC?!</font>","<font color='#ffffff'>SERIOUSLY?!</font>","<font color='#ffffff'>REALLY?!</font>",)
+	spawn(randdelay)
+		balloon_alert_to_viewers(balloon_text, balloon_text, DEFAULT_MESSAGE_RANGE)
+		emote("scream", forced = TRUE)
 
 /mob/living/proc/stamina_reset()
 	stamina = 0

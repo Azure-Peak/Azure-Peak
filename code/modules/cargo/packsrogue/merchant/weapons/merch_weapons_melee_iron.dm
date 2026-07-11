@@ -152,7 +152,7 @@
 /datum/supply_pack/rogue/iron_weapons/heatershield
 	name = "Shield, Heater"
 	cost = 35 // 2 logs, 1 cured leather
-	contains = list(/obj/item/rogueweapon/shield/wood)
+	contains = list(/obj/item/rogueweapon/shield/heater)
 
 /datum/supply_pack/rogue/iron_weapons/ironshield
 	name = "Shield, Iron"

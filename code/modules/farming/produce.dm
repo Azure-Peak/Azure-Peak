@@ -121,6 +121,21 @@
 	grind_results = list(/datum/reagent/floure = 10)
 	mill_result = /obj/item/reagent_containers/powder/flour
 
+/obj/item/reagent_containers/food/snacks/grown/maize
+	seed = /obj/item/seeds/maize
+	name = "maize"
+	desc = "A cob of maize. Mill it into cornmeal, or roast it whole."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "maize"
+	filling_color = "#F0E68C"
+	bitesize_mod = 2
+	foodtype = GRAIN | VEGETABLES
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4)
+	tastes = list("corn" = 1)
+	grind_results = list(/datum/reagent/floure = 10)
+	mill_result = /obj/item/reagent_containers/powder/flour/cornmeal
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/grilledcorn
+
 /obj/item/reagent_containers/food/snacks/grown/apple
 	seed = /obj/item/seeds/apple
 	name = "apple"
@@ -202,6 +217,7 @@
 	foodtype = FRUIT
 	faretype = FARE_POOR
 	rotprocess = SHELFLIFE_DECENT
+	chopping_sound = TRUE
 	splat_type = /obj/effect/decal/cleanable/food/plant_smudge
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/pear
@@ -339,7 +355,8 @@
 	name = "split tomato"
 	seed = /obj/item/seeds/tomato
 	desc = "Split halves of a plump, red fruit with juicy flesh and a balanced sweet-tart flavor. Ruptured skin cradles a deliciously silky surprise, merely a palm away from being smeared into sauce atop flatdough or put through a millstone for marinara."
-	icon_state = "tomato_split"
+	icon = 'modular/Neu_Food/icons/raw/raw_fruit.dmi'
+	icon_state = "tomato_sliced"
 	tastes = list("to" = 1, "mato" = 1)
 	splat_color = "#CD5320"
 	mill_result = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
@@ -348,7 +365,7 @@
 	name = "tomato sauce"
 	seed = null
 	desc = "A smooth, ready-made sauce of crushed tomato. Its juicy, sweet-tart flavor pairs perfectly with noodles - second only to pesto."
-	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
+	icon = 'modular/Neu_Food/icons/raw/raw_fruit.dmi'
 	icon_state = "tomato_sauce"
 	tastes = list("to" = 1, "ma" = 1)
 	splat_color = "#CD5320"
@@ -505,7 +522,6 @@
 	icon_state = "spice_good"
 	tastes = list("fragrant spices" = 1, "a pleasantly complex aroma" = 1) //Very low nutritional content, but can be applied to add a very solid moodboost to broths. Futurecoders could add it to meals, later, too.
 	list_reagents = list(/datum/reagent/consumable/allspice = 1)
-	sellprice = 30
 
 /obj/item/reagent_containers/food/snacks/grown/vegetable/turnip
 	name = "turnip"

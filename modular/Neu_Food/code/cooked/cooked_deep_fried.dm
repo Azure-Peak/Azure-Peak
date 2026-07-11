@@ -59,7 +59,7 @@
 	name = "griddlewiener"
 	desc = "A deep-fried sausage, tucked into a griddle blanket, beloved by all, especially during the Harvest Festival."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_deep_fried.dmi'
-	icon_state = "griddlewiener"
+	icon_state = "griddleweiner"
 	faretype = FARE_LAVISH
 	foodtype = MEAT | GRAIN
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)

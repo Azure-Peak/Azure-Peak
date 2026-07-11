@@ -64,7 +64,7 @@
 		/area/rogue/indoors/town/physician = list("Head Physician", "Apothecary"),
 		/area/rogue/indoors/town = list("Guild Handler")
 	)
-	return area_jobs[area_type] || list("Town Crier", "Steward", "Merchant")
+	return area_jobs[area_type] || list("Steward", "Merchant")
 
 /obj/item/parcel/proc/on_quest_component_deleted(datum/source)
 	SIGNAL_HANDLER

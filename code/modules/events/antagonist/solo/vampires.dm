@@ -12,7 +12,7 @@
 	storyteller_pill_label = "Vampire Lord"
 	storyteller_rumour_name = "lycker lords"
 
-	weight = 4
+	weight = 9
 	max_occurrences = 1
 
 	denominator = 80

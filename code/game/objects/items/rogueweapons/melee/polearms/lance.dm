@@ -27,7 +27,7 @@
 /obj/item/rogueweapon/spear/lance
 	name = "lance"
 	desc = "A long polearm designed to be used from horseback, couched under the arm. It has a vambrace to prevent the arm sliding up \
-	the shaft on impact. "
+	the shaft on impact."
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "lance"
 	force = 15 // Its gonna sucks for 1 handed use
@@ -35,8 +35,45 @@
 	wdefense = 4 // 2 Lower than spear
 	max_integrity = 200
 	max_blade_int = 200 // Better sharpness
-	possible_item_intents = list(SPEAR_THRUST, /datum/intent/lance/onehand, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
+	possible_item_intents = list(/datum/intent/spear/thrust, /datum/intent/lance/onehand, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/spear/thrust/lance, /datum/intent/lance, SPEAR_BASH)
-	special = /datum/special_intent/charge
 	resistance_flags = null
 	smeltresult = /obj/item/ingot/steel
+
+/obj/item/rogueweapon/spear/lance/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Banner") as anything in COLOR_MAP
+		user.visible_message(span_warning("[user] adds a banner to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "detail"
+		update_icon()
+
+/obj/item/rogueweapon/spear/lance/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/rogueweapon/spear/lance/attack_self(mob/living/user)
+	. = ..()
+	update_icon()
+
+/obj/item/rogueweapon/spear/lance/blacksteel
+	name = "blacksteel lance"
+	desc = "A magnificent lance of blacksteel, designed to be wielded on saigaback in jousting tournaments. Even so, it isn't uncommon to see it \
+	being handled on foot as a pike by Grenzelhoft's blacksteel-armored knights. Wrap a length of cloth around the shaft to bare your heraldry."
+	icon_state = "bs_lance"
+	force = 20
+	force_wielded = 25
+	wdefense_wbonus = 2 //+1 over the traditional spear, once wielded.
+	max_integrity = 300
+	max_blade_int = 300
+	resistance_flags = FIRE_PROOF
+	smeltresult = /obj/item/ingot/blacksteel
+	possible_item_intents = list(/datum/intent/spear/thrust, /datum/intent/lance/onehand, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/thrust/lance, /datum/intent/lance, SPEAR_BASH)

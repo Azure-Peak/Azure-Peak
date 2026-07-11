@@ -43,7 +43,7 @@
 		if(/datum/patron/divine/ravox)
 			ritechoices+="Rune of Justice"
 		if(/datum/patron/divine/abyssor)
-			ritechoices+="Rune of Storm"
+			ritechoices+="Rune of Storms"
 			ritechoices+="Rune of Stirring"
 		if(/datum/patron/old_god)
 			ritechoices+="Rune of Psydon"

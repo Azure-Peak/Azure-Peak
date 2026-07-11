@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/projectile/basic_offensive
 	button_icon = 'icons/mob/actions/mage_shared.dmi'
 	name = "Basic Offensive Magic"
-	desc = "Fundamental attack magyck. Used for centuries. Toggle firing mode (Ctrl+G) while the spell is active: \
+	desc = "Fundamental attack magyck. Used for centuries. Toggle firing mode (Shift+G) while the spell is active: \
 	Arcyne Bolt strikes a single target, Arced Bolt lobs over obstacles, and Soulshot fires a piercing beam through several foes. \
 	Deals 50% increased damage to simple-minded creechurs."
 	button_icon_state = "greater_arcyne_bolt"
@@ -38,7 +38,7 @@
 	var/list/modes = list(
 		list("name" = "Arcyne Bolt", "tag" = "BOLT", "proj" = /obj/projectile/magic/greater_arcyne_bolt, "arc" = FALSE, "icon" = "greater_arcyne_bolt", "cost" = SPELLCOST_MINOR_PROJECTILE, "cooldown" = 5.5 SECONDS, "charge" = CHARGETIME_POKE, "slowdown" = CHARGING_SLOWDOWN_NONE, "sound" = 'sound/magic/vlightning.ogg', "invocation" = "Magicae Sagitta!"),
 		list("name" = "Arced Bolt", "tag" = "ARC", "proj" = /obj/projectile/magic/greater_arcyne_bolt, "arc" = TRUE, "icon" = "greater_arcyne_bolt", "cost" = SPELLCOST_MINOR_PROJECTILE, "cooldown" = 5.5 SECONDS, "charge" = CHARGETIME_POKE, "slowdown" = CHARGING_SLOWDOWN_NONE, "sound" = 'sound/magic/vlightning.ogg', "invocation" = "Magicae Sagitta!"),
-		list("name" = "Soulshot", "tag" = "BEAM", "proj" = /obj/projectile/magic/soulshot, "arc" = FALSE, "icon" = "soulshot", "cost" = SPELLCOST_MAJOR_PROJECTILE, "cooldown" = 8 SECONDS, "charge" = CHARGETIME_MAJOR, "slowdown" = CHARGING_SLOWDOWN_SMALL, "sound" = 'sound/magic/soulshot.ogg', "invocation" = "Animus Ictus!"),
+		list("name" = "Soulshot", "tag" = "BEAM", "proj" = /obj/projectile/magic/soulshot, "arc" = FALSE, "icon" = "soulshot", "cost" = SPELLCOST_MAJOR_PROJECTILE, "cooldown" = 10 SECONDS, "charge" = CHARGETIME_MAJOR, "slowdown" = CHARGING_SLOWDOWN_SMALL, "sound" = 'sound/magic/soulshot.ogg', "invocation" = "Animus Ictus!"),
 	)
 
 /datum/action/cooldown/spell/projectile/basic_offensive/proc/apply_mode(index)
@@ -80,5 +80,5 @@
 		if(findtext(i, "Arc Mode"))
 			stats -= i
 			break
-	stats += span_info("Firing mode (toggle with Ctrl+G): Arcyne Bolt (direct) / Arced Bolt (lobbed over cover) / Soulshot (piercing beam).")
+	stats += span_info("Firing mode (toggle with Shift+G): Arcyne Bolt (direct) / Arced Bolt (lobbed over cover) / Soulshot (piercing beam).")
 	return stats

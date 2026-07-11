@@ -1,39 +1,29 @@
-/datum/action/cooldown/spell/grasp
-	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
+/datum/action/cooldown/spell/augment_buff/grasp
 	name = "Grasp"
 	desc = "Reach out to a target within 7 tiles and wrench them to your side after a 2-second channel. An arcyne tether links you to them while you reel them in, warning them to ready themselves. They must share a fellowship with you and still be within your sight when the channel completes."
 	button_icon_state = "grasp"
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_MEDIUM
-	attunement_school = ASPECT_NAME_AUGMENTATION
 
-	click_to_activate = TRUE
 	cast_range = 7
 	self_cast_possible = FALSE
 
-	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_TELEPORT
 
 	invocations = list("Ad me!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = FALSE
-	hold_drain = 0
 	cooldown_time = 45 SECONDS
-
-	associated_skill = /datum/skill/magic/arcane
-	spell_tier = 2
 
 	point_cost = 1
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
 	var/channel_time = 3 SECONDS
 	var/channeling = FALSE
 
-/datum/action/cooldown/spell/grasp/cast(atom/cast_on)
+/datum/action/cooldown/spell/augment_buff/grasp/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))

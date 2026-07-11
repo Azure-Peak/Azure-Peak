@@ -59,6 +59,13 @@
 	icon_state = "belt_double"
 	item_state = "belt_double"
 
+
+/obj/item/storage/belt/rogue/leather/beltshawl
+	name = "belt shawl"
+	desc = "A fancy shawl worn around the waist."
+	icon_state = "beltshawl"
+	item_state = "beltshawl"
+
 /obj/item/storage/belt/rogue/leather/plaquesilver
 	name = "plaque belt"
 	desc = "An exquisite belt, decorated with studdings of silver."

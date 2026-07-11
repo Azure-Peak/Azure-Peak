@@ -23,6 +23,7 @@
 	var/structure_damage = 0
 	var/swipe_state = null
 	var/vuln_on_hit = 0
+	var/immobilize_on_hit = 0
 	var/telegraph_type = /obj/effect/temp_visual/trap
 	var/requires_weapon = FALSE
 	var/weapon_missing_message = "I need a weapon to strike with!"
@@ -190,6 +191,8 @@
 			L.adjustBruteLoss(actual_damage)
 		if(vuln_on_hit)
 			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, vuln_on_hit)
+		if(immobilize_on_hit)
+			L.apply_status_effect(STATUS_EFFECT_IMMOBILIZED, immobilize_on_hit)
 		new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
 		on_hit_target(H, L, facing)
 	if(hit_any && detonate_sound)

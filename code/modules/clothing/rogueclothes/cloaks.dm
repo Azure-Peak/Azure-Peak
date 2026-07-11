@@ -984,7 +984,6 @@
 
 /obj/item/clothing/cloak/raincloak/brown
 	color = CLOTHING_BROWN
-	sellprice = 25
 
 /obj/item/clothing/cloak/raincloak/green
 	color = CLOTHING_GREEN
@@ -1388,6 +1387,17 @@
 	nodismemsleeves = TRUE
 	sleevetype = "shirt"
 	slot_flags = ITEM_SLOT_CLOAK
+
+/obj/item/clothing/cloak/suspenders
+	name = "pouched suspenders"
+	desc = "A pair of suspenders which go over the shoulders. Usually used for keeping one's pants in place in an admittably fashionable style, but this one has a couple of belts for extra storage."
+	icon_state = "suspenders"
+	item_state = "suspenders"
+	icon = 'icons/roguetown/clothing/belts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/belts.dmi'
+	body_parts_covered = CHEST|GROIN
+	alternate_worn_layer = TABARD_LAYER
+	slot_flags = ITEM_SLOT_CLOAK | ITEM_SLOT_ARMOR | ITEM_SLOT_SHIRT | ITEM_SLOT_BELT
 
 /obj/item/clothing/cloak/battlenun
 	name = "nun vestments"

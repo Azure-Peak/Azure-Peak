@@ -195,7 +195,6 @@
 	damfactor = 1.2
 	penfactor = PEN_LIGHT // Master cut — cuts are for damaging armor, not penning it. Leave pen to the stabbin'
 	max_intent_damage = 36
-	min_intent_damage = 31
 	swingdelay = 2 //sure
 
 /datum/intent/sword/thrust/long/master

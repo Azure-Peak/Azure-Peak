@@ -141,21 +141,26 @@
 /obj/structure/roguemachine/goldface/public/wretch_cat
 	name = "Vile Vheslie"
 	desc = "A ferocious little beast that hoards a mountain of goods under its home. The dreaded creechur is willing to part waes with its lower quality items..for a price."
+	motto = "Hissss..." //Its a cat, sire.
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "vheslie"
 	lockid = "Vheslie"
-	profit_id = list("Guildsman", "Guildmaster", "Tailor")
+	profit_id = list("Bathmaster") //Hilarious (not you can unlock this)
 	categories = list(
-		"Apparel",
+		"Apparel (Ascendant Amulets)", //Wretch Exclusive Supplies
+		"Illict Medical Supplies",
+		"Illict Utility Supplies",
+		"Apparel", //Now just regular catagories
 		"Adventuring Supplies",
-		"Armor (Iron)",
+		"Instruments",
+		"Wardrobe",
 		"Alcohols",
 		"Consumable",
-		"Drugs",
-		"Potions",
+		"Armor (Light)",
+		"Armor (Iron)",
 		"Weapons (Ranged)",
 		"Weapons (Iron and Shields)",
-		"Wardrobe"
+		"Weapons (Bronze)",
 	)
 	categories_gamer = list()
 

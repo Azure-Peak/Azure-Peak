@@ -29,12 +29,18 @@
 				return
 			if(L.m_intent == MOVE_INTENT_SNEAK)
 				return
+			if(!L.badluck()) // only the unlucky (FOR < 10) misstep hard enough to set it off
+				return
 			var/oldx = pixel_x
 			animate(src, pixel_x = oldx + 1, time = 0.5)
 			animate(src, pixel_x = oldx - 1, time = 0.5)
 			animate(src, pixel_x = oldx, time = 0.5)
 			make_gas()
 			time_delay = world.time + 20 SECONDS
+
+/obj/structure/zizo_bane/obj_destruction(damage_flag)
+	make_gas() // burst its spores when smashed apart
+	return ..()
 
 /obj/structure/zizo_bane/proc/make_gas()
 	visible_message(span_warningbig("A cloud of spores burst up from \the [src]!"))

@@ -158,7 +158,7 @@
 			"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
 			"Visored Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor,
 			"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
-			"Volf-Face Helm"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
+			"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 			"None"
 		)
 		var/helmchoice = input(H, "Choose your Helm.", "A VISAGE TO TERRIFYING THE LYVING") as anything in helmets

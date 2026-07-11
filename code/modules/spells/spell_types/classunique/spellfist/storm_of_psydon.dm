@@ -7,7 +7,7 @@
 		Requires 7 Momentum: 3 punches + 1 kick (20 damage each). \
 		Overcharged at 10 Momentum: 9 punches + 1 kick (20 damage each). \
 		Cannot be parried or dodged - only Defend stance can interrupt. \
-		Consumes all momentum. If you miss, half cooldown is applied.\n\n\
+		Consumes all momentum only on a successful hit. If you miss, your momentum is kept and half cooldown is applied.\n\n\
 		'Temper the storm within, and unleash it only upon those who stray from His ways.'"
 	sound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
 	spell_color = GLOW_COLOR_BUFF
@@ -23,7 +23,7 @@
 
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
-	charge_time = 2 SECONDS
+	charge_time = 1 SECONDS
 	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
@@ -76,8 +76,6 @@
 
 	var/stacks = M.stacks
 	var/is_full = stacks >= empowered_momentum
-	M.consume_all_stacks()
-	to_chat(H, span_notice("All [stacks] momentum released into the storm!"))
 
 	var/mob/living/preferred_target
 	if(isliving(cast_on))
@@ -106,6 +104,7 @@
 			StartCooldown(get_adjusted_cooldown() / 2)
 			return TRUE
 		H.visible_message(span_danger("<b>[H] latches onto [preferred_target], unleashing a flurry of blows!</b>"))
+		release_momentum(H, M, stacks)
 		if(is_full)
 			oraora(H, preferred_target)
 		else
@@ -175,12 +174,18 @@
 		StartCooldown(get_adjusted_cooldown() / 2)
 		return TRUE
 
+	release_momentum(H, M, stacks)
 	if(is_full)
 		oraora(H, hit_target)
 	else
 		oraora_lame(H, hit_target)
 	StartCooldown(get_adjusted_cooldown())
 	return TRUE
+
+/datum/action/cooldown/spell/storm_of_psydon/proc/release_momentum(mob/living/carbon/human/H, datum/status_effect/buff/arcyne_momentum/M, stacks)
+	if(M)
+		M.consume_all_stacks()
+	to_chat(H, span_notice("All [stacks] momentum released into the storm!"))
 
 /datum/action/cooldown/spell/storm_of_psydon/proc/combo_valid(mob/living/carbon/human/user, mob/living/target)
 	if(QDELETED(user) || QDELETED(target))
@@ -237,6 +242,8 @@
 /datum/action/cooldown/spell/storm_of_psydon/proc/oraora(mob/living/carbon/human/user, mob/living/target)
 	user.changeNext_move(CLICK_CD_MELEE * 3)
 
+	var/target_zone = user.zone_selected || BODY_ZONE_CHEST	// Every punch lands where the caster aimed.
+
 	var/list/shadows = create_shadows(user, target)
 	var/obj/effect/after_image/shadow_left = shadows[1]
 	var/obj/effect/after_image/shadow_right = shadows[2]
@@ -274,7 +281,7 @@
 				combo_broken = TRUE
 				break
 			hit_num++
-			arcyne_strike(user, target, null, punch_damage, pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM), BCLASS_BLUNT, spell_name = "Storm of Psydon (Punch [hit_num])")
+			arcyne_strike(user, target, null, punch_damage, target_zone, BCLASS_BLUNT, spell_name = "Storm of Psydon (Punch [hit_num])", exact_zone = TRUE)
 			playsound(get_turf(target), pick('sound/combat/hits/punch/punch_hard (1).ogg','sound/combat/hits/punch/punch_hard (2).ogg','sound/combat/hits/punch/punch_hard (3).ogg'), 80, TRUE)
 			animate(shadow_left, pixel_x = -10 + lunge_px, pixel_y = 4 + lunge_py, time = 0.5, easing = EASE_OUT)
 			animate(pixel_x = -10, pixel_y = 4, time = 0.5, easing = EASE_IN)
@@ -286,7 +293,7 @@
 	if(!combo_broken && cling(user, target) && combo_valid(user, target))
 		if(!spell_guard_check(target, FALSE, deflected ? null : user))
 			user.emote("attack", forced = TRUE)
-			arcyne_strike(user, target, null, kick_damage, BODY_ZONE_CHEST, BCLASS_BLUNT, spell_name = "Storm of Psydon (Kick)")
+			arcyne_strike(user, target, null, kick_damage, target_zone, BCLASS_BLUNT, spell_name = "Storm of Psydon (Kick)", exact_zone = TRUE)
 			playsound(get_turf(target), pick('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg'), 100, TRUE)
 			var/atom/throw_target = get_edge_target_turf(user, get_dir(user, target))
 			target.throw_at(throw_target, 3, 4)
@@ -296,6 +303,8 @@
 
 /datum/action/cooldown/spell/storm_of_psydon/proc/oraora_lame(mob/living/carbon/human/user, mob/living/target)
 	user.changeNext_move(CLICK_CD_MELEE * 2)
+
+	var/target_zone = user.zone_selected || BODY_ZONE_CHEST
 
 	var/deflected = FALSE
 	var/combo_broken = FALSE
@@ -309,14 +318,14 @@
 			deflected = TRUE
 			combo_broken = TRUE
 			break
-		arcyne_strike(user, target, null, punch_damage, pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM), BCLASS_BLUNT, spell_name = "Storm of Psydon (Punch [i])")
+		arcyne_strike(user, target, null, punch_damage, target_zone, BCLASS_BLUNT, spell_name = "Storm of Psydon (Punch [i])", exact_zone = TRUE)
 		playsound(get_turf(target), pick('sound/combat/hits/punch/punch_hard (1).ogg','sound/combat/hits/punch/punch_hard (2).ogg','sound/combat/hits/punch/punch_hard (3).ogg'), 80, TRUE)
 
 	sleep(1)
 	if(!combo_broken && cling(user, target) && combo_valid(user, target))
 		if(!spell_guard_check(target, FALSE, deflected ? null : user))
 			user.emote("attack", forced = TRUE)
-			arcyne_strike(user, target, null, kick_damage, BODY_ZONE_CHEST, BCLASS_BLUNT, spell_name = "Storm of Psydon (Kick)")
+			arcyne_strike(user, target, null, kick_damage, target_zone, BCLASS_BLUNT, spell_name = "Storm of Psydon (Kick)", exact_zone = TRUE)
 			playsound(get_turf(target), pick('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg'), 100, TRUE)
 			var/atom/throw_target = get_edge_target_turf(user, get_dir(user, target))
 			target.throw_at(throw_target, 3, 4)

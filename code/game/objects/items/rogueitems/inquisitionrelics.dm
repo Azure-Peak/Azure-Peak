@@ -1376,7 +1376,7 @@ Inquisitorial armory down here
 		lookat = whofedme
 	playsound(src, 'sound/items/blackmirror_use.ogg', 100, FALSE)
 	ADD_TRAIT(user, TRAIT_NOSSDINDICATOR, "blackmirror")
-	var/mob/dead/observer/screye/blackmirror/S = user.scry_ghost()
+	var/mob/dead/observer/eye/screye/blackmirror/S = user.scry_ghost()
 	if(!S)
 		return
 	S.ManualFollow(lookat)
@@ -1527,7 +1527,7 @@ Inquisitorial armory down here
 		lookat = source.whofedme
 	playsound(L, 'sound/items/blackmirror_use.ogg', 100, FALSE)
 	ADD_TRAIT(L, TRAIT_NOSSDINDICATOR, "blackmirror")
-	var/mob/dead/observer/screye/blackmirror/S = L.scry_ghost()
+	var/mob/dead/observer/eye/screye/blackmirror/S = L.scry_ghost()
 	if(!S)
 		return
 	S.ManualFollow(lookat)
@@ -1774,6 +1774,7 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 	report_html += "Grand Bureau of Haemological Affairs<br>"
 	report_html += "Citadel of Eclair Lacroix, Holy Otava, cir. 1513"
 	report_html += "</font>"
+
 /obj/item/inqarticles/litany
 	name = "litany"
 	desc = "A writ of religious anointment, printed on Otavan parchment. It bares the Absolver's 'rite of armaments' - a psalm dating back to the first crusades, recited \

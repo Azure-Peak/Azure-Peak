@@ -33,6 +33,16 @@
 	stockpile_limit = 50
 	category = "Vegetable"
 
+/datum/roguestock/stockpile/maize
+	name = "Maize"
+	desc = "Cob of maize."
+	item_type = /obj/item/reagent_containers/food/snacks/grown/maize
+	trade_good_id = TRADE_GOOD_MAIZE
+	importexport_amt = 10
+	stockpile_amount = 15
+	stockpile_limit = 50
+	category = "Vegetable"
+
 /datum/roguestock/stockpile/mushroom
 	name = "Mushroom"
 	desc = "A fungi that goes well in soups or grilled."
