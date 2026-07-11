@@ -35936,11 +35936,10 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "gWq" = (
-/obj/structure/closet/crate/roguecloset,
-/obj/item/clothing/cloak/tabard/psydontabard/black,
-/obj/item/clothing/mask/rogue/facemask/psydonmask,
-/obj/item/clothing/head/roguetown/roguehood/psydon/black,
-/turf/open/floor/rogue/herringbone,
+/obj/structure/roguemachine/scomm/l{
+	scom_tag = "Embassy - Basement Hallway"
+	},
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
 "gWs" = (
 /obj/structure/fluff/walldeco/church/line{
@@ -54349,10 +54348,8 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/exposed/town/keep)
 "krZ" = (
-/obj/structure/roguemachine/scomm/l{
-	scom_tag = "Embassy - Basement Hallway"
-	},
-/turf/open/floor/rogue/churchrough,
+/obj/effect/landmark/start/absolver,
+/turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/basement)
 "ksb" = (
 /obj/structure/closet/crate/chest/neu,
@@ -56777,8 +56774,19 @@
 /turf/open/lava/acid,
 /area/rogue/under/cave/his_vault/puzzle)
 "kPo" = (
-/obj/effect/landmark/start/absolver,
-/turf/open/floor/rogue/herringbone,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 9
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/obj/structure/fluff/psycross/psycrucifix/silver,
+/turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
 "kPp" = (
 /obj/item/reagent_containers/glass/bottle/rogue/wine{
@@ -82459,13 +82467,20 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "pEH" = (
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Inquisition - Bedroom";
-	pixel_y = -32
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 5
 	},
-/obj/effect/decal/wood/herringbone2,
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/inq/office)
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/obj/structure/fluff/psycross/psycrucifix/silver,
+/turf/open/floor/rogue/churchrough,
+/area/rogue/indoors/inq/basement)
 "pEK" = (
 /obj/structure/fluff/railing/corner/south_west,
 /turf/open/transparent/openspace,
@@ -99505,6 +99520,9 @@
 	dir = 1
 	},
 /obj/machinery/light/rogue/firebowl/standing,
+/obj/structure/roguemachine/scomm{
+	scom_tag = "Embassy - Meeting Room"
+	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/office)
 "sRt" = (
@@ -99915,19 +99933,11 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "sVz" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 5
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 4
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/structure/fluff/psycross/psycrucifix/silver,
-/turf/open/floor/rogue/churchrough,
+/obj/structure/closet/crate/roguecloset,
+/obj/item/clothing/cloak/tabard/psydontabard/black,
+/obj/item/clothing/mask/rogue/facemask/psydonmask,
+/obj/item/clothing/head/roguetown/roguehood/psydon/black,
+/turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/basement)
 "sVA" = (
 /obj/effect/spawner/trap,
@@ -113418,7 +113428,7 @@
 /obj/item/roguekey/church,
 /obj/item/roguekey/graveyard,
 /obj/item/roguekey/graveyard,
-/obj/item/rogueweapon/woodstaff/aries,
+/obj/item/churcharticles/litany,
 /obj/item/handheld_bell,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/church/chapel)
@@ -114978,21 +114988,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
-"vOH" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 9
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/structure/fluff/psycross/psycrucifix/silver,
-/turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/inq/basement)
 "vOL" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/item/storage/keyring,
@@ -245291,8 +245286,8 @@ qHj
 qHj
 qHj
 qHj
-qHj
-qHj
+miF
+miF
 ogs
 ogs
 ogs
@@ -245743,9 +245738,9 @@ qHj
 qHj
 qHj
 qHj
-qHj
-qHj
-qHj
+miF
+miF
+bhJ
 ogs
 ogs
 ogs
@@ -245762,7 +245757,7 @@ jEx
 evK
 evK
 evK
-krZ
+gWq
 evK
 uZW
 ouA
@@ -246194,11 +246189,11 @@ qHj
 qHj
 qHj
 qHj
-qHj
-qHj
-qHj
-qHj
-qHj
+miF
+miF
+miF
+bhJ
+ogs
 ogs
 ogs
 uZW
@@ -246646,10 +246641,10 @@ qHj
 qHj
 qHj
 qHj
-qHj
-qHj
-qHj
-qHj
+miF
+miF
+miF
+bhJ
 qHj
 ogs
 ogs
@@ -247097,11 +247092,11 @@ qHj
 qHj
 qHj
 qHj
-qHj
-qHj
-qHj
-qHj
-qHj
+miF
+miF
+miF
+bhJ
+bhJ
 qHj
 ogs
 ogs
@@ -247549,9 +247544,9 @@ qHj
 qHj
 qHj
 qHj
-qHj
-qHj
-qHj
+miF
+miF
+miF
 qHj
 qHj
 qHj
@@ -248007,7 +248002,7 @@ qHj
 qHj
 qHj
 qHj
-ogs
+qHj
 ogs
 ogs
 uZW
@@ -250289,7 +250284,7 @@ iLH
 txN
 bmS
 wmu
-vOH
+kPo
 uZW
 gVb
 aXU
@@ -251193,9 +251188,9 @@ bcO
 ljN
 qHP
 cUW
-sVz
+pEH
 uZW
-kPo
+krZ
 hHd
 jFO
 uZW
@@ -252097,7 +252092,7 @@ cjI
 uZW
 cjI
 hHd
-gWq
+sVz
 uZW
 nGl
 nGl
@@ -257955,9 +257950,9 @@ bhJ
 bhJ
 bhJ
 bhJ
-ogs
-ogs
-ogs
+bhJ
+bhJ
+bhJ
 bhJ
 bhJ
 qHj
@@ -364570,7 +364565,7 @@ eCO
 lCD
 sxN
 sxN
-bKx
+sxN
 qwK
 qwK
 qwK
@@ -369611,8 +369606,8 @@ aMO
 lrD
 xki
 gDY
-gDY
-gDY
+fXh
+fXh
 gDY
 xki
 bII
@@ -372323,8 +372318,8 @@ iMA
 lrD
 xki
 gDY
-gDY
-gDY
+fXh
+fXh
 gDY
 xki
 bII
@@ -382636,7 +382631,7 @@ jYu
 lCD
 sxN
 sxN
-sxN
+bKx
 sxN
 sxN
 lCD
@@ -385789,7 +385784,7 @@ eCO
 eCO
 xot
 sxN
-mAW
+aPp
 sxN
 sxN
 aay
@@ -387153,7 +387148,7 @@ aay
 lCD
 sxN
 tAK
-sxN
+bKx
 sxN
 sxN
 sxN
@@ -396196,7 +396191,7 @@ jYu
 jYu
 lCD
 sxN
-bKx
+sxN
 sxN
 qwK
 qwK
@@ -401159,7 +401154,7 @@ eCO
 lCD
 sxN
 sxN
-aPp
+mAW
 sxN
 lCD
 eCO
@@ -481257,7 +481252,7 @@ hLs
 qQH
 qQH
 qQH
-pEH
+auQ
 hCj
 oJW
 hfN
@@ -484872,8 +484867,8 @@ wCd
 tQE
 xki
 gDY
-gDY
-gDY
+fXh
+fXh
 gDY
 xki
 xki
@@ -487584,8 +487579,8 @@ bpy
 tQE
 xki
 gDY
-gDY
-gDY
+fXh
+fXh
 gDY
 xki
 xki
