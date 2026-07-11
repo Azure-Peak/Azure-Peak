@@ -17,6 +17,8 @@
 /datum/round_event_control/antagonist/migrant_wave/only_gnolls/preRunEvent()
 	if(is_storyteller_soft_antag_blocked())
 		return EVENT_CANT_RUN
+	if(SSgamemode.current_storyteller?.preferred_gnoll_mode == GNOLL_SCALING_NONE)
+		return EVENT_CANT_RUN
 	return ..()
 
 /datum/round_event/migrant_wave/only_gnolls/start()

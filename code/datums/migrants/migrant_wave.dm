@@ -49,6 +49,9 @@
 	/// Whether triumph contributions reset after wave spawns
 	var/reset_contributions_on_spawn = TRUE
 
+/datum/migrant_wave/proc/can_roll()
+	return TRUE
+
 /datum/migrant_wave/proc/get_roles_amount()
 	var/amount = 0
 	for(var/role_type in required_roles)
@@ -130,3 +133,8 @@
 	optional_roles = list(
 		/datum/migrant_role/gnoll = 3,
 	)
+
+/datum/migrant_wave/gnolls/can_roll()
+	if(SSgamemode.current_storyteller?.preferred_gnoll_mode == GNOLL_SCALING_NONE)
+		return FALSE
+	return TRUE

@@ -258,17 +258,17 @@
 	the surface about their home and culture, believing all things evil crawl out of the very depths they reside in. A stigma that has lessened in \
 	recent yils, but still vastly present nonetheless."
 
-/datum/virtue/origin/underdark/apply_to_human(mob/living/carbon/human/H)
+/datum/virtue/origin/racial/underdark/apply_to_human(mob/living/carbon/human/H)
 	..()
-	var/list/choices = list("Normal (Default)", "Strict (Sunlight Sensitivity + Darksight)")
+	var/list/choices = list("Normal (Default)", "Strict (Sunlight Sensitivity + Advanced Darksight)")
 	var/complex = tgui_input_list(H, "How adapted are you to the Underdark?", "Underdweller Upbringing", choices)
 	if(!complex)
 		complex = "Normal (Default)"
 	switch(complex)
-		if("Strict (Sunlight Sensitivity + Darksight)")
+		if("Strict (Sunlight Sensitivity + Advanced Darksight)")
 			ADD_TRAIT(H, TRAIT_SUNLIGHT_SENSITIVE, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_DARKVISION, TRAIT_GENERIC)
-			to_chat(H, span_notice("The sun is irritantly bright for you!"))
+			ADD_TRAIT(H, TRAIT_NITEVISION, TRAIT_GENERIC)
+			to_chat(H, span_notice("The sun is irritantly bright for you, but your eyes cut the darkness better!"))
 		else
 			to_chat(H, span_notice("You're quick to adapt."))
 

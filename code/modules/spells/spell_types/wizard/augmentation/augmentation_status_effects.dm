@@ -288,4 +288,3 @@
 	owner.remove_filter(IRON_SKIN_FILTER)
 
 #undef IRON_SKIN_FILTER
-

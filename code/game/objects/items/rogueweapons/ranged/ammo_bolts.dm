@@ -64,10 +64,25 @@
 	name = "light sunderbolt"
 	desc = "A compact silver-tipped bolt, containing a small vial of holy water. Though it inflicts lesser wounds on living flesh, it exceeds when \
 	employed against the unholy; a snap and a crack, followed by a fiery surprise. </br>'One baptism for the remission of sins.'"
-	projectile_type = /obj/projectile/bullet/reusable/bolt/holy //Most of the effectiveness comes from the debuffs, rather than the damage itself. Simple, but sweet.
+	projectile_type = /obj/projectile/bullet/reusable/bolt/light/holy //Most of the effectiveness comes from the debuffs, rather than the damage itself. Simple, but sweet.
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "lightbolt"
 	icon_state = "light_bolt_holywater"
+
+/obj/projectile/bullet/reusable/bolt/light/holy
+	name = "light sunderbolt"
+	damage = 35
+	icon_state = "bolthwater_proj"
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/lightholy
+	embedchance = 100
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 7
+	is_silver_proj = TRUE
+	npc_simple_damage_mult = 5
+	speed = 0.8
+	min_range = MIN_BOLT_RANGE - 1
+	max_range = MAX_BOLT_RANGE - 1
+	dam_falloff_factor = DAM_FALLOFF_BOLT
 
 /obj/projectile/bullet/reusable/bolt
 	name = "bolt"
@@ -214,9 +229,6 @@
 	if(isturf(target))
 		explosion(T, heavy_impact_range = 0, light_impact_range = 0, flame_range = 0, smoke = FALSE, soundin = pick('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg'))
 		loud_message("A loud crash echoes", hearing_distance = 14)
-		if(istype(T, /turf/closed/mineral/rogue/bedrock))
-			return
-		T.turf_integrity -= 1100
 		return
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt

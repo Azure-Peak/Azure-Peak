@@ -1774,6 +1774,7 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 	report_html += "Grand Bureau of Haemological Affairs<br>"
 	report_html += "Citadel of Eclair Lacroix, Holy Otava, cir. 1513"
 	report_html += "</font>"
+
 /obj/item/inqarticles/litany
 	name = "litany"
 	desc = "A writ of religious anointment, printed on Otavan parchment. It bares the Absolver's 'rite of armaments' - a psalm dating back to the first crusades, recited \

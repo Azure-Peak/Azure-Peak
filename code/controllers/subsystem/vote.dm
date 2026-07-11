@@ -28,6 +28,8 @@ SUBSYSTEM_DEF(vote)
 	var/list/storyteller_vote_log = list()
 	var/list/generated_actions = list()
 	var/static/list/everyone_is_equal = list("custom")
+	/// Vote types that require lobby players to ready up before voting.
+	var/static/list/ready_required_modes = list("gamemode", "storyteller")
 
 /datum/controller/subsystem/vote/fire()	//called by master_controller
 	if(mode)
@@ -375,6 +377,10 @@ SUBSYSTEM_DEF(vote)
 /datum/controller/subsystem/vote/proc/can_client_vote(client/C)
 	if(isnull(C))
 		return FALSE
+	if(C.holder)
+		return TRUE
+	if(!(mode in ready_required_modes))
+		return TRUE
 	if(istype(C.mob, /mob/dead/new_player))
 		var/mob/dead/new_player/NP = C.mob
 		if(NP.ready != PLAYER_READY_TO_PLAY)

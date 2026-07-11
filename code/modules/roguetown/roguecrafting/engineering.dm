@@ -968,6 +968,22 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 5
 
+/datum/crafting_recipe/roguetown/engineering/autogrinder
+	name = "autogrinder"
+	category = "Machines"
+	display_category = ITEM_CAT_ENG_MACHINERY
+	result = /obj/structure/autogrinder
+	reqs = list(
+		/obj/item/roguegear = 3,
+		/obj/item/ingot/iron = 2,
+		/obj/item/natural/wood/plank = 4,
+		/obj/item/natural/stone = 4,
+	)
+	verbage_simple = "engineer"
+	verbage = "engineers"
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/engineering/infernalengine
 	name = "infernal engine"
 	req_table = FALSE

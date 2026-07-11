@@ -93,33 +93,6 @@
 	masks[key] = hairmask_valid(mask) ? mask : null
 	return hairmask_list_fast(masks)
 
-/proc/hairmask_set_fast(mask, pixel_x, pixel_y, state)
-	if(pixel_x < 1 || pixel_x > 32 || pixel_y < 1 || pixel_y > 32)
-		return hairmask_valid(mask) ? mask : null
-	if(!hairmask_valid(mask))
-		mask = repeat_string(256, "0")
-	var/pixel_index = ((pixel_y - 1) * 32) + (pixel_x - 1)
-	var/hex_index = (pixel_index >> 2) + 1
-	var/bit_index = pixel_index & 3
-	var/hex_value = hairmask_hex_value(mask, hex_index)
-	if(state)
-		hex_value |= (1 << bit_index)
-	else
-		hex_value &= ~(1 << bit_index)
-	return copytext(mask, 1, hex_index) + num2hex(hex_value, 1) + copytext(mask, hex_index + 1)
-
-/proc/hairmask_bit_fast(mask, pixel_x, pixel_y)
-	if(!hairmask_valid(mask) || pixel_x < 1 || pixel_x > 32 || pixel_y < 1 || pixel_y > 32)
-		return FALSE
-	var/pixel_index = ((pixel_y - 1) * 32) + (pixel_x - 1)
-	var/hex_index = (pixel_index >> 2) + 1
-	var/bit_index = pixel_index & 3
-	var/hex_value = hairmask_hex_value(mask, hex_index)
-	return !!(hex_value & (1 << bit_index))
-
-/proc/hairmask_set(mask, pixel_x, pixel_y, state)
-	return hairmask_set_fast(hairmask_clean(mask), pixel_x, pixel_y, state)
-
 /proc/hair_dir_key(preview_dir)
 	var/static/list/dir_keys = list(
 		"[SOUTH]" = "s",
@@ -151,18 +124,6 @@
 		if(mask)
 			out[key] = mask
 	return out.len ? out : null
-
-/proc/hairmask_get(masks, preview_dir)
-	if(!islist(masks))
-		return null
-	var/key = hair_dir_key(preview_dir)
-	return hairmask_clean(masks[key])
-
-/proc/hairmask_put(masks, preview_dir, mask)
-	return hairmask_put_fast(masks, preview_dir, hairmask_clean(mask))
-
-/proc/hairmask_plot(masks, preview_dir, pixel_x, pixel_y, state)
-	return hairmask_put_fast(masks, preview_dir, hairmask_set_fast(hairmask_get_fast(masks, preview_dir), pixel_x, pixel_y, state))
 
 /proc/hairmask_union(mask_a, mask_b)
 	mask_a = hairmask_clean(mask_a)
@@ -196,7 +157,8 @@
 			var/value_b = hairmask_hex_value(mask_b, index)
 			row_text += num2hex(value_a | value_b, 1)
 		rows += row_text
-	return jointext(rows, "")
+	// num2hex emits uppercase, masks are lowercase everywhere (hairmask_clean, the TGUI client)
+	return lowertext(jointext(rows, ""))
 
 /proc/hairmask_layers(layers)
 	if(!islist(layers))
@@ -208,41 +170,6 @@
 		if(safe_color && masks?.len)
 			out[safe_color] = masks
 	return out.len ? out : null
-
-/proc/hairmask_layer_get(layers, color, preview_dir)
-	if(!islist(layers))
-		return null
-	color = sanitize_hexcolor(color, 6, TRUE)
-	if(!color)
-		return null
-	return hairmask_get(layers[color], preview_dir)
-
-/proc/hairmask_layer_put(layers, color, preview_dir, mask)
-	color = sanitize_hexcolor(color, 6, TRUE)
-	if(!color)
-		return hairmask_layers(layers)
-	if(!islist(layers))
-		layers = list()
-	var/list/updated = hairmask_put(layers[color], preview_dir, mask)
-	if(updated)
-		layers[color] = updated
-	else
-		layers -= color
-	return hairmask_layers(layers)
-
-/proc/hairmask_layer_plot(layers, color, preview_dir, pixel_x, pixel_y, state)
-	color = sanitize_hexcolor(color, 6, TRUE)
-	if(!color)
-		return hairmask_layers(layers)
-	if(!islist(layers))
-		layers = list()
-	var/current_mask = hairmask_get_fast(layers[color], preview_dir)
-	var/list/updated = hairmask_put_fast(layers[color], preview_dir, hairmask_set_fast(current_mask, pixel_x, pixel_y, state))
-	if(updated)
-		layers[color] = updated
-	else
-		layers -= color
-	return hairmask_layers(layers)
 
 /proc/hairmask_layers_any(layers)
 	return !!hairmask_layers_fast(layers)
@@ -268,23 +195,6 @@
 				"mask" = mask,
 			))
 	return data.len ? data : null
-
-/proc/hairmask_clear_px(layers, preview_dir, pixel_x, pixel_y)
-	layers = hairmask_layers_fast(layers) || hairmask_layers(layers)
-	if(!layers)
-		return null
-	var/list/colors = list()
-	for(var/color in layers)
-		colors += color
-	for(var/color in colors)
-		var/list/masks = layers[color]
-		var/current_mask = hairmask_get_fast(masks, preview_dir)
-		var/list/updated = hairmask_put_fast(masks, preview_dir, hairmask_set_fast(current_mask, pixel_x, pixel_y, FALSE))
-		if(updated)
-			layers[color] = updated
-		else
-			layers -= color
-	return hairmask_layers_fast(layers)
 
 /proc/hairmask_layer_merge(layers, color, masks)
 	color = sanitize_hexcolor(color, 6, TRUE)
@@ -522,14 +432,6 @@
 	hair_entry.custom_mask_version++
 
 
-/proc/hairmask_bits(icon/target_icon, mask, fillcolor)
-	if(!target_icon)
-		return null
-	mask = hairmask_clean(mask)
-	if(!mask)
-		return target_icon
-	return hairmask_bits_fast(target_icon, mask, fillcolor)
-
 /proc/hairmask_bits_fast(icon/target_icon, mask, fillcolor)
 	if(!target_icon || !hairmask_valid(mask))
 		return target_icon
@@ -551,16 +453,9 @@
 			target_icon.DrawBox(fillcolor, run_start, pixel_y, 32, pixel_y)
 	return target_icon
 
-/proc/hairmask_drawbits(icon/target_icon, mask, fillcolor)
-	fillcolor = sanitize_hexcolor(fillcolor, 6, TRUE, "#FFFFFF")
-	return hairmask_bits(target_icon, mask, fillcolor)
-
 /proc/hairmask_drawbits_fast(icon/target_icon, mask, fillcolor)
 	fillcolor = sanitize_hexcolor(fillcolor, 6, TRUE, "#FFFFFF")
 	return hairmask_bits_fast(target_icon, mask, fillcolor)
-
-/proc/hairmask_clearbits(icon/target_icon, mask)
-	return hairmask_bits(target_icon, mask, null)
 
 /proc/hair_preview_icon(mob/living/carbon/human/human, preview_dir)
 	if(!human)
@@ -723,16 +618,6 @@
 	if(user?.client)
 		SSassets.transport.send_assets(user, asset_name)
 	return SSassets.transport.get_asset_url(asset_name)
-
-/proc/hair_edit_count(datum/customizer_entry/hair/hair_entry)
-	if(!hair_entry)
-		return 0
-	var/list/colormasks = hair_entry_masks(hair_entry)
-	var/count = 0
-	for(var/preview_dir in hair_preview_dirs())
-		if(hairmask_dir_any(colormasks, preview_dir))
-			count++
-	return count
 
 /proc/hair_edit_band(icon/diricon)
 	if(!diricon)
@@ -1010,13 +895,21 @@
 	var/masks_dir
 	/// Cached active direction payload sent to TGUI for painting.
 	var/list/active_masks
+	/// Entry the caches were built against, so a slot/entry swap invalidates them.
+	var/datum/customizer_entry/last_entry
+	/// Masks stashed while a guide render temporarily hides them from copy_to.
+	var/list/render_stash_colormasks
+	/// Remove-masks stashed alongside render_stash_colormasks.
+	var/list/render_stash_rmmasks
+	/// TRUE while a guide render has the entry's masks stashed away.
+	var/render_stash_active = FALSE
 
 /datum/custom_hair_ui/New(datum/preferences/prefdata, kind)
 	prefs = prefdata
 	customizer_type = kind
 
 /datum/custom_hair_ui/Destroy(force)
-	if(prefs?.hair_uis)
+	if(prefs?.hair_uis && prefs.hair_uis["[customizer_type]"] == src)
 		prefs.hair_uis -= "[customizer_type]"
 	prefs = null
 	customizer_type = null
@@ -1030,7 +923,12 @@
 /datum/custom_hair_ui/proc/get_entry()
 	if(!prefs)
 		return null
-	return prefs.get_customizer_entry_for_customizer_type(customizer_type)
+	var/datum/customizer_entry/entry = prefs.get_customizer_entry_for_customizer_type(customizer_type)
+	if(entry != last_entry)
+		last_entry = entry
+		invalidate_entry_caches()
+		edit_bands = list()
+	return entry
 
 /datum/custom_hair_ui/proc/invalidate_entry_caches()
 	masks_ready = FALSE
@@ -1046,7 +944,7 @@
 	var/datum/customizer_entry/hair/hair_entry = get_entry()
 	if(!hair_entry)
 		return null
-	if(masks_ready)
+	if(masks_ready || render_stash_active)
 		return hair_entry
 	hair_entry.colormasks = hair_entry_masks(hair_entry)
 	hair_entry.addmasks = null
@@ -1184,18 +1082,28 @@
 		base_icons -= pending_key
 		return
 	hair_entry_prepare(hair_entry)
-	var/list/saved_colormasks = hair_entry.colormasks
-	var/list/saved_remove = hair_entry.rmmasks
-	hair_entry.colormasks = null
-	hair_entry.rmmasks = null
+	// grab the dummy before stashing the masks, this call sleeps and the entry must not sit gutted across it
 	var/mob/living/carbon/human/dummy/mannequin = generate_or_wait_for_human_dummy(DUMMY_HUMAN_SLOT_PREFERENCES)
 	var/icon/cached_icon
 	if(mannequin)
+		render_stash_colormasks = hair_entry.colormasks
+		render_stash_rmmasks = hair_entry.rmmasks
+		render_stash_active = TRUE
+		hair_entry.colormasks = null
+		hair_entry.rmmasks = null
 		prefs.copy_to(mannequin, 1, TRUE, TRUE)
+		// only restore if nothing wrote the entry while we had it stashed
+		if(isnull(hair_entry.colormasks))
+			hair_entry.colormasks = render_stash_colormasks
+		if(isnull(hair_entry.rmmasks))
+			hair_entry.rmmasks = render_stash_rmmasks
+		render_stash_active = FALSE
+		render_stash_colormasks = null
+		render_stash_rmmasks = null
+		masks_dir = null
+		active_masks = null
 		cached_icon = hair_preview_icon(mannequin, preview_dir)
 		unset_busy_human_dummy(DUMMY_HUMAN_SLOT_PREFERENCES)
-	hair_entry.colormasks = saved_colormasks
-	hair_entry.rmmasks = saved_remove
 	if(cached_icon)
 		base_icons[asset_key] = hair_asset(cached_icon)
 		base_icons[url_key] = hair_asset_url(base_icons[asset_key])
@@ -1290,6 +1198,9 @@
 			return TRUE
 		if("clear")
 			hair_clear(hair_entry)
+			if(render_stash_active)
+				render_stash_colormasks = null
+				render_stash_rmmasks = null
 			invalidate_entry_caches()
 			prepare_entry(TRUE)
 			dirty = TRUE
@@ -1316,10 +1227,16 @@
 						"mask" = mask,
 					))
 			active_dir = dir
-			var/list/next_colormasks = hairmask_dir_replace(hair_entry.colormasks, dir, dir_layers)
-			if(next_colormasks != hair_entry.colormasks)
+			var/list/base_colormasks = hair_entry.colormasks
+			if(render_stash_active && isnull(base_colormasks))
+				// a guide render has the masks stashed, build on the stash so other directions survive
+				base_colormasks = render_stash_colormasks
+			var/list/next_colormasks = hairmask_dir_replace(base_colormasks, dir, dir_layers)
+			if(next_colormasks != base_colormasks)
 				hair_entry.custom_mask_version++
 			hair_entry.colormasks = next_colormasks
+			if(render_stash_active)
+				render_stash_colormasks = next_colormasks
 			hair_entry.rmmasks = null
 			invalidate_entry_caches()
 			prepare_entry(TRUE)
@@ -1335,6 +1252,9 @@
 
 /datum/custom_hair_ui/ui_close(mob/user)
 	. = ..()
+	// detach now so an instant reopen builds a fresh UI instead of resolving this dying one
+	if(prefs?.hair_uis && prefs.hair_uis["[customizer_type]"] == src)
+		prefs.hair_uis -= "[customizer_type]"
 	if(!prefs || !dirty || !user?.client)
 		QDEL_IN(src, 1)
 		return
@@ -1547,8 +1467,6 @@
 		/datum/sprite_accessory/hair/head/hyenamane,
 		/datum/sprite_accessory/hair/head/forelock,
 		/datum/sprite_accessory/hair/head/pirate,
-		/datum/sprite_accessory/hair/head/shavedmohawk,
-		/datum/sprite_accessory/hair/head/baldfade,
 		/datum/sprite_accessory/hair/head/rogue,
 		/datum/sprite_accessory/hair/head/romantic,
 		/datum/sprite_accessory/hair/head/runt,
@@ -2050,8 +1968,6 @@
 		/datum/sprite_accessory/hair/head/hyenamane,
 		/datum/sprite_accessory/hair/head/forelock,
 		/datum/sprite_accessory/hair/head/pirate,
-		/datum/sprite_accessory/hair/head/shavedmohawk,
-		/datum/sprite_accessory/hair/head/baldfade,
 		/datum/sprite_accessory/hair/head/rogue,
 		/datum/sprite_accessory/hair/head/romantic,
 		/datum/sprite_accessory/hair/head/runt,

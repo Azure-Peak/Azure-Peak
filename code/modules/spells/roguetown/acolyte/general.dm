@@ -415,6 +415,67 @@
 #undef BASE_HEALING_PER_TICK
 #undef MAX_BONUS_HEAL
 
+////////////////////////
+// MIRACLE - IGNITION //
+////////////////////////
+
+/datum/action/cooldown/spell/miracle/ignition
+	name = "Ignition"
+	desc = "Ignites target, living or object."
+	fluff_desc = "The first gift to men, a sliver of Her radiance at fingertips of those devoted to Her wae of lyfe. Some sae it was Matthios who forced Astrata's hand in relinquishing such force to lowly mortals."
+	button_icon_state = "ignite"
+	sound = 'sound/items/firelight.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
+	sparks_amt = 2
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_AURA
+	self_cast_possible = FALSE //Why are you trying to set YOURSELF on fire.
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
+
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	invocation_type = INVOCATION_NONE //It has seperate message ON USE
+
+	charge_required = FALSE
+	cooldown_time = 10 SECONDS
+
+	spell_flags = SPELL_PSYDON
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/miracle/ignition/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/mob/living/spelltarget = cast_on
+
+	if(!isliving(spelltarget))
+		if(spelltarget.fire_act())
+			owner.visible_message("<font color='yellow'>[owner] engulfs [spelltarget] in sacred flame!</font>")
+			spelltarget.fire_act()
+			return TRUE
+		else
+			to_chat(owner, span_warning("You attempt to ignite [spelltarget], but it fails to catch fire."))
+			return FALSE
+	else
+		owner.visible_message("<font color='yellow'>[owner] engulfs [spelltarget] in sacred flame!</font>")
+		if(spelltarget.anti_magic_check(TRUE, TRUE))
+			return FALSE
+		if(spell_guard_check(spelltarget, TRUE))
+			spelltarget.visible_message(span_warning("[spelltarget] shields against the divine flame!"))
+			return TRUE
+		if(spelltarget.fire_stacks < 1)
+			spelltarget.adjust_fire_stacks(2)
+			spelltarget.ignite_mob()
+			log_combat(owner, spelltarget, "ignited", addition="with the miracle [name]")
+			return TRUE
+		else
+			spelltarget.visible_message(span_warning("[spelltarget] is already engulfed in flames!"))
+			return TRUE
+
 /////////////////////////////////
 // MIRACLE - SACRED ASCENDANCE //
 /////////////////////////////////

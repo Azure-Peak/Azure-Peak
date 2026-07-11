@@ -1,7 +1,8 @@
 /proc/getfishingloot(var/mob/living/carbon/human/fisherman, var/list/modlist, turf/target, var/skill_power = 1)
 	var/frwt = list(/turf/open/water/river, /turf/open/water/cleanshallow, /turf/open/water/pond)
 	var/salwt_coast = list(/turf/open/water/ocean)
-	var/salwt_deep = list(/turf/open/water/ocean/deep)
+	var/salwt_deep = list(/turf/open/water/ocean/deep, /turf/open/water/ocean/deep/dark)
+	var/salwt_abyssal = list(/turf/open/water/ocean/abyssal)
 	var/mud = list(/turf/open/water/swamp, /turf/open/water/swamp/deep)
 	if(ishuman(fisherman))
 		if(fisherman.patron.type == /datum/patron/divine/abyssor)
@@ -25,6 +26,8 @@
 		fishingloot = pickweightAllowZero(createCoastalSeaFishWeightListModlist(modlist))
 	else if(target.type in salwt_deep)
 		fishingloot = pickweightAllowZero(createDeepSeaFishWeightListModlist(modlist))
+	else if(target.type in salwt_abyssal)
+		fishingloot = pickweightAllowZero(createAbyssalSeaFishWeightListModlist(modlist))
 	else if(target.type in mud)
 		fishingloot = pickweightAllowZero(createMudFishWeightListModlist(modlist))
 	return fishingloot

@@ -586,6 +586,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		var/doesnt_hunger = HAS_TRAIT(src, TRAIT_NOHUNGER)
 		if(HAS_TRAIT(src, TRAIT_BETTER_SLEEP))
 			energy_add(sleepy_mod * 4)
+		if(HAS_TRAIT(src, TRAIT_MALUMCHOSEN))
+			energy_add(sleepy_mod * 2)
 		if(buckled?.sleepy)
 			sleepy_mod = buckled.sleepy
 		if(HAS_TRAIT(src, TRAIT_REGROW_LIMBS))

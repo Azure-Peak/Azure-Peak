@@ -37,6 +37,7 @@
 	var/healing = 2.5 //not exactly sure where this appears in the healing code, but i tested and it definitely scales healing
 	user.Beam(target, icon_state="lichbeam", time=1 SECONDS)
 	target.apply_status_effect(/datum/status_effect/buff/fortifyingvapors, healing)
+	target.apply_status_effect(/datum/status_effect/buff/fortified)
 	target.playsound_local(target, 'sound/magic/heartbeat.ogg', 100)
 	return TRUE
 
@@ -47,14 +48,24 @@
 	desc = "A heady scent fills my nostrils. My pulse quickens; I feel clear and sharp."
 	icon_state = "vigorized"
 
+/atom/movable/screen/alert/status_effect/buff/fortified
+	name = "Fortified"
+	desc = "The aromatic vapors invigorate my body."
+	icon_state = "vigorized"
+
 /datum/status_effect/buff/fortifyingvapors
 	id = "fortifyingvapors"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/fortifyingvapors
-	effectedstats = list(STATKEY_CON = 1)
 	duration = 20 SECONDS
 	examine_text = "SUBJECTPRONOUN is surrounded by subtle, heady vapors."
 	var/healing_on_tick = 0.5 //half of miracle, twice the duration
 	var/outline_colour = "#9ebb5b"
+
+/datum/status_effect/buff/fortified
+	id = "fortified"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/fortified
+	duration = 20 SECONDS
+	effectedstats = list(STATKEY_CON = 1)
 
 /datum/status_effect/buff/fortifyingvapors/on_apply()
 	var/filter = owner.get_filter(VAPORS_HEALING_FILTER)

@@ -609,9 +609,8 @@
 	desc = "A delicate weaving of striped fabric, intended to be dyed in contrasting colors and worn atop a helmet. Perfect for tournaments."
 	item_state = "orle"
 	icon_state = "orle"
-	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
-	icon = 'icons/clothing/donor_clothes.dmi'
-	worn_offsets = list("x" = 0, "y" = 7)
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
 	detail_color = CLOTHING_SCARLET
 	altdetail_color = CLOTHING_AZUROSA
 
@@ -774,6 +773,7 @@
 	desc = "A snug-fitting tunic, favored by Azurians during the chillier daes of autumn."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi' 
 	icon_state = "doublet"
 	item_state = "doublet"
 	r_sleeve_status = SLEEVE_NORMAL
@@ -2031,3 +2031,18 @@ As Excaliber."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "astrata_impressed"
+
+// KADENCEKATARI
+/obj/item/clothing/head/roguetown/decoration/gazelleskull
+	name = "Gazelle Skull"
+	desc = "A skull, carved from a gazelle that rests overhead. The tribal identity of the gazelle is seen as an omen of sorts. \
+	Known for being quick to act and fleetfooted, it symbolizes the need to be fast to react and the need to get out of danger. \
+	Sometimes, you will encounter an insurmountable threat, and in order to survive against such a threat, \
+	you must flee. That is a fact of life."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	alternate_worn_layer  = 8.9
+	icon_state = "donor_skull"
+	worn_offsets = list("x" = 0, "y" = 14)
+	color = null

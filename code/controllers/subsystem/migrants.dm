@@ -225,6 +225,8 @@ SUBSYSTEM_DEF(migrants)
 		var/datum/migrant_wave/wave = MIGRANT_WAVE(wave_type)
 		if(!wave.can_roll)
 			continue
+		if(!wave.can_roll())
+			continue
 		if(!isnull(wave.max_spawns))
 			var/used_wave_type = wave.type
 			if(wave.shared_wave_type)
@@ -389,6 +391,8 @@ SUBSYSTEM_DEF(migrants)
 
 /datum/controller/subsystem/migrants/proc/wave_eligible(datum/migrant_wave/wave)
 	if(!wave.can_roll)
+		return FALSE
+	if(!wave.can_roll())
 		return FALSE
 	var/active_migrants = get_active_migrant_amount()
 	var/active_players = get_round_active_players()

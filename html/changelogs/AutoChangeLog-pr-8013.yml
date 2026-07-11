@@ -1,4 +1,0 @@
-author: "string-thing"
-delete-after: True
-changes:
-  - rscadd: "added CON buff of 1 to fortifying vapors"

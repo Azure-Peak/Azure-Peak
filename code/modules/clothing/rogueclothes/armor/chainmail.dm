@@ -234,6 +234,17 @@
 	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
 	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
 
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/decorated
+	name = "decorated plate-and-maille"
+	desc = "A maille-aketon of steel, comfortably fitted beneath a decorated cuirass. Best paired with a gilded dress shirt \
+	and a tankard of Valmora Blue, chilled atop the rocks of a conquered fief."
+	slot_flags = ITEM_SLOT_ARMOR
+	icon_state = "gildedhauberk"
+	item_state = "gildedhauberk"
+	armor_class = ARMOR_CLASS_HEAVY
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEELLIGHT
+	smeltresult = /obj/item/ingot/gold
+
 ///////// CRAFTING DATUMS FOR MAILLED CUIRASS /////////
 
 /datum/crafting_recipe/roguetown/survival/mailledhauberk
@@ -267,6 +278,15 @@
 	name = "layer a psydonic cuirass atop hauberk"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate = 1,
+	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
+	craftdiff = 0 //Note that its Decrepit-tier variant is intended to largely be used by mobs and not players; hence, the lack of a crafting recipe.
+	req_table = TRUE //If someone wants to add that in post, hwoever, I don't mind. You can easily do so by copy-pasting the format, here.
+	bypass_dupe_test = TRUE
+
+/datum/crafting_recipe/roguetown/survival/decoratedmailledhauberk
+	name = "layer a decorated cuirass atop hauberk"
+	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/decorated)
+	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/decorated = 1,
 	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
 	craftdiff = 0 //Note that its Decrepit-tier variant is intended to largely be used by mobs and not players; hence, the lack of a crafting recipe.
 	req_table = TRUE //If someone wants to add that in post, hwoever, I don't mind. You can easily do so by copy-pasting the format, here.
