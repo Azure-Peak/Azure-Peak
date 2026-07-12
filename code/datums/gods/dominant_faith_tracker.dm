@@ -59,6 +59,7 @@
 	addtimer(CALLBACK(src, PROC_REF(calculate_dominant_faith), TRUE), 5 MINUTES) // wait a bit after roundstart spam settles down and the first wave of latejoins pops in
 
 /datum/dominant_faith_tracker/proc/calculate_dominant_faith(force = FALSE)
+	var/datum/faith/old_dominant = dominant_faith
 	if(force)
 		full_recalculate()
 	if((totals[/datum/faith/inhumen] > totals[/datum/faith/divine]) && (totals[/datum/faith/inhumen] > totals[/datum/faith/old_god]))
@@ -68,6 +69,9 @@
 	else // either psydonians are coping so hard they won, or the ten and inhumen are at an impasse
 		dominant_faith = /datum/faith/old_god
 	
+	if(old_dominant == dominant_faith) // we only want to announce actual changes
+		return
+
 	var/no_metagaming = (force ? 1 : (pick(list(1,2,3,4,5)) MINUTES))
 	// cooldown for this is at the top of the announce_reign proc, so it's fine to call it every time we recalc
 	addtimer(CALLBACK(src, PROC_REF(announce_reign), TRUE), no_metagaming) // however we do a small, random delay to prevent meta'ing "this person just latejoined and then the thing switched"
@@ -79,6 +83,7 @@
 		var/mob/living/carbon/human/H = i
 		if(!istype(H) || !H.patron || ispath(H.patron.associated_faith, /datum/faith/mossmother) || ispath(H.patron.associated_faith, /datum/faith/godless) || !H.devotion)
 			continue
+		to_chat(H, span_info("As the balance of faith shifts, the power of miracles waxes and wanes, favoring the pantheon dominant in the region..."))
 		if(ispath(dominant_faith, /datum/faith/old_god)) // psydon messages are always 'neutral'
 			to_chat(H, span_blue(replacetext(reign_messages[H.patron.associated_faith][dominant_faith], "$patron", get_god_name(H.patron))))
 		else if(ispath(H.patron.associated_faith, dominant_faith))
