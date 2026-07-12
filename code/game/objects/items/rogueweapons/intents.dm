@@ -876,7 +876,7 @@
 	icon_state = "inlight"
 
 /datum/intent/hand/convert
-	name = "bless"
+	name = "convert"
 	icon_state = "inbless"
 
 /datum/intent/effect

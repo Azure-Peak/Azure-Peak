@@ -481,6 +481,9 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		to_chat(caster, span_info("Their faith is manifest as armor, bound to their very flesh... what could I possibly hope to accomplish here?"))
 		return FALSE
 
+	if(alert(caster, "Do you wish to attempt to convert [new_convert]? THIS IS NOT SOMETHING TO BE DONE LIGHTLY. READ THE SPELL DESCRIPTION IF YOU DO NOT KNOW WHAT THIS DOES.", "FOCUS THE LIGHT", "Yes", "No") != "Yes")
+		return FALSE
+
 	visible_message(span_info("[src] whispers rapid prayers, performing a rite to bring [new_convert] before their patron's gaze..."), span_info("You whisper prayers to [get_god_name(caster.patron)], casting their gaze upon [new_convert]..."))
 	var/convert_message
 	if(istype(caster.patron, /datum/patron/old_god))
