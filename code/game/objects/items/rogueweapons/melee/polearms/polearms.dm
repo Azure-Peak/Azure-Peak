@@ -287,16 +287,16 @@
 /obj/item/rogueweapon/woodstaff/aries/attack(atom/A, mob/user)
 	if(ishuman(A) && user.mind?.assigned_role == "Bishop" && user.used_intent?.type == /datum/intent/bless)
 		var/mob/living/carbon/human/H = A
-		if(!(H.patron?.type in ALL_DIVINE_PATRONS))
-			to_chat(user, span_warning("They do not share our faith."))
-			return
 		if(!H.has_status_effect(/datum/status_effect/buff/blessed))
 			playsound(user, 'sound/magic/censercharging.ogg', 100)
 			user.visible_message(span_info("[user] holds \the [src] over \the [H], offering a solemn blessing..."))
 			if(do_after(user, 50, target = H))
 				H.apply_status_effect(/datum/status_effect/buff/blessed)
 				H.add_stress(/datum/stressevent/blessed)
-				to_chat(H, span_hypnophrase("You feel the Ten's blessing settle upon your soul."))
+				if((H.patron?.type in ALL_DIVINE_PATRONS))
+					to_chat(H, span_hypnophrase("You feel the Ten's blessings settle upon your soul."))
+				else
+					to_chat(H, span_hypnophrase("You feel the Ten's blessings awkwardly settle upon your soul."))
 				playsound(H, 'sound/magic/bless.ogg', 100)
 				new /obj/effect/temp_visual/censer_dust(get_turf(H))
 				user.visible_message(span_notice("[user] blesses [H]."))

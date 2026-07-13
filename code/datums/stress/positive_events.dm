@@ -515,3 +515,14 @@
 	timer = 5 MINUTES
 	stressadd = -4
 	desc = span_boldgreen("<b>I feel whole, once more! Death shant claim me yet!</b>")
+
+/datum/stressevent/psycenser
+	timer = 15 MINUTES
+	stressadd = -4
+	desc = pick(
+		span_hypnophrase("<b>That familiar fragrance... warm and impossibly gentle. For a fleeting moment, I could swear He still watches over us.</b>"),		
+		span_hypnophrase("<b>Such a comforting scent. It carries the impossible certainty that He yet lives, and my doubts seem so very small.</b>"),
+		span_hypnophrase("<b>The air is rich with a soothing warmth. It feels as though His presence has never truly left us.</b>")
+		span_hypnophrase("<b>I breathe deeply, and the scent fills me with quiet conviction. Surely a god so gentle could never have died.</b>")
+		span_hypnophrase("<b>Why did I ever believe He had fallen? His presence is everywhere. He is everything.</b>")
+	)

@@ -444,22 +444,23 @@ Inquisitorial armory down here
 					new /obj/effect/temp_visual/censer_dust(get_turf(A))
 			else
 				to_chat(user, span_info("It has already been blessed."))
+
 	if(ishuman(A) && on && (user.used_intent.type == /datum/intent/bless))
 		var/mob/living/carbon/human/H = A
-		if(H.patron?.type == /datum/patron/old_god)
-			if(!H.has_status_effect(/datum/status_effect/buff/censerbuff))
-				playsound(user, 'sound/magic/censercharging.ogg', 100)
-				user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
-				if(do_after(user, 50, target = A))
-					H.apply_status_effect(/datum/status_effect/buff/censerbuff)
+		if(!H.has_status_effect(/datum/status_effect/buff/censerbuff) || !H.has_stress_event(/datum/stressevent/psycenser))
+			playsound(user, 'sound/magic/censercharging.ogg', 100)
+			user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
+			if(do_after(user, 50, target = A))
+				if((H.patron?.type in ALL_PSYDON_PATRONS))
 					to_chat(H, span_hypnophrase("The fragrance of SYON's shard invigorates you!"))
-					playsound(H, 'sound/magic/holyshield.ogg', 100)
-					new /obj/effect/temp_visual/censer_dust(get_turf(H))
-			else
-				to_chat(span_warning("They've already been blessed."))
-
+					H.apply_status_effect(/datum/status_effect/buff/censerbuff)
+				else
+					to_chat(H, span_hypnophrase("The fragrance of SYON's shard comforts you!"))
+					H.add_stress(/datum/stressevent/psycenser)
+				playsound(H, 'sound/magic/holyshield.ogg', 100)
+				new /obj/effect/temp_visual/censer_dust(get_turf(H))
 		else
-			to_chat(user, span_warning("They do not share our faith."))
+			to_chat(span_warning("They've already been blessed."))
 
 /mob/living/carbon/human/proc/has_active_golgatha()
 	for(var/obj/item/flashlight/flare/torch/lantern/psycenser/G in contents)
