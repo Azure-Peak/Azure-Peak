@@ -8,7 +8,7 @@
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/graggar/rush					= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/layonhands						= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/layonhands				= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/graggar/hamstring				= CLERIC_T1,
 					/datum/action/cooldown/spell/projectile/graggar_net		 	= CLERIC_T2,
