@@ -443,82 +443,66 @@
 	name = "porcelain bauble"
 	desc = "A small porcelain bauble."
 	icon_state = "clayporcelainbauble"
-	sellprice = 3
 /obj/item/natural/clay/porcelain/cameo
 	name = "porcelain cameo"
 	desc = "A small porcelain cameo."
 	icon_state = "clayporcelaincameo"
-	sellprice = 5
-	
+
 /obj/item/natural/clay/porcelain/bust
 	name = "porcelain bust"
 	desc = "A large porcelain bust."
 	icon_state = "clayporcelainbust"
-	sellprice = 25
-	
+
 /obj/item/natural/clay/porcelain/figurine
 	name = "porcelain figurine"
 	desc = "A small figurine made out of porcelain."
 	icon_state = "clayporcelainfigurine"
-	sellprice = 10
 /obj/item/natural/clay/porcelain/urn
 	name = "large porcelain urn"
 	desc = "A large, lidded urn made out of porcelain."
 	icon_state = "clayporcelainurn"
-	sellprice = 25
 /obj/item/natural/clay/porcelain/statuette
 	name = "porcelain statuette"
 	desc = "A medium-sized statuette made out of porcelain."
 	icon_state = "clayporcelainstatue"
-	sellprice = 20
 /obj/item/natural/clay/porcelain/obelisk
 	name = "porcelain obelisk"
 	desc = "A medium-sized obelisk made out of porcelain."
 	icon_state = "clayporcelainobelisk"
-	sellprice = 15
 /obj/item/natural/clay/porcelain/sun
 	name = "porcelain sun"
 	desc = "A medium-sized sun statue made out of porcelain."
 	icon_state = "clayporcelainsun"
-	sellprice = 15
 /obj/item/natural/clay/porcelain/moon
 	name = "porcelain moon"
 	desc = "A medium-sized moon statue made out of porcelain."
 	icon_state = "clayporcelainmoon"
-	sellprice = 20
 /obj/item/natural/clay/porcelain/heart
 	name = "porcelain heart"
 	desc = "A heart made out of porcelain."
 	icon_state = "clayporcelainheart"
-	sellprice = 10
 /obj/item/natural/clay/porcelain/display
 	name = "porcelain display stand"
 	desc = "A small display stand made out of porcelain."
 	icon_state = "clayporcelainstand"
-	sellprice = 10
 /obj/item/natural/clay/porcelain/fish
 	name = "porcelain fish figurine"
 	desc = "A small fish figurine made out of porcelain."
 	icon_state = "clayporcelainfish"
-	sellprice = 10
 /obj/item/natural/clay/porcelain/turtle
 	name = "porcelain turtle statuette"
 	desc = "A large turtle statuette made out of porcelain."
 	icon_state = "clayporcelainturtle"
-	sellprice = 25
 /obj/item/natural/clay/porcelain/duck
 	name = "porcelain duck statue"
 	desc = "An adorable duck statue made out of porcelain."
 	icon_state = "clayporcelainduck"
-	sellprice = 10
 /obj/item/natural/clay/porcelain/comb
 	name = "porcelain comb"
 	desc = "A fashionable comb made out of porcelain."
 	icon_state = "clayporcelaincomb"
-	sellprice = 15
 /obj/item/natural/clay/porcelain/tablet
 	name = "porcelain tablet"
 	desc = "A medium-sized tablet made out of porcelain."
 	icon_state = "clayporcelaintablet"
-	sellprice = 15
 	

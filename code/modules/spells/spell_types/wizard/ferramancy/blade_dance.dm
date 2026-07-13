@@ -25,6 +25,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_HEAVY
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
@@ -36,6 +37,11 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 	var/obj/effect/blade_dance_zone/active_zone
+
+/datum/action/cooldown/spell/blade_dance/get_spell_statistics(mob/living/user)
+	var/list/stats = ..()
+	stats += span_info("Damage: [BLADE_DANCE_TICK_DAMAGE] brute per second (up to [DisplayTimeText(BLADE_DANCE_DURATION)])")
+	return stats
 
 /datum/action/cooldown/spell/blade_dance/Destroy()
 	if(active_zone && !QDELETED(active_zone))

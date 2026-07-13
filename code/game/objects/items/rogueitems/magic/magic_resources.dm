@@ -1,13 +1,8 @@
 #define T1SELLPRICE 4
 #define T2SELLPRICE 20
 #define T3SELLPRICE 60
-#define T4SELLPRICE 250
+#define T4SELLPRICE 120
 // Meld prices: 3x input tier + small crafting premium
-#define T1MELDSELLPRICE 15  // 3xT1(4) = 12 + 3
-#define T2MELDSELLPRICE 65  // 3xT2(20) = 60 + 5
-#define T3MELDSELLPRICE 190 // 3xT3(60) = 180 + 10
-#define T4MELDSELLPRICE 775 // 3xT4(250) = 750 + 25
-#define T5MELDSELLPRICE 800 // T4 meld(775) + voidstone(40), tiny premium
 // Mapfetchable sell prices
 #define LEYLINE_SELLPRICE 30
 #define VOIDSTONE_SELLPRICE 40
@@ -40,16 +35,6 @@
 	name = "Planar Vestige"
 	icon_state = "abberant"
 	desc = "The vestige of a planar creature, departed from this plane. Likely worth a lot to the magos that summoned them!"
-
-// familiar (item form): familiars can transform into this for portability and sovl
-/obj/item/magic/familiar/familiar_spirit
-	name = "Familiar Spirit"
-	icon = 'icons/roguetown/mob/familiars.dmi'
-	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_RING // little pendant-esque thing
-
-/obj/item/magic/familiar/familiar_spirit/Initialize()
-	. = ..()
-	src.filters += filter(type = "drop_shadow", x=0, y=0, size=1, offset = 2, color = GLOW_COLOR_ARCANE)
 
 //mapfetchable items
 /obj/item/magic/obsidian
@@ -218,10 +203,5 @@
 #undef T2SELLPRICE
 #undef T3SELLPRICE
 #undef T4SELLPRICE
-#undef T1MELDSELLPRICE
-#undef T2MELDSELLPRICE
-#undef T3MELDSELLPRICE
-#undef T4MELDSELLPRICE
-#undef T5MELDSELLPRICE
 #undef LEYLINE_SELLPRICE
 #undef VOIDSTONE_SELLPRICE

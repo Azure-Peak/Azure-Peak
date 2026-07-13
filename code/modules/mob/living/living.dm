@@ -231,6 +231,10 @@
 				self_points -= 99
 				instafail = TRUE
 				to_chat(src, span_warning("I changed direction too late!"))
+			if(lying)
+				self_points -= 99
+				instafail = TRUE
+				to_chat(src, span_warning("I can't charge anyone from the ground!"))
 			var/clash_blocked
 			if(L.has_status_effect(/datum/status_effect/buff/clash) && !instafail)
 				self_points -= 99
@@ -724,6 +728,9 @@
 		if(word_input)
 			say(word_input)
 		death()
+
+/mob/living/restrained(ignore_grab)
+	return ..() || istype(loc, /obj/item/mob_item)
 
 /mob/living/incapacitated(ignore_restraints = FALSE, ignore_grab = TRUE, check_immobilized = FALSE, ignore_stasis = FALSE)
 	if(stat || IsUnconscious() || IsStun() || IsParalyzed() || (!ignore_restraints && restrained(ignore_grab)))
@@ -1979,16 +1986,19 @@
 
 /mob/living/MouseDrop(mob/over)
 	. = ..()
-	var/mob/living/user = usr
-	if(!istype(over) || !istype(user))
+	var/mob/living/user = over
+	if(!istype(user))
 		return
-	if(!over.Adjacent(src) || (user != src) || !canUseTopic(over))
+	if(user.incapacitated())
 		return
-	if(can_be_held)
-		mob_try_pickup(over)
+	if(can_be_held(user))
+		mob_try_pickup(user)
 
 /mob/living/proc/mob_pickup(mob/living/L)
-	return
+	var/obj/item/mob_item/orb = become_item()
+	if(!istype(orb))
+		return
+	L.put_in_active_hand(orb)
 
 /mob/living/proc/mob_try_pickup(mob/living/user)
 	if(!ishuman(user))
@@ -2006,6 +2016,9 @@
 		return FALSE
 	mob_pickup(user)
 	return TRUE
+
+/mob/living/proc/can_be_held(mob/by)
+	return FALSE
 
 /mob/living/reset_perspective(atom/A)
 	if(..())

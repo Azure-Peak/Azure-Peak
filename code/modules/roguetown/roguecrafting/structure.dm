@@ -962,7 +962,6 @@
 	craftdiff = 1
 
 /obj/structure/closet/crate/roguecloset/crafted
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/campfire
 	name = "campfire"

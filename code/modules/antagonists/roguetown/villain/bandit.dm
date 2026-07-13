@@ -1,6 +1,6 @@
-// Roundstart scaling (storyteller_scale_slots): scaling=2, min_players=20, default_cap=2.
-// The Guaranteed Antag presets raise the cap so bandits scale with pop - 4 normally, 8 under the
-// aggressive No-Wretch preset (which also doubles the per-population step).
+// Roundstart bandit slots are a flat per-gamemode cap - NO population scaling. High Intensity opens 6 slots,
+// Tempered Intensity opens 4. The full cap is opened at roundstart even if not every seat fills (see
+// get_antag_amount / start in events/antagonist/solo/bandits.dm). Bandits still need HARD_ANTAG_MIN_POP to roll.
 /datum/antagonist/bandit
 	name = "Bandit"
 	roundend_category = "bandits"
@@ -18,11 +18,11 @@
 	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
 	override_candidatereq = TRUE
 	storyteller_min_players = CHARACTER_INJECTION_MIN_POP
-	storyteller_slot_scaling = 2
+	storyteller_slot_scaling = 1	// unused: bandits use a flat cap, not storyteller_scale_slots
 	storyteller_slot_default_cap = 2
 	storyteller_maxcaps = list(
-		/datum/storyteller/gamemode/guaranteed_antag = 4,
-		/datum/storyteller/gamemode/guaranteed_antag/low_wretch = 6,
+		/datum/storyteller/gamemode/guaranteed_antag = 6,			// High Intensity
+		/datum/storyteller/gamemode/guaranteed_antag/low_wretch = 4,	// Tempered Intensity
 	)
 	var/favor = 150
 	var/totaldonated = 0

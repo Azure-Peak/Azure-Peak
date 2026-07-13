@@ -42,6 +42,11 @@
 	var/pulse_spread = 120
 	var/channel_slowdown = 3
 
+/datum/action/cooldown/spell/projectile/arcyne_barrage/get_spell_statistics(mob/living/user)
+	var/list/stats = ..()
+	stats += span_info("Damage: 45 per bolt ([bolts_per_pulse] per pulse, pierces up to 5)")
+	return stats
+
 /datum/action/cooldown/spell/projectile/arcyne_barrage/before_cast(atom/cast_on)
 	. = ..()
 	. |= SPELL_NO_IMMEDIATE_COOLDOWN

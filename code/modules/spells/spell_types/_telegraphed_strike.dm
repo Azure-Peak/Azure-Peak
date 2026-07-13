@@ -7,6 +7,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	var/damage = 50
+	var/strike_damage_type = BRUTE
 	var/npc_simple_damage_mult = 1.5
 	var/blade_class = BCLASS_CUT
 	var/strike_armor_pen = PEN_NONE
@@ -15,6 +16,8 @@
 	var/windup_time = TELEGRAPH_DODGEABLE
 	var/charging_slowdown = 0
 	var/committed_strike = TRUE
+	var/interruptible = FALSE
+	var/lock_direction = FALSE
 	var/redraw_interval = 2
 	var/sweep_step = 1
 	var/impact_delay = 0
@@ -23,12 +26,19 @@
 	var/structure_damage = 0
 	var/swipe_state = null
 	var/vuln_on_hit = 0
+	var/immobilize_on_hit = 0
 	var/telegraph_type = /obj/effect/temp_visual/trap
 	var/requires_weapon = FALSE
 	var/weapon_missing_message = "I need a weapon to strike with!"
 	var/sweep_hit_count = 0
 	var/list/struck_obstacles
 	var/list/struck_mobs
+
+/datum/action/cooldown/spell/telegraphed_strike/get_spell_statistics(mob/living/user)
+	var/list/stats = ..()
+	if(damage > 0)
+		stats += span_info("Damage: [damage]")
+	return stats
 
 /datum/action/cooldown/spell/telegraphed_strike/cast(atom/cast_on)
 	. = ..()
@@ -41,7 +51,10 @@
 	var/strike_duration = windup_time + impact_delay + max(0, length(get_pattern_offsets()) - 1) * sweep_step
 	if(committed_strike)
 		H.changeNext_move(strike_duration)
-		H.apply_status_effect(/datum/status_effect/swingdelay/penalty/committed, strike_duration + 2, TRUE)
+		if(interruptible)
+			H.apply_status_effect(/datum/status_effect/swingdelay/disrupt, strike_duration + 2, FALSE)
+		else
+			H.apply_status_effect(/datum/status_effect/swingdelay/penalty/committed, strike_duration + 2, TRUE)
 	INVOKE_ASYNC(src, PROC_REF(windup_and_strike), H)
 	return TRUE
 
@@ -50,12 +63,18 @@
 	var/iterations = max(1, round(windup_time / redraw_interval))
 	var/turf/last_turf
 	var/last_facing
+	var/locked_facing = lock_direction ? get_cardinal(H.dir) : null
+	if(locked_facing)
+		H.setDir(locked_facing)
+		H.tempfixeye = TRUE
+		H.nodirchange = TRUE
+		H.facing_locked = TRUE
 	if(charging_slowdown)
 		H.add_movespeed_modifier("telegraphed_strike_windup", TRUE, 100, override = TRUE, multiplicative_slowdown = charging_slowdown)
 	for(var/i in 1 to iterations)
-		if(QDELETED(H) || H.stat != CONSCIOUS)
+		if(QDELETED(H) || H.stat != CONSCIOUS || strike_disrupted(H))
 			break
-		var/facing = get_cardinal(H.dir)
+		var/facing = locked_facing || get_cardinal(H.dir)
 		if(get_turf(H) != last_turf || facing != last_facing)
 			last_turf = get_turf(H)
 			last_facing = facing
@@ -63,10 +82,20 @@
 		sleep(redraw_interval)
 	if(charging_slowdown && !QDELETED(H))
 		H.remove_movespeed_modifier("telegraphed_strike_windup")
-	if(QDELETED(H) || H.stat != CONSCIOUS)
+	if(locked_facing && !QDELETED(H))
+		H.tempfixeye = FALSE
+		H.nodirchange = FALSE
+		H.facing_locked = FALSE
+	if(QDELETED(H) || H.stat != CONSCIOUS || strike_disrupted(H))
 		clear_indicators(indicator)
 		return
-	strike(H, get_cardinal(H.dir), indicator)
+	strike(H, locked_facing || get_cardinal(H.dir), indicator)
+
+/datum/action/cooldown/spell/telegraphed_strike/proc/strike_disrupted(mob/living/carbon/human/H)
+	if(!interruptible)
+		return FALSE
+	var/datum/status_effect/swingdelay/disrupt/SW = H.has_status_effect(/datum/status_effect/swingdelay/disrupt)
+	return SW && SW.is_disrupted()
 
 /datum/action/cooldown/spell/telegraphed_strike/proc/draw_indicators(mob/living/carbon/human/H, facing, list/indicator)
 	draw_offsets(H, facing, indicator, get_pattern_offsets())
@@ -182,14 +211,19 @@
 		sweep_hit_count++
 		if(ishuman(L))
 			var/target_zone = H.zone_selected || BODY_ZONE_CHEST
-			arcyne_strike(H, L, weapon, dmg, target_zone, blade_class, armor_penetration = strike_armor_pen, spell_name = name, damage_type = BRUTE, npc_simple_damage_mult = npc_simple_damage_mult, skip_animation = TRUE)
+			arcyne_strike(H, L, weapon, dmg, target_zone, blade_class, armor_penetration = strike_armor_pen, spell_name = name, damage_type = strike_damage_type, npc_simple_damage_mult = npc_simple_damage_mult, skip_animation = TRUE)
 		else
 			var/actual_damage = dmg
 			if(!L.mind)
 				actual_damage *= npc_simple_damage_mult
-			L.adjustBruteLoss(actual_damage)
+			if(strike_damage_type == BURN)
+				L.adjustFireLoss(actual_damage)
+			else
+				L.adjustBruteLoss(actual_damage)
 		if(vuln_on_hit)
 			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, vuln_on_hit)
+		if(immobilize_on_hit)
+			L.apply_status_effect(STATUS_EFFECT_IMMOBILIZED, immobilize_on_hit)
 		new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
 		on_hit_target(H, L, facing)
 	if(hit_any && detonate_sound)
@@ -216,10 +250,14 @@
 		return
 	struck_obstacles += T
 	var/dmg = structure_damage ? structure_damage : damage
+	var/hit_any = FALSE
 	for(var/obj/structure/S in T)
-		if(!S.density || istype(S, /obj/structure/flora/newbranch))
-			continue
 		S.take_damage(dmg, BRUTE, "blunt", TRUE)
+		hit_any = TRUE
+	if(hit_any)
+		new /obj/effect/temp_visual/spell_impact(T, spell_color, spell_impact_intensity)
+		if(detonate_sound)
+			playsound(T, detonate_sound, 65, TRUE)
 
 /datum/action/cooldown/spell/telegraphed_strike/proc/forward_reach(mob/living/carbon/human/H, facing, max_steps)
 	var/reach = 0

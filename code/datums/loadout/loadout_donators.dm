@@ -632,3 +632,13 @@
 	name = "Donator Kit - Azurosa-Wrapped Sword"
 	path = /obj/item/enchantingkit/weapon/ollanius
 	ckeywhitelist = list("ollanius")
+
+/datum/loadout_item/donator/spaz_helm
+	name = "Donator Kit - Hound-Nosed Bascinet"
+	path = /obj/item/enchantingkit/spaz_helm
+	ckeywhitelist = list("seniorspaz")
+
+/datum/loadout_item/donator/gazelleskull
+	name = "Donator Item - Gazelle Skull"
+	path = /obj/item/clothing/head/roguetown/decoration/gazelleskull
+	ckeywhitelist = list("shiroseschnee")

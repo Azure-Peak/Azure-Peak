@@ -14,7 +14,8 @@
 			summoner = user.name
 	// adds the name of the summoner to the faction, to avoid the hooded "Unknown" bug with Skeleton IDs
 	if(user && user.mind && user.mind.current)
-		faction |= "[user.mind.current.real_name]_faction"
+		faction = list("[user.mind.current.real_name]_faction")
+	apply_fellowship_faction(user, src)
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
@@ -64,6 +65,46 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/proc/ability(turf/target_location, mob/living/user)
 	return
 
+/mob/living/simple_animal/hostile/retaliate/rogue/primordial/get_pilot_ability()
+	return /datum/action/cooldown/spell/primordial_special
+
+/datum/action/cooldown/spell/primordial_special
+	button_icon = 'icons/mob/actions/mage_conjure.dmi'
+	button_icon_state = "primordial_mark"
+	name = "Elemental Surge"
+	desc = "Unleash your elemental vessel's innate power at a spot within reach - a flame primordial breathes a searing cone, a water primordial churns a whirlpool, an air primordial hurls a gale."
+	sound = null
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+	attunement_school = ASPECT_NAME_CONJURATION
+
+	click_to_activate = TRUE
+	cast_range = 6
+	self_cast_possible = FALSE
+
+	charge_required = FALSE
+	primary_resource_type = SPELL_COST_NONE
+	cooldown_time = 30 SECONDS
+	spell_tier = 3
+	point_cost = 0
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	invocation_type = INVOCATION_NONE
+	spell_requirements = SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/primordial_special/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/simple_animal/hostile/retaliate/rogue/primordial/P = owner
+	if(!istype(P))
+		return FALSE
+	var/turf/T = get_turf(cast_on)
+	if(!T)
+		return FALSE
+	if(world.time < P.next_ability_use)
+		P.balloon_alert(P, "not ready yet!")
+		return FALSE
+	P.ability(T, P)
+	return TRUE
+
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/fire
 	name = "flame primordial"
 	desc = "Billowing heat strikes your face and threatens to singe your eyebrows! \
@@ -81,8 +122,8 @@
 	attack_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 
 	base_intents = list(/datum/intent/simple/claw/primordial)
-	health = 300
-	maxHealth = 300
+	health = 400
+	maxHealth = 400
 	melee_damage_lower = 20
 	melee_damage_upper = 30
 	vision_range = 10
@@ -165,8 +206,8 @@
 
 	base_intents = list(/datum/intent/simple/claw/primordial)
 
-	health = 400
-	maxHealth = 400
+	health = 500
+	maxHealth = 500
 	melee_damage_lower = 15
 	melee_damage_upper = 25
 	vision_range = 10
@@ -275,8 +316,8 @@
 
 	base_intents = list(/datum/intent/simple/claw/primordial)
 
-	health = 250
-	maxHealth = 250
+	health = 450
+	maxHealth = 450
 	melee_damage_lower = 25
 	melee_damage_upper = 35
 	vision_range = 10

@@ -764,6 +764,8 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * we are not restrained
  */
 /mob/proc/canface(atom/A)
+	if(facing_locked)
+		return FALSE
 	if(client)
 		if(world.time < client.last_turn)
 			return FALSE

@@ -124,7 +124,7 @@
 
 	var/list/obj/effect/proc_holder/abilities = list()
 
-	var/can_be_held = FALSE	//whether this can be picked up and held.
+	var/item_state // iconstate for when we get turned into an item
 
 	var/ventcrawl_layer = PIPING_LAYER_DEFAULT
 	var/losebreath = 0
@@ -206,6 +206,10 @@
 
 	var/pet_passive = FALSE
 
+	var/list/summoned_minions
+	var/attack_relay_refs = 0
+	var/attack_relay_self_added = FALSE
+
 	var/cmode_music_override = list() // set by prefs or the verb, ignored if empty
 	var/cmode_music_override_name // solely for autoselecting as a spawned-in mob
 	var/last_heard_raw_message //to prevent repeated messages from spamming
@@ -232,5 +236,12 @@
 	/// This one's for when you're choking to death.
 	var/last_gasp
 
+	/// Had to put this here because attack() is not used solely by humans. That's fucked up, manne.
+	var/dualwield_attack_count = 0
+	var/dualwield_processing = FALSE
+	var/dualwield_finisher = FALSE
+	var/dualwield_resets_in = 0
+	var/dualwield_buff_cd = 0
+  
 	/// "In Combat" timer that is used to prevent stealth and a few other mechanics while active.
 	var/in_combat_until

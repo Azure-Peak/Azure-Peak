@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Removed gems from stockpile after it was blatantly used while not reported for transmuting gems and reselling them. The margins on this operation is a bit too high."

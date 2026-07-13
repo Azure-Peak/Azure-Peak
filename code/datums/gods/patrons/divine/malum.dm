@@ -2,33 +2,34 @@
 	name = "Malum"
 	domain = "God of Fire, Destruction and Rebirth"
 	desc = "Opinionless god of the crafts. He teaches that great works for killing or saving are great works, either way. The well-oiled guillotine and the well-sharpened axe are tools, and there is no good and evil to their craft."
-	worshippers = "Smiths, Miners, and Engineers"
-	mob_traits = list(TRAIT_FORGEBLESSED, TRAIT_BETTER_SLEEP)
-	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/invoked/restoration           = CLERIC_T0,
-					///obj/effect/proc_holder/spell/invoked/rework                = CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
-					/datum/action/cooldown/spell/arcyne_forge/miracle			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/vigorousexchange		= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/heatmetal				= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/hammerfall			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/self/repair                   = CLERIC_T3,
-					/datum/action/cooldown/spell/malum_blessing					= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/resurrect/malum		= CLERIC_T4,
+	worshippers = "Smiths, Miners, Engineers"
+	mob_traits = list(TRAIT_FORGEBLESSED)
+	miracles = list(/datum/action/cooldown/spell/touch/orison				= CLERIC_ORI,
+					/datum/action/cooldown/spell/miracle/ignition/malum		= CLERIC_T0,
+					/datum/action/cooldown/spell/malum/reconstruction       = CLERIC_T0,
+					/datum/action/cooldown/spell/miracle/heal 				= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle		= CLERIC_T1,
+					/datum/action/cooldown/spell/malum/vigorousexchange		= CLERIC_T1,
+					/datum/action/cooldown/spell/arcyne_forge/miracle		= CLERIC_T1,
+					/datum/action/cooldown/spell/malum/heatmetal			= CLERIC_T2,
+					/datum/action/cooldown/spell/malum/hammerfall			= CLERIC_T2,
+					/datum/action/cooldown/spell/malum/reforge				= CLERIC_T3,
+					/datum/action/cooldown/spell/malum_blessing				= CLERIC_T3,
+					/datum/action/cooldown/spell/malum/fortress				= CLERIC_T4,
+					/obj/effect/proc_holder/spell/invoked/resurrect/malum	= CLERIC_T4,
 	)
 	confess_lines = list(
 		"MALUM IS MY MUSE!",
 		"TRUE VALUE IS IN THE TOIL!",
 		"I AM AN INSTRUMENT OF CREATION!",
 	)
-
 	storyteller = /datum/storyteller/malum
 
 	titles = list(
-		"Forgefather",
+		"Forgefather", 
+		"Maker",
 		"Mamuke"
-	) // people just kinda call him malum. And forgefather. I think.
+		)
 
 // Near a smelter, hearth, cross, within the smithy, or within the church
 /datum/patron/divine/malum/can_pray(mob/living/follower)

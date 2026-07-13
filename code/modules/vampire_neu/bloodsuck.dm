@@ -57,8 +57,13 @@
 	to_chat(src, span_warning("I drink from [victim]'s [parse_zone(sublimb_grabbed)]."))
 	log_combat(src, victim, "drank blood from ")
 
-	if(!VDrinker)
-		if(!HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_NASTY_EATER))
+	var/tox_drained = min(victim.getToxLoss(), 3) // no leeches? no problem!
+	if(tox_drained > 0)
+		victim.adjustToxLoss(-tox_drained)
+		src.adjustToxLoss(tox_drained)
+
+	if(!(VDrinker || HAS_TRAIT(src, TRAIT_BLACKBLOOD)))
+		if(!(HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_NASTY_EATER)))
 			to_chat(src, span_warning("I'm going to puke..."))
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
@@ -68,10 +73,23 @@
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
 
-	src.adjust_hydration(10) // da sippy
+	// some code witchcraft for blood ingest transfer, fuck sake
+	var/blood_amount = max(1, round(BLOOD_VOLUME_MAXIMUM * 0.01))
+	blood_amount = min(blood_amount, victim.blood_volume)
+	victim.blood_volume = max(victim.blood_volume - blood_amount, 0)
+	victim.handle_blood()
+	var/datum/reagents/temp = new(blood_amount)
+	temp.my_atom = src
+	temp.add_reagent(/datum/reagent/blood, blood_amount)
+	var/datum/reagent/blood/B = temp.has_reagent(/datum/reagent/blood)
+	if(B)
+		B.data = victim.get_blood_data()
+	temp.trans_to(src, blood_amount, TRUE, TRUE, FALSE, src, FALSE, INGEST)
+	if(HAS_TRAIT(src, TRAIT_BLACKBLOOD))
+		return
 
 	if(VVictim)
-		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [victim].</b>"))
+		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [uppertext(victim)].</b>"))
 
 	var/blood_handle
 	if(victim.stat == DEAD)
@@ -91,7 +109,7 @@
 
 	if(victim.bloodpool > 0)
 		var/used_vitae = 150
-		victim.blood_volume = max(victim.blood_volume - 45, 0)
+		victim.blood_volume = max(victim.blood_volume - 45, 0) // good fucking lord vampires are hungy, 50 blood per cycle?
 		if(victim.bloodpool < used_vitae)  // We assume they're left with 250 vitae or less, so we take it all
 			used_vitae = victim.bloodpool
 			to_chat(src, span_warning("...But alas, only leftovers..."))

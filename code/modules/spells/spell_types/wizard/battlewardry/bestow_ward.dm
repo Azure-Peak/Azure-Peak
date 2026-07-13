@@ -22,6 +22,7 @@
 
 	charge_required = TRUE
 	charge_time = CHARGETIME_HEAVY
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'

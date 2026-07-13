@@ -12,8 +12,8 @@
 	var/datum/zad_occupancy/current_occupancy
 	var/severed_announced = FALSE
 	var/list/obj/item/held_payload = list()
-	var/datum/weakref/active_voyeur_screye
-	var/datum/weakref/active_voyeur_holder
+	var/datum/weakref/voyeur_screye
+	var/datum/weakref/voyeur_holder
 
 /obj/item/zadcage/update_icon()
 	cut_overlays()
@@ -26,7 +26,7 @@
 
 /obj/item/zadcage/Destroy()
 	STOP_PROCESSING(SSroguemachine, src)
-	if(active_voyeur_screye)
+	if(voyeur_screye)
 		finish_voyeur()
 	var/datum/zadlink/link = resolve_link()
 	if(link)

@@ -116,6 +116,12 @@
 	if(mob.force_moving)
 		return FALSE
 
+	var/mob/living/sliding_mob = mob
+	var/datum/status_effect/ice_slide/ice_sliding = sliding_mob.has_status_effect(/datum/status_effect/ice_slide)
+	if(ice_sliding)
+		ice_sliding.steer(direct)
+		return FALSE
+
 	if(mob.shifting)
 		mob.pixel_shift(direct)
 		return FALSE

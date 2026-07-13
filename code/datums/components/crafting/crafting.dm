@@ -295,6 +295,8 @@
 							prob2craft += ((10-L.STAINT)*-1)*2
 						if(HAS_TRAIT(L, TRAIT_INTELLECTUAL) && L.STAINT > 8)
 							prob2craft += 5
+						if(HAS_TRAIT(L, TRAIT_MALUMCHOSEN))
+							prob2craft += 20
 					prob2craft = CLAMP(prob2craft, 0, 99)
 					if(i == 100 && prob2craft > 0)
 						prob2craft = 100

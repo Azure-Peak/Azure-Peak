@@ -10,15 +10,29 @@
 	. = ..()
 
 	var/mob/living/living_mob = controller.pawn
-	if(!living_mob || living_mob.pet_passive)
+	if(!living_mob)
 		finish_action(controller, succeeded = FALSE)
 		return
 
-	var/mob/current_target = controller.blackboard[BB_HIGHEST_THREAT_MOB]
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 
 	if(!targetting_datum)
 		CRASH("No target datum was supplied in the blackboard for [controller.pawn]")
+
+	var/mob/living/commanded_target = controller.blackboard[BB_CURRENT_PET_TARGET]
+	if(commanded_target)
+		if(!QDELETED(commanded_target) && !commanded_target.stat && targetting_datum.can_attack(living_mob, commanded_target))
+			if(commanded_target == controller.blackboard[target_key])
+				finish_action(controller, succeeded = FALSE)
+				return
+			controller.set_blackboard_key(target_key, commanded_target)
+			finish_action(controller, succeeded = TRUE)
+			return
+		controller.clear_blackboard_key(BB_CURRENT_PET_TARGET)
+		if(controller.blackboard[target_key] == commanded_target)
+			controller.clear_blackboard_key(target_key)
+
+	var/mob/current_target = controller.blackboard[BB_HIGHEST_THREAT_MOB]
 
 	// Validate existing threat target
 	if(current_target && istype(current_target, /mob/living))
@@ -63,6 +77,10 @@
 		return
 
 	controller.clear_blackboard_key(target_key)
+
+	if(living_mob.pet_passive)
+		finish_action(controller, succeeded = FALSE)
+		return
 
 	scan_for_new_targets(controller, living_mob, target_key, targetting_datum, hiding_location_key, targetting_datum_key)
 

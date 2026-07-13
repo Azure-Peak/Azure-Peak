@@ -28,18 +28,20 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_HEAVY
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging_fire.ogg'
-	cooldown_time = 60 SECONDS
+	cooldown_time = 75 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/direct_damage = 60 // If you get hit direct you deserve it
-	var/splash_damage = 25
+	var/direct_damage = 120 // If you get hit direct you deserve it
+	var/splash_damage = 40
+	displayed_damage = 120
 	var/fragment_damage = 15
 	var/npc_simple_damage_mult = 2
 	var/impact_count = 12

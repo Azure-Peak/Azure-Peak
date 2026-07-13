@@ -13,7 +13,7 @@
 	storyteller_rumour_name = "a vampire masquerade"
 	storyteller_slot_key = "Masquerade"
 
-	weight = 12
+	weight = 8
 
 	denominator = 80
 

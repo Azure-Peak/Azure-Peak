@@ -12,9 +12,11 @@
 	/// Pointbuy are optionals - for point buy aspect
 	var/list/pointbuy_spells = list()
 	var/pointbuy_budget = 0
+	/// When set, spells are granted in this order. Empty = legacy choice-first-then-fixed.
+	var/list/spell_order = list()
 	/// Named variant spell swaps. Assoc list: variant_name = list(base_path = replacement_path, ...)
 	/// "mastery" is automatically applied for T4 casters.
-	/// Other variants (e.g. "grenzelhoftian") are passed in via attune_aspect().
+	/// Other variants (e.g. "gefechtsgelehrter") are passed in via attune_aspect().
 	var/list/variants = list()
 	var/school_color
 	/// Major: Latin, English, Latin. Minor: Latin, English.
@@ -39,16 +41,42 @@
 	mark_aspect_spell(new_spell)
 	target.AddSpell(new_spell)
 
+/datum/magic_aspect/proc/grant_fixed_one(datum/mind/target, spell_path)
+	if(!spell_path || target.has_spell(spell_path))
+		return null
+	var/datum/new_spell = new spell_path
+	mark_aspect_spell(new_spell)
+	target.AddSpell(new_spell)
+	return new_spell
+
 /datum/magic_aspect/proc/grant_spells(datum/mind/target)
 	var/list/granted = list()
 	for(var/spell_path in fixed_spells)
-		if(target.has_spell(spell_path))
-			continue
-		var/datum/new_spell = new spell_path
-		mark_aspect_spell(new_spell)
-		target.AddSpell(new_spell)
-		granted += new_spell
+		var/datum/new_spell = grant_fixed_one(target, spell_path)
+		if(new_spell)
+			granted += new_spell
 	return granted
+
+/// Grant this aspect's spells in spell_order (manifest) order when defined; the resolved choice pick
+/// slots in at the ASPECT_CHOICE token. Falls back to choice-first-then-fixed when no manifest is set.
+/datum/magic_aspect/proc/grant_ordered(datum/mind/target, choice_spell)
+	if(!length(spell_order))
+		if(choice_spell)
+			grant_choice_spell(target, choice_spell)
+		grant_spells(target)
+		return
+	for(var/entry in spell_order)
+		if(entry == ASPECT_CHOICE)
+			if(choice_spell)
+				grant_choice_spell(target, choice_spell)
+		else if(entry == ASPECT_POINTBUY)
+			continue
+		else
+			grant_fixed_one(target, entry)
+	for(var/spell_path in fixed_spells)
+		grant_fixed_one(target, spell_path)
+	if(choice_spell && !target.has_spell(choice_spell))
+		grant_choice_spell(target, choice_spell)
 
 /// Apply a named variant's spell swaps. T4 casters automatically get "mastery".
 /datum/magic_aspect/proc/apply_variant(datum/mind/target, variant_name)

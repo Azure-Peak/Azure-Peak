@@ -38,6 +38,7 @@
 		list("label" = "Greataxe", "weapon" = /obj/item/rogueweapon/greataxe/steel/doublehead/ferramancy, "say" = "Forma Bipennis!"),
 		list("label" = "Halberd", "weapon" = /obj/item/rogueweapon/halberd/ferramancy, "say" = "Forma Hasta!"),
 		list("label" = "Greatbow", "weapon" = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow, "say" = "Forma Arcus!"),
+		list("label" = "Crossbow", "weapon" = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ferramancy, "say" = "Forma Balista!"),
 	)
 
 /datum/action/cooldown/spell/form_blade/cast(atom/cast_on)
@@ -56,7 +57,8 @@
 		to_chat(H, span_warning("I need a free hand to shape it into this form."))
 		return FALSE
 
-	invocations = list(f["say"])
+	if(f["say"])
+		invocations = list(f["say"])
 	var/obj/item/W = new weapon_type(H.drop_location())
 	if(W.max_integrity)
 		W.max_integrity = round(W.max_integrity * 0.5)

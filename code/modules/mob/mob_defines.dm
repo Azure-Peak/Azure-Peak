@@ -256,6 +256,7 @@
 	var/temptarget = FALSE
 	var/fixedeye = FALSE
 	var/tempfixeye = FALSE //targetting
+	var/facing_locked = FALSE
 	var/image/targeti
 	var/image/swingi
 	var/rautoaiming = FALSE //targets any mob on a turf with rmb or lmb

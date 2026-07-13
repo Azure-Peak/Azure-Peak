@@ -264,35 +264,136 @@
 	name = "wise staff"
 	desc = "A staff for keeping the volves at bay..."
 
-/obj/item/rogueweapon/woodstaff/aries
+/obj/item/rogueweapon/woodstaff/aries // more humble with no aura
 	name = "staff of the shepherd"
-	desc = "This staff makes you look important to any peasant."
+	desc = "A finely wrought bishop's crozier crowned with the likeness of a shepherd watching over his flock. Its curved head serves as a reminder that a true shepherd does not rule through fear, but through guidance, mercy, and unwavering vigilance. To the faithful it is a symbol of humble service; to the lost, a promise that even the stray may yet find their way home."
 	force = 25
 	force_wielded = 28
 	icon_state = "aries"
-	icon = 'icons/roguetown/weapons/misc32.dmi'
-	pixel_y = 0
-	pixel_x = 0
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	bigboy = FALSE
-	gripsprite = FALSE
-	gripped_intents = null
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	associated_skill = /datum/skill/magic/holy
+	sellprice = 240
+	pixel_y = -22
+	pixel_x = -22
+	possible_item_intents = list(SPEAR_BASH, /datum/intent/bless)
+	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged, /datum/intent/bless)
 
-/obj/item/rogueweapon/woodstaff/polearm
-	name = "shillelagh"
-	desc = "A particularly long and sturdy walking stick with a variety of uses. It's heavier at one end, making it a little unbalanced."
-	associated_skill = /datum/skill/combat/polearms
+/obj/item/rogueweapon/woodstaff/aries/icarus // more boisterous with aura
+	name = "staff of the guide"
+	desc = "A radiant staff crowned by a lavish, pure gold-forged sun whose rays stretch in every direction. It embodies the sacred duty to bring light where darkness lingers, offering wisdom to the faithful and hope to the despairing. More than a mark of rank, it stands as a beacon that calls others to walk the righteous path beneath the ever-watchful eyes of the Ten."
+	icon_state = "icarus"
+	aura_color = "#ffed9f"
+
+/obj/item/rogueweapon/woodstaff/aries/attack(atom/A, mob/user)
+	if(ishuman(A) && user.mind?.assigned_role == "Bishop" && user.used_intent?.type == /datum/intent/bless)
+		var/mob/living/carbon/human/H = A
+		if(!(H.patron?.type in ALL_DIVINE_PATRONS))
+			to_chat(user, span_warning("They do not share our faith."))
+			return
+		if(!H.has_status_effect(/datum/status_effect/buff/blessed))
+			playsound(user, 'sound/magic/censercharging.ogg', 100)
+			user.visible_message(span_info("[user] holds \the [src] over \the [H], offering a solemn blessing..."))
+			if(do_after(user, 50, target = H))
+				H.apply_status_effect(/datum/status_effect/buff/blessed)
+				H.add_stress(/datum/stressevent/blessed)
+				to_chat(H, span_hypnophrase("You feel the Ten's blessing settle upon your soul."))
+				playsound(H, 'sound/magic/bless.ogg', 100)
+				new /obj/effect/temp_visual/censer_dust(get_turf(H))
+				user.visible_message(span_notice("[user] blesses [H]."))
+			return
+		else
+			to_chat(user, span_warning("[H] has already been blessed."))
+			return
+	return ..()
+
+/obj/item/rogueweapon/woodstaff/aries/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	. = ..()
+	if(user.mind?.assigned_role == "Bishop" && isitem(target) && user.used_intent?.type == /datum/intent/bless)
+		var/datum/component/silverbless/CP = target.GetComponent(/datum/component/silverbless)
+		if(!CP)
+			to_chat(user, span_info("\The [target] can not be blessed."))
+			return
+		else if(!CP.is_blessed && (CP.silver_type & SILVER_TENNITE))
+			playsound(user, 'sound/magic/censercharging.ogg', 100)
+			user.visible_message(span_info("[user] holds \the [src] over \the [target]..."))
+			if(do_after(user, 5 SECONDS, target = target))
+				CP.try_bless(BLESSING_TENNITE)
+				new /obj/effect/temp_visual/censer_dust(get_turf(target))
+			return
+		else
+			to_chat(user, span_info("It has already been blessed."))
+			return
 
 /obj/item/rogueweapon/woodstaff/aries/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
 			if("gen")
-				return list("shrink" = 0.6,"sx" = -6,"sy" = 2,"nx" = 8,"ny" = 2,"wx" = -4,"wy" = 2,"ex" = 1,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 300,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 100,"wflip" = 8,"eflip" = 0)
+				return list("shrink" = 0.6,"sx" = -6,"sy" = -1,"nx" = 8,"ny" = 0,"wx" = -4,"wy" = 0,"ex" = 2,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 
+/obj/item/churcharticles/litany
+	name = "litany of the Ten"
+	desc = "A finely illuminated parchment of litany bearing the sacred verses of the Holy See. Penned upon blessed parchment and sealed with crimson wax, it contains the Rite of Endorsement, a solemn invocation entrusted only to ordained bishops. Once the final verse is spoken, the parchment burns to ash, and one of the Ten's sacred croziers is called forth. Don't lose it."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "litany"
+	item_state = "litany"
+	aura_color = "#ffed9f"
+	var/in_use = FALSE
+
+/obj/item/churcharticles/litany/attack_self(mob/user)
+	. = ..()
+	if(!ishuman(user))
+		return
+	if(in_use)
+		to_chat(user, span_warning("The litany is already being recited."))
+		return
+	in_use = TRUE
+	user.visible_message(span_boldwarning("[user] unfurls [src], raising it high before beginning a solemn rite."))
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g Before the Holy Ten, I reaffirm the sacred vows laid upon my soul.")
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g May I serve with humility, wisdom, and unwavering faith.")
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g Let my voice be Yours in counsel.")
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g Let my hand be Yours in mercy.")
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g Let my office stand as testament to the covenant between the Holy See and the faithful.")
+	if(!do_after(user, 25, target = user))
+		in_use = FALSE
+		return
+	user.say(",g Should I yet prove worthy in Your sight, grant unto me a sacred staff, wrought by the grace of the Holy Ten, that I may bear it as the symbol of the authority entrusted to me.")
+	var/choice = tgui_alert(user, "Which of the Ten's staves do you invoke?", "RITE OF THE TEN", list("Staff of the Shepherd", "Staff of the Guide", "Cancel"))
+	if(!choice || choice == "Cancel")
+		in_use = FALSE
+		return
+	var/obj/item/rogueweapon/woodstaff/aries/staff
+	switch(choice)
+		if("Staff of the Shepherd")
+			staff = new /obj/item/rogueweapon/woodstaff/aries(get_turf(user))
+		if("Staff of the Guide")
+			staff = new /obj/item/rogueweapon/woodstaff/aries/icarus(get_turf(user))
+	playsound(get_turf(user), 'sound/magic/holyshield.ogg', 100, FALSE)
+	new /obj/effect/temp_visual/censer_dust(get_turf(user))
+	user.visible_message(span_blue("As the final words leave [user]'s lips, [src] crumbles into sacred ash and [staff] manifests before them!"))
+	qdel(src)
+
+/obj/item/rogueweapon/woodstaff/polearm
+	name = "shillelagh"
+	desc = "A particularly long and sturdy walking stick with a variety of uses. It's heavier at one end, making it a little unbalanced."
+	associated_skill = /datum/skill/combat/polearms
 
 /obj/item/rogueweapon/spear
 	force = 22
