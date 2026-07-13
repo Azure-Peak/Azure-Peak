@@ -544,16 +544,16 @@
 	timer = 15 MINUTES
 	stressadd = -2
 	desc = list(
-		span_hypnophrase("<b>That familiar fragrance... warm and impossibly gentle. For a fleeting moment, I could swear He still watches over us.</b>"),
-		span_hypnophrase("<b>Such a comforting scent. It carries the impossible certainty that He yet lives, and my doubts seem so very small.</b>"),
-		span_hypnophrase("<b>The air is rich with a soothing warmth. It feels as though His presence has never truly left us.</b>"),
-		span_hypnophrase("<b>I breathe deeply, and the scent fills me with quiet conviction. Surely a god so gentle could never have died.</b>"),
-		span_hypnophrase("<b>Why did I ever believe He had fallen? His presence is everywhere. He is but resting after saving us all from damnation.</b>"),
-		span_hypnophrase("<b>Every breath fills me with a quiet peace. He cannot be gone while His love remains so close.</b>"),
-		span_hypnophrase("<b>The warmth in the air feels so familiar... as though He still walks among His faithful.</b>"),
-		span_hypnophrase("<b>For just a moment, all grief fades away. There was never anything to mourn.</b>"),
-		span_hypnophrase("<b>The fragrance settles gently over me. How comforting it is to know the Allfather still watches.</b>"),
-		span_hypnophrase("<b>His sacrifice could never end in death. A soul so radiant must still endure somewhere beyond our sight.</b>")
+		span_hypnophrase("<b>I am awash with sentimentality. That familiar fragrance... warm and impossibly gentle. For a fleeting moment, I could swear He still watches over us.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. Such a comforting scent. It carries the impossible certainty that He yet lives, and my doubts seem so very small.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. The air is rich with a soothing warmth. It feels as though His presence has never truly left us.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. I breathe deeply, and the scent fills me with quiet conviction. Surely a god so gentle could never have died.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. Why did I ever believe He had fallen? His presence is everywhere. He is but resting after saving us all from damnation.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. Every breath fills me with a quiet peace. He cannot be gone while His love remains so close.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. The warmth in the air feels so familiar... as though He still walks among His faithful.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. For just a moment, all grief fades away. There was never anything to mourn.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. The fragrance settles gently over me. How comforting it is to know the Allfather still watches.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. His sacrifice could never end in death. A soul so radiant must still endure somewhere beyond our sight.</b>")
 	)
 
 /// gaslight yourself heretic, power is good but kindness is gooder!!!
@@ -561,20 +561,20 @@
 	timer = 15 MINUTES
 	stressadd = -2
 	desc = list(
-		span_hypnophrase("<b>What have I done...? How could I have ever doubted Him?</b>"),
-		span_hypnophrase("<b>The shame is unbearable. I abandoned the One who never abandoned me.</b>"),
-		span_hypnophrase("<b>I spoke against Him... and yet His warmth still welcomes me home.</b>"),
-		span_hypnophrase("<b>Every heretical thought feels like another wound upon His sacrifice. I wish I could take them all back.</b>"),
-		span_hypnophrase("<b>I was blind. He never left us... I was the one who turned away.</b>"),
-		span_hypnophrase("<b>His gentle presence stirs old memories. Why did I ever listen to those lies?</b>"),
-		span_hypnophrase("<b>If only I had remained faithful... perhaps I could still call myself His child.</b>"),
-		span_hypnophrase("<b>He deserved my faith. Instead, I repaid His sacrifice with doubt.</b>"),
-		span_hypnophrase("<b>I would endure any penance, if only He would forgive my faithlessness.</b>"),
-		span_hypnophrase("<b>The warmth carries no anger, only mercy. Somehow, that hurts even more.</b>")
+		span_hypnophrase("<b>I am awash with sentimentality. What have I done...? How could I have ever doubted Him?</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. The shame is unbearable. I abandoned the One who never abandoned me.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. I spoke against Him... and yet His warmth still welcomes me home.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. Every heretical thought feels like another wound upon His sacrifice. I wish I could take them all back.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. I was blind. He never left us... I was the one who turned away.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. His gentle presence stirs old memories. Why did I ever listen to those lies?</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. If only I had remained faithful... perhaps I could still call myself His child.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. He deserved my faith. Instead, I repaid His sacrifice with doubt.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. I would endure any penance, if only He would forgive my faithlessness.</b>"),
+		span_hypnophrase("<b>I am awash with sentimentality. The warmth carries no anger, only mercy. Somehow, that hurts even more.</b>")
 	)
 
 /// they're the masters at finding meaning where there's none
 /datum/stressevent/blessed_neutral
 	timer = 15 MINUTES
 	stressadd = -2
-	desc = span_blue("I feel a presence scarcely watching over me. Ah, blessed be the Ten Saints and their guidance! They too, will me to ENDURE!")
+	desc = span_green("I feel a presence scarcely watching over me. Ah, blessed be the Ten Saints and their guidance! They too, will me to ENDURE!")
