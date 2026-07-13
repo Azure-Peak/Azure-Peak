@@ -460,7 +460,7 @@ Inquisitorial armory down here
 					H.apply_status_effect(/datum/status_effect/buff/censerbuff)
 					H.add_stress(/datum/stressevent/psycenser)
 				else if((H.patron?.type in ALL_DIVINE_PATRONS))
-					to_chat(H, span_hypnophrase("The fragrance of SYON's shard comforts you, providing a moment of clarity...___callbackvarset"))
+					to_chat(H, span_hypnophrase("The fragrance of SYON's shard comforts you, providing a moment of clarity..."))
 					H.add_stress(/datum/stressevent/psycenser_neutral)
 				else
 					to_chat(H, span_hypnophrase("The fragrance of SYON's shard provokes a moment of clarity..."))

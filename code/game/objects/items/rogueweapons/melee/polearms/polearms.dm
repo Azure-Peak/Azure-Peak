@@ -284,7 +284,8 @@
 	icon_state = "icarus"
 	aura_color = "#ffed9f"
 
-/obj/item/rogueweapon/woodstaff/aries/attack(atom/A, mob/user)
+/obj/item/rogueweapon/woodstaff/aries/afterattack(atom/movable/A, mob/user, proximity)
+	. = ..()
 	if(ishuman(A) && user.mind?.assigned_role == "Bishop" && user.used_intent?.type == /datum/intent/bless)
 		var/mob/living/carbon/human/H = A
 		if(!H.has_status_effect(/datum/status_effect/buff/blessed) || !H.has_stress_event(/datum/stressevent/blessed_evil) || !H.has_stress_event(/datum/stressevent/blessed_neutral))
@@ -313,7 +314,6 @@
 		to_chat(user, span_warning("The staff sizzles a bit against my hand as I try that."))
 		user.emote("pain")
 		return
-	return ..()
 
 /obj/item/rogueweapon/woodstaff/aries/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
