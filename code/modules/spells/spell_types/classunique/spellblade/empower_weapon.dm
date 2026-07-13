@@ -77,8 +77,13 @@
 /datum/status_effect/buff/empowered_strike
 	id = "empowered_strike"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/empowered_strike
-	duration = 5 SECONDS
+	duration = 8 SECONDS
 	status_type = STATUS_EFFECT_UNIQUE
+
+/datum/status_effect/buff/empowered_strike/on_creation(mob/living/new_owner, new_duration)
+	if(new_duration)
+		duration = new_duration
+	return ..()
 
 /datum/status_effect/buff/empowered_strike/on_apply()
 	. = ..()

@@ -30,6 +30,7 @@ export const GrimoireAspectPicker = () => {
     pointbuy_selections = {},
     spent_budgets = {},
     all_selected_spells = [],
+    claimed_groups = {},
     utility_points_spent = 0,
     reset_budget = 4,
     reset_budget_max = 4,
@@ -260,6 +261,7 @@ export const GrimoireAspectPicker = () => {
                     stagedChoices={{}}
                     pointbuySelections={{}}
                     allSelectedSpells={all_selected_spells}
+                    claimedGroups={claimed_groups}
                     getPointbuyUsed={getPointbuyUsed}
                     act={() => {}}
                     readOnly
@@ -287,6 +289,7 @@ export const GrimoireAspectPicker = () => {
                   stagedChoices={staged_choices}
                   pointbuySelections={pointbuy_selections}
                   allSelectedSpells={all_selected_spells}
+                  claimedGroups={claimed_groups}
                   getPointbuyUsed={getPointbuyUsed}
                   act={wrappedAct}
                   readOnly={read_only}

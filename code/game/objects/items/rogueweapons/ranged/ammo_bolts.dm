@@ -101,10 +101,13 @@
 	min_range = MIN_BOLT_RANGE
 	max_range = MAX_BOLT_RANGE
 	dam_falloff_factor = DAM_FALLOFF_BOLT
+	var/trains_ranged_skill = TRUE
 
 
 /obj/projectile/bullet/reusable/bolt/on_hit(atom/target)
 	. = ..()
+	if(!trains_ranged_skill)
+		return
 	var/mob/living/L = firer
 	if(!L || !L.mind)
 		return

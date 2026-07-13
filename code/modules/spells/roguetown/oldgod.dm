@@ -626,6 +626,11 @@
 	var/list/BPs_to_check = list()
 
 	H.visible_message(span_blue("[user] connects their Lux with [H]'s own."))
+	if(HAS_TRAIT(H, TRAIT_NOHEAL))
+		H.visible_message(span_artery("--But their Lux is forcefully repelled for some reason!"))
+		H.playsound_local(H, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return
+
 	if(user.cmode)
 		user.say(pick("RESPITE FOR THY WOUNDS!", "BLEED STANDING!", "I BLEED SO YOU MAY ENDURE!", "PERSIST AGAINST THE PAIN!","LET YOUR WOUNDS WEEP NO MORE!","THIS IS OUR TRIAL!"))
 		if(HAS_TRAIT(user, TRAIT_IRONMAN))
@@ -830,6 +835,11 @@
 		return FALSE
 
 	H.visible_message(span_red("[user] <i>dangerously</i> connects their Lux with [H]'s own."))
+
+	if(HAS_TRAIT(H, TRAIT_NOHEAL))
+		H.visible_message(span_artery("--But their Lux is forcefully repelled for some reason!"))
+		H.playsound_local(H, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+		return FALSE
 
 	// REVIVE PATH
 	if(H.stat >= DEAD)

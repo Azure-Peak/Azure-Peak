@@ -538,6 +538,9 @@
 	else
 		return TRUE
 
+/datum/status_effect/moonlight/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_ANTIMAGIC, "moonlight_spell")
+
 /obj/effect/temp_visual/moon/spell
 	icon_state = "spellwarning"
 	duration = 2 SECONDS

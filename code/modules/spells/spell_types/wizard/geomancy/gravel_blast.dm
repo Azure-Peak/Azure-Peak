@@ -26,10 +26,11 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging_fire.ogg'
-	cooldown_time = 5.5 SECONDS
+	cooldown_time = 6 SECONDS
 	attunement_school = ASPECT_NAME_GEOMANCY
 	var/spread_step = 8
 

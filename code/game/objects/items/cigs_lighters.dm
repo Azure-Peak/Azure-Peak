@@ -334,12 +334,20 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	return lit * heat
 
 /obj/item/clothing/mask/cigarette/dropped(mob/user)
-    . = ..()
-    update_icon()
+	. = ..()
+	update_icon()
 
 /obj/item/clothing/mask/cigarette/equipped(mob/user, slot)
-    . = ..()
-    update_icon()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/mask/cigarette/attack_right(mob/user)
+	if(lit)
+		user.visible_message(span_notice("[user] pinches out [src] with [user.p_their()] fingers."), \
+				span_notice("I pinch out [src] with my fingers."))
+		extinguish()
+		return 1
+	return ..()
 
 // Rollies.
 
@@ -432,135 +440,135 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/blackberry = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/apple 
-    name = "apple zig"
-    desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a cooling effect."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/apple = 15)
+	name = "apple zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a cooling effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/apple = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/apple/cheroot
-    name = "apple cheroot"
-    desc = "A rewrapped westleach zig with some alchemically extracted apple essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/apple = 15)
-    
+	name = "apple cheroot"
+	desc = "A rewrapped westleach zig with some alchemically extracted apple essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/apple = 15)
+	
 /obj/item/clothing/mask/cigarette/rollie/menthaapple 
-    name = "mentha-apple zig"
-    desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a cooling effect."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/apple = 7, /datum/reagent/drug/mentha = 8)
+	name = "mentha-apple zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a cooling effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/apple = 7, /datum/reagent/drug/mentha = 8)
 
 /obj/item/clothing/mask/cigarette/rollie/menthaapple/cheroot
-    name = "mentha-apple cheroot"
-    desc = "A rewrapped westleach zig with some alchemically extracted mentha and apple essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/apple = 7, /datum/reagent/drug/mentha = 8)
-    
+	name = "mentha-apple cheroot"
+	desc = "A rewrapped westleach zig with some alchemically extracted mentha and apple essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/apple = 7, /datum/reagent/drug/mentha = 8)
+	
 /obj/item/clothing/mask/cigarette/rollie/chocolate
-    name = "chocolate zig"
-    desc = "Dried westleach carefully wrapped in fine paper. It has a particularly bittersweet taste of cocoa."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/chocolate = 12, /obj/item/reagent_containers/food/snacks/chocolate = 3)
+	name = "chocolate zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly bittersweet taste of cocoa."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/chocolate = 12, /obj/item/reagent_containers/food/snacks/chocolate = 3)
 
 /obj/item/clothing/mask/cigarette/rollie/chocolate/cheroot
-    name = "chocolate cheroot"
-    desc = "A rewrapped westleach zig with some alchemically extracted chocolate essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/chocolate = 12, /obj/item/reagent_containers/food/snacks/chocolate = 3)
-    
+	name = "chocolate cheroot"
+	desc = "A rewrapped westleach zig with some alchemically extracted chocolate essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/chocolate = 12, /obj/item/reagent_containers/food/snacks/chocolate = 3)
+	
 /obj/item/clothing/mask/cigarette/rollie/strawberry
-    name = "strawberry zig"
-    desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/strawberry = 15)
+	name = "strawberry zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/strawberry = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/strawberry/cheroot
-    name = "strawberry cheroot"
-    desc = "A rewrapped westleach zig with some alchemically extracted strawberry essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/strawberry = 15)
-    
+	name = "strawberry cheroot"
+	desc = "A rewrapped westleach zig with some alchemically extracted strawberry essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/strawberry = 15)
+	
 /obj/item/clothing/mask/cigarette/rollie/carrot
-    name = "carrot zig"
-    desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/carrot = 15)
+	name = "carrot zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/carrot = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/carrot/cheroot
-    name = "carrot cheroot"
-    desc = "A rewrapped westleach zig with some alchemically extracted carrot essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/carrot = 15)
-    
+	name = "carrot cheroot"
+	desc = "A rewrapped westleach zig with some alchemically extracted carrot essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/carrot = 15)
+	
 /obj/item/clothing/mask/cigarette/rollie/lime
-    name = "lime zig"
-    desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/lime = 15)
+	name = "lime zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a sweet and refreshing effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/lime = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/lime/cheroot
-    name = "lime cheroot"
-    desc = "A rewrapped westleach zig with some alchemically extracted lime essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/lime = 15)
+	name = "lime cheroot"
+	desc = "A rewrapped westleach zig with some alchemically extracted lime essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/lime = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/salvia
-    name = "salvia zig"
-    desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a spicy, earthy and bitter effect."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/salvia = 15)
+	name = "salvia zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a spicy, earthy and bitter effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/salvia = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/salvia/cheroot
-    name = "salvia cheroot"
-    desc = "A rewrapped westleach zig with some alchemically extracted salvia essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/salvia = 15)
+	name = "salvia cheroot"
+	desc = "A rewrapped westleach zig with some alchemically extracted salvia essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/salvia = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/salviavaleriana
-    name = "salvia-valeriana zig"
-    desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a spicy, earthy and bitter effect, combined with a calming and sleep-inducing one."
+	name = "salvia-valeriana zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a particularly smooth taste with a spicy, earthy and bitter effect, combined with a calming and sleep-inducing one."
 
 /obj/item/clothing/mask/cigarette/rollie/salviavaleriana/cheroot
-    name = "salvia-valeriana cheroot"
-    desc = "A rewrapped westleach zig with some alchemically extracted salvia and valeriana essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/salvia = 5, /datum/reagent/drug/valeriana = 10)
+	name = "salvia-valeriana cheroot"
+	desc = "A rewrapped westleach zig with some alchemically extracted salvia and valeriana essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/salvia = 5, /datum/reagent/drug/valeriana = 10)
 
 /obj/item/clothing/mask/cigarette/rollie/calendula
-    name = "calendula zig"
-    desc = "Dried westleach carefully wrapped in fine paper. It has a bitter taste and light healing properties."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/calendula = 15)
+	name = "calendula zig"
+	desc = "Dried westleach carefully wrapped in fine paper. It has a bitter taste and light healing properties."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/calendula = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/calendula/cheroot
-    name = "calendula cheroot"
-    desc = "A rewrapped westleach zig with some alchemically extracted calendula essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/calendula = 15)
+	name = "calendula cheroot"
+	desc = "A rewrapped westleach zig with some alchemically extracted calendula essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/calendula = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/jacksberries
-    name = "jacksberries zig"
-    desc = "Dried westleach and jacksberries carefully wrapped in fine paper. It has a particularly smooth taste with a slight sourness and sweetness effect."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/jacksberries = 15)
+	name = "jacksberries zig"
+	desc = "Dried westleach and jacksberries carefully wrapped in fine paper. It has a particularly smooth taste with a slight sourness and sweetness effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/jacksberries = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/jacksberries/cheroot
-    name = "jacksberries cheroot"
-    desc = "A rewrapped jacksberries zig with some alchemically extracted jacksberries essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/jacksberries = 15)
+	name = "jacksberries cheroot"
+	desc = "A rewrapped jacksberries zig with some alchemically extracted jacksberries essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/jacksberries = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/jacksberriespoison
-    name = "jacksberries zig"
-    desc = "Dried westleach and jacksberries carefully wrapped in fine paper. It has a particularly smooth taste with a slight bitterness, sourness and sweetness effect."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/jacksberries = 12, /datum/reagent/berrypoison = 3)
+	name = "jacksberries zig"
+	desc = "Dried westleach and jacksberries carefully wrapped in fine paper. It has a particularly smooth taste with a slight bitterness, sourness and sweetness effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/jacksberries = 12, /datum/reagent/berrypoison = 3)
 
 /obj/item/clothing/mask/cigarette/rollie/jacksberriespoison/cheroot
-    name = "jacksberries cheroot"
-    desc = "A rewrapped jacksberries zig with some alchemically extracted jacksberries essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/jacksberries = 12, /datum/reagent/berrypoison = 3)
+	name = "jacksberries cheroot"
+	desc = "A rewrapped jacksberries zig with some alchemically extracted jacksberries essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/jacksberries = 12, /datum/reagent/berrypoison = 3)
 
 /obj/item/clothing/mask/cigarette/rollie/abyss
-    name = "jacksberries zig"
-    desc = "Dried westleach and jackberries carefully wrapped in fine paper. It has a particularly smooth taste with a burns and scratches effect."
-    list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/abyss = 15)
+	name = "jacksberries zig"
+	desc = "Dried westleach and jackberries carefully wrapped in fine paper. It has a particularly smooth taste with a burns and scratches effect."
+	list_reagents = list(/datum/reagent/drug/nicotine = 30, /datum/reagent/drug/abyss = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/abyss/cheroot
-    name = "jacksberries cheroot"
-    desc = "A rewrapped jacksberries zig with some alchemically extracted jacksberries and salty essence."
-    smoketime = 240
-    list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/abyss = 15)
+	name = "jacksberries cheroot"
+	desc = "A rewrapped jacksberries zig with some alchemically extracted jacksberries and salty essence."
+	smoketime = 240
+	list_reagents = list(/datum/reagent/drug/nicotine = 45, /datum/reagent/drug/abyss = 15)
 
 ////////////
 // CIGARS //

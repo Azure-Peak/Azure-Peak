@@ -38,6 +38,7 @@ type FellowshipData = {
   leader_name?: string | null;
   leader_present?: BooleanLike;
   members?: Member[];
+  total_summons?: number;
   outgoing_invites?: OutgoingInvite[];
 };
 
@@ -145,6 +146,8 @@ const FellowshipView = () => {
               <br />
               <span style={{ opacity: 0.7 }}>
                 {members.length} / {data.max_members} members
+                {!!data.total_summons &&
+                  ` · ${data.total_summons} summon${data.total_summons === 1 ? '' : 's'}`}
               </span>
             </Stack.Item>
             <Stack.Item>

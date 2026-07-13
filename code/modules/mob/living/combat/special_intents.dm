@@ -336,6 +336,12 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		return
 	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cd_to_apply)
 
+/datum/special_intent/proc/settle_visuals(pz = 0, matrix/tf)
+	if(QDELETED(howner))
+		return
+	howner.transform = tf
+	animate(howner, pixel_z = pz, time = 1)
+
 /// Resolves the attacker's aimed zone against a specific target using the shared accuracy formula.
 /// Uses weapon skill as the accuracy bonus. Specials can override this for custom behavior.
 /datum/special_intent/proc/get_aimed_zone(mob/living/target)
@@ -1232,23 +1238,24 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/KD_dur = 1 SECONDS
 	var/self_immob_dur = 1.5 SECONDS
 	var/dam = 50
-	var/pixel_z
 	var/prev_pixel_z
 	var/prev_transform
-	var/transform
 
 
 /datum/special_intent/upper_cut/on_create()
 	. = ..()
-	
+
 	howner.OffBalance(self_immob_dur)
 	howner.Immobilize(self_immob_dur)
 	dam = initial(dam)
+	prev_pixel_z = howner.pixel_z
+	prev_transform = howner.transform
+	addtimer(CALLBACK(src, PROC_REF(settle_visuals), prev_pixel_z, prev_transform), delay + fade_delay)
 	playsound(howner, 'sound/combat/ground_smash_start.ogg', 100, TRUE)
 	if(HAS_TRAIT(howner, TRAIT_BIGGUY))
 		return // windup
 	else
-		animate(howner, pixel_z = pixel_z - 4, time = 3)
+		animate(howner, pixel_z = prev_pixel_z - 4, time = 3)
 	
 
 /datum/special_intent/upper_cut/apply_hit(turf/T)
@@ -1279,8 +1286,8 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	if(HAS_TRAIT(howner, TRAIT_BIGGUY))
 		return
 	else
-		animate(howner, pixel_z = pixel_z + 12, time = 2) //shoryuken
-		animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)
+		animate(howner, pixel_z = prev_pixel_z + 12, time = 2) //shoryuken
+		animate(pixel_z = prev_pixel_z, transform = turn(prev_transform, pick(-12, 0, 12)), time=2)
 		animate(transform = prev_transform, time = 0)
 
 	..()
@@ -1309,6 +1316,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	dam = initial(dam)
 	prev_pixel_z = howner.pixel_z
 	prev_transform = howner.transform
+	addtimer(CALLBACK(src, PROC_REF(settle_visuals), prev_pixel_z, prev_transform), delay + fade_delay)
 	howner.visible_message(span_warning("[howner] rises on a surge of arcyne force!"), span_warning("I rise on a surge of arcyne force!"))
 	playsound(howner, 'sound/magic/charging.ogg', 100, TRUE)
 	if(!HAS_TRAIT(howner, TRAIT_BIGGUY))

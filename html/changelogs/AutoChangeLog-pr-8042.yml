@@ -1,0 +1,7 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - code_imp: "Adds new tech for enchantments that allow to add right click effects on items enchanted."
+  - bugfix: "Fixes Revealing light. Its light now works with weapons, and also calculates as a movable light, so it actually follows the item enchanted, it can also be turned off and on with right click on it."
+  - balance: "Revealing Light Enchantment is now based on the light cantrip, making the light to be white and have a higher range, but be less powerful when competing with other effects."
+  - rscadd: "Adds a new T1 Fae enchantment, Fair Seeming. It cleans the user after a 2 second action, even removing the sewer grime. You could get soap for a fraction of the value, but, who am I to tell you how to use your money."

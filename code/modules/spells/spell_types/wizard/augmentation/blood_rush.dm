@@ -5,9 +5,15 @@
 
 	cooldown_time = 60 SECONDS
 
-	invocations = list("Sanguis Fervet.")
+	primary_resource_type = SPELL_COST_ENERGY
+	primary_resource_cost = SPELLCOST_BRUSH
 
-	point_cost = 1
+	invocations = list("Concita!")
+	invocation_type = INVOCATION_SHOUT
+	charge_required = FALSE
+	other_cast_cooldown_reduction = 0 // Too powerful otherwise
+
+	point_cost = 2
 
 /datum/action/cooldown/spell/augment_buff/blood_rush/cast(atom/cast_on)
 	. = ..()
@@ -21,13 +27,12 @@
 
 	var/mob/living/spelltarget = cast_on
 
-	if(spelltarget != H)
-		H.visible_message("[H] mutters an incantation and [spelltarget]'s veins flush with sudden vigor.")
-		spelltarget.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
-		H.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
-		to_chat(H, span_notice("The surge courses through me as well!"))
-	else
+	if(spelltarget == H)
 		H.visible_message("[H] mutters an incantation and their veins flush with sudden vigor.")
 		H.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+		return TRUE
+
+	H.visible_message("[H] mutters an incantation and [spelltarget]'s veins flush with sudden vigor.")
+	spelltarget.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 
 	return TRUE

@@ -53,7 +53,7 @@
 	target.adjustBruteLoss(20)
 
 	user.visible_message("<span class='warning'>[user] rips [target]'s heart out with a roar!</span>", \
-						"<span class='red'>You present the heart to Graggar! The God chuckles upon this offering.</span>")
+						"<span class='red'>I hold [target]'s heart over my head - presenting my proof of victory to the DARKSTAR!</span>")
 	user.emote("rage", forced = TRUE)
 
 	return TRUE

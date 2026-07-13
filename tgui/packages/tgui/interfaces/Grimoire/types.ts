@@ -4,6 +4,7 @@ export type Spell = {
   desc: string;
   fluff_desc: string;
   cost: number;
+  exclusive_group?: string | null;
 };
 
 export type VariantSwap = {
@@ -48,6 +49,7 @@ export type Data = {
   staged_choices: Record<string, string>;
   pointbuy_selections: Record<string, string[]>;
   all_selected_spells: string[];
+  claimed_groups: Record<string, string>;
   spent_budgets: Record<string, number>;
   utility_points_spent: number;
   reset_budget: number;

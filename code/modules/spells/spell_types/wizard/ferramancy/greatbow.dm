@@ -26,6 +26,7 @@
 
 /obj/projectile/bullet/reusable/arrow/iron/ferramancy
 	color = GLOW_COLOR_ARCANE
+	trains_ranged_skill = FALSE
 
 /obj/projectile/bullet/reusable/arrow/iron/ferramancy/on_hit()
 	. = ..()
@@ -44,6 +45,8 @@
 	desc = "A longbow of condensed arcyne light. It draws on the wielder's own energy in place of arrows, looses with a heavy and deliberate pull, and is far too unwieldy to fire on the move."
 	color = GLOW_COLOR_ARCANE
 	minstr = 0
+	associated_skill = /datum/skill/combat/arcyne
+	ranged_skill = /datum/skill/combat/arcyne
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/bow/ferramancy
 	spill_ammo_on_drop = FALSE
 	possible_item_intents = list(
@@ -58,6 +61,10 @@
 	var/reloading = FALSE
 	var/lance_cooldown = 10 SECONDS
 	COOLDOWN_DECLARE(lance_cd)
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Its draw answers to my <b>Arcyne Armament</b>, not any common archer's training.")
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/greatbow/Initialize()
 	. = ..()
@@ -116,4 +123,96 @@
 	update_icon()
 	if(holder)
 		playsound(loc, 'sound/foley/nockarrow.ogg', 50, TRUE)
+
+/obj/item/ammo_casing/caseless/rogue/bolt/ferramancy
+	name = "arcyne bolt"
+	desc = "A bolt of condensed arcyne light, drawn from raw mana. It will unravel the instant it strikes home."
+	color = GLOW_COLOR_ARCANE
+	projectile_type = /obj/projectile/bullet/reusable/bolt/ferramancy
+
+/obj/projectile/bullet/reusable/bolt/ferramancy
+	color = GLOW_COLOR_ARCANE
+	trains_ranged_skill = FALSE
+
+/obj/projectile/bullet/reusable/bolt/ferramancy/on_hit()
+	. = ..()
+	QDEL_NULL(dropped)
+
+/obj/projectile/bullet/reusable/bolt/ferramancy/handle_drop()
+	QDEL_NULL(dropped)
+	return
+
+/obj/item/ammo_box/magazine/internal/shot/xbow/ferramancy
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/ferramancy
+	start_empty = TRUE
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ferramancy
+	name = "arcyne crossbow"
+	desc = "A crossbow of condensed arcyne light, conjured from raw mana by a Ferramancer's will. It bears no quiver - drawing the \
+	string taut coaxes a bolt of pure energy into being, ready to loose. It draws upon the wielder's own reserves in place of ammunition."
+	color = GLOW_COLOR_ARCANE
+	minstr = 0
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/xbow/ferramancy
+	unenchantable = TRUE
+	anvilrepair = null
+	smeltresult = null
+	associated_skill = /datum/skill/combat/arcyne
+	ranged_skill = /datum/skill/combat/arcyne
+	/// Arcyne energy drawn from the wielder each time the string is cocked and a bolt is conjured.
+	var/conjure_cost = 25
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ferramancy/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Drawing the string conjures a bolt of arcyne energy, spending <b>[conjure_cost]</b> of your own energy. It accepts no other ammunition.")
+	. += span_info("Its draw and aim answer to my <b>Arcyne Armament</b>, not any common crossbow drill.")
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ferramancy/attack_self(mob/living/user)
+	if(chambered)
+		to_chat(user, span_warning("The conjured bolt unravels as I ease [src] down."))
+		dispel_bolt()
+		cocked = FALSE
+		update_icon()
+		return
+	if(user.energy < conjure_cost)
+		to_chat(user, span_warning("I haven't the arcyne energy to charge [src]!"))
+		return
+	to_chat(user, span_info("I step on the stirrup and draw [src] taut..."))
+	if(!do_after(user, max(1, reloadtime - user.STASTR - user.get_skill_level(ranged_skill)), target = user))
+		return
+	playsound(user, cock_sound, 100, FALSE)
+	if(!conjure_bolt(user))
+		return
+	cocked = TRUE
+	update_icon()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ferramancy/attackby(obj/item/A, mob/user, params)
+	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
+		to_chat(user, span_warning("[src] draws only upon my own arcyne energy - it will not accept a common bolt."))
+		return
+	return ..()
+
+/// Spend the wielder's energy to conjure a fresh arcyne bolt and chamber it.
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ferramancy/proc/conjure_bolt(mob/living/user)
+	if(!magazine)
+		return FALSE
+	if(user.energy < conjure_cost)
+		to_chat(user, span_warning("My arcyne energy fails me at the last moment!"))
+		return FALSE
+	user.energy_add(-conjure_cost)
+	if(!chambered && !magazine.ammo_count())
+		magazine.give_round(new /obj/item/ammo_casing/caseless/rogue/bolt/ferramancy(magazine))
+	chamber_round()
+	playsound(src, 'sound/foley/nockarrow.ogg', 50, TRUE)
+	user.visible_message(span_warning("A bolt of arcyne light coalesces upon [src]!"))
+	return TRUE
+
+/// Unravel the conjured bolt, emptying the crossbow without dropping anything real.
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/ferramancy/proc/dispel_bolt()
+	if(chambered)
+		QDEL_NULL(chambered)
+	if(magazine)
+		for(var/obj/item/ammo_casing/AC in magazine.stored_ammo)
+			magazine.stored_ammo -= AC
+			qdel(AC)
+	playsound(src, 'sound/magic/magic_nulled.ogg', 40, TRUE)
 

@@ -5,12 +5,14 @@ export const GrimoireChoiceSection = ({
   aspect,
   stagedChoices,
   allSelectedSpells,
+  claimedGroups,
   act,
   readOnly = false,
 }: {
   aspect: Aspect;
   stagedChoices: Record<string, string>;
   allSelectedSpells: string[];
+  claimedGroups: Record<string, string>;
   act: (action: string, params: Record<string, unknown>) => void;
   readOnly?: boolean;
 }) => {
@@ -35,20 +37,29 @@ export const GrimoireChoiceSection = ({
         const isSelected = currentChoice === spell.path;
         const selectedElsewhere =
           !isSelected && allSelectedSpells.includes(spell.path);
+        const claimedBy = spell.exclusive_group
+          ? claimedGroups[spell.exclusive_group]
+          : undefined;
+        const conflictsElsewhere =
+          !isSelected &&
+          !selectedElsewhere &&
+          claimedBy !== undefined &&
+          claimedBy !== aspect.path;
+        const disabled = selectedElsewhere || conflictsElsewhere;
         return (
           <div
             key={spell.path}
             className={cls(
               'AspectPicker__pointbuy-entry',
               isSelected && 'AspectPicker__pointbuy-entry--selected',
-              selectedElsewhere && 'AspectPicker__pointbuy-entry--disabled',
+              disabled && 'AspectPicker__pointbuy-entry--disabled',
             )}
             title={spell.fluff_desc ? stripHtml(spell.fluff_desc) : undefined}
             style={{
-              cursor: selectedElsewhere ? 'default' : 'pointer',
+              cursor: disabled ? 'default' : 'pointer',
             }}
             onClick={() =>
-              !selectedElsewhere &&
+              !disabled &&
               act('choice_toggle', {
                 aspect_path: aspect.path,
                 spell_path: spell.path,
@@ -77,6 +88,14 @@ export const GrimoireChoiceSection = ({
                 style={{ marginLeft: '18px' }}
               >
                 already inscribed
+              </span>
+            )}
+            {conflictsElsewhere && (
+              <span
+                className="AspectPicker__spell-desc"
+                style={{ marginLeft: '18px' }}
+              >
+                conflicts with a chosen spell
               </span>
             )}
             {spell.desc && (

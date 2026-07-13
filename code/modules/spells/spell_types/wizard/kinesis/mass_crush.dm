@@ -23,6 +23,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_HEAVY
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
@@ -35,6 +36,7 @@
 
 	var/telegraph_delay = TELEGRAPH_HIGH_IMPACT
 	var/crush_damage = 60
+	displayed_damage = 60
 	var/npc_simple_damage_mult = 2
 	var/crush_intdamage_factor = 2
 	var/aoe_range = 2 // 5x5

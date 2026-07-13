@@ -1,0 +1,5 @@
+author: "kiwedespars"
+delete-after: True
+changes:
+  - bugfix: "graggar organs event fixed (hacky, no longer requires hearts)"
+  - bugfix: "graggar culling now works properly."

@@ -206,6 +206,10 @@
 
 	var/pet_passive = FALSE
 
+	var/list/summoned_minions
+	var/attack_relay_refs = 0
+	var/attack_relay_self_added = FALSE
+
 	var/cmode_music_override = list() // set by prefs or the verb, ignored if empty
 	var/cmode_music_override_name // solely for autoselecting as a spawned-in mob
 	var/last_heard_raw_message //to prevent repeated messages from spamming
