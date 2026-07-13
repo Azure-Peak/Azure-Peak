@@ -406,6 +406,8 @@ To avoid TOO much conflicts w/random char parts, consider a proc that checks if 
 #define ALL_SLAYER_PATRONS list(/datum/patron/divine/malum, /datum/patron/divine/ravox)
 
 #define ALL_KAZENGUN_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/abyssor, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora, /datum/patron/divine/xylix, /datum/patron/old_god, /datum/patron/inhumen/matthios, /datum/patron/inhumen/baotha) //the twelve + saidon
+///lol
+#define ALL_PSYDON_PATRONS list(/datum/patron/old_god)
 
 #define PLATEHIT "plate"
 #define CHAINHIT "chain"

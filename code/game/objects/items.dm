@@ -293,6 +293,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/is_carved = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
+	var/list/stacked_aura_colors = null
 
 /obj/item/Initialize(mapload)
 	. = ..()
@@ -1942,3 +1943,23 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
 			return EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_VERYODD //Its meant to be a double-take. Intentional.
 	return null
+
+/obj/item/proc/apply_stacked_auras()
+	remove_stacked_auras()
+	if(!stacked_aura_colors || !length(stacked_aura_colors))
+		return
+	if(!filters)
+		filters = list()
+	for(var/C in stacked_aura_colors)
+		filters += filter(type = "outline",	color = "[C]", size = 1)
+
+/obj/item/proc/remove_stacked_auras()
+	if(!filters)
+		return
+	for(var/F in filters.Copy())
+		if(islist(F) && F["type"] == "outline")
+			filters -= F
+
+/obj/item/proc/refresh_stacked_auras()
+	remove_stacked_auras()
+	apply_stacked_auras()

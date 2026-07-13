@@ -1108,7 +1108,7 @@
 	desc = "A part of me has been left behind - I will revert soon."
 	icon_state = "buff"
 
-/atom/movable/screen/alert/status_effect/buff/censerbuff
+/atom/movable/screen/alert/status_effect/buff/psycenserbuff
 	name = "Syon's Blessings"
 	desc = "I have been anointed in His comet's radiance; let no evil befall me!"
 	icon_state = "censerbuff"
@@ -1118,9 +1118,9 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/fortify
 	duration = 1 MINUTES
 
-/datum/status_effect/buff/censerbuff
-	id = "censer"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/censerbuff
+/datum/status_effect/buff/psycenserbuff
+	id = "psycenser"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/psycenserbuff
 	duration = 15 MINUTES
 	effectedstats = list(STATKEY_WIL = 1, STATKEY_CON = 1, STATKEY_LCK = 1)
 

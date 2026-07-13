@@ -287,7 +287,7 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	backl = /obj/item/storage/backpack/rogue/backpack
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/flashlight/flare/torch/lantern
+	beltr = /obj/item/flashlight/flare/torch/lantern/censer
 	cloak = /obj/item/clothing/cloak/thief_cloak
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	shoes = /obj/item/clothing/shoes/roguetown/boots
@@ -298,7 +298,8 @@
 		/obj/item/lockpick = 1, 
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
-		/obj/item/skillbook/unfinished = 1
+		/obj/item/skillbook/unfinished = 1,
+		/obj/item/herbmill = 1,
 		)
 		
 	if(H.mind)
@@ -357,6 +358,6 @@
 				H.mind.check_learnspell()
 	
 		H.AddSpell(new /obj/effect/proc_holder/spell/invoked/secularbarter)
-		H.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+		H.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/flashpowder)
 		

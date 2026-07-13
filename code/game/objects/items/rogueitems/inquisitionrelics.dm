@@ -447,11 +447,11 @@ Inquisitorial armory down here
 	if(ishuman(A) && on && (user.used_intent.type == /datum/intent/bless))
 		var/mob/living/carbon/human/H = A
 		if(H.patron?.type == /datum/patron/old_god)
-			if(!H.has_status_effect(/datum/status_effect/buff/censerbuff))
+			if(!H.has_status_effect(/datum/status_effect/buff/psycenserbuff))
 				playsound(user, 'sound/magic/censercharging.ogg', 100)
 				user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
 				if(do_after(user, 50, target = A))
-					H.apply_status_effect(/datum/status_effect/buff/censerbuff)
+					H.apply_status_effect(/datum/status_effect/buff/psycenserbuff)
 					to_chat(H, span_hypnophrase("The fragrance of SYON's shard invigorates you!"))
 					playsound(H, 'sound/magic/holyshield.ogg', 100)
 					new /obj/effect/temp_visual/censer_dust(get_turf(H))

@@ -93,6 +93,7 @@
 	return TRUE
 
 /// Cauterize
+/// Note: This was happening on the censer/golgatha for some reason, so I gated it a little better. Expect jank!!!
 /datum/surgery_step/cauterize
 	name = "Cauterize wounds"
 	implements = list(
@@ -108,16 +109,18 @@
 	success_sound = 'sound/surgery/cautery2.ogg'
 
 /datum/surgery_step/cauterize/validate_bodypart(mob/user, mob/living/carbon/target, obj/item/bodypart/bodypart, target_zone)
-	// If you have medicine expert, you can caut thru armor. Also fails if they're in cmode.
-	if(HAS_TRAIT(user, TRAIT_MEDICINE_EXPERT) && (target.cmode == 0))
+	if(HAS_TRAIT(user, TRAIT_MEDICINE_EXPERT) && !target.cmode)
 		ignore_clothes = TRUE
-	else // IDK if this is necessary but probably good 4 clarification.
-		ignore_clothes = FALSE
 
 	. = ..()
 	if(!.)
-		return
-	return length(bodypart.wounds)
+		return FALSE
+
+	for(var/datum/wound/W in bodypart.wounds)
+		if(W.bleed_rate > 0)
+			return TRUE
+
+	return FALSE
 
 /datum/surgery_step/cauterize/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	display_results(user, target, span_notice("I begin to cauterize the wounds on [target]'s [parse_zone(target_zone)]..."),
@@ -126,18 +129,30 @@
 	return TRUE
 
 /datum/surgery_step/cauterize/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
-	display_results(user, target, span_notice("I cauterize the wounds on [target]'s [parse_zone(target_zone)]."),
+	display_results(user, target,
+		span_notice("I cauterize the wounds on [target]'s [parse_zone(target_zone)]."),
 		span_notice("[user] cauterizes the wounds on [target]'s [parse_zone(target_zone)]."),
 		span_notice("[user] cauterizes the wounds on [target]'s [parse_zone(target_zone)]."))
+
 	var/obj/item/bodypart/bodypart = target.get_bodypart(check_zone(target_zone))
 	if(bodypart)
-		for(var/datum/wound/bleeder in bodypart.wounds)
-			bleeder.cauterize_wound()
-		bodypart.receive_damage(burn = 25) //painful, but the wounds go away eh?
-	if (target.has_status_effect(/datum/status_effect/buff/ozium))
-		target.emote ("groan")
-	if (!target.has_status_effect(/datum/status_effect/buff/ozium))
+		var/cauterized = FALSE
+
+		for(var/datum/wound/W in bodypart.wounds)
+			if(W.bleed_rate <= 0)
+				continue
+
+			W.cauterize_wound()
+			cauterized = TRUE
+
+		if(cauterized)
+			bodypart.receive_damage(burn = 25)
+
+	if(target.has_status_effect(/datum/status_effect/buff/ozium) || HAS_TRAIT(target, TRAIT_NOPAINSTUN))
+		target.emote("groan")
+	else
 		target.emote("scream")
+
 	return TRUE
 
 /// Saw bone

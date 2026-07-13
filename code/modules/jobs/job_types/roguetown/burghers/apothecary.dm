@@ -80,11 +80,14 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/natural/worms/leech/cheele = 1,
-		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/clothing/mask/rogue/physician = 1,
 		/obj/item/mini_flagpole/apothecary = 1,
+		/obj/item/flashlight/flare/torch/lantern/censer = 1,
+		/obj/item/paper/herb_censer_prep_recipe = 1,
+		/obj/item/herbmill = 1,
 	)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H)
