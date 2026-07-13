@@ -1,80 +1,120 @@
-///////////////////////
-// T0 - Spider Speak //
-///////////////////////
+/datum/action/cooldown/spell/dendor
+	background_icon = 'icons/mob/actions/dendormiracles.dmi'
+	button_icon = 'icons/mob/actions/dendormiracles.dmi'
+	spell_color = GLOW_COLOR_DENDOR
 
-/obj/effect/proc_holder/spell/invoked/spiderspeak
-	name = "Spider Speak"
-	desc = "Makes spiders not attack the target."
-	action_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_state = "tamebeast"
-	releasedrain = 15
-	chargedrain = 0
-	chargetime = 1 SECONDS
-	range = 2
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = 'sound/magic/churn.ogg'
-	invocations = list("Spiders of Psydonia, allow me to pass safely!")
-	invocation_type = "shout"
+	attunement_school = null
+
+	primary_resource_type = SPELL_COST_DEVOTION
+
+	secondary_resource_type = SPELL_COST_STAMINA
+
+	ignore_armor_penalty = TRUE
+
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
-	recharge_time = 4 SECONDS
-	miracle = TRUE
-	devotion_cost = 25
 
-/obj/effect/proc_holder/spell/invoked/spiderspeak/cast(list/targets, mob/living/user)
-	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		target.visible_message("<font color='yellow'>[user] infuses [target] with swirling strands of spectral webs!</font>", "<font color='yellow'>You feel your tongue shift strangely, producing odd clicking noises.</font>")
-		target.apply_status_effect(/datum/status_effect/buff/spider_speak)
-		return TRUE
-	revert_cast()
-	return FALSE
+	spell_tier = 0
+	point_cost = 0
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/dendor, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
+
+///////////////////
+// T0 - Entangle //
+///////////////////
+
+/datum/action/cooldown/spell/dendor/entangle
+	name = "Entangle"
+	desc = "Lash out with line of vines, immobilizing your target and dealing damage."
+	background_icon = 'icons/mob/actions/dendormiracles.dmi'
+	button_icon = 'icons/mob/actions/dendormiracles.dmi'
+	button_icon_state = "entangle"
+	blade_class = BCLASS_LASHING
+	windup_time = TELEGRAPH_DODGEABLE
+	damage = 25
+	npc_simple_damage_mult = 2
+	sweep_step = 0
+	impact_delay = 4
+	detonate_sound = null
+	immobilize_on_hit = 0.5 SECONDS
+
+	parent_type = /datum/action/cooldown/spell/telegraphed_strike
+	sound = 'sound/misc/chain_snap.ogg'
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR + 20
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_MIRACLE
+
+	invocations = list("Stay awhile!")
+	invocation_type = INVOCATION_SHOUT
+
+	cooldown_time = 45 SECONDS
+	charging_slowdown = 1
+
+	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+
+	telegraph_type = /obj/effect/temp_visual/trap/dendor
+
+/datum/action/cooldown/spell/dendor/entangle/get_pattern_offsets()
+	return list(
+		list(0, 1),
+		list(0, 2),
+		list(0, 3),
+	)
+
+/datum/action/cooldown/spell/dendor/entangle/on_impact(mob/living/carbon/human/H, facing, atom/movable/visual)
+	var/turf/T = get_step(get_turf(H), facing) || get_turf(H)
+	if(!T)
+		return
+	playsound(T, pick('sound/combat/hits/onwood/woodimpact (1).ogg', 'sound/combat/hits/onwood/woodimpact (2).ogg'), 90, TRUE, 4)
+	playsound(T, 'sound/magic/repulse.ogg', 55, TRUE, 3)
+	new /obj/effect/temp_visual/spell_impact(T, spell_color, SPELL_IMPACT_HIGH)
+	if(QDELETED(visual))
+		return
+/*	var/rest = visual.pixel_y
+	animate(visual, pixel_y = rest + 4, time = 1, easing = SINE_EASING | EASE_OUT)
+	animate(pixel_y = rest, time = 1, easing = SINE_EASING | EASE_IN)
+	animate(alpha = 0, time = 3)
+*/
+
+/obj/effect/temp_visual/trap/dendor
+	color = GLOW_COLOR_DENDOR
+	light_color = GLOW_COLOR_DENDOR
+	duration = 8
 
 //////////////////////
 // T0 - Bless Crops //
 //////////////////////
 
-/obj/effect/proc_holder/spell/targeted/blesscrop
+/datum/action/cooldown/spell/dendor/bless
 	name = "Bless Crops"
 	desc = "Bless up to five crops around you. Revives dead plants, gives them nutrition and water if low and boosts their growth."
-	range = 5
-	action_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_state = "blesscrop"
-	releasedrain = 30
-	recharge_time = 30 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	max_targets = 0
-	cast_without_targets = TRUE
+	button_icon_state = "blesscrop"
 	sound = 'sound/magic/churn.ogg'
-	associated_skill = /datum/skill/magic/holy
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_AURA
+
+	primary_resource_cost = SPELLCOST_MIRACLE - 10
+
+	secondary_resource_cost = SPELLCOST_MIRACLE
+
 	invocations = list("The Treefather commands thee, be fruitful!")
-	invocation_type = "shout" //can be none, whisper, emote and shout
-	miracle = TRUE
-	devotion_cost = 20
+	invocation_type = INVOCATION_SHOUT
 
-// What the blazes is a corn?
-// Given to soilsons and farmers.
-/obj/effect/proc_holder/spell/targeted/blesscrop/secular
-	miracle = FALSE
-	devotion_cost = 0
-	req_items = list()
-	// Slightly more since no psycross
-	releasedrain = 40
-	recharge_time = 33 SECONDS
-	invocations = list("Cow pie n' raw sod, makes th' rye! Drink it down an' kiss the sky!",
-					   "Cow pie n' raw sod, makes th' rye! That foul drink'll make ye cry!",
-					   "Cow pie n' raw sod, makes th' rye! By the gods, I'd rather die!",
-					   "Cow pie n' raw sod, makes th' rye! Even goats refuse to try!",
-					   "Compost rich n' dark as sin, makes the harvest rollin' in!",
-					   "Compost steamed in morning dew, makes the garden fresh an' new!",
-					   "Manure fresh from stable floor, makes the crops grow more an' more!",
-					   "Manure n' maggots, squirm n' crawl, makes the tallest cornstalks tall!",
-					   "Sludge n' slurry, thick n' brown, makes the greenest crop in town!")
+	charge_required = FALSE
+	cooldown_time = 30 SECONDS
 
-/obj/effect/proc_holder/spell/targeted/blesscrop/cast(list/targets,mob/user = usr)
+	spell_requirements = SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/dendor/bless/cast(atom/cast_on)
 	. = ..()
 	var/growed = FALSE
 	var/amount_blessed = 0
@@ -86,8 +126,166 @@
 		if(amount_blessed >= 5)
 			break
 	if(growed)
-		visible_message(span_green("[usr] blesses the nearby crops with Dendor's Favour!"))
+		usr.visible_message(span_green("[usr] blesses the nearby crops with Dendor's Favour!"))
 	return growed
+
+/datum/action/cooldown/spell/dendor/bless/secular
+	primary_resource_cost = 0
+	secondary_resource_cost = SPELLCOST_MIRACLE + 10
+
+	invocations = list("Cow pie n' raw sod, makes th' rye! Drink it down an' kiss the sky!",
+					   "Cow pie n' raw sod, makes th' rye! That foul drink'll make ye cry!",
+					   "Cow pie n' raw sod, makes th' rye! By the gods, I'd rather die!",
+					   "Cow pie n' raw sod, makes th' rye! Even goats refuse to try!",
+					   "Compost rich n' dark as sin, makes the harvest rollin' in!",
+					   "Compost steamed in morning dew, makes the garden fresh an' new!",
+					   "Manure fresh from stable floor, makes the crops grow more an' more!",
+					   "Manure n' maggots, squirm n' crawl, makes the tallest cornstalks tall!",
+					   "Sludge n' slurry, thick n' brown, makes the greenest crop in town!")
+	cooldown_time = 33 SECONDS
+	required_items = null
+
+///////////////////
+// T1 - Wyldcall //
+///////////////////
+
+/datum/action/cooldown/spell/conjure_summon/dendor_wolf
+	name = "Wyldcall"
+	desc = "Conjure a Primordial to fight at your side. Toggle its element with Shift+G while the spell is selected: Flame, Water, or Air. \
+	It grows mightier with your skill at Arcyne Armament - upgrading at Expert, and further at Master. You can maintain only one at a time - recast to re-summon, or use Dismiss Conjuration to release it safely."
+	button_icon_state = "primetriangle"
+	invocations = list("Volp :3")
+	sound = 'sound/magic/dendor_summon.ogg'
+	summon_noun = "dyrevolf"
+	recoil_energy_floor = 150
+	modes = list(
+		list("name" = "Ancient", "tag" = "ANCIENT", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/ancient, "color" = GLOW_COLOR_DENDOR, "invocation" = "Ancient one, rise!"),
+		//list("name" = "Water", "tag" = "WATER", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/water, "color" = GLOW_COLOR_ICE, "invocation" = "Exsurge, unda!"),
+		//list("name" = "Air", "tag" = "AIR", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/air, "color" = "#cfe8ff", "invocation" = "Exsurge, ventus!"),
+	)
+
+/datum/action/cooldown/spell/conjure_summon/dendor_wolf/spawn_summon(turf/T, mob/living/user)
+	var/mob_path = modes[current_mode]["path"]
+	var/mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/conjured = new mob_path(T, user)
+	scale_dyrevolf(conjured, user)
+	return conjured
+
+/datum/action/cooldown/spell/conjure_summon/dendor_wolf/proc/scale_dyrevolf(mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/P, mob/living/user)
+	var/lvl = clamp(user.get_skill_level(/datum/skill/magic/holy), 1, 6)
+	var/tier = get_summon_tier(user)
+	var/mult = 0.7 + (lvl * 0.1) + (tier - 1) * 0.25
+	P.maxHealth = round(P.maxHealth * mult)
+	P.health = P.maxHealth
+	P.melee_damage_lower = round(P.melee_damage_lower * mult)
+	P.melee_damage_upper = round(P.melee_damage_upper * mult)
+
+////////////////////////
+// T2 - Howl (Dendor) //
+////////////////////////
+
+/datum/action/cooldown/spell/dendor/howl
+	name = "Primal Howl"
+	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution while taking away willpower and constitution from ascendant worshippers."
+	sound = 'sound/magic/dendor_howl.ogg'
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_AURA
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR - 10
+
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("By Ravox, stand and fight!")
+
+	charge_required = FALSE
+	cooldown_time = 5 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/dendor/howl/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
+		if(istype(target.patron, /datum/patron/inhumen))
+			target.apply_status_effect(/datum/status_effect/debuff/call_to_arms)	//Debuffs inhumen worshipers.
+			continue
+		if(istype(target.patron, /datum/patron/old_god))
+			to_chat(target, span_danger("You feel a hot-wave wash over you, leaving as quickly as it came.."))	//No effect on Psydonians!
+			continue
+		if(!owner.faction_check_mob(target))
+			continue
+		if(target.mob_biotypes & MOB_UNDEAD)
+			continue
+		target.apply_status_effect(/datum/status_effect/buff/call_to_arms)
+	return TRUE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /////////////////////
 // T? - Tame Beast //
@@ -199,3 +397,38 @@
 		to_chat(user, span_boldwarning("Ware thee well, child of Dendor."))
 		first_cast = TRUE
 	. = ..()
+
+
+///////////////////////
+// T? - Spider Speak //
+///////////////////////
+//Kept here for the Hag not much else, the actual effect is on the ritual for Dendorites.
+/obj/effect/proc_holder/spell/invoked/spiderspeak
+	name = "Spider Speak"
+	desc = "Makes spiders not attack the target."
+	action_icon = 'icons/mob/actions/dendormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
+	overlay_state = "tamebeast"
+	releasedrain = 15
+	chargedrain = 0
+	chargetime = 1 SECONDS
+	range = 2
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/churn.ogg'
+	invocations = list("Spiders of Psydonia, allow me to pass safely!")
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	recharge_time = 4 SECONDS
+	miracle = TRUE
+	devotion_cost = 25
+
+/obj/effect/proc_holder/spell/invoked/spiderspeak/cast(list/targets, mob/living/user)
+	. = ..()
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		target.visible_message("<font color='yellow'>[user] infuses [target] with swirling strands of spectral webs!</font>", "<font color='yellow'>You feel your tongue shift strangely, producing odd clicking noises.</font>")
+		target.apply_status_effect(/datum/status_effect/buff/spider_speak)
+		return TRUE
+	revert_cast()
+	return FALSE

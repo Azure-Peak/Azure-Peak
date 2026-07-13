@@ -386,38 +386,34 @@
 	var/riteselection = input(user, "Rituals of the Beast", src) as null|anything in dendorrites
 	switch(riteselection)
 		if("Rite of the Lesser Volf")
-			var/mob/living/target = null
-			var/turf/T = get_turf(src)
-			for(var/mob/living/person in T.contents)
-				if(!ishuman(person))
-					continue
-				if(user != person)
-					continue
-				target = person
-			if(!target)
-				to_chat(user, span_warning("I need to be standing on the rune for this to work."))
-				return
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("RRRGH GRRRHHHG GRRRHH!!")
-			playsound(loc, 'sound/vo/mobs/vw/idle (1).ogg', 100, FALSE, -1)
+			playsound(loc, 'sound/vo/mobs/vw/idle (1).ogg', 60, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("GRRRR GRRRRHHHH!!")
-			playsound(loc, 'sound/vo/mobs/vw/idle (4).ogg', 100, FALSE, -1)
+			playsound(loc, 'sound/vo/mobs/vw/idle (4).ogg', 60, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			loc.visible_message(span_warning("[user] snaps and snarls at the rune. Drool runs down their lip..."))
-			playsound(loc, 'sound/vo/mobs/vw/bark (1).ogg', 100, FALSE, -1)
+			playsound(loc, 'sound/vo/mobs/vw/bark (1).ogg', 60, FALSE, -1)
 			if(!do_after(user, 3 SECONDS))
 				return
 			loc.visible_message(span_warning("[user] snaps their head upward, they let out a howl!"))
-			playsound(loc, 'sound/vo/mobs/wwolf/howl (2).ogg', 100, FALSE, -1)
-			lesservolf(target) // starts proc
+			playsound(loc, 'sound/vo/mobs/wwolf/howl (2).ogg', 60, FALSE, -1)
+			icon_state = "dendor_active"
+			lesservolf(src)
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			spawn(120)
+				icon_state = "dendor_chalky"
 
-/obj/structure/ritualcircle/dendor/proc/lesservolf(mob/living/carbon/human/target) // IS proc
-	target.apply_status_effect(/datum/status_effect/buff/lesserwolf) // applies status effect
+/obj/structure/ritualcircle/dendor/proc/lesservolf(src)
+	var/ritualtargets = view(4, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		target.apply_status_effect(/datum/status_effect/buff/lesserwolf)
+		target.apply_status_effect(/datum/status_effect/buff/spider_speak)
+		to_chat(target,span_cultsmall("Dendor's gift flows through me!"))
 
 /obj/structure/ritualcircle/malum
 	name = "Rune of Forge"

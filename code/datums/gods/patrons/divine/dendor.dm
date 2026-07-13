@@ -5,16 +5,26 @@
 	worshippers = "Druids, Beasts, and Madmen"
 	mob_traits = list(TRAIT_KNEESTINGER_IMMUNITY, TRAIT_LEECHIMMUNE)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/invoked/spiderspeak 			= CLERIC_T0,
-					/obj/effect/proc_holder/spell/targeted/blesscrop			= CLERIC_T0,
+					/datum/action/cooldown/spell/dendor/entangle				= CLERIC_T0,
+					/datum/action/cooldown/spell/dendor/bless					= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/wildshape				= CLERIC_T2,
-					/obj/effect/proc_holder/spell/targeted/conjure_vines		= CLERIC_T3,
-					/obj/effect/proc_holder/spell/self/howl/call_of_the_moon	= CLERIC_T4,
+					/datum/action/cooldown/spell/conjure_summon/dendor_wolf		= CLERIC_T1,
+					/datum/action/cooldown/spell/conjure_dismiss				= CLERIC_T1,
+					/datum/action/cooldown/spell/dendor/howl					= CLERIC_T2,
+					/*datum/action/cooldown/spell/dendor/sprout 				= CLERIC_T2,
+					/datum/action/cooldown/spell/dendor/shape					= CLERIC_T3,
+					/datum/action/cooldown/spell/dendor/cocoon					= CLERIC_T3,
+					/datum/action/cooldown/spell/dendor/feral_impulse			= CLERIC_T4,*/
 					/obj/effect/proc_holder/spell/invoked/resurrect/dendor		= CLERIC_T4,
-					/obj/effect/proc_holder/spell/invoked/root_affinity			= CLERIC_T4,
 	)
+/* For Druid
+					/datum/action/cooldown/spell/dendor/wildshape				= CLERIC_T2,
+					/obj/effect/proc_holder/spell/targeted/conjure_vines		= CLERIC_T3,
+					/datum/action/cooldown/spell/dendor/treecall				= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/root_affinity			= CLERIC_T4,
+					/obj/effect/proc_holder/spell/self/howl/call_of_the_moon	= CLERIC_T4,
+*/
 	confess_lines = list(
 		"DENDOR PROVIDES!",
 		"THE TREEFATHER BRINGS BOUNTY!",
