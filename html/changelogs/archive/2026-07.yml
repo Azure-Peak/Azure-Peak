@@ -565,3 +565,125 @@
   yyzsong:
   - spellcheck: Removes extraneous right square bracket in Martyr weapon touch interactions
   - code_imp: Corrects bed proc typepath typo
+2026-07-11:
+  Happyowl93:
+  - rscadd: Added autogrinder for the rotational network
+  KatTheFox:
+  - rscadd: Small, non-hostile animals can now be picked up; they can be worn on the
+      head or, for flying mobs, perch on your shoulder.
+  - rscdel: Familiar transform ability has been removed, as they have been migrated
+      to the new mob pickup system
+  Ketrai:
+  - rscadd: Hag moss autoharvest.
+  - qol: Hag transmutation now explains the boon tiers better.
+  - bugfix: Abyssorite ritualists can once again draw storm runes.
+  Lamasmaster:
+  - balance: Malum Miracles and Passives
+  Ollanius:
+  - bugfix: Orles can now be properly dyed in two altering variants.
+  - rscadd: Reshades the dyeable orle to match the greyscaled tabard.
+  - rscadd: Headbands and undervestments can now be adjusted via RMB.
+  - rscadd: Slimmed-down versions of steel plate armor, available via Triumph elixirs
+      or a craftable tool.
+  - bugfix: Fixes a potential exploit that could allow Enchanting Kit-forked tools
+      to upgrade lesser forms of armor.
+  - rscadd: Gilded versions of steel plat earmor, available via the 'Decorated' smithing
+      tier. Entirely cosmetic.
+  Ryan180602:
+  - bugfix: gnoll migrants are disabled on psydon gamemodes. if a gamemode isn't meant
+      to have gnolls
+  WeNeedMorePhoron:
+  - rscadd: Raised the per client topic limit to 200 and no longer count the statpanel
+      to hopefully alleviates issues
+  - rscadd: 'Shuffle some south terrorbog quest spots around/:cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  borneblood:
+  - bugfix: Apothecary gets staves instead of polearms
+  - bugfix: Fixed a racial boon choice not working.
+  - bugfix: fixed mannequins not having pants slot
+  - bugfix: fixed being able to punch your own gear
+  - refactor: Reworked Dual Wielder virtue.
+  - bugfix: fixed light sunderbolts
+  - bugfix: fixed prosthetics having the wrong speed malus value, and weirdness with
+      Bronze Limbs virtue
+  plsleavemealon:
+  - bugfix: fixed clockwork drill wielded force
+  radarseas:
+  - rscadd: Added a few catagories to the wretch shop, exclusive to wretches. This
+      is mostly up-priced black market stuff and down-priced prosthetics so you can
+      de-nugget your fellow soft-antag back into being able to play the round without
+      medical skill.
+  - balance: Wretches can buy more supplies from camp + Get Bronze/weaponry, for gimmiciness
+  string-thing:
+  - bugfix: fixed con buff on fort. vapours
+2026-07-12:
+  7erracotta:
+  - rscadd: Added Saree's and Dhoti's
+  Kell-E:
+  - bugfix: Fixes siege bow zombie walls
+  Ketrai:
+  - rscadd: Abyssor's power shifts, tidal spires now produce darkwater.
+  - bugfix: zizo's pet cemetery event being unable to run
+  Ollanius:
+  - bugfix: Haubyrines no longer inherit unintended coverage of the groin.
+  - balance: Haubyrines cannot be worn by those with TRAIT_ARCYNE or TRAIT_CIVILIZEDBARBARIAN;
+      magicka casters and dedicated pugilists, more plainly.
+  - code_imp: Added new tags in armour_filtering.dm that allows for tagged items to
+      be unwearable by those with TRAIT_ARCYNE, TRAIT_CIVILIZEDBARBARIAN, or TRAIT_DODGEEXPERT--
+      independently or all together. Check out chainmail.dm for an example of how
+      to add multiple tags to the same armor-filtering component.
+  Ryan180602:
+  - bugfix: painting crashes + other bugs
+  - bugfix: errant hair editor bugs
+  - refactor: cleans up ghost mob code.
+  - bugfix: fixed bugs with the profane dagger that did not actually put the player
+      client in the dagger.
+  - bugfix: fixed ghost polling for scried clients.
+  - bugfix: prevents scried clients from jumping around with double click to move
+      turf.
+  - qol: Admins don't need to ready up to vote.
+  - qol: End round votes can be done from lobby now again
+  ShiroseSchnee:
+  - rscadd: Adds new donator item for ShiroseSchnee
+  WeNeedMorePhoron:
+  - bugfix: Potentially fixes spells and attacks fizzling when you move your mouse
+      after charging
+  borneblood:
+  - rscadd: added a way to access either of the Bishop's holy staves
+  - bugfix: fixed the staff of the shepherd's missing interactions
+  - bugfix: fixed tomato on a fundamental level
+  - rscadd: Added 'Pouched Suspenders' as a cosmetic for the loadout.
+  - bugfix: fixed Avantail and Chainmantle
+  - bugfix: frei swords can now block projectiles on halfsword intent's block
+2026-07-13:
+  KatTheFox:
+  - bugfix: Elemental and void familiars can now resist to break out of tool transformations
+  - balance: Tier 1 earthen forge no longer halves the durability of conjured items
+  Lamasmaster:
+  - balance: Bishop Combat Skills were changed. Bishop now gains Master Unarmed instead
+      of Master Polearms.
+  - balance: Ravox Vow wound heal rate was reduced.
+  - bugfix: Noc T4 hopefully
+  Ollanius:
+  - rscadd: Shotstakes can now be made from any stationary heat source, courtesy of
+      a single recipe per stake.
+  WeNeedMorePhoron:
+  - rscadd: Reworked the entirety of mage schools
+  - rscadd: Added Conjuration School
+  - rscadd: Reworked Augmentation School to remove statbuffs in favor of situational
+      buff
+  - rscadd: Reworked burn to actually critical you and bleed you and be fatal, instead
+      of being an armor piercing damage type
+  - rscadd: Uppercut and Arcyne Descent Special should not bug out anymore
+  - rscadd: Tried to improve pet AI, may or may not work
+  - rscadd: Added Verglas Rune
+  - rscdel: Killed teleportation ruine
+  - rscadd: Kingsfield BLockade is now in the Grove

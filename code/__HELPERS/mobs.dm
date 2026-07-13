@@ -644,7 +644,7 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(check_rights(R_WATCH, FALSE))
 		observer = new /mob/dead/observer/admin(src)
 	else
-		observer = new /mob/dead/observer/rogue/nodraw(src)
+		observer = new /mob/dead/observer/nodraw(src)
 	if(!existing)
 		lobbyer.spawning = TRUE
 

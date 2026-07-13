@@ -15,8 +15,7 @@
 
 	// Tier-based armor system.
 	// armor_tier and armor_penetration are both tier values (0-4).
-	// DR Absorb (blunt): damage * 1 / (1 + 0.2 * tier). All damage absorbed by armor, none to HP.
-	// DR Pierce (fire, acid): same DR formula, but reduced damage still hits HP. Armor also takes integrity damage.
+	// DR Absorb (blunt, fire, acid): damage * 1 / (1 + 0.2 * tier). All damage absorbed by armor, none to HP.
 	// DBLOCK types (ARMOR_DBLOCK_TYPES):
 	//   pen > armor  = 100% through (full penetration)
 	//   pen == armor = 20% through (partial penetration)
@@ -26,15 +25,10 @@
 	// don't feed it into checkarmor (which already ran above and handles null damage fine).
 	var/block_damage = damage || 999
 	var/blocked = 0
-	if(attack_flag in ARMOR_DR_ABSORB_TYPES)
-		// Blunt: armor absorbs all HP damage. DR reduces integrity damage to armor (in checkarmor).
+	if(attack_flag in ARMOR_DR_TYPES)
+		// Blunt/Fire/Acid: armor absorbs all HP damage. DR reduces integrity damage to armor (in checkarmor).
 		if(armor_tier > 0)
 			blocked = block_damage
-	else if(attack_flag in ARMOR_DR_PIERCE_TYPES)
-		// Fire/Acid: DR reduces damage, but reduced damage still reaches HP.
-		if(armor_tier > 0)
-			var/dr_mult = 1 / (1 + 0.2 * armor_tier)
-			blocked = block_damage * (1 - dr_mult)
 	else
 		// Penetration: tier comparison
 		if(attack_flag != "piercing")
@@ -69,7 +63,7 @@
 	if(used_weapon)
 		if(isitem(used_weapon))
 			var/obj/item/I = used_weapon
-			if(I.sharpness && I.max_blade_int && !(attack_flag in ARMOR_DR_ABSORB_TYPES))
+			if(I.sharpness && I.max_blade_int && !(attack_flag in ARMOR_DR_TYPES))
 				var/dullness_ratio = I.blade_int / I.max_blade_int
 				if(dullness_ratio <= SHARPNESS_TIER2_THRESHOLD)	//Our weapon is CHUNKED. What are we PENNING WITH.
 					blocked = block_damage * 10

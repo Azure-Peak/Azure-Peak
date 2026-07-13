@@ -453,7 +453,8 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			// the normal movement leash so snipers don't get free damage from offscreen.
 			var/last_hit = blackboard["bb_last_ranged_hit_time"] || 0
 			var/mob/last_shooter = blackboard["bb_last_ranged_attacker"]
-			if(!(last_shooter == current_movement_target && (world.time - last_hit < 15 SECONDS)))
+			var/commanded_travel = (current_movement_target == blackboard[BB_TRAVEL_DESTINATION])
+			if(!commanded_travel && !(last_shooter == current_movement_target && (world.time - last_hit < 15 SECONDS)))
 				CancelActions()
 				return
 

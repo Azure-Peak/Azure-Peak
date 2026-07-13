@@ -13,13 +13,11 @@
 
 /datum/round_event_control/zizo_pet_cementery
 	name = "Zizo's Pet Cementery"
-	track = EVENT_TRACK_INTERVENTION
 	typepath = /datum/round_event/zizo_pet_cementery
-	weight = 8
+	weight = 6
 	earliest_start = 25 MINUTES
 	max_occurrences = 2
 	min_players = 35
-	allowed_storytellers = list(/datum/storyteller/zizo)
 
 /datum/round_event/zizo_pet_cementery/start()
 	//Long duration but you might not even notice it.

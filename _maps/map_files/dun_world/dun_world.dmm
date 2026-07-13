@@ -113418,7 +113418,7 @@
 /obj/item/roguekey/church,
 /obj/item/roguekey/graveyard,
 /obj/item/roguekey/graveyard,
-/obj/item/rogueweapon/woodstaff/aries,
+/obj/item/churcharticles/litany,
 /obj/item/handheld_bell,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/church/chapel)

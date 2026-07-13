@@ -75,7 +75,9 @@
 	members += WEAKREF(user)
 	user.current_fellowship = src
 	user.faction |= faction_tag
+	user.request_attack_relay()
 	RegisterSignal(user, COMSIG_PARENT_QDELETING, PROC_REF(on_member_qdel), override = TRUE)
+	RegisterSignal(user, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_member_attacked), override = TRUE)
 	remove_pending_invite(user.real_name)
 	to_chat(user, span_notice("You have joined the fellowship '[name]'."))
 	notify_members("[user.real_name] has joined the fellowship.", exclude = user)
@@ -106,7 +108,8 @@
 /datum/fellowship/proc/strip_fellowship_from(mob/living/user)
 	if(!user)
 		return
-	UnregisterSignal(user, COMSIG_PARENT_QDELETING)
+	UnregisterSignal(user, list(COMSIG_PARENT_QDELETING, COMSIG_ATOM_WAS_ATTACKED))
+	user.release_attack_relay()
 	user.faction -= faction_tag
 	if(user.current_fellowship == src)
 		user.current_fellowship = null
@@ -121,6 +124,31 @@
 	source.faction -= faction_tag
 	if(!check_auto_disband())
 		push_updates()
+
+/datum/fellowship/proc/on_member_attacked(mob/living/member, atom/attacker, damage)
+	SIGNAL_HANDLER
+	if(!isliving(attacker))
+		return
+	for(var/mob/living/summoner in get_members())
+		if(!length(summoner.summoned_minions))
+			continue
+		for(var/mob/living/summon in summoner.summoned_minions)
+			if(QDELETED(summon) || summon.stat == DEAD || summon == attacker)
+				continue
+			if(summon.faction_check_mob(attacker))
+				continue
+			var/datum/component/ai_aggro_system/aggro = summon.GetComponent(/datum/component/ai_aggro_system)
+			if(!aggro)
+				continue
+			aggro.add_threat_to_mob_capped(attacker, 12, 12)
+
+/datum/fellowship/proc/count_summons()
+	var/count = 0
+	for(var/mob/living/M in get_members())
+		for(var/mob/living/S in M.summoned_minions)
+			if(!QDELETED(S))
+				count++
+	return count
 
 /datum/fellowship/proc/check_auto_disband()
 	var/list/living = get_members()

@@ -957,7 +957,7 @@ var/global/mob/_corpse_sort_ref = null
 		)
 
 	// Create scry eye
-	var/mob/dead/observer/screye/S = user.scry_ghost()
+	var/mob/dead/observer/eye/screye/S = user.scry_ghost()
 	if(!S)
 		return FALSE
 

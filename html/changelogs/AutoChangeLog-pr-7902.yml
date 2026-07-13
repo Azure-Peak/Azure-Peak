@@ -1,5 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "Small, non-hostile animals can now be picked up; they can be worn on the head or, for flying mobs, perch on your shoulder."
-  - rscdel: "Familiar transform ability has been removed, as they have been migrated to the new mob pickup system"

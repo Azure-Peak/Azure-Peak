@@ -252,6 +252,11 @@
 	sewrepair = TRUE
 	//dropshrink = 0.75
 	dynamic_hair_suffix = null
+	adjustable = CAN_CADJUST
+
+/obj/item/clothing/head/roguetown/headband/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, HEAD|HAIR|EARS, null, null, 'sound/foley/cloth_wipe (1).ogg', null, UPD_HEAD)
 
 /obj/item/clothing/head/roguetown/headband/bloodied
 	name = "bloodied headband"

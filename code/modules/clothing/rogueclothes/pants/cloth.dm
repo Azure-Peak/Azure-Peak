@@ -175,3 +175,12 @@
 		if(get_altdetail_color())
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
+
+/obj/item/clothing/under/roguetown/tights/dhoti
+	name = "dhoti"
+	icon_state = "dhoti"
+	item_state = "dhoti"
+	detail_tag = "_detail"
+	detail_color = "CLOTHING_WHITE"
+	desc = "A pair of baggy pants of Ranesheni origin, with a long banner-like cloth draped between the two pant legs."
+	salvage_result = /obj/item/natural/cloth

@@ -1376,7 +1376,7 @@ Inquisitorial armory down here
 		lookat = whofedme
 	playsound(src, 'sound/items/blackmirror_use.ogg', 100, FALSE)
 	ADD_TRAIT(user, TRAIT_NOSSDINDICATOR, "blackmirror")
-	var/mob/dead/observer/screye/blackmirror/S = user.scry_ghost()
+	var/mob/dead/observer/eye/screye/blackmirror/S = user.scry_ghost()
 	if(!S)
 		return
 	S.ManualFollow(lookat)
@@ -1527,7 +1527,7 @@ Inquisitorial armory down here
 		lookat = source.whofedme
 	playsound(L, 'sound/items/blackmirror_use.ogg', 100, FALSE)
 	ADD_TRAIT(L, TRAIT_NOSSDINDICATOR, "blackmirror")
-	var/mob/dead/observer/screye/blackmirror/S = L.scry_ghost()
+	var/mob/dead/observer/eye/screye/blackmirror/S = L.scry_ghost()
 	if(!S)
 		return
 	S.ManualFollow(lookat)
@@ -1697,6 +1697,8 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 	var/list/d = H.get_mob_descriptors()
 	report_html += "Height: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")]<br>"
 	report_html += "Build: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")]<br>"
+	if(HAS_TRAIT(H, TRAIT_BLACKBLOOD))
+		report_html += "<i>By decree of the Holy Otavan Inquisition, the subject is judged CURED and restored to the flock of commonfolk. Should they ever stray from the Allfather's Light and back to evil against humenkind, let His 'Final Mercy' be carried out in due diligence. <b>They shall NOT be granted another second chance</b>.</i><br>"
 	report_html += "<hr>"
 	
 	report_html += "<b>LYFEBLOOD-LUX RESONATOR RESULTS</b><br><br>"
@@ -1774,6 +1776,7 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 	report_html += "Grand Bureau of Haemological Affairs<br>"
 	report_html += "Citadel of Eclair Lacroix, Holy Otava, cir. 1513"
 	report_html += "</font>"
+
 /obj/item/inqarticles/litany
 	name = "litany"
 	desc = "A writ of religious anointment, printed on Otavan parchment. It bares the Absolver's 'rite of armaments' - a psalm dating back to the first crusades, recited \

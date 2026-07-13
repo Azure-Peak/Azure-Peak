@@ -39,14 +39,14 @@
 	broadcaster.visible_message(span_notice("A strange blue glow emits from [source_desc]."))
 	add_filter("zad_voyeur_glow", 2, list("type" = "outline", "size" = 1, "color" = "#4488ff"))
 	set_light(2, 2, 2, l_color = "#1b7bf1")
-	var/mob/dead/observer/screye/zadcote_voyeur/S = spawn_zad_screye(operator)
+	var/mob/dead/observer/eye/screye/zadcote_voyeur/S = operator.scry_ghost(/mob/dead/observer/eye/screye/zadcote_voyeur)
 	if(!S)
 		end_voyeur_visuals()
 		return
 	S.bonded_cage = WEAKREF(src)
-	active_voyeur_screye = WEAKREF(S)
+	voyeur_screye = WEAKREF(S)
 	if(holder)
-		active_voyeur_holder = WEAKREF(holder)
+		voyeur_holder = WEAKREF(holder)
 	S.ManualFollow(target)
 	operator.visible_message(span_danger("[operator] stares into the zadcote, [operator.p_their()] eyes rolling back into [operator.p_their()] head."))
 	to_chat(S, span_notice("You see through the zad's eyes. Click <b>Stop Scrying</b> in the IC tab to return early; otherwise the bond breaks on its own after [ZAD_VOYEUR_DURATION / (1 MINUTES)] minute\s."))
@@ -58,10 +58,10 @@
 	addtimer(CALLBACK(src, PROC_REF(finish_voyeur)), ZAD_VOYEUR_DURATION)
 
 /obj/item/zadcage/proc/finish_voyeur()
-	var/mob/dead/observer/screye/zadcote_voyeur/S = active_voyeur_screye?.resolve()
-	var/mob/holder = active_voyeur_holder?.resolve()
-	active_voyeur_screye = null
-	active_voyeur_holder = null
+	var/mob/dead/observer/eye/screye/zadcote_voyeur/S = voyeur_screye?.resolve()
+	var/mob/holder = voyeur_holder?.resolve()
+	voyeur_screye = null
+	voyeur_holder = null
 	end_voyeur_visuals()
 	if(holder)
 		holder.clear_alert("scryingeye", TRUE)
@@ -73,30 +73,15 @@
 	remove_filter("zad_voyeur_glow")
 	set_light(0)
 
-/proc/spawn_zad_screye(mob/operator)
-	if(!operator || !operator.key)
-		return null
-	if(operator.client)
-		SSdroning.kill_rain(operator.client)
-		SSdroning.kill_loop(operator.client)
-		SSdroning.kill_droning(operator.client)
-	operator.stop_sound_channel(CHANNEL_HEARTBEAT)
-	var/mob/dead/observer/screye/zadcote_voyeur/ghost = new(operator)
-	ghost.ghostize_time = world.time
-	SStgui.on_transfer(operator, ghost)
-	ghost.can_reenter_corpse = TRUE
-	ghost.key = operator.key
-	return ghost
-
-/mob/dead/observer/screye/zadcote_voyeur
+/mob/dead/observer/eye/screye/zadcote_voyeur
 	name = "scrying through a zad"
 	var/datum/weakref/bonded_cage
 
-/mob/dead/observer/screye/zadcote_voyeur/Initialize()
+/mob/dead/observer/eye/screye/zadcote_voyeur/Initialize()
 	. = ..()
-	add_verb(src, /mob/dead/observer/screye/zadcote_voyeur/proc/end_zad_voyeur)
+	add_verb(src, /mob/dead/observer/eye/screye/zadcote_voyeur/proc/end_zad_voyeur)
 
-/mob/dead/observer/screye/zadcote_voyeur/proc/end_zad_voyeur()
+/mob/dead/observer/eye/screye/zadcote_voyeur/proc/end_zad_voyeur()
 	set category = "IC"
 	set name = "Stop Scrying"
 	set desc = "End the zad-scrying and return to your body."

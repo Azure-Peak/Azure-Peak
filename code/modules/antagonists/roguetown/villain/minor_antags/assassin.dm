@@ -57,7 +57,7 @@
 
 /datum/antagonist/assassin/roundend_report()
 	var/traitorwin = FALSE
-	for(var/obj/item/I in owner.current) // Check to see if the Assassin has their profane dagger on them, and then check the souls contained therein.
+	for(var/obj/item/I in owner.current.GetAllContents()) // Check to see if the Assassin has their profane dagger on them, and then check the souls contained therein.
 		if(istype(I, /obj/item/rogueweapon/huntingknife/idagger/steel/profane))
 			for(var/mob/dead/observer/profane/A in I) // Each trapped soul is announced to the server
 				if(A)

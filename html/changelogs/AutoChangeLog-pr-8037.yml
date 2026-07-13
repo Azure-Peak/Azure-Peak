@@ -1,4 +1,0 @@
-author: "string-thing"
-delete-after: True
-changes:
-  - bugfix: "fixed con buff on fort. vapours"
