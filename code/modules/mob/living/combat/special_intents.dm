@@ -1337,7 +1337,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	if(HAS_TRAIT(howner, TRAIT_BIGGUY))
 		return // windup
 	else
-		animate(howner, pixel_z = pixel_z - 4, time = 3)
+		animate(howner, pixel_z = prev_pixel_z - 4, time = 3)
 
 
 /datum/special_intent/upper_cut/apply_hit(turf/T)
