@@ -455,7 +455,7 @@ Inquisitorial armory down here
 			playsound(user, 'sound/magic/censercharging.ogg', 100)
 			user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
 			if(do_after(user, 50, target = A))
-				if((H.patron?.type in PSYDON))
+				if((H.patron?.type in OLD_GOD_PATRON))
 					to_chat(H, span_hypnophrase("The fragrance of SYON's shard invigorates you!"))
 					H.apply_status_effect(/datum/status_effect/buff/censerbuff)
 					H.add_stress(/datum/stressevent/psycenser)
