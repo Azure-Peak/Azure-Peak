@@ -415,7 +415,7 @@
 
 /datum/action/cooldown/spell/miracle/layonhands
 	name = "Lay on Hands"
-	desc = "Channel a heal on self or adjacent target, healing power increases over the first 10 seconds of channelling, cancelled early by any movement and action."
+	desc = "Channel a heal on self or adjacent target, healing power increases over the first 5 seconds of channelling, cancelled early by any movement and action."
 
 	button_icon_state = "heal"
 	sound = 'sound/magic/heal.ogg'
@@ -503,7 +503,7 @@
 			if(prob(40))
 				owner.playsound_local(owner, 'sound/magic/heal.ogg', 50, FALSE, -1)
 				playsound('sound/magic/heal.ogg', 50, FALSE - 1)
-				healingpower = min(3, 1+i/5) // maximum 3 HP healing after 10 seconds of channeling since it's already starting at 1 
+				healingpower = min(3, 2+i/5) // maximum 3 HP healing after 5 seconds of channeling since it's already starting at 2 
 			var/obj/effect/temp_visual/heal/F = new /obj/effect/temp_visual/heal_rogue(get_turf(H))
 			F.color = "#e7ac54"
 		else
