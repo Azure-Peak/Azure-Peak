@@ -593,4 +593,4 @@
 /datum/stressevent/blessed_neutral
 	timer = 15 MINUTES
 	stressadd = -2
-	desc = span_green("I feel a presence scarcely watching over me. Ah, blessed be the Ten Saints and their guidance! They too, will me to ENDURE!")
+	desc = span_green("I feel a presence scarcely watching over me. Ah, blessed be the Ten Saints and their guidance! They too will me to ENDURE!")
