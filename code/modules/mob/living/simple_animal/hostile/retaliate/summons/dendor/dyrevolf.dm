@@ -33,12 +33,12 @@
 /datum/intent/simple/claw/dyrevolf
 	name = "claw"
 	icon_state = "instrike"
-	attack_verb = list("claws", "pecks")
+	attack_verb = list("claws", "rends")
 	animname = "blank22"
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
-	penfactor = PEN_NONE
+	penfactor = PEN_MEDIUM
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slash the air"
@@ -67,12 +67,12 @@
 /datum/action/cooldown/spell/dyrevolf_special
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
 	button_icon_state = "primordial_mark"
-	name = "Elemental Surge"
-	desc = "Unleash your elemental vessel's innate power at a spot within reach - a flame primordial breathes a searing cone, a water primordial churns a whirlpool, an air primordial hurls a gale."
+	name = "Primal Savagery"
+	desc = "Unleash true potential of your raised volf - Ancient swipes in front of him, rooting enemies."
 	sound = null
-	spell_color = GLOW_COLOR_ARCANE
+	spell_color = GLOW_COLOR_DENDOR
 	glow_intensity = GLOW_INTENSITY_MEDIUM
-	attunement_school = ASPECT_NAME_CONJURATION
+	attunement_school = null
 
 	click_to_activate = TRUE
 	cast_range = 6
@@ -81,7 +81,7 @@
 	charge_required = FALSE
 	primary_resource_type = SPELL_COST_NONE
 	cooldown_time = 30 SECONDS
-	spell_tier = 3
+	spell_tier = 0
 	point_cost = 0
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	invocation_type = INVOCATION_NONE
@@ -103,8 +103,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/ancient
 	name = "ancient dyrevolf"
-	desc = "Billowing heat strikes your face and threatens to singe your eyebrows! \
-	It may be wise not to touch it."
+	desc = "A humble defender of the Grove brought back with divine powers."
 	icon_state = "direvolf_brown"
 	icon_living = "direvolf_brown"
 	icon_dead = "direvolf_brown_dead"
@@ -118,29 +117,27 @@
 	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/vw/attack (2).ogg','sound/vo/mobs/vw/attack (3).ogg','sound/vo/mobs/vw/attack (4).ogg')
 
 	base_intents = list(/datum/intent/simple/claw/dyrevolf)
-	health = 400
-	maxHealth = 400
-	melee_damage_lower = 20
-	melee_damage_upper = 30
+	health = 300
+	maxHealth = 300
+	melee_damage_lower = 30
+	melee_damage_upper = 40
 	vision_range = 10
 	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
-	projectiletype = /obj/projectile/magic/spitfire	//if we ever get ranged toggling working
-	projectilesound = 'sound/magic/whiteflame.ogg'
 	next_ability_use
-	STACON = 10
-	STASTR = 10
+	STACON = 12
+	STASTR = 12
 	STASPD = 13
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	defprob = 30
 	retreat_health = 0
 	food = 0
 	next_ability_use
-	ai_controller = /datum/ai_controller/flame_primordial
+	ai_controller = /datum/ai_controller/flame_primordial //Prob replace these later but for the time being it serves its purpose.
 
-/mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/fire/ability(turf/target_location, mob/living/user)
+/mob/living/simple_animal/hostile/retaliate/rogue/dyrevolf/ancient/ability(turf/target_location, mob/living/user)
 	if(world.time < src.next_ability_use)
 		to_chat(user, "[src] is not yet ready to use its special ability.")
 		return FALSE
@@ -178,7 +175,7 @@
 			for(var/mob/living/M in T)
 				if(M == src)
 					continue
-				M.adjustFireLoss(15)
+				M.Immobilize(3 SECONDS)
 
 	src.next_ability_use = world.time + src.ability_cooldown
 	return TRUE

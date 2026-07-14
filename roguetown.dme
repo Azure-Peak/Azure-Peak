@@ -2597,6 +2597,7 @@
 #include "code\modules\mob\living\simple_animal\hostile\retaliate\summons\elemental\colossus.dm"
 #include "code\modules\mob\living\simple_animal\hostile\retaliate\summons\elemental\crawler.dm"
 #include "code\modules\mob\living\simple_animal\hostile\retaliate\summons\elemental\warden.dm"
+#include "code\modules\mob\living\simple_animal\hostile\retaliate\summons\dendor\dyrevolf.dm"
 #include "code\modules\mob\living\simple_animal\hostile\retaliate\summons\fae\_base.dm"
 #include "code\modules\mob\living\simple_animal\hostile\retaliate\summons\fae\dryad.dm"
 #include "code\modules\mob\living\simple_animal\hostile\retaliate\summons\fae\glimmerwing.dm"

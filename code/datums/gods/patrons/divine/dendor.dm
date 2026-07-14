@@ -10,6 +10,7 @@
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/conjure_summon/dendor_wolf		= CLERIC_T1,
+					/datum/action/cooldown/spell/minion_order/conjurer			= CLERIC_T1,
 					/datum/action/cooldown/spell/conjure_dismiss				= CLERIC_T1,
 					/datum/action/cooldown/spell/dendor/howl					= CLERIC_T2,
 					/*datum/action/cooldown/spell/dendor/sprout 				= CLERIC_T2,
