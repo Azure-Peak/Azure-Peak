@@ -37,6 +37,18 @@
 		woundies += wound
 	return woundies
 
+/// Returns all wounds on this limb that can be treated with a poultice.
+/obj/item/bodypart/proc/get_poultriceable_wounds()
+	var/list/woundies = list()
+	for(var/datum/wound/wound as anything in wounds)
+		if(wound == null)
+			listclearnulls(wounds)
+			continue
+		if(!wound.can_poultrice)
+			continue
+		woundies += wound
+	return woundies
+
 /// Returns the first wound of the specified type on this bodypart
 /obj/item/bodypart/proc/has_wound(path, specific = FALSE)
 	if(!path)

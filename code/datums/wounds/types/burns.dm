@@ -9,7 +9,7 @@
 	clotting_threshold = 0.15
 	sewn_clotting_threshold = 0.1
 	sew_threshold = 10
-	can_sew = TRUE
+	can_poultrice = TRUE
 	can_cauterize = FALSE
 	passive_healing = 0.4
 	severity_type = SEVERITY_TYPE_WHP
@@ -79,7 +79,7 @@
 	sewn_bleed_rate = 0.5
 	sew_threshold = 120
 	mob_overlay = ""
-	can_sew = TRUE
+	can_poultrice = TRUE
 	can_cauterize = FALSE
 	disabling = TRUE
 	critical = TRUE

@@ -60,6 +60,8 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	var/can_sew = FALSE
 	/// If TRUE, this wound can be cauterized
 	var/can_cauterize = FALSE
+	/// If TRUE, this wound can be poultriced
+	var/can_poultrice = FALSE
 	/// If TRUE, this disables limbs
 	var/disabling = FALSE
 	/// If TRUE, this is a crit wound

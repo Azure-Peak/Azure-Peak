@@ -1317,6 +1317,7 @@
 #include "code\game\objects\items\rogueitems\painting.dm"
 #include "code\game\objects\items\rogueitems\parasols.dm"
 #include "code\game\objects\items\rogueitems\perfume.dm"
+#include "code\game\objects\items\rogueitems\poultrice.dm"
 #include "code\game\objects\items\rogueitems\repair_kits.dm"
 #include "code\game\objects\items\rogueitems\repairkit.dm"
 #include "code\game\objects\items\rogueitems\skillbooks.dm"
