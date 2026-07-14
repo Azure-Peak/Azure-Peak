@@ -6,12 +6,12 @@
 	mob_traits = list(TRAIT_NIGHT_OWL)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/noc/nitevision					= CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/layonhands				= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/noc/enlightenment              = CLERIC_T1,
 					/datum/action/cooldown/spell/projectile/moonscorch     		= CLERIC_T2,
 					/datum/action/cooldown/spell/noc/invisibility				= CLERIC_T2,
+					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T3,
 					/datum/action/cooldown/spell/noc/spellpack					= CLERIC_T3,
 					/datum/action/cooldown/spell/noc/moonlight                  = CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/noc			= CLERIC_T4
