@@ -387,7 +387,7 @@ To avoid TOO much conflicts w/random char parts, consider a proc that checks if 
 	/datum/species/dwarf/gnome\
 )
 
-#define PSYDON list(/datum/patron/old_god)
+#define OLD_GOD_PATRON list(/datum/patron/old_god)
 
 #define ALL_CLERIC_PATRONS list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/necra, /datum/patron/divine/pestra, /datum/patron/divine/ravox, /datum/patron/divine/malum, /datum/patron/divine/eora, /datum/patron/divine/undivided) // Currently unused.
 
