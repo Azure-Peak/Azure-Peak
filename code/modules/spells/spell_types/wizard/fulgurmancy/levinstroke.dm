@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/levinstroke
 	button_icon = 'icons/mob/actions/mage_fulgurmancy.dmi'
 	name = "Levinstroke"
-	desc = "" //TODO: description
+	desc = "Transform yourself briefly into a bolt of lightning toward a target location, inflicting 60 burn damage to any living things in your path."
 	button_icon_state = "levinstroke"
 	sound = 'sound/magic/lightning.ogg'
 	spell_color = GLOW_COLOR_LIGHTNING

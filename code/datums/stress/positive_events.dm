@@ -26,7 +26,23 @@
 /datum/stressevent/blessed
 	timer = 60 MINUTES
 	stressadd = -2
-	desc = span_green("I feel a soothing presence.")
+	desc = list(
+		span_blue("I feel a soothing presence. I can feel the Ten's favor upon me. I have been blessed."),
+		span_blue("I feel a soothing presence. The Ten have smiled upon me. I know I walk beneath their grace."),
+		span_blue("I feel a soothing presence. Their blessing feels so close... surely they have not forgotten me."),
+		span_blue("I feel a soothing presence. The Ten have guided my steps. I am exactly where I am meant to be."),
+		span_blue("I feel a soothing presence. I can feel their kindness surrounding me. Their favor gives me strength."),
+		span_blue("I feel a soothing presence. The Ten Eternal have chosen to watch over me, and I am humbled by it."),
+		span_blue("I feel a soothing presence. Every hardship feels lighter knowing the Ten walk beside me."),
+		span_blue("I feel a soothing presence. Their warmth reaches me even now. I must be blessed beyond measure."),
+		span_blue("I feel a soothing presence. The Ten have heard me. I know their gaze rests upon me."),
+		span_blue("I feel a soothing presence. Their favor is with me, and my heart cannot contain the joy of it."),
+		span_blue("I feel a soothing presence. I have spent so long seeking their guidance... and now I feel their answer."),
+		span_blue("I feel a soothing presence. The Ten have given me another chance to serve their purpose."),
+		span_blue("I feel a soothing presence. I am not alone. The Eternal walk with me."),
+		span_blue("I feel a soothing presence. Their blessing fills me with a certainty I have never known before."),
+		span_blue("I feel a soothing presence. I feel seen. I feel valued. The Ten remember me.")
+	)
 
 /datum/stressevent/triumph
 	timer = 10 MINUTES
@@ -515,3 +531,66 @@
 	timer = 5 MINUTES
 	stressadd = -4
 	desc = span_boldgreen("<b>I feel whole, once more! Death shant claim me yet!</b>")
+
+/// hopium from psycoke
+/datum/stressevent/psycenser
+	timer = 15 MINUTES
+	stressadd = -4
+	desc = list(
+		span_hypnophrase("The fragance of SYON soothens me. His light is upon me. Let every evil break itself against my faith."),
+		span_hypnophrase("The fragance of SYON soothens me. No darkness can claim me. The Allfather's grace walks before my every step."),
+		span_hypnophrase("The fragance of SYON soothens me. I fear nothing. His warmth is my shield, and His promise my armor."),
+		span_hypnophrase("The fragance of SYON soothens me. Let monsters come. Let heretics rage. His faithful shall endure."),
+		span_hypnophrase("The fragance of SYON soothens me. The warmth of Him burns within me. No wickedness dares draw near."),
+		span_hypnophrase("The fragance of SYON soothens me. I stand beneath His blessing. What evil could hope to overcome me?"),
+		span_hypnophrase("The fragance of SYON soothens me. My soul is alight with His grace. No curse may cling to one so blessed."),
+		span_hypnophrase("The fragance of SYON soothens me. I walk in His radiance. Every shadow recoils before His holy light."),
+		span_hypnophrase("The fragance of SYON soothens me. His promise surrounds me. No daemon, no tyrant, no death shall shake my resolve."),
+		span_hypnophrase("The fragance of SYON soothens me. The Allfather rests, yet His faithful remain unconquered. I am proof enough."),
+		span_hypnophrase("The fragance of SYON soothens me. My heart blazes with holy certainty. I shall not falter while His light burns within me."),
+		span_hypnophrase("The fragance of SYON soothens me. His grace fills every breath. I have already triumphed over despair."),
+		span_hypnophrase("The fragance of SYON soothens me. Let the faithless tremble. I carry a fragment of Him within my soul."),
+		span_hypnophrase("The fragance of SYON soothens me. I am wrapped in His sacred warmth. No evil shall lay a hand upon me."),
+		span_hypnophrase("The fragance of SYON soothens me. His blessing is my sanctuary. I need only ENDURE, and victory is assured."),
+		span_hypnophrase("The fragance of SYON soothens me. The world may rage, but I walk beneath the Allfather's promise. Nothing shall overcome me."),
+	)
+
+/// snorting on that psycoke can cause terminal sentimentality and psycope
+/datum/stressevent/psycenser_neutral
+	timer = 15 MINUTES
+	stressadd = -2
+	desc = list(
+		span_hypnophrase("I am awash with sentimentality. That familiar fragrance... warm and impossibly gentle. For a fleeting moment, I could swear He still watches over us."),
+		span_hypnophrase("I am awash with sentimentality. Such a comforting scent. It carries the impossible certainty that He yet lives, and my doubts seem so very small."),
+		span_hypnophrase("I am awash with sentimentality. The air is rich with a soothing warmth. It feels as though His presence has never truly left us."),
+		span_hypnophrase("I am awash with sentimentality. I breathe deeply, and the scent fills me with quiet conviction. Surely a god so gentle could never have died."),
+		span_hypnophrase("I am awash with sentimentality. Why did I ever believe He had fallen? His presence is everywhere. He is but resting after saving us all from damnation."),
+		span_hypnophrase("I am awash with sentimentality. Every breath fills me with a quiet peace. He cannot be gone while His love remains so close."),
+		span_hypnophrase("I am awash with sentimentality. The warmth in the air feels so familiar... as though He still walks among His faithful."),
+		span_hypnophrase("I am awash with sentimentality. For just a moment, all grief fades away. There was never anything to mourn."),
+		span_hypnophrase("I am awash with sentimentality. The fragrance settles gently over me. How comforting it is to know the Allfather still watches."),
+		span_hypnophrase("I am awash with sentimentality. His sacrifice could never end in death. A soul so radiant must still endure somewhere beyond our sight.")
+	)
+
+/// gaslight yourself heretic, power is good but kindness is gooder!!!
+/datum/stressevent/psycenser_evil
+	timer = 15 MINUTES
+	stressadd = -2
+	desc = list(
+		span_hypnophrase("I am awash with sentimentality. What have I done...? How could I have ever doubted Him?"),
+		span_hypnophrase("I am awash with sentimentality. The shame is unbearable. I abandoned the One who never abandoned me."),
+		span_hypnophrase("I am awash with sentimentality. I spoke against Him... and yet His warmth still welcomes me home."),
+		span_hypnophrase("I am awash with sentimentality. Every heretical thought feels like another wound upon His sacrifice. I wish I could take them all back."),
+		span_hypnophrase("I am awash with sentimentality. I was blind. He never left us... I was the one who turned away."),
+		span_hypnophrase("I am awash with sentimentality. His gentle presence stirs old memories. Why did I ever listen to those lies?"),
+		span_hypnophrase("I am awash with sentimentality. If only I had remained faithful... perhaps I could still call myself His child."),
+		span_hypnophrase("I am awash with sentimentality. He deserved my faith. Instead, I repaid His sacrifice with doubt."),
+		span_hypnophrase("I am awash with sentimentality. I would endure any penance, if only He would forgive my faithlessness."),
+		span_hypnophrase("I am awash with sentimentality. The warmth carries no anger, only mercy. Somehow, that hurts even more.")
+	)
+
+/// they're the masters at finding meaning where there's none
+/datum/stressevent/blessed_neutral
+	timer = 15 MINUTES
+	stressadd = -2
+	desc = span_green("I feel a presence scarcely watching over me. Ah, blessed be the Ten Saints and their guidance! They too will me to ENDURE!")

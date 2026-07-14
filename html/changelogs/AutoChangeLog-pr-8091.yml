@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Remove unused damoverlay and age keys from icon. Probably not useful"
-  - bugfix: "Stopped update_hair from forcing a full body redraw, by adding in sprite accessories and hair cache key icon to save performance. Report any oddities"

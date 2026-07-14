@@ -97,6 +97,8 @@
 			continue
 		if(T.density)
 			continue
+		if(istype(T, /turf/open/water))
+			continue
 		if(locate(/obj/effect/verglas) in T)
 			continue
 		spawned += new /obj/effect/verglas(T, hold ? 0 : VERGLAS_DURATION)

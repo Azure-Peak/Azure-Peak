@@ -51,13 +51,11 @@
 		if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
 			var/obj/item/clothing/mask/cigarette/cig = help_light_cig(M)
 			if(cig)
-				if(cig.lit)
-					to_chat(user, span_warning("[cig.name] is already lit!"))
-					return 1
-				if(M == user)
-					cig.attackby(src, user)
-				else
-					cig.light(span_notice("[user] holds [src] out for [M], and lights [cig]."))
+				if(!cig.lit)
+					if(M == user)
+						cig.attackby(src, user)
+					else
+						cig.light(span_notice("[user] holds [src] out for [M], and lights [cig]."))
 				return 1
 	return ..()
 

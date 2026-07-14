@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Upper Cut / Arcyne Descent Reset your position even if it fails."

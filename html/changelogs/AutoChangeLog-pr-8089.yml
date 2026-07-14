@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - qol: "Naledi origin Strict choice will no longer instantly grant the related mask debuffs. The mask still spawns in the player's stash."

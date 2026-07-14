@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Unpowercreep Levy, Removes Deceiving Meekness and Leech Resistance from Levy. (So that you would take Dendor for the Bog or suffer the realistic consequences). Originally I suggested bog cream, but bog cream was not implemented, and I don't have the enery in me to actually make it myself as a replacement"
-  - rscadd: "Replaced Self Reliance, the wretch trait, with Homestead Expert, their original trait"
-  - rscdel: "Removed every single subclass choices from Levy. They keep weapon choices. They included notdoctor, not squire, not armsman, dexpert, homesteader that had statweight of 8 etc. - too much, so they are gone."

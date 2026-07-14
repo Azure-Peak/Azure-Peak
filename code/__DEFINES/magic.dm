@@ -73,3 +73,8 @@
 #define TRAIT_ATHEISM_CURSE "atheism_curse"
 #define TRAIT_CONJURED_SUMMON "conjured_summon"
 #define TRAIT_CONJURE_BACKLASH "conjure_backlash"
+
+// CONJURATION DEATH RECOIL SEVERITY
+#define CONJURE_RECOIL_LIGHT 0
+#define CONJURE_RECOIL_PARTIAL 1
+#define CONJURE_RECOIL_FULL 2

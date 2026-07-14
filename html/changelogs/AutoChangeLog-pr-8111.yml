@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - refactor: "Refactored how virtues are saved / loaded. Be warned! Your virtues may have been reset."

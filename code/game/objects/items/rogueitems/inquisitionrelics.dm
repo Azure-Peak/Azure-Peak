@@ -444,22 +444,31 @@ Inquisitorial armory down here
 					new /obj/effect/temp_visual/censer_dust(get_turf(A))
 			else
 				to_chat(user, span_info("It has already been blessed."))
+
 	if(ishuman(A) && on && (user.used_intent.type == /datum/intent/bless))
 		var/mob/living/carbon/human/H = A
-		if(H.patron?.type == /datum/patron/old_god)
-			if(!H.has_status_effect(/datum/status_effect/buff/censerbuff))
-				playsound(user, 'sound/magic/censercharging.ogg', 100)
-				user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
-				if(do_after(user, 50, target = A))
-					H.apply_status_effect(/datum/status_effect/buff/censerbuff)
+		if(!user.mind?.assigned_role == "Absolver")
+			to_chat(user, span_warning("The Golgatha feels... heavier than it should. Why? Why would I do this? Did He not suffer enough?"))
+			user.emote("cry")
+			return
+		if(!H.has_status_effect(/datum/status_effect/buff/censerbuff) || !H.has_stress_event(/datum/stressevent/psycenser))
+			playsound(user, 'sound/magic/censercharging.ogg', 100)
+			user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
+			if(do_after(user, 50, target = A))
+				if((H.patron?.type in OLD_GOD_PATRON))
 					to_chat(H, span_hypnophrase("The fragrance of SYON's shard invigorates you!"))
-					playsound(H, 'sound/magic/holyshield.ogg', 100)
-					new /obj/effect/temp_visual/censer_dust(get_turf(H))
-			else
-				to_chat(span_warning("They've already been blessed."))
-
+					H.apply_status_effect(/datum/status_effect/buff/censerbuff)
+					H.add_stress(/datum/stressevent/psycenser)
+				else if((H.patron?.type in ALL_DIVINE_PATRONS))
+					to_chat(H, span_hypnophrase("The fragrance of SYON's shard comforts you, providing a moment of clarity..."))
+					H.add_stress(/datum/stressevent/psycenser_neutral)
+				else
+					to_chat(H, span_hypnophrase("The fragrance of SYON's shard provokes a moment of clarity..."))
+					H.add_stress(/datum/stressevent/psycenser_evil)	
+				playsound(H, 'sound/magic/holyshield.ogg', 100)
+				new /obj/effect/temp_visual/censer_dust(get_turf(H))
 		else
-			to_chat(user, span_warning("They do not share our faith."))
+			to_chat(span_warning("They've already been blessed."))
 
 /mob/living/carbon/human/proc/has_active_golgatha()
 	for(var/obj/item/flashlight/flare/torch/lantern/psycenser/G in contents)
@@ -1711,9 +1720,12 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 	else if(H.patron?.type in ALL_INHUMEN_PATRONS)
 		report_html += "<font color='#8B1E1E'><b><u>Tainted Lux</b></u></font><br><br>"
 		report_html += "<i>The Lux has suffered measurable spiritual degradation. The sample carries contamination consistent with apostate worship and prolonged participation in rites associated with the <b>Inhumen</b>.</i><br><br>"
-	else
+	else if(H.patron?.type in OLD_GOD_PATRON)
 		report_html += "<font color='#00b7ff'><b><u>Pure Lux</b></u></font><br><br>"
 		report_html += "<i>No measurable corruption or hallowed overresonance could be detected through our devices. The subject's Lux is devoid of external influence.</i><br><br>"
+	else
+		report_html += "<font color='#1e8b61'><b><u>Anomalous Lux</b></u></font><br><br>"
+		report_html += "<i>No measurable corruption or hallowed overresonance could be detected through our devices, the nature of this sample cannot be traced to anything within our Grand Archives. It does not seem to be neither Divine nor Inhumen, yet it is not Pure either.</i><br><br>"
 
 	report_html += "<b>CROSS-REFERENCED PUBLIC RECORDS</b><br><br>"
 	var/list/crimes = list()

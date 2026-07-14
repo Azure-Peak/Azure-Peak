@@ -687,3 +687,59 @@
   - rscadd: Added Verglas Rune
   - rscdel: Killed teleportation ruine
   - rscadd: Kingsfield BLockade is now in the Grove
+2026-07-14:
+  7erracotta:
+  - rscadd: glazed pottery, dye-brush on some/most normal pottery yields this
+  FreeStylaLT:
+  - bugfix: Fixed portable hookah not being craftable. It now accepts any type of
+      candle.
+  - qol: Naledi origin Strict choice will no longer instantly grant the related mask
+      debuffs. The mask still spawns in the player's stash.
+  - code_imp: RClick emotes had their wording changed for better clarity.
+  Lamasmaster:
+  - balance: Graggar Miracles
+  OrbisAnima:
+  - code_imp: Adds new tech for enchantments that allow to add right click effects
+      on items enchanted.
+  - bugfix: Fixes Revealing light. Its light now works with weapons, and also calculates
+      as a movable light, so it actually follows the item enchanted, it can also be
+      turned off and on with right click on it.
+  - balance: Revealing Light Enchantment is now based on the light cantrip, making
+      the light to be white and have a higher range, but be less powerful when competing
+      with other effects.
+  - rscadd: Adds a new T1 Fae enchantment, Fair Seeming. It cleans the user after
+      a 2 second action, even removing the sewer grime. You could get soap for a fraction
+      of the value, but, who am I to tell you how to use your money.
+  SomeDeviant:
+  - bugfix: fixed non-job locked and non-trait locked travel tiles functioning properly
+  WeNeedMorePhoron:
+  - rscadd: Removed gems from stockpile after it was blatantly used while not reported
+      for transmuting gems and reselling them. The margins on this operation is a
+      bit too high.
+  - rscdel: Unpowercreep Levy, Removes Deceiving Meekness and Leech Resistance from
+      Levy. (So that you would take Dendor for the Bog or suffer the realistic consequences).
+      Originally I suggested bog cream, but bog cream was not implemented, and I don't
+      have the enery in me to actually make it myself as a replacement
+  - rscadd: Replaced Self Reliance, the wretch trait, with Homestead Expert, their
+      original trait
+  - rscdel: Removed every single subclass choices from Levy. They keep weapon choices.
+      They included notdoctor, not squire, not armsman, dexpert, homesteader that
+      had statweight of 8 etc. - too much, so they are gone.
+  - bugfix: Upper Cut / Arcyne Descent Reset your position even if it fails.
+  - rscadd: Cantor now pick between T2 miracles access and loses vicious mockery and
+      bardic or T1 and Bardic Inspiration
+  - bugfix: Remove unused damoverlay and age keys from icon. Probably not useful
+  - bugfix: Stopped update_hair from forcing a full body redraw, by adding in sprite
+      accessories and hair cache key icon to save performance. Report any oddities
+  borneblood:
+  - rscadd: NOHEAL and NOREGEN traits! Use them responsibly, dev-senpais!
+  - rscadd: Drinking blood transfers some reagents to yourself and also TOX damage.
+  - balance: Blackblooded should not benefit from most healing potions anymore, and
+      their on-eat heal should be stopped by silver fire stacks.
+  - balance: Plenty of Blackblood adjustments to make them less oppressive to fight
+      against.
+  - bugfix: Some Nasty Eater trait interactions added to prevent vomiting out nasty
+      things.
+  kiwedespars:
+  - bugfix: graggar organs event fixed (hacky, no longer requires hearts)
+  - bugfix: graggar culling now works properly.

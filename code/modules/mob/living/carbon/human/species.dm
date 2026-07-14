@@ -962,164 +962,154 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 ////////
 
 /datum/species/proc/handle_digestion(mob/living/carbon/human/H)
-	//The fucking TRAIT_FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
-//	if(HAS_TRAIT_FROM(H, TRAIT_FAT, OBESITY))//I share my pain, past coder.
-//		if(H.overeatduration < 100)
-//			to_chat(H, span_notice("I feel fit again!"))
-//			REMOVE_TRAIT(H, TRAIT_FAT, OBESITY)
-//			H.remove_movespeed_modifier(MOVESPEED_ID_FAT)
-//			H.update_inv_w_uniform()
-//			H.update_inv_wear_suit()
-//	else
-//		if(H.overeatduration >= 100)
-//			to_chat(H, span_danger("I suddenly feel blubbery!"))
-//			ADD_TRAIT(H, TRAIT_FAT, OBESITY)
-//			H.add_movespeed_modifier(MOVESPEED_ID_FAT, multiplicative_slowdown = 1.5)
-//			H.update_inv_w_uniform()
-//			H.update_inv_wear_suit()
 
-	// nutrition decrease and satiety
-	if (H.nutrition > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
-		// THEY HUNGER
+	if(H.nutrition > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
 		var/hunger_rate = HUNGER_FACTOR
-/*		if(H.satiety > MAX_SATIETY)
-			H.satiety = MAX_SATIETY
-		else if(H.satiety > 0)
-			H.satiety--
-		else if(H.satiety < -MAX_SATIETY)
-			H.satiety = -MAX_SATIETY
-		else if(H.satiety < 0)
-			H.satiety++
-			if(prob(round(-H.satiety/40)))
-				H.Jitter(5)
-			hunger_rate = 10 * HUNGER_FACTOR*/
-//		hunger_rate *= H.physiology.hunger_mod
 		H.adjust_nutrition(-hunger_rate)
-
 		var/obj/item/organ/breasts/breasts = H.has_breasts()
-		if(breasts)
-			if(H.nutrition > NUTRITION_LEVEL_HUNGRY && breasts.lactating && breasts.milk_max > breasts.milk_stored) //Vrell - numbers may need to be tweaked for balance but hey this works for now.
+
+		if(breasts && breasts.lactating)
+			if(H.nutrition > NUTRITION_LEVEL_HUNGRY && breasts.milk_stored < breasts.milk_max)
 				var/milk_to_make = min(hunger_rate, breasts.milk_max - breasts.milk_stored)
 				breasts.milk_stored += milk_to_make
 				H.adjust_nutrition(-milk_to_make)
 
-			else if(H.nutrition < NUTRITION_LEVEL_STARVING && breasts.lactating) //Vrell - If starving, your milk drains automatically to slow your starvation.
+			else if(H.nutrition < NUTRITION_LEVEL_STARVING && breasts.milk_stored > 0)
 				var/milk_to_take = min(hunger_rate, breasts.milk_stored)
 				breasts.milk_stored -= milk_to_take
 				H.adjust_nutrition(milk_to_take)
 
-	if (H.hydration > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
-		// THEY HUNGER
-		var/hunger_rate = HUNGER_FACTOR
-//		hunger_rate *= H.physiology.hunger_mod
-		H.adjust_hydration(-hunger_rate)
+	if(H.hydration > 0 && H.stat != DEAD && !HAS_TRAIT(H, TRAIT_NOHUNGER))
 
+		var/hydration_rate = HUNGER_FACTOR
+		H.adjust_hydration(-hydration_rate)
 
-	if (H.nutrition > NUTRITION_LEVEL_FULL)
-		if(H.overeatduration < 600) //capped so people don't take forever to unfat
+	if(H.nutrition > NUTRITION_LEVEL_FULL)
+		if(H.overeatduration < 600)
 			H.overeatduration++
 	else
 		if(H.overeatduration > 1)
-			H.overeatduration -= 2 //doubled the unfat rate
+			H.overeatduration -= 2
 
-	//metabolism change
-//	if(H.nutrition > NUTRITION_LEVEL_FAT)
-//		H.metabolism_efficiency = 1
-//	else if(H.nutrition > NUTRITION_LEVEL_FED && H.satiety > 80)
-//		if(H.metabolism_efficiency != 1.25 && !HAS_TRAIT(H, TRAIT_NOHUNGER))
-//			to_chat(H, span_notice("I feel vigorous."))
-//			H.metabolism_efficiency = 1.25
-//	else if(H.nutrition < NUTRITION_LEVEL_STARVING + 50)
-//		if(H.metabolism_efficiency != 0.8)
-//			to_chat(H, span_notice("I feel sluggish."))
-//		H.metabolism_efficiency = 0.8
-//	else
-//		if(H.metabolism_efficiency == 1.25)
-//			to_chat(H, span_notice("I no longer feel vigorous."))
-//		H.metabolism_efficiency = 1
-
-	//Hunger slowdown for if mood isn't enabled
-//	if(CONFIG_GET(flag/disable_human_mood))
-//		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
-//			var/hungry = (500 - H.nutrition) / 5 //So overeat would be 100 and default level would be 80
-//			if(hungry >= 70)
-//				H.add_movespeed_modifier(MOVESPEED_ID_HUNGRY, override = TRUE, multiplicative_slowdown = (hungry / 50))
-//			else if(isethereal(H))
-//				var/datum/species/ethereal/E = H.dna.species
-//				if(E.get_charge(H) <= ETHEREAL_CHARGE_NORMAL)
-//					H.add_movespeed_modifier(MOVESPEED_ID_HUNGRY, override = TRUE, multiplicative_slowdown = (1.5 * (1 - E.get_charge(H) / 100)))
-//			else
-//				H.remove_movespeed_modifier(MOVESPEED_ID_HUNGRY)
-
-	if(HAS_TRAIT(H, TRAIT_NOHUNGER)) //hunger is for BABIES
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
 		H.nutrition = NUTRITION_LEVEL_DEATHLESS
 		H.hydration = HYDRATION_LEVEL_DEATHLESS
 
-	switch(H.nutrition)
-//		if(NUTRITION_LEVEL_FAT to INFINITY) //currently disabled/999999 define
-//			if(H.energy >= H.max_energy)
-//				H.apply_status_effect(/datum/status_effect/debuff/fat)
-		if(NUTRITION_LEVEL_FAT to INFINITY)
-			H.add_stress(/datum/stressevent/stuffed)
-			H.remove_stress_list(list(/datum/stressevent/peckish,/datum/stressevent/hungry,/datum/stressevent/starving))
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt1)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt2)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt3)
-		if(NUTRITION_LEVEL_FED to NUTRITION_LEVEL_FAT)
-			H.remove_stress_list(list(/datum/stressevent/peckish,/datum/stressevent/hungry,/datum/stressevent/starving))
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt1)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt2)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt3)
-		if(NUTRITION_LEVEL_HUNGRY to NUTRITION_LEVEL_FED)
-			H.add_stress(/datum/stressevent/peckish)
-			H.remove_stress_list(list(/datum/stressevent/stuffed,/datum/stressevent/hungry,/datum/stressevent/starving))
-			H.apply_status_effect(/datum/status_effect/debuff/hungryt1)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt2)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt3)
-		if(NUTRITION_LEVEL_STARVING to NUTRITION_LEVEL_HUNGRY)
-			H.add_stress(/datum/stressevent/hungry)
-			H.remove_stress_list(list(/datum/stressevent/stuffed,/datum/stressevent/peckish,/datum/stressevent/starving))
-			H.apply_status_effect(/datum/status_effect/debuff/hungryt2)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt1)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt3)
-		if(0 to NUTRITION_LEVEL_STARVING)
-			H.add_stress(/datum/stressevent/starving)
-			H.remove_stress_list(list(/datum/stressevent/stuffed,/datum/stressevent/peckish,/datum/stressevent/hungry))
-			H.apply_status_effect(/datum/status_effect/debuff/hungryt3)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt1)
-			H.remove_status_effect(/datum/status_effect/debuff/hungryt2)
-			if(prob(3))
-				playsound(get_turf(H), pick('sound/vo/hungry1.ogg','sound/vo/hungry2.ogg','sound/vo/hungry3.ogg'), 100, TRUE, -1)
+	update_needs(H)
 
+/datum/species/proc/get_hunger_stage(mob/living/carbon/human/H)
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
+		return 0
+	switch(H.nutrition)
+		if(NUTRITION_LEVEL_FAT to INFINITY)
+			return -1
+		if(NUTRITION_LEVEL_FED to NUTRITION_LEVEL_FAT)
+			return 0
+		if(NUTRITION_LEVEL_HUNGRY to NUTRITION_LEVEL_FED)
+			return 1
+		if(NUTRITION_LEVEL_STARVING to NUTRITION_LEVEL_HUNGRY)
+			return 2
+		if(0 to NUTRITION_LEVEL_STARVING)
+			return 3
+	return 0
+
+/datum/species/proc/get_thirst_stage(mob/living/carbon/human/H)
+
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
+		return 0
 	switch(H.hydration)
-//		if(HYDRATION_LEVEL_WATERLOGGED to INFINITY)
-//			H.apply_status_effect(/datum/status_effect/debuff/waterlogged)
 		if(HYDRATION_LEVEL_HYDRATED to INFINITY)
-			H.add_stress(/datum/stressevent/hydrated)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt2)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt3)
+			return -1
 		if(HYDRATION_LEVEL_SMALLTHIRST to HYDRATION_LEVEL_HYDRATED)
-			H.remove_stress_list(list(/datum/stressevent/drym,/datum/stressevent/thirst,/datum/stressevent/parched))
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt2)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt3)
+			return 0
 		if(HYDRATION_LEVEL_THIRSTY to HYDRATION_LEVEL_SMALLTHIRST)
-			H.add_stress(/datum/stressevent/drym)
-			H.remove_stress_list(list(/datum/stressevent/parched,/datum/stressevent/thirst))
-			H.apply_status_effect(/datum/status_effect/debuff/thirstyt1)
+			return 1
 		if(HYDRATION_LEVEL_DEHYDRATED to HYDRATION_LEVEL_THIRSTY)
-			H.add_stress(/datum/stressevent/thirst)
-			H.remove_stress_list(list(/datum/stressevent/parched,/datum/stressevent/drym))
-			H.apply_status_effect(/datum/status_effect/debuff/thirstyt2)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt3)
+			return 2
 		if(0 to HYDRATION_LEVEL_DEHYDRATED)
-			H.add_stress(/datum/stressevent/parched)
-			H.remove_stress_list(list(/datum/stressevent/thirst,/datum/stressevent/drym))
-			H.apply_status_effect(/datum/status_effect/debuff/thirstyt3)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-			H.remove_status_effect(/datum/status_effect/debuff/thirstyt2)
+			return 3
+	return 0
+
+
+/datum/species/proc/get_vitae_stage(mob/living/carbon/human/H)
+	switch(H.bloodpool)
+		if(VITAE_LEVEL_HUNGRY to VITAE_LEVEL_FED)
+			return 1
+		if(VITAE_LEVEL_STARVING to VITAE_LEVEL_HUNGRY)
+			return 2
+		if(-INFINITY to VITAE_LEVEL_STARVING)
+			return 3
+	return 0
+
+/datum/species/proc/set_need_tier(mob/living/carbon/human/H, tier, t1, t2, t3)
+	if(tier != 1)
+		H.remove_status_effect(t1)
+	if(tier != 2)
+		H.remove_status_effect(t2)
+	if(tier != 3)
+		H.remove_status_effect(t3)
+
+	switch(tier)
+		if(1)
+			H.apply_status_effect(t1)
+		if(2)
+			H.apply_status_effect(t2)
+		if(3)
+			H.apply_status_effect(t3)
+
+
+/datum/species/proc/update_needs(mob/living/carbon/human/H)
+	var/new_hunger_stage = get_hunger_stage(H)
+
+	if(new_hunger_stage != H.hunger_stage)
+		H.hunger_stage = new_hunger_stage
+		set_need_tier(H, new_hunger_stage, /datum/status_effect/debuff/hungryt1, /datum/status_effect/debuff/hungryt2,/datum/status_effect/debuff/hungryt3)
+
+		switch(new_hunger_stage)
+			if(-1)
+				H.add_stress(/datum/stressevent/stuffed)
+				H.remove_stress_list(list(/datum/stressevent/peckish, /datum/stressevent/hungry, /datum/stressevent/starving))
+			if(0)
+				H.remove_stress_list(list(/datum/stressevent/stuffed, /datum/stressevent/peckish, /datum/stressevent/hungry, /datum/stressevent/starving))
+			if(1)
+				H.add_stress(/datum/stressevent/peckish)
+				H.remove_stress_list(list(/datum/stressevent/stuffed, /datum/stressevent/hungry, /datum/stressevent/starving))
+			if(2)
+				H.add_stress(/datum/stressevent/hungry)
+				H.remove_stress_list(list(/datum/stressevent/stuffed, /datum/stressevent/peckish, /datum/stressevent/starving))
+			if(3)
+				H.add_stress(/datum/stressevent/starving)
+				H.remove_stress_list(list(/datum/stressevent/stuffed, /datum/stressevent/peckish, /datum/stressevent/hungry))
+				if(prob(3))
+					playsound(
+						get_turf(H), pick('sound/vo/hungry1.ogg', 'sound/vo/hungry2.ogg', 'sound/vo/hungry3.ogg'), 100, TRUE, -1)
+
+	var/new_thirst_stage = get_thirst_stage(H)
+	if(new_thirst_stage != H.thirst_stage)
+		H.thirst_stage = new_thirst_stage
+		set_need_tier(H, new_thirst_stage, /datum/status_effect/debuff/thirstyt1, /datum/status_effect/debuff/thirstyt2,/datum/status_effect/debuff/thirstyt3)
+
+		switch(new_thirst_stage)
+			if(-1)
+				H.add_stress(/datum/stressevent/hydrated)
+				H.remove_stress_list(list(/datum/stressevent/drym, /datum/stressevent/thirst, /datum/stressevent/parched))
+			if(0)
+				H.remove_stress_list(list(/datum/stressevent/hydrated, /datum/stressevent/drym, /datum/stressevent/thirst,/datum/stressevent/parched))
+			if(1)
+				H.add_stress(/datum/stressevent/drym)
+				H.remove_stress_list(list(/datum/stressevent/hydrated, /datum/stressevent/thirst, /datum/stressevent/parched))
+			if(2)
+				H.add_stress(/datum/stressevent/thirst)
+				H.remove_stress_list(list(/datum/stressevent/hydrated, /datum/stressevent/drym, /datum/stressevent/parched))
+			if(3)
+				H.add_stress(/datum/stressevent/parched)
+				H.remove_stress_list(list(/datum/stressevent/hydrated, /datum/stressevent/drym, /datum/stressevent/thirst))
+
+	var/new_vitae_stage = get_vitae_stage(H)
+	if(new_vitae_stage != H.vitae_stage)
+		H.vitae_stage = new_vitae_stage
+		set_need_tier(H, new_vitae_stage,/datum/status_effect/debuff/vthirstt1, /datum/status_effect/debuff/vthirstt2,/datum/status_effect/debuff/vthirstt3)
+
 
 /datum/species/proc/update_health_hud(mob/living/carbon/human/H)
 	return 0
@@ -1248,11 +1238,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 		if(user.has_status_effect(/datum/status_effect/buff/clash) && !target.has_status_effect(/datum/status_effect/buff/clash))
 			user.bad_guard(span_suicide("I tried to strike while focused on defense whole! It drains me!"), cheesy = TRUE)
-			return
-
-		if(target.has_status_effect(/datum/status_effect/buff/skulduggery) && ishuman(user))
-			var/obj/item/IM = target.get_active_held_item()
-			target.process_skd(user, IM)
 			return
 
 		var/mob/living/carbon/human/H = target

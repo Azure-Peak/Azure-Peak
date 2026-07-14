@@ -150,7 +150,7 @@
 		"Apparel (Ascendant Amulets)", //Wretch Exclusive Supplies
 		"Illict Medical Supplies",
 		"Illict Utility Supplies",
-		"Apparel", //Now just regular catagories
+		"Apparel", //Now just regular categories
 		"Adventuring Supplies",
 		"Instruments",
 		"Wardrobe",

@@ -1,6 +1,6 @@
 /datum/advclass/mercenary/desert_rider_sahir
 	name = "Desert Rider Sahir"
-	tutorial = "You're a Sahir - a wisened Magi from the desert of Raneshen. You have spent your lyfe studying the arcyne arts. Some of your rank knows the way of the sword- a necessity when one happens upon monstrsities that are resilient to magyck in the desert."
+	tutorial = "You're a Sahir - a wisened Magi from the desert of Raneshen. You have spent your lyfe studying the arcyne arts. Some of your rank knows the way of the sword- a necessity when one happens upon monstrsities that are resilient to magyck in the desert. Sahir are trained in the art of Armament Binding, which is granted as a spell upon picking your aspects."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_sahir
@@ -23,6 +23,9 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -64,14 +67,11 @@
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Twin Shamshirs")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltl = /obj/item/rogueweapon/scabbard/sword
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				r_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 				l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 			if("Greater Staff")
-				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
 
 	H.merctype = 4

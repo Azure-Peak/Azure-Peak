@@ -3,7 +3,8 @@
 /datum/component/conjured_minion
 	var/datum/weakref/summoner_ref
 	var/recoil_energy_floor = 200
-	var/recoil_debuff = TRUE
+	var/recoil_severity = CONJURE_RECOIL_FULL
+	var/recoil_stamina_only = FALSE
 	var/dismissing = FALSE
 	var/leash_range = 12
 	var/next_leash_message = 0
@@ -12,12 +13,15 @@
 	var/untether_max = 5
 	var/tether_timer
 
-/datum/component/conjured_minion/Initialize(mob/living/summoner, energy_floor = 200, apply_debuff = TRUE)
+/datum/component/conjured_minion/Initialize(mob/living/summoner, energy_floor = 200, severity = CONJURE_RECOIL_FULL, stamina_only = FALSE)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
+	var/mob/living/minion = parent
+	minion.mark_contract_spawned()
 	summoner_ref = WEAKREF(summoner)
 	recoil_energy_floor = energy_floor
-	recoil_debuff = apply_debuff
+	recoil_severity = severity
+	recoil_stamina_only = stamina_only
 	if(isliving(summoner))
 		summoner.add_summoned_minion(parent)
 	ADD_TRAIT(parent, TRAIT_CONJURED_SUMMON, REF(src))
@@ -63,7 +67,8 @@
 	var/mob/living/summoner = summoner_ref?.resolve()
 	if(!summoner || summoner.stat == DEAD)
 		return
-	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(apply_conjure_recoil), summoner, recoil_energy_floor, recoil_debuff)
+	var/shock = (recoil_severity == CONJURE_RECOIL_FULL)
+	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(apply_conjure_recoil), summoner, recoil_energy_floor, recoil_severity, 1, shock, recoil_stamina_only)
 
 /datum/component/conjured_minion/proc/check_leash(atom/movable/source, atom/newloc)
 	SIGNAL_HANDLER

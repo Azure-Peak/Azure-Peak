@@ -2361,18 +2361,6 @@
 	if(!istype(M.get_active_held_item(), held_dagger))
 		M.remove_status_effect(/datum/status_effect/buff/dagger_boost)
 
-// special lirvas dragonskin buffs
-/datum/status_effect/buff/lirvan_broken_scales
-	id = "lirvan_broken_scales"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/lirvan_broken_scales
-	effectedstats = list(STATKEY_SPD = 4, STATKEY_STR = -4)
-	duration = -1
-
-/atom/movable/screen/alert/status_effect/buff/lirvan_broken_scales
-	name = "Broken Scales"
-	desc = "My natural defenses are gone! I am lighter, but far weaker."
-	icon_state = "buff"
-
 // escalating buffs applied on bleed out tied to TRAIT_JOURNEYS_END, currently only used by mistwalker
 /atom/movable/screen/alert/status_effect/buff/journey_ending
 	name = "An end in sight..."

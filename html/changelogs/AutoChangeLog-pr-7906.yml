@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Non-Ascendant Heretic Wretches are now limited to T2 miracles."
+  - balance: "Wound Heal miracle is only granted to Heretic Wretches upon the completion of a rites ritual."

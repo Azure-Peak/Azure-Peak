@@ -1,0 +1,7 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - rscadd: "Added icons for vampire thirst."
+  - bugfix: "Fixed the oddity around vampire's thirst debuff, and thirst for normal people appearing twice."
+  - bugfix: "Fixed a weird behavior of Vampire Spawn Protection."
+  - refactor: "Refactored(-ish?) the nutrition code."

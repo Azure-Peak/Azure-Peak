@@ -44,7 +44,8 @@
 	point_cost = 2
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_NONE
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	charge_swingdelay_type = SWINGDELAY_CANCEL
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
 
 	var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/conjured_ward
 	var/ward_type = /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward
@@ -210,7 +211,7 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_NONE
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
 
 	/// Back-reference to the conjure spell that owns this action, set by grant_regen_action().
 	var/datum/action/cooldown/spell/conjure_arcyne_ward/parent_spell

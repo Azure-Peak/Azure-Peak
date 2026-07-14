@@ -122,16 +122,18 @@
 	attack_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 
 	base_intents = list(/datum/intent/simple/claw/primordial)
-	health = 400
-	maxHealth = 400
-	melee_damage_lower = 20
-	melee_damage_upper = 30
+	health = 525
+	maxHealth = 525
+	melee_damage_lower = 30
+	melee_damage_upper = 40
 	vision_range = 10
 	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
-	projectiletype = /obj/projectile/magic/spitfire	//if we ever get ranged toggling working
+	ranged = 1
+	ranged_cooldown_time = 4 SECONDS
+	projectiletype = /obj/projectile/magic/spitfire/primordial
 	projectilesound = 'sound/magic/whiteflame.ogg'
 	next_ability_use
 	STACON = 10
@@ -145,19 +147,22 @@
 	ai_controller = /datum/ai_controller/flame_primordial
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/fire/ability(turf/target_location, mob/living/user)
-	if(world.time < src.next_ability_use)
-		to_chat(user, "[src] is not yet ready to use its special ability.")
+	if(!target_location)
 		return FALSE
-	if(!do_after(src,1 SECONDS, src))
+	visible_message(span_danger("[src] inhales, heat gathering about its form!"))
+	addtimer(CALLBACK(src, PROC_REF(do_fire_cone), target_location), 1 SECONDS)
+	return TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/primordial/fire/proc/do_fire_cone(turf/target_location)
+	if(QDELETED(src) || stat == DEAD || !target_location)
 		return
 	var/range = 3
-	var/angle = 60 // cone angle in degrees
+	var/angle = 60
 
-	// Get facing vector from mob → target
 	var/dx = target_location.x - src.x
 	var/dy = target_location.y - src.y
 
-	var/dir_angle = ATAN2(dy, dx) // radians
+	var/dir_angle = ATAN2(dy, dx)
 
 	visible_message(span_danger("[src] exhales a cone of searing fire!"))
 
@@ -174,18 +179,10 @@
 		var/angle_to_turf = ATAN2(ty, tx)
 		var/delta = abs(dir_angle - angle_to_turf)
 		if(delta > 180)
-			delta = 360 - delta // handle wrap-around
+			delta = 360 - delta
 
-		if(delta <= angle/2) // inside cone
-			new /obj/effect/hotspot(T)
-			// Damage mobs on this turf
-			for(var/mob/living/M in T)
-				if(M == src)
-					continue
-				M.adjustFireLoss(15)
-
-	src.next_ability_use = world.time + src.ability_cooldown
-	return TRUE
+		if(delta <= angle/2)
+			new /obj/effect/curtain_fire(T, 5 SECONDS)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/water
 	name = "water primordial"
@@ -206,15 +203,19 @@
 
 	base_intents = list(/datum/intent/simple/claw/primordial)
 
-	health = 500
-	maxHealth = 500
-	melee_damage_lower = 15
-	melee_damage_upper = 25
+	health = 650
+	maxHealth = 650
+	melee_damage_lower = 30
+	melee_damage_upper = 35
 	vision_range = 10
 	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
+	ranged = 1
+	ranged_cooldown_time = 4 SECONDS
+	projectiletype = /obj/projectile/magic/frost_shard/primordial
+	projectilesound = 'sound/spellbooks/icicle.ogg'
 
 	STACON = 10
 	STASTR = 10
@@ -227,16 +228,16 @@
 	ai_controller = /datum/ai_controller/water_primordial
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/water/ability(turf/target_location, mob/living/user)
-	if(world.time < src.next_ability_use)
-		to_chat(user, "[src] is not yet ready to use its special ability.")
-		return FALSE
-	if(!do_after(src,1 SECONDS, src))
-		return
 	if(!target_location)
+		return FALSE
+	visible_message(span_danger("[src] gathers the waters into a churning knot!"))
+	addtimer(CALLBACK(src, PROC_REF(do_whirlpool), target_location), 1 SECONDS)
+	return TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/primordial/water/proc/do_whirlpool(turf/target_location)
+	if(QDELETED(src) || stat == DEAD || !target_location)
 		return
 	visible_message(span_danger("[src] unleashes a spiralling wave of floodwaters!"))
-	src.next_ability_use = world.time + src.ability_cooldown
-	// Create the whirlpool effect centered on the target that handles temporary tiles
 	new /obj/effect/whirlpool(target_location)
 
 /obj/effect/whirlpool
@@ -318,13 +319,17 @@
 
 	health = 450
 	maxHealth = 450
-	melee_damage_lower = 25
-	melee_damage_upper = 35
+	melee_damage_lower = 35
+	melee_damage_upper = 45
 	vision_range = 10
 	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
+	ranged = 1
+	ranged_cooldown_time = 4 SECONDS
+	projectiletype = /obj/projectile/magic/greater_arcyne_bolt/primordial
+	projectilesound = 'sound/magic/vlightning.ogg'
 
 
 	STACON = 10
@@ -338,12 +343,14 @@
 	ai_controller = /datum/ai_controller/air_primordial
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/air/ability(turf/target_location, mob/living/user)
-	if(world.time < src.next_ability_use)
-		to_chat(user, "[src] is not yet ready to use its special ability.")
-		return FALSE
-	if(!do_after(src,1 SECONDS, src))
-		return
 	if(!target_location)
+		return FALSE
+	visible_message(span_danger("[src] draws a whirl of stormwinds about itself!"))
+	addtimer(CALLBACK(src, PROC_REF(do_gust), target_location), 1 SECONDS)
+	return TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/primordial/air/proc/do_gust(turf/target_location)
+	if(QDELETED(src) || stat == DEAD || !target_location)
 		return
 	var/dir_to_target = get_dir(src, target_location)
 
@@ -394,4 +401,21 @@
 	layer = ABOVE_MOB_LAYER
 	anchored = TRUE
 	duration = 8
+
+/obj/projectile/magic/spitfire/primordial
+	name = "primordial flame"
+	damage = 20
+	arcshot = TRUE
+
+/obj/projectile/magic/frost_shard/primordial
+	name = "primordial frost shard"
+	damage = 18
+	reduced_damage = 5
+	arcshot = TRUE
+
+/obj/projectile/magic/greater_arcyne_bolt/primordial
+	name = "primordial gale"
+	damage = 27
+	npc_simple_damage_mult = 1
+	arcshot = TRUE
 

@@ -284,19 +284,25 @@
 	icon_state = "icarus"
 	aura_color = "#ffed9f"
 
-/obj/item/rogueweapon/woodstaff/aries/attack(atom/A, mob/user)
+/obj/item/rogueweapon/woodstaff/aries/afterattack(atom/movable/A, mob/user, proximity)
+	. = ..()
 	if(ishuman(A) && user.mind?.assigned_role == "Bishop" && user.used_intent?.type == /datum/intent/bless)
 		var/mob/living/carbon/human/H = A
-		if(!(H.patron?.type in ALL_DIVINE_PATRONS))
-			to_chat(user, span_warning("They do not share our faith."))
-			return
-		if(!H.has_status_effect(/datum/status_effect/buff/blessed))
+		if(!H.has_status_effect(/datum/status_effect/buff/blessed) || !H.has_stress_event(/datum/stressevent/blessed_evil) || !H.has_stress_event(/datum/stressevent/blessed_neutral))
 			playsound(user, 'sound/magic/censercharging.ogg', 100)
 			user.visible_message(span_info("[user] holds \the [src] over \the [H], offering a solemn blessing..."))
 			if(do_after(user, 50, target = H))
-				H.apply_status_effect(/datum/status_effect/buff/blessed)
-				H.add_stress(/datum/stressevent/blessed)
-				to_chat(H, span_hypnophrase("You feel the Ten's blessing settle upon your soul."))
+				if((H.patron?.type in ALL_DIVINE_PATRONS))
+					to_chat(H, span_hypnophrase("You feel the Ten's blessings settle upon your soul."))
+					H.apply_status_effect(/datum/status_effect/buff/blessed)
+					H.add_stress(/datum/stressevent/blessed)
+				else
+					if(H.patron?.type in ALL_INHUMEN_PATRONS)
+						to_chat(H, span_boldred("You feel the Ten's blessings weight upon your soul."))
+						H.add_stress(/datum/stressevent/blessed_evil)
+					else
+						to_chat(H, span_hypnophrase("You feel the Ten's blessings reluctantly settle upon your soul."))
+						H.add_stress(/datum/stressevent/blessed_neutral)
 				playsound(H, 'sound/magic/bless.ogg', 100)
 				new /obj/effect/temp_visual/censer_dust(get_turf(H))
 				user.visible_message(span_notice("[user] blesses [H]."))
@@ -304,7 +310,10 @@
 		else
 			to_chat(user, span_warning("[H] has already been blessed."))
 			return
-	return ..()
+	else
+		to_chat(user, span_warning("The staff sizzles a bit against my hand as I try that."))
+		user.emote("pain")
+		return
 
 /obj/item/rogueweapon/woodstaff/aries/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
@@ -1512,7 +1521,8 @@
 	icon_state = "quarterstaff_gold"
 	force = 23
 	force_wielded = 30
-	sellprice = 50
+	special = /datum/special_intent/gilded_dragon_sweep
+	sellprice = 80
 	no_loot_taint = TRUE
 	max_integrity = 250 //equal to psydonite; putting it at half of this was a neat little experiment but agonizing
 
@@ -1698,4 +1708,4 @@
 
 /obj/item/rogueweapon/spear/partizan/baotha/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_WEAPON)
-	
+

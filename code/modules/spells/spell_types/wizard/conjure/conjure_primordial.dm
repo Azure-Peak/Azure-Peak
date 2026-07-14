@@ -1,11 +1,17 @@
 /datum/action/cooldown/spell/conjure_summon/primordial
 	name = "Conjure Primordial"
 	desc = "Conjure a Primordial to fight at your side. Toggle its element with Shift+G while the spell is selected: Flame, Water, or Air. \
-	It grows mightier with your skill at Arcyne Armament - upgrading at Expert, and further at Master. You can maintain only one at a time - recast to re-summon, or use Dismiss Conjuration to release it safely."
+	It grows mightier with your skill at Arcyne Armament - upgrading at Expert, and further at Master. Losing it wracks you with exhaustion rather than the deeper backlash of your greater servants.\
+	You may summon three types of Primordial:\n\
+	- Flame - An elemental of moderate health and damage, able to breath out fire in a cone in front of them.\n\
+	- Water - A slow elemental with high health able to create a whirlpool around themselves\n\
+	- Air - A fast elemental with the highest melee damage, lowest health able to throw targets back"
 	button_icon_state = "primetriangle"
 	invocations = list("Exsurge, primordiale!")
 	summon_noun = "primordial"
 	recoil_energy_floor = 150
+	recoil_severity = CONJURE_RECOIL_PARTIAL
+	recoil_stamina_only = TRUE
 	modes = list(
 		list("name" = "Flame", "tag" = "FIRE", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/primordial/fire, "color" = GLOW_COLOR_FIRE, "invocation" = "Exsurge, ignis!"),
 		list("name" = "Water", "tag" = "WATER", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/primordial/water, "color" = GLOW_COLOR_ICE, "invocation" = "Exsurge, unda!"),
@@ -19,9 +25,8 @@
 	return conjured
 
 /datum/action/cooldown/spell/conjure_summon/primordial/proc/scale_primordial(mob/living/simple_animal/hostile/retaliate/rogue/primordial/P, mob/living/user)
-	var/lvl = clamp(user.get_skill_level(/datum/skill/combat/arcyne), 1, 6)
 	var/tier = get_summon_tier(user)
-	var/mult = 0.7 + (lvl * 0.1) + (tier - 1) * 0.25
+	var/mult = 1 + (tier - 1) * 0.2
 	P.maxHealth = round(P.maxHealth * mult)
 	P.health = P.maxHealth
 	P.melee_damage_lower = round(P.melee_damage_lower * mult)

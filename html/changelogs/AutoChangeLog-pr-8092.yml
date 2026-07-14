@@ -1,4 +1,0 @@
-author: "SomeDeviant"
-delete-after: True
-changes:
-  - bugfix: "fixed non-job locked and non-trait locked travel tiles functioning properly"

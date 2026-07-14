@@ -1,7 +1,7 @@
-/datum/action/cooldown/spell/ensnare
+/datum/action/cooldown/spell/geas
 	button_icon = 'icons/mob/actions/mage_geomancy.dmi'
-	name = "Ensnare"
-	desc = "Tendrils of arcyne force hold anyone in a small area in place for a short while."
+	name = "Geas"
+	desc = "Lay a geas upon a small patch of ground - roots of stone and arcyne force bind anyone caught there fast for 3 seconds. Can hit yourself."
 	button_icon_state = "ensnare"
 	sound = 'sound/magic/webspin.ogg'
 	spell_color = GLOW_COLOR_EARTHEN
@@ -14,7 +14,7 @@
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MAJOR_AOE
 
-	invocations = list("Impedio!")
+	invocations = list("Terra Teneat!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
@@ -32,10 +32,10 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 	var/area_of_effect = 1
-	var/ensnare_duration = 5 SECONDS
+	var/hold_duration = 3 SECONDS
 	var/delay = 0.8 SECONDS
 
-/datum/action/cooldown/spell/ensnare/cast(atom/cast_on)
+/datum/action/cooldown/spell/geas/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
@@ -48,34 +48,32 @@
 	for(var/turf/affected_turf in get_hear(area_of_effect, T))
 		if(affected_turf.density)
 			continue
-		new /obj/effect/temp_visual/ensnare(affected_turf)
+		new /obj/effect/temp_visual/geas(affected_turf)
 
-	addtimer(CALLBACK(src, PROC_REF(apply_ensnare), T, H), delay)
+	addtimer(CALLBACK(src, PROC_REF(apply_geas), T, H), delay)
 	playsound(T, 'sound/magic/webspin.ogg', 50, TRUE)
 	return TRUE
 
-/datum/action/cooldown/spell/ensnare/proc/apply_ensnare(turf/T, mob/living/caster)
+/datum/action/cooldown/spell/geas/proc/apply_geas(turf/T, mob/living/caster)
 	for(var/mob/living/simple_animal/hostile/animal in range(area_of_effect, T))
-		animal.Paralyze(ensnare_duration, updating = TRUE, ignore_canstun = TRUE)
+		animal.Paralyze(hold_duration, updating = TRUE, ignore_canstun = TRUE)
 	for(var/mob/living/L in range(area_of_effect, T))
-		if(L == caster)
-			continue
 		if(L.anti_magic_check())
-			L.visible_message(span_warning("The tendrils of force can't seem to latch onto [L]!"))
+			L.visible_message(span_warning("The binding can't seem to latch onto [L]!"))
 			playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
 			continue
 		if(spell_guard_check(L, TRUE, caster))
-			L.visible_message(span_warning("[L] breaks free of the tendrils!"))
+			L.visible_message(span_warning("[L] breaks free of the binding!"))
 			continue
-		L.Immobilize(ensnare_duration)
-		L.OffBalance(ensnare_duration)
-		L.visible_message(span_warning("[L] is held by tendrils of arcyne force!"))
-		new /obj/effect/temp_visual/ensnare/long(get_turf(L))
+		L.Immobilize(hold_duration)
+		L.OffBalance(hold_duration)
+		L.visible_message(span_warning("[L] is bound fast to the earth!"))
+		new /obj/effect/temp_visual/geas/long(get_turf(L))
 
-/obj/effect/temp_visual/ensnare
+/obj/effect/temp_visual/geas
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "curseblob"
 	duration = 1 SECONDS
 
-/obj/effect/temp_visual/ensnare/long
+/obj/effect/temp_visual/geas/long
 	duration = 3 SECONDS

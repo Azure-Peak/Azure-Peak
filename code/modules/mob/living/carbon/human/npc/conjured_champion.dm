@@ -68,6 +68,9 @@
 		if("spearman")
 			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/spearman)
 			def_intent_change(INTENT_PARRY)
+		if("maceman")
+			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/maceman)
+			def_intent_change(INTENT_PARRY)
 		else
 			outfit_champion(new /datum/outfit/job/roguetown/conjured_champion/greatswordman)
 			def_intent_change(INTENT_PARRY)
@@ -97,17 +100,12 @@
 
 /datum/outfit/job/roguetown/conjured_champion/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
-	var/lvl = 3
 	var/tier = champion_tier(H)
-	if(istype(H, /mob/living/carbon/human/species/human/northern/conjured_champion))
-		var/mob/living/carbon/human/species/human/northern/conjured_champion/C = H
-		lvl = clamp(C.arcane_scale, 1, 6)
-	var/stat_bonus = (tier == 3) ? 4 : ((tier == 2) ? 2 : 0)
 	var/skill = champion_skill(H)
 	H.STASTR = 10 + tier
 	H.STASPD = 11 // To prevent NPC following problem
-	H.STACON = 8 + lvl + stat_bonus
-	H.STAWIL = 8 + lvl + stat_bonus
+	H.STACON = 11 + tier
+	H.STAWIL = 11 + tier
 	H.STAPER = 10
 	H.STAINT = 10
 	H.STALUC = 10
@@ -117,14 +115,7 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	switch(tier)
-		if(3)
-			armor = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel
-			pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel
-			shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel
-			gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel
-			head = /obj/item/clothing/head/roguetown/helmet/blacksteel
-			neck = /obj/item/clothing/neck/roguetown/bevor/blacksteel
-		if(2)
+		if(2, 3)
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/full
 			pants = /obj/item/clothing/under/roguetown/platelegs
 			shoes = /obj/item/clothing/shoes/roguetown/boots/armor
@@ -145,30 +136,20 @@
 	var/tier = champion_tier(H)
 	H.adjust_skillrank(/datum/skill/combat/swords, skill, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, skill, TRUE)
-	if(tier == 3)
-		r_hand = /obj/item/rogueweapon/sword/blacksteel
-		l_hand = /obj/item/rogueweapon/shield/tower/metal
-	else
-		r_hand = /obj/item/rogueweapon/sword
-		l_hand = (tier == 2) ? /obj/item/rogueweapon/shield/tower/metal : /obj/item/rogueweapon/shield/wood
+	r_hand = /obj/item/rogueweapon/sword
+	l_hand = (tier >= 2) ? /obj/item/rogueweapon/shield/tower/metal : /obj/item/rogueweapon/shield/wood
 
 /datum/outfit/job/roguetown/conjured_champion/greatswordman/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = champion_skill(H)
 	H.adjust_skillrank(/datum/skill/combat/swords, skill, TRUE)
-	if(champion_tier(H) == 3)
-		r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
-	else
-		r_hand = /obj/item/rogueweapon/greatsword
+	r_hand = /obj/item/rogueweapon/greatsword
 
 /datum/outfit/job/roguetown/conjured_champion/greataxeman/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = champion_skill(H)
 	H.adjust_skillrank(/datum/skill/combat/axes, skill, TRUE)
-	if(champion_tier(H) == 3)
-		r_hand = /obj/item/rogueweapon/greataxe/blacksteel
-	else
-		r_hand = /obj/item/rogueweapon/greataxe/steel
+	r_hand = /obj/item/rogueweapon/greataxe/steel
 
 /datum/outfit/job/roguetown/conjured_champion/axeman/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
@@ -176,21 +157,20 @@
 	var/tier = champion_tier(H)
 	H.adjust_skillrank(/datum/skill/combat/axes, skill, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, skill, TRUE)
-	if(tier == 3)
-		r_hand = /obj/item/rogueweapon/stoneaxe/battle/blacksteel
-		l_hand = /obj/item/rogueweapon/shield/tower/metal
-	else
-		r_hand = /obj/item/rogueweapon/stoneaxe/battle
-		l_hand = (tier == 2) ? /obj/item/rogueweapon/shield/tower/metal : /obj/item/rogueweapon/shield/wood
+	r_hand = /obj/item/rogueweapon/stoneaxe/battle
+	l_hand = (tier >= 2) ? /obj/item/rogueweapon/shield/tower/metal : /obj/item/rogueweapon/shield/wood
 
 /datum/outfit/job/roguetown/conjured_champion/spearman/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	var/skill = champion_skill(H)
 	H.adjust_skillrank(/datum/skill/combat/polearms, skill, TRUE)
-	if(champion_tier(H) == 3)
-		r_hand = /obj/item/rogueweapon/spear/blacksteel
-	else
-		r_hand = /obj/item/rogueweapon/spear
+	r_hand = /obj/item/rogueweapon/spear
+
+/datum/outfit/job/roguetown/conjured_champion/maceman/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	var/skill = champion_skill(H)
+	H.adjust_skillrank(/datum/skill/combat/maces, skill, TRUE)
+	r_hand = /obj/item/rogueweapon/mace/maul
 
 /datum/outfit/job/roguetown/conjured_champion/archer/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()

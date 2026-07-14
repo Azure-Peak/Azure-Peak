@@ -120,8 +120,8 @@
 	body_base_pixel_x = body.pixel_x
 	body_base_pixel_y = body.pixel_y
 	body.add_filter("spirit_projection_aura", 2, list("type" = "outline", "size" = 1, "color" = "#4d90e0"))
-	animate(body, pixel_x = body_base_pixel_x + 1, time = 0.5, loop = -1)
-	animate(pixel_x = body_base_pixel_x - 1, time = 0.5)
+	animate(body, pixel_x = body_base_pixel_x + 1, time = 2, loop = -1)
+	animate(pixel_x = body_base_pixel_x - 1, time = 2)
 
 /datum/action/cooldown/spell/conjure_projection/proc/clear_projection_visuals(mob/living/body)
 	body.remove_filter("spirit_projection_aura")
@@ -215,6 +215,7 @@
 	point_cost = 0
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	spell_requirements = NONE
+	check_flags = NONE
 
 	var/datum/action/cooldown/spell/conjure_projection/origin
 

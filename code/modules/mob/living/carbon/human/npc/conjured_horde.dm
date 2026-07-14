@@ -3,6 +3,7 @@
 	var/datum/weakref/summoner_ref
 	var/arcane_scale = 3
 	var/gear_tier = 1
+	var/loadout = "raider"
 
 /mob/living/carbon/human/species/goblin/npc/conjured/after_creation()
 	..()
@@ -26,16 +27,17 @@
 
 /datum/outfit/job/roguetown/npc/goblin/conjured/pre_equip(mob/living/carbon/human/H)
 	..()
-	var/lvl = 3
 	var/tier = 1
+	var/loadout = "raider"
 	if(istype(H, /mob/living/carbon/human/species/goblin/npc/conjured))
 		var/mob/living/carbon/human/species/goblin/npc/conjured/G = H
-		lvl = clamp(G.arcane_scale, 1, 6)
 		tier = G.gear_tier
-	H.STASTR = 8 + round(lvl / 2) + (tier - 1)
-	H.STACON = 5 + round(lvl / 3) + (tier - 1)
-	H.STAWIL = 5 + round(lvl / 3) + (tier - 1)
-	var/skill = clamp(1 + round(lvl / 2) + (tier - 1), 2, 4)
+		loadout = G.loadout
+	H.STASTR = 8 + tier
+	H.STACON = 4 + tier
+	H.STAWIL = 4 + tier
+	H.STAPER = 7
+	var/skill = clamp(tier * 2, 2, 4)
 	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, skill, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/axes, skill, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/maces, skill, TRUE)
@@ -45,10 +47,16 @@
 	head = /obj/item/clothing/head/roguetown/helmet/goblin
 	neck = null
 	l_hand = null
-	switch(rand(1, 3))
-		if(1)
-			r_hand = /obj/item/rogueweapon/spear/stone
-		if(2)
-			r_hand = /obj/item/rogueweapon/stoneaxe
-		if(3)
-			r_hand = /obj/item/rogueweapon/mace/woodclub
+	switch(loadout)
+		if("shieldwall")
+			H.adjust_skillrank_up_to(/datum/skill/combat/shields, skill, TRUE)
+			r_hand = /obj/item/rogueweapon/mace
+			l_hand = /obj/item/rogueweapon/shield/wood
+		if("sling")
+			H.adjust_skillrank_up_to(/datum/skill/combat/slings, skill, TRUE)
+			r_hand = null
+			wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+			neck = /obj/item/quiver/sling/stone
+			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+		else
+			r_hand = /obj/item/rogueweapon/sword/short/ashort

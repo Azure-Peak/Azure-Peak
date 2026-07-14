@@ -1,8 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - rscadd: "NOHEAL and NOREGEN traits! Use them responsibly, dev-senpais!"
-  - rscadd: "Drinking blood transfers some reagents to yourself and also TOX damage."
-  - balance: "Blackblooded should not benefit from most healing potions anymore, and their on-eat heal should be stopped by silver fire stacks."
-  - balance: "Plenty of Blackblood adjustments to make them less oppressive to fight against."
-  - bugfix: "Some Nasty Eater trait interactions added to prevent vomiting out nasty things."

@@ -850,6 +850,7 @@
 		// Use a simple do_after for non-click charge spells
 		var/require_no_move = (spell_requirements & SPELL_REQUIRES_NO_MOVE)
 		on_start_charge()
+		apply_charge_intent()
 		var/success = TRUE
 		if(!do_after(owner, charge_time, needhand = FALSE, extra_checks = CALLBACK(src, PROC_REF(do_after_checks), owner, cast_on), no_interrupt = !require_no_move, allow_movement = !require_no_move))
 			success = FALSE
@@ -1674,51 +1675,7 @@
 /datum/action/cooldown/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker)
 	if(!isliving(target))
 		return FALSE
-	var/datum/status_effect/buff/clash/guard = target.has_status_effect(/datum/status_effect/buff/clash)
-	if(guard)
-		if(isarcyne(target))
-			if(!no_message)
-				target.visible_message(span_warning("[target] deflects [name] with a reactive ward!"))
-				to_chat(target, span_notice("My ward deflects the incoming spell!"))
-			playsound(get_turf(target), pick('sound/combat/parry/shield/magicshield (1).ogg', 'sound/combat/parry/shield/magicshield (2).ogg', 'sound/combat/parry/shield/magicshield (3).ogg'), 100)
-		else
-			if(!no_message)
-				target.visible_message(span_warning("[target] deflects [name]!"))
-				to_chat(target, span_notice("My guard deflects the incoming spell!"))
-			var/obj/item/held = target.get_active_held_item()
-			if(held?.parrysound)
-				playsound(get_turf(target), pick(held.parrysound), 100)
-			else
-				playsound(get_turf(target), pick(target.parry_sound), 100)
-		target.apply_status_effect(/datum/status_effect/buff/parry_buffer)
-		if(attacker != target)
-			target.apply_status_effect(/datum/status_effect/buff/adrenaline_rush/ranged)
-		guard.deflected_spell = TRUE
-		target.remove_status_effect(/datum/status_effect/buff/clash)
-		if(attacker && ishuman(attacker))
-			var/obj/item/attacker_weapon = arcyne_get_weapon(attacker)
-			if(attacker_weapon?.parrysound)
-				playsound(get_turf(attacker), pick(attacker_weapon.parrysound), 100)
-			else
-				playsound(get_turf(attacker), pick(attacker.parry_sound), 100)
-			if(attacker_weapon)
-				if(attacker_weapon.max_blade_int)
-					attacker_weapon.remove_bintegrity((attacker_weapon.blade_int * RIPOSTE_SHARPNESS_FACTOR), attacker)
-				else
-					var/integdam = max((attacker_weapon.max_integrity / RIPOSTE_INTEG_DIVISOR), (INTEG_PARRY_DECAY_NOSHARP * 5))
-					attacker_weapon.take_damage(integdam, BRUTE, attacker_weapon.d_type)
-			attacker.remove_status_effect(/datum/status_effect/debuff/exposed)
-			attacker.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
-			var/datum/status_effect/buff/arcyne_momentum/momentum = attacker.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
-			if(momentum && momentum.stacks > 0)
-				momentum.consume_all_stacks()
-				to_chat(attacker, span_danger("My arcyne strike was deflected — I'm exposed and my momentum is gone!"))
-			else
-				to_chat(attacker, span_danger("My arcyne strike was deflected — I'm exposed!"))
-		return TRUE
-	if(target.has_status_effect(/datum/status_effect/buff/parry_buffer))
-		return TRUE
-	return FALSE
+	return target.guard_deflect_spell(name, no_message, attacker)
 
 /datum/action/cooldown/spell/proc/signal_cancel()
 	SIGNAL_HANDLER

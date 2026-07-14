@@ -305,7 +305,7 @@
 	name = "Arcyne Affinity"
 	desc = "Allows you to learn a set of spells. \n \
 	<b>MAGISTER</b>: Greater Arcyne Bolt, Arc Bolt, Phase, Message, Campfire \n \
-	<b>ENCHANTER</b>: Stygian Efflorescence, Ensnare, Rune Ward, Forcewall, Blood Rush \n \
+	<b>ENCHANTER</b>: Stygian Efflorescence, Geas, Rune Ward, Forcewall, Blood Rush \n \
 	<b>SEER</b>: Attune Giant, Guidance, Attune Haste, Fortitude, Mindlink"
 	button_icon_state = "spellpack"
 //Magister = Generic magos, low utility mostly damage; Enchanter = Area denial beast, some utility; Seer = Full support with practically 0 offensive capacity.
@@ -329,7 +329,7 @@
 	)
 	var/list/enchanter_bundle = list(
 		/datum/action/cooldown/spell/projectile/stygian_efflorescence,
-		/datum/action/cooldown/spell/ensnare,
+		/datum/action/cooldown/spell/geas,
 		/datum/action/cooldown/spell/touch/rune_ward,
 		/datum/action/cooldown/spell/forcewall,
 		/datum/action/cooldown/spell/augment_buff/blood_rush,

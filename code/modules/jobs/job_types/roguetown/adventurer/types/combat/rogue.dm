@@ -356,7 +356,7 @@
 					H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4))
 				H.mind.check_learnspell()
 	
-		H.AddSpell(new /obj/effect/proc_holder/spell/invoked/secularbarter)
+		H.AddSpell(new /datum/action/cooldown/spell/matthios/barter_secular)
 		H.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/flashpowder)
 		

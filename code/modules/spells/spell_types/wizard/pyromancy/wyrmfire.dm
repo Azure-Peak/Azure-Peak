@@ -1,8 +1,9 @@
-#define FIREBALL_DAMAGE 80
+#define FIREBALL_DAMAGE 90
 #define FIREBALL_AOE_DAMAGE 50
 #define ARTILLERY_FIREBALL_DAMAGE 80
 #define ARTILLERY_FIREBALL_AOE_DAMAGE 50
 #define PILLAR_OF_FLAME_DAMAGE 110
+#define PILLAR_OF_FLAME_CURTAIN_LIFE (5 SECONDS)
 #define WYRMFIRE_VULNERABLE_DURATION (5 SECONDS)
 #define CATACLYSM_DAMAGE 300
 #define CATACLYSM_STRUCTURAL_DAMAGE 3000
@@ -140,9 +141,9 @@
 /datum/action/cooldown/spell/projectile/fireball/barrage
 	name = "Wyrmfire"
 	desc = "Loose a devastating barrage of fire. Every strikes leave its victim Vulnerable. Toggle firing mode (Shift+G) to switch:\n\
-	Fireball: Direct fire for 80 damage and 50 area damage around the target.\n\
+	Fireball: Direct fire for 90 damage and 50 area damage around the target.\n\
 	Artillery Fireball: Arced bombardment with heavy structural damage and smoke for 80 damage and 50 area damage.\n\
-	Pillar of Flame: Ground-target a delayed eruption dealing 110 damage across a 3x3 after a short warning."
+	Pillar of Flame: Ground-target a delayed eruption dealing 110 damage across a 3x3 after a short warning, leaving a lingering curtain of flame across the whole area."
 	charge_swingdelay_type = SWINGDELAY_PENALTY
 	var/current_mode = 1
 	var/list/modes = list(
@@ -243,6 +244,7 @@
 	playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 5)
 	for(var/turf/T in range(radius, epicenter))
 		new /obj/effect/temp_visual/dragonfire(T)
+		new /obj/effect/curtain_fire(T, PILLAR_OF_FLAME_CURTAIN_LIFE, caster)
 		for(var/mob/living/L in T)
 			if(L.stat == DEAD)
 				continue
@@ -257,7 +259,6 @@
 
 /obj/projectile/magic/aoe/fireball/rogue/artillery
 	name = "artillery fireball"
-	exp_fire = 1
 	damage = ARTILLERY_FIREBALL_DAMAGE
 	npc_simple_damage_mult = 3
 	arcyne_aoe_radius = 1
@@ -492,6 +493,7 @@
 #undef ARTILLERY_FIREBALL_DAMAGE
 #undef ARTILLERY_FIREBALL_AOE_DAMAGE
 #undef PILLAR_OF_FLAME_DAMAGE
+#undef PILLAR_OF_FLAME_CURTAIN_LIFE
 #undef WYRMFIRE_VULNERABLE_DURATION
 #undef CATACLYSM_DAMAGE
 #undef CATACLYSM_STRUCTURAL_DAMAGE
