@@ -6,7 +6,7 @@
 	icon_state = "haubyrnie"
 	max_integrity = ARMOR_INT_CHEST_LIGHT_STEEL
 	armor_class = ARMOR_CLASS_LIGHT
-	body_parts_covered = COVERAGE_TORSO
+	body_parts_covered = CHEST | VITALS
 	flags_inv = HIDEBOOB //Let it hang, sire.
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
@@ -14,6 +14,7 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/light/ComponentInitialize()
 	..()
 	AddComponent(/datum/component/adjustable_clothing, CHEST, null, null, 'sound/foley/equip/equip_armor_chain.ogg', null, UPD_CHEST)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_ARCYNE, TRAIT_CIVILIZEDBARBARIAN)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/light/get_mechanics_examine(mob/user)
 	. = ..()
@@ -146,8 +147,6 @@
 	item_state = "bhauberk"
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE
-
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
 	name = "decrepit hauberk"

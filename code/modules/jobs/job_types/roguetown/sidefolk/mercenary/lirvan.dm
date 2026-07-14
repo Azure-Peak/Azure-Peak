@@ -11,11 +11,10 @@
 	maximum_possible_slots = 2
 
 	subclass_stats = list(
-		STATKEY_STR = 1, //poopy adv-tier stats, the majority of it will be via selfbuff. abt 3 points of weighted stats
+		STATKEY_STR = 2, //stats roughly equiv to adv, give or take one. when buff is active, they will have more than merc; when inactive, less
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 		STATKEY_PER = 1,
-		STATKEY_SPD = -2
 	)
 	subclass_skills = list(
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
@@ -29,8 +28,8 @@
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE, //pity. your staff is incredibly fragile
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT //awww yeah
+		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE //awww yeah
 	)
 	extra_context = "This subclass is race-limited to: Drakian, Zardman, and Kobold. This subclass locks you to Matthios or Astrata-worship."
 
@@ -40,21 +39,16 @@
 /datum/outfit/job/roguetown/mercenary/lirvanmerc/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	if(should_wear_femme_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/shirt/desertbra
-
 	cloak = /obj/item/clothing/cloak/ordinatorcape/lirvas
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/lirvas
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
-	beltr = /obj/item/rogueweapon/sword/sabre
+	beltr = /obj/item/rogueweapon/sword/long/dec
 	beltl = /obj/item/rogueweapon/scabbard/sword/noble
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/gold
 	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/gold
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
-	gloves = /obj/item/clothing/gloves/roguetown/angle
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	l_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/gold
 	r_hand = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
@@ -63,7 +57,28 @@
 
 	H.merctype = 16 //literally no idea what this does
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lirvan_tithe)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/saxtonhale)
+
+	var/list/weapon_choices = list("Staff", "Unarmed")
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapon_choices
+	switch(weapon_choice)
+		if("Staff")
+			gloves = /obj/item/clothing/gloves/roguetown/angle
+			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/gold
+			l_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/gold
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/saxtonhale)
+		if("Unarmed")
+			if(H.gender == FEMALE)
+				shirt = /obj/item/clothing/suit/roguetown/shirt/desertbra
+			gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
+			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_BLOOD_RESISTANCE, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lirvan_talon)
 
 	if(H.mind)
 		var/list/patron_choices = list("The ORDER and MONARCHY of Astrata", "The WEALTH and POWER of Matthios")
@@ -83,7 +98,7 @@
 |  |  |  |\ '-'  ||  |  |  |  `--'
 `--'  `--' `--`--'`--'  `--'  .--.
                               '--'
-shitcode stuff below this point; first, their regenerating skin which gives them a buff when broken, which works fine.
+shitcode stuff below this point; first, their regenerating skin.
 Second, a self-buff spell that buffs them depending on their total wealth including item sellvalue. I would have liked this to ideally been just a thing they got passively, but I can't fucking code, so...
 third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it looks cool though doesnt it. */
 
@@ -96,44 +111,19 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 /obj/item/clothing/under/roguetown/chainlegs/kilt/gold
 	color = "#f9a602"
 
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/gold
+	color = "#f9a602"
+
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas //high and good armor, but full body, so constant dmg  U N G O D L Y  high regen time. get owned when it breaks or swap to a sidearm
 	name = "hardened scales"
-	desc = "Scales hardened by Lirvan rituo. When broken, my body crumbles, but the lack of encumberance is wildly freeing. </br> </br> Who is more worthy to inherit the wealth of the Sun than those who fly closest?"
+	desc = "Scales hardened by Lirvan rituo. </br> </br>Who is more worthy to inherit the wealth of the Sun than those who fly closest?"
 	repairmsg_begin = "My scales harden and begin mending."
 	repairmsg_continue = "Golden light seeps 'tween myne mending scales."
 	repairmsg_stop = "The onslaught stops my scales' regeneration!"
 	repairmsg_end = "My scales are as strong as stone once more!"
-	repair_time = 60 SECONDS
-	armor = ARMOR_PLATE //scalemail equivalent and ensures it takes dmg last
+	repair_time = 30 SECONDS
+	armor = ARMOR_PLATE
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | HANDS | FEET | COVERAGE_HEAD //all but eyes/nose, seems fair.
-	max_integrity = 500 //kinda snowflakey but after the armor rework, considering that this is full-body and will always absorb a hit; bc it's scale equivalent it will actually absorb nearly ALL of the dmg, so...
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas/Destroy() //this shouldn't happen, but just in case.....though maybe it'd be more sovl if it didn't...?
-	remove_broken_scales_buff()
-	return ..()
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armor_penetration)
-	. = ..()
-	if(obj_integrity <= (initial(obj_integrity) * (0.11))) //UNBELIEVABLY SHIT CODE
-		apply_broken_scales_buff()
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas/armour_regen() //i...hope this works??
-	remove_broken_scales_buff()
-	return ..()
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas/proc/apply_broken_scales_buff()
-	if(!ishuman(loc))
-		return
-	var/mob/living/carbon/human/H = loc
-	if(!H.has_status_effect(/datum/status_effect/buff/lirvan_broken_scales))
-		H.apply_status_effect(/datum/status_effect/buff/lirvan_broken_scales)
-
-/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/lirvas/proc/remove_broken_scales_buff()
-	if(!ishuman(loc))
-		return
-	var/mob/living/carbon/human/H = loc
-	if(H.has_status_effect(/datum/status_effect/buff/lirvan_broken_scales))
-		H.remove_status_effect(/datum/status_effect/buff/lirvan_broken_scales)
 
 
 #define LIRVAN_BLING_FILTER "lirvan_titheaura"
@@ -153,10 +143,10 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/effect/proc_holder/spell/self/lirvan_tithe
 	name = "INVOKE"
-	desc = "Draw strength from the wealth you carry. Armor, jewelry, and raw mammon counted equally. More WEALTH means more POWER. More POWER at 150, 200, 300, 400, and 700 mammon."
+	desc = "Draw strength from the wealth you carry. Armor, jewelry, and raw mammon counted equally. More WEALTH means more POWER. More POWER at 250, 400, 600, 700, 1000, 1200, 1400, and 1600 mammon."
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
-	recharge_time = 3 MINUTES
+	recharge_time = 90 SECONDS
 	ignore_armor_penalty = TRUE
 	invocations = list("'s scales harden and glow softly!")
 	invocation_type = "emote"
@@ -177,7 +167,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	examine_text = "<font color='red'>SUBJECTPRONOUN radiates POWER.</font>"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/lirvan_tithe
 	status_type = STATUS_EFFECT_REFRESH
-	duration = 2 MINUTES
+	duration = 1 MINUTES
 	var/wealth_value = 0
 	var/outline_colour = "#f5d96c"
 	var/obj/effect/dummy/lighting_obj/moblight/lirvanlight
@@ -193,7 +183,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		if(!lirvanlight)
 			lirvanlight = owner.mob_light(7, 7, _color = outline_colour)
 		if(wealth_value < 120)
-			to_chat(owner, span_notice("WEALTH answers my call. Every single one of my- ONLY [src.wealth_value] MAMMON?!"))
+			to_chat(owner, span_notice("WEALTH answers my call. Every single one of my- ONLY [src.wealth_value] MAMMONS?!"))
 			owner.emote("whimper", forced = TRUE)
 			return
 		to_chat(owner, span_notice("WEALTH answers my call. Every single one of my [src.wealth_value] pieces of it."))
@@ -216,30 +206,126 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	wealth_value = get_moni_value(owner)
 	if(wealth_value < 120)
 		effectedstats = list(STATKEY_CON = 1, STATKEY_LCK = 1)
-	else if(wealth_value < 150)
+	else if(wealth_value < 250)
 		effectedstats = list(STATKEY_STR = 1, STATKEY_CON = 1, STATKEY_LCK = 1)
-	else if(wealth_value < 200)
-		effectedstats = list(STATKEY_STR = 1, STATKEY_CON = 2, STATKEY_LCK = 1)
-	else if(wealth_value < 300)
-		effectedstats = list(STATKEY_STR = 2, STATKEY_CON = 2, STATKEY_LCK = 1, STATKEY_SPD = 1)
 	else if(wealth_value < 400)
-		effectedstats = list(STATKEY_STR = 2, STATKEY_CON = 3, STATKEY_LCK = 2, STATKEY_SPD = 1)
+		effectedstats = list(STATKEY_STR = 2, STATKEY_CON = 1, STATKEY_LCK = 1)
+	else if(wealth_value < 600)
+		effectedstats = list(STATKEY_STR = 2, STATKEY_CON = 2, STATKEY_LCK = 1, STATKEY_SPD = 1)
 	else if(wealth_value < 700)
-		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 3, STATKEY_LCK = 2, STATKEY_SPD = 2)
+		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 2, STATKEY_LCK = 2, STATKEY_SPD = 1)
+	else if(wealth_value < 1000)
+		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 4, STATKEY_LCK = 2, STATKEY_SPD = 2, STATKEY_PER = 1)
+	else if(wealth_value < 1200)
+		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 4, STATKEY_LCK = 2, STATKEY_SPD = 2, STATKEY_PER = 2)
+	else if(wealth_value < 1400)
+		effectedstats = list(STATKEY_STR = 4, STATKEY_CON = 4, STATKEY_LCK = 2, STATKEY_SPD = 2, STATKEY_PER = 2)
+	else if(wealth_value < 1600)
+		effectedstats = list(STATKEY_STR = 4, STATKEY_CON = 5, STATKEY_LCK = 3, STATKEY_SPD = 2, STATKEY_PER = 2)
 	else
-		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 4, STATKEY_LCK = 2, STATKEY_SPD = 2) //I'm hoping this doesn't happen often.
+		effectedstats = list(STATKEY_STR = 5, STATKEY_CON = 5, STATKEY_LCK = 3, STATKEY_SPD = 3, STATKEY_PER = 2)
 
+
+/datum/intent/katar/lirvasbite //snowflake intent
+	name = "gouge"
+	icon_state = "instrike"
+	attack_verb = list("gouges", "bites into")
+	animname = "bite"
+	blade_class = BCLASS_BITE //i really hope this shit's going to work well
+	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
+	penfactor = PEN_MEDIUM
+	swingdelay = 1 SECONDS
+	swingdelay_type = SWINGDELAY_CANCEL
+	damfactor = 1.5 //bites you bites you bites yo
+	clickcd = CLICK_CD_MASSIVE
+	item_d_type = "stab"
+
+/obj/effect/proc_holder/spell/self/lirvan_talon
+	name = "DRAKKYRMAW"
+	desc = "WEALTH TO POWER; the drakkyr's maw opens. Turn thy gluttony to wrath. Damage scales with wealth."
+	antimagic_allowed = TRUE
+	clothes_req = FALSE
+	recharge_time = 120 SECONDS
+	ignore_armor_penalty = TRUE
+	invocations = list("draws 'pon DRAKKYRMAW.")
+	invocation_type = "emote"
+	var/obj/item/rogueweapon/katar/lirvan_talon/summoned_talon
+
+/obj/effect/proc_holder/spell/self/lirvan_talon/Destroy()
+	if(summoned_talon && !QDELETED(summoned_talon))
+		UnregisterSignal(summoned_talon, COMSIG_PARENT_QDELETING)
+		QDEL_NULL(summoned_talon)
+	return ..()
+
+/obj/effect/proc_holder/spell/self/lirvan_talon/cast(mob/living/user)
+	if(!ishuman(user))
+		return FALSE
+	if(summoned_talon && !QDELETED(summoned_talon))
+		qdel(summoned_talon)
+		to_chat(user, span_danger("WHY STOP NOW?"))
+		return TRUE
+
+	var/wealth_value = get_moni_value(user)
+	summoned_talon = new(user)
+	summoned_talon.attuned_owner = user
+	summoned_talon.attune_to_wealth(wealth_value)
+	RegisterSignal(summoned_talon, COMSIG_PARENT_QDELETING, PROC_REF(on_talon_destroyed))
+	if(!user.put_in_hands(summoned_talon))
+		qdel(summoned_talon)
+		if(user.get_num_arms() <= 0)
+			to_chat(user, span_userdanger("WITH WHAT FUCKING ARMS???"))
+			user.emote("cry", forced = TRUE)
+		else
+			to_chat(user, span_warning("My hands are full!"))
+		return FALSE
+	to_chat(user, span_danger("[wealth_value] TEETH ARRANGED IN MACABRE SMILE."))
+	QDEL_IN(summoned_talon, 60 SECONDS)
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/lirvan_talon/proc/on_talon_destroyed(datum/source)
+	SIGNAL_HANDLER
+	summoned_talon = null
+
+/obj/item/rogueweapon/katar/lirvan_talon
+	name = "DRAKKYRMAW"
+	desc = "Goldmaw. Infinite teeth. Damage scales with wealth. You know what this is. <br> <br>Do you remember your first mammon?; the becoming of the -self tied to the wealthpulse of the world. In that moment, when you became part of the living beast of economy, did you realize its weight? Do you even remember it? Or has it been yet drowned out? No matter what, there is, of course, only one way to stay as part of the beast instead of its feed. Kill. Trade or tax or blade- kill."
+	icon_state = "drakkyrfist"
+	possible_item_intents = list(/datum/intent/katar/cut, /datum/intent/katar/thrust, /datum/intent/katar/lirvasbite)
+	max_blade_int = 999
+	max_integrity = 999
+	wdefense = 6 //lil boost
+	w_class = WEIGHT_CLASS_HUGE
+	can_parry = TRUE
+	special = /datum/special_intent/drakkyrmaw_bite
+	var/mob/living/attuned_owner
+	var/wealth_value = 0
+
+/obj/item/rogueweapon/katar/lirvan_talon/proc/attune_to_wealth(new_wealth_value)
+	wealth_value = new_wealth_value
+	force = clamp(round(15 + (wealth_value / 25)), 20, 32)
+	throwforce = clamp(round(force / 2), 10, 30) //if this ever becomes relevant lol
+	update_force_dynamic()
+	name = "[wealth_value]-toothed DRAKKYRMAW"
+
+/obj/item/rogueweapon/katar/lirvan_talon/examine(mob/user)
+	. = ..()
+	. += span_notice(" [wealth_value] teeth. [force] force.") //idk if it's gonna show up properly on examine, so, safety til test
+
+/obj/item/rogueweapon/katar/lirvan_talon/dropped(mob/living/user, silent)
+	. = ..()
+	if(user == attuned_owner)
+		qdel(src)
 
 /obj/effect/proc_holder/spell/invoked/saxtonhale
 	name = "SUNSET"
-	desc = "Channel but a mote of the power of a Drakkyn. Take to the skies, before crashing into the ground with a punishing slam after a delay. All caught within are damaged. Hit can be riposted. Center tile takes double damage."
+	desc = "Channel but a mote of the power of a Drakkyn. Take to the skies, before crashing into the ground with a punishing slam after a delay. All caught within are damaged. Hit can be riposted. Center tile takes triple damage."
 	clothes_req = FALSE
 	ignore_armor_penalty = TRUE
 	range = 5
 	overlay_state = "thunderstrike"
 	releasedrain = 30
 	chargedrain = 0
-	chargetime = 5
+	chargetime = 0
 	recharge_time = 20 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
@@ -249,19 +335,13 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	invocations = list("Drakkyr Voldta!") //draconic doesn't have any linguistic inspirations i think. 'dragon walk' if you want to be super literal abt the greek translation but like idk man im just a polyglot dont get mad at me
 	invocation_type = "shout"
 	gesture_required = TRUE
-	var/damage = 45
+	var/damage = 40
 	var/delay = 1 SECONDS
 	var/obj/effect/temp_visual/lirvan_sunset_dragon/dragon_afterimage
 
 /obj/effect/proc_holder/spell/invoked/saxtonhale/cast(list/targets, mob/living/user = usr)
 	var/mob/living/carbon/human/H = user
 	if(!istype(H))
-		revert_cast()
-		return FALSE
-
-	var/obj/item/held_weapon = H.get_active_held_item()
-	if(!held_weapon)
-		to_chat(H, span_warning("...with WHAT WEAPON?"))
 		revert_cast()
 		return FALSE
 
@@ -281,6 +361,13 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		to_chat(H, span_warning("I need open ground for my landing!"))
 		revert_cast()
 		return FALSE
+
+	var/obj/item/held_weapon = H.get_active_held_item()
+	if(!held_weapon)
+		to_chat(H, span_warning("...with WHAT WEAPON?"))
+		revert_cast()
+		return FALSE
+
 
 	var/def_zone = H.zone_selected || BODY_ZONE_CHEST
 
@@ -351,6 +438,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/effect/temp_visual/lirvan_sunset_dragon //SPECIAL EFFECTS DONE DIRT CHEAP
 	name = "sunfall dragon"
+	desc = "The fact that I'm focused on this instead of the guy that's just jumped like twenty feet into the air really says a lot about my priorities. Maybe I should stop fucking around. Hey, wait, how much can I think about this? Can I just keep thinking about this forever? Fucked up."
 	icon = 'modular/icons/mob/96x96/ratwood_dragon.dmi'
 	icon_state = "dragon_shadow"
 	randomdir = FALSE

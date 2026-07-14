@@ -32,8 +32,9 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE // Use it with an arcyne armament noob 
 	charge_time = CHARGETIME_MINOR
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	hold_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 20 SECONDS // Not meant to be the thing you relies on for damage or a staple poke spell, it is something to be mixed in in melee
 	attunement_school = ASPECT_NAME_FERRAMANCY
@@ -62,7 +63,7 @@
 	range = 7 // Let you pressure a whole screen, in theory
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "stygian"
-	max_range = 5 // Effective range is lower than its maximal range
+	max_range = MAGE_LONG_PROJ_RANGE // Effective range is lower than its maximal range
 	damage = 34
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB

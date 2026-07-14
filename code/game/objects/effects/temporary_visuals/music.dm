@@ -74,15 +74,6 @@
 	transform = m
 
 
-/obj/effect/temp_visual/songs/inspiration_dirget1
-	icon_state = "dirge_t1_base"
-
-/obj/effect/temp_visual/songs/inspiration_dirget2
-	icon_state = "dirge_t2_base"
-
-/obj/effect/temp_visual/songs/inspiration_dirget3
-	icon_state = "dirge_t3_base"
-
 /obj/effect/temp_visual/songs/inspiration_melodyt1
 	icon_state = "melody_t1_base"
 
@@ -121,7 +112,3 @@
 // Blue-green notes for buffed allies
 /obj/effect/temp_visual/song_telltale/buff
 	note_color = "#5CB8E6"
-
-// Red notes for debuffed enemies
-/obj/effect/temp_visual/song_telltale/debuff
-	note_color = "#CC3333"

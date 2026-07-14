@@ -950,32 +950,6 @@
 		remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
 		remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN_FLYING)
 
-/mob/living/carbon/human/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks
-	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		remove_status_effect(/datum/status_effect/debuff/hungryt1)
-		remove_status_effect(/datum/status_effect/debuff/hungryt2)
-		remove_status_effect(/datum/status_effect/debuff/hungryt3)
-		return FALSE
-	return ..()
-
-/mob/living/carbon/human/set_nutrition(change) //Seriously fuck you oldcoders.
-	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		return FALSE
-	return ..()
-
-/mob/living/carbon/human/adjust_hydration(change)
-	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		remove_status_effect(/datum/status_effect/debuff/thirstyt1)
-		remove_status_effect(/datum/status_effect/debuff/thirstyt2)
-		remove_status_effect(/datum/status_effect/debuff/thirstyt3)
-		return FALSE
-	return ..()
-
-/mob/living/carbon/human/set_hydration(change)
-	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		return FALSE
-	return ..()
-
 /// copies the physical cosmetic features of another human mob.
 /mob/living/carbon/human/proc/copy_physical_features(mob/living/carbon/human/target)
 	if(!istype(target))

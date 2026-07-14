@@ -1,6 +1,6 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_npc_chargetime(mob/living/user)
-	var/newtime = max(20, reloadtime - user.STASTR - (user.get_skill_level(/datum/skill/combat/crossbows) * 2))
+	var/newtime = max(20, reloadtime - user.STASTR - (user.get_skill_level(ranged_skill) * 2))
 	if(chambered)
 		newtime *= chambered.charge_time_mult
 	return max(ARCHER_NPC_MIN_CROSSBOW_CHARGETIME, newtime) * ARCHER_NPC_ROF_PENALTY
@@ -27,6 +27,7 @@
 	spread = 0
 	can_parry = TRUE
 	associated_skill = /datum/skill/combat/crossbows
+	var/ranged_skill = /datum/skill/combat/crossbows
 	wdefense = 3
 	max_integrity = 100
 	var/chargingspeed = 40
@@ -95,7 +96,7 @@
 		var/newtime = chargetime
 		//skill block
 		newtime += basetime
-		newtime -= (mastermob.get_skill_level(/datum/skill/combat/crossbows) * 4.25) // minus 4.25 per skill point
+		newtime -= (mastermob.get_skill_level(c_bow.ranged_skill) * 4.25) // minus 4.25 per skill point
 		newtime -= ((mastermob.STAPER)) // minus 1 per perception
 
 		if(c_bow.onehanded)
@@ -136,7 +137,7 @@
 		var/newtime = chargetime
 		//skill block
 		newtime += basetime
-		newtime -= (mastermob.get_skill_level(/datum/skill/combat/crossbows) * 20)
+		newtime -= (mastermob.get_skill_level(c_bow.ranged_skill) * 20)
 		//per block
 		newtime += 20
 		newtime -= ((mastermob.STAPER)*1.5)
@@ -166,7 +167,7 @@
 		if(!cocked)
 			to_chat(user, span_info("I step on the stirrup and use all my might..."))
 			if(!movingreload)
-				if(do_after(user, reloadtime - user.STASTR - user.get_skill_level(/datum/skill/combat/crossbows), target = user ))
+				if(do_after(user, reloadtime - user.STASTR - user.get_skill_level(ranged_skill), target = user ))
 					playsound(user, 'sound/combat/Ranged/crossbow_medium_reload-01.ogg', 100, FALSE) //11 STR + MASTER Crossbow = 2.5~ second reload not including TIDI
 					cocked = TRUE //13 STR + NO Crossbow still amounts to around 3 seconds reload, so as it is each level of skill is +1 STR equivalent.
 			else
@@ -219,7 +220,7 @@
 
 		BB.accuracy += accfactor * (user.STAPER - 8) * 3 // 8+ PER gives +3 per level. Exponential.
 		BB.bonus_accuracy += (user.STAPER - 8) // 8+ PER gives +1 per level. Does not decrease over range.
-		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/crossbows) * 5) // +5 per XBow level.'
+		BB.bonus_accuracy += (user.get_skill_level(ranged_skill) * 5) // +5 per skill level.
 		BB.armor_penetration = max(PEN_NONE, BB.armor_penetration + penfactor)
 		BB.damage *= damfactor
 

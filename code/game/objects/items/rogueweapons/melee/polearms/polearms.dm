@@ -1512,7 +1512,8 @@
 	icon_state = "quarterstaff_gold"
 	force = 23
 	force_wielded = 30
-	sellprice = 50
+	special = /datum/special_intent/gilded_dragon_sweep
+	sellprice = 80
 	no_loot_taint = TRUE
 	max_integrity = 250 //equal to psydonite; putting it at half of this was a neat little experiment but agonizing
 
@@ -1698,4 +1699,4 @@
 
 /obj/item/rogueweapon/spear/partizan/baotha/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_BAOTHA_WEAPON)
-	
+

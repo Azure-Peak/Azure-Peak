@@ -22,6 +22,9 @@
 	add_gradient_overlay(standing, hair_dye_gradient, hair_dye_color)
 	add_custom_overlay(standing)
 
+/datum/bodypart_feature/hair/get_cache_key()
+	return "[accessory_type]-[accessory_colors]-[natural_gradient]-[natural_color]-[hair_dye_gradient]-[hair_dye_color]-[custom_mask_version]"
+
 /datum/bodypart_feature/hair/proc/get_custom_mask()
 	var/list/custom_masks = hairmask_layers_fast(colormasks)
 	if(custom_masks)

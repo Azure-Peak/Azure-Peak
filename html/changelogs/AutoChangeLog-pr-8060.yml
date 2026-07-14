@@ -1,5 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - rscadd: "added a way to access either of the Bishop's holy staves"
-  - bugfix: "fixed the staff of the shepherd's missing interactions"

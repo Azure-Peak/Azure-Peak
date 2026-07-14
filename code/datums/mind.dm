@@ -392,8 +392,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 					to_chat(current, span_warning("I cannot attune to another minor aspect."))
 				return FALSE
 			LAZYADD(minor_aspects, aspect)
-	// Grant choice spell first so it appears first on the action bar
-	// If no explicit choice, auto-resolve: prefer one the player already has, else first in list
+	// Auto-resolve the choice spell if none was passed: prefer one the player already has, else first in list.
 	if(!choice_spell && length(aspect.choice_spells))
 		for(var/candidate in aspect.choice_spells)
 			if(has_spell(candidate))
@@ -401,9 +400,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 				break
 		if(!choice_spell)
 			choice_spell = aspect.choice_spells[1]
-	if(choice_spell)
-		aspect.grant_choice_spell(src, choice_spell)
-	aspect.grant_spells(src)
+	aspect.grant_ordered(src, choice_spell)
 	// Apply variant swaps — explicit variant takes priority, mastery config gets "mastery" by default
 	if(variant)
 		aspect.apply_variant(src, variant)

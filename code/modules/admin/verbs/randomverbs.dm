@@ -316,6 +316,8 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	var/mob/dead/observer/G_found
 	for(var/mob/dead/observer/G in GLOB.player_list)
+		if(isscryeye(G))
+			continue
 		if(G.ckey == input)
 			G_found = G
 			break

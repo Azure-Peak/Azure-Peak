@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - rscadd: "Allow lighting another player's zigarette using Prestidigitation's intent spark when targeting their mouth"

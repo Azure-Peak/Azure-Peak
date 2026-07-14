@@ -217,7 +217,7 @@
 
 	if(HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE))	// We apply the major multipliers first.
 		amt *= CRIT_RESISTANCE_EFFECTIVE_BLEEDRATE
-	else if(HAS_TRAIT(src, TRAIT_BLOOD_RESISTANCE) || HAS_TRAIT(src, TRAIT_BLACKBLOOD))
+	else if(HAS_TRAIT(src, TRAIT_BLOOD_RESISTANCE))
 		amt *= BLOOD_RESISTANCE_EFFECTIVE_BLEEDRATE
 
 	//For each CON above 10, we bleed slower.

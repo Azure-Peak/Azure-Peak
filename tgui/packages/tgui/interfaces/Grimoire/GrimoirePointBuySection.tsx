@@ -5,6 +5,7 @@ export const GrimoirePointBuySection = ({
   aspect,
   pointbuySelections,
   allSelectedSpells,
+  claimedGroups,
   getPointbuyUsed,
   act,
   readOnly = false,
@@ -12,6 +13,7 @@ export const GrimoirePointBuySection = ({
   aspect: Aspect;
   pointbuySelections: Record<string, string[]>;
   allSelectedSpells: string[];
+  claimedGroups: Record<string, string>;
   getPointbuyUsed: (a: Aspect) => number;
   act: (action: string, params: Record<string, unknown>) => void;
   readOnly?: boolean;
@@ -29,9 +31,18 @@ export const GrimoirePointBuySection = ({
         const isSelected = selections.includes(spell.path);
         const selectedElsewhere =
           !isSelected && allSelectedSpells.includes(spell.path);
+        const claimedBy = spell.exclusive_group
+          ? claimedGroups[spell.exclusive_group]
+          : undefined;
+        const conflictsElsewhere =
+          !isSelected &&
+          !selectedElsewhere &&
+          claimedBy !== undefined &&
+          claimedBy !== aspect.path;
         const wouldExceed =
           !isSelected && used + spell.cost > aspect.pointbuy_budget;
-        const isDisabled = !isSelected && (wouldExceed || selectedElsewhere);
+        const isDisabled =
+          !isSelected && (wouldExceed || selectedElsewhere || conflictsElsewhere);
         return (
           <div
             key={spell.path}
@@ -56,6 +67,14 @@ export const GrimoirePointBuySection = ({
                 style={{ marginLeft: '6px' }}
               >
                 already inscribed
+              </span>
+            )}
+            {conflictsElsewhere && (
+              <span
+                className="AspectPicker__spell-desc"
+                style={{ marginLeft: '6px' }}
+              >
+                conflicts with a chosen spell
               </span>
             )}
             {readOnly && spell.desc && (

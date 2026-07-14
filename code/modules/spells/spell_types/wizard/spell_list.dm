@@ -14,6 +14,7 @@ GLOBAL_LIST_INIT(utility_spells, (list(
 		/datum/action/cooldown/spell/magicians_brick,
 		/datum/action/cooldown/spell/magicians_stone,
 		/datum/action/cooldown/spell/magicians_rock,
+		/datum/action/cooldown/spell/aetherknife,
 		/datum/action/cooldown/spell/mending,
 		/datum/action/cooldown/spell/message,
 		/datum/action/cooldown/spell/mindlink,

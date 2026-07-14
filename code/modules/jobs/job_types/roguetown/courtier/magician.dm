@@ -43,6 +43,7 @@
 
 	subclass_mage_aspects = list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE)
 	category_tags = list(CTAG_COURTMAGE)
+	traits_applied = list(TRAIT_BADTRAINER)
 	subclass_stats = list(
 		STATKEY_INT = 5,// Automatic advanced magic for most spells. (I.E summon weapon being upgraded to steel from iron/etc)
 		STATKEY_PER = 3,
@@ -53,7 +54,7 @@
 	age_mod = /datum/class_age_mod/court_magician
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,

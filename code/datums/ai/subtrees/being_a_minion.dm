@@ -11,7 +11,13 @@
 	var/turf/travel = controller.blackboard[location_key]
 	var/mob/following = controller.blackboard[follow_target]
 	var/mob/living/pawn = controller.pawn
-	
+
+	var/mob/living/threat = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+	if(!isliving(threat) || QDELETED(threat) || threat.stat == DEAD)
+		threat = controller.blackboard[BB_HIGHEST_THREAT_MOB]
+	if(isliving(threat) && !QDELETED(threat) && threat.stat != DEAD)
+		return
+
 	if(travel)
 		controller.queue_behavior(travel_behavior, location_key)
 		return SUBTREE_RETURN_FINISH_PLANNING //end here
@@ -24,7 +30,7 @@
 	return //no travel target and no one to follow. being a minion in other ways
 /// Follow the target
 /datum/ai_behavior/follow_friend
-	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_MOVE_AND_PERFORM
+	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_MOVE_AND_PERFORM | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
 /datum/ai_behavior/follow_friend/setup(datum/ai_controller/controller, target_key)
 	. = ..()
 	var/atom/target = controller.blackboard[target_key]
