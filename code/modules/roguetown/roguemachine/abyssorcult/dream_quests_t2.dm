@@ -73,7 +73,7 @@
 	)
 	valid_roles = list("Orthodoxist","Inquisitor","Absolver")
 
-/datum/vision_quest/orthodoxist_salvation
+/datum/vision_quest/the_lost_city
 	name = "Shal'Ghur"
 	description = "Chittering and crawling creatures dwell in the city of shades."
 	required_tier = 2
@@ -114,3 +114,55 @@
 		"the damned of shal'ghur endure",
 		"we abandoned them"
 	)
+
+/datum/vision_quest/beggar_court
+	name = "The Ragged Court"
+	description = "A group of depraved & deprived gather."
+	required_tier = 2
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "an affluent one"
+	summary = "It's not all gold that glitters."
+	vision_text = "The clink of chains. \
+	A single coin being swirled around in a cracked bowl. \
+	Dredges of a face peeking through bandages that desperately cling to skin. \
+	'I managed to turn away a scrap of bread offered by Thomas the other day.' A mouth between the rags piped up. \
+	'The fisher, nets full of bounty. Basket bustling... She was about to throw me a fish, but I hissed at her palm.' Above a pair of blistered mitts another voice spoke. \
+	'Compadres, are you doubting your king once more? The very duke themselves regarded me with pity. But I told him, the one who feeds me shall suffer terrible boils' Spoke the crown. \
+	Your presence is noticed, horrid eyes that look like they're clawing to stay above the wrinkles. \
+	'A guest. Are they reaching for their pouch?' \
+	'Do not feed us, you will end up just the same.' \
+	'Cut off that hand, clearly you musn't just perish the thought, you must prevent it altogether.' \
+	Each vie for your attention. To look as pathetic as possible, but abandoning reason to such a degree that even pity is wasted upon them. \
+	Are you any better? \
+	Hands grip your limbs, dragging you into the mud. So bereft of splendour it has cracked and hardened. \
+	Your glittering rings, each and every one of them bitten by accusatory teeth. They hold firm. Fool's gold. \
+	The very robes you wear. Soft and silken, yet it does little to keep out the cold. \
+	Did you ever truly own any of such articles? There's a heavy metal shackle teasing your neck. \
+	Pure blacksteel reflected in the single ray of moonlight piercing the space. \
+	It's yours. It has your name engraved in it. Your property. \
+	Nothing else matters."
+	possible_phrases = list(
+		"greed will be your downfall",
+		"shed your rings before it is too late",
+		"fool's gold"
+	)
+
+/datum/vision_quest/beggar_court/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+	if(!..())
+		return FALSE
+
+	var/mammonsonperson = get_mammons_in_atom(target)
+	var/mammonsinbank = SStreasury.get_balance(target)
+	var/totalvalue = mammonsonperson + mammonsinbank
+	if(totalvalue <= 250)
+		return FALSE
+	return TRUE
