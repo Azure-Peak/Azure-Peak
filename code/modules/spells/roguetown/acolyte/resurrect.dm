@@ -587,6 +587,8 @@
 	)
 	debuff_type = /datum/status_effect/debuff/malum_revival
 	sound = 'sound/magic/clang.ogg'
+	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
+	action_icon = 'icons/mob/actions/malummiracles.dmi'
 
 /obj/effect/proc_holder/spell/invoked/resurrect/ravox
 	name = "Just Rite of Anastasis"

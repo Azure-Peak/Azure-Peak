@@ -452,4 +452,11 @@
 							'sound/foley/footsteps/armor/woodarmor (2).ogg',
 							'sound/foley/footsteps/armor/woodarmor (3).ogg',
 							)
+			if(SFX_HEELS)
+				soundin = pick(
+							'sound/foley/footsteps/highheel1.ogg',
+							'sound/foley/footsteps/highheel2.ogg',
+							'sound/foley/footsteps/highheel3.ogg',
+							'sound/foley/footsteps/highheel4.ogg',
+							)
 	return soundin

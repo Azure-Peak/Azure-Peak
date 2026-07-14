@@ -3387,7 +3387,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		dat += "[V.custom_text]"
 		dat += "</font>"
 	if(V.stackable)
-		dat += "<font color = '#ffeea3'>This virtue can be picked twice using Virtuous.</font><br>"
+		dat += "<font color = '#ffeea3'><br>This virtue can be picked twice using Virtuous.</font><br>"
 	return dat
 
 /datum/preferences/proc/LorePopup(mob/user)

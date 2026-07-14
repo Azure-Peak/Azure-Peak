@@ -26,10 +26,11 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MAJOR
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 8 SECONDS
+	cooldown_time = 12 SECONDS
 	attunement_school = ASPECT_NAME_KINESIS
 
 	associated_skill = /datum/skill/magic/arcane

@@ -166,7 +166,7 @@
 /obj/item/clothing/cloak/sleevedtabard
 	name = "sleeved tabard"
 	desc = "A tabard with a light sleeve and pauldron sewn on, it lacks the explicit detailing of other tabards in exchange."
-	color = null 
+	color = null
 	boobed = TRUE
 	icon_state = "halfsurcoat"
 	item_state = "halfsurcoat"
@@ -984,7 +984,6 @@
 
 /obj/item/clothing/cloak/raincloak/brown
 	color = CLOTHING_BROWN
-	sellprice = 25
 
 /obj/item/clothing/cloak/raincloak/green
 	color = CLOTHING_GREEN
@@ -1389,6 +1388,17 @@
 	sleevetype = "shirt"
 	slot_flags = ITEM_SLOT_CLOAK
 
+/obj/item/clothing/cloak/suspenders
+	name = "pouched suspenders"
+	desc = "A pair of suspenders which go over the shoulders. Usually used for keeping one's pants in place in an admittably fashionable style, but this one has a couple of belts for extra storage."
+	icon_state = "suspenders"
+	item_state = "suspenders"
+	icon = 'icons/roguetown/clothing/belts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/belts.dmi'
+	body_parts_covered = CHEST|GROIN
+	alternate_worn_layer = TABARD_LAYER
+	slot_flags = ITEM_SLOT_CLOAK | ITEM_SLOT_ARMOR | ITEM_SLOT_SHIRT | ITEM_SLOT_BELT
+
 /obj/item/clothing/cloak/battlenun
 	name = "nun vestments"
 	desc = "Chaste, righteous, merciless to the wicked."
@@ -1719,10 +1729,10 @@
 
 /obj/item/clothing/cloak/ordinatorcape/lirvas
 	name = "lirvan silks"
-	desc = "Fine silks. Only the best for me, of course. You need to look good while beating someone to death. </br> </br> ...In Lirvasi society, this isn't even a well-off fellow's shirt; truth be told, this is the sort a yeoman would wear. How terrible to be the wretched 'mongst wealthy; but how glorious that the wretched look so glorious, here."
+	desc = "Fine silks. Only the best for me, of course. You need to look good while beating someone to death. </br> </br>...In Lirvan society, this isn't even a well-off fellow's shirt; truth be told, this is the sort a yeoman would wear. How terrible to be the wretched 'mongst wealthy; but how glorious that the wretched look so glorious, here."
 	icon_state = "lirvastabard"
 	item_state = "lirvastabard"
-	sellprice = 25
+	sellprice = 100
 
 /obj/item/clothing/cloak/absolutionistrobe
 	name = "absolver's robe"

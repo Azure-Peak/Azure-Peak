@@ -1,0 +1,4 @@
+author: "Kelshark"
+delete-after: True
+changes:
+  - qol: "Instruments can play songs longer than 4 minutes without abrupt cut-off and loop."

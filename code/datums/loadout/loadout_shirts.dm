@@ -140,6 +140,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkydress
 	sort_category = "Shirts"
 
+/datum/loadout_item/gown/loudmouth_robes
+	name = "Criers' Garb"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/loudmouth
+	sort_category = "Shirts"
+
 /datum/loadout_item/noblecoat
 	name = "Fancy Coat"
 	path = /obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat
@@ -203,4 +208,9 @@
 /datum/loadout_item/corset
 	name = "Corset"
 	path = /obj/item/clothing/suit/roguetown/armor/corset
+	sort_category = "Shirts"
+
+/datum/loadout_item/saree
+	name = "Saree"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/saree
 	sort_category = "Shirts"

@@ -308,7 +308,7 @@
 	bitesize = 3
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("crispy sugarglass" = 1)
-	sellprice = 15
+	sellprice = 8
 	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'
 	eat_effect = /datum/status_effect/buff/sweet
 

@@ -9,6 +9,8 @@
 	var/list/target_items = list()
 	/// Result item we'll exchange it to. Currently /weapon/ type kits use this as an example they'll copy all the visual data from. Keep this in mind if this never gets properly refactored!
 	var/result_item = null
+	/// Whether we'll be looking for exact types in target_items. This generally should be TRUE unless the user wants the elixir to be used on subtypes as well.
+	var/exact_type = FALSE
 
 /obj/item/enchantingkit/pre_attack(obj/item/I, mob/user)
 	if(!I || !user)
@@ -20,9 +22,17 @@
 	var/R_type = null
 	if(LAZYLEN(target_items))
 		for(var/T in target_items)
-			if(istype(I, T))
-				R_type = target_items[T]
-				break
+			if(exact_type)
+				if(I.type == T)
+					R_type = target_items[T]
+					break
+			else
+				if(istype(I, T))
+					R_type = target_items[T]
+					break
+
+	if(!R_type && exact_type)
+		return ..()
 
 	if(!R_type && result_item)
 		R_type = result_item
@@ -111,6 +121,33 @@
 	. = ..()
 	. += span_info("Left-clicking the appropriate item with this elixir will gift it a unique appearance.")
 
+/// NOT ACTUALLY AN ENCHANTING KIT
+/// Just wasn't sure where to put it, given its niche use.
+/obj/item/heelkit
+	name = "heel-morphing elixir"
+	desc = "A small container of special morphing dust, specially designed to add heels to any foot-garment lacking them. Arcyne innovations have now reached fashion, much to the dismay of Otavan heel-smiths."
+	icon = 'icons/obj/items/donor_objects.dmi'
+	icon_state = "enchanting_kit"
+	w_class = WEIGHT_CLASS_SMALL
+
+
+/obj/item/heelkit/pre_attack(obj/item/I, mob/user)
+	if(!user || !I)
+		return
+	if(!istype(I, /obj/item/clothing/shoes/roguetown))
+		to_chat(user, span_warning("These are not the appropriate type of item for this elixir."))
+		return
+	I.visible_message(span_notice("The dust sparkles over the item, the contours shifting as \the [I] grows a pair of heels..?"))
+	var/datum/component/SFX = I.GetComponent(/datum/component/item_equipped_movement_rustle)
+	if(SFX)
+		SFX.Destroy()
+	I.name += " (Heeled)"
+	I.AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
+	var/obj/item/clothing/shoes/roguetown/SH = I
+	SH.stepnoise_flag = STEPNOISE_HEELS
+	do_sparks(2, TRUE, get_turf(SH))
+	qdel(src)
+
 /////////////////////////////
 // ! Unlocked Donor Kits ! //
 /////////////////////////////
@@ -137,13 +174,15 @@
 
 /obj/item/enchantingkit/gothicsteelarmor
 	name = "'Gothic Steel Armor' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Cuirass, Steel Halfplate, or a set of Steel Plate Armor."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Cuirass, Steel Halfplate, a set of Steel Plate Armor, or a set of Fluted Plate Armor."
 	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/plate/cuirass			= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/donator_gothic,
-		/obj/item/clothing/suit/roguetown/armor/plate/full				= /obj/item/clothing/suit/roguetown/armor/plate/full/donator_gothic,
-		/obj/item/clothing/suit/roguetown/armor/plate					= /obj/item/clothing/suit/roguetown/armor/plate/donator_gothic
+		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted			= /obj/item/clothing/suit/roguetown/armor/plate/full/donator_gothic,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass				= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/donator_gothic,
+		/obj/item/clothing/suit/roguetown/armor/plate/full					= /obj/item/clothing/suit/roguetown/armor/plate/full/donator_gothic,
+		/obj/item/clothing/suit/roguetown/armor/plate						= /obj/item/clothing/suit/roguetown/armor/plate/donator_gothic
 	)
 	result_item = null
+	exact_type = TRUE
 
 /obj/item/enchantingkit/croppedhaubergeon
 	name = "'Cropped Haubergeon' morphing elixir"
@@ -235,6 +274,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/full								= /obj/item/clothing/suit/roguetown/armor/plate/full/donator_triheartfelt
 	)
 	result_item = null
+	exact_type = TRUE
 
 /obj/item/enchantingkit/weapon/donator_longsword
 	name = "'Elegant Longsword' morphing elixir"
@@ -819,3 +859,12 @@
 	)
 	result_item = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/spartanbobby
 
+//spaz - Armet/Hounskull/Barbute
+/obj/item/enchantingkit/spaz_helm
+	name = "'hound-nosed bascinet' morphing elixir"
+	target_items = list(
+		/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/spaz,
+		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/spaz,
+		/obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor            = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/spaz
+	)
+	result_item = null

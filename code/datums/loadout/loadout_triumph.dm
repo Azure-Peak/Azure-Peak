@@ -382,6 +382,12 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_armorkit_slimmedsteel
+	name = "Triumph Kit - Slimfitted Steel Armor"
+	path = /obj/item/enchantingkit/triumph_armorkit_slimmedsteel
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_armorkit_drow
 	name = "Triumph Kit - Drowcraft Armor"
 	path = /obj/item/enchantingkit/triumph_armorkit_drow

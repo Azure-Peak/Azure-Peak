@@ -36,7 +36,6 @@
 	name = "decrepit ring"
 	desc = "A coil of frayed bronze."
 	icon_state = "ring_a"
-	sellprice = 11
 
 /obj/item/clothing/ring/bronze
 	name = "bronze ring"
@@ -224,7 +223,6 @@
 	name = "gold signet ring"
 	icon_state = "signet"
 	desc = "A ring of opulent gold, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, and a fresh bead of tallow rests in the underside."
-	sellprice = 135
 	var/tallowed = FALSE
 	var/tallow_color = "red"
 
@@ -251,7 +249,6 @@
 	name = "silver signet ring"
 	icon_state = "signet_silver"
 	desc = "A ring of glistening silver, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, a bead of tallow nested in the underside."
-	sellprice = 80
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -259,7 +256,6 @@
 	name = "psydonian signet ring"
 	icon_state = "psysignet"
 	desc = "A ring of blessed silver, bearing the Archbishop's symbol. Its face is cut to seal writs of religious importance, a bead of tallow nested in the underside."
-	sellprice = 90
 	is_silver = TRUE
 
 /obj/item/clothing/ring/signet/psy/get_mechanics_examine(mob/user)

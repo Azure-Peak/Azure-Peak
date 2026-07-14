@@ -21,6 +21,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = 1 SECONDS
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
@@ -34,6 +35,7 @@
 
 	var/line_length = 4
 	var/blast_damage = 55
+	displayed_damage = 55
 	var/push_dist = 3
 
 /datum/action/cooldown/spell/energetic_blast/cast(atom/cast_on)

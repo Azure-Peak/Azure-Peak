@@ -1,5 +1,0 @@
-author: "SomeDeviant"
-delete-after: True
-changes:
-  - rscdel: "Removed error-causing trait string from drown check"
-  - bugfix: "Drowning runtime"

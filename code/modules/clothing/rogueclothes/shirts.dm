@@ -52,6 +52,11 @@
 	boobed = TRUE
 	flags_inv= HIDEBOOB|HIDECROTCH
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
+	adjustable = CAN_CADJUST
+
+/obj/item/clothing/suit/roguetown/shirt/undershirt/priest/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, CHEST|GROIN|ARMS|VITALS, null, null, 'sound/foley/cloth_wipe (1).ogg', null, UPD_CHEST)
 
 /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	name = "padded undervestments"
@@ -64,7 +69,7 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	allowed_sex = list(MALE, FEMALE)
 	boobed = TRUE
-	flags_inv= HIDEBOOB|HIDECROTCH
+	flags_inv = HIDEBOOB|HIDECROTCH
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	armor = ARMOR_PADDED_BAD
@@ -73,6 +78,11 @@
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
+	adjustable = CAN_CADJUST
+
+/obj/item/clothing/suit/roguetown/armor/vestments_padded/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, CHEST|GROIN|ARMS|VITALS, null, null, 'sound/foley/cloth_wipe (1).ogg', null, UPD_CHEST)
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/black
 	color = CLOTHING_BLACK
@@ -664,6 +674,13 @@
 	icon_state = "stewardtunic"
 	item_state = "stewardtunic"
 
+/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/loudmouth
+	color = null
+	name = "crier's garb"
+	desc = "A robe that speaks volumes!"
+	icon_state = "loudmouthrobe"
+	item_state = "loudmouthrobe"
+
 //WEDDING CLOTHES
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/weddingdress
 	name = "wedding silk dress"
@@ -882,3 +899,13 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/shirt/dress/saree
+	name = "saree"
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
+	desc  = "A delicate, unstitched garment that can be draped across the body. It is commonly worn amongst Ranesheni women."
+	icon_state = "saree"
+	item_state = "saree"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	detail_tag = "_detail"
+	detail_color = CLOTHING_WHITE

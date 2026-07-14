@@ -1,10 +1,11 @@
 /datum/action/cooldown/spell/augment_buff/attune_giant
 	name = "Attune: Giant"
-	desc = "Strengthen the target. (+4 Strength, grants Guidance)\nAttunement - Giant, Hawk, and Haste share a cooldown; only one may be held at a time."
+	desc = "Strengthen the target. (+4 Strength)\nAttunement - Giant, Hawk, and Haste share a cooldown; only one may be held at a time."
 	button_icon_state = "giants_strength"
 
 	invocations = list("Vis Gigantis.")
 	shared_cooldown = "augment_attunement"
+	other_cast_cooldown_reduction = 0.33 // Casting on an ally cuts a third off the cooldown
 
 	point_cost = 2
 
@@ -24,6 +25,6 @@
 		H.visible_message("[H] mutters an incantation and [spelltarget]'s muscles strengthen and grow.")
 	else
 		H.visible_message("[H] mutters an incantation and their muscles strengthen and grow.")
-	apply_buff_to(spelltarget, /datum/status_effect/buff/attune_giant, STAT_BUFF_SELF_DURATION)
+	spelltarget.apply_status_effect(/datum/status_effect/buff/attune_giant, ATTUNE_BUFF_DURATION)
 
 	return TRUE

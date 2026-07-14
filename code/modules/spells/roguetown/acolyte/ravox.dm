@@ -182,9 +182,9 @@
 	. = ..()
 
 
-/////////////////////////////////////////////////////
-// T1 - Divine Strike - Slow down an enemy on hit. //
-/////////////////////////////////////////////////////
+/////////////////////////////////
+// T1 - Ravox Miracle Selector //
+/////////////////////////////////
 
 /datum/action/cooldown/spell/ravox/strikeoraegis
 	name = "Tools of Justice"
@@ -461,6 +461,7 @@
 	charge_required = FALSE
 	cooldown_time = 1 MINUTES
 
+	check_flags = AB_CHECK_CONSCIOUS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/ravox/withstand/cast(atom/cast_on)

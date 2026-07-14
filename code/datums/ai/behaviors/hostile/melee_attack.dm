@@ -113,6 +113,27 @@
 	if(!succeeded)
 		controller.clear_blackboard_key(target_key)
 
+/datum/ai_behavior/opportunistic_ranged_attack
+	behavior_flags = AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
+	required_distance = 0
+	action_cooldown = 0.4 SECONDS
+
+/datum/ai_behavior/opportunistic_ranged_attack/setup(datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+	var/atom/target = controller.blackboard[target_key]
+	return !QDELETED(target)
+
+/datum/ai_behavior/opportunistic_ranged_attack/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
+	. = ..()
+	var/mob/living/simple_animal/hostile/basic_mob = controller.pawn
+	var/atom/target = controller.blackboard[target_key]
+	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
+	if(!istype(basic_mob) || QDELETED(target) || target == basic_mob || !targetting_datum?.can_attack(basic_mob, target))
+		finish_action(controller, FALSE, target_key)
+		return
+	basic_mob.face_atom(target)
+	basic_mob.RangedAttack(target)
+	finish_action(controller, TRUE, target_key)
+
 
 /datum/ai_behavior/basic_melee_attack/bog_troll/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()

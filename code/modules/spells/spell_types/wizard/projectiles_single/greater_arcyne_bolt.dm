@@ -24,8 +24,9 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 5.5 SECONDS
 
@@ -49,7 +50,7 @@
 	npc_simple_damage_mult = 1.5
 	nodamage = FALSE
 	speed = MAGE_PROJ_FAST
-	max_range = 5
+	max_range = MAGE_LONG_PROJ_RANGE
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 
 /obj/projectile/magic/greater_arcyne_bolt/arc

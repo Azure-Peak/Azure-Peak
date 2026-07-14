@@ -1,4 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscdel: "DEBUG - Zombification (whatever goes here) tochat"

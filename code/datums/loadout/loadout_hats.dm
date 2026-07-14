@@ -165,7 +165,7 @@
 	sort_category = "Hats"
 
 /datum/loadout_item/dyeable_crown
-	name = "Rosa Crown"
+	name = "Gray Flower Crown"
 	path = /obj/item/flowercrown/rosa/dyecrown
 	sort_category = "Hats"
 
@@ -228,4 +228,9 @@
 /datum/loadout_item/maidbandfancy
 	name = "Valorian Maid Headband"
 	path = /obj/item/clothing/head/roguetown/maidband
+	sort_category = "Hats"
+
+/datum/loadout_item/loudmouth_headgear
+	name = "Loudmouth's Headcover"
+	path = /obj/item/clothing/head/roguetown/veiled/loudmouth
 	sort_category = "Hats"

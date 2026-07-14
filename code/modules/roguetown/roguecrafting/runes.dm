@@ -77,14 +77,6 @@
 	user.visible_message("<span class='warning'>[src] glows dark, and then crumbles!</span>")
 	qdel(src)
 
-/obj/item/rune/spell/fire_rune
-	spell = /datum/action/cooldown/spell/projectile/fireball
-	spellname = "fireball"
-	// icon_state = "fire_rune"
-	name = "fire rune"
-	desc = "Warm with power."
-	remarks = list("To understand these archaic things...", "Just catching them on fire won't do...", "Accounting for crosswinds... really?", "I think I just burned my hand...")
-
 /obj/item/rune/spell/water_rune
 	spell = /obj/effect/proc_holder/spell/targeted/ethereal_jaunt
 	spellname = "ethereal jaunt"

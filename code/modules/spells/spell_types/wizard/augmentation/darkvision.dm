@@ -19,9 +19,10 @@
 	invocation_type = INVOCATION_WHISPER
 
 	charge_required = TRUE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	charge_time = 1 SECONDS
 	hold_drain = 0
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 1.5 MINUTES
 
@@ -45,15 +46,11 @@
 
 	return TRUE
 
-/datum/action/cooldown/spell/darkvision/miracle
-	invocations = list("Noc grant me sight.")
-	background_icon = 'icons/mob/actions/nocmiracles.dmi'
+/datum/action/cooldown/spell/darkvision/undivided
+	name = "Nitesight"
+	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	invocations = list("Noc, grant me clarity.") //Nachtsicht. Night Sight
 	button_icon_state = "darkvision"
 	point_cost = 0
 	spell_tier = 0
 	associated_skill = null
-
-/datum/action/cooldown/spell/darkvision/miracle/undivided
-	name = "Nitesight"
-	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	invocations = list("Nachtsicht.") //Night Sight

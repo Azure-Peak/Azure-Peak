@@ -69,7 +69,6 @@
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 
 /obj/item/reagent_containers/glass/cup/wooden/crafted
-	sellprice = 3
 
 /datum/crafting_recipe/roguetown/survival/woodtankard
 	name = "tankards, wooden (x3)"

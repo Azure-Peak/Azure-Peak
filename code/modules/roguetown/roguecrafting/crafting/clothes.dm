@@ -266,7 +266,7 @@
 	verbage = "ties"
 
 /datum/crafting_recipe/roguetown/survival/flowercrown_rosa_gray
-	name = "gray rosa crown"
+	name = "gray flower crown"
 	display_category = ITEM_CAT_GARMENT_COMMON
 	category = "Clothes"
 	result = /obj/item/flowercrown/rosa/dyecrown

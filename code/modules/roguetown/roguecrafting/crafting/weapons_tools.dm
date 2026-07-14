@@ -349,7 +349,6 @@
 
 
 /obj/item/rogueweapon/mace/woodclub/crafted
-	sellprice = 8
 
 /datum/crafting_recipe/roguetown/survival/woodstaff
 	name = "wood staff (x3)"
@@ -562,7 +561,6 @@
 		/obj/item/grown/log/tree/stick = 1,
 		)
 /obj/item/rogueweapon/shovel/small/crafted
-	sellprice = 5
 
 /datum/crafting_recipe/roguetown/survival/rod
 	name = "fishing rod"

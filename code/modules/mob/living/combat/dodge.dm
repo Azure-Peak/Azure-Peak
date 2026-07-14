@@ -113,6 +113,8 @@
 	var/theirskill = 0
 	var/drained = 8
 	var/drained_npc = 5
+	var/mainh = get_active_held_item()
+	var/offh = get_inactive_held_item()
 	if(ishuman(src))
 		H = src
 		IL = H.get_active_held_item()
@@ -205,68 +207,32 @@
 			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
 
 		if(dodgetime <= CLICK_CD_DODGE && !ignore_DE_bonus && has_trait && H.mind)
-
-			var/mainh = get_active_held_item()
-			var/offh = get_inactive_held_item()
 			if(istype(mainh, /obj/item/rogueweapon/shield) || istype(offh, /obj/item/rogueweapon/shield))	//why do I have to pre-empt the worst of you
 				if(!istype(mainh, /obj/item/rogueweapon/shield/buckler) && !istype(offh, /obj/item/rogueweapon/shield/buckler))
 					max_dodge = MAX_DODGE_FLOOR
 					L.changeNext_def(CLICK_CD_DODGE)
 		prob2defend = clamp((prob2defend + max_dodge), 5, (90 + max_dodge))
 
-		//------------Dual Wielding Checks------------
-		var/attacker_dualw
-		var/defender_dualw
-		var/extradefroll
-		var/mainhand = L.get_active_held_item()
-		var/offhand	= L.get_inactive_held_item()
-
-		//Dual Wielder defense disadvantage
-		if(mainhand && offhand)
-			if(HAS_TRAIT(src, TRAIT_DUALWIELDER) && istype(offhand, mainhand))
-				extradefroll = prob(prob2defend)
-				defender_dualw = TRUE
-
-		//dual-wielder attack advantage
-		var/obj/item/mainh = U.get_active_held_item()
-		var/obj/item/offh = U.get_inactive_held_item()
-		if(mainh && offh && HAS_TRAIT(U, TRAIT_DUALWIELDER))
-			if(istype(mainh, offh))
-				attacker_dualw = TRUE
-		//----------Dual Wielding check end---------
-
-		var/attacker_feedback 
+		// Dual wield drawback (-5%)
+		var/dualwield_penalty = HAS_TRAIT(src, TRAIT_DUALWIELDER) && H.can_dualwield(mainh, offh)
+		if(dualwield_penalty)
+			prob2defend = max(prob2defend - 5, 0)
 
 		if(src.client?.prefs.showrolls)
 			var/text = "Roll to dodge... [HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "???" : prob2defend]%"
-			if((defender_dualw || attacker_dualw))
-				if(defender_dualw && attacker_dualw)
-					text += " Our dual wielding cancels out!"
-				else//If we're defending against or as a dual wielder, we roll disadv. But if we're both dual wielding it cancels out.
-					text += " Twice! Disadvantage! [!HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "([(prob2defend / 100) * (prob2defend / 100) * 100]%)" : ""]"
-			to_chat(src, span_info("[text]"))
 
-		if(user.client?.prefs.showrolls && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && has_trait && client)
-			to_chat(user, span_info("Their roll to dodge was... [prob2defend]%"))
+			if(dualwield_penalty)
+				text += " (-5%)"
+
+			to_chat(src, span_info(text))
 
 		if(L.has_status_effect(/datum/status_effect/swingdelay/penalty))
 			prob2defend = clamp(prob2defend - 50, 5, 90)
 
 		var/dodge_status = FALSE
-		if((!defender_dualw && !attacker_dualw) || (defender_dualw && attacker_dualw)) //They cancel each other out
-			if(attacker_feedback)
-				attacker_feedback = "Advantage cancelled out!"
-			if(prob(prob2defend))
-				dodge_status = TRUE
-		else if(attacker_dualw)
-			if(prob(prob2defend))
-				dodge_status = TRUE
-		else if(defender_dualw)
-			if(prob(prob2defend) && extradefroll)
-				dodge_status = TRUE
 
-		if(attacker_feedback)
-			to_chat(user, span_info("[attacker_feedback]"))
+		if(prob(prob2defend))
+			dodge_status = TRUE
 
 		if(!dodge_status)
 			return FALSE

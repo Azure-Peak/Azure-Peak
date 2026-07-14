@@ -804,6 +804,12 @@
 	. = ..()
 	update_icon()
 
+
+/obj/item/clothing/shoes/courtphysician/female/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
+	stepnoise_flag = STEPNOISE_HEELS // This will prevent default footstep noise from being made by the heels (sounds odd)
+
 /obj/item/clothing/shoes/courtphysician/female/update_icon()
 	cut_overlays()
 	if(get_detail_tag())

@@ -17,7 +17,7 @@
 
 	earliest_start = 0 SECONDS
 
-	weight = 18
+	weight = 10
 
 	typepath = /datum/round_event/antagonist/solo/bandits
 	antag_datum = /datum/antagonist/bandit
@@ -30,10 +30,18 @@
 		return EVENT_CANT_RUN
 	return ..()
 
+/datum/round_event_control/antagonist/solo/bandits/get_antag_amount()
+	var/admin_slot = SSgamemode.get_admin_slot(antag_datum, storyteller_slot_key)
+	if(!isnull(admin_slot))
+		return max(0, admin_slot)
+	return SSgamemode.story_antag_slot_cap(antag_datum, roundstart = roundstart)
+
 /datum/round_event/antagonist/solo/bandits/start()
 	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
-	bandit_job.total_positions = length(setup_minds)
-	bandit_job.spawn_positions = length(setup_minds)
+	var/datum/round_event_control/antagonist/solo/cast_control = control
+	var/max_slots = max(length(setup_minds), cast_control.get_antag_amount())
+	bandit_job.total_positions = max_slots
+	bandit_job.spawn_positions = max_slots
 	SSmapping.retainer.bandit_goal = rand(200,400) + (length(setup_minds) * rand(200,400))
 	for(var/datum/mind/antag_mind as anything in setup_minds)
 		var/mob/living/carbon/human/H = antag_mind.current

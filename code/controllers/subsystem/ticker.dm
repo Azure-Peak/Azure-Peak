@@ -102,6 +102,12 @@ SUBSYSTEM_DEF(ticker)
 
 	/// Sunsteal gamestate bool.
 	var/sunstolen = FALSE
+	/// Sunscorch gamestate bool.
+	var/sunscorched = FALSE
+	/// World time when sunscorch begins burning creatures under open sky.
+	var/sunscorch_burn_start_time = 0
+	/// TRUE once the first sunscorch burn warning has been sent to chat.
+	var/sunscorch_burn_warning_sent = FALSE
 
 /datum/controller/subsystem/ticker/Initialize(timeofday)
 	load_mode()
@@ -867,11 +873,66 @@ SUBSYSTEM_DEF(ticker)
 				if(isfloorturf(_T))
 					new /mob/living/carbon/human/species/skeleton/npc(_T)
 
+
+//vheslyn suns tuff. sunscorcher? sunsteal? Get it/? ahaaa bites my lip
+/datum/controller/subsystem/ticker/proc/sunscorch(mob/living/sunscorcher)
+	ASSERT(sunscorcher)
+	sunscorched = TRUE
+	sunscorch_burn_start_time = world.time + 2 MINUTES
+	sunscorch_burn_warning_sent = FALSE
+	RegisterSignal(sunscorcher, list(COMSIG_QDELETING, COMSIG_MOB_DEATH), PROC_REF(on_sunscorcher_death))
+	INVOKE_ASYNC(src, PROC_REF(on_sunscorch)) // Invoke async since on_sunscorch() sleeps in CHECK_TICK
+
+// VHESLYN SUN STUFF
+/datum/controller/subsystem/ticker/proc/on_sunscorch()
+	GLOB.todoverride = "day"
+	settod()
+	priority_announce("WAVE OF AGONY. ASTRATA BLOTS AS AN IMPOSSIBLY-SHAPED NOOSPHERIC GLOME RADIATES BURNING FEAR-HEAT. SCORCHING RAY OF NOTHING; THE WORM SCREAMS DOWN UPON ME IN MALICE. DEADLY HEAT BEGINS TO CREEP INTO THE AIR.", "THE WORM AWAKENS, THE WORLD BURNS // EKPYROSIS - GOD O GOD WHERE'RT THOU?", 'sound/villain/ascendant_intro.ogg')
+	addomen(OMEN_SUNSCORCH)
+	for(var/mob/living/carbon/human/nocite as anything in GLOB.human_list)
+		if(!istype(nocite.patron, /datum/patron/divine/noc))
+			continue
+		to_chat(nocite, span_userdanger("AGONY. I CAN NOT HEAR [nocite.patron]. THEY ARE LOST TO ME."))
+		nocite.emote("painscream", intentional = FALSE)
+
+	for(var/obj/machinery/light/light in GLOB.machines) //this entire block may  cause insane lag i'm not sure sorry
+		if(prob(70))
+			light.seton(TRUE)
+		else
+			light.flicker(rand(2, 5))
+		CHECK_TICK
+
+	for(var/obj/item/flashlight/flare/torch/torch in GLOB.weather_act_upon_list)
+		torch.fire_act(1, 5)
+		CHECK_TICK
+
+	for(var/obj/structure/soil/soil in GLOB.soil_list)
+		soil.plant_dead = TRUE
+		soil.produce_ready = FALSE
+		soil.update_icon()
+		CHECK_TICK
+
+	for(var/mob/living/carbon/human/human in GLOB.human_list)
+		if(istype(human.patron, /datum/patron/divine/astrata))
+			continue
+
+		human.stress_freakout()
+
 /// Returns universe state to normal (minus the water) after the sunstealer has been slain, some neat flavor to show its finally over.
 /datum/controller/subsystem/ticker/proc/on_sunstealer_death()
 	GLOB.todoverride = null
 	sunstolen = FALSE
 	priority_announce("The air remains unnaturally cold as a wounded sun rises once more.", "A long night comes to an end", 'sound/misc/otavanlament.ogg') //THE WORLD IS TORN OPEN, THE ROT TO SEE. WHY DO YOU STILL ENDURE?
+	settod()
+	SSParticleWeather.run_weather(/datum/particle_weather/rain_gentle, TRUE)
+
+/// Returns universe state to normal after the sunscorcher has been slain.
+/datum/controller/subsystem/ticker/proc/on_sunscorcher_death()
+	GLOB.todoverride = null
+	sunscorched = FALSE
+	sunscorch_burn_start_time = 0
+	sunscorch_burn_warning_sent = FALSE
+	priority_announce("ASTRATA's now-weary light slowly seeps back into existence. The WORM recedes; the sky is safe. God is here. God is here and all is well once more.", "THIS DAMNED SUN /// EKPYROSIS ENDS", 'sound/misc/otavanlament.ogg')
 	settod()
 	SSParticleWeather.run_weather(/datum/particle_weather/rain_gentle, TRUE)
 

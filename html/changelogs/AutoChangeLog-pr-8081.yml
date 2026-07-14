@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Horde now inflicts a partial summon backlash, shorter and weaker than the full on one as it is a core design principle that the summoner MUST loses something for getting a free goon. It also don't stun you"
+  - balance: "Conjure CD increased to 4 minutes base and dismiss to 10 seconds. I don't want them to be \"free\", and originally I wanted dismiss to count partial health to penalize you, but I am fine with knowing when to pre-emptively dismiss your summon as a form of skill expression. 4 minutes base means they couldn't easily throw new one back into the fray immediately and should be pressured properly, and 10 seconds with cancel ability means they should be able to see the red intent, run at you, and tap you (or you run away, but I might improve leashing code)"
+  - balance: "Based on feedback, I reduced the aggressive stat scaling on Conjure Champion and also made it so that Mastery summon a buffed up steel dude instead of a blacksteel dude."
+  - rscadd: "Added aetherknife, ported from our downstream Ochre Valley, using the unused throw_knifecorrupt sprite for now."
