@@ -36,8 +36,10 @@
 	var/queued_time = 0		//time we entered the queue, (for timing and priority reasons)
 	var/queued_priority 	//we keep a running total to make the math easier, if priority changes mid-fire that would break our running total, so we store it here
 	//linked list stuff for the queue
-	var/datum/controller/subsystem/queue_next
-	var/datum/controller/subsystem/queue_prev
+	//tmp: if a subsystem datum ever gets serialized (e.g. dragged into a savefile through a stray
+	//reference), these must not pull every other queued subsystem into the file with it
+	var/tmp/datum/controller/subsystem/queue_next
+	var/tmp/datum/controller/subsystem/queue_prev
 
 	var/runlevels = RUNLEVELS_DEFAULT	//points of the game at which the SS can fire
 

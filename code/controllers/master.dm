@@ -99,8 +99,10 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		else
 			var/list/subsytem_types = subtypesof(/datum/controller/subsystem)
 			sortTim(subsytem_types, GLOBAL_PROC_REF(cmp_subsystem_init))
+			subsystem_takeover_allowed = TRUE
 			for(var/I in subsytem_types)
 				_subsystems += new I
+			subsystem_takeover_allowed = FALSE
 		Master = src
 
 	if(!GLOB)
@@ -282,7 +284,9 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 	if (istype(Master.subsystems))
 		if(FireHim)
+			subsystem_takeover_allowed = TRUE
 			Master.subsystems += new BadBoy.type	//NEW_SS_GLOBAL will remove the old one
+			subsystem_takeover_allowed = FALSE
 		subsystems = Master.subsystems
 		current_runlevel = Master.current_runlevel
 		StartProcessing(10)
@@ -302,7 +306,9 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		world.TgsInitializationComplete()
 
 	if(init_sss)
+		subsystem_takeover_allowed = TRUE
 		init_subtypes(/datum/controller/subsystem, subsystems)
+		subsystem_takeover_allowed = FALSE
 #ifdef TESTING
 	to_chat(world, "<span class='boldannounce'>Initializing subsystems...</span>")
 #endif

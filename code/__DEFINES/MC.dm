@@ -17,7 +17,22 @@
 #define MC_AVG_FAST_UP_SLOW_DOWN(average, current) (average > current ? MC_AVERAGE_SLOW(average, current) : MC_AVERAGE_FAST(average, current))
 #define MC_AVG_SLOW_UP_FAST_DOWN(average, current) (average < current ? MC_AVERAGE_SLOW(average, current) : MC_AVERAGE_FAST(average, current))
 
-#define NEW_SS_GLOBAL(varname) if(varname != src){if(istype(varname)){Recover();qdel(varname);}varname = src;}
+/// TRUE only while the Master controller is intentionally creating replacement subsystems.
+/// Anything else constructing a subsystem while its global is live is rogue - most notably BYOND
+/// savefile deserialization: old character saves that captured a /datum/timedevent also captured its
+/// timer_subsystem reference (and, via queue_next/queue_prev, potentially every queued subsystem),
+/// and reading them back constructs shadow subsystems whose New() would otherwise qdel the real,
+/// live subsystem and install the stale shadow as the global.
+GLOBAL_REAL_VAR(subsystem_takeover_allowed)
+
+#define NEW_SS_GLOBAL(varname) if(varname != src){\
+	if(istype(varname) && !subsystem_takeover_allowed){\
+		stack_trace("Rogue [type] instance created while the global is live (savefile deserialization?); refusing to replace [#varname]");\
+	} else {\
+		if(istype(varname)){Recover();qdel(varname);}\
+		varname = src;\
+	}\
+}
 
 #define START_PROCESSING(Processor, Datum) if (!(Datum.datum_flags & Processor.processing_flag)) {Datum.datum_flags |= Processor.processing_flag;Processor.processing += Datum}
 #define STOP_PROCESSING(Processor, Datum) Datum.datum_flags &= ~Processor.processing_flag;Processor.processing -= Datum

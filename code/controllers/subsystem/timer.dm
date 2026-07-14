@@ -108,6 +108,11 @@ SUBSYSTEM_DEF(timer)
 	if (next_clienttime_timer_index)
 		clienttime_timers.Cut(1, next_clienttime_timer_index+1)
 		next_clienttime_timer_index = 0
+	// Strip out any null entries a hard-deleted timer may have left behind. BYOND nulls (rather than
+	// removes) list references to a del'd datum, and a single null in this queue makes every
+	// BINARY_INSERT in bucketJoin() runtime with "Cannot read null.timeToRun".
+	if (length(clienttime_timers))
+		listclearnulls(clienttime_timers)
 	for (next_clienttime_timer_index in 1 to length(clienttime_timers))
 		if (MC_TICK_CHECK)
 			next_clienttime_timer_index--
@@ -152,6 +157,11 @@ SUBSYSTEM_DEF(timer)
 		bucket_list = src.bucket_list
 		resumed = FALSE
 
+	// Strip out any null entries a hard-deleted timer may have left behind in the long-run queue.
+	// A null that lands in the far-future tail is never reached by the front-processing loop below,
+	// so it persists indefinitely and makes every BINARY_INSERT into second_queue (bucketJoin) runtime.
+	if (length(second_queue))
+		listclearnulls(second_queue)
 
 	// Iterate through each bucket starting from the practical offset
 	while (practical_offset <= BUCKET_LEN && head_offset + ((practical_offset - 1) * world.tick_lag) <= world.time)
@@ -329,6 +339,9 @@ SUBSYSTEM_DEF(timer)
 	// Cut the timers that are tracked by the buckets from the secondary queue
 	if (i)
 		alltimers.Cut(1, i + 1)
+	// Drop any null entries (from hard-deleted timers) so the rebuilt queue stays clean
+	if (length(alltimers))
+		listclearnulls(alltimers)
 	second_queue = alltimers
 	bucket_count = new_bucket_count
 
@@ -358,11 +371,14 @@ SUBSYSTEM_DEF(timer)
  * See the documentation for the timer subsystem for an explanation of the buckets referenced
  * below in next and prev
  */
+// Object-reference vars below are /tmp so a timedevent can never drag its callback target, its
+// bucket neighbours, or the entire timer subsystem into a savefile if a datum holding a timer
+// reference is ever serialized (this happened with virtues in character saves and poisoned them)
 /datum/timedevent
 	/// ID used for timers when the TIMER_STOPPABLE flag is present
 	var/id
 	/// The callback to invoke after the timer completes
-	var/datum/callback/callBack
+	var/tmp/datum/callback/callBack
 	/// The time at which the callback should be invoked at
 	var/timeToRun
 	/// The length of the timer
@@ -377,13 +393,13 @@ SUBSYSTEM_DEF(timer)
 	var/spent = 0
 	/// Holds info about this timer, stored from the moment it was created
 	/// Used to create a visible "name" whenever the timer is stringified
-	var/list/timer_info
+	var/tmp/list/timer_info
 	/// Next timed event in the bucket
-	var/datum/timedevent/next
+	var/tmp/datum/timedevent/next
 	/// Previous timed event in the bucket
-	var/datum/timedevent/prev
+	var/tmp/datum/timedevent/prev
 	/// The timer subsystem this event is associated with
-	var/datum/controller/subsystem/timer/timer_subsystem
+	var/tmp/datum/controller/subsystem/timer/timer_subsystem
 	/// Boolean indicating if timer joined into bucket
 	var/bucket_joined = FALSE
 	/// Initial bucket position
@@ -392,6 +408,12 @@ SUBSYSTEM_DEF(timer)
 /datum/timedevent/New(datum/callback/callBack, wait, flags, datum/controller/subsystem/timer/timer_subsystem, hash, source)
 	var/static/nextid = 1
 	id = TIMER_ID_NULL
+	// A timedevent with no callback is never valid (_addtimer asserts a callback before constructing).
+	// This only happens when BYOND reconstructs a stray timer while deserializing a savefile - New()
+	// is called with all-null args. Bail before touching the (null) timer_subsystem so we don't runtime;
+	// the orphaned datum is never registered anywhere and is simply discarded by the loader.
+	if(!istype(callBack))
+		return
 	src.callBack = callBack
 	src.wait = wait
 	src.flags = flags
@@ -416,7 +438,14 @@ SUBSYSTEM_DEF(timer)
 		timer_subsystem.timer_id_dict[id] = src
 
 	if ((timeToRun < world.time || timeToRun < timer_subsystem.head_offset) && !(flags & TIMER_CLIENT_TIME))
-		CRASH("Invalid timer state: Timer created that would require a backtrack to run (addtimer would never let this happen): [SStimer.get_timer_debug_string(src)]")
+		// This should be impossible: head_offset is only ever set to world.time or lower and advanced
+		// strictly behind it, so it cannot outrun a freshly computed timeToRun. When it does, the
+		// subsystem's clock has drifted (corruption/overload). Historically this CRASHed AND leaked the
+		// half-built timer (registered in timer_id_dict but never bucket-joined, so it never fired or
+		// cleaned up). Instead, log it and force a bucket rebuild so head_offset re-syncs to world.time;
+		// the timer still joins below and reset_buckets() re-places it correctly on the next fire.
+		stack_trace("Timer created in the past (head_offset [timer_subsystem.head_offset] > timeToRun [timeToRun] @ world.time [world.time]); forcing bucket reset: [SStimer.get_timer_debug_string(src)]")
+		timer_subsystem.bucket_resolution = null
 
 	if (callBack.object != GLOBAL_PROC && !QDESTROYING(callBack.object))
 		LAZYADD(callBack.object._active_timers, src)
@@ -425,6 +454,10 @@ SUBSYSTEM_DEF(timer)
 
 /datum/timedevent/Destroy()
 	..()
+	// Never-initialized orphan (savefile reconstruction; see New) - nothing was ever registered,
+	// so there is nothing to unhook and touching the null timer_subsystem would runtime
+	if (!timer_subsystem)
+		return QDEL_HINT_IWILLGC
 	if (flags & TIMER_UNIQUE && hash)
 		timer_subsystem.hashes -= hash
 

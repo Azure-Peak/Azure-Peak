@@ -50,7 +50,9 @@
 	*/
 	var/list/cooldowns
 	var/abstract_type = /datum
-	var/list/_active_timers
+	/// tmp: live timers must never serialize into savefiles - a saved timedevent poisons the save
+	/// with refs to its callback target and the timer subsystem itself
+	var/tmp/list/_active_timers
 
 #ifdef TESTING
 	var/running_find_references

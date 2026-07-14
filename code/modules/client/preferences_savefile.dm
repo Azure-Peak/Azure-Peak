@@ -7,7 +7,7 @@
 //	where you would want the updater procs below to run
 
 //	This also works with decimals.
-#define SAVEFILE_VERSION_MAX	35
+#define SAVEFILE_VERSION_MAX	36
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -51,6 +51,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(current_version < 31) // RAISE THIS TO SAVEFILE_VERSION_MAX (and make sure to add +1 to the version) EVERY TIME YOU ADD SERVER-CHANGING KEYBINDS LIKE CHANGING HOW SAY WORKS!!
 		force_reset_keybindings_direct(TRUE)
 		addtimer(CALLBACK(src, PROC_REF(force_reset_keybindings)), 30)
+	if(current_version < 36)
+		// Scrub legacy whole-datum virtue saves from every character slot. Old saves captured live
+		// virtues whose _active_timers dragged /datum/timedevent (and through it the entire timer
+		// subsystem) into the file; reading those keys is only safe while the NEW_SS_GLOBAL takeover
+		// guard is compiled in. Rewriting them in the snapshot format here makes the file permanently
+		// safe, even for future builds without the guard (i.e. this fix can be reverted safely).
+		_scrub_all_slot_virtues(S)
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
 	if(current_version < 19)
@@ -447,123 +454,93 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		//statpack = new statpack
 
 /datum/preferences/proc/_load_virtue(S)
-	var/virtue_type
-	var/virtuetwo_type
+	var/virtue_saved
+	var/virtuetwo_saved
 	var/origin_type
-	S["virtue"] >> virtue_type
-	S["virtuetwo"] >> virtuetwo_type
+	var/list/virtue_choices
+	var/list/virtuetwo_choices
+	S["virtue"] >> virtue_saved
+	S["virtuetwo"] >> virtuetwo_saved
 	S["virtue_origin"] >> origin_type
-	var/error_check = FALSE
-	var/error_found = FALSE
-	if (istype(virtue_type, /datum/virtue))
-		virtue = virtue_type
-		error_check = TRUE
-	else if(ispath(virtue_type, /datum/virtue))
-		virtue = new virtue_type
-	else
-		virtue = new /datum/virtue/none
+	S["virtue_choices"] >> virtue_choices
+	S["virtuetwo_choices"] >> virtuetwo_choices
 
-	if(error_check)
-		//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
-		var/datum/virtue/sane_virtue = new virtue.type
-		if(virtue.name != sane_virtue.name)	//We should keep the names & descs updated across saves, too
-			virtue.name = sane_virtue.name
-
-		if(virtue.desc != sane_virtue.desc)	//Not errors warranting a full reset, in theory, anyway.
-			virtue.desc = sane_virtue.desc
-
-		if(length(virtue.picked_choices) > sane_virtue.max_choices)
-			error_found = TRUE
-		
-		if(sane_virtue.max_choices != virtue.max_choices)
-			error_found = TRUE
-		
-		if(length(virtue.extra_choices) != length(sane_virtue.extra_choices))
-			error_found = TRUE
-		
-		if(!error_found)
-			for(var/choice in virtue.extra_choices)
-				if(!(choice in sane_virtue.extra_choices))
-					error_found = TRUE
-					break
-
-			var/total_ours = 0
-			var/total_sane = 0
-
-			for(var/cost in virtue.choice_costs)
-				total_ours += cost
-			for(var/cost in sane_virtue.choice_costs)
-				total_sane += cost
-
-			if(total_ours != total_sane)
-				error_found = TRUE
-
-		if(error_found)
-			qdel(virtue)
-			virtue = sane_virtue
-		else
-			qdel(sane_virtue)
-			virtue.on_load()
-
-	error_check = FALSE
-	if(istype(virtuetwo_type, /datum/virtue))
-		virtuetwo = virtuetwo_type
-		error_check = TRUE
-	else if(ispath(virtuetwo_type, /datum/virtue))
-		virtuetwo = new virtuetwo_type
-	else
-		virtuetwo = new /datum/virtue/none
-
-
-	if(error_check)
-		//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
-		var/datum/virtue/sane_virtuetwo = new virtuetwo.type
-		error_found = FALSE
-
-		if(virtuetwo.name != sane_virtuetwo.name)	//We should keep the names & descs updated across saves, too
-			virtue.name = sane_virtuetwo.name
-
-		if(virtuetwo.desc != sane_virtuetwo.desc)	//Not errors warranting a full reset, in theory, anyway.
-			virtuetwo.desc = sane_virtuetwo.desc
-
-
-		if(length(virtuetwo.picked_choices) > sane_virtuetwo.max_choices)
-			error_found = TRUE
-		
-		if(sane_virtuetwo.max_choices != virtuetwo.max_choices)
-			error_found = TRUE
-		
-		if(length(virtuetwo.extra_choices) != length(sane_virtuetwo.extra_choices))
-			error_found = TRUE
-		
-		if(!error_found)
-			for(var/choice in virtuetwo.extra_choices)
-				if(!(choice in sane_virtuetwo.extra_choices))
-					error_found = TRUE
-					break
-
-			var/total_ours = 0
-			var/total_sane = 0
-
-			for(var/cost in virtuetwo.choice_costs)
-				total_ours += cost
-			for(var/cost in sane_virtuetwo.choice_costs)
-				total_sane += cost
-				
-			if(total_ours != total_sane)
-				error_found = TRUE
-
-		if(error_found)
-			virtuetwo = sane_virtuetwo
-			qdel(virtue)
-		else
-			qdel(sane_virtuetwo)
-			virtuetwo.on_load()
+	virtue = _saveload_virtues(virtue_saved, virtue_choices)
+	virtuetwo = _saveload_virtues(virtuetwo_saved, virtuetwo_choices)
 
 	if(origin_type)
 		virtue_origin = new origin_type
 	else
 		virtue_origin = new /datum/virtue/none
+
+//virtue rebuilding because it cannot be trusted to handle timers oml
+/datum/preferences/proc/_saveload_virtues(saved, list/saved_choices)
+	var/virtue_path
+	if(ispath(saved, /datum/virtue))
+		virtue_path = saved
+	else if(istype(saved, /datum/virtue))
+		var/datum/virtue/legacy = saved
+		virtue_path = legacy.type
+		if(!islist(saved_choices))
+			saved_choices = legacy.picked_choices
+	if(!virtue_path)
+		return new /datum/virtue/none
+
+	var/datum/virtue/resolved = new virtue_path
+	if(islist(saved_choices) && length(saved_choices))
+		var/list/valid_choices = list()
+		for(var/choice in saved_choices)
+			if(length(valid_choices) >= resolved.max_choices)
+				break
+			if((choice in resolved.extra_choices) && !(choice in valid_choices))
+				valid_choices += choice
+		resolved.picked_choices = valid_choices
+	resolved.on_load()
+	return resolved
+
+/**
+ * One-time migration (savefile version 36): rewrites the virtue keys of every character slot in
+ * the clean snapshot format, purging any legacy whole-datum saves whose embedded timers poisoned
+ * the file with references to the timer subsystem. Idempotent; re-running on an already-clean
+ * slot just rewrites an equivalent snapshot. S is expected (and restored) at cd "/".
+ */
+/datum/preferences/proc/_scrub_all_slot_virtues(savefile/S)
+	var/old_cd = S.cd
+	var/static/list/virtue_keys = list("virtue" = "virtue_choices", "virtuetwo" = "virtuetwo_choices")
+	for(var/entry in S.dir)
+		if(copytext(entry, 1, 10) != "character")
+			continue
+		S.cd = "/[entry]"
+		for(var/key in virtue_keys)
+			if(!(key in S.dir))
+				continue
+			var/saved
+			var/list/saved_choices
+			S[key] >> saved
+			S[virtue_keys[key]] >> saved_choices
+			var/datum/virtue/resolved = _saveload_virtues(saved, saved_choices)
+			var/datum/virtue/snapshot = _virtue_save_snapshot(resolved)
+			WRITE_FILE(S[key], snapshot)
+			WRITE_FILE(S[virtue_keys[key]], resolved.picked_choices)
+			if(istype(saved, /datum/virtue))
+				var/datum/virtue/legacy = saved
+				legacy._active_timers = null	// reconstructed orphans were never registered; do not qdel them
+				qdel(legacy)
+			qdel(snapshot)
+			qdel(resolved)
+	S.cd = old_cd
+
+/**
+ * Builds a throwaway, never-applied clone of `source` carrying only the data that is safe to
+ * persist (its type and picked_choices). Serialized into S["virtue"] so a rollback to the old
+ * whole-datum loader can still recover the virtue, without ever writing a live virtue whose
+ * _active_timers hold /datum/timedevent objects. Caller is responsible for qdel-ing the result.
+ */
+/datum/preferences/proc/_virtue_save_snapshot(datum/virtue/source)
+	var/datum/virtue/snapshot = new source.type
+	snapshot.picked_choices = source.picked_choices?.Copy()
+	snapshot._active_timers = null	// a fresh clone has none; nulled anyway so timers never serialize
+	return snapshot
 
 /datum/preferences/proc/_load_gear_list(savefile/S)
 	S["gear_list"] >> gear_list
@@ -1015,8 +992,21 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["titles_pref"] , titles_pref)
 	WRITE_FILE(S["clothes_pref"] , clothes_pref)
 	WRITE_FILE(S["statpack"] , statpack.type)
-	WRITE_FILE(S["virtue"] , virtue)
-	WRITE_FILE(S["virtuetwo"], virtuetwo)
+	// Persist the picked sub-options explicitly for the current loader.
+	WRITE_FILE(S["virtue_choices"] , virtue.picked_choices)
+	WRITE_FILE(S["virtuetwo_choices"], virtuetwo.picked_choices)
+	// Store the virtue as a fresh, never-applied clone rather than a bare type path, so a rollback
+	// to the old whole-datum loader still recovers the type AND picked_choices (a bare path makes
+	// the old loader build an empty virtue and silently drop sub-choices). The clone is safe to
+	// serialize because virtue timers/components only attach during apply_to_human (e.g. the
+	// linguist addtimer in utility.dm), never in New(); _virtue_save_snapshot also nulls
+	// _active_timers as belt-and-suspenders so no /datum/timedevent can ever reach the savefile.
+	var/datum/virtue/virtue_snapshot = _virtue_save_snapshot(virtue)
+	WRITE_FILE(S["virtue"] , virtue_snapshot)
+	qdel(virtue_snapshot)
+	var/datum/virtue/virtuetwo_snapshot = _virtue_save_snapshot(virtuetwo)
+	WRITE_FILE(S["virtuetwo"], virtuetwo_snapshot)
+	qdel(virtuetwo_snapshot)
 	WRITE_FILE(S["virtue_origin"], virtue_origin.type)
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
