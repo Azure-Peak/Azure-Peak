@@ -1720,7 +1720,7 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 	else if(H.patron?.type in ALL_INHUMEN_PATRONS)
 		report_html += "<font color='#8B1E1E'><b><u>Tainted Lux</b></u></font><br><br>"
 		report_html += "<i>The Lux has suffered measurable spiritual degradation. The sample carries contamination consistent with apostate worship and prolonged participation in rites associated with the <b>Inhumen</b>.</i><br><br>"
-	else if(H.patron?.type in PSYDON)
+	else if(H.patron?.type in OLD_GOD_PATRON)
 		report_html += "<font color='#00b7ff'><b><u>Pure Lux</b></u></font><br><br>"
 		report_html += "<i>No measurable corruption or hallowed overresonance could be detected through our devices. The subject's Lux is devoid of external influence.</i><br><br>"
 	else
