@@ -25,7 +25,7 @@
 
 /datum/stressevent/blessed
 	timer = 60 MINUTES
-	stressadd = -2
+	stressadd = -1
 	desc = span_green("I feel a soothing presence.")
 
 /datum/stressevent/triumph
