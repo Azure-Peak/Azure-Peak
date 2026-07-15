@@ -6,7 +6,6 @@
 	total_positions = 1
 	spawn_positions = 1
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_ages = list(AGE_ADULT)
 	tutorial = "The stories of old must be Transcribed. You are a Neophyte, an apprentice and page for the local inquisitorial embassy. As you are not a combatant like most of this troupe, your responsibilities are little, but so are your obligations. Accompany the Absolver in spreading His Love, or follow the Inquisitor to seek stories to scribe."
 	selection_color = JCOLOR_INQUISITION
 	outfit = /datum/outfit/job/roguetown/neophyte/
@@ -25,8 +24,6 @@
 	virtue_restrictions = list(
 		/datum/virtue/combat/dualwielder,
 		/datum/virtue/combat/combat_virtue, 
-		/datum/virtue/movement/acrobatic,
-		/datum/virtue/utility/woodwalker,
 		/datum/virtue/combat/crossbowman,
 		/datum/virtue/combat/bowman,
 		/datum/virtue/combat/sharp,
@@ -91,6 +88,7 @@
 	backpack_contents = list(
 		/obj/item/paper/inqslip/arrival/neophyte = 1,//a pitiful three Marques
 		/obj/item/book/rogue/bibble/psy = 1,
+		/obj/item/inqarticles/indexer = 1,
 		/obj/item/paper/scroll = 3,
 		/obj/item/paper/inqslip/confession = 1,
 		/obj/item/paper/inqslip/accusation = 2,
