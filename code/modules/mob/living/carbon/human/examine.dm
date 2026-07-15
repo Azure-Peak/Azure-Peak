@@ -1052,7 +1052,7 @@
 				user.add_stress(/datum/stressevent/beautiful)		
 
 		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL) || HAS_TRAIT(src, TRAIT_BEAUTIFUL_UNCANNY) || (issunelf(src) && issunelf(user)))
-			switch (pronouns)
+			switch (get_first_pronoun())
 				if (HE_HIM)
 					. += span_beautiful_masc("[m1] handsome! [we_got_spooked ? "...Something is deeply wrong." : ""]")
 				if (SHE_HER)
@@ -1061,7 +1061,7 @@
 					. += span_beautiful_nb("[m1] good-looking! [we_got_spooked ? "...Something is deeply wrong." : ""]")
 
 		if (HAS_TRAIT(src, TRAIT_UNSEEMLY))
-			switch (pronouns)
+			switch (get_first_pronoun())
 				if (HE_HIM)
 					. += span_redtext("[m1] revolting!")
 				if (SHE_HER)
