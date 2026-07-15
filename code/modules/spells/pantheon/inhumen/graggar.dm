@@ -317,9 +317,6 @@
 			continue
 		if(istype(target.patron, /datum/patron/vheslyn))
 			to_chat(target, span_danger("You feel... nothing..")) //No effect on Vheslynites, fear them.
-			if(prob(10) && target.cmode) //15% chance to pop a forcesay line easter egg if in combat mode
-				sleep(1) //We just want to ensure that, we delay enough they say their thing first. No more nor less.
-				target.say(pick("SAY NO MORE, YOU FIRST, THEN THE REST!", "LET ME SHOW YOU A REAL FUCKING SLAUGHTER!", "YOU WILL BE FIRST, THEN EVERYONE ELSE, THEN THE REST!"), spans = list("bloody"))
 			continue
 		if(!owner.faction_check_mob(target))
 			continue
