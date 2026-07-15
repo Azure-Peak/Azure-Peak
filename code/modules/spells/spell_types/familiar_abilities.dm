@@ -491,8 +491,9 @@
 		QDEL_NULL(target)
 		return TRUE
 	else
+		var/datum/pronouns/pronoun = user.get_pronoun()
 		user.visible_message(
-			span_warning("[user] consumes [target]... but [user.p_they()] [(user.get_first_pronoun() == THEY_THEM) ? "don't" : "doesn't"] seem even slightly sated!"),
+			span_warning("[user] consumes [target]... but [pronoun.p_they()] [(pronoun.type == THEY_THEM) ? "don't" : "doesn't"] seem even slightly sated!"),
 			span_warning("I consume [target]'s essence, but I have already tasted of it! This will not nourish me anymore, I must find something new to devour.")
 		)
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))

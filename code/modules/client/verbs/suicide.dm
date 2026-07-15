@@ -112,8 +112,9 @@
 		return
 	if(confirm == "Yes")
 		set_suicide(TRUE)
-		visible_message(span_danger("[src]'s brain is growing dull and lifeless. [p_they(TRUE)] look[p_s()] like [p_theyve()] lost the will to live."), \
-						span_danger("[src]'s brain is growing dull and lifeless. [p_they(TRUE)] look[p_s()] like [p_theyve()] lost the will to live."))
+		var/datum/pronouns/pronoun = get_pronoun()
+		visible_message(span_danger("[src]'s brain is growing dull and lifeless. [pronoun.p_they(TRUE)] look[pronoun.p_s()] like [pronoun.p_theyve()] lost the will to live."), \
+						span_danger("[src]'s brain is growing dull and lifeless. [pronoun.p_they(TRUE)] look[pronoun.p_s()] like [pronoun.p_theyve()] lost the will to live."))
 
 		suicide_log()
 

@@ -137,7 +137,8 @@
 	if(owner.on_fire)
 		return
 
-	return "[owner.p_they()] [owner.p_are()] covered in something flammable."
+	var/datum/pronouns/pronoun = owner.get_pronoun()
+	return "[pronoun.p_they()] [pronoun.p_are()] covered in something flammable."
 
 /datum/status_effect/fire_handler/fire_stacks/proc/owner_touched_sparks()
 	SIGNAL_HANDLER

@@ -868,7 +868,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 				else
 					var/hitzone = user.held_index_to_dir(user.active_hand_index) == "r" ? BODY_ZONE_PRECISE_R_HAND : BODY_ZONE_PRECISE_L_HAND
 					user.apply_damage(5, BURN, hitzone)
-					user.visible_message(span_warning("After a few attempts, [user] manages to light [src] - however, [user.p_they()] burn [user.p_their()] finger in the process."), span_warning("I burn myself while lighting the lighter!"))
+					var/datum/pronouns/pronoun = user.get_pronoun()
+					user.visible_message(span_warning("After a few attempts, [user] manages to light [src] - however, [pronoun.p_they()] burn [pronoun.p_their()] finger in the process."), span_warning("I burn myself while lighting the lighter!"))
 
 		else
 			set_lit(FALSE)
@@ -890,10 +891,12 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		if(M == user)
 			cig.attackby(src, user)
 		else
+			var/datum/pronouns/user_pronoun = user.get_pronoun()
+			var/datum/pronouns/M_pronoun = M.get_pronoun()
 			if(fancy)
-				cig.light(span_rose("[user] whips the [name] out and holds it for [M]. [user.p_their(TRUE)] arm is as steady as the unflickering flame [user.p_they()] light[user.p_s()] \the [cig] with."))
+				cig.light(span_rose("[user] whips the [name] out and holds it for [M]. [user_pronoun.p_their(TRUE)] arm is as steady as the unflickering flame [user_pronoun.p_they()] light[user_pronoun.p_s()] \the [cig] with."))
 			else
-				cig.light(span_notice("[user] holds the [name] out for [M], and lights [M.p_their()] [cig.name]."))
+				cig.light(span_notice("[user] holds the [name] out for [M], and lights [M_pronoun.p_their()] [cig.name]."))
 	else
 		..()
 

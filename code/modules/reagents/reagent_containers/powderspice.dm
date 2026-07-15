@@ -118,7 +118,8 @@
 								span_danger("[user] attempts to force me to inhale [src]!"))
 			if(C.cmode)
 				if(!CH.grabbedby)
-					to_chat(user, span_info("[C.p_they(TRUE)] steals [C.p_their()] face from it."))
+					var/datum/pronouns/pronoun = C.get_pronoun()
+					to_chat(user, span_info("[pronoun.p_they(TRUE)] steals [pronoun.p_their()] face from it."))
 					return FALSE
 			if(!do_mob(user, M, 10))
 				return FALSE

@@ -69,7 +69,8 @@
 		to_chat(owner, span_warning(path_err))
 		return FALSE
 
-	owner.visible_message(span_warning("<b>[owner]'s body begins to shimmer with arcane energy as [owner.p_they()] prepare[owner.p_s()] to blink!</b>"),
+	var/datum/pronouns/used_pronoun = owner.get_pronoun()
+	owner.visible_message(span_warning("<b>[owner]'s body begins to shimmer with arcane energy as [used_pronoun.p_they()] prepare[used_pronoun.p_s()] to blink!</b>"),
 					span_notice("<b>I focus my arcane energy, preparing to blink across space!</b>"))
 
 	var/obj/spot_one = new phase(start, owner.dir)

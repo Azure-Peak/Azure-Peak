@@ -47,8 +47,9 @@
 			return
 		var/oldname = target.real_name
 		target.real_name = chosen_name
-		display_results(user, target, span_notice("I alter [oldname]'s appearance completely, [target.p_they()] is now [target.real_name]."),
-			span_notice("[user] alters [oldname]'s appearance completely, [target.p_they()] is now [target.real_name]!"),
+		var/datum/pronouns/pronoun = target.get_pronoun()
+		display_results(user, target, span_notice("I alter [oldname]'s appearance completely, [pronoun.p_they()] [pronoun.p_are()] now [target.real_name]."),
+			span_notice("[user] alters [oldname]'s appearance completely, [pronoun.p_they()] [pronoun.p_are()] now [target.real_name]!"),
 			span_notice("[user] finishes the operation on [target]'s face."))
 	return TRUE
 

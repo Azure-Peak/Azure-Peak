@@ -1,89 +1,85 @@
 /mob/living/carbon/examine(mob/user)
-	var/t_He = p_they(TRUE)
-	var/t_his = p_their()
-	var/t_has = p_have()
-	var/t_is = p_are()
+	var/datum/pronouns/pronoun = get_pronoun() // mutated many, many times
+	var/self_examine = (user == src) // used to swap to first person pronouns
 
 	. = list("<span class='info'>✠ ------------ ✠\nThis is \a <EM>[src]</EM>!")
 	var/list/obscured = check_obscured_slots()
 
-	var/m1 = "[t_He] [t_is]"
-	var/m2 = "[t_his]"
-	var/m3 = "[t_He] [t_has]"
-	if(user == src)
-		m1 = "I am"
-		m2 = "my"
-		m3 = "I have"
-
 	if (handcuffed)
-		. += span_warning("[m1] tied up with \a [handcuffed]!")
+		pronoun = get_pronoun()
+		. += span_warning("[pronoun.m1(self_examine)] tied up with \a [handcuffed]!")
+	pronoun = get_pronoun()
 	if (head)
-		. += "[m3] [head.get_examine_string(user)] on [m2] head. "
+		. += "[pronoun.m3(self_examine)] [head.get_examine_string(user)] on [pronoun.m2(self_examine)] head. "
 	if(wear_mask && !(SLOT_WEAR_MASK in obscured))
-		. += "[m3] [wear_mask.get_examine_string(user)] on [m2] face."
+		. += "[pronoun.m3(self_examine)] [wear_mask.get_examine_string(user)] on [pronoun.m2(self_examine)] face."
 	if(wear_neck && !(SLOT_NECK in obscured))
-		. += "[m3] [wear_neck.get_examine_string(user)] around [m2] neck."
+		. += "[pronoun.m3(self_examine)] [wear_neck.get_examine_string(user)] around [pronoun.m2(self_examine)] neck."
 
 	for(var/obj/item/I in held_items)
 		if(!(I.item_flags & ABSTRACT))
-			. += "[m1] holding [I.get_examine_string(user)] in [m2] [get_held_index_name(get_held_index_of_item(I))]."
+			. += "[pronoun.m1(self_examine)] holding [I.get_examine_string(user)] in [pronoun.m2(self_examine)] [get_held_index_name(get_held_index_of_item(I))]."
 
 	if (back)
-		. += "[m3] [back.get_examine_string(user)] on [m2] back."
+		. += "[pronoun.m3(self_examine)] [back.get_examine_string(user)] on [pronoun.m2(self_examine)] back."
 	var/appears_dead = 0
 /*	if (stat == DEAD)
 		appears_dead = 1
 		if(getorgan(/obj/item/organ/brain))
-			. += span_dead("[t_He] [t_is] limp and unresponsive, with no signs of life.")
+			. += span_dead("[p_they(TRUE)] [p_are()] limp and unresponsive, with no signs of life.")
 		else if(get_bodypart(BODY_ZONE_HEAD))
-			. += span_dead("It appears that [t_his] brain is missing...")*/
+			. += span_dead("It appears that [p_their()] brain is missing...")*/
 
+
+	pronoun = get_pronoun()
 	var/list/missing = get_missing_limbs()
 	for(var/t in missing)
 		if(t==BODY_ZONE_HEAD)
-			. += span_dead("<B>[capitalize(m2)] [parse_zone(t)] is gone.</B>")
+			. += span_dead("<B>[capitalize(pronoun.m2(self_examine))] [parse_zone(t)] is gone.</B>")
 			continue
-		. += span_warning("<B>[capitalize(m2)] [parse_zone(t)] is gone.</B>")
+		. += span_warning("<B>[capitalize(pronoun.m2(self_examine))] [parse_zone(t)] is gone.</B>")
 
 	var/list/msg = list("<span class='warning'>")
 	var/temp = getBruteLoss()
+	pronoun = get_pronoun()
 	if(!(user == src && src.hal_screwyhud == SCREWYHUD_HEALTHY)) //fake healthy
 		if(temp)
 			if (temp < 25)
-				msg += "[m3] some bruises.\n"
+				msg += "[pronoun.m3(self_examine)] some bruises.\n"
 			else if (temp < 50)
-				msg += "[m3] a lot of bruises!\n"
+				msg += "[pronoun.m3(self_examine)] a lot of bruises!\n"
 			else
-				msg += "<B>[m1] black and blue!!</B>\n"
+				msg += "<B>[pronoun.m1(self_examine)] black and blue!!</B>\n"
 
 		temp = getFireLoss()
 		if(temp)
 			if (temp < 25)
-				msg += "[m3] some burns.\n"
+				msg += "[pronoun.m3(self_examine)] some burns.\n"
 			else if (temp < 50)
-				msg += "[m3] many burns!\n"
+				msg += "[pronoun.m3(self_examine)] many burns!\n"
 			else
-				msg += "<B>[m1] dragon food!!</B>\n"
+				msg += "<B>[pronoun.m1(self_examine)] dragon food!!</B>\n"
 
 		temp = getCloneLoss()
 		if(temp)
 			if(temp < 25)
-				msg += "[t_He] [t_is] slightly deformed.\n"
+				msg += "[pronoun.p_they(TRUE)] [pronoun.p_are()] slightly deformed.\n"
 			else if (temp < 50)
-				msg += "[t_He] [t_is] <b>moderately</b> deformed!\n"
+				msg += "[pronoun.p_they(TRUE)] [pronoun.p_are()] <b>moderately</b> deformed!\n"
 			else
-				msg += "<b>[t_He] [t_is] severely deformed!</b>\n"
+				msg += "<b>[pronoun.p_they(TRUE)] [pronoun.p_are()] severely deformed!</b>\n"
 
+	pronoun = get_pronoun()
 	if(HAS_TRAIT(src, TRAIT_DUMB))
-		msg += "[t_He] seem[p_s()] to be clumsy and unable to think.\n"
+		msg += "[pronoun.p_they(TRUE)] seem[pronoun.p_s()] to be clumsy and unable to think.\n"
 
 	if(has_status_effect(/datum/status_effect/fire_handler/fire_stacks))
-		msg += "[t_He] [t_is] covered in something flammable.\n"
+		msg += "[pronoun.p_they(TRUE)] [pronoun.p_are()] covered in something flammable.\n"
 	if(has_status_effect(/datum/status_effect/fire_handler/wet_stacks))
-		msg += "[t_He] look[p_s()] a little soaked.\n"
+		msg += "[pronoun.p_they(TRUE)] look[pronoun.p_s()] a little soaked.\n"
 
 	if(pulledby && pulledby.grab_state)
-		msg += "[m1] restrained by [pulledby]'s grip.\n"
+		msg += "[pronoun.m1(self_examine)] restrained by [pulledby]'s grip.\n"
 
 	msg += "</span>"
 
@@ -91,12 +87,15 @@
 
 	if(!appears_dead)
 		if(stat == UNCONSCIOUS)
-			. += span_warning("[m1] unconscious.")
+			pronoun = get_pronoun()
+			. += span_warning("[pronoun.m1(self_examine)] unconscious.")
 		else if(InCritical())
-			. += span_warning("[m1] barely conscious.")
+			pronoun = get_pronoun()
+			. += span_warning("[pronoun.m1(self_examine)] barely conscious.")
 	if (stat == DEAD)
+		pronoun = get_pronoun()
 		appears_dead = 1
-		. += span_warning("[m1] unconscious.")
+		. += span_warning("[pronoun.m1(self_examine)] unconscious.")
 	var/trait_exam = common_trait_examine()
 	if (!isnull(trait_exam))
 		. += trait_exam
@@ -104,10 +103,11 @@
 	if(isliving(user))
 		var/mob/living/L = user
 		if(STASTR > L.STASTR)
+			pronoun = get_pronoun()
 			if(STASTR > 15)
-				. += span_warning("[t_He] look[p_s()] stronger than I.")
+				. += span_warning("[pronoun.p_they(TRUE)] look[pronoun.p_s()] stronger than I.")
 			else
-				. += span_warning("<B>[t_He] look[p_s()] stronger than I.</B>")
+				. += span_warning("<B>[pronoun.p_they(TRUE)] look[pronoun.p_s()] stronger than I.</B>")
 
 	. += "✠ ------------ ✠</span>"
 

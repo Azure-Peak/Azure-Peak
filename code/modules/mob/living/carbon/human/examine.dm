@@ -19,14 +19,12 @@
 
 /mob/living/carbon/human/examine(mob/user)
 	. = list()
+	var/datum/pronouns/pronoun = get_pronoun() // mutated many, many times
+	var/self_examine = (user == src) // used to swap to first person pronouns
+
 	if(!user.client?.prefs?.top_examine)
 		. += span_info("ø ------------ ø")
 	var/observer_privilege = isobserver(user)
-	var/t_He = p_they(TRUE)
-	var/t_his = p_their()
-//	var/t_him = p_them()
-	var/t_has = p_have()
-	var/t_is = p_are()
 	var/obscure_name = FALSE
 	var/race_name = "<a href='?src=[REF(src)];species_lore=1'><u>[dna.species.name]</u></A> "
 	var/origin_name = "<a href='?src=[REF(src)];origin_lore=1'><u>[dna.species.origin]</u></A>"
@@ -39,14 +37,6 @@
 		race_name = "[pick("shambling", "taut", "decrepit")]"
 	if(zombie && (user != src))
 		race_name = "[pick("shambling thing", "taut thing", "decrepit thing", "wyrd thing", "UHHHHHHH...")]" //UHHHHH... zombie has to think moment
-
-	var/m1 = "[t_He] [t_is]"
-	var/m2 = "[t_his]"
-	var/m3 = "[t_He] [t_has]"
-	if(user == src)
-		m1 = "I am"
-		m2 = "my"
-		m3 = "I have"
 
 	if(isliving(user))
 		var/mob/living/L = user
@@ -65,7 +55,7 @@
 		obscure_name = FALSE
 
 	if(user.client?.prefs?.top_examine)
-		. += generate_main_examine_body(user, m1, m2, m3, obscure_name, race_name, origin_name, observer_privilege, unknown_names)
+		. += generate_main_examine_body(user, self_examine, obscure_name, race_name, origin_name, observer_privilege, unknown_names)
 
 	if(user != src && HAS_TRAIT(user, TRAIT_MATTHIOS_EYES) && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		var/atom/item = get_most_expensive()
@@ -143,10 +133,10 @@
 		. += span_warning("[src]'s hollow expression is filled with mindless anger!")
 
 	if(wear_shirt && !(SLOT_SHIRT in obscured))
-		var/str = "[m3] [wear_shirt.generate_tooltip(wear_shirt.get_examine_string(user))]. "
+		var/str = "[pronoun.m3(self_examine)] [wear_shirt.generate_tooltip(wear_shirt.get_examine_string(user))]. "
 		str += "[wear_shirt.integrity_check(is_smart, guarded)]"
 		if(is_stupid)
-			str = "[m3] some kind of shirt!"
+			str = "[pronoun.m3(self_examine)] some kind of shirt!"
 		. += str
 
 	//uniform
@@ -157,28 +147,28 @@
 			var/obj/item/clothing/under/U = wear_pants
 			if(U.attached_accessory)
 				accessory_msg += " with [icon2html(U.attached_accessory, user)] \a [U.attached_accessory]"
-		var/str = "[m3] [wear_pants.generate_tooltip(wear_pants.get_examine_string(user))][accessory_msg]. "
+		var/str = "[pronoun.m3(self_examine)] [wear_pants.generate_tooltip(wear_pants.get_examine_string(user))][accessory_msg]. "
 		if(!wear_armor)
 			str += wear_pants.integrity_check(is_smart, guarded)
 		if(is_stupid)
-			str = "[m3] a pair of some pants! "
+			str = "[pronoun.m3(self_examine)] a pair of some pants! "
 		. += str
 
 
 	//head
 	if(head && !(SLOT_HEAD in obscured))
-		var/str = "[m3] [head.generate_tooltip(head.get_examine_string(user))] on [m2] head. "
+		var/str = "[pronoun.m3(self_examine)] [head.generate_tooltip(head.get_examine_string(user))] on [pronoun.m2(self_examine)] head. "
 		str += head.integrity_check(is_smart)
 		if(is_stupid)
 			if(istype(head,/obj/item/clothing/head/roguetown/helmet))
-				str = "[m3] some kinda helmet!"
+				str = "[pronoun.m3(self_examine)] some kinda helmet!"
 			else
-				str = "[m3] some kinda hat!"
+				str = "[pronoun.m3(self_examine)] some kinda hat!"
 		. += str
 
 	//suit/armor
 	if(wear_armor && !(SLOT_ARMOR in obscured))
-		var/str = "[m3] [wear_armor.generate_tooltip(wear_armor.get_examine_string(user))]. "
+		var/str = "[pronoun.m3(self_examine)] [wear_armor.generate_tooltip(wear_armor.get_examine_string(user))]. "
 		if(is_smart || is_normal)
 			str += wear_armor.integrity_check(is_smart, guarded)
 		else if (is_stupid)
@@ -186,104 +176,104 @@
 				var/obj/item/clothing/suit/roguetown/armor/examined_armor = wear_armor
 				switch(examined_armor.armor_class)
 					if(ARMOR_CLASS_LIGHT)
-						str = "[m3] some flimsy leathers!"
+						str = "[pronoun.m3(self_examine)] some flimsy leathers!"
 					if(ARMOR_CLASS_MEDIUM)
 						if(!HAS_TRAIT(user, TRAIT_MEDIUMARMOR))
-							str = "[m3] some metal and leather!"
+							str = "[pronoun.m3(self_examine)] some metal and leather!"
 					if(ARMOR_CLASS_HEAVY)
 						if(!HAS_TRAIT(user, TRAIT_HEAVYARMOR))
-							str = "[m3] some heavy metal stuff!"
+							str = "[pronoun.m3(self_examine)] some heavy metal stuff!"
 		. += str
 		//suit/armor storage
 		if(s_store && !(SLOT_S_STORE in obscured))
 			if(is_normal || is_smart)
-				. += "[m1] carrying [get_item_examine_label(s_store, user)] on [m2] [wear_armor.name]."
+				. += "[pronoun.m1(self_examine)] carrying [get_item_examine_label(s_store, user)] on [pronoun.m2(self_examine)] [wear_armor.name]."
 
 	//back
 //	if(back)
-//		. += "[m3] [back.get_examine_string(user)] on [m2] back."
+//		. += "[pronoun.m3(self_examine)] [back.get_examine_string(user)] on [pronoun.m2(self_examine)] back."
 
 	//cloak
 	if(cloak && !(SLOT_CLOAK in obscured))
 		var/str
 		if(istype(cloak, /obj/item/clothing))
 			var/obj/item/clothing/CL = cloak
-			str = "[m3] [CL.generate_tooltip(CL.get_examine_string(user))] on [m2] shoulders. "
+			str = "[pronoun.m3(self_examine)] [CL.generate_tooltip(CL.get_examine_string(user))] on [pronoun.m2(self_examine)] shoulders. "
 		else
-			str = "[m3] [cloak.get_examine_string(user)] on [m2] shoulders. "
+			str = "[pronoun.m3(self_examine)] [cloak.get_examine_string(user)] on [pronoun.m2(self_examine)] shoulders. "
 		str += cloak.integrity_check(is_smart, guarded)
 		if (is_stupid)					//So they can tell the named RG tabards. If they can read them, anyway.
 			if(!istype(cloak, /obj/item/clothing/cloak/tabard/stabard) && user.get_skill_level(/datum/skill/misc/reading) == 0)
-				str = "[m3] some kinda clothy thing on [m2] shoulders!"
+				str = "[pronoun.m3(self_examine)] some kinda clothy thing on [pronoun.m2(self_examine)] shoulders!"
 		. += str
 
 	//right back
 	if(backr && !(SLOT_BACK_R in obscured))
-		var/str = "[m3] [get_item_examine_label(backr, user)] on [m2] back. "
+		var/str = "[pronoun.m3(self_examine)] [get_item_examine_label(backr, user)] on [pronoun.m2(self_examine)] back. "
 		str += backr.integrity_check(is_smart, guarded)
 		. += str
 
 	//left back
 	if(backl && !(SLOT_BACK_L in obscured))
-		var/str = "[m3] [get_item_examine_label(backl, user)] on [m2] back. "
+		var/str = "[pronoun.m3(self_examine)] [get_item_examine_label(backl, user)] on [pronoun.m2(self_examine)] back. "
 		str += backl.integrity_check(is_smart, guarded)
 		. += str
 
 	//Hands
 	for(var/obj/item/I in held_items)
 		if(!(I.item_flags & ABSTRACT))
-			var/str = "[m1] holding [get_item_examine_label(I, user)] in [m2] [get_held_index_name(get_held_index_of_item(I))]. "
+			var/str = "[pronoun.m1(self_examine)] holding [get_item_examine_label(I, user)] in [pronoun.m2(self_examine)] [get_held_index_name(get_held_index_of_item(I))]. "
 			str += I.integrity_check(is_smart, guarded)
 			. += str
 
 	var/datum/component/forensics/FR = GetComponent(/datum/component/forensics)
 	//gloves
 	if(gloves && !(SLOT_GLOVES in obscured))
-		var/str = "[m3] [gloves.generate_tooltip(gloves.get_examine_string(user))] on [m2] hands. "
+		var/str = "[pronoun.m3(self_examine)] [gloves.generate_tooltip(gloves.get_examine_string(user))] on [pronoun.m2(self_examine)] hands. "
 		str += gloves.integrity_check(is_smart, guarded)
 		if(is_stupid)
-			str = "[m3] a pair of gloves of some kind!"
+			str = "[pronoun.m3(self_examine)] a pair of gloves of some kind!"
 		. += str
 	else if(FR && length(FR.blood_DNA))
 		var/hand_number = get_num_arms(FALSE)
 		if(hand_number)
 			if(is_stupid)
-				. += "[m3] got weird hands! They don't look right!"
+				. += "[pronoun.m3(self_examine)] got weird hands! They don't look right!"
 			else
-				. += "[m3][hand_number > 1 ? "" : " a"] <span class='bloody'>blood-stained</span> hand[hand_number > 1 ? "s" : ""]!"
+				. += "[pronoun.m3(self_examine)][hand_number > 1 ? "" : " a"] <span class='bloody'>blood-stained</span> hand[hand_number > 1 ? "s" : ""]!"
 
 	//belt
 	if(belt && !(SLOT_BELT in obscured))
-		var/str = "[m3] [get_item_examine_label(belt, user)] about [m2] waist. "
+		var/str = "[pronoun.m3(self_examine)] [get_item_examine_label(belt, user)] about [pronoun.m2(self_examine)] waist. "
 		str += belt.integrity_check(is_smart, guarded)
 		. += str
 
 	//right belt
 	if(beltr && !(SLOT_BELT_R in obscured))
-		var/str = "[m3] [get_item_examine_label(beltr, user)] on [m2] belt. "
+		var/str = "[pronoun.m3(self_examine)] [get_item_examine_label(beltr, user)] on [pronoun.m2(self_examine)] belt. "
 		str += beltr.integrity_check(is_smart, guarded)
 		. += str
 
 	//left belt
 	if(beltl && !(SLOT_BELT_L in obscured))
-		var/str = "[m3] [get_item_examine_label(beltl, user)] on [m2] belt. "
+		var/str = "[pronoun.m3(self_examine)] [get_item_examine_label(beltl, user)] on [pronoun.m2(self_examine)] belt. "
 		str += beltl.integrity_check(is_smart)
 		. += str
 
 	//shoes
 	if(shoes && !(SLOT_SHOES in obscured))
-		var/str = "[m3] [shoes.generate_tooltip(shoes.get_examine_string(user))] on [m2] feet. "
+		var/str = "[pronoun.m3(self_examine)] [shoes.generate_tooltip(shoes.get_examine_string(user))] on [pronoun.m2(self_examine)] feet. "
 		str += shoes.integrity_check(is_smart, guarded)
 		if(is_stupid)
-			str = "[m3] some shoes on [m2] feet!"
+			str = "[pronoun.m3(self_examine)] some shoes on [pronoun.m2(self_examine)] feet!"
 		. += str
 
 	//mask
 	if(wear_mask && !(SLOT_WEAR_MASK in obscured))
-		var/str = "[m3] [wear_mask.generate_tooltip(wear_mask.get_examine_string(user))] on [m2] face. "
+		var/str = "[pronoun.m3(self_examine)] [wear_mask.generate_tooltip(wear_mask.get_examine_string(user))] on [pronoun.m2(self_examine)] face. "
 		str += wear_mask.integrity_check(is_smart, guarded)
 		if(is_stupid)
-			str = "[m3] some kinda thing on [m2] face!"
+			str = "[pronoun.m3(self_examine)] some kinda thing on [pronoun.m2(self_examine)] face!"
 		. += str
 
 	//mouth
@@ -291,36 +281,36 @@
 		var/str
 		if(istype(mouth, /obj/item/clothing))
 			var/obj/item/clothing/CM = mouth
-			str = "[m3] [CM.generate_tooltip(CM.get_examine_string(user))] in [m2] mouth. "
+			str = "[pronoun.m3(self_examine)] [CM.generate_tooltip(CM.get_examine_string(user))] in [pronoun.m2(self_examine)] mouth. "
 		else
-			"[m3] [get_item_examine_label(mouth, user)] in [m2] mouth. "
+			"[pronoun.m3(self_examine)] [get_item_examine_label(mouth, user)] in [pronoun.m2(self_examine)] mouth. "
 		str += mouth.integrity_check(is_smart, guarded)
 		if(is_stupid)
-			str = "[m3] some kinda thing on [m2] mouth!"
+			str = "[pronoun.m3(self_examine)] some kinda thing on [pronoun.m2(self_examine)] mouth!"
 		. += str
 
 	//neck
 	if(wear_neck && !(SLOT_NECK in obscured))
-		var/str = "[m3] [wear_neck.generate_tooltip(wear_neck.get_examine_string(user))] around [m2] neck. "
+		var/str = "[pronoun.m3(self_examine)] [wear_neck.generate_tooltip(wear_neck.get_examine_string(user))] around [pronoun.m2(self_examine)] neck. "
 		str += wear_neck.integrity_check(is_smart, guarded)
 		if (is_stupid)
-			str = "[m3] something on [m2] neck!"
+			str = "[pronoun.m3(self_examine)] something on [pronoun.m2(self_examine)] neck!"
 		. += str
 
 	//eyes
 	if(!(SLOT_GLASSES in obscured))
 		if(glasses)
-			. += "[m3] [get_item_examine_label(glasses, user)] covering [m2] eyes."
+			. += "[pronoun.m3(self_examine)] [get_item_examine_label(glasses, user)] covering [pronoun.m2(self_examine)] eyes."
 		else if(eye_color == BLOODCULT_EYE)
-			. += span_warning("<B>[m2] eyes are glowing an unnatural red!</B>")
+			. += span_warning("<B>[pronoun.m2(self_examine)] eyes are glowing an unnatural red!</B>")
 
 	//ears
 	if(ears && !(SLOT_HEAD in obscured))
-		. += "[m3] [get_item_examine_label(ears, user)] on [m2] ears."
+		. += "[pronoun.m3(self_examine)] [get_item_examine_label(ears, user)] on [pronoun.m2(self_examine)] ears."
 
 	//ID
 	if(wear_ring && !(SLOT_RING in obscured))
-		var/str = "[m3] [wear_ring.generate_tooltip(wear_ring.get_examine_string(user))] on [m2] hands. "
+		var/str = "[pronoun.m3(self_examine)] [wear_ring.generate_tooltip(wear_ring.get_examine_string(user))] on [pronoun.m2(self_examine)] hands. "
 		if(is_smart && istype(wear_ring, /obj/item/clothing/ring/active))
 			var/obj/item/clothing/ring/active/AR = wear_ring
 			if(AR.cooldowny)
@@ -329,39 +319,41 @@
 				else
 					str += span_warning("It is ready to use.")
 		if(is_stupid)
-			str = "[m3] some sort of ring!"
+			str = "[pronoun.m3(self_examine)] some sort of ring!"
 		. += str
 
 	//wrists
 	if(wear_wrists && !(SLOT_WRISTS in obscured))
-		var/str = "[m3] [wear_wrists.generate_tooltip(wear_wrists.get_examine_string(user))] on [m2] wrists."
+		var/str = "[pronoun.m3(self_examine)] [wear_wrists.generate_tooltip(wear_wrists.get_examine_string(user))] on [pronoun.m2(self_examine)] wrists."
 		str += wear_wrists.integrity_check(is_smart, guarded)
 		if (is_stupid)
-			str = "[m3] something on [m2] wrists!"
+			str = "[pronoun.m3(self_examine)] something on [pronoun.m2(self_examine)] wrists!"
 		. += str
 
 	//arcyne ward
 	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward))
 		var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/ward = skin_armor
-		var/str = "[m3] <font color='[ward.ward_color]'>[ward.generate_tooltip(ward.get_examine_string(user))] shimmering around [user == src ? "me" : p_them()].</font>"
+		var/str = "[pronoun.m3(self_examine)] <font color='[ward.ward_color]'>[ward.generate_tooltip(ward.get_examine_string(user))] shimmering around [user == src ? "me" : pronoun.p_them()].</font>"
 		str += ward.integrity_check(is_smart, guarded)
 		if (is_stupid)
-			str = "[m3] some weird shiny thing!"
+			str = "[pronoun.m3(self_examine)] some weird shiny thing!"
 		. += str
+
+	pronoun = get_pronoun()
 
 	//handcuffed?
 	if(handcuffed)
 		if(user == src)
-			. += "<span class='warning'>[m1] tied up with \a [handcuffed]!</span>"
+			. += "<span class='warning'>[pronoun.m1(self_examine)] tied up with \a [handcuffed]!</span>"
 		else
-			. += "<A href='?src=[REF(src)];item=[SLOT_HANDCUFFED]'><span class='warning'>[m1] tied up with \a [handcuffed]!</span></A>"
+			. += "<A href='?src=[REF(src)];item=[SLOT_HANDCUFFED]'><span class='warning'>[pronoun.m1(self_examine)] tied up with \a [handcuffed]!</span></A>"
 
 	if(legcuffed)
-		. += "<A href='?src=[REF(src)];item=[SLOT_LEGCUFFED]'><span class='warning'>[m3] \a [legcuffed] around [m2] legs!</span></A>"
+		. += "<A href='?src=[REF(src)];item=[SLOT_LEGCUFFED]'><span class='warning'>[pronoun.m3(self_examine)] \a [legcuffed] around [pronoun.m2(self_examine)] legs!</span></A>"
 
 	var/datum/status_effect/bugged/effect = has_status_effect(/datum/status_effect/bugged)
 	if(effect && HAS_TRAIT(user, TRAIT_INQUISITION))
-		. += "<A href='?src=[REF(src)];item=[effect.device]'><span class='warning'>[m3] \a [effect.device] implanted.</span></A>"
+		. += "<A href='?src=[REF(src)];item=[effect.device]'><span class='warning'>[pronoun.m3(self_examine)] \a [effect.device] implanted.</span></A>"
 
 	//Gets encapsulated with a warning span
 	var/list/msg = list()
@@ -373,30 +365,30 @@
 	var/temp = getBruteLoss() + getFireLoss() //no need to calculate each of these twice
 
 	if (get_bodypart(BODY_ZONE_HEAD)?.grievously_wounded)
-		msg += span_bloody("<b>[p_their(TRUE)] neck is a ghastly ruin of blood and bone, barely hanging on!</b>")
+		msg += span_bloody("<b>[pronoun.p_their(TRUE)] neck is a ghastly ruin of blood and bone, barely hanging on!</b>")
 
 	if(!(user == src && src.hal_screwyhud == SCREWYHUD_HEALTHY)) //fake healthy
 		// Damage
 		switch(temp)
 			if(5 to 25)
-				msg += "[m1] a little wounded."
+				msg += "[pronoun.m1(self_examine)] a little wounded."
 			if(25 to 50)
-				msg += "[m1] wounded."
+				msg += "[pronoun.m1(self_examine)] wounded."
 			if(50 to 100)
-				msg += "<B>[m1] severely wounded.</B>"
+				msg += "<B>[pronoun.m1(self_examine)] severely wounded.</B>"
 			if(100 to INFINITY)
-				msg += span_danger("[m1] gravely wounded.")
+				msg += span_danger("[pronoun.m1(self_examine)] gravely wounded.")
 
 	// Blood volume
 	switch(blood_volume)
 		if(-INFINITY to BLOOD_VOLUME_SURVIVE)
-			msg += span_artery("<B>[m1] extremely pale and sickly.</B>")
+			msg += span_artery("<B>[pronoun.m1(self_examine)] extremely pale and sickly.</B>")
 		if(BLOOD_VOLUME_SURVIVE to BLOOD_VOLUME_BAD)
-			msg += span_artery("<B>[m1] very pale.</B>")
+			msg += span_artery("<B>[pronoun.m1(self_examine)] very pale.</B>")
 		if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
-			msg += span_artery("[m1] pale.")
+			msg += span_artery("[pronoun.m1(self_examine)] pale.")
 		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
-			msg += span_artery("[m1] a little pale.")
+			msg += span_artery("[pronoun.m1(self_examine)] a little pale.")
 
 	// Bleeding
 	var/bleed_rate = get_bleed_rate()
@@ -426,23 +418,25 @@
 				if(!bleeder?.get_bleed_rate() || (!observer_privilege && !get_location_accessible(src, bleeder.body_zone)))
 					continue
 				bleeding_limbs += parse_zone(bleeder.body_zone)
+			pronoun = get_pronoun()
 			if(length(bleeding_limbs))
 				if(bleed_rate >= 5)
-					msg += span_bloody("<B>[capitalize(m2)] [english_list(bleeding_limbs)] [bleeding_limbs.len > 1 ? "are" : "is"] [bleed_wording]!</B>")
+					msg += span_bloody("<B>[capitalize(pronoun.m2(self_examine))] [english_list(bleeding_limbs)] [bleeding_limbs.len > 1 ? "are" : "is"] [bleed_wording]!</B>")
 				else
-					msg += span_bloody("[capitalize(m2)] [english_list(bleeding_limbs)] [bleeding_limbs.len > 1 ? "are" : "is"] [bleed_wording]!")
+					msg += span_bloody("[capitalize(pronoun.m2(self_examine))] [english_list(bleeding_limbs)] [bleeding_limbs.len > 1 ? "are" : "is"] [bleed_wording]!")
 			else
 				if(bleed_rate >= 5)
-					msg += span_bloody("<B>[m1] [bleed_wording]</B>!")
+					msg += span_bloody("<B>[pronoun.m1(self_examine)] [bleed_wording]</B>!")
 				else
-					msg += span_bloody("[m1] [bleed_wording]!")
+					msg += span_bloody("[pronoun.m1(self_examine)] [bleed_wording]!")
 		else
 			if(isliving(user))
 				var/mob/living/M = user
+				pronoun = get_pronoun()
 				if(M.patron.type == /datum/patron/inhumen/graggar)
-					msg += span_bloody("[m1] shedding lyfe's blood, exposing weakness!")
+					msg += span_bloody("[pronoun.m1(self_examine)] shedding lyfe's blood, exposing weakness!")
 				else
-					msg += span_bloody("[m1] letting out the red stuff!")
+					msg += span_bloody("[pronoun.m1(self_examine)] letting out the red stuff!")
 
 	// Missing limbs
 	var/missing_head = FALSE
@@ -457,7 +451,8 @@
 		missing_limbs += parse_zone(missing_zone)
 
 	if(length(missing_limbs))
-		var/missing_limb_message = "<B>[capitalize(m2)] [english_list(missing_limbs)] [missing_limbs.len > 1 ? "are" : "is"] gone.</B>"
+		pronoun = get_pronoun()
+		var/missing_limb_message = "<B>[capitalize(pronoun.m2(self_examine))] [english_list(missing_limbs)] [missing_limbs.len > 1 ? "are" : "is"] gone.</B>"
 		if(missing_head)
 			missing_limb_message = span_dead("[missing_limb_message]")
 		else
@@ -466,38 +461,43 @@
 
 	//Grabbing
 	if(pulledby && pulledby.grab_state)
-		msg += "[m1] being grabbed by [pulledby]."
+		pronoun = get_pronoun()
+		msg += "[pronoun.m1(self_examine)] being grabbed by [pulledby]."
 
 	//Nutrition and Thirst
 	if(nutrition < (NUTRITION_LEVEL_STARVING - 50))
-		msg += "[m1] looking emaciated."
+		pronoun = get_pronoun()
+		msg += "[pronoun.m1(self_examine)] looking emaciated."
 //	else if(nutrition >= NUTRITION_LEVEL_FAT)
 //		if(user.nutrition < NUTRITION_LEVEL_STARVING - 50)
-//			msg += "[t_He] [t_is] plump and delicious looking - Like a fat little piggy. A tasty piggy."
+//			msg += "[pronoun.p_they(TRUE)] [pronoun.p_are()] plump and delicious looking - Like a fat little piggy. A tasty piggy."
 //		else
-//			msg += "[t_He] [t_is] quite chubby."
+//			msg += "[pronoun.p_they(TRUE)] [pronoun.p_are()] quite chubby."
 
 	if(HAS_TRAIT(user, TRAIT_EXTEROCEPTION))
+		pronoun = get_pronoun()
 		switch(nutrition)
 			if(NUTRITION_LEVEL_HUNGRY to NUTRITION_LEVEL_FED)
-				msg += "[m1] looking peckish."
+				msg += "[pronoun.m1(self_examine)] looking peckish."
 			if(NUTRITION_LEVEL_STARVING to NUTRITION_LEVEL_HUNGRY)
-				msg += "[m1] looking hungry."
+				msg += "[pronoun.m1(self_examine)] looking hungry."
 			if(NUTRITION_LEVEL_STARVING-50 to NUTRITION_LEVEL_STARVING)
-				msg += "[m1] looking starved."
+				msg += "[pronoun.m1(self_examine)] looking starved."
 		switch(hydration)
 			if(HYDRATION_LEVEL_THIRSTY to HYDRATION_LEVEL_SMALLTHIRST)
-				msg += "[m1] looking like [m2] mouth is dry."
+				msg += "[pronoun.m1(self_examine)] looking like [pronoun.m2(self_examine)] mouth is dry."
 			if(HYDRATION_LEVEL_DEHYDRATED to HYDRATION_LEVEL_THIRSTY)
-				msg += "[m1] looking thirsty for a drink."
+				msg += "[pronoun.m1(self_examine)] looking thirsty for a drink."
 			if(0 to HYDRATION_LEVEL_DEHYDRATED)
-				msg += "[m1] looking parched."
+				msg += "[pronoun.m1(self_examine)] looking parched."
 
 	//Fire/water stacks
 	if(has_status_effect(/datum/status_effect/fire_handler))
-		msg += "[m1] covered in something flammable."
+		pronoun = get_pronoun()
+		msg += "[pronoun.m1(self_examine)] covered in something flammable."
 	if(has_status_effect(/datum/status_effect/fire_handler/wet_stacks))
-		msg += "[m1] soaked."
+		pronoun = get_pronoun()
+		msg += "[pronoun.m1(self_examine)] soaked."
 
 	//Status effects
 	var/list/status_examines = status_effect_examines()
@@ -508,7 +508,8 @@
 	if(islist(stun_absorption))
 		for(var/i in stun_absorption)
 			if(stun_absorption[i]["end_time"] > world.time && stun_absorption[i]["examine_message"])
-				msg += "[m1][stun_absorption[i]["examine_message"]]"
+				pronoun = get_pronoun()
+				msg += "[pronoun.m1(self_examine)][stun_absorption[i]["examine_message"]]"
 
 	//Temporary wards and/or status effects go here, just for some more clarity.
 	if(src.skin_armor && istype(src.skin_armor, /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/bestowed))
@@ -524,85 +525,92 @@
 
 	if(!appears_dead)
 		if(!skipface)
+			pronoun = get_pronoun()
 			//Disgust
 			switch(disgust)
 				if(DISGUST_LEVEL_SLIGHTLYGROSS to DISGUST_LEVEL_GROSS)
-					msg += "[m1] a little disgusted."
+					msg += "[pronoun.m1(self_examine)] a little disgusted."
 				if(DISGUST_LEVEL_GROSS to DISGUST_LEVEL_VERYGROSS)
-					msg += "[m1] disgusted."
+					msg += "[pronoun.m1(self_examine)] disgusted."
 				if(DISGUST_LEVEL_VERYGROSS to DISGUST_LEVEL_DISGUSTED)
-					msg += "[m1] really disgusted."
+					msg += "[pronoun.m1(self_examine)] really disgusted."
 				if(DISGUST_LEVEL_DISGUSTED to INFINITY)
-					msg += "<B>[m1] extremely disgusted.</B>"
+					msg += "<B>[pronoun.m1(self_examine)] extremely disgusted.</B>"
 
+			pronoun = get_pronoun()
 			//Drunkenness
 			switch(drunkenness)
 				if(11 to 21)
-					msg += "[m1] slightly flushed."
+					msg += "[pronoun.m1(self_examine)] slightly flushed."
 				if(21.01 to 41) //.01s are used in case drunkenness ends up to be a small decimal
-					msg += "[m1] flushed."
+					msg += "[pronoun.m1(self_examine)] flushed."
 				if(41.01 to 51)
-					msg += "[m1] quite flushed and [m2] breath smells of alcohol."
+					msg += "[pronoun.m1(self_examine)] quite flushed and [pronoun.m2(self_examine)] breath smells of alcohol."
 				if(51.01 to 61)
-					msg += "[m1] very flushed, with breath reeking of alcohol."
+					msg += "[pronoun.m1(self_examine)] very flushed, with breath reeking of alcohol."
 				if(61.01 to 91)
-					msg += "[m1] looking like a drunken mess."
+					msg += "[pronoun.m1(self_examine)] looking like a drunken mess."
 				if(91.01 to INFINITY)
-					msg += "[m1] a shitfaced, slobbering wreck."
+					msg += "[pronoun.m1(self_examine)] a shitfaced, slobbering wreck."
 
 			//Deadened
 			if(user.has_empath_for(src) && HAS_TRAIT(src, TRAIT_DETACHED))
-				msg += "[m1] completely hollow inside, radiating a deep, tragic silence."
+				pronoun = get_pronoun()
+				msg += "[pronoun.m1(self_examine)] completely hollow inside, radiating a deep, tragic silence."
 
 			//Stress
 			var/stress = get_stress_amount()
 			if(user.has_empath_for(src))
+				pronoun = get_pronoun()
 				switch(stress)
 					if(20 to INFINITY)
-						msg += "[m1] extremely stressed."
+						msg += "[pronoun.m1(self_examine)] extremely stressed."
 					if(10 to 19)
-						msg += "[m1] very stressed."
+						msg += "[pronoun.m1(self_examine)] very stressed."
 					if(1 to 9)
-						msg += "[m1] a little stressed."
+						msg += "[pronoun.m1(self_examine)] a little stressed."
 					if(-9 to 0)
-						msg += "[m1] not stressed."
+						msg += "[pronoun.m1(self_examine)] not stressed."
 					if(-19 to -10)
-						msg += "[m1] somewhat at peace."
+						msg += "[pronoun.m1(self_examine)] somewhat at peace."
 					if(-20 to INFINITY)
-						msg += "[m1] at peace inside."
+						msg += "[pronoun.m1(self_examine)] at peace inside."
 			else if(stress > 10)
-				msg += "[m3] stress all over [m2] face."
+				msg += "[pronoun.m3(self_examine)] stress all over [pronoun.m2(self_examine)] face."
 
 		//Jitters
+		pronoun = get_pronoun()
 		switch(jitteriness)
 			if(300 to INFINITY)
-				msg += "<B>[m1] convulsing violently!</B>"
+				msg += "<B>[pronoun.m1(self_examine)] convulsing violently!</B>"
 			if(200 to 300)
-				msg += "[m1] extremely jittery."
+				msg += "[pronoun.m1(self_examine)] extremely jittery."
 			if(100 to 200)
-				msg += "[m1] twitching ever so slightly."
+				msg += "[pronoun.m1(self_examine)] twitching ever so slightly."
 
+		pronoun = get_pronoun()
 		if(InCritical())
-			msg += span_warning("[m1] barely conscious.")
+			msg += span_warning("[pronoun.m1(self_examine)] barely conscious.")
 		else
 			if(stat >= UNCONSCIOUS)
-				msg += "[m1] [IsSleeping() ? "sleeping" : "unconscious"]."
+				msg += "[pronoun.m1(self_examine)] [IsSleeping() ? "sleeping" : "unconscious"]."
 			else if(eyesclosed)
-				msg += "[capitalize(m2)] eyes are closed."
+				msg += "[capitalize(pronoun.m2(self_examine))] eyes are closed."
 			else if(has_status_effect(/datum/status_effect/debuff/sleepytime))
-				msg += "[m1] looking a little tired."
+				msg += "[pronoun.m1(self_examine)] looking a little tired."
 	else
-		msg += "[m1] unconscious."
+		pronoun = get_pronoun()
+		msg += "[pronoun.m1(self_examine)] unconscious."
 //		else
 //			if(HAS_TRAIT(src, TRAIT_DUMB))
-//				msg += "[m3] a stupid expression on [m2] face."
+//				msg += "[pronoun.m3(self_examine)] a stupid expression on [pronoun.m2(self_examine)] face."
 //			if(InCritical())
-//				msg += "[m1] barely conscious."
+//				msg += "[pronoun.m1(self_examine)] barely conscious."
 //		if(getorgan(/obj/item/organ/brain))
 //			if(!key)
-//				msg += span_deadsay("[m1] totally catatonic. The stresses of life in deep-space must have been too much for [t_him]. Any recovery is unlikely.")
+//				msg += span_deadsay("[pronoun.m1(self_examine)] totally catatonic. The stresses of life in deep-space must have been too much for [t_him]. Any recovery is unlikely.")
 //			else if(!client)
-//				msg += "[m3] a blank, absent-minded stare and appears completely unresponsive to anything. [t_He] may snap out of it soon."
+//				msg += "[pronoun.m3(self_examine)] a blank, absent-minded stare and appears completely unresponsive to anything. [pronoun.p_they(TRUE)] may snap out of it soon."
 
 	if(length(msg))
 		. += span_warning("[msg.Join("\n")]")
@@ -612,7 +620,8 @@
 		if(LAZYLEN(part.embedded_objects))
 			for(var/obj/item/stuck_thing as anything in part.embedded_objects)
 				if(stuck_thing.w_class >= WEIGHT_CLASS_SMALL)
-					. += span_bloody("<b>[m3] \a [stuck_thing] stuck in [m2] [part.name]!</b>")
+					pronoun = get_pronoun()
+					. += span_bloody("<b>[pronoun.m3(self_examine)] \a [stuck_thing] stuck in [pronoun.m2(self_examine)] [part.name]!</b>")
 
 	if((user != src) && isliving(user))
 		var/mob/living/L = user
@@ -654,15 +663,16 @@
 
 		var/is_extreme = str_extreme || con_extreme
 		var/phys_msg
+		pronoun = get_pronoun()
 		if(str_desc && con_desc)
 			var/connector = ((strength_diff > 0) == (con_diff > 0)) ? "and" : "but"
-			phys_msg = "[t_He] look[p_s()] [str_desc] [connector] [con_desc] than me."
+			phys_msg = "[pronoun.p_they(TRUE)] look[p_s()] [str_desc] [connector] [con_desc] than me."
 		else if(str_desc)
-			phys_msg = "[t_He] look[p_s()] [str_desc] than me."
+			phys_msg = "[pronoun.p_they(TRUE)] look[p_s()] [str_desc] than me."
 		else if(con_desc)
-			phys_msg = "[t_He] look[p_s()] [con_desc] than me."
+			phys_msg = "[pronoun.p_they(TRUE)] look[p_s()] [con_desc] than me."
 		else
-			phys_msg = "[t_He] look[p_s()] about as strong as I."
+			phys_msg = "[pronoun.p_they(TRUE)] look[p_s()] about as strong as I."
 
 		if(is_extreme)
 			. += span_warning("<B>[phys_msg]</B>")
@@ -677,31 +687,35 @@
 		if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 			final_int = L.STAINT
 		var/int_diff = final_int - L.STAINT
+		pronoun = get_pronoun()
 		switch(int_diff)
 			if(5 to INFINITY)
-				. += span_revenwarning("[t_He] look[p_s()] far more intelligent than me.")
+				. += span_revenwarning("[pronoun.p_they(TRUE)] look[p_s()] far more intelligent than me.")
 			if(2 to 5)
-				. += span_revenminor("[t_He] look[p_s()] smarter than me.")
+				. += span_revenminor("[pronoun.p_they(TRUE)] look[p_s()] smarter than me.")
 			if(-1 to 1)
-				. += "[t_He] look[p_s()] about as intelligent as I."
+				. += "[pronoun.p_they(TRUE)] look[p_s()] about as intelligent as I."
 			if(-5 to -2)
-				. += span_revennotice("[t_He] look[p_s()] dumber than me.")
+				. += span_revennotice("[pronoun.p_they(TRUE)] look[p_s()] dumber than me.")
 			if(-INFINITY to -5)
-				. += span_revennotice("[t_He] look[p_s()] as blunt-minded as a rock.")
+				. += span_revennotice("[pronoun.p_they(TRUE)] look[p_s()] as blunt-minded as a rock.")
 
 	if(maniac)
 		var/obj/item/organ/heart/heart = getorganslot(ORGAN_SLOT_HEART)
 		if(heart?.inscryption && (heart.inscryption_key in maniac.key_nums))
-			. += span_danger("[t_He] know[p_s()] [heart.inscryption_key], I AM SURE OF IT!")
+			pronoun = get_pronoun()
+			. += span_danger("[pronoun.p_they(TRUE)] know[p_s()] [heart.inscryption_key], I AM SURE OF IT!")
 
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && user != src)
 		if(isliving(user))
 			var/mob/living/L = user
 			if((L.STAINT > 9 && L.STAPER > 9) || HAS_TRAIT(L, TRAIT_INTELLECTUAL))
 				if(HAS_TRAIT(src, TRAIT_COMBAT_AWARE))
-					. += span_warning("<i>[m1] battle-aware.</i>")
+					pronoun = get_pronoun()
+					. += span_warning("<i>[pronoun.m1(self_examine)] battle-aware.</i>")
 				if(HAS_TRAIT(src, TRAIT_DEATHLESS) && !mind?.has_antag_datum(/datum/antagonist/vampire))
-					. += span_warning("<i>[m1] absent of lyfe. [t_He] will linger even without blood.</i>")
+					pronoun = get_pronoun()
+					. += span_warning("<i>[pronoun.m1(self_examine)] absent of lyfe. [pronoun.p_they(TRUE)] will linger even without blood.</i>")
 				if(HAS_TRAIT(user, TRAIT_COMBAT_AWARE))
 					var/userheld = user.get_active_held_item()
 					var/srcheld = get_active_held_item()
@@ -722,15 +736,16 @@
 						. += "<font size = 3><i>[skilldiff_report(skilldiff)] in my wielded skill than they are in theirs.</i></font>"
 
 	if(lip_style)
+		pronoun = get_pronoun()
 		switch(lip_color)
 			if("red")
-				. += "<span class='info' style='color: #a81324'>[m1] wearing red lipstick.</span>"
+				. += "<span class='info' style='color: #a81324'>[pronoun.m1(self_examine)] wearing red lipstick.</span>"
 			if("purple")
-				. += "<span class='info' style='color: #800080'>[m1] wearing purple lipstick.</span>"
+				. += "<span class='info' style='color: #800080'>[pronoun.m1(self_examine)] wearing purple lipstick.</span>"
 			if("lime")
-				. += "<span class='info' style='color: #00FF00'>[m1] wearing lime lipstick.</span>"
+				. += "<span class='info' style='color: #00FF00'>[pronoun.m1(self_examine)] wearing lime lipstick.</span>"
 			if("black")
-				. += "<span class='info' style='color: #313131ff'>[m1] wearing black lipstick.</span>"
+				. += "<span class='info' style='color: #313131ff'>[pronoun.m1(self_examine)] wearing black lipstick.</span>"
 
 
 	if(show_descriptors)
@@ -771,15 +786,16 @@
 		. += trait_exam
 
 	if(!user.client?.prefs?.top_examine)
-		. += generate_main_examine_body(user, m1, m2, m3, obscure_name, race_name, origin_name, observer_privilege, unknown_names)
+		. += generate_main_examine_body(user, self_examine, obscure_name, race_name, origin_name, observer_privilege, unknown_names)
 
 	if(pose_text)
 		. += fieldset_block("Pose", pose_text, "pose_block")
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 
-/mob/living/carbon/human/proc/generate_main_examine_body(mob/user, m1, m2, m3, obscure_name, race_name, origin_name, observer_privilege, list/unknown_names)
+/mob/living/carbon/human/proc/generate_main_examine_body(mob/user, self_examine, obscure_name, race_name, origin_name, observer_privilege, list/unknown_names)
 	. = list()
+	var/datum/pronouns/pronoun = get_pronoun() // here we go again
 	if(name in unknown_names)
 		. += span_info("ø ------------ ø\nThis is <EM>[name]</EM>.")
 	else if(obscure_name && !client?.prefs?.masked_examine)
@@ -827,14 +843,14 @@
 				. += (span_info("ø ------------ ø\nThis is the <EM>[used_name]</EM>, the [race_name]."))
 
 		//Origins
-		var/pronoun	//They / Their
+		var/pnoun	//They / Their
 		if(!dna.species.use_skin_tone_wording_for_examine)
 			if(user == src)
-				pronoun = "I"
+				pnoun = "I"
 			else
-				pronoun = capitalize(p_they(TRUE))
+				pnoun = capitalize(pronoun.p_they(TRUE))
 		else
-			pronoun = capitalize(m2)
+			pnoun = capitalize(pronoun.m2(self_examine))
 		var/wording = (dna.species.use_skin_tone_wording_for_examine ? "[lowertext(dna.species.skin_tone_wording)]" : "hail[(user == src) ? "" : "s"] from")	//Ancestry / Tribe or hails from
 		var/origin
 		if(dna.species.use_skin_tone_wording_for_examine)
@@ -854,7 +870,7 @@
 				if(issunelf(src) || patron?.type == /datum/patron/divine/astrata)
 					astratan_symbol = icon2html('icons/misc/language.dmi', world, "celestial")
 					astratan_tooltip = SPAN_TOOLTIP("One of Astrata's [issunelf(src) ? "chosen" : "followers"]", astratan_symbol)
-		. += span_info("[pronoun] [wording] [origin]. [astratan_tooltip]")	//"He hails from [X / Nowhere]" || "His [word] originates from [X]" || "His [word] is implacable..."
+		. += span_info("[pnoun] [wording] [origin]. [astratan_tooltip]")	//"He hails from [X / Nowhere]" || "His [word] originates from [X]" || "His [word] is implacable..."
 
 		if(HAS_TRAIT(src, TRAIT_WITCH))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_WITCH))
@@ -873,7 +889,8 @@
 		if(SSticker.rulermob == src)
 			. += span_notice("<b>The ruler of this land.</b>")
 		else if(GLOB.lord_titles[name])
-			. += span_notice("[m3] been granted the title of \"[GLOB.lord_titles[name]]\".")
+			pronoun = get_pronoun()
+			. += span_notice("[pronoun.m3(self_examine)] been granted the title of \"[GLOB.lord_titles[name]]\".")
 
 		if(HAS_TRAIT(src, TRAIT_NOBLE) || HAS_TRAIT(src, TRAIT_DEFILED_NOBLE))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_DEFILED_NOBLE))
@@ -889,7 +906,8 @@
 		if(HAS_TRAIT(src, TRAIT_AGENT_BATHHOUSE))
 			. += span_notice("An agent of the Bathhouse.")
 		if(HAS_TRAIT(src, TRAIT_ARMOR_BREAK))
-			. += span_phobia("[capitalize(m2)] armor hangs on by a thread...")
+			pronoun = get_pronoun()
+			. += span_phobia("[capitalize(pronoun.m2(self_examine))] armor hangs on by a thread...")
 
 		if(HAS_TRAIT(src, TRAIT_DEBTOR))
 			if(ishuman(user))
@@ -966,32 +984,39 @@
 		if(HAS_TRAIT(user, TRAIT_JUSTICARSIGHT) && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 			for(var/datum/bounty/b in GLOB.head_bounties) //I hate this.
 				if(b.target == real_name)
-					. += span_syndradio("[m3] a bounty on [m2] head of [b.amount] mammon for [b.reason], issued by [b.employer].")
+					pronoun = get_pronoun()
+					. += span_syndradio("[pronoun.m3(self_examine)] a bounty on [pronoun.m2(self_examine)] head of [b.amount] mammon for [b.reason], issued by [b.employer].")
 					break
 
 		if(name in GLOB.court_agents)
 			var/datum/job/J = SSjob.GetJob(user.mind?.assigned_role)
 			if(J?.department_flag & GARRISON || J?.department_flag & NOBLEMEN || J?.department_flag & COURTIERS || J?.department_flag & RETINUE)
-				. += span_greentext("<b>[m1] an agent of the court!</b>")
+				pronoun = get_pronoun()
+				. += span_greentext("<b>[pronoun.m1(self_examine)] an agent of the court!</b>")
 
 		if(user != src && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 			if(has_flaw(/datum/charflaw/addiction/lovefiend) && user.has_flaw(/datum/charflaw/addiction/lovefiend))
-				. += span_aiprivradio("[m1] as lovesick as I.")
+				pronoun = get_pronoun()
+				. += span_aiprivradio("[pronoun.m1(self_examine)] as lovesick as I.")
 
 			if(has_flaw(/datum/charflaw/addiction/junkie) && user.has_flaw(/datum/charflaw/addiction/junkie))
-				. += span_deadsay("[m1] carrying the same dust marks on their nose as I.")
+				pronoun = get_pronoun()
+				. += span_deadsay("[pronoun.m1(self_examine)] carrying the same dust marks on their nose as I.")
 
 			if(has_flaw(/datum/charflaw/addiction/smoker) && user.has_flaw(/datum/charflaw/addiction/smoker))
-				. += span_suppradio("[m1] enveloped by the familiar, faint stench of smoke. I know it well.")
+				pronoun = get_pronoun()
+				. += span_suppradio("[pronoun.m1(self_examine)] enveloped by the familiar, faint stench of smoke. I know it well.")
 
 			if(has_flaw(/datum/charflaw/addiction/alcoholic) && user.has_flaw(/datum/charflaw/addiction/alcoholic))
-				. += span_syndradio("[m1] struggling to hide the hangover, and the stench of spirits. We're alike.")
+				pronoun = get_pronoun()
+				. += span_syndradio("[pronoun.m1(self_examine)] struggling to hide the hangover, and the stench of spirits. We're alike.")
 
 			if(user.has_flaw(/datum/charflaw/addiction/paranoid))
 				var/datum/charflaw/addiction/paranoid/pflaw = user.get_flaw(/datum/charflaw/addiction/paranoid)
 				if(ishuman(user))
 					if(has_flaw(/datum/charflaw/addiction/paranoid))
-						. += span_nicegreen("[m1] is the kind who sticks to their own. I understand.")
+						pronoun = get_pronoun()
+						. += span_nicegreen("[pronoun.m1(self_examine)] is the kind who sticks to their own. I understand.")
 						user.sate_addiction(/datum/charflaw/addiction/paranoid)
 					else if(pflaw)
 						if(pflaw.check_faction(src))
@@ -1001,13 +1026,16 @@
 							user.add_stress(/datum/stressevent/paracrowd)
 
 			if(has_flaw(/datum/charflaw/addiction/masochist) && user.has_flaw(/datum/charflaw/addiction/sadist))
-				. += span_secradio("[m1] marked by scars inflicted for pleasure. A delectable target for my urges.")
+				pronoun = get_pronoun()
+				. += span_secradio("[pronoun.m1(self_examine)] marked by scars inflicted for pleasure. A delectable target for my urges.")
 
 			if(has_flaw(/datum/charflaw/addiction/sadist) && user.has_flaw(/datum/charflaw/addiction/masochist))
-				. += span_secradio("[m1] looking with eyes filled with a desire to inflict pain. So exciting.")
+				pronoun = get_pronoun()
+				. += span_secradio("[pronoun.m1(self_examine)] looking with eyes filled with a desire to inflict pain. So exciting.")
 
 			if(has_flaw(/datum/charflaw/addiction/thrillseeker) && user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-				. += span_rose("[m1] twitching for a thrilling fight. So am I.")
+				pronoun = get_pronoun()
+				. += span_rose("[pronoun.m1(self_examine)] twitching for a thrilling fight. So am I.")
 			
 			if(user.has_flaw(/datum/charflaw/averse))
 				var/datum/charflaw/averse/averseflaw = user.get_flaw(/datum/charflaw/averse)
@@ -1022,10 +1050,12 @@
 						if(cf.voyeur_descriptor)
 							vice_desc.Add(cf.voyeur_descriptor)
 					if(length(vice_desc))
-						. += span_voyeurvice("[m1] [english_list(vice_desc)]...")
+						pronoun = get_pronoun()
+						. += span_voyeurvice("[pronoun.m1(self_examine)] [english_list(vice_desc)]...")
 
 			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_PERMAMUTE))
-				. += span_notice("[m1] lacks a voice. [m1] is a mute!")
+				pronoun = get_pronoun()
+				. += span_notice("[pronoun.m1(self_examine)] lacks a voice. [pronoun.m1(self_examine)] is a mute!")
 
 		var/villain_text = get_villain_text(user)
 		if(villain_text)
@@ -1052,22 +1082,24 @@
 				user.add_stress(/datum/stressevent/beautiful)		
 
 		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL) || HAS_TRAIT(src, TRAIT_BEAUTIFUL_UNCANNY) || (issunelf(src) && issunelf(user)))
+			pronoun = get_pronoun()
 			switch (get_first_pronoun())
 				if (HE_HIM)
-					. += span_beautiful_masc("[m1] handsome! [we_got_spooked ? "...Something is deeply wrong." : ""]")
+					. += span_beautiful_masc("[pronoun.m1(self_examine)] handsome! [we_got_spooked ? "...Something is deeply wrong." : ""]")
 				if (SHE_HER)
-					. += span_beautiful_fem("[m1] beautiful! [we_got_spooked ? "...Something is deeply wrong." : ""]")
+					. += span_beautiful_fem("[pronoun.m1(self_examine)] beautiful! [we_got_spooked ? "...Something is deeply wrong." : ""]")
 				if (THEY_THEM, IT_ITS)
-					. += span_beautiful_nb("[m1] good-looking! [we_got_spooked ? "...Something is deeply wrong." : ""]")
+					. += span_beautiful_nb("[pronoun.m1(self_examine)] good-looking! [we_got_spooked ? "...Something is deeply wrong." : ""]")
 
 		if (HAS_TRAIT(src, TRAIT_UNSEEMLY))
+			pronoun = get_pronoun()
 			switch (get_first_pronoun())
 				if (HE_HIM)
-					. += span_redtext("[m1] revolting!")
+					. += span_redtext("[pronoun.m1(self_examine)] revolting!")
 				if (SHE_HER)
-					. += span_redtext("[m1] repugnant!")
+					. += span_redtext("[pronoun.m1(self_examine)] repugnant!")
 				if (THEY_THEM, IT_ITS)
-					. += span_redtext("[m1] repulsive!")
+					. += span_redtext("[pronoun.m1(self_examine)] repulsive!")
 
 		var/datum/antagonist/vampire/vamp_inspect_vlord = src.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 		if(vamp_inspect_vlord && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
@@ -1075,7 +1107,8 @@
 
 		var/datum/antagonist/vampire/vamp_inspect = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(vamp_inspect && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
-			. += span_redtext("[m3] strange glowing eyes and fangs!")
+			pronoun = get_pronoun()
+			. += span_redtext("[pronoun.m3(self_examine)] strange glowing eyes and fangs!")
 	
 		//Blackblood Inquisition trauma
 		if(HAS_TRAIT(src, TRAIT_INQUISITION) && HAS_TRAIT(user, TRAIT_BLACKBLOOD))
@@ -1109,7 +1142,7 @@
 		if(isliving(user))
 			var/mob/living/L = user
 			if(L.STAINT > 9 && L.STAPER > 9)
-				. += span_redtext("<i>[m1] critically fragile!</i>")
+				. += span_redtext("<i>[pronoun.m1(self_examine)] critically fragile!</i>")
 
 	var/medical_text = ""
 	if(Adjacent(user))
@@ -1151,15 +1184,14 @@
 		if(!obscure_name || (obscure_name && client?.prefs.masked_examine) || observer_privilege)
 			. += "<a href='?src=[REF(src)];task=view_rumours_gossip;'>Recall Rumours & Gossip</a>"
 
-/mob/living/proc/status_effect_examines(pronoun_replacement) //You can include this in any mob's examine() to show the examine texts of status effects!
+/mob/living/proc/status_effect_examines() //You can include this in any mob's examine() to show the examine texts of status effects!
 	var/list/dat = list()
-	if(!pronoun_replacement)
-		pronoun_replacement = p_they(TRUE)
+	var/datum/pronouns/pronoun = get_pronoun()
 	for(var/V in status_effects)
 		var/datum/status_effect/E = V
 		if(E.examine_text)
-			var/new_text = replacetext(E.examine_text, "SUBJECTPRONOUN", pronoun_replacement)
-			new_text = replacetext(new_text, "[pronoun_replacement] is", "[pronoun_replacement] [p_are()]") //To make sure something become "They are" or "She is", not "They are" and "She are"
+			var/new_text = replacetext(E.examine_text, "SUBJECTPRONOUN", pronoun.p_they(TRUE))
+			new_text = replacetext(new_text, "[pronoun.p_they(TRUE)] is", "[pronoun.p_they(TRUE)] [pronoun.p_are()]") //To make sure something become "They are" or "She is", not "They are" and "She are"
 			dat += "[new_text]\n" //dat.Join("\n") doesn't work here, for some reason
 	if(dat.len)
 		return dat.Join()

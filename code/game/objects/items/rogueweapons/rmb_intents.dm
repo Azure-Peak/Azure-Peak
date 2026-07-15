@@ -45,13 +45,15 @@
 	var/target_zone = HT.zone_selected
 	var/user_zone = HU.zone_selected
 	var/newcd = (BAIT_RCLICK_CD - HU.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS))
-
+	var/datum/pronouns/HTpronoun = HT.get_pronoun()
+	var/datum/pronouns/HUpronoun = HU.get_pronoun()
+	
 	if(HT.has_status_effect(/datum/status_effect/debuff/baited) || user.has_status_effect(/datum/status_effect/debuff/baitcd))
 		return	//We don't do anything if either of us is affected by bait statuses
 
 	if(!HT.can_see_cone(user) && HT.mind && HT.get_tempo_bonus(TEMPO_TAG_FEINTBAIT_FOV))
 		newcd = 5 SECONDS
-		to_chat(user, span_notice("[HT.p_they()] didn't see me! Nothing happened!"))
+		to_chat(user, span_notice("[HTpronoun.p_they()] didn't see me! Nothing happened!"))
 		HU.apply_status_effect(/datum/status_effect/debuff/baitcd, newcd)
 		return
 
@@ -65,8 +67,8 @@
 		if(check_face_subzone(target_zone) && check_face_subzone(user_zone))	//We simplify the myriad of face targeting zones
 			guaranteed_fail = FALSE
 		if(guaranteed_fail)
-			to_chat(HU, span_danger("It didn't work! [HT.p_their(TRUE)] footing returned!"))
-			to_chat(HT, span_notice("I fooled [HU.p_them()]! I've regained my footing!"))
+			to_chat(HU, span_danger("It didn't work! [HTpronoun.p_their(TRUE)] footing returned!"))
+			to_chat(HT, span_notice("I fooled [HUpronoun.p_them()]! I've regained my footing!"))
 			HU.emote("groan", forced = TRUE)
 			HU.stamina_add(HU.max_stamina * 0.2)
 			HT.bait_stacks = 0
@@ -106,15 +108,15 @@
 		HT.Slowdown(3)
 		HT.emote("huh")
 		HU.changeNext_move(0.1 SECONDS, override = TRUE)
-		to_chat(HU, span_notice("[HT.p_they(TRUE)] fell for my bait <b>perfectly</b>! One more!"))
-		to_chat(HT, span_danger("I fall for [HU.p_their()]'s bait <b>perfectly</b>! I'm losing my footing! <b>I can't let this happen again!</b>"))
+		to_chat(HU, span_notice("[HTpronoun.p_they(TRUE)] fell for my bait <b>perfectly</b>! One more!"))
+		to_chat(HT, span_danger("I fall for [HUpronoun.p_their()]'s bait <b>perfectly</b>! I'm losing my footing! <b>I can't let this happen again!</b>"))
 	
 	if(HU.has_duelist_ring() && HT.has_duelist_ring() || HT.bait_stacks >= 2)	//We're explicitly (hopefully non-lethally) dueling. Flavor.
 		HT.emote("gasp")
 		HT.OffBalance(2 SECONDS)
 		HT.Immobilize(2 SECONDS)
-		to_chat(HU, span_notice("[HT.p_they(TRUE)] fell for it again and is off-balanced! NOW!"))
-		to_chat(HT, span_danger("I fall for [HU.p_their()] bait <b>perfectly</b>! My balance is GONE!</b>"))
+		to_chat(HU, span_notice("[HTpronoun.p_they(TRUE)] fell for it again and is off-balanced! NOW!"))
+		to_chat(HT, span_danger("I fall for [HUpronoun.p_their()] bait <b>perfectly</b>! My balance is GONE!</b>"))
 		HT.bait_stacks = 0
 
 
@@ -122,8 +124,8 @@
 		return
 
 	HT.stop_pulling()
-	to_chat(HU, span_notice("[HT.p_they(TRUE)] fell for my dirty trick! I am loose!"))
-	to_chat(HT, span_danger("I fall for [HU.p_their()] dirty trick! My hold is broken!"))
+	to_chat(HU, span_notice("[HTpronoun.p_they(TRUE)] fell for my dirty trick! I am loose!"))
+	to_chat(HT, span_danger("I fall for [HUpronoun.p_their()] dirty trick! My hold is broken!"))
 	HU.OffBalance(2 SECONDS)
 	HT.OffBalance(2 SECONDS)
 	playsound(user, 'sound/combat/riposte.ogg', 100, TRUE)
@@ -251,10 +253,11 @@
 		newcd = ((BASE_RCLICK_CD + 10 SECONDS) - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS))
 		perc = 100
 
+	var/datum/pronouns/pronoun = L.get_pronoun()
 	if(!prob(perc)) //feint intent increases the immobilize duration significantly
 		playsound(user, 'sound/combat/feint.ogg', 100, TRUE)
 		if(user.client?.prefs.showrolls)
-			to_chat(user, span_warning("[L.p_they(TRUE)] did not fall for my feint... [HAS_TRAIT(L, TRAIT_DECEIVING_MEEKNESS) ? "???" : perc]%"))
+			to_chat(user, span_warning("[pronoun.p_they(TRUE)] did not fall for my feint... [HAS_TRAIT(L, TRAIT_DECEIVING_MEEKNESS) ? "???" : perc]%"))
 		user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 		if(special_msg)
 			to_chat(user, special_msg)
@@ -282,7 +285,7 @@
 
 	user.changeNext_move(CLICK_CD_FAST)	//We don't want the feint effect to be popped instantly.
 	user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
-	to_chat(user, span_notice("[L.p_they(TRUE)] fell for my feint attack!"))
+	to_chat(user, span_notice("[pronoun.p_they(TRUE)] fell for my feint attack!"))
 	to_chat(L, span_danger("I fall for [user.p_their()] feint attack!"))
 	playsound(user, 'sound/combat/riposte.ogg', 100, TRUE)
 

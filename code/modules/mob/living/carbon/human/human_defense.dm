@@ -648,6 +648,7 @@
 	return ..()
 
 /mob/living/carbon/human/proc/check_for_injuries(mob/user = src, advanced = FALSE, silent = FALSE)
+	var/datum/pronouns/pronoun = get_pronoun()
 	var/list/examination = list("<span class='info'>ø ------------ ø")
 	var/m1
 	var/deep_examination = advanced
@@ -657,10 +658,10 @@
 			deep_examination = HAS_TRAIT(src, TRAIT_SELF_AWARE)
 		examination += span_notice("Let's see how I am doing.")
 		if(!stat && !silent)
-			user.visible_message(span_notice("[src] examines [p_them()]self."), \
+			user.visible_message(span_notice("[src] examines [pronoun.p_them()]self."), \
 				span_notice("I check myself for injuries."))
 	else if(user)
-		m1 = "[p_they(TRUE)] [p_are()]"
+		m1 = "[pronoun.p_they(TRUE)] [pronoun.p_are()]"
 		if(!deep_examination)
 			deep_examination = user.has_empath_for(src)
 		examination += span_notice("Let's see how [src] is doing.")

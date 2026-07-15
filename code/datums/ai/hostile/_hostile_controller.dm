@@ -96,7 +96,8 @@
 	if(blackboard[BB_HOSTILE_FRIEND] == WEAKREF(user))
 		var/mob/living/living_pawn = pawn
 		if(!IS_DEAD_OR_INCAP(living_pawn))
-			examine_text += span_notice("[pawn.p_they(TRUE)] seem[pawn.p_s()] happy to see you!")
+			var/datum/pronouns/pronoun = living_pawn.get_pronoun()
+			examine_text += span_notice("[pronoun.p_they(TRUE)] seem[pronoun.p_s()] happy to see you!")
 
 // next section is regarding commands
 

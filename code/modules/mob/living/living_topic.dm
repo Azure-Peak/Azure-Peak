@@ -29,17 +29,18 @@
 	return message
 
 /mob/living/proc/soul_examine(mob/user)
+	var/datum/pronouns/pronoun = get_pronoun()
 	var/list/message = list()
 	if(stat >= DEAD || HAS_TRAIT(src, TRAIT_FAKEDEATH) || HAS_TRAIT(src, TRAIT_ROTMAN))
 		if(suiciding)
-			message += "<span class='deadsay'>[p_they(TRUE)] commited suicide... Nothing can be done..."
+			message += "<span class='deadsay'>[pronoun.p_they(TRUE)] commited suicide... Nothing can be done..."
 		if(HAS_TRAIT(src, TRAIT_DNR))
-			message += "<span class='deadsay'>[p_their(TRUE)] heart will never beat again...</span>"
+			message += "<span class='deadsay'>[pronoun.p_their(TRUE)] heart will never beat again...</span>"
 		if(isobserver(user) || HAS_TRAIT(user, TRAIT_SOUL_EXAMINE) || HAS_TRAIT(user, TRAIT_ZIZOSIGHT) || (user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_MASTER))
 			if(!key && !get_ghost(FALSE, TRUE))
-				message += span_deadsay("[p_their(TRUE)] soul has departed...")
+				message += span_deadsay("[pronoun.p_their(TRUE)] soul has departed...")
 			else
-				message += span_deadsay("[p_they(TRUE)] [p_are()] still earthbound.")
+				message += span_deadsay("[pronoun.p_they(TRUE)] [pronoun.p_are()] still earthbound.")
 	return message
 
 //Vrell - Moved this here

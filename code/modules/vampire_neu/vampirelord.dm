@@ -128,7 +128,8 @@
 			SSmapping.retainer.king_submitted = TRUE
 		if("No")
 			to_chat(ruler, span_boldnotice("I refuse!"))
-			to_chat(src, span_boldnotice("[p_they(TRUE)] refuse[ruler.p_s()]!"))
+			var/datum/pronouns/pronoun = ruler.get_pronoun()
+			to_chat(src, span_boldnotice("[pronoun.p_they(TRUE)] refuse[pronoun.p_s()]!"))
 
 /mob/living/carbon/human/proc/punish_spawn()
 	set name = "Punish Minion"

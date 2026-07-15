@@ -176,6 +176,15 @@
 /datum/pronouns/p_es(temp_gender)
 	. = c_es
 
+/datum/pronouns/proc/m1(self_examine) // used in examine procs
+	return (self_examine ? "I am" : "[p_they(TRUE)] [p_are()]")
+
+/datum/pronouns/proc/m2(self_examine)
+	return (self_examine ? "my" : "[p_their()]")
+
+/datum/pronouns/proc/m3(self_examine)
+	return (self_examine ? "I have" : "[p_they(TRUE)] [p_have()]")
+
 //like clients, which do have gender.
 /client/p_they(capitalized, temp_gender)
 	if(!temp_gender)

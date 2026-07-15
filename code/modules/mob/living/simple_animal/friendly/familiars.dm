@@ -283,6 +283,7 @@
 	return istype(ley, /obj/structure/leyline/normal/grove)
 
 /mob/living/simple_animal/pet/familiar/fae/examine(mob/user)
+	var/datum/pronouns/pronoun = get_pronoun()
 	var/list/ret = ..()
 	if(!ret)
 		ret = list() // temp fix for a cascading runtime
@@ -290,7 +291,7 @@
 		if(reagents.flags & TRANSPARENT)
 			if(length(reagents.reagent_list))
 				if(user.can_see_reagents() || (user.Adjacent(src) && (user.get_skill_level(/datum/skill/craft/alchemy) >= 2 || HAS_TRAIT(user, TRAIT_CICERONE)))) //Show each individual reagent
-					ret.Insert(LAZYLEN(ret)-1, "[src.p_they()] contain[src.gender==PLURAL?"":"s"]:")
+					ret.Insert(LAZYLEN(ret)-1, "[pronoun.p_they()] contain[pronoun.p_s()]:")
 					for(var/datum/reagent/R in reagents.reagent_list)
 						ret.Insert(LAZYLEN(ret)-1, "[round(R.volume, 0.1)] [UNIT_FORM_STRING(round(R.volume, 0.1))] of <font color=[R.color]>[R.name]</font>")
 				else //Otherwise, just show the total volume
@@ -300,14 +301,14 @@
 						total_volume += R.volume
 					reagent_color = mix_color_from_reagents(reagents.reagent_list)
 					if(total_volume < 1)
-						ret.Insert(LAZYLEN(ret)-1, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] less than 1 [UNIT_FORM_STRING(1)] of <font color=[reagent_color]>something.</font>")
+						ret.Insert(LAZYLEN(ret)-1, "[pronoun.p_they()] contain[pronoun.p_s()] less than 1 [UNIT_FORM_STRING(1)] of <font color=[reagent_color]>something.</font>")
 					else
-						ret.Insert(LAZYLEN(ret)-1, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] [round(total_volume)] [UNIT_FORM_STRING(round(total_volume))] of <font color=[reagent_color]>something.</font>")
+						ret.Insert(LAZYLEN(ret)-1, "[pronoun.p_they()] contain[pronoun.p_s()] [round(total_volume)] [UNIT_FORM_STRING(round(total_volume))] of <font color=[reagent_color]>something.</font>")
 			else
 				ret.Insert(LAZYLEN(ret)-1, "[src]'s stomach is empty.")
 		else if(reagents.flags & AMOUNT_VISIBLE)
 			if(reagents.total_volume)
-				ret.Insert(LAZYLEN(ret)-1, span_notice("[src.p_they()] [src.gender==PLURAL?"have":"has"] [round(reagents.total_volume)] [UNIT_FORM_STRING(round(reagents.total_volume))] left."))
+				ret.Insert(LAZYLEN(ret)-1, span_notice("[pronoun.p_they()] [pronoun.p_have()] [round(reagents.total_volume)] [UNIT_FORM_STRING(round(reagents.total_volume))] left."))
 			else
 				ret.Insert(LAZYLEN(ret)-1, span_danger("[src]'s stomach is empty."))
 	return ret

@@ -299,27 +299,33 @@
 	user.apply_status_effect(/datum/status_effect/debuff/mishap_langloss)
 
 /obj/item/scrying/proc/failure_feeblemind(mob/living/user)
-	user.visible_message(span_danger("[user] stares into [src] - [user.p_their()] eyes lose their wit, and [user.p_their()] mouth hangs open..."), span_boldwarning("You focus your thoughts on the orb - and feel them slipping away, away, slowly... draining... into..."))
+	var/datum/pronouns/pronoun = user.get_pronoun()
+	user.visible_message(span_danger("[user] stares into [src] - [pronoun.p_their()] eyes lose their wit, and [pronoun.p_their()] mouth hangs open..."), span_boldwarning("You focus your thoughts on the orb - and feel them slipping away, away, slowly... draining... into..."))
 	user.apply_status_effect(/datum/status_effect/debuff/mishap_feeblemind)
 
 /obj/item/scrying/proc/failure_paralysis(mob/living/user)
-	user.visible_message(span_danger("[user] stares into [src]. Parts of [user.p_their()] body seem to go limp..."), span_boldwarning("You focus your thoughts on the orb - you feel a pain shooting through your head, and begin to feel a strange numbness..."))
+	var/datum/pronouns/pronoun = user.get_pronoun()
+	user.visible_message(span_danger("[user] stares into [src]. Parts of [pronoun.p_their()] body seem to go limp..."), span_boldwarning("You focus your thoughts on the orb - you feel a pain shooting through your head, and begin to feel a strange numbness..."))
 	user.apply_status_effect(/datum/status_effect/debuff/mishap_arcane_paralysis)
 
 /obj/item/scrying/proc/failure_blind(mob/living/user)
-	user.visible_message(span_danger("[user] stares into [src]. Arcyne darkness seem to cloud [user.p_their()] eyes!"), span_boldwarning("You focus your thoughts on the orb - your vision darkens... And doesn't return."))
+	var/datum/pronouns/pronoun = user.get_pronoun()
+	user.visible_message(span_danger("[user] stares into [src]. Arcyne darkness seem to cloud [pronoun.p_their()] eyes!"), span_boldwarning("You focus your thoughts on the orb - your vision darkens... And doesn't return."))
 	user.apply_status_effect(/datum/status_effect/debuff/mishap_blindness)
 
 /obj/item/scrying/proc/failure_dimwitted(mob/living/user)
-	user.visible_message(span_danger("[user] stares into [src]... And [user.p_their()] eyes gain a witless look."), span_boldwarning("You focus your thoughts on the orb - and though you see nothing, suddenly the world becomes so much simpler."))
+	var/datum/pronouns/pronoun = user.get_pronoun()
+	user.visible_message(span_danger("[user] stares into [src]... And [pronoun.p_their()] eyes gain a witless look."), span_boldwarning("You focus your thoughts on the orb - and though you see nothing, suddenly the world becomes so much simpler."))
 	user.apply_status_effect(/datum/status_effect/debuff/mishap_dimwitted)
 
 /obj/item/scrying/proc/failure_high(mob/living/user)
-	user.visible_message(span_danger("[user] stares into [src]. Suddenly, [user.p_they()] seems unable to stay still!"), span_boldwarning("You focus your thoughts on the orb - and you begin to feel so happy and giddy!"))
+	var/datum/pronouns/pronoun = user.get_pronoun()
+	user.visible_message(span_danger("[user] stares into [src]. Suddenly, [pronoun.p_they()] seem[pronoun.p_s()] unable to stay still!"), span_boldwarning("You focus your thoughts on the orb - and you begin to feel so happy and giddy!"))
 	user.apply_status_effect(/datum/status_effect/debuff/mishap_arcane_high)
 
 /obj/item/scrying/proc/failure_random_person(mob/living/user, mob/living/target)
-	user.visible_message(span_danger("[user] stares into [src], [user.p_their()] eyes rolling back into [user.p_their()] head."), span_boldwarning("You focus your thoughts on the orb - and... Wait, this isn't right..."))
+	var/datum/pronouns/pronoun = user.get_pronoun()
+	user.visible_message(span_danger("[user] stares into [src], [pronoun.p_their()] eyes rolling back into [pronoun.p_their()] head."), span_boldwarning("You focus your thoughts on the orb - and... Wait, this isn't right..."))
 	scry_wrong_person(user, target)
 
 /obj/item/scrying/proc/failure_sleep(mob/living/user)

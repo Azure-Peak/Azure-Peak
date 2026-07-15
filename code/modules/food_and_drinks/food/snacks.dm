@@ -450,7 +450,8 @@ All foods are distributed among various categories. Use common sense.
 					var/obj/item/bodypart/CH = C.get_bodypart(BODY_ZONE_HEAD)
 					if(C.cmode)
 						if(CH && !CH.grabbedby)
-							to_chat(user, span_info("[C.p_they(TRUE)] steals [C.p_their()] face from it."))
+							var/datum/pronouns/pronoun = C.get_pronoun()
+							to_chat(user, span_info("[pronoun.p_they(TRUE)] steals [pronoun.p_their()] face from it."))
 							return FALSE
 				if(!do_mob(user, M, double_progress = TRUE, can_move = FALSE))
 					return
