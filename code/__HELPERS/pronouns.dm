@@ -487,10 +487,13 @@
 // used to refer to mobs 'properly', in place of the old p_(something) procs. call this once per 'message' to allow pronouns to alternate properly
 // this returns a datum instance!
 /mob/proc/get_pronoun()
+	if(!pronouns || !length(pronouns))
+		return
+	return GLOB.pronouns[pick(pronouns)]
+
+/mob/living/carbon/human/get_pronoun()
 	var/list/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
 	if((SLOT_PANTS in obscured) && skipface)
 		return GLOB.pronouns[THEY_THEM] // always use they/them for hidden folks
-	if(!pronouns || !length(pronouns))
-		return
-	return GLOB.pronouns[pick(pronouns)]
+	return ..()
