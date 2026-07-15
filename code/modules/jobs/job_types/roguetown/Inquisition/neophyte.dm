@@ -76,7 +76,7 @@
 	H.adjust_blindness(-3)
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
 	cloak = /obj/item/clothing/cloak/tabard/psydontabard/black
-	mask = /obj/item/clothing/head/roguetown/roguehood/psydon/black
+	head = /obj/item/clothing/head/roguetown/roguehood/psydon/black
 	neck = /obj/item/roguekey/inquisitionmanor
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/natural/feather
