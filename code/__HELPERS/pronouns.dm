@@ -1,6 +1,51 @@
 //pronoun procs, for getting pronouns without using the text macros that only work in certain positions
 //datums don't have gender, but most of their subtypes do!
 
+/datum/proc/p_they(capitalized, temp_gender)
+	. = "it"
+	if(capitalized)
+		. = capitalize(.)
+
+/datum/proc/p_their(capitalized, temp_gender)
+	. = "its"
+	if(capitalized)
+		. = capitalize(.)
+
+/datum/proc/p_them(capitalized, temp_gender)
+	. = "it"
+	if(capitalized)
+		. = capitalize(.)
+
+/datum/proc/p_themselves(capitalized, temp_gender)
+	. = "itself"
+	if(capitalized)
+		. = capitalize(.)
+
+/datum/proc/p_have(temp_gender)
+	. = "has"
+
+/datum/proc/p_are(temp_gender)
+	. = "is"
+
+/datum/proc/p_were(temp_gender)
+	. = "was"
+
+/datum/proc/p_do(temp_gender)
+	. = "does"
+
+/datum/proc/p_theyve(capitalized, temp_gender)
+	. = p_they(capitalized, temp_gender) + "'" + copytext(p_have(temp_gender), 3)
+
+/datum/proc/p_theyre(capitalized, temp_gender)
+	. = p_they(capitalized, temp_gender) + "'" + copytext(p_are(temp_gender), 2)
+
+/datum/proc/p_s(temp_gender) //is this a descriptive proc name, or what?
+	. = "s"
+
+/datum/proc/p_es(temp_gender)
+	. = "es"
+
+
 // pronouns datums: each is its own pronounset. mobs can have multiple of these, and they'll be used alternately!
 /datum/pronouns
 	var/name = "base pronoun definition"
@@ -87,49 +132,49 @@
 	c_noun = "man"
 	assoc_gender = MALE
 
-/datum/proc/p_they(capitalized, temp_gender)
-	. = "it"
+/datum/pronouns/p_they(capitalized, temp_gender)
+	. = c_they
 	if(capitalized)
 		. = capitalize(.)
 
-/datum/proc/p_their(capitalized, temp_gender)
-	. = "its"
+/datum/pronouns/p_their(capitalized, temp_gender)
+	. = c_their
 	if(capitalized)
 		. = capitalize(.)
 
-/datum/proc/p_them(capitalized, temp_gender)
-	. = "it"
+/datum/pronouns/p_them(capitalized, temp_gender)
+	. = c_them
 	if(capitalized)
 		. = capitalize(.)
 
-/datum/proc/p_themselves(capitalized, temp_gender)
-	. = "itself"
+/datum/pronouns/p_themselves(capitalized, temp_gender)
+	. = c_themselves
 	if(capitalized)
 		. = capitalize(.)
 
-/datum/proc/p_have(temp_gender)
-	. = "has"
+/datum/pronouns/p_have(temp_gender)
+	. = c_have
 
-/datum/proc/p_are(temp_gender)
-	. = "is"
+/datum/pronouns/p_are(temp_gender)
+	. = c_are
 
-/datum/proc/p_were(temp_gender)
-	. = "was"
+/datum/pronouns/p_were(temp_gender)
+	. = c_were
 
-/datum/proc/p_do(temp_gender)
-	. = "does"
+/datum/pronouns/p_do(temp_gender)
+	. = c_do
 
-/datum/proc/p_theyve(capitalized, temp_gender)
-	. = p_they(capitalized, temp_gender) + "'" + copytext(p_have(temp_gender), 3)
+/datum/pronouns/p_theyve(capitalized, temp_gender)
+	. = c_theyve
 
-/datum/proc/p_theyre(capitalized, temp_gender)
-	. = p_they(capitalized, temp_gender) + "'" + copytext(p_are(temp_gender), 2)
+/datum/pronouns/p_theyre(capitalized, temp_gender)
+	. = c_theyre
 
-/datum/proc/p_s(temp_gender) //is this a descriptive proc name, or what?
-	. = "s"
+/datum/pronouns/p_s(temp_gender) //is this a descriptive pronouns name, or what?
+	. = c_s
 
-/datum/proc/p_es(temp_gender)
-	. = "es"
+/datum/pronouns/p_es(temp_gender)
+	. = c_es
 
 //like clients, which do have gender.
 /client/p_they(capitalized, temp_gender)
@@ -442,6 +487,10 @@
 // used to refer to mobs 'properly', in place of the old p_(something) procs. call this once per 'message' to allow pronouns to alternate properly
 // this returns a datum instance!
 /mob/proc/get_pronoun()
+	var/list/obscured = check_obscured_slots()
+	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
+	if((SLOT_PANTS in obscured) && skipface)
+		return GLOB.pronouns[THEY_THEM] // always use they/them for hidden folks
 	if(!pronouns || !length(pronouns))
 		return
 	return GLOB.pronouns[pick(pronouns)]

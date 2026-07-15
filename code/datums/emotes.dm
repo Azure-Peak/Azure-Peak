@@ -256,14 +256,15 @@
 	return
 
 /datum/emote/proc/replace_pronoun(mob/user, msg)
+	var/datum/pronouns/used_pronoun = user.get_pronoun()
 	if(findtext(msg, "their"))
-		msg = replacetext(msg, "their", user.p_their())
+		msg = replacetext(msg, "their", used_pronoun.p_their())
 	if(findtext(msg, "them"))
-		msg = replacetext(msg, "them", user.p_them())
+		msg = replacetext(msg, "them", used_pronoun.p_them())
 	if(findtext(msg, "%s"))
-		msg = replacetext(msg, "%s", user.p_s())
+		msg = replacetext(msg, "%s", used_pronoun.p_s())
 	if(findtext(msg, "themselves"))
-		msg = replacetext(msg, "themselves", user.p_themselves())
+		msg = replacetext(msg, "themselves", used_pronoun.p_themselves())
 	return msg
 
 /datum/emote/proc/select_message_type(mob/user, intentional)
