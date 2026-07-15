@@ -1240,11 +1240,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			user.bad_guard(span_suicide("I tried to strike while focused on defense whole! It drains me!"), cheesy = TRUE)
 			return
 
-		if(target.has_status_effect(/datum/status_effect/buff/skulduggery) && ishuman(user))
-			var/obj/item/IM = target.get_active_held_item()
-			target.process_skd(user, IM)
-			return
-
 		var/mob/living/carbon/human/H = target
 		H.process_golgatha_rebuke(user)
 

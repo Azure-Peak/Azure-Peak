@@ -57,6 +57,7 @@
 
 	H.merctype = 16 //literally no idea what this does
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lirvan_tithe)
+	H.mind.AddSpell(new /datum/action/cooldown/spell/matthios/raze)
 
 	var/list/weapon_choices = list("Staff", "Unarmed")
 	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapon_choices

@@ -743,3 +743,60 @@
   kiwedespars:
   - bugfix: graggar organs event fixed (hacky, no longer requires hearts)
   - bugfix: graggar culling now works properly.
+2026-07-15:
+  FreeStylaLT:
+  - rscadd: Added a heel-morphing elixir, that could add heels (and the appropriate
+      SFX) to any shoewear item.
+  - rscadd: Added a heelification elixir to Donator-exclusive loadot.
+  - rscadd: Added a heelification elixir to the Luxury section of the -Faces as well
+      as some loot drops in dungeons.
+  - rscadd: Added a heelification elixir to the squirely storage loot pool and the
+      Bootcheck miracle.
+  - sound: Added heel footstep SFX.
+  - balance: Non-Ascendant Heretic Wretches are now limited to T2 miracles.
+  - balance: Wound Heal miracle is only granted to Heretic Wretches upon the completion
+      of a rites ritual.
+  - refactor: Refactored how virtues are saved / loaded. Be warned! Your virtues may
+      have been reset.
+  Kelshark:
+  - qol: Instruments can play songs longer than 4 minutes without abrupt cut-off and
+      loop.
+  Lamasmaster:
+  - balance: Matthios Miracles
+  Quinalion:
+  - rscadd: Allow lighting another player's zigarette using Prestidigitation's intent
+      spark when targeting their mouth
+  ToasterStrudes:
+  - rscadd: Adds LEVITATION, a cantrip able to be purchased for 1 point.
+  WeNeedMorePhoron:
+  - rscadd: :)
+  - balance: Horde now inflicts a partial summon backlash, shorter and weaker than
+      the full on one as it is a core design principle that the summoner MUST loses
+      something for getting a free goon. It also don't stun you
+  - balance: Conjure CD increased to 4 minutes base and dismiss to 10 seconds. I don't
+      want them to be "free", and originally I wanted dismiss to count partial health
+      to penalize you, but I am fine with knowing when to pre-emptively dismiss your
+      summon as a form of skill expression. 4 minutes base means they couldn't easily
+      throw new one back into the fray immediately and should be pressured properly,
+      and 10 seconds with cancel ability means they should be able to see the red
+      intent, run at you, and tap you (or you run away, but I might improve leashing
+      code)
+  - balance: Based on feedback, I reduced the aggressive stat scaling on Conjure Champion
+      and also made it so that Mastery summon a buffed up steel dude instead of a
+      blacksteel dude.
+  - rscadd: Added aetherknife, ported from our downstream Ochre Valley, using the
+      unused throw_knifecorrupt sprite for now.
+  bearrrrrrrr:
+  - rscadd: Tithebound balancing and feature pack. New weapon and subclass, and two
+      new specials.
+  borneblood:
+  - bugfix: Bless now should be more neutral-grounded to prevent metagaming.
+  - rscadd: Added icons for vampire thirst.
+  - bugfix: Fixed the oddity around vampire's thirst debuff, and thirst for normal
+      people appearing twice.
+  - bugfix: Fixed a weird behavior of Vampire Spawn Protection.
+  - refactor: Refactored(-ish?) the nutrition code.
+  mumblemancer:
+  - bugfix: wildshaping will no longer remove your tired status
+  probbrie:
+  - rscadd: Added wide palmate antlers to character customisation.

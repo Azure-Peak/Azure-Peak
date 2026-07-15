@@ -47,6 +47,7 @@
 	id = /obj/item/mattcoin
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
+	H.mind.AddSpell(new /datum/action/cooldown/spell/matthios/raze)
 	var/subtype = list("Chosen of Matthios", "Golden Serpent")
 	if(H.mind)
 		var/subtype_choice = input(H, "Choose your path.", "TAKE UP ARMS") as anything in subtype

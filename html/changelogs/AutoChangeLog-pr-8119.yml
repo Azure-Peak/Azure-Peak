@@ -1,4 +1,4 @@
 author: "WeNeedMorePhoron"
 delete-after: True
 changes:
-  - rscadd: ":)"
+  - rscadd: "Nerfs STR and PER soft cap to 3% from 5%"

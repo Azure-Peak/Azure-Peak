@@ -207,6 +207,10 @@
 	name = "Gift - Armor Cosmetic, Arm Harness"
 	path = /obj/item/enchantingkit/donator_universal_armharness
 
+/datum/loadout_item/donator/universal/heelkit
+	name = "Gift - Armor Cosmetic, Heelification Elixir"
+	path = /obj/item/heelkit
+
 /////////////////////////////
 // ! Player / Donor Kits ! //
 /////////////////////////////

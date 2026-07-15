@@ -126,7 +126,8 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass = 30,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted = 4,
 		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel = 1,
-		/obj/item/rogueweapon/halberd/glaive = 4
+		/obj/item/rogueweapon/halberd/glaive = 4,
+		/obj/item/heelkit = 11
 	)
 
 /obj/structure/closet/crate/roguecloset/dark/squire/can_open(mob/living/user)

@@ -10,6 +10,7 @@ GLOBAL_LIST_INIT(utility_spells, (list(
 		/datum/action/cooldown/spell/fridigitation,
 		/datum/action/cooldown/spell/greater_cleaning,
 		/datum/action/cooldown/spell/lesser_knock,
+		/datum/action/cooldown/spell/levitation,
 		/datum/action/cooldown/spell/light,
 		/datum/action/cooldown/spell/magicians_brick,
 		/datum/action/cooldown/spell/magicians_stone,

@@ -127,6 +127,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			var/mob/living/carbon/human/H = user
 			if(length(cf.restricted_species) && (H.dna.species.type in cf.restricted_species))
 				cf_list.Remove(key)
+			if(cf.needs_extra_vice) // difficulty flaws require a deliberate extra vice - never resolve into one at random
+				cf_list.Remove(key)
 
 	var/datum/job/mob_job = null
 	if(target.mind?.assigned_role)
@@ -148,6 +150,9 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		var/datum/charflaw/added_flaw = new chosen_type()
 		target.charflaws.Add(added_flaw)
 		added_flaw.on_mob_creation(target)
+		to_chat(target, span_notice("A random vice has taken root: <b>[added_flaw.name]</b>."))
+		if(added_flaw.desc)
+			to_chat(target, span_info(added_flaw.desc))
 
 	target.charflaws.Remove(src)
 	QDEL_NULL(src)

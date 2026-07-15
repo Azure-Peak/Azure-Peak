@@ -3293,6 +3293,7 @@
 #include "code\modules\spells\spell_types\wizard\misc\fly.dm"
 #include "code\modules\spells\spell_types\wizard\misc\heir_spelllearn.dm"
 #include "code\modules\spells\spell_types\wizard\misc\lesser_knock.dm"
+#include "code\modules\spells\spell_types\wizard\misc\levitation.dm"
 #include "code\modules\spells\spell_types\wizard\misc\magicians_brick.dm"
 #include "code\modules\spells\spell_types\wizard\misc\phase.dm"
 #include "code\modules\spells\spell_types\wizard\projectiles_single\air_blade.dm"

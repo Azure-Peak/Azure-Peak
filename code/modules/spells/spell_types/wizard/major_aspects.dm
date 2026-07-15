@@ -171,6 +171,7 @@
 		/datum/action/cooldown/spell/gravity,
 		/datum/action/cooldown/spell/telegraphed_strike/kinetic_burst,
 		/datum/action/cooldown/spell/greater_cleaning,
+		/datum/action/cooldown/spell/levitation,
 	)
 	variants = list(
 		"mastery" = list(
