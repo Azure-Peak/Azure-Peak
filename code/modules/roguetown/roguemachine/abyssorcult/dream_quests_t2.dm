@@ -166,3 +166,46 @@
 	if(totalvalue <= 250)
 		return FALSE
 	return TRUE
+
+/datum/vision_quest/thick_waters
+	name = "The Great Dark"
+	description = "Endless waters as far as the eye can see."
+	required_tier = 2
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "unknown"
+	summary = "Do not dive too deep."
+	vision_text = "Murky, darkened waters stretches out around my form. \
+	I peer downwards, it is as if I do not exist beneath the surface. \
+	But it feels wrong to gaze upon anything but my own reflection, bare as the day I was born. \
+	Hands touch, beneath and above, as if beckoning me closer. \
+	The dark waters swallow me eagerly, the chill of being submerged swelling to an oddly comforting sensation. \
+	Long nights by the hearth fire feel more akin to sin now, as if I were denying myself his true embrace. \
+	Why hadn't you? Why not dive into the depths. You can't see anything in the abyss ahead. \
+	There wasn't ever much light to begin with, but it's as if the gray darkens still. \
+	Yet the liquid swells thicker, like molasses. Until it yields no more. \
+	It's not until you swim that you drag yourself deeper, clawing, even. \
+	Have you truly gone that deep? It's hard to tell if the waters have shifted, you aren't even certain they are darkening still. \
+	A glint in the darkness starts to pierce monotony. \
+	More. Sparkles like lights in the sky, only shining from below this time. \
+	Like a crystalline dream the sharp jagged structures unfold. \
+	Their grandure becomes ever thus, clearer. As you sink betwixt them. \
+	In these tempered starss the hazy figures become clear. It's.. You. \
+	Twisted into various shapes. But ever disappointing. \
+	Just shy of fending off that spider's bite. \
+	Leaving a single dent in an otherwise finely polished dorpel. \
+	The ever disapproving gaze of your mother behind that one slice of cake you couldn't fit. \
+	Why is it only now you are seeking Him truly? Why hath you forsaken the Deepfather so."
+	possible_phrases = list(
+		"introspection will save you",
+		"look within, not outside",
+		"perfection is a devil"
+	)
