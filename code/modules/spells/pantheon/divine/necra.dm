@@ -32,7 +32,7 @@
 
 	// add the no-death trait to them....
 	var/datum/pronouns/pronoun = user.get_pronoun()
-	user.visible_message(span_notice("Whispering motes gently bead from [user]'s fingers as [pronoun.p_they()] place a hand near [living_target], scriptures of the Undermaiden spilling from [prnoun.p_their()] lips..."), span_notice("I stand beside [living_target] and utter the hallowed words of Aeon's Intercession, staying Her grasp for just a little while longer..."))
+	user.visible_message(span_notice("Whispering motes gently bead from [user]'s fingers as [pronoun.p_they()] place a hand near [living_target], scriptures of the Undermaiden spilling from [pronoun.p_their()] lips..."), span_notice("I stand beside [living_target] and utter the hallowed words of Aeon's Intercession, staying Her grasp for just a little while longer..."))
 	to_chat(user, span_small("I must remain still and at [living_target]'s side..."))
 	to_chat(living_target, span_warning("An odd sensation blossoms in my chest, cold and unknown..."))
 
