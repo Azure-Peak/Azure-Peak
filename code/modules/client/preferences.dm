@@ -73,7 +73,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/slot_randomized					//keeps track of round-to-round randomization of the character slot, prevents overwriting
 	var/real_name						//our character's name
 	var/gender = MALE					//gender of character (well duh) (LETHALSTONE EDIT: this no longer references anything but whether the masculine or feminine model is used)
-	var/pronouns = HE_HIM				// LETHALSTONE EDIT: character's pronouns (well duh)
+	var/list/pronouns = list(/datum/pronouns/they_them) //list of pronoun datums that will be used for the character, stored as paths
 	var/titles_pref = TITLES_M
 	var/clothes_pref = CLOTHES_M
 	var/voice_pack = "Default"
@@ -465,10 +465,24 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<BR>"
 			dat += "<b>Nickname:</b> "
 			dat += "<a href='?_src_=prefs;preference=nickname;task=input'>[nickname]</a><BR>"
-			// LETHALSTONE EDIT BEGIN: add pronoun prefs
-			dat += "<b>Pronouns:</b> <a href='?_src_=prefs;preference=pronouns;task=input'>[pronouns]</a> <b>Titles:</b> <a href='?_src_=prefs;preference=titles;task=input'>[titles_pref]</a><BR>"
+
+			dat += "<b>Pronouns:</b>"
+			if(pronouns.len)
+				for(var/i in 1 to length(pronouns))
+					var/path = pronouns[i]
+					if(!path)
+						continue
+					var/datum/pronouns/pronoun = GLOB.pronouns[path]
+					if(!pronoun || !istype(pronoun))
+						continue
+					dat += "<a href='?_src_=prefs;preference=pronouns;task=remove;index=[pronoun.name]'>[pronoun]</a>"
+					if(i < length(pronouns))
+						dat += " |"
+				dat += "<BR>"
+			if(pronouns.len < length(GLOB.pronouns))
+				dat += "<a href='?_src_=prefs;preference=pronouns;task=input'>Add Pronouns</a><BR>"
+			dat += "<b>Titles:</b> <a href='?_src_=prefs;preference=titles;task=input'>[titles_pref]</a><BR>"
 			dat += "<b>Clothing:</b><a href='?_src_=prefs;preference=clothespref;task=input'>[clothes_pref]</a><BR>"
-			// LETHALSTONE EDIT END
 			if(!voice_pack)
 				voice_pack = "Default"
 			// LETHALSTONE EDIT BEGIN: add voice type prefs
@@ -1525,6 +1539,37 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			var/tooltip = href_list["tooltip"]
 			to_chat(user, span_notice(virtuetwo.choice_tooltips[tooltip]))
 
+	else if(href_list["preference"] == "pronouns")
+		var/task = href_list["task"]
+		if(task == "input")
+			if(pronouns.len >= length(GLOB.pronouns))
+				to_chat(user, "I already have every pronoun. I cannot get any more powerful.") // this should NEVER show up unless someone stacks tgui windows
+				return
+
+			var/list/pronouns_list = GLOB.pronouns_list.Copy()
+
+			for(var/path in pronouns)
+				for(var/key in pronouns_list)
+					if(pronouns_list[key] == path)
+						pronouns_list.Remove(key)
+						break
+
+			var/result = tgui_input_list(user, "How do others refer to you? (You can have as many pronoun sets as you want)", "PRONOUNS", pronouns_list)
+			if(result)
+				result = pronouns_list[result]
+				pronouns.Add(result)
+
+		else if(task == "remove")
+			var/index = href_list["index"]
+			if(index)
+				pronouns.Remove(GLOB.pronouns_list[index])
+
+			if(!pronouns.len)
+				pronouns.Add(/datum/pronouns/they_them)
+				to_chat(user, span_info("No pronouns selected. They/them has been automatically selected."))
+
+		ShowChoices(user)
+
 	else if(href_list["preference"] == "charflaw")
 		var/task = href_list["task"]
 		if(task == "input")
@@ -1839,14 +1884,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						if (!istype(statpack, /datum/statpack/wildcard/virtuous) && virtue.type != /datum/virtue/none)
 							virtue = new /datum/virtue/none
 							to_chat(user, span_info("Your virtue has been removed due to taking a stat-altering statpack.")) */
-				// LETHALSTONE EDIT: add pronouns
-				if ("pronouns")
-					var pronouns_input = tgui_input_list(user, "Choose your character's pronouns", "PRONOUNS", GLOB.pronouns_list)
-					if(pronouns_input)
-						pronouns = pronouns_input
-						ResetJobs()
-						to_chat(user, "<font color='red'>Your character's pronouns are now [pronouns].</font>")
-						to_chat(user, "<font color='red'><b>Your classes have been reset.</b></font>")
 
 				if ("titles")
 					if(titles_pref == TITLES_M)

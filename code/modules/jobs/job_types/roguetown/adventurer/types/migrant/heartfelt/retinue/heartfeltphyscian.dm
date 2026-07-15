@@ -53,7 +53,7 @@
 		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/bedroll = 1,
 	)
-	if(H.pronouns == SHE_HER)
+	if(H.get_first_pronoun() == SHE_HER)
 		head = /obj/item/clothing/head/roguetown/courtphysician/female
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female
 		shirt = /obj/item/clothing/suit/roguetown/shirt/courtphysician/female

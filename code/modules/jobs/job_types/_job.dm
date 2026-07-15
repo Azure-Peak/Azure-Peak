@@ -528,13 +528,13 @@
 // LETHALSTONE EDIT: Helper functions for pronoun-based clothing selection
 /proc/should_wear_masc_clothes(mob/living/carbon/human/H)
 	if(!H.mind)
-		return (H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == IT_ITS)
+		return (!H.pronouns || !length(H.pronouns) || H.pronouns[1] == HE_HIM || H.pronouns[1] == THEY_THEM || H.pronouns[1] == IT_ITS)
 	else 
 		return (H.clothes_pref == CLOTHES_M)
 
 /proc/should_wear_femme_clothes(mob/living/carbon/human/H)
 	if(!H.mind)
-		return (H.pronouns == SHE_HER)
+		return (H.get_first_pronoun() == SHE_HER)
 	else
 		return (H.clothes_pref == CLOTHES_F)
 // LETHALSTONE EDIT END

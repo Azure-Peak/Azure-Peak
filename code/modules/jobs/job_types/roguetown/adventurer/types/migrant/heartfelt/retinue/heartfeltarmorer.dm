@@ -61,7 +61,7 @@
 						/obj/item/rogueweapon/scabbard/sheath = 1,
 						)
 
-	if(H.pronouns == HE_HIM)
+	if(H.get_first_pronoun() == HE_HIM)
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 		shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt
 	else

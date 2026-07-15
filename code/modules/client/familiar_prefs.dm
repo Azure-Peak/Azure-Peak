@@ -24,11 +24,11 @@
 		"void" = /mob/living/simple_animal/pet/familiar/void
 	)
 	familiar_flavortexts = alist()
-	familiar_pronouns = alist(
-		"fae" = THEY_THEM,
-		"infernal" = THEY_THEM,
-		"elemental" = THEY_THEM,
-		"void" = THEY_THEM
+	familiar_pronouns = alist( // AAAAAAAA
+		"fae" = list(THEY_THEM),
+		"infernal" = list(THEY_THEM),
+		"elemental" = list(THEY_THEM),
+		"void" = list(THEY_THEM)
 	)
 	familiar_flavortext = list()
 	familiar_flavortext_display = list()
@@ -44,13 +44,14 @@
 		return
 	if(!familiar_names) // this is an old prefs object; re-instantiate it so the new fields aren't null
 		src.New(prefs)
-	var/list/dat = list()
-	var/list/pronoun_display = list(
-		HE_HIM = "he/him",
-		SHE_HER = "she/her",
-		THEY_THEM = "they/them",
-		IT_ITS = "it/its"
+	if(!islist(familiar_pronouns["fae"])) // this is a prefs object from before the pronoun overhaul of july 2026, so it needs to be reset
+		familiar_pronouns = alist(
+		"fae" = list(THEY_THEM),
+		"infernal" = list(THEY_THEM),
+		"elemental" = list(THEY_THEM),
+		"void" = list(THEY_THEM)
 	)
+	var/list/dat = list()
 
 	dat += "<i>You can set preferences for all four familar types here: which set is used depends on which type of summons you respond to. Setting prefs for some types and not others will prevent you from being summoned as the types you did not set prefs for.<br>Subtypes of each of the four familiar categories are aesthetic only; there is no functional difference.</i>"
 	var/list/pretty_plane_names = list(
@@ -63,8 +64,21 @@
 		var/list/planar_list = GLOB.planar_lists[planar_origin]
 		dat += "<br><div align='center'><font size=4 color='#bbbbbb'>[pretty_plane_names[planar_origin]] Preferences</font></div>"
 		dat += "<br><b>Familiar Name:</b> <a href='?_src_=familiar_prefs;preference=familiar_names;task=input;planar_origin=[planar_origin]'>[(src.familiar_names[planar_origin] ? src.familiar_names[planar_origin] : "")] (Set name)</a>"
-		var/selected_pronoun = (src.familiar_pronouns[planar_origin] ? (pronoun_display[src.familiar_pronouns[planar_origin]] ? pronoun_display[src.familiar_pronouns[planar_origin]] : "they/them") : "they/them")
-		dat += "<br><b>Pronouns:</b> <a href='?_src_=familiar_prefs;preference=familiar_pronouns;task=select;planar_origin=[planar_origin]'>[selected_pronoun]</a>"
+		dat += "<b>Pronouns:</b>"
+		if(familiar_pronouns[planar_origin].len)
+			for(var/i in 1 to length(familiar_pronouns[planar_origin]))
+				var/path = familiar_pronouns[planar_origin][i]
+				if(!path)
+					continue
+				var/datum/pronouns/pronoun = GLOB.pronouns[path]
+				if(!pronoun || !istype(pronoun))
+					continue
+				dat += "<a href='?_src_=familiar_prefs;preference=familiar_pronouns;task=remove;index=[pronoun.name];planar_origin=[planar_origin]'>[pronoun]</a>"
+				if(i < length(familiar_pronouns[planar_origin]))
+					dat += " |"
+			dat += "<BR>"
+		if(familiar_pronouns[planar_origin].len < length(GLOB.pronouns))
+			dat += "<a href='?_src_=familiar_prefs;preference=familiar_pronouns;task=input'>Add Pronouns</a><BR>"
 
 		var/display_name = "None selected"
 		// void drakelings only have one type, so displaying this selection would be moot
@@ -108,16 +122,35 @@
 				familiar_names[planar_origin] = null
 				to_chat(user, "<span class='notice'>Familiar name reset.</span>")
 		if ("familiar_pronouns")
-			var/list/pronoun_options = list(
-				"he/him" = HE_HIM,
-				"she/her" = SHE_HER,
-				"they/them" = THEY_THEM,
-				"it/its" = IT_ITS
-			)
-			var/choice = input(user, "Select your familiar's pronouns:", "Pronouns") as null|anything in pronoun_options
-			if(choice)
-				familiar_pronouns[planar_origin] = pronoun_options[choice]
-				to_chat(user, "<span class='notice'>Familiar pronouns set to [choice].</span>")
+			var/task = href_list["task"]
+			if(task == "input")
+				if(familiar_pronouns[planar_origin].len >= length(GLOB.pronouns))
+					to_chat(user, "I already have every pronoun. I cannot get any more powerful.") // this should NEVER show up unless someone stacks tgui windows
+					return
+
+				var/list/pronouns_list = GLOB.pronouns_list.Copy()
+
+				for(var/path in familiar_pronouns[planar_origin])
+					for(var/key in pronouns_list)
+						if(pronouns_list[key] == path)
+							pronouns_list.Remove(key)
+							break
+
+				var/result = tgui_input_list(user, "How do others refer to you? (You can have as many pronoun sets as you want)", "PRONOUNS", pronouns_list)
+				if(result)
+					result = pronouns_list[result]
+					familiar_pronouns[planar_origin].Add(result)
+
+			else if(task == "remove")
+				var/index = text2num(href_list["index"])
+				if(index)
+					familiar_pronouns[planar_origin].Remove(GLOB.pronouns_list[index])
+
+				if(!familiar_pronouns[planar_origin].len)
+					familiar_pronouns[planar_origin].Add(/datum/pronouns/they_them)
+					to_chat(user, span_info("No pronouns selected. They/them has been automatically selected."))
+
+			setup_examine_window(user,planar_origin)
 
 		if ("familiar_species")
 			var/list/all_types = GLOB.planar_lists[planar_origin]

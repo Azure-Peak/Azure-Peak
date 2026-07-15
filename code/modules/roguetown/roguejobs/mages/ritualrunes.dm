@@ -512,18 +512,8 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 			var/mob/living/simple_animal/pet/familiar/fam = new to_summon(loc)
 			fam.familiar_summoner = user
 			fam.fully_replace_character_name(null, prefs.familiar_names[plane])
-			fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM
-			switch(prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM) // why is our gender handling so bad for simples
-				if(SHE_HER)
-					fam.gender=FEMALE
-				if(HE_HIM)
-					fam.gender=MALE
-				if(THEY_THEM)
-					fam.gender=PLURAL
-				if(IT_ITS)
-					fam.gender=NEUTER
-				else
-					fam.gender=NEUTER
+			fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : list(THEY_THEM)
+			fam.gender = fam.get_first_pronoun().assoc_gender
 			// needs 2 be done here because we trans the gender mid-ritual
 			if(fam.gender == MALE)
 				fam.voice_pack = GLOB.voice_packs[/datum/voicepack/male]

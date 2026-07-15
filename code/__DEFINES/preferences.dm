@@ -131,13 +131,11 @@
 #define MIN_VOICE_PITCH		0.8
 #define MAX_VOICE_PITCH		1.35
 
-// Pronouns (LETHALSTONE)
-#define HE_HIM			"he/him"
-#define SHE_HER			"she/her"
-#define THEY_THEM		"they/them"
-#define IT_ITS			"it/its"
-
-GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS))
+// Pronouns (datum paths)
+#define HE_HIM			/datum/pronouns/he_him
+#define SHE_HER			/datum/pronouns/she_her
+#define THEY_THEM		/datum/pronouns/they_them
+#define IT_ITS			/datum/pronouns/it_its
 
 #define TITLES_M	"Lord / Ser"
 #define TITLES_F	"Lady / Dame"

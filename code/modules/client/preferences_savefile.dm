@@ -770,10 +770,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	backpack		= sanitize_inlist(backpack, GLOB.backpacklist, initial(backpack))
 	jumpsuit_style	= sanitize_inlist(jumpsuit_style, GLOB.jumpsuitlist, initial(jumpsuit_style))
 	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list, initial(uplink_spawn_loc))
-	if(pronouns in GLOB.pronouns_list)	//In case we have an invalid one after pronoun changes. - Feb. 2026
-		pronouns = sanitize_text(pronouns, THEY_THEM)
-	else
-		pronouns = THEY_THEM
+	if(!islist(pronouns))	//In case we have an invalid one after pronoun changes. - Jul. 2026
+		pronouns = list(THEY_THEM)
 	titles_pref = sanitize_text(titles_pref, TITLES_M)
 	clothes_pref = sanitize_text(clothes_pref, CLOTHES_M)
 	voice_type = sanitize_text(voice_type, VOICE_TYPE_MASC)

@@ -193,23 +193,11 @@
 		him_replace = "her"
 	// LETHALSTONE EDIT: pronoun support
 	if (described.pronouns)
-		switch (described.pronouns)
-			if (HE_HIM)
-				they_replace = "he"
-				man_replace = "man"
-				him_replace = "him"
-			if (SHE_HER)
-				they_replace = "she"
-				man_replace = "woman"
-				him_replace = "her"
-			if (THEY_THEM)
-				they_replace = "they"
-				man_replace = "person"
-				him_replace = "them"
-			if (IT_ITS)
-				they_replace = "it"
-				man_replace = "creacher"
-				him_replace = "it"
+		var/datum/pronouns/used_pronoun = described.get_pronoun()
+		if(used_pronoun)
+			they_replace = used_pronoun.c_they
+			man_replace = used_pronoun.c_noun
+			him_replace = used_pronoun.c_them
 
 	// LETHALSTONE EDIT END
 	string = replacetext(string, "%THEY%", they_replace)

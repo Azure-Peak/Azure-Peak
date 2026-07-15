@@ -1,5 +1,92 @@
 //pronoun procs, for getting pronouns without using the text macros that only work in certain positions
 //datums don't have gender, but most of their subtypes do!
+
+// pronouns datums: each is its own pronounset. mobs can have multiple of these, and they'll be used alternately!
+/datum/pronouns
+	var/name = "base pronoun definition"
+	var/c_they
+	var/c_their
+	var/c_them
+	var/c_themselves
+	var/c_have
+	var/c_are
+	var/c_were
+	var/c_do // the only reason these have the c_ prefix is that 'do' is a keyword
+	var/c_theyve
+	var/c_theyre
+	var/c_s
+	var/c_es
+	var/c_noun // for... mob descriptors?
+	var/assoc_gender // used for simplemob stuff mostly
+
+/datum/pronouns/it_its
+	name = "it/its"
+	c_they = "it"
+	c_their = "its"
+	c_them = "it"
+	c_themselves = "itself"
+	c_have = "has"
+	c_are = "is"
+	c_were = "was"
+	c_do = "does"
+	c_theyve = "it's"
+	c_theyre = "it's"
+	c_s = "s"
+	c_es = "es"
+	c_noun = "creacher"
+	assoc_gender = NEUTER
+
+/datum/pronouns/she_her
+	name = "she/her"
+	c_they = "she"
+	c_their = "her"
+	c_them = "her"
+	c_themselves = "herself"
+	c_have = "has"
+	c_are = "is"
+	c_were = "was"
+	c_do = "does"
+	c_theyve = "she's"
+	c_theyre = "she's"
+	c_s = "s"
+	c_es = "es"
+	c_noun = "woman"
+	assoc_gender = FEMALE
+
+/datum/pronouns/they_them
+	name = "they/them"
+	c_they = "they"
+	c_their = "their"
+	c_them = "them"
+	c_themselves = "themselves"
+	c_have = "have"
+	c_are = "are"
+	c_were = "were"
+	c_do = "do"
+	c_theyve = "they've"
+	c_theyre = "they're"
+	c_s = ""
+	c_es = ""
+	c_noun = "person"
+	assoc_gender = PLURAL
+
+/datum/pronouns/he_him
+	name = "he/him"
+	c_they = "he"
+	c_their = "his"
+	c_them = "him"
+	c_themselves = "himself"
+	c_have = "has"
+	c_are = "is"
+	c_were = "was"
+	c_do = "does"
+	c_theyve = "he's"
+	c_theyre = "he's"
+	c_s = "s"
+	c_es = "es"
+	c_noun = "man"
+	assoc_gender = MALE
+
 /datum/proc/p_they(capitalized, temp_gender)
 	. = "it"
 	if(capitalized)
@@ -139,18 +226,13 @@
 				. = capitalize(.)
 			return
 
-	// LETHALSTONE EDIT: if our mob has pronouns, use those instead
-	if (pronouns) 
-		switch (pronouns)
-			if (HE_HIM)
-				. = "he"
-			if (SHE_HER)
-				. = "she"
-			if (THEY_THEM)
-				. = "they"
-			if (IT_ITS)
-				. = "it"
-	// LETHALSTONE EDIT END
+	// mobs can have multiple pronouns now, because of woke. for calls using the old method
+	// (usually because we don't know the object in question is a mob), we use the first pronoun selected as a fallback
+	// as it's usually the one the player feels most strongly about
+	if (pronouns && length(pronouns))
+		var/datum/pronouns/used_pronoun = pronouns[1]
+		. = used_pronoun.c_they
+
 	if(capitalized)
 		. = capitalize(.)
 
@@ -169,18 +251,10 @@
 				. = capitalize(.)
 			return
 
-	// LETHALSTONE EDIT: if our mob has pronouns, use those instead
-	if (pronouns) 
-		switch (pronouns)
-			if (HE_HIM)
-				. = "his"
-			if (SHE_HER)
-				. = "her"
-			if (THEY_THEM)
-				. = "their"
-			if (IT_ITS)
-				. = "its"
-	// LETHALSTONE EDIT END
+	if (pronouns && length(pronouns))
+		var/datum/pronouns/used_pronoun = pronouns[1]
+		. = used_pronoun.c_their
+
 	if(capitalized)
 		. = capitalize(.)
 
@@ -198,18 +272,11 @@
 			if (capitalized)
 				. = capitalize(.)
 			return
-	// LETHALSTONE EDIT: if our mob has pronouns, use those instead
-	if (pronouns) 
-		switch (pronouns)
-			if (HE_HIM)
-				. = "him"
-			if (SHE_HER)
-				. = "her"
-			if (THEY_THEM)
-				. = "them"
-			if (IT_ITS)
-				. = "it"
-	// LETHALSTONE EDIT END
+	
+	if (pronouns && length(pronouns))
+		var/datum/pronouns/used_pronoun = pronouns[1]
+		. = used_pronoun.c_them
+
 	if(capitalized)
 		. = capitalize(.)
 
@@ -227,18 +294,11 @@
 			if (capitalized)
 				. = capitalize(.)
 			return
-	// LETHALSTONE EDIT: if our mob has pronouns, use those instead
-	if (pronouns) 
-		switch (pronouns)
-			if (HE_HIM)
-				. = "himself"
-			if (SHE_HER)
-				. = "herself"
-			if (THEY_THEM)
-				. = "themselves"
-			if (IT_ITS)
-				. = "itself"
-	// LETHALSTONE EDIT END
+	
+	if (pronouns && length(pronouns))
+		var/datum/pronouns/used_pronoun = pronouns[1]
+		. = used_pronoun.c_themselves
+	
 	if(capitalized)
 		. = capitalize(.)
 
@@ -249,11 +309,10 @@
 	if(temp_gender == PLURAL)
 		. = "have"
 		return
-	// LETHALSTONE EDIT: use pronouns where possible
-	if (pronouns)
-		if (pronouns == THEY_THEM)
-			. = "have"
-	// LETHALSTONE EDIT END
+
+	if (pronouns && length(pronouns))
+		var/datum/pronouns/used_pronoun = pronouns[1]
+		. = used_pronoun.c_have
 
 /mob/p_are(temp_gender)
 	if(!temp_gender)
@@ -262,11 +321,10 @@
 	if(temp_gender == PLURAL)
 		. = "are"
 		return
-	// LETHALSTONE EDIT: use pronouns where possible
-	if (pronouns)
-		if (pronouns == THEY_THEM)
-			. = "are"
-	// LETHALSTONE EDIT END
+	
+	if (pronouns && length(pronouns))
+		var/datum/pronouns/used_pronoun = pronouns[1]
+		. = used_pronoun.c_are
 
 /mob/p_were(temp_gender)
 	if(!temp_gender)
@@ -275,11 +333,10 @@
 	if(temp_gender == PLURAL)
 		. = "were"
 		return
-	// LETHALSTONE EDIT: use pronouns where possible
-	if (pronouns)
-		if (pronouns == THEY_THEM)
-			. = "were"
-	// LETHALSTONE EDIT END
+	
+	if (pronouns && length(pronouns))
+		var/datum/pronouns/used_pronoun = pronouns[1]
+		. = used_pronoun.c_were
 
 /mob/p_do(temp_gender)
 	if(!temp_gender)
@@ -288,29 +345,29 @@
 	if(temp_gender == PLURAL)
 		. = "do"
 		return
-	// LETHALSTONE EDIT: use pronouns where possible
-	if (pronouns)
-		if (pronouns == THEY_THEM)
-			. = "do"
-	// LETHALSTONE EDIT END
+	
+	if (pronouns && length(pronouns))
+		var/datum/pronouns/used_pronoun = pronouns[1]
+		. = used_pronoun.c_do
 
 /mob/p_s(temp_gender)
 	if(!temp_gender)
 		temp_gender = gender
 	if(temp_gender != PLURAL)
-		if(!pronouns || pronouns != THEY_THEM)
+		if(!pronouns || !length(pronouns))
 			. = "s"
+		else
+			var/datum/pronouns/used_pronoun = pronouns[1]
+			. = used_pronoun.c_s
 
 /mob/p_es(temp_gender)
 	if(!temp_gender)
 		temp_gender = gender
 	if(temp_gender != PLURAL)
 		. = "es"
-	// LETHALSTONE EDIT: use pronouns where possible
-	if (pronouns)
-		if (pronouns != THEY_THEM)
-			. = "es"
-	// LETHALSTONE EDIT END
+		if (pronouns && length(pronouns))
+			var/datum/pronouns/used_pronoun = pronouns[1]
+			. = used_pronoun.c_es
 
 //humans need special handling, because they can have their gender hidden
 /mob/living/carbon/human/p_they(capitalized, temp_gender)
@@ -375,3 +432,16 @@
 	if((SLOT_PANTS in obscured) && skipface)
 		temp_gender = PLURAL
 	return ..()
+
+// used often to get the 'canonical' pronoun for a mob e.g. as a fallback for job outfit detection. this returns a path!
+/mob/proc/get_first_pronoun()
+	if(!pronouns || !length(pronouns))
+		return
+	return pronouns[1]
+
+// used to refer to mobs 'properly', in place of the old p_(something) procs. call this once per 'message' to allow pronouns to alternate properly
+// this returns a datum instance!
+/mob/proc/get_pronoun()
+	if(!pronouns || !length(pronouns))
+		return
+	return GLOB.pronouns[pick(pronouns)]

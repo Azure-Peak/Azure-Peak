@@ -191,13 +191,16 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		known_people[H.real_name]["FJOB"] = used_title
 		known_people[H.real_name]["FSPECIES"] = H.dna.species.name
 		var/referred_gender
-		switch(H.pronouns)
-			if(HE_HIM)
-				referred_gender = "Male"
-			if(SHE_HER)
-				referred_gender = "Female"
-			else
-				referred_gender = "Androgynous"
+		if(!H.pronouns || !length(H.pronouns))
+			referred_gender = "Androgynous"
+		else
+			switch(H.pronouns[1])
+				if(HE_HIM)
+					referred_gender = "Male"
+				if(SHE_HER)
+					referred_gender = "Female"
+				else
+					referred_gender = "Androgynous"
 		known_people[H.real_name]["FGENDER"] = referred_gender
 		if(H.dna && H.dna.species)
 			known_people[H.real_name]["FSPECIES"] = H.dna.species.name
@@ -229,13 +232,16 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 					used_title = "unknown"
 				M.known_people[H.real_name]["FJOB"] = used_title
 				var/referred_gender
-				switch(H.pronouns)
-					if(HE_HIM)
-						referred_gender = "Male"
-					if(SHE_HER)
-						referred_gender = "Female"
-					else
-						referred_gender = "Androgynous"
+				if(!H.pronouns || !length(H.pronouns))
+					referred_gender = "Androgynous"
+				else
+					switch(H.pronouns[1])
+						if(HE_HIM)
+							referred_gender = "Male"
+						if(SHE_HER)
+							referred_gender = "Female"
+						else
+							referred_gender = "Androgynous"
 				M.known_people[H.real_name]["FGENDER"] = referred_gender
 				M.known_people[H.real_name]["FAGE"] = H.age
 				if(ishuman(M.current))

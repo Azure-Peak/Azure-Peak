@@ -293,7 +293,7 @@
 
 	var/p_input = input(user, "Choose your character's pronouns", "Pronouns") as null|anything in GLOB.pronouns_list
 	if(p_input)
-		user.pronouns = p_input
+		user.pronouns = list(GLOB.pronouns_list[p_input])
 	if(alert("Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")
 		user.gender = "male" ? "female" : "male"
 

@@ -42,7 +42,7 @@
 
 /datum/outfit/job/roguetown/adventurer/fisher/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(H.pronouns == HE_HIM || H.pronouns == THEY_THEM)
+	if(H.get_first_pronoun() == HE_HIM || H.get_first_pronoun() == THEY_THEM)
 		pants = /obj/item/clothing/under/roguetown/tights/random
 		shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt/random
 		shoes = /obj/item/clothing/shoes/roguetown/boots/leather

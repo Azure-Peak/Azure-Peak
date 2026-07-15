@@ -492,7 +492,7 @@
 		return TRUE
 	else
 		user.visible_message(
-			span_warning("[user] consumes [target]... but [user.p_they()] [(user.pronouns == THEY_THEM) ? "don't" : "doesn't"] seem even slightly sated!"),
+			span_warning("[user] consumes [target]... but [user.p_they()] [(user.get_first_pronoun() == THEY_THEM) ? "don't" : "doesn't"] seem even slightly sated!"),
 			span_warning("I consume [target]'s essence, but I have already tasted of it! This will not nourish me anymore, I must find something new to devour.")
 		)
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))

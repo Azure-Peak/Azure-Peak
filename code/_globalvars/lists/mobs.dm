@@ -35,6 +35,9 @@ GLOBAL_LIST_EMPTY(familiar_queue)			//all the registered familiars's clients, re
 GLOBAL_LIST_EMPTY(language_datum_instances)
 GLOBAL_LIST_EMPTY(all_languages)
 
+GLOBAL_LIST_EMPTY(pronouns) // path = datum instance
+GLOBAL_LIST_EMPTY(pronouns_list) // pretty name = datum path, for input mostly
+
 GLOBAL_LIST_EMPTY(sentient_disease_instances)
 
 GLOBAL_LIST_EMPTY(latejoin_ai_cores)
