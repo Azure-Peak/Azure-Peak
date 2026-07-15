@@ -617,7 +617,6 @@
 		to_chat(user, span_warning("[H] is irreversibly gone... There's nothing we can do to bring them back anymore!"))
 		user.emote("cry")
 		revert_cast()
-		return FALSE	
 
 	if(HAS_TRAIT(H, TRAIT_UNFORGIVABLE)) //ANCIENT ENEMY, I DO NOT FEAR YOU.
 		H.visible_message(span_info("[H] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be corrupted and rebuked back at its caster!"))
@@ -632,7 +631,7 @@
 		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
 			user.freak_out()
 		to_chat(user, span_userdanger("I recoil as I'm violently SMITED by profane flame as I attempt to purify their lux by the merging of-.. wait, where's THEIR LUX?!"))
-		return FALSE
+		return
 
 	if(H.stat == DEAD || HAS_TRAIT(H, TRAIT_DEADITE))
 		to_chat(user, span_warning("[H]'s Lux is extinguished... What can I do?!"))
