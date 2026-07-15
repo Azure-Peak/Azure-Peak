@@ -209,3 +209,47 @@
 		"look within, not outside",
 		"perfection is a devil"
 	)
+
+/datum/vision_quest/great_spire
+	name = "The Great Spire"
+	description = "It reaches for the skies."
+	required_tier = 2
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "unknown"
+	summary = "We would all benefit from a slice of His realm."
+	vision_text = "A tiny seed, Dendorites wish their were as magnificent. \
+	It breaches the soil, though not by spreading its roots, but by singing like The Siren. \
+	Forth comes the waters from all the seas, lapping at reality's doorstep. \
+	Staring upon unreflective waters with such longing. \
+	Just as aggressively as it pierced the realms, does the growth cease. \
+	Yet as long years drag on, so does the very core of the spire swell. \
+	Crystal branches like coral. \
+	Murky reeds grow across barren rock as if grasping upon a fertile garden. \
+	Given time, even the stranger structures of one realm leak into another. \
+	Little shimmering stars. Far closer than anything Noc has divised. Trailing with tendrils. \
+	Budding, floating as they extend into jellies, treating the very air like it's underwater. \
+	Black ice extends into the space into massive, solid pillars. \
+	Mirrored in the structure are glimpses of the essence of the dream. \
+	Melting walls, great plains of jagged flowers and darting shards. \
+	Decades blur into centuries, yet the spire's slow growth never stops. \
+	Inch by inch, black ice and calcified coral gnaw away at the world \
+	Cave-dwelling beasts crawl toward the spire, their scales softening to translucent, gelled hides \
+	A minotaur loses their horns, iridescent spikes fill empty sockets. \
+	Stalagmites extend into spiraling structures, the very rock growing salty and porous. \
+	Centuries pass as the cavern slowly bleeds into an overturned seabed. \
+	Were it man or the Deepfather himself that planted such a seed? \
+	The remains a beautiful diorama, we have erected a great cathedral there, singing the hymns of the abyss."
+	possible_phrases = list(
+		"nurture the seed",
+		"wait for greatness",
+		"the time is not yet right"
+	)
