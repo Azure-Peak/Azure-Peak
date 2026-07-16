@@ -107,8 +107,6 @@
 		if("Strict (Naledi Complex)")
 			ADD_TRAIT(H, TRAIT_NALEDI, TRAIT_GENERIC)
 			mask_type = /obj/item/clothing/mask/rogue/lordmask/naledi/lesser
-			H.apply_status_effect(/datum/status_effect/debuff/lost_naledi_mask)
-			H.add_stress(/datum/stressevent/naledimasklost)
 		else
 			mask_type = /obj/item/clothing/mask/rogue/lordmask/tarnished
 	H.mind.special_items["Naledian Mask"] = mask_type

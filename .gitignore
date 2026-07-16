@@ -199,6 +199,7 @@ Temporary Items
 #Visual studio stuff
 *.vscode/*
 !/.vscode/extensions.json
+!/.vscode/settings.json
 !/.vscode/tasks.json
 !/.vscode/launch.json
 tools/MapAtmosFixer/MapAtmosFixer/obj/*
@@ -240,3 +241,6 @@ tools/MapAtmosFixer/MapAtmosFixer/bin/*
 !/config/title_screens/images/exclude
 
 *.test.dme
+
+# JavaScript tools
+**/node_modules

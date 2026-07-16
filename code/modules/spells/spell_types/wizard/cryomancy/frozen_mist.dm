@@ -22,6 +22,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_HEAVY
 	hold_drain = 1
@@ -37,6 +38,11 @@
 	var/mist_duration = 10 SECONDS
 	var/tick_damage = 9
 	var/mist_radius = 2 // 5x5
+
+/datum/action/cooldown/spell/frozen_mist/get_spell_statistics(mob/living/user)
+	var/list/stats = ..()
+	stats += span_info("Damage: 5-[tick_damage] burn per second (up to [DisplayTimeText(mist_duration)] in the cloud)")
+	return stats
 
 /datum/action/cooldown/spell/frozen_mist/cast(atom/cast_on)
 	. = ..()

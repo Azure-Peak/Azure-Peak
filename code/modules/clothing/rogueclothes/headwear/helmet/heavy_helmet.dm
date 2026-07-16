@@ -1610,7 +1610,7 @@
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
 
-/obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
+/obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron/classic
 	name = "iron bucket helmet"
 	desc = "An iron greathelmet that offers excellent protection to the head, while also ensuring total coverage to its most vulnerable spots. It \
 	resembles an overturned bucket when worn - ergo, 'bucket helmet'. Owing to its simple-yet-robust design, the bucket helmet's venerability \

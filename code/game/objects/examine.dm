@@ -62,7 +62,7 @@
 
 	// The price traits gate ONLY the mammon value - category and quality are always shown.
 	var/value_line = "Value: Unknown"
-	if(HAS_TRAIT(user, TRAIT_SEEPRICES) || simpleton_price)
+	if(HAS_TRAIT(user, TRAIT_SEEPRICES) || simpleton_price || isobserver(user))
 		var/appraised_value = appraise_price()
 		if(appraised_value > 0)
 			value_line = "Value: [appraised_value] mammon"

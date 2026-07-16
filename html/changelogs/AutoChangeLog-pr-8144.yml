@@ -1,0 +1,4 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - balance: "Tanning Hides now provides 1 + SKILL (TANNING) Cured Leathers."

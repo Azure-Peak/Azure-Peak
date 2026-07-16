@@ -142,7 +142,6 @@
 #define BB_THROW_WINDUP_UNTIL   "throw_windup_until"   // world.time the drawn throwable may be loosed (NPC holds it visibly until then)
 #define BB_TARGET_ZONE_OVERRIDE	"bb_target_override"
 #define BB_LOOT_TARGET "loot_target"
-#define BB_LOOT_TARGET_ITEM "loot_target_item"
 #define BB_LOOT_BLACKLIST "loot_blacklist"
 #define BB_LOOT_NEXT_SCAN "loot_next_scan"
 #define BB_MUG_DEMAND_ELAPSED "mug_elapsed_time"

@@ -218,65 +218,65 @@
 
 /datum/supply_pack/rogue/armor_iron/helmet_nasal
 	name = "Helmet, Nasal"
-	cost = 50 // 1 Steel
+	cost = 50 
 	contains = list(/obj/item/clothing/head/roguetown/helmet/nasal/iron)
 
 /datum/supply_pack/rogue/armor_iron/helmet_winged
 	name = "Helmet, Winged"
-	cost = 50 // 1 Steel
+	cost = 50 
 	contains = list(/obj/item/clothing/head/roguetown/helmet/winged/iron)
 
-/datum/supply_pack/rogue/armor_iron/helmet_bucket
-	name = "Helmet, Bucket"
-	cost = 90 // 2 Steel
-	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron)
+/datum/supply_pack/rogue/armor_iron/helmet_bucket_classic
+	name = "Helmet, Bucket, Sugarloafed"
+	cost = 90
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron/classic)
 
 /datum/supply_pack/rogue/armor_iron/helmet_barbute
 	name = "Helmet, Barbute"
-	cost = 50 // 1 Steel
+	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/barbute/iron)
 
 /datum/supply_pack/rogue/armor_iron/helmet_barbute_visor
 	name = "Helmet, Barbute with Visor"
-	cost = 90 // 2 Steel
+	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/iron)
 
 /datum/supply_pack/rogue/armor_iron/helmet_pigface
 	name = "Helmet, Pigface Bascinet"
-	cost = 90 // 2 Steel
+	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/iron)
 
 /datum/supply_pack/rogue/armor_iron/helmet_hounskull
 	name = "Helmet, Hounskull Bascinet"
-	cost = 90 // 2 Steel
+	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/iron)
 
 /datum/supply_pack/rogue/armor_iron/helmet_roundface
 	name = "Helmet, Roundface Bascinet"
-	cost = 90 // 2 Steel
+	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/iron)
 
 /datum/supply_pack/rogue/armor_iron/helmet_etruscan_bascinet
 	name = "Helmet, Etruscan Bascinet"
-	cost = 90 // 2 Steel
+	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/iron)
 
 /datum/supply_pack/rogue/armor_iron/helmet_armet
 	name = "Helmet, Armet"
-	cost = 90 // 2 Steel
+	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/iron)
 
 /datum/supply_pack/rogue/armor_iron/helmet_savoyard
 	name = "Helmet, Savoyard"
-	cost = 90 // 2 Steel
+	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/guard/iron)
 
 /datum/supply_pack/rogue/armor_iron/helmet_barred
 	name = "Helmet, Barred"
-	cost = 90 // 2 Steel
+	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/sheriff/iron)
 
 /datum/supply_pack/rogue/armor_iron/kettle_slitted
 	name = "Helmet, Slitted Kettle"
-	cost = 90 // 2 Steel
+	cost = 50
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle/iron)

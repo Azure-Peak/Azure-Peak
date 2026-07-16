@@ -180,6 +180,10 @@
 		var/sundering = HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && istype(weapon) && weapon?.is_silver && psyblessed?.is_blessed
 		var/crit_attempt = try_crit(sundering ? BCLASS_SUNDER : bclass, dam, user, zone_precise, silent, crit_message)
 		if(crit_attempt)
+			if(bclass == BCLASS_BURN && user && user != owner)
+				shake_camera(user, 2, 2)
+				flash_color(user, "#a83c1a", 15)
+				playsound(user, 'sound/combat/crit.ogg', 70, FALSE)
 			if(ishuman(owner))
 				var/mob/living/carbon/human/human_owner = owner
 				human_owner.hud_used?.stressies?.flick_pain(TRUE)
@@ -189,7 +193,8 @@
 				if(!suppress_attack_blip)
 					if(user)
 						user.emote("attack", forced = TRUE)
-				human_owner.emote("paincrit", forced = TRUE)
+				if(bclass != BCLASS_BURN)
+					human_owner.emote("paincrit", forced = TRUE)
 
 			if(user)
 				if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
@@ -239,6 +244,8 @@
 			woundtype = /datum/wound/dynamic/puncture
 		if(BCLASS_PICK, BCLASS_PIERCE)
 			woundtype = /datum/wound/dynamic/gouge
+		if(BCLASS_BURN)
+			woundtype = /datum/wound/dynamic/burn
 		if(BCLASS_LASHING)
 			woundtype = /datum/wound/dynamic/lashing
 		if(BCLASS_PUNISH)
@@ -273,6 +280,10 @@
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
+	if(bclass in GLOB.charring_bclasses)
+		used = round(damage_dividend * 20 + (dam / 3))
+		if(prob(used))
+			attempted_wounds += /datum/wound/charring
 	if(bclass in GLOB.dislocation_bclasses)
 		used = round(damage_dividend * 20 + (dam / 3))
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
@@ -350,6 +361,10 @@
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
+	if(bclass in GLOB.charring_bclasses)
+		used = round(damage_dividend * 20 + (dam / 3))
+		if(prob(used))
+			attempted_wounds += /datum/wound/charring/chest
 	if((bclass in GLOB.cbt_classes) && (zone_precise == BODY_ZONE_PRECISE_GROIN))
 		var/cbt_multiplier = 1
 		if(user && HAS_TRAIT(user, TRAIT_NUTCRACKER))
@@ -450,6 +465,10 @@
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
+	if(bclass in GLOB.charring_bclasses)
+		used = round(damage_dividend * 20 + (dam / 3))
+		if(prob(used))
+			attempted_wounds += /datum/wound/charring/head
 	if((bclass in GLOB.dislocation_bclasses) && (total_dam >= max_damage))
 		used = round(damage_dividend * 20 + (dam / 3))
 		if(prob(used))

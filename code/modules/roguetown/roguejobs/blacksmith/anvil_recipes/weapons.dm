@@ -531,6 +531,13 @@
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	createditem_num = 1
 
+/datum/anvil_recipe/weapons/iron/longsword
+	name = "Bastard Sword, Iron (+1 Iron, 1 Small Log)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/sword/long/iron
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+
 /datum/anvil_recipe/weapons/iron/broadsword
 	name = "Broadsword, Iron (+1 Iron, 1 Small Log)"
 	req_bar = /obj/item/ingot/iron

@@ -14,7 +14,8 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/light/ComponentInitialize()
 	..()
 	AddComponent(/datum/component/adjustable_clothing, CHEST, null, null, 'sound/foley/equip/equip_armor_chain.ogg', null, UPD_CHEST)
-	AddComponent(/datum/component/armour_filtering/negative, TRAIT_ARCYNE, TRAIT_CIVILIZEDBARBARIAN)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_ARCYNE)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_CIVILIZEDBARBARIAN)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/light/get_mechanics_examine(mob/user)
 	. = ..()

@@ -546,3 +546,11 @@
 /datum/config_entry/number/hard_deletes_overrun_limit
 	config_entry_value = 1
 	min_val = 0
+
+/// Log json versions of log entries
+/datum/config_entry/flag/log_as_json
+	default = TRUE
+
+/// Log human readable versions of log entries
+/datum/config_entry/flag/log_as_human_readable
+	default = TRUE

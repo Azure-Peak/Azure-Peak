@@ -15,6 +15,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	charge_time = 6 SECONDS
 	hold_drain = 1
 	charge_slowdown = 2

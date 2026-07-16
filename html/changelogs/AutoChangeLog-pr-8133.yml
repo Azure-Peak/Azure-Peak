@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Fixes shield overlay broken by my optimization PR that stopped forcing redraw of all in hand sprite to save on cpu"
+  - bugfix: "Fixes poleaxe / lance overlays messing up blood by cutting overlays unilaterally, which is unrelated ot my PR."

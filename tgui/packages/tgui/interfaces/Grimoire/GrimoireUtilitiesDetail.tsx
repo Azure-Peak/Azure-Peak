@@ -1,4 +1,4 @@
-import { type Spell } from './types';
+import type { Spell } from './types';
 
 export const GrimoireUtilitiesDetail = ({
   spells,
@@ -25,7 +25,8 @@ export const GrimoireUtilitiesDetail = ({
     <div className="AspectPicker__heading">Cantrips &amp; Utilities</div>
     <div className="AspectPicker__fluff">
       The lesser workings of the arcyne arts - simple enchantments, practical
-      cantrips, and scholarly conveniences that require no particular attunement.
+      cantrips, and scholarly conveniences that require no particular
+      attunement.
     </div>
     <div className="AspectPicker__divider" />
     <div className="AspectPicker__section-label">

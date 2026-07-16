@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -264,7 +264,10 @@ export const DecreeSetter = () => {
           )}
 
           <div style={tabBarStyle}>
-            <div style={tabStyle(tab === 'ancient')} onClick={() => setTab('ancient')}>
+            <div
+              style={tabStyle(tab === 'ancient')}
+              onClick={() => setTab('ancient')}
+            >
               {CATEGORY_LABELS.ancient} ({ancient.length})
             </div>
             <div style={tabStyle(tab === 'new')} onClick={() => setTab('new')}>

@@ -54,13 +54,18 @@ export const DrowWrit = (props: {
 
   let subject: React.ReactNode;
   if (named) subject = <b>{named}</b>;
-  else if (ringleader)
-    { subject = (
+  else if (ringleader) {
+    subject = (
       <>
         a {band} of {folk} under one called <b>{ringleader}</b>
       </>
-    ); }
-  else subject = <>a {band} of {folk}</>;
+    );
+  } else
+    subject = (
+      <>
+        a {band} of {folk}
+      </>
+    );
 
   return (
     <>
@@ -68,8 +73,8 @@ export const DrowWrit = (props: {
         <i>By writ of the {rulerTitle} and the Holy See:</i>
       </p>
       <p style={writParagraph}>
-        That {subject} hath emerged from the deep dark into the lands of{' '}
-        {realm}: Astrata-shunning things, dealers in bonded souls, that traffic in
+        That {subject} hath emerged from the deep dark into the lands of {realm}
+        : Astrata-shunning things, dealers in bonded souls, that traffic in
         slaves and bargain with the Archenemy.
       </p>
       {crimes.length > 0 && (
@@ -80,7 +85,8 @@ export const DrowWrit = (props: {
           <ul style={indictmentList}>
             {crimes.map((c, i) => (
               <li key={i} style={indictmentItem}>
-                {capitalize(c)};
+                {capitalize(c)}
+                {';'}
               </li>
             ))}
           </ul>
@@ -89,15 +95,14 @@ export const DrowWrit = (props: {
       <p style={writParagraph}>
         Let no man parley, let no man trade, let no priest hear their plea. By
         writ of the {rulerTitle} and the counsel of the Holy See, {subject} be
-        declared <span style={caputLupinum}>ANATHEMA SIT</span>: accursed
-        before the Tens, sundered from sun and grain, owed neither truce nor
-        ransom.
+        declared <span style={caputLupinum}>ANATHEMA SIT</span>: accursed before
+        the Tens, sundered from sun and grain, owed neither truce nor ransom.
       </p>
       <p style={writParagraph}>
-        Slay them where they walk and burn what they bear, lest the blight 
-        upon their persons taint the earth. Upon their death the writ shall
-        fall silent and mark itself; return it to the Contract Ledger, that
-        the bounty of{' '}
+        Slay them where they walk and burn what they bear, lest the blight upon
+        their persons taint the earth. Upon their death the writ shall fall
+        silent and mark itself; return it to the Contract Ledger, that the
+        bounty of{' '}
         <RewardClause
           reward={reward}
           levyRate={levyRate}

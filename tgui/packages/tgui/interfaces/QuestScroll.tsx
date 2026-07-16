@@ -123,7 +123,9 @@ const MarginaliaSection = (props: MarginaliaSectionProps) => {
       )}
       {!!data.caravan_parcel_spawned && !data.complete && (
         <div style={marginaliaLine}>
-          <i>The smith has reached the wreck. The strongbox is yours to recover.</i>
+          <i>
+            The smith has reached the wreck. The strongbox is yours to recover.
+          </i>
         </div>
       )}
       {!!data.caravan_expired && (
@@ -133,7 +135,10 @@ const MarginaliaSection = (props: MarginaliaSectionProps) => {
       )}
       {hasOreveinAwaitingArrival && (
         <div style={marginaliaLine}>
-          <i>Reach the strike to make the earth erupt. The miner must be at your side.</i>
+          <i>
+            Reach the strike to make the earth erupt. The miner must be at your
+            side.
+          </i>
         </div>
       )}
       {hasOreveinTimer && (
@@ -240,7 +245,6 @@ const WritBody = (props: WritBodyProps) => {
   if (data.writ_type === WRIT_TYPE_TOWNER_VEIN) {
     return (
       <OreVeinWrit
-        realm={realm}
         pickupRegion={data.pickup_region}
         {...rewardProps}
         {...sealProps}
@@ -326,7 +330,12 @@ export const QuestScroll = () => {
 
   if (data.empty) {
     return (
-      <Window title="Contract Scroll" width={520} height={620} theme="parchment">
+      <Window
+        title="Contract Scroll"
+        width={520}
+        height={620}
+        theme="parchment"
+      >
         <Window.Content scrollable>
           <div style={parchment}>
             <div style={{ textAlign: 'center', fontStyle: 'italic' }}>

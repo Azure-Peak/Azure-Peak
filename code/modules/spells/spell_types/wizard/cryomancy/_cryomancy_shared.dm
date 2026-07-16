@@ -1,14 +1,7 @@
-// Cryomancy shared — frost stack status effects and helper procs
-// Three tiers: frosted1 (-1 SPD), frosted2 (-2 SPD, 1.1x action CD),
-// frosted3 (-2 SPD, 1.2x action CD). Fourth stack bursts for 50 burn and clears all frost.
-// Fire spells shatter frost stacks (handled in fire spell on_hit procs)
-
 #define FROST_OVERLAY_COLOR rgb(136, 191, 255)
-#define FROST_BURST_DAMAGE 25
 #define FROST_BURST_IMMUNITY_DURATION (15 SECONDS)
 #define FROST_BURST_IMMUNITY_KEY "frost_burst_immunity"
 
-/// Apply one frost stack to the target. Escalates frosted1 -> frosted2 -> frosted3 -> burst (50 burn, clears frost).
 /proc/apply_frost_stack(mob/living/target, stacks = 1)
 	if(!isliving(target))
 		return
@@ -24,11 +17,12 @@
 				break
 			// Burst
 			remove_all_frost_stacks(target)
-			target.apply_damage(FROST_BURST_DAMAGE, BURN)
+			target.apply_status_effect(/datum/status_effect/debuff/exposed)
 			target.mob_timers[FROST_BURST_IMMUNITY_KEY] = world.time + FROST_BURST_IMMUNITY_DURATION
-			target.visible_message(span_danger("The frost on [target] detonates in a flash of ice!"), span_userdanger("The frost bites deep - my body burns with cold!"))
-			target.balloon_alert_to_viewers("<font color='#4cadee'>shattered!</font>")
+			target.visible_message(span_danger("The frost on [target] exposes and slow them down!"), span_userdanger("The frost exposes my weakness and slow me down!"))
+			target.balloon_alert_to_viewers("<font color='#4cadee'>SHATTERED - EXPOSED!</font>")
 			playsound(get_turf(target), 'sound/spellbooks/crystal.ogg', 80, TRUE)
+			target.Slowdown(2)
 			final_tier = 0
 			break
 		if(target.has_status_effect(/datum/status_effect/debuff/frosted2))
@@ -195,6 +189,5 @@
 	layer = MASSIVE_OBJ_LAYER
 
 #undef FROST_OVERLAY_COLOR
-#undef FROST_BURST_DAMAGE
 #undef FROST_BURST_IMMUNITY_DURATION
 #undef FROST_BURST_IMMUNITY_KEY

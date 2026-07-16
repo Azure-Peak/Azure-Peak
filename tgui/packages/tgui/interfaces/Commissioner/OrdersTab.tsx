@@ -42,7 +42,8 @@ const OrderCard = (props: {
   const fulfilled = !!order.is_fulfilled;
   const isCommissioner = !!order.is_commissioner;
   const isSmith = !!order.is_smith;
-  const hasProgress = order.done_count > 0 && order.done_count < order.needed_count;
+  const hasProgress =
+    order.done_count > 0 && order.done_count < order.needed_count;
   const [rejectOpen, setRejectOpen] = useState(false);
   const [rejectReason, setRejectReason] = useState('');
   const canReject =
@@ -61,7 +62,9 @@ const OrderCard = (props: {
         <span style={badgeStyle(STATUS_BADGE_COLOR[order.status] || SEAL_BLUE)}>
           {STATUS_LABEL[order.status] || order.status.toUpperCase()}
         </span>
-        <span style={{ color: SEAL_AMBER, fontWeight: 'bold', fontSize: FONT_BODY }}>
+        <span
+          style={{ color: SEAL_AMBER, fontWeight: 'bold', fontSize: FONT_BODY }}
+        >
           {order.deposited}m
         </span>
         <span
@@ -94,9 +97,7 @@ const OrderCard = (props: {
             }}
           >
             <b style={{ color: order.days_left <= 0 ? SEAL_RED : INK }}>
-              {order.days_left <= 0
-                ? 'today'
-                : `${order.days_left}d`}
+              {order.days_left <= 0 ? 'today' : `${order.days_left}d`}
             </b>
           </span>
         )}
@@ -150,9 +151,7 @@ const OrderCard = (props: {
             color: INK_SOFT,
           }}
         >
-          <span style={{ color: SEAL_AMBER }}>
-            needs:{' '}
-          </span>
+          <span style={{ color: SEAL_AMBER }}>needs: </span>
           {order.materials.map((m) => `${m.qty} ${m.name}`).join(' · ')}
         </div>
       )}
@@ -249,18 +248,16 @@ const OrderCard = (props: {
             Collect Items
           </button>
         )}
-        {isGuildmaster &&
-          order.status === 'claimed' &&
-          !isSmith && (
-            <button
-              type="button"
-              style={inkButtonStyle({ color: SEAL_AMBER })}
-              onClick={() => act('force_release_order', { ref: order.ref })}
-              title="Guildmaster override: release this stalled claim"
-            >
-              Force Release
-            </button>
-          )}
+        {isGuildmaster && order.status === 'claimed' && !isSmith && (
+          <button
+            type="button"
+            style={inkButtonStyle({ color: SEAL_AMBER })}
+            onClick={() => act('force_release_order', { ref: order.ref })}
+            title="Guildmaster override: release this stalled claim"
+          >
+            Force Release
+          </button>
+        )}
         {canReject && (
           <button
             type="button"

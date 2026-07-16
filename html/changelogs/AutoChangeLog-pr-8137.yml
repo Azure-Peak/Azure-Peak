@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - bugfix: "fixed an oversight that caused Bishop's staff to sizzle them"

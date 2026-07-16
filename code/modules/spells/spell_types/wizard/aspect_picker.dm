@@ -23,10 +23,14 @@
 	var/list/locked_aspects = list()
 	/// TRUE while performing binding/unbinding chants — prevents ui_close from qdel'ing
 	var/chanting = FALSE
-	/// Assoc list of variant overrides from class config: aspect_path = variant_name (e.g. /datum/magic_aspect/pyromancy = "grenzelhoftian")
+	/// Assoc list of variant overrides from class config: aspect_path = variant_name (e.g. /datum/magic_aspect/pyromancy = "gefechtsgelehrter")
 	var/list/variant_overrides
 	/// Spell paths granted after aspects are bound - ensures proper action bar ordering (e.g. class-granted Message, Magician's Brick)
 	var/list/post_aspect_spells
+	/// If set, only these major aspect paths may be attuned (choose-one-of-pool). Null/empty = all majors allowed.
+	var/list/allowed_majors
+	/// If set, only these minor aspect paths may be attuned. Null/empty = all minors allowed.
+	var/list/allowed_minors
 
 /datum/aspect_picker/New(mob/living/new_owner, setup = TRUE, list/aspect_config)
 	owner = new_owner
@@ -40,6 +44,12 @@
 			variant_overrides = aspect_config["variants"]
 		if(islist(aspect_config["post_aspect_spells"]))
 			post_aspect_spells = aspect_config["post_aspect_spells"]
+		if(length(aspect_config["allowed_majors"]))
+			var/list/config_majors = aspect_config["allowed_majors"]
+			allowed_majors = config_majors.Copy()
+		if(length(aspect_config["allowed_minors"]))
+			var/list/config_minors = aspect_config["allowed_minors"]
+			allowed_minors = config_minors.Copy()
 		if(length(aspect_config["locked_aspects"]))
 			for(var/path in aspect_config["locked_aspects"])
 				locked_aspects += path
@@ -69,8 +79,8 @@
 
 /datum/aspect_picker/ui_static_data(mob/user)
 	var/list/data = list()
-	data["major_aspects"] = build_aspect_list(GLOB.magic_aspects_major)
-	data["minor_aspects"] = build_aspect_list(GLOB.magic_aspects_minor)
+	data["major_aspects"] = build_aspect_list(filter_allowed(GLOB.magic_aspects_major, allowed_majors, owner?.mind?.major_aspects))
+	data["minor_aspects"] = build_aspect_list(filter_allowed(GLOB.magic_aspects_minor, allowed_minors, owner?.mind?.minor_aspects))
 	data["utility_spells"] = build_utility_list()
 	return data
 
@@ -166,6 +176,21 @@
 	for(var/obj/effect/proc_holder/spell/S in owner.mind.spell_list)
 		all_selected_spells |= "[S.type]"
 	data["all_selected_spells"] = all_selected_spells
+	var/list/claimed_groups = list()
+	for(var/aspect_path_str in staged_choices)
+		var/group = get_exclusive_group(staged_choices[aspect_path_str])
+		if(group)
+			claimed_groups[group] = aspect_path_str
+	for(var/aspect_path_str in pointbuy_selections)
+		for(var/spell_path_str in pointbuy_selections[aspect_path_str])
+			var/group = get_exclusive_group(spell_path_str)
+			if(group)
+				claimed_groups[group] = aspect_path_str
+	for(var/datum/action/cooldown/spell/S in owner.mind.spell_list)
+		if(!S.exclusive_group || claimed_groups[S.exclusive_group])
+			continue
+		claimed_groups[S.exclusive_group] = S.source_aspect ? "[S.source_aspect]" : ""
+	data["claimed_groups"] = claimed_groups
 
 	// Collect spent budget per aspect. We report every aspect with a pointbuy
 	// budget - both aspects with staged selections AND live attuned aspects that
@@ -188,6 +213,16 @@
 	data["spent_budgets"] = spent_budgets
 
 	return data
+
+/// Narrow an aspect path list to a class whitelist, always keeping already-attuned aspects visible
+/// (defensive - a legitimately bound aspect must never be hidden in edit mode).
+/datum/aspect_picker/proc/filter_allowed(list/all_paths, list/whitelist, list/attuned)
+	if(!length(whitelist))
+		return all_paths
+	var/list/out = whitelist.Copy()
+	for(var/datum/magic_aspect/A in attuned)
+		out |= A.type
+	return out
 
 /datum/aspect_picker/proc/build_aspect_list(list/aspect_paths)
 	var/list/result = list()
@@ -245,12 +280,14 @@
 		entry["desc"] = initial(S.desc)
 		entry["fluff_desc"] = initial(S.fluff_desc)
 		entry["cost"] = initial(S.point_cost)
+		entry["exclusive_group"] = initial(S.exclusive_group)
 	else
 		var/obj/effect/proc_holder/spell/S = spell_path
 		entry["name"] = initial(S.name)
 		entry["desc"] = initial(S.desc)
 		entry["fluff_desc"] = ""
 		entry["cost"] = initial(S.cost)
+		entry["exclusive_group"] = null
 	return entry
 
 /datum/aspect_picker/proc/build_utility_list()
@@ -286,6 +323,12 @@
 			var/datum/magic_aspect/temp = new path
 			var/aspect_type = temp.aspect_type
 			qdel(temp)
+			if(aspect_type == ASPECT_MAJOR && length(allowed_majors) && !(path in allowed_majors))
+				to_chat(owner, span_warning("My discipline does not permit that aspect."))
+				return
+			if(aspect_type == ASPECT_MINOR && length(allowed_minors) && !(path in allowed_minors))
+				to_chat(owner, span_warning("My discipline does not permit that aspect."))
+				return
 			// Count live aspects minus pending unbinds for effective slot usage
 			var/major_unbind_count = 0
 			var/minor_unbind_count = 0
@@ -410,8 +453,9 @@
 			if(staged_choices[aspect_path] == spell_path)
 				staged_choices -= aspect_path
 			else
-				if(is_spell_selected_elsewhere(spell_path, aspect_path))
-					to_chat(owner, span_warning("I have already selected this spell from another aspect."))
+				var/conflict = is_spell_selected_elsewhere(spell_path, aspect_path)
+				if(conflict)
+					to_chat(owner, span_warning(selection_conflict_warning(conflict)))
 					return
 				staged_choices[aspect_path] = spell_path
 			. = TRUE
@@ -437,8 +481,9 @@
 				selections -= spell_path
 			else
 				// Check if this spell is already selected in another aspect
-				if(is_spell_selected_elsewhere(spell_path, aspect_path))
-					to_chat(owner, span_warning("I have already selected this spell from another aspect."))
+				var/conflict = is_spell_selected_elsewhere(spell_path, aspect_path)
+				if(conflict)
+					to_chat(owner, span_warning(selection_conflict_warning(conflict)))
 					return
 				// Check budget before adding
 				var/resolved_aspect_path = text2path(aspect_path)
@@ -719,45 +764,85 @@
 	else
 		qdel(src)
 
-/// Check if a spell is already selected in a different aspect's pointbuy, choice, or granted as a fixed spell
+/// Check if a spell conflicts with one already selected in a different aspect's pointbuy,
+/// choice, or fixed spells - either the exact same spell, or one sharing its exclusive_group
+/// (e.g. arcyne ward variants, which all occupy the same skin slot). Returns the conflict
+/// reason ("duplicate"/"exclusive") for use with selection_conflict_warning(), or FALSE.
 /datum/aspect_picker/proc/is_spell_selected_elsewhere(spell_path, exclude_aspect_path)
+	var/conflict
 	// Check pointbuy selections in other aspects
 	for(var/other_aspect_path in pointbuy_selections)
 		if(other_aspect_path == exclude_aspect_path)
 			continue
-		var/list/other_selections = pointbuy_selections[other_aspect_path]
-		if(spell_path in other_selections)
-			return TRUE
+		for(var/other_spell in pointbuy_selections[other_aspect_path])
+			conflict = spell_paths_conflict(spell_path, other_spell)
+			if(conflict)
+				return conflict
 	// Check choice selections in other aspects
 	for(var/other_aspect_path in staged_choices)
 		if(other_aspect_path == exclude_aspect_path)
 			continue
-		if(staged_choices[other_aspect_path] == spell_path)
-			return TRUE
+		conflict = spell_paths_conflict(spell_path, staged_choices[other_aspect_path])
+		if(conflict)
+			return conflict
 	// Check fixed spells in all staged and already-attuned aspects
-	var/resolved_spell = text2path(spell_path)
-	if(resolved_spell)
-		var/list/all_staged = staged_majors + staged_minors
-		for(var/staged_path in all_staged)
-			if("[staged_path]" == exclude_aspect_path)
-				continue
-			var/datum/magic_aspect/staged = new staged_path
-			if(resolved_spell in staged.fixed_spells)
+	var/list/all_staged = staged_majors + staged_minors
+	for(var/staged_path in all_staged)
+		if("[staged_path]" == exclude_aspect_path)
+			continue
+		var/datum/magic_aspect/staged = new staged_path
+		for(var/fixed_path in staged.fixed_spells)
+			conflict = spell_paths_conflict(spell_path, "[fixed_path]")
+			if(conflict)
 				qdel(staged)
-				return TRUE
-			qdel(staged)
-		// Check already-attuned aspects
-		for(var/datum/magic_aspect/A in owner.mind.major_aspects)
-			if("[A.type]" == exclude_aspect_path)
-				continue
-			if(resolved_spell in A.fixed_spells)
-				return TRUE
-		for(var/datum/magic_aspect/A in owner.mind.minor_aspects)
-			if("[A.type]" == exclude_aspect_path)
-				continue
-			if(resolved_spell in A.fixed_spells)
-				return TRUE
+				return conflict
+		qdel(staged)
+	for(var/datum/magic_aspect/A in owner.mind.major_aspects)
+		if("[A.type]" == exclude_aspect_path)
+			continue
+		for(var/fixed_path in A.fixed_spells)
+			conflict = spell_paths_conflict(spell_path, "[fixed_path]")
+			if(conflict)
+				return conflict
+	for(var/datum/magic_aspect/A in owner.mind.minor_aspects)
+		if("[A.type]" == exclude_aspect_path)
+			continue
+		for(var/fixed_path in A.fixed_spells)
+			conflict = spell_paths_conflict(spell_path, "[fixed_path]")
+			if(conflict)
+				return conflict
+	var/resolved_exclude = text2path(exclude_aspect_path)
+	for(var/datum/action/cooldown/spell/S in owner.mind.spell_list)
+		if(resolved_exclude && S.source_aspect == resolved_exclude)
+			continue
+		conflict = spell_paths_conflict(spell_path, "[S.type]")
+		if(conflict)
+			return conflict
 	return FALSE
+
+/// "duplicate" if two spell path strings are the same spell, "exclusive" if they share a
+/// non-null exclusive_group, or FALSE if they don't conflict.
+/datum/aspect_picker/proc/spell_paths_conflict(spell_path_str_a, spell_path_str_b)
+	if(spell_path_str_a == spell_path_str_b)
+		return "duplicate"
+	var/group = get_exclusive_group(spell_path_str_a)
+	if(group && (group == get_exclusive_group(spell_path_str_b)))
+		return "exclusive"
+	return FALSE
+
+/// Player-facing warning for a conflict reason returned by is_spell_selected_elsewhere().
+/datum/aspect_picker/proc/selection_conflict_warning(reason)
+	if(reason == "exclusive")
+		return "I have already selected a spell that cannot be held alongside this one."
+	return "I have already selected this spell from another aspect."
+
+/// The exclusive_group of a spell path string, or null for non-spell/old-system paths.
+/datum/aspect_picker/proc/get_exclusive_group(spell_path_str)
+	var/spell_path = text2path(spell_path_str)
+	if(!ispath(spell_path, /datum/action/cooldown/spell))
+		return null
+	var/datum/action/cooldown/spell/S = spell_path
+	return initial(S.exclusive_group)
 
 /// Get total points spent in an aspect's pointbuy selections.
 /// Counts staged selections plus already-owned pointbuy spells sourced from this

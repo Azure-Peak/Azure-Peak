@@ -199,16 +199,19 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 /proc/apply_charflaw_equipment(mob/living/carbon/human/character, client/player)
 	var/has_extra_vice = FALSE
-	for(var/datum/charflaw/cf in character.charflaws) // if we didn't do this, someone could take hunted and targeted together and no other vice
-		if(!cf.needs_extra_vice)
+	var/needs_extra_vice = FALSE
+	for(var/datum/charflaw/cf in character.charflaws) // difficulty flaws don't count as each other's extra vice
+		if(cf.needs_extra_vice)
+			needs_extra_vice = TRUE
+		else
 			has_extra_vice = TRUE
 	for(var/datum/charflaw/cf in character.charflaws)
 		cf.apply_post_equipment(character)
-		if(cf.needs_extra_vice && !has_extra_vice)
-			var/datum/charflaw/randflaw/rf = new()
-			character.charflaws.Add(rf)
-			rf.apply_post_equipment(character)
 		record_featured_object_stat(FEATURED_STATS_VICES, cf.name)
+	if(needs_extra_vice && !has_extra_vice)
+		var/datum/charflaw/randflaw/rf = new()
+		character.charflaws.Add(rf)
+		rf.apply_post_equipment(character)
 
 /proc/apply_dnr_trait(mob/living/carbon/human/character, client/player)
 	ADD_TRAIT(player.mob, TRAIT_DNR, TRAIT_GENERIC)

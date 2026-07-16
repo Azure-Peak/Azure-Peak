@@ -1,5 +1,4 @@
-#define GTSTRIKE_CENTER_DAMAGE 80
-#define GTSTRIKE_OUTER_DAMAGE 80
+#define GTSTRIKE_DAMAGE 80
 #define GTSTRIKE_TELEGRAPH 16
 
 /datum/action/cooldown/spell/greater_thunderstrike
@@ -26,6 +25,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_HEAVY
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
@@ -37,6 +37,7 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/aoe_range = 3
+	displayed_damage = GTSTRIKE_DAMAGE
 
 /datum/action/cooldown/spell/greater_thunderstrike/cast(atom/cast_on)
 	. = ..()
@@ -57,54 +58,15 @@
 		to_chat(H, span_warning("I can't cast where I can't see!"))
 		return FALSE
 
-	// Telegraph on all tiles simultaneously
 	for(var/turf/T in range(aoe_range, centerpoint))
 		if(!(T in get_hear(aoe_range, centerpoint)))
 			continue
-		new /obj/effect/temp_visual/trap/thunderstrike(T, GTSTRIKE_TELEGRAPH)
+		new /obj/effect/temp_visual/pillar_warning/fadein(T, GTSTRIKE_TELEGRAPH)
 
 	H.visible_message(span_boldwarning("[H] calls down a massive storm of lightning!"))
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE, 6)
-	addtimer(CALLBACK(src, PROC_REF(strike_all), centerpoint), GTSTRIKE_TELEGRAPH)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, H, aoe_range, GTSTRIKE_DAMAGE, src, "Greater Thunderstrike", H), GTSTRIKE_TELEGRAPH)
 	return TRUE
 
-/datum/action/cooldown/spell/greater_thunderstrike/proc/strike_all(turf/centerpoint)
-	if(QDELETED(src) || QDELETED(owner))
-		return
-	var/mob/living/carbon/human/caster = owner
-	var/static/list/random_zones = list(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
-	playsound(centerpoint, 'sound/magic/lightning.ogg', 100, TRUE, 8)
-	for(var/turf/T in range(aoe_range, centerpoint))
-		if(!(T in get_hear(aoe_range, centerpoint)))
-			continue
-		var/dist = get_dist(centerpoint, T)
-		var/stage_damage = dist <= 0 ? GTSTRIKE_CENTER_DAMAGE : GTSTRIKE_OUTER_DAMAGE
-		new /obj/effect/temp_visual/thunderstrike_actual(T)
-		// Ignite flammable objects and structures on struck tiles
-		T.fire_act()
-		for(var/atom/A in T.contents)
-			if(!ismob(A))
-				A.fire_act()
-		for(var/mob/living/L in T.contents)
-			if(L == owner)
-				continue
-			if(L.anti_magic_check())
-				L.visible_message(span_warning("The lightning fades away around [L]!"))
-				playsound(T, 'sound/magic/magic_nulled.ogg', 100)
-				continue
-			if(spell_guard_check(L, TRUE))
-				L.visible_message(span_warning("[L] weathers the lightning strike!"))
-				continue
-			if(istype(caster) && ishuman(L))
-				arcyne_strike(caster, L, null, stage_damage, pick(random_zones), \
-					BCLASS_BURN, spell_name = "Greater Thunderstrike", \
-					damage_type = BURN, npc_simple_damage_mult = 1, \
-					skip_animation = TRUE)
-			else
-				L.electrocute_act(stage_damage, src, 1, SHOCK_NOSTUN)
-			L.electrocute_act(0, src, 1, SHOCK_NOSTUN|SHOCK_VISUAL_ONLY)
-			new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
-
-#undef GTSTRIKE_CENTER_DAMAGE
-#undef GTSTRIKE_OUTER_DAMAGE
+#undef GTSTRIKE_DAMAGE
 #undef GTSTRIKE_TELEGRAPH

@@ -2,8 +2,7 @@ import { GrimoireChoiceSection } from './GrimoireChoiceSection';
 import { GrimoirePointBuySection } from './GrimoirePointBuySection';
 import { GrimoireSpellEntry } from './GrimoireSpellEntry';
 import { GrimoireVariantSection } from './GrimoireVariantSection';
-import { stripHtml } from './helpers';
-import { type Aspect, type Tab } from './types';
+import type { Aspect, Tab } from './types';
 
 export const GrimoireAspectDetail = ({
   aspect,
@@ -18,6 +17,7 @@ export const GrimoireAspectDetail = ({
   stagedChoices,
   pointbuySelections,
   allSelectedSpells,
+  claimedGroups,
   getPointbuyUsed,
   act,
   readOnly = false,
@@ -35,6 +35,7 @@ export const GrimoireAspectDetail = ({
   stagedChoices: Record<string, string>;
   pointbuySelections: Record<string, string[]>;
   allSelectedSpells: string[];
+  claimedGroups: Record<string, string>;
   getPointbuyUsed: (a: Aspect) => number;
   act: (action: string, params: Record<string, unknown>) => void;
   readOnly?: boolean;
@@ -49,7 +50,9 @@ export const GrimoireAspectDetail = ({
       <div style={{ flex: 1, overflowY: 'auto' }}>
         <div className="AspectPicker__heading">
           <span
-            style={aspect.school_color ? { color: aspect.school_color } : undefined}
+            style={
+              aspect.school_color ? { color: aspect.school_color } : undefined
+            }
           >
             {aspect.name}
           </span>
@@ -100,6 +103,7 @@ export const GrimoireAspectDetail = ({
             aspect={aspect}
             stagedChoices={stagedChoices}
             allSelectedSpells={allSelectedSpells}
+            claimedGroups={claimedGroups}
             act={act}
             readOnly={readOnly}
           />
@@ -128,6 +132,7 @@ export const GrimoireAspectDetail = ({
             aspect={aspect}
             pointbuySelections={pointbuySelections}
             allSelectedSpells={allSelectedSpells}
+            claimedGroups={claimedGroups}
             getPointbuyUsed={getPointbuyUsed}
             act={act}
             readOnly={readOnly}
@@ -135,62 +140,64 @@ export const GrimoireAspectDetail = ({
         )}
       </div>
 
-      {!readOnly && <div style={{ marginTop: '8px', flexShrink: 0 }}>
-        {isPendingUnbind ? (
-          <div
-            className="AspectPicker__action-btn AspectPicker__action-btn--caution"
-            onClick={() => act('undo_unbind', { path: aspect.path })}
-          >
-            Cancel Unbind
-          </div>
-        ) : isAttuned ? (
-          isLocked ? (
+      {!readOnly && (
+        <div style={{ marginTop: '8px', flexShrink: 0 }}>
+          {isPendingUnbind ? (
+            <div
+              className="AspectPicker__action-btn AspectPicker__action-btn--caution"
+              onClick={() => act('undo_unbind', { path: aspect.path })}
+            >
+              Cancel Unbind
+            </div>
+          ) : isAttuned ? (
+            isLocked ? (
+              <div
+                className="AspectPicker__attunement"
+                style={{ textAlign: 'center', padding: '8px' }}
+              >
+                Innately bound.
+              </div>
+            ) : initialSetup ? (
+              <div
+                className="AspectPicker__action-btn AspectPicker__action-btn--remove"
+                onClick={() => act('remove', { path: aspect.path })}
+              >
+                Unbind {aspect.name}
+              </div>
+            ) : canUnbind ? (
+              <div
+                className="AspectPicker__action-btn AspectPicker__action-btn--remove"
+                onClick={() => act('remove', { path: aspect.path })}
+              >
+                Unbind {aspect.name} (cost: {unbindCost})
+              </div>
+            ) : (
+              <div
+                className="AspectPicker__attunement"
+                style={{ textAlign: 'center', padding: '8px' }}
+              >
+                {resetBudget < unbindCost
+                  ? 'Not enough reshaping budget.'
+                  : 'Currently attuned.'}
+              </div>
+            )
+          ) : slotsFull ? (
             <div
               className="AspectPicker__attunement"
               style={{ textAlign: 'center', padding: '8px' }}
             >
-              Innately bound.
-            </div>
-          ) : initialSetup ? (
-            <div
-              className="AspectPicker__action-btn AspectPicker__action-btn--remove"
-              onClick={() => act('remove', { path: aspect.path })}
-            >
-              Unbind {aspect.name}
-            </div>
-          ) : canUnbind ? (
-            <div
-              className="AspectPicker__action-btn AspectPicker__action-btn--remove"
-              onClick={() => act('remove', { path: aspect.path })}
-            >
-              Unbind {aspect.name} (cost: {unbindCost})
+              No {tab} aspect slots remaining.
             </div>
           ) : (
             <div
-              className="AspectPicker__attunement"
-              style={{ textAlign: 'center', padding: '8px' }}
+              className="AspectPicker__action-btn AspectPicker__action-btn--confirm"
+              onClick={() => act('attune', { path: aspect.path })}
             >
-              {resetBudget < unbindCost
-                ? 'Not enough reshaping budget.'
-                : 'Currently attuned.'}
+              Bind {aspect.name}
             </div>
-          )
-        ) : slotsFull ? (
-          <div
-            className="AspectPicker__attunement"
-            style={{ textAlign: 'center', padding: '8px' }}
-          >
-            No {tab} aspect slots remaining.
-          </div>
-        ) : (
-          <div
-            className="AspectPicker__action-btn AspectPicker__action-btn--confirm"
-            onClick={() => act('attune', { path: aspect.path })}
-          >
-            Bind {aspect.name}
-          </div>
-        )}
-      </div>}
+          )}
+        </div>
+      )}
     </>
   );
 };

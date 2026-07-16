@@ -2,7 +2,7 @@
 	var/budget = 0
 	var/compact = TRUE
 	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
+	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood")
 	var/obj/structure/roguemachine/parent_structure = null
 
 /datum/withdraw_tab/New(obj/structure/roguemachine/structure_param)

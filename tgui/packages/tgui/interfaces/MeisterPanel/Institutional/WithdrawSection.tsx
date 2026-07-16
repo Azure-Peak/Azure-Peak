@@ -1,17 +1,17 @@
 import { useState } from 'react';
 
 import {
+  FONT_BODY,
   fieldLabelStyle,
   fieldRowStyle,
   fieldValueStyle,
-  FONT_BODY,
   INK_FAINT,
   inkButtonStyle,
   inkInputStyle,
   SEAL_AMBER,
   sectionHeaderStyle,
 } from '../../common/parchment';
-import { type FundEntry, type TabProps } from '../types';
+import type { FundEntry, TabProps } from '../types';
 
 export const WithdrawSection = ({
   fund,

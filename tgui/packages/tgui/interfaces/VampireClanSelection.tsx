@@ -1,12 +1,5 @@
 import { useState } from 'react';
-import {
-  Box,
-  Button,
-  Icon,
-  Input,
-  Section,
-  Stack,
-} from 'tgui-core/components';
+import { Box, Button, Icon, Input, Section, Stack } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -139,12 +132,8 @@ const setVampireClanWindowSize = (expanded: boolean) => {
   const scale = window.devicePixelRatio || 1;
   const screenWidth = Math.floor(window.screen.availWidth * scale);
   const screenHeight = Math.floor(window.screen.availHeight * scale);
-  const width = expanded
-    ? screenWidth
-    : Math.min(DEFAULT_W, screenWidth);
-  const height = expanded
-    ? screenHeight
-    : Math.min(DEFAULT_H, screenHeight);
+  const width = expanded ? screenWidth : Math.min(DEFAULT_W, screenWidth);
+  const height = expanded ? screenHeight : Math.min(DEFAULT_H, screenHeight);
   const x = expanded ? 0 : Math.max(Math.floor((screenWidth - width) / 2), 0);
   const y = expanded ? 0 : Math.max(Math.floor((screenHeight - height) / 2), 0);
   Byond.winset(Byond.windowId, {
@@ -416,10 +405,7 @@ const InfoBlock = (props: {
 }) => (
   <Box className="VampireClanSelection__infoBlock">
     <Box className="VampireClanSelection__infoTitle">
-      <Icon
-        name={props.icon}
-        className="VampireClanSelection__infoIcon"
-      />
+      <Icon name={props.icon} className="VampireClanSelection__infoIcon" />
       {props.title}
     </Box>
     <Box className="VampireClanSelection__infoText">

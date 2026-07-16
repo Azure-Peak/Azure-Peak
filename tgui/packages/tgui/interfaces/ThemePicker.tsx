@@ -83,9 +83,7 @@ export const ThemePicker = () => {
               </Stack.Item>
               <Stack.Item>
                 <Section>
-                  <em>
-                    &quot;True is my strike and sharp is my edge.&quot;
-                  </em>
+                  <em>&quot;True is my strike and sharp is my edge.&quot;</em>
                 </Section>
               </Stack.Item>
             </Stack>

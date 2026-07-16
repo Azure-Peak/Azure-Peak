@@ -81,6 +81,11 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	if(!config)
 		config = new
 	// Highlander-style: there can only be one! Kill off the old and replace it with the new.
+	
+	// Move this to Genesis when Master is no longer GLOBAL_REAL = new
+	// Write everything to this log file until we get to SetupLogs() later
+	world._initialize_log_files("data/logs/config_error.[GUID()].log")
+	logger = new
 
 	if(!random_seed)
 #ifdef UNIT_TESTS

@@ -526,6 +526,11 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "BOOTS")
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
+/obj/item/clothing/shoes/roguetown/boots/armor/baotha/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
+	stepnoise_flag = STEPNOISE_HEELS // This will prevent default footstep noise from being made by the heels (sounds odd)
+
 /obj/item/clothing/shoes/roguetown/boots/armor/baotha/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
@@ -803,6 +808,12 @@
 /obj/item/clothing/shoes/courtphysician/female/Initialize()
 	. = ..()
 	update_icon()
+
+
+/obj/item/clothing/shoes/courtphysician/female/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
+	stepnoise_flag = STEPNOISE_HEELS // This will prevent default footstep noise from being made by the heels (sounds odd)
 
 /obj/item/clothing/shoes/courtphysician/female/update_icon()
 	cut_overlays()

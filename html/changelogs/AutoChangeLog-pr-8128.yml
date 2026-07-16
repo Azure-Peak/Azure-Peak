@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Refactored the armor filtering component and fixed it since it was broken to add in haubrynie support. Naledi complex should work properly, so should honor bound and or other different traits."

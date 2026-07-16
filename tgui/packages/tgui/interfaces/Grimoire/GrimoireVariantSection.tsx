@@ -1,5 +1,5 @@
 import { cls } from './helpers';
-import { type Spell, type Variant } from './types';
+import type { Spell, Variant } from './types';
 
 export const GrimoireVariantSection = ({
   variants,

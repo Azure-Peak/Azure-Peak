@@ -52,148 +52,6 @@ a:visited {
   text-align: center;
 }
 
-/* POPUPS */
-
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  background: hsl(0, 0%, 86.7%);
-}
-
-.popup .close {
-  position: absolute;
-  background: hsl(0, 0%, 66.7%);
-  top: 0;
-  right: 0;
-  color: hsl(0, 0%, 20%);
-  text-decoration: none;
-  z-index: 2;
-  padding: 0 10px;
-  height: 30px;
-  line-height: 30px;
-}
-
-.popup .close:hover {
-  background: hsl(0, 0%, 60%);
-}
-
-.popup .head {
-  background: hsl(0, 0%, 60%);
-  color: hsl(0, 0%, 86.7%);
-  padding: 0 10px;
-  height: 30px;
-  line-height: 30px;
-  text-transform: uppercase;
-  font-size: 0.9em;
-  font-weight: bold;
-  border-bottom: 2px solid green;
-}
-
-.popup input {
-  border: 1px solid hsl(0, 0%, 60%);
-  background: hsl(0, 0%, 100%);
-  margin: 0;
-  padding: 5px;
-  outline: none;
-  color: hsl(0, 0%, 20%);
-}
-
-.popup input[type='text']:hover,
-.popup input[type='text']:active,
-.popup input[type='text']:focus {
-  border-color: green;
-}
-
-.popup input[type='submit'] {
-  padding: 5px 10px;
-  background: hsl(0, 0%, 60%);
-  color: hsl(0, 0%, 86.7%);
-  text-transform: uppercase;
-  font-size: 0.9em;
-  font-weight: bold;
-}
-
-.popup input[type='submit']:hover,
-.popup input[type='submit']:focus,
-.popup input[type='submit']:active {
-  background: hsl(0, 0%, 66.7%);
-  cursor: pointer;
-}
-
-.changeFont {
-  padding: 10px;
-}
-
-.changeFont a {
-  display: block;
-  text-decoration: none;
-  padding: 3px;
-  color: hsl(0, 0%, 20%);
-}
-
-.changeFont a:hover {
-  background: hsl(0, 0%, 80%);
-}
-
-.highlightPopup {
-  padding: 10px;
-  text-align: center;
-}
-
-.highlightPopup input[type='text'] {
-  display: block;
-  width: 215px;
-  text-align: left;
-  margin-top: 5px;
-}
-
-.highlightPopup input.highlightColor {
-  background-color: hsl(60, 100%, 50%);
-}
-
-.highlightPopup input.highlightTermSubmit {
-  margin-top: 5px;
-}
-
-/* ADMIN CONTEXT MENU */
-
-.contextMenu {
-  background-color: hsl(0, 0%, 86.7%);
-  position: fixed;
-  margin: 2px;
-  width: 150px;
-}
-
-.contextMenu a {
-  display: block;
-  padding: 2px 5px;
-  text-decoration: none;
-  color: hsl(0, 0%, 20%);
-}
-
-.contextMenu a:hover {
-  background-color: hsl(0, 0%, 80%);
-}
-
-/* ADMIN FILTER MESSAGES MENU */
-
-.filterMessages {
-  padding: 5px;
-}
-
-.filterMessages div {
-  padding: 2px 0;
-}
-
-.icon-stack {
-  height: 1em;
-  line-height: 1em;
-  width: 1em;
-  vertical-align: middle;
-  margin-top: -2px;
-}
-
 /*****************************************
 *
 * OUTPUT ACTUALLY RELATED TO MESSAGES
@@ -260,6 +118,7 @@ h2.alert {
   color: #c9c1ba;
   font-family: Pterra, TrueType;
 }
+.italic,
 .italics {
   font-style: italic;
 }
@@ -276,15 +135,6 @@ h2.alert {
   color: #c5c5c5;
   font-weight: bold;
   font-family: Pterra;
-}
-.adminobserverooc {
-  color: #cca300;
-  font-weight: bold;
-  font-family: Pterra;
-}
-.adminooc {
-  color: #4972bc;
-  font-weight: bold;
 }
 
 .adminsay {
@@ -303,21 +153,11 @@ h2.alert {
 .say {
   font-family: Pterra;
 }
+
 .deadsay {
   color: #e2c1ff;
 }
-.binarysay {
-  color: #20c20e;
-  background-color: #000000;
-  display: block;
-}
-.binarysay a {
-  color: #00ff00;
-}
-.binarysay a:active,
-.binarysay a:visited {
-  color: #88ff88;
-}
+
 .radio {
   color: #1ecc43;
 }
@@ -354,17 +194,15 @@ h2.alert {
 .voyeurvice {
   color: #8b375e;
   font-weight: italic;
-  font-size: 75%
-}
-.redteamradio {
-  color: #ff4444;
-}
-.blueteamradio {
-  color: #3434fd;
+  font-size: 75%;
 }
 
-.yell {
-  font-weight: bold;
+.redteamradio {
+  color: hsl(0, 100%, 63.3%) !important;
+}
+
+.blueteamradio {
+  color: hsl(240, 98%, 59.8%) !important;
 }
 
 .yellow {
@@ -420,8 +258,8 @@ h2.alert {
 }
 
 .warningbig {
-	color: #ad1f1a;
-	font-size: 110%;
+  color: #ad1f1a;
+  font-size: 110%;
 }
 
 .boldwarning {
@@ -468,6 +306,10 @@ h2.alert {
 .bignotice {
   color: #f1d669;
   font-size: 120%;
+}
+.tinynotice {
+  color: hsl(227, 87.7%, 68%);
+  font-size: 85%;
 }
 .hear {
   color: #6685f5;
@@ -536,19 +378,9 @@ h2.alert {
   font-weight: bold;
   font-size: 12;
 }
-.narsiesmall {
-  color: #960000;
-  font-weight: bold;
-  font-size: 6;
-}
 .colossus {
   color: #7f282a;
   font-size: 5;
-}
-.hierophant {
-  color: #660099;
-  font-weight: bold;
-  font-style: italic;
 }
 .hierophant_warning {
   color: #660099;
@@ -574,15 +406,6 @@ h2.alert {
   color: #1d2953;
   font-size: 85%;
 }
-.revenboldnotice {
-  color: #1d2953;
-  font-weight: bold;
-}
-.revenbignotice {
-  color: #1d2953;
-  font-weight: bold;
-  font-size: 3;
-}
 .revenminor {
   color: #823abb;
   font-size: 85%;
@@ -592,17 +415,6 @@ h2.alert {
   font-style: italic;
   font-size: 85%;
 }
-.revendanger {
-  color: #760fbb;
-  font-weight: bold;
-  font-size: 3;
-}
-
-.deconversion_message {
-  color: #5000a0;
-  font-size: 3;
-  font-style: italic;
-}
 
 .ghostalert {
   color: #5c00e6;
@@ -610,23 +422,9 @@ h2.alert {
   font-weight: bold;
 }
 
-.alien {
-  color: #543354;
-}
-.noticealien {
-  color: #00c000;
-}
 .alertalien {
   color: #00c000;
   font-weight: bold;
-}
-.changeling {
-  color: #800080;
-  font-style: italic;
-}
-
-.spider {
-  color: #4d004d;
 }
 
 .interface {
@@ -649,8 +447,8 @@ h2.alert {
 .elf {
   font-family: 'Dauphin', cursive, 'Pterra';
 }
-.oldazure{
-	font-family: "BaggageMasterText79 ttcon", "Pterra";
+.oldazure {
+  font-family: 'BaggageMasterText79 ttcon', 'Pterra';
   font-size: 110%;
 }
 .dwarf {
@@ -721,14 +519,6 @@ h2.alert {
   font-size: 100%;
 }
 
-.torture {
-  color: #42ff20;
-}
-
-.command_headset {
-  font-weight: bold;
-  font-size: 3;
-}
 .small {
   font-size: 50%;
 }
@@ -742,31 +532,55 @@ h2.alert {
 .reallybig {
   font-size: 180%;
 }
-.extremelybig {
-  font-size: 220%;
-}
 .greentext {
   color: #00ff00;
 }
 .redtext {
   color: #ff0000;
 }
-.clown {
-  color: #ff69bf;
-  font-size: 3;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+
+.alertsyndie {
+  color: hsl(0, 100%, 50%);
+  font-size: 185%;
   font-weight: bold;
 }
-.his_grace {
-  color: #15d512;
-  font-family: 'Courier New', cursive, sans-serif;
+
+.highlight {
+  background: yellow;
+}
+
+.singing {
+  font-family: 'Trebuchet MS', cursive, sans-serif;
   font-style: italic;
 }
+
+.alertwarning {
+  color: hsl(0, 100%, 50%);
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.alertsyndie {
+  color: hsl(0, 100%, 50%);
+  font-size: 185%;
+  font-weight: bold;
+}
+
+.alertwarning {
+  color: hsl(0, 100%, 50%);
+  font-weight: bold;
+}
+
 .hypnophrase {
   color: #3bb5d3;
   font-weight: bold;
   animation: hypnocolor 1500ms infinite;
 }
+
 .pulsedeath {
   color: #dd0000;
   animation: deathcolor 1500ms infinite;
@@ -778,15 +592,23 @@ h2.alert {
 }
 
 .racialstatinfo {
-	color: #6a8cb7;
-	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-	font-weight: bold;
+  color: #6a8cb7;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+  font-weight: bold;
 }
 
 .smallracialstatinfo {
-	color: #6a8cb7;
-	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-	font-weight: bold;
+  color: #6a8cb7;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+  font-weight: bold;
   font-size: 80%;
 }
 
@@ -813,28 +635,12 @@ h2.alert {
   font-weight: bold;
   font-style: italic;
 }
-.slime {
-  color: #00ced1;
-}
-.drone {
-  color: #848482;
-}
-.monkey {
-  color: #975032;
-}
-.swarmer {
-  color: #2c75ff;
-}
 .resonate {
   color: #298f85;
 }
 
 .monkeyhive {
   color: #774704;
-}
-.monkeylead {
-  color: #774704;
-  font-size: 2;
 }
 
 .dead {
@@ -873,19 +679,19 @@ h2.alert {
 }
 
 .astrata {
-	color: #FFCC33;
-	font-size: 75%;
+  color: #ffcc33;
+  font-size: 75%;
 }
 .undivided {
-	color: #28908C;
-	font-size: 75%;
+  color: #28908c;
+  font-size: 75%;
 }
-.gamedeadsay{
+.gamedeadsay {
   color: #3b2842;
   font-size: 75%;
 }
 
-.dsayspeech{
+.dsayspeech {
   color: #6f5977;
 }
 
@@ -907,20 +713,6 @@ h2.alert {
   }
 }
 
-.connectionClosed,
-.fatalError {
-  background: red;
-  color: white;
-  padding: 5px;
-}
-.connectionClosed.restored {
-  background: green;
-}
-.internal.boldnshit {
-  color: #3d5bc3;
-  font-weight: bold;
-}
-
 .examine_block {
   background: #1b1c1e;
   border: 1px solid #a4bad6;
@@ -937,7 +729,7 @@ h2.alert {
 
 .chat_headshot {
   position: relative;
-  width:  min(100px, 100%);
+  width: min(100px, 100%);
   height: min(100px, 100%);
   max-width: 100px;
   max-height: 100px;
@@ -957,4 +749,88 @@ h2.alert {
   transform: scale(2.5);
   z-index: 100;
   border-radius: 2px;
+}
+
+.fieldset_legend {
+  position: relative;
+  max-width: 95%;
+  font-size: 120%;
+  background-color: var(--color-section);
+  padding: var(--space-s) var(--space-m);
+  border-color: inherit;
+  z-index: 0;
+
+  &:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: var(--border-thickness-tiny) solid;
+    border-color: inherit;
+    border-radius: var(--border-radius-medium);
+    mask-image: linear-gradient(to top, black 50%, transparent 50%);
+    z-index: -1;
+  }
+}
+
+.boxed_message {
+  background: hsl(220, 10%, 10%);
+  border: var(--border-thickness-tiny) solid;
+  border-left: var(--border-thickness-large) solid;
+  border-color: hsla(220, 40%, 75%, 0.25);
+  margin: var(--space-m) 0;
+  padding: var(--space-m) var(--space-l);
+  border-radius: var(--border-radius-medium);
+
+  &.red_box {
+    background: hsl(0, 20%, 10%);
+    border-color: hsla(0, 100%, 50%, 0.5);
+  }
+
+  &.green_box {
+    background: hsl(140, 20%, 10%);
+    border-color: hsla(120, 100%, 50%, 0.5);
+  }
+
+  &.blue_box {
+    background: hsl(220, 20%, 10%);
+    border-color: hsla(225, 90%, 65%, 0.5);
+  }
+
+  &.purple_box {
+    background: hsl(260, 25%, 12.5%);
+    border-color: hsla(260, 100%, 75%, 0.5);
+  }
+
+  hr {
+    margin: var(--space-m) -0.75em;
+    border-color: inherit;
+  }
+}
+
+// Provides a horizontal bar with text in the middle
+// I got this off stackoverflow
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid hsl(213.6, 37.9%, 74.1%);
+}
+
+.separator:not(:empty)::before {
+  margin-right: 0.25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: 0.25em;
+}
+
+.tooltip {
+  font-style: italic;
+  border-bottom: 1px dashed;
 }

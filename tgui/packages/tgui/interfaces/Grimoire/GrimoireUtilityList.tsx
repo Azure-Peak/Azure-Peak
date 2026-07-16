@@ -1,5 +1,5 @@
 import { cls, stripHtml } from './helpers';
-import { type Spell } from './types';
+import type { Spell } from './types';
 
 export const GrimoireUtilityList = ({
   spells,
@@ -42,9 +42,7 @@ export const GrimoireUtilityList = ({
         !isSelected && !isKnown && pointsSpent + spell.cost > pointsBudget;
       const isDisabled =
         readOnly ||
-        (!isSelected &&
-          !isKnown &&
-          (tooExpensive || selectedElsewhere));
+        (!isSelected && !isKnown && (tooExpensive || selectedElsewhere));
 
       const handleClick = readOnly
         ? undefined
@@ -86,7 +84,11 @@ export const GrimoireUtilityList = ({
             className="AspectPicker__spell-desc"
             style={{ marginLeft: '6px' }}
           >
-            {isGiven ? '(Given)' : spell.cost > 0 ? `(${spell.cost})` : '(free)'}
+            {isGiven
+              ? '(Given)'
+              : spell.cost > 0
+                ? `(${spell.cost})`
+                : '(free)'}
           </span>
           {isKnown && !isPendingUnbind && !isSelected && (
             <span

@@ -15,6 +15,9 @@
 	var/text_cooldown = TRUE
 	/// Shares cooldowns with other cooldown abilities of the same value, not active if null
 	var/shared_cooldown
+	/// Multiplier applied to the cooldown handed to the OTHER abilities in this shared group when
+	/// this ability triggers it. 1 = they get the same cooldown; 0.5 = they get half of it.
+	var/shared_cooldown_mult = 1
 
 	// These are only used for click_to_activate actions
 	/// Setting for intercepting clicks before activating the ability
@@ -122,7 +125,10 @@
 		for(var/datum/action/cooldown/shared_ability in owner.actions - src)
 			if(shared_cooldown != shared_ability.shared_cooldown)
 				continue
-			shared_ability.StartCooldownSelf(override_cooldown_time)
+			var/shared_time = override_cooldown_time
+			if(shared_cooldown_mult != 1 && isnum(shared_time))
+				shared_time = round(shared_time * shared_cooldown_mult)
+			shared_ability.StartCooldownSelf(shared_time)
 
 	StartCooldownSelf(override_cooldown_time)
 
@@ -306,7 +312,7 @@
 #undef COOLDOWN_NO_DISPLAY_TIME
 
 /proc/grant_poke_spell(mob/living/carbon/human/user) // unified proc because atm this is spread across like 5-6 places, uughhghghghgh
-	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Arcyne Lance", "Lesser Soulshot")
 	var/poke_choice = tgui_input_list(user, "Choose your offensive cantrip.", "Arcyne Awakening", poke_options)
 	if(!poke_choice || !user.mind)
 		return
@@ -321,8 +327,6 @@
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
 		if("Arcyne Lance")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
-		if("Lesser Gravel Blast")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
 		if("Lesser Soulshot")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 
@@ -342,7 +346,5 @@
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
 		if("Arcyne Lance")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
-		if("Gravel Blast")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast)
 		if("Soulshot")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot)

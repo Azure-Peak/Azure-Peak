@@ -10,7 +10,7 @@ import {
   SEAL_BLUE,
   SERIF,
 } from '../../common/parchment';
-import { type HarborDemand, type NoticeboardData } from '../types';
+import type { HarborDemand, NoticeboardData } from '../types';
 
 const orderGridStyle: React.CSSProperties = {
   display: 'grid',
@@ -133,8 +133,8 @@ const HarborDemandCard = ({ demand }: { demand: HarborDemand }) => (
         fontSize: FONT_BODY,
       }}
     >
-      Deposit goods at the Fulfillment Crate to settle the vessel&apos;s
-      bulk demands.
+      Deposit goods at the Fulfillment Crate to settle the vessel&apos;s bulk
+      demands.
     </div>
   </div>
 );

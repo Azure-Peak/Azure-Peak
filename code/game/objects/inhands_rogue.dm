@@ -32,13 +32,23 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 	if(HAS_BLOOD_DNA(src))
 		used_index += "_b"
 	var/static/list/onmob_sprites = list()
-	var/cache_key = "[type]|[tag]|[behind]|[mirrored]|[used_index]"
+	var/cache_key = "[type]|[tag]|[behind]|[mirrored]|[used_index]|[get_onmob_overlay_signature()]"
 	var/icon/onmob = onmob_sprites[cache_key]
 	if(!onmob || force_reupdate_inhand)
 		onmob = fcopy_rsc(generateonmob(tag, prop, behind, mirrored))
 		onmob_sprites[cache_key] = onmob
 		force_reupdate_inhand = FALSE
 	return onmob
+
+/obj/item/proc/get_onmob_overlay_signature()
+	if(!length(overlays))
+		return ""
+	var/static/list/plane_whitelist = list(FLOAT_PLANE, GAME_PLANE, FLOOR_PLANE)
+	var/list/sig = list()
+	for(var/mutable_appearance/overlay as anything in overlays)
+		if(overlay.plane in plane_whitelist)
+			sig += "\ref[overlay]"
+	return sig.Join(",")
 
 /obj/item/proc/get_extra_onmob_index()
 	//perhaps in the future: force items like flasks to use getflaticon to get their filled states and drinking cups too. that's all

@@ -33,6 +33,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	charge_time = 6 SECONDS
 	charge_slowdown = 3
 	charge_sound = 'sound/magic/charging.ogg'
@@ -43,7 +44,8 @@
 	point_cost = 2
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_NONE
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	charge_swingdelay_type = SWINGDELAY_CANCEL
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
 
 	var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/conjured_ward
 	var/ward_type = /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward
@@ -153,6 +155,7 @@
 	dismiss_invocation = "Draconis Dissipo!"
 	regen_invocation = "Draconis Restauro!"
 	point_cost = 4
+	exclusive_group = "arcyne_ward"
 	ward_type = /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/dragonhide
 	regen_spell_type = /datum/action/cooldown/spell/regenerate_arcyne_ward/dragonhide
 
@@ -170,6 +173,7 @@
 	charge_time = 6 SECONDS
 	point_cost = 4
 	spell_tier = 3
+	exclusive_group = "arcyne_ward"
 	ward_type = /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/crystalhide
 	regen_spell_type = /datum/action/cooldown/spell/regenerate_arcyne_ward/crystalhide
 
@@ -196,6 +200,7 @@
 	var/upfront_stamina_cost = 70
 
 	charge_required = TRUE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	charge_time = 10 SECONDS
 	hold_drain = 1
 	charge_slowdown = 3
@@ -206,7 +211,7 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_NONE
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
 
 	/// Back-reference to the conjure spell that owns this action, set by grant_regen_action().
 	var/datum/action/cooldown/spell/conjure_arcyne_ward/parent_spell

@@ -1,5 +1,5 @@
 import { cls } from './helpers';
-import { type Tab } from './types';
+import type { Tab } from './types';
 
 export const GrimoireTabBar = ({
   tab,

@@ -33,24 +33,24 @@
 	cost =	200 //Still extremely expensive compared to artificer but considering you need a virtue/soft antagonist to lead you here. IDC anymore.
 	contains = list(/obj/item/grapplinghook)
 
-//Technically medical but this bloats up the catagory less (artificer is still tenfold cheaper for these)
+//Technically medical but this bloats up the category less (artificer is still tenfold cheaper for these)
 
 /datum/supply_pack/rogue/medical_utility_wretch/prarmlbrz
-	name = "Prostethic Bronze Arm (L)"
+	name = "Prosthetic Bronze Arm (L)"
 	cost = 120
 	contains = list(/obj/item/bodypart/l_arm/prosthetic/bronzeleft)
 
 /datum/supply_pack/rogue/medical_utility_wretch/prarmrbrz
-	name = "Prostethic Bronze Arm (R)"
+	name = "Prosthetic Bronze Arm (R)"
 	cost = 120
 	contains = list(/obj/item/bodypart/r_arm/prosthetic/bronzeright)
 
 /datum/supply_pack/rogue/medical_utility_wretch/prleglbrz
-	name = "Prostethic Bronze Leg (L)"
+	name = "Prosthetic Bronze Leg (L)"
 	cost = 80
 	contains = list(/obj/item/bodypart/l_leg/prosthetic/bronzeleft)
 
 /datum/supply_pack/rogue/medical_utility_wretch/prlegrbrz
-	name = "Prostethic Bronze Leg (R)"
+	name = "Prosthetic Bronze Leg (R)"
 	cost = 80
 	contains = list(/obj/item/bodypart/r_leg/prosthetic/bronzeright)

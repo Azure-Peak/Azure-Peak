@@ -9,12 +9,10 @@
 		return
 
 	var/mob/living/living_pawn = controller.pawn
-	var/obj/item/held_item = living_pawn.get_active_held_item()
-	if(istype(held_item, /obj/item/rogueweapon/shield))
-		living_pawn.swap_hand()
-		held_item = living_pawn.get_active_held_item()
-
-	if(held_item)
-		return // Already armed — don't go looking for upgrades
+	for(var/obj/item/held in living_pawn.held_items)
+		if(istype(held, /obj/item/rogueweapon/shield))
+			continue
+		if(istype(held, /obj/item/rogueweapon) || istype(held, /obj/item/gun))
+			return // Already armed (melee or bow) — never drop, upgrade, or swap off a weapon we're holding
 
 	controller.queue_behavior(/datum/ai_behavior/find_and_set/better_weapon, BB_MOB_EQUIP_TARGET, null, vision_range)

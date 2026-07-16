@@ -330,6 +330,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					B.remove()
 					B.generate_appearance()
 					B.apply()
+				refresh_detail_overlay()
 				if (obj_broken)
 					update_damaged_state()
 			return
@@ -345,6 +346,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					update_damaged_state()
 			if(override_state)
 				icon_state = "[override_state]1"
+			refresh_detail_overlay()
 			return
 		if(gripsprite)
 			if(!override_state)
@@ -356,6 +358,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				B.remove()
 				B.generate_appearance()
 				B.apply()
+			refresh_detail_overlay()
 			if (obj_broken)
 				update_damaged_state()
 

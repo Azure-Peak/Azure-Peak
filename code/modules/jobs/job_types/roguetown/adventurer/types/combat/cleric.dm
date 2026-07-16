@@ -454,7 +454,7 @@
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
-	extra_context = "This subclass has higher-tier miracles, but regenerates Devotion far slower."
+	extra_context = "This subclass has two choice: You can choose T2 miracles or Bardic Inspirations. Taking songs lower your miracles to T1."
 
 /datum/outfit/job/roguetown/adventurer/cantor/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -470,17 +470,25 @@
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/special
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
+	var/is_bard = FALSE
+	if(H.mind)
+		var/callings = list("Devotion","Inspiration")
+		var/calling_choice = input(H, "Devote yourself wholly to your patron, or take up the bard's songs? You cannot walk both paths.", "YOUR CALLING") as anything in callings
+		is_bard = (calling_choice == "Inspiration")
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_2)	//Capped to T2 miracles.
-	var/datum/inspiration/I = new /datum/inspiration(H)
-	I.grant_inspiration(H, bard_tier = BARD_T1)
+	if(is_bard)
+		C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)
+		var/datum/inspiration/I = new /datum/inspiration(H)
+		I.grant_inspiration(H, bard_tier = BARD_T1)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
+	else
+		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2)
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 	H.cmode_music = 'sound/music/cmode/church/combat_reckoning.ogg'
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			cloak = /obj/item/clothing/cloak/absolutionistrobe/black //Formerly /obj/item/clothing/cloak/tabard/devotee/psydon.
@@ -515,10 +523,10 @@
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/undividedcleric, SLOT_CLOAK, TRUE)
 		else
 			cloak = /obj/item/clothing/cloak/cape/crusader
-	if(H.mind)
+	H.set_blindness(0)
+	if(is_bard && H.mind)
 		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
 		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
-		H.set_blindness(0)
 		switch(instrument_choice)
 			if("Harp")
 				backr = /obj/item/rogue/instrument/harp

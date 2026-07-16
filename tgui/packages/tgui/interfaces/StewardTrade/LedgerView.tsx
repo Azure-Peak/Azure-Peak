@@ -13,8 +13,8 @@ import {
   SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
 } from '../common/parchment';
 import type { Data, LedgerEntry } from './types';
 
@@ -141,9 +141,7 @@ export const LedgerView = (props: { data: Data }) => {
         </button>
       </div>
 
-      <div style={sectionHeaderStyle}>
-        Treasury Ledger &mdash; newest first
-      </div>
+      <div style={sectionHeaderStyle}>Treasury Ledger &mdash; newest first</div>
 
       <div style={{ height: '540px', overflowY: 'auto' }}>
         {page.entries.length === 0 ? (

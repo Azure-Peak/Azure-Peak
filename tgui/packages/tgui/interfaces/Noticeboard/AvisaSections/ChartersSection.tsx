@@ -11,7 +11,7 @@ import {
   SEAL_RED,
   SERIF,
 } from '../../common/parchment';
-import { type Charter, type NoticeboardData } from '../types';
+import type { Charter, NoticeboardData } from '../types';
 
 export const ChartersSection = ({ data }: { data: NoticeboardData }) => {
   const charters = (data.charters ?? []).slice().sort((a, b) => {
@@ -47,9 +47,7 @@ const CharterRow = ({ charter }: { charter: Charter }) => {
       }}
       onClick={() => setOpen((v) => !v)}
     >
-      <div
-        style={{ display: 'flex', alignItems: 'center', gap: 8 }}
-      >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span
           style={{
             color: INK_FAINT,
@@ -80,7 +78,7 @@ const CharterRow = ({ charter }: { charter: Charter }) => {
             of {charter.year}
           </span>
         </span>
-        {!!charter.active ? (
+        {charter.active ? (
           <span style={badgeStyle(SEAL_GREEN)}>IN FORCE</span>
         ) : (
           <span style={badgeStyle(SEAL_RED)}>SUSPENDED</span>

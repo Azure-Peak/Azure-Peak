@@ -146,7 +146,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	if(href_list["schizohelp"])
 		answer_schizohelp(locate(href_list["schizohelp"]))
 		return
-	
+
 	if(href_list["viewchronicle"])
 		var/tab = href_list["chronicletab"] || "The Realm"
 		show_chronicle(tab)
@@ -298,6 +298,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	stat_panel = new(src, "statbrowser")
 	stat_panel.subscribe(src, PROC_REF(on_stat_panel_message))
 
+	winset(src, null, "browser-options=find,refresh")
 	initialize_commandbar_spy()
 
 	GLOB.ahelp_tickets.ClientLogin(src)
@@ -1216,9 +1217,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 /client/New()
 	..()
 	fullscreen()
-	if(byond_version >= 516) // Enable 516 compat browser storage mechanisms
-		winset(src, null, "browser-options=find,byondstorage")
-	// byondstorage,devtools <- other options
 
 /client/proc/give_award(achievement_type, mob/user)
 	return	player_details.achievements.unlock(achievement_type, mob/user)

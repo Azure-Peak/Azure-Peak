@@ -166,6 +166,7 @@
 		/obj/item/clothing/ring/statrontz = 2,
 		/obj/item/clothing/neck/roguetown/psicross/malum/secret = 1,
 		/obj/item/clothing/neck/roguetown/psicross/weeping = 1,
+		/obj/item/heelkit = 1
 	) //'Stat_' and 'Psicross_' rings at '2' or below provide statbuffs, and should be kept rare. Move to a seperate drop table if they become too common. Likeliest find is from high-end dungeons and mimics.
 
 /obj/effect/spawner/lootdrop/puzzlebox_rings
