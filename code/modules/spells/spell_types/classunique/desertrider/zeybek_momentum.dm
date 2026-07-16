@@ -2,7 +2,7 @@
 
 /obj/effect/proc_holder/spell/self/zeybek_momentum
 	name = "Momentum"
-	desc = "Enter a flow-state of deadly swordsmanship. For 45 seconds, each landed strike builds momentum, increasing level every 5 strikes. Getting to a higher level increases duration, and restores energy. Bonuses reset by bait or riposte, and completely lost on exhaustion or stun. The first level of momentum gives +1 SPD, +1 WIL. The second doubles these effects. The third and final state gives Fortitude."
+	desc = "Enter a flow-state of deadly swordsmanship. For 45 seconds, each landed strike builds momentum, increasing level every 5 strikes. Getting to a higher level increases duration, and restores energy. Bonuses reset by bait or riposte, and completely lost on exhaustion, stun, immobilize, or off-balance. The first level of momentum gives +1 SPD, +1 WIL. The second doubles these effects. The third and final state gives Fortitude."
 	overlay_state = "haste"
 	recharge_time = 2 MINUTES
 	ignore_cockblock = TRUE
@@ -15,12 +15,12 @@
 	momentum_style = "zeybek"
 
 /obj/effect/proc_holder/spell/self/zeybek_momentum/janissary
-	desc = "Steady your stance and grow unbreakable with each landed strike. For 45 seconds, each landed strike builds momentum, increasing level every 5 strikes. Getting to a higher level increases duration, and restores energy. Bonuses reset by bait or riposte, and completely lost on exhaustion or stun. The first level of momentum gives +1 STR, +1 WIL. The second also grants +2 INT, +1 FOR. The third grants Fortitude."
+	desc = "Steady your stance and grow unbreakable with each landed strike. For 45 seconds, each landed strike builds momentum, increasing level every 5 strikes. Getting to a higher level increases duration, and restores energy. Bonuses reset by bait or riposte, and completely lost on exhaustion, stun, immobilize, or off-balance. The first level of momentum gives +1 STR, +1 WIL. The second also grants +2 INT, +1 FOR. The third grants Fortitude."
 	invocations = list("BRACE.")
 	momentum_style = "janissary"
 
 /obj/effect/proc_holder/spell/self/zeybek_momentum/almah //unused; almah is prooobably fine
-	desc = "Thread steel and sorcery together. For 45 seconds, each landed strike builds momentum, increasing level every 5 strikes. Getting to a higher level increases duration, and restores energy. Bonuses reset by bait or riposte, and completely lost on exhaustion or stun. The first level of momentum gives +1 CON, +1 WIL. The second also grants +2 STR, +1 CON. The third grants Fortitude."
+	desc = "Thread steel and sorcery together. For 45 seconds, each landed strike builds momentum, increasing level every 5 strikes. Getting to a higher level increases duration, and restores energy. Bonuses reset by bait or riposte, and completely lost on exhaustion, stun, immobilize, or off-balance. The first level of momentum gives +1 CON, +1 WIL. The second also grants +2 STR, +1 CON. The third grants Fortitude."
 	invocations = list("TAPESTRY.")
 	momentum_style = "almah"
 
@@ -70,13 +70,15 @@
 	RegisterSignal(owner, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, PROC_REF(smack_attack))
 	RegisterSignal(owner, COMSIG_LIVING_STATUS_STUN, PROC_REF(cancel_on_incapacitation))
 	RegisterSignal(owner, COMSIG_LIVING_STATUS_KNOCKDOWN, PROC_REF(cancel_on_incapacitation))
+	RegisterSignal(owner, COMSIG_LIVING_STATUS_IMMOBILIZE, PROC_REF(cancel_on_incapacitation))
+	RegisterSignal(owner, COMSIG_LIVING_STATUS_OFFBALANCED, PROC_REF(cancel_on_incapacitation))
 	owner.add_filter(MOMENTUM_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 55, "size" = 1))
 	to_chat(owner, span_notice("STACKING."))
 
 /datum/status_effect/buff/zeybek_momentum/on_remove()
 	. = ..()
 	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY)
-	UnregisterSignal(owner, list(COMSIG_LIVING_STATUS_STUN, COMSIG_LIVING_STATUS_KNOCKDOWN))
+	UnregisterSignal(owner, list(COMSIG_LIVING_STATUS_STUN, COMSIG_LIVING_STATUS_KNOCKDOWN, COMSIG_LIVING_STATUS_IMMOBILIZE, COMSIG_LIVING_STATUS_OFFBALANCED))
 	owner.change_stat(STATKEY_WIL, -wil_bonus)
 	owner.change_stat(STATKEY_SPD, -spd_bonus)
 	owner.change_stat(STATKEY_PER, -per_bonus)
@@ -140,9 +142,8 @@
 		return
 	if(!owner)
 		return
-	if(owner.stamina >= owner.max_stamina && !owner.IsKnockdown() && !owner.IsStun())
-		return
-	to_chat(owner, span_warning("NO...!"))
+	to_chat(owner, span_userdanger("NO...!"))
+	owner.emote("gasp", forced = TRUE)
 	qdel(src)
 
 /datum/status_effect/buff/zeybek_momentum/proc/grant_milestone_boost(milestone)
