@@ -189,7 +189,7 @@
 				human_owner.hud_used?.stressies?.flick_pain(TRUE)
 				var/suppress_attack_blip = FALSE //At 'Always' we're guaranteed to have already emoted due to a successful attack.
 				if(user?.client?.prefs?.attack_blip_frequency == ATTACK_BLIP_PREF_ALWAYS || user?.client?.prefs?.attack_blip_frequency == ATTACK_BLIP_PREF_NEVER)
-					suppress_attack_blip = TRUE 
+					suppress_attack_blip = TRUE
 				if(!suppress_attack_blip)
 					if(user)
 						user.emote("attack", forced = TRUE)
@@ -323,7 +323,7 @@
 			dam += 10
 		if(HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
 			if(HAS_TRAIT(src, TRAIT_IRONMAN))
-				attempted_wounds += /datum/wound/integrity	
+				attempted_wounds += /datum/wound/integrity
 			else
 				attempted_wounds += /datum/wound/artery		//basically does sword-tier wounds.
 	if((bclass in GLOB.sunder_bclasses))
@@ -398,12 +398,12 @@
 				if(!HAS_TRAIT(owner, TRAIT_IRONMAN)) // pointless to disembowel them, as they don't die to tox anyway
 					attempted_wounds += /datum/wound/slash/disembowel
 			if(owner.has_wound(/datum/wound/fracture/chest) || (bclass in GLOB.artery_heart_bclasses) || HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
-				if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+				if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 					attempted_wounds += /datum/wound/integrity/chest
 				else
 					attempted_wounds += /datum/wound/artery/chest
 			else
-				if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+				if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 					attempted_wounds += /datum/wound/integrity
 				else
 					attempted_wounds += /datum/wound/artery
@@ -414,7 +414,7 @@
 				dam += 10
 		if(prob(used))
 			if(HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
-				if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+				if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 					attempted_wounds += /datum/wound/integrity/chest
 				else
 					attempted_wounds += /datum/wound/artery/chest
@@ -527,7 +527,7 @@
 					used += 10
 		var/artery_type = /datum/wound/artery
 		if(zone_precise == BODY_ZONE_PRECISE_NECK)
-			if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+			if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 				artery_type = /datum/wound/integrity/neck
 			else
 				artery_type = /datum/wound/artery/neck
@@ -794,7 +794,7 @@
 			continue
 		returned_flags |= SURGERY_DRILLED
 	if(skeletonized)
-		returned_flags |= SURGERY_INCISED | SURGERY_RETRACTED | SURGERY_DRILLED //ehh... we have access to whatever organ is there
+		returned_flags |= SURGERY_RETRACTED | SURGERY_DRILLED //ehh... we have access to whatever organ is there -- skeletonized default was causing weird behaviors with some things such as golgatha
 	return returned_flags
 
 /* Check for critical resistance and trigger its effects.
