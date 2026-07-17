@@ -50,3 +50,21 @@
 /atom/movable/screen/alert/status_effect/buff/speed_infusion
 	name = "Speed Infusion"
 	desc = "Abyssor's dream is vivid in my mind, my mind flooded with imagery of hares outspeeding turtles."
+
+/datum/status_effect/infusion/ambush_trait
+	id = "Sneaky Infusion"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/sneak_infusion
+	effectedstats = list()
+	examine_text = "SUBJECTPRONOUN looks surrounded by a shimmering, obscuring aura of dark paint."
+
+/datum/status_effect/infusion/ambush_trait/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_AZURENATIVE, TRAIT_INFUSION)
+
+/datum/status_effect/infusion/ambush_trait/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_AZURENATIVE, TRAIT_INFUSION)
+
+/atom/movable/screen/alert/status_effect/buff/sneak_infusion
+	name = "Sneaky Infusion"
+	desc = "Abyssor's dream is vivid in my mind, showing hints of rustling bushes and maneaters."
