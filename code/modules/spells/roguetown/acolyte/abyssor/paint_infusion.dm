@@ -27,7 +27,8 @@
 	original_duration = initial(duration)
 	. = ..()
 	if(owner && source_pylon)
-		update_pylon_outline(source_pylon, "#7A288A")
+		var/outline_color = source_pylon.pylon_color ? source_pylon.pylon_color : "#7A288A"
+		update_pylon_outline(source_pylon, outline_color)
 
 /datum/status_effect/infusion/Destroy()
 	if(pylon_outline)
@@ -94,17 +95,21 @@
 /datum/status_effect/infusion/proc/update_pylon_outline(obj/structure/dream_pylon/P, new_color)
 	if(!owner?.client || !P)
 		return
+	var/alpha_hex = "80"
+	var/final_color = new_color
+	if(length(new_color) == 7 && copytext(new_color, 1, 2) == "#")
+		final_color = "[new_color][alpha_hex]"
 
 	if(pylon_outline)
 		pylon_outline.filters = null
-		pylon_outline.filters += filter(type = "outline", size = 1, color = new_color)
+		pylon_outline.filters += filter(type = "outline", size = 1, color = final_color)
 	else
 		var/image/I = image(icon = P.icon, loc = P, icon_state = P.icon_state, layer = P.layer + 0.05)
 
 		if(P.active_overlay)
 			I.overlays += image(icon = P.active_overlay.icon, icon_state = P.active_overlay.icon_state)
 
-		I.filters += filter(type = "outline", size = 1, color = new_color)
+		I.filters += filter(type = "outline", size = 1, color = final_color)
 
 		pylon_outline = I
 		owner.client.images += pylon_outline
