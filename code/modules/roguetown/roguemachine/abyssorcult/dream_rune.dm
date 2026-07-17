@@ -56,10 +56,9 @@
 /obj/structure/roguemachine/ritual_rune/proc/populate_vision_quests()
 	if(length(GLOB.all_vision_quests))
 		return
-	GLOB.all_vision_quests = list(
-		new /datum/vision_quest/orthodox_hunt,
-		new /datum/vision_quest/wounded_tennite,
-	)
+	GLOB.all_vision_quests = list()
+	for(var/quest_type in subtypesof(/datum/vision_quest))
+		GLOB.all_vision_quests += new quest_type()
 
 /obj/structure/roguemachine/ritual_rune/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/dream_material/parchment_silver))

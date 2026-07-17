@@ -3,14 +3,15 @@
 	description = "A psydonite stands in Abyssor's gaze. You are the prophet, you will deliver his missive."
 	required_tier = 1
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
 	)
 	target_description = "an Orthodoxist"
 	summary = "A psydonite's faith in the light of a true vision."
@@ -38,14 +39,15 @@
 	description = "A faithful tennite limps. Abyssor's waters will close their wounds."
 	required_tier = 1
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
 	)
 	target_description = "a Tennite"
 	summary = "A wounded lamb whom may require your aid."
@@ -83,14 +85,15 @@
 	description = "The royal family, endangered. But they know naught."
 	required_tier = 1
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
 	)
 	target_description = "a member of the royal family"
 	summary = "Leechticks are a danger to the world."
@@ -115,14 +118,15 @@
 	description = "He calls out from depths, you answer."
 	required_tier = 1
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
 	)
 	target_description = "an abyssorite"
 	summary = "A beautiful sleeper."
@@ -151,8 +155,7 @@
 		return FALSE
 	if(!target.patron)
 		return FALSE
-	var/list/abyssor = list(/datum/patron/divine/abyssor)
-	if(!(target.patron.type in abyssor))
+	if(!(target.patron.type == /datum/patron/divine/abyssor))
 		return FALSE
 	return TRUE
 
@@ -161,14 +164,15 @@
 	description = "There's nothing."
 	required_tier = 1
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
 	)
 	target_description = "unknown"
 	summary = "There are grander things out there."
@@ -197,14 +201,15 @@
 	description = "The fool embraces."
 	required_tier = 1
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
 	)
 	target_description = "a fool"
 	summary = "One's legs must keep moving."
@@ -232,14 +237,15 @@
 	description = "A mortal forgets their place at the table."
 	required_tier = 1
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
 	)
 	target_description = "a starving soul"
 	summary = "A reminder of the hunger that waits below."
@@ -267,14 +273,15 @@
 	description = "A soul seeks proof of the Gods."
 	required_tier = 1
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
 	)
 	target_description = "a doubter"
 	summary = "Doubt is the root of evil."
@@ -306,14 +313,15 @@
 	description = "A warrior has forgotten how to do anything but fight."
 	required_tier = 1
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
 	)
 	target_description = "a warrior"
 	summary = "Even the sharpest blade needs a sheath."
@@ -383,14 +391,15 @@
 	description = "A knight bears chains they forged themselves."
 	required_tier = 1
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_spike = "effervescent spikes",
+		/obj/item/dream_material/parchment_raw = "imagined parchment",
+		/obj/item/dream_material/dream_ring = "gleaming rings",
+		/obj/item/dream_material/dream_seed = "dream seeds"
 	)
 	target_description = "a penitent"
 	summary = "Penance is a weight you must learn to carry."

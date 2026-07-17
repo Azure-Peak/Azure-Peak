@@ -3,14 +3,12 @@
 	description = "He calls out from depths, you answer."
 	required_tier = 3
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_shards = "distant shards",
+		/obj/item/dream_material/dream_star = "wronged stars"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_shards = "distant shards",
+		/obj/item/dream_material/dream_star = "wronged stars"
 	)
 	target_description = "unknown"
 	summary = "It cannot be."
@@ -42,14 +40,12 @@
 	description = "It calls out from depths, you answer."
 	required_tier = 3
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_shards = "distant shards",
+		/obj/item/dream_material/dream_star = "wronged stars"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_shards = "distant shards",
+		/obj/item/dream_material/dream_star = "wronged stars"
 	)
 	target_description = "unknown"
 	summary = "There are foul beings in His realm."
@@ -82,14 +78,12 @@
 	description = "It calls out from depths, you answer."
 	required_tier = 3
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_shards = "distant shards",
+		/obj/item/dream_material/dream_star = "wronged stars"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_shards = "distant shards",
+		/obj/item/dream_material/dream_star = "wronged stars"
 	)
 	target_description = "unknown"
 	summary = "There are angels under the surface."
@@ -122,14 +116,12 @@
 	description = "They call out from depths, you answer."
 	required_tier = 3
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_shards = "distant shards",
+		/obj/item/dream_material/dream_star = "wronged stars"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_shards = "distant shards",
+		/obj/item/dream_material/dream_star = "wronged stars"
 	)
 	target_description = "unknown"
 	summary = "We cannot inherit His domain."
@@ -161,14 +153,12 @@
 	description = "The water calls, and you must consume."
 	required_tier = 3
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_shards = "distant shards",
+		/obj/item/dream_material/dream_star = "wronged stars"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_shards = "distant shards",
+		/obj/item/dream_material/dream_star = "wronged stars"
 	)
 	target_description = "unknown"
 	summary = "Salt is His holy gift to us."

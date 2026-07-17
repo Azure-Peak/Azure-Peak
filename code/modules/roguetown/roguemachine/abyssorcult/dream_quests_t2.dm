@@ -3,14 +3,14 @@
 	description = "A melody from the deep calls to the faithful."
 	required_tier = 2
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment",
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment",
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	target_description = "a troubled abyssorite"
 	summary = "The siren's call is not always truthful."
@@ -41,14 +41,14 @@
 	description = "A psydonite stands in Abyssor's gaze. You are the prophet, you will deliver his missive."
 	required_tier = 2
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	target_description = "an Orthodoxist"
 	summary = "A psydonite's faith in the light of a true vision."
@@ -78,14 +78,14 @@
 	description = "Chittering and crawling creatures dwell in the city of shades."
 	required_tier = 2
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	target_description = "unknown"
 	summary = "Shal'ghur's streets are paved with forgotten souls, the market awaits"
@@ -120,14 +120,14 @@
 	description = "A group of depraved & deprived gather."
 	required_tier = 2
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	target_description = "an affluent one"
 	summary = "It's not all gold that glitters."
@@ -172,14 +172,14 @@
 	description = "Endless waters as far as the eye can see."
 	required_tier = 2
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	target_description = "unknown"
 	summary = "Do not dive too deep."
@@ -215,14 +215,14 @@
 	description = "It reaches for the skies."
 	required_tier = 2
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	target_description = "unknown"
 	summary = "We would all benefit from a slice of His realm."
@@ -259,14 +259,14 @@
 	description = "Am I dreaming too deep?"
 	required_tier = 2
 	possible_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	possible_bonus_rewards = list(
-		/obj/item/dream_material/dream_spike = "spikes",
-		/obj/item/dream_material/dream_seed = "seeds",
-		/obj/item/dream_material/parchment_raw = "parchment"
+		/obj/item/dream_material/dream_effigy = "glittering effigies",
+		/obj/item/dream_material/dream_fishes = "spiraling eels",
+		/obj/item/dream_material/dream_blade = "shattered blades"
 	)
 	target_description = "unknown"
 	summary = "I am dreaming too deep."

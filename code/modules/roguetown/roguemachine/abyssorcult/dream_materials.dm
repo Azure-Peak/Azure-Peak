@@ -4,6 +4,7 @@
 	w_class = WEIGHT_CLASS_TINY
 	icon =  'icons/roguetown/misc/dream_materials.dmi'
 
+// Tier 1
 /obj/item/dream_material/dream_spike
 	name = "effervescent spike"
 	icon_state = "spike"
@@ -12,22 +13,11 @@
 	name = "imagined parchment"
 	icon_state = "paper"
 
-/obj/item/dream_material/parchment_silver
-	name = "imagined parchment"
-	icon_state = "tier1_open"
-
-/obj/item/dream_material/parchment_gold
-	name = "imagined parchment"
-	icon_state = "tier2_open"
-
-/obj/item/dream_material/parchment_dream
-	name = "imagined parchment"
-	icon_state = "tier3_open"
-
 /obj/item/dream_material/dream_ring
 	name = "gleaming ring"
 	icon_state = "ring"
 
+// Tier 2
 /obj/item/dream_material/dream_effigy
 	name = "glittering effigy"
 	icon_state = "effigy"
@@ -40,6 +30,7 @@
 	name = "shattered blade"
 	icon_state = "blade"
 
+// Tier 3
 /obj/item/dream_material/dream_shards
 	name = "distant shards"
 	icon_state = "shards"
@@ -47,6 +38,19 @@
 /obj/item/dream_material/dream_star
 	name = "wronged star"
 	icon_state = "star"
+
+// Tierless
+/obj/item/dream_material/parchment_silver
+	name = "imagined parchment"
+	icon_state = "tier1_open"
+
+/obj/item/dream_material/parchment_gold
+	name = "imagined parchment"
+	icon_state = "tier2_open"
+
+/obj/item/dream_material/parchment_dream
+	name = "imagined parchment"
+	icon_state = "tier3_open"
 
 /obj/item/dream_material/dream_seed
 	name = "seed of intelligence"
