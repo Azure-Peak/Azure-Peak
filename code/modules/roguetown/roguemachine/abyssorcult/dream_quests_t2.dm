@@ -241,15 +241,61 @@
 	Mirrored in the structure are glimpses of the essence of the dream. \
 	Melting walls, great plains of jagged flowers and darting shards. \
 	Decades blur into centuries, yet the spire's slow growth never stops. \
-	Inch by inch, black ice and calcified coral gnaw away at the world \
+	Inch by inch, black ice and calcified coral gnaw away at the world. \
 	Cave-dwelling beasts crawl toward the spire, their scales softening to translucent, gelled hides \
 	A minotaur loses their horns, iridescent spikes fill empty sockets. \
 	Stalagmites extend into spiraling structures, the very rock growing salty and porous. \
 	Centuries pass as the cavern slowly bleeds into an overturned seabed. \
-	Were it man or the Deepfather himself that planted such a seed? \
+	Were it humen or the Deepfather himself that planted such a seed? \
 	The remains a beautiful diorama, we have erected a great cathedral there, singing the hymns of the abyss."
 	possible_phrases = list(
 		"nurture the seed",
 		"wait for greatness",
 		"the time is not yet right"
+	)
+
+/datum/vision_quest/dreamwalker
+	name = "Walking The Dream"
+	description = "Am I dreaming too deep?"
+	required_tier = 2
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "unknown"
+	summary = "I am dreaming too deep."
+	vision_text = "I stand upon the precipice of the church. \
+	It's a dae like any other. The rays of Astrata bathe the steps. \
+	Merely another humble servant of the Deepfather, that's who you are, ready to feed the congegation with his bounty yet again. \
+	But it's not just a regular day. Something feels... Off. \
+	Like the hues of gold in Astrata's banners are more vibrant, singing your eyes. \
+	The murmurs within the crowd grow loud and obnoxious, echoing in your skull. \
+	Yet, you persist. One of the faithful isn't so easily swayed by a little bit of nausea. \
+	Perhaps it was that morning's porridge. It wouldn't be the first time the rot of the land afflicted the golden grains. \
+	The sermon proceeds. You dilligently sing your portion of her holy hymns. \
+	It just.. Drags on. The words stuck to your tongue like sludge. \
+	Musing such thoughts left you ill-prepared for the sudden drop of moisture hitting your forehead. \
+	You rub out the drop, not even singing anymore. The roof? But- it isn't even raining. \
+	Sensing the disturbance, you are excused. Acolytes file to fill the gap you've left. \
+	Stumbling over to the staircase. But you do not reach it, your legs do not follow commands any longer. \
+	Gazing up the walls start to lengthen, and where the roof should be, there lies the eye of the storm instead. \
+	The congregation doesn't seem to notice, only your form is getting soaked in the ever swelling deluge. \
+	The lock in your knees lifts, but the realm buckles under each step. \
+	I am awake, yet I dream. My eyes weep with otherworldly tears. \
+	But it all pales in comparison to the hatred. \
+	Anger, levied at the way the realm is shaped. \
+	Pillars should wave, they shouldn't rise up as straight monuments. \
+	They shouldn't be singing of Her, they should be telling His great deeds. \
+	The realms shift, the imagery swirls... As your hands form before your eyes clearly once more. \
+	It-.. It was just a vision."
+	possible_phrases = list(
+		"do not dream too deep",
+		"seek not forbidden knowledge",
+		"do not wander the mind"
 	)
