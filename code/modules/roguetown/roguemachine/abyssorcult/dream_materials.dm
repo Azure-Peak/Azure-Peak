@@ -120,4 +120,11 @@
 	charge_grant = 75
 	max_charge_grant = 75
 	infusion_type = /datum/status_effect/infusion/perception
-	pylon_color = "#d9ad1e"
+	pylon_color = "#017514"
+
+/obj/item/dream_material/dream_seed/fortune
+	name = "seed of fortune"
+	charge_grant = 125
+	max_charge_grant = 125
+	infusion_type = /datum/status_effect/infusion/fortune
+	pylon_color = "#bdb001"
