@@ -37,7 +37,7 @@
 	valid_roles = list()
 	// Any role is valid.
 
-/datum/vision_quest/dreamfiends
+/datum/vision_quest/dreamfiend
 	name = "The Dreameater"
 	description = "It calls out from depths, you answer."
 	required_tier = 3
@@ -74,5 +74,45 @@
 		"do not believe whispers of salvation",
 		"dreamfiends eat more than dreams",
 		"they are not all simple beasts",
-		"naledi speaks of demons, the dream speaks of fiends"
+		"naledi speaks of daemons, the dream speaks of fiends"
+	)
+
+/datum/vision_quest/leviathan
+	name = "The Leviathan"
+	description = "It calls out from depths, you answer."
+	required_tier = 3
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "unknown"
+	summary = "There are angels under the surface."
+	vision_text = "The surface of the water ripples. \
+	Such- a small movement upon an infinite plane of blue. \
+	The strangest being the utter lack of the usual waves lapping at the sands. \
+	Like a metronome, the ripple keeps repeating, ever further from the coast. \
+	It grows in size with each movement, occasionally gaining an extra ring. \
+	Monotonous, until the center of the ripple spawns a single droplet. \
+	Ominous, as the drop swells with each repetition, taking on the shape of a skull as it swells. \
+	Imposing, the giant of liquid casting shadow across you and the rest of the beach, the very air thrumming as it crashes down. \
+	Displacing the depths in a giant wave, water whipped up high as the keep. \
+	A giant fin travels along the waters, until the head of a mighty serpent broaches the other side. \
+	Salvation, as it splits the wave to heed you, rows of bioluminescent lights travelling overhead. \
+	Yet it's only tremors that follow, creature of sea broaching land. \
+	Vaninishing beneath the surface of soil where it shouldn't wander. \
+	Merely the tail peeks out, splashing sands heavier than any sandstorm could. \
+	The ocean splits once again, this time it's many gnarled digits that darken the sky. \
+	Pinching the tail like capturing a petulent child, the monstrous creature is pulled back into the depths. \
+	None of His angels shall take flight without permission from the Deepfather. \
+	Praise the abyss."
+	possible_phrases = list(
+		"angels held by his hand",
+		"the deepfather shelters his children",
+		"leviathans desire to invade the land"
 	)
