@@ -155,3 +155,44 @@
 		"sing a prayer for those lost to the waves",
 		"ships do not tame the seas"
 	)
+
+/datum/vision_quest/black_salt
+	name = "The Salt"
+	description = "The water calls, and you must consume."
+	required_tier = 3
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "unknown"
+	summary = "Salt is His holy gift to us."
+	vision_text = "So incredibly parched. \
+	A throat like parchment, claws poking at the skin as it flakes away. \
+	Not a glass can save you. The innkeeper watching on with hollow eyes as you drink the last barrel. \
+	It is like your body subsumes the very fluid, bloating without sating your thirst. \
+	The well runs dry, you are at fault. \
+	Cattle long since dried out. For you emptied every through. \
+	You remember. The sea ever vigilant, watching over you even now, whilst you forsake the call. \
+	Falling down by the waterline, you bite into the salty waters, tasting the sands below. \
+	There's no refreshing touch of liquid. As you chew, all you find stuffing your teeth is grains of black salt. \
+	They shatter your teeth with ease, for even they have grown to be as brittle as the very salt between them. \
+	You've never felt better. \
+	The call of Abyssor rings loudly in your ears, as if His song travels through your frame with ease. \
+	One basalt step at a time, you mount the cliffs. \
+	Your legs move with stiff movements, gazing down to see the very same darkened salt you imbided replace your flesh. \
+	Stepping like screeching clockwork, your toes step upon the waving grass, even if you do not feel their embrace. \
+	You fall down, as the last of your flesh hardens, atrophying to leave but a hollow husk. \
+	The vigil, staring out over the town dilligently to heed it from danger. \
+	Eyes light up the sky with pale, white fire, leading every sailor safely. \
+	You wished for a drink, but the waves saw fit to give you a new purpose."
+	possible_phrases = list(
+		"faith gives us purpose",
+		"the waves will embrace you",
+		"seek meaning in the salt"
+	)
