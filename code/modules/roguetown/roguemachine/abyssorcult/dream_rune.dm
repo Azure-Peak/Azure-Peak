@@ -61,20 +61,32 @@
 		GLOB.all_vision_quests += new quest_type()
 
 /obj/structure/roguemachine/ritual_rune/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/dream_material/parchment_silver))
-		if(!linked_pool)
-			attempt_pool_link()
-		if(!linked_pool || linked_pool.linked_door?.gate_closed)
-			to_chat(user, span_warning("The dream pool gate must be open to receive visions."))
-			return
-		var/tier = 1
-		if(istype(I, /obj/item/dream_material/parchment_gold))
-			tier = 2
-		else if(istype(I, /obj/item/dream_material/parchment_dream))
-			tier = 3
-		attempt_vision_quest(user, tier, I)
+	if(!istype(I, /obj/item/dream_material))
+		return ..()
+
+	if(!linked_pool)
+		attempt_pool_link()
+
+	if(!linked_pool || linked_pool.linked_door?.gate_closed)
+		to_chat(user, span_warning("The dream pool gate must be open to receive visions."))
 		return
-	return ..()
+
+	var/tier = 0
+	if(istype(I, /obj/item/dream_material/parchment_silver))
+		tier = 1
+	else if(istype(I, /obj/item/dream_material/parchment_gold))
+		tier = 2
+	else if(istype(I, /obj/item/dream_material/parchment_dream))
+		tier = 3
+	else
+		to_chat(user, span_warning("The rune doesn't recognize this material."))
+		return
+
+	if(tier <= 0)
+		to_chat(user, span_warning("This parchment doesn't seem powerful enough."))
+		return
+
+	attempt_vision_quest(user, tier, I)
 
 /obj/structure/roguemachine/ritual_rune/proc/attempt_vision_quest(mob/living/carbon/human/user, tier, obj/item/used_parchment)
 	populate_vision_quests()
@@ -113,8 +125,8 @@
 			var/chosen_bonus_path = pick(Q.possible_bonus_rewards)
 
 			tier_choices += list(list(
-				"quest" = Q, 
-				"target" = valid_target, 
+				"quest" = Q,
+				"target" = valid_target,
 				"bonus" = chosen_bonus_path
 			))
 		cached_choices[tier_key] = tier_choices
@@ -124,7 +136,7 @@
 			var/datum/vision_quest/Q = entry["quest"]
 			var/mob/living/carbon/human/target_mob = entry["target"]
 
-			if(!target_mob || target_mob.stat == DEAD || !(target_mob in GLOB.human_list)) 
+			if(!target_mob || target_mob.stat == DEAD || !(target_mob in GLOB.human_list))
 				var/mob/living/carbon/human/new_target = find_valid_target_for_quest(Q, user)
 				if(new_target)
 					entry["target"] = new_target

@@ -65,11 +65,11 @@
 	)
 
 /datum/vision_quest/proc/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
-	if(!target || target == seeker) 
+	if(!target || target == seeker)
 		return FALSE
 	if(target.stat == DEAD)
 		return FALSE
-	if(!target.mind) 
+	if(!target.mind)
 		return FALSE
 	// I'm- not sure how else to prevent abyssorites from seeing emotional roleplay too often.
 	// So we'll assume anyone wearing three items or less is doing emotional roleplay.
@@ -166,14 +166,14 @@
 	if(!target_turf)
 		return FALSE
 
-	// Trigger the base scry method to detach consciousness
-	var/mob/dead/observer/rogue/arcaneeye/eye = seeker.scry(can_reenter_corpse = TRUE, force_respawn = FALSE)
+	// Trigger standard eye manifestation
+	var/mob/dead/observer/eye/arcane/eye = seeker.scry_ghost(/mob/dead/observer/eye/arcane/abyssor)
 	if(!eye)
 		return FALSE
 
 	eye.forceMove(target_turf)
 	eye.scry_center_turf = target_turf
-	
+
 	to_chat(seeker, span_purple("Your mind pierces the veil to glimpse your target... You have 4 seconds."))
-	addtimer(CALLBACK(eye, /mob/dead/observer/rogue/arcaneeye/proc/cancel_scry), 4 SECONDS)
+	addtimer(CALLBACK(eye, TYPE_PROC_REF(/mob/dead/observer/eye/arcane, cancel_scry)), 4 SECONDS)
 	return TRUE

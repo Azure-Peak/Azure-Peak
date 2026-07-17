@@ -19,6 +19,8 @@
 	icon_state = "arcaneeye"
 	see_in_dark = 2
 	hud_type = /datum/hud/eye
+	/// If we have limited scrying
+	var/limited_scry = FALSE
 	/// The central turf we are restricted to scrying around
 	var/turf/scry_center_turf
 	/// The maximum tile distance from the center turf allowed
@@ -96,8 +98,8 @@
 	if(zMove(DOWN, TRUE))
 		to_chat(src, span_notice("I move down."))
 
-/mob/dead/observer/rogue/arcaneeye/Move(NewLoc, direct)
-	if(scry_center_turf)
+/mob/dead/observer/eye/arcane/Move(NewLoc, direct)
+	if(scry_center_turf && limited_scry)
 		var/turf/destination = NewLoc ? get_turf(NewLoc) : get_step(src, direct)
 		if(destination && get_dist(destination, scry_center_turf) > scry_range)
 			to_chat(src, span_warning("The vision's power binds you to this area!"))
@@ -116,3 +118,6 @@
 	if(step_turf)
 		return forceMove(step_turf)
 	return FALSE
+
+/mob/dead/observer/eye/arcane/abyssor
+	limited_scry = TRUE
