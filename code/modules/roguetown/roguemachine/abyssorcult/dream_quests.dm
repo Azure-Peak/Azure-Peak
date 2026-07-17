@@ -19,7 +19,7 @@
 	Confront them, and watch the cracks form. \
 	\n\nSuddenly, you find yourself deep beneath the earth. A chamber hollowed out in rock by Malum, like a cathedral. \
 	A large, elderly figure lies quietly in a bed of gigantic, thorny roses. Briars cut the flesh, marring the skin. \
-	Wounds ooze crimson—the wine of life decanted into hungry roots, carrying the essence far and wide. \
+	Wounds ooze crimson. the wine of life decanted into hungry roots, carrying the essence far and wide. \
 	The old god stands no more... But you need to know, your calloused hands fighting the thorns to clamber up a gigantic palm. \
 	It is arduous, a journey which feels like hours... stretching on into days, hands digging into bits of loose skin like a misshapen ladder. \
 	Sides like a mountain, the torso stretching on like a desert. Was He ever this large? Did your eyes deceive you? It has been too long to remember anything clearly. \
@@ -49,7 +49,7 @@
 	)
 	target_description = "a Tennite"
 	summary = "A wounded lamb whom may require your aid."
-	vision_text = "The mists part to reveal a trail of blood—crimson droplets staining the stone like a rosary of suffering. \
+	vision_text = "The mists part to reveal a trail of blood. Crimson droplets staining the stone like a rosary of suffering. \
 	You follow it to its source. A Tennite pilgrim, collapsed against a weathered shrine too damaged to identify. Their leg is savaged, \
 	the flesh torn by something with claws like fishhooks. They clutch a rusted icon of the Gods, whispering prayers \
 	between ragged breaths. Their eyes, clouded with pain, search the fog for salvation or death. \

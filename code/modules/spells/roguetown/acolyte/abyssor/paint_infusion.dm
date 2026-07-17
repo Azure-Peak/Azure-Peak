@@ -41,26 +41,37 @@
 	var/obj/structure/dream_pylon/P = pylon_ref?.resolve()
 
 	if(!P || QDELETED(P))
-		to_chat(owner, "<span class='userdanger'>You feel your link sever as the source pylon is completely destroyed!</span>")
+		to_chat(owner, span_userdanger("You feel your link sever as the source pylon is completely destroyed!"))
 		qdel(src)
 		return
 
 	var/distance = get_dist(owner, P)
-	var/was_out_of_range = out_of_range
-	out_of_range = (distance > max_range)
+	var/is_mismatched = (P.infusion_payload != type)
+	var/is_far = (distance > max_range)
+
 	var/time_passed = world.time - last_tick_time
 	last_tick_time = world.time
 
 	var/effective_time_consumed = time_passed
-	if(out_of_range)
-		if(!was_out_of_range)
-			to_chat(owner, "<span class='warning'>You have wandered too far from the pylon! Your infusion begins decaying rapidly.</span>")
+
+	if(is_mismatched || is_far)
+		if(!out_of_range)
+			out_of_range = TRUE
+			if(is_mismatched)
+				to_chat(owner, span_warning("The source pylon's essence no longer matches your infusion! Your link begins decaying rapidly."))
+			else
+				to_chat(owner, span_warning("You have wandered too far from the pylon! Your infusion begins decaying rapidly."))
 			update_pylon_outline(P, COLOR_RED)
+
 		effective_time_consumed = time_passed * decay_multiplier
 		duration -= time_passed * (decay_multiplier - 1)
-	else if(was_out_of_range)
-		to_chat(owner, "<span class='notice'>You have stepped back into range of the pylon. Your infusion stabilizes.</span>")
-		update_pylon_outline(P, "#7A288A")
+
+	else if(out_of_range && !is_mismatched)
+		out_of_range = FALSE
+		to_chat(owner, span_notice("You have stepped back into range of the pylon. Your infusion stabilizes."))
+		var/outline_color = P.pylon_color ? P.pylon_color : "#7A288A"
+		update_pylon_outline(P, outline_color)
+
 	total_effective_consumed += effective_time_consumed
 
 /datum/status_effect/infusion/proc/refund_charge()

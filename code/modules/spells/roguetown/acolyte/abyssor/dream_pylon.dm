@@ -18,16 +18,25 @@
 	var/max_charge = 100
 	/// Cost per extraction
 	var/charge_cost_per_use = 25
+	/// Color hex applied to the central core overlay and player outlines
+	var/pylon_color
 
 /obj/structure/dream_pylon/Initialize(mapload)
 	. = ..()
-	set_pylon_overlay('icons/obj/structures/abyssor_pylon.dmi', "ball")
+	update_pylon_appearance()
 
 /obj/structure/dream_pylon/Destroy()
 	if(active_overlay)
 		qdel(active_overlay)
 		active_overlay = null
 	return ..()
+
+/obj/structure/dream_pylon/proc/update_pylon_appearance()
+	if(charge < charge_cost_per_use)
+		set_pylon_overlay(null, null)
+	else
+		var/chosen_state = pylon_color ? "ball_grey" : "ball"
+		set_pylon_overlay('icons/obj/structures/abyssor_pylon.dmi', chosen_state)
 
 /obj/structure/dream_pylon/examine(mob/user)
 	. = ..()
@@ -51,6 +60,8 @@
 	var/obj/effect/pylon_overlay/O = new(src)
 	O.icon = new_icon
 	O.icon_state = new_icon_state
+	if(pylon_color)
+		O.color = pylon_color
 	active_overlay = O
 	add_overlay(active_overlay)
 
@@ -64,28 +75,44 @@
 	if(!istype(user) || user.stat != CONSCIOUS)
 		return
 
-	var/datum/status_effect/infusion/existing_effect = user.has_status_effect(infusion_payload)
+	var/datum/status_effect/infusion/existing_effect
+	for(var/datum/status_effect/infusion/I in user.status_effects)
+		existing_effect = I
+		break
+
 	if(existing_effect)
 		var/obj/structure/dream_pylon/target_pylon = existing_effect.pylon_ref?.resolve()
-		if(target_pylon == src)
-			src.visible_message("<span class='notice'>[user] touches [src], rendering their active infusion back into the structure.</span>")
+		if(target_pylon == src && existing_effect.type == infusion_payload)
+			src.visible_message(span_notice("[user] touches [src], rendering their active infusion back into the structure."))
 			existing_effect.refund_charge()
 			return
 		else
-			to_chat(user, "<span class='warning'>You are already attuned to a different pylon's infusion! Clear your mind first.</span>")
+			to_chat(user, span_warning("You are already attuned to a pylon's infusion! Clear your mind first."))
 			return
 
 	if(charge < charge_cost_per_use)
-		to_chat(user, "<span class='warning'>The pylon doesn't have enough residual charge left to manifest an infusion.</span>")
+		to_chat(user, span_warning("The pylon doesn't have enough residual charge left to manifest an infusion."))
 		return
 
 	charge = max(0, charge - charge_cost_per_use)
 	user.apply_status_effect(infusion_payload, src)
-	src.visible_message("<span class='purple'>[user] absorbs a pulsing splash of paint from [src]!</span>")
+	src.visible_message(span_purple("[user] absorbs a pulsing splash of paint from [src]!"))
 	update_pylon_appearance()
 
-/obj/structure/dream_pylon/proc/update_pylon_appearance()
-	if(charge < charge_cost_per_use)
-		set_pylon_overlay(null, null)
-	else
-		set_pylon_overlay('icons/obj/structures/abyssor_pylon.dmi', "ball")
+/obj/structure/dream_pylon/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/dream_material/dream_seed))
+		if(!do_after(user, 1 SECONDS))
+			to_chat(user, span_warning("I was interrupted!"))
+			return
+		var/obj/item/dream_material/dream_seed/seed = I
+		seed.apply_to_pylon(src, user)
+		return TRUE
+
+	return ..()
+
+/obj/structure/dream_pylon/proc/set_infusion(datum/status_effect/infusion/new_infusion, new_max_charge, new_charge, new_color)
+	infusion_payload = new_infusion
+	max_charge = new_max_charge
+	charge = new_charge
+	pylon_color = new_color
+	update_pylon_appearance()

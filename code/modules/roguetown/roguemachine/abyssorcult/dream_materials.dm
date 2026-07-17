@@ -8,11 +8,6 @@
 	name = "effervescent spike"
 	icon_state = "spike"
 
-/obj/item/dream_material/dream_seed
-	name = "dream seed"
-	desc = "A crystalline, pulsating seed that radiates a faint, mesmerizing deep-sea glow. It feels heavy with unmanifested reality, suitable for cultivating dream pylons."
-	icon_state = "seed"
-
 /obj/item/dream_material/parchment_raw
 	name = "imagined parchment"
 	icon_state = "paper"
@@ -52,3 +47,77 @@
 /obj/item/dream_material/dream_star
 	name = "wronged star"
 	icon_state = "star"
+
+/obj/item/dream_material/dream_seed
+	name = "seed of intelligence"
+	desc = "A crystalline, pulsating seed that radiates a faint, mesmerizing deep-sea glow. Suitable for cultivating or recharging dream pylons."
+	icon_state = "seed"
+
+	/// How many charges this seed restores when used on a pylon (or starting charge when creating one)
+	var/charge_grant = 100
+	/// The max charge capacity this seed configures on the target pylon
+	var/max_charge_grant = 100
+	/// The status effect infusion typepath this seed conveys
+	var/datum/status_effect/infusion/infusion_type = /datum/status_effect/infusion/intelligence
+	/// Color hex code applied to the seed, pylon overlay, and outline filters.
+	var/pylon_color
+
+/obj/item/dream_material/dream_seed/Initialize(mapload)
+	. = ..()
+	if(pylon_color)
+		icon_state = "seed_grey"
+		color = pylon_color
+
+/obj/item/dream_material/dream_seed/proc/apply_to_pylon(obj/structure/dream_pylon/P, mob/user)
+	if(P.infusion_payload == infusion_type)
+		if(P.charge >= P.max_charge)
+			to_chat(user, "<span class='warning'>[P] is already fully charged!</span>")
+			return FALSE
+
+		P.charge = min(P.max_charge, P.charge + charge_grant)
+		P.update_pylon_appearance()
+		to_chat(user, "<span class='notice'>You channel [src] into [P], replenishing its charge.</span>")
+	else
+		P.set_infusion(infusion_type, max_charge_grant, charge_grant, pylon_color)
+		to_chat(user, "<span class='notice'>You overwrite the core of [P] with the essence of [src]!</span>")
+
+	qdel(src)
+	return TRUE
+
+/obj/item/dream_material/dream_seed/attack_self(mob/user)
+	. = ..()
+	plant_pylon(user)
+
+/obj/item/dream_material/dream_seed/proc/plant_pylon(mob/user)
+	var/turf/T = get_step(user, user.dir)
+	if(!T || !isopenturf(T) || T.density)
+		to_chat(user, span_warning("You need an open space in front of you to plant a dream pylon!"))
+		return
+
+	for(var/obj/structure/S in T)
+		if(S.density)
+			to_chat(user, span_warning("Something is in the way."))
+			return
+
+	for(var/obj/machinery/M in T)
+		if(M.density)
+			to_chat(user, span_warning("Something is in the way."))
+			return
+
+	if(!do_after(user, 10 SECONDS))
+		to_chat(user, span_warning("I was interrupted!"))
+		return
+
+	to_chat(user, "<span class='purple'>You channel energy through [src], manifesting a pulsating pylon...</span>")
+
+	var/obj/structure/dream_pylon/P = new /obj/structure/dream_pylon(T)
+	P.set_infusion(infusion_type, max_charge_grant, charge_grant, pylon_color)
+
+	qdel(src)
+
+/obj/item/dream_material/dream_seed/perception
+	name = "seed of perception"
+	charge_grant = 75
+	max_charge_grant = 75
+	infusion_type = /datum/status_effect/infusion/perception
+	pylon_color = "#d9ad1e"
