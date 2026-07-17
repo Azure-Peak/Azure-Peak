@@ -83,6 +83,12 @@ USE_EXP_TRACKING
 ## Allows admins to bypass job playtime requirements.
 #USE_EXP_RESTRICTIONS_ADMIN_BYPASS
 
+## Should we log entries as JSON
+LOG_AS_JSON
+
+## Should we log entries as human readable
+LOG_AS_HUMAN_READABLE
+
 ## log OOC channel
 LOG_OOC
 
@@ -442,7 +448,7 @@ CLIENT_ERROR_BUILD 1421
 ## Set to 0 or comment out to disable.
 SECOND_TOPIC_LIMIT 10
 
-MINUTE_TOPIC_LIMIT 100
+MINUTE_TOPIC_LIMIT 200
 
 
 ## CLICK RATE LIMITING

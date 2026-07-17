@@ -48,7 +48,7 @@
 	slices_num = 6
 	bitesize = 8
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/breadslice
-	list_reagents = list(/datum/reagent/consumable/nutriment = DOUGH_NUTRITION)
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	faretype = FARE_POOR
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("bread" = 1)

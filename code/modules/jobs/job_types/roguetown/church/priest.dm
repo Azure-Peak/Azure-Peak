@@ -25,7 +25,16 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	whitelist_req = FALSE
 	cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 
-	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk, /obj/effect/proc_holder/spell/invoked/projectile/divineblast, /datum/action/cooldown/spell/miracle/intervention, /obj/effect/proc_holder/spell/invoked/takeapprentice)
+	spells = list(
+	 /datum/action/cooldown/spell/miracle/fortify,
+	 /obj/effect/proc_holder/spell/invoked/cure_rot,
+	 /datum/action/cooldown/spell/miracle/intervention,
+	 /obj/effect/proc_holder/spell/invoked/revive,
+	 /datum/action/cooldown/spell/miracle/bishop_pack,
+	 /obj/effect/proc_holder/spell/self/convertrole/templar,
+	 /obj/effect/proc_holder/spell/self/convertrole/monk,
+	 /obj/effect/proc_holder/spell/invoked/convert_heretic_priest
+	)
 	outfit = /datum/outfit/job/roguetown/priest
 	display_order = JDO_BISHOP
 	give_bank_account = TRUE
@@ -37,9 +46,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	virtue_restrictions = list(/datum/virtue/utility/noble)
 	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_CLERGY, TRAIT_MARRIAGE_CAPABLE)
 	advclass_cat_rolls = list(CTAG_BISHOP = 2)
-	job_subclasses = list(
-		/datum/advclass/bishop
-	)
+	job_subclasses = list(/datum/advclass/bishop)
 
 /datum/advclass/bishop
 	name = "Bishop"
@@ -59,10 +66,9 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	)
 	age_mod = /datum/class_age_mod/priest
 	subclass_skills = list(
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/staves = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/staves = SKILL_LEVEL_MASTER,//Warrior Monk sorry
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
@@ -75,6 +81,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/priest
 	job_bitflag = BITFLAG_HOLY_WARRIOR
@@ -89,7 +96,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	wrists = /obj/item/clothing/wrists/roguetown/wrappings
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	beltl = /obj/item/storage/keyring/church
-	belt = /obj/item/storage/belt/rogue/leather/rope
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	id = /obj/item/clothing/ring/active/nomag
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -112,8 +119,6 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	add_verb(H, /mob/living/carbon/human/proc/churchpriestcurse) //snowflake priests button. Will not sacrifice them
 	add_verb(H, /mob/living/carbon/human/proc/churcheapostasy) //punish the lamb reward the wolf
 	add_verb(H, /mob/living/carbon/human/proc/completesermon)
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic_priest)
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/revive)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 	switch(H.patron?.type)
@@ -159,37 +164,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 /datum/outfit/job/roguetown/priest/basic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/t3_count = 2
-	var/list/t4 = list()
-	var/list/t3 = list()
-	for(var/path as anything in GLOB.patrons_by_faith[/datum/faith/divine])
-		var/datum/patron/patron = GLOB.patronlist[path]
-		if(!patron || !patron.name)
-			continue
-		for(var/miracle in patron.miracles)
-			var/obj/effect/proc_holder/checked_miracle = miracle
-			if(patron.miracles[checked_miracle] == CLERIC_T4 && (initial(checked_miracle.priest_excluded) == FALSE))
-				t4[initial(checked_miracle.name)] = checked_miracle
-			if(patron.miracles[checked_miracle] == CLERIC_T3 && (initial(checked_miracle.priest_excluded) == FALSE))
-				t3[initial(checked_miracle.name)] = checked_miracle
-	for(var/miracle in t4)
-		if(H.mind?.has_spell(t4[miracle]))
-			t4.Remove(miracle)
-	for(var/miracle in t3)
-		if(H.mind?.has_spell(t3[miracle]))
-			t3.Remove(miracle)
-	var/t4_choice = input(H,"Choose your Tier Four Miracle.", "TAKE UP KNAWLEDGE") as anything in t4
-	if(t4_choice)
-		var/obj/effect/proc_holder/chosen_miracle = t4[t4_choice]
-		H.mind?.AddSpell(new chosen_miracle)
 
-	for(var/i in 1 to t3_count)
-		var/t3_choice = input(H,"Choose your Tier Three Miracle.", "TAKE UP KNAWLEDGE ([t3_count] CHOICES REMAIN)") as anything in t3
-		if(t3_choice)
-			var/obj/effect/proc_holder/chosen_miracle = t3[t3_choice]
-			H.mind?.AddSpell(new chosen_miracle)
-			t3.Remove(t3_choice)
-			t3_count--
 	// -- Start of section for god specific bonuses --
 	if(H.patron?.type == /datum/patron/divine/undivided)
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -635,6 +610,23 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 		to_chat(user, span_warning("[target] wasn't marked by the enemy as a heretic!"))
 		revert_cast()
 		return FALSE
+
+	if(istype(target.patron, /datum/patron/vheslyn)) //UNFORGIVABLE SIN, UNFORGIVABLE, DIE. DIE. DIE.
+		to_chat(user, span_userdanger("[target] is UNFORGIVABLE, my attempt to convert them to the TEN, violently sunders my lux!"))
+		if(!HAS_TRAIT(user, TRAIT_NOPAIN))
+			user.emote("agony")
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			user.freak_out()
+		playsound(user, 'sound/misc/lava_death.ogg', 100, TRUE)
+		user.adjust_fire_stacks(40, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //YOU FUCKING DESERVE THIS
+		user.adjustFireLoss(120)//This will kill you, always.
+		user.Knockdown(30)
+		user.Jitter(30)
+		user.Stun(25)
+		user.ignite_mob()
+		explosion(get_turf(user), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+		user.visible_message(span_danger("[user] is violently smited as profane flames engulf their entire body!"))
+		return TRUE
 
 	if(alert(target, "[user.real_name] is trying to convert you back to the church. Do you accept?", "Conversion Request", "Yes", "No") != "Yes")
 		to_chat(user, span_warning("[target] refused your offer of conversion."))

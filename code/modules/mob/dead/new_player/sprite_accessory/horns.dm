@@ -246,6 +246,11 @@
 	icon_state = "branching_antlers"
 	relevant_layers = list(BODY_ADJ_LAYER, BODY_BEHIND_LAYER, BODY_FRONT_LAYER)
 
+/datum/sprite_accessory/horns/large/wide_antlers
+	name = "Wide Antlers"
+	icon_state = "wide_antlers"
+	relevant_layers = list(BODY_BEHIND_LAYER, BODY_FRONT_LAYER)
+
 /datum/sprite_accessory/horns/large/pronghorn
 	name = "Pronghorn Antlers"
 	icon_state = "pronghorn_antlers"

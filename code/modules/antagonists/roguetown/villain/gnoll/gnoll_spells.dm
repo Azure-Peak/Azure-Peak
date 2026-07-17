@@ -68,7 +68,7 @@
 		var/is_hunted = L.has_flaw(/datum/charflaw/hunted)
 		// Don't uncomment for now
 		// var/target_role = L.job
-		var/is_valid_prey = is_hunted && (!(L.job in GLOB.hunted_protected_roles))
+		var/is_valid_prey = is_hunted
 		// if(!is_valid_prey)
 		// 	if(target_role in combat_roles)
 		// 		is_valid_prey = TRUE
@@ -174,7 +174,7 @@
 
 	// Determine Channel Time
 	var/channel_time = 15 SECONDS
-	if(target.has_flaw(/datum/charflaw/hunted) && !(target.job in GLOB.hunted_protected_roles))
+	if(target.has_flaw(/datum/charflaw/hunted))
 		channel_time = 6 SECONDS
 
 	to_chat(user, span_notice("You begin pulling [target] into graggar's plane"))
@@ -278,7 +278,7 @@
 	action_icon = 'icons/mob/actions/gnollmiracles.dmi'
 	overlay_state = "stalk"
 	action_icon_state = "stalk"
-	ignore_stealth_reveal = TRUE
+	ignore_combat_tag = TRUE
 
 /obj/effect/proc_holder/spell/invoked/invisibility/gnoll/cast(list/targets, mob/living/user)
 	var/mob/living/target = user

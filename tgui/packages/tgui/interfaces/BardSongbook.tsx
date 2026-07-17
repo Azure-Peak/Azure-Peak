@@ -57,7 +57,9 @@ export const BardSongbook = () => {
                 {song.known ? (
                   <Button
                     fluid
-                    tooltip={can_unlearn ? 'Click to unlearn' : unlearn_cooldown_text}
+                    tooltip={
+                      can_unlearn ? 'Click to unlearn' : unlearn_cooldown_text
+                    }
                     tooltipPosition="bottom"
                     color="grey"
                     disabled={!can_unlearn}

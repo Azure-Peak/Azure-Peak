@@ -8,7 +8,7 @@
 	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/templarofpsydonia.ogg'
-	traits_applied = list(TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_INQUISITION)
 	subclass_stats = list(
 		STATKEY_WIL = 3,
 		STATKEY_CON = 3,
@@ -54,10 +54,10 @@
 	id = /obj/item/clothing/neck/roguetown/psicross/silver
 	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
 	/obj/item/paper/inqslip/arrival/ortho = 1,
-	/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/lesser = 1,
+	/obj/item/rogueweapon/huntingknife/idagger/stake/inq = 1,
 	/obj/item/clothing/ring/signet/psy = 1)
 
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2) //Capped to T2 miracles. ENDURE. WITH RESPITE.
 
@@ -99,37 +99,37 @@
 	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
 	switch(weapon_choice)
 		if("Psydonic Longsword")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/long/psysword/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long/psysword(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BELT_R, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic Broadsword")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/long/kriegmesser/psy/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long/kriegmesser/psy(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BELT_R, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic Executioner Sword")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/long/exe/psy/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long/exe/psy(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 		if("Psydonic War Axe")
-			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/psyaxe(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
 		if("Psydonic Whip")
-			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/whip/psywhip_lesser(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Psydonic Flail")
-			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/psyflail/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/flail/sflail/psyflail(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		if("Psydonic Flanged Mace")
-			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/psy/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/flanged/psy(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Psydonic Grand Mace")
-			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/psymace/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/psymace(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Psydonic Maul")
@@ -138,19 +138,19 @@
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 		if("Psydonic Halberd + Arming Sword")
-			H.put_in_hands(new /obj/item/rogueweapon/halberd/psyhalberd/preblessed(H))
-			H.put_in_hands(new /obj/item/rogueweapon/sword/psy/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/halberd/psyhalberd(H))
+			H.put_in_hands(new /obj/item/rogueweapon/sword/psy(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap(H), SLOT_BACK_R, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BELT_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("Psydonic Spear + Flanged Mace")
-			H.put_in_hands(new /obj/item/rogueweapon/spear/psyspear/preblessed(H))
-			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/psy/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/spear/psyspear(H))
+			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/flanged/psy(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap(H), SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("Psydonic Poleaxe + Shortsword")
-			H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel/knight/psy/preblessed(H))
-			H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy/preblessed(H))
+			H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel/knight/psy(H))
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy(H))
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap(H), SLOT_BACK_R, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BELT_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)

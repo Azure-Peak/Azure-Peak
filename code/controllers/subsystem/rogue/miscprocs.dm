@@ -1,3 +1,10 @@
+// Multiplier to standardize values per second to how long a prayer loop takes
+#define PRAYER_DEVOTION_TIME_MULT 3
+// Amount of devotion before holy skill is factored in per prayer loop
+#define PRAYER_DEVOTION_BASE 0.5 * PRAYER_DEVOTION_TIME_MULT
+// Amount of devotion per holy skill level per prayer loop
+#define PRAYER_DEVOTION_SKILL 1 * PRAYER_DEVOTION_TIME_MULT
+
 // Cleric Holder Datums
 /datum/devotion
 	/// Mob that owns this datum
@@ -20,8 +27,8 @@
 	var/passive_devotion_gain = 0
 	/// How much progression is gained per process call
 	var/passive_progression_gain = 0
-	/// How much devotion is gained per prayer cycle
-	var/prayer_effectiveness = 2
+	/// How much % devotion is gained per prayer cycle
+	var/prayer_effectiveness = 1
 	/// Spells we have granted thus far
 	var/list/granted_spells
 	/// Whether or not we can progress devotion spells
@@ -196,10 +203,11 @@
 			break
 		if(!do_after(src, 30))
 			break
-		var/devotion_multiplier = 1
+		// Values standardized for 3 seconds.
+		var/devotion_multiplier = PRAYER_DEVOTION_BASE
 		if(mind)
-			devotion_multiplier += (get_skill_level(/datum/skill/magic/holy) / SKILL_LEVEL_LEGENDARY)
-		var/prayer_effectiveness = round(devotion.prayer_effectiveness * devotion_multiplier)
+			devotion_multiplier += (get_skill_level(/datum/skill/magic/holy) * PRAYER_DEVOTION_TIME_MULT)
+		var/prayer_effectiveness = round(devotion.prayer_effectiveness * devotion_multiplier, 0.1)
 		devotion.update_devotion(prayer_effectiveness, prayer_effectiveness)
 		prayersesh += prayer_effectiveness
 	visible_message("[src] concludes their prayer.", "I conclude my prayer.")
@@ -351,3 +359,7 @@
 			to_chat(holder, span_boldnotice("You have unlocked a paint miracle: [new_paint_spell]"))
 		holder.mind.AddSpell(new_paint_spell, holder)
 		LAZYADD(granted_spells, new_paint_spell)
+
+#undef PRAYER_DEVOTION_TIME_MULT
+#undef PRAYER_DEVOTION_BASE
+#undef PRAYER_DEVOTION_SKILL

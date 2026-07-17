@@ -455,12 +455,6 @@
 // BURGHERS //
 //////////////
 
-/obj/item/roguekey/crier
-	name = "crier's key"
-	desc = "This key should open and close the crier's office."
-	icon_state = "cheesekey"
-	lockid = "crier"
-
 /obj/item/roguekey/crafterguild
 	name = "guild's key"
 	desc = "The key to the Crafter's Guild."
@@ -763,6 +757,30 @@
 	desc = "This key opens the doors to the inquisition manor."
 	icon_state = "brownkey"
 	lockid = "inquisition"
+
+/obj/item/roguekey/absolverskey
+	name = "Psydonic Chapel key"
+	desc = "This key opens the doors to the Psydonic Chapel."
+	icon_state = "brownkey"
+	lockid = "Absolvers"
+
+/obj/item/roguekey/ortho_one
+	name = "Otavan Embassy Bedroom I key"
+	desc = "This key opens the doors to bedroom one."
+	icon_state = "brownkey"
+	lockid = "OEB1"
+
+/obj/item/roguekey/ortho_two
+	name = "Otavan Embassy Bedroom II key"
+	desc = "This key opens the doors to bedroom one."
+	icon_state = "brownkey"
+	lockid = "OEB2"
+
+/obj/item/roguekey/ortho_three
+	name = "Otavan Embassy Bedroom III key"
+	desc = "This key opens the doors to bedroom one."
+	icon_state = "brownkey"
+	lockid = "OEB3"
 
 //////////////////////////
 // VAMPIRE / ANTAGONIST //

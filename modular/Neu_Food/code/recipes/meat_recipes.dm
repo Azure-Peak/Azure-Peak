@@ -100,11 +100,11 @@
 // Fried Volf + Garlic Clove -> Garlick Volf
 /datum/food_recipe/garlick_volf
 	name = "garlick volf"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried
 	ingredients = list(
 		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove
 	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick
 
 // Fried Fish Filet + Pepper -> Pepper Fish
 /datum/food_recipe/pepper_fish
@@ -129,9 +129,9 @@
 	base_item = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak,
-		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf,
-		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat,
-		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/wolf,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/rat,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/bear,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit,
@@ -175,6 +175,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/rabbit,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid,
 	)
 	ingredients = list(
 		list(
@@ -196,7 +197,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry,
 	)
 	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/egg
+		/obj/item/reagent_containers/food/snacks/rogue/egg
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/tartar
 	time_per_step = 3 SECONDS
@@ -242,3 +243,10 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/wienerstick
 
+/datum/food_recipe/humanoid_salted
+	name = "salted long pig mince"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid
+	ingredients = list(
+		/obj/item/reagent_containers/powder/coarse_salt
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/humanoid_salted

@@ -105,8 +105,6 @@
 #define STATS_EXEMPTED_EXPORT_DUTY "exempted_export_duty"
 #define STATS_EXEMPTED_FINE "exempted_fine"
 #define STATS_EXEMPTED_POLL_TAX "exempted_poll_tax"
-#define STATS_MINTED_TREASURE_GROSS "minted_treasure_gross"
-#define STATS_MINTED_TREASURE_NET "minted_treasure_net"
 #define STATS_STANDING_ORDER_REVENUE "standing_order_revenue"
 #define STATS_STANDING_ORDERS_FULFILLED "standing_orders_fulfilled"
 #define STATS_STANDING_ORDERS_EXPIRED "standing_orders_expired"
@@ -471,8 +469,6 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_EXEMPTED_EXPORT_DUTY = 0,
 	STATS_EXEMPTED_FINE = 0,
 	STATS_EXEMPTED_POLL_TAX = 0,
-	STATS_MINTED_TREASURE_GROSS = 0,
-	STATS_MINTED_TREASURE_NET = 0,
 	STATS_STANDING_ORDER_REVENUE = 0,
 	STATS_STANDING_ORDERS_FULFILLED = 0,
 	STATS_STANDING_ORDERS_EXPIRED = 0,
@@ -515,6 +511,7 @@ GLOBAL_LIST_EMPTY(patron_follower_counts)
 #define FEATURED_STATS_ALCHEMISTS "alchemists"
 #define FEATURED_STATS_TAX_PAYERS "tax_payers"
 #define FEATURED_STATS_ALCOHOLICS "alcohol_drinkers"
+#define FEATURED_STATS_SMOKERS "smokers"
 #define FEATURED_STATS_SPEAKERS "speakers"
 #define FEATURED_STATS_FISHERS "fishers"
 #define FEATURED_STATS_GOURMETS "gourmets"
@@ -625,12 +622,16 @@ GLOBAL_LIST_INIT(featured_stats, list(
 		"color" = "#945d96",
 		"entries" = list()
 	),
+	FEATURED_STATS_SMOKERS = list(
+		"name" = "TOP Blacklungs",
+		"color" = "#2e201c",
+		"entries" = list()
+	),
 	FEATURED_STATS_MAGES = list(
 		"name" = "TOP Mages",
 		"color" = "#9eaceb",
 		"entries" = list()
 	),
-
 	FEATURED_STATS_SPELLS = list(
 		"name" = "TOP Spells",
 		"color" = "#6375c5",

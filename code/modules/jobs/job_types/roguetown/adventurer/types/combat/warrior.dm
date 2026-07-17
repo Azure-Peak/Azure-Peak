@@ -32,7 +32,7 @@
 /datum/outfit/job/roguetown/adventurer/sfighter/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a seasoned weapon specialist, clad in maille, with years of experience in warfare and battle under your belt."))
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	H.set_blindness(0)
 	if(H.mind)
 		var/weapons = list("Short Sword & Iron Shield","Arming Sword & Wood Shield","Longsword & +1 Wrestling","Stecher & +1 Wrestling","Broadsword & +1 Wrestling","Battle Axe & Wood Shield","Mace & Iron Shield","Flail & Iron Shield","Billhook","Greatflail")
@@ -85,7 +85,7 @@
 				r_hand = /obj/item/rogueweapon/spear/billhook
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Greatflail")
-				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 		var/armors = list("Chainmaille Set","Iron Breastplate","Gambeson & Helmet","Light Raneshi Armor")
@@ -254,7 +254,7 @@
 /datum/outfit/job/roguetown/adventurer/barbarian/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	to_chat(H, span_warning("You are a brutal warrior, who has foregone armor in favor of pure strength. Crush your enemies, see them driven before you, and hear the lamentations of their women! Oh, and you can specialize in unarmed combat and wrestling."))
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	H.set_blindness(0)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/ragebad)
 	if(!H.mind)
@@ -321,7 +321,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(should_wear_masc_clothes(H))
-		H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	if(should_wear_femme_clothes(H))
 		if(weapon_choice != "Discipline - Unarmed" && weapon_choice != "Discipline - Bodybuilder")
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/bikini
@@ -367,8 +367,18 @@
 			"Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/iron,
 			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron,
 			"Kettle Helmet"		= /obj/item/clothing/head/roguetown/helmet/kettle/iron,
+			"Slitted Kettle Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle/iron,
+			"Barbute"		= /obj/item/clothing/head/roguetown/helmet/heavy/barbute/iron,
+			"Visored Barbute"		= /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/iron,
+			"Pigface Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/iron,
+			"Hounskull Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/iron,
+			"Roundface Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/iron,
+			"Etruscan Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/iron,
+			"Aventailed Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/aventail/iron,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron,
-			"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron,
+			"Bucket Helmet, Sugarloafed"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron/classic,
+			"Sayovard"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard/iron,
+			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff/iron,
 			"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron,
 			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron/greatplume,
 			"Banded Iron Helmet"			=	/obj/item/clothing/head/roguetown/helmet/sallet/iron/banded,
@@ -414,10 +424,10 @@
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/repair_kit/metal/bad = 1,
 		)
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Executioner's Sword","Broadsword","Warhammer + Shield","Flail + Shield","Studded Flail + Shield","Lucerne","Greataxe","Greatflail","Banded Sword + Shield")
+		var/weapons = list("Executioner's Sword","Bastard Sword","Broadsword","Warhammer + Shield","Flail + Shield","Studded Flail + Shield","Lucerne","Greataxe","Greatflail","Banded Sword + Shield")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Executioner's Sword")
@@ -427,6 +437,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				backr = /obj/item/rogueweapon/sword/long/broadsword
+			if("Bastard Sword")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				backr = /obj/item/rogueweapon/sword/long/iron
 			if("Warhammer + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -443,7 +457,7 @@
 				beltr = /obj/item/rogueweapon/flail/alt
 				backr = /obj/item/rogueweapon/shield/iron
 			if("Greatflail")
-				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Lucerne")
@@ -491,7 +505,7 @@
 
 /datum/outfit/job/roguetown/adventurer/mhunter/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
-	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	to_chat(H, span_warning("You are a specialist who hunts terrible monsters; nitebeasts, vampyres, deadites and more. Your humenity might be limiting - but with silver weapons and steel maille, you may yet slight the odds in your favor."))
 	add_verb(H, /mob/living/carbon/human/proc/faith_test) //Allows the Exorcist to interrogate others for their faith. Trait's agnostically worded, to allow more flexiable usage by Pantheoneers and Ascendants in this role.
 	add_verb(H, /mob/living/carbon/human/proc/torture_victim) //Not as scary as it sounds. Mostly. Okay, just a little bit.
@@ -652,7 +666,7 @@
 					if("Visored Sallet")
 						head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 					if("Volfskulle Bascinet")
-						head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/puritan
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/light
 					if("Fluted Armet")
 						head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/fluted
 					if("Fluted Armet With Greatplume")
@@ -721,7 +735,7 @@
 /datum/outfit/job/roguetown/adventurer/deprived/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	to_chat(H, span_warning("The haze clears from your mind as some clarity floods back. Everything was taken from you. Mortal possessions have shown only betrayal. Your skin itches at the thought of ever trusting armor to protect your chest again."))
-	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	H.set_blindness(0)
 	if(H.mind)
 		r_hand = /obj/item/rogueweapon/mace/woodclub/deprived

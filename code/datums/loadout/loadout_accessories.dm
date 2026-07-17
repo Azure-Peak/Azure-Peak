@@ -40,6 +40,11 @@
 	sort_category = "Accessories"
 	cost = 2
 
+/datum/loadout_item/beltshawl
+	name = "Belt Shawl"
+	path = /obj/item/storage/belt/rogue/leather/beltshawl
+	sort_category = "Accessories"
+	
 /datum/loadout_item/ragmask
 	name = "Rag Mask"
 	path = /obj/item/clothing/mask/rogue/ragmask
@@ -164,6 +169,11 @@
 /datum/loadout_item/blackbelt
 	name = "Black Belt"
 	path = /obj/item/storage/belt/rogue/leather/black
+	sort_category = "Accessories"
+
+/datum/loadout_item/suspenders
+	name = "Suspenders"
+	path = /obj/item/storage/belt/rogue/leather/suspenders
 	sort_category = "Accessories"
 
 /datum/loadout_item/chaperon

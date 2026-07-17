@@ -16,7 +16,7 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = 3
 	charge_sound = null
 	cooldown_time = 300 SECONDS

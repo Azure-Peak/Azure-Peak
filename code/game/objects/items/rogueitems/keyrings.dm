@@ -249,6 +249,9 @@
 
 //Hand gets same as the lord
 
+/obj/item/storage/keyring/manorbase
+	keys = list(/obj/item/roguekey/manor)
+
 /obj/item/storage/keyring/steward
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/steward)
 
@@ -390,7 +393,7 @@
 /////////////////
 
 /obj/item/storage/keyring/inquisitor //All access to inquisition manor
-	keys = list(/obj/item/roguekey/inquisitor, /obj/item/roguekey/inquisitionmanor)
+	keys = list(/obj/item/roguekey/inquisitor, /obj/item/roguekey/inquisitionmanor, /obj/item/roguekey/absolverskey, /obj/item/roguekey/ortho_one, /obj/item/roguekey/ortho_two, /obj/item/roguekey/ortho_three)
 
 /////////////////
 // ANTAGONISTS //

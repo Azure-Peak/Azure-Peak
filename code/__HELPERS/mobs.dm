@@ -230,6 +230,7 @@ GLOBAL_LIST_EMPTY(species_list)
 	var/titles_pref = null
 	var/clothes_pref = CLOTHES_M
 	var/obscured_flags = NONE
+	var/override_advclass_examine = FALSE // if you get converted to a different role like servant with advjob_examine set to true, your title won't change on examine bcs your advclass hasn't actually changed - so we override that setting
 
 /**
  * Timed action involving one mob user. Target is optional.
@@ -251,7 +252,7 @@ GLOBAL_LIST_EMPTY(species_list)
  * interrupt - whether to interrupt a prior do_after or not
 */
 
-/proc/do_after(mob/user, delay, needhand = TRUE, atom/target = null, progress = TRUE, datum/callback/extra_checks = null, same_direction = FALSE, no_interrupt = FALSE)
+/proc/do_after(mob/user, delay, needhand = TRUE, atom/target = null, progress = TRUE, datum/callback/extra_checks = null, same_direction = FALSE, no_interrupt = FALSE, allow_movement = FALSE)
 	if(!user)
 		return FALSE
 
@@ -292,7 +293,7 @@ GLOBAL_LIST_EMPTY(species_list)
 		if (progress)
 			progbar.update(world.time - starttime)
 
-		if(QDELETED(user) || user.stat || (!drifting && user.loc != Uloc) || (extra_checks && !extra_checks.Invoke()) || (same_direction && user.dir != original_dir))
+		if(QDELETED(user) || user.stat || (!drifting && !allow_movement && user.loc != Uloc) || (extra_checks && !extra_checks.Invoke()) || (same_direction && user.dir != original_dir))
 			. = FALSE
 			break
 
@@ -643,7 +644,7 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(check_rights(R_WATCH, FALSE))
 		observer = new /mob/dead/observer/admin(src)
 	else
-		observer = new /mob/dead/observer/rogue/nodraw(src)
+		observer = new /mob/dead/observer/nodraw(src)
 	if(!existing)
 		lobbyer.spawning = TRUE
 
@@ -673,3 +674,27 @@ GLOBAL_LIST_EMPTY(species_list)
 		mind = null
 		qdel(src)
 	return TRUE
+
+/proc/is_human_part_visible(mob/living/carbon/human/human, flags_inv)
+	if(!human)
+		return TRUE
+	if(flags_inv == NONE)
+		return TRUE
+	// this previously monumentally sucked and iterated over every item in a person's inventory every time their appearance needed to be checked, which was often.
+	// replaced it by checking what hide slots are obscured at any given point in a /mob/'s `obscured_flags` var, so we check that instead
+	return !(human.obscured_flags & flags_inv)
+
+/mob/living/proc/rebuild_obscured_flags()
+	// we do this when we equip and unequip anything to make sure all our flags are set properly
+	var/list/equipped_items = get_equipped_items(FALSE)
+	var/new_flags = NONE
+	for(var/obj/item/thing as anything in equipped_items)
+		if (thing.flags_inv)
+			new_flags |= thing.flags_inv
+
+	if(new_flags == obscured_flags)
+		return
+	obscured_flags = new_flags
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		H.update_body_parts()

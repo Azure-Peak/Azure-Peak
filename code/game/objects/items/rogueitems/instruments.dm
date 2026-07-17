@@ -170,8 +170,8 @@
 				return
 			if(curfile)
 				playing = TRUE
-				soundloop.mid_sounds = list(curfile)
-				soundloop.cursound = null
+				soundloop.set_mid_sounds(list(curfile))
+				soundloop.mid_length = rustg_sound_length("[curfile]")
 				soundloop.start()
 				user.apply_status_effect(/datum/status_effect/buff/playing_music, stressevent, note_color)
 				record_round_statistic(STATS_SONGS_PLAYED)
@@ -203,12 +203,12 @@
 								bandinstrumentspersonal.curfile = bandinstrumentspersonal.song_list[bandinstrumentspersonal.curfile]
 			if(do_after(user, 1))
 				for(var/obj/item/rogue/instrument/bandinstrumentsband in instrumentsintheband)
-					if(!curfile)
+					if(!bandinstrumentsband.curfile)
 						return
 					bandinstrumentsband.playing = TRUE
 					bandinstrumentsband.groupplaying = TRUE
-					bandinstrumentsband.soundloop.mid_sounds = bandinstrumentsband.curfile
-					bandinstrumentsband.soundloop.cursound = null
+					bandinstrumentsband.soundloop.mid_length = rustg_sound_length("[bandinstrumentsband.curfile]")
+					bandinstrumentsband.soundloop.set_mid_sounds(list(bandinstrumentsband.curfile))
 					bandinstrumentsband.soundloop.start()
 					for(var/mob/living/carbon/human/A in bandmates)
 						A.apply_status_effect(/datum/status_effect/buff/playing_music, stressevent, note_color)

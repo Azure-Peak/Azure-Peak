@@ -81,7 +81,7 @@
 	set category = "RoleUnique.Inspiration"
 	if(!inspiration)
 		return FALSE
-	if(src.has_status_effect(/datum/status_effect/buff/playing_melody) || src.has_status_effect(/datum/status_effect/buff/playing_dirge))
+	if(src.has_status_effect(/datum/status_effect/buff/playing_melody))
 		return
 	inspiration.audience = list(src)
 

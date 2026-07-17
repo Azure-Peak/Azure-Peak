@@ -9,6 +9,8 @@ SUBSYSTEM_DEF(soundloopers)
 	var/client_ticker = 0
 
 /datum/controller/subsystem/soundloopers/fire(resumed = 0)
+	MC_SPLIT_TICK_INIT(2)
+	MC_SPLIT_TICK
 	if (!resumed || !currentrun.len)
 		src.currentrun = processing.Copy()
 
@@ -29,7 +31,7 @@ SUBSYSTEM_DEF(soundloopers)
 		if (!thing || !istype(thing) || QDELETED(thing))
 			processing -= thing
 			if (MC_TICK_CHECK)
-				return
+				break
 			continue
 
 		if(world.time > thing.starttime + thing.mid_length) //Make sure we don't try to trigger it while a loop is playing
@@ -37,40 +39,55 @@ SUBSYSTEM_DEF(soundloopers)
 				continue
 
 		if(check_clients && thing.persistent_loop)
-			for(var/client/C in GLOB.clients)
-				if(C.mob) //Not in the lobby
-					C.update_sounds()
+			var/turf/parent_turf = get_turf(thing.parent)
+			for(var/mob/M in get_hearers_in_range(world.view + thing.extra_range, parent_turf, SPATIAL_GRID_CONTENTS_TYPE_CLIENTS))
+				M.client?.update_persistent_sound_loop(thing)
 
 		if (MC_TICK_CHECK)
-			return
+			break
+
+	MC_SPLIT_TICK
+
+	if(check_clients)
+		for(var/client/C in GLOB.clients)
+			if(!C.mob)
+				continue // no lobby
+			C.update_sounds()
+			if (MC_TICK_CHECK)
+				break
+
+/client/proc/update_persistent_sound_loop(datum/looping_sound/PS)
+	if(PS in played_loops) //Make sure it's not already on the list
+		return
+
+	if((istype(PS, /datum/looping_sound/instrument) || istype(PS, /datum/looping_sound/musloop) || istype(PS, /datum/looping_sound/dmusloop)) && !(prefs?.toggles & SOUND_INSTRUMENTS))
+		return
+
+	if(!PS.parent)
+		return
+
+	var/turf/parent_turf = get_turf(PS.parent)
+	var/turf/mob_turf = get_turf(mob)
+	if(get_dist(get_turf(mob),parent_turf) > world.view + PS.extra_range) //Too far away. get_dist shouldn't be too awful for repeated calcs
+		return
+
+	if(mob_turf.z - parent_turf.z > 2 || mob_turf.z - parent_turf.z < -2) //for some reason get_dist not checking this properly
+		return
+
+	//otherwise add it to the client loops and off we go from there
+	var/sound/our_sound = PS.cursound
+	if(!istype(our_sound)) //somehow it doesn't have a correct sound
+		our_sound = sound(our_sound)
+	if(!our_sound)
+		return //something fucked up and the loop has no cursound, wups. this should basically never happen
+
+	mob.playsound_local(parent_turf, PS.cursound, PS.volume, PS.vary, PS.frequency, PS.falloff, PS.channel, FALSE, our_sound, repeat = PS)
 
 /client/proc/update_sounds()
+	if(!length(played_loops)) //nothing playing
+		return
 
-	//First we need to periodically scan if we moved into range of an already-playing sound
-	for(var/datum/looping_sound/PS in GLOB.persistent_sound_loops)
-		if(PS in played_loops) //Make sure it's not already on the list
-			continue
-
-		var/atom/PS_parent = PS.parent.resolve()
-		if(!PS_parent)
-			continue
-
-		var/turf/parent_turf = get_turf(PS_parent)
-		var/turf/mob_turf = get_turf(mob)
-		if(get_dist(get_turf(mob),parent_turf) > world.view + PS.extra_range) //Too far away. get_dist shouldn't be too awful for repeated calcs
-			continue
-
-		if(mob_turf.z - parent_turf.z > 2 || mob_turf.z - parent_turf.z < 2) //for some reason get_dist not checking this properly
-			continue
-
-		//otherwise add it to the client loops and off we go from there
-		var/sound/our_sound = PS.cursound
-		if(!istype(our_sound)) //somehow it doesn't have a correct sound
-			our_sound = sound(our_sound)
-		if(!our_sound)
-			continue //something fucked up and the loop has no cursound, wups. this should basically never happen
-
-		mob.playsound_local(parent_turf, PS.cursound, PS.volume, PS.vary, PS.frequency, PS.falloff, PS.channel, FALSE, our_sound, repeat = PS)
+	var/turf/mob_turf = get_turf(mob)
 
 	//Now we check how far away etc we are
 	for(var/datum/looping_sound/loop in played_loops)
@@ -78,7 +95,22 @@ SUBSYSTEM_DEF(soundloopers)
 			played_loops -= loop
 			continue
 		
-		var/atom/loop_parent = loop.parent?.resolve()
+		if((istype(loop, /datum/looping_sound/instrument) || istype(loop, /datum/looping_sound/musloop) || istype(loop, /datum/looping_sound/dmusloop)) && !(prefs?.toggles & SOUND_INSTRUMENTS))
+			var/list/muted_loop = played_loops[loop]
+			var/sound/muted_sound = muted_loop?["SOUND"]
+			if(loop.persistent_loop)
+				muted_loop["MUTESTATUS"] = TRUE
+				muted_loop["VOL"] = 0
+				if(muted_sound)
+					mob.mute_sound(muted_sound)
+			else
+				played_loops -= loop
+				loop.thingshearing -= WEAKREF(mob)
+				if(muted_sound)
+					mob.stop_sound_channel(muted_sound.channel)
+			continue
+
+		var/atom/loop_parent = loop.parent
 		if(!loop_parent)
 			continue
 
@@ -144,7 +176,7 @@ SUBSYSTEM_DEF(soundloopers)
 			new_volume = new_volume * (prefs.mastervol * 0.01) //Modify it at the end by the player's volume setting
 
 			if(old_volume != new_volume)
-				var/turf/T = get_turf(mob)
+				var/turf/T = mob_turf //cached at proc start
 				var/dx = source_turf.x - T.x
 				if(dx <= 1 && dx >= -1)
 					found_sound.x = 0

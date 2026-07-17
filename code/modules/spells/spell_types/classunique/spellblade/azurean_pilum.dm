@@ -3,7 +3,7 @@
 	desc = "A borrowed art - spellblades of the Azurean tradition learned to imbue their throw with ice essence, \
 		flash-chilling the target on impact. Applies 2 frost stacks on hit. \
 		At 3+ momentum: consumes 3 for a heavier throw that applies 3 stacks, guaranteeing a freeze on any frosted target. \
-		Toggle arc mode (Ctrl+G) to arc over allies."
+		Toggle arc mode (Shift+G) to arc over allies."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "azurean_javelin"
 	sound = 'sound/combat/wooshes/bladed/wooshsmall (1).ogg'
@@ -23,7 +23,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
 	charge_time = CHARGETIME_POKE
-	charge_drain = 1
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 10 SECONDS
@@ -92,6 +92,8 @@
 			visible_message(span_warning("[src] disperses on contact with [L]!"))
 			playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
 			return BULLET_ACT_BLOCK
+		if(out_of_effective_range())
+			return
 		apply_frost_stack(L, frost_stacks)
 		to_chat(L, span_danger("An icy pilum strikes true - the cold seeps into my bones!"))
 		if(firer)

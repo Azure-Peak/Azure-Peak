@@ -587,6 +587,8 @@
 	)
 	debuff_type = /datum/status_effect/debuff/malum_revival
 	sound = 'sound/magic/clang.ogg'
+	overlay_icon = 'icons/mob/actions/malummiracles.dmi'
+	action_icon = 'icons/mob/actions/malummiracles.dmi'
 
 /obj/effect/proc_holder/spell/invoked/resurrect/ravox
 	name = "Just Rite of Anastasis"
@@ -644,8 +646,7 @@
 
 /obj/effect/proc_holder/spell/invoked/resurrect/undivided
 	name = "Lesser Anastasis"
-	desc = "Resurrects the chosen target, bringing them back from the dead. </br>This blessing requires an offering to complete, in the form of a piece of golden \
-	ore. </br>Casting this on an undead or unholy target will smite them with explosive results. </br>Depending on how far gone \
+	desc = "Resurrects the chosen target, bringing them back from the dead. Casting this on an undead or unholy target will smite them with explosive results. </br>Depending on how far gone \
 	the spirit is, the 'Anastasis' blessing might need to be casted multiple times before successfully resurrecting them. </br>Unlike a regular Healing miracle, this \
 	can affect - and resurrect - devout Psydonians as well."
 	recharge_time = 20 MINUTES //Double the cooldown, no more gold cost, it simply doesn't work with the new economy and transmutation changes.

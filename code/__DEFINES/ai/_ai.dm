@@ -132,13 +132,17 @@
 #define BB_ARCHER_NPC_EQUIPMENT_CACHE_EXPIRY "archer_npc_equipment_cache_expiry"
 #define BB_ARCHER_NPC_BOW               "archer_npc_bow"
 #define BB_ARCHER_NPC_QUIVER            "archer_npc_quiver"
+#define BB_ARCHER_NPC_NEXT_SHOT         "archer_next_shot"     // world.time the archer may next loose an arrow
+#define BB_ARCHER_NPC_REPOSITION_TURF   "archer_reposition_turf"  // post-shot juke destination we're committed to
+#define BB_ARCHER_NPC_REPOSITION_UNTIL  "archer_reposition_until" // world.time the post-shot juke commitment expires
 #define BB_INVENTORY_MAP        "inventory_map"        // list(category = list(item_ref = slot_name))
 #define BB_CONTAINER_REFS       "container_refs"       // list(slot_name = item_ref)
 #define BB_INVENTORY_DIRTY      "inventory_dirty"      // bool, triggers reappraisal
 #define BB_HELD_CONSUMABLE      "held_consumable"      // item we pulled out to use
+#define BB_THROW_WINDUP_UNTIL   "throw_windup_until"   // world.time the drawn throwable may be loosed (NPC holds it visibly until then)
 #define BB_TARGET_ZONE_OVERRIDE	"bb_target_override"
+#define BB_FORCED_ATTACK_ZONE	"bb_forced_attack_zone"
 #define BB_LOOT_TARGET "loot_target"
-#define BB_LOOT_TARGET_ITEM "loot_target_item"
 #define BB_LOOT_BLACKLIST "loot_blacklist"
 #define BB_LOOT_NEXT_SCAN "loot_next_scan"
 #define BB_MUG_DEMAND_ELAPSED "mug_elapsed_time"
@@ -146,12 +150,19 @@
 #define BB_MUG_TARGET_ITEM "mug_rootbeer"
 
 #define ARCHER_NPC_EQUIPMENT_CACHE_TIME (40 SECONDS)
-#define ARCHER_NPC_MIN_RANGE            3   // tiles - closer than this, prefer melee
+#define ARCHER_NPC_MIN_RANGE            4 
+#define ARCHER_NPC_KITE_FLOOR           1   
+#define ARCHER_NPC_KITE_RANGE           3
+#define ARCHER_NPC_SHOOT_RANGE          6
+#define ARCHER_NPC_ROF_PENALTY          1.3
+#define ARCHER_NPC_BASE_SPREAD          25 
+#define ARCHER_NPC_RETREAT_PROJECT      4
+#define ARCHER_NPC_REPOSITION_TIME      (0.6 SECONDS) // how long a post-shot random juke commits before the straight retreat resumes
 #define ARCHER_NPC_ARROW_SEARCH_RANGE   9
 #define ARCHER_NPC_SIMULATED_CHARGETIME 1.5 SECONDS // fallback bow charge time
-#define ARCHER_NPC_CROSSBOW_CHARGETIME  2.5 SECONDS // crossbows are slower to fire
-#define ARCHER_NPC_SLING_CHARGETIME     0.8 SECONDS // slings are fast
-#define ARCHER_NPC_ROF_PENALTY          1.3   // NPC charge time multiplier (1.3 = 30% slower than calculated)
+#define ARCHER_NPC_MIN_CROSSBOW_CHARGETIME  3 SECONDS // crossbows are slower to fire
+#define ARCHER_NPC_MIN_BOW_CHARGETIME        2.0 SECONDS
+#define ARCHER_NPC_MIN_SLING_CHARGETIME     2.0 SECONDS
 #define ARCHER_NPC_SPREAD_PER_POINT     7     // spread per PER point below 15
 #define ARCHER_NPC_ARC_SPREAD_PENALTY   20    // extra spread when arcing over allies
 
@@ -191,8 +202,8 @@ GLOBAL_LIST_INIT(ai_item_flags, list(
 	AI_ITEM_QUIVER,
 ))
 
-#define AI_INVENTORY_WATCHED_SLOTS (ITEM_SLOT_BELT | ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R | \
-    ITEM_SLOT_HIP | ITEM_SLOT_ARMOR | ITEM_SLOT_PANTS | \
-    ITEM_SLOT_SHIRT | ITEM_SLOT_CLOAK | ITEM_SLOT_BACK | ITEM_SLOT_NECK | ITEM_SLOT_WRISTS)
+// Azure equip signals and get_item_by_slot() speak small-int SLOT_* ids, not ITEM_SLOT_* bitflags.
+#define AI_INVENTORY_WATCHED_SLOTS list(SLOT_BELT, SLOT_BELT_L, SLOT_BELT_R, SLOT_BACK, SLOT_BACK_L, \
+	SLOT_BACK_R, SLOT_ARMOR, SLOT_PANTS, SLOT_SHIRT, SLOT_CLOAK, SLOT_NECK, SLOT_WRISTS)
 
 

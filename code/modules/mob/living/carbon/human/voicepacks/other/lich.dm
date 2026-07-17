@@ -13,6 +13,8 @@
 			used = list('sound/vo/lich/rage (1).ogg') //Close enough
 		if("deathgurgle")
 			used = pick('sound/vo/lich/deathgurgle (1).ogg')
+		if("agony")
+			used = 'sound/vo/lich/firescream (2).ogg'
 		if("hmm")
 			used = 'sound/vo/lich/hmm.ogg'
 		if("groan")
@@ -33,6 +35,12 @@
 			used = list('sound/vo/blink.ogg')
 		if("stomp")
 			used = list('sound/foley/brickdrop.ogg')
+		if("salute")
+			used = 'sound/vo/salute.ogg'
+		if("crack")
+			used = 'sound/vo/knuckles.ogg'
+		if("facepalm")
+			used = list('sound/vo/facepalm1.ogg', 'sound/vo/facepalm2.ogg')
 	if(!used)
 		used = ..(soundin, modifiers)
 	return used

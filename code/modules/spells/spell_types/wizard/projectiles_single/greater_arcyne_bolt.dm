@@ -3,7 +3,7 @@
 	name = "Greater Arcyne Bolt"
 	desc = "Fire a concentrated bolt of arcyne energy at a single target. \
 	Deals 50% increased damage to simple-minded creechurs. \
-	Toggle arc mode (Ctrl+G) while the spell is active to lob it over obstacles at reduced damage."
+	Toggle arc mode (Shift+G) while the spell is active to lob it over obstacles at reduced damage."
 	fluff_desc = "Ancient attack magyck. Oft nicknamed the \"Magician's Sling\" since its inception. Likely from the same era as soulshot or even earlier. While most magos have abandoned the Arcyne Bolt in favor of the powerful, deadly Soulshot that \"cannot miss\", the Arcyne Bolt is still favored by some Magos for its ability to be arced over ally's head and lack of ability to pierce through the body of enemies. This variation of Arcyne Bolt has been refined from its original, weaker version into a reliable, powerful spell. Whether it is as good at felling demons as it used to be is still up for debate."
 	button_icon_state = "greater_arcyne_bolt"
 	sound = 'sound/magic/vlightning.ogg'
@@ -24,8 +24,9 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
-	charge_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
+	hold_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 5.5 SECONDS
 
@@ -41,16 +42,18 @@
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "arcyne_bolt"
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	damage = 54
 	damage_type = BRUTE
 	flag = "blunt"
 	woundclass = BCLASS_BLUNT
-	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	intdamfactor = 1
 	npc_simple_damage_mult = 1.5
 	nodamage = FALSE
 	speed = MAGE_PROJ_FAST
-	range = SPELL_RANGE_PROJECTILE
+	max_range = MAGE_LONG_PROJ_RANGE
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
+	var/list/impact_sounds = list('sound/combat/hits/blunt/shovel_hit.ogg', 'sound/combat/hits/blunt/shovel_hit2.ogg', 'sound/combat/hits/blunt/shovel_hit3.ogg')
 
 /obj/projectile/magic/greater_arcyne_bolt/arc
 	name = "arced greater arcyne bolt"
@@ -58,7 +61,8 @@
 	arcshot = TRUE
 
 /obj/projectile/magic/greater_arcyne_bolt/on_hit(target)
-	hitsound = pick('sound/combat/hits/blunt/shovel_hit.ogg', 'sound/combat/hits/blunt/shovel_hit2.ogg', 'sound/combat/hits/blunt/shovel_hit3.ogg')
+	if(length(impact_sounds))
+		hitsound = pick(impact_sounds)
 	if(ismob(target))
 		var/mob/M = target
 		if(M.anti_magic_check())

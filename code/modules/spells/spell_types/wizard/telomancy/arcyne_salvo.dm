@@ -3,7 +3,7 @@
 	name = "Arcyne Salvo"
 	desc = "Loose three heavy arcyne bolts in a wide spread toward a single target. Each bolt strikes hard on its own, and if all three converge on the same foe the payoff is devastating. \
 	The spread is wide enough that only a Telomancer willing to close the distance will land the full salvo. \
-	Toggle arc mode (Ctrl+G) to lob the bolts over obstacles at reduced damage."
+	Toggle arc mode (Shift+G) to lob the bolts over obstacles at reduced damage."
 	button_icon_state = "arcyne_salvo"
 	sound = 'sound/magic/vlightning.ogg'
 	spell_color = GLOW_COLOR_ARCANE
@@ -23,8 +23,9 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
-	charge_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
+	hold_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 12 SECONDS
 	attunement_school = ASPECT_NAME_TELOMANCY
@@ -60,8 +61,9 @@
 	speed = MAGE_PROJ_FAST
 	accuracy = 60
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	npc_simple_damage_mult = 1.5
-	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	intdamfactor = 1
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 	ricochets_max = 2
 	ricochet_chance = 100

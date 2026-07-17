@@ -90,6 +90,10 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_pants()
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/Initialize()
+	. = ..()
+	update_icon()
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
@@ -130,6 +134,11 @@
 	name = "custom-fit silk tights"
 	desc = "Form-fitting legwear. Almost too form-fitting. Custom-fit for its (now deceased) wearer."
 	allowed_race = list(/datum/species/elf/dark/raider)
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/spymaster
+	name = "hand's tights"
+	desc = "Tailored from fine, unreflective silk that clings close to the form."
+	icon_state = "handpants"
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
 	name = "bronze chain skirt"

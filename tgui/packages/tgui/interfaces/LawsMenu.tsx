@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  Box,
-  Button,
-  Section,
-  Stack,
-  TextArea,
-} from 'tgui-core/components';
+import { Box, Button, Section, Stack, TextArea } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -45,13 +39,7 @@ const LawEntry = (props: {
     <Box mb={3}>
       <Stack align="start">
         <Stack.Item>
-          <Box
-            bold
-            fontSize={1.05}
-            color="label"
-            width={2.2}
-            textAlign="right"
-          >
+          <Box bold fontSize={1.05} color="label" width={2.2} textAlign="right">
             {index + 1}.
           </Box>
         </Stack.Item>
@@ -118,11 +106,7 @@ const PurgeButton = (props: { onPurge: () => void; lawCount: number }) => {
   }
 
   return (
-    <Button
-      icon="trash"
-      color="bad"
-      onClick={() => setConfirming(true)}
-    >
+    <Button icon="trash" color="bad" onClick={() => setConfirming(true)}>
       Clear All
     </Button>
   );

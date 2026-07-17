@@ -186,16 +186,16 @@
 	QDEL_NULL(organ_inside)
 	return ..()
 
-/obj/item/reagent_containers/food/snacks/organ/proc/check_culling(mob/living/eater)
-	return
-
 /obj/item/reagent_containers/food/snacks/organ/heart
 	list_reagents = list(/datum/reagent/consumable/nutriment = 6, /datum/reagent/organpoison = 2)
 	grind_results = list(/datum/reagent/organpoison = 6)
 
-/obj/item/reagent_containers/food/snacks/organ/heart/check_culling(mob/living/eater)
+/obj/item/reagent_containers/food/snacks/organ/proc/check_culling(mob/living/eater)
+	return
+
+/obj/item/reagent_containers/food/snacks/organ/check_culling(mob/living/eater)
 	. = ..()
-	if(!organ_inside)
+	if(QDELETED(organ_inside) || !istype(organ_inside, /obj/item/organ/heart))
 		return
 
 	for(var/datum/culling_duel/D in GLOB.graggar_cullings)
@@ -330,6 +330,9 @@
 		bodypart_overlays(organ_overlay)
 		return organ_overlay
 
+/obj/item/organ/proc/get_cache_key()
+	return "[accessory_type]-[accessory_colors]-[bodypart_icon]-[bodypart_icon_state]-[color]-[bodypart_layer]"
+
 /// Proc to customize the base icon of the organ.
 /obj/item/organ/proc/bodypart_icon(mutable_appearance/standing)
 	return
@@ -358,6 +361,8 @@
 			return
 		source_key_list = color_key_source_list_from_carbon(owner)
 	var/datum/sprite_accessory/accessory = SPRITE_ACCESSORY(accessory_type)
+	if(!accessory)
+		return
 	accessory_colors = accessory.get_default_colors(source_key_list)
 	accessory_colors = accessory.validate_color_keys_for_owner(owner, accessory_colors)
 	update_accessory_colors()

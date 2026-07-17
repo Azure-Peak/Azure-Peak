@@ -31,7 +31,17 @@ var/list/used_colors
 			/obj/item/reagent_containers/glass/cup/claycup,
 			/obj/item/reagent_containers/glass/bottle/claybottle,
 			/obj/item/roguestatue/clay,
-			/obj/item/roguestatue/glass
+			/obj/item/roguestatue/glass,
+			/obj/item/natural/clay/porcelain,
+			/obj/item/clothing/neck/roguetown/carved/porcelainamulet,
+			/obj/item/clothing/ring/porcelain,
+			/obj/item/clothing/head/roguetown/circlet/carvedgem/porcelain,
+			/obj/item/reagent_containers/glass/cup/carved/porcelainfancy,
+			/obj/item/reagent_containers/glass/cup/carved/porcelain,
+			/obj/item/reagent_containers/glass/bowl/carved/porcelain,
+			/obj/item/kitchen/spoon/carved/porcelain,
+			/obj/item/kitchen/fork/carved/porcelain,
+			/obj/item/cooking/platter/carved/porcelain
 			)
 
 /obj/machinery/gear_painter/Initialize()
@@ -358,6 +368,29 @@ var/list/used_colors
 		dye = hexdye
 
 	update_icon()
+
+/obj/item/dye_brush/pre_attack(atom/A, mob/living/user, params)
+	if(..())
+		return TRUE
+	var/obj/item/target = A
+	if(!istype(target) || target.glazed || !target.icon || !icon_exists(target.icon, "[target.icon_state]_glazed"))
+		return FALSE
+	if(target.reagents && target.reagents.total_volume)
+		to_chat(user, span_notice("I can't glaze [target] while it has liquid in it."))
+		return TRUE
+	if(!do_after(user, 3 SECONDS, target = target))
+		return TRUE
+	if(target.glazed) // someone else finished first
+		return TRUE
+	target.glazed = TRUE
+	target.glaze_bonus_flat = rand(10, 40)
+	target.icon_state = "[target.icon_state]_glazed"
+	target.update_icon()
+	playsound(loc, "sound/foley/scrubbing[pick(1,2)].ogg", 60, TRUE)
+	user.visible_message(span_notice("[user] glazes [target]."), \
+		span_notice("I glaze [target] with the dye brush.")
+	)
+	return TRUE
 
 /obj/item/dye_brush/attack_turf(turf/T, mob/living/user)
 	if(!iswallturf(T))

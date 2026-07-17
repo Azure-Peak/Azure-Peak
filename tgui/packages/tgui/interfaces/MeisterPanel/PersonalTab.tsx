@@ -14,7 +14,7 @@ import {
   SEAL_RED,
   sectionHeaderStyle,
 } from '../common/parchment';
-import { type TabProps } from './types';
+import type { TabProps } from './types';
 
 const DENOMS = [
   { id: 'GOLD', label: 'Gold', value: 10 },
@@ -31,9 +31,7 @@ export const PersonalTab = ({ data, act }: TabProps) => {
   const denomMod = DENOMS.find((d) => d.id === denom)?.value ?? 1;
   const totalDraw = numericCoins * denomMod;
   const drawDisabled =
-    numericCoins < 1 ||
-    numericCoins > 20 ||
-    totalDraw > data.account_balance;
+    numericCoins < 1 || numericCoins > 20 || totalDraw > data.account_balance;
 
   const numericRepay = parseInt(repayAmount, 10) || 0;
   const loan = data.active_loan;
@@ -67,9 +65,7 @@ export const PersonalTab = ({ data, act }: TabProps) => {
                 marginRight: 4,
                 fontWeight: denom === d.id ? 'bold' : 'normal',
                 background:
-                  denom === d.id
-                    ? 'var(--p-tab-active-bg)'
-                    : BUTTON_BG,
+                  denom === d.id ? 'var(--p-tab-active-bg)' : BUTTON_BG,
               }}
               onClick={() => setDenom(d.id)}
             >

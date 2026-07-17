@@ -56,7 +56,9 @@
 	check_cremation()
 
 /mob/living/carbon/handle_random_events()//BP/WOUND BASED PAIN
-	if(HAS_TRAIT(src, TRAIT_NOPAIN))
+	//Being sundered will shut off no_pain trait, until the sunder flames wear off.
+	//Werewolves are exempt.
+	if(HAS_TRAIT(src, TRAIT_NOPAIN) && !HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && (!has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || !has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
 		return
 	if(!stat)
 		var/painpercent = get_complex_pain() / pain_threshold
@@ -84,6 +86,15 @@
 						Immobilize(10)
 						emote("painscream")
 						stuttering += 5
+						addtimer(CALLBACK(src, PROC_REF(Stun), 110), 10)
+						addtimer(CALLBACK(src, PROC_REF(Knockdown), 110), 10)
+						mob_timers["painstun"] = world.time + 160
+					if(prob(probby) && HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !HAS_TRAIT(src, TRAIT_LYCANRESILENCE)  && (has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
+						Immobilize(10)
+						emote("painscream")
+						to_chat(src, span_userdanger("THE SACRED FLAMES, I FEEL PAIN AGAIN!"))
+						stuttering += 5
+						cultslurring += 10 //To indicate this isn't a natural kind of agony
 						addtimer(CALLBACK(src, PROC_REF(Stun), 110), 10)
 						addtimer(CALLBACK(src, PROC_REF(Knockdown), 110), 10)
 						mob_timers["painstun"] = world.time + 160
@@ -128,7 +139,7 @@
 	..()
 	
 	if(!(mobility_flags & MOBILITY_STAND) || force_drown)
-		if (HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_WATERBREATHING) || HAS_TRAIT(src, TR_DEFAULTMSG))
+		if (HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_WATERBREATHING))
 			return TRUE
 		if(stat == DEAD && client)
 			record_round_statistic(STATS_PEOPLE_DROWNED)
@@ -144,22 +155,23 @@
 
 	return TRUE
 
-
-
+#define BURN_PAIN_WEIGHT 0.6
 
 /mob/living/carbon/proc/get_complex_pain()
 	. = 0
 	var/has_adrenaline = HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH)
 	for(var/obj/item/bodypart/limb as anything in bodyparts)
-		if(limb.status == BODYPART_ROBOTIC || limb.skeletonized)
-			continue
-		var/bodypart_pain = ((limb.brute_dam + limb.burn_dam) / limb.max_damage) * limb.max_pain_damage
+		if(limb.status == BODYPART_ROBOTIC || limb.skeletonized && !has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) && !has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+			continue //If we're not sundered, skeletonised limbs do not hurt.
+		var/bodypart_pain = ((limb.brute_dam + (limb.burn_dam * BURN_PAIN_WEIGHT)) / limb.max_damage) * limb.max_pain_damage
 		for(var/datum/wound/wound as anything in limb.wounds)
 			bodypart_pain += wound?.woundpain
 		bodypart_pain = min(bodypart_pain, limb.max_pain_damage)
 		if(has_adrenaline)
 			bodypart_pain *= 0.5
 		. += bodypart_pain
+
+#undef BURN_PAIN_WEIGHT
 
 /mob/living/carbon/human/get_complex_pain()
 	. = ..()
@@ -319,8 +331,6 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			add_stress(/datum/stressevent/drunk)
 		else
 			remove_stress(/datum/stressevent/drunk)
-		if(drunkenness >= 8.5) // Roughly 2 cups
-			sate_addiction(/datum/charflaw/addiction/alcoholic)
 		if(drunkenness >= 11 && slurring < 5)
 			slurring += 1.2
 
@@ -360,6 +370,38 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 
 		if(drunkenness >= 101)
 			adjustToxLoss(5) //Let's be honest you shouldn't be alive by now
+
+//WE HANDLE SUNDERSTACKS HERE
+	if(sunder_stacks)
+		sunder_stacks = max(sunder_stacks - 1, 0) //Takes a bit to shrug off
+		if(cultslurring < 5) //Fucks up our ability to talk, completely until all sunderstacks are gone
+			cultslurring += 1.2
+
+		if(sunder_stacks >= 21)
+			apply_status_effect(/datum/status_effect/debuff/sunder_stacks) //You survived an EXTREMELY lethal blow, you might want to keep back for now
+
+		if(sunder_stacks >= 41)
+			adjustBruteLoss(1)
+			if(prob(3)) //5% chance of random dizziness
+				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire. No immobilise yet.
+				Dizzy(3)
+
+		if(sunder_stacks >= 71) //At this point you've taken (2) blows or more and shouldn't be escaping death this easily.
+			adjustBruteLoss(1)
+			if(prob(12)) //12% chance to have random movement + stun + dizziness
+				confused += 8
+				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
+				Dizzy(15)
+			if(prob(5)) //5% chance to collapse randomly
+				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
+				Knockdown(15)
+
+		if(sunder_stacks >= 101) //We are beyond the point of lethal, somehow. This will cripple you severely.
+			adjustBruteLoss(1)
+			if(prob(50))
+				blur_eyes(5)
+			Dizzy(25)//You are completely fucked up at this point, any more stacks of SUNDER and you're DEAD.
+
 
 //used in human and monkey handle_environment()
 /mob/living/carbon/proc/natural_bodytemperature_stabilization()
@@ -541,10 +583,14 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			energy_add(4)
 	//Healing while sleeping in a bed
 	if(IsSleeping())
+		if(HAS_TRAIT(src, TRAIT_NOREGEN) || HAS_TRAIT(src, TRAIT_IRONMAN))
+			return
 		var/sleepy_mod = 0.5
 		var/doesnt_hunger = HAS_TRAIT(src, TRAIT_NOHUNGER)
 		if(HAS_TRAIT(src, TRAIT_BETTER_SLEEP))
 			energy_add(sleepy_mod * 4)
+		if(HAS_TRAIT(src, TRAIT_MALUMCHOSEN))
+			energy_add(sleepy_mod * 2)
 		if(buckled?.sleepy)
 			sleepy_mod = buckled.sleepy
 		if(HAS_TRAIT(src, TRAIT_REGROW_LIMBS))

@@ -110,10 +110,8 @@
 	var/datum/rmb_intent/rmb_intent //Living
 	var/datum/intent/used_intent
 	var/datum/intent/mmb_intent
-	var/datum/intent/used_rmb_intent
 	/// List of possible intents a mob can have
 	var/list/possible_mmb_intents = list()
-	var/list/possible_spell_intents = list()
 	var/list/possible_a_intents = list()//Living
 	var/list/possible_offhand_intents = list()//Living
 	var/list/possible_rmb_intents = list()
@@ -258,6 +256,7 @@
 	var/temptarget = FALSE
 	var/fixedeye = FALSE
 	var/tempfixeye = FALSE //targetting
+	var/facing_locked = FALSE
 	var/image/targeti
 	var/image/swingi
 	var/rautoaiming = FALSE //targets any mob on a turf with rmb or lmb
@@ -285,6 +284,7 @@
 
 	var/last_dodge = 0
 	var/last_parry = 0
+	var/last_deflect_recoil = 0
 
 	var/last_used_double_attack = 0 //Used for Dual Wielder virtue, holds the timer since the double attack was last used
 	var/dualwieldpitythreshhold = 2 //dual attack every 3rd

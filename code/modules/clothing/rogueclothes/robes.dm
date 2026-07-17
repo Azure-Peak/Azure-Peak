@@ -87,6 +87,20 @@
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 
+/obj/item/clothing/suit/roguetown/shirt/robe/undividedcleric
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
+	name = "undivided clerical robe"
+	desc = "Undivided, we walk - a Pantheon of Ten, guiding Psydonia's wanderers towards providence."
+	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
+	icon_state = "tenclericrobe"
+	icon = 'icons/roguetown/clothing/armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
+	sleeved = null
+	boobed = TRUE
+	color = null
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+
 /obj/item/clothing/suit/roguetown/shirt/robe/ravox
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "ravox robe"
@@ -224,6 +238,11 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	storage = FALSE
+	adjustable = CAN_CADJUST
+
+/obj/item/clothing/suit/roguetown/shirt/robe/monk/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, CHEST|GROIN|ARMS|VITALS, null, null, 'sound/foley/cloth_wipe (1).ogg', null, UPD_CHEST)
 
 //This is for templars/psydonites. Gives a boon for wearing it to counter-act giving up plate and such.
 /obj/item/clothing/suit/roguetown/shirt/robe/monk/holy

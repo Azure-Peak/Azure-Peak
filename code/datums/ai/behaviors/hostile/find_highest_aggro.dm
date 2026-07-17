@@ -10,22 +10,37 @@
 	. = ..()
 
 	var/mob/living/living_mob = controller.pawn
-	if(!living_mob || living_mob.pet_passive)
+	if(!living_mob)
 		finish_action(controller, succeeded = FALSE)
 		return
 
-	var/mob/current_target = controller.blackboard[BB_HIGHEST_THREAT_MOB]
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 
 	if(!targetting_datum)
 		CRASH("No target datum was supplied in the blackboard for [controller.pawn]")
 
+	var/mob/living/commanded_target = controller.blackboard[BB_CURRENT_PET_TARGET]
+	if(commanded_target)
+		if(!QDELETED(commanded_target) && !commanded_target.stat && targetting_datum.can_attack(living_mob, commanded_target))
+			if(commanded_target == controller.blackboard[target_key])
+				finish_action(controller, succeeded = FALSE)
+				return
+			controller.set_blackboard_key(target_key, commanded_target)
+			finish_action(controller, succeeded = TRUE)
+			return
+		controller.clear_blackboard_key(BB_CURRENT_PET_TARGET)
+		if(controller.blackboard[target_key] == commanded_target)
+			controller.clear_blackboard_key(target_key)
+
+	var/mob/current_target = controller.blackboard[BB_HIGHEST_THREAT_MOB]
+
 	// Validate existing threat target
 	if(current_target && istype(current_target, /mob/living))
 		var/mob/living/living_target = current_target
 
-		if(living_target.stat == DEAD)
+		if(QDELETED(living_target) || living_target.stat == DEAD)
 			controller.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+			controller.clear_blackboard_key(target_key)
 			current_target = null
 		else
 			var/maintain_range = controller.blackboard[BB_AGGRO_MAINTAIN_RANGE] || 12
@@ -63,6 +78,10 @@
 
 	controller.clear_blackboard_key(target_key)
 
+	if(living_mob.pet_passive)
+		finish_action(controller, succeeded = FALSE)
+		return
+
 	scan_for_new_targets(controller, living_mob, target_key, targetting_datum, hiding_location_key, targetting_datum_key)
 
 /datum/ai_behavior/find_aggro_targets/proc/scan_for_new_targets(datum/ai_controller/controller, mob/living/living_mob, target_key, datum/targetting_datum/targetting_datum, hiding_location_key, targetting_datum_key)
@@ -80,9 +99,9 @@
 	var/low_hp = (living_mob.health <= living_mob.maxHealth * 0.5)
 
 	for(var/mob/living/pot_target in potential_targets)
-		if(pot_target.stat == DEAD)
+		if(QDELETED(pot_target) || pot_target.stat == DEAD)
 			continue
-		if (!targetting_datum.can_attack(living_mob, pot_target))
+		if(!targetting_datum.can_attack(living_mob, pot_target))
 			continue
 		if(pot_target.rogue_sneaking)
 			var/extra_chance = low_hp ? 30 : 0
@@ -108,9 +127,16 @@
 		aggro_comp.add_threat_to_mob(chosen_target, 3)
 
 	var/mob/highest_threat = controller.blackboard[BB_HIGHEST_THREAT_MOB]
+
+	if(QDELETED(highest_threat) || (highest_threat && highest_threat.stat == DEAD))
+		controller.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+		controller.clear_blackboard_key(target_key)
+		highest_threat = null
+
 	if(highest_threat)
 		controller.set_blackboard_key(target_key, highest_threat)
-	else if(chosen_target)
+	else if(chosen_target && !QDELETED(chosen_target))
+		controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, chosen_target)
 		controller.set_blackboard_key(target_key, chosen_target)
 		var/atom/potential_hiding_location = find_hiding_location(living_mob, chosen_target)
 		if(potential_hiding_location)

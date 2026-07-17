@@ -187,10 +187,7 @@
 			if(HAS_TRAIT(C, TRAIT_SHOCKIMMUNE))
 				continue
 			else
-				C.Immobilize(0.5 SECONDS)
-				C.apply_status_effect(/datum/status_effect/debuff/clickcd, 6 SECONDS)
-				C.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-				C.apply_status_effect(/datum/status_effect/buff/lightningstruck, 6 SECONDS)
+				C.lightning_shock(src)
 		else
 			playsound(user, 'sound/items/stunmace_toggle (3).ogg', 100)
 			user.visible_message(span_warning("The voltaic link fizzles out!"), span_warning("[C] is too far away!"))

@@ -105,9 +105,6 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 #define isgnoll(A) (is_species(A, /datum/species/gnoll))
 
 
-//more carbon mobs
-#define ismonkey(A) (istype(A, /mob/living/carbon/monkey))
-
 //Simple animals
 #define isanimal(A) (istype(A, /mob/living/simple_animal))
 
@@ -142,6 +139,12 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 
 //Misc mobs
 #define isobserver(A) (istype(A, /mob/dead/observer))
+
+#define isplayerghost(A) (isobserver(A) && !isscryeye(A) && !isadminghost(A))
+
+#define isscryeye(A) (istype(A, /mob/dead/observer/eye))
+
+#define isadminghost(A) (istype(A, /mob/dead/observer/admin))
 
 #define isdead(A) (istype(A, /mob/dead))
 

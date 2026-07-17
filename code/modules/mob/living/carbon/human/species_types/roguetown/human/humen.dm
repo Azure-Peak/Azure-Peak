@@ -8,8 +8,8 @@
 	origin_default = /datum/virtue/origin/grenzelhoft
 	origin = "Grenzelhoft"
 	sub_name = "Northern Humen"
-	desc = "<b>Humen</b><br>\
-	Humens (or \"Humans\") are the eldest of the Weeping God's creations. Noted for their \
+	desc_title = "Humen"
+	desc = "Humens (or \"Humans\") are the eldest of the Weeping God's creations. Noted for their \
 	tenacity and overwhelming population, humens are the most commonly seen race across the lands, \
 	at a rate of about ten to one in regions such as Grenzelhoft. However, to the west \
 	the opposite is true. Humens come from a vast swathe of cultures and ethnicities, most of which \
@@ -76,6 +76,9 @@
 		/datum/body_marking/nose,
 		/datum/body_marking/bangs,
 		/datum/body_marking/bun,
+		/datum/body_marking/waist,
+		/datum/body_marking/womb_tattoo,
+		/datum/body_marking/butterfly
 	)
 
 /datum/species/human/northern/check_roundstart_eligible()

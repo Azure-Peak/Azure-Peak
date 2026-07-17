@@ -2,7 +2,7 @@
 	name = "Ravox"
 	domain = "God of Justice, Glory, Battle"
 	desc = "Stalwart warrior, glorious justicar; legends say he came down to the Basin to repel the vile hordes of demons with his own hands, and that he seeks warriors for his divine army among mortals."
-	worshippers = "Warriors, Sellswords & those who seek Justice"
+	worshippers = "Warriors, Sellswords, and those who seek Justice"
 	mob_traits = list(TRAIT_SHARPER_BLADES)
 	traits_tier = list(TRAIT_BATTLEMASTER = CLERIC_T1, TRAIT_JUSTICARSIGHT = CLERIC_T3)
 	miracles = list(/datum/action/cooldown/spell/touch/orison				= CLERIC_ORI,
@@ -15,7 +15,6 @@
 					/datum/action/cooldown/spell/ravox/challenge			= CLERIC_T2,
 					/datum/action/cooldown/spell/ravox/persistence			= CLERIC_T3,
 					/datum/action/cooldown/spell/ravox/battlecry			= CLERIC_T3,
-					/datum/action/cooldown/spell/ravox/spirits 				= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/ravox	= CLERIC_T4,
 	)
 	confess_lines = list(
@@ -28,7 +27,8 @@
 
 	titles = list(
 		"Justiciar",
-		"Justicar" // it is misspelled ingame enough that we should probably accept this too 
+		"Justicar", // it is misspelled ingame enough that we should probably accept this too 
+		"Ratake"
 	)
 
 // Near a knight statue, cross, or within the church

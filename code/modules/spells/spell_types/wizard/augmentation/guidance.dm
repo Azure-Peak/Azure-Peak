@@ -1,42 +1,23 @@
-// Guidance — Augmentation buff spell (new action system)
-// Status effect kept in buffs_debuffs/guidance.dm
-/datum/action/cooldown/spell/guidance
-	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
+/datum/action/cooldown/spell/augment_buff/guidance
 	name = "Guidance"
-	desc = "Makes one's hand travel true, blessing them with arcyne luck in combat. (+20% chance to bypass parry / dodge, +20% chance to parry / dodge)\nCasting on another person extends the duration."
+	desc = "Channel arcyne power unto an ally, empowering their next strike to bypass parry and dodge. Works with both weapons and unarmed attacks. \
+		Enable Fellowship Mode (Shift+G) to snap an off-target cast to your nearest fellowship member in range. \
+		Casting it on yourself increases the cooldown by half."
 	button_icon_state = "guidance"
-	sound = 'sound/magic/haste.ogg'
-	spell_color = GLOW_COLOR_BUFF
-	glow_intensity = GLOW_INTENSITY_LOW
-	attunement_school = ASPECT_NAME_AUGMENTATION
 
-	click_to_activate = TRUE
-	cast_range = SPELL_RANGE_GROUND
-	self_cast_possible = TRUE
-
-	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_STAT_BUFF
-
-	invocations = list("Ducere")
-	invocation_type = INVOCATION_WHISPER
-
-	charge_required = TRUE
-	charge_time = 1 SECONDS
-	charge_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_sound = 'sound/magic/charging.ogg'
-	charge_then_click = TRUE
-	cooldown_time = 2 MINUTES
-
-	associated_skill = /datum/skill/magic/arcane
-	spell_tier = 2
+	invocations = list("Vera Manus!")
+	invocation_type = INVOCATION_SHOUT
+	cooldown_time = 30 SECONDS
 
 	point_cost = 2
-	spell_impact_intensity = SPELL_IMPACT_NONE
+	charge_time = 0 // Special
 
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	self_cast_cooldown_multiplier = 1.5
 
-/datum/action/cooldown/spell/guidance/cast(atom/cast_on)
+	/// How long the empowered strike lingers - longer than Empower Weapon's, so a guided ally has time to close in.
+	var/empowered_duration = 10 SECONDS
+
+/datum/action/cooldown/spell/augment_buff/guidance/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
@@ -48,12 +29,19 @@
 
 	var/mob/living/spelltarget = cast_on
 
-	if(spelltarget != H)
-		H.visible_message("[H] mutters an incantation and [spelltarget] briefly shines orange.")
-		to_chat(H, span_notice("With another person as a conduit, my spell's duration is extended."))
-		spelltarget.apply_status_effect(/datum/status_effect/buff/guidance, STAT_BUFF_ALLY_DURATION)
+	if(spelltarget.has_status_effect(/datum/status_effect/buff/empowered_strike))
+		to_chat(H, span_warning("[spelltarget == H ? "My" : "[spelltarget]'s"] weapon is already empowered!"))
+		H.balloon_alert(H, "already empowered!")
+		return FALSE
+
+	spelltarget.apply_status_effect(/datum/status_effect/buff/empowered_strike, empowered_duration)
+
+	if(spelltarget == H)
+		H.visible_message("[H] mutters an incantation and their weapon flares with a violent red glow!")
+		to_chat(H, span_notice("I guide my own strike - the next will not be denied. ([self_cast_cooldown_multiplier]x cooldown)"))
 	else
-		H.visible_message("[H] mutters an incantation and they briefly shine orange.")
-		spelltarget.apply_status_effect(/datum/status_effect/buff/guidance, STAT_BUFF_SELF_DURATION)
+		H.visible_message("[H] mutters an incantation and [spelltarget]'s weapon flares with a violent red glow!")
+		to_chat(H, span_notice("I guide [spelltarget]'s strike - their next will not be denied."))
+		to_chat(spelltarget, span_notice("[H]'s guidance empowers my weapon - my next strike will not be denied!"))
 
 	return TRUE

@@ -2,6 +2,7 @@
 	name = "Barber Surgeon"
 	tutorial = "Wielding crude tools and accumulated knowledge, you are something of a 'freelance physician' even if the local apothecary declined your application, and over the yils have probably cut into more people than the average knight."
 	allowed_sexes = list(MALE, FEMALE)
+	forbidden_races = list(RACES_DESPISED)
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/doctor
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)

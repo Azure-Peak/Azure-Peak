@@ -31,7 +31,13 @@
 	if(!.)
 		return
 	var/is_hard_roundstart = roundstart && (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
+	// Hard antags always require the population minimum - never bypassed, even by an admin-opened slot.
 	if(is_hard_roundstart && players_amt < HARD_ANTAG_MIN_POP)
+		return FALSE
+	// When an admin opens a specific set of hard antags, only those may roll at roundstart (no fallback villain).
+	var/admin_slot = SSgamemode.get_admin_slot(antag_datum, storyteller_slot_key)
+	var/admin_opened = !isnull(admin_slot) && admin_slot > 0
+	if(is_hard_roundstart && !admin_opened && length(SSgamemode.opened_hard_antags()))
 		return FALSE
 	var/antag_amt = get_antag_amount()
 	if(antag_amt <= 0)
@@ -42,9 +48,19 @@
 
 /datum/round_event_control/antagonist/solo/proc/get_antag_amount()
 	var/people = SSgamemode.get_correct_popcount()
+	var/is_villain = (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
+	var/admin_slot = SSgamemode.get_admin_slot(antag_datum, storyteller_slot_key)
+	if(!isnull(admin_slot))
+		admin_slot = max(0, admin_slot)
+		if(is_villain)
+			return admin_slot
+		if(!SSgamemode.soft_scaling)
+			return admin_slot
+		return SSgamemode.storyteller_scale_slots(admin_slot, people, !roundstart, SSgamemode.story_antag_scaling_step(antag_datum), SSgamemode.story_antag_min_players(antag_datum))
 	var/storyteller_cap = SSgamemode.story_antag_slot_cap(antag_datum, roundstart = roundstart)
-	if(storyteller_cap > 0)
-		return SSgamemode.storyteller_scale_slots(storyteller_cap, people, !roundstart, SSgamemode.story_antag_scaling_step(antag_datum), SSgamemode.story_antag_min_players(antag_datum))
+	if(storyteller_cap)
+		var/scaling_mult = is_villain ? SSgamemode.hard_antag_mult() : 1
+		return SSgamemode.storyteller_scale_slots(storyteller_cap, people, !roundstart, SSgamemode.story_antag_scaling_step(antag_datum), SSgamemode.story_antag_min_players(antag_datum), scaling_mult)
 	var/amount = base_antags + FLOOR(people / denominator, 1)
 	return min(amount, maximum_antags)
 

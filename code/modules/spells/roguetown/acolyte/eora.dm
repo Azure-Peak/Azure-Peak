@@ -123,7 +123,7 @@
 
 	eater.apply_status_effect(/datum/status_effect/buff/healing, (quality + (skill / 5)) * bitesize_mod)
 	if(skill > 4 && patron.type == /datum/patron/divine/eora)
-		eater.apply_status_effect(/datum/status_effect/buff/haste, 15 SECONDS)
+		eater.apply_status_effect(/datum/status_effect/buff/attune_haste, 15 SECONDS)
 
 /obj/effect/proc_holder/spell/invoked/bless_food
 	name = "Bless Food"
@@ -632,7 +632,7 @@
 		update_icon()
 		return TRUE
 
-	if(istype(I, /obj/item/rogueweapon/huntingknife/scissors))
+	if(/datum/intent/snip in I.possible_item_intents)
 		if(prune_count >= 4)
 			to_chat(user, span_warning("The tree has been fully pruned already!"))
 			return TRUE

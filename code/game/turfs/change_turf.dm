@@ -59,7 +59,7 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 /turf/proc/ChangeTurf(path, list/new_baseturfs, flags)
 	if(istext(path))
 		path = text2path(path)
-	
+
 	switch(path)
 		if(null)
 			return
@@ -70,6 +70,9 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 				if (!ispath(path))
 					warning("Z-level [z] has invalid baseturf '[SSmapping.level_trait(z, ZTRAIT_BASETURF)]'")
 					path = /turf/open/floor/rogue/naturalstone
+
+	if(!ispath(path))
+		return
 
 	if(!GLOB.use_preloader && path == type && !(flags & CHANGETURF_FORCEOP)) // Don't no-op if the map loader requires it to be reconstructed
 		return src
@@ -86,7 +89,6 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 
 	var/old_opacity = opacity
 	var/old_dynamic_lighting = dynamic_lighting
-	var/old_affecting_lights = affecting_lights
 	var/old_lighting_object = lighting_object
 	var/old_outdoor_effect = outdoor_effect
 	var/old_corners = corners
@@ -157,7 +159,6 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 
 		recalc_atom_opacity()
 		lighting_object = old_lighting_object
-		affecting_lights = old_affecting_lights
 		corners = old_corners
 		if (old_opacity != opacity || dynamic_lighting != old_dynamic_lighting)
 			reconsider_lights()

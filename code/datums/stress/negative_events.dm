@@ -180,6 +180,10 @@
 	stressadd = 5
 	desc = span_red("<u>They</u> are here.")
 
+/datum/stressevent/sundercritted
+	stressadd = 5 //Its literally killing you, sire.
+	desc = span_boldred("I CAN FEEL MY SOUL TEARING APART FROM BLESSED FLAMES, I NEED TO GET AWAY!")
+
 /datum/stressevent/nocrowd
 	timer = 2 MINUTES
 	stressadd = 3
@@ -414,7 +418,7 @@
 	desc = span_red("Where is their head? What is that flame?!")
 	timer = 5 MINUTES
 
-/datum/stressevent/hunted // When a hunted character sees someone in a mask
+/datum/stressevent/targeted // When a targeted character sees someone in a mask
 	timer = 2 MINUTES
 	stressadd = 3
 	desc = span_boldred("I can't see their face! Have they found me? Is this the end?")
@@ -514,6 +518,26 @@
 	stressadd = 3
 	desc = span_red("I long for the shelter of wall and roofs. The sun and moon are too bright for me to bear!")
 
+/datum/stressevent/sun_sensitivity_dark
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("<b><i>The sunlight burns my eyes! It's too bright outside!</b></i>")
+
+/datum/stressevent/sun_sensitivity
+	timer = 2 MINUTES
+	stressadd = 10
+	desc = span_red("<b><i>The sunlight burns my eyes and skin! It's too bright outside!</b></i>")
+
+/datum/stressevent/lesser_sun_sensitivity
+	timer = 2 MINUTES
+	stressadd = 1
+	desc = span_red("I'm shielded from the the sunlight, but still! It's too bright outside!") // always a hater, aren't ya?! shame on u, astrata shames u
+
+/datum/stressevent/inq_trauma
+	timer = 3 MINUTES
+	stressadd = 4
+	desc = span_red("THE INQUISITION?! BY MY PATRON, NOT THEM!!")
+
 /datum/stressevent/water_splashed_noble
 	timer = 30 SECONDS
 	stressadd = 2
@@ -528,3 +552,14 @@
 	stressadd = 3
 	desc = span_boldred("<B>I've barely escaped death's grasp!</B>")
 	timer = 15 MINUTES
+
+/datum/stressevent/mimic_jumpscare
+	timer = 30 SECONDS
+	stressadd = 6
+	desc = list(span_boldred("TEETH?!"), span_boldred("IT'S ALIVE!!"), span_boldred("NO, NO, NO!!"), span_boldred("GET BACK!!"), span_boldred("MONSTER!!"), span_boldred("IT MOVED!!"), span_boldred("DON'T TOUCH THE CHEST!!"), span_boldred("IT'S NOT A CHEST!!"), span_boldred("CARKIN', A MIMIC!!"), span_boldred("I'M NEVER OPENING A CHEST AGAIN!!"))
+
+/// The gods are alive and watching you now, idk what you expected going to the church for
+/datum/stressevent/blessed_evil
+	timer = 15 MINUTES
+	stressadd = 2
+	desc = span_artery("I feel a judgmental presence watching over me with disgust. I don't like this.")

@@ -8,7 +8,7 @@
 		/datum/surgery_step/extract_black_rose_residue,
 		/datum/surgery_step/cauterize
 	)
-	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	target_mobtypes = list(/mob/living/carbon/human)
 	possible_locs = list(BODY_ZONE_CHEST)
 
 /datum/surgery_step/extract_black_rose_residue
@@ -16,7 +16,7 @@
 	implements = list(
 		TOOL_SCALPEL = 85,
 	)
-	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	target_mobtypes = list(/mob/living/carbon/human)
 	time = 12 SECONDS
 	surgery_flags = SURGERY_INCISED
 	skill_min = SKILL_LEVEL_EXPERT

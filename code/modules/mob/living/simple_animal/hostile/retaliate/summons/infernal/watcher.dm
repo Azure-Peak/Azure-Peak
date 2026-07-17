@@ -29,8 +29,8 @@
 	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
 	simple_detect_bonus = 20
-	retreat_distance = 4
-	minimum_distance = 3
+	retreat_distance = 2
+	minimum_distance = 1
 	food_type = list()
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
@@ -59,20 +59,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/simple_add_wound(datum/wound/wound, silent = FALSE, crit_message = FALSE)	//no wounding the watcher
 	return
-
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/MeleeAction(patience = TRUE)
-	for(var/t in RANGE_TURFS(1, src))
-		new /obj/effect/hotspot(t)
-		src.visible_message(span_danger("[src] emits a burst of flames from its core!"))
-	if(rapid_melee > 1)
-		var/datum/callback/cb = CALLBACK(src, PROC_REF(CheckAndAttack))
-		var/delay = SSnpcpool.wait / rapid_melee
-		for(var/i in 1 to rapid_melee)
-			addtimer(cb, (i - 1)*delay)
-	else
-		AttackingTarget()
-	if(patience)
-		GainPatience()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/death(gibbed)
 	..()

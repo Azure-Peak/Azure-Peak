@@ -47,6 +47,16 @@
 
 /obj/item/flashlight/attack(mob/living/carbon/M, mob/living/carbon/human/user)
 	add_fingerprint(user)
+	if(on)
+		if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
+			var/obj/item/clothing/mask/cigarette/cig = help_light_cig(M)
+			if(cig)
+				if(!cig.lit)
+					if(M == user)
+						cig.attackby(src, user)
+					else
+						cig.light(span_notice("[user] holds [src] out for [M], and lights [cig]."))
+				return 1
 	return ..()
 
 // FLARES
@@ -145,8 +155,6 @@
 	var/should_self_destruct = TRUE
 	max_integrity = 50
 	fuel = 30 MINUTES
-	light_depth = 0
-	light_height = 0
 	grid_width = 32
 	grid_height = 32
 	experimental_onhip = TRUE
@@ -162,9 +170,10 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/flashlight/flare/torch/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Ovens, hearths, braziers, scones, candles, bushes, grasspatches, and other certain structures can be set alight by left-clicking them while on the 'USE' intent.")
-    . += span_info("Standing in front of an unignited light source while sharpening a blade - or striking two stones together - can eventually reignite it.")
+	. = ..()
+	. += span_info("Ovens, hearths, braziers, scones, candles, bushes, grasspatches, and other certain structures can be set alight by left-clicking them while on the 'USE' intent.")
+	. += span_info("Standing in front of an unignited light source while sharpening a blade - or striking two stones together - can eventually reignite it.")
+	. += span_info("Click on a person while targeting their mouth zone to light their smoke.")
 
 /obj/item/flashlight/flare/torch/Initialize()
 	GLOB.weather_act_upon_list += src
@@ -314,7 +323,6 @@
 	extinguishable = FALSE
 	weather_resistant = TRUE
 	experimental_onhip = FALSE //Looks a little wonky due to how belts overlay with hip items. Reenable if you wish, but be mindful of that fact.
-	dropshrink = 0.8
 
 /obj/item/flashlight/flare/torch/lantern/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()

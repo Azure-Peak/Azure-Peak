@@ -25,7 +25,7 @@
 		if(!ispath(private, /datum/patron) && private)	//Trait-exclusivity. At the moment it's only TRAIT_EMPATH for stress indicators.
 			var/list/can_see = list(src)
 			for(var/mob/M in viewers(world.view, src))
-				if(HAS_TRAIT(M, private))
+				if(HAS_TRAIT(M, private) || (private == TRAIT_EMPATH && M.has_empath_for(src)))
 					if(M != src)
 						can_see += M
 			

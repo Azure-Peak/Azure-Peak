@@ -93,23 +93,23 @@
 		revert_cast()
 		return FALSE
 
-	user.Immobilize(8 SECONDS)
-	user.Knockdown(8 SECONDS)
-	user.Jitter(8 SECONDS) //Makes you shake + Telegraphs a bit more with a scream
+	user.Immobilize(7 SECONDS)
+	user.Knockdown(7 SECONDS)
+	user.Jitter(7 SECONDS) //Makes you shake + Telegraphs a bit more with a scream
 	user.emote("scream")
 
-	addtimer(CALLBACK(src, PROC_REF(sapper_explode), user), 8 SECONDS) //A bit of reaction time, this explosion is absolutely horrifying to be inside of and will fuck you up.
-	return TRUE
-
-/obj/effect/proc_holder/spell/proc/sapper_explode(mob/living/user)
-
-
-	playsound(get_turf(user), 'sound/magic/soulshot.ogg', 100) //Unique que a sapper has popped off
+	playsound(get_turf(user), 'sound/magic/charging_lightning.ogg', 100) //Unique que a sapper has popped off
 	user.visible_message(
 		span_danger("[user] begins to shake and convulse violently, slowly beginning to glow in a violently blinding light that emanates from them!")
 	)
 
+	addtimer(CALLBACK(src, PROC_REF(sapper_explode), user), 7 SECONDS) //A bit of reaction time, this explosion is absolutely horrifying to be inside of and will fuck you up.
+	return TRUE
+
+/obj/effect/proc_holder/spell/proc/sapper_explode(mob/living/user)
+
 	explosion(get_turf(user), 3, 3, 4, 4, flame_range = 2, soundin = 'sound/misc/explode/incendiary (1).ogg') //This will destroy walls and absolutely FUCK UP people nearby.
+	playsound(get_turf(user), 'sound/magic/soulshot.ogg', 100) //Extra AURA
 
 	user.gib()
 	return TRUE
@@ -160,7 +160,7 @@
 
 	target.Immobilize(5 SECONDS)
 	target.Knockdown(5 SECONDS)
-	user.Jitter(5 SECONDS) //Makes you shake + Telegraphs a bit more with a scream
-	user.emote("scream")
+	target.Jitter(5 SECONDS) //Makes you shake + Telegraphs a bit more with a scream
+	target.emote("scream")
 
-	addtimer(CALLBACK(src, PROC_REF(skele_explode), user, target, exp_heavy, exp_light, exp_flash, exp_fire), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(skele_explode), target, target, exp_heavy, exp_light, exp_flash, exp_fire), 5 SECONDS)

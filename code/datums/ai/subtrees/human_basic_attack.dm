@@ -29,6 +29,12 @@
 // Both are INT-scaled via AI_INT_SCALE_PROB — dumber NPCs whiff more and track less.
 #define HUMAN_NPC_WHIFF_FLOOR_CHANCE         8   // % chance to whiff even when target is stationary
 #define HUMAN_NPC_TRACK_CEILING_CHANCE       40  // % chance to still land a hit when target moved off the snapshot
+// Consecutive swings an NPC commits to the same body zone before re-picking.
+
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE         9
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN   12
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT       15
+#define HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER       18
 
 
 //Note alot of this is just adapted from old code so its probably not the best
@@ -42,10 +48,7 @@
 	if(istype(pawn))
 		// If we're disarmed and a weapon is reachable nearby, skip melee planning so find_weapon
 		// can run (it's the next subtree). Otherwise we'd just punch the target empty-handed forever.
-		var/obj/item/r_held = pawn.get_item_for_held_index(1)
-		var/obj/item/l_held = pawn.get_item_for_held_index(2)
-		var/has_weapon = istype(r_held, /obj/item/rogueweapon) || istype(l_held, /obj/item/rogueweapon)
-		if(!has_weapon)
+		if(!ai_npc_has_weapon(pawn))
 			for(var/obj/item/rogueweapon/nearby_weapon in view(7, pawn))
 				if(!isturf(nearby_weapon.loc))
 					continue
@@ -72,9 +75,9 @@
 			pawn.swap_hand()
 	else if(!isweapon(held_item))
 		pawn.swap_hand()
-		for(var/slot in list(ITEM_SLOT_BACK, ITEM_SLOT_HIP, ITEM_SLOT_BELT, ITEM_SLOT_BACK_L, ITEM_SLOT_BACK_R))
-			if(!pawn.get_item_by_slot(slot))
-				if(pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE))
+		if(pawn.belt)
+			for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L))
+				if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE))
 					break
 
 	var/list/possible_intents = list()
@@ -283,6 +286,13 @@
 
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_choose_attack_zone(datum/ai_controller/controller, mob/living/carbon/human/pawn, mob/living/target)
+	var/forced_zone = controller.blackboard[BB_FORCED_ATTACK_ZONE]
+	if(forced_zone)
+		var/forced_aim = _zone_to_aimheight(forced_zone)
+		if(forced_aim)
+			pawn.aimheight_change(forced_aim)
+		pawn.zone_selected = forced_zone
+		return
 	var/list/wp = controller.blackboard[BB_HUMAN_NPC_WEAKPOINT]
 	if(wp && world.time < wp[2] && wp[3] == target)
 		var/aimheight = _zone_to_aimheight(wp[1])
@@ -296,14 +306,14 @@
 	var/skill_level = SKILL_LEVEL_NONE
 	if(held?.associated_skill)
 		skill_level = pawn.get_skill_level(held.associated_skill)
-	var/switch_threshold = 3
+	var/switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE
 	switch(skill_level)
 		if(SKILL_LEVEL_JOURNEYMAN)
-			switch_threshold = 4
+			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN
 		if(SKILL_LEVEL_EXPERT)
-			switch_threshold = 5
+			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT
 		if(SKILL_LEVEL_MASTER to INFINITY)
-			switch_threshold = 6
+			switch_threshold = HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER
 
 	var/counter = controller.blackboard[BB_HUMAN_NPC_ATTACK_ZONE_COUNTER]
 	if(counter < switch_threshold)
@@ -594,3 +604,7 @@
 #undef HUMAN_NPC_REACTION_PER_STAT_POINT
 #undef HUMAN_NPC_WHIFF_FLOOR_CHANCE
 #undef HUMAN_NPC_TRACK_CEILING_CHANCE
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_BASE
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_JOURNEYMAN
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_EXPERT
+#undef HUMAN_NPC_ZONE_SWITCH_THRESHOLD_MASTER

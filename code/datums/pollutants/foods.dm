@@ -251,3 +251,11 @@
 /datum/pollutant/food/rotten_meat
 	name = "rotten flesh"
 	scent = "rotten flesh"
+
+/datum/pollutant/food/fried_mushroom
+	name = "fried mushroom"
+	scent = "fried mushroom"
+
+/datum/pollutant/food/humanoid
+	name = "sweet delicious bacon"
+	scent = "sweet delicious bacon"

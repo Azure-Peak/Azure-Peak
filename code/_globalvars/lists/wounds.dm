@@ -5,6 +5,10 @@ GLOBAL_LIST_INIT(fracture_bclasses, list(
 	BCLASS_PUNCH,
 ))
 
+GLOBAL_LIST_INIT(charring_bclasses, list(
+	BCLASS_BURN,
+))
+
 GLOBAL_LIST_INIT(artery_bclasses, list(
 	BCLASS_CUT,
 	BCLASS_CHOP,

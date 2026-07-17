@@ -125,7 +125,6 @@
 	desc = "Sturdy, durable, flexible. A comfortable and reliable hood made of hardened leather."
 	icon_state = "leatherhelm"
 	max_integrity = ARMOR_INT_HELMET_HARDLEATHER
-	sellprice = 15
 	body_parts_covered = HEAD|EARS|HAIR|NOSE
 	armor = ARMOR_LEATHER
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
@@ -182,6 +181,10 @@
 		if(loc == user && ishuman(user))
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/grenzelhofthat/Initialize()
+	. = ..()
+	update_icon()
 
 /obj/item/clothing/head/roguetown/grenzelhofthat/update_icon()
 	cut_overlays()

@@ -70,7 +70,7 @@ SUBSYSTEM_DEF(overlays)
 	STAT_LOG_ENTRY(SSoverlays.stats, type)
 
 /atom/proc/cut_overlay(list/remove_overlays)
-	if(!overlays)
+	if(!remove_overlays)
 		return
 	STAT_START_STOPWATCH
 	overlays -= build_appearance_list(remove_overlays)
@@ -79,7 +79,7 @@ SUBSYSTEM_DEF(overlays)
 	STAT_LOG_ENTRY(SSoverlays.stats, type)
 
 /atom/proc/add_overlay(list/add_overlays)
-	if(!overlays)
+	if(!add_overlays)
 		return
 	STAT_START_STOPWATCH
 	overlays += build_appearance_list(add_overlays)

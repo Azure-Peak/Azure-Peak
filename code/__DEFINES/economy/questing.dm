@@ -13,6 +13,10 @@
 #define QUEST_TOWNER_SMITH_CARAVAN "Smith Caravan"
 #define QUEST_TOWNER_MINER_OREVEIN "Ore Vein"
 
+#define QUEST_TURNIN_SELF 1
+#define QUEST_TURNIN_FELLOWSHIP 2
+#define QUEST_TURNIN_OFFICIAL 3
+
 #define TOWNER_POSTING_TIER_MEDIUM "medium"
 #define TOWNER_POSTING_TIER_HARD "hard"
 
@@ -58,13 +62,15 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 
 // Max mobs for kill request to avoid lagging
 #define QUEST_KILL_MAX_MOBS 20
-// Floor for TP to avoid no TP mob from being spammed 
+// Floor for TP to avoid no TP mob from being spammed
 #define QUEST_MOB_MIN_TP 10
+#define QUEST_MOB_DUST_DELAY (5 MINUTES)
+#define QUEST_HEAD_DUST_DELAY (5 SECONDS)
 
 #define QUEST_TP_BUDGET_KILL_EASY 35
 #define QUEST_TP_BUDGET_CLEAR_OUT 80
-#define QUEST_TP_BUDGET_RAID 200
-#define QUEST_TP_BUDGET_BOUNTY_GOONS 150
+#define QUEST_TP_BUDGET_RAID 150
+#define QUEST_TP_BUDGET_BOUNTY_GOONS 120
 #define QUEST_TP_BUDGET_RECOVERY 80
 
 // TP budget variance
@@ -76,6 +82,9 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_BANDS_RAID 4
 #define QUEST_BANDS_BOUNTY 4
 #define QUEST_BANDS_RECOVERY 2
+#define QUEST_BANDS_BLOCKADE 6
+
+#define QUEST_REWARD_GLOBAL_MULT 1
 
 // Flat reward base
 #define QUEST_REWARD_BASE_FLAT 10
@@ -111,6 +120,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 
 // Unclaimed listings past this threshold are rerolled in place, bypassing the per-tick cap.
 #define QUEST_POOL_STALE_THRESHOLD (20 MINUTES)
+#define QUEST_POOL_STALE_JITTER (10 MINUTES)
 // Player-issued listings (rumor/defense) get a longer window before reroll.
 #define QUEST_PLAYER_STALE_THRESHOLD (30 MINUTES)
 
@@ -164,6 +174,6 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define BLOCKADE_RECALL_WINDOW_DS (15 MINUTES)
 
 #define BLOCKADE_TOTAL_WAVES 3
-#define BLOCKADE_WAVE_1_TP 90
-#define BLOCKADE_WAVE_2_TP 90
-#define BLOCKADE_WAVE_3_TP 120
+#define BLOCKADE_WAVE_1_TP 120
+#define BLOCKADE_WAVE_2_TP 120
+#define BLOCKADE_WAVE_3_TP 150

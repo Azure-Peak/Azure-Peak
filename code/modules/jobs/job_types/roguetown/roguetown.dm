@@ -1,5 +1,6 @@
 /datum/job/roguetown
 	display_order = JDO_LORD
+	vice_restrictions = list(/datum/charflaw/wanted)
 
 /datum/job/roguetown/New()
 	. = ..()
@@ -107,6 +108,8 @@
 	return
 
 /datum/outfit/job/roguetown/proc/run_loadout_and_finalize(mob/living/carbon/human/H)
+	if(!H?.client)
+		return
 	choose_loadout(H)
 	// Re-evaluate the readyup repair kit now that loadout-based armor traits (if any) have been applied.
 	// Late joiners skip the readyup bonus entirely, so only refresh the kit when one was actually granted.
@@ -116,7 +119,4 @@
 
 /datum/outfit/job/roguetown/proc/choose_loadout(mob/living/carbon/human/H)
 	if(!has_loadout)
-		return
-	if(!H.client)
-		addtimer(CALLBACK(src, PROC_REF(run_loadout_and_finalize), H), 50)
 		return

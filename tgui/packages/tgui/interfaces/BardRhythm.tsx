@@ -16,7 +16,8 @@ type Props = {
 };
 
 export const BardRhythmSection = (props: Props) => {
-  const { rhythms, slots_remaining, can_unlearn, unlearn_cooldown_text, act } = props;
+  const { rhythms, slots_remaining, can_unlearn, unlearn_cooldown_text, act } =
+    props;
 
   return (
     <Section
@@ -28,7 +29,9 @@ export const BardRhythmSection = (props: Props) => {
             {rhythm.known ? (
               <Button
                 fluid
-                tooltip={can_unlearn ? 'Click to unlearn' : unlearn_cooldown_text}
+                tooltip={
+                  can_unlearn ? 'Click to unlearn' : unlearn_cooldown_text
+                }
                 tooltipPosition="bottom"
                 color="grey"
                 disabled={!can_unlearn}

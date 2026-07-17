@@ -179,6 +179,7 @@
 	possible_item_intents = list(
 		/datum/intent/use,
 		/datum/intent/bless,
+		/datum/intent/mace/strike/wood, //Beating someone over the head with a particularly heavy bible? Say it ain't so!
 	)
 
 /obj/item/book/rogue/bibble/read(mob/user)

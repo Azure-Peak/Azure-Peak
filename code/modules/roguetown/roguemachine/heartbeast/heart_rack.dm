@@ -146,7 +146,7 @@
 
 /obj/structure/stone_rack/proc/update_rack_stats()
 	if(!heart_component)
-		return
+		return 0
 
 	var/calibrated_count
 	var/total_penalty = 0

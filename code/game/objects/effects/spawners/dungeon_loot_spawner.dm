@@ -152,7 +152,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 3,
 		/obj/item/reagent_containers/food/snacks/butterslice = 3,
 		/obj/item/reagent_containers/powder/salt = 3,
-		/obj/item/reagent_containers/food/snacks/egg = 3,
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 3,
 
 	)
 	lootcount = 1
@@ -244,7 +244,8 @@
 		/obj/item/storage/bag/tray = 3,
 		/obj/item/mundane/puzzlebox/medium = 2,
 		/obj/item/mundane/puzzlebox/easy = 2,
-		/obj/item/mundane/puzzlebox/impossible = 1
+		/obj/item/mundane/puzzlebox/impossible = 1,
+		/obj/item/heelkit = 1
 	)
 	lootcount = 1
 
@@ -362,7 +363,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 3,
 		/obj/item/reagent_containers/food/snacks/butterslice = 3,
 		/obj/item/reagent_containers/powder/salt = 3,
-		/obj/item/reagent_containers/food/snacks/egg = 3
+		/obj/item/reagent_containers/food/snacks/rogue/egg = 3
 	)
 	lootcount = 2
 

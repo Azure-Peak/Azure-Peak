@@ -103,6 +103,15 @@
 /mob/living/simple_animal/pet/familiar/restrained(ignore_grab)
 	return !isturf(src.loc)
 
+/mob/living/simple_animal/pet/familiar/become_item()
+	var/obj/item/mob_item/orb = ..()
+	orb.slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_RING // little pendant-esque thing
+	orb.filters += filter(type = "drop_shadow", x=0, y=0, size=1, offset = 2, color = GLOW_COLOR_ARCANE)
+	orb.desc = "A small orb, containing the spirit of [name]."
+	orb.can_container = TRUE
+	orb.w_class = WEIGHT_CLASS_SMALL
+	return orb
+
 /mob/living/simple_animal/pet/familiar/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NOFALLDAMAGE1, TRAIT_GENERIC)
@@ -481,7 +490,7 @@
 	var/list/hearers_in_range = get_hearers_in_LOS(healing_range, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 	for(var/mob/living/carbon/human/human in hearers_in_range)
 		var/distance = get_dist(src, human)
-		if(distance > healing_range || HAS_TRAIT(human, TRAIT_IRONMAN))
+		if(distance > healing_range || HAS_TRAIT(owner, TRAIT_NOREGEN) || HAS_TRAIT(human, TRAIT_IRONMAN))
 			continue
 		if(!human.has_status_effect(/datum/status_effect/buff/campfire_stamina))
 			to_chat(human, span_info("The warmth of [src.name]'s flames comforts me, affording me a short rest. I would need to lie down on a bed to get a better rest."))
@@ -506,7 +515,7 @@
 	var/datum/skill/craft/cooking/cs = user?.get_skill_level(/datum/skill/craft/cooking)
 	var/cooktime_divisor = get_cooktime_divisor(cs)
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
-		if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
+		if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg))
 			to_chat(user, "<span class='warning'>I wouldn't be able to cook this over the fire...</span>")
 			return FALSE
 		var/obj/item/A = user.get_inactive_held_item()
@@ -520,7 +529,6 @@
 			if(foundstab)
 				var/prob2spoil = 33
 				if(cs)
-					to_chat(world,span_warning("[cs]"))
 					prob2spoil = 1
 				var/already_rolled = FALSE
 				user.visible_message("<span class='notice'>[user] starts to cook [I] over [src.name]'s flame...</span>")

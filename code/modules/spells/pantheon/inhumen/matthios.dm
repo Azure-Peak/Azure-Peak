@@ -18,6 +18,8 @@
 	point_cost = 0
 	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
 
+	spell_flags = SPELL_PSYDON //He does not discriminate
+
 //////////////////////////
 // T0 - Freeman's Tools //
 //////////////////////////
@@ -298,325 +300,418 @@
 	StartCooldown()
 	return TRUE
 
-// T0: Determine the net mammon value of target
+///////////////////
+//T1 - Mammonite //
+///////////////////
+//Uses up to 200 Mammon to deal damage with equivalent armor penetration on your next strike. Can't get simpler than that.
+//if you toast more than 80 mammon (I.E, Strong stance), you have a chance to gib NPCs. Let's go gambling.
 
-/obj/effect/proc_holder/spell/invoked/appraise
-	name = "Appraise"
-	desc = "Tells you how many mammons someone has on them and in the meister."
-	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_state = "appraise"
-	miracle = TRUE
-	devotion_cost = 5
-	releasedrain = 10
-	chargedrain = 0
-	chargetime = 0
-	range = 4
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	invocation_type = "none"
+/datum/action/cooldown/spell/matthios/mammonite
+	name = "Mammonite"
+	desc = "Invoke Matthios's name and invest 10 to 200 mammon from your possessions and treasury into your next strike (based on your intent, min. 'Weak', max. 'Strong'). The attack penetrates armor equal to 75% of the mammon spent and grows stronger with the value of the offering. Offering over 80 mammon in one strike has a chance to obliterate the mindless."
+	fluff_desc = "The faithful tell of a merchant cornered by death, bereft of allies, steel, and hope. With nothing left but his fortune and his faith in Matthios, he offered both in desperate prayer. The coins vanished, and in their place came strength enough to fell those who would have slain him. Thus Mammonite serves as a reminder that wealth is never truly powerless in the hands of the devoted. Through greed, you proliferate His ambition, His name."
+
+	button_icon_state = "mammonite"
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_MIRACLE
+
+	invocation_type = "shout"
+	charge_required = FALSE
+	cooldown_time = 25 SECONDS
+
 	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 5 SECONDS
+	spell_tier = 0
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-/obj/effect/proc_holder/spell/invoked/appraise/secular
-	name = "Secular Appraise"
-	range = 2
-	associated_skill = /datum/skill/misc/reading
-	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	miracle = FALSE
-	devotion_cost = 0 //Merchants are not clerics
+	var/min_mammon = 10
+	var/max_mammon = 200
 
-/obj/effect/proc_holder/spell/invoked/appraise/cast(list/targets, mob/living/user)
-	if(ishuman(targets[1]))
-		var/mob/living/carbon/human/target = targets[1]
-		if(HAS_TRAIT(target, TRAIT_DECEIVING_MEEKNESS) && target != user)
-			to_chat(user, "<font color='yellow'>I cannot tell...</font>")
-			if(prob(50 + ((target.STAPER - 10) * 10)))
-				to_chat(target, span_warning("A pair of prying eyes were laid on me..."))
-			return
-		var/mammonsonperson = get_mammons_in_atom(target)
-		var/mammonsinbank = SStreasury.get_balance(target)
-		var/totalvalue = mammonsinbank + mammonsonperson
-		to_chat(user, ("<font color='yellow'>[target] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.</font>"))
-
-//T0: Raze (Matthios Firebreath)
-/datum/action/cooldown/spell/matthios/raze // Shamelessly steals Wither's cool code / Originally from Racial Perk PR for drakians
-	name = "Raze"
-	desc = "Exhale a cone of stolen fyre before you, scorching enemies and igniting the ground. Damage increases with Holy Skill. These flames are also strong enough to turn unworthy corpses into ashes and dust."
-	fluff_desc = "Some legends claim Matthios to be the origin of dragonkind itself. Whether innate gift or Malchem synthesis, most worshippers of the Free God can naturally give voice to His stolen fyre. A gentle puff of a whisper to some, a roaring inferno to others."
-	button_icon_state = "breath"
-	sound = 'sound/misc/bamf.ogg'
-	charge_sound = 'sound/magic/charging_fire.ogg'
-	cooldown_time = 2 MINUTES
-	charge_required = TRUE
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_time = 1 SECONDS
-	primary_resource_cost = 125
-	secondary_resource_cost = 10
-	associated_skill = /datum/skill/magic/holy
-	var/delay = 12
-	var/strike_delay = 2
-	var/damage = 20
-	var/cone_range = 3
-	var/familiar = FALSE
-
-/datum/action/cooldown/spell/matthios/raze/cast(list/targets, mob/living/user = usr)
+/datum/action/cooldown/spell/matthios/mammonite/cast(atom/cast_on)
 	. = ..()
-	var/turf/T = get_turf(targets[1])
-	var/turf/source_turf = get_turf(user)
 
-	if(T.z != user.z)
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
 		return FALSE
 
-	var/direction = get_dir(source_turf, T)
+	if(!H.cmode)
+		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
+		return FALSE
 
-	for(var/distance = 1, distance <= cone_range, distance++)
-		var/list/current_wave = list()
-		var/turf/center = source_turf
+	if(H.has_status_effect(/datum/status_effect/buff/mammonite))
+		to_chat(H, span_warning("Matthios' truth already lays claim to my next strike."))
+		return FALSE
 
-		for(var/i = 1, i <= distance, i++)
-			center = get_step(center, direction)
+	var/bank = 0
+	if(SStreasury.has_account(H))
+		bank = SStreasury.get_balance(H)
 
-		if(!center)
-			continue
+	var/onhand = get_mammons_in_atom(H)
+	var/total = bank + onhand
 
-		current_wave += center
+	var/list/range = get_investment_range(H)
+	var/min_invest = range[1]
+	var/max_invest = range[2]
 
-		var/width = distance - 1
+	if(total < min_invest)
+		to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor... ([min_invest] mammon needed for [H.rmb_intent.name] stance.)"))
+		return FALSE
 
-		var/left_dir
-		var/right_dir
+	var/mammon_used = rand(min_invest, max_invest)
+	mammon_used = min(mammon_used, total)
 
-		switch(direction)
-			if(NORTH, SOUTH)
-				left_dir = WEST
-				right_dir = EAST
-			if(EAST, WEST)
-				left_dir = NORTH
-				right_dir = SOUTH
-			if(NORTHEAST, SOUTHWEST)
-				left_dir = NORTHWEST
-				right_dir = SOUTHEAST
-			if(NORTHWEST, SOUTHEAST)
-				left_dir = NORTHEAST
-				right_dir = SOUTHWEST
+	var/list/invocations = list(
+		"Gold to glory, Matthios guide my hand!",
+		"Wealth be spent, and power be gained!",
+		"My hoard bleeds for strength, in His name!",
+		"Matthios! A king's ransom for a single blow!",
+		"Grant the weight of mine greed, Matthios!",
+	)
 
-		for(var/offset = 1, offset <= width, offset++)
-			var/turf/L = center
-			var/turf/R = center
+	H.say(pick(invocations), forced = invocation_type)
 
-			for(var/j = 1, j <= offset, j++)
-				L = get_step(L, left_dir)
-				R = get_step(R, right_dir)
+	var/remaining = mammon_used
 
-			if(L)
-				current_wave |= L
-			if(R)
-				current_wave |= R
+	var/from_inventory = 0
+	var/from_bank = 0
 
-		var/tile_delay = delay + (strike_delay * (distance - 1))
+	var/drained_onhand = min(onhand, remaining)
+	if(drained_onhand > 0)
+		from_inventory = remove_mammons_from_atom(H, drained_onhand)
+		remaining -= from_inventory
 
-		for(var/turf/affected_turf in current_wave)
-			if(!(affected_turf in view(source_turf)))
-				continue
+	if(remaining > 0 && SStreasury.has_account(H))
+		from_bank = min(remaining, SStreasury.get_balance(H))
 
-			new /obj/effect/temp_visual/trap/firebreath(affected_turf, tile_delay)
-			addtimer(CALLBACK(src, PROC_REF(ignite), affected_turf), tile_delay)
+		if(from_bank > 0)
+			SStreasury.burn(SStreasury.get_account(H), from_bank, "Meister reports the Mammon is missing. Is this true?")
 
-	user.visible_message(span_yellow("[user] sharply exhales, breathing out a cloud of fyre!"))
-	user.Immobilize(15)
+		remaining -= from_bank
 
-	if(!familiar && !(islizard(user) || iskobold(user) || isdracon(user) || ishalfkin(user)))
-		user.adjust_fire_stacks(2)
-		user.ignite_mob()
-		to_chat(user, span_userdanger("Your mortal flesh struggles to withstand the draconic fyre coursing through you!"))
+	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)
+	if(E)
+		E.bonus_damage = round(mammon_used * 3)
+		E.cap = max_mammon
+
+	var/source_text = ""
+
+	if(from_inventory > 0 && from_bank > 0)
+		source_text = "MATTHIOS claims [from_inventory] from my possessions and [from_bank] from my treasury!"
+	else if(from_inventory > 0)
+		source_text = "MATTHIOS claims [from_inventory] from my possessions!"
+	else if(from_bank > 0)
+		source_text = "MATTHIOS claims [from_bank] from my treasury!"
+
+	H.visible_message(span_danger("[H]'s weapon gleams with a greedy golden light!"), span_notice("I invest [mammon_used] mammon into my next strike. [source_text]"))
+
+	playsound(get_turf(H), 'sound/magic/antimagic.ogg', 60, TRUE)
 
 	return TRUE
 
-/datum/action/cooldown/spell/matthios/raze/proc/ignite(turf/damage_turf)
-	new /obj/effect/temp_visual/firebreath_actual(damage_turf)
-	playsound(damage_turf, 'sound/magic/fireball.ogg', 50, TRUE)
+///////////////////
+// T2 - Transact //
+///////////////////
 
-	for(var/mob/living/L in damage_turf)
-		if(L == usr)
-			continue
-		var/total_damage = (damage + (usr.get_skill_level(associated_skill, 15)))
-		L.adjustFireLoss(total_damage) // Just straight damage, no firestacks or ignite
-		to_chat(L, span_userdanger("You're scorched by flames!"))
-
-		// Vaporize dead NPC / departed player corpses
-		if(L.stat == DEAD)
-			if(!L.mind || (!L.key && !L.get_ghost(FALSE, TRUE)))
-				addtimer(CALLBACK(L, TYPE_PROC_REF(/mob/living, dust)), 2 SECONDS)
-
-	new /obj/effect/hotspot(damage_turf) // This is the actual scary part
-
-/obj/effect/temp_visual/trap/firebreath
-	icon = 'icons/effects/effects.dmi'
-	icon_state = "impact_bullet"
-	duration = 10 SECONDS
-	layer = MASSIVE_OBJ_LAYER
-
-/obj/effect/temp_visual/firebreath_actual
-	icon = 'icons/effects/fire.dmi'
-	icon_state = "2"
-	light_outer_range = 2
-	light_color = "#FF6A00"
-	duration = 1 SECONDS
-
-// T1 - Take value of item in hand, apply that as healing. Destroys item.
-/obj/effect/proc_holder/spell/invoked/matthios_transact
+/datum/action/cooldown/spell/matthios/transact
 	name = "Transact"
 	desc = "Sacrifice an item in your hand, applying a heal over time to yourself with strenght depending on its value."
-	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_state = "transact"
-	miracle = TRUE
-	devotion_cost = 20
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 1
-	ignore_los = TRUE // this is basically a /self spell but it needs invoking procs
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	invocations = list("I offer thee myne gift!", "Blessings upon thine humble servant!", "Grant me thine fyre my lord!", "A transaction for myne lyfe!")
-	invocation_type = "shout"//So someone might actually figures out you are supposed to be valid using this.
+	button_icon_state = "transact"
 	sound = 'sound/effects/hood_ignite.ogg'
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 20 SECONDS
 
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_ADJACENT
 
-/obj/effect/proc_holder/spell/invoked/matthios_transact/cast(list/targets, mob/living/user)
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	secondary_resource_cost = SPELLCOST_MIRACLE
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Transaction for a lyfe!")
+
+	charge_required = FALSE
+	cooldown_time = 45 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/matthios/transact/cast(atom/cast_on)
 	. = ..()
-	var/obj/item/held_item = user.get_active_held_item()
+
+	var/obj/item/held_item = owner.get_active_held_item()
 	if(!held_item)
-		to_chat(user, span_info("I need something of value to make a transaction..."))
+		to_chat(owner, span_info("I need something of value to make a transaction..."))
 		return
 	var/helditemvalue = held_item.get_real_price()
 	if(!helditemvalue)
-		to_chat(user, span_info("This has no value, It will be of no use in such a transaction."))
+		to_chat(owner, span_info("This has no value, It will be of no use in such a transaction."))
 		return
 	if(helditemvalue<10)
-		to_chat(user, span_info("This has little value, It will be of no use in such a transaction."))
+		to_chat(owner, span_info("This has little value, It will be of no use in such a transaction."))
 		return
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+	if(isliving(cast_on))
+		var/mob/living/target = cast_on
+		if(HAS_TRAIT(target, TRAIT_BLACKBLOOD))
+			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE
-		user.visible_message(span_notice("The transaction is made! [target] is bathed in a golden light!"))
+		owner.visible_message(span_notice("The transaction is made! [target] is bathed in a golden light!"))
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target
 			var/datum/status_effect/buff/healing/heal_effect = C.apply_status_effect(/datum/status_effect/buff/healing)
 			if(heal_effect)
 				heal_effect.healing_on_tick = helditemvalue / 2
-			playsound(user, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
+			playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
 			if(istype(held_item, /obj/item/rogueweapon))
-				to_chat(user, "<font color='yellow'>[held_item] melts at its very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
+				to_chat(owner, "<font color='yellow'>[held_item] melts at its very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
 				held_item.obj_break(TRUE)
 				held_item.sellprice = 1
 			else
-				to_chat(user, "<font color='yellow'>[held_item] is engulfed in unholy flame and dissipates into ash. My transaction is accepted.</font>")
+				to_chat(owner, "<font color='yellow'>[held_item] is engulfed in unholy flame and dissipates into ash. My transaction is accepted.</font>")
 				qdel(held_item)
 		else
 			target.adjustBruteLoss(helditemvalue/2)
 			target.adjustFireLoss(helditemvalue/2)
-			playsound(user, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
+			playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
 			if(istype(held_item, /obj/item/rogueweapon))
-				to_chat(user, "<font color='yellow'>[held_item] melts at its very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
+				to_chat(owner, "<font color='yellow'>[held_item] melts at its very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
 				held_item.obj_break(TRUE)
 				held_item.sellprice = 1
 			else
-				to_chat(user, "<font color='yellow'>[held_item] is engulfed in unholy flame and dissipates into ash. My transaction is accepted.</font>")
+				to_chat(owner, "<font color='yellow'>[held_item] is engulfed in unholy flame and dissipates into ash. My transaction is accepted.</font>")
 				qdel(held_item)
 		return TRUE
-	revert_cast()
 	return FALSE
 
-// T1 - Skulduggery, lets you slip behind people who attack you
-// number of times scales from your miracle tier, then once those "free" dodges are spent, it takes enem skill vs miracle chance
-// can grapple attackers by having throw intent on, if attacked again by your target or someone else, either slam them down, or slam them on the attacker
 
-/obj/effect/proc_holder/spell/self/skulduggery
-	name = "Skulduggery"
-	desc = "Imbue your mind and eyes with the cunning of Matthios, reading strikes before they land and punishing them with brutal efficiency.<br><br>Toggle Throw mode to actively intercept and grapple attacks, otherwise, you'll try to avoid them however you can."
-	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_state = "liberate"
-	recharge_time = 120 SECONDS
-	sound = 'sound/magic/haste.ogg'
-	releasedrain = 10
-	miracle = TRUE
-	devotion_cost = 70
-	antimagic_allowed = FALSE
-	range = 0
+/////////////////
+// T2 - Barter //
+/////////////////
 
-/obj/effect/proc_holder/spell/self/skulduggery/cast(list/targets, mob/user)
+/datum/action/cooldown/spell/matthios/barter
+	name = "Barter"
+	desc = "Offer the targeted item to your patron, in exchange for a sum of mammon, scaling with my expertise in holy skill. The capricious nature of Matthios makes this a poor value exchange, all in all."
+	button_icon_state = "barter"
+	sound = null
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_ADJACENT
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_MIRACLE
+
+	invocation_type = INVOCATION_NONE
+
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_sound = 'sound/magic/chargingold.ogg'
+	cooldown_time = 35 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_SAME_Z
+
+	//This is an EXPLICIT list of paths that we CAN Barter. We do not istype() here, it's a .type == .type check.
+	var/static/list/barter_whitelist = list(
+		/obj/item/clothing/ring,
+		/obj/item/clothing/ring/gold,
+		/obj/item/clothing/ring/blacksteel,
+		/obj/item/clothing/ring/coral,
+		/obj/item/clothing/ring/opal,
+		/obj/item/clothing/ring/jade,
+		/obj/item/clothing/ring/aalloy,
+		/obj/item/clothing/ring/amber,
+		/obj/item/clothing/ring/band,
+		/obj/item/clothing/ring/bronze,
+		/obj/item/clothing/ring/diamond,
+		/obj/item/clothing/ring/diamonds,
+		/obj/item/clothing/ring/diamondbs,
+		/obj/item/clothing/ring/dragon_ring,
+		/obj/item/clothing/ring/emerald,
+		/obj/item/clothing/ring/emeraldbs,
+		/obj/item/clothing/ring/emeralds,
+		/obj/item/clothing/ring/signet,
+		/obj/item/clothing/ring/signet/silver,
+	)
+
+/datum/action/cooldown/spell/matthios/barter/cast(atom/cast_on)
 	. = ..()
-	if(!ishuman(user))
-		revert_cast()
+	if(!istype(cast_on, /obj/item))
+		to_chat(owner, span_warning("This is not a suitable item to Barter with."))
+		return FALSE
+	var/obj/item/I = cast_on
+	if(I.sellprice < 2 || isnull(I.sellprice))
+		to_chat(owner, span_warning("This thing is worthless."))
+		return FALSE
+	if(I.GetComponent(/datum/component/martyrweapon))
+		to_chat(owner, span_danger("My divine energies recoil from the relic! It resists!"))
+		return TRUE	//why did you try this? Go on full CD, bad.
+	if(I.override_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
+		to_chat(owner, span_warning("This thing has been glamoured or changed -- its value is too unclear."))
+		return FALSE
+	if(I.GetComponent(/datum/component/holster))
+		var/datum/component/holster/SC = I.GetComponent(/datum/component/holster)
+		if(SC.sheathed)
+			to_chat(owner, span_warning("I should empty it, first."))
+			return FALSE
+	if((istype(I, /obj/item/rogueweapon) || istype(I, /obj/item/clothing)))
+		if(!(I.type in barter_whitelist))
+			to_chat(owner, span_warning("Weapons and clothing do not appease my Patron, He is not lacking in fashion."))
+			return FALSE
+
+	var/delay = 1 SECONDS
+	delay += round((I.sellprice / 50) SECONDS)
+	if(I.Adjacent(owner))
+		if(do_after(owner, delay))
+			if(I.Adjacent(owner))	//We make sure it didnt' get yoinked after the delay.
+				var/ratio = 0.4 + ((owner.get_skill_level(associated_skill)) * 0.05)
+				var/mammonreward = round(I.sellprice * ratio)
+				var/turf/T = get_turf(I)
+				new /obj/effect/temp_visual/barter_fx(T)
+				addtimer(CALLBACK(src, PROC_REF(process_barter), mammonreward, owner, T), 0.3 SECONDS)	//fluffy delay to make it sync up with the barter_fx.
+				if(I.GetComponent(/datum/component/storage))
+					var/datum/component/storage/ST = I.GetComponent(/datum/component/storage)
+					if(!ST.do_quick_empty(T))
+						return FALSE
+				qdel(I)
+
+/datum/action/cooldown/spell/matthios/barter/proc/process_barter(mammon, mob/user, turf/target_turf)
+	playsound(target_turf, 'sound/effects/matth_barter.ogg', 100, TRUE)
+	budget2change(mammon, user, putinhands = FALSE, custom_turf = target_turf)
+
+/datum/action/cooldown/spell/matthios/barter_secular
+	name = "Secular Barter" //rebased, mostly copypasta but with some differences
+	desc = "Your contacts allow you to find a buyer for most items, though it at a lesser rate than reputable merchants"
+	background_icon = 'icons/mob/actions/antiquarianspells.dmi'
+	button_icon = 'icons/mob/actions/antiquarianspells.dmi'
+	button_icon_state = "secularbarter"
+	sound = null
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_ADJACENT
+
+
+	primary_resource_type = SPELL_COST_ENERGY
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_MIRACLE
+
+	invocation_type = INVOCATION_NONE
+
+	charge_required = FALSE
+	cooldown_time = 35 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_SAME_Z
+	required_items = null
+
+	var/static/list/barter_whitelist = list(
+		/obj/item/clothing/ring,
+		/obj/item/clothing/ring/gold,
+		/obj/item/clothing/ring/blacksteel,
+		/obj/item/clothing/ring/coral,
+		/obj/item/clothing/ring/opal,
+		/obj/item/clothing/ring/jade,
+		/obj/item/clothing/ring/aalloy,
+		/obj/item/clothing/ring/amber,
+		/obj/item/clothing/ring/band,
+		/obj/item/clothing/ring/bronze,
+		/obj/item/clothing/ring/diamond,
+		/obj/item/clothing/ring/diamonds,
+		/obj/item/clothing/ring/diamondbs,
+		/obj/item/clothing/ring/dragon_ring,
+		/obj/item/clothing/ring/emerald,
+		/obj/item/clothing/ring/emeraldbs,
+		/obj/item/clothing/ring/emeralds,
+		/obj/item/clothing/ring/signet,
+		/obj/item/clothing/ring/signet/silver,
+	)
+
+/datum/action/cooldown/spell/matthios/barter_secular/cast(atom/cast_on)
+	. = ..()
+	if(!istype(cast_on, /obj/item))
+		to_chat(owner, span_warning("This is not a suitable item to Barter with."))
+		return FALSE
+	var/obj/item/I = cast_on
+	if(I.sellprice < 2 || isnull(I.sellprice))
+		to_chat(owner, span_warning("This thing is worthless."))
+		return FALSE
+	if(I.override_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
+		to_chat(owner, span_warning("This thing has been glamoured or changed -- its value is too unclear."))
+		return FALSE
+	if(I.GetComponent(/datum/component/holster))
+		var/datum/component/holster/SC = I.GetComponent(/datum/component/holster)
+		if(SC.sheathed)
+			to_chat(owner, span_warning("I should empty it, first."))
+			return FALSE
+	if((istype(I, /obj/item/rogueweapon) || istype(I, /obj/item/clothing)))
+		if(!(I.type in barter_whitelist))
+			to_chat(owner, span_warning("Arms and armor are too difficult to fence on the market, best stick to valuables."))
+			return FALSE
+	if(!SStreasury.has_account(owner))
+		to_chat(owner, span_warning("Your contacts can't pay you without a registered treasury account. Visit a Meister."))
 		return FALSE
 
-	var/mob/living/carbon/human/H = user
+	var/delay = 1 SECONDS
+	delay += round((I.sellprice / 50) SECONDS)
+	if(I.Adjacent(owner))
+		if(do_after(owner, delay))
+			if(I.Adjacent(owner))	//We make sure it didnt' get yoinked after the delay.
+				var/ratio = 0.4 + ((owner.get_skill_level(associated_skill)) * 0.05)
+				var/mammonreward = round(I.sellprice * ratio)
+				var/turf/T = get_turf(I)
+				new /obj/effect/temp_visual/barter_fx(T)
+				addtimer(CALLBACK(src, PROC_REF(process_secularbarter), mammonreward, owner, T), 0.3 SECONDS)	//fluffy delay to make it sync up with the barter_fx.
+				if(I.GetComponent(/datum/component/storage))
+					var/datum/component/storage/ST = I.GetComponent(/datum/component/storage)
+					if(!ST.do_quick_empty(T))
+						return FALSE
+				qdel(I)
+				owner.visible_message(span_info("[owner] markets [I] off to [owner.p_their()] contacts."), span_danger("Fencing off [I] to your contacts, [mammonreward] mammons are transferred to your account."))
+				var/datum/fund/account = SStreasury.get_account(owner)
+				SStreasury.mint(account, mammonreward, "interstate mammon transfer")
 
-	if(!H.cmode)
-		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
-		revert_cast() 
-		return FALSE
-
-	if(H.resting)
-		H.set_resting(FALSE, FALSE)
-		H.visible_message(
-			span_warning("[H] kips up!"),
-			span_warning("No rest for the wicked!"))
-
-	H.visible_message(
-		span_notice("[H] shifts their stance into something more relaxed and open! Their eyes glow golden..."),
-		span_notice("My gaze is grafted with truth, my mind wanders in freedom..."))
-	H.apply_status_effect(/datum/status_effect/buff/skulduggery)
-	H.OffBalance(30)
-	return TRUE
+/datum/action/cooldown/spell/matthios/barter_secular/proc/process_secularbarter(mammon, mob/user, turf/target_turf)
+	playsound(target_turf, 'sound/effects/secularbarter.ogg', 100, TRUE)
 
 
-// T2 We're going to debuff a targets stats = to the difference between us and them in total stats.
+///////////////////
+// T3 - Equalize //
+///////////////////
 
-/obj/effect/proc_holder/spell/invoked/matthios_equalize
+/datum/action/cooldown/spell/matthios/equalize
 	name = "Equalize"
 	desc = "Create equality, with a thumb on the scales, with your target. Siphon strength, speed, and constitution from them."
-	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_state = "equalize"
-	clothes_req = FALSE
-	miracle = TRUE
-	devotion_cost = 50
-	associated_skill = /datum/skill/magic/holy
-	chargedloop = /datum/looping_sound/invokeascendant
+	button_icon_state = "equalize"
 	sound = 'sound/magic/swap.ogg'
-	chargedrain = 0
-	chargetime = 5 SECONDS
-	releasedrain = 60
-	no_early_release = TRUE
-	antimagic_allowed = TRUE
-	movement_interrupt = FALSE
-	recharge_time = 6 MINUTES
-	range = 4
-	human_req = TRUE
 
-/obj/effect/proc_holder/spell/invoked/matthios_equalize/cast(list/targets, mob/living/user)
-	if(ishuman(targets[1]))
-		var/mob/living/target = targets[1]
-		if(user == target)
-			to_chat(user,"<font color='yellow'>I cannot equalize myself, what am I trying to achieve?</font>")
-			revert_cast()
-			return
-		if(spell_guard_check(target, TRUE))
-			target.visible_message(span_warning("[target] resists EQUALITY!"))
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_AURA
+	self_cast_possible = FALSE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	secondary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Transaction for a lyfe!")
+
+	charge_required = TRUE
+	charge_time = 4 SECONDS
+	charge_sound = 'sound/magic/chargingold.ogg'
+	cooldown_time = 6 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/matthios/equalize/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/user = owner
+	var/mob/living/target = cast_on
+	if(isliving(cast_on))
+		if(spell_guard_check(cast_on, TRUE))
+			cast_on.visible_message(span_warning("[cast_on] resists EQUALITY!"))
 			return TRUE
 		if(HAS_TRAIT(target, TRAIT_NOBLE))
 			target.apply_status_effect(/datum/status_effect/debuff/equalizedebuff_noble)
@@ -626,9 +721,7 @@
 			target.apply_status_effect(/datum/status_effect/debuff/equalizedebuff)
 			user.apply_status_effect(/datum/status_effect/buff/equalizebuff)
 			return TRUE
-	revert_cast()
 	return FALSE
-
 
  // buff
 /datum/status_effect/buff/equalizebuff
@@ -700,221 +793,40 @@
 
 #undef EQUALIZED_GLOW
 
-/obj/effect/proc_holder/spell/invoked/barter
-	name = "Barter"
-	desc = "Offer the targeted item to your patron, in exchange for a sum of mammon, scaling with my expertise in holy skill. The capricious nature of Matthios makes this a poor value exchange, all in all."
-	clothes_req = FALSE
-	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_state = "barter"
-	miracle = TRUE
-	devotion_cost = 20
-	associated_skill = /datum/skill/magic/holy
-	chargedloop = /datum/looping_sound/invokeascendant
-	chargedrain = 0
-	chargetime = 1 SECONDS
-	releasedrain = 30
-	no_early_release = TRUE
-	antimagic_allowed = FALSE
-	movement_interrupt = TRUE
-	recharge_time = 35 SECONDS
-	range = 1
-	//This is an EXPLICIT list of paths that we CAN Barter. We do not istype() here, it's a .type == .type check.
-	var/static/list/barter_whitelist = list(
-		/obj/item/clothing/ring,
-		/obj/item/clothing/ring/gold,
-		/obj/item/clothing/ring/blacksteel,
-		/obj/item/clothing/ring/coral,
-		/obj/item/clothing/ring/opal,
-		/obj/item/clothing/ring/jade,
-		/obj/item/clothing/ring/aalloy,
-		/obj/item/clothing/ring/amber,
-		/obj/item/clothing/ring/band,
-		/obj/item/clothing/ring/bronze,
-		/obj/item/clothing/ring/diamond,
-		/obj/item/clothing/ring/diamonds,
-		/obj/item/clothing/ring/diamondbs,
-		/obj/item/clothing/ring/dragon_ring,
-		/obj/item/clothing/ring/emerald,
-		/obj/item/clothing/ring/emeraldbs,
-		/obj/item/clothing/ring/emeralds,
-		/obj/item/clothing/ring/signet,
-		/obj/item/clothing/ring/signet/silver,
-	)
+////////////////////////
+// T4 - Churn Wealthy //
+////////////////////////
 
-/obj/effect/proc_holder/spell/invoked/barter/cast(list/targets, mob/user)
-	. = ..()
-	if(!istype(targets[1], /obj/item))
-		revert_cast()
-		to_chat(user, span_warning("This is not a suitable item to Barter with."))
-		return FALSE
-	var/obj/item/I = targets[1]
-	if(I.sellprice < 2 || isnull(I.sellprice))
-		revert_cast()
-		to_chat(user, span_warning("This thing is worthless."))
-		return FALSE
-	if(I.GetComponent(/datum/component/martyrweapon))
-		to_chat(user, span_danger("My divine energies recoil from the relic! It resists!"))
-		return TRUE	//why did you try this? Go on full CD, bad.
-	if(I.override_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
-		revert_cast()
-		to_chat(user, span_warning("This thing has been glamoured or changed -- its value is too unclear."))
-		return FALSE
-	if(I.GetComponent(/datum/component/holster))
-		var/datum/component/holster/SC = I.GetComponent(/datum/component/holster)
-		if(SC.sheathed)
-			revert_cast()
-			to_chat(user, span_warning("I should empty it, first."))
-			return FALSE
-	if((istype(I, /obj/item/rogueweapon) || istype(I, /obj/item/clothing)))
-		if(!(I.type in barter_whitelist))
-			revert_cast()
-			to_chat(user, span_warning("Weapons and clothing do not appease my Patron, He is not lacking in fashion."))
-			return FALSE
-
-	var/delay = 1 SECONDS
-	delay += round((I.sellprice / 50) SECONDS)
-	if(I.Adjacent(user))
-		if(do_after(user, delay))
-			if(I.Adjacent(user))	//We make sure it didnt' get yoinked after the delay.
-				var/ratio = 0.4 + ((user.get_skill_level(associated_skill)) * 0.05)
-				var/mammonreward = round(I.sellprice * ratio)
-				var/turf/T = get_turf(I)
-				new /obj/effect/temp_visual/barter_fx(T)
-				addtimer(CALLBACK(src, PROC_REF(process_barter), mammonreward, user, T), 0.3 SECONDS)	//fluffy delay to make it sync up with the barter_fx.
-				if(I.GetComponent(/datum/component/storage))
-					var/datum/component/storage/ST = I.GetComponent(/datum/component/storage)
-					if(!ST.do_quick_empty(T))
-						revert_cast()
-						return FALSE
-				qdel(I)
-
-/obj/effect/proc_holder/spell/invoked/barter/proc/process_barter(mammon, mob/user, turf/target_turf)
-	playsound(target_turf, 'sound/effects/matth_barter.ogg', 100, TRUE)
-	budget2change(mammon, user, putinhands = FALSE, custom_turf = target_turf)
-
-/obj/effect/proc_holder/spell/invoked/secularbarter
-	name = "Secular Barter" //rebased, mostly copypasta but with some differences
-	desc = "Your contacts allow you to find a buyer for most items, though it at a lesser rate than reputable merchants"
-	action_icon = 'icons/mob/actions/antiquarianspells.dmi'
-	overlay_icon = 'icons/mob/actions/antiquarianspells.dmi'
-	overlay_state = "secularbarter"
-	range = 1
-	associated_skill = /datum/skill/misc/reading
-	miracle = FALSE
-	devotion_cost = 0
-	chargetime = 0 SECONDS
-	releasedrain = 30
-	var/static/list/barter_whitelist = list(
-		/obj/item/clothing/ring,
-		/obj/item/clothing/ring/gold,
-		/obj/item/clothing/ring/blacksteel,
-		/obj/item/clothing/ring/coral,
-		/obj/item/clothing/ring/opal,
-		/obj/item/clothing/ring/jade,
-		/obj/item/clothing/ring/aalloy,
-		/obj/item/clothing/ring/amber,
-		/obj/item/clothing/ring/band,
-		/obj/item/clothing/ring/bronze,
-		/obj/item/clothing/ring/diamond,
-		/obj/item/clothing/ring/diamonds,
-		/obj/item/clothing/ring/diamondbs,
-		/obj/item/clothing/ring/dragon_ring,
-		/obj/item/clothing/ring/emerald,
-		/obj/item/clothing/ring/emeraldbs,
-		/obj/item/clothing/ring/emeralds,
-		/obj/item/clothing/ring/signet,
-		/obj/item/clothing/ring/signet/silver,
-	)
-
-/obj/effect/proc_holder/spell/invoked/secularbarter/cast(list/targets, mob/user)
-	. = ..()
-	if(!istype(targets[1], /obj/item))
-		revert_cast()
-		to_chat(user, span_warning("This is not a suitable item to Barter with."))
-		return FALSE
-	var/obj/item/I = targets[1]
-	if(I.sellprice < 2 || isnull(I.sellprice))
-		revert_cast()
-		to_chat(user, span_warning("This thing is worthless."))
-		return FALSE
-	if(I.override_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
-		revert_cast()
-		to_chat(user, span_warning("This thing has been glamoured or changed -- its value is too unclear."))
-		return FALSE
-	if(I.GetComponent(/datum/component/holster))
-		var/datum/component/holster/SC = I.GetComponent(/datum/component/holster)
-		if(SC.sheathed)
-			revert_cast()
-			to_chat(user, span_warning("I should empty it, first."))
-			return FALSE
-	if((istype(I, /obj/item/rogueweapon) || istype(I, /obj/item/clothing)))
-		if(!(I.type in barter_whitelist))
-			revert_cast()
-			to_chat(user, span_warning("Arms and armor are too difficult to fence on the market, best stick to valuables."))
-			return FALSE
-	if(!SStreasury.has_account(user))
-		to_chat(user, span_warning("Your contacts can't pay you without a registered treasury account. Visit a Meister."))
-		return FALSE
-
-	var/delay = 1 SECONDS
-	delay += round((I.sellprice / 50) SECONDS)
-	if(I.Adjacent(user))
-		if(do_after(user, delay))
-			if(I.Adjacent(user))	//We make sure it didnt' get yoinked after the delay.
-				var/ratio = 0.4 + ((user.get_skill_level(associated_skill)) * 0.05)
-				var/mammonreward = round(I.sellprice * ratio)
-				var/turf/T = get_turf(I)
-				new /obj/effect/temp_visual/barter_fx(T)
-				addtimer(CALLBACK(src, PROC_REF(process_secularbarter), mammonreward, user, T), 0.3 SECONDS)	//fluffy delay to make it sync up with the barter_fx.
-				if(I.GetComponent(/datum/component/storage))
-					var/datum/component/storage/ST = I.GetComponent(/datum/component/storage)
-					if(!ST.do_quick_empty(T))
-						revert_cast()
-						return FALSE
-				qdel(I)
-				user.visible_message(span_info("[user] markets [I] off to [user.p_their()] contacts."), span_danger("Fencing off [I] to your contacts, [mammonreward] mammons are transferred to your account."))
-				var/datum/fund/account = SStreasury.get_account(user)
-				SStreasury.mint(account, mammonreward, "interstate mammon transfer")
-
-/obj/effect/proc_holder/spell/invoked/secularbarter/proc/process_secularbarter(mammon, mob/user, turf/target_turf)
-	playsound(target_turf, 'sound/effects/secularbarter.ogg', 100, TRUE)
-
-//T3 COUNT WEALTH, HURT TARGET/APPLY EFFECTS BASED ON AMOUNT OF WEALTH. AT 500+, OLD STYLE CHURNS THE TARGET.
-
-/obj/effect/proc_holder/spell/invoked/matthios_churn
+/datum/action/cooldown/spell/matthios/churn
 	name = "Churn Wealthy"
 	desc = "Attacks the target by weight of their greed, dealing increased damage and effects depending on how wealthy they are."
-	clothes_req = FALSE
-	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_state = "churnwealthy"
-	miracle = TRUE
-	devotion_cost = 100 //Big commitment
-	associated_skill = /datum/skill/magic/holy
-	chargedloop = /datum/looping_sound/invokeascendant
-	chargedrain = 0
-	chargetime = 5 SECONDS
-	releasedrain = 90
-	no_early_release = TRUE
-	antimagic_allowed = TRUE
-	movement_interrupt = FALSE
-	recharge_time = 5 MINUTES //This probably should not be on low cooldown
-	range = 4
-	human_req = TRUE
+	button_icon_state = "churnwealthy"
+	sound = null //Handled on cast
 
-/obj/effect/proc_holder/spell/invoked/matthios_churn/cast(list/targets, mob/living/user)
-	if(ishuman(targets[1]))
-		var/mob/living/carbon/human/target = targets[1]
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_AURA
+	self_cast_possible = FALSE
 
-		if(user.z != target.z) //Stopping no-interaction snipes
-			to_chat(user, "<font color='yellow'>The Free-God compels me to face [target] on level ground before I transact.</font>")
-			revert_cast()
-			return
-		if(user == target)
-			to_chat(user,"<font color='yellow'>Why would I want to Churn MYSELF? I am not that insane.</font>")
-			revert_cast()
-			return
+	primary_resource_cost = SPELLCOST_MIRACLE_LEGENDARY
+
+	secondary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	invocation_type = INVOCATION_NONE //Handled on cast
+	invocations = null
+
+	charge_required = TRUE
+	charge_time = 5 SECONDS
+	charge_slowdown = 2
+	charge_sound = 'sound/magic/chargingold.ogg'
+	cooldown_time = 10 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/matthios/churn/cast(atom/cast_on)
+	. = ..()
+	if(ishuman(cast_on))
+		var/mob/living/carbon/human/target = cast_on
+
 		if(spell_guard_check(target, TRUE))
 			target.visible_message(span_warning("[target] resists the weight of their greed!"))
 			return TRUE
@@ -927,66 +839,65 @@
 			totalvalue -= 50 // We do little bit less damage to other Matthiosites
 		switch(totalvalue)
 			if(0 to 10)
-				to_chat(user, "<font color='yellow'>[target] one has no wealth to hold against them.</font>")
-				revert_cast()
+				to_chat(owner, "<font color='yellow'>[target] one has no wealth to hold against them.</font>")
 				return FALSE
 			if(11 to 30)
-				user.emote("waves their hand in front of them.")
+				owner.say("Wealth becomes woe!")
 				target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
 				target.adjustFireLoss(30)
-				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
 			if(31 to 60)
-				user.emote("waves their hand in front of them.")
+				owner.say("Wealth becomes woe!")
 				target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
 				target.adjustFireLoss(60)
-				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
 			if(61 to 100)
-				user.emote("waves their hand in front of them.")
+				owner.say("Wealth becomes woe!")
 				target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth burning at my soul!"))
 				target.adjustFireLoss(80)
 				target.Stun(20)
-				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
 			if(101 to 200)
-				user.emote("makes an obscene gesture towards [target]!") 	//if wizards can flip you the bird to set you on fire, matthios can, too.
+				owner.say("The Free-God rebukes!")
 				target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth tearing at my soul!"))
 				target.adjustFireLoss(100)
 				target.adjust_fire_stacks(7, /datum/status_effect/fire_handler/fire_stacks/divine)
 				target.Stun(20)
 				target.ignite_mob()
-				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
 			if(201 to 500)
-				user.emote("makes an obscene gesture towards [target]!")
+				owner.say("The Free-God rebukes!")
 				target.visible_message(span_danger("[target] is burned by holy light!"), span_userdanger("I feel the weight of my wealth tearing at my soul!"))
 				target.adjustFireLoss(120)
 				target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
 				target.ignite_mob()
 				target.Stun(40)
-				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
 			if(500 to 2500)
 				target.visible_message(span_danger("[target] is smited with holy light!"), span_userdanger("I feel the weight of my wealth rend my soul apart!"))
-				user.emote("makes an obscene gesture towards [target] and screams at the top of their lungs!")
+				owner.say("Your final transaction! The Free-God rebukes!!")
 				target.Stun(60)
 				target.emote("agony")
 				target.adjustFireLoss(140)
 				target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
 				target.ignite_mob()
-				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
 				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 			if(2501 to 9999999) //THE POWER OF MY STAND: 'EXPLODE AND DIE INSTANTLY'
 				target.visible_message(span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"), span_userdanger("MY LIMBS BURN IN AGONY..."))
-				user.emote("makes an obscene gesture towards [target] and screams at the top of their lungs! An ear-splitting drone fills the air!")
+				owner.say("Wealth beyond measure- YOUR FINAL TRANSACTION!!")
 				target.Stun(80)
 				target.emote("agony")
 				target.adjustFireLoss(50)
 				target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
 				target.ignite_mob()
-				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
+				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
 				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 				sleep(80)
 
 				target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"), span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))  		//this one's actually pretty good. i like this
-				playsound(user, 'sound/magic/churn.ogg', 100, TRUE)
-				playsound(user, 'sound/magic/whiteflame.ogg', 100, TRUE)
+				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
+				playsound(owner, 'sound/magic/whiteflame.ogg', 100, TRUE)
 				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 				new /obj/item/roguecoin/silver/pile(target.loc)
 				new /obj/item/roguecoin/gold/pile(target.loc)
@@ -1010,123 +921,180 @@
 				target.death()
 		return TRUE
 
-////////////////
-//T2 - Mammonite
-//Uses up to 100 Mammon to deal 100 damage with 75% armor penetration on your next strike. Can't get simpler than that.
+///////////////////
+// T? - Appraise //
+///////////////////
+//Unused besides the secular part
 
-/datum/action/cooldown/spell/mammonite
-	name = "Mammonite"
-	desc = "Invoke Matthios's name and invest 50 to 100 mammon of your own hoard into your next strike. The power of your offering mirrors the wealth spent, drawing even from your bank. Every coin fuels your glory.<br><br>Penetrates armor equal to 75% of the mammon spent."
-	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	button_icon_state = "mammonite"
-	spell_color = "#d4af37"
-	glow_intensity = GLOW_INTENSITY_MEDIUM
-	click_to_activate = FALSE
-	self_cast_possible = TRUE
-	primary_resource_type = SPELL_COST_NONE
-	primary_resource_cost = 0
-	invocation_type = "shout"
-	charge_required = FALSE
-	cooldown_time = 45 SECONDS
+/obj/effect/proc_holder/spell/invoked/appraise
+	name = "Appraise"
+	desc = "Tells you how many mammons someone has on them and in the meister."
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_state = "appraise"
+	miracle = TRUE
+	devotion_cost = 5
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	range = 4
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	invocation_type = "none"
 	associated_skill = /datum/skill/magic/holy
-	spell_tier = 0
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
-	var/min_mammon = 25
-	var/max_mammon = 100
+	antimagic_allowed = TRUE
+	recharge_time = 5 SECONDS
 
-/datum/action/cooldown/spell/mammonite/can_cast_spell(feedback = TRUE)
+/obj/effect/proc_holder/spell/invoked/appraise/secular
+	name = "Secular Appraise"
+	range = 2
+	associated_skill = /datum/skill/misc/reading
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	miracle = FALSE
+	devotion_cost = 0 //Merchants are not clerics
+
+/obj/effect/proc_holder/spell/invoked/appraise/cast(list/targets, mob/living/user)
+	if(ishuman(targets[1]))
+		var/mob/living/carbon/human/target = targets[1]
+		if(HAS_TRAIT(target, TRAIT_DECEIVING_MEEKNESS) && target != user)
+			to_chat(user, "<font color='yellow'>I cannot tell...</font>")
+			if(prob(50 + ((target.STAPER - 10) * 10)))
+				to_chat(target, span_warning("A pair of prying eyes were laid on me..."))
+			return
+		var/mammonsonperson = get_mammons_in_atom(target)
+		var/mammonsinbank = SStreasury.get_balance(target)
+		var/totalvalue = mammonsinbank + mammonsonperson
+		to_chat(user, ("<font color='yellow'>[target] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.</font>"))
+
+
+///////////////
+// T? - Raze //
+///////////////
+//Meant for specific roles rather than generally be avaiable, dragon aspect or smthing.
+
+/datum/action/cooldown/spell/matthios/raze // Shamelessly steals Wither's cool code / Originally from Racial Perk PR for drakians
+	name = "Raze"
+	desc = "Exhale a cone of stolen fyre before you, scorching enemies and igniting the ground. Damage increases with Holy Skill. These flames are also strong enough to turn unworthy corpses into ashes and dust."
+	fluff_desc = "Some legends claim Matthios to be the origin of dragonkind itself. Whether innate gift or Malchem synthesis, most worshippers of the Free God can naturally give voice to His stolen fyre. A gentle puff of a whisper to some, a roaring inferno to others."
+	button_icon_state = "breath"
+	sound = 'sound/misc/bamf.ogg'
+	charge_sound = 'sound/magic/charging_fire.ogg'
+	cooldown_time = 2 MINUTES
+	charge_required = TRUE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_time = 1 SECONDS
+	primary_resource_type = SPELL_COST_ENERGY//So lirvans can use it
+	primary_resource_cost = SPELLCOST_MIRACLE
+	secondary_resource_cost = SPELLCOST_MIRACLE_MINOR
+
+	associated_skill = /datum/skill/magic/holy
+	var/delay = 12
+	var/strike_delay = 2
+	var/damage = 20
+	var/cone_range = 3
+	var/familiar = FALSE
+
+/datum/action/cooldown/spell/matthios/raze/cast(atom/cast_on)
 	. = ..()
-	if(!.)
+	var/mob/living/user = owner
+	if(!istype(user))
 		return FALSE
-	if(!ishuman(owner))
+	var/turf/T = get_turf(cast_on)
+	if(!T)
+		return FALSE
+	var/turf/source_turf = get_turf(user)
+
+	if(T.z != user.z)
 		return FALSE
 
-	var/mob/living/carbon/human/H = owner
-	if(!H.cmode)
-		return FALSE
+	var/direction = get_dir(source_turf, T)
 
-	if(!SStreasury.has_account(H))
-		SStreasury.create_bank_account(H, 0)
+	for(var/distance = 1, distance <= cone_range, distance++)
+		var/list/current_wave = list()
+		var/turf/center = source_turf
 
-	var/bank = SStreasury.get_balance(H)
-	var/onhand = get_mammons_in_atom(H)
-	var/total = bank + onhand
+		for(var/i = 1, i <= distance, i++)
+			center = get_step(center, direction)
 
-	if(total < min_mammon)
-		if(feedback)
-			to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor..."))
-		return FALSE
+		if(!center)
+			continue
+
+		current_wave += center
+
+		var/width = distance - 1
+
+		var/left_dir
+		var/right_dir
+
+		switch(direction)
+			if(NORTH, SOUTH)
+				left_dir = WEST
+				right_dir = EAST
+			if(EAST, WEST)
+				left_dir = NORTH
+				right_dir = SOUTH
+			if(NORTHEAST, SOUTHWEST)
+				left_dir = NORTHWEST
+				right_dir = SOUTHEAST
+			if(NORTHWEST, SOUTHEAST)
+				left_dir = NORTHEAST
+				right_dir = SOUTHWEST
+
+		for(var/offset = 1, offset <= width, offset++)
+			var/turf/L = center
+			var/turf/R = center
+
+			for(var/j = 1, j <= offset, j++)
+				L = get_step(L, left_dir)
+				R = get_step(R, right_dir)
+
+			if(L)
+				current_wave |= L
+			if(R)
+				current_wave |= R
+
+		var/tile_delay = delay + (strike_delay * (distance - 1))
+
+		for(var/turf/affected_turf in current_wave)
+			if(!(affected_turf in view(source_turf)))
+				continue
+
+			new /obj/effect/temp_visual/trap/firebreath(affected_turf, tile_delay)
+			addtimer(CALLBACK(src, PROC_REF(ignite), affected_turf), tile_delay)
+
+	user.visible_message(span_yellow("[user] sharply exhales, breathing out a cloud of fyre!"))
+	user.Immobilize(15)
 
 	return TRUE
 
-/datum/action/cooldown/spell/mammonite/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/carbon/human/H = owner
-	if(!istype(H))
-		return FALSE
+/datum/action/cooldown/spell/matthios/raze/proc/ignite(turf/damage_turf)
+	new /obj/effect/temp_visual/firebreath_actual(damage_turf)
+	playsound(damage_turf, 'sound/magic/fireball.ogg', 50, TRUE)
 
-	if(!H.cmode)
-		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
-		return FALSE
+	for(var/mob/living/L in damage_turf)
+		if(L == usr)
+			continue
+		var/total_damage = (damage + (usr.get_skill_level(associated_skill, 15)))
+		L.adjustFireLoss(total_damage) // Just straight damage, no firestacks or ignite
+		to_chat(L, span_userdanger("You're scorched by flames!"))
 
-	if(H.has_status_effect(/datum/status_effect/buff/mammonite))
-		to_chat(H, span_warning("Matthios' truth already lays claim to my next strike."))
-		return FALSE
+		// Vaporize dead NPC / departed player corpses
+		if(L.stat == DEAD)
+			if(!L.mind || (!L.key && !L.get_ghost(FALSE, TRUE)))
+				addtimer(CALLBACK(L, TYPE_PROC_REF(/mob/living, dust)), 2 SECONDS)
 
-	if(!SStreasury.has_account(H))
-		SStreasury.create_bank_account(H, 0)
+	new /obj/effect/hotspot(damage_turf) // This is the actual scary part
 
-	var/bank = SStreasury.get_balance(H)
-	var/onhand = get_mammons_in_atom(H)
-	var/total = bank + onhand
+/obj/effect/temp_visual/trap/firebreath
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "impact_bullet"
+	duration = 10 SECONDS
+	layer = MASSIVE_OBJ_LAYER
 
-	if(total < min_mammon)
-		to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor..."))
-		return FALSE
-
-	var/mammon_used = clamp(total, min_mammon, max_mammon)
-
-	var/list/invocations = list(
-		"Gold to glory, Matthios guide my hand!",
-		"Wealth be spent, and power be gained!",
-		"My hoard bleeds for strength, in His name!",
-		"Matthios! A king's ransom for a single blow!",
-	)
-	H.say(pick(invocations), forced = invocation_type)
-
-	var/remaining = mammon_used
-
-	var/from_inventory = 0
-	var/from_bank = 0
-
-	var/drained_onhand = min(onhand, remaining)
-	if(drained_onhand > 0)
-		from_inventory = remove_mammons_from_atom(H, drained_onhand)
-		remaining -= from_inventory
-
-	if(remaining > 0)
-		from_bank = min(remaining, SStreasury.get_balance(H))
-		SStreasury.burn(SStreasury.get_account(H), from_bank, "matthios tribute")
-		remaining -= from_bank
-
-	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)
-	if(E)
-		E.bonus_damage = round(mammon_used * 3) // jakk here
-
-	var/source_text = ""
-
-	if(from_inventory > 0 && from_bank > 0)
-		source_text = "MATTHIOS claims [from_inventory] from my possessions, [from_bank] from their wretched Treasury!"
-	else if(from_inventory > 0)
-		source_text = "MATTHIOS, claim [from_inventory] from my possessions!"
-	else if(from_bank > 0)
-		source_text = "MATTHIOS, [from_bank] from their wretched Treasury!"
-
-	H.visible_message(
-		span_danger("[H]'s weapon gleams with a greedy golden light!"),
-		span_notice("I invest [mammon_used] mammon into my next strike. ([source_text])")
-	)
-
-	playsound(get_turf(H), 'sound/magic/antimagic.ogg', 60, TRUE)
-
-	return TRUE
+/obj/effect/temp_visual/firebreath_actual
+	icon = 'icons/effects/fire.dmi'
+	icon_state = "2"
+	light_outer_range = 2
+	light_color = "#FF6A00"
+	duration = 1 SECONDS

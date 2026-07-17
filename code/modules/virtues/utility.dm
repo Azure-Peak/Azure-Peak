@@ -342,30 +342,33 @@
 
 /datum/virtue/utility/bronzelimbs/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
-	if(triumph_check(recipient))
-		var/obj/item/bodypart/to_attach
-		var/zone
-		for(var/choice in picked_choices)
-			switch(choice)
-				if("Right Arm")
-					to_attach = /obj/item/bodypart/r_arm/prosthetic/bronzeright
-					zone = BODY_ZONE_R_ARM
-				if("Left Arm")
-					to_attach = /obj/item/bodypart/l_arm/prosthetic/bronzeleft
-					zone = BODY_ZONE_L_ARM
-				if("Right Leg")
-					to_attach = /obj/item/bodypart/r_leg/prosthetic/bronzeright
-					zone = BODY_ZONE_R_LEG
-				if("Left Leg")
-					to_attach = /obj/item/bodypart/l_leg/prosthetic/bronzeleft
-					zone = BODY_ZONE_L_LEG
-			var/obj/item/bodypart/O = recipient.get_bodypart(zone)
-			if(O)
-				O.drop_limb()
-				qdel(O)
-			if(recipient.charflaws.len)
-				var/obj/item/bodypart/BP = new to_attach()
-				BP.attach_limb(recipient)
+	if(!triumph_check(recipient))
+		to_chat(recipient, span_warning("Sorry Ser, we don't \"give\" credit. Come back when you're a little, mmmmm... TRIUMPHant."))
+		return
+	for(var/choice in picked_choices)
+		var/to_attach = null
+		var/zone = null
+		switch(choice)
+			if("Right Arm")
+				to_attach = /obj/item/bodypart/r_arm/prosthetic/bronzeright
+				zone = BODY_ZONE_R_ARM
+			if("Left Arm")
+				to_attach = /obj/item/bodypart/l_arm/prosthetic/bronzeleft
+				zone = BODY_ZONE_L_ARM
+			if("Right Leg")
+				to_attach = /obj/item/bodypart/r_leg/prosthetic/bronzeright
+				zone = BODY_ZONE_R_LEG
+			if("Left Leg")
+				to_attach = /obj/item/bodypart/l_leg/prosthetic/bronzeleft
+				zone = BODY_ZONE_L_LEG
+		if(!to_attach || !zone)
+			continue
+		var/obj/item/bodypart/old_limb = recipient.get_bodypart(zone)
+		if(old_limb)
+			old_limb.drop_limb()
+			qdel(old_limb)
+		var/obj/item/bodypart/new_limb = new to_attach()
+		new_limb.attach_limb(recipient)
 
 /datum/virtue/utility/woodwalker
 	name = "Woodwalker"
@@ -376,11 +379,6 @@
 	name = "Defiled Keyholder"
 	desc = "The 'Holy' See has their blood-stained grounds, and so do we. Underneath their noses, we pray to the true gods - I know the location of the local heretic conclave. Secrecy is paramount. If found out, I will surely be killed."
 	added_traits = list(TRAIT_ZURCH)
-
-/datum/virtue/utility/mountable
-	name = "Mountable"
-	desc = "You have trained and become fit enough to function as a suitable mount. People may ride you as they would a saiga."
-	added_traits = list(TRAIT_MOUNTABLE)
 
 // AUTHOR NOTE - Probably remove this from court, leader and inquisition roles later since the barrier to roleplaying this correctly as those roles is extremely high.
 // Mostly meant as a virtue for strange fey creatures, or people roleplaying as if they have been influenced by hags positively in the past, following an active pact to avoid vengeance.

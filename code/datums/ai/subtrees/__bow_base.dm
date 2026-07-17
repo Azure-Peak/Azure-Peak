@@ -1,31 +1,26 @@
 /datum/ai_planning_subtree/archer_base/proc/validate_archer_equipment(datum/ai_controller/controller)
+	var/mob/living/living_pawn = controller.pawn
 	if(world.time < controller.blackboard[BB_ARCHER_NPC_EQUIPMENT_CACHE_EXPIRY])
 		var/obj/item/gun/ballistic/revolver/grenadelauncher/cached_bow = controller.blackboard[BB_ARCHER_NPC_BOW]
 		var/obj/item/quiver/cached_quiver = controller.blackboard[BB_ARCHER_NPC_QUIVER]
-		if(QDELETED(cached_bow) || QDELETED(cached_quiver))
+		if(QDELETED(cached_bow) || QDELETED(cached_quiver) || cached_bow.loc != living_pawn || cached_quiver.loc != living_pawn)
 			_clear_equipment_cache(controller)
 			return FALSE
 		return TRUE
 
 	_clear_equipment_cache(controller)
 
-	var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
-	if(!inv)
+	// Locate the bow and quiver directly from hands/worn slots. The AI inventory manager only
+	// classifies gear it saw equipped after it was created, so items spawned onto the mob (bow,
+	// quiver) are often never registered - trust the mob's own inventory instead.
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = _find_archer_bow(living_pawn)
+	if(!bow)
+		AI_THINK(living_pawn, "BOW-VALIDATE: no bow in hands or worn")
 		return FALSE
 
-	var/mob/living/living_pawn = controller.pawn
-	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = inv.get_item(AI_ITEM_GUN)
-	// Note: bow variable typed as /grenadelauncher (base) - matches bows, crossbows, and slings
-	if(!bow)
-		if(istype(living_pawn.get_active_held_item(), /obj/item/gun/ballistic/revolver/grenadelauncher))
-			bow = living_pawn.get_active_held_item()
-		else if(istype(living_pawn.get_inactive_held_item(), /obj/item/gun/ballistic/revolver/grenadelauncher))
-			bow = living_pawn.get_inactive_held_item()
-	if(!bow)
-		return FALSE
-
-	var/obj/item/quiver/quiver = inv.get_item(AI_ITEM_QUIVER)
-	if(!quiver?.arrows.len)
+	var/obj/item/quiver/quiver = _find_archer_quiver(living_pawn)
+	if(!quiver)
+		AI_THINK(living_pawn, "BOW-VALIDATE: no quiver worn")
 		return FALSE
 
 	controller.set_blackboard_key(BB_ARCHER_NPC_BOW, bow)

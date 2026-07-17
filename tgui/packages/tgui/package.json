@@ -2,6 +2,7 @@
 	"name": "tgui",
 	"version": "6.0.0",
 	"dependencies": {
+		"color-blend": "^4.0.0",
 		"common": "workspace:*",
 		"dateformat": "^5.0.3",
 		"dompurify": "^3.2.5",
@@ -14,7 +15,8 @@
 		"marked-smartypants": "^1.1.9",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
-		"tgui-core": "^4.2.3",
+		"react-json-tree": "^0.20.0",
+		"tgui-core": "^6.1.1",
 		"tgui-dev-server": "workspace:*"
 	},
 	"private": true

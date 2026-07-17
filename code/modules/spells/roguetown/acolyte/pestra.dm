@@ -47,6 +47,10 @@
 			to_chat(user, span_necrosis("Their humors rot unnaturally, as their body is quickly decaying."))
 		to_chat(user, span_infection("Their rot needs to be burned immediately!"))
 		to_chat(user, span_infection("==="))
+	if(HAS_TRAIT(human_target, TRAIT_DEADITE)) //IDK what you expected but hey, Pestra's looking out for you!
+		to_chat(user, span_necrosis("They are infected and have already turned into a DEADITE!"))
+		to_chat(user, span_infection("Their rot needs to be burned to prevent them from spreading their infection!"))
+		to_chat(user, span_infection("==="))
 	// suffocation levels are also 'free for all', since this is the highest cause of deaths in game right now, medics not knowing that sometimes you gotta get down and dirty with that non-con oxygen kiss.
 	//ofc, if you are expert or above, you get the exact number
 	if(is_high_tier)
@@ -117,7 +121,7 @@
 		if (human_target.reagents.has_reagent(/datum/reagent/infection/major))
 			to_chat(user, span_boldwarning("A severe infection taints their humors."))
 		else if (human_target.reagents.has_reagent(/datum/reagent/infection))
-			to_chat(user, span_warning("A natural taints their humors."))
+			to_chat(user, span_warning("A notable infection taints their humors."))
 		else if (human_target.reagents.has_reagent(/datum/reagent/infection/minor))
 			to_chat(user, span_warning("A minor infection taints their humors."))
 
@@ -738,6 +742,11 @@
 		var/mob/living/target = targets[1]
 		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
 			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
+			return FALSE
+		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //Vhelsynites aren't affected
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			user.playsound_local(user, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			return FALSE

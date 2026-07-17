@@ -266,7 +266,7 @@
 /obj/structure/fluff/walldeco/chains{
 	icon_state = "chains8"
 	},
-/obj/effect/decal/cleanable/roguerune/god/baotha,
+/obj/structure/ritualcircle/baotha,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "bd" = (
@@ -5780,7 +5780,7 @@
 /obj/structure/fluff/statue/femalestatue{
 	pixel_y = 0
 	},
-/obj/effect/decal/cleanable/roguerune/god/baotha,
+/obj/structure/ritualcircle/baotha,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "yl" = (
@@ -6853,7 +6853,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/vampire_manor)
 "Cz" = (
-/obj/effect/decal/cleanable/roguerune/god/baotha,
+/obj/structure/ritualcircle/baotha,
 /obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
@@ -11593,7 +11593,7 @@
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
 "Xy" = (
-/obj/effect/decal/cleanable/roguerune/god/baotha,
+/obj/structure/ritualcircle/baotha,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "Xz" = (
@@ -12163,7 +12163,7 @@
 /area/rogue/under/cave/inhumen)
 "ZJ" = (
 /obj/structure/fluff/walldeco/chains,
-/obj/effect/decal/cleanable/roguerune/god/baotha,
+/obj/structure/ritualcircle/baotha,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "ZK" = (

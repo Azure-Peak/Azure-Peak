@@ -10,7 +10,6 @@
 	antagpanel_category = "Dreamwalker"
 	job_rank = ROLE_DREAMWALKER
 	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
-	storyteller_favor_flags = STORYTELLER_FAVOR_DREAMWALKER
 	confess_lines = list(
 		"MY VISION ABOVE ALL!",
 		"I'LL TAKE YOU TO MY REALM!",
@@ -77,12 +76,16 @@
 		ADD_TRAIT(body, trait, "[type]")
 	if(body.mind)
 		body.mind.RemoveAllSpells()
-		body.mind.AddSpell(new /datum/action/cooldown/spell/blink)
+		body.mind.AddSpell(new /datum/action/cooldown/spell/blink/dreamwalker)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mark_target)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/jaunt)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dream_bind)
 		body.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dream_trance)
 		body.grant_language(/datum/language/abyssal)
+	for(var/datum/charflaw/cf in body.charflaws)
+		if(istype(cf, /datum/charflaw/hunted) || istype(cf, /datum/charflaw/targeted))
+			body.charflaws.Remove(cf)
+			QDEL_NULL(cf)
 	body.ambushable = FALSE
 	body.AddComponent(/datum/component/dreamwalker_repair)
 	body.AddComponent(/datum/component/dreamwalker_mark)
@@ -110,7 +113,7 @@
 	H.change_stat(STATKEY_INT, 2)
 	H.change_stat(STATKEY_CON, 2)
 	H.change_stat(STATKEY_PER, 2)
-	H.change_stat(STATKEY_SPD, 2)
+	H.change_stat(STATKEY_SPD, 1)
 	H.change_stat(STATKEY_WIL, 2)
 
 	if(H.mind)

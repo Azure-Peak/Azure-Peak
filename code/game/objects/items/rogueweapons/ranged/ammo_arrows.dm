@@ -95,9 +95,12 @@
 	speed = 0.4
 	min_range = MIN_ARROW_RANGE
 	max_range = MAX_ARROW_RANGE
+	var/trains_ranged_skill = TRUE
 
 /obj/projectile/bullet/reusable/arrow/on_hit(atom/target)
 	..()
+	if(!trains_ranged_skill)
+		return
 	var/mob/living/L = firer
 	if(!L || !L.mind)
 		return
@@ -225,7 +228,7 @@
 	armor_penetration = PEN_HEAVY
 	embedchance = 100
 	npc_simple_damage_mult = 7 //..or 420 damage against a mindless mob. Strike true; reduce if these become craftable or more easily acquirable, through any means.
-	is_silver_proj = TRUE 
+	is_silver_proj = TRUE
 
 /obj/item/ammo_casing/caseless/rogue/arrow/getonmobprop(tag)
 	. = ..()
@@ -277,15 +280,20 @@
 /obj/projectile/bullet/arrow/elemental/fire
 	name = "fire arrow"
 	icon_state = "arrowpyro_proj"
+	damage = 50
+	woundclass = BCLASS_BURN
+	damage_type = BURN
 
 /obj/projectile/bullet/arrow/elemental/fire/on_hit(atom/target)
 	..()
+	var/turf/epicenter = get_turf(target)
+	if(epicenter)
+		new /obj/effect/temp_visual/explosion(epicenter)
+		playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 4)
 	if(!ismob(target))
 		return
 	var/mob/living/M = target
-	M.adjust_fire_stacks(2)
-	M.adjustFireLoss(5)
-	M.ignite_mob()
+	apply_scorch_stack(M, 3, def_zone)
 
 // --- FROST --- (Pending PR #6406 frost stack system - should apply 2 frost stacks)
 /*
@@ -407,6 +415,23 @@
 /obj/projectile/bullet/reusable/arrow/poison/stone
 	name = "stone arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
+
+/obj/item/ammo_casing/caseless/rogue/arrow/blacksteel
+	name = "blacksteel arrow"
+	icon_state = "blacksteelarrow"
+	desc = "A magnificent arrow of blacksteel. It shreds flesh, pierces armor, and \
+	always lands where one aims; perfect, yet marred by a prohibitively high cost."
+	projectile_type = /obj/projectile/bullet/reusable/arrow/blacksteel
+
+/obj/projectile/bullet/reusable/arrow/blacksteel
+	name = "blacksteel arrow"
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/blacksteel
+	damage = 50
+	armor_penetration = PEN_HEAVY
+	icon_state = "blacksteelarrow_proj"
+	embedchance = 80
+	npc_simple_damage_mult = 7 //..or 350 damage against a mindless mob.
+	accuracy = 100
 
 #undef MIN_ARROW_RANGE
 #undef MAX_ARROW_RANGE

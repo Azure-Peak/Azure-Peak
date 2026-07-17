@@ -18,7 +18,8 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = 2.5 SECONDS
-	charge_drain = 1
+	charge_swingdelay_type = SWINGDELAY_CANCEL
+	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 15 SECONDS
@@ -33,6 +34,7 @@
 
 /obj/projectile/magic/bloodlightning
 	name = "blood bolt"
+	expose_caster_on_deflect = TRUE
 	tracer_type = /obj/effect/projectile/tracer/blood
 	muzzle_type = null
 	impact_type = null
@@ -57,14 +59,7 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target))
 			var/mob/living/L = target
-			L.electrocute_act(1, src, 1, SHOCK_NOSTUN)
-			if(!L.mob_timers[MT_LIGHTNING_ADAPTATION] || world.time > L.mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN)
-				L.Immobilize(0.5 SECONDS)
-				L.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS)
-				L.apply_status_effect(/datum/status_effect/buff/lightningstruck, 8 SECONDS)
-				L.balloon_alert_to_viewers("<font color='#ffcc00'>shocked! (8s)</font>")
-				L.mob_timers[MT_LIGHTNING_ADAPTATION] = world.time
-			else
-				var/remaining = round((L.mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN - world.time) / 10)
-				L.balloon_alert_to_viewers("<font color='#ffcc00'>shock adapted ([remaining]s)</font>")
+			if(out_of_effective_range())
+				return
+			L.lightning_shock(src)
 	qdel(src)

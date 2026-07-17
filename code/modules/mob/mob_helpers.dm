@@ -38,10 +38,6 @@
 			zone = BODY_ZONE_CHEST
 		if(BODY_ZONE_PRECISE_STOMACH)
 			zone = BODY_ZONE_CHEST
-		if(BODY_ZONE_PRECISE_R_INHAND)
-			zone = BODY_ZONE_R_ARM
-		if(BODY_ZONE_PRECISE_L_INHAND)
-			zone = BODY_ZONE_L_ARM
 
 	return zone
 
@@ -232,6 +228,7 @@
 	return newphrase
 
 /// Makes you talk like you got cult stunned, which is slurring but with some dark messages
+// Except up, its Psyphied so this is what you get from being sundered instead, thank you whoever left this, I will cook.
 /proc/cultslur(n) // Inflicted on victims of a stun talisman
 	var/phrase = STRIP_HTML_SIMPLE(n,MAX_MESSAGE_LEN)
 	var/leng = length_char(phrase)
@@ -250,14 +247,13 @@
 			if(lowertext(newletter)=="u")
 				newletter="oo"
 			if(lowertext(newletter)=="c")
-				newletter=" NAR "
+				newletter="lr"
+			if(lowertext(newletter)=="e")
+				newletter="do"
+			if(lowertext(newletter)=="zizo") //YOU WISH
+				newletter="psy"
 			if(lowertext(newletter)=="s")
-				newletter=" SIE "
-		if(prob(25))
-			if(newletter==" ")
-				newletter=" no hope... "
-			if(newletter=="H")
-				newletter=" IT COMES... "
+				newletter="zr"
 
 		switch(rand(1,15))
 			if(1)
@@ -267,9 +263,9 @@
 			if(3)
 				newletter="fth"
 			if(4)
-				newletter="nglu"
+				newletter="zghl"
 			if(5)
-				newletter="glor"
+				newletter="psyzl"
 			else
 				;;
 		newphrase+="[newletter]";counter-=1
@@ -959,6 +955,8 @@
 	if(ignore_mapload && SSatoms.initialized != INITIALIZATION_INNEW_REGULAR)	//don't notify for objects created during a map load
 		return
 	for(var/mob/dead/observer/O in GLOB.player_list)
+		if(isscryeye(O))
+			continue
 		if(!notify_suiciders && (O in GLOB.suicided_mob_list))
 			continue
 		if (ignore_key && (O.ckey in GLOB.poll_ignore[ignore_key]))
@@ -1162,7 +1160,7 @@
 		used_title =  J.display_title || J.title
 		if(J.f_title && (titles_pref == TITLES_F))
 			used_title = J.f_title
-		if(J.advjob_examine)
+		if(J.advjob_examine && !override_advclass_examine)
 			used_title = advjob
 	return used_title
 

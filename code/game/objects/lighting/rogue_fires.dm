@@ -478,13 +478,14 @@
 	if(!on)
 		to_chat(user, span_notice("[src] is not lit."))
 		return
-	if(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+	while(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
+		if(!on)
+			to_chat(user, span_notice("[src] is no longer lit."))
+			return
 		to_chat(user, span_info("I fan the flame on [src].")) // Until line combine is on by default gotta do this to avoid spam
 		try_cook(cooktime_divisor)
-		attack_right(user)
 
 /obj/machinery/light/rogue/hearth/attackby(obj/item/W, mob/living/user, params)
-	. = ..()
 	lastuser = user // For processing food
 	var/datum/skill/craft/cooking/cs = lastuser?.get_skill_level(/datum/skill/craft/cooking)
 	var/cooktime_divisor = get_cooktime_divisor(cs)
@@ -504,7 +505,7 @@
 		if(istype(attachment, /obj/item/cooking/pan))
 			if(W.type in subtypesof(/obj/item/reagent_containers/food/snacks))
 				var/obj/item/reagent_containers/food/snacks/S = W
-				if(istype(W, /obj/item/reagent_containers/food/snacks/egg)) // added
+				if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/egg)) // added
 					if(W.icon_state != "rawegg")
 						playsound(get_turf(user), 'modular/Neu_Food/sound/eggbreak.ogg', 100, TRUE, -1)
 						sleep(25) // to get egg crack before frying hiss
@@ -580,6 +581,7 @@
 							pot.reagents.remove_reagent(/datum/reagent/water, VOLUME_PER_STEW_COOK_AFTER) // Remove water first prevent overfill
 							pot.reagents.add_reagent(R.output, VOLUME_PER_STEW_COOK + VOLUME_PER_STEW_COOK_AFTER)
 							return
+	..()
 
 //////////////////////////////////
 
@@ -807,7 +809,7 @@
 		var/list/hearers_in_range = get_hearers_in_LOS(healing_range, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
 		for(var/mob/living/carbon/human/human in hearers_in_range)
 			var/distance = get_dist(src, human)
-			if(distance > healing_range || HAS_TRAIT(human, TRAIT_IRONMAN))
+			if(distance > healing_range || HAS_TRAIT(human, TRAIT_IRONMAN) || HAS_TRAIT(human, TRAIT_NOREGEN))
 				continue
 			if(!human.has_status_effect(/datum/status_effect/buff/campfire_stamina))
 				to_chat(human, span_info("The warmth of the fire comforts me, affording me a short rest. I would need to lie down on a bed to get a better rest."))

@@ -97,16 +97,16 @@
 	/// Cleave pattern for hitting secondary targets on normal attacks. Null = no cleave.
 	var/datum/cleave_pattern/cleave
 
-	var/list/static/bonk_animation_types = list(
+	var/static/list/bonk_animation_types = list(
 		BCLASS_BLUNT,
 		BCLASS_SMASH,
 		BCLASS_DRILL,
 	)
-	var/list/static/swipe_animation_types = list(
+	var/static/list/swipe_animation_types = list(
 		BCLASS_CUT,
 		BCLASS_CHOP,
 	)
-	var/list/static/thrust_animation_types = list(
+	var/static/list/thrust_animation_types = list(
 		BCLASS_STAB,
 		BCLASS_PICK,
 	)
@@ -578,7 +578,7 @@
 	noaa = FALSE
 	animname = "bite"
 	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
-	misscost = 3
+	misscost = 1
 	releasedrain = 1
 	swingdelay = 0
 	clickcd = CLICK_CD_FAST // Same speed as katar — fists are the free unarmed weapon
@@ -616,8 +616,8 @@
 				custom_offset = 24
 
 			L.play_overhead_private_rclickemote(targetl, taunticon, custom_offset)
+			to_chat(M, span_taunt("[user] taunts [M]!"))
 			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
-			to_chat(M, span_taunt("[user] taunts me!"))
 		else
 			M.taunted(user)
 	return
@@ -629,8 +629,8 @@
 	chargetime = 0
 	animname = "blank22"
 	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
-	misscost = 5
-	releasedrain = 4	//More than punch cus pen factor.
+	misscost = 1
+	releasedrain = 1	//More than punch cus pen factor.
 	swingdelay = 0
 	penfactor = PEN_NONE
 	candodge = TRUE
@@ -662,7 +662,7 @@
 			var/mob/living/L = user
 			L.play_overhead_private_rclickemote(targetl, "dismiss")
 			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
-			to_chat(M, span_blue("[user] shoos me away."))
+			to_chat(M, span_blue("[user] shoos [M] away."))
 		else
 			M.shood(user)
 	return
@@ -674,7 +674,7 @@
 	chargetime = 0
 	noaa = TRUE
 	rmb_ranged = TRUE
-	releasedrain = 10
+	releasedrain = 2
 	misscost = 8
 	candodge = TRUE
 	canparry = TRUE
@@ -691,7 +691,7 @@
 			var/mob/living/L = user
 			L.play_overhead_private_rclickemote(targetl, "beckon")
 			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
-			to_chat(M, span_yellow("[user] beckons me to come closer."))
+			to_chat(M, span_yellow("[user] beckons [M] to come closer."))
 		else
 			M.beckoned(user)
 	return
@@ -717,7 +717,7 @@
 			var/mob/living/L = user
 			L.play_overhead_private_rclickemote(targetl, "wavefriendly")
 			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
-			to_chat(M, span_green("[user] gives me a friendly wave."))
+			to_chat(M, span_green("[user] waves friendly at [M]."))
 	return
 
 /datum/intent/simple/headbutt

@@ -392,8 +392,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 					to_chat(current, span_warning("I cannot attune to another minor aspect."))
 				return FALSE
 			LAZYADD(minor_aspects, aspect)
-	// Grant choice spell first so it appears first on the action bar
-	// If no explicit choice, auto-resolve: prefer one the player already has, else first in list
+	// Auto-resolve the choice spell if none was passed: prefer one the player already has, else first in list.
 	if(!choice_spell && length(aspect.choice_spells))
 		for(var/candidate in aspect.choice_spells)
 			if(has_spell(candidate))
@@ -401,9 +400,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 				break
 		if(!choice_spell)
 			choice_spell = aspect.choice_spells[1]
-	if(choice_spell)
-		aspect.grant_choice_spell(src, choice_spell)
-	aspect.grant_spells(src)
+	aspect.grant_ordered(src, choice_spell)
 	// Apply variant swaps — explicit variant takes priority, mastery config gets "mastery" by default
 	if(variant)
 		aspect.apply_variant(src, variant)
@@ -469,6 +466,49 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(!can_reset_utility())
 		return FALSE
 	aspect_resets_used += ASPECT_RESET_COST_UTILITY
+	return TRUE
+
+/datum/mind/proc/can_reset_choice()
+	return get_aspect_reset_remaining() >= ASPECT_RESET_COST_CHOICE
+
+/datum/mind/proc/spend_choice_reset()
+	if(!can_reset_choice())
+		return FALSE
+	aspect_resets_used += ASPECT_RESET_COST_CHOICE
+	return TRUE
+
+/// Swap a live aspect's choice spell, reinserting the new pick at the old one's slot in the action bar.
+/datum/mind/proc/swap_choice_spell(datum/magic_aspect/aspect, new_choice)
+	if(!aspect || !new_choice || !(new_choice in aspect.choice_spells))
+		return FALSE
+	if(aspect.chosen_spell == new_choice)
+		return FALSE
+	var/old_path = aspect.resolve_variant_spell(aspect.chosen_spell)
+	var/new_path = aspect.resolve_variant_spell(new_choice)
+	var/insert_index
+	if(aspect.chosen_spell)
+		var/datum/existing = get_spell(old_path, specific = TRUE)
+		if(existing)
+			insert_index = spell_list.Find(existing)
+			RemoveSpell(existing)
+	aspect.chosen_spell = new_choice
+	if(has_spell(new_path, specific = TRUE))
+		return TRUE
+	var/datum/new_spell = new new_path
+	aspect.mark_aspect_spell(new_spell)
+	if(new_path != new_choice && istype(new_spell, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/tagged = new_spell
+		tagged.desc = "[tagged.desc]\n<b>Variant:</b> [capitalize(aspect.applied_variant)]"
+	if(insert_index && insert_index <= length(spell_list) + 1)
+		spell_list.Insert(insert_index, new_spell)
+		if(istype(new_spell, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/S = new_spell
+			S.Grant(current)
+		else if(istype(new_spell, /obj/effect/proc_holder/spell))
+			var/obj/effect/proc_holder/spell/S = new_spell
+			S.action.Grant(current)
+	else
+		AddSpell(new_spell)
 	return TRUE
 
 /datum/mind/proc/set_death_time()
@@ -603,7 +643,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/recall_targets(mob/recipient, window=1)
 	var/output = "<B>[recipient.real_name]'s Hitlist:</B><br>"
 	for(var/mob/living/carbon in GLOB.mob_living_list) // Iterate through all mobs in the world
-		if((carbon.real_name != recipient.real_name) && ((carbon.has_flaw(/datum/charflaw/hunted))  && (carbon.job in GLOB.hunted_protected_roles) && (!istype(carbon, /mob/living/carbon/human/dummy))))//To be on the list they must be hunted, not a protected role, not the user and not a dummy (There is a dummy that has all vices for some reason)
+		if((carbon.real_name != recipient.real_name) && (carbon.has_flaw(/datum/charflaw/targeted) && (!istype(carbon, /mob/living/carbon/human/dummy)))) //To be on the list they must be targeted, not the user and not a dummy (There is a dummy that has all vices for some reason)
 			output += "<br>[carbon.real_name]"
 			output += "<br>[carbon.real_name]"
 			if (carbon.job)
@@ -948,8 +988,10 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(current)
 		to_chat(current, span_nicegreen("Tip: You can Ctrl-Click your hotkey bar to unlock it, then drag to rearrange your spells. Re-arranging them change which hotkeys they are bound to in order from left to right (Alt 1 to Alt 9 default). You can shift click your spells to learn more about them."))
 
-/datum/mind/proc/setup_mage_aspects(list/config)
+/datum/mind/proc/setup_mage_aspects(list/config, grant_attunement = TRUE)
 	mage_aspect_config = config
+	if(grant_attunement && current)
+		ADD_TRAIT(current, TRAIT_LEYLINE_ATTUNEMENT, TRAIT_GENERIC)
 	ensure_mage_basics()
 	check_learnspell()
 
@@ -1081,6 +1123,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/RemoveAllSpells()
 	for(var/datum/S in spell_list)
 		RemoveSpell(S)
+	for(var/datum/SP in current.actions)
+		RemoveSpell(SP)
 
 /datum/mind/proc/transfer_martial_arts(mob/living/new_character)
 	if(!ishuman(new_character))
@@ -1256,8 +1300,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 							var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item]
 							if(!LI?.triumph_cost)
 								I.sellprice = 0
-								I.smeltresult = null
-								I.salvage_result = null
+								I.smeltresult = /obj/item/ash
+								I.salvage_result = /obj/item/ash
 							// Apply metadata (color, custom name, custom desc)
 							if(metadata["color"])
 								I.add_atom_colour(metadata["color"], FIXED_COLOUR_PRIORITY)

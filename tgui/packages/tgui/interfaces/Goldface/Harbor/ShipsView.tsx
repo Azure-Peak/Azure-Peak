@@ -53,9 +53,7 @@ export const ShipsView = (props: Props) => {
   }, [realms]);
   return (
     <>
-      <div style={sectionHeaderStyle}>
-        Docked at the Pier ({docked.length})
-      </div>
+      <div style={sectionHeaderStyle}>Docked at the Pier ({docked.length})</div>
       {docked.length === 0 ? (
         <EmptyCard>
           No vessels at the pier. Hail one from the horizon to bring her in.

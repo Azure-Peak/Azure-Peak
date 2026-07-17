@@ -66,8 +66,19 @@
 
 
 /obj/item/clothing/gloves/roguetown/chain/iron
+	name = "iron chain gauntlets"
 	icon_state = "icgloves"
 	desc = "Armored mittens, woven together from a series of interlinked iron rings. Crude gestures are impossible with such gloves; then again, who needs an offending finger when one can articulate their hatred through a swing to the skull?"
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_SIDE_IRON
+
+/obj/item/clothing/gloves/roguetown/chain/bronze
+	icon_state = "bcgloves"
+	name = "bronze maille gauntlets"
+	desc = "Armored mittens, woven together from a series of interlinked bronze rings. It can comfortably accomadate the needs of a warrior in \
+	almost any action, be it stringing a longbow or wielding a sword."
+	anvilrepair = /datum/skill/craft/armorsmithing
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = ARMOR_INT_SIDE_BRONZE
+	armor = ARMOR_BRONZE

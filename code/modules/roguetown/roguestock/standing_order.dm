@@ -635,7 +635,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_REGION_NORTHFORT = list("a frontier strike-band", "a watch sergeant's chosen", "a local adventuring fellowship"),
 	)
 	var/list/buff_pool = list(
-		TRADE_GOOD_STRENGTH_POTION,
+		TRADE_GOOD_TRANSIS_DUST,
 		TRADE_GOOD_PERCEPTION_POTION,
 		TRADE_GOOD_INTELLIGENCE_POTION,
 		TRADE_GOOD_SPEED_POTION,

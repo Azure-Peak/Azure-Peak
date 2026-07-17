@@ -90,6 +90,9 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	GLOB.material_baseline_prices[/obj/item/natural/wood/plank] = round(SELLPRICE_WOOD * MATERIAL_PLANK_FROM_WOOD)
 	GLOB.material_baseline_prices[/obj/item/natural/glass] = SELLPRICE_GLASS_BATCH
 	GLOB.material_baseline_prices[/obj/item/roguegear] = round(SELLPRICE_STEEL_INGOT * MATERIAL_ROGUEGEAR_FROM_STEEL)
+	GLOB.material_baseline_prices[/obj/item/reagent_containers/food/snacks/pepper] = 4
+	GLOB.material_baseline_prices[/obj/item/reagent_containers/food/snacks/pumpkinspice] = 4
+	GLOB.material_baseline_prices[/obj/item/reagent_containers/food/snacks/sugar] = 3
 
 /proc/init_derived_sellprices(force_audits = FALSE)
 	GLOB.derived_sellprices = list()

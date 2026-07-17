@@ -1,6 +1,0 @@
-author: "nauticall"
-delete-after: True
-changes:
-  - bugfix: "Stairs are now properly buildable again."
-  - bugfix: "Leaning on walls on RUN intent no longer builds Athletics XP."
-  - bugfix: "Morphing elixirs on fencer's cuirasses (for Freifetchers) no longer compromise Freifetcher dexterity."

@@ -17,13 +17,14 @@
 	show_in_credits = TRUE 
 	give_bank_account = FALSE
 	hidden_job = TRUE
-	vice_restrictions = list(/datum/charflaw/hunted)
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
 
 /datum/outfit/job/roguetown/greater_skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	ADD_TRAIT(H, TRAIT_OUTLAW, TRAIT_GENERIC) //No miesters for skeletons, you're an undead, bloodless skeletal abomination.
 	ADD_TRAIT(H, TRAIT_SHATTER_KILL, TRAIT_GENERIC) //Softer version of crit weakness that only kills with paralysis/rib fractures and nothing else.
+	ADD_TRAIT(H, TRAIT_NO_VOICEPACK_OVERRIDE, TRAIT_GENERIC) //In case we get edge-cases I.E siege skeletons. Otherwise its on the skeleton race too.
 
 	H.set_patron(/datum/patron/inhumen/zizo)
 
@@ -245,7 +246,7 @@ NECRO SKELETONS
 	H.STAINT = 1
 
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron/chain
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy
 	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
@@ -284,7 +285,7 @@ NECRO SKELETONS
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			r_hand = /obj/item/rogueweapon/spear
 		if("Great Flail")
-			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
 		if("Warhammer + Shield")
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)

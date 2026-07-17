@@ -117,7 +117,6 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Modify Triumphs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_mod_pq(mob/M in GLOB.mob_list, operation)
-	set category = "Admin.Special"
 	set name = "Adjust PQ"
 	set hidden = 1
 
@@ -317,6 +316,8 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	var/mob/dead/observer/G_found
 	for(var/mob/dead/observer/G in GLOB.player_list)
+		if(isscryeye(G))
+			continue
 		if(G.ckey == input)
 			G_found = G
 			break
@@ -324,22 +325,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!G_found)//If a ghost was not found.
 		to_chat(usr, "<font color='red'>There is no active key like that in the game or the person is not currently a ghost.</font>")
 		return
-
-	if(G_found.mind && !G_found.mind.active)	//mind isn't currently in use by someone/something
-
-		//check if they were a monkey
-		if(findtext(G_found.real_name,"monkey"))
-			if(alert("This character appears to have been a monkey. Would you like to respawn them as such?",,"Yes","No")=="Yes")
-				var/mob/living/carbon/monkey/new_monkey = new
-				SSjob.SendToLateJoin(new_monkey)
-				G_found.mind.transfer_to(new_monkey)	//be careful when doing stuff like this! I've already checked the mind isn't in use
-				new_monkey.key = G_found.key
-				to_chat(new_monkey, "You have been fully respawned. Enjoy the game.")
-				var/msg = span_adminnotice("[key_name_admin(usr)] has respawned [new_monkey.key] as a filthy xeno.")
-				message_admins(msg)
-				admin_ticket_log(new_monkey, msg)
-				return	//all done. The ghost is auto-deleted
-
 
 	//Ok, it's not a xeno or a monkey. So, spawn a human.
 	var/mob/living/carbon/human/new_character = new//The mob being spawned.
@@ -446,7 +431,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Create Command Report") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_change_command_name()
-	set category = "Admin.Special"
 	set name = "Change Command Name"
 	set hidden = 1 // May have uses?
 
@@ -618,7 +602,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 
 /client/proc/toggle_combo_hud()
-	set category = "Admin.Admin"
 	set name = "Toggle Combo HUD"
 	set desc = ""
 	set hidden = 1 // If somebody loves this, I'm sorry, you can unhide it
@@ -651,7 +634,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 
 /client/proc/run_weather()
-	set category = "Game Master"
 	set name = "Run Weather"
 	set desc = ""
 	set hidden = 1 //Replaced by particle weather

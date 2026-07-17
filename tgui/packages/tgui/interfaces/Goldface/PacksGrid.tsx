@@ -1,9 +1,4 @@
-import {
-  cardStyle,
-  FONT_BODY,
-  INK_SOFT,
-  SERIF,
-} from '../common/parchment';
+import { cardStyle, FONT_BODY, INK_SOFT, SERIF } from '../common/parchment';
 import { PackRow } from './PackRow';
 import type { ActFn, VendingPack } from './types';
 

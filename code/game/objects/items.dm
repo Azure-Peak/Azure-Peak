@@ -330,6 +330,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					B.remove()
 					B.generate_appearance()
 					B.apply()
+				refresh_detail_overlay()
 				if (obj_broken)
 					update_damaged_state()
 			return
@@ -345,6 +346,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					update_damaged_state()
 			if(override_state)
 				icon_state = "[override_state]1"
+			refresh_detail_overlay()
 			return
 		if(gripsprite)
 			if(!override_state)
@@ -356,6 +358,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				B.remove()
 				B.generate_appearance()
 				B.apply()
+			refresh_detail_overlay()
 			if (obj_broken)
 				update_damaged_state()
 
@@ -721,16 +724,21 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(istype(src, /obj/item/clothing))	//awful
 			var/obj/item/clothing/C = src
 			var/str
+			var/spdcap
 			switch(C.armor_class)
 				if(ARMOR_CLASS_NONE)
 					str = "None"
 				if(ARMOR_CLASS_LIGHT)
 					str = "Light"
+					spdcap = AC_LIGHT_SPDCAP
 				if(ARMOR_CLASS_MEDIUM)
 					str = "Medium"
+					spdcap = AC_MEDIUM_SPDCAP
 				if(ARMOR_CLASS_HEAVY)
 					str = "Heavy"
+					spdcap = AC_HEAVY_SPDCAP
 			inspec += "\n<b>ARMOR CLASS:</b> [str]"
+			inspec += "\n<b>MOVEMENT SPD CAP:</b> [spdcap ? spdcap : "None"]"
 
 		var/output = inspec.Join()
 		if(!usr.client.prefs.no_examine_blocks)
@@ -843,25 +851,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/allow_attack_hand_drop(mob/user)
 	return TRUE
-
-/obj/item/attack_paw(mob/user)
-	if(!user)
-		return
-	if(anchored)
-		return
-
-	SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, user.loc, TRUE)
-
-	if(throwing)
-		throwing.finalize(FALSE)
-	if(loc == user)
-		if(!user.temporarilyRemoveItemFromInventory(src))
-			return
-
-	pickup(user)
-	add_fingerprint(user)
-	if(!user.put_in_active_hand(src, FALSE, FALSE))
-		user.dropItemToGround(src)
 
 /obj/item/proc/GetDeconstructableContents()
 	return GetAllContents() - src
@@ -1243,31 +1232,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		else
 			return 0
 
-	if(nuforce < 10)
-		return 0
-
-	var/probability = nuforce * (total_dam / affecting.max_damage)
-	var/hard_dismember = HAS_TRAIT(affecting, TRAIT_HARDDISMEMBER)
-	var/easy_dismember = affecting.rotted || affecting.skeletonized || HAS_TRAIT(affecting, TRAIT_EASYDISMEMBER)
-	var/easy_decapitation = HAS_TRAIT(affecting, TRAIT_EASYDECAPITATION)
-	if(affecting.owner)
-		if(!hard_dismember)
-			hard_dismember = HAS_TRAIT(affecting.owner, TRAIT_HARDDISMEMBER)
-		if(!easy_dismember)
-			easy_dismember = HAS_TRAIT(affecting.owner, TRAIT_EASYDISMEMBER)
-		if(!easy_decapitation)
-			easy_decapitation = HAS_TRAIT(affecting.owner, TRAIT_EASYDECAPITATION)
-	// If you don't have easy dismember, then you must hit 90% damage or more to dismember a limb.
-	if((affecting.get_damage() <= (affecting.max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD)) && !easy_dismember)
-		return FALSE
-	if(easy_decapitation && zone_sel == BODY_ZONE_PRECISE_NECK)
-		// May want to include hard dismember compatibility.
-		return probability * 1.5
-	if(hard_dismember)
-		return min(probability, 5)
-	else if(easy_dismember)
-		return probability * 1.5
-	return probability
+	return affecting.dismemberment_chance_from_force(nuforce, zone_sel)
 
 /obj/item/proc/get_dismember_sound()
 	if(damtype == BURN)
@@ -1654,7 +1619,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				var/defense = "[SPAN_TOOLTIP("Each tier increases effective HP of the armor by 20%. Absorbed attacks never reach HP. The armor must be broken first.", "<u><b>ABSORB:</b></u>")] [colorgrade_rating("BLUNT", def_armor.blunt, elaborate = TRUE, max_tier = 5)]"
 				defense += "<br>"
 				defense += "[SPAN_TOOLTIP("Each tier reduces damage by 20% of base. Reduced damage still reaches HP. Armor absorbs what was blocked.", "<u><b>REDUCE:</b></u>")] [colorgrade_rating("BURN", def_armor.fire, elaborate = TRUE, max_tier = 5)]"
-				defense += " | [colorgrade_rating("ACID", def_armor.acid, elaborate = TRUE, max_tier = 5)]"
 				defense += "<br>"
 				defense += "[SPAN_TOOLTIP("Blocks attacks below this tier (Armor takes all damage). Same tier penetrates 20% (80% goes to armor). Exceeding tier penetrates fully.", "<u><b>BLOCK:</b></u>")] "
 				defense += "[colorgrade_rating("SLASH", def_armor.slash, elaborate = TRUE)] | "
@@ -1906,6 +1870,16 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return "SUSPICIOUS"
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD)
 			return "Odd"
+		if(EXAMINEHIGHLIGHT_VIBE_FRIEND)
+			return "Sworn Ally"
+		if(EXAMINEHIGHLIGHT_VIBE_FOE)
+			return "Sworn Enemy"
+		if(EXAMINEHIGHLIGHT_VIBE_CROWN)
+			return "Divine"
+		if(EXAMINEHIGHLIGHT_VIBE_GOLGATHA)
+			return "Blessed"
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
+			return "ALARMINGLY ODD"
 	return null
 
 /// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
@@ -1917,6 +1891,16 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_SUSPICIOUS
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD)
 			return EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_ODD
+		if(EXAMINEHIGHLIGHT_VIBE_FRIEND)
+			return EXAMINEHIGHLIGHT_TOOLTIP_VIBE_FRIEND
+		if(EXAMINEHIGHLIGHT_VIBE_FOE)
+			return EXAMINEHIGHLIGHT_TOOLTIP_VIBE_FOE
+		if(EXAMINEHIGHLIGHT_VIBE_CROWN)
+			return EXAMINEHIGHLIGHT_TOOLTIP_VIBE_CROWN
+		if(EXAMINEHIGHLIGHT_VIBE_GOLGATHA)
+			return EXAMINEHIGHLIGHT_TOOLTIP_VIBE_GOLGATHA
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
+			return EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_VERYODD
 	return null
 
 /// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
@@ -1928,6 +1912,16 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return COLOR_HERESYSEVERITY_SUSPICIOUS
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD)
 			return COLOR_HERESYSEVERITY_ODD
+		if(EXAMINEHIGHLIGHT_VIBE_FRIEND)
+			return COLOR_VIBE_FRIEND
+		if(EXAMINEHIGHLIGHT_VIBE_FOE)
+			return COLOR_VIBE_FOE
+		if(EXAMINEHIGHLIGHT_VIBE_CROWN)
+			return COLOR_VIBE_CROWN
+		if(EXAMINEHIGHLIGHT_VIBE_GOLGATHA)
+			return COLOR_VIBE_GOLGATHA
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
+			return COLOR_HERESYSEVERITY_VERYODD //Its meant to be a double-take. Intentional.
 	return null
 	
 /// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`. 
@@ -1939,4 +1933,14 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_SUSPICIOUS
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD)
 			return EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_ODD
+		if(EXAMINEHIGHLIGHT_VIBE_FRIEND)
+			return SYMBOL_VIBE_FRIEND
+		if(EXAMINEHIGHLIGHT_VIBE_FOE)
+			return SYMBOL_VIBE_FOE
+		if(EXAMINEHIGHLIGHT_VIBE_CROWN)
+			return SYMBOL_VIBE_CROWN
+		if(EXAMINEHIGHLIGHT_VIBE_GOLGATHA)
+			return SYMBOL_VIBE_GOLGATHA
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
+			return EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_VERYODD //Its meant to be a double-take. Intentional.
 	return null

@@ -7,7 +7,7 @@
 		/datum/surgery_step/extract_lux,
 		/datum/surgery_step/cauterize
 	)
-	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	target_mobtypes = list(/mob/living/carbon/human)
 	possible_locs = list(BODY_ZONE_CHEST)
 
 /datum/surgery_step/extract_lux
@@ -15,7 +15,7 @@
 	implements = list(
 		TOOL_SCALPEL = 80,
 	)
-	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	target_mobtypes = list(/mob/living/carbon/human)
 	time = 8 SECONDS
 	surgery_flags = SURGERY_BLOODY | SURGERY_INCISED | SURGERY_CLAMPED | SURGERY_RETRACTED | SURGERY_BROKEN
 	skill_min = SKILL_LEVEL_JOURNEYMAN
@@ -31,6 +31,8 @@
 	if(istiefling(target))
 		to_chat(user, span_warning("Their Lux is infernal. It will not do."))
 		return FALSE
+	if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE))
+		to_chat(user, span_warning("There's violet-ochre flames flickering inside of the cracks in their ribs, there is no Lux to extract, a <b>Vheslynite abomination.</b>"))
 
 /datum/surgery_step/extract_lux/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	display_results(user, target, span_notice("I begin to scrape lux from [target]'s heart..."),

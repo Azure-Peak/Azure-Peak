@@ -35,6 +35,7 @@
     )
 
 	extra_context = "This subclass gain the Wound Heal miracle and the Convert Heretic spell."
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/wretch/heretic
 	has_loadout = TRUE
@@ -86,12 +87,14 @@
 				else
 					r_hand = /obj/item/rogueweapon/spear/billhook
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
-		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)	//Minor regen, starts maxed out.
+		if(istype(H.patron, /datum/patron/divine))
+			C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)	//Capped to T2 miracles. Templar equivalent.
+		else
+			C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)	//Minor regen, starts maxed out.
 		wretch_select_bounty(H)
 
 	// You can convert those the church has shunned.
 	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
 			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
@@ -253,14 +256,14 @@
 			H.change_stat(STATKEY_PER, 2)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/undivided, SLOT_RING, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
-			if(H.mind)
+			if(H.mind) //To make it obviously not clergy related
 				var/cloaks = list("Cloak", "Tabard")
 				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
 				switch(cloakchoice)
 					if("Cloak")
-						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/undivided, SLOT_CLOAK, TRUE)
+						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/undividedcleric, SLOT_CLOAK, TRUE)
 					if("Tabard")
-						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/undivided, SLOT_CLOAK, TRUE)
+						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/undividedcleric, SLOT_CLOAK, TRUE)
 		if(/datum/patron/old_god)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/silver, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate, SLOT_ARMOR, TRUE)
@@ -318,6 +321,7 @@
         "Sewing Kit" =  /obj/item/repair_kit,
     )
 	extra_context = "This subclass gain the Wound Heal miracle and the Convert Heretic spell."
+	tempo_capable = FALSE
 
 
 /datum/outfit/job/roguetown/wretch/hereticspy
@@ -405,7 +409,10 @@
 				else
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
-		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)	//Minor regen, starts maxed out.
+		if(istype(H.patron, /datum/patron/divine))
+			C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)	//Capped to T2 miracles. Templar equivalent.
+		else
+			C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)	//Minor regen, starts maxed out.
 		wretch_select_bounty(H)
 
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
@@ -415,7 +422,6 @@
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
 /datum/outfit/job/roguetown/wretch/hereticspy/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
@@ -531,7 +537,10 @@
 			"WHO IS YOUR SHEPHERD!?",
 		)
 		src.visible_message(span_warning("[src] shoves the decrepit zcross into [H]'s lux!"))
-		say(pick(faith_lines), spans = list("torture"))
+		if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE))
+			say(pick(faith_lines), spans = list("bloody"))//Vheslynites aren't people.
+		else
+			say(pick(faith_lines), spans = list("torture"))
 		H.emote("agony", forced = TRUE)
 
 		if(!(do_mob(src, H, 10 SECONDS)))

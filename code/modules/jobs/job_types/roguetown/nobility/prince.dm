@@ -30,6 +30,8 @@
 		/datum/advclass/heir/scamp
 	)
 
+/datum/advclass/heir
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/heir/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -134,6 +136,8 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/heir/bookworm/pre_equip(mob/living/carbon/human/H)
@@ -145,7 +149,7 @@
 	if(should_wear_femme_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 	head = /obj/item/clothing/head/roguetown/circlet
-	belt = /obj/item/storage/belt/rogue/leather/cloth/lady
+	belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 	beltr = /obj/item/storage/keyring/heir
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
 	backr = /obj/item/storage/backpack/rogue/satchel
@@ -158,7 +162,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/heir_spell_bundle)
 	backpack_contents = list(
 		/obj/item/handmirror = 1,
-		/obj/item/book/spellbook = 1,
+		/obj/item/rogueweapon/spellbook = 1,
 		/obj/item/chalk = 1,
 	)
 
@@ -205,7 +209,7 @@
 		belt = /obj/item/storage/belt/rogue/leather
 		shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	if(should_wear_femme_clothes(H))
-		belt = /obj/item/storage/belt/rogue/leather/cloth/lady
+		belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 		head = /obj/item/clothing/head/roguetown/hennin
 		l_hand = /obj/item/clothing/head/roguetown/circlet // So we still get one.
 		armor = /obj/item/clothing/suit/roguetown/armor/silkcoat
@@ -250,10 +254,10 @@
 	if(should_wear_masc_clothes(H))
 		pants = /obj/item/clothing/under/roguetown/tights
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
-		belt = /obj/item/storage/belt/rogue/leather/cloth/lady
+		belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 		shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	if(should_wear_femme_clothes(H))
-		belt = /obj/item/storage/belt/rogue/leather/cloth/lady
+		belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 		head = /obj/item/clothing/head/roguetown/hennin
 		armor = /obj/item/clothing/suit/roguetown/armor/silkcoat
 		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
@@ -306,7 +310,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/nightman
-	cloak = /obj/item/clothing/cloak/half/shadowcloak
+	cloak = /obj/item/clothing/cloak/half
 
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,

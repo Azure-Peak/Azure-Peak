@@ -90,6 +90,18 @@ SUBSYSTEM_DEF(questpool)
 		if(!length(bucket))
 			landmarks_by_type -= qtype
 
+/datum/controller/subsystem/questpool/proc/has_landmark_for_region(type, region)
+	var/list/candidates = landmarks_by_type[type]
+	if(!length(candidates))
+		return FALSE
+	for(var/obj/effect/landmark/quest_spawner/landmark as anything in candidates)
+		if(QDELETED(landmark))
+			continue
+		if(region && landmark.region != region)
+			continue
+		return TRUE
+	return FALSE
+
 /// Sum of per-region kill targets across all regions.
 /datum/controller/subsystem/questpool/proc/total_kill_target()
 	var/pop = GLOB.player_list.len
@@ -181,13 +193,10 @@ SUBSYSTEM_DEF(questpool)
 	return pickweight(weights)
 
 /datum/controller/subsystem/questpool/proc/reroll_stale()
-	var/pool_cutoff = world.time - QUEST_POOL_STALE_THRESHOLD
-	var/player_cutoff = world.time - QUEST_PLAYER_STALE_THRESHOLD
 	var/list/stale = list()
 	var/kill_replacements_needed = 0
 	for(var/datum/quest/Q as anything in pool)
-		var/cutoff = (Q.source == QUEST_SOURCE_POOL) ? pool_cutoff : player_cutoff
-		if(Q.created_at >= cutoff)
+		if(Q.get_lapse_time() >= world.time)
 			continue
 		stale += Q
 		if(is_kill_type(Q.quest_type))
@@ -246,6 +255,7 @@ SUBSYSTEM_DEF(questpool)
 		if(!Q.materialize(landmark))
 			qdel(Q)
 			return null
+		Q.materialized = TRUE
 		var/obj/item/quest_writ/scroll = new(get_turf(innkeeper))
 		scroll.base_icon_state = Q.get_scroll_icon()
 		scroll.assigned_quest = Q
@@ -301,6 +311,7 @@ SUBSYSTEM_DEF(questpool)
 		if(!Q.materialize(landmark))
 			qdel(Q)
 			return null
+		Q.materialized = TRUE
 		var/obj/item/quest_writ/scroll = new(get_turf(steward))
 		scroll.base_icon_state = Q.get_scroll_icon()
 		scroll.assigned_quest = Q
@@ -356,6 +367,7 @@ SUBSYSTEM_DEF(questpool)
 	scroll.update_quest_text()
 	steward.put_in_hands(scroll)
 	B.active_scroll_ref = WEAKREF(scroll)
+	B.active_quest_ref = WEAKREF(Q)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
 	log_event("generate", "blockade-defense in-hand for [ER.name] (faction [Q.faction_id], reward [Q.reward_amount])")
 	return Q
@@ -405,7 +417,7 @@ SUBSYSTEM_DEF(questpool)
 		return null
 	Q.quest_difficulty = difficulty_for_type(type)
 	Q.source = QUEST_SOURCE_POOL
-	Q.created_at = world.time
+	Q.created_at = world.time + rand(0, QUEST_POOL_STALE_JITTER)
 	Q.issued_day = GLOB.dayspassed
 	Q.deposit_amount = Q.calculate_deposit()
 	// If caller didn't specify a region, pick one weighted by threat (kill) or any eligible (evergreen).
@@ -485,6 +497,7 @@ SUBSYSTEM_DEF(questpool)
 			adjust_region_count(Q, 1)
 		log_event("claim_failed", "materialize failed for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
+	Q.materialized = TRUE
 	Q.on_claim(user)
 	record_round_statistic(STATS_CONTRACTS_TAKEN)
 	switch(Q.source)

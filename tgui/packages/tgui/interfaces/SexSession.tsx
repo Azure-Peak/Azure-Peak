@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { useBackend } from 'tgui/backend';
 import { Window } from 'tgui/layouts';
-import { Box, Button, Divider, Input, Section, Stack } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  Divider,
+  Input,
+  Section,
+  Stack,
+} from 'tgui-core/components';
 
 import { ActionButton } from './sexcon/ActionButton';
 import { ProgressBars } from './sexcon/ProgressBars';
@@ -18,7 +25,7 @@ export const SexSession = () => {
 
   // Split actions into two columns
   const filteredActions = data.actions.filter((action) =>
-    action.name.toLowerCase().includes(searchText.toLowerCase())
+    action.name.toLowerCase().includes(searchText.toLowerCase()),
   );
 
   const leftColumn: SexAction[] = [];
@@ -30,9 +37,9 @@ export const SexSession = () => {
       rightColumn.push(action);
     }
   });
-  
+
   const onClickActionButton = (actionType: string) => {
-    if(data.current_action === actionType) {
+    if (data.current_action === actionType) {
       act('stop_action');
       return;
     }
@@ -55,9 +62,7 @@ export const SexSession = () => {
           </Stack.Item>
 
           <Stack.Item>
-            <ProgressBars
-              arousal={data.arousal}
-            />
+            <ProgressBars arousal={data.arousal} />
           </Stack.Item>
           <Divider />
           <Stack.Item>
@@ -68,11 +73,12 @@ export const SexSession = () => {
                     <Button
                       inline
                       compact
-                      onClick={() => act('set_speed', { value: Math.max(1, data.speed - 1) })}
+                      onClick={() =>
+                        act('set_speed', { value: Math.max(1, data.speed - 1) })
+                      }
                     >
                       &lt;
-                    </Button>
-                    {' '}
+                    </Button>{' '}
                     <Box
                       as="span"
                       bold
@@ -84,12 +90,13 @@ export const SexSession = () => {
                       }}
                     >
                       {data.speed_names[data.speed - 1]}
-                    </Box>
-                    {' '}
+                    </Box>{' '}
                     <Button
                       inline
                       compact
-                      onClick={() => act('set_speed', { value: Math.min(4, data.speed + 1) })}
+                      onClick={() =>
+                        act('set_speed', { value: Math.min(4, data.speed + 1) })
+                      }
                     >
                       &gt;
                     </Button>
@@ -97,11 +104,12 @@ export const SexSession = () => {
                     <Button
                       inline
                       compact
-                      onClick={() => act('set_force', { value: Math.max(1, data.force - 1) })}
+                      onClick={() =>
+                        act('set_force', { value: Math.max(1, data.force - 1) })
+                      }
                     >
                       &lt;
-                    </Button>
-                    {' '}
+                    </Button>{' '}
                     <Box
                       as="span"
                       bold
@@ -113,12 +121,13 @@ export const SexSession = () => {
                       }}
                     >
                       {data.force_names[data.force - 1]}
-                    </Box>
-                    {' '}
+                    </Box>{' '}
                     <Button
                       inline
                       compact
-                      onClick={() => act('set_force', { value: Math.min(4, data.force + 1) })}
+                      onClick={() =>
+                        act('set_force', { value: Math.min(4, data.force + 1) })
+                      }
                     >
                       &gt;
                     </Button>
@@ -134,7 +143,9 @@ export const SexSession = () => {
                       color="transparent"
                       onClick={() => act('toggle_finished')}
                     >
-                      {data.do_until_finished ? "UNTIL I'M FINISHED" : 'UNTIL I STOP'}
+                      {data.do_until_finished
+                        ? "UNTIL I'M FINISHED"
+                        : 'UNTIL I STOP'}
                     </Button>
                     {!!data.has_knotted_penis && (
                       <>
@@ -148,7 +159,11 @@ export const SexSession = () => {
                           <Box
                             as="span"
                             bold
-                            style={{ color: data.do_knot_action ? '#d146f5' : '#eac8de' }}
+                            style={{
+                              color: data.do_knot_action
+                                ? '#d146f5'
+                                : '#eac8de',
+                            }}
                           >
                             {data.do_knot_action ? 'USING KNOT' : 'TOGGLE KNOT'}
                           </Box>
@@ -168,20 +183,19 @@ export const SexSession = () => {
                       width="120px"
                       onEnter={() => {
                         const amount = parseInt(arousalInput, 10);
-                        if (!isNaN(amount)) {
+                        if (!Number.isNaN(amount)) {
                           act('set_arousal_value', { amount });
                           setArousalInput('');
                         }
                       }}
-                    />
-                    {' '}
+                    />{' '}
                     <Button
                       inline
                       compact
                       color="transparent"
                       onClick={() => {
                         const amount = parseInt(arousalInput, 10);
-                        if (!isNaN(amount)) {
+                        if (!Number.isNaN(amount)) {
                           act('set_arousal_value', { amount });
                           setArousalInput('');
                         }
@@ -217,7 +231,8 @@ export const SexSession = () => {
           {/* Search */}
           <Stack.Item>
             <Box textAlign="center" italic color="label">
-              Doing unto {data.title.replace('Interacting with ', '').replace('...', '')}
+              Doing unto{' '}
+              {data.title.replace('Interacting with ', '').replace('...', '')}
             </Box>
           </Stack.Item>
           <Stack.Item>
@@ -228,7 +243,11 @@ export const SexSession = () => {
                 value={searchText}
                 onChange={setSearchText}
               />
-            <Button icon="sync" tooltip="Refresh" onClick={() => act('refresh')} />
+              <Button
+                icon="sync"
+                tooltip="Refresh"
+                onClick={() => act('refresh')}
+              />
             </Stack>
           </Stack.Item>
           {/* Two-Column Action Grid */}
@@ -239,8 +258,11 @@ export const SexSession = () => {
                 <Stack.Item basis="50%">
                   <Stack vertical>
                     {leftColumn.map((action) => {
-                      const isCurrentAction = data.current_action === action.type;
-                      const isAvailable = data.can_perform.includes(action.type);
+                      const isCurrentAction =
+                        data.current_action === action.type;
+                      const isAvailable = data.can_perform.includes(
+                        action.type,
+                      );
 
                       return (
                         <Stack.Item key={action.type}>
@@ -262,8 +284,11 @@ export const SexSession = () => {
                 <Stack.Item basis="50%">
                   <Stack vertical>
                     {rightColumn.map((action) => {
-                      const isCurrentAction = data.current_action === action.type;
-                      const isAvailable = data.can_perform.includes(action.type);
+                      const isCurrentAction =
+                        data.current_action === action.type;
+                      const isAvailable = data.can_perform.includes(
+                        action.type,
+                      );
 
                       return (
                         <Stack.Item key={action.type}>

@@ -25,7 +25,7 @@
 	advclass_cat_rolls = list(CTAG_COURTMAGE = 2)
 
 	// Can't get very far as a magician if you can't chant spells now can you?
-	vice_restrictions = list(/datum/charflaw/mute)
+	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/wanted)
 
 	job_traits = list(TRAIT_ARCYNE, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL, TRAIT_ALCHEMY_EXPERT)
 	job_subclasses = list(
@@ -43,6 +43,7 @@
 
 	subclass_mage_aspects = list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE)
 	category_tags = list(CTAG_COURTMAGE)
+	traits_applied = list(TRAIT_BADTRAINER)
 	subclass_stats = list(
 		STATKEY_INT = 5,// Automatic advanced magic for most spells. (I.E summon weapon being upgraded to steel from iron/etc)
 		STATKEY_PER = 3,
@@ -52,7 +53,8 @@
 	)
 	age_mod = /datum/class_age_mod/court_magician
 	subclass_skills = list(
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
@@ -69,6 +71,7 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
+	tempo_capable = FALSE
 
 /datum/outfit/job/roguetown/magician
 	job_bitflag = BITFLAG_ROYALTY
@@ -82,7 +85,7 @@
 			cloak = null
 			head = /obj/item/clothing/head/roguetown/wizhat
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/wizard
-			H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
+			H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
@@ -116,7 +119,7 @@
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/poison,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-		/obj/item/book/spellbook,
+		/obj/item/rogueweapon/spellbook/grand,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
 		/obj/item/chalk
 	)

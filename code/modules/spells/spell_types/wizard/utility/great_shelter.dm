@@ -30,7 +30,7 @@
 
 	charge_required = TRUE
 	charge_time = 5 SECONDS
-	charge_drain = 2
+	hold_drain = 2
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 5 MINUTES
@@ -121,6 +121,11 @@
 /obj/structure/forcefield_weak/shelter_wall/Initialize(mapload, mob/summoner)
 	. = ..()
 	QDEL_IN(src, SHELTER_DURATION)
+
+/obj/structure/forcefield_weak/shelter_wall/CanPass(atom/movable/mover, turf/target)
+	if(mover == caster)
+		return TRUE
+	return ..()
 
 /obj/structure/bed/rogue/conjured
 	name = "arcyne bed"

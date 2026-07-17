@@ -1,9 +1,8 @@
-/// Standard follower modifier for storytellers, ie. how many points they get for each follower
+/// Standard follower modifier, ie. how many influence points a storyteller gets for each follower.
 #define STANDARD_FOLLOWER_MODIFIER 20
-/// Lower follower modifier for special storytellers such as Astrata, who is a default patron
-#define LOWER_FOLLOWER_MODIFIER STANDARD_FOLLOWER_MODIFIER - 2
+/// Lower follower modifier for special storytellers such as Astrata, who is a default patron.
+#define LOWER_FOLLOWER_MODIFIER (STANDARD_FOLLOWER_MODIFIER - 2)
 
-///The storyteller datum. He operates with the SSgamemode data to run events
 /datum/storyteller
 	/// Name of our storyteller.
 	var/name = "Badly coded storyteller"
@@ -46,8 +45,8 @@
 	/// Variance in the budget of roundstart points.
 	var/roundstart_points_variance = 15
 
-	/// Whether the storyteller guaranteed a roleset roll (antag) on roundstart. (Still needs to pass pop check)
-	var/guarantees_roundstart_roleset = TRUE
+	/// Whether the preset guarantees a roleset roll (antag) on roundstart. (Still needs to pass pop check)
+	var/guarantees_roundstart_roleset = FALSE
 
 	/// Whether the storyteller has the distributions disabled. Important for ghost storytellers
 	var/disable_distribution = FALSE
@@ -70,26 +69,43 @@
 	var/always_votable = FALSE
 	///weight this has of being picked for random storyteller/showing up in the vote if not always_votable
 	var/weight = 0
-	/// List of all influence sets. One factor is picked from each set during initialization to create the final influence factors. Example: "Set 1" = list(STATS1 = list("points" = 0.015, "capacity" = 90), STATS2 = list("points" = 8, "capacity" = 50))
+	// --- Legacy influence/devotion plumbing (inert under the preset system, kept for compile compatibility) ---
+	/// List of all influence sets. Presets leave this empty.
 	var/list/influence_sets = list()
-	/// Chosen influence factors, which are used to calculate storyteller influence. List of lists, which looks like RELEVANT_STATS = list(point gain, max capacity)
+	/// Chosen influence factors, used by the (now inert) influence calculation. RELEVANT_STATS = list(point gain, max capacity)
 	var/influence_factors = list()
 	/// Point modifier to all influence factors including the follower count, default is 1 (100%)
 	var/influence_modifier = 1
-	/// How many influence points storyteller gets for each follower
+	/// How many influence points a storyteller gets for each follower.
 	var/follower_modifier = STANDARD_FOLLOWER_MODIFIER
-	/// Thematic color of the storyteller, used in statistics menu
-	var/color_theme
-	/// How many times has this storyteller been chosen to lead the round
+	/// How many times this preset/storyteller has been chosen to lead the round.
 	var/times_chosen = 0
-	/// Bonus points to the storyteller total influence
+	/// Bonus points to the storyteller total influence.
 	var/bonus_points = 0
-	/// If the storyteller is ascendant this round, that is if he reached over 100 points in rankings of the gods
+	/// Whether this storyteller (god) reached ascendant rankings this round. Inert for presets.
 	var/ascendant = FALSE
-	/// Which kind of gnoll scaling this storyteller prefers, default is 1 gnoll spawn.
+	/// Thematic color of the preset, used in the vote/panel UI.
+	var/color_theme
+	/// Which kind of gnoll scaling this preset prefers, default is 1 gnoll spawn.
 	var/preferred_gnoll_mode = GNOLL_SCALING_SINGLE
-	/// Hard cap on wretch job slots this storyteller will ever open. Defualt 10 = T1 max - lower = clamps T1 ad skips T2
+	/// Hard cap on wretch job slots this preset will ever open. Default 10 = T1 max - lower clamps T1 and skips T2.
 	var/wretch_slot_cap = 10
+
+	// --- Gamemode preset configuration ---
+	/// Which vote pool this preset belongs to (GAMEMODE_POOL_*). Presets sharing a pool are excluded together the round after one wins.
+	var/preset_pool
+	/// If TRUE, a roundstart hard antag (Bandit/Lich/Werewolf/Vampire Lord) is guaranteed to roll (still needs pop >= HARD_ANTAG_MIN_POP).
+	var/guaranteed_hard = FALSE
+	/// Multiplier applied to hard-antag slot scaling. >1 scales hard antag counts more aggressively with pop.
+	var/hard_mult = 1
+	/// Whether the Dreamwalker roundstart event is allowed to roll under this preset.
+	var/allow_dreamwalker = FALSE
+	/// How many Hag slots this preset opens (0 or 1).
+	var/hag_slots = 0
+	/// If TRUE, all hard (villain) antags are blocked at roundstart.
+	var/block_hard = FALSE
+	/// If TRUE, all soft antags (wretch/gnoll/assassin) are blocked.
+	var/block_soft = FALSE
 
 /datum/storyteller/New()
 	. = ..()
@@ -97,7 +113,6 @@
 		var/list/current_set = influence_sets[set_name]
 		var/selected_stat = pick(current_set)
 		influence_factors[selected_stat] = current_set[selected_stat]
-
 
 /datum/storyteller/process()
 	if(!round_started || disable_distribution) // we are differing roundstarted ones until base roundstart so we can get cooler stuff
@@ -194,6 +209,8 @@
 				valid_events[event] = adjusted_weight //multiply weight by 10 to get first decimal value
 			else if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted() && istype(event, /datum/round_event_control/antagonist/solo))
 				invalid_reasons[event] = event.return_failure_string(players_amt) || "canSpawnEvent failed"
+				if(event.storyteller_rumour_name && (event.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN) && !is_storyteller_villain_blocked())
+					mode.false_rumours |= event.storyteller_rumour_name
 		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
 			mode.log_roundstart_antag_pool(valid_events, invalid_reasons)
 		///If we didn't get any events, remove the points inform admins and dont do anything

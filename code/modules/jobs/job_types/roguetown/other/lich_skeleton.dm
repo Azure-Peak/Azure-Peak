@@ -9,7 +9,7 @@ LICH SKELETONS
 	tutorial = "You are bygone. Your will belongs to your master. Fulfil and kill."
 
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich
-	vice_restrictions = list(/datum/charflaw/hunted)
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted)
 
 /datum/outfit/job/roguetown/greater_skeleton/lich
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -259,7 +259,6 @@ LICH SKELETONS
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy //Intended as non-plate, stands out from knights this way.
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
@@ -315,9 +314,11 @@ LICH SKELETONS
 		if("Sayovard + Cuirass & Hauberk")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
 			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 			armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
 		if("Bascinet + Heavy Hauberk")
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
 	var/tabards = list("Black Tabard", "Black Jupon", "Black Cloak + Greathood", "Black Toga")
@@ -560,7 +561,7 @@ LICH SKELETONS
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1 //Hilarious
 	)
 
 	H.adjust_blindness(-3)
@@ -587,6 +588,10 @@ LICH SKELETONS
 		if("Black Toga")
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
+	if(H.mind) //2 slot, irreplacable skeletons.
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending) //Gets replaced w/weaker version w/rituos armor, balances out.
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
+
 	H.energy = H.max_energy
 
 // Spellblade skeleton. Rarest of the bunch - a true Azurcaephan from the ancient era.
@@ -612,9 +617,10 @@ LICH SKELETONS
 /datum/outfit/job/roguetown/greater_skeleton/lich/spellblade/pre_equip(mob/living/carbon/human/H)
 	..()
 
+	//1:1 almost w/unbound not including statpacks
 	H.STASTR = 9
-	H.STASPD = 8
-	H.STACON = 10 //Nessessary to keep up with wretches (1 slot only)
+	H.STASPD = 9
+	H.STACON = 10
 	H.STAWIL = 12
 	H.STAINT = 14
 	H.STAPER = 12
@@ -639,7 +645,7 @@ LICH SKELETONS
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy
 	shoes = /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/paalloy
@@ -648,7 +654,7 @@ LICH SKELETONS
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy/rich = 1 //Hilarious
 	)
 
 
@@ -684,8 +690,8 @@ LICH SKELETONS
 				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/kastvyl)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/telegraphed_strike/spellblade/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/telegraphed_strike/spellblade/tremor)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
 
@@ -716,6 +722,7 @@ LICH SKELETONS
 			switch(weapon_choice)
 				if("Ancient Spear")
 					r_hand = /obj/item/rogueweapon/spear/paalloy
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Bardiche")
 					r_hand = /obj/item/rogueweapon/halberd/bardiche/paalloy
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
@@ -731,11 +738,13 @@ LICH SKELETONS
 					beltr = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
 				if("Ancient Grand Mace")
 					r_hand = /obj/item/rogueweapon/mace/goden/steel/paalloy
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Ancient Alloy Axe")
 					beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 					picked_axe = TRUE
 				if("Steel Greataxe")
 					r_hand = /obj/item/rogueweapon/greataxe/steel
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 					picked_axe = TRUE
 			if(picked_axe)
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
@@ -863,7 +872,8 @@ LICH SKELETONS
 	icon_state = "ancientflamb"
 	smeltresult = /obj/item/ingot/aaslag
 	max_integrity = 150
-	force = 25
+	force = 12 //Lower than one-handed zwei, higher than decrepit greatsword
+	force_wielded = 28 //Slightly lower than zwei wielded, +3 over decrepit greatsword
 	blade_dulling = DULLING_SHAFT_CONJURED
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
@@ -893,9 +903,6 @@ LICH SKELETONS
 	item_state = "ancientgreatshield"
 	max_integrity = 400 //High integrity and passive projectile-blocking as a difficult to obtain usually role exclusive shield.
 	force = 30
-	coverage = 75
-	wdefense = 10
-	minstr = 13 //Requires a hefty natural +STR modifier and statpack/potions to double as a melee weapon, for most classes. Note that it has a heavier charge time and active stamina drain, too, as.. well, it's quite heavy.
 	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/rogueweapon/shield/bronze/great/aalloy
@@ -906,10 +913,9 @@ LICH SKELETONS
 	item_state = "ancientgreatshield"
 	max_integrity = 180 //Generous integrity and passive projectile-blocking for a decrepit shield.
 	force = 18
+	coverage = 60
 	blade_dulling = DULLING_SHAFT_CONJURED
 	color = "#bb9696"
-	coverage = 75
-	wdefense = 10
 	minstr = 13 //Requires a hefty natural +STR modifier and statpack/potions to double as a melee weapon (not you'd want to use it as one), for most classes. Note that it has a heavier charge time and active stamina drain, too, as.. well, it's quite heavy.
 	smeltresult = /obj/item/ingot/aaslag
 
@@ -919,8 +925,7 @@ LICH SKELETONS
 	icon_state = "ancientlegionshield"
 	force = 15
 	throwforce = 25 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!
-	coverage = 60
-	minstr = 9 //Decently heavy to use as a melee weapon.
+	minstr = 9 //Decently heavy to use as a melee weapon. But lighter due to thinner material.
 	max_integrity = 180 //Intended to be weaker than the bronze shield, for balance reasonings but its cheaper than an iron shield ingot wise
 	//for lore's sake its thinner than steel shields since it used to work as well since gilbranze was once stronger than steel, now its sort of worn its former durability away.
 
@@ -932,6 +937,6 @@ LICH SKELETONS
 	throwforce = 8 // Its basically a chunk of crumbling metal
 	blade_dulling = DULLING_SHAFT_CONJURED
 	color = "#bb9696"
-	coverage = 50
+	coverage = 25
 	minstr = 8 //Barely anything left of it sire.
 	max_integrity = 60

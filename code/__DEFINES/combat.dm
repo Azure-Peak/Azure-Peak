@@ -1,11 +1,5 @@
 /*ALL DEFINES RELATED TO COMBAT GO HERE*/
 
-// Guidance system - used by parry.dm, dodge.dm, accuracy_checks.dm, and bardic songs
-#define FULL_GUIDANCE_CHANCE 20 // % parry/dodge bypass and parry/dodge chance (mage Guidance, Bard Fantasia/Requiem)
-#define LESSER_GUIDANCE_CHANCE 12 // % parry/dodge bypass and parry/dodge chance (Cantor/Spellsinger songs)
-#define FULL_GUIDANCE_ACCURACY 8 // Accuracy bonus from guidance (equivalent to 1 skill level)
-#define LESSER_GUIDANCE_ACCURACY 5 // Accuracy bonus from lesser guidance
-
 /// Alternate attack defines. Return these at the end of procs like afterattack_secondary.
 /// Calls the normal attack proc. For example, if returned in afterattack_secondary, will call afterattack.
 /// Will continue the chain depending on the return value of the non-alternate proc, like with normal attacks.
@@ -66,15 +60,12 @@
 
 #define HEALTH_THRESHOLD_NEARDEATH -90 //Not used mechanically, but to determine if someone is so close to death they hear the other side
 
-#define FIRE_HARDCRIT_BASE 300 //Total burn damage across all bodyparts to hardcrit a player
-#define FIRE_HARDCRIT_NOPAIN_MULT 1.5 //NOPAIN/NOPAINSTUN increases threshold by 50% (450)
-
 #define STRENGTH_SOFTCAP 14	//STR value past which we get diminishing returns in our damage calculations.
 #define STRENGTH_MULT 0.1	//STR multiplier per STR point up to the softcap. Works as a %-age. 0.1 = 10% per point.
-#define STRENGTH_CAPPEDMULT 0.05	//STR multiplier per STR point past the softcap
+#define STRENGTH_CAPPEDMULT 0.03	//STR multiplier per STR point past the softcap
 #define RANGED_STAT_SOFTCAP 15	//PER value past which ranged damage scaling has diminishing returns.
 #define RANGED_STAT_MULT 0.1	//PER multiplier per point up to the softcap. 0.1 = 10% per point.
-#define RANGED_STAT_CAPPEDMULT 0.05	//PER multiplier per point past the softcap. 0.05 = 5% per point.
+#define RANGED_STAT_CAPPEDMULT 0.03	//PER multiplier per point past the softcap. 0.03 = 3% per point.
 //Actual combat defines
 
 //click cooldowns, in tenths of a second, used for various combat actions
@@ -143,6 +134,10 @@
 #define DISLOCATED_ADD_SLOWDOWN 2
 //slowdown for fractured limbs
 #define FRACTURED_ADD_SLOWDOWN 3
+//slowdown for armour class. movement speed only.
+#define AC_LIGHT_SPDCAP 20
+#define AC_MEDIUM_SPDCAP 13
+#define AC_HEAVY_SPDCAP 11
 
 //Attack types for checking shields/hit reactions
 #define MELEE_ATTACK 1
@@ -339,6 +334,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 //Weapon values
 #define NONBLUNT_BLUNT_DAMFACTOR 0.6 // Damage factor when a non blunt weapon is used with blunt intent. Meant to make it worse than a real one.
 #define BLUNT_DEFAULT_INT_DAMAGEFACTOR 1.6 // Universal blunt intent integrity damage factor. Replaces Roguepen
+#define SPELL_BLUNT_INT_DAMAGEFACTOR 1.3 // Blunt integrity damage factor for spell projectiles
 #define PUNCH_INT_DAMAGEFACTOR 1.2 // Reduced integrity damage for unarmed punches cuz they're really fast
 // Integrity & Sharpness Value
 #define INTEG_PARRY_DECAY			1	//Default integrity decay on parry.
@@ -363,8 +359,10 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 
 #define BASE_PARRY_STAMINA_DRAIN 5 // Unmodified stamina drain for parry, now a var instead of setting on simplemobs
 #define BAD_GUARD_FATIGUE_DRAIN 20 //Percentage of your green bar lost on letting a guard expire.
-#define EXPOSED_INTEG_MOD 2.5	//Multiplier for integrity damage if we hit an Exposed target.
-#define VULN_INTEG_MOD 1.3		//Multiplier for integrity damage if we hit a Vulnerable target.
+#define EXPOSED_INTEG_MOD 2.5	//Multiplier for melee integrity / simple-mob damage if we hit an Exposed target.
+#define VULN_INTEG_MOD 1.3		//Multiplier for melee integrity / simple-mob damage if we hit a Vulnerable target.
+#define EXPOSED_INTEG_FLAT 45	//Flat integrity damage added when hitting an Exposed target.
+#define VULN_INTEG_FLAT 20		//Flat integrity damage added when hitting a Vulnerable target.
 #define BASE_RCLICK_CD 30 SECONDS
 #define BAIT_RCLICK_CD 20 SECONDS
 #define BIND_CD 15 SECONDS
@@ -472,3 +470,6 @@ Medical defines
 
 #define MAX_DODGE_CEIL 5
 #define MAX_DODGE_FLOOR -15
+
+// How long we can't use stealth & other misc. things for
+#define IN_COMBAT_DELAY 10 SECONDS

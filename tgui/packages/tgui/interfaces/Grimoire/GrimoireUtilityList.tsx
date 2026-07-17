@@ -1,5 +1,5 @@
 import { cls, stripHtml } from './helpers';
-import { type Spell } from './types';
+import type { Spell } from './types';
 
 export const GrimoireUtilityList = ({
   spells,
@@ -12,6 +12,7 @@ export const GrimoireUtilityList = ({
   pointsBudget,
   initialSetup,
   resetBudget,
+  utilityUnbindCost = 1,
   allSelectedSpells,
   act,
   readOnly = false,
@@ -26,6 +27,7 @@ export const GrimoireUtilityList = ({
   pointsBudget: number;
   initialSetup: boolean;
   resetBudget: number;
+  utilityUnbindCost?: number;
   allSelectedSpells: string[];
   act: (action: string, params: Record<string, unknown>) => void;
   readOnly?: boolean;
@@ -42,9 +44,7 @@ export const GrimoireUtilityList = ({
         !isSelected && !isKnown && pointsSpent + spell.cost > pointsBudget;
       const isDisabled =
         readOnly ||
-        (!isSelected &&
-          !isKnown &&
-          (tooExpensive || selectedElsewhere));
+        (!isSelected && !isKnown && (tooExpensive || selectedElsewhere));
 
       const handleClick = readOnly
         ? undefined
@@ -52,7 +52,7 @@ export const GrimoireUtilityList = ({
             if (isPendingUnbind) {
               act('undo_unbind_utility', { spell_path: spell.path });
             } else if (isKnown && !initialSetup) {
-              if (resetBudget >= 1) {
+              if (resetBudget >= utilityUnbindCost) {
                 act('unbind_utility', { spell_path: spell.path });
               }
             } else if (!isDisabled) {
@@ -86,7 +86,11 @@ export const GrimoireUtilityList = ({
             className="AspectPicker__spell-desc"
             style={{ marginLeft: '6px' }}
           >
-            {isGiven ? '(Given)' : spell.cost > 0 ? `(${spell.cost})` : '(free)'}
+            {isGiven
+              ? '(Given)'
+              : spell.cost > 0
+                ? `(${spell.cost})`
+                : '(free)'}
           </span>
           {isKnown && !isPendingUnbind && !isSelected && (
             <span

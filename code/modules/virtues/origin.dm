@@ -96,6 +96,22 @@
 	rich in gold, and that its people look to the stars for divine knowledge of our world.<br> It is rumored that the Naledi Emir is over five hundred years old, owing his \
 	long lifespan to closely-guarded alchemical secrets."
 
+/datum/virtue/origin/naledi/apply_to_human(mob/living/carbon/human/H)
+	..()
+	var/list/choices = list("Normal (Default)", "Strict (Naledi Complex)")
+	var/complex = tgui_input_list(H, "How tightly bound to traditions are you? (Keep in mind, some roles will force you to hold a Naledi Complex.)", "Naledi Philosophy", choices)
+	if(!complex)
+		complex = "Normal (Default)"
+	var/mask_type
+	switch(complex)
+		if("Strict (Naledi Complex)")
+			ADD_TRAIT(H, TRAIT_NALEDI, TRAIT_GENERIC)
+			mask_type = /obj/item/clothing/mask/rogue/lordmask/naledi/lesser
+		else
+			mask_type = /obj/item/clothing/mask/rogue/lordmask/tarnished
+	H.mind.special_items["Naledian Mask"] = mask_type
+	to_chat(H, span_notice("Your Naledian Mask has been added to your Item Stash."))
+
 /datum/virtue/origin/kazengun
 	name = "Kazengunese"
 	origin_name = "Kazengun"
@@ -207,6 +223,7 @@
 				/datum/species/anthromorphsmall,
 				/datum/species/dullahan,
 				/datum/species/ooze,
+				/datum/species/construct/metal,
 )
 	origin_desc = "Underdwellers are those who are descendants of their lengthy lineage that settled, lived and toiled in the darkest and deepest \
 	of depths of the vast, deadly Underdark a millennia ago. When one speaks of a 'Underdweller',a dark elf first comes to mynd, though despite them\
@@ -238,6 +255,20 @@
 	to surface cultures and  communities, often perceived as strange at best, and downright evil at worst. A stigma developed by those who live upon \
 	the surface about their home and culture, believing all things evil crawl out of the very depths they reside in. A stigma that has lessened in \
 	recent yils, but still vastly present nonetheless."
+
+/datum/virtue/origin/racial/underdark/apply_to_human(mob/living/carbon/human/H)
+	..()
+	var/list/choices = list("Normal (Default)", "Strict (Sunlight Sensitivity + Advanced Darksight)")
+	var/complex = tgui_input_list(H, "How adapted are you to the Underdark?", "Underdweller Upbringing", choices)
+	if(!complex)
+		complex = "Normal (Default)"
+	switch(complex)
+		if("Strict (Sunlight Sensitivity + Advanced Darksight)")
+			ADD_TRAIT(H, TRAIT_SUNLIGHT_SENSITIVE, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_NITEVISION, TRAIT_GENERIC)
+			to_chat(H, span_notice("The sun is irritantly bright for you, but your eyes cut the darkness better!"))
+		else
+			to_chat(H, span_notice("You're quick to adapt."))
 
 /datum/virtue/origin/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.dna.species.origin = origin_name

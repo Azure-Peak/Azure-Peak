@@ -1,3 +1,4 @@
+GLOBAL_LIST_INIT(psyvault_aggro, world.file2list("strings/rt/psyvaultaggrolines.txt"))
 //These guys are intended to be no joke, if they are getting stomped something is wrong
 //Intended difficulty [HARD]
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard
@@ -17,6 +18,7 @@
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/Initialize()
 	. = ..()
+	gender = pick(MALE, FEMALE)
 	set_species(/datum/species/lizardfolk)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 	transform = transform.Scale(1.25, 1.25)
@@ -26,7 +28,7 @@
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/after_creation()
 	..()
 	AddComponent(/datum/component/ai_aggro_system)
-	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.psyvault_aggro, TRUE)
 	//This Stuff handles their parts
 	var/obj/item/organ/tail/lizard/tail = src.getorganslot(ORGAN_SLOT_TAIL)
 	var/obj/item/organ/snout/lizard/psy_vault_guard/snout = src.getorganslot(ORGAN_SLOT_SNOUT)
@@ -57,6 +59,7 @@
 	ADD_TRAIT(src, TRAIT_BIGGUY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard)
 	patron = /datum/patron/old_god
 	update_hair()
@@ -64,6 +67,9 @@
 	update_overlays()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = HEAD_BOUNTY_LIZARDMAN
+	random_voice_NPC()
+	random_eye_color_NPC()
+	src.regenerate_icons() //Fixes the weird body but lets check performance first
 
 
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/pre_equip(mob/living/carbon/human/H)
@@ -78,6 +84,7 @@
 	H.STAPER = 12
 	H.STAINT = 10
 	H.STALUC = 13
+	H.grant_language(/datum/language/otavan)
 	//skill Stuff
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE) //NPCs do not get these skills unless a mind takes them over, hopefully in the future someone can fix
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
@@ -89,9 +96,11 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 	ADD_TRAIT(H, TRAIT_NIGHT_VISION, TRAIT_GENERIC)
 	//Clothing Stuff
+	if(prob(20))
+		cloak = /obj/item/clothing/cloak/absolutionistrobe/black
 	//Head Gear
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-	armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
+	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded //ENDVRE
 	add_random_psy_vault_guard_mask(H)
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
 	//wrist Gear
@@ -118,7 +127,7 @@
 			r_hand = /obj/item/rogueweapon/mace/warhammer/steel
 			l_hand = /obj/item/rogueweapon/shield/tower/metal
 		if(5)
-			r_hand = /obj/item/rogueweapon/greatsword/grenz
+			r_hand = /obj/item/rogueweapon/greatsword/grenz/flamberge
 		if(6)
 			r_hand = /obj/item/rogueweapon/greataxe/steel
 		if(7)
@@ -152,7 +161,7 @@
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
 
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_beltl_stuff(mob/living/carbon/human/H)
-	var/add_random_psy_vault_guard_beltl_stuff = rand(1,11)
+	var/add_random_psy_vault_guard_beltl_stuff = rand(1,12)
 	switch(add_random_psy_vault_guard_beltl_stuff)
 		if(1)
 			beltl = /obj/item/storage/belt/rogue/pouch/food
@@ -176,9 +185,11 @@
 			beltl = /obj/item/clothing/neck/roguetown/psicross/silver
 		if(11)
 			beltl = /obj/item/clothing/neck/roguetown/psicross
+		if(12)
+			beltr = /obj/item/book/rogue/bibble/psy
 
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/proc/add_random_psy_vault_guard_beltr_stuff(mob/living/carbon/human/H)
-	var/add_random_psy_vault_guard_beltr_stuff = rand(1,11)
+	var/add_random_psy_vault_guard_beltr_stuff = rand(1,12)
 	switch(add_random_psy_vault_guard_beltr_stuff)
 		if(1)
 			beltr = /obj/item/storage/belt/rogue/pouch/food
@@ -202,3 +213,5 @@
 			beltr = /obj/item/clothing/neck/roguetown/psicross/silver
 		if(11)
 			beltr = /obj/item/clothing/neck/roguetown/psicross
+		if(12)
+			beltr = /obj/item/book/rogue/bibble/psy

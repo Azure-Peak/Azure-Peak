@@ -306,7 +306,7 @@
 	minstr = 9
 	wbalance = WBALANCE_HEAVY
 	smeltresult = /obj/item/ingot/iron
-	associated_skill = /datum/skill/combat/polearms
+	associated_skill = /datum/skill/combat/whipsflails
 	anvilrepair = /datum/skill/craft/carpentry
 	dropshrink = 0.9
 	wdefense = 4
@@ -358,3 +358,23 @@
 	force = 27
 	wdefense = 3
 	wbalance = WBALANCE_HEAVY
+
+/obj/item/rogueweapon/flail/sflail/holysee
+	name = "holy see flail"
+	desc = "A blessed flail, oft conflicts arise betwixt the Otavian Orthodoxy and Holy See on the origins \
+			being betwixt Psydon and Noc being the origin of such weapon, regardless against the forces of evil, \
+			it serves one absolute truth - smashing through plate and skull of Heathen and Heretic alike. Often favored \
+			by Xylix's following for theatrics but also curiously Noc's following as a ceremonial tool of war."
+	icon_state = "churchflail"
+	wlength = WLENGTH_LONG
+
+/obj/item/rogueweapon/flail/blacksteel
+	name = "blacksteel flail"
+	icon_state = "bs_flail"
+	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash, /datum/intent/flail/bash, /datum/intent/flail/sweep)
+	desc = "An elegant flail of blacksteel. The heftsome weight makes it unmatched for driving back plate-armored opponents, so long as one \
+	has the stamina to swing its alloyed chains around."
+	smeltresult = /obj/item/ingot/blacksteel
+	max_integrity = 250
+	minstr = 12
+	force = 35

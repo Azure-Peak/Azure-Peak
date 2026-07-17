@@ -173,7 +173,7 @@
 /obj/structure/chair/wood/rogue/chair3
 	icon_state = "chair3"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	item_chair = /obj/item/chair/rogue
+	item_chair = /obj/item/chair/rogue/chair3
 	blade_dulling = DULLING_BASHCHOP
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
@@ -181,7 +181,7 @@
 /obj/structure/chair/wood/rogue/chair4
 	icon_state = "chair4"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	item_chair = /obj/item/chair/rogue
+	item_chair = /obj/item/chair/rogue/chair4
 	blade_dulling = DULLING_BASHCHOP
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
@@ -189,7 +189,7 @@
 /obj/structure/chair/wood/rogue/chair5
 	icon_state = "chair5"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	item_chair = /obj/item/chair/rogue
+	item_chair = /obj/item/chair/rogue/chair5
 	blade_dulling = DULLING_BASHCHOP
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
@@ -304,6 +304,18 @@
 	icon_state = "chair1"
 	origin_type = /obj/structure/chair/wood/rogue/fancy
 
+/obj/item/chair/rogue/chair3
+	icon_state = "chair3"
+	origin_type = /obj/structure/chair/wood/rogue/chair3
+
+/obj/item/chair/rogue/chair4
+	icon_state = "chair4"
+	origin_type = /obj/structure/chair/wood/rogue/chair4
+
+/obj/item/chair/rogue/chair5
+	icon_state = "chair5"
+	origin_type = /obj/structure/chair/wood/rogue/chair5
+
 /obj/structure/chair/wood/rogue/attack_right(mob/user)
 	var/datum/component/simple_rotation/rotcomp = GetComponent(/datum/component/simple_rotation)
 	if(rotcomp)
@@ -402,6 +414,8 @@
 	return ..()
 
 /obj/structure/bed/rogue/proc/hideinside(mob/living/user)
+	if(!hidingspot)
+		return
 	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
 	var/sneaktime = max(10, 50 - (sneak_level * 10)) // Hard caps at 1 second at Expert and above.
 	if(user.loc == src)
@@ -455,6 +469,7 @@
 	attacked_sound = 'sound/foley/cloth_rip.ogg'
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	sleepy = 2
+	hidingspot = FALSE
 
 /obj/structure/bed/rogue/bedroll/attack_hand(mob/user, params)
 	..()

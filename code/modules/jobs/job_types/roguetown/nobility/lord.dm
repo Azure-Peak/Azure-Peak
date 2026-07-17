@@ -247,7 +247,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	)
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
-		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
@@ -269,9 +270,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/outfit/job/roguetown/lord/mage/pre_equip(mob/living/carbon/human/H)
 	..()
+	l_hand = /obj/item/rogueweapon/lordscepter
 	backr = /obj/item/storage/backpack/rogue/satchel
 
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/book/spellbook = 1, /obj/item/blueprint/mace_mushroom = 1, /obj/item/chalk = 1, /obj/item/hunting_map/white_stag = 1,)
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rogueweapon/spellbook = 1, /obj/item/blueprint/mace_mushroom = 1, /obj/item/chalk = 1, /obj/item/hunting_map/white_stag = 1,)
 
 /**
 	Inbred Lord subclass. A joke class, evolution of the Inbred Wastrel.
@@ -473,6 +475,9 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	var/refuse_message = "I refuse."
 	ignore_los = 1 // this needs to ignore normal "range", it looks like
 	range = 3
+	/// traits to apply on recruitment - currently only used to let new maids use the vomitorium to cook
+	/// since that's an administrative thing not an innate trait
+	var/applied_traits = list()
 
 /obj/effect/proc_holder/spell/self/convertrole/cast(list/targets,mob/user = usr)
 	. = ..()
@@ -533,6 +538,9 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		recruit.say(accept_message, forced = "[name]")
 	if(new_role) //We assign our role here. + log it.
 		recruit.job = new_role
+		recruit.override_advclass_examine = TRUE // makes your servants display as 'servant' instead of like. 'witch' or w/e
+		for(var/trait in applied_traits)
+			ADD_TRAIT(recruit, trait, JOB_TRAIT)
 		SEND_SIGNAL(SSdcs, COMSIG_GLOB_ROLE_CONVERTED, recruiter, recruit, new_role)
 		message_admins("ROLE RECRUITMENT: [recruiter.real_name] ([recruiter.ckey]) has converted [recruit.real_name] ([recruit.ckey]) to [new_role]")
 		log_game("ROLE RECRUITMENT: [recruiter.real_name] ([recruiter.ckey]) has converted [recruit.real_name] ([recruit.ckey]) to [new_role]")
@@ -562,6 +570,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	accept_message = "FOR THE CROWN!"
 	refuse_message = "I refuse."
 	recharge_time = 100
+	applied_traits = list(TRAIT_FOOD_STIPEND)
 
 /obj/effect/proc_holder/spell/self/convertrole/bog
 	name = "Recruit Warden"

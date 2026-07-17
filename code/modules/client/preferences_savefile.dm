@@ -176,6 +176,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["no_language_fonts"]	>> no_language_fonts
 	S["no_language_icon"]	>> no_language_icon
 	S["no_redflash"]		>> no_redflash
+	S["top_examine"]		>> top_examine
 	S["crt"]				>> crt
 	S["grain"]				>> grain
 	S["sexable"]			>> sexable
@@ -274,6 +275,25 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			key_bindings -= key
 	// End
 
+/client/verb/export_savefile()
+	set name = "Export Preferences"
+	set desc = "Export your preferences to a file."
+	set category = "OOC"
+	if(!prefs.path)
+		return
+
+	if(alert("Are you sure you want to export your preferences? This will create a file on your computer that contains your preferences.", "Export Preferences", "Yes", "No") == "No")
+		return
+
+	if(!fexists(prefs.path))
+		to_chat(src, span_warning("No savefile, what?!"))
+		return
+
+	var/file_name = "[ckey].sav"
+	var/exportable_file = file(prefs.path)
+
+	DIRECT_OUTPUT(src, ftp(exportable_file, file_name))
+
 /datum/preferences/proc/save_preferences()
 	if(!path)
 		return FALSE
@@ -302,6 +322,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["no_language_fonts"], no_language_fonts)
 	WRITE_FILE(S["no_language_icon"], no_language_icon)
 	WRITE_FILE(S["no_redflash"], no_redflash)
+	WRITE_FILE(S["top_examine"], top_examine)
 	WRITE_FILE(S["crt"], crt)
 	WRITE_FILE(S["sexable"], sexable)
 	WRITE_FILE(S["shake"], shake)
@@ -432,112 +453,47 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["virtue"] >> virtue_type
 	S["virtuetwo"] >> virtuetwo_type
 	S["virtue_origin"] >> origin_type
-	var/error_check = FALSE
-	var/error_found = FALSE
+	var/list/virtue_choices = list()
+	var/list/virtuetwo_choices = list()
+	var/virtone
+	var/virttwo
+	S["virtuechoices"] >> virtone
+	S["virtuetwochoices"] >> virttwo
+	virtue_choices = virtone
+	virtuetwo_choices = virttwo
+
+	// If we still find a living ref, we clean it up. This is deprecated and we shouldn't be saving whole datums.
 	if (istype(virtue_type, /datum/virtue))
-		virtue = virtue_type
-		error_check = TRUE
+		var/datum/virtue/V = virtue_type
+		virtue = new V.type
+		if(length(V.picked_choices))
+			virtue.picked_choices = V.picked_choices
+		qdel(V)
 	else if(ispath(virtue_type, /datum/virtue))
 		virtue = new virtue_type
 	else
 		virtue = new /datum/virtue/none
 
-	if(error_check)
-		//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
-		var/datum/virtue/sane_virtue = new virtue.type
-		if(virtue.name != sane_virtue.name)	//We should keep the names & descs updated across saves, too
-			virtue.name = sane_virtue.name
-
-		if(virtue.desc != sane_virtue.desc)	//Not errors warranting a full reset, in theory, anyway.
-			virtue.desc = sane_virtue.desc
-
-		if(length(virtue.picked_choices) > sane_virtue.max_choices)
-			error_found = TRUE
-		
-		if(sane_virtue.max_choices != virtue.max_choices)
-			error_found = TRUE
-		
-		if(length(virtue.extra_choices) != length(sane_virtue.extra_choices))
-			error_found = TRUE
-		
-		if(!error_found)
-			for(var/choice in virtue.extra_choices)
-				if(!(choice in sane_virtue.extra_choices))
-					error_found = TRUE
-					break
-
-			var/total_ours = 0
-			var/total_sane = 0
-
-			for(var/cost in virtue.choice_costs)
-				total_ours += cost
-			for(var/cost in sane_virtue.choice_costs)
-				total_sane += cost
-
-			if(total_ours != total_sane)
-				error_found = TRUE
-
-		if(error_found)
-			qdel(virtue)
-			virtue = sane_virtue
-		else
-			qdel(sane_virtue)
-			virtue.on_load()
-
-	error_check = FALSE
+	// Ditto, but for the second virtue.
 	if(istype(virtuetwo_type, /datum/virtue))
-		virtuetwo = virtuetwo_type
-		error_check = TRUE
+		var/datum/virtue/V = virtuetwo_type
+		virtuetwo = new V.type
+		if(length(V.picked_choices))
+			virtuetwo.picked_choices = V.picked_choices
+		qdel(V)
 	else if(ispath(virtuetwo_type, /datum/virtue))
 		virtuetwo = new virtuetwo_type
 	else
 		virtuetwo = new /datum/virtue/none
 
+	if(length(virtue_choices))
+		virtue.picked_choices = virtue_choices.Copy()
+	
+	if(length(virtuetwo_choices))
+		virtuetwo.picked_choices = virtuetwo_choices.Copy()
 
-	if(error_check)
-		//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
-		var/datum/virtue/sane_virtuetwo = new virtuetwo.type
-		error_found = FALSE
-
-		if(virtuetwo.name != sane_virtuetwo.name)	//We should keep the names & descs updated across saves, too
-			virtue.name = sane_virtuetwo.name
-
-		if(virtuetwo.desc != sane_virtuetwo.desc)	//Not errors warranting a full reset, in theory, anyway.
-			virtuetwo.desc = sane_virtuetwo.desc
-
-
-		if(length(virtuetwo.picked_choices) > sane_virtuetwo.max_choices)
-			error_found = TRUE
-		
-		if(sane_virtuetwo.max_choices != virtuetwo.max_choices)
-			error_found = TRUE
-		
-		if(length(virtuetwo.extra_choices) != length(sane_virtuetwo.extra_choices))
-			error_found = TRUE
-		
-		if(!error_found)
-			for(var/choice in virtuetwo.extra_choices)
-				if(!(choice in sane_virtuetwo.extra_choices))
-					error_found = TRUE
-					break
-
-			var/total_ours = 0
-			var/total_sane = 0
-
-			for(var/cost in virtuetwo.choice_costs)
-				total_ours += cost
-			for(var/cost in sane_virtuetwo.choice_costs)
-				total_sane += cost
-				
-			if(total_ours != total_sane)
-				error_found = TRUE
-
-		if(error_found)
-			virtuetwo = sane_virtuetwo
-			qdel(virtue)
-		else
-			qdel(sane_virtuetwo)
-			virtuetwo.on_load()
+	virtue.on_load()
+	virtuetwo.on_load()
 
 	if(origin_type)
 		virtue_origin = new origin_type
@@ -566,6 +522,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		combat_music = GLOB.cmode_tracks_by_type[combat_music_type]
 	else
 		combat_music = GLOB.cmode_tracks_by_type[default_cmusic_type]
+
+/datum/preferences/proc/_load_barks(S)
+	S["bark_id"] >> bark_id
+	S["bark_speed"] >> bark_speed
+	S["bark_pitch"] >> bark_pitch
+	S["bark_variance"] >> bark_variance
+	S["mute_barks"] >> mute_barks
+
+	if(!(bark_id in GLOB.bark_list))
+		bark_id = pick(GLOB.bark_random_list)
+	var/datum/bark/B = GLOB.bark_list[bark_id]
+	bark_speed = round(clamp(bark_speed, initial(B.minspeed), initial(B.maxspeed)), 1)
+	bark_pitch = clamp(bark_pitch, initial(B.minpitch), initial(B.maxpitch))
+	bark_variance = clamp(bark_variance, initial(B.minvariance), initial(B.maxvariance))
 
 /datum/preferences/proc/_load_appearence(S)
 	S["real_name"]			>> real_name
@@ -657,6 +627,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	_load_gear_list(S)
 
 	_load_combat_music(S)
+	_load_barks(S)
 
 	if(!S["features["mcolor"]"] || S["features["mcolor"]"] == "#000")
 		WRITE_FILE(S["features["mcolor"]"]	, "#FFF")
@@ -943,6 +914,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["descriptor_entries"] , descriptor_entries)
 	WRITE_FILE(S["custom_descriptors"] , custom_descriptors)
 
+	//Barks
+	WRITE_FILE(S["bark_id"]					, bark_id)
+	WRITE_FILE(S["bark_speed"]				, bark_speed)
+	WRITE_FILE(S["bark_pitch"]				, bark_pitch)
+	WRITE_FILE(S["bark_variance"]			, bark_variance)
+	WRITE_FILE(S["mute_barks"]				, mute_barks)
+
 	WRITE_FILE(S["dnr"] , dnr_pref)
 	WRITE_FILE(S["update_mutant_colors"] , update_mutant_colors)
 	WRITE_FILE(S["headshot_link"] , headshot_link)
@@ -972,8 +950,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["titles_pref"] , titles_pref)
 	WRITE_FILE(S["clothes_pref"] , clothes_pref)
 	WRITE_FILE(S["statpack"] , statpack.type)
-	WRITE_FILE(S["virtue"] , virtue)
-	WRITE_FILE(S["virtuetwo"], virtuetwo)
+	WRITE_FILE(S["virtue"] , virtue.type)
+	WRITE_FILE(S["virtuechoices"] , virtue.picked_choices)
+	WRITE_FILE(S["virtuetwo"], virtuetwo.type)
+	WRITE_FILE(S["virtuetwochoices"] , virtuetwo.picked_choices)
 	WRITE_FILE(S["virtue_origin"], virtue_origin.type)
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
