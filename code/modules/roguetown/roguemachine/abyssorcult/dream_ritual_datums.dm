@@ -1,7 +1,6 @@
 /datum/abyssal_ritual/cultivate_dream_seed
 	name = "Cultivate Dream Seed"
 	desc = "Condenses raw abyssal fluctuations into a physical seed capable of growing anchor pylons."
-	base_devotion_cost = 100
 	base_channel_time = 50
 	
 	required_ingredients = list(

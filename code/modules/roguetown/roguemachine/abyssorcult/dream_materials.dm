@@ -142,3 +142,10 @@
 	max_charge_grant = 50
 	infusion_type = /datum/status_effect/infusion/speed
 	pylon_color = "#1db891"
+
+/obj/item/dream_material/dream_seed/sneaky
+	name = "seed of stealth"
+	charge_grant = 100
+	max_charge_grant = 100
+	infusion_type = /datum/status_effect/infusion/ambush_trait
+	pylon_color = "#001611"

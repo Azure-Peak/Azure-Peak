@@ -126,7 +126,7 @@
 	var/list/display_to_ritual = list()
 	for(var/ritual_name in GLOB.abyssal_rituals)
 		var/datum/abyssal_ritual/R = GLOB.abyssal_rituals[ritual_name]
-		var/menu_line = "\n[R.name] ([R.base_devotion_cost] Devotion) - Requires: "
+		var/menu_line = "\n[R.name] - Requires: "
 		if(length(R.required_ingredients))
 			var/list/ing_strings = list()
 			for(var/ing_type in R.required_ingredients)
@@ -152,12 +152,14 @@
 	if(!chosen_ritual)
 		return
 
+	if(user.get_skill_level(/datum/skill/magic/holy) < 1)
+		to_chat(user, span_warning("You lack the holy proficiency required to initiate an abyssal ritual."))
+		return FALSE
+	if(!istype(user.patron, /datum/patron/divine/abyssor))
+		to_chat(user, span_warning("Only a true follower of Abyssor can initiate this ritual."))
+		return FALSE
 	if(!chosen_ritual.check_ingredients(src))
 		to_chat(user, span_warning("You do not have the required materials arrayed on the outer rim for [chosen_ritual.name]!"))
-		return
-
-	if(!user.devotion || user.devotion.devotion < 50)
-		to_chat(user, span_warning("Your soul is too weak right now to anchor the focus paths."))
 		return
 
 	INVOKE_ASYNC(src, PROC_REF(coordinate_channeling_loop), user, chosen_ritual)
@@ -190,9 +192,8 @@
 			collapse_ritual()
 			return
 
-		var/current_cost = R.get_calculated_costs(active_channelers)
 		if(prob(20))
-			to_chat(leader, span_notice("Channelling [R.name]... Active assistants: [length(active_channelers) - 1]. Current Devotion cost: [current_cost]."))
+			to_chat(leader, span_notice("Channelling [R.name]... Active assistants: [length(active_channelers) - 1]."))
 
 		sleep(10) // Tick once per second
 		elapsed_time += 10
@@ -207,15 +208,7 @@
 		if(M.stat == CONSCIOUS && (get_turf(M) in outer_rim))
 			final_channelers += M
 
-	var/final_cost = R.get_calculated_costs(final_channelers)
-
-	if(leader.devotion.devotion < final_cost)
-		to_chat(leader, span_warning("At the final moment, your spiritual devotion falters. You lack the [final_cost] points required!"))
-		collapse_ritual()
-		return
-
-	leader.devotion.update_devotion(-final_cost)
-	R.consume_ingredients(src)
+	R.consume_ingredients(src, final_channelers)
 	R.on_success(src, leader, final_channelers)
 	playsound(src, 'sound/magic/cosmic_expansion.ogg', 100, TRUE)
 	ritual_active = FALSE
