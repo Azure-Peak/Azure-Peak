@@ -173,12 +173,9 @@
 	var/list/mob/living/active_channelers
 	var/list/datum/beam/active_beams
 
-	var/list/invocations = list(
-		"Abyssor, hwja'ajaba!",
-		"Iä! Iä! Abyssor fhtagn!",
-		"The deep rises to my call!",
-		"By the salt and the tide, awaken!"
-	)
+	var/list/invocations = R.invocation_phases
+	if(!length(invocations))
+		invocations = list("Abyssor, hwja'ajaba!")
 	var/phases = invocations.len
 	var/phase_time = duration / phases
 
@@ -222,7 +219,7 @@
 			B.End()
 
 		if(linked_door?.gate_closed || !R.check_ingredients(src))
-			visible_message(span_warning("The pool's configuration changed mid‑ritual! The abyss recoils."))
+			visible_message(span_warning("The pool's configuration changed mid-ritual! The abyss recoils."))
 			collapse_ritual()
 			return
 
