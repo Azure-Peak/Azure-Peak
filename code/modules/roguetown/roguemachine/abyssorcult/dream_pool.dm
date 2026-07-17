@@ -166,40 +166,63 @@
 
 /obj/structure/roguemachine/dream_pool/proc/coordinate_channeling_loop(mob/living/carbon/human/leader, datum/abyssal_ritual/R)
 	ritual_active = TRUE
-	visible_message(span_purple("[leader] begins chanting, pulling the deep currents up from the vortex!"))
+	visible_message(span_purple("[leader] begins chanting, calling upon the abyssal currents…"))
 
-	var/elapsed_time = 0
 	var/duration = R.base_channel_time
 	var/list/turf/outer_rim = get_outer_rim_turfs()
+	var/list/mob/living/active_channelers
+	var/list/datum/beam/active_beams
+
+	var/list/invocations = list(
+		"Abyssor, hwja'ajaba!",
+		"Iä! Iä! Abyssor fhtagn!",
+		"The deep rises to my call!",
+		"By the salt and the tide, awaken!"
+	)
+	var/phases = invocations.len
+	var/phase_time = duration / phases
 
 	playsound(src, 'sound/magic/teleport_diss.ogg', 100, TRUE)
 
-	while(elapsed_time < duration)
-		var/list/mob/living/active_channelers = list()
-		active_channelers += leader 
-
+	for(var/phase in 1 to phases)
+		active_channelers = list(leader)
 		for(var/mob/living/carbon/human/M in range(2, src))
 			if(M == leader || M.stat != CONSCIOUS)
 				continue
-			var/turf/mob_turf = get_turf(M)
-			if(mob_turf in outer_rim)
+			if(get_turf(M) in outer_rim)
 				active_channelers += M
-				if(prob(15))
-					M.say("Abyssor, hwja'ajaba", language = /datum/language/abyssal, ignore_spam = TRUE)
 
-		if(QDELETED(leader) || leader.stat != CONSCIOUS || !(get_turf(leader) in outer_rim))
-			visible_message(span_warning("The ritual leader has collapsed or stepped away! The abyssal loop backfires!"))
+		if(!active_channelers.len)
+			visible_message(span_warning("No one remains to channel the ritual! It collapses."))
 			collapse_ritual()
 			return
 
-		if(prob(20))
-			to_chat(leader, span_notice("Channelling [R.name]... Active assistants: [length(active_channelers) - 1]."))
+		var/phase_invocation = invocations[phase] || "Abyssor, hwja'ajaba!"
+		for(var/mob/living/P in active_channelers)
+			P.say(phase_invocation, language = /datum/language/abyssal, ignore_spam = TRUE)
 
-		sleep(10) // Tick once per second
-		elapsed_time += 10
+		active_beams = list()
+		var/turf/pool_turf = get_turf(src)
+		for(var/mob/living/P in active_channelers)
+			active_beams += pool_turf.Beam(P, icon_state = "b_beam", time = phase_time, maxdistance = 10)
+
+		var/drain_per_phase = 15
+		for(var/mob/living/P in active_channelers)
+			if(P.energy)
+				P.energy_add(-drain_per_phase)
+
+		if(!do_after(leader, phase_time, target = src, extra_checks = CALLBACK(src, PROC_REF(channel_check), leader, outer_rim)))
+			to_chat(leader, span_warning("Your connection falters! The ritual is interrupted."))
+			for(var/datum/beam/B in active_beams)
+				B.End()
+			collapse_ritual()
+			return
+
+		for(var/datum/beam/B in active_beams)
+			B.End()
 
 		if(linked_door?.gate_closed || !R.check_ingredients(src))
-			visible_message(span_warning("The pool grid layout was altered mid-ritual! The connection shatters."))
+			visible_message(span_warning("The pool's configuration changed mid‑ritual! The abyss recoils."))
 			collapse_ritual()
 			return
 
@@ -216,3 +239,8 @@
 /obj/structure/roguemachine/dream_pool/proc/collapse_ritual()
 	ritual_active = FALSE
 	playsound(src, 'sound/misc/slip.ogg', 100, TRUE)
+
+/obj/structure/roguemachine/dream_pool/proc/channel_check(mob/living/carbon/human/leader, list/turf/outer_rim)
+	if(QDELETED(leader) || leader.stat != CONSCIOUS)
+		return FALSE
+	return (get_turf(leader) in outer_rim)
