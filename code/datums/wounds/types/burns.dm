@@ -11,7 +11,7 @@
 	sew_threshold = 10
 	can_sew = TRUE
 	can_cauterize = FALSE
-	passive_healing = 0.4
+	passive_healing = 0.1
 	severity_type = SEVERITY_TYPE_WHP
 	sound_effect = list('sound/combat/hits/burn (1).ogg', 'sound/combat/hits/burn (2).ogg')
 	severity_stages = list(
@@ -23,31 +23,27 @@
 	)
 
 #define BURN_UPG_WHPRATE 1.2
-#define BURN_UPG_PAINRATE 0.15
-#define BURN_UPG_BLEEDRATE 0.1
+#define BURN_UPG_PAINRATE 0.25
+#define BURN_UPG_BLEEDRATE 0.12
 #define BURN_CHAR_THRESHOLD 120
-#define BURN_UPG_CLAMP_ARMORED (ARTERY_LIMB_BLEEDRATE * 0.05)
-#define BURN_UPG_CLAMP_RAW (ARTERY_LIMB_BLEEDRATE * 0.1)
+#define BURN_UPG_CLAMP_RAW (ARTERY_LIMB_BLEEDRATE * 0.2)
 #define BURN_ARMORED_BLEED_CLAMP (ARTERY_LIMB_BLEEDRATE * 0.5)
 #define BURN_MAX_BLEED (ARTERY_LIMB_BLEEDRATE * 0.75)
 
 /datum/wound/dynamic/burn/upgrade(dam, armor, exposed)
 	whp += (dam * BURN_UPG_WHPRATE)
 	woundpain += (dam * BURN_UPG_PAINRATE)
-	if(whp >= BURN_CHAR_THRESHOLD)
-		if(!disabling)
-			disabling = TRUE
-			passive_healing = 0
-			clotting_threshold = 1
-			clotting_rate = 0.1
-			bodypart_owner?.update_disabled()
-		var/clamp_max = ((armor > 0) ? BURN_UPG_CLAMP_ARMORED : BURN_UPG_CLAMP_RAW)
-		if(exposed)
-			clamp_max = BURN_UPG_CLAMP_RAW
-		set_bleed_rate(bleed_rate + clamp((dam * BURN_UPG_BLEEDRATE), 0.1, clamp_max))
+	set_bleed_rate(bleed_rate + clamp((dam * BURN_UPG_BLEEDRATE), 0.1, BURN_UPG_CLAMP_RAW))
+	if(bleed_rate > BURN_MAX_BLEED)
+		set_bleed_rate(BURN_MAX_BLEED)
+	if(armor && !exposed)
 		armor_check(armor, BURN_ARMORED_BLEED_CLAMP)
-		if(bleed_rate > BURN_MAX_BLEED)
-			set_bleed_rate(BURN_MAX_BLEED)
+	if(whp >= BURN_CHAR_THRESHOLD && !disabling)
+		disabling = TRUE
+		passive_healing = 0
+		clotting_threshold = 1
+		clotting_rate = 0.1
+		bodypart_owner?.update_disabled()
 	update_stage()
 	..()
 
@@ -55,7 +51,6 @@
 #undef BURN_UPG_PAINRATE
 #undef BURN_UPG_BLEEDRATE
 #undef BURN_CHAR_THRESHOLD
-#undef BURN_UPG_CLAMP_ARMORED
 #undef BURN_UPG_CLAMP_RAW
 #undef BURN_ARMORED_BLEED_CLAMP
 #undef BURN_MAX_BLEED

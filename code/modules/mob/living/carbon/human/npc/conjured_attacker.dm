@@ -54,6 +54,8 @@
 			outfit_attacker(new /datum/outfit/job/roguetown/conjured_attacker/dagger)
 		if("hammer")
 			outfit_attacker(new /datum/outfit/job/roguetown/conjured_attacker/hammer)
+		if("whip")
+			outfit_attacker(new /datum/outfit/job/roguetown/conjured_attacker/whip)
 		else
 			outfit_attacker(new /datum/outfit/job/roguetown/conjured_attacker/sabre)
 	def_intent_change(INTENT_DODGE)
@@ -84,10 +86,10 @@
 	var/tier = attacker_tier(H)
 	var/skill = attacker_skill(H)
 	H.STASTR = 10
-	H.STASPD = 10 + tier
-	H.STACON = 10 + tier
-	H.STAWIL = 10 + tier
-	H.STAPER = 10 + tier
+	H.STASPD = 12 + tier
+	H.STACON = 8 + tier
+	H.STAWIL = 11
+	H.STAPER = 12 + tier
 	H.STAINT = 10
 	H.STALUC = 10
 	H.adjust_skillrank(/datum/skill/combat/unarmed, skill, TRUE)
@@ -95,6 +97,7 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	cloak = /obj/item/clothing/cloak/tabard
 	mask = /obj/item/clothing/mask/rogue/padded
 	head = /obj/item/clothing/head/roguetown/helmet/leather
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
@@ -102,8 +105,10 @@
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	belt = /obj/item/storage/belt/rogue/leather
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy
 	if(tier >= 2)
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
+		head = /obj/item/clothing/head/roguetown/helmet/leather/advanced
 
 /datum/outfit/job/roguetown/conjured_attacker/sabre/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
@@ -139,3 +144,10 @@
 	H.adjust_skillrank(/datum/skill/combat/maces, skill, TRUE)
 	r_hand = /obj/item/rogueweapon/mace/warhammer
 	l_hand = /obj/item/rogueweapon/mace/warhammer
+
+/datum/outfit/job/roguetown/conjured_attacker/whip/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	var/skill = attacker_skill(H)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, skill, TRUE)
+	r_hand = /obj/item/rogueweapon/whip
+	l_hand = /obj/item/rogueweapon/whip

@@ -1,0 +1,13 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added phase roll, a means of dodging exclusive to Vheslynite Cultists, used to phase through flesh and steel alyke"
+  - rscadd: "Added Concindo, a lethal version of Zizo's Lacrima, also able to be used on undead too, it greater-devitalises targets by ripping out their lux and heals the user substancally."
+  - balance: "Vheslynites do not care for firestacks, sure they burn to death but they don't get stunned, they feel nothing. HOLLOW HUSKS, DEAD FUCKING LOSERS. Now you know why you fear the unknown."
+  - rscadd: "Vheslyn patron and faith for it. Inexcusable evil incarnate. It also has a faith salute - NOTE you cannot pick this patron, it will be added to hard antagonists, for now only expect adminbus for it."
+  - rscadd: "Praying Vheslyn in any of your prayers will now smite you"
+  - rscadd: "Profane Vheslynite flames, these green flames resist off at half of the rate of usual firestacks, albeit slightly better if you drop and roll, bring water!"
+  - rscadd: "Vhelsyn however cares not what sins, curses or the likes are in your prayers, as long as you speak not the name of the Allfather or Psydon."
+  - bugfix: "Mossmother now uses the inhuman profane words list, saying Zizo will not get hags smited anymore."
+  - image: "added Vheslynite spells and Profane Fire status Effect"
+  - code_imp: "added code ready for implimentation into Vheslyn Cultists"

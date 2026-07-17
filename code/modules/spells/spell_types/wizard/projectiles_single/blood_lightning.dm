@@ -34,6 +34,7 @@
 
 /obj/projectile/magic/bloodlightning
 	name = "blood bolt"
+	expose_caster_on_deflect = TRUE
 	tracer_type = /obj/effect/projectile/tracer/blood
 	muzzle_type = null
 	impact_type = null

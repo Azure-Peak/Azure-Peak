@@ -284,6 +284,7 @@
 
 	var/last_dodge = 0
 	var/last_parry = 0
+	var/last_deflect_recoil = 0
 
 	var/last_used_double_attack = 0 //Used for Dual Wielder virtue, holds the timer since the double attack was last used
 	var/dualwieldpitythreshhold = 2 //dual attack every 3rd

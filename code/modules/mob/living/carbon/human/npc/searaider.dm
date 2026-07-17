@@ -190,8 +190,8 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	backl = /obj/item/quiver/arrows
 	r_hand = /obj/item/rogueweapon/sword/iron
 	H.STASPD = 9
-	H.STACON = 8
-	H.STAWIL = 8
+	H.STACON = 7
+	H.STAWIL = 7
 	H.STAPER = 13
 	H.STAINT = 1
 	H.STASTR = 12

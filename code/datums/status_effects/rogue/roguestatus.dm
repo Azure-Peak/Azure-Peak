@@ -113,7 +113,6 @@
 		effectedstats = list(STATKEY_SPD = spd_mod)
 	. = ..()
 
-
 // This is used to make sure we cannot do stealth mechanics mid-combat.
 /datum/status_effect/stealth_revealed
 	id = "stealthreveal"

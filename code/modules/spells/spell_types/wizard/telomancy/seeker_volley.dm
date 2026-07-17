@@ -52,17 +52,20 @@
 	icon_state = "seeker_orb"
 	damage = 5
 	damage_type = BRUTE
+	nodamage = FALSE
 	woundclass = BCLASS_BLUNT
 	flag = "blunt"
 	range = 16
 	speed = MAGE_PROJ_SLOW
 	accuracy = 100
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	npc_simple_damage_mult = 1.5
-	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	intdamfactor = 1
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 	homing_turn_speed = 35
 	homing_inaccuracy_max = 12
+	var/list/impact_sounds = list('sound/combat/hits/blunt/shovel_hit.ogg', 'sound/combat/hits/blunt/shovel_hit2.ogg', 'sound/combat/hits/blunt/shovel_hit3.ogg')
 
 /obj/projectile/magic/seeker_orb/prehit(atom/target)
 	if(isliving(target) && target != original)
@@ -81,7 +84,8 @@
 	return TRUE
 
 /obj/projectile/magic/seeker_orb/on_hit(target)
-	hitsound = pick('sound/combat/hits/blunt/shovel_hit.ogg', 'sound/combat/hits/blunt/shovel_hit2.ogg', 'sound/combat/hits/blunt/shovel_hit3.ogg')
+	if(length(impact_sounds))
+		hitsound = pick(impact_sounds)
 	if(ismob(target))
 		var/mob/living/M = target
 		if(M.anti_magic_check())

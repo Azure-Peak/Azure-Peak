@@ -1,7 +1,0 @@
-author: "ShadowLarkens"
-delete-after: True
-changes:
-  - admin: "There's a new log viewer under Admin -> View Round Logs, but it may not have all logs, be careful!"
-  - server: "Logs can now be output in JSON format"
-  - config: "JSON Logs can be turned off by commenting out config.txt -> LOG_AS_JSON"
-  - config: "Human-Readable Logs can be turned off by commenting out config.txt -> LOG_AS_HUMAN_READABLE"

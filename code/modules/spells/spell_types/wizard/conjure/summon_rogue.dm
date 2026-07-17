@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/conjure_summon/attacker
 	name = "Summon Rogue"
-	desc = "Call forth a swift, lightly-armored rogue. Toggle its loadout with Shift+G: Twin Sabres, Twin Rapiers, Twin Axes, Twin Daggers, or Twin Hammers.  \
+	desc = "Call forth a swift, lightly-armored rogue. Toggle its loadout with Shift+G: Twin Sabres, Twin Rapiers, Twin Axes, Twin Daggers, Twin Hammers, or Twin Whips.  \
 	Its prowess scales with your Arcyne Armament."
 	button_icon_state = "primetriangle"
 	invocations = list("Exsurge, sicarius!")
@@ -12,6 +12,7 @@
 		list("name" = "Twin Axes", "tag" = "AXE", "loadout" = "axe", "color" = GLOW_COLOR_ARCANE, "invocation" = "Exsurge, sicarius!"),
 		list("name" = "Twin Daggers", "tag" = "DAG", "loadout" = "dagger", "color" = GLOW_COLOR_ARCANE, "invocation" = "Exsurge, sicarius!"),
 		list("name" = "Twin Hammers", "tag" = "HAM", "loadout" = "hammer", "color" = GLOW_COLOR_ARCANE, "invocation" = "Exsurge, sicarius!"),
+		list("name" = "Twin Whips", "tag" = "WHP", "loadout" = "whip", "color" = GLOW_COLOR_ARCANE, "invocation" = "Exsurge, sicarius!"),
 	)
 
 /datum/action/cooldown/spell/conjure_summon/attacker/spawn_summon(turf/T, mob/living/user)

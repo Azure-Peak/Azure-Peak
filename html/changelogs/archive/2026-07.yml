@@ -820,3 +820,52 @@
   - bugfix: Give Councillors keep key back
   probbrie:
   - balance: added Dual Wield to Zeybek when they choose twin shamshirs
+2026-07-17:
+  Lamasmaster:
+  - rscadd: Hag Panel Interaction
+  - balance: Malum Miracles
+  - bugfix: Malum Ritual
+  - bugfix: Antiquarian not getting Secular Barter
+  - balance: Tanning Hides now provides 1 + SKILL (TANNING) Cured Leathers.
+  Lutowski:
+  - image: Partially resprited werewolf.
+  Ollanius:
+  - bugfix: Decorated steel armor no longer requires fluted armor to make. Whoopsies!
+  - rscadd: Adjusts the bastard sword's description.
+  ShadowLarkens:
+  - config: Added STORAGE_CDN_IFRAME to config/resources.txt, this is mandatory if
+      you want clients to use the new iframe storage!
+  - bugfix: Client stutters should be reduced by the new TGUI storage system
+  - code_imp: tgui-core updated to v6.1.1, this may cause some UI elements to look
+      weird or break, be on the lookout and report them!
+  - code_imp: TGUI Linting is now enforced by github workflows
+  - refactor: TGUI and TGUI-Panel (the chat) have had their entire backend state system
+      streamlined for simplicity and efficiency.
+  - admin: There's a new log viewer under Admin -> View Round Logs, but it may not
+      have all logs, be careful!
+  - server: Logs can now be output in JSON format
+  - config: JSON Logs can be turned off by commenting out config.txt -> LOG_AS_JSON
+  - config: Human-Readable Logs can be turned off by commenting out config.txt ->
+      LOG_AS_HUMAN_READABLE
+  WeNeedMorePhoron:
+  - rscadd: Refactored the armor filtering component and fixed it since it was broken
+      to add in haubrynie support. Naledi complex should work properly, so should
+      honor bound and or other different traits.
+  - bugfix: Fixes shield overlay broken by my optimization PR that stopped forcing
+      redraw of all in hand sprite to save on cpu
+  - bugfix: Fixes poleaxe / lance overlays messing up blood by cutting overlays unilaterally,
+      which is unrelated ot my PR.
+  - bugfix: Fix snouts not showing on character preview.
+  - rscadd: Optimized away unnecessary calls of forced redraw of bodyparts to female
+      chest, upper body, mask update. I am still trying to investigate why previews
+      breaks some of the time. Rejoin to see it show properly. I apologize for the
+      inconvenience as this PR and its changes will be kept in due to drastic CPU
+      saving around 10 - 15%
+  borneblood:
+  - bugfix: fixed an oversight that caused Bishop's staff to sizzle them
+  plsleavemealon:
+  - balance: mauls no longer require herculean strength to use them
+  the evil wizard on the cover of dopethrone:
+  - rscadd: smoking is now tracked in endround. see TOP BLACKLUNGS
+  yyzsong:
+  - qol: Ghosts now see item pricing information on examine.

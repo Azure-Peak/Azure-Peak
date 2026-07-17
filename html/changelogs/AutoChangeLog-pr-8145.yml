@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Decorated steel armor no longer requires fluted armor to make. Whoopsies!"

@@ -16,8 +16,7 @@
 /datum/action/cooldown/spell/minion_mark
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
 	name = "Conjurer's Mark"
-	desc = "Cast on someone to mark them friendly to your conjured servants, or strip an existing mark. \
-	Cast on a tile to focus any nearby primordials' elemental power there."
+	desc = "Cast on someone to mark them friendly to your conjured servants, or strip an existing mark."
 	button_icon_state = "primordial_mark"
 	sound = null
 	spell_color = GLOW_COLOR_ARCANE
@@ -29,7 +28,7 @@
 	self_cast_possible = TRUE
 
 	primary_resource_type = SPELL_COST_NONE
-	cooldown_time = 15 SECONDS
+	cooldown_time = 1 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 3
@@ -56,6 +55,7 @@
 			if(faction_tag in target.mind.current.faction)
 				target.mind.current.faction -= faction_tag
 				user.say("Hostis declaratus es.", language = /datum/language/common)
+				target.notify_faction_change()
 			else
 				target.mind.current.faction += faction_tag
 				user.say("Amicus declaratus es.", language = /datum/language/common)
@@ -64,17 +64,11 @@
 			if(faction_tag in target.faction)
 				target.faction -= faction_tag
 				user.say("Hostis declaratus es.", language = /datum/language/common)
+				target.notify_faction_change()
 			else
 				target.faction |= faction_tag
 				user.say("Amicus declaratus es.", language = /datum/language/common)
 				target.notify_faction_change()
-		return TRUE
-	else if(isturf(cast_on))
-		var/turf/T = get_turf(cast_on)
-		for(var/mob/living/simple_animal/hostile/retaliate/rogue/primordial/primordial in oview(3, T))
-			if(faction_tag in primordial.faction)
-				to_chat(user, "[primordial.name] will focus their ability on the marked tile!")
-				primordial.ability(T, user)
 		return TRUE
 	return FALSE
 
@@ -120,11 +114,19 @@
 	var/turf/center = get_turf(user)
 	if(!center)
 		return FALSE
+	var/list/landing_turfs = list()
+	for(var/turf/T in range(2, center))
+		if(!isopenturf(T) || istype(T, /turf/open/transparent/openspace))
+			continue
+		if(T.is_transition_turf() || T.is_blocked_turf(exclude_mobs = TRUE))
+			continue
+		landing_turfs += T
 	var/count = 0
 	for(var/mob/living/M in user.summoned_minions.Copy())
 		if(QDELETED(M) || M.stat == DEAD || M == user)
 			continue
-		if(do_teleport(M, center, precision = 2, channel = TELEPORT_CHANNEL_MAGIC, forced = TRUE))
+		var/turf/landing = length(landing_turfs) ? pick(landing_turfs) : center
+		if(do_teleport(M, landing, precision = 0, channel = TELEPORT_CHANNEL_MAGIC, forced = TRUE))
 			count++
 	if(!count)
 		to_chat(user, span_warning("None of my servants answer the pull."))

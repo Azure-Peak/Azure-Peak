@@ -27,6 +27,7 @@ export const GrimoireAspectPicker = () => {
     selected_utilities = [],
     locked_aspects = [],
     staged_choices = {},
+    live_choices = {},
     pointbuy_selections = {},
     spent_budgets = {},
     all_selected_spells = [],
@@ -34,6 +35,7 @@ export const GrimoireAspectPicker = () => {
     utility_points_spent = 0,
     reset_budget = 4,
     reset_budget_max = 4,
+    reset_costs = { major: 4, minor: 2, utility: 1, choice: 2 },
     staged_unbind_aspects = [],
     staged_unbind_utilities = [],
     known_utilities = [],
@@ -204,6 +206,7 @@ export const GrimoireAspectPicker = () => {
                   pointsBudget={max_utilities}
                   initialSetup={initial_setup}
                   resetBudget={reset_budget}
+                  utilityUnbindCost={reset_costs.utility}
                   allSelectedSpells={all_selected_spells}
                   act={wrappedAct}
                   readOnly={read_only}
@@ -235,6 +238,7 @@ export const GrimoireAspectPicker = () => {
                     pointsBudget={max_utilities}
                     initialSetup={initial_setup}
                     resetBudget={reset_budget}
+                    resetBudgetMax={reset_budget_max}
                     readOnly={read_only}
                   />
                 ) : (
@@ -254,7 +258,9 @@ export const GrimoireAspectPicker = () => {
                     userTier={user_tier}
                     initialSetup={initial_setup}
                     resetBudget={0}
+                    resetCosts={reset_costs}
                     stagedChoices={{}}
+                    liveChoices={{}}
                     pointbuySelections={{}}
                     allSelectedSpells={all_selected_spells}
                     claimedGroups={claimed_groups}
@@ -281,7 +287,9 @@ export const GrimoireAspectPicker = () => {
                   userTier={user_tier}
                   initialSetup={initial_setup}
                   resetBudget={reset_budget}
+                  resetCosts={reset_costs}
                   stagedChoices={staged_choices}
+                  liveChoices={live_choices}
                   pointbuySelections={pointbuy_selections}
                   allSelectedSpells={all_selected_spells}
                   claimedGroups={claimed_groups}

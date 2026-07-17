@@ -2,7 +2,7 @@ import { GrimoireChoiceSection } from './GrimoireChoiceSection';
 import { GrimoirePointBuySection } from './GrimoirePointBuySection';
 import { GrimoireSpellEntry } from './GrimoireSpellEntry';
 import { GrimoireVariantSection } from './GrimoireVariantSection';
-import type { Aspect, Tab } from './types';
+import type { Aspect, ResetCosts, Tab } from './types';
 
 export const GrimoireAspectDetail = ({
   aspect,
@@ -14,7 +14,9 @@ export const GrimoireAspectDetail = ({
   userTier,
   initialSetup,
   resetBudget,
+  resetCosts,
   stagedChoices,
+  liveChoices,
   pointbuySelections,
   allSelectedSpells,
   claimedGroups,
@@ -32,7 +34,9 @@ export const GrimoireAspectDetail = ({
   userTier: number;
   initialSetup: boolean;
   resetBudget: number;
+  resetCosts: ResetCosts;
   stagedChoices: Record<string, string>;
+  liveChoices: Record<string, string>;
   pointbuySelections: Record<string, string[]>;
   allSelectedSpells: string[];
   claimedGroups: Record<string, string>;
@@ -42,7 +46,7 @@ export const GrimoireAspectDetail = ({
   variantOverride?: string;
 }) => {
   const isMajor = aspect.aspect_type === 'major';
-  const unbindCost = isMajor ? 2 : 1;
+  const unbindCost = isMajor ? resetCosts.major : resetCosts.minor;
   const canUnbind = !isLocked && resetBudget >= unbindCost;
 
   return (
@@ -102,10 +106,17 @@ export const GrimoireAspectDetail = ({
           <GrimoireChoiceSection
             aspect={aspect}
             stagedChoices={stagedChoices}
+            liveChosen={liveChoices[aspect.path]}
+            isPendingUnbind={isPendingUnbind}
+            initialSetup={initialSetup}
+            resetBudget={resetBudget}
+            swapCost={resetCosts.choice}
             allSelectedSpells={allSelectedSpells}
             claimedGroups={claimedGroups}
             act={act}
             readOnly={readOnly}
+            variantOverride={variantOverride}
+            userTier={userTier}
           />
         )}
 
@@ -122,6 +133,7 @@ export const GrimoireAspectDetail = ({
           <GrimoireVariantSection
             variants={aspect.variants}
             fixedSpells={aspect.fixed_spells}
+            choiceSpells={aspect.choice_spells}
             userTier={userTier}
             variantOverride={variantOverride}
           />

@@ -48,10 +48,7 @@
 	if(istype(pawn))
 		// If we're disarmed and a weapon is reachable nearby, skip melee planning so find_weapon
 		// can run (it's the next subtree). Otherwise we'd just punch the target empty-handed forever.
-		var/obj/item/r_held = pawn.get_item_for_held_index(1)
-		var/obj/item/l_held = pawn.get_item_for_held_index(2)
-		var/has_weapon = istype(r_held, /obj/item/rogueweapon) || istype(l_held, /obj/item/rogueweapon) || istype(r_held, /obj/item/gun) || istype(l_held, /obj/item/gun)
-		if(!has_weapon)
+		if(!ai_npc_has_weapon(pawn))
 			for(var/obj/item/rogueweapon/nearby_weapon in view(7, pawn))
 				if(!isturf(nearby_weapon.loc))
 					continue
@@ -289,6 +286,13 @@
 
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_choose_attack_zone(datum/ai_controller/controller, mob/living/carbon/human/pawn, mob/living/target)
+	var/forced_zone = controller.blackboard[BB_FORCED_ATTACK_ZONE]
+	if(forced_zone)
+		var/forced_aim = _zone_to_aimheight(forced_zone)
+		if(forced_aim)
+			pawn.aimheight_change(forced_aim)
+		pawn.zone_selected = forced_zone
+		return
 	var/list/wp = controller.blackboard[BB_HUMAN_NPC_WEAKPOINT]
 	if(wp && world.time < wp[2] && wp[3] == target)
 		var/aimheight = _zone_to_aimheight(wp[1])

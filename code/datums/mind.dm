@@ -468,6 +468,49 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	aspect_resets_used += ASPECT_RESET_COST_UTILITY
 	return TRUE
 
+/datum/mind/proc/can_reset_choice()
+	return get_aspect_reset_remaining() >= ASPECT_RESET_COST_CHOICE
+
+/datum/mind/proc/spend_choice_reset()
+	if(!can_reset_choice())
+		return FALSE
+	aspect_resets_used += ASPECT_RESET_COST_CHOICE
+	return TRUE
+
+/// Swap a live aspect's choice spell, reinserting the new pick at the old one's slot in the action bar.
+/datum/mind/proc/swap_choice_spell(datum/magic_aspect/aspect, new_choice)
+	if(!aspect || !new_choice || !(new_choice in aspect.choice_spells))
+		return FALSE
+	if(aspect.chosen_spell == new_choice)
+		return FALSE
+	var/old_path = aspect.resolve_variant_spell(aspect.chosen_spell)
+	var/new_path = aspect.resolve_variant_spell(new_choice)
+	var/insert_index
+	if(aspect.chosen_spell)
+		var/datum/existing = get_spell(old_path, specific = TRUE)
+		if(existing)
+			insert_index = spell_list.Find(existing)
+			RemoveSpell(existing)
+	aspect.chosen_spell = new_choice
+	if(has_spell(new_path, specific = TRUE))
+		return TRUE
+	var/datum/new_spell = new new_path
+	aspect.mark_aspect_spell(new_spell)
+	if(new_path != new_choice && istype(new_spell, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/tagged = new_spell
+		tagged.desc = "[tagged.desc]\n<b>Variant:</b> [capitalize(aspect.applied_variant)]"
+	if(insert_index && insert_index <= length(spell_list) + 1)
+		spell_list.Insert(insert_index, new_spell)
+		if(istype(new_spell, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/S = new_spell
+			S.Grant(current)
+		else if(istype(new_spell, /obj/effect/proc_holder/spell))
+			var/obj/effect/proc_holder/spell/S = new_spell
+			S.action.Grant(current)
+	else
+		AddSpell(new_spell)
+	return TRUE
+
 /datum/mind/proc/set_death_time()
 	last_death = world.time
 

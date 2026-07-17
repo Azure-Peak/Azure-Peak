@@ -155,7 +155,7 @@
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, owner, ts_radius, ts_damage, src), ts_telegraph)
 
-/proc/thunderstrike_erupt(turf/centerpoint, mob/living/carbon/human/caster, radius = 2, damage = 50, datum/action/cooldown/spell/guard_source, spell_name = "Thunderstrike", mob/living/exclude)
+/proc/thunderstrike_erupt(turf/centerpoint, mob/living/carbon/human/caster, radius = 2, damage = 50, datum/action/cooldown/spell/guard_source, spell_name = "Thunderstrike")
 	if(!centerpoint)
 		return
 	playsound(centerpoint, 'sound/magic/lightning.ogg', 100, TRUE, 8)
@@ -169,8 +169,6 @@
 			if(!ismob(A))
 				A.fire_act()
 		for(var/mob/living/L in T.contents)
-			if(L == exclude)
-				continue
 			if(L.anti_magic_check())
 				L.visible_message(span_warning("The lightning fades away around [L]!"))
 				playsound(T, 'sound/magic/magic_nulled.ogg', 100)

@@ -36,6 +36,7 @@
 
 /obj/projectile/magic/fetch
 	name = "bolt of fetching"
+	expose_caster_on_deflect = TRUE
 	icon_state = "cursehand0"
 	flag = "blunt"
 	speed = MAGE_PROJ_FAST

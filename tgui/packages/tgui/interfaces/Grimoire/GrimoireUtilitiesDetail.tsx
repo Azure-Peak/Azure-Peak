@@ -9,6 +9,7 @@ export const GrimoireUtilitiesDetail = ({
   pointsBudget,
   initialSetup,
   resetBudget,
+  resetBudgetMax = 12,
   readOnly = false,
 }: {
   spells: Spell[];
@@ -19,6 +20,7 @@ export const GrimoireUtilitiesDetail = ({
   pointsBudget: number;
   initialSetup: boolean;
   resetBudget: number;
+  resetBudgetMax?: number;
   readOnly?: boolean;
 }) => (
   <div style={{ flex: 1, overflowY: 'auto' }}>
@@ -33,7 +35,7 @@ export const GrimoireUtilitiesDetail = ({
       {pointsSpent} / {pointsBudget} pts spent
       {!readOnly && !initialSetup && (
         <span style={{ marginLeft: '12px' }}>
-          (reshaping: {resetBudget} / 2)
+          (reshaping: {resetBudget} / {resetBudgetMax})
         </span>
       )}
     </div>

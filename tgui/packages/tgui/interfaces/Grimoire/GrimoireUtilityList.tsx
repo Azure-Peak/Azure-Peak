@@ -12,6 +12,7 @@ export const GrimoireUtilityList = ({
   pointsBudget,
   initialSetup,
   resetBudget,
+  utilityUnbindCost = 1,
   allSelectedSpells,
   act,
   readOnly = false,
@@ -26,6 +27,7 @@ export const GrimoireUtilityList = ({
   pointsBudget: number;
   initialSetup: boolean;
   resetBudget: number;
+  utilityUnbindCost?: number;
   allSelectedSpells: string[];
   act: (action: string, params: Record<string, unknown>) => void;
   readOnly?: boolean;
@@ -50,7 +52,7 @@ export const GrimoireUtilityList = ({
             if (isPendingUnbind) {
               act('undo_unbind_utility', { spell_path: spell.path });
             } else if (isKnown && !initialSetup) {
-              if (resetBudget >= 1) {
+              if (resetBudget >= utilityUnbindCost) {
                 act('unbind_utility', { spell_path: spell.path });
               }
             } else if (!isDisabled) {

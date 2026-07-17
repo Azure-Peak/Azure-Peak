@@ -1,4 +1,5 @@
 #define CONJURE_DISMISS_FADE_TIME (4 SECONDS)
+#define CONJURE_RECOIL_SLOW "conjure_recoil_slow"
 
 /proc/dismiss_conjured_minion(mob/living/M)
 	if(QDELETED(M))
@@ -19,7 +20,7 @@
 	attunement_school = ASPECT_NAME_CONJURATION
 
 	click_to_activate = TRUE
-	cast_range = SPELL_RANGE_GROUND
+	cast_range = 2
 
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_CONJURE
@@ -183,7 +184,7 @@
 	var/total = getBruteLoss() + getFireLoss() + getToxLoss() + getOxyLoss()
 	return clamp(total / maxHealth, 0, 1)
 
-/proc/apply_conjure_recoil(mob/living/summoner, energy_floor = 200, severity = CONJURE_RECOIL_FULL, scale = 1, shock = TRUE, stamina_only = FALSE)
+/proc/apply_conjure_recoil(mob/living/summoner, energy_floor = 200, severity = CONJURE_RECOIL_FULL, scale = 1, block = TRUE, stamina_only = FALSE)
 	if(!istype(summoner))
 		return
 	scale = clamp(scale, 0, 1)
@@ -193,7 +194,7 @@
 		summoner.stamina_add(round(summoner.max_stamina * 0.5 * scale))
 		to_chat(summoner, span_warning("The leyline snaps taut and tears the wind from me as my primordial unravels."))
 		scale *= 0.5
-		shock = FALSE
+		block = FALSE
 	if(severity == CONJURE_RECOIL_LIGHT)
 		to_chat(summoner, span_warning("A jolt of pain stings me as my conjured servant falls."))
 		return
@@ -210,14 +211,18 @@
 		base_stats = list(STATKEY_STR = -2, STATKEY_CON = -2, STATKEY_WIL = -2)
 		base_duration = 45 SECONDS
 
-	if(shock)
-		summoner.Knockdown(round(30 * scale))
+	if(block)
+		var/slow_time = round(30 * scale)
+		if(slow_time > 0)
+			summoner.add_movespeed_modifier(CONJURE_RECOIL_SLOW, update = TRUE, override = TRUE, multiplicative_slowdown = 2 * scale)
+			addtimer(CALLBACK(summoner, TYPE_PROC_REF(/mob, remove_movespeed_modifier), CONJURE_RECOIL_SLOW), slow_time)
 		summoner.emote("painscream")
 		to_chat(summoner, span_userdanger("Agony tears through me as my conjured servant is struck down!"))
 	else if(!stamina_only)
 		to_chat(summoner, span_warning("A cold recoil ripples through me as I unbind my servant."))
 
-	summoner.apply_status_effect(/datum/status_effect/debuff/conjure_backlash, scale, base_stats, base_duration, shock)
+	summoner.apply_status_effect(/datum/status_effect/debuff/conjure_backlash, scale, base_stats, base_duration, block)
+	summoner.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
 
 /datum/status_effect/debuff/conjure_backlash
 	id = "conjure_backlash"

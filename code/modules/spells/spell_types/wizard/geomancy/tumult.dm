@@ -5,7 +5,7 @@
 	button_icon = 'icons/mob/actions/mage_geomancy.dmi'
 	name = "Tumult"
 	desc = "Erupts stone from the ground, or become one yourself and bowls through your foes! switch mode with Shift-G.\n\
-	CAIRN erupts a cairn from a spot you choose, hitting those caught and leaving them Vulnerable, with more damage in the center. It sprays gravel around. You are unharmed by the spell.\n\
+	CAIRN erupts a cairn from a spot you choose, hitting those caught and leaving them Vulnerable, with more damage in the center. You are unharmed by the spell.\n\
 	RAMSTAM turns you into a rolling boulders that hurtle to a marked destination, restricted to the cardinal and diagonal direction. You batter asides anyone in the way for a small amount of damage. If you hit a wall, you will burst out gravel around you, deals damage to it, and ricochet to the spot you came from. If you are riposted, it will halt and exposes you. If you rolls through a stone pillar, you will shatter it for gravel bursts that you are immune to. You cannot steer once begun."
 	button_icon_state = "cairn"
 	sound = 'sound/combat/hits/onstone/stonedeath.ogg'
@@ -38,7 +38,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	displayed_damage = 80
+	displayed_damage = 40
 
 	var/geo_mode = TUMULT_MODE_ERUPT
 	var/static/list/mode_labels = list(TUMULT_MODE_ERUPT = "CAIRN", TUMULT_MODE_CHARGE = "RAMSTAM")
@@ -46,14 +46,12 @@
 	var/charge_cooldown = 12 SECONDS
 
 	var/telegraph_delay = TELEGRAPH_SKILLSHOT
-	var/erupt_direct = 80
-	var/erupt_aoe = 40
+	var/erupt_direct = 40
+	var/erupt_aoe = 20
 	var/erupt_npc_mult = 2
 	var/erupt_push = 1
 	var/pillar_integrity = 150
 	var/vuln_duration = 5 SECONDS
-	var/erupt_frag_count = 8
-	var/erupt_frag_damage = 15
 
 	var/max_tiles = 7
 	var/telegraph_time = 3
@@ -174,30 +172,12 @@
 		for(var/obj/structure/S in struct_turf)
 			S.take_damage(erupt_direct, BRUTE, "blunt", object_damage_multiplier = 2)
 
-	erupt_fragments(T, caster)
-
 	new /obj/effect/temp_visual/kinetic_blast(T)
 	var/obj/structure/earthen_pillar/pillar = new(T)
 	pillar.max_integrity = pillar_integrity
 	pillar.obj_integrity = pillar_integrity
 	pillar.caster_ref = WEAKREF(caster)
 	QDEL_IN(pillar, erupt_cooldown)
-
-/datum/action/cooldown/spell/tumult/proc/erupt_fragments(turf/T, mob/caster)
-	if(!T)
-		return
-	var/static/list/burst_dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-	for(var/i in 1 to erupt_frag_count)
-		var/fdir = pick(burst_dirs)
-		var/turf/ftarget = get_ranged_target_turf(T, fdir, 3)
-		var/obj/projectile/magic/gravel_blast/frag = new(T)
-		frag.damage = erupt_frag_damage
-		frag.range = 3
-		frag.ricochets_max = 0
-		if(caster)
-			frag.firer = caster
-		frag.preparePixelProjectile(ftarget, T)
-		frag.fire()
 
 /datum/action/cooldown/spell/tumult/proc/cast_charge(mob/living/carbon/human/H, atom/cast_on)
 	if(rolling)

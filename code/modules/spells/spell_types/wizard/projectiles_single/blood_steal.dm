@@ -28,6 +28,7 @@
 
 /obj/projectile/magic/bloodsteal
 	name = "blood steal"
+	expose_caster_on_deflect = TRUE
 	tracer_type = /obj/effect/projectile/tracer/bloodsteal
 	muzzle_type = null
 	impact_type = null

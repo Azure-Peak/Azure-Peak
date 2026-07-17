@@ -142,12 +142,14 @@
 			var/datum/status_effect/fire_handler/fire_stacks/fire_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks)
 			var/datum/status_effect/fire_handler/fire_stacks/sunder_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder)
 			var/datum/status_effect/fire_handler/fire_stacks/divine_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/divine)
+			var/datum/status_effect/fire_handler/fire_stacks/vheslyn_status = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/vheslyn)
 			var/datum/status_effect/fire_handler/fire_stacks/sunder/blessed/blessed_sunder = has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
-			if(fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + blessed_sunder?.stacks > 10)
-				Immobilize(30)
-				emote("firescream", TRUE)
-			else
-				emote("pain", TRUE)
+			if(!HAS_TRAIT(src, TRAIT_UNFORGIVABLE)) //VHESLYNITES DO NOT CARE, THEY UNIQUELY CAN PUSH THROUGH LETHAL FIRESTACKS WITHOUT A STUN. FUCKING RUN.
+				if(fire_status?.stacks + sunder_status?.stacks + divine_status?.stacks + vheslyn_status?.stacks + blessed_sunder?.stacks > 10)
+					Immobilize(30)
+					emote("firescream", TRUE)
+				else
+					emote("pain", TRUE)
 		return ..()
 	. = FALSE //No ignition
 

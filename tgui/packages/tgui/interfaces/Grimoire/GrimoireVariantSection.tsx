@@ -4,11 +4,13 @@ import type { Spell, Variant } from './types';
 export const GrimoireVariantSection = ({
   variants,
   fixedSpells,
+  choiceSpells,
   userTier,
   variantOverride,
 }: {
   variants: Variant[];
   fixedSpells: Spell[];
+  choiceSpells: Spell[];
   userTier: number;
   variantOverride?: string;
 }) => (
@@ -36,7 +38,8 @@ export const GrimoireVariantSection = ({
           const isAdditive = !swap.from;
           const fromSpell = isAdditive
             ? null
-            : fixedSpells.find((s) => s.path === swap.from);
+            : fixedSpells.find((s) => s.path === swap.from) ||
+              choiceSpells.find((s) => s.path === swap.from);
           return (
             <div
               key={swap.from || swap.to.name}

@@ -57,6 +57,24 @@
 			r_hand = null
 			wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			neck = /obj/item/quiver/sling/stone
+			H.STACON -= 1
+			H.STAWIL -= 1
+			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+		if("flail")
+			H.adjust_skillrank_up_to(/datum/skill/combat/shields, skill, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, skill, TRUE)
+			r_hand = /obj/item/rogueweapon/flail/aflail
+			l_hand = /obj/item/rogueweapon/shield/wood
+		if("spear")
+			r_hand = /obj/item/rogueweapon/spear/stone
+		if("bow")
+			H.adjust_skillrank_up_to(/datum/skill/combat/bows, skill, TRUE)
+			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+			backl = /obj/item/quiver/conjured_stone
+			H.STACON -= 1
+			H.STAWIL -= 1
 			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 		else
+			H.adjust_skillrank_up_to(/datum/skill/combat/shields, skill, TRUE)
 			r_hand = /obj/item/rogueweapon/sword/short/ashort
+			l_hand = /obj/item/rogueweapon/shield/wood

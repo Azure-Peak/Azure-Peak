@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
 	button_icon_state = "spirit_projection"
 	name = "Spirit Projection"
-	desc = "Cast your spirit into one of your conjured servants and control it directly, leaving your true body behind. If your abandoned body is struck or the vessel is slain, your spirit will be torn home at once. Use Return to Body to withdraw."
+	desc = "Cast your spirit into one of your conjured servants and control it directly, leaving your true body behind. A line links your body to the vessel. If the vessel strays too far, changes Z level, your abandoned body is struck, or the vessel is slain, your spirit is torn home at once. Use Return to Body to withdraw."
 	sound = 'sound/magic/soulsteal.ogg'
 	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_MEDIUM
@@ -35,6 +35,8 @@
 	var/datum/action/cooldown/spell/pilot_action
 	var/body_base_pixel_x = 0
 	var/body_base_pixel_y = 0
+	var/leash_range = 7
+	var/datum/beam/tether_beam
 
 /datum/action/cooldown/spell/conjure_projection/Destroy()
 	if(projecting)
@@ -97,8 +99,13 @@
 
 	RegisterSignal(vessel, COMSIG_MOB_DEATH, PROC_REF(on_vessel_lost))
 	RegisterSignal(vessel, COMSIG_QDELETING, PROC_REF(on_vessel_qdel))
+	RegisterSignal(vessel, COMSIG_MOVABLE_MOVED, PROC_REF(on_tether_moved))
 	RegisterSignal(body, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_body_harmed))
 	RegisterSignal(body, COMSIG_LIVING_DEATH, PROC_REF(on_body_death))
+	RegisterSignal(body, COMSIG_MOVABLE_MOVED, PROC_REF(on_tether_moved))
+
+	tether_beam = body.Beam(vessel, icon_state = "b_beam", time = INFINITY, maxdistance = leash_range + 3, beam_type = /obj/effect/ebeam/spirit_tether, beam_sleep_time = 2)
+	START_PROCESSING(SSprocessing, src)
 
 	return_action = new /datum/action/cooldown/spell/spirit_return()
 	return_action.origin = src
@@ -145,6 +152,23 @@
 	SIGNAL_HANDLER
 	INVOKE_ASYNC(src, PROC_REF(return_to_body), "body_slain")
 
+/datum/action/cooldown/spell/conjure_projection/proc/on_tether_moved(datum/source)
+	SIGNAL_HANDLER
+	evaluate_tether()
+
+/datum/action/cooldown/spell/conjure_projection/process(seconds_per_tick)
+	evaluate_tether()
+
+/datum/action/cooldown/spell/conjure_projection/proc/evaluate_tether()
+	if(!projecting)
+		return
+	var/mob/living/body = body_ref?.resolve()
+	var/mob/living/vessel = vessel_ref?.resolve()
+	if(!body || !vessel)
+		return
+	if(body.z != vessel.z || get_dist(body, vessel) > leash_range)
+		INVOKE_ASYNC(src, PROC_REF(return_to_body), "out_of_range")
+
 /datum/action/cooldown/spell/conjure_projection/proc/return_to_body(reason)
 	if(!projecting)
 		return
@@ -154,6 +178,12 @@
 	var/mob/living/vessel = vessel_ref?.resolve()
 	body_ref = null
 	vessel_ref = null
+
+	STOP_PROCESSING(SSprocessing, src)
+	if(tether_beam)
+		if(!QDELETED(tether_beam))
+			qdel(tether_beam)
+		tether_beam = null
 
 	if(return_action)
 		if(!QDELETED(return_action))
@@ -165,9 +195,9 @@
 		pilot_action = null
 
 	if(vessel)
-		UnregisterSignal(vessel, list(COMSIG_MOB_DEATH, COMSIG_QDELETING))
+		UnregisterSignal(vessel, list(COMSIG_MOB_DEATH, COMSIG_QDELETING, COMSIG_MOVABLE_MOVED))
 	if(body)
-		UnregisterSignal(body, list(COMSIG_MOB_APPLY_DAMGE, COMSIG_LIVING_DEATH))
+		UnregisterSignal(body, list(COMSIG_MOB_APPLY_DAMGE, COMSIG_LIVING_DEATH, COMSIG_MOVABLE_MOVED))
 		REMOVE_TRAIT(body, TRAIT_NOSLEEP, "spirit_projection")
 		REMOVE_TRAIT(body, TRAIT_NOBREATH, "spirit_projection")
 		REMOVE_TRAIT(body, TRAIT_NOHUNGER, "spirit_projection")
@@ -189,6 +219,8 @@
 				to_chat(body, span_userdanger("Pain wracks my true body - my spirit is snapped back in an instant!"))
 			if("body_slain")
 				to_chat(body, span_userdanger("My true body falls - I am dragged down into it as it dies!"))
+			if("out_of_range")
+				to_chat(body, span_userdanger("My vessel strays too far - the tether snaps and my spirit recoils home!"))
 			else
 				to_chat(body, span_notice("I draw my spirit back and settle once more into my own flesh."))
 		playsound(body, 'sound/magic/soulsteal.ogg', 50, TRUE)
@@ -229,3 +261,8 @@
 
 /mob/living/proc/get_pilot_ability()
 	return null
+
+/obj/effect/ebeam/spirit_tether
+	color = "#4d90e0"
+	alpha = 180
+	layer = ABOVE_MOB_LAYER

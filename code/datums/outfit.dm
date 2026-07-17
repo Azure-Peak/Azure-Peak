@@ -290,6 +290,11 @@
 	if(!visualsOnly)
 		apply_fingerprints(H)
 
+	if(!visualsOnly && H.client)
+		// Refreshes spell that are granted during pre equip so that they reflects availability correctly.
+		H.update_mob_action_buttons(ALL, TRUE)
+		addtimer(CALLBACK(H, TYPE_PROC_REF(/mob, update_mob_action_buttons), ALL, TRUE), 1 SECONDS)
+
 	H.update_body()
 	return TRUE
 

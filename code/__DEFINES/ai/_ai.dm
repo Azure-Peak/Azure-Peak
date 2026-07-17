@@ -141,6 +141,7 @@
 #define BB_HELD_CONSUMABLE      "held_consumable"      // item we pulled out to use
 #define BB_THROW_WINDUP_UNTIL   "throw_windup_until"   // world.time the drawn throwable may be loosed (NPC holds it visibly until then)
 #define BB_TARGET_ZONE_OVERRIDE	"bb_target_override"
+#define BB_FORCED_ATTACK_ZONE	"bb_forced_attack_zone"
 #define BB_LOOT_TARGET "loot_target"
 #define BB_LOOT_BLACKLIST "loot_blacklist"
 #define BB_LOOT_NEXT_SCAN "loot_next_scan"
@@ -151,8 +152,8 @@
 #define ARCHER_NPC_EQUIPMENT_CACHE_TIME (40 SECONDS)
 #define ARCHER_NPC_MIN_RANGE            4 
 #define ARCHER_NPC_KITE_FLOOR           1   
-#define ARCHER_NPC_KITE_RANGE           5 
-#define ARCHER_NPC_SHOOT_RANGE          7
+#define ARCHER_NPC_KITE_RANGE           3
+#define ARCHER_NPC_SHOOT_RANGE          6
 #define ARCHER_NPC_ROF_PENALTY          1.3
 #define ARCHER_NPC_BASE_SPREAD          25 
 #define ARCHER_NPC_RETREAT_PROJECT      4
@@ -201,8 +202,8 @@ GLOBAL_LIST_INIT(ai_item_flags, list(
 	AI_ITEM_QUIVER,
 ))
 
-#define AI_INVENTORY_WATCHED_SLOTS (ITEM_SLOT_BELT | ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R | \
-    ITEM_SLOT_HIP | ITEM_SLOT_ARMOR | ITEM_SLOT_PANTS | \
-    ITEM_SLOT_SHIRT | ITEM_SLOT_CLOAK | ITEM_SLOT_BACK | ITEM_SLOT_NECK | ITEM_SLOT_WRISTS)
+// Azure equip signals and get_item_by_slot() speak small-int SLOT_* ids, not ITEM_SLOT_* bitflags.
+#define AI_INVENTORY_WATCHED_SLOTS list(SLOT_BELT, SLOT_BELT_L, SLOT_BELT_R, SLOT_BACK, SLOT_BACK_L, \
+	SLOT_BACK_R, SLOT_ARMOR, SLOT_PANTS, SLOT_SHIRT, SLOT_CLOAK, SLOT_NECK, SLOT_WRISTS)
 
 

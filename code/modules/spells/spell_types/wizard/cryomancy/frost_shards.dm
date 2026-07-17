@@ -25,7 +25,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_swingdelay_type = SWINGDELAY_PENALTY
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	charge_swingdelay_duration = 6 SECONDS
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
@@ -52,6 +52,7 @@
 
 /obj/projectile/magic/frost_shard
 	name = "frost shard"
+	expose_caster_on_deflect = TRUE
 	icon_state = "ice_2"
 	damage = 35
 	npc_simple_damage_mult = 2
@@ -113,6 +114,7 @@
 
 /obj/projectile/magic/frostbolt
 	name = "frost bolt"
+	expose_caster_on_deflect = TRUE
 	icon_state = "ice_2"
 	damage = 30
 	npc_simple_damage_mult = 2

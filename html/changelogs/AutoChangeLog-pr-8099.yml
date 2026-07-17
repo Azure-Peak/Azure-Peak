@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Fix snouts not showing on character preview."
-  - rscadd: "Optimized away unnecessary calls of forced redraw of bodyparts to female chest, upper body, mask update. I am still trying to investigate why previews breaks some of the time. Rejoin to see it show properly. I apologize for the inconvenience as this PR and its changes will be kept in due to drastic CPU saving around 10 - 15%"
