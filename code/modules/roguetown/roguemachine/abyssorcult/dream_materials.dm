@@ -128,3 +128,17 @@
 	max_charge_grant = 125
 	infusion_type = /datum/status_effect/infusion/fortune
 	pylon_color = "#bdb001"
+
+/obj/item/dream_material/dream_seed/strength
+	name = "seed of strength"
+	charge_grant = 50
+	max_charge_grant = 50
+	infusion_type = /datum/status_effect/infusion/strength
+	pylon_color = "#b8681d"
+
+/obj/item/dream_material/dream_seed/speed
+	name = "seed of speed"
+	charge_grant = 50
+	max_charge_grant = 50
+	infusion_type = /datum/status_effect/infusion/speed
+	pylon_color = "#1db891"

@@ -27,3 +27,26 @@
 /atom/movable/screen/alert/status_effect/buff/fortune_infusion
 	name = "Fortuitous Infusion"
 	desc = "Abyssor's dream is vivid in my mind, paint sinking out in nearby waters to draw forth the rarest fish."
+
+/datum/status_effect/infusion/strength
+	id = "Strength Infusion"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/strength_infusion
+	effectedstats = list(STATKEY_STR = 1)
+	// 30 seconds out of range
+	decay_multiplier = 40
+	examine_text = "SUBJECTPRONOUN looks surrounded by a shimmering, muscle-fostering aura of dark paint."
+
+/atom/movable/screen/alert/status_effect/buff/strength_infusion
+	name = "Strength Infusion"
+	desc = "Abyssor's dream is vivid in my mind, my mind flooded with imagery of myself lifting heavy objects and people."
+
+/datum/status_effect/infusion/speed
+	id = "Speed Infusion"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/speed_infusion
+	effectedstats = list(STATKEY_SPD = 1)
+	decay_multiplier = 40
+	examine_text = "SUBJECTPRONOUN looks surrounded by a shimmering, speeding aura of dark paint."
+
+/atom/movable/screen/alert/status_effect/buff/speed_infusion
+	name = "Speed Infusion"
+	desc = "Abyssor's dream is vivid in my mind, my mind flooded with imagery of hares outspeeding turtles."
