@@ -116,3 +116,42 @@
 		"the deepfather shelters his children",
 		"leviathans desire to invade the land"
 	)
+
+/datum/vision_quest/deadly_waters
+	name = "The Drowned"
+	description = "They call out from depths, you answer."
+	required_tier = 3
+	possible_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	possible_bonus_rewards = list(
+		/obj/item/dream_material/dream_spike = "spikes",
+		/obj/item/dream_material/dream_seed = "seeds",
+		/obj/item/dream_material/parchment_raw = "parchment"
+	)
+	target_description = "unknown"
+	summary = "We cannot inherit His domain."
+	vision_text = "The storm calms, the last couple drops of His torrent dimple the beach sand. \
+	I whip myself off the vessel, the wounded wood still groaning. \
+	A sole survivor, staring into the rowdy waves with longing. \
+	Longing for those souls lost within His domain, why won't the Dreamer return them? \
+	Jagged shards of wood stand out from the sands like grave markers. \
+	Hardly the first wreck, nor the last. \
+	A hand sticks out from the waves as the captain washes ashore. \
+	Far removed from his flock, they'll be dredging sailors out of the waters for weeks to come, so chaotic are the seas. \
+	Some here, some the next town over, and some will never see the embrace of Dendor's soil again. \
+	Doomed to become yet another silent grave huddled against the ocean floor. \
+	Despite the danger, the call of the ocean is so hard to ignore. \
+	Abyssor's song promising distant lands and novel discoveries. A great bounty of fish and trade. \
+	The depths especially, ever so alluring. Ruins of the distant past, riches thought to be lost to time. \
+	A mistique that draws you into the mists, never to be seen again by those you love. \
+	The fresh gills in your neck itch. You may dive, you may even thrive a little, underneath the surface. \
+	But never shall humenkind truly dominate the depths, for they are hostile to our very nature. \
+	Psydon did not intend for these feet to step where fish swim."
+	possible_phrases = list(
+		"the depths are not our domain",
+		"sing a prayer for those lost to the waves",
+		"ships do not tame the seas"
+	)
