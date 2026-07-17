@@ -226,7 +226,7 @@
 			to_chat(caster, span_notice("I'm already empowered with divine thaumaturgy!"))
 			return
 	else
-		// make a light source flicker, and others around it within a radius	
+		// make a light source flicker, and others around it within a radius
 		if (istype(victim, /obj/machinery/light) || istype(victim, /obj/item/flashlight))
 			for (var/obj/maybe_light in view(3 + holy_skill, victim))
 				if (istype(maybe_light, /obj/machinery/light))
@@ -307,7 +307,7 @@
 /datum/reagent/water/blessed/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	if (!istype(M))
 		return ..()
-	
+
 	if (method == TOUCH)
 		if (M.mob_biotypes & MOB_UNDEAD)
 			M.adjustFireLoss(2*reac_volume, 0)
@@ -379,7 +379,7 @@
 		if (victim.reagents.holder_full())
 			to_chat(caster, span_warning("[victim] is full."))
 			return
-		
+
 		caster.visible_message(span_info("[caster] closes [caster.p_their()] eyes in prayer and extends a hand over [victim] as water begins to stream from [caster.p_their()] fingertips..."), span_notice("I utter forth a plea to [caster.patron.name] for succour, and hold my hand out above [victim]..."))
 
 		var/holy_skill = caster.get_skill_level(/datum/skill/magic/holy)
@@ -399,10 +399,10 @@
 			var/datum/reagents/reagents_to_add = new()
 			reagents_to_add.add_reagent_list(water_contents)
 			reagents_to_add.trans_to(victim, reagents_to_add.total_volume, transfered_by = caster)
-			
+
 			if (prob(80))
 				playsound(caster, 'sound/items/fillcup.ogg', 55, TRUE)
-		
+
 		return min(50, fatigue_spent)
 	else if (istype(victim, /obj/item/natural/cloth))
 		// stupid little easter egg here: you can dampen a cloth to clean with it, because prestidigitation also lets you clean things. also a lot cheaper devotion-wise than filling a bucket
@@ -475,6 +475,23 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 	// no converting NPCs. if they're SSD this may also trigger, but why are you trying to convert ssd players. also, no ping-ponging back and forth in a single round or converting patron-locked roles
 	if(!new_convert.client || HAS_TRAIT(new_convert, TRAIT_RECENT_CONVERT) || HAS_TRAIT(new_convert, TRAIT_UNCONVERTIBLE))
 		to_chat(caster, span_info("They don't seem like they'll be receptive to my proselytizing..."))
+		return FALSE
+
+	if(istype(new_convert.patron, /datum/patron/vheslyn)) //UNFORGIVABLE SIN, UNFORGIVABLE, DIE. DIE. DIE.
+		to_chat(caster, span_userdanger("[new_convert] is UNFORGIVABLE, my attempt to convert them violently sunders my lux!"))
+		if(!HAS_TRAIT(caster, TRAIT_NOPAIN))
+			caster.emote("agony")
+		if(!HAS_TRAIT(caster, TRAIT_NOMOOD))
+			caster.freak_out()
+		playsound(caster, 'sound/misc/lava_death.ogg', 100, TRUE)
+		caster.adjust_fire_stacks(40, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //YOU FUCKING DESERVE THIS
+		caster.adjustFireLoss(120)//This will kill you, always.
+		caster.Knockdown(30)
+		caster.Jitter(30)
+		caster.Stun(25)
+		caster.ignite_mob()
+		explosion(get_turf(caster), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+		caster.visible_message(span_danger("[caster] is violently smited as profane flames engulf their entire body!"))
 		return FALSE
 
 	if(new_convert.mind.has_spell(/datum/action/cooldown/spell/mending/lesser)) // this is only given to luxplate heretics & iconoclasts, who are a major antag
