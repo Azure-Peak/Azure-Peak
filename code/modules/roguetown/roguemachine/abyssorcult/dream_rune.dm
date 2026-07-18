@@ -71,6 +71,12 @@
 		to_chat(user, span_warning("The dream pool gate must be open to receive visions."))
 		return
 
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(!(H.patron?.type == /datum/patron/divine/abyssor) && !HAS_TRAIT(H, TRAIT_INK_AFFINITY))
+			to_chat(user, span_warning("You must have some connection to Abyssor or His paints to call forth visions."))
+			return
+
 	var/tier = 0
 	if(istype(I, /obj/item/dream_material/parchment_silver))
 		tier = 1
