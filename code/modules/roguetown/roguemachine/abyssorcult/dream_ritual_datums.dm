@@ -119,38 +119,38 @@
 	)
 
 /datum/abyssal_ritual/imagine_parchment/silver_alt
-    name = "Imagine Silvery Parchment (dream materials)"
-    desc = "An alternative method that utilizes gleaming rings to easily silverize a sheet of raw parchment."
-    required_ingredients = list(
-        /obj/item/dream_material/parchment_raw = 1,
-        /obj/item/dream_material/dream_ring = 2
-    )
-    reward_items = list(
-        /obj/item/dream_material/parchment_silver = 2
-    )
+	name = "Imagine Silvery Parchment (dream materials)"
+	desc = "An alternative method that utilizes gleaming rings to easily silverize a sheet of raw parchment."
+	required_ingredients = list(
+		/obj/item/dream_material/parchment_raw = 1,
+		/obj/item/dream_material/dream_ring = 2
+	)
+	reward_items = list(
+		/obj/item/dream_material/parchment_silver = 2
+	)
 
 /datum/abyssal_ritual/imagine_parchment/gold
-    name = "Imagine Golden Parchment"
-    desc = "Finely treated parchment that simulates a gold flake appearance. Capable of transcribing stranger, more enigmatic visions."
-    required_ingredients = list(
-        /obj/item/dream_material/parchment_silver = 1,
-        /obj/item/dream_material/dream_ring = 3
-    )
-    reward_items = list(
-        /obj/item/dream_material/parchment_gold = 2
-    )
+	name = "Imagine Golden Parchment"
+	desc = "Finely treated parchment that simulates a gold flake appearance. Capable of transcribing stranger, more enigmatic visions."
+	required_ingredients = list(
+		/obj/item/dream_material/parchment_silver = 1,
+		/obj/item/dream_material/dream_ring = 3
+	)
+	reward_items = list(
+		/obj/item/dream_material/parchment_gold = 2
+	)
 
 /datum/abyssal_ritual/imagine_parchment/dream
-    name = "Imagine Dreamy Parchment"
-    desc = "The pinnacle of abyssal calligraphy. Studded with Sylveric, the metal of dreams. It can contain primal dreams from Abyssor's core thoughts."
-    base_channel_time = 150
-    required_ingredients = list(
-        /obj/item/dream_material/parchment_gold = 1,
-        /obj/item/dream_material/dream_fishes = 2
-    )
-    reward_items = list(
-        /obj/item/dream_material/parchment_dream = 1
-    )
+	name = "Imagine Dreamy Parchment"
+	desc = "The pinnacle of abyssal calligraphy. Studded with Sylveric, the metal of dreams. It can contain primal dreams from Abyssor's core thoughts."
+	base_channel_time = 150
+	required_ingredients = list(
+		/obj/item/dream_material/parchment_gold = 1,
+		/obj/item/dream_material/dream_fishes = 2
+	)
+	reward_items = list(
+		/obj/item/dream_material/parchment_dream = 1
+	)
 	invocation_phases  = list(
 		"Abyssor, hwja'ajaba!",
 		"Iä! Iä! Abyssor fhtagn!",

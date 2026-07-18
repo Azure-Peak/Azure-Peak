@@ -175,7 +175,7 @@
 
 /datum/action/cooldown/spell/umbral_viscosity
 	name = "Umbral Coating"
-	desc = "Infuse your active weapon with a heavy, abyssal paint. Strikes against mindless beasts deal devastating damage. Conscious targets take minimal damage but are forced to bleed paint trails behind them."
+	desc = "Infuse your active weapon with a heavy, abyssal paint. Strikes against mindless beasts deal devastating damage. Conscious targets take minimal damage but bleed paint trails. If cast with an empty hand, shapes the paint into a short-lived bow preloaded with a single paint arrow."
 	button_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	button_icon_state = "umbral_viscosity"
 	sound = 'sound/magic/abyssor_splash.ogg'
@@ -203,8 +203,16 @@
 		return FALSE
 
 	var/obj/item/weapon = user.get_active_held_item()
-	if(!weapon || !isitem(weapon))
-		to_chat(user, span_warning("I must hold a weapon in my active hand to coat it!"))
+	if(!weapon)
+		var/obj/item/gun/ballistic/revolver/grenadelauncher/bow/short/paint/P = new(user.loc)
+		if(user.put_in_active_hand(P))
+			user.visible_message(span_purple("Shimmering, abyssal paint coalesces in [user]'s empty hand, forming a volatile bow!"))
+			return TRUE
+		else
+			return FALSE
+
+	if(!isitem(weapon))
+		to_chat(user, span_warning("I must hold a valid weapon to coat it!"))
 		return FALSE
 
 	if(weapon.AddComponent(/datum/component/umbral_enchant, user))
