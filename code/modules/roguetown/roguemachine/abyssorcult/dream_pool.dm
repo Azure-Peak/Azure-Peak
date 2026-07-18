@@ -161,6 +161,8 @@
 	if(!chosen_ritual.check_ingredients(src))
 		to_chat(user, span_warning("You do not have the required materials arrayed on the outer rim for [chosen_ritual.name]!"))
 		return
+	if(!chosen_ritual.can_commence_ritual(src, user))
+		return
 
 	INVOKE_ASYNC(src, PROC_REF(coordinate_channeling_loop), user, chosen_ritual)
 

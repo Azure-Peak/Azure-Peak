@@ -221,6 +221,21 @@
 
 	return FALSE
 
+/datum/action/cooldown/spell/umbral_viscosity/single_use
+	name = "Invoke Umbral Coating"
+	desc = "Call upon your gifted umbral energy to coat your active weapon, or form a volatile bow if your hand is empty. This is a one-time use manifestation."
+	cooldown_time = 1 HOURS
+
+/datum/action/cooldown/spell/umbral_viscosity/single_use/cast(atom/cast_on)
+	. = ..()
+	if(.)
+		var/mob/living/user = owner
+		addtimer(CALLBACK(src, .proc/self_consume, user), 1)
+
+/datum/action/cooldown/spell/umbral_viscosity/single_use/proc/self_consume(mob/living/L)
+	if(L?.mind)
+		L.mind.RemoveSpell(src)
+
 /datum/action/cooldown/spell/transmute_ink
 	name = "Purifying Wave"
 	desc = "Purify nearby abyssal paint trails within your immediate surroundings, turning them into healing trails for the attuned. The more paint affected (up to 10), the longer the cooldown."

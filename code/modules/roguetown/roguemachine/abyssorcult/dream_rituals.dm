@@ -1,6 +1,8 @@
 /proc/initialize_abyssal_rituals()
 	GLOB.abyssal_rituals = list()
 	for(var/datum/abyssal_ritual/R as anything in subtypesof(/datum/abyssal_ritual))
+		if(R == /datum/abyssal_ritual)
+			continue
 		var/datum/abyssal_ritual/instance = new R()
 		GLOB.abyssal_rituals[instance.name] = instance
 
@@ -131,4 +133,7 @@
 				continue
 			for(var/i in 1 to spawn_count)
 				new reward_type(spawn_turf)
+	return TRUE
+
+/datum/abyssal_ritual/proc/can_commence_ritual(obj/structure/roguemachine/dream_pool/P, mob/living/leader)
 	return TRUE

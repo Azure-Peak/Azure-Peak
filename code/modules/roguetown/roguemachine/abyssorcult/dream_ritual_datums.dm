@@ -157,3 +157,57 @@
 		"The deep rises to my call!",
 		"By the salt and the tide, awaken!"
 	)
+
+/datum/abyssal_ritual/communal_viscosity
+	name = "Commune Umbral Gift"
+	desc = "Whispers abyssal truths into the minds of all nearby channelers. Grants the 'Gift of Umbral Paint' spell to any conscious individual present who does not already possess it."
+	base_channel_time = 300
+
+	required_ingredients = list(
+		/obj/item/dream_material/dream_spike = 2,
+		/obj/item/dream_material/dream_ring = 1
+	)
+
+	invocation_phases = list(
+		"Drink deep from indigo tides...",
+		"Let the ink of the depths stain your thoughts!",
+		"Awaken, supplicants of the abyss!"
+	)
+	success_sound = 'sound/magic/abyssor_splash.ogg'
+
+/datum/abyssal_ritual/communal_viscosity/can_commence_ritual(obj/structure/roguemachine/dream_pool/P, mob/living/leader)
+	var/list/turf/outer_rim = P.get_outer_rim_turfs()
+	var/list/mob/living/eligible_targets = list()
+
+	for(var/mob/living/M in range(2, P))
+		if(M.stat != CONSCIOUS)
+			continue
+		if(M == leader || (get_turf(M) in outer_rim))
+			if(!M.mind?.has_spell(/datum/action/cooldown/spell/umbral_viscosity) && !M.mind?.has_spell(/datum/action/cooldown/spell/umbral_viscosity/single_use))
+				eligible_targets += M
+
+	if(!length(eligible_targets))
+		to_chat(leader, span_warning("The vortex finds no minds requiring the Umbral Gift here! The ritual refuses to begin."))
+		return FALSE
+
+	return TRUE
+
+/datum/abyssal_ritual/communal_viscosity/on_success(obj/structure/roguemachine/dream_pool/P, mob/living/leader, list/mob/living/channelers)
+	..()
+
+	var/list/turf/outer_rim = P.get_outer_rim_turfs()
+	var/dolphins_blessed = 0
+
+	for(var/mob/living/M in range(2, P))
+		if(M.stat != CONSCIOUS)
+			continue
+		if(M == leader || (get_turf(M) in outer_rim))
+			if(!M.mind?.has_spell(/datum/action/cooldown/spell/umbral_viscosity) && !M.mind?.has_spell(/datum/action/cooldown/spell/umbral_viscosity/single_use))
+				var/datum/action/cooldown/spell/umbral_viscosity/single_use/B = new /datum/action/cooldown/spell/umbral_viscosity/single_use()
+				M.mind.AddSpell(B, M)
+				to_chat(M, span_purple("An oily vision washes over your mind! You have been gifted the Umbral Paint."))
+				M.visible_message(span_purple("[M]'s eyes momentarily flash a dark, ink-like purple."))
+				dolphins_blessed++
+
+	P.visible_message(span_purple("The pool fountains violently, embedding [dolphins_blessed] soul\s with abyssal gifts!"))
+	return TRUE
