@@ -4,7 +4,7 @@
 	// adjust these to make characters belonging to this faith count more or less towards the score ranking
 	var/list/weights = list(
 		/datum/faith/divine = 1,
-		/datum/faith/inhumen = 1,
+		/datum/faith/inhumen = 3,
 		/datum/faith/old_god = 1
 	)
 	// caching these because we only have to do a full recalc very rarely
@@ -27,7 +27,7 @@
 		/datum/faith/divine = 0,
 		/datum/faith/inhumen = 0
 	)
-	// these are shown to people of a given pantheon (the first index) when a given pantheon (the second index) ascends 
+	// these are shown to people of a given pantheon (the first index) when a given pantheon (the second index) ascends
 	var/list/reign_messages = list(
 		/datum/faith/divine = list(
 			/datum/faith/divine = "$patron shines bright in your Lux! The Ten are in their rightful place.",
@@ -68,7 +68,7 @@
 		dominant_faith = /datum/faith/divine
 	else // either psydonians are coping so hard they won, or the ten and inhumen are at an impasse
 		dominant_faith = /datum/faith/old_god
-	
+
 	if(old_dominant == dominant_faith) // we only want to announce actual changes
 		return
 
