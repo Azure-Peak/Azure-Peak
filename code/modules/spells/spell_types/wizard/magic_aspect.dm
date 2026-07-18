@@ -192,6 +192,13 @@
 		/datum/action/cooldown/spell/conjure_arcyne_ward,
 		/datum/action/cooldown/spell/bestow_ward,
 	)
+// Pseudo aspect meant for gating purpose
+
+/datum/magic_aspect/pseudo/spellblade
+	name = "Spellblade"
+
+/datum/magic_aspect/pseudo/spellfist
+	name = "Spellfist"
 
 /proc/grant_pseudo_aspect_spell(datum/mind/target, spell_path, aspect_path = /datum/magic_aspect/pseudo/wards)
 	if(!target || target.has_spell(spell_path))

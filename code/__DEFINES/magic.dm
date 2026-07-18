@@ -68,6 +68,9 @@
 /// Holy magic resistance that blocks unholy magic
 #define MAGIC_RESISTANCE_UNHOLY (1 << 3)
 
+/// Antag datums barred from casting miracles and aspect-derived spells.
+#define SPELLMIRACLE_BLOCK_ANTAGS list(/datum/antagonist/vampire, /datum/antagonist/dreamwalker)
+
 // MAGIC TRAITS
 #define TRAIT_SPELLBLOCK "spellblock"
 #define TRAIT_NOC_CURSE "noc_curse"

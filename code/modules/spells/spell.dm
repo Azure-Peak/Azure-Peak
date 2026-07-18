@@ -389,12 +389,12 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			to_chat(user, span_warning("My body is paralyzed!"))
 			return FALSE
 
-		if(H.mind?.has_antag_datum(/datum/antagonist/vampire))
+		if(H.mind?.has_spellmiracle_block_antag())
 			if(miracle)
-				to_chat(H, span_warning("The gods do not answer the dead!"))
+				to_chat(H, span_warning("The gods reject what I am!"))
 				return FALSE
 			if(source_aspect)
-				to_chat(H, span_warning("Dead veins cannot hold the arcyne!"))
+				to_chat(H, span_warning("The arcyne rejects what I am!"))
 				return FALSE
 		if(miracle && !H.devotion?.check_devotion(src))
 			to_chat(H, span_warning("I don't have enough devotion!"))

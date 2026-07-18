@@ -637,14 +637,14 @@
 			owner.balloon_alert(owner, "My magicka has left me...")
 		return FALSE
 
-	if(owner.mind?.has_antag_datum(/datum/antagonist/vampire))
+	if(owner.mind?.has_spellmiracle_block_antag())
 		if(primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION)
 			if(feedback)
-				owner.balloon_alert(owner, "The gods do not answer those who defy them!")
+				owner.balloon_alert(owner, "The gods reject what I am!")
 			return FALSE
 		if(source_aspect)
 			if(feedback)
-				owner.balloon_alert(owner, "My veins cannot hold arcyne power!")
+				owner.balloon_alert(owner, "The arcyne rejects what I am!")
 			return FALSE
 
 	var/mob/living/living_owner = owner
