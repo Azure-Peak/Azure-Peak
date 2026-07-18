@@ -142,7 +142,6 @@
 	if(!owner)
 		return
 	to_chat(owner, span_userdanger("NO...!"))
-	owner.emote("gasp", forced = TRUE)
 	qdel(src)
 
 /datum/status_effect/buff/zeybek_momentum/proc/grant_milestone_boost(milestone)
