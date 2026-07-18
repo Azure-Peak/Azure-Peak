@@ -283,7 +283,7 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration/lesser)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
+				grant_pseudo_aspect_spell(H.mind, /datum/action/cooldown/spell/bestow_ward)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 				H.mind.setup_mage_aspects(list("ward" = TRUE, "mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 6, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation)))
 

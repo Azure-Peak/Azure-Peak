@@ -197,7 +197,7 @@
 
 	grant_poke_spell(H)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/augment_buff/blood_rush)
-	H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
+	grant_pseudo_aspect_spell(H.mind, /datum/action/cooldown/spell/bestow_ward)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)

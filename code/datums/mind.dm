@@ -959,13 +959,14 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 				active_ward.linked_spell = null
 			RemoveSpell(base_ward)
 			var/datum/action/cooldown/spell/conjure_arcyne_ward/new_ward_spell = new /datum/action/cooldown/spell/conjure_arcyne_ward
+			mark_spell_source_aspect(new_ward_spell, /datum/magic_aspect/pseudo/wards)
 			AddSpell(new_ward_spell)
 			if(active_ward && !QDELETED(active_ward))
 				new_ward_spell.conjured_ward = active_ward
 				active_ward.linked_spell = new_ward_spell
 				new_ward_spell.regen_action?.build_all_button_icons()
 		else
-			AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward)
+			grant_pseudo_aspect_spell(src, /datum/action/cooldown/spell/conjure_arcyne_ward)
 	else
 		// Strip any base arcyne ward the mage no longer qualifies for (e.g. attuned a major aspect)
 		for(var/datum/action/cooldown/spell/conjure_arcyne_ward/ward in spell_list)

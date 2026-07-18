@@ -158,6 +158,7 @@
 #define MAX_MINOR_ASPECTS 2
 #define ASPECT_MAJOR "major"
 #define ASPECT_MINOR "minor"
+#define ASPECT_PSEUDO "pseudo"
 
 // Telegraph delay tiers (in ticks)
 #define TELEGRAPH_SKILLSHOT 4   // Fast - requires prediction to dodge
