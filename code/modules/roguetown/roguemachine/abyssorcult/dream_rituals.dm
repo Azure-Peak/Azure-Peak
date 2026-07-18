@@ -16,6 +16,10 @@
 		"The deep rises to my call!",
 		"By the salt and the tide, awaken!"
 	)
+	/// An associative list of items spawned upon completion: list(/obj/item/path = count)
+	var/list/reward_items = list()
+	/// The sound file played upon successful completion
+	var/success_sound = 'sound/magic/whale.ogg'
 
 /datum/abyssal_ritual/proc/get_calculated_ingredients(list/mob/living/channelers)
 	if(!length(required_ingredients))
@@ -116,4 +120,17 @@
 					break
 
 /datum/abyssal_ritual/proc/on_success(obj/structure/roguemachine/dream_pool/P, mob/living/leader, list/mob/living/channelers)
+	if(success_sound)
+		playsound(P, success_sound, 100, TRUE)
+
+	var/turf/spawn_turf = get_turf(leader)
+	if(spawn_turf)
+		for(var/reward_type in reward_items)
+			var/spawn_count = reward_items[reward_type]
+			if(spawn_count <= 0)
+				continue
+
+			var/obj/item/sample = reward_type
+			for(var/i in 1 to spawn_count)
+				new reward_type(spawn_turf)
 	return TRUE
