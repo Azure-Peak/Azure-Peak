@@ -129,8 +129,6 @@
 			var/spawn_count = reward_items[reward_type]
 			if(spawn_count <= 0)
 				continue
-
-			var/obj/item/sample = reward_type
 			for(var/i in 1 to spawn_count)
 				new reward_type(spawn_turf)
 	return TRUE
