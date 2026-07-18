@@ -12,6 +12,7 @@
 		"Inquisitor",\
 		"Absolver",\
 		"Orthodoxist",\
+		"Neophyte",\
 		"Assassin",\
 		"Bandit",\
 		"Wretch",\

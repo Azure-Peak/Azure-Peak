@@ -2166,6 +2166,7 @@
 #include "code\modules\jobs\job_types\roguetown\garrison\watchman.dm"
 #include "code\modules\jobs\job_types\roguetown\Inquisition\absolutionist.dm"
 #include "code\modules\jobs\job_types\roguetown\Inquisition\inquisitor.dm"
+#include "code\modules\jobs\job_types\roguetown\Inquisition\neophyte.dm"
 #include "code\modules\jobs\job_types\roguetown\Inquisition\orthodoxist.dm"
 #include "code\modules\jobs\job_types\roguetown\Inquisition\orthoclasses\confessor.dm"
 #include "code\modules\jobs\job_types\roguetown\Inquisition\orthoclasses\disciple.dm"

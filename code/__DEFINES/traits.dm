@@ -68,6 +68,7 @@
 #define TRAIT_UNSATISFIED "Unsatisfactory Act"
 #define TRAIT_SEEDKNOW "Seed Knower"
 #define TRAIT_SQUIRE_REPAIR "Squire Knowledge"
+#define TRAIT_BOOTSHINE "Polishing Expert"
 #define TRAIT_TRAINED_SMITH "Trained Smith"
 #define TRAIT_CAUTIOUS_FISHER "Cautious Fisher"
 #define TRAIT_POLYTHEIST "Polytheist"
@@ -447,6 +448,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CIVILIZEDBARBARIAN = span_info("My rigorous training in the martial arts has turned me into a living weapon. No limb is out of reach for my fists and feet, and my unarmed strikes are now stronger (+4 Unarmed Damage). My parrying with bracers, knuckles, or bandages is significantly more effective."),
 	TRAIT_COMICSANS = span_sans("I am cursed with a odd voice."),
 	TRAIT_SQUIRE_REPAIR = span_info("Trained at my Master's side, I can restore any kind of gears with time and polish them until they gleam like new."),
+	TRAIT_BOOTSHINE = span_info("With a fine brush and polishing cream at hand, I know how to polish equipment until it shines!"),
 	TRAIT_WATERBREATHING = span_info("I do not drown in bodies of water."),
 	TRAIT_NUDE_SLEEPER = span_warning("I can't fall asleep unless I'm nude and in bed."),
 	TRAIT_ABYSSOR_SWIM = span_info("I get far less tired when swimming than my peers. I also find mirth in rain and in the midst of storms."),
@@ -575,7 +577,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SELF_RELIANCE = span_greentext("I've spent enough time standing on my own that I've learned to either adapt or die young. All crafting and labor skills can progress to Journeyman levels."),
 	TRAIT_SILVER_WEAK = span_warning("Silver is the greatest threat to my lyfe. Blows from silver weapons will set me alight, inhibit my ability to regenerate, and - if blessed - can outright destroy my vessel."),
 	TRAIT_PALLID = span_artery("I was once a creature of the night, but cured by divine intervention. The open sky fills me with unease, but my eyes pierce the darkness and my lungs need no air."),
-	TRAIT_BLACKBLOOD = span_artery("I was once a creature of the night, but cured by the Otavan Inquisition at a heavy cost. My blood, tainted with tinctures, rites and concoctions, endures infection and holds an odd regenerative factor to it. Unfortunately, most healing miracles do not affect me at all, and I am sensitive to sunlight, aswell."),	
+	TRAIT_BLACKBLOOD = span_artery("I was once a creature of the night, but cured by the Otavan Inquisition at a heavy cost. My blood, tainted with tinctures, rites and concoctions, endures infection and holds an odd regenerative factor to it. Unfortunately, most healing miracles do not affect me at all, and I am sensitive to sunlight, aswell."),
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
 	TRAIT_TEMPO	= span_greentext("I can keep up with multiple opponents at once."),
 	TRAIT_BLACKOAK = span_warning("The Black Oaks can spot <b>any</b> foreigners and outsiders, no matter how long they've lived in Azuria. I can spot an invader at a glance."),

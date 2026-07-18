@@ -104,6 +104,7 @@
 #define INQUISITOR	(1<<0)
 #define ABSOLVER	(1<<1)
 #define ORTHODOXIST	(1<<2)
+#define NEOPHYTE	(1<<3)
 
 #define ANTAGONIST			(1<<10)
 
@@ -216,6 +217,7 @@
 #define JDO_INQUISITOR 10
 #define JDO_ORTHODOXIST 10.1
 #define JDO_ABSOLVER 10.2
+#define JDO_NEOPHYTE 10.3
 
 // Antagonists
 #define JDO_ASSASSIN 11
@@ -244,7 +246,7 @@
 	"Martyr", \
 )
 
-// START OF THE ECONOMY SECTION 
+// START OF THE ECONOMY SECTION
 #define ECONOMIC_RICH rand(120, 140)
 #define ECONOMIC_UPPER_CLASS rand(100, 120)
 #define ECONOMIC_UPPER_MIDDLE_CLASS rand(80, 100)
