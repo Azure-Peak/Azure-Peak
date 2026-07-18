@@ -17,6 +17,7 @@
 	return ragedmgbuff
 
 /obj/effect/proc_holder/spell/self/rage
+	source_aspect = /datum/magic_aspect/pseudo/berserker
 	name = "RAGE"
 	desc = "GETTING HURT MAKES YOU ANGRY, MAKE THEM HURT BACK- MORE HURT IS MORE ANGRY!"
 	antimagic_allowed = TRUE

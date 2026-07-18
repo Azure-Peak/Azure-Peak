@@ -200,6 +200,24 @@
 /datum/magic_aspect/pseudo/spellfist
 	name = "Spellfist"
 
+/datum/magic_aspect/pseudo/bardic
+	name = "Bardic"
+
+/datum/magic_aspect/pseudo/vizier
+	name = "Vizier"
+
+/datum/magic_aspect/pseudo/hierophant
+	name = "Hierophant"
+
+/datum/magic_aspect/pseudo/luminary
+	name = "Luminary"
+
+/datum/magic_aspect/pseudo/desertrider
+	name = "Desert Rider"
+
+/datum/magic_aspect/pseudo/berserker
+	name = "Berserker"
+
 /proc/grant_pseudo_aspect_spell(datum/mind/target, spell_path, aspect_path = /datum/magic_aspect/pseudo/wards)
 	if(!target || target.has_spell(spell_path))
 		return null
