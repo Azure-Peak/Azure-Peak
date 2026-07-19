@@ -256,6 +256,89 @@
 	if(D)
 		D.setDir(pick(NORTH, SOUTH, EAST, WEST))
 		D.visible_message(span_purple("A secondary undertow surges, leaving [D] onto the ground!"))
+		generate_inundation_loot(spawn_turf)
 
 	if(length(deep_ones_left))
 		addtimer(CALLBACK(src, PROC_REF(spawn_deep_one_wave), deep_ones_left, landing_spots), 1 SECONDS)
+
+/obj/structure/roguemachine/dream_pool/proc/generate_inundation_loot(turf/spawn_turf)
+	if(!spawn_turf)
+		return null
+
+	var/list/loot_weights = list(
+		/obj/item/reagent_containers/food/snacks/fish/oyster = 250,
+		/obj/item/reagent_containers/food/snacks/fish/shrimp = 250,
+		/obj/item/reagent_containers/food/snacks/fish/plaice = 220,
+		/obj/item/reagent_containers/food/snacks/fish/angler = 210,
+		/obj/item/reagent_containers/food/snacks/fish/clam = 190,
+		/obj/item/reagent_containers/food/snacks/fish/crab = 250,
+		/obj/item/clothing/head/roguetown/octopus = 36,
+		/obj/item/reagent_containers/food/snacks/fish/lobster = 420,
+		/obj/item/reagent_containers/food/snacks/fish/clownfish = 360,
+		/obj/item/reagent_containers/food/snacks/fish/creepy_eel = 30,
+		/obj/item/reagent_containers/food/snacks/fish/creepy_squid = 30,
+		/obj/item/reagent_containers/food/snacks/fish/creepy_shark = 30,
+
+		/obj/item/reagent_containers/glass/bottle/rogue/wine = 63,
+		/obj/item/clothing/ring/gold = 94,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 178,
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 60,
+		/obj/item/storage/belt/rogue/pouch/coins/rich = 15,
+
+		/obj/item/grown/log/tree/stick = 102,
+		/obj/item/natural/cloth = 2,
+		/obj/item/ammo_casing/caseless/rogue/arrow = 2,
+		/obj/item/reagent_containers/glass/bottle/rogue = 3,
+
+		/obj/item/roguegem/green = 15,
+		/obj/item/roguegem/blue = 15,
+		/obj/item/roguegem/yellow = 15,
+		/obj/item/roguegem/violet = 15,
+		/obj/item/roguegem/ruby = 15,
+		/obj/item/roguegem/diamond = 1,
+		/obj/item/roguegem/onyxa = 10,
+		/obj/item/roguegem/jade = 10,
+		/obj/item/roguegem/oyster = 50,
+		/obj/item/roguegem/coral = 15,
+		/obj/item/roguegem/turq = 15,
+		/obj/item/roguegem/amber = 10,
+		/obj/item/roguegem/opal = 5,
+
+		/obj/item/carvedgem/shell/rawshell = 45,
+		/obj/item/carvedgem/shell/cameo = 30,
+		/obj/item/kitchen/fork/carved/jade = 25,
+		/obj/item/kitchen/spoon/carved/onyxa = 25,
+		/obj/item/reagent_containers/glass/bowl/carved/shell = 25,
+
+		/obj/item/clothing/ring/jade = 20,
+		/obj/item/clothing/neck/roguetown/carved/shellamulet = 20,
+		/obj/item/carvedgem/jade/fish = 22,
+		/obj/item/carvedgem/rose/fish = 22,
+		/obj/item/carvedgem/onyxa/fish = 22,
+		/obj/item/reagent_containers/glass/bucket/pot/carved/teapotshell = 15,
+
+		/obj/item/carvedgem/jade/duck = 15,
+		/obj/item/carvedgem/shell/duck = 15,
+		/obj/item/carvedgem/rose/duck = 15,
+		/obj/item/carvedgem/onyxa/duck = 15,
+		/obj/item/clothing/wrists/roguetown/gem/jadebracelet = 12,
+		/obj/item/clothing/head/roguetown/circlet/carvedgem/onyxa = 10,
+		/obj/item/carvedgem/rose/fancyvase = 12,
+
+		/obj/item/clothing/mask/rogue/facemask/carved/jademask = 6,
+		/obj/item/clothing/mask/rogue/facemask/carved/shellmask = 6,
+		/obj/item/carvedgem/shell/statue = 5,
+		/obj/item/carvedgem/rose/statue = 5,
+		/obj/item/carvedgem/onyxa/statue = 5,
+		/obj/item/carvedgem/shell/turtle = 8,
+		/obj/item/carvedgem/rose/carp = 8,
+		/obj/item/carvedgem/jade/wyrm = 3,
+		/obj/item/rogueweapon/huntingknife/combat/jadekukri = 4,
+		/obj/item/rogueweapon/mace/cudgel/shellrungu = 4
+	)
+
+	var/chosen_loot_path = pickweight(loot_weights)
+	if(!chosen_loot_path)
+		return null
+
+	return new chosen_loot_path(spawn_turf)
