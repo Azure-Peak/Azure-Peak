@@ -211,3 +211,53 @@
 
 	P.visible_message(span_purple("The pool fountains violently, embedding [dolphins_blessed] soul\s with abyssal gifts!"))
 	return TRUE
+
+/datum/abyssal_ritual/beach_inundation
+	name = "Abyssal Inundation"
+	desc = "Channels the weight of stars to rip a rift through to the coast. Allows the leader to scry the shorelines and guide a massive tidal wave that washes all nearby channelers and things that lurk underneath onto the beach."
+	base_channel_time = 250
+
+	required_ingredients = list(
+		/obj/item/dream_material/dream_star = 1,
+		/obj/item/dream_material/dream_shards = 1,
+		/obj/item/dream_material/parchment_dream = 1
+	)
+
+	invocation_phases = list(
+		"Stars align in the ink of the abyss...",
+		"The sharp shards pierce the edge of reality...",
+		"Rise, tide of the forgotten depths, wash over the dry land!"
+	)
+
+/datum/abyssal_ritual/beach_inundation/on_success(obj/structure/roguemachine/dream_pool/P, mob/living/leader, list/mob/living/channelers)
+	P.visible_message(span_purple("The pool violently boils over as the stars shatter the veil, opening a rift to the coast!"))
+
+	var/static/list/beach_areas = list(
+		/area/rogue/outdoors/beach,
+		/area/rogue/outdoors/beach/north,
+		/area/rogue/outdoors/beach/south
+	)
+
+	var/list/water_turfs = list()
+	for(var/area_path in beach_areas)
+		var/area/A = GLOB.areas_by_type[area_path]
+		if(!A)
+			continue
+		for(var/turf/T in get_area_turfs(A))
+			if(istype(T, /turf/open/water/ocean))
+				water_turfs += T
+
+	if(!water_turfs.len)
+		to_chat(leader, span_warning("The tides fail to find a shoreline connection..."))
+		return ..()
+
+	var/turf/starting_turf = pick(water_turfs)
+	var/mob/dead/observer/eye/arcane/beach/eye = leader.scry_ghost(/mob/dead/observer/eye/arcane/beach)
+	if(!eye)
+		return ..()
+	eye.forceMove(starting_turf)
+	eye.scry_center_turf = starting_turf
+	eye.source_pool = P
+
+	to_chat(leader, span_purple("Your vision expands to the shores! Navigate the coastline and choose a water tile to unleash the inundation."))
+	return ..()

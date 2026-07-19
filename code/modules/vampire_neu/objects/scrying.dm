@@ -121,3 +121,88 @@
 
 /mob/dead/observer/eye/arcane/abyssor
 	limited_scry = TRUE
+
+/mob/dead/observer/eye/arcane/beach
+	name = "Abyssal Inundation Eye"
+	var/obj/structure/roguemachine/dream_pool/source_pool
+
+/mob/dead/observer/eye/arcane/beach/Initialize()
+	. = ..()
+	add_verb(src, list(/mob/dead/observer/eye/arcane/beach/proc/unleash_inundation))
+
+/mob/dead/observer/eye/arcane/beach/Move(NewLoc, direct)
+	var/turf/destination = NewLoc ? get_turf(NewLoc) : get_step(src, direct)
+	if(destination)
+		var/area/A = get_area(destination)
+		var/static/list/allowed_areas = list(
+			/area/rogue/outdoors/beach,
+			/area/rogue/outdoors/beach/north,
+			/area/rogue/outdoors/beach/south
+		)
+		if(!(A.type in allowed_areas))
+			to_chat(src, span_warning("The abyssal pool binds your sight to the beach!"))
+			return FALSE
+
+	return ..()
+
+/mob/dead/observer/eye/arcane/beach/proc/unleash_inundation()
+	set category = "RoleUnique.Arcane Eye"
+	set name = "Unleash Inundation"
+	set desc = "Select the water tile you are currently hovering over to crash a tidal wave here, washing all channelers and deep ones onto the dry ground."
+	set hidden = 0
+
+	if(!isobserver(usr))
+		to_chat(usr, span_warning("You're not an Eye!"))
+		return
+
+	var/turf/target_turf = get_turf(src)
+
+	if(!istype(target_turf, /turf/open/water/ocean))
+		to_chat(src, span_warning("You must unleash the wave onto a water tile!"))
+		return
+
+	var/non_water_count = 0
+	var/list/landing_spots = list()
+	for(var/turf/T in range(5, target_turf))
+		if(!istype(T, /turf/open/water/ocean))
+			non_water_count++
+			if(!T.density)
+				landing_spots += T
+
+	if(non_water_count < 5)
+		to_chat(src, span_warning("This location lacks enough dry shoreline (needs at least 5 non-water tiles nearby)!"))
+		return
+
+	if(!landing_spots.len)
+		landing_spots += target_turf
+
+	if(!source_pool)
+		cancel_scry()
+		return
+
+	var/list/mob/living/travelers = list()
+	for(var/mob/living/M in range(2, source_pool))
+		if(M.stat != DEAD)
+			travelers += M
+
+	for(var/mob/living/M in travelers)
+		var/turf/land_turf = pick(landing_spots)
+		if(do_teleport(M, land_turf))
+			M.setDir(pick(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST))
+			M.Knockdown(40)
+			to_chat(M, span_purple("A terrifying, dark tidal wave pulls you into the pool vortex and forcefully slams you onto the shore!"))
+
+	var/list/deep_ones = list(
+		/mob/living/simple_animal/hostile/rogue/deepone,
+		/mob/living/simple_animal/hostile/rogue/deepone/arm,
+		/mob/living/simple_animal/hostile/rogue/deepone/spit,
+		/mob/living/simple_animal/hostile/rogue/deepone/wiz
+	)
+
+	for(var/deep_one_path in deep_ones)
+		var/turf/spawn_turf = pick(landing_spots)
+		var/mob/living/D = new deep_one_path(spawn_turf)
+		D.setDir(pick(NORTH, SOUTH, EAST, WEST))
+		D.visible_message(span_purple("A roaring wave crashes down, depositing [D] onto the sand!"))
+
+	cancel_scry()
