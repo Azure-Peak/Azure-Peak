@@ -129,7 +129,7 @@
 		if(!.) //False/null if using the item as fuel. If true, we want to try smelt it so go onto next segment.
 			return
 
-	if(attacking_item.smeltresult)
+	if(length(attacking_item.get_smelt_products()))
 		add_item(attacking_item, user) // Adds the item to the smelter's contained_items list, if it can be smelted.
 		return
 
@@ -147,7 +147,7 @@
 
 	if(istype(held, /obj/item))
 		var/obj/item/I = held
-		if(I.smeltresult)
+		if(length(I.get_smelt_products()))
 			add_item(I, user)
 			return
 
@@ -231,16 +231,13 @@
 
 /obj/machinery/light/rogue/smelter/proc/handle_smelting()
 	for(var/obj/item/item as anything in contained_items)
-		if(item.smeltresult)
-			// disabled for now, balance reasons
-			// while(item.smelt_bar_num)
-			// 	item.smelt_bar_num--
-			// 	var/obj/item/result = new item.smeltresult(src, contained_items[item])
-			// 	contained_items += result
-			// contained_items -= item
-			var/obj/item/result = new item.smeltresult(src, contained_items[item])
+		var/list/products = item.get_smelt_products()
+		if(length(products))
+			var/quality = contained_items[item]
 			contained_items -= item
-			contained_items += result
+			for(var/product_path in products)
+				var/obj/item/result = new product_path(src, quality)
+				contained_items += result
 			qdel(item)
 	playsound(src,'sound/misc/smelter_fin.ogg', 100, FALSE)
 	visible_message(span_notice("\The [src] finished smelting."))
@@ -323,10 +320,13 @@
 			contained_items += result
 	else
 		for(var/obj/item/item in contained_items)
-			if(item.smeltresult)
-				var/obj/item/result = new item.smeltresult(src, contained_items[item])
+			var/list/products = item.get_smelt_products()
+			if(length(products))
+				var/quality = contained_items[item]
 				contained_items -= item
-				contained_items += result
+				for(var/product_path in products)
+					var/obj/item/result = new product_path(src, quality)
+					contained_items += result
 				qdel(item)
 
 	playsound(src,'sound/misc/smelter_fin.ogg', 100, FALSE)
@@ -376,10 +376,13 @@
 			contained_items += result
 	else
 		for(var/obj/item/item in contained_items)
-			if(item.smeltresult)
-				var/obj/item/result = new item.smeltresult(src, contained_items[item])
+			var/list/products = item.get_smelt_products()
+			if(length(products))
+				var/quality = contained_items[item]
 				contained_items -= item
-				contained_items += result
+				for(var/product_path in products)
+					var/obj/item/result = new product_path(src, quality)
+					contained_items += result
 				qdel(item)
 
 	playsound(src,'sound/misc/smelter_fin.ogg', 100, FALSE)

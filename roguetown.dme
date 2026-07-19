@@ -2812,6 +2812,7 @@
 #include "code\modules\roguetown\roguejobs\blacksmith\forgeables.dm"
 #include "code\modules\roguetown\roguejobs\blacksmith\grindwheel.dm"
 #include "code\modules\roguetown\roguejobs\blacksmith\items.dm"
+#include "code\modules\roguetown\roguejobs\blacksmith\recipe_lookup.dm"
 #include "code\modules\roguetown\roguejobs\blacksmith\smelter.dm"
 #include "code\modules\roguetown\roguejobs\blacksmith\tools.dm"
 #include "code\modules\roguetown\roguejobs\blacksmith\anvil_recipes\_anvil_recipe.dm"
