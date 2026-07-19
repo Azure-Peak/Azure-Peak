@@ -299,7 +299,7 @@
 	name = "Umbral Replenishment"
 	desc = "Channel your devotion into a depleted pylon, restoring its current infusion reservoirs up to half capacity. Can only be performed once per unique infusion cycle."
 	button_icon = 'icons/mob/actions/abyssormiracles.dmi'
-	button_icon_state = "pylon_recharge" // Ensure you have a matching dmi state or substitute
+	button_icon_state = ""
 	sound = 'sound/magic/abyssor_splash.ogg'
 	spell_color = "#330066"
 
