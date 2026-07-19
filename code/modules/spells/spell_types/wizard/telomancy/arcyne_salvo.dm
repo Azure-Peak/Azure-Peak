@@ -23,8 +23,9 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 12 SECONDS
 	attunement_school = ASPECT_NAME_TELOMANCY
@@ -60,8 +61,9 @@
 	speed = MAGE_PROJ_FAST
 	accuracy = 60
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	npc_simple_damage_mult = 1.5
-	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	intdamfactor = 1
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 	ricochets_max = 2
 	ricochet_chance = 100

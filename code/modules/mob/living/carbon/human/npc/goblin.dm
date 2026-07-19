@@ -467,6 +467,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	H.STASTR = 6
 	H.STAPER = 11
+	H.STACON -= 1
+	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 
@@ -479,6 +481,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 	neck = /obj/item/quiver/sling/stone
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+	H.STACON -= 1
+	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 

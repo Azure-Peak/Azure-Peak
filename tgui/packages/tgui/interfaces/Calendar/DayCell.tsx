@@ -1,13 +1,8 @@
 import type { CSSProperties } from 'react';
 
-import {
-  FONT_BODY,
-  INK,
-  INK_FAINT,
-  INK_SOFT,
-} from '../common/parchment';
-import { AMBER_TINT, AMBER_TINT_STRONG } from './parchment_calendar';
+import { FONT_BODY, INK, INK_FAINT, INK_SOFT } from '../common/parchment';
 import { EventBar } from './EventBar';
+import { AMBER_TINT, AMBER_TINT_STRONG } from './parchment_calendar';
 import type { CalendarEvent } from './shared';
 
 type SlottedEvent = { event: CalendarEvent; slot: number };
@@ -61,7 +56,8 @@ const overflowStyle: CSSProperties = {
 };
 
 export const DayCell = (props: DayCellProps) => {
-  const { day, isToday, isSelected, events, visible, overflow, onClick } = props;
+  const { day, isToday, isSelected, events, visible, overflow, onClick } =
+    props;
   return (
     <div
       style={cellStyle(isSelected, isToday)}

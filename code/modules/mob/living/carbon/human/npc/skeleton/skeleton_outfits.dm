@@ -424,8 +424,8 @@
 	..()
 	H.STASTR = 8
 	H.STASPD = 10
-	H.STACON = 5
-	H.STAWIL = 8
+	H.STACON = 4
+	H.STAWIL = 7
 	H.STAPER = 13
 	H.STAINT = 1
 	name = "Skeleton Archer"

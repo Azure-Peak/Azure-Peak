@@ -7,9 +7,7 @@ import {
 } from '../common/parchment';
 import type { SequestrationState } from './types';
 
-export const ArrearsBanner = (props: {
-  sequestration: SequestrationState;
-}) => {
+export const ArrearsBanner = (props: { sequestration: SequestrationState }) => {
   const { sequestration } = props;
   if (!sequestration?.in_arrears) {
     return null;

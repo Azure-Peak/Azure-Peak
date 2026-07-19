@@ -643,6 +643,20 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 
+/turf/open/water/ocean/deep/dark
+	water_color = "#000211"
+
+/turf/open/water/ocean/abyssal
+	name = "darkwater"
+	desc = "Water from another realm, it's impossibly deep, like everything below the surface isn't fully within this plane."
+	icon_state = "water"
+	icon = 'icons/turf/roguefloor.dmi'
+	water_level = 3
+	water_color = "#000211"
+	slowdown = 8
+	swim_skill = TRUE
+	wash_in = FALSE
+
 /turf/open/water/pond
 	name = "pond"
 	desc = "Still and alarmingly idyllic water. Covered in concerning overgrowth of duckweed."

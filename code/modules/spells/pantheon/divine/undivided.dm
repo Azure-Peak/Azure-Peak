@@ -349,7 +349,7 @@
 	var/list/miracle_templar_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name 		= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
 		/datum/action/cooldown/spell/ravox/withstand::name 					= /datum/action/cooldown/spell/ravox/withstand,
-		/datum/action/cooldown/spell/malum/heatmetal::name 					= /datum/action/cooldown/spell/malum/heatmetal,
+		/datum/action/cooldown/spell/mending/malum::name 					= /datum/action/cooldown/spell/mending/malum,
 		/datum/action/cooldown/spell/noc/enlightenment::name 				= /datum/action/cooldown/spell/noc/enlightenment,
 		/obj/effect/proc_holder/spell/invoked/vendetta::name 				= /obj/effect/proc_holder/spell/invoked/vendetta,
 	)

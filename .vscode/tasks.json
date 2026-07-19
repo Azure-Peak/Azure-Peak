@@ -2,6 +2,40 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"command": "${command:dreammaker.reparse}",
+			"group": "build",
+			"label": "dm: reparse"
+		},
+		{
+			"type": "shell",
+			"command": "bin/tgui-dev",
+			"windows": {
+				"command": ".\\bin\\tgui-dev.cmd"
+			},
+			"problemMatcher": ["$tsc", "$eslint-stylish"],
+			"group": "build",
+			"label": "tgui: dev server"
+		},
+		{
+			"type": "process",
+			"command": "tools/build/build",
+			"args": ["lint"],
+			"windows": {
+				"command": ".\\tools\\build\\build.bat",
+				"args": ["lint"]
+			},
+			"problemMatcher": [
+				{
+					"base": "$tsc",
+					"fileLocation": ["relative", "${workspaceFolder}/tgui"]
+				}
+			],
+			"group": {
+				"kind": "build"
+			},
+			"label": "Lint All"
+		},
+		{
 			"type": "process",
 			"command": "tools/build/build.sh",
 			"windows": {
@@ -63,48 +97,6 @@
 			"label": "Build All (Local Testing - No Dungeon)"
 		},
 		{
-			"type": "dreammaker",
-			"dme": "roguetown.dme",
-			"problemMatcher": ["$dreammaker"],
-			"group": "build",
-			"label": "dm: build - roguetown.dme"
-		},
-		{
-			"command": "${command:dreammaker.reparse}",
-			"group": "build",
-			"label": "dm: reparse"
-		},
-		{
-			"type": "shell",
-			"command": "bin/tgui-build",
-			"windows": {
-				"command": ".\\bin\\tgui-build.cmd"
-			},
-			"problemMatcher": ["$tsc", "$eslint-stylish"],
-			"group": "build",
-			"label": "tgui: build"
-		},
-		{
-			"type": "shell",
-			"command": "bin/tgui-dev",
-			"windows": {
-				"command": ".\\bin\\tgui-dev.cmd"
-			},
-			"problemMatcher": ["$tsc", "$eslint-stylish"],
-			"group": "build",
-			"label": "tgui: dev server"
-		},
-		{
-			"type": "shell",
-			"command": "bin/tgfont",
-			"windows": {
-				"command": ".\\bin\\tgfont.cmd"
-			},
-			"problemMatcher": ["$tsc", "$eslint-stylish"],
-			"group": "build",
-			"label": "tgui: rebuild tgfont"
-		},
-		{
 			"type": "process",
 			"command": "tools/build/build.sh",
 			"args": ["-DLOWMEMORYMODE"],
@@ -125,28 +117,24 @@
 			"label": "Build All (low memory mode)"
 		},
 		{
-            "type": "process",
-            "command": "tools/build/build",
-            "args": ["-DUNIT_TESTS", "-DLOCALTEST", "-DNO_DUNGEON"],
-            "windows": {
-                "command": ".\\tools\\build\\build.bat",
-                "args": ["-DUNIT_TESTS", "-DLOCALTEST", "-DNO_DUNGEON"]
-            },
-            "options": {
-                "env": {
-                    "DM_EXE": "${config:dreammaker.byondPath}"
-                }
-            },
-            "problemMatcher": [
-                "$dreammaker",
-                "$tsc",
-                "$eslint-stylish"
-            ],
-            "group": {
-                "kind": "build"
-            },
-            "dependsOn": "dm: reparse",
-            "label": "Build All (unit tests)"
-        },
+			"type": "process",
+			"command": "tools/build/build",
+			"args": ["-DUNIT_TESTS", "-DLOCALTEST", "-DNO_DUNGEON"],
+			"windows": {
+				"command": ".\\tools\\build\\build.bat",
+				"args": ["-DUNIT_TESTS", "-DLOCALTEST", "-DNO_DUNGEON"]
+			},
+			"options": {
+				"env": {
+					"DM_EXE": "${config:dreammaker.byondPath}"
+				}
+			},
+			"problemMatcher": ["$dreammaker", "$tsc", "$eslint-stylish"],
+			"group": {
+				"kind": "build"
+			},
+			"dependsOn": "dm: reparse",
+			"label": "Build All (unit tests)"
+		}
 	]
 }

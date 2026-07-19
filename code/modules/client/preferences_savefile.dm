@@ -453,112 +453,47 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["virtue"] >> virtue_type
 	S["virtuetwo"] >> virtuetwo_type
 	S["virtue_origin"] >> origin_type
-	var/error_check = FALSE
-	var/error_found = FALSE
+	var/list/virtue_choices = list()
+	var/list/virtuetwo_choices = list()
+	var/virtone
+	var/virttwo
+	S["virtuechoices"] >> virtone
+	S["virtuetwochoices"] >> virttwo
+	virtue_choices = virtone
+	virtuetwo_choices = virttwo
+
+	// If we still find a living ref, we clean it up. This is deprecated and we shouldn't be saving whole datums.
 	if (istype(virtue_type, /datum/virtue))
-		virtue = virtue_type
-		error_check = TRUE
+		var/datum/virtue/V = virtue_type
+		virtue = new V.type
+		if(length(V.picked_choices))
+			virtue.picked_choices = V.picked_choices
+		qdel(V)
 	else if(ispath(virtue_type, /datum/virtue))
 		virtue = new virtue_type
 	else
 		virtue = new /datum/virtue/none
 
-	if(error_check)
-		//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
-		var/datum/virtue/sane_virtue = new virtue.type
-		if(virtue.name != sane_virtue.name)	//We should keep the names & descs updated across saves, too
-			virtue.name = sane_virtue.name
-
-		if(virtue.desc != sane_virtue.desc)	//Not errors warranting a full reset, in theory, anyway.
-			virtue.desc = sane_virtue.desc
-
-		if(length(virtue.picked_choices) > sane_virtue.max_choices)
-			error_found = TRUE
-		
-		if(sane_virtue.max_choices != virtue.max_choices)
-			error_found = TRUE
-		
-		if(length(virtue.extra_choices) != length(sane_virtue.extra_choices))
-			error_found = TRUE
-		
-		if(!error_found)
-			for(var/choice in virtue.extra_choices)
-				if(!(choice in sane_virtue.extra_choices))
-					error_found = TRUE
-					break
-
-			var/total_ours = 0
-			var/total_sane = 0
-
-			for(var/cost in virtue.choice_costs)
-				total_ours += cost
-			for(var/cost in sane_virtue.choice_costs)
-				total_sane += cost
-
-			if(total_ours != total_sane)
-				error_found = TRUE
-
-		if(error_found)
-			qdel(virtue)
-			virtue = sane_virtue
-		else
-			qdel(sane_virtue)
-			virtue.on_load()
-
-	error_check = FALSE
+	// Ditto, but for the second virtue.
 	if(istype(virtuetwo_type, /datum/virtue))
-		virtuetwo = virtuetwo_type
-		error_check = TRUE
+		var/datum/virtue/V = virtuetwo_type
+		virtuetwo = new V.type
+		if(length(V.picked_choices))
+			virtuetwo.picked_choices = V.picked_choices
+		qdel(V)
 	else if(ispath(virtuetwo_type, /datum/virtue))
 		virtuetwo = new virtuetwo_type
 	else
 		virtuetwo = new /datum/virtue/none
 
+	if(length(virtue_choices))
+		virtue.picked_choices = virtue_choices.Copy()
+	
+	if(length(virtuetwo_choices))
+		virtuetwo.picked_choices = virtuetwo_choices.Copy()
 
-	if(error_check)
-		//Future-proofing sanity checks in case virtues get adjusted later. We do a full reset if we find any discrepancies.
-		var/datum/virtue/sane_virtuetwo = new virtuetwo.type
-		error_found = FALSE
-
-		if(virtuetwo.name != sane_virtuetwo.name)	//We should keep the names & descs updated across saves, too
-			virtue.name = sane_virtuetwo.name
-
-		if(virtuetwo.desc != sane_virtuetwo.desc)	//Not errors warranting a full reset, in theory, anyway.
-			virtuetwo.desc = sane_virtuetwo.desc
-
-
-		if(length(virtuetwo.picked_choices) > sane_virtuetwo.max_choices)
-			error_found = TRUE
-		
-		if(sane_virtuetwo.max_choices != virtuetwo.max_choices)
-			error_found = TRUE
-		
-		if(length(virtuetwo.extra_choices) != length(sane_virtuetwo.extra_choices))
-			error_found = TRUE
-		
-		if(!error_found)
-			for(var/choice in virtuetwo.extra_choices)
-				if(!(choice in sane_virtuetwo.extra_choices))
-					error_found = TRUE
-					break
-
-			var/total_ours = 0
-			var/total_sane = 0
-
-			for(var/cost in virtuetwo.choice_costs)
-				total_ours += cost
-			for(var/cost in sane_virtuetwo.choice_costs)
-				total_sane += cost
-				
-			if(total_ours != total_sane)
-				error_found = TRUE
-
-		if(error_found)
-			virtuetwo = sane_virtuetwo
-			qdel(virtue)
-		else
-			qdel(sane_virtuetwo)
-			virtuetwo.on_load()
+	virtue.on_load()
+	virtuetwo.on_load()
 
 	if(origin_type)
 		virtue_origin = new origin_type
@@ -1015,8 +950,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["titles_pref"] , titles_pref)
 	WRITE_FILE(S["clothes_pref"] , clothes_pref)
 	WRITE_FILE(S["statpack"] , statpack.type)
-	WRITE_FILE(S["virtue"] , virtue)
-	WRITE_FILE(S["virtuetwo"], virtuetwo)
+	WRITE_FILE(S["virtue"] , virtue.type)
+	WRITE_FILE(S["virtuechoices"] , virtue.picked_choices)
+	WRITE_FILE(S["virtuetwo"], virtuetwo.type)
+	WRITE_FILE(S["virtuetwochoices"] , virtuetwo.picked_choices)
 	WRITE_FILE(S["virtue_origin"], virtue_origin.type)
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)

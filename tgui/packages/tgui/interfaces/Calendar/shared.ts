@@ -58,7 +58,7 @@ export const assignBarSlots = (events: CalendarEvent[]): BarSlotMap => {
       let collides = false;
       for (let d = e.day; d < e.day + e.duration_days; d++) {
         const used = occupancy.get(d);
-        if (used && used.has(slot)) {
+        if (used?.has(slot)) {
           collides = true;
           break;
         }

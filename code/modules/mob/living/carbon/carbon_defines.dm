@@ -94,7 +94,6 @@
 	var/next_smell = 0
 
 	var/lightning_flashing = FALSE
-	var/burn_warning_shown = FALSE
 	var/nausea = 0
 	var/bleeding_tier = 0
 

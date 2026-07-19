@@ -6,6 +6,8 @@
 	r_hand = null
 	H.STASTR -= 2
 	H.STAPER += 3
+	H.STACON -= 1
+	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 
@@ -193,7 +195,6 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_NOBURN_RESIST, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, INNATE_TRAIT)
 	ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 

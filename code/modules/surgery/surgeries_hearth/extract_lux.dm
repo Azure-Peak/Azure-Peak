@@ -31,6 +31,8 @@
 	if(istiefling(target))
 		to_chat(user, span_warning("Their Lux is infernal. It will not do."))
 		return FALSE
+	if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE))
+		to_chat(user, span_warning("There's violet-ochre flames flickering inside of the cracks in their ribs, there is no Lux to extract, a <b>Vheslynite abomination.</b>"))
 
 /datum/surgery_step/extract_lux/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	display_results(user, target, span_notice("I begin to scrape lux from [target]'s heart..."),

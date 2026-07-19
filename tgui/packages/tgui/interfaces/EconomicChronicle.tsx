@@ -20,26 +20,31 @@ export const EconomicChronicle = () => {
     <Window title="Realm Economics" width={920} height={660} theme="parchment">
       <Window.Content scrollable>
         <div style={{ zoom: 1.15 }}>
-        <div style={compactPageStyle}>
-          <div style={{ ...titleStyle, fontSize: '18px', margin: '0 0 2px 0' }}>
-            Realm Economics
+          <div style={compactPageStyle}>
+            <div
+              style={{ ...titleStyle, fontSize: '18px', margin: '0 0 2px 0' }}
+            >
+              Realm Economics
+            </div>
+            <div
+              style={{
+                ...subtitleStyle,
+                fontSize: FONT_BODY,
+                marginBottom: '6px',
+              }}
+            >
+              A chronicle of mammons, ships, and crowns.
+            </div>
+            <hr style={{ ...rulerStyle, margin: '4px 0 8px 0' }} />
+            <TreasurySection
+              t={data.treasury}
+              balance={data.treasury_balance}
+            />
+            <EconomySection e={data.economy} />
+            <ShipsSection s={data.ships} />
+            <BucketsSection b={data.buckets} />
+            <ContractsSection c={data.contracts} rf={data.royal_favors} />
           </div>
-          <div
-            style={{
-              ...subtitleStyle,
-              fontSize: FONT_BODY,
-              marginBottom: '6px',
-            }}
-          >
-            A chronicle of mammons, ships, and crowns.
-          </div>
-          <hr style={{ ...rulerStyle, margin: '4px 0 8px 0' }} />
-          <TreasurySection t={data.treasury} balance={data.treasury_balance} />
-          <EconomySection e={data.economy} />
-          <ShipsSection s={data.ships} />
-          <BucketsSection b={data.buckets} />
-          <ContractsSection c={data.contracts} rf={data.royal_favors} />
-        </div>
         </div>
       </Window.Content>
     </Window>

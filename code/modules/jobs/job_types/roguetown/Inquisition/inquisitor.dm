@@ -356,7 +356,10 @@
 					continue
 				confessions += antag.confess_lines
 	if(length(confessions))
-		say(pick(confessions), spans = list("torture"))
+		if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE))
+			say(pick(confessions), spans = list("bloody"))//Vheslynites aren't people.
+		else
+			say(pick(confessions), spans = list("torture"))
 		return
 	say(pick(innocent_lines), spans = list("torture"))
 

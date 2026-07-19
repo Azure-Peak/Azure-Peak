@@ -60,8 +60,17 @@ There are several things that need to be remembered:
 //HAIR OVERLAY
 /mob/living/carbon/human/update_hair()
 	rebuild_obscured_flags()
-	update_body_parts(TRUE)
+	update_body_parts()
 	return
+
+/mob/living/carbon/human/proc/update_female_chest()
+	update_body_parts()
+
+/mob/living/carbon/human/proc/update_shirt_body()
+	update_body_parts()
+
+/mob/living/carbon/human/proc/update_mask_body()
+	update_body_parts(TRUE)
 
 /mob/living/carbon/human/update_body()
 	dna.species.handle_body(src)
@@ -957,7 +966,7 @@ There are several things that need to be remembered:
 
 /mob/living/carbon/human/update_inv_wear_mask()
 	..()
-	update_body_parts(TRUE)
+	update_mask_body()
 	var/mutable_appearance/mask_overlay = overlays_standing[MASK_LAYER]
 	if(mask_overlay)
 		rebuild_obscured_flags()
@@ -1230,7 +1239,7 @@ There are several things that need to be remembered:
 /mob/living/carbon/human/update_inv_shirt()
 	remove_overlay(SHIRT_LAYER)
 	remove_overlay(SHIRTSLEEVE_LAYER)
-	update_body_parts(TRUE)
+	update_shirt_body()
 
 	var/obj/item/bodypart/taur/taur = get_taur_tail()
 	var/icon/c_mask = taur?.clip_mask
@@ -1285,7 +1294,7 @@ There are several things that need to be remembered:
 
 	rebuild_obscured_flags()
 	if(gender == FEMALE && dna?.species)
-		update_body_parts(redraw = TRUE)
+		update_female_chest()
 		dna.species.handle_body(src)
 	update_hair()
 
@@ -1358,7 +1367,7 @@ There are several things that need to be remembered:
 
 	rebuild_obscured_flags()
 	if(gender == FEMALE && dna?.species)
-		update_body_parts(redraw = TRUE)
+		update_female_chest()
 		dna.species.handle_body(src)
 	update_hair()
 	update_inv_shirt() // fix boob
@@ -1903,7 +1912,6 @@ generate/load female uniform sprites matching all previously decided variables
 		. += "not_coloured"
 
 	. += gender
-	. += age
 
 	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		. += BP.body_zone
@@ -1917,9 +1925,16 @@ generate/load female uniform sprites matching all previously decided variables
 			. += "rotted"
 		if(BP.skeletonized)
 			. += "skeletonized"
-		if(BP.dmg_overlay_type)
-			. += BP.dmg_overlay_type
+		for(var/datum/bodypart_feature/feature as anything in BP.bodypart_features)
+			. += feature.get_cache_key()
+		for(var/marking_name in BP.markings)
+			. += "mark[marking_name]-[BP.markings[marking_name]]"
+		for(var/marking_name in BP.aux_markings)
+			. += "auxmark[marking_name]-[BP.aux_markings[marking_name]]"
 
+	for(var/obj/item/organ/organ as anything in visible_organs)
+		. += organ.get_cache_key()
+	. += "[obscured_flags]"
 	if(HAS_TRAIT(src, TRAIT_HUSK))
 		. += "husk"
 	return jointext(., "-")

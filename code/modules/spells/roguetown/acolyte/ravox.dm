@@ -182,9 +182,9 @@
 	. = ..()
 
 
-/////////////////////////////////////////////////////
-// T1 - Divine Strike - Slow down an enemy on hit. //
-/////////////////////////////////////////////////////
+/////////////////////////////////
+// T1 - Ravox Miracle Selector //
+/////////////////////////////////
 
 /datum/action/cooldown/spell/ravox/strikeoraegis
 	name = "Tools of Justice"
@@ -461,6 +461,7 @@
 	charge_required = FALSE
 	cooldown_time = 1 MINUTES
 
+	check_flags = AB_CHECK_CONSCIOUS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/ravox/withstand/cast(atom/cast_on)
@@ -798,6 +799,9 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 			continue
 		if(istype(target.patron, /datum/patron/old_god))
 			to_chat(target, span_danger("You feel a hot-wave wash over you, leaving as quickly as it came.."))	//No effect on Psydonians!
+			continue
+		if(istype(target.patron, /datum/patron/vheslyn))
+			to_chat(target, span_danger("You feel... nothing..")) //No effect on Vheslynites, fear them.
 			continue
 		if(!owner.faction_check_mob(target))
 			continue

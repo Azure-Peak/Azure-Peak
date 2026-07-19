@@ -418,3 +418,4 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/lesser_knock)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/waterbolt)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/blink)

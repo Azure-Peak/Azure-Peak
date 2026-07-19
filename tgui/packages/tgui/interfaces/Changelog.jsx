@@ -101,9 +101,9 @@ export class Changelog extends Component {
     } = useBackend();
 
     if (dates) {
-      dates.forEach((date) =>
-        this.dateChoices.push(dateformat(date, 'mmmm yyyy', true)),
-      );
+      dates.forEach((date) => {
+        this.dateChoices.push(dateformat(date, 'mmmm yyyy', true));
+      });
       this.setSelectedDate(this.dateChoices[0]);
       this.getData(dates[0]);
     }
@@ -196,10 +196,7 @@ export class Changelog extends Component {
           {'Current organization members can be found '}
           <a href="https://github.com/orgs/Azure-Peak/people">here</a>
           {', recent GitHub contributors can be found '}
-          <a href="https://github.com/Azure-Peak/Azure-Peak/pulse">
-            here
-          </a>
-          .
+          <a href="https://github.com/Azure-Peak/Azure-Peak/pulse">here</a>.
         </p>
         <p>
           {'You can also join our discord '}
@@ -289,7 +286,8 @@ export class Changelog extends Component {
         <p>
           {'Roguetown / Azure Peak was originally forked from '}
           <a href="https://github.com/tgstation/tgstation/commit/c28b351807bad950d2b323ada048190844bbda32">
-            TG station commit c28b351807bad950d2b323ada048190844bbda32 on 2019/17/11
+            TG station commit c28b351807bad950d2b323ada048190844bbda32 on
+            2019/17/11
           </a>
         </p>
         <p>

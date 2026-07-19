@@ -438,34 +438,29 @@
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Creation", src) as null|anything in forgerites
-	switch(riteselection) // put ur rite selection here
+	switch(riteselection)
 		if("Bestow Blessing")
-			var/mob/living/target = null
-			var/turf/T = get_turf(src)
-			for(var/mob/living/person in T.contents)
-				if(!ishuman(person))
-					continue
-				if(user != person)
-					continue
-				target = person
-			if(!target)
-				to_chat(user, span_warning("I need to be standing on the rune for this to work."))
-				return
 			if(!do_after(user, 5 SECONDS))
 				return
+			user.say("Aid my craft, oh Forgefather!!")
 			if(!do_after(user, 5 SECONDS))
 				return
+			user.say("Guide my hand unto creation!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			if(!do_after(user, 3 SECONDS))
-				return
-			loc.visible_message(span_warning("[user] becomes engulfed in divine glow!"))
-			playsound(loc, 'sound/magic/magearmorup.ogg', 100, FALSE, -1)
-			malumblessing(target) // starts proc
+			user.say("Let it be molded within your name!!")
+			icon_state = "malum_active"
+			malumblessing(src)
+			playsound(user, 'sound/magic/magearmorup.ogg', 60, FALSE, -1)
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			spawn(120)
+				icon_state = "malum_chalky"
 
-/obj/structure/ritualcircle/malum/proc/malumblessing(mob/living/carbon/human/target)
-	target.apply_status_effect(/datum/status_effect/buff/malumritual)
+/obj/structure/ritualcircle/malum/proc/malumblessing(src)
+	var/ritualtargets = view(4, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		target.apply_status_effect(/datum/status_effect/buff/malumritual)
+		to_chat(target,span_cultsmall("Malum's persistance guides me forward!"))
 
 /obj/structure/ritualcircle/abyssor
 	name = "Rune of Storms"
@@ -785,7 +780,7 @@
 	var/max_fiends = 3
 	// Holds all the turf data so it can be unconverted.
 	var/list/turf_data = list()
-	var/expansion_timer = 3 MINUTES
+	var/expansion_timer = 2 MINUTES
 	var/next_expansion_time = 0
 	var/spawn_timer = 45 SECONDS
 	var/next_fiend_time = 0
@@ -808,7 +803,7 @@
 	icon_state = "crystal_spire_tidal"
 	max_integrity = 300
 	max_fiends = 0
-	turf_to_use = /turf/open/water/ocean/deep
+	turf_to_use = /turf/open/water/ocean/abyssal
 
 /obj/structure/crystal_spire/Initialize()
 	. = ..()
@@ -843,6 +838,42 @@
 			awakened = TRUE
 		expand_radius()
 		next_expansion_time = world.time + expansion_timer
+
+/obj/structure/crystal_spire/tidal/convert_surroundings()
+	start_conversion()
+	var/turf/center = get_turf(src)
+	var/radius_sq = current_radius * current_radius
+
+	for(var/turf/T in spiral_range_turfs(current_radius, center))
+		// Skip if already converted
+		if(istype(T, turf_to_use) || istype(T, /turf/open/water/ocean/deep/dark))
+			continue
+		if(T.density)
+			continue
+		if(istransparentturf(T))
+			continue
+
+		var/dx = abs(T.x - center.x)
+		var/dy = abs(T.y - center.y)
+		var/dist_sq = dx*dx + dy*dy
+
+		if(dist_sq <= radius_sq)
+			turf_data[T] = T.type
+
+			// Inner rings become abyssal ocean
+			if(current_radius <= 3)
+				T.ChangeTurf(turf_to_use, flags = CHANGETURF_IGNORE_AIR)
+			// Outer ring becomes deep ocean
+			else
+				T.ChangeTurf(/turf/open/water/ocean/deep/dark, flags = CHANGETURF_IGNORE_AIR)
+
+			playsound(T, 'sound/magic/fleshtostone.ogg', 30, TRUE)
+			sleep(5)
+
+	// Stop processing if fully expanded
+	if(current_radius >= max_radius)
+		STOP_PROCESSING(SSobj, src)
+	end_conversion()
 
 /obj/structure/crystal_spire/Destroy()
 	for(var/turf/T in turf_data)
@@ -913,41 +944,8 @@
 
 	end_conversion()
 
-/obj/structure/crystal_spire/tidal/convert_surroundings()
-	start_conversion()
-	var/turf/center = get_turf(src)
-	var/radius_sq = current_radius * current_radius
-
-	for(var/turf/T in spiral_range_turfs(current_radius, center))
-		// Skip if already converted
-		// Additionally, we don't want this to be a reliable breaching tool, so ignore dense stuff and open spaces!
-		if(istype(T, turf_to_use))
-			continue
-		if(T.density)
-			continue
-		if(istransparentturf(T))
-			continue
-
-		// Calculate distance from center
-		var/dx = abs(T.x - center.x)
-		var/dy = abs(T.y - center.y)
-		var/dist_sq = dx*dx + dy*dy
-
-		// Convert all tiles within circular radius. More circular than normal spires.
-		if(dist_sq <= radius_sq)
-			turf_data[T] = T.type
-			T.ChangeTurf(turf_to_use, flags = CHANGETURF_IGNORE_AIR)
-			playsound(T, 'sound/magic/fleshtostone.ogg', 30, TRUE)
-			//Faster since it's less harmful.
-			sleep(5)
-
-	// Stop processing if fully expanded
-	if(current_radius >= max_radius)
-		STOP_PROCESSING(SSobj, src)
-	end_conversion()
-
 /obj/structure/crystal_spire/proc/expand_radius()
-	if(current_radius >= max_radius)
+	if(converting || current_radius >= max_radius)
 		return
 
 	current_radius++
@@ -1539,6 +1537,8 @@
 
 	H.mind.RemoveSpell(/datum/action/cooldown/spell/mending) // brute forcing this one, hope this works ryon!
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
+	if(!H.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && H.devotion.max_devotion == CLERIC_REQ_4)	// Devotion check to make sure we give it to the HWretch not some Guy
+		H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
 /datum/outfit/job/roguetown/darksteelrite/medium/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
@@ -1736,6 +1736,8 @@
 	backr = /obj/item/rogueweapon/flail/peasantwarflail/matthios
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
+	if(!H.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && H.devotion.max_devotion == CLERIC_REQ_4)	// Devotion check to make sure we give it to the HWretch not some Guy
+		H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
 /obj/structure/ritualcircle/graggar
 	name = "Rune of Violence"
@@ -1875,6 +1877,9 @@
 		target.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
 			to_chat(target, span_cult("Break them."))
+
+	if(!target.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && target.devotion.max_devotion == CLERIC_REQ_4)	// Devotion check to make sure we give it to the HWretch not some Guy
+		target.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
 /// Performs the war ritual, which requires a noble, clergy, or inquisition member in the center of the circle. TRUE on success, FALSE on failure.
 /obj/structure/ritualcircle/graggar/proc/perform_warritual()
@@ -2078,6 +2083,8 @@
 	backr = /obj/item/rogueweapon/spear/partizan/baotha
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
+	if(!H.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && H.devotion.max_devotion == CLERIC_REQ_4)	// Devotion check to make sure we give it to the HWretch not some Guy
+		H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
 /obj/effect/decal/cleanable/roguerune/god/psydon
 	name = "Rune of Perseverance"

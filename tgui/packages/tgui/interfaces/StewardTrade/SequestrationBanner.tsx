@@ -1,8 +1,4 @@
-import {
-  bannerStyle,
-  FONT_BODY,
-  SEAL_RED,
-} from '../common/parchment';
+import { bannerStyle, FONT_BODY, SEAL_RED } from '../common/parchment';
 import type { SequestrationState } from './types';
 
 export const SequestrationBanner = (props: {

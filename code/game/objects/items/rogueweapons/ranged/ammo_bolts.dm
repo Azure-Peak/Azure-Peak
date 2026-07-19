@@ -101,10 +101,13 @@
 	min_range = MIN_BOLT_RANGE
 	max_range = MAX_BOLT_RANGE
 	dam_falloff_factor = DAM_FALLOFF_BOLT
+	var/trains_ranged_skill = TRUE
 
 
 /obj/projectile/bullet/reusable/bolt/on_hit(atom/target)
 	. = ..()
+	if(!trains_ranged_skill)
+		return
 	var/mob/living/L = firer
 	if(!L || !L.mind)
 		return
@@ -229,9 +232,6 @@
 	if(isturf(target))
 		explosion(T, heavy_impact_range = 0, light_impact_range = 0, flame_range = 0, smoke = FALSE, soundin = pick('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg'))
 		loud_message("A loud crash echoes", hearing_distance = 14)
-		if(istype(T, /turf/closed/mineral/rogue/bedrock))
-			return
-		T.turf_integrity -= 1100
 		return
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt
@@ -459,21 +459,25 @@
 	name = "pyroclastic bolt"
 	desc = "A flint-tipped bolt, housed in a thin alloy and smeared with a flammable tincture. The lightest impact tends to violently crumple its alloyed blanket \
 	against the flint, spawning a flurry of sparks that turns its jellified accompaniment into a firestorm."
-	damage = 20
+	damage = 50
 	icon_state = "boltpyro_proj"
 	hitsound = 'sound/blank.ogg'
 	embedchance = 0
-	woundclass = BCLASS_BLUNT
-	npc_simple_damage_mult = 4 //..or 100 damage against a mindless mob. Fairly mild, but also comes with the benefit of inducing heavy firestacks on impact.
+	woundclass = BCLASS_BURN
+	damage_type = BURN
+	flag = "fire"
+	npc_simple_damage_mult = 2
 
 /obj/projectile/bullet/bolt/pyro/on_hit(target)
 	..()
+	var/turf/epicenter = get_turf(target)
+	if(epicenter)
+		new /obj/effect/temp_visual/explosion(epicenter)
+		playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 4)
 	if(!ismob(target))
 		return
 	var/mob/living/M = target
-	M.adjust_fire_stacks(6)
-	M.adjustFireLoss(15)
-	M.ignite_mob()
+	apply_scorch_stack(M, 4, def_zone)
 
 /obj/item/ammo_casing/caseless/rogue/bolt/water
 	name = "water bolt"

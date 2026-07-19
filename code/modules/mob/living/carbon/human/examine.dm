@@ -875,11 +875,12 @@
 		else if(GLOB.lord_titles[name])
 			. += span_notice("[m3] been granted the title of \"[GLOB.lord_titles[name]]\".")
 
-		if(HAS_TRAIT(src, TRAIT_NOBLE) || HAS_TRAIT(src, TRAIT_DEFILED_NOBLE))
-			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_DEFILED_NOBLE))
-				. += span_notice("A fellow noble.")
-			else
-				. += span_notice("A noble!")
+		if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
+			if(HAS_TRAIT(src, TRAIT_NOBLE) || HAS_TRAIT(src, TRAIT_DEFILED_NOBLE))
+				if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_DEFILED_NOBLE))
+					. += span_notice("A fellow noble.")
+				else
+					. += span_notice("A noble!")
 
 		if(HAS_TRAIT(src, TRAIT_RESIDENT))
 			. += span_notice("A chartered resident of Azuria.")
@@ -1008,7 +1009,7 @@
 
 			if(has_flaw(/datum/charflaw/addiction/thrillseeker) && user.has_flaw(/datum/charflaw/addiction/thrillseeker))
 				. += span_rose("[m1] twitching for a thrilling fight. So am I.")
-			
+
 			if(user.has_flaw(/datum/charflaw/averse))
 				var/datum/charflaw/averse/averseflaw = user.get_flaw(/datum/charflaw/averse)
 				if(averseflaw?.check_aversion(user, src))
@@ -1049,7 +1050,7 @@
 			if(we_got_spooked)
 				user.add_stress(/datum/stressevent/uncanny)
 			else
-				user.add_stress(/datum/stressevent/beautiful)		
+				user.add_stress(/datum/stressevent/beautiful)
 
 		if (HAS_TRAIT(src, TRAIT_BEAUTIFUL) || HAS_TRAIT(src, TRAIT_BEAUTIFUL_UNCANNY) || (issunelf(src) && issunelf(user)))
 			switch (pronouns)
@@ -1076,7 +1077,7 @@
 		var/datum/antagonist/vampire/vamp_inspect = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(vamp_inspect && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
 			. += span_redtext("[m3] strange glowing eyes and fangs!")
-	
+
 		//Blackblood Inquisition trauma
 		if(HAS_TRAIT(src, TRAIT_INQUISITION) && HAS_TRAIT(user, TRAIT_BLACKBLOOD))
 			var/mob/living/carbon/carbs = user

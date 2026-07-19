@@ -48,8 +48,8 @@ export const UndeadWrit = (props: {
       <p style={writParagraph}>
         The dead walk again upon {realm}. A {host} of {folk}, denied the rest
         that is their due, stir from earth and barrow. They bear no name worth
-        speaking, no oath worth breaking, no soul to weigh: only the wound
-        that has not closed.
+        speaking, no oath worth breaking, no soul to weigh: only the wound that
+        has not closed.
       </p>
       <p style={writParagraph}>
         <i>
@@ -59,9 +59,9 @@ export const UndeadWrit = (props: {
         </i>
       </p>
       <p style={writParagraph}>
-        Bring them down with steel, with fire, with prayer. The writ knows
-        their stirring and shall mark itself when peace is restored. Return
-        the writ to the Contract Ledger, that the bounty of{' '}
+        Bring them down with steel, with fire, with prayer. The writ knows their
+        stirring and shall mark itself when peace is restored. Return the writ
+        to the Contract Ledger, that the bounty of{' '}
         <RewardClause
           reward={reward}
           levyRate={levyRate}

@@ -31,13 +31,13 @@ export const OreVeinWrit = (props: {
         <i>By the trade&apos;s own purse and seal:</i>
       </p>
       <p style={writParagraph}>
-        {minerName} hath prospected a vein within {region} - elemental guarded. They call for hands to escort them to the strike and to thin
-        the host of elementals while they work the rock.
+        {minerName} hath prospected a vein within {region} - elemental guarded.
+        They call for hands to escort them to the strike and to thin the host of
+        elementals while they work the rock.
       </p>
       <p style={writParagraph}>
         The vein erupts only when {minerName} arrives. Once it does, fellowship
-        and miner alike may swing on the seams; the ore is theirs by
-        agreement.
+        and miner alike may swing on the seams; the ore is theirs by agreement.
       </p>
       <p style={writParagraph}>
         For this work the bearer is paid <b>{reward} mammon</b>

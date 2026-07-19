@@ -138,6 +138,10 @@
 	// Charged vars
 	/// If the spell requires time to charge.
 	var/charge_required = TRUE
+	/// Charging intent, mirroring melee swingdelay_type. PENALTY = vulnerable if struck (yellow), CANCEL = interrupted if struck (red).
+	var/charge_swingdelay_type = SWINGDELAY_NORMAL
+	/// If nonzero, overrides the charge swingdelay penalty/disrupt duration (deciseconds) instead of charge_time + 20.
+	var/charge_swingdelay_duration = 0
 	/// Whether we're currently charging the spell.
 	var/currently_charging = FALSE
 	/// Whether the charge bar has completed and the spell is being held ready. While TRUE, hold_drain bleeds per process tick.
@@ -260,6 +264,7 @@
 				cancel_casting()
 				return PROCESS_KILL
 			invoke_resource_cost(primary_resource_type, hold_drain)
+		refresh_charge_intent()
 		return
 
 	if(!currently_charging)
@@ -638,6 +643,11 @@
 			owner.balloon_alert(owner, "Too exposed to focus!")
 		return FALSE
 
+	if(!(spell_requirements & SPELL_CASTABLE_WHILE_MOUNTED) && owner.client && owner.buckled && isliving(owner.buckled))
+		if(feedback)
+			owner.balloon_alert(owner, "Too distracted riding to cast!")
+		return FALSE
+
 	for(var/datum/action/cooldown/spell/spell in owner.actions)
 		if(spell == src)
 			continue
@@ -835,7 +845,8 @@
 				)
 			return sig_return | SPELL_CANCEL_CAST
 
-		if((primary_resource_type == SPELL_COST_DEVOTION) && HAS_TRAIT(cast_on, TRAIT_PSYDONITE) && !(spell_flags & SPELL_PSYDON))
+		//Psydonites/Vheslynites feel nothing
+		if((primary_resource_type == SPELL_COST_DEVOTION) && HAS_TRAIT(cast_on, TRAIT_PSYDONITE) && !(spell_flags & SPELL_PSYDON) || HAS_TRAIT(cast_on, TRAIT_UNFORGIVABLE) && !(spell_flags & SPELL_PSYDON))
 			cast_on.visible_message(span_info("[cast_on] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
@@ -845,6 +856,7 @@
 		// Use a simple do_after for non-click charge spells
 		var/require_no_move = (spell_requirements & SPELL_REQUIRES_NO_MOVE)
 		on_start_charge()
+		apply_charge_intent()
 		var/success = TRUE
 		if(!do_after(owner, charge_time, needhand = FALSE, extra_checks = CALLBACK(src, PROC_REF(do_after_checks), owner, cast_on), no_interrupt = !require_no_move, allow_movement = !require_no_move))
 			success = FALSE
@@ -997,6 +1009,8 @@
 
 	// Spell glow light
 	if(glow_intensity && spell_color && isliving(owner))
+		if(spell_glow_light)
+			QDEL_NULL(spell_glow_light)
 		var/mob/living/L = owner
 		spell_glow_light = L.mob_light(spell_color, glow_intensity, FLASH_LIGHT_SPELLGLOW)
 
@@ -1046,12 +1060,18 @@
 	STOP_PROCESSING(SSfastprocess, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 
+	// Clean up glow before the owner guard below - the light is owner-independent and
+	// must be dropped even if owner is gone, or it lingers on the mob permanently.
+	if(spell_glow_light)
+		QDEL_NULL(spell_glow_light)
+
 	if(!owner)
 		return
 
 	if(owner.client)
 		UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 	UnregisterSignal(owner, list(COMSIG_MOB_LOGOUT, COMSIG_MOB_DEATH, COMSIG_MOVABLE_MOVED, COMSIG_MOB_KICKED_SUCCESSFUL, COMSIG_CARBON_SWAPHANDS))
+	clear_charge_intent()
 
 	// When charging ends, other spells may have had their buttons stuck red
 	// because can_cast_spell() returned FALSE while we were charging.
@@ -1072,10 +1092,6 @@
 	if(mob_charge_effect)
 		owner.vis_contents -= mob_charge_effect
 
-	// Clean up glow
-	if(spell_glow_light)
-		QDEL_NULL(spell_glow_light)
-
 	if(has_visual_effects)
 		var/mob/living/caster = owner
 		caster.cancel_spell_visual_effects()
@@ -1089,6 +1105,43 @@
 	if(click_to_activate && charge_required && owner?.client)
 		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 
+/datum/action/cooldown/spell/proc/apply_charge_intent()
+	var/mob/living/living_owner = owner
+	if(charge_swingdelay_type == SWINGDELAY_NORMAL || !istype(living_owner))
+		return
+	var/charge_dur = charge_swingdelay_duration || ((charge_time || 0) + 20)
+	switch(charge_swingdelay_type)
+		if(SWINGDELAY_PENALTY)
+			living_owner.apply_status_effect(/datum/status_effect/swingdelay/penalty, charge_dur)
+		if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
+			living_owner.apply_status_effect(/datum/status_effect/swingdelay/disrupt, charge_dur, (charge_swingdelay_type == SWINGDELAY_CANCELSLOW))
+			living_owner.AddElement(/datum/element/relay_attackers)
+			RegisterSignal(living_owner, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(signal_cancel), TRUE)
+
+/datum/action/cooldown/spell/proc/clear_charge_intent()
+	var/mob/living/living_owner = owner
+	if(charge_swingdelay_type == SWINGDELAY_NORMAL || !istype(living_owner))
+		return
+	living_owner.remove_status_effect(/datum/status_effect/swingdelay/penalty)
+	living_owner.remove_status_effect(/datum/status_effect/swingdelay/disrupt)
+	if(charge_swingdelay_type == SWINGDELAY_CANCEL || charge_swingdelay_type == SWINGDELAY_CANCELSLOW)
+		UnregisterSignal(living_owner, COMSIG_ATOM_WAS_ATTACKED)
+
+/// Keep the charge swingdelay penalty topped up while the spell is held ready, so the
+/// caster stays committed/vulnerable for the whole hold, not just the charge window.
+/datum/action/cooldown/spell/proc/refresh_charge_intent()
+	var/mob/living/living_owner = owner
+	if(charge_swingdelay_type == SWINGDELAY_NORMAL || !istype(living_owner))
+		return
+	var/datum/status_effect/swingdelay/SW
+	switch(charge_swingdelay_type)
+		if(SWINGDELAY_PENALTY)
+			SW = living_owner.has_status_effect(/datum/status_effect/swingdelay/penalty)
+		if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
+			SW = living_owner.has_status_effect(/datum/status_effect/swingdelay/disrupt)
+	if(SW && SW.duration != -1)
+		SW.duration = max(SW.duration, world.time + (charge_swingdelay_duration || 20))
+
 /// Cancel casting and all its effects.
 /datum/action/cooldown/spell/proc/cancel_casting()
 	if(QDELETED(src)) // Timer
@@ -1097,7 +1150,8 @@
 		deltimer(auto_cancel_timer)
 		auto_cancel_timer = null
 	charged = FALSE
-	end_charging() // end_charging() handles MOUSEDOWN re-registration
+	end_charging() // end_charging() handles MOUSEDOWN re-registrations
+	reset_spell_cooldown()
 
 /// Checks if the current OWNER of the spell is in a valid state to say the spell's invocation
 /datum/action/cooldown/spell/proc/can_invoke(feedback = TRUE)
@@ -1124,7 +1178,7 @@
 /// and allowing it to be used immediately (+ updating button icon accordingly)
 /datum/action/cooldown/spell/proc/reset_spell_cooldown()
 	SEND_SIGNAL(src, COMSIG_SPELL_CAST_RESET)
-	next_use_time -= cooldown_time // Basically, ensures that the ability can be used now
+	next_use_time = min(next_use_time, world.time) // Fully refund whatever cooldown was applied (adjusted or not) so the spell is ready now
 	build_all_button_icons()
 
 /// Generate HTML for the OOC encyclopedia entry.
@@ -1354,21 +1408,7 @@
 			stats += span_info(" <font color='#8c00ff'>(Swiftcast)</font>")
 
 	// Cooldown
-	var/base_cd = cooldown_time
-	if(base_cd)
-		var/dynamic_cd = user ? get_adjusted_cooldown() : base_cd
-		if(abs(dynamic_cd - base_cd) > 0.5) // Meaningful change threshold
-			stats += span_info("Cooldown: [DisplayTimeText(base_cd)] (current: [DisplayTimeText(dynamic_cd)])")
-			if(user)
-				var/list/cd_breakdown = get_cooldown_breakdown(user)
-				if(length(cd_breakdown))
-					stats += cd_breakdown
-		else
-			stats += span_info("Cooldown: [DisplayTimeText(base_cd)]")
-		// Show remaining cooldown if on cooldown
-		var/time_left = max(next_use_time - world.time, 0)
-		if(time_left > 0)
-			stats += span_warning("Remaining: [DisplayTimeText(time_left)]")
+	stats += get_cooldown_stat_lines(user)
 
 	// Primary resource cost
 	if(primary_resource_cost > 0)
@@ -1414,6 +1454,30 @@
 		if(SPELL_COST_DEVOTION)
 			return "Devotion cost"
 	return "Cost"
+
+/// Builds the cooldown-related examine lines (headline + stat breakdown + remaining).
+/// Split out so subtypes whose cooldown depends on cast context - e.g. augmentations
+/// that cost differently on self vs. ally - can present every relevant figure instead
+/// of the single ambiguous number get_adjusted_cooldown() returns outside a cast.
+/datum/action/cooldown/spell/proc/get_cooldown_stat_lines(mob/living/user)
+	var/list/lines = list()
+	var/base_cd = cooldown_time
+	if(!base_cd)
+		return lines
+	var/dynamic_cd = user ? get_adjusted_cooldown() : base_cd
+	if(abs(dynamic_cd - base_cd) > 0.5) // Meaningful change threshold
+		lines += span_info("Cooldown: [DisplayTimeText(base_cd)] (current: [DisplayTimeText(dynamic_cd)])")
+		if(user)
+			var/list/cd_breakdown = get_cooldown_breakdown(user)
+			if(length(cd_breakdown))
+				lines += cd_breakdown
+	else
+		lines += span_info("Cooldown: [DisplayTimeText(base_cd)]")
+	// Show remaining cooldown if on cooldown
+	var/time_left = max(next_use_time - world.time, 0)
+	if(time_left > 0)
+		lines += span_warning("Remaining: [DisplayTimeText(time_left)]")
+	return lines
 
 /// Breakdown of cooldown modifiers for examine.
 /datum/action/cooldown/spell/proc/get_cooldown_breakdown(mob/living/user)
@@ -1508,6 +1572,7 @@
 	RegisterSignal(owner, COMSIG_MOB_LOGOUT, PROC_REF(signal_cancel_full))
 	if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
 		RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(signal_cancel), TRUE)
+	apply_charge_intent()
 
 	var/spell_timeout = 3 MINUTES
 
@@ -1616,51 +1681,11 @@
 /datum/action/cooldown/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker)
 	if(!isliving(target))
 		return FALSE
-	var/datum/status_effect/buff/clash/guard = target.has_status_effect(/datum/status_effect/buff/clash)
-	if(guard)
-		if(isarcyne(target))
-			if(!no_message)
-				target.visible_message(span_warning("[target] deflects [name] with a reactive ward!"))
-				to_chat(target, span_notice("My ward deflects the incoming spell!"))
-			playsound(get_turf(target), pick('sound/combat/parry/shield/magicshield (1).ogg', 'sound/combat/parry/shield/magicshield (2).ogg', 'sound/combat/parry/shield/magicshield (3).ogg'), 100)
-		else
-			if(!no_message)
-				target.visible_message(span_warning("[target] deflects [name]!"))
-				to_chat(target, span_notice("My guard deflects the incoming spell!"))
-			var/obj/item/held = target.get_active_held_item()
-			if(held?.parrysound)
-				playsound(get_turf(target), pick(held.parrysound), 100)
-			else
-				playsound(get_turf(target), pick(target.parry_sound), 100)
-		target.apply_status_effect(/datum/status_effect/buff/parry_buffer)
-		if(attacker != target)
-			target.apply_status_effect(/datum/status_effect/buff/adrenaline_rush/ranged)
-		guard.deflected_spell = TRUE
-		target.remove_status_effect(/datum/status_effect/buff/clash)
-		if(attacker && ishuman(attacker))
-			var/obj/item/attacker_weapon = arcyne_get_weapon(attacker)
-			if(attacker_weapon?.parrysound)
-				playsound(get_turf(attacker), pick(attacker_weapon.parrysound), 100)
-			else
-				playsound(get_turf(attacker), pick(attacker.parry_sound), 100)
-			if(attacker_weapon)
-				if(attacker_weapon.max_blade_int)
-					attacker_weapon.remove_bintegrity((attacker_weapon.blade_int * RIPOSTE_SHARPNESS_FACTOR), attacker)
-				else
-					var/integdam = max((attacker_weapon.max_integrity / RIPOSTE_INTEG_DIVISOR), (INTEG_PARRY_DECAY_NOSHARP * 5))
-					attacker_weapon.take_damage(integdam, BRUTE, attacker_weapon.d_type)
-			attacker.remove_status_effect(/datum/status_effect/debuff/exposed)
-			attacker.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
-			var/datum/status_effect/buff/arcyne_momentum/momentum = attacker.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
-			if(momentum && momentum.stacks > 0)
-				momentum.consume_all_stacks()
-				to_chat(attacker, span_danger("My arcyne strike was deflected — I'm exposed and my momentum is gone!"))
-			else
-				to_chat(attacker, span_danger("My arcyne strike was deflected — I'm exposed!"))
-		return TRUE
-	if(target.has_status_effect(/datum/status_effect/buff/parry_buffer))
-		return TRUE
-	return FALSE
+	if(target == owner)
+		return FALSE
+	if(isnull(attacker) && ispath(associated_skill, /datum/skill/magic/arcane))
+		attacker = owner
+	return target.guard_deflect_spell(name, no_message, attacker)
 
 /datum/action/cooldown/spell/proc/signal_cancel()
 	SIGNAL_HANDLER

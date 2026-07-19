@@ -1,13 +1,14 @@
 /datum/action/cooldown/spell/forcewall
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
 	name = "Forcewall"
-	desc = "Conjure a 5x1 wall of arcyne force in front of you, preventing anyone and anything other than you from moving through it.\n\
+	desc = "Conjure a 5x1 wall of arcyne force in front of you, preventing anyone and anything from moving through it.\n\
 	The wall lasts for 20 seconds or until destroyed."
 	button_icon_state = "forcewall"
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	attunement_school = ASPECT_NAME_AUGMENTATION
+	var/telegraph_type = /obj/effect/temp_visual/trap_wall
 
 	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_GROUND
@@ -21,6 +22,7 @@
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
@@ -59,7 +61,7 @@
 		affected_turfs += get_step(get_step(front, SOUTH), SOUTH)
 
 	for(var/turf/affected_turf in affected_turfs)
-		new /obj/effect/temp_visual/trap_wall(affected_turf)
+		new telegraph_type(affected_turf)
 		addtimer(CALLBACK(src, PROC_REF(spawn_wall), affected_turf, H), 1 SECONDS)
 
 	H.visible_message("[H] mutters an incantation and a wall of arcyne force manifests out of thin air!")

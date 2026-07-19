@@ -3,7 +3,7 @@
 	associated_faith = /datum/faith/inhumen
 	undead_hater = FALSE
 	var/crafting_recipes = list() //Allows construction of unique crosses.
-	profane_words = list("cock","dick","fuck","shit","pussy","cuck","cunt","asshole", "pintle")	//Same as master but 'Zizo' is allowed now.
+	profane_words = list("cock","dick","fuck","shit","pussy","cuck","cunt","asshole", "pintle", "vheslyn")	//Same as master but inhuman names are allowed now.
 	confess_lines = list(
 		"PSYDON IS THE DEMIURGE!",
 		"THE TEN ARE WORTHLESS COWARDS!",

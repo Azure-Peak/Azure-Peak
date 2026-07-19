@@ -51,6 +51,23 @@
 		reset_spell_cooldown()
 		return FALSE
 
+	if(istype(target.patron, /datum/patron/vheslyn)) //UNFORGIVABLE SIN, UNFORGIVABLE, DIE. DIE. DIE.
+		to_chat(user, span_userdanger("[target] is UNFORGIVABLE, my attempt to convert them to my patron, violently sunders my lux!"))
+		if(!HAS_TRAIT(user, TRAIT_NOPAIN))
+			user.emote("agony")
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			user.freak_out()
+		playsound(user, 'sound/misc/lava_death.ogg', 100, TRUE)
+		user.adjust_fire_stacks(40, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //YOU FUCKING DESERVE THIS
+		user.adjustFireLoss(120)//This will kill you, always.
+		user.Knockdown(30)
+		user.Jitter(30)
+		user.Stun(25)
+		user.ignite_mob()
+		explosion(get_turf(user), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+		user.visible_message(span_danger("[user] is violently smited as profane flames engulf their entire body!"))
+		return TRUE
+
 	if(alert(target, "[user.real_name] is trying to convert you to their patron, [user.patron.name]. Do you accept?", "Conversion Request", "Yes", "No") != "Yes")
 		to_chat(user, span_warning("[target] refused your offer of conversion."))
 		reset_spell_cooldown()

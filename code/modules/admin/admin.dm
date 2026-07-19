@@ -536,6 +536,11 @@
 	set desc="Start the round RIGHT NOW"
 	set name="Start Now"
 	if(SSticker.current_state == GAME_STATE_PREGAME || SSticker.current_state == GAME_STATE_STARTUP)
+		var/player_count = length(GLOB.clients)
+		// Idiot proof for accidental click due to focus hijack / testing server
+		if(player_count > 1)
+			if(alert(usr, "There are [player_count] players connected. Are you sure you want to start the round RIGHT NOW?", "Start Now", "Yes", "No") != "Yes")
+				return 0
 		SSticker.start_immediately = TRUE
 		log_admin("[usr.key] has started the game.")
 		var/msg = ""

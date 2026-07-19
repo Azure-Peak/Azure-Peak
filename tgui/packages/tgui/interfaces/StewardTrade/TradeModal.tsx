@@ -215,10 +215,7 @@ export const TradeModal = (props: TradeModalProps) => {
   const hasEscalation = escalation > 0;
   const escalationColor = isImport ? SEAL_RED : SEAL_RED;
   const submitDisabled =
-    !quote ||
-    !quote.ok ||
-    (isImport && !quote.can_afford) ||
-    !quote.warrant_ok;
+    !quote?.ok || (isImport && !quote.can_afford) || !quote.warrant_ok;
   const submitTooltip = !quote
     ? 'Calculating...'
     : !quote.ok
@@ -226,7 +223,7 @@ export const TradeModal = (props: TradeModalProps) => {
       : isImport && !quote.can_afford
         ? 'Treasury cannot cover this trade.'
         : !quote.warrant_ok
-          ? "Warrant cannot cover this trade."
+          ? 'Warrant cannot cover this trade.'
           : '';
 
   const change = (delta: number) => {
@@ -239,15 +236,34 @@ export const TradeModal = (props: TradeModalProps) => {
         <div style={headerStyle}>
           {sideLabel} {quote?.good_name ?? '...'}
         </div>
-        <div style={{ ...lineStyle, justifyContent: 'center', fontSize: FONT_BODY, color: INK_SOFT, marginBottom: '4px' }}>
+        <div
+          style={{
+            ...lineStyle,
+            justifyContent: 'center',
+            fontSize: FONT_BODY,
+            color: INK_SOFT,
+            marginBottom: '4px',
+          }}
+        >
           {isImport ? 'from' : 'to'} {quote?.region_name ?? request.regionId}
           {blockaded && <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>}
         </div>
-        <div style={{ ...lineStyle, justifyContent: 'center', fontSize: FONT_BODY, color: INK_SOFT, marginBottom: '4px' }}>
-          Stockpile: <span style={{ color: INK, fontWeight: 'bold', marginLeft: '4px' }}>
+        <div
+          style={{
+            ...lineStyle,
+            justifyContent: 'center',
+            fontSize: FONT_BODY,
+            color: INK_SOFT,
+            marginBottom: '4px',
+          }}
+        >
+          Stockpile:{' '}
+          <span style={{ color: INK, fontWeight: 'bold', marginLeft: '4px' }}>
             {quote ? `${quote.stockpile_amount}` : '...'}
           </span>
-          <span style={{ color: INK_FAINT, marginLeft: '4px' }}>units on hand</span>
+          <span style={{ color: INK_FAINT, marginLeft: '4px' }}>
+            units on hand
+          </span>
         </div>
 
         <div style={stepperRowStyle}>
@@ -276,7 +292,7 @@ export const TradeModal = (props: TradeModalProps) => {
             max={maxUnits}
             onChange={(e) => {
               const n = parseInt(e.target.value, 10);
-              if (!isNaN(n)) {
+              if (!Number.isNaN(n)) {
                 setQuantity(Math.max(1, Math.min(maxUnits, n)));
               }
             }}
@@ -300,7 +316,14 @@ export const TradeModal = (props: TradeModalProps) => {
           </button>
         </div>
 
-        <div style={{ ...lineStyle, fontSize: FONT_BODY, color: INK_FAINT, justifyContent: 'center' }}>
+        <div
+          style={{
+            ...lineStyle,
+            fontSize: FONT_BODY,
+            color: INK_FAINT,
+            justifyContent: 'center',
+          }}
+        >
           (max {maxUnits} units per trade)
         </div>
 
@@ -317,15 +340,16 @@ export const TradeModal = (props: TradeModalProps) => {
           {quote ? (
             isImport ? (
               <>
-                {quote.capacity_today} unit{quote.capacity_today === 1 ? '' : 's'} available
-                at base price today.
+                {quote.capacity_today} unit
+                {quote.capacity_today === 1 ? '' : 's'} available at base price
+                today.
                 <br />
                 Buying past that drives the price up the more you take.
               </>
             ) : (
               <>
-                {quote.capacity_today} unit{quote.capacity_today === 1 ? '' : 's'} of demand
-                left today.
+                {quote.capacity_today} unit
+                {quote.capacity_today === 1 ? '' : 's'} of demand left today.
                 <br />
                 Selling past that floods the market and the price drops.
               </>
@@ -375,18 +399,34 @@ export const TradeModal = (props: TradeModalProps) => {
               visibility: hasEscalation ? 'visible' : 'hidden',
             }}
           >
-            <span style={{ ...lineLabelStyle, color: escalationColor, fontWeight: 'bold' }}>
+            <span
+              style={{
+                ...lineLabelStyle,
+                color: escalationColor,
+                fontWeight: 'bold',
+              }}
+            >
               {isImport ? 'Escalation surcharge' : 'Revenue lost to oversupply'}
             </span>
             <span style={{ ...lineValueStyle, color: escalationColor }}>
-              {isImport ? '+' : '-'}{escalation}m
+              {isImport ? '+' : '-'}
+              {escalation}m
             </span>
           </div>
           <div style={totalLineStyle}>
-            <span style={{ ...lineLabelStyle, color: INK, fontStyle: 'normal', fontWeight: 'bold' }}>
+            <span
+              style={{
+                ...lineLabelStyle,
+                color: INK,
+                fontStyle: 'normal',
+                fontWeight: 'bold',
+              }}
+            >
               {isImport ? 'Total cost' : 'Total revenue'}
             </span>
-            <span style={{ ...lineValueStyle, color: SEAL_AMBER, fontSize: '17px' }}>
+            <span
+              style={{ ...lineValueStyle, color: SEAL_AMBER, fontSize: '17px' }}
+            >
               {quote ? `${quote.total}m` : '...'}
             </span>
           </div>
@@ -422,7 +462,7 @@ export const TradeModal = (props: TradeModalProps) => {
             style={{
               ...lineStyle,
               visibility:
-                quote && quote.is_alderman_acting && quote.warrant_remaining >= 0
+                quote?.is_alderman_acting && quote.warrant_remaining >= 0
                   ? 'visible'
                   : 'hidden',
             }}
@@ -444,7 +484,8 @@ export const TradeModal = (props: TradeModalProps) => {
         <div style={{ minHeight: '34px', marginTop: '6px' }}>
           {blockaded && (
             <div style={{ ...warningStyle, color: SEAL_RED }}>
-              This route is blockaded. {isImport ? 'Cost is doubled.' : 'Revenue is halved.'}
+              This route is blockaded.{' '}
+              {isImport ? 'Cost is doubled.' : 'Revenue is halved.'}
             </div>
           )}
         </div>

@@ -50,6 +50,14 @@
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/fae/fairydust = 4)
 	result_atoms = list(/obj/item/enchantmentscroll/basic/xylix)
 
+/datum/runeritual/enchanting/fairseeming
+	name = "Fair Seeming"
+	desc = "Become Spotless!"
+	blacklisted = FALSE
+	tier = 1
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/fae/fairydust = 4)
+	result_atoms = list(/obj/item/enchantmentscroll/basic/fairseeming)
+
 /datum/runeritual/enchanting/revealinglight
 	name = "Revealing Light"
 	desc = "Provides light!"

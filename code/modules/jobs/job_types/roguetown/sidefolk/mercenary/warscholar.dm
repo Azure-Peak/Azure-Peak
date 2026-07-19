@@ -298,6 +298,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/message)
 
 	H.merctype = 14
 

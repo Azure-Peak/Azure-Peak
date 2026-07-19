@@ -38,6 +38,7 @@ type FellowshipData = {
   leader_name?: string | null;
   leader_present?: BooleanLike;
   members?: Member[];
+  total_summons?: number;
   outgoing_invites?: OutgoingInvite[];
 };
 
@@ -138,22 +139,22 @@ const FellowshipView = () => {
           <Stack>
             <Stack.Item grow>
               {data.leader_present ? (
-                <>Led by <b>{data.leader_name}</b></>
+                <>
+                  Led by <b>{data.leader_name}</b>
+                </>
               ) : (
                 <i>Leaderless (the founder is gone).</i>
               )}
               <br />
               <span style={{ opacity: 0.7 }}>
                 {members.length} / {data.max_members} members
+                {!!data.total_summons &&
+                  ` · ${data.total_summons} summon${data.total_summons === 1 ? '' : 's'}`}
               </span>
             </Stack.Item>
             <Stack.Item>
               {isLeader ? (
-                <Button
-                  icon="ban"
-                  color="bad"
-                  onClick={() => act('disband')}
-                >
+                <Button icon="ban" color="bad" onClick={() => act('disband')}>
                   Disband
                 </Button>
               ) : (
@@ -226,7 +227,8 @@ const FellowshipView = () => {
                       {inv.name}
                       <span style={{ opacity: 0.6 }}>
                         {' '}
-                        &middot; {secondsLeft(inv.expires_at, data.server_time)}s left
+                        &middot; {secondsLeft(inv.expires_at, data.server_time)}
+                        s left
                       </span>
                     </Table.Cell>
                     <Table.Cell collapsing>

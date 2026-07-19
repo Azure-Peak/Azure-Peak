@@ -122,6 +122,9 @@
 #define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
 #define TRAIT_CURSE_SCAR "Curse Scar"
 #define TRAIT_ARMOR_BREAK "Loose Straps"
+#define TRAIT_NOHEAL "Laden Soul" // Only affects magic healing, such as miracle or supernatural heals.
+#define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
+#define TRAIT_HALFHEAL "Laden Lux" // -50% Magic Heal.
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
@@ -162,6 +165,7 @@
 #define TRAIT_PSYDONITE "Psydonic Devotion" // Passively heals wounds at a slow rate, but doesn't restore lost blood. Negates the effects of all non-Psydonian miracles, save for Anastasis and Cure Rot.
 #define TRAIT_BLACKBAGGER "Skilled Apprehender" // Allows the effective usage of garrotes and blackbags.
 #define TRAIT_LYCANRESILENCE "Werewolf Resilence"
+#define TRAIT_UNFORGIVABLE "Unforgivable" //Handles Vheslynite gibbing, miracle backfires, confession/conversion killing, etc.
 
 // PATRON GOD CURSES
 
@@ -252,7 +256,6 @@
 #define TRAIT_HARDDISMEMBER	"Hard Dismemberment"
 #define TRAIT_EASYDECAPITATION "Easy Decapitation"
 #define TRAIT_NOPAIN	"Painless"
-#define TRAIT_NOBURN_RESIST	"No Burn Resistance" // Negates NOPAIN's +50% burn threshold bonus
 #define TRAIT_NOPAINSTUN	"Enduring"
 #define TRAIT_NOBREATH	"Breathless"
 #define TRAIT_DEATHLESS "Deathless"
@@ -505,6 +508,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOHUNGER = span_info("I do not hunger, or thirst."),
 	TRAIT_DARKVISION = span_info("I can see better in the dark."),
 	TRAIT_NITEVISION = span_info("I can see perfectly in the dark."),
+	TRAIT_UNFORGIVABLE = span_smallred("THE NEEDLE IN MY EYE OPENS MY MYND TO THE TRUTH! HELL IS REAL, REALITY SUFFERS, THE GARDEN BURNS AND I AM HOLDING THE TORCH, ALL WHOM ATTEMPT TO DIVERGE ME FROM THIS PATH TO BE UNMADE SHALL JOIN ME."),
 	TRAIT_NOCSHADES = span_info("The lens I look through allows me to see in the dark clear as dae, at the cost of greater vision."),
 	TRAIT_RESIDENT = span_info("I've been granted a Meister account, and the ownership of a house in Azure Peak."),
 	TRAIT_DEBTOR = span_danger("I have defaulted on a loan. My name is writ red in the ledger until the debt is cleared."),
@@ -610,6 +614,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
 	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry."),
 	TRAIT_MUSES_GRACE = span_info("I feel a sudden and powerful urge to break out into song."),
+	TRAIT_NOHEAL = span_artery("I cannot be healed by supernatural means. Healing magic has no effect."),
+	TRAIT_NOREGEN = span_artery("I cannot be healed by natural means. Rest and potions have no effect."),
+	TRAIT_HALFHEAL = span_artery("I have some spiritual oddity to my Lux. Healing magic effectiveness is halved."),
 	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!")
 ))
 

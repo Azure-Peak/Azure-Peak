@@ -246,8 +246,8 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
 	H.STASTR = 10
 	H.STASPD = 13
-	H.STACON = 9
-	H.STAWIL = 8
+	H.STACON = 8
+	H.STAWIL = 7
 	H.STAPER = 13
 	H.STAINT = 10
 	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)

@@ -9,7 +9,7 @@ import {
   SEAL_GREEN,
   SEAL_RED,
 } from '../common/parchment';
-import { type LogEntry } from './types';
+import type { LogEntry } from './types';
 
 const PAGE_SIZE = 20;
 
@@ -79,13 +79,13 @@ export const PaginatedLog = ({
               {!!entry.counterparty && (
                 <span>
                   {preposition} <b>{entry.counterparty}</b>
-                  {!!entry.reason && <span style={{ color: INK_FAINT }}> &middot; </span>}
+                  {!!entry.reason && (
+                    <span style={{ color: INK_FAINT }}> &middot; </span>
+                  )}
                 </span>
               )}
               {!!entry.reason && (
-                <span style={{ color: INK_FAINT }}>
-                  {entry.reason}
-                </span>
+                <span style={{ color: INK_FAINT }}>{entry.reason}</span>
               )}
             </div>
           </div>

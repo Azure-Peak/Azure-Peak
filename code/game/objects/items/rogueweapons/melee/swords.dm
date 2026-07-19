@@ -220,6 +220,15 @@
 	. = ..()
 	AddComponent(/datum/component/skill_blessed, TRAIT_LONGSWORDSMAN, /datum/skill/combat/swords, SKILL_LEVEL_MASTER)
 
+/obj/item/rogueweapon/sword/long/iron
+	name = "bastard sword"
+	desc = "A bastard sword that can chop with ease. It can be effectively wielded in both one- and two-handed grips, hence the name."
+	icon_state = "ilongsword"
+	item_state = "ilongsword"
+	sheathe_icon = "ilongsword"
+	max_integrity = 100
+	smeltresult = /obj/item/ingot/iron
+
 /obj/item/rogueweapon/sword/long/blacksteel
 	name = "blacksteel longsword"
 	desc = "A sleek blade of a dark, and burnished hue. \
@@ -460,6 +469,30 @@
 	when drawn, a symbol of distress. Ad pacem servandam."
 	sheathe_icon = "reform"
 	icon_state = "reformistsword"
+
+/obj/item/rogueweapon/sword/long/etruscan/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the projectile", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+	SEND_SIGNAL(src, COMSIG_ITEM_HIT_REACT, args)
+	var/mob/attacker
+	var/obj/item/I
+	if(attack_type == THROWN_PROJECTILE_ATTACK)
+		if(istype(hitby, /obj/item)) // can't trust mob -> item assignments
+			I = hitby
+		if(I?.thrownby)
+			attacker = I.thrownby
+	if(attack_type == PROJECTILE_ATTACK)
+		var/obj/projectile/P = hitby
+		if(P?.firer)
+			attacker = P.firer
+	if(attacker && istype(attacker))
+		if (!owner.can_see_cone(attacker))
+			return FALSE
+		if(obj_broken)
+			return FALSE
+		if((owner.client?.chargedprog == 100 && owner.used_intent?.tranged) || prob(40)) // let's give it a 40% coverage, it's still something thinner than a shield
+			owner.visible_message(span_danger("[owner] expertly blocks [hitby] with [src]!"))
+			src.take_damage(floor(damage / 4))
+			return TRUE
+	return FALSE
 
 /obj/item/rogueweapon/sword/long/fencerguy
 	name = "grenzelhoftian longsword"

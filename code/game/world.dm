@@ -41,8 +41,6 @@ GLOBAL_VAR(restart_counter)
 
 	SetupExternalRSC()
 
-	GLOB.config_error_log = GLOB.world_manifest_log = GLOB.world_pda_log = GLOB.world_job_debug_log = GLOB.sql_error_log = GLOB.world_href_log = GLOB.world_runtime_log = GLOB.world_attack_log = GLOB.world_game_log = "data/logs/config_error.[GUID()].log" //temporary file used to record errors with loading config, moved to log directory once logging is set bl
-
 	make_datum_references_lists()	//initialises global lists for referencing frequently used datums (so that we only ever do it once)
 
 	init_pricing_engine()
@@ -69,13 +67,6 @@ GLOBAL_VAR(restart_counter)
 	load_poll_data()
 	if(CONFIG_GET(string/channel_announce_new_game_message))
 		send2chat(new /datum/tgs_message_content(CONFIG_GET(string/channel_announce_new_game_message)), CONFIG_GET(string/chat_announce_new_game))
-
-#ifndef USE_CUSTOM_ERROR_HANDLER
-	world.log = file("[GLOB.log_directory]/dd.log")
-#else
-	if (TgsAvailable())
-		world.log = file("[GLOB.log_directory]/dd.log") //not all runtimes trigger world/Error, so this is the only way to ensure we can see all of them.
-#endif
 
 	LoadVerbs(/datum/verbs/menu)
 	load_whitelist()
@@ -137,72 +128,35 @@ GLOBAL_VAR(restart_counter)
 			GLOB.external_rsc_urls.Cut(i,i+1)
 #endif
 
+/// Returns a list of data about the world state, don't clutter
+/world/proc/get_world_state_for_logging()
+	var/data = list()
+	data["tick_usage"] = world.tick_usage
+	data["tick_lag"] = world.tick_lag
+	data["time"] = world.time
+	data["timestamp"] = rustg_unix_timestamp()
+	return data
+
 /world/proc/SetupLogs()
 	var/override_dir = params[OVERRIDE_LOG_DIRECTORY_PARAMETER]
 	if(!override_dir)
 		var/realtime = world.realtime
 		var/texttime = time2text(realtime, "YYYY/MM/DD")
 		GLOB.log_directory = "data/logs/[texttime]/round-"
-		GLOB.picture_logging_prefix = "L_[time2text(realtime, "YYYYMMDD")]_"
-		GLOB.picture_log_directory = "data/picture_logs/[texttime]/round-"
 		if(GLOB.rogue_round_id)
 			var/timestamp = replacetext(time_stamp(), ":", ".")
 			GLOB.log_directory += "[timestamp]-"
-			GLOB.picture_log_directory += "[timestamp]-"
-			GLOB.picture_logging_prefix += "T_[timestamp]_"
 			GLOB.log_directory += "[GLOB.rogue_round_id]"
-			GLOB.picture_logging_prefix += "R_[GLOB.rogue_round_id]_"
-			GLOB.picture_log_directory += "[GLOB.rogue_round_id]"
 		else
 			var/timestamp = replacetext(time_stamp(), ":", ".")
 			GLOB.log_directory += "[timestamp]"
-			GLOB.picture_log_directory += "[timestamp]"
-			GLOB.picture_logging_prefix += "T_[timestamp]_"
 	else
 		GLOB.log_directory = "data/logs/[override_dir]"
-		GLOB.picture_logging_prefix = "O_[override_dir]_"
-		GLOB.picture_log_directory = "data/picture_logs/[override_dir]"
-	GLOB.world_game_log = "[GLOB.log_directory]/game.log"
-	GLOB.world_mecha_log = "[GLOB.log_directory]/mecha.log"
-	GLOB.world_virus_log = "[GLOB.log_directory]/virus.log"
-	GLOB.world_cloning_log = "[GLOB.log_directory]/cloning.log"
-	GLOB.world_asset_log = "[GLOB.log_directory]/asset.log"
-	GLOB.world_attack_log = "[GLOB.log_directory]/attack.log"
-	GLOB.world_pda_log = "[GLOB.log_directory]/pda.log"
-	GLOB.world_telecomms_log = "[GLOB.log_directory]/telecomms.log"
-	GLOB.world_manifest_log = "[GLOB.log_directory]/manifest.log"
-	GLOB.world_href_log = "[GLOB.log_directory]/hrefs.log"
-	GLOB.sql_error_log = "[GLOB.log_directory]/sql.log"
-	GLOB.world_qdel_log = "[GLOB.log_directory]/qdel.log"
-	GLOB.world_map_error_log = "[GLOB.log_directory]/map_errors.log"
-	GLOB.character_list_log = "[GLOB.log_directory]/character_list.log"
-	GLOB.hunted_log = "[GLOB.log_directory]/hunted.log"
-	GLOB.world_runtime_log = "[GLOB.log_directory]/runtime.log"
-	GLOB.query_debug_log = "[GLOB.log_directory]/query_debug.log"
-	GLOB.world_job_debug_log = "[GLOB.log_directory]/job_debug.log"
-	GLOB.world_paper_log = "[GLOB.log_directory]/paper.log"
-	GLOB.tgui_log = "[GLOB.log_directory]/tgui.log"
-#ifdef UNIT_TESTS
-	GLOB.test_log = file("[GLOB.log_directory]/tests.log")
-	start_log(GLOB.test_log)
-#endif
-	start_log(GLOB.world_game_log)
-	start_log(GLOB.world_attack_log)
-	start_log(GLOB.world_pda_log)
-	start_log(GLOB.world_telecomms_log)
-	start_log(GLOB.world_manifest_log)
-	start_log(GLOB.world_href_log)
-	start_log(GLOB.world_qdel_log)
-	start_log(GLOB.world_runtime_log)
-	start_log(GLOB.world_job_debug_log)
-	start_log(GLOB.tgui_log)
-	start_log(GLOB.character_list_log)
+
+	logger.init_logging()
 
 	var/latest_changelog = file("[global.config.directory]/../html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM") + ".yml")
 	GLOB.changelog_hash = fexists(latest_changelog) ? md5(latest_changelog) : 0 //for telling if the changelog has changed recently
-	if(fexists(GLOB.config_error_log))
-		fcopy(GLOB.config_error_log, "[GLOB.log_directory]/config_error.log")
-		fdel(GLOB.config_error_log)
 
 	if(GLOB.round_id)
 		log_game("Round ID: [GLOB.round_id]")
@@ -211,6 +165,13 @@ GLOBAL_VAR(restart_counter)
 	// but those are both private, so let's put the commit info in the runtime
 	// log which is ultimately public.
 	log_runtime(GLOB.revdata.get_log_message())
+	
+#ifndef USE_CUSTOM_ERROR_HANDLER
+	world.log = file("[GLOB.log_directory]/dd.log")
+#else
+	if (TgsAvailable()) // why
+		world.log = file("[GLOB.log_directory]/dd.log") //not all runtimes trigger world/Error, so this is the only way to ensure we can see all of them.
+#endif
 
 /world/Topic(T, addr, master, key)
 	TGS_TOPIC //redirect to server tools if necessary

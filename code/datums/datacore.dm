@@ -279,14 +279,6 @@ GLOBAL_LIST_EMPTY(fake_ckeys)
 		if(!C)
 			C = H.client
 		var/image = get_id_photo(H, C, show_directions)
-		var/datum/picture/pf = new
-		var/datum/picture/ps = new
-		pf.picture_name = "[H]"
-		ps.picture_name = "[H]"
-		pf.picture_desc = ""
-		ps.picture_desc = ""
-		pf.picture_image = icon(image, dir = SOUTH)
-		ps.picture_image = icon(image, dir = WEST)
 
 		//These records should ~really~ be merged or something
 		//General Record

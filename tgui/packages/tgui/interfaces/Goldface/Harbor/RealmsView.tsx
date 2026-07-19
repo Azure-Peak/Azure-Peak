@@ -3,8 +3,8 @@ import {
   FONT_BODY,
   INK_FAINT,
   INK_SOFT,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
 } from '../../common/parchment';
 import type { HarborRealm } from '../types';
 import { REALM_GRID_COLUMNS, RealmRow } from './RealmRow';

@@ -292,6 +292,17 @@
 	result = /obj/item/storage/belt/rogue/leather/suspenders
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/leather/belt_alt
+	name = "pouched suspenders"
+	display_category = ITEM_CAT_ARMOR_CHESTPIECES
+	reqs = list(
+		/obj/item/natural/hide/cured = 1,
+		/obj/item/natural/cloth = 2,
+		/obj/item/storage/belt/rogue/pouch = 1,
+	)
+	result = /obj/item/clothing/cloak/suspenders
+	craftdiff = 3
+
 /datum/crafting_recipe/roguetown/leather/leathermask
 	name = "leather mask"
 	display_category = ITEM_CAT_ARMOR_MASKS

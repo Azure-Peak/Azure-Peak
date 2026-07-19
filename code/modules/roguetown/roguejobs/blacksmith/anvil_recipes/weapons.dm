@@ -497,6 +497,24 @@
 	created_item = /obj/item/rogueweapon/sword/short/messer/iron
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
+/datum/anvil_recipe/weapons/iron/cqcclaws
+	name = "Fighting Claws, Iron"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/rogueweapon/handclaw/ironclaw
+	display_category = ITEM_CAT_WEAPONS_SWORDS
+
+/datum/anvil_recipe/weapons/iron/cqcbludgeon
+	name = "Fighting bludgeon, Iron"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/rogueweapon/handclaw/ironclaw/blunt
+	display_category = ITEM_CAT_WEAPONS_MACES
+
+/datum/anvil_recipe/weapons/iron/iknuckles
+	name = "Knuckles, Iron"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/clothing/gloves/roguetown/knuckles/iron
+	display_category = ITEM_CAT_WEAPONS_MACES
+
 /datum/anvil_recipe/weapons/iron/dagger
 	name = "Dagger, Iron"
 	req_bar = /obj/item/ingot/iron
@@ -530,6 +548,13 @@
 	created_item = /obj/item/rogueweapon/huntingknife
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
 	createditem_num = 1
+
+/datum/anvil_recipe/weapons/iron/longsword
+	name = "Bastard Sword, Iron (+1 Iron, 1 Small Log)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/sword/long/iron
+	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/iron/broadsword
 	name = "Broadsword, Iron (+1 Iron, 1 Small Log)"

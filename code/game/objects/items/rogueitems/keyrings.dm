@@ -249,6 +249,9 @@
 
 //Hand gets same as the lord
 
+/obj/item/storage/keyring/manorbase
+	keys = list(/obj/item/roguekey/manor)
+
 /obj/item/storage/keyring/steward
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/steward)
 

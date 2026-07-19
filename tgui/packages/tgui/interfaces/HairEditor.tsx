@@ -204,7 +204,7 @@ const forEachMaskBitInRange = (
   editMaxY: number,
   visit: (pixelX: number, pixelY: number) => void,
 ) => {
-  if (!mask || mask.length !== 256) {
+  if (mask?.length !== 256) {
     return;
   }
 

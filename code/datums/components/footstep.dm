@@ -133,6 +133,21 @@
 	// this is fine without an explicit copy because it doesn't mutate the existing list
 	used_sound = pick(used_footsteps - last_sound) || last_sound
 	last_sound = used_sound
+
+	if(humshoes)
+		var/datum/component/item_equipped_movement_rustle/RSTL = humshoes.GetComponent(/datum/component/item_equipped_movement_rustle)
+		var/override_sound = FALSE
+		if(humshoes.stepnoise_flag & STEPNOISE_HEELS)	// Bit shoddy workaround, but this will still reveal all the footsteps to keen ears.
+			switch(turf_used_step)
+				if(FOOTSTEP_FLOOR, FOOTSTEP_STONE, FOOTSTEP_PLATING, FOOTSTEP_WOOD, FOOTSTEP_LAVA)
+					override_sound = TRUE
+		if(humshoes.stepnoise_flag & STEPNOISE_NONE)
+			override_sound = TRUE
+		if(override_sound)
+			used_sound = 'sound/blank.ogg'
+		if(RSTL)
+			RSTL.set_override(override_sound ? FALSE : TRUE)
+
 	var/list/heard = playsound(step_location, used_sound,
 		volume * used_volume,
 		do_vary,
