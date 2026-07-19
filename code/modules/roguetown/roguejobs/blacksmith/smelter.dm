@@ -4,7 +4,7 @@
 	// This might need a small rework, smeltresult is a fallback for all items when they dont have a recipe, so you can still make them re-smelt things even if they dont have a recipe.
 	// But smeltable is also needed for items that have a recipe but you dont want it to be re-smelted, its a stop gap since the proc checks for smetlabe -> smeltresult -> recipe.
 	// This means that somebody will need to personally set unsmeltable items as smeltable = false, and i dont have the gameplay knowledge to know whats what right now.
-	var/smeltable
+	var/smeltable = TRUE
 	var/smelt_bar_num = 1 //variable for tracking how many bars things smelt back into for multi-bar items
 // MULTIBAR SMELTING WAS DISABLED FOR BALANCE REASONS
 // DO NOT RE-ENABLE IT UNTIL FURTHER NOTICE

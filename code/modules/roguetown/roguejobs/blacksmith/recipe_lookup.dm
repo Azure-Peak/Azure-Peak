@@ -22,6 +22,8 @@ GLOBAL_LIST_EMPTY(anvil_recipe_smelt_cache)
 			GLOB.anvil_recipe_smelt_cache[created] = products
 
 /obj/item/proc/get_smelt_products()
+	if(!smeltable)
+		return null
 	if(smeltresult)
 		return list(smeltresult)
 	if(!length(GLOB.anvil_recipe_smelt_cache))
