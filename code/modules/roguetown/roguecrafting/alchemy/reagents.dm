@@ -1,3 +1,6 @@
+#define TRAIT_SOURCE_POTION "traitpotion"
+#define REPAIR_ELIXIR_STRENGTH 3 // 3 pts per dram means a vial will repair about a third of an arming sword over time; a full bottle will repair about half of a decent mage staff
+
 //Potions
 /datum/reagent/medicine/healthpot
 	name = "Health Potion"
@@ -355,7 +358,7 @@
 	scent_description = "rancid alchemical waste"
 	metabolization_rate = REAGENTS_METABOLISM
 	overdose_threshold = 0
-	can_synth = FALSE 
+	can_synth = FALSE
 
 /datum/reagent/ruined_potion/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_NASTY_EATER))
@@ -648,3 +651,198 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 /datum/reagent/fermented_crab/overdose_start(mob/living/M)
 	M.playsound_local(M, 'sound/magic/heartbeat.ogg', 100, FALSE)
 	M.visible_message(span_warning("Blood runs from [M]'s nose."))
+
+/datum/reagent/medicine/trait
+	var/trait	// applied on ingest, removed when the reagent clears the system
+	var/addmsg	// ex. "my body feels lighter", displayed to the imbiber on effect start
+	var/delmsg	// ex. "the weight of the world rests upon my shoulders once more", displayed to the imbiber on effect end
+
+/datum/reagent/medicine/trait/on_mob_metabolize(mob/living/L)
+	. = ..()
+	if(trait && !HAS_TRAIT(L, trait))
+		ADD_TRAIT(L, trait, TRAIT_SOURCE_POTION)
+		if(addmsg)
+			to_chat(L, span_warning(addmsg)) // standard style for buff add/remove messages
+
+/datum/reagent/medicine/trait/on_mob_end_metabolize(mob/living/L)
+	. = ..()
+	if(trait && HAS_TRAIT_FROM(L, trait, TRAIT_SOURCE_POTION))
+		REMOVE_TRAIT(L, trait, TRAIT_SOURCE_POTION)
+		if(delmsg)
+			to_chat(L, span_warning(delmsg)) // ditto
+
+/mob/living/carbon/human/proc/debug_trait_pots()
+	var/list/types = typesof(/datum/reagent/medicine/trait)
+	types += /datum/reagent/repairelixir
+	var/inp = input("CHOOSE THE REAGENT THAT YOU PREFER", "ANOTHER HER", /datum/reagent/medicine/trait/nitevision) as anything in types
+	var/obj/item/reagent_containers/glass/bottle/alchemical/vial = new /obj/item/reagent_containers/glass/bottle/alchemical(loc)
+	vial.reagents.add_reagent(inp, 30)
+	put_in_hands(vial)
+
+/datum/reagent/medicine/trait/nitevision
+	name = "Nocsight Elixir"
+	description = "Grants the eyes a silvery glow, Noc's light guiding one's gaze even in the darkest nites."
+	taste_description = "shimmering moonlight"
+	scent_description = "crisp nite air"
+	trait = TRAIT_NITEVISION
+	color = "#ccd0fe"
+	addmsg = "My eyes take on a silvery hue as the veil of darkness parts before me."
+	delmsg = "My nite-sight fades; darkness falls once more."
+
+/datum/component/eye_color_change // literally only exists to store the mob's original eye color
+	dupe_mode = COMPONENT_DUPE_UNIQUE
+	var/old_color
+
+/datum/component/eye_color_change/Initialize(eye_color)
+	if(!ishuman(parent))
+		return COMPONENT_INCOMPATIBLE
+	old_color = eye_color
+
+/datum/reagent/medicine/trait/nitevision/on_mob_metabolize(mob/living/L) // yes, it actually turns your eyes silver visually
+	. = ..()
+	var/mob/living/carbon/human/H = L
+	if(!istype(H) || !H.getorganslot(ORGAN_SLOT_EYES))
+		return
+	H.AddComponent(/datum/component/eye_color_change, H.get_eye_color())
+	H.set_eye_color("#ccd0fe")
+
+/datum/reagent/medicine/trait/nitevision/on_mob_end_metabolize(mob/living/L)
+	. = ..()
+	var/mob/living/carbon/human/H = L
+	if(!istype(H))
+		return
+	var/datum/component/eye_color_change/eye_color = H.GetComponent(/datum/component/eye_color_change)
+	if(eye_color)
+		H.set_eye_color(eye_color.old_color)
+
+/datum/reagent/medicine/trait/sleepdraught
+	name = "Restful Draught"
+	description = "Calms yet invigorates the mind, maximizing the benefits of the next rest."
+	taste_description = "chamomilesque herbs"
+	scent_description = "calming floral notes"
+	trait = TRAIT_GOODSLEEP
+	color = "#8300ee"
+	addmsg = "I feel calm, yet my mind races. I will surely dream furiously."
+	delmsg = "The surge of nocturnal inspiration fades."
+
+/datum/reagent/medicine/trait/waterbreathing
+	name = "Elixir of Hadal Grace"
+	description = "Draws upon Abyssor's blessing, allowing one to persist without breath - for a time."
+	taste_description = "abyssal saltiness"
+	scent_description = "the sea"
+	trait = TRAIT_NOBREATH
+	color = "#00255eff"
+	metabolization_rate = 2 * REAGENTS_METABOLISM // don't gamer too hard with this one please
+	addmsg = "I choke momentarily as my lungs adjust; then, suddenly, I stop breathing entirely."
+	delmsg = "With a gasp, air floods my lungs once more."
+
+/datum/reagent/medicine/trait/waterbreathing/on_mob_end_metabolize(mob/living/L)
+	. = ..()
+	L.emote("gasp", forced = TRUE)
+
+/datum/reagent/medicine/trait/nutrientslurry
+	name = "Nourishing Draught"
+	description = "Slows the metabolism, allaying hunger and thirst."
+	taste_description = "frozen bird meat, inexplicably"
+	scent_description = "frosty meatiness"
+	trait = TRAIT_NOHUNGER
+	color = "#5f3e00"
+	addmsg = "Hunger and thirst fade away, my focus shifts to more important things."
+	delmsg = "My hunger and thirst return; this reprieve just as temporary as every other."
+
+/datum/reagent/medicine/trait/ravenous
+	name = "Ravenous Elixir"
+	description = "Taps into Dendor's feral nature, granting the ability to safely digest even the most dubious of foods. Won't save you from poisons, though."
+	taste_description = "viscera and marrow"
+	scent_description = "raw meat"
+	trait = TRAIT_NASTY_EATER
+	color = "#d61d6a"
+	addmsg = "I feel a ravenous hunger overtake me. After a mote, it fades to a manageable level."
+	delmsg = "My wyld hunger fades completely."
+
+/datum/reagent/medicine/trait/antidepressants
+	name = "Draught of Numbness"
+	description = "Deadens the heart, protecting one from the ravages of stress - but dulling the joys of lyfe just as much."
+	taste_description = "rapidly-fading melancholy"
+	scent_description = "tingly absence"
+	trait = TRAIT_NOMOOD
+	color = "#4d008b"
+	addmsg = "I feel my stress drain away as all emotion dulls and fades."
+	delmsg = "The stresses - and joys - of the world return to me."
+
+
+/datum/reagent/medicine/trait/negative
+	harmful = TRUE
+	metabolization_rate = 0.1 * REAGENTS_METABOLISM
+
+/datum/reagent/medicine/trait/negative/prodepressants
+	name = "Stress Toxin"
+	description = "Inflicts the mind with paranoia, enhancing any and all stresses for the duration."
+	taste_description = "a metallic tang"
+	scent_description = "a foreboding odor"
+	trait = TRAIT_BAD_MOOD
+	color = "#ff9f9f"
+	addmsg = "What was in that? I feel awful, all my burdens weigh on me more heavily."
+	delmsg = "My stress returns to a manageable level."
+
+/datum/reagent/medicine/trait/negative/evilcaffiene
+	name = "Restless Toxin"
+	description = "Energizes the mind and body, preventing restful sleep."
+	taste_description = "an energetic sourness"
+	scent_description = "a sharp clarity"
+	trait = TRAIT_NOSLEEP
+	color = "#e9e9e9"
+	addmsg = "I feel a sense of restlessness. I doubt I'll get much out of sleep, now."
+	delmsg = "The restless feeling fades."
+
+// nonfunctional since the removal of accent code
+// /datum/reagent/medicine/trait/negative/funnyvoice
+// 	name = "Xylix's Bane"
+// 	description = "Alters the vocal chords, inflicting a silly voice on the imbiber."
+// 	taste_description = "a slight sweetness"
+// 	scent_description = "sweetness"
+// 	trait = TRAIT_COMICSANS
+// 	color = "#fff789"
+// 	addmsg = "I feel something in my throat shift."
+// 	delmsg = "My voice returns to normal."
+
+// /datum/reagent/medicine/trait/negative/funnyvoice/on_mob_metabolize(mob/living/L)
+// 	. = ..()
+// 	RegisterSignal(L, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+
+// /datum/reagent/medicine/trait/negative/funnyvoice/on_mob_metabolize(mob/living/L)
+// 	. = ..()
+// 	UnregisterSignal(L, COMSIG_MOB_SAY)
+
+// /datum/reagent/medicine/trait/negative/funnyvoice/proc/handle_speech(datum/source, list/speech_args)
+// 	speech_args[SPEECH_SPANS] |= SPAN_SANS
+
+/datum/reagent/medicine/trait/negative/singing
+	name = "Xylix's Boon"
+	description = "Alters the vocal chords, inflicting a compulsion to sing on the imbiber."
+	taste_description = "a slight sweetness"
+	scent_description = "sweetness"
+	trait = TRAIT_MUSES_GRACE
+	color = "#fff789"
+	addmsg = "I feel something in my throat shift."
+	delmsg = "My voice returns to normal."
+
+/datum/reagent/repairelixir // moonstruck nectar real
+	name = "Elixir of Restoring"
+	description = "When poured over an object - anything from arms-and-armor to doors and walls - causes it to slowly repair itself for a short time. Larger quantities are more effective. Has no effect on lyving beings"
+	taste_description = "sweet metal"
+	scent_description = "cloying sweetness"
+	color = "#70eaff"
+
+/datum/reagent/repairelixir/reaction_obj(obj/O, volume)
+	. = ..()
+	O.visible_message(span_warning("[O] begins to knit itself back together under the effects of the elixir!"))
+	spawn for(var/i in 1 to volume)
+		O.obj_integrity = min(O.max_integrity, O.obj_integrity + REPAIR_ELIXIR_STRENGTH)
+		if(O.obj_integrity == O.max_integrity)
+			if(O.obj_broken)
+				O.obj_fix()
+			break
+		sleep(6) // a bottle will take a full 30 seconds to work so this shouldn't be super combat viable?
+
+#undef TRAIT_SOURCE_POTION
