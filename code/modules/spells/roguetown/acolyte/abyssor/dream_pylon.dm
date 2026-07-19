@@ -20,6 +20,8 @@
 	var/charge_cost_per_use = 25
 	/// Color hex applied to the central core overlay and player outlines
 	var/pylon_color
+	/// Whether this pylon can currently be topped up by a replenishment miracle. Resets when infusion changes.
+	var/can_recharge = TRUE
 
 /obj/structure/dream_pylon/Initialize(mapload)
 	. = ..()
@@ -115,4 +117,5 @@
 	max_charge = new_max_charge
 	charge = new_charge
 	pylon_color = new_color
+	can_recharge = TRUE
 	update_pylon_appearance()

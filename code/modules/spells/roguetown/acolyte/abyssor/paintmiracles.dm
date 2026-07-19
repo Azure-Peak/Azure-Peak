@@ -294,3 +294,55 @@
 	. = ..()
 	. *= temp_cooldown_multiplier
 	temp_cooldown_multiplier = 1.0
+
+/datum/action/cooldown/spell/recharge_pylon
+	name = "Umbral Replenishment"
+	desc = "Channel your devotion into a depleted pylon, restoring its current infusion reservoirs up to half capacity. Can only be performed once per unique infusion cycle."
+	button_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	button_icon_state = "pylon_recharge" // Ensure you have a matching dmi state or substitute
+	sound = 'sound/magic/abyssor_splash.ogg'
+	spell_color = "#330066"
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_STAT_BUFF
+
+	invocations = list(
+		"O'khor, remember the well!",
+		"Thal'ass, feed the paints!",
+		"Dra'yne back the void, fill the core!"
+	)
+	invocation_type = INVOCATION_SHOUT
+	charge_required = TRUE
+	charge_time = 1.5 SECONDS
+	cooldown_time = 45 SECONDS
+	devotion_cost = 100
+	associated_skill = /datum/skill/magic/holy
+
+/datum/action/cooldown/spell/recharge_pylon/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/user = owner
+	if(!user)
+		return FALSE
+
+	var/obj/structure/dream_pylon/target = cast_on
+	if(!istype(target))
+		to_chat(user, span_warning("This miracle must target a painted pylon!"))
+		return FALSE
+
+	if(!target.can_recharge)
+		to_chat(user, span_warning("[target]'s structure is saturated. It cannot accept any further replenishment until its core changes!"))
+		return FALSE
+
+	if(target.charge >= target.max_charge)
+		to_chat(user, span_warning("[target] is already completely overflowing with paint energy!"))
+		return FALSE
+
+	var/replenish_amount = target.max_charge * 0.5
+	replenish_amount = max(25, round(replenish_amount, 25))
+
+	target.charge = min(target.max_charge, target.charge + replenish_amount)
+	target.can_recharge = FALSE
+
+	user.visible_message(span_purple("[user] raises their hands, coaxing streams of ink from the dream back into [target]'s core!"))
+	target.update_pylon_appearance()
+	return TRUE
