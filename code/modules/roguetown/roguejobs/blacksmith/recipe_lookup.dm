@@ -1,31 +1,27 @@
 GLOBAL_LIST_EMPTY(anvil_recipe_smelt_cache)
 
 /proc/build_anvil_recipe_smelt_cache()
-	for(var/recipe_path in subtypesof(/datum/anvil_recipe))
-		var/datum/anvil_recipe/R = recipe_path
-		if(initial(R.abstract_type) == recipe_path)
+	for(var/datum/anvil_recipe/recipe as anything in GLOB.anvil_recipes)
+		if(!recipe.created_item)
 			continue
-		var/created = initial(R.created_item)
-		if(!created)
+		if(GLOB.anvil_recipe_smelt_cache[recipe.created_item])
 			continue
-		if(GLOB.anvil_recipe_smelt_cache[created])
+		if(recipe.createditem_num > 1)
 			continue
-		var/datum/anvil_recipe/instance = new recipe_path
 		var/list/products = list()
-		if(ispath(instance.req_bar, /obj/item/ingot))
-			products |= instance.req_bar
-		for(var/path in instance.additional_items)
+		if(ispath(recipe.req_bar, /obj/item/ingot))
+			products |= recipe.req_bar
+		for(var/path in recipe.additional_items)
 			if(ispath(path, /obj/item/ingot))
 				products |= path
-		qdel(instance)
 		if(length(products))
-			GLOB.anvil_recipe_smelt_cache[created] = products
+			GLOB.anvil_recipe_smelt_cache[recipe.created_item] = products
 
 /obj/item/proc/get_smelt_products()
 	if(!smeltable)
 		return null
 	if(smeltresult)
 		return list(smeltresult)
-	if(!length(GLOB.anvil_recipe_smelt_cache))
+	if(length(GLOB.anvil_recipes) && !length(GLOB.anvil_recipe_smelt_cache))
 		build_anvil_recipe_smelt_cache()
 	return GLOB.anvil_recipe_smelt_cache[type]
