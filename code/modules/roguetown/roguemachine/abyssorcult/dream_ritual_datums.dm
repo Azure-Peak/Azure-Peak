@@ -225,8 +225,10 @@
 
 	invocation_phases = list(
 		"Stars align in the ink of the abyss...",
-		"The sharp shards pierce the edge of reality...",
-		"Rise, tide of the forgotten depths, wash over the dry land!"
+		"The sharp shards pierce the edges of His dream...",
+		"Rise, tide of the forgotten depths, wash over the dry land!",
+		"Send us away! Away! AWAY!",
+		"TIDES EMBRACE US!!! SWEEP US ALONG!!!"
 	)
 
 /datum/abyssal_ritual/beach_inundation/on_success(obj/structure/roguemachine/dream_pool/P, mob/living/leader, list/mob/living/channelers)
@@ -261,3 +263,29 @@
 
 	to_chat(leader, span_purple("Your vision expands to the shores! Navigate the coastline and choose a water tile to unleash the inundation."))
 	return ..()
+
+#define MOVESPEED_ID_WATERLOG_SLOW "movespeed_waterlog_slow"
+
+/datum/status_effect/debuff/waterlogged
+	id = "waterlogged"
+	duration = 15 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/waterlogged
+
+/atom/movable/screen/alert/status_effect/debuff/waterlogged
+	name = "Waterlogged"
+	desc = "The weight of water is bogging me down. I am severely slowed!"
+	icon_state = "debuff"
+
+/datum/status_effect/debuff/waterlogged/on_apply()
+	. = ..()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.add_movespeed_modifier(MOVESPEED_ID_WATERLOG_SLOW, update=TRUE, priority=11, multiplicative_slowdown=1.2)
+
+/datum/status_effect/debuff/waterlogged/on_remove()
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.remove_movespeed_modifier(MOVESPEED_ID_WATERLOG_SLOW)
+	return ..()
+
+#undef MOVESPEED_ID_WATERLOG_SLOW

@@ -190,6 +190,8 @@
 		if(do_teleport(M, land_turf))
 			M.setDir(pick(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST))
 			M.Knockdown(40)
+			if(ishuman(M))
+				M.apply_status_effect(/datum/status_effect/debuff/waterlogged)
 			to_chat(M, span_purple("A terrifying, dark tidal wave pulls you into the pool vortex and forcefully slams you onto the shore!"))
 
 	var/list/deep_ones = list(
@@ -199,10 +201,5 @@
 		/mob/living/simple_animal/hostile/rogue/deepone/wiz
 	)
 
-	for(var/deep_one_path in deep_ones)
-		var/turf/spawn_turf = pick(landing_spots)
-		var/mob/living/D = new deep_one_path(spawn_turf)
-		D.setDir(pick(NORTH, SOUTH, EAST, WEST))
-		D.visible_message(span_purple("A roaring wave crashes down, depositing [D] onto the sand!"))
-
+	addtimer(CALLBACK(source_pool, TYPE_PROC_REF(/obj/structure/roguemachine/dream_pool, spawn_deep_one_wave), deep_ones, landing_spots), 4 SECONDS)
 	cancel_scry()

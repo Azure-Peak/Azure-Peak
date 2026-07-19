@@ -243,3 +243,19 @@
 	if(QDELETED(leader) || leader.stat != CONSCIOUS)
 		return FALSE
 	return (get_turf(leader) in outer_rim)
+
+/obj/structure/roguemachine/dream_pool/proc/spawn_deep_one_wave(list/deep_ones_left, list/landing_spots)
+	if(!length(deep_ones_left) || !length(landing_spots))
+		return
+
+	var/deep_one_path = deep_ones_left[1]
+	deep_ones_left -= deep_one_path
+
+	var/turf/spawn_turf = pick(landing_spots)
+	var/mob/living/D = new deep_one_path(spawn_turf)
+	if(D)
+		D.setDir(pick(NORTH, SOUTH, EAST, WEST))
+		D.visible_message(span_purple("A secondary undertow surges, leaving [D] onto the ground!"))
+
+	if(length(deep_ones_left))
+		addtimer(CALLBACK(src, PROC_REF(spawn_deep_one_wave), deep_ones_left, landing_spots), 1 SECONDS)
