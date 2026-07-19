@@ -265,3 +265,4 @@
 	owner.remove_filter(VAPORS_HEALING_FILTER)
 	owner.update_damage_hud()
 
+#undef VAPORS_HEALING_FILTER
