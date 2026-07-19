@@ -307,7 +307,7 @@
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/matthios/barter_secular)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/fortifyingvapors)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/flashpowder)
 		switch(weapon_choice)
 			if("Parrying Dagger")
