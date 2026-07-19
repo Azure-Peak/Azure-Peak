@@ -37,6 +37,7 @@
 
 /obj/projectile/magic/spitfire
 	name = "spitfire"
+	expose_caster_on_deflect = TRUE
 	icon_state = "fireball"
 	light_color = "#f8af07"
 	light_outer_range = 2

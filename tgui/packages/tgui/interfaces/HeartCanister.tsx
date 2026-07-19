@@ -1,9 +1,4 @@
-import {
-  Box,
-  LabeledList,
-  NoticeBox,
-  Section,
-} from 'tgui-core/components';
+import { Box, LabeledList, NoticeBox, Section } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -34,18 +29,15 @@ type Data = {
 
 export const HeartCanister = (props) => {
   const { data } = useBackend<Data>();
-  const {
-    filled = false,
-    aspect_data,
-  } = data || {};
+  const { filled = false, aspect_data } = data || {};
 
   const {
-    name = "N/A",
-    desc = "No description available",
-    type = "Unknown",
-    color = "#ffffff",
+    name = 'N/A',
+    desc = 'No description available',
+    type = 'Unknown',
+    color = '#ffffff',
     liked_concepts = [],
-    preferred_approaches_summary = "N/A",
+    preferred_approaches_summary = 'N/A',
     conflicting_traits = [],
     conflicting_quirks = [],
     // Archetype-specific defaults
@@ -57,7 +49,7 @@ export const HeartCanister = (props) => {
   return (
     <Window width={450} height={400} title="Aspect Canister Examination">
       <Window.Content>
-        {!filled && type === "Unknown" ? (
+        {!filled && type === 'Unknown' ? (
           <NoticeBox>This canister is empty.</NoticeBox>
         ) : (
           <>
@@ -66,17 +58,13 @@ export const HeartCanister = (props) => {
                 <LabeledList.Item label="Aspect Name" color="yellow">
                   <Box color={color}>{name}</Box>
                 </LabeledList.Item>
-                <LabeledList.Item label="Type">
-                  {type}
-                </LabeledList.Item>
-                <LabeledList.Item label="Description">
-                  {desc}
-                </LabeledList.Item>
+                <LabeledList.Item label="Type">{type}</LabeledList.Item>
+                <LabeledList.Item label="Description">{desc}</LabeledList.Item>
               </LabeledList>
             </Section>
 
             {/* --- Archetype-Specific Information --- */}
-            {type === "Archetype" && (
+            {type === 'Archetype' && (
               <Section title="Archetype Specifics">
                 <LabeledList>
                   <LabeledList.Item label="Possible Traits">
@@ -122,7 +110,7 @@ export const HeartCanister = (props) => {
             )}
 
             {/* --- Quirk-Specific Information --- */}
-            {type === "Quirk" && (
+            {type === 'Quirk' && (
               <Section title="Quirk Specifics">
                 <LabeledList>
                   <LabeledList.Item label="Conflicts">
@@ -135,7 +123,7 @@ export const HeartCanister = (props) => {
             )}
 
             {/* --- Trait-Specific Information --- */}
-            {type === "Trait" && (
+            {type === 'Trait' && (
               <Section title="Trait Specifics">
                 <LabeledList>
                   <LabeledList.Item label="Conflicts">
@@ -144,9 +132,7 @@ export const HeartCanister = (props) => {
                       : 'None'}
                   </LabeledList.Item>
                   <LabeledList.Item label="Liked Concepts">
-                    {liked_concepts.length
-                      ? liked_concepts.join(', ')
-                      : 'None'}
+                    {liked_concepts.length ? liked_concepts.join(', ') : 'None'}
                   </LabeledList.Item>
                   <LabeledList.Item label="Preferred Approaches">
                     {preferred_approaches_summary}

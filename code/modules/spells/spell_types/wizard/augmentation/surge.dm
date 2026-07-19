@@ -41,6 +41,7 @@
 		var/mob/living/carbon/carbon_target = target
 		carbon_target.stam_paralyzed = FALSE
 	target.set_resting(FALSE)
+	target.rest_locked_until = world.time + 1 SECONDS
 	target.stamina_add(-10) // restore a burst of stamina (green bar) rather than a full reset
 
 	target.balloon_alert_to_viewers("<font color='[spell_color]'>surge!</font>")

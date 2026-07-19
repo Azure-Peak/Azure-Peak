@@ -42,6 +42,7 @@
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "air_blade_stab"
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	damage = 66
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB

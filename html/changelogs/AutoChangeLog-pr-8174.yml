@@ -1,0 +1,4 @@
+author: "SomeDeviant"
+delete-after: True
+changes:
+  - bugfix: "fixed new 'blank' icon for the gatehatch structures on the bridge to the keep/keep front door"

@@ -1,4 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - bugfix: "wildshaping will no longer remove your tired status"

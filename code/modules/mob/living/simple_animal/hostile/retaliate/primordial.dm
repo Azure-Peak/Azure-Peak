@@ -56,6 +56,7 @@
 	faction = list(FACTION_NEUTRAL)
 	var/next_ability_use
 	var/ability_cooldown = 30 SECONDS
+	var/next_heal_time = 0
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/death()
 	..()
@@ -118,8 +119,6 @@
 	turns_per_move = 6
 	see_in_dark = 10
 	move_to_delay = 3
-
-	attack_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 
 	base_intents = list(/datum/intent/simple/claw/primordial)
 	health = 525

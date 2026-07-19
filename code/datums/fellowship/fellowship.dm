@@ -75,6 +75,8 @@
 	members += WEAKREF(user)
 	user.current_fellowship = src
 	user.faction |= faction_tag
+	for(var/mob/living/minion as anything in user.summoned_minions)
+		minion.faction |= faction_tag
 	user.request_attack_relay()
 	RegisterSignal(user, COMSIG_PARENT_QDELETING, PROC_REF(on_member_qdel), override = TRUE)
 	RegisterSignal(user, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_member_attacked), override = TRUE)
@@ -111,6 +113,8 @@
 	UnregisterSignal(user, list(COMSIG_PARENT_QDELETING, COMSIG_ATOM_WAS_ATTACKED))
 	user.release_attack_relay()
 	user.faction -= faction_tag
+	for(var/mob/living/minion as anything in user.summoned_minions)
+		minion.faction -= faction_tag
 	if(user.current_fellowship == src)
 		user.current_fellowship = null
 

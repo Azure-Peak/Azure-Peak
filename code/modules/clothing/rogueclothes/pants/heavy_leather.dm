@@ -90,6 +90,10 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_pants()
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/Initialize()
+	. = ..()
+	update_icon()
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/update_icon()
 	cut_overlays()
 	if(get_detail_tag())

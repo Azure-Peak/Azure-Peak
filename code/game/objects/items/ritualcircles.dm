@@ -438,34 +438,29 @@
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Creation", src) as null|anything in forgerites
-	switch(riteselection) // put ur rite selection here
+	switch(riteselection)
 		if("Bestow Blessing")
-			var/mob/living/target = null
-			var/turf/T = get_turf(src)
-			for(var/mob/living/person in T.contents)
-				if(!ishuman(person))
-					continue
-				if(user != person)
-					continue
-				target = person
-			if(!target)
-				to_chat(user, span_warning("I need to be standing on the rune for this to work."))
-				return
 			if(!do_after(user, 5 SECONDS))
 				return
+			user.say("Aid my craft, oh Forgefather!!")
 			if(!do_after(user, 5 SECONDS))
 				return
+			user.say("Guide my hand unto creation!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			if(!do_after(user, 3 SECONDS))
-				return
-			loc.visible_message(span_warning("[user] becomes engulfed in divine glow!"))
-			playsound(loc, 'sound/magic/magearmorup.ogg', 100, FALSE, -1)
-			malumblessing(target) // starts proc
+			user.say("Let it be molded within your name!!")
+			icon_state = "malum_active"
+			malumblessing(src)
+			playsound(user, 'sound/magic/magearmorup.ogg', 60, FALSE, -1)
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			spawn(120)
+				icon_state = "malum_chalky"
 
-/obj/structure/ritualcircle/malum/proc/malumblessing(mob/living/carbon/human/target)
-	target.apply_status_effect(/datum/status_effect/buff/malumritual)
+/obj/structure/ritualcircle/malum/proc/malumblessing(src)
+	var/ritualtargets = view(4, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		target.apply_status_effect(/datum/status_effect/buff/malumritual)
+		to_chat(target,span_cultsmall("Malum's persistance guides me forward!"))
 
 /obj/structure/ritualcircle/abyssor
 	name = "Rune of Storms"

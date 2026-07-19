@@ -46,6 +46,7 @@
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	damage = SOULSHOT_BASE_DAMAGE
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB

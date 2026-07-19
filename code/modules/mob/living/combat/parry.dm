@@ -227,19 +227,20 @@
 	var/parry_status = FALSE
 	var/text
 
-	text += "Roll to parry... [HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "???" : prob2defend]%"
-
 	// Dual wield drawback (-5%)
 	var/dualwield_penalty = HAS_TRAIT(src, TRAIT_DUALWIELDER) && src.can_dualwield(mainhand, offhand)
 	if(dualwield_penalty)
 		prob2defend = clamp(prob2defend - 5, 5, 90)
-		text += " (-5%)"
 
 	if(has_status_effect(/datum/status_effect/swingdelay/penalty))
 		prob2defend = clamp(prob2defend - 50, 5, 90)
 
 	if(HAS_TRAIT(src, TRAIT_NODEF))
 		prob2defend = 0
+
+	text += "Roll to parry... [HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "???" : prob2defend]%"
+	if(dualwield_penalty)
+		text += " (-5%)"
 
 	if(prob(prob2defend))
 		parry_status = TRUE

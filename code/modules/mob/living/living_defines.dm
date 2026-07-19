@@ -31,6 +31,7 @@
 	var/mobility_flags = MOBILITY_FLAGS_DEFAULT
 
 	var/resting = FALSE
+	var/rest_locked_until = 0
 	var/wallpressed = FALSE
 	var/climbing = FALSE
 

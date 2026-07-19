@@ -537,7 +537,10 @@
 			"WHO IS YOUR SHEPHERD!?",
 		)
 		src.visible_message(span_warning("[src] shoves the decrepit zcross into [H]'s lux!"))
-		say(pick(faith_lines), spans = list("torture"))
+		if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE))
+			say(pick(faith_lines), spans = list("bloody"))//Vheslynites aren't people.
+		else
+			say(pick(faith_lines), spans = list("torture"))
 		H.emote("agony", forced = TRUE)
 
 		if(!(do_mob(src, H, 10 SECONDS)))

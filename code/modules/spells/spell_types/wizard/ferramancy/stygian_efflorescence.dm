@@ -60,6 +60,7 @@
 /obj/projectile/energy/stygian
 	name = "stygian harpe"
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	range = 7 // Let you pressure a whole screen, in theory
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "stygian"

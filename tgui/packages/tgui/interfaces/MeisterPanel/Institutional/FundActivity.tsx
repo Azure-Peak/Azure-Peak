@@ -1,6 +1,6 @@
 import { sectionHeaderStyle } from '../../common/parchment';
 import { PaginatedLog } from '../PaginatedLog';
-import { type FundEntry, type TabProps } from '../types';
+import type { FundEntry, TabProps } from '../types';
 
 export const FundActivity = ({
   fund,

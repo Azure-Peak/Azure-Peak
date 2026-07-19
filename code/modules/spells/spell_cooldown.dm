@@ -643,6 +643,11 @@
 			owner.balloon_alert(owner, "Too exposed to focus!")
 		return FALSE
 
+	if(!(spell_requirements & SPELL_CASTABLE_WHILE_MOUNTED) && owner.client && owner.buckled && isliving(owner.buckled))
+		if(feedback)
+			owner.balloon_alert(owner, "Too distracted riding to cast!")
+		return FALSE
+
 	for(var/datum/action/cooldown/spell/spell in owner.actions)
 		if(spell == src)
 			continue
@@ -840,7 +845,8 @@
 				)
 			return sig_return | SPELL_CANCEL_CAST
 
-		if((primary_resource_type == SPELL_COST_DEVOTION) && HAS_TRAIT(cast_on, TRAIT_PSYDONITE) && !(spell_flags & SPELL_PSYDON))
+		//Psydonites/Vheslynites feel nothing
+		if((primary_resource_type == SPELL_COST_DEVOTION) && HAS_TRAIT(cast_on, TRAIT_PSYDONITE) && !(spell_flags & SPELL_PSYDON) || HAS_TRAIT(cast_on, TRAIT_UNFORGIVABLE) && !(spell_flags & SPELL_PSYDON))
 			cast_on.visible_message(span_info("[cast_on] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			playsound(cast_on, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
@@ -1675,6 +1681,10 @@
 /datum/action/cooldown/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker)
 	if(!isliving(target))
 		return FALSE
+	if(target == owner)
+		return FALSE
+	if(isnull(attacker) && ispath(associated_skill, /datum/skill/magic/arcane))
+		attacker = owner
 	return target.guard_deflect_spell(name, no_message, attacker)
 
 /datum/action/cooldown/spell/proc/signal_cancel()

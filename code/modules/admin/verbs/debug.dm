@@ -775,6 +775,9 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	// Call after_spawn if job exists (latejoin=TRUE to skip spawn protection and ready-up bonuses)
 	if(job_datum && hascall(job_datum, "after_spawn"))
 		H.islatejoin = TRUE  // Mark as latejoin to prevent ready-up bonuses
+		job_datum.announce_latejoin = FALSE 
+		job_datum.hidden_job = TRUE
+		job_datum.show_in_credits = FALSE
 		job_datum.after_spawn(H, H, TRUE)
 	
 	// Call after_spawn for migrant roles if it exists

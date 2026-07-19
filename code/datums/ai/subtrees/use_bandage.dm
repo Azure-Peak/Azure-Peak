@@ -46,7 +46,7 @@
 
 	var/old_zone = H.zone_selected
 	H.zone_selected = controller.blackboard[BB_TARGET_ZONE_OVERRIDE]
-	controller.ai_interact(H, maintain_position = TRUE)
+	controller.ai_interact(H)
 	controller.clear_blackboard_key(BB_TARGET_ZONE_OVERRIDE)
 	H.zone_selected = old_zone
 	finish_action(controller, TRUE, consumable_key)

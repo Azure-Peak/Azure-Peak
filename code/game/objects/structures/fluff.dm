@@ -1586,3 +1586,9 @@
 		icon_state = "decoybookcase0"
 		density = TRUE
 		set_opacity(TRUE)
+
+// This is from the Druid Grove remap ages back. Turning it into a proper subtype for faster init. or whatever reason ur supposed
+// to do it. 
+/obj/effect/wisp/prestidigitation/willowwisp
+	name = "Will-o'-the-wisp"
+	desc = "A small, fiery ball of light made up of mystical energy."

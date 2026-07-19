@@ -279,6 +279,10 @@
 	salvage_result = /obj/item/natural/hide/cured
 	sewrepair = TRUE
 
+/obj/item/clothing/shoes/roguetown/grenzelhoft/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
 /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter
 	name = "fencing boots"
 	desc = "A pair of lightweight snugly fitting boots. They're reinforced along the toes and ankles and offer a measure of protection against missteps and glancing blows during close exchanges, often favoured by duelists and other itinerant swordsmen."
@@ -525,6 +529,11 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_DEPRAVED, "BOOTS")
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/shoes/roguetown/boots/armor/baotha/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
+	stepnoise_flag = STEPNOISE_HEELS // This will prevent default footstep noise from being made by the heels (sounds odd)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/baotha/dropped(mob/living/carbon/human/user)
 	. = ..()

@@ -22,7 +22,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MAJOR
 	hold_drain = 1
@@ -77,6 +77,7 @@
 
 /obj/projectile/magic/ice_lance
 	name = "ice lance"
+	expose_caster_on_deflect = TRUE
 	icon_state = "u_laser"
 	damage = 90
 	npc_simple_damage_mult = 2
@@ -128,6 +129,7 @@
 
 /obj/projectile/magic/ice_burst
 	name = "ice burst"
+	expose_caster_on_deflect = TRUE
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "wipe"
 	speed = MAGE_PROJ_VERY_SLOW
@@ -180,6 +182,8 @@
 				if(L == direct_hit || L.stat == DEAD)
 					continue
 				if(L.anti_magic_check())
+					continue
+				if(L.guard_deflect_spell("Ice Burst", TRUE, caster))
 					continue
 				arcyne_strike(caster, L, null, aoe_damage, BODY_ZONE_CHEST, \
 					BCLASS_BURN, spell_name = "Ice Burst (Shatter)", \

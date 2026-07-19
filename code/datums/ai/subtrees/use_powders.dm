@@ -39,7 +39,7 @@
 	// Powder must be snorted
 	var/old_zone = H.zone_selected
 	H.zone_selected = BODY_ZONE_PRECISE_NOSE
-	controller.ai_interact(H, maintain_position = TRUE)
+	controller.ai_interact(H)
 	H.zone_selected = old_zone
 	finish_action(controller, TRUE, consumable_key)
 

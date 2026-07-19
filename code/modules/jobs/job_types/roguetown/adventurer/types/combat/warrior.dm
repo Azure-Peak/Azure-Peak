@@ -367,8 +367,18 @@
 			"Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/iron,
 			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron,
 			"Kettle Helmet"		= /obj/item/clothing/head/roguetown/helmet/kettle/iron,
+			"Slitted Kettle Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle/iron,
+			"Barbute"		= /obj/item/clothing/head/roguetown/helmet/heavy/barbute/iron,
+			"Visored Barbute"		= /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/iron,
+			"Pigface Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/iron,
+			"Hounskull Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/iron,
+			"Roundface Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/iron,
+			"Etruscan Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/iron,
+			"Aventailed Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/aventail/iron,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron,
-			"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron,
+			"Bucket Helmet, Sugarloafed"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron/classic,
+			"Sayovard"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard/iron,
+			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff/iron,
 			"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron,
 			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron/greatplume,
 			"Banded Iron Helmet"			=	/obj/item/clothing/head/roguetown/helmet/sallet/iron/banded,
@@ -417,7 +427,7 @@
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Executioner's Sword","Broadsword","Warhammer + Shield","Flail + Shield","Studded Flail + Shield","Lucerne","Greataxe","Greatflail","Banded Sword + Shield")
+		var/weapons = list("Executioner's Sword","Bastard Sword","Broadsword","Warhammer + Shield","Flail + Shield","Studded Flail + Shield","Lucerne","Greataxe","Greatflail","Banded Sword + Shield")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Executioner's Sword")
@@ -427,6 +437,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				backr = /obj/item/rogueweapon/sword/long/broadsword
+			if("Bastard Sword")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				backr = /obj/item/rogueweapon/sword/long/iron
 			if("Warhammer + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)

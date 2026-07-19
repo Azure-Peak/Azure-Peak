@@ -592,8 +592,11 @@
 	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_ADJACENT
 
+
+	primary_resource_type = SPELL_COST_ENERGY
 	primary_resource_cost = SPELLCOST_MIRACLE
 
+	secondary_resource_type = SPELL_COST_STAMINA
 	secondary_resource_cost = SPELLCOST_MIRACLE
 
 	invocation_type = INVOCATION_NONE
@@ -602,6 +605,7 @@
 	cooldown_time = 35 SECONDS
 
 	spell_requirements = SPELL_REQUIRES_SAME_Z
+	required_items = null
 
 	var/static/list/barter_whitelist = list(
 		/obj/item/clothing/ring,

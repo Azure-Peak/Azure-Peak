@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 import {
+  FONT_BODY,
   fieldLabelStyle,
   fieldRowStyle,
   fieldValueStyle,
-  FONT_BODY,
   INK_FAINT,
   inkButtonStyle,
   SEAL_AMBER,
@@ -12,7 +12,7 @@ import {
   SEAL_RED,
   sectionHeaderStyle,
 } from '../../common/parchment';
-import { type TabProps } from '../types';
+import type { TabProps } from '../types';
 
 const formatCooldown = (seconds: number) => {
   const minutes = Math.ceil(seconds / 60);
@@ -49,9 +49,7 @@ export const BathhouseOrdinanceSection = ({
               IN FORCE
             </span>
           ) : (
-            <span style={{ color: SEAL_RED, fontWeight: 'bold' }}>
-              BROKEN
-            </span>
+            <span style={{ color: SEAL_RED, fontWeight: 'bold' }}>BROKEN</span>
           )}
         </div>
       </div>
@@ -87,7 +85,7 @@ export const BathhouseOrdinanceSection = ({
           >
             <p style={{ margin: '0 0 6px 0' }}>
               {
-                'By ancient prerogative granted of the Crown, the Baths of Azure Peak stand within the Bishop\'s liberty. The Bathmaster oweth no farm nor fee unto the Crown\'s coffers; rather, of all sales of herbs and unguents, the Bathmaster shall render one part in ten, and of the regular income arising from the rendering of services, one part in five, unto the Church. The Baths shall stand as a hearth unto Eora\'s flames, to render comfort and solace unto the lonely and the weary who enters, to give those who freely love and renders it unto others a safe place of working such that they may make their keep, and count the Baths labor amongst the goddess\'s own works, pleasing to her sight. And thus the Church doth take the Baths into its protection, by blade and by law. So long as the Ordinance holds, the Crown shall have no claim upon the Baths, whose most holy works is within the Church\'s sole jurisdiction.'
+                "By ancient prerogative granted of the Crown, the Baths of Azure Peak stand within the Bishop's liberty. The Bathmaster oweth no farm nor fee unto the Crown's coffers; rather, of all sales of herbs and unguents, the Bathmaster shall render one part in ten, and of the regular income arising from the rendering of services, one part in five, unto the Church. The Baths shall stand as a hearth unto Eora's flames, to render comfort and solace unto the lonely and the weary who enters, to give those who freely love and renders it unto others a safe place of working such that they may make their keep, and count the Baths labor amongst the goddess's own works, pleasing to her sight. And thus the Church doth take the Baths into its protection, by blade and by law. So long as the Ordinance holds, the Crown shall have no claim upon the Baths, whose most holy works is within the Church's sole jurisdiction."
               }
             </p>
             <p style={{ margin: '0 0 4px 0' }}>
@@ -98,7 +96,7 @@ export const BathhouseOrdinanceSection = ({
             <ul style={{ margin: '0 0 6px 16px', padding: 0 }}>
               <li style={{ marginBottom: 4 }}>
                 {
-                  'To prohibit the sale or trafficking of any physick or smoke stronger than purified moondust and ozium, lest the mind of any guest be so clouded as to forget the Ten\'s teaching. Violation shall be fined a zilaque.'
+                  "To prohibit the sale or trafficking of any physick or smoke stronger than purified moondust and ozium, lest the mind of any guest be so clouded as to forget the Ten's teaching. Violation shall be fined a zilaque."
                 }
               </li>
               <li style={{ marginBottom: 4 }}>
@@ -108,7 +106,7 @@ export const BathhouseOrdinanceSection = ({
               </li>
               <li style={{ marginBottom: 4 }}>
                 {
-                  'To suffer within the Baths no manifest scandal of false devotion. Of any attendant or guest who hath lost themselves to wanton hedonism or to the depravities of false rites, the Bathmaster shall inform the Church in manner most discreet, and deliver such soul unto the Church\'s care - that they may be shown again the light of Eora\'s love. So long as none is harmed, what is done behind closed doors the Ordinance shall not intrude upon; for Eora hath granted unto her faithful the gift of love and intimacy in privacy, as is pleasing to her sight.'
+                  "To suffer within the Baths no manifest scandal of false devotion. Of any attendant or guest who hath lost themselves to wanton hedonism or to the depravities of false rites, the Bathmaster shall inform the Church in manner most discreet, and deliver such soul unto the Church's care - that they may be shown again the light of Eora's love. So long as none is harmed, what is done behind closed doors the Ordinance shall not intrude upon; for Eora hath granted unto her faithful the gift of love and intimacy in privacy, as is pleasing to her sight."
                 }
               </li>
               <li style={{ marginBottom: 4 }}>
@@ -118,13 +116,13 @@ export const BathhouseOrdinanceSection = ({
               </li>
               <li style={{ marginBottom: 4 }}>
                 {
-                  'To render unto no drunken soul more liquor than they can hold; to serve no guest more than five sniffings of unguents in a single sitting; and to suffer no soul to take more of any physick than the body may bear, lest they fall into convulsion, delirium, or Necra\'s embrace before their time is due. The Bathmaster shall be answerable for any guest who is borne forth in such a state, and shall render unto the kin of the lost, or the Church which must undertake their resuscitation, a recompense as the Church shall judge fit.'
+                  "To render unto no drunken soul more liquor than they can hold; to serve no guest more than five sniffings of unguents in a single sitting; and to suffer no soul to take more of any physick than the body may bear, lest they fall into convulsion, delirium, or Necra's embrace before their time is due. The Bathmaster shall be answerable for any guest who is borne forth in such a state, and shall render unto the kin of the lost, or the Church which must undertake their resuscitation, a recompense as the Church shall judge fit."
                 }
               </li>
             </ul>
             <p style={{ margin: '0 0 6px 0' }}>
               {
-                'Should the ordinances be broken, the Church may renounce its sanction or seek recompense as it see fit; the brassface shall fall again beneath the Crown\'s tariff, and the matter of the Baths\' regular income shall be settled thereafter between the Bathmaster and the Crown alone.'
+                "Should the ordinances be broken, the Church may renounce its sanction or seek recompense as it see fit; the brassface shall fall again beneath the Crown's tariff, and the matter of the Baths' regular income shall be settled thereafter between the Bathmaster and the Crown alone."
               }
             </p>
             <p style={{ margin: 0, color: INK_FAINT }}>
@@ -143,8 +141,8 @@ export const BathhouseOrdinanceSection = ({
             fontSize: FONT_BODY,
           }}
         >
-          The seal is still warm upon the wax. The Ordinance may be reconsidered in{' '}
-          {formatCooldown(cooldownSeconds)}.
+          The seal is still warm upon the wax. The Ordinance may be reconsidered
+          in {formatCooldown(cooldownSeconds)}.
         </div>
       )}
       <div

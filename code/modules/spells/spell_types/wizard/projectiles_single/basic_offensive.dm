@@ -42,6 +42,10 @@
 		list("name" = "Soulshot", "tag" = "BEAM", "proj" = /obj/projectile/magic/soulshot, "arc" = FALSE, "icon" = "soulshot", "cost" = SPELLCOST_MAJOR_PROJECTILE, "cooldown" = 12 SECONDS, "charge" = CHARGETIME_MAJOR, "slowdown" = CHARGING_SLOWDOWN_SMALL, "sound" = 'sound/magic/soulshot.ogg', "invocation" = "Animus Ictus!"),
 	)
 
+/datum/action/cooldown/spell/projectile/basic_offensive/Grant(mob/grant_to)
+	. = ..()
+	apply_mode(current_mode)
+
 /datum/action/cooldown/spell/projectile/basic_offensive/proc/apply_mode(index)
 	var/list/mode = modes[index]
 	projectile_type = mode["proj"]

@@ -286,52 +286,71 @@
 
 /obj/item/rogueweapon/woodstaff/aries/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()
-	if(ishuman(A) && user.mind?.assigned_role == "Bishop" && user.used_intent?.type == /datum/intent/bless)
-		var/mob/living/carbon/human/H = A
-		if(!H.has_status_effect(/datum/status_effect/buff/blessed) || !H.has_stress_event(/datum/stressevent/blessed_evil) || !H.has_stress_event(/datum/stressevent/blessed_neutral))
-			playsound(user, 'sound/magic/censercharging.ogg', 100)
-			user.visible_message(span_info("[user] holds \the [src] over \the [H], offering a solemn blessing..."))
-			if(do_after(user, 50, target = H))
-				if((H.patron?.type in ALL_DIVINE_PATRONS))
-					to_chat(H, span_hypnophrase("You feel the Ten's blessings settle upon your soul."))
-					H.apply_status_effect(/datum/status_effect/buff/blessed)
-					H.add_stress(/datum/stressevent/blessed)
-				else
-					if(H.patron?.type in ALL_INHUMEN_PATRONS)
-						to_chat(H, span_boldred("You feel the Ten's blessings weight upon your soul."))
-						H.add_stress(/datum/stressevent/blessed_evil)
-					else
-						to_chat(H, span_hypnophrase("You feel the Ten's blessings reluctantly settle upon your soul."))
-						H.add_stress(/datum/stressevent/blessed_neutral)
-				playsound(H, 'sound/magic/bless.ogg', 100)
-				new /obj/effect/temp_visual/censer_dust(get_turf(H))
-				user.visible_message(span_notice("[user] blesses [H]."))
-			return
-		else
-			to_chat(user, span_warning("[H] has already been blessed."))
-			return
-	else
-		to_chat(user, span_warning("The staff sizzles a bit against my hand as I try that."))
+
+	if(user.mind?.assigned_role != "Bishop")
+		to_chat(user, span_warning("The staff sizzles against my hand!"))
 		user.emote("pain")
 		return
 
-/obj/item/rogueweapon/woodstaff/aries/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
-	. = ..()
-	if(user.mind?.assigned_role == "Bishop" && isitem(target) && user.used_intent?.type == /datum/intent/bless)
-		var/datum/component/silverbless/CP = target.GetComponent(/datum/component/silverbless)
-		if(!CP)
-			to_chat(user, span_info("\The [target] can not be blessed."))
+	if(user.used_intent?.type != /datum/intent/bless)
+		return
+
+	// people
+	if(ishuman(A))
+		var/mob/living/carbon/human/H = A
+
+		if(H.has_status_effect(/datum/status_effect/buff/blessed) || H.has_stress_event(/datum/stressevent/blessed_evil) || H.has_stress_event(/datum/stressevent/blessed_neutral))
+			to_chat(user, span_warning("[H] has already been blessed."))
 			return
-		else if(!CP.is_blessed && (CP.silver_type & SILVER_TENNITE))
-			playsound(user, 'sound/magic/censercharging.ogg', 100)
-			user.visible_message(span_info("[user] holds \the [src] over \the [target]..."))
-			if(do_after(user, 5 SECONDS, target = target))
-				CP.try_bless(BLESSING_TENNITE)
-				new /obj/effect/temp_visual/censer_dust(get_turf(target))
+
+		playsound(user, 'sound/magic/censercharging.ogg', 100)
+		user.visible_message(span_info("[user] holds \the [src] over \the [H], offering a solemn blessing..."))
+
+		if(!do_after(user, 50, target = H))
 			return
+
+		if(H.patron?.type in ALL_INHUMEN_PATRONS)
+			to_chat(H, span_boldred("You feel the Ten's blessings weigh upon your soul."))
+			H.add_stress(/datum/stressevent/blessed_evil)
+		else if(H.patron?.type in OLD_GOD_PATRON)
+			to_chat(H, span_hypnophrase("You feel the Ten's blessings reluctantly settle upon your soul."))
+			H.add_stress(/datum/stressevent/blessed_neutral)
 		else
+			to_chat(H, span_hypnophrase("You feel the Ten's blessings settle upon your soul."))
+			H.apply_status_effect(/datum/status_effect/buff/blessed)
+			H.add_stress(/datum/stressevent/blessed)
+
+		playsound(H, 'sound/magic/bless.ogg', 100)
+		new /obj/effect/temp_visual/censer_dust(get_turf(H))
+		user.visible_message(span_blue("[user] blesses [H]."))
+		return
+
+	// silver items
+	if(isitem(A))
+		var/obj/item/I = A
+		var/datum/component/silverbless/CP = I.GetComponent(/datum/component/silverbless)
+
+		if(!CP)
+			to_chat(user, span_info("\The [I] cannot be blessed."))
+			return
+
+		if(CP.is_blessed)
 			to_chat(user, span_info("It has already been blessed."))
 			return
+
+		if(!(CP.silver_type & SILVER_TENNITE))
+			to_chat(user, span_info("\The [I] cannot receive Tennite blessings."))
+			return
+
+		playsound(user, 'sound/magic/censercharging.ogg', 100)
+		user.visible_message(span_info("[user] holds \the [src] over \the [I]..."))
+
+		if(!do_after(user, 5 SECONDS, target = I))
+			return
+
+		CP.try_bless(BLESSING_TENNITE)
+		new /obj/effect/temp_visual/censer_dust(get_turf(I))
+		return
 
 /obj/item/rogueweapon/woodstaff/aries/getonmobprop(tag)
 	. = ..()
@@ -1105,13 +1124,7 @@
 		update_icon()
 
 /obj/item/rogueweapon/halberd/blacksteel/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
+	refresh_detail_overlay()
 
 /obj/item/rogueweapon/halberd/blacksteel/attack_self(mob/living/user)
 	. = ..()
@@ -1337,13 +1350,7 @@
 		update_icon()
 
 /obj/item/rogueweapon/eaglebeak/blacksteel/update_icon()
-	cut_overlays()
-	if(get_detail_tag())
-		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
-		pic.appearance_flags = RESET_COLOR
-		if(get_detail_color())
-			pic.color = get_detail_color()
-		add_overlay(pic)
+	refresh_detail_overlay()
 
 /obj/item/rogueweapon/eaglebeak/blacksteel/attack_self(mob/living/user)
 	. = ..()

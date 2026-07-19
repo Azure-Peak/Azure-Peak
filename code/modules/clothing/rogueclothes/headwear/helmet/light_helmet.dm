@@ -182,6 +182,10 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 
+/obj/item/clothing/head/roguetown/grenzelhofthat/Initialize()
+	. = ..()
+	update_icon()
+
 /obj/item/clothing/head/roguetown/grenzelhofthat/update_icon()
 	cut_overlays()
 	if(get_detail_tag())

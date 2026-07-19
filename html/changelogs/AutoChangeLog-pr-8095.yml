@@ -1,8 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - rscadd: "Added a heel-morphing elixir, that could add heels (and the appropriate SFX) to any shoewear item."
-  - rscadd: "Added a heelification elixir to Donator-exclusive loadot."
-  - rscadd: "Added a heelification elixir to the Luxury section of the -Faces as well as some loot drops in dungeons."
-  - rscadd: "Added a heelification elixir to the squirely storage loot pool and the Bootcheck miracle."
-  - sound: "Added heel footstep SFX."

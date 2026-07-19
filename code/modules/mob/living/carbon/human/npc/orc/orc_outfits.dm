@@ -6,6 +6,8 @@
 	r_hand = null
 	H.STASTR -= 2
 	H.STAPER += 3
+	H.STACON -= 1
+	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 

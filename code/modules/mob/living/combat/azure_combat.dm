@@ -1,4 +1,4 @@
-/mob/living/carbon/human/proc/process_clash(mob/user, obj/item/IM, obj/item/IU)
+/mob/living/carbon/human/proc/process_clash(mob/user, obj/item/IM, obj/item/IU, is_bite = FALSE)
 	if(!ishuman(user))
 		return
 	if(user == src)
@@ -9,6 +9,26 @@
 		clash(user, IM, IU)
 		return
 	if(!IU)	//The opponent is trying to rawdog us with their bare hands while we have Guard up. We get a riposte window.
+		if(is_bite)	//They lunged in with their teeth -- rather than a hand or weapon, we give them an extra bonk to the head.
+			var/obj/item/bodypart/affecting = H.get_bodypart(BODY_ZONE_HEAD)
+			var/force = IM ? get_complex_damage(IM, src) : get_punch_dmg()
+			var/armor_block = H.run_armor_check(BODY_ZONE_PRECISE_MOUTH, "blunt", armor_penetration = PEN_NONE, damage = force)
+			if(IM)
+				visible_message(span_suicide("[src] catches [H]'s bite and bashes \the [IM] into [H.p_their()] mouth!"))
+			else
+				visible_message(span_suicide("[src] catches [H]'s bite and smashes [p_their()] fist into [H.p_their()] mouth!"))
+			if(affecting && H.apply_damage(force, BRUTE, affecting, armor_block))
+				affecting.bodypart_attacked_by(BCLASS_BLUNT, force, crit_message = TRUE, weapon = IM, zone_precise = BODY_ZONE_PRECISE_MOUTH)
+			H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+			H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+			if(H.mind)
+				H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
+			H.Slowdown(3)
+			to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
+			playsound(src, 'sound/combat/clash_struck.ogg', 100)
+			remove_status_effect(/datum/status_effect/buff/clash)
+			apply_status_effect(/datum/status_effect/buff/adrenaline_rush/melee)
+			return
 		if(!IM)
 			visible_message(span_suicide("[src] ripostes [H]'s strike with [p_their()] bare hands!"))
 		else

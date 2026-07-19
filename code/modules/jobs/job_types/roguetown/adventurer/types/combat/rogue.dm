@@ -305,6 +305,9 @@
 		var/weapons = list("Parrying Dagger","Whip", "Short Spear")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/matthios/barter_secular)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/flashpowder)
 		switch(weapon_choice)
 			if("Parrying Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, TRUE)
@@ -355,8 +358,3 @@
 				if(!LAZYLEN(H.mind.mage_aspect_config)) //ripped from arcyne potential virtue, not sure what it does
 					H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4))
 				H.mind.check_learnspell()
-	
-		H.AddSpell(new /datum/action/cooldown/spell/matthios/barter_secular)
-		H.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/flashpowder)
-		

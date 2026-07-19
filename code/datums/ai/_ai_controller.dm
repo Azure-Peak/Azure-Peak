@@ -217,7 +217,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	return !QDELETED(pawn)
 
 ///Interact with objects
-/datum/ai_controller/proc/ai_interact(target, combat_mode, nextmove = FALSE, list/modifiers, maintain_position = FALSE)
+/datum/ai_controller/proc/ai_interact(target, combat_mode, nextmove = FALSE, list/modifiers)
 	if(!ai_can_interact())
 		return FALSE
 
@@ -231,12 +231,6 @@ have ways of interacting with a specific atom and control it. They posses a blac
 		return FALSE
 	if(nextmove && living_pawn.next_move > world.time)
 		return FALSE
-
-	if(!maintain_position)
-		if(!(living_pawn.mobility_flags & MOBILITY_STAND))
-			living_pawn.aimheight_change(rand(1,9))
-		else
-			living_pawn.aimheight_change(rand(10,19))
 
 	var/params = list2params(modifiers)
 
@@ -366,8 +360,19 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 /datum/ai_controller/proc/on_pawn_attacked(mob/living/source, atom/attacker, damage)
 	SIGNAL_HANDLER
-	if(ai_status != AI_STATUS_ON)
-		reset_ai_status()
+	wake_for_combat()
+
+/datum/ai_controller/proc/wake_for_combat()
+	if(ai_status == AI_STATUS_ON)
+		return
+	if(ismob(pawn))
+		var/mob/living/mob_pawn = pawn
+		if(mob_pawn.stat >= UNCONSCIOUS)
+			return
+		if(mob_pawn.client && !continue_processing_when_client)
+			return
+	blackboard[BB_AI_ALERT_MODE_UNTIL] = world.time + 30 SECONDS
+	set_ai_status(AI_STATUS_ON)
 
 /// Sets the AI on or off based on current conditions, call to reset after you've manually disabled it somewhere
 /datum/ai_controller/proc/reset_ai_status()
@@ -506,7 +511,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			// Account for weapon reach: an AI with a whip/polearm should stop walking once they
 			// can swing, not insist on dist <= 1. iscarbon check matches the held_for_reach scope above.
 			var/effective_required_distance = current_behavior.required_distance
-			if(iscarbon(moving_pawn))
+			if(iscarbon(moving_pawn) && isliving(current_movement_target))
 				var/mob/living/carbon/carbon_pawn = moving_pawn
 				var/intent_reach = carbon_pawn.used_intent?.reach || 1
 				if(intent_reach > effective_required_distance)
@@ -667,7 +672,6 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	UnregisterSignal(pawn, COMSIG_MOB_LOGIN)
 	if(!continue_processing_when_client)
 		set_ai_status(AI_STATUS_OFF) //Can't do anything while player is connected
-	set_ai_status(AI_STATUS_OFF) //Can't do anything while player is connected
 	RegisterSignal(pawn, COMSIG_MOB_LOGOUT, PROC_REF(on_sentience_lost))
 
 /datum/ai_controller/proc/on_sentience_lost()

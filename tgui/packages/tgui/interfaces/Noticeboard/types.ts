@@ -1,9 +1,11 @@
-import { type RoutedActFunctionType } from '../../backend';
+import type { sendAct } from 'tgui/events/act';
 
 export const POSTING_TIER_NOTICE = 'notice';
 export const POSTING_TIER_LISTING = 'listing';
 
-export type PostingTier = typeof POSTING_TIER_NOTICE | typeof POSTING_TIER_LISTING;
+export type PostingTier =
+  | typeof POSTING_TIER_NOTICE
+  | typeof POSTING_TIER_LISTING;
 
 export type Posting = {
   posting_id: string;
@@ -154,5 +156,5 @@ export type TabKey = 'postings' | 'avisa' | 'roster';
 
 export type TabProps = {
   data: NoticeboardData;
-  act: RoutedActFunctionType;
+  act: typeof sendAct;
 };

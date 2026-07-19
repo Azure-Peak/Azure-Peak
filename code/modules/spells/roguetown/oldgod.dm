@@ -171,6 +171,15 @@
 			// We do nothing to avoid meta checking for undead
 			target.visible_message(span_info("A strange stirring feeling pours from [target]!"), span_info("Sentimental thoughts drive away my pain..."))		
 			return TRUE
+		if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //ANCIENT ENEMY, I DO NOT FEAR YOU.
+			target.visible_message(span_info("[target] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be corrupted and rebuked back at its caster!"))
+			playsound(target, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
+			owner.playsound_local(owner, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
+			H.adjust_fire_stacks(8, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, ANCIENT ENEMY
+			H.ignite_mob()
+			H.adjustBruteLoss(25)
+			owner.visible_message(span_warning("[owner] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine, yet my body catches aflame. a feeling of ominious dread washes over me."))
+			return TRUE
 
 		// Bonuses! Flavour! SOVL!
 		for(var/obj/item/clothing/neck/current_item in target.get_equipped_items(TRUE))
@@ -608,7 +617,21 @@
 		to_chat(user, span_warning("[H] is irreversibly gone... There's nothing we can do to bring them back anymore!"))
 		user.emote("cry")
 		revert_cast()
-		return FALSE
+
+	if(HAS_TRAIT(H, TRAIT_UNFORGIVABLE)) //ANCIENT ENEMY, I DO NOT FEAR YOU.
+		H.visible_message(span_info("[H] stirs for a moment, the miracle is reformed into unmaking flame!"), span_notice("A dull warmth passes through your hollow husk of a body, only to be corrupted and rebuked back at its caster!"))
+		playsound(H, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
+		user.playsound_local(user, 'sound/magic/magic_nulled.ogg', 100, FALSE, -1)
+		user.adjust_fire_stacks(15, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, ANCIENT ENEMY
+		user.Knockdown(10)
+		user.Jitter(30)
+		user.ignite_mob()
+		if(!HAS_TRAIT(user, TRAIT_NOPAIN))
+			user.emote("agony")
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			user.freak_out()
+		to_chat(user, span_userdanger("I recoil as I'm violently SMITED by profane flame as I attempt to purify their lux by the merging of-.. wait, where's THEIR LUX?!"))
+		return
 
 	if(H.stat == DEAD || HAS_TRAIT(H, TRAIT_DEADITE))
 		to_chat(user, span_warning("[H]'s Lux is extinguished... What can I do?!"))

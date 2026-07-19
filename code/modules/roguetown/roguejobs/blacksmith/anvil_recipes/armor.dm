@@ -949,11 +949,11 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/winged/iron
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
-/datum/anvil_recipe/armor/iron/helmetbuc
-	name = "Bucket Helmet, Iron (+1 Iron)"
+/datum/anvil_recipe/armor/iron/helmetbucclassic
+	name = "Iron Bucket Helmet, Sugarloafed (+1 Iron)"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/ingot/iron)
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron/classic
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/iron/helmetpig
@@ -1952,21 +1952,21 @@
 /datum/anvil_recipe/armor/decorated/gilded_cuirass
 	name = "Cuirass, Decorated (+1 Steel Cuirass, +1 Steel)"
 	req_bar = /obj/item/ingot/gold
-	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted, /obj/item/ingot/steel)
+	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass, /obj/item/ingot/steel)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/decorated
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/decorated/gilded_halfplate
 	name = "Halfplate, Decorated (+1 Steel Halfplate, +1 Steel)"
 	req_bar = /obj/item/ingot/gold
-	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/fluted, /obj/item/ingot/steel)
+	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate, /obj/item/ingot/steel)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/fluted/decorated
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/decorated/gilded_fullplate
 	name = "Plate Armor, Decorated (+1 Steel Plate Armor, +1 Steel)"
 	req_bar = /obj/item/ingot/gold
-	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/full/fluted, /obj/item/ingot/steel)
+	additional_items = list(/obj/item/clothing/suit/roguetown/armor/plate/full, /obj/item/ingot/steel)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/decorated
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 

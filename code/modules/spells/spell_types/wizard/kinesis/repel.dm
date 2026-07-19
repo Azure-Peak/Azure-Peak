@@ -51,6 +51,7 @@
 
 /obj/projectile/magic/repel
 	name = "bolt of repeling"
+	expose_caster_on_deflect = TRUE
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "curseblob"
 	flag = "blunt"

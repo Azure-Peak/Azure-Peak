@@ -1,5 +1,5 @@
 import { cls } from './helpers';
-import { type Aspect } from './types';
+import type { Aspect } from './types';
 
 export const GrimoireChapterList = ({
   aspects,
@@ -28,7 +28,9 @@ export const GrimoireChapterList = ({
           className={cls(
             'AspectPicker__chapter-entry',
             viewing && 'AspectPicker__chapter-entry--active',
-            active && !isPendingUnbind && 'AspectPicker__chapter-entry--attuned',
+            active &&
+              !isPendingUnbind &&
+              'AspectPicker__chapter-entry--attuned',
             isLocked && 'AspectPicker__chapter-entry--locked',
             isPendingUnbind && 'AspectPicker__chapter-entry--unbinding',
           )}
@@ -36,9 +38,7 @@ export const GrimoireChapterList = ({
         >
           <span
             style={{
-              ...(aspect.school_color
-                ? { color: aspect.school_color }
-                : {}),
+              ...(aspect.school_color ? { color: aspect.school_color } : {}),
               ...(isPendingUnbind
                 ? { textDecoration: 'line-through', opacity: 0.6 }
                 : {}),

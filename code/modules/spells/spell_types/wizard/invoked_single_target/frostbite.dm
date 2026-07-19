@@ -28,6 +28,8 @@
 /obj/effect/proc_holder/spell/invoked/frostbite/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
 		var/mob/living/carbon/target = targets[1]
+		if(spell_guard_check(target, TRUE, user))
+			return TRUE
 		target.apply_status_effect(/datum/status_effect/buff/frostbite/) //apply debuff
 		target.adjustFireLoss(12) //damage
 		target.adjustBruteLoss(12)
