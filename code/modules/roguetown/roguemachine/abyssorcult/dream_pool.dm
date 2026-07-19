@@ -10,6 +10,7 @@
 	var/obj/structure/dream_pool_door/linked_door
 	/// Tracks if a group ritual is actively processing right now
 	var/ritual_active = FALSE
+	redstone_structure = TRUE
 
 /obj/structure/roguemachine/dream_pool/Initialize(mapload)
 	. = ..()
@@ -122,49 +123,8 @@
 	if(!length(GLOB.abyssal_rituals))
 		initialize_abyssal_rituals()
 
-	var/list/selectable_menu = list()
-	var/list/display_to_ritual = list()
-	for(var/ritual_name in GLOB.abyssal_rituals)
-		var/datum/abyssal_ritual/R = GLOB.abyssal_rituals[ritual_name]
-		var/menu_line = "\n[R.name] - Requires: "
-		if(length(R.required_ingredients))
-			var/list/ing_strings = list()
-			for(var/ing_type in R.required_ingredients)
-				var/qty = R.required_ingredients[ing_type]
-				var/obj/item/dummy = initial(ing_type:name)
-				ing_strings += "[qty]x [dummy]"
-			menu_line += jointext(ing_strings, ", ")
-		else
-			menu_line += "No external offerings"
-		var/has_mats = R.check_ingredients(src)
-		if(has_mats)
-			menu_line = "\[READY\] [menu_line]"
-		else
-			menu_line = "\[MISSING MATERIALS\] [menu_line]"
-		selectable_menu += menu_line
-		display_to_ritual[menu_line] = R
-
-	var/choice = tgui_input_list(user, "Select an abyssal ritual to execute via the vortex:", "Vortex Ritual Chamber", selectable_menu)
-
-	if(!choice || QDELETED(src) || QDELETED(user) || user.stat != CONSCIOUS)
-		return
-	var/datum/abyssal_ritual/chosen_ritual = display_to_ritual[choice]
-	if(!chosen_ritual)
-		return
-
-	if(user.get_skill_level(/datum/skill/magic/holy) < 1)
-		to_chat(user, span_warning("You lack the holy proficiency required to initiate an abyssal ritual."))
-		return FALSE
-	if(!istype(user.patron, /datum/patron/divine/abyssor))
-		to_chat(user, span_warning("Only a true follower of Abyssor can initiate this ritual."))
-		return FALSE
-	if(!chosen_ritual.check_ingredients(src))
-		to_chat(user, span_warning("You do not have the required materials arrayed on the outer rim for [chosen_ritual.name]!"))
-		return
-	if(!chosen_ritual.can_commence_ritual(src, user))
-		return
-
-	INVOKE_ASYNC(src, PROC_REF(coordinate_channeling_loop), user, chosen_ritual)
+	var/datum/tgui_module/vortex_ritual_selection/module = new(src, user)
+	module.ui_interact(user)
 
 /obj/structure/roguemachine/dream_pool/proc/coordinate_channeling_loop(mob/living/carbon/human/leader, datum/abyssal_ritual/R)
 	ritual_active = TRUE
@@ -383,3 +343,13 @@
 			playsound(src, 'sound/magic/abyssor_splash.ogg', 70, TRUE)
 			L.Knockdown(1 SECONDS)
 		AM.throw_at(target_turf, 5, 1)
+
+/obj/structure/roguemachine/dream_pool/redstone_triggered(mob/user)
+	..()
+	if(!linked_door || linked_door.animating)
+		return
+
+	if(linked_door.gate_closed)
+		linked_door.open_gate(user)
+	else
+		linked_door.close_gate(user)
