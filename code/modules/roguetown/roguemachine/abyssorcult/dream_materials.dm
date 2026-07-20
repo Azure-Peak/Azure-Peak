@@ -153,3 +153,59 @@
 	max_charge_grant = 100
 	infusion_type = /datum/status_effect/infusion/ambush_trait
 	pylon_color = "#001611"
+
+/obj/effect/spawner/lootdrop/roguetown/dream_material
+	name = "dream material spawner"
+	icon_state = "cot"
+	lootcount = 1
+	loot = list(
+		/obj/item/dream_material/parchment_raw = 50,
+		/obj/item/dream_material/parchment_silver = 25,
+	)
+
+// Tier 1 Dream Materials Spawner
+/obj/effect/spawner/lootdrop/roguetown/dream_material/tier1
+	name = "tier 1 dream material spawner"
+	loot = list(
+		/obj/item/dream_material/dream_spike = 40,
+		/obj/item/dream_material/parchment_raw = 30,
+		/obj/item/dream_material/dream_ring = 30
+	)
+
+// Tier 2 Dream Materials Spawner
+/obj/effect/spawner/lootdrop/roguetown/dream_material/tier2
+	name = "tier 2 dream material spawner"
+	loot = list(
+		/obj/item/dream_material/dream_effigy = 40,
+		/obj/item/dream_material/dream_fishes = 30,
+		/obj/item/dream_material/dream_blade = 30
+	)
+
+// Tier 3 Dream Materials Spawner
+/obj/effect/spawner/lootdrop/roguetown/dream_material/tier3
+	name = "tier 3 dream material spawner"
+	loot = list(
+		/obj/item/dream_material/dream_shards = 50,
+		/obj/item/dream_material/dream_star = 50
+	)
+
+// Dream Seeds Spawner
+/obj/effect/spawner/lootdrop/roguetown/dream_material/seeds
+	name = "dream seed spawner"
+	loot = list(
+		/obj/item/dream_material/dream_seed = 20, // Intelligence
+		/obj/item/dream_material/dream_seed/perception = 20,
+		/obj/item/dream_material/dream_seed/fortune = 20,
+		/obj/item/dream_material/dream_seed/strength = 15,
+		/obj/item/dream_material/dream_seed/speed = 15,
+		/obj/item/dream_material/dream_seed/sneaky = 10
+	)
+
+// Parchments Spawner
+/obj/effect/spawner/lootdrop/roguetown/dream_material/parchment
+	name = "dream parchment spawner"
+	loot = list(
+		/obj/item/dream_material/parchment_silver = 60,
+		/obj/item/dream_material/parchment_gold = 30,
+		/obj/item/dream_material/parchment_dream = 10
+	)
