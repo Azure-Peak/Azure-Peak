@@ -162,6 +162,11 @@
 	smells_like = "tingly absence"
 	output_reagents =list(/datum/reagent/medicine/trait/antidepressants = 90)
 
+/datum/alch_cauldron_recipe/trait/wyrdlaborer
+	name = "Laborer's Draught"
+	smells_like = "earthiness"
+	output_reagents =list(/datum/reagent/medicine/trait/wyrdlaborer = 90)
+
 /datum/alch_cauldron_recipe/trait/negative
 	abstract_type = /datum/alch_cauldron_recipe/trait/negative
 	skill_required = SKILL_LEVEL_EXPERT // poisons are harder...
@@ -171,15 +176,15 @@
 	smells_like = "paranoia"
 	output_reagents = list(/datum/reagent/medicine/trait/negative/prodepressants = 30) // ...and yield less
 
-/datum/alch_cauldron_recipe/trait/negative/prodepressants
-	name = "Stress Toxin"
+/datum/alch_cauldron_recipe/trait/negative/evilcaffiene
+	name = "Restless Toxin"
 	smells_like = "paranoia"
-	output_reagents = list(/datum/reagent/medicine/trait/negative/prodepressants = 30)
+	output_reagents = list(/datum/reagent/medicine/trait/negative/evilcaffiene = 30)
 
-/datum/alch_cauldron_recipe/trait/negative/prodepressants
-	name = "Stress Toxin"
-	smells_like = "paranoia"
-	output_reagents = list(/datum/reagent/medicine/trait/negative/prodepressants = 30)
+/datum/alch_cauldron_recipe/trait/negative/singing
+	name = "Xylix's Boon"
+	smells_like = "whimsy"
+	output_reagents = list(/datum/reagent/medicine/trait/negative/singing = 30)
 
 /datum/alch_cauldron_recipe/repairelixir
 	name = "Elixir of Restoring"

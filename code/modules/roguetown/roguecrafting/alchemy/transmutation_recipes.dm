@@ -244,7 +244,68 @@
 	output_items = list(/obj/item/riddleofsteel = 1)
 
 /datum/transmutation_recipe/rubedo/nitevision
-	name = "Moonlight Distillation"
+	name = "Lunar Quintessence"
 	materia_aspects = list(/datum/materia_aspect/lunar)
 	input_items = list(/obj/item/alch/mentha = 1, /obj/item/alch/matricaria = 1) // per potion ingredients, plus the lunar aspect = noc potion
 	output_items = list(/obj/item/alch/reagent_nitevision = 1)
+
+/datum/transmutation_recipe/rubedo/sleepdraught
+	name = "Nocturnal Grace"
+	materia_aspects = list(/datum/materia_aspect/lunar)
+	input_items = list(/obj/item/alch/sleep_powder = 1, /obj/item/alch/briar_essence = 1) // sleep poison ingredients, purified with silver
+	output_items = list(/obj/item/alch/reagent_sleepdraught = 1)
+
+/datum/transmutation_recipe/rubedo/waterbreathing
+	name = "Call of the Abyss"
+	materia_aspects = list(/datum/materia_aspect/water)
+	input_items = list(/obj/item/alch/ozium = 1, /obj/item/alch/seeddust = 1) // strong stam potion ingredients, plus abyssor's blessing
+	output_items = list(/obj/item/alch/reagent_waterbreathing = 1)
+
+/datum/transmutation_recipe/rubedo/nitevision
+	name = "Nature's Provision"
+	materia_aspects = list(/datum/materia_aspect/animal)
+	input_items = list(/obj/item/alch/earthdust = 1, /obj/item/alch/bone = 1) // con potion ingredients, plus dendor's blessing
+	output_items = list(/obj/item/alch/reagent_nutrientslurry = 1)
+
+/datum/transmutation_recipe/rubedo/ravenous
+	name = "Feral Nature"
+	materia_aspects = list(/datum/materia_aspect/animal) // gee dendor, how come your mom lets you have two rubedo potions?
+	input_items = list(/obj/item/alch/viscera = 1, /obj/item/alch/atropa = 1) // disgusting combo, plus dendor's blessing
+	output_items = list(/obj/item/alch/reagent_ravenous = 1)
+
+/datum/transmutation_recipe/rubedo/antidepressants
+	name = "Lady's Mercy" // which lady? you could pass it off as eoran, but let's be real. welcome to the baotha zone
+	materia_aspects = list(/datum/materia_aspect/air)
+	input_items = list(/obj/item/alch/ozium = 1, /obj/item/alch/swampdust = 1) // lady of heartbreak, ease my burdens!
+	output_items = list(/obj/item/alch/reagent_antidepressants = 1)
+
+/datum/transmutation_recipe/rubedo/wyrdlaborer // it's fucking dendor agai- what? this one's malum? oh, ok
+	name = "Steelbound Might"
+	materia_aspects = list(/datum/materia_aspect/tool)
+	input_items = list(/obj/item/alch/salvia = 1, /obj/item/alch/coaldust = 1) // str potion ingredients, plus fire for malum's blessing
+	output_items = list(/obj/item/alch/reagent_wyrdlaborer = 1)
+
+/datum/transmutation_recipe/rubedo/prodepressants
+	name = "Grave's Premonition"
+	materia_aspects = list(/datum/materia_aspect/earth) // todo maybe add an aspect to bones/remains for necran vibes?
+	input_items = list(/obj/item/alch/mineraldust = 1, /obj/item/alch/atropa = 1) // doom poison ingredients, plus the weight of earth and necra's curse
+	output_items = list(/obj/item/alch/reagent_prodepressants = 1)
+
+/datum/transmutation_recipe/rubedo/evilcaffiene
+	name = "Boundless Effervescence"
+	materia_aspects = list(/datum/materia_aspect/fire)
+	input_items = list(/obj/item/alch/waterdust = 1, /obj/item/alch/matricaria = 1) // (strong) energy potion ingredients, plus fire for malum's curse
+	output_items = list(/obj/item/alch/reagent_evilcaffiene = 1)
+
+/datum/transmutation_recipe/rubedo/singing
+	name = "Weft of the Tragedian"
+	materia_aspects = list(/datum/materia_aspect/air)
+	input_items = list(/obj/item/alch/rosa = 1, /obj/item/alch/calendula = 1) // extremely innocuous ingredients, plus air for xylix's whimsy
+	output_items = list(/obj/item/alch/reagent_singing = 1)
+
+/datum/transmutation_recipe/rubedo/mending
+	name = "Careworn Respite"
+	materia_aspects = list(/datum/materia_aspect/water)
+	input_items = list(/obj/item/alch/rosa = 1, /obj/item/alch/symphitum = 1) // vaguely healing potion ingredients, plus tool aspect = malum potio- the fuck you mean this one's actually eoran
+	output_items = list(/obj/item/alch/reagent_mending = 1)
+

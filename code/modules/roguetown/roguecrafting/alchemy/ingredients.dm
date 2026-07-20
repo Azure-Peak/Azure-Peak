@@ -633,12 +633,93 @@
 
 // t2 alchemical reagents
 /obj/item/alch/reagent_nitevision
-	name = "Nocsight Reagent"
+	name = "Lunar Quintessence"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, brimming with silvery moonlight."
 	complete_pot = /datum/alch_cauldron_recipe/trait/nitevision
 	materia = list(/datum/materia_aspect/lunar, /datum/materia_aspect/arcyne)
+
+/obj/item/alch/reagent_sleepdraught
+	name = "Nocturnal Grace"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, merely looking at it guides the mind towards restful thoughts."
+	complete_pot = /datum/alch_cauldron_recipe/trait/sleepdraught
+	materia = list(/datum/materia_aspect/lunar, /datum/materia_aspect/arcyne)
+
+/obj/item/alch/reagent_waterbreathing
+	name = "Call of the Abyss"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, the sounds of the sea emanate from it."
+	complete_pot = /datum/alch_cauldron_recipe/trait/waterbreathing
+	materia = list(/datum/materia_aspect/water, /datum/materia_aspect/arcyne)
+
+/obj/item/alch/reagent_nutrientslurry
+	name = "Nature's Provision"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, holding it makes your mouth water."
+	complete_pot = /datum/alch_cauldron_recipe/trait/nutrientslurry
+	materia = list(/datum/materia_aspect/crop, /datum/materia_aspect/arcyne)
+
+/obj/item/alch/reagent_ravenous
+	name = "Feral Nature"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, holding it inspires an unnatural hunger."
+	complete_pot = /datum/alch_cauldron_recipe/trait/ravenous
+	materia = list(/datum/materia_aspect/animal, /datum/materia_aspect/arcyne)
+
+/obj/item/alch/reagent_antidepressants
+	name = "Lady's Mercy"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, gazing at it makes the world seem less consequential."
+	complete_pot = /datum/alch_cauldron_recipe/trait/antidepressants
+	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/arcyne)
+
+/obj/item/alch/reagent_wyrdlaborer
+	name = "Steelbound Might"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, it brims with strength."
+	complete_pot = /datum/alch_cauldron_recipe/trait/wyrdlaborer
+	materia = list(/datum/materia_aspect/tool, /datum/materia_aspect/arcyne)
+
+/obj/item/alch/reagent_prodepressants
+	name = "Grave's Premonition"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, looking upon it is unpleasant."
+	complete_pot = /datum/alch_cauldron_recipe/trait/prodepressants
+	materia = list(/datum/materia_aspect/earth, /datum/materia_aspect/arcyne)
+
+/obj/item/alch/reagent_evilcaffiene
+	name = "Boundless Effervescence"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, it is impossible to relax in its presence."
+	complete_pot = /datum/alch_cauldron_recipe/trait/negative/evilcaffiene
+	materia = list(/datum/materia_aspect/fire, /datum/materia_aspect/arcyne)
+
+/obj/item/alch/reagent_singing
+	name = "Weft of the Tragedian"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, the world feels lighter in its presence."
+	complete_pot = /datum/alch_cauldron_recipe/trait/negative/singing
+	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/arcyne)
+
+/obj/item/alch/reagent_mending
+	name = "Careworn Respite"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, it bonds readily to anything it touches."
+	complete_pot = /datum/alch_cauldron_recipe/repairelixir
+	materia = list(/datum/materia_aspect/water, /datum/materia_aspect/arcyne)
+
 
 //dust mix crafting
 /datum/crafting_recipe/roguetown/alch/feaudust

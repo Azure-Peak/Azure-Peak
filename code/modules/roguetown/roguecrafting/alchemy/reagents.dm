@@ -770,6 +770,16 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	addmsg = "I feel my stress drain away as all emotion dulls and fades."
 	delmsg = "The stresses - and joys - of the world return to me."
 
+/datum/reagent/medicine/trait/wyrdlaborer
+	name = "Laborer's Draught"
+	description = "Deadens the heart, protecting one from the ravages of stress - but dulling the joys of lyfe just as much."
+	taste_description = "strangely invigorating earthiness"
+	scent_description = "earthiness"
+	trait = TRAIT_WYRD_LABOURER
+	color = "#ad4f10"
+	addmsg = "I feel a strange strength growing. The world seems like parchment, or clay - as easily sculped as it is cleaved."
+	delmsg = "The surge of strength fades."
+
 /datum/reagent/medicine/trait/negative
 	harmful = TRUE
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
