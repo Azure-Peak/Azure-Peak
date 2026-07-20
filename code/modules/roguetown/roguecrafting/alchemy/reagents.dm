@@ -719,7 +719,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	name = "Restful Draught"
 	description = "Calms yet invigorates the mind, maximizing the benefits of the next rest."
 	taste_description = "chamomilesque herbs"
-	scent_description = "calming floral notes"
+	scent_description = "calming florescence"
 	trait = TRAIT_GOODSLEEP
 	color = "#8300ee"
 	addmsg = "I feel calm, yet my mind races. I will surely dream furiously."
@@ -740,7 +740,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	. = ..()
 	L.emote("gasp", forced = TRUE)
 
-/datum/reagent/medicine/trait/nutrientslurry
+/datum/reagent/medicine/trait/nutrientslurry // loser mage meal replacement shake
 	name = "Nourishing Draught"
 	description = "Slows the metabolism, allaying hunger and thirst."
 	taste_description = "frozen bird meat, inexplicably"
@@ -769,7 +769,6 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	color = "#4d008b"
 	addmsg = "I feel my stress drain away as all emotion dulls and fades."
 	delmsg = "The stresses - and joys - of the world return to me."
-
 
 /datum/reagent/medicine/trait/negative
 	harmful = TRUE
@@ -829,13 +828,16 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 /datum/reagent/repairelixir // moonstruck nectar real
 	name = "Elixir of Restoring"
-	description = "When poured over an object - anything from arms-and-armor to doors and walls - causes it to slowly repair itself for a short time. Larger quantities are more effective. Has no effect on lyving beings"
+	description = "When poured over an object - anything from arms-and-armor to doors and walls - causes it to slowly repair itself for a short time. Items must be on the ground or a table. Larger quantities are more effective. Has no effect on lyving beings"
 	taste_description = "sweet metal"
 	scent_description = "cloying sweetness"
 	color = "#70eaff"
 
 /datum/reagent/repairelixir/reaction_obj(obj/O, volume)
 	. = ..()
+	if(isitem(O) && !isturf(O.loc))
+		O.visible_message(span_warning("The elixir splashes over [O] and fizzles slightly, before spilling off. It needs to be on a stable surface to mend!"))
+		return
 	O.visible_message(span_warning("[O] begins to knit itself back together under the effects of the elixir!"))
 	spawn for(var/i in 1 to volume)
 		O.obj_integrity = min(O.max_integrity, O.obj_integrity + REPAIR_ELIXIR_STRENGTH)
