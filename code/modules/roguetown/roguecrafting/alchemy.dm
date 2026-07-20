@@ -85,7 +85,7 @@
 
 /datum/crafting_recipe/roguetown/alchemy/qsabsolution
 	name = "absolving silver"
-	category = "Transmutation"
+	category = "Basic Transmutation"
 	req_table = FALSE
 	result = list(/obj/item/quicksilver/luxinfused = 1)
 	reqs = list(/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius/bloodied = 1, /datum/reagent/water/blessed = 45, /obj/item/natural/cloth = 1, /obj/item/alch/silverdust = 1)
@@ -161,14 +161,14 @@
 
 /datum/crafting_recipe/roguetown/alchemy/distill
 	name = "distill water"
-	category = "Transmutation"
+	category = "Basic Transmutation"
 	result = list(/obj/item/reagent_containers/glass/bottle/rogue/water = 1)
 	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /datum/reagent/water/gross = 48)
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/alchemy/w2w
 	name = "water to wine"
-	category = "Transmutation"
+	category = "Basic Transmutation"
 	result = list(/obj/item/reagent_containers/glass/bottle/rogue/wine = 1)
 	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /datum/reagent/water = 50)
 	craftdiff = 3 //WHO THE FUCK THOUGHT SETTING THIS AT 2 WAS A GOOD IDEA? MAKE IT MAKE SENSE.
@@ -176,7 +176,7 @@
 
 /datum/crafting_recipe/roguetown/alchemy/f2gra
 	name = "fiber to grain"
-	category = "Transmutation"
+	category = "Basic Transmutation"
 	result = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 1)
 	reqs = list(/obj/item/natural/fibers = 4)
 	craftdiff = 3
@@ -184,7 +184,7 @@
 
 /datum/crafting_recipe/roguetown/alchemy/skysugarbase
 	name = "panacea of skysugar"
-	category = "Transmutation"
+	category = "Basic Transmutation"
 	result = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase = 1)
 	reqs = list(/obj/item/reagent_containers/food/snacks/rogue/raisins/blackberry = 1, /obj/item/reagent_containers/lux_impure = 1, /obj/item/reagent_containers/powder/starsugar = 1)
 	craftdiff = 5 //Better hope you've been practicing!
@@ -192,7 +192,7 @@
 
 /datum/crafting_recipe/roguetown/alchemy/skysugar
 	name = "skysugar slab to skysugar powder (x3)"
-	category = "Transmutation"
+	category = "Basic Transmutation"
 	result = list(/obj/item/reagent_containers/powder/starsugar/skysugar,
 					/obj/item/reagent_containers/powder/starsugar/skysugar,
 					/obj/item/reagent_containers/powder/starsugar/skysugar)
@@ -202,7 +202,7 @@
 
 /datum/crafting_recipe/roguetown/alchemy/cd2coa
 	name = "coal dust to coal"
-	category = "Transmutation"
+	category = "Basic Transmutation"
 	result = list(/obj/item/rogueore/coal = 1)
 	reqs = list(/obj/item/alch/coaldust = 3)
 	craftdiff = 2
@@ -210,7 +210,7 @@
 
 /datum/crafting_recipe/roguetown/alchemy/id2irn
 	name = "iron dust to iron"
-	category = "Transmutation"
+	category = "Basic Transmutation"
 	result = list(/obj/item/rogueore/iron = 1)
 	reqs = list(/obj/item/alch/irondust = 3)
 	craftdiff = 3
@@ -218,7 +218,7 @@
 
 /datum/crafting_recipe/roguetown/alchemy/gd2gol
 	name = "gold dust to gold"
-	category = "Transmutation"
+	category = "Basic Transmutation"
 	result = list(/obj/item/rogueore/gold = 1)
 	reqs = list(/obj/item/alch/golddust = 3)
 	craftdiff = 4
