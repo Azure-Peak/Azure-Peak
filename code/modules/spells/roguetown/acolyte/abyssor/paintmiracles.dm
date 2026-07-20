@@ -58,7 +58,7 @@
 	name = "Paint Attunement"
 	desc = "Conduct a lengthy attunement mracle to bind an ally to your paint trails. Targets cannot move during the ritual. Casting without a direct target allows you to manage or revoke existing blessings."
 	button_icon = 'icons/mob/actions/abyssormiracles.dmi'
-	//button_icon_state = "paint_bless"
+	button_icon_state = "paint_bless"
 	sound = 'sound/magic/abyssor_splash.ogg'
 	spell_color = "#5c0099"
 
@@ -177,7 +177,7 @@
 	name = "Umbral Coating"
 	desc = "Infuse your active weapon with a heavy, abyssal paint. Strikes against mindless beasts deal devastating damage. Conscious targets take minimal damage but bleed paint trails. If cast with an empty hand, shapes the paint into a short-lived bow preloaded with a single paint arrow."
 	button_icon = 'icons/mob/actions/abyssormiracles.dmi'
-	button_icon_state = "umbral_viscosity"
+	button_icon_state = "paint_blade"
 	sound = 'sound/magic/abyssor_splash.ogg'
 	spell_color = "#03000a"
 
@@ -240,7 +240,7 @@
 	name = "Purifying Wave"
 	desc = "Purify nearby abyssal paint trails within your immediate surroundings, turning them into healing trails for the attuned. The more paint affected (up to 10), the longer the cooldown."
 	button_icon = 'icons/mob/actions/pestraspells.dmi'
-	button_icon_state = "spore_transmute"
+	button_icon_state = "paint_heal"
 	sound = 'sound/magic/abyssor_splash.ogg'
 	spell_color = "#125a00"
 
@@ -299,7 +299,7 @@
 	name = "Umbral Replenishment"
 	desc = "Channel your devotion into a depleted pylon, restoring its current infusion reservoirs up to half capacity. Can only be performed once per unique infusion cycle."
 	button_icon = 'icons/mob/actions/abyssormiracles.dmi'
-	button_icon_state = ""
+	button_icon_state = "paint_infusion"
 	sound = 'sound/magic/abyssor_splash.ogg'
 	spell_color = "#330066"
 
