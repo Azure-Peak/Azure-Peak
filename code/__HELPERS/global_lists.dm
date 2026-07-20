@@ -34,7 +34,11 @@
 
 	init_subtypes(/datum/alch_cauldron_recipe, GLOB.alch_cauldron_recipes)
 
+	init_subtypes(/datum/transmutation_recipe, GLOB.transmutation_recipes)
+
 	init_subtypes(/datum/stew_recipe, GLOB.stew_recipes)
+
+	init_paths(/datum/materia_aspect, GLOB.prima_materia_aspects)
 
 	for(var/i in 0 to 20)
 		GLOB.mouseicons_human += file("icons/effects/mousemice/swang/[i * 5].dmi")

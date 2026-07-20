@@ -285,3 +285,11 @@
 	max_w_class = WEIGHT_CLASS_HUGE
 	screen_max_rows = 8
 	screen_max_columns = 4
+
+/datum/component/storage/concrete/roguetown/trans
+	max_w_class = WEIGHT_CLASS_TINY
+	screen_max_rows = 5
+	screen_max_columns = 2
+	can_hold = typecacheof(list(/obj/item/alch/catalyst))
+	intercept_parent_attack = FALSE
+	intercept_parent_mousedrop = TRUE

@@ -35,6 +35,9 @@
 		temp_recipe = new path()
 		var/datum/alch_cauldron_recipe/r = temp_recipe
 		category = r.category
+	else if(ispath(path, /datum/transmutation_recipe))
+		var/datum/transmutation_recipe/r = path
+		category = r::category
 	else if(ispath(path, /datum/brewing_recipe))
 		temp_recipe = new path()
 		var/datum/brewing_recipe/r = temp_recipe
@@ -167,6 +170,11 @@
 	else if(ispath(path, /datum/alch_cauldron_recipe))
 		temp_recipe = new path()
 		var/datum/alch_cauldron_recipe/r = temp_recipe
+		recipe_name = initial(r.name)
+		recipe_html = r.generate_html(user)
+	else if(ispath(path, /datum/transmutation_recipe))
+		temp_recipe = new path()
+		var/datum/transmutation_recipe/r = temp_recipe
 		recipe_name = initial(r.name)
 		recipe_html = r.generate_html(user)
 	else if(ispath(path, /datum/brewing_recipe))

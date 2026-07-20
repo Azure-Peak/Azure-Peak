@@ -108,7 +108,9 @@
 
 /obj/effect/spawner/lootdrop/potion_ingredient/Initialize(mapload)
 	if(!all_potion_ings.len)
-		all_potion_ings = (subtypesof(/obj/item/alch) - subtypesof(/obj/item/alch/hag_moss))
+		all_potion_ings = subtypesof(/obj/item/alch)
+		all_potion_ings.RemoveAll(typesof(/obj/item/alch/hag_moss))
+		all_potion_ings.RemoveAll(typesof(/obj/item/alch/catalyst)) // sorry, that'd make it too easy
 	if(!loot.len)
 		loot = all_potion_ings.Copy()
 	return ..()

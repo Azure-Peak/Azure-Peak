@@ -793,6 +793,24 @@
 		qdel(src)
 		return ..()
 
+/obj/structure/fluff/alch/trans
+	name = "transmutation lab"
+	desc = "An exquisite workstation containing everything one needs to perform advanced alchemical procedures."
+	var/inuse = FALSE // avoiding tgui headaches right off the bat
+
+/obj/structure/fluff/alch/trans/Initialize()
+	. = ..()
+	AddComponent(/datum/component/storage/concrete/roguetown/trans) // to store our transmutation catalysts in. what did you think it meant?
+
+/obj/structure/fluff/alch/trans/get_mechanics_examine(mob/user)
+	. = ..()
+	if(!can_transmute(user)) // this is real alchemical shit get out of here novices
+		return
+	. += span_info("Standing nearby allows one to craft basic alchemical recipes.")
+	. += span_info("Left click to open the interface. Within, you can create catalysts and perform transmutation. See the Encyclopedia for more details.")
+	. += span_info("Drag the workstation to yourself to open the catalyst inventory. Catalysts stored here will enable transmutation recipes for the workstation.")
+	. += span_info("Right click to cancel a catalyzation experiment, refunding the seed item.")
+
 /obj/structure/fluff/statue
 	name = "statue"
 	desc = "Dead stone designed to compel living minds."
@@ -1330,54 +1348,54 @@
 					var/mob/living/carbon/human/thebride
 					for(var/mob/M in viewers(src, 7))
 						// You cannot marry an animal, a corpse, a brainless mob, or someone who is already married.
-						if(!ishuman(M)) 
+						if(!ishuman(M))
 							continue
 						var/mob/living/carbon/human/C = M
 
 						if(C.stat == DEAD || !C.client || C.marriedto)
 							continue
-						
+
 						if(C.real_name == A.bitten_names[1])
 							thegroom = C
 						if(C.real_name == A.bitten_names[2])
 							thebride = C
-					
+
 					if(!thegroom || !thebride)
 						to_chat(user, span_warn("nonexistent"))
 						return
-					
+
 					// Astounding update: marriage now requires consent (it didn't before)
 					var/groom_confirm = input(thegroom, "Do you want to marry [thebride]?") as null|anything in list("Yes", "No")
 					if(groom_confirm != "Yes")
 						to_chat(user, span_warning("The groom has declined the marriage!"))
 						return ..()
-					
+
 					var/bride_confirm = input(thebride, "Do you want to marry [thegroom]?") as null|anything in list("Yes", "No")
 					if(bride_confirm != "Yes")
 						to_chat(user, span_warning("The bride has declined the marriage!"))
 						return ..()
-					
+
 					// Horrible terrible last name necromancy (sometimes works)
 					var/groom_index = findtext(thegroom.real_name, " ")
 					var/bride_index = findtext(thebride.real_name, " ")
 					var/bride_firstname = bride_index ? copytext(thebride.real_name, 1, bride_index) : thebride.real_name
-					
+
 					// Get groom's surname
 					var/groom_surname = copytext(thegroom.real_name, groom_index + 1)
 					if(!groom_index)
 						groom_surname = null
 					else if(findtext(thegroom.real_name, " of ") || findtext(thegroom.real_name, " the "))
 						groom_surname = null
-					
+
 					var/final_bride_name
 					// Ask bride if she wants to take the groom's surname
 					if(groom_surname != null)
 						var/bride_surname_choice = input(thebride, "Do you want to take [thegroom]'s surname? (Your new name will be [bride_firstname] [groom_surname])") as null|anything in list("Yes", "No")
 						final_bride_name = (bride_surname_choice == "Yes") ? (bride_firstname + " " + groom_surname) : thebride.real_name
-					
+
 					// Apply the changes
 					thebride.change_name(final_bride_name)
-			
+
 					thegroom.marriedto = thebride.real_name
 					thebride.marriedto = thegroom.real_name
 
@@ -1588,7 +1606,7 @@
 		set_opacity(TRUE)
 
 // This is from the Druid Grove remap ages back. Turning it into a proper subtype for faster init. or whatever reason ur supposed
-// to do it. 
+// to do it.
 /obj/effect/wisp/prestidigitation/willowwisp
 	name = "Will-o'-the-wisp"
 	desc = "A small, fiery ball of light made up of mystical energy."
