@@ -120,7 +120,7 @@
 			existing_types += Q.type
 		var/list/available = list()
 		for(var/datum/vision_quest/Q in GLOB.all_vision_quests)
-			if(Q.required_tier <= tier && !(Q.type in existing_types))
+			if(Q.required_tier == tier && !(Q.type in existing_types))
 				available += Q
 		if(length(available))
 			shuffle(available)
@@ -141,7 +141,7 @@
 		if(!length(tier_choices))
 			var/list/tiered_quests = list()
 			for(var/datum/vision_quest/Q in GLOB.all_vision_quests)
-				if(Q.required_tier <= tier)
+				if(Q.required_tier == tier)
 					tiered_quests += Q
 
 			if(!length(tiered_quests))
@@ -149,8 +149,6 @@
 				return
 
 			shuffle(tiered_quests)
-			//var/list/selected_quests = tiered_quests.Copy(1, min(10, length(tiered_quests) + 1)) // Increased from 3 to 10 for better initial coverage
-
 			for(var/datum/vision_quest/Q in tiered_quests)
 				var/mob/living/carbon/human/valid_target = find_valid_target_for_quest(Q, user)
 				if(!valid_target)
