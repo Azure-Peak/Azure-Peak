@@ -293,12 +293,15 @@
 	color = "#48443b"
 	sewrepair = TRUE
 	resistance_flags = FIRE_PROOF
-	armor = ARMOR_LEATHER //Higher-tier protection for pugilist-centric classes. Fits the 'glass cannon' style, and prevents instant death through a glancing headshot on the intended archetype. 
+	armor = ARMOR_LEATHER //Higher-tier protection for pugilist-centric classes. Fits the 'glass cannon' style, and prevents instant death through a glancing headshot on the intended archetype.
 	body_parts_covered = HEAD|HAIR|EARS
 	max_integrity = ARMOR_INT_SIDE_STEEL //High leather-tier protection and critical resistances, steel-tier integrity. Integrity boost encourages hand-to-hand parrying. Weaker than the Psydonic Thorns.
 	blocksound = SOFTHIT
 	//dropshrink = 0.75
 	dynamic_hair_suffix = null
+
+/obj/item/clothing/head/roguetown/headband/monk/black
+	color = COLOR_ALMOST_BLACK
 
 /obj/item/clothing/head/roguetown/headband/monk
 	name = "padded headband"
@@ -395,7 +398,7 @@
 	desc = "A feathered leather hat, to show them all your superiority."
 	icon_state = "duelhat"
 	sewrepair = TRUE
-	color = COLOR_ALMOST_BLACK	
+	color = COLOR_ALMOST_BLACK
 	detail_tag = "_detail"
 	detail_color = COLOR_SILVER
 
@@ -588,7 +591,7 @@
 
 /obj/item/clothing/head/roguetown/veiled/ComponentInitialize()
 	..()
-	AddComponent(/datum/component/adjustable_clothing, (NECK|HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD|UPD_MASK))	
+	AddComponent(/datum/component/adjustable_clothing, (NECK|HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD|UPD_MASK))
 
 /obj/item/clothing/head/roguetown/veiled/loudmouth
 	name = "loudmouth's headcover"

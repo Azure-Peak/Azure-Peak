@@ -35,6 +35,7 @@
 		/datum/advclass/page, // the squire neophyte, intended to tag along with/evolve to adjudicators or disciples
 		/datum/advclass/oblate, // the healer neophyte, intended to tag along with/evolve to absolvers
 		/datum/advclass/penitent, // the thief neophyte, intended to tag along with/evolve to confessors
+		/datum/advclass/servitor, // the homesteader neophyte, intended to stay in the manor and/or contribute to econ
 	)
 
 /datum/advclass/scribe
@@ -47,9 +48,12 @@
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 1,
-		STATKEY_SPD = 1
+		STATKEY_SPD = 1,
+		STATKEY_CON = -3,
+		STATKEY_LCK = -1,
 	)
 	subclass_skills = list(
+		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
@@ -62,6 +66,7 @@
 
 	)
 	tempo_capable = FALSE
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 7, ward = TRUE)
 	subclass_stashed_items = list(
 		"The Book" = /obj/item/book/rogue/bibble/psy,
 		"Chains" = /obj/item/rope/chain,
@@ -74,11 +79,6 @@
 		"Feather" = /obj/item/natural/feather,
 	)
 
-/datum/outfit/job/roguetown/neophyte/basic/scribe/pre_equip(mob/living/carbon/human/H)
-	..()
-	if(H.mind)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/transcribe)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
 
 /datum/advclass/page
 	name = "Page"
@@ -141,10 +141,10 @@
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_WIL = 1,
-		STATKEY_SPD = 1
+		STATKEY_SPD = 1,
 	)
 	subclass_skills = list(
-		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
@@ -188,7 +188,9 @@
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,
-		STATKEY_WIL = 1
+		STATKEY_WIL = 1,
+		STATKEY_CON = -2,
+		STATKEY_LCK = -1,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
@@ -214,7 +216,8 @@
 	H.adjust_blindness(-3)
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
 	cloak = /obj/item/clothing/cloak/tabard/psydontabard/black
-	head = /obj/item/clothing/head/roguetown/roguehood/psydon/black
+	mask = /obj/item/clothing/mask/rogue/spectacles/duelist/steel
+	head = /obj/item/clothing/head/roguetown/headband/monk/black
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	belt = /obj/item/storage/belt/rogue/leather/black
@@ -223,7 +226,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	id = /obj/item/clothing/ring/signet/psy
+	id = /obj/item/clothing/neck/roguetown/psicross/silver
 	backpack_contents = list(
 		/obj/item/inqarticles/indexer = 3,
 		/obj/item/inqarticles/inqslip_kit = 1,
@@ -232,3 +235,40 @@
 		/obj/item/polishing_cream = 3,
 		/obj/item/contraption/folding_table_stored = 1,
 		)
+
+/datum/advclass/servitor
+	name = "Servitor"
+	tutorial = "The embassy stands because someone keeps it standing. As a Servitor, you tend the gardens, repair the grounds, haul supplies, prepare ammo, and see to the countless humble labors that keep the Inquisition running. Though your duties are rarely glorious, every Orthodoxist depends upon your work, and diligence is its own form of devotion."
+	outfit = /datum/outfit/job/roguetown/neophyte/basic
+	subclass_languages = list(/datum/language/otavan)
+	category_tags = list(CTAG_NEOPHYTE)
+	traits_applied = list(TRAIT_JACKOFALLTRADES, TRAIT_SELF_RELIANCE, TRAIT_SMITHING_EXPERT, TRAIT_SEWING_EXPERT, TRAIT_FOOD_STIPEND, TRAIT_CAUTIOUS_FISHER)
+	subclass_stats = list(
+		STATKEY_SPD = 2, // awful stats to compensate its utility
+		STATKEY_WIL = 2,
+		STATKEY_CON = -3,
+		STATKEY_LCK = -2,
+	)
+	subclass_skills = list(
+		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/smelting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/masonry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+	)
+	tempo_capable = FALSE
+	subclass_stashed_items = list(
+		"The Book" = /obj/item/book/rogue/bibble/psy,
+		"Cleaver" = /obj/item/rogueweapon/huntingknife/cleaver,
+		"Dolabra" = /obj/item/rogueweapon/pick/bronze,
+		"Hammer" = /obj/item/rogueweapon/hammer,
+		"Tongs" = /obj/item/rogueweapon/tongs,
+		"Scroll" = /obj/item/paper/scroll,
+		"Feather" = /obj/item/natural/feather,
+	)
