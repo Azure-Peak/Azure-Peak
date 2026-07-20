@@ -25,8 +25,3 @@
 #define FARE_NEUTRAL 3
 #define FARE_FINE 4
 #define FARE_LAVISH 5
-
-#define CULINARY_FAVOURITE_FOOD "Favourite Food"
-#define CULINARY_FAVOURITE_DRINK "Favourite Drink"
-#define CULINARY_HATED_FOOD "Hated Food"
-#define CULINARY_HATED_DRINK "Hated Drink"

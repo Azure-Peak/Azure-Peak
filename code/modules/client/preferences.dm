@@ -226,10 +226,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/taur_type = null
 	var/taur_color = "ffffff"
 
-	/// Assoc list of culinary preferences, where the key is the type of the culinary preference, and value is food/drink typepath
-	var/list/culinary_preferences = list()
-
-
 	var/tgui_pref = TRUE
 
 	var/race_bonus
@@ -631,7 +627,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Faith:</b> <a href='?_src_=prefs;preference=faith;task=input'>[selected_faith?.name || "FUCK!"]</a><BR>"
 			dat += "<b>Patron:</b> <a href='?_src_=prefs;preference=patron;task=input'>[selected_patron?.name || "FUCK!"]</a><BR>"
 			dat += "<b>Dominance:</b> <a href='?_src_=prefs;preference=domhand'>[domhand == 1 ? "Left-handed" : "Right-handed"]</a><BR>"
-			dat += "<b>Food Preferences:</b> <a href='?_src_=prefs;preference=culinary;task=menu'>Change</a><BR>"
 
 			var/musicname = (combat_music.shortname ? combat_music.shortname : combat_music.name)
 			dat += "<b>Combat Music:</b> <a href='?_src_=prefs;preference=combat_music;task=input'>[musicname || "FUCK!"]</a><BR>"
@@ -1588,9 +1583,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		else
 			to_chat(usr, span_love("- You have been successfully <b>AGE-VERIFIED!</b>"))
 
-	else if(href_list["preference"] == "culinary")
-		show_culinary_ui(user)
-		return
 	else if(href_list["preference"] == "markings")
 		ShowMarkings(user)
 		return
@@ -1703,10 +1695,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		if("change_descriptor")
 			handle_descriptors_topic(user, href_list)
 			show_descriptors_ui(user)
-			return
-		if("change_culinary_preferences")
-			handle_culinary_topic(user, href_list)
-			show_culinary_ui(user)
 			return
 		if("random")
 			switch(href_list["preference"])
@@ -3239,9 +3227,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	// Customizers are already applied inside set_species() (both the species-change path via
 	// on_species_gain, and the same-species short-circuit). Re-applying here doubled the work.
-
-	if(culinary_preferences)
-		apply_culinary_preferences(character)
 
 /datum/preferences/proc/get_default_name(name_id)
 	switch(name_id)
