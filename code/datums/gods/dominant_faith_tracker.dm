@@ -124,7 +124,7 @@
 		return
 	// rescind your lot from your own faith, and cast it for your new faith
 	totals[old_patron.associated_faith] -= weights[old_patron.associated_faith]
-	influence_followers[old_patron.associated_faith] = weights[old_patron.associated_faith]
+	influence_followers[old_patron.associated_faith] -= weights[old_patron.associated_faith]
 	totals[H.patron.associated_faith] += weights[H.patron.associated_faith]
 	influence_followers[H.patron.associated_faith] += weights[H.patron.associated_faith]
 	// apply a bonus for conversion, to make them feel more impactful
