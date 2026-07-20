@@ -253,7 +253,7 @@ export const TransCraft = () => {
                     />
                   ))
               : 'Select a catalyst to view recipes.'}
-            {selectedCatalyst || 'Select a catalyst to view recipes.'}
+            {selectedCatalyst ? '' : 'Select a catalyst to view recipes.'}
           </div>
         </div>
       </Window.Content>

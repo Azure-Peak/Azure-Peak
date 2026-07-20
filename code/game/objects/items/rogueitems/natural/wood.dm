@@ -18,6 +18,7 @@
 	var/quality = SMELTERY_LEVEL_NORMAL // For it not to ruin recipes that need it
 	var/lumber = /obj/item/grown/log/tree/small //These are solely for lumberjack calculations
 	var/lumber_amount = 1
+	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/grown/log/tree/get_mechanics_examine(mob/user)
 	. = ..()
@@ -317,7 +318,7 @@
 				qdel(src)
 				if (L.alpha == 0 && L.rogue_sneaking) // not anymore you're not
 					L.update_sneak_invis(TRUE)
-				if(!HAS_TRAIT(L, TRAIT_WOODWALKER))	
+				if(!HAS_TRAIT(L, TRAIT_WOODWALKER))
 					L.consider_ambush()
 
 /obj/item/grown/log/tree/stick/Initialize()
@@ -500,7 +501,7 @@
 	sellprice = 4
 	bundletype = /obj/item/natural/bundle/plank
 	smeltresult = /obj/item/ash
-	
+
 /obj/item/natural/wood/plank/attack_right(mob/living/user)
 	if(user.get_active_held_item())
 		return

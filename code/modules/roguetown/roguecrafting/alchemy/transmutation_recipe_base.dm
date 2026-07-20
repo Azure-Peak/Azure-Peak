@@ -9,7 +9,14 @@
 	var/list/input_items = list()					// the actual recipe inputs, path = quantity
 	var/list/output_items = list()					// you'll never guess
 	var/list/cached_display_data					// tgui stuff
+	var/result_name									// automatically set to the name of a random output item which should be fine for most things.
 	var/subtype_reqs = TRUE							// whether or not the recipe accepts subtypes. set to false if you run into inheritance issues
+
+/datum/transmutation_recipe/New()
+	. = ..()
+	if(!result_name && length(output_items))
+		var/obj/item/path = output_items[1]
+		result_name = path::name
 
 /// returning FALSE here allows the recipe to proceed; returning a message will instead fail with that message
 /datum/transmutation_recipe/proc/execution_blocked(mob/user)

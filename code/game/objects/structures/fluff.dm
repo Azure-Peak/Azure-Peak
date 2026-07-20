@@ -799,13 +799,11 @@
 	desc = "Metal and glass, porcelain and gilbranze, copper and bronze - a chorus for works, Great and Lesser. \
 	The greatest of them have been lost to time.\n\nA secure pair of drums hold your catalytic samples in metal \
 	tubes, held still from all things by their inner arcynic constructs. The cabinet beneath is simply mundane, though no less useful."
-	var/inuse = FALSE // avoiding tgui headaches right off the bat
-	var/showonlycraftable = TRUE
+	var/inuse = FALSE // avoiding tgui headaches right off the bat. update THIS DID NOT SAVE THIS ONE
 	var/cached_craftability
 	var/last_surroundings_hash
 	var/datum/catalyst_recipe/catalyst_recipe
 	var/selected_catalyst // i hate frontend code what the fuck do you mean this has to be stored on the backend aaaa
-	var/list/transmutation_recipes_cache = list() // for VV only lmao
 
 /obj/structure/fluff/alch/trans/Initialize()
 	. = ..()
@@ -856,15 +854,131 @@
 	switch(action)
 		if("setcatalyst")
 			selected_catalyst = params["catalyst"]
+			return
+		if("craft")
+			var/path = text2path(params["item"])
+			var/amount = params["amount"] || 1
+			var/auto = params["auto"]
+			transmute(usr, path, amount, auto)
+
+/obj/structure/fluff/alch/trans/proc/transmute(mob/living/carbon/human/user, datum/transmutation_recipe/path, amount = 1, auto)
+	if(!user || !istype(user))
+		return
+	var/datum/transmutation_recipe/recipe
+	for(var/datum/transmutation_recipe/A in GLOB.transmutation_recipes)
+		if(istype(A, path))
+			recipe = A
+			break
+	if(!recipe)
+		return
+	while(amount > 0 || auto)
+		amount--
+		var/result = transmute_attempt(user, recipe)
+		if(!result)
+			return
+
+/obj/structure/fluff/alch/trans/proc/transmute_attempt(mob/living/carbon/human/user, datum/transmutation_recipe/R)
+	var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
+	var/found = FALSE
+	for(var/obj/item/alch/catalyst/catalyst in catalyst_storage.contents())
+		if(ispath(catalyst.type, R.catalyst))
+			found = TRUE
+	if(!found)
+		to_chat(user, span_warning("Lacking \a [R.catalyst::name] to craft!"))
+		return FALSE
+	if (HAS_TRAIT(user, TRAIT_CURSE_MALUM))
+		to_chat(user, span_warning("Your cursed hands tremble and fail to craft... Malum forbids it."))
+		return
+	if(user.doing)
+		return
+	if(!can_transmute(user) || (user.get_skill_level(/datum/skill/craft/alchemy) < R.skill_required))
+		to_chat(user, span_warning("I'm not experienced enough with transmutation to craft this!"))
+		return FALSE
+	var/list/ingredients = gather_ingredients(user, R)
+	if(!ingredients)
+		to_chat(user, span_warning("Not enough items to craft!"))
+		return FALSE
+	var/list/materia_ingredients = gather_materia(user, R, ingredients)
+	if(!materia_ingredients)
+		to_chat(user, span_warning("Missing <i>prima materia</i> to craft!"))
+		return FALSE
+	playsound(loc, 'sound/foley/scribble.ogg', 100, TRUE)
+	if(!do_after(user, 1 SECONDS, target = user))
+		to_chat(user, span_warning("Must stay still to craft!"))
+		return FALSE
+	ingredients = gather_ingredients(user, R)
+	if(!ingredients)
+		to_chat(user, span_warning("Not enough items to craft!"))
+		return FALSE
+	materia_ingredients = gather_materia(user, R, ingredients)
+	if(!materia_ingredients)
+		to_chat(user, span_warning("Missing <i>prima materia</i> to craft!"))
+		return FALSE
+	for(var/obj/item/I in (ingredients | materia_ingredients))
+		qdel(I)
+	for(var/path in R.output_items)
+		for(var/i in 1 to R.output_items[path])
+			var/obj/item/I = new path(loc)
+			I.was_crafted = TRUE
+			I.OnCrafted(get_dir(user, src), user)
+			I.add_fingerprint(user)
+	user.visible_message(span_notice("[user] transmutes some [R.result_name]!"), span_notice("I transmute some [R.result_name]!"))
+	if(user.mind && isliving(user))
+		var/mob/living/L = user
+		var/amt2raise = (L.STAINT * 2) + (R.skill_required * 10)
+		if(amt2raise > 0)
+			user.mind.add_sleep_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
+	return TRUE
+
+/obj/structure/fluff/alch/trans/proc/gather_ingredients(mob/living/carbon/human/user, datum/transmutation_recipe/R)
+	var/list/ingredients = list()
+	var/list/needed_items = R.input_items.Copy()
+	var/list/env_items = get_environment(user)
+	for(var/obj/item/I in env_items)
+		if(I.can_craft_with() && needed_items[I.type])
+			ingredients += I
+			needed_items[I.type] -= 1
+		else if(istype(I, /obj/item/natural/bundle))
+			var/obj/item/natural/bundle/B = I
+			if(needed_items[B.stacktype])
+				needed_items[B.stacktype] -= min(B.amount, needed_items[B.stacktype]) // transmuting with bundles is lossy
+				ingredients += B
+		else if(istype(I, /obj/item/construction/bundle))
+			var/obj/item/construction/bundle/B = I
+			if(needed_items[B.stacktype])
+				needed_items[B.stacktype] -= min(B.amount, needed_items[B.stacktype]) // transmuting with stacks is lossy
+				ingredients += B
+		// after we've checked all the valid items, if we're short, no dice
+	for(var/path in needed_items)
+		if(needed_items[path])
+			return FALSE
+	return ingredients
+
+/obj/structure/fluff/alch/trans/proc/gather_materia(mob/living/carbon/human/user, datum/transmutation_recipe/R, list/ingredients)
+	var/list/env_items = get_environment(user)
+	var/list/materia_reqs = R.materia_aspects.Copy()
+	var/list/materia_items = list()
+	env_items.RemoveAll(ingredients)
+	if(!length(env_items))
+		return FALSE
+	for(var/obj/item/I in env_items)
+		if(!length(I.materia))
+			continue
+		for(var/path in I.materia)
+			if(materia_reqs.Find(path))
+				materia_items |= list(I)
+				materia_reqs.Remove(path)
+	if(length(materia_reqs))
+		return FALSE
+	return materia_items
 
 /obj/structure/fluff/alch/trans/ui_data(mob/user)
 	var/list/data = list()
 	data["busy"] = inuse
-	data["showonlycraftable"] = showonlycraftable
 	data["selectedcatalyst"] = selected_catalyst
 
-	var/list/surroundings = get_surroundings(user)
-	var/new_hash = list2params(surroundings["other"])
+	var/list/surroundings = get_environment(user)
+	var/new_hash = list2params(surroundings)
 
 	var/list/catalysts = list()
 	var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
@@ -880,8 +994,9 @@
 	var/list/craftability = list()
 	for(var/rec in GLOB.transmutation_recipes)
 		var/datum/transmutation_recipe/R = rec
-
-		craftability[R.name] = check_contents(R, surroundings)
+		var/list/ings = gather_ingredients(user, R)
+		var/list/mats = gather_materia(user, R, ings)
+		craftability[R.name] = (ings && mats)
 
 	cached_craftability = craftability
 	data["craftability"] = craftability
@@ -891,12 +1006,19 @@
 	. = list()
 	.["tool_behaviour"] = list()
 	.["other"] = list()
+	.["materia"] = list()
 	for(var/obj/item/I in get_environment(user))
 		if(!I.can_craft_with())
 			continue
 		if(I.flags_1 & HOLOGRAM_1)
 			continue
-		else if(istype(I, /obj/item/natural/bundle))
+		if(length(I.materia))
+			for(var/aspect in I.materia)
+				if(!.["materia"][aspect])
+					.["materia"][aspect] = list(I)
+				else
+					.["materia"][aspect] += I
+		if(istype(I, /obj/item/natural/bundle))
 			var/obj/item/natural/bundle/B = I
 			.["other"][B.stacktype] += B.amount
 		else if(istype(I, /obj/item/construction/bundle))
@@ -950,7 +1072,6 @@
 			continue
 		if(is_abstract(R))
 			continue
-		transmutation_recipes_cache[R.type] = R.cached_display_data
 		transmutation_recipes[R.type] = R.cached_display_data
 
 	data["transmutation_recipes"] = transmutation_recipes
@@ -969,7 +1090,6 @@
 					if(contents[B] >= R.input_items[A])
 						continue main_loop
 					else
-
 						needed_amount -= contents[B]
 						if(needed_amount <= 0)
 							continue main_loop
