@@ -129,6 +129,7 @@
 	output_reagents =list(/datum/reagent/fire_resist = 30)
 
 /datum/alch_cauldron_recipe/trait
+	abstract_type = /datum/alch_cauldron_recipe/trait
 	skill_required = SKILL_LEVEL_JOURNEYMAN // the difficulty in these is making the rubedo catalyst
 
 /datum/alch_cauldron_recipe/trait/nitevision
@@ -162,6 +163,7 @@
 	output_reagents =list(/datum/reagent/medicine/trait/antidepressants = 90)
 
 /datum/alch_cauldron_recipe/trait/negative
+	abstract_type = /datum/alch_cauldron_recipe/trait/negative
 	skill_required = SKILL_LEVEL_EXPERT // poisons are harder...
 
 /datum/alch_cauldron_recipe/trait/negative/prodepressants
