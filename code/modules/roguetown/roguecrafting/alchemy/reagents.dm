@@ -835,11 +835,11 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 /datum/reagent/repairelixir/reaction_obj(obj/O, volume)
 	. = ..()
-	if(isitem(O) && !isturf(O.loc))
-		O.visible_message(span_warning("The elixir splashes over [O] and fizzles slightly, before spilling off. It needs to be on a stable surface to mend!"))
-		return
 	O.visible_message(span_warning("[O] begins to knit itself back together under the effects of the elixir!"))
 	spawn for(var/i in 1 to volume)
+		if(isitem(O) && !isturf(O.loc))
+			O.visible_message(span_warning("The mending elixir spills off of [O]. It needs to be on a stable surface to mend!"))
+			break
 		O.obj_integrity = min(O.max_integrity, O.obj_integrity + REPAIR_ELIXIR_STRENGTH)
 		if(O.obj_integrity == O.max_integrity)
 			if(O.obj_broken)
