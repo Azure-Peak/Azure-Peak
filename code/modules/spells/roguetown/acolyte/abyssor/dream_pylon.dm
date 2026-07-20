@@ -23,6 +23,15 @@
 	/// Whether this pylon can currently be topped up by a replenishment miracle. Resets when infusion changes.
 	var/can_recharge = TRUE
 
+/obj/structure/dream_pylon/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Dream pylons with a floating ball of dream energies can be interacted with to receive a buff.")
+	. += span_info("Buffs from pylons rapidly decay when out of their range, the pylon will glow red when out of range.")
+	. += span_info("You can only benefit from one pylon at a time.")
+	. += span_info("You can interact with a pylon to return a buff prematurely.")
+	. += span_info("Pylons can be infused by skilled painter abyssorites to restore some charge, once per seed.")
+	. += span_info("Inserting a new dream seed will fully recharge a pylon, and allow it to be recharged via infusion again.")
+
 /obj/structure/dream_pylon/Initialize(mapload)
 	. = ..()
 	update_pylon_appearance()

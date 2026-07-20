@@ -13,6 +13,14 @@
 	// Tracks the parchment item used to initialize the current batch of choices
 	var/obj/item/parchment_used
 
+/obj/structure/roguemachine/ritual_rune/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Abyssorites with miracle skill can start rituals here.")
+	. += span_info("Anyone with paint affinity, or abyssorites with miracle skill can receive visions here. Requires silver, gold, or dream parchment to do so.")
+	. += span_info("Visions yield materials that are used to channel rituals.")
+	. += span_info("In order to complete a vision, a specific phrase must be said whilst very close to the vision target.")
+	. += span_info("Visions induce a sleeping dream, you will receive a brief glimpse of the target.")
+
 /obj/structure/roguemachine/ritual_rune/proc/attempt_pool_link()
 	if(linked_pool)
 		return TRUE

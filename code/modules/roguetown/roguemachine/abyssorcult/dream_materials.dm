@@ -66,6 +66,11 @@
 	/// Color hex code applied to the seed, pylon overlay, and outline filters.
 	var/pylon_color
 
+/obj/item/dream_material/dream_seed/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Dream seeds can be used to plant dream pylons, these yield buffs that decay slowly as long as the user remains in range.")
+	. += span_info("Can be used on already established pylons to recharge them.")
+
 /obj/item/dream_material/dream_seed/Initialize(mapload)
 	. = ..()
 	if(pylon_color)
