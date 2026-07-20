@@ -170,7 +170,8 @@
 		/obj/item/herbseed,
 		/obj/item/reagent_containers/food/snacks/grown/manabloom,
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
-		/obj/item/ash
+		/obj/item/ash,
+		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius
 		))
 
 /datum/component/storage/concrete/roguetown/saddle
