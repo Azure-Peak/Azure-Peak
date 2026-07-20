@@ -3,11 +3,13 @@
 	var/name = ""									// you know what this does
 	var/snowflake_desc								// if set, adds a line to the guidebook entry - for if the recipe has special conditions like argyropoeia needing nite-time
 	var/category = "Basic Transmutation"			// one of these per catalyst, please!
-	var/obj/item/catalyst = /obj/item/alch/catalyst			// the actual catalyst item required
+	var/obj/item/catalyst = /obj/item/alch/catalyst	// the actual catalyst item required
 	var/skill_required = SKILL_LEVEL_JOURNEYMAN		// unlike normal crafting which does a weird %age thing this is just a hard req; also, usually making the catalyst will be the actual skill gate
 	var/list/materia_aspects = list()				// aspects of materia required for the craft. _usually_ you should only have one of these but fancy hybrid alchemical-artifice infusions might break that rule later
 	var/list/input_items = list()					// the actual recipe inputs, path = quantity
 	var/list/output_items = list()					// you'll never guess
+	var/list/cached_display_data					// tgui stuff
+	var/subtype_reqs = TRUE							// whether or not the recipe accepts subtypes. set to false if you run into inheritance issues
 
 /// returning FALSE here allows the recipe to proceed; returning a message will instead fail with that message
 /datum/transmutation_recipe/proc/execution_blocked(mob/user)
@@ -53,7 +55,7 @@
 		for(var/path as anything in materia_aspects)
 			if(ispath(path, /datum/materia_aspect))
 				var/datum/materia_aspect/aspect = path
-				html += "- [SPAN_TOOLTIP_DANGEROUS_HTML(aspect::desc, aspect::name)]<br>"
+				html += "[SPAN_TOOLTIP(aspect::desc, aspect::name)]<br>" // note: this tooltip does not fucking work and i have no idea why
 		html += "</div>"
 
 	if(output_items.len)
@@ -73,5 +75,36 @@
 	"}
 	return html
 
-/datum/transmutation_recipe/proc/show_menu(mob/user)
-	user << browse(generate_html(user),"window=new_recipe;size=500x810")
+/datum/transmutation_recipe/proc/build_display_cache()
+	var/list/data = list()
+	data["name"] = name
+	data["ref"] = "[REF(src)]"
+	data["path"] = type
+	data["catalyst"] = catalyst::name
+
+	var/input_text = ""
+	for(var/a in input_items)
+		var/atom/A = a
+		input_text += " [input_items[A]] [initial(A.name)],"
+	if(input_text)
+		input_text = copytext(input_text, 1, length(input_text))
+	data["input_text"] = input_text
+
+	var/output_text = ""
+	for(var/a in output_items)
+		var/atom/A = a
+		output_text += " [output_items[A]] [A::name],"
+	if(output_text)
+		output_text = copytext(output_text, 1, length(output_text))
+	data["output_text"] = output_text
+
+	var/list/materia_display = list()
+	for(var/a in materia_aspects)
+		var/datum/materia_aspect/aspect = a
+		materia_display[aspect::name] = aspect::desc
+	data["materia_reqs"] = materia_display
+
+	if(skill_required)
+		data["craftingdifficulty"] = "[SSskills.level_names_plain[skill_required]]."
+
+	cached_display_data = data

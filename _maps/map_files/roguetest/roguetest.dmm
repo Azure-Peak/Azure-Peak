@@ -314,7 +314,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
 "kn" = (
-/obj/structure/fluff/alch,
+/obj/structure/fluff/alch/trans,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "kv" = (
@@ -342,6 +342,10 @@
 /obj/item/roguemachine/mastermail,
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/indoors/town/manor)
+"ln" = (
+/mob/living/simple_animal/pet/cat/rogue/black/academy,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/physician)
 "ly" = (
 /obj/item/roguemachine/navigator/private,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -529,6 +533,18 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"pz" = (
+/obj/item/alch/catalyst/aeneic,
+/obj/item/alch/catalyst/albedo,
+/obj/item/alch/catalyst/argyopoeic,
+/obj/item/alch/catalyst/florid,
+/obj/item/alch/catalyst/nigredo,
+/obj/item/alch/catalyst/rubedo,
+/obj/item/alch/catalyst/terran,
+/obj/item/alch/catalyst/xanthosis,
+/obj/item/alch/catalyst/chrysopoeic,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/physician)
 "pJ" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -2801,7 +2817,7 @@ AO
 LM
 BH
 bc
-bc
+pz
 bc
 tX
 yK
@@ -2905,7 +2921,7 @@ zo
 LM
 Oh
 kn
-bc
+ln
 bc
 tX
 yK

@@ -521,7 +521,17 @@ GLOBAL_VAR_INIT(mobids, 1)
 				mech_lines += "<span class='smallnotice'> - </span>[line]"
 			var/mechanics_result_str = "<details><summary><span class='smallnotice'>Mechanics</span></summary>[mech_lines.Join("<br>")]</details>"
 			result[result.len] += mechanics_result_str // append to last line so the join doesn't insert a blank line before the dropdown
+
+		var/obj/item/O = A
+		if(can_transmute(src) && isitem(A) && length(O.materia))
+			var/list/materia_lines = list()
+			for(var/path in O.materia)
+				var/datum/materia_aspect/aspect = path
+				materia_lines += "<span class='info'> - </span><span data-component=\"Tooltip\" data-content=\"[aspect::desc]\" class=\"tooltip info\">[aspect::name]</span>"
+			var/materia_result_str = "<details><summary><span class='smallnotice'>Prima Materia</span></summary>[materia_lines.Join("<br>")]</details>"
+			result[result.len] += materia_result_str // append to last line so the join doesn't insert a blank line before the dropdown
 		to_chat(src, usr.client.prefs.no_examine_blocks ? result.Join("\n") : examine_block(result.Join("\n")))
+
 	SEND_SIGNAL(src, COMSIG_MOB_EXAMINATE, A)
 
 ///Can this mob resist (default FALSE)

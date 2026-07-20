@@ -795,11 +795,17 @@
 
 /obj/structure/fluff/alch/trans
 	name = "transmutation lab"
-	icon_state = "transtable"
+	// icon_state = "transtable"
 	desc = "Metal and glass, porcelain and gilbranze, copper and bronze - a chorus for works, Great and Lesser. \
 	The greatest of them have been lost to time.\n\nA secure pair of drums hold your catalytic samples in metal \
 	tubes, held still from all things by their inner arcynic constructs. The cabinet beneath is simply mundane, though no less useful."
 	var/inuse = FALSE // avoiding tgui headaches right off the bat
+	var/showonlycraftable = TRUE
+	var/cached_craftability
+	var/last_surroundings_hash
+	var/datum/catalyst_recipe/catalyst_recipe
+	var/selected_catalyst // i hate frontend code what the fuck do you mean this has to be stored on the backend aaaa
+	var/list/transmutation_recipes_cache = list() // for VV only lmao
 
 /obj/structure/fluff/alch/trans/Initialize()
 	. = ..()
@@ -813,6 +819,164 @@
 	. += span_info("Left click to open the interface. Within, you can create catalysts and perform transmutation. See the Encyclopedia for more details.")
 	. += span_info("Drag the workstation to yourself to open the catalyst inventory. Catalysts stored here will enable transmutation recipes for the workstation.")
 	. += span_info("Right click to cancel a catalyzation experiment, refunding the seed item.")
+
+/obj/structure/fluff/alch/trans/attack_hand(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(inuse)
+		to_chat(user, span_warning("Someone else is already using this."))
+		return
+	if(!catalyst_recipe)
+		ui_interact(user)
+		inuse = TRUE
+		return
+
+/obj/structure/fluff/alch/trans/ui_close(mob/user)
+	. = ..()
+	inuse = FALSE
+
+/obj/structure/fluff/alch/trans/ui_interact(mob/user, datum/tgui/ui)
+	var/area/A = get_area(user)
+	if(!A.can_craft_here())
+		to_chat(user, span_warning("You cannot craft here."))
+		if(ui) ui.close()
+		return
+
+	var/menu_type = (catalyst_recipe ? "Catalyzation" : "TransCraft")
+
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, menu_type, "Transmutation Menu")
+		ui.set_state(GLOB.not_incapacitated_turf_state)
+		ui.open()
+
+/obj/structure/fluff/alch/trans/ui_act(action, params)
+	. = ..()
+	switch(action)
+		if("setcatalyst")
+			selected_catalyst = params["catalyst"]
+
+/obj/structure/fluff/alch/trans/ui_data(mob/user)
+	var/list/data = list()
+	data["busy"] = inuse
+	data["showonlycraftable"] = showonlycraftable
+	data["selectedcatalyst"] = selected_catalyst
+
+	var/list/surroundings = get_surroundings(user)
+	var/new_hash = list2params(surroundings["other"])
+
+	var/list/catalysts = list()
+	var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
+	for(var/obj/item/alch/catalyst/catalyst in catalyst_storage.contents())
+		catalysts[catalyst.name] = catalyst.icon_state
+	data["catalysts"] = catalysts
+
+	if(new_hash == last_surroundings_hash && cached_craftability)
+		data["craftability"] = cached_craftability
+		return data
+
+	last_surroundings_hash = new_hash
+	var/list/craftability = list()
+	for(var/rec in GLOB.transmutation_recipes)
+		var/datum/transmutation_recipe/R = rec
+
+		craftability[R.name] = check_contents(R, surroundings)
+
+	cached_craftability = craftability
+	data["craftability"] = craftability
+	return data
+
+/obj/structure/fluff/alch/trans/proc/get_surroundings(mob/user)
+	. = list()
+	.["tool_behaviour"] = list()
+	.["other"] = list()
+	for(var/obj/item/I in get_environment(user))
+		if(!I.can_craft_with())
+			continue
+		if(I.flags_1 & HOLOGRAM_1)
+			continue
+		else if(istype(I, /obj/item/natural/bundle))
+			var/obj/item/natural/bundle/B = I
+			.["other"][B.stacktype] += B.amount
+		else if(istype(I, /obj/item/construction/bundle))
+			var/obj/item/construction/bundle/B = I
+			.["other"][B.stacktype] += B.amount
+		else if(I.tool_behaviour)
+			.["tool_behaviour"] += I.tool_behaviour
+			.["other"][I.type] += 1
+		else
+			if(istype(I, /obj/item/reagent_containers))
+				var/obj/item/reagent_containers/RC = I
+				if(RC.is_drainable())
+					for(var/datum/reagent/A in RC.reagents.reagent_list)
+						.["other"][A.type] += A.volume
+				if(istype(RC, /obj/item/reagent_containers/glass)) // Only count glass bottles themselves as a valid crafting item if it's empty
+					if(RC.reagents.total_volume == 0)
+						.["other"][I.type] += 1
+				else
+					.["other"][I.type] += 1
+			else
+				.["other"][I.type] += 1
+
+/obj/structure/fluff/alch/trans/proc/get_environment(mob/user)
+	. = list()
+	for(var/obj/item/I in user.held_items)
+		. += I
+	if(!isturf(user.loc))
+		return
+	var/list/L = block(get_step(user, SOUTHWEST), get_step(user, NORTHEAST))
+	for(var/A in L)
+		var/turf/T = A
+		if(T.Adjacent(user))
+			for(var/B in T)
+				var/atom/movable/AM = B
+				if(AM.flags_1 & HOLOGRAM_1)
+					continue
+				. += AM
+				var/list/crafting_items = AM.get_crafting_contents()
+				if(crafting_items)
+					for(var/atom/movable/crafting_item as anything in crafting_items)
+						. += crafting_item
+	for(var/slot in list(SLOT_R_STORE, SLOT_L_STORE))
+		. += user.get_item_by_slot(slot)
+
+/obj/structure/fluff/alch/trans/ui_static_data(mob/user)
+	var/list/data = list()
+
+	var/list/transmutation_recipes = list()
+	for(var/datum/transmutation_recipe/R as anything in GLOB.transmutation_recipes)
+		if(!R.name)
+			continue
+		if(is_abstract(R))
+			continue
+		transmutation_recipes_cache[R.type] = R.cached_display_data
+		transmutation_recipes[R.type] = R.cached_display_data
+
+	data["transmutation_recipes"] = transmutation_recipes
+	return data
+
+// we don't check materia here, so recipes will show up as craftable if their item inputs are present but no materia is. this is fine because i bca to implement bespoke materia checks here
+/obj/structure/fluff/alch/trans/proc/check_contents(datum/transmutation_recipe/R, list/contents)
+	contents = contents["other"]
+	main_loop:
+		for(var/A in R.input_items)
+			var/needed_amount = R.input_items[A]
+			for(var/B in contents)
+				if(ispath(B, A))
+					if(!R.subtype_reqs && (B in subtypesof(A)))
+						continue
+					if(contents[B] >= R.input_items[A])
+						continue main_loop
+					else
+
+						needed_amount -= contents[B]
+						if(needed_amount <= 0)
+							continue main_loop
+						else
+							continue
+			return FALSE
+	return TRUE
 
 /obj/structure/fluff/statue
 	name = "statue"

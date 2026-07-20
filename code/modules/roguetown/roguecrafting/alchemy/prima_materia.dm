@@ -6,7 +6,7 @@
 
 /datum/materia_aspect/metal // iron, scrap
 	name = "Metallum"
-	desc = "The basal aspect of metal, borne most strongly by iron; reliable, stable, but not overly-strong."
+	desc = "The basal aspect of metal, borne most strongly by iron; reliable, stable, but not overly-strong on its own."
 
 /datum/materia_aspect/defense // steel, armor
 	name = "Loricatus"

@@ -35,6 +35,8 @@
 	init_subtypes(/datum/alch_cauldron_recipe, GLOB.alch_cauldron_recipes)
 
 	init_subtypes(/datum/transmutation_recipe, GLOB.transmutation_recipes)
+	for(var/datum/transmutation_recipe/T as anything in GLOB.transmutation_recipes)
+		T.build_display_cache()
 
 	init_subtypes(/datum/stew_recipe, GLOB.stew_recipes)
 
@@ -99,7 +101,8 @@
 	if(!istype(L))
 		L = list()
 	for(var/path in subtypesof(prototype))
-		L += new path()
+		if(!is_abstract(path))
+			L += new path()
 	return L
 
 //returns a list of paths to every subtype of prototype (excluding prototype)
