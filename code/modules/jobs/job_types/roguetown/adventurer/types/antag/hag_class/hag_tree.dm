@@ -125,14 +125,14 @@
 		var/path = text2path(href_list["harvest"])
 		var/is_hag = text2num(href_list["hag"])
 		var/list/stock = is_hag ? hag_stock : public_stock
-	
+
 		if(harvesting)
 			return
-	
+
 		harvesting = TRUE
 		var/harvest_count = 0
 		var/current_path = path
-	
+
 		// Keep harvesting until all stock is empty or user stops
 		while(TRUE)
 			// Check if user is still alive and nearby
@@ -190,7 +190,7 @@
 		popup.open()
 
 /obj/structure/roguemachine/mossmother/attack_hand(mob/living/user)
-	if(..()) 
+	if(..())
 		return
 
 	if(harvesting)
@@ -402,6 +402,7 @@
 	desc = "A bloom of moss."
 	icon_state = "moss_blank"
 	icon = 'icons/roguetown/items/hag/hag_items.dmi'
+	materia = list() // these are beyond the mortal alchemical arts
 
 /obj/item/alch/hag_moss/sorrow
 	name = "Mother's sorrow"
@@ -542,7 +543,7 @@
 		trait_pool = list()
 		for(var/path in typesof(/datum/hag_boon/trait))
 			var/datum/hag_boon/trait/dummy = path
-			if(initial(dummy.hag_curse) || path == /datum/hag_boon/trait) 
+			if(initial(dummy.hag_curse) || path == /datum/hag_boon/trait)
 				continue
 			trait_pool += path
 
