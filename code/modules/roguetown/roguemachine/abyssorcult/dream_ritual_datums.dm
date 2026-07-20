@@ -214,7 +214,7 @@
 
 /datum/abyssal_ritual/beach_inundation
 	name = "Abyssal Inundation"
-	desc = "Channels the weight of stars to rip a rift through to the coast. Allows the leader to scry the shorelines and guide a massive tidal wave that washes all nearby channelers and things that lurk underneath onto the beach."
+	desc = "Channels the weight of stars to rip a rift through to the coast. Allows the leader to scry the shorelines and guide a massive tidal wave that washes all nearby channelers and things that lurk underneath onto the beach. Use the roleunique undulation verb to complete the rite once you've found a fitting tile."
 	base_channel_time = 250
 
 	required_ingredients = list(

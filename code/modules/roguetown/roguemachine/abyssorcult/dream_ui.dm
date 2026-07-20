@@ -52,6 +52,7 @@
 			if(existing)
 				qdel(existing)
 			selection_data.user.AddComponent(/datum/component/vision_quest_tracker, Q, target_mob, selection_data.source_rune, text2path(reward_path), bonus_path)
+			selection_data.user.Sleeping(10 SECONDS)
 
 			to_chat(selection_data.user, span_notice("<b>Your mind floods with a vision:</b> [Q.vision_text]"))
 			if(selection_data.source_rune && selection_data.source_rune.cached_choices)
