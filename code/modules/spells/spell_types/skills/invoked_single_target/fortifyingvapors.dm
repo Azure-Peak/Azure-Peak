@@ -44,8 +44,8 @@
 	glow_intensity = GLOW_INTENSITY_LOW
 	click_to_activate = TRUE
 	primary_resource_type = SPELL_COST_ENERGY
-	primary_resource_cost = 25
-	cast_range = 2
+	primary_resource_cost = 15
+	cast_range = 4
 	charge_required = FALSE
 	cooldown_time = 15 SECONDS
 	associated_skill = /datum/skill/misc/reading

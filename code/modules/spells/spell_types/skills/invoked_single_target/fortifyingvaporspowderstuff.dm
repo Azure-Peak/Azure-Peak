@@ -12,6 +12,7 @@
 	var/smoke_interval = 2 SECONDS
 	var/datum/herbal_recipe/recipe = null
 	var/herb_charges = 0
+	var/mix_name = null
 
 /datum/herbal_recipe
     var/brute = 0
@@ -20,6 +21,13 @@
     var/toxin = 0
     var/wounds = 0
     var/catalyst = null
+
+/obj/item/flashlight/flare/torch/lantern/censer/examine(mob/user)
+	. = ..()
+	if(herb_charges)
+		. += span_blue("[herb_charges] uses remaining.")
+	if(mix_name)
+		. += span_blue("[mix_name] mix currently in effect.")
 
 /obj/item/flashlight/flare/torch/lantern/censer/get_mechanics_examine(mob/user)
 	. = ..()
@@ -89,7 +97,7 @@
 
 /obj/item/flashlight/flare/torch/lantern/censer/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()
-	if(ismob(A) && on && (user.used_intent.type == /datum/intent/flail/smash/golgotha) && user.cmode)
+	if(ismob(A) && on && (user.used_intent.type == /datum/intent/flail/smash/golgotha) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong)) // needs strong intent
 		user.visible_message(span_warningbig("[user] smashes the exposed [src], shattering the device and any leftovers of the Hippocratic Oath along! SHAME!!!"))
 		user.visible_message(span_necrosis(pick("WHY--!!","PESTRA BLAS--!!","CURE--!!","CURE THI--!!","DO NO HAR--!!","OH ILLMAIDE--!!","OH PESTR--!!","KABOO--!!","MASHALLA--!!","OH HEARTBEAS--!!","OH SHI--!!","PESTR--!!","PESTRA BLAS--!!","PESTRA HAVE MER--!!","BY THE ILLMAIDE--!!","HEARTBEAST PRESER--!!","MY PATIEN--!!","NOT THE MIXTU--!!")))
 		explosion(get_turf(user),devastation_range = 0, heavy_impact_range = 0, light_impact_range = 0, flame_range = 3, flash_range = 6, smoke = FALSE)
@@ -245,9 +253,13 @@
 		to_chat(user, span_warning("You stop grinding before the herbs are fully milled."))
 		return
 	var/powders_created = 0
+	var/medicine_level = max(0, (10 * (2 - user.get_skill_level(/datum/skill/misc/medicine)))) // apprentice or more only
+	var/alchemy_level = max(0, (10 * (2 - user.get_skill_level(/datum/skill/craft/alchemy)))) // apprentice or more only
 	for(var/i = 1, i <= herb_amount, i++)
-		if(prob(20))
+		if(prob(15 + medicine_level + alchemy_level))
 			new powder_type(get_turf(src))
+			user.mind.add_sleep_experience(/datum/skill/craft/alchemy, rand(2,10))
+			user.mind.add_sleep_experience(/datum/skill/misc/medicine, rand(2,10))
 			powders_created++
 	if(!powders_created)
 		to_chat(user, span_warning("The crude mill mangles the herbs into a useless mess. Nothing salvageable remains."))
@@ -268,6 +280,11 @@
 	w_class = WEIGHT_CLASS_TINY
 	var/powder_type = null
 	var/herb_amount = 0
+
+/obj/item/herbmill/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Mill herbs into powders with a Herb Mill, then prepare a recipe by mixing them together. You can use that to fill the censer with the desired herbal blend.")
+	. += span_info("Different herbs specialize in different treatments. GREEN herbs improve brute healing, YELLOW improve burn healing, BLUE improve toxin treatment, WHITE aid wounds, and RED restore blood and stop bleeding.")
 
 /obj/item/herbmill/attackby(obj/item/I, mob/user, params)
 	if(!istype(I, /obj/item/alch))
@@ -296,6 +313,8 @@
 	for(var/i = 1, i <= herb_amount, i++)
 		new powder_type(get_turf(src))
 	to_chat(user, span_notice("You finish grinding the herbs into powder."))
+	user.mind.add_sleep_experience(/datum/skill/craft/alchemy, rand(2,10))
+	user.mind.add_sleep_experience(/datum/skill/misc/medicine, rand(2,10))
 	herb_amount = 0
 	powder_type = null
 	update_icon()
@@ -306,6 +325,7 @@
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "salt"
 	color = null
+	w_class = WEIGHT_CLASS_SMALL
 	var/herb_color = null
 	var/list/herb_layers = list()
 	var/catalyst = null
@@ -491,6 +511,7 @@
 			to_chat(user, span_warning("The preparation fails to produce a stable medicinal blend."))
 			return
 		herb_charges = 5
+		mix_name += P.name
 		qdel(P)
 		to_chat(user, span_notice("You carefully load the herbal preparation into the censer."))
 		return
@@ -501,6 +522,7 @@
 		return ..()
 	to_chat(user, span_notice("You empty the censer. The spent preparation crumbles into ash."))
 	recipe = null
+	mix_name = null
 	herb_charges = 0
 	playsound(src.loc, 'sound/items/firesnuff.ogg', 100)
 	return TRUE
