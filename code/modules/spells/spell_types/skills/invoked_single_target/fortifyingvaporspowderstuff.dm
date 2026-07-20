@@ -256,7 +256,8 @@
 	var/medicine_bonus = user.get_skill_level(/datum/skill/misc/medicine) * 5
 	var/alchemy_bonus = user.get_skill_level(/datum/skill/craft/alchemy) * 5
 	for(var/i = 1, i <= herb_amount, i++)
-		if(prob(20 + medicine_level + alchemy_level))
+		var/total_chance = prob(20 + medicine_bonus + alchemy_bonus)
+		if(total_chance)
 			new powder_type(get_turf(src))
 			user.mind.add_sleep_experience(/datum/skill/craft/alchemy, rand(2,10))
 			user.mind.add_sleep_experience(/datum/skill/misc/medicine, rand(2,10))
