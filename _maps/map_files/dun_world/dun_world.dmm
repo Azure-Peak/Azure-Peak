@@ -25713,7 +25713,9 @@
 	},
 /area/rogue/outdoors/town)
 "eYz" = (
-/obj/structure/roguemachine/dream_pool,
+/obj/structure/roguemachine/dream_pool{
+	redstone_id = "dreampool"
+	},
 /turf/open/rebound,
 /area/rogue/under/cave)
 "eYC" = (
@@ -76889,6 +76891,14 @@
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/sewer)
+"oCK" = (
+/obj/effect/landmark/start/painter,
+/obj/structure/lever/wall{
+	pixel_y = 30;
+	redstone_id = "dreampool"
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/under/cave)
 "oCN" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -145524,7 +145534,7 @@ bhJ
 bhJ
 bhJ
 idG
-hgE
+oCK
 wQT
 bma
 ngu
