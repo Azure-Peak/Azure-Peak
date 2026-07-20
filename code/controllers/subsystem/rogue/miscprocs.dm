@@ -122,7 +122,7 @@
 		else
 			if(length(patron.miracles))
 				for(var/spell_type in patron.miracles)
-					var/required_tier = patron.miracles[spell_type]         
+					var/required_tier = patron.miracles[spell_type]
 					if(required_tier <= level)
 						if(holder.mind.has_spell(spell_type))
 							continue
@@ -262,7 +262,7 @@
 	set category = "RoleUnique.Virtue"
 
 	if(HAS_TRAIT(src, TRAIT_COMBAT_AWARE))
-		REMOVE_TRAIT(src, TRAIT_COMBAT_AWARE, TRAIT_VIRTUE) 
+		REMOVE_TRAIT(src, TRAIT_COMBAT_AWARE, TRAIT_VIRTUE)
 	else
 		ADD_TRAIT(src, TRAIT_COMBAT_AWARE, TRAIT_VIRTUE)
 	to_chat(src, "I will see [HAS_TRAIT(src, TRAIT_COMBAT_AWARE) ? "more" : "less"] combat information now.")
@@ -284,7 +284,7 @@
 	set category = "RoleUnique.Virtue"
 
 	if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
-		REMOVE_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE) 
+		REMOVE_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
 	else
 		ADD_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
 	to_chat(src, "I have [HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) ? "raised" : "lowered"] my guard around others.")
@@ -335,7 +335,7 @@
 		return
 	if(length(patron.miracles))
 		for(var/spell_type in patron.miracles)
-			var/required_tier = patron.miracles[spell_type]         
+			var/required_tier = patron.miracles[spell_type]
 			if(required_tier <= level)
 				if(holder.mind.has_spell(spell_type))
 					continue
@@ -352,13 +352,15 @@
 	if(!length(A.paint_miracles))
 		return
 	for(var/spell_type in A.paint_miracles)
-		if(holder.mind.has_spell(spell_type))
-			continue
-		var/obj/effect/proc_holder/spell/new_paint_spell = new spell_type
-		if(!silent)
-			to_chat(holder, span_boldnotice("You have unlocked a paint miracle: [new_paint_spell]"))
-		holder.mind.AddSpell(new_paint_spell, holder)
-		LAZYADD(granted_spells, new_paint_spell)
+		var/required_tier = A.paint_miracles[spell_type]
+		if(required_tier <= level)
+			if(holder.mind.has_spell(spell_type))
+				continue
+			var/obj/effect/proc_holder/spell/new_paint_spell = new spell_type
+			if(!silent)
+				to_chat(holder, span_boldnotice("You have unlocked a paint miracle: [new_paint_spell]"))
+			holder.mind.AddSpell(new_paint_spell, holder)
+			LAZYADD(granted_spells, new_paint_spell)
 
 #undef PRAYER_DEVOTION_TIME_MULT
 #undef PRAYER_DEVOTION_BASE

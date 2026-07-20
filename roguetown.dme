@@ -2145,6 +2145,7 @@
 #include "code\modules\jobs\job_types\roguetown\church\druid.dm"
 #include "code\modules\jobs\job_types\roguetown\church\keeper.dm"
 #include "code\modules\jobs\job_types\roguetown\church\martyr.dm"
+#include "code\modules\jobs\job_types\roguetown\church\painter.dm"
 #include "code\modules\jobs\job_types\roguetown\church\priest.dm"
 #include "code\modules\jobs\job_types\roguetown\church\sexton.dm"
 #include "code\modules\jobs\job_types\roguetown\church\templar.dm"
