@@ -290,6 +290,9 @@
 	max_w_class = WEIGHT_CLASS_TINY
 	screen_max_rows = 5
 	screen_max_columns = 2
-	can_hold = typecacheof(list(/obj/item/alch/catalyst))
 	intercept_parent_attack = FALSE
 	intercept_parent_mousedrop = TRUE
+
+/datum/component/storage/concrete/roguetown/trans/New(datum/P, ...)
+	. = ..()
+	can_hold = typecacheof(list(/obj/item/alch/catalyst))

@@ -10,21 +10,28 @@
 		If no recipe gets above 5 points, it makes nothing,otherwise It then makes the recipe with the HIGHEST POINTS.
 		all 3 of the below variables should be NULL or the type-path of the recipe to make.
 	*/
+	var/complete_pot = null // this is only used for alchemically synthesized reagents from the rubedo catalyst - they give a full 5 points
 	var/major_pot = null
 	var/med_pot = null
 	var/minor_pot = null
 	//Dont worry, these 3 are just to cache the 'smell' of their pot on initialization to not have to re-look every examine.
 	//No need to set them.
+	var/complete_smell
 	var/major_smell
 	var/med_smell
 	var/minor_smell
 	///Same as the smells, just caching what the potion name is
+	var/complete_name
 	var/major_name
 	var/med_name
 	var/minor_name
 
 /obj/item/alch/Initialize()
 	. = ..()
+	if(!isnull(complete_pot))
+		var/datum/alch_cauldron_recipe/rec = locate(complete_pot) in GLOB.alch_cauldron_recipes
+		complete_smell = rec.smells_like
+		complete_name = rec.name
 	if(!isnull(major_pot))
 		var/datum/alch_cauldron_recipe/rec = locate(major_pot) in GLOB.alch_cauldron_recipes
 		major_smell = rec.smells_like
@@ -47,6 +54,8 @@
 			var/mob/living/lmob = user
 			perint = FLOOR((lmob.STAPER + lmob.STAINT)/2,1)
 		if(HAS_TRAIT(user,TRAIT_LEGENDARY_ALCHEMIST))
+			if(!isnull(complete_name))
+				. += span_notice(" Completely attuned to making [complete_name].")
 			if(!isnull(major_name))
 				. += span_notice(" Strongly attuned to making [major_name].")
 			if(!isnull(med_name))
@@ -54,6 +63,8 @@
 			if(!isnull(minor_name))
 				. += span_notice(" Minorly attuned to making [minor_name].")
 		else
+			if(!isnull(complete_smell))
+				. += span_notice(" Smells overwhelmingly of [complete_smell].")
 			if(!isnull(major_smell))
 				if(alch_skill >= SKILL_LEVEL_NOVICE || perint >= 6)
 					. += span_notice(" Smells strongly of [major_smell].")
@@ -590,6 +601,14 @@
 	else
 		icon_state = "rosa"
 		user.update_icon()
+
+// t2 alchemical reagents
+/obj/item/alch/reagent_nitevision
+	name = "Nocsight Reagent"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, brimming with silvery moonlight."
+	complete_pot = /datum/alch_cauldron_recipe/trait/nitevision
 
 //dust mix crafting
 /datum/crafting_recipe/roguetown/alch/feaudust

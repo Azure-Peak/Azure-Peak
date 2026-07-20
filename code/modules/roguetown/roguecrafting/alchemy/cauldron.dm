@@ -75,6 +75,11 @@
 					if(!istype(ing,/obj/item/alch))
 						continue
 					var/obj/item/alch/alching = ing
+					if(alching.complete_pot != null)
+						if(outcomes[alching.complete_pot] != null)
+							outcomes[alching.complete_pot] += 5
+						else
+							outcomes[alching.complete_pot] = 5
 					if(alching.major_pot != null)
 						if(outcomes[alching.major_pot] != null)
 							outcomes[alching.major_pot] += 3
@@ -110,7 +115,7 @@
 							qdel(ing)
 						src.reagents.add_reagent(/datum/reagent/yuck, in_cauldron) // 1 to 1 transmutation of yuck
 						// Learn from your failure (Yeah you can technically still grind this way you just blow through a lot of ingredients)
-						lastuser?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE) 
+						lastuser?.adjust_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
 						return
 					for(var/obj/item/ing in src.ingredients)
 						qdel(ing)
@@ -201,7 +206,7 @@
 	base_state = "FoldingCauldronDeployed"
 	maxingredients = 3 //-1
 	waterneed = 60
-	fueluse = 2 MINUTES 
+	fueluse = 2 MINUTES
 
 /obj/machinery/light/rogue/cauldron/folding/examine()
 	. = ..()

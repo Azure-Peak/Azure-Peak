@@ -795,7 +795,10 @@
 
 /obj/structure/fluff/alch/trans
 	name = "transmutation lab"
-	desc = "An exquisite workstation containing everything one needs to perform advanced alchemical procedures."
+	icon_state = "transtable"
+	desc = "Metal and glass, porcelain and gilbranze, copper and bronze - a chorus for works, Great and Lesser. \
+	The greatest of them have been lost to time.\n\nA secure pair of drums hold your catalytic samples in metal \
+	tubes, held still from all things by their inner arcynic constructs. The cabinet beneath is simply mundane, though no less useful."
 	var/inuse = FALSE // avoiding tgui headaches right off the bat
 
 /obj/structure/fluff/alch/trans/Initialize()

@@ -4,7 +4,7 @@
 
 /// MATERIAL ASPECTS
 
-/datum/materia_aspect/metal // iron
+/datum/materia_aspect/metal // iron, scrap
 	name = "Metallum"
 	desc = "The basal aspect of metal, borne most strongly by iron; reliable, stable, but not overly-strong."
 
@@ -16,7 +16,7 @@
 	name = "Solaris"
 	desc = "The solar half of the twinned-aspect of purity; the cleansing heat of sunfyre, the fundament of value. Attracts and conducts arcyne energy."
 
-/datum/materia_aspect/lunar // silver
+/datum/materia_aspect/lunar // silver, raw essentia
 	name = "Lunae"
 	desc = "The lunar half of the twinned-aspect of purity; the soft glow of that which is already pure. Projects and repels arcyne energy."
 
@@ -24,7 +24,7 @@
 	name = "Saecularis"
 	desc = "The aspect of the grounded, the mundane, the uninspired. Lacks potential in itself; dampens and stabilizes alchemical procedures, but hampers its own expression too much to be of especial use."
 
-/datum/materia_aspect/change // copper, maybe some other stuff
+/datum/materia_aspect/change // copper, clay
 	name = "Mutatio"
 	desc = "The aspect of change unbound. Unpredictable at the best of times, rarely used in any but the most radical of experiments."
 
@@ -53,23 +53,23 @@
 	desc = "Oft called 'an alchemist's favorite aspect'. Borne by all manner of herbs and flowers, it marks the diffusing nature which lends itself to infusion. The aspect of flourishing bloom, of spreading influence, of nature begging to be harnessed."
 
 /// 'four mortal elements' contrasting the two 'divine' elements of solaris and lunae
-/datum/materia_aspect/fire // fire essentia, coal, etc
+/datum/materia_aspect/fire // fire essentia, coal, ash
 	name = "Ignis"
 	desc = "One of the four 'mortal elements', the nature of candescent flame. Ardor; inspiration; destruction."
 
-/datum/materia_aspect/water // water essentia, reagent containers like bottles, etc
+/datum/materia_aspect/water // water essentia, reagent containers like bottles, actual water provided to the alch station if we add piping in mgl3pt2
 	name = "Aqua"
 	desc = "One of the four 'mortal elements', the nature of calm waters. Coolness; reason; restoration."
 
-/datum/materia_aspect/air // air essentia, cloth,
+/datum/materia_aspect/air // air essentia, cloth, feathers
 	name = "Aura"
 	desc = "One of the four 'mortal elements', the nature of weightless air. Freedom; impulse; unconstrained."
 
-/datum/materia_aspect/earth
+/datum/materia_aspect/earth // dirt, rocks, etc. you know what earth is
 	name = "Terra"
 	desc = "One of the four 'mortal elements', the nature of solid earth. Consequential; immovable; grounded."
 
-/datum/materia_aspect/arcyne // outlier fifth (eighth) element
+/datum/materia_aspect/arcyne // outlier fifth (eighth) element; pure essentia, gems you can make staves out of
 	name = "Caeleste"
 	desc = "The aspect of the arcyne itself, that which goes beyond the bounds of the mundane. Potential; energy; the preternatural."
 
