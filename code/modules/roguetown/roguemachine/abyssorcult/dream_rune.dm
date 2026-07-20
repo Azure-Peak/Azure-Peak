@@ -200,15 +200,15 @@
 			return H
 
 	// For debug purposes only
-	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H == seeker)
-			continue
-		if(H.stat == DEAD)
-			continue
-		if(!H.mind || !H.mind.assigned_role)
-			continue
-		if(Q.is_valid_target(H, seeker))
-			return H
+	// for(var/mob/living/carbon/human/H in GLOB.human_list)
+	// 	if(H == seeker)
+	// 		continue
+	// 	if(H.stat == DEAD)
+	// 		continue
+	// 	if(!H.mind || !H.mind.assigned_role)
+	// 		continue
+	// 	if(Q.is_valid_target(H, seeker))
+	// 		return H
 	return null
 
 /obj/structure/roguemachine/ritual_rune/proc/open_quest_selection_ui(mob/living/carbon/human/user, list/available_choices, used_parchment, tier)
