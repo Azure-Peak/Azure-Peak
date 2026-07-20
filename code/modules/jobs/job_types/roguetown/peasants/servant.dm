@@ -29,7 +29,7 @@
 	)
 
 /datum/advclass/servant
-	traits_applied = list(TRAIT_CICERONE, TRAIT_ROYALSERVANT)
+	traits_applied = list(TRAIT_CICERONE)
 	age_mod = /datum/class_age_mod/servant
 
 /datum/advclass/servant/servant
