@@ -20,6 +20,8 @@
 	. += span_info("Visions yield materials that are used to channel rituals.")
 	. += span_info("In order to complete a vision, a specific phrase must be said whilst very close to the vision target.")
 	. += span_info("Visions induce a sleeping dream, you will receive a brief glimpse of the target.")
+	. += span_info("Everyone on the direct edge of the dream pool can join rituals, but only those with novice+ holy skill can help gain ritual discounts.")
+	. += span_info("Some rituals affect everyone nearby. The more valid participants, the more materials might get discounted.")
 
 /obj/structure/roguemachine/ritual_rune/proc/attempt_pool_link()
 	if(linked_pool)
