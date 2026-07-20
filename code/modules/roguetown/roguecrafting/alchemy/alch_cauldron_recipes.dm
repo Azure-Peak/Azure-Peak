@@ -127,3 +127,59 @@
 	smells_like = "authority"
 	skill_required = SKILL_LEVEL_MASTER
 	output_reagents =list(/datum/reagent/fire_resist = 30)
+
+/datum/alch_cauldron_recipe/trait
+	skill_required = SKILL_LEVEL_JOURNEYMAN // the difficulty in these is making the rubedo catalyst
+
+/datum/alch_cauldron_recipe/trait/nitevision
+	name = "Nocsight Elixir"
+	smells_like = "crisp nite air"
+	output_reagents =list(/datum/reagent/medicine/trait/nitevision = 90)
+
+/datum/alch_cauldron_recipe/trait/sleepdraught
+	name = "Restful Draught"
+	smells_like = "calming florescence"
+	output_reagents =list(/datum/reagent/medicine/trait/sleepdraught = 90)
+
+/datum/alch_cauldron_recipe/trait/waterbreathing
+	name = "Elixir of Hadal Grace"
+	smells_like = "the sea"
+	output_reagents =list(/datum/reagent/medicine/trait/waterbreathing = 30) // this one's slightly gamer potentially
+
+/datum/alch_cauldron_recipe/trait/nutrientslurry
+	name = "Nourishing Draught"
+	smells_like = "fulfillment"
+	output_reagents =list(/datum/reagent/medicine/trait/nutrientslurry = 90)
+
+/datum/alch_cauldron_recipe/trait/ravenous
+	name = "Ravenous Elixir"
+	smells_like = "raw meat"
+	output_reagents =list(/datum/reagent/medicine/trait/ravenous = 90)
+
+/datum/alch_cauldron_recipe/trait/antidepressants
+	name = "Draught of Numbness"
+	smells_like = "tingly absence"
+	output_reagents =list(/datum/reagent/medicine/trait/antidepressants = 90)
+
+/datum/alch_cauldron_recipe/trait/negative
+	skill_required = SKILL_LEVEL_EXPERT // poisons are harder...
+
+/datum/alch_cauldron_recipe/trait/negative/prodepressants
+	name = "Stress Toxin"
+	smells_like = "paranoia"
+	output_reagents = list(/datum/reagent/medicine/trait/negative/prodepressants = 30) // ...and yield less
+
+/datum/alch_cauldron_recipe/trait/negative/prodepressants
+	name = "Stress Toxin"
+	smells_like = "paranoia"
+	output_reagents = list(/datum/reagent/medicine/trait/negative/prodepressants = 30)
+
+/datum/alch_cauldron_recipe/trait/negative/prodepressants
+	name = "Stress Toxin"
+	smells_like = "paranoia"
+	output_reagents = list(/datum/reagent/medicine/trait/negative/prodepressants = 30)
+
+/datum/alch_cauldron_recipe/repairelixir
+	name = "Elixir of Restoring"
+	smells_like = "mending"
+	output_reagents = list(/datum/reagent/medicine/restoration = 30)
