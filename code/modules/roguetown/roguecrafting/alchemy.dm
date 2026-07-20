@@ -109,6 +109,28 @@
 	craftdiff = 5
 	verbage_simple = "mix"
 
+/obj/item/trans_table_upgrade
+	name = "Transmutation Equipment Kit"
+	desc = "An expensive and difficult endeavor to forge: a complete set of equipment that can be used to upgrade a mundane alchemy station into a transmutative laboratory."
+	icon = 'icons/roguetown/misc/gadgets.dmi'
+	icon_state = "atinkerkit"
+
+/obj/item/trans_table_upgrade/attack_obj(obj/O, mob/living/user)
+	. = ..()
+	if(istype(O, /obj/structure/fluff/alch) && !istype(O, /obj/structure/fluff/alch/trans))
+		var/newloc = get_turf(O)
+		user.visible_message(span_notice("[user] tinkers with [O], setting up an advanced alchemical workspace!"), span_notice("I set out my tools and upgrade [O]."))
+		qdel(O)
+		new /obj/structure/fluff/alch/trans(newloc)
+
+/datum/crafting_recipe/roguetown/alchemy/transmutation_equipment
+	name = "transmutation equipment"
+	category = "Table"
+	result = list(/obj/item/trans_table_upgrade)
+	reqs = list(/obj/item/ingot/purifiedaalloy = 2)
+	craftdiff = 1
+	verbage_simple = "forge"
+
 /// bottle craft
 
 /datum/crafting_recipe/roguetown/alchemy/glassbottles
