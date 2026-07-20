@@ -117,7 +117,6 @@
 	id = /obj/item/clothing/ring/silver
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 	backl = /obj/item/storage/backpack/rogue/satchel
-	mask = /obj/item/clothing/head/roguetown/roguehood/abyssor
 	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
 	cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_leader
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssor_painter
