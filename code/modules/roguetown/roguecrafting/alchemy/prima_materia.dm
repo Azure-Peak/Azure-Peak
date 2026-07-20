@@ -69,7 +69,7 @@
 	name = "Terra"
 	desc = "One of the four 'mortal elements', the nature of solid earth. Consequential; immovable; grounded."
 
-/datum/materia_aspect/arcyne // outlier fifth (eighth) element; pure essentia, gems you can make staves out of
+/datum/materia_aspect/arcyne // outlier fifth (eighth) element; pure essentia, gems you can make staves out of, manabloom, mana powder
 	name = "Caeleste"
 	desc = "The aspect of the arcyne itself, that which goes beyond the bounds of the mundane. Potential; energy; the preternatural."
 

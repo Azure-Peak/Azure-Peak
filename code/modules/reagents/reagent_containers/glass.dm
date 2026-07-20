@@ -10,6 +10,7 @@
 	possible_item_intents = list(INTENT_POUR, /datum/intent/fill, INTENT_SPLASH, INTENT_GENERIC)
 	resistance_flags = ACID_PROOF
 	var/is_infinite = FALSE
+	materia = list(/datum/materia_aspect/water)
 
 /obj/item/reagent_containers/glass/get_mechanics_examine(mob/user)
 	. = ..()

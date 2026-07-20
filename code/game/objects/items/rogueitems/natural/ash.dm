@@ -5,6 +5,7 @@
 	icon_state = "ash"
 	w_class = WEIGHT_CLASS_TINY
 	var/being_deleted = FALSE
+	materia = list(/datum/materia_aspect/fire)
 
 /obj/item/ash/get_mechanics_examine(mob/user)
 	. = ..()

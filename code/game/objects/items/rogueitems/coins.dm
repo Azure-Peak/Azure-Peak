@@ -45,7 +45,7 @@
 
 /obj/item/roguecoin/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	playsound(loc, 'sound/foley/coins1.ogg', 100, TRUE, -2)
-	..() 
+	..()
 
 /obj/item/roguecoin/get_real_price()
 	return sellprice * quantity
@@ -149,7 +149,7 @@
 	if(world.time < flip_cd + 30)
 		return
 	flip_cd = world.time
-	playsound(user, 'sound/foley/coinphy (1).ogg', 100, FALSE)	
+	playsound(user, 'sound/foley/coinphy (1).ogg', 100, FALSE)
 	if(prob(50))
 		user.visible_message(span_info("[user] flips the coin. ENDVRE!"))
 		heads_tails = TRUE
@@ -211,7 +211,8 @@
 	icon_state = "i1"
 	sellprice = 0
 	base_type = CTYPE_ICOIN
-	plural_name = "otavan marques"	
+	plural_name = "otavan marques"
+	materia = list(/datum/materia_aspect/lunar)
 
 /obj/item/roguecoin/inqcoin/get_mechanics_examine(mob/user)
     . = ..()
@@ -227,6 +228,7 @@
 	sellprice = 10
 	base_type = CTYPE_GOLD
 	plural_name = "zenarii"
+	materia = list(/datum/materia_aspect/solar)
 
 
 // SILVER
@@ -237,6 +239,7 @@
 	sellprice = 5
 	base_type = CTYPE_SILV
 	plural_name = "ziliquae"
+	materia = list(/datum/materia_aspect/lunar)
 
 // COPPER
 /obj/item/roguecoin/copper
@@ -246,15 +249,17 @@
 	sellprice = 1
 	base_type = CTYPE_COPP
 	plural_name = "zennies"
+	materia = list(/datum/materia_aspect/change)
 
 // ANCIENT
 /obj/item/roguecoin/aalloy
 	name = "psilen"
 	desc = "A coin of polished gilbranze, beheld to a fallen kingdom that hadn't endured the passage of tyme. </br>Most sophisticated machines won't recognize its value, but keen-eyed Merchants and Stewards might still pay a fair sum for such a relic."
 	icon_state = "a1"
-	sellprice = 3 //Dungeon-specific coinage - valued by historians, collectors, and smelters. 
+	sellprice = 3 //Dungeon-specific coinage - valued by historians, collectors, and smelters.
 	base_type = CTYPE_ANCIENT
 	plural_name = "psila"
+	materia = list(/datum/materia_aspect/aalloy)
 
 /obj/item/roguecoin/inqcoin/pile/Initialize()
 	. = ..()
@@ -274,7 +279,7 @@
 
 /obj/item/roguecoin/silver/pile/Initialize()
 	. = ..()
-	set_quantity(rand(4,19))	
+	set_quantity(rand(4,19))
 
 /obj/item/roguecoin/silver/pile/readyuppile/Initialize()
 	. = ..()

@@ -7,6 +7,7 @@
 	slot_flags = ITEM_SLOT_HIP
 	dropshrink = 0.75
 	resistance_flags = FIRE_PROOF
+	materia = list(/datum/materia_aspect/motion)
 
 /obj/item/storage/gadget/messkit
 	name = "mess kit"

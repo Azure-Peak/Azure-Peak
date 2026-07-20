@@ -42,7 +42,7 @@
 	var/datum/special_intent/special
 
 	var/malumblessed_w = FALSE
-	
+
 	// whether this is actually a tool, like hoes and hammers, not a weapon proper. used to allow TRAIT_TINYPAWS users to conduct repairs and such
 	var/is_tool = FALSE
 	/// sigh
@@ -53,9 +53,15 @@
 	. = ..()
 	if(!destroy_message)
 		destroy_message = span_warning("\The [src] shatters!")
-	
+
 	if(ispath(special))
 		special = new special()
+
+	if(!length(materia)) // some weapons will want custom aspects
+		if(is_tool)
+			materia = list(/datum/materia_aspect/tool)
+		else
+			materia = list(/datum/materia_aspect/weapon)
 
 /obj/item/rogueweapon/dropped(mob/user, silent)
 	. = ..()

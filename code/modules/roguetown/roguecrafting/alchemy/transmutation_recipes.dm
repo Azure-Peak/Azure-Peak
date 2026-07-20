@@ -6,16 +6,40 @@
 	catalyst = /obj/item/alch/catalyst/florid
 
 /datum/transmutation_recipe/florid/fiber_to_grain
-	name = "Fiber Sanguination"
+	name = "Fiber Sanguination (Grain)"
 	materia_aspects = list(/datum/materia_aspect/plant)
 	input_items = list(/obj/item/natural/fibers = 4)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 1)
 
 /datum/transmutation_recipe/florid/grain_to_fibers
-	name = "Grain Raefication"
+	name = "Grain Raefication (Fibers)"
 	materia_aspects = list(/datum/materia_aspect/air)
 	input_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 1)
 	output_items = list(/obj/item/natural/fibers = 3)
+
+/datum/transmutation_recipe/florid/grain_to_westleach
+	name = "Grain Sanguination (Grain)"
+	materia_aspects = list(/datum/materia_aspect/herb)
+	input_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 2)
+	output_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 1)
+
+/datum/transmutation_recipe/florid/westleach_to_grain
+	name = "Westleach Raefication (Grain)"
+	materia_aspects = list(/datum/materia_aspect/plant)
+	input_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 1)
+	output_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat =  1)
+
+/datum/transmutation_recipe/florid/berry_to_apple
+	name = "Jacksberry Sanguination (Apple)"
+	materia_aspects = list(/datum/materia_aspect/plant)
+	input_items = list(/obj/item/reagent_containers/food/snacks/grown/berries = 2)
+	output_items = list(/obj/item/reagent_containers/food/snacks/grown/apple = 1)
+
+/datum/transmutation_recipe/florid/apple_to_berry
+	name = "Apple Raefication (Jacksberry)"
+	materia_aspects = list(/datum/materia_aspect/air)
+	input_items = list(/obj/item/reagent_containers/food/snacks/grown/apple = 1)
+	output_items = list(/obj/item/reagent_containers/food/snacks/grown/berries = 1)
 
 // TERRAN RECIPES: earthen material recipes, not including metals
 /datum/transmutation_recipe/terran
@@ -25,22 +49,28 @@
 	catalyst = /obj/item/alch/catalyst/terran
 
 /datum/transmutation_recipe/terran/stone
-	name = "Clay Petrification"
+	name = "Clay Petrification (Stone)"
 	materia_aspects = list(/datum/materia_aspect/earth)
 	input_items = list(/obj/item/natural/clay = 2)
-	output_items = list(/obj/item/natural/rock = 2) // you need either 3 clay or 2 clay and a rock for this - so you get 2 outputs, still a loss
+	output_items = list(/obj/item/natural/stone = 2) // you need either 3 clay or 2 clay and a rock for this - so you get 2 outputs, still a loss
 
 /datum/transmutation_recipe/terran/clay
-	name = "Stone Plasticization" // from plasticity, the "defining mechanical property of clay" (thanks wikipedia)
+	name = "Stone Plasticization (Clay)" // from plasticity, the "defining mechanical property of clay" (thanks wikipedia)
 	materia_aspects = list(/datum/materia_aspect/water)
-	input_items = list(/obj/item/natural/rock = 2)
+	input_items = list(/obj/item/natural/stone = 2)
 	output_items = list(/obj/item/natural/clay = 2)
 
 /datum/transmutation_recipe/terran/coal
-	name = "Stone Carbonization"
+	name = "Stone Carbonization (Coal)"
 	materia_aspects = list(/datum/materia_aspect/earth)
-	input_items = list(/obj/item/natural/rock = 3) // old recipe was 4 rocks to 1 coal, you can do this in the same - adds up with their sellprices
+	input_items = list(/obj/item/natural/stone = 3) // old recipe was 4 rocks to 1 coal, you can do this in the same - adds up with their sellprices
 	output_items = list(/obj/item/rogueore/coal = 1)
+
+/datum/transmutation_recipe/terran/boulder
+	name = "Stone Agglomeration (Boulder)"
+	materia_aspects = list(/datum/materia_aspect/earth)
+	input_items = list(/obj/item/natural/stone = 3)
+	output_items = list(/obj/item/natural/rock = 1)
 
 // AENEIC RECIPES: metal recipes, not including silver or gold
 /datum/transmutation_recipe/aeneic
@@ -50,26 +80,26 @@
 	catalyst = /obj/item/alch/catalyst/aeneic
 
 /datum/transmutation_recipe/aeneic/iron
-	name = "Ferropoeia" // is this mixing greek and latin? yes. deal with it
+	name = "Ferropoeia (Iron)" // is this mixing greek and latin? yes. deal with it
 	materia_aspects = list(/datum/materia_aspect/metal)
 	input_items = list(/obj/item/rogueore/coal = 2) // need iron to make iron, so this is effectively the old 2 coal : 1 iron ratio which adds up given their sellprices
 	output_items = list(/obj/item/rogueore/iron = 2)
 
 /datum/transmutation_recipe/aeneic/copper
-	name = "Chalkóspoeia" // this one is entirely greek, because i like making nerds uncomfortable
+	name = "Chalkóspoeia (Copper)" // this one is entirely greek, because i like making nerds uncomfortable
 	materia_aspects = list(/datum/materia_aspect/change)
 	input_items = list(/obj/item/natural/stone = 4) // 4 stone 1 clay = 6 mammon, same sellprice as 1 copper ore
 	output_items = list(/obj/item/rogueore/copper = 1)
 
 /datum/transmutation_recipe/aeneic/tin
-	name = "Kassiteropoeia" // tee hee
+	name = "Kassiteropoeia (Tin)" // tee hee
 	materia_aspects = list(/datum/materia_aspect/mundane)
 	input_items = list(/obj/item/natural/stone = 6) // tin ore is 7 so you need to feed it more rocks, dirt price assumed to be 1 mam since it's like a rock [citation needed]
 	output_items = list(/obj/item/rogueore/tin = 1)
 
 // CHRYSOPOEIA: a great work, creating alchemical gold; catalyst is difficult to make
 /datum/transmutation_recipe/chrysopoeia
-	name = "Chrysopoeia"
+	name = "Chrysopoeia (Gold)"
 	category = "Chrysopoeic Transmutation"
 	catalyst = /obj/item/alch/catalyst/chrysopoeic
 	materia_aspects = list(/datum/materia_aspect/solar)	// this _technically_ creates value - 32 sellprice of iron, 10 for the zenar for solar materia
@@ -79,7 +109,7 @@
 // ARGYROPOEIA: an explicitly Noccite work, the catalyst is _impossible_ to create. it's adminspawn-only for now
 // and will remain an extremely rare Noccite artifact once a way to obtain it is added in part 2 of mgl3
 /datum/transmutation_recipe/argyopoeia
-	name = "Argyropoeia"
+	name = "Argyropoeia (Silver)"
 	category = "Argyopoeic Transmutation"
 	snowflake_desc = "Can only be performed at nite."
 	catalyst = /obj/item/alch/catalyst/argyopoeic
@@ -101,12 +131,12 @@
 	materia_aspects = list(/datum/materia_aspect/fire) // most of these recipes use ignis so we set it here
 
 /datum/transmutation_recipe/nigredo/viscera
-	name = "Protein Decomposition"
+	name = "Protein Decomposition (Viscera)"
 	input_items = list(/obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef = 2)
 	output_items = list(/obj/item/alch/viscera = 1) // alchemical meatgrinder, how miraculous
 
 /datum/transmutation_recipe/nigredo/moreviscera
-	name = "Mass Protein Decomposition"
+	name = "Mass Protein Decomposition (Viscera)"
 	input_items = list(/obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef = 6)
 	output_items = list(/obj/item/alch/viscera = 3) // i guess we had two of these recipes for some reason?
 
@@ -141,6 +171,7 @@
 	name = "Base Xanthosis Recipe"
 	category = "Xanthotic Transmutation"
 	catalyst = /obj/item/alch/catalyst/xanthosis
+	materia_aspects = list(/datum/materia_aspect/arcyne) // default bcs of gem uptiering
 
 /datum/transmutation_recipe/xanthosis/coal
 	name = "Coal Platonization"
@@ -166,12 +197,51 @@
 	input_items = list(/obj/item/alch/silverdust = 1)
 	output_items = list(/obj/item/rogueore/silver = 1) // all dust ungrinding recipes are value-negative because of the materia cost
 
-// RUBEDO: lit 'reddening'. the final stage of the great work, its recipes unite the spiritual and physical to create potent alchemical reagents with a divine resonance
+/datum/transmutation_recipe/xanthosis/toper
+	name = "Toper Harmonization"
+	input_items = list(/obj/item/rogueore/gold = 1, /obj/item/roguegem/amethyst = 1) // gold is 50, toper is 34 - not to mention the amythorz
+	output_items = list(/obj/item/roguegem/yellow)
+
+/datum/transmutation_recipe/xanthosis/gemerald
+	name = "Gemerald Harmonization"
+	input_items = list(/obj/item/roguegem/yellow = 1) // toper sells for 34, gemerald is 42 - adding a minimum of 10 mammons for solaris you're left with a 2 mammon loss
+	materia_aspects = list(/datum/materia_aspect/solar, /datum/materia_aspect/arcyne)
+	output_items = list(/obj/item/roguegem/green)
+
+/datum/transmutation_recipe/xanthosis/saffira
+	name = "Saffira Harmonization"
+	input_items = list(/obj/item/roguegem/green = 1) // gemerald is 42 mammons, saffira 56; add 10 for the cheapest source of solaris, and you're only making 4 mammons at best
+	materia_aspects = list(/datum/materia_aspect/solar, /datum/materia_aspect/arcyne)
+	output_items = list(/obj/item/roguegem/blue)
+
+/datum/transmutation_recipe/xanthosis/blortz
+	name = "Blortz Harmonization"
+	input_items = list(/obj/item/rogueore/gold = 1, /obj/item/roguegem/blue = 1) // gold is 50, saffira 56, blortz 88
+	output_items = list(/obj/item/roguegem/turq)
+
+/datum/transmutation_recipe/xanthosis/dorpel
+	name = "Dorpel Harmonization"
+	input_items = list(/obj/item/rogueore/gold = 1, /obj/item/roguegem/turq = 1) // gold is 50, blortz 88, dorpel 121. only a 17 mammon loss this time. hooray? you're almost there
+	output_items = list(/obj/item/roguegem/diamond)
+
+// RUBEDO: lit 'reddening'. the final stage of the great work, its recipes unite the spiritual and physical to create potent alchemical reagents
+// with a divine resonance; also riddle of steel is here bcs malum!
 /datum/transmutation_recipe/rubedo
 	abstract_type = /datum/transmutation_recipe/rubedo
 	name = "Base Rubedo Recipe"
 	category = "Rubedic Transmutation"
 	catalyst = /obj/item/alch/catalyst/rubedo
+
+// this one TECHNICALLY creates value if you're very savvy - about 50 mammons. however, it's a legendary recipe, locked behind a difficult catalyst,
+// and the prerequisites are actively harder to get with alchemy than through the economy. this is here as a badge of honor for a true alchemist,
+// like it was in the olden daes where apprentices would be tasked with it as a final test to prove themselves worthy of the rank of associate.
+// quick calcs: it takes 300 mammons (sellprice, so actually more) of gold, an amythorz, a bunch of manabloom, and at least 40 mammons of materia-sources
+// for the cheapest-possible alchemical path to this. you're not powergaming this shit
+/datum/transmutation_recipe/rubedo/riddlesteel
+	name = "Resolution of a Steel'd Enigma"
+	input_items = list(/obj/item/roguegem/diamond = 2, /obj/item/rogueore/gold = 2)
+	skill_required = SKILL_LEVEL_LEGENDARY
+	output_items = list(/obj/item/riddleofsteel = 1)
 
 /datum/transmutation_recipe/rubedo/nitevision
 	name = "Moonlight Distillation"

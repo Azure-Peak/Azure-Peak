@@ -12,6 +12,7 @@
 	drop_sound = 'sound/items/gem.ogg'
 	static_price = FALSE
 	resistance_flags = FIRE_PROOF
+	materia = list(/datum/materia_aspect/arcyne)
 
 /obj/item/roguegem/getonmobprop(tag)
 	. = ..()
@@ -37,7 +38,7 @@
 			return
 	else
 		return ..()
-		
+
 	return ..()
 
 /obj/item/roguegem/green
@@ -162,9 +163,9 @@
 
 /obj/item/roguegem/random/Initialize()
 	..()
-	var/newgem = list(/obj/item/roguegem/ruby = 5, 
-		/obj/item/roguegem/green = 15, 
-		/obj/item/roguegem/blue = 10, 
+	var/newgem = list(/obj/item/roguegem/ruby = 5,
+		/obj/item/roguegem/green = 15,
+		/obj/item/roguegem/blue = 10,
 		/obj/item/roguegem/yellow = 20,
 		/obj/item/roguegem/violet = 10,
 		/obj/item/roguegem/diamond = 5,
@@ -219,6 +220,7 @@
 	dropshrink = 0.4
 	drop_sound = 'sound/items/gem.ogg'
 	sellprice = 400
+	materia = list(/datum/materia_aspect/fire, /datum/materia_aspect/earth, /datum/materia_aspect/arcyne, /datum/materia_aspect/solar)
 
 /obj/item/riddleofsteel/Initialize()
 	. = ..()

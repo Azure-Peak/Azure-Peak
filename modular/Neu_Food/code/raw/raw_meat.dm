@@ -14,6 +14,7 @@
 	cooked_smell = /datum/pollutant/food/fried_meat
 	var/fresh_meat = FALSE
 	become_rot_type = /obj/item/reagent_containers/food/snacks/rogue/meat_rotten
+	materia = list(/datum/materia_aspect/animal)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat_rotten
 	eat_effect = /datum/status_effect/debuff/rotfood
@@ -23,6 +24,7 @@
 	of stomachs."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat.dmi'
 	icon_state = "meat_rotten"
+	materia = list(/datum/materia_aspect/change)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat_rotten/Initialize()
 	. = ..()
@@ -139,7 +141,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/wolf
 	ingredient_size = 2
 	slices_num = 2
-	slice_bclass = BCLASS_CHOP	
+	slice_bclass = BCLASS_CHOP
 	name = "raw volf meat"
 	icon_state = "volfstrip"
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.

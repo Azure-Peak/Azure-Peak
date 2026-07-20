@@ -143,6 +143,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	var/magic_power = 0
 	sharpening_factor = 12
 	spark_chance = 35
+	materia = list(/datum/materia_aspect/earth)
 
 /obj/item/natural/stone/get_mechanics_examine(mob/user)
 	. = ..()
@@ -307,6 +308,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 		stone_desc += " [pick(GLOB.stone_magic_descs)]"
 		bonus_force += magic_force // Add on the magic force modifier
 		magic_power += magic_force
+		materia += /datum/materia_aspect/arcyne
 
 	if(extra_intent_list.len)
 		for(var/i in 1 to min(4, extra_intent_list.len))
@@ -355,7 +357,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 		to_chat(user, span_warning("You most use both hands to chisel blocks."))
 	else
 		..()
-		
+
 //rock munching
 /obj/item/natural/stone/attack(mob/living/M, mob/user)
 	if(!user.cmode)
@@ -389,6 +391,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	minstr = 11
 	destroy_sound = 'sound/foley/smash_rock.ogg'
 	attacked_sound = 'sound/foley/hit_rock.ogg'
+	materia = list(/datum/materia_aspect/earth)
 
 
 /obj/item/natural/rock/get_mechanics_examine(mob/user)

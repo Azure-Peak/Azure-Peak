@@ -22,6 +22,7 @@
 	cooked_smell = /datum/pollutant/food/cooked_fish
 	possible_item_intents = list(/datum/intent/food, /datum/intent/mace/slap)
 	force = 8
+	materia = list(/datum/materia_aspect/water)
 
 /datum/intent/mace/slap
 	name = "slap"
