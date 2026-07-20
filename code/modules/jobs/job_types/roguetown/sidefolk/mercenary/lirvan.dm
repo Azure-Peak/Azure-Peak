@@ -106,7 +106,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/item/clothing/neck/roguetown/gorget/steel/gold
 	name = "gold-plated gorget"
-	desc = "A series of steel plates designed to protect the neck, traditionally worn atop a jacket or cuirass. It bares a mammon-sized divet along its right flank; the certification of its 'proofedness' against a longbow's strike. This one is covered in a thin layer of gold."
+	desc = "A series of steel plates designed to protect the neck, traditionally worn atop a jacket or cuirass. It bears a mammon-sized divet along its right flank; the certification of its 'proofedness' against a longbow's strike. This one is covered in a thin layer of gold."
 	color = "#f9a602"
 
 /obj/item/clothing/under/roguetown/chainlegs/kilt/gold

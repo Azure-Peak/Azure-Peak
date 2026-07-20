@@ -173,7 +173,7 @@
 
 /datum/loadout_item/donator/universal/belt_bronze
 	name = "Gift - Belt of Bronze Maille"
-	path = /obj/item/storage/belt/rogue/leather/donator_bronze 
+	path = /obj/item/storage/belt/rogue/leather/donator_bronze
 
 /datum/loadout_item/donator/universal/belt_iron
 	name = "Gift - Belt of Iron Maille"
@@ -377,23 +377,28 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/willmbrink
 
 /datum/loadout_item/donator/dasfox
-	name = "Donator Kit - Archaic Ceremonial Valkyrhelm"
-	path = /obj/item/enchantingkit/dasfox_helm
-	ckeywhitelist = list("dasfox", "purplepineapple") // on request by dasfox
-
-/datum/loadout_item/donator/dasfox/cuirass
-	name = "Donator Kit - Archaic Ceremonial Cuirass"
-	path = /obj/item/enchantingkit/dasfox_cuirass
-
-/datum/loadout_item/donator/dasfox/periapt
-	name = "Donator Item - Defiled Astratan Periapt"
-	path = /obj/item/clothing/neck/roguetown/psicross/astrata/dasfox
 	ckeywhitelist = list("dasfox")
 
 /datum/loadout_item/donator/dasfox/lance
 	name = "Donator Item - Decorated Lance"
 	path = /obj/item/enchantingkit/dasfox_lance
 	ckeywhitelist = list("dasfox", "cre77") // on request by dasfox
+
+/datum/loadout_item/donator/dasfox/tyesca_brigandine
+	name = "Donator Item - fencer's brigandine"
+	path = /obj/item/enchantingkit/tyesca_brigandine
+
+/datum/loadout_item/donator/dasfox/tyesca_montante
+	name = "Donator Item - Tyesca's montante"
+	path = /obj/item/enchantingkit/weapon/tyesca_sword
+
+/datum/loadout_item/donator/dasfox/tyesca_cloak
+	name = "Donator Item - Tyesca's cloak"
+	path = /obj/item/clothing/cloak/raincloak/tyesca
+
+/datum/loadout_item/donator/dasfox/tyesca_scabbard
+	name = "Donator Item - Tyesca's scabbard"
+	path = /obj/item/rogueweapon/scabbard/sword/tyesca
 
 /datum/loadout_item/donator/ryan
 	name = "Donator Item - Western Estates Caparison"
@@ -425,12 +430,12 @@
 /datum/loadout_item/donator/dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"
 	path = /obj/item/enchantingkit/dakken_zizhelm
-	ckeywhitelist = list("dakken12") 
+	ckeywhitelist = list("dakken12")
 
 /datum/loadout_item/donator/dakken/sword
 	name = "Donator Kit - Avantyne Threaded Sword"
 	path = /obj/item/enchantingkit/dakken_alloybsword
-	ckeywhitelist = list("dakken12") 
+	ckeywhitelist = list("dakken12")
 
 /datum/loadout_item/donator/stinketh
 	name = "Donator Kit - Silver Shashka"
@@ -626,11 +631,11 @@
     name = "Donator Kit - Gre'as'anto d'Shar"
     path = /obj/item/enchantingkit/olygsword
     ckeywhitelist = list("olympus7")
-	
+
 /datum/loadout_item/donator/bobby
 	name = "Donator Kit - Holy Astratan Bascinet"
 	path = /obj/item/enchantingkit/bobby_helm
-	ckeywhitelist = list("spartanbobby") 
+	ckeywhitelist = list("spartanbobby")
 
 /datum/loadout_item/donator/ollanius_sword
 	name = "Donator Kit - Azurosa-Wrapped Sword"
@@ -651,3 +656,8 @@
 	name = "Donator Kit - Frozen Vow"
 	path = /obj/item/enchantingkit/morto_staff
 	ckeywhitelist = list("mortosasye")
+
+/datum/loadout_item/donator/racobio_staff
+	name = "Donator Kit - Obsidian Tower"
+	path = /obj/item/enchantingkit/racobio_staff
+	ckeywhitelist = list("racobio")

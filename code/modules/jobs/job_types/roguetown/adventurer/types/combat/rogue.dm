@@ -2,7 +2,7 @@
 	name = "Treasure Hunter"
 	tutorial = "You are a treasure hunter trained in hunting for valuables. Discern what is treasure or not, your fortune could be hidden anywhere."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/rogue
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_SEEPRICES, TRAIT_GRAVEROBBER)
@@ -49,8 +49,8 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	backpack_contents = list(
-		/obj/item/lockpick = 1, 
-		/obj/item/rogueweapon/huntingknife = 1, 
+		/obj/item/lockpick = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
@@ -205,7 +205,10 @@
 	tutorial = "You are a daring rogue of the seas! Swashbucklers wield agile swordplay and acrobatic prowess - fighting dirty to outmaneuver foes with flair."
 	outfit = /datum/outfit/job/roguetown/adventurer/swashbuckler
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_NUTCRACKER, TRAIT_DECEIVING_MEEKNESS, TRAIT_LEAPER)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_NUTCRACKER, TRAIT_LEAPER)
+	subclass_virtues = list(
+		/datum/virtue/combat/guarded
+		)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_STR = 1,
@@ -295,12 +298,12 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	neck = /obj/item/clothing/neck/roguetown/leather
 	backpack_contents = list(
-		/obj/item/lockpick = 1, 
+		/obj/item/lockpick = 1,
 		/obj/item/recipe_book/survival = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/skillbook/unfinished = 1
 		)
-		
+
 	if(H.mind)
 		var/weapons = list("Parrying Dagger","Whip", "Short Spear")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
@@ -335,7 +338,7 @@
 					if("Vitality")
 						switch(H.patron?.type)
 							if(/datum/patron/inhumen/baotha)
-								var/baotharing = list("Ring of Vitality","Rosa Ring") 
+								var/baotharing = list("Ring of Vitality","Rosa Ring")
 								var/baotharing_choice = input(H, "A discrete ring, or one of your faith?", "A RARE GIFT") as anything in baotharing
 								H.set_blindness(0)
 								switch(baotharing_choice)

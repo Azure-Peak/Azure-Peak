@@ -699,7 +699,7 @@
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "steel cuirass"
-	desc = "A steel cuirass. It bares all the hallmarks of sixteenth-century nobility: angularity, polishedness, and - above all else - class."
+	desc = "A steel cuirass. It bears all the hallmarks of sixteenth-century nobility: angularity, polishedness, and - above all else - class."
 	body_parts_covered = COVERAGE_VEST
 	icon_state = "cuirass"
 	item_state = "cuirass"

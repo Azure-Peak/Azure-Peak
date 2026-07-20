@@ -5,6 +5,8 @@
 	body_parts_covered = COVERAGE_TORSO
 	armor = ARMOR_LEATHER_NPC
 	blocksound = SOFTHIT
+	pickup_sound = 'sound/foley/equip/equip_armor.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor.ogg'
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE

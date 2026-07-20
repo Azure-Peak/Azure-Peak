@@ -57,7 +57,7 @@
 	icon_state = "goldbracers"
 	item_state = "goldbracers"
 	body_parts_covered = ARMS | HANDS //Experimental, but should compliment the cost. Let all handhitters fear your presence.. for exactly five strikes.
-	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
+	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bears the burden.
 	armor = ARMOR_INDESTRUCTIBLE //Renders its wearer completely invulnerable to damage. The caveat is, however..
 	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
 	anvilrepair = null
@@ -151,6 +151,8 @@
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 	blocksound = SOFTHIT
+	pickup_sound = 'sound/foley/equip/equip_armor.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor.ogg'
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
@@ -221,6 +223,10 @@
 	blocksound = SOFTHIT
 	anvilrepair = null
 	sewrepair = TRUE
+	pickup_sound = 'sound/foley/equip/equip_armor.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor.ogg'
+	break_sound = 'sound/foley/cloth_rip.ogg'
+	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 
 /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
 	name = "padded wrappings"
@@ -529,7 +535,7 @@
 		user.update_inv_shirt()
 		playsound(user, 'sound/foley/equip/chain_equip.ogg', 50, TRUE)
 		wrapped = FALSE
-	
+
 /obj/item/clothing/wrists/roguetown/bracers/chain
 	name = "chain sleeves"
 	desc = "Coverings of steel maille, fashioned from hundreds of interlinked rings. An aura of inexplicable harlotry eminates from these sleeves. \

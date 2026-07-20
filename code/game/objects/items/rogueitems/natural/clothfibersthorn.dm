@@ -230,8 +230,8 @@
 				clothcount -= clamp(clothcount, 2, 10)
 				user.put_in_hands(B)
 		for(var/obj/item/natural/cloth/F in get_turf(src))
-			playsound(user, "rustle", 70, FALSE, -4)
 			qdel(F)
+		playsound(user, "rustle", 70, FALSE, -4)
 
 /obj/item/natural/cloth/examine(mob/user)
 	. = ..()

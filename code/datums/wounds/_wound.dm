@@ -64,7 +64,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	var/disabling = FALSE
 	/// If TRUE, this is a crit wound
 	var/critical = FALSE
-	/// Some wounds cause instant death for SHATTER_KILL, which is basically critical weakness but softer
+	/// Some wounds cause instant death for SHATTER_KILL, which is basically critical weakness but softer, unique part is that we handle chest-wounds w/ unique traitcheck
 	var/shatter_wound = FALSE
 	/// Some wounds cause instant death for CRITICAL_WEAKNESS
 	var/mortal = FALSE
@@ -450,7 +450,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		severityval = clamp(severityval, 0, 5)
 		if(severityval)
 			severity = severityval
-		
+
 	name = "[newname  ? "[newname] " : ""][initial(name)]"	//[adjective] [name], aka, "gnarly slash" or "slash"
 	if(name != oldname)
 		owner.visible_message(span_red("The [oldname] on [owner]'s [lowertext(bodyzone2readablezone(bodypart_to_zone(bodypart_owner)))] gets worse!"))

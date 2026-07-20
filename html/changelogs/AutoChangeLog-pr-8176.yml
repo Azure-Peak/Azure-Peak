@@ -1,0 +1,4 @@
+author: "TankTheBirb"
+delete-after: True
+changes:
+  - bugfix: "Fixes manabloom tea outputting \"/list\" when you OD on it instead of the correct \"MY STOMACH BURNS\" text."

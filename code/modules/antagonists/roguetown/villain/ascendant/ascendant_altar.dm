@@ -79,7 +79,11 @@ GLOBAL_LIST_INIT(capstone_pool, list(
 	//check what ascendpoint they are on and add that trait
 	switch(ascendpoints)
 		if(1)
-			ADD_TRAIT(user, TRAIT_DECEIVING_MEEKNESS, TRAIT_GENERIC)
+			ADD_TRAIT(user, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
+			add_verb(user, /mob/living/carbon/human/proc/toggle_descriptors)
+			add_verb(user, /mob/living/carbon/human/proc/emote_ffsalute)
+			add_verb(user, /mob/living/carbon/human/proc/toggle_guarded)
+
 			ADD_TRAIT(user, TRAIT_EMPATH, TRAIT_GENERIC)
 			ADD_TRAIT(user, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 			to_chat(user, span_userdanger("I bow my head in humility as I begin my journey. MAJOR ARCANA : TEMPERANCE, UPRIGHT."))

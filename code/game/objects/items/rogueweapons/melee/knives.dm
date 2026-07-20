@@ -402,7 +402,7 @@
 
 /obj/item/rogueweapon/huntingknife/combat/bronze
 	name = "sydearmme"
-	desc = "Wedged bronze and whittled rockwood, handfitted into the dagger's most ancient-of-ancestors. It bares marks of flintknapping along its middlewidth; a customary tradition that's purported to atune its edge to the forces of nature."
+	desc = "Wedged bronze and whittled rockwood, handfitted into the dagger's most ancient-of-ancestors. It bears marks of flintknapping along its middlewidth; a customary tradition that's purported to atune its edge to the forces of nature."
 	icon_state = "bronzedagger"
 	sheathe_icon = "bronzedagger"
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/bronze, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/bronze)

@@ -1632,9 +1632,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					target.throw_at(throwtarget, 2, 2)
 				target.visible_message(span_danger("[user.name] kicks [target.name], knocking them back!"),
 				span_danger(
-					"I'm knocked [user.pulledby ? "down" : "back"] from a kick by [user.name]!"), 
-					span_hear("I hear aggressive shuffling followed by a loud thud!"), 
-					COMBAT_MESSAGE_RANGE, 
+					"I'm knocked [user.pulledby ? "down" : "back"] from a kick by [user.name]!"),
+					span_hear("I hear aggressive shuffling followed by a loud thud!"),
+					COMBAT_MESSAGE_RANGE,
 					user
 				)
 				to_chat(user, span_danger("I kick [target.name], knocking them back!"))
@@ -1646,8 +1646,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				target.visible_message(span_danger("[user.name] kicks [target.name], knocking them down!"),
 				span_danger(
 					"I'm knocked down from a kick by [user.name]!"),
-					span_hear("I hear aggressive shuffling followed by a loud thud!"), 
-					COMBAT_MESSAGE_RANGE, 
+					span_hear("I hear aggressive shuffling followed by a loud thud!"),
+					COMBAT_MESSAGE_RANGE,
 					user
 				)
 				to_chat(user, span_danger("I kick [target.name], knocking them down!"))
@@ -1770,7 +1770,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	if(!affecting)
 		return
-	
+
 	var/datum/status_effect/buff/clash/limbguard/LG = H.has_status_effect(/datum/status_effect/buff/clash/limbguard)
 	if(LG)
 		if(LG.protected_zone == selzone && LG.is_active)	// We "missed" into limbguard's protected zone.
@@ -1844,8 +1844,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		user.resolve_combataware(H, "[bodyzone2readablezone(selzone)]...", aim_text)
 
 	if(H.client?.prefs.combat_toggles & HITZONE_TEXT)
-		H.balloon_alert(H, "[bodyzone2readablezone(selzone)]...") 
-		
+		H.balloon_alert(H, "[bodyzone2readablezone(selzone)]...")
+
 	var/pen_info_check = get_pen_info(H, user, H.get_best_worn_armor(def_zone, int.item_d_type), def_zone, int.item_d_type, int.penfactor, I)
 	var/armor_block = H.run_armor_check(selzone, I.d_type, "", "",pen, damage = Iforce, blade_dulling=bladec, intdamfactor = used_intfactor, used_weapon = I, pen_info = pen_info_check)
 
@@ -1871,7 +1871,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(I)
 				I.remove_bintegrity(1)
 				I.take_damage(1, BRUTE, I.d_type)
-			
+
 			if(user.mind && user.goodluck(4) && user.d_intent == INTENT_DODGE)
 				user.changeNext_def(clamp(user.dodgetime - 1, 0, CLICK_CD_DODGE))
 				user.changeMaxDodge(1)
@@ -2541,3 +2541,33 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return jointext(ret_languages, " | ")
 	else
 		return null
+
+/datum/species/proc/can_flick_ears(mob/living/carbon/human/H)
+	if(!H) //Somewhere in the core code we're getting those procs with H being null
+		return FALSE
+	var/obj/item/organ/ears/E = H.getorganslot(ORGAN_SLOT_EARS)
+	if(!E || E.is_flicking) // We're already in a flicking animation
+		return FALSE
+	if(E.can_flick)
+		return TRUE
+	return FALSE
+
+/datum/species/proc/is_flicking_ears(mob/living/carbon/human/H)
+	var/obj/item/organ/ears/E = H.getorganslot(ORGAN_SLOT_EARS)
+	if(!E || E.is_flicking) // We're already in a flicking animation
+		return TRUE
+
+/datum/species/proc/perform_flick_ears(mob/living/carbon/human/H)
+	if(!H)
+		return FALSE
+	var/obj/item/organ/ears/E = H.getorganslot(ORGAN_SLOT_EARS)
+	E.is_flicking = TRUE
+	H.update_body_parts(TRUE)
+	addtimer(CALLBACK(src, PROC_REF(stop_flick_ears), H), 0.5 SECONDS)
+
+/datum/species/proc/stop_flick_ears(mob/living/carbon/human/H)
+	if(!H)
+		return FALSE
+	var/obj/item/organ/ears/E = H.getorganslot(ORGAN_SLOT_EARS)
+	E.is_flicking = FALSE
+	H.update_body_parts(TRUE)

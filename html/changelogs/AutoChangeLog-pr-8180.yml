@@ -1,0 +1,6 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Added an Ear Flick -- *eflick emote."
+  - rscadd: "Added a special animation for elf and wood elf ears for the *eflick emote."
+  - bugfix: "Fixed *sniff emote not being on the emote list."

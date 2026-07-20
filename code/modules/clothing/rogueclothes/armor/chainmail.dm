@@ -211,9 +211,20 @@
 	name = "ancient plate-and-maille"
 	desc = "Polished gilbranze rings and silk, woven together to form a sleeved maille-atekon; one that's been uncomfortably tucked \
 	beneath a matching cuirass. It eminates an unfamiliar sensation, rarely seen amongst rot-and-undeath - elegance. In the worlds to \
-	come, do you suppose Her death knights would bare such a mantle?"
+	come, do you suppose Her death knights would bear such a mantle?"
 	icon_state = "ancientcuirasshauberk"
 	item_state = "ancientcuirasshauberk"
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEELLIGHT
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted
+	slot_flags = ITEM_SLOT_ARMOR
+	armor_class = ARMOR_CLASS_HEAVY
+	armor = ARMOR_PLATE
+	name = "fluted plate-and-maille"
+	desc = "A beautiful steel cuirass, decorated with fluting and worn atop thick chainmaille. While it falters against \
+	arrows and bolts, these interlinked layers are superb at warding off the blows of swords and axes."
+	icon_state = "ornatehauberk"
+	item_state = "ornatehauberk"
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEELLIGHT
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate
@@ -270,6 +281,15 @@
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy = 1,
 	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy = 1)
+	craftdiff = 0 //Note that its Decrepit-tier variant is intended to largely be used by mobs and not players; hence, the lack of a crafting recipe.
+	req_table = TRUE //If someone wants to add that in post, hwoever, I don't mind. You can easily do so by copy-pasting the format, here.
+	bypass_dupe_test = TRUE
+
+/datum/crafting_recipe/roguetown/survival/flutedmailledhauberk
+	name = "layer a fluted cuirass atop hauberk"
+	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted)
+	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted = 1,
+	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
 	craftdiff = 0 //Note that its Decrepit-tier variant is intended to largely be used by mobs and not players; hence, the lack of a crafting recipe.
 	req_table = TRUE //If someone wants to add that in post, hwoever, I don't mind. You can easily do so by copy-pasting the format, here.
 	bypass_dupe_test = TRUE

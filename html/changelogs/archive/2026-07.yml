@@ -869,3 +869,159 @@
   - rscadd: smoking is now tracked in endround. see TOP BLACKLUNGS
   yyzsong:
   - qol: Ghosts now see item pricing information on examine.
+2026-07-18:
+  BurpleBineapple:
+  - bugfix: Bites no longer ignore Defend intent guarding, or Limbguard. Biting a
+      limbguarded area will instantly break your jaw.
+  - balance: hitting a Limbguard with your bare hands now does severe damage to your
+      gloves. If your gloves are broken or you are bare handed, punching a Limbguard
+      will break the offending arm.
+  Quinalion:
+  - bugfix: Fixed grenzelhoftian clothing icons.
+  WeNeedMorePhoron:
+  - bugfix: Refresh action buttons after outfit is equipped so you don't get bamboozled
+      by your spells being unavailable and manually click it to reflect properly.
+  - bugfix: remove unavailable Gravel Blast option from poke spells. Thanks to Abyssal
+      for report.
+  - rscadd: Add ability to reselect choice spell in your aspect for 2 points. Due
+      to concurrent and conflicting TM with TGUI, this is not reflected in the UI
+      yet! Apologize for the inconvenience. (Keeping this as note in case this get
+      merged before TGUI rework)
+  - rscadd: Reworked Conjuration to remove the projectile spell, in favor of an active
+      summon manipulation styles based on you participating in combat in melee yourself
+      while fighting alongside or behind your summons.
+  - rscadd: Book can now be stored on the hip.
+  - rscadd: Telomancy has been reworked into a school with a heavy focus on its first
+      ability as projectile spam for most of its budget with the rest being situational.
+  - rscadd: Conjuration leash has been fixed and we shouldn't have people remote pilot
+      their summons over multiple screens
+  - rscadd: Lowered passive healing, increased raw bleed and pain rate on burns so
+      that burn's lethality isn't heavily tilted toward the chest / head and not anywhere
+      else
+  - rscadd: Added additional choices for champions / attackers and adjusted the statline
+      of attacker to focus on perception and such. Attacker now have dual wield, no
+      dexpert, and decnt armor and is focused on the offensive
+  - rscadd: Improved ranged AI and general AI to be far more reliable, both with and
+      without conjuration.
+  - rscadd: 'IMPORTANT: Fixed an issue where weakpoint and zone aiming logic on NPC
+      was not working for over 4 months, which means they are actually baitable, predictable,
+      and also far more dangerous to unarmored spot. This applies'
+  - rscadd: Removed some new exploits added with new spells of guarding against your
+      own spells due to a misplaced check
+  - rscadd: Shields Implement choice has been removed. Arcyne Aegis is now unified
+      as heater shield tier stat and now a Minor Aspects due to its power.
+  - rscadd: Added a proper, visible tether to Spirit Projection
+  - rscadd: Fixed the AI inventory manager, probably.
+  - rscadd: Fire damage no longer inherits and use Blunt's multiple layer damage,
+      which was inflating damage vs armor by 50 - 100% vs 2 / 3 layers armor due to
+      blunt's multiple layers passthrough mechanics
+  - rscadd: Deflecting a spell now exposes the caster for better and more interactive
+      counterplay in PVP
+  - rscadd: Minion recall is now smarter on logic and won't teleport them into empty
+      space again.
+  - rscadd: Minion Summon now have a range of 2 to avoid excessively cheesy remote
+      summon
+  - rscadd: Surge / being stood up by surge blocks you from laying down for 1 second,
+      to close off one easy way to mess up people mashing V to stand up to fall down
+      again
+  - rscadd: Old Magick Witch should get choice of staff
+  - rscadd: Hellhound no longer use firestacks but the new scorched mechanics
+  - rscadd: Grimoire improvements. Added the ability to switch Choice Spell in place
+      for 2 reset points. Added new Mastery for Master Conjurer. Note that Lich do
+      not have Arcyne Armament at Master yet due to ongoing TM conflicts and I do
+      not wish to block major PR with a two lines change
+  - rscadd: Teleport-Taunt's threat has been increased
+  - rscadd: Pillar of Fire now hits zone properly
+  - rscadd: Frost Shards (Cryo), Bolt of Lightning (Fulgur), Geas (Geo), Wyrmfire
+      (Pyro), Void Beam (Telo) now is back to SWINGDELAY_CANCEL, so that each school
+      have some big hitter that is punishable by red and isn't a free escape at point
+      blank. This gives a slight penalty to running up to people on Cryo and then
+      shotgunning them as an enemy can potentially cancel it, lightning bolt isn't
+      a free escape, Geas being Geo's strongest CC is harder to pull off, Wyrmfire,
+      being Pyro's big hitter, should have some more risks in close rquarter. And
+      Void Beam is a heavy setup, situational spell that barely hit player but when
+      it does is devastating
+  - rscadd: Updated pyrobolts and pyro arrows and bottlebomb away from firestacks
+      into the new system. They may be under or overpowered. Please report and use
+  - rscadd: Made the Circumdatum spell for Telomancy slightl stronger
+  - bugfix: Fixed Hedge Mage's desciprtion
+  - rscadd: Made all Archer NPC take a -1 CON and -1 WIL property. They now kite on
+      screen. Also vastly improved their AI so that they are less likely to be stuck
+  - rscadd: Arcyne Trickster get blink as a treat.
+  - rscadd: Attempted 5 times in a row to fix and make ranged AI more reliable
+  - rscadd: Conjuration's Untethering range is increased to 10 and given a bit more
+      leeway so that you do not suffer your summons insta disappearing because your
+      NPC walk slightly slower than you. Yes, I feel your pain
+  - rscadd: Grenzelhoftian Mage now gain access to Conjuration, with a unique Doppel
+      Soldner spell that summons two shit ass peasant with Journeyman and a nice beret
+      and distinctive weakness.
+  - rscadd: Geomancy integrity factor reduced to 1.3 to reduce its oppressiveness
+      vs plate without losing its identity as the blunt school.
+  - rscdel: Removed unused acid damage type
+  - rscadd: Improved UI to show the new feature to swap choice spell in place for
+      2 points
+  - bugfix: Probably fix the Grenzelhoftian Leibwachter not spawnign with wepaons
+  changelingonberry:
+  - bugfix: Loadout manager (select loadout) no longer announces to the whole server
+  radarseas:
+  - rscadd: Added phase roll, a means of dodging exclusive to Vheslynite Cultists,
+      used to phase through flesh and steel alyke
+  - rscadd: Added Concindo, a lethal version of Zizo's Lacrima, also able to be used
+      on undead too, it greater-devitalises targets by ripping out their lux and heals
+      the user substancally.
+  - balance: Vheslynites do not care for firestacks, sure they burn to death but they
+      don't get stunned, they feel nothing. HOLLOW HUSKS, DEAD FUCKING LOSERS. Now
+      you know why you fear the unknown.
+  - rscadd: Vheslyn patron and faith for it. Inexcusable evil incarnate. It also has
+      a faith salute - NOTE you cannot pick this patron, it will be added to hard
+      antagonists, for now only expect adminbus for it.
+  - rscadd: Praying Vheslyn in any of your prayers will now smite you
+  - rscadd: Profane Vheslynite flames, these green flames resist off at half of the
+      rate of usual firestacks, albeit slightly better if you drop and roll, bring
+      water!
+  - rscadd: Vhelsyn however cares not what sins, curses or the likes are in your prayers,
+      as long as you speak not the name of the Allfather or Psydon.
+  - bugfix: Mossmother now uses the inhuman profane words list, saying Zizo will not
+      get hags smited anymore.
+  - image: added Vheslynite spells and Profane Fire status Effect
+  - code_imp: added code ready for implimentation into Vheslyn Cultists
+  yyzsong:
+  - rscadd: Gold bowl smithing recipe
+2026-07-19:
+  Clem-The-Duck:
+  - rscadd: Makes it possible to layer a fluted cuirass with a hauberk
+  Dorodomki:
+  - rscadd: 'Added new weapons for unarmed, iron claws, iron grip bludgeon and iron
+      knuckles + their recipes
+
+      :cl:'
+  FreeStylaLT:
+  - qol: Guarded now obscures Nobility.
+  Quinalion:
+  - balance: Grenzelhoft Boots now count as positive armor for TRAIT_FENCERDEXTERITY.
+  - rscadd: Freifechter mercenaries now start with a pouch of copper coins.
+  - bugfix: Fixed Freifechter mercenary equipment.
+  SpadesNeil:
+  - image: structure.dmi now has a fallback image
+  WeNeedMorePhoron:
+  - rscadd: Optimized the floating function used by levitation to not eat up 0.25%
+      of the server CPU. report any issue
+  - bugfix: Bathhouse tile that requires job OR trait works again
+  mumblemancer:
+  - rscadd: spider silk (drow) shirt available in cultural imports of merchant
+  racobio:
+  - rscadd: Added racobio's donator item and sprites for it
+  radarseas:
+  - balance: trait_shatterkill has been re-tuned. Skeletons no longer die to rib fractures,
+      instead it disables their legs. Aim for the head on shamblers, sire.
+2026-07-20:
+  BurpleBineapple:
+  - rscadd: donator items for DasFox
+  SomeDeviant:
+  - bugfix: fixed new 'blank' icon for the gatehatch structures on the bridge to the
+      keep/keep front door
+  WeNeedMorePhoron:
+  - rscdel: Mimic no longer do the jumpscare zoom
+  radarseas:
+  - bugfix: TRAIT_SHATTER_KILL aka, shatterable form, is more accurate to how the
+      trait works.

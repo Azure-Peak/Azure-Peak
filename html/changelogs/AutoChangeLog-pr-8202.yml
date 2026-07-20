@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Book-binding now correctly describes the cover image options"

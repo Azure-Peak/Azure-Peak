@@ -3,7 +3,7 @@
 	tutorial = "You are a graduate of the Aavnic Freifechters - \"Freelancers\" - part of a prestigious fighting guild localized in the independent City-state of Szöréndnížina. It has formed an odd thirty yils ago, but its visitors come from all over Western Psydonia. You have swung one weapon ten-thousand times, and not the other way around. Your faith is stalwart in the teachings of the Psydonic Reformation, and you've become a warrior poet of sorts - educating the peasantry in the ways of the New Word and angering the Orthodoxy in turn. You've left your cradle in search of riches to fund your people's armies."
 	extra_context = "This class is for experienced players who have a solid grasp on footwork and stamina management, master skills alone won't save your lyfe. You make up for your inherent weaknesses and limitations with \"master strike\" mechanics."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/freelancer
 	subclass_languages = list(/datum/language/aavnic)//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
 	allowed_patrons = list(/datum/patron/old_god)
@@ -33,24 +33,9 @@
 	..()
 	to_chat(H, span_warning("You are a master in the arts of the longsword. Wielder of Psydonia's most versatile and noble weapon, you needn't anything else. Your professionally made longsword facilitates moves from fechtbuchs the likes of The Etruscan Flower and Grenzelhoft's Wiedenhauer."))
 	l_hand = /obj/item/rogueweapon/scabbard/sword
-	if(H.mind)
-		var/weapons = list("Etruscan Longsword", "Reformist Longsword")
-		var/weapon_choice = input(H, "Draw a sword.", "As presented to me by Master Oktawiusz...") as anything in weapons
-		switch(weapon_choice)
-			if("Etruscan Longsword") //A longsword with a compound ricasso. Accompanied by a traditional flip knife.
-				r_hand = /obj/item/rogueweapon/sword/long/etruscan
-				beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
-			if("Reformist Longsword")
-				r_hand = /obj/item/rogueweapon/sword/long/etruscan/freifechter
-				beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
-		var/armors = list(
-			"Fencing Jacket" = /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter,
-			"Fencing Cuirass" = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
-		)
-		var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
-		armor = armors[armorchoice]
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
 	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter
@@ -59,8 +44,22 @@
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
-		/obj/item/natural/bundle/cloth/bandage/full = 1
-		)	
+		/obj/item/natural/bundle/cloth/bandage/full = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor
+		)
+	if(H.mind)
+		var/weapons = list(
+			"Etruscan Longsword"	= /obj/item/rogueweapon/sword/long/etruscan,
+			"Reformist Longsword"	= /obj/item/rogueweapon/sword/long/etruscan/freifechter
+		)
+		var/weaponchoice = input(H, "Draw a sword.", "As presented to me by Master Oktawiusz...") as anything in weapons
+		r_hand = weapons[weaponchoice]
+		var/armors = list(
+			"Fencing Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer,
+			"Fencing Jacket"	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter
+		)
+		var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
+		armor = armors[armorchoice]
 	H.merctype = 6
 
 /datum/advclass/mercenary/freelancer_lancer
@@ -68,7 +67,7 @@
 	tutorial = "You are a graduate of the Aavnic Freifechters - \"Freelancers\" - part of a prestigious fighting guild localized in the independent City-state of Szöréndnížina. It has formed an odd thirty yils ago, but its visitors come from all over Western Psydonia. You have swung one weapon ten-thousand times, and not the other way around. A Lancer and his pike are inseparable, and the first line of offense. You can choose to display the banners of the Reformist Order or your own State."
 	extra_context = "This class is for experienced players who have a solid grasp on footwork and stamina management, master skills alone won't save your lyfe. You make up for your inherent weaknesses and limitations with unique high-durability weapons."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	cmode_music = 'sound/music/frei_lancer.ogg'
 	outfit = /datum/outfit/job/roguetown/mercenary/freelancer_lancer
 	subclass_languages = list(/datum/language/aavnic)//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
@@ -99,19 +98,6 @@
 	to_chat(H, span_warning("You put complete trust in your polearm, the most effective weapon the world has seen. Why wear armour when you cannot be hit? You can choose to display the banners of the Reformist Order or your own State."))
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
-	if(H.mind)
-		var/weapons = list("Graduate's Spear", "Banner of Szöréndnížina", "Banner of Psydonic Reformism")
-		var/weapon_choice = input(H, "Spear or Pike-Banner?", "As presented to me by Lance-Master Szörénsław...") as anything in weapons
-		switch(weapon_choice)
-			if("Graduate's Spear")		//A steel spear with a cool-looking stick & a banner sticking out of it.
-				r_hand = /obj/item/rogueweapon/spear/boar/frei
-				l_hand = /obj/item/rogueweapon/katar/punchdagger/frei
-			if("Banner of Szöréndnížina")
-				r_hand = /obj/item/rogueweapon/spear/boar/frei/pike
-				wrists = /obj/item/rogueweapon/katar/punchdagger/frei
-			if("Banner of Psydonic Reformism")
-				r_hand = /obj/item/rogueweapon/spear/boar/frei/pike/reformist
-				wrists = /obj/item/rogueweapon/katar/punchdagger/frei
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
@@ -120,10 +106,20 @@
 	gloves = /obj/item/clothing/gloves/roguetown/angle/freifechter
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
+	id = /obj/item/rogueweapon/katar/punchdagger/frei
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
-		/obj/item/natural/bundle/cloth/bandage/full = 1
+		/obj/item/natural/bundle/cloth/bandage/full = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor
 		)
+	if(H.mind)
+		var/weapons = list(
+			"Graduate's Spear"				= /obj/item/rogueweapon/spear/boar/frei,
+			"Banner of Szöréndnížina"		= /obj/item/rogueweapon/spear/boar/frei/pike,
+			"Banner of Psydonic Reformism"	= /obj/item/rogueweapon/spear/boar/frei/pike/reformist
+		)
+		var/weaponchoice = input(H, "Spear or Pike-Banner?", "As presented to me by Lance-Master Szörénsław...") as anything in weapons
+		r_hand = weapons[weaponchoice]
 	H.merctype = 6
 
 /datum/advclass/mercenary/freelancer_sabrist
@@ -131,7 +127,7 @@
 	tutorial = "You are a graduate of the Aavnic Freifechters - \"Freelancers\" - part of a prestigious fighting guild localized in the independent City-state of Szöréndnížina. It has formed an odd thirty yils ago, but its visitors come from all over Western Psydonia. You have swung one weapon ten-thousand times, and not the other way around. Your faith is stalwart in the teachings of the Psydonic Reformation, and you've become a warrior poet of sorts - educating the peasantry in the ways of the New Word and angering the Orthodoxy in turn. You've left your cradle in search of riches to fund your people's armies. Sabrists are renowned for their dexterity and speed, but lack the adaptability of longswordmen."
 	extra_context = "This class is for experienced players who have a solid grasp on footwork and stamina management, master skills alone won't save your lyfe. You make up for your inherent weaknesses and limitations with \"master strike\" mechanics."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/mercenary/freelancer_sabrist
 	subclass_languages = list(/datum/language/aavnic)//Your character could not have possibly "graduated" without atleast some basic knowledge of Aavnic.
 	allowed_patrons = list(/datum/patron/old_god)
@@ -159,13 +155,6 @@
 /datum/outfit/job/roguetown/mercenary/freelancer_sabrist/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a master in the arts of the sabre. Wielder of Aavnr's sword by excellence, you needn't anything else. Your professionally made sabre facilitates moves from traditional Aavnic fencing treatises."))
-	if(H.mind)
-		var/armors = list(
-		"Fencing Jacket"	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter,
-		"Fencing Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
-		)
-		var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
-		armor = armors[armorchoice]
 	l_hand = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/sabre/freifechter
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
@@ -180,6 +169,14 @@
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
-		/obj/item/natural/bundle/cloth/bandage/full = 1
-		)	
+		/obj/item/natural/bundle/cloth/bandage/full = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor
+		)
+	if(H.mind)
+		var/armors = list(
+			"Fencing Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer,
+			"Fencing Jacket"	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter
+		)
+		var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
+		armor = armors[armorchoice]
 	H.merctype = 6

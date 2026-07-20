@@ -168,27 +168,17 @@
 /obj/structure/fluff/traveltile/proc/has_access(atom/movable/AM)
 	if(!length(required_jobs) && !length(required_traits))
 		return TRUE
-	
 	var/has_job = FALSE
 	var/has_trait = FALSE
-	if(!length(required_jobs))
-		has_job = TRUE
-	if(!length(required_traits))
-		has_trait = TRUE
-	
-	if(!has_job && ishuman(AM))
+	if(length(required_jobs) && ishuman(AM))
 		var/mob/living/carbon/human/H = AM
 		has_job = (H.job in required_jobs)
-	if(!has_trait && isliving(AM))
+	if(length(required_traits) && isliving(AM))
 		for(var/trait in required_traits)
 			if(HAS_TRAIT(AM, trait))
 				has_trait = TRUE
 				break
-	
-	if(has_job && has_trait)
-		return TRUE
-	else
-		return FALSE
+	return (has_job || has_trait)
 
 /obj/structure/fluff/traveltile/proc/can_go(atom/movable/AM)
 	if(AM.recent_travel)

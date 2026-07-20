@@ -366,7 +366,12 @@
 				backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				ADD_TRAIT(H, TRAIT_KEENEARS, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
-				ADD_TRAIT(H, TRAIT_DECEIVING_MEEKNESS, TRAIT_GENERIC)
+
+				ADD_TRAIT(H, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
+				add_verb(H, /mob/living/carbon/human/proc/toggle_descriptors)
+				add_verb(H, /mob/living/carbon/human/proc/emote_ffsalute)
+				add_verb(H, /mob/living/carbon/human/proc/toggle_guarded)
+
 				//No darkvision, you're not /amazing/ at this vs a proper specialist
 				H.grant_language(/datum/language/thievescant)
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. Perhaps sent as a spy, a liason, a part of a smuggling network or perhaps simply a hand to some small-time court, tread lightly however as your skills in espionage never covered escape, lest you meet a grisly end."))
@@ -540,7 +545,7 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
-		/obj/item/storage/belt/rogue/pouch/coins/poor = 1, 
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/hammer/iron = 1,
 		/obj/item/repair_kit/metal = 1,
 		/obj/item/repair_kit = 1,

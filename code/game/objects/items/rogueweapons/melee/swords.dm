@@ -382,7 +382,7 @@
 /obj/item/rogueweapon/sword/long/cleric
 	name = "anointed longsword"
 	desc = "A crusader's longsword, adorned with a blade of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
-	sunder those who bare greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes. </br>'Strike \
+	sunder those who bear greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes. </br>'Strike \
 	true, my child, for thy blade is thine God..'"
 	icon_state = "crusaderlongsword"
 	sheathe_icon = "crusaderlongsword"
@@ -404,7 +404,7 @@
 
 /obj/item/rogueweapon/sword/long/undivided
 	name = "decablade"
-	desc = "A blessed longsword, held by the Holy See's templars in their stalwart defense against evil. The golden crossguard bares the winged motif of an angel, and \
+	desc = "A blessed longsword, held by the Holy See's templars in their stalwart defense against evil. The golden crossguard bears the winged motif of an angel, and \
 	psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'With a drop of holy Eclipsum, doth the blade rise..' </br>'..gilded, \
 	gleaming, radiant heat, warm my soul, immolate my enemies..' </br>'..and let me vanquish all those who would dare to Divide us, once more.'"
 	icon_state = "seeblade"
@@ -660,7 +660,7 @@
 /obj/item/rogueweapon/sword/long/judgement/vlord/examine(mob/user)
 	. = ..()
 	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
-		. += span_notice("You can feel the unholy blade's enchantment resonate with your cursed nature, anyone that does not bare your curse will be unable to touch it.")
+		. += span_notice("You can feel the unholy blade's enchantment resonate with your cursed nature, anyone that does not bear your curse will be unable to touch it.")
 
 /obj/item/rogueweapon/sword/long/judgement/vlord/Initialize()
   ..()
@@ -763,7 +763,7 @@
 	name = "\"Terminus Est\""
 	desc = "An ornate executioner's sword, decorated with a golden pommel and crossguard. A bloody rag \
 	winds around the ricasso, ever-present to keep its edge spotless for the executionee's final \
-	judgement. The stout-angled blade bares an enscription along its length; </br>'WHEN THIS SWORDE I DOTH LYFT, I WISH THE SINNER ETERNAL LYFE AS THINE GYFT.'"
+	judgement. The stout-angled blade bears an enscription along its length; </br>'WHEN THIS SWORDE I DOTH LYFT, I WISH THE SINNER ETERNAL LYFE AS THINE GYFT.'"
 	smeltresult = /obj/item/ingot/gold // It is the most valuable component
 	max_blade_int = 363 
 	smelt_bar_num = 2

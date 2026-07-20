@@ -1,0 +1,7 @@
+author: "THE GRAND DUKE OF AZURE PEAK"
+delete-after: True
+changes:
+  - bugfix: "stick bundles will properly fill when rmb;ing a pile of sticks"
+  - bugfix: "stuck bundles will not blast ur ears out when rmb'ing a pile of sticks"
+  - bugfix: "cloth bundles will also not blast your ears out in when rmb'ing a pile of it"
+  - rscadd: "zerobrine"

@@ -201,7 +201,7 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	pickup_sound = 'sound/foley/equip/equip_armor_chain.ogg'
 	equip_sound = 'sound/foley/equip/equip_armor_chain.ogg'
-	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK 
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/donator
 	name = "cropped haubergeon"
@@ -440,7 +440,7 @@
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/donator_gothic)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/donator_gothic = 1,
 	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
-	craftdiff = 0 
+	craftdiff = 0
 	req_table = TRUE
 	bypass_dupe_test = TRUE
 
@@ -490,7 +490,7 @@
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/donator_gothic)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/donator_gothic = 1,
 	            /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron = 1)
-	craftdiff = 0 
+	craftdiff = 0
 	req_table = TRUE
 	bypass_dupe_test = TRUE
 
@@ -536,7 +536,7 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	item_state = "furbases"
 	icon_state = "furbases"
-	
+
 /obj/item/storage/belt/rogue/leather/donator_steel
 	name = "belt of maille"
 	desc = "A fine leather belt that's been decorated with a skirt of steel chainmail."
@@ -708,7 +708,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_armor()
 			H.update_icon()
-	
+
 /obj/item/clothing/shoes/roguetown/simpleshoes/heels/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
@@ -778,7 +778,7 @@
 	desc = "A snug-fitting tunic, favored by Azurians during the chillier daes of autumn."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
-	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi' 
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 	icon_state = "doublet"
 	item_state = "doublet"
 	r_sleeve_status = SLEEVE_NORMAL
@@ -1215,7 +1215,7 @@
 	if(loc == user && ishuman(user))
 		var/mob/living/carbon/H = user
 		H.update_inv_head()
-		
+
 //Bigfoot's donator item - steel great axe with gilded pattern
 /obj/item/rogueweapon/greataxe/steel/gilded
 	name = "Aureline"
@@ -1428,6 +1428,74 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "dasfox_lance"
 
+/obj/item/rogueweapon/sword/long/etruscan/freifechter/tyesca
+	name = "reliquary Reformist montante"
+	desc = "Once upon a time, such swords as these were the Etruscan Isles' specialty for two handed combat. This one has been forged shorter in an archaic \
+	pattern, utilized by old Fencers who wished to have a more defensively capable blade for use in the field. Transformed from simple sword to reliquary of \
+	the past, a time capsule decorated by bronze, red silk and black prayer beads. A simple engraving on the crossguard pleads; 'Draw Me Only At The End.'"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "tyesca_sword"
+
+/obj/item/rogueweapon/scabbard/sword/tyesca
+	name = "reliquary montante scabbard"
+	desc = "A scabbard designed in equal parts to match the sword it was crafted for. Catches and loops sit for prayer beads and drapes of silk to hang down \
+	the bronze-and-pewter decorated length. The throat and locket are forged to make the bottom of a Psycross when held upright, allowing the sword when \
+	sheathed to complete the piece as a mark of faith when placed away from the world. Down the length, it preaches; 'There Is No World To Lyve In Which A \
+	Sword Is The Answer.'"
+	icon_state = "reliquaryscabbard"
+	item_state = "reliquaryscabbard"
+	valid_blade = /obj/item/rogueweapon/sword/long/etruscan/freifechter
+	cant_strip = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/tyesca
+	name = "fencing brigandine"
+	desc = "A lightweight set of Szöréndnížine brigandine, designed in part to match the archaic Etruscan sets that came over at the head of the Reformation. \
+	A sewn in surcoat bearing the City-State's colors is sewn in as the interior lining, showing the Elephantine heraldry on the interior."
+	icon_state = "fencerbrig"
+	item_state = "fencerbrig"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/light/tyesca
+	name = "fencing brigandine"
+	desc = "A lightweight set of Szöréndnížine brigandine, designed in part to match the archaic Etruscan sets that came over at the head of the Reformation. \
+	A sewn in surcoat bearing the City-State's colors is sewn in as the interior lining, showing the Elephantine heraldry on the interior."
+	icon_state = "fencerbrig"
+	item_state = "fencerbrig"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/cloak/raincloak/tyesca
+	name = "\improper Szöréndnížine banner-cloak"
+	desc = "A harsh reality that comes from yils of travel is the lack of protections one might have. This cloak is designed from the repurposed canvas \
+	of a Szöréndnížine banner that's often in the belongings of Freelancers so far from home. Both serving as a reminder of what they travel and fight \
+	for, and some protection from the elements."
+	icon_state = "fencercloak"
+	item_state = "fencercloak"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	boobed = FALSE
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	sleevetype = "feather_cloak"
+	hoodtype = /obj/item/clothing/head/hooded/rainhood/tyesca
+
+/obj/item/clothing/head/hooded/rainhood/tyesca
+	name = "\improper Szöréndnížine banner-hood"
+	desc = "Coming from the depths of a repurposed banner for use as a cloak, this hood will serve well in its heavy canvas to keep the wind and light \
+	rain from the wearer's head and face. At least, for the most part."
+	icon_state = "fencerhood"
+	item_state = "fencerhood"
+	slot_flags = ITEM_SLOT_HEAD
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	body_parts_covered = HEAD
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDETAIL
+	block2add = FOV_BEHIND
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+
+
 //IamCrystalClear
 /obj/item/clothing/mask/rogue/iamcrystalclear
 	name = "porcelain mask"
@@ -1454,7 +1522,7 @@
 	update_icon()
 	user.update_inv_head()
 	user.update_inv_wear_mask()
-	
+
 
 
 //RYAN180602
@@ -1724,7 +1792,7 @@ As Excaliber."
 	An armor-piercing longsword. The finest steel, wrapped in the finest leather. Its rear-biased weight distribution makes it more of a scalpel than a slasher, while its sharp taper implies its purpose of skewering enemies with graceful precision. \
 	The immaculate craftsmanship, the red leather, and the sparse but tasteful gold ornaments tell anyone who may pick this blade up that 'tis truly fit for a sovereign."
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
-	icon_state = "regnum" 
+	icon_state = "regnum"
 	sheathe_icon = "regnum"
 	bigboy = TRUE
 
@@ -1771,7 +1839,7 @@ As Excaliber."
 	adjustable = CAN_CADJUST
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
 	body_parts_covered = HEAD|EARS|HAIR
-	armor = null 
+	armor = null
 	resistance_flags = FIRE_PROOF
 	sellprice = 30
 
@@ -1822,14 +1890,14 @@ As Excaliber."
 	user.update_inv_head()
 
 // CASTORTROY23
-/obj/item/rogueweapon/example/darling 
+/obj/item/rogueweapon/example/darling
 	name = "Darling"
 	desc = "<i>'... since this is the basic tenet of swordsmanship: that a man is always in motion and never at rest.'</i> <br> \
 	Elaborately forged at the edge, reinforced at the tip, and restrained at the handle with fine leathers and coiling of taut sylveren wire, \
 	this sleek longsword is a most modern marvel of metallurgy blended with one of the oldest symbols of majesty, its blade boasting a diamond cross section \
 	and a thin fuller to boot. The color and insignia on the fine silken cloth wrapped around its ricasso does not quite seem to fit with the wielder's own."
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
-	icon_state = "darling" 
+	icon_state = "darling"
 	sheathe_icon = "darling"
 	bigboy = TRUE
 
@@ -1897,7 +1965,7 @@ As Excaliber."
 			It is said these blades seek to paint the battlefield a sunset’s shade that has not been witnessed since \
 			the time of the father's father. Its song is a metallic ode of rebellious mem’ry."
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
-	icon_state = "sylvan_longsword" 
+	icon_state = "sylvan_longsword"
 	sheathe_icon = "sylvan_longsword"
 	bigboy = TRUE
 
@@ -1907,7 +1975,7 @@ As Excaliber."
 			Traditionally, these blades would be forged from faeiron or silver, but necessity has triumphed over tradition. \
 			Today, examples such as these are sometimes seen in the hands of those who have reached an accord with the duchy of Azuria."
 	icon = 'icons/obj/items/donor_weapons.dmi'
-	icon_state = "sylvan_sabre" 
+	icon_state = "sylvan_sabre"
 	sheathe_icon = "sylvan_sabre"
 
 
@@ -1917,7 +1985,7 @@ As Excaliber."
 			This is not that dagger. The elk wood and gold gilding of its predecessor remain, but the metal has been supplanted by steel. \
 			Its blade is now long and slim, tapering off at the tip. What exists now is a cultivated knight killer."
 	icon = 'icons/obj/items/donor_weapons.dmi'
-	icon_state = "sylvan_dagger" 
+	icon_state = "sylvan_dagger"
 	sheathe_icon = "sylvan_dagger"
 
 // DESMINUS
@@ -2008,7 +2076,7 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_weapons.dmi'
 	sheathe_icon = "ollanius_sword"
 
-// JADEMANIQUE 
+// JADEMANIQUE
 /obj/item/rogue/instrument/guitar/jade_guitar
 	name = "Gilbranzed Guitar"
 	desc = "\"A sturdy guitar with gilded strings, as well as numerous nicks and scratches, poorly hidden under loving maintenance \
@@ -2080,3 +2148,21 @@ As Excaliber."
 	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
 	icon_state = "mystralstaff"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+// RACOBIO
+/obj/item/rogueweapon/woodstaff/implement/grand/racobio
+
+	base_implement_name = "Obsidian Tower"
+	name = "Obsidian Tower"
+	desc = "An exceptionally long, smooth staff of polished black obsidian. It lacks the traditional gem-top of most casting implements. Careful observation would note that the flawless obelisk of stone does not reflect nearby lights, but light from some other place."
+	icon_state = "racobiostaff"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+/obj/item/rogueweapon/woodstaff/implement/grand/racobio/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.8,"sx" = -9,"sy" = 5,"nx" = 9,"ny" = 5,"wx" = -4,"wy" = 4,"ex" = 4,"ey" = 4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.8,"sx" = 8,"sy" = 0,"nx" = -1,"ny" = 0,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)

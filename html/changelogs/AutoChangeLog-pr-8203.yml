@@ -1,0 +1,5 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - bugfix: "Cloth/Leather bracers making metallic sounds."
+  - sound: "Equip/pickup sound to Gambesons / Leather armour"

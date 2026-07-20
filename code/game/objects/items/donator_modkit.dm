@@ -93,7 +93,7 @@
 	if(!R_type)
 		to_chat(user, span_warning("[src] doesn't know how to morph [I]."))
 		return TRUE
-	
+
 	var/obj/item/rogueweapon/RI = R_type
 	var/obj/item/rogueweapon/TI = I
 	TI.icon = RI::icon
@@ -314,35 +314,35 @@
 	result_item = null
 
 /obj/item/enchantingkit/donator_universal_armory
-	name = "'Elegant Armory' morphing elixir" //Small compromise to avoid bloating the Loadout tab. 
+	name = "'Elegant Armory' morphing elixir" //Small compromise to avoid bloating the Loadout tab.
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of most Steel weapons, including the Decorated Sword and Dagger."
 	target_items = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated 			= /obj/item/rogueweapon/huntingknife/idagger/steel/decorated/donator_elegant,
-		/obj/item/rogueweapon/huntingknife/idagger/steel					= /obj/item/rogueweapon/huntingknife/idagger/steel/donator_elegant,	
-		/obj/item/rogueweapon/mace/warhammer/steel 							= /obj/item/rogueweapon/mace/warhammer/steel/donator_elegant, 				
-		/obj/item/rogueweapon/mace/steel/silver 							= /obj/item/rogueweapon/mace/steel/silver/donator_elegant, 
-		/obj/item/rogueweapon/mace/goden/steel								= /obj/item/rogueweapon/mace/goden/steel/donator_elegant,	
-		/obj/item/rogueweapon/sword/short/messer							= /obj/item/rogueweapon/sword/short/messer/donator_elegant,				
-		/obj/item/rogueweapon/sword/long/dec 								= /obj/item/rogueweapon/sword/long/dec/donator_elegant, 
+		/obj/item/rogueweapon/huntingknife/idagger/steel					= /obj/item/rogueweapon/huntingknife/idagger/steel/donator_elegant,
+		/obj/item/rogueweapon/mace/warhammer/steel 							= /obj/item/rogueweapon/mace/warhammer/steel/donator_elegant,
+		/obj/item/rogueweapon/mace/steel/silver 							= /obj/item/rogueweapon/mace/steel/silver/donator_elegant,
+		/obj/item/rogueweapon/mace/goden/steel								= /obj/item/rogueweapon/mace/goden/steel/donator_elegant,
+		/obj/item/rogueweapon/sword/short/messer							= /obj/item/rogueweapon/sword/short/messer/donator_elegant,
+		/obj/item/rogueweapon/sword/long/dec 								= /obj/item/rogueweapon/sword/long/dec/donator_elegant,
 		/obj/item/rogueweapon/sword/long/exe								= /obj/item/rogueweapon/sword/long/exe/donator_elegant,
-		/obj/item/rogueweapon/sword/rapier/dec								= /obj/item/rogueweapon/sword/rapier/dec/donator_elegant,				
-		/obj/item/clothing/gloves/roguetown/knuckles						= /obj/item/clothing/gloves/roguetown/knuckles/donator_elegant,	
+		/obj/item/rogueweapon/sword/rapier/dec								= /obj/item/rogueweapon/sword/rapier/dec/donator_elegant,
+		/obj/item/clothing/gloves/roguetown/knuckles						= /obj/item/clothing/gloves/roguetown/knuckles/donator_elegant,
 		/obj/item/rogueweapon/stoneaxe/woodcut/steel						= /obj/item/rogueweapon/stoneaxe/woodcut/steel/donator_elegant,
 		/obj/item/rogueweapon/woodstaff/quarterstaff/steel					= /obj/item/rogueweapon/woodstaff/quarterstaff/steel/donator_elegant,
 		/obj/item/rogueweapon/sword/rapier									= /obj/item/rogueweapon/sword/rapier/donator_elegant,
-		/obj/item/rogueweapon/sword/short									= /obj/item/rogueweapon/sword/short/donator_elegant,				
-		/obj/item/rogueweapon/sword/long									= /obj/item/rogueweapon/sword/long/donator_elegant,				
-		/obj/item/rogueweapon/sword/sabre									= /obj/item/rogueweapon/sword/sabre/donator_elegant,				
-		/obj/item/rogueweapon/sword/decorated								= /obj/item/rogueweapon/sword/decorated/donator_elegant,	
-		/obj/item/rogueweapon/flail/sflail									= /obj/item/rogueweapon/flail/sflail/donator_elegant,				
-		/obj/item/rogueweapon/greataxe/steel								= /obj/item/rogueweapon/greataxe/steel/donator_elegant,				
-		/obj/item/rogueweapon/spear/lance									= /obj/item/rogueweapon/spear/lance/donator_elegant,				
-		/obj/item/rogueweapon/mace/steel									= /obj/item/rogueweapon/mace/steel/donator_elegant,		
-		/obj/item/rogueweapon/stoneaxe/battle								= /obj/item/rogueweapon/stoneaxe/battle/donator_elegant,				
-		/obj/item/rogueweapon/spear/boar									= /obj/item/rogueweapon/spear/boar/donator_elegant,	
+		/obj/item/rogueweapon/sword/short									= /obj/item/rogueweapon/sword/short/donator_elegant,
+		/obj/item/rogueweapon/sword/long									= /obj/item/rogueweapon/sword/long/donator_elegant,
+		/obj/item/rogueweapon/sword/sabre									= /obj/item/rogueweapon/sword/sabre/donator_elegant,
+		/obj/item/rogueweapon/sword/decorated								= /obj/item/rogueweapon/sword/decorated/donator_elegant,
+		/obj/item/rogueweapon/flail/sflail									= /obj/item/rogueweapon/flail/sflail/donator_elegant,
+		/obj/item/rogueweapon/greataxe/steel								= /obj/item/rogueweapon/greataxe/steel/donator_elegant,
+		/obj/item/rogueweapon/spear/lance									= /obj/item/rogueweapon/spear/lance/donator_elegant,
+		/obj/item/rogueweapon/mace/steel									= /obj/item/rogueweapon/mace/steel/donator_elegant,
+		/obj/item/rogueweapon/stoneaxe/battle								= /obj/item/rogueweapon/stoneaxe/battle/donator_elegant,
+		/obj/item/rogueweapon/spear/boar									= /obj/item/rogueweapon/spear/boar/donator_elegant,
 		/obj/item/rogueweapon/greatsword									= /obj/item/rogueweapon/greatsword/donator_elegant,
-		/obj/item/rogueweapon/katar 										= /obj/item/rogueweapon/katar/donator_elegant, 														
-		/obj/item/rogueweapon/halberd										= /obj/item/rogueweapon/halberd/donator_elegant,					
+		/obj/item/rogueweapon/katar 										= /obj/item/rogueweapon/katar/donator_elegant,
+		/obj/item/rogueweapon/halberd										= /obj/item/rogueweapon/halberd/donator_elegant,
 		/obj/item/rogueweapon/eaglebeak										= /obj/item/rogueweapon/eaglebeak/donator_elegant,
 		/obj/item/rogueweapon/sword											= /obj/item/rogueweapon/sword/donator_elegant
 	)
@@ -639,7 +639,7 @@
 /obj/item/enchantingkit/lmwevil_brassbeak
 	name = "brass beak mask morphing elixir"
 	target_items = list(
-		/obj/item/clothing/mask/rogue/courtphysician, 
+		/obj/item/clothing/mask/rogue/courtphysician,
 		/obj/item/clothing/mask/rogue/physician
 	)
 	result_item = /obj/item/clothing/mask/rogue/courtphysician/brassbeak
@@ -879,3 +879,27 @@
 		/obj/item/rogueweapon/woodstaff/implement/amethyst			= 	/obj/item/rogueweapon/woodstaff/implement/amethyst/morto
 	)
 	result_item = null
+
+/obj/item/enchantingkit/weapon/tyesca_sword
+	name = "'Szöréndnížine montante' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long/etruscan/freifechter
+	)
+	result_item = /obj/item/rogueweapon/sword/long/etruscan/freifechter/tyesca
+
+/obj/item/enchantingkit/tyesca_brigandine
+	name = "'fencer's brigandine' morphing elixir"
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/tyesca,
+		/obj/item/clothing/suit/roguetown/armor/brigandine/light			= /obj/item/clothing/suit/roguetown/armor/brigandine/light/tyesca
+	)
+	result_item = null
+	exact_type = TRUE
+
+//Racobio - Obsidian Staff
+/obj/item/enchantingkit/racobio_staff
+	name = "'Obsidian Tower' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/woodstaff/implement/grand
+	)
+	result_item = /obj/item/rogueweapon/woodstaff/implement/grand/racobio

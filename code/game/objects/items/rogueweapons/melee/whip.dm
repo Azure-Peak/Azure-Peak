@@ -38,7 +38,7 @@
 //Lash = default, can't dismember, so more range and some pen.
 /datum/intent/whip/lash
 	name = "lash"
-	desc = "Lash the whip against a target from afar. </br>Uniquely deals lashing wounds, which inflicts tremendous blood loss and pain onto the target. </br>Critical hits leave permenant scars, unremovable under most circumstances."
+	desc = "Lash the whip against a target from afar. </br>Uniquely deals lashing wounds, which inflicts tremendous blood loss and pain onto the target."
 	blade_class = BCLASS_LASHING
 	attack_verb = list("lashes", "cracks")
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
@@ -85,7 +85,7 @@
 //Punish = Non-lethal sorta damage.
 /datum/intent/whip/punish
 	name = "punish"
-	desc = "Lash the whip against a target from afar. </br>Uniquely deals lashing wounds, which inflicts tremendous pain onto the target. </br>Critical hits leave permenant scars, unremovable under most circumstances."
+	desc = "Lash the whip against a target from afar. </br>Uniquely deals lashing wounds, which inflicts tremendous pain onto the target."
 	blade_class = BCLASS_PUNISH
 	attack_verb = list("lashes", "cracks")
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')

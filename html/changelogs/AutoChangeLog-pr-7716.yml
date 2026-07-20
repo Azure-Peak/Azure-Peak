@@ -1,5 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - bugfix: "Bites no longer ignore Defend intent guarding, or Limbguard. Biting a limbguarded area will instantly break your jaw."
-  - balance: "hitting a Limbguard with your bare hands now does severe damage to your gloves. If your gloves are broken or you are bare handed, punching a Limbguard will break the offending arm."

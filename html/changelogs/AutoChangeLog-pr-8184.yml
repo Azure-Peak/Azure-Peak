@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Uploading an audio with a protected playback error no longer warn every admins instead of you, it now warns you and spare the admins."

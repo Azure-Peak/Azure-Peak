@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "Loadout manager (select loadout) no longer announces to the whole server"

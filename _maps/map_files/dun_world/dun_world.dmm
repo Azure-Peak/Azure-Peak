@@ -340,6 +340,13 @@
 /obj/structure/flora/roguegrass/water,
 /turf/open/water/river/flow/east,
 /area/rogue/outdoors/town)
+"adl" = (
+/obj/structure/fluff/signage{
+	desc = "Skulls, daggers, and other grisly symbols are carved into this sign. Western Azuria is not a kind place.";
+	name = "CURSTMARSH - WEST"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "adp" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/fluff/railing/border/west,
@@ -2211,6 +2218,10 @@
 /obj/item/reagent_containers/glass/bottle/rogue/wine,
 /turf/open/floor/carpet/purple,
 /area/rogue/outdoors/mountains)
+"awK" = (
+/obj/structure/mineral_door/wood,
+/turf/open/floor/rogue/herringbone,
+/area/rogue/indoors/town)
 "awL" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/structure/fluff/psycross/copper{
@@ -2369,14 +2380,6 @@
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/bog/bogmanfort)
-"ayp" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = -12
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/druidsgrove)
 "ayq" = (
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grassred,
@@ -2589,6 +2592,22 @@
 	},
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/under/town/sewer)
+"aBc" = (
+/obj/structure/fluff/railing/border{
+	dir = 8
+	},
+/obj/structure/fluff/railing/border{
+	pixel_y = -7
+	},
+/obj/structure/flora/newleaf,
+/obj/structure/flora/newbranch/connector{
+	dir = 4
+	},
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/transparent/openspace,
+/area/rogue/druidsgrove)
 "aBd" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/blocks,
@@ -2825,15 +2844,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/town/basement)
-"aDG" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0;
-	pixel_y = 15
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/druidsgrove)
 "aDK" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
@@ -3763,18 +3773,6 @@
 	},
 /turf/open/floor/rogue/greenstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
-"aMD" = (
-/obj/structure/fluff/railing/border{
-	dir = 4
-	},
-/obj/structure/flora/newleaf,
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/transparent/openspace,
-/area/rogue/druidsgrove)
 "aMF" = (
 /turf/closed/wall/mineral/rogue/stone/moss/unbreakable,
 /area/rogue/under/cave/his_vault/one)
@@ -3938,6 +3936,13 @@
 /obj/structure/fermentation_keg/random/water,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/beach/north)
+"aPh" = (
+/obj/effect/landmark/start/courtagent,
+/obj/effect/landmark/start/adventurerlate{
+	dir = 1
+	},
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/mountains)
 "aPl" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 4
@@ -4644,6 +4649,10 @@
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains)
+"aVQ" = (
+/obj/effect/wisp/prestidigitation/willowwisp,
+/turf/open/floor/rogue/grass,
+/area/rogue/druidsgrove)
 "aVR" = (
 /obj/effect/decal/cleanable/debris/stony,
 /mob/living/carbon/human/species/human/northern/bog_deserters,
@@ -10042,6 +10051,13 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/under/cave/taricheamanor)
+"bXB" = (
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	pixel_y = 1
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/mountains)
 "bXC" = (
 /obj/structure/telescope,
 /turf/open/floor/rogue/hexstone,
@@ -10889,6 +10905,13 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
+"chl" = (
+/obj/structure/flora/roguegrass,
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/floor/rogue/grass,
+/area/rogue/druidsgrove)
 "chn" = (
 /obj/structure/stairs,
 /obj/structure/fluff/railing/border/west,
@@ -11380,15 +11403,6 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/woods/north)
-"cml" = (
-/obj/structure/stairs{
-	dir = 4
-	},
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Crier's Lobby"
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town)
 "cmo" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -11688,14 +11702,6 @@
 /obj/structure/roguemachine/headeater,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
-"com" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "You in druidic grove. Be careful";
-	name = "Druids light";
-	pixel_x = -14
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/druidsgrove)
 "con" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -12988,18 +12994,6 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/church/basement)
-"cBb" = (
-/obj/structure/flora/newleaf,
-/obj/structure/fluff/railing/border{
-	dir = 8
-	},
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/druidsgrove)
 "cBf" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
@@ -16995,6 +16989,12 @@
 /obj/structure/bars/pipe,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/underdark/north)
+"dpL" = (
+/obj/structure/mineral_door/wood/deadbolt{
+	dir = 1
+	},
+/turf/open/floor/rogue/herringbone,
+/area/rogue/indoors/town)
 "dpM" = (
 /obj/structure/fluff/railing/corner/south_west,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -17397,6 +17397,13 @@
 /obj/structure/leyline/normal/coast,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/beach/forest/south)
+"dsQ" = (
+/obj/structure/mineral_door/wood/deadbolt{
+	dir = 4;
+	locked = 1
+	},
+/turf/open/floor/rogue/herringbone,
+/area/rogue/indoors/town)
 "dte" = (
 /obj/structure/closet/crate/drawer,
 /turf/open/floor/carpet/purple,
@@ -17673,6 +17680,13 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains)
+"dvT" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 2;
+	pixel_y = 20
+	},
+/turf/open/floor/rogue/grassred,
+/area/rogue/under/cave)
 "dvU" = (
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/grass,
@@ -19236,15 +19250,6 @@
 	},
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
-"dLj" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "You in druidic grove. Be careful";
-	name = "Druids light";
-	pixel_x = 9;
-	pixel_y = -8
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/druidsgrove)
 "dLk" = (
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave/northern)
@@ -19926,14 +19931,6 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/tavern)
-"dSb" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/druidsgrove)
 "dSc" = (
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grassred,
@@ -20427,15 +20424,6 @@
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town)
-"dXx" = (
-/obj/structure/flora/roguegrass,
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/druidsgrove)
 "dXH" = (
 /turf/open/water/ocean,
 /area/rogue/indoors/town/church/chapel)
@@ -20633,6 +20621,19 @@
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
+"dZj" = (
+/obj/structure/fluff/railing/border{
+	dir = 8
+	},
+/obj/structure/flora/newleaf,
+/obj/structure/flora/newbranch/connector{
+	dir = 4
+	},
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/transparent/openspace,
+/area/rogue/druidsgrove)
 "dZw" = (
 /obj/structure/fluff/psycross,
 /turf/open/floor/rogue/tile,
@@ -22622,14 +22623,6 @@
 /obj/structure/glowshroom,
 /turf/open/water/swamp,
 /area/rogue/outdoors/bog/south)
-"eti" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/under/cave/peace)
 "etj" = (
 /obj/item/kitchen/spoon/iron,
 /obj/item/kitchen/spoon/iron,
@@ -23366,15 +23359,6 @@
 "ezU" = (
 /turf/closed/wall/mineral/rogue/wooddark/window,
 /area/rogue/under/cave/scarymaze)
-"ezV" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = -11;
-	pixel_y = 3
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/druidsgrove)
 "ezY" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/rack/rogue/shelf,
@@ -24315,6 +24299,16 @@
 /obj/structure/flora/roguegrass/herb/hypericum,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield/eora)
+"eJY" = (
+/obj/structure/fluff/railing/border{
+	dir = 6
+	},
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 2;
+	pixel_y = -35
+	},
+/turf/open/floor/rogue/grassyel,
+/area/rogue/druidsgrove)
 "eKc" = (
 /obj/effect/decal/cobbleedge{
 	dir = 8;
@@ -24898,20 +24892,6 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
-"eQz" = (
-/obj/structure/fluff/nest,
-/obj/structure/fluff/railing/border{
-	dir = 8;
-	layer = 2.05
-	},
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 4;
-	pixel_y = -32
-	},
-/turf/open/floor/rogue/grassyel,
-/area/rogue/druidsgrove)
 "eQA" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/outdoors/beach/forest/north)
@@ -26120,6 +26100,11 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"fcd" = (
+/obj/structure/table/wood/large_table/north_east,
+/obj/item/reagent_containers/glass/cup/wooden,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/indoors/town)
 "fce" = (
 /turf/open/water/ocean,
 /area/rogue/outdoors/beach)
@@ -26944,15 +26929,6 @@
 /obj/structure/fluff/walldeco/innsign,
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/under/cave/orcdungeon)
-"fjH" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = -2;
-	pixel_y = 29
-	},
-/turf/open/floor/rogue/grassyel,
-/area/rogue/druidsgrove)
 "fjI" = (
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/blocks,
@@ -28506,6 +28482,13 @@
 /obj/structure/closet/crate/chest/loot_chest/locked,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark)
+"fyV" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 2;
+	pixel_y = -17
+	},
+/turf/open/floor/rogue/grassred,
+/area/rogue/druidsgrove)
 "fyX" = (
 /obj/structure/mineral_door/bars,
 /turf/open/floor/rogue/concrete,
@@ -28614,6 +28597,10 @@
 /obj/structure/flora/ausbushes/ywflowers,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/woods/southeast)
+"fAl" = (
+/obj/structure/mineral_door/wood/towner/generic,
+/turf/open/floor/rogue/herringbone,
+/area/rogue/indoors/town)
 "fAm" = (
 /turf/closed/wall/mineral/rogue/stone,
 /area/rogue/under/town/basement)
@@ -29203,6 +29190,12 @@
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
+"fFX" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/floor/rogue/grassyel,
+/area/rogue/druidsgrove)
 "fFY" = (
 /obj/structure/table/wood/large_table/north_east,
 /turf/open/floor/rogue/naturalstone,
@@ -29935,14 +29928,6 @@
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield/eora)
-"fNv" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/floor/rogue/grassyel,
-/area/rogue/druidsgrove)
 "fNz" = (
 /obj/structure/bars/cemetery{
 	max_integrity = 1500;
@@ -30501,12 +30486,6 @@
 "fTv" = (
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/woods/southeast)
-"fTx" = (
-/obj/effect/decal/cobbleedge{
-	dir = 5
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/mountains)
 "fTz" = (
 /obj/structure/rack/rogue/shelf,
 /obj/item/flashlight/flare/torch/lantern{
@@ -31413,14 +31392,6 @@
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/rtfield)
-"gcA" = (
-/obj/structure/table/wood/large_table/middle_east,
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = -8;
-	pixel_y = 8
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town)
 "gcE" = (
 /obj/structure/table/wood/poor,
 /obj/item/candle/skull/lit{
@@ -31667,6 +31638,10 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
+"geU" = (
+/obj/structure/table/wood/large_table/middle_east,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/indoors/town)
 "geV" = (
 /obj/structure/curtain/black,
 /obj/structure/roguewindow,
@@ -34296,16 +34271,6 @@
 	dir = 8
 	},
 /area/rogue/indoors/cave/northern)
-"gFN" = (
-/obj/structure/flora/roguegrass/bush/wall,
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/obj/structure/flora/newleaf,
-/turf/open/transparent/openspace,
-/area/rogue/druidsgrove)
 "gFS" = (
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
@@ -34719,13 +34684,6 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/beach/forest/hamlet)
-"gJO" = (
-/obj/effect/decal/cobbleedge{
-	dir = 10;
-	icon_state = "cobbleedge-n"
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/mountains)
 "gJX" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9
@@ -36513,6 +36471,10 @@
 /obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/magician)
+"hbN" = (
+/obj/machinery/light/rogue/firebowl/stump,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "hbR" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -36803,13 +36765,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
-"hfh" = (
-/obj/effect/decal/cobbleedge{
-	dir = 10;
-	pixel_y = 1
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/mountains)
 "hfl" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/rogue/dirt,
@@ -37787,6 +37742,12 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/basement)
+"hnP" = (
+/obj/effect/decal/cobbleedge{
+	dir = 5
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/mountains)
 "hnZ" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/exposed/church)
@@ -38421,15 +38382,6 @@
 	dir = 4
 	},
 /area/rogue/under/cave/his_vault)
-"hul" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 2;
-	pixel_y = -9
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/druidsgrove)
 "huq" = (
 /obj/machinery/light/rogue/candle/off/r,
 /obj/item/chair/stool/bar/rogue/crafted,
@@ -39969,22 +39921,6 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern)
-"hKD" = (
-/obj/structure/fluff/railing/border{
-	dir = 4
-	},
-/obj/structure/fluff/railing/border,
-/obj/structure/fluff/railing/border{
-	dir = 4
-	},
-/obj/structure/flora/newleaf,
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/transparent/openspace,
-/area/rogue/druidsgrove)
 "hKF" = (
 /obj/structure/stairs/stone,
 /turf/open/floor/rogue/concrete,
@@ -41774,6 +41710,12 @@
 "ibw" = (
 /turf/closed/wall/mineral/rogue/stone/window,
 /area/rogue/indoors/town/manor)
+"iby" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/floor/rogue/twig,
+/area/rogue/druidsgrove)
 "ibz" = (
 /obj/structure/rack/rogue,
 /obj/item/reagent_containers/glass/cup/wooden{
@@ -46229,6 +46171,20 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
+"iSu" = (
+/obj/structure/fluff/railing/border{
+	dir = 4
+	},
+/obj/structure/fluff/railing/border,
+/obj/structure/fluff/railing/border{
+	dir = 4
+	},
+/obj/structure/flora/newleaf,
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/transparent/openspace,
+/area/rogue/druidsgrove)
 "iSB" = (
 /obj/machinery/light/rogue/torchholder/l,
 /obj/structure/handcart{
@@ -46442,14 +46398,6 @@
 	density = 0
 	},
 /area/rogue/under/cave)
-"iVd" = (
-/obj/structure/table/wood/large_table/north_west,
-/obj/item/candle/candlestick/silver/lit{
-	pixel_x = 16;
-	pixel_y = 6
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town)
 "iVf" = (
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/tile,
@@ -47329,12 +47277,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/basement)
-"jdX" = (
-/obj/structure/roguemachine/mail{
-	mailtag = "Town Crier"
-	},
-/turf/open/floor/rogue/tile/harem,
-/area/rogue/indoors/town)
 "jdZ" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/corner/north_east,
@@ -48412,10 +48354,6 @@
 	},
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/shelter)
-"jmL" = (
-/obj/structure/table/wood/large_table/north_east,
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town)
 "jmR" = (
 /obj/effect/decal/remains/human,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
@@ -49043,6 +48981,18 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/gen/random,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/under/underdark/north)
+"jtp" = (
+/obj/structure/fluff/nest,
+/obj/structure/fluff/railing/border{
+	dir = 8;
+	layer = 2.05
+	},
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 4;
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/grassyel,
+/area/rogue/druidsgrove)
 "jtt" = (
 /obj/structure/handcart{
 	dir = 4
@@ -49724,16 +49674,6 @@
 /obj/structure/curtain/red,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/manor)
-"jzh" = (
-/obj/structure/fluff/railing/border,
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = -30;
-	pixel_y = -1
-	},
-/turf/open/floor/rogue/grassyel,
-/area/rogue/druidsgrove)
 "jzk" = (
 /obj/machinery/light/rogue/hearth,
 /obj/item/cooking/pan,
@@ -50367,6 +50307,11 @@
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/wood,
 /area/rogue/outdoors/beach/forest/hamlet)
+"jFc" = (
+/obj/structure/table/wood/long_table/right,
+/obj/item/candle/yellow,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/indoors/town)
 "jFf" = (
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/cave)
@@ -55586,6 +55531,17 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
+"kER" = (
+/obj/structure/chair/bench/church/smallbench{
+	pixel_y = 20
+	},
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 17;
+	pixel_y = 5
+	},
+/obj/structure/flora/ausbushes/brflowers,
+/turf/open/floor/rogue/grass,
+/area/rogue/druidsgrove)
 "kES" = (
 /obj/structure/lever/wall{
 	pixel_x = 17;
@@ -57507,21 +57463,6 @@
 /obj/structure/fluff/railing/corner/south_west,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/mountains/decap/banditcamp)
-"kXe" = (
-/obj/structure/fluff/railing/border{
-	dir = 8
-	},
-/obj/structure/flora/newleaf,
-/obj/structure/flora/newbranch/connector{
-	dir = 4
-	},
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/transparent/openspace,
-/area/rogue/druidsgrove)
 "kXf" = (
 /obj/structure/chair/wood/rogue{
 	dir = 4
@@ -58359,6 +58300,12 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/orcdungeon)
+"lfe" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/water/cleanshallow,
+/area/rogue/under/cave/peace)
 "lfi" = (
 /obj/effect/decal/cleanable/blood/drip{
 	pixel_x = 5;
@@ -60476,6 +60423,12 @@
 /obj/item/clothing/suit/roguetown/armor/armordress,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/west)
+"lwN" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/floor/rogue/grasscold,
+/area/rogue/under/cave/peace)
 "lwQ" = (
 /obj/item/natural/rock/salt,
 /obj/item/reagent_containers/powder/salt,
@@ -63025,6 +62978,14 @@
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
+"lUj" = (
+/obj/structure/flora/roguegrass/bush/wall,
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/obj/structure/flora/newleaf,
+/turf/open/transparent/openspace,
+/area/rogue/druidsgrove)
 "lUn" = (
 /turf/open/floor/rogue/metal{
 	dir = 4
@@ -64843,6 +64804,13 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
+"mlF" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = -11;
+	pixel_y = 3
+	},
+/turf/open/water/cleanshallow,
+/area/rogue/druidsgrove)
 "mlG" = (
 /obj/machinery/light/rogue/candle,
 /obj/structure/closet/crate/roguecloset/inn,
@@ -65603,18 +65571,6 @@
 /obj/effect/spawner/lootdrop/roguetown/sewers,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/shelter)
-"mts" = (
-/obj/structure/fluff/railing/border{
-	dir = 6
-	},
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 2;
-	pixel_y = -35
-	},
-/turf/open/floor/rogue/grassyel,
-/area/rogue/druidsgrove)
 "mtv" = (
 /obj/structure/fluff/walldeco/painting,
 /turf/closed/wall/mineral/rogue/decostone,
@@ -67534,14 +67490,6 @@
 	},
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
-"mOt" = (
-/obj/structure/mineral_door/wood/donjon{
-	dir = 1;
-	locked = 1;
-	lockid = "crier"
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town)
 "mOu" = (
 /obj/machinery/light/rogue/hearth,
 /turf/open/floor/rogue/cobble,
@@ -68164,14 +68112,6 @@
 /obj/item/clothing/suit/roguetown/shirt/undershirt/priest,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/inq/basement)
-"mVi" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/floor/rogue/twig,
-/area/rogue/druidsgrove)
 "mVn" = (
 /mob/living/carbon/human/species/orc/npc/archer,
 /turf/open/floor/rogue/tile/bfloorz,
@@ -69097,18 +69037,16 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/transparent/openspace,
 /area/rogue/under/town/basement/keep)
-"nfj" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/floor/rogue/grassred,
-/area/rogue/druidsgrove)
 "nfn" = (
 /obj/effect/decal/remains/saiga,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cavewet/bogcaves/south)
+"nfo" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/floor/rogue/grass,
+/area/rogue/druidsgrove)
 "nfu" = (
 /obj/machinery/light/rogue/campfire/densefire,
 /turf/open/floor/rogue/dirt,
@@ -72179,6 +72117,23 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/town/basement)
+"nKL" = (
+/obj/item/clothing/cloak/chasuble,
+/obj/structure/closet/crate/roguecloset/dark{
+	locked = 1;
+	lockid = "priest";
+	keylock = 1
+	},
+/obj/item/scomstone,
+/obj/item/roguekey/priest,
+/obj/item/roguekey/church,
+/obj/item/roguekey/church,
+/obj/item/roguekey/graveyard,
+/obj/item/roguekey/graveyard,
+/obj/item/churcharticles/litany,
+/obj/item/handheld_bell,
+/turf/open/floor/carpet/purple,
+/area/rogue/indoors/town/church/chapel)
 "nKO" = (
 /obj/structure/bars/pipe{
 	dir = 8
@@ -74161,6 +74116,11 @@
 "ocX" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
+"odb" = (
+/obj/structure/table/wood/large_table/middle_west,
+/obj/item/reagent_containers/glass/bowl,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/indoors/town)
 "ode" = (
 /obj/effect/decal/cleanable/dirt/cobweb/cobweb2,
 /obj/structure/table/wood/poor,
@@ -76026,6 +75986,12 @@
 /obj/effect/spawner/lootdrop/general_loot_hi,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
+"ovq" = (
+/obj/machinery/light/rogue/candle,
+/obj/structure/table/wood,
+/obj/item/reagent_containers/glass/cup/bronzemug,
+/turf/open/floor/rogue/woodturned,
+/area/rogue/indoors/town)
 "ovt" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/fluff/railing/corner,
@@ -76114,6 +76080,13 @@
 	},
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/beach)
+"owt" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = -2;
+	pixel_y = 29
+	},
+/turf/open/floor/rogue/grassyel,
+/area/rogue/druidsgrove)
 "owB" = (
 /obj/structure/fluff/walldeco/bigpainting/lake{
 	pixel_x = -30
@@ -76659,6 +76632,10 @@
 /obj/machinery/light/rogue/candle/off,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
+"oBj" = (
+/obj/structure/flora/roguetree/stump/log,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/mountains)
 "oBl" = (
 /obj/structure/fluff/railing/corner,
 /obj/effect/decal/cobble/mossy{
@@ -77221,6 +77198,32 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement)
+"oGv" = (
+/obj/item/natural/stone{
+	pixel_x = -22
+	},
+/obj/item/natural/stone{
+	pixel_x = 22
+	},
+/obj/item/natural/stone{
+	pixel_x = -15;
+	pixel_y = -15
+	},
+/obj/item/natural/stone{
+	pixel_x = 20;
+	pixel_y = -15
+	},
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/obj/structure/flora/roguetree/wise/druids{
+	max_integrity = 5000;
+	name = "The Great Tree of Time";
+	pixel_x = -9;
+	pixel_y = 1
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/druidsgrove)
 "oGx" = (
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/blocks,
@@ -80600,6 +80603,13 @@
 /obj/effect/decal/remains/wolf,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave)
+"pkV" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 13;
+	pixel_y = 1
+	},
+/turf/open/water/cleanshallow,
+/area/rogue/druidsgrove)
 "pkW" = (
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/dirt,
@@ -80945,6 +80955,12 @@
 /obj/structure/fluff/statue/scare,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach/forest/hamlet)
+"pow" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/floor/rogue/grassred,
+/area/rogue/druidsgrove)
 "poD" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/axe,
 /turf/open/floor/rogue/cobblerock,
@@ -80995,13 +81011,6 @@
 /mob/living/carbon/human/species/orc/npc/footsoldier,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
-"ppm" = (
-/obj/structure/mineral_door/wood{
-	locked = 1;
-	lockid = "crier"
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town)
 "pps" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -81404,18 +81413,6 @@
 /obj/item/clothing/neck/roguetown/psicross/malum,
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
-"ptW" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 1;
-	pixel_y = -4
-	},
-/obj/structure/roguemachine/mail{
-	mailtag = "Druids grove"
-	},
-/turf/open/floor/rogue/grassyel,
-/area/rogue/druidsgrove)
 "pug" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -82876,6 +82873,13 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave/central)
+"pIB" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0;
+	pixel_y = 15
+	},
+/turf/open/water/cleanshallow,
+/area/rogue/druidsgrove)
 "pIC" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/natural/cloth{
@@ -84564,11 +84568,6 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
-"pZj" = (
-/obj/structure/table/wood/long_table/right,
-/obj/item/candle/candlestick/gold/single/lit,
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town)
 "pZn" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 1
@@ -85734,15 +85733,6 @@
 "qjY" = (
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/shelter/woods)
-"qka" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 2;
-	pixel_y = -17
-	},
-/turf/open/floor/rogue/grassred,
-/area/rogue/druidsgrove)
 "qkb" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/heart_canister{
@@ -86216,6 +86206,12 @@
 	smooth = 0
 	},
 /area/rogue/outdoors/town)
+"qpv" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/floor/rogue/grasscold,
+/area/rogue/druidsgrove)
 "qpx" = (
 /obj/effect/landmark/start/merchant,
 /turf/open/floor/carpet/stellar,
@@ -87239,12 +87235,6 @@
 /obj/structure/fluff/clockwork/clockgolem_remains,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
-"qzw" = (
-/obj/structure/roguemachine/scomm/r{
-	scom_tag = "Crier's Studio"
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town)
 "qzy" = (
 /obj/structure/stairs,
 /turf/open/floor/rogue/tile,
@@ -87904,6 +87894,16 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"qFU" = (
+/obj/structure/fluff/railing/border{
+	dir = 4
+	},
+/obj/structure/flora/newleaf,
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/transparent/openspace,
+/area/rogue/druidsgrove)
 "qFV" = (
 /obj/structure/bed/rogue/inn/wool,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -88103,6 +88103,13 @@
 	},
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors/town)
+"qHA" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 19;
+	pixel_y = -17
+	},
+/turf/open/floor/rogue/grass,
+/area/rogue/druidsgrove)
 "qHB" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/orcdungeon)
@@ -91518,6 +91525,15 @@
 /obj/structure/hotspring/border/twelve,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/mountains)
+"rqK" = (
+/obj/structure/stairs{
+	dir = 4
+	},
+/obj/structure/roguemachine/scomm{
+	scom_tag = "Breezehome"
+	},
+/turf/open/floor/rogue/herringbone,
+/area/rogue/indoors/town)
 "rqN" = (
 /obj/structure/stairs{
 	dir = 1
@@ -92475,14 +92491,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/taricheamanor)
-"rAV" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/druidsgrove)
 "rAX" = (
 /obj/structure/flora/hotspring_rocks/small,
 /turf/open/floor/rogue/grassred,
@@ -92525,24 +92533,6 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
-"rBl" = (
-/obj/structure/fluff/railing/border{
-	dir = 8
-	},
-/obj/structure/fluff/railing/border{
-	pixel_y = -7
-	},
-/obj/structure/flora/newleaf,
-/obj/structure/flora/newbranch/connector{
-	dir = 4
-	},
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/transparent/openspace,
-/area/rogue/druidsgrove)
 "rBo" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 8
@@ -93714,6 +93704,13 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/magiciantower)
+"rMW" = (
+/obj/effect/landmark/start/courtagent,
+/obj/effect/landmark/start/adventurerlate{
+	dir = 1
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "rMZ" = (
 /obj/machinery/light/rogue/candle/l{
 	pixel_y = -32
@@ -94362,19 +94359,6 @@
 /obj/structure/table/wood,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/under/cave/goblinfort)
-"rTe" = (
-/obj/structure/chair/bench/church/smallbench{
-	pixel_y = 20
-	},
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 17;
-	pixel_y = 5
-	},
-/obj/structure/flora/ausbushes/brflowers,
-/turf/open/floor/rogue/grass,
-/area/rogue/druidsgrove)
 "rTk" = (
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/rogue/grassred,
@@ -96480,14 +96464,6 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/puzzle)
-"spk" = (
-/obj/structure/table/wood/large_table/middle_west,
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = 7;
-	pixel_y = 6
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town)
 "spr" = (
 /obj/structure/roguemachine/scomm/l{
 	scom_tag = "Cathedral - Stairwell, Ground Floor"
@@ -98057,6 +98033,12 @@
 /obj/effect/spawner/lootdrop/general_loot_low,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
+"sEE" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = -14
+	},
+/turf/open/water/cleanshallow,
+/area/rogue/druidsgrove)
 "sEH" = (
 /obj/item/rogue/instrument/lute,
 /obj/item/rogue/instrument/harp,
@@ -101076,12 +101058,6 @@
 "tgP" = (
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
-"tgQ" = (
-/obj/machinery/light/rogue/candle,
-/obj/structure/table/wood,
-/obj/item/reagent_containers/glass/cup/silver,
-/turf/open/floor/rogue/woodturned,
-/area/rogue/indoors/town)
 "tgV" = (
 /obj/structure/mineral_door/wood/donjon{
 	dir = 1;
@@ -101999,15 +101975,6 @@
 /obj/item/scomstone/bad/garrison,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/manor)
-"tpS" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 2;
-	pixel_y = 20
-	},
-/turf/open/floor/rogue/grassred,
-/area/rogue/under/cave)
 "tpU" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grassyel,
@@ -102147,6 +102114,10 @@
 	dir = 1
 	},
 /obj/structure/fluff/walldeco/church/line,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/mountains)
+"trH" = (
+/obj/item/roguebin,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains)
 "trI" = (
@@ -103669,15 +103640,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/shop)
-"tGF" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 13;
-	pixel_y = 1
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/druidsgrove)
 "tGI" = (
 /obj/effect/landmark/events/deadite_animal_migration_point{
 	order = 13
@@ -108454,19 +108416,10 @@
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/underdark/north)
-"uBX" = (
-/obj/structure/mineral_door/wood/towner/generic,
-/obj/structure/mineral_door/wood/towner/generic,
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town)
 "uCa" = (
 /obj/structure/mineral_door/wood/violet,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/mazedungeon)
-"uCb" = (
-/obj/structure/chair/bench,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/mountains)
 "uCc" = (
 /obj/structure/chair/wood/rogue/chair5{
 	dir = 4
@@ -109409,14 +109362,6 @@
 /obj/structure/bookcase/random/archive,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/zhurch)
-"uLI" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/druidsgrove)
 "uLJ" = (
 /obj/structure/flora/ausbushes/ywflowers,
 /turf/open/floor/rogue/grassred,
@@ -110344,6 +110289,10 @@
 /mob/living/carbon/human/species/skeleton/no_equipment,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/skeletoncrypt)
+"uUV" = (
+/obj/structure/chair/bench,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/mountains)
 "uUW" = (
 /obj/structure/roguewindow,
 /obj/structure/curtain/green,
@@ -111400,6 +111349,13 @@
 /obj/structure/flora/ausbushes/ywflowers,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/druidsgrove)
+"vfi" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 2;
+	pixel_y = -9
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/druidsgrove)
 "vfk" = (
 /obj/effect/decal/cleanable/debris/glassy,
 /turf/open/floor/rogue/naturalstone,
@@ -111471,34 +111427,6 @@
 "vfY" = (
 /turf/open/water/swamp,
 /area/rogue/indoors/shelter/bog/bogmanfort)
-"vga" = (
-/obj/item/natural/stone{
-	pixel_x = -22
-	},
-/obj/item/natural/stone{
-	pixel_x = 22
-	},
-/obj/item/natural/stone{
-	pixel_x = -15;
-	pixel_y = -15
-	},
-/obj/item/natural/stone{
-	pixel_x = 20;
-	pixel_y = -15
-	},
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/obj/structure/flora/roguetree/wise/druids{
-	max_integrity = 5000;
-	name = "The Great Tree of Time";
-	pixel_x = -9;
-	pixel_y = 1
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/druidsgrove)
 "vgd" = (
 /obj/structure/winch{
 	name = "anchor winch";
@@ -113360,23 +113288,6 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
-"vyc" = (
-/obj/item/clothing/cloak/chasuble,
-/obj/structure/closet/crate/roguecloset/dark{
-	locked = 1;
-	lockid = "priest";
-	keylock = 1
-	},
-/obj/item/scomstone,
-/obj/item/roguekey/priest,
-/obj/item/roguekey/church,
-/obj/item/roguekey/church,
-/obj/item/roguekey/graveyard,
-/obj/item/roguekey/graveyard,
-/obj/item/churcharticles/litany,
-/obj/item/handheld_bell,
-/turf/open/floor/carpet/purple,
-/area/rogue/indoors/town/church/chapel)
 "vyi" = (
 /turf/closed/wall/mineral/rogue/decostone/long/east_west,
 /area/rogue/indoors/inq/chapel)
@@ -113444,6 +113355,12 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/tools,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter)
+"vyV" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/druidsgrove)
 "vyW" = (
 /obj/structure/stone_tile/surrounding_tile,
 /turf/open/floor/rogue/cobble/mossy,
@@ -114259,6 +114176,14 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach/forest/north)
+"vIh" = (
+/obj/structure/fluff/railing/border,
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = -30;
+	pixel_y = -1
+	},
+/turf/open/floor/rogue/grassyel,
+/area/rogue/druidsgrove)
 "vIi" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/flora/roguetree/pine,
@@ -117039,6 +116964,16 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
+"wjU" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 1;
+	pixel_y = -4
+	},
+/obj/structure/roguemachine/mail{
+	mailtag = "Druids grove"
+	},
+/turf/open/floor/rogue/grassyel,
+/area/rogue/druidsgrove)
 "wjZ" = (
 /obj/effect/spawner/roguemap/hauntpile,
 /turf/open/floor/rogue/cobble,
@@ -118632,14 +118567,6 @@
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/transparent/openspace,
 /area/rogue/indoors/inq/chapel)
-"wzZ" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/floor/rogue/grasscold,
-/area/rogue/under/cave/peace)
 "wAa" = (
 /obj/structure/bars/cemetery,
 /turf/open/floor/rogue/naturalstone,
@@ -119267,6 +119194,12 @@
 /obj/machinery/gear_painter,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
+"wFK" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/water/cleanshallow,
+/area/rogue/druidsgrove)
 "wFM" = (
 /obj/structure/chair/wood/rogue/fancy{
 	dir = 1
@@ -119941,6 +119874,11 @@
 /mob/living/carbon/human/species/orc/npc/marauder,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/orcdungeon)
+"wMC" = (
+/obj/structure/table/wood/large_table/north_west,
+/obj/item/kitchen/spoon,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/indoors/town)
 "wMJ" = (
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/cobblerock,
@@ -120554,6 +120492,12 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
+"wSD" = (
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = -12
+	},
+/turf/open/water/cleanshallow,
+/area/rogue/druidsgrove)
 "wSJ" = (
 /obj/structure/bed/rogue/inn/wool{
 	dir = 1
@@ -121868,14 +121812,6 @@
 /obj/machinery/light/rogue/candle/off/l,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors)
-"xfZ" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 0
-	},
-/turf/open/floor/rogue/grasscold,
-/area/rogue/druidsgrove)
 "xgc" = (
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/woods/southeast)
@@ -122027,15 +121963,6 @@
 /obj/structure/fluff/statue/tdummy,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
-"xib" = (
-/obj/effect/wisp/prestidigitation{
-	desc = "A small, fiery ball of light made up of mystical energy.";
-	name = "Will-o'-the-wisp";
-	pixel_x = 19;
-	pixel_y = -17
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/druidsgrove)
 "xid" = (
 /obj/structure/roguemachine/scomm/l{
 	scom_tag = "Cathedral - Nave"
@@ -123765,6 +123692,16 @@
 /obj/structure/fermentation_keg/water,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
+"xzc" = (
+/obj/structure/flora/newleaf,
+/obj/structure/fluff/railing/border{
+	dir = 8
+	},
+/obj/effect/wisp/prestidigitation/willowwisp{
+	pixel_x = 0
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/druidsgrove)
 "xzd" = (
 /obj/structure/rack/rogue,
 /obj/item/storage/roguebag,
@@ -124310,13 +124247,6 @@
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/woods)
-"xEx" = (
-/obj/structure/mineral_door/wood{
-	locked = 1;
-	lockid = "crier"
-	},
-/turf/open/floor/rogue/tile/brick,
-/area/rogue/indoors/town)
 "xEy" = (
 /obj/structure/fluff/railing/corner/north_east,
 /obj/effect/decal/edge{
@@ -124500,6 +124430,13 @@
 /obj/effect/decal/cleanable/debris/stony,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
+"xGx" = (
+/obj/effect/decal/cobbleedge{
+	dir = 10;
+	icon_state = "cobbleedge-n"
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/mountains)
 "xGz" = (
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/wood/herringbone,
@@ -124954,10 +124891,6 @@
 /obj/item/bottle_kit,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/physician)
-"xLw" = (
-/obj/item/roguebin,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/mountains)
 "xLx" = (
 /turf/open/water/bath,
 /area/rogue/indoors/town/church/basement)
@@ -135525,7 +135458,7 @@ dNb
 cFU
 vwu
 vwu
-eti
+lfe
 vwu
 vwu
 wcB
@@ -135976,7 +135909,7 @@ miF
 dNb
 vwu
 vwu
-eti
+lfe
 kPc
 wow
 vwu
@@ -136431,7 +136364,7 @@ vwu
 vwu
 wow
 wow
-wzZ
+lwN
 vwu
 dNb
 dNb
@@ -138239,7 +138172,7 @@ vwu
 vwu
 wow
 wow
-wzZ
+lwN
 vwu
 dNb
 dNb
@@ -138247,7 +138180,7 @@ dNb
 miF
 miF
 miF
-tpS
+dvT
 miF
 miF
 miF
@@ -138688,7 +138621,7 @@ miF
 dNb
 vwu
 vwu
-eti
+lfe
 dDV
 wow
 vwu
@@ -139141,7 +139074,7 @@ dNb
 cFU
 vwu
 vwu
-eti
+lfe
 vwu
 vwu
 bRE
@@ -139151,7 +139084,7 @@ miF
 miF
 miF
 miF
-tpS
+dvT
 miF
 miF
 miF
@@ -140055,7 +139988,7 @@ miF
 miF
 miF
 miF
-tpS
+dvT
 kyP
 pcG
 rTB
@@ -246238,7 +246171,7 @@ bhJ
 jkJ
 mha
 hrr
-xfZ
+qpv
 mha
 bhJ
 bhJ
@@ -249385,7 +249318,7 @@ gVI
 gVI
 gVI
 gVI
-rAV
+vyV
 gVI
 gVI
 cWA
@@ -249869,7 +249802,7 @@ sVd
 bmj
 sVd
 oGZ
-xib
+qHA
 sVd
 jYh
 qeA
@@ -250748,7 +250681,7 @@ gVI
 gVI
 sxW
 sxW
-dSb
+nfo
 kiW
 gVI
 mha
@@ -250769,7 +250702,7 @@ cva
 sdA
 gzS
 iTF
-dSb
+nfo
 sVd
 sxW
 sEj
@@ -251643,7 +251576,7 @@ sxW
 sNp
 mha
 bmj
-uLI
+wFK
 kiW
 pEm
 pEm
@@ -251666,7 +251599,7 @@ cyP
 aDx
 aDx
 yha
-rAV
+vyV
 gVI
 gVI
 sdA
@@ -252110,7 +252043,7 @@ pXK
 tOq
 sxW
 sxW
-mVi
+iby
 sxW
 gVI
 aDx
@@ -252553,7 +252486,7 @@ mha
 sxW
 nib
 qWI
-dSb
+nfo
 eMW
 hsf
 sxW
@@ -253447,7 +253380,7 @@ wQs
 sxW
 sSs
 sxW
-uLI
+wFK
 sxW
 pEm
 pEm
@@ -253908,7 +253841,7 @@ sxW
 mha
 wQS
 wQS
-rTe
+kER
 kiW
 hsf
 mha
@@ -254367,14 +254300,14 @@ wJd
 kCO
 jwJ
 aDx
-ayp
+wSD
 aDx
 jwJ
 kCO
 wJd
 afP
 wIm
-hul
+vfi
 gVI
 myh
 aDx
@@ -254383,13 +254316,13 @@ aDx
 aDx
 gVI
 aPG
-xfZ
+qpv
 wLD
 sMy
 ydR
 cxH
 rVR
-xfZ
+qpv
 aPG
 aDx
 aDx
@@ -254849,7 +254782,7 @@ jDv
 vfg
 sxW
 sxW
-dSb
+nfo
 sVd
 sxW
 sSs
@@ -255711,16 +255644,16 @@ sxW
 kiW
 bmj
 tOq
-uLI
+wFK
 sxW
 sxW
 mha
 sxW
 pEm
 kiW
-dXx
+chl
 kCO
-aDG
+pIB
 ugy
 daw
 lnt
@@ -255728,10 +255661,10 @@ dyF
 ugy
 uex
 kCO
-ptW
+wjU
 mha
 mha
-qka
+fyV
 gVI
 jxj
 kgU
@@ -255742,7 +255675,7 @@ sVd
 aVr
 wIm
 wIm
-vga
+oGv
 rUu
 wIm
 uLw
@@ -257079,14 +257012,14 @@ wJd
 kCO
 jwJ
 aDx
-tGF
+pkV
 aDx
 jwJ
 kCO
 wJd
 rfD
 wIm
-hul
+vfi
 gVI
 myh
 aDx
@@ -257095,13 +257028,13 @@ aDx
 aDx
 gVI
 vts
-xfZ
+qpv
 xGg
 cxH
 jfI
 sMy
 eGn
-xfZ
+qpv
 vts
 sVd
 gVI
@@ -258429,7 +258362,7 @@ pEm
 kiW
 sxW
 kiW
-uLI
+wFK
 sxW
 hsf
 dhk
@@ -258437,7 +258370,7 @@ mha
 kiW
 xyb
 nsj
-cBb
+xzc
 vuE
 hsf
 wkX
@@ -259325,7 +259258,7 @@ ugy
 ugy
 mha
 sxW
-com
+sEE
 dhk
 sxW
 pEm
@@ -260692,13 +260625,13 @@ den
 dhk
 sxW
 bmj
-dSb
+nfo
 moy
 kiW
 aDx
 aDx
 aDx
-ezV
+mlF
 aDx
 aDx
 aDx
@@ -261591,7 +261524,7 @@ cyH
 mha
 sxW
 sxW
-uLI
+wFK
 sxW
 sxW
 moy
@@ -261613,7 +261546,7 @@ sxW
 mha
 mha
 dhk
-nfj
+pow
 mha
 sVd
 aDx
@@ -261629,7 +261562,7 @@ vKJ
 mha
 sxW
 mha
-fNv
+fFX
 sVd
 sxW
 sxW
@@ -262074,7 +262007,7 @@ sVd
 sVd
 mha
 ilY
-xfZ
+qpv
 sxW
 sVd
 mha
@@ -262530,7 +262463,7 @@ sVd
 mha
 sVd
 sVd
-nfj
+pow
 sVd
 kiW
 kiW
@@ -262543,7 +262476,7 @@ sxW
 kiW
 sxW
 sxW
-dLj
+aVQ
 sxW
 wIm
 wIm
@@ -283263,7 +283196,7 @@ fpx
 exD
 exD
 cDX
-cml
+rqK
 vIa
 vIa
 cDX
@@ -283716,7 +283649,7 @@ ocr
 exD
 cDX
 uZq
-uBX
+awK
 uZq
 uBc
 hPQ
@@ -284174,7 +284107,7 @@ btK
 xWk
 kRg
 kRg
-mOt
+fAl
 kDS
 cCB
 uBc
@@ -286879,7 +286812,7 @@ daQ
 daQ
 daQ
 uBc
-tgQ
+ovq
 jhA
 gLs
 kRg
@@ -368271,7 +368204,7 @@ pzu
 vlo
 nhs
 sJq
-aMD
+qFU
 vlo
 nhs
 foc
@@ -368719,7 +368652,7 @@ aBB
 mkp
 pzu
 vlo
-hKD
+iSu
 kUw
 kUw
 kUw
@@ -373239,7 +373172,7 @@ aBB
 aBB
 xEZ
 hNV
-rBl
+aBc
 kUw
 kUw
 kUw
@@ -373695,7 +373628,7 @@ xgh
 hNV
 gue
 gue
-kXe
+dZj
 gue
 hNV
 oRe
@@ -398527,7 +398460,7 @@ cDX
 uBc
 uBc
 ttj
-xEx
+dsQ
 ttj
 uBc
 uBc
@@ -399433,8 +399366,8 @@ cMj
 wBe
 wBe
 wBe
-iVd
-spk
+wMC
+odb
 ttj
 bGf
 bGf
@@ -399885,8 +399818,8 @@ cMj
 wBe
 wBe
 wBe
-jmL
-gcA
+fcd
+geU
 ttj
 bGf
 bGf
@@ -400334,7 +400267,7 @@ kSK
 uBc
 nJe
 bIp
-qzw
+wBe
 wBe
 wBe
 xfR
@@ -400788,7 +400721,7 @@ uBc
 uBc
 cDX
 uBc
-ppm
+dsQ
 uBc
 uBc
 cDX
@@ -401239,7 +401172,7 @@ uBc
 mlG
 afg
 uBc
-jdX
+guB
 guB
 aox
 bzY
@@ -401690,7 +401623,7 @@ bGf
 iPR
 wBe
 wBe
-ppm
+dpL
 guB
 guB
 xDQ
@@ -403047,7 +402980,7 @@ bGf
 bGf
 bGf
 uBc
-pZj
+jFc
 cMj
 guB
 eoc
@@ -475000,15 +474933,15 @@ bhJ
 bhJ
 bhJ
 bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
+ogs
+ogs
+ogs
+gUu
+gUu
+gUu
+ogs
+ogs
+ogs
 ogs
 uBK
 "}
@@ -475452,15 +475385,15 @@ bhJ
 bhJ
 bhJ
 bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
+ogs
+ogs
+hbN
+aPh
+aPh
+aPh
+ogs
+ogs
+ogs
 ogs
 jRl
 "}
@@ -475904,15 +475837,15 @@ bhJ
 bhJ
 bhJ
 bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
+ogs
+ogs
+rMW
+bSX
+bSX
+vBH
+ogs
+ogs
+ogs
 ogs
 ogs
 "}
@@ -476356,15 +476289,15 @@ bhJ
 bhJ
 bhJ
 bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
+ogs
+ogs
+rMW
+vBH
+bSX
+bSX
+adl
+ogs
+ogs
 ogs
 ogs
 "}
@@ -476808,15 +476741,15 @@ bhJ
 bhJ
 bhJ
 bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
+ogs
+ogs
+hfK
+lZK
+oBj
+fZN
+hbN
+ogs
+ogs
 ogs
 ogs
 "}
@@ -477260,15 +477193,15 @@ bhJ
 bhJ
 bhJ
 bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
+ogs
+ogs
+rMW
+lZK
+bSX
+lZK
+rMW
+ogs
+ogs
 ogs
 ogs
 "}
@@ -477712,15 +477645,15 @@ bhJ
 bhJ
 bhJ
 bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
+ogs
+ogs
+rMW
+lZK
+vBH
+lZK
+rMW
+ogs
+ogs
 ogs
 ogs
 "}
@@ -478166,13 +478099,13 @@ bhJ
 bhJ
 bhJ
 bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
+hbN
+lZK
+bSX
+vBH
+rMW
+ogs
+ogs
 ogs
 ogs
 "}
@@ -478619,12 +478552,12 @@ aBB
 bhJ
 bhJ
 bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
+bSX
+bSX
+lZK
+fZN
+hkF
+ogs
 ogs
 ogs
 "}
@@ -479071,12 +479004,12 @@ aBB
 aBB
 bhJ
 bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
-bhJ
+lZK
+lZK
+lZK
+bSX
+fZN
+hfK
 ogs
 ogs
 "}
@@ -479525,10 +479458,10 @@ aBB
 bhJ
 fpN
 lXa
-hfh
-jki
-bhJ
-bhJ
+bXB
+bSX
+lZK
+hbN
 ogs
 ogs
 "}
@@ -479975,12 +479908,12 @@ aBB
 aBB
 aBB
 jcK
-lXa
+bSX
 hlQ
-gJO
-rnW
+xGx
+bSX
+bSX
 hfK
-bhJ
 ogs
 ogs
 "}
@@ -480427,10 +480360,10 @@ aBB
 aBB
 aBB
 jcK
-fTx
+hnP
 bOO
 lZK
-rnW
+bSX
 uSL
 ogs
 ogs
@@ -480879,7 +480812,7 @@ aBB
 aBB
 aBB
 jcK
-uCb
+uUV
 lZK
 lZK
 vBH
@@ -481331,7 +481264,7 @@ aBB
 aBB
 aBB
 aBB
-xLw
+trH
 lZK
 lZK
 lZK
@@ -482630,9 +482563,9 @@ nyS
 fyE
 pvh
 pvh
-fjH
+owt
 kiW
-jzh
+vIh
 wQw
 wQw
 wQw
@@ -483081,11 +483014,11 @@ cgp
 pvh
 gOd
 hsf
-gFN
+lUj
 pvh
 kiW
 ihE
-eQz
+jtp
 bNR
 cgp
 cgp
@@ -483536,7 +483469,7 @@ upA
 mha
 mha
 kiW
-mts
+eJY
 pvh
 pvh
 cgp
@@ -500246,7 +500179,7 @@ gTY
 cQe
 iyQ
 cDH
-vyc
+nKL
 ekg
 bGf
 bGf
