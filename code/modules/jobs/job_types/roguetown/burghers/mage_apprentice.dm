@@ -30,8 +30,7 @@
 	job_traits = list(TRAIT_ALCHEMY_EXPERT)
 	job_subclasses = list(
 		/datum/advclass/wapprentice/associate,
-		/datum/advclass/wapprentice/alchemist,
-		/datum/advclass/wapprentice/apprentice,
+		/datum/advclass/wapprentice/associate/apprentice,
 		// /datum/advclass/wapprentice/spellblade
 	)
 
@@ -47,8 +46,8 @@
 	tutorial = "No one could truly master the entirety of the arcyne arts. But commanding the fundamentals \
 	is quite achievable. Deemed competent by your peers and mentor, you have become an Associate, paid \
 	a stipend to wield your power in the name of the Crown, or at least not against them. The Crown might \
-	want a bolt of lightning in their enemies back - after all, what else is the arcyne good for but war \
-	and destruction? But as many mages knows, wisdom and whimsy is the true calling of the Magi who has \
+	want a bolt of lightning turned against their enemies - after all, what else is the arcyne good for but war \
+	and destruction? But as many mages know, wisdom and whimsy are the true calling of the Magos who has \
 	mastered the arts. The choice is yours."
 	outfit = /datum/outfit/job/roguetown/wapprentice/associate
 
@@ -100,111 +99,35 @@
 		backr = choose_implement(H, "lesser")
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
-/datum/advclass/wapprentice/alchemist
-	name = "Alchemist Associate"
-	tutorial = "Some never considered alchemy a true arcyne art, but simply a foundation. Like a quill is to \
-	poetry. During your studies, however, you have taken to the passion of alchemy, the transmutation of \
-	elements and the creation of something concrete. Lyfeblood, elixirs, coal dust, moondust, ozium, and \
-	bottle bombs! All under Psydonia is yours to create! Just don't set the University on fire. Or do, \
-	but don't get caught."
-	outfit = /datum/outfit/job/roguetown/wapprentice/alchemist
-
-	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE)
-	subclass_stats = list(
-		STATKEY_INT = 3,
-		STATKEY_PER = 3,
-		STATKEY_WIL = 1
-	)
-	age_mod = /datum/class_age_mod/apprentice_alchemist
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
-	subclass_skills = list(
-		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/labor/farming = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/labor/mining = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/labor/fishing = SKILL_LEVEL_NOVICE,
-	)
-
-/datum/outfit/job/roguetown/wapprentice/alchemist/pre_equip(mob/living/carbon/human/H)
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-	pants = /obj/item/clothing/under/roguetown/tights/random
-	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/storage/magebag/associate
-	beltr = /obj/item/storage/keyring/apprentice
-	backl = /obj/item/storage/backpack/rogue/satchel
-	shoes = /obj/item/clothing/shoes/roguetown/gladiator
-	backpack_contents = list(
-		/obj/item/rogueweapon/spellbook = 1,
-		/obj/item/seeds/swampweed = 1,
-		/obj/item/seeds/pipeweed = 1,
-		/obj/item/chalk = 1,
+/datum/outfit/job/roguetown/wapprentice/associate/post_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..() 			// small bonus picks to get you into your field of study - also a good character-building tool. Not impactful enough to
+	var/list/choices = list( // be their own subclasses, by design; your choice will not lock you into anything it just gives you a headstart
+		"Arcyne Mastery",
+		"Alchemical Artistry",
+		// "Artificed Luxury" disabled until mgl3pt2 brings artificing to mage proper - also needs a better name
 		)
-	switch(H.patron?.type)
-		if(/datum/patron/inhumen/zizo)
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-	if(H.mind)
-		backr = choose_implement(H, "lesser")
-		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
+	var/list/choice_descs = list(
+		"Arcyne Mastery" = "Grants additional summoning charges, allowing you to fuel your various experiments more quickly.",
+		"Alchemical Artistry" = "Grants an extra level in alchemy skill, giving you a small head-start in such pursuits. Does not affect skill caps.",
+		// "Artificed Luxury" = "Grants a bonus to engineering, giving you a head start in the study of artificery. Does not affect skill caps." disabled until mgl3pt2 brings artificing to mage proper
+		)
+	var/choice = tgui_input_list(H, "Which path have your studies followed thus far?", "CHOOSE YOUR SPECIALTY", choices, "Arcyne Mastery", descriptions = choice_descs)
+	switch(choice)
+		if("Arcyne Mastery")
+			ADD_TRAIT(H, TRAIT_LEYLINE_EXPERTISE, JOB_TRAIT)
+		if("Alchemical Artistry")
+			spawn(3 SECONDS) H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE) // otherwise this applies before advclass skills and does nothing
+		// if("Artificed Luxury") todo in part 2
 
-/datum/advclass/wapprentice/apprentice
+/datum/advclass/wapprentice/associate/apprentice // this has been maid less impactful on purpose - you lose a lot of combat power, but not skills/stats, so that you can actually be trained in the new gameplay loops
 	name = "Magician's Apprentice"
 	tutorial = "The road to arcyne mastery is long and treacherous. Books, scrolls, gems, studies, \
-	singed hair, and summoning gone wrong. Expenses and death alike, it is not a path for the pauper \
+	singed hair, and summoning gone wrong. Expenses and death abound; it is not a path for the pauper \
 	or the coward. You, however, were given a place as an apprentice in the University of Azuria. \
-	Under the watchful gaze of the Court Magician, and their fellow associates, you may yet live \
-	to become a master of the arcyne arts."
-	outfit = /datum/outfit/job/roguetown/wapprentice/apprentice
-
-	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_ARCYNE)
-	subclass_stats = list(
-		STATKEY_INT = 4,
-		STATKEY_WIL = 1,
-		STATKEY_SPD = 1,
-		STATKEY_LCK = 1 // this is just a carrot for the folk who are mad enough to take this role...
-	)
-	age_mod = /datum/class_age_mod/apprentice_apprentice
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
-	subclass_skills = list(
-		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
-	)
-
-/datum/outfit/job/roguetown/wapprentice/apprentice/pre_equip(mob/living/carbon/human/H)
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-	pants = /obj/item/clothing/under/roguetown/tights/random
-	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/storage/magebag/associate
-	beltr = /obj/item/storage/keyring/apprentice
-	backl = /obj/item/storage/backpack/rogue/satchel
-	shoes = /obj/item/clothing/shoes/roguetown/gladiator
-	backpack_contents = list(
-		/obj/item/rogueweapon/spellbook = 1,
-		/obj/item/chalk = 1,
-		)
-	switch(H.patron?.type)
-		if(/datum/patron/inhumen/zizo)
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-	if(H.mind)
-		backr = choose_implement(H, "lesser")
-		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
+	Under the watchful gaze of the Court Magician and their associates, you may yet live \
+	to become a master of the arcyne arts. And even in the most rote of chores, there is knowledge to be found..."
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE) // lose arcyne power...
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_SELF_RELIANCE) // ...but the rote tasks you've been doing add to your mundane skills, or at least your potential
 
 // Here lies the grave of Azurcaephon Associate, removed because a good portion of mage players are using it as a validhunting class
 // And unlike adventurer, the University being technically keep aligned means they can jump in and gank antags and there's less admins can do about it.

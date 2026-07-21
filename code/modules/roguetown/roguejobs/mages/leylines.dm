@@ -28,7 +28,7 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 
 /proc/get_leyline_charges(mob/living/user)
 	var/used = GLOB.leyline_activations[user.real_name] || 0
-	return max(GLOB.dayspassed + 1 - used, 0)
+	return max(GLOB.dayspassed + (HAS_TRAIT(user, TRAIT_LEYLINE_EXPERTISE) ? 3 : 1) - used, 0)
 
 /proc/spend_leyline_charge(mob/living/user)
 	if(!GLOB.leyline_activations[user.real_name])
