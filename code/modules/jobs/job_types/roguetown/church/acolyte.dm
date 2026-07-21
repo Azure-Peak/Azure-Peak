@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 6
 	spawn_positions = 6
-
+	vice_restrictions = list(/datum/charflaw/silverweakness)
 	forbidden_races = list(RACES_DESPISED)
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)

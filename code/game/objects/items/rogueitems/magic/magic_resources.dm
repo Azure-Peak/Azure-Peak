@@ -1,8 +1,3 @@
-#define T1SELLPRICE 4
-#define T2SELLPRICE 20
-#define T3SELLPRICE 60
-#define T4SELLPRICE 120
-// Meld prices: 3x input tier + small crafting premium
 // Mapfetchable sell prices
 #define LEYLINE_SELLPRICE 30
 #define VOIDSTONE_SELLPRICE 40
@@ -101,34 +96,29 @@
     name = "infernal ash"
     icon_state = "infernalash"
     desc = "Ash burnt and burnt once again. Smells of brimstone and hellfire. Still has embers within."
-    sellprice = T1SELLPRICE
     tier = 1
 
 /obj/item/magic/infernal/fang//T2 mage summon loot
     name = "hellhound fang"
     icon_state = "hellhound_fang"
     desc = "A sharp fang that glows bright red, no matter how long it's left to cool."
-    sellprice = T2SELLPRICE
     tier = 2
 
 /obj/item/magic/infernal/core// T3 mage summon loot
     name = "infernal core"
     icon_state = "infernal_core"
     desc = "A molten orb of rock and magick. It gives off waves of magical heat and energy."
-    sellprice = T3SELLPRICE
     tier = 3
 
 /obj/item/magic/infernal/flame//T4 mage summon loot
     name = "abyssal flame"
     icon_state = "abyssalflame"
     desc = "A  flickering, black flame contained in a crystal; the heart of an archfiend. Or atleast, what passes for one. It pulses with dense thrums of magick."
-    sellprice = T4SELLPRICE
     tier = 4
 
 //FAIRY
 /obj/item/magic/fae
 	w_class = WEIGHT_CLASS_SMALL
-	sellprice = T1SELLPRICE
 	tier = 1
 
 /obj/item/magic/fae/examine(mob/user)
@@ -139,28 +129,24 @@
     name = "fairy dust"
     icon_state = "fairy_dust"
     desc = "A glittering powder from a fae sprite."
-    sellprice = T1SELLPRICE
     tier = 1
 
 /obj/item/magic/fae/iridescentscale	//T2 mage summon loot
     name = "iridescent scales"
     icon_state = "iridescent_scale"
     desc = "Tiny, colorful scales from a glimmerwing, they shine with inate magic"
-    sellprice = T2SELLPRICE
     tier = 2
 
 /obj/item/magic/fae/heartwoodcore	//T3 mage summon loot
     name = "heartwood core"
     icon_state = "heartwood_core"
     desc = "A piece of enchanted wood imbued with the dryad’s essence. Merely holding it transports one's mind to ancient times."
-    sellprice = T3SELLPRICE
     tier = 3
 
 /obj/item/magic/fae/sylvanessence	//T4 mage summon loot
     name = "sylvan essence"
     icon_state = "sylvanessence"
     desc = "A swirling, multicolored liquid with emitting a dizzying array of lights."
-    sellprice = T4SELLPRICE
     tier = 4
 
 //ELEMENTAL
@@ -175,33 +161,25 @@
     name = "elemental mote"
     icon_state = "mote"
     desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
-    sellprice = T1SELLPRICE
     tier = 1
 
 /obj/item/magic/elemental/shard
     name = "elemental shard"
     icon_state = "shard"
     desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
-    sellprice = T2SELLPRICE
     tier = 2
 
 /obj/item/magic/elemental/fragment
     name = "elemental fragment"
     icon_state = "fragment"
     desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
-    sellprice = T3SELLPRICE
     tier = 3
 
 /obj/item/magic/elemental/relic
     name = "elemental relic"
     icon_state = "relic"
     desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
-    sellprice = T4SELLPRICE
     tier = 4
 
-#undef T1SELLPRICE
-#undef T2SELLPRICE
-#undef T3SELLPRICE
-#undef T4SELLPRICE
 #undef LEYLINE_SELLPRICE
 #undef VOIDSTONE_SELLPRICE

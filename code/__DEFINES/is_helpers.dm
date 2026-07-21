@@ -206,3 +206,9 @@ GLOBAL_VAR_INIT(magic_appearance_detecting_image, new /image) // appearances are
 #define isappearance(thing) (!isimage(thing) && !ispath(thing) && istype(GLOB.magic_appearance_detecting_image, thing))
 #define isappearance_or_image(thing) (isimage(thing) || (!ispath(thing) && istype(GLOB.magic_appearance_detecting_image, thing)))
 #define is_ooze_wound(A) (istype(A, /datum/wound/fracture) || istype(A, /datum/wound/dislocation)) //Defines what kinds of wounds cause ooze limbs to melt.
+
+#define is_zizo_amulet(amulet_type) (amulet_type in GLOB.zizo_amulet_types)
+#define is_baotha_amulet(amulet_type) (amulet_type in typesof(/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha))
+#define is_matthios_amulet(amulet_type) (amulet_type in typesof(/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios))
+#define is_graggar_amulet(amulet_type) (amulet_type in typesof(/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar))
+#define is_gronn_amulet(amulet_type) (amulet_type in GLOB.gronn_amulet_types)

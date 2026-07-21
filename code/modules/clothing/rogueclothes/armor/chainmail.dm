@@ -211,7 +211,7 @@
 	name = "ancient plate-and-maille"
 	desc = "Polished gilbranze rings and silk, woven together to form a sleeved maille-atekon; one that's been uncomfortably tucked \
 	beneath a matching cuirass. It eminates an unfamiliar sensation, rarely seen amongst rot-and-undeath - elegance. In the worlds to \
-	come, do you suppose Her death knights would bare such a mantle?"
+	come, do you suppose Her death knights would bear such a mantle?"
 	icon_state = "ancientcuirasshauberk"
 	item_state = "ancientcuirasshauberk"
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEELLIGHT

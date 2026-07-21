@@ -162,6 +162,9 @@
 "ev" = (
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/manor)
+"eW" = (
+/turf/open/water,
+/area/rogue/outdoors)
 "fb" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -338,6 +341,9 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
+"lk" = (
+/turf/open/water/ocean/deep,
+/area/rogue/outdoors)
 "lm" = (
 /obj/item/roguemachine/mastermail,
 /turf/closed/wall/mineral/rogue/decostone/cand,
@@ -1228,6 +1234,9 @@
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors)
+"GO" = (
+/turf/open/water/swamp/deep,
+/area/rogue/outdoors)
 "Hb" = (
 /obj/structure/roguemachine/goldface,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -1665,6 +1674,9 @@
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
+"Vz" = (
+/turf/open/water/river/flow/north,
+/area/rogue/outdoors)
 "VD" = (
 /obj/structure/fluff/customsign{
 	desc = "COURIER QUEST"
@@ -3179,9 +3191,9 @@ rT
 sR
 IC
 rT
-rT
-rT
-rT
+eW
+eW
+eW
 vq
 vq
 wX
@@ -3231,9 +3243,9 @@ rT
 Yf
 hq
 rT
-rT
-rT
-rT
+lk
+lk
+lk
 rT
 vq
 wX
@@ -3283,9 +3295,9 @@ rT
 YU
 XN
 rT
-rT
-rT
-rT
+GO
+GO
+GO
 rT
 vq
 wX
@@ -3335,9 +3347,9 @@ rT
 rT
 BU
 rT
-rT
-rT
-rT
+Vz
+Vz
+Vz
 rT
 vq
 hh

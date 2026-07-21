@@ -88,14 +88,16 @@
 
 	. = ..()
 
-	AddComponent(/datum/component/arousal)
-
-
 	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean_blood))
 	AddComponent(/datum/component/personal_crafting)
 	AddComponent(/datum/component/footstep, footstep_type, 1, 2)
 	GLOB.human_list += src
 	unarmed_special = new /datum/special_intent/upper_cut()
+
+/mob/living/carbon/human/Login()
+	. = ..()
+	if(!GetComponent(/datum/component/arousal))
+		AddComponent(/datum/component/arousal)
 
 /mob/living/carbon/human/ZImpactDamage(turf/T, levels)
 	var/obj/item/bodypart/affecting

@@ -8,6 +8,33 @@
 	. = ..()
 	. += span_info("Projectiles have maximum and minimum falloff ranges, with particular falloff factors for damage.")
 	. += span_info("If the target is hit between the maximum and minimum tile range, then the full force is delivered.")
+	. += get_sweetspot_examine()
+
+/// Returns examine lines describing the sweetspot (full-force range) of this casing's projectile, or an empty list if it has none.
+/obj/item/ammo_casing/proc/get_sweetspot_examine(subject = "This projectile")
+	var/sweet_min
+	var/sweet_max
+	var/falloff
+	if(BB)
+		sweet_min = BB.min_range
+		sweet_max = BB.max_range
+		falloff = BB.dam_falloff_factor
+	else if(projectile_type)
+		var/obj/projectile/proj = projectile_type
+		sweet_min = initial(proj.min_range)
+		sweet_max = initial(proj.max_range)
+		falloff = initial(proj.dam_falloff_factor)
+	. = list()
+	if(!sweet_min && !sweet_max)
+		return
+	if(sweet_min && sweet_max)
+		. += span_info("[subject] has a sweetspot between <b>[sweet_min]</b> and <b>[sweet_max]</b> tiles, where it delivers full force.")
+	else if(sweet_max)
+		. += span_info("[subject] has a sweetspot up to <b>[sweet_max]</b> tiles, where it delivers full force.")
+	else
+		. += span_info("[subject] has a sweetspot beyond <b>[sweet_min]</b> tiles, where it delivers full force.")
+	if(falloff != 1)
+		. += span_info("Outside the sweetspot, its damage is reduced to <b>[falloff * 100]%</b>.")
 
 /obj/item/ammo_casing/caseless/rogue/getonmobprop(tag)
 	. = ..()

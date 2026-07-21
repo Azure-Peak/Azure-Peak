@@ -233,7 +233,7 @@
 	if(H.mind)
 		H.set_blindness(0)
 		var/choice_list = list("Royal (Light Armor /w dress + Skilled Appraisal)", "Royal (Light Armor /w shirt + Skilled Appraisal)", "Noble (Light Armor + Skilled Appraisal)", "Suitor/Consort (Medium Armor)")
-		var/choice = input(H, "What is your disguise?", "WHAT MASQUERADE DO YOU BARE?") as anything in choice_list
+		var/choice = input(H, "What is your disguise?", "WHAT MASQUERADE DO YOU BEAR?") as anything in choice_list
 
 		switch(choice)
 			if("Royal (Light Armor /w dress + Skilled Appraisal)") //You get a bit extra for the part with the lighter loadouts.

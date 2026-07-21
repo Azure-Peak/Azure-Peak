@@ -1107,7 +1107,7 @@
 					proceed_with_offer = TRUE
 					break
 			if(proceed_with_offer)
-				if(W.sellprice <= 0)
+				if(W.get_real_price() <= 0)
 					to_chat(user, span_warning("This item is worthless."))
 					return
 				playsound(loc,'sound/items/carvty.ogg', 50, TRUE)

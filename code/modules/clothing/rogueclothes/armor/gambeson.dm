@@ -9,6 +9,8 @@
 	armor = ARMOR_PADDED
 	blocksound = SOFTUNDERHIT
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+	pickup_sound = 'sound/foley/equip/equip_armor.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor.ogg'
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE

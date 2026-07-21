@@ -39,19 +39,16 @@
 		return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "The cross's silhouette shifts. That's no psycross... What is that?!")
 	// If it is disguised, check to see if it appears like one of the heretical amulets and present it accordingly
 	else
-		switch(mimic_type)
-			// Zizo psicrosses
-			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/iron, /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph, /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy, /obj/item/clothing/neck/roguetown/psicross/inhumen/g)
-				return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
-			// Matthios psicrosses
-			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios)
-				return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
-			// Graggar psicrosses
-			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar)
-				return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_ICON)
-			// Baotha psicrosses
-			if(/obj/item/clothing/neck/roguetown/psicross/inhumen/baotha)
-				return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_ICON)
+		if(is_zizo_amulet(mimic_type))
+			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_ZIZO_ICON)
+		if(is_graggar_amulet(mimic_type))
+			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_GRAGGAR_ICON)
+		if(is_baotha_amulet(mimic_type))
+			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_ICON)
+		if(is_matthios_amulet(mimic_type))
+			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
+		if(is_gronn_amulet(mimic_type))
+			return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 		// If it isn't disguised as anything heretical, present it as the "totally innocent" amulet it pretends to be
 		return null
 
