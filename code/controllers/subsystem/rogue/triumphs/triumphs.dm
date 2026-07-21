@@ -1,39 +1,5 @@
-/*
-	A fun fact is that it is important to note triumph procs all used key, whilas player quality likes to use ckey
-	It doesn't help that the params to insert a json key in both are just key to go with byond clients having a ckey and key
+#define TRIUMPH_LEADERBOARD_FILE "data/triumph_leaderboards/triumphs_leaderboard.json"
 
-	As to how it currently saves, loads, and decides what decides to get wiped. Here is the following information:
-
-	When client joins -
-		We get their triumphs from their saved file
-		If the version number is below the current wipe season we put them back to 0
-		It is then cached into a global list attached to their ckey
-
-	Was running into issues saving this all at server reboot
-	Thusly triumphs all jus save into individual files everytime its ran into
-	triumph_adjust()
-
-	Simple enough
-*/
-
-//To note any triumph files that try to be loaded in at a lower number than current wipe season get wiped.
-// Also we have to handle this here cause the triumphs ss might get loaded too late to handle clients joining fast enough
-GLOBAL_VAR_INIT(triumph_wipe_season, get_triumph_wipe_season())
-/proc/get_triumph_wipe_season()
-	var/current_wipe_season
-	var/json_file = file("data/triumph_wipe_season.json")
-	if(!fexists(json_file)) // If theres no file we start from the beginning lol
-		var/list/uhh_ohhh = list("current_wipe_season" = 1)
-		current_wipe_season = 1
-		WRITE_FILE(json_file, json_encode(uhh_ohhh))
-		return current_wipe_season
-
-	var/list/json = json_decode(file2text(json_file))
-	current_wipe_season = json["current_wipe_season"]
-
-	return current_wipe_season
-
-// I need some shit early v early, so uhhh enjoy having lists on the define
 SUBSYSTEM_DEF(triumphs)
 	name = "Triumphs"
 	flags = SS_NO_FIRE
@@ -217,117 +183,110 @@ SUBSYSTEM_DEF(triumphs)
 /datum/controller/subsystem/triumphs/proc/fire_on_PostSetup()
 	call_menu_refresh()
 
-/*
-	We save everything when its time for reboot
-*/
 /datum/controller/subsystem/triumphs/proc/end_triumph_saving_time()
 	to_chat(world, span_boldannounce(" Recording VICTORIES to the WORLD END MACHINE. "))
-	//for(var/target_ckey in triumph_amount_cache)
-	//	var/list/saving_data = list()
-	//	// this will be for example "data/player_saves/a/ass/triumphs.json" if their ckey was ass
-	//	var/target_file = file("data/player_saves/[target_ckey[1]]/[target_ckey]/triumphs.json")
-	//	if(fexists(target_file))
-	//		fdel(target_file)
-//
-//		saving_data["triumph_wipe_season"] = GLOB.triumph_wipe_season
-//		saving_data["triumph_count"] = triumph_amount_cache[target_ckey]
-//
-//		WRITE_FILE(target_file, json_encode(saving_data))
-
-	// handle the leaderboard here too i guess
-	var/leaderboard_file = file("data/triumph_leaderboards/triumphs_leaderboard_season_[GLOB.triumph_wipe_season].json")
-	if(fexists(leaderboard_file))
-		fdel(leaderboard_file)
-	WRITE_FILE(leaderboard_file, json_encode(triumph_leaderboard))
-
-
-
-// Adjust triumphs
-/datum/controller/subsystem/triumphs/proc/triumph_adjust(amt, target_ckey)
-	if(target_ckey in triumph_amount_cache)
-		triumph_amount_cache[target_ckey] += amt
-		var/list/saving_data = list()
-		var/target_file = file("data/player_saves/[target_ckey[1]]/[target_ckey]/triumphs.json")
-		var/backup_file = file("data/player_saves/[target_ckey[1]]/[target_ckey]/triumphs.backup.json")
-
-		saving_data["triumph_wipe_season"] = GLOB.triumph_wipe_season
-		saving_data["triumph_count"] = triumph_amount_cache[target_ckey]
-		if(fexists(backup_file))
-			fdel(backup_file)
-
-		WRITE_FILE(backup_file, json_encode(saving_data))
-		fcopy("[backup_file]", "[target_file]") //This sucks
-		fdel(backup_file)
-
-
-
-// Wipe the triumphs of one person
-/datum/controller/subsystem/triumphs/proc/wipe_target_triumphs(target_ckey)
-	if(target_ckey)
-		if(!(target_ckey in triumph_amount_cache))
-			return
-		else
-			triumph_amount_cache[target_ckey] = 0
-
-// Wipe the entire list
-// Adjust the season up by 1 too so anyone behind gets wiped if they rejoin later
-/datum/controller/subsystem/triumphs/proc/wipe_all_triumphs(target_ckey)
-	if(!target_ckey)
+	var/encoded = json_encode(triumph_leaderboard)
+	if(!length(encoded))
 		return
-	triumph_amount_cache = list()
+	rustg_file_write(encoded, TRIUMPH_LEADERBOARD_FILE)
 
-	var/target_file = file("data/triumph_wipe_season.json")
-	GLOB.triumph_wipe_season += 1
-	var/list/wipe_season = list("current_wipe_season" = GLOB.triumph_wipe_season)
-	fdel(target_file)
-	WRITE_FILE(target_file, json_encode(wipe_season))
 
-	// Wipe the leaderboard list, time for a fresh season.
-	// But leave the old leaderboard file in, we mite do somethin w it later
-	triumph_leaderboard = list()
 
-/// Gets the legacy triumph value to inherit the old triumphs for the first season, assuming legacy data was converted to ckeys
+/datum/controller/subsystem/triumphs/proc/triumph_save_dir(target_ckey)
+	return "data/player_saves/[copytext(target_ckey, 1, 2)]/[target_ckey]/"
+
+/datum/controller/subsystem/triumphs/proc/read_triumph_file(path)
+	if(!fexists(path))
+		return null
+	var/raw = trim(file2text(path))
+	if(!length(raw))
+		return null
+	var/list/decoded
+	try
+		decoded = json_decode(raw)
+	catch
+		return null
+	if(!islist(decoded) || !isnum(decoded["triumph_count"]))
+		return null
+	return decoded
+
+/datum/controller/subsystem/triumphs/proc/save_triumphs(target_ckey, amount)
+	if(!target_ckey || !isnum(amount))
+		return FALSE
+	var/encoded = json_encode(list("triumph_count" = amount))
+	if(!length(encoded))
+		return FALSE
+	var/dir = triumph_save_dir(target_ckey)
+	var/target_file = "[dir]triumphs.json"
+	if(read_triumph_file(target_file))
+		var/backup_file = "[dir]triumphs.bak.json"
+		fdel(backup_file)
+		fcopy(target_file, backup_file)
+	rustg_file_write(encoded, target_file)
+	return TRUE
+
+/datum/controller/subsystem/triumphs/proc/triumph_adjust(amt, target_ckey)
+	if(!target_ckey || !amt)
+		return
+	if(!(target_ckey in triumph_amount_cache))
+		get_triumphs(target_ckey)
+	if(!(target_ckey in triumph_amount_cache))
+		return
+	triumph_amount_cache[target_ckey] += amt
+	save_triumphs(target_ckey, triumph_amount_cache[target_ckey])
+
+/// Gets the legacy triumph value to inherit the old triumphs, assuming legacy data was converted to ckeys
 /datum/controller/subsystem/triumphs/proc/get_legacy_triumph_value(target_ckey)
 	if(legacy_triumphs == null)
-		var/json_file = file("data/triumphs.json")
-		if(!fexists(json_file))
-			return 0
-		var/list/json = json_decode(file2text(json_file))
-		var/list/new_legacy = list()
-		for(var/player_key in json)
-			new_legacy[ckey(player_key)] = json[player_key]
-		legacy_triumphs = new_legacy
-	if(legacy_triumphs[target_ckey])
+		legacy_triumphs = list()
+		var/legacy_path = "data/triumphs.json"
+		if(fexists(legacy_path))
+			var/raw = trim(file2text(legacy_path))
+			var/list/json
+			if(length(raw))
+				try
+					json = json_decode(raw)
+				catch
+					json = null
+			for(var/player_key in json)
+				legacy_triumphs[ckey(player_key)] = json[player_key]
+	if(isnum(legacy_triumphs[target_ckey]))
 		return legacy_triumphs[target_ckey]
 	return 0
 
-// Return a value of the triumphs they got
 /datum/controller/subsystem/triumphs/proc/get_triumphs(target_ckey)
-	if(!(target_ckey in triumph_amount_cache))
-		var/target_file = file("data/player_saves/[target_ckey[1]]/[target_ckey]/triumphs.json")
-		if(!fexists(target_file)) // no file or new player, write them in something
-			var/triumph_amount = 0
-			// If it is the first triumph wipe season, inherit previous triumphs
-			if(GLOB.triumph_wipe_season <= 1)
-				triumph_amount = get_legacy_triumph_value(target_ckey)
+	if(!target_ckey)
+		return 0
+	if(target_ckey in triumph_amount_cache)
+		return triumph_amount_cache[target_ckey]
 
-			var/list/new_guy = list("triumph_count" = triumph_amount, "triumph_wipe_season" = GLOB.triumph_wipe_season)
+	var/dir = triumph_save_dir(target_ckey)
+	var/target_file = "[dir]triumphs.json"
+	var/had_file = fexists(target_file)
 
-			WRITE_FILE(target_file, json_encode(new_guy))
-			triumph_amount_cache[target_ckey] = triumph_amount
-			return triumph_amount
+	var/list/stored = read_triumph_file(target_file)
+	var/recovered = FALSE
+	if(!stored)
+		for(var/fallback in list("[dir]triumphs.bak.json", "[dir]triumphs.backup.json"))
+			stored = read_triumph_file(fallback)
+			if(stored)
+				recovered = TRUE
+				log_admin("TRIUMPHS: recovered [target_ckey] from [fallback] ([stored["triumph_count"]]).")
+				break
 
-		// This is not a new guy
-		var/list/not_new_guy = json_decode(file2text(target_file))
-		if(GLOB.triumph_wipe_season > not_new_guy["triumph_wipe_season"]) // Their file is behind in wipe seasons, time to be set to 0
-			triumph_amount_cache[target_ckey] = 0
-			return 0
+	var/triumph_amount
+	if(stored)
+		triumph_amount = stored["triumph_count"]
+	else
+		triumph_amount = get_legacy_triumph_value(target_ckey)
+		if(had_file)
+			recovered = TRUE
+			log_admin("TRIUMPHS: [target_ckey] had an unreadable file, rebuilt at [triumph_amount].")
 
-		var/cur_client_triumph_count = not_new_guy["triumph_count"]
-		triumph_amount_cache[target_ckey] = cur_client_triumph_count
-		return cur_client_triumph_count
-
-	return triumph_amount_cache[target_ckey]
+	triumph_amount_cache[target_ckey] = triumph_amount
+	if(recovered || !had_file)
+		save_triumphs(target_ckey, triumph_amount)
+	return triumph_amount
 
 
 /*
@@ -337,7 +296,6 @@ SUBSYSTEM_DEF(triumphs)
 /datum/controller/subsystem/triumphs/proc/show_triumph_leaderboard(client/C)
 
 	var/webpagu = "<B>CHAMPIONS OF AZURE</B><br>"
-	webpagu += "Current Season: [GLOB.triumph_wipe_season]"
 	webpagu += "<hr><br>"
 
 	if(triumph_leaderboard.len)
@@ -354,13 +312,38 @@ SUBSYSTEM_DEF(triumphs)
 
 // PREP THE BOARD
 /datum/controller/subsystem/triumphs/proc/prep_the_triumphs_leaderboard()
-	var/json_file = file("data/triumph_leaderboards/triumphs_leaderboard_season_[GLOB.triumph_wipe_season].json")
-	if(!fexists(json_file)) // If theres no file then fuck you!
-		return // we got a empty list up there neways
+	var/board_path = TRIUMPH_LEADERBOARD_FILE
+	if(!fexists(board_path))
+		board_path = find_legacy_leaderboard()
+	if(!board_path)
+		return
 
-	triumph_leaderboard = json_decode(file2text(json_file))
+	var/raw = trim(file2text(board_path))
+	if(!length(raw))
+		return
+	var/list/decoded
+	try
+		decoded = json_decode(raw)
+	catch
+		return
+	if(!islist(decoded))
+		return
 
+	triumph_leaderboard = decoded
 	sort_leaderboard()
+
+/datum/controller/subsystem/triumphs/proc/find_legacy_leaderboard()
+	var/regex/season_board = regex("^triumphs_leaderboard_season_(\\d+)\\.json$")
+	var/best_path
+	var/best_season = 0
+	for(var/entry in flist("data/triumph_leaderboards/"))
+		if(!season_board.Find(entry))
+			continue
+		var/season = text2num(season_board.group[1])
+		if(season > best_season)
+			best_season = season
+			best_path = "data/triumph_leaderboards/[entry]"
+	return best_path
 
 // Adjust leaderboard
 // I want a key here so it looks pretty
@@ -403,3 +386,5 @@ SUBSYSTEM_DEF(triumphs)
 				continue
 
 		triumph_leaderboard = sorted_list
+
+#undef TRIUMPH_LEADERBOARD_FILE

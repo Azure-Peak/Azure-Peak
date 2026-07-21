@@ -496,22 +496,18 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			RemoveSpell(existing)
 	aspect.chosen_spell = new_choice
 	if(has_spell(new_path, specific = TRUE))
+		rebuild_action_order()
 		return TRUE
-	var/datum/new_spell = new new_path
+	var/datum/action/cooldown/spell/new_spell = new new_path
 	aspect.mark_aspect_spell(new_spell)
-	if(new_path != new_choice && istype(new_spell, /datum/action/cooldown/spell))
-		var/datum/action/cooldown/spell/tagged = new_spell
-		tagged.desc = "[tagged.desc]\n<b>Variant:</b> [capitalize(aspect.applied_variant)]"
+	if(new_path != new_choice)
+		new_spell.desc = "[new_spell.desc]\n<b>Variant:</b> [capitalize(aspect.applied_variant)]"
 	if(insert_index && insert_index <= length(spell_list) + 1)
 		spell_list.Insert(insert_index, new_spell)
-		if(istype(new_spell, /datum/action/cooldown/spell))
-			var/datum/action/cooldown/spell/S = new_spell
-			S.Grant(current)
-		else if(istype(new_spell, /obj/effect/proc_holder/spell))
-			var/obj/effect/proc_holder/spell/S = new_spell
-			S.action.Grant(current)
+		new_spell.Grant(current)
 	else
 		AddSpell(new_spell)
+	rebuild_action_order()
 	return TRUE
 
 /datum/mind/proc/set_death_time()
@@ -913,13 +909,19 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		// check exclusivity
 		for(var/datum/action/cooldown/spell/S in spell_list)
 			if(S.exclusive_group && S.exclusive_group == new_spell.exclusive_group)
+				if(S != new_spell)
+					qdel(new_spell)
 				return // already have one of this group
 
 		for(var/datum/action/cooldown/spell/present in spell_list)
 			if(present.name == new_spell.name && present.type == new_spell.type)
+				if(present != new_spell)
+					qdel(new_spell)
 				return
 		spell_list += new_spell
 		new_spell.Grant(current)
+		if(bump_trailing_spells())
+			rebuild_action_order()
 		if(length(spell_list) == 1 && current)
 			addtimer(CALLBACK(src, PROC_REF(show_spell_tip)), 3 SECONDS)
 		return
@@ -928,15 +930,19 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/obj/effect/proc_holder/spell/S = spell_or_action
 	for(var/obj/effect/proc_holder/spell/present_spell in spell_list)
 		if(present_spell.name == S.name && present_spell.type == S.type)
+			if(present_spell != S)
+				qdel(S)
 			return
 	spell_list += S
 	S.action.Grant(current)
+	if(bump_trailing_spells())
+		rebuild_action_order()
 	if(user)
 		S.on_gain(user)
 	if(length(spell_list) == 1 && current)
 		addtimer(CALLBACK(src, PROC_REF(show_spell_tip)), 3 SECONDS)
 
-/// Ensure arcyne ward and prestidigitation are present and bumped to the end of the spell list.
+/// Ensure arcyne ward and prestidigitation are present.
 /// Arcyne Ward is skipped if a dragonhide/crystalhide variant is already present (those replace it).
 /datum/mind/proc/ensure_mage_basics()
 	if(!current || !HAS_TRAIT(current, TRAIT_ARCYNE))
@@ -978,18 +984,15 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 				qdel(ward.conjured_ward)
 			RemoveSpell(ward)
 
-	// Prestidigitation - always last
-	var/datum/presto = get_spell(/datum/action/cooldown/spell/touch/prestidigitation)
-	if(!presto)
+	if(!get_spell(/datum/action/cooldown/spell/touch/prestidigitation))
 		AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
-	else
-		RemoveSpell(presto)
-		AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
+
+	rebuild_action_order()
 
 
 /datum/mind/proc/show_spell_tip()
 	if(current)
-		to_chat(current, span_nicegreen("Tip: You can Ctrl-Click your hotkey bar to unlock it, then drag to rearrange your spells. Re-arranging them change which hotkeys they are bound to in order from left to right (Alt 1 to Alt 9 default). You can shift click your spells to learn more about them."))
+		to_chat(current, span_nicegreen("Tip: Ctrl-Click any spell button to enter rearrangement mode. Your bar will glow gree, spells cannot be cast and you can drag one button onto another to swap them in place. Ctrl-Click again to lock in and re-enable casting. Hotkeys are bound left to right (Alt 1 to Alt 9 default), matching the numbers shown on the buttons. Shift-click a spell to learn more about it."))
 
 /datum/mind/proc/setup_mage_aspects(list/config, grant_attunement = TRUE)
 	mage_aspect_config = config
@@ -998,50 +1001,58 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	ensure_mage_basics()
 	check_learnspell()
 
+/datum/mind/proc/get_spell_point_cost(spell_path)
+	if(!ispath(spell_path, /datum/action/cooldown/spell))
+		return 0
+	var/datum/action/cooldown/spell/S = spell_path
+	return initial(S.point_cost)
+
+/datum/mind/proc/is_utility_learned(spell_path)
+	for(var/datum/action/cooldown/spell/S in spell_list)
+		if(S.type == spell_path && S.utility_learned)
+			return TRUE
+	return FALSE
+
+/datum/mind/proc/get_utility_points_spent(list/exclude_path_strs)
+	var/total = 0
+	for(var/path in GLOB.utility_spells)
+		if(exclude_path_strs && ("[path]" in exclude_path_strs))
+			continue
+		if(!is_utility_learned(path))
+			continue
+		total += get_spell_point_cost(path)
+	return total
+
+/datum/mind/proc/has_remaining_aspect_picks()
+	if(!LAZYLEN(mage_aspect_config))
+		return FALSE
+	var/list/config = mage_aspect_config
+	if(LAZYLEN(major_aspects) < (config["major"] || 0))
+		return TRUE
+	if(LAZYLEN(minor_aspects) < (config["minor"] || 0))
+		return TRUE
+	var/max_util = config["utilities"] || 0
+	return (max_util > 0) && (get_utility_points_spent() < max_util)
+
 /datum/mind/proc/check_learnspell()
 	// Aspect config system — LearnSpell only appears until the first binding.
 	// After that, the spellbook handles edit mode.
 	if(LAZYLEN(mage_aspect_config))
-		var/list/config = mage_aspect_config
-		var/current_majors = LAZYLEN(major_aspects)
-		var/current_minors = LAZYLEN(minor_aspects)
-		var/max_maj = config["major"] || 0
-		var/max_min = config["minor"] || 0
-		var/max_util = config["utilities"] || 0
-		// Check if all slots and points are exhausted
-		var/has_remaining_slots = (current_majors < max_maj) || (current_minors < max_min)
-		var/has_remaining_util = FALSE
-		if(max_util > 0)
-			var/util_points_spent = 0
-			for(var/path in GLOB.utility_spells)
-				if(has_spell(path))
-					var/is_picked = FALSE
-					for(var/datum/action/cooldown/spell/S in spell_list)
-						if(S.type == path && S.utility_learned)
-							is_picked = TRUE
-							break
-					if(!is_picked)
-						continue
-					if(ispath(path, /datum/action/cooldown/spell))
-						var/datum/action/cooldown/spell/S = path
-						util_points_spent += initial(S.point_cost)
-					else
-						var/obj/effect/proc_holder/spell/S = path
-						util_points_spent += initial(S.cost)
-			has_remaining_util = (util_points_spent < max_util)
-		if(!has_remaining_slots && !has_remaining_util)
+		if(!has_remaining_aspect_picks())
 			RemoveSpell(/datum/action/cooldown/spell/learnspell)
+			rebuild_action_order()
 			return
-		// Still has available slots/points — remove and re-add LearnSpell to bump it to end
-		RemoveSpell(/datum/action/cooldown/spell/learnspell)
-		AddSpell(new /datum/action/cooldown/spell/learnspell())
+		if(!has_spell(/datum/action/cooldown/spell/learnspell))
+			AddSpell(new /datum/action/cooldown/spell/learnspell())
+		rebuild_action_order()
 		return
 
 	// Arcyne casters without aspects still need learnspell to open the aspect picker
 	if(current)
 		if(HAS_TRAIT(current, TRAIT_ARCYNE) && !LAZYLEN(major_aspects))
-			RemoveSpell(/datum/action/cooldown/spell/learnspell)
-			AddSpell(new /datum/action/cooldown/spell/learnspell())
+			if(!has_spell(/datum/action/cooldown/spell/learnspell))
+				AddSpell(new /datum/action/cooldown/spell/learnspell())
+			rebuild_action_order()
 			return
 
 	return
@@ -1128,6 +1139,100 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		RemoveSpell(S)
 	for(var/datum/SP in current.actions)
 		RemoveSpell(SP)
+
+/// Keep prestidigitation and learnspell at the end of the spell list when new spells are granted.
+/datum/mind/proc/bump_trailing_spells()
+	var/static/list/trailing_types = list(
+		/datum/action/cooldown/spell/touch/prestidigitation,
+		/datum/action/cooldown/spell/learnspell,
+	)
+	var/list/trailing = list()
+	for(var/path in trailing_types)
+		for(var/datum/S in spell_list)
+			if(S.type == path)
+				trailing += S
+	if(!length(trailing))
+		return FALSE
+	var/offset = length(spell_list) - length(trailing)
+	var/already_ordered = TRUE
+	for(var/i in 1 to length(trailing))
+		if(spell_list[offset + i] != trailing[i])
+			already_ordered = FALSE
+			break
+	if(already_ordered)
+		return FALSE
+	spell_list -= trailing
+	spell_list += trailing
+	return TRUE
+
+/datum/mind/proc/rebuild_action_order()
+	if(!current)
+		return
+	var/list/ordered_spell_actions = list()
+	for(var/datum/entry in spell_list)
+		var/datum/action/entry_action
+		if(istype(entry, /datum/action/cooldown/spell))
+			entry_action = entry
+		else if(istype(entry, /obj/effect/proc_holder/spell))
+			var/obj/effect/proc_holder/spell/P = entry
+			entry_action = P.action
+		if(!entry_action || !(entry_action in current.actions))
+			continue
+		ordered_spell_actions += entry_action
+	var/list/result = list()
+	var/next_spell = 1
+	for(var/datum/action/A in current.actions)
+		if(A in ordered_spell_actions)
+			if(next_spell <= length(ordered_spell_actions))
+				result += ordered_spell_actions[next_spell]
+				next_spell++
+		else
+			result += A
+	while(next_spell <= length(ordered_spell_actions))
+		result += ordered_spell_actions[next_spell]
+		next_spell++
+	current.actions = result
+	current.update_action_buttons()
+
+/datum/mind/proc/refresh_spell_buttons()
+	if(!current?.client)
+		return
+	current.update_mob_action_buttons(ALL, TRUE)
+	current.update_action_buttons()
+
+/datum/mind/proc/spell_list_entry_for_action(datum/action/A)
+	if(A in spell_list)
+		return A
+	for(var/obj/effect/proc_holder/spell/P in spell_list)
+		if(P.action == A)
+			return P
+	return null
+
+/// Adopt the visible action-bar order as the canonical spell_list order, so entering
+/// rearrangement mode can't snap a drifted bar to a stale order on the first swap.
+/datum/mind/proc/sync_spell_list_to_actions()
+	if(!current)
+		return
+	var/list/new_order = list()
+	for(var/datum/action/A in current.actions)
+		var/datum/entry = spell_list_entry_for_action(A)
+		if(entry && !(entry in new_order))
+			new_order += entry
+	for(var/datum/entry in spell_list)
+		if(!(entry in new_order))
+			new_order += entry
+	spell_list = new_order
+
+/datum/mind/proc/swap_spell_order(datum/action/a, datum/action/b)
+	if(!a || !b || a == b)
+		return FALSE
+	var/datum/entry_a = spell_list_entry_for_action(a)
+	var/datum/entry_b = spell_list_entry_for_action(b)
+	if(!entry_a || !entry_b)
+		return FALSE
+	spell_list.Swap(spell_list.Find(entry_a), spell_list.Find(entry_b))
+	rebuild_action_order()
+	return TRUE
 
 /datum/mind/proc/transfer_martial_arts(mob/living/new_character)
 	if(!ishuman(new_character))

@@ -164,7 +164,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/fortitude
 	name = "Fortitude"
-	desc = "My humors have been hardened to the fatigues of the body. (-25% Stamina Usage)"
+	desc = "My humors have been hardened to the fatigues of the body. (-15% Stamina Usage)"
 	icon_state = "buff"
 
 #define FORTITUDE_FILTER "fortitude_glow"
@@ -182,7 +182,7 @@
 
 /datum/status_effect/buff/fortitude/on_apply()
 	. = ..()
-	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>fortitude (-25% stam)!</font>")
+	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>fortitude (-15% stam)!</font>")
 	var/filter = owner.get_filter(FORTITUDE_FILTER)
 	if (!filter)
 		owner.add_filter(FORTITUDE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))

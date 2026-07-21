@@ -2227,7 +2227,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(H.stat < UNCONSCIOUS && prob(min(burn_damage * 4, 100)))
 		H.emote("pain")
 
-	var/obj/item/bodypart/BP = pick(H.bodyparts)
+	var/obj/item/bodypart/BP // concentrate fire on one limb at a time
+	for(var/obj/item/bodypart/candidate as anything in H.bodyparts)
+		if(QDELETED(candidate))
+			continue
+		if(!BP || candidate.burn_dam > BP.burn_dam)
+			BP = candidate
 	if(!BP)
 		return
 	BP.receive_damage(0, burn_damage)

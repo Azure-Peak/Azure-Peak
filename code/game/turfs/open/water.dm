@@ -250,7 +250,7 @@
 						user.add_stress(/datum/stressevent/sewertouched)
 					if (!HAS_TRAIT(L,TRAIT_LEECHIMMUNE) && !HAS_TRAIT(L,TRAIT_BOGWALKER)) // cleaning yourself in nasty water is a wonderful way to get leeches.
 						if (prob(20)) // 1 in 5 chance of getting leeched if you wash up in gross water.
-							
+
 							if(HAS_TRAIT(L, TRAIT_LEECHRESIST))
 								var/avoid_chance = 20
 								avoid_chance += (L.STASPD - 10) * 10

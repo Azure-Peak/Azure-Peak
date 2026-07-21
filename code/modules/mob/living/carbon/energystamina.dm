@@ -106,7 +106,7 @@
 	var/true_added = added
 	if(added > 0)
 		if(HAS_TRAIT(src, TRAIT_FORTITUDE))
-			added = added * 0.75
+			added = added * 0.85
 
 	if(added < 0 && HAS_TRAIT(src, TRAIT_FROZEN_STAMINA))
 		added = 0

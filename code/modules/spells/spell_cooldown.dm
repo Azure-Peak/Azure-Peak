@@ -1,7 +1,7 @@
 // /datum/action/cooldown/spell - Ported from Vanderlin
 // This is the new spell system built on top of /datum/action/cooldown.
 // We'll gradually move spells over to this new system to complete the job of nuking proc holder from our codebase
-// Adapted for AP. No Mana or Attunement system because imo, 
+// Adapted for AP. No Mana or Attunement system because imo,
 // Attunement causes balance issues by varying effectiveness of spell dramatically based on caster's attunement
 // And Mana is not necessary because we are going to stick with using blue / green bar to balance instead of a third bar and forcing long out of combat rest time that stacks on top of sleep based rest time. Just one system to KISS.
 
@@ -135,6 +135,10 @@
 	/// Variable dictating if the spell will use turf based aim assist.
 	var/aim_assist = TRUE
 
+
+	var/supports_fellowship_snap = FALSE
+	var/fellowship_snap = FALSE
+
 	// Charged vars
 	/// If the spell requires time to charge.
 	var/charge_required = TRUE
@@ -194,6 +198,8 @@
 
 	/// If the spell creates visual effects.
 	var/has_visual_effects = TRUE
+	/// If TRUE, no overhead spell icon is shown while charging.
+	var/hide_charge_effect = FALSE
 	/// The color used for spell visual effects (rune, particles, wave). Each spell sets its own.
 	var/spell_color = "#FFFFFF"
 	/// Glow intensity while casting. Uses GLOW_INTENSITY defines. 0 = no glow.
@@ -205,14 +211,14 @@
 
 	/// Timer ID for the auto cancel, so we can cancel it
 	var/auto_cancel_timer = null
-	
+
 	/// A parent variable to store devotion cost. -- Kuan's Note: This is kinda needed if we want to shift Miracles from proc_holder to spell/cooldown
 	var/devotion_cost = null
 
 /datum/action/cooldown/spell/New(Target)
 	. = ..()
 	// Create overhead spell icon effect (matching old proc_holder system)
-	if(button_icon_state)
+	if(button_icon_state && !hide_charge_effect)
 		var/obj/effect/R = new /obj/effect/spell_rune
 		R.icon = button_icon
 		R.icon_state = button_icon_state
@@ -290,7 +296,10 @@
 		fully_charged = TRUE
 		if(owner.client)
 			owner.client.mouse_pointer_icon = 'icons/effects/mousemice/swang/acharged.dmi'
-			playsound(owner, 'sound/magic/charged.ogg', 40, TRUE)
+			if(hide_charge_effect)
+				owner.playsound_local(owner, 'sound/magic/charged.ogg', 40, TRUE)
+			else
+				playsound(owner, 'sound/magic/charged.ogg', 40, TRUE)
 
 /datum/action/cooldown/spell/Grant(mob/grant_to)
 	// Spells are hard baked to pratically only work with living owners
@@ -473,6 +482,13 @@
 		modifiers = params2list(modifiers)
 	if(!LAZYACCESS(modifiers, MIDDLE_CLICK))
 		return
+
+	if(fellowship_snap && click_target != clicker && !(isliving(click_target) && shares_fellowship(clicker, click_target)))
+		var/mob/living/snapped = get_snap_target(clicker)
+		if(snapped)
+			click_target = snapped
+		else
+			clicker.balloon_alert(clicker, "no fellow in range!")
 
 	if(charge_required && !charged)
 		end_charging()
@@ -1747,7 +1763,51 @@
 /// Override on spells that have an alt mode (e.g. cycling ward types). Called by the Alt Mode keybind (Shift+G).
 /// Return TRUE if handled.
 /datum/action/cooldown/spell/proc/toggle_alt_mode(mob/user)
-	return FALSE
+	if(!supports_fellowship_snap)
+		return FALSE
+	fellowship_snap = !fellowship_snap
+	if(fellowship_snap)
+		to_chat(user, span_notice("[name]: Fellowship Mode enabled - an off-target cast snaps to your nearest fellowship member in range."))
+	else
+		to_chat(user, span_notice("[name]: Fellowship Mode disabled."))
+	update_snap_maptext()
+	return TRUE
+
+/datum/action/cooldown/spell/proc/get_snap_target(mob/living/clicker)
+	if(!clicker.current_fellowship)
+		return null
+	var/mob/living/nearest
+	var/nearest_dist = INFINITY
+	for(var/mob/living/candidate in view(cast_range, clicker))
+		if(candidate == clicker)
+			continue
+		if(candidate.stat == DEAD)
+			continue
+		if(!candidate.mind)
+			continue
+		if(!shares_fellowship(clicker, candidate))
+			continue
+		var/dist = get_dist(clicker, candidate)
+		if(dist < nearest_dist)
+			nearest_dist = dist
+			nearest = candidate
+	return nearest
+
+/datum/action/cooldown/spell/proc/update_snap_maptext()
+	for(var/datum/hud/hud as anything in viewers)
+		var/atom/movable/screen/movable/action_button/B = viewers[hud]
+		var/atom/movable/screen/arc_maptext_holder/holder
+		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
+			holder = existing
+			break
+		if(!holder)
+			holder = new(B)
+			B.vis_contents.Add(holder)
+		if(fellowship_snap)
+			holder.maptext = MAPTEXT("SNAP")
+			holder.color = "#66ff66"
+		else
+			holder.maptext = null
 
 /// Cancel spell visual effects. Cleans up rune (particles auto-clean via signal).
 /mob/living/proc/cancel_spell_visual_effects()

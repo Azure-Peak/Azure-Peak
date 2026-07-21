@@ -38,9 +38,6 @@
 
 	SEND_SIGNAL(src, COMSIG_HUMAN_LIFE)
 
-	if(advsetup)
-		Stun(50)
-
 	if(mind)
 		mind.sleep_adv.add_stress_cycle(get_stress_amount())
 		for(var/datum/antagonist/A as anything in mind.antag_datums)

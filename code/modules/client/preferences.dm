@@ -169,8 +169,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/datum/migrant_pref/migrant
 	var/next_special_trait = null
 
-	var/action_buttons_screen_locs = list()
-
 	var/domhand = 2
 	var/nickname = "Please Change Me"
 	var/highlight_color = "#FF0000"

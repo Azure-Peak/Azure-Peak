@@ -159,6 +159,8 @@
 
 	if(applies_post_equipment)
 		apply_character_post_equipment(H)
+	H.set_advsetup(FALSE)
+	H.mind?.refresh_spell_buttons()
 //======== Massive shitcode, that works at least.
 /datum/advclass/proc/get_vice_limits(mob/living/carbon/human/H)
 	if(length(vice_limits))
