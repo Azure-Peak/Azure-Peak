@@ -4,7 +4,7 @@
 	// adjust these to make characters belonging to this faith count more or less towards the score ranking
 	var/list/weights = list(
 		/datum/faith/divine = 1,
-		/datum/faith/inhumen = 3,
+		/datum/faith/inhumen = 3.5,
 		/datum/faith/old_god = 1
 	)
 	// caching these because we only have to do a full recalc very rarely
