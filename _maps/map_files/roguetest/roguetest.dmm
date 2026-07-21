@@ -536,13 +536,13 @@
 "pz" = (
 /obj/item/alch/catalyst/aeneic,
 /obj/item/alch/catalyst/albedo,
-/obj/item/alch/catalyst/argyopoeic,
+/obj/item/alch/catalyst/argyropoeia,
 /obj/item/alch/catalyst/florid,
 /obj/item/alch/catalyst/nigredo,
 /obj/item/alch/catalyst/rubedo,
 /obj/item/alch/catalyst/terran,
 /obj/item/alch/catalyst/xanthosis,
-/obj/item/alch/catalyst/chrysopoeic,
+/obj/item/alch/catalyst/chrysopoeia,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "pJ" = (

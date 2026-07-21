@@ -795,7 +795,7 @@
 
 /obj/structure/fluff/alch/trans
 	name = "transmutation lab"
-	// icon_state = "transtable"
+	icon_state = "transgender" // i love the artist that did this
 	desc = "Metal and glass, porcelain and gilbranze, copper and bronze - a chorus for works, Great and Lesser. \
 	The greatest of them have been lost to time.\n\nA secure pair of drums hold your catalytic samples in metal \
 	tubes, held still from all things by their inner arcynic constructs. The cabinet beneath is simply mundane, though no less useful."

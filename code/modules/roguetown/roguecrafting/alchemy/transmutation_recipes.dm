@@ -113,23 +113,23 @@
 /datum/transmutation_recipe/chrysopoeia
 	name = "Chrysopoeia (Gold)"
 	category = "Chrysopoeic Transmutation"
-	catalyst = /obj/item/alch/catalyst/chrysopoeic
+	catalyst = /obj/item/alch/catalyst/chrysopoeia
 	materia_aspects = list(/datum/materia_aspect/solar)	// this _technically_ creates value - 32 sellprice of iron, 10 for the zenar for solar materia
 	input_items = list(/obj/item/rogueore/iron = 4)		// means you get 8 mammons out of nothing, except you can't buy iron that cheap so it's not econ exploit
 	output_items = list(/obj/item/rogueore/gold = 1) 	// the actual use of this is gilbranze production for high-level artifice in mgl3pt2
 
 // ARGYROPOEIA: an explicitly Noccite work, the catalyst is _impossible_ to create. it's adminspawn-only for now
 // and will remain an extremely rare Noccite artifact once a way to obtain it is added in part 2 of mgl3
-/datum/transmutation_recipe/argyopoeia
+/datum/transmutation_recipe/argyropoeia
 	name = "Argyropoeia (Silver)"
-	category = "Argyopoeic Transmutation"
+	category = "Argyropoeic Transmutation"
 	snowflake_desc = "Can only be performed at nite."
-	catalyst = /obj/item/alch/catalyst/argyopoeic
+	catalyst = /obj/item/alch/catalyst/argyropoeia
 	materia_aspects = list(/datum/materia_aspect/lunar)
 	input_items = list(/obj/item/rogueore/gold = 2)		// you are actively losing value here since gold is 50 mams each and silver is 80 not to mention the materia cost
 	output_items = list(/obj/item/rogueore/silver = 1)
 
-/datum/transmutation_recipe/argyopoeia/execution_blocked(mob/user) // also you can only do it at nite because noccite ritual and whatnot
+/datum/transmutation_recipe/argyropoeia/execution_blocked(mob/user) // also you can only do it at nite because noccite ritual and whatnot
 	if(GLOB.tod != "night")
 		return "This work of Noc may only be performed while His light shines."
 	return FALSE
