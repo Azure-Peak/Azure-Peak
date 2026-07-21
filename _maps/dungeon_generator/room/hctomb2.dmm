@@ -65,7 +65,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "eL" = (
-/obj/effect/spawner/roguemap/beartrap,
+/obj/effect/spawner/roguemap/beartrap/camo,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "fm" = (
@@ -466,7 +466,7 @@
 /area/rogue/under/tomb)
 "MV" = (
 /obj/effect/decal/cleanable/blood/old,
-/obj/effect/spawner/roguemap/beartrap,
+/obj/effect/spawner/roguemap/beartrap/camo,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "MX" = (
@@ -495,7 +495,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb)
 "Pt" = (
-/obj/effect/spawner/roguemap/beartrap,
+/obj/effect/spawner/roguemap/beartrap/camo,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
 "PD" = (

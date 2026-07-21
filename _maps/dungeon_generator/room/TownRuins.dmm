@@ -2351,7 +2351,7 @@
 /area/rogue/under/tomb/indoors)
 "Xj" = (
 /obj/structure/mineral_door/wood/violet,
-/obj/effect/spawner/roguemap/beartrap,
+/obj/effect/spawner/roguemap/beartrap/camo,
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/under/tomb/indoors)
 "Xu" = (

@@ -912,7 +912,7 @@
 	name = "Bedroom"
 	},
 /obj/effect/mapping_helpers/access/locker,
-/obj/effect/spawner/roguemap/beartrap,
+/obj/effect/spawner/roguemap/beartrap/camo,
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors/royal)
 "NK" = (

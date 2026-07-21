@@ -98,7 +98,7 @@
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/tomb/indoors)
 "fE" = (
-/obj/effect/spawner/roguemap/beartrap,
+/obj/effect/spawner/roguemap/beartrap/camo,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb)
 "fQ" = (
@@ -184,7 +184,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "jq" = (
-/obj/effect/spawner/roguemap/beartrap,
+/obj/effect/spawner/roguemap/beartrap/camo,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave)
 "jx" = (
@@ -235,7 +235,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/tomb/indoors)
 "mE" = (
-/obj/effect/spawner/roguemap/beartrap,
+/obj/effect/spawner/roguemap/beartrap/camo,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "mX" = (
