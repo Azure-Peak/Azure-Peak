@@ -40,6 +40,11 @@
 	cost = 110
 	contains = list(/obj/item/rogueweapon/woodstaff/implement/greater/blacksteel)
 
+/datum/supply_pack/rogue/merc_weapons/grenzzwei
+	name = "Grenzelhoftian Zweihander"
+	cost = 150
+	contains = list(/obj/item/rogueweapon/greatsword/grenz)
+
 /datum/supply_pack/rogue/merc_weapons/glaive
 	name = "Glaive"
 	cost = 200
