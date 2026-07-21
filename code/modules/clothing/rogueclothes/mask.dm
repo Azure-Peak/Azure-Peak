@@ -146,7 +146,7 @@
 	if(active_item)
 		return
 	else if(slot == SLOT_WEAR_MASK || slot == SLOT_HEAD)
-		if (user.get_skill_level(/datum/skill/craft/engineering) >= 2)
+		if (user.get_skill_level(/datum/skill/craft/engineering) >= 2 || HAS_TRAIT(user, TRAIT_ZIZO_CLERIC))
 			ADD_TRAIT(user, TRAIT_ENGINEERING_GOGGLES, "[type]")
 			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze)
 			to_chat(user, span_green("Time to get to work."))

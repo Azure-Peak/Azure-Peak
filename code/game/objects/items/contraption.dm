@@ -448,6 +448,8 @@
 		amputation_speed_mod *= 0.5
 	if(patient.stat != DEAD && (patient.jitteriness || patient.mobility_flags & MOBILITY_STAND)) //jittering will make it harder to secure the shears, even if you can't otherwise move
 		amputation_speed_mod *= 1.5 //15*0.5*1.5=11.25
+	if(HAS_TRAIT(user, TRAIT_ZIZO_CLERIC)) //Zizite devotees have unnatural talent w/ artifice
+		amputation_speed_mod *= 0.8
 
 	var/skill_modifier = 1
 	if(user.get_skill_level(/datum/skill/craft/engineering)>(user.get_skill_level(/datum/skill/misc/medicine))) //use the higher skill

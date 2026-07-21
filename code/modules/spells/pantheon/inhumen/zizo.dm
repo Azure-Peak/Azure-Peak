@@ -34,11 +34,21 @@
 	point_cost = 0
 	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
 
+///////////////////
+// T1 - Miracle  //
+///////////////////
+
+/datum/action/cooldown/spell/miracle/heal/zizo
+	name = "Profane Miracle"
+	fluff_desc = "The lyfeline of any faithful of Zizo, channeling restorative energies into your target, sapping into nearby bones to reuse their instilled magicka of her gift of unlyfe for purpose anew."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+
 // SNUFF LIGHTS (T0) - Extinguishes most light sources, and grants you a temporary Dark Vision steroid that scales from your Holy skill.
 /datum/action/cooldown/spell/zizo/snuff_lights
 	name = "Snuff Lights"
 	desc = "Extinguish most light sources within 2 range. For 5 seconds, you will also hone your Darksight. Both effects scale up from Miracle skill."
-	fluff_desc = "Flame, light, purity... all arrogant lies of the living. Wretched falsehoods peddled by the Ten to keep mortals fearful of the dark. They are intrusions; frail comforts that convince men they are safe from what waits beyond their sight. Zizo's first revelation was simple: light is not needed to see. Truth does not shine. It festers in the dark, waiting for those willing to behold it."
+	fluff_desc = "Flame, light, purity... all arrogant lies of the Living. Wretched falsehoods peddled by the Ten to keep mortals fearful of the dark. They are intrusions; frail comforts that convince men they are safe from what waits beyond their sight. Zizo's first revelation was simple: light is not needed to see. Truth does not shine. It festers in the dark, waiting for those willing to behold it."
 	button_icon_state = "snufflight"
 	associated_stat = null
 	charge_required = FALSE
@@ -105,6 +115,66 @@
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_NITEVISION, "snuff_lights")
 	owner.update_sight()
+
+/////////////////////////
+// T1 - Insight. //
+/////////////////////////
+// Louder valid version of enlightenment from Noc, it gives you a fair bit more int than Noc's version, at the sacrifice of some perception and luck. It also has a slower windup.
+
+/datum/action/cooldown/spell/zizo/insight
+	name = "Insight"
+	desc = "Loudly invoke a lesser form of Zizo's rituos upon a target, temporarily increasing intelligence of your target at the cost of their perception."
+	button_icon_state = "insight"
+	sound = 'sound/magic/baotha_blessdrink.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = TRUE
+
+	primary_resource_cost = 75
+	secondary_resource_cost = 20
+
+	invocations = list("Zizo! Zizo! Grant me knowledge!") //Louder and valid vs Noc
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = 3 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_sound = 'sound/magic/chargingold.ogg'
+	cooldown_time = 2 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/noc/enlightenment/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	if(!isliving(cast_on))
+		to_chat(H, span_warning("That is not a valid target!"))
+		return FALSE
+
+	var/mob/living/spelltarget = cast_on
+
+	if(spelltarget != H)
+		H.visible_message("[H] mutters an incantation and [spelltarget] briefly shimmers red.")
+		spelltarget.apply_status_effect(/datum/status_effect/buff/zizo_knowledge)
+	else
+		H.visible_message("[H] mutters an incantation and they briefly shimmer red.")
+		spelltarget.apply_status_effect(/datum/status_effect/buff/zizo_knowledge)
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/zizo_knowledge
+	name = "Insight"
+	desc = "Profane magic is boosting my intelligence at the cost of my perception."
+	icon_state = "insight"
+
+/datum/status_effect/buff/zizo_knowledge
+	id = "zizo_knowledge"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/zizo_knowledge
+	duration = 2 MINUTES
+	effectedstats = list(STATKEY_INT = 3, STATKEY_PER = -1)
 
 ////////////////
 //T1 - PROFANE//
@@ -213,42 +283,125 @@
 	limb.add_embedded_object(S, FALSE, TRUE, TRUE)
 	playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
 
-// RAISE LESSER SKELETON (T2) - The new 'main' Zizo undeath-raising skill. Summon's durability scales from Miracle skill.
-/datum/action/cooldown/spell/raise_undead_formation/zizo
-	name = "Raise Lesser Skeleton"
-	desc = "Invoke raw Enochian magicka to bind loose bones into a simple skeletal thrall. Its crude physiology is held together purely by magic; unable to be incapacitated, it shall stand until it crumbles into spare bones. It is also simpler to control, so you can order it to move, guard or attack manually."
-	fluff_desc = "The faithful of Zizo do not raise the dead, they mock life by proving how little of it is truly required. Flesh decays, thought falters, and souls flee screaming into the arms of Necra, yet bone remains obedient. Through the language of ancient Enochian words of power, scattered remains are lashed together into a parody of mortal form, animated not by purpose or memory, but by the simple joy of defying the natural order."
-	background_icon = 'icons/mob/actions/zizomiracles.dmi'
-	button_icon = 'icons/mob/actions/zizomiracles.dmi'
-	button_icon_state = "skeleton"
-	spell_color = GLOW_COLOR_ZIZO
-	primary_resource_cost = 60
-	secondary_resource_cost = 40
+///////////////////
+// T2 - Spite  //
+///////////////////
+// - A stronger sidegrade to undivided's gallows humor, it loses chainability + longer cooldown for straight up making people trip out and freak out. Yes this is churn emotions.
+/datum/action/cooldown/spell/zizo/spite
+	name = "Spite"
+	desc = "Share a terrible secret of reality itself with your target, stressing them out heavily and shattering their mynd into hallucinating."
+	fluff_desc = "It is no mistake that the faithful of Zizo are to some degree affected by her spite towards those that would dare, undo her greatest work to become. The very thought manifested forcefully in detail of what's to come would break the minds of most, or at worst leave them a hollow husk of what they were. Oft' shattering one's perception of reality and falsehood alyke."
+	button_icon_state = "spite"
+	sound = 'sound/magic/baotha_blessdrink.ogg'
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+	primary_resource_cost = 100 //100 devotion, 10 uses for heretic, 5 for templar-grade, 7 for missionary adv. Not accounting for devotion regen, in which case add 2 more casts for that average
+	secondary_resource_cost = 30
+
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = FALSE
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Suffer for Zizo, ignorant savage!") //loud, obvious, insulting
+
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
-	charge_time = 2 SECONDS
-	hold_drain = 1
+	charge_time = 3 SECONDS
+	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/chargingold.ogg'
-	cooldown_time = 30 SECONDS
-	cabal_affine = TRUE
-	miracle = TRUE
-	to_spawn = 1
-	invocation_type = null
-	invocations = null
-	associated_skill = /datum/skill/magic/holy
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+	cooldown_time = 3 MINUTES //No back to back, spamming this vs undivided.
 
-// TAME UNDEAD (T3) - I don't know why this is a T3, being just a forced Gravemark on a hostile NPC undead.
+	spell_flags = SPELL_PSYDON
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/zizo/spite/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/mob/living/spelltarget = cast_on
+
+	if(!isliving(spelltarget))
+		show_visible_message(owner, "You can only cast this on living beings.")
+		return FALSE
+	if(spelltarget.anti_magic_check(TRUE, TRUE))
+		return FALSE
+	if(spell_guard_check(spelltarget, TRUE))
+		spelltarget.visible_message(span_warning("[spelltarget] shrugs off the unholy spite!"))
+		return TRUE
+	if(!spelltarget.can_hear()) // They need to be able to hear you.
+		return FALSE
+	if(spelltarget.mind) //Players freak the fuck out
+		spelltarget.apply_status_effect(/datum/status_effect/debuff/zizospite)
+		spelltarget.add_stress(/datum/stressevent/zizospite)
+		spelltarget.hallucination = 2 MINUTES
+		to_chat(spelltarget, span_artery(pick("WORTHLESS, THAT'S ALL YOU ARE.","YOU WILL ROT WITH EVERYTHING ELSE, ITS YOUR FAULT.","TRY. IT MEANS NOTHING. EXCEPT OF WHAT I REMAKE OF YOU.","EVERYTHING YOU DO IS POINTLESS IN THE END.","YOU BRING ONLY OBLIVION, UNTO YOURSELF. FOOL.")))
+		if(!HAS_TRAIT(spelltarget, TRAIT_NOMOOD))
+			spelltarget.freak_out()
+			spelltarget.playsound_local(get_turf(spelltarget), 'sound/misc/zizo.ogg', 200)
+	if(!spelltarget.mind) //NPCs just get knocked over, unless they're skeletons
+		if(!HAS_TRAIT(spelltarget, TRAIT_NOMOOD))
+			spelltarget.freak_out()
+			spelltarget.Knockdown(20) //long to substitute for lack of hallucinations
+	return TRUE
+
+/datum/status_effect/debuff/zizospite
+	id = "zizospite"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/zizospite
+	duration = 2 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/zizospite
+	name = "Spite"
+	desc = "<span class='warning'>A hateful gaze of eternal malice, bares on me. My mynd's clarity and eyes betray me.</span>\n"
+	icon_state = "zizospite"
+
+/datum/stressevent/zizospite
+	timer = 2 MINUTES
+	stressadd = 7 //technically 14, as it doubles from TRAIT_BAD_MOOD, unlike undivided, this one can't chain + effects go w/ mood debuff.
+	desc = span_boldred("I FEEL A HORRIBLE CHILL DOWN MY SPINE! MY MYND IS FILLED WITH HORRIFYING VISIONS.")
+
+/datum/status_effect/debuff/zizospite/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
+	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_MIRACLE)
+	if(owner.mind)
+		owner.update_stress()
+
+/datum/status_effect/debuff/zizospite/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
+	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_MIRACLE)
+	if(owner.mind)
+		owner.update_stress()
+	return ..()
+
+///////////////////
+// T2 - Tame Undead  //
+///////////////////
+// - A forced Gravemark on a hostile NPC undead, used to sort of soft-convert factionise your way through dungeons and put those NPCs to use, or wandering deadite animals
+// - Basically a miracle version of the spell, a nessessity to keep that warlock/undead patron aspect niché. If you want full summoner however, go undeath rituos for it.
 /datum/action/cooldown/spell/tame_undead/zizo
 	associated_skill = /datum/skill/magic/holy
 	primary_resource_cost = 100
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+	charge_sound = 'sound/magic/chargingold.ogg'
 
-// T3: Rituos - Zizo's Lesser Work. A single painful ritual that grants the caster a choice:
+///////////////////
+// T3 - Rituos  //
+///////////////////
+// - Zizo's Lesser Work. A single painful ritual that grants the caster a choice:
+
 // Progress: Arcyne knowledge (2 minor aspects, 4 utilities). No skeletonization. -- Kunai: I made this more distinctive from Undeath, now it also gives you some traits to give a better progress vibe.
-// Unlife: Full skeletonization + MOB_UNDEAD, grants bonechill and raise_deadite directly. -- Kunai: We already have raise_deadite, so it's a moot point to give them the Necromancer version of it. Just gave them bonemend and a few more traits to give the vibe of a 'half-lich'.
+// Unlife: Full skeletonization (minus head) + MOB_UNDEAD, grants bonechill and raise_deadite. -- Kunai: We already have raise_deadite, so it's a moot point to give them the Necromancer version of it. Just gave them bonemend and a few more traits to give the vibe of a 'half-lich'.
 // Both paths grant undead language and TRAIT_ARCYNE. One-time use - cannot be cast again after completion.
+
+//SOEP -- Undeath gets: miracle-raise undead, bone catacalysm + raise deadite + classic undeath traits. Offensive varient w/ silver weakness and stamina-control for functional immortality.
+//SOEP -- Progress gets: rapid skill leveling, ability to consume lux into health and stamina, more utility points for casting. Defensive varient w/ focus on talent and assistance.
 
 /datum/action/cooldown/spell/zizo/rituos
 	name = "Rituos"
@@ -291,7 +444,7 @@
 		reset_spell_cooldown()
 		exploit_this = FALSE
 		return TRUE
-	
+
 	if(user.stat != CONSCIOUS)
 		return FALSE
 
@@ -320,11 +473,13 @@
 	exploit_this = FALSE
 	return TRUE
 
-/// T3: Bone Cataclysm - Pretty much pops your summons into sad remains of their former selves. Shouldn't do a lot of damage, but it frags someone with bone splinters if they're close enough.
+
+
+/// T? - Undeath Path: Bone Cataclysm - Pretty much pops your summons into sad remains of their former selves. Shouldn't do a lot of damage, but it frags someone with bone splinters if they're close enough.
 /datum/action/cooldown/spell/zizo/bone_cataclysm
 	name = "Bone Cataclysm"
 	desc = "Detonate all of your nearby skeletons in a wave of profane bone shrapnel. You and Gravemarked allies will not be harmed by it.<br><br>If used outside Combat Mode, you will disintegrate them and restore your energy."
-	fluff_desc = "Zizo taught her faithful that the dead must always serve twice: once in unlife, and once more when their bones are shattered in her name."	
+	fluff_desc = "Zizo taught her faithful that the dead must always serve twice: once in unlife, and once more when their bones are shattered in her name."
 	button_icon_state = "cataclysm"
 	click_to_activate = FALSE
 	self_cast_possible = TRUE
@@ -376,7 +531,7 @@
 			S.Jitter(100)
 			var/datum/beam/B = caster.Beam(S, icon_state = "necra_beam", time = 50, maxdistance = 20)
 			addtimer(CALLBACK(src, PROC_REF(explode_skeleton), S, caster, B), rand(3 SECONDS, 6 SECONDS))
-		
+
 		return TRUE
 
 	else
@@ -480,7 +635,7 @@
 	new /obj/effect/decal/remains/human(T)
 	qdel(S)
 
-/datum/action/cooldown/spell/zizo/bone_cataclysm/proc/despawn_skeleton(mob/living/S,	mob/living/caster, datum/beam/B)	
+/datum/action/cooldown/spell/zizo/bone_cataclysm/proc/despawn_skeleton(mob/living/S,	mob/living/caster, datum/beam/B)
 	if(B)
 		B.End()
 	if(!S || QDELETED(S))
@@ -492,8 +647,34 @@
 		return
 	S.visible_message(span_warning("[S] crumbles apart into pale dust as its essence is siphoned away!"), span_warning("Ashes to ashes, dust to dust..."))
 	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
-	caster.energy_add(100)
+	caster.energy_add(120)
 	caster.stamina_add(-50)
 	new /obj/item/ash(T)
 	new /obj/item/ash(T)
 	qdel(S)
+
+// RAISE LESSER SKELETON (T?) - The new 'main' Zizo undeath-raising skill. Summon's durability scales from Miracle skill. Granted W/ Undeath Rituos
+/datum/action/cooldown/spell/raise_undead_formation/zizo
+	name = "Raise Lesser Skeleton"
+	desc = "Invoke raw Enochian magicka to bind loose bones into a simple skeletal thrall. Its crude physiology is held together purely by magic; unable to be incapacitated, it shall stand until it crumbles into spare bones. It is also simpler to control, so you can order it to move, guard or attack manually."
+	fluff_desc = "The faithful of Zizo do not raise the dead, they mock life by proving how little of it is truly required. Flesh decays, thought falters, and souls flee screaming into the arms of Necra, yet bone remains obedient. Through the language of ancient Enochian words of power, scattered remains are lashed together into a parody of mortal form, animated not by purpose or memory, but by the simple joy of defying the natural order."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon_state = "skeleton"
+	spell_color = GLOW_COLOR_ZIZO
+	primary_resource_cost = 60
+	secondary_resource_cost = 40
+	charge_required = TRUE
+	weapon_cast_penalized = TRUE
+	charge_time = 2 SECONDS
+	hold_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_sound = 'sound/magic/chargingold.ogg'
+	cooldown_time = 30 SECONDS
+	cabal_affine = TRUE
+	miracle = TRUE
+	to_spawn = 1
+	invocation_type = null
+	invocations = null
+	associated_skill = /datum/skill/magic/holy
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN

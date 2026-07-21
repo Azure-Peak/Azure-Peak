@@ -20,7 +20,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE, 
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
@@ -52,10 +52,11 @@
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
-	
+
 	if(H.mind)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/zizo)
 
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
@@ -64,6 +65,15 @@
 			switch(highheal_options)
 				if("Greater Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+				if("Fortifying Vapors (Secular)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+
+		if(/datum/patron/inhumen/zizo)
+			var/list/heal = list("Profane Miracle (Divine)", "Fortifying Vapors (Secular)")
+			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(highheal_options)
+				if("Greater Miracle (Divine)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/zizo)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
@@ -204,6 +214,7 @@
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/zizo)
 
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
@@ -212,6 +223,15 @@
 			switch(highheal_options)
 				if("Greater Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+				if("Fortifying Vapors (Secular)")
+					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
+
+		if(/datum/patron/inhumen/zizo)
+			var/list/heal = list("Profane Miracle (Divine)", "Fortifying Vapors (Secular)")
+			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(highheal_options)
+				if("Greater Miracle (Divine)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/zizo)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 

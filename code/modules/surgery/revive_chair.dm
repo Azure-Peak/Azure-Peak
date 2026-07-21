@@ -96,7 +96,7 @@
 
 			// Animate filling
 			user.visible_message(
-				span_notice("[user] begins filling the [src] with [container]."), 
+				span_notice("[user] begins filling the [src] with [container]."),
 				span_notice("You begin filling the [src] with [container].")
 			)
 
@@ -190,7 +190,10 @@
 
 	switch(medical_skill)
 		if(0 to 3)
-			skill_mod = 4.0
+			if(HAS_TRAIT(user, TRAIT_ZIZO_CLERIC))
+				skill_mod = 2.0 //Zizites have unnatural talent that lets them operate it concerningly faster than everyone else w/out talent
+			else
+				skill_mod = 4.0
 		if(4)
 			skill_mod = 1.0
 		if(5)
@@ -215,7 +218,7 @@
 
 	// Start cranking
 	user.visible_message(
-		span_notice("[user] begins cranking [src]."), 
+		span_notice("[user] begins cranking [src]."),
 		span_notice("You start cranking [src]...")
 	)
 
@@ -254,8 +257,8 @@
 
 	var/mob/living/carbon/human/H = user
 
-	// Check medical skill requirement
-	if(H.get_skill_level(/datum/skill/misc/medicine) < chair_skill_level)
+	// Check medical skill requirement, bypass if zizite devotee
+	if(H.get_skill_level(/datum/skill/misc/medicine) < chair_skill_level && !HAS_TRAIT(H, TRAIT_ZIZO_CLERIC))
 		to_chat(H, span_warning("I don't have the medical expertise to operate this device!"))
 		return
 
@@ -312,7 +315,7 @@
 		occupant.emote("gasp")
 		occupant.Jitter(100)
 		occupant.electrocute_act(100, src, 1)
-		occupant.visible_message(span_notice("[occupant] jerks awake with a gasp!"), 
+		occupant.visible_message(span_notice("[occupant] jerks awake with a gasp!"),
 								span_userdanger("You awaken with agonizing pain as unnatural energy courses through your veins!"))
 		current_brew -= brew_required
 		charge = 0
@@ -323,7 +326,7 @@
 		occupant.apply_status_effect(/atom/movable/screen/alert/status_effect/debuff/revived)
 		addtimer(CALLBACK(src, PROC_REF(deathmark), occupant), 5 MINUTES) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
 		return TRUE
-	
+
 /obj/structure/chair/frankenstein/proc/deathmark(mob/living/victim)
 	if(victim.stat != DEAD)
 		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.

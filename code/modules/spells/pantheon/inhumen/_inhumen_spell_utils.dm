@@ -91,6 +91,9 @@
 		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
+		user.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation/zizo)
+		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/bone_cataclysm)
+		user.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
 		grant_poke_spell(user)
 
 	user.visible_message(
@@ -157,7 +160,7 @@
 	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
 	head?.skeletonize(TRUE)
 	update_body()
-	visible_message(span_userdanger("[src] SCREAMS in UNBELIEVABLE AGONY as their face is torn away, leaving only a hollow skull..."))
+	visible_message(span_userdanger("[src] SCREAMS in UNBELIEVABLE AGONY as their face is torn away, leaving only a hollow skull..."), span_artery("The Lesser Work rejects you entirely. A hopeful lesson for another timeline."))
 	sleep(20)
 	visible_message(span_artery("Their Lux has been completely and utterly annihilated..."))
 
@@ -311,12 +314,12 @@
 	INVOKE_ASYNC(src, PROC_REF(resolve_attack), target, weapon)
 	return COMPONENT_ITEM_NO_ATTACK
 
-/datum/status_effect/buff/mammonite/proc/on_unarmed_attack(mob/living/source, atom/target, proximity) 
-	SIGNAL_HANDLER 
-	if(!isliving(target) || target == owner) 
-		return 
-	var/mob/living/L = target 
-	if(L.stat == DEAD) 
+/datum/status_effect/buff/mammonite/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
+	SIGNAL_HANDLER
+	if(!isliving(target) || target == owner)
+		return
+	var/mob/living/L = target
+	if(L.stat == DEAD)
 		return
 	INVOKE_ASYNC(src, PROC_REF(resolve_attack), L, null)
 	return COMPONENT_HAND_NO_ATTACK
@@ -397,4 +400,4 @@
 	transform = M
 	animate(src, pixel_x = pixel_x + rand(-16,16), pixel_y = pixel_y + rand(8,20), alpha = 0, time = duration, easing = EASE_OUT)
 
-#undef MAMMON_FILTER 
+#undef MAMMON_FILTER
