@@ -1898,3 +1898,7 @@
 /obj/effect/wisp/prestidigitation/willowwisp
 	name = "Will-o'-the-wisp"
 	desc = "A small, fiery ball of light made up of mystical energy."
+
+/obj/effect/wisp/prestidigitation/runelight
+	name = "arcyne mote"
+	desc = "An ethereal ball of pure light, manifested through an arcyne sigil."

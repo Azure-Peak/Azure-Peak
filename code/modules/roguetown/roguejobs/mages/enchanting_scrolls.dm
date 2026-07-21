@@ -4,17 +4,29 @@
 T1 Enchantments below here*/
 
 /obj/item/enchantmentscroll
-	name = "scroll of enchanting"
-	desc = "A scroll imbued with an arcane enchantment. Can be used on certain items to imbue them."
-	icon = 'icons/roguetown/items/misc.dmi'
-	icon_state = "enchantment"
+	name = "runic tincture"
+	desc = "An alchemical ink designed to conduct a specific type of arcana. Can be used on certain items and objects to imbue them."
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayfancyvasecook_bluegold" // temp
 	var/component
-	possible_item_intents = list(/datum/intent/use)
+	possible_item_intents = list(/datum/intent/hand/draw)
 	grid_width = 64
 	grid_height = 32
 	dropshrink = 0.8
+	var/apply_to_pretty // text describing what it can be applied to
+	var/effects_pretty	// text describing what it does when applied
+
+/obj/item/enchantmentscroll/get_mechanics_examine(mob/user)
+	. = ..()
+	if(!isarcyne(user))
+		return
+	. += span_info(apply_to_pretty)
+	. += span_info(effects_pretty)
 
 /obj/item/enchantmentscroll/attack_obj(obj/item/O, mob/living/user)
+	if(!isarcyne(user))
+		to_chat(user, span_warning("You've no idea how to draw the runes needed to use this."))
+		return FALSE
 	if(O.unenchantable)
 		to_chat(user, span_warning("You cannot enchant this item."))
 		return FALSE
@@ -32,392 +44,452 @@ T1 Enchantments below here*/
 // not Crown-fungible.
 
 /obj/item/enchantmentscroll/basic/woodcut
-	name = "enchanting scroll of woodcutting"
-	desc = "A scroll imbued with an enchantment of woodcutting. Good for cutting wood."
+	name = "runic tincture of woodcutting"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of woodcutting."
 	component = /datum/magic_item/mundane/woodcut
+	apply_to_pretty = "Can be applied to axes, halberds, and most other axe-like weapons."
+	effects_pretty = "Increases the woodcutting skill of the user while held."
 
 /obj/item/enchantmentscroll/basic/woodcut/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/rogueweapon/stoneaxe))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of woodcutting"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/basic/mining
-	name = "enchanting scroll of mining"
-	desc = "A scroll imbued with an enchantment of mining. Good for mining rock."
+	name = "runic tincture of mining"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of mining. Good for mining rock."
 	component = /datum/magic_item/mundane/mining
+	apply_to_pretty = "Can be applied to pickaxes and dolabras."
+	effects_pretty = "Increases the mining skill of the user while held."
 
 /obj/item/enchantmentscroll/basic/mining/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/rogueweapon/pick))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of mining"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/basic/xylix
-	name = "enchanting scroll of xylix's grace"
-	desc = "A scroll imbued with an enchantment of luck. Grants luck to its wearer."
+	name = "runic tincture of xylix's grace"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of luck. Grants luck to its wearer."
 	component = /datum/magic_item/mundane/xylix
+	apply_to_pretty = "Can be applied to clothing."
+	effects_pretty = "Increases the user's luck while equipped."
 
 /obj/item/enchantmentscroll/basic/xylix/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of xylixs grace"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/basic/revealinglight
-	name = "enchanting scroll of revealing light"
-	desc = "A scroll imbued with an enchantment of revealing light. Causes an enchanted item to glow with light."
+	name = "runic tincture of revealing light"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of revealing light."
 	component = /datum/magic_item/mundane/revealinglight
+	apply_to_pretty = "Can be applied to any clothing, armor, or weapon; alternately, can be used to draw a rune on the floor."
+	effects_pretty = "Causes an affected item to emit light, or summons a permanent magelight orb on a turf."
+
+/obj/item/enchantmentscroll/basic/revealinglight/attack_turf(turf/T, mob/living/user, multiplier)
+	. = ..()
+	if(!istype(T, /turf/open/floor))
+		to_chat(user, span_warning("I need stable ground to draw a rune on!"))
+		return
+	user.visible_message(span_notice("\The [user] leans down towards \the [T], carefully inscribing a rune..."), span_notice("I start to draw a rune on \the [T] with the arcyne ink..."))
+	if(!do_after(user, 2 SECONDS, target=T))
+		to_chat(user, span_warning("My concentration breaks!"))
+		return
+	new /obj/effect/wisp/prestidigitation/runelight(T)
+	playsound(T, 'sound/items/firelight.ogg', 100)
+	qdel(src)
 
 /obj/item/enchantmentscroll/basic/revealinglight/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing)|| istype(O,/obj/item/rogueweapon))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of revealing light"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/basic/holding
-	name = "enchanting scroll of storage"
-	desc = "A scroll imbued with an enchantment of storage. Doubles the storage space of a container."
+	name = "runic tincture of storage"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of storage."
 	component = /datum/magic_item/mundane/holding
 	w_class = WEIGHT_CLASS_HUGE
+	apply_to_pretty = "Can be applied to any storage item."
+	effects_pretty = "Increases the item's storage by 2 columns, and allows smaller containers to hold objects with more bulk."
 
 /obj/item/enchantmentscroll/basic/holding/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/storage))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of storage"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/basic/magnifiedlight
-	name = "enchanting scroll of magnified light"
-	desc = "A scroll imbued with an enchantment of magnified light. Doubles the range of lightsources."
+	name = "runic tincture of magnified light"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of magnified light."
 	component = /datum/magic_item/mundane/magnifiedlight
+	apply_to_pretty = "Can be applied to any light source sufficiently akin to a torch or lamptern."
+	effects_pretty = "Doubles the range of lightsources."
 
 /obj/item/enchantmentscroll/basic/magnifiedlight/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/flashlight/flare/torch))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of magnified light"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/basic/fairseeming
-	name = "enchanting scroll of fair seeming"
-	desc = "A scroll imbued with an enchantment of fair seeming. Allows an enchanted item to clean its owner."
+	name = "runic tincture of fair seeming"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of fair seeming."
 	component = /datum/magic_item/mundane/fairseeming
+	apply_to_pretty = "Can be applied to hand mirrors or any clothing."
+	effects_pretty = "Right-click the enchanted item to cleanse yourself with magic."
 
 /obj/item/enchantmentscroll/basic/fairseeming/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing)|| istype(O,/obj/item/handmirror))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of fair seeming"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 //T2 Enchantments below
 
 /obj/item/enchantmentscroll/superior/nightvision
-	name = "enchanting scroll of darkvision"
-	desc = "A scroll imbued with an enchantment of darkvision. Good for seeing in the dark."
+	name = "runic tincture of darkvision"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of darkvision."
 	component = /datum/magic_item/superior/nightvision
+	apply_to_pretty = "Can be applied to clothing."
+	effects_pretty = "Grants the bearer nightvision."
 
 /obj/item/enchantmentscroll/superior/nightvision/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of darkvision"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/superior/featherstep
-	name = "enchanting scroll of featherstep"
-	desc = "A scroll imbued with an enchantment of featherstep. Makes you speedier, and makes your footfalls silent."
+	name = "runic tincture of featherstep"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of featherstep. Makes you speedier, and makes your footfalls silent."
 	component = /datum/magic_item/superior/featherstep
+	apply_to_pretty = "Can be applied to boots or a ring."
+	effects_pretty = "Silences footsteps, quickens sneaking, and increases speed."
 
 /obj/item/enchantmentscroll/superior/featherstep/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing/shoes)||istype(O,/obj/item/clothing/ring))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of featherstep"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/superior/climbing
-	name = "enchanting scroll of spider-climbing"
-	desc = "A scroll imbued with an enchantment of spider-climbing. Helps you clamber up difficult surfaces."
+	name = "runic tincture of spider-climbing"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of spider-climbing."
 	component = /datum/magic_item/superior/climbing
+	apply_to_pretty = "Can be applied to clothing."
+	effects_pretty = "Increases the bearer's climbing skill."
 
 /obj/item/enchantmentscroll/superior/climbing/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of spider-climbing"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/superior/thievery
-	name = "enchanting scroll of nimble fingers"
-	desc = "A scroll imbued with an enchantment of thievery. Helps you steal and pick locks."
+	name = "runic tincture of nimble fingers"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of thievery."
 	component = /datum/magic_item/superior/thievery
+	apply_to_pretty = "Can be applied to gloves or a ring."
+	effects_pretty = "Increases the bearer's skill in pickpocketing and lockpicking."
 
 /obj/item/enchantmentscroll/superior/thievery/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing/gloves)||istype(O,/obj/item/clothing/ring))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of nimble fingers"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/superior/smithing
-	name = "enchanting scroll of smithing"
-	desc = "A scroll imbued with an enchantment of smithing. Provides more effective hammer strikes on anvils."
+	name = "runic tincture of smithing"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of smithing.."
 	component = /datum/magic_item/superior/smithing
+	apply_to_pretty = "Can be applied to hammers."
+	effects_pretty = "Increases the chance for deft strikes at an anvil."
 
 /obj/item/enchantmentscroll/superior/smithing/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/rogueweapon/hammer))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of smithing"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 //T3 Enchantments below
 
 /obj/item/enchantmentscroll/greater/lifesteal
-	name = "enchanting scroll of lyfestealing"
-	desc = "A scroll imbued with an enchantment of lyfe stealing. Heals you occasionally when you hit a living foe."
+	name = "runic tincture of lyfestealing"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of lyfe stealing."
 	component = /datum/magic_item/greater/lifesteal
+	apply_to_pretty = "Can be applied to weapons."
+	effects_pretty = "Heals you when striking enemies, on a cooldown."
 
 /obj/item/enchantmentscroll/greater/lifesteal/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/rogueweapon))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of lyfestealing"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/greater/lightning
-	name = "enchanting scroll of lightning"
-	desc = "A scroll imbued with an enchantment of lightning. This enchantment shocks foes with a chance to spread to nearby friends and foes alike."
+	name = "runic tincture of lightning"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of lightning."
 	component = /datum/magic_item/greater/lightning
+	apply_to_pretty = "Can be applied to weapons."
+	effects_pretty = "Shocks struck foes. Lightning occasionally leaps to other targets - including friendly ones."
 
 /obj/item/enchantmentscroll/greater/lightning/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/rogueweapon))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of lightning"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/greater/frostveil
-	name = "enchanting scroll of lesser freezing"
-	desc = "A scroll imbued with an enchantment of lesser freezing. Slows enemies that hit you when applied on armor, or enemies that you hit when applied on weapons."
+	name = "runic tincture of lesser freezing"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of lesser freezing."
 	component = /datum/magic_item/greater/frostveil
+	apply_to_pretty = "Can be applied to clothing or weapons."
+	effects_pretty = "Slows enemies that hit you (on armor) or that you hit (on weapons)."
 
 /obj/item/enchantmentscroll/greater/frostveil/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing)|| istype(O,/obj/item/rogueweapon))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of lesser freezing"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
+
 /obj/item/enchantmentscroll/greater/phoenixguard
-	name = "enchanting scroll of phoenix guard"
-	desc = "A scroll imbued with an enchantment of phoenixguard. Sets those that strike you on fire."
+	name = "runic tincture of phoenix guard"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of phoenixguard."
 	component = /datum/magic_item/greater/phoenixguard
+	apply_to_pretty = "Can be applied to clothing."
+	effects_pretty = "Ignites enemies that strike the bearer."
 
 /obj/item/enchantmentscroll/greater/phoenixguard/attack_obj(obj/item/O, mob/living/user)
 	.=..()
 	if(istype(O,/obj/item/clothing))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of phoenix guard"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/greater/woundclosing
-	name = "enchanting scroll of wound closure"
-	desc = "A scroll imbued with an enchantment of wound closure. Allows you to periodically seal wounds."
+	name = "runic tincture of wound closure"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of wound closure."
 	component = /datum/magic_item/greater/woundclosing
+	apply_to_pretty = "Can be applied to clothing."
+	effects_pretty = "Grants the bearer the ability to heal wounds, similar to a spell or miracle."
 
 /obj/item/enchantmentscroll/greater/woundclosing/attack_obj(obj/item/O, mob/living/user)
 	.=..()
 	if(istype(O,/obj/item/clothing/ring))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of wound closure"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/greater/returningweapon
-	name = "enchanting scroll of returning weapon"
-	desc = "A scroll imbued with an enchantment of returning weapon. Enables you to summon an existing weapon back to you."
+	name = "runic tincture of returning weapon"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of returning weapon."
 	component = /datum/magic_item/greater/returningweapon
+	apply_to_pretty = "Can be applied to gloves or a ring."
+	effects_pretty = "Grants the bearer the ability to bond with a weapon, recalling it to themselves at a later time."
 
 /obj/item/enchantmentscroll/greater/returningweapon/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing/ring)||istype(O,/obj/item/clothing/gloves))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of returning weapon"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/greater/archery
-	name = "enchanting scroll of archery"
-	desc = "A scroll imbued with an enchantment of archery. Provides the wearer with better archery skill."
+	name = "runic tincture of archery"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of archery."
 	component = /datum/magic_item/greater/archery
+	apply_to_pretty = "Can be applied to gloves, rings, or bracers."
+	effects_pretty = "Increases the bearer's archery skill."
 
 /obj/item/enchantmentscroll/greater/archery/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/clothing/ring)||istype(O,/obj/item/clothing/gloves)|| istype(O, /obj/item/clothing/wrists/roguetown/bracers))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of archery"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 //T4 below here
 
 /obj/item/enchantmentscroll/mythic/infernalflame
-	name = "enchanting scroll of infernalflame"
-	desc = "A scroll imbued with an enchantment of infernalflame. Hitting an opponent sets them on fire."
+	name = "runic tincture of infernalflame"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of infernalflame. Hitting an opponent sets them on fire."
 	component = /datum/magic_item/mythic/infernalflame
+	apply_to_pretty = "Can be applied to weapons, ranged weaponry, or clothing."
+	effects_pretty = "Ignites struck enemies (on weaponry) or enemies that strike the bearer (on clothing)."
 
 /obj/item/enchantmentscroll/mythic/infernalflame/attack_obj(obj/item/O, mob/living/user)
 	.=..()
 	if(istype(O,/obj/item/gun/ballistic/revolver/grenadelauncher)|| istype(O,/obj/item/rogueweapon)|| istype(O,/obj/item/clothing))	//bow and crossbows included
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of infernal flame"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/mythic/freeze
-	name = "enchanting scroll of greater freezing"
-	desc = "A scroll imbued with an enchantment of greater freezing. Heavily slows enemies with an intense chill."
+	name = "runic tincture of greater freezing"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of greater freezing."
 	component = /datum/magic_item/mythic/freezing
+	apply_to_pretty = "Can be applied to weapons, ranged weaponry, or clothing."
+	effects_pretty = "Freezes struck enemies (on weaponry) or enemies that strike the bearer (on clothing)."
 
 /obj/item/enchantmentscroll/mythic/freeze/attack_obj(obj/item/O, mob/living/user)
 	.=..()
 	if(istype(O,/obj/item/gun/ballistic/revolver/grenadelauncher)||istype(O,/obj/item/clothing)|| istype(O,/obj/item/rogueweapon))//bow and crossbows included
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of greater freezing"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/mythic/rewind
-	name = "enchanting scroll of temporal rewind"
-	desc = "A scroll imbued with an enchantment of temporal. Teleports you back to where you were hit, a few seconds after being hit."
+	name = "runic tincture of temporal rewind"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of temporal rewind."
 	component = /datum/magic_item/mythic/rewind
+	apply_to_pretty = "Can be applied to weapons or clothing."
+	effects_pretty = "A few seconds after being struck, the bearer will teleport back to the location of the blow."
 
 /obj/item/enchantmentscroll/mythic/rewind/attack_obj(obj/item/O, mob/living/user)
 	.=..()
 	if(istype(O,/obj/item/clothing)|| istype(O,/obj/item/rogueweapon))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of temporal rewind"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
 
 /obj/item/enchantmentscroll/mythic/briars
-	name = "enchanting scroll of briar's curse"
-	desc = "A scroll imbued with an enchantment of briar's curse. A weapon with this enchantment does more damage, but damages its wielder in return."
+	name = "runic tincture of briar's curse"
+	desc = "A vial of quicksilver ink, imbued with an enchantment of briar's curse."
 	component = /datum/magic_item/mythic/briarcurse
+	apply_to_pretty = "Can be applied to weapons."
+	effects_pretty = "Increases a weapon's force, but its durability decays faster."
 
 /obj/item/enchantmentscroll/mythic/briars/attack_obj(obj/item/O, mob/living/user)
 	if(!..())
 		return
 	if(istype(O,/obj/item/rogueweapon))
-		to_chat(user, span_notice("You open [src] and place [O] within. Moments later, it flashes blue with arcana, and [src] crumbles to dust."))
+		to_chat(user, span_notice("You scribe intricate runes onto [O] with [src], imbuing it with an enchantment!"))
 		var/magiceffect= new component
 		O.AddComponent(/datum/component/magic_item, magiceffect)
 		O.name += " of briar's curse"
 		qdel(src)
 	else
-		to_chat(user, span_notice("Nothing happens. Perhaps you can't enchant [O] with this?"))
+		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
