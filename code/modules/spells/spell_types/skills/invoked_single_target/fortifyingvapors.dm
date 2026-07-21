@@ -136,8 +136,11 @@
 	var/outline_colour = "#9ebb5b"
 	var/datum/herbal_recipe/recipe
 
-/datum/status_effect/buff/fortifyingvapors/on_apply(datum/herbal_recipe/R)
+/datum/status_effect/buff/fortifyingvapors/on_creation(mob/living/new_owner, datum/herbal_recipe/R)
 	recipe = R
+	. = ..()
+
+/datum/status_effect/buff/fortifyingvapors/on_apply(datum/herbal_recipe/R)
 
 	var/filter = owner.get_filter(VAPORS_HEALING_FILTER)
 	if(!filter)
@@ -171,29 +174,6 @@
 	if(owner.getOxyLoss())
 		owner.adjustOxyLoss(-min(oxy_heal, owner.getOxyLoss()), 0)
 
-	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -base_heal)
-	owner.adjustCloneLoss(-base_heal, 0)
-
-	if(recipe?.blood)
-		var/blood_heal = BLOOD_VOLUME_NORMAL * (recipe.blood * 0.01)
-		owner.blood_volume = min(owner.blood_volume + blood_heal, BLOOD_VOLUME_NORMAL)
-
-	if(recipe?.wounds)
-		for(var/datum/wound/W in owner.get_wounds())
-			if(W.whp <= 0)
-				continue
-
-			var/wound_heal = max(W.whp * (recipe.wounds * 0.01), 0.5)
-			wound_heal = min(wound_heal, W.whp)
-
-			W.heal_wound(wound_heal)
-
-			if(W.bleed_rate > 0)
-				var/bleed_heal = max(W.bleed_rate * (recipe.wounds * 0.1), 0.2)
-				W.set_bleed_rate(max(W.bleed_rate - bleed_heal, 0))
-
-	owner.update_damage_overlays()
-
 /datum/status_effect/buff/fortifyingvapors/on_remove()
 	owner.remove_filter(VAPORS_HEALING_FILTER)
 	owner.update_damage_hud()
@@ -208,8 +188,11 @@
 	var/outline_colour = "#9ebb5b"
 	var/min_heal = 0.25
 
-/datum/status_effect/buff/healingvapors/on_apply(datum/herbal_recipe/R)
+/datum/status_effect/buff/healingvapors/on_creation(mob/living/new_owner, datum/herbal_recipe/R)
 	recipe = R
+	. = ..()
+
+/datum/status_effect/buff/healingvapors/on_apply(datum/herbal_recipe/R)
 
 	var/filter = owner.get_filter(VAPORS_HEALING_FILTER)
 	if(!filter)
@@ -218,48 +201,23 @@
 	return TRUE
 
 /datum/status_effect/buff/healingvapors/tick()
-	if(!recipe)
-		return
-
-	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/fortifyingvapors(get_turf(owner))
-	H.color = "#9ebb5b"
-
 	if(recipe.brute)
 		var/brute = owner.getBruteLoss()
 		if(brute > 0)
 			var/heal = max(brute * (recipe.brute * 0.01), min_heal)
-			heal = min(heal, brute)
-			owner.adjustBruteLoss(-heal, 0)
+			owner.adjustBruteLoss(-min(heal, brute), 0)
 
 	if(recipe.burn)
 		var/burn = owner.getFireLoss()
 		if(burn > 0)
 			var/heal = max(burn * (recipe.burn * 0.01), min_heal)
-			heal = min(heal, burn)
-			owner.adjustFireLoss(-heal, 0)
+			owner.adjustFireLoss(-min(heal, burn), 0)
 
 	if(recipe.toxin)
 		var/toxin = owner.getToxLoss()
 		if(toxin > 0)
 			var/heal = max(toxin * (recipe.toxin * 0.01), min_heal)
-			heal = min(heal, toxin)
-			owner.adjustToxLoss(-heal, 0)
-
-	if(recipe.wounds)
-		for(var/datum/wound/W in owner.get_wounds())
-			if(W.whp <= 0)
-				continue
-
-			var/heal = max(W.whp * (recipe.wounds * 0.01), min_heal)
-			heal = min(heal, W.whp)
-
-			W.heal_wound(heal)
-
-	if(recipe.blood)
-		var/blood_heal = BLOOD_VOLUME_NORMAL * (recipe.blood * 0.01)
-		owner.blood_volume = min(owner.blood_volume + blood_heal, BLOOD_VOLUME_NORMAL)
-
-	owner.update_damage_overlays()
+			owner.adjustToxLoss(-min(heal, toxin), 0)
 
 /datum/status_effect/buff/healingvapors/on_remove()
 	owner.remove_filter(VAPORS_HEALING_FILTER)

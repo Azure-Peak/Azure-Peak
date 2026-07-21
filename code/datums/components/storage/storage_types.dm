@@ -170,7 +170,8 @@
 		/obj/item/herbseed,
 		/obj/item/reagent_containers/food/snacks/grown/manabloom,
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
-		/obj/item/ash
+		/obj/item/ash,
+		/obj/item/herb_powder,
 		))
 
 /datum/component/storage/concrete/roguetown/saddle

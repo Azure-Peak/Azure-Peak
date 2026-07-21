@@ -20,7 +20,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE, 
+		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
@@ -53,7 +53,7 @@
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
-	
+
 	if(H.mind)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
@@ -68,9 +68,8 @@
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors)
 
-		if(/datum/patron/old_god) // ENDVRE LIKE THE MAN(or woman, or nonbinary) YOU ARE SUPPOSED TO BE, CHUD!
-			to_chat(H, span_blue("No matter how much you pray, you weep, and you endure. HE does not answer... Your trial begins now."))
-			H.emote("cry")
+		if(/datum/patron/old_god)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors)
 
 		else
 			var/list/heal = list("Miracle (Divine)", "Fortifying Vapors (Secular)")
@@ -217,9 +216,8 @@
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors)
 
-		if(/datum/patron/old_god) // ENDVRE LIKE THE MAN(or woman, or nonbinary) YOU ARE SUPPOSED TO BE, CHUD!
-			to_chat(H, span_blue("No matter how much you pray, you weep, and you endure. HE does not answer... Your trial begins now."))
-			H.emote("cry")
+		if(/datum/patron/old_god)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors)
 
 		else
 			var/list/heal = list("Miracle (Divine)", "Fortifying Vapors (Secular)")
@@ -372,10 +370,36 @@
 		)
 	grant_poke_spell(H)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
+
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/selfbuff)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
+
+	switch(H.patron?.type)
+		if(/datum/patron/divine/undivided)
+			var/list/heal = list("Greater Miracle (Miracle)", "Fortifying Vapors (Secular)")
+			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(highheal_options)
+				if("Greater Miracle (Divine)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
+				if("Fortifying Vapors (Secular)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors)
+
+		if(/datum/patron/old_god)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors)
+
+		else
+			var/list/heal = list("Miracle (Divine)", "Fortifying Vapors (Secular)")
+			var/heal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
+			switch(heal_options)
+				if("Miracle (Divine)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal)
+				if("Fortifying Vapors (Secular)")
+					H.mind.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors)
+
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			id = /obj/item/clothing/neck/roguetown/psicross

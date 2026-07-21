@@ -150,6 +150,9 @@
 		/obj/item/seeds/swampweed = 1,
 		/obj/item/seeds/pipeweed = 1,
 		/obj/item/chalk = 1,
+		/obj/item/flashlight/flare/torch/lantern/censer = 1,
+		/obj/item/herbmill = 1,
+		/obj/item/paper/herb_censer_prep_recipe = 1,
 		)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
