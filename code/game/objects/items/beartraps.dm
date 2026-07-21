@@ -20,7 +20,7 @@
 	throw_range = 1
 	icon_state = "beartrap"
 	desc = "A crude and rusty spring trap, used to snare interlopers, or prey on a hunt. Looks almost like falling apart."
-	var/rusty = TRUE // Is it an old trap? Will most likely be destroyed if not handled right
+	var/rusty = FALSE // Is it an old trap? Will most likely be destroyed if not handled right
 	var/armed = FALSE // Is it armed?
 	var/trap_damage = 90 // How much brute damage the trap will do to its victim
 	var/used_time = 12 SECONDS // How many seconds it takes to disarm the trap
