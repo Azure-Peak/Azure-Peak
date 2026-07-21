@@ -102,12 +102,22 @@
 	grid_width = 256
 	grid_height = 256
 
+
 /obj/item/restraints/legcuffs/beartrap/armed/camouflage
 	w_class = WEIGHT_CLASS_BULKY
 	armed = TRUE
 	alpha = 80
 	grid_width = 256
 	grid_height = 256
+
+// realistically, both of theses hould be rusty by default but im just subtyping them for now.
+/obj/item/restraints/legcuffs/beartrap/armed/rusty
+	name = "rusty mantrap"
+	rusty = TRUE
+
+/obj/item/restraints/legcuffs/beartrap/armed/camouflage/rusty
+	name = "rusty mantrap"
+	rusty = TRUE
 
 /obj/item/restraints/legcuffs/beartrap/Initialize()
 	. = ..()
