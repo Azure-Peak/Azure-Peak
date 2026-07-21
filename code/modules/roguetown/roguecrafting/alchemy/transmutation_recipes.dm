@@ -176,25 +176,25 @@
 /datum/transmutation_recipe/xanthosis/coal
 	name = "Coal Platonization"
 	materia_aspects = list(/datum/materia_aspect/earth)
-	input_items = list(/obj/item/alch/coaldust = 1)
+	input_items = list(/obj/item/alch/coaldust = 3)
 	output_items = list(/obj/item/rogueore/coal = 1) // all dust ungrinding recipes are value-negative because of the materia cost
 
 /datum/transmutation_recipe/xanthosis/iron
 	name = "Iron Platonization"
 	materia_aspects = list(/datum/materia_aspect/earth)
-	input_items = list(/obj/item/alch/irondust = 1)
+	input_items = list(/obj/item/alch/irondust = 3)
 	output_items = list(/obj/item/rogueore/iron = 1) // all dust ungrinding recipes are value-negative because of the materia cost
 
 /datum/transmutation_recipe/xanthosis/gold
 	name = "Gold Platonization"
 	materia_aspects = list(/datum/materia_aspect/earth)
-	input_items = list(/obj/item/alch/golddust = 1)
+	input_items = list(/obj/item/alch/golddust = 3)
 	output_items = list(/obj/item/rogueore/gold = 1) // all dust ungrinding recipes are value-negative because of the materia cost
 
 /datum/transmutation_recipe/xanthosis/silver
 	name = "Silver Platonization"
 	materia_aspects = list(/datum/materia_aspect/earth)
-	input_items = list(/obj/item/alch/silverdust = 1)
+	input_items = list(/obj/item/alch/silverdust = 3)
 	output_items = list(/obj/item/rogueore/silver = 1) // all dust ungrinding recipes are value-negative because of the materia cost
 
 /datum/transmutation_recipe/xanthosis/toper
