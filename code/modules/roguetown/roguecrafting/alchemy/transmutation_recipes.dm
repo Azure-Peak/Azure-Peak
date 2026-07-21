@@ -18,7 +18,7 @@
 	output_items = list(/obj/item/natural/fibers = 3)
 
 /datum/transmutation_recipe/florid/grain_to_westleach
-	name = "Grain Sanguination (Grain)"
+	name = "Grain Sanguination (Westleach)"
 	materia_aspects = list(/datum/materia_aspect/herb)
 	input_items = list(/obj/item/reagent_containers/food/snacks/grown/wheat = 2)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed = 1)
