@@ -488,8 +488,8 @@ Inquisitorial armory down here
 	new /obj/effect/temp_visual/frozen_mist_tile(get_turf(attacker))
 	if(issimple(attacker) || !attacker.mind)
 		attacker.apply_status_effect(/datum/status_effect/syonchurn, src)
-
-	attacker.adjustFireLoss(10)
+	var/zone = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+	arcyne_strike(src, attacker, null, 10, zone, BCLASS_BURN, 100, "grief", TRUE, TRUE, FALSE, BURN, null, null, null, null)
 
 #define SYONCHURN_FILTER "syonchurn glow"
 
@@ -552,7 +552,9 @@ Inquisitorial armory down here
 		qdel(src)
 		return
 
-	owner.adjustFireLoss(damage_per_tick * intensity)
+	var/dmg = damage_per_tick * intensity
+	var/zone = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+	arcyne_strike(caster, owner, null, dmg, zone, BCLASS_BURN, 100, "grief", TRUE, TRUE, FALSE, BURN, null, null, null, null)
 
 	if(world.time >= agony)
 		agony = world.time + rand(5,15) SECONDS
