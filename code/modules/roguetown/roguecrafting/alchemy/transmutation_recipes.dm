@@ -145,18 +145,17 @@
 	var/quality = SMELTERY_LEVEL_SPOIL
 	for(var/obj/item/I in ingredients)
 		user.visible_message(span_notice("[user] decomposes [I] into its fundamental components!"), span_notice("I decompose [I], salvaging its component material!"))
-		for(var/idx in 1 to I.smelt_bar_num)
-			var/obj/item/res = new I.smeltresult(parent.loc)
-			if(istype(res, /obj/item/ingot))
-				if(alch_exp < 6)
-					quality = min(6, floor(rand(alch_exp*15 + 10, max(30, alch_exp*25))/25)+1) // Math explained below
-				else
-					quality = 6 // Guarantees a return of 6 no matter how extra experience past 3000 you have.
-				var/obj/item/ingot/ing = res
-				ing.apply_smelt_quality(quality)
-			res.was_crafted = TRUE
-			res.OnCrafted(get_dir(user, parent), user)
-			res.add_fingerprint(user)
+		var/obj/item/res = new I.smeltresult(parent.loc)
+		if(istype(res, /obj/item/ingot))
+			if(alch_exp < 6)
+				quality = min(6, floor(rand(alch_exp*15 + 10, max(30, alch_exp*25))/25)+1) // Math explained below
+			else
+				quality = 6 // Guarantees a return of 6 no matter how extra experience past 3000 you have.
+			var/obj/item/ingot/ing = res
+			ing.apply_smelt_quality(quality)
+		res.was_crafted = TRUE
+		res.OnCrafted(get_dir(user, parent), user)
+		res.add_fingerprint(user)
 		qdel(I)
 
 /datum/transmutation_recipe/nigredo/smelt_decomposition/generate_html(mob/user)
