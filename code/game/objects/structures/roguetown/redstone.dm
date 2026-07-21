@@ -787,8 +787,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 /obj/structure/floordoor/gatehatch
 	name = ""
 	desc = ""
-	base_state = ""
-	icon_state = "gatehatch"
+	base_state = "gatehatch"
+	icon_state = "gatehatch1"
 	var/changing_state = FALSE
 	var/delay2open = 0
 	var/delay2close = 0

@@ -65,7 +65,6 @@
 	smelt_bar_num = 1
 	grid_height = 96
 	grid_width = 96
-	sellprice = 200
 	unenchantable = TRUE
 
 /obj/item/clothing/wrists/roguetown/bracers/gold/king
@@ -173,7 +172,6 @@
 	icon_state = "albracers"
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_SIDE_STEEL
-	sellprice = 10
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
 	color = "#7f829d"

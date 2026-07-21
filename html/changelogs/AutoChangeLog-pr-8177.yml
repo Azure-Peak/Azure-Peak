@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "The woodcutting enchantment can now be applied to more 'axe-like' weapons: greataxes, halberds, poleaxes, etc. Previously, it could only be applied to specific types of axes (the one-handed, non-weapon kind mostly)."

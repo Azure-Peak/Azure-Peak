@@ -1021,13 +1021,6 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 	icon = 'icons/effects/effects.dmi'
 	duration = 3
 
-/atom/movable/proc/do_warning()
-	var/image/I
-	I = image('icons/effects/effects.dmi', src, "mobwarning", src.layer + 0.1)
-	I.pixel_y = 16
-	flick_overlay(I, GLOB.clients, 5)
-
-
 /atom/movable/vv_get_dropdown()
 	. = ..()
 	. += "<option value='?_src_=holder;[HrefToken()];adminplayerobservefollow=[REF(src)]'>Follow</option>"
@@ -1184,12 +1177,12 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 		to_x = -32
 	if(!direction)
 		to_y = 16
-	flick_overlay(I, GLOB.clients, 6)
+	var/atom/movable/flick_visual/pickup = T.flick_overlay_view(I, 6)
 	var/matrix/M = new
 	M.Turn(pick(-30, 30))
-	animate(I, alpha = 175, pixel_x = to_x, pixel_y = to_y, time = 3, transform = M, easing = CUBIC_EASING)
+	animate(pickup, alpha = 175, pixel_x = to_x, pixel_y = to_y, time = 3, transform = M, easing = CUBIC_EASING)
 	sleep(1)
-	animate(I, alpha = 0, transform = matrix(), time = 1)
+	animate(pickup, alpha = 0, transform = matrix(), time = 1)
 
 /atom/movable/Exited(atom/movable/gone, atom/newLoc)
 	. = ..()

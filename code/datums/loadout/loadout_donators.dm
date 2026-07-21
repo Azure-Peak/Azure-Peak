@@ -661,3 +661,8 @@
 	name = "Donator Kit - Obsidian Tower"
 	path = /obj/item/enchantingkit/racobio_staff
 	ckeywhitelist = list("racobio")
+
+/datum/loadout_item/donator/cobb_conviction
+	name = "Donator Kit - Conviction"
+	path = /obj/item/enchantingkit/weapon/cobb_conviction
+	ckeywhitelist = list("cobbantichrist")

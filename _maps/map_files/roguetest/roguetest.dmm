@@ -108,9 +108,6 @@
 /obj/structure/roguemachine/vaultbank,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/manor)
-"dg" = (
-/turf/open/water/ocean/deep,
-/area/rogue/outdoors/beach/north)
 "dn" = (
 /obj/machinery/light/rogue/candle/floorcandle/pink,
 /turf/open/floor/rogue/churchbrick,
@@ -188,17 +185,17 @@
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/bog/north)
-"gi" = (
-/turf/open/rebound,
-/area/rogue/outdoors)
 "gP" = (
 /obj/structure/table/cooling,
 /obj/item/storage/roguebag,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
-"hc" = (
-/turf/open/water/ocean/deep,
-/area/rogue/outdoors/beach)
+"gQ" = (
+/obj/structure/roguemachine/dream_pool{
+	redstone_id = "dreampool"
+	},
+/turf/open/rebound,
+/area/rogue/outdoors)
 "hh" = (
 /turf/closed/mineral/random/rogue,
 /area/rogue/outdoors/rtfield)
@@ -237,6 +234,12 @@
 /obj/item/rogueweapon/greatsword,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"hN" = (
+/obj/item/dream_material/parchment_dream,
+/obj/item/dream_material/parchment_dream,
+/obj/item/dream_material/parchment_dream,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "hQ" = (
 /obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/cobblerock,
@@ -273,6 +276,9 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors)
+"iv" = (
+/turf/open/water/ocean/deep,
+/area/rogue/outdoors)
 "ix" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/item/reagent_containers/food/snacks/grown/wheat,
@@ -303,14 +309,11 @@
 /obj/item/reagent_containers/powder/ozium,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
+"jA" = (
+/turf/open/floor/rogue/snow,
+/area/rogue/outdoors/beach/south)
 "jC" = (
 /obj/structure/bed/rogue,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
-"jG" = (
-/obj/item/dream_material/parchment_silver,
-/obj/item/dream_material/parchment_silver,
-/obj/item/dream_material/parchment_silver,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors)
 "jI" = (
@@ -507,6 +510,9 @@
 /obj/item/seeds/wheat/oat,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
+"pi" = (
+/turf/open/water/ocean,
+/area/rogue/outdoors/beach/south)
 "pk" = (
 /obj/structure/rack/rogue/shelf/big{
 	icon_state = "shelf_biggest";
@@ -555,9 +561,6 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
-"ql" = (
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/beach)
 "qI" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -690,10 +693,7 @@
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors)
 "tn" = (
-/obj/structure/lever{
-	redstone_id = "dreampool"
-	},
-/turf/open/floor/rogue/dirt/road,
+/turf/open/rebound,
 /area/rogue/outdoors)
 "tt" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled,
@@ -713,6 +713,9 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/rtfield)
+"tN" = (
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/beach)
 "tT" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/bull,
 /turf/open/floor/rogue/hay,
@@ -772,6 +775,9 @@
 	icon_state = "carpet_r"
 	},
 /area/rogue/indoors/town/manor)
+"uN" = (
+/turf/open/water/ocean,
+/area/rogue/outdoors/beach)
 "va" = (
 /obj/structure/roguemachine/mossmother/travel,
 /turf/open/floor/rogue/grass,
@@ -831,6 +837,9 @@
 	},
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors)
+"wx" = (
+/turf/open/water,
+/area/rogue/outdoors)
 "wE" = (
 /obj/structure/roguemachine/headeater,
 /turf/open/floor/rogue/carpet/lord/right,
@@ -852,6 +861,12 @@
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors)
+"xn" = (
+/obj/item/dream_material/parchment_silver,
+/obj/item/dream_material/parchment_silver,
+/obj/item/dream_material/parchment_silver,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "xt" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -870,9 +885,6 @@
 "xy" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors)
-"xz" = (
-/turf/open/water/ocean,
-/area/rogue/outdoors/beach)
 "xB" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -917,6 +929,12 @@
 /obj/item/clothing/gloves/roguetown/plate,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"yo" = (
+/obj/item/dream_material/parchment_gold,
+/obj/item/dream_material/parchment_gold,
+/obj/item/dream_material/parchment_gold,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "yw" = (
 /obj/item/natural/bundle/fibers/full,
 /obj/item/natural/bundle/fibers/full,
@@ -954,12 +972,6 @@
 /obj/item/rogueweapon/sword/long/exe,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
-"yQ" = (
-/obj/structure/roguemachine/dream_pool{
-	redstone_id = "dreampool"
-	},
-/turf/open/rebound,
-/area/rogue/outdoors)
 "zb" = (
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/tile/harem,
@@ -978,6 +990,9 @@
 /obj/item/storage/roguebag,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
+"zY" = (
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/beach/north)
 "Ab" = (
 /obj/machinery/light/rogue/candle/floorcandle/pink,
 /obj/structure/roguemachine/scrapper/tailor,
@@ -1084,6 +1099,49 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
+"Cy" = (
+/obj/item/dream_material/dream_seed,
+/obj/item/dream_material/dream_seed,
+/obj/item/dream_material/dream_seed,
+/obj/item/dream_material/dream_seed,
+/obj/item/dream_material/dream_seed,
+/obj/item/dream_material/dream_ring,
+/obj/item/dream_material/dream_ring,
+/obj/item/dream_material/dream_ring,
+/obj/item/dream_material/dream_ring,
+/obj/item/dream_material/dream_ring,
+/obj/item/dream_material/dream_effigy,
+/obj/item/dream_material/dream_effigy,
+/obj/item/dream_material/dream_effigy,
+/obj/item/dream_material/dream_effigy,
+/obj/item/dream_material/dream_effigy,
+/obj/item/dream_material/dream_fishes,
+/obj/item/dream_material/dream_fishes,
+/obj/item/dream_material/dream_fishes,
+/obj/item/dream_material/dream_fishes,
+/obj/item/dream_material/dream_fishes,
+/obj/item/dream_material/dream_blade,
+/obj/item/dream_material/dream_blade,
+/obj/item/dream_material/dream_blade,
+/obj/item/dream_material/dream_blade,
+/obj/item/dream_material/dream_blade,
+/obj/item/dream_material/dream_shards,
+/obj/item/dream_material/dream_shards,
+/obj/item/dream_material/dream_shards,
+/obj/item/dream_material/dream_shards,
+/obj/item/dream_material/dream_shards,
+/obj/item/dream_material/dream_spike,
+/obj/item/dream_material/dream_spike,
+/obj/item/dream_material/dream_spike,
+/obj/item/dream_material/dream_spike,
+/obj/item/dream_material/dream_spike,
+/obj/item/dream_material/dream_star,
+/obj/item/dream_material/dream_star,
+/obj/item/dream_material/dream_star,
+/obj/item/dream_material/dream_star,
+/obj/item/dream_material/dream_star,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "CB" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/trufflepig,
 /turf/open/floor/rogue/hay,
@@ -1213,6 +1271,9 @@
 /obj/item/rogueweapon/huntingknife,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
+"EW" = (
+/turf/open/water/river/flow/north,
+/area/rogue/outdoors)
 "Fi" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/rtfield)
@@ -1229,12 +1290,6 @@
 /obj/item/clothing/shoes/roguetown/boots/armor,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
-"Gd" = (
-/obj/item/dream_material/parchment_gold,
-/obj/item/dream_material/parchment_gold,
-/obj/item/dream_material/parchment_gold,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
 "Gk" = (
 /obj/structure/roguemachine/scomm,
 /turf/closed/wall/mineral/rogue/decostone/cand,
@@ -1276,6 +1331,9 @@
 /obj/machinery/light/rogue/candle/blue,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
+"HN" = (
+/turf/open/water/swamp/deep,
+/area/rogue/outdoors)
 "HO" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -1293,6 +1351,12 @@
 /obj/structure/fluff/nest,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
+"Ib" = (
+/obj/structure/lever{
+	redstone_id = "dreampool"
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "Ie" = (
 /obj/item/flashlight/flare/torch/lantern,
 /turf/open/floor/rogue/cobblerock,
@@ -1317,10 +1381,6 @@
 /obj/structure/table/vtable,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors)
-"JM" = (
-/obj/structure/roguemachine/ritual_rune,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
 "Ka" = (
 /obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/cobble,
@@ -1364,9 +1424,6 @@
 /obj/structure/table/vtable/v2,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors)
-"Lw" = (
-/turf/open/floor/rogue/snow,
-/area/rogue/outdoors/beach/south)
 "Lz" = (
 /obj/effect/landmark/quest_spawner/defense,
 /turf/open/floor/rogue/cobblerock,
@@ -1508,25 +1565,11 @@
 /obj/structure/roguewindow,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
-"Ox" = (
-/obj/item/dream_material/parchment_dream,
-/obj/item/dream_material/parchment_dream,
-/obj/item/dream_material/parchment_dream,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
 "OI" = (
 /turf/closed/wall/mineral/rogue/decostone/long{
 	dir = 1
 	},
 /area/rogue/indoors/town/manor)
-"OM" = (
-/obj/item/dream_material/parchment_raw,
-/obj/item/dream_material/parchment_raw,
-/obj/item/dream_material/parchment_raw,
-/obj/item/dream_material/parchment_raw,
-/obj/item/dream_material/parchment_raw,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
 "OQ" = (
 /obj/structure/table/cooling,
 /turf/open/floor/rogue/blocks/stonered/tiny,
@@ -1563,9 +1606,6 @@
 /obj/structure/well,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
-"PY" = (
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/beach/north)
 "Qe" = (
 /obj/structure/roguemachine/goldface/public/smith,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -1580,9 +1620,6 @@
 /obj/item/rogueweapon/spear,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
-"Qh" = (
-/turf/open/water/ocean,
-/area/rogue/outdoors/beach/south)
 "Ql" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -1651,6 +1688,13 @@
 "TN" = (
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors)
+"TO" = (
+/obj/structure/roguemachine/ritual_rune,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
+"TX" = (
+/turf/open/water/ocean/deep,
+/area/rogue/outdoors/beach/north)
 "Ue" = (
 /obj/structure/roguemachine/ship_fulfillment,
 /turf/open/floor/rogue/tile/masonic/single,
@@ -1664,6 +1708,9 @@
 /obj/item/clothing/suit/roguetown/armor/leather/studded,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors)
+"Us" = (
+/turf/open/water/ocean/deep,
+/area/rogue/outdoors/beach)
 "Ut" = (
 /obj/item/reagent_containers/peppermill{
 	pixel_x = -10;
@@ -1852,6 +1899,14 @@
 /obj/structure/roguemachine/steward_export,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors)
+"Zm" = (
+/obj/item/dream_material/parchment_raw,
+/obj/item/dream_material/parchment_raw,
+/obj/item/dream_material/parchment_raw,
+/obj/item/dream_material/parchment_raw,
+/obj/item/dream_material/parchment_raw,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "Zu" = (
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/warehouse)
@@ -1868,49 +1923,6 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
-"ZU" = (
-/obj/item/dream_material/dream_seed,
-/obj/item/dream_material/dream_seed,
-/obj/item/dream_material/dream_seed,
-/obj/item/dream_material/dream_seed,
-/obj/item/dream_material/dream_seed,
-/obj/item/dream_material/dream_ring,
-/obj/item/dream_material/dream_ring,
-/obj/item/dream_material/dream_ring,
-/obj/item/dream_material/dream_ring,
-/obj/item/dream_material/dream_ring,
-/obj/item/dream_material/dream_effigy,
-/obj/item/dream_material/dream_effigy,
-/obj/item/dream_material/dream_effigy,
-/obj/item/dream_material/dream_effigy,
-/obj/item/dream_material/dream_effigy,
-/obj/item/dream_material/dream_fishes,
-/obj/item/dream_material/dream_fishes,
-/obj/item/dream_material/dream_fishes,
-/obj/item/dream_material/dream_fishes,
-/obj/item/dream_material/dream_fishes,
-/obj/item/dream_material/dream_blade,
-/obj/item/dream_material/dream_blade,
-/obj/item/dream_material/dream_blade,
-/obj/item/dream_material/dream_blade,
-/obj/item/dream_material/dream_blade,
-/obj/item/dream_material/dream_shards,
-/obj/item/dream_material/dream_shards,
-/obj/item/dream_material/dream_shards,
-/obj/item/dream_material/dream_shards,
-/obj/item/dream_material/dream_shards,
-/obj/item/dream_material/dream_spike,
-/obj/item/dream_material/dream_spike,
-/obj/item/dream_material/dream_spike,
-/obj/item/dream_material/dream_spike,
-/obj/item/dream_material/dream_spike,
-/obj/item/dream_material/dream_star,
-/obj/item/dream_material/dream_star,
-/obj/item/dream_material/dream_star,
-/obj/item/dream_material/dream_star,
-/obj/item/dream_material/dream_star,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
 
 (1,1,1) = {"
 dB
@@ -2686,9 +2698,9 @@ tx
 Rk
 Lg
 Lg
-Lw
-Lw
-Lw
+jA
+jA
+jA
 Lg
 yF
 "}
@@ -2738,9 +2750,9 @@ Rk
 Rk
 Lg
 Lg
-Qh
-Qh
-Lw
+pi
+pi
+jA
 Lg
 yF
 "}
@@ -2874,7 +2886,7 @@ ie
 ie
 vq
 vq
-cY
+vq
 vq
 vq
 hh
@@ -2925,9 +2937,9 @@ ie
 wk
 Gm
 vq
-vq
-vq
-vq
+wx
+wx
+wx
 vq
 hh
 hh
@@ -2977,10 +2989,10 @@ ie
 LB
 vf
 vq
+iv
+iv
+iv
 vq
-vq
-vq
-cY
 wX
 wX
 MX
@@ -3029,9 +3041,9 @@ ie
 Vt
 Np
 vq
-cY
-vq
-vq
+HN
+HN
+HN
 vq
 wX
 wX
@@ -3081,10 +3093,10 @@ ie
 ie
 nU
 vq
+EW
+EW
+EW
 vq
-vq
-vq
-cY
 wX
 wX
 rm
@@ -3340,9 +3352,9 @@ rT
 Yf
 hq
 rT
-gi
-gi
-gi
+tn
+tn
+tn
 rT
 vq
 wX
@@ -3362,9 +3374,9 @@ aa
 wX
 bW
 bW
-PY
-PY
-PY
+zY
+zY
+zY
 bW
 rk
 "}
@@ -3392,10 +3404,10 @@ rT
 YU
 XN
 rT
-gi
-yQ
-gi
-OM
+tn
+gQ
+tn
+Zm
 vq
 wX
 wX
@@ -3414,9 +3426,9 @@ wX
 wX
 bW
 bW
-PY
-dg
-dg
+zY
+TX
+TX
 bW
 rk
 "}
@@ -3444,10 +3456,10 @@ rT
 rT
 BU
 rT
-gi
-gi
-gi
-jG
+tn
+tn
+tn
+xn
 vq
 hh
 hh
@@ -3496,10 +3508,10 @@ rT
 rT
 rT
 rT
-ZU
-JM
-Ox
-Gd
+Cy
+TO
+hN
+yo
 vq
 hh
 hh
@@ -3601,7 +3613,7 @@ rT
 sG
 rT
 rT
-tn
+Ib
 rT
 rT
 vq
@@ -4090,9 +4102,9 @@ Kx
 cQ
 cQ
 cQ
-ql
-ql
-ql
+tN
+tN
+tN
 cQ
 il
 "}
@@ -4142,9 +4154,9 @@ Ln
 cQ
 cQ
 cQ
-ql
-xz
-hc
+tN
+uN
+Us
 cQ
 il
 "}

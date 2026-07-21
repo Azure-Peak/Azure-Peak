@@ -74,6 +74,12 @@
 	var/obj/item/cloak = null
 	var/obj/item/clothing/wear_shirt = null
 
+	var/cached_worn_ac = ARMOR_CLASS_NONE
+	var/cached_head_ac = ARMOR_CLASS_NONE
+	var/cached_hands_ac = ARMOR_CLASS_NONE
+	var/cached_body_ac = ARMOR_CLASS_NONE
+	var/worn_ac_dirty = TRUE
+
 	var/special_voice = "" // For changing our voice. Used by a symptom.
 
 	var/name_override //For temporary visible name changes

@@ -131,7 +131,7 @@
 /obj/projectile/bullet/reusable/arrow/iron
 	name = "broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
-	damage = 50
+	damage = 55
 	armor_penetration = PEN_LIGHT
 	flag = "piercing"
 	embedchance = 30
@@ -142,7 +142,7 @@
 	name = "decrepit broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	icon_state = "ancientarrow_proj"
-	damage = 50
+	damage = 55
 	armor_penetration = PEN_LIGHT
 	flag = "piercing"
 
@@ -153,7 +153,7 @@
 	name = "bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel
 	accuracy = 75
-	damage = 25
+	damage = 30
 	armor_penetration = PEN_HEAVY
 	embedchance = 80 // Easy embeds!
 	npc_simple_damage_mult = 3
@@ -164,7 +164,7 @@
 	name = "ancient bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
 	icon_state = "ancientarrow_proj"
-	damage = 30
+	damage = 35
 	armor_penetration = PEN_HEAVY
 	embedchance = 60
 

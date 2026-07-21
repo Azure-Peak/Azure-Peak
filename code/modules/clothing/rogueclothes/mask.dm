@@ -707,7 +707,6 @@
 	max_integrity = ARMOR_INT_SIDE_CLOTH
 	anvilrepair = /datum/skill/craft/armorsmithing //Maybe these shouldn't be repairable, someone else can do that if they want.
 	clothing_flags = CANT_SLEEP_IN
-	sellprice = 70
 	smeltresult = null
 	salvage_result = null
 

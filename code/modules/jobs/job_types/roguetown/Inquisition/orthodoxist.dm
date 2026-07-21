@@ -19,6 +19,7 @@
 	wanderer_examine = FALSE
 	advjob_examine = TRUE
 	give_bank_account = 15
+	vice_restrictions = list(/datum/charflaw/silverweakness)
 	job_traits = list(TRAIT_STEELHEARTED, TRAIT_INQUISITION)
 	job_subclasses = list(
 		/datum/advclass/psydoniantemplar,

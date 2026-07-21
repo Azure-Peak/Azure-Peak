@@ -44,6 +44,7 @@
 	icon_state = "eastsuit2"
 	item_state = "eastsuit2"
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	sellprice = 0
 
 //craftable variation of eastsuit, essentially requiring the presence of a tailor with relevant materials
 //still weak against blunt

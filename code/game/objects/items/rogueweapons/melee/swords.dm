@@ -2467,7 +2467,6 @@
 	max_integrity = 50 //For reference, regular attacks drain each 'max_' value by one point. Parries will quite literally cause this to explode.
 	max_blade_int = 50
 	anvilrepair = null //Ceremonial. This should break comedically easily, but still have just enough toughness to work with a few strikes.
-	sellprice = 300
 	sheathe_icon = "goldsword"
 	wbalance = WBALANCE_HEAVY
 	unenchantable = TRUE
@@ -2485,7 +2484,6 @@
 	wdefense = 6
 	max_integrity = 350
 	max_blade_int = 350
-	sellprice = 150
 
 /obj/item/rogueweapon/sword/blacksteel/decorated
 	name = "decorated blacksteel arming sword"
@@ -2494,7 +2492,6 @@
 	icon_state = "bs_swordregal"
 	sheathe_icon = "bs_swordregal"
 	wdefense = 7
-	sellprice = 250
 	no_loot_taint = TRUE
 
 /obj/item/rogueweapon/sword/short/gronn

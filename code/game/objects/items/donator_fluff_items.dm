@@ -2166,3 +2166,14 @@ As Excaliber."
 				return list("shrink" = 0.8,"sx" = -9,"sy" = 5,"nx" = 9,"ny" = 5,"wx" = -4,"wy" = 4,"ex" = 4,"ey" = 4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("wielded")
 				return list("shrink" = 0.8,"sx" = 8,"sy" = 0,"nx" = -1,"ny" = 0,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+//COBB ANTI-CHRIST
+/obj/item/rogueweapon/sword/long/cobb
+	name = "\improper Conviction"
+	desc = "This longsword appears at first glance to be a replica of the silver-alloyed Psydonic Longsword of the Orthodoxy's many soldiers, though it is clearly made of steel and by a foreign smith imitating the design. \
+	The cross-guard is gilded in gold, and etched with tiny, abstract emblems to resemble the Ten; what passes to resembling a sun, a flower, a moon and so on. \
+	The hilt, wrapped in a blackened leather strap, was fashioned out of chestnut and whittled for a central waistline. \
+	The pommel itself, a steel disc, was embedded with a large blue gem, faceted such that on a close look, one could be able to just see through it.<br><br>\
+	Perhaps most notably about this sword is that it was never bereft of the silver psycross that was wrapped around the base of the blade and hilt both, tightly woven like an imprisoning chain."
+	icon_state = "jehanpsysword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'

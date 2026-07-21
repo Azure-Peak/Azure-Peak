@@ -1025,3 +1025,42 @@
   radarseas:
   - bugfix: TRAIT_SHATTER_KILL aka, shatterable form, is more accurate to how the
       trait works.
+2026-07-21:
+  EtheoBoxxman:
+  - spellcheck: Fixed all 'Raneshan' typos.
+  FreeStylaLT:
+  - bugfix: Fixed some classes that get Guarded (Deceiving Meekness trait) for free
+      not getting the relevant toggle verbs as well.
+  - rscadd: Added an Ear Flick -- *eflick emote.
+  - rscadd: Added a special animation for elf and wood elf ears for the *eflick emote.
+  - bugfix: Fixed *sniff emote not being on the emote list.
+  - balance: Addiction Vices now come with status effects.
+  KatTheFox:
+  - rscadd: 'The woodcutting enchantment can now be applied to more ''axe-like'' weapons:
+      greataxes, halberds, poleaxes, etc. Previously, it could only be applied to
+      specific types of axes (the one-handed, non-weapon kind mostly).'
+  - bugfix: Book-binding now correctly describes the cover image options
+  Ketrai:
+  - image: Fixes the playful hairstyle offset
+  Lamasmaster:
+  - rscadd: Padded and Hardened Leather footwraps.
+  - bugfix: Cloth/Leather bracers making metallic sounds.
+  - sound: Equip/pickup sound to Gambesons / Leather armour
+  Ryan180602:
+  - rscadd: donor item
+  THE GRAND DUKE OF AZURE PEAK:
+  - bugfix: stick bundles will properly fill when rmb;ing a pile of sticks
+  - bugfix: stuck bundles will not blast ur ears out when rmb'ing a pile of sticks
+  - bugfix: cloth bundles will also not blast your ears out in when rmb'ing a pile
+      of it
+  - rscadd: zerobrine
+  TankTheBirb:
+  - bugfix: Fixes manabloom tea outputting "/list" when you OD on it instead of the
+      correct "MY STOMACH BURNS" text.
+  WeNeedMorePhoron:
+  - rscadd: Needle can be reloaded from bundle (continously)
+  - rscadd: Uploading an audio with a protected playback error no longer warn every
+      admins instead of you, it now warns you and spare the admins.
+  yyzsong:
+  - bugfix: Removes reference to whip-scarring wounds that were prior removed
+  - spellcheck: Corrects improper usage of "Bare" across item descriptions

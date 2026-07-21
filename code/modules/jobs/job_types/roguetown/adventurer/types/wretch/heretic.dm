@@ -37,6 +37,18 @@
 	extra_context = "This subclass gain the Wound Heal miracle and the Convert Heretic spell."
 	tempo_capable = FALSE
 
+/datum/advclass/wretch/heretic/get_vice_limits(mob/living/carbon/human/H)
+	. = ..()
+	if(istype(H.patron, /datum/patron/old_god) || HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
+		if(!(/datum/charflaw/silverweakness in .))
+			. += /datum/charflaw/silverweakness
+
+/datum/advclass/wretch/heretic/get_prefs_vice_limits(client/player)
+	. = ..()
+	if(istype(player?.prefs?.selected_patron, /datum/patron/old_god))
+		if(!(/datum/charflaw/silverweakness in .))
+			. += /datum/charflaw/silverweakness
+
 /datum/outfit/job/roguetown/wretch/heretic
 	has_loadout = TRUE
 

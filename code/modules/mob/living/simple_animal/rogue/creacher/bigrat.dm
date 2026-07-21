@@ -71,6 +71,7 @@
 	ai_controller = /datum/ai_controller/big_rat
 	melee_cooldown = RAT_ATTACK_SPEED
 	stat_attack = UNCONSCIOUS
+	var/undead_rat = FALSE
 
 /obj/effect/decal/remains/bigrat
 	name = "remains"
@@ -86,7 +87,7 @@
 	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.3)
-	if(prob(33))
+	if(prob(33) && !undead_rat)
 		gender = FEMALE
 	if(gender == FEMALE)
 		icon_state = "Frat"
@@ -99,12 +100,13 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/death(gibbed)
 	..()
 	update_icon()
-
+	if(!QDELETED(src) && !gibbed)
+		src.AddComponent(/datum/component/deadite_animal_reanimation)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/update_icon()
 	cut_overlays()
 	..()
-	if(stat != DEAD)
+	if(stat != DEAD && !undead_rat)
 		var/mutable_appearance/eye_lights = mutable_appearance(icon, "bigrat-eyes")
 		eye_lights.plane = 19
 		eye_lights.layer = 19

@@ -696,6 +696,47 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			user.mind.add_sleep_experience(/datum/skill/labor/butchering, user.STAINT * BUTCHERING_EXP_FINISH)
 		gib()
 
+/mob/living/simple_animal/proc/gib_with_novice_butchery()
+	var/atom/Tsec = drop_location()
+
+	var/botch_chance = 50
+	var/rotstuff = FALSE
+	var/datum/component/rot/simple/CR = GetComponent(/datum/component/rot/simple)
+	if(CR && CR.amount >= 10 MINUTES)
+		rotstuff = TRUE
+
+	for(var/path in butcher_results)
+		var/amount = butcher_results[path]
+
+		if(prob(botch_chance))
+			if(length(botched_butcher_results) && (path in botched_butcher_results))
+				amount = botched_butcher_results[path]
+			else
+				amount = 0
+
+		butcher_results -= path
+
+		for(var/j in 1 to amount)
+			var/obj/item/I = new path(Tsec)
+			I.add_mob_blood(src)
+			if(istype(I, /obj/item/reagent_containers/food/snacks))
+				I.item_flags |= FRESH_FOOD_ITEM
+				if(rotstuff)
+					var/obj/item/reagent_containers/food/snacks/F = I
+					F.become_rotten()
+
+	if(head_butcher)
+		var/head_path = head_butcher
+		head_butcher = null
+		var/obj/item/natural/head/head = new head_path(Tsec)
+		var/head_quality = 0
+		if(rotstuff)
+			head_quality = -1
+		head.scale_butchering_quality(head_quality)
+		if(no_head_bounty)
+			head.sellprice = 0
+	gib()
+
 /mob/living/simple_animal/mark_contract_spawned()
 	. = ..()
 	head_butcher = null

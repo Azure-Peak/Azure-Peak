@@ -49,7 +49,6 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 	var/heated_progress_time
 	///when our heat can decay
 	var/heat_decay = 0
-	sellprice = 15 // Default price for the keg.
 	var/rotation_speed_mult = 1 //for the copper distiller
 
 /obj/structure/fermentation_keg/Initialize()

@@ -24,7 +24,6 @@
 	icon_state = "oyster_open"
 	grid_height = 32
 	grid_width = 32
-	sellprice = 10
 
 /obj/item/carvedgem/shell/rawshell
 	name = "clamshell"
@@ -32,7 +31,6 @@
 	icon_state = "raw_shell"
 	grid_height = 32
 	grid_width = 32
-	sellprice = SELLPRICE_CLAMSHELL
 
 /obj/item/carvedgem/shell/cameo
 	name = "shell cameo"
@@ -140,7 +138,6 @@
 	icon_state = "raw_rose"
 	grid_height = 32
 	grid_width = 32
-	sellprice = SELLPRICE_ROSESTONE
 
 /obj/item/carvedgem/rose/cameo
 	name = "rosestone cameo"

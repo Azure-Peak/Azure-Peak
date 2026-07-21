@@ -136,8 +136,9 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 		wealth += coin.quantity * coin.sellprice
 	else if(istype(movable, /obj/item))
 		var/obj/item/item = movable
-		if(item.sellprice)
-			wealth += item.sellprice
+		var/item_value = item.get_real_price()
+		if(item_value)
+			wealth += item_value
 	for(var/atom/movable/content in movable.contents)
 		wealth += get_moni_value(content)
 	return wealth

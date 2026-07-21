@@ -17,6 +17,7 @@
 	update_spd()
 
 	update_sight()
+	RegisterSignal(src, GLOB.sight_trait_signals, PROC_REF(on_sight_trait_change), override = TRUE)
 //	if (client && (stat == DEAD))
 //		client.ghostize()
 

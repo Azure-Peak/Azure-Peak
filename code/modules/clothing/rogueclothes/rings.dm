@@ -64,7 +64,6 @@
 	name = "blacksteel ring"
 	desc = "A ring of mythical blacksteel."
 	icon_state = "ring_bs"
-	sellprice = 70
 
 /obj/item/clothing/ring/jade
 	name = "jade ring"
@@ -334,7 +333,6 @@
 	name = "silver weddingband"
 	desc = "A glimmering weddingband of silver, ornately decorated with the engravings of a lover's name."
 	icon_state = "s_ring_wedding"
-	sellprice = 3
 	var/choicename = FALSE
 	var/choicedesc = FALSE
 	is_silver = FALSE //Love wins.

@@ -278,6 +278,14 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/addiction/nympho
 	effectedstats = list(STATKEY_WIL = -1, STATKEY_LCK = -1)
 
+// This bit is just an easter egg. Feel free to remove at your discretion.
+/datum/status_effect/debuff/addiction/nympho/on_creation(mob/living/new_owner, ...)
+	. = ..()
+	if(new_owner)
+		if(ishuman(new_owner) && (iself(new_owner) || ishalfelf(new_owner) || istiefling(new_owner) || isdarkelf(new_owner) || issunelf(new_owner)))
+			var/mob/living/carbon/human/H = new_owner
+			H.emote("eflick", intentional = TRUE)
+
 /atom/movable/screen/alert/status_effect/debuff/addiction/nympho
 	name = "Nymphomania"
 	desc = "I must make love. My loins burn with unsated desire."
@@ -311,7 +319,7 @@
 
 /datum/charflaw/addiction/paranoid/apply_post_equipment(mob/user)
 	assign_faction(user)
-	
+
 /datum/charflaw/addiction/paranoid/proc/assign_faction(mob/user)
 	var/datum/job/J = SSjob.GetJob(user.job)
 	if(!J)

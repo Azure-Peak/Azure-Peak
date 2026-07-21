@@ -137,7 +137,9 @@
 	var/list/seen_messages
 
 	var/list/current_weathers = list()
-	var/last_lighting_update = 0
+	var/last_weather_x
+	var/last_weather_y
+	var/last_weather_z
 	/// our current tab
 	var/stat_tab
 
@@ -170,11 +172,11 @@
 		return
 	if(!isobserver(mob) && !isliving(mob))
 		return
-	if(!force)
-		if(last_lighting_update)
-			if(length(last_lighting_update & list(mob.x, mob.y, mob.z)) == 3)
-				return
-	last_lighting_update = list(mob.x, mob.y, mob.z)
+	if(!force && mob.x == last_weather_x && mob.y == last_weather_y && mob.z == last_weather_z)
+		return
+	last_weather_x = mob.x
+	last_weather_y = mob.y
+	last_weather_z = mob.z
 	var/area/A = get_area(mob)
 	var/obj/PMW = locate(/atom/movable/screen/plane_master/weather) in screen
 	if(PMW && A)

@@ -138,6 +138,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/has_bomb = FALSE
 	var/has_drug_delivery = FALSE
 
+	/// Triumph discount for donators
+	var/triumph_discount_remaining = 0
+
 /datum/mind/New(key)
 	key = key
 	soulOwner = src
@@ -1282,27 +1285,31 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	personal_objectives.Cut()
 
 /proc/handle_special_items_retrieval(mob/user, atom/host_object)
-	// Attempts to retrieve an item from a player's stash, and applies any base colors, where preferable.
 	if(user.mind && isliving(user))
 		if(user.mind.special_items && user.mind.special_items.len)
 			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
 			if(item)
 				if(user.Adjacent(host_object))
 					if(user.mind.special_items[item])
+						var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item]
+						if(LI?.triumph_cost)
+							var/discounted_cost = max(0, LI.triumph_cost - user.mind.triumph_discount_remaining)
+							if(discounted_cost > 0 && user.get_triumphs() < discounted_cost)
+								to_chat(user, span_warning("I can't afford [item] — I'd need [discounted_cost] more triumph."))
+								return
+							user.mind.triumph_discount_remaining = max(0, user.mind.triumph_discount_remaining - LI.triumph_cost)
+							if(discounted_cost > 0)
+								user.adjust_triumphs(-discounted_cost)
 						var/path2item = user.mind.special_items[item]
 						user.mind.special_items -= item
 						var/obj/item/I = new path2item(user.loc)
 						user.put_in_hands(I)
-						// Apply loadout-specific properties only if this is a loadout item
+						if(!LI?.triumph_cost)
+							I.special_item = TRUE
+							I.smeltresult = /obj/item/ash
+							I.salvage_result = /obj/item/ash
 						var/list/metadata = user.client?.prefs?.gear_list?[item]
 						if(islist(metadata))
-							// Free loadout items cannot be sold, smelted, or salvaged (triumph items are exempt)
-							var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item]
-							if(!LI?.triumph_cost)
-								I.sellprice = 0
-								I.smeltresult = /obj/item/ash
-								I.salvage_result = /obj/item/ash
-							// Apply metadata (color, custom name, custom desc)
 							if(metadata["color"])
 								I.add_atom_colour(metadata["color"], FIXED_COLOUR_PRIORITY)
 							if(metadata["detail_color"] && I.detail_tag)

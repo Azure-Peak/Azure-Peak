@@ -176,7 +176,8 @@
 	var/atom/movable/most_expensive = null
 	var/price = 0
 	for(var/atom/movable/atom in get_all_gear())
-		if(atom.sellprice > price)
+		var/atom_price = atom.get_real_price()
+		if(atom_price > price)
 			most_expensive = atom
-			price = atom.sellprice
+			price = atom_price
 	return most_expensive
