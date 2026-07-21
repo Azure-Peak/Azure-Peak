@@ -61,7 +61,10 @@ const ContractsColumn = (props: { c: ContractsSnapshot }) => {
   );
 };
 
-const FavorsColumn = (props: { c: ContractsSnapshot; rf: RoyalFavorsSnapshot }) => {
+const FavorsColumn = (props: {
+  c: ContractsSnapshot;
+  rf: RoyalFavorsSnapshot;
+}) => {
   const { c, rf } = props;
   return (
     <div>

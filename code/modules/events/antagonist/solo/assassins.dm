@@ -86,7 +86,7 @@
 		antag_mind.add_antag_datum(/datum/antagonist/assassin)
 
 		SSrole_class_handler.setup_class_handler(H, list(CTAG_ASSASSIN = 20))
-		H.advsetup = TRUE
+		H.set_advsetup(TRUE)
 		H.hud_used?.set_advclass()
 
 	SSrole_class_handler.assassins_in_round = TRUE

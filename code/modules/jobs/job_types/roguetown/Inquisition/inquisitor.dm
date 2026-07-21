@@ -22,6 +22,7 @@
 	min_pq = 10
 	max_pq = null
 	round_contrib_points = 2
+	vice_restrictions = list(/datum/charflaw/silverweakness)
 	job_subclasses = list(
 		/datum/advclass/inquisitor/inspector,
 		/datum/advclass/inquisitor/ordinator
@@ -356,7 +357,10 @@
 					continue
 				confessions += antag.confess_lines
 	if(length(confessions))
-		say(pick(confessions), spans = list("torture"))
+		if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE))
+			say(pick(confessions), spans = list("bloody"))//Vheslynites aren't people.
+		else
+			say(pick(confessions), spans = list("torture"))
 		return
 	say(pick(innocent_lines), spans = list("torture"))
 

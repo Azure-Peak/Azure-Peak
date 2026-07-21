@@ -1,0 +1,4 @@
+author: "Ryumi"
+delete-after: True
+changes:
+  - qol: "Slightly improved the presentation of faith and pantheon descriptions in the character edit menu."

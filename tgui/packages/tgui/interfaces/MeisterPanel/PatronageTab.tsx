@@ -12,11 +12,7 @@ import {
   tabBarStyle,
   tabStyle,
 } from '../common/parchment';
-import {
-  type PatronRoster,
-  type PatronRosterStatic,
-  type TabProps,
-} from './types';
+import type { PatronRoster, PatronRosterStatic, TabProps } from './types';
 
 export const PatronageTab = ({ data, act }: TabProps) => {
   const fundsWithPatronage = data.funds.filter(
@@ -29,9 +25,7 @@ export const PatronageTab = ({ data, act }: TabProps) => {
   if (!fundsWithPatronage.length) {
     return (
       <div style={cardStyle}>
-        <div style={{ color: INK_SOFT }}>
-          You hold no patronage authority.
-        </div>
+        <div style={{ color: INK_SOFT }}>You hold no patronage authority.</div>
       </div>
     );
   }
@@ -83,40 +77,41 @@ const RosterView = ({
   return (
     <>
       <div style={sectionHeaderStyle}>{rosterStatic.label}</div>
-      {!!rosterStatic.explanation && (() => {
-        const sigSplit = rosterStatic.explanation.lastIndexOf(' - ');
-        const body =
-          sigSplit >= 0
-            ? rosterStatic.explanation.slice(0, sigSplit).trimEnd()
-            : rosterStatic.explanation;
-        const signature =
-          sigSplit >= 0
-            ? rosterStatic.explanation.slice(sigSplit + 3).trim()
-            : '';
-        return (
-          <div
-            style={{
-              color: INK_SOFT,
-              whiteSpace: 'pre-wrap',
-              marginBottom: 10,
-              lineHeight: 1.4,
-            }}
-          >
-            {body}
-            {!!signature && (
-              <div
-                style={{
-                  fontStyle: 'italic',
-                  textAlign: 'right',
-                  marginTop: 6,
-                }}
-              >
-                - {signature}
-              </div>
-            )}
-          </div>
-        );
-      })()}
+      {!!rosterStatic.explanation &&
+        (() => {
+          const sigSplit = rosterStatic.explanation.lastIndexOf(' - ');
+          const body =
+            sigSplit >= 0
+              ? rosterStatic.explanation.slice(0, sigSplit).trimEnd()
+              : rosterStatic.explanation;
+          const signature =
+            sigSplit >= 0
+              ? rosterStatic.explanation.slice(sigSplit + 3).trim()
+              : '';
+          return (
+            <div
+              style={{
+                color: INK_SOFT,
+                whiteSpace: 'pre-wrap',
+                marginBottom: 10,
+                lineHeight: 1.4,
+              }}
+            >
+              {body}
+              {!!signature && (
+                <div
+                  style={{
+                    fontStyle: 'italic',
+                    textAlign: 'right',
+                    marginTop: 6,
+                  }}
+                >
+                  - {signature}
+                </div>
+              )}
+            </div>
+          );
+        })()}
       <div style={fieldRowStyle}>
         <div style={fieldLabelStyle}>Roster</div>
         <div style={fieldValueStyle}>

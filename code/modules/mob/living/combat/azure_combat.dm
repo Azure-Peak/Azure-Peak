@@ -1,4 +1,4 @@
-/mob/living/carbon/human/proc/process_clash(mob/user, obj/item/IM, obj/item/IU)
+/mob/living/carbon/human/proc/process_clash(mob/user, obj/item/IM, obj/item/IU, is_bite = FALSE)
 	if(!ishuman(user))
 		return
 	if(user == src)
@@ -9,6 +9,26 @@
 		clash(user, IM, IU)
 		return
 	if(!IU)	//The opponent is trying to rawdog us with their bare hands while we have Guard up. We get a riposte window.
+		if(is_bite)	//They lunged in with their teeth -- rather than a hand or weapon, we give them an extra bonk to the head.
+			var/obj/item/bodypart/affecting = H.get_bodypart(BODY_ZONE_HEAD)
+			var/force = IM ? get_complex_damage(IM, src) : get_punch_dmg()
+			var/armor_block = H.run_armor_check(BODY_ZONE_PRECISE_MOUTH, "blunt", armor_penetration = PEN_NONE, damage = force)
+			if(IM)
+				visible_message(span_suicide("[src] catches [H]'s bite and bashes \the [IM] into [H.p_their()] mouth!"))
+			else
+				visible_message(span_suicide("[src] catches [H]'s bite and smashes [p_their()] fist into [H.p_their()] mouth!"))
+			if(affecting && H.apply_damage(force, BRUTE, affecting, armor_block))
+				affecting.bodypart_attacked_by(BCLASS_BLUNT, force, crit_message = TRUE, weapon = IM, zone_precise = BODY_ZONE_PRECISE_MOUTH)
+			H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+			H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+			if(H.mind)
+				H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
+			H.Slowdown(3)
+			to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
+			playsound(src, 'sound/combat/clash_struck.ogg', 100)
+			remove_status_effect(/datum/status_effect/buff/clash)
+			apply_status_effect(/datum/status_effect/buff/adrenaline_rush/melee)
+			return
 		if(!IM)
 			visible_message(span_suicide("[src] ripostes [H]'s strike with [p_their()] bare hands!"))
 		else
@@ -324,35 +344,42 @@
 
 /// Returns the highest AC worn, or held in hands.
 /mob/living/carbon/human/proc/highest_ac_worn(check_hands, check_helmet = TRUE)
-	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask, wear_ring)
-	if(!check_helmet)
-		slots.Remove(head)
-	for(var/slot in slots)
-		if(isnull(slot) || !istype(slot, /obj/item/clothing))
-			slots.Remove(slot)
+	if(worn_ac_dirty)
+		update_worn_ac_cache()
+#if defined(TESTING) || defined(UNIT_TESTS)
+	else
+		var/frozen_worn = cached_worn_ac
+		var/frozen_head = cached_head_ac
+		var/frozen_hands = cached_hands_ac
+		var/frozen_body = cached_body_ac
+		update_worn_ac_cache()
+		if(frozen_worn != cached_worn_ac || frozen_head != cached_head_ac || frozen_hands != cached_hands_ac || frozen_body != cached_body_ac)
+			stack_trace("Stale worn AC cache on [src]: worn [frozen_worn]->[cached_worn_ac] head [frozen_head]->[cached_head_ac] hands [frozen_hands]->[cached_hands_ac] body [frozen_body]->[cached_body_ac]")
+#endif
+	. = cached_worn_ac
+	if(check_helmet && cached_head_ac > .)
+		. = cached_head_ac
+	if(check_hands && cached_hands_ac > .)
+		. = cached_hands_ac
 
-	
-	var/highest_ac = ARMOR_CLASS_NONE
-
-	for(var/obj/item/clothing/C in slots)
-		if(C.armor_class)
-			if(C.armor_class > highest_ac)
-				highest_ac = C.armor_class
-				if(highest_ac == ARMOR_CLASS_HEAVY)
-					return highest_ac
-	if(check_hands)
-		var/mainh = get_active_held_item()
-		var/offh = get_inactive_held_item()
-		if(mainh && istype(mainh, /obj/item/clothing))
-			var/obj/item/clothing/CMH = mainh
-			if(CMH.armor_class > highest_ac)
-				highest_ac = CMH.armor_class 
-		if(offh && istype(offh, /obj/item/clothing))
-			var/obj/item/clothing/COH = offh
-			if(COH.armor_class > highest_ac)
-				highest_ac = COH.armor_class 
-	
-	return highest_ac
+/mob/living/carbon/human/proc/update_worn_ac_cache()
+	cached_body_ac = ARMOR_CLASS_NONE
+	cached_head_ac = ARMOR_CLASS_NONE
+	cached_hands_ac = ARMOR_CLASS_NONE
+	for(var/obj/item/clothing/C in list(wear_armor, wear_shirt, wear_pants))
+		if(C.armor_class > cached_body_ac)
+			cached_body_ac = C.armor_class
+	cached_worn_ac = cached_body_ac
+	for(var/obj/item/clothing/C in list(wear_wrists, gloves, shoes, wear_neck, wear_mask, wear_ring, cloak))
+		if(C.armor_class > cached_worn_ac)
+			cached_worn_ac = C.armor_class
+	if(istype(head, /obj/item/clothing))
+		var/obj/item/clothing/C = head
+		cached_head_ac = C.armor_class || ARMOR_CLASS_NONE
+	for(var/obj/item/clothing/C in held_items)
+		if(C.armor_class > cached_hands_ac)
+			cached_hands_ac = C.armor_class
+	worn_ac_dirty = FALSE
 
 /mob/living/carbon/human/proc/process_tempo_attack(mob/living/carbon/attacker)
 	if(iscarbon(attacker) && attacker != src && attacker.mind)

@@ -45,7 +45,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	subtitle = "The Royal Demesne, Heartland of Azuria"
 	blockade_replenish_eligible = FALSE
 	description = "The royal demesne of the Duke of Azuria, and their most valuable possession besides Azure Peak itself. A stretch of land some ten miles across the south bank of River Azur, home to dozens of agricultural settlements, hamlets, and smaller market towns. Its lands are rich, and its people aplenty. The agricultural heartland of Azuria, producing most of its grain, meat, and dairy, imported into Azure Peak daily and re-exported for profit. Many of Azure Peak's residents keep estates here. The Duke, owning most of the land directly, claims a tithe of ten percent of all produce from the region, and at least a quarter on any land directly owned by the Crown, as is their perogative, making this region vital to the Crown's coffers."
-	threat_region_id = THREAT_REGION_AZURE_BASIN
+	threat_region_id = THREAT_REGION_AZURE_GROVE
 	produces = list(
 		TRADE_GOOD_GRAIN = TG_SUPPLY_LOCAL_GRAIN,
 		TRADE_GOOD_OATS = TG_SUPPLY_FOREIGN_GRAIN,

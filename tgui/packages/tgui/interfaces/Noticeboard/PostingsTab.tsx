@@ -12,8 +12,8 @@ import {
   rulerStyle,
   SEAL_AMBER,
   SEAL_RED,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
 } from '../common/parchment';
 import {
   POSTING_TIER_LISTING,
@@ -38,9 +38,7 @@ const postingGridStyle: React.CSSProperties = {
 export const PostingsTab = ({ data, act }: TabProps) => {
   const [showForm, setShowForm] = useState(false);
 
-  const listings = data.postings.filter(
-    (p) => p.tier === POSTING_TIER_LISTING,
-  );
+  const listings = data.postings.filter((p) => p.tier === POSTING_TIER_LISTING);
   const notices = data.postings.filter((p) => p.tier === POSTING_TIER_NOTICE);
 
   return (
@@ -66,11 +64,7 @@ export const PostingsTab = ({ data, act }: TabProps) => {
       </div>
 
       {showForm && (
-        <PostingForm
-          data={data}
-          act={act}
-          onClose={() => setShowForm(false)}
-        />
+        <PostingForm data={data} act={act} onClose={() => setShowForm(false)} />
       )}
 
       <div style={sectionHeaderStyle}>Standing Listings</div>
@@ -125,9 +119,7 @@ const PostingCard = ({
       style={{
         ...cardStyle,
         marginBottom: 0,
-        background: isListing
-          ? 'rgba(200,170,100,0.18)'
-          : 'var(--p-card-bg)',
+        background: isListing ? 'rgba(200,170,100,0.18)' : 'var(--p-card-bg)',
         borderColor: isListing ? INK_SOFT : INK_FAINT,
       }}
     >
@@ -210,7 +202,9 @@ const PostingCard = ({
           <button
             type="button"
             style={inkButtonStyle({})}
-            onClick={() => act('remove_post', { posting_id: posting.posting_id })}
+            onClick={() =>
+              act('remove_post', { posting_id: posting.posting_id })
+            }
           >
             Take Down
           </button>
@@ -367,7 +361,8 @@ const PostingForm = ({
             marginTop: 6,
           }}
         >
-          You have a Standing Listing already posted. Pinning this will take it down.
+          You have a Standing Listing already posted. Pinning this will take it
+          down.
         </div>
       )}
 

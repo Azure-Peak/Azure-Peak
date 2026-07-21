@@ -31,6 +31,9 @@
 		bodypart_overlays(standing)
 	return appearances
 
+/datum/bodypart_feature/proc/get_cache_key()
+	return "[accessory_type]-[accessory_colors]"
+
 /// Sets an accessory type and optionally colors too.
 /datum/bodypart_feature/proc/set_accessory_type(new_accessory_type, colors, owner)
 	accessory_type = new_accessory_type

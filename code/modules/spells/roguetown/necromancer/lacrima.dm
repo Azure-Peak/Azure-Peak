@@ -58,6 +58,9 @@
 	if((target.mobility_flags & MOBILITY_STAND))
 		to_chat(user, span_info("My victim must be lying down."))
 		return
+	if(!target.has_extractable_lux())
+		to_chat(user, span_notice("This husk holds no true lifeforce - there is nothing to excise."))
+		return
 	if(target.has_status_effect(/datum/status_effect/debuff/devitalised) || target.mob_biotypes & MOB_UNDEAD)
 		to_chat(user, span_notice("This victim's Lux is corroded. There is little I can make use of."))
 		return
@@ -75,6 +78,23 @@
 			user.visible_message(span_alert("[user] plunges their fist into [target]'s ribcage, shattering it spectacularly!"))
 	if(!do_after(user, tear_time, target = target) && chest.has_wound(/datum/wound/fracture/chest))
 		return
+
+	if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //Oh boy, you're going to have a NASTY surprise in there
+		to_chat(user, span_userdanger("Your hand finds nothing but an unnatural violet-ochre flame within [target], burning at your hand and soul!"))
+		user.visible_message(span_alert("[user] recoils from [target]'s ribcage, as unholy violet-ochre flames flicker out and engulf them!"))
+		if(!HAS_TRAIT(user, TRAIT_NOPAIN))
+			user.emote("agony")
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			user.freak_out()
+		playsound(user, 'sound/misc/lava_death.ogg', 100, TRUE)
+		user.adjust_fire_stacks(20, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //YOU PUT YOUR FUCKING HAND IN THE DEMONIC HUSK YOU DUMBASS
+		user.ignite_mob()
+		user.adjustFireLoss(60)
+		user.Knockdown(20)
+		user.Jitter(20)
+		user.Stun(5) //ITS GOING TO HURT, A LOT
+		return
+
 	if(!HAS_TRAIT(target, TRAIT_NOPAIN))
 		target.emote("agony")
 	playsound(user, 'sound/items/blackmirror_needle.ogg', 60, FALSE, 3)

@@ -293,7 +293,6 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/merchant
 	name = "guilder jacket"
 	icon_state = "merrobe"
-	sellprice = 30
 	color = null
 
 /obj/item/clothing/suit/roguetown/shirt/robe/nun

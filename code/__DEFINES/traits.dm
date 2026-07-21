@@ -122,6 +122,9 @@
 #define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
 #define TRAIT_CURSE_SCAR "Curse Scar"
 #define TRAIT_ARMOR_BREAK "Loose Straps"
+#define TRAIT_NOHEAL "Laden Soul" // Only affects magic healing, such as miracle or supernatural heals.
+#define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
+#define TRAIT_HALFHEAL "Laden Lux" // -50% Magic Heal.
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
@@ -162,6 +165,7 @@
 #define TRAIT_PSYDONITE "Psydonic Devotion" // Passively heals wounds at a slow rate, but doesn't restore lost blood. Negates the effects of all non-Psydonian miracles, save for Anastasis and Cure Rot.
 #define TRAIT_BLACKBAGGER "Skilled Apprehender" // Allows the effective usage of garrotes and blackbags.
 #define TRAIT_LYCANRESILENCE "Werewolf Resilence"
+#define TRAIT_UNFORGIVABLE "Unforgivable" //Handles Vheslynite gibbing, miracle backfires, confession/conversion killing, etc.
 
 // PATRON GOD CURSES
 
@@ -252,7 +256,6 @@
 #define TRAIT_HARDDISMEMBER	"Hard Dismemberment"
 #define TRAIT_EASYDECAPITATION "Easy Decapitation"
 #define TRAIT_NOPAIN	"Painless"
-#define TRAIT_NOBURN_RESIST	"No Burn Resistance" // Negates NOPAIN's +50% burn threshold bonus
 #define TRAIT_NOPAINSTUN	"Enduring"
 #define TRAIT_NOBREATH	"Breathless"
 #define TRAIT_DEATHLESS "Deathless"
@@ -405,7 +408,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_JOURNEYS_END = span_info ("As the lyfe ebbs from my veins, my resolve hardens to push through. Do not go quietly into that good nite."),
 	TRAIT_RAGE = span_info ("PAIN AND INJURY FUELS MY BATTLERAGE!"),
 	TRAIT_CRITICAL_WEAKNESS = span_danger("I am weak to wounds that others could survive."),
-	TRAIT_SHATTER_KILL = span_danger("My form is vulnerable to chest fractures and paralysis, I will die instantly if my ribs shatter or I am paralyised."),
+	TRAIT_SHATTER_KILL = span_danger("My form is vulnerable to chest fractures and paralysis, I will be crippled if my ribs shatter or die if I am paralyised."),
 	TRAIT_DNR = span_danger("My lux' vigor is weak. There is no hope for me. This lyfe is all I have."),
 	TRAIT_MANIAC_AWOKEN = span_danger("I am <b>WAKING UP</b> and the sheeple know this. They will resist."),
 	TRAIT_INFINITE_STAMINA = "I have boundless energy, I will never tire.",
@@ -505,6 +508,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOHUNGER = span_info("I do not hunger, or thirst."),
 	TRAIT_DARKVISION = span_info("I can see better in the dark."),
 	TRAIT_NITEVISION = span_info("I can see perfectly in the dark."),
+	TRAIT_UNFORGIVABLE = span_smallred("THE NEEDLE IN MY EYE OPENS MY MYND TO THE TRUTH! HELL IS REAL, REALITY SUFFERS, THE GARDEN BURNS AND I AM HOLDING THE TORCH, ALL WHOM ATTEMPT TO DIVERGE ME FROM THIS PATH TO BE UNMADE SHALL JOIN ME."),
 	TRAIT_NOCSHADES = span_info("The lens I look through allows me to see in the dark clear as dae, at the cost of greater vision."),
 	TRAIT_RESIDENT = span_info("I've been granted a Meister account, and the ownership of a house in Azure Peak."),
 	TRAIT_DEBTOR = span_danger("I have defaulted on a loan. My name is writ red in the ledger until the debt is cleared."),
@@ -571,7 +575,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SELF_RELIANCE = span_greentext("I've spent enough time standing on my own that I've learned to either adapt or die young. All crafting and labor skills can progress to Journeyman levels."),
 	TRAIT_SILVER_WEAK = span_warning("Silver is the greatest threat to my lyfe. Blows from silver weapons will set me alight, inhibit my ability to regenerate, and - if blessed - can outright destroy my vessel."),
 	TRAIT_PALLID = span_artery("I was once a creature of the night, but cured by divine intervention. The open sky fills me with unease, but my eyes pierce the darkness and my lungs need no air."),
-	TRAIT_BLACKBLOOD = span_artery("I was once a creature of the night, but cured by the Otavan Inquisition at a heavy cost. My blood, tainted with tinctures, rites and concoctions, endures infection and holds an odd regenerative factor to it. Unfortunately, most healing miracles do not affect me at all, and I am sensitive to sunlight, aswell."),	
+	TRAIT_BLACKBLOOD = span_artery("I was once a creature of the night, but cured by the Otavan Inquisition at a heavy cost. My blood, tainted with tinctures, rites and concoctions, endures infection and holds an odd regenerative factor to it. Unfortunately, most healing miracles do not affect me at all, and I am sensitive to sunlight, aswell."),
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
 	TRAIT_TEMPO	= span_greentext("I can keep up with multiple opponents at once."),
 	TRAIT_BLACKOAK = span_warning("The Black Oaks can spot <b>any</b> foreigners and outsiders, no matter how long they've lived in Azuria. I can spot an invader at a glance."),
@@ -610,6 +614,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
 	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry."),
 	TRAIT_MUSES_GRACE = span_info("I feel a sudden and powerful urge to break out into song."),
+	TRAIT_NOHEAL = span_artery("I cannot be healed by supernatural means. Healing magic has no effect."),
+	TRAIT_NOREGEN = span_artery("I cannot be healed by natural means. Rest and potions have no effect."),
+	TRAIT_HALFHEAL = span_artery("I have some spiritual oddity to my Lux. Healing magic effectiveness is halved."),
 	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!")
 ))
 

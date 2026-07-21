@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import {
   cardStyle,
-  fieldRowStyle,
   FONT_BODY,
+  fieldRowStyle,
   INK,
   INK_SOFT,
   pageStyle,
@@ -164,9 +164,9 @@ export const HarborTab = (props: {
             Kinship: {harbor.kinship.realm_name}
           </span>
           <span style={{ color: INK_SOFT }}>
-            At least one ship from {harbor.kinship.realm_name} will sail per dae, sell{' '}
-            {harbor.kinship.buy_pct}% cheaper, and pay {harbor.kinship.sell_pct}
-            % more on bulk demand.
+            At least one ship from {harbor.kinship.realm_name} will sail per
+            dae, sell {harbor.kinship.buy_pct}% cheaper, and pay{' '}
+            {harbor.kinship.sell_pct}% more on bulk demand.
           </span>
         </div>
       )}

@@ -73,7 +73,7 @@
 					emote("painmoan")
 			else
 				if(painpercent >= 100)
-					if(prob(25) && (HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT) || STAWIL >= 15) && !HAS_TRAIT(src, TRAIT_NOPAINSTUN)) // PSYDONIC WEIGHTED COINFLIP. TWEAK THIS AS THOU WILT. DON'T LET THEM BE BROKEN, PSYDON WILLING. THROW CON-MAXXERS A BONE, TOO.
+					if(prob(25) && (HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT) || STAWIL >= 15) && (!HAS_TRAIT(src, TRAIT_NOPAINSTUN) || !HAS_TRAIT(src, TRAIT_IRONMAN))) // PSYDONIC WEIGHTED COINFLIP. TWEAK THIS AS THOU WILT. DON'T LET THEM BE BROKEN, PSYDON WILLING. THROW CON-MAXXERS A BONE, TOO.
 						Immobilize(15) // EAT A MICROSTUN. YOU'RE AVOIDING A PAINCRIT.
 						if(HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT))
 							visible_message(span_info("[src] audibly grits [src.p_their()] teeth, ENDURING through [src.p_their()] pain."), span_info("Through my faith in HIM, I ENDURE."))
@@ -91,7 +91,7 @@
 						mob_timers["painstun"] = world.time + 160
 					if(prob(probby) && HAS_TRAIT(src, TRAIT_NOPAINSTUN) && !HAS_TRAIT(src, TRAIT_LYCANRESILENCE)  && (has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)))
 						Immobilize(10)
-						emote("painscream")
+						emote("superagony")
 						to_chat(src, span_userdanger("THE SACRED FLAMES, I FEEL PAIN AGAIN!"))
 						stuttering += 5
 						cultslurring += 10 //To indicate this isn't a natural kind of agony
@@ -155,8 +155,7 @@
 
 	return TRUE
 
-
-
+#define BURN_PAIN_WEIGHT 0.6
 
 /mob/living/carbon/proc/get_complex_pain()
 	. = 0
@@ -164,13 +163,15 @@
 	for(var/obj/item/bodypart/limb as anything in bodyparts)
 		if(limb.status == BODYPART_ROBOTIC || limb.skeletonized && !has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) && !has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
 			continue //If we're not sundered, skeletonised limbs do not hurt.
-		var/bodypart_pain = ((limb.brute_dam + limb.burn_dam) / limb.max_damage) * limb.max_pain_damage
+		var/bodypart_pain = ((limb.brute_dam + (limb.burn_dam * BURN_PAIN_WEIGHT)) / limb.max_damage) * limb.max_pain_damage
 		for(var/datum/wound/wound as anything in limb.wounds)
 			bodypart_pain += wound?.woundpain
 		bodypart_pain = min(bodypart_pain, limb.max_pain_damage)
 		if(has_adrenaline)
 			bodypart_pain *= 0.5
 		. += bodypart_pain
+
+#undef BURN_PAIN_WEIGHT
 
 /mob/living/carbon/human/get_complex_pain()
 	. = ..()
@@ -582,6 +583,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			energy_add(4)
 	//Healing while sleeping in a bed
 	if(IsSleeping())
+		if(HAS_TRAIT(src, TRAIT_NOREGEN) || HAS_TRAIT(src, TRAIT_IRONMAN))
+			return
 		var/sleepy_mod = 0.5
 		var/doesnt_hunger = HAS_TRAIT(src, TRAIT_NOHUNGER)
 		if(HAS_TRAIT(src, TRAIT_BETTER_SLEEP))

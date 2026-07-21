@@ -1,4 +1,4 @@
- import { useState } from 'react';
+import { useState } from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -54,15 +54,11 @@ export const Commissioner = () => {
               fontFamily: SERIF,
             }}
           >
-            <span style={{ color: SEAL_AMBER }}>
-              Escrow held
-            </span>
+            <span style={{ color: SEAL_AMBER }}>Escrow held</span>
             <span style={{ color: INK, fontWeight: 'bold', marginRight: 12 }}>
               {data.budget}m
             </span>
-            <span style={{ color: SEAL_AMBER }}>
-              Your deposit
-            </span>
+            <span style={{ color: SEAL_AMBER }}>Your deposit</span>
             <span style={{ color: INK, fontWeight: 'bold' }}>
               {data.my_deposit}m
             </span>

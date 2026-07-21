@@ -44,18 +44,11 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		apply_dnr_trait(character, player)
 	if(player.prefs.qsr_pref)
 		apply_qsr_trait(character, player)
-	var/triumph_discount_remaining = is_donator(player.ckey) ? 3 : 0 // donators get first 3 triumph points free
+	character.mind.triumph_discount_remaining = is_donator(player.ckey) ? 3 : 0 // donators get first 3 triumph points free, spent on retrieval
 	for(var/item_name in player.prefs.gear_list)
 		var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item_name]
 		if(!LI)
 			continue
-		if(LI.triumph_cost)
-			var/discounted_cost = max(0, LI.triumph_cost - triumph_discount_remaining)
-			if(discounted_cost > 0 && character.get_triumphs() < discounted_cost)
-				continue
-			triumph_discount_remaining = max(0, triumph_discount_remaining - LI.triumph_cost)
-			if(discounted_cost > 0)
-				character.adjust_triumphs(-discounted_cost)
 		character.mind.special_items[LI.name] = LI.path
 	var/datum/job/assigned_job = SSjob.GetJob(character.mind?.assigned_role)
 	if(assigned_job)
@@ -199,16 +192,19 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 /proc/apply_charflaw_equipment(mob/living/carbon/human/character, client/player)
 	var/has_extra_vice = FALSE
-	for(var/datum/charflaw/cf in character.charflaws) // if we didn't do this, someone could take hunted and targeted together and no other vice
-		if(!cf.needs_extra_vice)
+	var/needs_extra_vice = FALSE
+	for(var/datum/charflaw/cf in character.charflaws) // difficulty flaws don't count as each other's extra vice
+		if(cf.needs_extra_vice)
+			needs_extra_vice = TRUE
+		else
 			has_extra_vice = TRUE
 	for(var/datum/charflaw/cf in character.charflaws)
 		cf.apply_post_equipment(character)
-		if(cf.needs_extra_vice && !has_extra_vice)
-			var/datum/charflaw/randflaw/rf = new()
-			character.charflaws.Add(rf)
-			rf.apply_post_equipment(character)
 		record_featured_object_stat(FEATURED_STATS_VICES, cf.name)
+	if(needs_extra_vice && !has_extra_vice)
+		var/datum/charflaw/randflaw/rf = new()
+		character.charflaws.Add(rf)
+		rf.apply_post_equipment(character)
 
 /proc/apply_dnr_trait(mob/living/carbon/human/character, client/player)
 	ADD_TRAIT(player.mob, TRAIT_DNR, TRAIT_GENERIC)

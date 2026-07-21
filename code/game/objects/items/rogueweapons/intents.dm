@@ -359,38 +359,6 @@
 	releasedrain = 0
 	blade_class = BCLASS_PUNCH
 
-/datum/intent/tome/aegis
-	name = "arcyne aegis"
-	desc = "Project an arcyne shield into the offhand. Aim anywhere and hold to charge it like a spell."
-	icon_state = "inuse"
-	chargetime = 2 SECONDS
-	chargedrain = 0
-	no_early_release = TRUE
-	charging_slowdown = CHARGING_SLOWDOWN_HEAVY
-	chargedloop = /datum/looping_sound/invokeascendant
-	glow_color = GLOW_COLOR_ARCANE
-	glow_intensity = GLOW_INTENSITY_MEDIUM
-	tranged = 1
-	noaa = TRUE
-	candodge = FALSE
-	canparry = FALSE
-	misscost = 0
-	no_attack = TRUE
-	releasedrain = 0
-	blade_class = BCLASS_PUNCH
-
-/datum/intent/tome/aegis/get_chargetime()
-	var/obj/item/rogueweapon/spellbook/book = masteritem
-	if(istype(book))
-		return book.aegis_charge_time
-	return chargetime
-
-/datum/intent/tome/aegis/can_charge(atom/clicked_object)
-	var/obj/item/rogueweapon/spellbook/book = masteritem
-	if(!istype(book))
-		return FALSE
-	return book.can_conjure_aegis(mastermob, feedback = TRUE)
-
 /datum/intent/give
 	name = "give"
 	candodge = FALSE
@@ -648,8 +616,8 @@
 				custom_offset = 24
 
 			L.play_overhead_private_rclickemote(targetl, taunticon, custom_offset)
+			to_chat(M, span_taunt("[user] taunts [M]!"))
 			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
-			to_chat(M, span_taunt("[user] taunts me!"))
 		else
 			M.taunted(user)
 	return
@@ -694,7 +662,7 @@
 			var/mob/living/L = user
 			L.play_overhead_private_rclickemote(targetl, "dismiss")
 			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
-			to_chat(M, span_blue("[user] shoos me away."))
+			to_chat(M, span_blue("[user] shoos [M] away."))
 		else
 			M.shood(user)
 	return
@@ -723,7 +691,7 @@
 			var/mob/living/L = user
 			L.play_overhead_private_rclickemote(targetl, "beckon")
 			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
-			to_chat(M, span_yellow("[user] beckons me to come closer."))
+			to_chat(M, span_yellow("[user] beckons [M] to come closer."))
 		else
 			M.beckoned(user)
 	return
@@ -749,7 +717,7 @@
 			var/mob/living/L = user
 			L.play_overhead_private_rclickemote(targetl, "wavefriendly")
 			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
-			to_chat(M, span_green("[user] gives me a friendly wave."))
+			to_chat(M, span_green("[user] waves friendly at [M]."))
 	return
 
 /datum/intent/simple/headbutt

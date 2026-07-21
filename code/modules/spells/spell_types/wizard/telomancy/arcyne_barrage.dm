@@ -24,6 +24,7 @@
 
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	charge_time = CHARGETIME_HEAVY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
@@ -41,6 +42,11 @@
 	var/bolts_per_pulse = 5
 	var/pulse_spread = 120
 	var/channel_slowdown = 3
+
+/datum/action/cooldown/spell/projectile/arcyne_barrage/get_spell_statistics(mob/living/user)
+	var/list/stats = ..()
+	stats += span_info("Damage: 45 per bolt ([bolts_per_pulse] per pulse, pierces up to 5)")
+	return stats
 
 /datum/action/cooldown/spell/projectile/arcyne_barrage/before_cast(atom/cast_on)
 	. = ..()
@@ -132,8 +138,9 @@
 	speed = 3
 	accuracy = 60
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	npc_simple_damage_mult = 1.5
-	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	intdamfactor = 1
 	movement_type = UNSTOPPABLE
 	ricochets_max = 5
 	ricochet_chance = 100

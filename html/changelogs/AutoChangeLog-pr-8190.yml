@@ -1,0 +1,6 @@
+author: "Dorodomki"
+delete-after: True
+changes:
+  - rscadd: "Added gear options for the levy, armor, helmets, cloaks."
+  - balance: "rebalanced levy unarmed option having templar wrappings replaced with weighted wrappings, gives them a peasant knife replacing the hunting one, adds wrestling lv3 on unarmed levy, removes extra weapon skills and gives one point on mining + skincrafting for grinding gear."
+  - bugfix: "fixed a few descriptions and weapon loadouts on town levy.\n:cl:"

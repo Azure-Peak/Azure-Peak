@@ -23,7 +23,7 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/bronze
 	name = "bronze barbute"
 	desc = "A greathelm of bronze, who's nasalguard and mandibles leave the wearer's face cloaked in darkness. The heroes of yore have long since \
-	passed, yet their blood still courses through the veins of Psydonia's children; you are no different. Quiff a feather to its skullcap to bare \
+	passed, yet their blood still courses through the veins of Psydonia's children; you are no different. Quiff a feather to its skullcap to bear \
 	your allegience with pride."
 	body_parts_covered = FULL_HEAD
 	icon_state = "bronzebarbute"
@@ -277,7 +277,7 @@
 	icon_state = "goldbarbute"
 	armor = ARMOR_INDESTRUCTIBLE //Renders its wearer completely invulnerable to damage. The caveat is, however..
 	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
-	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
+	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bears the burden.
 	anvilrepair = null
 	smeltresult = /obj/item/ingot/gold
 	smelt_bar_num = 1 //Prevents resmelting to easily recreate.
@@ -489,7 +489,7 @@
 	icon_state = "goldknight"
 	armor = ARMOR_INDESTRUCTIBLE //Renders its wearer completely invulnerable to damage. The caveat is, however..
 	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
-	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
+	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bears the burden.
 	anvilrepair = null
 	smeltresult = /obj/item/ingot/gold
 	smelt_bar_num = 1 //Prevents resmelting to easily recreate.
@@ -1610,7 +1610,7 @@
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
 
-/obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
+/obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron/classic
 	name = "iron bucket helmet"
 	desc = "An iron greathelmet that offers excellent protection to the head, while also ensuring total coverage to its most vulnerable spots. It \
 	resembles an overturned bucket when worn - ergo, 'bucket helmet'. Owing to its simple-yet-robust design, the bucket helmet's venerability \

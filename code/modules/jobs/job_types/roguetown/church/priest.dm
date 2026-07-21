@@ -44,6 +44,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
+	vice_restrictions = list(/datum/charflaw/silverweakness)
 	job_traits = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_CLERGY, TRAIT_MARRIAGE_CAPABLE)
 	advclass_cat_rolls = list(CTAG_BISHOP = 2)
 	job_subclasses = list(/datum/advclass/bishop)
@@ -66,10 +67,9 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	)
 	age_mod = /datum/class_age_mod/priest
 	subclass_skills = list(
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/staves = SKILL_LEVEL_MASTER,
-		/datum/skill/combat/polearms = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_MASTER,
+		/datum/skill/combat/staves = SKILL_LEVEL_MASTER,//Warrior Monk sorry
 		/datum/skill/misc/reading = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
@@ -613,6 +613,23 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 		to_chat(user, span_warning("[target] wasn't marked by the enemy as a heretic!"))
 		revert_cast()
 		return FALSE
+
+	if(istype(target.patron, /datum/patron/vheslyn)) //UNFORGIVABLE SIN, UNFORGIVABLE, DIE. DIE. DIE.
+		to_chat(user, span_userdanger("[target] is UNFORGIVABLE, my attempt to convert them to the TEN, violently sunders my lux!"))
+		if(!HAS_TRAIT(user, TRAIT_NOPAIN))
+			user.emote("agony")
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			user.freak_out()
+		playsound(user, 'sound/misc/lava_death.ogg', 100, TRUE)
+		user.adjust_fire_stacks(40, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //YOU FUCKING DESERVE THIS
+		user.adjustFireLoss(120)//This will kill you, always.
+		user.Knockdown(30)
+		user.Jitter(30)
+		user.Stun(25)
+		user.ignite_mob()
+		explosion(get_turf(user), light_impact_range = 1, flame_range = 1, smoke = FALSE)
+		user.visible_message(span_danger("[user] is violently smited as profane flames engulf their entire body!"))
+		return TRUE
 
 	if(alert(target, "[user.real_name] is trying to convert you back to the church. Do you accept?", "Conversion Request", "Yes", "No") != "Yes")
 		to_chat(user, span_warning("[target] refused your offer of conversion."))

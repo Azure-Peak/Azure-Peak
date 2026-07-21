@@ -1,6 +1,5 @@
 import { memo } from 'react';
-import { Box, Section } from 'tgui-core/components';
-import { DmIcon } from 'tgui-core/components';
+import { Box, DmIcon, Section } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
 
@@ -19,9 +18,20 @@ type StepReagent = { kind: 'reagent'; label: string };
 type StepText = { kind: 'text'; label: string };
 type StepCook = { kind: 'cook'; label: string };
 type StepAnyof = { kind: 'anyof'; options: RecipeIcon[] };
-type StepItem = { kind: 'item' | 'tool'; icon: string; icon_state: string; name: string };
+type StepItem = {
+  kind: 'item' | 'tool';
+  icon: string;
+  icon_state: string;
+  name: string;
+};
 
-type RecipeStep = StepSharp | StepReagent | StepText | StepCook | StepAnyof | StepItem;
+type RecipeStep =
+  | StepSharp
+  | StepReagent
+  | StepText
+  | StepCook
+  | StepAnyof
+  | StepItem;
 
 // ---- Entry data shapes ----
 
@@ -50,7 +60,13 @@ export type RecipeEntryData = FoodEntryData | StewEntryData;
 
 // ---- Inline icon helper ----
 
-const InlineIcon = ({ icon, icon_state }: { icon: string; icon_state: string }) => (
+const InlineIcon = ({
+  icon,
+  icon_state,
+}: {
+  icon: string;
+  icon_state: string;
+}) => (
   <span
     style={{
       display: 'inline-block',
@@ -69,10 +85,14 @@ const InlineIcon = ({ icon, icon_state }: { icon: string; icon_state: string }) 
 
 const StepRow = ({ step }: { step: RecipeStep }) => {
   if (step.kind === 'sharp') {
-    return <>Score it with <b>any sharp tool</b></>;
+    return (
+      <>
+        Score it with <b>any sharp tool</b>
+      </>
+    );
   }
   if (step.kind === 'reagent' || step.kind === 'text' || step.kind === 'cook') {
-    return step.kind === 'cook' ? <b>{step.label}</b> : <>{step.label}</>;
+    return step.kind === 'cook' ? <b>{step.label}</b> : step.label;
   }
   if (step.kind === 'anyof') {
     return (
@@ -110,7 +130,16 @@ const COOK_STYLES = `
 
 const FoodEntry = ({ data }: { data: FoodEntryData }) => {
   const { act } = useBackend();
-  const { name, time_per_step, bases, steps, result, result_amount, nutrition_html, follow_ups } = data;
+  const {
+    name,
+    time_per_step,
+    bases,
+    steps,
+    result,
+    result_amount,
+    nutrition_html,
+    follow_ups,
+  } = data;
 
   return (
     <div className="recipe-detail">
@@ -124,7 +153,10 @@ const FoodEntry = ({ data }: { data: FoodEntryData }) => {
             <span key={i}>
               <InlineIcon icon={b.icon} icon_state={b.icon_state} />
               {b.link ? (
-                <button className="toc-link" onClick={() => act('view_recipe', { path: b.link })}>
+                <button
+                  className="toc-link"
+                  onClick={() => act('view_recipe', { path: b.link })}
+                >
                   {b.name}
                 </button>
               ) : (
@@ -139,7 +171,10 @@ const FoodEntry = ({ data }: { data: FoodEntryData }) => {
           <b>Start with:</b>{' '}
           <InlineIcon icon={bases[0].icon} icon_state={bases[0].icon_state} />
           {bases[0].link ? (
-            <button className="toc-link" onClick={() => act('view_recipe', { path: bases[0].link })}>
+            <button
+              className="toc-link"
+              onClick={() => act('view_recipe', { path: bases[0].link })}
+            >
               {bases[0].name}
             </button>
           ) : (
@@ -174,7 +209,12 @@ const FoodEntry = ({ data }: { data: FoodEntryData }) => {
               flexShrink: 0,
             }}
           >
-            <DmIcon icon={result.icon} icon_state={result.icon_state} width={2} height={2} />
+            <DmIcon
+              icon={result.icon}
+              icon_state={result.icon_state}
+              width={2}
+              height={2}
+            />
           </span>
           {result_amount > 1 ? `${result_amount}x ` : ''}
           {result.name}
@@ -185,7 +225,10 @@ const FoodEntry = ({ data }: { data: FoodEntryData }) => {
         <div dangerouslySetInnerHTML={{ __html: nutrition_html }} />
       )}
 
-      <p>Each step takes about {time_per_step} seconds before cooking skill modifiers.</p>
+      <p>
+        Each step takes about {time_per_step} seconds before cooking skill
+        modifiers.
+      </p>
 
       {follow_ups.length > 0 && (
         <>
@@ -193,7 +236,10 @@ const FoodEntry = ({ data }: { data: FoodEntryData }) => {
           <ul>
             {follow_ups.map((f, i) => (
               <li key={i}>
-                <button className="toc-link" onClick={() => act('view_recipe', { path: f.path })}>
+                <button
+                  className="toc-link"
+                  onClick={() => act('view_recipe', { path: f.path })}
+                >
                   {f.name}
                 </button>
               </li>
@@ -214,8 +260,8 @@ const StewEntry = ({ data }: { data: StewEntryData }) => {
       <style>{COOK_STYLES}</style>
       <h2>{name}</h2>
       <p>
-        Boil a hot pot of water, then add any of the following ingredients. Each yields{' '}
-        <b>{output_name}</b>:
+        Boil a hot pot of water, then add any of the following ingredients. Each
+        yields <b>{output_name}</b>:
       </p>
       {!!output_desc && <p className="recipe-desc">{output_desc}</p>}
       {inputs.length > 0 && (
@@ -229,8 +275,8 @@ const StewEntry = ({ data }: { data: StewEntryData }) => {
         </ul>
       )}
       <p>
-        Stews simmer for about {cooktime} seconds per ingredient. A pot consumes 30dr of water
-        per ingredient converted.
+        Stews simmer for about {cooktime} seconds per ingredient. A pot consumes
+        30dr of water per ingredient converted.
       </p>
     </div>
   );

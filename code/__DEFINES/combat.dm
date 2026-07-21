@@ -60,15 +60,12 @@
 
 #define HEALTH_THRESHOLD_NEARDEATH -90 //Not used mechanically, but to determine if someone is so close to death they hear the other side
 
-#define FIRE_HARDCRIT_BASE 300 //Total burn damage across all bodyparts to hardcrit a player
-#define FIRE_HARDCRIT_NOPAIN_MULT 1.5 //NOPAIN/NOPAINSTUN increases threshold by 50% (450)
-
 #define STRENGTH_SOFTCAP 14	//STR value past which we get diminishing returns in our damage calculations.
 #define STRENGTH_MULT 0.1	//STR multiplier per STR point up to the softcap. Works as a %-age. 0.1 = 10% per point.
-#define STRENGTH_CAPPEDMULT 0.05	//STR multiplier per STR point past the softcap
+#define STRENGTH_CAPPEDMULT 0.03	//STR multiplier per STR point past the softcap
 #define RANGED_STAT_SOFTCAP 15	//PER value past which ranged damage scaling has diminishing returns.
 #define RANGED_STAT_MULT 0.1	//PER multiplier per point up to the softcap. 0.1 = 10% per point.
-#define RANGED_STAT_CAPPEDMULT 0.05	//PER multiplier per point past the softcap. 0.05 = 5% per point.
+#define RANGED_STAT_CAPPEDMULT 0.03	//PER multiplier per point past the softcap. 0.03 = 3% per point.
 //Actual combat defines
 
 //click cooldowns, in tenths of a second, used for various combat actions
@@ -337,6 +334,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 //Weapon values
 #define NONBLUNT_BLUNT_DAMFACTOR 0.6 // Damage factor when a non blunt weapon is used with blunt intent. Meant to make it worse than a real one.
 #define BLUNT_DEFAULT_INT_DAMAGEFACTOR 1.6 // Universal blunt intent integrity damage factor. Replaces Roguepen
+#define SPELL_BLUNT_INT_DAMAGEFACTOR 1.3 // Blunt integrity damage factor for spell projectiles
 #define PUNCH_INT_DAMAGEFACTOR 1.2 // Reduced integrity damage for unarmed punches cuz they're really fast
 // Integrity & Sharpness Value
 #define INTEG_PARRY_DECAY			1	//Default integrity decay on parry.

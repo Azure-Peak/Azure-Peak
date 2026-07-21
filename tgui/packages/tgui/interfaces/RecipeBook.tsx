@@ -207,7 +207,7 @@ const BookPage = () => {
   }, [data.current_book, data.initial_category]);
 
   const recipes = data.current_book
-    ? (data.book_recipes[data.current_book] || [])
+    ? data.book_recipes[data.current_book] || []
     : [];
 
   const categories = useMemo(() => {
@@ -219,7 +219,8 @@ const BookPage = () => {
       }
     }
     const arr = Array.from(cats);
-    const rank = (c: string) => (c === 'Instructions' ? -2 : c === 'All' ? -1 : 0);
+    const rank = (c: string) =>
+      c === 'Instructions' ? -2 : c === 'All' ? -1 : 0;
     arr.sort((a, b) => {
       const diff = rank(a) - rank(b);
       if (diff !== 0) return diff;

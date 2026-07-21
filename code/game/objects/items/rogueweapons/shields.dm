@@ -373,7 +373,6 @@
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	max_integrity = 330
-	sellprice = 30
 
 /obj/item/rogueweapon/shield/tower/holysee/MiddleClick(mob/user, params)
 	. = ..()

@@ -356,6 +356,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 				break
 		if(has_restricted_virtue || has_restricted_vice)
 			return JOB_UNAVAILABLE_VIRTUESVICE
+	if(job.prefs_all_subclasses_restricted(client))
+		return JOB_UNAVAILABLE_VIRTUESVICE
 //	if(job.title == "Adventurer" && latejoin)
 //		for(var/datum/job/J in SSjob.occupations)
 //			if(J && J.total_positions && J.current_positions < 1 && J.title != job.title && (IsJobUnavailable(J.title))

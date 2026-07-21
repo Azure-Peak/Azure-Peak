@@ -22,8 +22,10 @@
 		def_zone = CBP.body_zone
 	var/obj/item/clothing/used
 	var/protection = 0
+	var/dr_armor_present = FALSE
 	var/intdamage = damage
-	var/consume_debuff = TRUE
+	// Exposed/Vulnerable are melee set-ups; a ranged hit (including a caster's own fire/frost) shouldn't burn the proc it just set up. Full armor penetration also clears this below.
+	var/consume_debuff = !istype(used_weapon, /obj/projectile)
 	
 	if(HAS_TRAIT(src, TRAIT_IRONMAN)) // free clongo noise when hit
 		playsound(loc, get_armor_sound(PLATEHIT, blade_dulling), 100) // SOVLNUKE!!!
@@ -69,7 +71,7 @@
 				intdamage *= tempo_bonus
 
 			if(consume_debuff)
-				var/use_flat = flat_integ || istype(used_weapon, /obj/projectile)
+				var/use_flat = flat_integ
 				if(has_status_effect(/datum/status_effect/debuff/exposed))
 					if(use_flat)
 						intdamage += EXPOSED_INTEG_FLAT
@@ -94,18 +96,17 @@
 		// DR types: blunt, fire, acid
 		var/list/layers = get_best_worn_armor_layered(def_zone, d_type)
 		if(length(layers))
+			dr_armor_present = TRUE
+			var/obj/item/clothing/best_layer
 			for(var/C in layers)
-				if(layers[C] > protection)
+				if(!best_layer || layers[C] > protection)
 					protection = layers[C]
+					best_layer = C
 			// DR tier formula: damage * 1 / (1 + 0.2 * tier)
 			if(protection > 0)
+				// Blunt/Fire/Acid: armor takes the DR-reduced amount, none reaches HP.
 				var/dr_mult = 1 / (1 + 0.2 * protection)
-				if(d_type in ARMOR_DR_PIERCE_TYPES)
-					// Fire/Acid: armor takes the blocked portion (what doesn't reach HP)
-					intdamage *= (1 - dr_mult)
-				else
-					// Blunt: armor takes the DR-reduced amount
-					intdamage *= dr_mult
+				intdamage *= dr_mult
 			if(intdamfactor != 1)
 				intdamage *= intdamfactor
 
@@ -116,34 +117,52 @@
 			if(tempo_bonus)
 				intdamage *= tempo_bonus
 
+			var/use_flat = flat_integ
 			var/full_dmg
-			if(has_status_effect(/datum/status_effect/debuff/exposed))
+			if(consume_debuff && has_status_effect(/datum/status_effect/debuff/exposed))
 				full_dmg = TRUE
+				if(use_flat)
+					intdamage += EXPOSED_INTEG_FLAT
+				else
+					intdamage *= EXPOSED_INTEG_MOD
 				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
 				visible_message("<span class = 'combatsecondarybodypart'>[src] suffers a savage hit to their armor while exposed!</span>")
 				remove_status_effect(/datum/status_effect/debuff/exposed)
 				emote("pain", forced = TRUE)
-			else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
+			else if(consume_debuff && has_status_effect(/datum/status_effect/debuff/vulnerable))
+				if(use_flat)
+					intdamage += VULN_INTEG_FLAT
+				else
+					intdamage *= VULN_INTEG_MOD
 				playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
 				visible_message(span_biginfo("[src] is struck into their armor while vulnerable!"))
 				remove_status_effect(/datum/status_effect/debuff/vulnerable)
 				emote("groan", forced = TRUE)
 
-			var/layers_deep = 1
-			var/played_sound = FALSE
-			for(var/obj/item/clothing/C in layers)
-				var/actualdmg = intdamage
-				if(!full_dmg)
-					actualdmg /= layers_deep
-				C.take_damage(actualdmg, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
-				if(C.blocksound && !played_sound)
-					playsound(loc, get_armor_sound(C.blocksound, blade_dulling), 100)
-					played_sound = TRUE
-				layers_deep++
+			if(d_type in ARMOR_DR_SINGLE_LAYER_TYPES)
+				if(best_layer)
+					best_layer.take_damage(intdamage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+					if(best_layer.blocksound)
+						playsound(loc, get_armor_sound(best_layer.blocksound, blade_dulling), 100)
+			else
+				var/layers_deep = 1
+				var/played_sound = FALSE
+				for(var/obj/item/clothing/C in layers)
+					var/actualdmg = intdamage
+					if(!full_dmg)
+						actualdmg /= layers_deep
+					C.take_damage(actualdmg, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+					if(C.blocksound && !played_sound)
+						playsound(loc, get_armor_sound(C.blocksound, blade_dulling), 100)
+						played_sound = TRUE
+					layers_deep++
 			layers.Cut()
 
 	if(physiology)
 		protection += physiology.armor.getRating(d_type)
+
+	if(dr_armor_present && protection < 1)
+		return protection + 1
 
 	return protection
 
@@ -818,6 +837,11 @@
 					if(val > protection)
 						protection = val
 						used = C
+				// Fire/acid: fall back to a worn real-armor piece even at a 0 rating, so a fire/acid-0
+				// plate still reads as "armored" (engages absorb, shows crumble messages). A rated piece wins.
+				// has_armor_value() (any blunt/slash/stab/piercing rating) is the real-armor gate so plain cloth keeps bypassing instead of burning off.
+				else if((d_type in ARMOR_DR_RESIST_TYPES) && C.max_integrity && C.has_armor_value() && !used)
+					used = C
 	return used
 
 /// Helper proc that returns the worn item ref that has the highest rating covering the def_zone (targeted zone) for the d_type (damage type). Returns the whole list of items that cover def_zone, from highest rating to lowest.
@@ -842,7 +866,10 @@
 					if(C.obj_integrity <= 0 || C.obj_broken)
 						continue
 				var/val = C.armor.getRating(d_type)
-				if(val > 0)
+				// Fire/acid: any worn real-armor piece counts even at a 0 rating (blunt keeps its own rating gate), so it soaks
+				// HP damage and takes integrity damage instead of letting it bypass. Plain cloth (no blunt/slash/stab/piercing rating)
+				// and cosmetics (no max_integrity) stay excluded so they bypass instead of burning off. The stored rating is preserved as the value.
+				if(val > 0 || ((d_type in ARMOR_DR_RESIST_TYPES) && C.max_integrity && C.has_armor_value()))
 					used_armor[C] = val
 	return used_armor
 

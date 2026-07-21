@@ -27,7 +27,6 @@
 	var/diagonal = FALSE //allows diagonal structures to have their direction chosen.
 	var/craftdiff = 1
 	var/xp_modifier = 1 // Multiplier for crafting XP. Set to 0 to disable XP (e.g. arcana recipes).
-	var/sellprice = 0
 	/// Whether this recipe will be hidden from recipe books
 	var/hides_from_books = FALSE
 	// Does not imposes quality on the finished item, but take the lowest quality of input items to prevent any kind of quality transmutation exploit
@@ -64,7 +63,7 @@
 	data["name"] = name
 	data["ref"] = "[REF(src)]"
 	data["path"] = type
-	var/resolved_sellprice = sellprice
+	var/resolved_sellprice = 0
 	var/result_path
 	if(islist(result))
 		var/list/result_list = result
@@ -158,7 +157,7 @@
 		created_stationary = result
 		if(AM.sellprice)
 			uncrafted_sellprice = AM.sellprice
-	var/final_sellprice = sellprice || uncrafted_sellprice
+	var/final_sellprice = uncrafted_sellprice
 	var/html 
 	if (!isnull(created_stuff))
 		html = {"

@@ -403,18 +403,31 @@
 /datum/outfit/job/roguetown/adventurer/spellthief/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are an Arcyne Trickster, a thief and hooligan gifted in the arcyne arts."))
-	head = /obj/item/clothing/head/roguetown/witchhat/mageblue
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	cloak = /obj/item/clothing/cloak/raincloak/mageblue
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	beltl = /obj/item/rogueweapon/scabbard/sheath
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
+
+	// This just changes your starting cantrips and if you wear snazzy blue or edgy black.
+	var/origin = input(H, "Arcyne Thief or a Magos Hooligan?", "ORIGIN") as anything in list("Arcyne Thief (Aetherknife)", "Magos Hooligan (Magician's Brick)")
+	if(origin == "Arcyne Thief (Aetherknife)")
+		head = /obj/item/clothing/head/roguetown/headband/monk/barbarian
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/gladiator
+		cloak = /obj/item/clothing/cloak/raincloak/mortus
+		if(H.mind)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/aetherknife)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/lesser_knock)
+	else
+		head = /obj/item/clothing/head/roguetown/witchhat/mageblue
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+		cloak = /obj/item/clothing/cloak/raincloak/mageblue
+		if(H.mind)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/magicians_brick)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/waterbolt)
 	if(H.mind)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/lesser_knock)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/waterbolt)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/blink)

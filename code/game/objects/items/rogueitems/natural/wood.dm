@@ -317,7 +317,7 @@
 				qdel(src)
 				if (L.alpha == 0 && L.rogue_sneaking) // not anymore you're not
 					L.update_sneak_invis(TRUE)
-				if(!HAS_TRAIT(L, TRAIT_WOODWALKER))	
+				if(!HAS_TRAIT(L, TRAIT_WOODWALKER))
 					L.consider_ambush()
 
 /obj/item/grown/log/tree/stick/Initialize()
@@ -368,13 +368,13 @@
 				stackcount--
 			else if(stackcount >= 2)
 				var/obj/item/natural/bundle/stick/B = new(get_turf(user))
-				B.amount = clamp(stackcount, 2, 4)
+				B.amount = clamp(stackcount, 2, 10)
 				B.update_bundle()
-				stackcount -= clamp(stackcount, 2, 4)
+				stackcount -= clamp(stackcount, 2, 10)
 				user.put_in_hands(B)
 		for(var/obj/item/grown/log/tree/stick/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 100)
 			qdel(F)
+		playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 100)
 
 
 /obj/item/grown/log/tree/stick/attackby(obj/item/I, mob/living/user, params)
@@ -500,7 +500,7 @@
 	sellprice = 4
 	bundletype = /obj/item/natural/bundle/plank
 	smeltresult = /obj/item/ash
-	
+
 /obj/item/natural/wood/plank/attack_right(mob/living/user)
 	if(user.get_active_held_item())
 		return

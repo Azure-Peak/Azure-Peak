@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  Section,
-  Stack,
-  Table,
-} from 'tgui-core/components';
+import { Box, Button, Section, Stack, Table } from 'tgui-core/components';
 
 export type ForeignRealm = {
   id: string;
@@ -50,10 +44,7 @@ export const ForeignTradeView = (props: {
   );
 };
 
-const RealmsSection = (props: {
-  foreignTrade: ForeignTrade;
-  act: ActFn;
-}) => {
+const RealmsSection = (props: { foreignTrade: ForeignTrade; act: ActFn }) => {
   const { foreignTrade, act } = props;
   return (
     <Section
@@ -85,9 +76,7 @@ const RealmsSection = (props: {
             </Table.Cell>
             <Table.Cell collapsing>
               <Button
-                onClick={() =>
-                  act('spawn_trade_ship', { realm_id: r.id })
-                }
+                onClick={() => act('spawn_trade_ship', { realm_id: r.id })}
               >
                 Spawn Ship
               </Button>
@@ -99,10 +88,7 @@ const RealmsSection = (props: {
   );
 };
 
-const ShipsSection = (props: {
-  foreignTrade: ForeignTrade;
-  act: ActFn;
-}) => {
+const ShipsSection = (props: { foreignTrade: ForeignTrade; act: ActFn }) => {
   const { foreignTrade, act } = props;
   const ships = foreignTrade.ships ?? [];
   return (

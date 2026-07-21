@@ -95,9 +95,12 @@
 	speed = 0.4
 	min_range = MIN_ARROW_RANGE
 	max_range = MAX_ARROW_RANGE
+	var/trains_ranged_skill = TRUE
 
 /obj/projectile/bullet/reusable/arrow/on_hit(atom/target)
 	..()
+	if(!trains_ranged_skill)
+		return
 	var/mob/living/L = firer
 	if(!L || !L.mind)
 		return
@@ -128,7 +131,7 @@
 /obj/projectile/bullet/reusable/arrow/iron
 	name = "broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
-	damage = 50
+	damage = 55
 	armor_penetration = PEN_LIGHT
 	flag = "piercing"
 	embedchance = 30
@@ -139,7 +142,7 @@
 	name = "decrepit broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	icon_state = "ancientarrow_proj"
-	damage = 50
+	damage = 55
 	armor_penetration = PEN_LIGHT
 	flag = "piercing"
 
@@ -150,7 +153,7 @@
 	name = "bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel
 	accuracy = 75
-	damage = 25
+	damage = 30
 	armor_penetration = PEN_HEAVY
 	embedchance = 80 // Easy embeds!
 	npc_simple_damage_mult = 3
@@ -161,7 +164,7 @@
 	name = "ancient bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
 	icon_state = "ancientarrow_proj"
-	damage = 30
+	damage = 35
 	armor_penetration = PEN_HEAVY
 	embedchance = 60
 
@@ -225,7 +228,7 @@
 	armor_penetration = PEN_HEAVY
 	embedchance = 100
 	npc_simple_damage_mult = 7 //..or 420 damage against a mindless mob. Strike true; reduce if these become craftable or more easily acquirable, through any means.
-	is_silver_proj = TRUE 
+	is_silver_proj = TRUE
 
 /obj/item/ammo_casing/caseless/rogue/arrow/getonmobprop(tag)
 	. = ..()
@@ -277,15 +280,20 @@
 /obj/projectile/bullet/arrow/elemental/fire
 	name = "fire arrow"
 	icon_state = "arrowpyro_proj"
+	damage = 50
+	woundclass = BCLASS_BURN
+	damage_type = BURN
 
 /obj/projectile/bullet/arrow/elemental/fire/on_hit(atom/target)
 	..()
+	var/turf/epicenter = get_turf(target)
+	if(epicenter)
+		new /obj/effect/temp_visual/explosion(epicenter)
+		playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 4)
 	if(!ismob(target))
 		return
 	var/mob/living/M = target
-	M.adjust_fire_stacks(2)
-	M.adjustFireLoss(5)
-	M.ignite_mob()
+	apply_scorch_stack(M, 3, def_zone)
 
 // --- FROST --- (Pending PR #6406 frost stack system - should apply 2 frost stacks)
 /*

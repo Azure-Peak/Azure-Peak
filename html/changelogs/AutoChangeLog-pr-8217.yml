@@ -1,0 +1,5 @@
+author: "Ryumi"
+delete-after: True
+changes:
+  - rscadd: "Xylixian amulets now correctly show themselves as \"heretical\" when disguised as heretical amulet types."
+  - bugfix: "Hag amulets also account for Gronn amulets and more Zizite amulet types."

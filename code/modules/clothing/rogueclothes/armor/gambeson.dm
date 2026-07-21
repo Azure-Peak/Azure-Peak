@@ -9,6 +9,8 @@
 	armor = ARMOR_PADDED
 	blocksound = SOFTUNDERHIT
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+	pickup_sound = 'sound/foley/equip/equip_armor.ogg'
+	equip_sound = 'sound/foley/equip/equip_armor.ogg'
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
@@ -194,7 +196,7 @@
 		add_overlay(pic)
 
 /obj/item/clothing/suit/roguetown/shirt/freifechter
-	name = "padded fencing shirt"
+	name = "fencing shirt"
 	desc = "A strong loosely worn quilted shirt that places little weight on the arms, usually worn underneath a flexible leather vest. It won't cover your legs."
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
@@ -258,6 +260,10 @@
 		if(loc == user && ishuman(user))
 			var/mob/living/carbon/H = user
 			H.update_inv_shirt()
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/Initialize()
+	. = ..()
+	update_icon()
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/update_icon()
 	cut_overlays()

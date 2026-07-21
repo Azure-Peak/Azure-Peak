@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Potentially fixes spells and attacks fizzling when you move your mouse after charging"

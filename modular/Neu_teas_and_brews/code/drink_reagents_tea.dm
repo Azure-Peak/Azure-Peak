@@ -123,7 +123,7 @@
 /datum/reagent/consumable/tea/manabloom/overdose_process(mob/living/M)
 	M.adjustToxLoss(1, 0)
 	M.reagents.remove_reagent(/datum/reagent/consumable/tea/manabloom, 2) //No powerchuging for you, mage lad.
-	to_chat(M, list("<span class='danger'>My stomach BURNS</span>",))
+	to_chat(M, span_danger("My stomach BURNS."))
 	..()
 	. = 1
 

@@ -2,7 +2,7 @@
 	name = "Battlemaster"
 	tutorial = "You are a seasoned weapon specialist, clad in maille, with years of experience in warfare and battle under your belt."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/sfighter
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
@@ -134,7 +134,10 @@
 	tutorial = "You are an esteemed swordsman who foregoes armor in exchange for a more nimble fighting style."
 	outfit = /datum/outfit/job/roguetown/adventurer/duelist
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT)
+	subclass_virtues = list(
+		/datum/virtue/combat/guarded
+	)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_STR = 1,
@@ -367,8 +370,18 @@
 			"Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/iron,
 			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron,
 			"Kettle Helmet"		= /obj/item/clothing/head/roguetown/helmet/kettle/iron,
+			"Slitted Kettle Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle/iron,
+			"Barbute"		= /obj/item/clothing/head/roguetown/helmet/heavy/barbute/iron,
+			"Visored Barbute"		= /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/iron,
+			"Pigface Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/iron,
+			"Hounskull Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/iron,
+			"Roundface Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/iron,
+			"Etruscan Bascinet"		= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/iron,
+			"Aventailed Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/aventail/iron,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron,
-			"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron,
+			"Bucket Helmet, Sugarloafed"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron/classic,
+			"Sayovard"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard/iron,
+			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff/iron,
 			"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron,
 			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron/greatplume,
 			"Banded Iron Helmet"			=	/obj/item/clothing/head/roguetown/helmet/sallet/iron/banded,
@@ -417,7 +430,7 @@
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Executioner's Sword","Broadsword","Warhammer + Shield","Flail + Shield","Studded Flail + Shield","Lucerne","Greataxe","Greatflail","Banded Sword + Shield")
+		var/weapons = list("Executioner's Sword","Bastard Sword","Broadsword","Warhammer + Shield","Flail + Shield","Studded Flail + Shield","Lucerne","Greataxe","Greatflail","Banded Sword + Shield")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Executioner's Sword")
@@ -427,6 +440,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				backr = /obj/item/rogueweapon/sword/long/broadsword
+			if("Bastard Sword")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				backr = /obj/item/rogueweapon/sword/long/iron
 			if("Warhammer + Shield")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -468,6 +485,7 @@
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_PURITAN_ADVENTURER, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPERT_HUNTER)
 	maximum_possible_slots = 5 //Not a Wretch or Towner, but still conditionally lethal for an Adventurer - especially with steel coverage and round-start access to silver weapons. Adjust the amount of available slots as needed.
+	vice_limits = list(/datum/charflaw/silverweakness)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_PER = 2,
@@ -562,7 +580,7 @@
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Silver Katar (+1 Athletics)")  //For these 2 unarmed weapon options, get a level of athletics as a consolation prize, since this class gets jman unarmed already, and expert would be OP.
 				if(H.age != AGE_OLD)  //BUT ONLY IF THE CHARACTER IS NOT OLD, because old exorcists get expert EVERYTHING anyway, no need for compensation.
-					H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)  
+					H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/katar/silver
 			if("Silver Claws (+1 Athletics)")
 				if(H.age != AGE_OLD)
@@ -688,7 +706,7 @@
 		if(/datum/patron/divine/necra)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/silver/necra
 		if(/datum/patron/divine/noc)
-			wrists = /obj/item/clothing/neck/roguetown/psicross/silver/noc 
+			wrists = /obj/item/clothing/neck/roguetown/psicross/silver/noc
 		else
 			wrists = /obj/item/clothing/neck/roguetown/psicross/silver/undivided
 

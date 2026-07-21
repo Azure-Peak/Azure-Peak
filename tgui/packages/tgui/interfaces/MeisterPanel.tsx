@@ -16,7 +16,7 @@ import { LedgerTab } from './MeisterPanel/LedgerTab';
 import { PatronageTab } from './MeisterPanel/PatronageTab';
 import { PersonalTab } from './MeisterPanel/PersonalTab';
 import { PollTaxTab } from './MeisterPanel/PollTaxTab';
-import { type Data, type TabKey } from './MeisterPanel/types';
+import type { Data, TabKey } from './MeisterPanel/types';
 
 export const MeisterPanel = () => {
   const { data, act } = useBackend<Data>();

@@ -7,7 +7,7 @@
 	blade_dulling = DULLING_BASH
 	pixel_y = 32
 	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
+	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood")
 	var/datum/withdraw_tab/withdraw_tab = null
 
 /obj/structure/roguemachine/stockpile/get_mechanics_examine(mob/user)

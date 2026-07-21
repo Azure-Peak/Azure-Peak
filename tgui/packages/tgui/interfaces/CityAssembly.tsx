@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
+import { useEffect, useState } from 'react';
 import { TextArea } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -241,16 +241,18 @@ export const CityAssembly = () => {
     const t = setInterval(() => setTick((n) => n + 1), 1000);
     return () => clearInterval(t);
   }, []);
-  const countdown = Math.max(
-    0,
-    (data.next_resolution_seconds || 0) - tick,
-  );
+  const countdown = Math.max(0, (data.next_resolution_seconds || 0) - tick);
 
   const canVote = !data.is_outlaw && data.my_weight_doubled > 0;
   const hasAlderman = !!data.current_alderman;
 
   return (
-    <Window title="The City Assembly" width={780} height={740} theme="parchment">
+    <Window
+      title="The City Assembly"
+      width={780}
+      height={740}
+      theme="parchment"
+    >
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>The City Assembly</div>
@@ -267,8 +269,8 @@ export const CityAssembly = () => {
                 : ` • resolves at ${data.next_resolution}`}
             </span>
             <span>
-              {data.voter_count} voter{data.voter_count === 1 ? '' : 's'} &middot;
-              your weight {formatWeight(data.my_weight_doubled)}
+              {data.voter_count} voter{data.voter_count === 1 ? '' : 's'}{' '}
+              &middot; your weight {formatWeight(data.my_weight_doubled)}
               {data.is_censured ? ' (censured)' : ''}
               {data.is_outlaw ? ' (outlaw)' : ''}
             </span>
@@ -354,7 +356,8 @@ export const CityAssembly = () => {
             style={{ ...standLinkStyle, marginTop: '12px' }}
             onClick={() => setHistoryOpen(!historyOpen)}
           >
-            {historyOpen ? 'Hide record' : 'Show record'} ({data.history.length})
+            {historyOpen ? 'Hide record' : 'Show record'} ({data.history.length}
+            )
           </div>
           {historyOpen && <HistoryBlock history={data.history} />}
         </div>
@@ -383,16 +386,25 @@ const AldermanStrip = (props: {
       <div style={aldermanRowStyle}>
         <span>Trade warrant</span>
         <span>
-          <b>{props.warrant.trade_remaining}m</b> of {props.warrant.trade_cap}m remaining today
+          <b>{props.warrant.trade_remaining}m</b> of {props.warrant.trade_cap}m
+          remaining today
         </span>
       </div>
       <div style={aldermanRowStyle}>
         <span>Defense warrant</span>
         <span>
-          <b>{props.warrant.defense_remaining}p</b> of {props.warrant.defense_cap}p remaining today
+          <b>{props.warrant.defense_remaining}p</b> of{' '}
+          {props.warrant.defense_cap}p remaining today
         </span>
       </div>
-      <div style={{ marginTop: '6px', display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+      <div
+        style={{
+          marginTop: '6px',
+          display: 'flex',
+          gap: '6px',
+          flexWrap: 'wrap',
+        }}
+      >
         <button
           type="button"
           style={inkButtonStyle({
@@ -442,7 +454,7 @@ const ElectionRow = (props: ElectionRowProps) => {
   const tally = data.tallies?.election;
 
   const leaderLabel = (() => {
-    if (!tally || !tally.leader_key || tally.total === 0) return null;
+    if (!tally?.leader_key || tally.total === 0) return null;
     if (tally.leader_key === NO_ALDERMAN) return 'NO ALDERMAN leads';
     const match = data.candidates.find((c) => c.ref === tally.leader_key);
     if (match) return `${match.name} leads`;
@@ -454,9 +466,7 @@ const ElectionRow = (props: ElectionRowProps) => {
       <span style={rowLabelStyle}>Alderman</span>
       <div style={{ flex: 1, minWidth: 0 }}>
         {data.candidates.length === 0 && (
-          <div style={{ color: INK_SOFT }}>
-            No one has stood yet.
-          </div>
+          <div style={{ color: INK_SOFT }}>No one has stood yet.</div>
         )}
         {data.candidates.map((c) => {
           const selected = mySelection === c.ref;
@@ -523,15 +533,13 @@ const ElectionRow = (props: ElectionRowProps) => {
 
         {leaderLabel ? (
           <div style={previewStyle}>
-            &rarr; {leaderLabel} ({formatWeight(tally?.total ?? 0)} total weight)
+            &rarr; {leaderLabel} ({formatWeight(tally?.total ?? 0)} total
+            weight)
           </div>
         ) : null}
 
         {canStand && !props.standOpen ? (
-          <div
-            style={standLinkStyle}
-            onClick={() => props.setStandOpen(true)}
-          >
+          <div style={standLinkStyle} onClick={() => props.setStandOpen(true)}>
             {amCandidate ? 'Update my pledge...' : 'Stand for the chair...'}
           </div>
         ) : null}
@@ -751,7 +759,13 @@ const HistoryBlock = (props: { history: HistoryEntry[] }) => {
             marginBottom: '8px',
           }}
         >
-          <div style={{ color: INK_SOFT, fontSize: FONT_BODY, letterSpacing: '1px' }}>
+          <div
+            style={{
+              color: INK_SOFT,
+              fontSize: FONT_BODY,
+              letterSpacing: '1px',
+            }}
+          >
             Session {h.session} &mdash; Day {h.day}
           </div>
           <div

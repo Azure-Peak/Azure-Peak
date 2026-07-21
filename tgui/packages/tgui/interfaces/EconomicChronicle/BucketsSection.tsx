@@ -1,8 +1,4 @@
-import {
-  FONT_BODY,
-  INK_SOFT,
-  subtitleStyle,
-} from '../common/parchment';
+import { FONT_BODY, INK_SOFT, subtitleStyle } from '../common/parchment';
 import {
   compactCardStyle,
   compactDataCell,
@@ -34,7 +30,11 @@ const RealMarketTable = (props: { rows: RealBucket[] }) => (
           <td style={compactHeaderCell}>Bucket</td>
           <td style={{ ...compactHeaderCell, textAlign: 'right' }}>Sold</td>
           <td
-            style={{ ...compactHeaderCell, textAlign: 'right', paddingRight: 0 }}
+            style={{
+              ...compactHeaderCell,
+              textAlign: 'right',
+              paddingRight: 0,
+            }}
           >
             Relieved
           </td>
@@ -72,7 +72,11 @@ const BlackMarketTable = (props: { rows: BmBucket[] }) => (
         <tr>
           <td style={compactHeaderCell}>Bucket</td>
           <td
-            style={{ ...compactHeaderCell, textAlign: 'right', paddingRight: 0 }}
+            style={{
+              ...compactHeaderCell,
+              textAlign: 'right',
+              paddingRight: 0,
+            }}
           >
             Sold
           </td>
@@ -83,7 +87,11 @@ const BlackMarketTable = (props: { rows: BmBucket[] }) => (
           <tr key={row.name}>
             <td style={compactDataCell}>{row.name}</td>
             <td
-              style={{ ...compactDataCell, textAlign: 'right', paddingRight: 0 }}
+              style={{
+                ...compactDataCell,
+                textAlign: 'right',
+                paddingRight: 0,
+              }}
             >
               {row.sold}
             </td>

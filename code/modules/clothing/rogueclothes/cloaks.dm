@@ -166,7 +166,7 @@
 /obj/item/clothing/cloak/sleevedtabard
 	name = "sleeved tabard"
 	desc = "A tabard with a light sleeve and pauldron sewn on, it lacks the explicit detailing of other tabards in exchange."
-	color = null 
+	color = null
 	boobed = TRUE
 	icon_state = "halfsurcoat"
 	item_state = "halfsurcoat"
@@ -731,6 +731,16 @@
 	desc = "A tabard colored in a glorius green of the mighty protectors of the BOG. Except you are not a TRAITOR. Yet."
 	color = CLOTHING_GREEN
 	detail_color = CLOTHING_DARK_GREEN
+
+/obj/item/clothing/cloak/tabard/stabard/bog/levy/hood
+	name = "levy militia hood"
+	desc = "A hood colored in a glorius green of the mighty protectors of the BOG. Except you are not a TRAITOR. Yet."
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_NECK|ITEM_SLOT_MASK|ITEM_SLOT_CLOAK
+	color = CLOTHING_GREEN
+	detail_color = CLOTHING_DARK_GREEN
+	icon_state = "guard_hood"
+	item_state = "guard_hood"
+	detail_tag = "_spl"
 
 /obj/item/clothing/cloak/tabard/stabard/bog
 	name = "bogman tabard"
@@ -1729,10 +1739,10 @@
 
 /obj/item/clothing/cloak/ordinatorcape/lirvas
 	name = "lirvan silks"
-	desc = "Fine silks. Only the best for me, of course. You need to look good while beating someone to death. </br> </br> ...In Lirvasi society, this isn't even a well-off fellow's shirt; truth be told, this is the sort a yeoman would wear. How terrible to be the wretched 'mongst wealthy; but how glorious that the wretched look so glorious, here."
+	desc = "Fine silks. Only the best for me, of course. You need to look good while beating someone to death. </br> </br>...In Lirvan society, this isn't even a well-off fellow's shirt; truth be told, this is the sort a yeoman would wear. How terrible to be the wretched 'mongst wealthy; but how glorious that the wretched look so glorious, here."
 	icon_state = "lirvastabard"
 	item_state = "lirvastabard"
-	sellprice = 25
+	sellprice = 100
 
 /obj/item/clothing/cloak/absolutionistrobe
 	name = "absolver's robe"

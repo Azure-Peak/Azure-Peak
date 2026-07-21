@@ -1,3 +1,5 @@
+#define MT_BOMB_HIT "bomb_hit"
+#define BOMB_HIT_IMMUNITY_DURATION 1 SECONDS
 
 /obj/item/bomb
 	name = "bottle bomb"
@@ -12,7 +14,7 @@
 	var/fuze = null
 	var/lit = FALSE
 	var/prob2fail = 5
-	var/PVE_damage = 160
+	var/PVE_damage = 75
 	var/spawn_shard = TRUE
 	grid_width = 32
 	grid_height = 64
@@ -77,10 +79,15 @@
 			var/mob/living/simple_animal/SA = target
 			if(SA.can_buckle) // rideable/saddleborn animals are excluded
 				continue
-			target.adjustFireLoss(PVE_damage)
+		if(target.mob_timers[MT_BOMB_HIT] && world.time < target.mob_timers[MT_BOMB_HIT] + BOMB_HIT_IMMUNITY_DURATION)
+			continue
+		target.mob_timers[MT_BOMB_HIT] = world.time
+		var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, flat_integ = TRUE)
+		target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
+		apply_scorch_stack(target, 3)
 	if(spawn_shard)
 		new /obj/item/natural/glass_shard(T)
-	explosion(T, light_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+	explosion(T, light_impact_range = 1, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 	return TRUE
 
 /obj/item/bomb/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
@@ -717,4 +724,7 @@
 	name = "silent gas belcher"
 	desc = "A vented canister, filled with a numbing payload. A strange prickling sensation graces your mind and throat, not unlike the 'pins and needles' of a sleeping limb."
 	icon_state = "smokeshell_purple"
-	smoke_type = /datum/effect_system/smoke_spread/mute_gas	
+	smoke_type = /datum/effect_system/smoke_spread/mute_gas
+
+#undef MT_BOMB_HIT
+#undef BOMB_HIT_IMMUNITY_DURATION

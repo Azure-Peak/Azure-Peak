@@ -11,14 +11,14 @@ import {
   INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
-  pageStyle,
   PARCHMENT_SHADOW,
+  pageStyle,
   rulerStyle,
   SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
   subtitleStyle,
   titleStyle,
 } from './common/parchment';
@@ -44,10 +44,7 @@ type Data = {
 
 type ActFn = (action: string, params?: Record<string, unknown>) => void;
 
-const PriceCapEditor = (props: {
-  row: MaterialRow;
-  act: ActFn;
-}) => {
+const PriceCapEditor = (props: { row: MaterialRow; act: ActFn }) => {
   const { row, act } = props;
   const [priceDraft, setPriceDraft] = useState(row.price);
   const [capDraft, setCapDraft] = useState(row.cap);
@@ -105,8 +102,7 @@ const MaterialRowView = (props: {
   const { row, isKeyholder, act } = props;
   const advertising = !!row.advertise;
   const enabled = !!row.enabled;
-  const capText =
-    row.cap > 0 ? `${row.left} of ${row.cap}` : 'no cap';
+  const capText = row.cap > 0 ? `${row.left} of ${row.cap}` : 'no cap';
   const full = row.cap > 0 && row.left === 0;
   return (
     <div
@@ -141,14 +137,9 @@ const MaterialRowView = (props: {
           </span>{' '}
           each
           {' - '}
-          <span style={{ color: full ? SEAL_RED : INK_SOFT }}>
-            {capText}
-          </span>
+          <span style={{ color: full ? SEAL_RED : INK_SOFT }}>{capText}</span>
           {advertising && enabled && (
-            <span style={{ color: SEAL_GREEN }}>
-              {' '}
-              - advertised
-            </span>
+            <span style={{ color: SEAL_GREEN }}> - advertised</span>
           )}
         </div>
       </div>
@@ -158,9 +149,7 @@ const MaterialRowView = (props: {
           <button
             type="button"
             style={inkButtonStyle()}
-            onClick={() =>
-              act('toggle_enable', { path: row.path })
-            }
+            onClick={() => act('toggle_enable', { path: row.path })}
           >
             {enabled ? 'Disable' : 'Enable'}
           </button>
@@ -168,9 +157,7 @@ const MaterialRowView = (props: {
             type="button"
             style={inkButtonStyle({ disabled: !enabled })}
             disabled={!enabled}
-            onClick={() =>
-              act('toggle_advertise', { path: row.path })
-            }
+            onClick={() => act('toggle_advertise', { path: row.path })}
           >
             {advertising ? 'Quiet' : 'Advertise'}
           </button>

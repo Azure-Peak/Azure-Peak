@@ -15,8 +15,8 @@ import {
   SEAL_GREEN,
   SEAL_RED,
   SEAL_RED_SOFT,
-  sectionHeaderStyle,
   SERIF,
+  sectionHeaderStyle,
 } from './common/parchment';
 
 type CategoryRate = {
@@ -128,7 +128,8 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
           color: INK_SOFT,
         }}
       >
-        Gross projection from rate × eligible heads. Ignores balance, advance, arrears.
+        Gross projection from rate × eligible heads. Ignores balance, advance,
+        arrears.
       </div>
     </div>
   );

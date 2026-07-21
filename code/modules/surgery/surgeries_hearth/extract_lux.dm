@@ -1,3 +1,6 @@
+/mob/living/proc/has_extractable_lux()
+	return !HAS_TRAIT(src, TRAIT_CONJURED_SUMMON)
+
 /datum/surgery/extract_lux
 	steps = list(
 		/datum/surgery_step/incise,
@@ -28,9 +31,14 @@
 	if(target.stat == DEAD)
 		to_chat(user, "They're dead!")
 		return FALSE
+	if(!target.has_extractable_lux())
+		to_chat(user, span_warning("There's no true lifeforce within this conjuration. There is no Lux to extract."))
+		return FALSE
 	if(istiefling(target))
 		to_chat(user, span_warning("Their Lux is infernal. It will not do."))
 		return FALSE
+	if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE))
+		to_chat(user, span_warning("There's violet-ochre flames flickering inside of the cracks in their ribs, there is no Lux to extract, a <b>Vheslynite abomination.</b>"))
 
 /datum/surgery_step/extract_lux/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	display_results(user, target, span_notice("I begin to scrape lux from [target]'s heart..."),
@@ -50,7 +58,7 @@
 		display_results(user, target, span_notice("You extract a single dose of lux from [target]'s heart."),
 			"[user] extracts lux from [target]'s innards.",
 			"[user] extracts lux from [target]'s innards.")
-		
+
 		var/apply_greater
 		if(isaasimar(target) && !(HAS_TRAIT(target, TRAIT_ANCIENT_HAG) || HAS_TRAIT(target, TRAIT_FEYTOUCHED)))
 			new /obj/item/reagent_containers/lux(target.loc)

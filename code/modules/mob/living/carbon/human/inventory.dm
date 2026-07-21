@@ -233,6 +233,8 @@
 		. += thing?.slowdown
 
 /mob/living/carbon/human/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, silent = FALSE)
+	if(I && no_move && !force && HAS_TRAIT(I, TRAIT_NODROP) && HAS_TRAIT(src, TRAIT_CONJURED_SUMMON))
+		force = TRUE
 	var/index = get_held_index_of_item(I)
 	. = ..() //See mob.dm for an explanation on this and some rage about people copypasting instead of calling ..() like they should.
 	if(!. || !I)
@@ -348,6 +350,8 @@
 		mouth = null
 		if(!QDELETED(src))
 			update_inv_mouth()
+
+	worn_ac_dirty = TRUE
 
 	// Armor class warning — must run after slot vars are nulled so check_armor_skill() sees the correct state
 	if(!QDELETED(src) && istype(I, /obj/item/clothing))

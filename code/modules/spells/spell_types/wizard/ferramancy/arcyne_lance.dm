@@ -23,8 +23,9 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 5.5 SECONDS
 
@@ -41,6 +42,7 @@
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "air_blade_stab"
 	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
 	damage = 66
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB

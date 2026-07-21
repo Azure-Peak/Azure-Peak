@@ -76,7 +76,8 @@ const ActivePostingCard = (props: {
   onPost: (tier: Tier) => void;
 }) => {
   const [tier, setTier] = useState<Tier>('hard');
-  const cost = tier === 'medium' ? props.posting.cost_medium : props.posting.cost_hard;
+  const cost =
+    tier === 'medium' ? props.posting.cost_medium : props.posting.cost_hard;
   const canAfford = props.balance >= cost;
   const summary = props.posting.tiers[tier];
   return (

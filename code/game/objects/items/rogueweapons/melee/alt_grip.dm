@@ -294,12 +294,6 @@
 	update_wdefense_dynamic()
 	return TRUE
 
-/obj/item/proc/apply_override_state(state)
-	if(!state)
-		return
-	icon_state = state
-	item_state = state
-
 /obj/item/proc/clear_altgrip_state()
 	if(current_alt_grip)
 		current_alt_grip.remove_from(src)

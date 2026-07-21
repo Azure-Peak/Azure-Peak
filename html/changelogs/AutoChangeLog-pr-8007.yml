@@ -1,7 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - refactor: "cleans up ghost mob code."
-  - bugfix: "fixed bugs with the profane dagger that did not actually put the player client in the dagger."
-  - bugfix: "fixed ghost polling for scried clients."
-  - bugfix: "prevents scried clients from jumping around with double click to move turf."

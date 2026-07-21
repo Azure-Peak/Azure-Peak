@@ -3,8 +3,8 @@ import { Input } from 'tgui-core/components';
 
 import {
   cardStyle,
-  fieldRowStyle,
   FONT_BODY,
+  fieldRowStyle,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -56,11 +56,7 @@ export const ManifestTab = (props: {
   const hasActive = !!data.has_active_order;
   const overCap = itemCount > cap;
   const canSubmit =
-    lines.length > 0 &&
-    deposit >= total &&
-    total > 0 &&
-    !overCap &&
-    !hasActive;
+    lines.length > 0 && deposit >= total && total > 0 && !overCap && !hasActive;
   const shortfall = total - deposit;
   const [note, setNote] = useState('');
 
@@ -145,9 +141,7 @@ export const ManifestTab = (props: {
             <button
               type="button"
               style={inkButtonStyle()}
-              onClick={() =>
-                act('manifest_dec', { ref: line.ref, delta: 1 })
-              }
+              onClick={() => act('manifest_dec', { ref: line.ref, delta: 1 })}
             >
               -
             </button>
@@ -165,9 +159,7 @@ export const ManifestTab = (props: {
             <button
               type="button"
               style={inkButtonStyle()}
-              onClick={() =>
-                act('manifest_inc', { ref: line.ref, delta: 1 })
-              }
+              onClick={() => act('manifest_inc', { ref: line.ref, delta: 1 })}
             >
               +
             </button>

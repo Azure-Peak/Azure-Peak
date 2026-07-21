@@ -351,4 +351,5 @@
 	/obj/item/natural/clay = 2,
 	/obj/item/candle = 1
 	)
+	subtype_reqs = TRUE
 	craftdiff = 4

@@ -17,6 +17,7 @@
 	primary_resource_cost = SPELLCOST_UTILITY_BUFF
 
 	charge_required = TRUE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	charge_time = 1 SECONDS
 	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL

@@ -17,7 +17,7 @@ import { HarborSection } from './AvisaSections/HarborSection';
 import { MarketSection } from './AvisaSections/MarketSection';
 import { ScoutsSection } from './AvisaSections/ScoutsSection';
 import { TradeOrdersSection } from './AvisaSections/TradeOrdersSection';
-import { type TabProps } from './types';
+import type { TabProps } from './types';
 
 type AvisaSection =
   | 'charters'
@@ -39,7 +39,7 @@ const SECTIONS: SectionMeta[] = [
     key: 'charters',
     label: 'Charters',
     blurb:
-      "The standing edicts of the Crown - their force, their suspension, and the year of their sealing.",
+      'The standing edicts of the Crown - their force, their suspension, and the year of their sealing.',
   },
   {
     key: 'trade_orders',
@@ -72,7 +72,8 @@ const SECTIONS: SectionMeta[] = [
   {
     key: 'assembly',
     label: 'Assembly',
-    blurb: 'Petitions, summons, and the standing business of the City Assembly.',
+    blurb:
+      'Petitions, summons, and the standing business of the City Assembly.',
   },
 ];
 
@@ -91,9 +92,7 @@ export const AvisaTab = ({ data, act }: TabProps) => {
       >
         The Azurian Avisa
       </div>
-      <div style={subtitleStyle}>
-        Tidings, edicts, and trade of the realm
-      </div>
+      <div style={subtitleStyle}>Tidings, edicts, and trade of the realm</div>
       <hr style={rulerStyle} />
 
       <div style={subTabBarStyle}>

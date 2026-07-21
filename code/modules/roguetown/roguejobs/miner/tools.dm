@@ -101,7 +101,6 @@
 	max_integrity = 150
 	smeltresult = /obj/item/ingot/aaslag
 	color = "#bb9696"
-	sellprice = 15
 
 /obj/item/rogueweapon/pick/paalloy
 	name = "ancient pick"

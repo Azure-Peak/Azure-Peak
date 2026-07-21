@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Made it so that if your triumphs file are corrupted it would self correct with a new file allowing admins restore to stick."

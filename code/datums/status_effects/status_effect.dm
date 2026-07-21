@@ -195,6 +195,18 @@
 			var/newnum = attached_effect.effectedstats[S] * -1
 			inspec += "<br><span class='danger'>[S]</span> \Roman [newnum]"
 
+	if(attached_effect && attached_effect.duration != -1 && attached_effect.duration > world.time)
+		var/remaining = attached_effect.duration - world.time
+		var/total_secs = round(remaining / (1 SECONDS))
+		var/timestring
+		if(total_secs >= 60)
+			var/mins = round(total_secs / 60)
+			var/secs = total_secs % 60
+			timestring = "[mins]:[secs < 10 ? "0[secs]" : "[secs]"]"
+		else
+			timestring = "[total_secs]s"
+		inspec += "<br><span class='smallnotice'>Time remaining: [timestring]</span>"
+
 	inspec += "<br>----------------------"
 	to_chat(user, "[inspec.Join()]")
 

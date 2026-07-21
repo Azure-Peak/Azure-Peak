@@ -8,7 +8,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_desertrider.ogg'
 	subclass_languages = list(/datum/language/raneshi)
-	traits_applied = list(TRAIT_ARCYNE)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_SPD = 1, // Weighted 7. Swap str for spd
 		STATKEY_INT = 1, // Weighted 7. But a very nice statblock
@@ -47,14 +47,14 @@
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
 
 	// Gear - mirrors Zeybek
-	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/raneshen
-	neck = /obj/item/clothing/neck/roguetown/gorget/copper
-	mask = /obj/item/clothing/mask/rogue/facemask/copper
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/raneshen
+	head = /obj/item/clothing/head/roguetown/helmet/sallet/raneshen
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/full
+	mask = /obj/item/clothing/mask/rogue/facemask/steel
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/raneshen
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper
-	gloves = /obj/item/clothing/gloves/roguetown/angle
-	pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex/raneshen
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
+	gloves = /obj/item/clothing/gloves/roguetown/chain
+	pants = /obj/item/clothing/under/roguetown/brigandinelegs
 	shoes = /obj/item/clothing/shoes/roguetown/shalal
 	belt = /obj/item/storage/belt/rogue/leather/shalal
 	backr = /obj/item/storage/backpack/rogue/satchel/black

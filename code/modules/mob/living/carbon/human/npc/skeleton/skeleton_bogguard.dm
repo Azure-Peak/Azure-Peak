@@ -57,6 +57,7 @@
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/randomfill/skeleton
 	H.STAPER = 13
+	H.STAWIL -= 1
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 

@@ -1,10 +1,6 @@
 import type { CSSProperties } from 'react';
 
-import {
-  FONT_BODY,
-  INK_FAINT,
-  INK_SOFT,
-} from '../common/parchment';
+import { FONT_BODY, INK_FAINT, INK_SOFT } from '../common/parchment';
 
 const rowStyle: CSSProperties = {
   display: 'grid',

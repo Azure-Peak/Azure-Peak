@@ -1107,7 +1107,7 @@
 					proceed_with_offer = TRUE
 					break
 			if(proceed_with_offer)
-				if(W.sellprice <= 0)
+				if(W.get_real_price() <= 0)
 					to_chat(user, span_warning("This item is worthless."))
 					return
 				playsound(loc,'sound/items/carvty.ogg', 50, TRUE)
@@ -1586,3 +1586,9 @@
 		icon_state = "decoybookcase0"
 		density = TRUE
 		set_opacity(TRUE)
+
+// This is from the Druid Grove remap ages back. Turning it into a proper subtype for faster init. or whatever reason ur supposed
+// to do it. 
+/obj/effect/wisp/prestidigitation/willowwisp
+	name = "Will-o'-the-wisp"
+	desc = "A small, fiery ball of light made up of mystical energy."

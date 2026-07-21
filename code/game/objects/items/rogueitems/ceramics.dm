@@ -447,12 +447,12 @@
 	name = "porcelain cameo"
 	desc = "A small porcelain cameo."
 	icon_state = "clayporcelaincameo"
-	
+
 /obj/item/natural/clay/porcelain/bust
 	name = "porcelain bust"
 	desc = "A large porcelain bust."
 	icon_state = "clayporcelainbust"
-	
+
 /obj/item/natural/clay/porcelain/figurine
 	name = "porcelain figurine"
 	desc = "A small figurine made out of porcelain."

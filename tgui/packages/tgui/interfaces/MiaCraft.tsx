@@ -1,4 +1,10 @@
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  type CSSProperties,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -11,8 +17,8 @@ import {
   INK_SOFT,
   inkButtonStyle,
   inkInputStyle,
-  pageStyle,
   PARCHMENT_SHADOW,
+  pageStyle,
   SEAL_AMBER,
   SEAL_GREEN,
   SERIF,
@@ -203,8 +209,7 @@ const CraftingCategory = (props: {
     () =>
       Object.values(recipes)
         .filter(
-          (recipe) =>
-            !onlyCraftable || isCraftable(craftability, recipe.name),
+          (recipe) => !onlyCraftable || isCraftable(craftability, recipe.name),
         )
         .filter(
           (recipe) =>
@@ -244,7 +249,9 @@ const CraftingCategory = (props: {
           {open ? '▼' : '▶'}
         </span>
         {title}
-        <span style={{ color: INK_SOFT, fontWeight: 'normal', marginLeft: '6px' }}>
+        <span
+          style={{ color: INK_SOFT, fontWeight: 'normal', marginLeft: '6px' }}
+        >
           ({visible.length})
         </span>
       </button>

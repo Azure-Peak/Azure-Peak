@@ -29,12 +29,7 @@ export const ActionButton = (props: ActionButtonProps) => {
       : { color: 'var(--color-label)' };
 
   return (
-    <Button
-      fluid
-      color="transparent"
-      onClick={handleClick}
-      style={buttonStyle}
-    >
+    <Button fluid color="transparent" onClick={handleClick} style={buttonStyle}>
       {action.name}
     </Button>
   );

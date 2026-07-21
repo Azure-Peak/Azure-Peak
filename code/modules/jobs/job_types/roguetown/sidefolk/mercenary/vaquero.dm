@@ -6,7 +6,10 @@
 	cmode_music = 'sound/music/combat_vaquero.ogg'
 	category_tags = list(CTAG_MERCENARY)
 	subclass_languages = list(/datum/language/etruscan)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS)
+	traits_applied = list(TRAIT_DODGEEXPERT)
+	subclass_virtues = list(
+		/datum/virtue/combat/guarded
+	)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_INT = 2,
