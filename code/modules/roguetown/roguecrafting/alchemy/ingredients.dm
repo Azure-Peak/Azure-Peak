@@ -662,7 +662,7 @@
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, holding it makes your mouth water."
 	complete_pot = /datum/alch_cauldron_recipe/trait/nutrientslurry
-	materia = list(/datum/materia_aspect/crop, /datum/materia_aspect/arcyne)
+	materia = list(/datum/materia_aspect/plant, /datum/materia_aspect/arcyne)
 
 /obj/item/alch/reagent_ravenous
 	name = "Feral Nature"
@@ -693,7 +693,7 @@
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, looking upon it is unpleasant."
-	complete_pot = /datum/alch_cauldron_recipe/trait/prodepressants
+	complete_pot = /datum/alch_cauldron_recipe/trait/negative/prodepressants
 	materia = list(/datum/materia_aspect/earth, /datum/materia_aspect/arcyne)
 
 /obj/item/alch/reagent_evilcaffiene
