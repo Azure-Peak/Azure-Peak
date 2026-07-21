@@ -814,6 +814,7 @@
 	var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
 	catalyst_storage.handle_item_insertion(new /obj/item/alch/catalyst/florid(loc))
 	catalyst_storage.handle_item_insertion(new /obj/item/alch/catalyst/terran(loc))
+	catalyst_storage.handle_item_insertion(new /obj/item/alch/catalyst/nigredo(loc))
 
 /obj/structure/fluff/alch/trans/get_mechanics_examine(mob/user)
 	. = ..()

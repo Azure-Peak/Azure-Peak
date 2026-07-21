@@ -60,6 +60,18 @@
 	input_items = list(/obj/item/natural/stone = 2)
 	output_items = list(/obj/item/natural/clay = 2)
 
+/datum/transmutation_recipe/terran/moreclay
+	name = "Dirt Plasticization (Clay)"
+	materia_aspects = list(/datum/materia_aspect/water)
+	input_items = list(/obj/item/natural/dirtclod = 2)
+	output_items = list(/obj/item/natural/clay = 2)
+
+/datum/transmutation_recipe/terran/dirt
+	name = "Clay Dehydration (Dirt)"
+	materia_aspects = list(/datum/materia_aspect/fire)
+	input_items = list(/obj/item/natural/clay = 2)
+	output_items = list(/obj/item/natural/dirtclod = 2)
+
 /datum/transmutation_recipe/terran/coal
 	name = "Stone Carbonization (Coal)"
 	materia_aspects = list(/datum/materia_aspect/earth)
@@ -232,6 +244,11 @@
 	name = "Mass Protein Decomposition (Viscera)"
 	input_items = list(/obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef = 6)
 	output_items = list(/obj/item/alch/viscera = 3) // i guess we had two of these recipes for some reason?
+
+/datum/transmutation_recipe/nigredo/bronze_decomposition
+	name = "Bronze Decomposition"
+	input_items = list(/obj/item/ingot/bronze = 2)
+	output_items = list(/obj/item/rogueore/copper = 1, /obj/item/rogueore/tin = 1)
 
 // ALBEDO: lit 'whitening'. the second stage of the great work, its recipes follow a theme of purification and are irreversable
 /datum/transmutation_recipe/albedo
