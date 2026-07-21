@@ -149,6 +149,7 @@
 		var/dur = 5 SECONDS
 		// dur lowers by str score
 		dur = (dur - str)
+		visible_message(span_warning("[H] begins arming [src]!"))
 		if(do_after(user, dur, TRUE, src, TRUE, null, TRUE))
 			if(prob(50 + str*2)) // for a max of ~86% in common situations
 				// GRIEF PROT
@@ -163,7 +164,7 @@
 					return
 				// everything went well. arm it.
 				arm_trap(H)
-				to_chat(H, span_warning("You arm the [src.name]!"))
+				visible_message(span_boldwarning("[H] arms [src]!"), null) // aahh big bold and scary
 				// logging
 				log_combat(H, src, "armed a mantrap")
 			else
