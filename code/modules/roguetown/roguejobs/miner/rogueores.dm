@@ -230,7 +230,7 @@
 	icon_state = "ingotiron"
 	smeltresult = /obj/item/ingot/iron
 	sellprice = SELLPRICE_IRON_INGOT
-	materia = list(/datum/materia_aspect/metal, /datum/materia_aspect/metal)
+	materia = list(/datum/materia_aspect/metal)
 
 /obj/item/ingot/iron/Initialize(mapload, smelt_quality)
 	. = ..()

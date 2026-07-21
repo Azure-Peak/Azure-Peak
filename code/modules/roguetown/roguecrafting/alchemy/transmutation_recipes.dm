@@ -130,6 +130,100 @@
 	catalyst = /obj/item/alch/catalyst/nigredo
 	materia_aspects = list(/datum/materia_aspect/fire) // most of these recipes use ignis so we set it here
 
+/datum/transmutation_recipe/nigredo/smelt_decomposition
+	name = "Nigredic Decomposition"
+	input_items = list(/obj/item = 1)
+	output_items = list(/obj/item/ingot = 1) // dummy
+
+/datum/transmutation_recipe/nigredo/smelt_decomposition/validate_ingredient(obj/item/I)
+	return I.smeltresult // anything that can be smelted will work here
+
+/datum/transmutation_recipe/nigredo/smelt_decomposition/create_outputs(mob/user, list/ingredients, list/materia_ingredients, obj/structure/fluff/alch/trans/parent)
+	for(var/obj/item/I in materia_ingredients)
+		qdel(I)
+	var/alch_exp = user.get_skill_level(/datum/skill/craft/alchemy) // 0 to 6
+	var/quality = SMELTERY_LEVEL_SPOIL
+	for(var/obj/item/I in ingredients)
+		user.visible_message(span_notice("[user] decomposes [I] into its fundamental components!"), span_notice("I decompose [I], salvaging its component material!"))
+		for(var/idx in 1 to I.smelt_bar_num)
+			var/obj/item/res = new I.smeltresult(parent.loc)
+			if(istype(res, /obj/item/ingot))
+				if(alch_exp < 6)
+					quality = min(6, floor(rand(alch_exp*15 + 10, max(30, alch_exp*25))/25)+1) // Math explained below
+				else
+					quality = 6 // Guarantees a return of 6 no matter how extra experience past 3000 you have.
+				var/obj/item/ingot/ing = res
+				ing.apply_smelt_quality(quality)
+			res.was_crafted = TRUE
+			res.OnCrafted(get_dir(user, parent), user)
+			res.add_fingerprint(user)
+		qdel(I)
+
+/datum/transmutation_recipe/nigredo/smelt_decomposition/generate_html(mob/user)
+	var/client/client = user
+	if(!istype(client))
+		client = user.client
+	user << browse_rsc('html/book.png')
+	var/html = {"
+		<!DOCTYPE html>
+		<html lang="en">
+		<meta charset='UTF-8'>
+		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
+		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+		<body>
+		  <div>
+		    <h1>[name]</h1>
+		"}
+
+	html += "Requires [SSskills.level_names_plain[skill_required]] level of skills<br>"
+
+	html += "Requires \a [catalyst::name], which is not consumed.<br>"
+
+	if(snowflake_desc)
+		html += "[snowflake_desc]<br>"
+
+	if(input_items.len)
+		html += "<div><strong>Consumes any input that can be smelted. Produces its smelted form; its quality scales with your alchemy skill.</strong><br>"
+		html += "</div>"
+
+	if(materia_aspects.len)
+		html += "<div><strong>Requires any item(s) with the following aspect[(materia_aspects.len > 1) ? "s" : ""]:</strong><br>"
+		for(var/path as anything in materia_aspects)
+			if(ispath(path, /datum/materia_aspect))
+				var/datum/materia_aspect/aspect = path
+				html += "[SPAN_TOOLTIP(aspect::desc, aspect::name)]<br>" // note: this tooltip does not fucking work and i have no idea why
+		html += "</div>"
+
+	html += {"
+		</div>
+		</div>
+	</body>
+	</html>
+	"}
+	return html
+
+/datum/transmutation_recipe/nigredo/smelt_decomposition/build_display_cache()
+	var/list/data = list()
+	data["name"] = name
+	data["ref"] = "[REF(src)]"
+	data["path"] = type
+	data["catalyst"] = catalyst::name
+
+	data["input_text"] = "One of any smeltable item."
+
+	data["output_text"] = "Its smelted form; quality scales with alchemy skill."
+
+	var/list/materia_display = list()
+	for(var/a in materia_aspects)
+		var/datum/materia_aspect/aspect = a
+		materia_display[aspect::name] = aspect::desc
+	data["materia_reqs"] = materia_display
+
+	if(skill_required)
+		data["craftingdifficulty"] = "[SSskills.level_names_plain[skill_required]]."
+
+	cached_display_data = data
+
 /datum/transmutation_recipe/nigredo/viscera
 	name = "Protein Decomposition (Viscera)"
 	input_items = list(/obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef = 2)

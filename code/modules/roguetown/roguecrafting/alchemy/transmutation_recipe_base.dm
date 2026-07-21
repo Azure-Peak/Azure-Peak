@@ -22,8 +22,24 @@
 /datum/transmutation_recipe/proc/execution_blocked(mob/user)
 	return FALSE
 
+/// for recipes which need special checks on their input items
+/datum/transmutation_recipe/proc/validate_ingredient(obj/item/I)
+	return TRUE
+
+/// responsible for deleting the input and creating the output
+/datum/transmutation_recipe/proc/create_outputs(mob/user, list/ingredients, list/materia_ingredients, obj/structure/fluff/alch/trans/parent)
+	for(var/obj/item/I in (ingredients | materia_ingredients))
+		qdel(I)
+	for(var/path in output_items)
+		for(var/i in 1 to output_items[path])
+			var/obj/item/I = new path(parent.loc)
+			I.was_crafted = TRUE
+			I.OnCrafted(get_dir(user, parent), user)
+			I.add_fingerprint(user)
+	user.visible_message(span_notice("[user] transmutes some [result_name]!"), span_notice("I transmute some [result_name]!"))
+
 /proc/can_transmute(mob/user) // exact condition may be changed later
-	return HAS_TRAIT(user, TRAIT_ALCHEMY_EXPERT)
+	return HAS_TRAIT(user, TRAIT_ALCHEMY_EXPERT) && HAS_TRAIT(user, TRAIT_ARCYNE)
 
 /datum/transmutation_recipe/proc/generate_html(mob/user)
 	var/client/client = user

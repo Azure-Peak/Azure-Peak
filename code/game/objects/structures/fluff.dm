@@ -920,15 +920,7 @@
 	if(!materia_ingredients)
 		to_chat(user, span_warning("Missing <i>prima materia</i> to craft!"))
 		return FALSE
-	for(var/obj/item/I in (ingredients | materia_ingredients))
-		qdel(I)
-	for(var/path in R.output_items)
-		for(var/i in 1 to R.output_items[path])
-			var/obj/item/I = new path(loc)
-			I.was_crafted = TRUE
-			I.OnCrafted(get_dir(user, src), user)
-			I.add_fingerprint(user)
-	user.visible_message(span_notice("[user] transmutes some [R.result_name]!"), span_notice("I transmute some [R.result_name]!"))
+	R.create_outputs(user, ingredients, materia_ingredients, src)
 	if(user.mind && isliving(user))
 		var/mob/living/L = user
 		var/amt2raise = (L.STAINT * 2) + (R.skill_required * 10)
@@ -941,15 +933,17 @@
 	var/list/needed_items = R.input_items.Copy()
 	var/list/env_items = get_environment(user)
 	for(var/obj/item/I in env_items)
-		if(I.can_craft_with() && needed_items[I.type])
+		if(I.can_craft_with() && (needed_items[I.type] || R.validate_ingredient(I)))
 			ingredients += I
+			if(!needed_items[I.type]) //  this is a snowflake recipe
+				return ingredients
 			needed_items[I.type] -= 1
-		else if(istype(I, /obj/item/natural/bundle))
+		else if(istype(I, /obj/item/natural/bundle) && R.validate_ingredient(I))
 			var/obj/item/natural/bundle/B = I
 			if(needed_items[B.stacktype])
 				needed_items[B.stacktype] -= min(B.amount, needed_items[B.stacktype]) // transmuting with bundles is lossy
 				ingredients += B
-		else if(istype(I, /obj/item/construction/bundle))
+		else if(istype(I, /obj/item/construction/bundle) && R.validate_ingredient(I))
 			var/obj/item/construction/bundle/B = I
 			if(needed_items[B.stacktype])
 				needed_items[B.stacktype] -= min(B.amount, needed_items[B.stacktype]) // transmuting with stacks is lossy
