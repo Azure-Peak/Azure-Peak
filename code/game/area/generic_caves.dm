@@ -29,6 +29,19 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 
+// Shameless copy of peace cave since someone liked it so much.
+/area/rogue/under/cave/abyssor
+	name = "abyssal grotto"
+	icon_state = "caves"
+	droning_sound = 'sound/music/area/peace.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+
+// Can use the normal caves music
+/area/rogue/under/cave/abyssor/inner
+	name = "inner abyssal grotto"
+	first_time_text = "THE ABYSSAL GROTTO"
+
 /area/rogue/outdoors/caves
 	icon_state = "caves"
 	droning_sound = 'sound/music/area/caves.ogg'
