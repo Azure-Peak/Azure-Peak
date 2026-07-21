@@ -67,7 +67,7 @@
 	icon_state = "beartrap"
 	name = "beartrap"
 	probby = 50
-	spawned = list(/obj/item/restraints/legcuffs/beartrap/armed/camouflage)
+	spawned = list(/obj/item/restraints/legcuffs/beartrap/armed/camouflage/rusty)
 
 // Potions n shit
 
