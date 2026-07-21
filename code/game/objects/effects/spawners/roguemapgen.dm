@@ -70,7 +70,7 @@
 	spawned = list(/obj/item/restraints/legcuffs/beartrap/armed/rusty)
 
 /obj/effect/spawner/roguemap/beartrap/camo
-	icon_state = "beartrap"
+	icon_state = "beartrap" //todo: make camo icon
 	name = "camo beartrap"
 	probby = 50
 	spawned = list(/obj/item/restraints/legcuffs/beartrap/armed/camouflage/rusty)
