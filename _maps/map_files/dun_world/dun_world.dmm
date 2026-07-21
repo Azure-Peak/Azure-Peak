@@ -91944,7 +91944,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement)
 "rvd" = (
-/obj/structure/fluff/alch/trans,
+/obj/structure/fluff/alch/trans/uni,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "rvg" = (
@@ -110508,7 +110508,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/town/basement)
 "uWC" = (
-/obj/structure/fluff/alch/trans,
+/obj/structure/fluff/alch,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
 "uWD" = (

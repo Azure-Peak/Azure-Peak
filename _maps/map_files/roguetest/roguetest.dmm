@@ -314,7 +314,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
 "kn" = (
-/obj/structure/fluff/alch/trans,
+/obj/structure/fluff/alch/trans/uni,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "kv" = (

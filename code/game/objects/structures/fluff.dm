@@ -809,6 +809,12 @@
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/trans) // to store our transmutation catalysts in. what did you think it meant?
 
+/obj/structure/fluff/alch/trans/uni/Initialize()
+	. = ..()
+	var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
+	catalyst_storage.handle_item_insertion(new /obj/item/alch/catalyst/florid(loc))
+	catalyst_storage.handle_item_insertion(new /obj/item/alch/catalyst/terran(loc))
+
 /obj/structure/fluff/alch/trans/get_mechanics_examine(mob/user)
 	. = ..()
 	if(!can_transmute(user)) // this is real alchemical shit get out of here novices
