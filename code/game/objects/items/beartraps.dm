@@ -179,30 +179,6 @@
 	if(play_sound)
 		playsound(src.loc, 'sound/items/garroteshut.ogg', 70, TRUE, -3)
 
-
-/*
-// DEPRECATED, OLD CODE. LEFT IN FOR POSTERITY IN CASE ANYONE ELSE TOUCHES THESE.
-/obj/item/restraints/legcuffs/beartrap/attack_self(mob/user)
-	..()
-	if(ishuman(user) && !user.stat && !user.restrained())
-		var/mob/living/L = user
-		if(do_after(user, 50 - (L.STASTR*2), target = user))
-			if(prob(50))
-				armed = !armed
-				if(armed)
-					w_class = WEIGHT_CLASS_BULKY
-					grid_width = 256
-					grid_height = 256
-				else
-					w_class = WEIGHT_CLASS_NORMAL
-					grid_width = 64
-					grid_height = 64
-				update_icon()
-				to_chat(user, span_notice("[src] is now [armed ? "armed" : "disarmed"]"))
-			else
-				user.visible_message(span_warning("You couldn't get the shoddy [src.name] [armed ? "shut close!" : "to open up!"]"))
-*/
-
 /obj/item/restraints/legcuffs/beartrap/proc/close_trap(play_sound = TRUE)
 	armed = FALSE
 	w_class = WEIGHT_CLASS_NORMAL
