@@ -29407,7 +29407,7 @@
 /area/rogue/indoors/town/manor)
 "fIC" = (
 /obj/structure/mirror,
-/obj/structure/fluff/alch,
+/obj/structure/fluff/alch/trans,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "fIH" = (
@@ -53753,7 +53753,7 @@
 /obj/effect/decal/cobbleedge{
 	dir = 9
 	},
-/obj/structure/fluff/alch,
+/obj/structure/fluff/alch/trans,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "kmc" = (
@@ -78729,7 +78729,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/pestra_sanctum)
 "oSF" = (
-/obj/structure/fluff/alch,
+/obj/structure/fluff/alch/trans,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
 "oSK" = (
@@ -91944,7 +91944,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement)
 "rvd" = (
-/obj/structure/fluff/alch,
+/obj/structure/fluff/alch/trans,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "rvg" = (
@@ -110508,7 +110508,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/town/basement)
 "uWC" = (
-/obj/structure/fluff/alch,
+/obj/structure/fluff/alch/trans,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
 "uWD" = (
