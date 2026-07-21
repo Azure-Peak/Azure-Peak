@@ -31,7 +31,7 @@
 
 /obj/item/restraints/legcuffs/beartrap/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Activate in your hand to prime it. Depending on its age, this might take multiple attempts to successfully prepare.")
+	. += span_info("Place the trap on the ground and right-click it to arm it. A higher strength decreases the arming time while increasing the arming chance. Rusty traps will break upon re-arming.")
 	. += span_info("Beartraps can be safely disarmed by either left-clicking them with a open hand, or - at the cost of some durability - left-clicking them with a weapon.")
 
 /obj/item/restraints/legcuffs/beartrap/attack_hand(mob/user)
