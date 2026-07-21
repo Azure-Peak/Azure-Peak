@@ -20,7 +20,7 @@
 		"ZIZO GRANTS ME TRUTH!",
 		"ZIZO BRINGS PROGRESS!",
 	)
-	traits_tier = list(TRAIT_ZIZO_CLERIC = CLERIC_T1) //Unique perk, lets you bypass minimal skill for engineering goggles and other devices
+	traits_tier = list(TRAIT_ZIZO_CLERIC = CLERIC_T1) //Unique perk, lets you bypass minimal skill for the bare-minimal function of engineering goggles, fulm chairs and other devices
 	storyteller = /datum/storyteller/zizo
 
 	titles = list(
