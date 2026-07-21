@@ -132,6 +132,56 @@
 	playsound(loc, 'sound/blank.ogg', 50, TRUE, -1)
 	return (BRUTELOSS)
 
+/obj/item/restraints/legcuffs/beartrap/attack_right(mob/user)
+	. = ..()
+	if(ishuman(user) && !user.stat && !user.restrained())
+		var/mob/living/carbon/human/H = user
+		if(armed)
+			to_chat(H, span_danger("[src] is already armed!"))
+			return
+		// no stacking
+		for(var/obj/item/restraints/legcuffs/beartrap/B in src.loc)
+			if(B.armed)
+				to_chat(H, span_warning("There is already an armed [src.name] here!"))
+				return
+		// init vars
+		var/str = H.STASTR
+		var/dur = 5 SECONDS
+		// dur lowers by str score
+		dur = (dur - str)
+		if(do_after(user, dur, TRUE, src, TRUE, null, TRUE))
+			if(prob(50 + str*2)) // for a max of ~86% in common situations
+				// GRIEF PROT
+				for(var/obj/structure/fluff/traveltile/TT in range(1, src))
+					log_combat(H, src, "attempted to arm [src] near travel tiles")
+					return
+				// PRE-MAPPED THINGS CAN BE RUSTY.
+				if(rusty)
+					visible_message(span_warning("[src] VIOLENTLY shuts, breaking its own pressure plate!"))
+					playsound(src.loc, 'sound/items/beartrap2.ogg', 100, TRUE, -1)
+					qdel(src)
+					return
+				// everything went well. arm it.
+				arm_trap(H)
+				to_chat(H, span_warning("You arm the [src.name]!"))
+				// logging
+				log_combat(H, src, "armed a mantrap")
+			else
+				to_chat(H, span_warning("You couldn't get the shoddy [src.name] to open up!"))
+
+/obj/item/restraints/legcuffs/beartrap/proc/arm_trap(play_sound = TRUE)
+	armed = TRUE
+	w_class = WEIGHT_CLASS_BULKY
+	grid_width = 256
+	grid_height = 256
+	update_icon()
+	// tentative. if it works keep it, if not, toss it. idgaf. i want u 2 feel like traper dead by daylight.
+	if(play_sound)
+		playsound(src.loc, 'sound/items/garroteshut.ogg', 70, TRUE, -3)
+
+
+/*
+// DEPRECATED, OLD CODE. LEFT IN FOR POSTERITY IN CASE ANYONE ELSE TOUCHES THESE.
 /obj/item/restraints/legcuffs/beartrap/attack_self(mob/user)
 	..()
 	if(ishuman(user) && !user.stat && !user.restrained())
@@ -151,6 +201,7 @@
 				to_chat(user, span_notice("[src] is now [armed ? "armed" : "disarmed"]"))
 			else
 				user.visible_message(span_warning("You couldn't get the shoddy [src.name] [armed ? "shut close!" : "to open up!"]"))
+*/
 
 /obj/item/restraints/legcuffs/beartrap/proc/close_trap(play_sound = TRUE)
 	armed = FALSE
@@ -221,8 +272,8 @@
 				I.take_damage(50, BRUTE, "stab")
 			visible_message(span_warning(msg))
 			close_trap()
-		
-	
+
+
 
 /obj/item/restraints/legcuffs/beartrap/dropped(mob/living/carbon/human/user)
 	..()
