@@ -554,7 +554,7 @@ Inquisitorial armory down here
 
 	var/dmg = damage_per_tick * intensity
 	var/zone = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-	arcyne_strike(owner, owner, null, dmg, zone, BCLASS_BURN, 100, "grief", TRUE, TRUE, FALSE, BURN, null, null, null, null)
+	arcyne_strike(owner, owner, null, dmg, zone, BCLASS_BURN, 100, "DoT", TRUE, TRUE, FALSE, BURN, null, null, null, null)
 
 	if(world.time >= agony)
 		agony = world.time + rand(5,15) SECONDS
