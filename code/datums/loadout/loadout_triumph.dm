@@ -15,358 +15,358 @@
 
 // -1 TRI
 /datum/loadout_item/psicross/noc/bronze
-	name = "Bronze Amulet of Noc"
+	name = "Bronze Amulet of Noc - T1"
 	path = /obj/item/clothing/neck/roguetown/psicross/noc/bronze
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/ravox/bronze
-	name = "Bronze Amulet of Ravox"
+	name = "Bronze Amulet of Ravox - T1"
 	path = /obj/item/clothing/neck/roguetown/psicross/ravox/bronze
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/astrata/bronze
-	name = "Bronze Amulet of Astrata"
+	name = "Bronze Amulet of Astrata - T1"
 	path = /obj/item/clothing/neck/roguetown/psicross/astrata/bronze
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/malum/bronze
-	name = "Bronze Amulet of Malum"
+	name = "Bronze Amulet of Malum - T1"
 	path = /obj/item/clothing/neck/roguetown/psicross/malum/bronze
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/inhumen/graggar/bronze
-	name = "Bronze Amulet of Graggar"
+	name = "Bronze Amulet of Graggar - T1"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/bronze
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/bronze
-	name = "Bronze Psycross"
+	name = "Bronze Psycross - T1"
 	path = /obj/item/clothing/neck/roguetown/psicross/bronze
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/inhumen/bronze
-	name = "Bronze Inverted Psycross"
+	name = "Bronze Inverted Psycross - T1"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/bronze
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/paalloy
-	name = "Ancient Psycross"
+	name = "Ancient Psycross - T1"
 	path = /obj/item/clothing/neck/roguetown/psicross/paalloy
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/inhumen/paalloy
-	name = "Ancient Inverted Psycross"
+	name = "Ancient Inverted Psycross - T1"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/psicross/noc/paalloy
-	name = "Ancient Amulet of Noc"
+	name = "Ancient Amulet of Noc - T1"
 	path = /obj/item/clothing/neck/roguetown/psicross/noc/paalloy
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 // -3 TRI
 /datum/loadout_item/triumph_knife
-	name = "Laborer's Knife"
+	name = "Laborer's Knife - T3"
 	path = /obj/item/rogueweapon/huntingknife/throwingknife/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_winterdress
-	name = "Winter Dress"
+	name = "Winter Dress - T3"
 	path = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_necklace
-	name = "Golden Necklace, Ornate"
+	name = "Golden Necklace, Ornate - T3"
 	path = /obj/item/clothing/neck/roguetown/ornateamulet/noble/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_ring
-	name = "Golden Ring, Ornate"
+	name = "Golden Ring, Ornate - T3"
 	path = /obj/item/clothing/ring/gold/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_circlet
-	name = "Golden Circlet, Ornate"
+	name = "Golden Circlet, Ornate - T3"
 	path = /obj/item/clothing/head/roguetown/circlet/triumph
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_steelbelt
-	name = "Belt of Steel"
+	name = "Belt of Steel - T3"
 	path = /obj/item/storage/belt/rogue/leather/steel
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_plaquesilverbelt
-	name = "Belt of Plaque, Silver"
+	name = "Belt of Plaque, Silver - T3"
 	path = /obj/item/storage/belt/rogue/leather/plaquesilver
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_ornatesilkdress
-	name = "Ornate Silk Dress"
+	name = "Ornate Silk Dress - T3"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 // -5 TRI
 /datum/loadout_item/triumph_shortsatchel
-	name = "Short Satchel"
+	name = "Short Satchel - T5"
 	path = /obj/item/storage/backpack/rogue/satchel/short
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_blackshortsatchel
-	name = "Short Satchel, Black"
+	name = "Short Satchel, Black - T5"
 	path = /obj/item/storage/backpack/rogue/satchel/short/black
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_waterskin
-	name = "Waterskin"
+	name = "Waterskin - T5"
 	path = /obj/item/reagent_containers/glass/bottle/waterskin
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_messkit
-	name = "Mess Kit"
+	name = "Mess Kit - T5"
 	path = /obj/item/storage/gadget/messkit
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_foldtable
-	name = "Folding Table"
+	name = "Folding Table - T5"
 	path = /obj/item/folding_table_stored
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_bedroll
-	name = "Bedroll"
+	name = "Bedroll - T5"
 	path = /obj/item/bedroll
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_metalrepairkit
-	name = "Repair Kit, Metal"
+	name = "Repair Kit, Metal - T5"
 	path = /obj/item/repair_kit/metal/bad
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_clothrepairkit
-	name = "Repair Kit, Cloth"
+	name = "Repair Kit, Cloth - T5"
 	path = /obj/item/repair_kit/bad
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_scabbardnoble
-	name = "Decorated Scabbard, Silver"
+	name = "Decorated Scabbard, Silver - T5"
 	path = /obj/item/rogueweapon/scabbard/sword/noble
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_sheathnoble
-	name = "Decorated Sheath, Silver"
+	name = "Decorated Sheath, Silver - T5"
 	path = /obj/item/rogueweapon/scabbard/sheath/noble
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_psycross
-	name = "Golden Psycross, Ornate"
+	name = "Golden Psycross, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_zcross
-	name = "Golden Zizote Amulet, Ornate"
+	name = "Golden Zizote Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_astcross
-	name = "Golden Astratan Amulet, Ornate"
+	name = "Golden Astratan Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/astrata/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_reformpsycross
-	name = "Golden Reformist Psycross, Ornate"
+	name = "Golden Reformist Psycross, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/reform/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_noccross
-	name = "Golden Noccian Amulet, Ornate"
+	name = "Golden Noccian Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/noc/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_abyssorcross
-	name = "Golden Abyssorian Amulet, Ornate"
+	name = "Golden Abyssorian Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/abyssor/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_dendorcross
-	name = "Golden Dendorian Amulet, Ornate"
+	name = "Golden Dendorian Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/dendor/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_necracross
-	name = "Golden Necran Amulet, Ornate"
+	name = "Golden Necran Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/necra/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_pestracross
-	name = "Golden Pestran Amulet, Ornate"
+	name = "Golden Pestran Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/pestra/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_ravoxcross
-	name = "Golden Ravoxian Amulet, Ornate"
+	name = "Golden Ravoxian Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/ravox/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_malumcross
-	name = "Golden Malum Amulet, Ornate"
+	name = "Golden Malum Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/malum/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_eoracross
-	name = "Golden Eoran Amulet, Ornate"
+	name = "Golden Eoran Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/eora/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_xylixcross
-	name = "Golden Xylixian Amulet, Ornate"
+	name = "Golden Xylixian Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/xylix/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_graggarcross
-	name = "Golden Graggarite Amulet, Ornate"
+	name = "Golden Graggarite Amulet, Ornate - T5"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/g/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_signet
-	name = "Golden Signet Ring, Ornate"
+	name = "Golden Signet Ring, Ornate - T5"
 	path = /obj/item/clothing/ring/signet/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_goldhalfmask
-	name = "Golden Halfmask, Ornate"
+	name = "Golden Halfmask, Ornate - T5"
 	path = /obj/item/clothing/mask/rogue/lordmask/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_goldfullmask
-	name = "Golden Mask, Ornate"
+	name = "Golden Mask, Ornate - T5"
 	path = /obj/item/clothing/mask/rogue/facemask/goldmask/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_goldfullmaskc
-	name = "Crestless Golden Mask, Ornate"
+	name = "Crestless Golden Mask, Ornate - T5"
 	path = /obj/item/clothing/mask/rogue/facemask/goldmaskc/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_grenzhat
-	name = "Grenzelhoftian Beret"
+	name = "Grenzelhoftian Beret - T5"
 	path = /obj/item/clothing/head/roguetown/grenzelhofthat/triumph
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_gildedshirt
-	name = "Gilded Dress Shirt"
+	name = "Gilded Dress Shirt - T5"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_pristinedress
-	name = "Pristine Dress"
+	name = "Pristine Dress - T5"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/royal/princess
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_royalsleeves
-	name = "Royal Sleeves"
+	name = "Royal Sleeves - T5"
 	path = /obj/item/clothing/wrists/roguetown/royalsleeves
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_tassetsteelbelt
-	name = "Belt of Steel, Tasseted"
+	name = "Belt of Steel, Tasseted - T5"
 	path = /obj/item/storage/belt/rogue/leather/steel/tasset
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_plaquegoldenbelt
-	name = "Belt of Plaque, Golden"
+	name = "Belt of Plaque, Golden - T5"
 	path = /obj/item/storage/belt/rogue/leather/plaquegold
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 // -7 TRI
 /datum/loadout_item/triumph_buttpack
-	name = "Belted Satchel"
+	name = "Belted Satchel - T7"
 	path = /obj/item/storage/backpack/rogue/satchel/beltpack
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_lunchpouch
-	name = "Pouch of Luncheons"
+	name = "Pouch of Luncheons - T7"
 	path = /obj/item/storage/belt/rogue/pouch/triumphlunch
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_lordcloak
-	name = "Lordly Cloak"
+	name = "Lordly Cloak - T7"
 	path = /obj/item/clothing/cloak/lordcloak
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_ladycloak
-	name = "Ladylike Cloak"
+	name = "Ladylike Cloak - T7"
 	path = /obj/item/clothing/cloak/lordcloak/ladycloak
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_scabbardroyal
-	name = "Decorated Scabbard, Golden"
+	name = "Decorated Scabbard, Golden - T7"
 	path = /obj/item/rogueweapon/scabbard/sword/royal
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_sheathroyal
-	name = "Decorated Sheath, Golden"
+	name = "Decorated Sheath, Golden - T7"
 	path = /obj/item/rogueweapon/scabbard/sheath/royal
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_gdorpelring
-	name = "Golden Dorpel Ring, Ornate"
+	name = "Golden Dorpel Ring, Ornate - T7"
 	path = /obj/item/clothing/ring/diamond/triumph
 	triumph_cost = 7
 	sort_category = "Triumphs"
@@ -377,157 +377,157 @@
 //Variants of the Donator Reskin item, specifically unlocked through Triumphs.
 
 /datum/loadout_item/triumph_armorkit
-	name = "Triumph Kit - Valorian Steel Armor"
+	name = "Triumph Kit - Valorian Steel Armor - T3"
 	path = /obj/item/enchantingkit/triumph_armorkit
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_armorkit_slimmedsteel
-	name = "Triumph Kit - Slimfitted Steel Armor"
+	name = "Triumph Kit - Slimfitted Steel Armor - T3"
 	path = /obj/item/enchantingkit/triumph_armorkit_slimmedsteel
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_armorkit_drow
-	name = "Triumph Kit - Drowcraft Armor"
+	name = "Triumph Kit - Drowcraft Armor - T3"
 	path = /obj/item/enchantingkit/triumph_armorkit_drow
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_axealt
-	name = "Triumph Kit - Doubleheaded Axe"
+	name = "Triumph Kit - Doubleheaded Axe - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_axedouble
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_axe
-	name = "Triumph Kit - Valorian Axe"
+	name = "Triumph Kit - Valorian Axe - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_axe
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_sword
-	name = "Triumph Kit - Valorian Sword"
+	name = "Triumph Kit - Valorian Sword - T3"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_sword
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_tri
-	name = "Triumph Kit - Valorian Longsword"
+	name = "Triumph Kit - Valorian Longsword - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_tri
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_greatval
-	name = "Triumph Kit - Valorian Greatsword"
+	name = "Triumph Kit - Valorian Greatsword - T3"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_greatval
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_rock
-	name = "Triumph Kit - Rockhillic Broadsword"
+	name = "Triumph Kit - Rockhillic Broadsword - T3"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_rock
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_wide
-	name = "Triumph Kit - Wideguard Longsword"
+	name = "Triumph Kit - Wideguard Longsword - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_wide
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_sabre
-	name = "Triumph Kit - Sabreguard Longsword"
+	name = "Triumph Kit - Sabreguard Longsword - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_sabre
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_psy
-	name = "Triumph Kit - Psycrucifix Longsword"
+	name = "Triumph Kit - Psycrucifix Longsword - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_psy
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_estoc
-	name = "Triumph Kit - Azurian Estoc"
+	name = "Triumph Kit - Azurian Estoc - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_estoc
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_fancymace
-	name = "Triumph Kit - Rungu-Shishpar"
+	name = "Triumph Kit - Rungu-Shishpar - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_fancymace
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_krisdagger
-	name = "Triumph Kit - Kris"
+	name = "Triumph Kit - Kris - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_kris
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_njoradagger
-	name = "Triumph Kit - Njora"
+	name = "Triumph Kit - Njora - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_njora
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_alloywhip
-	name = "Triumph Kit - Alloytipped Whip"
+	name = "Triumph Kit - Alloytipped Whip - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_whip
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_kaskara
-	name = "Triumph Kit - Kaskara"
+	name = "Triumph Kit - Kaskara - T3"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_kaskara
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_ida
-	name = "Triumph Kit - Ida"
+	name = "Triumph Kit - Ida - T3"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_ida
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_hwi
-	name = "Triumph Kit - Hwi"
+	name = "Triumph Kit - Hwi - T3"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_hwi
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_ngombe
-	name = "Triumph Kit - Ngombe"
+	name = "Triumph Kit - Ngombe - T3"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_ngombe
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_ada
-	name = "Triumph Kit - Ada"
+	name = "Triumph Kit - Ada - T3"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_ada
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_sengese
-	name = "Triumph Kit - Sengese"
+	name = "Triumph Kit - Sengese - T3"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_sengese
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_clericsword
-	name = "Triumph Kit - Anointed Longsword"
+	name = "Triumph Kit - Anointed Longsword - T3"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_clericsword
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_armorkit_valorianiron
-	name = "Triumph Kit - Valorian Iron Armor"
+	name = "Triumph Kit - Valorian Iron Armor - T3"
 	path = /obj/item/enchantingkit/triumph_armorkit_iron
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_classicleathers
-	name = "Triumph Kit - Classic Leather Armor"
+	name = "Triumph Kit - Classic Leather Armor - T3"
 	path = /obj/item/enchantingkit/triumph_armorkit_classicleather
 	triumph_cost = 3
 	sort_category = "Triumphs"
@@ -539,31 +539,31 @@
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_transmutekit_armorkinis
-	name = "Transmutation Kit - Armorkinis"
+	name = "Transmutation Kit - Armorkinis - T3"
 	path = /obj/item/enchantingkit/triumph_transmutekit_armorkinis
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_armorkit_valoriansteelhelm
-	name = "Triumph Kit - Valorian Steel Helmet"
+	name = "Triumph Kit - Valorian Steel Helmet - T3"
 	path = /obj/item/enchantingkit/triumph_armorkit_oldhelmets
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_armorkit_valorianironhelm
-	name = "Triumph Kit - Valorian Iron Helmet"
+	name = "Triumph Kit - Valorian Iron Helmet - T3"
 	path = /obj/item/enchantingkit/triumph_armorkit_ironoldhelmets
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_armorkit_agedskullcap
-	name = "Triumph Kit - Aged Skull Cap"
+	name = "Triumph Kit - Aged Skull Cap - T3"
 	path = /obj/item/enchantingkit/triumph_armorkit_agedskullcap
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_weaponkit_classicdaggers
-	name = "Triumph Kit - Classic Daggers"
+	name = "Triumph Kit - Classic Daggers - T3"
 	path = /obj/item/enchantingkit/triumph_weaponkit_classicdaggers
 	triumph_cost = 3
 	sort_category = "Triumphs"
@@ -574,98 +574,98 @@
 //////////////////
 
 /datum/loadout_item/triumph_perfume_lavender
-	name = "Lavender Perfume"
+	name = "Lavender Perfume - T1"
 	path = /obj/item/perfume/lavender
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_cherry
-	name = "Cherry Perfume"
+	name = "Cherry Perfume - T1"
 	path = /obj/item/perfume/cherry
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_rose
-	name = "Rose Perfume"
+	name = "Rose Perfume - T1"
 	path = /obj/item/perfume/rose
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_jasmine
-	name = "Jasmine Perfume"
+	name = "Jasmine Perfume - T1"
 	path = /obj/item/perfume/jasmine
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_mint
-	name = "Mint Perfume"
+	name = "Mint Perfume - T1"
 	path = /obj/item/perfume/mint
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_vanilla
-	name = "Vanilla Perfume"
+	name = "Vanilla Perfume - T1"
 	path = /obj/item/perfume/vanilla
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_pear
-	name = "Pear Perfume"
+	name = "Pear Perfume - T1"
 	path = /obj/item/perfume/pear
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_strawberry
-	name = "Strawberry Perfume"
+	name = "Strawberry Perfume - T1"
 	path = /obj/item/perfume/strawberry
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_cinnamon
-	name = "Cinnamon Perfume"
+	name = "Cinnamon Perfume - T1"
 	path = /obj/item/perfume/cinnamon
 	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_frankincense
-	name = "Frankincense Perfume"
+	name = "Frankincense Perfume - T3"
 	path = /obj/item/perfume/frankincense
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_sandalwood
-	name = "Sandalwood Perfume"
+	name = "Sandalwood Perfume - T3"
 	path = /obj/item/perfume/sandalwood
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_perfume_myrrh
-	name = "Myrrh Perfume"
+	name = "Myrrh Perfume - T3"
 	path = /obj/item/perfume/myrrh
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_fermented_crab
-	name = "Fermented Crab"
+	name = "Fermented Crab - T5"
 	desc = "A man thinks he's done, drinks a mouthful of this. Five minutes later he's back in the race."
 	path = /obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
 /datum/loadout_item/greatplumestandalone
-	name = "Standalone Decoration, Greatplume"
+	name = "Standalone Decoration, Greatplume - T3"
 	path = /obj/item/clothing/head/roguetown/decoration/greatplume
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/shoulderguardstandalone
-	name = "Standalone Decoration, Shoulderguard"
+	name = "Standalone Decoration, Shoulderguard - T3"
 	path = /obj/item/clothing/cloak/tabard/stabard/donator_shoulderguard
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
 /datum/loadout_item/orlestandalone
-	name = "Standalone Decoration, Orle"
+	name = "Standalone Decoration, Orle - T3"
 	path = /obj/item/clothing/head/roguetown/decoration/orle/donator_dyeable
 	triumph_cost = 3
 	sort_category = "Triumphs"
