@@ -388,6 +388,9 @@
 		qdel(src)
 
 /obj/effect/proc_holder/spell/self/lich_announce
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon_state = "lich_command"
 	name = "Command Will"
 	desc = "Bellow a commandment, which will be heard by all undead creechers - irregardless of their location - underneath your command."
 	recharge_time = 20 SECONDS
