@@ -31,6 +31,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/sleepless::name = /datum/charflaw/sleepless,
 	/datum/charflaw/mute::name = /datum/charflaw/mute,
 	/datum/charflaw/critweakness::name = /datum/charflaw/critweakness,
+	/datum/charflaw/silverweakness::name = /datum/charflaw/silverweakness,
 	/datum/charflaw/hunted::name = /datum/charflaw/hunted,
 	/datum/charflaw/targeted::name = /datum/charflaw/targeted,
 	/datum/charflaw/mind_broken::name = /datum/charflaw/mind_broken,
@@ -139,6 +140,15 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(mob_job && mob_job.vice_restrictions)
 		for(var/key in cf_list)
 			if(cf_list[key] in mob_job.vice_restrictions)
+				cf_list -= key
+
+	var/datum/advclass/mob_advclass = target.mind?.picked_advclass
+	if(!mob_advclass && target.advjob)
+		mob_advclass = SSrole_class_handler.get_advclass_by_name(target.advjob)
+	if(mob_advclass)
+		var/list/current_vice_limits = mob_advclass.get_vice_limits(target)
+		for(var/key in cf_list)
+			if(mob_advclass.is_vice_limited(cf_list[key], current_vice_limits))
 				cf_list -= key
 
 	var/datum/charflaw/chosen_type = null
@@ -656,6 +666,14 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/critweakness/on_mob_creation(mob/user)
 	ADD_TRAIT(user, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+
+/datum/charflaw/silverweakness
+	name = "Silver Weakness"
+	desc = "Silver is the greatest threat to my lyfe. Blows from silver weapons will set me alight, inhibit my ability to regenerate, and - if blessed - can outright destroy my vessel. However small items like cutlery and smaller objects will not harm me if i don't hold it for too long."
+	needs_extra_vice = TRUE
+
+/datum/charflaw/silverweakness/on_mob_creation(mob/user)
+	ADD_TRAIT(user, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 
 /datum/charflaw/leprosy
 	name = "Leper (+3 TRI)"

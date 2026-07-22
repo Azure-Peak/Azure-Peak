@@ -67,7 +67,6 @@
 	icon_state = "athresh"
 	smeltresult = /obj/item/ingot/aalloy
 	color = "#bb9696"
-	sellprice = 15
 
 /obj/item/rogueweapon/thresher/bronze
 	name = "bronze thresher"
@@ -121,7 +120,6 @@
 	desc = "Her thought was simple; to seperate the wheat from the chaff. By removing the limitations set upon one's spirit by lyfe, only then could divinity be obtained. She was correct - yet Her ascension had gone terribly awry, all-the-same."
 	icon_state = "asickle"
 	color = "#bb9696"
-	sellprice = 15
 	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/rogueweapon/sickle/bronze
@@ -174,7 +172,6 @@
 	icon_state = "ahoe"
 	smeltresult = /obj/item/ingot/aalloy
 	color = "#bb9696"
-	sellprice = 15
 
 /obj/item/rogueweapon/hoe/copper
 	name = "copper hoe"
@@ -385,7 +382,6 @@
 	icon_state = "apitchfork"
 	smeltresult = /obj/item/ingot/aalloy
 	color = "#bb9696"
-	sellprice = 15
 
 /obj/item/rogueweapon/pitchfork/bronze
 	force = 15

@@ -1,7 +1,7 @@
 /datum/patron/old_god
 	name = "Psydon"
 	domain = "Otava, Naledi, Rockhill, and most of Psydonia's outermost fiefs."
-	desc = "  </br>''God. The manifestation of maximal good, and the father of all.'' \
+	desc = "''God. The manifestation of maximal good, and the father of all.'' \
 	</br>''He, who created reality for His children to frollick within.'' \
 	</br>''He, who breathed lyfe into the Pantheon to shepherd His virtues.'' \
 	</br>''He, who sacrificed His strength to strike down the Archdevil with the Comet Syon.'' \

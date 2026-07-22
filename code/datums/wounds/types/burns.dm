@@ -2,7 +2,7 @@
 	name = "burn"
 	whp = 1 // 1 to 1 to puncture, as it is an AP type
 	sewn_whp = 0
-	bleed_rate = 1
+	bleed_rate = 0.2
 	sewn_bleed_rate = 0.04
 	clotting_rate = 0.01
 	sewn_clotting_rate = 0.01
@@ -12,28 +12,30 @@
 	can_sew = TRUE
 	can_cauterize = FALSE
 	passive_healing = 0.1
-	severity_type = SEVERITY_TYPE_WHP
+	severity_type = SEVERITY_TYPE_BURN // name off the limb's actual burnt fraction, not the whp heal-pool
 	sound_effect = list('sound/combat/hits/burn (1).ogg', 'sound/combat/hits/burn (2).ogg')
-	severity_stages = list(
-		"reddened" = 10,
-		"blistering" = 35,
-		"scalded" = 70,
-		"charred" = 120,
-		"cindered" = 180,
+	severity_stages = list( // burn_dam as a percent of the limb's max_damage
+		"reddened" = 5,
+		"blistering" = 20,
+		"scalded" = 40,
+		"charred" = 60,
+		"cindered" = 80,
 	)
 
 #define BURN_UPG_WHPRATE 1.2
 #define BURN_UPG_PAINRATE 0.25
-#define BURN_UPG_BLEEDRATE 0.12
 #define BURN_CHAR_THRESHOLD 120
-#define BURN_UPG_CLAMP_RAW (ARTERY_LIMB_BLEEDRATE * 0.2)
-#define BURN_ARMORED_BLEED_CLAMP (ARTERY_LIMB_BLEEDRATE * 0.5)
+// flat floor + a capped damage term, so a fireball (90) bleeds more than a spitfire (40) without the old runaway clamp
+#define BURN_UPG_BLEED_FLAT 0.8
+#define BURN_UPG_BLEED_SCALE 0.02
+#define BURN_UPG_BLEED_SCALE_CAP 1.6
+#define BURN_ARMORED_BLEED_CLAMP (ARTERY_LIMB_BLEEDRATE * 0.33)
 #define BURN_MAX_BLEED (ARTERY_LIMB_BLEEDRATE * 0.75)
 
 /datum/wound/dynamic/burn/upgrade(dam, armor, exposed)
 	whp += (dam * BURN_UPG_WHPRATE)
 	woundpain += (dam * BURN_UPG_PAINRATE)
-	set_bleed_rate(bleed_rate + clamp((dam * BURN_UPG_BLEEDRATE), 0.1, BURN_UPG_CLAMP_RAW))
+	set_bleed_rate(bleed_rate + BURN_UPG_BLEED_FLAT + clamp(dam * BURN_UPG_BLEED_SCALE, 0, BURN_UPG_BLEED_SCALE_CAP))
 	if(bleed_rate > BURN_MAX_BLEED)
 		set_bleed_rate(BURN_MAX_BLEED)
 	if(armor && !exposed)
@@ -49,9 +51,10 @@
 
 #undef BURN_UPG_WHPRATE
 #undef BURN_UPG_PAINRATE
-#undef BURN_UPG_BLEEDRATE
 #undef BURN_CHAR_THRESHOLD
-#undef BURN_UPG_CLAMP_RAW
+#undef BURN_UPG_BLEED_FLAT
+#undef BURN_UPG_BLEED_SCALE
+#undef BURN_UPG_BLEED_SCALE_CAP
 #undef BURN_ARMORED_BLEED_CLAMP
 #undef BURN_MAX_BLEED
 

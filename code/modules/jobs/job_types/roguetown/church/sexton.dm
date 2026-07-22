@@ -108,6 +108,7 @@
 	outfit = /datum/outfit/job/roguetown/sexton/gravetender
 	cmode_music = 'sound/music/combat_holy.ogg'
 	maximum_possible_slots = 1 //No combat role stacking, please?
+	vice_limits = list(/datum/charflaw/silverweakness)
 	category_tags = list(CTAG_SEXTON)
 	traits_applied = list(TRAIT_OUTDOORSMAN) //often outside digging holes
 	subclass_stats = list(

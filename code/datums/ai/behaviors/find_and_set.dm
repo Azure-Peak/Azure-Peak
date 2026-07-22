@@ -8,9 +8,14 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 	behavior_flags = AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
 	/// How far can we see stuff when setting up fields?
 	var/vision_range = 7
+	var/find_targets_field_key
+
+/datum/ai_behavior/find_and_set/New()
+	. = ..()
+	find_targets_field_key = BB_FIND_TARGETS_FIELD(type)
 
 /datum/ai_behavior/find_and_set/get_cooldown(datum/ai_controller/cooldown_for)
-	if(cooldown_for.blackboard[BB_FIND_TARGETS_FIELD(type)])
+	if(cooldown_for.blackboard[find_targets_field_key])
 		return 60 SECONDS
 	return ..()
 

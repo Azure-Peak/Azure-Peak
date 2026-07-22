@@ -22,7 +22,6 @@
 	desc = "A clump of dirty lustrous nuggets!"
 	icon_state = "oregold1"
 	smeltresult = /obj/item/ingot/gold
-	sellprice = SELLPRICE_GOLD_ORE
 	materia = list(/datum/materia_aspect/solar, /datum/materia_aspect/metal)
 
 /obj/item/rogueore/gold/Initialize()
@@ -48,7 +47,6 @@
 	desc = "A dark ore of rugged strength."
 	icon_state = "oreiron1"
 	smeltresult = /obj/item/ingot/iron
-	sellprice = SELLPRICE_IRON_ORE
 	materia = list(/datum/materia_aspect/metal)
 
 /obj/item/rogueore/iron/Initialize()
@@ -97,7 +95,6 @@
 	icon_state = "orecoal1"
 	firefuel = 30 MINUTES
 	smeltresult = /obj/item/rogueore/coal
-	sellprice = SELLPRICE_COAL
 	materia = list(/datum/materia_aspect/earth, /datum/materia_aspect/fire)
 
 /obj/item/rogueore/coal/Initialize()
@@ -525,7 +522,6 @@
 	desc = "A massive handle, assembled from the double-handed grip of an Executioner's Sword. The unique crescent-styled crossguard seems to have a slot, fittable only by the tang of a fittingly large blade."
 	icon_state = "component_berserkhandle"
 	smeltresult = /obj/item/ingot/iron
-	sellprice = 33
 	materia = list(/datum/materia_aspect/metal)
 
 /obj/item/ingot/component/threadavantyne

@@ -703,7 +703,7 @@
 			if(!(c_BP in BPs_to_check))
 				LAZYADD(BPs_to_check, c_BP)
 
-		if((HAS_TRAIT(C_caster, TRAIT_NOPAIN) || HAS_TRAIT(C_caster, TRAIT_NOPAINSTUN)) && HAS_TRAIT(C_caster, TRAIT_BLOODLOSS_IMMUNE))
+		if((HAS_TRAIT(C_caster, TRAIT_NOPAIN) || HAS_TRAIT(C_caster, TRAIT_NOPAINSTUN)) && HAS_TRAIT(C_caster, TRAIT_BLOODLOSS_IMMUNE) && HAS_TRAIT(C_caster, TRAIT_IRONMAN))
 			if(!(c_BP in BPs_to_check))
 				c_BP.receive_damage(targetwound.whp)
 				LAZYADD(BPs_to_check, c_BP)

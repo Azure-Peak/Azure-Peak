@@ -67,7 +67,6 @@
 	name = "blacksteel ring"
 	desc = "A ring of mythical blacksteel."
 	icon_state = "ring_bs"
-	sellprice = 70
 	materia = list(/datum/materia_aspect/defense)
 
 /obj/item/clothing/ring/jade
@@ -118,7 +117,7 @@
 
 /obj/item/clothing/ring/active
 	var/active = FALSE
-	desc = "A golden ring that bares a runic enigma, capable of nullifying all incoming magicka. The runic enigma pulsates with crimson light, rendering me invulnerable to arcynic violence!"
+	desc = "A golden ring that bears a runic enigma, capable of nullifying all incoming magicka. The runic enigma pulsates with crimson light, rendering me invulnerable to arcynic violence!"
 	var/cooldowny
 	var/cdtime
 	var/activetime
@@ -155,7 +154,7 @@
 /obj/item/clothing/ring/active/nomag
 	name = "ring of null magic"
 	icon_state = "ruby"
-	desc = "A golden ring that bares a runic enigma, capable of nullifying all incoming magicka. Unfortuantely, like with most magic rings, its powers can only be used sparingly."
+	desc = "A golden ring that bears a runic enigma, capable of nullifying all incoming magicka. Unfortuantely, like with most magic rings, its powers can only be used sparingly."
 	activate_sound = 'sound/magic/antimagic.ogg'
 	cdtime = 10 MINUTES
 	activetime = 30 SECONDS
@@ -338,7 +337,6 @@
 	name = "silver weddingband"
 	desc = "A glimmering weddingband of silver, ornately decorated with the engravings of a lover's name."
 	icon_state = "s_ring_wedding"
-	sellprice = 3
 	var/choicename = FALSE
 	var/choicedesc = FALSE
 	is_silver = FALSE //Love wins.

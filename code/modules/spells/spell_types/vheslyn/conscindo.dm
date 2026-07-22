@@ -50,6 +50,9 @@ you violently rend it asunder and heal you instead, intended as a finisher to ma
 	if((target.mobility_flags & MOBILITY_STAND))
 		to_chat(user, span_info("My victim must be lying down."))
 		return
+	if(!target.has_extractable_lux())
+		to_chat(user, span_info("This conjuration holds no true lux to rend."))
+		return
 	if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE)) //Vheslynites aren't fucking humen, also I don't see why you'd kill your exploding allies this way.
 		to_chat(user, span_info("They lack any lux to begin with."))
 		return

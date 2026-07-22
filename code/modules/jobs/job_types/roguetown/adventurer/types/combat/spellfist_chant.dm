@@ -143,9 +143,9 @@ a.choose-btn:hover {
 <ul class="shared-list">
 <li><b>Building</b> — Unarmed strikes and attacks with unarmed weapons grant 1 Momentum every 2 seconds against living targets.</li>
 <li><b>Spending</b> — Fist and Grasp consume 3 for empowered versions. Storm requires 7+ to cast.</li>
-<li><b>Decay</b> — Starts decaying 8 seconds after your last strike, losing 1 stack every 6 seconds.</li>
+<li><b>Decay</b> — Starts decaying 10 seconds after your last strike, losing 1 stack every 6 seconds.</li>
 <li><b>Disruption</b> — You lose ALL momentum when knocked down or stunned.</li>
-<li><b>Overcharge (7+)</b> — Damages your chest each tick. Storm of Psydon becomes available.</li>
+<li><b>Overcharge (7+)</b> — Storm of Psydon becomes available. If overcharged Momentum decays, ALL of it discharges at once, straining you - briefly slowed and left Vulnerable.</li>
 <li><b>Maximum (10)</b> — Storm of Psydon becomes fully empowered: 9 punches + 1 kick.</li>
 </ul>
 </div>

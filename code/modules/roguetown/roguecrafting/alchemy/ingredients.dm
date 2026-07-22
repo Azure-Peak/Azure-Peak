@@ -311,7 +311,6 @@
 	name = "sui dust"
 	desc = "A long mix of herbs resulting in a special dust. For you. Use it while held."
 	icon_state = "transisdust"
-	sellprice = 12
 	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/motion, /datum/materia_aspect/arcyne)
 
 /obj/item/alch/transisdust/attack_self(mob/living/user)

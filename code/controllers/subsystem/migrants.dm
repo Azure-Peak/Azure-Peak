@@ -656,7 +656,7 @@ SUBSYSTEM_DEF(migrants)
 	return get_turf(pick(landmarks))
 
 /proc/hugboxify_for_class_selection(mob/living/carbon/human/character)
-	character.advsetup = 1
+	character.set_advsetup(TRUE)
 	character.invisibility = INVISIBILITY_MAXIMUM
 	character.become_blind("advsetup")
 

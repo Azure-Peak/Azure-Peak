@@ -11,6 +11,7 @@
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_COURT
+	vice_limits = list(/datum/charflaw/silverweakness)
 	
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 

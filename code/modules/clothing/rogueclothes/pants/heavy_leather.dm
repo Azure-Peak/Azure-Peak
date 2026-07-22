@@ -63,6 +63,12 @@
 	..()
 	update_icon()
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/loadout
+	name = "aesthetic fencing breeches"
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor = ARMOR_CLOTHING
+	armor_class = ARMOR_CLASS_NONE
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
 	name = "grenzelhoftian paumpers"
 	desc = "Padded pants for extra comfort and protection, adorned in vibrant colors."
@@ -103,6 +109,12 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout
+	name = "aesthetic grenzelhoftian paumpers"
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor = ARMOR_CLOTHING
+	armor_class = ARMOR_CLASS_NONE
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 	name = "cut-throat's pants"
 	desc = "Foreign pants, with leather insewns."
@@ -110,12 +122,24 @@
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER - 50
 
+/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout
+	name = "aesthetic cut-throat's pants"
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor = ARMOR_CLOTHING
+	armor_class = ARMOR_CLASS_NONE
+
 /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2
 	name = "strange ripped pants"
 	desc = "Weird pants typically worn by the destitute in Kazengun. Or, those looking to make a fashion statement."
 	icon_state = "eastpants2"
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER - 50
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout
+	name = "aesthetic strange ripped pants"
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor = ARMOR_CLOTHING
+	armor_class = ARMOR_CLASS_NONE
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun //no, not 'eastpants3', silly!
 	name = "gambeson trousers"
@@ -129,6 +153,12 @@
 	desc = "Form-fitting legwear. Almost too form-fitting."
 	icon_state = "shadowpants"
 	allowed_race = NON_DWARVEN_RACE_TYPES
+
+/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
+	name = "aesthetic shadowy silk tights"
+	armor_class = ARMOR_CLASS_NONE
+	armor = ARMOR_CLOTHING
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
 	name = "custom-fit silk tights"

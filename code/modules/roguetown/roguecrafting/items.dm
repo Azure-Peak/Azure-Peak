@@ -164,7 +164,6 @@
 	skillcraft = /datum/skill/craft/sewing
 
 /obj/item/storage/roguebag/crafted
-	sellprice = 4
 
 /datum/crafting_recipe/roguetown/survival/pipe
 	name = "wood pipe"

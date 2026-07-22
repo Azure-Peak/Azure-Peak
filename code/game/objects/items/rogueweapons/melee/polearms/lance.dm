@@ -60,7 +60,7 @@
 /obj/item/rogueweapon/spear/lance/blacksteel
 	name = "blacksteel lance"
 	desc = "A magnificent lance of blacksteel, designed to be wielded on saigaback in jousting tournaments. Even so, it isn't uncommon to see it \
-	being handled on foot as a pike by Grenzelhoft's blacksteel-armored knights. Wrap a length of cloth around the shaft to bare your heraldry."
+	being handled on foot as a pike by Grenzelhoft's blacksteel-armored knights. Wrap a length of cloth around the shaft to bear your heraldry."
 	icon_state = "bs_lance"
 	force = 20
 	force_wielded = 25

@@ -189,7 +189,7 @@
 						if(length(new_title) > 64)
 							to_chat(user, span_warning("Title is too long! Maximum 64 characters."))
 							return
-						final_name = new_title
+						final_name = sanitize(new_title)
 						custom_title_chosen = TRUE
 
 				if(alert("Would you like to write a custom description for the book?", "Book Description", "Yes", "No") == "Yes")
@@ -202,7 +202,7 @@
 						var/last_char = copytext(new_desc, length(new_desc))
 						if(last_char != "." && last_char != "!" && last_char != "?")
 							new_desc += "."
-						final_desc = new_desc
+						final_desc = html_encode(new_desc)
 
 				if(alert("Would you like to write a custom author section for the book?", "Book Authors", "Yes", "No") == "Yes")
 					var/new_authorline = input(user, "Enter book authors (max 128 characters):", "Book Authors", final_authorline) as text|null
@@ -212,9 +212,9 @@
 							return
 						custom_authors_chosen = TRUE
 						if(alert("One or multiple authors?", "Book Authors", "One", "Multiple") == "One")
-							final_authorline = " Author: [new_authorline]."
+							final_authorline = " Author: [sanitize(new_authorline)]."
 						else
-							final_authorline = " Authors: [new_authorline]."
+							final_authorline = " Authors: [sanitize(new_authorline)]."
 			var/available_sprites = list(
 				"Basic Book" = "basic_book",
 				"Fancy Book" = "book",

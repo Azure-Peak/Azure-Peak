@@ -5,6 +5,8 @@
 // How much EXP per 100 sew threshold fixed per intelligence
 // 7.5 EXP at 10 INT for 100 sew treshold
 #define SEW_EXP_FINISH 0.75
+// How many uses of thread a single strand of fiber winds onto a needle
+#define FIBER_THREAD_USES 5
 
 /obj/item/needle
 	name = "needle"
@@ -49,7 +51,7 @@
 	. += span_info("While stitching a wound, it will bleed far slower than usual. This effect can be further stacked by applying cloth, bandages, or pressure to the wounded limb.")
 	. += span_info("If multiple stitchable wounds are present on the targeted limb, you'll be given the option to choose which specific wound is treated first.")
 	. += span_info("Needles require fibers to stitch, which can be found by cutting grass or foraging through bushes.")
-	. += span_info("To rethread an emptied needle, left-click it with a strand of fiber.")
+	. += span_info("To rethread an emptied needle, left-click it with a strand of fiber. A fiber bundle works too, and will keep feeding strands in one at a time until the needle is full.")
 
 /obj/item/needle/Initialize()
 	. = ..()
@@ -66,24 +68,56 @@
 	if(infinite)
 		return TRUE
 	stringamt = stringamt - used
+	update_icon()
 //	if(stringamt <= 0)
 //		qdel(src)
 
 /obj/item/needle/attack(mob/living/M, mob/user)
 	sew(M, user)
 
+/// Is there any point in threading this needle? Complains to the user if not.
+/obj/item/needle/proc/can_rethread(mob/user)
+	if(infinite || maxstring - stringamt <= 0) //is the needle infinite OR does it have all of its uses left
+		to_chat(user, span_warning("The needle has no need to be refilled."))
+		return FALSE
+	return TRUE
+
+/obj/item/needle/proc/rethread_time(mob/user)
+	return 6 SECONDS - user.get_skill_level(/datum/skill/craft/sewing)
+
+/obj/item/needle/proc/rethread()
+	var/gained = min(FIBER_THREAD_USES, (maxstring - stringamt))
+	stringamt += gained
+	update_icon()
+	return gained
+
 /obj/item/needle/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/natural/bundle))
+		var/obj/item/natural/bundle/B = I
+		if(!ispath(B.stacktype, /obj/item/natural/fibers)) //only bundles of something we could thread by hand
+			return ..()
+		if(!can_rethread(user))
+			return
+
+		to_chat(user, "I begin threading the needle from [B]...")
+		var/refill_amount = 0
+		while((stringamt < maxstring) && !QDELETED(B) && (B.amount > 0)) //one strand at a time, until full or the bundle runs dry
+			if(!do_after(user, rethread_time(user), target = B))
+				break
+			if(QDELETED(B) || !B.use(1)) //use() unwinds the bundle itself once it's down to a single strand
+				break
+			refill_amount += rethread()
+		if(refill_amount)
+			to_chat(user, "I replenish the needle's thread by [refill_amount] uses!")
+		return
+
 	if(istype(I, /obj/item/natural/fibers))
-		if(infinite || maxstring - stringamt <= 0) //is the needle infinite OR does it have all of its uses left
-			to_chat(user, span_warning("The needle has no need to be refilled."))
+		if(!can_rethread(user))
 			return
 
 		to_chat(user, "I begin threading the needle with additional fibers...")
-		if(do_after(user, 6 SECONDS - user.get_skill_level(/datum/skill/craft/sewing), target = I))
-			var/refill_amount
-			refill_amount = min(5, (maxstring - stringamt))
-			stringamt += refill_amount
-			to_chat(user, "I replenish the needle's thread by [refill_amount] uses!")
+		if(do_after(user, rethread_time(user), target = I))
+			to_chat(user, "I replenish the needle's thread by [rethread()] uses!")
 			qdel(I)
 		return
 	return ..()
@@ -311,3 +345,4 @@
 #undef SEW_HP_EXP_NORMALIZER
 #undef SEW_EXP_PER_STEP
 #undef SEW_EXP_FINISH
+#undef FIBER_THREAD_USES

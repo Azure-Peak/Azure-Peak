@@ -62,15 +62,15 @@
 	output_reagents = list(/datum/reagent/medicine/strongmana = 90)
 
 /datum/alch_cauldron_recipe/stamina_potion
-	name = "Elixir of Stamina"
+	name = "Elixir of Fortitude"
 	smells_like = "fresh air"
-	output_reagents = list(/datum/reagent/medicine/stampot = 90)
+	output_reagents = list(/datum/reagent/medicine/stampot = 30)
 
 /datum/alch_cauldron_recipe/big_stamina_potion
-	name = "Elixir of Stamina (Strong)"
+	name = "Elixir of Fortitude (Strong)"
 	smells_like = "clean winds"
 	skill_required = SKILL_LEVEL_JOURNEYMAN
-	output_reagents = list(/datum/reagent/medicine/strongstam = 90)
+	output_reagents = list(/datum/reagent/medicine/strongstam = 30)
 
 /datum/alch_cauldron_recipe/restoration_potion
 	name = "Elixir of Restoration"

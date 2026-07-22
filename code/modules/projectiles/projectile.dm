@@ -161,9 +161,9 @@
 	var/accuracy = 65 //How likely the project will hit it's intended target area. Decreases over distance moved, increased from perception.
 	var/bonus_accuracy = 0 //bonus accuracy that cannot be affected by range drop off.
 
-	/// Min tile distance for full damage/AP.
+	/// Min tile distance for full damage.
 	var/min_range = 0
-	/// Max tile distance for full damage/AP.
+	/// Max tile distance for full damage.
 	var/max_range = 0
 	/// Falloff factor for damage. Multiplicative.
 	var/dam_falloff_factor = 1

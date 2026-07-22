@@ -1,7 +1,6 @@
 GLOBAL_LIST_EMPTY(loot_pools)
 GLOBAL_LIST_EMPTY(loot_spawners_pending)
 GLOBAL_LIST_EMPTY(loot_chests_pending)
-GLOBAL_LIST_EMPTY(loot_spawners_poolless)
 /// Set of pool keys whose owning area is loot_pool_deferred. Pools in this set accumulate spawners across multiple InitializeAtoms calls and are only processed when process_deferred_loot_pools(key) is called.
 GLOBAL_LIST_EMPTY(loot_pools_deferred_keys)
 /// Set of deferred pool keys that have already been finalized. Stragglers loaded after finalization fire normally instead of pooling.
@@ -43,6 +42,8 @@ GLOBAL_LIST_EMPTY(loot_pools_deferred_finalized)
 	var/junk_count = 0
 	var/bonus_count = 0
 	var/starting_budget = available_mammons
+	/// Summed loot value of every spawner in the pool whether it is funded or not, for diagnosis purpose
+	var/total_demand = 0
 
 	shuffle_inplace(spawners)
 
@@ -56,6 +57,7 @@ GLOBAL_LIST_EMPTY(loot_pools_deferred_finalized)
 		spawners.len--
 		if(istype(spawner, /obj/effect/spawner/lootdrop))
 			var/obj/effect/spawner/lootdrop/S = spawner
+			total_demand += S.loot_value
 			if(available_mammons >= S.loot_value)
 				S.spawn_loot()
 				available_mammons -= S.loot_value
@@ -70,6 +72,7 @@ GLOBAL_LIST_EMPTY(loot_pools_deferred_finalized)
 			qdel(S)
 		else if(istype(spawner, /obj/structure/closet/crate/chest/loot_chest))
 			var/obj/structure/closet/crate/chest/loot_chest/C = spawner
+			total_demand += C.loot_value
 			if(available_mammons >= C.loot_value)
 				C.generate_loot()
 				available_mammons -= C.loot_value
@@ -103,7 +106,9 @@ GLOBAL_LIST_EMPTY(loot_pools_deferred_finalized)
 			qdel(bonus)
 			CHECK_TICK
 
-	log_game("Loot Pool '[pool_key]': [starting_budget] mammons, [total_spawners] spawners, [funded_count] funded, [junk_count] junk, [bonus_count] bonus, [available_mammons] mammons remaining")
+	var/surplus = starting_budget - total_demand
+	var/verdict = surplus > 0 ? "+[surplus] OVER" : (surplus < 0 ? "[-surplus] SHORT" : "exact")
+	log_game("Loot Pool '[pool_key]': budget [starting_budget], demand [total_demand] ([verdict]), [total_spawners] spawners, [funded_count] funded, [junk_count] junk, [bonus_count] bonus, [available_mammons] remaining")
 
 /// Resolves the pool key for a given area. Uses loot_pool_key if set, otherwise falls back to the area type.
 /proc/get_area_pool_key(area/rogue/A)
@@ -147,20 +152,9 @@ GLOBAL_LIST_EMPTY(loot_pools_deferred_finalized)
 	GLOB.loot_spawners_pending.Cut()
 
 	// Fire poolless spawners normally - clear ref before qdel
-	// Skip logging for town/shelter/shop areas since those are intentionally poolless
 	while(length(poolless_spawners))
 		var/obj/effect/spawner/lootdrop/spawner = poolless_spawners[length(poolless_spawners)]
 		poolless_spawners.len--
-		var/area/A = get_area(spawner)
-		var/turf/T = get_turf(spawner)
-		var/area_desc = A ? "[A.type] ([A.name])" : "NO AREA"
-		var/coords = T ? "([T.x],[T.y],[T.z])" : "(?,?,?)"
-		// Only log spawners in non-town, non-hag areas (those are intentionally poolless)
-		var/should_log = TRUE
-		if(istype(A, /area/rogue/indoors/town) || istype(A, /area/rogue/under/town) || istype(A, /area/rogue/indoors/shelter/bog_hag))
-			should_log = FALSE
-		if(should_log)
-			GLOB.loot_spawners_poolless += "[spawner.type] at [coords] in [area_desc]"
 		spawner.spawn_loot()
 		qdel(spawner)
 		CHECK_TICK
@@ -188,22 +182,6 @@ GLOBAL_LIST_EMPTY(loot_pools_deferred_finalized)
 		var/datum/loot_pool/pool = GLOB.loot_pools[pool_key]
 		pool.process_pool()
 		CHECK_TICK
-
-	// Phase 4: diagnostic logging
-	log_game("=== LOOT POOL DIAGNOSTICS ===")
-	log_game("Pools created: [length(GLOB.loot_pools)]")
-
-	for(var/key in GLOB.loot_pools)
-		var/datum/loot_pool/pool = GLOB.loot_pools[key]
-		log_game("  Pool '[key]': processed=[pool.processed]")
-
-	if(length(GLOB.loot_spawners_poolless))
-		log_game("POOLLESS SPAWNERS: [length(GLOB.loot_spawners_poolless)] total - these need loot_budget on their area:")
-		for(var/entry in GLOB.loot_spawners_poolless)
-			log_game("    [entry]")
-	else
-		log_game("All spawners assigned to pools.")
-	log_game("=== END LOOT POOL DIAGNOSTICS ===")
 
 /// Process a deferred pool by key once its source generation is complete (e.g. dungeon generator finishing).
 /// Removes the pool from GLOB.loot_pools after processing so any straggler spawners fire normally instead of joining an exhausted pool.

@@ -369,13 +369,13 @@
 				stackcount--
 			else if(stackcount >= 2)
 				var/obj/item/natural/bundle/stick/B = new(get_turf(user))
-				B.amount = clamp(stackcount, 2, 4)
+				B.amount = clamp(stackcount, 2, 10)
 				B.update_bundle()
-				stackcount -= clamp(stackcount, 2, 4)
+				stackcount -= clamp(stackcount, 2, 10)
 				user.put_in_hands(B)
 		for(var/obj/item/grown/log/tree/stick/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 100)
 			qdel(F)
+		playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 100)
 
 
 /obj/item/grown/log/tree/stick/attackby(obj/item/I, mob/living/user, params)
