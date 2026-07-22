@@ -6,7 +6,7 @@
 	desc = "You should not be seeing this."
 	var/list/enabled_recipes	// list of recipe datum paths that the catalyst allows one to craft. initialized automatically
 	var/recipe_base_type		// path to a base recipe that the initialize function will populate the above list with subtypes of
-	var/seed_item				// item used to start creating the catalyst. MUST BE UNIQUE (if there are two catalysts with the same seed item one of them will be uncraftable and do not ask this one which will win)
+	var/obj/item/seed_item		// item used to start creating the catalyst. MUST BE UNIQUE (if there are two catalysts with the same seed item one of them will be uncraftable and do not ask this one which will win)
 	var/difficulty = 5			// steps in the process. 5 is default, 4-7 the sane range. any less and it's trivial, any more and it feels unfair
 
 /obj/item/alch/catalyst/Initialize()

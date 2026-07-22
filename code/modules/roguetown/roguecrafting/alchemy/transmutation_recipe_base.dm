@@ -11,6 +11,7 @@
 	var/list/cached_display_data					// tgui stuff
 	var/result_name									// automatically set to the name of a random output item which should be fine for most things.
 	var/subtype_reqs = TRUE							// whether or not the recipe accepts subtypes. set to false if you run into inheritance issues
+	var/snowflake_hidden = FALSE					// sigh
 
 /datum/transmutation_recipe/New()
 	. = ..()
@@ -132,3 +133,41 @@
 		data["craftingdifficulty"] = "[SSskills.level_names_plain[skill_required]]."
 
 	cached_display_data = data
+
+/datum/transmutation_recipe/catalyst_tutorial
+	name = "Catalyst Creation Recipes"
+	category = "Basic Transmutation"
+	snowflake_hidden = TRUE
+
+/datum/transmutation_recipe/catalyst_tutorial/generate_html(mob/user)
+	var/client/client = user
+	if(!istype(client))
+		client = user.client
+	user << browse_rsc('html/book.png')
+	var/html = {"
+		<!DOCTYPE html>
+		<html lang="en">
+		<meta charset='UTF-8'>
+		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
+		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+		<body>
+		  <div>
+		    <h1>[name]</h1>
+		"}
+
+	html += "All catalysts require [SSskills.level_names_plain[SKILL_LEVEL_EXPERT]] level alchemy skill.<br>"
+	html += "Put the seed item onto a transmutation table, then follow the instructions to turn it into a catalyst.<br><ul>"
+
+	var/list/difficulty_strings = list("impossible to fail","trivial","very easy","easy","average","difficult","notably difficult")
+	for(var/obj/item/alch/catalyst/path as anything in subtypesof(/obj/item/alch/catalyst))
+		if(path::seed_item)
+			html += "<li>To create \a [path::name], add \a [path::seed_item::name]. You will need to solve \a [difficulty_strings[path::difficulty]] puzzle.</li>"
+	html +="</ul>"
+
+	html += {"
+		</div>
+		</div>
+	</body>
+	</html>
+	"}
+	return html

@@ -1211,6 +1211,8 @@
 			continue
 		if(is_abstract(R))
 			continue
+		if(R.snowflake_hidden)
+			continue
 		transmutation_recipes[R.type] = R.cached_display_data
 
 	data["transmutation_recipes"] = transmutation_recipes
