@@ -54,9 +54,9 @@
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/zizo)
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo)
 		//gigajank to ensure we get both Profane Bone + Insight at once for this path
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/insightorprofane)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/insight)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/zizo/profane)
+		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/insightorprofane)
+		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/insight)
+		user.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/zizo/profane)
 		//re-add our stuff
 		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/insight)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/zizo/profane)
@@ -86,6 +86,14 @@
 		if(istype(part, /obj/item/bodypart/head))
 			continue
 
+		//give ourselves undead eyes since we basically are a walking corpse.
+		var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+		if(eyes)
+			eyes.Remove(user,1)
+			QDEL_NULL(eyes)
+		eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
+		eyes.Insert(user)
+
 		part.skeletonize(FALSE)
 		user.update_body_parts()
 		playsound(user.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
@@ -106,15 +114,6 @@
 		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/bone_cataclysm)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
 		grant_poke_spell(user)
-
-		//give ourselves undead eyes since we basically are a walking corpse.
-		var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
-		if(eyes)
-			eyes.Remove(user,1)
-			QDEL_NULL(eyes)
-		eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
-		eyes.Insert(user)
-		update_body()
 
 	user.visible_message(
 		span_boldwarning("[user]'s flesh burns away in necrotic flames, revealing bone beneath as they are consumed by the Lesser Work!"),

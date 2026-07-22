@@ -145,7 +145,7 @@
 	var/zizo_profane = /datum/action/cooldown/spell/projectile/zizo/profane
 	var/choosingspell = FALSE
 
-/datum/action/cooldown/spell/zizo/insightorprofane(atom/cast_on)
+/datum/action/cooldown/spell/zizo/insightorprofane/cast(atom/cast_on)
 	. = ..()
 	if(choosingspell == TRUE)
 		to_chat(owner, span_warning("I'm already choosing a spell!"))
