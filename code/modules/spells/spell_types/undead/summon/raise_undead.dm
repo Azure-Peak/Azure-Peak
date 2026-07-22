@@ -4,9 +4,8 @@
 	Should the spell fails to find a suitable soul, a mindless undead will be summoned in its place with decrepit equipment.\n\
 	This will only happen if you are in combat mode, to avoid any accident."
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	action_icon_state = "skeleton_greater"
-	spell_color = GLOW_COLOR_ZIZO
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 
 	clothes_req = FALSE
 	range = 7
