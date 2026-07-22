@@ -12,6 +12,7 @@
 /obj/item/alch/catalyst/Initialize()
 	. = ..()
 	enabled_recipes = subtypesof(recipe_base_type)
+	AddComponent(/datum/component/unsellable)
 
 /obj/item/alch/catalyst/florid
 	name = "florid catalyst"
