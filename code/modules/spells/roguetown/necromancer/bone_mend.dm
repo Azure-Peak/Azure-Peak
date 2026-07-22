@@ -4,6 +4,8 @@
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "bonemend"
+	spell_color = GLOW_COLOR_ZIZO
+
 	cast_range = 2
 	sound = 'sound/magic/whiteflame.ogg'
 	charge_required = TRUE

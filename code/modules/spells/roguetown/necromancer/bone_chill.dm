@@ -4,6 +4,8 @@
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "bonechill"
+	spell_color = GLOW_COLOR_ZIZO
+
 	cast_range = 7
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_tier = 2
