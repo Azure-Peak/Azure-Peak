@@ -418,6 +418,7 @@
 /datum/action/cooldown/spell/summon_terrorhog
 	name = "Summon Terrorhog"
 	desc = "First cast allows you to name your very own, loyal Terrorhog. Second cast lets you summon a Terrorhog. This is a single use spell when uses to summon. Beware, drooling feral hogs do not cease their rampage until they are dead, and cannot be leashed properly."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/classuniquespells/lichspells.dmi'
 	button_icon_state = "hog"
 

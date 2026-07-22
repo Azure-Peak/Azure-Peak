@@ -252,8 +252,7 @@
 /obj/item/contraption/linker/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Use it like a multitool on compatible machinery to store a target in its buffer, then use it again on another compatible target to link them.")
-	if(user.get_skill_level(/datum/skill/craft/engineering) >= 3 || HAS_TRAIT(user, TRAIT_ZIZO_CLERIC)) //You get the bare-minimal
-		. += span_info("Use it in-hand to wipe its stored buffer.")
+	. += span_info("Use it in-hand to wipe its stored buffer.")
 	. += span_info("Right-click an adjacent rotatable rotational object while holding this to rotate it.")
 	. += span_info("Middle-click an adjacent placed shaft, cogwheel, or gearbox while holding this to disassemble it back into an item pile.")
 	if(user.get_skill_level(/datum/skill/craft/engineering) >= 4)
@@ -261,7 +260,7 @@
 
 /obj/item/contraption/linker/attack_self(mob/user)
 	. = ..()
-	if(user.get_skill_level(/datum/skill/craft/engineering) >= 3 || HAS_TRAIT(user, TRAIT_ZIZO_CLERIC)) //You get the bare-minimal
+	if(user.get_skill_level(/datum/skill/craft/engineering) >= 3) //You get the bare-minimal
 		to_chat(user, "You wipe [src] of its stored buffer.")
 		remove_buffer(src)
 	else
@@ -304,27 +303,12 @@
 	if(!current_charge)
 		return
 	var/skill = user.get_skill_level(/datum/skill/craft/engineering)
-	if(istype(O, /obj/item/grown/log/tree/small)&& skill>3 || HAS_TRAIT(user, TRAIT_ZIZO_CLERIC))
+	if(istype(O, /obj/item/grown/log/tree/small)&& skill>3)
 		var/newdir = O.dir
 		var/obj/I = O
 		var/obj/item/randomingot = pick (/obj/item/ingot/bronze,/obj/item/ingot/iron,/obj/item/ingot/copper, /obj/item/ingot/tin, /obj/item/rogueore/coal)
-		if(skill<4) //Zizo clerics have a 40% fail rate. If they're not actually talented, she guides your hands (on top of misfiring chance)
-			if(prob(60))
-				var/obj/result = new randomingot(get_turf(I))
-				result.dir = newdir
-			else
-				to_chat(user, span_info("The [name] sparks and ruins the [I], Zizo's guidance alone was not enough this time."))
-				playsound(user, 'sound/items/flint.ogg', 100, FALSE)
-				flick(off_icon, src)
-				var/datum/effect_system/spark_spread/S = new()
-				var/turf/front = get_turf(O)
-				S.set_up(1, 1, front)
-				S.start()
-				qdel(I)
-				return
-		else
-			var/obj/result = new randomingot(get_turf(I))
-			result.dir = newdir
+		var/obj/result = new randomingot(get_turf(I))
+		result.dir = newdir
 		qdel(I)
 	else
 		to_chat(user, span_info("The [name] refuses to function."))
@@ -340,11 +324,6 @@
 	shake_camera(user, 1, 1)
 	playsound(src, 'sound/magic/swap.ogg', 100, TRUE)
 	return
-
-/obj/item/contraption/wood_metalizer/get_mechanics_examine(mob/user)
-	. = ..()
-	if(user.get_skill_level(/datum/skill/craft/engineering) < 4 && HAS_TRAIT(user, TRAIT_ZIZO_CLERIC))
-		. += span_info("Zizo's blessing allows me to use this without the required talent, however there's a good chance it'll fail and break materials.")
 
 /obj/item/contraption/folding_table_stored
 	name = "folding table"
@@ -469,8 +448,6 @@
 		amputation_speed_mod *= 0.5
 	if(patient.stat != DEAD && (patient.jitteriness || patient.mobility_flags & MOBILITY_STAND)) //jittering will make it harder to secure the shears, even if you can't otherwise move
 		amputation_speed_mod *= 1.5 //15*0.5*1.5=11.25
-	if(HAS_TRAIT(user, TRAIT_ZIZO_CLERIC)) //Zizite devotees have unnatural talent w/ artifice
-		amputation_speed_mod *= 0.8
 
 	var/skill_modifier = 1
 	if(user.get_skill_level(/datum/skill/craft/engineering)>(user.get_skill_level(/datum/skill/misc/medicine))) //use the higher skill

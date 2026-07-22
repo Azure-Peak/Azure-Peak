@@ -190,10 +190,7 @@
 
 	switch(medical_skill)
 		if(0 to 3)
-			if(HAS_TRAIT(user, TRAIT_ZIZO_CLERIC))
-				skill_mod = 2.0 //Zizites have unnatural talent that lets them operate it concerningly faster than everyone else w/out talent
-			else
-				skill_mod = 4.0
+			skill_mod = 4.0
 		if(4)
 			skill_mod = 1.0
 		if(5)
@@ -258,7 +255,7 @@
 	var/mob/living/carbon/human/H = user
 
 	// Check medical skill requirement, bypass if zizite devotee
-	if(H.get_skill_level(/datum/skill/misc/medicine) < chair_skill_level && !HAS_TRAIT(H, TRAIT_ZIZO_CLERIC))
+	if(H.get_skill_level(/datum/skill/misc/medicine) < chair_skill_level)
 		to_chat(H, span_warning("I don't have the medical expertise to operate this device!"))
 		return
 

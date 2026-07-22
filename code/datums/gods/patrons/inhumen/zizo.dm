@@ -4,7 +4,7 @@
 	desc = "A once-mortal snow elf turned goddess. Her hubris in thinking she could harvest lux from the planet itself led to the elimination of her entire race. Her works are still used to this dae in some cases."
 	worshippers = "Necromancers, Researchers, Wizards, Warlocks and the Undead"
 	mob_traits = list(TRAIT_CABAL, TRAIT_ZIZOSIGHT)
-	miracles = list(/datum/action/cooldown/spell/touch/orison							= CLERIC_ORI,
+	miracles = list(/datum/action/cooldown/spell/touch/orison/zizo						= CLERIC_ORI,
 					/datum/action/cooldown/spell/zizo/snuff_lights						= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal/zizo						= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
@@ -21,7 +21,7 @@
 		"ZIZO GRANTS ME TRUTH!",
 		"ZIZO BRINGS PROGRESS!",
 	)
-	traits_tier = list(TRAIT_ZIZO_CLERIC = CLERIC_T1) //Unique perk, lets you bypass minimal skill for the bare-minimal function of engineering goggles, fulm chairs and other devices. It doesn't mean they're less likely to explode on you, however.
+	traits_tier = list(TRAIT_STEELHEARTED = CLERIC_T1)
 	storyteller = /datum/storyteller/zizo
 
 	titles = list(

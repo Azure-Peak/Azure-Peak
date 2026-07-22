@@ -35,9 +35,16 @@
 	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
 
 ///////////////////
+// T0 - Orison //
+///////////////////
+//Basically the same, unique background icon
+/datum/action/cooldown/spell/touch/orison/zizo
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+
+///////////////////
 // T1 - Miracle  //
 ///////////////////
-
+//Basically the same, unique icon + flavor
 /datum/action/cooldown/spell/miracle/heal/zizo
 	name = "Profane Miracle"
 	fluff_desc = "The lyfeline of any faithful of Zizo, channeling restorative energies into your target, sapping into nearby bones to reuse their instilled magicka of her gift of unlyfe for purpose anew."
