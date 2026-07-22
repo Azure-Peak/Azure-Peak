@@ -250,7 +250,19 @@
 			visible_message(span_warning(msg))
 			close_trap()
 
+// hardens against carts
+/obj/item/restraints/legcuffs/beartrap/forceMove(atom/destination)
+	if(armed)
+		visible_message(span_warning("[src] suddenly snaps shut!"))
+		close_trap()
+	. = ..()
 
+// hardens against repel and fetch
+/obj/item/restraints/legcuffs/beartrap/throw_at(atom/target, range, speed, mob/thrower, spin, diagonals_first, datum/callback/callback)
+	if(armed)
+		visible_message(span_warning("[src] suddenly snaps shut!"))
+		close_trap()
+	. = ..()
 
 /obj/item/restraints/legcuffs/beartrap/dropped(mob/living/carbon/human/user)
 	..()
