@@ -1422,7 +1422,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 							if(metadata["altdetail_color"] && I.altdetail_tag)
 								I.altdetail_color = metadata["altdetail_color"]
 							if(metadata["custom_name"])
-								I.name = metadata["custom_name"]
+								I.name = sanitize(metadata["custom_name"])
 							if(metadata["custom_desc"])
-								I.desc = metadata["custom_desc"]
+								I.desc = html_encode(metadata["custom_desc"])
 							I.update_icon()

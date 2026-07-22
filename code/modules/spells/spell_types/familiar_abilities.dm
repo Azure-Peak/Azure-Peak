@@ -27,7 +27,7 @@
 	if(familiar.health<=0)
 		// they're dead; track the vestige
 		return track_vestige(user,familiar)
-	var/message = input(user, "You make a connection. What are you trying to say?")
+	var/message = sanitize(input(user, "You make a connection. What are you trying to say?"))
 	if(!message)
 		return FALSE
 	to_chat_immediate(familiar, "Arcane whispers fill the back of my head, resolving into [user]'s voice: <font color=#7246ff>[message]</font>")
@@ -94,7 +94,7 @@
 		to_chat(user, span_warning("You cannot sense your summoner's mind."))
 		return FALSE
 
-	var/message = input(user, "You make a connection. What are you trying to say?")
+	var/message = sanitize(input(user, "You make a connection. What are you trying to say?"))
 	if(!message)
 		return FALSE
 	to_chat_immediate(summoner, "Arcane whispers fill the back of my head, resolving into [user.real_name]'s voice: <font color=#7246ff>[message]</font>")
