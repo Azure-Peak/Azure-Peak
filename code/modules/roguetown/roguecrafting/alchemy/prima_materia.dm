@@ -95,7 +95,7 @@
 
 /datum/materia_aspect/xanthosis
 	name = "Citrinitas"
-	desc = "An unfathomable nature, the meta-aspect of &lt;i&gt;prima materia&lt;/i&gt; itself. Potent yet inert, it was named simply for its color." // calling html_encode is for losers
+	desc = "An unfathomable nature, the meta-aspect of <i>prima materia</i> itself. Potent yet inert, it was named simply for its color."
 
 /datum/materia_aspect/rubedo
 	name = "Concordia"
