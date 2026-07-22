@@ -24,6 +24,7 @@ GLOBAL_LIST_EMPTY(alch_grind_recipes)			//list of all alchemy grinding recipes
 GLOBAL_LIST_EMPTY(alch_cauldron_recipes)		//list of all alchemy cauldron recipes
 GLOBAL_LIST_EMPTY(transmutation_recipes)		//list of all transmutation recipes
 GLOBAL_LIST_EMPTY(prima_materia_aspects)		//list of all prima materia aspects, only stores datum paths
+GLOBAL_LIST_EMPTY(catalyst_recipes)				//assoc list: catalyst path to correct recipe
 GLOBAL_LIST_EMPTY(cooking_recipes)				//list of all cooking recipes. currently unused, pending a broader crafting refactor.
 GLOBAL_LIST_EMPTY(rcd_list)					//list of Rapid Construction Devices.
 GLOBAL_LIST_EMPTY(apcs_list)					//list of all Area Power Controller machines, separate from machines for powernet speeeeeeed.

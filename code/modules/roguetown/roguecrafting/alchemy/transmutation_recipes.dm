@@ -142,6 +142,13 @@
 	catalyst = /obj/item/alch/catalyst/nigredo
 	materia_aspects = list(/datum/materia_aspect/fire) // most of these recipes use ignis so we set it here
 
+/datum/transmutation_recipe/nigredo/albedo_precursor
+	name = "Pure Materia (Precursor to Albedo Catalyst)"
+	category = "Magnum Opus"
+	materia_aspects = list(/datum/materia_aspect/lunar) // outlier
+	input_items = list(/obj/item/alch/nigredo_precursor = 1, /obj/item/alch/puresalt = 1)
+	output_items = list(/obj/item/alch/albedo_precursor = 3) // one for a catalyst, one to take up the chain, one for...?
+
 /datum/transmutation_recipe/nigredo/smelt_decomposition
 	name = "Nigredic Decomposition"
 	input_items = list(/obj/item = 1)
@@ -165,6 +172,8 @@
 				quality = 6 // Guarantees a return of 6 no matter how extra experience past 3000 you have.
 			var/obj/item/ingot/ing = res
 			ing.apply_smelt_quality(quality)
+		if(I.GetComponent(/datum/component/unsellable)) // unlike most alchemy recipes, this ONLY applies unsellable if the input was unsellable - this is because it's not really transmutation, you're just smelting stuff cutely (this code is 90% equivalent to an ore furnace)
+				res.AddComponent(/datum/component/unsellable)
 		res.was_crafted = TRUE
 		res.OnCrafted(get_dir(user, parent), user)
 		res.add_fingerprint(user)
@@ -258,6 +267,13 @@
 	catalyst = /obj/item/alch/catalyst/albedo
 	materia_aspects = list(/datum/materia_aspect/lunar) // best representation of purity we have - adds a ~5m tax at minimum to most of these recipes
 
+/datum/transmutation_recipe/albedo/xanthosis_precursor
+	name = "Potent Materia (Precursor to Xanthosis Catalyst)"
+	category = "Magnum Opus"
+	materia_aspects = list(/datum/materia_aspect/arcyne) // outlier
+	input_items = list(/obj/item/alch/albedo_precursor = 1, /obj/item/roguegem/amethyst = 1)
+	output_items = list(/obj/item/alch/xanthosis_precursor = 2) // one for a catalyst, one to take up the chain
+
 /datum/transmutation_recipe/albedo/cinnabar // enchanters love this one simple trick
 	name = "Cinnabar Purification"
 	input_items = list(/obj/item/rogueore/iron = 1, /obj/item/rogueore/coal = 1) // 8 + 4 = 12, +5m materia tax = 17, higher than buying from stockpile
@@ -282,6 +298,13 @@
 	category = "Xanthotic Transmutation"
 	catalyst = /obj/item/alch/catalyst/xanthosis
 	materia_aspects = list(/datum/materia_aspect/arcyne) // default bcs of gem uptiering
+
+/datum/transmutation_recipe/xanthosis/rubedo_precursor
+	name = "Harmonic Materia (Precursor to Rubedo Catalyst)"
+	category = "Magnum Opus"
+	materia_aspects = list(/datum/materia_aspect/aalloy) // the ultimate alchemy, the ultimate heresy. all roads lead to an enigma lost to time.
+	input_items = list(/obj/item/alch/albedo_precursor = 1, /obj/item/alch/xanthosis_precursor = 1) // the culmination of your work, yet the result resembles naught before it
+	output_items = list(/obj/item/alch/rubedo_precursor = 1) // and so thy work is done... what? it isn't? such is the nature of a scholar, indeed!
 
 /datum/transmutation_recipe/xanthosis/coal
 	name = "Coal Platonization"

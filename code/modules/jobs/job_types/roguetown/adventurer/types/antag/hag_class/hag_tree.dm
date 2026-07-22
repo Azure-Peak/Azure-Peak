@@ -408,31 +408,37 @@
 	name = "Mother's sorrow"
 	desc = "A blossom of green moss. Said to induce melancholy when consumed by mothers-to-be, have-been, and would've-been."
 	icon_state = "moss"
+	complete_pot = /datum/alch_cauldron_recipe/trait/negative/prodepressants // hags can do naturally what magos have to bend reality to achieve. best used with material boons
 
 /obj/item/alch/hag_moss/fury
 	name = "Mother's fury"
 	desc = "A blossom of red moss. It cuts the throat when consumed, it burns and irritates the skin when touched. No one would dare cut down a mossmother, lest the very air be choked by her fury."
 	color = "#610202"
+	complete_pot = /datum/alch_cauldron_recipe/trait/wyrdlaborer
 
 /obj/item/alch/hag_moss/mercy
 	name = "Mother's mercy"
 	desc = "A blossom of pale, glowing moss. Holding it parts the trees, it is as if home, hearth, and a warm meal surround you at once."
 	color = "#E0FFD1"
+	complete_pot = /datum/alch_cauldron_recipe/trait/antidepressants
 
 /obj/item/alch/hag_moss/grief
 	name = "Mother's grief"
 	desc = "A blossom of dark, velvet moss. Looking at it makes the silence louder, until it is deafening."
 	color = "#2C2C2C"
+	complete_pot = /datum/alch_cauldron_recipe/trait/waterbreathing
 
 /obj/item/alch/hag_moss/envy
 	name = "Mother's envy"
 	desc = "A blossom of bile-colored moss. It hisses when it touches metal and dissolves organic matter into a nutrient-rich slurry for the Mossmother's roots."
 	color = "#A4C639"
+	complete_pot = /datum/alch_cauldron_recipe/trait/ravenous
 
 /obj/item/alch/hag_moss/lullaby
 	name = "Mother's lullaby"
 	desc = "A blossom of deep indigo moss."
 	color = "#301a3a"
+	complete_pot = /datum/alch_cauldron_recipe/trait/sleepdraught
 
 /obj/item/alch/hag_moss/lullaby/examine(mob/user)
 	. = ..()

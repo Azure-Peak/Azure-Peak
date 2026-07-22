@@ -50,6 +50,8 @@
 	return out
 
 /datum/roguestock/proc/check_item(obj/item/I)
+	if(I.GetComponent(/datum/component/unsellable))
+		return FALSE
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
 		var/obj/item/reagent_containers/food/snacks/food = I
 		if(food.eat_effect == /datum/status_effect/debuff/rotfood)

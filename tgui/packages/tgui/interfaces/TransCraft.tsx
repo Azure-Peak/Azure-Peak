@@ -30,7 +30,6 @@ type Craftability = [string, number][];
 type ActFn = (action: string, params?: Record<string, unknown>) => void;
 
 type Data = {
-  busy: number;
   showonlycraftable: number;
   craftability: Record<string, number>;
   catalysts: Record<string, string>;
@@ -182,11 +181,11 @@ export const TransCraft = () => {
   const selectedCatalyst: string = data.selectedcatalyst;
 
   return (
-    <Window width={560} height={760} theme="parchment" title="Transmutation">
+    <Window width={600} height={760} theme="parchment" title="Transmutation">
       <Window.Content scrollable>
         <div
           style={{
-            display: 'block',
+            display: 'flex',
             position: 'relative',
             padding: '18px 28px 28px 8px',
             fontFamily: SERIF,
@@ -199,12 +198,8 @@ export const TransCraft = () => {
             style={{
               minWidth: 40,
               maxWidth: 40,
-              minHeight: '530px',
-              float: 'left',
+              height: '100%',
               display: 'inline-block',
-              borderWidth: '0px 2px 0px 0px',
-              borderColor: 'black',
-              borderStyle: 'double',
             }}
           >
             {data.catalysts &&
@@ -233,6 +228,9 @@ export const TransCraft = () => {
           <div
             style={{
               display: 'inline-block',
+              borderWidth: '0px 0px 0px 3px',
+              borderColor: 'black',
+              borderStyle: 'double',
             }}
           >
             {data.transmutation_recipes
@@ -247,13 +245,19 @@ export const TransCraft = () => {
                       craftable={
                         craftability == null
                           ? true
-                          : isCraftable(craftability, r[0])
+                          : isCraftable(craftability, r[1].catalyst)
                       }
                       act={act}
                     />
                   ))
               : 'Select a catalyst to view recipes.'}
-            {selectedCatalyst ? '' : 'Select a catalyst to view recipes.'}
+            {selectedCatalyst ? (
+              ''
+            ) : (
+              <span style={{ marginLeft: '4px' }}>
+                Select a catalyst to view recipes.
+              </span>
+            )}
           </div>
         </div>
       </Window.Content>

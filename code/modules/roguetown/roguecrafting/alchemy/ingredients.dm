@@ -64,8 +64,8 @@
 			if(!isnull(minor_name))
 				. += span_notice(" Minorly attuned to making [minor_name].")
 		else
-			if(!isnull(complete_smell))
-				. += span_notice(" Smells overwhelmingly of [complete_smell].")
+			if(!isnull(complete_smell) && (!istype(src, /obj/item/alch/hag_moss) || user.mind?.has_antag_datum(/datum/antagonist/hag)))
+				. += span_notice(" Smells overwhelmingly of [complete_smell].") // normal people don't know moss can be used that way
 			if(!isnull(major_smell))
 				if(alch_skill >= SKILL_LEVEL_NOVICE || perint >= 6)
 					. += span_notice(" Smells strongly of [major_smell].")

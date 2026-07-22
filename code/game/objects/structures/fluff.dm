@@ -799,17 +799,24 @@
 	desc = "Metal and glass, porcelain and gilbranze, copper and bronze - a chorus for works, Great and Lesser. \
 	The greatest of them have been lost to time.\n\nA secure pair of drums hold your catalytic samples in metal \
 	tubes, held still from all things by their inner arcynic constructs. The cabinet beneath is simply mundane, though no less useful."
-	var/inuse = FALSE // avoiding tgui headaches right off the bat. update THIS DID NOT SAVE THIS ONE
+	var/cur_user		 							// avoiding tgui headaches right off the bat. update THIS DID NOT SAVE THIS ONE
+	var/datum/tgui/current_ui					// to avoid edge cases. will it work? idfk
+	// data for crafting menu begins here
 	var/cached_craftability
 	var/last_surroundings_hash
-	var/datum/catalyst_recipe/catalyst_recipe
-	var/selected_catalyst // i hate frontend code what the fuck do you mean this has to be stored on the backend aaaa
+	var/selected_catalyst						// i hate frontend code what the fuck do you mean this has to be stored on the backend aaaa
+	// data for puzzle menu begins here
+	var/obj/item/seed_item						// item we're trying to turn into a catalyst
+	var/obj/item/alch/catalyst/current_recipe	// this will be a path! not an actual item!
+	var/list/selected_steps						// current selections for the recipe
+	var/list/last_attempt						// your last guess, stored so we can display it below the input
+	var/list/step_titles = list("harmonize", "sanguinate", "raefy", "platonize", "distill")
 
 /obj/structure/fluff/alch/trans/Initialize()
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/trans) // to store our transmutation catalysts in. what did you think it meant?
 
-/obj/structure/fluff/alch/trans/uni/Initialize()
+/obj/structure/fluff/alch/trans/uni/Initialize() // bit less roundstart gruntwork for uni, not enough to make metals n such
 	. = ..()
 	var/datum/component/storage/catalyst_storage = GetComponent(/datum/component/storage)
 	catalyst_storage.handle_item_insertion(new /obj/item/alch/catalyst/florid(loc))
@@ -823,38 +830,120 @@
 	. += span_info("Standing nearby allows one to craft basic alchemical recipes.")
 	. += span_info("Left click to open the interface. Within, you can create catalysts and perform transmutation. See the Encyclopedia for more details.")
 	. += span_info("Drag the workstation to yourself to open the catalyst inventory. Catalysts stored here will enable transmutation recipes for the workstation.")
-	. += span_info("Right click to cancel a catalyzation experiment, refunding the seed item.")
+	. += span_info("Right click to cancel a catalyzation experiment, refunding the seed item. Close the catalyzation window first!")
+
+/obj/structure/fluff/alch/trans/attackby(obj/item/with, mob/user, params)
+	. = ..()
+	if(!can_transmute(user)) // obligatory
+		to_chat(user, span_warning("I have no idea how to use this."))
+		return
+	if(user.ensure_skills().get_skill_level(/datum/skill/craft/alchemy) < SKILL_LEVEL_EXPERT)
+		to_chat(user, span_warning("I'm not quite skilled enough to create my own catalysts. It takes an alchemical expert to do so safely."))
+		return
+	if(current_recipe)
+		if(!istype(with, /obj/item/magic/fae/fairydust))
+			return
+		// attempt to create a catalyst
+		for(var/idx in selected_steps)
+			if(idx == 0)
+				to_chat(user, span_warning("I don't think this is the right number of steps for this...")) // we are nice here and don't eat your dust bcs this is probably a misclick
+				return
+		var/matches = TRUE
+		for(var/idx in 1 to length(selected_steps))
+			last_attempt[idx] = selected_steps[idx]
+			if(selected_steps[idx]!=GLOB.catalyst_recipes[current_recipe][idx])
+				matches = FALSE
+		if(matches)
+			var/obj/item/alch/catalyst/result = new current_recipe(loc)
+			var/steps_desc = step_titles[selected_steps[1]]
+			for(var/idx in 2 to length(selected_steps))
+				steps_desc += (idx == length(selected_steps) ? ", and ": ", ") // doing this inside the loop means we handle the extreme edge case of a 2-step recipe
+				steps_desc += step_titles[selected_steps[idx]]
+			user.visible_message(
+				span_notice("[user] transforms \the [seed_item] into \a [result]!"),
+				span_notice("\The [with] glows softly as I apply [with.gender==PLURAL ? "them" : "it"] to the catalyzation equipment. I carefully [steps_desc] \the [seed_item], transforming it into \a [result]!")
+				)
+			current_ui.close() // end of the flow, everyone get out so we can be prepped for next time
+			QDEL_NULL(seed_item)
+			current_recipe = null
+			selected_steps = null
+			last_attempt = null
+			QDEL_NULL(with)
+			return
+		to_chat(user, span_warning("You sprinkle [with] over the catalyzation equipment, causing some of it to glow. Seems this setup won't do what you want..."))
+		QDEL_NULL(with)
+		return
+	if(seed_item)
+		to_chat(user, span_warning("[src] already has an item placed on it for work!"))
+		return
+	if(cur_user) // should be impossible with these checks
+		to_chat(user, span_warning("Someone is already using this."))
+		return
+	if(HAS_TRAIT(with, TRAIT_NODROP)) // lol. lmao.
+		to_chat(user, span_warning("I can't get [with] onto the table for processing!"))
+		return
+	for(var/obj/item/alch/catalyst/path as anything in typesof(/obj/item/alch/catalyst))
+		if(path::seed_item && path::seed_item == with.type)
+			current_recipe=path
+			seed_item = with
+			seed_item.forceMove(src)
+			user.visible_message(
+				span_notice("[user] places [seed_item] on [src], preparing to work!"),
+				span_notice("I place [seed_item] on [src] and clamp it in place, preparing to work.")
+				)
+			selected_steps = list()
+			last_attempt = list()
+			for(var/idx in 1 to current_recipe::difficulty)
+				selected_steps += 0
+				last_attempt += 0
+			break
+	if(!current_recipe)
+		to_chat(user, span_warning("This doesn't seem like it'd make a useful catalyst..."))
+		return
+	ui_interact(user)
+
+/obj/structure/fluff/alch/trans/attack_right(mob/user, list/modifiers)
+	if(seed_item)
+		if(current_ui)
+			current_ui.close()
+		user.put_in_hands(seed_item)
+		to_chat(user, span_notice("I carefully detach [seed_item] from [src]."))
+		seed_item = null
+		current_recipe = null
+	return ..()
 
 /obj/structure/fluff/alch/trans/attack_hand(mob/user)
 	. = ..()
 	if(.)
 		return
-	if(inuse)
+	if(cur_user)
 		to_chat(user, span_warning("Someone else is already using this."))
 		return
-	if(!catalyst_recipe)
-		ui_interact(user)
-		inuse = TRUE
+	if(!can_transmute(user))
+		to_chat(user, span_warning("I have no idea how to use this."))
 		return
+	ui_interact(user)
+	cur_user = user
+	return
 
 /obj/structure/fluff/alch/trans/ui_close(mob/user)
 	. = ..()
-	inuse = FALSE
+	cur_user = null
+	current_ui = null
 
 /obj/structure/fluff/alch/trans/ui_interact(mob/user, datum/tgui/ui)
-	var/area/A = get_area(user)
-	if(!A.can_craft_here())
-		to_chat(user, span_warning("You cannot craft here."))
-		if(ui) ui.close()
-		return
-
-	var/menu_type = (catalyst_recipe ? "Catalyzation" : "TransCraft")
+	var/menu_type = (current_recipe ? "Catalyzation" : "TransCraft")
+	var/window_title = (current_recipe ? "Catalyzation" : "Transmutation Menu")
 
 	ui = SStgui.try_update_ui(user, src, ui)
+	if(ui && ui.interface!=menu_type)
+		ui.close()
+		ui = null
 	if(!ui)
-		ui = new(user, src, menu_type, "Transmutation Menu")
+		ui = new(user, src, menu_type, window_title)
 		ui.set_state(GLOB.not_incapacitated_turf_state)
 		ui.open()
+	current_ui = ui
 
 /obj/structure/fluff/alch/trans/ui_act(action, params)
 	. = ..()
@@ -867,6 +956,16 @@
 			var/amount = params["amount"] || 1
 			var/auto = params["auto"]
 			transmute(usr, path, amount, auto)
+		if("add_step")
+			var/step = params["id"]
+			if(step)
+				var/idx=selected_steps.Find(0)
+				if(idx)
+					selected_steps[idx] = step
+		if("del_step")
+			var/idx = params["id"]
+			if(idx && idx <= length(selected_steps))
+				selected_steps[idx] = 0
 
 /obj/structure/fluff/alch/trans/proc/transmute(mob/living/carbon/human/user, datum/transmutation_recipe/path, amount = 1, auto)
 	if(!user || !istype(user))
@@ -974,8 +1073,24 @@
 	return materia_items
 
 /obj/structure/fluff/alch/trans/ui_data(mob/user)
+	if(!current_ui)
+		return
+	if(current_ui.interface == "TransCraft")
+		return transcraft_data(user)
+	else
+		return catalyzation_data(user)
+
+/obj/structure/fluff/alch/trans/proc/catalyzation_data(user)
 	var/list/data = list()
-	data["busy"] = inuse
+	data["recipe"] = (current_recipe ? current_recipe::name : null)
+	data["difficulty"] = (current_recipe ? current_recipe::difficulty : null)
+	data["current_steps"] = selected_steps
+	data["history"] = last_attempt
+	data["answer"] = (current_recipe ? GLOB.catalyst_recipes[current_recipe] : null)
+	return data
+
+/obj/structure/fluff/alch/trans/proc/transcraft_data(user)
+	var/list/data = list()
 	data["selectedcatalyst"] = selected_catalyst
 
 	var/list/surroundings = get_environment(user)
@@ -997,7 +1112,7 @@
 		var/datum/transmutation_recipe/R = rec
 		var/list/ings = gather_ingredients(user, R)
 		var/list/mats = gather_materia(user, R, ings)
-		craftability[R.name] = (ings && mats)
+		craftability[R.catalyst::name] = (length(ings + mats) > 0)
 
 	cached_craftability = craftability
 	data["craftability"] = craftability

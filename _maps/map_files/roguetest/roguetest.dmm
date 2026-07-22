@@ -314,7 +314,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
 "kn" = (
-/obj/structure/fluff/alch/trans/uni,
+/obj/item/natural/bundle/fibers/full,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "kv" = (
@@ -440,6 +440,7 @@
 /obj/item/needle/thorn,
 /obj/item/needle,
 /obj/item/needle/pestra,
+/obj/item/storage/roguebag,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "nU" = (
@@ -915,7 +916,6 @@
 /obj/item/natural/bundle/fibers/full,
 /obj/item/natural/bundle/fibers/full,
 /obj/item/natural/bundle/fibers/full,
-/obj/item/natural/bundle/fibers/full,
 /obj/item/needle,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
@@ -958,7 +958,22 @@
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors)
 "zr" = (
-/obj/item/storage/roguebag,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
+/obj/item/magic/fae/fairydust,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "Ab" = (
@@ -1038,6 +1053,8 @@
 /obj/structure/fluff/walldeco/med{
 	pixel_y = 32
 	},
+/obj/item/storage/belt/rogue/surgery_bag/full,
+/obj/structure/table/optable,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "BS" = (
@@ -1468,6 +1485,7 @@
 /obj/structure/table/cooling,
 /obj/item/reagent_containers/glass/mortar,
 /obj/item/pestle,
+/obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "Oj" = (
@@ -1569,10 +1587,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
 "Sy" = (
-/obj/structure/table/optable,
-/obj/item/storage/belt/rogue/surgery_bag/full,
-/obj/machinery/light/rogue/candle,
+/obj/structure/fluff/alch/trans/uni,
 /turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue,
 /area/rogue/indoors/town/physician)
 "SE" = (
 /obj/structure/table/wood{
@@ -2816,7 +2833,7 @@ ev
 AO
 LM
 BH
-bc
+zr
 pz
 bc
 tX
@@ -2868,7 +2885,7 @@ ev
 AO
 LM
 Sy
-zr
+ln
 bc
 bc
 tX
@@ -2921,7 +2938,7 @@ zo
 LM
 Oh
 kn
-ln
+bc
 bc
 tX
 yK

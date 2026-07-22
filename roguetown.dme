@@ -805,6 +805,7 @@
 #include "code\datums\components\tactical.dm"
 #include "code\datums\components\temporary_pollutor.dm"
 #include "code\datums\components\tether.dm"
+#include "code\datums\components\unsellable.dm"
 #include "code\datums\components\vampire_disguise.dm"
 #include "code\datums\components\waddling.dm"
 #include "code\datums\components\wearertargeting.dm"

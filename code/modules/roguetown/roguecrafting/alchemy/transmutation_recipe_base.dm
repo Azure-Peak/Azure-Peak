@@ -36,6 +36,7 @@
 			I.was_crafted = TRUE
 			I.OnCrafted(get_dir(user, parent), user)
 			I.add_fingerprint(user)
+			I.AddComponent(/datum/component/unsellable) // sets sellprice to 0, prevents selling at navigator (including smuggler) and stockpile, transfers to result when smelted
 	user.visible_message(span_notice("[user] transmutes some [result_name]!"), span_notice("I transmute some [result_name]!"))
 
 /proc/can_transmute(mob/user) // exact condition may be changed later

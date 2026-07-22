@@ -42,6 +42,18 @@
 
 	init_paths(/datum/materia_aspect, GLOB.prima_materia_aspects)
 
+	for(var/obj/item/alch/catalyst/path as anything in subtypesof(/obj/item/alch/catalyst))
+		if(path::seed_item)
+			GLOB.catalyst_recipes[path] = list()
+			var/last_picked = 0
+			var/picked = 0
+			for(var/idx in 1 to path::difficulty)
+				do
+					picked = pick(list(1, 2, 3, 4, 5))
+				while(picked == last_picked)
+				GLOB.catalyst_recipes[path] += picked
+				last_picked = picked
+
 	for(var/i in 0 to 20)
 		GLOB.mouseicons_human += file("icons/effects/mousemice/swang/[i * 5].dmi")
 

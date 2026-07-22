@@ -83,3 +83,20 @@
 	name = "Ictus"
 	desc = "That which strikes, the aspect which embodies violence. The nature of strife, of struggle, of conflict in all forms."
 
+// MAGNUM OPUS ASPECTS
+
+/datum/materia_aspect/nigredo
+	name = "Putrescere"
+	desc = "The fundament of decomposition, yearning to resolve - to end in purity or spread its misery."
+
+/datum/materia_aspect/albedo
+	name = "Vacuitas"
+	desc = "The nature of emptiness, the truest form of purity; it yearns ever to be filled."
+
+/datum/materia_aspect/xanthosis
+	name = "Citrinitas"
+	desc = "An unfathomable nature, the meta-aspect of &lt;i&gt;prima materia&lt;/i&gt; itself. Potent yet inert, it was named simply for its color." // calling html_encode is for losers
+
+/datum/materia_aspect/rubedo
+	name = "Concordia"
+	desc = "Paradox-of-paradoxes, that which is empty yet powerful, observable yet boundless, wrought of mortal hands yet resembling divinity. The unity of disparate natures brings forth a true wonder."
