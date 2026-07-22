@@ -32,7 +32,7 @@
 /datum/transmutation_recipe/florid/berry_to_apple
 	name = "Jacksberry Sanguination (Apple)"
 	materia_aspects = list(/datum/materia_aspect/plant)
-	input_items = list(/obj/item/reagent_containers/food/snacks/grown/berries = 2)
+	input_items = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/apple = 1)
 
 /datum/transmutation_recipe/florid/apple_to_berry
