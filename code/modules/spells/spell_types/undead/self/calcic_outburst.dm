@@ -1,7 +1,6 @@
 /obj/effect/proc_holder/spell/self/suicidebomb
 	name = "Calcic Outburst"
 	desc = "Explode in a wonderful blast of osseous shrapnel, channeling your centuries of unholy power into the blast to take those whom would dare strike you down with you."
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "calcic_outburst" //Okay this is funny
 	chargedrain = 0
 	chargetime = 0
@@ -72,7 +71,6 @@
 	name = "Calcic Obliteration"
 	desc = "Explode in a wonderful arcayne blast of osseous shrapnel, specially prepared to tear down the walls and buildings that would halt the advance of your fellow legionnaries. \
 	takes more time to explode compared to regular calic outburst, cannot be triggered manually by your Exarch."
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "firewalk"
 	chargedrain = 0
 	chargetime = 0
@@ -119,7 +117,6 @@
 /obj/effect/proc_holder/spell/invoked/remotebomb
 	name = "Shell Outburst"
 	desc = "Cause a minion to give up their lyfe for the Exarch. This will only trigger regular lesser calcic outbursts."
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "fireaura"
 	chargedrain = 0
 	range = 7
