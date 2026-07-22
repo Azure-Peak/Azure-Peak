@@ -173,7 +173,7 @@
 			var/obj/item/ingot/ing = res
 			ing.apply_smelt_quality(quality)
 		if(I.GetComponent(/datum/component/unsellable)) // unlike most alchemy recipes, this ONLY applies unsellable if the input was unsellable - this is because it's not really transmutation, you're just smelting stuff cutely (this code is 90% equivalent to an ore furnace)
-				res.AddComponent(/datum/component/unsellable)
+			res.AddComponent(/datum/component/unsellable)
 		res.was_crafted = TRUE
 		res.OnCrafted(get_dir(user, parent), user)
 		res.add_fingerprint(user)
