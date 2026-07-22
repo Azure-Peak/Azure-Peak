@@ -463,7 +463,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SHARPER_BLADES = span_info("My blades go dull slower, ensuring they stay sharp longer."),
 	TRAIT_BATTLEMASTER = span_info("I can use special attacks of any weapon without needing to be trained in it."),
 	TRAIT_CABAL = span_info("In secret, I have studied the ways of Her ascension."),
-	TRAIT_ZIZO_CLERIC = span_info("I am blessed with artifice by Zizo, artificed machinery comes almost natural to me, as she guides my hands. Although direct experience will still exceed my potental."),
+	TRAIT_ZIZO_CLERIC = span_info("I am blessed with lesser artifice knowledge by Zizo, artificed machinery comes almost natural to me, as she guides my hands. Although direct experience will still exceed my potental."),
 	TRAIT_HORDE = span_info("BY BLOOD AND BONE, I AM OF GRAGGAR'S ANOINTED!"),
 	TRAIT_PSYDONITE = span_info("I can gradually recover from most injuries, so long as I am not bled dry. Divine spite towards my faith leaves me unable to receive most miracles."),
 	TRAIT_PSYDONIAN_GRIT = span_info("While I still stand, there is yet hope for mankind. The stronger my willpower is, the better I can struggle through crippling wounds."),

@@ -8,19 +8,20 @@
 					/datum/action/cooldown/spell/zizo/snuff_lights						= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal/zizo						= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
-					/datum/action/cooldown/spell/projectile/zizo/profane				= CLERIC_T1,
+					/datum/action/cooldown/spell/zizo/insightorprofane					= CLERIC_T1, //progress rituos will grant both.
 					/datum/action/cooldown/spell/zizo/spite	 							= CLERIC_T2,
 					/datum/action/cooldown/spell/tame_undead/zizo						= CLERIC_T2,
-					/datum/action/cooldown/spell/zizo/rituos 							= CLERIC_T3, //this dictates summoner/utility + spells
+					/datum/action/cooldown/spell/zizo/rituos 							= CLERIC_T3, //this dictates your T3 miracle path.
 					/obj/effect/proc_holder/spell/invoked/resurrect/zizo				= CLERIC_T3,
-					/datum/action/cooldown/spell/lacrima/zizo							= CLERIC_T4
+					/datum/action/cooldown/spell/lacrima/zizo							= CLERIC_T4,
+					/datum/action/cooldown/spell/zizo/bestowcant						= CLERIC_T4
 	)
 	confess_lines = list(
 		"PRAISE ZIZO!",
 		"ZIZO GRANTS ME TRUTH!",
 		"ZIZO BRINGS PROGRESS!",
 	)
-	traits_tier = list(TRAIT_ZIZO_CLERIC = CLERIC_T1) //Unique perk, lets you bypass minimal skill for the bare-minimal function of engineering goggles, fulm chairs and other devices
+	traits_tier = list(TRAIT_ZIZO_CLERIC = CLERIC_T1) //Unique perk, lets you bypass minimal skill for the bare-minimal function of engineering goggles, fulm chairs and other devices. It doesn't mean they're less likely to explode on you, however.
 	storyteller = /datum/storyteller/zizo
 
 	titles = list(

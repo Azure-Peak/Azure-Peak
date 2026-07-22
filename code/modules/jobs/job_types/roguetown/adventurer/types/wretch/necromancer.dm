@@ -2,7 +2,7 @@
 	name = "Necromancer"
 	tutorial = "You have been ostracized and hunted by society for your dark magics and perversion of lyfe; your speciality is gaining power through what you raise."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/wretch/necromancer
 	cmode_music = 'sound/music/combat_heretic.ogg'
 	class_select_category = CLASS_CAT_MAGE
@@ -68,6 +68,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/lacrima)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/tame_undead)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo) //Sure I guess
 		wretch_select_bounty(H)
 	H.grant_language(/datum/language/undead)
 

@@ -200,7 +200,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite) //Zombifies dead people
 		// Our Utility Spells
 		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo)
 		// This is probably a bad idea, but let's live a little.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/summon_terrorhog)
 		// Consistancy as they're basically a ruler in the hierarchy above Necromancers
@@ -497,7 +497,7 @@
 	src.icon_state = initial(path_cast.icon_state)
 	src.pixel_x = initial(path_cast.pixel_x)
 	src.pixel_y = initial(path_cast.pixel_y)
-	src.color = "#777777" 
+	src.color = "#777777"
 	animate(src, alpha = 200, time = spawn_delay, easing = EASE_IN)
 	playsound(src, 'sound/misc/jumpscare (4).ogg', 50, TRUE)
 	addtimer(CALLBACK(src, PROC_REF(finalize_spawn_terrorhog)), spawn_delay)

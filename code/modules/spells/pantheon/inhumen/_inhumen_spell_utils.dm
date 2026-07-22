@@ -45,10 +45,21 @@
 
 	if(user.mind)
 		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
+		//Our Traits
 		ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]")
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
 		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
 		ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
+		//Our Spells
+		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/zizo)
+		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo)
+		//gigajank to ensure we get both Profane Bone + Insight at once for this path
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/insightorprofane)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/insight)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/zizo/profane)
+		//re-add our stuff
+		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/insight)
+		user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/zizo/profane)
 		grant_poke_spell(user)
 
 	user.visible_message(
@@ -95,6 +106,15 @@
 		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/bone_cataclysm)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
 		grant_poke_spell(user)
+
+		//give ourselves undead eyes since we basically are a walking corpse.
+		var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+		if(eyes)
+			eyes.Remove(user,1)
+			QDEL_NULL(eyes)
+		eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
+		eyes.Insert(user)
+		update_body()
 
 	user.visible_message(
 		span_boldwarning("[user]'s flesh burns away in necrotic flames, revealing bone beneath as they are consumed by the Lesser Work!"),
