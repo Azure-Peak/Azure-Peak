@@ -88,7 +88,7 @@
 	icon_state = "wool2"
 	color = "#cecac4"
 
-/obj/item/natural/fur/raccoon	
+/obj/item/natural/fur/raccoon
 	desc = "Fur from a ferocious raccoon."
 	icon_state = "pelt_raccoon"
 	color = null
@@ -163,6 +163,7 @@
 	gripped_intents = null
 	slot_flags = ITEM_SLOT_MOUTH|ITEM_SLOT_HIP
 	bundletype = /obj/item/natural/bundle/bone
+	materia = list(/datum/materia_aspect/death)
 
 /obj/item/natural/bone/Initialize()
 	. = ..()

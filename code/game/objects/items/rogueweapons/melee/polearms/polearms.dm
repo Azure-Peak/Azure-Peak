@@ -748,6 +748,7 @@
 	max_integrity = 60
 	throwforce = 20
 	special = null
+	materia = list(/datum/materia_aspect/weapon, /datum/materia_aspect/death)
 
 /obj/item/rogueweapon/spear/billhook
 	name = "billhook"
@@ -1100,12 +1101,12 @@
 	. = ..()
 	if(used)
 		return
-		
+
 	var/list/special_options = list()
 	for(var/intent in selection)
 		var/datum/special_intent/S = intent // Hate this DM quirk.
 		special_options[S::name] = S
-	
+
 	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
 	if(choice)
 		qdel(special)
@@ -1326,12 +1327,12 @@
 	. = ..()
 	if(used)
 		return
-		
+
 	var/list/special_options = list()
 	for(var/intent in selection)
 		var/datum/special_intent/S = intent // Hate this DM quirk.
 		special_options[S::name] = S
-	
+
 	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
 	if(choice)
 		qdel(special)

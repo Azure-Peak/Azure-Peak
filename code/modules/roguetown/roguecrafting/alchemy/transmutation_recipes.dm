@@ -438,8 +438,8 @@
 
 /datum/transmutation_recipe/rubedo/prodepressants
 	name = "Grave's Premonition"
-	materia_aspects = list(/datum/materia_aspect/earth) // todo maybe add an aspect to bones/remains for necran vibes?
-	input_items = list(/obj/item/alch/mineraldust = 1, /obj/item/alch/atropa = 1) // doom poison ingredients, plus the weight of earth and necra's curse
+	materia_aspects = list(/datum/materia_aspect/death)
+	input_items = list(/obj/item/alch/mineraldust = 1, /obj/item/alch/atropa = 1) // doom poison ingredients, plus the weight of finality = necra's curse
 	output_items = list(/obj/item/alch/reagent_prodepressants = 1)
 
 /datum/transmutation_recipe/rubedo/evilcaffiene

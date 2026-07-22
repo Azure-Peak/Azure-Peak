@@ -52,6 +52,10 @@
 	name = "Pervigeo"
 	desc = "Oft called 'an alchemist's favorite aspect'. Borne by all manner of herbs and flowers, it marks the diffusing nature which lends itself to infusion. The aspect of flourishing bloom, of spreading influence, of nature begging to be harnessed."
 
+/datum/materia_aspect/death // bones and such
+	name = "Conexio"
+	desc = "A grim aspect, or perhaps a peaceful one. All things come to an end, and this aspect is a reminder of such; to an optimist, the presence of the aspect is a reminder that an ending is an invitation to write a beginning anew."
+
 /// 'four mortal elements' contrasting the two 'divine' elements of solaris and lunae
 /datum/materia_aspect/fire // fire essentia, coal, ash
 	name = "Ignis"

@@ -118,7 +118,7 @@
 	major_pot = /datum/alch_cauldron_recipe/mana_potion
 	med_pot = /datum/alch_cauldron_recipe/per_potion
 	minor_pot = /datum/alch_cauldron_recipe/antidote
-	materia = list(/datum/materia_aspect/arcyne)
+	materia = list(/datum/materia_aspect/arcyne, /datum/materia_aspect/death)
 
 /obj/item/alch/seeddust
 	name = "seed dust"
@@ -248,8 +248,7 @@
 	major_pot = /datum/alch_cauldron_recipe/strong_antidote
 	med_pot = /datum/alch_cauldron_recipe/health_potion
 	minor_pot = /datum/alch_cauldron_recipe/con_potion
-
-	materia = list(/datum/materia_aspect/arcyne)
+	materia = list(/datum/materia_aspect/arcyne, /datum/materia_aspect/death)
 
 /obj/item/alch/bone/get_mechanics_examine(mob/user)
 	. = ..()
