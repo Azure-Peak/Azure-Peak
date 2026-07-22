@@ -461,17 +461,18 @@
 ///////////////////////
 // T4 - Bewstow Chant //
 ///////////////////////
-// Give any fellow Zizo worshipper the ability to speak and understand Zizocant. Exclusive to antagonists
+// Give any fellow Zizo worshipper the ability to speak and understand Zizocant. Exclusive to antagonists at T4, soft or converted acolytes wise.
+// TODO, probably a secular version of this, for lich. I suppose but this'll do for now. Its a neat thing if you wanna form a small cult or something as a heretic.
 
 /datum/action/cooldown/spell/zizo/bestowcant
 	name = "Bewstow Zizocant"
-	desc = "Bestow the forbidden tongue of Zizo's chant, requires a semi-lengthy ritual and a fellow Cabalist of Zizo's faith."
+	desc = "Bestow the forbidden tongue of Zizo's chant, requires a semi-lengthy ritual and a fellow Cabalist of Zizo's faith. You must remain still during the ritual, this will minorly stress them out upon completion."
 	fluff_desc = "A tongue known to the initated of Zizo's Cabal, as well as the reanimated by those whom serve in her name, to the ignorant it is but gibberish with an eerie resemblance to the elven tongue; but to the enlightened it is a hallowed tongue reborn from the reminants of all that were lost."
 	button_icon_state = "zizocant"
 	sound = 'sound/magic/baotha_blessdrink.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
 
-	cast_range = SPELL_RANGE_GROUND
+	cast_range = 2 //We want to be very close, no sniping people with Zizospeak.
 	self_cast_possible = FALSE
 
 	primary_resource_cost = 75
@@ -507,7 +508,7 @@
 		to_chat(H, span_warning("I bestow Zizo's sacred tongue upon [spelltarget]!"))
 		to_chat(spelltarget, span_warning("A strange chant settles into familarity in my mind. I can use ,W to speak Zizo's tongue, however its best I do so carefully as to not draw attention."))
 		spelltarget.grant_language(/datum/language/undead)
-		spelltarget.add_stress(/datum/stressevent/zizo_knowledge)
+		spelltarget.add_stress(/datum/stressevent/zizo_knowledge) //I mean, it IS forbidden knowledge, sire.
 	return TRUE
 
 ///////////////////
