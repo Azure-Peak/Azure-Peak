@@ -19,6 +19,7 @@
 	experimental_inhand = TRUE
 	sellprice = 2
 	bundletype = /obj/item/natural/bundle/fibers
+	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/natural/fibers/get_mechanics_examine(mob/user)
 	. = ..()
@@ -118,6 +119,7 @@
 	spitoutmouth = FALSE
 	experimental_inhand = TRUE
 	bundletype = /obj/item/natural/bundle/silk
+	materia = list(/datum/materia_aspect/animal)
 
 /obj/item/natural/silk/attack_right(mob/user)
 	to_chat(user, span_warning("I start to collect [src]..."))
@@ -187,6 +189,7 @@
 	/// If the bandage is soaked in some kind of medicine.
 	var/medicine_quality
 	var/medicine_amount = 0
+	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/natural/cloth/get_mechanics_examine(mob/user)
 	. = ..()
@@ -422,6 +425,7 @@
 	embedding = list("embedded_unsafe_removal_time" = 20, "embedded_pain_chance" = 10, "embedded_pain_multiplier" = 1, "embed_chance" = 35, "embedded_fall_chance" = 0)
 	resistance_flags = FLAMMABLE
 	max_integrity = 20
+	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/natural/thorn/get_mechanics_examine(mob/user)
 	. = ..()

@@ -96,6 +96,11 @@
 		. += span_info("It appears to be crafted by the hand of a local artisan.")
 	else if(is_carved)
 		. += span_info("It is a carved item.")
+	var/datum/component/unsellable/nosell = GetComponent(/datum/component/unsellable)
+	if(nosell)
+		. += span_info("It [nosell.reason]; it is highly unlikely anyone will buy it.")
+		if(smeltresult)
+			. += span_info("Smelting alone is not enough to obfuscate its origin.")
 
 	var/show_craft = TRUE
 	if(isliving(user))
@@ -179,4 +184,3 @@
 				if(80 to 99)
 					result = span_warning("It's a little damaged.")
 	return result
-	

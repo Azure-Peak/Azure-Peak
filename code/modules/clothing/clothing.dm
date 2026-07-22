@@ -85,12 +85,12 @@
 		max_integrity += (max_integrity * 0.11142857143)	// don't ask
 		obj_integrity = max_integrity
 	if(!length(materia))
-		if(anvilrepair) // metal, leather, and cloth armor... approximately
+		if(anvilrepair) // metal, cloth, and leather/fur items... approximately
 			materia = list(/datum/materia_aspect/defense)
-		else if (armor_class == ARMOR_CLASS_LIGHT)
-			materia = list(/datum/materia_aspect/animal)
-		else
+		else if (salvage_result == /obj/item/natural/cloth || salvage_result == /obj/item/natural/fibers)
 			materia = list(/datum/materia_aspect/plant)
+		else
+			materia = list(/datum/materia_aspect/animal)
 
 /obj/item/clothing/examine(mob/user)
 	. = ..()
