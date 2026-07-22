@@ -4,6 +4,8 @@
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "blind"
+	spell_color = GLOW_COLOR_ZIZO
+
 	cast_range = 7
 	sound = 'sound/items/beartrap.ogg'
 	primary_resource_cost = 30

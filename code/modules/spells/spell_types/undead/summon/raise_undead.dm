@@ -6,6 +6,8 @@
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	action_icon_state = "skeleton_greater"
+	spell_color = GLOW_COLOR_ZIZO
+
 	clothes_req = FALSE
 	range = 7
 	overlay_state = "animate"
