@@ -189,7 +189,7 @@
 	/// If the bandage is soaked in some kind of medicine.
 	var/medicine_quality
 	var/medicine_amount = 0
-	materia = list(/datum/materia_aspect/plant)
+	materia = list(/datum/materia_aspect/plant, /datum/materia_aspect/air)
 
 /obj/item/natural/cloth/get_mechanics_examine(mob/user)
 	. = ..()
