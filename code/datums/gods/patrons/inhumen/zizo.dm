@@ -21,7 +21,6 @@
 		"ZIZO GRANTS ME TRUTH!",
 		"ZIZO BRINGS PROGRESS!",
 	)
-	traits_tier = list(TRAIT_STEELHEARTED = CLERIC_T1)
 	storyteller = /datum/storyteller/zizo
 
 	titles = list(
