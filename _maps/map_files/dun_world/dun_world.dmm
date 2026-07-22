@@ -63785,6 +63785,7 @@
 "mcw" = (
 /obj/structure/table/finestone,
 /obj/machinery/light/rogue/candle/floorcandle/alt,
+/obj/item/roguecoin/aalloy/pile,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "mcy" = (
