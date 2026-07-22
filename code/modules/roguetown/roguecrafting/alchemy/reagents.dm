@@ -831,3 +831,4 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 		sleep(6) // a bottle will take a full 30 seconds to work so this shouldn't be super combat viable?
 
 #undef TRAIT_SOURCE_POTION
+#undef REPAIR_ELIXIR_STRENGTH
