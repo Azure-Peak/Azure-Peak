@@ -294,8 +294,8 @@
 
 /datum/transmutation_recipe/albedo/catalyzation_reagent // also you can make not-feydust more efficiently now
 	name = "Ash Harmonization (Catalyzation Reagent)"
-	input_items = list(/obj/item/ash = 3, /obj/item/roguebag = 1)
-	output_items = list(/obj/item/roguebag/trans = 1)
+	input_items = list(/obj/item/ash = 3, /obj/item/storage/roguebag = 1)
+	output_items = list(/obj/item/storage/roguebag/trans = 1)
 
 /datum/transmutation_recipe/albedo/salt
 	name = "Fat Salination" // usually means applying salt to something, but also refers to the increase of salt content in soil!
