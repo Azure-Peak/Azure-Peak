@@ -185,8 +185,9 @@
 				quality = 6 // Guarantees a return of 6 no matter how extra experience past 3000 you have.
 			var/obj/item/ingot/ing = res
 			ing.apply_smelt_quality(quality)
-		if(I.GetComponent(/datum/component/unsellable)) // unlike most alchemy recipes, this ONLY applies unsellable if the input was unsellable - this is because it's not really transmutation, you're just smelting stuff cutely (this code is 90% equivalent to an ore furnace)
-			res.AddComponent(/datum/component/unsellable)
+		var/datum/component/unsellable/unsellable = I.GetComponent(/datum/component/unsellable)
+		if(unsellable) // unlike most alchemy recipes, this ONLY applies unsellable if the input was unsellable - this is because it's not really transmutation, you're just smelting stuff cutely (this code is 90% equivalent to an ore furnace)
+			res.AddComponent(/datum/component/unsellable, unsellable.reason)
 		res.was_crafted = TRUE
 		res.OnCrafted(get_dir(user, parent), user)
 		res.add_fingerprint(user)
