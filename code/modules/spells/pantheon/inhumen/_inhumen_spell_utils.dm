@@ -67,6 +67,10 @@
 		span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!")
 	)
 
+	to_chat(user, span_purple("You finished Rituos to perfection, you should be a full-fledged Magos now, but..."))
+	sleep(30)
+	to_chat(user, "<i>...I still can barely comprehend beyond a mere firm grasp upon the arcane...? Why?</i>")
+
 /datum/action/cooldown/spell/zizo/rituos/proc/apply_unlife_path(mob/living/carbon/human/user)
 
 	user.mob_biotypes |= MOB_UNDEAD
@@ -86,14 +90,6 @@
 		if(istype(part, /obj/item/bodypart/head))
 			continue
 
-		//give ourselves undead eyes since we basically are a walking corpse.
-		var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
-		if(eyes)
-			eyes.Remove(user,1)
-			QDEL_NULL(eyes)
-		eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
-		eyes.Insert(user)
-
 		part.skeletonize(FALSE)
 		user.update_body_parts()
 		playsound(user.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
@@ -102,6 +98,14 @@
 	var/obj/item/bodypart/torso = user.get_bodypart(BODY_ZONE_CHEST)
 	playsound(user.loc, 'sound/misc/lava_death.ogg', 100, FALSE)
 	torso?.skeletonize(FALSE)
+	//give ourselves undead eyes since we basically are a walking corpse.
+	//advantage of that its slightly easier to see in the darkness too.
+	var/obj/item/organ/eyes/eyes = user.getorganslot(ORGAN_SLOT_EYES)
+	if(eyes)
+		eyes.Remove(user,1)
+		QDEL_NULL(eyes)
+	eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
+	eyes.Insert(user)
 	user.update_body_parts()
 
 	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)

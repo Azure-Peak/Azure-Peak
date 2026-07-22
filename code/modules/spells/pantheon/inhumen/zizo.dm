@@ -351,7 +351,7 @@
 	desc = "Share a terrible secret of reality itself with your target, stressing them out heavily and shattering their mynd into hallucinating."
 	fluff_desc = "It is no mistake that the faithful of Zizo are to some degree affected by her spite towards those that would dare, undo her greatest work to become. The very thought manifested forcefully in detail of what's to come would break the minds of most, or at worst leave them a hollow husk of what they were. Oft' shattering one's perception of reality and falsehood alyke."
 	button_icon_state = "spite"
-	sound = 'sound/magic/baotha_blessdrink.ogg'
+	sound = 'sound/misc/sudden noise.ogg'
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	primary_resource_cost = 100 //100 devotion, 10 uses for heretic, 5 for templar-grade, 7 for missionary adv. Not accounting for devotion regen, in which case add 2 more casts for that average
 	secondary_resource_cost = 30
@@ -398,19 +398,29 @@
 		return FALSE
 	if(spelltarget.mind) //Players freak the fuck out
 		spelltarget.apply_status_effect(/datum/status_effect/debuff/zizospite)
-		spelltarget.hallucination = 2 MINUTES
 		if(!HAS_TRAIT(spelltarget, TRAIT_CABAL)) //HATE. LET ME TELL YOU HOW MUCH I HATE-
 			to_chat(spelltarget, span_artery(pick("WORTHLESS, THAT'S ALL YOU ARE.","YOU WILL ROT WITH EVERYTHING ELSE, ITS YOUR FAULT.","TRY. IT MEANS NOTHING. EXCEPT OF WHAT I REMAKE OF YOU.","EVERYTHING YOU DO IS POINTLESS IN THE END.","YOU BRING ONLY OBLIVION, UNTO YOURSELF. FOOL.")))
 			spelltarget.add_stress(/datum/stressevent/zizospite)
+			spelltarget.hallucination = 2 MINUTES
+
+		if(HAS_TRAIT(spelltarget, TRAIT_UNFORGIVABLE)) //Vheslynites get a unique interaction text-wise... They don't give two fucks though, they already know what they are.
+			to_chat(spelltarget, span_artery(pick("I HATE YOU.","WHY, WHY. WHY MUST YOU MAKE ME SUFFER?","I HATE YOU, I HATE YOU.","HATRED, THAT IS ALL YOU DESERVE.","UNFORGIVABLE. UNFORGIVABLE.")))
+			//No hallucinations, the needle is in your mynd already.
+
 		if(HAS_TRAIT(spelltarget, TRAIT_CABAL)) //Zizites get that disappointed Zizo stare, less effect
 			to_chat(spelltarget, span_warning("A familar gaze of Progress bares down on you with spite."))
 			spelltarget.add_stress(/datum/stressevent/zizospitelesser)
+			spelltarget.hallucination = 1 MINUTES
+
 		if(!HAS_TRAIT(spelltarget, TRAIT_NOMOOD))
 			spelltarget.freak_out()
+			spelltarget.Jitter(20)
 			spelltarget.playsound_local(get_turf(spelltarget), 'sound/misc/zizo.ogg', 200)
+
 	if(!spelltarget.mind) //NPCs just get knocked over
 		spelltarget.emote("scream")
-		spelltarget.Knockdown(40) //long to substitute for lack of hallucinations
+		spelltarget.Jitter(20)
+		spelltarget.Knockdown(30) //long to substitute for lack of hallucinations
 	return TRUE
 
 /datum/status_effect/debuff/zizospite
