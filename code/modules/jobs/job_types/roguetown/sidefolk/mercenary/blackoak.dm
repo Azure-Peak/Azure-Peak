@@ -50,7 +50,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/elven_gloves
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
@@ -123,7 +123,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/elven_gloves
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
@@ -179,7 +179,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
 	class_select_category = CLASS_CAT_RACIAL
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_ARCYNE, TRAIT_WOODWALKER)
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_ARCYNE, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_INT = 1,
 		STATKEY_PER = 1,
@@ -222,14 +222,15 @@
 /datum/outfit/job/roguetown/mercenary/blackoak_adept/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/trophyfur
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/elven_plate
 	shoes = /obj/item/clothing/shoes/roguetown/boots/elven_boots
 	cloak = /obj/item/clothing/cloak/forrestercloak
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	gloves = /obj/item/clothing/gloves/roguetown/elven_gloves
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
@@ -335,15 +336,5 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 			else
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-
-	var/helmets = list("Woad Elven Barbute", "Elven Barbute", "Winged Elven Barbute")
-	var/helmet_choice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
-	switch(helmet_choice)
-		if("Woad Elven Barbute")
-			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/light, SLOT_HEAD, TRUE)
-		if("Elven Barbute")
-			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak, SLOT_HEAD, TRUE)
-		if("Winged Elven Barbute")
-			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak, SLOT_HEAD, TRUE)
 
 	H.merctype = 2

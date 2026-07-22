@@ -3,9 +3,9 @@
 	desc = "Conjure a Primordial to fight at your side. Toggle its element with Shift+G while the spell is selected: Flame, Water, or Air. \
 	It grows mightier with your skill at Arcyne Armament - upgrading at Expert, and further at Master.\
 	You may summon three types of Primordial:\n\
-	- Flame - An elemental of moderate health and damage, able to breath out fire in a cone in front of them.\n\
-	- Water - A slow elemental with high health able to create a whirlpool around themselves\n\
-	- Air - A fast elemental with the highest melee damage, lowest health able to throw targets back"
+	- Flame - An elemental of moderate health and damage, able to breathe a searing blast of fire in front of them.\n\
+	- Water - A slow elemental with high health able to flood the ground and bog down enemies\n\
+	- Air - A fast elemental with the highest melee damage, lowest health able to throw targets back with a gust of wind and slows them down"
 	button_icon_state = "primetriangle"
 	invocations = list("Exsurge, primordiale!")
 	summon_noun = "primordial"

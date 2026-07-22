@@ -25,6 +25,11 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
 	color = "#ffffff"
 
+/obj/item/clothing/gloves/roguetown/angle/grenzelgloves/loadout
+	name = "aesthetic grenzelhoft gloves"
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor = ARMOR_CLOTHING
+
 /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
 	name = "forge gauntlets"
 	color = "#ffffff"
@@ -42,6 +47,12 @@
 	item_state = "freigloves"
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + 50
 	color = null
+
+/obj/item/clothing/gloves/roguetown/angle/freifechter/loadout
+	name = "aesthetic fencing gloves"
+	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	armor = ARMOR_CLOTHING
+
 
 /obj/item/clothing/gloves/roguetown/angle/feld
 	name = "feldsher's gloves"

@@ -339,6 +339,30 @@
 			turfs += checked_turf
 	return turfs
 
+/proc/get_cone_turfs(atom/source, facing, range = 4)
+	var/list/turfs = list()
+	var/turf/center = get_turf(source)
+	if(!center || !facing)
+		return turfs
+	var/left = turn(facing, 90)
+	var/right = turn(facing, -90)
+	for(var/depth in 1 to range)
+		center = get_step(center, facing)
+		if(!center)
+			break
+		turfs |= center
+		var/half = max(1, round(depth / 2))
+		var/turf/l = center
+		var/turf/r = center
+		for(var/w in 1 to half)
+			l = l ? get_step(l, left) : null
+			r = r ? get_step(r, right) : null
+			if(l)
+				turfs |= l
+			if(r)
+				turfs |= r
+	return turfs
+
 ///Returns a slice of a list of turfs, defined by the ones that are inside the inner/outer angle's bounds
 /proc/slice_off_turfs(atom/center, list/turf/turfs, inner_angle, outer_angle)
 	var/turf/center_turf = get_turf(center)

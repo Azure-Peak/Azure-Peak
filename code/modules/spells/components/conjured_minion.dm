@@ -29,6 +29,7 @@
 	RegisterSignal(parent, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(check_leash))
 	if(ishuman(parent))
 		apply_phantasmal()
+		seal_organs()
 		RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	var/mob/living/M = parent
 	base_alpha = M.alpha
@@ -146,6 +147,11 @@
 	M.remove_movespeed_modifier(CONJURE_UNTETHER_ID)
 	M.alpha = base_alpha
 	M.visible_message(span_notice("[M] steadies as its master's presence returns."))
+
+/datum/component/conjured_minion/proc/seal_organs()
+	var/mob/living/carbon/human/H = parent
+	for(var/obj/item/organ/organ as anything in H.internal_organs)
+		organ.organ_flags |= ORGAN_INTERNAL_ONLY | ORGAN_SURGERY_HIDDEN
 
 /datum/component/conjured_minion/proc/apply_phantasmal()
 	var/mob/living/M = parent

@@ -17,6 +17,10 @@
 			used = pick('sound/vo/mobs/zombie/death (1).ogg','sound/vo/mobs/zombie/death (2).ogg','sound/vo/mobs/zombie/death (3).ogg')
 		if("scream")
 			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
+		if("agony") //Close enough
+			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
+		if("superagony") //Close enough, use sparingly
+			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
 		if("rage")
 			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
 		if("warcry") //Close enough
@@ -41,6 +45,8 @@
 			used = 'sound/vo/salute.ogg'
 		if("crack")
 			used = 'sound/vo/knuckles.ogg'
+		if("facepalm")
+			used = list('sound/vo/facepalm1.ogg', 'sound/vo/facepalm2.ogg')
 	return used
 
 /datum/voicepack/zombie/f/get_sound(soundin, modifiers)
@@ -62,6 +68,10 @@
 			used = pick('sound/vo/mobs/zombie/f/death (1).ogg','sound/vo/mobs/zombie/f/death (2).ogg','sound/vo/mobs/zombie/f/death (3).ogg')
 		if("scream")
 			used = pick('sound/vo/mobs/zombie/f/firescream (1).ogg','sound/vo/mobs/zombie/f/firescream (2).ogg','sound/vo/mobs/zombie/f/firescream (3).ogg')
+		if("agony") //Close enough
+			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
+		if("superagony") //Close enough, use sparingly
+			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
 		if("rage")
 			used = pick('sound/vo/mobs/zombie/firescream (1).ogg','sound/vo/mobs/zombie/firescream (2).ogg','sound/vo/mobs/zombie/firescream (3).ogg')
 		if("warcry") //Close enough

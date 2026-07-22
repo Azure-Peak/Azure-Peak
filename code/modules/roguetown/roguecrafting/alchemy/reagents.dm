@@ -162,9 +162,10 @@
 		M.energy_add(60)
 	..()
 
+// Stamina potion no longer grant green bar directly which led to it being far too powerful when abused
 /datum/reagent/medicine/stampot
-	name = "Stamina Potion"
-	description = "Gradually regenerates stamina."
+	name = "Fortitude Potion"
+	description = "Hardens the humors against fatigue, granting Fortitude for a short while."
 	reagent_state = LIQUID
 	color = "#129c00"
 	taste_description = "sweet tea"
@@ -175,16 +176,14 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/strongstam)
 
 /datum/reagent/medicine/stampot/on_mob_life(mob/living/carbon/M)
-	if(volume >= 60)
-		M.reagents.remove_reagent(/datum/reagent/medicine/stampot, 2) //No walking around having pre-buffed on it to have infinite stamina for Baothans.
-	if(volume > 0.99)
-		M.stamina_add(-20)
-	..()
-	. = 1
+	if(volume > 0)
+		M.apply_status_effect(/datum/status_effect/buff/alch/statbuff/fortitude, volume * 20 SECONDS)
+		holder.remove_reagent(type, volume)
+	return TRUE
 
 /datum/reagent/medicine/strongstam
-	name = "Strong Stamina Potion"
-	description = "Rapidly regenerates stamina."
+	name = "Strong Fortitude Potion"
+	description = "Rapidly hardens the humors against fatigue, granting Fortitude for a short while."
 	color = "#13df00"
 	taste_description = "sparkly static"
 	scent_description = "grass"
@@ -192,12 +191,10 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/stampot)
 
 /datum/reagent/medicine/strongstam/on_mob_life(mob/living/carbon/M)
-	if(volume >= 60)
-		M.reagents.remove_reagent(/datum/reagent/medicine/strongstam, 2) //No walking around having pre-buffed on it to have infinite stamina for Baothans.
-	if(volume > 0.99)
-		M.stamina_add(-50)
-	..()
-	. = 1
+	if(volume > 0)
+		M.apply_status_effect(/datum/status_effect/buff/alch/statbuff/fortitude, volume * 40 SECONDS)
+		holder.remove_reagent(type, volume)
+	return TRUE
 
 /** Design Note: Antidotes are meant to last as long as the poison, and purge them much quicker
  Having a 1 to 1 antidote to poison where you have to tailor defense to an increasing amount of attack
@@ -245,16 +242,6 @@
 	..()
 	. = 1
 
-/* Buff potions
-	Previously, it would apply a status effect to the mob lasting for 93 / 300 seconds and remove everything
-	However it meant that putting it in an alchemical vial was a trap as it sipped 9 units instead of 5 units that is the required minimum.
-	And removed any excessive potion inside the body. This has been changed to apply a 3 seconds buff to the mob, but have much lower
-	metabolization rate, so that the duration of the buff depends on how long you last.
-	Roughly tested. At Metabolization Rate 1. 10 units sip (1/3 of a vial) last 20 seconds.
-	To make this somewhat equal to the old system, base metabolization rate is 0.1 - making it last 200 seconds - 600 seconds if you sip an entire vial.
-	This is 2x on weaker potions (Intelligence, Fortune). However, overdose threshold is now 30 units so you can only drink one vial at once.
-	And potion stacking is not possible without neutralizing itself.
-*/
 /datum/reagent/buff
 	description = ""
 	reagent_state = LIQUID
@@ -263,6 +250,16 @@
 	// All stat buffs conflict with each other: only one buff potion's effect can be active at a time.
 	// (Self is excluded by the purge logic, so a buff never purges itself despite matching its own parent type.)
 	conflicting_reagent_types = list(/datum/reagent/buff)
+	var/buff_type
+	var/duration_per_unit = 1 MINUTES
+
+/datum/reagent/buff/on_mob_life(mob/living/carbon/M)
+	if(!buff_type)
+		return ..()
+	if(volume > 0)
+		M.apply_status_effect(buff_type, volume * duration_per_unit)
+		holder.remove_reagent(type, volume)
+	return TRUE
 
 /datum/reagent/buff/overdose_process(mob/living/carbon/M)
 	. = ..()
@@ -275,72 +272,48 @@
 	color = "#ff9000"
 	taste_description = "old meat"
 	scent_description = "meat"
-
-/datum/reagent/buff/strength/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/strengthpot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/strengthpot
 
 /datum/reagent/buff/perception
 	name = STATKEY_PER
 	color = "#ffff00"
 	taste_description = "cat piss"
 	scent_description = "urine"
-	metabolization_rate = REAGENTS_METABOLISM * 0.05
-
-/datum/reagent/buff/perception/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/perceptionpot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/perceptionpot
 
 /datum/reagent/buff/intelligence
 	name = STATKEY_INT
 	color = "#438127"
 	taste_description = "bog water"
 	scent_description = "moss"
-	metabolization_rate = REAGENTS_METABOLISM * 0.05
-
-/datum/reagent/buff/intelligence/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/intelligencepot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/intelligencepot
 
 /datum/reagent/buff/constitution
 	name = STATKEY_CON
 	color = "#130604"
 	taste_description = "bile"
 	scent_description = "vomit"
-
-/datum/reagent/buff/constitution/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/constitutionpot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/constitutionpot
 
 /datum/reagent/buff/endurance
 	name = STATKEY_WIL
 	color = "#ffff00"
 	taste_description = "oversweetened milk"
-
-/datum/reagent/buff/endurance/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/endurancepot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/endurancepot
 
 /datum/reagent/buff/speed
 	name = STATKEY_SPD
 	color = "#ffff00"
 	taste_description = "raw egg yolk"
 	scent_description = "sweat"
-
-/datum/reagent/buff/speed/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/speedpot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/speedpot
 
 /datum/reagent/buff/fortune
 	name = STATKEY_LCK
 	color = "#ffff00"
 	taste_description = "sour lemons"
 	scent_description = "citrus"
-	metabolization_rate = REAGENTS_METABOLISM * 0.05
-
-/datum/reagent/buff/fortune/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/fortunepot)
-	return ..()
+	buff_type = /datum/status_effect/buff/alch/statbuff/fortunepot
 
 /* Ruined Potion
 	When two conflicting potions end up in the same container (or the same body),

@@ -169,7 +169,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	finalize_clan_selection(vampdude, /datum/clan/crimson_fang)
 
 /datum/antagonist/vampire/proc/create_custom_clan(mob/living/carbon/human/vampdude, custom_name = null)
-	custom_clan_name = (istext(custom_name) && length(custom_name)) ? custom_name : "Custom Clan"
+	custom_clan_name = (istext(custom_name) && length(custom_name)) ? sanitize(custom_name) : "Custom Clan"
 
 	var/datum/clan/custom/new_clan = new /datum/clan/custom()
 	new_clan.name = custom_clan_name
