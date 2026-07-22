@@ -149,13 +149,26 @@
 	input_items = list(/obj/item/alch/nigredo_precursor = 1, /obj/item/alch/puresalt = 1)
 	output_items = list(/obj/item/alch/albedo_precursor = 3) // one for a catalyst, one to take up the chain, one for...?
 
+/datum/transmutation_recipe/nigredo/ash_bulk // nigredo fuels your other experiments' ash needs better than fire
+	name = "Alchemical Combustion (Ash)"
+	input_items = list(/obj/item/natural/bundle)
+	output_items = list(/obj/item/ash = 12) // twice as effective than fire, in fact
+
+/datum/transmutation_recipe/nigredo/ash_bulk/validate_ingredient(obj/item/I)
+	if(!istype(I, /obj/item/natural/bundle))
+		return FALSE
+	var/obj/item/natural/bundle/B = I // takes fibers, silk, cloth, etc
+	if(B.amount != B.maxamount)
+		return FALSE
+	return TRUE
+
 /datum/transmutation_recipe/nigredo/smelt_decomposition
 	name = "Nigredic Decomposition"
 	input_items = list(/obj/item = 1)
 	output_items = list(/obj/item/ingot = 1) // dummy
 
 /datum/transmutation_recipe/nigredo/smelt_decomposition/validate_ingredient(obj/item/I)
-	return I.smeltresult // anything that can be smelted will work here
+	return I.smeltresult && (I.smeltresult != I.type) // anything that can be smelted will work here... as long as it's not a loop
 
 /datum/transmutation_recipe/nigredo/smelt_decomposition/create_outputs(mob/user, list/ingredients, list/materia_ingredients, obj/structure/fluff/alch/trans/parent)
 	for(var/obj/item/I in materia_ingredients)
@@ -278,6 +291,11 @@
 	name = "Cinnabar Purification"
 	input_items = list(/obj/item/rogueore/iron = 1, /obj/item/rogueore/coal = 1) // 8 + 4 = 12, +5m materia tax = 17, higher than buying from stockpile
 	output_items = list(/obj/item/rogueore/cinnabar = 1)
+
+/datum/transmutation_recipe/albedo/catalyzation_reagent // also you can make not-feydust more efficiently now
+	name = "Ash Harmonization (Catalyzation Reagent)"
+	input_items = list(/obj/item/ash = 3, /obj/item/roguebag = 1)
+	output_items = list(/obj/item/roguebag/trans = 1)
 
 /datum/transmutation_recipe/albedo/salt
 	name = "Fat Salination" // usually means applying salt to something, but also refers to the increase of salt content in soil!

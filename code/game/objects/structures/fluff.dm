@@ -841,7 +841,7 @@
 		to_chat(user, span_warning("I'm not quite skilled enough to create my own catalysts. It takes an alchemical expert to do so safely."))
 		return
 	if(current_recipe)
-		if(!istype(with, /obj/item/magic/fae/fairydust))
+		if(!istype(with, /obj/item/alch/catalyzation_reagent))
 			return
 		// attempt to create a catalyst
 		for(var/idx in selected_steps)
@@ -1028,27 +1028,50 @@
 			user.mind.add_sleep_experience(/datum/skill/craft/alchemy, amt2raise, FALSE)
 	return TRUE
 
-/obj/structure/fluff/alch/trans/proc/gather_ingredients(mob/living/carbon/human/user, datum/transmutation_recipe/R)
+/obj/structure/fluff/alch/trans/proc/gather_ingredients(mob/living/carbon/human/user, datum/transmutation_recipe/R) // sure am glad we cache this
 	var/list/ingredients = list()
 	var/list/needed_items = R.input_items.Copy()
 	var/list/env_items = get_environment(user)
+	var/list/single_items = list()
+	var/list/bundles = list() // don't... don't ask. it hurts.
 	for(var/obj/item/I in env_items)
+		if(R.validate_ingredient(I))
+			return list(I) // this is a snowflake recipe
 		if(I.can_craft_with() && (needed_items[I.type] || R.validate_ingredient(I)))
-			ingredients += I
-			if(!needed_items[I.type]) //  this is a snowflake recipe
-				return ingredients
-			needed_items[I.type] -= 1
-		else if(istype(I, /obj/item/natural/bundle) && R.validate_ingredient(I))
+			single_items += I
+		else if(istype(I, /obj/item/natural/bundle) || R.validate_ingredient(I))
 			var/obj/item/natural/bundle/B = I
 			if(needed_items[B.stacktype])
-				needed_items[B.stacktype] -= min(B.amount, needed_items[B.stacktype]) // transmuting with bundles is lossy
-				ingredients += B
-		else if(istype(I, /obj/item/construction/bundle) && R.validate_ingredient(I))
+				bundles += I
+		else if(istype(I, /obj/item/construction/bundle) || R.validate_ingredient(I))
 			var/obj/item/construction/bundle/B = I
 			if(needed_items[B.stacktype])
-				needed_items[B.stacktype] -= min(B.amount, needed_items[B.stacktype]) // transmuting with stacks is lossy
-				ingredients += B
-		// after we've checked all the valid items, if we're short, no dice
+				bundles += I
+	for(var/obj/item/bundle in bundles) // we prioritize bundles first...
+		var/obj/item/natural/bundle/bundlethesecond = bundle
+		var/obj/item/construction/bundle/bundlethethird = bundle
+		if(istype(bundlethesecond))
+			needed_items[bundlethesecond.stacktype] -= min(bundlethesecond.amount, needed_items[bundlethesecond.stacktype]) // transmuting with bundles is lossy
+			ingredients += bundlethesecond
+		if(istype(bundlethethird))
+			needed_items[bundlethethird.stacktype] -= min(bundlethethird.amount, needed_items[bundlethethird.stacktype]) // transmuting with bundles is lossy
+			ingredients += bundlethethird
+	var/list/materiaful_items = list()
+	for(var/obj/item/I in single_items) // ...then single items that don't contain needed materia, to avoid edge cases where an item could work for ingredient and materia, causing the first one to pick it to win...
+		for(var/aspect as anything in I.materia)
+			if(needed_items[I]<=0)
+				continue
+			if(R.materia_aspects.Find(aspect))
+				materiaful_items += I
+				continue
+			ingredients += I
+			needed_items[I.type] -= 1
+	for(var/obj/item/I in materiaful_items) // ...then the rest
+		if(needed_items[I]<=0)
+			continue
+		ingredients += I
+		needed_items[I.type] -= 1
+	// after we've checked all the valid items, if we're short, no dice
 	for(var/path in needed_items)
 		if(needed_items[path])
 			return FALSE
@@ -1112,7 +1135,7 @@
 		var/datum/transmutation_recipe/R = rec
 		var/list/ings = gather_ingredients(user, R)
 		var/list/mats = gather_materia(user, R, ings)
-		craftability[R.catalyst::name] = (length(ings + mats) > 0)
+		craftability[R::name] = (islist(ings) && islist(mats))
 
 	cached_craftability = craftability
 	data["craftability"] = craftability

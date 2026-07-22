@@ -245,7 +245,7 @@ export const TransCraft = () => {
                       craftable={
                         craftability == null
                           ? true
-                          : isCraftable(craftability, r[1].catalyst)
+                          : isCraftable(craftability, r[1].name)
                       }
                       act={act}
                     />

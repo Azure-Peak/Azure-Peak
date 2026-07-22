@@ -41,3 +41,24 @@
 
 	if(closed)
 		add_overlay("vial_cork")
+
+/obj/item/alch/catalyzation_reagent
+	name = "catalyzation reagent"
+	icon_state = "runedust"
+	desc = "An alchemical powder essential for the process of transmuting seed items into stable catalysts."
+
+/obj/item/storage/roguebag/trans
+	populate_contents = list( // sack of twelve. why do we do this like this sfklgdsjaf
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent
+	)

@@ -261,3 +261,29 @@
 		/obj/item/rogueore/cinnabar = 1,
 		/obj/item/ash = 3
 	)
+
+/datum/crafting_recipe/roguetown/alchemy/catalyzation_reagent_pacifist
+	name = "catalyzation reagent (cinnabar)"
+	category = "Basic Transmutation"
+	craftdiff = SKILL_LEVEL_EXPERT
+	result = list(
+		/obj/item/storage/roguebag/trans
+	)
+	reqs = list(
+		/obj/item/rogueore/cinnabar = 1,
+		/obj/item/ash = 3,
+		/obj/item/roguebag = 1
+	)
+
+/datum/crafting_recipe/roguetown/alchemy/catalyzation_reagent
+	name = "catalyzation reagent (iridescent scale)"
+	category = "Basic Transmutation"
+	craftdiff = SKILL_LEVEL_EXPERT
+	result = list(
+		/obj/item/storage/roguebag/trans
+	)
+	reqs = list(
+		/obj/item/magic/fae/iridescentscale = 1,
+		/obj/item/ash = 3,
+		/obj/item/roguebag = 1
+	)

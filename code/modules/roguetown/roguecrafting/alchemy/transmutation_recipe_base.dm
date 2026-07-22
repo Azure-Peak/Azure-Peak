@@ -24,7 +24,7 @@
 
 /// for recipes which need special checks on their input items
 /datum/transmutation_recipe/proc/validate_ingredient(obj/item/I)
-	return TRUE
+	return FALSE
 
 /// responsible for deleting the input and creating the output
 /datum/transmutation_recipe/proc/create_outputs(mob/user, list/ingredients, list/materia_ingredients, obj/structure/fluff/alch/trans/parent)
