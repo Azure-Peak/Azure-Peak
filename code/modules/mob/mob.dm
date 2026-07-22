@@ -527,7 +527,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 			var/list/materia_lines = list()
 			for(var/path in O.materia)
 				var/datum/materia_aspect/aspect = path
-				materia_lines += "<span class='info'> - </span><span data-component=\"Tooltip\" data-content=\"[aspect::desc]\" class=\"tooltip info\">[aspect::name]</span>"
+				materia_lines += "<span class='info'> - </span>[SPAN_TOOLTIP_DANGEROUS_HTML(aspect::desc, aspect::name)]"
 			var/materia_result_str = "<details><summary><span class='smallnotice'>Prima Materia</span></summary>[materia_lines.Join("<br>")]</details>"
 			result[result.len] += materia_result_str // append to last line so the join doesn't insert a blank line before the dropdown
 		to_chat(src, usr.client.prefs.no_examine_blocks ? result.Join("\n") : examine_block(result.Join("\n")))
