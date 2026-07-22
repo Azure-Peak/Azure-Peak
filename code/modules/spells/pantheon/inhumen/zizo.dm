@@ -182,14 +182,14 @@
 	cast_range = SPELL_RANGE_GROUND
 	self_cast_possible = TRUE
 
-	primary_resource_cost = 60
+	primary_resource_cost = 50 //expensive vs profane
 	secondary_resource_cost = 20
 
 	invocations = list("Zizo! Zizo! Grant me knowledge!") //Slightly louder whisper than Noc
 	invocation_type = INVOCATION_WHISPER
 
 	charge_required = TRUE
-	charge_time = 4 SECONDS
+	charge_time = 2 SECONDS
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/chargingold.ogg'
 	cooldown_time = 2 MINUTES
@@ -232,7 +232,7 @@
 /datum/stressevent/zizo_knowledge
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_boldred("I feel a shiver down my spine as unnatural knowledge floods my mynd.")
+	desc = span_red("I feel a shiver down my spine as unnatural knowledge floods my mynd.")
 
 ////////////////
 //T1 - PROFANE//
@@ -375,7 +375,7 @@
 	charge_sound = 'sound/magic/chargingold.ogg'
 	cooldown_time = 3 MINUTES //No back to back, spamming this vs undivided.
 
-	spell_flags = SPELL_PSYDON
+	spell_flags = SPELL_PSYDON //The power of PSYDON isn't going to stop Zizo shit talking you to death
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/zizo/spite/cast(atom/cast_on)
@@ -411,7 +411,6 @@
 	if(!spelltarget.mind) //NPCs just get knocked over
 		spelltarget.emote("scream")
 		spelltarget.Knockdown(40) //long to substitute for lack of hallucinations
-		spelltarget.playsound_local(get_turf(spelltarget), 'sound/misc/zizo.ogg', 200)
 	return TRUE
 
 /datum/status_effect/debuff/zizospite
@@ -816,15 +815,14 @@
 	range = SPELL_RANGE_GROUND //Longer than regular diagnosis range. Progress Baby!
 	devotion_cost = 15 //Significantly more expensive (3x)
 
-// Enochian Analyze (T?) - Progress Path: A miracle version of the spell engineering goggles give you, Progress Baby!
+// Enochian Analyze (T?) - Progress Path: A long-range miracle version of the spell engineering goggles give you, Progress Baby!
 /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo
 	desc = "Examine a structure's details through invoking Enochian magicka to see the world through Zizo's vision without the need of specialised tools."
-	range = 4
-	sound = 'sound/magic/diagnose.ogg'
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	range = SPELL_RANGE_GROUND
 	invocation_type = "none"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	miracle = TRUE
-	devotion_cost = 10 //Progress
+	devotion_cost = 15 //Progress
