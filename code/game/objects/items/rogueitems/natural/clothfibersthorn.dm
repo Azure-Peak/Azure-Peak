@@ -2,6 +2,7 @@
 	name = "fibers"
 	icon_state = "fibers"
 	possible_item_intents = list(/datum/intent/use)
+	gender = PLURAL
 	desc = "Plant fibers. Peasants make their living turning these into clothing, courtesy of a needle-and-thread."
 	force = 0
 	throwforce = 0
