@@ -964,22 +964,7 @@
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors)
 "zr" = (
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
-/obj/item/magic/fae/fairydust,
+/obj/item/storage/roguebag/trans,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "Ab" = (

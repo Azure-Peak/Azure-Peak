@@ -68140,6 +68140,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/phys,
 /obj/item/clothing/head/roguetown/witchhat,
 /obj/item/broom,
+/obj/item/storage/roguebag/trans,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "mVD" = (
@@ -78099,6 +78100,14 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/chapel)
+"oNr" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/obj/item/storage/roguebag/trans,
+/turf/open/floor/rogue/church,
+/area/rogue/indoors/town/magician)
 "oNs" = (
 /obj/structure/mannequin,
 /obj/item/clothing/mask/rogue/facemask/goldmask,
@@ -97774,6 +97783,7 @@
 /obj/structure/fluff/railing/border,
 /obj/machinery/light/rogue/candle/blue/l,
 /obj/structure/closet/crate/chest/old_crate,
+/obj/item/storage/roguebag/trans,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "sCa" = (
@@ -299061,7 +299071,7 @@ jfk
 npz
 jfk
 gRD
-xTP
+oNr
 qNZ
 etL
 dKd
