@@ -1583,7 +1583,6 @@
 "Sy" = (
 /obj/structure/fluff/alch/trans/uni,
 /turf/open/floor/rogue/blocks/newstone/alt,
-/area/rogue,
 /area/rogue/indoors/town/physician)
 "SE" = (
 /obj/structure/table/wood{
