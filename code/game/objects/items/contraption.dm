@@ -260,7 +260,7 @@
 
 /obj/item/contraption/linker/attack_self(mob/user)
 	. = ..()
-	if(user.get_skill_level(/datum/skill/craft/engineering) >= 3) //You get the bare-minimal
+	if(user.get_skill_level(/datum/skill/craft/engineering) >= 3)
 		to_chat(user, "You wipe [src] of its stored buffer.")
 		remove_buffer(src)
 	else
