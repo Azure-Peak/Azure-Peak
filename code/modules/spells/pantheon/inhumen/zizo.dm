@@ -47,7 +47,7 @@
 //Basically the same, unique icon + flavor
 /datum/action/cooldown/spell/miracle/heal/zizo
 	name = "Profane Miracle"
-	fluff_desc = "The lyfeline of any faithful of Zizo, channeling restorative energies into your target, sapping into nearby bones to reuse their instilled magicka of her gift of unlyfe for purpose anew."
+	fluff_desc = "The lyfeline of any faithful of Zizo, channeling restorative energies into your target, sapping into nearby bones to reuse their instilled magicka for purpose anew."
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 
@@ -130,7 +130,7 @@
 /datum/action/cooldown/spell/zizo/insightorprofane
 	name = "Means of Progress"
 	desc = "Choose between Zizo's Knowledge at the price of your sanity and perception (Insight), or Zizo's Power for offensively embedding bone lances into victims at range (Profane Bone)."
-	fluff_desc = "There is a cost to any means to Progress, if there's anything every follower of Zizo knows; 'Progress commands sacrifice'."
+	fluff_desc = "There is always a cost to Progress, if there's anything every follower of Zizo knows; 'Progress commands sacrifice'."
 	button_icon_state = "firstspellpack"
 
 	click_to_activate = FALSE
@@ -172,20 +172,21 @@
 			else
 				return FALSE
 
-/////////////////////////
+///////////////////
 // T1 - Insight. //
-/////////////////////////
+///////////////////
 // Valid version of enlightenment from Noc, it gives you a fair bit more int than Noc's version at lower levels, at the sacrifice of some perception and stressing them out. It also has a slower windup. Its not affected by time of day though in comparison.
-// Uniquely no boon/malus for self-buffing vs Noc. You always get 2 minutes of extra mynd power and near-perfect ability to keep this upkept on yourself constantly.
+// Uniquely no boon/malus for self/other-buffing vs Noc. You always get 2 minutes of extra mynd power, although you can upkeep this near-endlessly on yourself, it will eat into your devotion insanely fast vs Noc who can basically cast this between a duo at night due to duration buffs.
 
 /datum/action/cooldown/spell/zizo/insight
 	name = "Insight"
 	desc = "Loudly invoke Zizo's knowledge upon a target, temporarily increasing intelligence of your target at the cost of their perception and minorly stressing them out."
-	fluff_desc = "Truth, Inzanity, Progress, the Absolute mandate. It is a difficult matter for the ignorant masses to even comprehend the means, but even Zizo knows not all are beyond the grasp of her ultimate truth, no matter how much they deny it."
+	fluff_desc = "Truth, Inzanity, Progress, the Absolute mandate of her Design. It is a difficult matter for the ignorant masses to even comprehend the means, but even Zizo knows not all are beyond the grasp of her ultimate truth, no matter how much they deny it."
 	button_icon_state = "insight"
 	sound = 'sound/magic/baotha_blessdrink.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
 
+	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_GROUND
 	self_cast_possible = TRUE
 
@@ -199,6 +200,7 @@
 	charge_time = 2 SECONDS
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/chargingold.ogg'
+	charge_then_click = TRUE
 	cooldown_time = 2 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
@@ -348,19 +350,19 @@
 	limb.add_embedded_object(S, FALSE, TRUE, TRUE)
 	playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
 
-///////////////////
+/////////////////
 // T2 - Spite  //
-///////////////////
+/////////////////
 // - A stronger sidegrade to undivided's gallows humor, it loses chainability + longer cooldown for straight up making people trip out and freak out. Yes this is churn emotions.
-// - Gallows humor is still /better/ per-say, but you've the advantage of combining this w/ avantyne usually, or whatever else miracle-wise.
+// - Gallows humor is still /better/ if we considerable how spammable vs this, but you've the advantage of combining this w/ avantyne usually, or whatever else miracle/gear-wise.
 /datum/action/cooldown/spell/zizo/spite
 	name = "Spite"
-	desc = "Share a terrible secret of reality itself with your target, stressing them out heavily and shattering their mynd into hallucinating."
+	desc = "Invoke Zizo's hatred and spite upon a target, stressing them out heavily and shattering their mynd into hallucinating."
 	fluff_desc = "It is no mistake that the faithful of Zizo are to some degree affected by her spite towards those that would dare, undo her greatest work to become. The very thought manifested forcefully in detail of what's to come would break the minds of most, or at worst leave them a hollow husk of what they were. Oft' shattering one's perception of reality and falsehood alyke."
 	button_icon_state = "spite"
 	sound = 'sound/misc/sudden noise.ogg'
 	glow_intensity = GLOW_INTENSITY_MEDIUM
-	primary_resource_cost = 100 //100 devotion, 10 uses for heretic, 5 for templar-grade, 7 for missionary adv. Not accounting for devotion regen, in which case add 2 more casts for that average
+	primary_resource_cost = 100 //100 devotion, 10 uses for heretic, 5 for templar-grade, 7 for missionary adv. Not accounting for devotion regen + cooldown.
 	secondary_resource_cost = 30
 
 	click_to_activate = TRUE
@@ -382,7 +384,7 @@
 	charge_sound = 'sound/magic/chargingold.ogg'
 	cooldown_time = 3 MINUTES //No back to back, spamming this vs undivided.
 
-	spell_flags = SPELL_PSYDON //The power of PSYDON isn't going to stop Zizo shit talking you to death
+	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/zizo/spite/cast(atom/cast_on)
@@ -404,20 +406,22 @@
 	if(!spelltarget.can_hear()) // They need to be able to hear you.
 		return FALSE
 	if(spelltarget.mind) //Players freak the fuck out
-		spelltarget.apply_status_effect(/datum/status_effect/debuff/zizospite)
 		if(!HAS_TRAIT(spelltarget, TRAIT_CABAL)) //HATE. LET ME TELL YOU HOW MUCH I HATE-
-			to_chat(spelltarget, span_artery(pick("WORTHLESS, THAT'S ALL YOU ARE.","YOU WILL ROT WITH EVERYTHING ELSE, ITS YOUR FAULT.","TRY. IT MEANS NOTHING. EXCEPT OF WHAT I REMAKE OF YOU.","EVERYTHING YOU DO IS POINTLESS IN THE END.","YOU BRING ONLY OBLIVION, UNTO YOURSELF. FOOL.")))
+			to_chat(spelltarget, span_purple(pick("WORTHLESS, THAT'S ALL YOU ARE.","YOU WILL ROT WITH EVERYTHING ELSE, ITS YOUR FAULT.","TRY. IT MEANS NOTHING. EXCEPT OF WHAT I REMAKE OF YOU.","EVERYTHING YOU DO IS POINTLESS IN THE END.","YOU BRING ONLY OBLIVION, UNTO YOURSELF. FOOL.")))
 			spelltarget.add_stress(/datum/stressevent/zizospite)
-			spelltarget.hallucination = 2 MINUTES
+			spelltarget.hallucination = 3 MINUTES
+			spelltarget.apply_status_effect(/datum/status_effect/debuff/zizospite)
 
 		if(HAS_TRAIT(spelltarget, TRAIT_UNFORGIVABLE)) //Vheslynites get a unique interaction text-wise... They don't give two fucks though, they already know what they are.
-			to_chat(spelltarget, span_artery(pick("I HATE YOU.","WHY, WHY. WHY MUST YOU MAKE ME SUFFER?","I HATE YOU, I HATE YOU.","HATRED, THAT IS ALL YOU DESERVE.","UNFORGIVABLE. UNFORGIVABLE.")))
-			//No hallucinations, the needle is in your mynd already.
+			to_chat(spelltarget, span_purple(pick("I HATE YOU.","WHY, WHY. WHY MUST YOU MAKE ME SUFFER?","I HATE YOU, I HATE YOU.","HATRED, THAT IS ALL YOU DESERVE.","UNFORGIVABLE. UNFORGIVABLE.")))
+			//No hallucinations, no effect, the needle is in your mynd already, you are already insane beyond all hope.
+			//Since we're in 99% of cases a hard antagonist, we still cost your cooldown and pretend that you affected us.
 
 		if(HAS_TRAIT(spelltarget, TRAIT_CABAL)) //Zizites get that disappointed Zizo stare, less effect
 			to_chat(spelltarget, span_warning("A familar gaze of Progress bares down on you with spite."))
 			spelltarget.add_stress(/datum/stressevent/zizospitelesser)
-			spelltarget.hallucination = 1 MINUTES
+			spelltarget.hallucination = 3 MINUTES
+			spelltarget.apply_status_effect(/datum/status_effect/debuff/zizospite)
 
 		if(!HAS_TRAIT(spelltarget, TRAIT_NOMOOD))
 			spelltarget.freak_out()
@@ -433,7 +437,7 @@
 /datum/status_effect/debuff/zizospite
 	id = "zizospite"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/zizospite
-	duration = 2 MINUTES
+	duration = 3 MINUTES
 
 /atom/movable/screen/alert/status_effect/debuff/zizospite
 	name = "Spite"
@@ -441,14 +445,14 @@
 	icon_state = "zizospite"
 
 /datum/stressevent/zizospite
-	timer = 2 MINUTES
-	stressadd = 7 //technically 14, as it doubles from TRAIT_BAD_MOOD, unlike undivided, this one can't chain + effects go w/ mood debuff.
+	timer = 3 MINUTES
+	stressadd = 5 //technically 10, as it doubles from TRAIT_BAD_MOOD, unlike undivided, this one can't chain + is slightly weaker in exchange for (1) forced freakout + hallucinations.
 	desc = span_boldred("I FEEL A HORRIBLE CHILL DOWN MY SPINE! MY MYND IS FILLED WITH HORRIFYING VISIONS.")
 
 /datum/stressevent/zizospitelesser
-	timer = 1 MINUTES
-	stressadd = 4 //technically 8, as it doubles from TRAIT_BAD_MOOD, unlike undivided, this one can't chain + effects go w/ mood debuff.
-	desc = span_boldred("I feel Zizo's spite gaze upon me briefly.")
+	timer = 2 MINUTES
+	stressadd = 4 //technically 8, as it doubles from TRAIT_BAD_MOOD.
+	desc = span_boldred("I feel Zizo's spite and anger gaze upon me briefly.")
 
 /datum/status_effect/debuff/zizospite/on_apply()
 	. = ..()
@@ -467,7 +471,7 @@
 ///////////////////
 // T2 - Tame Undead  //
 ///////////////////
-// - A forced Gravemark on a hostile NPC undead, used to sort of soft-convert factionise your way through dungeons and put those NPCs to use, or wandering deadite animals
+// - A forced Gravemark on a hostile NPC undead, make use of the lost and wandering, every single one of the dead has their use for you. One way or another.
 // - Basically a miracle version of the spell, a nessessity to keep that warlock/undead patron aspect niché. If you want full summoner however, go undeath rituos for it.
 /datum/action/cooldown/spell/tame_undead/zizo
 	associated_skill = /datum/skill/magic/holy
@@ -478,19 +482,19 @@
 ///////////////////////
 // T4 - Bewstow Chant //
 ///////////////////////
-// Give any fellow Zizo worshipper the ability to speak and understand Zizocant. Exclusive to antagonists at T4, soft or converted acolytes wise.
+// Give any fellow Zizo worshipper the ability to speak and understand Zizocant. Exclusive to antagonists at T4, soft or converted acolytes (if clergy somehow convert to Zizo).
 // TODO, probably a secular version of this, for lich. I suppose but this'll do for now. Its a neat thing if you wanna form a small cult or something as a heretic.
 
 /datum/action/cooldown/spell/zizo/bestowcant
 	name = "Bewstow Zizocant"
 	desc = "Bestow the forbidden tongue of Zizo's chant, requires a semi-lengthy ritual and a fellow Cabalist of Zizo's faith. You must remain still during the ritual, this will minorly stress them out upon completion."
-	fluff_desc = "A tongue known to the initated of Zizo's Cabal, as well as the reanimated by those whom serve in her name, to the ignorant it is but gibberish with an eerie resemblance to the elven tongue; but to the enlightened it is a hallowed tongue reborn from the reminants of all that were lost."
+	fluff_desc = "A tongue known to the initated of Zizo's Cabal, as well as the reanimated by those whom serve in her name. To the ignorant it is but gibberish with an eerie resemblance to the elven tongue; but to the enlightened it is a hallowed tongue reborn from the reminants of all that were lost."
 	button_icon_state = "zizocant"
 	sound = 'sound/magic/baotha_blessdrink.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
 
 	cast_range = 2 //We want to be very close, no sniping people with Zizospeak.
-	self_cast_possible = FALSE
+	self_cast_possible = FALSE //Use rituos, she COMMANDS sacrifice.
 
 	primary_resource_cost = 75
 	secondary_resource_cost = 30
@@ -835,7 +839,7 @@
 
 // Enochian Analyze (T?) - Progress Path: A long-range miracle version of the spell engineering goggles give you, Progress Baby!
 /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo
-	desc = "Examine a structure's details through invoking Enochian magicka to see the world through Zizo's vision without the need of specialised tools."
+	desc = "Examine a structure's details through invoking Enochian magicka to see the world through Zizo's design without the need of specialised tools, close or afar."
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	range = SPELL_RANGE_GROUND
