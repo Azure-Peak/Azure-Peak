@@ -1289,6 +1289,40 @@
 	REMOVE_TRAIT(owner, TRAIT_DARKVISION, MAGIC_TRAIT)
 
 
+/datum/status_effect/buff/knowledgerituos
+	id = "zizoknowledgerituos"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/knowledgerituos
+	effectedstats = list(STATKEY_INT = 3)
+	/*
+	Uniquely this can make most skeles from lich semi-fient capable w/ the extra int, at the cost of basically crippling them in the day.
+
+	For heretics, this has its own niché, just expect them to cling outside of daylight a lot more.
+	This rite has some interesting uses, true to Astrata day will be safer around Zizites if they're using this.
+
+	Its meant to be 3 vs Noc's 2. Great power at great sacrifice.
+
+	Stays the same 25 minute duration, its meant to last long enough you're certainly going to bump into its downside.
+	Don't make the int conditional, it basically disables parries if you get caught in day w/out protection as-is.
+	*/
+	duration = 25 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/knowledgerituos
+	name = "Knowledge Rituos"
+	desc = "Zizo's mandate and her absolute truth reshapes my mynd, bringing me clarity from ignorance. But the light of Astrata desperately tries to blind me from her truth."
+
+
+/datum/status_effect/buff/knowledgerituos/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("I see through Zizo's vision. No truth can hide from me, however I feel a seering pain in my eyes from the light."))
+	ADD_TRAIT(owner, TRAIT_NITEVISION, MAGIC_TRAIT) //better night vision than Noc... but...
+	ADD_TRAIT(owner, TRAIT_SUNLIGHT_SENSITIVE, MAGIC_TRAIT) //Major downside, the truth is in the darkness you walk. Sunlight /HURTS/
+
+
+/datum/status_effect/buff/knowledgerituos/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds."))
+	REMOVE_TRAIT(owner, TRAIT_NITEVISION, MAGIC_TRAIT)
+	REMOVE_TRAIT(owner, TRAIT_SUNLIGHT_SENSITIVE, MAGIC_TRAIT)
 
 
 /atom/movable/screen/alert/status_effect/buff/flylordstriage

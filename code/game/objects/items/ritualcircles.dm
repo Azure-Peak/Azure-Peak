@@ -1388,12 +1388,21 @@
 */
 // TIME FOR THE ASCENDANT. These can be stronger. As they are pretty much antag exclusive - Iconoclast for Matthios, Lich for ZIZO. ZIZO!
 
+/*
+Zizo, the Dame of Progress, Undeath, Artifice and Hubris.
 
+Her rites are never a straight-buff. Such rituals should always have a drawback, for great power.
+Her miracle + Aspects linger around Undeath and Magics w/ a hatred for the state of the world:
+
+ so int boosts, intelligence and general auras of absolute inzanity fall right into her path and design.
+
+Not including armaments, that follows its own niché. Don't put those in line with the design of the rest of ritual here. They're meant to stand out.
+*/
 /obj/structure/ritualcircle/zizo
 	name = "Rune of Progress"
 	desc = "A holy rune of <font color='ff0000'>Zizo.</font> </br> <i>Progress at any cost.</i>"
 	icon_state = "zizo_chalky"
-	var/zizorites = list("Rite of Armaments")
+	var/zizorites = list("Rite of Armaments","Knowledge Rituos")
 
 /obj/structure/ritualcircle/zizo/attack_hand(mob/living/user)
 	if(!..())
@@ -1444,9 +1453,11 @@
 				armor_choice = "Avantyne Full-Plate"
 
 			user.say("ZIZO! ZIZO! DAME OF PROGRESS!!")
+			playsound(user, 'sound/misc/carriage4.ogg', 100, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("ZIZO! ZIZO! HEED MY CALL!!")
+			playsound(user, 'sound/misc/carriage2.ogg', 100, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("ZIZO! ZIZO! ARMS TO SLAY THE IGNORAAAAANT!!")
@@ -1463,6 +1474,52 @@
 			zizoarmaments(target, helm_choice, armor_choice)
 			spawn(120)
 				icon_state = "zizo_chalky"
+
+		if("Knowledge Rituos") //+3 int and perfect nitevision, at the price of sunlight sensitivity
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("ZIZO! ZIZO! DAME OF PROGRESS!!")
+			playsound(user, 'sound/misc/carriage4.ogg', 100, FALSE, -1)
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("ZIZO! ZIZO! HEED MY CALL!!")
+			playsound(user, 'sound/misc/carriage2.ogg', 100, FALSE, -1)
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("ZIZO! ZIZO! TRUTH AGAINST A WORLD OF IGNORANCE!! GRANT FORTH YOUR KNOWLEDGE!!")
+			icon_state = "zizo_active"
+			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her darkness now guides you, for the light now spurns you."))
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			zizolightsnuff(src)
+			spawn(10)
+				playsound(loc, 'sound/magic/shadowstep.ogg', 200, FALSE, -1)
+				knowledgerituos(src)
+				spawn(110) //-20 seconds for ritual to proc post lightsnuff
+				icon_state = "zizo_chalky"
+
+/obj/structure/ritualcircle/zizo/proc/knowledgerituos(src)
+	var/ritualtargets = view(7, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		target.apply_status_effect(/datum/status_effect/buff/knowledgerituos)
+		new /obj/effect/temp_visual/zizorite(get_turf(target)) //aurafarming
+		to_chat(target, span_purple("There are many wrong paths walked to ignorant falsehoods and lesser truths. You. You walk towards the right one."))
+
+/obj/structure/ritualcircle/zizo/proc/zizolightsnuff(src) //10 tile lightsnuff, use with all rituals of Zizo that aren't armaments. Aurafarming.
+	for(var/obj/O in range(10, loc))
+		if(istype(O, /obj/item/flashlight/flare/torch/lantern/psycenser))
+			continue
+		if(istype(O, /obj/item/flashlight/flare/light))
+			qdel(O)
+		O.extinguish()
+	for(var/mob/M in range(10, loc))
+		for(var/obj/O in M.contents)
+			if(istype(O, /obj/item/flashlight/flare/torch/lantern/psycenser))
+				continue
+			if(istype(O, /obj/item/flashlight/flare/light))
+				qdel(O)
+			O.extinguish()
+	playsound(loc, 'sound/magic/zizo_snuff.ogg', 200, FALSE, -1)
+	loc.visible_message(span_cult("Suddenly a great cloud of cold fog flies out of the rune, engulfing all lights around it!"))
 
 /obj/structure/ritualcircle/zizo/proc/zizoarmaments(mob/living/carbon/human/target, helm_choice, armor_choice)
 	if(!HAS_TRAIT(target, TRAIT_CABAL))

@@ -53,12 +53,12 @@
 		//Our Spells
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/zizo)
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo)
-		//gigajank to ensure we get both Profane Bone + Insight at once for this path
-		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/insightorprofane)
-		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/insight)
+		//gigajank to ensure we get both Profane Bone + Strip Knowledge at once for this path
+		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/stripknowledgeorprofane)
+		user.mind.RemoveSpell(/datum/action/cooldown/spell/zizo/stripknowledge)
 		user.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/zizo/profane)
 		//re-add our stuff
-		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/insight)
+		user.mind.AddSpell(new /datum/action/cooldown/spell/zizo/stripknowledge)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/zizo/profane)
 		grant_poke_spell(user)
 
