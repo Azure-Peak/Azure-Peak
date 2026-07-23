@@ -8,7 +8,7 @@
 					/datum/action/cooldown/spell/zizo/snuff_lights						= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal/zizo						= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
-					/datum/action/cooldown/spell/zizo/insightorprofane					= CLERIC_T1, //progress rituos will grant both.
+					/datum/action/cooldown/spell/zizo/stripknowledgeorprofane			= CLERIC_T1, //progress rituos will grant both.
 					/datum/action/cooldown/spell/zizo/spite	 							= CLERIC_T2,
 					/datum/action/cooldown/spell/tame_undead/zizo						= CLERIC_T2,
 					/datum/action/cooldown/spell/zizo/rituos 							= CLERIC_T3, //this dictates your T3 miracle path.
