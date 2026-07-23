@@ -419,17 +419,6 @@
 	desc = "My ritual is complete, yet not without cost. I must gift my lux tyme to recover, before I can conduct another rite."
 	icon_state = "rituos_cooldown"
 
-/datum/status_effect/debuff/lux_exhausted
-	id = "lux_exhausted"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/lux_exhausted
-	effectedstats = list(STATKEY_STR = -2, STATKEY_WIL = -2, STATKEY_LCK = -2)
-	duration = 2 HOURS
-
-/atom/movable/screen/alert/status_effect/debuff/lux_exhausted
-	name = "Rituos Langouria"
-	desc = "Body and will alike, sacrificed to complete the rites for another. Your will shall be done, but it will be quite some time before your lux can sustain another rite."
-	icon_state = "rituos_exchange"
-
 /datum/status_effect/debuff/ritesexpended_heavy
 	id = "ritesexpended_heavy"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended_heavy

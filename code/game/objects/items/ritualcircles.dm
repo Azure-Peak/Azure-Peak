@@ -1464,13 +1464,11 @@ Not including armaments, that follows its own niché. Don't put those in line wi
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "zizo_active"
+			new /obj/effect/temp_visual/zizorite(get_turf(target))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			if(is_heretic && target != user)
-				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			zizoarmaments(target, helm_choice, armor_choice)
 			spawn(120)
 				icon_state = "zizo_chalky"
@@ -1658,12 +1656,9 @@ Not including armaments, that follows its own niché. Don't put those in line wi
 				return
 			icon_state = "matthios_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			if(is_heretic && target != user)
-				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			matthiosarmaments(target)
 			spawn(120)
 				icon_state = "matthios_chalky"
@@ -1856,12 +1851,9 @@ Not including armaments, that follows its own niché. Don't put those in line wi
 				return
 			icon_state = "graggar_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			if(is_heretic && target != user)
-				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			graggararmor(target, helm_choice, armor_choice)
 			spawn(120)
 				icon_state = "graggar_chalky" 
@@ -2065,12 +2057,9 @@ Not including armaments, that follows its own niché. Don't put those in line wi
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			ADD_TRAIT(target, TRAIT_NOPAIN, TRAIT_RITUAL)
 			ADD_TRAIT(target, TRAIT_DODGEEXPERT, TRAIT_RITUAL)
-			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			if(is_heretic && target != user)
-				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			baothaarmaments(target)
 			spawn(120)
 				icon_state = "baotha_chalky"
