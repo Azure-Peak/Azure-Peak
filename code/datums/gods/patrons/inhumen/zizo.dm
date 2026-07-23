@@ -6,6 +6,7 @@
 	mob_traits = list(TRAIT_CABAL, TRAIT_ZIZOSIGHT)
 	miracles = list(/datum/action/cooldown/spell/touch/orison							= CLERIC_ORI,
 					/datum/action/cooldown/spell/zizo/snuff_lights						= CLERIC_T0,
+					/datum/action/cooldown/spell/miracle/heal 							= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
 					/datum/action/cooldown/spell/zizo/stripknowledgeorprofane			= CLERIC_T1, //progress rituos will grant both.
 					/datum/action/cooldown/spell/zizo/spite	 							= CLERIC_T2,
