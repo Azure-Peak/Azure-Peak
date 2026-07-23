@@ -31,6 +31,7 @@
 		"Lady of Bones",
 		"Dame of Bones",
 		"Arch Lych",
+		"Pale Lady",
 		"Zimiko"
 	)
 

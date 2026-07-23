@@ -1508,7 +1508,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			user.say("ZIZO! ZIZO! PROGRESS AT AAANY COST!!")
 			icon_state = "zizo_active"
-			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her hands guide your mynd, Progress at any cost."))
+			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her hands guide your mynd and dreamed talent to rapidly Progress."))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			zizolightsnuff(src)
 			spawn(10)

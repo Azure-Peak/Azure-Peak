@@ -1297,6 +1297,7 @@
 /atom/movable/screen/alert/status_effect/buff/knowledgerituos
 	name = "Insightful Chant"
 	desc = "Zizo's mandate and her absolute truth reshapes my mynd, bringing me clarity from ignorance. But the light of Astrata desperately tries to blind me from her vision."
+	icon_state = "rituos_exchange"
 
 /datum/status_effect/buff/knowledgerituos/on_creation(mob/living/new_owner)
 	var/is_heretic = istype(owner.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy)
@@ -1325,12 +1326,13 @@
 /datum/status_effect/buff/utilityrituos
 	id = "zizoritual" //No stacking
 	alert_type = /atom/movable/screen/alert/status_effect/buff/utilityrituos
-	//No statbuffs, you're probably using this in a building project, or as antag like a lich.
+	effectedstats = list(STATKEY_WIL = 1) //Bare minimal needed to labor slightly easier.
 	duration = 25 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/utilityrituos
 	name = "Progressive Trance"
 	desc = "Zizo's mandate and her absolute truth reshapes my mynd, I learn unnaturally fast and my hands work wrydly fast."
+	icon_state = "rituos_exchange"
 
 
 /datum/status_effect/buff/utilityrituos/on_apply()
