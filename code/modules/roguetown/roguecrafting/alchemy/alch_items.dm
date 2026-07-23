@@ -200,6 +200,8 @@
 			decreaseUses(user)
 	return
 
+#define TRAIT_SOURCE_EORAN_SOAP "alchsoap"
+
 /obj/item/soap/alch/attack(mob/target, mob/user)
 	var/turf/bathspot = get_turf(target)
 	if(!istype(bathspot, /turf/open/water/bath) && !locate(/obj/structure/hotspring) in bathspot)
@@ -218,10 +220,14 @@
 				visible_message(span_info("[user] tries their best to scrub [target] with the [src]."))
 				to_chat(target, span_warning("That's a bit nicer, I guess."))
 				target.add_stress(/datum/stressevent/bath)
+			to_chat(target, span_blue("I feel a sense of calm wash over me."))
+			ADD_TRAIT(target, TRAIT_EORAN_CALM, TRAIT_SOURCE_EORAN_SOAP) // you get an hour of freakout protection, as a treat; note that this is not the "actually removes stress" trait it just stops you from screaming
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), target, TRAIT_EORAN_CALM, TRAIT_SOURCE_EORAN_SOAP), 1 HOURS)
 			uses -= 1
 			if(uses == 0)
 				qdel(src)
 
+#undef TRAIT_SOURCE_EORAN_SOAP
 /obj/item/mutation_reagent
 	name = "transformative reagent"
 	desc = "A moderately-unstable catalyst for transformation. When applied to an herb bush, transforms it into something new - what exactly is unpredictable."
