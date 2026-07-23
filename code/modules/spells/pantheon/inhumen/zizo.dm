@@ -523,6 +523,11 @@
 		spelltarget.add_stress(/datum/stressevent/zizo_knowledge) //I mean, it IS forbidden knowledge, sire.
 	return TRUE
 
+/datum/action/cooldown/spell/zizo/bestowcant/lich
+	primary_resource_cost = 0
+	associated_skill = /datum/skill/magic/arcane
+	required_items = null
+
 ///////////////////
 // T3 - Rituos  //
 ///////////////////
