@@ -39,7 +39,7 @@
 	name = "Apple Raefication (Jacksberry)"
 	materia_aspects = list(/datum/materia_aspect/air)
 	input_items = list(/obj/item/reagent_containers/food/snacks/grown/apple = 1)
-	output_items = list(/obj/item/reagent_containers/food/snacks/grown/berries = 1)
+	output_items = list(/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1)
 
 /datum/transmutation_recipe/florid/soap
 	name = "Herb Saponification (Herbal Soap)"
