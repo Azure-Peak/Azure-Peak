@@ -1300,7 +1300,7 @@
 	icon_state = "rituos_exchange"
 
 /datum/status_effect/buff/knowledgerituos/on_creation(mob/living/new_owner)
-	var/is_heretic = istype(owner.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy)
+	var/is_heretic = istype(owner.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy)
 	var/stat_change = 0
 	if(is_heretic || owner.mind.has_antag_datum(/datum/antagonist/skeleton)) //heretics/skeletons, get less effect. As to not 360 the lich skeleton meta.
 		stat_change = 2
