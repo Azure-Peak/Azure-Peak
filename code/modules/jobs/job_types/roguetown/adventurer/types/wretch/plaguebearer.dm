@@ -61,6 +61,7 @@
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/fortifying_vapors) // this is experimental, on the request of players
 		H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
 		// These end up in your belt.

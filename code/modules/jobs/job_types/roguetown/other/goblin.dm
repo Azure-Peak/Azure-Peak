@@ -9,7 +9,7 @@
 	max_pq = null
 
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	tutorial = "Make Graggar proud or die trying."
 
 	outfit = /datum/outfit/job/roguetown/npc/goblin
@@ -51,7 +51,7 @@
 		eyes = new /obj/item/organ/eyes/night_vision/zombie
 		eyes.Insert(H)
 		H.ambushable = FALSE
-		H.underwear = "Nude"
+		H.underwear = null  // "Nude" is runtiming qdels for goblins!
 		for(var/datum/charflaw/cf in H.charflaws)
 			H.charflaws.Remove(cf)
 			QDEL_NULL(cf)

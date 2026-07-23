@@ -107,20 +107,24 @@ without going through the click pipeline, so spells can deliver weapon-style str
 	switch(blade_class)
 		if(BCLASS_CUT)
 			attack_verb = "slashes"
-			if(spell_name != "DoT") // DoTs don't make SFX cause by god, ow my ears
-				hit_sound = pick('sound/combat/hits/bladed/largeslash (1).ogg', 'sound/combat/hits/bladed/largeslash (2).ogg', 'sound/combat/hits/bladed/largeslash (3).ogg')
+			hit_sound = pick('sound/combat/hits/bladed/largeslash (1).ogg', 'sound/combat/hits/bladed/largeslash (2).ogg', 'sound/combat/hits/bladed/largeslash (3).ogg')
+			if(spell_name == "DoT") // DoTs don't make SFX cause by god, ow my ears
+				hit_sound = null
 		if(BCLASS_BLUNT)
 			attack_verb = "smashes"
-			if(spell_name != "DoT")
-				hit_sound = pick('sound/combat/hits/blunt/genblunt (1).ogg', 'sound/combat/hits/blunt/genblunt (2).ogg', 'sound/combat/hits/blunt/genblunt (3).ogg')
+			hit_sound = pick('sound/combat/hits/blunt/genblunt (1).ogg', 'sound/combat/hits/blunt/genblunt (2).ogg', 'sound/combat/hits/blunt/genblunt (3).ogg')
+			if(spell_name == "DoT")
+				hit_sound = null
 		if(BCLASS_STAB)
 			attack_verb = "stabs"
-			if(spell_name != "DoT")
-				hit_sound = pick('sound/combat/hits/bladed/genthrust (1).ogg', 'sound/combat/hits/bladed/genthrust (2).ogg')
+			hit_sound = pick('sound/combat/hits/bladed/genthrust (1).ogg', 'sound/combat/hits/bladed/genthrust (2).ogg')
+			if(spell_name == "DoT")
+				hit_sound = null
 		if(BCLASS_BURN)
 			attack_verb = "scorches"
-			if(spell_name != "DoT")
-				hit_sound = 'sound/items/firelight.ogg'
+			hit_sound = 'sound/items/firelight.ogg'
+			if(spell_name == "DoT")
+				hit_sound = null
 
 	playsound(get_turf(target), hit_sound, 100, TRUE)
 	if(!skip_message)

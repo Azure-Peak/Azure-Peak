@@ -141,43 +141,46 @@
 	. = ..()
 
 /datum/status_effect/buff/fortifyingvapors/on_apply(datum/herbal_recipe/R)
-
 	var/filter = owner.get_filter(VAPORS_HEALING_FILTER)
 	if(!filter)
 		owner.add_filter(VAPORS_HEALING_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
-
-	ADD_TRAIT(owner, TRAIT_NOPAINSTUN, "fortifyingvape")
-
+	if(recipe?.catalyst)
+		owner.process_vapor_catalyst(recipe.catalyst)
 	return TRUE
-
-/datum/status_effect/buff/fortifyingvapors/tick()
-	var/base_heal = healing_on_tick
-	var/brute_heal = base_heal
-	var/burn_heal = base_heal
-	var/toxin_heal = base_heal
-	var/oxy_heal = base_heal
-
-	if(recipe)
-		brute_heal += recipe.brute * 0.15
-		burn_heal += recipe.burn * 0.15
-		toxin_heal += recipe.toxin * 0.15
-
-	if(owner.getBruteLoss())
-		owner.adjustBruteLoss(-min(brute_heal, owner.getBruteLoss()), 0)
-
-	if(owner.getFireLoss())
-		owner.adjustFireLoss(-min(burn_heal, owner.getFireLoss()), 0)
-
-	if(owner.getToxLoss())
-		owner.adjustToxLoss(-min(toxin_heal, owner.getToxLoss()), 0)
-
-	if(owner.getOxyLoss())
-		owner.adjustOxyLoss(-min(oxy_heal, owner.getOxyLoss()), 0)
 
 /datum/status_effect/buff/fortifyingvapors/on_remove()
 	owner.remove_filter(VAPORS_HEALING_FILTER)
+	REMOVE_TRAIT(owner, TRAIT_ZOMBIE_SPEECH, "vapecrack")
+	REMOVE_TRAIT(owner, TRAIT_NOPAIN, "vapecrack")
+	REMOVE_TRAIT(owner, TRAIT_GARGLE_SPEECH, "vapecrack")
+	REMOVE_TRAIT(owner, TRAIT_MUSES_GRACE, "vapecrack")
 	owner.update_damage_hud()
-	REMOVE_TRAIT(owner, TRAIT_NOPAINSTUN, "fortifyingvape")
+
+/datum/status_effect/buff/fortifyingvapors/tick()
+	var/brute_heal = healing_on_tick
+	var/burn_heal = healing_on_tick
+	var/toxin_heal = healing_on_tick
+	if(recipe)
+		brute_heal += recipe.brute * 0.2
+		burn_heal += recipe.burn * 0.2
+		toxin_heal += recipe.toxin * 0.2
+	if(owner.getBruteLoss())
+		owner.adjustBruteLoss(-min(brute_heal, owner.getBruteLoss()), 0)
+	if(owner.getFireLoss())
+		owner.adjustFireLoss(-min(burn_heal, owner.getFireLoss()), 0)
+	if(owner.getToxLoss())
+		owner.adjustToxLoss(-min(toxin_heal, owner.getToxLoss()), 0)
+	if(recipe?.blood)
+		owner.adjustOxyLoss(-2)
+		for(var/datum/wound/W as anything in owner.get_wounds())
+			if(!istype(W, /datum/wound/slash/incision))
+				if(W.bleed_rate <= 0 && W.sew_threshold)
+					W.sew_progress = W.sew_threshold
+					W.sew_wound()
+	if(recipe?.wounds)
+		for(var/datum/wound/W as anything in owner.get_wounds())
+			if(!istype(W, /datum/wound/slash/incision))
+				W.heal_wound(2)
 
 /datum/status_effect/buff/healingvapors
 	id = "healingvapors"
@@ -193,34 +196,127 @@
 	. = ..()
 
 /datum/status_effect/buff/healingvapors/on_apply(datum/herbal_recipe/R)
-
+	if(recipe?.catalyst)
+		owner.process_vapor_catalyst(recipe.catalyst)
 	var/filter = owner.get_filter(VAPORS_HEALING_FILTER)
 	if(!filter)
 		owner.add_filter(VAPORS_HEALING_FILTER, 2, list("type" = "outline",	"color" = outline_colour, "alpha" = 60, "size" = 1))
-
 	return TRUE
 
 /datum/status_effect/buff/healingvapors/tick()
-	if(recipe.brute)
+	if(recipe?.brute)
 		var/brute = owner.getBruteLoss()
 		if(brute > 0)
-			var/heal = max(brute * (recipe.brute * 0.01), min_heal)
+			var/heal = max(brute * (recipe.brute * 0.02), min_heal)
 			owner.adjustBruteLoss(-min(heal, brute), 0)
-
-	if(recipe.burn)
+	if(recipe?.burn)
 		var/burn = owner.getFireLoss()
 		if(burn > 0)
-			var/heal = max(burn * (recipe.burn * 0.01), min_heal)
+			var/heal = max(burn * (recipe.burn * 0.02), min_heal)
 			owner.adjustFireLoss(-min(heal, burn), 0)
-
-	if(recipe.toxin)
+	if(recipe?.toxin)
 		var/toxin = owner.getToxLoss()
 		if(toxin > 0)
-			var/heal = max(toxin * (recipe.toxin * 0.01), min_heal)
+			var/heal = max(toxin * (recipe.toxin * 0.02), min_heal)
 			owner.adjustToxLoss(-min(heal, toxin), 0)
+	if(recipe?.blood)
+		owner.adjustOxyLoss(-2)
+		for(var/datum/wound/W as anything in owner.get_wounds())
+			if(!istype(W, /datum/wound/slash/incision))
+				if(W.bleed_rate <= 0 && W.sew_threshold)
+					W.sew_progress = W.sew_threshold
+					W.sew_wound()
+	if(recipe.wounds)
+		for(var/datum/wound/W as anything in owner.get_wounds())
+			if(!istype(W, /datum/wound/slash/incision))
+				W.heal_wound(2)
 
 /datum/status_effect/buff/healingvapors/on_remove()
 	owner.remove_filter(VAPORS_HEALING_FILTER)
 	owner.update_damage_hud()
+
+/mob/living/proc/process_vapor_catalyst(catalyst, is_lethal = FALSE, stinky = FALSE)
+	switch(catalyst)
+		if("Ozium")
+			visible_message(span_notice("A dull, sweet haze settles over [src], leaving [src.p_them()] eerily tranquil."), span_artery("I enter a world of bliss... Maybe too much of it. I'm slowing down everywhere."))
+			ADD_TRAIT(src, TRAIT_ZOMBIE_SPEECH, "vapecrack")
+			ADD_TRAIT(src, TRAIT_NOPAIN, "vapecrack")
+			apply_status_effect(/datum/status_effect/buff/ozium)
+			apply_status_effect(/datum/status_effect/buff/druqks)
+			sate_addiction(/datum/charflaw/addiction/junkie)
+
+		if("Moondust")
+			if(!has_status_effect(/datum/status_effect/debuff/sleepytime))
+				visible_message(span_notice("[src]'s eyes widen as manic energy courses through [src.p_them()]."), span_artery("OH, HEHE! I'M-- GOOD LORD, I'M TWITCHY. HEHEHEHE! I CAN'T SPEEEEAK!!!"))
+				ADD_TRAIT(src, TRAIT_GARGLE_SPEECH, "vapecrack")
+			else
+				visible_message(span_notice("[src] suddenly seems wide awake, brimming with restless energy."), span_artery("I feel all my exhaustion just... poof! Gone."))
+			apply_status_effect(/datum/status_effect/buff/moondust)
+			apply_status_effect(/datum/status_effect/buff/druqks)
+			remove_status_effect(/datum/status_effect/debuff/sleepytime)
+			sate_addiction(/datum/charflaw/addiction/junkie)
+
+		if("Spice")
+			visible_message(span_notice("[src] shudders as an invigorating rush courses through [src.p_them()]."), span_artery("OhhHHHhhhhh YEEEEaaaAAAHHHHH!!"))
+			apply_status_effect(/datum/status_effect/buff/invigoration, 30 SECONDS, 25, 15)
+			apply_status_effect(/datum/status_effect/buff/druqks)
+			sate_addiction(/datum/charflaw/addiction/junkie)
+
+		if("Coffee")
+			visible_message(span_notice("A rich aroma surrounds [src], who suddenly looks sharper and more alert."), span_artery("What an elegant, invigorating scent!"))
+			apply_status_effect(/datum/status_effect/buff/invigoration, 30 SECONDS, 25, 15)
+			apply_status_effect(/datum/status_effect/buff/vigorized)
+			sate_addiction(/datum/charflaw/addiction/caffiend)
+
+		if("Fae Dust")
+			visible_message(span_notice("Glittering motes dance around [src] as [src.p_their()] gaze drifts into impossible colors."), span_artery("Where is my hands?... I can taste the colors and see the flavors!"))
+			apply_status_effect(/datum/status_effect/buff/invigoration, 30 SECONDS, 25, 15)
+			apply_status_effect(/datum/status_effect/buff/seelie_drugs)
+			sate_addiction(/datum/charflaw/addiction/junkie)
+			ADD_TRAIT(src, TRAIT_MUSES_GRACE, "vapecrack")
+
+		if("Fermented Crab")
+			visible_message(span_notice("[src] flushes slightly, wearing an oddly affectionate grin."), span_artery("I'm getting frisky!~"))
+			apply_status_effect(/datum/status_effect/buff/fermented_crab)
+
+		if("Coal")
+			visible_message(span_notice("[src] breaks into a heavy sweat as dark impurities seem to leave [src.p_their()] body."), span_artery("I begin sweating rapidly... Unsavory, but all my impurities are coming out with it."))
+			reagents.clear_reagents()
+
+		if("Honey")
+			visible_message(span_notice("Golden-scented vapors cling gently to [src]'s body."),	span_artery("I feel the vapors caressing my ailments with a potent anti-foulness to it."))
+			if(has_status_effect(/datum/status_effect/debuff/rotted_zombie))
+				if(remove_rot(target = src,	user = src,	method = "surgery",	success_message = "The rot leaves [src]'s body!", fail_message = "Nothing happens.", lethal = is_lethal))
+					visible_message(span_green("The rot visibly sloughs away from [src]'s body."), span_green("I feel the rot leave my body!"))
+					remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
+					apply_status_effect(/datum/status_effect/debuff/rotted)
+				else
+					visible_message(span_warning("The honeyed vapors fail to purge the corruption from [src]."), span_warning("I feel no different..."))
+			else
+				visible_message(span_notice("The sweet vapors drift harmlessly around [src], finding no rot to cleanse."), span_notice("The honeyed vapors find no trace of rot within me."))
+
+		if("Impure Lux")
+			if(stat != DEAD)
+				visible_message(span_warning("The impure lux recoils from [src], unable to settle."), span_warning("The lux-infused vapors are repelled by an equal force."))
+				return
+			if(has_status_effect(/datum/status_effect/debuff/rotted_zombie))
+				visible_message(span_necrosis("The impure lux eagerly sinks into [src]'s rotting flesh. The corpse begins to stir!"), span_necrosis("The impure lux embraces my ruined flesh. Something compels me to rise..."))
+				var/datum/component/rot/corpse/R = GetComponent(/datum/component/rot/corpse)
+				if(R)
+					R.amount = 7 MINUTES + 1
+					R.process()
+				return
+			visible_message(span_notice("Pale wisps of impure lux gather around [src]'s corpse, desperately seeking a fading spark of life."), span_green("The impure lux reaches for what remains of my soul..."))
+			apply_status_effect(/datum/status_effect/reanimating)
+
+		if("Purified Lux")
+			if(stat != DEAD)
+				visible_message(span_warning("The purified lux gently withdraws from [src], finding no soul to restore."), span_warning("The lux-infused vapors are repelled by an equal force."))
+				return
+			if(has_status_effect(/datum/status_effect/debuff/rotted_zombie))
+				visible_message(span_warning("The purified lux scatters before [src]'s ruined body, unable to restore what rot has claimed."), span_warning("The lux-infused vapors don't seem to find proper flesh to settle."))
+				return
+			visible_message(span_green("Radiant vapors of purified lux embrace [src]'s body, patiently weaving soul and flesh back together."), span_green("A warm radiance envelops me. Something is calling me back..."))
+			revive_vapor_target()
 
 #undef VAPORS_HEALING_FILTER

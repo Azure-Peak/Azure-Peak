@@ -5,9 +5,9 @@
 	sight = 0
 	see_in_dark = 8
 	hud_possible = list(ANTAG_HUD)
-	
+
 	typing_indicator_enabled = TRUE
-	
+
 	var/resize = 1 //Badminnery resize
 	var/lastattacker = null
 	var/lastattackerckey = null
@@ -63,7 +63,7 @@
 
 	var/tod = null // Time of death
 
-	/// The boolean "Are we on fire?" var. 
+	/// The boolean "Are we on fire?" var.
 	var/on_fire = FALSE
 	/// Helper vars for quick access to firestacks, these should be updated every time firestacks are adjusted
 	var/fire_stacks = 0
@@ -162,7 +162,7 @@
 	var/eyesclosed = 0
 	var/fallingas = 0
 	var/is_asleep = FALSE
-	
+
 	var/bleed_rate = 0 //how much are we bleeding
 	var/bleedsuppress = 0 //for stopping bloodloss, eventually this will be limb-based like bleeding
 
@@ -247,6 +247,10 @@
 	var/dualwield_finisher = FALSE
 	var/dualwield_resets_in = 0
 	var/dualwield_buff_cd = 0
-  
+
 	/// "In Combat" timer that is used to prevent stealth and a few other mechanics while active.
 	var/in_combat_until
+
+	/// ass list [id] = /datum/status_effect (moved from status_effect.dm)
+	var/alist/status_effects_by_id
+

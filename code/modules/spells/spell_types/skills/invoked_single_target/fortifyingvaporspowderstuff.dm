@@ -3,8 +3,8 @@
 	desc = "A masterfully-crafted brass censer fitted with an intricate diffuser. When opened, its volatile aromatic mixture produces a dense medicinal mist that may be further enriched by burning carefully prepared herbs. In practiced hands, the vapors can be guided to cling to a patient's body, greatly prolonging the effects of restorative compounds. Mishandling the pressure vessel, however, may cause it to rupture violently into an irrepairable state."
 	icon_state = "censer"
 	item_state = "censer"
-	light_outer_range = 8
-	light_color ="#70e289"
+	light_outer_range = 6
+	light_color ="#daffe1"
 	possible_item_intents = list(/datum/intent/flail/smash)
 	fuel = 999 MINUTES
 	force = 11
@@ -228,12 +228,14 @@
 		A completed herbal preparation may be further fortified with a single medicinal catalyst. Such agents bind only to finished mixtures, and will fail if introduced before the threefold preparation is complete.<br>
 		<br>
 
-		Ozium = Deadens pain, granting powerful analgesic effects.<br>
-		Moondust = Reinvigorates the body, restoring energy and relieving exhaustion.<br>
-		Coffee = Sharpens the senses and restores stamina.<br>
+		Ozium = Powerful analgesic effects, hinders speech for a while.<br>
+		Moondust = Increase speed and removes tiredness. May have complications if done on someone not tired.<br>
+		Coffee, Sugar, Tea = Sharpens the senses and restores stamina.<br>
 		Honey = Cleanses infected flesh and halts the advance of rot.<br>
-		Impure Lux = Resurrection, but...<br>
-		Purified Lux = Resurrection, recommended.<br>
+		Coal Dust = Cleanses all impurities from the blood.<br>
+		Impure Lux = Progressive resurrection, but not recommended.<br>
+		Purified Lux = Immediate resurrection, recommended.<br>
+		SIDE-NOTE FOR RESURRECTION = DO 'NOT' FORCE IT IF YOU CANNOT DO SO!
 
 		</font>
 	"}
@@ -346,6 +348,8 @@
 		catalyst = "Coffee"
 	else if(istype(I, /obj/item/reagent_containers/powder/ozium))
 		catalyst = "Ozium"
+	else if(istype(I, /obj/item/alch/coaldust))
+		catalyst = "Coal"
 	else if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
 		catalyst = "Honey"
 	else if(istype(I, /obj/item/reagent_containers/lux_impure) || \
@@ -511,7 +515,11 @@
 		if(!recipe)
 			to_chat(user, span_warning("The preparation fails to produce a stable medicinal blend."))
 			return
-		herb_charges = 5
+		if(recipe.catalyst == "Purified Lux")
+			to_chat(user, span_warning("The Purified Lux destroys most of the ingredients within, sharply reducing the uses this have."))
+			herb_charges = 1
+		else
+			herb_charges = 5
 		mix_name += P.name
 		qdel(P)
 		to_chat(user, span_notice("You carefully load the herbal preparation into the censer."))
@@ -553,4 +561,56 @@
 		R.blood = 1
 	if(w)
 		R.wounds = 1
+	R.catalyst = catalyst
 	return R
+
+/datum/status_effect/reanimating
+	id = "reanimating"
+	status_type = STATUS_EFFECT_REFRESH
+	duration = 2 MINUTES
+	var/stacks = 1
+
+/datum/status_effect/reanimating/refresh()
+	. = ..()
+	if(stacks < 5)
+		owner.visible_message(span_notice("The infusion succeeds... But it's not enough. Keep trying."))
+		stacks++
+	if(stacks >= 5)
+		owner.visible_message(span_notice("The infusion settled!"))
+		if(revive_vapor_target())
+			qdel(src)
+
+/proc/revive_vapor_target(mob/living/carbon/human/target)
+	to_chat(world, span_userdanger("ATTEMPTING REVIVAL FOR [target]"))
+	if(QDELETED(target) || target.stat != DEAD || HAS_TRAIT(target, TRAIT_DNR))
+		return FALSE
+	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
+	if(target.client)
+		if (alert(target, "You feel a kindling show the way back. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+			target.visible_message(span_notice("Nothing happens. They are not being let go."))
+			return FALSE
+	else if (underworld_spirit && underworld_spirit.client)
+		if (alert(underworld_spirit, "You feel a kindling show the way back. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+			target.visible_message(span_notice("Nothing happens. They are not being let go."))
+			return FALSE
+	else
+		target.visible_message(span_notice("The body shudders, but there's no one to call out to."))
+		return FALSE
+	target.adjustOxyLoss(-target.getOxyLoss())
+	if(target.revive(full_heal = FALSE))
+		if(underworld_spirit && underworld_spirit.mind) // Ensure spirit exists and has a mind
+			underworld_spirit.mind.transfer_to(target, TRUE) // Transfer mind back to the revived body
+			qdel(underworld_spirit) // Delete the spirit mob
+		else
+			target.grab_ghost(force = TRUE) // This attempts to grab a ghost even if they committed suicide.
+		target.emote("breathgasp")
+		target.Jitter(100)
+		target.update_body()
+		target.visible_message(span_notice("[target] is revived by a carefully applied waft of lux-vapors!"), span_green("I feel another's essence kindle my waned one... Like a hug in the form of vapors. Comforting, yet upsetting."))
+		ADD_TRAIT(target, TRAIT_IWASREVIVED, "lux_vapors")
+		target.apply_status_effect(/datum/status_effect/debuff/metabolic_acceleration)
+		target.mind.remove_antag_datum(/datum/antagonist/zombie)
+		return TRUE
+	else
+		target.visible_message(span_warning("The attempt falters, and nothing happens."))
+		return FALSE
