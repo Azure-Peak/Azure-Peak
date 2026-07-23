@@ -232,6 +232,7 @@
 			H.grant_language(/datum/language/undead)
 			ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 			H.equip_to_slot_or_del(new /obj/item/book/rogue/bibble/zizo,SLOT_IN_BACKPACK, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/iron, SLOT_RING, TRUE)
 		if(/datum/patron/divine/noc)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/noc(H), SLOT_RING, TRUE)
 

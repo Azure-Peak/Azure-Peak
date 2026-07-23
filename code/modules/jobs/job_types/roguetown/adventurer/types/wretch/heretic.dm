@@ -158,11 +158,10 @@
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/iron, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/book/rogue/bibble/zizo,SLOT_IN_BACKPACK, TRUE)
-			H.change_stat(STATKEY_CON, 1)
-			H.change_stat(STATKEY_STR, 1)
-			H.change_stat(STATKEY_PER, 1)
+			H.change_stat(STATKEY_INT, 2) //spellcasting w/ plate
+			H.change_stat(STATKEY_WIL, 1) //read above
 		if(/datum/patron/inhumen/matthios)
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			helmets += list("Decorated Bucket Helmet" = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/gold/cleric,) // This is so stupid. - Just a little, but it does look cool!
@@ -441,7 +440,7 @@
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/inhumen/iron, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/book/rogue/bibble/zizo,SLOT_IN_BACKPACK, TRUE)
 		if(/datum/patron/inhumen/matthios)
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
@@ -535,8 +534,8 @@
 	if (!H.restrained())
 		to_chat(src, span_warning ("My victim needs to be restrained in order to do this!"))
 		return
-	if(!istype(S, /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy))
-		to_chat(src, span_warning("I need to be holding a zcross to extract this divination!"))
+	if(!istype(S, /obj/item/clothing/neck/roguetown/psicross/inhumen))
+		to_chat(src, span_warning("I need to be holding a cross of the ascendants to extract this divination!"))
 		return
 	for(var/obj/structure/fluff/psycross/zizocross/N in oview(5, src))
 		found = N
