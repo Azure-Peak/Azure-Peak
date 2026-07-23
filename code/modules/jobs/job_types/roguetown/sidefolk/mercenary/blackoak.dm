@@ -286,7 +286,7 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade", "Steel Dagger")
+			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade", "Elvish Dirk")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
 			switch(weapon_choice)
 				if("Elvish Longsword")
