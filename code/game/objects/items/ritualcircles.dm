@@ -1492,7 +1492,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			spawn(10)
 				playsound(loc, 'sound/magic/shadowstep.ogg', 200, FALSE, -1)
 				knowledgerituos(src)
-				spawn(110) //-20 seconds for ritual to proc post lightsnuff
+				spawn(110) //-10 seconds for ritual to proc post lightsnuff
 				icon_state = "zizo_chalky"
 
 		if("Progressive Trance") //Jack of all trades
@@ -1514,7 +1514,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			spawn(10)
 				playsound(loc, 'sound/magic/shadowstep.ogg', 200, FALSE, -1)
 				utilityrituos(src)
-				spawn(110) //-20 seconds for ritual to proc post lightsnuff
+				spawn(110) //-10 seconds for ritual to proc post lightsnuff
 				icon_state = "zizo_chalky"
 
 /obj/structure/ritualcircle/zizo/proc/utilityrituos(src)
@@ -1522,14 +1522,14 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/utilityrituos)
 		new /obj/effect/temp_visual/zizorite(get_turf(target)) //aurafarming
-		to_chat(target, span_purple("There is so little tyme, the fyre is gone. You. You have much to do, make it matter. This world will not wait to last."))
+		to_chat(target, span_purple("<br>There is so little tyme, the fyre is gone. You. You have much to do, make it matter. This world will not wait to last.<br>"))
 
 /obj/structure/ritualcircle/zizo/proc/knowledgerituos(src)
 	var/ritualtargets = view(7, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/knowledgerituos)
 		new /obj/effect/temp_visual/zizorite(get_turf(target)) //aurafarming
-		to_chat(target, span_purple("There are many wrong paths walked to ignorant falsehoods and lesser truths. You. You walk towards the right one."))
+		to_chat(target, span_purple("<br>There are many wrong paths walked to ignorant falsehoods and lesser truths. You. You walk towards the right one.<br>"))
 
 /obj/structure/ritualcircle/zizo/proc/zizolightsnuff(src) //10 tile lightsnuff, use with all rituals of Zizo that aren't armaments. Aurafarming.
 	for(var/obj/O in range(10, loc))
@@ -1546,7 +1546,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				qdel(O)
 			O.extinguish()
 	playsound(loc, 'sound/magic/zizo_snuff.ogg', 200, FALSE, -1)
-	loc.visible_message(span_cult("Suddenly a great cloud of cold fog flies out of the rune, engulfing all lights around it!"))
+	loc.visible_message(span_cult("Suddenly a great cloud of cold fog pours out of the rune, engulfing all lights around it!"))
 
 /obj/structure/ritualcircle/zizo/proc/zizoarmaments(mob/living/carbon/human/target, helm_choice, armor_choice)
 	if(!HAS_TRAIT(target, TRAIT_CABAL))
@@ -1596,7 +1596,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "neck", "backr", "r_hand", "l_hand"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
-			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
+			to_chat(target, span_purple("<br>They are ignorant, backwards, without hope. You. You will be powerful.<br>"))
 
 /datum/outfit/job/roguetown/darksteelrite
 	var/obj/item/clothing/head/roguetown/helmet/heavy/selected_helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo

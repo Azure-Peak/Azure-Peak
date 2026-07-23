@@ -312,7 +312,7 @@
 	</br>An old, dusty leatherbound tome; an avantyne-threaded zcross crest carefully threaded and fused upon the cover. \
 	chronicling the beliefs held throughout the collective of the Cabal which could mutually agree on the same matters; \
 	such tomes are often considered major contraband in most of Psydonia and oft burned, even by followers of Noc. \
-	Even to this dae its unknown how such tomes keep circulating into the market, presumably from some unknown printing press or two somewhere; \
+	Even to this dae its unknown how such tomes keep circulating, presumably from some unknown printing press or two somewhere; \
 	but they are seldom found outside of the black market. Inside are two seperate testaments. </br> \
 	</br>PROGRESS - TESTAMENTS OF PROGRESS, HER TRUTH, ZIZO'S WILL. \
 	</br>SACRIFICE - TESTAMENTS OF UNDEATH, NECROMANCY, ASCENSION."
@@ -356,7 +356,7 @@
 
 /obj/item/book/rogue/bibble/zizo/get_mechanics_examine(mob/user)
     . = ..()
-    . += span_info("Non-Zizo worshippers will catch aflame touching this book, a surefire sign of heretical faith.")
+    . += span_info("Non-Zizo worshippers will catch aflame touching this book, a surefire sign of heretical faith if you're caught with it.")
     . += span_info("It can be used in-hand to preach from two seperate testaments.")
     . += span_info("Use middle-mouse button to switch between testaments of the book.")
 
