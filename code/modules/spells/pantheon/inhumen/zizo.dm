@@ -41,16 +41,6 @@
 /datum/action/cooldown/spell/touch/orison/zizo
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 
-///////////////////
-// T1 - Miracle  //
-///////////////////
-//Basically the same, unique icon + flavor
-/datum/action/cooldown/spell/miracle/heal/zizo
-	name = "Profane Miracle"
-	fluff_desc = "The lyfeline of any faithful of Zizo, channeling restorative energies into your target, sapping into nearby bones to reuse their instilled magicka for purpose anew."
-	background_icon = 'icons/mob/actions/zizomiracles.dmi'
-	button_icon = 'icons/mob/actions/zizomiracles.dmi'
-
 // SNUFF LIGHTS (T0) - Extinguishes most light sources, and grants you a temporary Dark Vision steroid that scales from your Holy skill.
 /datum/action/cooldown/spell/zizo/snuff_lights
 	name = "Snuff Lights"
@@ -486,46 +476,6 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 	charge_sound = 'sound/magic/chargingold.ogg'
 
-////////////////////////////////////////////////
-// T3 - Call Avantyne Wolf - Self explanatory. //
-////////////////////////////////////////////////
-//Calls in a fairly tough but obviously heretical familar to assist you w/ fighting, a lot tougher and meaner than your average mossback or w/ever
-
-/obj/effect/proc_holder/spell/invoked/call_wolf_zizo
-	name = "Call Avantyne Wolf"
-	desc = "Calls an Avantyne wolf that is friendly to you and that you can command."
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_state = "avantyne_wolf" //PLACEHOLDER AS FUUUUUUUCK
-	range = 7
-	no_early_release = TRUE
-	charging_slowdown = 1
-	releasedrain = 20
-	chargedrain = 0
-	chargetime = 4 SECONDS
-	chargedloop = null
-	sound = 'sound/misc/sudden noise.ogg'
-	invocations = list("Zizo! Zizo! Grant me a familar!")
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 10 SECONDS
-	miracle = TRUE
-	devotion_cost = 50
-	var/mob/living/simple_animal/hostile/retaliate/rogue/mossback/summoned
-
-/obj/effect/proc_holder/spell/invoked/call_wolf_zizo/cast(list/targets, mob/living/user)
-	. = ..()
-	var/turf/T = get_turf(targets[1])
-	if(isopenturf(T))
-		if(!user.mind.has_spell(/datum/action/cooldown/spell/minion_order))
-			user.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-		QDEL_NULL(summoned)
-		summoned = new /mob/living/simple_animal/hostile/retaliate/rogue/mossback(T, user)
-		return TRUE
-	else
-		to_chat(user, span_warning("The targeted location is blocked. My call fails to draw a servant from the edge of reality."))
-		return FALSE
 
 ///////////////////////
 // T4 - Bewstow Chant //

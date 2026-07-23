@@ -56,7 +56,6 @@
 	if(H.mind)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/zizo)
 
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
@@ -65,15 +64,6 @@
 			switch(highheal_options)
 				if("Greater Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
-				if("Fortifying Vapors (Secular)")
-					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
-
-		if(/datum/patron/inhumen/zizo)
-			var/list/heal = list("Profane Miracle (Divine)", "Fortifying Vapors (Secular)")
-			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
-			switch(highheal_options)
-				if("Greater Miracle (Divine)")
-					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/zizo)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
@@ -214,7 +204,6 @@
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal)
 		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/undivided)
-		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/heal/zizo)
 
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
@@ -223,15 +212,6 @@
 			switch(highheal_options)
 				if("Greater Miracle (Divine)")
 					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/undivided)
-				if("Fortifying Vapors (Secular)")
-					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
-
-		if(/datum/patron/inhumen/zizo)
-			var/list/heal = list("Profane Miracle (Divine)", "Fortifying Vapors (Secular)")
-			var/highheal_options = input(H, "Choose your healing training.", "Experientia Medica") as anything in heal
-			switch(highheal_options)
-				if("Greater Miracle (Divine)")
-					H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/heal/zizo)
 				if("Fortifying Vapors (Secular)")
 					H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortifyingvapors)
 
