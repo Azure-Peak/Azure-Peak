@@ -40,6 +40,8 @@
 	armor = ARMOR_CLOTHING
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 	armor_class = ARMOR_CLASS_NONE
+	grid_width = 64
+	grid_height = 64
 
 /obj/item/clothing/suit/roguetown/armor/basiceast/loadout/ComponentInitialize()
 	return
@@ -60,6 +62,8 @@
 	armor = ARMOR_CLOTHING
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 	armor_class = ARMOR_CLASS_NONE
+	grid_width = 64
+	grid_height = 64
 
 /obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/loadout/ComponentInitialize()
 	return
@@ -80,6 +84,8 @@
 	armor = ARMOR_CLOTHING
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 	armor_class = ARMOR_CLASS_NONE
+	grid_width = 64
+	grid_height = 64
 
 /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit/loadout/ComponentInitialize()
 	return

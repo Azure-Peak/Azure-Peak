@@ -222,6 +222,8 @@
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 	armor = ARMOR_CLOTHING
 	armor_class = ARMOR_CLASS_NONE
+	grid_width = 64
+	grid_height = 64
 
 /obj/item/clothing/suit/roguetown/shirt/freifechter/shepherd
 	name = "shepherd's shirt"
@@ -284,6 +286,8 @@
 	name = "aesthetic grenzelhoftian hip-shirt"
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 	armor = ARMOR_CLOTHING
+	grid_width = 64
+	grid_height = 64
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/raneshen
 	name = "padded desert coat"
@@ -305,6 +309,8 @@
 	armor = ARMOR_CLOTHING
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 	armor_class = ARMOR_CLASS_NONE
+	grid_width = 64
+	grid_height = 64
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 	name = "pontifex's kaftan"
@@ -318,6 +324,8 @@
 	armor = ARMOR_CLOTHING
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
 	armor_class = ARMOR_CLASS_NONE
+	grid_width = 64
+	grid_height = 64
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 	name = "inquisitorial leather tunic"
@@ -342,6 +350,9 @@
 	armor_class = ARMOR_CLASS_NONE
 	armor = ARMOR_CLOTHING
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	grid_width = 64
+	grid_height = 64
+
 //Hand's gambeson, looks fancy
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand
