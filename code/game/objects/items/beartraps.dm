@@ -136,6 +136,9 @@
 	. = ..()
 	if(ishuman(user) && !user.stat && !user.restrained())
 		var/mob/living/carbon/human/H = user
+		if(!isturf(loc))
+			to_chat(H, span_warning("I should place this on the ground before arming it..."))
+			return
 		if(armed)
 			to_chat(H, span_danger("[src] is already armed!"))
 			return
