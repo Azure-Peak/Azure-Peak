@@ -258,6 +258,7 @@
 	if(result)
 		var/obj/instantiated = new result(O.loc)
 		O.visible_message(span_notice("\The [O] wilts and writhes, transforming into \a [instantiated]!"))
+		instantiated.add_fingerprint(user)
 		qdel(O)
 		qdel(src)
 		return
