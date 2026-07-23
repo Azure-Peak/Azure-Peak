@@ -310,7 +310,7 @@
 	name = "The Verses and Chants of Zizo"
 	desc = "<font color='ff0000'>'She called us forth from the edge of reality - and with Her dying breath, rasped out the final truth; the fire is gone, and the world will soon follow.'</font> \
 	</br>An old, dusty leatherbound tome; an avantyne-threaded zcross crest carefully threaded and fused upon the cover. \
-	chronicling the beliefs held by the collectives of the Cabal that could mutually agree on the same matters; \
+	chronicling the beliefs held throughout the collective of the Cabal which could mutually agree on the same matters; \
 	such tomes are often considered major contraband in most of Psydonia and oft burned, even by followers of Noc. \
 	Even to this dae its unknown how such tomes keep circulating into the market, presumably from some unknown printing press or two somewhere; \
 	but they are seldom found outside of the black market. Inside are two seperate testaments. </br> \

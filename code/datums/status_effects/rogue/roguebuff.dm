@@ -1290,25 +1290,15 @@
 
 
 /datum/status_effect/buff/knowledgerituos
-	id = "zizoritual" //No stacking
+	id = "knowledgerituos"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/knowledgerituos
 	duration = 25 MINUTES
+	effectedstats = list(STATKEY_INT = 3)
 
 /atom/movable/screen/alert/status_effect/buff/knowledgerituos
 	name = "Insightful Chant"
 	desc = "Zizo's mandate and her absolute truth reshapes my mynd, bringing me clarity from ignorance. But the light of Astrata desperately tries to blind me from her vision."
 	icon_state = "rituos_exchange"
-
-/datum/status_effect/buff/knowledgerituos/on_creation(mob/living/new_owner)
-	var/is_heretic = istype(owner.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy)
-	var/stat_change = 0
-	if(is_heretic || owner.mind.has_antag_datum(/datum/antagonist/skeleton)) //heretics/skeletons, get less effect. As to not 360 the lich skeleton meta.
-		stat_change = 2
-	else
-		stat_change = 3
-	if(stat_change > 0)
-		effectedstats = list(STATKEY_INT = stat_change)
-	. = ..()
 
 /datum/status_effect/buff/knowledgerituos/on_apply()
 	. = ..()
@@ -1325,7 +1315,7 @@
 
 
 /datum/status_effect/buff/utilityrituos
-	id = "zizoritual" //No stacking
+	id = "utilityrituos"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/utilityrituos
 	effectedstats = list(STATKEY_WIL = 1) //Bare minimal needed to labor slightly easier.
 	duration = 25 MINUTES
