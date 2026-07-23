@@ -48,6 +48,8 @@
 	sleeved = null
 	nodismemsleeves = TRUE
 	boobed = TRUE
+	grid_width = 64
+	grid_height = 64
 
 /obj/item/clothing/suit/roguetown/armor/workervest/Initialize()
 	color = pick("#94b4b6", "#ba8f9e", "#bd978c", "#92bd8c", "#c7c981")
