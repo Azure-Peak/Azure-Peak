@@ -1306,7 +1306,8 @@
 		stat_change = 2
 	else
 		stat_change = 3
-	effectedstats = list(STATKEY_INT = stat_change)
+	if(stat_change > 0)
+		effectedstats = list(STATKEY_INT = stat_change)
 	. = ..()
 
 /datum/status_effect/buff/knowledgerituos/on_apply()
