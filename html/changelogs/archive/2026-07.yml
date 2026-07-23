@@ -1198,3 +1198,23 @@
   - rscadd: Mreow verb.
   - balance: Removed Enduring from Construct, transposing its effects to the racial
       trait.
+2026-07-23:
+  Draganfrukts:
+  - rscdel: Freifechters do not start with money, as per their design.
+  FreeStylaLT:
+  - rscadd: Added various regional clothes to the donator-exclusive loadout.
+  - qol: Adjusted the greyscale on the grenzelhoft hip-shirt.
+  Guidesu:
+  - rscadd: Added a new feature that allows clawed species to select their type of
+      unarmed claw at IC tab.
+  Ryan180602:
+  - bugfix: noc eclipse bug
+  WeNeedMorePhoron:
+  - bugfix: Sanitized a bunch of inputs
+  borneblood:
+  - refactor: Refactored the Broom code.
+  - bugfix: Fixed an oversight where brooms were not using any skill.
+  radarseas:
+  - bugfix: fixes some misc code.
+  - rscadd: zombies can now properly use the "agony" emotes, its basically their regular
+      scream.

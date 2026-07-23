@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Items sourced from triumphs is now suffixed with - TR in your stash. It is checked to avoid name collision. This means nobility virtue's ladylike shortcloak don't charge you for withdrawing it while triumphs one will."

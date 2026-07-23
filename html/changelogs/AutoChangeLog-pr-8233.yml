@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "The towner who issue a Towner Quest no longer need to tag along"
+  - rscadd: "The towner quest rewards has been improved"
+  - rscadd: "Difficulty band is now easy - medium - hard (Hard is actually hard)"
+  - rscadd: "A steward can now issue them, at 2x the cost from the Crown's Purse"
