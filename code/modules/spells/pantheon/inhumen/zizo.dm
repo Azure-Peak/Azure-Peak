@@ -34,13 +34,6 @@
 	point_cost = 0
 	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
 
-///////////////////
-// T0 - Orison //
-///////////////////
-//Basically the same, unique background icon
-/datum/action/cooldown/spell/touch/orison/zizo
-	background_icon = 'icons/mob/actions/zizomiracles.dmi'
-
 // SNUFF LIGHTS (T0) - Extinguishes most light sources, and grants you a temporary Dark Vision steroid that scales from your Holy skill.
 /datum/action/cooldown/spell/zizo/snuff_lights
 	name = "Snuff Lights"
