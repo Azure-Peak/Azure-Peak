@@ -127,7 +127,7 @@
 // T1 - Zizo Miracle Selection //
 /////////////////////////////////
 
-/datum/action/cooldown/spell/zizo/insightorprofane
+/datum/action/cooldown/spell/zizo/stripknowledgeorprofane
 	name = "Means of Progress"
 	desc = "Choose between Zizo's Knowledge at the price of your sanity and perception (Insight), or Zizo's Power for offensively embedding bone lances into victims at range (Profane Bone)."
 	fluff_desc = "There is always a cost to Progress, if there's anything every follower of Zizo knows; 'Progress commands sacrifice'."
@@ -148,11 +148,11 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/chosen_spell
-	var/zizo_insight = /datum/action/cooldown/spell/zizo/insight
+	var/zizo_stripknowledge = /datum/action/cooldown/spell/zizo/stripknowledge
 	var/zizo_profane = /datum/action/cooldown/spell/projectile/zizo/profane
 	var/choosingspell = FALSE
 
-/datum/action/cooldown/spell/zizo/insightorprofane/cast(atom/cast_on)
+/datum/action/cooldown/spell/zizo/stripknowledgeorprofane/cast(atom/cast_on)
 	. = ..()
 	if(choosingspell == TRUE)
 		to_chat(owner, span_warning("I'm already choosing a spell!"))
@@ -160,52 +160,49 @@
 		var/choice = chosen_spell
 		choosingspell = TRUE
 		if(!chosen_spell)
-			choice = alert(owner, "Knowledge or Power", "PROGRESS COMMANDS SACRIFICE", "Knowledge - Insight", "Power - Profane Bone")
+			choice = alert(owner, "What shalt you take from them? Knowledge or Power", "PROGRESS COMMANDS SACRIFICE", "Knowledge - Strip Wisdom", "Lyfe - Profane Bone")
 			chosen_spell = choice
 		switch(choice)
-			if("Knowledge - Insight")
-				owner.mind?.AddSpell(new zizo_insight, owner)
+			if("Knowledge - Strip Wisdom")
+				owner.mind?.AddSpell(new zizo_stripknowledge, owner)
 				owner.mind?.RemoveSpell(src.type)
-			if("Power - Profane Bone")
+			if("Lyfe - Profane Bone")
 				owner.mind?.AddSpell(new zizo_profane, owner)
 				owner.mind?.RemoveSpell(src.type)
 			else
 				return FALSE
 
-///////////////////
-// T1 - Insight. //
-///////////////////
-// Valid version of enlightenment from Noc, it gives you a fair bit more int than Noc's version at lower levels, at the sacrifice of some perception and stressing them out. It also has a slower windup. Its not affected by time of day though in comparison.
-// Uniquely no boon/malus for self/other-buffing vs Noc. You always get 2 minutes of extra mynd power, although you can upkeep this near-endlessly on yourself, it will eat into your devotion insanely fast vs Noc who can basically cast this between a duo at night due to duration buffs.
+///////////////////////
+// T1 - Strip Wisdom. //
+///////////////////////
+// Reverse-enlightenment, as a twisted mockery of Noc's miracle. This one debuffs the int of whoever you cast it upon. -2 to be precise. sire.
 
-/datum/action/cooldown/spell/zizo/insight
-	name = "Insight"
+/datum/action/cooldown/spell/zizo/stripknowledge
+	name = "Strip Wisdom"
 	desc = "Loudly invoke Zizo's knowledge upon a target, temporarily increasing intelligence of your target at the cost of their perception and minorly stressing them out."
 	fluff_desc = "Truth, Inzanity, Progress, the Absolute mandate of her Design. It is a difficult matter for the ignorant masses to even comprehend the means, but even Zizo knows not all are beyond the grasp of her ultimate truth, no matter how much they deny it."
-	button_icon_state = "insight"
+	button_icon_state = "stripknowledge"
 	sound = 'sound/magic/baotha_blessdrink.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
 
-	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_GROUND
-	self_cast_possible = TRUE
+	self_cast_possible = FALSE
 
-	primary_resource_cost = 50 //expensive vs profane
+	primary_resource_cost = 30 //slightly more expensive vs profane
 	secondary_resource_cost = 20
 
-	invocations = list("Zizo! Zizo! Grant me knowledge!") //Slightly louder whisper than Noc
+	invocations = list("Zizo! Zizo! Strip away this unworthy mynd!") //Slightly louder whisper than Noc
 	invocation_type = INVOCATION_WHISPER
 
 	charge_required = TRUE
-	charge_time = 2 SECONDS
+	charge_time = 1 SECONDS
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/chargingold.ogg'
-	charge_then_click = TRUE
 	cooldown_time = 2 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-/datum/action/cooldown/spell/zizo/insight/cast(atom/cast_on)
+/datum/action/cooldown/spell/zizo/stripknowledge/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
@@ -215,33 +212,32 @@
 		to_chat(H, span_warning("That is not a valid target!"))
 		return FALSE
 
+	if(HAS_TRAIT(cast_on, TRAIT_DEADITE)) //unique funny easter egg for deadites
+		to_chat(H, span_warning("My target lacks any signs of intelligence to strip!"))
+		return FALSE
+
 	var/mob/living/spelltarget = cast_on
 
-	if(spelltarget != H)
-		H.visible_message("[H] mutters an incantation and [spelltarget] briefly shimmers red.")
-		spelltarget.apply_status_effect(/datum/status_effect/buff/zizo_knowledge)
-		spelltarget.add_stress(/datum/stressevent/zizo_knowledge)
-	else
-		H.visible_message("[H] mutters an incantation and they briefly shimmer red.")
-		H.apply_status_effect(/datum/status_effect/buff/zizo_knowledge)
-		H.add_stress(/datum/stressevent/zizo_knowledge)
+	H.visible_message("[H] mutters a profane incantation and [spelltarget]'s glint of intelligence dulls'.")
+	spelltarget.apply_status_effect(/datum/status_effect/buff/zizo_knowledge)
+	spelltarget.add_stress(/datum/stressevent/zizo_knowledge)
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/zizo_knowledge
-	name = "Insight"
-	desc = "Profane magic is boosting my intelligence at the cost of my perception."
-	icon_state = "insight"
+	name = "Stripped Knowledge"
+	desc = "Profane magic is hindering my intelligence."
+	icon_state = "stripknowledge"
 
 /datum/status_effect/buff/zizo_knowledge
 	id = "zizo_knowledge"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/zizo_knowledge
 	duration = 2 MINUTES
-	effectedstats = list(STATKEY_INT = 3, STATKEY_PER = -1)
+	effectedstats = list(STATKEY_INT = -2)
 
 /datum/stressevent/zizo_knowledge
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_red("I feel a shiver down my spine as unnatural knowledge floods my mynd.")
+	desc = span_red("I feel a shiver down my spine as unnatural magicka dulls my mynd.")
 
 ////////////////
 //T1 - PROFANE//
@@ -256,7 +252,7 @@
 	primary_resource_cost = 15
 	secondary_resource_cost = 15
 	charge_required = FALSE
-	cooldown_time = 25 SECONDS //To account for it being a choice + knowledge buff being the other miracle w/ armored clerics who use either. Less cooldown
+	cooldown_time = 30 SECONDS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 /obj/item/bone/profane_splinter
@@ -357,7 +353,7 @@
 // - Gallows humor is still /better/ if we considerable how spammable vs this, but you've the advantage of combining this w/ avantyne usually, or whatever else miracle/gear-wise.
 /datum/action/cooldown/spell/zizo/spite
 	name = "Spite"
-	desc = "Invoke Zizo's hatred and spite upon a target, stressing them out heavily and shattering their mynd into hallucinating."
+	desc = "Invoke Zizo's hatred and spite upon a target, stressing them out heavily, lessening their will and shattering their mynd into hallucinating. Slows and weakens the will of the myndless significantly."
 	fluff_desc = "It is no mistake that the faithful of Zizo are to some degree affected by her spite towards those that would dare, undo her greatest work to become. The very thought manifested forcefully in detail of what's to come would break the minds of most, or at worst leave them a hollow husk of what they were. Oft' shattering one's perception of reality and falsehood alyke."
 	button_icon_state = "spite"
 	sound = 'sound/misc/sudden noise.ogg'
@@ -382,7 +378,7 @@
 	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/chargingold.ogg'
-	cooldown_time = 3 MINUTES //No back to back, spamming this vs undivided.
+	cooldown_time = 4 MINUTES //No back to back, spamming this vs undivided. Also a very, very potent miracle for disabling someone, but not as good as Matthios equalize.
 
 	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
@@ -410,7 +406,6 @@
 			to_chat(spelltarget, span_purple(pick("WORTHLESS, THAT'S ALL YOU ARE.","YOU WILL ROT WITH EVERYTHING ELSE, ITS YOUR FAULT.","TRY. IT MEANS NOTHING. EXCEPT OF WHAT I REMAKE OF YOU.","EVERYTHING YOU DO IS POINTLESS IN THE END.","YOU BRING ONLY OBLIVION, UNTO YOURSELF. FOOL.")))
 			spelltarget.add_stress(/datum/stressevent/zizospite)
 			spelltarget.hallucination = 3 MINUTES
-			spelltarget.apply_status_effect(/datum/status_effect/debuff/zizospite)
 
 		if(HAS_TRAIT(spelltarget, TRAIT_UNFORGIVABLE)) //Vheslynites get a unique interaction text-wise... They don't give two fucks though, they already know what they are.
 			to_chat(spelltarget, span_purple(pick("I HATE YOU.","WHY, WHY. WHY MUST YOU MAKE ME SUFFER?","I HATE YOU, I HATE YOU.","HATRED, THAT IS ALL YOU DESERVE.","UNFORGIVABLE. UNFORGIVABLE.")))
@@ -421,7 +416,6 @@
 			to_chat(spelltarget, span_warning("A familar gaze of Progress bares down on you with spite."))
 			spelltarget.add_stress(/datum/stressevent/zizospitelesser)
 			spelltarget.hallucination = 3 MINUTES
-			spelltarget.apply_status_effect(/datum/status_effect/debuff/zizospite)
 
 		if(!HAS_TRAIT(spelltarget, TRAIT_NOMOOD))
 			spelltarget.freak_out()
@@ -431,18 +425,10 @@
 	if(!spelltarget.mind) //NPCs just get knocked over
 		spelltarget.emote("scream")
 		spelltarget.Jitter(20)
-		spelltarget.Knockdown(30) //long to substitute for lack of hallucinations
+		spelltarget.Knockdown(20) //long-ish to substitute for lack of hallucinations
+
+	spelltarget.apply_status_effect(/datum/status_effect/debuff/zizospite)
 	return TRUE
-
-/datum/status_effect/debuff/zizospite
-	id = "zizospite"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/zizospite
-	duration = 3 MINUTES
-
-/atom/movable/screen/alert/status_effect/debuff/zizospite
-	name = "Spite"
-	desc = "<span class='warning'>A hateful gaze of eternal malice bares on me. My mynd's clarity and eyes betray me.</span>\n"
-	icon_state = "zizospite"
 
 /datum/stressevent/zizospite
 	timer = 3 MINUTES
@@ -454,19 +440,40 @@
 	stressadd = 4 //technically 8, as it doubles from TRAIT_BAD_MOOD.
 	desc = span_boldred("I feel Zizo's spite and anger gaze upon me briefly.")
 
+#define ZIZOSPITE_FILTER "zizospite"
+
+/datum/status_effect/debuff/zizospite
+	id = "zizospite"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/zizospite
+	duration = 3 MINUTES
+	var/outline_colour = "#a02727"
+
+/atom/movable/screen/alert/status_effect/debuff/zizospite
+	name = "Spite"
+	desc = "<span class='warning'>A hateful gaze of eternal malice bares on me. My mynd's clarity and eyes betray me.</span>\n"
+	icon_state = "zizospite"
+
 /datum/status_effect/debuff/zizospite/on_apply()
 	. = ..()
+	var/filter = owner.get_filter(ZIZOSPITE_FILTER)
+	if(!filter)
+		owner.add_filter(ZIZOSPITE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+
 	ADD_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
-	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_MIRACLE)
 	if(owner.mind)
 		owner.update_stress()
+		effectedstats = list(STATKEY_WIL = -1)
+	else
+		effectedstats = list(STATKEY_SPD = -2, STATKEY_WIL = -2) //NPCs get hit with a harder debuff to account for not tripping the fuck out
 
 /datum/status_effect/debuff/zizospite/on_remove()
 	REMOVE_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
-	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, TRAIT_MIRACLE)
 	if(owner.mind)
 		owner.update_stress()
+	owner.remove_filter(ZIZOSPITE_FILTER)
 	return ..()
+
+#undef ZIZOSPITE_FILTER
 
 ///////////////////
 // T2 - Tame Undead  //
@@ -478,6 +485,47 @@
 	primary_resource_cost = 100
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 	charge_sound = 'sound/magic/chargingold.ogg'
+
+////////////////////////////////////////////////
+// T3 - Call Avantyne Wolf - Self explanatory. //
+////////////////////////////////////////////////
+//Calls in a fairly tough but obviously heretical familar to assist you w/ fighting, a lot tougher and meaner than your average mossback or w/ever
+
+/obj/effect/proc_holder/spell/invoked/call_wolf_zizo
+	name = "Call Avantyne Wolf"
+	desc = "Calls an Avantyne wolf that is friendly to you and that you can command."
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "avantyne_wolf" //PLACEHOLDER AS FUUUUUUUCK
+	range = 7
+	no_early_release = TRUE
+	charging_slowdown = 1
+	releasedrain = 20
+	chargedrain = 0
+	chargetime = 4 SECONDS
+	chargedloop = null
+	sound = 'sound/misc/sudden noise.ogg'
+	invocations = list("Zizo! Zizo! Grant me a familar!")
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 10 SECONDS
+	miracle = TRUE
+	devotion_cost = 50
+	var/mob/living/simple_animal/hostile/retaliate/rogue/mossback/summoned
+
+/obj/effect/proc_holder/spell/invoked/call_wolf_zizo/cast(list/targets, mob/living/user)
+	. = ..()
+	var/turf/T = get_turf(targets[1])
+	if(isopenturf(T))
+		if(!user.mind.has_spell(/datum/action/cooldown/spell/minion_order))
+			user.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+		QDEL_NULL(summoned)
+		summoned = new /mob/living/simple_animal/hostile/retaliate/rogue/mossback(T, user)
+		return TRUE
+	else
+		to_chat(user, span_warning("The targeted location is blocked. My call fails to draw a servant from the edge of reality."))
+		return FALSE
 
 ///////////////////////
 // T4 - Bewstow Chant //

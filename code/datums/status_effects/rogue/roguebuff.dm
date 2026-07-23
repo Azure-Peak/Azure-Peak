@@ -1302,7 +1302,7 @@
 	Its meant to be 3 vs Noc's 2. Great power at great sacrifice.
 
 	Stays the same 25 minute duration, its meant to last long enough you're certainly going to bump into its downside.
-	Don't make the int conditional, it basically disables parries if you get caught in day w/out protection as-is.
+	It basically disables parries + makes you unable to see shit if you get caught in day w/out protection as-is, plus inability to write/read.
 	*/
 	duration = 25 MINUTES
 
