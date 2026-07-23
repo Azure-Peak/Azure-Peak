@@ -309,7 +309,7 @@
 /obj/item/book/rogue/bibble/zizo
 	name = "The Verses and Chants of Zizo"
 	desc = "<font color='ff0000'>'She called us forth from the edge of reality - and with Her dying breath, rasped out the final truth; the fire is gone, and the world will soon follow.'</font> \
-	</br>An old, dusty leatherbound tome; a strip of velvet resembling an avantyne zcross crest carefully threaded and fused upon the cover. \
+	</br>An old, dusty leatherbound tome; a strip of velvet silk threaded into the leather resembling a zcross made out of avantyne upon the cover. \
 	chronicling the beliefs held throughout the collective of the Cabal which could mutually agree on the same matters; \
 	such tomes are often considered major contraband in most of Psydonia and oft burned, even by followers of Noc. \
 	Even to this dae its unknown how such tomes keep circulating, presumably from some unknown printing press or two somewhere; \
