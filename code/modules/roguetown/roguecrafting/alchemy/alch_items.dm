@@ -221,9 +221,9 @@
 				to_chat(target, span_warning("That's a bit nicer, I guess."))
 				target.add_stress(/datum/stressevent/bath)
 			if(istype(H.patron, /datum/patron/inhumen/baotha))
-				to_chat(target, span_blue("A nostalgic longing returns to me. Her touch reminds me of a simpler time..."))
+				target.add_stress(/datum/stressevent/alchsoap/baotha)
 			else
-				to_chat(target, span_blue("Eora's love lingers with me and brightens my mood."))
+				target.add_stress(/datum/stressevent/alchsoap)
 			ADD_TRAIT(target, TRAIT_EORAN_CALM, TRAIT_SOURCE_EORAN_SOAP) // you get an hour of freakout protection, as a treat; note that this is not the "actually removes stress" trait it just stops you from screaming
 			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), target, TRAIT_EORAN_CALM, TRAIT_SOURCE_EORAN_SOAP), 1 HOURS)
 			uses -= 1

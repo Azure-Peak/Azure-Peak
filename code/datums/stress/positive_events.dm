@@ -324,6 +324,13 @@
     stressadd = -1
     desc = span_green("I'm just a bit cleaner.")
 
+/datum/stressevent/alchsoap
+	timer = 20 MINUTES
+	stressadd = -1
+	desc = span_blue("Eora's love lingers with me and brightens my mood.")
+
+/datum/stressevent/alchsoap/baotha
+	desc = span_blue("A nostalgic longing returns to me. Her touch reminds me of a simpler time...")
 
 /datum/stressevent/pacified
 	timer = 30 MINUTES
