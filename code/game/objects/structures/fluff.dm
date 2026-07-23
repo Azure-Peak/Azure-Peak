@@ -812,7 +812,7 @@
 	var/list/last_attempt						// your last guess, stored so we can display it below the input
 	var/list/step_titles = list("harmonize", "sanguinate", "raefy", "platonize", "distill")
 
-/obj/structure/fluff/alch/trans/Initialize()
+/obj/structure/fluff/alch/trans/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/trans) // to store our transmutation catalysts in. what did you think it meant?
 
