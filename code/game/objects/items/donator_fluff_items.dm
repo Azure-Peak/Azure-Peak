@@ -2177,3 +2177,15 @@ As Excaliber."
 	Perhaps most notably about this sword is that it was never bereft of the silver psycross that was wrapped around the base of the blade and hilt both, tightly woven like an imprisoning chain."
 	icon_state = "jehanpsysword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+// ATHENA14
+/obj/item/rogueweapon/sword/rapier/athena
+	name = "Solace"
+	desc = "A rapier bearing a glimmer of which only Psydonic silver can give, though it differs immensely from the standards seen within the Otavan Orthodoxy. \
+	Following a much older design from the daes of Elder Rock's oldest silver smiths, or simply in imitation of their ancient and revered crafts. \
+	Its crossguards are absent with its profile greatly decreased, favoring a much slimmer design in exchange for protection. \
+	Strangely the silver appears to have dulled, whether from time or an unknown circumstance. \
+	Much of the blade has thusly lost its color, however some fragments remain.<br><br>\
+	<font color='1B1B2A'>'Even though He may be gone, we have not lost the ability to Endure hardship.'</font>"
+	icon_state = "athena_psyrapier"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'

@@ -1396,7 +1396,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			if(item)
 				if(user.Adjacent(host_object))
 					if(user.mind.special_items[item])
-						var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item]
+						// Don't charge for non-triumph derived item of the same name
+						var/base_name = item
+						var/datum/loadout_item/LI
+						if(copytext(item, -length(TRIUMPH_STASH_SUFFIX)) == TRIUMPH_STASH_SUFFIX)
+							base_name = copytext(item, 1, length(item) - length(TRIUMPH_STASH_SUFFIX) + 1)
+							LI = GLOB.loadout_items_by_name[base_name]
 						if(LI?.triumph_cost)
 							var/discounted_cost = max(0, LI.triumph_cost - user.mind.triumph_discount_remaining)
 							if(discounted_cost > 0 && user.get_triumphs() < discounted_cost)
@@ -1413,7 +1418,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 							I.special_item = TRUE
 							I.smeltresult = /obj/item/ash
 							I.salvage_result = /obj/item/ash
-						var/list/metadata = user.client?.prefs?.gear_list?[item]
+						var/list/metadata = user.client?.prefs?.gear_list?[base_name]
 						if(islist(metadata))
 							if(metadata["color"])
 								I.add_atom_colour(metadata["color"], FIXED_COLOUR_PRIORITY)

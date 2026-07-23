@@ -1,0 +1,9 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - balance: "Skirmishers now receive an appropriate scabbard instead of a cudgel."
+  - balance: "Leather Armor Skirmishers may choose between a Dagger and a Messer, while Brigandine Armor Skirmishers now receive a Steel Shortsword."
+  - balance: "Bailiffs now have Apprentice Maces instead of Novice Swords."
+  - balance: "Redistributed the cudgel to all other Man-at-Arms classes."
+  - qol: "Skirmishers wearing Brigandine Armor now get access to helmet selection, just like any other Man-at-Arms class."
+  - qol: "Standardized heraldic tabard names and cleaned up the selection menu for consistency."
