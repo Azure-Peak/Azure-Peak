@@ -861,7 +861,7 @@
 				steps_desc += step_titles[selected_steps[idx]]
 			user.visible_message(
 				span_notice("[user] transforms \the [seed_item] into \a [result]!"),
-				span_notice("\The [with] glows softly as I apply [with.gender==PLURAL ? "them" : "it"] to the catalyzation equipment. I carefully [steps_desc] \the [seed_item], transforming it into \a [result]!")
+				span_notice("\The [with] glows softly as I apply it to the catalyzation equipment. I carefully [steps_desc] \the [seed_item], transforming it into \a [result]!")
 				)
 			current_ui.close() // end of the flow, everyone get out so we can be prepped for next time
 			QDEL_NULL(seed_item)
