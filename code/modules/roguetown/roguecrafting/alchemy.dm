@@ -251,7 +251,7 @@
 
 /datum/crafting_recipe/roguetown/alchemy/begin_magnum_opus
 	name = "basic catalyst precursor (raw materia)" // this is solely so it's near the top of the list so people can actually find it lmao
-	category = "Basic Transmutation"
+	category = "Magnum Opus"
 	craftdiff = SKILL_LEVEL_MASTER // you need expert to make catalysts, but mages have positive int = they can craft 1 level above their tier, also this should be difficult ic
 	result = list(
 		/obj/item/alch/nigredo_precursor,
@@ -263,7 +263,7 @@
 	)
 
 /datum/crafting_recipe/roguetown/alchemy/catalyzation_reagent_pacifist
-	name = "catalyzation reagent (cinnabar)"
+	name = "catalyzation reagent (cinnabar)" // expensive alternative to planar materials
 	category = "Basic Transmutation"
 	craftdiff = SKILL_LEVEL_EXPERT
 	result = list(

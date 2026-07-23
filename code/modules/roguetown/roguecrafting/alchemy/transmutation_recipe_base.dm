@@ -12,6 +12,7 @@
 	var/result_name									// automatically set to the name of a random output item which should be fine for most things.
 	var/subtype_reqs = TRUE							// whether or not the recipe accepts subtypes. set to false if you run into inheritance issues
 	var/snowflake_hidden = FALSE					// sigh
+	var/unique_sellable = FALSE						// if this recipe is making something unique, like bath bombs, that should in fact be sellable
 
 /datum/transmutation_recipe/New()
 	. = ..()
@@ -37,7 +38,8 @@
 			I.was_crafted = TRUE
 			I.OnCrafted(get_dir(user, parent), user)
 			I.add_fingerprint(user)
-			I.AddComponent(/datum/component/unsellable, "bears obvious signs of transmutative origin") // sets sellprice to 0, prevents selling at navigator (including smuggler) and stockpile, transfers to result when smelted
+			if(!unique_sellable)
+				I.AddComponent(/datum/component/unsellable, "bears obvious signs of transmutative origin") // sets sellprice to 0, prevents selling at navigator (including smuggler) and stockpile, transfers to result when smelted
 	user.visible_message(span_notice("[user] transmutes some [result_name]!"), span_notice("I transmute some [result_name]!"))
 
 /proc/can_transmute(mob/user) // exact condition may be changed later

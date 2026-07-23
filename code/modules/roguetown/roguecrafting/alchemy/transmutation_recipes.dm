@@ -41,6 +41,19 @@
 	input_items = list(/obj/item/reagent_containers/food/snacks/grown/apple = 1)
 	output_items = list(/obj/item/reagent_containers/food/snacks/grown/berries = 1)
 
+/datum/transmutation_recipe/florid/soap
+	name = "Herb Saponification (Herbal Soap)"
+	materia_aspects = list(/datum/materia_aspect/herb)
+	input_items = list(/obj/item/soap = 1)
+	output_items = list(/obj/item/soap/bath = 1) // this adds no particular value other than vibes™
+	unique_sellable = TRUE
+
+/datum/transmutation_recipe/florid/mutationcatalyst
+	name = "Mutatio Substantuation (Transformative Reagent)"
+	materia_aspects = list(/datum/materia_aspect/change)
+	input_items = list(/obj/item/alch/hypericum = 1, /obj/item/alch/salvia = 1, /obj/item/alch/taraxacum = 1) // yes, it's evil sui dust
+	output_items = list(/obj/item/mutation_reagent = 1)
+
 // TERRAN RECIPES: earthen material recipes, not including metals
 /datum/transmutation_recipe/terran
 	abstract_type = /datum/transmutation_recipe/terran
@@ -148,6 +161,12 @@
 	materia_aspects = list(/datum/materia_aspect/lunar) // outlier
 	input_items = list(/obj/item/alch/nigredo_precursor = 1, /obj/item/alch/puresalt = 1)
 	output_items = list(/obj/item/alch/albedo_precursor = 3) // one for a catalyst, one to take up the chain, one for...?
+
+/datum/transmutation_recipe/nigredo/soap
+	name = "Fat Saponification (Soap)"
+	output_items = list(/obj/item/soap = 1)	// kris get the nigredo catalyst
+	input_items = list(/obj/item/reagent_containers/food/snacks/fat = 1, /obj/item/reagent_containers/powder/salt = 1) // sodium.
+	unique_sellable = TRUE
 
 /datum/transmutation_recipe/nigredo/ash_bulk // nigredo fuels your other experiments' ash needs better than fire
 	name = "Alchemical Combustion (Ash)"
@@ -297,6 +316,20 @@
 	name = "Ash Harmonization (Catalyzation Reagent)"
 	input_items = list(/obj/item/ash = 3, /obj/item/storage/roguebag = 1)
 	output_items = list(/obj/item/storage/roguebag/trans = 1)
+
+/datum/transmutation_recipe/albedo/bathbombsalvia // look at me. i'm the bathhouse's supplier now
+	name = "Herbal Materia Rendition (Alchemical Diffuser)"
+	input_items = list(/obj/item/alch/salvia = 1, /obj/item/reagent_containers/powder/salt = 1)
+	output_items = list(/obj/item/alchemical_bathbomb = 1)
+	materia_aspects = list(/datum/materia_aspect/herb)
+	unique_sellable = TRUE // it's bath salts
+
+/datum/transmutation_recipe/albedo/bathbombrosa // and one more for the fans
+	name = "Floral Materia Rendition (Alchemical Diffuser)"
+	input_items = list(/obj/item/alch/rosa = 1, /obj/item/reagent_containers/powder/salt = 1)
+	output_items = list(/obj/item/alchemical_bathbomb/rosa = 1)
+	materia_aspects = list(/datum/materia_aspect/herb)
+	unique_sellable = TRUE // it's bath salts again
 
 /datum/transmutation_recipe/albedo/salt
 	name = "Fat Salination" // usually means applying salt to something, but also refers to the increase of salt content in soil!
@@ -458,6 +491,12 @@
 /datum/transmutation_recipe/rubedo/mending
 	name = "Careworn Respite"
 	materia_aspects = list(/datum/materia_aspect/water)
-	input_items = list(/obj/item/alch/rosa = 1, /obj/item/alch/symphitum = 1) // vaguely healing potion ingredients, plus tool aspect = malum potio- the fuck you mean this one's actually eoran
+	input_items = list(/obj/item/alch/rosa = 1, /obj/item/alch/symphitum = 1) // vaguely healing potion ingredients, plus water aspect = malum potio- the fuck you mean this one's actually eoran
 	output_items = list(/obj/item/alch/reagent_mending = 1)
 
+/datum/transmutation_recipe/rubedo/soap
+	name = "Salving Embrace (Healing Soap)"
+	materia_aspects = list(/datum/materia_aspect/water)
+	input_items = list(/obj/item/alch/rosa = 1, /obj/item/alch/salvia = 1, /obj/item/soap = 1) // eoran herbs infused into soap. simple, but definitively eoran
+	output_items = list(/obj/item/alch/reagent_mending = 1)
+	unique_sellable = TRUE

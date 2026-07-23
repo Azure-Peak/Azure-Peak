@@ -669,6 +669,10 @@
 
 #undef REWIND_AURA
 
+/datum/status_effect/buff/healing/soap
+	block_combat_mode = TRUE
+	healing_on_tick = 5 // quarter strength, sorry! it's soap, what'd you expect
+
 //lasts shorter than magic, one chomp every 3 seconds is good enough, let's not forget food can have multiple slices. This does not heal wounds, wounds are healed automatically like psydonitian trait, but it consumes 1% hunger a tick.
 #define CONSUME_AURA "consumehealing"
 
@@ -918,7 +922,7 @@
 	return TRUE
 
 /datum/status_effect/buff/psyhealing/tick()
-	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN)) 
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	if(HAS_TRAIT(owner, TRAIT_HALFHEAL))
 		healing_on_tick /= 2
@@ -966,7 +970,7 @@
 	name = "Processing: Refined"
 	desc = "I am currently processing refined minerals, greatly regenerating my shell's integrity."
 	icon_state = "buff"
-	
+
 /atom/movable/screen/alert/status_effect/buff/gemmuncher
 	name = "Processing: Gem"
 	desc = "I am currently processing an arcyne conduit, efficiently regenerating my shell's integrity and reinvigorating my core."
@@ -2451,7 +2455,7 @@
 	id = "Stagehand"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/stagehands_silence
 	duration = 20 MINUTES
-	// this was supposed to only apply if you had less than 12 speed but it broke whenever other spd mods applied. 
+	// this was supposed to only apply if you had less than 12 speed but it broke whenever other spd mods applied.
 	// i couldnt fix it, unfortunately.
 	// IF people use it to game just fucking remove it we cant have shiut in thjis codebase anymore
 	effectedstats = list(STATKEY_SPD = 1)
@@ -2466,7 +2470,7 @@
 	to_chat(owner, span_warning("My footsteps feel lighter and quieter. What is that droning sound in my head...?"))
 	// inspired by matthiosmuffle
 	ADD_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, "xylixboon")
-	ADD_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon") 
+	ADD_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon")
 
 
 /datum/status_effect/buff/stagehands_silence/on_remove()
@@ -2504,7 +2508,7 @@
 	var/gave_buff = FALSE
 
 /atom/movable/screen/alert/status_effect/buff/hermes_trismegistus
-	name = "Hermetick Blessing" // yes, hermetick. with a k. 
+	name = "Hermetick Blessing" // yes, hermetick. with a k.
 	desc = "Looking at HERMES has given me a blessing of the Stars... written words begin to make more sense." // dont ask how this works its magic biyatch
 
 /datum/status_effect/buff/hermes_trismegistus/on_apply()

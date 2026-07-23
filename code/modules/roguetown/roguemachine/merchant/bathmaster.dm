@@ -35,6 +35,7 @@
 	var/church_tithe_collected_here = 0
 	var/list/categories = list(
 		"Alcohols",
+		"Bath Supplies",
 		"Discreet Zads",
 		"Drugs",
 		"Exotic Apparel",

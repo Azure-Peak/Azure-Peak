@@ -150,6 +150,11 @@
 	desc = span_blue("I feel soothed in this warm, clean water.")
 	timer = 1 MINUTES
 
+/datum/stressevent/bathbomb
+	stressadd = -1
+	desc = span_blue("The softly-scented water calms and refreshes.")
+	timer = 5 MINUTES
+
 /datum/stressevent/bathwater/on_apply(mob/living/user)
 	. = ..()
 	if(user.client)
@@ -454,7 +459,7 @@
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A sweet-tart sensation on the tongue."))
-	
+
 /datum/stressevent/applesmoke
 	timer = 1 MINUTES
 	stressadd = -1
@@ -464,32 +469,32 @@
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_purple("A pleasant feeling of rawness and bitterness on the tongue."))
-	
+
 /datum/stressevent/strawberrysmoke
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling of sourness and sweetness on the tongue."))
-	
+
 /datum/stressevent/carrotsmoke
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling of very carrot on the tongue."))
-	
+
 /datum/stressevent/limesmoke
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling of sweet and refreshing on the tongue."))
-	
+
 /datum/stressevent/salviasmoke
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling spicy, earthy and bitter on the tongue."))
-	
+
 /datum/stressevent/valerianasmoke
 	timer = 1 MINUTES
 	stressadd = -1
 	desc = list(span_blue("A pleasant feeling bitter-spicy and tart on the tongue."))
-	
+
 /datum/stressevent/zweed
 	timer = 5 MINUTES
 	stressadd = -2
