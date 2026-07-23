@@ -254,6 +254,9 @@
 	if(!istype(bush))
 		to_chat(user, span_warning("I don't think that will do anything beneficial."))
 		return
+	if(istype(bush, /obj/structure/flora/roguegrass/herb/manabloom)) // manabloom is mapping-only and too limited to allow people to delete
+		to_chat(user, span_warning("The arcyne energies in [bush] would make this process too dangerous for even me."))
+		return
 	var/obj/structure/flora/roguegrass/result = pickweight(results)
 	if(result)
 		var/obj/instantiated = new result(O.loc)
