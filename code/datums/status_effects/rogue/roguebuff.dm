@@ -918,7 +918,7 @@
 	return TRUE
 
 /datum/status_effect/buff/psyhealing/tick()
-	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN)) 
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	if(HAS_TRAIT(owner, TRAIT_HALFHEAL))
 		healing_on_tick /= 2
@@ -966,7 +966,7 @@
 	name = "Processing: Refined"
 	desc = "I am currently processing refined minerals, greatly regenerating my shell's integrity."
 	icon_state = "buff"
-	
+
 /atom/movable/screen/alert/status_effect/buff/gemmuncher
 	name = "Processing: Gem"
 	desc = "I am currently processing an arcyne conduit, efficiently regenerating my shell's integrity and reinvigorating my core."
@@ -1292,13 +1292,21 @@
 /datum/status_effect/buff/knowledgerituos
 	id = "zizoritual" //No stacking
 	alert_type = /atom/movable/screen/alert/status_effect/buff/knowledgerituos
-	effectedstats = list(STATKEY_INT = 3)
 	duration = 25 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/knowledgerituos
 	name = "Insightful Chant"
 	desc = "Zizo's mandate and her absolute truth reshapes my mynd, bringing me clarity from ignorance. But the light of Astrata desperately tries to blind me from her vision."
 
+/datum/status_effect/buff/knowledgerituos/on_creation(mob/living/new_owner)
+	var/is_heretic = istype(owner.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy)
+	var/stat_change = 0
+	if(is_heretic || owner.mind.has_antag_datum(/datum/antagonist/skeleton)) //heretics/skeletons, get less effect. As to not 360 the lich skeleton meta.
+		stat_change = 2
+	else
+		stat_change = 3
+	effectedstats = list(STATKEY_INT = stat_change)
+	. = ..()
 
 /datum/status_effect/buff/knowledgerituos/on_apply()
 	. = ..()
@@ -1327,16 +1335,14 @@
 
 /datum/status_effect/buff/utilityrituos/on_apply()
 	. = ..()
-	to_chat(owner, span_warning("My mynd and talent bends to Zizo's will, I learn and work unnaturally fast."))
+	to_chat(owner, span_warning("My mynd and talent bends to Zizo's will, I learn unnaturally fast."))
 	ADD_TRAIT(owner, TRAIT_JACKOFALLTRADES, MAGIC_TRAIT)
-	ADD_TRAIT(owner, TRAIT_MASTER_MASON, MAGIC_TRAIT)
 
 
 /datum/status_effect/buff/utilityrituos/on_remove()
 	. = ..()
 	to_chat(owner, span_warning("Zizo's will loosens upon my mynd and everything slows back to normal."))
 	REMOVE_TRAIT(owner, TRAIT_JACKOFALLTRADES, MAGIC_TRAIT)
-	REMOVE_TRAIT(owner, TRAIT_MASTER_MASON, MAGIC_TRAIT)
 
 
 /atom/movable/screen/alert/status_effect/buff/flylordstriage
@@ -2499,7 +2505,7 @@
 	id = "Stagehand"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/stagehands_silence
 	duration = 20 MINUTES
-	// this was supposed to only apply if you had less than 12 speed but it broke whenever other spd mods applied. 
+	// this was supposed to only apply if you had less than 12 speed but it broke whenever other spd mods applied.
 	// i couldnt fix it, unfortunately.
 	// IF people use it to game just fucking remove it we cant have shiut in thjis codebase anymore
 	effectedstats = list(STATKEY_SPD = 1)
@@ -2514,7 +2520,7 @@
 	to_chat(owner, span_warning("My footsteps feel lighter and quieter. What is that droning sound in my head...?"))
 	// inspired by matthiosmuffle
 	ADD_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, "xylixboon")
-	ADD_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon") 
+	ADD_TRAIT(owner, TRAIT_LIGHT_STEP, "xylixboon")
 
 
 /datum/status_effect/buff/stagehands_silence/on_remove()
@@ -2552,7 +2558,7 @@
 	var/gave_buff = FALSE
 
 /atom/movable/screen/alert/status_effect/buff/hermes_trismegistus
-	name = "Hermetick Blessing" // yes, hermetick. with a k. 
+	name = "Hermetick Blessing" // yes, hermetick. with a k.
 	desc = "Looking at HERMES has given me a blessing of the Stars... written words begin to make more sense." // dont ask how this works its magic biyatch
 
 /datum/status_effect/buff/hermes_trismegistus/on_apply()

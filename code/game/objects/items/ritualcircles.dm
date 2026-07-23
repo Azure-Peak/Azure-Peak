@@ -75,10 +75,10 @@
 			continue
 		ritual_item.AddComponent(/datum/component/kit_owner, target_ckey, slot_key)
 
-// This'll be our tutorial ritual for those who want to make more later, let's go into details in comments, mm? - Onutsio 
+// This'll be our tutorial ritual for those who want to make more later, let's go into details in comments, mm? - Onutsio
 /obj/structure/ritualcircle/astrata
 	name = "Rune of the Sun" // defines name of the circle itself
-	icon_state = "astrata_chalky" // the icon state, so, the sprite the runes use on the floor. As of making, we have 6, each needs an active/inactive state. 
+	icon_state = "astrata_chalky" // the icon state, so, the sprite the runes use on the floor. As of making, we have 6, each needs an active/inactive state.
 	desc = "A holy rune of <font color='ffbe00'>Astrata.</font> </br> <i>Warmth irradiates from the rune.</i>" // description on examine
 	var/solarrites = list("Guiding Light") // This is important - This is the var which stores every ritual option available to a ritualist - Ideally, we'd have like, 3 for each God. Right now, just 1.
 
@@ -249,7 +249,7 @@
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Justice", src) as null|anything in ravoxrites
-	switch(riteselection) 
+	switch(riteselection)
 		if("Vow to Ravox") // Ideally stick to this style for rites. Early returns + negatives. Minimises the "pyramid" shape you can see in Astrata, which I've left untouched for now -- CODEATHON
 			var/target = user
 			if(!do_after(user, 5 SECONDS))
@@ -334,7 +334,7 @@
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			pestraaura(target)
 			spawn(120)
-				icon_state = "pestra_chalky"						
+				icon_state = "pestra_chalky"
 
 /obj/structure/ritualcircle/pestra/proc/flylordstriage(src)
 	var/ritualtargets = view(0, loc)
@@ -808,7 +808,7 @@
 /obj/structure/crystal_spire/Initialize()
 	. = ..()
 	spawn_fiends(1, initial_fiend)
-	
+
 	next_fiend_time = world.time + spawn_timer
 	next_expansion_time = world.time + expansion_timer
 
@@ -897,7 +897,7 @@
 /obj/structure/crystal_spire/proc/start_conversion()
 	converting = TRUE
 	resistance_flags |= INDESTRUCTIBLE
-	
+
 	add_filter(ABYSSAL_GLOW_FILTER, 2, list("type" = "outline", "color" = "#6A0DAD", "alpha" = 0, "size" = 2))
 	update_icon()
 
@@ -919,7 +919,7 @@
 		// Skip if already converted
 		if(istype(T, /turf/open/floor/rogue/dark_ice))
 			continue
-	
+
 		// Calculate distance from center
 		// P.S I hate math :)
 		var/dx = abs(T.x - center.x)
@@ -1106,7 +1106,7 @@
 				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
-			for(var/mob/living/carbon/human/persononrune in onrune) 
+			for(var/mob/living/carbon/human/persononrune in onrune)
 				if(persononrune.stat == DEAD)
 					folksonrune += persononrune
 			var/target = input(user, "Choose a supplicant") as null|anything in folksonrune
@@ -1473,7 +1473,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				spawn(115)
 					icon_state = "zizo_chalky"
 
-		if("Chant of Insight") //+3 int and perfect nitevision, at the price of sunlight sensitivity
+		if("Chant of Insight") //+2 int and perfect nitevision, at the price of sunlight sensitivity
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("ZIZO! ZIZO! DAME OF PROGRESS!!")
@@ -1885,7 +1885,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
 			graggararmor(target, helm_choice, armor_choice)
 			spawn(120)
-				icon_state = "graggar_chalky" 
+				icon_state = "graggar_chalky"
 		if("War Ritual")
 			to_chat(user, span_userdanger("This rite will get me more tired than usual... I wonder, should I proceed?"))
 			if(!do_after(user, 5 SECONDS))
@@ -1905,7 +1905,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			else
 				to_chat(user, span_warning("The ritual fails. A noble, a member of the Inquisition or a Tennite clergy member must be in the center of the circle!"))
 			spawn(120)
-				icon_state = "graggar_chalky" 
+				icon_state = "graggar_chalky"
 
 /obj/structure/ritualcircle/graggar/proc/graggararmor(mob/living/carbon/human/target, helm_choice, armor_choice)
 	if(!HAS_TRAIT(target, TRAIT_HORDE))
@@ -2109,7 +2109,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			user.apply_status_effect(/datum/status_effect/joybringer)
-	
+
 			return TRUE
 
 /obj/structure/ritualcircle/baotha/proc/baothaarmaments(mob/living/carbon/human/target)
@@ -2186,15 +2186,15 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	loc.visible_message(span_warning("[user] firmly places a hand on [weapon] and straightens, adopting a posture of absolute discipline."))
 	user.say("Lyving or dead, it matters not; I beseech thee for but a final slimmer of thine power, to bring order to a world of naught!")
 	to_chat(user, span_notice("You focus your entire will upon the tool, feeling a chilling depletion in your core."))
-	
+
 	if(!do_after(user, 4 SECONDS))
 		return FALSE
 
 	loc.visible_message(span_userdanger("A ghostly, icy silver light visibly drains from [user]'s hand, surging into [weapon] — the very essence of their steadfastness!"))
-	
+
 	if(!do_after(user, 4 SECONDS))
 		return FALSE
-	
+
 	loc.visible_message(span_cultsmall("[weapon] flares with a cold glimmer, having absorbed the sacrifice! [user] appears visibly drained and cold."))
 	playsound(loc, 'sound/magic/churn.ogg', 100, FALSE, -1)
 
