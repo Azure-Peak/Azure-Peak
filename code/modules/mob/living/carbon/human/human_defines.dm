@@ -12,6 +12,13 @@
 	buckle_lying = FALSE
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	var/taints_loot = FALSE
+	/// Whether this character has spent their one-time natural-claw appearance choice.
+	var/cosmetic_claws_configured = FALSE
+	/// Cosmetic claw presentation copied onto an ordinary punch intent. Keeping INTENT_HARM's exact type to safekeep every hand interaction.
+	var/cosmetic_claw_intent
+	/// Selected hit and miss sounds for the cosmetic claw-punch intent.
+	var/cosmetic_claw_hitsound = "bluntwooshmed"
+	var/cosmetic_claw_miss_sound = "bluntwooshmed"
 
 	ambushable = 1
 
@@ -52,7 +59,7 @@
 	var/accessory = "None"
 	var/detail = "None"
 	var/marking = "None"
-	
+
 	var/shavelevel = 0
 	var/breathe_tick = 0 // Used for gas mask delays.
 	var/socks = "Nude" //Which socks the player wants
@@ -146,7 +153,7 @@
 	var/examine_theme
 	var/list/img_gallery = list()
 	var/list/nsfw_img_gallery = list()
-	
+
 
 	possible_rmb_intents = list(/datum/rmb_intent/feint,\
 	/datum/rmb_intent/aimed,\

@@ -1,8 +1,9 @@
 import { SealLine } from './Seals';
 import { writParagraph } from './shared';
 
-export const OreVeinWrit = (props: {
-  pickupRegion?: string | null;
+export const TownerWrit = (props: {
+  intro?: string;
+  sealNote?: string;
   reward: number;
   levyRate: number;
   levyExempt: boolean;
@@ -12,7 +13,8 @@ export const OreVeinWrit = (props: {
   bearer?: string;
 }) => {
   const {
-    pickupRegion,
+    intro,
+    sealNote,
     reward,
     levyRate,
     levyExempt,
@@ -23,22 +25,14 @@ export const OreVeinWrit = (props: {
   } = props;
   const showLevy = !levyExempt && levyRate > 0;
   const net = showLevy ? Math.round(reward * (1 - levyRate)) : reward;
-  const minerName = issuedBy || 'the miner';
-  const region = pickupRegion || 'the deep places';
+  const posterName = issuedBy || 'the poster';
   return (
     <>
       <p style={writParagraph}>
-        <i>By the trade&apos;s own purse and seal:</i>
+        <i>Be it known, under {posterName}&apos;s own hand and seal:</i>
       </p>
-      <p style={writParagraph}>
-        {minerName} hath prospected a vein within {region} - elemental guarded.
-        They call for hands to escort them to the strike and to thin the host of
-        elementals while they work the rock.
-      </p>
-      <p style={writParagraph}>
-        The vein erupts only when {minerName} arrives. Once it does, fellowship
-        and miner alike may swing on the seams; the ore is theirs by agreement.
-      </p>
+      {!!intro && <p style={writParagraph}>{intro}</p>}
+      {!!sealNote && <p style={writParagraph}>{sealNote}</p>}
       <p style={writParagraph}>
         For this work the bearer is paid <b>{reward} mammon</b>
         {showLevy ? (

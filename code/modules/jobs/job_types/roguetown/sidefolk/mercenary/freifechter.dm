@@ -42,10 +42,9 @@
 	gloves = /obj/item/clothing/gloves/roguetown/angle/freifechter
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
-	backpack_contents = list(
+	backpack_contents = list(							//DO NOT GIVE THEM MONEY. THEY ARE NOT SUPPOSED TO START WITH ANY. IT IS INTENDED.
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/poor
 		)
 	if(H.mind)
 		var/weapons = list(
@@ -107,10 +106,9 @@
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 	id = /obj/item/rogueweapon/katar/punchdagger/frei
-	backpack_contents = list(
+	backpack_contents = list(						//DO NOT GIVE THEM MONEY. THEY ARE NOT SUPPOSED TO START WITH ANY. IT IS INTENDED.
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/poor
 		)
 	if(H.mind)
 		var/weapons = list(
@@ -169,8 +167,7 @@
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
-		/obj/item/natural/bundle/cloth/bandage/full = 1,
-		/obj/item/storage/belt/rogue/pouch/coins/poor
+		/obj/item/natural/bundle/cloth/bandage/full = 1,						//DO NOT GIVE THEM MONEY. THEY ARE NOT SUPPOSED TO START WITH ANY. IT IS INTENDED.
 		)
 	if(H.mind)
 		var/armors = list(

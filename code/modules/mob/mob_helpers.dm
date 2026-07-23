@@ -562,6 +562,9 @@
 	if(hud_used?.action_intent)
 		hud_used.action_intent.switch_intent(r_index,l_index,oactive)
 
+/mob/proc/apply_intent_customizations(datum/intent/intent)
+	return
+
 /mob/proc/update_a_intents()
 	if(QDELETED(src))
 		return
@@ -587,6 +590,8 @@
 			possible_a_intents += new defintent(src, Masteritem)
 		else
 			possible_a_intents += new defintent(src)
+	for(var/datum/intent/intent as anything in possible_a_intents)
+		apply_intent_customizations(intent)
 	Masteritem = get_inactive_held_item()
 	if(Masteritem)
 		intents = Masteritem.possible_item_intents
@@ -605,6 +610,8 @@
 			possible_offhand_intents += new defintent(src, Masteritem)
 		else
 			possible_offhand_intents += new defintent(src)
+	for(var/datum/intent/intent as anything in possible_offhand_intents)
+		apply_intent_customizations(intent)
 	if(hud_used?.action_intent)
 		if(active_hand_index == 1)
 			hud_used.action_intent.update_icon(possible_a_intents,possible_offhand_intents,oactive)

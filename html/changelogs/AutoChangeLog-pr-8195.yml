@@ -1,7 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Tried to make client weather less expensive, report oddities especially with transition between indoor and outdoor area"
-  - rscadd: "Optimized the progress bar significantly. Report any oddity."
-  - rscadd: "Optimized AI cooldown call for find_and_set behaviors, which covers finding and eating food. Report oddities related to these."
-  - rscadd: "Stop_looking() should no longer unconditionally reset and animate your perspective when you are not looking up / down and costs us 1% CPU seconds for no good reasons."

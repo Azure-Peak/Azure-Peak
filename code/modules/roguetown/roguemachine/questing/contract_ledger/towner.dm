@@ -1,4 +1,5 @@
 GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
+	TOWNER_POSTING_TIER_EASY = TOWNER_POSTING_COST_EASY,
 	TOWNER_POSTING_TIER_MEDIUM = TOWNER_POSTING_COST_MEDIUM,
 	TOWNER_POSTING_TIER_HARD = TOWNER_POSTING_COST_HARD,
 ))
@@ -6,11 +7,10 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	QUEST_TOWNER_SMITH_CARAVAN = list(
 		"label" = "A Caravan Gone Missing",
-		"blurb" = "A wagon of yours was lost on the road. Hire hands to escort you to the wreck.",
+		"blurb" = "A wagon of yours was lost on the road. Hire hands to secure the wreck and bring the strongbox home.",
 		"rules" = list(
-			"You must reach the wreck yourself for the strongbox to surface.",
-			"Once the bearer reaches the wreck, you have 20 minutes to follow.",
-			"If the trail goes cold, your posting fee is refunded.",
+			"The strongbox is magickally sealed to you - only you can open it.",
+			"You need not travel; the bearer brings the strongbox to you.",
 		),
 		"postable_advclasses" = list(
 			/datum/advclass/blacksmith,
@@ -21,12 +21,10 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	),
 	QUEST_TOWNER_MINER_OREVEIN = list(
 		"label" = "A Miner's Lead",
-		"blurb" = "You have prospected an elemental guarded vein. Hire hands to clear the guardians while you work the rock.",
+		"blurb" = "You have prospected an elemental guarded vein and mined a good haul, before the guardians drove you away. Hire hands to slay the elementals and haul out the crate.",
 		"rules" = list(
-			"You must reach the vein yourself - the earth only erupts when you arrive.",
-			"Once the bearer reaches the vein, you have 30 minutes before the vein closes.",
-			"The fellowship may help you mine - the ore is yours by agreement, not by enchantment.",
-			"If the vein closes before erupting, your posting fee is refunded.",
+			"The crate is magickally sealed to you - only you can open it.",
+			"You need not travel; the bearer brings the crate to you.",
 		),
 		"postable_advclasses" = list(
 			/datum/advclass/miner,
@@ -44,7 +42,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		return null
 	return AC.type
 
-/proc/user_can_post_towner_type(mob/user, posting_type)
+/proc/towner_trade_can_post(mob/user, posting_type)
 	var/list/desc = GLOB.towner_posting_descriptors[posting_type]
 	if(!desc)
 		return FALSE
@@ -52,6 +50,27 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	if(!path)
 		return FALSE
 	return (path in desc["postable_advclasses"])
+
+/proc/user_can_post_crown_towner(mob/user)
+	if(!user)
+		return FALSE
+	if(user.job in GLOB.crown_authority_roles)
+		return TRUE
+	if(SSticker?.regentmob == user)
+		return TRUE
+	return FALSE
+
+/proc/towner_posting_is_crown_funded(mob/user, posting_type)
+	if(towner_trade_can_post(user, posting_type))
+		return FALSE
+	return user_can_post_crown_towner(user)
+
+/proc/user_can_post_towner_type(mob/user, posting_type)
+	if(!GLOB.towner_posting_descriptors[posting_type])
+		return FALSE
+	if(towner_trade_can_post(user, posting_type))
+		return TRUE
+	return user_can_post_crown_towner(user)
 
 /proc/user_can_post_any_towner(mob/user)
 	for(var/posting_type in GLOB.towner_posting_descriptors)
@@ -68,6 +87,12 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 			out += n
 	return out
 
+/proc/towner_bearer_summary(tier)
+	var/bonus = GLOB.towner_tier_flat_bonus[tier] || 0
+	if(bonus > 0)
+		return "combat & distance pay + [bonus]m bonus"
+	return "combat & distance pay"
+
 /proc/towner_tier_summary(posting_type, tier)
 	switch(posting_type)
 		if(QUEST_TOWNER_SMITH_CARAVAN)
@@ -75,21 +100,21 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 			var/poster_summary = "?"
 			if(ranges)
 				poster_summary = "[ranges["iron"][1]]-[ranges["iron"][2]] iron, [ranges["bronze"][1]]-[ranges["bronze"][2]] bronze, [ranges["steel"][1]]-[ranges["steel"][2]] steel"
-			var/bonus = (tier == TOWNER_POSTING_TIER_HARD) ? TOWNER_CARAVAN_FLAT_BONUS_HARD : TOWNER_CARAVAN_FLAT_BONUS_MEDIUM
 			return list(
-				"bearer_summary" = "combat & distance pay + [bonus]m bonus",
+				"bearer_summary" = towner_bearer_summary(tier),
 				"poster_summary" = poster_summary,
 			)
 		if(QUEST_TOWNER_MINER_OREVEIN)
-			var/clusters = (tier == TOWNER_POSTING_TIER_HARD) ? TOWNER_OREVEIN_CLUSTER_COUNT_HARD : TOWNER_OREVEIN_CLUSTER_COUNT_MEDIUM
-			var/bonus = (tier == TOWNER_POSTING_TIER_HARD) ? TOWNER_OREVEIN_FLAT_BONUS_HARD : TOWNER_OREVEIN_FLAT_BONUS_MEDIUM
 			var/poster_summary
-			if(tier == TOWNER_POSTING_TIER_HARD)
-				poster_summary = "[clusters] clusters: each yields cinnabar + iron + a windfall of gold, gems, or a richer iron seam"
-			else
-				poster_summary = "[clusters] clusters: each yields iron + coal, with a chance of gold"
+			switch(tier)
+				if(TOWNER_POSTING_TIER_HARD)
+					poster_summary = "26-34 iron, 14-18 coal, 5-8 cinnabar, 3-5 gold, and two or three gems"
+				if(TOWNER_POSTING_TIER_MEDIUM)
+					poster_summary = "18-24 iron, 10-14 coal, 3-4 cinnabar, a bar or two of gold, and a good chance of a gem"
+				else
+					poster_summary = "13-18 iron, 8-11 coal, with a fair chance of gold"
 			return list(
-				"bearer_summary" = "combat pay + [bonus]m bonus",
+				"bearer_summary" = towner_bearer_summary(tier),
 				"poster_summary" = poster_summary,
 			)
 	return list("bearer_summary" = "?", "poster_summary" = "?")
@@ -98,9 +123,13 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	var/list/out = list()
 	for(var/posting_type in GLOB.towner_posting_descriptors)
 		var/list/desc = GLOB.towner_posting_descriptors[posting_type]
+		var/crown_funded = towner_posting_is_crown_funded(user, posting_type)
+		var/cost_mult = crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1
 		var/list/tiers = list()
-		for(var/tier in list(TOWNER_POSTING_TIER_MEDIUM, TOWNER_POSTING_TIER_HARD))
-			tiers[tier] = towner_tier_summary(posting_type, tier)
+		for(var/tier in GLOB.towner_posting_tier_costs)
+			var/list/summary = towner_tier_summary(posting_type, tier)
+			summary["cost"] = GLOB.towner_posting_tier_costs[tier] * cost_mult
+			tiers[tier] = summary
 		out += list(list(
 			"type" = posting_type,
 			"label" = desc["label"],
@@ -108,8 +137,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 			"rules" = desc["rules"] || list(),
 			"eligible" = user_can_post_towner_type(user, posting_type) ? TRUE : FALSE,
 			"eligible_jobs" = towner_advclass_names(desc["postable_advclasses"]),
-			"cost_medium" = TOWNER_POSTING_COST_MEDIUM,
-			"cost_hard" = TOWNER_POSTING_COST_HARD,
+			"crown_funded" = crown_funded ? TRUE : FALSE,
 			"tiers" = tiers,
 		))
 	return out
@@ -134,32 +162,53 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		return
 
 	var/tier = params["tier"]
-	if(tier != TOWNER_POSTING_TIER_MEDIUM && tier != TOWNER_POSTING_TIER_HARD)
+	if(!(tier in GLOB.towner_posting_tier_costs))
 		to_chat(poster, span_warning("That posting tier is not recognised."))
 		return
-	var/cost = GLOB.towner_posting_tier_costs[tier]
+	var/crown_funded = towner_posting_is_crown_funded(poster, chosen_type)
+	var/cost = GLOB.towner_posting_tier_costs[tier] * (crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1)
 	if(!cost)
 		return
 
-	if(!SStreasury.has_account(poster))
-		to_chat(poster, span_warning("You have no account on record."))
-		return
-	if(SStreasury.get_balance(poster) < cost)
-		to_chat(poster, span_warning("Insufficient balance. This posting requires [cost] mammon."))
-		return
+	var/datum/fund/poster_account
+	if(crown_funded)
+		if(!SStreasury.discretionary_fund)
+			to_chat(poster, span_warning("The Crown's Purse is not established."))
+			return
+		if(SStreasury.discretionary_fund.balance < cost)
+			to_chat(poster, span_warning("Insufficient Crown's Purse. Need [cost]m, have [SStreasury.discretionary_fund.balance]m."))
+			return
+		if(!SStreasury.burn(SStreasury.discretionary_fund, cost, "crown towner commission ([chosen_type])"))
+			to_chat(poster, span_warning("The Crown's Purse refused the draft."))
+			return
+	else
+		if(!SStreasury.has_account(poster))
+			to_chat(poster, span_warning("You have no account on record."))
+			return
+		if(SStreasury.get_balance(poster) < cost)
+			to_chat(poster, span_warning("Insufficient balance. This posting requires [cost] mammon."))
+			return
+		poster_account = SStreasury.get_account(poster)
+		if(!poster_account)
+			return
+		if(!SStreasury.transfer(poster_account, SStreasury.discretionary_fund, cost, "towner contract posting ([chosen_type])"))
+			to_chat(poster, span_warning("The treasury refused the draft."))
+			return
 
-	var/datum/fund/poster_account = SStreasury.get_account(poster)
-	if(!poster_account)
-		return
-	if(!SStreasury.transfer(poster_account, SStreasury.discretionary_fund, cost, "towner contract posting ([chosen_type])"))
-		to_chat(poster, span_warning("The treasury refused the draft."))
-		return
-
-	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier)
+	var/to_hand = (params["delivery"] == "hand")
+	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier, to_hand)
 	if(!dispatched)
-		SStreasury.transfer(SStreasury.discretionary_fund, poster_account, cost, "towner contract posting refund (issue failure)")
+		if(crown_funded)
+			SStreasury.mint(SStreasury.discretionary_fund, cost, "crown towner commission refund (issue failure)")
+		else
+			SStreasury.transfer(SStreasury.discretionary_fund, poster_account, cost, "towner contract posting refund (issue failure)")
 		to_chat(poster, span_warning("No landmark could bear that contract. Funds refunded."))
 		return
 
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	to_chat(poster, span_notice("Contract posted: <b>[dispatched.title || dispatched.quest_type]</b> ([tier], [cost]m). The bearer of the contract must bring you along in their fellowship."))
+	var/purse_note = crown_funded ? " Drawn on the Crown's Purse." : ""
+	if(to_hand)
+		to_chat(poster, span_notice("Contract drawn up: <b>[dispatched.title || dispatched.quest_type]</b> ([tier], [cost]m).[purse_note] Hand it over to whomever you want to hire."))
+	else
+		to_chat(poster, span_notice("Contract posted: <b>[dispatched.title || dispatched.quest_type]</b> ([tier], [cost]m).[purse_note] The recovered goods must be opened by you."))
+	log_game("[key_name(poster)] posted towner contract \"[dispatched.title || dispatched.quest_type]\" ([tier], [cost]m, [crown_funded ? "crown purse" : "personal"], [to_hand ? "in hand" : "board"]).")
