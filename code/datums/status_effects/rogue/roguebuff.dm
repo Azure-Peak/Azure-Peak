@@ -1290,13 +1290,13 @@
 
 
 /datum/status_effect/buff/knowledgerituos
-	id = "zizoknowledgerituos"
+	id = "zizoritual" //No stacking
 	alert_type = /atom/movable/screen/alert/status_effect/buff/knowledgerituos
 	effectedstats = list(STATKEY_INT = 3)
 	duration = 25 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/knowledgerituos
-	name = "Knowledge Rituos"
+	name = "Insightful Chant"
 	desc = "Zizo's mandate and her absolute truth reshapes my mynd, bringing me clarity from ignorance. But the light of Astrata desperately tries to blind me from her vision."
 
 
@@ -1312,6 +1312,31 @@
 	to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds."))
 	REMOVE_TRAIT(owner, TRAIT_NITEVISION, MAGIC_TRAIT)
 	REMOVE_TRAIT(owner, TRAIT_SUNLIGHT_SENSITIVE, MAGIC_TRAIT)
+
+
+/datum/status_effect/buff/utilityrituos
+	id = "zizoritual" //No stacking
+	alert_type = /atom/movable/screen/alert/status_effect/buff/utilityrituos
+	//No statbuffs, you're probably using this in a building project, or as antag like a lich.
+	duration = 25 MINUTES
+
+/atom/movable/screen/alert/status_effect/buff/utilityrituos
+	name = "Progressive Trance"
+	desc = "Zizo's mandate and her absolute truth reshapes my mynd, I learn unnaturally fast and my hands work wrydly fast."
+
+
+/datum/status_effect/buff/utilityrituos/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("My mynd and talent bends to Zizo's will, I learn and work unnaturally fast."))
+	ADD_TRAIT(owner, TRAIT_JACKOFALLTRADES, MAGIC_TRAIT)
+	ADD_TRAIT(owner, TRAIT_MASTER_MASON, MAGIC_TRAIT)
+
+
+/datum/status_effect/buff/utilityrituos/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("Zizo's will loosens upon my mynd and everything slows back to normal."))
+	REMOVE_TRAIT(owner, TRAIT_JACKOFALLTRADES, MAGIC_TRAIT)
+	REMOVE_TRAIT(owner, TRAIT_MASTER_MASON, MAGIC_TRAIT)
 
 
 /atom/movable/screen/alert/status_effect/buff/flylordstriage

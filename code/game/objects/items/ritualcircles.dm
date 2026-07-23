@@ -1402,7 +1402,7 @@ Not including armaments, that follows its own niché. Don't put those in line wi
 	name = "Rune of Progress"
 	desc = "A holy rune of <font color='ff0000'>Zizo.</font> </br> <i>Progress at any cost.</i>"
 	icon_state = "zizo_chalky"
-	var/zizorites = list("Rite of Armaments","Knowledge Rituos")
+	var/zizorites = list("Rite of Armaments","Chant of Insight","Progressive Trance")
 
 /obj/structure/ritualcircle/zizo/attack_hand(mob/living/user)
 	if(!..())
@@ -1473,7 +1473,7 @@ Not including armaments, that follows its own niché. Don't put those in line wi
 			spawn(120)
 				icon_state = "zizo_chalky"
 
-		if("Knowledge Rituos") //+3 int and perfect nitevision, at the price of sunlight sensitivity
+		if("Chant of Insight") //+3 int and perfect nitevision, at the price of sunlight sensitivity
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("ZIZO! ZIZO! DAME OF PROGRESS!!")
@@ -1494,6 +1494,35 @@ Not including armaments, that follows its own niché. Don't put those in line wi
 				knowledgerituos(src)
 				spawn(110) //-20 seconds for ritual to proc post lightsnuff
 				icon_state = "zizo_chalky"
+
+		if("Progressive Trance") //Jack of all trades
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("ZIZO! ZIZO! DAME OF PROGRESS!!")
+			playsound(user, 'sound/misc/carriage4.ogg', 100, FALSE, -1)
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("ZIZO! ZIZO! HEED MY CALL!!")
+			playsound(user, 'sound/misc/carriage2.ogg', 100, FALSE, -1)
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("ZIZO! ZIZO! GRANT FORRRTH YOUR MEANS OF PROOOGREESS!!!")
+			icon_state = "zizo_active"
+			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her hands guide your mynd, Progress at any cost."))
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			zizolightsnuff(src)
+			spawn(10)
+				playsound(loc, 'sound/magic/shadowstep.ogg', 200, FALSE, -1)
+				utilityrituos(src)
+				spawn(110) //-20 seconds for ritual to proc post lightsnuff
+				icon_state = "zizo_chalky"
+
+/obj/structure/ritualcircle/zizo/proc/utilityrituos(src)
+	var/ritualtargets = view(7, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		target.apply_status_effect(/datum/status_effect/buff/utilityrituos)
+		new /obj/effect/temp_visual/zizorite(get_turf(target)) //aurafarming
+		to_chat(target, span_purple("There is so little tyme, the fyre is gone. You. You have much to do, make it matter. This world will not wait to last."))
 
 /obj/structure/ritualcircle/zizo/proc/knowledgerituos(src)
 	var/ritualtargets = view(7, loc)
