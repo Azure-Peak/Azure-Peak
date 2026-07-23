@@ -1484,7 +1484,7 @@ Not including armaments, that follows its own niché. Don't put those in line wi
 			playsound(user, 'sound/misc/carriage2.ogg', 100, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("ZIZO! ZIZO! TRUTH AGAINST A WORLD OF IGNORAAAAANCE!!")
+			user.say("ZIZO! ZIZO! TRUTH AGAINST A WORLD OF IGNORAANCE!!")
 			icon_state = "zizo_active"
 			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her darkness now guides you, for the light now spurns you."))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
