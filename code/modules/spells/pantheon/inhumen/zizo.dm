@@ -524,7 +524,8 @@
 	return TRUE
 
 /datum/action/cooldown/spell/zizo/bestowcant/lich
-	primary_resource_cost = 0
+	primary_resource_type = SPELL_COST_ENERGY //just so we hop off the devotion system.
+	primary_resource_cost = 30
 	associated_skill = /datum/skill/magic/arcane
 	required_items = null
 
