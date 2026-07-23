@@ -300,6 +300,8 @@
 	sleevetype = null
 	sleeved = null
 	armor_class = ARMOR_CLASS_NONE
+	grid_width = 64
+	grid_height = 64
 
 /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 	name = "sea jacket"
