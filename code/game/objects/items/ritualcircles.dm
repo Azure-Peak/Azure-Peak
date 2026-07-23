@@ -1391,12 +1391,9 @@
 /*
 Zizo, the Dame of Progress, Undeath, Artifice and Hubris.
 
-Her rites are never a straight-buff. Such rituals should always have a drawback, for great power.
-Her miracle + Aspects linger around Undeath and Magics w/ a hatred for the state of the world:
+Uniquely has rituals that are either traits to PROGRESS (hehe) faster, or buffs w/ powerful boons and drawbacks.
 
- so int boosts, intelligence and general auras of absolute inzanity fall right into her path and design.
-
-Not including armaments, that follows its own niché. Don't put those in line with the design of the rest of ritual here. They're meant to stand out.
+More uniquely, her rites always cut out the light in the room, then proc. 10 seconds is good enough.
 */
 /obj/structure/ritualcircle/zizo
 	name = "Rune of Progress"
@@ -1464,14 +1461,17 @@ Not including armaments, that follows its own niché. Don't put those in line wi
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "zizo_active"
-			new /obj/effect/temp_visual/zizorite(get_turf(target))
-			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
-			if(is_heretic)
-				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			zizoarmaments(target, helm_choice, armor_choice)
-			spawn(120)
-				icon_state = "zizo_chalky"
+			zizolightsnuff(src)
+			target.Stun(5) //Long enough to hit them w/ the armaments rite on/next to the circle.
+			spawn(5)
+				new /obj/effect/temp_visual/zizorite(get_turf(target))
+				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+				var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
+				if(is_heretic)
+					user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
+				zizoarmaments(target, helm_choice, armor_choice)
+				spawn(115)
+					icon_state = "zizo_chalky"
 
 		if("Chant of Insight") //+3 int and perfect nitevision, at the price of sunlight sensitivity
 			if(!do_after(user, 5 SECONDS))
