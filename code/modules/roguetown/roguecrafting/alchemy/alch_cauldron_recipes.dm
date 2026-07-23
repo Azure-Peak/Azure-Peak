@@ -183,8 +183,13 @@
 
 /datum/alch_cauldron_recipe/trait/negative/singing
 	name = "Xylix's Boon"
-	smells_like = "whimsy"
+	smells_like = "exuberance"
 	output_reagents = list(/datum/reagent/medicine/trait/negative/singing = 30)
+
+/datum/alch_cauldron_recipe/trait/negative/funnyvoice
+	name = "Xylix's Bane"
+	smells_like = "whimsy"
+	output_reagents = list(/datum/reagent/medicine/trait/negative/funnyvoice = 30)
 
 /datum/alch_cauldron_recipe/repairelixir
 	name = "Elixir of Restoring"

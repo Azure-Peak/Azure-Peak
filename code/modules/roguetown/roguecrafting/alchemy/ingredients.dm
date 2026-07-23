@@ -710,6 +710,14 @@
 	complete_pot = /datum/alch_cauldron_recipe/trait/negative/singing
 	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/arcyne)
 
+/obj/item/alch/reagent_funnyvoice
+	name = "Weave of the Tragedian"
+	icon_state = "whitepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	desc = "A potent alchemical creation, the world feels lighter in its presence."
+	complete_pot = /datum/alch_cauldron_recipe/trait/negative/funnyvoice
+	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/arcyne)
+
 /obj/item/alch/reagent_mending
 	name = "Careworn Respite"
 	icon_state = "whitepowder"

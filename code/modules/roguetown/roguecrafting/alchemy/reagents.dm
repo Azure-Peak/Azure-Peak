@@ -777,27 +777,26 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	addmsg = "I feel a sense of restlessness. I doubt I'll get much out of sleep, now."
 	delmsg = "The restless feeling fades."
 
-// nonfunctional since the removal of accent code
-// /datum/reagent/medicine/trait/negative/funnyvoice
-// 	name = "Xylix's Bane"
-// 	description = "Alters the vocal chords, inflicting a silly voice on the imbiber."
-// 	taste_description = "a slight sweetness"
-// 	scent_description = "sweetness"
-// 	trait = TRAIT_COMICSANS
-// 	color = "#fff789"
-// 	addmsg = "I feel something in my throat shift."
-// 	delmsg = "My voice returns to normal."
+/datum/reagent/medicine/trait/negative/funnyvoice
+	name = "Xylix's Bane"
+	description = "Alters the vocal chords, inflicting a silly voice on the imbiber."
+	taste_description = "a slight sweetness"
+	scent_description = "sweetness"
+	trait = TRAIT_COMICSANS
+	color = "#fff789"
+	addmsg = "I feel something in my throat shift."
+	delmsg = "My voice returns to normal."
 
-// /datum/reagent/medicine/trait/negative/funnyvoice/on_mob_metabolize(mob/living/L)
-// 	. = ..()
-// 	RegisterSignal(L, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+/datum/reagent/medicine/trait/negative/funnyvoice/on_mob_metabolize(mob/living/L)
+	. = ..()
+	RegisterSignal(L, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
-// /datum/reagent/medicine/trait/negative/funnyvoice/on_mob_metabolize(mob/living/L)
-// 	. = ..()
-// 	UnregisterSignal(L, COMSIG_MOB_SAY)
+/datum/reagent/medicine/trait/negative/funnyvoice/on_mob_end_metabolize(mob/living/L)
+	. = ..()
+	UnregisterSignal(L, COMSIG_MOB_SAY)
 
-// /datum/reagent/medicine/trait/negative/funnyvoice/proc/handle_speech(datum/source, list/speech_args)
-// 	speech_args[SPEECH_SPANS] |= SPAN_SANS
+/datum/reagent/medicine/trait/negative/funnyvoice/proc/handle_speech(datum/source, list/speech_args)
+	speech_args[SPEECH_SPANS] |= SPAN_SANS
 
 /datum/reagent/medicine/trait/negative/singing
 	name = "Xylix's Boon"

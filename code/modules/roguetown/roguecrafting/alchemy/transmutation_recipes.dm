@@ -488,6 +488,12 @@
 	input_items = list(/obj/item/alch/rosa = 1, /obj/item/alch/calendula = 1) // extremely innocuous ingredients, plus air for xylix's whimsy
 	output_items = list(/obj/item/alch/reagent_singing = 1)
 
+/datum/transmutation_recipe/rubedo/funnyvoice
+	name = "Weave of the Tragedian"
+	materia_aspects = list(/datum/materia_aspect/air)
+	input_items = list(/obj/item/bone = 1, /obj/item/alch/calendula = 1) // you know why.
+	output_items = list(/obj/item/alch/reagent_funnyvoice = 1)
+
 /datum/transmutation_recipe/rubedo/mending
 	name = "Careworn Respite"
 	materia_aspects = list(/datum/materia_aspect/water)
