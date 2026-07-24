@@ -49,7 +49,7 @@
 	unique_sellable = TRUE
 
 /datum/transmutation_recipe/florid/mutationcatalyst
-	name = "Mutatio Substantuation (Transformative Reagent)"
+	name = "Mutatio Substantiation (Transformative Reagent)"
 	materia_aspects = list(/datum/materia_aspect/change)
 	input_items = list(/obj/item/alch/hypericum = 1, /obj/item/alch/salvia = 1, /obj/item/alch/taraxacum = 1) // yes, it's evil sui dust
 	output_items = list(/obj/item/mutation_reagent = 1)
