@@ -247,3 +247,70 @@
 
 /obj/item/roguebin/trash/StorageBlock(obj/item/I, mob/user)
 	return FALSE
+
+// This is specifically NOT a bin child. I am just putting in here BC I dont know a better spot.
+// If we're lucky, I managed to figure out how to hack together base SS13 cryopod storage code.
+// This SHOULD be an indestrucible object that accepts items from the user for storage. Place it at spawnpoints for litter reduction.
+/obj/item/litterbin
+	name = "litterbin"
+	desc = "The Garret-Ambrose litterbin is a convoluted device utilizing previously forbidden teleportation magicks. It is capable \
+	of storing a vast quantity of items, which can be retrieved by any living person through a mental-link. It has been rendered \
+	impervious to all forms of damage, and appears quite stuck in the ground. \
+	\nThis device is sponsored by the Azurean Fellowship of the Arcyne Sciences."
+	// temp icon
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "washbin1"
+	density = TRUE
+	opacity = FALSE
+	anchored = TRUE
+	max_integrity = 0
+	w_class = WEIGHT_CLASS_GIGANTIC
+	item_flags = INDESTRUCTIBLE | LAVA_PROOF | ACID_PROOF
+	var/list/stored_items = list()
+
+/obj/item/litterbin/attackby(obj/item/I, mob/user, params)
+	// hardening: lets make sure that important items that we designate in a helper proc do not go in
+	if(!item_verification_check(I))
+		to_chat(user, span_warning("This item is important! It will not go into the bin!"))
+		return
+	// move it into bin, add item to list. idk why we cant just check contents for it but the cryogenic sleeper code from other servers
+	// did something similar to this & i dont want to risk it!
+	I.forceMove(src)
+	stored_items += I
+	to_chat(user, span_info("I store [I] in the litterbin."))
+
+/obj/item/litterbin/attack_hand(mob/user)
+	. = ..()
+	if(!stored_items.len)
+		to_chat(user, span_warning("There are no items within the litterbin!"))
+		return
+
+	var/obj/item/I = tgui_input_list(user, "SELECT AN ITEM TO RETRIEVE!", "LITTERBIN", stored_items)
+
+	// no items does nothing
+	if(!I)
+		return
+	// if someone else yoinked it before this line ran, no item... :(
+	if(!(I in stored_items))
+		to_chat(user, span_warning("This item is not within the bin!"))
+		return
+
+	// idk why u have to forcemove this shit out of the bin before you put in hand but u do
+	I.forceMove(get_turf(loc))
+	user.put_in_hand(I)
+	stored_items -= I
+	to_chat(user, span_notice("I retrieve [I]!"))
+
+// expandable proc for later. we re-use this when we loop thru objs w/ storage.
+// returns true if the if statements are not met. this is probably expensive as fuck but idk what else to do
+/obj/item/litterbin/proc/item_verification_check(obj/item/I)
+	if(I.is_important)
+		return FALSE
+	if(istype(I, /obj/item/roguekey))
+		return FALSE
+	// recursively check through all containers. i have learned from my mistake, last time. at the same time: recursive proc i vomit
+	if(I.contents.len)
+		for(var/obj/item/contained_item in I.contents)
+			if(!item_verification_check(contained_item))
+				return FALSE
+	return TRUE
