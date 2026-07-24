@@ -1,0 +1,7 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Cre77's lovely plume sprites; two of them. You can now wear a traditional Roman-styled crest and a more fanciful feather-like plume, acquirable either via the Donator or Triumph loadout tabs."
+  - rscadd: "Morphing elixir kit that gives a more traditional, straight crossguard to Psydonic and Enduring Longswords."
+  - rscadd: "Gothic Steel variants of the Fencer, Fluted, and Psydonic Cuirass. The latter has a supplemental morphing kit, in case people prefer using the less ornate style for it."
+  - rscadd: "Greatflail sprites are now touched up a little bit, and an elegant variant is now available."

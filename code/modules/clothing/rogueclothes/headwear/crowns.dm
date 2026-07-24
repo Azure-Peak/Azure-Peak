@@ -95,6 +95,7 @@
 	name = "porcelain circlet"
 	desc = "An ornate circlet made out of porcelain."
 	icon_state = "circlet_porcelain"
+	toggle_icon_state = FALSE
 
 /obj/item/clothing/head/roguetown/circlet/carvedgem/opal
 	name = "opal circlet"

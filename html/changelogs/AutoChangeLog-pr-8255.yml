@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Removes sellprice from the Decablessed Shield, so that it can properly calculate its sellprice based off the crafting materials used in its recipe."
