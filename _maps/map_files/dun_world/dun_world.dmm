@@ -2443,7 +2443,7 @@
 "ays" = (
 /obj/item/roguegem/turq{
 	name = "Sickly Cerulite";
-	desc = "A malformed shard of cerulite whose swirling reflections never seem to settle into a coherent shape. Colors twist and coil beneath its surface like something alive, drawing the eye despite every instinct to look away.Prolonged observation brings with it a subtle nausea, as though the mind rejects what it is seeing. The sensation rarely grows beyond mild discomfort, yet few can gaze upon the stone for long without feeling unwell.Whether the flaw lies within the cerulite or within the viewer is a matter of some debate."
+	desc = "A malformed shard of cerulite whose swirling reflections never seem to settle into a coherent shape. Colors twist and coil beneath its surface like something alive, drawing the eye despite every instinct to look away. Prolonged observation brings with it a subtle nausea, as though the mind rejects what it is seeing. The sensation rarely grows beyond mild discomfort, yet few can gaze upon the stone for long without feeling unwell. Whether the flaw lies within the cerulite or within the viewer is a matter of some debate."
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains)
@@ -10619,12 +10619,6 @@
 	},
 /turf/closed/wall/mineral/rogue/decostone/long/east_west,
 /area/rogue/under/cave/dukecourt)
-"cbW" = (
-/mob/living/carbon/human/species/skeleton/npc/medium,
-/turf/open/floor/rogue/concrete{
-	dir = 8
-	},
-/area/rogue/indoors/cave/northern)
 "cbX" = (
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/grasscold,
@@ -11676,7 +11670,7 @@
 "cmB" = (
 /obj/item/clothing/wrists/roguetown/bracers/psythorns{
 	color = "#964B00";
-	name = "Wrap of Weepvine";
+	name = "wrap of weepvine";
 	desc = "Hardened by the bog's magic, this length of living weepvine coils tightly around its wearer's wrist. The embrace is uncomfortable, even painful, but undeniably protective. Few things are as effective at discouraging unwanted grasps."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -13310,9 +13304,9 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/woods/southeast)
 "cBw" = (
-/obj/item/roguestatue/steel,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/cave/northern)
+/obj/item/roguegem/green,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/dukecourt)
 "cBx" = (
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/grass,
@@ -15353,7 +15347,7 @@
 /area/rogue/outdoors/rtfield)
 "cVH" = (
 /obj/item/rogueweapon/sword/broken{
-	name = "Gnawed Thing";
+	name = "gnawed thing";
 	desc = "Once a consecrated weapon of impeccable balance, its blessings were gnawed from it piece by piece. What remains is little more than a shard, an insult to the faith and purpose it once served."
 	},
 /turf/open/floor/rogue/greenstone,
@@ -19201,7 +19195,7 @@
 /obj/structure/table/finestone,
 /obj/item/roguecoin/aalloy/pile,
 /obj/item/rogueweapon/huntingknife/idagger/steel/bone{
-	name = "Sharpened Femur";
+	name = "sharpened femur";
 	desc = "A makeshift tool darkened by old blood. It remains the sole piece of evidence that heresy, not misfortune, brought ruin to the coastal hamlet. It yearns for blood."
 	},
 /turf/open/floor/rogue/hexstone,
@@ -20282,7 +20276,7 @@
 /obj/structure/table/church/end,
 /obj/effect/spawner/lootdrop/valuable_candle_spawner,
 /obj/item/clothing/cloak/templar/astratan{
-	name = "Eerie Robes";
+	name = "eerie robes";
 	desc = "Robes once worn by a village priest whose devotion was beyond question and whose judgment was not. Their hems are embroidered with passages from the teachings of the Ten Undivided, each thread painstakingly maintained despite the garment's age. The priest claimed to hear a sacred voice within the Litany's words. In time, he came to trust that voice more than the teachings themselves. What followed was not salvation, but ruin. The hamlet fell, its people perished, and every horror was committed in the belief that it served a divine purpose. The robes remain immaculate. The faith within them does not. A grim reminder that the greatest heresies are often preached by those who believe themselves righteous."
 	},
 /turf/open/floor/rogue/church,
@@ -23692,7 +23686,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "ezb" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc,
+/mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc{
+	name = "VEREVOLF"
+	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/cave)
 "ezc" = (
@@ -25525,7 +25521,7 @@
 /obj/item/flowercrown/rosa,
 /obj/item/rogueweapon/sword/long/oldpsysword{
 	name = "Adamant";
-	desc = "This longsword has endured wars, neglect, and generations of owners. The steel bears countless scars, yet none severe enough to claim it. Many hands have wielded it, and many finer swords have been buried in their stead. It remains. It endures.A mundane blade by all appearances, yet it carries within it the resolve of countless warriors whose determination held Psydonia together throughout His slumber. May their strength inspire you."
+	desc = "This longsword has endured wars, neglect, and generations of owners. The steel bears countless scars, yet none severe enough to claim it. Many hands have wielded it, and many finer swords have been buried in their stead. It remains. It endures. A mundane blade by all appearances, yet it carries within it the resolve of countless warriors whose determination held Psydonia together throughout His slumber. May their strength inspire you."
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/shelter)
@@ -27448,7 +27444,7 @@
 /obj/item/clothing/neck/roguetown/psicross/undivided,
 /obj/item/rogueweapon/huntingknife/idagger/silver{
 	desc = "Blessed silver, now stained by the blood of profane rites, all performed in the name of the Ten. Even the purest teachings may be twisted by those who hear only what they wish. This blade begs to be cleansed.";
-	name = "Miscreed"
+	name = "miscreed"
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/beach/north)
@@ -28624,7 +28620,7 @@
 /area/rogue/indoors/cave/underhamlet)
 "fvx" = (
 /obj/item/rogueweapon/halberd/bone{
-	name = "Gnawed Halberd";
+	name = "gnawed halberd";
 	desc = "Countless carvings and gnaw marks mar this troll-bone blade, the remnants of a failed attempt to turn a monstrous trophy into a work of art. Harsh criticism gradually reshaped it into something far cruder, yet far more practical. Sharp, unwieldy, and unnervingly durable, it still retains a trace of the troll's regenerative vitality."
 	},
 /obj/structure/table/wood,
@@ -34941,11 +34937,9 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
 "gFL" = (
-/obj/structure/stairs/stone,
-/turf/open/floor/rogue/concrete{
-	dir = 8
-	},
-/area/rogue/indoors/cave/northern)
+/obj/item/roguegem/blue,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/dukecourt)
 "gFS" = (
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
@@ -36081,7 +36075,7 @@
 /area/rogue/under/underdark/south)
 "gRH" = (
 /obj/item/storage/backpack/rogue/artibackpack{
-	name = "Lost Expedition's Pack";
+	name = "lost expedition's pack";
 	desc = "Despite its age, the pack's intricate mechanisms continue to function flawlessly. Its interior remains surprisingly spacious and pleasantly cool, as though time itself has overlooked it."
 	},
 /turf/open/floor/rogue/dirt/road,
@@ -36248,9 +36242,10 @@
 /area/rogue/outdoors/town)
 "gTx" = (
 /obj/structure/table/wood,
-/obj/item/clothing/head/roguetown/helmet/sallet/visored/gilded{
-	name = "Gilded Geezer";
-	desc = "An antique helm adorned with thin sheets of gold. Upon its rear is a small inscription reading 'GildedGeezer,' though the passage of time has eroded all certainty as to whether this was the smith's moniker or the helm's own name."
+/obj/item/clothing/suit/roguetown/armor/plate/bikini{
+	color = "#FEBD14";
+	name = "modesty";
+	desc = "A suit of gold-lined half-plate that leaves remarkably little to the imagination. The craftsmanship is masterful, the metal priceless, and the protection... selective. It was recovered from a goblin cave, a fact that raises several uncomfortable questions. The goblins were clearly quite proud of the piece, having displayed it prominently among their treasures. It appears used."
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/west)
@@ -39849,7 +39844,7 @@
 "hCG" = (
 /obj/structure/bed/rogue/shit,
 /obj/item/reagent_containers/glass/cup/skull{
-	name = "Evylle Goblet";
+	name = "evylle goblet";
 	desc = "Entirely mundane in construction, yet undeniably evylle in design. Carving a skull into a goblet is questionable enough; leaving the eye sockets open is another matter entirely. Any liquid poured within spills forth as tears, weeping endlessly for the soul sacrificed to create it."
 	},
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -40131,7 +40126,7 @@
 	color = "#87CEEB"
 	},
 /obj/item/rogueweapon/sword/long/hag{
-	name = "Discarded Boon";
+	name = "discarded boon";
 	desc = "When a fae speaks, do not listen. When it offers, do not accept. And as for its gifts, they are best discarded. You now gaze upon the remnants of a bargain long forgotten. Yet a troubling thought lingers still: by taking this thing into your possession, have you also inherited its price?"
 	},
 /turf/open/water/swamp/deep,
@@ -45424,9 +45419,6 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/exposed/magiciantower)
-"iDd" = (
-/turf/open/floor/rogue/blocks/flipped,
-/area/rogue/indoors/cave/northern)
 "iDe" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -46569,7 +46561,7 @@
 "iNK" = (
 /obj/item/rogueweapon/koruu/kukri/silver{
 	name = "Fair Fight";
-	desc = "A kukri of blessed silver bearing the name Fair Fight. It was found beside the cage of a living werewolf, amidst a field of old bones. The beast bore countless silver scars yet stubbornly refused to die. Looking back upon the scene, one cannot help but wonder if the fight was ever meant to be won."
+	desc = "A kukri of blessed silver bearing the name Fair Fight. It was found beside the cage of a living verevolf, amidst a field of old bones. The beast bore countless silver scars yet stubbornly refused to die. Looking back upon the scene, one cannot help but wonder if the fight was ever meant to be won."
 	},
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/dirt/road,
@@ -46869,7 +46861,7 @@
 /obj/structure/table/wood,
 /obj/item/clothing/suit/roguetown/shirt/desertbra{
 	desc = "Found next to a Lamia, this answers the age old question: If given the chance, would they cover up? Nay. They let them hang.";
-	name = "Musty Bra"
+	name = "musty bra"
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/skeletoncrypt)
@@ -48106,6 +48098,10 @@
 /obj/structure/bed/rogue/shit{
 	name = "makeshift bed"
 	},
+/obj/item/rogueweapon/stoneaxe/hurlbat{
+	name = "digga thing";
+	desc = "A well-made hurlbat recovered from a goblin camp, its edges worn smooth not by battle, but by years of enthusiastic digging. Somewhere along the way, the goblins concluded that a perfectly serviceable throwing axe was also an excellent shovel."
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cavewet/bogcaves/west)
 "jcI" = (
@@ -48813,7 +48809,7 @@
 /obj/item/clothing/cloak/raincloak/mortus,
 /obj/item/rogueweapon/shovel/bronze{
 	name = "Undertaker";
-	desc = "A sturdy bronze shovel bearing the name Undertaker. Though forged for honest labor, it has spent far more time opening graves than digging ditches. Its edge is worn smooth by countless burials, and its handle polished by generations of weary hands.Few tools have carried so many to their final rest. Fewer still have done so with such quiet dignity. In the end, every road leads to the Undertaker."
+	desc = "A sturdy bronze shovel bearing the name Undertaker. Though forged for honest labor, it has spent far more time opening graves than digging ditches. Its edge is worn smooth by countless burials, and its handle polished by generations of weary hands. Few tools have carried so many to their final rest. Fewer still have done so with such quiet dignity. In the end, every road leads to the Undertaker."
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/beach/forest/south)
@@ -49678,7 +49674,7 @@
 "jqe" = (
 /obj/structure/closet/crate/drawer,
 /obj/item/needle/bronze{
-	name = "Hollow needle";
+	name = "hollow needle";
 	desc = "This needle's tip has been hollowed out. What was once meant to close wounds was instead used to deliver poison. Time has since bent the implement and clogged its channel, leaving it incapable of such wicked work. It remains serviceable for stitching, though you cannot help but feel uneasy placing it near an open wound."
 	},
 /turf/open/floor/rogue/wood,
@@ -52366,10 +52362,6 @@
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
-"jOZ" = (
-/obj/effect/decal/remains/human,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/cave/northern)
 "jPd" = (
 /obj/structure/table/wood/long_table/east,
 /obj/item/tallowpot{
@@ -53424,7 +53416,7 @@
 "jYC" = (
 /obj/structure/closet/crate/chest/neu,
 /obj/item/clothing/neck/roguetown/psicross/wood{
-	name = "Humble Handcarved Psycross";
+	name = "lovingly handcarved psycross";
 	desc = "This psycross has been meticulously hand-carved. There is nothing remarkable about it, save for the care that went into its creation. It must have meant something to someone, once. Holding it stirs a faint sense of enduring."
 	},
 /obj/item/reagent_containers/glass/bottle/rogue/beer/fireleaf,
@@ -57752,7 +57744,7 @@
 /area/rogue/indoors/town/magician)
 "kON" = (
 /obj/item/bodypart/r_leg/prosthetic/bronzeright{
-	name = "Gnawed Prosthetic";
+	name = "gnawed prosthetic";
 	desc = "It's marred with bite-marks and slightly rusted. With some love and care, it could help someone walk again."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -58794,7 +58786,7 @@
 /area/rogue/under/cave/his_vault)
 "kYw" = (
 /obj/item/rogueweapon/shield/iron/bone{
-	name = "Congealed Scraps";
+	name = "congealed scraps";
 	desc = "Blood, viscera, mud. It holds together, even if just. You can hold it, and it will take blows for you. But why would you?"
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -59945,6 +59937,10 @@
 /area/rogue/outdoors/mountains)
 "ljc" = (
 /obj/structure/table/wood/long_table/right,
+/obj/item/rogueweapon/shield/wood/deprived{
+	name = "propa sheeld";
+	desc = "A collection of wooden planks lashed together and confidently declared a shield. The craftsmanship is unmistakably goblin in origin: crude, improvised, and surprisingly functional. Against arrows, it performs adequately. Against axes, less so. Against goblin standards, it is a masterwork."
+	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave)
 "ljd" = (
@@ -61817,10 +61813,15 @@
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/cavewet/bogcaves/west)
 "lyT" = (
-/turf/open/floor/rogue/concrete{
-	dir = 4
+/obj/structure/bed/rogue/shit{
+	name = "makeshift bed"
 	},
-/area/rogue/indoors/cave/northern)
+/obj/item/tntstick{
+	name = "boomy sticka";
+	desc = "A tightly wrapped stick of blastpowder recovered from a goblin camp. The fuse has been shortened repeatedly, suggesting its previous owners valued enthusiasm over caution. Miraculously, it remains unexploded. Equally miraculously, so did the goblins."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave)
 "lyY" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -62619,8 +62620,12 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "lFT" = (
-/turf/closed/wall/mineral/rogue/stonebrick,
-/area/rogue/indoors/cave/northern)
+/obj/item/clothing/head/roguetown/helmet/heavy/astratan{
+	name = "radiance";
+	desc = ""A bucket helm plated in brilliant gold and worn by the templars of Astrata. Its polished surface catches even the faintest light, ensuring its wearer is seen long before they are heard. It bears the name Radiance, a virtue highly prized by Astrata's faithful. They teach that darkness exists only where the light has yet to impose itself. Doubt, dissent, and disobedience are much the same. The helm shines with uncompromising brilliance. To those who kneel, it is inspiring. To those who do not, it is a warning."
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/orcdungeon)
 "lFW" = (
 /obj/effect/spawner/lootdrop/roguetown/sewers,
 /turf/open/floor/rogue/cobble/mossy,
@@ -65683,7 +65688,6 @@
 /area/rogue/indoors/town/pestra_sanctum)
 "mhf" = (
 /obj/effect/landmark/chest_or_mimic/loot_chest,
-/obj/item/clothing/under/roguetown/platelegs/blacksteel,
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/underdark/north)
 "mhg" = (
@@ -67930,12 +67934,12 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /obj/item/rogueweapon/spear/spellblade{
-	desc = "A sturdy spear named Incentive, invariably employed when Reason failed to make its point. Its edge is well maintained, suggesting it saw frequent use in the settlement of disputes.Most travelers eventually found the wielder's arguments quite persuasive. Those who remained unconvinced rarely remained standing.";
 	name = "Incentive"
+	desc = "A sturdy spear named Incentive, invariably employed when Reason failed to make its point. Its edge is well maintained, suggesting it saw frequent use in the settlement of disputes. Most travelers eventually found the wielder's arguments quite persuasive. Those who remained unconvinced rarely remained standing.";
 	},
 /obj/item/rogueweapon/shield/tower/raneshen{
 	name = "Reason";
-	desc = "A battered shield carried by a bandit who fancied himself a negotiator. Its face is scarred by arrows, axes, and countless failed arguments. Bearing the name Reason, it was presented first in any discussion.The wise accepted its terms and walked away poorer, but alive."
+	desc = "A battered shield carried by a bandit who fancied himself a negotiator. Its face is scarred by arrows, axes, and countless failed arguments. Bearing the name Reason, it was presented first in any discussion. The wise accepted its terms and walked away poorer, but alive."
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/shelter/mountains/decap)
@@ -71576,6 +71580,7 @@
 /obj/structure/table/wood/fancy,
 /obj/item/rogueweapon/sword/short/messer/blacksteel{
 	name = "Rathewer"
+	desc = "A darksteel messer lost to history resigned to inglorious service. Its maker intended it for worthy foes and great deeds, judging by the quality of its construction. Fate, however, had other plans. The blade is slick with the blood of rats and other vermin. Whatever destiny was once imagined for it has long since been traded for practical necessity. And yet, the edge remains keen, the darksteel as resilient as the day it left the forge. It thirsts to gleam in astrata's glare."
 	},
 /turf/open/floor/rogue/metal{
 	icon_state = "plating2"
@@ -72824,9 +72829,6 @@
 /turf/open/floor/carpet/red,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "nDg" = (
-/obj/item/paper{
-	info = "The Inquisition will hardly come search for me here - yet the drow have started to notice my presence in the area. I fear everyday upon which I take breath, risking death by their hand or the Otavans."
-	},
 /obj/structure/table/wood/poor,
 /obj/item/rogueweapon/huntingknife/idagger/steel/stalker{
 	name = "Fang";
@@ -73858,7 +73860,9 @@
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
 	},
-/mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc/f,
+/mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc/f{
+	name = "VEREVOLF"
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
 "nNK" = (
@@ -74933,7 +74937,7 @@
 /area/rogue/indoors/town/dwarfin)
 "nWD" = (
 /obj/item/rogueweapon/pick/paalloy{
-	name = "Defiant Pickaxe";
+	name = "defiant pickaxe";
 	desc = "A well-worn mining pick bearing the name Defiant. It once belonged to a miner who challenged a giant mole for dominion over a rich vein of ore. Refusing to concede even as the tunnel collapsed around them, he saw the contest through to its bitter end. The mole survived to claim victory."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -78294,10 +78298,12 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "oCr" = (
-/turf/open/floor/rogue/concrete{
-	dir = 1
+/obj/item/rogueweapon/spear/improvisedbillhook{
+	name = "dismounter";
+	desc = "A sturdy billhook named Dismounter, its blade scarred by hard use and more than a few poorly judged impacts. The hook remains keen despite the wear, though the haft bears enough repairs to suggest its wielder was often closer to the action than intended."
 	},
-/area/rogue/indoors/cave/northern)
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave)
 "oCv" = (
 /obj/structure/table/wood,
 /obj/item/cooking/platter/gold,
@@ -80740,7 +80746,10 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach/forest/south)
 "oWO" = (
-/obj/item/clothing/neck/roguetown/psicross/dendor,
+/obj/item/clothing/neck/roguetown/psicross/dendor{
+	name = "old dendorite amulet";
+	desc = "That glint in the Volf's eyes... That was not a volf at all. How long has it been?"
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave)
 "oWR" = (
@@ -81448,7 +81457,7 @@
 /obj/machinery/light/rogue/torchholder/c,
 /obj/item/natural/rock/gold{
 	color = "#FFFF00";
-	name = "Chunk of Gold";
+	name = "chunk of gold";
 	desc = "A second glance confirms your suspicion: it is, in fact, just a yellow rock. An unusually heavy one, admittedly."
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -84160,7 +84169,7 @@
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "pFp" = (
 /obj/item/legwears/silk/white{
-	name = "Spidersilk Stockings";
+	name = "spidersilk stockings";
 	desc = "Did spiders make these? The fabric is remarkably uniform, woven as though from a single impossibly long strand. Whatever their origin, these stockings are sinfully luxurious."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -84750,7 +84759,7 @@
 "pKp" = (
 /obj/effect/decal/cleanable/blood/gibs/body,
 /obj/item/clothing/head/roguetown/nyle/consortcrown{
-	name = "Bent Crown";
+	name = "bent circlet";
 	desc = "Inlaid gemstones and opulent craftsmanship cannot change one simple fact: a troll stepped on it."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -85665,7 +85674,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/materials,
 /obj/structure/closet/crate/chest/wicker,
 /obj/item/clothing/ring/aalloy{
-	name = "Tarnished Keepsake";
+	name = "tarnished keepsake";
 	desc = "A frayed coil of bronze, worn smooth by years of handling. It must have meant something to someone once. An empty gem setting rests at its center, and a faint melancholy clings to the otherwise mundane trinket."
 	},
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -88234,35 +88243,35 @@
 /obj/effect/spawner/lootdrop/general_loot_mid/x3,
 /obj/structure/closet/crate/chest/neu_fancy,
 /obj/item/clothing/head/roguetown/helmet/heavy/necrahelm{
-	name = "Bone-Lined Helm";
+	name = "bone-lined helm";
 	desc = "Headwear commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it still serves as a grim reminder of the universal constant: One dae, you will die."
 	},
 /obj/item/rogueweapon/flail/sflail/necraflail,
 /obj/item/clothing/gloves/roguetown/plate/kote{
-	name = "Bone-lined Gauntlets";
+	name = "bone-lined gauntlets";
 	desc = "Handwear commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, they serve as a grim reminder of the universal constant: One dae, you will die."
 	},
 /obj/item/clothing/suit/roguetown/armor/plate/full{
 	desc = "Armor commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it serves as a grim reminder of the universal constant: One dae, you will die.";
-	name = "Bone-lined Armor";
+	name = "bone-lined armor";
 	color = "#808080"
 	},
 /obj/item/clothing/suit/roguetown/shirt/robe/necra,
 /obj/item/clothing/under/roguetown/platelegs/iron/gronn{
-	name = "Bone-lined Chausses";
+	name = "bone-lined chausses";
 	desc = "Armor commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it serves as a grim reminder of the universal constant: One dae, you will die."
 	},
 /obj/item/clothing/wrists/roguetown/bracers/hand{
 	desc = "Armor commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it serves as a grim reminder of the universal constant: One dae, you will die.";
-	name = "Bone-lined Bracers"
+	name = "bone-lined bracers"
 	},
 /obj/item/clothing/shoes/roguetown/boots/armor/iron/gronn{
-	name = "Bone-lined Boots";
+	name = "bone-lined boots";
 	desc = "Armor commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it serves as a grim reminder of the universal constant: One dae, you will die."
 	},
 /obj/item/clothing/neck/roguetown/gorget/aventail{
 	color = "#808080";
-	name = "Bone-lined Gorget";
+	name = "bone-lined gorget";
 	desc = "Armor commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it serves as a grim reminder of the universal constant: One dae, you will die."
 	},
 /turf/open/floor/rogue/church,
@@ -88563,7 +88572,7 @@
 /area/rogue/outdoors/bog/north)
 "qvn" = (
 /obj/item/rogueweapon/mace/woodclub/deprived{
-	name = "Burnt Club";
+	name = "burnt club";
 	desc = "Forged in fire and heat. Unfortunately it's made of wood, so that wasn't the best of ideas."
 	},
 /obj/structure/table/wood,
@@ -89999,8 +90008,11 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/taricheamanor)
 "qIj" = (
-/obj/item/rogueweapon/spear/boar/frei/pike/reformist,
 /obj/structure/table/wood/poker,
+/obj/item/rogueweapon/spear/boar{
+	name = "gutskewer";
+	desc = "A broad-bladed spear whose name leaves little room for interpretation. Gutskewer was not crafted for elegant duels or heroic charges, but for the brutal reality of close combat, where a few inches of steel can decide the fate of a warrior."
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter)
 "qIm" = (
@@ -92497,7 +92509,7 @@
 "rgF" = (
 /obj/item/broom{
 	desc = "A witch could fly with this, probably. Or so the myth goes...";
-	name = "Flying Broom"
+	name = "flying broom"
 	},
 /obj/structure/table/wood,
 /turf/open/floor/rogue/twig,
@@ -101776,7 +101788,7 @@
 "sSF" = (
 /obj/structure/table/wood,
 /obj/item/clothing/head/roguetown/helmet/sallet/iron/banded{
-	name = "Doves Kin";
+	name = "do ves kin";
 	desc = "Hammerholdian design, dented by a drakkyn's claws. It's sharpened rim bids you to hold your head to the sky."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -102088,7 +102100,7 @@
 /area/rogue/under/cave/dukecourt)
 "sVO" = (
 /obj/item/staff/stick{
-	name = "Lost Cane";
+	name = "lost cane";
 	desc = "Carved from a single length of polished wood, this cane once belonged to a gentleman of some refinement. The journey that carried it here has long since been forgotten."
 	},
 /turf/open/floor/rogue/dirt/road,
@@ -105361,10 +105373,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
-"tBb" = (
-/mob/living/carbon/human/species/skeleton/npc/medium,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/cave/northern)
 "tBe" = (
 /obj/structure/stairs/stone{
 	dir = 1
@@ -108663,8 +108671,8 @@
 "uix" = (
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/item/clothing/mask/rogue/spectacles/sglasses{
-	name = "Lost Scholar's Spectacles";
-	desc = "A pair of spectacles crafted from smoky Onyxa, their dark lenses catching and twisting the light into strange patterns. Despite their age, they remain remarkably clear, as though their owner cleaned them one final time before setting them down and never returning.They bear the name Lost Scholar's Spectacles, though neither the scholar nor their field of study is remembered. Looking through the lenses brings an odd sensation of recognition, as if a forgotten insight lingers just beyond reach. The feeling never lasts.Whatever knowledge these spectacles once helped uncover was lost long before the spectacles themselves."
+	name = "lost scholar's spectacles";
+	desc = "A pair of spectacles crafted from smoky Onyxa, their dark lenses catching and twisting the light into strange patterns. Despite their age, they remain remarkably clear, as though their owner cleaned them one final time before setting them down and never returning. Looking through the lenses brings an odd sensation of recognition, as if a forgotten insight lingers just beyond reach. The feeling never lasts. Whatever knowledge these spectacles once helped uncover was lost long before the spectacles themselves."
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/mountains/decap/banditcamp)
@@ -109678,7 +109686,7 @@
 /area/rogue/under/town/sewer)
 "usf" = (
 /obj/item/clothing/cloak/darkcloak/bear{
-	name = "Worn Direbear Pelt";
+	name = "worn direbear pelt";
 	desc = "Strange for a bear to hoard a cloak fashioned from the hide of its own kin. A faint scent of the creature still lingers within the fur. Perhaps it was mourning."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -112477,7 +112485,7 @@
 "uTm" = (
 /obj/structure/table/wood/poor,
 /obj/item/thetoll{
-	name = "Stolen Toll";
+	name = "stolen toll";
 	desc = "A tithe for the carriageman, long overdue. Given the coin's age, one wonders whether it would still be accepted. The blood that seeps from its surface has nearly run dry."
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -114633,8 +114641,8 @@
 /area/rogue/outdoors/mountains)
 "voH" = (
 /obj/item/rogueweapon/mace/warhammer/bronze/decorated{
-	desc = "Cobbled together in elegance. A good looking weapon, considering it's maker; The forgefather sometimes blesses the most unlikely of folk with inspiration. Not a bad weapon either.";
-	name = "Da shiny whacker"
+	desc = "Cobbled together in elegance. A good looking hunk of scrap, considering it's maker; The forgefather sometimes blesses the most unlikely of folk with inspiration. Not a bad weapon either.";
+	name = "da shiny whacker"
 	},
 /obj/structure/table/wood,
 /turf/open/floor/rogue/blocks,
@@ -115736,7 +115744,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/tools,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/aalloy{
 	name = "Bogmans Retort";
-	desc = "An old crossbow, darkened by peat, rain, and years of hard service in the mire. Its stock bears the scars of rough repairs, while its mechanism creaks in protest with every draw.It earned the name Bogman's Retort from those unfortunate enough to mistake a bogman for an easy target. In the bog, words travel poorly through the fog, and answers are often given at range.Age has claimed much of the weapon's former strength, but not its attitude. It remains as stubborn and disagreeable as the people who carried it."
+	desc = "An old crossbow, darkened by peat, rain, and years of hard service in the mire. Its stock bears the scars of rough repairs, while its mechanism creaks in protest with every draw. It earned the name Bogman's Retort from those unfortunate enough to mistake a bogman for an easy target. In the bog, words travel poorly through the fog, and answers are often given at range. Age has claimed much of the weapon's former strength, but not its attitude. It remains as stubborn and disagreeable as the people who carried it."
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter)
@@ -121920,7 +121928,7 @@
 	},
 /obj/item/rogueweapon/spear/blacksteel{
 	name = "Conquest";
-	desc = "There must be sacrifice. HE understood that better than anyone. HE mourns every life lost, every spark of potential extinguished before its time. Yet HE is no fool. HIS faith in the goodness of others does not blind HIM to the needs of the many.To take up this spear is to swear yourself to its namesake: Conquest. Not for glory. Not for ambition. Not for greed.Conquest in the name of peace."
+	desc = "There must be sacrifice. HE understood that better than anyone. HE mourns every life lost, every spark of potential extinguished before its time. Yet HE is no fool. HIS faith in the goodness of others does not blind HIM to the needs of the many. To take up this spear is to swear yourself to its namesake: Conquest. Not for glory. Not for ambition. Not for greed. Conquest in the name of peace."
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/four)
@@ -122599,7 +122607,7 @@
 /obj/effect/spawner/lootdrop/valuable_candle_spawner,
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake/preblessed{
 	name = "Catharsis";
-	desc = "A stake of seasoned wood capped with blessed silver, crafted for the destruction of things that refuse to die with dignity. Its name speaks of relief, release, and the end of suffering."
+	desc = "A stake of seasoned wood tipped with blessed silver, fashioned to destroy those who cling unnaturally to life. May it bring relief, release, and an end to the suffering the accursed refuse to acknowledge."
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors)
@@ -123382,11 +123390,12 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/dwarfin)
 "wWg" = (
-/mob/living/carbon/human/species/skeleton/npc/medium,
-/turf/open/floor/rogue/concrete{
-	dir = 4
+/obj/item/rogueweapon/sword/stone{
+	name = "ekskallibor";
+	desc = "A sharp rock tied to a stick with strips of leather and an almost offensive amount of confidence. By all reasonable measures, it should be firewood. The goblins call it Ekskallibor, and speak of it with the reverence usually reserved for legendary artifacts. According to tribal tradition, it was pulled from a mound of mud by a hero of unmatched strength, wisdom, and personal hygiene. Closer inspection suggests it was more likely assembled from whatever happened to be nearby. The goblins reject this assessment entirely. After all, if it has a name, a legend, and can cave in a skull, what more could a weapon possibly need?"
 	},
-/area/rogue/indoors/cave/northern)
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/under/cave)
 "wWq" = (
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/indoors/town/manor)
@@ -123505,12 +123514,12 @@
 /turf/closed/wall/mineral/rogue/stone/window,
 /area/rogue/outdoors/beach/forest/north)
 "wXx" = (
-/obj/item/roguestatue/iron{
-	pixel_x = 6;
-	pixel_y = -3
+/obj/item/clothing/gloves/roguetown/otavan/psygloves{
+	name = "stickyfingers";
+	desc = "A pair of leather gauntlets draped in old spider silk. The webbing never seems to tear completely, instead clinging stubbornly to the wearer and anything they touch. They are not particularly durable, nor especially impressive to look upon. Yet objects have a curious habit of ending up in the wearer's hands. Coin purses loosen, clasps come undone, and unattended valuables seem just a little easier to acquire. Whether the silk possesses some subtle enchantment or merely encourages bad habits is a matter of debate. Most owners prefer not to discuss where they found them."
 	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/cave/northern)
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/cave)
 "wXy" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/cave/southern)
@@ -124353,8 +124362,8 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave)
 "xgA" = (
-/obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct,
 /obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/scrying,
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/underdark/north)
 "xgE" = (
@@ -124527,10 +124536,6 @@
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/dragonden)
-"xik" = (
-/mob/living/carbon/human/species/skeleton/npc/easy,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/cave/northern)
 "xil" = (
 /obj/structure/floordoor/gatehatch/inner{
 	redstone_id = "gatelava"
@@ -126771,10 +126776,9 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/orcdungeon)
 "xEg" = (
-/turf/open/floor/rogue/concrete{
-	dir = 8
-	},
-/area/rogue/indoors/cave/northern)
+/obj/structure/mineral_door/wood,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/cave)
 "xEh" = (
 /obj/structure/chair/bench/church/smallbench{
 	dir = 4
@@ -128637,11 +128641,9 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/north)
 "xWo" = (
-/mob/living/carbon/human/species/skeleton/npc/easy,
-/turf/open/floor/rogue/concrete{
-	dir = 4
-	},
-/area/rogue/indoors/cave/northern)
+/obj/item/roguegem/diamond,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave/dukecourt)
 "xWu" = (
 /obj/machinery/light/rogue/candle/blue/l,
 /obj/structure/fermentation_keg/distiller,
@@ -161461,7 +161463,7 @@ qHj
 qHj
 qHj
 qHj
-wAQ
+lyT
 qHj
 qHj
 toJ
@@ -168684,7 +168686,7 @@ qHj
 qHj
 htN
 htN
-htN
+wWg
 htN
 htN
 htN
@@ -189637,13 +189639,13 @@ ogs
 vFa
 vFa
 maK
-lFT
-lFT
-lFT
-lFT
-lFT
-lFT
-lFT
+maK
+maK
+maK
+maK
+maK
+maK
+maK
 maK
 maK
 maK
@@ -190089,13 +190091,13 @@ ogs
 vFa
 vFa
 maK
-lFT
-xik
-xEg
-oCr
-xWo
-xik
-lFT
+maK
+maK
+maK
+maK
+maK
+maK
+maK
 maK
 maK
 maK
@@ -190541,19 +190543,19 @@ ogs
 vFa
 vFa
 maK
-lFT
-cbW
-wXx
-xEg
-oCr
-wWg
-lFT
-dLk
-dLk
-dLk
 maK
-dLk
-dLk
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
 maK
 maK
 maK
@@ -190993,23 +190995,23 @@ ogs
 vFa
 vFa
 maK
-lFT
-oCr
-xEg
-jOZ
-cbW
-oCr
-lFT
-iDd
-iDd
-dLk
-dLk
-dLk
-dLk
-dLk
-dLk
-dLk
-dLk
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
 maK
 maK
 wMZ
@@ -191445,16 +191447,16 @@ ogs
 vFa
 vFa
 maK
-lFT
-lyT
-oCr
-cbW
-cBw
-xEg
-lFT
-dLk
-dLk
-dLk
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
+maK
 maK
 maK
 maK
@@ -191897,13 +191899,13 @@ ogs
 vFa
 vFa
 maK
-lFT
-tBb
-gFL
-lFT
-cbW
-xik
-lFT
+maK
+maK
+maK
+maK
+maK
+maK
+maK
 maK
 maK
 maK
@@ -192349,13 +192351,13 @@ ogs
 vFa
 vFa
 maK
-lFT
-lFT
-lFT
-lFT
-lFT
-lFT
-lFT
+maK
+maK
+maK
+maK
+maK
+maK
+maK
 maK
 maK
 maK
@@ -276716,7 +276718,7 @@ tsB
 iiX
 xaj
 toJ
-toJ
+oCr
 miF
 miF
 bhJ
@@ -330783,7 +330785,7 @@ wXK
 xEa
 qgM
 olz
-utw
+lFT
 wCQ
 tsB
 tsB
@@ -338421,8 +338423,8 @@ fiS
 tvO
 qPv
 dcn
-tIH
-tIH
+xEg
+xEg
 dcn
 qPv
 qPv
@@ -419271,9 +419273,9 @@ qwL
 ikm
 tWr
 kMe
+gFL
 kDy
-kDy
-kDy
+xWo
 amx
 ujm
 tsB
@@ -420175,7 +420177,7 @@ kMe
 vNN
 vNN
 kMe
-kDy
+cBw
 kDy
 kDy
 ujm
@@ -432937,7 +432939,7 @@ qPv
 qPv
 flZ
 tIH
-acF
+wXx
 acF
 acF
 qPv
@@ -574420,9 +574422,9 @@ xBW
 xBW
 wJD
 wJD
-nRO
-nRO
-nRO
+xWK
+xWK
+xWK
 aBB
 aBB
 aBB
@@ -574872,9 +574874,9 @@ xBW
 xBW
 xBW
 xBW
-nRO
-nRO
-nRO
+xWK
+aBB
+xWK
 aBB
 aBB
 aBB
@@ -575324,9 +575326,9 @@ xBW
 xBW
 xBW
 xBW
-nRO
-nRO
-nRO
+xWK
+xWK
+xWK
 aBB
 aBB
 aBB
