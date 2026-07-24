@@ -36248,7 +36248,7 @@
 /obj/structure/table/wood,
 /obj/item/clothing/head/roguetown/helmet/sallet/visored/gilded{
 	name = "Gilded Geezer";
-	desc = "An antique helm adorned with thin sheets of gold. Upon its rear is a small inscription reading "GildedGeezer," though the passage of time has eroded all certainty as to whether this was the smith's moniker or the helm's own name."
+	desc = "An antique helm adorned with thin sheets of gold. Upon its rear is a small inscription reading 'GildedGeezer,' though the passage of time has eroded all certainty as to whether this was the smith's moniker or the helm's own name."
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/west)
@@ -68742,7 +68742,7 @@
 /obj/structure/table/wood/poor,
 /obj/item/clothing/ring/shell{
 	name = "Vow";
-	desc = "A simple shell ring bearing the inscription "V & D." Countless years of wear have smoothed its edges, but not the devotion etched into its surface. The ring was recovered from a thief's hut, far removed from its rightful owner. One wonders whether the theft broke hearts, or merely confirmed what fate had already decided."
+	desc = "A simple shell ring bearing the inscription "V&D." Countless years of wear have smoothed its edges, but not the devotion etched into its surface. The ring was recovered from a thief's hut, far removed from its rightful owner. One wonders whether the theft broke hearts, or merely confirmed what fate had already decided."
 	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/town)
