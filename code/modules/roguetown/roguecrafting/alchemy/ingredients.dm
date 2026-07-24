@@ -630,96 +630,117 @@
 		user.update_icon()
 
 // t2 alchemical reagents
-/obj/item/alch/reagent_nitevision
-	name = "Lunar Quintessence"
+/obj/item/alch/rubedo_reagent
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
+	gender = PLURAL
+
+/obj/item/alch/rubedo_reagent/Initialize() // look at what byond's default multiplicative color blending has led to
+	. = ..()
+	if(!complete_pot)
+		return
+	var/datum/alch_cauldron_recipe/ACR
+	for(var/datum/alch_cauldron_recipe/test in GLOB.alch_cauldron_recipes)
+		if(istype(test, complete_pot))
+			ACR = test
+			break
+	if(!ACR || !istype(ACR))
+		return
+	var/datum/reagent/reagent = ACR.output_reagents[1]
+	var/icon/newicon = icon('icons/roguetown/misc/alchemy.dmi', icon_state)
+	var/list/newcolor = ReadHSV(RGBtoHSV(reagent::color))
+	newicon.Blend(HSVtoRGB(hsv(newcolor[1], min(newcolor[2], 150), newcolor[3])), BLEND_ADD)
+	icon = newicon
+
+/obj/item/alch/rubedo_reagent/nitevision
+	name = "\improper Lunar Quintessence"
+	icon_state = "whitepowder"
 	desc = "A potent alchemical creation, brimming with silvery moonlight."
 	complete_pot = /datum/alch_cauldron_recipe/trait/nitevision
 	materia = list(/datum/materia_aspect/lunar, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_sleepdraught
-	name = "Nocturnal Grace"
+/obj/item/alch/rubedo_reagent/sleepdraught
+	name = "\improper Nocturnal Grace"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, merely looking at it guides the mind towards restful thoughts."
 	complete_pot = /datum/alch_cauldron_recipe/trait/sleepdraught
 	materia = list(/datum/materia_aspect/lunar, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_waterbreathing
-	name = "Call of the Abyss"
+/obj/item/alch/rubedo_reagent/waterbreathing
+	name = "\improper Call of the Abyss"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, the sounds of the sea emanate from it."
 	complete_pot = /datum/alch_cauldron_recipe/trait/waterbreathing
 	materia = list(/datum/materia_aspect/water, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_nutrientslurry
-	name = "Nature's Provision"
+/obj/item/alch/rubedo_reagent/nutrientslurry
+	name = "\improper Nature's Provision"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, holding it makes your mouth water."
 	complete_pot = /datum/alch_cauldron_recipe/trait/nutrientslurry
 	materia = list(/datum/materia_aspect/plant, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_ravenous
-	name = "Feral Nature"
+/obj/item/alch/rubedo_reagent/ravenous
+	name = "\improper Feral Nature"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, holding it inspires an unnatural hunger."
 	complete_pot = /datum/alch_cauldron_recipe/trait/ravenous
 	materia = list(/datum/materia_aspect/animal, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_antidepressants
-	name = "Lady's Mercy"
+/obj/item/alch/rubedo_reagent/antidepressants
+	name = "\improper Lady's Mercy"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, gazing at it makes the world seem less consequential."
 	complete_pot = /datum/alch_cauldron_recipe/trait/antidepressants
 	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_wyrdlaborer
-	name = "Steelbound Might"
+/obj/item/alch/rubedo_reagent/wyrdlaborer
+	name = "\improper Steelbound Might"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, it brims with strength."
 	complete_pot = /datum/alch_cauldron_recipe/trait/wyrdlaborer
 	materia = list(/datum/materia_aspect/tool, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_prodepressants
-	name = "Grave's Premonition"
+/obj/item/alch/rubedo_reagent/prodepressants
+	name = "\improper Grave's Premonition"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, looking upon it is unpleasant."
 	complete_pot = /datum/alch_cauldron_recipe/trait/negative/prodepressants
 	materia = list(/datum/materia_aspect/earth, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_evilcaffiene
-	name = "Boundless Effervescence"
+/obj/item/alch/rubedo_reagent/evilcaffiene
+	name = "\improper Boundless Effervescence"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, it is impossible to relax in its presence."
 	complete_pot = /datum/alch_cauldron_recipe/trait/negative/evilcaffiene
 	materia = list(/datum/materia_aspect/fire, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_singing
-	name = "Weft of the Tragedian"
+/obj/item/alch/rubedo_reagent/singing
+	name = "\improper Weft of the Tragedian"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, the world feels lighter in its presence."
 	complete_pot = /datum/alch_cauldron_recipe/trait/negative/singing
 	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_funnyvoice
-	name = "Weave of the Tragedian"
+/obj/item/alch/rubedo_reagent/funnyvoice
+	name = "\improper Weave of the Tragedian"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, the world feels lighter in its presence."
 	complete_pot = /datum/alch_cauldron_recipe/trait/negative/funnyvoice
 	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/arcyne)
 
-/obj/item/alch/reagent_mending
-	name = "Careworn Respite"
+/obj/item/alch/rubedo_reagent/mending
+	name = "\improper Careworn Respite"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, it bonds readily to anything it touches."
