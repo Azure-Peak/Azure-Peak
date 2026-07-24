@@ -19200,7 +19200,10 @@
 /obj/structure/fluff/railing/border,
 /obj/structure/table/finestone,
 /obj/item/roguecoin/aalloy/pile,
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane,
+/obj/item/rogueweapon/huntingknife/idagger/steel/bone{
+	name = "Sharpened Femur";
+	desc = "A makeshift tool darkened by old blood. It remains the sole piece of evidence that heresy, not misfortune, brought ruin to the coastal hamlet. It yearns for blood."
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/zhurch)
 "dHi" = (
@@ -20278,9 +20281,9 @@
 "dRm" = (
 /obj/structure/table/church/end,
 /obj/effect/spawner/lootdrop/valuable_candle_spawner,
-/obj/item/rogueweapon/huntingknife/idagger/steel/bone{
-	name = "Sharpened Femur";
-	desc = "A makeshift tool darkened by old blood. It remains the sole piece of evidence that heresy, not misfortune, brought ruin to this hamlet. Fittingly, or perhaps tragically, it was recovered from the village church."
+/obj/item/clothing/cloak/templar/astratan{
+	name = "Eerie Robes";
+	desc = "Robes once worn by a village priest whose devotion was beyond question and whose judgment was not. Their hems are embroidered with passages from the teachings of the Ten Undivided, each thread painstakingly maintained despite the garment's age. The priest claimed to hear a sacred voice within the Litany's words. In time, he came to trust that voice more than the teachings themselves. What followed was not salvation, but ruin. The hamlet fell, its people perished, and every horror was committed in the belief that it served a divine purpose. The robes remain immaculate. The faith within them does not. A grim reminder that the greatest heresies are often preached by those who believe themselves righteous."
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/shelter)
@@ -27443,9 +27446,9 @@
 	pixel_x = 0
 	},
 /obj/item/clothing/neck/roguetown/psicross/undivided,
-/obj/item/rogueweapon/huntingknife/idagger/steel/holysee{
-	name = "Miscreed";
-	desc = "Blessed silver, now stained by the blood of profane rites, all performed in the name of the Ten. Even the purest teachings may be twisted by those who hear only what they wish. This blade begs to be cleansed."
+/obj/item/rogueweapon/huntingknife/idagger/silver{
+	desc = "Blessed silver, now stained by the blood of profane rites, all performed in the name of the Ten. Even the purest teachings may be twisted by those who hear only what they wish. This blade begs to be cleansed.";
+	name = "Miscreed"
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/beach/north)
@@ -30435,8 +30438,6 @@
 /obj/item/clothing/shoes/roguetown/boots/armor/avantyne,
 /obj/item/clothing/gloves/roguetown/plate/avantyne,
 /obj/item/rogueweapon/sword/long/avantyne,
-/obj/item/clothing/suit/roguetown/shirt/robe/necromancer,
-/obj/item/clothing/head/roguetown/necromhood,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/mazedungeon)
 "fMT" = (
@@ -36079,11 +36080,12 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/underdark/south)
 "gRH" = (
-/obj/structure/closet/crate/chest/neu_fancy,
-/obj/item/clothing/neck/roguetown/gorget/gold/king,
-/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
-/turf/open/floor/rogue/blocks/stonered,
-/area/rogue/under/underdark/north)
+/obj/item/storage/backpack/rogue/artibackpack{
+	name = "Lost Expedition's Pack";
+	desc = "Despite its age, the pack's intricate mechanisms continue to function flawlessly. Its interior remains surprisingly spacious and pleasantly cool, as though time itself has overlooked it."
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/mountains/decap)
 "gRK" = (
 /obj/structure/roguemachine/noticeboard,
 /turf/open/floor/rogue/naturalstone,
@@ -49675,6 +49677,10 @@
 /area/rogue/outdoors/exposed/town/keep)
 "jqe" = (
 /obj/structure/closet/crate/drawer,
+/obj/item/needle/bronze{
+	name = "Hollow needle";
+	desc = "This needle's tip has been hollowed out. What was once meant to close wounds was instead used to deliver poison. Time has since bent the implement and clogged its channel, leaving it incapable of such wicked work. It remains serviceable for stitching, though you cannot help but feel uneasy placing it near an open wound."
+	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter)
 "jqf" = (
@@ -53417,7 +53423,10 @@
 /area/rogue/outdoors/bog/south)
 "jYC" = (
 /obj/structure/closet/crate/chest/neu,
-/obj/item/clothing/neck/roguetown/psicross/wood,
+/obj/item/clothing/neck/roguetown/psicross/wood{
+	name = "Humble Handcarved Psycross";
+	desc = "This psycross has been meticulously hand-carved. There is nothing remarkable about it, save for the care that went into its creation. It must have meant something to someone, once. Holding it stirs a faint sense of enduring."
+	},
 /obj/item/reagent_containers/glass/bottle/rogue/beer/fireleaf,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/beach/forest/south)
@@ -55268,11 +55277,13 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/town/roofs)
 "krd" = (
-/obj/structure/closet/crate/chest/neu_fancy,
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold/king,
-/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
-/turf/open/floor/rogue/blocks/stonered,
-/area/rogue/under/underdark/north)
+/obj/structure/closet/crate/roguecloset/dark,
+/obj/item/clothing/head/roguetown/helmet/bascinet/atgervi/gronn{
+	name = "Carrion";
+	desc = "A rugged leather helmet reinforced with bands of iron and crowned by the front half of a weathered skull. Time has stripped away any clue as to the creature it once belonged to, though its hollow gaze remains unsettlingly intact."
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/cave/orcdungeon)
 "kri" = (
 /obj/effect/spawner/roguemap/treeorstump,
 /turf/open/floor/rogue/grassyel,
@@ -57740,11 +57751,12 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "kON" = (
-/obj/structure/closet/crate/chest/neu_fancy,
-/obj/item/clothing/shoes/roguetown/boots/armor/gold/king,
-/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
-/turf/open/floor/rogue/blocks/stonered,
-/area/rogue/under/underdark/north)
+/obj/item/bodypart/r_leg/prosthetic/bronzeright{
+	name = "Gnawed Prosthetic";
+	desc = "It's marred with bite-marks and slightly rusted. With some love and care, it could help someone walk again."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave)
 "kOO" = (
 /obj/item/grown/log/tree/small,
 /obj/structure/table/wood/poor/alt,
@@ -74385,7 +74397,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
-/obj/item/rogueweapon/huntingknife/idagger/silver,
 /obj/item/rogueweapon/huntingknife/idagger/steel,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/under/town/sewer)
@@ -99169,7 +99180,7 @@
 /obj/structure/fluff/walldeco/rpainting/forest{
 	pixel_y = 32
 	},
-/obj/item/satchel_bomb/mega{
+/obj/item/satchel_bomb{
 	desc = "Either I get what I want, or neither of us are walking out of this in one piece.";
 	name = "Assurance"
 	},
@@ -99452,7 +99463,6 @@
 /area/rogue/indoors/town/zhurch)
 "syo" = (
 /obj/structure/table/church/m,
-/obj/item/abyssal_marker/volatile,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/fishmandungeon)
 "syq" = (
@@ -102077,9 +102087,12 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/dukecourt)
 "sVO" = (
-/obj/item/reagent_containers/food/snacks/fish/creepy_shark,
-/turf/open/floor/carpet/stellar,
-/area/rogue/under/cave/fishmandungeon)
+/obj/item/staff/stick{
+	name = "Lost Cane";
+	desc = "Carved from a single length of polished wood, this cane once belonged to a gentleman of some refinement. The journey that carried it here has long since been forgotten."
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/mountains/decap)
 "sVP" = (
 /obj/structure/rack/rogue/shelf,
 /obj/structure/chair/stool/rogue,
@@ -108982,7 +108995,6 @@
 /area/rogue/indoors/town)
 "ulp" = (
 /obj/structure/table/wood/fancy/black,
-/obj/item/rogueweapon/huntingknife/idagger/silver,
 /obj/item/enchantmentscroll/greater/lifesteal,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
@@ -122585,9 +122597,9 @@
 	pixel_y = 32
 	},
 /obj/effect/spawner/lootdrop/valuable_candle_spawner,
-/obj/item/quicksilver{
+/obj/item/rogueweapon/huntingknife/idagger/silver/stake/preblessed{
 	name = "Catharsis";
-	desc = "The remedy arrived only after the curse had done its work. There was no saving them by then, only enough time to place it beside their coffin and hope it might one day aid another. If you have found it, may it succeed where it failed before."
+	desc = "A stake of seasoned wood capped with blessed silver, crafted for the destruction of things that refuse to die with dignity. Its name speaks of relief, release, and the end of suffering."
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors)
@@ -129964,7 +129976,6 @@
 /area/rogue/indoors/cave/southern)
 "yhS" = (
 /obj/structure/closet/crate/chest/neu_fancy,
-/obj/item/clothing/wrists/roguetown/bracers/gold/king,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/underdark/north)
@@ -167489,7 +167500,7 @@ oKd
 oKd
 oKd
 xLM
-kON
+yhS
 wtu
 cWo
 eIi
@@ -169749,7 +169760,7 @@ oKd
 oKd
 oKd
 xLM
-gRH
+yhS
 cWo
 cWo
 aUb
@@ -169758,7 +169769,7 @@ cWo
 wtu
 cWo
 cWo
-krd
+yhS
 xLM
 oKd
 oKd
@@ -232760,7 +232771,7 @@ oGV
 mQg
 mBl
 cNl
-sVO
+mBl
 sao
 fES
 wRd
@@ -317642,7 +317653,7 @@ qPv
 ujm
 uPw
 gcj
-iRm
+krd
 kKb
 sxs
 mau
@@ -404428,7 +404439,7 @@ wHi
 wHi
 wHi
 wHi
-fRR
+sVO
 fRR
 oyd
 fRR
@@ -412131,7 +412142,7 @@ wHi
 emo
 emo
 fRR
-fRR
+gRH
 wHi
 wHi
 wHi
@@ -526034,7 +526045,7 @@ toJ
 toJ
 toJ
 toJ
-toJ
+kON
 gsm
 gsm
 gsm
