@@ -38684,7 +38684,7 @@
 "hqu" = (
 /obj/item/rogueweapon/huntingknife/idagger/blacksteel/heavy{
 	name = "Sudden Betreyal";
-	desc = "A slender misericorde designed to slip through the gaps in armor and finish fights already won. Its blade bears the name Sudden Betrayal, though there is little about it that feels sudden at all. The weapon rewards patience, hesitation, and moments of misplaced trust. More than one warrior met their end believing the worst had already passed. It is a cruel truth that the deadliest strike is often the one delivered by a hand thought friendly."
+	desc = "A slender misericorde designed to slip through the gaps in armor and finish fights already won. Its blade bears the name 'Sudden Betrayal', though there is little about it that feels sudden at all. The weapon rewards patience, hesitation, and moments of misplaced trust. More than one warrior met their end believing the worst had already passed. It is a cruel truth that the deadliest strike is often the one delivered by a hand thought friendly."
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/stepbelow)
@@ -67935,7 +67935,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /obj/item/rogueweapon/spear/spellblade{
 	name = "Incentive";
-	desc="A sturdy spear named Incentive, invariably employed when Reason failed to make its point. Its edge is well maintained, suggesting it saw frequent use in the settlement of disputes. Most travelers eventually found the wielder's arguments quite persuasive. Those who remained unconvinced rarely remained standing."
+	desc = "A sturdy spear named Incentive, invariably employed when Reason failed to make its point. Its edge is well maintained, suggesting it saw frequent use in the settlement of disputes. Most travelers eventually found the wielder's arguments quite persuasive. Those who remained unconvinced rarely remained standing."
 	},
 /obj/item/rogueweapon/shield/tower/raneshen{
 	name = "Reason";
