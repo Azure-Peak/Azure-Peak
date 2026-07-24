@@ -38,6 +38,7 @@
 			I.was_crafted = TRUE
 			I.OnCrafted(get_dir(user, parent), user)
 			I.add_fingerprint(user)
+			I.apply_quality(user, /datum/skill/craft/alchemy)
 			if(!unique_sellable)
 				I.AddComponent(/datum/component/unsellable, "bears obvious signs of transmutative origin") // sets sellprice to 0, prevents selling at navigator (including smuggler) and stockpile, transfers to result when smelted
 	user.visible_message(span_notice("[user] transmutes some [result_name]!"), span_notice("I transmute some [result_name]!"))
