@@ -457,8 +457,8 @@
 	input_items = list(/obj/item/alch/ozium = 1, /obj/item/alch/seeddust = 1) // strong stam potion ingredients, plus abyssor's blessing
 	output_items = list(/obj/item/alch/rubedo_reagent/waterbreathing = 1)
 
-/datum/transmutation_recipe/rubedo/nitevision
-	name = "Nature's Provision"
+/datum/transmutation_recipe/rubedo/nutrientslurry
+	name = "Wyld Nourishment"
 	materia_aspects = list(/datum/materia_aspect/animal)
 	input_items = list(/obj/item/alch/earthdust = 1, /obj/item/alch/bone = 1) // con potion ingredients, plus dendor's blessing
 	output_items = list(/obj/item/alch/rubedo_reagent/nutrientslurry = 1)

@@ -676,7 +676,7 @@
 	materia = list(/datum/materia_aspect/water, /datum/materia_aspect/arcyne)
 
 /obj/item/alch/rubedo_reagent/nutrientslurry
-	name = "\improper Nature's Provision"
+	name = "\improper Wyld Nourishment"
 	icon_state = "whitepowder"
 	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	desc = "A potent alchemical creation, holding it makes your mouth water."
