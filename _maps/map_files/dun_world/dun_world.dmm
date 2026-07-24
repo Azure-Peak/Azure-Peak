@@ -287,7 +287,11 @@
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "acJ" = (
 /obj/structure/table/wood,
-/obj/item/reagent_containers/glass/cup/golden,
+/obj/item/riddleofsteel,
+/obj/item/rogueweapon/mace/maul/grand/malum{
+	name = "Firstforge";
+	desc = "A faint warmth lingers within the hammer, untouched by age. Malumites who wield it find their minds flooded with visions of invention and their hands driven to ceaseless labor in service to the Forgefather. It is said to be a fragment of a fragment of Creation, hammered into the shape of a weapon."
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "acL" = (
@@ -678,6 +682,14 @@
 /obj/structure/fluff/railing/corner/south_west,
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/under/town/basement/keep)
+"agR" = (
+/obj/structure/table/wood/fancy/blue,
+/obj/item/rogueweapon/whip/blacksteel{
+	name = "Crimson Tears";
+	desc = "Blacksteel shimmers along the coils in finely-crafted scales, each as sharp as a razor's edge. Flesh will weep crimson."
+	},
+/turf/open/floor/rogue/woodturned,
+/area/rogue/under/underdark/south)
 "agZ" = (
 /obj/structure/stairs/fancy/r{
 	dir = 1
@@ -749,6 +761,11 @@
 /obj/structure/fluff/walldeco/stone,
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/cave/scarymaze)
+"aii" = (
+/obj/structure/chair/bench/church,
+/mob/living/simple_animal/hostile/rogue/deepone/arm,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "aiq" = (
 /obj/machinery/light/rogue/firebowl{
 	pixel_y = 10
@@ -1366,7 +1383,9 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/tavern)
 "anT" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/grass,
 /area/rogue/druidsgrove)
 "aoa" = (
@@ -2421,6 +2440,13 @@
 "ayr" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/cave/central)
+"ays" = (
+/obj/item/roguegem/turq{
+	name = "Sickly Cerulite";
+	desc = "A malformed shard of cerulite whose swirling reflections never seem to settle into a coherent shape. Colors twist and coil beneath its surface like something alive, drawing the eye despite every instinct to look away.Prolonged observation brings with it a subtle nausea, as though the mind rejects what it is seeing. The sensation rarely grows beyond mild discomfort, yet few can gaze upon the stone for long without feeling unwell.Whether the flaw lies within the cerulite or within the viewer is a matter of some debate."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "ayv" = (
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave)
@@ -3166,7 +3192,9 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/outdoors/town)
 "aGW" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /obj/structure/vine,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
@@ -3211,6 +3239,9 @@
 /area/rogue/indoors/cave)
 "aHk" = (
 /obj/machinery/light/rogue/candle/blue,
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar,
+/obj/item/rogueweapon/handclaw/steel/graggaredged,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/orcdungeon)
 "aHm" = (
@@ -3740,6 +3771,7 @@
 	dir = 1
 	},
 /obj/effect/decal/cleanable/debris/glassy,
+/obj/item/clothing/neck/roguetown/psicross/reform,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "aLN" = (
@@ -3947,6 +3979,7 @@
 /obj/item/candle/candlestick/silver/lit{
 	pixel_y = 9
 	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
 "aOX" = (
@@ -4523,6 +4556,10 @@
 /obj/effect/spawner/lootdrop/elven_equipment_spawner,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
+"aUb" = (
+/mob/living/carbon/human/species/skeleton/npc/medium,
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/underdark/north)
 "aUd" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
@@ -5245,7 +5282,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
 "bbj" = (
-/mob/living/carbon/human/species/goblin/npc/ambush/cave,
+/mob/living/carbon/human/species/hobgoblin/npc,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cavewet/bogcaves/west)
 "bbn" = (
@@ -6736,6 +6773,10 @@
 "bpf" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cavewet/bogcaves/west)
+"bpl" = (
+/obj/item/net,
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/outdoors/beach/central)
 "bpr" = (
 /obj/item/roguebin/water/gross,
 /turf/open/floor/rogue/church,
@@ -7188,9 +7229,7 @@
 /area/rogue/druidsgrove)
 "buc" = (
 /obj/structure/table/wood/fancy/black,
-/obj/item/candle/skull/lit{
-	pixel_y = 6
-	},
+/obj/item/rogueweapon/sword/rapier/avantyne/relic,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave/licharena/bossroom)
 "buf" = (
@@ -7674,15 +7713,13 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/town/sewer)
 "bzD" = (
-/obj/structure/curtain/bounty{
-	color = "grey"
-	},
 /obj/structure/bed/rogue/inn/wool{
 	dir = 1
 	},
 /obj/item/bedsheet/rogue/pelt{
 	dir = 1
 	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/clothing,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark)
 "bzG" = (
@@ -9913,6 +9950,13 @@
 /obj/machinery/light/rogue/candle/weak,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/zhurch)
+"bUj" = (
+/obj/item/clothing/mask/rogue/skullmask{
+	name = "Old Chief's Skull";
+	desc = "A mask carved from the skull of a deposed goblin chief. Curiously, the skull belongs to an orc. This raises uncomfortable questions about the chief's ancestry, and even more uncomfortable questions about the coup that removed him."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "bUk" = (
 /turf/open/floor/rogue/metal{
 	dir = 4
@@ -10094,7 +10138,9 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/underdark/north)
 "bWx" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/mountains/decap)
 "bWA" = (
@@ -10104,9 +10150,8 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/druidsgrove)
 "bWB" = (
-/obj/item/rogueweapon/surgery/saw,
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/cave/skeletoncrypt)
+/turf/open/water/ocean/abyssal,
+/area/rogue/under/cave/fishmandungeon)
 "bWJ" = (
 /obj/effect/spawner/lootdrop/roguetown/sewers,
 /turf/open/floor/rogue/churchmarble,
@@ -10228,7 +10273,9 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/town/steward)
 "bYr" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
 "bYv" = (
@@ -10269,6 +10316,9 @@
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
+"bYT" = (
+/turf/closed/wall/mineral/rogue/decostone/mossy,
+/area/rogue/under/cave/fishmandungeon)
 "bYU" = (
 /obj/structure/hotspring/border/seven,
 /obj/structure/hotspring,
@@ -10511,6 +10561,10 @@
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
+"cbq" = (
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cavewet/bogcaves/west)
 "cbr" = (
 /turf/closed/wall/mineral/rogue/roofwall/outercorner/dir8,
 /area/rogue/indoors/town/dwarfin)
@@ -10529,6 +10583,13 @@
 /obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/carpet/stellar,
 /area/rogue/under/town/sewer)
+"cbP" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "cbQ" = (
 /obj/structure/closet/crate/chest/inqcrate{
 	name = "Prisoner Clothes"
@@ -11223,6 +11284,10 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
+"cjr" = (
+/obj/effect/decal/cleanable/roguerune/god/psydon,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/inq/chapel)
 "cju" = (
 /obj/structure/bed/rogue/inn/wooldouble,
 /obj/item/bedsheet/rogue/fabric_double,
@@ -11552,6 +11617,10 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/woods/north)
+"cmk" = (
+/obj/item/reagent_containers/food/snacks/fish/clam,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "cmo" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -11604,6 +11673,14 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/west)
+"cmB" = (
+/obj/item/clothing/wrists/roguetown/bracers/psythorns{
+	color = "#964B00";
+	name = "Wrap of Weepvine";
+	desc = "Hardened by the bog's magic, this length of living weepvine coils tightly around its wearer's wrist. The embrace is uncomfortable, even painful, but undeniably protective. Few things are as effective at discouraging unwanted grasps."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/spider)
 "cmC" = (
 /obj/structure/gate/bars/preopen{
 	gid = "manorgate";
@@ -12103,6 +12180,12 @@
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/town)
+"cqF" = (
+/obj/structure/roguewindow/harem1{
+	color = "#87CEEB"
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "cqI" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/dragonden)
@@ -12337,6 +12420,14 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/physician)
+"ctk" = (
+/obj/item/clothing/gloves/roguetown/plate/paalloy{
+	name = "Judgement & Sentence";
+	desc = "A pair of battered plate gauntlets worn smooth by decades of hard use. Their former owner had little patience for courts or deliberation, preferring to render Judgment with one fist and Sentence with the other. Time has dulled neither."
+	},
+/obj/structure/table/wood/poker,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/mountains)
 "cto" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -12911,7 +13002,9 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/town/sewer)
 "cyP" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/river/flow,
 /area/rogue/druidsgrove)
 "cyU" = (
@@ -13859,7 +13952,9 @@
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/town/basement/keep)
 "cHK" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /obj/structure/flora/tinymushrooms,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/town/physician)
@@ -13915,6 +14010,14 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"cIi" = (
+/obj/structure/table/wood/fancy/blue,
+/obj/item/clothing/suit/roguetown/armor/plate/full/bronze{
+	name = "Fortress";
+	desc = "Heavy and cumbersome, this enduring suit of bronze plate grants its wearer the resilience of heroes long past. Woe to those who shatter themselves against you, immovable bulwark. Stand firm and valiant. Never yield your back to the enemy, and let the innocent find refuge at your side."
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cavewet/bogcaves/north)
 "cIm" = (
 /obj/machinery/light/rogue/campfire/fireplace,
 /obj/effect/decal/cleanable/blood/tracks{
@@ -14114,6 +14217,15 @@
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town/garrison)
+"cKz" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/enchantmentscroll/superior/smithing,
+/obj/item/rogueweapon/hammer/iron{
+	name = "Driftiron";
+	desc = "A smithing hammer forged from metal quenched in the sea. The scent of salt still clings to its head, worn smooth from years spent shaping blades for raiders and marauders. Countless weapons have passed beneath its strikes, each carrying a little of the ocean's ruthlessness."
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/outdoors/beach/north)
 "cKE" = (
 /mob/living/carbon/human/species/dwarfskeleton/ambush,
 /turf/open/floor/rogue/naturalstone,
@@ -14279,6 +14391,11 @@
 /obj/item/natural/stone,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/underdark/north)
+"cMa" = (
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/under/cavewet/bogcaves/west)
 "cMi" = (
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/woodturned,
@@ -14413,6 +14530,11 @@
 /obj/effect/spawner/lootdrop/roguetown/sewers,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave)
+"cNl" = (
+/obj/structure/chair/bench/church/r,
+/mob/living/simple_animal/hostile/rogue/deepone,
+/turf/open/floor/carpet/stellar,
+/area/rogue/under/cave/fishmandungeon)
 "cNn" = (
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/cobblerock,
@@ -14712,6 +14834,10 @@
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/mountains)
+"cQC" = (
+/obj/structure/table/wood/large_table/north,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "cQL" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
@@ -14869,6 +14995,10 @@
 "cSe" = (
 /turf/closed/mineral/random/rogue,
 /area/rogue/indoors/cave/east)
+"cSj" = (
+/obj/item/reagent_containers/food/snacks/fish/creepy_squid,
+/turf/open/floor/carpet/stellar,
+/area/rogue/under/cave/fishmandungeon)
 "cSm" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
@@ -14910,14 +15040,9 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "cSE" = (
-/obj/structure/curtain/bounty{
-	color = "grey"
-	},
-/obj/machinery/light/rogue/torchholder{
-	dir = 4
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/underdark)
+/obj/structure/bookcase,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "cSH" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 8;
@@ -14987,6 +15112,14 @@
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/woods/southwest)
+"cTE" = (
+/obj/structure/table/wood,
+/obj/item/clothing/neck/roguetown/psicross/pearl{
+	name = "Dreaming Plea";
+	desc = "Cobbled together by sentience addled with the dreamer's influence. It's a prayer for freedom, for forgiveness, for a way out of the sunless depths. A heresy borne from the desire for change."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cavewet/bogcaves/north)
 "cTH" = (
 /obj/structure/hotspring/border/five,
 /turf/open/floor/rogue/grasscold,
@@ -15218,6 +15351,13 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/rtfield)
+"cVH" = (
+/obj/item/rogueweapon/sword/broken{
+	name = "Gnawed Thing";
+	desc = "Once a consecrated weapon of impeccable balance, its blessings were gnawed from it piece by piece. What remains is little more than a shard, an insult to the faith and purpose it once served."
+	},
+/turf/open/floor/rogue/greenstone,
+/area/rogue/under/cave/dungeon1/gethsmane)
 "cVL" = (
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grass,
@@ -15736,6 +15876,10 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/druidsgrove)
+"dax" = (
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "daz" = (
 /obj/structure/flora/roguetree/pine{
 	pixel_x = 2
@@ -16070,6 +16214,11 @@
 "ddY" = (
 /turf/open/floor/rogue/rooftop/green,
 /area/rogue/outdoors/town/roofs)
+"dea" = (
+/obj/structure/table/wood/large_table/north_west,
+/obj/item/needle/aalloy,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "dee" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/town/zhurch)
@@ -17913,6 +18062,10 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/his_vault)
+"dwe" = (
+/mob/living/carbon/human/species/hobgoblin/npc,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cavewet/bogcaves/west)
 "dwf" = (
 /obj/item/roguemachine/navigator/private,
 /turf/open/floor/rogue/woodturned/nosmooth,
@@ -18044,7 +18197,9 @@
 /area/rogue/outdoors/beach)
 "dxI" = (
 /obj/structure/flora/roguegrass/water/reeds,
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp,
 /area/rogue/outdoors/bog/south)
 "dxJ" = (
@@ -18276,12 +18431,15 @@
 	},
 /area/rogue/under/underdark/north)
 "dzw" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/river/flow/east,
 /area/rogue/under/cavewet/bogcaves/south)
 "dzx" = (
 /obj/structure/closet/crate/roguecloset/dark,
 /obj/effect/spawner/lootdrop/general_loot_hi/x3,
+/obj/item/ingot/blacksteel,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "dzy" = (
@@ -18359,6 +18517,7 @@
 /obj/item/cooking/skewer,
 /obj/item/cooking/skewer,
 /obj/item/cooking/skewer,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cavewet/bogcaves/west)
 "dzS" = (
@@ -18521,6 +18680,14 @@
 /obj/machinery/light/rogue/campfire/fireplace,
 /turf/open/floor/rogue/metal,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"dBu" = (
+/obj/item/clothing/head/roguetown/helmet/sallet/warden/wolf{
+	name = "Black Volf Guise";
+	desc = "The skull of a volf, crudely adapted into a helmet and stained black by soot, blood, or time. Despite its savage appearance, the design clearly echoes that of a Warden's helm. The resemblance is uncomfortable, like a fond memory left to rot in the mud.";
+	color = "#363737"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/beach/forest/north)
 "dBy" = (
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/naturalstone,
@@ -18578,6 +18745,7 @@
 /area/rogue/indoors/shelter/bog/skeletonfort)
 "dBO" = (
 /obj/structure/table/wood/long_table/mid/alt,
+/obj/item/clothing/head/roguetown/helmet/tricorn/skull,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter)
 "dBQ" = (
@@ -19032,6 +19200,7 @@
 /obj/structure/fluff/railing/border,
 /obj/structure/table/finestone,
 /obj/item/roguecoin/aalloy/pile,
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/zhurch)
 "dHi" = (
@@ -19187,6 +19356,11 @@
 /obj/structure/fluff/railing/fence,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/beach/forest/hamlet)
+"dIU" = (
+/obj/structure/chair/bench/church,
+/mob/living/simple_animal/hostile/rogue/deepone,
+/turf/open/floor/carpet/stellar,
+/area/rogue/under/cave/fishmandungeon)
 "dIV" = (
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/naturalstone,
@@ -19977,7 +20151,9 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cave/mazedungeon)
 "dQg" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /obj/structure/fluff/walldeco/stone/bronze{
 	pixel_y = -32
 	},
@@ -20102,6 +20278,10 @@
 "dRm" = (
 /obj/structure/table/church/end,
 /obj/effect/spawner/lootdrop/valuable_candle_spawner,
+/obj/item/rogueweapon/huntingknife/idagger/steel/bone{
+	name = "Sharpened Femur";
+	desc = "A makeshift tool darkened by old blood. It remains the sole piece of evidence that heresy, not misfortune, brought ruin to this hamlet. Fittingly, or perhaps tragically, it was recovered from the village church."
+	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/shelter)
 "dRr" = (
@@ -20273,7 +20453,9 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/inq/embassy)
 "dTJ" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp,
 /area/rogue/under/underdark/north)
 "dTL" = (
@@ -20345,6 +20527,12 @@
 /obj/structure/fluff/railing/corner/south_west,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town/tavern)
+"dUt" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/effect/spawner/lootdrop/general_loot_hi/x3,
+/obj/effect/spawner/lootdrop/general_loot_hi/x3,
+/turf/open/floor/rogue/church,
+/area/rogue/under/cave/orcdungeon)
 "dUw" = (
 /obj/item/rogueweapon/greatsword/psygsword,
 /obj/structure/closet/crate/chest/inqreliquary{
@@ -20677,6 +20865,10 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/paalloy{
 	pixel_x = 5;
 	pixel_y = 10
+	},
+/obj/item/forgeable/gold/scale{
+	name = "Scales of Greed";
+	desc = "A set of golden scales bearing the name Scales of Greed. They are beautifully made, perfectly balanced, and utterly honest in all matters save one. The longer they are held, the more precious every coin appears and the more painful every loss becomes. In the hand they are surprisingly light. Upon the heart, they are crushing."
 	},
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave/scarymaze)
@@ -22179,7 +22371,9 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/bog/bogmanfort)
 "emx" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/exposed/church)
 "emy" = (
@@ -22843,7 +23037,9 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach/north)
 "ete" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp,
 /area/rogue/outdoors/bog/south)
 "etj" = (
@@ -23492,6 +23688,10 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
+"ezb" = (
+/mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc,
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/cave)
 "ezc" = (
 /obj/structure/fluff/railing/fence{
 	dir = 8
@@ -23707,7 +23907,6 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
 	},
-/mob/living/carbon/human/species/orc/npc/marauder,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/orcdungeon)
 "eBe" = (
@@ -24098,6 +24297,11 @@
 	},
 /turf/open/water/bath,
 /area/rogue/indoors/town/bath)
+"eFr" = (
+/obj/effect/spawner/roguemap/stump,
+/obj/item/clothing/suit/roguetown/armor/plate/paalloy,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "eFA" = (
 /obj/structure/rack/rogue/shelf/biggest{
 	pixel_x = 3;
@@ -24394,6 +24598,10 @@
 "eIb" = (
 /turf/closed/wall/mineral/rogue/decostone/long,
 /area/rogue/under/cave/scarymaze)
+"eIi" = (
+/mob/living/carbon/human/species/skeleton/npc/hard,
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/underdark/north)
 "eIk" = (
 /obj/structure/fluff/railing/corner/south_east,
 /obj/structure/fluff/railing/corner/south_west,
@@ -24485,7 +24693,9 @@
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/shop)
 "eJs" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave)
 "eJw" = (
@@ -25310,6 +25520,10 @@
 "eSc" = (
 /obj/structure/table/wood/long_table/right,
 /obj/item/flowercrown/rosa,
+/obj/item/rogueweapon/sword/long/oldpsysword{
+	name = "Adamant";
+	desc = "This longsword has endured wars, neglect, and generations of owners. The steel bears countless scars, yet none severe enough to claim it. Many hands have wielded it, and many finer swords have been buried in their stead. It remains. It endures.A mundane blade by all appearances, yet it carries within it the resolve of countless warriors whose determination held Psydonia together throughout His slumber. May their strength inspire you."
+	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/shelter)
 "eSe" = (
@@ -27225,11 +27439,13 @@
 /area/rogue/outdoors/mountains/decap/stepbelow)
 "fkc" = (
 /obj/structure/table/wood/long_table,
-/obj/item/candle/skull/lit{
-	pixel_y = 6
-	},
 /obj/structure/fluff/walldeco/bigpainting/lake{
 	pixel_x = 0
+	},
+/obj/item/clothing/neck/roguetown/psicross/undivided,
+/obj/item/rogueweapon/huntingknife/idagger/steel/holysee{
+	name = "Miscreed";
+	desc = "Blessed silver, now stained by the blood of profane rites, all performed in the name of the Ten. Even the purest teachings may be twisted by those who hear only what they wish. This blade begs to be cleansed."
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/beach/north)
@@ -27605,6 +27821,10 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/basement)
+"fnM" = (
+/mob/living/carbon/human/species/hobgoblin/npc,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/under/cavewet/bogcaves/west)
 "fnO" = (
 /obj/effect/landmark/start/guildsman,
 /turf/open/floor/rogue/hexstone,
@@ -27746,6 +27966,7 @@
 	pixel_x = 6;
 	pixel_y = 12
 	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/underdark/north)
 "fpk" = (
@@ -28173,6 +28394,18 @@
 /mob/living/carbon/human/species/skeleton/npc/easy,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/underdark/north)
+"fte" = (
+/obj/structure/fluff/statue/abyssor,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 5
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 9
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "ftf" = (
 /turf/closed/wall/mineral/rogue/tent,
 /area/rogue/outdoors/mountains)
@@ -28281,7 +28514,7 @@
 "fug" = (
 /obj/effect/decal/cleanable/blood/gibs/body,
 /obj/structure/table/optable,
-/obj/effect/mob_spawn/human/corpse/damaged,
+/mob/living/carbon/human/species/skeleton/npc/supereasy,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/skeletoncrypt)
 "fuh" = (
@@ -28386,6 +28619,14 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/cave/underhamlet)
+"fvx" = (
+/obj/item/rogueweapon/halberd/bone{
+	name = "Gnawed Halberd";
+	desc = "Countless carvings and gnaw marks mar this troll-bone blade, the remnants of a failed attempt to turn a monstrous trophy into a work of art. Harsh criticism gradually reshaped it into something far cruder, yet far more practical. Sharp, unwieldy, and unnervingly durable, it still retains a trace of the troll's regenerative vitality."
+	},
+/obj/structure/table/wood,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/beach/central)
 "fvE" = (
 /obj/structure/closet/crate/roguecloset/dark,
 /obj/item/clothing/head/roguetown/articap,
@@ -28740,6 +28981,7 @@
 /area/rogue/outdoors/exposed/magiciantower)
 "fyQ" = (
 /obj/structure/closet/crate/chest/loot_chest/locked,
+/obj/item/rogueweapon/sword/rapier/aliseo,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark)
 "fyV" = (
@@ -28770,10 +29012,24 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/puzzle)
+"fzg" = (
+/mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother{
+	faction = list("wolfs");
+	retreat_health = 0.1
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains/decap)
 "fzi" = (
 /obj/structure/closet/dirthole/grave,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/southeast)
+"fzn" = (
+/obj/structure/table/wood/large_table/north,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/general_loot_hi,
+/obj/effect/spawner/lootdrop/random_gem,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "fzs" = (
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/herringbone,
@@ -29043,6 +29299,9 @@
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach/forest/south)
+"fCb" = (
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/inq/chapel)
 "fCc" = (
 /obj/machinery/light/rogue/hearth,
 /obj/machinery/light/rogue/oven/south,
@@ -29172,9 +29431,7 @@
 /area/rogue/outdoors/mountains)
 "fDi" = (
 /obj/structure/table/wood/long_table,
-/obj/item/storage/belt/rogue/surgery_bag/full{
-	pixel_y = 10
-	},
+/obj/item/storage/belt/rogue/surgery_bag/full/bad,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/sewer)
 "fDl" = (
@@ -29247,6 +29504,7 @@
 /obj/item/roguestatue/gold{
 	pixel_y = 11
 	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
 "fDO" = (
@@ -29266,6 +29524,15 @@
 "fDU" = (
 /turf/closed/wall/mineral/rogue/decowood,
 /area/rogue/under/underdark/north)
+"fDX" = (
+/obj/structure/table/wood/fancy/royalblue,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/item/rogueweapon/stoneaxe/battle/steppesman{
+	name = "Lodinkinni";
+	desc = "A northman's axe, scarred by sea air and long voyages. Its name honors the starving Bear, deity of fortune, greed, and thriving through lean winters. This axe was often employed when the Bear came to collect."
+	},
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/shelter)
 "fEb" = (
 /obj/structure/fluff/walldeco/stone/bronze{
 	pixel_x = 32
@@ -29919,12 +30186,18 @@
 /area/rogue/outdoors/beach/central)
 "fKq" = (
 /obj/structure/flora/roguegrass/water/reeds,
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp,
 /area/rogue/outdoors/bog/north)
 "fKr" = (
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/cavewet/bogcaves/west)
+"fKt" = (
+/obj/machinery/light/rogue/firebowl/standing/blue,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "fKu" = (
 /turf/open/floor/rogue/rooftop,
 /area/rogue/outdoors/town/roofs)
@@ -30156,6 +30429,16 @@
 /obj/structure/closet/crate/chest/wicker,
 /turf/open/floor/rogue/wood,
 /area/rogue/outdoors/beach)
+"fMR" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/clothing/under/roguetown/platelegs/avantyne,
+/obj/item/clothing/shoes/roguetown/boots/armor/avantyne,
+/obj/item/clothing/gloves/roguetown/plate/avantyne,
+/obj/item/rogueweapon/sword/long/avantyne,
+/obj/item/clothing/suit/roguetown/shirt/robe/necromancer,
+/obj/item/clothing/head/roguetown/necromhood,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/cave/mazedungeon)
 "fMT" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/snowpatchy,
@@ -30483,7 +30766,9 @@
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/tavern)
 "fPO" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/water/swamp,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
@@ -30844,6 +31129,15 @@
 /obj/structure/flora/tinymushrooms,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
+"fUb" = (
+/obj/structure/table/wood,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/item/rogueweapon/huntingknife/idagger/steel/fire{
+	name = "Drakkyn's Tooth";
+	desc = "Curved like a drakkyn's tooth, this dagger bears the memory of its creation. When its name is spoken, the blade remembers the drakkynfyre that tempered it, and bursts forth with searing flame."
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/outdoors/mountains/decap)
 "fUc" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/lamia{
 	dir = 8
@@ -30994,7 +31288,9 @@
 /turf/open/water/cleanshallow,
 /area/rogue/outdoors/rtfield)
 "fVv" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/cave)
 "fVw" = (
@@ -31201,6 +31497,9 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/southeast)
+"fXm" = (
+/turf/closed/wall/mineral/rogue/decostone,
+/area/rogue/under/cave/fishmandungeon)
 "fXn" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6
@@ -31900,11 +32199,11 @@
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "geh" = (
-/obj/item/rogueweapon/sword/sabre/dec,
 /obj/structure/table/church/m,
-/obj/structure/fluff/walldeco/painting/queen{
-	pixel_y = 32
-	},
+/obj/item/clothing/head/roguetown/helmet/heavy/dwarven,
+/obj/item/clothing/shoes/roguetown/boots/armor/dwarven,
+/obj/item/clothing/suit/roguetown/armor/plate/full/dwarven,
+/obj/item/clothing/gloves/roguetown/plate/dwarven,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "get" = (
@@ -32559,6 +32858,14 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town/garrison)
+"gkC" = (
+/obj/machinery/light/rogue/candle/blue,
+/obj/structure/closet/crate/coffin/royal,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/silver_weapon_spawner,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cavewet/bogcaves/north)
 "gkD" = (
 /obj/machinery/light/rogue/torchholder/r,
 /obj/structure/closet/crate/chest/wicker,
@@ -33961,7 +34268,10 @@
 /obj/effect/decal/cobbleedge,
 /obj/machinery/light/rogue/campfire/fireplace,
 /obj/structure/ritualcircle/zizo,
-/obj/item/rogueweapon/huntingknife/idagger/silver/elvish,
+/obj/item/rogueweapon/huntingknife/idagger/silver/elvish{
+	name = "Progress";
+	desc = "A slender elven dagger wrought from blessed silver. To many, this would be a contradiction: holy metal dedicated to an unholy cause. To the followers of Zizo, it was proof of their creed. Progress demands change, and change cares little for what was once considered sacred."
+	},
 /turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/shelter/mountains/decap)
 "gyd" = (
@@ -34146,7 +34456,9 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/inq/office)
 "gzS" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/river/flow/east,
 /area/rogue/druidsgrove)
 "gzW" = (
@@ -34464,6 +34776,10 @@
 	density = 0;
 	pixel_y = 18
 	},
+/obj/item/clothing/head/roguetown/helmet/sallet/beastskull{
+	name = "Monsters Demise";
+	desc = "Eyeless and malformed, yet still crowned with vicious teeth. This skull belonged to the progenitor of something dreadful, a thing that may yet walk these lands. It is ancient enough to have crumbled to dust, but the bone remains unnaturally thick and unyielding."
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/cave)
 "gDX" = (
@@ -34518,6 +34834,10 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/inq/chapel)
+"gEz" = (
+/obj/item/clothing/wrists/roguetown/bracers/paalloy,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "gEB" = (
 /obj/structure/table/vtable/v2,
 /turf/open/floor/carpet/royalblack,
@@ -35550,6 +35870,7 @@
 "gPj" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/effect/spawner/lootdrop/general_loot_hi,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/minotaurcave)
 "gPl" = (
@@ -35757,6 +36078,12 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/underdark/south)
+"gRH" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/clothing/neck/roguetown/gorget/gold/king,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/underdark/north)
 "gRK" = (
 /obj/structure/roguemachine/noticeboard,
 /turf/open/floor/rogue/naturalstone,
@@ -35848,7 +36175,9 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/exposed/church)
 "gSE" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave)
 "gSH" = (
@@ -35915,6 +36244,14 @@
 /obj/structure/stairs/stone,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
+"gTx" = (
+/obj/structure/table/wood,
+/obj/item/clothing/head/roguetown/helmet/sallet/visored/gilded{
+	name = "Gilded Geezer";
+	desc = "An antique helm adorned with thin sheets of gold. Upon its rear is a small inscription reading "GildedGeezer," though the passage of time has eroded all certainty as to whether this was the smith's moniker or the helm's own name."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cavewet/bogcaves/west)
 "gTy" = (
 /obj/structure/closet/dirthole/closed/loot,
 /obj/structure/gravemarker,
@@ -36050,6 +36387,13 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/town/basement)
+"gUQ" = (
+/mob/living/simple_animal/hostile/rogue/deepone/spit,
+/obj/structure/fluff/pillow/blue{
+	dir = 1
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "gUR" = (
 /obj/effect/landmark/start/lunatic,
 /turf/open/floor/rogue/grasscold,
@@ -36954,6 +37298,14 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/magician)
+"hdh" = (
+/obj/machinery/light/rogue/torchholder/l{
+	dir = 8
+	},
+/obj/structure/table/wood/large_table/south_west,
+/obj/item/reagent_containers/food/snacks/fish/bass,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "hdj" = (
 /obj/structure/rack/rogue/shelf/big,
 /obj/item/rogueweapon/pitchfork{
@@ -37400,6 +37752,7 @@
 "hhD" = (
 /obj/effect/decal/cleanable/blood/tracks,
 /obj/structure/table/wood/poor,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/underdark/south)
 "hhE" = (
@@ -37789,6 +38142,10 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/outdoors/beach)
+"hkV" = (
+/obj/item/reagent_containers/food/snacks/rogue/lasagna,
+/turf/open/floor/rogue/blocks,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "hkY" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grasscold,
@@ -38327,6 +38684,13 @@
 /obj/structure/bookcase/random/archive,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/mazedungeon)
+"hqu" = (
+/obj/item/rogueweapon/huntingknife/idagger/blacksteel/heavy{
+	name = "Sudden Betreyal";
+	desc = "A slender misericorde designed to slip through the gaps in armor and finish fights already won. Its blade bears the name Sudden Betrayal, though there is little about it that feels sudden at all. The weapon rewards patience, hesitation, and moments of misplaced trust. More than one warrior met their end believing the worst had already passed. It is a cruel truth that the deadliest strike is often the one delivered by a hand thought friendly."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "hqy" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -39281,9 +39645,12 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/exposed/town/keep)
 "hAS" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/dragon,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/mountains/decap)
+/obj/item/rogueweapon/pick/steel{
+	name = "Deepstrike";
+	desc = "A sturdy steel pickaxe abandoned to rust in the murk. It shares its name with a tool favored by many a confident suitor."
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/under/underdark/north)
 "hAV" = (
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town/garrison)
@@ -39477,6 +39844,14 @@
 	icon_state = "crawlspace_4"
 	},
 /area/rogue/under/cave/dungeon1/gethsmane)
+"hCG" = (
+/obj/structure/bed/rogue/shit,
+/obj/item/reagent_containers/glass/cup/skull{
+	name = "Evylle Goblet";
+	desc = "Entirely mundane in construction, yet undeniably evylle in design. Carving a skull into a goblet is questionable enough; leaving the eye sockets open is another matter entirely. Any liquid poured within spills forth as tears, weeping endlessly for the soul sacrificed to create it."
+	},
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/indoors/shelter/woods)
 "hCK" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -39750,7 +40125,13 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/dukecourt)
 "hFz" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
+/obj/item/rogueweapon/sword/long/hag{
+	name = "Discarded Boon";
+	desc = "When a fae speaks, do not listen. When it offers, do not accept. And as for its gifts, they are best discarded. You now gaze upon the remnants of a bargain long forgotten. Yet a troubling thought lingers still: by taking this thing into your possession, have you also inherited its price?"
+	},
 /turf/open/water/swamp/deep,
 /area/rogue/indoors/shelter/bog/bogmanfort)
 "hFB" = (
@@ -39868,12 +40249,19 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
+"hGi" = (
+/obj/structure/ritualcircle/malum,
+/turf/open/floor/rogue/blocks,
+/area/rogue/outdoors/mountains/decap/minotaurfort)
 "hGm" = (
 /turf/open/water/cleanshallow,
 /area/rogue/under/cave/fishmandungeon)
 "hGu" = (
 /obj/structure/table/church/m,
-/obj/item/rogueweapon/greataxe/steel/doublehead/minotaur,
+/obj/item/rogueweapon/greataxe/steel/doublehead/minotaur{
+	name = "Gulletgrinder";
+	desc = "A massive double-headed axe favored by minotaur warriors. Its twin blades are broad enough to cleave shield and bearer alike, but its grim name comes from a more deliberate craft. One hook drags prey close; the other finishes the work. Gulletgrinder is not a title earned lightly."
+	},
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/minotaurcave)
 "hGv" = (
@@ -39915,6 +40303,11 @@
 /obj/item/reagent_containers/glass/cup/wooden,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors)
+"hGS" = (
+/obj/machinery/light/rogue/candle/blue,
+/mob/living/carbon/human/species/human/northern/deranged_knight/graggar,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/under/cave/orcdungeon)
 "hGX" = (
 /obj/structure/hotspring/border/fourteen,
 /obj/structure/flora/roguegrass/water/reeds,
@@ -40488,13 +40881,11 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "hLR" = (
-/obj/structure/curtain/bounty{
-	color = "grey"
+/obj/structure/glowshroom{
+	color = "#87CEEB"
 	},
-/obj/structure/bed/rogue/inn/wool,
-/obj/item/bedsheet/rogue/pelt,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/underdark)
+/turf/open/water/ocean/abyssal,
+/area/rogue/under/cave/fishmandungeon)
 "hLW" = (
 /obj/structure/fluff/railing/fence{
 	dir = 4
@@ -40526,6 +40917,12 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/lamia,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/skeletoncrypt)
+"hMf" = (
+/obj/structure/table/wood/large_table/north,
+/obj/item/clothing/cloak/tabard/abyssorite,
+/obj/item/clothing/head/roguetown/roguehood/abyssor,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "hMh" = (
 /obj/structure/flora/rock/pile,
 /turf/open/floor/rogue/AzureSand,
@@ -40585,6 +40982,12 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/magician)
+"hMI" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/forgeable/gold/cameo,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/carpet/red,
+/area/rogue/under/cave/taricheamanor)
 "hMK" = (
 /obj/structure/flora/tinymushrooms,
 /turf/open/floor/rogue/dirt,
@@ -41093,6 +41496,19 @@
 /mob/living/carbon/human/species/skeleton/npc/easy,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
+"hRW" = (
+/obj/structure/table/wood/fancy/red,
+/obj/item/clothing/head/roguetown/roguehood/psydon,
+/obj/item/clothing/head/roguetown/helmet/blacksteel/modern,
+/obj/item/clothing/neck/roguetown/bevor/blacksteel/modern,
+/obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern,
+/obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern,
+/obj/item/clothing/under/roguetown/platelegs/blacksteel/modern,
+/obj/item/clothing/wrists/roguetown/bracers/blacksteel/modern,
+/obj/item/clothing/gloves/roguetown/plate/blacksteel/modern,
+/obj/item/clothing/ring/dragon_ring,
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/his_vault/four)
 "hRZ" = (
 /turf/open/transparent/openspace,
 /area/rogue/indoors)
@@ -41336,6 +41752,13 @@
 /obj/structure/flora/ausbushes/ywflowers,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/rtfield)
+"hUl" = (
+/obj/structure/fluff/railing/wood{
+	pixel_y = -8
+	},
+/mob/living/carbon/human/species/elf/dark/drowraider,
+/turf/open/floor/rogue/wood,
+/area/rogue/under/underdark/south)
 "hUm" = (
 /obj/structure/rack/rogue,
 /obj/machinery/light/rogue/torchholder{
@@ -41464,7 +41887,9 @@
 /area/rogue/outdoors/rtfield)
 "hVu" = (
 /obj/structure/flora/roguegrass/water/reeds,
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/bog/south)
 "hVw" = (
@@ -43273,6 +43698,11 @@
 /area/rogue/druidsgrove)
 "ime" = (
 /obj/structure/table/wood/long_table,
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/paalloy{
+	name = "Siegebreaker";
+	desc = "In its prime, this siege weapon broke stone as readily as flesh. May no wall deny your passage while it remains in hand. Its gears groan with eager intent, and the pulley endures untouched by the rust that claimed the rest."
+	},
+/obj/item/quiver/bolt/heavy/silver,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
 "imf" = (
@@ -44306,6 +44736,10 @@
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/magician)
+"ivA" = (
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/skeletoncrypt)
 "ivB" = (
 /obj/effect/decal/carpet/kover_black{
 	pixel_y = -12
@@ -45476,6 +45910,17 @@
 /obj/structure/flora/ausbushes/ywflowers,
 /turf/open/floor/rogue/grass,
 /area/rogue/druidsgrove)
+"iHy" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "iHA" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
 /obj/structure/closet/crate/roguecloset/inn,
@@ -45634,6 +46079,7 @@
 "iIT" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/paper/scroll,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/underdark/south)
 "iIW" = (
@@ -46100,6 +46546,10 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/inq)
+"iNF" = (
+/obj/structure/mineral_door/wood/donjon/stone,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "iNG" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/brflowers,
@@ -46114,6 +46564,14 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield)
+"iNK" = (
+/obj/item/rogueweapon/koruu/kukri/silver{
+	name = "Fair Fight";
+	desc = "A kukri of blessed silver bearing the name Fair Fight. It was found beside the cage of a living werewolf, amidst a field of old bones. The beast bore countless silver scars yet stubbornly refused to die. Looking back upon the scene, one cannot help but wonder if the fight was ever meant to be won."
+	},
+/obj/effect/decal/remains/human,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/cave)
 "iNN" = (
 /obj/item/storage/roguebag{
 	pixel_x = 4;
@@ -46405,6 +46863,14 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern)
+"iQg" = (
+/obj/structure/table/wood,
+/obj/item/clothing/suit/roguetown/shirt/desertbra{
+	desc = "Found next to a Lamia, this answers the age old question: If given the chance, would they cover up? Nay. They let them hang.";
+	name = "Musty Bra"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/skeletoncrypt)
 "iQm" = (
 /turf/closed/wall/mineral/rogue/wooddark/vertical,
 /area/rogue/indoors/shelter/bog/skeletonfort)
@@ -46578,7 +47044,9 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors)
 "iSh" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp/deep,
 /area/rogue/under/underdark/north)
 "iSk" = (
@@ -47410,6 +47878,14 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
+"iZS" = (
+/obj/structure/table/wood/poor,
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic{
+	name = "Longshot";
+	desc = "Crafted with care and marked with the name "Longshot." There is little else remarkable about it. Still, someone thought enough of it to give it a name. May it serve you well."
+	},
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/shelter/woods)
 "iZV" = (
 /obj/effect/spawner/lootdrop/valuable_clutter_spawner,
 /turf/open/floor/rogue/cobble,
@@ -47734,6 +48210,10 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/steward)
+"jdC" = (
+/obj/item/storage/belt/rogue/surgery_bag/full,
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/skeletoncrypt)
 "jdE" = (
 /obj/item/roguecoin/copper/pile,
 /obj/structure/closet/crate/chest,
@@ -47918,6 +48398,10 @@
 /obj/structure/flora/roguegrass/herb/mentha,
 /turf/open/water/cleanshallow,
 /area/rogue/druidsgrove)
+"jfb" = (
+/obj/structure/mineral_door/wood/donjon/stone,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/inq/chapel)
 "jfd" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/outdoors/town)
@@ -48325,7 +48809,10 @@
 "jiR" = (
 /obj/structure/closet/crate/roguecloset,
 /obj/item/clothing/cloak/raincloak/mortus,
-/obj/item/rogueweapon/shovel,
+/obj/item/rogueweapon/shovel/bronze{
+	name = "Undertaker";
+	desc = "A sturdy bronze shovel bearing the name Undertaker. Though forged for honest labor, it has spent far more time opening graves than digging ditches. Its edge is worn smooth by countless burials, and its handle polished by generations of weary hands.Few tools have carried so many to their final rest. Fewer still have done so with such quiet dignity. In the end, every road leads to the Undertaker."
+	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/beach/forest/south)
 "jiU" = (
@@ -48405,6 +48892,10 @@
 /area/rogue/under/cave/his_vault/puzzle)
 "jjn" = (
 /obj/structure/bed/rogue/shit,
+/obj/item/rogueweapon/huntingknife/throwingknife/silver/preblessed{
+	name = "Silver Sliver";
+	desc = "A lone throwing knife, blessed in ages past. It could not save the one who carried it, but perhaps it may yet save you."
+	},
 /turf/open/floor/rogue/wood,
 /area/rogue/outdoors/beach/forest/north)
 "jjr" = (
@@ -48732,6 +49223,7 @@
 "jlL" = (
 /obj/structure/table/wood/poor,
 /obj/item/rogueweapon/huntingknife/chefknife/cleaver,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
 "jlN" = (
@@ -49008,6 +49500,10 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /obj/structure/table/wood/poor/alt,
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/decorated{
+	name = "Fenwrought";
+	desc = "Resplendent in gold, this armor lies tarnished beneath layers of mud and peat. The bog has little regard for wealth, glory, or noble blood. Even so, its old brilliance lingers beneath the filth. One need only wipe away the mud to reveal it once more."
+	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/shelter/bog/bogmanfort)
 "joi" = (
@@ -50233,6 +50729,10 @@
 /obj/structure/bars/pipe,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/underdark/north)
+"jzv" = (
+/mob/living/simple_animal/hostile/rogue/deepone/wiz/boss,
+/turf/open/floor/carpet/stellar,
+/area/rogue/under/cave/fishmandungeon)
 "jzx" = (
 /obj/structure/mirror,
 /obj/machinery/light/rogue/candle/l,
@@ -50817,6 +51317,13 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/physician)
+"jEN" = (
+/obj/item/rogueweapon/shield/tower/spidershield{
+	desc = "Fashioned from the chitin of a primordial arachnid, this shield remains as resilient as the creature from which it was taken. It serves as a bulwark against those foolish enough to challenge the Many-Legged Ones.";
+	name = "Carapace"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/spider)
 "jEU" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -51329,6 +51836,11 @@
 /mob/living/carbon/human/species/human/northern/searaider/ambush,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
+"jJH" = (
+/obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/skeletoncrypt)
 "jJJ" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
@@ -52300,6 +52812,7 @@
 	pixel_y = 13
 	},
 /obj/item/book/rogue/secret/dragon_stanza,
+/obj/item/enchantmentscroll/mythic/rewind,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/dragonden)
 "jSM" = (
@@ -52559,6 +53072,10 @@
 /obj/structure/chair/bench,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
+"jVv" = (
+/obj/effect/decal/remains/human,
+/turf/open/floor/rogue/dirt,
+/area/rogue/indoors/cave)
 "jVw" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/outdoors/exposed/town/keep)
@@ -52745,6 +53262,8 @@
 "jWZ" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/under/underdark/south)
 "jXd" = (
@@ -52889,6 +53408,10 @@
 /obj/structure/mineral_door/wood/towner/woodworker,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
+"jYp" = (
+/obj/item/rogueweapon/mace/woodclub/militia,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/spider)
 "jYu" = (
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/bog/south)
@@ -53390,7 +53913,9 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach/north)
 "kcX" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
@@ -54030,6 +54555,8 @@
 "kji" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/item/clothing/cloak/matron,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/underdark/south)
 "kjm" = (
@@ -54228,7 +54755,9 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "kli" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/bog/south)
 "klj" = (
@@ -54686,7 +55215,9 @@
 /obj/structure/vine{
 	opacity = 1
 	},
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/river/flow,
 /area/rogue/druidsgrove)
 "kqH" = (
@@ -54736,6 +55267,12 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/town/roofs)
+"krd" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold/king,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/underdark/north)
 "kri" = (
 /obj/effect/spawner/roguemap/treeorstump,
 /turf/open/floor/rogue/grassyel,
@@ -55535,6 +56072,7 @@
 	locked = 1
 	},
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter)
 "kzg" = (
@@ -55675,8 +56213,13 @@
 /area/rogue/indoors/cave/west)
 "kAs" = (
 /obj/structure/table/church/end,
-/obj/item/ingot/blacksteel,
-/obj/item/ingot/blacksteel,
+/obj/item/clothing/head/roguetown/helmet/blacksteel/modern,
+/obj/item/clothing/gloves/roguetown/plate/blacksteel/modern,
+/obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern,
+/obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern,
+/obj/item/clothing/under/roguetown/platelegs/blacksteel/modern,
+/obj/item/clothing/wrists/roguetown/bracers/blacksteel/modern,
+/obj/item/clothing/neck/roguetown/bevor/blacksteel/modern,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
 "kAt" = (
@@ -56318,7 +56861,9 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/exposed/town/keep)
 "kGr" = (
-/obj/structure/mineral_door/bars,
+/obj/structure/mineral_door/bars{
+	locked = 1
+	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/cave)
 "kGx" = (
@@ -57194,6 +57739,12 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
+"kON" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/clothing/shoes/roguetown/boots/armor/gold/king,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/underdark/north)
 "kOO" = (
 /obj/item/grown/log/tree/small,
 /obj/structure/table/wood/poor/alt,
@@ -57298,6 +57849,24 @@
 /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
+"kPP" = (
+/obj/structure/table/church/end,
+/obj/item/clothing/neck/roguetown/psicross/abyssor/g,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 5
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
+"kPT" = (
+/obj/item/rogueweapon/sword/short/messer/onyxa{
+	name = "Nehnemi";
+	desc = "Nehnemi, the Wanderer. A macuahuitl of flawless Onyxa recovered from a sealed crate adrift upon the sea. No ship claimed it, no markings revealed its origin, and no owner came seeking its return. The wood of the crate rotted, the nails corroded, and the sea erased every clue. Only the weapon endured, as though it had not been lost at all, but merely traveling."
+	},
+/obj/structure/closet/crate/chest/crate,
+/obj/item/clothing/mask/rogue/facemask/carved/onyxamask,
+/turf/open/floor/rogue/AzureSand,
+/area/rogue/indoors/cave/east)
 "kPW" = (
 /obj/structure/flora/roguegrass/herb/salvia,
 /turf/open/floor/rogue/grass,
@@ -58211,6 +58780,13 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
+"kYw" = (
+/obj/item/rogueweapon/shield/iron/bone{
+	name = "Congealed Scraps";
+	desc = "Blood, viscera, mud. It holds together, even if just. You can hold it, and it will take blows for you. But why would you?"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cavewet/bogcaves/west)
 "kYy" = (
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/carpet/inn,
@@ -58698,6 +59274,10 @@
 /obj/machinery/light/rogue/campfire/densefire,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/cave)
+"lcW" = (
+/mob/living/carbon/human/species/skeleton/npc/hard,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cavewet/bogcaves/north)
 "lda" = (
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/cobble,
@@ -58929,6 +59509,7 @@
 "lfK" = (
 /obj/structure/fluff/railing/border/west,
 /obj/structure/fluff/railing/border/north,
+/obj/machinery/light/rogue/smelter/great,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/taricheamanor)
 "lfL" = (
@@ -58958,15 +59539,14 @@
 /turf/closed/wall/mineral/rogue/stone/unbreakable,
 /area/rogue/under/cave/his_vault/four)
 "lfZ" = (
+/obj/structure/barricade/crude{
+	color = "#633b3b"
+	},
 /obj/structure/mineral_door/wood/deadbolt{
 	color = "#778079";
 	dir = 4;
-	locked = 1;
 	max_integrity = 500;
 	name = "rotting door"
-	},
-/obj/structure/barricade/crude{
-	color = "#633b3b"
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/shelter)
@@ -60718,7 +61298,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
 "ltF" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/woods/south)
 "ltH" = (
@@ -60913,6 +61495,10 @@
 "lvO" = (
 /obj/structure/bed/rogue/inn/wool,
 /obj/item/bedsheet/rogue/pelt,
+/obj/item/lockpick/goldpin{
+	name = "A Gentleman";
+	desc = "A gentleman always opens the door for a lady."
+	},
 /turf/open/floor/rogue/woodturned/nosmooth,
 /area/rogue/under/underdark/south)
 "lvQ" = (
@@ -61566,6 +62152,7 @@
 "lCc" = (
 /obj/structure/table/wood/large_table/south_west,
 /obj/item/reagent_containers/glass/cup/wooden,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cavewet/bogcaves/west)
 "lCq" = (
@@ -63154,6 +63741,11 @@
 /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2,
 /obj/item/clothing/head/roguetown/mentorhat,
 /obj/effect/spawner/lootdrop/cheap_jewelry_spawner,
+/obj/item/rogueweapon/sword/sabre/mulyeog{
+	name = "Kumoonsen";
+	desc = "A hwando recovered from the depths of a spider-haunted hot spring. Neither rust nor decay have touched it. Fine mineral deposits and traces of old silk intertwine across the blade in intricate patterns no smith could have deliberately forged. The name Kumoonsen is etched into the tang. Whether it belonged to a traveler, a warrior, or something stranger has long since been forgotten."
+	},
+/obj/item/clothing/mask/rogue/facemask/steel/kazengun,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/abandonedhotsprings)
 "lPA" = (
@@ -64871,6 +65463,9 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/inq/office)
+"mfy" = (
+/turf/open/floor/rogue/dark_ice,
+/area/rogue/outdoors/mountains/decap)
 "mfz" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border/west,
@@ -64890,6 +65485,8 @@
 /obj/structure/fluff/railing/border/east,
 /obj/structure/table/wood/poor,
 /obj/item/reagent_containers/glass/bottle/rogue/elfred,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/under/underdark/south)
 "mfG" = (
@@ -65074,6 +65671,7 @@
 /area/rogue/indoors/town/pestra_sanctum)
 "mhf" = (
 /obj/effect/landmark/chest_or_mimic/loot_chest,
+/obj/item/clothing/under/roguetown/platelegs/blacksteel,
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/underdark/north)
 "mhg" = (
@@ -65450,6 +66048,12 @@
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/exposed/town/keep)
+"mlh" = (
+/obj/structure/table/wood/large_table/north,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/general_loot_mid,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "mli" = (
 /obj/structure/bars/passage/shutter{
 	redstone_id = "goblinfort2"
@@ -65609,7 +66213,9 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors)
 "mmt" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/sewer,
 /area/rogue/under/town/sewer)
 "mmu" = (
@@ -65882,6 +66488,14 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/town)
+"mpM" = (
+/obj/structure/bookcase{
+	desc = "It seems awfully flimsy, to me.";
+	max_integrity = 50;
+	name = "suspicious bookcase"
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/inq/chapel)
 "mpQ" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/reagent_containers/glass/cup/wooden{
@@ -66008,6 +66622,7 @@
 /area/rogue/druidsgrove)
 "mrc" = (
 /obj/structure/rack/rogue,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cavewet/bogcaves/west)
 "mrg" = (
@@ -66236,6 +66851,7 @@
 /area/rogue/indoors/inq)
 "msI" = (
 /obj/structure/table/wood/long_table/mid/alt,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/under/underdark/south)
 "msR" = (
@@ -67057,6 +67673,9 @@
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/beach/forest/south)
+"mBl" = (
+/turf/open/floor/carpet/stellar,
+/area/rogue/under/cave/fishmandungeon)
 "mBs" = (
 /obj/structure/bars/tough,
 /turf/open/floor/rogue/concrete,
@@ -67298,6 +67917,14 @@
 /obj/structure/table/wood,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/item/rogueweapon/spear/spellblade{
+	desc = "A sturdy spear named Incentive, invariably employed when Reason failed to make its point. Its edge is well maintained, suggesting it saw frequent use in the settlement of disputes.Most travelers eventually found the wielder's arguments quite persuasive. Those who remained unconvinced rarely remained standing.";
+	name = "Incentive"
+	},
+/obj/item/rogueweapon/shield/tower/raneshen{
+	name = "Reason";
+	desc = "A battered shield carried by a bandit who fancied himself a negotiator. Its face is scarred by arrows, axes, and countless failed arguments. Bearing the name Reason, it was presented first in any discussion.The wise accepted its terms and walked away poorer, but alive."
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/shelter/mountains/decap)
 "mDU" = (
@@ -67576,6 +68203,10 @@
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield)
+"mGw" = (
+/mob/living/carbon/human/species/goblin/npc/large/sea,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/beach/forest/north)
 "mGy" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/ywflowers,
@@ -67672,6 +68303,15 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/underdark/north)
+"mHy" = (
+/obj/structure/table/wood,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/materials,
+/obj/item/rogueweapon/shield/steam{
+	name = "Billower";
+	desc = "Tubes of gilbranze hiss with steam at the merest touch. The shield is old and worn, its surface scarred by years of service, yet the mechanism within still whirs with lyfe and heat."
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/taricheamanor)
 "mHz" = (
 /obj/structure/fluff/railing/wood{
 	pixel_y = -8
@@ -68100,7 +68740,10 @@
 /area/rogue/indoors)
 "mMG" = (
 /obj/structure/table/wood/poor,
-/obj/item/clothing/ring/aalloy,
+/obj/item/clothing/ring/shell{
+	name = "Vow";
+	desc = "A simple shell ring bearing the inscription "V & D." Countless years of wear have smoothed its edges, but not the devotion etched into its surface. The ring was recovered from a thief's hut, far removed from its rightful owner. One wonders whether the theft broke hearts, or merely confirmed what fate had already decided."
+	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/town)
 "mMM" = (
@@ -68413,6 +69056,15 @@
 /obj/structure/fluff/railing/corner/south_west,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/beach/north)
+"mQg" = (
+/obj/structure/table/church,
+/obj/effect/spawner/lootdrop/random_gem,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 9
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "mQr" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/ppflowers,
@@ -68708,6 +69360,13 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/exposed/town/keep/unbuildable)
+"mTD" = (
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "mTH" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6;
@@ -69147,6 +69806,7 @@
 /area/rogue/indoors/inq)
 "mYe" = (
 /obj/structure/table/wood/poor,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
 /turf/open/floor/rogue/metal,
 /area/rogue/under/underdark/north)
@@ -69866,7 +70526,9 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/town)
 "ngf" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/woods/southwest)
 "ngg" = (
@@ -70378,8 +71040,8 @@
 	lockid = "baroness"
 	},
 /obj/item/roguegem/ruby,
-/obj/item/rogueweapon/woodstaff/implement/grand,
 /obj/item/storage/belt/rogue/pouch/coins/rich,
+/obj/item/rogueweapon/woodstaff/implement/grand/riddle,
 /turf/open/floor/rogue/wood/herringbone,
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
 "nlI" = (
@@ -70688,6 +71350,10 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
+"nor" = (
+/mob/living/carbon/human/species/hobgoblin/npc,
+/turf/open/floor/rogue/blocks,
+/area/rogue/under/cavewet/bogcaves/west)
 "nos" = (
 /obj/structure/table/wood/large_table/south_west,
 /obj/effect/spawner/lootdrop/roguetown/sewers,
@@ -70894,6 +71560,15 @@
 	},
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"nqm" = (
+/obj/structure/table/wood/fancy,
+/obj/item/rogueweapon/sword/short/messer/blacksteel{
+	name = "Rathewer"
+	},
+/turf/open/floor/rogue/metal{
+	icon_state = "plating2"
+	},
+/area/rogue/under/cave/dungeon1/gethsmane/inner)
 "nqp" = (
 /obj/structure/fluff/railing/border/east,
 /obj/machinery/light/rogue/firebowl,
@@ -71235,7 +71910,9 @@
 /turf/open/water/swamp,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "ntM" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/grasscold,
 /area/rogue/druidsgrove)
 "ntO" = (
@@ -71466,6 +72143,7 @@
 "nwh" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/clothing,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/minotaurcave)
 "nwi" = (
@@ -71823,6 +72501,10 @@
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
+"nzN" = (
+/obj/structure/table/wood/large_table/north_east,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "nzP" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/paper/scroll{
@@ -72134,6 +72816,10 @@
 	info = "The Inquisition will hardly come search for me here - yet the drow have started to notice my presence in the area. I fear everyday upon which I take breath, risking death by their hand or the Otavans."
 	},
 /obj/structure/table/wood/poor,
+/obj/item/rogueweapon/huntingknife/idagger/steel/stalker{
+	name = "Fang";
+	desc = "As cruelly curved as a spider's fang, this drow-forged blade exists for a single purpose: to carry poison where it will do the most harm."
+	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/underdark)
 "nDi" = (
@@ -72483,6 +73169,14 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
+"nHs" = (
+/obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy{
+	name = "In Her Name";
+	desc = "Polished gilbranze ripples like living flame. Its edge is vicious, its crossguard deliberate and evocative. This weapon exists for a singular purpose: to deliver Progress, in Her name."
+	},
+/obj/structure/rack/rogue,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "nHx" = (
 /obj/structure/chair/wood/rogue{
 	dir = 4
@@ -72744,6 +73438,7 @@
 	dir = 8
 	},
 /obj/structure/flora/ausbushes/brflowers,
+/mob/living/carbon/human/species/goblin/npc/cave,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cave)
 "nJX" = (
@@ -73196,6 +73891,8 @@
 "nOj" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
 /turf/open/floor/rogue/woodturned/nosmooth,
 /area/rogue/under/underdark/south)
 "nOl" = (
@@ -73672,6 +74369,11 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains)
+"nSf" = (
+/obj/structure/table/wood/large_table/north,
+/obj/item/carvedgem/coral/shark,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "nSg" = (
 /obj/structure/chair/wood/rogue/fancy{
 	dir = 4
@@ -74218,6 +74920,13 @@
 /obj/effect/decal/cleanable/debris/glassy,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/dwarfin)
+"nWD" = (
+/obj/item/rogueweapon/pick/paalloy{
+	name = "Defiant Pickaxe";
+	desc = "A well-worn mining pick bearing the name Defiant. It once belonged to a miner who challenged a giant mole for dominion over a rich vein of ore. Refusing to concede even as the tunnel collapsed around them, he saw the contest through to its bitter end. The mole survived to claim victory."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "nWE" = (
 /obj/item/reagent_containers/glass/bowl,
 /turf/open/floor/rogue/dirt,
@@ -74290,6 +74999,10 @@
 "nXk" = (
 /obj/structure/table/wood,
 /obj/item/reagent_containers/glass/bottle/rogue/beer/voddena,
+/obj/item/reagent_containers/glass/cup/golden/poison{
+	pixel_y = 2;
+	pixel_x = -11
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "nXo" = (
@@ -74498,7 +75211,9 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "nZH" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp,
 /area/rogue/outdoors/bog/north)
 "nZJ" = (
@@ -74969,7 +75684,9 @@
 /area/rogue/under/town/sewer)
 "odP" = (
 /obj/effect/decal/cleanable/dirt/cobweb,
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/town/sewer)
 "oec" = (
@@ -75285,6 +76002,11 @@
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town/manor)
 "ogO" = (
+/obj/structure/table/wood,
+/obj/item/cooking/pan/bronze{
+	name = "Mealbringer the Devastatingly Blunteous";
+	desc = "Undented. Unbroken. Its flawless non-stick surface and carefully wrought curves ensure not a single drop of oil can find its wielder. Yet its true purpose is not in the kitchen, but in caving in the skulls of those who would scorn the labor of a master chef. Cook and Serve until it is done."
+	},
 /turf/open/floor/rogue/greenstone,
 /area/rogue/under/cavewet/bogcaves/north)
 "ogR" = (
@@ -75651,6 +76373,7 @@
 "okM" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/needle/thorn,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/underdark/north)
 "okU" = (
@@ -75800,7 +76523,9 @@
 /turf/closed/wall/mineral/rogue/pipe/corners,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "olM" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "olR" = (
@@ -75992,6 +76717,14 @@
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/south)
+"ooi" = (
+/obj/structure/bed/rogue/shit,
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced{
+	name = "Mudtrudgers";
+	desc = "Their greatest virtue is a simple one. Even in the oppressive muck and stagnant waters of the bog, these boots keep the wearer's feet perfectly dry."
+	},
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/shelter)
 "ooj" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -76027,6 +76760,10 @@
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/manor)
+"oow" = (
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy,
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "ooy" = (
 /obj/structure/closet/dirthole/closed/loot,
 /turf/open/floor/rogue/dirt/road,
@@ -76688,6 +77425,7 @@
 	pixel_y = 4
 	},
 /obj/item/rogueweapon/hammer/steel,
+/obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "ouL" = (
@@ -77161,6 +77899,10 @@
 "ozh" = (
 /obj/structure/table/wood,
 /obj/item/candle/gold/lit,
+/obj/item/rogueweapon/sword/rapier/blacksteel{
+	name = "Claimant";
+	desc = "Forged from lustrous blacksteel, this rapier gleams with a dark beauty matched only by its precision. Its name speaks not of possession, but aspiration. A claimant is not yet a ruler, merely one determined to become one."
+	},
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/taricheamanor)
 "ozi" = (
@@ -77886,6 +78628,12 @@
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
+"oFG" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/forgeable/gold/bust,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/carpet/red,
+/area/rogue/under/cave/taricheamanor)
 "oFI" = (
 /obj/structure/floordoor/gatehatch/outer{
 	redstone_id = "swamp_psy_dungeon"
@@ -77936,6 +78684,10 @@
 /area/rogue/druidsgrove)
 "oGm" = (
 /obj/structure/rack/rogue/shelf/biggest,
+/obj/item/clothing/head/roguetown/helmet/heavy/guard/bogman/iron{
+	name = "Draftsmarch";
+	desc = "A mundane helmet, yet one cared for well enough to earn a name. It passed from the hands of the bogmen into the service of the duchy's levy, carrying its purpose with it. The dents upon its iron stand as a reminder of a duty long inherited: keep a watchful eye upon the accursed bog, and slay whatever emerges from its depths."
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter)
 "oGn" = (
@@ -78056,6 +78808,13 @@
 /obj/machinery/light/rogue/candle/off,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"oGV" = (
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "oGW" = (
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/grasscold,
@@ -80146,6 +80905,13 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/manor)
+"oYi" = (
+/obj/structure/bookcase{
+	density = 0;
+	name = "suspicious bookcase"
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "oYm" = (
 /obj/machinery/light/rogue/campfire,
 /turf/open/floor/rogue/dirt,
@@ -80224,6 +80990,11 @@
 /obj/structure/spider/stickyweb/mirespider,
 /turf/closed/wall/mineral/rogue/stone/unbreakable,
 /area/rogue/under/cave/his_vault)
+"oYU" = (
+/obj/structure/table/wood/poor,
+/obj/effect/spawner/lootdrop/silver_weapon_spawner,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/under/underdark)
 "oYV" = (
 /obj/effect/decal/cleanable/blood/tracks{
 	dir = 4;
@@ -80664,6 +81435,11 @@
 /area/rogue/outdoors/beach/central)
 "peg" = (
 /obj/machinery/light/rogue/torchholder/c,
+/obj/item/natural/rock/gold{
+	color = "#FFFF00";
+	name = "Chunk of Gold";
+	desc = "A second glance confirms your suspicion: it is, in fact, just a yellow rock. An unusually heavy one, admittedly."
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
 "pei" = (
@@ -80949,6 +81725,7 @@
 /area/rogue/outdoors/exposed/town/keep)
 "pgs" = (
 /obj/effect/decal/cleanable/blood/splatter,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
 "pgu" = (
@@ -81810,6 +82587,11 @@
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/north)
+"pok" = (
+/obj/structure/table/wood/large_table/north,
+/obj/item/carvedgem/coral/jaw,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "pom" = (
 /obj/item/storage/backpack/rogue/backpack,
 /turf/open/floor/rogue/dirt/road,
@@ -82232,6 +83014,7 @@
 /obj/machinery/light/rogue/candle/blue,
 /obj/structure/table/wood/fancy/black,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/spells,
+/obj/item/enchantmentscroll/basic/holding,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/mazedungeon)
 "pth" = (
@@ -82590,7 +83373,9 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield)
 "pxL" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp,
 /area/rogue/druidsgrove)
 "pxS" = (
@@ -82805,6 +83590,11 @@
 "pAh" = (
 /obj/structure/table/church,
 /obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
+/obj/item/enchantmentscroll/mythic/infernalflame,
+/obj/item/rogueweapon/woodstaff/quarterstaff/blacksteel{
+	name = "Discipline";
+	desc = "A solid rod of blacksteel capped with heavy, bulbous ends. Nearly unbreakable, this quarterstaff delivers punishment with relentless efficiency. Its name is Discipline, and it is eager to impart the lesson."
+	},
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
 "pAi" = (
@@ -83344,7 +84134,9 @@
 /turf/closed/wall/mineral/rogue/wooddark/horizontal,
 /area/rogue/indoors/cave/underhamlet)
 "pFc" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp,
 /area/rogue/under/cave)
 "pFj" = (
@@ -83355,6 +84147,13 @@
 /obj/structure/roguewindow,
 /turf/open/floor/rogue/concrete,
 /area/rogue/outdoors/mountains/decap/stepbelow)
+"pFp" = (
+/obj/item/legwears/silk/white{
+	name = "Spidersilk Stockings";
+	desc = "Did spiders make these? The fabric is remarkably uniform, woven as though from a single impossibly long strand. Whatever their origin, these stockings are sinfully luxurious."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "pFq" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/carpet/royalblack,
@@ -83567,6 +84366,10 @@
 /obj/structure/bookcase/random/archive,
 /obj/item/book/rogue/robber,
 /turf/open/floor/carpet/red,
+/area/rogue/under/cave/mazedungeon)
+"pHb" = (
+/obj/structure/fluff/walldeco/psybanner/zizo/red,
+/turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/cave/mazedungeon)
 "pHd" = (
 /turf/closed/wall/mineral/rogue/tent{
@@ -83935,6 +84738,10 @@
 /area/rogue/outdoors/woods/southeast)
 "pKp" = (
 /obj/effect/decal/cleanable/blood/gibs/body,
+/obj/item/clothing/head/roguetown/nyle/consortcrown{
+	name = "Bent Crown";
+	desc = "Inlaid gemstones and opulent craftsmanship cannot change one simple fact: a troll stepped on it."
+	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains)
 "pKq" = (
@@ -83970,6 +84777,7 @@
 /obj/effect/decal/cleanable/blood/tracks{
 	dir = 9
 	},
+/mob/living/simple_animal/hostile/retaliate/rogue/swine,
 /turf/open/floor/rogue/hay,
 /area/rogue/under/cavewet/bogcaves/north)
 "pKI" = (
@@ -84046,9 +84854,16 @@
 	},
 /area/rogue/indoors/town/garrison)
 "pLB" = (
-/mob/living/carbon/human/species/goblin/npc/ambush/cave,
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/under/cavewet/bogcaves/west)
+/obj/item/clothing/head/roguetown/helmet/blacksteel,
+/obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel,
+/obj/item/clothing/under/roguetown/platelegs/blacksteel,
+/obj/item/clothing/wrists/roguetown/bracers/blacksteel,
+/obj/item/clothing/neck/roguetown/bevor/blacksteel,
+/obj/item/clothing/gloves/roguetown/plate/blacksteel,
+/obj/item/clothing/shoes/roguetown/boots/armor/blacksteel,
+/obj/structure/closet/crate/chest/neu_fancy,
+/turf/open/floor/rogue/metal/barograte,
+/area/rogue/under/underdark/north)
 "pLC" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6
@@ -84687,6 +85502,10 @@
 /obj/structure/chair/bench/couchamagenta/r,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/magician)
+"pRg" = (
+/mob/living/simple_animal/hostile/rogue/dreamfiend/ancient/unbound,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "pRj" = (
 /obj/structure/mineral_door/wood{
 	locked = 1;
@@ -84834,6 +85653,10 @@
 "pSE" = (
 /obj/effect/spawner/lootdrop/roguetown/dungeon/materials,
 /obj/structure/closet/crate/chest/wicker,
+/obj/item/clothing/ring/aalloy{
+	name = "Tarnished Keepsake";
+	desc = "A frayed coil of bronze, worn smooth by years of handling. It must have meant something to someone once. An empty gem setting rests at its center, and a faint melancholy clings to the otherwise mundane trinket."
+	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/beach/central)
 "pSG" = (
@@ -85501,8 +86324,8 @@
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/exposed/magiciantower)
 "pZL" = (
-/mob/living/carbon/human/species/goblin/npc/ambush/sea,
 /obj/structure/bed/rogue/shit,
+/mob/living/carbon/human/species/hobgoblin/npc,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cavewet/bogcaves/west)
 "pZM" = (
@@ -86312,6 +87135,10 @@
 /obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/mazedungeon)
+"qgZ" = (
+/mob/living/carbon/human/species/human/northern/deranged_knight/graggar,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/under/cave/orcdungeon)
 "qha" = (
 /obj/structure/closet/crate/chest/wicker,
 /turf/open/floor/rogue/cobble,
@@ -86666,6 +87493,10 @@
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/scarymaze)
+"qko" = (
+/mob/living/carbon/human/species/goblin/npc/cave,
+/turf/open/floor/rogue/twig,
+/area/rogue/under/cave)
 "qks" = (
 /obj/structure/flora/roguegrass/herb/rosa,
 /turf/open/floor/rogue/grass,
@@ -87366,6 +88197,7 @@
 /area/rogue/under/cave/scarymaze)
 "qsb" = (
 /obj/item/natural/rock,
+/mob/living/carbon/human/species/skeleton/npc/medium,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/north)
 "qse" = (
@@ -87390,6 +88222,38 @@
 "qsv" = (
 /obj/effect/spawner/lootdrop/general_loot_mid/x3,
 /obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/clothing/head/roguetown/helmet/heavy/necrahelm{
+	name = "Bone-Lined Helm";
+	desc = "Headwear commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it still serves as a grim reminder of the universal constant: One dae, you will die."
+	},
+/obj/item/rogueweapon/flail/sflail/necraflail,
+/obj/item/clothing/gloves/roguetown/plate/kote{
+	name = "Bone-lined Gauntlets";
+	desc = "Handwear commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, they serve as a grim reminder of the universal constant: One dae, you will die."
+	},
+/obj/item/clothing/suit/roguetown/armor/plate/full{
+	desc = "Armor commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it serves as a grim reminder of the universal constant: One dae, you will die.";
+	name = "Bone-lined Armor";
+	color = "#808080"
+	},
+/obj/item/clothing/suit/roguetown/shirt/robe/necra,
+/obj/item/clothing/under/roguetown/platelegs/iron/gronn{
+	name = "Bone-lined Chausses";
+	desc = "Armor commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it serves as a grim reminder of the universal constant: One dae, you will die."
+	},
+/obj/item/clothing/wrists/roguetown/bracers/hand{
+	desc = "Armor commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it serves as a grim reminder of the universal constant: One dae, you will die.";
+	name = "Bone-lined Bracers"
+	},
+/obj/item/clothing/shoes/roguetown/boots/armor/iron/gronn{
+	name = "Bone-lined Boots";
+	desc = "Armor commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it serves as a grim reminder of the universal constant: One dae, you will die."
+	},
+/obj/item/clothing/neck/roguetown/gorget/aventail{
+	color = "#808080";
+	name = "Bone-lined Gorget";
+	desc = "Armor commonly worn by Templars in service to Necra, lined with the bone of those that once drew breath. Ornate and ceremonial, it serves as a grim reminder of the universal constant: One dae, you will die."
+	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "qsx" = (
@@ -87686,6 +88550,14 @@
 "qvi" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/outdoors/bog/north)
+"qvn" = (
+/obj/item/rogueweapon/mace/woodclub/deprived{
+	name = "Burnt Club";
+	desc = "Forged in fire and heat. Unfortunately it's made of wood, so that wasn't the best of ideas."
+	},
+/obj/structure/table/wood,
+/turf/open/floor/rogue/twig,
+/area/rogue/under/cave)
 "qvr" = (
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/dirt/road,
@@ -88132,7 +89004,9 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/dwarfin)
 "qzB" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp,
 /area/rogue/outdoors/mountains/decap)
 "qzC" = (
@@ -88405,7 +89279,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
 "qBQ" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/druidsgrove)
 "qBS" = (
@@ -88577,6 +89453,10 @@
 /obj/item/underworld,
 /turf/open/floor/rogue/concrete/bronze,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"qDq" = (
+/obj/item/clothing/shoes/roguetown/boots/paalloy,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "qDs" = (
 /obj/effect/decal/cobbleedge{
 	dir = 8
@@ -89107,6 +89987,11 @@
 /obj/item/rogueweapon/tongs,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/taricheamanor)
+"qIj" = (
+/obj/item/rogueweapon/spear/boar/frei/pike/reformist,
+/obj/structure/table/wood/poker,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter)
 "qIm" = (
 /obj/structure/closet/crate/roguecloset/inn/south,
 /turf/open/floor/carpet/red,
@@ -89354,6 +90239,7 @@
 "qKx" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/item/clothing/ring/gold,
+/obj/item/ingot/blacksteel,
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "qKz" = (
@@ -90049,6 +90935,7 @@
 	dir = 4
 	},
 /obj/structure/table/wood/poor,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/underdark/south)
 "qRG" = (
@@ -90096,7 +90983,9 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/druidsgrove)
 "qRY" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/sewer,
 /area/rogue/under/cave/dungeon1/gethsmane)
 "qSd" = (
@@ -90377,6 +91266,11 @@
 "qUM" = (
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/shelter/mountains/decap)
+"qUP" = (
+/obj/structure/chair/bench/church/r,
+/mob/living/simple_animal/hostile/rogue/deepone/arm,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "qUU" = (
 /obj/structure/table/wood,
 /obj/effect/spawner/lootdrop/roguetown/sewers,
@@ -90494,6 +91388,11 @@
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/town/keep)
+"qWl" = (
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/skeletoncrypt)
 "qWm" = (
 /obj/structure/closet/crate/drawer,
 /turf/open/floor/carpet/stellar,
@@ -91064,9 +91963,9 @@
 /turf/open/water/cleanshallow,
 /area/rogue/under/cave/his_vault)
 "rbs" = (
-/mob/living/carbon/human/species/orc/npc/marauder,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/under/cave/orcdungeon)
+/obj/structure/roguewindow/stained/zizo,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/under/cave/mazedungeon)
 "rbu" = (
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern)
@@ -91174,7 +92073,9 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/outdoors/beach)
 "rcv" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /mob/living/carbon/human/species/skeleton/npc/medium,
 /turf/open/water/swamp/deep,
 /area/rogue/under/underdark/north)
@@ -91582,6 +92483,14 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/physician)
+"rgF" = (
+/obj/item/broom{
+	desc = "A witch could fly with this, probably. Or so the myth goes...";
+	name = "Flying Broom"
+	},
+/obj/structure/table/wood,
+/turf/open/floor/rogue/twig,
+/area/rogue/under/cave)
 "rgI" = (
 /obj/structure/fluff/railing/wood/west,
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -91619,6 +92528,10 @@
 /area/rogue/indoors/town)
 "rhc" = (
 /obj/structure/closet/crate/chest/lootbox,
+/obj/item/rogueweapon/fishspear{
+	name = "Lyfesaver";
+	desc = "A well-worn, two-pronged fishing spear. It reeks of fish and is crusted with rust, brine, and the stubborn residue of countless catches. By all rights, it should have fallen apart years ago, yet it endures through diligent maintenance and sheer luck alone. A true Lyfesaver."
+	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave/east)
 "rhi" = (
@@ -92280,6 +93193,10 @@
 "rnU" = (
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/woods/south)
+"rnV" = (
+/obj/item/reagent_containers/food/snacks/fish/creepy_eel,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "rnW" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains)
@@ -92298,6 +93215,10 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/zhurch)
+"rog" = (
+/obj/structure/fluff/psycross/psycrucifix/silver,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/cave)
 "roi" = (
 /obj/machinery/light/rogue/hearth,
 /obj/machinery/light/rogue/oven/south,
@@ -92442,6 +93363,14 @@
 /obj/structure/table/wood/large_table,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/dwarfin)
+"rqr" = (
+/obj/structure/table/wood/fancy,
+/obj/item/rogueweapon/sword/silver/decorated{
+	name = "Vhes";
+	desc = "A decorated khadga of polished silver, its broad blade etched with intricate patterns that seem to writhe at the edge of vision. The weapon bears the name Vhes, though no record of its owner survives. It sits perfectly in the hand, balanced with an ease that feels almost unnatural. A strange familiarity clings to it. Those versed in forbidden lore may find their thoughts drifting toward cycles, recurrence, and the image of a serpent devouring its own tail, though few could say precisely why."
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/goblinfort)
 "rqy" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/floor/rogue/AzureSand,
@@ -92783,6 +93712,12 @@
 /obj/effect/landmark/chimeric_calyx_spawner,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
+"ruw" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/rogueweapon/katar/abyssor,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "ruy" = (
 /obj/structure/fluff/signage{
 	dir = 1;
@@ -93255,6 +94190,13 @@
 /obj/effect/spawner/lootdrop/valuable_candle_spawner,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/abandonedhotsprings)
+"rzf" = (
+/obj/structure/chair/wood/rogue{
+	dir = 8
+	},
+/mob/living/carbon/human/species/goblin/npc/cave,
+/turf/open/floor/rogue/grass,
+/area/rogue/under/cave)
 "rzo" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/outdoors/exposed/magiciantower)
@@ -93370,6 +94312,10 @@
 /area/rogue/indoors/town/zhurch)
 "rAl" = (
 /obj/structure/table/wood/large_table/north_west,
+/obj/item/clothing/head/roguetown/helmet/heavy/sheriff/gold/king{
+	name = "Opulence";
+	desc = "Fragile as vanity itself, this gaudy piece is prone to breaking under pressure. Fortunately, its exorbitant cost ensures it remains highly prized among those who mistake wealth for worth."
+	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/underdark/north)
 "rAn" = (
@@ -93911,7 +94857,9 @@
 /obj/structure/vine{
 	opacity = 1
 	},
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/cleanshallow,
 /area/rogue/druidsgrove)
 "rFl" = (
@@ -93989,6 +94937,11 @@
 /obj/machinery/light/rogue/candle/off/l,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
+"rGb" = (
+/mob/living/simple_animal/hostile/rogue/deepone/spit,
+/obj/structure/fluff/pillow/blue,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "rGg" = (
 /obj/structure/fluff/statue/gargoyle/moss{
 	pixel_y = 20
@@ -94021,6 +94974,11 @@
 /obj/item/rogueweapon/hammer/steel,
 /turf/open/floor/rogue/metal,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"rGs" = (
+/obj/structure/table/wood/fancy,
+/obj/item/enchantmentscroll/greater/lifesteal,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/goblinfort)
 "rGx" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
@@ -94080,6 +95038,10 @@
 /obj/item/rogueweapon/sword/rapier/lord,
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/cave/dukecourt)
+"rHr" = (
+/mob/living/carbon/human/species/goblin/npc/cave,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/cave)
 "rHs" = (
 /obj/machinery/light/rogue/candle/r,
 /obj/structure/bookcase/random/archive,
@@ -94380,6 +95342,10 @@
 "rKJ" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/steward)
+"rKM" = (
+/obj/effect/spawner/lootdrop/random_gem,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/under/cave/dukecourt)
 "rKN" = (
 /obj/structure/bars/pipe{
 	dir = 8
@@ -94600,10 +95566,9 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
 "rMj" = (
-/obj/structure/fluff/walldeco/church/line,
-/mob/living/carbon/human/species/orc/npc/berserker,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/under/cave/orcdungeon)
+/mob/living/carbon/human/species/skeleton/npc/hard,
+/turf/open/floor/rogue/concrete,
+/area/rogue/under/cave/taricheamanor)
 "rMm" = (
 /obj/structure/flora/roguegrass/bush/wall/tall,
 /turf/open/floor/rogue/dirt,
@@ -95270,6 +96235,11 @@
 /obj/structure/fluff/wallclock/l,
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/tavern)
+"rSv" = (
+/obj/effect/decal/cleanable/blood,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/skeletoncrypt)
 "rSw" = (
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/dirt/road,
@@ -95292,6 +96262,7 @@
 "rSJ" = (
 /obj/structure/closet/crate/chest/neu_fancy,
 /obj/effect/spawner/lootdrop/random_gem,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter)
 "rSN" = (
@@ -95526,6 +96497,14 @@
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cave/mazedungeon)
+"rVc" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/machinery/light/rogue/firebowl/standing/blue,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "rVd" = (
 /obj/machinery/light/small/broken{
 	dir = 4
@@ -96019,6 +96998,10 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
+"sao" = (
+/obj/structure/chair/bench/church/r,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "sat" = (
 /obj/item/roguebin,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -97493,6 +98476,17 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
+"spB" = (
+/obj/structure/closet/crate/chest,
+/obj/item/clothing/suit/roguetown/armor/plate/iron/banded,
+/obj/item/clothing/head/roguetown/helmet/sallet/iron/banded,
+/obj/item/clothing/gloves/roguetown/plate/iron/banded,
+/obj/item/clothing/shoes/roguetown/boots/armor/iron,
+/obj/item/clothing/under/roguetown/platelegs/iron,
+/obj/item/clothing/wrists/roguetown/bracers/iron,
+/obj/item/clothing/neck/roguetown/gorget/aventail/iron,
+/turf/open/floor/rogue/snow,
+/area/rogue/outdoors/mountains/decap)
 "spC" = (
 /obj/structure/fluff/littlebanners/bluewhite{
 	pixel_y = -6
@@ -98175,6 +99169,10 @@
 /obj/structure/fluff/walldeco/rpainting/forest{
 	pixel_y = 32
 	},
+/obj/item/satchel_bomb/mega{
+	desc = "Either I get what I want, or neither of us are walking out of this in one piece.";
+	name = "Assurance"
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/beach/north)
 "svO" = (
@@ -98452,6 +99450,11 @@
 /obj/structure/flora/rock/pile,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/town/zhurch)
+"syo" = (
+/obj/structure/table/church/m,
+/obj/item/abyssal_marker/volatile,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "syq" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8;
@@ -99337,6 +100340,10 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
+"sGt" = (
+/mob/living/simple_animal/hostile/retaliate/rogue/revenant/wolf,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/beach/forest/north)
 "sGu" = (
 /obj/structure/roguewindow/openclose/reinforced,
 /turf/open/floor/rogue/concrete,
@@ -99481,6 +100488,7 @@
 /obj/item/roguekey/psy_bog/two{
 	name = "Rusted exit key"
 	},
+/obj/item/clothing/neck/roguetown/psicross/weeping,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/four)
 "sHF" = (
@@ -99489,6 +100497,12 @@
 	},
 /turf/open/floor/rogue/metal,
 /area/rogue/under/cave/scarymaze)
+"sHJ" = (
+/obj/machinery/light/rogue/torchholder/l{
+	dir = 8
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "sHO" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8;
@@ -100246,6 +101260,7 @@
 	},
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter)
 "sOO" = (
@@ -100268,6 +101283,7 @@
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/machinery/light/rogue/candle,
 /obj/item/flashlight/flare/torch/lantern/bronzelamptern,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/underdark/south)
 "sPf" = (
@@ -100748,9 +101764,13 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/beach/north)
 "sSF" = (
-/mob/living/carbon/human/species/goblin/npc/ambush/sea,
+/obj/structure/table/wood,
+/obj/item/clothing/head/roguetown/helmet/sallet/iron/banded{
+	name = "Doves Kin";
+	desc = "Hammerholdian design, dented by a drakkyn's claws. It's sharpened rim bids you to hold your head to the sky."
+	},
 /turf/open/floor/rogue/naturalstone,
-/area/rogue/outdoors/beach/central)
+/area/rogue/outdoors/beach/north)
 "sSL" = (
 /obj/structure/mineral_door/wood/fancywood{
 	lockid = "heir1";
@@ -101056,6 +102076,10 @@
 /obj/structure/bookcase/random/archive,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/dukecourt)
+"sVO" = (
+/obj/item/reagent_containers/food/snacks/fish/creepy_shark,
+/turf/open/floor/carpet/stellar,
+/area/rogue/under/cave/fishmandungeon)
 "sVP" = (
 /obj/structure/rack/rogue/shelf,
 /obj/structure/chair/stool/rogue,
@@ -102144,6 +103168,7 @@
 "tgk" = (
 /obj/structure/closet/crate/coffin,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/clothing,
+/obj/effect/spawner/lootdrop/silver_weapon_spawner,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
 "tgr" = (
@@ -102430,6 +103455,10 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/beach)
+"tjm" = (
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/under/cavewet/bogcaves/west)
 "tjr" = (
 /obj/structure/fluff/railing/border/west,
 /obj/structure/stairs/stone{
@@ -102722,6 +103751,10 @@
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
+"tlB" = (
+/obj/item/clothing/neck/roguetown/gorget/paalloy,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "tlE" = (
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt/road,
@@ -103335,6 +104368,16 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/physician)
+"tsu" = (
+/obj/structure/table/wood/poor/alt,
+/obj/item/reagent_containers/glass/bottle/waterskin/purifier{
+	color = "#363737";
+	name = "Bog Sipper";
+	desc = "Born from a simple idea: what if we just drank the bog? No water, no swamp. No swamp, no overgrowth. To drink the bog is a duty passed down from the genius who first crafted this thing to every unfortunate soul who inherits it. The duty now falls to you.";
+	desc_uncorked = "Born from a simple idea: what if we just drank the bog? No water, no swamp. No swamp, no overgrowth. To drink the bog is a duty passed down from the genius who first crafted this thing to every unfortunate soul who inherits it. The duty now falls to you."
+	},
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/shelter)
 "tsv" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/gethsmane,
 /turf/open/floor/rogue/crawl_space,
@@ -103903,6 +104946,10 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors)
+"txJ" = (
+/obj/item/clothing/under/roguetown/platelegs/paalloy,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "txK" = (
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/dirt/road,
@@ -104335,7 +105382,9 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "tBp" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/bog/north)
 "tBv" = (
@@ -105061,6 +106110,7 @@
 "tJr" = (
 /obj/structure/closet/crate/chest/neu,
 /obj/item/reagent_containers/glass/bottle/alchemical/spdpot,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/mountains/decap)
 "tJs" = (
@@ -105086,6 +106136,10 @@
 /obj/structure/table/church/m/alt,
 /obj/item/clothing/cloak/tabard/devotee/malum,
 /obj/item/clothing/neck/roguetown/psicross/malum,
+/obj/item/clothing/suit/roguetown/armor/plate/paalloy/artificer{
+	name = "Innovation";
+	desc = "Sturdy and light, it lacks only the heat of an infernal core to unleash it's true potential."
+	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "tJM" = (
@@ -106394,6 +107448,7 @@
 /obj/structure/lever{
 	redstone_id = "scary_manor"
 	},
+/mob/living/carbon/human/species/skeleton/npc/hard,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/taricheamanor)
 "tVN" = (
@@ -107304,6 +108359,7 @@
 "ufJ" = (
 /obj/structure/table/wood/long_table/right,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/clothing,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
 "ufK" = (
@@ -107593,6 +108649,10 @@
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "uix" = (
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
+/obj/item/clothing/mask/rogue/spectacles/sglasses{
+	name = "Lost Scholar's Spectacles";
+	desc = "A pair of spectacles crafted from smoky Onyxa, their dark lenses catching and twisting the light into strange patterns. Despite their age, they remain remarkably clear, as though their owner cleaned them one final time before setting them down and never returning.They bear the name Lost Scholar's Spectacles, though neither the scholar nor their field of study is remembered. Looking through the lenses brings an odd sensation of recognition, as if a forgotten insight lingers just beyond reach. The feeling never lasts.Whatever knowledge these spectacles once helped uncover was lost long before the spectacles themselves."
+	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/mountains/decap/banditcamp)
 "uiC" = (
@@ -107923,6 +108983,7 @@
 "ulp" = (
 /obj/structure/table/wood/fancy/black,
 /obj/item/rogueweapon/huntingknife/idagger/silver,
+/obj/item/enchantmentscroll/greater/lifesteal,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
 "ulq" = (
@@ -108193,6 +109254,14 @@
 /obj/structure/chair/wood/rogue,
 /turf/open/floor/rogue/carpet,
 /area/rogue/under/town/basement/keep)
+"unW" = (
+/obj/item/rogueweapon/huntingknife/combat/kris{
+	desc = "Worn with use, jagged as a volf's teeth. This dagger has changed hands as frequently as it's taken lyves.";
+	name = "Trusted Companion"
+	},
+/obj/structure/table/wood,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/under/cavewet/bogcaves/south)
 "uoi" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/stairs{
@@ -108541,14 +109610,12 @@
 	pixel_y = 10
 	},
 /obj/machinery/light/rogue/candle/blue,
-/obj/item/roguestatue/gold{
-	pixel_x = -7;
-	pixel_y = 14
-	},
-/obj/item/candle/candlestick/gold/lit{
-	pixel_x = 12;
-	pixel_y = 13
-	},
+/obj/item/clothing/head/roguetown/helmet/heavy/sheriff/gold/king,
+/obj/item/clothing/neck/roguetown/gorget/gold/king,
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold/king,
+/obj/item/clothing/wrists/roguetown/bracers/gold/king,
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/gold,
+/obj/item/clothing/under/roguetown/chainlegs/kilt/gold,
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/under/cave/scarymaze)
 "urN" = (
@@ -108597,6 +109664,13 @@
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
+"usf" = (
+/obj/item/clothing/cloak/darkcloak/bear{
+	name = "Worn Direbear Pelt";
+	desc = "Strange for a bear to hoard a cloak fashioned from the hide of its own kin. A faint scent of the creature still lingers within the fur. Perhaps it was mourning."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave)
 "usi" = (
 /obj/structure/closet/dirthole/grave,
 /obj/structure/fluff/walldeco/church/line,
@@ -108705,6 +109779,13 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/fishmandungeon)
+"usX" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/rogue/church,
+/area/rogue/under/cave/orcdungeon)
 "usY" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/mazedungeon)
@@ -108913,10 +109994,18 @@
 /obj/item/rogueweapon/shovel/small/crafted,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/druidsgrove)
+"uvK" = (
+/obj/item/reagent_containers/food/snacks/fish/cod,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "uvM" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/mole,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
+"uvS" = (
+/mob/living/carbon/human/species/hobgoblin/npc,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/beach/central)
 "uvX" = (
 /obj/structure/mineral_door/wood/donjon/stone/highsecurity{
 	name = "Cathedral Cellarage";
@@ -109085,6 +110174,11 @@
 /obj/machinery/light/rogue/firebowl,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave)
+"uxY" = (
+/obj/structure/table/wood/large_table/north_west,
+/obj/item/carvedgem/onyxa/obelisk,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "uxZ" = (
 /turf/open/water/cleanshallow,
 /area/rogue/outdoors/mountains)
@@ -109129,7 +110223,9 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
 "uyp" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp,
 /area/rogue/indoors/cave)
 "uyq" = (
@@ -109431,7 +110527,9 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/steward)
 "uAP" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/underdark/north)
 "uAU" = (
@@ -109561,6 +110659,8 @@
 /area/rogue/indoors/town/dwarfin)
 "uBU" = (
 /obj/structure/table/wood,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/mountains/decap)
 "uBV" = (
@@ -110087,7 +111187,9 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/mountains)
 "uHo" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/bog/north)
 "uHs" = (
@@ -110420,7 +111522,9 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "uKw" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains)
 "uKD" = (
@@ -110569,6 +111673,10 @@
 /obj/item/clothing/head/roguetown/wizhat/random,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/magician)
+"uLV" = (
+/mob/living/simple_animal/hostile/rogue/mirespider_lurker/mushroom,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/spider)
 "uMd" = (
 /obj/machinery/light/rogue/cauldron,
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -110635,6 +111743,17 @@
 	},
 /turf/open/floor/rogue/metal,
 /area/rogue/indoors/town)
+"uNi" = (
+/obj/structure/table/finestone,
+/obj/item/rogueweapon/stoneaxe/battle/ice{
+	pixel_y = -11;
+	pixel_x = -16;
+	name = "Frost's Bite";
+	desc = "The cold bites before the blade ever can. This axe carries within it the bitterness of the north, a relentless frost born from the ice that tempered its edge."
+	},
+/obj/item/enchantmentscroll/mythic/freeze,
+/turf/open/floor/rogue/snow,
+/area/rogue/outdoors/mountains/decap)
 "uNm" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
@@ -110757,6 +111876,10 @@
 /obj/item/natural/cloth,
 /turf/open/floor/rogue/hay,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"uOt" = (
+/obj/structure/chair/bench/church,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "uOv" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
@@ -110850,6 +111973,14 @@
 /obj/structure/flora/hotspring_rocks/small/three,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
+"uPi" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/rogueweapon/mace/goden/steel/paalloy{
+	name = "Grabbedat";
+	desc = "Once a revered weapon of ancient heroes, now known exclusively as Grabbedat. The name commemorates the exact circumstances under which the goblins acquired it.Historical accounts suggest the transfer of ownership was neither legal nor amicable. Goblin historians maintain that if somebody wanted to keep it, they should have held on tighter."
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/beach/forest/north)
 "uPk" = (
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/goblinfort)
@@ -111220,6 +112351,7 @@
 "uSs" = (
 /obj/structure/table/wood/poor,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/metal,
 /area/rogue/under/underdark/north)
 "uSt" = (
@@ -111332,6 +112464,10 @@
 /area/rogue/indoors/town/physician)
 "uTm" = (
 /obj/structure/table/wood/poor,
+/obj/item/thetoll{
+	name = "Stolen Toll";
+	desc = "A tithe for the carriageman, long overdue. Given the coin's age, one wonders whether it would still be accepted. The blood that seeps from its surface has nearly run dry."
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter)
 "uTq" = (
@@ -112456,6 +113592,11 @@
 /obj/item/clothing/head/roguetown/roguehood/psydon,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
+"veg" = (
+/obj/structure/table/wood/large_table/north,
+/obj/item/carvedgem/onyxa/fish,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "vek" = (
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/licharena)
@@ -112477,7 +113618,9 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
 "vey" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
 "vez" = (
@@ -112869,6 +114012,13 @@
 /obj/structure/roguemachine/bounty,
 /turf/open/floor/rogue/concrete,
 /area/rogue/outdoors/rtfield)
+"viY" = (
+/obj/structure/closet/crate/coffin/royal,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/steel_weapon_spawner,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/clothing,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cavewet/bogcaves/north)
 "viZ" = (
 /obj/structure/mineral_door/wood/donjon{
 	dir = 4;
@@ -113279,6 +114429,13 @@
 /obj/structure/fermentation_keg/random/beer,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/shelter)
+"vnp" = (
+/obj/structure/chair/wood/rogue{
+	dir = 4
+	},
+/mob/living/carbon/human/species/goblin/npc/cave,
+/turf/open/floor/rogue/grass,
+/area/rogue/under/cave)
 "vnw" = (
 /obj/structure/fluff/walldeco/rpainting/crown,
 /turf/closed/wall/mineral/rogue/decostone/long/east_west,
@@ -113462,6 +114619,14 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/mountains)
+"voH" = (
+/obj/item/rogueweapon/mace/warhammer/bronze/decorated{
+	desc = "Cobbled together in elegance. A good looking weapon, considering it's maker; The forgefather sometimes blesses the most unlikely of folk with inspiration. Not a bad weapon either.";
+	name = "Da shiny whacker"
+	},
+/obj/structure/table/wood,
+/turf/open/floor/rogue/blocks,
+/area/rogue/under/cavewet/bogcaves/west)
 "voI" = (
 /obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/dirt/road,
@@ -114557,6 +115722,10 @@
 "vyT" = (
 /obj/structure/table/wood/poor/alt,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/tools,
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/aalloy{
+	name = "Bogmans Retort";
+	desc = "An old crossbow, darkened by peat, rain, and years of hard service in the mire. Its stock bears the scars of rough repairs, while its mechanism creaks in protest with every draw.It earned the name Bogman's Retort from those unfortunate enough to mistake a bogman for an easy target. In the bog, words travel poorly through the fog, and answers are often given at range.Age has claimed much of the weapon's former strength, but not its attitude. It remains as stubborn and disagreeable as the people who carried it."
+	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter)
 "vyV" = (
@@ -114613,6 +115782,13 @@
 /obj/structure/fluff/psycross/necra/cloth,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
+"vzR" = (
+/obj/structure/closet/crate/coffin/royal,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/obj/effect/spawner/lootdrop/steel_weapon_spawner,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cavewet/bogcaves/north)
 "vzV" = (
 /obj/effect/decal/wood/herringbone,
 /turf/open/floor/rogue/dirt,
@@ -114775,6 +115951,10 @@
 /obj/effect/decal/cleanable/debris/stony,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
+"vBh" = (
+/obj/item/reagent_containers/food/snacks/rogue/lasagna,
+/turf/open/water/bloody,
+/area/rogue/outdoors/mountains/decap/stepbelow)
 "vBn" = (
 /obj/structure/chair/wood/rogue/chair5{
 	dir = 4
@@ -114823,6 +116003,10 @@
 /obj/structure/bookcase/random/reference,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/steward)
+"vBK" = (
+/obj/structure/fluff/psycross/psycrucifix/silver,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/inq/chapel)
 "vBO" = (
 /obj/structure/flora/hotspring_rocks,
 /turf/closed/mineral/rogue/bedrock,
@@ -116139,7 +117323,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/orcdungeon)
 "vPL" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/town/sewer)
 "vPN" = (
@@ -116225,7 +117411,9 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "vQA" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/water/cleanshallow,
 /area/rogue/druidsgrove)
 "vQB" = (
@@ -117605,6 +118793,14 @@
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/shop)
+"wem" = (
+/obj/item/fishingrod/blacksteel{
+	name = "Deepdredger";
+	desc = "Women fear me, fish fear me, men turn their eyes away from me as I walk. No beast dare makes a sound in my presence, I am alone on this barren land."
+	},
+/obj/structure/table/wood/fancy/blue,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "weu" = (
 /obj/structure/chair/stool/rogue,
 /obj/effect/landmark/start/courtagent,
@@ -118854,6 +120050,10 @@
 	},
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors/town)
+"wqm" = (
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/under/cavewet/bogcaves/west)
 "wqr" = (
 /obj/structure/table/wood/long_table/north_east,
 /obj/item/clothing/ring/gold,
@@ -119845,7 +121045,9 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter)
 "wAz" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/mountains)
 "wAA" = (
@@ -120201,6 +121403,10 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/town/roofs/keep)
+"wDM" = (
+/mob/living/carbon/human/species/goblin/npc/large/cave,
+/turf/open/floor/rogue/twig,
+/area/rogue/under/cavewet/bogcaves/north)
 "wDO" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
@@ -120694,6 +121900,18 @@
 /obj/item/roguecoin/aalloy/pile,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/his_vault)
+"wIw" = (
+/obj/structure/table/wood/fancy/red,
+/obj/item/rogueweapon/shield/tower/metal/blacksteel{
+	name = "Peace";
+	desc = "HE dreamt of a peaceful realm, where HIS children might flourish unburdened by strife. To raise this shield is to inherit that dream. Carry it forward. Bring peace to Psydonia. A single step toward HIS vision. A single step toward the world that should have been."
+	},
+/obj/item/rogueweapon/spear/blacksteel{
+	name = "Conquest";
+	desc = "There must be sacrifice. HE understood that better than anyone. HE mourns every life lost, every spark of potential extinguished before its time. Yet HE is no fool. HIS faith in the goodness of others does not blind HIM to the needs of the many.To take up this spear is to swear yourself to its namesake: Conquest. Not for glory. Not for ambition. Not for greed.Conquest in the name of peace."
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/his_vault/four)
 "wIy" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
@@ -121121,10 +122339,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave)
 "wMB" = (
-/obj/effect/decal/cleanable/blood,
-/mob/living/carbon/human/species/orc/npc/marauder,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/under/cave/orcdungeon)
+/obj/structure/bookcase,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/inq/chapel)
 "wMC" = (
 /obj/structure/table/wood/large_table/north_west,
 /obj/item/kitchen/spoon,
@@ -121368,6 +122585,10 @@
 	pixel_y = 32
 	},
 /obj/effect/spawner/lootdrop/valuable_candle_spawner,
+/obj/item/quicksilver{
+	name = "Catharsis";
+	desc = "The remedy arrived only after the curse had done its work. There was no saving them by then, only enough time to place it beside their coffin and hope it might one day aid another. If you have found it, may it succeed where it failed before."
+	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors)
 "wOD" = (
@@ -121594,6 +122815,9 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/tools,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains)
+"wRd" = (
+/turf/open/floor/rogue/metal,
+/area/rogue/under/cave/fishmandungeon)
 "wRf" = (
 /turf/open/water/river/flow/east,
 /area/rogue/outdoors/beach/forest/north)
@@ -123116,6 +124340,11 @@
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave)
+"xgA" = (
+/obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct,
+/obj/structure/closet/crate/chest/neu_fancy,
+/turf/open/floor/rogue/metal/barograte,
+/area/rogue/under/underdark/north)
 "xgE" = (
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/ruinedwood,
@@ -123129,6 +124358,17 @@
 "xgI" = (
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/outdoors/mountains)
+"xgN" = (
+/obj/effect/decal/cobbleedge{
+	dir = 5;
+	pixel_x = -10
+	},
+/obj/item/rogueweapon/huntingknife/idagger/warden_machete{
+	name = "Reedfeller";
+	desc = "It bears within it a burning hatred for reeds. Fell them. Fell them all."
+	},
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/bog/north)
 "xgT" = (
 /obj/structure/table/wood,
 /obj/machinery/light/rogue/candle{
@@ -123402,6 +124642,14 @@
 	},
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/town/basement/keep)
+"xjH" = (
+/obj/structure/table/wood/fancy/black,
+/obj/item/rogueweapon/mace/cudgel/flanged/psy/preblessed{
+	name = "Hope";
+	desc = "Remember: not even HE was perfect. That is the beauty of it. Despite every flaw and failing, HE still pressed onward. So can you. Endure, champion. Failure is a lesson well worth learning, but today is not the day to pay its tuition."
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/inq/chapel)
 "xjI" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
@@ -123610,6 +124858,7 @@
 "xmq" = (
 /obj/structure/fluff/railing/border/east,
 /obj/structure/fluff/railing/border/north,
+/obj/machinery/light/rogue/smelter/great,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/taricheamanor)
 "xmx" = (
@@ -124628,11 +125877,12 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/garrison)
 "xvm" = (
-/obj/structure/curtain/bounty{
-	color = "grey"
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/underdark)
+/obj/machinery/light/rogue/torchholder/l,
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/rogueweapon/spear/dreamscape_trident,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "xvq" = (
 /obj/structure/stairs{
 	dir = 8
@@ -124991,7 +126241,7 @@
 "xzd" = (
 /obj/structure/rack/rogue,
 /obj/item/storage/roguebag,
-/obj/item/rogueweapon/pick/steel,
+/obj/item/rogueweapon/pick/blacksteel,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "xze" = (
@@ -125023,7 +126273,9 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "xzt" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave)
 "xzv" = (
@@ -125215,6 +126467,11 @@
 /obj/structure/stairs,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/beach/central)
+"xBt" = (
+/obj/structure/rack/rogue,
+/obj/item/roguegem/coral,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/under/cave/fishmandungeon)
 "xBu" = (
 /obj/structure/floordoor/open{
 	redstone_id = "castle_sally_gate2"
@@ -125240,6 +126497,7 @@
 	pixel_y = 13
 	},
 /obj/structure/table/wood/poor/alt,
+/obj/item/rogueweapon/mace/stunmace,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/underdark/north)
 "xBE" = (
@@ -125738,6 +126996,9 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave)
+"xGM" = (
+/turf/closed/wall/mineral/rogue/decostone/mossy/cand,
+/area/rogue/under/cave/fishmandungeon)
 "xGN" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/carpet/purple,
@@ -126392,6 +127653,16 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
+"xNC" = (
+/obj/structure/closet/crate/chest/crate,
+/obj/item/rogueweapon/mace/cudgel/shellrungu{
+	name = "Mchanga";
+	desc = "Mchanga is fashioned from a massive sea shell, polished smooth by patient hands and countless tides. With every swing, it emits a low, haunting call, somewhere between a whistle and the cry of a distant seabird. The sound carries farther than one would expect, announcing each strike before it lands. Whether this was an intentional feature or a quirk of the shell's construction is unknown."
+	},
+/obj/item/clothing/wrists/roguetown/gem/shellbracelet,
+/obj/item/clothing/mask/rogue/facemask/carved/shellmask,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave/fishmandungeon)
 "xNE" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -127279,6 +128550,11 @@
 /area/rogue/outdoors/rtfield)
 "xVR" = (
 /obj/effect/decal/cleanable/blood/gibs/core,
+/obj/structure/table/wood/fancy/blue,
+/obj/item/rogueweapon/huntingknife/cleaver{
+	name = "Gluttonous Bite";
+	desc = "There is nothing magical about the cleaver, yet holding it makes you crave pork. Long, sinewy pork."
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/skeletoncrypt)
 "xVS" = (
@@ -127582,6 +128858,12 @@
 "xYb" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/southeast)
+"xYc" = (
+/obj/structure/stationary_bell{
+	pixel_y = -12
+	},
+/turf/open/floor/rogue/metal,
+/area/rogue/under/cave/fishmandungeon)
 "xYh" = (
 /obj/structure/stairs/stone{
 	dir = 1
@@ -127645,6 +128927,15 @@
 /obj/structure/rack/rogue,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
+/obj/item/enchantmentscroll/greater/phoenixguard,
+/obj/item/rogueweapon/stoneaxe/woodcut/steel/decorated{
+	name = "Moorhauer";
+	desc = "A ceremonial axe once borne by a bogman marshal. Its ornate head remains sharp and resplendent, a testament to the esteem afforded its bearer. Such weapons were symbols of authority, and their edges rarely tasted common labor. Though the years have worn upon it, the axe remains remarkably well preserved."
+	},
+/obj/item/clothing/head/roguetown/roguehood/ravoxgorget{
+	name = "Bogcaptain's Tabard";
+	desc = "The tabard of a bog captain, worn by those tasked with keeping order amid the mire. Though stained by mud and weather alike, its colors remain surprisingly vibrant, a testament to the pride once taken in the office."
+	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/shelter/bog/skeletonfort)
 "xYP" = (
@@ -127754,6 +129045,7 @@
 /obj/structure/closet/crate/chest,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
 /obj/effect/spawner/lootdrop/general_loot_hi,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /turf/open/floor/rogue/twig,
 /area/rogue/under/cave/minotaurcave)
 "xZQ" = (
@@ -128600,7 +129892,9 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "yha" = (
-/obj/structure/glowshroom,
+/obj/structure/glowshroom{
+	color = "#87CEEB"
+	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/druidsgrove)
 "yhc" = (
@@ -128668,6 +129962,12 @@
 "yhQ" = (
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/indoors/cave/southern)
+"yhS" = (
+/obj/structure/closet/crate/chest/neu_fancy,
+/obj/item/clothing/wrists/roguetown/bracers/gold/king,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/money,
+/turf/open/floor/rogue/blocks/stonered,
+/area/rogue/under/underdark/north)
 "yhU" = (
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/cobblerock,
@@ -131745,7 +133045,7 @@ qHj
 qHj
 qHj
 tum
-eYl
+vnp
 eYl
 kXf
 icL
@@ -132644,7 +133944,7 @@ qHj
 qHj
 qHj
 eGF
-ayv
+qko
 ayv
 tum
 tum
@@ -133095,7 +134395,7 @@ qHj
 qHj
 qHj
 qHj
-ayv
+rgF
 ayv
 ayv
 tum
@@ -133551,7 +134851,7 @@ hqK
 ayv
 ayv
 sto
-tum
+rHr
 ayv
 ayv
 ayv
@@ -133664,7 +134964,7 @@ xNc
 xNc
 wNY
 xNc
-xNc
+xgA
 wNY
 oKd
 oKd
@@ -134568,7 +135868,7 @@ dhQ
 xNc
 wNY
 xNc
-xNc
+pLB
 wNY
 oKd
 oKd
@@ -135361,7 +136661,7 @@ iMM
 tum
 tum
 tum
-eYl
+vnp
 eYl
 eYl
 tum
@@ -136249,7 +137549,7 @@ rGh
 tum
 tum
 tum
-tum
+rHr
 tum
 fju
 ayv
@@ -136267,7 +137567,7 @@ tum
 tum
 mJI
 mJI
-mJI
+rzf
 icL
 ayv
 ayv
@@ -137150,16 +138450,16 @@ bhJ
 bhJ
 bhJ
 ebl
-tum
+rHr
 tum
 lfz
 tum
 tum
 tum
+qko
 ayv
 ayv
-ayv
-ayv
+qvn
 wrV
 tum
 miF
@@ -138058,7 +139358,7 @@ tum
 tum
 tum
 tum
-tum
+rHr
 fju
 ayv
 smb
@@ -140462,7 +141762,7 @@ tEz
 hNq
 tvF
 xYB
-xYB
+hAS
 rUz
 xYB
 hNq
@@ -145169,7 +146469,7 @@ pec
 tkw
 ulm
 xMr
-ulm
+agR
 ulm
 xMr
 ulm
@@ -146078,7 +147378,7 @@ enN
 dkM
 pec
 enN
-vor
+hUl
 yaz
 yaz
 yaz
@@ -148332,7 +149632,7 @@ yaz
 rXL
 dCp
 pec
-enN
+xCF
 enN
 lDI
 tic
@@ -165289,7 +166589,7 @@ mbn
 pVe
 pVe
 mbn
-cWo
+aUb
 cWo
 cWo
 coA
@@ -166018,7 +167318,7 @@ qHj
 toJ
 htN
 htN
-htN
+iPz
 htN
 toJ
 toJ
@@ -166189,16 +167489,16 @@ oKd
 oKd
 oKd
 xLM
-cWo
+kON
 wtu
 cWo
+eIi
 cWo
 cWo
+eIi
 cWo
 cWo
-cWo
-cWo
-cWo
+yhS
 xLM
 oKd
 oKd
@@ -167828,7 +169128,7 @@ toJ
 toJ
 htN
 htN
-htN
+iPz
 toJ
 qHj
 qHj
@@ -168449,16 +169749,16 @@ oKd
 oKd
 oKd
 xLM
+gRH
 cWo
 cWo
-cWo
-cWo
+aUb
 cWo
 cWo
 wtu
 cWo
 cWo
-cWo
+krd
 xLM
 oKd
 oKd
@@ -169358,7 +170658,7 @@ pVe
 pVe
 mbn
 cWo
-cWo
+aUb
 mbn
 pVe
 pVe
@@ -170025,7 +171325,7 @@ xRr
 rfB
 xcQ
 nlt
-fng
+nor
 xRr
 xRr
 bmI
@@ -170262,7 +171562,7 @@ mbn
 mbn
 mbn
 cWo
-cWo
+eIi
 mbn
 mbn
 mbn
@@ -171383,7 +172683,7 @@ xcQ
 hpt
 xRr
 xRr
-xRr
+voH
 wDv
 wAV
 wAV
@@ -173262,10 +174562,10 @@ qHj
 qHj
 htN
 toJ
+iPz
 htN
 htN
-htN
-toJ
+pFv
 toJ
 htN
 qHj
@@ -174496,7 +175796,7 @@ wAV
 wAV
 vov
 vov
-gqt
+kYw
 gqt
 gqt
 gqt
@@ -175522,7 +176822,7 @@ qHj
 qHj
 qHj
 htN
-htN
+iPz
 htN
 qHj
 qHj
@@ -181294,7 +182594,7 @@ tTZ
 jaf
 jaf
 tTZ
-aNM
+wqm
 aNM
 aNH
 pbF
@@ -181748,7 +183048,7 @@ jaf
 rBx
 pNr
 aNM
-aNM
+tjm
 pbF
 pbF
 bmI
@@ -182200,7 +183500,7 @@ jaf
 tTZ
 aNM
 mfc
-aNM
+cMa
 pbF
 pbF
 rLj
@@ -182651,7 +183951,7 @@ bmI
 fPY
 tTZ
 aNM
-xcQ
+cbq
 mPu
 pbF
 pbF
@@ -182660,7 +183960,7 @@ jaf
 bbj
 coL
 fKr
-gqt
+gTx
 bmI
 eoq
 pbF
@@ -183111,8 +184411,8 @@ pQG
 jaf
 jaf
 rOF
-pLB
-fKr
+gqt
+fnM
 bmI
 eoq
 pbF
@@ -184466,7 +185766,7 @@ jMe
 gqt
 ltL
 gqt
-gqt
+dwe
 gqt
 nQw
 bmI
@@ -185811,7 +187111,7 @@ uyh
 oBQ
 enj
 vaJ
-xKz
+wDM
 xKz
 enj
 oBQ
@@ -189771,7 +191071,7 @@ joR
 mam
 xlz
 kBL
-hML
+fMR
 xlz
 xlz
 xlz
@@ -191228,17 +192528,17 @@ cfC
 uir
 mhC
 jKQ
+jJH
 yeg
-ryc
-ryc
+yeg
 cGX
 nlL
-ryc
+jdC
 xHs
 cGX
-ryc
-ryc
 ssO
+ssO
+qWl
 jKQ
 uZv
 uZv
@@ -191583,7 +192883,7 @@ xlz
 kBM
 xlz
 xlz
-xlz
+rbs
 xlz
 xlz
 bnv
@@ -191684,7 +192984,7 @@ tBR
 uUU
 ryc
 cGX
-bWB
+ryc
 fug
 dqf
 cGX
@@ -192029,7 +193329,7 @@ iGI
 joR
 mam
 xlz
-xlz
+rbs
 jCV
 dvE
 hML
@@ -192132,7 +193432,7 @@ cfC
 uir
 uir
 jKQ
-ryc
+yeg
 ryc
 ryc
 cGX
@@ -192140,9 +193440,9 @@ ryc
 yeY
 nlL
 cGX
+iQg
 ryc
-ryc
-ryc
+ssO
 jKQ
 uZv
 uZv
@@ -192489,7 +193789,7 @@ oxH
 hML
 hML
 hML
-xlz
+pHb
 cHe
 ozV
 vto
@@ -193385,7 +194685,7 @@ iGI
 izz
 mam
 xlz
-xlz
+rbs
 oxH
 vto
 tnA
@@ -193393,7 +194693,7 @@ oxH
 hqt
 hqt
 hqt
-xlz
+pHb
 cHe
 eIX
 poI
@@ -193843,7 +195143,7 @@ oxH
 oxH
 xYI
 hqt
-xlz
+rbs
 xlz
 xlz
 mUP
@@ -198493,7 +199793,7 @@ jPN
 jPN
 jKQ
 rTm
-lSL
+ivA
 xVR
 fDJ
 jKQ
@@ -198945,9 +200245,9 @@ jPN
 jPN
 jKQ
 cbc
-aqi
+rSv
 cLz
-aqi
+rSv
 jKQ
 jPN
 jPN
@@ -208840,11 +210140,11 @@ uir
 uir
 uir
 uir
-uir
-uir
-mhC
-oBQ
-oBQ
+ixw
+ixw
+ixw
+ixw
+ixw
 oBQ
 oBQ
 oBQ
@@ -209292,11 +210592,11 @@ uir
 uir
 uir
 uir
-uir
-uir
-oBQ
-oBQ
-oBQ
+ixw
+sqB
+nZK
+vzR
+ixw
 oBQ
 oBQ
 cfC
@@ -209744,11 +211044,11 @@ uir
 uir
 uir
 uir
-uir
-uir
-oBQ
-oBQ
-oBQ
+ixw
+gkC
+nZK
+nZK
+ixw
 oBQ
 bdN
 nqZ
@@ -210061,7 +211361,7 @@ nCU
 nCU
 nCU
 nCU
-nCU
+cKz
 rJt
 ipw
 ipw
@@ -210196,11 +211496,11 @@ uir
 uir
 oBQ
 oBQ
-uir
-uir
-oBQ
-oBQ
-oBQ
+ixw
+cIi
+lcW
+nZK
+ixw
 oBQ
 aIM
 bdN
@@ -210648,11 +211948,11 @@ oBQ
 oBQ
 oBQ
 oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
+ixw
+viY
+nZK
+nZK
+hli
 qsb
 nNo
 bLj
@@ -211100,11 +212400,11 @@ oBQ
 oBQ
 oBQ
 oBQ
-oBQ
-oBQ
-oBQ
-uyh
-uyh
+ixw
+ixw
+ixw
+ixw
+ixw
 uyh
 uyh
 uyh
@@ -215609,7 +216909,7 @@ oBQ
 oBQ
 oBQ
 uao
-bdN
+cTE
 oBQ
 oBQ
 oBQ
@@ -215961,7 +217261,7 @@ pYt
 pYt
 hUV
 ipw
-ipw
+sSF
 fWI
 ipw
 oxJ
@@ -220976,7 +222276,7 @@ hPd
 oSm
 stq
 amf
-stq
+dUt
 jDM
 yhQ
 aYF
@@ -221880,7 +223180,7 @@ hPd
 hio
 stq
 stq
-stq
+usX
 jDM
 yhQ
 aYF
@@ -222487,7 +223787,7 @@ ujG
 pky
 nDU
 nDU
-nDU
+bpl
 kXq
 pGl
 tBk
@@ -222940,7 +224240,7 @@ vBS
 isD
 egI
 aZA
-nDU
+bpl
 pGl
 ujG
 ujG
@@ -223815,7 +225115,7 @@ jPN
 jPN
 qVG
 oOd
-pjI
+unW
 qVG
 jPN
 jPN
@@ -224769,11 +226069,11 @@ cDF
 cDF
 fKi
 bEt
-sSF
+bEt
+uvS
 bEt
 bEt
 bEt
-sSF
 bEt
 bEt
 cDF
@@ -225131,8 +226431,8 @@ gng
 fqG
 gng
 uyh
-oBQ
-oBQ
+uyh
+uyh
 oBQ
 mhC
 mhC
@@ -225582,9 +226882,9 @@ gng
 gng
 fES
 gng
+gng
+gng
 uyh
-oBQ
-oBQ
 oBQ
 oBQ
 mhC
@@ -225672,12 +226972,12 @@ cDF
 cDF
 cDF
 bEt
-bEt
+uvS
 bEt
 bEt
 qbI
 bEt
-bEt
+uvS
 bEt
 cDF
 cDF
@@ -226033,10 +227333,10 @@ gng
 fES
 fES
 fES
+oJA
+fES
 gng
 uyh
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -226124,7 +227424,7 @@ cDF
 cDF
 cDF
 bEt
-sSF
+bEt
 bEt
 bEt
 bEt
@@ -226486,9 +227786,9 @@ fES
 gng
 gng
 gng
+fES
+gng
 uyh
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -226578,7 +227878,7 @@ cDF
 cDF
 bEt
 bEt
-bEt
+fvx
 bEt
 bEt
 fKi
@@ -226937,10 +228237,10 @@ gng
 aXq
 gng
 uyh
+gng
+fES
+gng
 uyh
-uyh
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -227389,17 +228689,17 @@ isU
 fES
 gng
 gng
+gng
+fES
+gng
 uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
+uyh
+uyh
+uyh
+uyh
+uyh
+uyh
+uyh
 oBQ
 oBQ
 oBQ
@@ -227841,17 +229141,17 @@ thO
 fES
 nrS
 gng
+gng
+fES
+gng
+gng
+gng
+gng
+gng
+gng
+gng
+gng
 uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -228293,17 +229593,17 @@ fES
 fES
 jTH
 gng
+gng
+fES
+isU
+fqG
+cSE
+cSE
+cSE
+fES
+gUQ
+gng
 uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -228633,7 +229933,7 @@ eNM
 eNM
 eNM
 cvq
-cvq
+kPT
 cKs
 pYt
 pYt
@@ -228745,17 +230045,17 @@ fES
 thO
 fES
 gng
+gng
+fES
+fES
+fES
+fES
+fES
+fES
+fES
+xBt
+gng
 uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -229197,17 +230497,17 @@ fES
 usS
 bbU
 gng
+gng
+pde
+fES
+fES
+fES
+fES
+fES
+fES
+cSE
+gng
 uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -229649,17 +230949,17 @@ oIt
 nQB
 gng
 gng
+gng
+gng
+rGb
+dea
+hdh
+fES
+fES
+fES
+sHJ
+gng
 uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -230099,19 +231399,19 @@ uyh
 uyh
 hGm
 hGm
+bYT
+bYT
+cqF
+bYT
+fXm
+fXm
+fXm
+cqF
+aXq
+cqF
+fXm
+fXm
 uyh
-uyh
-uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -230550,20 +231850,20 @@ gng
 uyh
 hGm
 hGm
+bYT
+xGM
+bWB
+rVc
+fES
+fES
+fES
+fES
+fES
+fES
+fES
+fKt
+fXm
 uyh
-uyh
-mhC
-mhC
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -231002,20 +232302,20 @@ gng
 uyh
 hGm
 uyh
+bYT
+bWB
+hLR
+cbP
+uvK
+uOt
+fES
+aii
+fES
+fES
+rnV
+uxY
+fXm
 uyh
-uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -231454,20 +232754,20 @@ vQr
 hGm
 hGm
 uyh
+cqF
+bWB
+oGV
+mQg
+mBl
+cNl
+sVO
+sao
+fES
+wRd
+xYc
+veg
+cqF
 uyh
-uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -231906,20 +233206,20 @@ hGm
 uyh
 hGm
 uyh
+xGM
+iHy
+fte
+syo
+jzv
+mBl
+mBl
+mBl
+fES
+wRd
+wRd
+cQC
+bYT
 uyh
-uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -232358,20 +233658,20 @@ hGm
 hGm
 uyh
 uyh
+cqF
+hLR
+mTD
+kPP
+cSj
+dIU
+mBl
+uOt
+fES
+wRd
+wRd
+pok
+bYT
 uyh
-uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -232810,20 +234110,20 @@ gDo
 hGm
 vQr
 uyh
+bYT
+bWB
+hLR
+cbP
+fES
+sao
+cmk
+qUP
+fES
+fES
+fES
+nSf
+cqF
 uyh
-uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -233262,20 +234562,20 @@ gDo
 vQr
 hGm
 uyh
+bYT
+xGM
+bWB
+rVc
+fES
+fES
+fES
+fES
+fES
+fES
+fES
+nzN
+fXm
 uyh
-uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -233715,19 +235015,19 @@ cxv
 cxv
 uyh
 uyh
+bYT
+bYT
+cqF
+bYT
+bYT
+cSE
+oYi
+cSE
+cSE
+cSE
+fXm
+fXm
 uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
 oBQ
 oBQ
 oBQ
@@ -234157,7 +235457,7 @@ grO
 grO
 uyh
 uyh
-gjg
+xNC
 lbT
 cxv
 cxv
@@ -234168,18 +235468,18 @@ grO
 grO
 grO
 uyh
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
+uyh
+uyh
+gng
+fXm
+fXm
+iNF
+fXm
+fXm
+fXm
+fXm
+gng
+uyh
 oBQ
 oBQ
 oBQ
@@ -234621,17 +235921,17 @@ cxv
 grO
 uyh
 oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
+uyh
+gng
+fXm
+xvm
+fES
+isU
+fES
+hMf
+fXm
+gng
+uyh
 oBQ
 oBQ
 oBQ
@@ -235073,17 +236373,17 @@ cxv
 grO
 uyh
 oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
+uyh
+gng
+fXm
+wem
+fES
+fES
+fES
+fzn
+fXm
+gng
+uyh
 oBQ
 oBQ
 oBQ
@@ -235525,17 +236825,17 @@ cxv
 uyh
 uyh
 oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
+uyh
+gng
+fXm
+ruw
+fES
+pRg
+fES
+mlh
+fXm
+gng
+uyh
 oBQ
 oBQ
 oBQ
@@ -235977,17 +237277,17 @@ cxv
 uyh
 oBQ
 oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
+uyh
+gng
+fXm
+fXm
+fXm
+fXm
+fXm
+fXm
+fXm
+gng
+uyh
 oBQ
 oBQ
 oBQ
@@ -236429,17 +237729,17 @@ jPQ
 uyh
 oBQ
 oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
+uyh
+gng
+gng
+gng
+gng
+gng
+gng
+gng
+gng
+gng
+uyh
 oBQ
 oBQ
 oBQ
@@ -236881,17 +238181,17 @@ cxv
 uyh
 oBQ
 oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
-oBQ
+uyh
+uyh
+uyh
+uyh
+uyh
+uyh
+uyh
+uyh
+uyh
+uyh
+uyh
 oBQ
 oBQ
 oBQ
@@ -246913,12 +248213,12 @@ gUb
 gUb
 gUb
 gUb
-gUb
+uLV
 gUb
 gUb
 ujw
 ndw
-gUb
+jEN
 xjD
 pOE
 ndw
@@ -247820,7 +249120,7 @@ gUb
 sNr
 dTZ
 gUb
-gUb
+uLV
 gUb
 sNr
 dTZ
@@ -257219,11 +258519,11 @@ vdK
 vdK
 ghA
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+ebX
+gDY
+gDY
+ebX
+gDY
 iSG
 vek
 vek
@@ -257671,12 +258971,12 @@ vdK
 ayH
 ghA
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-rQV
+vyi
+vBK
+fCb
+vyi
+wMB
+vek
 vek
 vek
 vek
@@ -258123,12 +259423,12 @@ bLV
 bLV
 iSG
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-rQV
+vyi
+xjH
+cjr
+jfb
+mpM
+vek
 vek
 vek
 vek
@@ -258494,11 +259794,11 @@ uDO
 pLZ
 pLZ
 gHj
-bzD
+sIg
 wJj
 czp
 wJj
-bzD
+sIg
 gHj
 pLZ
 pLZ
@@ -258575,12 +259875,12 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
-rQV
+vyi
+vBK
+fCb
+vyi
+wMB
+vek
 vek
 vek
 mMw
@@ -258947,9 +260247,9 @@ pLZ
 pLZ
 xqn
 fyQ
-xvm
 wJj
-xvm
+wJj
+wJj
 wNP
 xqn
 pLZ
@@ -259027,11 +260327,11 @@ ujm
 ujm
 ujm
 ujm
-ujm
-ujm
-ujm
-ujm
-ujm
+ebX
+gDY
+gDY
+ebX
+gDY
 iSG
 vek
 vek
@@ -259398,11 +260698,11 @@ uDO
 pLZ
 pLZ
 gHj
-hLR
+xIz
 wJj
 hdc
 wJj
-hLR
+xIz
 gHj
 pLZ
 pLZ
@@ -268889,7 +270189,7 @@ pLZ
 gHj
 gHj
 gHj
-wJj
+oYU
 gHj
 gHj
 gHj
@@ -269339,11 +270639,11 @@ uDO
 uDO
 pLZ
 gHj
-sIg
-cSE
+bzD
+czp
 wJj
-cSE
-sIg
+czp
+bzD
 gHj
 pLZ
 uDO
@@ -269792,9 +271092,9 @@ uDO
 pLZ
 xqn
 ctR
-xvm
 wJj
-xvm
+wJj
+wJj
 tyZ
 xqn
 pLZ
@@ -270244,9 +271544,9 @@ uDO
 pLZ
 gHj
 xIz
-xvm
+wJj
 hdc
-xvm
+wJj
 xIz
 gHj
 pLZ
@@ -275300,7 +276600,7 @@ gGN
 fLq
 igP
 vJN
-jQw
+wIw
 jQw
 flY
 exP
@@ -277108,7 +278408,7 @@ aQq
 jQw
 jQw
 eJP
-jQw
+hRW
 jQw
 flY
 exP
@@ -295606,7 +296906,7 @@ gRa
 btx
 pwh
 gwA
-dFJ
+cVH
 fsB
 vPU
 pwh
@@ -308133,7 +309433,7 @@ mjA
 kDy
 aoK
 qwL
-qwL
+rKM
 kDy
 ujm
 onF
@@ -309939,7 +311239,7 @@ fzX
 fzX
 mjA
 kDy
-qwL
+rKM
 qwL
 aoK
 kDy
@@ -313648,7 +314948,7 @@ vHO
 leI
 uFI
 iaL
-iaL
+nqm
 iaL
 iaL
 leI
@@ -332612,9 +333912,9 @@ qPv
 ujm
 poh
 sAO
-rbs
-sJi
 sAO
+sJi
+qgZ
 eBb
 xQI
 xQI
@@ -333063,7 +334363,7 @@ tsB
 qPv
 ujm
 hcf
-aHk
+hGS
 fWP
 sAO
 qYt
@@ -333971,7 +335271,7 @@ aHk
 sAO
 sJi
 riJ
-rMj
+arz
 xQI
 xQI
 jDM
@@ -334420,9 +335720,9 @@ qPv
 ujm
 poh
 sAO
-wMB
+sJi
 sAO
-sAO
+qgZ
 cCb
 xQI
 xQI
@@ -338469,9 +339769,9 @@ qPv
 tIH
 acF
 acF
-acF
+jVv
 ueC
-acF
+jVv
 acF
 tsB
 onF
@@ -338920,11 +340220,11 @@ onF
 qPv
 tIH
 tIH
-tIH
+rog
 acF
 acF
 tIH
-tIH
+iNK
 tsB
 tsB
 tsB
@@ -340729,7 +342029,7 @@ tsB
 tsB
 tsB
 qmr
-vlj
+ezb
 fYh
 qmr
 qPv
@@ -356532,7 +357832,7 @@ dDF
 xDd
 xDd
 uGX
-uZT
+fDX
 uZT
 tQD
 uGX
@@ -360262,7 +361562,7 @@ qlt
 qlt
 qlt
 qlt
-gUb
+jYp
 gUb
 eyD
 iwC
@@ -361189,7 +362489,7 @@ qlt
 qlt
 qlt
 gNW
-gUb
+cmB
 gUb
 gNW
 gUb
@@ -366239,7 +367539,7 @@ lwZ
 fZN
 whu
 fZN
-fZN
+pFp
 qwK
 qwK
 qwK
@@ -367775,7 +369075,7 @@ sbp
 wlS
 qTf
 qTf
-qTf
+drg
 gCw
 sbp
 qTf
@@ -368814,7 +370114,7 @@ vvB
 vvB
 vBs
 vBs
-vBv
+xgN
 jJO
 jJO
 vBs
@@ -369129,7 +370429,7 @@ enr
 sbp
 sbp
 sbp
-drg
+qTf
 lJR
 hQO
 gCw
@@ -369581,7 +370881,7 @@ enr
 enr
 enr
 enr
-enr
+qTf
 enr
 enr
 enr
@@ -370032,8 +371332,8 @@ ogs
 wHi
 wHi
 wHi
-wHi
-wHi
+mfy
+lfO
 wHi
 wHi
 wHi
@@ -370483,11 +371783,11 @@ ogs
 (25,1,3) = {"
 wHi
 wHi
-wHi
-wHi
-wHi
-wHi
-wHi
+mfy
+mfy
+eAq
+mfy
+mfy
 wHi
 enr
 enr
@@ -370935,12 +372235,12 @@ ogs
 (26,1,3) = {"
 wHi
 wHi
-wHi
-wHi
-wHi
-wHi
-wHi
-wHi
+mfy
+mfy
+eAq
+eAq
+mfy
+mfy
 wHi
 wHi
 wHi
@@ -371387,12 +372687,12 @@ ogs
 (27,1,3) = {"
 wHi
 wHi
-wHi
-wHi
-wHi
-wHi
-wHi
-wHi
+mfy
+spB
+uNi
+eAq
+mfy
+mfy
 wHi
 wHi
 wHi
@@ -371839,11 +373139,11 @@ ogs
 (28,1,3) = {"
 wHi
 wHi
-wHi
-wHi
-wHi
-wHi
-wHi
+mfy
+mfy
+eAq
+mfy
+mfy
 wHi
 wHi
 wHi
@@ -372292,9 +373592,9 @@ ogs
 wHi
 wHi
 wHi
-wHi
-wHi
-wHi
+mfy
+mfy
+mfy
 wHi
 wHi
 wHi
@@ -372333,8 +373633,8 @@ kNH
 kNH
 kNH
 gXq
-kNH
-kNH
+gXq
+gXq
 gXq
 gXq
 gXq
@@ -373686,7 +374986,7 @@ kNH
 kNH
 kNH
 kNH
-kNH
+gXq
 kNH
 ltk
 ltk
@@ -375491,7 +376791,7 @@ oyf
 kNH
 kNH
 kNH
-kNH
+gXq
 kNH
 kNH
 kNH
@@ -375949,8 +377249,8 @@ kNH
 vli
 kNH
 kNH
-hAS
 kNH
+fzg
 kNH
 kNH
 kNH
@@ -376849,7 +378149,7 @@ gsm
 kNH
 kNH
 kNH
-kNH
+gXq
 kNH
 kNH
 kNH
@@ -376857,7 +378157,7 @@ ltk
 ofN
 ltk
 ltk
-ltk
+gXq
 kNH
 yjY
 oyf
@@ -377758,7 +379058,7 @@ gXq
 gXq
 kNH
 wgk
-uBU
+fUb
 uBU
 gXq
 gXq
@@ -378660,7 +379960,7 @@ kNH
 nfI
 kNH
 kNH
-kNH
+gXq
 kNH
 kNH
 kNH
@@ -389061,7 +390361,7 @@ uJZ
 nli
 uec
 nli
-nli
+hGi
 nli
 vqi
 dcY
@@ -390175,7 +391475,7 @@ lCD
 aAa
 asx
 tKb
-eOy
+ooi
 aAa
 lCD
 lCD
@@ -398661,7 +399961,7 @@ qwK
 qwK
 dby
 qwK
-fZN
+bUj
 fZN
 fZN
 qwK
@@ -401848,7 +403148,7 @@ eGx
 fZN
 eGx
 qwK
-fZN
+ays
 fZN
 fZN
 fZN
@@ -403750,7 +405050,7 @@ qwK
 qwK
 yjy
 fZN
-fZN
+nWD
 fZN
 fZN
 fZN
@@ -408196,7 +409496,7 @@ eGx
 rnW
 rnW
 ftf
-bSX
+ctk
 bSX
 tac
 dqI
@@ -448457,7 +449757,7 @@ aBB
 aBB
 aBB
 jWF
-mQO
+iZS
 kbo
 tlX
 tlX
@@ -454734,7 +456034,7 @@ kSK
 jWF
 iRB
 xjn
-xjn
+hCG
 tuQ
 apU
 aBB
@@ -475465,7 +476765,7 @@ gsm
 gsm
 gsm
 gsm
-toJ
+usf
 gsm
 gsm
 gsm
@@ -483540,7 +484840,7 @@ xYo
 swx
 xYo
 xYo
-xYo
+hqu
 frU
 frU
 frU
@@ -504771,11 +506071,11 @@ tpo
 tpo
 dlZ
 leS
+vBh
 ygI
 ygI
 ygI
-ygI
-leS
+hkV
 qgl
 frU
 qlb
@@ -505007,7 +506307,7 @@ nin
 nin
 rQA
 twR
-twR
+tsu
 nMW
 nMW
 aBB
@@ -505224,7 +506524,7 @@ ygI
 ygI
 ygI
 ygI
-ygI
+vBh
 ygI
 ygI
 xlB
@@ -506127,8 +507427,8 @@ tpo
 tpo
 vds
 leS
-ygI
-ygI
+vBh
+vBh
 ygI
 tdE
 leS
@@ -511059,7 +512359,7 @@ dFQ
 ahM
 tCH
 tCH
-mhV
+tlB
 mhV
 oMY
 fti
@@ -511521,7 +512821,7 @@ oMY
 dEE
 kzG
 oMY
-uUl
+eFr
 mhV
 mhV
 ygI
@@ -511962,7 +513262,7 @@ qlb
 hEg
 ahM
 tCH
-mhV
+dax
 mhV
 mhV
 oMY
@@ -511978,7 +513278,7 @@ mhV
 ygI
 ygI
 hEg
-mhV
+nHs
 mhV
 mhV
 mhV
@@ -512423,7 +513723,7 @@ hJo
 oMY
 cYY
 dEE
-oMY
+txJ
 mhV
 kXI
 mhV
@@ -512590,7 +513890,7 @@ gjZ
 gfK
 ams
 hlW
-hlW
+qIj
 nMW
 cxA
 cxA
@@ -515131,7 +516431,7 @@ kXI
 oMY
 oMY
 hJo
-hJo
+oow
 oMY
 dEE
 dEE
@@ -515585,7 +516885,7 @@ oMY
 fti
 oMY
 cYY
-dEE
+qDq
 hJo
 oMY
 cYY
@@ -515593,7 +516893,7 @@ cYY
 dEE
 cYY
 cYY
-cYY
+gEz
 cYY
 dEE
 dEE
@@ -520116,7 +521416,7 @@ oRA
 oRA
 oRA
 oRA
-daH
+oFG
 ttQ
 vKc
 lNk
@@ -520126,7 +521426,7 @@ vNv
 lNk
 nCT
 oqR
-fax
+rMj
 oRA
 vDO
 wIE
@@ -520572,7 +521872,7 @@ ozh
 daH
 daH
 daH
-daH
+ttQ
 daH
 daH
 daH
@@ -521476,7 +522776,7 @@ kMf
 daH
 daH
 daH
-daH
+ttQ
 daH
 daH
 daH
@@ -521924,7 +523224,7 @@ oRA
 oRA
 oRA
 oRA
-daH
+hMI
 ttQ
 vKc
 lNk
@@ -524623,7 +525923,7 @@ rNP
 rNP
 taD
 vDO
-gNl
+mHy
 vDO
 vDO
 vDO
@@ -530095,9 +531395,9 @@ mQP
 kuW
 uPk
 uPk
-uPk
+rGs
 jkA
-uPk
+rqr
 uPk
 uPk
 kuW
@@ -534638,8 +535938,8 @@ vDl
 vDl
 vDl
 ntJ
-iAX
 kpS
+mGw
 kpS
 kpS
 jdE
@@ -535066,7 +536366,7 @@ kpS
 kpS
 kpS
 vDl
-gNh
+dBu
 gNh
 pMi
 vDl
@@ -535518,7 +536818,7 @@ kpS
 kpS
 kpS
 vDl
-gNh
+sGt
 gNh
 gNh
 gNh
@@ -535542,7 +536842,7 @@ vDl
 vDl
 vDl
 eQA
-kpS
+uPi
 kpS
 kpS
 kpS
