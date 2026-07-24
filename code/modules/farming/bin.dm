@@ -310,10 +310,22 @@
 // expandable proc for later. we re-use this when we loop thru objs w/ storage.
 // returns true if the if statements are not met. this is probably expensive as fuck but idk what else to do
 /obj/item/litterbin/proc/item_verification_check(obj/item/I)
+	// realized i need a lot of these & so we're just gonna for loop thru em for easier changes
+	// static list cus i assume thats fine & uses less memory...?
+	var/static/list/blacklisted_items = list(
+		/obj/item/roguekey,
+		/obj/item/rogueweapon/werewolf_claw,
+		/obj/item/grabbing,
+	)
 	if(I.is_important)
 		return FALSE
-	if(istype(I, /obj/item/roguekey))
+	// if they'd del on drop dont let them put it in (experimental one idfk if this works)
+	if(I.item_flags & DROPDEL)
 		return FALSE
+	// check thru our items for being blacklisted
+	for(var/type in blacklisted_items)
+		if(istype(I, type))
+			return FALSE
 	// recursively check through all containers. i have learned from my mistake, last time. at the same time: recursive proc i vomit
 	for(var/obj/item/contained_item in I.contents)
 		if(!item_verification_check(contained_item))
