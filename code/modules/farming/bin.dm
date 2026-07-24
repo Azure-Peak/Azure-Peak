@@ -302,8 +302,8 @@
 		return
 
 	// idk why u have to forcemove this shit out of the bin before you put in hand but u do
-	I.forceMove(get_turf(loc))
-	user.put_in_hand(I)
+	I.forceMove(get_turf(src))
+	user.put_in_active_hand(I)
 	stored_items -= I
 	to_chat(user, span_notice("I retrieve [I]!"))
 
