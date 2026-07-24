@@ -6,13 +6,12 @@ T1 Enchantments below here*/
 /obj/item/enchantmentscroll
 	name = "runic tincture"
 	desc = "An alchemical ink designed to conduct a specific type of arcana. Can be used on certain items and objects to imbue them."
-	icon = 'icons/roguetown/items/cooking.dmi'
-	icon_state = "clayfancyvasecook_bluegold" // temp
+	icon = 'icons/roguetown/items/magic_resources.dmi'
+	icon_state = "arcink"
 	var/component
 	possible_item_intents = list(/datum/intent/hand/draw)
 	grid_width = 64
 	grid_height = 32
-	dropshrink = 0.8
 	var/apply_to_pretty // text describing what it can be applied to
 	var/effects_pretty	// text describing what it does when applied
 
