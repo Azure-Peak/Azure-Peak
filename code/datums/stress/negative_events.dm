@@ -563,3 +563,13 @@
 	timer = 15 MINUTES
 	stressadd = 2
 	desc = span_artery("I feel a judgmental presence watching over me with disgust. I don't like this.")
+
+/datum/stressevent/remorse
+	timer = 15 MINUTES
+	stressadd = 3
+	desc = list(span_artery("I struck someone who never meant me harm."), span_artery("I can't stop thinking about the blow I dealt to someone defenseless."), span_artery("My conscience weighs heavily after attacking one who refused violence."), span_artery("I regret raising my hand against someone who would never have raised theirs against me."), span_artery("The look of fear instead of hatred lingers in my thoughts."), span_artery("I feel ashamed for harming someone who chose peace."), span_artery("I could have walked away. Instead, I chose violence."), span_artery("The guilt of attacking a helpless soul gnaws at me."), span_artery("I keep replaying the moment I struck someone who would not fight back."), span_artery("My heart grows heavier with every thought of the defenseless person I attacked."))
+
+/datum/stressevent/remorse_evil
+	timer = 15 MINUTES
+	stressadd = 1
+	desc = list(span_artery("Even I found no satisfaction in striking someone so meek."), span_artery("They denied me the thrill of a real fight."), span_artery("Their refusal to resist leaves a bitter taste."), span_artery("There was no struggle... only acceptance. That's insane."), span_artery("I expected fear, hatred, anything... but not acceptance."), span_artery("A defenseless victim is hardly worth remembering, yet the thought lingers."), span_artery("Why won't the image of their helplessness leave my mind?"))

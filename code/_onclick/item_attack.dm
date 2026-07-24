@@ -127,12 +127,12 @@
 
 
 	if(item_flags & NOBLUDGEON)
-		return FALSE	
+		return FALSE
 
 	if(force && HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("I don't want to harm other living beings!"))
 		return
-	
+
 	if(force && user.has_status_effect(/datum/status_effect/debuff/deadite_grace) && M.mind)
 		to_chat(user, span_warning("Ah, Lux... I calm down considerably, but my hunger only increases."))
 		user.remove_status_effect(/datum/status_effect/debuff/deadite_grace)
@@ -168,7 +168,7 @@
 		if(user.add_swingdelay(cached_intent))
 			sleep(cached_intent.swingdelay)
 
-	// Getting struck w/ /disrupt swingdelay type sets our swing_state to false. 
+	// Getting struck w/ /disrupt swingdelay type sets our swing_state to false.
 	// If we had the effect, but not the bool, we were interrupted. (Or something else went wrong.)
 	if(user.is_swinging() && !user.swing_state)
 		return
@@ -193,6 +193,15 @@
 			return
 	if(HAS_TRAIT(user, TRAIT_DUALWIELDER))
 		user.process_dualwield(M, src, null)
+
+	if(HAS_TRAIT(M, TRAIT_PACIFISM))
+		reduce_intent_cooldown(user, /datum/status_effect/debuff/clashcd, amount = 5 SECONDS)
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			if(user.patron?.type in ALL_INHUMEN_PATRONS)
+				user.add_stress(/datum/stressevent/remorse_evil)
+			else
+				user.add_stress(/datum/stressevent/remorse)
+
 	var/rmb_stam_penalty = 0
 	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 		rmb_stam_penalty = EXTRA_STAMDRAIN_SWIFSTRONG
@@ -216,7 +225,7 @@
 			user.adjust_blurriness(3)
 			user.adjustBruteLoss(5)
 			user.apply_status_effect(/datum/status_effect/churned, M)
-	
+
 	//Niche signal for post-swingdelay attacks when we want to care about those.
 	_attacker_signal = null
 	_attacker_signal = SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, M, user, src)
@@ -260,7 +269,7 @@
 
 		user.changeMaxDodge(2)
 		user.dodgetime = clamp(user.dodgetime - 2, 0, CLICK_CD_DODGE)
-				
+
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
 
 	execute_cleave(user, get_turf(M), M)
@@ -339,7 +348,7 @@
 
 	if(!istype(user))
 		return newforce
-	
+
 	var/dullness_ratio
 	if(I.max_blade_int && I.sharpness != IS_BLUNT)
 		dullness_ratio = I.blade_int / I.max_blade_int
@@ -607,7 +616,7 @@
 
 	if(multiplier)
 		newforce = newforce * multiplier
-	
+
 	take_damage(newforce, I.damtype, I.d_type, 1)
 	if(newforce > 1)
 		I.take_damage(1, BRUTE, I.d_type)

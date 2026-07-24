@@ -256,6 +256,16 @@
 
 	var/mob/living/L = target
 
+	if(isliving(firer) && HAS_TRAIT(L, TRAIT_PACIFISM))
+		var/mob/living/user = firer
+		reduce_intent_cooldown(user, /datum/status_effect/debuff/clashcd, 5 SECONDS)
+
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			if(user.patron?.type in ALL_INHUMEN_PATRONS)
+				user.add_stress(/datum/stressevent/remorse_evil)
+			else
+				user.add_stress(/datum/stressevent/remorse)
+
 	if(blocked != 100) // not completely blocked
 		if(damage && L.blood_volume && damage_type == BRUTE)
 			var/splatter_dir = dir
