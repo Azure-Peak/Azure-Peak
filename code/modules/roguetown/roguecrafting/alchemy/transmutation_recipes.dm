@@ -85,6 +85,12 @@
 	input_items = list(/obj/item/natural/clay = 2)
 	output_items = list(/obj/item/natural/dirtclod = 2)
 
+/datum/transmutation_recipe/terran/dirtbulk
+	name = "Stone Weathering (Dirt)"
+	materia_aspects = list(/datum/materia_aspect/earth)
+	input_items = list(/obj/item/natural/stone = 3)
+	output_items = list(/obj/item/natural/dirtclod = 8)
+
 /datum/transmutation_recipe/terran/coal
 	name = "Stone Carbonization (Coal)"
 	materia_aspects = list(/datum/materia_aspect/earth)
