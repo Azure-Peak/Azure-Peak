@@ -312,10 +312,17 @@
 		return
 
 	var/datum/patron/divine/abyssor/A = patron
+	var/choice
 
-	var/choice = input(holder, "Choose your studies under the Deepfather:", "Call Of The Deep") as null|anything in list("Path of the Dreamer (offense)", "Path of the Painter (support)")
-	if(!choice)
-		choice = "Path of the Dreamer (offense)"
+	// If they already have ink affinity, automatically assign them to the Painter path without asking
+	if(HAS_TRAIT(holder, TRAIT_INK_AFFINITY))
+		choice = "Path of the Painter (support)"
+		if(!silent)
+			to_chat(holder, span_boldnotice("Your innate ink affinity draws you onto the Path of the Painter."))
+	else
+		choice = input(holder, "Choose your studies under the Deepfather:", "Call Of The Deep") as null|anything in list("Path of the Dreamer (offense)", "Path of the Painter (support)")
+		if(!choice)
+			choice = "Path of the Dreamer (offense)"
 
 	switch(choice)
 		if("Path of the Painter (support)")
@@ -325,6 +332,7 @@
 		if("Path of the Dreamer (offense)")
 			if(!silent)
 				to_chat(holder, span_boldnotice("You have chosen the Path of the Dreamer. Your mind sinks under the waves."))
+			// Heretics picking path of the dreamer do not get paint affinity, as they might end up fighting church members.
 			if(!HAS_TRAIT(holder, TRAIT_HERESIARCH))
 				ADD_TRAIT(holder, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
 			allocate_standard_miracles(silent)
