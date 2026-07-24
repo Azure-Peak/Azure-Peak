@@ -36,6 +36,13 @@
 		"A fiend wears His voice"
 	)
 
+/datum/vision_quest/siren_calling/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
+	if(!..())
+		return FALSE
+	if(!target.patron || !istype(target.patron, /datum/patron/divine/abyssor))
+		return FALSE
+	return TRUE
+
 /datum/vision_quest/orthodoxist_salvation
 	name = "Psydonic Vision"
 	description = "A psydonite stands in Abyssor's gaze. You are the prophet, you will deliver his missive."
