@@ -45010,7 +45010,6 @@
 /area/rogue/under/cave/his_vault/puzzle)
 "iAK" = (
 /obj/machinery/light/rogue/candle,
-/obj/machinery/light/rogue/candle,
 /obj/structure/rack/rogue/shelf/biggest,
 /turf/open/floor/rogue/wood/herringbone,
 /area/rogue/indoors/town)
@@ -106734,6 +106733,10 @@
 	},
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave/scarymaze)
+"tVD" = (
+/obj/machinery/tanningrack,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/town)
 "tVE" = (
 /obj/structure/table/wood/poor,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/materials,
@@ -120583,18 +120586,6 @@
 /obj/structure/closet/crate/coffin,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/underdark/north)
-"wDZ" = (
-/obj/structure/stairs{
-	dir = 4
-	},
-/obj/structure/stairs{
-	dir = 4
-	},
-/obj/structure/stairs{
-	dir = 4
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town)
 "wEf" = (
 /obj/item/restraints/legcuffs/beartrap/armed/camouflage,
 /turf/open/floor/rogue/church,
@@ -284856,7 +284847,7 @@ cDX
 exD
 exD
 cDX
-wDZ
+vIa
 vIa
 vIa
 jvx
@@ -289820,7 +289811,7 @@ pWT
 pWT
 pWT
 pWT
-pWT
+tVD
 daQ
 daQ
 daQ
