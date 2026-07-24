@@ -92,7 +92,17 @@
 /datum/component/vision_quest_tracker/Initialize(datum/vision_quest/quest_datum, mob/target_mob, obj/structure/roguemachine/ritual_rune/rune, chosen_reward, bonus_reward)
 	if(!istype(quest_datum, /datum/vision_quest) || !istype(target_mob) || !istype(rune))
 		return COMPONENT_INCOMPATIBLE
-	quest = quest_datum
+
+	var/datum/vision_quest/quest_instance = new quest_datum.type()
+	quest_instance.name = quest_datum.name
+	quest_instance.description = quest_datum.description
+	quest_instance.required_tier = quest_datum.required_tier
+	quest_instance.required_phrase = quest_datum.required_phrase
+	quest_instance.target_description = quest_datum.target_description
+	quest_instance.summary = quest_datum.summary
+	quest_instance.vision_text = quest_datum.vision_text
+
+	quest = quest_instance
 	target_ref = WEAKREF(target_mob)
 	reward_rune_ref = WEAKREF(rune)
 	seeker = parent

@@ -153,9 +153,7 @@
 /datum/vision_quest/abyssor_sleeping/is_valid_target(mob/living/carbon/human/target, mob/living/carbon/human/seeker)
 	if(!..())
 		return FALSE
-	if(!target.patron)
-		return FALSE
-	if(!(target.patron.type == /datum/patron/divine/abyssor))
+	if(!target.patron || !istype(target.patron, /datum/patron/divine/abyssor))
 		return FALSE
 	return TRUE
 
