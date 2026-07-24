@@ -68741,8 +68741,8 @@
 "mMG" = (
 /obj/structure/table/wood/poor,
 /obj/item/clothing/ring/shell{
-	name = "Vow";
-	desc = "A simple shell ring bearing the inscription "V&D." Countless years of wear have smoothed its edges, but not the devotion etched into its surface. The ring was recovered from a thief's hut, far removed from its rightful owner. One wonders whether the theft broke hearts, or merely confirmed what fate had already decided."
+	name = "Lost Vow";
+	desc = "A simple shell ring bearing the inscription V&D. Countless years of wear have smoothed its edges, but not the devotion etched into its surface. The ring was recovered from a thief's hut, far removed from its rightful owner. One wonders whether the theft broke hearts, or merely confirmed what fate had already decided."
 	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/town)
