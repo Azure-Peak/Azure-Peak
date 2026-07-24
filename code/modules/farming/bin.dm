@@ -268,6 +268,12 @@
 	item_flags = INDESTRUCTIBLE | LAVA_PROOF | ACID_PROOF
 	var/list/stored_items = list()
 
+/obj/item/litterbin/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_notice("By left-clicking an item onto the bin, you will place it within the bin. Left-clicking with an empty-hand will \
+	attempt to retrieve an item. Select it from the list and confirm to retrieve it.")
+	. += span_warning("Keys and other important items cannot be stored in the bin. Containers with these items within will also be rejected.")
+
 /obj/item/litterbin/attackby(obj/item/I, mob/user, params)
 	// hardening: lets make sure that important items that we designate in a helper proc do not go in
 	if(!item_verification_check(I))
