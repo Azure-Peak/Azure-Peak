@@ -171,7 +171,9 @@
 	if(owner.getToxLoss())
 		owner.adjustToxLoss(-min(toxin_heal, owner.getToxLoss()), 0)
 	if(recipe?.blood)
-		owner.adjustOxyLoss(-2)
+		owner.adjustOxyLoss(-5)
+		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+			owner.blood_volume += BLOOD_VOLUME_NORMAL * 0.02
 		for(var/datum/wound/W as anything in owner.get_wounds())
 			if(!istype(W, /datum/wound/slash/incision))
 				if(W.bleed_rate <= 0 && W.sew_threshold)
@@ -180,7 +182,7 @@
 	if(recipe?.wounds)
 		for(var/datum/wound/W as anything in owner.get_wounds())
 			if(!istype(W, /datum/wound/slash/incision))
-				W.heal_wound(2)
+				W.heal_wound(3)
 
 /datum/status_effect/buff/healingvapors
 	id = "healingvapors"
@@ -207,32 +209,38 @@
 	if(recipe?.brute)
 		var/brute = owner.getBruteLoss()
 		if(brute > 0)
-			var/heal = max(brute * (recipe.brute * 0.02), min_heal)
+			var/heal = max(brute * (recipe.brute * 0.03), min_heal)
 			owner.adjustBruteLoss(-min(heal, brute), 0)
 	if(recipe?.burn)
 		var/burn = owner.getFireLoss()
 		if(burn > 0)
-			var/heal = max(burn * (recipe.burn * 0.02), min_heal)
+			var/heal = max(burn * (recipe.burn * 0.03), min_heal)
 			owner.adjustFireLoss(-min(heal, burn), 0)
 	if(recipe?.toxin)
 		var/toxin = owner.getToxLoss()
 		if(toxin > 0)
-			var/heal = max(toxin * (recipe.toxin * 0.02), min_heal)
+			var/heal = max(toxin * (recipe.toxin * 0.03), min_heal)
 			owner.adjustToxLoss(-min(heal, toxin), 0)
 	if(recipe?.blood)
-		owner.adjustOxyLoss(-2)
+		owner.adjustOxyLoss(-10)
+		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+			owner.blood_volume += BLOOD_VOLUME_NORMAL * 0.03
 		for(var/datum/wound/W as anything in owner.get_wounds())
 			if(!istype(W, /datum/wound/slash/incision))
 				if(W.bleed_rate <= 0 && W.sew_threshold)
 					W.sew_progress = W.sew_threshold
 					W.sew_wound()
-	if(recipe.wounds)
+	if(recipe?.wounds)
 		for(var/datum/wound/W as anything in owner.get_wounds())
 			if(!istype(W, /datum/wound/slash/incision))
-				W.heal_wound(2)
+				W.heal_wound(6)
 
 /datum/status_effect/buff/healingvapors/on_remove()
 	owner.remove_filter(VAPORS_HEALING_FILTER)
+	REMOVE_TRAIT(owner, TRAIT_ZOMBIE_SPEECH, "vapecrack")
+	REMOVE_TRAIT(owner, TRAIT_NOPAIN, "vapecrack")
+	REMOVE_TRAIT(owner, TRAIT_GARGLE_SPEECH, "vapecrack")
+	REMOVE_TRAIT(owner, TRAIT_MUSES_GRACE, "vapecrack")
 	owner.update_damage_hud()
 
 /mob/living/proc/process_vapor_catalyst(catalyst, is_lethal = FALSE, stinky = FALSE)
@@ -253,7 +261,10 @@
 				visible_message(span_notice("[src] suddenly seems wide awake, brimming with restless energy."), span_artery("I feel all my exhaustion just... poof! Gone."))
 			apply_status_effect(/datum/status_effect/buff/moondust)
 			apply_status_effect(/datum/status_effect/buff/druqks)
-			remove_status_effect(/datum/status_effect/debuff/sleepytime)
+			if(src.has_status_effect(/datum/status_effect/debuff/sleepytime))
+				remove_status_effect(/datum/status_effect/debuff/sleepytime)
+				remove_stress(/datum/stressevent/sleepytime)
+				src.mind.sleep_adv.advance_cycle()
 			sate_addiction(/datum/charflaw/addiction/junkie)
 
 		if("Spice")
@@ -291,32 +302,8 @@
 					remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
 					apply_status_effect(/datum/status_effect/debuff/rotted)
 				else
-					visible_message(span_warning("The honeyed vapors fail to purge the corruption from [src]."), span_warning("I feel no different..."))
+					visible_message(span_warning("The honeyed vapors fail to purge any corruption from [src]."), span_warning("I feel no different..."))
 			else
 				visible_message(span_notice("The sweet vapors drift harmlessly around [src], finding no rot to cleanse."), span_notice("The honeyed vapors find no trace of rot within me."))
-
-		if("Impure Lux")
-			if(stat != DEAD)
-				visible_message(span_warning("The impure lux recoils from [src], unable to settle."), span_warning("The lux-infused vapors are repelled by an equal force."))
-				return
-			if(has_status_effect(/datum/status_effect/debuff/rotted_zombie))
-				visible_message(span_necrosis("The impure lux eagerly sinks into [src]'s rotting flesh. The corpse begins to stir!"), span_necrosis("The impure lux embraces my ruined flesh. Something compels me to rise..."))
-				var/datum/component/rot/corpse/R = GetComponent(/datum/component/rot/corpse)
-				if(R)
-					R.amount = 7 MINUTES + 1
-					R.process()
-				return
-			visible_message(span_notice("Pale wisps of impure lux gather around [src]'s corpse, desperately seeking a fading spark of life."), span_green("The impure lux reaches for what remains of my soul..."))
-			apply_status_effect(/datum/status_effect/reanimating)
-
-		if("Purified Lux")
-			if(stat != DEAD)
-				visible_message(span_warning("The purified lux gently withdraws from [src], finding no soul to restore."), span_warning("The lux-infused vapors are repelled by an equal force."))
-				return
-			if(has_status_effect(/datum/status_effect/debuff/rotted_zombie))
-				visible_message(span_warning("The purified lux scatters before [src]'s ruined body, unable to restore what rot has claimed."), span_warning("The lux-infused vapors don't seem to find proper flesh to settle."))
-				return
-			visible_message(span_green("Radiant vapors of purified lux embrace [src]'s body, patiently weaving soul and flesh back together."), span_green("A warm radiance envelops me. Something is calling me back..."))
-			revive_vapor_target()
 
 #undef VAPORS_HEALING_FILTER
