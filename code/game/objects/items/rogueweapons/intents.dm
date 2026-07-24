@@ -224,7 +224,7 @@
 				inspec += SPAN_TOOLTIP("The swing will reduce my defense by a significant amount.", "<font color='#dab141'><u>Difficult</u></font>")
 			if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
 				inspec += SPAN_TOOLTIP("I will have no chance to defend while swinging, and a strike against me will interrupt it.", "<font color='#a70d0d'><u>Rigid</u></font>")
-		
+
 	if(cleave)
 		inspec += "\n<b>Cleave:</b> [cleave.desc]"
 		inspec += "\n  Max additional targets: [cleave.max_targets ? cleave.max_targets : "Unlimited"]"
@@ -466,7 +466,7 @@
 	clickcd = 4 // Just like knife pick!
 	swingdelay = 1
 	releasedrain = 0 //no stamina loss, as charges are lost as it drills
-	
+
 /datum/intent/pick/bad	//One-handed intents
 	name = "sluggish pick"
 	icon_state = "inpick"
@@ -540,7 +540,7 @@
 	charging_slowdown = 3
 	warnoffset = 20
 	var/strength_check = FALSE //used when we fire HEAVY bows
-	
+
 /datum/intent/proc/arc_check()
 	return FALSE
 
@@ -620,6 +620,12 @@
 			user.changeNext_move(CLICK_CD_FAST)	// Mostly to prevent spamming the animation too heavily.
 		else
 			M.taunted(user)
+			if(M.ai_controller)
+				M.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, user)
+				M.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, user)
+			var/datum/component/ai_aggro_system/aggro = M.GetComponent(/datum/component/ai_aggro_system)
+			if(aggro)
+				aggro.add_threat_to_mob(user, 100)
 	return
 
 /// A punch with claw visual only. All damage, armor, wound, timing, stamina, and parry behavior remains inherited from punch.
@@ -668,7 +674,7 @@
 	miss_text = "claw at the air"
 	miss_sound = "punchwoosh"
 	item_d_type = "slash"
-	
+
 
 /datum/intent/unarmed/shove
 	name = "shove"

@@ -399,6 +399,13 @@
 	if(. && pulled && pulledby == pulled && pulled.cmode && pulled.grab_state < GRAB_AGGRESSIVE) //NICHE case of being in a first tier grab state.
 		if(!pulledby || QDELETED(pulledby))
 			return
+
+		if(HAS_TRAIT(pulled, TRAIT_PACIFISM))
+			to_chat(pulled, span_notice("I don't resist as [src] pulls away."))
+			to_chat(pulledby, span_notice("I brush [src] aside and move off."))
+			pulled.stop_pulling()
+			return
+
 		if(pulledby.anchored)
 			pulledby.stop_pulling()
 		else
