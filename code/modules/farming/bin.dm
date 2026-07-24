@@ -315,8 +315,7 @@
 	if(istype(I, /obj/item/roguekey))
 		return FALSE
 	// recursively check through all containers. i have learned from my mistake, last time. at the same time: recursive proc i vomit
-	if(I.contents.len)
-		for(var/obj/item/contained_item in I.contents)
-			if(!item_verification_check(contained_item))
-				return FALSE
+	for(var/obj/item/contained_item in I.contents)
+		if(!item_verification_check(contained_item))
+			return FALSE
 	return TRUE
