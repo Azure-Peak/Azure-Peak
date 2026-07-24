@@ -7,49 +7,60 @@
 // Tier 1
 /obj/item/dream_material/dream_spike
 	name = "effervescent spike"
+	desc = "A spike that seems to boil internally with patterns that are out of this world. It seems brittle."
 	icon_state = "spike"
 
 /obj/item/dream_material/parchment_raw
 	name = "imagined parchment"
+	desc = "Parchment treated with an Abyssorian secret. Said to provoke mild imagery of that which is written."
 	icon_state = "paper"
 
 /obj/item/dream_material/dream_ring
 	name = "gleaming ring"
+	desc = "A ring that seems oddly shiny for something that's hardly metallic in nature. It feels like a piece of coral, in a way. It seems brittle."
 	icon_state = "ring"
 
 // Tier 2
 /obj/item/dream_material/dream_effigy
 	name = "glittering effigy"
+	desc = "An effigy said to have been made by a creature of the dream. Seems workable."
 	icon_state = "effigy"
 
 /obj/item/dream_material/dream_fishes
 	name = "spiraling eels"
+	desc = "A collection of eels inanimate, at least until you try to move one of their members. They seem to hold tight to formation. The materials appear workable."
 	icon_state = "fishes"
 
 /obj/item/dream_material/dream_blade
 	name = "shattered blade"
+	desc = "A collection of shards that form a blade. Yet it refuses to be put back together, as if the material itself decided it rather remains broken. Seems workable."
 	icon_state = "blade"
 
 // Tier 3
 /obj/item/dream_material/dream_shards
 	name = "distant shards"
+	desc = "These shards appear close at first, but looking at them makes them creep away in the distance. Yet they fit in your palm, how can they be near and faraway at the same time? Seems exquisite."
 	icon_state = "shards"
 
 /obj/item/dream_material/dream_star
 	name = "wronged star"
+	desc = "Holding this star fills the head with whispers. It tells tales, how it used to shine in the sky but then it saw what a mess we're making of the place. It crashed down on its own accord from the great dream's sky. 'I can fix it, if you'll allow me.' Seems exquisite."
 	icon_state = "star"
 
 // Tierless
 /obj/item/dream_material/parchment_silver
 	name = "imagined parchment"
+	desc = "A piece of parchment treated with a quicksilver like paint. The paint binds visions, or so they say."
 	icon_state = "tier1_open"
 
 /obj/item/dream_material/parchment_gold
 	name = "imagined parchment"
+	desc = "A piece of parchment treated with a flakey, gold-like substance. Said to hold greater visions without warping the words."
 	icon_state = "tier2_open"
 
 /obj/item/dream_material/parchment_dream
 	name = "imagined parchment"
+	desc = "A piece of parchment treated with sylveric based paint. The stuff of dreams. Said to muddy present, past and future, so that it may appear to us... In a dream."
 	icon_state = "tier3_open"
 
 /obj/item/dream_material/dream_seed
