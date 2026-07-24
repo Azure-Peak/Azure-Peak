@@ -1,0 +1,5 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - balance: "dreamwalker poison sword enchant swapped for a black rot enchantment instead."
+  - balance: "dreamwalker enchantments require 3 hits per trigger."

@@ -56,6 +56,21 @@
 	if(!SSchimeric_tech.get_node_status("CORPSE_TICKS") && target.stat == DEAD)
 		return FALSE
 
+	if(HAS_TRAIT(target, TRAIT_DEADITE))
+		target.visible_message(
+			span_warning("[src] refuses to latch onto an undead thing!"),
+			span_notice("[src] refuses to attach to you, on account of being a deadite.")
+		)
+		return FALSE
+
+	var/obj/item/bodypart/chest/target_chest = target.get_bodypart(BODY_ZONE_CHEST)
+	if(target_chest.skeletonized)
+		target.visible_message(
+			span_warning("[src] refuses to latch onto a skeleton!"),
+			span_notice("[src] refuses to attach to you, on account of being boney.")
+		)
+		return FALSE
+
 	if(target.has_status_effect(/datum/status_effect/debuff/devitalised))
 		return FALSE
 
@@ -271,7 +286,7 @@
 /datum/status_effect/debuff/leech_schizophrenia/on_creation(mob/living/new_owner, ...)
 	. = ..()
 
-	duration = rand(14 MINUTES, 28 MINUTES) 
+	duration = rand(14 MINUTES, 28 MINUTES)
 	current_cooldown = world.time + message_cooldown
 	return .
 

@@ -16,6 +16,7 @@
 	can_parry = TRUE
 	wdefense = 4
 	walking_stick = TRUE
+	associated_skill = /datum/skill/craft/cooking
 	anvilrepair = /datum/skill/craft/carpentry
 	smeltresult = /obj/item/ash
 
@@ -30,89 +31,83 @@
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
+/obj/item/broom/proc/sweep_message(atom/A, mob/living/user)
+	user.visible_message(span_notice("[user] dutifully sweeps \the [A]."), span_notice("I dutifully sweep \the [A]."))
+
+/obj/item/broom/proc/is_sweep_trash(obj/O)
+	return istype(O, /obj/effect/decal/cleanable/dirt) || \
+		istype(O, /obj/item/paper/crumpled) || \
+		istype(O, /obj/item/ash) || \
+		istype(O, /obj/item/natural/glass_shard) || \
+		istype(O, /obj/effect/decal/cleanable/debris) || \
+		istype(O, /obj/effect/decal/remains/human)
+
+/obj/item/broom/proc/is_clutter(atom/movable/A)
+	return istype(A, /obj/item/natural/stone) || \
+		istype(A, /obj/item/scrap) || \
+		istype(A, /obj/item/paper/crumpled) || \
+		istype(A, /obj/item/grown/log/tree/stick) || \
+		istype(A, /obj/item/ash) || \
+		istype(A, /obj/item/natural/glass_shard) || \
+		istype(A, /obj/item/natural/cloth) || \
+		istype(A, /obj/item/natural/fibers) || \
+		istype(A, /obj/item/natural/silk) || \
+		istype(A, /obj/item/natural/bone) || \
+		istype(A, /obj/item/natural/bundle) || \
+		istype(A, /obj/item/ammo_casing) || \
+		istype(A, /obj/item/rogueweapon/huntingknife/throwingknife)
+
 /obj/item/broom/attack_obj(obj/O, mob/living/user)
-	if(istype(O, /obj/structure/spider/stickyweb)) // perish, spiders
-		O.take_damage(50, BRUTE, "blunt", FALSE)
-
-	if(do_after(user, 15, target = O))
-		user.visible_message("<span class='notice'>[user] dutifully sweeps \the [O.name].</span>", "<span class='notice'>I dutifully sweep \the [O.name].</span>")
-		playsound(user, "clothwipe", 100, TRUE)		
-		broom_fu(O, user)
-
-// Even if there's nothing mechanically dirty about the floor, you can still sweep it! Anything to look busy. // added a few more to it cause why not
-/obj/item/broom/attack_turf(turf/T, mob/living/user)
-	if(istype(T, /turf/open/lava)) // lol
-		return
-	if(istype(T, /turf/open/water))
-		return
-	if(do_after(user, 20, target = T))
-		user.visible_message("<span class='notice'>[user] dutifully sweeps \the [T.name].</span>", "<span class='notice'>I dutifully sweep \the [T.name].</span>")
-		playsound(user, 'sound/items/broom_sweep.ogg', 150, TRUE)
-		broom_fu(T, user)
-		gather_clutter(T, user)
-
-
-/obj/item/broom/attack_obj(obj/O, mob/living/user)
-	if(istype(O, /obj/structure/spider/stickyweb)) // perish, spiders
+	if(!user.used_intent || !istype(user.used_intent, /datum/intent/use))
+		return ..()
+	if(istype(O, /obj/structure/spider/stickyweb))
 		O.take_damage(200, BRUTE, "blunt", FALSE)
-		playsound(loc,"smashlimb", 50, FALSE)
+		playsound(loc, "smashlimb", 50, FALSE)
 		return
+	if(!do_after(user, 15, target = O))
+		return
+	sweep_message(O, user)
+	playsound(user, "clothwipe", 100, TRUE)
+	broom_fu(O)
 
-	if(do_after(user, 15, target = O))
-		user.visible_message("<span class='notice'>[user] dutifully sweeps \the [O.name].</span>", "<span class='notice'>I dutifully sweep \the [O.name].</span>")
-		playsound(user, "clothwipe", 100, TRUE)		
-		broom_fu(O, user)
-
-// Even if there's nothing mechanically dirty about the floor, you can still sweep it! Anything to look busy. // added a few more to it cause why not
 /obj/item/broom/attack_turf(turf/T, mob/living/user)
-	if(istype(T, /turf/open/lava)) // lol
+	if(!user.used_intent || !istype(user.used_intent, /datum/intent/use))
+		return ..()
+	if(istype(T, /turf/open/lava) || istype(T, /turf/open/water))
 		return
-	if(istype(T, /turf/open/water))
+	if(!do_after(user, 20, target = T))
 		return
-	if(do_after(user, 20, target = T))
-		user.visible_message("<span class='notice'>[user] dutifully sweeps \the [T.name].</span>", "<span class='notice'>I dutifully sweep \the [T.name].</span>")
-		playsound(user, 'sound/items/broom_sweep.ogg', 150, TRUE)
-		broom_fu(T, user)
-		gather_clutter(T, user)
+	sweep_message(T, user)
+	playsound(user, 'sound/items/broom_sweep.ogg', 150, TRUE)
+	broom_fu(T)
+	gather_clutter(T, user)
+	for(var/obj/O in T)
+		broom_fu(O)
 
-// i should make this delete squires who try to steal your butter too it'll probably be funny
-/obj/item/broom/proc/broom_fu(atom/A, mob/living/user)
-	if(!A)
-		return
-
+/obj/item/broom/proc/broom_fu(atom/A)
 	var/turf/T = get_turf(A)
 	if(!T)
 		return
-
 	for(var/obj/O in T.contents)
-		if(O.loc != T) // think this might stop it from deleting clutter from bags? oughh...
+		if(O.loc != T)
 			continue
-
-		if(istype(O, /obj/effect/decal/cleanable/dirt) || \
-		   istype(O, /obj/item/paper/crumpled) || \
-		   istype(O, /obj/item/ash) || \
-		   istype(O, /obj/item/natural/glass_shard) || \
-		   istype(O, /obj/effect/decal/cleanable/debris) || \
-		   istype(O, /obj/effect/decal/remains/human))
+		if(is_sweep_trash(O))
 			qdel(O)
 
 /obj/item/broom/proc/gather_clutter(turf/T, mob/living/user)
 	if(!T)
 		return
-
-	var/count = 0
-	var/flufftext = FALSE
-
+	var/moved = 0
 	for(var/atom/movable/A in range(1, T))
-		if(count >= 10)
+		if(moved >= 10)
 			break
-		if(A.loc == T) 
+		if(A.loc == T)
 			continue
-		if(istype(A, /obj/item/natural/stone) || istype(A, /obj/item/scrap) || istype(A, /obj/item/paper/crumpled) || istype(A, /obj/item/grown/log/tree/stick) || istype(A, /obj/item/ash) || istype(A, /obj/item/natural/glass_shard) || istype(A, /obj/item/natural/cloth) || istype(A, /obj/item/natural/fibers) || istype(A, /obj/item/natural/silk) || istype(A, /obj/item/ammo_casing) || istype(A, /obj/item/rogueweapon/huntingknife/throwingknife))
-			if(A.loc != T && !QDELETED(A))
-				A.forceMove(T)
-				count++
-				flufftext = TRUE
-
-	if(flufftext)
-		user.visible_message("<span class='notice'>[user] gathers the clutter into \the [T.name].</span>", "<span class='notice'>I gather the clutter into \the [T.name].</span>")
+		if(QDELETED(A))
+			continue
+		if(!is_clutter(A))
+			continue
+		A.forceMove(T)
+		moved++
+	if(moved)
+		user.visible_message(span_notice("[user] gathers the clutter into \the [T]."), span_notice("I gather the clutter into \the [T]."))

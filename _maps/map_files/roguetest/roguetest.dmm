@@ -39,6 +39,7 @@
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
 "bh" = (
+/obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/mountains/decap)
 "bC" = (
@@ -327,6 +328,8 @@
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors)
 "kz" = (
+/obj/effect/landmark/quest_spawner/generic,
+/obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/bog/north)
 "kF" = (
@@ -431,10 +434,6 @@
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
-"nH" = (
-/obj/effect/landmark/quest_spawner/defense,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/mountains/decap)
 "nJ" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/swine,
 /turf/open/floor/rogue/hay,
@@ -592,6 +591,7 @@
 "rh" = (
 /obj/effect/gibspawner/generic,
 /obj/effect/landmark/quest_spawner/generic,
+/obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/mountains/decap)
 "rk" = (
@@ -600,9 +600,6 @@
 "rm" = (
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/woods/north)
-"rn" = (
-/turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/woods/north)
 "rp" = (
 /obj/structure/fluff/railing/border/east,
@@ -618,10 +615,6 @@
 	},
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
-"rD" = (
-/obj/effect/landmark/quest_spawner/defense,
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/under/underdark/north)
 "rN" = (
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors/town/vault)
@@ -821,9 +814,6 @@
 /obj/item/ingot/steel,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
-"wr" = (
-/turf/open/floor/rogue/cobble,
-/area/rogue/outdoors/beach/forest/north)
 "wv" = (
 /obj/structure/fluff/railing/border{
 	dir = 8
@@ -928,10 +918,6 @@
 "yF" = (
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/indoors/shelter/mountains/decap)
-"yG" = (
-/obj/effect/landmark/quest_spawner/defense,
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/bog/north)
 "yK" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors)
@@ -1204,9 +1190,6 @@
 /obj/item/rogueweapon/huntingknife,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
-"Fi" = (
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/rtfield)
 "FP" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -1348,10 +1331,6 @@
 /obj/structure/table/vtable/v2,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors)
-"Lz" = (
-/obj/effect/landmark/quest_spawner/defense,
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/rtfield)
 "LB" = (
 /obj/item/flint,
 /turf/open/floor/rogue/ruinedwood,
@@ -1392,10 +1371,6 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors)
-"MD" = (
-/obj/effect/landmark/quest_spawner/defense,
-/turf/open/floor/rogue/cobble,
-/area/rogue/outdoors/beach/forest/north)
 "ME" = (
 /obj/structure/roguemachine/vaultbank/merchant,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -1635,10 +1610,6 @@
 /obj/item/kitchen/rollingpin,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
-"Uv" = (
-/obj/effect/landmark/quest_spawner/defense,
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/woods/north)
 "UL" = (
 /obj/structure/table/wood{
 	icon_state = "longtable"
@@ -1704,9 +1675,6 @@
 /obj/structure/roguemachine/escrow,
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors/town/vault)
-"VQ" = (
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/under/underdark/north)
 "Wc" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -2391,9 +2359,9 @@ Rk
 Rk
 Rk
 Rk
-Fi
-Fi
-Fi
+xU
+xU
+xU
 Rk
 Rk
 Lg
@@ -2443,16 +2411,16 @@ Rk
 Rk
 Rk
 Rk
-Fi
 xU
-Lz
+xU
+xU
 Rk
 Rk
 Lg
 Lg
 bh
 rh
-nH
+bh
 Lg
 yF
 "}
@@ -2495,9 +2463,9 @@ Rk
 Rk
 Rk
 Rk
-Fi
-Fi
-Fi
+xU
+xU
+xU
 Rk
 Rk
 Lg
@@ -3067,16 +3035,16 @@ wX
 wX
 wX
 wX
-rn
-rn
-rn
+rt
+rt
+rt
 MX
 wX
 bW
 bW
-VQ
-VQ
-VQ
+Ex
+Ex
+Ex
 bW
 rk
 "}
@@ -3119,16 +3087,16 @@ MX
 wX
 wX
 MX
-rn
 rt
-Uv
+rt
+rt
 wX
 wX
 bW
 bW
-VQ
 Ex
-rD
+Ex
+Ex
 bW
 rk
 "}
@@ -3171,16 +3139,16 @@ wX
 wX
 wX
 wX
-rn
-rn
-rn
+rt
+rt
+rt
 wX
 wX
 bW
 bW
-VQ
-VQ
-VQ
+Ex
+Ex
+Ex
 bW
 rk
 "}
@@ -3795,16 +3763,16 @@ Ln
 Ln
 Ln
 fo
-kz
-kz
-kz
+hQ
+hQ
+hQ
 Ln
 cQ
 cQ
 cQ
-wr
-wr
-wr
+Ka
+Ka
+Ka
 cQ
 il
 "}
@@ -3847,16 +3815,16 @@ Ln
 Ln
 Ln
 Ln
-kz
 hQ
-yG
+hQ
+hQ
 Ln
 cQ
 cQ
 cQ
-wr
 Ka
-MD
+Ka
+Ka
 cQ
 il
 "}
@@ -3899,16 +3867,16 @@ Ln
 sj
 Ln
 Ln
+hQ
 kz
-kz
-kz
+hQ
 Ln
 cQ
 cQ
 cQ
-wr
-wr
-wr
+Ka
+Ka
+Ka
 cQ
 il
 "}

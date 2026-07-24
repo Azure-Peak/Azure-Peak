@@ -1,4 +1,0 @@
-author: "Draganfrukts"
-delete-after: True
-changes:
-  - rscdel: "Freifechters do not start with money, as per their design."

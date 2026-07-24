@@ -777,3 +777,8 @@
 	name = "Donator Kit - Conviction"
 	path = /obj/item/enchantingkit/weapon/cobb_conviction
 	ckeywhitelist = list("cobbantichrist")
+
+/datum/loadout_item/donator/athena_solace
+	name = "Donator Kit - Solace"
+	path = /obj/item/enchantingkit/weapon/athena_solace
+	ckeywhitelist = list("athena14")

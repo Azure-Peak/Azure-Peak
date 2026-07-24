@@ -372,21 +372,18 @@ SUBSYSTEM_DEF(questpool)
 	log_event("generate", "blockade-defense in-hand for [ER.name] (faction [Q.faction_id], reward [Q.reward_amount])")
 	return Q
 
-/datum/controller/subsystem/questpool/proc/issue_towner_quest(type, mob/living/carbon/human/poster, posting_tier = TOWNER_POSTING_TIER_HARD)
+/datum/controller/subsystem/questpool/proc/issue_towner_quest(type, mob/living/carbon/human/poster, posting_tier = TOWNER_POSTING_TIER_EASY, to_hand = FALSE)
 	if(!type || !poster)
 		return null
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)
 		return null
-	if(istype(Q, /datum/quest/kill/recovery/towner_smith_caravan))
-		var/datum/quest/kill/recovery/towner_smith_caravan/SQ = Q
-		SQ.posting_tier = posting_tier
-	else if(istype(Q, /datum/quest/kill/towner_miner_orevein))
-		var/datum/quest/kill/towner_miner_orevein/MQ = Q
-		MQ.posting_tier = posting_tier
-	else
+	if(!istype(Q, /datum/quest/kill/recovery/towner))
 		qdel(Q)
 		return null
+	var/datum/quest/kill/recovery/towner/TQ = Q
+	TQ.posting_tier = posting_tier
+	Q.quest_difficulty = GLOB.towner_tier_difficulties[posting_tier] || QUEST_DIFFICULTY_EASY
 	Q.source = QUEST_SOURCE_TOWNER
 	Q.created_at = world.time
 	Q.issued_day = GLOB.dayspassed
@@ -405,10 +402,20 @@ SUBSYSTEM_DEF(questpool)
 	var/turf/landmark_turf = get_turf(landmark)
 	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
 	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
-	pool += Q
-	adjust_region_count(Q, 1)
+	if(to_hand)
+		var/scroll_type = Q.get_scroll_type()
+		var/obj/item/quest_writ/scroll = new scroll_type(get_turf(poster))
+		scroll.base_icon_state = Q.get_scroll_icon()
+		scroll.assigned_quest = Q
+		Q.quest_scroll = scroll
+		Q.quest_scroll_ref = WEAKREF(scroll)
+		scroll.update_quest_text()
+		poster.put_in_hands(scroll)
+	else
+		pool += Q
+		adjust_region_count(Q, 1)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
-	log_event("generate", "towner-pool [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (poster [poster.real_name], tier [posting_tier], reward [Q.reward_amount])")
+	log_event("generate", "towner-[to_hand ? "hand" : "pool"] [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (poster [poster.real_name], tier [posting_tier], reward [Q.reward_amount])")
 	return Q
 
 /datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region, is_replacement = FALSE)
@@ -475,9 +482,9 @@ SUBSYSTEM_DEF(questpool)
 		if(QUEST_BLOCKADE_DEFENSE)
 			return new /datum/quest/kill/blockade_defense()
 		if(QUEST_TOWNER_SMITH_CARAVAN)
-			return new /datum/quest/kill/recovery/towner_smith_caravan()
+			return new /datum/quest/kill/recovery/towner/smith_caravan()
 		if(QUEST_TOWNER_MINER_OREVEIN)
-			return new /datum/quest/kill/towner_miner_orevein()
+			return new /datum/quest/kill/recovery/towner/miner_orevein()
 	return null
 
 /datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)

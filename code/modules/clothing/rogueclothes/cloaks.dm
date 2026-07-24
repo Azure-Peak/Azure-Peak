@@ -693,8 +693,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
 
 /obj/item/clothing/cloak/tabard/stabard/guard
-	name = "guard tabard"
-	desc = "A tabard with the lord's heraldic colors."
+	desc = "An outer garment with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
@@ -800,7 +799,7 @@
 	body_parts_covered = CHEST
 
 /obj/item/clothing/cloak/tabard/stabard/surcoat/guard
-	desc = "A surcoat with the lord's heraldic colors."
+	desc = "A jupon with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
@@ -1515,7 +1514,7 @@
 //Short hoods for guards
 
 /obj/item/clothing/cloak/tabard/stabard/guardhood
-	name = "guard hood"
+	name = "hood"
 	desc = "A hood with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_spl"
