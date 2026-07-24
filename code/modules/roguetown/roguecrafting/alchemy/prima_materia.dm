@@ -1,106 +1,131 @@
 /datum/materia_aspect // we really don't need to store much data here - this just lets us use less #defines
 	var/name = "Prima Materia"
 	var/desc = "The aspect of programmers forgetting to exclude base types."
+	var/obj/item/cheapest_known_source // path to the cheapest/easiest source of the materia, approximately. for value calcs
 
 /// MATERIAL ASPECTS
 
 /datum/materia_aspect/metal // iron, scrap
 	name = "Metallum"
 	desc = "The basal aspect of metal, borne most strongly by iron; reliable, stable, but not overly-strong on its own."
+	cheapest_known_source = /obj/item/rogueore/iron
 
 /datum/materia_aspect/defense // steel, armor
 	name = "Loricatus"
 	desc = "Defense, durability, strength. That which endures and protects."
+	cheapest_known_source = /obj/item/ingot/steel
 
 /datum/materia_aspect/solar // gold, coinage
 	name = "Solaris"
 	desc = "The solar half of the twinned-aspect of purity; the cleansing heat of sunfyre, the fundament of value. Attracts and conducts arcyne energy."
+	cheapest_known_source = /obj/item/roguecoin/gold
 
 /datum/materia_aspect/lunar // silver, raw essentia
 	name = "Lunae"
 	desc = "The lunar half of the twinned-aspect of purity; the soft glow of that which is already pure. Projects and repels arcyne energy."
+	cheapest_known_source = /obj/item/roguecoin/silver
 
 /datum/materia_aspect/mundane // tin, dirt
 	name = "Saecularis"
 	desc = "The aspect of the grounded, the mundane, the uninspired. Lacks potential in itself; dampens and stabilizes alchemical procedures, but hampers its own expression too much to be of especial use."
+	cheapest_known_source = /obj/item/natural/dirtclod
 
 /datum/materia_aspect/change // copper, clay
 	name = "Mutatio"
 	desc = "The aspect of change unbound. Unpredictable at the best of times, rarely used in any but the most radical of experiments."
+	cheapest_known_source = /obj/item/natural/clay
 
 /datum/materia_aspect/motion // bronze. union of the previous two
 	name = "Impetus"
 	desc = "Change, shackled to direction. The driving-force of motion and progress. Used extensively in artifice and alchemy alike."
+	cheapest_known_source = /obj/item/ingot/bronze
 
 /datum/materia_aspect/aalloy // gilbranze, specifically the pure stuff
 	name = "Vindexio"
 	desc = "A lost ideal. Once, this was the most important of materia; now, its uses are for the esoteric and heretical. <i>And it was a beautiful world we lost...</i>"
+	cheapest_known_source = /obj/item/roguecoin/aalloy
 
 /datum/materia_aspect/malleability // cinnabar
 	name = "Mollis"
 	desc = "Yielding, formable, malleability; that which accepts and adapts, yet can catalyze change of its own when directed. Stores and directs arcyne energy when shaped. Less potent than Solaris, but easier to work."
+	cheapest_known_source = /obj/item/rogueore/cinnabar
 
 /datum/materia_aspect/animal // animal products, especially hides and leathers
 	name = "Belua"
 	desc = "Half of the wyld-nature, the aspect of the beast. Might that resists restraint and direction, a savage hunger lies beneath."
+	cheapest_known_source = /obj/item/reagent_containers/food/snacks/fat
 
 /datum/materia_aspect/plant // plants - crops, trees, weeds, moreso than flowers and herbs
 	name = "Silva"
 	desc = "Half of the wyld-nature, the aspect of rooted growth. Stifles the waning, nourishes the waxing."
+	cheapest_known_source = /obj/item/natural/fibers
 
 /datum/materia_aspect/herb // herbs and flowers. inedible-but-useful crops
 	name = "Pervigeo"
 	desc = "Oft called 'an alchemist's favorite aspect'. Borne by all manner of herbs and flowers, it marks the diffusing nature which lends itself to infusion. The aspect of flourishing bloom, of spreading influence, of nature begging to be harnessed."
+	cheapest_known_source = /obj/item/alch/rosa
 
 /datum/materia_aspect/death // bones and such
 	name = "Conexio"
 	desc = "A grim aspect, or perhaps a peaceful one. All things come to an end, and this aspect is a reminder of such; to an optimist, the presence of the aspect is a reminder that an ending is an invitation to write a beginning anew."
+	cheapest_known_source = /obj/item/natural/bone
 
 /// 'four mortal elements' contrasting the two 'divine' elements of solaris and lunae
 /datum/materia_aspect/fire // fire essentia, coal, ash
 	name = "Ignis"
 	desc = "One of the four 'mortal elements', the nature of candescent flame. Ardor; inspiration; destruction."
+	cheapest_known_source = /obj/item/rogueore/coal
 
 /datum/materia_aspect/water // water essentia, reagent containers like bottles, actual water provided to the alch station if we add piping in mgl3pt2
 	name = "Aqua"
 	desc = "One of the four 'mortal elements', the nature of calm waters. Coolness; reason; restoration."
+	cheapest_known_source = /obj/item/reagent_containers/glass/bottle/alchemical
 
 /datum/materia_aspect/air // air essentia, cloth, feathers
 	name = "Aura"
 	desc = "One of the four 'mortal elements', the nature of weightless air. Freedom; impulse; unconstrained."
+	cheapest_known_source = /obj/item/natural/cloth
 
 /datum/materia_aspect/earth // dirt, rocks, etc. you know what earth is
 	name = "Terra"
 	desc = "One of the four 'mortal elements', the nature of solid earth. Consequential; immovable; grounded."
+	cheapest_known_source = /obj/item/natural/stone
 
 /datum/materia_aspect/arcyne // outlier fifth (eighth) element; pure essentia, gems you can make staves out of, manabloom, mana powder
 	name = "Caeleste"
 	desc = "The aspect of the arcyne itself, that which goes beyond the bounds of the mundane. Potential; energy; the preternatural."
+	cheapest_known_source = /obj/item/reagent_containers/food/snacks/grown/manabloom
 
 /// FORM ASPECTS
 
 /datum/materia_aspect/tool // tools - pickaxes, shovels, hammers, etc
 	name = "Auxilium"
 	desc = "The nature of tools, to be wielded and to shape the world in turn. The aspect of the secondary, of aid, of that which bears purpose."
+	cheapest_known_source = /obj/item/rogueweapon/stoneaxe
 
 /datum/materia_aspect/weapon // weapons, ammunition, the like
 	name = "Ictus"
 	desc = "That which strikes, the aspect which embodies violence. The nature of strife, of struggle, of conflict in all forms."
+	cheapest_known_source = /obj/item/rogueweapon/huntingknife
 
 // MAGNUM OPUS ASPECTS
 
 /datum/materia_aspect/nigredo
 	name = "Putrescere"
 	desc = "The fundament of decomposition, yearning to resolve - to end in purity or spread its misery."
+	cheapest_known_source = /obj/item/alch/nigredo_precursor
 
 /datum/materia_aspect/albedo
 	name = "Vacuitas"
 	desc = "The nature of emptiness, the truest form of purity; it yearns ever to be filled."
+	cheapest_known_source = /obj/item/alch/albedo_precursor
 
 /datum/materia_aspect/xanthosis
 	name = "Citrinitas"
 	desc = "An unfathomable nature, the meta-aspect of <i>prima materia</i> itself. Potent yet inert, it was named simply for its color."
+	cheapest_known_source = /obj/item/alch/xanthosis_precursor
 
 /datum/materia_aspect/rubedo
 	name = "Concordia"
 	desc = "Paradox-of-paradoxes, that which is empty yet powerful, observable yet boundless, wrought of mortal hands yet resembling divinity. The unity of disparate natures brings forth a true wonder."
+	cheapest_known_source = /obj/item/alch/rubedo_precursor

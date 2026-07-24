@@ -393,6 +393,55 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 			var/cooked_path = initial(raw_proto.cooked_type)
 			if(cooked_path && register_derived_price(cooked_path, derived, category))
 				new_derivations++
+	for(var/datum/transmutation_recipe/TR as anything in GLOB.transmutation_recipes)
+		if(!TR.unique_sellable)
+			continue
+		var/result_path = TR.output_items[1]
+		if(!result_path)
+			continue
+		if(trade_good_lookup && trade_good_lookup[result_path])
+			continue
+		var/category = TR.category
+		var/cat_missing = FALSE
+		if(!category)
+			category = ITEM_CAT_MISCELLANEOUS
+			cat_missing = TRUE
+		var/material_cost = 0
+		var/list/local_missing = list()
+		var/list/breakdown = list()
+		if(islist(TR.input_items))
+			for(var/path in TR.input_items)
+				var/qty = TR.input_items[path]
+				if(!isnum(qty))
+					qty = 1
+				material_cost += build_input_breakdown(path, qty, local_missing, breakdown)
+		if(islist(TR.materia_aspects))
+			for(var/datum/materia_aspect/path as anything in TR.materia_aspects)
+				var/obj/item/minsrc = path::cheapest_known_source
+				if(minsrc::sellprice)
+					material_cost += minsrc::sellprice
+				else if(GLOB.derived_sellprices[minsrc])
+					material_cost += GLOB.derived_sellprices[minsrc]
+				else
+					material_cost += lookup_derived_subtype_price(minsrc)
+		if(missing_materials)
+			for(var/m in local_missing)
+				if(!(m in missing_materials))
+					missing_materials += m
+		var/recipe_yield = trans_result_yield(TR, result_path)
+		var/derived = derive_price_from_cost(material_cost, category, recipe_yield)
+		var/markup = GLOB.item_cat_markups[category] || PRICING_ENGINE_DEFAULT_MARKUP
+		if(audit_lines)
+			audit_lines += csv_row(list("transmutation", TR.name, "[result_path]", category, cat_missing ? "MISSING" : "", "[material_cost]", "[markup]", "[recipe_yield]", "[derived]", jointext(breakdown, " + "), jointext(local_missing, ",")))
+		if(derived <= 0)
+			continue
+		if(register_derived_price(result_path, derived, category))
+			new_derivations++
+		if(ispath(result_path, /obj/item/natural/clay))
+			var/obj/item/natural/clay/raw_proto = result_path
+			var/cooked_path = initial(raw_proto.cooked_type)
+			if(cooked_path && register_derived_price(cooked_path, derived, category))
+				new_derivations++
 	new_derivations += food_recipe_derive_pass(audit_lines, missing_materials, trade_good_lookup)
 	return new_derivations
 
@@ -498,6 +547,16 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	if(!islist(CR.result))
 		return 1
 	var/list/rl = CR.result
+	var/count = 0
+	for(var/path in rl)
+		if(path == result_path)
+			count++
+	return max(1, count)
+
+/proc/trans_result_yield(datum/transmutation_recipe/TR, result_path)
+	if(!islist(TR.output_items))
+		return 1
+	var/list/rl = TR.output_items
 	var/count = 0
 	for(var/path in rl)
 		if(path == result_path)
