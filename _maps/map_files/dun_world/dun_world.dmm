@@ -27444,7 +27444,7 @@
 /obj/item/clothing/neck/roguetown/psicross/undivided,
 /obj/item/rogueweapon/huntingknife/idagger/silver{
 	desc = "Blessed silver, now stained by the blood of profane rites, all performed in the name of the Ten. Even the purest teachings may be twisted by those who hear only what they wish. This blade begs to be cleansed.";
-	name = "miscreed"
+	name = "Miscreed"
 	},
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/beach/north)
@@ -34774,7 +34774,7 @@
 	pixel_y = 18
 	},
 /obj/item/clothing/head/roguetown/helmet/sallet/beastskull{
-	name = "Monsters Demise";
+	name = "Monster's Demise";
 	desc = "Eyeless and malformed, yet still crowned with vicious teeth. This skull belonged to the progenitor of something dreadful, a thing that may yet walk these lands. It is ancient enough to have crumbled to dust, but the bone remains unnaturally thick and unyielding."
 	},
 /turf/open/floor/rogue/cobble,
@@ -36244,7 +36244,7 @@
 /obj/structure/table/wood,
 /obj/item/clothing/suit/roguetown/armor/plate/bikini{
 	color = "#FEBD14";
-	name = "modesty";
+	name = "Modesty";
 	desc = "A suit of gold-lined half-plate that leaves remarkably little to the imagination. The craftsmanship is masterful, the metal priceless, and the protection... selective. It was recovered from a goblin cave, a fact that raises several uncomfortable questions. The goblins were clearly quite proud of the piece, having displayed it prominently among their treasures. It appears used."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -59938,7 +59938,7 @@
 "ljc" = (
 /obj/structure/table/wood/long_table/right,
 /obj/item/rogueweapon/shield/wood/deprived{
-	name = "propa sheeld";
+	name = "Propa Sheeld";
 	desc = "A collection of wooden planks lashed together and confidently declared a shield. The craftsmanship is unmistakably goblin in origin: crude, improvised, and surprisingly functional. Against arrows, it performs adequately. Against axes, less so. Against goblin standards, it is a masterwork."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -61817,7 +61817,7 @@
 	name = "makeshift bed"
 	},
 /obj/item/tntstick{
-	name = "boomy sticka";
+	name = "Boomy Sticka";
 	desc = "A tightly wrapped stick of blastpowder recovered from a goblin camp. The fuse has been shortened repeatedly, suggesting its previous owners valued enthusiasm over caution. Miraculously, it remains unexploded. Equally miraculously, so did the goblins."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -62621,8 +62621,8 @@
 /area/rogue/indoors/town)
 "lFT" = (
 /obj/item/clothing/head/roguetown/helmet/heavy/astratan{
-	name = "radiance";
-	desc = ""A bucket helm plated in brilliant gold and worn by the templars of Astrata. Its polished surface catches even the faintest light, ensuring its wearer is seen long before they are heard. It bears the name Radiance, a virtue highly prized by Astrata's faithful. They teach that darkness exists only where the light has yet to impose itself. Doubt, dissent, and disobedience are much the same. The helm shines with uncompromising brilliance. To those who kneel, it is inspiring. To those who do not, it is a warning."
+	name = "Radiance";
+	desc = "A bucket helm plated in brilliant gold and worn by the templars of Astrata. Its polished surface catches even the faintest light, ensuring its wearer is seen long before they are heard. It bears the name Radiance, a virtue highly prized by Astrata's faithful. They teach that darkness exists only where the light has yet to impose itself. Doubt, dissent, and disobedience are much the same. The helm shines with uncompromising brilliance. To those who kneel, it is inspiring. To those who do not, it is a warning."
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/orcdungeon)
@@ -67934,8 +67934,8 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money,
 /obj/item/rogueweapon/spear/spellblade{
-	name = "Incentive"
-	desc = "A sturdy spear named Incentive, invariably employed when Reason failed to make its point. Its edge is well maintained, suggesting it saw frequent use in the settlement of disputes. Most travelers eventually found the wielder's arguments quite persuasive. Those who remained unconvinced rarely remained standing.";
+	name = "Incentive";
+	desc="A sturdy spear named Incentive, invariably employed when Reason failed to make its point. Its edge is well maintained, suggesting it saw frequent use in the settlement of disputes. Most travelers eventually found the wielder's arguments quite persuasive. Those who remained unconvinced rarely remained standing."
 	},
 /obj/item/rogueweapon/shield/tower/raneshen{
 	name = "Reason";
@@ -71579,7 +71579,7 @@
 "nqm" = (
 /obj/structure/table/wood/fancy,
 /obj/item/rogueweapon/sword/short/messer/blacksteel{
-	name = "Rathewer"
+	name = "Rathewer";
 	desc = "A darksteel messer lost to history resigned to inglorious service. Its maker intended it for worthy foes and great deeds, judging by the quality of its construction. Fate, however, had other plans. The blade is slick with the blood of rats and other vermin. Whatever destiny was once imagined for it has long since been traded for practical necessity. And yet, the edge remains keen, the darksteel as resilient as the day it left the forge. It thirsts to gleam in astrata's glare."
 	},
 /turf/open/floor/rogue/metal{
@@ -78299,7 +78299,7 @@
 /area/rogue/outdoors/town)
 "oCr" = (
 /obj/item/rogueweapon/spear/improvisedbillhook{
-	name = "dismounter";
+	name = "Dismounter";
 	desc = "A sturdy billhook named Dismounter, its blade scarred by hard use and more than a few poorly judged impacts. The hook remains keen despite the wear, though the haft bears enough repairs to suggest its wielder was often closer to the action than intended."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -90010,7 +90010,7 @@
 "qIj" = (
 /obj/structure/table/wood/poker,
 /obj/item/rogueweapon/spear/boar{
-	name = "gutskewer";
+	name = "Gutskewer";
 	desc = "A broad-bladed spear whose name leaves little room for interpretation. Gutskewer was not crafted for elegant duels or heroic charges, but for the brutal reality of close combat, where a few inches of steel can decide the fate of a warrior."
 	},
 /turf/open/floor/rogue/cobble,
@@ -101788,7 +101788,7 @@
 "sSF" = (
 /obj/structure/table/wood,
 /obj/item/clothing/head/roguetown/helmet/sallet/iron/banded{
-	name = "do ves kin";
+	name = "Do Ves Kin";
 	desc = "Hammerholdian design, dented by a drakkyn's claws. It's sharpened rim bids you to hold your head to the sky."
 	},
 /turf/open/floor/rogue/naturalstone,
@@ -114642,7 +114642,7 @@
 "voH" = (
 /obj/item/rogueweapon/mace/warhammer/bronze/decorated{
 	desc = "Cobbled together in elegance. A good looking hunk of scrap, considering it's maker; The forgefather sometimes blesses the most unlikely of folk with inspiration. Not a bad weapon either.";
-	name = "da shiny whacker"
+	name = "Da Shiny Whacker"
 	},
 /obj/structure/table/wood,
 /turf/open/floor/rogue/blocks,
@@ -115743,7 +115743,7 @@
 /obj/structure/table/wood/poor/alt,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/tools,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/aalloy{
-	name = "Bogmans Retort";
+	name = "Bogman's Retort";
 	desc = "An old crossbow, darkened by peat, rain, and years of hard service in the mire. Its stock bears the scars of rough repairs, while its mechanism creaks in protest with every draw. It earned the name Bogman's Retort from those unfortunate enough to mistake a bogman for an easy target. In the bog, words travel poorly through the fog, and answers are often given at range. Age has claimed much of the weapon's former strength, but not its attitude. It remains as stubborn and disagreeable as the people who carried it."
 	},
 /turf/open/floor/rogue/twig,
@@ -123391,7 +123391,7 @@
 /area/rogue/indoors/town/dwarfin)
 "wWg" = (
 /obj/item/rogueweapon/sword/stone{
-	name = "ekskallibor";
+	name = "Ekskallibor";
 	desc = "A sharp rock tied to a stick with strips of leather and an almost offensive amount of confidence. By all reasonable measures, it should be firewood. The goblins call it Ekskallibor, and speak of it with the reverence usually reserved for legendary artifacts. According to tribal tradition, it was pulled from a mound of mud by a hero of unmatched strength, wisdom, and personal hygiene. Closer inspection suggests it was more likely assembled from whatever happened to be nearby. The goblins reject this assessment entirely. After all, if it has a name, a legend, and can cave in a skull, what more could a weapon possibly need?"
 	},
 /turf/open/floor/rogue/dirt/road,
