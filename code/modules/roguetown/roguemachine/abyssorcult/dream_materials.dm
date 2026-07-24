@@ -49,17 +49,17 @@
 
 // Tierless
 /obj/item/dream_material/parchment_silver
-	name = "imagined parchment"
+	name = "quicksilver parchment"
 	desc = "A piece of parchment treated with a quicksilver like paint. The paint binds visions, or so they say."
 	icon_state = "tier1_open"
 
 /obj/item/dream_material/parchment_gold
-	name = "imagined parchment"
+	name = "auric parchment"
 	desc = "A piece of parchment treated with a flakey, gold-like substance. Said to hold greater visions without warping the words."
 	icon_state = "tier2_open"
 
 /obj/item/dream_material/parchment_dream
-	name = "imagined parchment"
+	name = "sylveric parchment"
 	desc = "A piece of parchment treated with sylveric based paint. The stuff of dreams. Said to muddy present, past and future, so that it may appear to us... In a dream."
 	icon_state = "tier3_open"
 
