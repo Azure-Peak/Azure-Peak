@@ -1,4 +1,0 @@
-author: "racobio"
-delete-after: True
-changes:
-  - bugfix: "leechticks no longer attach to deadites or skeletons"
