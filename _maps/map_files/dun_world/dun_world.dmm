@@ -47882,7 +47882,7 @@
 /obj/structure/table/wood/poor,
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic{
 	name = "Longshot";
-	desc = "Crafted with care and marked with the name "Longshot." There is little else remarkable about it. Still, someone thought enough of it to give it a name. May it serve you well."
+	desc = "Crafted with care and marked with the name 'Longshot.' There is little else remarkable about it. Still, someone thought enough of it to give it a name. May it serve you well."
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/woods)
