@@ -259,7 +259,7 @@
 	\nThis device is sponsored by the Azurean Fellowship of the Arcyne Sciences."
 	// temp icon
 	icon = 'icons/roguetown/misc/structure.dmi'
-	icon_state = "washbin1"
+	icon_state = "litterbin"
 	density = TRUE
 	opacity = FALSE
 	anchored = TRUE
