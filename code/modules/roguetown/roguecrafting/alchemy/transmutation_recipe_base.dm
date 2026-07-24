@@ -186,10 +186,10 @@
 	html += "All catalysts require [SSskills.level_names_plain[SKILL_LEVEL_EXPERT]] level alchemy skill.<br>"
 	html += "Put the seed item onto a [icon2html(transpath::icon, user, transpath::icon_state)][transpath::name], then follow the instructions to turn it into a catalyst.<br><ul>"
 
-	var/list/difficulty_strings = list("impossible to fail","trivial","very easy","easy","average","difficult","notably difficult")
+	var/list/difficulty_strings = list("impossible to fail","trivial","very easy","easy","average","difficult","daunting")
 	for(var/obj/item/alch/catalyst/path as anything in subtypesof(/obj/item/alch/catalyst))
 		if(path::seed_item)
-			html += "<li>To create \a [icon2html(path::icon, user, path::icon_state)][path::name], add \a [icon2html(path::seed_item::icon, user, path::seed_item::icon_state)][path::seed_item::name]. You will need to solve \a [difficulty_strings[path::difficulty]] puzzle.</li>"
+			html += "<li>To create [a_or_an(path::name)] [icon2html(path::icon, user, path::icon_state)][path::name], add [(path::seed_item::gender == PLURAL) ? "" : a_or_an(path::seed_item::name)] [icon2html(path::seed_item::icon, user, path::seed_item::icon_state)][path::seed_item::name]. You will need to solve \a [difficulty_strings[path::difficulty]] puzzle.</li>"
 	html +="</ul>"
 
 	html += {"
