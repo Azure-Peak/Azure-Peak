@@ -62,6 +62,7 @@
 	name = "blackened materia"
 	desc = "The first stage of what was once known as the Great Work, before Her ascension usurped the title: to decompose an object so thoroughly, it resembles raw materia more than anything physical. This 'blackening' - or, in <i>lingua arcana</i>, 'nigredo' - is the foundation of all alchemical decomposition."
 	materia = list(/datum/materia_aspect/nigredo)
+	gender = PLURAL
 
 /obj/item/alch/catalyst/nigredo
 	name = "nigredo catalyst"
@@ -76,6 +77,7 @@
 	name = "whitened materia"
 	desc = "The second stage of what was once known as the Great Work, before Her ascension usurped the title: to purify materia so completely, it ceases to bear any aspect at all. This 'whitening' - or, in <i>lingua arcana</i>, 'albedo' - is the foundation of all alchemical purification."
 	materia = list(/datum/materia_aspect/albedo)
+	gender = PLURAL
 
 /obj/item/alch/catalyst/albedo
 	name = "albedo catalyst"
@@ -90,6 +92,7 @@
 	name = "yellowed materia"
 	desc = "The third stage of what was once known as the Great Work, before Her ascension usurped the title: to enhance the nature of 'empty' materia, until it takes on a new aspect, created ex nihilo, bearing the nature of <i>prima materia</i> itself. This 'yellowing' - or, in <i>lingua arcana</i>, 'xanthosis' - is the foundation of all alchemical enhancement."
 	materia = list(/datum/materia_aspect/xanthosis)
+	gender = PLURAL
 
 /obj/item/alch/catalyst/xanthosis
 	name = "xanthosis catalyst"
@@ -104,6 +107,7 @@
 	name = "reddened materia"
 	desc = "The fourth and final stage of what was once known as the Great Work, before Her ascension usurped the title: to unify the natures of the aspectless 'materia puritas' and the self-aspected 'materia potentia', creating a paradoxical power likened by radical scholars to divinity. This 'reddening' - or, in <i>lingua arcana</i>, 'rubedo' - is the mark of a true alchemist, and the closest a magos has to the power of miracles."
 	materia = list(/datum/materia_aspect/rubedo)
+	gender = PLURAL
 
 /obj/item/alch/catalyst/rubedo
 	name = "rubedo catalyst"
