@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { ImageButton } from 'tgui-core/components';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -10,7 +11,7 @@ type Data = {
   answer: number[];
 };
 
-const STEP_ICON: string = 'icons/roguetown/items/magic_resources.dmi';
+const STEP_ICON: string = 'icons/roguetown/misc/alchemy.dmi';
 const STEP_NAMES: string[] = [
   'Harmonize',
   'Sanguinate',
@@ -26,25 +27,25 @@ const STEP_DESCS: string[] = [
   'Remove the excess. Bring out inner beauty. Focus only on what matters.',
 ];
 const STEP_ICONSTATES: string[] = [
-  'argyro',
-  'rubedo',
-  'nigredo',
-  'coalboy',
-  'albedo',
+  'harmonize',
+  'sanguinate',
+  'raefy',
+  'platonize',
+  'distill',
 ];
 
-const MAIN_STEPBOX_STYLE = {
-  width: '64px',
-  height: '64px',
+const MAIN_STEPBOX_STYLE: CSSProperties = {
+  width: '74px',
+  height: '74px',
   margin: 4,
   borderStyle: 'solid',
   borderWidth: '2px',
   borderRadius: '1px',
 };
 
-const HISTORY_STEPBOX_STYLE = {
-  width: '64px',
-  height: '64px',
+const HISTORY_STEPBOX_STYLE: CSSProperties = {
+  width: '38px',
+  height: '38px',
   margin: 2,
 };
 
@@ -72,7 +73,7 @@ const answer_check_color = (val: number) => {
     case -1:
       return '#7a2020';
     case 0:
-      return '#c9a96e';
+      return '#a08050';
   }
 };
 
@@ -82,16 +83,11 @@ export const Catalyzation = () => {
   if (!data.answer || !data.current_steps || !data.history || !data.recipe)
     // we're still initializing so chill out
     return (
-      <Window width={760} height={760} theme="parchment" title="Catalyzation">
-        {data.answer || 'null'}
-        {data.current_steps || 'null'}
-        {data.history || 'null'}
-        {data.recipe || 'null'}
-      </Window>
+      <Window width={760} height={780} theme="parchment" title="Catalyzation" />
     );
 
   return (
-    <Window width={760} height={760} theme="parchment" title="Catalyzation">
+    <Window width={760} height={780} theme="parchment" title="Catalyzation">
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div // main content
@@ -108,6 +104,7 @@ export const Catalyzation = () => {
                 <ImageButton
                   key={`input_${name}`}
                   tooltip={name}
+                  style={MAIN_STEPBOX_STYLE}
                   onClick={() => act('add_step', { id: idx + 1 })}
                   dmIcon={STEP_ICON}
                   dmIconState={STEP_ICONSTATES[idx]}
@@ -151,8 +148,7 @@ export const Catalyzation = () => {
                         dmIcon={STEP_ICON}
                         dmIconState={STEP_ICONSTATES[val - 1]}
                         imageSize={64}
-                        // width="64px"
-                        // height="64px"
+                        assetSize={32}
                         style={MAIN_STEPBOX_STYLE}
                         onClick={() => act('del_step', { id: idx + 1 })}
                       />
@@ -176,6 +172,7 @@ export const Catalyzation = () => {
                         key={`inslot_${idx}`}
                         dmIcon={STEP_ICON}
                         dmIconState={STEP_ICONSTATES[val - 1]}
+                        assetSize={32}
                         // width="32px"
                         // height="32px"
                         imageSize={32}

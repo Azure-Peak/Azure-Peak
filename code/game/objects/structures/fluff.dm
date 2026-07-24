@@ -889,7 +889,7 @@
 			seed_item.forceMove(src)
 			user.visible_message(
 				span_notice("[user] places [seed_item] on [src], preparing to work!"),
-				span_notice("I place [seed_item] on [src] and clamp it in place, preparing to work.")
+				span_notice("I place [seed_item] on [src] and clamp [src.gender==PLURAL ? "them" : "it"] in place, preparing to work.")
 				)
 			selected_steps = list()
 			last_attempt = list()
@@ -910,6 +910,9 @@
 		to_chat(user, span_notice("I carefully detach [seed_item] from [src]."))
 		seed_item = null
 		current_recipe = null
+		cur_user = null
+		current_ui = null
+		return TRUE
 	return ..()
 
 /obj/structure/fluff/alch/trans/attack_hand(mob/user)
@@ -917,13 +920,13 @@
 	if(.)
 		return
 	if(cur_user)
-		to_chat(user, span_warning("Someone else is already using this."))
+		to_chat(user, span_warning("Someone is already using this."))
 		return
 	if(!can_transmute(user))
 		to_chat(user, span_warning("I have no idea how to use this."))
 		return
-	ui_interact(user)
-	cur_user = user
+	if(ui_interact(user))
+		cur_user = user
 	return
 
 /obj/structure/fluff/alch/trans/ui_close(mob/user)
@@ -944,6 +947,7 @@
 		ui.set_state(GLOB.not_incapacitated_turf_state)
 		ui.open()
 	current_ui = ui
+	return current_ui
 
 /obj/structure/fluff/alch/trans/ui_act(action, params)
 	. = ..()

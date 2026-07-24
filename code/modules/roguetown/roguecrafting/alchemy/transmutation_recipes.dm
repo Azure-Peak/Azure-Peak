@@ -228,24 +228,29 @@
 		    <h1>[name]</h1>
 		"}
 
-	html += "Requires [SSskills.level_names_plain[skill_required]] level of skills<br>"
+	html += "Requires [SSskills.level_names_plain[skill_required]] alchemy skills.<br>"
 
-	html += "Requires \a [catalyst::name], which is not consumed.<br>"
+	html += "Requires [a_or_an(catalyst::name)] [icon2html(catalyst::icon, user, catalyst::icon_state)][catalyst::name], which is not consumed.<br>"
 
 	if(snowflake_desc)
 		html += "[snowflake_desc]<br>"
 
+	html += "<br>"
 	if(input_items.len)
-		html += "<div><strong>Consumes any input that can be smelted. Produces its smelted form; its quality scales with your alchemy skill.</strong><br>"
-		html += "</div>"
+		html += "<br><div><<strong>Consumes any input that can be smelted. Produces its smelted form.</strong><br>"
+		html += "<strong>The output is only unsellable if the input is. The quality, and therefore the value, depends on your alchemy skill.</strong> <br>"
+		html += "</div><br>"
 
 	if(materia_aspects.len)
-		html += "<div><strong>Requires any item(s) with the following aspect[(materia_aspects.len > 1) ? "s" : ""]:</strong><br>"
+		html += "<div><strong>Requires any item(s) with the following aspect[(materia_aspects.len > 1) ? "s" : ""]:</strong><ul>"
 		for(var/path as anything in materia_aspects)
 			if(ispath(path, /datum/materia_aspect))
 				var/datum/materia_aspect/aspect = path
-				html += "[SPAN_TOOLTIP(aspect::desc, aspect::name)]<br>" // note: this tooltip does not fucking work and i have no idea why
-		html += "</div>"
+				html += "<li>[aspect::name]: [aspect::desc]</li>"
+		html += "</ul></div>"
+
+	var/obj/structure/fluff/alch/trans/transpath = /obj/structure/fluff/alch/trans
+	html += "<strong>Start the process at a</strong> [icon2html(transpath::icon, user, transpath::icon_state)][transpath::name]."
 
 	html += {"
 		</div>

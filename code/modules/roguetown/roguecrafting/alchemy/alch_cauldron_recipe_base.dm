@@ -23,14 +23,19 @@
 		    <h1>[name]</h1>
 		"}
 
-	html += "Requires [SSskills.level_names_plain[skill_required]] level of skills<br>"
+	if(length(output_reagents) == 1) // true for most potion-brewing recipes
+		var/datum/reagent/result = output_reagents[1]
+		if(result::description)
+			html += "<h4>Description</h4><span>[result::description]</span><br><br>"
+
+	html += "Requires [SSskills.level_names_plain[skill_required]] level of skills<br><br>"
 
 	html += "Boil 90+ drams of water in a Cauldron.<br>"
 
-	html += "Add [istype(src, /datum/alch_cauldron_recipe/trait) ? "a reagent" : "at least two ingredients"] with the smell of [smells_like]<br>"
+	html += "Add [(istype(src, /datum/alch_cauldron_recipe/trait) || istype(src, /datum/alch_cauldron_recipe/repairelixir)) ? "a reagent" : "at least two ingredients"] with the smell of [smells_like].<br>"
 
 	if(output_reagents.len)
-		html += "<div><strong>Creates:</strong><br>"
+		html += "<br><div><strong>Creates:</strong><br>"
 		for(var/path as anything in output_reagents)
 			var/count = output_reagents[path]
 			if(ispath(path, /datum/reagent))
