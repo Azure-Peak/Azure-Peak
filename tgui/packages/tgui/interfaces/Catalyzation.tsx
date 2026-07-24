@@ -203,7 +203,7 @@ export const Catalyzation = () => {
               specific steps for any given catalyst are unknown. Click the icons
               on the left to input a series of guesses (click the icons in the
               center to clear a step), then click the table with a handful of
-              catalyzation reagent (which you can make with normal crafting, in
+              catalyzing reagent (which you can make with normal crafting, in
               the alchemy section, or more efficiently with an albedo catalyst)
               to see if you were right. If you were, you'll get your catalyst;
               otherwise, a section beneath the input slots will show you your

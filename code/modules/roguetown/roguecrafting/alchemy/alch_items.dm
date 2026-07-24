@@ -43,7 +43,7 @@
 		add_overlay("vial_cork")
 
 /obj/item/alch/catalyzation_reagent
-	name = "catalyzation reagent"
+	name = "catalyzing reagent"
 	icon_state = "runedust"
 	desc = "An alchemical powder essential for the process of transmuting seed items into stable catalysts."
 	gender = PLURAL

@@ -263,7 +263,7 @@
 	)
 
 /datum/crafting_recipe/roguetown/alchemy/catalyzation_reagent_pacifist
-	name = "catalyzation reagent (cinnabar)" // expensive alternative to planar materials
+	name = "catalyzing reagent (cinnabar)" // expensive alternative to planar materials
 	category = "Basic Transmutation"
 	craftdiff = SKILL_LEVEL_EXPERT
 	result = list(
@@ -276,7 +276,7 @@
 	)
 
 /datum/crafting_recipe/roguetown/alchemy/catalyzation_reagent
-	name = "catalyzation reagent (iridescent scale)"
+	name = "catalyzing reagent (iridescent scale)"
 	category = "Basic Transmutation"
 	craftdiff = SKILL_LEVEL_EXPERT
 	result = list(
