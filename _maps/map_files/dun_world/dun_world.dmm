@@ -85095,7 +85095,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
 "pVr" = (
-/obj/item/roguebin,
+/obj/item/litterbin,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "pVs" = (
@@ -87510,7 +87510,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield/eora)
 "qtx" = (
-/obj/item/roguebin,
+/obj/item/litterbin,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/mountains)
 "qtz" = (
@@ -103251,7 +103251,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains)
 "trH" = (
-/obj/item/roguebin,
+/obj/item/litterbin,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains)
 "trI" = (
