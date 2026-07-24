@@ -1218,3 +1218,34 @@
   - bugfix: fixes some misc code.
   - rscadd: zombies can now properly use the "agony" emotes, its basically their regular
       scream.
+2026-07-24:
+  Athena148:
+  - rscadd: Adds Athena14's donator item
+  Ketrai:
+  - balance: dreamwalker poison sword enchant swapped for a black rot enchantment
+      instead.
+  - balance: dreamwalker enchantments require 3 hits per trigger.
+  Quinalion:
+  - balance: Skirmishers now receive an appropriate scabbard instead of a cudgel.
+  - balance: Leather Armor Skirmishers may choose between a Dagger and a Messer, while
+      Brigandine Armor Skirmishers now receive a Steel Shortsword.
+  - balance: Bailiffs now have Apprentice Maces instead of Novice Swords.
+  - balance: Redistributed the cudgel to all other Man-at-Arms classes.
+  - qol: Skirmishers wearing Brigandine Armor now get access to helmet selection,
+      just like any other Man-at-Arms class.
+  - qol: Standardized heraldic tabard names and cleaned up the selection menu for
+      consistency.
+  Red-byte3D:
+  - bugfix: Fixed some iron shields not putting out iron on smelt
+  WeNeedMorePhoron:
+  - rscadd: Items sourced from triumphs is now suffixed with - TR in your stash. It
+      is checked to avoid name collision. This means nobility virtue's ladylike shortcloak
+      don't charge you for withdrawing it while triumphs one will.
+  - rscadd: The towner who issue a Towner Quest no longer need to tag along
+  - rscadd: The towner quest rewards has been improved
+  - rscadd: Difficulty band is now easy - medium - hard (Hard is actually hard)
+  - rscadd: A steward can now issue them, at 2x the cost from the Crown's Purse
+  borneblood:
+  - rscdel: Nukes Deadite snapshot buffs/debuffs.
+  racobio:
+  - bugfix: leechticks no longer attach to deadites or skeletons
