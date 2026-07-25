@@ -1249,3 +1249,19 @@
   - rscdel: Nukes Deadite snapshot buffs/debuffs.
   racobio:
   - bugfix: leechticks no longer attach to deadites or skeletons
+2026-07-25:
+  7erracotta:
+  - rscadd: Added kintsugi pottery and new items
+  Ollanius:
+  - rscadd: Cre77's lovely plume sprites; two of them. You can now wear a traditional
+      Roman-styled crest and a more fanciful feather-like plume, acquirable either
+      via the Donator or Triumph loadout tabs.
+  - rscadd: Morphing elixir kit that gives a more traditional, straight crossguard
+      to Psydonic and Enduring Longswords.
+  - rscadd: Gothic Steel variants of the Fencer, Fluted, and Psydonic Cuirass. The
+      latter has a supplemental morphing kit, in case people prefer using the less
+      ornate style for it.
+  - rscadd: Greatflail sprites are now touched up a little bit, and an elegant variant
+      is now available.
+  - bugfix: Removes sellprice from the Decablessed Shield, so that it can properly
+      calculate its sellprice based off the crafting materials used in its recipe.
