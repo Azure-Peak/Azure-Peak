@@ -59,6 +59,9 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 
 /mob/dead/observer/profane
 	trapped = TRUE
+	icon = 'icons/roguetown/mob/misc.dmi'
+	icon_state = "hollow"
+	alpha = 30
 
 /mob/dead/observer/profane/setup_ghost_verbs()
 	return
