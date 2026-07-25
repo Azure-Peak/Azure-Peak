@@ -368,8 +368,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set hidden = 1
 	if (CONFIG_GET(flag/norespawn))
 		return
-	if(trapped)
-		return
 	if ((stat != DEAD || !( SSticker )))
 		to_chat(src, span_boldnotice("I must be dead to use this!"))
 		return

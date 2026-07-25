@@ -35,7 +35,7 @@
 		G.follow()
 	else
 		if(G.client)
-			if(isscryeye(G) || G.trapped)
+			if(isscryeye(G))
 				return
 			if(alert("Travel with the boatman?", "", "Yes", "No") == "Yes")
 				G.returntolobby(0)
