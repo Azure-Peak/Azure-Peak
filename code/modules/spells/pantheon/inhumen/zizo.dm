@@ -177,6 +177,8 @@
 	invocations = list("Zizo! Zizo! Strip away this unworthy mynd!") //Slightly louder whisper than Noc
 	invocation_type = INVOCATION_WHISPER
 
+	spell_flags = SPELL_PSYDON
+
 	charge_required = TRUE
 	charge_time = 1 SECONDS
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
@@ -236,6 +238,8 @@
 	secondary_resource_cost = 15
 	charge_required = FALSE
 	cooldown_time = 30 SECONDS
+
+	spell_flags = SPELL_PSYDON
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 /obj/item/bone/profane_splinter
