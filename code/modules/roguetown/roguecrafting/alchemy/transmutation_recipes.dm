@@ -324,7 +324,7 @@
 	output_items = list(/obj/item/rogueore/cinnabar = 1)
 
 /datum/transmutation_recipe/albedo/catalyzation_reagent // also you can make not-feydust more efficiently now
-	name = "Ash Harmonization (Catalyzation Reagent)"
+	name = "Ash Harmonization (Catalyzing Reagent)"
 	input_items = list(/obj/item/ash = 3, /obj/item/storage/roguebag = 1)
 	output_items = list(/obj/item/storage/roguebag/trans = 1)
 

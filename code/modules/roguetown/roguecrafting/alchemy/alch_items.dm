@@ -44,7 +44,7 @@
 
 /obj/item/alch/catalyzation_reagent
 	name = "catalyzing reagent"
-	icon_state = "runedust"
+	icon_state = "catreagent"
 	desc = "An alchemical powder essential for the process of transmuting seed items into stable catalysts."
 	gender = PLURAL
 
