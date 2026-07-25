@@ -1297,7 +1297,7 @@
 			picked_message = pick(na_pleads)
 		else
 			picked_message = pick(last_words)
-		if(last_spoken >= world.time + 3 SECONDS)
+		if(world.time >= last_spoken + 3 SECONDS)
 			to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"[picked_message]\"</i>"))
 			last_spoken = world.time
 
@@ -1386,7 +1386,6 @@
 		target.death()
 	if(get_last && target.last_words)
 		last_words += target.last_words
-
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/init_profane_soul(mob/living/carbon/human/target, mob/user, mob/soul)
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
