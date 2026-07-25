@@ -1,3 +1,4 @@
+
 /datum/coven/quietus
 	name = "Quietus"
 	desc = "Live in the shadows striking only when needed. Poisons, mass-confusion and fire."
@@ -17,10 +18,10 @@
 	level = 1
 	research_cost = 0
 	check_flags = COVEN_CHECK_CAPABLE | COVEN_CHECK_CONSCIOUS | COVEN_CHECK_IMMOBILE | COVEN_CHECK_LYING
-	duration_length = 2 SECONDS
+	duration_length = 20 SECONDS
 	cooldown_length = 60 SECONDS
 	var/datum/proximity_monitor/advanced/silence_field/proximity_field
-	var/silence_range = 4
+	var/silence_range = 7
 	var/validation_timer
 
 /datum/coven_power/quietus/silence_of_death/activate()
@@ -87,8 +88,8 @@
 		ADD_TRAIT(target, TRAIT_SILENT_FOOTSTEPS, "quietus")
 	if(!HAS_TRAIT(target, TRAIT_DEAF))
 		ADD_TRAIT(target, TRAIT_DEAF, "quietus")
-		if(target.confused < 20)
-			target.confused += 20
+		if(target.confused < 5)
+			target.confused += 1
 
 /datum/coven_power/quietus/silence_of_death/proc/remove_silence(mob/living/carbon/human/target)
 	if(HAS_TRAIT_FROM(target, TRAIT_DEAF, "quietus"))
@@ -147,7 +148,7 @@
 
 /datum/coven_power/quietus/scorpions_touch
 	name = "Scorpion's Touch"
-	desc = "Create a powerful substance to set your enemies on fire."
+	desc = "Utilize your vitae to cause blood to ooze out faster, and for wounds to become more painful."
 
 	level = 2
 	research_cost = 1
@@ -158,43 +159,74 @@
 
 /datum/coven_power/quietus/scorpions_touch/activate()
 	. = ..()
-	owner.put_in_active_hand(new /obj/item/melee/touch_attack/quietus(owner))
+	owner.put_in_hands(new /obj/item/melee/touch_attack/quietus(owner))
 
 //SCORPION'S TOUCH
 /obj/item/melee/touch_attack/quietus
 	name = "\improper poison touch"
-	desc = "This is kind of like when you rub your feet on a shag rug so you can zap your friends, only a lot less safe."
+	desc = "Vile, black vitae dribbling down a hand, ready to seep into a wound."
 	icon = 'icons/mob/roguehudgrabs.dmi'
 	icon_state = "grabbing_greyscale"
-	color = COLOR_RED_LIGHT
+	color = COLOR_ALMOST_BLACK
+	on_use_sound = 'sound/magic/bloodrot.ogg'
 
 /obj/item/melee/touch_attack/quietus/afterattack(atom/target, mob/living/carbon/user, proximity)
 	if(!proximity)
 		return
 	if(isliving(target))
-		var/mob/living/L = target
-		L.adjustFireLoss(10)
-		L.adjust_fire_stacks(3)
-		L.ignite_mob()
+		var/mob/living/living_target = target
+		living_target.apply_status_effect(/datum/status_effect/debuff/blackvitae)
+		living_target.visible_message(span_warning("[target]'s wounds begin to fester and rot!"))
+		to_chat(living_target, span_danger("WHAT ACHES NOW SEETHES WITH AGONY! EVERYTHING HURTS <span class='italics'>MORE</span>!"))
 	return ..()
+
+//DAGON'S CALL
+/datum/coven_power/quietus/dagons_call
+	name = "Dagon's Call"
+	desc = "Curse the last person you attacked to drown in their own blood."
+
+	level = 3
+	research_cost = 2
+	vitae_cost = 200
+	check_flags = COVEN_CHECK_CAPABLE | COVEN_CHECK_CONSCIOUS | COVEN_CHECK_IMMOBILE | COVEN_CHECK_LYING
+	cooldown_length = 120 SECONDS
+
+/datum/coven_power/quietus/dagons_call/can_activate(atom/target, alert = FALSE)
+	. = ..()
+	var/mob/living/lastattacker = owner.lastattacker_weakref?.resolve()
+	if(!isliving(lastattacker))
+		to_chat(owner, span_warning("You don't seem to have last attacked soul earlier..."))
+		return FALSE
+	if(get_dist(owner, lastattacker) > 10)
+		to_chat(owner, span_warning("They're too far to curse."))
+		return FALSE
+	else
+		return .
+
+/datum/coven_power/quietus/dagons_call/activate()
+	. = ..()
+	var/mob/living/lastattacker = owner.lastattacker_weakref?.resolve()
+	owner.emote("snap", forced = TRUE)
+	playsound(lastattacker, 'sound/magic/bloodcurse.ogg', 40, FALSE)
+	lastattacker.reagents.add_reagent(/datum/reagent/bloodacid, 3)
+	to_chat(owner, "You send your curse on [lastattacker], the last creature you attacked.")
 
 //BAAL'S CARESS
 /datum/coven_power/quietus/baals_caress
 	name = "Baal's Caress"
-	desc = "Transmute your vitae into a toxin that destroys all flesh it touches. Must be used on a SHARP weapon."
+	desc = "Impale yourself to imbue your weapon with your vitae, making it deadlier for three strikes, and applying a poison for the first strike."
 
-	level = 3
-	research_cost = 2
+	level = 4
+	research_cost = 3
 	check_flags = COVEN_CHECK_CAPABLE | COVEN_CHECK_CONSCIOUS | COVEN_CHECK_IMMOBILE | COVEN_CHECK_LYING
-	vitae_cost = 150
-	target_type = TARGET_OBJ
-	range = 3
+	vitae_cost = 250
+	target_type = NONE
 	violates_masquerade = TRUE
 	cooldown_length = 60 SECONDS
 
 /datum/coven_power/quietus/baals_caress/can_activate(atom/target, alert = FALSE)
 	. = ..()
-	var/obj/item/rogueweapon/target_weapon = target
+	var/obj/item/rogueweapon/target_weapon = owner.get_active_held_item()
 	if(!istype(target_weapon))
 		if(alert)
 			to_chat(owner, span_warning("[src] can only be used on weapons!"))
@@ -209,14 +241,30 @@
 
 /datum/coven_power/quietus/baals_caress/activate(obj/item/rogueweapon/target)
 	. = ..()
-	target.AddElement(/datum/element/one_time_poison, list(/datum/reagent/bloodacid = 2))
+	var/obj/item/rogueweapon/target_weapon = owner.get_active_held_item()
+	if(do_after(owner, 1 SECONDS))
+		if(target_weapon.GetComponent(/datum/component/bloodblade))
+			qdel(target_weapon.GetComponent(/datum/component/bloodblade))
+	owner.visible_message(span_danger("[owner] impales themselves with [target_weapon]!"))
+	playsound(owner, 'sound/combat/wound_tear.ogg', 100, TRUE, -2)
+	playsound(owner, 'sound/magic/bloodbladestart.ogg', 25, TRUE, -2)
+	if(do_after(owner, 2 SECONDS))
+		playsound(owner, 'sound/foley/flesh_rem.ogg', 100, TRUE, -2)
+		playsound(owner, 'sound/magic/bloodbladeend.ogg', 25, TRUE, -2)
+		target_weapon.AddComponent(/datum/component/bloodblade)
+		target.AddElement(/datum/element/one_time_poison, list(/datum/reagent/bloodacid = 1))
+		return TRUE
+	else
+		to_chat(owner, span_warning("We were interrupted!"))
+	return FALSE
 
 /datum/coven_power/quietus/taste_of_death
 	name = "Taste of Death"
 	desc = "Spit a glob of caustic blood at your enemies."
 
-	level = 4
-	research_cost = 3
+	level = 5
+	research_cost = 4
+	minimal_generation = GENERATION_ANCILLAE
 	check_flags = COVEN_CHECK_CAPABLE | COVEN_CHECK_CONSCIOUS | COVEN_CHECK_IMMOBILE | COVEN_CHECK_LYING
 	violates_masquerade = TRUE
 
@@ -226,32 +274,22 @@
 
 /obj/effect/proc_holder/spell/invoked/projectile/acidsplash/quietus
 	projectile_type = /obj/projectile/magic/acidsplash/quietus
+	invocations = list("lobs a glob of acid!")
+	invocation_type = "emote"
 
 /obj/projectile/magic/acidsplash/quietus
-	damage = 80
-	flag = "fire"
+	damage = 40
 	speed = 2
 
-//DAGON'S CALL
-/datum/coven_power/quietus/dagons_call
-	name = "Dagon's Call"
-	desc = "Curse the last person you attacked to drown in their own blood."
-
-	level = 5
-	research_cost = 4
-	minimal_generation = GENERATION_ANCILLAE
-	check_flags = COVEN_CHECK_CAPABLE | COVEN_CHECK_CONSCIOUS | COVEN_CHECK_IMMOBILE | COVEN_CHECK_LYING
-	cooldown_length = 30 SECONDS
-
-/datum/coven_power/quietus/dagons_call/activate()
+/obj/projectile/magic/acidsplash/quietus/on_hit(atom/target, blocked = FALSE)
 	. = ..()
-	var/mob/living/lastattacker = owner.lastattacker_weakref?.resolve()
-	if(isliving(lastattacker))
-		lastattacker.adjustStaminaLoss(80)
-		lastattacker.adjust_fire_stacks(6)
-		lastattacker.adjustFireLoss(10)
-		to_chat(owner, "You send your curse on [lastattacker], the last creature you attacked.")
-	else
-		to_chat(owner, "You don't seem to have last attacked soul earlier...")
-		return
+	var/turf/T = get_turf(src)
+	playsound(src, 'sound/magic/bloodball.ogg', 100)
 
+	for(var/mob/living/L in range(aoe_range, get_turf(src))) //apply damage over time to mobs
+		if(!L.anti_magic_check())
+			L.apply_status_effect(/datum/status_effect/buff/acidsplash)
+			L.reagents.add_reagent(/datum/reagent/bloodacid, 1)
+			new /obj/effect/temp_visual/acidsplash(get_turf(L))
+	for(var/turf/turfs_in_range in range(aoe_range+1, T)) //make a splash
+		new /obj/effect/temp_visual/acidsplash(T)

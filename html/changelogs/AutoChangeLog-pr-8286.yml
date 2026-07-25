@@ -1,0 +1,4 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - balance: "returned rotted corpse debuff -3 con, -8 int. this should make deadites less of an instaloss bait and still reasonably weak to account for their self-healing capacity."

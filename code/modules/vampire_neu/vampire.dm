@@ -32,8 +32,15 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/datum/clan/forcing_clan
 	var/generation
 	var/research_points = 10
+	var/research_spent = 0
 	var/max_thralls = 1
 	var/thrall_count = 0
+
+	var/STASTR = 12
+	var/STASPD = 12
+	var/STAWIL = 12
+	var/STACON = 12
+	var/STAPER = 12
 
 /datum/antagonist/vampire/New(incoming_clan = /datum/clan/crimson_fang, forced_clan = FALSE, generation)
 	. = ..()
@@ -101,7 +108,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				max_thralls = 69
 			if(GENERATION_ANCILLAE)
 				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
-				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 5, TRUE)
+				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 5, TRUE) // Masquerade round antagonist. They should be given a little bit more leeway.
+				vampdude?.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 4, TRUE)
 				max_thralls = 3
 			if(GENERATION_NEONATE)
 				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'

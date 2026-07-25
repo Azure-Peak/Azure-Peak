@@ -1,0 +1,6 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - qol: "Guarded virtue now only obscures nobility if the Toggle Anonimity virtue feature is toggled on."
+  - bugfix: "Fixed Vaquero's innate Guarded not working correctly."
+  - balance: "Removed Saddleborn from Vaquero."

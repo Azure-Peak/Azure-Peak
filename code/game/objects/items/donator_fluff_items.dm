@@ -445,7 +445,7 @@
 	bypass_dupe_test = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/donator_gothic
-	name = "gothic lightweight cuirass"
+	name = "gothic chestplate"
 	desc = "A magnificent steel cuirass, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
 	signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what truly matters in life."
 	icon = 'icons/clothing/donor_clothes.dmi'
@@ -454,8 +454,8 @@
 	icon_state = "gcuirass"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon/donator_gothic
-	name = "gothic lightweight cuirass"
-	desc = "A magnificent steel cuirass, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
+	name = "gothic chestplate"
+	desc = "A magnificent ornate cuirass, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
 	signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what truly matters in life."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
@@ -463,7 +463,7 @@
 	icon_state = "gcuirass"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/donator_gothic
-	name = "gothic fluted cuirass"
+	name = "gothic cuirass"
 	desc = "A magnificent fluted cuirass, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
 	signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what truly matters in life."
 	icon = 'icons/clothing/donor_clothes.dmi'
@@ -472,13 +472,48 @@
 	icon_state = "gflutedcuirass"
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate/donator_gothic
-	name = "gothic psydonic cuirass"
+	name = "gothic cuirass"
 	desc = "A magnificent ornate cuirass, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
 	signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what truly matters in life."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	item_state = "gpsycuirass"
 	icon_state = "gpsycuirass"
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/donator_gothic
+	name = "gothic plate armor"
+	desc = "A magnificent set of ornate plate armor, assembled by an Azurian mastersmith. The intricate fluting \
+	and interlocked plates are clear signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what \
+	truly matters in life."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	item_state = "gplate"
+	icon_state = "gplate"
+
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/donator_gothic
+	name = "gothic half-plate"
+	desc = "A magnificent set of half-plated steel armor, assembled by an Azurian mastersmith. The intricate fluting \
+	and interlocked plates are clear signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what \
+	truly matters in life."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	item_state = "gflutedhalfplate"
+	icon_state = "gflutedhalfplate"
+
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate/donator_gothic
+	name = "gothic half-plate"
+	desc = "A magnificent set of half-plated ornate armor, assembled by an Azurian mastersmith. The intricate fluting \
+	and interlocked plates are clear signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what \
+	truly matters in life."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	item_state = "ghalfplate"
+	icon_state = "ghalfplate"
+
+//
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/donator_gothic
 	name = "gothic iron cuirass"
@@ -941,6 +976,13 @@
 	desc = "An elegantly decorated dagger for an elegantly decorated wielder."
 	icon_state = "donator_decdagger"
 	sheathe_icon = "donator_decdagger"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
+/obj/item/rogueweapon/sword/sabre/dec/donator_elegant
+	name = "elegantly decorated sabre"
+	desc = "An elegantly decorated sabre for an elegantly decorated wielder."
+	icon_state = "donator_decsabre"
+	sheathe_icon = "donator_decsword"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 
 /obj/item/rogueweapon/katar/donator_elegant

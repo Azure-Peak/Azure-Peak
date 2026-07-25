@@ -1,0 +1,4 @@
+author: "TankTheBirb"
+delete-after: True
+changes:
+  - balance: "moved stamina potions to the alchemical warband standing order pool and removed from medical pool due to 90->30 dram production change."
