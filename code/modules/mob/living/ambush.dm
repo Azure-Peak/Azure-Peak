@@ -131,11 +131,13 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	// budget_multiplier_floor guarantees N natural ambush equivalents at the region's full pool.
 	// Minimum budget of 10 so something always spawns.
 	var/latent_pool = 50 // Fallback if no region
+	var/budget_pct = AMBUSH_BUDGET_PCT_REGULAR
 	if(TR)
 		latent_pool = TR.latent_ambush
-	var/budget = player_factor * latent_pool * AMBUSH_BUDGET_PCT_REGULAR
+		budget_pct = TR.ambush_budget_pct
+	var/budget = player_factor * latent_pool * budget_pct
 	if(budget_multiplier_floor && TR)
-		budget = max(budget, budget_multiplier_floor * TR.max_ambush * AMBUSH_BUDGET_PCT_REGULAR)
+		budget = max(budget, budget_multiplier_floor * TR.max_ambush * budget_pct)
 	budget = max(budget, 10) // Floor: always afford at least one trash mob
 
 	// ——— Purchase Loop ———

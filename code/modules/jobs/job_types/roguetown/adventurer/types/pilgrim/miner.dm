@@ -4,7 +4,7 @@
 
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/miner
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
@@ -51,7 +51,6 @@
 						/obj/item/flashlight/flare/torch = 1,
 						/obj/item/rogueweapon/chisel = 1,
 						/obj/item/rogueweapon/hammer/wood = 1,
-						/obj/item/recipe_book/survival = 1,
 						/obj/item/recipe_book/builder = 1,
 						/obj/item/rogueweapon/scabbard/sheath = 1,
 						/obj/item/rogueweapon/huntingknife = 1,

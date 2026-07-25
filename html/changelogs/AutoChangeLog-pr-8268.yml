@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Removes errant repeat-frames on the Undervestment's right sleeve, and adds proper sleeve sprites to the 'f_dwarf' race as well."

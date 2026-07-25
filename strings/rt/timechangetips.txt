@@ -255,7 +255,7 @@ The Tomb of Alotheos is a massive dungeon, found in the thickets of Mount Decapt
 No one is actually quite sure as to who Alotheos was, though there are plenty of rumors to pick from. Some say it was an ancient king, others purport it to've been a long-forgotten architect, while a few even dare to say that it was the true name of Matthios - before His ascension, of course.
 Strange dreams seem to trail all who inhabit Azuria. To hear someone remarking about a 'week' with unusual and unfortunate fates isn't uncommon, but one should be wary to discern whatever facts might've been laced into such fiction.
 Azuria cradles the remains of the Comet - and with it, the power to alter the very fate of Psydonia itself.
-Some say that the Psydonites of the future have created TYME-MACHINES, in order to prevent the eternal darkness from coming to pass.
+Some say that the Psydonites of the future have created a machine that can traverse through tyme itself, in order to prevent the eternal darkness from coming to pass.
 If you are staying in a wayside inn and two men force entry to your room? Kill them with your crossbow.
 The evil ZYDON sent down his COMET to destroy the GREAT WORM, and for thousands of yils you will pay the price.
 Fire is orange-red, and sometimes sylver-white. If you see any other colors of fire, please inform the Inquisition immediately.
@@ -283,6 +283,7 @@ SPEED represents your actor's fleet-footedness. This affect the haste of their m
 FORTUNE represents your actor's luck. This affects their chance to sway seemingly random events in their favor, or - in the inverse - against their favor.
 Remember that there is another face behind the masks of every actor you meet. Cruelty in service of a story becomes unacceptable when it is done purely out of single-minded malice.
 There are only three things that're certain; death, taxes, and the quality of an Innhouse's liqour.
+New? Overwhelmed? Confused? Try checking out 'A Tutorialeer's Handbook' from the Loadout's 'Miscellanious' section, in order to get a crash course on everything you'd need to know!
 Losing is fun!
 It was all a dream.. ?!
 I hate you. I hate you. I hate you.
@@ -314,6 +315,8 @@ GODMACHINE, I BESEECH YOU! RUPTURE THE FILAMENT, AND GIFT ME THE POWER THAT HE H
 ADAMANTIUM? MITHRIL? POPPYCOCK!
 SEVEN DAES. SEVEN DAES ARE ALL I CAN SPARE TO PARLAY WITH THEE.
 LET ME PUT IT IN A WAY YOU'D UNDERSTAND; DO WHAT I SAY, OR DRINK PHLOGISTON.
+IN THIS WORLD, IT'S KILL OR BE KILLED.
+YOU ARE FILLED WITH DETERMINATION.
 I DON'T WANT TO DIE ANYMORE.
 I'M READY TO DIE!
 REBOLT. RECALIBRATE. REENAGE.

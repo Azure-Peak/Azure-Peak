@@ -1,5 +1,5 @@
 import { cls, stripHtml } from './helpers';
-import { type Aspect, type Spell } from './types';
+import type { Aspect, Spell } from './types';
 
 export const GrimoireChoiceSection = ({
   aspect,
@@ -32,7 +32,8 @@ export const GrimoireChoiceSection = ({
 }) => {
   const currentChoice = stagedChoices[aspect.path] || null;
   const hasChosen = currentChoice !== null;
-  const swapMode = !readOnly && !initialSetup && !!liveChosen && !isPendingUnbind;
+  const swapMode =
+    !readOnly && !initialSetup && !!liveChosen && !isPendingUnbind;
   const stagedSwap = swapMode && currentChoice !== liveChosen;
   const swapAvailable = resetBudget + (stagedSwap ? swapCost : 0);
 
@@ -79,7 +80,9 @@ export const GrimoireChoiceSection = ({
         const isSelected = currentChoice === spell.path;
         const isLiveChosen = swapMode && spell.path === liveChosen;
         const selectedElsewhere =
-          !isSelected && !isLiveChosen && allSelectedSpells.includes(spell.path);
+          !isSelected &&
+          !isLiveChosen &&
+          allSelectedSpells.includes(spell.path);
         const claimedBy = spell.exclusive_group
           ? claimedGroups[spell.exclusive_group]
           : undefined;

@@ -600,6 +600,35 @@
 	desc = "Something has chilled me to the bone! It's hard to move."
 	icon_state = "muscles"
 
+/datum/status_effect/debuff/blackvitae
+	id = "blackvitae"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/blackvitae
+	duration = 20 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/blackvitae
+	name = "Bloodrot"
+	desc = span_bloody("BLACKENED ROT SEEPS INTO MY WOUNDS! IT HURTS, IT HURTS, IT HURTS, IT HURTS!!")
+	icon_state = "ritesexpended"
+
+/datum/status_effect/debuff/blackvitae/on_apply()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/human/target = owner
+		var/newcolor = rgb(67, 67, 67)
+		var/datum/physiology/phy = target.physiology
+		phy.bleed_mod *= 1.5
+		phy.pain_mod *= 1.5
+		target.add_atom_colour(newcolor, TEMPORARY_COLOUR_PRIORITY)
+		addtimer(CALLBACK(target, TYPE_PROC_REF(/atom, remove_atom_colour), TEMPORARY_COLOUR_PRIORITY, newcolor), 20 SECONDS)
+
+/datum/status_effect/debuff/blackvitae/on_remove()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/human/target = owner
+		var/datum/physiology/phy = target.physiology
+		phy.bleed_mod /= 1.5
+		phy.pain_mod /= 1.5
+
 /datum/status_effect/debuff/cold/greater
 	id = "Frozen"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/cold/greater

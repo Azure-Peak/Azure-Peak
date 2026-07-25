@@ -114,6 +114,10 @@
 	name = "Gift - Kit, Gothic Steel Armor"
 	path = /obj/item/enchantingkit/gothicsteelarmor
 
+/datum/loadout_item/donator/universal/armor_gothic_psydonic
+	name = "Gift - Kit, Gothic Psydonic Cuirass"
+	path = /obj/item/enchantingkit/gothicpsydoniccuirass
+
 /datum/loadout_item/donator/universal/cuirass_throwback
 	name = "Gift - Kit, Heroic Leather Cuirass"
 	path = /obj/item/enchantingkit/heroicleathercuirass
@@ -141,6 +145,14 @@
 /datum/loadout_item/donator/universal/headpiece_greatplume
 	name = "Gift - Helmet Cosmetic, Greatplume"
 	path = /obj/item/clothing/head/roguetown/decoration/greatplume
+
+/datum/loadout_item/donator/universal/headpiece_featherplume
+	name = "Gift - Helmet Cosmetic, Featherplume"
+	path = /obj/item/clothing/head/roguetown/decoration/featherplume
+
+/datum/loadout_item/donator/universal/headpiece_crestplume
+	name = "Gift - Helmet Cosmetic, Crestplume"
+	path = /obj/item/clothing/head/roguetown/decoration/crestplume
 
 /datum/loadout_item/donator/universal/armorpiece_shoulderguard
 	name = "Gift - Armor Cosmetic, Shoulderguard"

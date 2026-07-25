@@ -123,6 +123,7 @@
 #define BB_HUMAN_NPC_JUKE_COOLDOWN       "human_npc_juke_cooldown"
 #define BB_HUMAN_NPC_FEINT_COOLDOWN      "human_npc_feint_cooldown"
 #define BB_HUMAN_NPC_TECHNIQUE_CD        "human_npc_technique_cd"
+#define BB_HUMAN_NPC_SPECIAL_EVAL_AT     "human_npc_special_eval_at"
 #define BB_AI_ALERT_MODE_UNTIL           "ai_alert_mode_until"
 #define AI_ALERT_MODE_DURATION           (30 SECONDS)
 #define BB_HUMAN_NPC_CURRENT_INTENT_ATTACKS_LEFT "human_npc_intent_attacks"

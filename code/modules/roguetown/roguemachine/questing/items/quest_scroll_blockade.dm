@@ -10,7 +10,7 @@
 	name = "blockade defense writ"
 	desc = "A stout writ sealed by the Steward, calling for armed answer to a trade blockade. \
 	The bearer is enjoined to travel to the blockaded region and break three successive waves \
-	of raiders - each wave must fall within seven minutes, and the writ lapses entirely if the \
+	of raiders - each wave must fall within ten minutes, and the writ lapses entirely if the \
 	bearer dawdles too long before reaching the blockade. Hand this writ over to a \
 	fellow-adventurer and they may initiate the contract; pin it to the Grand Contract Ledger and \
 	it will demand a full Fellowship of three."
