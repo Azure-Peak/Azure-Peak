@@ -340,7 +340,7 @@
 // - Gallows humor is still /better/ if we considerable how spammable vs this, but you've the advantage of combining this w/ avantyne usually, or whatever else miracle/gear-wise.
 /datum/action/cooldown/spell/zizo/spite
 	name = "Spite"
-	desc = "Invoke Zizo's hatred and spite upon a target, stressing them out heavily, lessening their will and shattering their mynd if they feel emotions. Slows and weakens the will of the myndless significantly."
+	desc = "Invoke Zizo's hatred and spite upon a target, stressing them out heavily, lessening their will and shattering their mynd with dreadful visions. Slows and weakens the will of the myndless significantly."
 	fluff_desc = "It is no mistake that the faithful of Zizo are to some degree affected by her spite towards those that would dare, undo her greatest work to become. The very thought manifested forcefully in detail of what's to come would break the minds of most, or at worst leave them a hollow husk of what they were. Oft' shattering one's perception of reality and falsehood alyke."
 	button_icon_state = "spite"
 	sound = 'sound/misc/sudden noise.ogg'
