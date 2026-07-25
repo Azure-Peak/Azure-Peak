@@ -1101,6 +1101,15 @@
 	desc = "Thieve the appearance of another."
 	icon_state = "inpeculate"
 
+/datum/intent/peculate/examine(mob/user)
+	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
+	// todo: add more of these later
+		to_chat(user, span_gamedeadsay("The profane dagger says, \"Hehe... hehehe...!\""))
+		return
+	// call parent for assassins so they can actually see the desc
+	. = ..()
+
+
 //Knuckledusters. Uses the Psydonic Thorns code to swap between this and the wearable, unarmed-damage-multiplying variants.
 /obj/item/rogueweapon/knuckledusters
 	name = "knuckledusters" //(Currenty?) inaccessable base.
