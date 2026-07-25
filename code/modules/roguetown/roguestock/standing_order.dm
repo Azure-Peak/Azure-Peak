@@ -592,13 +592,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	// overwrite the larger primary qty when the same id was picked twice.
 	var/list/medicinal_pool = list(
 		TRADE_GOOD_HEALTH_POTION,
-		TRADE_GOOD_STAM_POTION,
 		TRADE_GOOD_ANTIDOTE_POTION,
 	)
 	var/list/premium_pool = list(
 		TRADE_GOOD_STRONG_HEALTH_POTION,
 		TRADE_GOOD_STRONG_MANA_POTION,
-		TRADE_GOOD_STRONG_STAM_POTION,
 		TRADE_GOOD_STRONG_ANTIDOTE_POTION,
 		TRADE_GOOD_MANA_POTION,
 	)
@@ -624,7 +622,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 // ============================================================================
 // demand_alchemical_warband - elite buff-potion order for adventurers, the conclave,
-// and chosen retinues. Stat-buff potions plus a backbone of strong-* support potions.
+// and chosen retinues. Stat-buff potions and stamina potions plus a backbone of strong-* support potions.
 // ============================================================================
 /datum/standing_order/demand_alchemical_warband
 	roll_weight = 1
@@ -639,11 +637,12 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_GOOD_PERCEPTION_POTION,
 		TRADE_GOOD_INTELLIGENCE_POTION,
 		TRADE_GOOD_SPEED_POTION,
+		TRADE_GOOD_STAM_POTION,
+		TRADE_GOOD_STRONG_STAM_POTION,
 	)
 	var/list/support_pool = list(
 		TRADE_GOOD_STRONG_HEALTH_POTION,
 		TRADE_GOOD_STRONG_MANA_POTION,
-		TRADE_GOOD_STRONG_STAM_POTION,
 		TRADE_GOOD_STRONG_ANTIDOTE_POTION,
 	)
 

@@ -229,6 +229,7 @@
 	// Unlock the power
 	unlocked_research += research_type
 	vampire.research_points -= node.research_cost
+	vampire.research_spent += node.research_cost
 
 	// Grant the power
 	if(node.unlocks_power)

@@ -38,7 +38,6 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/flashlight/flare/torch/lantern,
 		)
 	H.set_blindness(0)
@@ -96,7 +95,6 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/bomb/smoke = 3,
 		)
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
@@ -171,8 +169,7 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/rogueweapon/whip
-	backpack_contents = list(/obj/item/recipe_book/survival = 1,
-						/obj/item/rogueweapon/huntingknife = 1)
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife = 1)
 
 /datum/advclass/foreigner/refugee
 	name = "Naledi Refugee"
@@ -335,7 +332,6 @@
 	beltr = /obj/item/rogueweapon/sword/long/shotel
 	backpack_contents = list(/obj/item/rope/chain = 2,
 							/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
-							/obj/item/recipe_book/survival = 1,
 							/obj/item/rogueweapon/huntingknife = 1)
 
 
@@ -451,7 +447,6 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1,
 		)
@@ -672,7 +667,6 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/huntingknife/bronze = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
@@ -762,7 +756,6 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/elvish/autumn = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,

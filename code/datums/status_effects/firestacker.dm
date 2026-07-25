@@ -151,7 +151,7 @@
 	pass()
 
 /datum/status_effect/fire_handler/fire_stacks/tick(wait)
-	if(stacks <= 0)
+	if(stacks <= 0 || HAS_TRAIT(owner, TRAIT_NOFIRE))
 		qdel(src)
 		return TRUE
 
