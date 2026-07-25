@@ -115,7 +115,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 		friendly_horse.friends += user
 
 	if (has_name == "Yes")
-		var/honse_name = input(user, "What is your steed's name?", "Saddleborn")
+		var/honse_name = sanitize(input(user, "What is your steed's name?", "Saddleborn"))
 		if (honse_name)
 			the_real_honse.name = honse_name
 			the_real_honse.real_name = honse_name

@@ -17,6 +17,9 @@
 		return //No ghosts or incapacitated folk allowed to do this.
 	if(!ishuman(dropping))
 		return //Only humans have job slots to be freed.
+	if(HAS_TRAIT(dropping, TRAIT_CONJURED_SUMMON))
+		to_chat(user, "<span class='warning'>This is not your true body, why are you leaving?</span>")
+		return
 	if(in_use) // Someone's already going in.
 		return
 	var/mob/living/carbon/human/departing_mob = dropping

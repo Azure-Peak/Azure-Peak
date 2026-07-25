@@ -46,6 +46,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = /mob/living/simple_animal/hostile/retaliate/rogue/troll/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit = /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/cabbit/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/bigrat  = /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/undead,
 ))
 
 #define ZOMBIE_REANIMATION_CHANCE 25

@@ -22,6 +22,7 @@
 	min_pq = 10
 	max_pq = null
 	round_contrib_points = 2
+	vice_restrictions = list(/datum/charflaw/silverweakness)
 	job_subclasses = list(
 		/datum/advclass/inquisitor/inspector,
 		/datum/advclass/inquisitor/ordinator

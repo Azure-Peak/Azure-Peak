@@ -34,11 +34,11 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	if ((istype(src, /obj/structure/pressure_plate)) || (istype(src, /obj/structure/lever)))
 		trigger_structure = TRUE
 		reaction_structure = FALSE
-	else 
+	else
 		reaction_structure = TRUE
 		trigger_structure = FALSE
 	//can't link a launcher while its locked
-	if (istype(src, /obj/structure/englauncher)) 
+	if (istype(src, /obj/structure/englauncher))
 		var obj/structure/englauncher/launchercheck = src
 		if(launchercheck.locked)
 			to_chat(user, span_warning("It's locked!"))
@@ -48,7 +48,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	if ((istype(multitool.buffer, /obj/structure/pressure_plate)) || (istype(multitool.buffer, /obj/structure/lever)))
 		trigger_buffer = TRUE
 		reaction_buffer = FALSE
-	else 
+	else
 		if (isnull(multitool.buffer)) //we need to check if the buffer is empty
 			reaction_buffer = FALSE
 			trigger_buffer = FALSE
@@ -173,7 +173,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] carves a name into the lever.</span>")
 		if(do_after(user, 10))
 			var/levername
-			levername = input("What name would you like to carve into the lever?")
+			levername = sanitize(input("What name would you like to carve into the lever?"))
 			if (levername)
 				name = levername + "(lever)"
 				desc = "A lever with a name carved into it."
@@ -317,7 +317,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/platename
-			platename = input("What name would you like to carve into the plate?")
+			platename = sanitize(input("What name would you like to carve into the plate?"))
 			if (platename)
 				name = platename + "(plate)"
 				desc = "a plate with a name carved into it"
@@ -340,7 +340,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 */
 
 /obj/structure/englauncher
-	name = "Engineer's Launcher" 
+	name = "Engineer's Launcher"
 	desc = "A engineering contraption made to launch various objects in the direction it's pointed."
 	icon = 'icons/roguetown/misc/engineering_structure.dmi'
 	icon_state = "activator"
@@ -367,7 +367,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/rattlesound = 'sound/foley/doors/lockrattle.ogg'
 	var/masterkey = TRUE //if masterkey can open this regardless
 	debris = list(/obj/item/roguegear = 1, /obj/item/natural/wood/plank = 1, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 1)
-	
+
 /obj/structure/englauncher/Initialize()
 	. = ..()
 	update_icon()
@@ -415,7 +415,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the launcher.</span>")
 		if(do_after(user, 10))
 			var/launchername
-			launchername = input("What name would you like to carve into the launcher?")
+			launchername = sanitize(input("What name would you like to carve into the launcher?"))
 			if (launchername)
 				name = launchername + "(launcher)"
 				desc = "a launcher with a name carved into it"
@@ -644,7 +644,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/turf/start = get_step(src, firedirection)
 	if(!start)
 		return
-	
+
 
 	// Build target turf by walking firedirection from start
 	var/turf/target = start
@@ -674,7 +674,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 					var/datum/effect_system/smoke_spread/chem/smoke = new
 					if(spreadmode)
 						smoke.set_up(R, 3, T, FALSE)
-					else 
+					else
 						smoke.set_up(R, 1, T, FALSE)
 					smoke.start()
 
@@ -787,8 +787,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 /obj/structure/floordoor/gatehatch
 	name = ""
 	desc = ""
-	base_state = ""
-	icon_state = ""
+	base_state = "gatehatch"
+	icon_state = "gatehatch1"
 	var/changing_state = FALSE
 	var/delay2open = 0
 	var/delay2close = 0
@@ -845,7 +845,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		user.visible_message("<span class='info'>[user] Carves a name into the plate.</span>")
 		if(do_after(user, 10))
 			var/hatchname
-			hatchname = input("What name would you like to carve into the hatch?")
+			hatchname = sanitize(input("What name would you like to carve into the hatch?"))
 			if (hatchname)
 				name = hatchname + "(hatch)"
 				desc = "a hatch with a name carved into it"

@@ -25,6 +25,8 @@
 	spell_tier = 2
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
+	supports_fellowship_snap = TRUE
+
 	var/orb_count = 5
 
 /datum/action/cooldown/spell/circumdatum/cast(atom/cast_on)
@@ -35,6 +37,11 @@
 	var/mob/living/carbon/human/target = cast_on
 	target.apply_status_effect(/datum/status_effect/buff/circumdatum, orb_count)
 	return TRUE
+
+/datum/action/cooldown/spell/circumdatum/get_spell_statistics(mob/living/user)
+	var/list/stats = ..()
+	stats += span_info("Fellowship Mode (toggle with Shift+G): An off-target cast snaps the ward to your nearest fellowship member in range.")
+	return stats
 
 /atom/movable/screen/alert/status_effect/buff/circumdatum
 	name = "Circumdatum"

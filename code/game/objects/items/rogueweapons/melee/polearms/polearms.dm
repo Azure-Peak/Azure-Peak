@@ -680,7 +680,7 @@
 
 /obj/item/rogueweapon/spear/silver
 	name = "silver spear"
-	desc = "A winged staff, tipped with a silver spearhead. It bares a resemblenece to the 'boar spear', but with a critical difference; instead \
+	desc = "A winged staff, tipped with a silver spearhead. It bears a resemblenece to the 'boar spear', but with a critical difference; instead \
 	of stopping hogs, it halts charging deadites from spreading their sickness any further."
 	icon_state = "silverspear"
 	force = 15
@@ -1076,7 +1076,7 @@
 /obj/item/rogueweapon/halberd/blacksteel
 	name = "blacksteel halberd"
 	desc = "A magnificent halberd of blacksteel. It is the finest arm-of-war that a sixteenth-century knight could ask for, especially \
-	when it comes to attracting fair maidens in the highest courts. Wrap a length of cloth around the shaft to bare your heraldry."
+	when it comes to attracting fair maidens in the highest courts. Wrap a length of cloth around the shaft to bear your heraldry."
 	icon_state = "bs_halberd"
 	smeltresult = /obj/item/ingot/blacksteel
 	force = 20
@@ -1300,7 +1300,7 @@
 /obj/item/rogueweapon/eaglebeak/blacksteel
 	name = "blacksteel polehammer"
 	desc = "A magnificent polehammer of blacksteel. Purpose-made for killing plate-armored opponents, it features a maillebreaker's point and a \
-	flared macehead; excellent for piercing and shattering alloys, respectively. Wrap a length of cloth around the shaft to bare your heraldry."
+	flared macehead; excellent for piercing and shattering alloys, respectively. Wrap a length of cloth around the shaft to bear your heraldry."
 	possible_item_intents = list(/datum/intent/spear/bash/polehammer, /datum/intent/mace/smash/eaglebeak, /datum/intent/spear/thrust/bad)
 	gripped_intents = list(/datum/intent/spear/bash/polehammer, /datum/intent/mace/smash/eaglebeak, /datum/intent/spear/thrust)
 	icon_state = "bs_eaglebeak"

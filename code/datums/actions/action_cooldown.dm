@@ -74,6 +74,8 @@
 	else
 		button.update_maptext(time_left)
 
+	if(button.our_hud?.rearrange_mode)
+		return
 	if(!IsAvailable() || !is_action_active(button))
 		return
 	// If we don't change the icon state, or don't apply a special overlay,
@@ -302,12 +304,16 @@
 	return TRUE
 
 /datum/action/cooldown/process()
-	if(!owner || (next_use_time - world.time) <= 0)
+	var/time_left = next_use_time - world.time
+	if(!owner || time_left <= 0)
 		build_all_button_icons(UPDATE_BUTTON_STATUS)
 		STOP_PROCESSING(SSfastprocess, src)
 		return
-
-	build_all_button_icons(UPDATE_BUTTON_STATUS)
+	if(!text_cooldown || time_left >= COOLDOWN_NO_DISPLAY_TIME)
+		return
+	for(var/datum/hud/hud as anything in viewers)
+		var/atom/movable/screen/movable/action_button/button = viewers[hud]
+		button?.update_maptext(time_left)
 
 #undef COOLDOWN_NO_DISPLAY_TIME
 
