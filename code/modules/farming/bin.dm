@@ -316,6 +316,7 @@
 		/obj/item/roguekey,
 		/obj/item/rogueweapon/werewolf_claw,
 		/obj/item/grabbing,
+		/obj/item/mob_item,
 	)
 	if(I.is_important)
 		return FALSE
