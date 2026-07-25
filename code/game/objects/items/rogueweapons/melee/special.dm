@@ -1312,66 +1312,80 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
 	. = ..()
-	if(!ishuman(target))// carbons don't have all features of a human
-		to_chat(user, span_danger("You can't do that!"))
-		return
-	if(!ishuman(user)) // carbons don't have all features of a human
-		to_chat(user, span_danger("You can't do that!"))
-		return
-	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
-		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"HEHEHE, HEHEHE!\"</i>"))
-		return
-	if(user.Adjacent(target))
-		to_chat(user, span_warning("I must be adjacent to my target!"))
-		return
-
+	// FIRST. we check for peculate.
+	if(istype(user.used_intent, /datum/intent/peculate))
+		// run our preliminary checks. if they fail, return early.
+		if(!preliminary_face_steal_check(target, user))
+			return
+	// everything has gone well so far. is_human confirmed in prelim check.
 	var/mob/living/carbon/human/human_user = user
 
-	if(target_health_check(target)) // Trigger soul steal or identity theft if the target is either dead or in crit
-		if(istype(user.used_intent, /datum/intent/peculate))
-			var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
-			if(QDELETED(target_head))
-				to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
-				return
-
-			user.visible_message(span_cultlarge("[human_user] begins sucking [target]'s soul into [human_user.p_their()] dagger! STOP THEM!!"),
-								span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty..."))
-
-			var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 6 SECONDS)
-
-			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
-
-			if(!do_after(user, 3 SECONDS, target = target))
-				qdel(transfer_beam)
-				return
-
-			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
-
-			if(!do_after(user, 3 SECONDS, target = target))
-				qdel(transfer_beam)
-				return
-
-			playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
-
-			if(!user.client)
-				qdel(transfer_beam)
-				return
-			qdel(transfer_beam)
-
-			human_user.copy_physical_features(target)
-			to_chat(user, span_purple("I take on a new face.."))
-			die_motherfucker_die(target)
-			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
-
+	// run a health check on the target. if they're not dead enough, return us early.
+	if(!target_health_check(target))
+		to_chat(user, span_warning("My target must be a bit more dead! Let them bleed!"))
+		return
+	// cool, they're dead enough. run the rest of it.
+	else
+		// head-check. they need a head.
+		var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
+		if(QDELETED(target_head))
+			to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
 			return
 
-		if(target.has_flaw(/datum/charflaw/targeted)) // The profane dagger only thirsts for those who are targeted, by flaw or by zizoid curse.
-			if(target.client == null) //See if the target's soul has left their body
-				to_chat(user, "<span class='danger'>Your target's soul has already escaped its corpse...you try to call it back!</span>")
-				get_profane_ghost(target,user) //Proc to capture a soul that has left the body.
-			else
-				user.adjust_triumphs(1)
-				init_profane_soul(target, user) //If they are still in their body, send them to the dagger!
+		// send a message. everyone know what we're doing.
+		user.visible_message(span_cultlarge("[human_user] begins sucking [target]'s soul into [human_user.p_their()] dagger! STOP THEM!!"),
+							span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty..."))
+
+		// INITIATE GRAGGAR BEAM.
+		var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 6 SECONDS)
+
+		playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+
+		if(!do_after(user, 3 SECONDS, target = target))
+			qdel(transfer_beam)
+			return
+		playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+
+		if(!do_after(user, 3 SECONDS, target = target))
+			qdel(transfer_beam)
+			return
+		playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
+
+		if(!user.client)
+			qdel(transfer_beam)
+			return
+		qdel(transfer_beam)
+
+		// graggar beam worked w/ no interruptions. domp eet.
+		human_user.copy_physical_features(target)
+		to_chat(user, span_purple("I take on a new face.."))
+		die_motherfucker_die(target)
+		ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
+
+	if(target.has_flaw(/datum/charflaw/targeted)) // The profane dagger only thirsts for those who are targeted, by flaw or by zizoid curse.
+		if(target.client == null) //See if the target's soul has left their body
+			to_chat(user, "<span class='danger'>Your target's soul has already escaped its corpse...you try to call it back!</span>")
+			get_profane_ghost(target,user) //Proc to capture a soul that has left the body.
+		else
+			user.adjust_triumphs(1)
+			init_profane_soul(target, user) //If they are still in their body, send them to the dagger!
+
+/// This proc confirms that the user is human, the target is a human, that they are allowed to use peculate, and that they are adjacent to one another.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/preliminary_face_steal_check(mob/living/carbon/human/target, mob/living/user)
+	if(!ishuman(target))// carbons don't have all features of a human
+		to_chat(user, span_danger("You can't do that!"))
+		return FALSE
+	if(!ishuman(user)) // carbons don't have all features of a human
+		to_chat(user, span_danger("You can't do that!"))
+		return FALSE
+	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
+		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"HEHEHE, HEHEHE!\"</i>"))
+		return FALSE
+	if(!user.Adjacent(target))
+		to_chat(user, span_warning("I must be adjacent to my target!"))
+		return FALSE
+	// everything went well
+	return TRUE
 
 
 /// This check returns TRUE if the target is DEAD, in InCritical(), or has a dying amount of blood.
