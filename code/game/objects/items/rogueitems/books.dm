@@ -356,7 +356,6 @@
 
 /obj/item/book/rogue/bibble/zizo/get_mechanics_examine(mob/user)
     . = ..()
-    . += span_info("Non-Zizo worshippers will catch aflame touching this book, a surefire sign of heretical faith if you're caught with it.")
     . += span_info("It can be used in-hand to preach from two seperate testaments.")
     . += span_info("Use middle-mouse button to switch between testaments of the book.")
 
