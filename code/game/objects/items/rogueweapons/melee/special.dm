@@ -480,7 +480,7 @@
 	desc = "A pair of heavily curved claws, styled after beasts and used in combat by some of the more uncivilized warriors who try to mimic the fighting styles of the wild, or by anyone who thinks they can actually do that."
 	icon_state = "ironclaw"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	wdefense = 3 // this is not a katar? 
+	wdefense = 3 // this is not a katar?
 	force = 20
 	possible_item_intents = list(/datum/intent/claw/cut/iron, /datum/intent/claw/lunge/iron, /datum/intent/claw/rend)
 	wbalance = WBALANCE_NORMAL
@@ -673,7 +673,7 @@
 	use_light = FALSE
 	spread_flame = FALSE
 	icon_state_ignited = "sci_firetongue_on"
-	
+
 /datum/component/ignitable/fluff/sci_sand
 	use_light = FALSE
 	spread_flame = FALSE
@@ -682,7 +682,7 @@
 /datum/component/ignitable/Initialize(...)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
-	
+
 	RegisterSignal(parent, COMSIG_STRUCTURE_ATTACKBY, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
@@ -882,9 +882,9 @@
 	desc = "A hardy repurposed dwarven mining warpick. Made to handle the dwellers above and below, both clad in rock and forged rock."
 	icon_state = "dwarpick"
 	possible_item_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike)
-	gripped_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike, /datum/intent/stab/militia)	
+	gripped_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike, /datum/intent/stab/militia)
 	max_blade_int = 200 //10% increase over the steel pick
-	max_integrity = 660 
+	max_integrity = 660
 
 /obj/item/rogueweapon/sword/falchion/militia
 	name = "maciejowski"
@@ -1238,6 +1238,7 @@
 		return
 
 //Unique assassin/antag dagger.
+// TODO: MOVE THIS INTO ITS OWN FUCKING FILE BECAUSE IT WILL ONLY GET WORSE IN CODE-LENGTH
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane
 	name = "profane dagger"
 	desc = "A profane dagger made from a cursed alloy. Whispers emanate from the diamond on its hilt. </br>A chill rolls down my spine. I am not alone."
@@ -1246,9 +1247,11 @@
 	icon_state = "graggardagger"
 	sheathe_icon = "graggardagger"
 	embedding = list("embed_chance" = 0) // Embedding the cursed dagger has the potential to cause duping issues. Keep it like this unless you want to do a lot of bug hunting.
+	// maybe add TRAIT_NOEMBED on initalize??? Fuck IDK man
 	resistance_flags = INDESTRUCTIBLE
 	stealthy_audio = TRUE
 	var/total_souls_taken = 0
+	var/last_spoken = 0 // prevent chatspam
 
 	// static list for what non-assassins hear on picking up the dagger.
 	var/static/list/na_pleads = list(
@@ -1281,38 +1284,22 @@
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
-		. += "profane dagger whispers, \"[span_danger("Here we are!")]\""
+		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"...here we are!\"</i>"))
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pickup(mob/living/M)
 	. = ..()
+	var/picked_message = "Help us..."
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if (!HAS_TRAIT(H, TRAIT_ASSASSIN)) // Non-assassins don't like holding the profane dagger.
 			H.add_stress(/datum/stressevent/profane)
 			to_chat(M, "<span class='danger'>Your breath chills as you pick up the dagger. You feel a sense of morbid wrongness!</span>")
-			var/message = pick(
-				"<span class='danger'>Help me...</span>",
-				"<span class='danger'>Save me...</span>",
-				"<span class='danger'>It's cold...</span>",
-				"<span class='danger'>Free us...please...</span>",
-				"<span class='danger'>Necra...deliver...us...</span>")
-//			H.visible_message("profane dagger whispers, \"[message]\"")
-			to_chat(M, "profane dagger whispers, \"[message]\"")
+			picked_message = pick(na_pleads)
 		else
-			var/message = pick(
-				"<span class='danger'>Why...</span>",
-				"<span class='danger'>...Who sent you?</span>",
-				"<span class='danger'>...You will burn for what you've done...</span>",
-				"<span class='danger'>I hate you...</span>",
-				"<span class='danger'>Someone stop them!</span>",
-				"<span class='danger'>Guards! Help!</span>",
-				"<span class='danger'>...What's that in your hand?</span>",
-				"<span class='danger'>...You love me...don't you?</span>",
-				"<span class='danger'>Wait...don't I know you?</span>",
-				"<span class='danger'>I thought you were...my friend...</span>",
-				"<span class='danger'>How long have I been in here...</span>")
-//			H.visible_message("profane dagger whispers, \"[message]\"")
-			to_chat(M, "profane dagger whispers, \"[message]\"")
+			picked_message = pick(last_words)
+		if(last_spoken >= world.time + 3 SECONDS)
+			to_chat(M, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"[picked_message]\"</i>"))
+			last_spoken = world.time
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pre_attack(mob/living/carbon/human/target, mob/living/user = usr, params)
 	if(!istype(target))
@@ -1325,49 +1312,55 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
 	. = ..()
-	if(!ishuman(target))
+	if(!ishuman(target))// carbons don't have all features of a human
+		to_chat(user, span_danger("You can't do that!"))
 		return
-	if(target.stat == DEAD || (target.health < target.crit_threshold)) // Trigger soul steal or identity theft if the target is either dead or in crit
+	if(!ishuman(user)) // carbons don't have all features of a human
+		to_chat(user, span_danger("You can't do that!"))
+		return
+	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
+		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"HEHEHE, HEHEHE!\"</i>"))
+		return
+	if(user.Adjacent(target))
+		to_chat(user, span_warning("I must be adjacent to my target!"))
+		return
+
+	var/mob/living/carbon/human/human_user = user
+
+	if(target_health_check(target)) // Trigger soul steal or identity theft if the target is either dead or in crit
 		if(istype(user.used_intent, /datum/intent/peculate))
-			if(!ishuman(user)) // carbons don't have all features of a human
-				to_chat(user, span_danger("You can't do that!"))
-				return
 			var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
 			if(QDELETED(target_head))
 				to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
 				return
 
+			user.visible_message(span_cultlarge("[human_user] begins sucking [target]'s soul into [human_user.p_their()] dagger! STOP THEM!!"),
+								span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty..."))
+
 			var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 6 SECONDS)
 
-			playsound(
-				user,
-				get_sfx("changeling_absorb"), //todo: turn sound keys into defines.
-				100,
-			)
-			to_chat(user, span_danger("I start absorbing [target]'s identity."))
-			if(!do_after(user, 3 SECONDS, target = target))
-				qdel(transfer_beam)
-				return
-
-			playsound( // and anotha one
-				user,
-				get_sfx("changeling_absorb"),
-				100,
-			)
+			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
 
 			if(!do_after(user, 3 SECONDS, target = target))
 				qdel(transfer_beam)
 				return
+
+			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+
+			if(!do_after(user, 3 SECONDS, target = target))
+				qdel(transfer_beam)
+				return
+
+			playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
 
 			if(!user.client)
 				qdel(transfer_beam)
 				return
 			qdel(transfer_beam)
 
-			var/mob/living/carbon/human/human_user = user
-
 			human_user.copy_physical_features(target)
 			to_chat(user, span_purple("I take on a new face.."))
+			die_motherfucker_die(target)
 			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
 
 			return
@@ -1379,6 +1372,21 @@
 			else
 				user.adjust_triumphs(1)
 				init_profane_soul(target, user) //If they are still in their body, send them to the dagger!
+
+
+/// This check returns TRUE if the target is DEAD, in InCritical(), or has a dying amount of blood.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/target_health_check(mob/living/carbon/human/target)
+	if(target.stat == DEAD || target.InCritical() || target.blood_volume <= BLOOD_VOLUME_SURVIVE)
+		return TRUE
+	return FALSE
+
+/// This proc ensures the target is dead with death() and returns their last words if get_last = TRUE.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/die_motherfucker_die(mob/living/carbon/human/target, var/get_last = TRUE)
+	if(target.stat != DEAD)
+		target.death()
+	if(get_last && target.last_words)
+		last_words += target.last_words
+
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/init_profane_soul(mob/living/carbon/human/target, mob/user, mob/soul)
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
