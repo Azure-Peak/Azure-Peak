@@ -340,7 +340,7 @@
 // - Gallows humor is still /better/ if we considerable how spammable vs this, but you've the advantage of combining this w/ avantyne usually, or whatever else miracle/gear-wise.
 /datum/action/cooldown/spell/zizo/spite
 	name = "Spite"
-	desc = "Invoke Zizo's hatred and spite upon a target, stressing them out heavily, lessening their will and shattering their mynd into hallucinating. Slows and weakens the will of the myndless significantly."
+	desc = "Invoke Zizo's hatred and spite upon a target, stressing them out heavily, lessening their will and shattering their mynd if they feel emotions. Slows and weakens the will of the myndless significantly."
 	fluff_desc = "It is no mistake that the faithful of Zizo are to some degree affected by her spite towards those that would dare, undo her greatest work to become. The very thought manifested forcefully in detail of what's to come would break the minds of most, or at worst leave them a hollow husk of what they were. Oft' shattering one's perception of reality and falsehood alyke."
 	button_icon_state = "spite"
 	sound = 'sound/misc/sudden noise.ogg'
@@ -392,7 +392,6 @@
 		if(!HAS_TRAIT(spelltarget, TRAIT_CABAL)) //HATE. LET ME TELL YOU HOW MUCH I HATE-
 			to_chat(spelltarget, span_purple(pick("<br>WORTHLESS, THAT'S ALL YOU ARE.<br>","<br>YOU WILL ROT WITH EVERYTHING ELSE, ITS YOUR FAULT.<br>","<br>TRY. IT MEANS NOTHING. EXCEPT OF WHAT I REMAKE OF YOU.<br>","<br>EVERYTHING YOU DO IS POINTLESS IN THE END.<br>","<br>YOU BRING ONLY OBLIVION, UNTO YOURSELF. FOOL.<br>")))
 			spelltarget.add_stress(/datum/stressevent/zizospite)
-			spelltarget.hallucination = 3 MINUTES
 
 		if(HAS_TRAIT(spelltarget, TRAIT_UNFORGIVABLE)) //Vheslynites get a unique interaction text-wise... They don't give two fucks though, they already know what they are.
 			to_chat(spelltarget, span_purple(pick("<br>I HATE YOU.<br>","<br>WHY, WHY. WHY MUST YOU MAKE ME SUFFER?<br>","<br>I HATE YOU, I HATE YOU.<br>","<br>HATRED, THAT IS ALL YOU DESERVE.<br>","<br>UNFORGIVABLE. UNFORGIVABLE.<br>")))
@@ -402,7 +401,6 @@
 		if(HAS_TRAIT(spelltarget, TRAIT_CABAL)) //Zizites get that disappointed Zizo stare, less effect
 			to_chat(spelltarget, span_warning("A familar gaze of Progress bares down on you with spite."))
 			spelltarget.add_stress(/datum/stressevent/zizospitelesser)
-			spelltarget.hallucination = 3 MINUTES
 
 		if(!HAS_TRAIT(spelltarget, TRAIT_NOMOOD))
 			spelltarget.freak_out()
