@@ -44,7 +44,7 @@
 	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 
 	if(user.mind)
-		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
+		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 7))
 		ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]")
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
 		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
@@ -88,7 +88,7 @@
 	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 
 	if(user.mind)
-		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
+		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 5))
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
 		grant_poke_spell(user)
@@ -311,12 +311,12 @@
 	INVOKE_ASYNC(src, PROC_REF(resolve_attack), target, weapon)
 	return COMPONENT_ITEM_NO_ATTACK
 
-/datum/status_effect/buff/mammonite/proc/on_unarmed_attack(mob/living/source, atom/target, proximity) 
-	SIGNAL_HANDLER 
-	if(!isliving(target) || target == owner) 
-		return 
-	var/mob/living/L = target 
-	if(L.stat == DEAD) 
+/datum/status_effect/buff/mammonite/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
+	SIGNAL_HANDLER
+	if(!isliving(target) || target == owner)
+		return
+	var/mob/living/L = target
+	if(L.stat == DEAD)
 		return
 	INVOKE_ASYNC(src, PROC_REF(resolve_attack), L, null)
 	return COMPONENT_HAND_NO_ATTACK
@@ -397,4 +397,4 @@
 	transform = M
 	animate(src, pixel_x = pixel_x + rand(-16,16), pixel_y = pixel_y + rand(8,20), alpha = 0, time = duration, easing = EASE_OUT)
 
-#undef MAMMON_FILTER 
+#undef MAMMON_FILTER

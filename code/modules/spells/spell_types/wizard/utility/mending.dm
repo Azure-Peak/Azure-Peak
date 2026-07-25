@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/mending
 	button_icon = 'icons/mob/actions/roguespells.dmi'
-	name = "Mending"
+	name = "Greater Mending"
 	desc = "Uses arcyne energy to mend an item, prosthetic or artificial being. Effect of repair scales off of your Intelligence."
 	button_icon_state = "mending"
 	sound = 'sound/magic/whiteflame.ogg'

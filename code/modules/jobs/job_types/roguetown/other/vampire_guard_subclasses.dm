@@ -438,7 +438,7 @@
 	tutorial = "You were a magos of old, ever since the embrace you've never had more time to practice your persuit of arcayne magicks, let alone revel in your taste for blood; now your master arises once more and your arcayne research shall see fruitation. Your lord's will be done."
 	outfit = /datum/outfit/job/roguetown/other/vampseigemage
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_INTELLECTUAL, TRAIT_ALCHEMY_EXPERT, TRAIT_ARCYNE)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 7, "ward" = TRUE)
 	category_tags = list(CTAG_VAMPGUARD)
 	subclass_stats = list(
 		STATKEY_INT = 4, //You've had long to study, a lot to study as well

@@ -164,7 +164,7 @@
 	if(!user.cmode)
 		if(try_construct_consume(src, M, user))
 			return
-		else 
+		else
 			return ..()
 	else
 		return ..()

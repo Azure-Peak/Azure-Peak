@@ -3243,6 +3243,7 @@
 #include "code\modules\spells\spell_types\wizard\conjure\conjure_dragonhide.dm"
 #include "code\modules\spells\spell_types\wizard\conjure\conjure_instrument.dm"
 #include "code\modules\spells\spell_types\wizard\conjure\conjure_primordial.dm"
+#include "code\modules\spells\spell_types\wizard\conjure\conjure_repairkit.dm"
 #include "code\modules\spells\spell_types\wizard\conjure\conjure_spectacles.dm"
 #include "code\modules\spells\spell_types\wizard\conjure\forcewall.dm"
 #include "code\modules\spells\spell_types\wizard\conjure\minion_order.dm"

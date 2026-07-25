@@ -28,7 +28,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
-	point_cost = 1
+	point_cost = 3
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_NO_MOVE | SPELL_REQUIRES_SAME_Z
 
@@ -46,7 +46,7 @@
 	if(!target || !target.Enter(owner) || is_type_in_list(target, turf_blacklist))
 		to_chat(owner, span_warning("This turf can't be on fiyaaaah! (It's blocked sire.)"))
 		return FALSE
-	
+
 	new /obj/machinery/light/rogue/campfire/create_campfire(target)
 
 	return TRUE

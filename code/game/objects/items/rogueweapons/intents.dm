@@ -224,7 +224,7 @@
 				inspec += SPAN_TOOLTIP("The swing will reduce my defense by a significant amount.", "<font color='#dab141'><u>Difficult</u></font>")
 			if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
 				inspec += SPAN_TOOLTIP("I will have no chance to defend while swinging, and a strike against me will interrupt it.", "<font color='#a70d0d'><u>Rigid</u></font>")
-		
+
 	if(cleave)
 		inspec += "\n<b>Cleave:</b> [cleave.desc]"
 		inspec += "\n  Max additional targets: [cleave.max_targets ? cleave.max_targets : "Unlimited"]"
@@ -466,7 +466,7 @@
 	clickcd = 4 // Just like knife pick!
 	swingdelay = 1
 	releasedrain = 0 //no stamina loss, as charges are lost as it drills
-	
+
 /datum/intent/pick/bad	//One-handed intents
 	name = "sluggish pick"
 	icon_state = "inpick"
@@ -540,7 +540,7 @@
 	charging_slowdown = 3
 	warnoffset = 20
 	var/strength_check = FALSE //used when we fire HEAVY bows
-	
+
 /datum/intent/proc/arc_check()
 	return FALSE
 
@@ -668,7 +668,7 @@
 	miss_text = "claw at the air"
 	miss_sound = "punchwoosh"
 	item_d_type = "slash"
-	
+
 
 /datum/intent/unarmed/shove
 	name = "shove"
@@ -871,6 +871,9 @@
 /datum/intent/hand/light
 	name = "light"
 	icon_state = "inlight"
+
+/datum/intent/hand/use
+	name = "use"
 
 /datum/intent/effect
 	blade_class = BCLASS_EFFECT
