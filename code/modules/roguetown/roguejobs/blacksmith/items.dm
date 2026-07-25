@@ -95,6 +95,7 @@
 /obj/item/var/polished = FALSE
 /obj/item/var/polish_bonus = 0
 /obj/item/var/glazed = FALSE
+/obj/item/var/glaze_suffix = "glazed"
 /obj/item/var/glaze_bonus_pct = 0
 /// Randomised bonus price for glazing.
 /obj/item/var/glaze_bonus_flat = 0

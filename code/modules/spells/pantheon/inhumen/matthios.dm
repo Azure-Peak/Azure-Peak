@@ -589,6 +589,7 @@
 	button_icon = 'icons/mob/actions/antiquarianspells.dmi'
 	button_icon_state = "secularbarter"
 	sound = null
+	associated_skill = /datum/skill/misc/reading
 
 	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_ADJACENT

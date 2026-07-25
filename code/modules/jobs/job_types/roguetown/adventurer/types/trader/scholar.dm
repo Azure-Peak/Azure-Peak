@@ -45,6 +45,5 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/strongmanapot = 1,
 		/obj/item/natural/feather = 1,
 		/obj/item/roguegem/amethyst = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)

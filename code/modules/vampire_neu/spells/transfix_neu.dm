@@ -98,6 +98,8 @@
 		if(target.cmode)
 			to_chat(user, span_userdanger("[target] is far too tense for that!"))
 			break
+		if(target.compliance)
+			will_dice = 0
 
 		var/willpower = round(target.STAINT / int_divisor, 1)
 		var/willroll = roll(willpower, will_dice)

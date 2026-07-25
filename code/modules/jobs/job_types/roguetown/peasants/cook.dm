@@ -68,7 +68,6 @@
 	else if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
 	backpack_contents = list(
-		/obj/item/recipe_book/survival,
 		/obj/item/mini_flagpole/innkeeper,
 	)
 	if(H.mind)
