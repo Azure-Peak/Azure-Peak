@@ -1316,7 +1316,7 @@
 	if(istype(user.used_intent, /datum/intent/peculate))
 		// run our preliminary checks. if they fail, return early.
 		if(!preliminary_face_steal_check(target, user))
-				return
+			return
 		// everything has gone well so far. is_human confirmed in prelim check.
 		var/mob/living/carbon/human/human_user = user
 
@@ -1337,16 +1337,16 @@
 								span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty..."))
 
 			// INITIATE GRAGGAR BEAM.
-			var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 6 SECONDS)
+			var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 10 SECONDS)
 
 			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
 
-			if(!do_after(user, 3 SECONDS, target = target))
+			if(!do_after(user, 5 SECONDS, target = target))
 				qdel(transfer_beam)
 				return
 			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
 
-			if(!do_after(user, 3 SECONDS, target = target))
+			if(!do_after(user, 5 SECONDS, target = target))
 				qdel(transfer_beam)
 				return
 			playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
@@ -1357,10 +1357,10 @@
 			qdel(transfer_beam)
 
 			// graggar beam worked w/ no interruptions. domp eet.
-			human_user.copy_physical_features(target)
+			human_user.copy_physical_features(target) // this needs replacement to more changeling type shit later
 			to_chat(user, span_purple("I take on a new face.."))
 			die_motherfucker_die(target)
-			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC)
+			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC) // we need to add a check for if someone has already been face_stolen
 
 		if(target.has_flaw(/datum/charflaw/targeted)) // The profane dagger only thirsts for those who are targeted, by flaw or by zizoid curse.
 			if(target.client == null) //See if the target's soul has left their body
