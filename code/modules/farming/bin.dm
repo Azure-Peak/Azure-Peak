@@ -316,7 +316,6 @@
 		/obj/item/roguekey,
 		/obj/item/rogueweapon/werewolf_claw,
 		/obj/item/grabbing,
-		/obj/item/mob_item,
 	)
 	if(I.is_important)
 		return FALSE
@@ -327,6 +326,8 @@
 	for(var/type in blacklisted_items)
 		if(istype(I, type))
 			return FALSE
+	for(var/mob in I.contents)
+		return FALSE
 	// recursively check through all containers. i have learned from my mistake, last time. at the same time: recursive proc i vomit
 	for(var/obj/item/contained_item in I.contents)
 		if(!item_verification_check(contained_item))
