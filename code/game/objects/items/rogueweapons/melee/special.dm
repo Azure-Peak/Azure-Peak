@@ -1248,6 +1248,35 @@
 	embedding = list("embed_chance" = 0) // Embedding the cursed dagger has the potential to cause duping issues. Keep it like this unless you want to do a lot of bug hunting.
 	resistance_flags = INDESTRUCTIBLE
 	stealthy_audio = TRUE
+	var/total_souls_taken = 0
+
+	// static list for what non-assassins hear on picking up the dagger.
+	var/static/list/na_pleads = list(
+		"Help me...",
+		"Save me...",
+		"It's cold...",
+		"Free us... please...",
+		"Necra... deliver us...",
+		"I can still feel the pain...",
+		"Break the dagger... please...",
+	)
+	// non-static list for last words. non-static bc we will add the last words of a peculated victim into our repetoire.
+	var/list/last_words = list(
+		"Why...",
+		"...Who sent you?",
+		"You will burn fo what you've done...",
+		"I hate you...",
+		"GUARDS, STOP THEM!",
+		"GUARDS! HELP!",
+		"Someone stop them!",
+		"...What's that in your hand?",
+		"...You love me, don't you?",
+		"Wait... don't I know you?",
+		"I thought you were... my friend...",
+		"What, you egg?",
+		"How long have I been in here...?"
+	)
+
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
 	. = ..()
