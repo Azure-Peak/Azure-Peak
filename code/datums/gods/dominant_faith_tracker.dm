@@ -1,10 +1,10 @@
 /datum/dominant_faith_tracker
-	var/conversion_bonus = 20 // how many 'bonus points' you get for converting someone to tennite/ascendent
-	var/conversion_penalty = 10 // how many points are taken away from the faith of origin when a psydonite converts a tennite/ascendent
+	var/conversion_bonus = 50 // how many 'bonus points' you get for converting someone to tennite/ascendent
+	var/conversion_penalty = 25 // how many points are taken away from the faith of origin when a psydonite converts a tennite/ascendent
 	// adjust these to make characters belonging to this faith count more or less towards the score ranking
 	var/list/weights = list(
 		/datum/faith/divine = 1,
-		/datum/faith/inhumen = 3.5,
+		/datum/faith/inhumen = 3,
 		/datum/faith/old_god = 1
 	)
 	// caching these because we only have to do a full recalc very rarely
