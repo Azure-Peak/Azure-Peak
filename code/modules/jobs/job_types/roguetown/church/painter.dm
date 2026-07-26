@@ -131,7 +131,8 @@
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
-		/obj/item/storage/keyring/acolyte = 1
+		/obj/item/storage/keyring/acolyte = 1,
+		/obj/item/mini_flagpole/church
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)
@@ -206,7 +207,8 @@
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
-		/obj/item/storage/keyring/acolyte = 1
+		/obj/item/storage/keyring/acolyte = 1,
+		/obj/item/mini_flagpole/church
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)
