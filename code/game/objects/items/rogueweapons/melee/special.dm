@@ -1098,8 +1098,12 @@
 /datum/intent/peculate
 	name = "peculate"
 	hitsound = null
-	desc = "Thieve the appearance of another."
+	desc = span_cult("The skinthiefing. The soul-taking. ") + "Peculate a dead or bled-out opponent, their head intact, to claim them for the dagger. \
+	You will steal their form... assuming a mortal could easily assume their shape. " + span_info("Skinthiefing will not work on constructs, gnolls, or most NPCs.")
 	icon_state = "inpeculate"
+	attack_verb = list("steals", "peculates", "skinthiefs")
+	max_intent_damage = 0
+
 
 /datum/intent/peculate/examine(mob/user)
 	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
@@ -1266,7 +1270,7 @@
 	var/list/last_words = list(
 		"Why...",
 		"...Who sent you?",
-		"You will burn fo what you've done...",
+		"You will burn for what you've done...",
 		"I hate you...",
 		"GUARDS, STOP THEM!",
 		"GUARDS! HELP!",
@@ -1293,7 +1297,7 @@
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
-		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"...here we are!\"</i>"))
+		. += "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"...here we are!\"</i>")
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/pickup(mob/living/M)
 	. = ..()
@@ -1323,79 +1327,101 @@
 	. = ..()
 	// FIRST. we check for peculate.
 	if(istype(user.used_intent, /datum/intent/peculate))
-		// run our preliminary checks. if they fail, return early.
-		if(!preliminary_face_steal_check(target, user))
+		// are they allowed to use this
+		if(!can_peculate(target, user))
 			return
-		// everything has gone well so far. is_human confirmed in prelim check.
-		var/mob/living/carbon/human/human_user = user
-
 		// run a health check on the target. if they're not dead enough, return us early.
 		if(!target_health_check(target))
 			to_chat(user, span_warning("My target must be a bit more dead! Let them bleed!"))
 			return
-		// cool, they're dead enough. run the rest of it.
-		else
-			// head-check. they need a head.
-			var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
-			if(QDELETED(target_head))
-				to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
-				return
 
-			// send a message. everyone know what we're doing.
-			user.visible_message(span_cultbigbold("[human_user] begins sucking [target]'s soul into [human_user.p_their()] dagger! STOP THEM!!"),
-								span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty..."))
+		// head-check. they need a head.
+		var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
+		if(QDELETED(target_head))
+			to_chat(user, span_notice("I need their head or else I can't confirm the blood-bounty!"))
+			return
 
-			// INITIATE GRAGGAR BEAM.
-			var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 10 SECONDS)
+		// sloppy & repeated but im lazy rn
+		if(!ishuman(user))
+			return
+		var/mob/living/carbon/human/human_user = user
 
-			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+		// send a message. everyone know what we're doing.
+		user.visible_message(span_cultbigbold("[human_user] places [human_user.p_their] dagger into [target]'s chest, murmuring heresies... STOP [human_user.p_them]!!!"),
+							span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty. \"De-za-kh...\""))
 
-			if(!do_after(user, 5 SECONDS, target = target))
-				qdel(transfer_beam)
-				return
-			playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+		// INITIATE GRAGGAR BEAM.
+		var/datum/beam/transfer_beam = user.Beam(target, icon_state = "drain_life", time = 10 SECONDS)
 
-			if(!do_after(user, 5 SECONDS, target = target))
-				qdel(transfer_beam)
-				return
-			playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
+		playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
 
-			if(!user.client)
-				qdel(transfer_beam)
-				return
+		if(!do_after(user, 5 SECONDS, target = target))
 			qdel(transfer_beam)
+			return
+		playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+		to_chat(user, span_cult("\"...a-da-sh...\""))
 
-			// graggar beam worked w/ no interruptions. domp eet.
+		if(!do_after(user, 5 SECONDS, target = target))
+			qdel(transfer_beam)
+			return
+		playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
+		to_chat(user, span_cult("\"...ba-a-ha-v!\""))
+
+		if(!user.client)
+			qdel(transfer_beam)
+			return
+		qdel(transfer_beam)
+		// graggar beam worked w/ no interruptions. domp eet.
+
+		// we need to check to make sure we can face-steal them
+		if(preliminary_face_steal_check(target, user))
+			// do it, if we can
 			human_user.copy_physical_features(target) // this needs replacement to more changeling type shit later
 			to_chat(user, span_purple("I take on a new face.."))
-			die_motherfucker_die(target)
-			ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC) // we need to add a check for if someone has already been face_stolen
+		// they die either way
+		die_motherfucker_die(target)
+		target.visible_message(span_danger("[target]'s face bubbles and froths off, leaving behind a mess of exposed blood-and-bone. Perhaps surgery could repair it...?"))
+		ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC) // we need to add a check for if someone has already been face_stolen
 
+		// they get yoinked either way
 		if(target.has_flaw(/datum/charflaw/targeted)) // The profane dagger only thirsts for those who are targeted, by flaw or by zizoid curse.
-			if(target.client == null) //See if the target's soul has left their body
-				to_chat(user, "<span class='danger'>Your target's soul has already escaped its corpse...you try to call it back!</span>")
-				get_profane_ghost(target,user) //Proc to capture a soul that has left the body.
-			else
-				user.adjust_triumphs(1)
-				init_profane_soul(target, user) //If they are still in their body, send them to the dagger!
-
-/// This proc confirms that the user is human, the target is a human, that they are allowed to use peculate, and that they are adjacent to one another.
+			if(HAS_TRAIT(target, TRAIT_CLAIMED_BY_DARKSTAR)) // no doubling up if theyre already claimed
+				return FALSE
+			init_profane_soul(target, user)
+/// This proc confirms that the user/target is a viable, face-stealable thing
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/preliminary_face_steal_check(mob/living/carbon/human/target, mob/living/user)
-	if(!ishuman(target))// carbons don't have all features of a human
-		to_chat(user, span_danger("You can't do that!"))
+
+	if(!ishuman(target)) // carbons don't have all features of a human
 		return FALSE
 	if(!ishuman(user)) // carbons don't have all features of a human
-		to_chat(user, span_danger("You can't do that!"))
 		return FALSE
+	var/mob/living/carbon/human/assassin = user
+	// ok the easy checks are out of the way lets start looping
+	var/target_is_acceptable_race = FALSE
+	var/user_is_acceptable_race = FALSE
+	// ONLY player species should be peculateable.
+	for(var/checked_species in ALL_RACES_TYPES)
+		if(istype(target.dna.species, checked_species))
+			target_is_acceptable_race = TRUE
+		if(istype(assassin.dna.species, checked_species))
+			user_is_acceptable_race = TRUE
+		// end it early if theyre both good
+		if((user_is_acceptable_race) && (target_is_acceptable_race))
+			break
+	if((!user_is_acceptable_race) || !(target_is_acceptable_race))
+		return FALSE
+	// everything went well
+	return TRUE
+
+/// Checks if the user is allowed to peculate in the first place. Adjacent, trait check, whatever.
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/can_peculate(mob/living/carbon/human/target, mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_ASSASSIN))
 		to_chat(user, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"HEHEHE, HEHEHE!\"</i>"))
 		return FALSE
 	if(!user.Adjacent(target))
 		to_chat(user, span_warning("I must be adjacent to my target!"))
 		return FALSE
-	// everything went well
 	return TRUE
-
 
 /// This check returns TRUE if the target is DEAD, in InCritical(), or has a dying amount of blood.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/target_health_check(mob/living/carbon/human/target)
@@ -1403,13 +1429,14 @@
 		return TRUE
 	return FALSE
 
-/// This proc ensures the target is dead with death() and returns their last words if get_last = TRUE.
+/// This proc ensures the target is dead with death() and adds their last words to the dagger's list if get_last = true.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/die_motherfucker_die(mob/living/carbon/human/target, var/get_last = TRUE)
 	if(target.stat != DEAD)
 		target.death()
 	if(get_last && target.last_words)
 		last_words += target.last_words
 
+/// This proc records the assassination, the criminal stat, makes a new soul datum, adds it to the dagger's list, gives a triumph, and fixes the blade/integrity.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/init_profane_soul(mob/living/carbon/human/target, mob/user, mob/soul)
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 	record_round_statistic(STATS_ASSASSINATIONS)
@@ -1420,24 +1447,11 @@
 	ADD_TRAIT(target, TRAIT_DNR, GRAGGAR_ASSASSINATED)
 	ADD_TRAIT(target, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
 
-	target.visible_message("<span class='danger'>[target]'s soul is pulled from their body and sucked into the profane dagger!</span>", "<span class='danger'>My soul is trapped within the profane dagger. Damnation!</span>")
+	target.visible_message(span_cult("A purple mist spews forth from [target]'s chest, entering [user]'s [src.name]... their soul has been taken!"), span_cult("I find myself in a realm, black save for the heavy blue-and-red fog. Screams surround me. How long will I be trapped in here...?"))
 	playsound(src, 'sound/magic/soulsteal.ogg', 100, extrarange = 5)
 	blade_int = max_blade_int // Stealing a soul successfully sharpens the blade.
 	obj_fix(max_integrity) // And fixes the dagger. No blacksmith required!
-
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/get_profane_ghost(mob/living/carbon/human/target, mob/user)
-	var/mob/dead/observer/chosen_ghost
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit() //Check if a soul has already gone to the underworld
-	if(underworld_spirit) // If they are in the underworld, pull them back to the real world and make them a normal ghost. Necra can't save you now!
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		chosen_ghost = ghost.get_ghost(TRUE,TRUE)
-	else //Otherwise, try to get a ghost from the real world
-		chosen_ghost = target.get_ghost(TRUE,TRUE)
-	if(!chosen_ghost || !chosen_ghost.client) // If there is no valid ghost or if that ghost has no active player
-		return FALSE
 	user.adjust_triumphs(1)
-	init_profane_soul(target, user, chosen_ghost)
-	return TRUE
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user) // For ways to release the souls trapped within a profane dagger, such as a Necrite burial rite. Returns the number of freed souls.
 	var/freed_souls = 0
@@ -1460,6 +1474,7 @@
 			// fallback in case body is missing for some reason
 			src.visible_message(span_cult("The soul of [soul.name] flows out from the profane dagger, finally free of its grasp... yet it quickly fades. Perchance it could not find it's body...?"))
 			qdel(soul)
+	user.adjust_triumphs(freed_souls)
 	src.visible_message(span_cult("The profane dagger shatters into putrid smoke!"))
 	qdel(src) // Delete the dagger. Forevermore.
 	return freed_souls
