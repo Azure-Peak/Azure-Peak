@@ -27,7 +27,7 @@
 	tutorial = "A knighted champion of a fallen and forgotten kingdom. You can almost remember the old tymes since your last great battle, your unmatched prowess, your elegence with any-would-be weapon and all the dread your mere presence brought; now you arise from a fallen kingdom in servitude to your lord, once more. Make their vision, become reality."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/other/vampdeathknight
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_NOBLE, TRAIT_HEAVYARMOR)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_UNCONVERTIBLE)
 	category_tags = list(CTAG_VAMPSPAWN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -193,7 +193,7 @@
 	tutorial = "You are a noble of a long fallen and forgotten kingdom, trained in maile and footwork alike. You can almost remember the days of listening to the quietest whispers in your court, you were once a vault of intrique in your own right before the previous collapse. Yet your talents will see another era of use and with it, your master's vision shalt become reality."
 	outfit = /datum/outfit/job/roguetown/other/vampnoble
 	subclass_languages = list(/datum/language/thievescant)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_MEDIUMARMOR, TRAIT_NOBLE, TRAIT_CICERONE, TRAIT_NUTCRACKER, TRAIT_LIGHT_STEP, TRAIT_KEENEARS, TRAIT_PERFECT_TRACKER) //The perfect spy, advisor and assassin, all in one.
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_MEDIUMARMOR, TRAIT_NOBLE, TRAIT_CICERONE, TRAIT_NUTCRACKER, TRAIT_LIGHT_STEP, TRAIT_KEENEARS, TRAIT_PERFECT_TRACKER, TRAIT_UNCONVERTIBLE) //The perfect spy, advisor and assassin, all in one.
 	category_tags = list(CTAG_VAMPSPAWN)
 	subclass_stats = list(
 		STATKEY_INT = 2,

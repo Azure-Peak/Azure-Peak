@@ -5,7 +5,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/assassin/hitman
 	category_tags = list(CTAG_ASSASSIN)
-	traits_applied = list(TRAIT_BLACKBAGGER)	// Agent (15)47 - Lets you use the blackbag and garrote you
+	traits_applied = list(TRAIT_BLACKBAGGER, TRAIT_UNCONVERTIBLE)	// Agent (15)47 - Lets you use the blackbag and garrote you
 	// Weighted 14
 	subclass_stats = list(
 		STATKEY_PER = 1,

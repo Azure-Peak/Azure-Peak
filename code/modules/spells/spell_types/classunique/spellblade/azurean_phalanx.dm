@@ -1,6 +1,7 @@
 #define PHALANX_FILTER "phalanx_glow"
 
 /datum/action/cooldown/spell/azurean_phalanx
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Azurean Phalanx"
 	desc = "Prime your next melee strike with arcyne force. On hit, the blow pierces through, \
 		striking enemies in a line behind the target. Builds 1 momentum on hit. \

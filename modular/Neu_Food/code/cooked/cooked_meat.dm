@@ -58,6 +58,7 @@
 
 /*	.................  Whole Chicken roast   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked
+	cuisine = CUISINE_NORTH_IMPERIAL
 	desc = "A plump bird, roasted to a perfect temperature and bears a crispy skin."
 	eat_effect = null
 	slices_num = 0
@@ -73,6 +74,7 @@
 
 /*	.............   Frybird   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried
+	cuisine = CUISINE_NORTHERN|CUISINE_SOUTHEASTERN
 	eat_effect = null
 	slices_num = 0
 	name = "frybird"

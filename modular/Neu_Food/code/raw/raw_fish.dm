@@ -1,4 +1,6 @@
 /obj/item/reagent_containers/food/snacks/fish
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
 	name = "fish"
 	desc = "Fresh blood stains its silvery skin. Silver-coloured scales shimmering softly.."
 	icon_state = "carp"

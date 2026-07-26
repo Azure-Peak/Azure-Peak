@@ -1,6 +1,7 @@
 #define EMPOWER_FILTER "empower_glow"
 
 /datum/action/cooldown/spell/empower_weapon
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Empower Weapon"
 	desc = "Channel all accumulated momentum into your next strike, empowering it to bypass parry and dodge. Works with both weapons and unarmed attacks. \
 		Requires 5+ momentum. Burns ALL momentum."

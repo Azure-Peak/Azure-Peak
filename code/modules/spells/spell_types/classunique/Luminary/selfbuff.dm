@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/selfbuff
+	source_aspect = /datum/magic_aspect/pseudo/luminary
 	name = "Divine Arcanum"
 	desc = "Improves the reflexes and wrap yourself and up to 3 nearby fellowship party members with soothing arcyne light(you need to be part of a fellowship to receive the effect of this spell, even alone)"
 	button_icon = 'icons/mob/actions/mage_augmentation.dmi'

@@ -114,6 +114,10 @@
 	name = "Gift - Kit, Gothic Steel Armor"
 	path = /obj/item/enchantingkit/gothicsteelarmor
 
+/datum/loadout_item/donator/universal/armor_gothic_psydonic
+	name = "Gift - Kit, Gothic Psydonic Cuirass"
+	path = /obj/item/enchantingkit/gothicpsydoniccuirass
+
 /datum/loadout_item/donator/universal/cuirass_throwback
 	name = "Gift - Kit, Heroic Leather Cuirass"
 	path = /obj/item/enchantingkit/heroicleathercuirass
@@ -141,6 +145,14 @@
 /datum/loadout_item/donator/universal/headpiece_greatplume
 	name = "Gift - Helmet Cosmetic, Greatplume"
 	path = /obj/item/clothing/head/roguetown/decoration/greatplume
+
+/datum/loadout_item/donator/universal/headpiece_featherplume
+	name = "Gift - Helmet Cosmetic, Featherplume"
+	path = /obj/item/clothing/head/roguetown/decoration/featherplume
+
+/datum/loadout_item/donator/universal/headpiece_crestplume
+	name = "Gift - Helmet Cosmetic, Crestplume"
+	path = /obj/item/clothing/head/roguetown/decoration/crestplume
 
 /datum/loadout_item/donator/universal/armorpiece_shoulderguard
 	name = "Gift - Armor Cosmetic, Shoulderguard"
@@ -777,3 +789,13 @@
 	name = "Donator Kit - Conviction"
 	path = /obj/item/enchantingkit/weapon/cobb_conviction
 	ckeywhitelist = list("cobbantichrist")
+
+/datum/loadout_item/donator/athena_solace
+	name = "Donator Kit - Solace"
+	path = /obj/item/enchantingkit/weapon/athena_solace
+	ckeywhitelist = list("athena14")
+
+/datum/loadout_item/donator/longest_night
+	name = "Donator Item - Longest Night Cloak"
+	path = /obj/item/clothing/cloak/longest_night
+	ckeywhitelist = list("shiroseschnee")

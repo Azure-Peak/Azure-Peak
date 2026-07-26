@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/recall_weapon
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Recall Weapon"
 	desc = "Recall your bound weapon to your hand from anywhere."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'

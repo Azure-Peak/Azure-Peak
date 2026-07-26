@@ -35,6 +35,11 @@
 	name = "voltic contraption gauntlets"
 	item_type = /obj/item/clothing/gloves/roguetown/chain/contraption/voltic
 
+/datum/trade_good/equipment/crafted/steam_shield
+	id = TRADE_GOOD_STEAM_SHIELD
+	name = "steam shield"
+	item_type = /obj/item/rogueweapon/shield/steam
+
 /datum/trade_good/equipment/crafted/artificed_halfplate
 	id = TRADE_GOOD_ARTIFICED_HALFPLATE
 	name = "artificed half-plate"

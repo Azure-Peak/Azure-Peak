@@ -4,6 +4,7 @@
 #define HUMAN_NPC_WEAKPOINT_SCAN_CHANCE         15
 #define HUMAN_NPC_WEAKPOINT_CACHE_DURATION      (6 SECONDS)
 #define HUMAN_NPC_WEAPON_SPECIAL_CHANCE         15  // base chance, INT-scaled. Was 35 — too spammy
+#define HUMAN_NPC_SPECIAL_EVAL_INTERVAL         (5 SECONDS)
 #define HUMAN_NPC_INTENT_SWITCH_CHANCE          25  // chance per attack to start a new intent sequence
 #define HUMAN_NPC_RMB_ATTEMPT_CHANCE			25
 #define HUMAN_NPC_MIN_INT_FOR_TACTICS        8   // minimum INT to use weapon specials or feint
@@ -147,8 +148,10 @@
 		if(feint_ready && technique_ready && pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			AI_THINK(pawn, "FEINT: attempting feint on [target]!")
 			modifiers = list(RIGHT_CLICK = TRUE)
-			controller.set_blackboard_key(BB_HUMAN_NPC_FEINT_COOLDOWN, world.time + HUMAN_NPC_FEINT_COOLDOWN)
+			var/feint_cd = npc_technique_cd(pawn, HUMAN_NPC_FEINT_COOLDOWN)
+			controller.set_blackboard_key(BB_HUMAN_NPC_FEINT_COOLDOWN, world.time + feint_cd)
 			controller.set_blackboard_key(BB_HUMAN_NPC_TECHNIQUE_CD, world.time + 3 SECONDS)
+			propagate_technique_cd(pawn, target, BB_HUMAN_NPC_FEINT_COOLDOWN, world.time + feint_cd)
 		#ifdef NPC_THINK_DEBUG
 		else if(istype(pawn.rmb_intent, /datum/rmb_intent/feint) && !feint_ready)
 			AI_THINK(pawn, "FEINT: on cooldown ([controller.blackboard[BB_HUMAN_NPC_FEINT_COOLDOWN] - world.time]ds remaining)")
@@ -373,9 +376,6 @@
 	if(!istype(held_weapon, /obj/item/rogueweapon) || !held_weapon:special)
 		return FALSE
 
-	if(!AI_INT_SCALE_PROB(pawn, HUMAN_NPC_WEAPON_SPECIAL_CHANCE))
-		return FALSE
-
 	var/datum/special_intent/special = held_weapon:special
 	if(special.stamcost)
 		var/cost = (special.stamcost < 1) ? (pawn.max_stamina * special.stamcost) : special.stamcost
@@ -385,20 +385,38 @@
 	var/atom/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 	if(!target)
 		return FALSE
-	var/obj/item/weapon = pawn.get_active_held_item()
-	if(!weapon)
+
+	// Certain special will judge its own usage conditions on the battlefield, others just guarantee a fire
+	var/use_chance = special.npc_use_chance(pawn, target)
+	if(isnull(use_chance))
+		use_chance = HUMAN_NPC_WEAPON_SPECIAL_CHANCE
+	if(use_chance <= 0)
 		return FALSE
-	if(!special.check_reqs(pawn, weapon))
+	if(use_chance < 100)
+		var/next_eval = controller.blackboard[BB_HUMAN_NPC_SPECIAL_EVAL_AT]
+		if(next_eval && world.time < next_eval)
+			return FALSE
+		if(!AI_INT_SCALE_PROB(pawn, use_chance))
+			controller.set_blackboard_key(BB_HUMAN_NPC_SPECIAL_EVAL_AT, world.time + HUMAN_NPC_SPECIAL_EVAL_INTERVAL)
+			return FALSE
+		AI_THINK(pawn, "SPECIAL: rolled [use_chance]% and passed")
+	else
+		AI_THINK(pawn, "SPECIAL: conditions met, firing [special.name] immediately")
+
+	if(!special.check_reqs(pawn, held_weapon))
 		return FALSE
 	if(!special.apply_cost(pawn))
 		return FALSE
 	SEND_SIGNAL(pawn, COMSIG_MOB_TRY_BARK, 100)
-	special.deploy(pawn, weapon, target)
+	special.deploy(pawn, held_weapon, target)
 	controller.set_blackboard_key(BB_HUMAN_NPC_TECHNIQUE_CD, world.time + 3 SECONDS)
 	// AI penalty: re-stamp the special cooldown longer than the player baseline so NPCs
 	// can't chain specials as tightly as a human player could. Override replaces the
-	// debuff applied inside deploy() with our extended version.
-	special.apply_cooldown(special.cooldown * HUMAN_NPC_SPECIAL_CD_PENALTY, override = TRUE)
+	// debuff applied inside deploy() with our extended version. Conjured summons keep
+	// the player-baseline cooldown via npc_technique_cd.
+	var/special_cd = npc_technique_cd(pawn, special.cooldown * HUMAN_NPC_SPECIAL_CD_PENALTY)
+	special.apply_cooldown(special_cd, override = TRUE)
+	propagate_technique_cd(pawn, target, specialcd_duration = special_cd)
 	// Recovery: block the next swing for longer than a normal attack so specials don't chain
 	if(pawn.next_click < world.time + pawn.used_intent?.clickcd * 1.8)
 		pawn.next_click = world.time + (pawn.used_intent?.clickcd * 1.8)
@@ -591,6 +609,7 @@
 #undef HUMAN_NPC_WEAKPOINT_SCAN_CHANCE
 #undef HUMAN_NPC_WEAKPOINT_CACHE_DURATION
 #undef HUMAN_NPC_WEAPON_SPECIAL_CHANCE
+#undef HUMAN_NPC_SPECIAL_EVAL_INTERVAL
 #undef HUMAN_NPC_INTENT_SWITCH_CHANCE
 #undef HUMAN_NPC_RMB_ATTEMPT_CHANCE
 #undef HUMAN_NPC_MIN_INT_FOR_TACTICS

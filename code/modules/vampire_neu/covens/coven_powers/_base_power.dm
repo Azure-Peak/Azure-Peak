@@ -475,6 +475,10 @@
 	if(!toggled)
 		grant_usage_xp(target, FALSE)
 
+	// Calling on a non-bloodheal Discipline drowns out mortal spellcasting for a time.
+	if(!istype(src, /datum/coven_power/bloodheal))
+		owner.apply_status_effect(/datum/status_effect/debuff/spell_vampire_block)
+
 	return TRUE
 
 /datum/coven_power/proc/determine_action_context(atom/target)

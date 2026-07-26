@@ -34,7 +34,7 @@
         "Armor Plates" =  /obj/item/repair_kit/metal,
     )
 
-	extra_context = "This subclass gain the Wound Heal miracle and the Convert Heretic spell."
+	extra_context = "This subclass gains the Wound Heal miracle."
 	tempo_capable = FALSE
 
 /datum/advclass/wretch/heretic/get_vice_limits(mob/living/carbon/human/H)
@@ -105,8 +105,6 @@
 			C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)	//Minor regen, starts maxed out.
 		wretch_select_bounty(H)
 
-	// You can convert those the church has shunned.
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
 			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
@@ -433,7 +431,6 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
-	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
 
 /datum/outfit/job/roguetown/wretch/hereticspy/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/bind_weapon
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Bind Weapon"
 	desc = "Bind your held weapon as an arcyne conduit. Successful strikes with bound weapons build arcyne momentum, fueling your abilities. \
 		It can also be recalled to your hand from anywhere with Recall Weapon. \

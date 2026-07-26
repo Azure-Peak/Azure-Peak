@@ -298,6 +298,7 @@ SUBSYSTEM_DEF(migrants)
 		var/fakekey = character.ckey
 		if(character.ckey in GLOB.anonymize)
 			fakekey = get_fake_key(character.ckey)
+		GLOB.dominant_faith_tracker.handle_addition(humanc)
 		GLOB.character_list[character.mobid] = "[fakekey] was [character.real_name] ([rank])<BR>"
 		GLOB.character_ckey_list[character.real_name] = character.ckey
 		var/mob_name = character.real_name

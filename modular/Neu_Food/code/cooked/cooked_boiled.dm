@@ -1,6 +1,8 @@
 // For anything that is/requires a boiled ingredient! (Boiled means cooked like stew but results in a pickable item.)
 /*	.................   Noodles   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/noodles
+	dish_type = DISH_NOODLES
+	cuisine = CUISINE_ETRUSCAN
 	name = "noodles"
 	desc = "Tasteless wet noodles, while the truly desperate could eat this as is, some sauce might be in order."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
@@ -14,6 +16,8 @@
 	rotprocess = SHELFLIFE_EXTREME
 
 /obj/item/reagent_containers/food/snacks/rogue/sheetnoodles
+	dish_type = DISH_NOODLES
+	cuisine = CUISINE_ETRUSCAN
 	name = "sheet noodles"
 	desc = "Tasteless wet sheet noodles. Oh. You can't stack cheese or sauce on this... It's ruined." // If anyone ever adds a real recipe, change this.
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
@@ -28,6 +32,8 @@
 
 /*	.................   Spaghetti   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/spaghetti
+	dish_type = DISH_NOODLES
+	cuisine = CUISINE_ETRUSCAN
 	name = "spaghetti"
 	desc = "Noodles mixed with fresh marinara, beloved by the Etruscan isles. It's said that Navarno cuisine is as rich as it is poor, and it's scarce ingredients was necessary before it's unification with Montecarina."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
@@ -41,6 +47,8 @@
 	rotprocess = SHELFLIFE_DECENT
 
 /obj/item/reagent_containers/food/snacks/rogue/spaghetti_pesto
+	dish_type = DISH_NOODLES
+	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "pesto spaghetti"
 	desc = "Noodles mixed with a spiced refined sauce made from smoky rocknut and garlick. A cultural blend of Azurian improvisation and Navarno ingenuity."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'

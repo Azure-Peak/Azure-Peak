@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/grasp_of_psydon
+	source_aspect = /datum/magic_aspect/pseudo/spellfist
 	button_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
 	button_icon_state = "grasp_of_psydon"
 	name = "Grasp of Psydon"

@@ -88,6 +88,12 @@ export function startSettingsMigration(next: MergedSettings): void {
       ...defaultSettings,
       initialized: true,
     };
+
+    // Do all of the setters to make sure the defaults propogate
+    generalSettingsHandler(initialized);
+    setMusicVolume(initialized.adminMusicVolume);
+
+    // Save to storage and store
     storage.set('panel-settings', initialized);
     store.set(settingsAtom, initialized);
     console.log('Initialized settings with defaults.');

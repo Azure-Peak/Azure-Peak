@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/blade_storm
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Blade Storm"
 	desc = "Mark a patch of ground within reach - a shadow of yourself coalesces there. Then, a mote later, you emerge in a storm of slashes, focusing on whomever is at its center and sweep around them.\
 		Requires 7 Momentum: 4 strikes at 30 damage each. \

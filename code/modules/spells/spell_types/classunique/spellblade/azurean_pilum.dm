@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/projectile/azurean_pilum
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Azurean Pilum"
 	desc = "A borrowed art - spellblades of the Azurean tradition learned to imbue their throw with ice essence, \
 		flash-chilling the target on impact. Applies 2 frost stacks on hit. \

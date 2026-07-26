@@ -1,5 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - bugfix: "fixes some misc code."
-  - rscadd: "zombies can now properly use the \"agony\" emotes, its basically their regular scream."

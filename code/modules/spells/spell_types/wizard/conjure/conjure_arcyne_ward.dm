@@ -3,6 +3,7 @@
 #define UPGRADE_ARCYNE_INTEGRITY 300
 
 /datum/action/cooldown/spell/conjure_arcyne_ward
+	source_aspect = /datum/magic_aspect/pseudo/wards
 	name = "Conjure Arcyne Ward"
 	desc = "Conjure an invisible arcyne ward that covers your entire body. Cast again to dismiss it. \
 	The ward withdraws from areas where you wear real armor, leaving those to your equipment instead - \
@@ -180,6 +181,7 @@
 // --- Regenerate Arcyne Ward (paired spell, granted while a ward is active) ---
 
 /datum/action/cooldown/spell/regenerate_arcyne_ward
+	source_aspect = /datum/magic_aspect/pseudo/wards
 	name = "Regenerate Arcyne Ward"
 	desc = "Channel a restoration on my active Arcyne Ward, returning it to full integrity. \
 	The channel takes 10 seconds and costs stamina and energy proportional to how damaged the ward is - \

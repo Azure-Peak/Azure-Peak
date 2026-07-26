@@ -22,6 +22,7 @@ GLOBAL_LIST_INIT(mockery_insults, list(
 // ---- Vicious Mockery Projectile Spell ----
 
 /datum/action/cooldown/spell/projectile/vicious_mockery
+	source_aspect = /datum/magic_aspect/pseudo/bardic
 	name = "Vicious Mockery"
 	desc = "Hurl a musical insult at your target. Stacks up to 2 times, increasingly reducing their stats."
 	button_icon = 'icons/mob/actions/xylixmiracles.dmi'

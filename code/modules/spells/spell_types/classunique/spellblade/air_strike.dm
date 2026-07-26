@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/air_strike
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Air Strike"
 	desc = "Your blade passes into the immaterial and the leyline carries it forth, striking up to 4 tiles away. \
 	Brief telegraph before the strike lands - aim where they will be. \

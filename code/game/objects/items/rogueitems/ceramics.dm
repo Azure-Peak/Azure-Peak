@@ -398,6 +398,46 @@
 	cooked_type = /obj/item/natural/clay/porcelain/heart
 	smeltresult = /obj/item/natural/clay/porcelain/heart
 
+/obj/item/natural/clay/rawoctopus
+	name = "unfired clay octopus statuette"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainoctopusraw"
+	desc = "A large octopus statuette fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/octopus
+	smeltresult = /obj/item/natural/clay/porcelain/octopus
+
+/obj/item/natural/clay/rawbeaver
+	name = "unfired clay beaver statuette"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainbeaverraw"
+	desc = "A medium-sized beaver statuette fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/beaver
+	smeltresult = /obj/item/natural/clay/porcelain/beaver
+
+/obj/item/natural/clay/rawcarp
+	name = "unfired clay carp statuette"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelaincarpraw"
+	desc = "A large carp statuette fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/carp
+	smeltresult = /obj/item/natural/clay/porcelain/carp
+
+/obj/item/natural/clay/rawcaryatid
+	name = "unfired clay caryatid"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelaincaryatidraw"
+	desc = "A medium-sized caryatid fashioned out of clay."
+	cooked_type = /obj/item/natural/clay/porcelain/caryatid
+	smeltresult = /obj/item/natural/clay/porcelain/caryatid
+
+/obj/item/natural/clay/rawpot
+	name = "unfired clay pot"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayporcelainpotraw"
+	desc = "A large clay pot fashioned out of clay."
+	cooked_type = /obj/item/reagent_containers/glass/bucket/pot/porcelain
+	smeltresult = /obj/item/reagent_containers/glass/bucket/pot/porcelain
+
 /obj/item/natural/clay/rawdisplay
 	name = "unfired clay display stand"
 	icon = 'icons/roguetown/items/cooking.dmi'
@@ -457,52 +497,85 @@
 	name = "porcelain figurine"
 	desc = "A small figurine made out of porcelain."
 	icon_state = "clayporcelainfigurine"
+	
 /obj/item/natural/clay/porcelain/urn
 	name = "large porcelain urn"
 	desc = "A large, lidded urn made out of porcelain."
 	icon_state = "clayporcelainurn"
+
 /obj/item/natural/clay/porcelain/statuette
 	name = "porcelain statuette"
 	desc = "A medium-sized statuette made out of porcelain."
 	icon_state = "clayporcelainstatue"
+
 /obj/item/natural/clay/porcelain/obelisk
 	name = "porcelain obelisk"
 	desc = "A medium-sized obelisk made out of porcelain."
 	icon_state = "clayporcelainobelisk"
+
 /obj/item/natural/clay/porcelain/sun
 	name = "porcelain sun"
 	desc = "A medium-sized sun statue made out of porcelain."
 	icon_state = "clayporcelainsun"
+
 /obj/item/natural/clay/porcelain/moon
 	name = "porcelain moon"
 	desc = "A medium-sized moon statue made out of porcelain."
 	icon_state = "clayporcelainmoon"
+
 /obj/item/natural/clay/porcelain/heart
 	name = "porcelain heart"
 	desc = "A heart made out of porcelain."
 	icon_state = "clayporcelainheart"
+
 /obj/item/natural/clay/porcelain/display
 	name = "porcelain display stand"
 	desc = "A small display stand made out of porcelain."
 	icon_state = "clayporcelainstand"
+	
 /obj/item/natural/clay/porcelain/fish
 	name = "porcelain fish figurine"
 	desc = "A small fish figurine made out of porcelain."
 	icon_state = "clayporcelainfish"
+
 /obj/item/natural/clay/porcelain/turtle
 	name = "porcelain turtle statuette"
 	desc = "A large turtle statuette made out of porcelain."
 	icon_state = "clayporcelainturtle"
+
 /obj/item/natural/clay/porcelain/duck
 	name = "porcelain duck statue"
 	desc = "An adorable duck statue made out of porcelain."
 	icon_state = "clayporcelainduck"
+
 /obj/item/natural/clay/porcelain/comb
 	name = "porcelain comb"
 	desc = "A fashionable comb made out of porcelain."
 	icon_state = "clayporcelaincomb"
+
 /obj/item/natural/clay/porcelain/tablet
 	name = "porcelain tablet"
 	desc = "A medium-sized tablet made out of porcelain."
 	icon_state = "clayporcelaintablet"
+
+/obj/item/natural/clay/porcelain/caryatid
+	name = "porcelain caryatid"
+	desc = "A medium-sized caryatid made out of porcelain."
+	icon_state = "clayporcelaincaryatid"
+		
+/obj/item/natural/clay/porcelain/beaver
+	name = "porcelain beaver statuette"
+	desc = "A medium-sized beaver statuette made out of porcelain."
+	icon_state = "clayporcelainbeaver"
+
+/obj/item/natural/clay/porcelain/octopus
+	name = "porcelain octopus statuette"
+	desc = "A large octopus statuette made out of porcelain."
+	icon_state = "clayporcelainoctopus"
+	
+/obj/item/natural/clay/porcelain/carp
+	name = "porcelain carp statuette"
+	desc = "A large carp statuette made out of porcelain."
+	icon_state = "clayporcelaincarp"
+	
 	
