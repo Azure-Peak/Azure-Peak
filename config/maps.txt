@@ -14,7 +14,7 @@ Format:
 endmap
 
 map roguetest
-	default
+
 endmap
 
 map dun_manor
@@ -26,5 +26,5 @@ map dun_world
 endmap
 
 map dun_world_2
-
+	default
 endmap
