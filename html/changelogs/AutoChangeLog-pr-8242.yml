@@ -1,8 +1,0 @@
-author: "ShadowLarkens"
-delete-after: True
-changes:
-  - bugfix: "Chat is no longer stuck blank after cache clear"
-  - code_imp: "tgfont is now always compiled during build"
-  - refactor: "CBT's bun.ts has less duplicated code"
-  - bugfix: "Fixed a few tsc and lint errors thanks to TypeScript 6"
-  - bugfix: "TGUI Unit Testing now works correctly"

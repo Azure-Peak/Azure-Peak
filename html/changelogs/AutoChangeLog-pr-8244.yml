@@ -1,0 +1,11 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Spellblade's pilum was missed by me on the \"parry can expose u\" pass so that has been fixed"
+  - rscadd: "In general, holy spells now also have the same mechanics"
+  - rscadd: "Removed the free stats from ward"
+  - rscadd: "Blade Storm has been reworked as a spell that telegraphs and then teleport you, like the original version, so that it is more useful. Amount of cuts increased. Tell me if it is shit / overpowering."
+  - bugfix: "Fixed a severe issue in which all bloodless mob were utterly immune to burn crits."
+  - balance: "Scorched only applies to head / chest to prevent strategy of scorching legs to quickly take down an opponent"
+  - balance: "Aetherknife no longer embeds and requires proper aspect access to buy, like Rune Ward"
+  - balance: "(Most) Blocked magical projectiles should no longer applies rider effects like scorched etc."
