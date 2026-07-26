@@ -1347,7 +1347,7 @@
 		var/mob/living/carbon/human/human_user = user
 
 		// send a message. everyone know what we're doing.
-		user.visible_message(span_cultbigbold("[human_user] places [human_user.p_their] dagger into [target]'s chest, murmuring heresies... STOP [human_user.p_them]!!!"),
+		user.visible_message(span_cultbigbold("[human_user] places [human_user.p_their()] dagger into [target]'s chest, murmuring heresies... STOP [human_user.p_them()]!!"),
 							span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty. \"De-za-kh...\""))
 
 		// INITIATE GRAGGAR BEAM.
