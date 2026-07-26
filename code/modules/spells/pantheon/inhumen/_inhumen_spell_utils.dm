@@ -44,7 +44,7 @@
 	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 
 	if(user.mind)
-		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 7))
+		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 8))
 		ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]")
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
 		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
