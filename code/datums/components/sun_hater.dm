@@ -7,7 +7,7 @@
 	/// Whether this mob is currently in sunlight
 	var/in_sunlight = FALSE
 
-/datum/component/sunlight_vulnerability/Initialize(damage = 5, drain = 10)
+/datum/component/sunlight_vulnerability/Initialize(damage = 5, drain = 5)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 

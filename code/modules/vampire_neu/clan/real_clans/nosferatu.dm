@@ -62,7 +62,7 @@
 
 /datum/clan/nosferatu/apply_clan_components(mob/living/carbon/human/H)
 	. = ..()
-	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 2, drain = 2)
+	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 8, drain = 8)
 	H.AddComponent(/datum/component/vampire_disguise/nosferatu)
 	H.AddComponent(/datum/component/hideous_face, CALLBACK(src, TYPE_PROC_REF(/datum/clan/nosferatu, face_seen)))
 

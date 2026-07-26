@@ -12,8 +12,8 @@
 //Completely re-done because inital Thronleer didn't really have any identity beyond, children of the Abyss but better
 /datum/clan/thronleer
 	name = "House Thronleer"
-	desc = "Noc, facinated by your House's endless persuit of archiving knowledge has bestowed his blessing upon your cursed bloodline, yet with a bad hand dealt by Xylix the cursed nature of your bloodline has left you with fears of whismy and bad fates."
-	curse = "Jesterphobia, Obsession with learning and Terrible Mood."
+	desc = "Noc, facinated by your House's endless persuit of archiving knowledge has bestowed his blessing upon your cursed bloodline, yet Astrata's scorn and ire only grows at what your clan has achieved."
+	curse = "suffer in the sun."
 	clanicon = "bloodheal"
 	blood_preference = BLOOD_PREFERENCE_ALL //Noc blessed, they'll eat anything that moves.
 	clane_traits = list(
@@ -25,8 +25,6 @@
 		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
-		TRAIT_JESTERPHOBIA, //YOU KNOW WHAT, THIS IS FUNNY SURE.
-		TRAIT_BAD_MOOD, //Heavier mood debuffs, can actually effect you heavily.
 		TRAIT_SELF_SUSTENANCE,
 		TRAIT_GOODWRITER,
 		TRAIT_JACKOFALLTRADES, //Knowledge
@@ -52,7 +50,8 @@
 	return "all blood, variety is knowledge"
 
 /datum/clan/thronleer/get_downside_string()
-	return "chronic fear of jesters, heavy mood debuffs"
+	return "suffer in the sun"
 
 /datum/clan/thronleer/apply_clan_components(mob/living/carbon/human/H)
+	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 5, drain = 10) //largest damage buildup of all clans.
 	H.AddComponent(/datum/component/vampire_disguise)

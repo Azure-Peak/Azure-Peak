@@ -41,5 +41,9 @@
 	leader = /datum/clan_leader/crimson_fang
 	covens_to_select = 0
 
+/datum/clan/crimson_fang/apply_clan_components(mob/living/carbon/human/H)
+	. = ..()
+	H.AddComponent(/datum/component/sunlight_vulnerability)
+
 /datum/clan/crimson_fang/get_blood_preference_string()
 	return "the blood of nobles, clergy, inquisition or kindred"

@@ -48,7 +48,8 @@
 	return "All that is the beauty of lyfe, you love"
 
 /datum/clan/eoran/get_downside_string()
-	return "You are perfect, you do not have any downsides. Not even sunlight"
+	return "You are perfect almost, except Sunlight's scorn, but it does not drain you of vitae."
 
 /datum/clan/eoran/apply_clan_components(mob/living/carbon/human/H)
+	H.AddComponent(/datum/component/sunlight_vulnerability, damage = 1, drain = 0) //no passive drain, shit still hurts if you get silvered under it
 	H.AddComponent(/datum/component/vampire_disguise)

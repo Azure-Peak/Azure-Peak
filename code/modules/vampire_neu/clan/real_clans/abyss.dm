@@ -44,6 +44,7 @@
 	. = ..()
 	H.faction |= "Abyss"
 	H.AddElement(/datum/element/holy_weakness)
+	H.AddComponent(/datum/component/sunlight_vulnerability)
 
 /datum/clan/abyss/get_downside_string()
 	return "burn in sunlight, and in the presence of the Ten"
