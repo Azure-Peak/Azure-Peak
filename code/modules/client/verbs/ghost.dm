@@ -103,6 +103,6 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 		remove_verb(client, GLOB.ghost_verbs)
 	client?.init_verbs()
 	M.key = key
-	if(istype(src, /mob/dead/observer)) //Be rid of clogging ghost shades
+	if(istype(src, /mob/dead/observer) && !istype(src, /mob/dead/observer/profane)) //Be rid of clogging ghost shades
 		qdel(src)
 	return
