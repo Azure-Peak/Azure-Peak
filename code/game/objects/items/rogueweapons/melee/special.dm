@@ -1333,7 +1333,7 @@
 				return
 
 			// send a message. everyone know what we're doing.
-			user.visible_message(span_cultlarge("[human_user] begins sucking [target]'s soul into [human_user.p_their()] dagger! STOP THEM!!"),
+			user.visible_message(span_cultbigbold("[human_user] begins sucking [target]'s soul into [human_user.p_their()] dagger! STOP THEM!!"),
 								span_cult("I beckon the Dark Star, beginning to confirm my blood-bounty..."))
 
 			// INITIATE GRAGGAR BEAM.
