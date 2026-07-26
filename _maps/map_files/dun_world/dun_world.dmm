@@ -7230,6 +7230,11 @@
 "buc" = (
 /obj/structure/table/wood/fancy/black,
 /obj/item/rogueweapon/sword/rapier/avantyne/relic,
+/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel{
+	pixel_y = -6;
+	name = "Axiom";
+	desc = "A grand staff of polished blacksteel, recovered from the sanctum of a lich. The metal gleams with a dark, flawless sheen, unmarred by rust, age, or the countless years it spent beside its master. The staff bears the name Axiom. Not a boast, nor a threat, but a statement. An axiom is a truth accepted without proof, the foundation upon which all other conclusions are built. One cannot help but wonder what truth the lich considered so self-evident that it deserved to be wrought into blacksteel. The answer may be as simple as this: all things end. Some merely take longer to admit it."
+	},
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave/licharena/bossroom)
 "buf" = (
@@ -39768,10 +39773,6 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
-"hCl" = (
-/obj/item/roguegem/yellow,
-/turf/open/floor/rogue/dirt,
-/area/rogue/indoors/cave)
 "hCm" = (
 /obj/effect/decal/wood/herringbone,
 /turf/open/floor/rogue/grass,
@@ -80940,7 +80941,6 @@
 /obj/item/roguegem/ruby,
 /obj/item/roguegem/ruby,
 /obj/item/roguegem/violet,
-/obj/item/roguegem/yellow,
 /obj/item/roguegem/green,
 /obj/item/roguegem/blue,
 /obj/structure/closet/crate/chest/neu_fancy,
@@ -87656,6 +87656,14 @@
 /obj/structure/fluff/statue/knight/interior,
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/indoors/town/magician)
+"qmk" = (
+/obj/item/rogueweapon/woodstaff/implement{
+	name = "lost apprentice's staff";
+	desc = "A simple staff topped with an ornamental finial, crafted more carefully than skillfully. The wood bears the marks of repeated use, while the toper remains polished by years of anxious hands and restless study. It belonged to an apprentice once. Judging by the quality of the repairs, the staff survived far more mistakes than its owner cared to admit."
+	},
+/obj/structure/bed/rogue/shit,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/beach/central)
 "qmn" = (
 /obj/structure/fluff/sign{
 	name = "TURN BACK NOW!!!"
@@ -107482,10 +107490,6 @@
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/shelter)
-"tVR" = (
-/obj/item/roguegem/yellow,
-/turf/open/floor/rogue/church,
-/area/rogue/under/cave/goblinfort)
 "tVT" = (
 /obj/structure/stairs{
 	dir = 4
@@ -123515,7 +123519,7 @@
 /area/rogue/outdoors/beach/forest/north)
 "wXx" = (
 /obj/item/clothing/gloves/roguetown/otavan/psygloves{
-	name = "stickyfingers";
+	name = "Stickyfingers";
 	desc = "A pair of leather gauntlets draped in old spider silk. The webbing never seems to tear completely, instead clinging stubbornly to the wearer and anything they touch. They are not particularly durable, nor especially impressive to look upon. Yet objects have a curious habit of ending up in the wearer's hands. Coin purses loosen, clasps come undone, and unattended valuables seem just a little easier to acquire. Whether the silk possesses some subtle enchantment or merely encourages bad habits is a matter of debate. Most owners prefer not to discuss where they found them."
 	},
 /turf/open/floor/rogue/dirt,
@@ -222884,7 +222888,7 @@ jPN
 jPN
 jPN
 jPN
-bEt
+qmk
 bEt
 bEt
 nNt
@@ -316247,7 +316251,7 @@ acF
 ayB
 acF
 acF
-hCl
+acF
 qPv
 qPv
 tIH
@@ -522367,7 +522371,7 @@ oyf
 mQP
 uPk
 jrD
-tVR
+hrT
 hrT
 hrT
 hrT
