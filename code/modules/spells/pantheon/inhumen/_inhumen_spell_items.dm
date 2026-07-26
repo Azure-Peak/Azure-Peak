@@ -410,7 +410,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(!target.mind || !target.mind.active)
 		to_chat(user, "Strangely, the fluid seems a little colder when you try.")
 		return
-	if(HAS_TRAIT(target, TRAIT_DNR))
+	if(HAS_TRAIT(target, TRAIT_DNR) || HAS_TRAIT(target, TRAIT_CLAIMED_BY_DARKSTAR))
 		to_chat(user, span_danger("The Geald within the vial does not react to them at all. Strange."))
 		return
 

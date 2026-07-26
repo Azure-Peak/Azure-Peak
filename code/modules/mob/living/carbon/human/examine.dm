@@ -1106,11 +1106,16 @@
 			if(HAS_TRAIT(user, TRAIT_DEATHSIGHT) || stat == DEAD)
 				. += span_danger("They extrude a pale aura. Their soul [stat == DEAD ? "was not" : "is not"] clean. This [stat == DEAD ? "was" : "is"] their only chance at lyfe.")
 
+
 	// Real medical role can tell at a glance it is a waste of time, but only if the Necra message don't come first.
 
 	if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT && src.stat == DEAD)
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user && !HAS_TRAIT(user, TRAIT_DEATHSIGHT)) // A lot of conditional to avoid a redundant message, but we also want unknown DNRs to be covered.
 			. += span_danger("Their body holds not even a glimmer of life. No medicine can bring them back.")
+
+	if(HAS_TRAIT(src, TRAIT_CLAIMED_BY_DARKSTAR) && src != user)
+		if(HAS_TRAIT(user, TRAIT_DEATHSIGHT) || user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT)
+		. += span_artery("Their face is frozen in fear. A hole is in their chest-- their being has been stolen and trapped someplace it. Recover it, to revive them.")
 
 	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_VAMP_DREAMS)) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
 		if(isliving(user))

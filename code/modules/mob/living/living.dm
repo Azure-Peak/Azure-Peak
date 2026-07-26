@@ -896,6 +896,9 @@
 	if(HAS_TRAIT(src, TRAIT_DNR))
 		to_chat(user, span_danger("None of the divine have them. Their only chance is spent. Where did they go?"))
 		return FALSE
+	if(HAS_TRAIT(src, TRAIT_CLAIMED_BY_DARKSTAR))
+		to_chat(user, span_danger("There is a clear hole in their heart-lux. Something is missing-- they won't come back until it's found."))
+		return FALSE
 	if(HAS_TRAIT(src, TRAIT_NECRAS_VOW))
 		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
 		return FALSE
@@ -2286,7 +2289,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 					if(current_mark && current_mark == L)
 						val += "m"	// "1m" appended to icon state later on.
 					z_highlights[T] = val
-			
+
 			if(turf_up_two)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_two, RECURSIVE_CONTENTS_CLIENT_MOBS))
 					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_sleuth)
@@ -2306,12 +2309,12 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 					if(current_mark && current_mark == L)
 						val += "m"	// "3m" appended to icon state later on.
 					z_highlights[T] = val
-			
+
 			if(length(z_highlights))
 				for(var/turf/T in z_highlights)
 					if(!T.density)
 						found_ping_someone_above(T, client, z_highlights[T])
-			
+
 			#undef ZTAG_ONE
 			#undef ZTAG_TWO
 			#undef ZTAG_THREE
@@ -2362,7 +2365,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	return
 
 /mob/living/look_up()
-	if(client.perspective != MOB_PERSPECTIVE) 
+	if(client.perspective != MOB_PERSPECTIVE)
 		stop_looking()
 		return
 	if(client.pixel_x || client.pixel_y)
@@ -2399,8 +2402,8 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 			to_chat(src, span_warning("There is nothing unusual about this weather.."))
 			do_time_change()
 		return
-		
-	else if(!istransparentturf(ceiling)) 
+
+	else if(!istransparentturf(ceiling))
 		to_chat(src, span_warning("There is a ceiling above my head."))
 		return
 
@@ -2415,7 +2418,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 	if(!do_after(src, ttime, target = src))
 		return
-		
+
 	reset_perspective(ceiling)
 	update_cone_show()
 //	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(stop_looking)) //We stop looking up if we move.
@@ -2516,7 +2519,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	if(m_intent != MOVE_INTENT_SNEAK)
 		visible_message(span_info("[src] looks down through [T]."))
 	else
-		to_chat(src, span_info("[src] looks down through [T]."))	
+		to_chat(src, span_info("[src] looks down through [T]."))
 
 	if(!do_after(src, ttime, target = src))
 		return
