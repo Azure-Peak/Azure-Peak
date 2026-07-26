@@ -244,7 +244,7 @@
 			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 
 			if(H.mind)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 3, "utilities" = 4))
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 5))
 				H.mind.AddSpell(new /datum/action/cooldown/spell/ley_lines)
 
 		if("Wandering Yogi (Vizier)")
@@ -282,7 +282,7 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-				H.mind.setup_mage_aspects(list("ward" = TRUE, "mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation)))
+				H.mind.setup_mage_aspects(list("ward" = TRUE, "mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 8, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation)))
 
 /datum/advclass/foreigner/slaver
 	name = "Ranesheni Slaver"

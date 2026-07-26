@@ -17,7 +17,7 @@
 		STATKEY_CON = -1
 	)
 	age_mod = /datum/class_age_mod/war_scholar
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 3, "utilities" = 6, "post_aspect_spells" = list(/datum/action/cooldown/spell/mindlink, /datum/action/cooldown/spell/touch/conjure_repairkit), "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 8, "post_aspect_spells" = list(/datum/action/cooldown/spell/mindlink, /datum/action/cooldown/spell/touch/conjure_repairkit), "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
@@ -117,7 +117,7 @@
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, ward = TRUE, "locked_aspects" = list(/datum/magic_aspect/autowardry))
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 5, ward = TRUE, "locked_aspects" = list(/datum/magic_aspect/autowardry))
 
 /datum/outfit/job/roguetown/mercenary/warscholar_pontifex
 	var/detailcolor
@@ -238,7 +238,7 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation), "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 8, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation), "ward" = TRUE)
 
 /datum/outfit/job/roguetown/mercenary/warscholar_vizier
 	var/detailcolor
