@@ -482,6 +482,7 @@
 		held_item.obj_break(TRUE)
 		held_item.item_quality = ITEM_QUALITY_RUINED
 		held_item.smeltresult = /obj/item/ingot/aaslag
+		held_item.name = "ruined [held_item.name]"
 		return TRUE
 
 	return FALSE
@@ -579,6 +580,9 @@
 		return FALSE
 
 	var/obj/item/I = cast_on
+
+	if(!validate_matthios_item(I, owner))
+		return FALSE
 
 	if(!can_barter_item(I))
 		return FALSE
