@@ -184,7 +184,7 @@
 		/datum/virtue/utility/riding
 	)
 
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 2, "ward" = TRUE)
 
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
@@ -231,4 +231,4 @@
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
 		if(H.mind)
-			H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 5))
+			H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 3))

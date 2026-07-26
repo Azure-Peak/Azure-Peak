@@ -245,7 +245,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		STATKEY_PER = 2,
 		STATKEY_WIL = 1,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,

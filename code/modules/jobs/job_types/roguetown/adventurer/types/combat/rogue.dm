@@ -354,5 +354,5 @@
 				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
 				if(!LAZYLEN(H.mind.mage_aspect_config)) //ripped from arcyne potential virtue, not sure what it does
-					H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 5))
+					H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4))
 				H.mind.check_learnspell()

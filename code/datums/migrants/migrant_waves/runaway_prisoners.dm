@@ -91,7 +91,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/runaway_prisoner
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_RUNAWAY_PRISONER)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 8, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 	subclass_stats = list(
 		STATKEY_LCK = 3,
 		STATKEY_CON = -1,

@@ -16,7 +16,7 @@
 		STATKEY_WIL = 1
 	)
 	age_mod = /datum/class_age_mod/wretch/rogue_mage
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "post_aspect_spells" = list(/datum/action/cooldown/spell/message, /datum/action/cooldown/spell/mindlink), "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 4, "post_aspect_spells" = list(/datum/action/cooldown/spell/message, /datum/action/cooldown/spell/mindlink), "ward" = TRUE)
 	//VS rogue mage, weaker combat skills + less alchemy (works with the living less often) to make up for their minions doing the work for them.
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,

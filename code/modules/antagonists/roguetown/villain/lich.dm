@@ -164,7 +164,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 6, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 6, TRUE)
 
-	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 13, "ward" = TRUE))
+	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 4, "utilities" = 9, "ward" = TRUE))
 	// Give it decent combat stats to make up for loss of 2 extra lives
 
 	H.change_stat(STATKEY_STR, 3)

@@ -41,7 +41,7 @@
 		of the mundane body, whereas you have authority over all things arcane."
 	outfit = /datum/outfit/job/roguetown/magician/basic
 
-	subclass_mage_aspects = list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 13, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = TRUE, "major" = 2, "minor" = 4, "utilities" = 9, "ward" = TRUE)
 	category_tags = list(CTAG_COURTMAGE)
 	traits_applied = list(TRAIT_BADTRAINER)
 	subclass_stats = list(
