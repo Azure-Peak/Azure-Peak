@@ -418,7 +418,8 @@
 
 /datum/action/cooldown/spell/matthios/transact
 	name = "Transact"
-	desc = "Sacrifice an item in your hand, applying a heal over time to yourself with strenght depending on its value."
+	desc = "Convert the value of an item in your hand into healing over time, leaving the item worthless and ruining its quality."
+	fluff_desc = "To Matthios, value is never truly lost, only exchanged. The faithful learn to see beyond the material form of their possessions, drawing forth their worth and bargaining it into vitality. What remains may be worthless, but the wealth within it has found a finer purpose."
 	button_icon_state = "transact"
 	sound = 'sound/effects/hood_ignite.ogg'
 
@@ -426,11 +427,10 @@
 	cast_range = SPELL_RANGE_ADJACENT
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
-
 	secondary_resource_cost = SPELLCOST_MIRACLE
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("Transaction for a lyfe!")
+	invocations = list("Transaction for a lyfe!", "Value unto vigor!", "Bask in the warmth of greed!", "Value for vitality!", "Fortune to fortitude!")
 
 	charge_required = FALSE
 	cooldown_time = 45 SECONDS
@@ -443,49 +443,107 @@
 	var/obj/item/held_item = owner.get_active_held_item()
 	if(!held_item)
 		to_chat(owner, span_info("I need something of value to make a transaction..."))
-		return
+		return FALSE
+
+	if(!validate_matthios_item(held_item, owner))
+		return FALSE
+
+	if(held_item.GetComponent(/datum/component/holster))
+		var/datum/component/holster/SC = held_item.GetComponent(/datum/component/holster)
+		if(SC.sheathed)
+			to_chat(owner, span_warning("I should empty it, first."))
+			return FALSE
+
 	var/helditemvalue = held_item.get_real_price()
-	if(!helditemvalue)
-		to_chat(owner, span_info("This has no value, It will be of no use in such a transaction."))
-		return
-	if(helditemvalue<10)
-		to_chat(owner, span_info("This has little value, It will be of no use in such a transaction."))
-		return
+	if(helditemvalue < 10)
+		to_chat(owner, span_info("There's no value to extract from this at all."))
+		return FALSE
+
 	if(isliving(cast_on))
 		var/mob/living/target = cast_on
-		if(HAS_TRAIT(target, TRAIT_BLACKBLOOD))
-			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			return FALSE
-		owner.visible_message(span_notice("The transaction is made! [target] is bathed in a golden light!"))
+
+		to_chat(owner, span_notice("You are bathed in gilded light, as your wounds close steadily!"))
+
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target
 			var/datum/status_effect/buff/healing/heal_effect = C.apply_status_effect(/datum/status_effect/buff/healing)
 			if(heal_effect)
 				heal_effect.healing_on_tick = helditemvalue / 2
-			playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
-			if(istype(held_item, /obj/item/rogueweapon))
-				to_chat(owner, "<font color='yellow'>[held_item] melts at its very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
-				held_item.obj_break(TRUE)
-				held_item.sellprice = 1
-			else
-				to_chat(owner, "<font color='yellow'>[held_item] is engulfed in unholy flame and dissipates into ash. My transaction is accepted.</font>")
-				qdel(held_item)
 		else
-			target.adjustBruteLoss(helditemvalue/2)
-			target.adjustFireLoss(helditemvalue/2)
-			playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
-			if(istype(held_item, /obj/item/rogueweapon))
-				to_chat(owner, "<font color='yellow'>[held_item] melts at its very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
-				held_item.obj_break(TRUE)
-				held_item.sellprice = 1
-			else
-				to_chat(owner, "<font color='yellow'>[held_item] is engulfed in unholy flame and dissipates into ash. My transaction is accepted.</font>")
-				qdel(held_item)
+			target.adjustBruteLoss(helditemvalue / 2)
+			target.adjustFireLoss(helditemvalue / 2)
+
+		playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
+
+		owner.visible_message(span_yellow("[held_item] is consumed by gilded flames, its worth burned away until nothing of value remains."))
+
+		held_item.sellprice = 1
+		held_item.blade_int = 0
+		held_item.obj_break(TRUE)
+		held_item.item_quality = ITEM_QUALITY_RUINED
+		held_item.smeltresult = /obj/item/ingot/aaslag
 		return TRUE
+
 	return FALSE
 
+/proc/validate_matthios_item(obj/item/I, mob/user)
+	if(!I)
+		return FALSE
+
+	if(I.GetComponent(/datum/component/cursed_item) || I.GetComponent(/datum/component/martyrweapon) || I.GetComponent(/datum/component/silverbless))
+		to_chat(user, span_danger("I offer that to Matthios, but a powerful warding presence bars its passage to His hoard."))
+		return FALSE
+
+	if(I.override_state)
+		to_chat(user, span_danger("I offer that to Matthios, but He finds it far too quirky and snowflakey for His hoard."))
+		return FALSE
+
+	if(I.GetComponent(/datum/component/decal/blood))
+		to_chat(usr, span_warning("Bloodstained and unbecoming. Matthios leaves such crude indulgences to Zizo and Graggar."))
+		return FALSE
+
+	if(I.obj_broken)
+		to_chat(user, span_warning("This is broken. Matthios would break the remnants over your skull for the insult."))
+		return FALSE
+
+	if(I.max_integrity != I.obj_integrity)
+		to_chat(user, span_warning("This is damaged. Matthios has no use for damaged goods, nor patience for those who offer them."))
+		return FALSE
+
+	if(I.is_important)
+		to_chat(user, span_warning("Matthios has no interest in an offering that is already spoken for."))
+		return FALSE
+
+	if(istype(I, /obj/item/roguecoin))
+		to_chat(user, span_warning("Matthios does not barter for Mammon itself."))
+		return FALSE
+
+	if(istype(I, /obj/structure/handcart))
+		to_chat(user, span_warning("Matthios has no desire to drag such a thing into His hoard."))
+		return FALSE
+
+	if(I.get_real_price() < 5)
+		to_chat(user, span_info("This is worth too little for Matthios to entertain as an offering."))
+		return FALSE
+
+	var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
+	var/bucket = get_navigator_bucket_for_item(I, category)
+
+	if(bucket == NAVIGATOR_BUCKET_MISCELLANEOUS)
+		if(GLOB.bulk_trade_item_types && GLOB.bulk_trade_item_types[I.type])
+			to_chat(user, span_warning("Matthios has no interest in such common bulk goods."))
+			return FALSE
+
+	if(get_barter_refusal_message(bucket))
+		var/msg = get_navigator_refusal_message(bucket)
+		if(!msg)
+			msg = get_barter_refusal_message(bucket)
+		if(!msg)
+			msg = "This is not an acceptable offering."
+		to_chat(user, span_warning(msg))
+		return FALSE
+
+	return TRUE
 
 /////////////////
 // T2 - Barter //
@@ -515,31 +573,14 @@
 
 /datum/action/cooldown/spell/matthios/barter/cast(atom/cast_on)
 	. = ..()
+
 	if(!istype(cast_on, /obj/item))
 		to_chat(owner, span_warning("This is not a suitable item to Barter with."))
 		return FALSE
 
 	var/obj/item/I = cast_on
 
-	// the checks below should help this not being used in combat!
-	if(I.GetComponent(/datum/component/cursed_item) || I.GetComponent(/datum/component/martyrweapon) || I.GetComponent(/datum/component/silverbless))
-		to_chat(owner, span_danger("I offer that to Matthios, but a powerful warding presence bars its passage to His hoard."))
-		return TRUE
-
-	if(I.override_state)
-		to_chat(owner, span_danger("I offer that to Matthios, but He finds it way too quirky and snowflakey to look good in His hoard."))
-		return FALSE
-
-	if(I.GetComponent(/datum/component/decal/blood))
-		to_chat(owner, span_warning("Bloodstained and unbecoming. Matthios leaves such crude indulgences to Zizo and Graggar."))
-		return FALSE
-
-	if(I.obj_broken)
-		to_chat(owner, span_warning("This is broken. Matthios has no use for broken goods, nor patience for those who offer them."))
-		return FALSE
-
-	if(I.max_integrity != I.obj_integrity)
-		to_chat(owner, span_warning("This is damaged. Matthios has no use for damaged goods, nor patience for those who offer them."))
+	if(!can_barter_item(I))
 		return FALSE
 
 	if(I.GetComponent(/datum/component/holster))
@@ -547,13 +588,6 @@
 		if(SC.sheathed)
 			to_chat(owner, span_warning("I should empty it, first."))
 			return FALSE
-
-	if(!can_barter_item(I))
-		var/msg = get_barter_refusal(I)
-		if(!msg)
-			msg = "This is not an acceptable offering at all."
-		to_chat(owner, span_warning(msg))
-		return FALSE
 
 	if(!I.Adjacent(owner))
 		return TRUE
