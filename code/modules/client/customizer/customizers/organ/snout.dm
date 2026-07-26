@@ -121,13 +121,13 @@
 		)
 
 /datum/customizer/organ/snout/anthro
-	allows_disabling = FALSE
-	default_disabled = FALSE
+	allows_disabling = TRUE
+	default_disabled = TRUE
 	customizer_choices = list(/datum/customizer_choice/organ/snout/anthro)
 
 /datum/customizer/organ/snout/anthrosmall
-	allows_disabling = FALSE
-	default_disabled = FALSE
+	allows_disabling = TRUE
+	default_disabled = TRUE
 	customizer_choices = list(/datum/customizer_choice/organ/snout/anthro)
 
 /datum/customizer/organ/snout/anthro/dullahan
