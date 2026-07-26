@@ -782,6 +782,17 @@
 	if(pose_text)
 		. += fieldset_block("Pose", pose_text, "pose_block")
 
+	// assassins got ravox eyes but for evil
+	if(HAS_TRAIT(user, TRAIT_ASSASSIN) && src.has_flaw(/datum/charflaw/targeted))
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			if(locate(/obj/item/rogueweapon/huntingknife/idagger/steel/profane) in H.get_all_gear())
+				if(HAS_TRAIT(src, TRAIT_CLAIMED_BY_DARKSTAR))
+					. += "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"That's [src.real_name]! Successfully claimed!\"</i>")
+				else if(src.stat != DEAD)
+					. += "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"That's [src.real_name]! SLAY THEM!\"</i>")
+
+
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 
 /mob/living/carbon/human/proc/generate_main_examine_body(mob/user, m1, m2, m3, obscure_name, race_name, origin_name, observer_privilege, list/unknown_names)
