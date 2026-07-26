@@ -89,6 +89,24 @@
 		/datum/action/cooldown/spell/create_campfire,
 	)
 
+/datum/magic_aspect/illusion
+	name = "Illusion"
+	latin_name = "Minor Aspectus Illusio"
+	desc = "TODO"
+	aspect_type = ASPECT_MINOR
+	school_color = GLOW_COLOR_ILLUSION
+	binding_chants = list(
+		"Let me weave what is not there.",
+		"Illusio, mihi adesse!",
+	)
+	unbinding_chants = list(
+		"I unravel the veil I have spun.",
+		"Illusio, me relinquere!",
+	)
+	fixed_spells = list(
+		/datum/action/cooldown/spell/invisibility,
+	)
+
 /datum/magic_aspect/hearthcraft
 	name = "Hearthcraft"
 	latin_name = "Minor Aspectus Domus"
