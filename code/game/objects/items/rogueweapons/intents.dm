@@ -875,6 +875,10 @@
 /datum/intent/hand/use
 	name = "use"
 
+/datum/intent/hand/convert
+	name = "convert"
+	icon_state = "inbless"
+
 /datum/intent/effect
 	blade_class = BCLASS_EFFECT
 

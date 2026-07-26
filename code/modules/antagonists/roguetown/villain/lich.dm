@@ -51,7 +51,9 @@
 		TRAIT_ARCYNE,
 		TRAIT_SELF_SUSTENANCE,
 		TRAIT_ALCHEMY_EXPERT,
-		TRAIT_SILVER_WEAK
+		TRAIT_SILVER_WEAK,
+		TRAIT_UNCONVERTIBLE,
+		TRAIT_BADTRAINER
 		)
 
 /datum/antagonist/lich/get_antag_cap_weight()
@@ -138,6 +140,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE) //Better than Skeles in swords, Zizo armor sets grant a sword.
 	H.adjust_skillrank_up_to(/datum/skill/combat/shields, 4, TRUE) //If they take medium set, they can use the shield, very well.
 	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 6, TRUE) //always gets legendary knives regardless of specialisation.
+	H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_MASTER, TRUE)
 
 	//Mobility Nessessities
 	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 3, TRUE) //Above bandits/wretch, despite infinite stamina.

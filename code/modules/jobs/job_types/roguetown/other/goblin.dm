@@ -62,6 +62,7 @@
 		ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_NOHUNGER, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_UNCONVERTIBLE, TRAIT_GENERIC)
 		//Ensures we get journeyman skills
 		H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE)
 		H.adjust_skillrank_up_to(/datum/skill/combat/maces, 3, TRUE)

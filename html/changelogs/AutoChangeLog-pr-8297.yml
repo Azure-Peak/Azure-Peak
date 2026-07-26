@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Morphing elixirs now take up 1x2 inventory tiles (like a regular bottle), instead of 2x2."

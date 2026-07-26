@@ -1,5 +1,6 @@
 // -------------- SALUMOI (dwarven smoked sausage) -----------------
 /obj/item/reagent_containers/food/snacks/rogue/meat/salami
+	cuisine = CUISINE_ETRUSCAN|CUISINE_NORTH_IMPERIAL
 	name = "salumoi"
 	desc = "A salted sausage, said to last for ten yils before spoiling. As the legend goes, dwarven caravans used this 'travel food' to create the first sandwich: a slice of bread, crowned with this sliceable meat."
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
@@ -47,6 +48,7 @@
 
 // -------------- COPPIETTE (dried meat) -----------------
 /obj/item/reagent_containers/food/snacks/rogue/meat/coppiette
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_RANESHENI
 	eat_effect = null
 	name = "coppiette"
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
@@ -72,6 +74,8 @@
 		icon_state = "jerk1"
 
 /obj/item/reagent_containers/food/snacks/rogue/lemoncoppiette
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_RANESHENI
+	dish_type = DISH_MEAT
 	eat_effect = null
 	name = "lemony stickets"
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'
@@ -227,6 +231,8 @@
 
 // -------------- DRIED FISH FILET -----------------
 /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
 	name = "dried fish filet"
 	desc = "A slab of aquatic meat, salted harder than the living thing was. A staple of any traveler alongside coastal regions, make sure to pack enough water with it."
 	icon = 'modular/Neu_Food/icons/others/preserved_meat.dmi'

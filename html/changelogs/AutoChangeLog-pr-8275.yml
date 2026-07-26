@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscdel: "The Tutorial Book no longer spawns in the inventories of most Adventurers and Towners."
-  - rscadd: "The Tutorial Book now exists as a free loadout option in the 'Miscellanious' section of the Character Creation Menu's Loadout system."
-  - rscadd: "Minor adjustments to a certain timechange tip, alongside three additions."

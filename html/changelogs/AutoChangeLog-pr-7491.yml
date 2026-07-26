@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscadd: "All clerics can now convert people mechanically, assuming they have done conversion roleplay beforehand. This has too many nuances to explain in the changelog; read the orison description to see the new mechanics summarized, but the tl;dr is \"it works how you think it does.\""
+  - rscadd: "The dominant faith now gets a small mechanical incentive, to encourage conversion over instantly killing any heretics you capture. Psydonites are exempt from this, because their god can't hear how many followers he has, but converting heretics will penalize their faith, so you still have an incentive to do it. The current dominant faith is announced to clerics when it changes."
