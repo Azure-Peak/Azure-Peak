@@ -788,8 +788,14 @@
 	. = list()
 	if(name in unknown_names)
 		. += span_info("ø ------------ ø\nThis is <EM>[name]</EM>.")
+		var/heretic_text = get_heretic_text(user)
+		if(heretic_text)
+			. += span_notice(heretic_text)
 	else if(obscure_name && !client?.prefs?.masked_examine)
 		. += span_info("ø ------------ ø\nThis is an unknown <EM>[name]</EM>.")
+		var/heretic_text = get_heretic_text(user)
+		if(heretic_text)
+			. += span_notice(heretic_text)
 	else
 		on_examine_face(user)
 		var/used_name = name

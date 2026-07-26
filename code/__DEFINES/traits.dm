@@ -436,7 +436,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_KNEESTINGER_IMMUNITY = "I am immune to the shock of kneestingers and vines.",
 	TRAIT_SOUL_EXAMINE = span_deadsay("I know when someone's soul has departed."),
 	TRAIT_CRACKHEAD = span_love("I can use drugs as much as I want!"),
-	TRAIT_FREEMAN = span_bloody("I can recognize other free men, and they can recognize me too."),
+	TRAIT_FREEMAN = span_bloody("I can sense and recognize other free men, and they can recognize me too."),
 	TRAIT_KNOWNCRIMINAL = span_bloody("I am a branded criminal. Nothing can change this."),
 	TRAIT_NORUN = span_warning("My body has atrophied in my state of decay; my leg joints just don't have the strength or durability for running anymore"),
 	TRAIT_GOODLOVER = span_love("It's a lucky thing to share my bed."),

@@ -493,7 +493,8 @@
 
 /datum/action/cooldown/spell/matthios/barter
 	name = "Barter"
-	desc = "Offer the targeted item to your patron, in exchange for a sum of mammon, scaling with my expertise in holy skill. The capricious nature of Matthios makes this a poor value exchange, all in all."
+	desc = "Offer the targeted item to your patron in exchange for mammon. Matthios takes His cut from the offering, and His generosity depends upon its quality."
+	fluff_desc = "Barter is a rite reserved for Matthios's most devoted followers, born from the ancient custom of honoring Him through worthy exchange. The faithful surrender an offering to His Hoard, and in return He grants a portion of His wealth. Yet the bargain is sacred: a worthy offering honors the god, while a poor one risks His displeasure."
 	button_icon_state = "barter"
 	sound = null
 
@@ -501,86 +502,166 @@
 	cast_range = SPELL_RANGE_ADJACENT
 
 	primary_resource_cost = SPELLCOST_MIRACLE
-
-	secondary_resource_cost = SPELLCOST_MIRACLE
+	secondary_resource_cost = SPELLCOST_MIRACLE + 20
 
 	invocation_type = INVOCATION_NONE
 
 	charge_required = TRUE
-	charge_time = 1 SECONDS
+	charge_time = 2 SECONDS
 	charge_sound = 'sound/magic/chargingold.ogg'
-	cooldown_time = 35 SECONDS
+	cooldown_time = 15 SECONDS
 
 	spell_requirements = SPELL_REQUIRES_SAME_Z
-
-	//This is an EXPLICIT list of paths that we CAN Barter. We do not istype() here, it's a .type == .type check.
-	var/static/list/barter_whitelist = list(
-		/obj/item/clothing/ring,
-		/obj/item/clothing/ring/gold,
-		/obj/item/clothing/ring/blacksteel,
-		/obj/item/clothing/ring/coral,
-		/obj/item/clothing/ring/opal,
-		/obj/item/clothing/ring/jade,
-		/obj/item/clothing/ring/aalloy,
-		/obj/item/clothing/ring/amber,
-		/obj/item/clothing/ring/band,
-		/obj/item/clothing/ring/bronze,
-		/obj/item/clothing/ring/diamond,
-		/obj/item/clothing/ring/diamonds,
-		/obj/item/clothing/ring/diamondbs,
-		/obj/item/clothing/ring/dragon_ring,
-		/obj/item/clothing/ring/emerald,
-		/obj/item/clothing/ring/emeraldbs,
-		/obj/item/clothing/ring/emeralds,
-		/obj/item/clothing/ring/signet,
-		/obj/item/clothing/ring/signet/silver,
-	)
 
 /datum/action/cooldown/spell/matthios/barter/cast(atom/cast_on)
 	. = ..()
 	if(!istype(cast_on, /obj/item))
 		to_chat(owner, span_warning("This is not a suitable item to Barter with."))
 		return FALSE
+
 	var/obj/item/I = cast_on
-	var/item_value = I.get_real_price()
-	if(item_value < 2)
-		to_chat(owner, span_warning("This thing is worthless."))
+
+	// the checks below should help this not being used in combat!
+	if(I.GetComponent(/datum/component/cursed_item) || I.GetComponent(/datum/component/martyrweapon) || I.GetComponent(/datum/component/silverbless))
+		to_chat(owner, span_danger("I offer that to Matthios, but a powerful warding presence bars its passage to His hoard."))
+		return TRUE
+
+	if(I.override_state)
+		to_chat(owner, span_danger("I offer that to Matthios, but He finds it way too quirky and snowflakey to look good in His hoard."))
 		return FALSE
-	if(I.GetComponent(/datum/component/martyrweapon))
-		to_chat(owner, span_danger("My divine energies recoil from the relic! It resists!"))
-		return TRUE	//why did you try this? Go on full CD, bad.
-	if(I.override_state)	//-some- reskinned triumph kit weapons / -some- donor weapons, active martyr weapon
-		to_chat(owner, span_warning("This thing has been glamoured or changed -- its value is too unclear."))
+
+	if(I.GetComponent(/datum/component/decal/blood))
+		to_chat(owner, span_warning("Bloodstained and unbecoming. Matthios leaves such crude indulgences to Zizo and Graggar."))
 		return FALSE
+
+	if(I.obj_broken)
+		to_chat(owner, span_warning("This is broken. Matthios has no use for broken goods, nor patience for those who offer them."))
+		return FALSE
+
+	if(I.max_integrity != I.obj_integrity)
+		to_chat(owner, span_warning("This is damaged. Matthios has no use for damaged goods, nor patience for those who offer them."))
+		return FALSE
+
 	if(I.GetComponent(/datum/component/holster))
 		var/datum/component/holster/SC = I.GetComponent(/datum/component/holster)
 		if(SC.sheathed)
 			to_chat(owner, span_warning("I should empty it, first."))
 			return FALSE
-	if((istype(I, /obj/item/rogueweapon) || istype(I, /obj/item/clothing)))
-		if(!(I.type in barter_whitelist))
-			to_chat(owner, span_warning("Weapons and clothing do not appease my Patron, He is not lacking in fashion."))
+
+	if(!can_barter_item(I))
+		var/msg = get_barter_refusal(I)
+		if(!msg)
+			msg = "This is not an acceptable offering at all."
+		to_chat(owner, span_warning(msg))
+		return FALSE
+
+	if(!I.Adjacent(owner))
+		return TRUE
+
+	var/item_value = I.get_real_price()
+	var/quality_multiplier = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : 1
+	var/final_value = round(item_value * quality_multiplier)
+	var/matthios_cut = rand(10, 50)
+	var/mammonreward = round(final_value * (1 - (matthios_cut / 100)))
+	var/delay = 3 SECONDS
+	if(!do_after(owner, delay))
+		return TRUE
+
+	to_chat(owner, span_notice("You offer the item to Matthios. In the silence of prayer, He names its worth: [item_value] mammons."))
+	if(quality_multiplier != 1)
+		to_chat(owner, span_notice("You feel His appraisal shift with the item's quality. Its worth is settled at [final_value] mammons."))
+	else
+		to_chat(owner, span_notice("Matthios finds its quality acceptable. The appraisal stands at [final_value] mammons."))
+	to_chat(owner, span_warning("A bargain is struck. Matthios claims [matthios_cut]% of the value for His divine attention."))
+	to_chat(owner, span_yellow("The remainder, [mammonreward] mammons, is granted back to you."))
+
+	if(!I || QDELETED(I) || !I.Adjacent(owner))
+		return TRUE
+
+	if(!can_barter_item(I))
+		var/msg = get_barter_refusal(I)
+		if(!msg)
+			msg = "This is not an acceptable offering."
+		to_chat(owner, span_warning(msg))
+		return FALSE
+
+	var/quality_loss = round((1 - quality_multiplier) * 100)
+	if(!matthios_wants_item(I))
+		if(quality_loss <= 0)
+			quality_loss = 100
+		to_chat(owner, span_danger("Matthios rejects the offering. His divine displeasure burns through you."))
+		var/mob/living/carbon/human/H = owner
+		H.adjustFireLoss(quality_loss)
+		H.adjust_fire_stacks(5)
+		H.ignite_mob()
+		return TRUE
+
+	if(I.GetComponent(/datum/component/storage))
+		var/datum/component/storage/ST = I.GetComponent(/datum/component/storage)
+		if(!ST.do_quick_empty(get_turf(I)))
 			return FALSE
 
-	var/delay = 1 SECONDS
-	delay += round((item_value / 50) SECONDS)
-	if(I.Adjacent(owner))
-		if(do_after(owner, delay))
-			if(I.Adjacent(owner))	//We make sure it didnt' get yoinked after the delay.
-				var/ratio = 0.4 + ((owner.get_skill_level(associated_skill)) * 0.05)
-				var/mammonreward = round(item_value * ratio)
-				var/turf/T = get_turf(I)
-				new /obj/effect/temp_visual/barter_fx(T)
-				addtimer(CALLBACK(src, PROC_REF(process_barter), mammonreward, owner, T), 0.3 SECONDS)	//fluffy delay to make it sync up with the barter_fx.
-				if(I.GetComponent(/datum/component/storage))
-					var/datum/component/storage/ST = I.GetComponent(/datum/component/storage)
-					if(!ST.do_quick_empty(T))
-						return FALSE
-				qdel(I)
+	var/turf/T = get_turf(I)
+	new /obj/effect/temp_visual/barter_fx(T)
+	qdel(I)
+	addtimer(CALLBACK(src, PROC_REF(process_barter), mammonreward, owner, T), 0.3 SECONDS)
+
+	return TRUE
 
 /datum/action/cooldown/spell/matthios/barter/proc/process_barter(mammon, mob/user, turf/target_turf)
 	playsound(target_turf, 'sound/effects/matth_barter.ogg', 100, TRUE)
 	budget2change(mammon, user, putinhands = FALSE, custom_turf = target_turf)
+
+/datum/action/cooldown/spell/matthios/barter/proc/can_barter_item(obj/item/I)
+	if(!I)
+		return FALSE
+
+	if(I.anchored)
+		return FALSE
+
+	if(!isturf(I.loc))
+		return FALSE
+
+	if(I.is_important)
+		return FALSE
+
+	if(istype(I, /obj/item/roguecoin))
+		return FALSE
+
+	if(istype(I, /obj/structure/handcart))
+		return FALSE
+
+	if(I.get_real_price() < 5)
+		return FALSE
+
+	var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
+	var/bucket = get_navigator_bucket_for_item(I, category)
+
+	if(bucket == NAVIGATOR_BUCKET_MISCELLANEOUS)
+		if(GLOB.bulk_trade_item_types && GLOB.bulk_trade_item_types[I.type])
+			return FALSE
+	if(get_barter_refusal_message(bucket))
+		return FALSE
+	return TRUE
+
+/datum/action/cooldown/spell/matthios/barter/proc/matthios_wants_item(obj/item/I)
+	if(!I)
+		return FALSE
+	var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
+	var/bucket = get_navigator_bucket_for_item(I, category)
+	if(get_barter_refusal_message(bucket))
+		return FALSE
+	return TRUE
+
+/datum/action/cooldown/spell/matthios/barter/proc/get_barter_refusal(obj/item/I)
+	if(!I)
+		return null
+	var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
+	var/bucket = get_navigator_bucket_for_item(I, category)
+	var/refusal = get_navigator_refusal_message(bucket)
+	if(refusal)
+		return refusal
+	return get_barter_refusal_message(bucket)
 
 /datum/action/cooldown/spell/matthios/barter_secular
 	name = "Secular Barter" //rebased, mostly copypasta but with some differences

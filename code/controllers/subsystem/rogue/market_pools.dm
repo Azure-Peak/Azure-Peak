@@ -164,6 +164,14 @@
 			return NAVIGATOR_REFUSAL_MSG_BULK
 	return null
 
+/proc/get_barter_refusal_message(bucket)
+	switch(bucket)
+		if(NAVIGATOR_BUCKET_REFUSED_FOOD)
+			return "Matthios has no appetite for mortal provisions. Keep your scraps."
+		if(NAVIGATOR_BUCKET_REFUSED_BULK)
+			return "Matthios has no need for common bulk goods. His hoard is no warehouse."
+	return null
+
 /proc/get_navigator_bucket_theme(bucket)
 	switch(bucket)
 		if(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_ARMOR_HEAVY)
