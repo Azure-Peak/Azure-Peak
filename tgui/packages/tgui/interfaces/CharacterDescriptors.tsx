@@ -62,7 +62,9 @@ export function CharacterDescriptors(props) {
                       {custom.prefix}
                     </Button>
                   )}
-                  <Button onClick={() => act('content', { index: custom.index })}>
+                  <Button
+                    onClick={() => act('content', { index: custom.index })}
+                  >
                     {custom.content || 'Set...'}
                   </Button>
                 </LabeledList.Item>

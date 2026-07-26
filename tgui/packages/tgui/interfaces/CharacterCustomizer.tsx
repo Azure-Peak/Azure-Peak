@@ -58,10 +58,7 @@ const CustomizerCard = (props: { customizer: Customizer }) => {
       title={c.name}
       buttons={
         !!c.allows_disabling && (
-          <Button
-            selected={!c.disabled}
-            onClick={() => send('toggle_missing')}
-          >
+          <Button selected={!c.disabled} onClick={() => send('toggle_missing')}>
             {c.disabled ? 'Disabled' : 'Enabled'}
           </Button>
         )

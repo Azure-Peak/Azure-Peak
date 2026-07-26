@@ -361,9 +361,9 @@ export const MarketView = ({
           <div style={{ ...dashedFrameStyle, marginTop: 8 }}>
             <p style={{ margin: '0 0 6px 0' }}>
               Wares lifted from the Navigator pass into the warehouses of the
-              Valmorian Trading Company, sorted by category. Each week the factors
-              weigh which goods are scarce and which lie in glut, and the
-              Navigator&apos;s payouts shift accordingly.
+              Valmorian Trading Company, sorted by category. Each week the
+              factors weigh which goods are scarce and which lie in glut, and
+              the Navigator&apos;s payouts shift accordingly.
             </p>
             <p style={{ margin: '0 0 6px 0' }}>
               <b style={{ color: SEAL_GREEN }}>Saturation</b> tracks the

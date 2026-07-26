@@ -30,18 +30,12 @@ type Data = {
 export function PlayerQuality(props) {
   const { data } = useBackend<Data>();
   return (
-    <Window
-      width={420}
-      height={560}
-      theme="parchment"
-      title="Player Quality"
-    >
+    <Window width={420} height={560} theme="parchment" title="Player Quality">
       <Window.Content scrollable>
         <Section textAlign="center">
           <Box bold>{data.ckey}</Box>
           <Box>
-            PQ:{' '}
-            {/* PQ rating text is server-authored colored HTML */}
+            PQ: {/* PQ rating text is server-authored colored HTML */}
             <span dangerouslySetInnerHTML={{ __html: data.pq_text }} /> (
             {data.pq_num})
           </Box>

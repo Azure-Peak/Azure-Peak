@@ -217,11 +217,12 @@ export const LedgerTab = (props: { harbor?: HarborData }) => {
         {harbor.favor.gnome_unlocked ? (
           <>
             <div style={{ ...noteStyle, marginBottom: '4px' }}>
-              By writ of the Valmorian Guild of Gnomes Porters, the public stalls
-              now run under their hand. They take their cost in labour and remit
-              the margin of <b>+{ledger.silverface_margin_percent}%</b> on every
-              sale unto the Merchant Fund. Adjust the rate from the Management
-              tab as you see fit.
+              By writ of the Valmorian Guild of Gnomes Porters, the public
+              stalls now run under their hand. They take their cost in labour
+              and remit the margin of{' '}
+              <b>+{ledger.silverface_margin_percent}%</b> on every sale unto the
+              Merchant Fund. Adjust the rate from the Management tab as you see
+              fit.
             </div>
             <div
               style={{
