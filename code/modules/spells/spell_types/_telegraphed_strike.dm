@@ -165,6 +165,10 @@
 			var/turf/T = origin ? locate(origin.x + r[1], origin.y + r[2], origin.z) : null
 			if(!T)
 				continue
+			if(T.density)
+				if(damage_structures)
+					damage_obstacles(T)
+				continue
 			if(stop_at_dense)
 				var/turf/blocker = path_blocked(origin, T)
 				if(blocker)

@@ -71,6 +71,8 @@
 		var/turf/T = locate(origin.x + r[1], origin.y + r[2], origin.z)
 		if(!T || T.density)
 			continue
+		if(stop_at_dense && path_blocked(origin, T))
+			continue
 		new /obj/effect/temp_visual/dragonfire(T)
 		for(var/atom/movable/A in T)
 			if(ismob(A))
