@@ -430,7 +430,7 @@
 	secondary_resource_cost = SPELLCOST_MIRACLE
 
 	invocation_type = INVOCATION_SHOUT
-	invocations = list("Transaction for a lyfe!", "Value unto vigor!", "Bask in the warmth of greed!", "Value for vitality!", "Fortune to fortitude!")
+	invocations = list("Transaction for a lyfe!")
 
 	charge_required = FALSE
 	cooldown_time = 45 SECONDS
