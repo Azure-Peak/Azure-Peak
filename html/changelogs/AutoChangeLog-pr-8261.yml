@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "The Triumph-purchasable 'knife' should properly fit in boots, once again."

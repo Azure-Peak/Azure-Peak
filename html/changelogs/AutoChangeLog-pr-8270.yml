@@ -1,6 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Missing sprites for Fluted- and Psydonic-type variants of the Gothic Steel Armor morphing elixir."
-  - rscadd: "Missing sprites for the Elegantly Decorated Sabre."
-  - bugfix: "Morphing elixirs now have a more detailed description, if their use with certain items might result in unintended consequences."

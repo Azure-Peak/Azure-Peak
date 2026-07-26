@@ -525,9 +525,9 @@
 	icon_state = "revived_rot"
 
 /datum/status_effect/debuff/rotted_zombie
-	id = "rotted_zombie" //Replaces the flat-stat change, this should ONLY apply to zombies who have been dead for some time. Makes them easier to kill.
+	id = "rotted_zombie" //Replaces the flat-stat change, this should ONLY apply to zombies, makes them easier to kill
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/rotted_zombie
-	effectedstats = list(STATKEY_CON = -8) //No duration = infinate in time - this is removed on de-rot miricle OR de-rot surgery. Won't be applied unless you've been a zombie for ~20 min.
+	effectedstats = list(STATKEY_CON = -3, STATKEY_INT = -8) //No duration = infinate in time - this is removed on de-rot miricle OR de-rot surgery. Won't be applied unless you're rotting long enough to zombify.
 	examine_text = "<font color='#2c8b00'>SUBJECTPRONOUN's flesh bears the unmistakable signs of unnatural decay. An ill omen whispers that this corpse may yet walk again.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/rotted_zombie
