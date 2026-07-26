@@ -79,8 +79,8 @@
 		if(I.obj_integrity == I.max_integrity)
 			to_chat(caster, span_warning("This is not broken."))
 			return FALSE
-		if(!I.ontable())
-			to_chat(caster, span_warning("I should put this on a table first."))
+		if(!isturf(I.loc))
+			to_chat(caster, span_warning("I should put this down first."))
 			return FALSE
 		if(I.sewrepair)
 			playsound(caster.loc, 'sound/foley/sewflesh.ogg', 100, TRUE, -2)
