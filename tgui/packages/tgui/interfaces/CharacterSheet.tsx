@@ -203,6 +203,7 @@ type Data = {
 
 type TabName =
   | 'character'
+  | 'flavor'
   | 'classes'
   | 'villains'
   | 'settings'
@@ -285,7 +286,11 @@ const Swatch = (props: { color: string }) => (
   />
 );
 
-const VirtuePanel = (props: { virtue: VirtueData; pref: string; subPref: string }) => {
+const VirtuePanel = (props: {
+  virtue: VirtueData;
+  pref: string;
+  subPref: string;
+}) => {
   const { act } = useBackend<Data>();
   const { virtue, pref, subPref } = props;
   return (
@@ -311,7 +316,11 @@ const VirtuePanel = (props: { virtue: VirtueData; pref: string; subPref: string 
             color="transparent"
             italic
             onClick={() =>
-              act('link', { preference: subPref, task: 'remove', index: choice.index })
+              act('link', {
+                preference: subPref,
+                task: 'remove',
+                index: choice.index,
+              })
             }
           >
             {choice.name}
@@ -320,7 +329,11 @@ const VirtuePanel = (props: { virtue: VirtueData; pref: string; subPref: string 
             <Button
               color="transparent"
               onClick={() =>
-                act('link', { preference: subPref, task: 'tooltip', tooltip: choice.name })
+                act('link', {
+                  preference: subPref,
+                  task: 'tooltip',
+                  tooltip: choice.name,
+                })
               }
             >
               (?)
@@ -335,7 +348,8 @@ const VirtuePanel = (props: { virtue: VirtueData; pref: string; subPref: string 
             textColor={virtue.next_cost <= 0 ? 'gold' : undefined}
             onClick={() => act('link', { preference: subPref, task: 'input' })}
           >
-            + Pick Bonus{virtue.next_cost > 0 ? ` (${virtue.next_cost} TRI)` : ''}
+            + Pick Bonus
+            {virtue.next_cost > 0 ? ` (${virtue.next_cost} TRI)` : ''}
           </Button>
         </Box>
       )}
@@ -356,7 +370,9 @@ const ClassesTab = (props) => {
           {!!jobs.lastclass && (
             <Button
               color="gold"
-              onClick={() => act('link', { preference: 'job', task: 'triumphthing' })}
+              onClick={() =>
+                act('link', { preference: 'job', task: 'triumphthing' })
+              }
             >
               PLAY AS {jobs.lastclass} AGAIN
             </Button>
@@ -380,8 +396,8 @@ const ClassesTab = (props) => {
           {jobs.joblessrole}
         </Button>
         <Box inline color="label" ml={2} italic>
-          Click a class to cycle its preference; right-click lowers it. Hover for
-          details.
+          Click a class to cycle its preference; right-click lowers it. Hover
+          for details.
         </Box>
       </Box>
       <Box style={{ display: 'flex', flexWrap: 'wrap', gap: '2px 12px' }}>
@@ -482,7 +498,9 @@ const ColorRow = (props: {
             {clearPref && (
               <Button
                 color="transparent"
-                onClick={() => act('link', { preference: clearPref, task: 'input' })}
+                onClick={() =>
+                  act('link', { preference: clearPref, task: 'input' })
+                }
               >
                 clear
               </Button>
@@ -573,13 +591,31 @@ const VillainsTab = (props) => {
             <Section fill scrollable title="Villain Appearance">
               <Stack align="center">
                 <Stack.Item width="140px" color="label">
+                  Gnoll Form
+                </Stack.Item>
+                <Stack.Item>
+                  <Button
+                    color="transparent"
+                    onClick={() =>
+                      act('link', { preference: 'gnoll_prefs', task: 'input' })
+                    }
+                  >
+                    Customize
+                  </Button>
+                </Stack.Item>
+              </Stack>
+              <Stack align="center">
+                <Stack.Item width="140px" color="label">
                   Lich Headshot
                 </Stack.Item>
                 <Stack.Item>
                   <Button
                     color="transparent"
                     onClick={() =>
-                      act('link', { preference: 'lich_headshot', task: 'input' })
+                      act('link', {
+                        preference: 'lich_headshot',
+                        task: 'input',
+                      })
                     }
                   >
                     {v.lich_headshot ? 'Change' : 'Set'}
@@ -594,7 +630,10 @@ const VillainsTab = (props) => {
                   <Button
                     color="transparent"
                     onClick={() =>
-                      act('link', { preference: 'vampire_headshot', task: 'input' })
+                      act('link', {
+                        preference: 'vampire_headshot',
+                        task: 'input',
+                      })
                     }
                   >
                     {v.vampire_headshot ? 'Change' : 'Set'}
@@ -632,7 +671,9 @@ const VillainsTab = (props) => {
                 <Stack.Item>
                   <Button
                     color="transparent"
-                    onClick={() => act('link', { preference: 'qsr', task: 'input' })}
+                    onClick={() =>
+                      act('link', { preference: 'qsr', task: 'input' })
+                    }
                   >
                     {v.qsr ? 'Yes' : 'No'}
                   </Button>
@@ -707,7 +748,12 @@ const SettingsTab = (props) => {
     <Stack fill>
       <Stack.Item grow basis={0}>
         <Section fill scrollable title="Display">
-          <PrefRow label="TGUI Theme" value={s.tgui_theme} pref="tgui_theme" task="" />
+          <PrefRow
+            label="TGUI Theme"
+            value={s.tgui_theme}
+            pref="tgui_theme"
+            task=""
+          />
           <PrefRow
             label="Parchment"
             value={s.parchment_skin}
@@ -796,6 +842,118 @@ const AdminToggle = (props: {
   );
 };
 
+const FlavorTab = (props) => {
+  const { act, data } = useBackend<Data>();
+  return (
+    <Stack fill vertical>
+      <Stack.Item grow>
+        <Section
+          fill
+          scrollable
+          title="Flavor & OOC"
+          buttons={
+            <Button
+              color="transparent"
+              tooltip="Formatting help"
+              onClick={() =>
+                act('link', { preference: 'formathelp', task: 'input' })
+              }
+            >
+              (?)
+            </Button>
+          }
+        >
+          <Stack>
+            <Stack.Item grow basis={0}>
+              <Box color="label" bold mb={0.5}>
+                Description
+              </Box>
+              <LinkButton
+                pref="flavortext"
+                bad={!!data.flavortext_short}
+                label={`Flavortext${data.flavortext_short ? ' (too short)' : ''}`}
+              />
+              <LinkButton
+                pref="ooc_notes"
+                bad={!!data.ooc_notes_short}
+                label={`OOC Notes${data.ooc_notes_short ? ' (too short)' : ''}`}
+              />
+            </Stack.Item>
+            <Stack.Item grow basis={0}>
+              <Box color="label" bold mb={0.5}>
+                Rumours & Gossip
+              </Box>
+              <LinkButton pref="rumour" label="Set Rumours" />
+              <LinkButton pref="gossip" label="Set Noble Gossip" />
+              <LinkButton pref="rumour_preview" label="Preview Rumours" />
+              <LinkButton pref="ooc_preview" label="Preview Examine" />
+            </Stack.Item>
+            <Stack.Item grow basis={0}>
+              <Box color="label" bold mb={0.5}>
+                Media
+              </Box>
+              <LinkButton pref="headshot" label="Headshot" />
+              <LinkButton pref="img_gallery" label="Add Gallery Image" />
+              <LinkButton pref="ooc_extra" label="Character Song" />
+            </Stack.Item>
+            <Stack.Item grow basis={0}>
+              <Box color="label" bold mb={0.5}>
+                Display
+              </Box>
+              <LinkButton
+                pref="examine_theme"
+                label={`Examine Theme: ${data.examine_theme}`}
+              />
+              <LinkButton pref="change_title" label="Song Title" />
+              <LinkButton pref="change_artist" label="Song Artist" />
+              <LinkButton pref="clear_gallery" label="Clear Gallery" />
+            </Stack.Item>
+          </Stack>
+        </Section>
+      </Stack.Item>
+      {/* ERP — NSFW settings kept apart from the SFW ones, and locked behind age verification */}
+      <Stack.Item grow>
+        <Section fill scrollable title="ERP">
+          {data.age_verified ? (
+            <Stack>
+              <Stack.Item grow basis={0}>
+                <Box color="label" bold mb={0.5}>
+                  Description
+                </Box>
+                <LinkButton pref="nsfwflavortext" label="NSFW Flavortext" />
+                <LinkButton pref="erpprefs" label="ERP Preferences" />
+              </Stack.Item>
+              <Stack.Item grow basis={0}>
+                <Box color="label" bold mb={0.5}>
+                  Media
+                </Box>
+                <LinkButton pref="nsfw_img_gallery" label="Add NSFW Image" />
+                <LinkButton
+                  pref="clear_nsfw_gallery"
+                  label="Clear NSFW Gallery"
+                />
+              </Stack.Item>
+              <Stack.Item grow basis={0} />
+              <Stack.Item grow basis={0} />
+            </Stack>
+          ) : (
+            <Box color="label" italic>
+              Age verification is required to set NSFW flavortext, ERP
+              preferences and the NSFW gallery.{' '}
+              <Button
+                color="transparent"
+                onClick={() => act('link', { preference: 'agevet' })}
+              >
+                Get verified
+              </Button>
+            </Box>
+          )}
+        </Section>
+      </Stack.Item>
+    </Stack>
+  );
+};
+
 const OocTab = (props) => {
   const { act, data } = useBackend<Data>();
   const o = data.ooc;
@@ -812,7 +970,9 @@ const OocTab = (props) => {
                 <Swatch color={(o.ooccolor || '').replace('#', '')} />
                 <Button
                   color="transparent"
-                  onClick={() => act('link', { preference: 'ooccolor', task: 'input' })}
+                  onClick={() =>
+                    act('link', { preference: 'ooccolor', task: 'input' })
+                  }
                 >
                   Change
                 </Button>
@@ -1117,6 +1277,12 @@ export const CharacterSheet = (props) => {
                   Character
                 </Button>
                 <Button
+                  selected={tab === 'flavor'}
+                  onClick={() => setTab('flavor')}
+                >
+                  Flavor Text
+                </Button>
+                <Button
                   selected={tab === 'classes'}
                   onClick={() => setTab('classes')}
                 >
@@ -1135,7 +1301,10 @@ export const CharacterSheet = (props) => {
                   Game Settings
                 </Button>
                 {(!!data.ooc.can_change_color || !!data.ooc.is_admin) && (
-                  <Button selected={tab === 'ooc'} onClick={() => setTab('ooc')}>
+                  <Button
+                    selected={tab === 'ooc'}
+                    onClick={() => setTab('ooc')}
+                  >
                     OOC
                   </Button>
                 )}
@@ -1149,13 +1318,17 @@ export const CharacterSheet = (props) => {
               <Stack.Item grow textAlign="right">
                 <Button
                   color="transparent"
-                  onClick={() => act('link', { preference: 'playerquality', task: 'menu' })}
+                  onClick={() =>
+                    act('link', { preference: 'playerquality', task: 'menu' })
+                  }
                 >
                   PQ: {data.pq}
                 </Button>
                 <Button
                   color="transparent"
-                  onClick={() => act('link', { preference: 'triumphs', task: 'menu' })}
+                  onClick={() =>
+                    act('link', { preference: 'triumphs', task: 'menu' })
+                  }
                 >
                   TRIUMPHS: {data.triumphs || 'None'}
                 </Button>
@@ -1163,7 +1336,9 @@ export const CharacterSheet = (props) => {
                   <Button
                     color="transparent"
                     textColor="gold"
-                    onClick={() => act('link', { preference: 'triumph_buy_menu' })}
+                    onClick={() =>
+                      act('link', { preference: 'triumph_buy_menu' })
+                    }
                   >
                     Buy
                   </Button>
@@ -1197,11 +1372,11 @@ export const CharacterSheet = (props) => {
                 >
                   ⇄ Change Character
                 </Button>
-                <Button onClick={() => setTab('classes')}>Class Selection</Button>
-                <Button onClick={() => setTab('villains')}>Villain Selection</Button>
                 {!!data.quirks_enabled && (
                   <Button
-                    onClick={() => act('link', { preference: 'trait', task: 'menu' })}
+                    onClick={() =>
+                      act('link', { preference: 'trait', task: 'menu' })
+                    }
                   >
                     Quirks ({data.quirks.length})
                   </Button>
@@ -1210,7 +1385,9 @@ export const CharacterSheet = (props) => {
               <Stack.Item grow textAlign="right">
                 <Button
                   color="transparent"
-                  onClick={() => act('link', { preference: 'changelog', task: 'menu' })}
+                  onClick={() =>
+                    act('link', { preference: 'changelog', task: 'menu' })
+                  }
                 >
                   Changelog
                 </Button>
@@ -1228,8 +1405,8 @@ export const CharacterSheet = (props) => {
           {!!data.appearance_banned && (
             <Stack.Item>
               <Box color="bad" bold>
-                Thou are banned from using custom names and appearances. Thy character
-                will be randomised once thee joins the game.
+                Thou are banned from using custom names and appearances. Thy
+                character will be randomised once thee joins the game.
               </Box>
             </Stack.Item>
           )}
@@ -1241,429 +1418,415 @@ export const CharacterSheet = (props) => {
             {tab === 'settings' && <SettingsTab />}
             {tab === 'ooc' && <OocTab />}
             {tab === 'keybinds' && <KeybindsTab />}
+            {tab === 'flavor' && <FlavorTab />}
             {tab === 'character' && (
-            <Stack fill>
-              {/* Doll rail */}
-              <Stack.Item width="280px">
-                <Stack fill vertical>
-                  <Stack.Item>
-                    {/* Measured geometry (probe: control 263px wide, canvas 15x15
+              <Stack fill>
+                {/* Doll rail */}
+                <Stack.Item width="280px">
+                  <Stack fill vertical>
+                    <Stack.Item>
+                      {/* Measured geometry (probe: control 263px wide, canvas 15x15
                         = 480px). The doll grid is pixel-centered on the canvas;
                         zoom N renders each world px at N screen px with the
                         viewport centered on the canvas center, so zoom 4 fills
                         the 263px control with the 64px-wide doll grid. */}
-                    <ByondUi
-                      params={{
-                        id: data.preview_map,
-                        type: 'map',
-                        'background-color': '#000000',
-                        'zoom-mode': 'distort',
-                        zoom: PREVIEW_ZOOM,
-                      }}
-                      style={{
-                        width: '100%',
-                        height: '360px',
-                      }}
-                    />
-                  </Stack.Item>
-                  <Stack.Item grow>
-                    <Section
-                      fill
-                      scrollable
-                      title={`Virtues${data.statpack_virtuous ? ' ✦' : ''}`}
-                    >
-                      {data.virtue && (
-                        <VirtuePanel
-                          virtue={data.virtue}
-                          pref="virtue"
-                          subPref="subvirtue"
-                        />
-                      )}
-                      {!!data.statpack_virtuous && data.virtuetwo && (
-                        <VirtuePanel
-                          virtue={data.virtuetwo}
-                          pref="virtuetwo"
-                          subPref="subvirtue_two"
-                        />
-                      )}
-                      <Box mt={1} color="label" bold>
-                        Vices
-                      </Box>
-                      {data.charflaws.map((flaw) => (
-                        <Box key={flaw.index}>
+                      <ByondUi
+                        params={{
+                          id: data.preview_map,
+                          type: 'map',
+                          'background-color': '#000000',
+                          'zoom-mode': 'distort',
+                          zoom: PREVIEW_ZOOM,
+                        }}
+                        style={{
+                          width: '100%',
+                          height: '360px',
+                        }}
+                      />
+                    </Stack.Item>
+                    <Stack.Item grow>
+                      <Section
+                        fill
+                        scrollable
+                        title={`Virtues${data.statpack_virtuous ? ' ✦' : ''}`}
+                      >
+                        {data.virtue && (
+                          <VirtuePanel
+                            virtue={data.virtue}
+                            pref="virtue"
+                            subPref="subvirtue"
+                          />
+                        )}
+                        {!!data.statpack_virtuous && data.virtuetwo && (
+                          <VirtuePanel
+                            virtue={data.virtuetwo}
+                            pref="virtuetwo"
+                            subPref="subvirtue_two"
+                          />
+                        )}
+                        <Box mt={1} color="label" bold>
+                          Vices
+                        </Box>
+                        {data.charflaws.map((flaw) => (
+                          <Box key={flaw.index}>
+                            <Button
+                              color="transparent"
+                              textColor={flaw.warning ? 'bad' : undefined}
+                              onClick={() =>
+                                act('link', {
+                                  preference: 'charflaw',
+                                  task: 'remove',
+                                  index: flaw.index,
+                                })
+                              }
+                            >
+                              {flaw.name}
+                            </Button>
+                            {!!flaw.warning && (
+                              <Box inline color="bad">
+                                (Requires Extra Vice!)
+                              </Box>
+                            )}
+                          </Box>
+                        ))}
+                        {!!data.can_add_vice && (
                           <Button
                             color="transparent"
-                            textColor={flaw.warning ? 'bad' : undefined}
                             onClick={() =>
                               act('link', {
                                 preference: 'charflaw',
-                                task: 'remove',
-                                index: flaw.index,
+                                task: 'input',
                               })
                             }
                           >
-                            {flaw.name}
+                            + Add Vice
                           </Button>
-                          {!!flaw.warning && (
-                            <Box inline color="bad">
-                              (Requires Extra Vice!)
-                            </Box>
-                          )}
-                        </Box>
-                      ))}
-                      {!!data.can_add_vice && (
-                        <Button
-                          color="transparent"
-                          onClick={() =>
-                            act('link', { preference: 'charflaw', task: 'input' })
-                          }
-                        >
-                          + Add Vice
-                        </Button>
-                      )}
-                      {!!data.has_averse && (
-                        <PrefRow
-                          label="Loathed:"
-                          value={data.averse_faction}
-                          pref="charflaw_averse_choice"
-                        />
-                      )}
-                    </Section>
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-
-              {/* Main columns */}
-              <Stack.Item grow>
-                <Stack fill vertical>
-                  <Stack.Item grow>
-                    <Stack fill>
-                      <Stack.Item grow basis={0}>
-                        <Section fill scrollable title="Identity">
+                        )}
+                        {!!data.has_averse && (
                           <PrefRow
-                            label="Name"
-                            value={data.name_banned ? 'NAMEBANNED' : data.real_name}
-                            pref="name"
-                            extra={
-                              !data.name_banned && (
+                            label="Loathed:"
+                            value={data.averse_faction}
+                            pref="charflaw_averse_choice"
+                          />
+                        )}
+                      </Section>
+                    </Stack.Item>
+                  </Stack>
+                </Stack.Item>
+
+                {/* Main columns */}
+                <Stack.Item grow>
+                  <Stack fill vertical>
+                    <Stack.Item grow>
+                      <Stack fill>
+                        <Stack.Item grow basis={0}>
+                          <Section fill scrollable title="Identity">
+                            <PrefRow
+                              label="Name"
+                              value={
+                                data.name_banned ? 'NAMEBANNED' : data.real_name
+                              }
+                              pref="name"
+                              extra={
+                                !data.name_banned && (
+                                  <Button
+                                    color="transparent"
+                                    onClick={() =>
+                                      act('link', {
+                                        preference: 'name',
+                                        task: 'random',
+                                      })
+                                    }
+                                  >
+                                    [R]
+                                  </Button>
+                                )
+                              }
+                            />
+                            <PrefRow
+                              label="Nickname"
+                              value={data.nickname}
+                              pref="nickname"
+                            />
+                            <PrefRow
+                              label="Pronouns"
+                              value={data.pronouns}
+                              pref="pronouns"
+                            />
+                            <PrefRow
+                              label="Titles"
+                              value={data.titles_pref}
+                              pref="titles"
+                            />
+                            <PrefRow
+                              label="Clothing"
+                              value={data.clothes_pref}
+                              pref="clothespref"
+                            />
+                            <PrefRow
+                              label="Race"
+                              value={`${data.species_name}${data.species_invalid ? ' (!)' : ''}`}
+                              pref="species"
+                            />
+                            <PrefRow
+                              label="Subrace"
+                              value={data.subspecies_name}
+                              pref="subspecies"
+                            />
+                            <PrefRow
+                              label="Origin"
+                              value={data.origin}
+                              pref="origin"
+                              extra={
                                 <Button
                                   color="transparent"
                                   onClick={() =>
-                                    act('link', { preference: 'name', task: 'random' })
+                                    act('link', {
+                                      preference: 'originhelp',
+                                      task: 'input',
+                                    })
                                   }
                                 >
-                                  [R]
+                                  ❖
                                 </Button>
-                              )
-                            }
-                          />
-                          <PrefRow label="Nickname" value={data.nickname} pref="nickname" />
-                          <PrefRow label="Pronouns" value={data.pronouns} pref="pronouns" />
-                          <PrefRow label="Titles" value={data.titles_pref} pref="titles" />
-                          <PrefRow
-                            label="Clothing"
-                            value={data.clothes_pref}
-                            pref="clothespref"
-                          />
-                          <PrefRow
-                            label="Race"
-                            value={`${data.species_name}${data.species_invalid ? ' (!)' : ''}`}
-                            pref="species"
-                          />
-                          <PrefRow
-                            label="Subrace"
-                            value={data.subspecies_name}
-                            pref="subspecies"
-                          />
-                          <PrefRow
-                            label="Origin"
-                            value={data.origin}
-                            pref="origin"
-                            extra={
-                              <Button
-                                color="transparent"
-                                onClick={() => act('link', { preference: 'originhelp', task: 'input' })}
-                              >
-                                ❖
-                              </Button>
-                            }
-                          />
-                          {!!data.has_race_bonus && (
-                            <PrefRow
-                              label="Race Bonus"
-                              value={data.race_bonus}
-                              pref="race_bonus_select"
+                              }
                             />
-                          )}
-                          <PrefRow label="Age" value={data.age} pref="age" />
-                          {!data.agender_species && (
+                            {!!data.has_race_bonus && (
+                              <PrefRow
+                                label="Race Bonus"
+                                value={data.race_bonus}
+                                pref="race_bonus_select"
+                              />
+                            )}
+                            <PrefRow label="Age" value={data.age} pref="age" />
+                            {!data.agender_species && (
+                              <PrefRow
+                                label="Body Type"
+                                value={data.body_type}
+                                pref="gender"
+                                task=""
+                              />
+                            )}
+                            {!!data.taur_allowed && (
+                              <>
+                                <PrefRow
+                                  label="Taur Body"
+                                  value={data.taur_name || 'None'}
+                                  pref="taur_type"
+                                />
+                                <PrefRow
+                                  label="Taur Color"
+                                  value="Change"
+                                  pref="taur_color"
+                                  extra={
+                                    <Swatch
+                                      color={data.taur_color || 'FFFFFF'}
+                                    />
+                                  }
+                                />
+                              </>
+                            )}
                             <PrefRow
-                              label="Body Type"
-                              value={data.body_type}
-                              pref="gender"
+                              label="Language"
+                              value={data.extra_language}
+                              pref="extra_language"
+                            />
+                            <PrefRow
+                              label="Statpack"
+                              value={data.statpack}
+                              pref="statpack"
+                            />
+                            <PrefRow
+                              label="Faith"
+                              value={data.faith}
+                              pref="faith"
+                            />
+                            <PrefRow
+                              label="Patron"
+                              value={data.patron}
+                              pref="patron"
+                            />
+                            <PrefRow
+                              label="Dominance"
+                              value={data.domhand}
+                              pref="domhand"
                               task=""
                             />
-                          )}
-                          {!!data.taur_allowed && (
-                            <>
-                              <PrefRow
-                                label="Taur Body"
-                                value={data.taur_name || 'None'}
-                                pref="taur_type"
-                              />
-                              <PrefRow
-                                label="Taur Color"
-                                value="Change"
-                                pref="taur_color"
-                                extra={<Swatch color={data.taur_color || 'FFFFFF'} />}
-                              />
-                            </>
-                          )}
-                          <PrefRow
-                            label="Language"
-                            value={data.extra_language}
-                            pref="extra_language"
-                          />
-                          <PrefRow label="Statpack" value={data.statpack} pref="statpack" />
-                          <PrefRow label="Faith" value={data.faith} pref="faith" />
-                          <PrefRow label="Patron" value={data.patron} pref="patron" />
-                          <PrefRow
-                            label="Dominance"
-                            value={data.domhand}
-                            pref="domhand"
-                            task=""
-                          />
-                          <PrefRow
-                            label="Food Prefs"
-                            value="Change"
-                            pref="culinary"
-                            task="menu"
-                          />
-                          <PrefRow
-                            label="Combat Music"
-                            value={data.combat_music}
-                            pref="combat_music"
-                          />
-                          <PrefRow
-                            label="Unrevivable"
-                            value={data.dnr ? 'Yes' : 'No'}
-                            pref="dnr"
-                          />
-                          <PrefRow
-                            label="Familiar"
-                            value="Preferences"
-                            pref="familiar_prefs"
-                          />
-                          <PrefRow
-                            label="Nick Color"
-                            value="Change"
-                            pref="highlight_color"
-                          />
-                        </Section>
-                      </Stack.Item>
+                            <PrefRow
+                              label="Food Prefs"
+                              value="Change"
+                              pref="culinary"
+                              task="menu"
+                            />
+                            <PrefRow
+                              label="Combat Music"
+                              value={data.combat_music}
+                              pref="combat_music"
+                            />
+                            <PrefRow
+                              label="Unrevivable"
+                              value={data.dnr ? 'Yes' : 'No'}
+                              pref="dnr"
+                            />
+                            <PrefRow
+                              label="Familiar"
+                              value="Preferences"
+                              pref="familiar_prefs"
+                            />
+                            <PrefRow
+                              label="Nick Color"
+                              value="Change"
+                              pref="highlight_color"
+                            />
+                          </Section>
+                        </Stack.Item>
 
-                      <Stack.Item grow basis={0}>
-                        <Stack fill vertical>
-                          <Stack.Item grow basis={0}>
-                            <Section fill scrollable title="Body">
-                              {!!data.use_skintones && (
+                        <Stack.Item grow basis={0}>
+                          <Stack fill vertical>
+                            <Stack.Item grow basis={0}>
+                              <Section fill scrollable title="Body">
+                                {!!data.use_skintones && (
+                                  <PrefRow
+                                    label={data.skin_tone_wording}
+                                    value="Change"
+                                    pref="s_tone"
+                                  />
+                                )}
+                                {!!data.mutcolors && (
+                                  <>
+                                    <PrefRow
+                                      label="Mutant #1"
+                                      value="Change"
+                                      pref="mutant_color"
+                                      extra={<Swatch color={data.mcolor} />}
+                                    />
+                                    <PrefRow
+                                      label="Mutant #2"
+                                      value="Change"
+                                      pref="mutant_color2"
+                                      extra={<Swatch color={data.mcolor2} />}
+                                    />
+                                    <PrefRow
+                                      label="Mutant #3"
+                                      value="Change"
+                                      pref="mutant_color3"
+                                      extra={<Swatch color={data.mcolor3} />}
+                                    />
+                                  </>
+                                )}
                                 <PrefRow
-                                  label={data.skin_tone_wording}
-                                  value="Change"
-                                  pref="s_tone"
+                                  label="Features"
+                                  value="Open Customizer"
+                                  pref="customizers"
+                                  task="menu"
                                 />
-                              )}
-                              {!!data.mutcolors && (
-                                <>
-                                  <PrefRow
-                                    label="Mutant #1"
-                                    value="Change"
-                                    pref="mutant_color"
-                                    extra={<Swatch color={data.mcolor} />}
-                                  />
-                                  <PrefRow
-                                    label="Mutant #2"
-                                    value="Change"
-                                    pref="mutant_color2"
-                                    extra={<Swatch color={data.mcolor2} />}
-                                  />
-                                  <PrefRow
-                                    label="Mutant #3"
-                                    value="Change"
-                                    pref="mutant_color3"
-                                    extra={<Swatch color={data.mcolor3} />}
-                                  />
-                                </>
-                              )}
-                              <PrefRow
-                                label="Features"
-                                value="Open Customizer"
-                                pref="customizers"
-                                task="menu"
-                              />
-                              <PrefRow
-                                label="Sprite Scale"
-                                value={`${data.body_size}%`}
-                                pref="body_size"
-                              />
-                              <PrefRow
-                                label="Markings"
-                                value="Change"
-                                pref="markings"
-                                task="menu"
-                              />
-                              <PrefRow
-                                label="Descriptors"
-                                value="Change"
-                                pref="descriptors"
-                                task="menu"
-                              />
-                              <PrefRow
-                                label="Color Sync"
-                                value={data.update_mutant_colors ? 'Yes' : 'No'}
-                                pref="update_mutant_colors"
-                              />
-                              <PrefRow
-                                label="Loadout"
-                                value="Open Menu"
-                                pref="open_loadout"
-                              />
-                            </Section>
-                          </Stack.Item>
-                          <Stack.Item grow basis={0}>
-                            <Section fill scrollable title="Voice">
-                              <PrefRow
-                                label="Identity"
-                                value={data.voice_type}
-                                pref="voicetype"
-                              />
-                              <PrefRow
-                                label="Pack"
-                                value={data.voice_pack}
-                                pref="voicepack"
-                                extra={
-                                  data.voice_pack !== 'Default' && (
-                                    <Button
-                                      color="transparent"
-                                      onClick={() =>
-                                        act('link', {
-                                          preference: 'voicepack_preview',
-                                          task: 'input',
-                                        })
-                                      }
-                                    >
-                                      ▶
-                                    </Button>
-                                  )
-                                }
-                              />
-                              <PrefRow label="Color" value="Change" pref="voice" />
-                              <PrefRow
-                                label="Pitch"
-                                value={data.voice_pitch}
-                                pref="voice_pitch"
-                              />
-                              <PrefRow label="Bark" value={data.bark_name} pref="barksound" />
-                              <PrefRow
-                                label="Bark Speed"
-                                value={data.bark_speed}
-                                pref="barkspeed"
-                              />
-                              <PrefRow
-                                label="Bark Pitch"
-                                value={data.bark_pitch}
-                                pref="barkpitch"
-                              />
-                              <PrefRow
-                                label="Bark Vary"
-                                value={data.bark_variance}
-                                pref="barkvary"
-                              />
-                              <Button
-                                onClick={() =>
-                                  act('link', { preference: 'barkpreview', task: 'input' })
-                                }
-                              >
-                                ▶ Preview Bark
-                              </Button>
-                            </Section>
-                          </Stack.Item>
-                        </Stack>
-                      </Stack.Item>
-                    </Stack>
-                  </Stack.Item>
-
-                  {/* Flavor & OOC strip */}
-                  <Stack.Item>
-                    <Section
-                      title="Flavor & OOC"
-                      buttons={
-                        <Button
-                          color="transparent"
-                          tooltip="Formatting help"
-                          onClick={() =>
-                            act('link', { preference: 'formathelp', task: 'input' })
-                          }
-                        >
-                          (?)
-                        </Button>
-                      }
-                    >
-                      <Stack>
-                        <Stack.Item grow basis={0}>
-                          <Box color="label" bold mb={0.5}>
-                            Description
-                          </Box>
-                          <LinkButton
-                            pref="flavortext"
-                            bad={!!data.flavortext_short}
-                            label={`Flavortext${data.flavortext_short ? ' (too short)' : ''}`}
-                          />
-                          <LinkButton pref="nsfwflavortext" label="NSFW Flavortext" />
-                          <LinkButton
-                            pref="ooc_notes"
-                            bad={!!data.ooc_notes_short}
-                            label={`OOC Notes${data.ooc_notes_short ? ' (too short)' : ''}`}
-                          />
-                          <LinkButton pref="erpprefs" label="ERP Preferences" />
-                        </Stack.Item>
-                        <Stack.Item grow basis={0}>
-                          <Box color="label" bold mb={0.5}>
-                            Rumours & Gossip
-                          </Box>
-                          <LinkButton pref="rumour" label="Set Rumours" />
-                          <LinkButton pref="gossip" label="Set Noble Gossip" />
-                          <LinkButton pref="rumour_preview" label="Preview Rumours" />
-                          <LinkButton pref="ooc_preview" label="Preview Examine" />
-                        </Stack.Item>
-                        <Stack.Item grow basis={0}>
-                          <Box color="label" bold mb={0.5}>
-                            Media
-                          </Box>
-                          <LinkButton pref="headshot" label="Headshot" />
-                          <LinkButton pref="img_gallery" label="Add Gallery Image" />
-                          <LinkButton pref="nsfw_img_gallery" label="Add NSFW Image" />
-                          <LinkButton pref="ooc_extra" label="Character Song" />
-                        </Stack.Item>
-                        <Stack.Item grow basis={0}>
-                          <Box color="label" bold mb={0.5}>
-                            Display
-                          </Box>
-                          <LinkButton
-                            pref="examine_theme"
-                            label={`Examine Theme: ${data.examine_theme}`}
-                          />
-                          <LinkButton pref="change_title" label="Song Title" />
-                          <LinkButton pref="change_artist" label="Song Artist" />
-                          <LinkButton pref="clear_gallery" label="Clear Gallery" />
-                          <LinkButton pref="clear_nsfw_gallery" label="Clear NSFW Gallery" />
+                                <PrefRow
+                                  label="Sprite Scale"
+                                  value={`${data.body_size}%`}
+                                  pref="body_size"
+                                />
+                                <PrefRow
+                                  label="Markings"
+                                  value="Change"
+                                  pref="markings"
+                                  task="menu"
+                                />
+                                <PrefRow
+                                  label="Descriptors"
+                                  value="Change"
+                                  pref="descriptors"
+                                  task="menu"
+                                />
+                                <PrefRow
+                                  label="Color Sync"
+                                  value={
+                                    data.update_mutant_colors ? 'Yes' : 'No'
+                                  }
+                                  pref="update_mutant_colors"
+                                />
+                                <PrefRow
+                                  label="Loadout"
+                                  value="Open Menu"
+                                  pref="open_loadout"
+                                />
+                              </Section>
+                            </Stack.Item>
+                            <Stack.Item grow basis={0}>
+                              <Section fill scrollable title="Voice">
+                                <PrefRow
+                                  label="Identity"
+                                  value={data.voice_type}
+                                  pref="voicetype"
+                                />
+                                <PrefRow
+                                  label="Pack"
+                                  value={data.voice_pack}
+                                  pref="voicepack"
+                                  extra={
+                                    data.voice_pack !== 'Default' && (
+                                      <Button
+                                        color="transparent"
+                                        onClick={() =>
+                                          act('link', {
+                                            preference: 'voicepack_preview',
+                                            task: 'input',
+                                          })
+                                        }
+                                      >
+                                        ▶
+                                      </Button>
+                                    )
+                                  }
+                                />
+                                <PrefRow
+                                  label="Color"
+                                  value="Change"
+                                  pref="voice"
+                                />
+                                <PrefRow
+                                  label="Pitch"
+                                  value={data.voice_pitch}
+                                  pref="voice_pitch"
+                                />
+                                <PrefRow
+                                  label="Bark"
+                                  value={data.bark_name}
+                                  pref="barksound"
+                                />
+                                <PrefRow
+                                  label="Bark Speed"
+                                  value={data.bark_speed}
+                                  pref="barkspeed"
+                                />
+                                <PrefRow
+                                  label="Bark Pitch"
+                                  value={data.bark_pitch}
+                                  pref="barkpitch"
+                                />
+                                <PrefRow
+                                  label="Bark Vary"
+                                  value={data.bark_variance}
+                                  pref="barkvary"
+                                />
+                                <Button
+                                  onClick={() =>
+                                    act('link', {
+                                      preference: 'barkpreview',
+                                      task: 'input',
+                                    })
+                                  }
+                                >
+                                  ▶ Preview Bark
+                                </Button>
+                              </Section>
+                            </Stack.Item>
+                          </Stack>
                         </Stack.Item>
                       </Stack>
-                    </Section>
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-            </Stack>
+                    </Stack.Item>
+                  </Stack>
+                </Stack.Item>
+              </Stack>
             )}
           </Stack.Item>
 
@@ -1692,13 +1855,17 @@ export const CharacterSheet = (props) => {
                       <Button
                         selected={data.ready === PLAYER_READY_TO_PLAY}
                         color="teal"
-                        onClick={() => act('ready', { state: PLAYER_READY_TO_PLAY })}
+                        onClick={() =>
+                          act('ready', { state: PLAYER_READY_TO_PLAY })
+                        }
                       >
                         READY
                       </Button>
                       <Button
                         selected={data.ready === PLAYER_NOT_READY}
-                        onClick={() => act('ready', { state: PLAYER_NOT_READY })}
+                        onClick={() =>
+                          act('ready', { state: PLAYER_NOT_READY })
+                        }
                       >
                         UNREADY
                       </Button>
@@ -1722,13 +1889,17 @@ export const CharacterSheet = (props) => {
                       >
                         ACTORS
                       </Button>
-                      <Button onClick={() => act('link', { preference: 'observe' })}>
+                      <Button
+                        onClick={() => act('link', { preference: 'observe' })}
+                      >
                         VOYEUR
                       </Button>
                     </>
                   ))}
                 {!!data.is_guest && (
-                  <Button onClick={() => act('link', { preference: 'finished' })}>
+                  <Button
+                    onClick={() => act('link', { preference: 'finished' })}
+                  >
                     DONE
                   </Button>
                 )}
