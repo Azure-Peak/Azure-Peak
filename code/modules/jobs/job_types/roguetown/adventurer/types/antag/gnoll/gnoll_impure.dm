@@ -46,11 +46,13 @@
 
 /datum/outfit/job/roguetown/gnoll_impure/proc/don_pelt(mob/living/carbon/human/H)
 	if(H.mind)
-		var/pelts = list("firepelt", "rotpelt", "whitepelt", "bloodpelt", "nightpelt", "darkpelt")
-		var/pelt_choice = input(H, "Choose your pelt.", "SPILL THEIR ENTRAILS.") as anything in pelts
 		H.set_blindness(0)
-		H.icon_state = "[pelt_choice]"
-		H.dna?.species?.custom_base_icon = "[pelt_choice]"
+		// Pelt, name, genitals and descriptors come from the lobby Gnoll Customization menu.
+		if(!H.apply_gnoll_preferences())
+			var/pelts = list("firepelt", "rotpelt", "whitepelt", "bloodpelt", "nightpelt", "darkpelt")
+			var/pelt_choice = input(H, "Choose your pelt.", "SPILL THEIR ENTRAILS.") as anything in pelts
+			H.icon_state = "[pelt_choice]"
+			H.dna?.species?.custom_base_icon = "[pelt_choice]"
 		H.regenerate_icons()
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
 		H.set_patron(/datum/patron/inhumen/graggar)

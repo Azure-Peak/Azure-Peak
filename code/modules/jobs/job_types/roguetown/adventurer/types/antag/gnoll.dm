@@ -70,13 +70,149 @@
 			H.mind.add_antag_datum(new_antag)
 			add_verb(H, /mob/living/carbon/human/proc/gnoll_inspect_skin)
 
+/mob/living/carbon/human/proc/reset_gnoll_sprite_scale()
+	if(!dna?.features)
+		return FALSE
+	dna.features["body_size"] = BODY_SIZE_NORMAL
+	dna.update_body_size()
+	return TRUE
+
+/// Applies the player's gnoll customization (client-level /datum/gnoll_prefs) to this mob:
+/// name, pelt, genitals, descriptors, and gnoll-specific examine/OOC metadata. Ported from
+/// Emerald Summit. Gnolls are anonymous antagonists — every examine field is wiped first so a
+/// blank gnoll field shows nothing, never the base slot's flavortext/headshot/notes/music.
+/mob/living/carbon/human/proc/apply_gnoll_preferences(initial_setup = TRUE)
+	if(!client?.prefs?.gnoll_prefs)
+		return FALSE
+
+	reset_gnoll_sprite_scale()
+
+	if(initial_setup)
+		// Gnolls should be a blank slate at spawn; strip inherited charflaw state.
+		// (Unlike ES there is no mob-level statpack here; stats are rerolled below.)
+		charflaws = list()
+
+	if(status_traits)
+		for(var/trait in status_traits.Copy())
+			if(HAS_TRAIT_FROM(src, trait, TRAIT_VIRTUE))
+				REMOVE_TRAIT(src, trait, TRAIT_VIRTUE)
+
+	var/datum/gnoll_prefs/gprefs = client.prefs.gnoll_prefs
+
+	flavortext = null
+	flavortext_cached = ""
+	ooc_notes = null
+	ooc_notes_cached = ""
+	rumour = null
+	noble_gossip = null
+	headshot_link = null
+	standard_headshot_link = null
+	nsfwflavortext = null
+	nsfwflavortext_cached = ""
+	erpprefs = null
+	erpprefs_cached = ""
+	ooc_extra = null
+	song_title = null
+	song_artist = null
+	img_gallery = list()
+	nsfw_img_gallery = list()
+
+	if(gprefs.gnoll_flavortext)
+		flavortext = gprefs.gnoll_flavortext
+		flavortext_cached = gprefs.gnoll_flavortext_cached
+	if(gprefs.gnoll_ooc_notes)
+		ooc_notes = gprefs.gnoll_ooc_notes
+		ooc_notes_cached = gprefs.gnoll_ooc_notes_cached
+	if(gprefs.gnoll_headshot_link)
+		headshot_link = gprefs.gnoll_headshot_link
+		standard_headshot_link = gprefs.gnoll_headshot_link
+	if(gprefs.gnoll_nsfwflavortext)
+		nsfwflavortext = gprefs.gnoll_nsfwflavortext
+		nsfwflavortext_cached = gprefs.gnoll_nsfwflavortext_cached
+	if(gprefs.gnoll_erpprefs)
+		erpprefs = gprefs.gnoll_erpprefs
+		erpprefs_cached = gprefs.gnoll_erpprefs_cached
+	if(gprefs.gnoll_ooc_extra)
+		ooc_extra = gprefs.gnoll_ooc_extra
+	if(gprefs.gnoll_song_title)
+		song_title = gprefs.gnoll_song_title
+	if(gprefs.gnoll_song_artist)
+		song_artist = gprefs.gnoll_song_artist
+	if(length(gprefs.gnoll_img_gallery))
+		img_gallery = gprefs.gnoll_img_gallery.Copy()
+	if(length(gprefs.gnoll_nsfw_img_gallery))
+		nsfw_img_gallery = gprefs.gnoll_nsfw_img_gallery.Copy()
+
+	// Gnolls get their own subclass statlines in the equip flow; wipe the inherited statpack roll at spawn only.
+	if(initial_setup)
+		roll_stats()
+
+	fully_replace_character_name(real_name, gprefs.ensure_gnoll_name())
+
+	icon_state = gprefs.pelt_type || "firepelt"
+	dna?.species?.custom_base_icon = gprefs.pelt_type || "firepelt"
+
+	var/wants_penis = !!gprefs.genitals["penis"]
+	var/wants_vagina = !!gprefs.genitals["vagina"]
+	var/wants_breasts = !!gprefs.genitals["breasts"]
+
+	var/obj/item/organ/penis/penis = getorganslot(ORGAN_SLOT_PENIS)
+	if(wants_penis)
+		if(!penis)
+			penis = new /obj/item/organ/penis/knotted/big()
+			penis.Insert(src, TRUE, FALSE)
+		var/obj/item/organ/testicles/testicles = getorganslot(ORGAN_SLOT_TESTICLES)
+		if(!testicles)
+			testicles = new()
+			testicles.Insert(src, TRUE, FALSE)
+	else if(penis)
+		penis.Remove(src)
+		qdel(penis)
+		var/obj/item/organ/testicles/testicles = getorganslot(ORGAN_SLOT_TESTICLES)
+		if(testicles)
+			testicles.Remove(src)
+			qdel(testicles)
+
+	var/obj/item/organ/vagina/vagina = getorganslot(ORGAN_SLOT_VAGINA)
+	if(wants_vagina)
+		if(!vagina)
+			vagina = new /obj/item/organ/vagina()
+			vagina.accessory_type = /datum/sprite_accessory/vagina/furred
+			vagina.Insert(src, TRUE, FALSE)
+	else if(vagina)
+		vagina.Remove(src)
+		qdel(vagina)
+
+	var/obj/item/organ/breasts/breasts = getorganslot(ORGAN_SLOT_BREASTS)
+	if(wants_breasts)
+		if(!breasts)
+			breasts = new()
+			breasts.Insert(src, TRUE, FALSE)
+	else if(breasts)
+		breasts.Remove(src)
+		qdel(breasts)
+
+	update_body()
+	ambushable = FALSE
+	clear_mob_descriptors()
+	add_mob_descriptor(/datum/mob_descriptor/stature/gnoll)
+	add_mob_descriptor(gprefs.descriptor_height || /datum/mob_descriptor/height/moderate)
+	add_mob_descriptor(gprefs.descriptor_body || /datum/mob_descriptor/body/muscular)
+	add_mob_descriptor(gprefs.descriptor_fur || /datum/mob_descriptor/fur/coarse)
+	add_mob_descriptor(gprefs.descriptor_voice || /datum/mob_descriptor/voice/growly)
+	add_mob_descriptor(gprefs.descriptor_muzzle || /datum/mob_descriptor/face/gnoll/long_muzzle)
+	add_mob_descriptor(gprefs.descriptor_expression || /datum/mob_descriptor/face_exp/gnoll/alert)
+	return TRUE
+
 /datum/outfit/job/roguetown/gnoll/proc/don_pelt(mob/living/carbon/human/H)
 	if(H.mind)
-		var/pelts = list("firepelt", "rotpelt", "whitepelt", "bloodpelt", "nightpelt", "darkpelt")
-		var/pelt_choice = input(H, "Choose your pelt.", "SPILL THEIR ENTRAILS.") as anything in pelts
 		H.set_blindness(0)
-		H.icon_state = "[pelt_choice]"
-		H.dna?.species?.custom_base_icon = "[pelt_choice]"
+		// Pelt, name, genitals and descriptors come from the lobby Gnoll Customization menu.
+		if(!H.apply_gnoll_preferences())
+			var/pelts = list("firepelt", "rotpelt", "whitepelt", "bloodpelt", "nightpelt", "darkpelt")
+			var/pelt_choice = input(H, "Choose your pelt.", "SPILL THEIR ENTRAILS.") as anything in pelts
+			H.icon_state = "[pelt_choice]"
+			H.dna?.species?.custom_base_icon = "[pelt_choice]"
 		H.regenerate_icons()
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/howl/gnoll)

@@ -158,7 +158,11 @@
 	// After the end of adv class equipping, apply a SPECIAL trait if able
 
 	if(applies_post_equipment)
-		apply_character_post_equipment(H)
+		if(H.dna?.species?.id == "gnoll")
+			// Gnolls should be built only from gnoll-specific prefs, not base-slot virtue/flaw/race bonus state.
+			H.apply_gnoll_preferences(FALSE)
+		else
+			apply_character_post_equipment(H)
 
 /datum/advclass/proc/post_equip(mob/living/carbon/human/H)
 	addtimer(CALLBACK(H,TYPE_PROC_REF(/mob/living/carbon/human, add_credit), TRUE), 20)

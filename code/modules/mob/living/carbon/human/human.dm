@@ -786,7 +786,13 @@
 			return
 		if(!client || !client.prefs)
 			return
-		client.prefs.copy_to(src, TRUE, FALSE)
+		if(dna?.species?.id == "gnoll")
+			// Gnolls use gnoll-specific prefs; reapplying the base slot would leak its identity.
+			apply_gnoll_preferences(FALSE)
+			set_blindness(0)
+			regenerate_icons()
+		else
+			client.prefs.copy_to(src, TRUE, FALSE)
 	if(href_list[VV_HK_SET_SPECIES])
 		if(!check_rights(R_SPAWN))
 			return

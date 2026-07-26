@@ -347,3 +347,9 @@
 /datum/mob_descriptor/stature/custom/ten
 	name = "Custom Stature"
 	custom_index = 10
+
+/datum/mob_descriptor/stature/gnoll
+	name = "Gnoll"
+
+/datum/mob_descriptor/stature/gnoll/get_description(mob/living/described)
+	return "gnoll"

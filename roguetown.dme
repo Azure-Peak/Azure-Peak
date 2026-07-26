@@ -1743,6 +1743,7 @@
 #include "code\modules\client\descriptors_menu.dm"
 #include "code\modules\client\economic_chronicle.dm"
 #include "code\modules\client\familiar_prefs.dm"
+#include "code\modules\client\gnoll_prefs.dm"
 #include "code\modules\client\gods_rankings.dm"
 #include "code\modules\client\loadout_menu.dm"
 #include "code\modules\client\manual_donator.dm"

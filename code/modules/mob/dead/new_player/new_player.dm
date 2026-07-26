@@ -520,7 +520,14 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		mind.active = 0					//we wish to transfer the key manually
 		mind.transfer_to(H)					//won't transfer key since the mind is not active
 
-	H.name = real_name
+	if(mind?.assigned_role == "Gnoll")
+		// Gnolls must never spawn under the base slot's name; use the gnoll customization name.
+		var/gnoll_name = client?.prefs?.gnoll_prefs?.ensure_gnoll_name() || H.real_name
+		H.real_name = gnoll_name
+		H.name = gnoll_name
+		H.dna.real_name = gnoll_name
+	else
+		H.name = real_name
 
 	. = H
 	new_character = .

@@ -581,6 +581,57 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["taur_type"]			>> taur_type
 	S["taur_color"]			>> taur_color
 
+/datum/preferences/proc/_load_gnoll_prefs(S)
+	S["gnoll_name"]						>> gnoll_prefs.gnoll_name
+	S["gnoll_pelt_type"]				>> gnoll_prefs.pelt_type
+	if(!gnoll_prefs.pelt_type)
+		gnoll_prefs.pelt_type = "firepelt"
+	S["gnoll_genitals_penis"]			>> gnoll_prefs.genitals["penis"]
+	S["gnoll_genitals_vagina"]			>> gnoll_prefs.genitals["vagina"]
+	S["gnoll_genitals_breasts"]			>> gnoll_prefs.genitals["breasts"]
+	S["gnoll_descriptor_height"]		>> gnoll_prefs.descriptor_height
+	if(!ispath(gnoll_prefs.descriptor_height, /datum/mob_descriptor/height))
+		gnoll_prefs.descriptor_height = /datum/mob_descriptor/height/moderate
+	S["gnoll_descriptor_body"]			>> gnoll_prefs.descriptor_body
+	if(!ispath(gnoll_prefs.descriptor_body, /datum/mob_descriptor/body))
+		gnoll_prefs.descriptor_body = /datum/mob_descriptor/body/muscular
+	S["gnoll_descriptor_fur"]			>> gnoll_prefs.descriptor_fur
+	if(!ispath(gnoll_prefs.descriptor_fur, /datum/mob_descriptor/fur))
+		gnoll_prefs.descriptor_fur = /datum/mob_descriptor/fur/coarse
+	S["gnoll_descriptor_voice"]			>> gnoll_prefs.descriptor_voice
+	if(!ispath(gnoll_prefs.descriptor_voice, /datum/mob_descriptor/voice))
+		gnoll_prefs.descriptor_voice = /datum/mob_descriptor/voice/growly
+	S["gnoll_descriptor_muzzle"]		>> gnoll_prefs.descriptor_muzzle
+	if(!ispath(gnoll_prefs.descriptor_muzzle, /datum/mob_descriptor/face/gnoll))
+		gnoll_prefs.descriptor_muzzle = /datum/mob_descriptor/face/gnoll/long_muzzle
+	S["gnoll_descriptor_expression"]	>> gnoll_prefs.descriptor_expression
+	if(!ispath(gnoll_prefs.descriptor_expression, /datum/mob_descriptor/face_exp/gnoll))
+		gnoll_prefs.descriptor_expression = /datum/mob_descriptor/face_exp/gnoll/alert
+	S["gnoll_flavortext"]				>> gnoll_prefs.gnoll_flavortext
+	S["gnoll_ooc_notes"]				>> gnoll_prefs.gnoll_ooc_notes
+	S["gnoll_headshot_link"]			>> gnoll_prefs.gnoll_headshot_link
+	if(!valid_headshot_link(null, gnoll_prefs.gnoll_headshot_link, TRUE))
+		gnoll_prefs.gnoll_headshot_link = null
+	S["gnoll_nsfwflavortext"]			>> gnoll_prefs.gnoll_nsfwflavortext
+	S["gnoll_erpprefs"]					>> gnoll_prefs.gnoll_erpprefs
+	S["gnoll_ooc_extra"]				>> gnoll_prefs.gnoll_ooc_extra
+	S["gnoll_song_title"]				>> gnoll_prefs.gnoll_song_title
+	S["gnoll_song_artist"]				>> gnoll_prefs.gnoll_song_artist
+	S["gnoll_img_gallery"]				>> gnoll_prefs.gnoll_img_gallery
+	gnoll_prefs.gnoll_img_gallery = SANITIZE_LIST(gnoll_prefs.gnoll_img_gallery)
+	S["gnoll_nsfw_img_gallery"]			>> gnoll_prefs.gnoll_nsfw_img_gallery
+	gnoll_prefs.gnoll_nsfw_img_gallery = SANITIZE_LIST(gnoll_prefs.gnoll_nsfw_img_gallery)
+	gnoll_prefs.ensure_gnoll_name()
+	// Rebuild rendered text from the raw sources rather than trusting saved HTML.
+	if(gnoll_prefs.gnoll_flavortext)
+		gnoll_prefs.gnoll_flavortext_cached = parsemarkdown_basic(html_encode(gnoll_prefs.gnoll_flavortext), hyperlink = TRUE)
+	if(gnoll_prefs.gnoll_ooc_notes)
+		gnoll_prefs.gnoll_ooc_notes_cached = parsemarkdown_basic(html_encode(gnoll_prefs.gnoll_ooc_notes), hyperlink = TRUE)
+	if(gnoll_prefs.gnoll_nsfwflavortext)
+		gnoll_prefs.gnoll_nsfwflavortext_cached = parsemarkdown_basic(html_encode(gnoll_prefs.gnoll_nsfwflavortext), hyperlink = TRUE)
+	if(gnoll_prefs.gnoll_erpprefs)
+		gnoll_prefs.gnoll_erpprefs_cached = parsemarkdown_basic(html_encode(gnoll_prefs.gnoll_erpprefs), hyperlink = TRUE)
+
 /datum/preferences/proc/_load_familiar_prefs(S)
 	S["familiar_names"]					>> familiar_prefs.familiar_names
 	S["familiar_pronouns"]				>> familiar_prefs.familiar_pronouns
@@ -646,6 +697,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	_load_appearence(S)
 	_load_height(S)
 	_load_familiar_prefs(S)
+	_load_gnoll_prefs(S)
 
 	var/patron_typepath
 	S["selected_patron"]	>> patron_typepath
@@ -979,6 +1031,29 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["familiar_ooc_notes_display"] , familiar_prefs.familiar_ooc_notes_display)
 	WRITE_FILE(S["familiar_ooc_extra"] , familiar_prefs.familiar_ooc_extra)
 	WRITE_FILE(S["familiar_ooc_extra_link"] , familiar_prefs.familiar_ooc_extra_link)
+
+	//Gnoll Files
+	WRITE_FILE(S["gnoll_name"] , gnoll_prefs?.gnoll_name)
+	WRITE_FILE(S["gnoll_pelt_type"] , gnoll_prefs?.pelt_type)
+	WRITE_FILE(S["gnoll_genitals_penis"] , gnoll_prefs?.genitals["penis"])
+	WRITE_FILE(S["gnoll_genitals_vagina"] , gnoll_prefs?.genitals["vagina"])
+	WRITE_FILE(S["gnoll_genitals_breasts"] , gnoll_prefs?.genitals["breasts"])
+	WRITE_FILE(S["gnoll_descriptor_height"] , gnoll_prefs?.descriptor_height)
+	WRITE_FILE(S["gnoll_descriptor_body"] , gnoll_prefs?.descriptor_body)
+	WRITE_FILE(S["gnoll_descriptor_fur"] , gnoll_prefs?.descriptor_fur)
+	WRITE_FILE(S["gnoll_descriptor_voice"] , gnoll_prefs?.descriptor_voice)
+	WRITE_FILE(S["gnoll_descriptor_muzzle"] , gnoll_prefs?.descriptor_muzzle)
+	WRITE_FILE(S["gnoll_descriptor_expression"] , gnoll_prefs?.descriptor_expression)
+	WRITE_FILE(S["gnoll_flavortext"] , gnoll_prefs?.gnoll_flavortext)
+	WRITE_FILE(S["gnoll_ooc_notes"] , gnoll_prefs?.gnoll_ooc_notes)
+	WRITE_FILE(S["gnoll_headshot_link"] , gnoll_prefs?.gnoll_headshot_link)
+	WRITE_FILE(S["gnoll_nsfwflavortext"] , gnoll_prefs?.gnoll_nsfwflavortext)
+	WRITE_FILE(S["gnoll_erpprefs"] , gnoll_prefs?.gnoll_erpprefs)
+	WRITE_FILE(S["gnoll_ooc_extra"] , gnoll_prefs?.gnoll_ooc_extra)
+	WRITE_FILE(S["gnoll_song_title"] , gnoll_prefs?.gnoll_song_title)
+	WRITE_FILE(S["gnoll_song_artist"] , gnoll_prefs?.gnoll_song_artist)
+	WRITE_FILE(S["gnoll_img_gallery"] , gnoll_prefs?.gnoll_img_gallery)
+	WRITE_FILE(S["gnoll_nsfw_img_gallery"] , gnoll_prefs?.gnoll_nsfw_img_gallery)
 
 	return TRUE
 

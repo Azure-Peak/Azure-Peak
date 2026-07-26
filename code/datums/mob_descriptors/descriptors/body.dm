@@ -14,6 +14,9 @@
 /datum/mob_descriptor/body/herculean
 	name = "Herculean"
 
+/datum/mob_descriptor/body/toned
+	name = "Toned"
+
 /datum/mob_descriptor/body/plump
 	name = "Plump"
 
