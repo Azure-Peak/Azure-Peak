@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Removed Artificer Armor from standing order and added some proper categorizations to some artificers items for display / market purpose"

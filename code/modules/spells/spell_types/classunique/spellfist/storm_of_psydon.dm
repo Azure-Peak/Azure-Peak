@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/storm_of_psydon
+	source_aspect = /datum/magic_aspect/pseudo/spellfist
 	button_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
 	button_icon_state = "storm_of_psydon"
 	name = "Storm of Psydon"

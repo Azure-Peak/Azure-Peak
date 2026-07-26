@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/leyline_anchor
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Leyline Anchor"
 	desc = "Anchor an arcyne tether to the leyline beneath your feet. Recast to recall. \
 		The tether has 75 health and lasts 20 seconds. \

@@ -42,7 +42,8 @@
 		TRAIT_LYCANRESILENCE,
 		TRAIT_CHUNKYFINGERS, //So they can no longer use weapons at all.
 		TRAIT_UNLYCKERABLE, //Literal archenemy
-		TRAIT_ZOMBIE_IMMUNE
+		TRAIT_ZOMBIE_IMMUNE,
+		TRAIT_UNCONVERTIBLE // major antag
 	)
 	confess_lines = list(
 		"THE BEAST INSIDE ME!",

@@ -108,6 +108,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/list/learned_recipes
 
 	var/list/special_items = list()
+	var/list/special_items_metadata = list()
 
 	var/list/areas_entered = list()
 
@@ -583,6 +584,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 				if(A.type == datum_type)
 					return A
 
+
+/datum/mind/proc/has_spellmiracle_block_antag()
+	for(var/antag_type in SPELLMIRACLE_BLOCK_ANTAGS)
+		if(has_antag_datum(antag_type))
+			return TRUE
+	return FALSE
 
 /datum/mind/proc/remove_traitor()
 	remove_antag_datum(/datum/antagonist/traitor)
@@ -1418,7 +1425,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 							I.special_item = TRUE
 							I.smeltresult = /obj/item/ash
 							I.salvage_result = /obj/item/ash
-						var/list/metadata = user.client?.prefs?.gear_list?[base_name]
+						var/list/metadata = user.mind.special_items_metadata[base_name]
 						if(islist(metadata))
 							if(metadata["color"])
 								I.add_atom_colour(metadata["color"], FIXED_COLOUR_PRIORITY)

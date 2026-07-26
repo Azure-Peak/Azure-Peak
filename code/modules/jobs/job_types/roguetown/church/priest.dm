@@ -32,8 +32,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	 /obj/effect/proc_holder/spell/invoked/revive,
 	 /datum/action/cooldown/spell/miracle/bishop_pack,
 	 /obj/effect/proc_holder/spell/self/convertrole/templar,
-	 /obj/effect/proc_holder/spell/self/convertrole/monk,
-	 /obj/effect/proc_holder/spell/invoked/convert_heretic_priest
+	 /obj/effect/proc_holder/spell/self/convertrole/monk
 	)
 	outfit = /datum/outfit/job/roguetown/priest
 	display_order = JDO_BISHOP
@@ -583,105 +582,6 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 			log_game("DIVINE CURSE: [real_name] ([ckey]) has stricken [H.real_name] ([H.ckey] with [curse_pick])")
 
 		return
-
-/obj/effect/proc_holder/spell/invoked/convert_heretic_priest
-	name = "Absolve the Heretic"
-	desc = "Convert a heretic back to the fold of the church. Requires the heretic to be willing, and takes a long time to cast."
-	invocations = list("Show this lost sheep the way back to the flock.")
-	invocation_type = "whisper"
-	sound = 'sound/magic/bless.ogg'
-	devotion_cost = 100
-	recharge_time = 20 MINUTES
-	chargetime = 10 SECONDS
-	associated_skill = /datum/skill/magic/holy
-	overlay_state = "convert_heretic"
-
-/obj/effect/proc_holder/spell/invoked/convert_heretic_priest/cast(list/targets, mob/living/carbon/human/user)
-	var/mob/living/carbon/human/target = targets[1]
-
-	if(!ishuman(target))
-		revert_cast()
-		return FALSE
-
-	if(target.cmode)
-		revert_cast()
-		return FALSE
-
-	if(!HAS_TRAIT(target, TRAIT_HERESIARCH))
-		to_chat(user, span_warning("[target] wasn't marked by the enemy as a heretic!"))
-		revert_cast()
-		return FALSE
-
-	if(istype(target.patron, /datum/patron/vheslyn)) //UNFORGIVABLE SIN, UNFORGIVABLE, DIE. DIE. DIE.
-		to_chat(user, span_userdanger("[target] is UNFORGIVABLE, my attempt to convert them to the TEN, violently sunders my lux!"))
-		if(!HAS_TRAIT(user, TRAIT_NOPAIN))
-			user.emote("agony")
-		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
-			user.freak_out()
-		playsound(user, 'sound/misc/lava_death.ogg', 100, TRUE)
-		user.adjust_fire_stacks(40, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //YOU FUCKING DESERVE THIS
-		user.adjustFireLoss(120)//This will kill you, always.
-		user.Knockdown(30)
-		user.Jitter(30)
-		user.Stun(25)
-		user.ignite_mob()
-		explosion(get_turf(user), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-		user.visible_message(span_danger("[user] is violently smited as profane flames engulf their entire body!"))
-		return TRUE
-
-	if(alert(target, "[user.real_name] is trying to convert you back to the church. Do you accept?", "Conversion Request", "Yes", "No") != "Yes")
-		to_chat(user, span_warning("[target] refused your offer of conversion."))
-		revert_cast()
-		return FALSE
-
-	// Remove from excommunication lists
-	if(target.real_name in GLOB.excommunicated_players)
-		GLOB.excommunicated_players -= target.real_name
-
-	// Remove heretic traits
-	REMOVE_TRAIT(target, TRAIT_HERESIARCH, TRAIT_GENERIC)
-	REMOVE_TRAIT(target, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
-
-	// Remove divine punishments
-	target.remove_status_effect(/datum/status_effect/debuff/excomm)
-	target.remove_stress(/datum/stressevent/excommunicated)
-
-	// Save devotion state
-	var/saved_level = CLERIC_T0
-	var/saved_max_progression = CLERIC_T1
-	var/saved_devotion_gain = CLERIC_REGEN_MINOR
-
-	if(target.devotion)
-		saved_level = target.devotion.level
-		saved_devotion_gain = target.devotion.passive_devotion_gain
-		saved_max_progression = target.devotion.max_progression
-
-		// Remove all granted spells
-		for(var/obj/effect/proc_holder/spell/S in target.devotion.granted_spells)
-			target.mind.RemoveSpell(S)
-
-		target.devotion.Destroy()
-
-	// Convert to priest's patron
-	target.patron = new user.patron.type()
-
-	// Grant new devotion
-	var/datum/devotion/new_devotion = new /datum/devotion(target, target.patron)
-	target.devotion = new_devotion
-	new_devotion.grant_miracles(target, saved_level, saved_devotion_gain, saved_max_progression)
-
-	// Apply revival debuff as a small cost to conversion in addition to the cooldown
-	user.apply_status_effect(/datum/status_effect/debuff/devitalised)
-	target.apply_status_effect(/datum/status_effect/debuff/devitalised)
-
-	var/announcement_text = "[user.real_name] has brought [target.real_name] back into the fold of the church! [target.real_name] now follows [user.patron.name]!"
-	priority_announce(announcement_text, title = "REDEMPTION", sound = 'sound/misc/bell.ogg')
-	message_admins("HERETIC CONVERSION: [user.real_name] ([user.ckey]) has converted [target.real_name] ([target.ckey]) to [user.patron.name]")
-	log_game("HERETIC CONVERSION: [user.real_name] ([user.ckey]) converted [target.real_name] ([target.ckey]) to [user.patron.name]")
-	to_chat(user, span_danger("You've converted [target.name] to follow [user.patron.name]!"))
-	to_chat(target, span_danger("You feel the weight of heresy lift from your soul as you embrace [user.patron.name]!"))
-
-	return TRUE
 
 #undef PRIEST_ANNOUNCEMENT_COOLDOWN
 #undef PRIEST_SERMON_COOLDOWN

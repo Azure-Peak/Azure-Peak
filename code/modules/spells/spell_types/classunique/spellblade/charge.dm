@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/charge
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Charge!"
 	desc = "Infuse mana into your legs, dashing forward four paces - \
 		ramming everyone in your path to the sides for no damage."

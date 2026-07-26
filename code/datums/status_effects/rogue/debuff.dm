@@ -83,6 +83,26 @@
 	desc = "I urgently need to drink something! Anything!"
 	icon_state = "thirst3"
 
+/datum/status_effect/debuff/spell_vampire_block
+	id = "spell_vampire_block"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/spell_vampire_block
+	duration = 60 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+
+/datum/status_effect/debuff/spell_vampire_block/on_apply()
+	. = ..()
+	if(.)
+		ADD_TRAIT(owner, TRAIT_SPELL_VAMPIRE_BLOCK, STATUS_EFFECT_TRAIT)
+
+/datum/status_effect/debuff/spell_vampire_block/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_SPELL_VAMPIRE_BLOCK, STATUS_EFFECT_TRAIT)
+	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/spell_vampire_block
+	name = "Vitae Surge"
+	desc = "My vampiric power blocks the flow of the arcyne in my vein - I cannot utilize conventional magick until it subsides."
+	icon_state = "debuff"
+
 
 
 /datum/status_effect/debuff/vthirstt1

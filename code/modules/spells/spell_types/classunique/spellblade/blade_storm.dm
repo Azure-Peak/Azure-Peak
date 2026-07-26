@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/projectile/blade_storm
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Blade Storm"
 	desc = "Hurls forth a shadow of yourself. On impact, teleport onto the target \
 		and unleash a storm of slashes on them and around yourself.\

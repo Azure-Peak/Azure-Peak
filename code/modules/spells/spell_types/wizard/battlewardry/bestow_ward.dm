@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/bestow_ward
+	source_aspect = /datum/magic_aspect/battlewardry
 	name = "Bestow Ward"
 	desc = "Channel arcyne energy to wrap an ally in a protective ward. The ward covers their entire body with light armor, \
 	layering coverage over any real armor they wear. The ward lasts for 3 minutes or until destroyed. \

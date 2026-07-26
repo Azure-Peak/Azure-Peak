@@ -292,8 +292,8 @@
 			SStreasury.noble_incomes[H] = noble_income
 			SStreasury.grant_estate_income(H, noble_income, TRUE)
 
-	if(show_in_credits)
-		SScrediticons.processing += H
+	if(show_in_credits && H.ckey && isnull(SScrediticons.processing[H.ckey]))
+		SScrediticons.processing[H.ckey] = FALSE
 
 	if(cmode_music)
 		H.cmode_music = cmode_music
@@ -351,18 +351,18 @@
 	var/datum/job/J = SSjob.GetJob(mind.assigned_role)
 	var/used_title = get_role_title()
 
-	GLOB.credits_icons[thename] = list()
 	var/client/C = client
 	var/datum/preferences/P = C.prefs
 	var/icon/I
 	if(generate_for_adv_class)
-		I = get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_MANIFEST, list(SOUTH), human_gear_override = src)
+		I = get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_CREDITS, list(SOUTH), human_gear_override = src)
 	else if (P)
-		I = get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_MANIFEST, list(SOUTH))
+		I = get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_CREDITS, list(SOUTH))
 	if(I)
 		var/icon/female_s = icon("icon"='icons/mob/clothing/under/masking_helpers.dmi', "icon_state"="credits")
 		I.Blend(female_s, ICON_MULTIPLY)
 		I.Scale(96,96)
+		GLOB.credits_icons[thename] = list()
 		GLOB.credits_icons[thename]["title"] = used_title
 		GLOB.credits_icons[thename]["icon"] = I
 		GLOB.credits_icons[thename]["vc"] = voice_color
@@ -529,7 +529,7 @@
 /proc/should_wear_masc_clothes(mob/living/carbon/human/H)
 	if(!H.mind)
 		return (H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == IT_ITS)
-	else 
+	else
 		return (H.clothes_pref == CLOTHES_M)
 
 /proc/should_wear_femme_clothes(mob/living/carbon/human/H)

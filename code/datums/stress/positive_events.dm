@@ -3,6 +3,17 @@
 	stressadd = -2
 	desc = span_green("The Gods smile upon me.")
 
+/datum/stressevent/convert
+	timer = 30 MINUTES
+	stressadd = -2
+	desc = span_green("I have done a good deed; my patron smiles upon me.")
+
+/datum/stressevent/convert/psydon
+	desc = span_green("I have done a good deed; surely, PSYDON must smile upon me.")
+
+/datum/stressevent/convert/recipient
+	desc = span_green("I was a blind fool, before. Now I see what I have been missing.")
+
 /datum/stressevent/seeblessed
 	timer = 30 MINUTES
 	stressadd = -2
@@ -247,62 +258,10 @@
 	desc = span_green("I ate my favourite food!")
 	timer = 5 MINUTES
 
-/datum/stressevent/favourite_food/can_apply(mob/living/user)
-	. = ..()
-	if(!.)
-		return FALSE
-	if(user.has_stress_event(/datum/stressevent/favourite_food))
-		return FALSE
-	else if(ishuman(user))
-		var/mob/living/carbon/human/human_eater = user
-		if(human_eater.culinary_preferences && human_eater.culinary_preferences[CULINARY_FAVOURITE_FOOD])
-			var/favorite_food_type = human_eater.culinary_preferences[CULINARY_FAVOURITE_FOOD]
-			var/obj/item/reagent_containers/food/snacks/favorite_food_instance = favorite_food_type
-			timer = timer * max(initial(favorite_food_instance.faretype), 1)
-			return TRUE
-
 /datum/stressevent/favourite_drink
 	stressadd = -1
 	desc = span_green("I drank my favourite drink!")
 	timer = 5 MINUTES
-
-/datum/stressevent/favourite_drink/can_apply(mob/living/user)
-	. = ..()
-	if(!.)
-		return FALSE
-	if(user.has_stress_event(/datum/stressevent/favourite_drink))
-		return FALSE
-	else if(ishuman(user))
-		var/mob/living/carbon/human/human_drinker = user
-		if(human_drinker.culinary_preferences && human_drinker.culinary_preferences[CULINARY_FAVOURITE_DRINK])
-			var/favorite_drink_type = human_drinker.culinary_preferences[CULINARY_FAVOURITE_DRINK]
-			var/datum/reagent/consumable/favorite_drink_instance = favorite_drink_type
-			timer = timer * max(1 + initial(favorite_drink_instance.quality), 1)
-			return TRUE
-
-/datum/stressevent/hated_food
-	stressadd = 1
-	desc = span_red("How vile! How can anyone eat what I just ate?!")
-	timer = 10 MINUTES
-
-/datum/stressevent/hated_food/can_apply(mob/living/user)
-	. = ..()
-	if(!.)
-		return FALSE
-	if(user.has_stress_event(/datum/stressevent/hated_food))
-		return FALSE
-
-/datum/stressevent/hated_drink
-	stressadd = 1
-	desc = span_red("Disgusting! How could anyone drink what I just drank?!")
-	timer = 10 MINUTES
-
-/datum/stressevent/hated_drink/can_apply(mob/living/user)
-	. = ..()
-	if(!.)
-		return FALSE
-	if(user.has_stress_event(/datum/stressevent/hated_drink))
-		return FALSE
 
 /datum/stressevent/meditation
 	timer = 10 MINUTES
