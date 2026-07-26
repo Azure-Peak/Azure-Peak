@@ -1283,11 +1283,15 @@
 
 /datum/profane_soul_data
 	var/name
-	var/mob/dead/observer/ghostref
+	// i couldnt get the ghosts to store well so we're just gonna check body & apply & remove DNR as needed cus thats close enough
+	var/mob/living/carbon/human/body
 
-/datum/profane_soul_data/New(mob/living/carbon/human/target, mob/dead/observer/G)
+/datum/profane_soul_data/New(mob/living/carbon/human/target)
 	name = target.real_name
-	ghostref = G
+	body = target
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/MiddleClick(mob/user, params)
+	release_profane_souls(user)
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
 	. = ..()
@@ -1413,13 +1417,10 @@
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 	record_round_statistic(STATS_ASSASSINATIONS)
 
-	var/mob/dead/observer/ghostref = soul
-	var/datum/profane_soul_data/new_soul = new(target, ghostref)
+	var/datum/profane_soul_data/new_soul = new(target)
 
 	src.stored_souls += new_soul
-
-	ghostref.trapped = TRUE
-	ghostref.can_reenter_corpse = FALSE
+	ADD_TRAIT(target, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
 
 	target.visible_message("<span class='danger'>[target]'s soul is pulled from their body and sucked into the profane dagger!</span>", "<span class='danger'>My soul is trapped within the profane dagger. Damnation!</span>")
 	playsound(src, 'sound/magic/soulsteal.ogg', 100, extrarange = 5)
@@ -1444,13 +1445,15 @@
 	var/freed_souls = 0
 	for(var/datum/profane_soul_data/soul in stored_souls)
 		freed_souls++
-		if(soul.ghostref && !QDELETED(soul.ghostref))
-			to_chat(soul.ghostref, "<b>I have been freed from my vile prison, I await Necra's cold grasp. Salvation!</b>")
-			soul.ghostref.trapped = FALSE
-			soul.ghostref.can_reenter_corpse = TRUE
+		if(soul.body && !QDELETED(soul.body))
+			var/mob/living/carbon/human/H = soul.body
+			to_chat(H, "<b>I have been freed from my vile prison, I await Necra's cold grasp. Salvation!</b>")
+			if(HAS_TRAIT_FROM(H, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED))
+				REMOVE_TRAIT(H, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
+				message_admins("debug! the trait was removed. awesome.")
 			user.visible_message(span_cult("[soul.name] flows out from the profane dagger, finally free of its grasp. Revival may be possible!"))
 		else
-			user.visible_message(span_cult("[soul.name] flows out from the profane dagger, instantly fleeing to the underworld..."))
+			message_admins("debug! something has gone wrong & the mob body is null")
 	user.visible_message(span_cult("The profane dagger shatters into putrid smoke!"))
 	qdel(src) // Delete the dagger. Forevermore.
 	return freed_souls
