@@ -1250,7 +1250,6 @@
 	// maybe add TRAIT_NOEMBED on initalize??? Fuck IDK man
 	resistance_flags = INDESTRUCTIBLE
 	stealthy_audio = TRUE
-	var/total_souls_taken = 0
 	var/last_spoken = 0 // prevent chatspam
 
 	// static list for what non-assassins hear on picking up the dagger.
@@ -1279,7 +1278,16 @@
 		"What, you egg?",
 		"How long have I been in here...?"
 	)
+	var/list/stored_souls = list()
 
+
+/datum/profane_soul_data
+	var/name
+	var/mob/dead/observer/ghostref
+
+/datum/profane_soul_data/New(mob/living/carbon/human/target, mob/dead/observer/G)
+	name = target.real_name
+	ghostref = G
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
 	. = ..()
@@ -1404,14 +1412,15 @@
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/init_profane_soul(mob/living/carbon/human/target, mob/user, mob/soul)
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 	record_round_statistic(STATS_ASSASSINATIONS)
-	var/mob/dead/observer/profane/S = new /mob/dead/observer/profane(src)
-	S.forceMove(src)
-	S.name = "soul of [target.real_name]"
-	S.real_name = "soul of [target.real_name]"
-	S.deadchat_name = target.real_name
-	var/mob/keysource = soul || target
-	S.key = keysource.key
-	S.language_holder = target.language_holder.copy(S)
+
+	var/mob/dead/observer/ghostref = soul
+	var/datum/profane_soul_data/new_soul = new(target, ghostref)
+
+	src.stored_souls += new_soul
+
+	ghostref.trapped = TRUE
+	ghostref.can_reenter_corpse = FALSE
+
 	target.visible_message("<span class='danger'>[target]'s soul is pulled from their body and sucked into the profane dagger!</span>", "<span class='danger'>My soul is trapped within the profane dagger. Damnation!</span>")
 	playsound(src, 'sound/magic/soulsteal.ogg', 100, extrarange = 5)
 	blade_int = max_blade_int // Stealing a soul successfully sharpens the blade.
@@ -1429,18 +1438,20 @@
 		return FALSE
 	user.adjust_triumphs(1)
 	init_profane_soul(target, user, chosen_ghost)
-	qdel(chosen_ghost)
 	return TRUE
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/release_profane_souls(mob/user) // For ways to release the souls trapped within a profane dagger, such as a Necrite burial rite. Returns the number of freed souls.
 	var/freed_souls = 0
-	for(var/mob/dead/observer/profane/A in src) // for every trapped soul in the dagger, whether they have left the game or not
-		to_chat(A, "<b>I have been freed from my vile prison, I await Necra's cold grasp. Salvation!</b>")
-		A.trapped = FALSE
-		A.returntolobby() //Send the trapped soul back to the lobby
-		user.visible_message("<span class='warning'>The [A.name] flows out from the profane dagger, finally free of its grasp.</span>")
-		freed_souls += 1
-	user.visible_message("<span class='warning'>The profane dagger shatters into putrid smoke!</span>")
+	for(var/datum/profane_soul_data/soul in stored_souls)
+		freed_souls++
+		if(soul.ghostref && !QDELETED(soul.ghostref))
+			to_chat(soul.ghostref, "<b>I have been freed from my vile prison, I await Necra's cold grasp. Salvation!</b>")
+			soul.ghostref.trapped = FALSE
+			soul.ghostref.can_reenter_corpse = TRUE
+			user.visible_message(span_cult("[soul.name] flows out from the profane dagger, finally free of its grasp. Revival may be possible!"))
+		else
+			user.visible_message(span_cult("[soul.name] flows out from the profane dagger, instantly fleeing to the underworld..."))
+	user.visible_message(span_cult("The profane dagger shatters into putrid smoke!"))
 	qdel(src) // Delete the dagger. Forevermore.
 	return freed_souls
 
