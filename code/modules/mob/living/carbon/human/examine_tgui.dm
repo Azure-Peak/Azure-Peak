@@ -177,6 +177,13 @@
 		if(!(char_examine_theme in valid_themes) || char_examine_theme == "trey_liam")
 			char_examine_theme = "azure_default"
 
+	// NSFW examine content is only visible to age-verified viewers (admins exempt); strip it
+	// server-side so the text never reaches an unverified client.
+	if(!user?.check_agevet() && !(user?.client && check_rights_for(user.client, R_ADMIN)))
+		flavor_text_nsfw = null
+		ooc_notes_nsfw = null
+		nsfw_img_gallery = list()
+
 	var/list/data = list(
 		// Identity
 		"character_name" = obscured ? "Unknown" : char_name,

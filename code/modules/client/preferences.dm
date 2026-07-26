@@ -1608,7 +1608,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 	else if(href_list["preference"] == "agevet")
 		if(!user.check_agevet())
-			to_chat(usr, span_info("- You are a whitelisted player with full access to the server's features. If you'd also like to show others that you've been <b>AGE-VERIFIED</b> with a censored ID, you can open a ticket in Valmoria's <b>#vet-here</b> channel. If you are already verified on Discord, but not in-game, ahelp. Note that this is a purely optional process, and - besides awarding a special header for your flavortext - doesn't affect you in any other way."))
+			to_chat(usr, span_info("- To get <b>AGE-VERIFIED</b> with a censored ID, join our Discord and open an age vetting ticket. If you are already verified on Discord, but not in-game, ahelp."))
+			usr << link("https://discord.gg/EMUEZpDBp6")
 		else
 			to_chat(usr, span_love("- You have been successfully <b>AGE-VERIFIED!</b>"))
 
@@ -2237,6 +2238,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					log_game("[user] has set their noble gossip'.")
 
 				if("nsfwflavortext")
+					if(!user.check_agevet())
+						to_chat(user, "<span class='warning'>You must be age-verified to set NSFW flavortext.</span>")
+						return
 					to_chat(user, "<span class='notice'>["<span class='bold'>NSFW Flavortext can be used for setting things like body descriptions and other physical details that may be conisdered explicit.</span>"]</span>")
 					to_chat(user, "<font color = '#d6d6d6'>Leave blank to clear.</font>")
 					var/new_nsfwflavortext = tgui_input_text(user, "Input your character description:", "NSFW Flavortext", nsfwflavortext, multiline = TRUE,  encode = FALSE, bigmodal = TRUE)
@@ -2253,6 +2257,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					to_chat(user, "<span class='notice'>Successfully updated NSFW flavortext</span>")
 					log_game("[user] has set their NSFW flavortext'.")
 				if("erpprefs")
+					if(!user.check_agevet())
+						to_chat(user, "<span class='warning'>You must be age-verified to set ERP preferences.</span>")
+						return
 					to_chat(user, "<span class='notice'>["<span class='bold'>Erotic Roleplay preferences. If you put 'anything goes' or 'no limits' here, do not be surprised if people take you up on it.</span>"]</span>")
 					to_chat(user, "<font color = '#d6d6d6'>Leave blank to clear.</font>")
 					var/new_erpprefs = tgui_input_text(user, "Input your preferences:", "ERP Preferences", erpprefs, multiline = TRUE,  encode = FALSE, bigmodal = TRUE)
@@ -2298,7 +2305,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					log_game("[user] has added an image to their gallery: '[new_galleryimg]'.")
 
 				if("nsfw_img_gallery")
-
+					if(!user.check_agevet())
+						to_chat(user, "<span class='warning'>You must be age-verified to add NSFW gallery images.</span>")
+						return
 					if(nsfw_img_gallery.len >= 3)
 						to_chat(user, "You already have three images in your NSFW gallery!")
 						return
