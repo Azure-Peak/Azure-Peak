@@ -1420,6 +1420,7 @@
 	var/datum/profane_soul_data/new_soul = new(target)
 
 	src.stored_souls += new_soul
+	ADD_TRAIT(target, TRAIT_DNR, GRAGGAR_ASSASSINATED)
 	ADD_TRAIT(target, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
 
 	target.visible_message("<span class='danger'>[target]'s soul is pulled from their body and sucked into the profane dagger!</span>", "<span class='danger'>My soul is trapped within the profane dagger. Damnation!</span>")
@@ -1448,9 +1449,12 @@
 		if(soul.body && !QDELETED(soul.body))
 			var/mob/living/carbon/human/H = soul.body
 			to_chat(H, "<b>I have been freed from my vile prison, I await Necra's cold grasp. Salvation!</b>")
+			if(HAS_TRAIT_FROM(H, TRAIT_DNR, GRAGGAR_ASSASSINATED))
+				REMOVE_TRAIT(H, TRAIT_DNR, GRAGGAR_ASSASSINATED)
+				message_admins("debug! DNR was removed. awesome.")
 			if(HAS_TRAIT_FROM(H, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED))
 				REMOVE_TRAIT(H, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
-				message_admins("debug! the trait was removed. awesome.")
+				message_admins("debug! darkstar was removed. awesome.")
 			user.visible_message(span_cult("[soul.name] flows out from the profane dagger, finally free of its grasp. Revival may be possible!"))
 		else
 			message_admins("debug! something has gone wrong & the mob body is null")

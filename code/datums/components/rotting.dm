@@ -63,7 +63,7 @@
 	var/mob/living/carbon/C = parent
 
 	var/is_zombie
-	if(HAS_TRAIT(C, TRAIT_DNR) || HAS_TRAIT(C, TRAIT_CLAIMED_BY_DARKSTAR))
+	if(HAS_TRAIT(C, TRAIT_DNR))
 		return
 	if(C.mind)
 		if(C.mind.has_antag_datum(/datum/antagonist/zombie))

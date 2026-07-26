@@ -896,9 +896,6 @@
 	if(HAS_TRAIT(src, TRAIT_DNR))
 		to_chat(user, span_danger("None of the divine have them. Their only chance is spent. Where did they go?"))
 		return FALSE
-	if(HAS_TRAIT(src, TRAIT_CLAIMED_BY_DARKSTAR))
-		to_chat(user, span_danger("There is a clear hole in their heart-lux. Something is missing-- they won't come back until it's found."))
-		return FALSE
 	if(HAS_TRAIT(src, TRAIT_NECRAS_VOW))
 		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
 		return FALSE
