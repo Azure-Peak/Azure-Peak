@@ -37,6 +37,7 @@
 		TRAIT_SILVER_WEAK,
 		TRAIT_ZOMBIE_IMMUNE,
 	)
+	leader = /datum/clan_leader/abyss
 	covens_to_select = 0
 
 /datum/clan/abyss/on_gain(mob/living/carbon/human/H, is_vampire = TRUE)
