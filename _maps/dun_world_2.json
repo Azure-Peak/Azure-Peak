@@ -7,6 +7,7 @@
 		"_maps/map_files/otherz/wretch_coast.json"
 	],
 	"space_empty_levels": 0,
+	"load_dungeon": false,
 	"space_ruin_levels": 0,
 	"shuttles": {
 	    "cargo": "cargo_rogue",

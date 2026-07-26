@@ -30,6 +30,14 @@ SUBSYSTEM_DEF(dungeon_generator)
 	var/prot_min_x = 0; var/prot_max_x = 0; var/prot_min_y = 0; var/prot_max_y = 0
 
 /datum/controller/subsystem/dungeon_generator/Initialize(start_timeofday)
+	// Maps without a dungeon entrance skip the dungeon z-level entirely; don't cache
+	// templates or poll for markers there.
+	if(SSmapping.config && !SSmapping.config.load_dungeon)
+		generation_complete = TRUE
+		setup_done = TRUE
+		can_fire = FALSE
+		return ..()
+
 	var/list/dungeon_templates = list()
 	templates_by_connection = list()
 	templates_by_connection_and_depth = list()
