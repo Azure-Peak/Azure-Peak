@@ -38,7 +38,6 @@
 		/obj/item/bomb/smoke = 3,
 		/obj/item/storage/pill_bottle/dice = 1,
 		/obj/item/toy/cards/deck = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 	if(H.mind)

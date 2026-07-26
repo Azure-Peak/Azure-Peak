@@ -363,6 +363,12 @@
 	if(effect && HAS_TRAIT(user, TRAIT_INQUISITION))
 		. += "<A href='?src=[REF(src)];item=[effect.device]'><span class='warning'>[m3] \a [effect.device] implanted.</span></A>"
 
+		if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED) && user.mind?.has_antag_datum(/datum/antagonist/vampire))
+			. += span_redtext ("SILVER-BLOODED...")
+
+		var/datum/antagonist/vampire/vamp_inspect_vlord = src.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
+		if(vamp_inspect_vlord && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
+			. += span_userdanger("A MONSTER!")
 	//Gets encapsulated with a warning span
 	var/list/msg = list()
 
@@ -875,7 +881,7 @@
 		else if(GLOB.lord_titles[name])
 			. += span_notice("[m3] been granted the title of \"[GLOB.lord_titles[name]]\".")
 
-		if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
+		if(show_descriptors)
 			if(HAS_TRAIT(src, TRAIT_NOBLE) || HAS_TRAIT(src, TRAIT_DEFILED_NOBLE))
 				if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_DEFILED_NOBLE))
 					. += span_notice("A fellow noble.")

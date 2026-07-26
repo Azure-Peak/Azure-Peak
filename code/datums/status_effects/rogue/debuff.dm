@@ -525,9 +525,9 @@
 	icon_state = "revived_rot"
 
 /datum/status_effect/debuff/rotted_zombie
-	id = "rotted_zombie" //Replaces the flat-stat change, this should ONLY apply to zombies who have been dead for some time. Makes them easier to kill.
+	id = "rotted_zombie" //Replaces the flat-stat change, this should ONLY apply to zombies, makes them easier to kill
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/rotted_zombie
-	effectedstats = list(STATKEY_CON = -8) //No duration = infinate in time - this is removed on de-rot miricle OR de-rot surgery. Won't be applied unless you've been a zombie for ~20 min.
+	effectedstats = list(STATKEY_CON = -3, STATKEY_INT = -8) //No duration = infinate in time - this is removed on de-rot miricle OR de-rot surgery. Won't be applied unless you're rotting long enough to zombify.
 	examine_text = "<font color='#2c8b00'>SUBJECTPRONOUN's flesh bears the unmistakable signs of unnatural decay. An ill omen whispers that this corpse may yet walk again.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/rotted_zombie
@@ -599,6 +599,35 @@
 	name = "Chilled"
 	desc = "Something has chilled me to the bone! It's hard to move."
 	icon_state = "muscles"
+
+/datum/status_effect/debuff/blackvitae
+	id = "blackvitae"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/blackvitae
+	duration = 20 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/blackvitae
+	name = "Bloodrot"
+	desc = span_bloody("BLACKENED ROT SEEPS INTO MY WOUNDS! IT HURTS, IT HURTS, IT HURTS, IT HURTS!!")
+	icon_state = "ritesexpended"
+
+/datum/status_effect/debuff/blackvitae/on_apply()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/human/target = owner
+		var/newcolor = rgb(67, 67, 67)
+		var/datum/physiology/phy = target.physiology
+		phy.bleed_mod *= 1.5
+		phy.pain_mod *= 1.5
+		target.add_atom_colour(newcolor, TEMPORARY_COLOUR_PRIORITY)
+		addtimer(CALLBACK(target, TYPE_PROC_REF(/atom, remove_atom_colour), TEMPORARY_COLOUR_PRIORITY, newcolor), 20 SECONDS)
+
+/datum/status_effect/debuff/blackvitae/on_remove()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/human/target = owner
+		var/datum/physiology/phy = target.physiology
+		phy.bleed_mod /= 1.5
+		phy.pain_mod /= 1.5
 
 /datum/status_effect/debuff/cold/greater
 	id = "Frozen"

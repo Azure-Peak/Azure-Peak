@@ -36,7 +36,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/attackby(obj/item/W, mob/living/carbon/user, params)
 	// Special exception for rotfang to help deal with inventory woes / make it harder to steal.
-	if(istype(W, /obj/item/rogueweapon/huntingknife/throwingknife) || istype(W, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang))
+	if(istype(W, /obj/item/rogueweapon/huntingknife/throwingknife) || istype(W, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang) || istype(W, /obj/item/rogueweapon/huntingknife/throwingknife/triumph))
 		if(holdingknife == null)
 			for(var/obj/item/clothing/shoes/roguetown/boots/B in user.get_equipped_items(TRUE))
 				to_chat(loc, span_warning("I quickly slot [W] into [B]!"))
@@ -44,7 +44,7 @@
 				holdingknife = W
 				playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
 		else
-			to_chat(loc, span_warning("My boot already holds a throwing knife."))
+			to_chat(loc, span_warning("My boot already holds a knife."))
 		return
 	. = ..()
 

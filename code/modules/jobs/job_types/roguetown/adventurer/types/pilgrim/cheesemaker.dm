@@ -5,7 +5,7 @@
 	cook up some cuisine with food gathered from the local flora and fauna"
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/cheesemaker
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
@@ -52,7 +52,6 @@
 		/obj/item/reagent_containers/food/snacks/rogue/cheddar = 2,
 		/obj/item/natural/cloth = 2,
 		/obj/item/book/rogue/yeoldecookingmanual = 1,
-		/obj/item/recipe_book/survival = 1,
 		)
 	r_hand = /obj/item/flashlight/flare/torch
 	if(H.mind)

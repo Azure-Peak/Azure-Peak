@@ -49,6 +49,5 @@
 		/obj/item/flint = 1,
 		/obj/item/rogueweapon/huntingknife/chefknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/recipe_book/survival = 1,
 		)
 		// no ration wrappers by design
