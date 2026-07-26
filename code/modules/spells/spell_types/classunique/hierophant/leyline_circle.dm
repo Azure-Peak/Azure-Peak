@@ -5,6 +5,7 @@
 // If Combat Mode is off, this will instead restore your Energy.
 
 /datum/action/cooldown/spell/ley_lines
+	source_aspect = /datum/magic_aspect/pseudo/hierophant
 	name = "Ley Lines"
 	desc = "Creates a circle of arcyne power. Standing within it greatly enhances your spellcasting, increasing your intellect and reducing the cooldown of your spells. If you are not in Combat Mode, the ley lines instead restore your energy at a rapid pace.<br><br>While standing in a Leyline, you cannot defend yourself.<br><br>This will also grant a spell that makes you quickly move back to your Leylines."
 	fluff_desc = "'No! My Ley Lines!' is a common cry among Hierophants the moment they are dragged even an inch away from their carefully prepared nexus of power. Within its bounds, arcane formulae seem effortless, threads of mana unravel before the mind's eye, and complex spellwork flows with the precision of an auto-smither. Outside of it, reality becomes frustratingly ordinary once more. Most Magos give stern warnings this sensation can be addictive, and even dangerous. Hierophants take it as a suggestion."
@@ -42,6 +43,7 @@
 	active_circle = null
 
 /datum/action/cooldown/spell/between_the_lines
+	source_aspect = /datum/magic_aspect/pseudo/hierophant
 	name = "Between the Lines"
 	desc = "Return instantly to your Ley Lines, you addict."
 	fluff_desc = "Among the oldest Hierophant workings recorded, 'Between the Lines' is said to have been born from a simple problem: every moment spent away from a Ley Circle was a moment deprived of perfection. Rather than endure the indignity of walking back, the first Hierophants bent space itself, ensuring they could return to the intoxicating clarity of the Ley Lines without a single step."

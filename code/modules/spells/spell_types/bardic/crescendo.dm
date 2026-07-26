@@ -24,6 +24,7 @@
 	return turfs
 
 /datum/action/cooldown/spell/crescendo
+	source_aspect = /datum/magic_aspect/pseudo/bardic
 	name = "Crescendo"
 	desc = "Prime your next melee strike to unleash a 3x3 blast based on your last rhythm. Build 3 rhythm procs to unlock.\n\n\
 	<b>Resonating:</b> Parry-bypassing brute damage.\n\

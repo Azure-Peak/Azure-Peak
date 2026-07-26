@@ -193,6 +193,14 @@
 	user.log_message("sent mail via [name]/[(loc)] from [sender_name] to [recipient_name]", LOG_GAME)
 	message_admins("[key_name(user)] sent mail via [name]/[(loc)] from [sender_name] to [recipient_name]")
 
+/obj/structure/roguemachine/mail/proc/build_sanitized_letter(sender, recipient, content)
+	var/obj/item/paper/P = new
+	P.info += sanitize(content)
+	P.mailer = sanitize(sender)
+	P.mailedto = sanitize(recipient)
+	P.update_icon()
+	return P
+
 /obj/structure/roguemachine/mail/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	if(..())
 		return TRUE
@@ -221,19 +229,15 @@
 			if(!is_free && coin_loaded < 1)
 				to_chat(user, span_warning("No free letter ready and no coin loaded. Wait the cooldown or insert a coin."))
 				return TRUE
-			var/send2place = params["recipient"]
-			var/sentfrom = params["sender"]
-			var/content = params["content"]
-			if(!send2place)
+			if(!params["recipient"])
 				return TRUE
+			var/content = params["content"]
 			if(length(content) > 2000)
 				to_chat(user, span_warning("Letter too long."))
 				return TRUE
-			var/obj/item/paper/P = new
-			P.info += content
-			P.mailer = sentfrom
-			P.mailedto = send2place
-			P.update_icon()
+			var/obj/item/paper/P = build_sanitized_letter(params["sender"], params["recipient"], content)
+			var/send2place = P.mailedto
+			var/sentfrom = P.mailer
 			var/sent_ok = FALSE
 			if(findtext(send2place, "#"))
 				var/box2find = text2num(copytext(send2place, findtext(send2place, "#")+1))
@@ -651,8 +655,8 @@
 			to_chat(user, span_warning("The machine doesn't respond."))
 			return
 		if(alert(user, "Send Mail?",,"YES","NO") == "YES")
-			var/send2place = input(user, "Where to? (Person or #number)", "ROGUETOWN", null)
-			var/sentfrom = input(user, "Who is this from? (Leave blank to send anonymously)", "ROGUETOWN", null)
+			var/send2place = sanitize(input(user, "Where to? (Person or #number)", "ROGUETOWN", null))
+			var/sentfrom = sanitize(input(user, "Who is this from? (Leave blank to send anonymously)", "ROGUETOWN", null))
 			if(!sentfrom)
 				sentfrom = "Anonymous"
 			if(findtext(send2place, "#"))

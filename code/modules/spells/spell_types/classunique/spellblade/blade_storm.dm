@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/projectile/blade_storm
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Blade Storm"
 	desc = "Hurls forth a shadow of yourself. On impact, teleport onto the target \
 		and unleash a storm of slashes on them and around yourself.\
@@ -23,7 +24,7 @@
 
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
-	charge_time = 2 SECONDS
+	charge_time = CHARGETIME_MINOR // As the most awkward ult to use, should have a lower charge time
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'

@@ -10,14 +10,12 @@
 	result = list(/obj/item/clothing/suit/roguetown/shirt/undershirt/webs)
 	reqs = list(/obj/item/natural/silk = 1)
 	craftdiff = 1
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/weaving/webbing
 	name = "webbed leggings"
 	result = list(/obj/item/clothing/under/roguetown/webs)
 	reqs = list(/obj/item/natural/silk = 2)
 	craftdiff = 1
-	sellprice = 9
 
 /datum/crafting_recipe/roguetown/weaving/cloak
 	name = "silk half cloak"
@@ -25,7 +23,6 @@
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 19
 
 /datum/crafting_recipe/roguetown/weaving/puritan
 
@@ -34,7 +31,6 @@
 	result = list(/obj/item/clothing/cloak/cape/puritan)
 	reqs = list(/obj/item/natural/silk = 4)
 	craftdiff = 3
-	sellprice = 35
 
 /datum/crafting_recipe/roguetown/weaving/shirt
 	name = "formal silks"
@@ -42,7 +38,6 @@
 	result = list(/obj/item/clothing/suit/roguetown/shirt/undershirt/puritan)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 3
-	sellprice = 35
 
 /datum/crafting_recipe/roguetown/weaving/shepardmask
 	name = "half-mask"
@@ -51,7 +46,6 @@
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/silk = 1)
 	craftdiff = 1
-	sellprice = 30
 
 /datum/crafting_recipe/roguetown/weaving/undividedrobe
 	name = "undivided robes"
@@ -59,7 +53,6 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	craftdiff = 4
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/undividedclericrobe
 	name = "undivided devotee robes"
@@ -67,7 +60,6 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 20
 
 /datum/crafting_recipe/roguetown/weaving/astratarobe
 	name = "astrata robes"
@@ -75,7 +67,6 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	craftdiff = 4
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/ravoxrobe
 	name = "ravox robes"
@@ -83,7 +74,6 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	craftdiff = 4
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/abyssorrobe
 	name = "abyssor robes"
@@ -91,7 +81,6 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	craftdiff = 4
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/undividedclerichood
 	name = "undivided devotee hood"
@@ -99,7 +88,6 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/undividedhood
 	name = "undivided hood"
@@ -107,7 +95,6 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 4 //On par w/robes, clergy gear shouldn't be easily obtainable
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/abyssorhood
 	name = "abyssor hood"
@@ -115,7 +102,6 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/astratahood
 	name = "solar hood"
@@ -123,7 +109,6 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/ravoxhood
 	name = "ravox hood"
@@ -131,7 +116,6 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/nocrobe
 	name = "noc robes"
@@ -139,7 +123,6 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	craftdiff = 4
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/nochood
 	name = "moon hood"
@@ -147,7 +130,6 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/eorahood
 	name = "eoran hood"
@@ -155,7 +137,6 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/dendorrobe
 	name = "dendor robes"
@@ -163,7 +144,6 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	craftdiff = 4
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/necrarobe
 	name = "necra robes"
@@ -171,7 +151,6 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	craftdiff = 4
-	sellprice = 25
 
 /datum/crafting_recipe/roguetown/weaving/necrahood
 	name = "necra hood"
@@ -179,7 +158,6 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 20
 
 /datum/crafting_recipe/roguetown/weaving/innkeeper
 	name = "bar dress"
@@ -188,7 +166,6 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 2)
 	craftdiff = 5
-	sellprice = 27
 
 /datum/crafting_recipe/roguetown/weaving/silkdress
 	name = "chemise"
@@ -197,7 +174,6 @@
 	reqs = list(/obj/item/natural/fibers = 2,
 				/obj/item/natural/silk = 3)
 	craftdiff = 5
-	sellprice = 30
 
 /datum/crafting_recipe/roguetown/weaving/silkcoat
 	name = "silk coat"
@@ -207,7 +183,6 @@
 				/obj/item/natural/silk = 3,
 				/obj/item/natural/fur = 2)
 	craftdiff = 5
-	sellprice = 60
 
 //Eora content from Stonekeep
 /datum/crafting_recipe/roguetown/weaving/eoramask
@@ -217,7 +192,6 @@
 	reqs = list(/obj/item/ingot/silver,
 				/obj/item/natural/silk = 4)
 	craftdiff = 3
-	sellprice = 20
 
 /datum/crafting_recipe/roguetown/weaving/eorarobes
 	name = "eoran robes"
@@ -225,7 +199,6 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 20
 
 /datum/crafting_recipe/roguetown/weaving/openeorarobes
 	name = "open eoran robes"
@@ -233,4 +206,3 @@
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3
-	sellprice = 20

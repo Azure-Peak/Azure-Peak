@@ -102,23 +102,17 @@
 			// Find position in spell_list to preserve order
 			var/spell_index = target.spell_list.Find(existing)
 			target.RemoveSpell(existing)
-			var/datum/upgraded = new upgrade_path
+			var/datum/action/cooldown/spell/upgraded = new upgrade_path
 			// Tag the spell desc with variant name for display — don't change the name
-			if(istype(upgraded, /datum/action/cooldown/spell))
-				var/datum/action/cooldown/spell/S = upgraded
-				S.desc = "[S.desc]\n<b>Variant:</b> [capitalize(variant_name)]"
+			upgraded.desc = "[upgraded.desc]\n<b>Variant:</b> [capitalize(variant_name)]"
 			mark_aspect_spell(upgraded)
 			// Insert at original position instead of appending
 			if(spell_index && spell_index <= length(target.spell_list) + 1)
 				target.spell_list.Insert(spell_index, upgraded)
-				if(istype(upgraded, /datum/action/cooldown/spell))
-					var/datum/action/cooldown/spell/S = upgraded
-					S.Grant(target.current)
-				else if(istype(upgraded, /obj/effect/proc_holder/spell))
-					var/obj/effect/proc_holder/spell/S = upgraded
-					S.action.Grant(target.current)
+				upgraded.Grant(target.current)
 			else
 				target.AddSpell(upgraded)
+	target.rebuild_action_order()
 
 /// Resolve a base choice-spell path to the spell actually granted, accounting for the applied variant swap.
 /datum/magic_aspect/proc/resolve_variant_spell(base_path)
@@ -158,15 +152,14 @@
 		if(existing)
 			target.RemoveSpell(existing)
 
-/datum/magic_aspect/proc/mark_aspect_spell(datum/spell_instance)
-	if(istype(spell_instance, /obj/effect/proc_holder/spell))
-		var/obj/effect/proc_holder/spell/S = spell_instance
-		S.refundable = FALSE
-		S.source_aspect = type
-	else if(istype(spell_instance, /datum/action/cooldown/spell))
+/proc/mark_spell_source_aspect(datum/spell_instance, aspect_path)
+	if(istype(spell_instance, /datum/action/cooldown/spell))
 		var/datum/action/cooldown/spell/S = spell_instance
 		S.refundable = FALSE
-		S.source_aspect = type
+		S.source_aspect = aspect_path
+
+/datum/magic_aspect/proc/mark_aspect_spell(datum/spell_instance)
+	mark_spell_source_aspect(spell_instance, type)
 
 /// Perform the binding or unbinding chant. Returns TRUE if completed, FALSE if interrupted.
 /// Each line is spoken aloud with a 2-second do_after between them.
@@ -180,8 +173,40 @@
 			return FALSE
 	return TRUE
 
+/datum/magic_aspect/pseudo
+	aspect_type = ASPECT_PSEUDO
+
+/datum/magic_aspect/pseudo/wards
+	name = "Warding"
+// Pseudo aspect meant for gating purpose
+
+/datum/magic_aspect/pseudo/spellblade
+	name = "Spellblade"
+
+/datum/magic_aspect/pseudo/spellfist
+	name = "Spellfist"
+
+/datum/magic_aspect/pseudo/bardic
+	name = "Bardic"
+
+/datum/magic_aspect/pseudo/vizier
+	name = "Vizier"
+
+/datum/magic_aspect/pseudo/hierophant
+	name = "Hierophant"
+
+/datum/magic_aspect/pseudo/luminary
+	name = "Luminary"
+
+/datum/magic_aspect/pseudo/desertrider
+	name = "Desert Rider"
+
+/datum/magic_aspect/pseudo/berserker
+	name = "Berserker"
+
 GLOBAL_LIST_INIT(magic_aspects_major, init_magic_aspects(ASPECT_MAJOR))
 GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
+GLOBAL_LIST_INIT(magic_aspect_singletons, init_magic_aspect_singletons())
 
 /proc/init_magic_aspects(filter_type)
 	var/list/result = list()
@@ -189,4 +214,10 @@ GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 		var/datum/magic_aspect/A = path
 		if(initial(A.aspect_type) == filter_type)
 			result += path
+	return result
+
+/proc/init_magic_aspect_singletons()
+	var/list/result = list()
+	for(var/path in subtypesof(/datum/magic_aspect))
+		result[path] = new path
 	return result

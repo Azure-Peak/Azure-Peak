@@ -8,6 +8,7 @@
 				.[id] = data
 
 /mob/living/carbon/human/update_equipment_speed_mods()
+	worn_ac_dirty = TRUE
 	. = ..()
 	update_move_intent_slowdown()
 
@@ -20,11 +21,9 @@
 /mob/living/carbon/human/proc/get_ac_speed()
 	if(HAS_TRAIT(src, TRAIT_ARMOR_NOSPDCAP))
 		return 0
-	var/highest_class = ARMOR_CLASS_NONE
-	for(var/obj/item/clothing/C in list(wear_armor, wear_shirt, wear_pants, head))
-		if(C.armor_class > highest_class)
-			highest_class = C.armor_class
-	switch(highest_class)
+	if(worn_ac_dirty)
+		update_worn_ac_cache()
+	switch(max(cached_body_ac, cached_head_ac))
 		if(ARMOR_CLASS_LIGHT)
 			return AC_LIGHT_SPDCAP
 		if(ARMOR_CLASS_MEDIUM)

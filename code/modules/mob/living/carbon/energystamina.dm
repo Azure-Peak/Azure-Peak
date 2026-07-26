@@ -106,7 +106,7 @@
 	var/true_added = added
 	if(added > 0)
 		if(HAS_TRAIT(src, TRAIT_FORTITUDE))
-			added = added * 0.75
+			added = added * 0.85
 
 	if(added < 0 && HAS_TRAIT(src, TRAIT_FROZEN_STAMINA))
 		added = 0
@@ -275,19 +275,6 @@
 	flash_fullscreen("stressflash")
 	changeNext_move(CLICK_CD_EXHAUSTED)
 	add_stress(/datum/stressevent/mimic_jumpscare)
-	if(hud_used)
-		var/turf/T = get_turf(target)
-		var/target_x = (loc.x - T.x) * 32
-		var/target_y = (loc.y - T.y) * 32
-		var/matrix/skew = matrix(target_x, target_y, MATRIX_TRANSLATE)
-		skew.Scale(2.5)
-		var/matrix/newmatrix = skew
-		for(var/C in hud_used.plane_masters)
-			var/atom/movable/screen/plane_master/whole_screen = hud_used.plane_masters[C]
-			if(whole_screen.plane == HUD_PLANE)
-				continue
-			animate(whole_screen, transform = newmatrix, time = 3, easing = QUAD_EASING)
-			animate(transform = -newmatrix, time = 40, easing = QUAD_EASING)
 	var/randdelay = rand(5, 150)
 	var/balloon_text = pick("<font color='#ffffff'>WHAT IS THAT?!</font>","<font color='#ffffff'>WTF?!</font>","<font color='#ffffff'>WHAT?!</font>","<font color='#ffffff'>WHAT THE-?!</font>","<font color='#ffffff'>MIMIC?!</font>","<font color='#ffffff'>SERIOUSLY?!</font>","<font color='#ffffff'>REALLY?!</font>",)
 	spawn(randdelay)

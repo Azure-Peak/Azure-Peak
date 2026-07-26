@@ -80,6 +80,19 @@
 	icon_state = "bronzeknuckle"
 	smeltresult = /obj/item/ingot/bronze
 
+/obj/item/clothing/gloves/roguetown/knuckles/iron
+	name = "iron knuckles"
+	desc = "A mean looking pair of iron knuckles, not that good in quality but they do the job."
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	icon_state = "ironknuckle"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/gloves.dmi'
+	w_class = WEIGHT_CLASS_SMALL
+	armor = ARMOR_PADDED_BAD
+	max_integrity = ARMOR_INT_SIDE_LEATHER -50 // 150 — small iron pieces, leather-tier durability
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = /obj/item/ingot/iron
+	unarmed_bonus = 7
+
 /obj/item/clothing/gloves/roguetown/knuckles/psydon
 	name = "psydonic knuckles"
 	desc = "A simple piece of harm molded in a holy mixture of steel and silver, finished with three stumps - Psydon's crown - to crush the heretics' garments and armor into smithereens."

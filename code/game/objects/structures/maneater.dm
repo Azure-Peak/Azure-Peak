@@ -141,7 +141,11 @@
 
 	if(victim.stat == DEAD || victim.stat == UNCONSCIOUS)
 		if(!victim.mind)
-			victim.gib()
+			if(isanimal(victim))
+				var/mob/living/simple_animal/A = victim
+				A.gib_with_novice_butchery()
+			else
+				victim.gib()
 			seednutrition += 50
 			return
 		maneater_spit_out(victim)
@@ -228,7 +232,7 @@
 
 		return TRUE
 
-	
+
 
 
 //JUVENILE MANEATER

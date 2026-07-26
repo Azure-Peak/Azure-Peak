@@ -11,6 +11,8 @@
 /mob/living/carbon/human/species/human/northern/conjured_peasant/Initialize()
 	. = ..()
 	set_species(/datum/species/human/northern)
+	gender = pick(MALE, FEMALE)
+	dna.species.random_character(src)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
 /mob/living/carbon/human/species/human/northern/conjured_peasant/proc/outfit_peasant(datum/outfit/outfit)
@@ -57,6 +59,7 @@
 		else
 			outfit_peasant(new /datum/outfit/job/roguetown/conjured_peasant/pitchfork)
 	def_intent_change(INTENT_PARRY)
+	dna.species.handle_body(src)
 	random_voice_NPC()
 	random_hair_NPC()
 	random_eye_color_NPC()
@@ -84,7 +87,6 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	cloak = /obj/item/clothing/cloak/tabard/stabard/bog/levy
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 	neck = /obj/item/clothing/neck/roguetown/coif
 	mask = /obj/item/clothing/mask/rogue/facemask

@@ -32,7 +32,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 	if(HAS_BLOOD_DNA(src))
 		used_index += "_b"
 	var/static/list/onmob_sprites = list()
-	var/cache_key = "[type]|[tag]|[behind]|[mirrored]|[used_index]|[get_onmob_overlay_signature()]"
+	var/cache_key = "[type]|[icon]|[tag]|[current_alt_grip?.type]|[behind]|[mirrored]|[used_index]|[get_onmob_overlay_signature()]"
 	var/icon/onmob = onmob_sprites[cache_key]
 	if(!onmob || force_reupdate_inhand)
 		onmob = fcopy_rsc(generateonmob(tag, prop, behind, mirrored))
@@ -62,7 +62,7 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 ///Mob ref is only needed for their dir to know how to rotate it and for the throw proc.
 /obj/item/proc/get_deflected(mob/deflector)
 	var/turnangle = (prob(50) ? 270 : 90)
-	if(prob(10))	
+	if(prob(10))
 		turnangle = 0 //Right back at thee
 	var/turndir = turn(deflector.dir, turnangle)
 	var/dist = rand(1, 6)

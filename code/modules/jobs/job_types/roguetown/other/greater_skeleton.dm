@@ -24,6 +24,7 @@
 
 	ADD_TRAIT(H, TRAIT_OUTLAW, TRAIT_GENERIC) //No miesters for skeletons, you're an undead, bloodless skeletal abomination.
 	ADD_TRAIT(H, TRAIT_SHATTER_KILL, TRAIT_GENERIC) //Softer version of crit weakness that only kills with paralysis/rib fractures and nothing else.
+	ADD_TRAIT(H, TRAIT_UNCONVERTIBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NO_VOICEPACK_OVERRIDE, TRAIT_GENERIC) //In case we get edge-cases I.E siege skeletons. Otherwise its on the skeleton race too.
 
 	H.set_patron(/datum/patron/inhumen/zizo)
@@ -49,7 +50,7 @@
 	var/mob/living/carbon/human/H = L
 	H.mob_biotypes |= MOB_UNDEAD
 
-	H.advsetup = TRUE
+	H.set_advsetup(TRUE)
 	H.invisibility = INVISIBILITY_MAXIMUM
 	H.become_blind("advsetup")
 	for (var/obj/item/bodypart/B in H.bodyparts)
@@ -119,7 +120,7 @@ NECRO SKELETONS
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
@@ -192,7 +193,7 @@ NECRO SKELETONS
 
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
@@ -265,7 +266,7 @@ NECRO SKELETONS
 	if(helmchoice != "None")
 		head = helmets[helmchoice]
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro
@@ -353,7 +354,7 @@ NECRO SKELETONS
 	beltl = /obj/item/rogueweapon/pick
 
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak", "Black Toga")
-	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BEAR YOUR HERALDRY.") as anything in tabards
 	switch(tabard_choice)
 		if("Black Jupon")
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/necro

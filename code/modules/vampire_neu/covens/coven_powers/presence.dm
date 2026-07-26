@@ -141,8 +141,7 @@
 	var/datum/cb = CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, step_away_caster), owner)
 	for(var/i in 1 to 30)
 		addtimer(cb, (i - 1) * target.total_multiplicative_slowdown())
-	target.emote("scream")
-	target.do_jitter_animation(3 SECONDS)
+	target.freak_out()
 	to_chat(target, "<span class='userlove'><b>OH GOD, PLEASE SAVE ME!.</b></span>")
 	playsound(target,'sound/villain/wonder.ogg', 40)
 
@@ -242,4 +241,3 @@
 	if(can_frenzy_move())
 		set_glide_size(DELAY_TO_GLIDE_SIZE(total_multiplicative_slowdown()))
 		step_towards(src, step_to, 99)
-

@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/caedo
+	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Caedo"
 	desc = "In the old tongue, caedo - to strike or to cut down. Dash forward at blinding speed, \
 		leaving afterimages that strike every enemy in your path. \

@@ -17,7 +17,7 @@
 	tutorial = "Servitude unto death, was your motto; O' how long it has been since you've died, how sweet the taste of blood; yet you still serve your master's tireless chores. Tend the mansion, heed your lord's command, assist with construction, their will be done."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/other/vampservant
-	traits_applied = list(TRAIT_CICERONE, TRAIT_SEEDKNOW, TRAIT_SEWING_EXPERT, TRAIT_HOMESTEAD_EXPERT, TRAIT_KEENEARS) //Very good utility, leaning towards RP gimmics.
+	traits_applied = list(TRAIT_CICERONE, TRAIT_SEEDKNOW, TRAIT_SEWING_EXPERT, TRAIT_HOMESTEAD_EXPERT, TRAIT_KEENEARS, TRAIT_UNCONVERTIBLE) //Very good utility, leaning towards RP gimmics.
 	category_tags = list(CTAG_VAMPSERVANT)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
@@ -57,7 +57,7 @@
 	if(H.mind)
 		H.set_blindness(0)
 		var/choice_list = list("Butler", "Maid")
-		var/choice = input(H, "What is your occupation?", "WHAT MASQUERADE DO YOU BARE?") as anything in choice_list
+		var/choice = input(H, "What is your occupation?", "WHAT MASQUERADE DO YOU BEAR?") as anything in choice_list
 
 		switch(choice)
 			if("Maid")
@@ -91,7 +91,7 @@
 	tutorial = "You were promised forever to perfect your craft and you recieved it, at a cost of eternal servitude and a never-ending taste for blood. Now you solely smith for your lord's army and allies, their will be done."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/other/vampforgemaster
-	traits_applied = list(TRAIT_TRAINED_SMITH, TRAIT_SMITHING_EXPERT, TRAIT_HOMESTEAD_EXPERT) //Extra for price-checking since your role might also be to fund your master, homestead for lumberjack skill
+	traits_applied = list(TRAIT_TRAINED_SMITH, TRAIT_SMITHING_EXPERT, TRAIT_HOMESTEAD_EXPERT, TRAIT_UNCONVERTIBLE) //Extra for price-checking since your role might also be to fund your master, homestead for lumberjack skill
 	category_tags = list(CTAG_VAMPSERVANT)
 	subclass_stats = list(
 		STATKEY_WIL = 2,
@@ -131,7 +131,7 @@
 	if(H.mind)
 		H.set_blindness(0)
 		var/choice_list = list("Smith", "Artificer") //Doesn't get arcayne, inherently. Sorry but I'm not having servants do enchantments.
-		var/choice = input(H, "What is your occupation?", "WHAT MASQUERADE DO YOU BARE?") as anything in choice_list
+		var/choice = input(H, "What is your occupation?", "WHAT MASQUERADE DO YOU BEAR?") as anything in choice_list
 
 		switch(choice)
 			if("Smith") //Similar to towner blacksmith in appearance
@@ -172,7 +172,7 @@
 	tutorial = "You were promised forever to further your medical research and perfect your art of needle and scapel alike and recieve it at the cost of eternal servitude and a never ending taste for blood. Now you serve your lord eternal, from a fatal feeding frenzy to granting fallen travellers that very same chance you had. Now you'll be sewing and stitching a future, in your lord's vision."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/other/vampphysician
-	traits_applied = list(TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT, TRAIT_NOSTINK, TRAIT_HOMESTEAD_EXPERT, TRAIT_EMPATH, TRAIT_STEELHEARTED) //Medical class, specialises in accidental killings or reviving fallen allies. !!!UNTIL LUX REVIVALS WORK ON VAMPS OR A MAP REWORK HAPPENS. YOU'LL NEED TO EITHER HAVE ZURCH ACCESS OR BREAK INTO THE CLINIC FOR A CHAIR TO REVIVE VAMPS!!!
+	traits_applied = list(TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT, TRAIT_NOSTINK, TRAIT_HOMESTEAD_EXPERT, TRAIT_EMPATH, TRAIT_STEELHEARTED, TRAIT_UNCONVERTIBLE) //Medical class, specialises in accidental killings or reviving fallen allies. !!!UNTIL LUX REVIVALS WORK ON VAMPS OR A MAP REWORK HAPPENS. YOU'LL NEED TO EITHER HAVE ZURCH ACCESS OR BREAK INTO THE CLINIC FOR A CHAIR TO REVIVE VAMPS!!!
 	category_tags = list(CTAG_VAMPSERVANT)
 	subclass_stats = list(
 		STATKEY_SPD = 2, //Corpse thievery duty

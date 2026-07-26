@@ -180,6 +180,12 @@
 	reqs = list(/obj/item/natural/clay = 1)
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/ceramics/claypot
+	name = "clay pot"
+	result = list(/obj/item/natural/clay/rawpot)
+	reqs = list(/obj/item/natural/clay = 3)
+	craftdiff = 2
+
 /* 3 diff */
 /datum/crafting_recipe/roguetown/ceramics/clay/clayfancyvase
 	name = "fancy clay vase, dyeable"
@@ -289,6 +295,29 @@
 	reqs = list(/obj/item/natural/clay = 3)
 	craftdiff = 4
 
+/datum/crafting_recipe/roguetown/ceramics/claycaryatid
+	name = "clay caryatid"
+	result = list(/obj/item/natural/clay/rawcaryatid)
+	reqs = list(/obj/item/natural/clay = 2)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/ceramics/claycarp
+	name = "clay carp statuette"
+	result = list(/obj/item/natural/clay/rawcarp)
+	reqs = list(/obj/item/natural/clay = 3)
+	craftdiff = 4
+	
+/datum/crafting_recipe/roguetown/ceramics/clayoctopus
+	name = "clay octopus statuette"
+	result = list(/obj/item/natural/clay/rawoctopus)
+	reqs = list(/obj/item/natural/clay = 3)
+	craftdiff = 4
+	
+/datum/crafting_recipe/roguetown/ceramics/claybeaver
+	name = "clay beaver statuette"
+	result = list(/obj/item/natural/clay/rawbeaver)
+	reqs = list(/obj/item/natural/clay = 3)
+	craftdiff = 4
 
 /* 5 diff */ // High-end glass containers. Should be a direct upgrade to clay in every possible way.
 

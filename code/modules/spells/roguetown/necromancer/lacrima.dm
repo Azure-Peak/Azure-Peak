@@ -58,6 +58,9 @@
 	if((target.mobility_flags & MOBILITY_STAND))
 		to_chat(user, span_info("My victim must be lying down."))
 		return
+	if(!target.has_extractable_lux())
+		to_chat(user, span_notice("This husk holds no true lifeforce - there is nothing to excise."))
+		return
 	if(target.has_status_effect(/datum/status_effect/debuff/devitalised) || target.mob_biotypes & MOB_UNDEAD)
 		to_chat(user, span_notice("This victim's Lux is corroded. There is little I can make use of."))
 		return

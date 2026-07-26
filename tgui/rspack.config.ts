@@ -116,7 +116,7 @@ export default defineConfig({
     new rspack.EnvironmentPlugin({
       NODE_ENV: 'production',
     }),
-    new rspack.CircularDependencyRspackPlugin({
+    new rspack.CircularCheckRspackPlugin({
       failOnError: true,
       exclude: /node_modules/,
     }),

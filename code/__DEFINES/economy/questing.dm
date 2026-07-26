@@ -17,31 +17,31 @@
 #define QUEST_TURNIN_FELLOWSHIP 2
 #define QUEST_TURNIN_OFFICIAL 3
 
+#define TOWNER_POSTING_TIER_EASY "easy"
 #define TOWNER_POSTING_TIER_MEDIUM "medium"
 #define TOWNER_POSTING_TIER_HARD "hard"
 
-#define TOWNER_POSTING_COST_MEDIUM 50
-#define TOWNER_POSTING_COST_HARD 100
+#define TOWNER_POSTING_COST_EASY 50
+#define TOWNER_POSTING_COST_MEDIUM 100
+#define TOWNER_POSTING_COST_HARD 175
 
-#define TOWNER_QUEST_FELLOWSHIP_SIZE 2
+#define TOWNER_POSTING_CROWN_COST_MULT 2
 
-#define TOWNER_CARAVAN_FLAT_BONUS_MEDIUM 60
-#define TOWNER_CARAVAN_FLAT_BONUS_HARD 120
+#define TOWNER_REWARD_CAP_EASY 200
+#define TOWNER_REWARD_CAP_MEDIUM 400
+#define TOWNER_REWARD_CAP_HARD 650
 
-#define TOWNER_PRESENCE_RADIUS 7
-#define TOWNER_PRESENCE_POLL_INTERVAL (3 SECONDS)
-#define TOWNER_CARAVAN_EXPIRY_DS (20 MINUTES)
+#define TOWNER_CARAVAN_TP_BUDGET_EASY 100
+#define TOWNER_CARAVAN_TP_BUDGET_MEDIUM 150
+#define TOWNER_CARAVAN_TP_BUDGET_HARD 220
 
-#define TOWNER_CARAVAN_TP_BUDGET_MEDIUM 100
-#define TOWNER_CARAVAN_TP_BUDGET_HARD 150
+#define TOWNER_OREVEIN_TP_BUDGET_EASY 80
+#define TOWNER_OREVEIN_TP_BUDGET_MEDIUM 130
+#define TOWNER_OREVEIN_TP_BUDGET_HARD 190
 
-#define TOWNER_OREVEIN_EXPIRY_DS (30 MINUTES)
-#define TOWNER_OREVEIN_TP_BUDGET_MEDIUM 80
-#define TOWNER_OREVEIN_TP_BUDGET_HARD 130
-#define TOWNER_OREVEIN_FLAT_BONUS_MEDIUM 60
-#define TOWNER_OREVEIN_FLAT_BONUS_HARD 120
-#define TOWNER_OREVEIN_CLUSTER_COUNT_MEDIUM 4
-#define TOWNER_OREVEIN_CLUSTER_COUNT_HARD 6
+// Flat sweetener layered on combat & distance pay. Easy postings get none; shared by both types.
+#define TOWNER_FLAT_BONUS_MEDIUM 50
+#define TOWNER_FLAT_BONUS_HARD 100
 
 // Recovery is intentionally omitted - the Steward cannot directly commission recoveries.
 // Those spawn from the pool (SSquestpool.regen_kill_targets) and from Innkeeper rumors only.
@@ -57,7 +57,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 
 // Multipliers applied to the base TP for kill request rewards
 #define QUEST_KILL_THREAT_MULT 1.0
-// Bounty's main target is further multiplied  
+// Bounty's main target is further multiplied
 #define QUEST_BOUNTY_THREAT_MULT 1
 
 // Max mobs for kill request to avoid lagging

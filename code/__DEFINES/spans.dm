@@ -99,6 +99,7 @@
 #define span_taunt(str)	("<span class='taunt'>" + (str) + "</span>")
 #define span_warningbig(str) ("<span class='warningbig'>" + (str) + "</span>")
 #define span_yellow(str) ("<span class = 'yellow'>" + (str) + "</span>")
+#define span_honeyyellow(str) ("<span class = 'honeyyellow'>" + (str) + "</span>")
 #define span_beautiful_masc(str) ("<span class='beautifulmasc'>" + (str) + "</span>")
 #define span_beautiful_fem(str) ("<span class='beautifulfem'>" + (str) + "</span>")
 #define span_beautiful_nb(str) ("<span class='beautifulnb'>" + (str) + "</span>")

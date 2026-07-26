@@ -693,8 +693,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
 
 /obj/item/clothing/cloak/tabard/stabard/guard
-	name = "guard tabard"
-	desc = "A tabard with the lord's heraldic colors."
+	desc = "An outer garment with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
@@ -731,6 +730,16 @@
 	desc = "A tabard colored in a glorius green of the mighty protectors of the BOG. Except you are not a TRAITOR. Yet."
 	color = CLOTHING_GREEN
 	detail_color = CLOTHING_DARK_GREEN
+
+/obj/item/clothing/cloak/tabard/stabard/bog/levy/hood
+	name = "levy militia hood"
+	desc = "A hood colored in a glorius green of the mighty protectors of the BOG. Except you are not a TRAITOR. Yet."
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_NECK|ITEM_SLOT_MASK|ITEM_SLOT_CLOAK
+	color = CLOTHING_GREEN
+	detail_color = CLOTHING_DARK_GREEN
+	icon_state = "guard_hood"
+	item_state = "guard_hood"
+	detail_tag = "_spl"
 
 /obj/item/clothing/cloak/tabard/stabard/bog
 	name = "bogman tabard"
@@ -790,7 +799,7 @@
 	body_parts_covered = CHEST
 
 /obj/item/clothing/cloak/tabard/stabard/surcoat/guard
-	desc = "A surcoat with the lord's heraldic colors."
+	desc = "A jupon with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_quad"
 	detail_color = CLOTHING_WHITE
@@ -1505,7 +1514,7 @@
 //Short hoods for guards
 
 /obj/item/clothing/cloak/tabard/stabard/guardhood
-	name = "guard hood"
+	name = "hood"
 	desc = "A hood with the lord's heraldic colors."
 	color = CLOTHING_AZURE
 	detail_tag = "_spl"

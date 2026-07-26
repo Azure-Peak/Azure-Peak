@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/vizier
+	source_aspect = /datum/magic_aspect/pseudo/vizier
 	button_icon = 'icons/mob/actions/classuniquespells/vizier.dmi'
 	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_LOW

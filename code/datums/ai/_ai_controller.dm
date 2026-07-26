@@ -466,20 +466,13 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	SEND_SIGNAL(src, COMSIG_AI_CONTROLLER_PICKED_BEHAVIORS, current_behaviors, planned_behaviors)
 
 	for(var/datum/ai_behavior/current_behavior as anything in current_behaviors)
-		var/action_delta_time = max(current_behavior.get_cooldown(src) * 0.1, delta_time)
-
 		if(!(current_behavior.behavior_flags & AI_BEHAVIOR_EXECUTE_ALONGSIDE))
 			continue
 		if(behavior_cooldowns[current_behavior] > world.time)
 			continue
-		ProcessBehavior(action_delta_time, current_behavior)
+		ProcessBehavior(max(current_behavior.get_cooldown(src) * 0.1, delta_time), current_behavior)
 
 	for(var/datum/ai_behavior/current_behavior as anything in current_behaviors)
-		// Convert the current behaviour action cooldown to realtime seconds from deciseconds.current_behavior
-		// Then pick the max of this and the delta_time passed to ai_controller.process()
-		// Action cooldowns cannot happen faster than delta_time, so delta_time should be the value used in this scenario.
-		var/action_delta_time = max(current_behavior.get_cooldown(src) * 0.1, delta_time)
-
 		if(current_behavior.behavior_flags & AI_BEHAVIOR_REQUIRE_MOVEMENT) //Might need to move closer
 			if(!current_movement_target)
 				current_behavior.finish_action(src, FALSE)
@@ -526,7 +519,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 				if(behavior_cooldowns[current_behavior] > world.time) //Still on cooldown
 					continue
-				ProcessBehavior(action_delta_time, current_behavior)
+				ProcessBehavior(max(current_behavior.get_cooldown(src) * 0.1, delta_time), current_behavior)
 				return
 
 			else if(ai_movement.moving_controllers[src] != current_movement_target) //We're too far, if we're not already moving start doing it.
@@ -535,12 +528,12 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			if(current_behavior.behavior_flags & AI_BEHAVIOR_MOVE_AND_PERFORM) //If we can move and perform then do so.
 				if(behavior_cooldowns[current_behavior] > world.time) //Still on cooldown
 					continue
-				ProcessBehavior(action_delta_time, current_behavior)
+				ProcessBehavior(max(current_behavior.get_cooldown(src) * 0.1, delta_time), current_behavior)
 				return
 		else //No movement required
 			if(behavior_cooldowns[current_behavior] > world.time) //Still on cooldown
 				continue
-			ProcessBehavior(action_delta_time, current_behavior)
+			ProcessBehavior(max(current_behavior.get_cooldown(src) * 0.1, delta_time), current_behavior)
 			return
 
 ///Determines whether the AI can currently make a new plan

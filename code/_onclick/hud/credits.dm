@@ -65,10 +65,12 @@
 	icon = I
 	parent = P
 	var/voicecolor = "dc0174"
-	var/credited_title = GLOB.credits_icons[credited]["title"]
-	if(GLOB.credits_icons[credited])
-		if(GLOB.credits_icons[credited]["vc"])
-			voicecolor=GLOB.credits_icons[credited]["vc"]
+	var/credited_title
+	var/list/credit_data = GLOB.credits_icons[credited]
+	if(credit_data)
+		credited_title = credit_data["title"]
+		if(credit_data["vc"])
+			voicecolor = credit_data["vc"]
 	icon_state = credited
 	maptext = {"<span style='vertical-align:top; text-align:center;
 				color: #[voicecolor]; font-size: 100%;

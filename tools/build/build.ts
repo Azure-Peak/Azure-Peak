@@ -8,11 +8,9 @@
  */
 
 import fs from 'node:fs';
-import Bun from 'bun';
 import Juke from './juke/index.js';
-import { bun, bunRoot } from './lib/bun';
+import { bun, bunRoot, bunTgfont } from './lib/bun';
 import { DreamDaemon, DreamMaker, NamedVersionFile } from './lib/byond';
-import { formatDeps } from './lib/helpers';
 import { prependDefines } from './lib/tgs';
 
 export const TGS_MODE = process.env.CBT_BUILD_MODE === 'TGS';
@@ -20,17 +18,6 @@ export const TGS_MODE = process.env.CBT_BUILD_MODE === 'TGS';
 export const DME_NAME = 'roguetown';
 
 Juke.chdir('../..', import.meta.url);
-
-const dependencies: Record<string, any> = await Bun.file('dependencies.sh')
-  .text()
-  .then(formatDeps)
-  .catch((err) => {
-    Juke.logger.error(
-      'Failed to read dependencies.sh, please ensure it exists and is formatted correctly.',
-    );
-    Juke.logger.error(err);
-    throw new Juke.ExitCode(1);
-  });
 
 export const DefineParameter = new Juke.Parameter({
   type: 'string[]',
@@ -192,31 +179,21 @@ export const BiomeInstallTarget = new Juke.Target({
 export const TgFontTarget = new Juke.Target({
   dependsOn: [BunTarget],
   inputs: [
-    'tgui/packages/tgfont/**/*.+(js|mjs|svg)',
+    'tgui/packages/tgfont/**/*.+(ts|svg)',
     'tgui/packages/tgfont/package.json',
   ],
   outputs: [
     'tgui/packages/tgfont/dist/tgfont.css',
+    'tgui/packages/tgfont/dist/tgfont.eot',
     'tgui/packages/tgfont/dist/tgfont.woff2',
   ],
-  executes: async () => {
-    await bun('tgfont:build');
-    fs.mkdirSync('tgui/packages/tgfont/static', { recursive: true });
-    fs.copyFileSync(
-      'tgui/packages/tgfont/dist/tgfont.css',
-      'tgui/packages/tgfont/static/tgfont.css',
-    );
-    fs.copyFileSync(
-      'tgui/packages/tgfont/dist/tgfont.woff2',
-      'tgui/packages/tgfont/static/tgfont.woff2',
-    );
-  },
+  executes: () => bunTgfont('tgfont:build'),
 });
 
 export const TguiTarget = new Juke.Target({
   dependsOn: [BunTarget, BiomeInstallTarget],
   inputs: [
-    'tgui/rspack.config.mjs',
+    'tgui/rspack.config.ts',
     'tgui/**/package.json',
     'tgui/packages/**/*.+(js|cjs|ts|tsx|jsx|scss)',
   ],
@@ -270,7 +247,7 @@ export const LintTarget = new Juke.Target({
 });
 
 export const BuildTarget = new Juke.Target({
-  dependsOn: [TguiTarget, DmTarget],
+  dependsOn: [TguiTarget, TgFontTarget, DmTarget],
 });
 
 export const ServerTarget = new Juke.Target({
@@ -292,6 +269,7 @@ export const AllTarget = new Juke.Target({
 
 export const TguiCleanTarget = new Juke.Target({
   executes: async () => {
+    Juke.rm('node_modules', { recursive: true });
     Juke.rm('tgui/public/.tmp', { recursive: true });
     Juke.rm('tgui/public/*.map');
     Juke.rm('tgui/public/*.{chunk,bundle,hot-update}.*');

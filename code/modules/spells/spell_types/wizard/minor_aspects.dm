@@ -123,7 +123,7 @@
 		"Illusio, me relinquere!",
 	)
 	fixed_spells = list(
-		/obj/effect/proc_holder/spell/invoked/invisibility,
+		/datum/action/cooldown/spell/invisibility,
 	)
 
 /datum/magic_aspect/hearthcraft
