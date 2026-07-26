@@ -1,12 +1,6 @@
 #define LINKIFY_READY(string, value) "<a href='byond://?src=[REF(src)];ready=[value]'>[string]</a>"
 GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 
-/proc/build_lore_primer_content()
-	var/list/dat = list()
-	dat += GLOB.roleplay_readme
-	dat += build_regions_primer_html()
-	return dat.Join()
-
 /mob/dead/new_player
 	var/ready = 0
 	var/spawning = 0//Referenced when you want to delete the new_player later on in the code.

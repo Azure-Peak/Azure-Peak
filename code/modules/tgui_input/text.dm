@@ -112,7 +112,6 @@
 	if(!ui)
 		ui = new(user, src, "TextInputModal")
 		ui.open()
-		ui.set_always_on_top()
 
 /datum/tgui_input_text/ui_close(mob/user)
 	. = ..()

@@ -115,15 +115,6 @@
 
 	return TRUE
 
-/**
- * public
- *
- * Keep this UI's window above other windows. For modal prompts
- * (tgui inputs and alerts) so they can't fall behind the parent UI.
- */
-/datum/tgui/proc/set_always_on_top(state = TRUE)
-	window?.set_on_top(state)
-
 /datum/tgui/proc/send_assets()
 	var/flush_queue = window.send_asset(get_asset_datum(
 		/datum/asset/simple/namespaced/fontawesome))

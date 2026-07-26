@@ -87,7 +87,6 @@
 	if(!ui)
 		ui = new(user, src, "CheckboxInput")
 		ui.open()
-		ui.set_always_on_top()
 
 /datum/tgui_checkbox_input/ui_close(mob/user)
 	. = ..()

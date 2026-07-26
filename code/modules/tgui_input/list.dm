@@ -122,7 +122,6 @@
 	if(!ui)
 		ui = new(user, src, "ListInputModal")
 		ui.open()
-		ui.set_always_on_top()
 
 /datum/tgui_list_input/ui_close(mob/user)
 	. = ..()

@@ -16,8 +16,6 @@
 	var/datum/subscriber_object
 	var/subscriber_delegate
 	var/fatally_errored = FALSE
-	/// TRUE while this window is winset always-on-top (modal prompts). Reset on release.
-	var/on_top = FALSE
 	var/message_queue
 	var/sent_assets = list()
 	// Vars passed to initialize proc (and saved for later)
@@ -204,21 +202,6 @@
 		sent_assets = list()
 	locked = FALSE
 	locked_by = null
-	set_on_top(FALSE)
-
-/**
- * public
- *
- * Keep this window above all other windows (for modal prompts).
- * Pooled windows get reset in release_lock() so the flag can't leak
- * into whatever UI reuses the window next.
- */
-/datum/tgui_window/proc/set_on_top(state)
-	if(on_top == state)
-		return
-	on_top = state
-	if(client)
-		winset(client, id, "on-top=[state ? "true" : "false"]")
 
 /**
  * public

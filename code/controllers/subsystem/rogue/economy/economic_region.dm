@@ -350,28 +350,3 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_MEAT = TG_DEMAND_MEAT_BULK,
 		TRADE_GOOD_SILK = TG_DEMAND_SILK,
 	)
-
-/// Builds the VALMORIA'S REGIONS section of the Lore Primer from the economic_region datums,
-/// so steward UI prose and primer prose stay in sync from a single source.
-/proc/build_regions_primer_html()
-	var/list/parts = list()
-	parts += "<details>"
-	parts += "<summary><strong><span style='font-size:130%'> REGIONS OF VALMORIA </span></strong></summary>"
-	parts += "<strong><span style='font-size:115%'> THE INTERNAL VASSALS AND DEMESNES </span></strong>"
-	parts += "<br><br>"
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		if(!region)
-			continue
-		parts += "<details>"
-		parts += "<summary><strong> [uppertext(region.name)] </strong></summary>"
-		parts += "<br>"
-		if(region.subtitle)
-			parts += "<em>[region.subtitle]</em>"
-			parts += "<br><br>"
-		parts += region.description
-		parts += "<br>"
-		parts += "</details>"
-	parts += "<br><br>"
-	parts += "</details>"
-	return jointext(parts, "\n")

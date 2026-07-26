@@ -179,7 +179,7 @@ export const VampireClanSelection = () => {
   };
 
   return (
-    <Window width={DEFAULT_W} height={DEFAULT_H} theme="generic">
+    <Window width={DEFAULT_W} height={DEFAULT_H} theme="dark">
       <Window.Content className="VampireClanSelection" fitted>
         <Box className="VampireClanSelection__shell">
           <Box className="VampireClanSelection__header">
