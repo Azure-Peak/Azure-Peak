@@ -1290,9 +1290,6 @@
 	name = target.real_name
 	body = target
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/MiddleClick(mob/user, params)
-	release_profane_souls(user)
-
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
@@ -1448,17 +1445,22 @@
 		freed_souls++
 		if(soul.body && !QDELETED(soul.body))
 			var/mob/living/carbon/human/H = soul.body
-			to_chat(H, "<b>I have been freed from my vile prison, I await Necra's cold grasp. Salvation!</b>")
+			var/mob/dead/observer/playerghost = H.get_ghost(TRUE, TRUE)
 			if(HAS_TRAIT_FROM(H, TRAIT_DNR, GRAGGAR_ASSASSINATED))
 				REMOVE_TRAIT(H, TRAIT_DNR, GRAGGAR_ASSASSINATED)
-				message_admins("debug! DNR was removed. awesome.")
 			if(HAS_TRAIT_FROM(H, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED))
 				REMOVE_TRAIT(H, TRAIT_CLAIMED_BY_DARKSTAR, GRAGGAR_ASSASSINATED)
-				message_admins("debug! darkstar was removed. awesome.")
-			user.visible_message(span_cult("[soul.name] flows out from the profane dagger, finally free of its grasp. Revival may be possible!"))
+			if(playerghost)
+				to_chat(playerghost, "<b>I have been freed from my vile prison! I await revival, or Necra's cold grasp... SALVATION!</b>")
+			else
+				to_chat(H, "<b>I have been freed from my vile prison! I await revival, or Necra's cold grasp... SALVATION!</b>")
+			src.visible_message(span_cult("The soul of [soul.name] flows out from the profane dagger, finally free of its grasp. Revival may be possible!"))
+			qdel(soul)
 		else
-			message_admins("debug! something has gone wrong & the mob body is null")
-	user.visible_message(span_cult("The profane dagger shatters into putrid smoke!"))
+			// fallback in case body is missing for some reason
+			src.visible_message(span_cult("The soul of [soul.name] flows out from the profane dagger, finally free of its grasp... yet it quickly fades. Perchance it could not find it's body...?"))
+			qdel(soul)
+	src.visible_message(span_cult("The profane dagger shatters into putrid smoke!"))
 	qdel(src) // Delete the dagger. Forevermore.
 	return freed_souls
 

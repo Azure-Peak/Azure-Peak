@@ -1032,7 +1032,7 @@
 	name = "Rune of Death"
 	desc = "A holy rune of <font color='425363'>Necra.</font> Quiet acceptance stirs within you."
 	icon_state = "necra_chalky"
-	var/deathrites = list("Undermaiden's Bargain", "The Toll")
+	var/deathrites = list("Undermaiden's Bargain", "The Toll", "Shatter the Binds")
 	var/coinslot = 0
 
 
@@ -1125,6 +1125,39 @@
 							thetoll(target, user)
 							spawn(120)
 								icon_state = "necra_chalky"
+		if("Shatter the Binds") // hehe do you get t. Do You Get Im So Fucking FUnny
+			to_chat(user, span_info("This rite allows for the breaking of a soul-trapping assassin's dagger. Doing so will allow the spirits \
+			to return to either Necra, or their corpses, potentially allowing for revival, if not peace in the afterlyfe. Place the dagger upon the \
+			rune and chant the verse.\n Be patient, as this will take time."))
+			var/turf/runeturf = get_turf(src)
+			var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger
+
+			for(var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/P in runeturf.contents)
+				pissdagger = P
+				break // ladies. ladies. one at a time...
+
+			if(!pissdagger)
+				to_chat(user, span_warning("This ritual requires a Graggarite assassin's profane dagger to be placed upon the rune."))
+				return
+
+			user.visible_message("[user] places the dagger in the center of the rune, drawing spectral strands of Lux up through the air!")
+			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
+			// this may seem like a lot right now BUT this is designed to allow assassins to track their daggers down, later. potentially interrupting whatever.
+			// alt. i'll amke it a requirement for them to be dead IDGAF.
+			if(do_after(user, 20 SECONDS))
+				playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
+				pissdagger.visible_message("[pissdagger] is suddenly thrust up into the air! Nigh-invisible threads tear at it, beginning to bend the metal!")
+				if(do_after(user, 10 SECONDS))
+					playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
+					pissdagger.audible_message("<span style='color:#3F5C6D'>The profane dagger</span> screams, " + span_cult("<b>\"HELP US!!\"</b>"))
+					if(do_after(user, 5 SECONDS))
+						pissdagger.visible_message("[pissdagger] is CRUSHED and TWISTED! TERRIBLE SCREAMS sounds from within!")
+						playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
+						if(do_after(user, 5 SECONDS))
+							user.say("UNDERMAIDEN, SHAKE FREE THE SOULS OF THE DAMNED!") // change this to something better thanks
+							playsound(user, 'sound/magic/soulsteal.ogg', 80, TRUE)
+							pissdagger.release_profane_souls(user)
+
 
 
 

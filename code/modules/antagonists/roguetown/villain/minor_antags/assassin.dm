@@ -20,6 +20,7 @@
 		"THE DAGGER TOLD ME WHO TO CUT!",
 		"DEATH IS MY DEVOTION!",
 		"THE DARK SUN GUIDES MY HAND!",
+		"ALL HAIL HE-WHO-HARVESTS!",
 	)
 	antag_flags = FLAG_FAKE_ANTAG
 
@@ -59,9 +60,10 @@
 	var/traitorwin = FALSE
 	for(var/obj/item/I in owner.current.GetAllContents()) // Check to see if the Assassin has their profane dagger on them, and then check the souls contained therein.
 		if(istype(I, /obj/item/rogueweapon/huntingknife/idagger/steel/profane))
-			for(var/mob/dead/observer/profane/A in I) // Each trapped soul is announced to the server
-				if(A)
-					to_chat(world, "The [A.name] has been stolen for Graggar by [owner.name].<span class='greentext'>DAMNATION!</span>")
+			var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger = I
+			for(var/datum/profane_soul_data/soul in pissdagger.stored_souls) // Each trapped soul is announced to the server
+				if(soul)
+					to_chat(world, "The soul of [soul.name] has been stolen for Graggar by [owner.name].<span class='greentext'>DAMNATION!</span>")
 					traitorwin = TRUE
 
 	if(!considered_alive(owner))
