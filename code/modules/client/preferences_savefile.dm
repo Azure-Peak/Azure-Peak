@@ -694,7 +694,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["ooc_extra"]			>> ooc_extra
 	S["ooc_extra_img"]		>> ooc_extra_img
 	S["ooc_extra_img_link"]	>> ooc_extra_img_link
-	if(!valid_headshot_link(null, ooc_extra_img_link, FALSE, list("jpg", "jpeg", "png", "gif", "mp4")))
+	if(!valid_headshot_link(null, ooc_extra_img_link, FALSE, list("jpg", "jpeg", "png", "gif")))
 		ooc_extra_img = null
 		ooc_extra_img_link = null
 	S["rumour"]			>> rumour
@@ -705,7 +705,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["nsfwflavortext"]	>> nsfwflavortext
 	S["nsfw_ooc_extra_img"]		>> nsfw_ooc_extra_img
 	S["nsfw_ooc_extra_img_link"]	>> nsfw_ooc_extra_img_link
-	if(!valid_headshot_link(null, nsfw_ooc_extra_img_link, FALSE, list("jpg", "jpeg", "png", "gif", "mp4")))
+	if(!valid_headshot_link(null, nsfw_ooc_extra_img_link, FALSE, list("jpg", "jpeg", "png", "gif")))
 		nsfw_ooc_extra_img = null
 		nsfw_ooc_extra_img_link = null
 	S["erpprefs"]			>> erpprefs
