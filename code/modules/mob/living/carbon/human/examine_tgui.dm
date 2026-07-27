@@ -91,7 +91,7 @@
 	return data
 
 /datum/examine_panel/familiar/ui_data(mob/user)
-	var/list/data = list( 
+	var/list/data = list(
 		"is_playing" = is_playing,
 	)
 	return data
@@ -106,6 +106,8 @@
 	var/headshot = ""
 	var/list/img_gallery = list()
 	var/list/nsfw_img_gallery = list()
+	var/ooc_extra_image = ""
+	var/nsfw_ooc_extra_image = ""
 	var/char_name
 	var/song_url
 	var/has_song = FALSE
@@ -123,6 +125,8 @@
 		flavor_text_nsfw = obscured ? "Obscured" : holder_human.nsfwflavortext_cached
 		ooc_notes += holder_human.ooc_notes_cached
 		ooc_notes_nsfw += holder_human.erpprefs_cached
+		ooc_extra_image = holder_human.ooc_extra_img
+		nsfw_ooc_extra_image = holder_human.nsfw_ooc_extra_img
 		char_name = holder_human.name
 		song_url = holder_human.ooc_extra
 		is_vet = holder_human.check_agevet()
@@ -152,6 +156,8 @@
 			headshot = pref.lich_headshot_link
 		else
 			headshot = pref.headshot_link
+		ooc_extra_image = pref.ooc_extra_img
+		nsfw_ooc_extra_image = pref.nsfw_ooc_extra_img
 		img_gallery = pref.img_gallery
 		if(is_naked)
 			nsfw_img_gallery = pref.nsfw_img_gallery
@@ -190,6 +196,8 @@
 		"ooc_notes_nsfw" = ooc_notes_nsfw,
 		"img_gallery" = img_gallery,
 		"nsfw_img_gallery" = nsfw_img_gallery,
+		"ooc_extra_image" = ooc_extra_image,
+		"nsfw_ooc_extra_image" = nsfw_ooc_extra_image,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
 		"is_donator" = is_donator(holder.ckey),

@@ -14,6 +14,8 @@ export const FlavorTextPage = (props) => {
     ooc_notes_nsfw,
     headshot,
     is_naked,
+    ooc_extra_image,
+    nsfw_ooc_extra_image,
   } = data;
   const [oocNotesIndex, setOocNotesIndex] = useState('SFW');
   const [flavorTextIndex, setFlavorTextIndex] = useState('SFW');
@@ -27,30 +29,44 @@ export const FlavorTextPage = (props) => {
 
   const flavorHTML = useMemo(
     () => ({
-      __html: `<span className='Chat'>${flavor_text}</span>`,
+      __html: `<span class='Chat'>${flavor_text}</span>`,
     }),
     [flavor_text],
   );
 
   const nsfwHTML = useMemo(
     () => ({
-      __html: `<span className='Chat'>${flavor_text_nsfw}</span>`,
+      __html: `<span class='Chat'>${flavor_text_nsfw}</span>`,
     }),
     [flavor_text_nsfw],
   );
 
   const oocHTML = useMemo(
     () => ({
-      __html: `<span className='Chat'>${ooc_notes}</span>`,
+      __html: `<span class='Chat'>${ooc_notes}</span>`,
     }),
     [ooc_notes],
   );
 
   const oocnsfwHTML = useMemo(
     () => ({
-      __html: `<span className='Chat'>${ooc_notes_nsfw}</span>`,
+      __html: `<span class='Chat'>${ooc_notes_nsfw}</span>`,
     }),
     [ooc_notes_nsfw],
+  );
+
+  const oocExtraHTML = useMemo(
+    () => ({
+      __html: ooc_extra_image,
+    }),
+    [ooc_extra_image],
+  );
+
+  const nsfwOocExtraHTML = useMemo(
+    () => ({
+      __html: nsfw_ooc_extra_image,
+    }),
+    [nsfw_ooc_extra_image],
   );
 
   return (
@@ -133,10 +149,20 @@ export const FlavorTextPage = (props) => {
           }
         >
           {flavorTextIndex === 'SFW' && (
-            <Box dangerouslySetInnerHTML={flavorHTML} />
+            <>
+              <Box dangerouslySetInnerHTML={flavorHTML} />
+              {ooc_extra_image && (
+                <Box mt={1} dangerouslySetInnerHTML={oocExtraHTML} />
+              )}
+            </>
           )}
           {flavorTextIndex === 'NSFW' && (
-            <Box dangerouslySetInnerHTML={nsfwHTML} />
+            <>
+              <Box dangerouslySetInnerHTML={nsfwHTML} />
+              {nsfw_ooc_extra_image && (
+                <Box mt={1} dangerouslySetInnerHTML={nsfwOocExtraHTML} />
+              )}
+            </>
           )}
         </Section>
       </Stack.Item>
