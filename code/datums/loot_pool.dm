@@ -1,10 +1,6 @@
 GLOBAL_LIST_EMPTY(loot_pools)
 GLOBAL_LIST_EMPTY(loot_spawners_pending)
 GLOBAL_LIST_EMPTY(loot_chests_pending)
-/// Set of pool keys whose owning area is loot_pool_deferred. Pools in this set accumulate spawners across multiple InitializeAtoms calls and are only processed when process_deferred_loot_pools(key) is called.
-GLOBAL_LIST_EMPTY(loot_pools_deferred_keys)
-/// Set of deferred pool keys that have already been finalized. Stragglers loaded after finalization fire normally instead of pooling.
-GLOBAL_LIST_EMPTY(loot_pools_deferred_finalized)
 
 /datum/loot_pool
 	/// Pool key identifier (area type or shared key string)
@@ -126,10 +122,6 @@ GLOBAL_LIST_EMPTY(loot_pools_deferred_finalized)
 		if(RA.loot_budget <= 0)
 			continue
 		var/key = get_area_pool_key(RA)
-		if(RA.loot_pool_deferred)
-			if(GLOB.loot_pools_deferred_finalized[key])
-				continue // post-finalization stragglers fall through to poolless and fire normally
-			GLOB.loot_pools_deferred_keys[key] = TRUE
 		if(GLOB.loot_pools[key])
 			continue
 		var/datum/loot_pool/pool = new(key, RA.loot_budget)
@@ -175,24 +167,8 @@ GLOBAL_LIST_EMPTY(loot_pools_deferred_finalized)
 		pool.register_chest(chest)
 	GLOB.loot_chests_pending.Cut()
 
-	// Phase 3: process each pool (skip deferred - those wait for explicit completion signal)
+	// Phase 3: process each pool
 	for(var/pool_key in GLOB.loot_pools)
-		if(GLOB.loot_pools_deferred_keys[pool_key])
-			continue
 		var/datum/loot_pool/pool = GLOB.loot_pools[pool_key]
 		pool.process_pool()
 		CHECK_TICK
-
-/// Process a deferred pool by key once its source generation is complete (e.g. dungeon generator finishing).
-/// Removes the pool from GLOB.loot_pools after processing so any straggler spawners fire normally instead of joining an exhausted pool.
-/proc/process_deferred_loot_pool(key)
-	if(!GLOB.loot_pools_deferred_keys[key])
-		return
-	var/datum/loot_pool/pool = GLOB.loot_pools[key]
-	if(!pool)
-		return
-	GLOB.loot_pools_deferred_keys -= key
-	GLOB.loot_pools_deferred_finalized[key] = TRUE
-	pool.process_pool()
-	GLOB.loot_pools -= key
-	qdel(pool)

@@ -1,4 +1,6 @@
 /obj/item/reagent_containers/food/snacks/rogue/cornbread
+	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_BREAD
 	name = "cornbread"
 	desc = "A dense, golden loaf baked from cornmeal. With a crumbly texture and slightly savory flavor. A staple of the poor."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_corn.dmi'
@@ -52,6 +54,8 @@
 	tastes = list("cornbread" = 1, "honey" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/cornfrybread
+	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_BREAD
 	name = "corn frybread"
 	desc = "Corn flatbread fried golden and crisp. Great on its own, or topped with salsa or guacamole."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_corn.dmi'
@@ -78,6 +82,7 @@
 	tastes = list("frybread" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/cornfrybread_salsa
+	cuisine = CUISINE_ETRUSCAN
 	name = "salsa corn frybread"
 	desc = "Frybread heaped with fresh-cut tomatoes. Bright and tangy."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_corn.dmi'
@@ -94,6 +99,7 @@
 	tastes = list("frybread" = 1, "tomato" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/cornfrybread_salsa_slice
+	cuisine = CUISINE_ETRUSCAN
 	name = "salsa corn frybread slice"
 	desc = "A tangy, tomato-topped slice of corn frybread."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_corn.dmi'
@@ -105,6 +111,7 @@
 	tastes = list("frybread" = 1, "tomato" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/cornfrybread_guac
+	cuisine = CUISINE_ETRUSCAN
 	name = "Pesto corn frybread"
 	desc = "Frybread slathered with a green, herby paste. Not quite authentic, but rich and fine."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_corn.dmi'
@@ -121,6 +128,7 @@
 	tastes = list("frybread" = 1, "herbs" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/cornfrybread_guac_slice
+	cuisine = CUISINE_ETRUSCAN
 	name = "Pesto corn frybread slice"
 	desc = "A rich, herb-slathered slice of corn frybread."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_corn.dmi'
@@ -132,6 +140,8 @@
 	tastes = list("frybread" = 1, "herbs" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/corn_ball_cooked
+	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_BREAD
 	name = "corn fritter"
 	desc = "A golden fritter of fried corn dough, crisp outside and fluffy inside."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_corn.dmi'

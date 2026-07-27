@@ -1,4 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - bugfix: "moves icono amulet to neck cause the ring replaces it"

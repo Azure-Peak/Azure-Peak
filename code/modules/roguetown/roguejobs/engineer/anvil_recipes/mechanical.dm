@@ -2,7 +2,8 @@
 	i_type = "Engineering"
 	appro_skill = /datum/skill/craft/engineering
 	craftdiff = 1
-	
+	display_category = ITEM_CAT_ENG_MISC
+
 //--------- TIN RECIPES -----------
 
 /datum/anvil_recipe/engineering/nails
@@ -11,6 +12,7 @@
 	created_item = /obj/item/construction/nail
 	createditem_num = 8
 	craftdiff = 1
+	display_category = ITEM_CAT_ENG_CONSTRUCTION
 
 // --------- IRON RECIPES -----------
 
@@ -28,6 +30,7 @@
 	created_item = /obj/item/flint
 	createditem_num = 4
 	craftdiff = 0
+	display_category = ITEM_CAT_TOOLS_SUNDRIES
 
 /datum/anvil_recipe/engineering/mess_kit
 	name = "Mess Kit (+2 Tin)"  // reduced cost using tin/pewter
@@ -36,6 +39,7 @@
 	created_item = /obj/item/storage/gadget/messkit
 	createditem_num = 1
 	craftdiff = 2
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 //Lockpicks and rings moved from blacksmithing, to fit with locks being engineered
 /datum/anvil_recipe/engineering/lockpicks
@@ -44,6 +48,7 @@
 	created_item = /obj/item/lockpick
 	createditem_num = 3
 	craftdiff = 2
+	display_category = ITEM_CAT_TOOLS_ROGUE
 
 /datum/anvil_recipe/engineering/lockpickring
 	name = "Lockpickring (x3)"
@@ -51,6 +56,7 @@
 	created_item = /obj/item/lockpickring
 	createditem_num = 3
 	craftdiff = 0
+	display_category = ITEM_CAT_TOOLS_ROGUE
 
 /datum/anvil_recipe/engineering/chains
 	name = "Chains (x2)"
@@ -58,6 +64,7 @@
 	created_item = /obj/item/rope/chain
 	createditem_num = 2
 	craftdiff = 0
+	display_category = ITEM_CAT_ENG_CONSTRUCTION
 
 /datum/anvil_recipe/engineering/ironscissors
 	name = "Iron Scissors (+1 Gear)"
@@ -65,6 +72,7 @@
 	additional_items = list(/obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/huntingknife/scissors
 	i_type = "Tools"
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 // --------- STEEL RECIPES -----------
 
@@ -74,6 +82,7 @@
 	additional_items = list(/obj/item/roguegear)
 	created_item = /obj/item/rogueweapon/huntingknife/scissors/steel
 	i_type = "Tools"
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 
 // --------- BRONZE RECIPES -----------
@@ -84,6 +93,7 @@
 	created_item = /obj/item/customlock
 	createditem_num = 3
 	craftdiff = 1
+	display_category = ITEM_CAT_ENG_TRIGGERS
 
 /datum/anvil_recipe/engineering/bronze/keys
 	name = "Key (x3)"
@@ -91,6 +101,7 @@
 	created_item = /obj/item/customblank
 	createditem_num = 3
 	craftdiff = 1
+	display_category = ITEM_CAT_ENG_TRIGGERS
 
 /datum/anvil_recipe/engineering/bronze/wrench
 	name = "Engineering Wrench (+1 Gear)"
@@ -99,6 +110,7 @@
 	additional_items = list(/obj/item/roguegear)
 	createditem_num = 1
 	craftdiff = 0
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 /datum/anvil_recipe/engineering/bronze/gear
 	name = "Gear (x2)"
@@ -106,6 +118,7 @@
 	created_item = /obj/item/roguegear
 	createditem_num = 2
 	craftdiff = 0
+	display_category = ITEM_CAT_COMPONENTS
 
 /datum/anvil_recipe/engineering/folding_table
 	name = "Folding Table (+1 Small Log)"
@@ -113,6 +126,7 @@
 	additional_items = list(/obj/item/grown/log/tree/small)
 	created_item = /obj/item/folding_table_stored
 	craftdiff = 1
+	display_category = ITEM_CAT_ENG_CONSTRUCTION
 
 /datum/anvil_recipe/engineering/folding_alchcauldron
 	name = "Folding Cauldron (+1 Stone Pot, +1 Tin Ingot)"
@@ -120,6 +134,7 @@
 	additional_items = list(/obj/item/reagent_containers/glass/bucket/pot/stone, /obj/item/ingot/tin)
 	created_item = /obj/item/folding_alchcauldron_stored
 	craftdiff = 3
+	display_category = ITEM_CAT_ENG_MACHINERY
 
 /datum/anvil_recipe/engineering/folding_alchstation_stored
 	name = "Alchemical Station Kit (+1 Small Log, +1 Bottle, +1 Gear)"
@@ -127,6 +142,7 @@
 	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/reagent_containers/glass/bottle, /obj/item/roguegear)
 	created_item = /obj/item/folding_alchstation_stored
 	craftdiff = 3
+	display_category = ITEM_CAT_ENG_MACHINERY
 
 /datum/anvil_recipe/engineering/bronze/lamptern
 	name = "Lamptern, Bronze (x3)"
@@ -134,6 +150,7 @@
 	created_item = /obj/item/flashlight/flare/torch/lantern/bronzelamptern
 	createditem_num = 3
 	craftdiff = 3
+	display_category = ITEM_CAT_TOOLS_SUNDRIES
 
 /datum/anvil_recipe/engineering/bronze/waterpurifier
 	name = "Self-Purifying Waterskin (+1 Waterskin)"
@@ -141,6 +158,7 @@
 	created_item = /obj/item/reagent_containers/glass/bottle/waterskin/purifier
 	additional_items = list(/obj/item/reagent_containers/glass/bottle/waterskin)
 	craftdiff = 3
+	display_category = ITEM_CAT_TOOLS_FIELD
 
 /datum/anvil_recipe/engineering/bronze/coolingbackpack
 	name = "Cooling Backpack (+1 Gear, +1 Backpack)" // why are these recipes capitalized differently than every other crafting recipe my ocddddddddddd
@@ -148,6 +166,7 @@
 	created_item = /obj/item/storage/backpack/rogue/artibackpack
 	additional_items = list(/obj/item/roguegear, /obj/item/storage/backpack/rogue/backpack)
 	craftdiff = 5
+	display_category = ITEM_CAT_TOOLS_FIELD
 
 /datum/anvil_recipe/engineering/bronze/mobilestove
 	name = "Mobile Stove (+1 Gear, +1 Tin Ingot)"// capitalized to fall in line with the rest of engineering recipes T_T
@@ -155,6 +174,7 @@
 	created_item = /obj/item/mobilestove
 	additional_items = list(/obj/item/roguegear, /obj/item/ingot/tin)
 	craftdiff = 4
+	display_category = ITEM_CAT_TOOLS_COOKWARE
 
 /datum/anvil_recipe/engineering/bronze/smokebomb
 	name = "gas belcher shells (x3) (+1 Gear)"
@@ -163,6 +183,7 @@
 	additional_items = list(/obj/item/roguegear)
 	createditem_num = 3
 	craftdiff = 3
+	display_category = ITEM_CAT_ENG_COMBAT
 
 /datum/anvil_recipe/engineering/bronze/grappler
 	name = "Grappler (+1 Iron Pick, +1 Chain, +3 Gears)"
@@ -170,6 +191,7 @@
 	created_item = /obj/item/grapplinghook
 	additional_items = list(/obj/item/rogueweapon/pick, /obj/item/roguegear, /obj/item/roguegear, /obj/item/roguegear, /obj/item/rope/chain)
 	craftdiff = 5
+	display_category = ITEM_CAT_TOOLS_FIELD
 
 /datum/anvil_recipe/engineering/bronze/headhook
 	name = "Headhook, Bronze (+2 Fibers)"
@@ -177,6 +199,7 @@
 	created_item = /obj/item/storage/hip/headhook/bronze
 	additional_items = list(/obj/item/natural/fibers, /obj/item/natural/fibers)
 	craftdiff = 3
+	display_category = ITEM_CAT_TOOLS_FIELD
 
 /datum/anvil_recipe/engineering/bronze/orestore
 	name = "Mechanized Ore Bag, Bronze (+1 Sac, +1 Gear)"
@@ -184,6 +207,7 @@
 	created_item = /obj/item/storage/hip/orestore/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/storage/roguebag)
 	craftdiff = 3
+	display_category = ITEM_CAT_TOOLS_FIELD
 
 //contraptions and tools
 /datum/anvil_recipe/engineering/bronze/autoshears
@@ -192,6 +216,7 @@
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/roguegear)
 	created_item = /obj/item/contraption/shears
 	craftdiff = 4
+	display_category = ITEM_CAT_TOOLS_FIELD
 
 /datum/anvil_recipe/engineering/bronze/metalizer
 	name = "Wood Metalizer (+2 Gears)"
@@ -199,6 +224,7 @@
 	additional_items = list( /obj/item/roguegear, /obj/item/roguegear)
 	created_item = /obj/item/contraption/wood_metalizer
 	craftdiff = 4
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 /datum/anvil_recipe/engineering/bronze/lockimprover
 	name = "Lock Improver (1 bronze, +1 Gear"
@@ -206,6 +232,7 @@
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/roguegear)
 	created_item = /obj/item/contraption/lock_imprinter
 	craftdiff = 4
+	display_category = ITEM_CAT_TOOLS_WORKSHOP
 
 /datum/anvil_recipe/engineering/bronze/tools/drill
 	name = "Clockwork Drill (+1 Iron Ingot, +1 Gear, +1 Wooden Plank)"
@@ -213,6 +240,7 @@
 	additional_items = list(/obj/item/ingot/iron, /obj/item/roguegear, /obj/item/natural/wood/plank)
 	created_item = /obj/item/contraption/pick/drill
 	craftdiff = 4
+	display_category = ITEM_CAT_TOOLS_FIELD
 
 //------------Mechanized Quivers ----------------
 //most are just improving the existing quivers with a bit of bronze and a gear.
@@ -223,6 +251,7 @@
 	created_item = /obj/item/quiver/mechanized/bow
 	createditem_num = 1
 	craftdiff = 4
+	display_category = ITEM_CAT_WEAPONS_AMMO
 
 /datum/anvil_recipe/engineering/bronze/mech_crossbow_quiver
 	name = "Mechanized Bolt Quiver (+1 Gear, +1 Bolt Pouch)"
@@ -231,6 +260,7 @@
 	created_item = /obj/item/quiver/mechanized/crossbow
 	createditem_num = 1
 	craftdiff = 4
+	display_category = ITEM_CAT_WEAPONS_AMMO
 
 /datum/anvil_recipe/engineering/bronze/mech_siegebow_quiver
 	name = "Mechanized Heavy Bolt Quiver (+1 Gear, +1 Heavy Bolt Pouch)"
@@ -239,6 +269,7 @@
 	created_item = /obj/item/quiver/mechanized/siegebow
 	createditem_num = 1
 	craftdiff = 4
+	display_category = ITEM_CAT_WEAPONS_AMMO
 // ------------ PROSTHETICS ----------------
 
 /datum/anvil_recipe/engineering/bronze/prosthetic/bronzeprosthetic
@@ -305,6 +336,7 @@
 	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy, /obj/item/roguegear, /obj/item/roguegear)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/paalloy/artificer
 	craftdiff = 4
+	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/engineering/volticgauntlet
 	name = "Voltic Gauntlet (+1 Tin ingot, +2 Gears, +1 Cinnabar Ore)"
@@ -312,6 +344,7 @@
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear, /obj/item/ingot/tin, /obj/item/rogueore/cinnabar)
 	created_item = /obj/item/clothing/gloves/roguetown/chain/contraption/voltic
 	craftdiff = 4
+	display_category = ITEM_CAT_ARMOR_GLOVES
 
 /datum/anvil_recipe/engineering/steamshield
 	name = "Steam Shield (+1 Wood Plank, +2 Gears, +2 Bronze Ingots)"
@@ -319,3 +352,4 @@
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear, /obj/item/natural/wood/plank, /obj/item/ingot/bronze, /obj/item/ingot/bronze)
 	created_item = /obj/item/rogueweapon/shield/steam
 	craftdiff = 3
+	display_category = ITEM_CAT_WEAPONS_SHIELDS

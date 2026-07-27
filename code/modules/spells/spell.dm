@@ -188,6 +188,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	var/gesture_required = FALSE // Can it be cast while cuffed? Rule of thumb: Offensive spells + Mobility cannot be cast
 	var/spell_tier = 1 // Tier of the spell, used to determine whether you can learn it based on your spell. Starts at 1.
 	var/spell_impact_intensity = SPELL_IMPACT_NONE // Visual impact intensity for on-hit effects. See SPELL_IMPACT defines.
+	var/source_aspect // Aspect type path this spell was granted by, if any.
 	var/zizo_spell = FALSE // If this spell is fucked up & evil and can only be learned by heretics.
 
 	var/overlay = 0
@@ -238,6 +239,11 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 /obj/effect/proc_holder/spell/proc/get_cooldown_breakdown(mob/living/user)
 	var/list/breakdown = list()
+	if(miracle && !ispath(user.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
+		if(user.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
+			breakdown += span_smallgreen("  Dominant faith: -[DisplayTimeText(initial(recharge_time) * DOMINANT_FAITH_ADJUST)]")
+		else
+			breakdown += span_smallred("  Suppressed faith: +[DisplayTimeText(initial(recharge_time) * DOMINANT_FAITH_ADJUST)]")
 	if(user.STAINT > SPELL_SCALING_THRESHOLD)
 		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
 		var/int_mod = initial(recharge_time) * diff * COOLDOWN_REDUCTION_PER_INT
@@ -270,6 +276,12 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		return initial(recharge_time)
 	var/base = initial(recharge_time)
 	var/newcd = base
+	// Dominant faith adjust
+	if(miracle && !ispath(user.patron.associated_faith, /datum/faith/old_god) && !ispath(GLOB.dominant_faith_tracker.dominant_faith, /datum/faith/old_god))
+		if(user.patron.associated_faith == GLOB.dominant_faith_tracker.dominant_faith)
+			newcd -= base * DOMINANT_FAITH_ADJUST
+		else
+			newcd += base * DOMINANT_FAITH_ADJUST
 	// INT scaling
 	if(user.STAINT > SPELL_SCALING_THRESHOLD)
 		var/diff = min(user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
@@ -355,6 +367,10 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		to_chat(user, span_warning("I can't cast spells!"))
 		return FALSE
 
+	if(HAS_TRAIT(user, TRAIT_SPELL_VAMPIRE_BLOCK))
+		to_chat(user, span_warning("My vitae drowns out the spell!"))
+		return FALSE
+
 	if(HAS_TRAIT(user, TRAIT_CURSE_NOC))
 		to_chat(user, span_warning("My magicka has left me..."))
 		return FALSE
@@ -387,6 +403,18 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			to_chat(user, span_warning("My body is paralyzed!"))
 			return FALSE
 
+		if(H.mind?.has_spellmiracle_block_antag())
+			if(miracle)
+				to_chat(H, span_warning("The gods reject what I am!"))
+				return FALSE
+			if(source_aspect)
+				to_chat(H, span_warning("The arcyne rejects what I am!"))
+				return FALSE
+		if(H.mind?.has_antag_datum(/datum/antagonist/vampire))
+			var/vamp_miracle_tier = get_miracle_tier(type)
+			if(!isnull(vamp_miracle_tier) && vamp_miracle_tier > CLERIC_T1)
+				to_chat(H, span_warning("The gods deny me such power!"))
+				return FALSE
 		if(miracle && !H.devotion?.check_devotion(src))
 			to_chat(H, span_warning("I don't have enough devotion!"))
 			return FALSE
@@ -906,14 +934,14 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 /// Helper for non-projectile spells. Call before applying effects to a target.
 /// Returns TRUE if the target's Guard or parry buffer deflected the spell (skip this target).
 /// Returns FALSE if the spell should proceed normally.
-/// If attacker is provided, they get Exposed when guard deflects (pseudo-melee punishment).
+/// The caster is Exposed when guard deflects (pseudo-melee punishment); pass attacker to override who is punished.
 /// Usage in cast(): if(spell_guard_check(L)) continue
 /obj/effect/proc_holder/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker)
 	if(!isliving(target))
 		return FALSE
 	if(target == (ranged_ability_user || action?.owner))
 		return FALSE
-	if(isnull(attacker) && ispath(associated_skill, /datum/skill/magic/arcane))
+	if(isnull(attacker))
 		attacker = ranged_ability_user || action?.owner
 	return target.guard_deflect_spell(name, no_message, attacker)
 

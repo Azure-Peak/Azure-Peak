@@ -1265,3 +1265,154 @@
       is now available.
   - bugfix: Removes sellprice from the Decablessed Shield, so that it can properly
       calculate its sellprice based off the crafting materials used in its recipe.
+2026-07-26:
+  Antoonij:
+  - bugfix: hag revival now properly restores lost organs
+  FreeStylaLT:
+  - qol: Guarded virtue now only obscures nobility if the Toggle Anonimity virtue
+      feature is toggled on.
+  - bugfix: Fixed Vaquero's innate Guarded not working correctly.
+  - balance: Removed Saddleborn from Vaquero.
+  - qol: Masochism and Sadism can now be fulfilled by simply maxing out the pain of
+      the victim on successful hits. This will only work with players, not NPCs.
+  KatTheFox:
+  - bugfix: The race description for Aasimar is now actually in line with their lore
+  Ketrai:
+  - bugfix: needles now update their icon immediately when emptied of thread.
+  - bugfix: Fixed a chisel set duplication bug involving bronze chisels
+  - refactor: Cleaned up chisel set code
+  Ollanius:
+  - rscadd: Adds two new hues to select via the dyebin - Otavan Brown (to mimic Inquisitorial
+      and Psydonic garb), and Gilded (to mimic the harsher golden highlights of noble
+      garb and golden armor.)
+  - bugfix: The Triumph-purchasable 'knife' should properly fit in boots, once again.
+  - balance: Bronze-tipped whips now have a minimum strength value of 6, instead of
+      9.
+  - bugfix: Removes errant repeat-frames on the Undervestment's right sleeve, and
+      adds proper sleeve sprites to the 'f_dwarf' race as well.
+  - rscdel: The Tutorial Book no longer spawns in the inventories of most Adventurers
+      and Towners.
+  - rscadd: The Tutorial Book now exists as a free loadout option in the 'Miscellanious'
+      section of the Character Creation Menu's Loadout system.
+  - rscadd: Minor adjustments to a certain timechange tip, alongside three additions.
+  - rscadd: Missing sprites for Fluted- and Psydonic-type variants of the Gothic Steel
+      Armor morphing elixir.
+  - rscadd: Missing sprites for the Elegantly Decorated Sabre.
+  - bugfix: Morphing elixirs now have a more detailed description, if their use with
+      certain items might result in unintended consequences.
+  Quinalion:
+  - bugfix: All Inquisitor subclasses now spawn with inquisitorial leather gloves.
+  ShadowLarkens:
+  - bugfix: Chat is no longer stuck blank after cache clear
+  - code_imp: tgfont is now always compiled during build
+  - refactor: CBT's bun.ts has less duplicated code
+  - bugfix: Fixed a few tsc and lint errors thanks to TypeScript 6
+  - bugfix: TGUI Unit Testing now works correctly
+  TankTheBirb:
+  - balance: moved stamina potions to the alchemical warband standing order pool and
+      removed from medical pool due to 90->30 dram production change.
+  kiwedespars:
+  - rscadd: potence t3 gives nofall and z-level jumping
+  - rscadd: potence t4 gives strength unbound
+  - rscadd: celerity t4 grants leaper
+  - rscadd: celerity t5 grants dodge expert
+  - balance: potence unarmed bonus 8/16/24/32/40 -> 2/4/6/8/10
+  - balance: potence virtual strength 5%/10%/15%/20%/25% -> 1/2/3/4/5 strength
+  - balance: celerity visuals only display at t3 or above
+  - balance: quietus tree touched up a bit
+  - bugfix: stakes no longer qdel heads when destroyed
+  psyendrocronologicalwarfare:
+  - balance: adds halberd option for heavy knight and mounted knight
+  radarseas:
+  - bugfix: moves icono amulet to neck cause the ring replaces it
+  - balance: returned rotted corpse debuff -3 con, -8 int. this should make deadites
+      less of an instaloss bait and still reasonably weak to account for their self-healing
+      capacity.
+  zeskorion:
+  - bugfix: fixes secular barter associated skill
+2026-07-27:
+  CadenzaHyposelenia:
+  - rscadd: donor item for shiroseschnee
+  KatTheFox:
+  - bugfix: Changing character slots in game preferences midround will no longer cause
+      loadout items to lose their custom metadata (name, desc, color, etc) when retrieved
+      from stash.
+  - rscadd: All clerics can now convert people mechanically, assuming they have done
+      conversion roleplay beforehand. This has too many nuances to explain in the
+      changelog; read the orison description to see the new mechanics summarized,
+      but the tl;dr is "it works how you think it does."
+  - rscadd: The dominant faith now gets a small mechanical incentive, to encourage
+      conversion over instantly killing any heretics you capture. Psydonites are exempt
+      from this, because their god can't hear how many followers he has, but converting
+      heretics will penalize their faith, so you still have an incentive to do it.
+      The current dominant faith is announced to clerics when it changes.
+  Ollanius:
+  - bugfix: Throwing knives should now properly fit into Grenzelhoftian Boots and
+      Riding Boots.
+  - rscadd: Throwing knives can fit into footwraps.
+  - rscadd: Morphing elixirs now take up 1x2 inventory tiles (like a regular bottle),
+      instead of 2x2.
+  WeNeedMorePhoron:
+  - rscadd: 'Ported TGstation''s icon_exists and icon_exists_or_scream proc. A port
+      of it was included in the Major Optimization Pass: Azure Edition but I accidentally
+      mangled it while reverting that PR. Specific PR credit can be: https://github.com/tgstation/tgstation/pull/89547'
+  - rscadd: Fixes a bunch of issues related to the credit icons subsystem
+  - rscadd: Reenabled the credit icons subsystem to spread out credit icons load throughout
+      the first 16 minutes of the round, instead of firing it in 2 seconds lagspike
+      right at roundstart, lagging the server hard. I ported this optimization from
+      Scarlet but in truth this turns out to be a mistake and restoring it let us
+      throttle its burden on the server instead of slamming it at once. May or may
+      not help alleviate possible roundstart crash.
+  - rscdel: Replaced the old favorite food / drinks / hated food and drinks system
+      with the new favorite cuisine / dish type / drink type system
+  - rscadd: '7 cuisines types: North Imperial (Grenzelhoftian), South Imperial (Azurean),
+      Etrusan, Otavais, Ranesheni, Northern (Hammerhold and Gronnic), Southeastern
+      (Lingyuese and Kazengun). Most food / drinks in game belon to a cuisine and
+      a dish / drink type, with a moodbuff if you eat one of fine+ or nice+ quality
+      for food / drinks'
+  - rscadd: 'Food are now classified as belonging to one or more of the different
+      types: - (Red) Meat, Poultry, Seafood, vegetable, Fruit, Bread, Dairy, Pastry,
+      Pie, Sweet, Egg, Noodles.'
+  - rscadd: Drinks are classified as belonging to Wine, Ale, Spirit, Mead, Cider,
+      Tea & Coffee, Juice, Ricewine
+  - rscadd: You get a floating heart if you eat your favorite food / drink that is
+      at fine / lavish level or nice and above drink level.
+  - balance: Vampire no longer get a +4 fatigue regen while standing that is counteracted
+      by not having Bready in combat, giving them +2 Energy mid combat and +4 passively
+      outside. This seems to be causing a lot of balance issues in general since they
+      are able to ignore a lot of blue management. The current blue management is
+      primarily done by laying down near campfire and just laying down. Vampire should
+      not be able to dodge this constraint on battle endurance.
+  - balance: Vampire no longer gain a stacked +10 regen from laying down alongside
+      nosleep's +5, giving them +15 blue regen when laying down, before accounting
+      for campfire / blanket
+  - balance: Vampires no longer benefit from lesser miracles heal (Indicator stays
+      to prevent metacheck)
+  - balance: Added pseudo aspects to various spellblade, bard, vizier, hierophant,
+      berserker etc. spell
+  - balance: Using a non-bloodheal vampiric power will **lock you out of using mage
+      and above class specific spells for 1 minute** with a new status effect called
+      Vitae Surge
+  - balance: Dreamwalker, no matter what, cannot use miracles or spells even if they
+      somehow gain it
+  - balance: Vampires can no longer use miracles above T1, others are preserved for
+      the sake of disguise and completely neutering the class. The gods does not answer,
+      sire.
+  - admin: The give spell verb in vv is now routed to the new form in loadout manager.
+  - rscadd: Spellblade's pilum was missed by me on the "parry can expose u" pass so
+      that has been fixed
+  - rscadd: In general, holy spells now also have the same mechanics
+  - rscadd: Removed the free stats from ward
+  - rscadd: Blade Storm has been reworked as a spell that telegraphs and then teleport
+      you, like the original version, so that it is more useful. Amount of cuts increased.
+      Tell me if it is shit / overpowering.
+  - bugfix: Fixed a severe issue in which all bloodless mob were utterly immune to
+      burn crits.
+  - balance: Scorched only applies to head / chest to prevent strategy of scorching
+      legs to quickly take down an opponent
+  - balance: Aetherknife no longer embeds and requires proper aspect access to buy,
+      like Rune Ward
+  - balance: (Most) Blocked magical projectiles should no longer applies rider effects
+      like scorched etc.
+  - rscdel: Removed Artificer Armor from standing order and added some proper categorizations
+      to some artificers items for display / market purpose

@@ -639,10 +639,6 @@
 /obj/effect/landmark/observer_start,
 /turf/open/floor/rogue/carpet/lord,
 /area/rogue/indoors/town/manor)
-"sG" = (
-/obj/structure/dungeon_entry/center,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
 "sJ" = (
 /obj/structure/roguewindow,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -3469,7 +3465,7 @@ rT
 rT
 rT
 rT
-sG
+rT
 rT
 rT
 rT

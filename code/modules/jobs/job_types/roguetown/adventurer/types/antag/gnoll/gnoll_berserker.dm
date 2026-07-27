@@ -6,7 +6,7 @@
 	outfit = /datum/outfit/job/roguetown/gnoll/berserker
 	cmode_music = 'sound/music/combat_graggar.ogg'
 	category_tags = list(CTAG_GNOLL)
-	traits_applied = list()
+	traits_applied = list(TRAIT_UNCONVERTIBLE)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = 3,
