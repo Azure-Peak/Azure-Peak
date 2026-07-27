@@ -155,7 +155,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	if(!vampdude)
 		return
 
-	if((vampdude.job == "Wretch" || vampdude.job == "Vagabond") && vampdude.generation <= GENERATION_NEONATE) //Masquerade/vlord bypass this restriction
+	if((vampdude.job == "Wretch" || vampdude.job == "Vagabond") && vampdude.get_vampire_generation() <= GENERATION_NEONATE) //Masquerade/vlord bypass this restriction
 		var/wretch_name = tgui_input_text(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Custom Clan", MAX_NAME_LEN)
 		create_custom_clan(vampdude, wretch_name)
 		return
