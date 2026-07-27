@@ -1293,25 +1293,33 @@
 	id = "knowledgerituos"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/knowledgerituos
 	duration = 25 MINUTES
-	effectedstats = list(STATKEY_INT = 3)
+	effectedstats = list(STATKEY_INT = 1)
 
 /atom/movable/screen/alert/status_effect/buff/knowledgerituos
 	name = "Insightful Chant"
-	desc = "Zizo's mandate and her absolute truth reshapes my mynd, bringing me clarity from ignorance. But the light of Astrata desperately tries to blind me from her vision."
+	desc = "Zizo's mandate and her absolute truth reshapes my mynd, bringing me clarity from ignorance."
 	icon_state = "rituos_exchange"
 
 /datum/status_effect/buff/knowledgerituos/on_apply()
 	. = ..()
-	to_chat(owner, span_warning("I see through Zizo's vision. No truth can hide from me, however I feel a seering pain in my eyes from the light."))
+	if(HAS_TRAIT(owner, TRAIT_NOMOOD))
+		to_chat(owner, span_warning("I see through Zizo's vision. No truth can hide from me."))
+	else
+		to_chat(owner, span_warning("I see through Zizo's vision. No truth can hide from me; I feel a strange hollowness in my chest as my emotions slip from me."))
+	//Now we add traits after our flavor check.
 	ADD_TRAIT(owner, TRAIT_NITEVISION, MAGIC_TRAIT) //better night vision than Noc... but...
-	ADD_TRAIT(owner, TRAIT_SUNLIGHT_SENSITIVE, MAGIC_TRAIT) //Major downside, the truth is in the darkness you walk. Sunlight /HURTS/
+	ADD_TRAIT(owner, TRAIT_NOMOOD, MAGIC_TRAIT)
 
 
 /datum/status_effect/buff/knowledgerituos/on_remove()
 	. = ..()
-	to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds."))
 	REMOVE_TRAIT(owner, TRAIT_NITEVISION, MAGIC_TRAIT)
-	REMOVE_TRAIT(owner, TRAIT_SUNLIGHT_SENSITIVE, MAGIC_TRAIT)
+	REMOVE_TRAIT(owner, TRAIT_NOMOOD, MAGIC_TRAIT)
+	//we now check for our removal message.
+	if(HAS_TRAIT(owner, TRAIT_NOMOOD))
+		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds."))
+	else
+		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds and my mynd floods with the vibrant feeling of emotion again."))
 
 
 /datum/status_effect/buff/utilityrituos
