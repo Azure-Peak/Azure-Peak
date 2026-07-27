@@ -213,9 +213,8 @@ GLOBAL_VAR(restart_counter)
 	set waitfor = FALSE
 	var/list/fail_reasons
 	if(GLOB)
-		// TODO: UNCOMMENT THIS ONCE I find out why matthios creation is runtiming I just don't want to hold up the entire PR
-		// if(GLOB.total_runtimes != 0)
-		// 	fail_reasons = list("Total runtimes: [GLOB.total_runtimes]")
+		if(GLOB.total_runtimes != 0)
+			fail_reasons = list("Total runtimes: [GLOB.total_runtimes]")
 #ifdef UNIT_TESTS
 		if(GLOB.failed_any_test)
 			LAZYADD(fail_reasons, "Unit Tests failed!")

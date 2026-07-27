@@ -284,13 +284,13 @@
 	woundclass = BCLASS_BURN
 	damage_type = BURN
 
-/obj/projectile/bullet/arrow/elemental/fire/on_hit(atom/target)
+/obj/projectile/bullet/arrow/elemental/fire/on_hit(atom/target, blocked = FALSE)
 	..()
 	var/turf/epicenter = get_turf(target)
 	if(epicenter)
 		new /obj/effect/temp_visual/explosion(epicenter)
 		playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 4)
-	if(!ismob(target))
+	if(!ismob(target) || blocked >= 100)
 		return
 	var/mob/living/M = target
 	apply_scorch_stack(M, 3, def_zone)

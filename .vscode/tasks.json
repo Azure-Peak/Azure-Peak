@@ -78,27 +78,6 @@
 		{
 			"type": "process",
 			"command": "tools/build/build.sh",
-			"args": ["-DLOCALTEST", "-DNO_DUNGEON"],
-			"windows": {
-				"command": ".\\tools\\build\\build.bat",
-				"args": ["-DLOCALTEST", "-DNO_DUNGEON"]
-			},
-			"options": {
-				"env": {
-					"DM_EXE": "${config:dreammaker.byondPath}"
-				}
-			},
-			"problemMatcher": ["$dreammaker", "$tsc", "$eslint-stylish"],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"dependsOn": "dm: reparse",
-			"label": "Build All (Local Testing - No Dungeon)"
-		},
-		{
-			"type": "process",
-			"command": "tools/build/build.sh",
 			"args": ["-DLOWMEMORYMODE"],
 			"windows": {
 				"command": ".\\tools\\build\\build.bat",
@@ -119,10 +98,10 @@
 		{
 			"type": "process",
 			"command": "tools/build/build",
-			"args": ["-DUNIT_TESTS", "-DLOCALTEST", "-DNO_DUNGEON"],
+			"args": ["-DUNIT_TESTS", "-DLOCALTEST"],
 			"windows": {
 				"command": ".\\tools\\build\\build.bat",
-				"args": ["-DUNIT_TESTS", "-DLOCALTEST", "-DNO_DUNGEON"]
+				"args": ["-DUNIT_TESTS", "-DLOCALTEST"]
 			},
 			"options": {
 				"env": {

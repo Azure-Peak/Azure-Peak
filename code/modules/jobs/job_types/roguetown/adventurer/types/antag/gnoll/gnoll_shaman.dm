@@ -2,7 +2,7 @@
 	name = "Gnoll Shaman"
 	tutorial = "Leader in faith, often the main source of wisdom within a gnoll pack. Few are closer to Graggar himself as you are. You may chose to waylay the hunt, in order to nurture fallen oppponents back to health, so they may grow stronger, providing a true challenge in a future fight."
 	outfit = /datum/outfit/job/roguetown/gnoll/shaman
-	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT, TRAIT_ALCHEMY_EXPERT) // Surely this won't be broken.
+	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT, TRAIT_ALCHEMY_EXPERT, TRAIT_UNCONVERTIBLE) // Surely this won't be broken.
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_PER = 2,
@@ -43,7 +43,6 @@
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
-		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/shaman
 	icon_state = "shaman"

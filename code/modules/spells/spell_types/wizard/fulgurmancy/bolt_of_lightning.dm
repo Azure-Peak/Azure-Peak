@@ -54,7 +54,7 @@
 	flag = "fire"
 	light_outer_range = 7
 
-/obj/projectile/magic/lightning/on_hit(target)
+/obj/projectile/magic/lightning/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
@@ -67,7 +67,8 @@
 			var/mob/living/L = target
 			if(out_of_effective_range())
 				return
-			L.lightning_shock(src)
+			if(blocked < 100)
+				L.lightning_shock(src)
 	else if(isatom(target))
 		var/atom/A = target
 		A.fire_act()

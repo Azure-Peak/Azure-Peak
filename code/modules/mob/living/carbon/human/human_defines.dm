@@ -192,8 +192,9 @@
 	/// Ref to orison-like sunder object
 	var/sunder_light_obj = null
 
-	/// Assoc list of culinary preferences of the mob
-	var/list/culinary_preferences = list()
+	var/favorite_cuisine = NONE
+	var/favorite_dish = NONE
+	var/favorite_drink = NONE
 
 	/// List of mobs that have attacked us. Only relevant to someone with TRAIT_TEMPO.
 	var/list/tempo_attackers = list()

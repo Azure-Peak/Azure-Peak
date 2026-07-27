@@ -26,6 +26,7 @@
 	foodtype = GROSS
 
 /obj/item/reagent_containers/food/snacks/mix_sbiten
+	cuisine = CUISINE_NORTHERN
 	name = "Sbiten honey mix"
 	desc = "a brick of crystallized honey, infused with spices for extra comfort"
 	icon = 'modular/Neu_teas_and_brews/icons/obj/tea_mixes.dmi'

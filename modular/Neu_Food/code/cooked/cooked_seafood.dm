@@ -1,5 +1,7 @@
 // Cooked seafood. Not including special meals.
 /obj/item/reagent_containers/food/snacks/rogue/fryfish
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood.dmi'
 	trash = null
 	list_reagents = list(/datum/reagent/consumable/nutriment = 10)
@@ -13,6 +15,7 @@
 	dropshrink = 0.6
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/carp
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN
 	name = "cooked carp"
 	desc = "A charred and crisped carp. With a mild flavor and firm texture. Fit for the poor."
 	icon_state = "carpcooked"
@@ -31,6 +34,7 @@
 	faretype = FARE_NEUTRAL
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/eel
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN
 	name = "cooked eel"
 	desc = "A cooked eel. With its rich flavor and flaky texture, it's a delicacy."
 	icon_state = "eelcooked"
@@ -44,6 +48,7 @@
 	faretype = FARE_POOR
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/cod
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN
 	name = "cooked cod"
 	desc = "A cooked cod, with a mild flavor and flaky texture. Quite popular."
 	icon_state = "codcooked"
@@ -57,6 +62,7 @@
 	faretype = FARE_POOR
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN|CUISINE_SOUTHEASTERN
 	name = "cooked salmon"
 	desc = "A cooked salmon. Less terrifying now that it is cooked. It has rich and oily flesh, making it quite popular once spiced."
 	icon_state = "salmoncooked"
@@ -69,6 +75,7 @@
 	faretype = FARE_NEUTRAL
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/mudskipper
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN
 	name = "cooked mudskipper"
 	desc = "A cooked mudskipper. With a fishy and earthy flavor. Popular amongst vagrants."
 	icon_state = "mudskippercooked"
@@ -93,6 +100,7 @@
 	faretype = FARE_NEUTRAL
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/shrimp
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
 	name = "cooked shrimp"
 	desc = "A cooked shrimp. Firm and springy with a natural hint of saltiness."
 	icon_state = "shrimpcooked"
@@ -144,6 +152,7 @@
 	faretype = FARE_NEUTRAL
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/mackerel
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN
 	name = "mackerel"
 	icon_state = "mackerel"
 	faretype = FARE_NEUTRAL
