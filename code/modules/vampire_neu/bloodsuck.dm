@@ -244,7 +244,7 @@
 		client.init_verbs()
 
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
-	visible_message(span_red("[src] rises as a new spawn!"))
+	visible_message(span_red("[src] takes on a deathly paleness..."))
 
 	original_mind?.transfer_to(src, TRUE)
 
@@ -260,7 +260,19 @@
 	apply_status_effect(/datum/status_effect/incapacitating/stun, VAMP_CONVERT_POST_STUN)
 
 	vampire_conversion_prompt_active = FALSE
+
+	//rid the vamp reagents
+	src.reagents.remove_reagent(/datum/reagent/vampsolution)
+	remove_status_effect(/datum/status_effect/debuff/vampbite)
+
+	Unconscious(30 SECONDS)
+	sleep(10 SECONDS)
+	to_chat(src, span_cult("Death is not the end..."))
+	visible_message(span_warning("[src] convulses on the floor momentarily..."))
+	src.Jitter(15) //Convulse a bit.
+	sleep(15 SECONDS)
+	src.flash_fullscreen("redflash3")
+	to_chat(src, span_cult("I arise anew, through death into a second lyfe, as an unnatural craving for blood and unbreakable enthrallment to another's will floods my mynd and senses."))
+	to_chat(src, span_cult("My will is <b>[sire.clan.clan_leader]'s</b> command."))
+	visible_message(span_red("[src]'s' eyes light up with an eerie crimson glow..."))
 	return
-
-
-

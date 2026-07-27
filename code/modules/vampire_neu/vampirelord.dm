@@ -64,13 +64,9 @@
 /datum/antagonist/vampire/lord/greet()
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
 	owner.current.playsound_local(get_turf(owner.current), 'sound/villain/dreamer_warning.ogg', 80, FALSE, pressure_affected = FALSE) //Extra bit of AURA
-	sleep(20)
 	to_chat(owner.current, span_boldwarning("</br>I should check my immedate surroundings, from the bloodstained stone I can recall my Ichor fang at will should I lose it."))
-	sleep(10)
 	to_chat(owner.current, span_boldwarning("</br>From the Crimson Crucible I can begin my various projects of collective sacrifice of vitae between myself and my servants to reclaim my long-lost power and kingdom."))
-	sleep(10)
 	to_chat(owner.current, span_boldwarning("</br>When I have Minions from either the Crucible or any non-resisting sires of my bloodline, I should assign them to positions using the clan menu so I can PUNISH and COMMAND them."))
-	sleep(10)
 	to_chat(owner.current, span_danger("</br>Now, tyme to show them how a lord gets it done."))
 	. = ..()
 
