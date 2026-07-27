@@ -262,10 +262,10 @@
 	vampire_conversion_prompt_active = FALSE
 
 	//rid the vamp reagents
-	src.reagents.remove_reagent(/datum/reagent/vampsolution)
+	src.reagents.remove_reagent(/datum/reagent/vampsolution, 30) //remove all of our camp bite effects
 	remove_status_effect(/datum/status_effect/debuff/vampbite)
 
-	Unconscious(30 SECONDS)
+	Unconscious(20 SECONDS)
 	sleep(10 SECONDS)
 	to_chat(src, span_cult("Death is not the end..."))
 	visible_message(span_warning("[src] convulses on the floor momentarily..."))
