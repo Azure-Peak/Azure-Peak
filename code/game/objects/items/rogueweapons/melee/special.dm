@@ -1380,8 +1380,11 @@
 			to_chat(user, span_purple("I take on a new face.."))
 		// they die either way
 		die_motherfucker_die(target)
+
+		// apply a facial disfigurement that can be healed thru surgery
 		target.visible_message(span_danger("[target]'s face bubbles and froths off, leaving behind a mess of exposed blood-and-bone. Perhaps surgery could repair it...?"))
-		ADD_TRAIT(target, TRAIT_DISFIGURED, TRAIT_GENERIC) // we need to add a check for if someone has already been face_stolen
+		var/obj/item/bodypart/head = target.get_bodypart(BODY_ZONE_HEAD)
+		head?.add_wound(/datum/wound/facial/disfigurement)
 
 		// they get yoinked either way
 		if(target.has_flaw(/datum/charflaw/targeted)) // The profane dagger only thirsts for those who are targeted, by flaw or by zizoid curse.
