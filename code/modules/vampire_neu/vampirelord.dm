@@ -65,9 +65,13 @@
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
 	owner.current.playsound_local(get_turf(owner.current), 'sound/villain/dreamer_warning.ogg', 80, FALSE, pressure_affected = FALSE) //Extra bit of AURA
 	sleep(20)
-	to_chat(owner.current, span_boldwarning("I should check my immedate surroundings, from the bloodstained stone I can recall my Ichor fang at will should I lose it."))
-	sleep(20)
-	to_chat(owner.current, span_boldwarning("From the Crimson Crucible I can begin my various projects of collective sacrifice of vitae between myself and my servants to reclaim my long-lost power and kingdom."))
+	to_chat(owner.current, span_boldwarning("</br>I should check my immedate surroundings, from the bloodstained stone I can recall my Ichor fang at will should I lose it."))
+	sleep(10)
+	to_chat(owner.current, span_boldwarning("</br>From the Crimson Crucible I can begin my various projects of collective sacrifice of vitae between myself and my servants to reclaim my long-lost power and kingdom."))
+	sleep(10)
+	to_chat(owner.current, span_boldwarning("</br>When I have Minions from either the Crucible or a non-resisting Sire, I should assign them to positions using the clan menu so I can PUNISH and COMMAND them."))
+	sleep(10)
+	to_chat(owner.current, span_boldwarning("</br>Now, tyme to show them how a lord gets it done."))
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
@@ -140,7 +144,7 @@
 	set category = "RoleUnique.Vampire"
 
 	if(!clan_position)
-		to_chat(src, span_warning("You have no subordinates to punish."))
+		to_chat(src, span_warning("You have no subordinates to punish!"))
 		return
 
 	var/list/possible = list()
@@ -150,7 +154,7 @@
 			continue
 		possible[member.real_name] = member
 	if(!length(possible))
-		to_chat(src, span_warning("You have no subordinates to punish."))
+		to_chat(src, span_warning("You have no subordinates to punish , assign them in the clan menu!"))
 		return
 	var/name_choice = input(src, "Who to punish?", "PUNISHMENT") as null|anything in possible
 	if(!name_choice)
@@ -167,7 +171,7 @@
 			to_chat(choice, span_boldnotice("You are wracked with pain as your master punishes you!"))
 			choice.apply_damage(30, BRUTE)
 			choice.emote_scream()
-			choice.Paralyze(300)
+			choice.Knockdown(5)
 			playsound(choice, 'sound/misc/obey.ogg', 100, FALSE, pressure_affected = FALSE)
 		if("Pause")
 			to_chat(choice, span_boldnotice("Your body is frozen in place as your master punishes you!"))
@@ -179,27 +183,26 @@
 			log_game("[real_name] ([ckey]) used OBLITERATE punishment on [choice.real_name] ([choice.ckey])")
 			//we log this, its literally a no comeback or ability to even resist. do sparingly.
 			to_chat(choice, span_userdanger("You feel only darkness. Your master no longer has use of you."))
-			if(!HAS_TRAIT(choice, TRAIT_NOMOOD))
-				choice.freak_out()
+			choice.visible_message(span_warning("[choice] suddenly goes deathly pale for a moment, as if something terrible just happened!"))
+			choice.Knockdown(10)
 			ADD_TRAIT(choice, TRAIT_PACIFISM, "vlord_punish") //so they can't try to hurt you
-			ADD_TRAIT(choice, TRAIT_MUTE, "vlord_punish") //you don't get to backchat your lord.
-			spawn(10)
+			ADD_TRAIT(choice, TRAIT_SPELLCOCKBLOCK, "vlord_punish") //no magic, you are dying
+			sleep(20)
 			to_chat(choice, span_userdanger("NO! NO! WAIT WAIT--"))
 			playsound(choice, pick('sound/combat/fracture/headcrush (1).ogg', 'sound/combat/fracture/fracturewet (1).ogg'), 100)
 			choice.Stun(999999) //you're not meant to come back from this, at all. Even if you somehow glitch out of this
 			choice.Paralyze(999999)
 			choice.Knockdown(999999)
 			choice.emote("superagony")
-			spawn(15)
+			sleep(20)
 			visible_message(span_userdanger("[choice] SCREAMS in UNBELIEVABLE AGONY as they're RENDED apart from the inside out!"))
 			playsound(choice, pick('sound/combat/fracture/headcrush (1).ogg', 'sound/combat/fracture/fracturewet (1).ogg'), 100)
 			to_chat(choice, span_userdanger("STOPSTOPSTOP-- IT HURTS! IT HURTS!"))
-			choice.emote("superagony")
-			spawn(15)
+			sleep(30)
 			playsound(choice, pick('sound/combat/fracture/headcrush (1).ogg', 'sound/combat/fracture/fracturewet (1).ogg'), 100)
 			to_chat(choice, span_userdanger("MAKE IT STOP!! MAKE IT STOP!!"))
 			choice.emote("superagony")
-			spawn(20)
+			sleep(20)
 			playsound(get_turf(choice), 'sound/magic/churn.ogg', 200)
 			playsound(get_turf(choice), 'sound/combat/dismemberment/dismem (2).ogg', 100)
 			choice.visible_message(span_userdanger("[choice] suddenly explodes into a pile of gore and remains!"), span_userdanger("You are completely obliterated, nothing remains. A hopeful lesson for another tymeline."))

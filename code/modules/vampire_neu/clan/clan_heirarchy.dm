@@ -162,7 +162,7 @@
 			valid_targets += sub.assigned_member
 
 	if(!length(valid_targets))
-		to_chat(user, "<span class='warning'>You have no subordinates!</span>")
+		to_chat(user, "<span class='warning'>You have no subordinates, assign them in the clan menu!</span>")
 		return
 
 	var/mob/living/carbon/human/target = input(user, "Choose subordinate to command:", "Command Subordinate") as null|anything in valid_targets
@@ -307,7 +307,7 @@
 			valid_targets += sub.assigned_member
 
 	if(!length(valid_targets))
-		to_chat(user, "<span class='warning'>You have no subordinates!</span>")
+		to_chat(user, "<span class='warning'>You have no subordinates, assign them in the clan menu!</span>")
 		return
 
 	var/command = sanitize(input(user, "What is your mass command?", "Mass Command") as text|null)
