@@ -155,7 +155,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	if(!vampdude)
 		return
 
-	if(vampdude.job == "Wretch" || vampdude.job == "Vagabond")
+	if((vampdude.job == "Wretch" || vampdude.job == "Vagabond") && !user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
 		var/wretch_name = tgui_input_text(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Custom Clan", MAX_NAME_LEN)
 		create_custom_clan(vampdude, wretch_name)
 		return
